@@ -19,9 +19,9 @@ _______________
 2b. Run it as a -servermod in your arma launch options.
 
 _______________
-3. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
+3a. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
-
+3b. Do NOT run @Apex_cfg as a -mod or -servermod, leave it alone!
 _______________
 4. Place    real_date_x64.dll     file in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
