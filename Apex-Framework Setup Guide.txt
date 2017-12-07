@@ -1,3 +1,4 @@
+
 Apex Framework 1.0.0 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
 
 
@@ -12,13 +13,14 @@ _______________
 
 
 _______________
-2. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
+2a. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
+2b. Run it as a -servermod in your arma launch options.
 
 _______________
-3. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
+3a. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
-
+3b. Do NOT run @Apex_cfg as a -mod or -servermod, leave it alone!
 _______________
 4. Place    real_date_x64.dll     file in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
@@ -82,6 +84,5 @@ Other notes:
 - You can set custom chat messages inside the "chatMessages.sqf" file.
 - Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings".
 - This framework is currently in a short beta period (from 8/12/2017). In 7-10 days there will likely be another update.
-
 
 
