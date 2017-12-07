@@ -14,8 +14,8 @@ _______________
 
 
 _______________
-2. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
-
+2a. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
+2b. Run it as a -servermod in your arma launch options.
 
 _______________
 3. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
