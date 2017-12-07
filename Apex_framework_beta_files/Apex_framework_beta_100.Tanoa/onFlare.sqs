@@ -1,0 +1,1 @@
+_this call (missionNamespace getVariable 'QS_fnc_clientEventOnFlare')

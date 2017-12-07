@@ -1,0 +1,1 @@
+/* File: fn_AIconfigGroup.sqf Author:  	Quiksilver 	 Last modified:  	25/10/2015 ArmA 3 1.52 by Quiksilver 	 Description:  	AI Group Config __________________________________________________*/  _grp = _this select 0;  _grp setVariable ['QS_AI_GROUP',TRUE,FALSE]; _grp setVariable ['QS_AI_MANAGEREQUEST',nil];

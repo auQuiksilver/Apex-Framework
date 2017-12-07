@@ -1,0 +1,446 @@
+/*/
+File: fn_getCustomAttachPoint.sqf
+Author: 
+
+	Quiksilver
+
+Last Modified:
+
+	18/04/2017 A3 1.68 by Quiksilver
+
+Description:
+
+	Custom attach points for vehicles
+	
+Notes:
+	
+	copyToClipboard str (QS_ugv worldToModel (position QS_crate));
+	QS_array = [];
+	{
+		QS_array pushBack (toLower (typeOf _x));
+	} forEAch (curatorSelected select 0);
+	copyToClipboard str QS_array;
+	
+	HEMTT
+	"Land_PaperBox_01_small_stacked_F"
+	QS_stack1 attachTo [QS_truck,[0,-2.7,0.25]];
+	[0.13623,-6.52686,-1.67839]
+	
+	OFFROAD
+	Land_PaperBox_01_small_stacked_F
+	QS_stack1 attachTo [QS_truck2,[0,-2,0]];
+	[0.00219727,-5.27832,-1.40842]
+	
+	HEMTT
+	""Land_WaterBottle_01_stack_F""
+	QS_stack1 attachTo [QS_truck,[0,-2.7,0.25]];
+	[0.13623,-6.52686,-1.67839]
+	
+	OFFROAD
+	['Land_PaperBox_01_small_stacked_F','Land_WaterBottle_01_stack_F']
+	QS_stack1 attachTo [QS_truck2,[0,-2,0]];
+	[0.00219727,-5.27832,-1.40842]
+____________________________________________________________________________/*/
+
+params [
+	['_detachAttach',FALSE],
+	['_parent',objNull],
+	['_child',objNull],
+	['_attachPoint',[[0,-10,0],0]]
+];
+if (_parent isEqualType objNull) then {
+	_parent = typeOf _parent;
+};
+if (_child isEqualType objNull) then {
+	_child = typeOf _child;
+};
+_parent = toLower _parent;
+_child = toLower _child;
+
+if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
+	comment 'Hemtt mover';
+	if (_child in ["b_slingload_01_repair_f","b_slingload_01_medevac_f","b_slingload_01_fuel_f","b_slingload_01_ammo_f","b_slingload_01_cargo_f"]) then {
+		comment 'Huron containers';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.2,1],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.139404,-9.21729,-1.72065];
+		};
+	};
+	if (_child in [
+		"land_pod_heli_transport_04_medevac_f","land_pod_heli_transport_04_covered_f","land_pod_heli_transport_04_ammo_f","land_pod_heli_transport_04_box_f","land_pod_heli_transport_04_repair_f",
+		"land_pod_heli_transport_04_medevac_black_f","land_pod_heli_transport_04_covered_black_f","land_pod_heli_transport_04_ammo_black_f","land_pod_heli_transport_04_box_black_f","land_pod_heli_transport_04_repair_black_f"
+	]) then {
+		comment 'Taru normal pods';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.5,0.9],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.00512695,-9.45349,-1.74052];
+		};
+	};
+	if (_child in [
+		"land_pod_heli_transport_04_fuel_f","land_pod_heli_transport_04_fuel_black_f"
+	]) then {
+		comment 'Taru fuel pods';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2.75,1],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.105713,-8.90381,-1.72377];
+		};
+	};
+	if (_child in [
+		"land_pod_heli_transport_04_bench_f","land_pod_heli_transport_04_bench_black_f"
+	]) then {
+		comment 'Taru bench pod';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.15,-3.6,0.95],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.179199,-8.35583,-1.80251];
+		};
+	};
+	if (_child in ["box_nato_ammoveh_f","box_ind_ammoveh_f","box_east_ammoveh_f"]) then {
+		comment 'Vehicle Ammo crates';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3,0.4],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0349121,-6.88416,-1.67472];
+		};
+	};
+	if (_child in ["b_cargonet_01_ammo_f","o_cargonet_01_ammo_f","i_cargonet_01_ammo_f","c_idap_cargonet_01_supplies_f"]) then {
+		comment 'Cargo nets';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3,0.4],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0927734,-6.72534,-1.70423];
+		};
+	};
+	if (_child in ["cargonet_01_box_f"]) then {
+		comment 'Cargo net (BOX)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3,0.25],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0692139,-6.75977,-1.70436];
+		};
+	};
+	if (_child in ["cargonet_01_barrels_f"]) then {
+		comment 'Cargo net (BARRELS)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3,0.2],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0203857,-6.60645,-1.70345];
+		};
+	};
+	if (_child in ["b_supplycrate_f","o_supplycrate_f","i_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","c_idap_supplycrate_f"]) then {
+		comment 'Supply box';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.2,0.5],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0090332,-6.42297,-1.70078];
+		};
+	};
+	if (_child in ["land_device_slingloadable_f"]) then {
+		comment 'Device';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-4,0.5],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0341797,-8.34705,-1.67805];
+		};
+	};
+	if (_child in ["land_cargobox_v1_f"]) then {
+		comment 'Cargo box';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3,0.4],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0151367,-6.23706,-1.677];
+		};
+	};
+	if (_child in ["land_cargo10_yellow_f","land_cargo10_white_f","land_cargo10_sand_f","land_cargo10_red_f","land_cargo10_orange_f","land_cargo10_military_green_f","land_cargo10_light_green_f","land_cargo10_light_blue_f","land_cargo10_grey_f","land_cargo10_cyan_f","land_cargo10_brick_red_f","land_cargo10_blue_f","land_cargo10_idap_f"]) then {
+		comment 'Container (small)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.4,1],270];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.129883,-7.21118,-1.71386];
+		};
+	};
+	if (_child in ["land_cargo20_yellow_f","land_cargo20_white_f","land_cargo20_sand_f","land_cargo20_red_f","land_cargo20_orange_f","land_cargo20_military_green_f","land_cargo20_light_green_f","land_cargo20_light_blue_f","land_cargo20_grey_f","land_cargo20_cyan_f","land_cargo20_brick_red_f","land_cargo20_blue_f","land_cargo20_idap_f"]) then {
+		comment 'Container (medium)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.2,0.95],270];
+		} else {
+			comment 'Detach';
+			_attachPoint = [-0.0400391,-8.89111,-1.72491];
+		};
+	};
+	if (_child in ["land_watertank_f"]) then {
+		comment 'Water tank';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.2,0.3],90];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0561523,-6.90479,-1.7119];
+		};
+	};
+	if (_child in ['land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f']) then {
+		comment 'IDAP stuff';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2.7,0.25],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.13623,-6.52686,-1.67839];
+		};	
+	};
+	if (_child in ['b_sam_system_02_f']) then {
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.2,1.6],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.11377,-8.44922,-1.81292];
+		};
+	};
+	if (_child in ['b_sam_system_01_f']) then {
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-3.2,1.4],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0810547,-8.57422,-1.81535];
+		};
+	};
+	if (_child in ['b_aaa_system_01_f']) then {
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2.9,2.15],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0810547,-8.57422,-1.81535];
+		};
+	};
+};
+if (_parent in ["c_offroad_01_f","c_offroad_01_repair_f","o_g_offroad_01_f","b_g_offroad_01_f","i_g_offroad_01_f","o_g_offroad_01_repair_f","i_g_offroad_01_repair_f","b_g_offroad_01_repair_f","b_gen_offroad_01_gen_f","c_idap_offroad_01_f"]) then {
+	if (_child in ["b_supplycrate_f","o_supplycrate_f","i_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","c_idap_supplycrate_f"]) then {
+		comment 'Supply box';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2.1,0.25],90];
+		} else {
+			comment 'Detach';
+			_attachPoint = [-0.0697021,-5.31775,-1.54134];
+		};
+	};
+	if (_child in ["b_cargonet_01_ammo_f","o_cargonet_01_ammo_f","i_cargonet_01_ammo_f",'c_idap_cargonet_01_supplies_f']) then {
+		comment 'Cargo nets';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[-0.03,-2.1,0.15],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [-0.0563965,-5.10864,-1.53924];
+		};
+	};
+	if (_child in ["cargonet_01_box_f"]) then {
+		comment 'Cargo net (BOX)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[-0.03,-2.1,-0.025],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [-0.0499268,-5.13037,-1.53947];
+		};
+	};
+	if (_child in ["cargonet_01_barrels_f"]) then {
+		comment 'Cargo net (BARRELS)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[-0.03,-2.1,-0.15],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [-0.0394287,-5.04114,-1.53859];
+		};
+	};
+	if (_child in ['land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f']) then {
+		comment 'IDAP stuff';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2,0],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.00219727,-5.27832,-1.40842];
+		};	
+	};	
+};
+if (_parent in [
+	'b_ugv_01_f',
+	'o_ugv_01_f',
+	'o_t_ugv_01_ghex_f',
+	'i_ugv_01_f',
+	'c_idap_ugv_01_f'
+]) then {
+	if (_child in ["b_supplycrate_f","o_supplycrate_f","i_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","c_idap_supplycrate_f"]) then {
+		comment 'Supply box';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-0.54,0.2],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-3.73389,-1.92198];
+		};
+	};
+	if (_child in ["b_cargonet_01_ammo_f","o_cargonet_01_ammo_f","i_cargonet_01_ammo_f",'c_idap_cargonet_01_supplies_f']) then {
+		comment 'Cargo nets';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-0.45,0.10],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-4.30127,-1.92299];
+		};
+	};
+	if (_child in ["cargonet_01_box_f"]) then {
+		comment 'Cargo net (BOX)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-0.45,-0.069],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-3.93823,-1.9223];
+		};
+	};
+	if (_child in ["cargonet_01_barrels_f"]) then {
+		comment 'Cargo net (BARRELS)';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-0.45,-0.175],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-4.12476,-1.92268];
+		};
+	};
+	if (_child in ['land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f']) then {
+		comment 'IDAP stuff';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-0.45,-0.069],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-4.13208,-1.92251];
+		};	
+	};
+	if (_child in ['box_nato_ammoveh_f','box_ind_ammoveh_f','box_east_ammoveh_f']) then {
+		comment 'Vehicle Ammo crates';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-0.4,0.12],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-4.11475,-1.89199];
+		};
+	};
+	if (_child in ['b_sdv_01_f','o_sdv_01_f','i_sdv_01_f']) then {
+		comment 'Submarines';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,0.5,1.2],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-5.55127,-1.99849];
+		};
+	};
+	if (['heli_light_01',_child,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+		comment 'Hummingbird';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [
+				[[0.43,-1.25,1],0],
+				[[0.43,-2,-0.2],0]
+			] select (['c_heli',_child,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'));
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-7.87402,-1.95889];
+		};
+	};
+	if (_child in ['b_uav_05_f']) then {
+		comment 'Falcon';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-1,0.5],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-7,-2];
+		};
+	};
+	if (_child in ['o_t_uav_04_cas_f']) then {
+		comment 'CSAT tanoa drone';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0.43,-0.5,0.5],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.43,-5.9,-2];
+		};	
+	};
+};
+if (_parent in [
+	"b_g_van_01_transport_f","o_g_van_01_transport_f","i_g_van_01_transport_f","i_c_van_01_transport_f","i_c_van_01_transport_brown_f",
+	"i_c_van_01_transport_olive_f","c_van_01_transport_f","c_van_01_transport_red_f","c_van_01_transport_white_f"
+]) then {
+	comment 'Truck';
+	if (_child in ["b_hmg_01_high_f","b_gmg_01_high_f","o_hmg_01_high_f","o_gmg_01_high_f","i_hmg_01_high_f","i_gmg_01_high_f"]) then {
+		comment 'high turret';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2,1],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [-0.0332031,-6.5061,-1.97767];
+		};
+	};
+	if (_child in ["b_static_aa_f","b_static_at_f","o_static_aa_f","o_static_at_f","i_static_aa_f","i_static_at_f","b_t_static_aa_f","b_t_static_at_f"]) then {
+		comment 'static launcher';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2,0.375],180];
+		} else {
+			comment 'Detach';
+			_attachPoint = [-0.0205078,-5.62256,-1.94009];
+		};
+	};
+	if (_child in ["b_g_mortar_01_f","b_mortar_01_f","b_t_mortar_01_f","o_mortar_01_f","o_g_mortar_01_f","i_mortar_01_f","i_g_mortar_01_f"]) then {
+		comment 'mortar';
+		if (_detachAttach) then {
+			comment 'Attach';
+			_attachPoint = [[0,-2.25,0.1],0];
+		} else {
+			comment 'Detach';
+			_attachPoint = [0.0551758,-6.72046,-1.93928];
+		};
+	};
+};
+_attachPoint;
