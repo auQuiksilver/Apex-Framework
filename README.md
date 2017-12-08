@@ -8,6 +8,8 @@ https://forums.bistudio.com/forums/topic/212240-apex-framework/
 
 https://discord.gg/FfVaPce
 
+https://community.bistudio.com/wiki/server.cfg
+
 Apex Framework step-by-step setup guide:
 
 * Setup time: 5-10 minutes.
