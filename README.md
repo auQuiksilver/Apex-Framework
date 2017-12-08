@@ -3,7 +3,9 @@
 Apex Framework 1.0.0 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
 
 Support
+
 https://forums.bistudio.com/forums/topic/212240-apex-framework/
+
 https://discord.gg/FfVaPce
 
 Apex Framework step-by-step setup guide:
