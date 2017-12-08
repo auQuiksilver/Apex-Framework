@@ -1,12 +1,23 @@
 
 Apex Framework 1.0.0 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
 
+Support
+
+https://forums.bistudio.com/forums/topic/212240-apex-framework/
+
+https://discord.gg/FfVaPce
+
+https://community.bistudio.com/wiki/server.cfg
 
 Apex Framework step-by-step setup guide:
 
 * Setup time: 5-10 minutes.
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
+_______________
+0. Download the "Apex_framework_beta_files.zip" file.
+
+* It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
 _______________
 1. Place mission PBO in your servers MPMissions folder.
@@ -22,7 +33,7 @@ _______________
 
 3b. Do NOT run @Apex_cfg as a -mod or -servermod, leave it alone!
 
-3c. Enable -filePatching for your server
+3c. Enable -filePatching for your server (important!)
 _______________
 4. Place    real_date_x64.dll     file in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
@@ -86,5 +97,6 @@ Other notes:
 - You can set custom chat messages inside the "chatMessages.sqf" file.
 - Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings".
 - This framework is currently in a short beta period (from 8/12/2017). In 7-10 days there will likely be another update.
+
 
 
