@@ -34,7 +34,7 @@ _______________
 
 3b. Do NOT run @Apex_cfg as a -mod or -servermod, leave it alone!
 
-3c. Enable -filePatching for your server (important!)
+3c. Enable -filePatching for your server (important!)   Reference: https://community.bistudio.com/wiki/Arma_3_Startup_Parameters
 _______________
 4. Place    real_date_x64.dll     file in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
@@ -61,6 +61,7 @@ forcedDifficulty = "Custom";
 
 
 6b. Ensure that:    forcedDifficulty = "Custom";
+
 6c. At this time, also double check to ensure the mission template matches the mission you are trying to run.
 _______________
 7. In your "server.cfg" file, ensure you have a serverCommandPassword set. Example:
@@ -70,7 +71,9 @@ serverCommandPassword = "ShVQArtpGdc5aDQq";
 Make note of the password you have (or created), you will need it now. Copy it to your clipboard.
 _______________
 8a. Open the new @Apex_cfg folder which you placed in your arma 3 directory.
+
 8b. Open the "parameters.sqf" file.
+
 8c. Locate this:
 
 
