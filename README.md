@@ -8,6 +8,10 @@ Apex Framework step-by-step setup guide:
 * Setup time: 5-10 minutes.
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
+_______________
+0. Download the "Apex_framework_beta_files.zip" file.
+
+* It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
 _______________
 1. Place mission PBO in your servers MPMissions folder.
