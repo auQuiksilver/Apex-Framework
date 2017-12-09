@@ -64,9 +64,10 @@ difficulty="Custom";
 
 };
 
+forcedDifficulty = "Custom";
+
 missionWhitelist[] = {"Apex_framework_beta_101.Altis","Apex_framework_beta_101.Tanoa","Apex_framework_beta_101.Malden"};
 
-forcedDifficulty = "Custom";
 --------------------------
 
 6b. Ensure that:    forcedDifficulty = "Custom";
