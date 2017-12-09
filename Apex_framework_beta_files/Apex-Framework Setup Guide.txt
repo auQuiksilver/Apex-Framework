@@ -1,27 +1,12 @@
-<<<<<<< HEAD
-Apex Framework 1.0.1 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
-=======
 
 Apex Framework 1.0.0 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
->>>>>>> 660fda4f0f0de05623df94a7eca90ac0f046c5d3
 
-Support
-
-https://forums.bistudio.com/forums/topic/212240-apex-framework/
-
-https://discord.gg/FfVaPce
-
-https://community.bistudio.com/wiki/server.cfg
 
 Apex Framework step-by-step setup guide:
 
-* Setup time: 10-15 minutes.
+* Setup time: 5-10 minutes.
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
-_______________
-0. Download the "Apex_framework_beta_files.zip" file.
-
-* It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
 _______________
 1. Place mission PBO in your servers MPMissions folder.
@@ -37,14 +22,13 @@ _______________
 
 3b. Do NOT run @Apex_cfg as a -mod or -servermod, leave it alone!
 
-3c. Enable -filePatching for your server (important!)
+3c. Enable -filePatching for your server
 _______________
 4. Place    real_date_x64.dll     file in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
 
 _______________
-5. Copy the difficulty options from   server.Arma3Profile   file into your servers .arma3profile file.  Reference:   https://i.imgur.com/X71jy3z.png
-
+5. Copy the difficulty options from   server.Arma3Profile file into your servers .arma3profile file.  Reference:   https://i.imgur.com/X71jy3z.png
 Ensure the difficulties are set correctly. Reference:   https://i.imgur.com/9NXqPnI.png
 
 
@@ -54,20 +38,17 @@ _______________
 
 class Missions {
 	class Annex {
-		template="Apex_framework_beta_101.Altis";
-		//template="Apex_framework_beta_101.Tanoa";
-		//template="Apex_framework_beta_101.Malden";
+		template="Apex_framework_beta_100.Altis";
+		template="Apex_framework_beta_100.Tanoa";
+		template="Apex_framework_beta_100.Malden";
 		difficulty="Custom";
 	};
 };
-
-missionWhitelist[] = {"Apex_framework_beta_101.Altis","Apex_framework_beta_101.Tanoa","Apex_framework_beta_101.Malden"};
-
+missionWhitelist[] = {"Apex_framework_beta_100.Altis","Apex_framework_beta_100.Tanoa","Apex_framework_beta_100.Malden"};
 forcedDifficulty = "Custom";
 
 
 6b. Ensure that:    forcedDifficulty = "Custom";
-
 6c. At this time, also double check to ensure the mission template matches the mission you are trying to run.
 _______________
 7. In your "server.cfg" file, ensure you have a serverCommandPassword set. Example:
@@ -77,17 +58,16 @@ serverCommandPassword = "ShVQArtpGdc5aDQq";
 Make note of the password you have (or created), you will need it now. Copy it to your clipboard.
 _______________
 8a. Open the new @Apex_cfg folder which you placed in your arma 3 directory.
-
 8b. Open the "parameters.sqf" file.
-
 8c. Locate this:
 
 
-_serverCommandPassword = "'ShVQArtpGdc5aDQq'";
+_serverCommandPassword = "
+	'ShVQArtpGdc5aDQq'
+";
 
 
 8d. Ignoring the " and ' quotations (do not touch them), copy your serverCommandPassword into that line as shown. See #7 to compare.
-
 8e. Dont use that password!!!
 _______________
 9. In the "parameters.sqf" file, locate this:
@@ -106,6 +86,4 @@ Other notes:
 - You can set custom chat messages inside the "chatMessages.sqf" file.
 - Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings".
 - This framework is currently in a short beta period (from 8/12/2017). In 7-10 days there will likely be another update.
-
-
 

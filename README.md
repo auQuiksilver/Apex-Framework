@@ -2,25 +2,39 @@
 
 Apex Framework 1.0.0 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
 
+Support
+
+https://forums.bistudio.com/forums/topic/212240-apex-framework/
+
+https://discord.gg/FfVaPce
+
+https://community.bistudio.com/wiki/server.cfg
 
 Apex Framework step-by-step setup guide:
 
 * Setup time: 5-10 minutes.
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
+_______________
+0. Download the "Apex_framework_beta_files.zip" file.
+
+* It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
 _______________
 1. Place mission PBO in your servers MPMissions folder.
 
 
 _______________
-2. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
+2a. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
+2b. Run it as a -servermod in your arma launch options.
 
 _______________
-3. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
+3a. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
+3b. Do NOT run @Apex_cfg as a -mod or -servermod, leave it alone!
 
+3c. Enable -filePatching for your server (important!)   Reference: https://community.bistudio.com/wiki/Arma_3_Startup_Parameters
 _______________
 4. Place    real_date_x64.dll     file in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
@@ -47,6 +61,7 @@ forcedDifficulty = "Custom";
 
 
 6b. Ensure that:    forcedDifficulty = "Custom";
+
 6c. At this time, also double check to ensure the mission template matches the mission you are trying to run.
 _______________
 7. In your "server.cfg" file, ensure you have a serverCommandPassword set. Example:
@@ -56,7 +71,9 @@ serverCommandPassword = "ShVQArtpGdc5aDQq";
 Make note of the password you have (or created), you will need it now. Copy it to your clipboard.
 _______________
 8a. Open the new @Apex_cfg folder which you placed in your arma 3 directory.
+
 8b. Open the "parameters.sqf" file.
+
 8c. Locate this:
 
 
