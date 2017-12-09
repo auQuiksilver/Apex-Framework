@@ -1,6 +1,6 @@
 # Apex Framework 
 
-Apex Framework 1.0.1 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
+Apex Framework 1.0.1 (Beta) by Quiksilver       (armacombatgroup@gmail.com)
 
 Support
 
