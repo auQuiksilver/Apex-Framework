@@ -49,12 +49,12 @@ _______________
 
 
 class Missions {
-	class Annex {
-		template="Apex_framework_beta_101.Altis";
-		//template="Apex_framework_beta_101.Tanoa";
-		//template="Apex_framework_beta_101.Malden";
-		difficulty="Custom";
-	};
+class Annex {
+template="Apex_framework_beta_101.Altis";
+//template="Apex_framework_beta_101.Tanoa";
+//template="Apex_framework_beta_101.Malden";
+difficulty="Custom";
+};
 };
 
 missionWhitelist[] = {"Apex_framework_beta_101.Altis","Apex_framework_beta_101.Tanoa","Apex_framework_beta_101.Malden"};
