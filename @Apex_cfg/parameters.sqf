@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	7/12/2017 A3 1.80 by Quiksilver
+	9/12/2017 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -17,16 +17,45 @@ Official Support/Help Channels:
 	Discord: 	https://discord.gg/FfVaPce
 	Forum: 		https://forums.bistudio.com/forums/topic/211146-invade-annex-apex-edition/
 	Email: 		armacombatgroup@gmail.com
+	
+For URLs:
+
+	Use Google URL Shortener ( https://goo.gl/ ) to make something like this:   https://goo.gl/7Xajd9
+	
+Notes for editing below:
+
+	- Be aware of the quotation marks " and ', they need to be what they are. Notice in links there are two sets of quotations:   "'https://goo.gl/7Xajd9'"     and for servercommandpassword:   _serverCommandPassword = "'ShVQArtpGdc5aDQq'";
+	- Improving this file will likely be an ongoing task. save and backup your copy before downloading a new one. be careful with pasting info from one to the other, as data types may change.
 _______________________________________________________/*/
 
 diag_log '***** Loading mission parameters *****';
 
 //===================================================== COMMUNITY / SERVER
 
-_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';			// Teamspeak server address, for use with map markers, etc. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
-_discord_server = "'https://discord.gg/FfVaPce'";							// Discord server (change this to yours).	Example:	_discord_server = "'https://discord.gg/FfVaPce'";
-_website_url = "'https://www.google.com'";									// Website URL of your website		Example:	_website_url = "'https://www.google.com'";
-_arma_units_url = "'https://units.arma3.com'";								// url path to your A3 Unit		Example:	_arma_units_url = "'https://units.arma3.com'";
+_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';					// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
+
+																					// These options can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
+_website_url = 
+[
+	"'https://goo.gl/7Xajd9'",														// Website URL of your website		Example:
+	"Our Website",																	// Button text.
+	"Link 1"																		// Tooltip (text shown when mouse hovering over button).
+];
+_discord_server = 
+[
+	"'https://goo.gl/7Xajd9'",														// Discord server (change this to yours).	Example:
+	"Our Discord",																	// Button text.
+	"Link 2"																		// Tooltip (text shown when mouse hovering over button).
+];
+_arma_units_url = 
+[
+	"'https://units.arma3.com'", 													// url path to your A3 Unit		Example:
+	"Our ArmA Unit",																// Button text.
+	"Link 3"																		// Tooltip (text shown when mouse hovering over button).
+];
+
+_serverRules = '- No teamkilling<br/>- No destruction of friendly assets<br/>- No advertising<br/>- No verbal abuse<br/>- Pilots and UAV operator must be on TS<br/>- Staff word is final';		// Server rules shown on splash screen text. Structured Text. Note: There are more rules listed in "code\functions\fn_clientDiary.sqf", edit that file to your liking.
+_staffNames = 'bob (admin), billy (moderator), albert (moderator), carl (mission editor)';						// This text gets shown on the splash screen when player enters the game, customize as you like.
 
 //===================================================== GAMEPLAY
 
@@ -37,7 +66,7 @@ _arsenal = 0;											// Arsenal.		0 - Unrestricted. 1- Restricted. Evaluated 
 
 //===================================================== SERVER RESTART SCHEDULE
 
-_restart_hours = [0,12,18];								// Hours (24hr clock) which server will restart. Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_restart_hours = [0,12,18];								// Hours (24hr clock) which server will restart.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
 
 //===================================================== MAIN MISSION TYPE
 
@@ -46,10 +75,9 @@ _main_mission_type = 'NONE';
 //========== DESCRIPTION===============================//
 // 'CLASSIC' 			Classic I&A. 					Recommended: 24-48+ players.			Example: 	_main_mission_type = 'CLASSIC';
 // 'SC' 				Sector Control.		 			Recommended: 36-64+ players.			Example: 	_main_mission_type = 'SC';
-// 'GRID'				Campaign (Beta). 				Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (8/12/2017)
-// 'NONE'				Primary missions disabled.												Example: 	_main_mission_type = 'NONE';
+// 'GRID'				Campaign (Beta). 				Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (9/12/2017)
+// 'NONE'				Primary missions disabled.												Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
 //====================================================//	
-
 
 //===================================================== AIRCRAFT CARRIER
 
@@ -68,43 +96,54 @@ _infostand_1 = ['media\images\billboards\billboard5.jpg'];							// Textures app
 _infostand_2 = ['media\images\billboards\billboard6.jpg'];							// Textures applied to info stands (V2) in default base. These parameters act as randomized arrays. Put more file paths in the [ ] array as desired. Example:   ['media\images\billboards\billboard3.jpg','media\images\billboards\billboard4.jpg'];
 
 //===================================================== SECURITY
-														// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
-_serverCommandPassword = "
-	'ShVQArtpGdc5aDQq'
-";
-_anticheat = "1";											// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.		Example:	_anticheat = "1";   or    _anticheat = "0";
 
-//===================================================== SPLASH MENU
+_serverCommandPassword = "'ShVQArtpGdc5aDQq'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
+_anticheat = 0;											// 0 - Disabled. 1 - Enabled. (Default 0). 		Disable if running mods or in private/secure setting.
 
-_serverRules = '- No teamkilling<br/>- No destruction of friendly assets<br/>- No advertising<br/>- No verbal abuse<br/>- Pilots and UAV operator must be on TS<br/>- Staff word is final';		// Server rules shown on splash screen text. Structured Text. Note: there are more rules listed in fn_diary.sqf
-_staffNames = 'bob (admin), billy (moderator), albert (moderator), carl (mission editor)';		// This text gets shown on the splash menu when player enters the game, customize as you like.
-
-//===================================================== OTHER
+//===================================================== MONETIZATION
 
 // Cosmetics system (uniform + vehicle + shoulder patches). 	
 // Controls access to [Area 51] vehicle/uniform/insignia texture system.
-// 0 - Disabled (None have access). 								Example:	_monetizeCosmetics = "0";
-// 1 - Enabled (Only whitelisted S3 have access). 					Example:	_monetizeCosmetics = "1";
-// 2 - All have access.												Example:	_monetizeCosmetics = "2";
-_monetizeCosmetics = "0";
 
-// Link for direct donations toward your server/community + whitelisting + cosmetics,etc. Replace this with your own, or leave blank. Google URL shortener tool is useful here.
-// Example for leaving it blank:	_monetizeURL = "";
-// Example for use:					_monetizeURL = "'https://goo.gl/tNSc6c'";
-_monetizeURL = "";
+_monetizeCosmetics = 0;									// 0 - Disabled (None have access). 1 - Enabled (Only whitelisted "S3" have access). 2 - All have access.
+
+// Link for direct donations toward your server/community + whitelisting + cosmetics,etc. Replace this with your own, or leave blank.
+// This option can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
+
+_monetizeURL = [
+	"'https://goo.gl/7Xajd9'",											// Monetization URL.
+	"Donate",															// Button text.
+	"Link 4"															// Tooltip (text shown when mouse hovering over button).
+];
 
 //==================DO NOT EDIT BELOW=================== INTERPRETING MISSION PARAMETERS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 _restart_hours sort TRUE;
 {
 	missionNamespace setVariable _x;
 } forEach [
 	['QS_missionConfig_commTS',_teamspeak_server,TRUE],
-	['QS_missionConfig_commDS',(compileFinal _discord_server),TRUE],
-	['QS_missionConfig_commURL',(compileFinal _website_url),TRUE],
-	['QS_missionConfig_commA3U',(compileFinal _arma_units_url),TRUE],
+	['QS_missionConfig_commDS',(compileFinal str _discord_server),TRUE],
+	['QS_missionConfig_commURL',(compileFinal str _website_url),TRUE],
+	['QS_missionConfig_commA3U',(compileFinal str _arma_units_url),TRUE],
 	['QS_missionConfig_baseLayout',_baseLayout,FALSE],
-	['QS_missionConfig_AH',(compileFinal _anticheat),TRUE],
+	['QS_missionConfig_AH',(compileFinal (str _anticheat)),TRUE],
 	['QS_missionConfig_stamina',_stamina,TRUE],
 	['QS_missionConfig_CAS',_closeAirSupport,TRUE],
 	['QS_missionConfig_Arsenal',_arsenal,TRUE],
@@ -122,8 +161,8 @@ _restart_hours sort TRUE;
 	['QS_missionConfig_textures_infostand2',_infostand_2,TRUE],
 	['QS_missionConfig_splash_serverRules',_serverRules,TRUE],
 	['QS_missionConfig_splash_adminNames',_staffNames,TRUE],
-	['QS_missionConfig_cosmetics',(compileFinal _monetizeCosmetics),TRUE],
-	['QS_missionConfig_monetizeURL',(compileFinal _monetizeURL),TRUE]
+	['QS_missionConfig_cosmetics',(compileFinal (str _monetizeCosmetics)),TRUE],
+	['QS_missionConfig_monetizeURL',(compileFinal str _monetizeURL),TRUE]
 ];
 uiNamespace setVariable ['QS_fnc_serverCommandPassword',(compileFinal _serverCommandPassword)];
 diag_log '***** Loaded mission parameters *****';

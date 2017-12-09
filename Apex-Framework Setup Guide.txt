@@ -1,9 +1,9 @@
-Apex Framework 1.0.0 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
+Apex Framework 1.0.1 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
 
 
 Apex Framework step-by-step setup guide:
 
-* Setup time: 5-10 minutes.
+* Setup time: 10-15 minutes.
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
 
@@ -24,7 +24,8 @@ _______________
 
 
 _______________
-5. Copy the difficulty options from   server.Arma3Profile file into your servers .arma3profile file.  Reference:   https://i.imgur.com/X71jy3z.png
+5. Copy the difficulty options from   server.Arma3Profile   file into your servers .arma3profile file.  Reference:   https://i.imgur.com/X71jy3z.png
+
 Ensure the difficulties are set correctly. Reference:   https://i.imgur.com/9NXqPnI.png
 
 
@@ -34,17 +35,20 @@ _______________
 
 class Missions {
 	class Annex {
-		template="Apex_framework_beta_100.Altis";
-		template="Apex_framework_beta_100.Tanoa";
-		template="Apex_framework_beta_100.Malden";
+		template="Apex_framework_beta_101.Altis";
+		//template="Apex_framework_beta_101.Tanoa";
+		//template="Apex_framework_beta_101.Malden";
 		difficulty="Custom";
 	};
 };
-missionWhitelist[] = {"Apex_framework_beta_100.Altis","Apex_framework_beta_100.Tanoa","Apex_framework_beta_100.Malden"};
+
+missionWhitelist[] = {"Apex_framework_beta_101.Altis","Apex_framework_beta_101.Tanoa","Apex_framework_beta_101.Malden"};
+
 forcedDifficulty = "Custom";
 
 
 6b. Ensure that:    forcedDifficulty = "Custom";
+
 6c. At this time, also double check to ensure the mission template matches the mission you are trying to run.
 _______________
 7. In your "server.cfg" file, ensure you have a serverCommandPassword set. Example:
@@ -54,16 +58,17 @@ serverCommandPassword = "ShVQArtpGdc5aDQq";
 Make note of the password you have (or created), you will need it now. Copy it to your clipboard.
 _______________
 8a. Open the new @Apex_cfg folder which you placed in your arma 3 directory.
+
 8b. Open the "parameters.sqf" file.
+
 8c. Locate this:
 
 
-_serverCommandPassword = "
-	'ShVQArtpGdc5aDQq'
-";
+_serverCommandPassword = "'ShVQArtpGdc5aDQq'";
 
 
 8d. Ignoring the " and ' quotations (do not touch them), copy your serverCommandPassword into that line as shown. See #7 to compare.
+
 8e. Dont use that password!!!
 _______________
 9. In the "parameters.sqf" file, locate this:
