@@ -1,6 +1,6 @@
 # Apex Framework 
 
-Apex Framework 1.0.0 (Beta) by Quiksilver      (armacombatgroup@gmail.com)
+Apex Framework 1.0.1 (Beta) by Quiksilver       (armacombatgroup@gmail.com)
 
 Support
 
@@ -12,16 +12,16 @@ https://community.bistudio.com/wiki/server.cfg
 
 Apex Framework step-by-step setup guide:
 
-* Setup time: 5-10 minutes.
+* Setup time: 10-15 minutes.
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
 _______________
-0. Download the "Apex_framework_beta_files.zip" file.
+0. Download the "Apex_framework_allFiles.zip" file.
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
 _______________
-1. Place mission PBO in your servers MPMissions folder.
+1. Place mission PBO files in your servers MPMissions folder.
 
 
 _______________
@@ -47,18 +47,28 @@ Ensure the difficulties are set correctly. Reference:   https://i.imgur.com/9NXq
 _______________
 6a. In your "server.cfg" file, ensure your server will load the correct difficulty options. Example:
 
-
+--------------------------
 class Missions {
-	class Annex {
-		template="Apex_framework_beta_100.Altis";
-		template="Apex_framework_beta_100.Tanoa";
-		template="Apex_framework_beta_100.Malden";
-		difficulty="Custom";
-	};
+
+class Annex {
+
+template="Apex_framework_beta_101.Altis";
+
+//template="Apex_framework_beta_101.Tanoa";
+
+//template="Apex_framework_beta_101.Malden";
+
+difficulty="Custom";
+
 };
-missionWhitelist[] = {"Apex_framework_beta_100.Altis","Apex_framework_beta_100.Tanoa","Apex_framework_beta_100.Malden"};
+
+};
+
 forcedDifficulty = "Custom";
 
+missionWhitelist[] = {"Apex_framework_beta_101.Altis","Apex_framework_beta_101.Tanoa","Apex_framework_beta_101.Malden"};
+
+--------------------------
 
 6b. Ensure that:    forcedDifficulty = "Custom";
 
@@ -77,12 +87,11 @@ _______________
 8c. Locate this:
 
 
-_serverCommandPassword = "
-	'ShVQArtpGdc5aDQq'
-";
+_serverCommandPassword = "'ShVQArtpGdc5aDQq'";
 
 
 8d. Ignoring the " and ' quotations (do not touch them), copy your serverCommandPassword into that line as shown. See #7 to compare.
+
 8e. Dont use that password!!!
 _______________
 9. In the "parameters.sqf" file, locate this:
