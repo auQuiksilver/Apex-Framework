@@ -1355,10 +1355,14 @@ for '_x' from 0 to 1 step 0 do {
 							_currentTaskRate = _currentTaskRate max 0;
 						};
 						if (!((ctrlText _QS_ctrl24) isEqualTo _currentTaskIconPath)) then {
-							if (_currentTaskType isEqualTo '') then {
-								_currentTaskIconPath = _currentTaskIconPathDefault;
+							if (!isNil '_currentTaskType') then {
+								if (_currentTaskType isEqualTo '') then {
+									_currentTaskIconPath = _currentTaskIconPathDefault;
+								} else {
+									_currentTaskIconPath = getText (_taskTypesConfig >> _currentTaskType >> 'icon');
+								};
 							} else {
-								_currentTaskIconPath = getText (_taskTypesConfig >> _currentTaskType >> 'icon');
+								_currentTaskIconPath = _currentTaskIconPathDefault;
 							};
 						};
 					};
