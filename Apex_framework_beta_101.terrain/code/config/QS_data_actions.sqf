@@ -115,5 +115,6 @@ __________________________________________________________________________/*/
 	'Examine',
 	(localize 'STR_A3_action_useCatapult'),
 	'Initiate Launch Sequence',
-	'Launch'
+	'Launch',
+	'Stabilise'
 ]
