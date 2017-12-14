@@ -33,6 +33,7 @@ if (_type isEqualTo 'S3') then {
 	Does NOT include CAS role (a separate whitelist below). 
 	/*/
 	_return = [
+		'76561198084065754',
 		'76561100000000000',
 		'76561100000000000'
 	];
@@ -45,6 +46,7 @@ if (_type isEqualTo 'S3') then {
 if (_type isEqualTo 'CAS') then {
 	/*/These IDs have access to fixed-wing Jets, subject to mission parameters/*/
 	_return = [
+		'76561198084065754',
 		'76561100000000000',
 		'76561100000000000'
 	];

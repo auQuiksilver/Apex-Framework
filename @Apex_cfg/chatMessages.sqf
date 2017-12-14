@@ -12,7 +12,10 @@ Description:
 
 	Chat Messages (they will appear periodically in chat)
 	
+Notes:
+	
 	Add as many as you like
+	This should replace your server.cfg  motd[]= {};
 _______________________________________________________/*/
 
 diag_log '***** CHAT MESSAGES LOADED *****';

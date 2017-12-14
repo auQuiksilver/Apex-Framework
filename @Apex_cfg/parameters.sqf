@@ -37,24 +37,24 @@ _teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';					// Teamspe
 																					// These options can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
 _website_url = 
 [
-	"'https://goo.gl/7Xajd9'",														// Website URL of your website		Example:
+	"'https://goo.gl/7Xajd9'",														// Website URL of your website		Example:	"'https://goo.gl/7Xajd9'"
 	"Our Website",																	// Button text.
 	"Link 1"																		// Tooltip (text shown when mouse hovering over button).
 ];
 _discord_server = 
 [
-	"'https://goo.gl/7Xajd9'",														// Discord server (change this to yours).	Example:
+	"'https://goo.gl/7Xajd9'",														// Discord server (change this to yours).	Example:	"'https://goo.gl/7Xajd9'"
 	"Our Discord",																	// Button text.
 	"Link 2"																		// Tooltip (text shown when mouse hovering over button).
 ];
 _arma_units_url = 
 [
-	"'https://units.arma3.com'", 													// url path to your A3 Unit		Example:
+	"'https://units.arma3.com'", 													// url path to your A3 Unit		Example:	"'https://goo.gl/7Xajd9'"
 	"Our ArmA Unit",																// Button text.
 	"Link 3"																		// Tooltip (text shown when mouse hovering over button).
 ];
 
-_serverRules = '- No teamkilling<br/>- No destruction of friendly assets<br/>- No advertising<br/>- No verbal abuse<br/>- Pilots and UAV operator must be on TS<br/>- Staff word is final';		// Server rules shown on splash screen text. Structured Text. Note: There are more rules listed in "code\functions\fn_clientDiary.sqf", edit that file to your liking.
+_serverRules = '- No teamkilling<br/>- No destruction of friendly assets<br/>- No advertising<br/>- No verbal abuse<br/>- Pilots and UAV operator must be on Teamspeak<br/>- Staff word is final';		// Server rules shown on splash screen text. Structured Text. Note: There are more rules listed in "code\functions\fn_clientDiary.sqf", edit that file to your liking.
 _staffNames = 'bob (admin), billy (moderator), albert (moderator), carl (mission editor)';						// This text gets shown on the splash screen when player enters the game, customize as you like.
 
 //===================================================== GAMEPLAY
@@ -66,7 +66,7 @@ _arsenal = 0;											// Arsenal.		0 - Unrestricted. 1- Restricted. Evaluated 
 
 //===================================================== SERVER RESTART SCHEDULE
 
-_restart_hours = [0,12,18];								// Hours (24hr clock) which server will restart.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_restart_hours = [0,12,18];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
 
 //===================================================== MAIN MISSION TYPE
 
@@ -133,8 +133,9 @@ _monetizeURL = [
 
 
 
-
-_restart_hours sort TRUE;
+if (!(_restart_hours isEqualTo [])) then {
+	_restart_hours sort TRUE;
+};
 {
 	missionNamespace setVariable _x;
 } forEach [
