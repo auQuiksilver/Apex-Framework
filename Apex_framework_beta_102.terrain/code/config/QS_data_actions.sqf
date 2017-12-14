@@ -117,4 +117,8 @@ __________________________________________________________________________/*/
 	'Initiate Launch Sequence',
 	'Launch',
 	'Stabilise'
+<<<<<<< HEAD:Apex_framework_beta_102.terrain/code/config/QS_data_actions.sqf
 ]
+=======
+]
+>>>>>>> 324f66bd1e856d2f0d2a6e1909742011bd12f7e5:Apex_framework_beta_101.terrain/code/config/QS_data_actions.sqf
