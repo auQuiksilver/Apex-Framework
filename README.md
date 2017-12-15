@@ -12,7 +12,7 @@ https://community.bistudio.com/wiki/server.cfg
 
 Apex Framework step-by-step setup guide:
 
-* Setup time: 10-15 minutes.
+* Setup time: 10-15 minutes (longer for inexperienced admins).
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
 _______________
