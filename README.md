@@ -16,7 +16,7 @@ Apex Framework step-by-step setup guide:
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running x64.
 _______________
-0. Download the "Apex_framework_allFiles.zip" file.
+0. Download the "Apex_framework_beta_102_allFiles.zip" file.
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
