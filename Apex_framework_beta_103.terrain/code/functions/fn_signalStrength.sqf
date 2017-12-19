@@ -1,0 +1,48 @@
+/*/
+File: fn_signalStrength.sqf
+Author: 
+
+	Quiksilver
+
+Last Modified:
+
+	19/12/2017 A3 1.80 by Quiksilver
+
+Description:
+
+	Signal Strength
+____________________________________________________________________________/*/
+
+params ['_type','_position','_radius'];
+private _val = 0.1;
+private _text = '';
+if (_type isEqualTo 0) then {
+	if ((player distance _position) < _radius) then {
+		_val = round ((1 - ((player distance _position) / _radius)) * 100);
+	};
+	if (underwater player) then {
+		if ('ItemGPS' in (assignedItems player)) then {
+			if (isNull (objectParent player)) then {
+				_text = format ['<t size="1.5">Signal Strength</t><br/><br/> %1 percent',_val];
+				50 cutText [_text,'PLAIN DOWN',0.5,FALSE,TRUE];
+			};
+		} else {
+			_text = format ['<t size="1.5">Signal Strength</t><br/><br/> No GPS Receiver ...',_val];
+			50 cutText [_text,'PLAIN DOWN',0.5,FALSE,TRUE];
+		};
+	};
+};
+if (_type isEqualTo 1) then {
+	if ((player distance _position) < _radius) then {
+		_val = round ((1 - ((player distance _position) / _radius)) * 100);
+	};
+	if (isNull (objectParent player)) then {
+		if ('ItemGPS' in (assignedItems player)) then {
+			_text = format ['<t size="1.5">Signal Strength</t><br/><br/> %1 percent',_val];
+			50 cutText [_text,'PLAIN DOWN',0.5,FALSE,TRUE];
+		} else {
+			_text = format ['<t size="1.5">Signal Strength</t><br/><br/> No GPS Receiver ...',_val];
+			50 cutText [_text,'PLAIN DOWN',0.5,FALSE,TRUE];
+		};
+	};
+};

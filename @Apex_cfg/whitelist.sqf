@@ -19,8 +19,6 @@ Comment:
 	For staff IDs, ensure ID is in only one list. For instance, either moderator, admin or developer, but not all of them together.
 	
 	They DO all have to be in the 'ALL' list though.
-	
-	'76561198084065754',
 __________________________________________________________________________/*/
 
 _type = param [0,''];
@@ -33,7 +31,6 @@ if (_type isEqualTo 'S3') then {
 	Does NOT include CAS role (a separate whitelist below). 
 	/*/
 	_return = [
-		'76561198084065754',
 		'76561100000000000',
 		'76561100000000000'
 	];
@@ -46,7 +43,6 @@ if (_type isEqualTo 'S3') then {
 if (_type isEqualTo 'CAS') then {
 	/*/These IDs have access to fixed-wing Jets, subject to mission parameters/*/
 	_return = [
-		'76561198084065754',
 		'76561100000000000',
 		'76561100000000000'
 	];
@@ -60,7 +56,6 @@ if (_type isEqualTo 'CAS') then {
 if (_type isEqualTo 'ALL') then {
 	/*/ All staff UIDs (does not grant permissions/menus, that stuff is below). Robocop reports trolling events and hacking events to these people though./*/
 	_return = [
-		'76561198084065754',
 		'76561100000000000',
 		'76561100000000000'
 	];
@@ -121,7 +116,6 @@ if (_type isEqualTo 'MEDIA') then {
 if (_type isEqualTo 'CURATOR') then {
 	/*/Zeus. These IDs have access to Zeus and mission curation functionality. They can suspend side missions and main missions, and cycle main missions (this is done on "air defense laptop" at base)./*/
 	_return = [
-		'76561198084065754',
 		'76561100000000000',
 		'76561100000000000'
 	];
@@ -134,7 +128,6 @@ if (_type isEqualTo 'CURATOR') then {
 if (_type isEqualTo 'DEVELOPER') then {
 	/*/ Developer UIDs. These IDs have access to integrated Debug Console (execution is logged and filtered) and all other ingame tools./*/
 	_return = [
-		'76561198084065754',
 		'76561100000000000',
 		'76561100000000000'
 	];

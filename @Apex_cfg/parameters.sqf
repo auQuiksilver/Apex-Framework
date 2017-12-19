@@ -15,7 +15,7 @@ Description:
 Official Support/Help Channels:
 
 	Discord: 	https://discord.gg/FfVaPce
-	Forum: 		https://forums.bistudio.com/forums/topic/211146-invade-annex-apex-edition/
+	Forum: 		https://forums.bistudio.com/forums/topic/212240-apex-framework/
 	Email: 		armacombatgroup@gmail.com
 	
 For URLs:
@@ -60,11 +60,13 @@ _staffNames = 'bob (admin), billy (moderator), albert (moderator), carl (mission
 //===================================================== GAMEPLAY
 
 _baseLayout = 0;										// Base layout.	0 - Default. 1 - Create custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
-_stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 _closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
 _arsenal = 0;											// Arsenal.		0 - Unrestricted. 1- Restricted. Evaluated in fn_clientInteractArsenal.sqf .
+_armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles.
+_reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
+_stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 
-//===================================================== SERVER RESTART SCHEDULE
+//===================================================== SYSTEM
 
 _restart_hours = [0,12,18];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
 
@@ -73,10 +75,10 @@ _restart_hours = [0,12,18];								// Hours (24hr clock) which server will resta
 _main_mission_type = 'NONE';
 
 //========== DESCRIPTION===============================//
-// 'CLASSIC' 			Classic I&A. 					Recommended: 24-48+ players.			Example: 	_main_mission_type = 'CLASSIC';
-// 'SC' 				Sector Control.		 			Recommended: 36-64+ players.			Example: 	_main_mission_type = 'SC';
-// 'GRID'				Campaign (Beta). 				Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (9/12/2017)
-// 'NONE'				Primary missions disabled.												Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
+// 	'CLASSIC' 			Classic I&A. 					Recommended: 24-48+ players.			Example: 	_main_mission_type = 'CLASSIC';
+// 	'SC' 				Sector Control.		 			Recommended: 36-64+ players.			Example: 	_main_mission_type = 'SC';
+// 	'GRID'				Campaign (Beta). 				Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (9/12/2017)
+// 	'NONE'				Primary missions disabled.												Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
 //====================================================//	
 
 //===================================================== AIRCRAFT CARRIER
@@ -98,7 +100,7 @@ _infostand_2 = ['media\images\billboards\billboard6.jpg'];							// Textures app
 //===================================================== SECURITY
 
 _serverCommandPassword = "'ShVQArtpGdc5aDQq'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
-_anticheat = 0;											// 0 - Disabled. 1 - Enabled. (Default 0). 		Disable if running mods or in private/secure setting.
+_anticheat = 1;											// 0 - Disabled. 1 - Enabled. (Default 0). 		Disable if running mods or in private/secure setting.
 
 //===================================================== MONETIZATION
 
@@ -119,20 +121,6 @@ _monetizeURL = [
 //==================DO NOT EDIT BELOW=================== INTERPRETING MISSION PARAMETERS
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if (!(_restart_hours isEqualTo [])) then {
 	_restart_hours sort TRUE;
 };
@@ -140,14 +128,16 @@ if (!(_restart_hours isEqualTo [])) then {
 	missionNamespace setVariable _x;
 } forEach [
 	['QS_missionConfig_commTS',_teamspeak_server,TRUE],
-	['QS_missionConfig_commDS',(compileFinal str _discord_server),TRUE],
-	['QS_missionConfig_commURL',(compileFinal str _website_url),TRUE],
-	['QS_missionConfig_commA3U',(compileFinal str _arma_units_url),TRUE],
+	['QS_missionConfig_commDS',(compileFinal (str _discord_server)),TRUE],
+	['QS_missionConfig_commURL',(compileFinal (str _website_url)),TRUE],
+	['QS_missionConfig_commA3U',(compileFinal (str _arma_units_url)),TRUE],
 	['QS_missionConfig_baseLayout',_baseLayout,FALSE],
 	['QS_missionConfig_AH',(compileFinal (str _anticheat)),TRUE],
 	['QS_missionConfig_stamina',_stamina,TRUE],
 	['QS_missionConfig_CAS',_closeAirSupport,TRUE],
 	['QS_missionConfig_Arsenal',_arsenal,TRUE],
+	['QS_missionConfig_armor',_armor,TRUE],
+	['QS_missionConfig_reducedDamage',(compileFinal (str _reducedDamage)),TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
 	['QS_missionConfig_carrierEnabled',_aircraft_carrier_enabled,TRUE],
@@ -163,7 +153,7 @@ if (!(_restart_hours isEqualTo [])) then {
 	['QS_missionConfig_splash_serverRules',_serverRules,TRUE],
 	['QS_missionConfig_splash_adminNames',_staffNames,TRUE],
 	['QS_missionConfig_cosmetics',(compileFinal (str _monetizeCosmetics)),TRUE],
-	['QS_missionConfig_monetizeURL',(compileFinal str _monetizeURL),TRUE]
+	['QS_missionConfig_monetizeURL',(compileFinal (str _monetizeURL)),TRUE]
 ];
 uiNamespace setVariable ['QS_fnc_serverCommandPassword',(compileFinal _serverCommandPassword)];
 diag_log '***** Loaded mission parameters *****';
