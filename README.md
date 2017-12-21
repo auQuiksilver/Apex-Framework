@@ -1,10 +1,6 @@
 # Apex Framework 
 
-<<<<<<< HEAD
 Apex Framework 1.0.3 (Beta) by Quiksilver       (armacombatgroup@gmail.com)
-=======
-Apex Framework 1.0.2 (Beta) by Quiksilver       (armacombatgroup@gmail.com)
->>>>>>> 7f74e391529332eef73d0fd595fd99f2e5c904cc
 
 Support
 
@@ -20,11 +16,8 @@ Apex Framework step-by-step setup guide:
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running Windows x64, or Linux.
 _______________
-<<<<<<< HEAD
+
 0. Download the "Apex_framework_beta_103_allFiles.zip" file.
-=======
-0. Download the "Apex_framework_beta_102_allFiles.zip" file.
->>>>>>> 7f74e391529332eef73d0fd595fd99f2e5c904cc
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
