@@ -327,7 +327,7 @@ if (_worldName isEqualTo 'Altis') exitWith {
 				((missionNamespace getVariable 'QS_setFeatureType') + [[_chimney,2]]),
 				TRUE
 			];
-			_fire = createVehicle ['test_EmptyObjectForFireBig',[0,0,0],[],0,'NONE'];
+			_fire = createVehicle ['test_EmptyObjectForFireBig',[0,0,0],[],0,'CAN_COLLIDE'];
 			_fire allowDamage FALSE;
 			missionNamespace setVariable [
 				'QS_setFeatureType',
@@ -337,7 +337,7 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[-2,0,31]];
+			_fire attachTo [_chimney,[0,0,0]];
 			_fire spawn {
 				uiSleep 0.1;
 				detach _this;
@@ -702,7 +702,7 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 				((missionNamespace getVariable 'QS_setFeatureType') + [[_chimney,2]]),
 				TRUE
 			];
-			_fire = createVehicle ['test_EmptyObjectForFireBig',[0,0,0],[],0,'NONE'];
+			_fire = createVehicle ['test_EmptyObjectForFireBig',[0,0,0],[],0,'CAN_COLLIDE'];
 			_fire allowDamage FALSE;
 			missionNamespace setVariable [
 				'QS_setFeatureType',
@@ -712,7 +712,7 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[-2,0,31]];
+			_fire attachTo [_chimney,[0,0,0]];
 			_fire spawn {
 				uiSleep 0.1;
 				detach _this;
@@ -910,7 +910,7 @@ if (_worldName isEqualTo 'Malden') exitWith {
 				((missionNamespace getVariable 'QS_setFeatureType') + [[_chimney,2]]),
 				TRUE
 			];
-			_fire = createVehicle ['test_EmptyObjectForFireBig',[0,0,0],[],0,'NONE'];
+			_fire = createVehicle ['test_EmptyObjectForFireBig',[0,0,0],[],0,'CAN_COLLIDE'];
 			_fire allowDamage FALSE;
 			missionNamespace setVariable [
 				'QS_setFeatureType',
@@ -920,7 +920,7 @@ if (_worldName isEqualTo 'Malden') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[-2,0,31]];
+			_fire attachTo [_chimney,[0,0,0]];
 			_fire spawn {
 				uiSleep 0.1;
 				detach _this;
