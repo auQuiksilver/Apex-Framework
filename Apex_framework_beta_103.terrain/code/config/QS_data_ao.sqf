@@ -187,7 +187,12 @@ if (_worldName isEqualTo 'Malden') exitWith {
 				['Arudy',[5548.68,7019.2,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1],
 				['La Pessagne',[3111.23,6371.96,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1],
 				['Feas',[4371.53,6898.66,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1],
-				['Houdan',[7120.14,6069.77,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1],
+				['Houdan',[7120.14,6069.77,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1]
+			]
+		],
+		[
+			1,
+			[
 				['Island military base',[9754.7,3949.39,0],'QS_fnc_aoCustomize',1,1,0,0,0,0,0],
 				['Le Port',[8251.1,3145.07,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1],
 				['Chapoi',[5867.74,3523.77,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1],
@@ -207,6 +212,3 @@ if (_worldName isEqualTo 'Malden') exitWith {
 	]
 };
 if (_worldName isEqualTo 'Stratis') exitWith {};
-if (_worldName isEqualTo 'Chernarus') exitWith {};
-if (_worldName isEqualTo 'Sahrani') exitWith {};
-if (_worldName isEqualTo 'Takistan') exitWith {};
