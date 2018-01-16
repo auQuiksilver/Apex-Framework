@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	2/12/2017 A3 1.78 by Quiksilver
+	17/01/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -37,7 +37,6 @@ private [
 	'_enemyInHQCount','_playersInHQCount','_moveToPos','_infantrySpawnDistanceFixed','_infantrySpawnDistanceRandom','_infantrySpawnDistanceFromPlayer',
 	'_fn_blacklist','_QS_worldName','_QS_worldSize','_nearRoads','_roadsValid','_validRoadSurfaces','_timeNow','_tickTimeNow','_serverTime','_taskID'
 ];
-
 diag_log 'Defend AO 0';
 _allPlayersCount = count allPlayers;
 if (diag_fps < 13) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
@@ -72,7 +71,7 @@ _serverTime = serverTime;
 _tickTimeNow = diag_tickTime;
 _QS_worldName = worldName;
 _QS_worldSize = worldSize;
-_duration = serverTime + 920 + (random 420);
+_duration = serverTime + 1020 + (random 480);
 _durationAlmostOver = _duration - 30 - (random 60);
 [_taskID,TRUE,_duration] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 [_taskID,['Defend','Defend 1','Defend 2']] call (missionNamespace getVariable 'QS_fnc_taskSetCustomData');
@@ -129,23 +128,23 @@ _uav = objNull;
 _uavFlyInHeight = 600 + (random 1400);
 _QS_infantry = TRUE;
 _infantryInitialSpawnDelay = time + 0;
-if (_allPlayersCount > 0) then {_infantryMaxSpawned = 27;};
-if (_allPlayersCount > 10) then {_infantryMaxSpawned = 35;};
-if (_allPlayersCount > 20) then {_infantryMaxSpawned = 40;};
-if (_allPlayersCount > 30) then {_infantryMaxSpawned = 51;};
-if (_allPlayersCount > 40) then {_infantryMaxSpawned = 59;};
-if (_allPlayersCount > 50) then {_infantryMaxSpawned = 68;};
+if (_allPlayersCount > 0) then {_infantryMaxSpawned = 36;};
+if (_allPlayersCount > 10) then {_infantryMaxSpawned = 48;};
+if (_allPlayersCount > 20) then {_infantryMaxSpawned = 56;};
+if (_allPlayersCount > 30) then {_infantryMaxSpawned = 60;};
+if (_allPlayersCount > 40) then {_infantryMaxSpawned = 68;};
+if (_allPlayersCount > 50) then {_infantryMaxSpawned = 76;};
 _infantryArray = [];
 _infantryCheckDelay = time + 10;
 _infantrySpawnDelay = time + 10;
 if (worldName isEqualTo 'Tanoa') then {
-	_infantrySpawnDistanceFixed = 1000;
+	_infantrySpawnDistanceFixed = 800;
 	_infantrySpawnDistanceRandom = 1000;
-	_infantrySpawnDistanceFromPlayer = 750;
+	_infantrySpawnDistanceFromPlayer = 500;
 } else {
-	_infantrySpawnDistanceFixed = 2000;
-	_infantrySpawnDistanceRandom = 2000;
-	_infantrySpawnDistanceFromPlayer = 750;
+	_infantrySpawnDistanceFixed = 1000;
+	_infantrySpawnDistanceRandom = 1250;
+	_infantrySpawnDistanceFromPlayer = 500;
 };
 _infTypes = [
 	'OIA_InfSentry','OIA_InfSquad','OIA_InfTeam','OI_reconSentry',
@@ -622,6 +621,8 @@ for '_x' from 0 to 1 step 0 do {
 						((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 						FALSE
 					];
+					_av setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+					_av enableDynamicSimulation FALSE;
 					0 = _armorArray pushBack _av;
 					0 = _allArray pushBack _av;
 					clearMagazineCargoGlobal _av;
@@ -692,6 +693,8 @@ for '_x' from 0 to 1 step 0 do {
 							((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 							FALSE
 						];
+						_v setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+						_v enableDynamicSimulation FALSE;
 						0 = _groundTransportArray pushBack _v;
 						0 = _allArray pushBack _v;
 						_v allowDamage FALSE;
