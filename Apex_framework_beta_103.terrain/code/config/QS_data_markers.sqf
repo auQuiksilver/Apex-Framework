@@ -92,7 +92,7 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 		['QS_marker_heli_spawn',[7088.87,7302.3,0.00143886],'respawn_air','Icon','','ColorWEST',[0.5,0.5],0.75,[7088.87,7302.3,0.00143886],0,'Heli'],
 		['QS_marker_veh_spawn',[6834.82,7413.37,0.00143886],'respawn_armor','Icon','','ColorWEST',[0.5,0.5],0.75,[6834.82,7413.37,0.00143886],0,'Vehicle'],
 		['QS_marker_boats_1',[6610.16,6916.09,-0.310007],'b_naval','Icon','','ColorWEST',[0.5,0.5],0.75,[6610.16,6916.09,-0.310007],0,'Boat'],
-		['QS_marker_side_rewards',[6924.34,7553.9,0.00157118],'b_unknown','Icon','','ColorWEST',[0.5,0.5],0.75,[6924.34,7553.9,0.00157118],0,'Rewards'],
+		['QS_marker_side_rewards',[7073.947,7409.39,0.00157118],'b_unknown','Icon','','ColorWEST',[0.5,0.5],0.75,[7073.947,7409.39,0.00157118],0,'Rewards'],
 		['QS_marker_gitmo',[6925.69,7369.88,0.00143862],'b_unknown','Icon','','ColorWEST',[0.5,0.5],0.75,[6925.69,7369.88,0.00143862],0,'Gitmo'],
 		['QS_marker_medevac_hq',[6924.32,7430.16,0.00143886],'b_med','Icon','','ColorWEST',[0.5,0.5],0.75,[6924.32,7430.16,0.00143886],0,'Medevac HQ'],
 		['QS_marker_base_toc',[6908.04,7426.44,0.00143886],'b_hq','Icon','','ColorWEST',[0.5,0.5],0.75,[6908.04,7426.44,0.00143886],0,'TOC'],
