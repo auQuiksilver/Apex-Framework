@@ -1,0 +1,34 @@
+<!
+File: stringtable.xml
+Author:
+	
+	Quiksilver
+
+Last Modified:
+
+	3/01/2018 A3 1.80 by Quiksilver
+	
+Description:
+
+	https://community.bistudio.com/wiki/Stringtable.xml
+_____________________________________________________________>
+
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="Apex Framework">
+	<Key ID="STR_QS_Interact_Drag">
+		<Original>Drag</Original>
+		<German>Ziehen</German>
+		<French>Drag</French>
+		<Chinese>拖累</Chinese>
+		<Czech>Drag</Czech>
+		<Russian>бремя</Russian>
+	</Key>
+	<Key ID="STR_QS_Interact_Carry">
+		<Original>Carry</Original>
+		<German>Tragen</German>
+		<French>Carry</French>
+		<Chinese>进</Chinese>
+		<Czech>Nést</Czech>
+		<Russian>нести</Russian>
+	</Key>
+</Project>

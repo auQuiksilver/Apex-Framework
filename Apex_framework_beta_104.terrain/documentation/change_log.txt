@@ -1,0 +1,45 @@
+Official change log
+
+1.0.4 (Beta)
+
+[ADDED] Stringtable file (WIP).
+[TWEAKED] Raised total AI unit cap slightly for Altis/Malden.
+[TWEAKED] AI difficulty increased slightly.
+[TWEAKED] Classic AO Defend difficulty increased slightly.
+[TWEAKED] More enemy groups spawn on Altis (Classic AO).
+[TWEAKED] Client damage modifier.
+[TWEAKED] Enemy vehicle weapon downgrade now randomized instead of all the time.
+[TWEAKED] Server will no longer restart while a Classic AO defend mission is ongoing (it will wait until finished instead).
+[TWEAKED] Enemy with weaker weapons (5.56) should get better optics (increases their effective range).
+[FIXED] Malden AOs would not spawn in some cases.
+[FIXED] Bug with invisible enemy reinforcement vehicle at Classic AO defend mission.
+[FIXED] Jungle camo vehicle was spawning on Altis Classic AO defend mission.
+[FIXED] Player-assembled static weapons could not be Mounted onto flatbed trucks.
+[FIXED] Taru pods could not be released once towed.
+[FIXED] Vehicle-in-Vehicle loading while towing was not working.
+[FIXED] Unflip Vehicle interaction was not working in some cases.
+[FIXED] Enemy heli landings were not working properly in some cases (script error).
+[FIXED] Player could not release a dragged crate when inside a building in some cases.
+[FIXED] Unload interaction would still be present even when no incapacitated units in the vehicle.
+[FIXED] Player could use some on-foot interactions while in vehicle (ongoing fixes).
+[FIXED] Reported enemy vehicles could sometimes be reported multiple times (stacked tasks).
+[FIXED] Medical garbage on revive could be floating sometimes.
+[FIXED] Script error in AI repair vehicle behavior script.
+[FIXED] Enemy vehicle reinforcement helicopters would not spawn.
+[FIXED] Various script errors.
+
+1.0.3 (Beta)
+
+N/A
+
+1.0.2 (Beta)
+
+N/A
+
+1.0.1 (Beta)
+
+N/A
+
+1.0.0 (Beta)
+
+N/A
