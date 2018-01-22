@@ -53,11 +53,11 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_beta_103.Altis";
+template="Apex_framework_beta_104.Altis";
 
-//template="Apex_framework_beta_103.Tanoa";
+//template="Apex_framework_beta_104.Tanoa";
 
-//template="Apex_framework_beta_103.Malden";
+//template="Apex_framework_beta_104.Malden";
 
 difficulty="Custom";
 
@@ -67,7 +67,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_beta_103.Altis","Apex_framework_beta_103.Tanoa","Apex_framework_beta_103.Malden"};
+missionWhitelist[] = {"Apex_framework_beta_104.Altis","Apex_framework_beta_104.Tanoa","Apex_framework_beta_104.Malden"};
 
 --------------------------
 
@@ -110,7 +110,7 @@ Other notes:
 - Inside the "whitelist.sqf" file, you can set player UIDs to give them various permissions. Zeus and Developer permissions are located near the bottom. For Zeus you do not need to edit the mission file, the framework will generate a module on the fly as you log in.
 - You can set custom chat messages inside the "chatMessages.sqf" file.
 - Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings".
-- This framework is currently in a short beta period (from 8/12/2017). In 7-10 days there will likely be another update.
+- This framework is currently in a short beta period.
 
 
 
