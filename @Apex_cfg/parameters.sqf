@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/12/2017 A3 1.80 by Quiksilver
+	31/01/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -33,7 +33,6 @@ diag_log '***** Loading mission parameters *****';
 //===================================================== COMMUNITY / SERVER
 
 _teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';					// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
-
 																					// These options can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
 _website_url = 
 [
@@ -131,7 +130,7 @@ if (!(_restart_hours isEqualTo [])) then {
 	['QS_missionConfig_commDS',(compileFinal (str _discord_server)),TRUE],
 	['QS_missionConfig_commURL',(compileFinal (str _website_url)),TRUE],
 	['QS_missionConfig_commA3U',(compileFinal (str _arma_units_url)),TRUE],
-	['QS_missionConfig_baseLayout',_baseLayout,FALSE],
+	['QS_missionConfig_baseLayout',_baseLayout,TRUE],
 	['QS_missionConfig_AH',(compileFinal (str _anticheat)),TRUE],
 	['QS_missionConfig_stamina',_stamina,TRUE],
 	['QS_missionConfig_CAS',_closeAirSupport,TRUE],

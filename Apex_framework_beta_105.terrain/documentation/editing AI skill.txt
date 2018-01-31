@@ -1,0 +1,32 @@
+1. Editing AI skill.
+
+2. find the file "code\functions\fn_serverSetAISkill.sqf"
+
+3. The skills are split in two, one set for Tanoa, one set for Malden/Altis/other.
+
+3. _skillLevel 1 and 2 are most-used and are the ones to edit to your liking, for both sets (Tanoa + other).
+
+4. Focus on spotDistance and aimingAccuracy and aimingSpeed subskills.
+
+5. Here is an example of the Altis _skillLevel 1
+
+	if (_skillLevel isEqualTo 1) then {
+		_aimingAccuracy = 	[_aimingAccuracyDefault,0.12] select ((random 1) > 0.5);
+		_aimingShake = 		random [0.55,0.6,0.65];
+		_aimingSpeed = 		random [0.35,0.4,0.45];
+		_commanding = 		random [0.45,0.5,0.55];
+		_courage = 			random [0.45,0.5,0.55];
+		_endurance = 		random [0.45,0.5,0.55];
+		_general = 			random [0.45,0.5,0.55];
+		_reloadSpeed = 		random [0.45,0.5,0.55];
+		_spotDistance = 	random [0.45,0.5,0.55];
+		_spotTime = 		random [0.45,0.5,0.55];
+		_fleeing = 			0;
+	};
+
+
+6. random [1,2,3] format creates a gaussian distribution (bell curve), with higher probability near the center.
+
+7. Spot distance on Altis (and open terrains) should be higher than spot distance on Tanoa. Accuracy should also be higher on Altis where engagement ranges are longer.
+
+8. _skillLevel 4 is used for anti-air (ZSU-39 Tigris) and also enemy snipers.

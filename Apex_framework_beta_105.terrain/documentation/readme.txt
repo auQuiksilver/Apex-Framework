@@ -1,0 +1,1 @@
+Some basic documentation guides are in this folder, for how to best make use of this framework.

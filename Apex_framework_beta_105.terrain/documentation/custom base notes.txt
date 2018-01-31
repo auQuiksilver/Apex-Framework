@@ -1,0 +1,8 @@
+1. Check out the map in the editor when using the custom base mission.SQM files. There are map markers that should not be deleted, as they are used within the framework for various functionality.
+
+2. Move the map markers where you want that functionality to be.
+
+3. Keep the artillery and anti-air markers > 50m apart
+
+4. Keep vehicles away from one another and away from walls, or they will not detect a safe space to spawn. If your vehicle is not spawning after the initial spawn delay (respawn delay), check its position and ensure its +5m from the nearest obstacle.
+

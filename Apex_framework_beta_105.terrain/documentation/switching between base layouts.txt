@@ -1,0 +1,13 @@
+Switching between the Default base layout and Custom base layout.
+
+1. For default base layout.
+
+- In the folder "SQM\default\<terrain>", copy the "mission.sqm" file.
+- Go back to main mission directory and replace the existing mission.SQM file with that.
+- If you've worked on a Custom base layout for the existing mission.SQM, copy and paste that file into the "SQM\custom\<terrain>" folder. Feel free to rename things, these files are for storage.
+
+2. For the Custom base layout.
+
+- In the folder "SQM\custom\<terrain>", copy the "mission.sqm" file.
+- Go back to main mission directory and replace the existing mission.SQM file with that.
+- The custom files there have the required markers and mission objects already spawned in the editor, with example code in the init field of some objects.
