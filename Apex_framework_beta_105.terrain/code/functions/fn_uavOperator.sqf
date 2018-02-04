@@ -89,7 +89,6 @@ if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqu
 	_QS_carrier_drone2_pos = (missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-35.5052,41.71,25.4978];
 	_QS_carrier_drone2_dir = (getDir (missionNamespace getVariable 'QS_carrierObject')) - -131.99;
 };
-
 _nearServiceMarkers = {
 	private ['_c','_uav','_vuav'];
 	_uav = _this select 0;
@@ -97,7 +96,7 @@ _nearServiceMarkers = {
 	_c = FALSE;
 	_serviceMkrAir = ['QS_marker_veh_fieldservice_04','QS_marker_veh_baseservice_03'];
 	_serviceMkrLand = ['QS_marker_veh_baseservice_01','QS_marker_veh_fieldservice_01','QS_marker_veh_fieldservice_02','QS_marker_veh_fieldservice_03'];
-	if (_uav isKindOf "Air") then {
+	if (_uav isKindOf 'Air') then {
 		{
 			if ((_uav distance (markerPos _x)) < 10) exitWith {
 				_c = TRUE;
@@ -151,6 +150,7 @@ for '_x' from 0 to 1 step 0 do {
 				{
 					_x disableAI 'AUTOCOMBAT';
 					_x disableAI 'COVER';
+					_x setVehicleReportRemoteTargets FALSE;
 				} count (units _grp);
 				_QS_wp = _grp addWaypoint [_QS_loiterPos,500];
 				_QS_wp setWaypointType 'LOITER';
@@ -289,6 +289,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	{
 		if (local _x) then {
+			_x enableAI 'TEAMSWITCH';
 			if (((side _x) isEqualTo sideEnemy) || {(((side _x) getFriend WEST) < 0.6)}) then {
 				[17,_x] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			};
@@ -298,7 +299,6 @@ for '_x' from 0 to 1 step 0 do {
 					deleteVehicle _QS_laserTarget;
 				};
 			};
-			
 		};
 	} count allUnitsUav;
 	uiSleep 10;
