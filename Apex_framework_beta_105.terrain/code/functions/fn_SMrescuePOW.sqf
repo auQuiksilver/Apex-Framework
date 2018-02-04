@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	2/11/2017 A3 1.76 by Quiksilver
+	3/02/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -367,7 +367,10 @@ if (worldName isEqualTo 'Tanoa') then {
 	_QS_opforOnlyTruckTypes = ['O_Truck_03_transport_F','O_Truck_03_covered_F','O_Truck_02_transport_F','O_Truck_02_covered_F'];
 };
 _QS_powTypes = ['B_Story_Protagonist_F','b_survivor_F'];
-_QS_badGuyTypes = ["O_V_Soldier_TL_ghex_F","O_T_Recon_TL_F","O_T_Officer_F","O_T_Soldier_SL_F"];
+_QS_badGuyTypes = [
+	["O_Soldier_TL_F","O_Recon_TL_F","O_Officer_F","O_Soldier_SL_F"],
+	["O_V_Soldier_TL_ghex_F","O_T_Recon_TL_F","O_T_Officer_F","O_T_Soldier_SL_F"]
+] select (worldName isEqualTo 'Tanoa');
 
 _QS_opforTruckType = selectRandom _QS_opforTruckTypes;
 _QS_powType = selectRandom _QS_powTypes;
