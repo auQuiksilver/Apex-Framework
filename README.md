@@ -1,6 +1,6 @@
 # Apex Framework 
 
-Apex Framework 1.0.4 (Beta) by Quiksilver       (armacombatgroup@gmail.com)
+Apex Framework 1.0.5 (Beta) by Quiksilver       (armacombatgroup@gmail.com)
 
 Support
 
@@ -17,7 +17,7 @@ Apex Framework step-by-step setup guide:
 * Server must be running Windows x64, or Linux.
 _______________
 
-0. Download the "Apex_framework_beta_103_allFiles.zip" file.
+0. Download the "Apex_framework_beta_105_allFiles.zip" file.
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
@@ -53,11 +53,11 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_beta_104.Altis";
+template="Apex_framework_beta_105.Altis";
 
-//template="Apex_framework_beta_104.Tanoa";
+//template="Apex_framework_beta_105.Tanoa";
 
-//template="Apex_framework_beta_104.Malden";
+//template="Apex_framework_beta_105.Malden";
 
 difficulty="Custom";
 
@@ -67,7 +67,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_beta_104.Altis","Apex_framework_beta_104.Tanoa","Apex_framework_beta_104.Malden"};
+missionWhitelist[] = {"Apex_framework_beta_105.Altis","Apex_framework_beta_105.Tanoa","Apex_framework_beta_105.Malden"};
 
 --------------------------
 
