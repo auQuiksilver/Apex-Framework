@@ -30,7 +30,7 @@ params [
 	'WEAPONAIM'
 ];
 private _time = diag_tickTime;
-_timeout = diag_tickTime + _duration;
+_timeout = _time + _duration;
 _moveDelay = 15;
 private _moveCheckDelay = _time + 0;
 private _exit = FALSE;
@@ -42,7 +42,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if ((_unit distance2D _target) > _setRadius) then {
 		if (_time > _moveCheckDelay) then {
-			_unit forceSpeed -1;
+			doStop _unit;
 			_unit doMove (position _target);
 			_moveCheckDelay = _time + _moveDelay;
 		};
@@ -84,5 +84,6 @@ if (!alive _unit) exitWith {};
 	'TARGET',
 	'WEAPONAIM'
 ];
+doStop _unit;
 _unit doMove _startPosition;
 _unit doFollow (leader (group _unit));

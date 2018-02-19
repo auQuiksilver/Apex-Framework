@@ -170,6 +170,9 @@ if (_type isEqualTo 2) exitWith {
 	comment 'Plane CAS';
 	params ['','_supportProvider','_supportGroup','_targetObject','_targetPosition','_duration'];
 	_vehicle = vehicle _supportProvider;
+	_vehicle flyInHeight (200 + (random 100));
+	_vehicle forceSpeed -1;
+	_vehicle setVariable ['QS_AI_PLANE_fireMission',TRUE,FALSE];
 	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition];
 	_targetAssistant attachTo [_targetObject,[0,0,1]];
 	_targetAssistant hideObjectGlobal TRUE;
@@ -233,8 +236,6 @@ if (_type isEqualTo 2) exitWith {
 		if (_time > _fireDelay) then {
 			if (((_vehicle aimedAtTarget [_laserTarget]) isEqualTo 1) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _laserTarget)]))) then {
 				comment 'Fire';
-				_supportProvider doSuppressiveFire _laserTarget;
-				_fireDuration = time + 5;
 				_firedEvent = _vehicle addEventHandler [
 					'Fired',
 					{
@@ -247,6 +248,9 @@ if (_type isEqualTo 2) exitWith {
 						};
 					}
 				];
+				uiSleep 0.01;
+				_supportProvider doSuppressiveFire _laserTarget;
+				_fireDuration = time + 5;
 				for '_x' from 0 to 1 step 0 do {
 					if (!alive _supportProvider) exitWith {};
 					if (!alive _vehicle) exitWith {};
@@ -256,7 +260,6 @@ if (_type isEqualTo 2) exitWith {
 					_vehicle fireAtTarget [_laserTarget,(currentWeapon _vehicle)];
 					sleep (0.5 - ((_vehicle aimedAtTarget [_laserTarget]) / 2.25));
 				};
-				_vehicle removeEventHandler ['Fired',_firedEvent];
 				if (!isNull _laserTarget) then {
 					deleteVehicle _laserTarget;
 					missionNamespace setVariable [
@@ -265,11 +268,13 @@ if (_type isEqualTo 2) exitWith {
 						FALSE
 					];
 				};
+				_vehicle removeEventHandler ['Fired',_firedEvent];
 			};
 			_fireDelay = time + 5;
 		};
 		uiSleep 1;
 	};
+	_vehicle setVariable ['QS_AI_PLANE_fireMission',FALSE,FALSE];
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
 		missionNamespace setVariable [
@@ -309,9 +314,16 @@ if (_type isEqualTo 3) exitWith {
 	_laserTarget attachTo [_targetAssistant,[0,0,0.5]];
 	_laserTarget allowDamage FALSE;
 	_laserTarget confirmSensorTarget [EAST,TRUE];
-	_supportGroup reveal [_laserTarget,3.9];
-	_supportProvider doWatch _laserTarget;
+	_vehicle flyInHeight (100 + (random 100));
+	_supportGroup reveal [_laserTarget,4];
+	if (!isNull (gunner _vehicle)) then {
+		(gunner _vehicle) doWatch _laserTarget;
+		(gunner _vehicle) doTarget _laserTarget;
+	};
 	_supportProvider commandTarget _laserTarget;
+	_attackEnabled = attackEnabled _supportGroup;
+	_supportGroup enableAttack TRUE;
+	_supportGroup move [((getPosATL _laserTarget) select 0),((getPosATL _laserTarget) select 1),300];
 	private _unit = objNull;
 	{
 		_unit = _x;
@@ -320,9 +332,12 @@ if (_type isEqualTo 3) exitWith {
 		} forEach (_unit targets [TRUE]);
 	} forEach (units _supportGroup);
 	private _time = time;
-	private _targetDelay = _time + 30;
+	private _targetDelay = _time + 15;
 	private _relPos = _vehicle getRelPos [0,0];
 	private _exit = FALSE;
+	_vehicle setVehicleAmmo 1;
+	_supportGroup setCombatMode 'RED';
+	_supportGroup setBehaviour 'COMBAT';
 	for '_x' from 0 to 1 step 0 do {
 		_time = time;
 		if (
@@ -333,10 +348,13 @@ if (_type isEqualTo 3) exitWith {
 			{(diag_tickTime > _duration)}
 		) exitWith {};
 		if (_time > _targetDelay) then {
-			_vehicle setVehicleAmmo 1;
 			if (!((behaviour _supportProvider) isEqualTo 'COMBAT')) then {
 				_supportGroup setBehaviour 'COMBAT';
 			};
+			if (!((combatMode _supportGroup) isEqualTo 'RED')) then {
+				_supportGroup setCombatMode 'RED';
+			};
+			_supportGroup reveal [_laserTarget,4];
 			{
 				_unit = _x;
 				{
@@ -344,14 +362,19 @@ if (_type isEqualTo 3) exitWith {
 						_unit forgetTarget _x;
 					};
 				} forEach (_unit targets [TRUE]);
+				if (_unit isEqualTo (leader _supportGroup)) then {
+					_unit commandWatch _laserTarget;
+					_unit commandTarget _laserTarget;
+				} else {
+					_unit doWatch _laserTarget;
+					_unit doTarget _laserTarget;					
+				};
 			} forEach (units _supportGroup);
-			_supportGroup reveal [_laserTarget,3.9];
-			_supportProvider doWatch _laserTarget;
-			_supportProvider commandTarget _laserTarget;
-			_targetDelay = _time + 30;
+			_targetDelay = _time + 15;
 		};
 		uiSleep 1;
 	};
+	_vehicle setVehicleAmmo 1;
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
 		missionNamespace setVariable [
@@ -369,8 +392,10 @@ if (_type isEqualTo 3) exitWith {
 		];
 	};
 	if (!isNull _supportGroup) then {
+		_supportGroup enableAttack _attackEnabled;
 		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
 	};
+	_vehicle flyInHeightASL [500,(300 + (random 100)),(500 + (random 500))];
 	_supportProvider commandWatch objNull;
 	if ((alive _vehicle) && (canMove _vehicle)) then {
 		_relPos = _vehicle getRelPos [(2500 + (random 2500)),(random 360)];

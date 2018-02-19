@@ -35,6 +35,7 @@ missionNamespace setVariable [
 	([(missionNamespace getVariable 'QS_HQpos'),0,(call _hqSelect),TRUE] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper')),
 	FALSE
 ];
+(missionNamespace getVariable 'QS_AI_regroupPositions') pushBack ['QS_ao_HQ',[EAST,RESISTANCE],_position1];
 diag_log format ['***** QS * Used HQ Composition Index: %1 *****',_hqIndex];
 {_x allowDamage FALSE;} count (missionNamespace getVariable 'QS_aoHQ');
 _boxArray = [(missionNamespace getVariable 'QS_HQpos')] call (missionNamespace getVariable 'QS_fnc_aoHQCache');

@@ -15,7 +15,8 @@ _______________________________________________/*/
 
 params [['_unitsArray',[]],['_skillLevel',1]];
 if (_unitsArray isEqualTo []) exitWith {};
-private ['_aimingAccuracyDefault','_aimingAccuracy','_aimingShake','_aimingSpeed','_commanding','_courage','_endurance','_general','_reloadSpeed','_spotDistance','_spotTime','_fleeing'];
+if (!(_skillLevel in [0,1,2,3,4])) exitWith {};
+private ['_aimingAccuracyDefault','_aimingAccuracy','_aimingShake','_aimingSpeed','_commanding','_courage','_endurance','_general','_reloadSpeed','_spotDistance','_spotTime','_fleeing','_unit'];
 if (worldName isEqualTo 'Tanoa') then {
 	_aimingAccuracyDefault = [0.09,0.12] select ((count allPlayers) > 20);
 	if (_skillLevel isEqualTo 0) then {
@@ -151,7 +152,6 @@ if (worldName isEqualTo 'Tanoa') then {
 		_fleeing = 			0;
 	};
 };
-private _unit = objNull;
 {
 	_unit = _x;
 	_unit setSkill 0.1;

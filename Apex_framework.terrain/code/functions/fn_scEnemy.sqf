@@ -6,25 +6,11 @@ Author:
 
 Last Modified:
 
-	6/09/2017 A3 1.76 by Quiksilver
+	19/02/2018 A3 1.80 by Quiksilver
 
 Description:
 
 	SC Enemy
-	
-Flow:
-
-	Radial patrols
-	Light Vehicles
-	Armored Vehicles
-	Garrisoned AI
-	Patrol registered positions?
-	Patrol buildings?
-	Hard-points?
-	Static weapons?
-	Helicopter?
-	
-	[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 ____________________________________________________________________________/*/
 
 scriptName 'QS SC Spawn Enemy';
@@ -117,13 +103,14 @@ _grp = grpNull;
 _side = EAST;
 _infantryGroupType = '';
 _infantryGroupTypes = [
-	"OIA_InfSentry",
-	"OIA_InfSquad","OIA_InfSquad","OIA_InfSquad",
-	"OIA_InfTeam","OIA_InfTeam","OIA_InfTeam","OIA_InfTeam","OIA_InfTeam",
-	"OIA_InfTeam_LAT","OIA_InfTeam_LAT","OIA_InfTeam_LAT",
-	"OIA_InfAssault","OIA_InfAssault",
-	"OIA_InfTeam_AA","OIA_InfTeam_AA",
-	"OIA_InfTeam_AT","OIA_InfTeam_AT"
+	"OIA_InfSentry",1,
+	"OIA_InfSquad",3,
+	"OIA_InfTeam",4,
+	"OIA_InfTeam_LAT",3,
+	"OIA_InfAssault",2,
+	"OIA_InfTeam_AA",2,
+	"OIA_InfTeam_AT",2,
+	"OIA_ARTeam",2
 ];
 if (_worldName isEqualTo 'Tanoa') then {
 	_staticTypes = ['O_HMG_01_high_F'];
@@ -220,13 +207,13 @@ _grp = createGroup [_side,TRUE];
 _randomPos = ['RADIUS',_centerPos,_centerRadius,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 if (_playerCount > 20) then {
 	_airTypes = if (_worldName isEqualTo 'Tanoa') then [
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f']},
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F']}
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']},
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F']}
 	];
 } else {
 	_airTypes = if (_worldName isEqualTo 'Tanoa') then [
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f']},
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F']}
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']},
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F']}
 	];
 };
 _airType = selectRandom _airTypes;
@@ -243,7 +230,7 @@ _air addEventHandler [
 		(_this select 2) setDamage 1;
 	}
 ];
-[_air,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
+[_air,([1,2] select ((random 1) > 0.5)),[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 clearMagazineCargoGlobal _air;
 clearWeaponCargoGlobal _air;
 clearItemCargoGlobal _air;
@@ -354,7 +341,7 @@ _arrayInfPatrols = [];
 for '_x' from 0 to 1 step 0 do {
 	if (_spawnedRadialPatrolInfantry >= _maxRadialPatrolInfantry) exitWith {};
 	_randomPos = ['RADIUS',_centerPos,_centerRadius,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	_infantryGroupType = selectRandom _infantryGroupTypes;
+	_infantryGroupType = selectRandomWeighted _infantryGroupTypes;
 	_grp = [_randomPos,(random 360),_side,_infantryGroupType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 	[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	{
@@ -444,6 +431,7 @@ if (_allowVehicles) then {
 			];	
 			_arrayVehicles pushBack _vehicle;
 			_entityArray pushBack _vehicle;
+			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
 			_vehicle lock 2;
 			_vehicle allowDamage FALSE;
 			_vehicle enableRopeAttach FALSE;

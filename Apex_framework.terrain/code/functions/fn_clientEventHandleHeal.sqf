@@ -13,7 +13,7 @@ Description:
 	Handle Heal Event
 ___________________________________________________________________*/
 
-params ['_unit','_healer','_healerIsCorpsman'];
+params ['_unit','_healer','_healerIsMedic'];
 if (!isPlayer _healer) then {
 	if (!local _healer) exitWith {};
 	if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {

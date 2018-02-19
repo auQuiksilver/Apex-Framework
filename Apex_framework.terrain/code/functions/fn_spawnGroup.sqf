@@ -26,8 +26,7 @@ if (
 ) exitWith {};
 private _unit = objNull;
 if (_type isEqualType []) then {
-	_types = _type;
-	_type = selectRandom _types;
+	_type = selectRandom _type;
 };
 _groupComposition = [_side,_type] call (missionNamespace getVariable 'QS_fnc_returnGroupComposition');
 _grp = createGroup [_side,TRUE];

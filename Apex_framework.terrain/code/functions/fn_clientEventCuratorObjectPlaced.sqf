@@ -195,6 +195,7 @@ if ((_object isKindOf 'LandVehicle') || {(_object isKindOf 'Air')} || {(_object 
 	};
 	if (_object isKindOf 'Plane') then {
 		if ((toLower (typeOf _object)) isEqualTo 'i_c_plane_civil_01_f') then {
+			_object setVariable ['QS_ST_customDN','Q-51 Mosquito',TRUE];
 			{
 				_object addWeaponTurret _x;
 			} forEach [

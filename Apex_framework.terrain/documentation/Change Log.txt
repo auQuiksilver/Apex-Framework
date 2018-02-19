@@ -1,5 +1,45 @@
 Official change log
 
+1.0.6 (ArmA 3 1.80)
+
+[ADDED] AI Vehicle "Unstuck" logic.
+[ADDED] AI enemy rally point logic for depleted groups.
+[ADDED] Viper team logic (Classic + Sector Control).
+[ADDED] AI enemy vehicle repair logic.
+[ADDED] Random pylon loadouts on enemy helicopters and some jets (at random).
+[ADDED] Battleye filters.
+[ADDED] New enemy group config (ar team).
+[TWEAKED] Default mission.sqm file is no longer used, only Custom is necessary.
+[TWEAKED] Defend mission (Classic AO) AI overhaul.
+[TWEAKED] AI regrouping fixed & improved.
+[TWEAKED] AI driving (wheeled vehicles) tweaked and improved.
+[TWEAKED] AI infantry patrol logic tweaked and improved.
+[TWEAKED] AI Fire mission (UAV bomb) tweaked and improved.
+[TWEAKED] AI Fire mission (Mortar) tweaked and improved.
+[TWEAKED] Plane service takes 20 extra seconds.
+[TWEAKED] Classic AO sub-objective randomization.
+[TWEAKED] AI enemy CAS.
+[TWEAKED] AI info-sharing extended.
+[TWEAKED] Enemy vehicle weapon-downgrade now randomized instead of all the time.
+[TWEAKED] AI enemy UAVs were not behaving properly when given a fire mission.
+[TWEAKED] AI enemy CAS/UAVs were diving too low when dropping bombs in some cases.
+[TWEAKED] More enemy jets will spawn when players have 2+ jets in the air.
+[TWEAKED] Enemy jet spawn tempo increased when defend mission is active.
+[TWEAKED] Enemy vehicle slingloading was not working well.
+[FIXED] AI enemy CAS was not spawning when player count > 15.
+[FIXED] AI enemy CAS force-spawn override was not working.
+[FIXED] AI enemy backpack drones were spawning too far from AO.
+[FIXED] CRV Bobcat can now clean up large wrecks like Blackfish.
+[FIXED] Vehicle-in-Vehicle loading from Towing was not preventing incompatible load attempts (ex: Taru pod to Blackfish).
+[FIXED] Vehicle-in-Vehicle + Towing could be exploited to daisy-chain vehicles.
+[FIXED] AI vehicle 'evasive dismount' logic was interfering with their ability to reclaim the vehicle after it was repaired/unstuck.
+[FIXED] Side mission reward aircraft could sometimes have air-to-ground missiles.
+[FIXED] Screen blur on respawn after dying in freefall animation.
+[FIXED] AI enemy CAS rearm delay was using wrong time measurement.
+[FIXED] Enemy reinforcements (classic AO) were constrained by wrong unit-cap measurement.
+[FIXED] AO illumination was not going to next AO after a defend mission.
+[FIXED] Live-Feed screen was not present in Custom SQM file.
+
 1.0.5 (Release Candidate)
 
 [ADDED] Some documentation files.

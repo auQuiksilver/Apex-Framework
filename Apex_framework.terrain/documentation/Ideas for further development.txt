@@ -1,0 +1,24 @@
+Ideas for further development:
+
+1. Ingame role-assignment menu.
+
+- Would allow players to switch roles without aborting to lobby.
+- enable use of skipLobby=1; in description.ext
+- Players would join the server and skip the lobby/role assignment, spawning directly at base where they could then choose their role/specialization, like pilot/engineer/medic/etc.
+
+2. Commander/HQ role.
+
+- Mix of community-building and scripted systems to implement Commander-generated gameplay and tasks for player groups.
+
+3. More side missions.
+
+- Work on modular side missions.
+- Re-working older side missions.
+
+4. AO sub-objectives.
+
+5. SQL Database and further player & mission persistence.
+
+6. Zeus.
+
+- Build up a large number of potential zeus operators in the community, with a goal of 24/7 coverage of Zeus on the server.

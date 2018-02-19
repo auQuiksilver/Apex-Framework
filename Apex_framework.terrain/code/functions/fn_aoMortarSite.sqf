@@ -51,6 +51,7 @@ _spawnPos set [2,0];
 _gunnerGrp = createGroup [EAST,TRUE];
 createVehicleCrew _mortar;
 _gunner = gunner _mortar;
+_gunner setVariable ['QS_AI_UNIT_regroup_disable',TRUE,FALSE];
 _gunner addEventHandler [
 	'Killed',
 	{

@@ -73,7 +73,7 @@ if ((_spawnPos distance2D _aoPos) < (_aoSize * 1.1)) then {
 		} else {
 			_return pushBack _mine;
 		};
-		_mine enableDynamicSimulation TRUE;
+		//_mine enableDynamicSimulation TRUE;
 		_mine setVectorUp (surfaceNormal (getPosWorld _mine));
 	};
 };

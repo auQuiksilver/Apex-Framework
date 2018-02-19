@@ -60,6 +60,7 @@ _SMveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismou
 if ((random 1) >= 0.333) then {
 	_SMveh allowCrewInImmobile TRUE;
 };
+(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh;
 createVehicleCrew _SMveh;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',

@@ -12,10 +12,10 @@ Description:
 
 	search a building
 	
-https://community.bistudio.com/wiki/moveTo
-https://community.bistudio.com/wiki/moveToCompleted
-https://community.bistudio.com/wiki/moveToFailed
-https://community.bistudio.com/wiki/Category:Command_Group:_Unit_Control
+	https://community.bistudio.com/wiki/moveTo
+	https://community.bistudio.com/wiki/moveToCompleted
+	https://community.bistudio.com/wiki/moveToFailed
+	https://community.bistudio.com/wiki/Category:Command_Group:_Unit_Control
 
 	This function needs a bit of work, dont necessarily want to have it be a "guns up" search or at fast pace.
 _______________________________________________________________*/
@@ -70,6 +70,7 @@ for '_x' from 0 to 12 step 1 do {
 	};
 	_index = _index + 1;
 };
+doStop _leader;
 _leader commandMove (selectRandom _buildingExits);
 {
 	if (!(_x isEqualTo _leader)) then {
@@ -104,7 +105,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 	{
 		if (((unitReady _x) && ((_x distance2D _building) < _size)) || {(moveToCompleted _x)} || {(moveToFailed _x)}) then {
-			_x forceSpeed -1;
+			doStop _x;
 			_x doMove (_building buildingPos _indices);
 			_indices = _indices - 1;
 		};
@@ -117,6 +118,7 @@ _leader = leader _grp;
 {
 	if (alive _x) then {
 		resetSubgroupDirection _x;
+		doStop _x;
 		_x enableAI 'COVER';
 		_x enableAI 'SUPPRESSION';
 		_x enableAI 'TARGET';
@@ -126,6 +128,7 @@ _leader = leader _grp;
 		_x enableStamina _stamina;
 	};
 } forEach (units _grp);
+doStop _leader;
 _leader commandMove _startPos;
 _grp setFormDir (_leader getDir _building);
 _grp setBehaviour _behaviour;

@@ -50,7 +50,7 @@ if (isDedicated) then {
 		_fireObj = objNull;
 		_dir = random 360;
 		for '_x' from 0 to (_qty - 1) step 1 do {
-			_position = _pos getPos [((missionNamespace getVariable 'QS_aoSize') * 0.8),_dir];
+			_position = _pos getPos [((missionNamespace getVariable 'QS_aoSize') * (random [0.4,0.6,0.9])),_dir];
 			if (!(surfaceIsWater _position)) then {
 				_randomPos = ['RADIUS',_position,_radius,'LAND',[0,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 				if ((_randomPos distance2D (missionNamespace getVariable 'QS_AOpos')) < 2000) then {
@@ -72,6 +72,7 @@ if (isDedicated) then {
 						((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 						FALSE
 					];
+					_wreck setDir (random 360);
 					_wreck setVectorUp (surfaceNormal _randomPos);
 					_array pushBack _wreck;
 					_fireObj = createVehicle ['test_EmptyObjectForFireBig',_randomPos,[],0,'NONE'];
@@ -112,7 +113,7 @@ if (isDedicated) then {
 					detach _fireObj;
 					_fires pushBack _fireObj;
 					_array pushBack _fireObj;
-					_dir = _dir + 120;
+					_dir = _dir + (random [100,120,140]);
 				};
 			};
 		};

@@ -95,9 +95,13 @@ _heliGroup deleteGroupWhenEmpty TRUE;
 _heli setVariable ['QS_heli_mapEdgePosition',_mapEdgePosition,FALSE];
 _heli setVariable ['QS_heli_spawnPosition',_spawnPosition,FALSE];
 _heli setVariable ['QS_heli_centerPosition',_position,FALSE];
+_heli setVelocity [0,0,1];
+_vehicle setVelocity [0,0,1];
 if (_canSuspend) then {
 	sleep 3;
 };
+_heli setVelocity [0,0,1];
+_vehicle setVelocity [0,0,1];
 private _isSlingLoad = _heli setSlingLoad _vehicle;
 if (_canSuspend) then {
 	sleep 1;

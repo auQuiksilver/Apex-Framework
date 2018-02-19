@@ -258,10 +258,10 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 			(call (missionNamespace getVariable 'QS_data_siteIG')),
 			TRUE
 		] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
+		(missionNamespace getVariable 'QS_AI_regroupPositions') pushBack ['QS_ao_HQ',[EAST,RESISTANCE],_spawnPos];
 		(missionNamespace getVariable 'QS_registeredPositions') pushBack _spawnPos;
 		diag_log format ['QS QS QS * IG Spawned position: %1',_spawnPos];
 		missionNamespace setVariable ['QS_grid_IGcomposition',_composition,FALSE];
-		
 		private _leaderBuilding = objNull;
 		private _potentialBuildings = [];
 		private _buildingPositions = [];

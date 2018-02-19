@@ -19,13 +19,13 @@ _centerRadius = missionNamespace getVariable 'QS_aoSize';
 _type = ['O_UAV_02_dynamicLoadout_F','i_uav_02_dynamicloadout_f','O_UAV_06_F','O_UAV_06_medical_F','O_UAV_01_F'] selectRandomWeighted [0.4,0.222,0.222,0.222];
 private _position = [0,0,0];
 private _dist = 2000;
-if ((toLower _type) in ['o_uav_01_f']) then {
-	_dist = 500;
+if ((toLower _type) in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
+	_dist = 300;
 	_position = _centerPos getPos [(_dist + (random _dist)),(random 360)];
 	_position set [2,100];
 } else {
 	for '_x' from 0 to 9 step 1 do {
-		_position = _centerPos getPos [(2000 + (random 2000)),(random 360)];
+		_position = _centerPos getPos [(_dist + (random _dist)),(random 360)];
 		if (({((_x distance2D _position) < 500)} count allPlayers) isEqualTo 0) exitWith {};
 	};
 	_position set [2,(1500 + (random 1500))];

@@ -96,7 +96,7 @@ _u3 assignAsCommander _SMveh;
 _u1 moveInDriver _SMveh;
 _u2 moveInGunner _SMveh;
 _u3 moveInCommander _SMveh;
-	
+(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh;
 _SMveh lock 3;
 _SMveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 [_SMvehPatrol,_pos, 150,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
@@ -126,6 +126,7 @@ if ((count allPlayers) > 30) then {
 			FALSE
 		];
 		createVehicleCrew _SMaa;
+		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMaa;
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _SMaa))),

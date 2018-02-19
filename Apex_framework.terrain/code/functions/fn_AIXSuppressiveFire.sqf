@@ -11,10 +11,6 @@ Last modified:
 Description:
 
 	Attempt suppressive fire
-	
-	unitAimPositionVisual
-	https://community.bistudio.com/wiki/unitAimPositionVisual
-	https://community.bistudio.com/wiki/aimPos
 __________________________________________________/*/
 
 params ['_unit'];
@@ -43,7 +39,7 @@ if (!(_targets isEqualTo [])) then {
 	_unit doTarget _target;
 	_unit suppressFor (random [10,15,20]);
 	_unit doSuppressiveFire _target;
-	_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [30,60,90])),FALSE];
+	_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [20,40,60])),FALSE];
 } else {
 	_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [5,10,15])),FALSE];
 };

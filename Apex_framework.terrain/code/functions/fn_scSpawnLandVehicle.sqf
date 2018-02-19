@@ -207,6 +207,7 @@ missionNamespace setVariable [
 ];	
 _arrayVehicles pushBack _vehicle;
 _vehicle lock 3;
+(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
 _vehicle enableRopeAttach FALSE;
 _vehicle enableVehicleCargo FALSE;
 _vehicle forceFollowRoad TRUE;

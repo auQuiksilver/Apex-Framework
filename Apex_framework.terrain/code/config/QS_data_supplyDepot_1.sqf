@@ -32,7 +32,6 @@
 		["Box_Syndicate_Ammo_F",[2.26672,3.76587,0.0239992],356.888,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}], 
 		["Box_T_East_Ammo_F",[3.73376,-2.41992,0.0239992],97.3107,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_East_Support_F",[-1.7207,-4.30786,0.0239992],359.997,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
-		["Box_NATO_Support_F",[4.74719,1.23926,0.0239992],359.999,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_Syndicate_Wps_F",[3.74597,3.31616,0.0240002],221.224,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_T_East_Ammo_F",[-5.54846,3.34375,0.024003],212.741,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_IED_Exp_F",[7.82349,6.41211,0.0239992],0.00293722,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}]
@@ -70,7 +69,6 @@
 		["Box_Syndicate_Ammo_F",[2.26672,3.76587,0.0239992],356.888,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_T_East_Ammo_F",[3.73376,-2.41992,0.0239992],97.3107,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_East_Support_F",[-1.7207,-4.30786,0.0239992],359.997,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
-		["Box_NATO_Support_F",[4.74719,1.23926,0.0239992],359.999,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_Syndicate_Wps_F",[3.74597,3.31616,0.0240002],221.224,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_T_East_Ammo_F",[-5.54846,3.34375,0.024003],212.741,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}],
 		["Box_IED_Exp_F",[7.82349,6.41211,0.0239992],0.00293722,[],false,true,false,{_box = _this select 0;[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');_box;}]

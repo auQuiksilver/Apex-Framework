@@ -80,7 +80,10 @@ if (_baseService) then {
 	if ((!(player isEqualTo (effectiveCommander _v))) && (!(_isUAV))) exitWith {
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [2,FALSE,7.5,-1,'At base, you must be the vehicle commander/driver to commence service!',[],-1];
 	};
-	_rt = 5 + (60 * (damage _v));
+	_rt = 10 + (60 * (damage _v));
+	if (_v isKindOf 'Plane') then {
+		_rt = _rt + 20;
+	};
 	missionNamespace setVariable ['QS_repairing_vehicle',TRUE,FALSE];
 	_v setFuel 0;
 	_sv = TRUE;
@@ -225,11 +228,11 @@ if (_baseService) then {
 /*/=========================================== FIELD SERVICE/*/
 
 if (_fieldService) then {
-	if (!alive _t) exitWith {
+	if ((isNull (objectParent player)) && (!alive _t)) exitWith {
 		50 cutText ['Even duct tape cannot save this vehicle, sorry','PLAIN DOWN',0.5];
 	};
 	if (!(_v isKindOf 'Man')) exitWith {
-		50 cutText ['In the field, service must be done manually! Get out of the vehicle you lazy bastard!','PLAIN DOWN',1];
+		50 cutText ['In the field, service must be done manually. Get out of the vehicle, soldier!','PLAIN DOWN',1];
 	};
 	/*/=========================================== QUALIFY BY VEHICLE TYPE/*/
 	if (_nearestServiceSite in (missionNamespace getVariable 'QS_veh_landservice_mkrs')) then {
@@ -262,7 +265,10 @@ if (_fieldService) then {
 	if (!(local _t)) then {_isQualified = FALSE;};
 	if (!(_isQualified)) exitWith {};
 	if ((_t isKindOf 'LandVehicle') || {(_t isKindOf 'Ship')} || {(_t isKindOf 'Air')}) then {
-		_rt = 5 + (90 * (damage _t));
+		_rt = 10 + (90 * (damage _t));
+		if (_t isKindOf 'Plane') then {
+			_rt = _rt + 20;
+		};
 		missionNamespace setVariable ['QS_repairing_vehicle',TRUE,FALSE];
 		_fuel = fuel _t;
 		if (!(_isCarrier)) then {

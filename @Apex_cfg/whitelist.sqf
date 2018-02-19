@@ -57,7 +57,8 @@ if (_type isEqualTo 'ALL') then {
 	/*/ All staff UIDs (does not grant permissions/menus, that stuff is below). Robocop reports trolling events and hacking events to these people though./*/
 	_return = [
 		'76561100000000000',
-		'76561100000000000'
+		'76561100000000000',
+		'76561198084065754'
 	];
 };
 
@@ -117,7 +118,8 @@ if (_type isEqualTo 'CURATOR') then {
 	/*/Zeus. These IDs have access to Zeus and mission curation functionality. They can suspend side missions and main missions, and cycle main missions (this is done on "air defense laptop" at base)./*/
 	_return = [
 		'76561100000000000',
-		'76561100000000000'
+		'76561100000000000',
+		'76561198084065754'
 	];
 };
 
@@ -129,7 +131,8 @@ if (_type isEqualTo 'DEVELOPER') then {
 	/*/ Developer UIDs. These IDs have access to integrated Debug Console (execution is logged and filtered) and all other ingame tools./*/
 	_return = [
 		'76561100000000000',
-		'76561100000000000'
+		'76561100000000000',
+		'76561198084065754'
 	];
 };
 _return;

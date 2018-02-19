@@ -96,6 +96,7 @@ missionNamespace setVariable [
 _ammoTruck setDir random 360;
 {
 	_x lock 3;
+	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _x;
 	_x allowCrewInImmobile TRUE;
 } forEach [_priorityObj1,_priorityObj2,_ammoTruck];
 	

@@ -629,12 +629,11 @@ if (!isNil {missionNamespace getVariable 'QS_arsenals'}) then {
 		};
 	};
 };
-[_playerClass] spawn {
-	_playerClass = _this select 0;
+_playerClass spawn {
 	if (!isNil {profileNamespace getVariable 'QS_saved_loadouts'}) then {
 		if ((profileNamespace getVariable 'QS_saved_loadouts') isEqualType []) then {
 			if (!((profileNamespace getVariable 'QS_saved_loadouts') isEqualTo [])) then {
-				_QS_loadoutIndex = [(profileNamespace getVariable 'QS_saved_loadouts'),_playerClass,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+				_QS_loadoutIndex = [(profileNamespace getVariable 'QS_saved_loadouts'),_this,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
 				if (!(_QS_loadoutIndex isEqualTo -1)) then {
 					player setUnitLoadout [(((profileNamespace getVariable 'QS_saved_loadouts') select _QS_loadoutIndex) select 1),TRUE];
 				};

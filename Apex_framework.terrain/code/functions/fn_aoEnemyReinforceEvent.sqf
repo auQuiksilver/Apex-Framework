@@ -66,6 +66,7 @@ QS_fnc_aoEnemyReinforceEvent = {
 			];
 			0 = _array pushBack _v;
 			createVehicleCrew _v;
+			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _v;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _v))),

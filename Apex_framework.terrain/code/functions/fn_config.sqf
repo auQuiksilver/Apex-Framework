@@ -189,6 +189,19 @@ missionNamespace setVariable ['QS_server_isUsingDB',FALSE,FALSE];
 
 /*/ EXTDB3 - Database - Server Setup component would go here /*/
 
+/*/ If default base is selected, remove everything /*/
+if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+	{
+		if (!isNull _x) then {
+			if (!(_x isKindOf 'Logic')) then {
+				deleteVehicle _x;
+			};
+		};
+	} forEach (allMissionObjects '');
+	{
+		deleteMarker _x;
+	} forEach allMapMarkers;
+};
 enableDynamicSimulationSystem TRUE;
 enableEnvironment [FALSE,FALSE];
 disableRemoteSensors TRUE;
@@ -304,56 +317,19 @@ _medicalGarbageData = [
 		0.333
 	]
 ];
-for '_x' from 0 to 14 step 1 do {
+for '_x' from 0 to 11 step 1 do {
 	_medicalGarbage pushBack (createSimpleObject [((_medicalGarbageData select 0) selectRandomWeighted (_medicalGarbageData select 1)),[-1000,-1000,0]]);
 };
-_dynamicSkillPresetData = [
-	[
-		'EASY',
-		[
-			['aimingAccuracy',0],
-			['aimingShake',0],
-			['aimingSpeed',0],
-			['commanding',0],
-			['courage',0],
-			['endurance',0],
-			['general',0],
-			['reloadSpeed',0],
-			['spotDistance',0],
-			['spotTime',0]
-		]
-	],
-	[
-		'NORMAL',
-		[
-			['aimingAccuracy',0],
-			['aimingShake',0],
-			['aimingSpeed',0],
-			['commanding',0],
-			['courage',0],
-			['endurance',0],
-			['general',0],
-			['reloadSpeed',0],
-			['spotDistance',0],
-			['spotTime',0]
-		]
-	],
-	[
-		'HARD',
-		[
-			['aimingAccuracy',0],
-			['aimingShake',0],
-			['aimingSpeed',0],
-			['commanding',0],
-			['courage',0],
-			['endurance',0],
-			['general',0],
-			['reloadSpeed',0],
-			['spotDistance',0],
-			['spotTime',0]
-		]
-	]
-];
+private _globalLightpoints = [];
+/*/
+for '_x' from 0 to 9 step 1 do {
+	_globalLightpoints pushBack (createVehicle ['#lightpoint',[-1000,-1000,0],[],0,'NONE']);
+};
+{
+	_x enableDynamicSimulation TRUE;
+	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+} forEach _globalLightpoints;
+/*/
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -367,7 +343,6 @@ _dynamicSkillPresetData = [
 	['QS_mission_aoType',(profileNamespace getVariable ['QS_mission_aoType','CLASSIC']),TRUE],
 	['QS_system_realTimeStart',missionStart,TRUE],
 	['QS_carrierObject',objNull,TRUE],
-	['QS_AI_dynSkill_presets',_dynamicSkillPresetData,TRUE],
 	['QS_AI_dynSkill_coef',0,TRUE],
 	['QS_CAS_jetAllowance_value',3,FALSE],
 	['QS_CAS_jetAllowance',[],FALSE],
@@ -593,6 +568,7 @@ _dynamicSkillPresetData = [
 	['QS_AI_scripts_Assault',[],FALSE],
 	['QS_AI_scripts_moveToBldg',[],FALSE],
 	['QS_AI_scripts_fireMissions',[],FALSE],
+	['QS_AI_scripts_support',[],FALSE],
 	['QS_AI_script_targetsKnowledge',scriptNull,FALSE],
 	['QS_AI_GRP_AO_AA',grpNull,FALSE],
 	['QS_AI_supportProviders_MTR',[],FALSE],
@@ -698,7 +674,9 @@ _dynamicSkillPresetData = [
 	['QS_managed_hints',[],TRUE],
 	['QS_carrier_casLaptop',objNull,TRUE],
 	['QS_prisoners',[],TRUE],
-	['QS_vehicle_register',[],FALSE]
+	['QS_vehicle_register',[],FALSE],
+	['QS_flare_lightpoints',_globalLightpoints,TRUE],
+	['QS_AI_vehicles',[],FALSE]
 ];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	{

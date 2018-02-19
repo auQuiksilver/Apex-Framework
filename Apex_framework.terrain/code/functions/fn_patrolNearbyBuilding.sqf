@@ -51,6 +51,7 @@ _buildingPositions = [_building,_buildingPositions] call (missionNamespace getVa
 if (!(_buildingPositions isEqualTo [])) then {
 	_buildingPositions = _buildingPositions apply { [(_x select 0),(_x select 1),((_x select 2) + 1.25)] };
 };
+doStop _leader;
 _leader commandMove (selectRandom _buildingExits);
 {
 	if (!(_x isEqualTo _leader)) then {
@@ -85,7 +86,7 @@ for '_x' from 0 to 1 step 0 do {
 		} else {
 			if ((random 1) > 0.5) then {
 				if (((unitReady _x) && ((_x distance2D _building) < _size)) || {(moveToCompleted _x)} || {(moveToFailed _x)}) then {
-					_x forceSpeed -1;
+					doStop _x;
 					_x doMove (selectRandom _buildingPositions);
 				};
 			};
@@ -103,8 +104,8 @@ if (_regroup) then {
 		{
 			if (alive _x) then {
 				resetSubgroupDirection _x;
+				doStop _x;
 				_x doMove [((_position select 0) + (5 - (random 10))),((_position select 1) + (5 - (random 10))),(_position select 2)];
-				_x forceSpeed -1;
 				_x commandFollow _leader;
 			};
 		} forEach (units _grp);

@@ -50,7 +50,13 @@ for '_i' from 0 to 1 step 1 do {
 			clearWeaponCargoGlobal _boat;
 			clearItemCargoGlobal _boat;
 			clearBackpackCargoGlobal _boat;
-			[_boat] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+			if ((count allPlayers) < 30) then {
+				[_boat] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+			} else {
+				if ((random 1) > 0.5) then {
+					[_boat] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+				};
+			};
 			createVehicleCrew _boat;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',

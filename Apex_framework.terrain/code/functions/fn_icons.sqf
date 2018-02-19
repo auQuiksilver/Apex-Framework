@@ -729,12 +729,16 @@ _QS_fnc_iconUnits = {
 						if (_di isEqualTo 2) then {
 							if ((_x distance2D player) < (_QS_ST_X select 27)) then {
 								if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
-									0 = _au pushBack _x;
+									if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+										0 = _au pushBack _x;
+									};
 								};
 							};
 						} else {
 							if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
-								0 = _au pushBack _x;
+								if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+									0 = _au pushBack _x;
+								};
 							};
 						};
 					};
@@ -750,12 +754,16 @@ _QS_fnc_iconUnits = {
 					if (_di isEqualTo 2) then {
 						if ((_x distance2D player) < (_QS_ST_X select 27)) then {
 							if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
-								0 = _au pushBack _x;
+								if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+									0 = _au pushBack _x;
+								};
 							};
 						};
 					} else {
 						if (_x isEqualTo (effectiveCommander (vehicle _x))) then {
-							0 = _au pushBack _x;
+							if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+								0 = _au pushBack _x;
+							};
 						};
 					};
 				};
@@ -1488,7 +1496,6 @@ _QS_ST_R = [
 //===== Compile
 
 QS_ST_X = compileFinal str _QS_ST_R;
-//QS_ST_X = compileFinal 'QS_ST_R';
 
 //===== Init
 

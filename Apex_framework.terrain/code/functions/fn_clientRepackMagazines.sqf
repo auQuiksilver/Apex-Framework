@@ -1,4 +1,4 @@
-/*
+/*/
 Script Name: QS Magazine Repack
 File: fn_clientRepackMagazines.sqf
 Author:
@@ -15,8 +15,8 @@ Description:
 	
 Example:
 
-	player call QS_fnc_clientRepackMagazines;
-__________________________________________________________*/
+	<unit> call QS_fnc_clientRepackMagazines;
+__________________________________________________________/*/
 
 private [
 	'_unit','_data1','_data2','_i','_magazineClass','_magazineAmmoCount','_magazineAmmoCapacity',
@@ -26,14 +26,12 @@ private [
 _unit = _this;
 if (
 	(!(_unit isEqualType objNull)) ||
-	{(isNull _unit)} ||
-	{(!(_unit isKindOf 'Man'))} ||
 	{(!(alive _unit))} ||
+	{(!(_unit isKindOf 'Man'))} ||
 	{(!local _unit)} ||
 	{(underwater _unit)} ||
-	{(((eyePos _unit) select 2) < 0)} ||
 	{(captive _unit)} ||
-	{((lifeState _unit) in ['DEAD','DEAD-RESPAWN','DEAD-SWITCHING','INCAPACITATED'])} ||
+	{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
 	{((magazinesAmmoFull _unit) isEqualTo [])} ||
 	{(!isNil {_unit getVariable 'QS_unit_repackingMagazines'})}
 ) exitWith {

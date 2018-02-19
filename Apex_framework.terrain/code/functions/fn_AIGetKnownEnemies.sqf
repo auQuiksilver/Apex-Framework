@@ -6,11 +6,15 @@ Author:
 
 Last Modified:
 
-	25/10/2017 A3 1.76 by Quiksilver
+	12/02/2018 A3 1.80 by Quiksilver
 	
 Description:
 
 	AI Get Known Enemies
+	
+To Do:
+
+	- Identify tight groups of players for fire support attack
 ________________________________________________________/*/
 
 params ['_type','_side'];
@@ -38,60 +42,61 @@ if (_type isEqualTo 0) exitWith {
 		_baseRadius = 1000;
 		_fn_getNestedIndex = missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex';
 		for '_x' from 0 to 1 step 0 do {
-			if (!((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') isEqualTo [])) then {
-				missionNamespace setVariable [
-					'QS_AI_targetsKnowledge_EAST',
-					((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') select {((alive (_x select 0)) && (((_x select 0) distance2D _basePosition) > _baseRadius) && ((EAST knowsAbout (_x select 0)) > 0) && (!((_x select 3) isEqualTo 0)))}),
-					FALSE
-				];
-			};
-			_allUnits = allUnits;
-			{
-				if (alive _x) then {
-					if ((side _x) isEqualTo _side) then {
-						_unit = _x;
-						{
-							if (alive _x) then {
-								if ((side _x) in _enemySides) then {
-									_knownUnit = _x;
-									_targetKnowledge = _unit targetKnowledge (vehicle _knownUnit);
-									_targetKnowledge params [
-										'_knownByGroup',
-										'',
-										'_timeLastSeen',
-										'',
-										'',
-										'_positionError',
-										'_unitPosition'
-									];
-									if (_knownByGroup) then {
-										if ((_unitPosition distance2D _basePosition) > _baseRadius) then {
-											if (_positionError <= 10) then {
-												if (!(_unitPosition isEqualTo [0,0,0])) then {
-													_targetIndexMem = [(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST'),_knownUnit,0] call _fn_getNestedIndex;
-													if (_targetIndexMem isEqualTo -1) then {
-														(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') pushBack [_knownUnit,_unitPosition,(vehicle _knownUnit),(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit)];
-													} else {
-														_targetElement = ((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') select _targetIndexMem);
-														comment 'Analyze and update info if necessary';
-														_positionErrorMem = _targetElement select 3;
-														if ((_positionError < _positionErrorMem) || {((_time - _timeLastSeen) > 60)}) then {
-															_targetElement = [_knownUnit,_unitPosition,(vehicle _knownUnit),(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit)];
-															(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') set [_targetIndexMem,_targetElement];
+			if (diag_fps > 15) then {
+				if (!((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') isEqualTo [])) then {
+					missionNamespace setVariable [
+						'QS_AI_targetsKnowledge_EAST',
+						((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') select {((alive (_x select 0)) && (((_x select 0) distance2D _basePosition) > _baseRadius) && ((EAST knowsAbout (_x select 0)) > 0) && (!((_x select 3) isEqualTo 0)))}),
+						FALSE
+					];
+				};
+				_allUnits = allUnits;
+				{
+					if (alive _x) then {
+						if ((side _x) isEqualTo _side) then {
+							_unit = _x;
+							{
+								if (alive _x) then {
+									if ((side _x) in _enemySides) then {
+										_knownUnit = _x;
+										_targetKnowledge = _unit targetKnowledge (vehicle _knownUnit);
+										_targetKnowledge params [
+											'_knownByGroup',
+											'',
+											'_timeLastSeen',
+											'',
+											'',
+											'_positionError',
+											'_unitPosition'
+										];
+										if (_knownByGroup) then {
+											if ((_unitPosition distance2D _basePosition) > _baseRadius) then {
+												if (_positionError <= 10) then {
+													if (!(_unitPosition isEqualTo [0,0,0])) then {
+														_targetIndexMem = [(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST'),_knownUnit,0] call _fn_getNestedIndex;
+														if (_targetIndexMem isEqualTo -1) then {
+															(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') pushBack [_knownUnit,_unitPosition,(vehicle _knownUnit),(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit)];
+														} else {
+															_targetElement = ((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') select _targetIndexMem);
+															_positionErrorMem = _targetElement select 3;
+															if ((_positionError < _positionErrorMem) || {((_time - _timeLastSeen) > 60)}) then {
+																_targetElement = [_knownUnit,_unitPosition,(vehicle _knownUnit),(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit)];
+																(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') set [_targetIndexMem,_targetElement];
+															};
 														};
 													};
 												};
 											};
 										};
+										uiSleep _sleepDur;
 									};
-									uiSleep _sleepDur;
 								};
-							};
-						} forEach _allUnits;
-						uiSleep _sleepDur;
+							} forEach _allUnits;
+							uiSleep _sleepDur;
+						};
 					};
-				};
-			} forEach _allUnits;
+				} forEach _allUnits;
+			};
 			uiSleep _sleepLoop;
 		};
 		_return;
@@ -231,5 +236,88 @@ if (_type isEqualTo 6) exitWith {
 		};
 	} forEach (missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]);
 	_vehicles;
+};
+if (_type isEqualTo 7) exitWith {
+	params ['','','_grp','_grpLeader','_objectParent',['_radius',200]];
+	comment 'Infantry info-receiving';
+	comment 'Nearby enemies';
+	if (!((missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]) isEqualTo [])) then {
+		private _targetEntity = objNull;
+		private _targetVehicle = objNull;
+		{
+			if ((random 1) > 0.5) then {
+				_targetEntity = _x select 0;
+				_targetVehicle = _x select 2;
+				if (alive _targetEntity) then {
+					if ((_targetEntity distance2D _grpLeader) < _radius) then {
+						if ((_grp knowsAbout _targetEntity) < 1) then {
+							_grp reveal [_targetEntity,(random [1,2,3])];
+						};
+						if (alive _targetVehicle) then {
+							if ((_grp knowsAbout _targetEntity) < 1) then {
+								_grp reveal [_targetEntity,(random [1,2,3])];
+							};
+						};
+					};
+				};
+			};
+		} forEach (missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]);
+	};
+};
+if (_type isEqualTo 8) exitWith {
+	params ['','','_grp','_grpLeader','_objectParent'];
+	comment 'Vehicle/Ship info-receiving';
+	comment 'Nearby enemies, wider radius';
+	if (!((missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]) isEqualTo [])) then {
+		private _targetEntity = objNull;
+		private _targetVehicle = objNull;
+		{
+			if ((random 1) > 0.333) then {
+				_targetEntity = _x select 0;
+				_targetVehicle = _x select 2;
+				if (alive _targetEntity) then {
+					if ((_targetEntity distance2D _grpLeader) < 1000) then {
+						if ((_grp knowsAbout _targetEntity) < 1) then {
+							_grp reveal [_targetEntity,(random [1.5,2,3.5])];
+						};
+						if (alive _targetVehicle) then {
+							if ((_grp knowsAbout _targetEntity) < 1) then {
+								_grp reveal [_targetEntity,(random [1.5,2,3.5])];
+							};
+						};
+					};
+				};
+			};
+		} forEach (missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]);
+	};
+};
+if (_type isEqualTo 9) exitWith {
+	params ['','','_grp','_grpLeader','_objectParent'];
+	comment 'Aircraft info-receiving';
+	comment 'Priority targets like tanks and other aircraft';
+	if (!((missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]) isEqualTo [])) then {
+		private _targetEntity = objNull;
+		private _targetVehicle = objNull;
+		{
+			if ((random 1) > 0.25) then {
+				_targetEntity = _x select 0;
+				_targetVehicle = _x select 2;
+				if (alive _targetVehicle) then {
+					if ((_targetVehicle isKindOf 'LandVehicle') || {(_targetVehicle isKindOf 'Air')}) then {
+						if (alive _targetEntity) then {
+							if ((_targetEntity distance2D _grpLeader) < 1000) then {
+								if ((_grp knowsAbout _targetEntity) < 1) then {
+									_grp reveal [_targetEntity,(random [2,3,4])];
+								};
+								if ((_grp knowsAbout _targetEntity) < 1) then {
+									_grp reveal [_targetEntity,(random [2,3,4])];
+								};
+							};
+						};
+					};
+				};
+			};
+		} forEach (missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]);
+	};
 };
 _return;

@@ -105,7 +105,7 @@ diag_log '****************************************************';
 diag_log '***** AO PREPARE ******* 3 *************************';
 diag_log '****************************************************';
 
-if ((random 1) > 0.666) then {
+if ((random 1) > 0.5) then {
 	_minefield = [] call (missionNamespace getVariable 'QS_fnc_aoMinefield');
 } else {
 	_minefield = [];
@@ -186,6 +186,7 @@ if ((random 1) > 0) then {
 /*/======================================================================= OTHER SUBS/*/
 
 comment 'Create other objectives';
+/*/
 private _subObj = [];
 {
 	_subObj = _x call (missionNamespace getVariable 'QS_fnc_scSubObjective');
@@ -196,6 +197,9 @@ private _subObj = [];
 	[1,'INTEL'],
 	[1,'GEAR']
 ];
+/*/
+_subObj = (selectRandomWeighted [[1,'INTEL'],0.5,[1,'GEAR'],0.5]) call (missionNamespace getVariable 'QS_fnc_scSubObjective');
+(missionNamespace getVariable 'QS_classic_subObjectives') pushBack _subObj;
 
 /*/======================================================================= FIRES/*/
 
@@ -204,7 +208,8 @@ diag_log '***** AO PREPARE ******* 7 *************************';
 diag_log '****************************************************';
 
 if (!(sunOrMoon isEqualTo 1)) then {
-	[1,(missionNamespace getVariable 'QS_AOpos'),250,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+	[0,(missionNamespace getVariable 'QS_AOpos'),300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+	[1,(missionNamespace getVariable 'QS_AOpos'),300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 };
 
 /*/======================================================================= BRIEFING/*/

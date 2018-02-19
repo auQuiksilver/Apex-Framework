@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	16/05/2017 A3 1.72 by Quiksilver
+	19/02/2018 A3 1.80 by Quiksilver
 
 Description:
 
@@ -258,5 +258,10 @@ if (_type isEqualTo 1) exitWith {
 	} forEach (weapons _vehicle);
 };
 if (_type isEqualTo 2) exitWith {
-
+	{ 
+		_vehicle removeWeaponGlobal (getText (configFile >> 'CfgMagazines' >> _x >> 'pylonWeapon'));
+	} forEach (getPylonMagazines _vehicle);
+	{
+		_vehicle setPylonLoadout [(_forEachIndex + 1),(selectRandom _x),TRUE];
+	} forEach ([0,_vehicle,0] call (missionNamespace getVariable 'QS_fnc_getCompatiblePylonMags'));
 };

@@ -37,13 +37,13 @@ for '_x' from 0 to 1 step 0 do {
 };
 if (_playerCount > 20) then {
 	_airTypes = if (_worldName isEqualTo 'Tanoa') then [
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f']},
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f','O_Heli_Attack_02_dynamicLoadout_F']}
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']},
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f','O_Heli_Attack_02_dynamicLoadout_F']}
 	];
 } else {
 	_airTypes = if (_worldName isEqualTo 'Tanoa') then [
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f']},
-		{['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','i_heli_light_03_dynamicloadout_f']}
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']},
+		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']}
 	];
 };
 _airType = selectRandom _airTypes;
@@ -53,7 +53,7 @@ missionNamespace setVariable [
 	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 	FALSE
 ];
-[_air,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
+[_air,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 _air engineOn TRUE;
 _air addEventHandler [
 	'GetOut',

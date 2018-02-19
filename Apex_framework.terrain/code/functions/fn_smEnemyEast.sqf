@@ -80,6 +80,7 @@ if ((random 1) >= 0.333) then {
 	_SMveh1 allowCrewInImmobile TRUE;
 };
 _SMveh1 lock 3;
+(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh1;
 _SMveh1 addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 createVehicleCrew _SMveh1;
 missionNamespace setVariable [

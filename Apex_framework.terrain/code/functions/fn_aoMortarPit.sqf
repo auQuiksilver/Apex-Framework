@@ -29,6 +29,7 @@ _return = [_position,(random 360),([] call (missionNamespace getVariable 'QS_dat
 		if (_x isKindOf 'StaticWeapon') then {
 			0 = (missionNamespace getVariable 'QS_virtualSectors_aoMortars') pushBack _x;
 			if (!isNull (gunner _x)) then {
+				(gunner _x) setVariable ['QS_AI_UNIT_regroup_disable',TRUE,FALSE];
 				_return pushBack (gunner _x);
 			};
 		};

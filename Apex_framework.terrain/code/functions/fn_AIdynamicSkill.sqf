@@ -20,6 +20,7 @@ Resources:
 	https://community.bistudio.com/wiki/AI_Sub-skills
 	https://community.bistudio.com/wiki/skillFinal
 	https://community.bistudio.com/wiki/disableAI
+	https://community.bistudio.com/wiki/enableAI
 _____________________________________________________________________/*/
 
 /*/pulled from release build/*/

@@ -71,6 +71,7 @@ if (_type isEqualTo 'MOVE') exitWith {
 			_carrier setVectorUp [0,0,1];
 			[_carrier] call (missionNamespace getVariable 'BIS_fnc_Carrier01PosUpdate');
 		};
+		'QS_marker_carrier_1' setMarkerDir 0;
 	};
 };
 if (_type isEqualTo 'INIT') exitWith {
@@ -90,6 +91,7 @@ if (_type isEqualTo 'INIT') exitWith {
 		_carrier setVectorUp [0,0,1];
 		missionNamespace setVariable ['QS_carrierObject',_carrier,TRUE];
 		[_carrier] call (missionNamespace getVariable 'BIS_fnc_Carrier01PosUpdate');
+		'QS_marker_carrier_1' setMarkerDir 0;
 		if (!((allAirports select 1) isEqualTo [])) then {
 			((allAirports select 1) select 0) setAirportSide WEST;
 		};

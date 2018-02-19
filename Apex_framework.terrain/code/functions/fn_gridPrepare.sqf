@@ -61,6 +61,7 @@ if (_playersCount > 3) then {
 missionNamespace setVariable ['QS_grid_objectivesData',_gridObjectives,FALSE];
 comment 'Illumination';
 if (!(sunOrMoon isEqualTo 1)) then {
+	[0,_aoPos,300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 	[1,_aoPos,300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 };
 comment 'Civ vehicles';

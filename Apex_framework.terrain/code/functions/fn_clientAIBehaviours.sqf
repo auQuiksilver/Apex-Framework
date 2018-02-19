@@ -32,7 +32,6 @@ for '_x' from 0 to 1 step 0 do {
 		if (!isPlayer _entity) then {
 			if (alive _entity) then {
 				if ((getSuppression _entity) isEqualTo 0) then {
-					
 					if (!(_entity getVariable ['QS_AI_JOB',FALSE])) then {
 						comment 'MEDIC AUTO REVIVE';
 						if (_entity getUnitTrait 'medic') then {

@@ -43,7 +43,7 @@ while {((count _mines) < _quantity)} do {
 			FALSE
 		];
 		_mines pushBack _mine;
-		_mine enableDynamicSimulation TRUE;
+		//_mine enableDynamicSimulation TRUE;
 		_mine setVectorUp (surfaceNormal (getPosWorld _mine));
 	};
 	if (_attempts > _maxAttempts) exitWith {};

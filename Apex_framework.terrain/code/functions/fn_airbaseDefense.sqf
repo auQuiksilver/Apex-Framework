@@ -29,12 +29,13 @@ _worldName = worldName;
 { 
 	_defender setObjectTextureGlobal [_forEachIndex,_x]; 
 } forEach (getArray (configFile >> 'CfgVehicles' >> _defenderType >> 'TextureSources' >> (['Sand','Green'] select (_worldName isEqualTo 'Tanoa')) >> 'textures'));
-_defender setVehicleRadar 1;
+_defender setVehicleRadar 2;
 _defender setVariable ['QS_uav_protected',TRUE,FALSE];
 _defender setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 _defender setVariable ['QS_inventory_disabled',TRUE,TRUE];
 _defender setVehicleReportRemoteTargets FALSE;
 _defender setVehicleReceiveRemoteTargets FALSE;
+_defender addRating (0 - (rating _defender));
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	if (_worldName isEqualTo 'Altis') then {_defender setDir 135;};
 	if (_worldName isEqualTo 'Tanoa') then {_defender setDir 77.8;};
@@ -56,6 +57,7 @@ missionNamespace setVariable [
 	((missionNamespace getVariable 'QS_analytics_entities_created') + 2),
 	FALSE
 ];
+_gunner addRating (0 - (rating _gunner));
 _gunner allowDamage FALSE;
 [[_gunner],1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _gunner setSkill ['aimingAccuracy',0.075];
@@ -67,7 +69,7 @@ _airdefenseGroup setCombatMode 'RED';
 [[_defender],{player disableUAVConnectability [(_this select 0),TRUE];}] remoteExec ['call',-2,_defender];
 if (!(_nearAir isEqualTo [])) then {
 	{
-		_gunner reveal [_x,4];
+		_airdefenseGroup reveal [_x,4];
 	} count _nearAir;
 };
 [[_defender,_gunner],_duration,_cooldown];

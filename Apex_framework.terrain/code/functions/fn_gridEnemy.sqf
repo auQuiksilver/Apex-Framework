@@ -424,6 +424,7 @@ if (_armedVehicleCount > 0) then {
 				_vehicle setVectorUp (surfaceNormal _spawnPos);
 				_vehicle setVehiclePosition [_spawnPos,[],0,'CAN_COLLIDE'];
 				_vehicle lock 3;
+				(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
 				_vehicle allowCrewInImmobile TRUE;
 				_vehicle setUnloadInCombat [TRUE,FALSE];
 				_vehicle enableVehicleCargo FALSE;

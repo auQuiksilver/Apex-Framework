@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	29/10/2017 A3 1.76 by Quiksilver
+	12/02/2018 A3 1.80 by Quiksilver
 
 Description:
 
@@ -59,6 +59,11 @@ if (isNil {_unit getVariable 'QS_AI_UNIT'}) then {
 			_unit setVariable ['QS_AI_UNIT_lastExpEval',(_uiTime + (random [30,60,90])),FALSE];
 		};
 	};
+	if (_unit getUnitTrait 'engineer') then {
+		if (isNil {_unit getVariable 'QS_AI_UNIT_assignedVehicle'}) then {
+			_unit setVariable ['QS_AI_UNIT_assignedVehicle',(assignedVehicle _unit),FALSE];
+		};
+	};
 };
 comment 'Get some basic info';
 _grp = group _unit;
@@ -75,10 +80,11 @@ _objectParent = objectParent _unit;
 _suppression = getSuppression _unit;
 _unitReady = unitReady _unit;
 _unitBehaviour = behaviour _unit;
+_unitMorale = morale _unit;
 if (isNull _objectParent) then {
 	_unitPos = unitPos _unit;
 	comment 'Suppression';
-	if (_suppression >= 0.2) then {
+	if ((_suppression >= 0.2) || {(_unitMorale < 0)}) then {
 		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastStanceAdjust',-1])) then {
 			_unit setVariable ['QS_AI_UNIT_lastStanceAdjust',(_uiTime + (random [30,60,90])),FALSE];
 			if (!(_unitPos isEqualTo 'MIDDLE')) then {
@@ -116,7 +122,7 @@ if (isNull _objectParent) then {
 	if (_fps > 15) then {
 		if ((random 1) > 0.9) then {
 			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_LastGesture',-1])) then {
-				_unit setVariable ['QS_AI_UNIT_LastGesture',(_uiTime + (random ([[5,10,15],[20,40,60]] select (_unitBehaviour isEqualTo 'COMBAT')))),FALSE];
+				_unit setVariable ['QS_AI_UNIT_LastGesture',(_uiTime + (random ([[5,10,15],[20,40,60]] select (_unitMorale < 0)))),FALSE];
 				if ((count (missionNamespace getVariable 'QS_AI_unitsGestureReady')) < ([5,10] select (_fps > 20))) then {
 					_unit setVariable ['QS_AI_UNIT_gestureEvent',TRUE,FALSE];
 					_unit addEventHandler ['Hit',{_this call (missionNamespace getVariable 'QS_fnc_AIXHitEvade')}];
@@ -187,6 +193,44 @@ if (isNull _objectParent) then {
 				};
 			};
 		};
+	};	
+	if (_unit getUnitTrait 'engineer') then {
+		if ((count (missionNamespace getVariable 'QS_AI_scripts_support')) < 1) then {
+			if (isNil {_grp getVariable 'QS_AI_engineer_vehicles'}) then {
+				_grp setVariable ['QS_AI_engineer_vehicles',[],FALSE];
+			};
+			_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') select {(alive _x)}),FALSE];
+			if ((count (_grp getVariable ['QS_AI_engineer_vehicles',[]])) < 2) then {
+				private _vehicle = objNull;
+				private _QS_script = scriptNull;
+				{
+					_vehicle = _x;
+					if (alive _vehicle) then {
+						if (!(_vehicle isEqualTo (_unit getVariable ['QS_AI_UNIT_assignedVehicle',objNull]))) then {
+							if (!(_vehicle in (_grp getVariable ['QS_AI_engineer_vehicles',[]]))) then {
+								if (!canMove _vehicle) then {
+									if ((_vehicle distance2D _unit) < 500) then {
+										_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') + [_vehicle]),FALSE];
+										_grp addVehicle _vehicle;
+										_QS_script = [_unit,_vehicle,300,7,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXRepairVehicle');
+										(missionNamespace getVariable 'QS_AI_scripts_support') pushBack _QS_script;
+									};
+								};
+							} else {
+								if (canMove _vehicle) then {
+									_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') - [_vehicle]),FALSE];
+									if ((alive (_unit getVariable ['QS_AI_UNIT_assignedVehicle',objNull])) || {(!('VEHICLE' in (_grp getVariable ['QS_AI_GRP_CONFIG',[]])))}) then {
+										_grp leaveVehicle _vehicle;
+									};
+								};
+							};
+						};
+					};
+				} forEach (missionNamespace getVariable 'QS_AI_vehicles');
+			} else {
+				_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') select {(!canMove _x)}),FALSE];
+			};
+		};
 	};
 };
 if (!isNil {_grp getVariable 'BLDG_GARRISON'}) then {
@@ -197,8 +241,8 @@ if (!isNil {_grp getVariable 'BLDG_GARRISON'}) then {
 					'Hit',
 					{
 						_unit = _this select 0;
-						_enemy = _unit findNearestEnemy _unit;
 						_unit removeEventHandler ['Hit',_thisEventHandler];
+						_enemy = _unit findNearestEnemy _unit;
 						_unit setVariable ['QS_unit_hitEvent',nil,FALSE];
 						if ((_enemy distance2D _unit) < 15) then {
 							_unit enableAI 'PATH';
@@ -210,15 +254,19 @@ if (!isNil {_grp getVariable 'BLDG_GARRISON'}) then {
 	};
 };
 if (_isLeader) then {
-	if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastRegroup',-1])) then {
-		_unit setVariable ['QS_AI_UNIT_lastRegroup',(_uiTime + (random [30,60,90])),FALSE];
-		if (({(alive _x)} count (units _grp)) isEqualTo 1) then {
-			comment 'Search for nearby equivalent groups, search for nearby rally points if unavailable';
-			[_unit,300] call (missionNamespace getVariable 'QS_fnc_AIFindNearestRegroup');
+	if (isNull _objectParent) then {
+		if (!((stance _unit) isEqualTo 'PRONE')) then {
+			if (!(_unit getVariable ['QS_AI_UNIT_regroup_disable',FALSE])) then {
+				if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastRegroup',-1])) then {
+					_unit setVariable ['QS_AI_UNIT_lastRegroup',(_uiTime + (random [30,60,90])),FALSE];
+					if (({(alive _x)} count (units _grp)) isEqualTo 1) then {
+						[_unit,300] call (missionNamespace getVariable 'QS_fnc_AIFindNearestRegroup');
+					};
+				};
+			};
 		};
 	};
 	if ((combatMode _grp) isEqualTo 'RED') then {
-		comment 'if ((_suppression > 0) || {(!((damage _unit) isEqualTo 0))}) then {';
 		if ('ItemRadio' in (assignedItems _unit)) then {
 			if (_uiTime > (_unit getVariable 'QS_AI_UNIT_lastSupportRequest')) then {
 				_unit setVariable ['QS_AI_UNIT_lastSupportRequest',(diag_tickTime + (120 + (random 120))),FALSE];
@@ -240,7 +288,7 @@ if (_isLeader) then {
 										_target = _x;
 										_rating = rating _x;
 									};
-								} count _filteredTargets
+								} count _filteredTargets;
 							};
 						};
 						if (!isNull _target) then {
@@ -281,7 +329,7 @@ if (_isLeader) then {
 																	];
 																	_targetPos = ((_unit targetKnowledge _target) select 6) getPos [(random 25),(random 360)];
 																	_targetPos set [2,0];
-																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'32Rnd_155mm_Mo_shells',(round (2 + (random 2))),(diag_tickTime + 240)],FALSE];
+																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'32Rnd_155mm_Mo_shells',(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
 																	_exit = TRUE;
 																};
 															};
@@ -324,7 +372,7 @@ if (_isLeader) then {
 																	];
 																	_targetPos = ((_unit targetKnowledge _target) select 6) getPos [(random 25),(random 360)];
 																	_targetPos set [2,0];
-																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'8Rnd_82mm_Mo_shells',(round (2 + (random 2))),(diag_tickTime + 360)],FALSE];
+																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'8Rnd_82mm_Mo_shells',(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
 																	_exit = TRUE;
 																};
 															};
@@ -355,7 +403,7 @@ if (_isLeader) then {
 															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
 															_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 															(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
-															_handle = [1,_supportProvider,_supportGroup,_target,(position _target),_smokePos,(diag_tickTime + 240)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
+															_handle = [1,_supportProvider,_supportGroup,_target,(position _target),_smokePos,(diag_tickTime + 180)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 															(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
 															missionNamespace setVariable [
 																'QS_analytics_entities_created',
@@ -388,10 +436,14 @@ if (_isLeader) then {
 														_laserPos = (_unit targetKnowledge _target) select 6;
 														_laserPos set [2,1];
 														_handle = [2,_supportProvider,_supportGroup,_target,(position _target),(diag_tickTime + 120)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
-														(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;														
-														_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
-														_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
-														(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
+														(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
+														if ((random 1) > 0.666) then {
+															_smokePos = ((_unit targetKnowledge _target) select 6) getPos [(random 10),(random 360)];
+															_smokePos set [2,0.25];
+															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
+															_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
+															(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
+														};
 														missionNamespace setVariable [
 															'QS_analytics_entities_created',
 															((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -422,10 +474,7 @@ if (_isLeader) then {
 														_laserPos = (_unit targetKnowledge _target) select 6;
 														_laserPos set [2,1];
 														_handle = [3,_supportProvider,_supportGroup,_target,(position _target),(diag_tickTime + 180)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
-														(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;	
-														_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
-														_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
-														(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
+														(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
 														missionNamespace setVariable [
 															'QS_analytics_entities_created',
 															((missionNamespace getVariable 'QS_analytics_entities_created') + 1),

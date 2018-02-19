@@ -16,7 +16,7 @@ __________________________________________________/*/
 params ['_unit'];
 if (
 	(!(local _unit)) ||
-	(!(simulationEnabled _unit))
+	{(!(simulationEnabled _unit))}
 ) exitWith {};
 _unit setVariable ['QS_AI_ENTITY_PANIC_DELAY',(diag_tickTime + (30 + (random 60))),FALSE];
 {

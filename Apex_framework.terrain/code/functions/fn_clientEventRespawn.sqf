@@ -125,6 +125,10 @@ enableRadio TRUE;
 	[4,[TRUE,TRUE]],
 	[5,[TRUE,TRUE]]
 ];
+for '_x' from 0 to 499 step 1 do {
+	_x ppEffectEnable FALSE;
+	_x ppEffectCommit 0;
+};
 if (player getUnitTrait 'uavhacker') then {
 	if (!isNull (getConnectedUAV _oldUnit)) then {
 		_uav = getConnectedUAV _oldUnit;

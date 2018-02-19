@@ -113,9 +113,9 @@ if (_sectorData isEqualType []) exitWith {
 	};
 	if (!(_heliInsert)) then {
 		if (missionNamespace getVariable ['QS_virtualSectors_sub_3_active',TRUE]) then {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30)),'OI_reconSentry'] selectRandomWeighted [0.2,0.4,0.2,0.2,0.2,0.2,0.2,0.2,0.2];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30)),'OI_reconSentry'] selectRandomWeighted [0.2,0.4,0.2,0.2,0.2,0.2,0.2,0.2,0.2];
 		} else {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.2,0.1,0.2,0.2];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.2,0.1,0.2,0.2];
 		};
 		_direction = _position getDir _centerPos;
 		_grp = [_position,_direction,_side,_infantryGroupType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
@@ -189,9 +189,9 @@ if (_sectorData isEqualType 0) exitWith {
 		_side = EAST;
 		private _infantryGroupType = [];
 		if (missionNamespace getVariable ['QS_virtualSectors_sub_3_active',TRUE]) then {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30))] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.2,0.1,0.2,0.2];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30))] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.2,0.1,0.2,0.2];
 		} else {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.1,0.1,0.2,0.2];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.1,0.1,0.2,0.2];
 		};
 		_direction = _position getDir _centerPos;
 		_grp = [_position,_direction,_side,_infantryGroupType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
@@ -265,9 +265,9 @@ if (_sectorData isEqualType 0) exitWith {
 		
 		private _infantryGroupType = [];
 		if (missionNamespace getVariable ['QS_virtualSectors_sub_3_active',TRUE]) then {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30)),'OI_reconSentry'] selectRandomWeighted [0.2,0.4,0.2,0.2,0.2,0.2,0.1,0.2,0.15];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30)),'OI_reconSentry'] selectRandomWeighted [0.2,0.4,0.2,0.2,0.2,0.2,0.1,0.2,0.15];
 		} else {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.1,0.1,0.2,0.2];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.1,0.1,0.2,0.2];
 		};
 		_grp = [_randomPos,(random 360),_side,_infantryGroupType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 		[(units _grp),([1,1] select (_infantryGroupType in ['OI_reconPatrol','O_T_ViperPatrol','OI_reconSentry']))] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
@@ -353,9 +353,9 @@ if (_sectorData isEqualType 0) exitWith {
 		comment 'Create force';
 		private _infantryGroupType = [];
 		if (missionNamespace getVariable ['QS_virtualSectors_sub_3_active',TRUE]) then {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30))] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.2,0.1,0.2,0.2];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry',(['OG_InfTeam','O_T_ViperPatrol'] select ((count _players) > 30))] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.2,0.1,0.2,0.2];
 		} else {
-			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.1,0.1,0.2,0.2];
+			_infantryGroupType = ['OIA_InfSquad','OIA_InfTeam','OIA_ARTeam','OIA_InfTeam_LAT','OIA_InfAssault','OIA_InfTeam_AA','OIA_InfTeam_AT','OIA_InfSentry','OI_reconSentry','OG_InfTeam','OG_InfTeam_AT'] selectRandomWeighted [0.2,0.4,0.1,0.2,0.1,0.1,0.1,0.1,0.2,0.2];
 		};
 		_direction = _position getDir _attackPosition;
 		_assaultGrp = createGroup [EAST,TRUE];

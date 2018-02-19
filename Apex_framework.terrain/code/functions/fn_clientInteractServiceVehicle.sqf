@@ -13,4 +13,4 @@ Description:
 	Repair a vehicle near a repair station, at base or in the field.
 ___________________________________________________/*/
 
-TRUE spawn (missionNamespace getVariable 'QS_fnc_clientServiceVehicle');
+0 spawn (missionNamespace getVariable 'QS_fnc_clientServiceVehicle');

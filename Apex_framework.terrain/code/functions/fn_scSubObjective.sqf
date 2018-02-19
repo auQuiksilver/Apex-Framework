@@ -470,6 +470,7 @@ if (_type isEqualTo 1) exitWith {
 					[_x,0] call (missionNamespace getVariable 'QS_fnc_customInventory');
 				};
 			} forEach _composition;
+			(missionNamespace getVariable 'QS_AI_regroupPositions') pushBack ['QS_ao_SD',[EAST,RESISTANCE],_position];
 			comment 'Force protection';
 			_grpTypes = [
 				'OIA_InfTeam_AA',

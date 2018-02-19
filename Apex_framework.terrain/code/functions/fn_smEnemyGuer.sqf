@@ -78,6 +78,7 @@ for '_x' from 0 to 2 do {
 	];
 	_SMveh lock 3;
 	_SMveh allowCrewInImmobile TRUE;
+	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh;
 	_SMveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 	createVehicleCrew _SMveh;
 	missionNamespace setVariable [

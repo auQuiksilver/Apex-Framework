@@ -13,7 +13,7 @@ Description:
 	Event Arsenal Opened
 ____________________________________________________________________________/*/
 
-TRUE spawn {
+0 spawn {
 	disableSerialization;
 	_t = time + 3;
 	waitUntil {

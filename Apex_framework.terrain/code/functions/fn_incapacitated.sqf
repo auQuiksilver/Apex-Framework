@@ -218,6 +218,11 @@ private _initialAnimDelay = _tickTimeNow + 8;
 private _chatShown = shownChat;
 comment 'Block shooting';
 _QS_action_cockblock = _unit addAction ['   ',{},nil,-99,FALSE,TRUE,'DefaultAction','TRUE',5,TRUE,''];
+comment 'Functions preload';
+_fn_findHealer = missionNamespace getVariable 'QS_fnc_clientMFindHealer';
+_fn_secondsToString = missionNamespace getVariable 'BIS_fnc_secondsToString';
+_fn_isNearFieldHospital = missionNamespace getVariable 'QS_fnc_isNearFieldHospital';
+_fn_inString = missionNamespace getVariable 'QS_fnc_inString';
 comment 'Loop';
 for '_x' from 0 to 1 step 0 do {
 	comment 'Update useful info';
@@ -230,16 +235,17 @@ for '_x' from 0 to 1 step 0 do {
 	_attachedTo = attachedTo _unit;
 	comment 'Display';
 	_string1 = actionKeysNames ['InGamePause',1];
-	_text1 = parseText format ['<t size="1.5" align="left">INCAPACITATED<t/><br/><t size="1" align="left">Press [%1] to respawn<br/>Bleeding out (%2)<br/>%3</t>',(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString')),(call (missionNamespace getVariable 'QS_fnc_clientMFindHealer'))];
-	_ctrlIncapacitated ctrlSetStructuredText ([_text1,(parseText '')] select (visibleMap));
+	_text1 = parseText format ['<t size="1.5" align="left">INCAPACITATED<t/><br/><t size="1" align="left">Press [%1] to respawn<br/>Bleeding out (%2)<br/>%3</t>',(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call _fn_secondsToString),(call _fn_findHealer)];
+	_ctrlIncapacitated ctrlSetStructuredText ([_text1,(parseText '')] select visibleMap);
 	comment 'Agony sound simulation';
 	if (_tickTimeNow > _soundDelay) then {
 		if (isNull _objectParent) then {
 			if (isNull _attachedTo) then {
 				_sound = format ['A3\Missions_F_EPA\data\sounds\WoundedGuy%1.wss',(selectRandom _sounds)];
-				_posASL = getPosASL _unit;
-				_headPos = _unit modelToWorld (_unit selectionPosition ['head','hitpoints']);
-				playSound3D [_sound,_unit,FALSE,[(_headPos select 0),(_headPos select 1),(_posASL select 2)],5,1,20];
+				//_posASL = getPosASL _unit;
+				_headPos = _unit modelToWorldWorld (_unit selectionPosition ['head','hitpoints']);
+				//playSound3D [_sound,_unit,FALSE,[(_headPos select 0),(_headPos select 1),(_posASL select 2)],5,1,20];
+				playSound3D [_sound,_unit,FALSE,_headPos,5,1,20];
 			};
 		};
 		_soundDelay = _tickTimeNow + _soundDelayFixed + (random _soundDelayRandom);
@@ -317,11 +323,11 @@ for '_x' from 0 to 1 step 0 do {
 		forceRespawn _unit;
 	};
 	comment 'Is at medevac HQ';
-	if (((_unit distance _medevacBase) < 4) || {([0,_unit] call (missionNamespace getVariable 'QS_fnc_isNearFieldHospital'))}) then {
+	if (((_unit distance2D _medevacBase) < 4) || {([0,_unit] call _fn_isNearFieldHospital)}) then {
 		if (isNull _objectParent) then {
 			if (isNull _attachedTo) then {
 				if (_lifeState isEqualTo 'INCAPACITATED') then {
-					if ([0,_unit] call (missionNamespace getVariable 'QS_fnc_isNearFieldHospital')) then {
+					if ([0,_unit] call _fn_isNearFieldHospital) then {
 						if (_tickTimeNow > (_unit getVariable ['QS_client_revivedAtHospital',-1])) then {
 							50 cutText ['Revived at field hospital','PLAIN DOWN',0.5];
 							_unit setVariable ['QS_client_revivedAtHospital',(_tickTimeNow + 900),FALSE];
@@ -345,7 +351,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (!(_unit getVariable ['QS_revive_disable',FALSE])) then {
 		if (!(_revivedAtVehicle)) then {
 			if (!isNull _objectParent) then {
-				if ((['medical',(typeOf _vehicle),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['medevac',(typeOf _vehicle),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
+				if ((['medical',(typeOf _vehicle),FALSE] call _fn_inString) || {(['medevac',(typeOf _vehicle),FALSE] call _fn_inString)}) then {
 					if (isNil {_vehicle getVariable 'QS_medicalVehicle_reviveTickets'}) then {
 						_revivedAtVehicle = TRUE;
 						if (_lifeState isEqualTo 'INCAPACITATED') then {

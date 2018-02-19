@@ -90,10 +90,12 @@ private _HLZ = [0,0,0];
 _helipadType = 'Land_HelipadEmpty_F';
 for '_x' from 0 to 99 step 1 do {
 	_HLZ = [_position,0,300,17,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if ((nearestObjects [_position,[_helipadType],75]) isEqualTo []) then {
-		if (({((_x distance2D _HLZ) < 50)} count allPlayers) isEqualTo 0) then {
-			if ((_HLZ distance2D _position) < 300) then {
-				_foundHLZ = TRUE;
+	if ((nearestObjects [_HLZ,[_helipadType],75]) isEqualTo []) then {
+		if ((nearestTerrainObjects [_HLZ,['TREE','SMALL TREE'],12,FALSE,TRUE]) isEqualTo []) then {
+			if (({((_x distance2D _HLZ) < 50)} count allPlayers) isEqualTo 0) then {
+				if ((_HLZ distance2D _position) < 300) then {
+					_foundHLZ = TRUE;
+				};
 			};
 		};
 	};

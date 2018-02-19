@@ -59,7 +59,7 @@ private [
 	'_t','_unitPos','_unitDir','_isRespawning','_canRespawnAfter','_respawnTickets','_exit','_QS_module_recruitableAI_delay','_QS_module_recruitableAI_side',
 	'_QS_module_recruitableAI_unitTypes','_QS_messagingSystem','_QS_messages','_QS_message_interval','_QS_message_delay','_QS_messageCurrent','_QS_messageCount',
 	'_QS_messageCountIndex','_QS_messageCurrentIndex','_QS_module_missionObjectives','_QS_module_missionObjectives_checkDelay','_missionObjectives','_unit',
-	'_QS_module_missionObjectives_delay','_QS_module_AI','_QS_module_AI_checkDelay','_QS_module_recruitableAI_class','_QS_module_AI_tracers','_QS_module_AI_delay','_unitVehicle',
+	'_QS_module_missionObjectives_delay','_QS_module_recruitableAI_class','_unitVehicle',
 	'_QS_fogWorkingArray','_QS_module_hc_delay','_QS_module_hc_checkDelay','_QS_module_hc_clientID','_QS_module_hc_active','_QS_module_hc_managedSides',
 	'_QS_module_hc_grp','_QS_headlessClients','_isDefendLocal','_QS_module_curator','_QS_module_curator_delay','_QS_module_curator_checkDelay','_arrayToAdd',
 	'_ownerInGame','_allDeadMen','_allDeadMenCount','_allDeadVehicles','_allDeadVehiclesCount','_allMines','_allMinesCount','_allGroups','_allMissionObjectsAll',
@@ -320,7 +320,7 @@ _smDelay = _sideMissionDelayFixed + (random _sideMissionDelayRandom);
 
 /*/============================ CUSTOM MISSIONS/*/
 
-_QS_module_customMissions = (random 1) > 0.75;
+_QS_module_customMissions = (random 1) > 0.8;
 _QS_module_customMissions_list = [];
 if (_QS_worldName isEqualTo 'Tanoa') then {
 	{
@@ -900,13 +900,6 @@ _QS_module_missionObjectives_checkDelay = time + _QS_module_missionObjectives_de
 missionNamespace setVariable ['QS_RD_mission_objectives',[],TRUE];
 _missionObjectives = missionNamespace getVariable ['QS_RD_mission_objectives',[]];
 
-/*/===== A couple AI things*/
-
-_QS_module_AI = TRUE;
-_QS_module_AI_delay = 300;
-_QS_module_AI_checkDelay = time + _QS_module_AI_delay;
-_QS_module_AI_tracers = TRUE;
-
 /*/===== Headless Client module/*/
 
 _QS_module_hc = TRUE;
@@ -1153,7 +1146,7 @@ if (_QS_module_restart) then {
 	_QS_module_restart_script = {
 		scriptName 'QS Restart Schedule';
 		comment 'Play musical note sound here as a Tell';
-		TRUE spawn {
+		0 spawn {
 			['playSound','QS_restart'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		uiSleep 25;
@@ -1170,11 +1163,11 @@ if (_QS_module_restart) then {
 		{
 			_x setVariable ['QS_respawn_disable',-1,TRUE];
 		} forEach allPlayers;
-		uiSleep 9;
-		TRUE spawn {
+		uiSleep 8;
+		0 spawn {
 			saveProfileNamespace;
 		};
-		uiSleep 2;
+		uiSleep 1;
 		([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand '#restartserver';
 	};
 	diag_log format ['***** Restart schedule * Restart Hour: %1 RealTimeStart: %2 *****',_QS_module_restart_hour,_QS_module_restart_realTimeStart];
@@ -1214,7 +1207,6 @@ _fn_vSetup = missionNamespace getVariable 'QS_fnc_vSetup';
 _fn_serverObjectsRecycler = missionNamespace getVariable 'QS_fnc_serverObjectsRecycler';
 _fn_weatherConfig = missionNamespace getVariable 'QS_fnc_weatherConfig';
 _fn_serverUnitConfigure = missionNamespace getVariable 'QS_fnc_serverUnitConfigure';
-_fn_serverTracers = missionNamespace getVariable 'QS_fnc_serverTracers';
 _fn_aoDefend = missionNamespace getVariable 'QS_fnc_aoDefend';
 _fn_airbaseDefense = missionNamespace getVariable 'QS_fnc_airbaseDefense';
 _fn_gridPrepare = missionNamespace getVariable 'QS_fnc_gridPrepare';
@@ -1563,6 +1555,16 @@ for '_x' from 0 to 1 step 0 do {
 							if (alive (missionNamespace getVariable 'QS_radioTower')) then {
 								(missionNamespace getVariable 'QS_radioTower') setDamage [1,TRUE];
 							};
+							{
+								_arrayIndex = [(missionNamespace getVariable 'QS_AI_regroupPositions'),_x,0] call _fn_getNestedIndex;
+								if (!(_arrayIndex isEqualTo -1)) then {
+									(missionNamespace getVariable 'QS_AI_regroupPositions') set [_arrayIndex,FALSE];
+									(missionNamespace getVariable 'QS_AI_regroupPositions') deleteAt _arrayIndex;
+								};
+							} forEach [
+								'QS_ao_HQ',
+								'QS_ao_SD'
+							];
 							if (({(alive _x)} count (missionNamespace getVariable 'QS_enemyGroundReinforceArray')) > 0) then {
 								{
 									if (!isNull _x) then {
@@ -1642,7 +1644,7 @@ for '_x' from 0 to 1 step 0 do {
 							_enemyVehicleReinforcementsSpawned = 0;
 							_enemyVehicle_canReinforce = TRUE;
 							{
-								if ((_x distance _QS_AOpos) < 1500) then {
+								if ((_x distance2D _QS_AOpos) < 1500) then {
 									if (!(_x getVariable ['QS_dead_prop',FALSE])) then {
 										missionNamespace setVariable [
 											'QS_analytics_entities_deleted',
@@ -1653,9 +1655,15 @@ for '_x' from 0 to 1 step 0 do {
 									};
 								};
 							} count allDeadMen;
-							{if ((units _x) isEqualTo []) then {deleteGroup _x;}} count allGroups;
 							{
-								if ((_x distance _QS_AOpos) < 1500) then {
+								if (local _x) then {
+									if ((units _x) isEqualTo []) then {
+										deleteGroup _x;
+									};
+								};
+							} count allGroups;
+							{
+								if ((_x distance2D _QS_AOpos) < 1500) then {
 									missionNamespace setVariable [
 										'QS_analytics_entities_deleted',
 										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
@@ -1936,6 +1944,16 @@ for '_x' from 0 to 1 step 0 do {
 							if (missionNamespace getVariable 'QS_aoCycleVar') then {
 								missionNamespace setVariable ['QS_aoCycleVar',FALSE,FALSE];
 							};
+							{
+								_arrayIndex = [(missionNamespace getVariable 'QS_AI_regroupPositions'),_x,0] call _fn_getNestedIndex;
+								if (!(_arrayIndex isEqualTo -1)) then {
+									(missionNamespace getVariable 'QS_AI_regroupPositions') set [_arrayIndex,FALSE];
+									(missionNamespace getVariable 'QS_AI_regroupPositions') deleteAt _arrayIndex;
+								};
+							} forEach [
+								'QS_ao_HQ',
+								'QS_ao_SD'
+							];
 							[1] call _fn_artillery;
 							_scToRemove = [];
 							{
@@ -2071,6 +2089,16 @@ for '_x' from 0 to 1 step 0 do {
 								['SAVE'] call _fn_grid;
 								missionNamespace setVariable ['QS_grid_AIRspTotal',0,FALSE];
 								missionNamespace setVariable ['QS_grid_AIRspDestroyed',0,FALSE];
+								{
+									_arrayIndex = [(missionNamespace getVariable 'QS_AI_regroupPositions'),_x,0] call _fn_getNestedIndex;
+									if (!(_arrayIndex isEqualTo -1)) then {
+										(missionNamespace getVariable 'QS_AI_regroupPositions') set [_arrayIndex,FALSE];
+										(missionNamespace getVariable 'QS_AI_regroupPositions') deleteAt _arrayIndex;
+									};
+								} forEach [
+									'QS_ao_HQ',
+									'QS_ao_SD'
+								];
 								if (!((missionNamespace getVariable ['QS_grid_aoProps',[]]) isEqualTo [])) then {
 									{
 										(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];

@@ -25,24 +25,31 @@ Example:
 _____________________________________________________________________/*/
 
 if (!isDedicated) exitWith {};
-params ['_unit','_respawnDelay','_randomize','_initCode','_respawnTickets','_playerThreshold'];
-_unitType = typeOf _unit;
-_unitPos = position _unit;
-_unitDir = getDir _unit;
-if (isNil {missionNamespace getVariable 'QS_register_rAI'}) then {
-	missionNamespace setVariable ['QS_register_rAI',[],FALSE];
+_this spawn {
+	waitUntil {
+		uiSleep (0.1 + (random 0.1));
+		(!((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isEqualTo -1))
+	};
+	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) exitWith {};
+	params ['_unit','_respawnDelay','_randomize','_initCode','_respawnTickets','_playerThreshold'];
+	_unitType = typeOf _unit;
+	_unitPos = position _unit;
+	_unitDir = getDir _unit;
+	if (isNil {missionNamespace getVariable 'QS_register_rAI'}) then {
+		missionNamespace setVariable ['QS_register_rAI',[],FALSE];
+	};
+	(missionNamespace getVariable 'QS_register_rAI') pushBack [
+		objNull,
+		_respawnDelay,
+		_randomize,
+		_initCode,
+		_unitType,
+		_unitPos,
+		_unitDir,
+		FALSE,
+		0,
+		_respawnTickets,
+		_playerThreshold
+	];
+	deleteVehicle _unit;
 };
-(missionNamespace getVariable 'QS_register_rAI') pushBack [
-	objNull,
-	_respawnDelay,
-	_randomize,
-	_initCode,
-	_unitType,
-	_unitPos,
-	_unitDir,
-	FALSE,
-	0,
-	_respawnTickets,
-	_playerThreshold
-];
-deleteVehicle _unit;

@@ -15,11 +15,10 @@ __________________________________________________/*/
 
 params ['_vehicle','','_unit',''];
 if (!(canMove _vehicle)) then {
-	_unit leaveVehicle _vehicle;
-	_unit forceSpeed -1;
 	_movePos = _vehicle getRelPos [(20 + (random 20)),(150 + (random 60))];
 	if (!(surfaceIsWater _movePos)) then {
-		_unit doMove (_vehicle getRelPos [(20 + (random 20)),(150 + (random 60))]);
+		doStop _unit;
+		_unit doMove _movePos;
 	};
 	_unit setUnitPosWeak (selectRandom ['UP','MIDDLE']);
 };

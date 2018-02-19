@@ -37,7 +37,7 @@ if ((random 1) > 0.333) then {
 };
 _timeout = diag_tickTime + 60;
 waitUntil {
-	sleep 0.25;
+	uiSleep 0.25;
 	((isTouchingGround _v) || {(!alive _v)} || {(!canMove _v)} || {(diag_tickTime > _timeout)})
 };
 _v removeAllEventHandlers 'GetOut';

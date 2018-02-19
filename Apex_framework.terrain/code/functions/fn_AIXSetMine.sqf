@@ -89,7 +89,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if ((_unit distance2D _target) > _setRadius) then {
 		if (_time > _moveCheckDelay) then {
-			_unit forceSpeed -1;
+			doStop _unit;
 			if (_isTargetObject) then {
 				_unit doMove (position _target);
 			} else {
@@ -113,8 +113,8 @@ for '_x' from 0 to 1 step 0 do {
 };
 _emptyPosition = [(position _unit),40,100,0.5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 _unit doTarget objNull;
-_unit forceSpeed -1;
 resetSubgroupDirection _unit;
+doStop _unit;
 _unit doMove _emptyPosition;
 if (_exit) then {
 	_touchOffTimer = diag_tickTime + _touchOffDelay;

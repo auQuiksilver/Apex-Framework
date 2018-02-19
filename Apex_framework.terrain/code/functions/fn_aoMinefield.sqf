@@ -13,7 +13,7 @@ Description:
 	Spawn a radial minefield with some razorwire around it
 ________________________________________________________________*/
 
-private ['_centralPos','_objectsArray','_mineTypes','_mine','_mineType','_distance','_distance2','_barriers','_angle','_signPos','_pos'];
+private ['_centralPos','_objectsArray','_mineTypes','_mine','_mineType','_distance','_distance2','_barriers','_angle','_signPos','_pos','_minePos'];
 _centralPos = getPosATL (missionNamespace getVariable 'QS_radioTower');
 _objectsArray = [];
 _mineTypes = ['APERSBoundingMine','APERSMine','ATMine'];
@@ -28,15 +28,17 @@ if (worldName isEqualTo 'Tanoa') then {
 	_barriers = 23;
 	_angle = 15;
 };
+
 for '_x' from 0 to (round (29 + (random 19))) step 1 do {
 	_mineType = selectRandom _mineTypes;
-    _mine = createMine [_mineType,_centralPos,[],_distance2];
+	_minePos = _centralPos getPos [(_distance2 * (sqrt (random 1))),(random 360)];
+    _mine = createMine [_mineType,_minePos,[],0];
 	missionNamespace setVariable [
 		'QS_analytics_entities_created',
 		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 		FALSE
 	];
-	_mine enableDynamicSimulation TRUE;
+	//_mine enableDynamicSimulation TRUE;
 	_mine setVectorUp (surfaceNormal (getPosWorld _mine));
 	if (surfaceIsWater (getPosWorld _mine)) then {
 		deleteVehicle _mine;

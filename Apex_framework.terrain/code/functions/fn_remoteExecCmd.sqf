@@ -122,3 +122,6 @@ if (_type isEqualTo 'setVelocityModelSpace') exitWith {
 if (_type isEqualTo 'playMoveNow') exitWith {
 	_1 playMoveNow _2;
 };
+if (_type isEqualTo 'enableVehicleCargo') exitWith {
+	_1 enableVehicleCargo _2;
+};

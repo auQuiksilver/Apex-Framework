@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	28/01/2018 A3 1.80 by Quiksilver
+	13/02/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -34,7 +34,7 @@ enableItemsDropping = 0; 								/*/ disabled with 0/*/
 joinUnassigned = 1;										/*/ 0 = players forced into role on join/*/
 showUAVFeed = 1;										/*/ Enables/Disables the UAV Feed./*/
 showGroupIndicator = 0;
-showSquadRadar = 1;
+showSquadRadar = 0;
 forceRotorLibSimulation = 0;							/*/ Advanced Flight Model /*/
 scriptedPlayer = 1;
 skipLobby = 0;
@@ -47,6 +47,7 @@ wreckLimit = 10;
 wreckRemovalMinTime = 60;
 wreckRemovalMaxTime = 1200;
 minPlayerDistance = 50;
+disableRandomization[] = {};
 disableGateRandomization = 1;
 class CfgDisabledCommands {
     class CREATEUNIT
@@ -292,6 +293,7 @@ class CfgFunctions {
 			class AIXHeliInsertLanding {file = "code\functions\fn_AIXHeliInsertLanding.sqf";};
 			class AIXHeliInsertVehicle {file = "code\functions\fn_AIXHeliInsertVehicle.sqf";};
 			class AIXHitEvade {file = "code\functions\fn_AIXHitEvade.sqf";};
+			class AIXRepairVehicle {file = "code\functions\fn_AIXRepairVehicle.sqf";};
 			class AIXSetMine {file = "code\functions\fn_AIXSetMine.sqf";};
 			class AIXSuppressiveFire {file = "code\functions\fn_AIXSuppressiveFire.sqf";};
 			class AIXVehicleUnstuck {file = "code\functions\fn_AIXVehicleUnstuck.sqf";};
@@ -335,7 +337,6 @@ class CfgFunctions {
 			class casRespawn {file = "code\functions\fn_casRespawn.sqf";};
 			class clearPosition {file = "code\functions\fn_clearPosition.sqf";};
 			class clientAIBehaviours {file = "code\functions\fn_clientAIBehaviours.sqf";};
-			class clientAnimateCarry {file = "code\functions\fn_clientAnimateCarry.sqf";};
 			class clientATAdjust {file = "code\functions\fn_clientATAdjust.sqf";};
 			class clientBaseLights {file = "code\functions\fn_clientBaseLights.sqf";};
 			class clientCore {file = "code\functions\fn_clientCore.sqf";};
@@ -534,6 +535,7 @@ class CfgFunctions {
 			class gearRestrictions {file = "code\functions\fn_gearRestrictions.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getClientFromDPID {file = "code\functions\fn_getClientFromDPID.sqf";};
+			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
 			class getDoor {file = "code\functions\fn_getDoor.sqf";};
@@ -574,6 +576,7 @@ class CfgFunctions {
 			class monthDays {file = "code\functions\fn_monthDays.sqf";};
 			class moveInCargoMedical {file = "code\functions\fn_moveInCargoMedical.sqf";};
 			class msgToStaff {file = "code\functions\fn_msgToStaff.sqf";};
+			class nearestRoad {file = "code\functions\fn_nearestRoad.sqf";};
 			class p2pMessage {file = "code\functions\fn_p2pMessage.sqf";};
 			class paraDrop {file = "code\functions\fn_paraDrop.sqf";};
 			class patrolNearbyBuilding {file = "code\functions\fn_patrolNearbyBuilding.sqf";};
@@ -629,6 +632,7 @@ class CfgFunctions {
 			class smIDAP {file = "code\functions\fn_smIDAP.sqf";};
 			class spawnAmbientCivilians {file = "code\functions\fn_spawnAmbientCivilians.sqf";};
 			class spawnGroup {file = "code\functions\fn_spawnGroup.sqf";};
+			class spawnViperTeam {file = "code\functions\fn_spawnViperTeam.sqf";};
 			class stalk {file = "code\functions\fn_stalk.sqf";};
 			class taskAttack {file = "code\functions\fn_taskAttack.sqf";};
 			class taskMove {file = "code\functions\fn_taskMove.sqf";};

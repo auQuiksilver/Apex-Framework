@@ -382,11 +382,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 14) then {
 		comment 'HEMTT with Static weapons and increased armor';
-		if (worldName isEqualTo 'Tanoa') then {
-			_rewardType = 'B_T_Truck_01_transport_F';
-		} else {
-			_rewardType = 'B_Truck_01_transport_F';
-		};
+		_rewardType = ['B_Truck_01_transport_F','B_T_Truck_01_transport_F'] select (worldName isEqualTo 'Tanoa');
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
@@ -1059,12 +1055,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		_rewardText = 'a(n) AH-9 Pawnee X';
-		{ 
-			_rewardVeh removeWeaponGlobal (getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon"));
-		} forEach (getPylonMagazines _rewardVeh);
-		{
-			_rewardVeh setPylonLoadout [(_forEachIndex + 1),(selectRandom _x),TRUE];
-		} forEach (_rewardVeh getCompatiblePylonMagazines 0);
+		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN','AH-9 Pawnee X',TRUE];
 	};
 	if (_reward isEqualTo 25) then {
@@ -1081,12 +1072,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		_rewardText = 'a(n) WY-55 Hellcat X';
-		{ 
-			_rewardVeh removeWeaponGlobal (getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon"));
-		} forEach (getPylonMagazines _rewardVeh);
-		{
-			_rewardVeh setPylonLoadout [(_forEachIndex + 1),(selectRandom _x),TRUE];
-		} forEach (_rewardVeh getCompatiblePylonMagazines 0);
+		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN','WY-55 Hellcat X',TRUE];
 	};
 	if (_reward isEqualTo 26) then {
@@ -1103,12 +1089,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		_rewardText = 'a(n) PO-30 Orca X';
-		{ 
-			_rewardVeh removeWeaponGlobal (getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon"));
-		} forEach (getPylonMagazines _rewardVeh);
-		{
-			_rewardVeh setPylonLoadout [(_forEachIndex + 1),(selectRandom _x),TRUE];
-		} forEach (_rewardVeh getCompatiblePylonMagazines 0);
+		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN','PO-30 Orca X',TRUE];
 	};
 	if (_reward isEqualTo 27) then {
@@ -1129,12 +1110,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		_rewardText = _rewardData select 1;
-		{ 
-			_rewardVeh removeWeaponGlobal (getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon"));
-		} forEach (getPylonMagazines _rewardVeh);
-		{
-			_rewardVeh setPylonLoadout [(_forEachIndex + 1),(selectRandom _x),TRUE];
-		} forEach (_rewardVeh getCompatiblePylonMagazines 0);
+		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN',(format ['%1 X',(getText (configFile >> 'CfgVehicles' >> _rewardType >> 'displayName'))]),TRUE];
 	};
 	

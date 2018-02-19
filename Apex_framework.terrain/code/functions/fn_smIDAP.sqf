@@ -74,6 +74,7 @@ if (_type isEqualTo 0) exitWith {
 			_v enableRopeAttach FALSE;
 			_v enableVehicleCargo FALSE;
 			_v setUnloadInCombat [TRUE,FALSE];
+			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _v;
 			createVehicleCrew _v;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',

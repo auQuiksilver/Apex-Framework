@@ -43,7 +43,7 @@ if (worldName isEqualTo 'Tanoa') then {
 	};
 } else {
 	_minDist = 300;
-	_maxDist = 1000;
+	_maxDist = 800;
 	_fn_blacklist = {TRUE};
 };
 
@@ -72,11 +72,11 @@ for '_x' from 0 to 1 step 0 do {
 
 private _heliInsert = FALSE;
 if (diag_fps > 15) then {
-	if ((count allPlayers) > 0) then {
+	if (!(allPlayers isEqualTo [])) then {
 		if ((random 1) > 0.666) then {
 			if (missionNamespace getVariable ['QS_AI_insertHeli_enabled',FALSE]) then {
 				if (({(alive _x)} count (missionNamespace getVariable ['QS_AI_insertHeli_helis',[]])) < (missionNamespace getVariable ['QS_AI_insertHeli_maxHelis',3])) then {
-					if (diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',900]))) then {
+					if (diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',600]))) then {
 						if ((missionNamespace getVariable ['QS_AI_insertHeli_spawnedAO',0]) < (missionNamespace getVariable ['QS_AI_insertHeli_maxAO',3])) then {
 							if (([4,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2) then {
 								if (([3,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2) then {
@@ -108,9 +108,9 @@ if (diag_fps > 15) then {
 };
 if (!(_heliInsert)) then {
 	if (_worldName isEqualTo 'Altis') then {
-		_infTypes = ['OIA_InfSentry','OIA_InfSquad','OIA_InfTeam','OI_reconPatrol','OI_reconSentry','OIA_InfAssault','OG_InfAssault','OG_InfSquad','OG_InfAssaultTeam'];
+		_infTypes = ['OIA_InfSquad','OIA_InfTeam','OI_reconPatrol','OIA_InfAssault','OG_InfAssault','OG_InfSquad','OG_InfAssaultTeam','OIA_ARTeam'];
 	} else {
-		_infTypes = ['OIA_InfSentry','OIA_InfSquad','OIA_InfTeam','OI_reconPatrol','OI_reconSentry','OIA_InfAssault','OG_InfSquad','OG_InfAssaultTeam'];
+		_infTypes = ['OIA_InfSquad','OIA_InfTeam','OI_reconPatrol','OIA_InfAssault','OG_InfSquad','OG_InfAssaultTeam','OIA_ARTeam'];
 	};
 	_infType = selectRandom _infTypes;
 	_reinforceGroup = [_spawnPosDefault,(random 360),EAST,_infType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');

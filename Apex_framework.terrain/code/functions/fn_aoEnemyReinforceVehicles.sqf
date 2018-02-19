@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_aoEnemyReinforceVehicles.sqf
 Author:
 
@@ -11,8 +11,7 @@ Last modified:
 Description:
 
 	Enemy reinforce AO
-__________________________________________________*/
-
+__________________________________________________/*/
 private [
 	'_pos','_base','_foundSpawnPos','_spawnPosDefault','_reinforceGroup','_infTypes','_infType','_destination','_count','_wp','_ticker','_playerSelected','_arr','_playerPos',
 	'_vehTypes','_QS_array','_minDist','_maxDist','_nearRoads','_roadsValid','_roadRoadValid','_fn_blacklist','_worldName','_worldSize'
@@ -83,17 +82,17 @@ if (_roadRoadValid isEqualTo [0,0,0]) then {
 /*/================================================ SELECT + SPAWN UNITS/*/
 
 _reinforceGroup = createGroup [EAST,TRUE];
-if ((count allPlayers) > 25) then {
+if ((count allPlayers) > 20) then {
 	if (_worldName isEqualTo 'Tanoa') then {
-		_vehTypes = ["O_T_MRAP_02_gmg_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F","O_T_APC_Wheeled_02_rcws_ghex_F",'O_G_Offroad_01_armed_F'];
+		_vehTypes = ["O_T_MRAP_02_gmg_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F","O_T_APC_Wheeled_02_rcws_ghex_F",'O_G_Offroad_01_armed_F','I_APC_tracked_03_cannon_F'];
 	} else {
-		_vehTypes = ['O_MBT_02_cannon_F','O_APC_Tracked_02_cannon_F','O_MRAP_02_hmg_F','I_APC_tracked_03_cannon_F','I_MBT_03_cannon_F','O_G_Offroad_01_armed_F'];
+		_vehTypes = ['O_MBT_02_cannon_F','O_APC_Tracked_02_cannon_F','O_MRAP_02_hmg_F','I_APC_tracked_03_cannon_F','I_MBT_03_cannon_F','O_G_Offroad_01_armed_F','O_MRAP_02_gmg_F'];
 	};
 } else {
 	if (_worldName isEqualTo 'Tanoa') then {
 		_vehTypes = ['O_G_Offroad_01_armed_F',"O_T_MRAP_02_gmg_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
 	} else {
-		_vehTypes = ['O_APC_Tracked_02_cannon_F','O_MRAP_02_hmg_F','I_APC_tracked_03_cannon_F'];
+		_vehTypes = ['O_APC_Tracked_02_cannon_F','O_MRAP_02_hmg_F','O_MRAP_02_gmg_F','I_APC_tracked_03_cannon_F'];
 	};
 };
 _vType = selectRandom _vehTypes;
@@ -108,15 +107,16 @@ _v allowCrewInImmobile TRUE;
 _v setUnloadInCombat [TRUE,FALSE];
 _v enableRopeAttach FALSE;
 _v enableVehicleCargo FALSE;
-/*/_v forceFollowRoad TRUE;/*/
+_v forceFollowRoad TRUE;
 _v setConvoySeparation 50;
 _v limitSpeed (50 + (random [10,20,30]));
 clearMagazineCargoGlobal _v;
 clearWeaponCargoGlobal _v;
 clearItemCargoGlobal _v;
 clearBackpackCargoGlobal _v;
-_v lock 2;
+_v lock 3;
 createVehicleCrew _v;
+(missionNamespace getVariable 'QS_AI_vehicles') pushBack _v;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',
 	((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _v))),
@@ -125,7 +125,6 @@ missionNamespace setVariable [
 _vCrewGroup = group (driver _v);
 _vCrewGroup setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _vCrewGroup addVehicle _v;
-_v lock 2;
 _v addEventHandler [
 	'Killed',
 	{
@@ -159,16 +158,28 @@ if (!isNull (commander _v)) then {
 };
 (driver _v) doMove (missionNamespace getVariable 'QS_HQpos');
 _ticker = 0;
-_vCrewGroup setVariable ['QS_AI_GRP',TRUE,FALSE];
-//_vCrewGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _vCrewGroup)),_v],FALSE];
-//_vCrewGroup setVariable ['QS_AI_GRP_DATA',[],FALSE];
-//_vCrewGroup setVariable ['QS_AI_GRP_TASK',['MOVE',(missionNamespace getVariable 'QS_HQpos'),diag_tickTime,-1],FALSE];
-//_vCrewGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
+_vCrewGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _vCrewGroup)),_v],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_vCrewGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_vCrewGroup setVariable [
+	'QS_AI_GRP_TASK',
+	[
+		'PATROL',
+		[
+			((missionNamespace getVariable 'QS_HQpos') getPos [(50 + (random 50)),(random 360)]),
+			((missionNamespace getVariable 'QS_HQpos') getPos [(50 + (random 50)),(random 360)]),
+			((missionNamespace getVariable 'QS_HQpos') getPos [(50 + (random 50)),(random 360)])
+		],
+		diag_tickTime,
+		-1
+	],
+	FALSE
+];
+_vCrewGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
+_vCrewGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 {
 	_x enableStamina FALSE;
 	_x enableFatigue FALSE;
 	_x disableAI 'AUTOCOMBAT';
-	[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 } count (units _vCrewGroup);
 _vCrewGroup enableAttack TRUE;
 if ((toLower _vType) in [
@@ -178,11 +189,11 @@ if ((toLower _vType) in [
 	'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f'
 ]) then {
 	if (diag_fps > 15) then {
-		if ((count allPlayers) > 0) then {
+		if (!(allPlayers isEqualTo [])) then {
 			if ((random 1) > 0.5) then {
 				if (missionNamespace getVariable ['QS_AI_insertHeli_enabled',FALSE]) then {
 					if (({(alive _x)} count (missionNamespace getVariable ['QS_AI_insertHeli_helis',[]])) < (missionNamespace getVariable ['QS_AI_insertHeli_maxHelis',3])) then {
-						if (diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',900]))) then {
+						if (diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',600]))) then {
 							if ((missionNamespace getVariable ['QS_AI_insertHeli_spawnedAO',0]) < (missionNamespace getVariable ['QS_AI_insertHeli_maxAO',3])) then {
 								if (([4,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) isEqualTo 0) then {
 									if (([3,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) isEqualTo 0) then {

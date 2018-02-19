@@ -67,44 +67,51 @@ Notes:
 _____________________________________________________________________/*/
 
 if (!isDedicated) exitWith {};
-params [
-	['_vehicle',objNull],
-	['_respawnDelay',30],
-	['_randomize',FALSE],
-	['_initCode',{}],
-	['_abandonmentDistanceBase',50],
-	['_abandonmentDistanceField',500],
-	['_respawnTickets',-1],
-	['_isDynamicVehicle',TRUE]
-];
-private _vehicleType = typeOf _vehicle;
-private _spawnPosition = position _vehicle;	/*/ Ideally we'd use ASL but a lot of internal changes would have to be made and tested+verified .../*/
-_spawnPosition set [2,([0.1,0] select (surfaceIsWater _spawnPosition))];
-private _spawnDirection = getDir _vehicle;
-private _isRespawning = FALSE;
-private _canRespawnAfter = 0;
-private _vehicleFobID = -1;
-private _safeRespawnRadius = 4;
-private _isCarrierVehicle = 0;
-if (isNil {missionNamespace getVariable 'QS_v_Monitor'}) then {
-	missionNamespace setVariable ['QS_v_Monitor',[],FALSE];
+_this spawn {
+	waitUntil {
+		uiSleep (0.1 + (random 0.1));
+		(!((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isEqualTo -1))
+	};
+	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) exitWith {};
+	params [
+		['_vehicle',objNull],
+		['_respawnDelay',30],
+		['_randomize',FALSE],
+		['_initCode',{}],
+		['_abandonmentDistanceBase',50],
+		['_abandonmentDistanceField',500],
+		['_respawnTickets',-1],
+		['_isDynamicVehicle',TRUE]
+	];
+	private _vehicleType = typeOf _vehicle;
+	private _spawnPosition = position _vehicle;	/*/ Ideally we'd use ASL but a lot of internal changes would have to be made and tested+verified .../*/
+	_spawnPosition set [2,([0.1,0] select (surfaceIsWater _spawnPosition))];
+	private _spawnDirection = getDir _vehicle;
+	private _isRespawning = FALSE;
+	private _canRespawnAfter = 0;
+	private _vehicleFobID = -1;
+	private _safeRespawnRadius = 4;
+	private _isCarrierVehicle = 0;
+	if (isNil {missionNamespace getVariable 'QS_v_Monitor'}) then {
+		missionNamespace setVariable ['QS_v_Monitor',[],FALSE];
+	};
+	(missionNamespace getVariable 'QS_v_Monitor') pushBack [
+		_vehicle,
+		_respawnDelay,
+		_randomize,
+		_initCode,
+		_vehicleType,
+		_spawnPosition,
+		_spawnDirection,
+		_isRespawning,
+		_canRespawnAfter,
+		_vehicleFobID,
+		_abandonmentDistanceBase,
+		_abandonmentDistanceField,
+		_respawnTickets,
+		_safeRespawnRadius,
+		_isDynamicVehicle,
+		_isCarrierVehicle
+	];
+	deleteVehicle _vehicle;
 };
-(missionNamespace getVariable 'QS_v_Monitor') pushBack [
-	_vehicle,
-	_respawnDelay,
-	_randomize,
-	_initCode,
-	_vehicleType,
-	_spawnPosition,
-	_spawnDirection,
-	_isRespawning,
-	_canRespawnAfter,
-	_vehicleFobID,
-	_abandonmentDistanceBase,
-	_abandonmentDistanceField,
-	_respawnTickets,
-	_safeRespawnRadius,
-	_isDynamicVehicle,
-	_isCarrierVehicle
-];
-deleteVehicle _vehicle;

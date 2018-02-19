@@ -82,6 +82,7 @@ if (_case isEqualTo 1) then {
 		_entityName = _params select 1;
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		(missionNamespace getVariable ['QS_dynTask_medevac_array',[]]) pushBack _entity;
+		[_entityName,{50 cutText [(format ['%1 has requested Medevac',_this]),'PLAIN DOWN',0.5];}] remoteExec ['call',(allPlayers select {(_x getUnitTrait 'QS_trait_pilot')}),FALSE];
 		private _description = format ['Medevac %1.<br/><br/> Bring %1 to the medical facility at base. The location is marked on your map as Medevac HQ.<br/><br/>This person cannot be revived by others.<br/><br/>If the task does not complete, have the patient wait at the medical facility for approximately 30 seconds.',_entityName];
 		_array = [
 			_taskID,

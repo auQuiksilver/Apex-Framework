@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/01/2018 A3 1.80 by Quiksilver
+	19/02/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -34,16 +34,16 @@ _QS_new = FALSE;
 _requestArray = [];
 _isArmedAirEnabled = missionNamespace getVariable ['QS_armedAirEnabled',TRUE];
 _infTypes = [
-	"OIA_InfSentry",
-	"OIA_InfSquad","OIA_InfSquad","OIA_InfSquad",
-	"OIA_InfTeam","OIA_InfTeam","OIA_InfTeam",
-	"OIA_InfAssault","OIA_InfAssault",
-	"OIA_InfTeam_AA","OIA_InfTeam_AA",
-	"OIA_InfTeam_AT","OIA_InfTeam_AT",
-	"OI_reconPatrol",
-	"OI_reconSentry",
-	"OIA_ReconSquad",
-	"OIA_InfTeam_LAT","OIA_InfTeam_LAT"
+	"OIA_InfSentry",1,
+	"OIA_InfSquad",3,
+	"OIA_InfTeam",2,
+	"OIA_InfAssault",2,
+	"OIA_InfTeam_AA",3,
+	"OIA_InfTeam_AT",2,
+	"OI_reconPatrol",1,
+	"OIA_ReconSquad",1,
+	"OIA_InfTeam_LAT",2,
+	"OIA_ARTeam",1
 ];
 if (worldName isEqualTo 'Tanoa') then {
 	_staticTypes = ['O_HMG_01_high_F'];/*/O_HMG_01_F/*/
@@ -125,6 +125,9 @@ _centerPos = _pos;
 _centerRadius = _aoSize;
 _roadPositionsValid = ((_pos nearRoads _aoSize) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) apply {(getPosATL _x)};
 _allowVehicles = ((count _roadPositionsValid) > 40);
+if (_allowVehicles) then {
+	_roadPositionsValid = _roadPositionsValid call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+};
 diag_log format ['***** AO ENEMY * NEAR ROADS COUNT: %1 *****',(count _roadPositionsValid)];
 
 /*/=============================================================== AA VEHICLE/*/
@@ -159,6 +162,8 @@ if (_playerCount > 20) then {
 			];
 			_aa allowCrewInImmobile TRUE;
 			_aa enableRopeAttach FALSE;
+			_aa enableVehicleCargo FALSE;
+			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _aa;
 			clearMagazineCargoGlobal _aa;
 			clearWeaponCargoGlobal _aa;
 			clearItemCargoGlobal _aa;
@@ -305,7 +310,7 @@ for '_x' from 0 to _grpCount step 1 do {
 	} else {
 		_randomPos = ['RADIUS',_pos,(_aoSize * 0.75),'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	};
-	_infType = selectRandom _infTypes;
+	_infType = selectRandomWeighted _infTypes;
 	/*/0 = _requestArray pushBack ['CREATE','PRIMARY','PATROL','INFANTRY',EAST,_randomPos,_pos,_infType];/*/
 	_patrolGroup = [_randomPos,(random 360),EAST,_infType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 	[_patrolGroup,_randomPos,125,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
@@ -349,7 +354,13 @@ for '_x' from 0 to 2 do {
 	];
 	_static setVectorUp (surfaceNormal _randomPos);
 	_static setVelocity [0,0,0];
-	[_static] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+	if (_playerCount < 30) then {
+		[_static] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+	} else {
+		if ((random 1) > 0.5) then {
+			[_static] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+		};
+	};
 	_unit1 = _staticGroup createUnit [_mortGunnerType,_randomPos,[],0,'NONE'];
 	missionNamespace setVariable [
 		'QS_analytics_entities_created',
@@ -466,6 +477,7 @@ if (_allowVehicles) then {
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 			FALSE
 		];
+		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _AOmrap;
 		_AOmrap allowDamage FALSE;
 		_AOmrap enableRopeAttach FALSE;
 		_AOmrap enableVehicleCargo FALSE;
@@ -473,12 +485,18 @@ if (_allowVehicles) then {
 		_AOmrap setUnloadInCombat [TRUE,FALSE];
 		/*/_AOmrap forceFollowRoad TRUE;/*/
 		_AOmrap setConvoySeparation 50;
-		_AOmrap limitSpeed 30;
+		_AOmrap limitSpeed (random [30,35,40]);
 		clearMagazineCargoGlobal _AOmrap;
 		clearWeaponCargoGlobal _AOmrap;
 		clearItemCargoGlobal _AOmrap;
 		clearBackpackCargoGlobal _AOmrap;
-		[_AOmrap] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+		if (_playerCount < 30) then {
+			[_AOmrap] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+		} else {
+			if ((random 1) > 0.5) then {
+				[_AOmrap] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+			};
+		};
 		_AOmrap spawn {sleep 3; _this allowDamage TRUE;};
 		_AOmrap setVectorUp (surfaceNormal _randomPos);
 		_AOmrap addEventHandler [
@@ -537,9 +555,9 @@ if (_allowVehicles) then {
 		_unit2 setSkill ['aimingAccuracy',0.1];
 		_AOmrapGroup allowFleeing 0;
 		0 = _enemiesArray pushBack _AOmrap;
-		_AOmrapGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_AOmrapGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _AOmrapGroup)),_AOmrap],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_AOmrapGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_AOmrapGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		/*/_AOmrapGroup setVariable ['QS_AI_Groups',['QS_PATROL',_pos],FALSE];/*/
 	};
 };
@@ -578,6 +596,7 @@ if (_allowVehicles) then {
 		];
 		_AOveh allowDamage FALSE;
 		_AOveh limitSpeed 30;
+		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _AOveh;
 		clearMagazineCargoGlobal _AOveh;
 		clearWeaponCargoGlobal _AOveh;
 		clearItemCargoGlobal _AOveh;
@@ -598,9 +617,15 @@ if (_allowVehicles) then {
 		if (random 1 >= 0.25) then {_AOveh allowCrewInImmobile TRUE;};
 		/*/_AOveh forceFollowRoad TRUE;/*/
 		_AOveh setConvoySeparation 50;
-		[_AOveh] spawn {sleep 10; (_this select 0) allowDamage TRUE;};
+		[_AOveh] spawn {sleep 5; (_this select 0) allowDamage TRUE;};
 		_AOveh setVectorUp (surfaceNormal _randomPos);
-		[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+		if (_playerCount < 30) then {
+			[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+		} else {
+			if ((random 1) > 0.5) then {
+				[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+			};
+		};
 		_AOveh addEventHandler [
 			'Killed',
 			{

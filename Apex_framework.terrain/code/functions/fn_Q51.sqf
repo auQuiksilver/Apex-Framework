@@ -42,28 +42,10 @@ if (
 	['60Rnd_40mm_GPR_Tracer_Red_shells',[-1]],
 	['60Rnd_40mm_GPR_Tracer_Red_shells',[-1]]
 ];
+_vehicle setVariable ['QS_ST_customDN','Q-51 Mosquito',TRUE];
 _vehicle setObjectTextureGlobal [0,"a3\Air_F_Gamma\Plane_Fighter_03\Data\Plane_Fighter_03_body_1_brownhex_CO.paa"];
 _vehicle setObjectTextureGlobal [1,"a3\Air_F_Gamma\Plane_Fighter_03\Data\Plane_Fighter_03_body_1_brownhex_CO.paa"];
 if (isDedicated) then {
-	_vehicle addEventHandler [
-		'IncomingMissile',
-		{
-			params ['_vehicle','_ammo','_firer','_instigator'];
-			if (!isNull (driver _vehicle)) then {
-				if (alive (driver _vehicle)) then {
-					(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					(driver _vehicle) spawn {
-						scriptName 'QS Incoming Missile Flares';
-						_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-						sleep 1;
-						_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-						sleep 1;
-						_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					};
-				};
-			};
-		}
-	];
 	_vehicle addEventHandler [
 		'HandleDamage',
 		{

@@ -1532,7 +1532,7 @@ if (_case < 80) exitWith {
 	if (_case isEqualTo 77) then {
 		if (isDedicated) then {
 			_type = _this select 1;
-			_params = _this select 2;	
+			_params = _this select 2;
 			[1,_type,_params,_isRx] call (missionNamespace getVariable 'QS_fnc_dynamicTasks');
 		};
 	};

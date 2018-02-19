@@ -26,10 +26,6 @@ Example:
 		0,
 		FALSE
 	] spawn QS_fnc_stalk;
-	
-To Do:
-
-	Stop using waypoints, use move/doMove instead
 _________________________________________________/*/
 scriptName 'QS Stalker Script';
 params ['_predatorGrp','_prey','_condition','_refreshRate','_combatMode','_behaviour','_speedMode','_unitPos','_reveal','_stamina'];
@@ -93,6 +89,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (call _condition) exitWith {};
 	{
 		if (alive _x) then {
+			doStop _x;
 			_x doMove (position _prey);
 		};
 	} forEach (units _predatorGrp);

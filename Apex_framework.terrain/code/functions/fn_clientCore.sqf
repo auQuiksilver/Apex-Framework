@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/01/2018 A3 1.80 by Quiksilver
+	13/02/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -103,7 +103,7 @@ private [
 	'_QS_action_carrierLaunch','_QS_action_carrierLaunch_text','_QS_action_carrierLaunch_array','_QS_interaction_carrierLaunch','_QS_carrier_cameraOn','_QS_carrier_inPolygon',
 	'_QS_carrierPolygon','_QS_carrierLaunchData','_QS_carrierPos','_fn_data_carrierLaunch','_serverTime','_hintsQueue','_hintData','_hintDelay','_hintCheckDelay','_hintActive','_hintActiveDuration',
 	'_hintPriority','_hintUseSound','_hintDuration','_hintPreset','_hintText','_hintOtherData','_hintIrrelevantWhen','_hintTextPrevious','_hintPriorClosedAt','_true','_false','_enemysides',
-	'_isAltis','_isTanoa','_QS_carrierEnabled'
+	'_isAltis','_isTanoa','_QS_carrierEnabled','_array'
 ];
 disableSerialization;
 _QS_productVersion = productVersion;
@@ -1149,16 +1149,17 @@ _QS_module_radioChannelManager_commandChannel = -1;
 _QS_module_radioChannelManager_notPilot = ((!(player getUnitTrait 'QS_trait_pilot')) && (!(_QS_isUAVOperator)) && (!(player getUnitTrait 'QS_trait_HQ')));
 _QS_module_radioChannelManager_aircraftChannel = 2;
 _QS_module_radioChannelManager_checkState = {
+	params ['_atcMarkerPos','_tocMarkerPos'];
 	private _c = FALSE;
-	if ((player distance2D (markerPos 'QS_marker_base_atc')) < 12) then {
-		if (((getPosWorld player) select 2) > 10) then {
+	if ((player distance2D _atcMarkerPos) < 12) then {
+		if (((getPosATL player) select 2) > 5) then {
 			if (isNull (objectParent player)) then {
 				_c = TRUE;
 			};
 		};
 	};
-	if ((player distance2D (markerPos 'QS_marker_base_toc')) < 10) then {
-		if (((getPosWorld player) select 2) < 7) then {
+	if ((player distance2D _tocMarkerPos) < 10) then {
+		if (((getPosATL player) select 2) < 7) then {
 			if (isNull (objectParent player)) then {
 				_c = TRUE;
 			};
@@ -1166,6 +1167,8 @@ _QS_module_radioChannelManager_checkState = {
 	};
 	_c;
 };
+_atcMarkerPos = markerPos 'QS_marker_base_atc';
+_tocMarkerPos = markerPos 'QS_marker_base_toc';
 /*/===== Weapon Sway module/*/
 _QS_module_swayManager = TRUE;
 _QS_module_swayManager_delay = 0.25;
@@ -1799,10 +1802,11 @@ for '_x' from 0 to 1 step 0 do {
 	_timeNow = time;
 	_QS_uiTime = diag_tickTime;
 	_serverTime = serverTime;
-	_QS_posWorldPlayer = getPosWorld _QS_player;
 	if (!(_QS_player isEqualTo player)) then {
 		_QS_player = player;
 	};
+	_QS_posWorldPlayer = getPosWorld _QS_player;
+	_posATLPlayer = getPosATL _QS_player;
 	if (!(_QS_cO isEqualTo cameraOn)) then {
 		_QS_cO = cameraOn;
 	};
@@ -1826,14 +1830,13 @@ for '_x' from 0 to 1 step 0 do {
 					_mainMenuOpen = FALSE;
 				} else {
 					_QS_clientHp = round ((1 - (damage _QS_player)) * (10 ^ 2));
-					_QS_clientMass = (loadAbs _QS_player) / 10; //round ((loadAbs _QS_player) * 0.1);
+					_QS_clientMass = (loadAbs _QS_player) / 10;
 					if (_timeNow > _QS_fpsCheckDelay) then {
 						_QS_fpsLastPull = round diag_fps;
 						_QS_fpsCheckDelay = _timeNow + _QS_fpsDelay;
 					};
 					((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetToolTip 'FPS, Time to server restart (estimated)';
 					((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetText format ['FPS: %1 | Restart: %2h',_QS_fpsLastPull,([(estimatedEndServerTime - _serverTime),'HH:MM'] call _fn_secondsToString)];
-					/*/_QS_clientSideScore = scoreSide _QS_side;/*/
 					_QS_clientScore = score _QS_player;
 					_QS_rating = rating _QS_player;
 					((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlSetToolTip 'Score, Rating, Health, Equipment';
@@ -2037,7 +2040,6 @@ for '_x' from 0 to 1 step 0 do {
 					};
 					if (_timeNow > _QS_nearEntities_revealCheckDelay) then {
 						if (isNull _objectParent) then {
-							_posATLPlayer = getPosATL _QS_player;
 							{
 								if (simulationEnabled _x) then {
 									if ((_QS_player knowsAbout _x) < 1) then {
@@ -3029,11 +3031,32 @@ for '_x' from 0 to 1 step 0 do {
 							if (((vectorMagnitude (velocity _QS_v2)) * 3.6) < 1) then {
 								if ((_QS_v2 getVariable ['QS_tow_veh',-1]) > 0) then {
 									if (canMove _QS_v2) then {
-										if ([_QS_v2] call _fn_vTowable) then {
-											if (!(_QS_interaction_tow)) then {
-												_QS_interaction_tow = TRUE;
-												_QS_action_tow = player addAction _QS_action_tow_array;
-												player setUserActionText [_QS_action_tow,((player actionParams _QS_action_tow) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_tow) select 0)])];
+										if (((vectorUp _QS_v2) select 2) > 0.1) then {
+											if (isNull (isVehicleCargo _QS_v2)) then {
+												if (isNull (ropeAttachedTo _QS_v2)) then {
+													if ([_QS_v2] call _fn_vTowable) then {
+														if (!(_QS_interaction_tow)) then {
+															_QS_interaction_tow = TRUE;
+															_QS_action_tow = player addAction _QS_action_tow_array;
+															player setUserActionText [_QS_action_tow,((player actionParams _QS_action_tow) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_tow) select 0)])];
+														};
+													} else {
+														if (_QS_interaction_tow) then {
+															_QS_interaction_tow = FALSE;
+															player removeAction _QS_action_tow;
+														};
+													};
+												} else {
+													if (_QS_interaction_tow) then {
+														_QS_interaction_tow = FALSE;
+														player removeAction _QS_action_tow;
+													};
+												};
+											} else {
+												if (_QS_interaction_tow) then {
+													_QS_interaction_tow = FALSE;
+													player removeAction _QS_action_tow;
+												};
 											};
 										} else {
 											if (_QS_interaction_tow) then {
@@ -3083,11 +3106,39 @@ for '_x' from 0 to 1 step 0 do {
 											if ((lifeState _cursorTarget) in ['HEALTHY','INJURED']) then {
 												if (isNull (objectParent _cursorTarget)) then {
 													if (_cursorTarget getVariable ['QS_surrenderable',FALSE]) then {
-														if (!(uiNamespace getVariable ['QS_client_progressVisualization_active',FALSE])) then {
-															if (!(_QS_interaction_commandSurrender)) then {
-																_QS_interaction_commandSurrender = TRUE;
-																_QS_action_commandSurrender = player addAction _QS_action_commandSurrender_array;
-																player setUserActionText [_QS_action_commandSurrender,((player actionParams _QS_action_commandSurrender) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_commandSurrender) select 0)])];
+														if (!(weaponLowered player)) then {
+															if (!(underwater player)) then {
+																if ((stance player) in ['STAND','CROUCH']) then {
+																	if ((lineIntersectsSurfaces [(eyePos player),(aimPos _cursorTarget),player,_cursorTarget,TRUE,-1,'FIRE','VIEW',TRUE]) isEqualTo []) then {
+																		if (!(uiNamespace getVariable ['QS_client_progressVisualization_active',FALSE])) then {
+																			if (!(_QS_interaction_commandSurrender)) then {
+																				_QS_interaction_commandSurrender = TRUE;
+																				_QS_action_commandSurrender = player addAction _QS_action_commandSurrender_array;
+																				player setUserActionText [_QS_action_commandSurrender,((player actionParams _QS_action_commandSurrender) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_commandSurrender) select 0)])];
+																			};
+																		} else {
+																			if (_QS_interaction_commandSurrender) then {
+																				_QS_interaction_commandSurrender = FALSE;
+																				player removeAction _QS_action_commandSurrender;
+																			};
+																		};
+																	} else {
+																		if (_QS_interaction_commandSurrender) then {
+																			_QS_interaction_commandSurrender = FALSE;
+																			player removeAction _QS_action_commandSurrender;
+																		};
+																	};
+																} else {
+																	if (_QS_interaction_commandSurrender) then {
+																		_QS_interaction_commandSurrender = FALSE;
+																		player removeAction _QS_action_commandSurrender;
+																	};
+																};
+															} else {
+																if (_QS_interaction_commandSurrender) then {
+																	_QS_interaction_commandSurrender = FALSE;
+																	player removeAction _QS_action_commandSurrender;
+																};
 															};
 														} else {
 															if (_QS_interaction_commandSurrender) then {
@@ -3896,7 +3947,7 @@ for '_x' from 0 to 1 step 0 do {
 								if ((_cursorObject isKindOf 'Reammobox_F') || {((typeOf _cursorObject) in _QS_action_loadCargo_cargoTypes)}) then {
 									if (alive _cursorObject) then {
 										if (simulationEnabled _cursorObject) then {
-											if (isNull (attachedto _cursorObject)) then {
+											if (isNull (attachedTo _cursorObject)) then {
 												if (!(isSimpleObject _cursorObject)) then {
 													if (isNull (isVehicleCargo _cursorObject)) then {
 														_nearCargoVehicles = (getPosATL _cursorObject) nearEntities [['Air','LandVehicle'],21];
@@ -5169,7 +5220,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_crewIndicatorIDD cutText ['','PLAIN'];
 				};
 			};
-			_QS_module_crewIndicator_checkDelay = time + _QS_module_crewIndicator_delay;
+			_QS_module_crewIndicator_checkDelay = _timeNow + _QS_module_crewIndicator_delay;
 		};
 	};
 	
@@ -5319,7 +5370,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_module_safezone) then {
 		if (_timeNow > _QS_module_safezone_checkDelay) then {
 			_allPlayers = allPlayers;
-			if (((player distance _QS_module_safezone_pos) < _QS_module_safezone_radius) && (!(_QS_v2 isEqualTo (missionNamespace getVariable 'QS_arty')))) then {
+			if (((player distance2D _QS_module_safezone_pos) < _QS_module_safezone_radius) && (!(_QS_v2 isEqualTo (missionNamespace getVariable 'QS_arty')))) then {
 				if (_QS_posWorldPlayer inPolygon _QS_baseAreaPolygon) then {
 					if (!(_QS_v2 isKindOf 'Man')) then {
 						if (local _QS_v2) then {
@@ -5647,7 +5698,7 @@ for '_x' from 0 to 1 step 0 do {
 							if (!(_kicked)) then {
 								_kicked = TRUE;
 								with uiNamespace do {
-									TRUE spawn {
+									0 spawn {
 										[
 											'Auto-kicked for AFK timeout.',
 											'Robocop',
@@ -5679,9 +5730,28 @@ for '_x' from 0 to 1 step 0 do {
 		if (_QS_player isEqualTo (driver _QS_v2)) then {
 			if ((_QS_v2 animationSourcePhase 'MovePlow') isEqualTo 1) then {
 				_posInFront = _QS_v2 modelToWorld [0,6,0];
-				_listOfFrontStuff = [];
 				_listOfFrontStuff = _posInFront nearObjects ['All',4];
-				_mines = ['IEDUrbanSmall_F','IEDLandSmall_F','SLAMDirectionalMine','IEDUrbanBig_F','IEDLandBig_F','SatchelCharge_F','DemoCharge_F','Claymore_F'];
+				_array = lineIntersectsSurfaces [
+					(_QS_v2 modelToWorldWorld (_QS_v2 selectionPosition 'plow')), 
+					(AGLToASL _posInFront), 
+					_QS_v2, 
+					objNull, 
+					TRUE, 
+					-1, 
+					'GEOM', 
+					'VIEW', 
+					TRUE
+				];
+				{
+					if (!isNull (_x select 3)) then {
+						if ((_x select 3) isKindOf 'AllVehicles') then {
+							if (!alive (_x select 3)) then {
+								_listOfFrontStuff pushBack (_x select 3);
+							};
+						};
+					};
+				} forEach _array;
+				_mines = ['IEDUrbanSmall_F','IEDLandSmall_F','SLAMDirectionalMine','IEDUrbanBig_F','IEDLandBig_F','SatchelCharge_F','DemoCharge_F','Claymore_F'] apply {(toLower _x)};
 				if (!(_listOfFrontStuff isEqualTo [])) then {
 					_QS_allMines = allMines;
 					_QS_toDelete = [];
@@ -5711,7 +5781,7 @@ for '_x' from 0 to 1 step 0 do {
 						if (_x isKindOf 'Land_Razorwire_F') then {
 							_x setDamage [1,TRUE];
 						};
-						if (_objType in _mines) then {
+						if ((toLower _objType) in _mines) then {
 							_x setDamage [1,TRUE];
 							0 = _QS_toDelete pushBack _x;
 						};
@@ -5998,7 +6068,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			/*/AIRCRAFT/*/
 			if (_QS_module_radioChannelManager_notPilot) then {
-				if ([] call _QS_module_radioChannelManager_checkState) then {
+				if ([_atcMarkerPos,_tocMarkerPos] call _QS_module_radioChannelManager_checkState) then {
 					if (!(_QS_module_radioChannelManager_aircraftChannel in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 						[1,_QS_module_radioChannelManager_aircraftChannel] call _fn_clientRadio;
 					};
@@ -6221,7 +6291,7 @@ for '_x' from 0 to 1 step 0 do {
 
 	if (_QS_module_revealPlayers) then {
 		if (_timeNow > _QS_module_revealPlayers_checkDelay) then {
-			if ((player distance2D _QS_module_safezone_pos) > 1000) then {
+			if ((_QS_player distance2D _QS_module_safezone_pos) > 1000) then {
 				if ((count _allPlayers) > 1) then {
 					{
 						if (!((toLower (speaker _x)) isEqualTo 'novoice')) then {
@@ -6421,10 +6491,10 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (_QS_module_clientAI) then {
 		if (_QS_uiTime > _QS_module_clientAI_checkDelay) then {
-			if (player isEqualTo (leader (group player))) then {
-				if (({((alive _x) && (!(isPlayer _x)) && (!(unitIsUav _x)))} count (units (group player))) > 0) then {
+			if (_QS_player isEqualTo (leader (group _QS_player))) then {
+				if (({((alive _x) && (!(isPlayer _x)) && (!(unitIsUav _x)))} count (units (group _QS_player))) > 0) then {
 					if (scriptDone _QS_module_clientAI_script) then {
-						_QS_module_clientAI_script = [] spawn _fn_clientAIBehaviours;
+						_QS_module_clientAI_script = 0 spawn _fn_clientAIBehaviours;
 					};
 				};
 			};

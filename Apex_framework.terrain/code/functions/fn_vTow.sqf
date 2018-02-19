@@ -93,8 +93,13 @@ if (!(simulationEnabled _found)) exitWith {
 	_text = format ['This %1 may not towable at all! Try getting into it first before attempting Tow.',_foundName];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7,-1,_text,[],-1];
 };
+if (!isNull (isVehicleCargo _found)) exitWith {(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,(format ['Cannot Tow the %1',_foundName]),[],-1];};
+if (!isNull (isVehicleCargo _vehicle)) exitWith {(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Cannot Tow at this time',[],-1];};
 if (!(ropeAttachEnabled _found)) exitWith {(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'This vehicle is not towable',[],-1];};
 if (!isNull (attachedTo _found)) exitWith {(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'This vehicle is not towable',[],-1];};
+if (!isNull (attachedTo _vehicle)) exitWith {(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Cannot Tow at this time',[],-1];};
+if (!isNull (ropeAttachedTo _vehicle)) exitWith {(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Cannot Tow at this time',[],-1];};
+if (!isNull (ropeAttachedTo _found)) exitWith {(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,(format ['Cannot Tow the %1',_foundName]),[],-1];};
 if (_foundMass > _towMaxMass) exitWith {
 	_text = format ['The %1 is too heavy for the %2 to tow!',_foundName,_vName];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];

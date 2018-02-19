@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_serverTracers.sqf
 Author: 
 
@@ -11,9 +11,7 @@ Last Modified:
 Description:
 
 	Give the units tracer mags when possible
-	
-magazines[] = {"100Rnd_580x42_Mag_F","100Rnd_580x42_Mag_Tracer_F"};
-__________________________________________________________*/
+__________________________________________________________/*/
 
 scriptName 'QS Set Tracers';
 private ['_QS_newUnit','_QS_unitSide','_QS_magazinesUnit','_QS_testMag','_QS_primaryWeaponMag','_pool'];
