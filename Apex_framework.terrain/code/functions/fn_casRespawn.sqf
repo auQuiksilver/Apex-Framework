@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	18/12/2017 A3 1.80 by Quiksilver
+	24/02/2018 A3 1.80 by Quiksilver
 
 Description: 
 
@@ -47,6 +47,7 @@ private _pool = [];
 private _isCarrier = FALSE;
 private _pos = [0,0,0];
 private _dir = 0;
+private _typeOverride = '';
 if (_missionConfig_CAS isEqualTo 1) then {
 	_pool = [
 		[
@@ -109,7 +110,6 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	if (!(missionNamespace getVariable ['QS_casJet_destroyedAtBase',FALSE])) then {
 		_aircraftPool = _aircraftPool + 1;
 	};
-	private _typeOverride = '';
 	if (!((missionNamespace getVariable ['QS_casJet_destroyedAtBase_type','']) isEqualTo '')) then {
 		_typeOverride = missionNamespace getVariable ['QS_casJet_destroyedAtBase_type',''];
 		missionNamespace setVariable ['QS_casJet_destroyedAtBase_type','',FALSE];
