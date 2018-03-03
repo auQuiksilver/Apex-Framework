@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/12/2017 A3 1.80 by Quiksilver
+	3/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 	
@@ -32,7 +32,7 @@ if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {
 	_QS_c = TRUE;
 	_QS_c;
 };
-if ((!(({((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))} count (attachedObjects player)) isEqualTo 0)) && (!(_QS_actionText in ['Release','Load']))) exitWith {
+if ((!(({((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))} count (attachedObjects player)) isEqualTo 0)) && (!(_QS_actionText in ['Release','Load'])) && (!(_QS_actionName in ['OpenParachute']))) exitWith {
 	50 cutText ['Busy','PLAIN DOWN',0.333];
 	_QS_c = TRUE;
 	_QS_c;
