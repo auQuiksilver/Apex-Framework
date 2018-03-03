@@ -1372,7 +1372,8 @@ for '_x' from 0 to 1 step 0 do {
 		} else {
 			if (!(_blockMessageShown)) then {
 				_extended = TRUE;
-				_duration = serverTime + 600 + (random 600);
+				missionNamespace setVariable ['QS_defend_blockTimeout',FALSE,FALSE];
+				_duration = serverTime + 360 + (random 360);
 				[_taskID,TRUE,_duration] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 				_blockMessageShown = TRUE;
 				['sideChat',[WEST,'HQ'],_blockMessage] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
