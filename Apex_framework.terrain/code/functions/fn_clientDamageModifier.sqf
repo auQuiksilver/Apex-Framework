@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/01/2018 A3 1.80 by Quiksilver
+	4/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -20,7 +20,9 @@ if (isNull (objectParent _unit)) then {
 		if (!isNull _source) then {
 			if ((isPlayer _source) || {(isPlayer _instigator)}) then {
 				if (!(_unit in [_source,_instigator])) then {
-					_return = 0.05;
+					if ((side _instigator) in [playerSide,sideEnemy]) then {
+						_return = 0.05;
+					};
 				};
 			} else {
 				if ((call (missionNamespace getVariable ['QS_missionConfig_reducedDamage',{1}])) isEqualTo 1) then {
@@ -39,7 +41,9 @@ if (isNull (objectParent _unit)) then {
 	} else {
 		if (!isNull _instigator) then {
 			if (isPlayer _instigator) then {
-				_return = 0.05;
+				if ((side _instigator) in [playerSide,sideEnemy]) then {
+					_return = 0.05;
+				};
 			};
 		};
 	};
