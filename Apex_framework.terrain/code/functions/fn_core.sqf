@@ -3596,7 +3596,7 @@ for '_x' from 0 to 1 step 0 do {
 		if ((count allDeadMen) > 75) then {
 			diag_log format ['***** CLEANUP ***** %1 ***** Deleting dead * overflow *****',time];
 			{
-				if if (!(_x getVariable ['QS_dead_prop',FALSE])) then {
+				if (!(_x getVariable ['QS_dead_prop',FALSE])) then {
 					missionNamespace setVariable [
 						'QS_analytics_entities_deleted',
 						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
