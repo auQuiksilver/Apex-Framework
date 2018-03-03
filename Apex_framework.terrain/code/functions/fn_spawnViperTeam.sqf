@@ -6,15 +6,11 @@ Author:
 	
 Last Modified:
 
-	11/02/2018 A3 1.80 by Quiksilver
+	3/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 
 	Spawn Viper Team
-	
-		if (_type isEqualTo 'O_T_ViperTeam') then {_return = [['O_V_Soldier_TL_ghex_F','SERGEANT'],['O_V_Soldier_JTAC_ghex_F','CORPORAL'],['O_V_Soldier_M_ghex_F','PRIVATE'],['O_V_Soldier_Exp_ghex_F','PRIVATE'],['O_V_Soldier_LAT_ghex_F','PRIVATE'],['O_V_Soldier_Medic_ghex_F','PRIVATE']];breakTo 'main';};	
-		if (_type isEqualTo 'O_T_ViperTeam') then {_return = [['O_V_Soldier_TL_hex_F','SERGEANT'],['O_V_Soldier_JTAC_hex_F','CORPORAL'],['O_V_Soldier_M_hex_F','PRIVATE'],['O_V_Soldier_Exp_hex_F','PRIVATE'],['O_V_Soldier_LAT_hex_F','PRIVATE'],['O_V_Soldier_Medic_hex_F','PRIVATE']];breakTo 'main';};	
-
 _____________________________________________________________________/*/
 
 params ['_type','_quantity','_total',['_viperGroup',grpNull]];
@@ -38,7 +34,7 @@ _unitTypes = [
 		'o_v_soldier_ghex_f',0.6
 	]
 ] select (worldName isEqualTo 'Tanoa');
-if (_type isEqualTo 'CLASSIC') exitWith {
+if (_type in ['CLASSIC','SC']) exitWith {
 	comment 'Position';
 	private _centerPos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
 	private _aoSize = missionNamespace getVariable ['QS_aoSize',[0,0,0]];
@@ -78,7 +74,6 @@ if (_type isEqualTo 'CLASSIC') exitWith {
 		_unit setUnitRecoilCoefficient 0.9;
 		_unit setUnitTrait ['camouflageCoef',0.5,FALSE];
 		_unit setUnitTrait ['audibleCoef',0.5,FALSE];
-		_unit disableAI 'AUTOCOMBAT';
 		if ((random 1) > 0.5) then {
 			_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
 			_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime - 1),FALSE];
@@ -115,9 +110,6 @@ if (_type isEqualTo 'CLASSIC') exitWith {
 	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_grp setVariable ['QS_AI_GRP_DATA',[_position1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	(units _grp);
-};
-if (_type isEqualTo 'SC') exitWith {
-
 };
 if (_type isEqualTo 'GRID') exitWith {
 

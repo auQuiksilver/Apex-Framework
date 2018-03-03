@@ -48,7 +48,7 @@ diag_log 'Defend AO 0';
 if (time < 300) exitWith {};
 _allPlayersCount = count allPlayers;
 if (diag_fps < 13) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
-//if (([(missionNamespace getVariable 'QS_HQpos'),400,[WEST],allPlayers,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')) < 4) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
+if (([(missionNamespace getVariable 'QS_HQpos'),1000,[WEST],allPlayers,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')) < 4) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 if (((random 1) > 0.333) && ((missionNamespace getVariable 'QS_forceDefend') isEqualTo 0)) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo 1) then {missionNamespace setVariable ['QS_forceDefend',0,TRUE];};
 if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo -1) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
