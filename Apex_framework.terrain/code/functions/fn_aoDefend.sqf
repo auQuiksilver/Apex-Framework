@@ -645,7 +645,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((_spawnPos distance2D _centerPos) < 1201) then {
 								if (_spawnPos call _fn_blacklist) then {
 									if (!([_spawnPos,_centerPos,25] call _fn_waterIntersect)) then {
-										_nearRoads = ([_spawnPos select 0,_spawnPos select 1] nearRoads 150) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};;
+										_nearRoads = ([_spawnPos select 0,_spawnPos select 1] nearRoads 150) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
 										if (!(_nearRoads isEqualTo [])) then {
 											{
 												if ((toLower (surfaceType (getPosATL _x))) in _validRoadSurfaces) then {
