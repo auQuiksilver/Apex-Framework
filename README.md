@@ -1,6 +1,6 @@
 # Apex Framework 
 
-Apex Framework 1.0.6 by Quiksilver       (armacombatgroup@gmail.com)
+Apex Framework 1.0.7 "Tanks" by Quiksilver       (armacombatgroup@gmail.com)
 
 Support
 
@@ -17,7 +17,7 @@ Apex Framework step-by-step setup guide:
 * Server must be running Windows x64, or Linux.
 _______________
 
-0. Download the "Apex_framework_106_allFiles.zip" file.
+0. Download the "Apex_framework_107_allFiles.zip" file.
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
@@ -53,11 +53,11 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_106.Altis";
+template="Apex_framework_107.Altis";
 
-//template="Apex_framework_106.Tanoa";
+//template="Apex_framework_107.Tanoa";
 
-//template="Apex_framework_106.Malden";
+//template="Apex_framework_107.Malden";
 
 difficulty="Custom";
 
@@ -67,7 +67,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_106.Altis","Apex_framework_106.Tanoa","Apex_framework_106.Malden"};
+missionWhitelist[] = {"Apex_framework_107.Altis","Apex_framework_107.Tanoa","Apex_framework_107.Malden"};
 
 --------------------------
 
