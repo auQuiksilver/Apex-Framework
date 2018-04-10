@@ -125,3 +125,15 @@ if (_type isEqualTo 'playMoveNow') exitWith {
 if (_type isEqualTo 'enableVehicleCargo') exitWith {
 	_1 enableVehicleCargo _2;
 };
+if (_type isEqualTo 'addWaypoint') exitWith {
+	_1 addWaypoint _2;
+};
+if (_type isEqualTo 'deleteWaypoint') exitWith {
+	deleteWaypoint _1;
+};
+if (_type isEqualTo 'setWaypointType') exitWith {
+	_1 setWaypointType _2;
+};
+if (_type isEqualTo 'setFormDir') exitWith {
+	_1 setFormDir _2;
+};

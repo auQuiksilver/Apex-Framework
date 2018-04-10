@@ -27,7 +27,7 @@ private _groupFound = FALSE;
 	if ((side _x) isEqualTo _side) then {
 		if (_x getVariable ['QS_AI_GRP',FALSE]) then {
 			if (!(_grp isEqualTo _x)) then {
-				if (!(({(alive _x)} count (units _x)) isEqualTo 0)) then {
+				if (!(((units _x) findIf {(alive _x)}) isEqualTo -1)) then {
 					if (((leader _x) distance2D _unit) < _radius) then {
 						_testGroup = _x;
 						_testGroupConfig = _testGroup getVariable ['QS_AI_GRP_CONFIG',['','',-1,objNull]];
@@ -72,7 +72,7 @@ if (!(_suitableGroups isEqualTo [])) exitWith {
 if (!isNil {_grp getVariable 'QS_AI_GRP_regroupPos'}) exitWith {
 	_grp setVariable ['QS_AI_GRP_regrouping',TRUE,FALSE];
 	doStop _unit;
-	_unit doMove (_grp getVariable 'QS_AI_GRP_regroupPos');
+	_unit doMove (_grp getVariable ['QS_AI_GRP_regroupPos',[0,0,0]]);
 	TRUE;
 };
 if (!((missionNamespace getVariable ['QS_AI_regroupPositions',[]]) isEqualTo [])) then {
@@ -94,7 +94,7 @@ if (!((missionNamespace getVariable ['QS_AI_regroupPositions',[]]) isEqualTo [])
 		_grp setVariable ['QS_AI_GRP_regroupPos',_nearest,FALSE];
 		_grp setVariable ['QS_AI_GRP_regrouping',TRUE,FALSE];
 		doStop _unit;
-		_unit doMove (_grp getVariable 'QS_AI_GRP_regroupPos');
+		_unit doMove (_grp getVariable ['QS_AI_GRP_regroupPos',[0,0,0]]);
 	};
 };
 FALSE;

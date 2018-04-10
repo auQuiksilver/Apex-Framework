@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	15/11/2017 A3 1.76 by Quiksilver
+	9/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -28,15 +28,16 @@ if (_isUAV) then {
 
 private _baseService = FALSE;
 private _fieldService = FALSE;
+private _nearestServiceSite = '';
 {
-	if (((_t distance (markerPos _x)) < 12) || {((_v distance (markerPos _x)) < 12)}) then {
+	if (((_t distance2D (markerPos _x)) < 12) || {((_v distance2D (markerPos _x)) < 12)}) then {
 		_baseService = TRUE;
 		_fieldService = FALSE;
 		_nearestServiceSite = _x;
 	};
 } count (missionNamespace getVariable 'QS_veh_baseservice_mkrs');
 {
-	if (((_t distance (markerPos _x)) < 12) || {((_v distance (markerPos _x)) < 12)}) then {
+	if (((_t distance2D (markerPos _x)) < 12) || {((_v distance2D (markerPos _x)) < 12)}) then {
 		_baseService = FALSE;
 		_fieldService = TRUE;
 		_nearestServiceSite = _x;
@@ -52,27 +53,29 @@ if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqu
 };
 
 /*/=========================================== BASE SERVICE/*/
-
+private _isDepot = [_v] call (missionNamespace getVariable 'QS_fnc_isNearRepairDepot');
 private _isQualified = TRUE;
-if (_baseService) then {
+if ((_baseService) || (_isDepot)) then {
 	/*/=========================================== QUALIFY BY VEHICLE TYPE/*/
-	if (_nearestServiceSite in (missionNamespace getVariable 'QS_veh_landservice_mkrs')) then {
-		if (!(_v isKindOf 'LandVehicle')) then {
-			_isQualified = FALSE;
-			50 cutText ['This service area is for Land Vehicles only, soldier!','PLAIN DOWN',0.5];
+	if ((_baseService) && (!(_isDepot))) then {
+		if (_nearestServiceSite in (missionNamespace getVariable 'QS_veh_landservice_mkrs')) then {
+			if (!(_v isKindOf 'LandVehicle')) then {
+				_isQualified = FALSE;
+				50 cutText ['This service area is for Land Vehicles only, soldier!','PLAIN DOWN',0.5];
+			};
 		};
-	};
-	if (_nearestServiceSite in (missionNamespace getVariable 'QS_veh_planeservice_mkrs')) then {
-		if (!(_v isKindOf 'Plane')) then {
-			_isQualified = FALSE;
-			50 cutText ['This service area is for Planes/VTOL only, soldier!','PLAIN DOWN',0.5];
+		if (_nearestServiceSite in (missionNamespace getVariable 'QS_veh_planeservice_mkrs')) then {
+			if (!(_v isKindOf 'Plane')) then {
+				_isQualified = FALSE;
+				50 cutText ['This service area is for Planes/VTOL only, soldier!','PLAIN DOWN',0.5];
+			};
 		};
-	};
-	
-	if (_nearestServiceSite in (missionNamespace getVariable 'QS_veh_heliservice_mkrs')) then {
-		if (!(_v isKindOf 'Helicopter')) then {
-			_isQualified = FALSE;
-			50 cutText ['This service area is for Helicopters (not VTOL) only, soldier!','PLAIN DOWN',0.5];
+		
+		if (_nearestServiceSite in (missionNamespace getVariable 'QS_veh_heliservice_mkrs')) then {
+			if (!(_v isKindOf 'Helicopter')) then {
+				_isQualified = FALSE;
+				50 cutText ['This service area is for Helicopters (not VTOL) only, soldier!','PLAIN DOWN',0.5];
+			};
 		};
 	};
 	if (!(local _v)) then {_isQualified = FALSE;};

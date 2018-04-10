@@ -149,16 +149,18 @@ if (((count allPlayers) > 20) || {((random 1) > 0.75)}) then {
 };
 comment 'Create sub objectives';
 private _subObj = [];
+private _subObjectives = [];
+_subObjectives pushBack [1,'VEHICLE'];
+_subObjectives pushBack (selectRandomWeighted [[1,'INTEL'],0.5,[1,'GEAR'],0.5]);
+if ((random 1) > 0.5) then {
+	_subObjectives pushBack [1,'JAMMER'];
+};
 {
 	_subObj = _x call (missionNamespace getVariable 'QS_fnc_scSubObjective');
 	if (!(_subObj isEqualTo [])) then {
 		(missionNamespace getVariable 'QS_virtualSectors_subObjectives') pushBack _subObj;
 	};
-} forEach [
-	[1,'INTEL'],
-	[1,'VEHICLE'],
-	[1,'GEAR']
-];
+} forEach _subObjectives;
 comment 'Illumination';
 if (!(sunOrMoon isEqualTo 1)) then {
 	[0,(missionNamespace getVariable 'QS_AOpos'),300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
@@ -180,7 +182,7 @@ comment 'Animals';
 for '_x' from 0 to 2 step 1 do {
 	[
 		(['RADIUS',(missionNamespace getVariable 'QS_AOpos'),((missionNamespace getVariable 'QS_aoSize') * 1.1),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos')),
-		(['SHEEP','GOAT','HEN'] selectRandomWeighted [3,2,1]),
+		(selectRandomWeighted ['SHEEP',3,'GOAT',2,'HEN',1]),
 		(round (2 + (random 3)))
 	] call (missionNamespace getVariable 'QS_fnc_aoAnimals');
 };

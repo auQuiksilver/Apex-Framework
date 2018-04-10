@@ -21,11 +21,11 @@ private _allPlayers = allPlayers;
 private _positionFound = FALSE;
 for '_x' from 0 to 19 step 1 do {
 	_spawnPos = ['RADIUS',_aoPos,(_aoSize * _multiplier),'LAND',[8,0,0.1,5,0,FALSE,objNull],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if (({((_spawnPos distance2D _x) < 100)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
-		if ((([_spawnPos select 0,_spawnPos select 1] nearRoads 15) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+	if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_spawnPos distance2D _x) < 100)}) isEqualTo -1) then {
+		if ((((_spawnPos select [0,2]) nearRoads 15) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 			if (!((toLower(surfaceType _spawnPos)) in ['#gdtasphalt'])) then {
 				if (!([_spawnPos,20,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-					if (({((_x distance2D _spawnPos) < 300)} count _allPlayers) isEqualTo 0) then {
+					if ((_allPlayers findIf {((_x distance2D _spawnPos) < 300)}) isEqualTo -1) then {
 						if (([_spawnPos,6] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 5) then {
 							_positionFound = TRUE;
 						};

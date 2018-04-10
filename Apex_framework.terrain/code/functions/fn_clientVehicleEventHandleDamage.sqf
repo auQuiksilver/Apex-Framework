@@ -20,7 +20,11 @@ _oldDamage = [(_vehicle getHit _selectionName),(damage _vehicle)] select (_selec
 if (!(_selectionName isEqualTo '?')) then {
 	if (!isNull _instigator) then {
 		if ((isPlayer _instigator) || {(isPlayer (effectiveCommander _instigator))}) then {
-			_scale = 0.05;	
+			if (!(_vehicle in [_source,_instigator])) then {
+				if ((side (group _instigator)) in [playerSide,sideEnemy]) then {
+					_scale = 0.05;
+				};
+			};
 		} else {
 			if (_vehicle isKindOf 'Helicopter') then {
 				_scale = 0.5;
@@ -29,7 +33,11 @@ if (!(_selectionName isEqualTo '?')) then {
 	};
 	if (!isNull _source) then {
 		if ((isPlayer _source) || {(isPlayer (effectiveCommander _source))}) then {
-			_scale = 0.05;	
+			if (!(_vehicle in [_source,_instigator])) then {
+				if ((side (group _instigator)) in [playerSide,sideEnemy]) then {
+					_scale = 0.05;
+				};
+			};
 		} else {
 			if (_vehicle isKindOf 'Helicopter') then {
 				_scale = 0.5;

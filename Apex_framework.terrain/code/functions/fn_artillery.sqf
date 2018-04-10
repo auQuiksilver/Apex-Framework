@@ -1,17 +1,17 @@
-/*
-@filename: fn_artillery.sqf
+/*/
+File: fn_artillery.sqf
 Author:
 
 	Quiksilver
 	
 Last modified:
 
-	24/01/2015 ArmA 1.38 by Quiksilver
+	24/02/2018 A3 1.80 by Quiksilver
 	
 Description:
 
 	-
-__________________________________________________*/
+__________________________________________________/*/
 
 private ['_type','_pos','_dir','_v','_va','_dn','_ammo'];
 _type = _this select 0;
@@ -20,7 +20,10 @@ _ammo = [
 	[0.60,0.50],
 	[0.90,0.75]
 ];
-_va = ['B_MBT_01_arty_F','B_MBT_01_mlrs_F'];
+_va = [
+	['B_MBT_01_arty_F','B_MBT_01_mlrs_F'],
+	['B_T_MBT_01_arty_F','B_T_MBT_01_mlrs_F']
+] select (worldName isEqualTo 'Tanoa');
 if (_type isEqualTo 0) exitWith {
 	if ((!isNil {missionNamespace getVariable 'QS_arty'}) && (!isNull (missionNamespace getVariable 'QS_arty'))) exitWith {};
 	_pos = markerPos 'QS_marker_airbaseArtillery';
@@ -37,11 +40,9 @@ if (_type isEqualTo 0) exitWith {
 	} else {
 		_dir = markerDir 'QS_marker_airbaseArtillery';
 	};
-	_va = ['B_MBT_01_arty_F','B_MBT_01_mlrs_F'];
-	_v = selectRandom _va;
 	missionNamespace setVariable [
 		'QS_arty',
-		(createVehicle [_v,[0,0,1000],[],0,'NONE']),
+		(createVehicle [(selectRandom _va),[0,0,1000],[],0,'NONE']),
 		TRUE
 	];
 	missionNamespace setVariable [
@@ -161,11 +162,11 @@ if (_type isEqualTo 1) exitWith {
 			};
 		} else {
 			missionNamespace setVariable ['QS_arty',nil,FALSE];
-			[0] call (missionNamespace getVariable 'QS_fnc_artillery');;
+			[0] call (missionNamespace getVariable 'QS_fnc_artillery');
 		};
 	} else {
 		missionNamespace setVariable ['QS_arty',nil,FALSE];
-		[0] call (missionNamespace getVariable 'QS_fnc_artillery');;
+		[0] call (missionNamespace getVariable 'QS_fnc_artillery');
 	};
 	if (local (missionNamespace getVariable 'QS_arty')) then {
 		(missionNamespace getVariable 'QS_arty') lockTurret [[0],FALSE];

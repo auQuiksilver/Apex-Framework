@@ -85,7 +85,7 @@ for '_x' from 0 to 1 step 0 do {
 	{
 		_unit = _x;
 		if ((random 1) > 0.75) then {
-			if ((speed _unit) < 1) then {
+			if (((vectorMagnitude (velocity _unit)) * 3.6) < 1) then {
 				{
 					_unit forgetTarget _x;
 				} forEach (_unit targets [TRUE,0]);

@@ -6,11 +6,11 @@ Author:
 	
 Last Modified:
 
-	9/03/2017 A3 1.66 by Quiksilver
+	11/03/2018 A3 1.81 by Quiksilver
 	
 Description:
 
-	AI group stalks player
+	AI group stalks target
 	
 Example:
 
@@ -31,11 +31,11 @@ scriptName 'QS Stalker Script';
 params ['_predatorGrp','_prey','_condition','_refreshRate','_combatMode','_behaviour','_speedMode','_unitPos','_reveal','_stamina'];
 if (
 	(_predatorGrp isEqualTo []) ||
-	(isNull _prey) ||
-	(!alive _prey) ||
-	(!local _predatorGrp) ||
-	(({(alive _x)} count (units _predatorGrp)) isEqualTo 0) ||
-	(!isNil {_predatorGrp getVariable 'QS_AI_GRP_stalker'})
+	{(isNull _prey)} ||
+	{(!alive _prey)} ||
+	{(!local _predatorGrp)} ||
+	{(((units _predatorGrp) findIf {(alive _x)}) isEqualTo -1)} ||
+	{(!isNil {_predatorGrp getVariable 'QS_AI_GRP_stalker'})}
 ) exitWith {};
 _predatorGrp setVariable ['QS_AI_GRP_stalker',TRUE,FALSE];
 _priorBehaviour = behaviour (leader _predatorGrp);
@@ -82,20 +82,24 @@ if (_stamina) then {
 	_x disableAI 'COVER';
 	_x commandTarget objNull;
 } forEach (units _predatorGrp);
+for '_x' from 0 to 3 step 1 do {
+	if ((waypoints _predatorGrp) isEqualTo []) exitWith {};
+	deleteWaypoint ((waypoints _predatorGrp) select 0);
+};
 sleep 3;
 for '_x' from 0 to 1 step 0 do {
-	if (({(alive _x)} count (units _predatorGrp)) isEqualTo 0) exitWith {};
+	if (((units _predatorGrp) findIf {(alive _x)}) isEqualTo -1) exitWith {};
 	if ((isNull _prey) || {(!alive _prey)}) exitWith {};
 	if (call _condition) exitWith {};
 	{
 		if (alive _x) then {
 			doStop _x;
-			_x doMove (position _prey);
+			_x doMove (getPosATL _prey);
 		};
 	} forEach (units _predatorGrp);
 	sleep _refreshRate;
 };
-if (({(alive _x)} count (units _predatorGrp)) > 0) then {
+if (!(((units _predatorGrp) findIf {(alive _x)}) isEqualTo -1)) then {
 	_predatorGrp setVariable ['QS_AI_GRP_stalker',FALSE,FALSE];
 	_predatorGrp setCombatMode _priorCombatMode;
 	{

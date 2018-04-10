@@ -6,70 +6,195 @@ Author:
 	
 Last Modified:
 
-	19/12/2017 A3 1.80 by Quiksilver
+	10/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
-	Vehicle RandomiZZZation
+	Vehicle Randomization
 _____________________________________________/*/
 
-params ['_u'];
-private _t = _u;
-_apcs = [
-	['B_APC_Wheeled_01_cannon_F','I_APC_Wheeled_03_cannon_F','B_APC_Wheeled_01_cannon_F','B_APC_Wheeled_01_cannon_F','B_APC_Tracked_01_rcws_F','O_APC_Wheeled_02_rcws_F'],
-	['B_T_APC_Wheeled_01_cannon_F','I_APC_Wheeled_03_cannon_F','B_T_APC_Wheeled_01_cannon_F','B_T_APC_Wheeled_01_cannon_F','B_T_APC_Tracked_01_rcws_F','O_T_APC_Wheeled_02_rcws_ghex_F']
-] select (worldName isEqualTo 'Tanoa');
+params ['_type'];
+private _typeL = toLower _type;
+_isTropical = worldName in ['Tanoa','Lingor3'];
+//----- MBTs
 _mbts = [
-	['I_MBT_03_cannon_F','B_MBT_01_cannon_F','B_MBT_01_TUSK_F','B_MBT_01_TUSK_F','O_MBT_02_cannon_F'],
-	['I_MBT_03_cannon_F','B_T_MBT_01_cannon_F','B_T_MBT_01_TUSK_F','B_T_MBT_01_TUSK_F','O_T_MBT_02_cannon_ghex_F']
-] select (worldName isEqualTo 'Tanoa');
-_medHelis = ['B_Heli_Transport_01_F','B_Heli_Transport_01_camo_F','O_Heli_Light_02_unarmed_F','I_Heli_light_03_unarmed_F','B_Heli_Transport_01_F','B_Heli_Transport_01_camo_F','B_CTRG_Heli_Transport_01_sand_F','B_CTRG_Heli_Transport_01_tropic_F','B_Heli_Light_01_F','O_Heli_Transport_04_black_F'];
-_dlcHelis = ['B_Heli_Transport_03_F','B_Heli_Transport_03_unarmed_F','O_Heli_Transport_04_black_F','B_Heli_Transport_03_unarmed_F','B_Heli_Transport_03_unarmed_F'];
-_civ = ['C_Offroad_01_F','C_SUV_01_F','C_Van_01_transport_F','C_Hatchback_01_F'];
-_civBoat = ['C_Boat_Civil_01_F','C_Boat_Civil_01_police_F','C_Boat_Civil_01_rescue_F','C_Rubberboat'];
-_hunterArmed = ['B_MRAP_01_gmg_F','B_MRAP_01_hmg_F'];
-_jeeps_civ = ['c_offroad_02_unarmed_blue_f','c_offroad_02_unarmed_green_f','c_offroad_02_unarmed_orange_f','c_offroad_02_unarmed_red_f','c_offroad_02_unarmed_white_f','i_c_offroad_02_unarmed_olive_f'];
+	[
+		'i_mbt_03_cannon_f',0.2,
+		'b_mbt_01_cannon_f',0.5,
+		'b_mbt_01_tusk_f',0.3,
+		'o_mbt_02_cannon_f',0.1,
+		'o_mbt_04_cannon_f',0.05,
+		'o_mbt_04_command_f',0.0		//--- Maybe reserve this one for side mission reward
+	],
+	[
+		'i_mbt_03_cannon_f',0.2,
+		'b_t_mbt_01_cannon_f',0.5,
+		'b_t_mbt_01_tusk_f',0.3,
+		'o_t_mbt_02_cannon_ghex_f',0.1,
+		'o_t_mbt_04_cannon_f',0.05,
+		'o_t_mbt_04_command_f',0.0		//--- Maybe reserve this one for side mission reward
+	]
+] select _isTropical;
+//----- APCs
+_apcs = [
+	[
+		'b_apc_wheeled_01_cannon_f',0.1,
+		'b_apc_wheeled_03_cannon_f',0.1,
+		'b_apc_tracked_01_rcws_f',0.1,
+		'o_apc_wheeled_02_rcws_v2_f',0.1,
+		'b_afv_wheeled_01_cannon_f',0.5,
+		'b_afv_wheeled_01_up_cannon_f',0.5
+	],
+	[
+		'b_t_apc_wheeled_01_cannon_f',0.1,
+		'b_apc_wheeled_03_cannon_f',0.1,
+		'b_t_apc_tracked_01_rcws_f',0.1,
+		'o_t_apc_wheeled_02_rcws_v2_ghex_f',0.1,
+		'b_t_afv_wheeled_01_cannon_f',0.5,
+		'b_t_afv_wheeled_01_up_cannon_f',0.5
+	]
+] select _isTropical;
+//----- Nyx
+_nyx = [
+	'i_lt_01_aa_f',0.2,
+	'i_lt_01_at_f',0.3,
+	'i_lt_01_scout_f',0.1,
+	'i_lt_01_cannon_f',0.5
+];
+//----- Medium Helis
+_medhelis = [
+	'b_heli_transport_01_f',0.1,
+	'b_heli_transport_01_camo_f',0.1,
+	'o_heli_light_02_unarmed_f',0.1,
+	'i_heli_light_03_unarmed_f',0.1,
+	'b_ctrg_heli_transport_01_sand_f',0.1,
+	'b_ctrg_heli_transport_01_tropic_f',0.1,
+	'b_heli_light_01_f',0.1,
+	'o_heli_transport_04_black_f',0.1
+];
+//----- DLC Helis
+_dlchelis = [
+	'b_heli_transport_03_f',0.1,
+	'b_heli_transport_03_unarmed_f',0.1,
+	'o_heli_transport_04_black_f',0.1
+];
+//----- Civ vehicles
+_civ = [
+	'c_offroad_01_f',0.1,
+	'c_suv_01_f',0.1,
+	'c_van_01_transport_f',0.1,
+	'c_hatchback_01_f',0.1
+];
+//----- Civ boats
+_civboat = [
+	'c_boat_civil_01_f',0.1,
+	'c_boat_civil_01_police_f',0.1,
+	'c_boat_civil_01_rescue_f',0.1,
+	'c_rubberboat',0.1
+];
+//----- Technical
+_technicals = [
+	'b_g_offroad_01_at_f',0.1,
+	'b_g_offroad_01_armed_f',0.2,
+	'i_c_offroad_02_at_f',0.1,
+	'i_c_offroad_02_lmg_f',0.2
+];
+//----- Hunter Armed
+_hunterarmed = [
+	'b_mrap_01_gmg_f',0.1,
+	'b_mrap_01_hmg_f',0.1
+];
+//----- Civ Jeeps
+_jeeps_civ = [
+	'c_offroad_02_unarmed_blue_f',0.1,
+	'c_offroad_02_unarmed_green_f',0.1,
+	'c_offroad_02_unarmed_orange_f',0.1,
+	'c_offroad_02_unarmed_red_f',0.1,
+	'c_offroad_02_unarmed_white_f',0.1,
+	'i_c_offroad_02_unarmed_olive_f',0.1
+];
+//----- Prowler Armed
 _lsv_west_armed = [
-	"B_T_LSV_01_armed_black_F","B_T_LSV_01_armed_CTRG_F","B_T_LSV_01_armed_F","B_T_LSV_01_armed_olive_F",
-	"B_T_LSV_01_armed_sand_F"
-];
+	[
+		'b_t_lsv_01_armed_black_f',0.1,
+		'b_t_lsv_01_armed_sand_f',0.1,
+		'b_lsv_01_at_f',0.1
+	],
+	[
+		'b_t_lsv_01_armed_black_f',0.1,
+		'b_t_lsv_01_armed_ctrg_f',0.1,
+		'b_t_lsv_01_armed_f',0.1,
+		'b_t_lsv_01_armed_olive_f',0.1,
+		'b_t_lsv_01_at_f',0.1
+	]
+] select _isTropical;
+//----- Prowler Unarmed
 _lsv_west_unarmed = [
-	"B_T_LSV_01_unarmed_black_F","B_T_LSV_01_unarmed_CTRG_F","B_T_LSV_01_unarmed_F","B_T_LSV_01_unarmed_olive_F","B_T_LSV_01_unarmed_sand_F"
-];
+	[
+		'b_t_lsv_01_unarmed_black_f',0.1,
+		'b_t_lsv_01_unarmed_sand_f',0.1
+	],
+	[
+		'b_t_lsv_01_unarmed_black_f',0.1,
+		'b_t_lsv_01_unarmed_ctrg_f',0.1,
+		'b_t_lsv_01_unarmed_f',0.1,
+		'b_t_lsv_01_unarmed_olive_f',0.1
+	]
+] select _isTropical;
+//----- Qilin Armed
 _lsv_east_armed = [
-	"O_T_LSV_02_armed_black_F"
-];
+	[
+		'o_lsv_02_armed_black_f',0.1,
+		'o_lsv_02_at_f',0.1
+	],
+	[
+		'o_t_lsv_02_armed_black_f',0.1,
+		'o_t_lsv_02_at_f',0.1
+	]
+] select _isTropical;
+//----- Qilin Unarmed
 _lsv_east_unarmed = [
-	"O_T_LSV_02_unarmed_black_F"
+	[
+		'o_lsv_02_unarmed_black_f',0.1
+	],
+	[	
+		'o_t_lsv_02_unarmed_black_f',0.1
+	]
 ];
-if (_u in _apcs) exitWith {
-	_t = selectRandom _apcs;_t;
+if (_typeL in _apcs) exitWith {
+	_type = selectRandomWeighted _apcs;_type;
 };
-if (_u in _medHelis) exitWith {
-	_t = selectRandom _medHelis;_t;
+if (_typeL in _medHelis) exitWith {
+	_type = selectRandomWeighted _medHelis;_type;
 };
-if (_u in _dlcHelis) exitWith {
-	_t = selectRandom _dlcHelis;_t;
+if (_typeL in _dlcHelis) exitWith {
+	_type = selectRandomWeighted _dlcHelis;_type;
 };
-if (_u in _mbts) exitWith {
-	_t = selectRandom _mbts;_t;
+if (_typeL in _mbts) exitWith {
+	_type = selectRandomWeighted _mbts;_type;
 };
-if (_u in _civ) exitWith {
-	_t = selectRandom _civ;_t;
+if (_typeL in _nyx) exitWith {
+	_type = selectRandomWeighted _nyx;_type;
 };
-if (_u in _civBoat) exitWith {
-	_t = selectRandom _civBoat;_t;
+if (_typeL in _civ) exitWith {
+	_type = selectRandomWeighted _civ;_type;
 };
-if (_u in _hunterArmed) exitWith {
-	_t = selectRandom _hunterArmed;_t;
+if (_typeL in _civBoat) exitWith {
+	_type = selectRandomWeighted _civBoat;_type;
 };
-if ((toLower _u) in _jeeps_civ) exitWith {
-	_t = selectRandom _jeeps_civ;_t;
+if (_typeL in _hunterArmed) exitWith {
+	_type = selectRandomWeighted _hunterArmed;_type;
 };
-if (_u in _lsv_west_armed) exitWith {
-	_t = selectRandom _lsv_west_armed;_t;
+if (_typeL in _jeeps_civ) exitWith {
+	_type = selectRandomWeighted _jeeps_civ;_type;
 };
-if (_u in _lsv_west_unarmed) exitWith {
-	_t = selectRandom _lsv_west_unarmed;_t;
+if (_typeL in _lsv_west_armed) exitWith {
+	_type = selectRandomWeighted _lsv_west_armed;_type;
 };
-_t;
+if (_typeL in _lsv_west_unarmed) exitWith {
+	_type = selectRandomWeighted _lsv_west_unarmed;_type;
+};
+if (_typeL in _technicals) exitWith {
+	_type = selectRandomWeighted _technicals;_type;
+};
+_type;

@@ -26,8 +26,8 @@ for '_x' from 0 to 99 step 1 do {
 	if ((_position distance2D _baseMarker) > 500) then {
 		if ((_position distance2D _hqPos) > 150) then {
 			if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 10) then {
-				if ((([(_position select 0),(_position select 1)] nearRoads 50) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
-					if (({((_position distance2D _x) < 50)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
+				if ((((_position select [0,2]) nearRoads 50) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+					if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 50)}) isEqualTo -1) then {
 						_isFound = TRUE;
 					};
 				};

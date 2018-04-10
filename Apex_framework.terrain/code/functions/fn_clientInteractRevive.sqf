@@ -39,12 +39,12 @@ _val = 1;
 if ((player getVariable 'QS_stamina_multiplier') select 0) then {
 	_val = 1.25;
 };
-_playerHasMedikit = (({(_x in _itemsPlayer)} count _medi) > 0); 
+_playerHasMedikit = (!((_medi findIf {(_x in _itemsPlayer)}) isEqualTo -1));
 if (!(_playerHasMedikit)) exitWith {
 	50 cutText ['Revive failed! You require both a Medikit and a First Aid Kit to revive!','PLAIN DOWN'];	
 };
-_playerHasFAK = (({(_x in _itemsPlayer)} count _fak) > 0);
-_incapacitatedHasFAK = (({(_x in _itemsIncapacitated)} count _fak) > 0);
+_playerHasFAK = (!((_fak findIf {(_x in _itemsPlayer)}) isEqualTo -1));
+_incapacitatedHasFAK = (!((_fak findIf {(_x in _itemsIncapacitated)}) isEqualTo -1));
 if ((!(_playerHasFAK)) && (!(_incapacitatedHasFAK))) exitWith {
 	50 cutText ['Revive failed! No available First Aid Kits! You require both a Medikit and a First Aid Kit to revive fallen soldiers. Each revive consumes a first aid kit.','PLAIN DOWN'];
 };
@@ -52,7 +52,7 @@ private _text = format ['Being revived by %1',profileName];
 [63,[5,[_text,'PLAIN',0.5]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 _time = diag_tickTime + 5.5;
 _fak = ['FirstAidKit'];
-if (({(_x in _itemsIncapacitated)} count _fak) > 0) then {
+if (_incapacitatedHasFAK) then {
 	_t removeItem 'FirstAidKit';
 } else {
 	player removeItem 'FirstAidKit';

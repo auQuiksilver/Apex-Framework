@@ -104,7 +104,7 @@ uiSleep 0.125;
 				breakTo 'main_1';
 			};
 		};
-	} count (nearestObjects [player,['WeaponHolderSimulated'],3]);
+	} count (nearestObjects [player,['WeaponHolderSimulated'],3,TRUE]);
 /*/} else {/*/
 /*
 	_killedVehiclePosition = player getVariable 'QS_revive_killedVehiclePosition';
@@ -304,7 +304,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 	/*/================================ BLEED-OUT TIMER/*/
 	
-	_deathTimer ctrlSetText format ['%1 (Bleeding out)',([(_medicalTimer - _timeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString'))];
+	_deathTimer ctrlSetText format ['%1 (Bleeding out)',([(_medicalTimer - _timeNow),'MM:SS'] call (missionNamespace getVariable 'QS_fnc_secondsToString'))];
 	
 	/*/=============================== ENSURE DIALOG STAYS THE FUCK OPEN!/*/
 	
@@ -492,7 +492,7 @@ for '_x' from 0 to 1 step 0 do {
 				_actOfGod = FALSE;
 				if ((isNull (attachedTo player)) && (isNull (objectParent player))) then {
 					_deadVehicles = allDead - allDeadMen;
-					if (({((_x distance player) < 5)} count _deadVehicles) isEqualTo 0) then {
+					if ((_deadVehicles findIf {((_x distance player) < 5)}) isEqualTo -1) then {
 						if (!(((getPosASL player) select 2) < -1)) then {
 							if ((animationState player) in _QS_revive_injuredAnims) then {
 								_text = 'Revived by an act of the gods. Praise the gods!';

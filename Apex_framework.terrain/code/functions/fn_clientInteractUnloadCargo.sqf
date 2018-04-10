@@ -17,7 +17,7 @@ _vehicle = cursorObject;
 if ((!(_vehicle isKindof 'LandVehicle')) && (!(_vehicle isKindOf 'Ship')) && (!(_vehicle isKindOf 'Air'))) exitWith {};
 if (!alive _vehicle) exitWith {};
 if ((attachedObjects _vehicle) isEqualTo []) exitWith {};
-if (({(!isNil {_x getVariable 'QS_cargoObject'})} count (attachedObjects _vehicle)) isEqualTo 0) exitWith {};
+if (((attachedObjects _vehicle) findIf {(!isNil {_x getVariable 'QS_cargoObject'})}) isEqualTo -1) exitWith {};
 private _cargo = objNull;
 private _position = [];
 private _hasUnloaded = FALSE;

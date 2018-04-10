@@ -393,9 +393,9 @@ if (worldName isEqualto 'Tanoa') then {
 /*/
 
 _QS_buildingList = [];
-_QS_buildingList_pre = nearestObjects [_QS_locationCenterPos,_QS_approvedBuildingTypes,200];
+_QS_buildingList_pre = nearestObjects [_QS_locationCenterPos,_QS_approvedBuildingTypes,200,TRUE];
 if (_QS_buildingList_pre isEqualTo []) then {
-	_QS_buildingList_pre = nearestObjects [_QS_locationCenterPos,_QS_approvedBuildingTypes,300];
+	_QS_buildingList_pre = nearestObjects [_QS_locationCenterPos,_QS_approvedBuildingTypes,300,TRUE];
 };
 _QS_allBuildingPositions = [];
 {
@@ -1280,7 +1280,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (_QS_positionAccepted) exitWith {};
 				};
 				_QS_qrfGroup = [_QS_clearPos,(random 360),EAST,'OI_reconTeam',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-				{0 = _QS_allArray pushBack _x;_x enableStamina FALSE;_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];} count (units _QS_qrfGroup);
+				{0 = _QS_allArray pushBack _x;_x enableStamina FALSE;_x enableFatigue FALSE;_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];} count (units _QS_qrfGroup);
 				[(units _QS_qrfGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 				{
 					[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
@@ -1465,7 +1465,8 @@ for '_x' from 0 to 1 step 0 do {
 		if (time > _QS_rescueWP_updateDelay) then {
 			{
 				if (alive _x) then {
-					if ((_x distance _QS_POW) < 3000) then {
+					if ((_x distance2D _QS_POW) < 3000) then {
+						doStop _x;
 						_x doMove (getPosATL _QS_POW);
 					};
 				};

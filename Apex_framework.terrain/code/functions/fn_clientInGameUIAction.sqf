@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	3/03/2018 A3 1.80 by Quiksilver
+	6/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 	
@@ -32,7 +32,9 @@ if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {
 	_QS_c = TRUE;
 	_QS_c;
 };
-if ((!(({((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))} count (attachedObjects player)) isEqualTo 0)) && (!(_QS_actionText in ['Release','Load'])) && (!(_QS_actionName in ['OpenParachute']))) exitWith {
+if ((!(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)) && (!(_QS_actionText in [
+	'Release','Load','Retract Cargo Ropes','Extend Cargo Ropes','Shorten Cargo Ropes','Release Cargo','Deploy Cargo Ropes','Attach To Cargo Ropes','Drop Cargo Ropes','Pickup Cargo Ropes'
+])) && (!(_QS_actionName in ['OpenParachute']))) exitWith {
 	50 cutText ['Busy','PLAIN DOWN',0.333];
 	_QS_c = TRUE;
 	_QS_c;
@@ -71,27 +73,17 @@ if (_QS_actionName isEqualTo 'User') then {
 if (_exit) exitWith {TRUE;};
 if (['GetIn',_QS_actionName,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 	if (!((attachedObjects player) isEqualTo [])) then {
-		{
-			if (_x isKindOf 'Man') then {
-				if (alive _x) then {
-					50 cutText ['Release / Load before getting in','PLAIN DOWN',0.75];
-					_QS_c = TRUE;
-				};
-			};
-		} count (attachedObjects player);
+		if (!(((attachedObjects player) findIf {((alive _x) && (_x isKindOf 'CAManBase'))}) isEqualTo -1)) then {
+			50 cutText ['Release / Load before getting in','PLAIN DOWN',0.75];
+			_QS_c = TRUE;
+		};
 	};
 };
 if (_QS_c) exitWith {_QS_c;};
 if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
-	if (({(!isNull _x)} count (attachedObjects player)) > 0) then {
-		{
-			if (!isNull _x) then {
-				if (_x isKindOf 'Man') then {
-					50 cutText ['Cannot heal at this time','PLAIN DOWN'];
-					_QS_c = TRUE;
-				};
-			};
-		} count (attachedObjects player);
+	if (!(((attachedObjects player) findIf {((alive _x) && (_x isKindOf 'CAManBase'))}) isEqualTo -1)) then {
+		50 cutText ['Cannot heal at this time','PLAIN DOWN'];
+		_QS_c = TRUE;
 	};
 	if ((lifeState _QS_actionTarget) isEqualTo 'INCAPACITATED') then {
 		_QS_c = TRUE;
@@ -109,43 +101,45 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 	_QS_c;
 };
 if (_QS_actionName isEqualTo 'RepairVehicle') exitWith {
-	if (!isNil {_QS_actionTarget getVariable 'QS_RD_noRepair'}) then {
-		_QS_c = TRUE;
-		50 cutText ['Cannot repair this vehicle','PLAIN DOWN'];
-	} else {
-		if (!isNull (effectiveCommander _QS_actionTarget)) then {
-			if (isPlayer _QS_actionTarget) then {
-				if (alive _QS_actionTarget) then {
-					if (!(_QS_actionTarget isEqualTo (vehicle player))) then {
-						[63,[5,[(format ['Your vehicle is being repaired by %1',profileName]),'PLAIN DOWN',0.5]]] remoteExec ['QS_fnc_remoteExec',(effectiveCommander _QS_actionTarget),FALSE];
+	if (!(((crew _QS_actionTarget) findIf {(alive _x)}) isEqualTo -1)) then {
+		{
+			if ((side _x) in ([player] call (missionNamespace getVariable 'QS_fnc_enemySides'))) exitWith {
+				_QS_c = TRUE;
+				50 cutText ['Cannot repair active enemy vehicle','PLAIN',0.5];
+			};
+		} count (crew _QS_actionTarget);
+	};
+	if (!(_QS_c)) then {
+		if (!isNil {_QS_actionTarget getVariable 'QS_RD_noRepair'}) then {
+			_QS_c = TRUE;
+			50 cutText ['Cannot repair this vehicle','PLAIN DOWN'];
+		} else {
+			if (!isNull (effectiveCommander _QS_actionTarget)) then {
+				if (isPlayer _QS_actionTarget) then {
+					if (alive _QS_actionTarget) then {
+						if (!(_QS_actionTarget isEqualTo (vehicle player))) then {
+							[63,[5,[(format ['Your vehicle is being repaired by %1',profileName]),'PLAIN DOWN',0.5]]] remoteExec ['QS_fnc_remoteExec',(effectiveCommander _QS_actionTarget),FALSE];
+						};
 					};
 				};
 			};
-		};
-		if ((fuel (_this select 0)) isEqualTo 0) then {
-			0 = [_this select 0] spawn {
-				_v = _this select 0;
-				uiSleep 5;
-				if (local _v) then {
-					_v setFuel (0.03 + (random 0.03));
-				} else {
-					['setFuel',_v,(0.03 + (random 0.03))] remoteExec ['QS_fnc_remoteExecCmd',_v,FALSE];
+			if ((fuel (_this select 0)) isEqualTo 0) then {
+				0 = [_this select 0] spawn {
+					_v = _this select 0;
+					uiSleep 5;
+					if (local _v) then {
+						_v setFuel (0.03 + (random 0.03));
+					} else {
+						['setFuel',_v,(0.03 + (random 0.03))] remoteExec ['QS_fnc_remoteExecCmd',_v,FALSE];
+					};
+					_dn = getText (configFile >> 'CfgVehicles' >> (typeOf (_this select 0)) >> 'displayName');
+					50 cutText [(format ['%1 refueled',_dn]),'PLAIN DOWN',0.75];
 				};
-				_dn = getText (configFile >> 'CfgVehicles' >> (typeOf (_this select 0)) >> 'displayName');
-				50 cutText [(format ['%1 refueled',_dn]),'PLAIN DOWN',0.75];
+			};
+			if ((_this select 0) isKindOf 'Helicopter') then {
+				(_this select 0) setHit ['tail_rotor_hit',0];
 			};
 		};
-		if ((_this select 0) isKindOf 'Helicopter') then {
-			(_this select 0) setHit ['tail_rotor_hit',0];
-		};
-	};
-	if (({(alive _x)} count (crew _QS_actionTarget)) > 0) then {
-		{
-			if ((side _x) in ([player] call (missionNamespace getVariable 'BIS_fnc_enemySides'))) exitWith {
-				_QS_c = TRUE;
-				50 cutText ['Cannot repair active enemy vehicle','PLAIN'];
-			};
-		} count (crew _QS_actionTarget);
 	};
 	_QS_c;
 };
@@ -166,11 +160,11 @@ if (_QS_actionName isEqualTo 'UseContainerMagazine') exitWith {
 if (_QS_actionName isEqualTo 'StartTimer') exitWith {
 
 };
-if (_QS_actionName isEqualTo 'Eject') then {
+if (_QS_actionName isEqualTo 'Eject') exitWith {
 	if ((vehicle player) isKindOf 'Air') then {
 		if (player isEqualTo (driver (vehicle player))) then {
 			_QS_c = TRUE;
-			TRUE spawn {
+			0 spawn {
 				private _result = ['Eject?','Eject warning','Eject','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage'); 
 				if (_result) then {
 					player action ['eject',(vehicle player)];
@@ -180,7 +174,7 @@ if (_QS_actionName isEqualTo 'Eject') then {
 			if (!(isTouchingGround (vehicle player))) then {
 				if (((vectorMagnitude (velocity (vehicle player))) * 3.6) > 25) then {
 					_QS_c = TRUE;
-					TRUE spawn {
+					0 spawn {
 						private _result = ['Eject?','Eject warning','Eject','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage'); 
 						if (_result) then {
 							player action ['eject',(vehicle player)];
@@ -190,6 +184,7 @@ if (_QS_actionName isEqualTo 'Eject') then {
 			};
 		};
 	};
+	_QS_c;
 };
 if (_QS_actionName isEqualTo 'GetInPilot') exitWith {
 	if ((!((toLower (typeOf player)) in ['b_pilot_f','b_helipilot_f','b_t_pilot_f','b_t_helipilot_f','b_fighter_pilot_f'])) && (!(player getUnitTrait 'QS_trait_pilot')) && (!(player getUnitTrait 'QS_trait_fighterPilot'))) then {
@@ -414,7 +409,7 @@ if (_QS_actionName in ['TouchOffMines','TouchOff']) then {
 					{
 						if ((([objNull,'GEOM'] checkVisibility [(getPosASL (vehicle _x)),[((getPosASL _mine) select 0),((getPosASL _mine) select 1),(((getPosASL _mine) select 2)+0.5)]]) > 0) || {(([objNull,'VIEW'] checkVisibility [(getPosASL (vehicle _x)),[((getPosASL _mine) select 0),((getPosASL _mine) select 1),(((getPosASL _mine) select 2)+0.5)]]) > 0)}) then {
 							_count = _count + 1;
-							if ((player targets [TRUE,30,[],0,(position _mine)]) isEqualTo []) then {
+							if ((player targets [TRUE,30,[],0,(getPosATL _mine)]) isEqualTo []) then {
 								_QS_c = TRUE;
 							};
 						};
@@ -443,8 +438,8 @@ if (_QS_actionName isEqualTo 'UseMagazine') then {
 			if (!(player getUnitTrait 'QS_trait_pilot')) then {
 				_nCargo = getNumber (configFile >> 'CfgVehicles' >> (typeOf _cursorObject) >> 'transportSoldier');
 				if (_nCargo > 0) then {
-					if (({((alive _x) && (isPlayer _x))} count (crew _cursorObject)) > 0) then {
-						if ((player targets [TRUE,30,[],0,(position _cursorObject)]) isEqualTo []) then {
+					if (!(((crew _cursorObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)) then {
+						if ((player targets [TRUE,30,[],0,(getPosATL _cursorObject)]) isEqualTo []) then {
 							50 cutText ['Cannot do that right now.','PLAIN DOWN',0.5];
 							_QS_c = TRUE;
 						};
@@ -455,13 +450,11 @@ if (_QS_actionName isEqualTo 'UseMagazine') then {
 	};
 };
 if (_QS_actionName isEqualTo 'DisAssemble') then {
-	if (!isNil {player getVariable 'QS_client_assembledWeapons'}) then {
-		private _assembledWeapons = player getVariable 'QS_client_assembledWeapons';
-		if (!(_assembledWeapons isEqualTo [])) then {
-			if (_QS_actionTarget in _assembledWeapons) then {
-				_assembledWeapons deleteAt (_assembledWeapons find _QS_actionTarget);
-				player setVariable ['QS_client_assembledWeapons',_assembledWeapons,FALSE];
-			};
+	private _assembledWeapons = player getVariable ['QS_client_assembledWeapons',[]];
+	if (!(_assembledWeapons isEqualTo [])) then {
+		if (_QS_actionTarget in _assembledWeapons) then {
+			_assembledWeapons deleteAt (_assembledWeapons find _QS_actionTarget);
+			player setVariable ['QS_client_assembledWeapons',_assembledWeapons,FALSE];
 		};
 	};
 	if (!isNull (attachedTo _QS_actionTarget)) then {
@@ -492,7 +485,7 @@ if (_QS_actionName isEqualTo 'AutoHover') then {
 			if (((count (crew _v))) > 1) then {
 				if (isNil {player getVariable 'QS_client_lastAutoHoverMsg'}) then {
 					player setVariable ['QS_client_lastAutoHoverMsg',TRUE,FALSE];
-					TRUE spawn {
+					0 spawn {
 						uiSleep 5;
 						player setVariable ['QS_client_lastAutoHoverMsg',nil,FALSE];
 					};
@@ -549,8 +542,10 @@ if (_QS_actionName in ['ListRightVehicleDisplay','NextModeRightVehicleDisplay'])
 	50 cutText ['Please bind these actions to keys. [Esc]>>[Configure]>>[Controls]>>[Keyboard]>>[Common]>>[Panels]. Suggest [ and ] keys','PLAIN DOWN',2];
 };
 if (_QS_actionName isEqualTo 'UnloadUnconsciousUnits') then {
-	if ((player distance _QS_actionTarget) > 15) then {
-		50 cutText ['Too far','PLAIN',0.25];
+	if (isNull (objectParent player)) then {
+		50 cutText ['Unconscious units unloaded','PLAIN DOWN',0.5];
+	} else {
+		50 cutText ['Must be on foot','PLAIN DOWN',0.5];
 		_QS_c = TRUE;
 	};
 };

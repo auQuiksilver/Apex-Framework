@@ -22,9 +22,14 @@ params ['_module','_group'];
 } count (units _group);
 _group setSpeedMode 'FULL';
 _group deleteGroupWhenEmpty TRUE;
+if (!isNull (objectParent (leader _group))) then {
+	if ((objectParent (leader _group)) isKindOf 'LandVehicle') then {
+		_group setFormation 'COLUMN';
+	};
+};
 {
 	if (local _x) then {
-		if (({(alive _x)} count (units _x)) isEqualTo 0) then {
+		if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
 			deleteGroup _x;
 		};
 	};

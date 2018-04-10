@@ -22,9 +22,9 @@ _enemiesArray = [];
 _x = 0;
 _infTypes = ["OIA_InfTeam","OIA_InfTeam_AT","OIA_InfTeam_AA","OI_reconPatrol",'OG_InfAssault'];
 if (worldName isEqualTo 'Tanoa') then {
-	_vehTypes = ["O_T_MRAP_02_gmg_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];
+	_vehTypes = ["O_T_MRAP_02_gmg_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F",'o_t_apc_wheeled_02_rcws_v2_ghex_f'];
 } else {
-	_vehTypes = ['O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','I_MRAP_03_gmg_F','I_MRAP_03_hmg_F','O_G_Offroad_01_armed_F'];
+	_vehTypes = ['O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','I_MRAP_03_gmg_F','I_MRAP_03_hmg_F','O_G_Offroad_01_armed_F','o_apc_wheeled_02_rcws_v2_f'];
 };
 
 /*/---------- INFANTRY/*/
@@ -56,7 +56,9 @@ missionNamespace setVariable [
 	FALSE
 ];
 _SMveh lock 3;
+[0,_SMveh,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 _SMveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
+_SMveh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 if ((random 1) >= 0.333) then {
 	_SMveh allowCrewInImmobile TRUE;
 };
@@ -68,7 +70,7 @@ missionNamespace setVariable [
 	FALSE
 ];
 _grp = group ((crew _SMveh) select 0);
-[_grp,_pos,150,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
+[_grp,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 
 _grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 _grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_SMveh],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];

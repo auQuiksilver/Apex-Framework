@@ -14,7 +14,7 @@ Description:
 __________________________________________________________*/
 
 private _r = FALSE;
-if ((speed player) > 4) then {
+if (((vectorMagnitude (velocity player)) * 3.6) > 4) then {
 	if (isNull (objectParent player)) then {
 		if (player getVariable ['jump',TRUE]) then {
 			if (isTouchingGround player) then {
@@ -22,7 +22,7 @@ if ((speed player) > 4) then {
 					if (!((animationState player) in ['aovrpercmrunsraswrfldf'])) then {
 						if (!((currentWeapon player) isEqualTo '')) then {
 							player setvariable['QS_jumpKey',TRUE,FALSE];
-							player setvariable ['jump',FALSE];
+							player setvariable ['jump',FALSE,FALSE];
 							_height = 6 - ((load player) * 10);
 							_vel = velocity player;
 							_dir = getDir player;
@@ -48,9 +48,8 @@ if ((speed player) > 4) then {
 };
 if (player getVariable ['QS_jumpKey',TRUE]) exitWith {
 	player setVariable['QS_jumpKey',FALSE,FALSE]; 
-	_key_delay  = 0.05;
-	[_key_delay] spawn {
-		uiSleep (_this select 0);
+	0 spawn {
+		uiSleep 0.05;
 		player setvariable['QS_jumpKey',TRUE,FALSE]; 
 	};
 	_r;

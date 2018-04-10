@@ -66,11 +66,11 @@ _enemyUnit addEventHandler [
 private _primaryWeapon = '';
 if ((random 1) > 0.5) then {
 	_primaryWeapon = ['srifle_GM6_camo_F','srifle_GM6_ghex_F'] select (_worldName isEqualTo 'Tanoa');
-	[_enemyUnit,_primaryWeapon,6] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+	[_enemyUnit,_primaryWeapon,6] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_enemyUnit addPrimaryWeaponItem 'optic_Nightstalker';
 } else {
 	_primaryWeapon = ['srifle_DMR_02_sniper_F','srifle_DMR_02_F'] select (_worldName isEqualTo 'Tanoa');
-	[_enemyUnit,_primaryWeapon,6] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+	[_enemyUnit,_primaryWeapon,6] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_enemyUnit addPrimaryWeaponItem 'optic_Nightstalker';
 	_enemyUnit addPrimaryWeaponItem (['muzzle_snds_338_sand','muzzle_snds_338_black'] select (_worldName isEqualTo 'Tanoa'));
 };

@@ -40,7 +40,7 @@ if (!isNull _prop) then {
 				{
 					params ['_vehicle'];
 					if (diag_tickTime > (_vehicle getVariable ['QS_vehicle_delayedDelete',-1])) then {
-						if (({(alive _x)} count (crew _vehicle)) isEqualTo 0) then {
+						if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
 							deleteVehicle _vehicle;
 						};
 					};
@@ -50,7 +50,7 @@ if (!isNull _prop) then {
 			QS_garbageCollector pushBack [_v,'DELAYED_DISCREET',300];
 		} else {
 			comment 'Insert spawned thread here to ensure it cant be exploited or spammed';
-			_i = [(missionNamespace getVariable 'QS_v_Monitor'),_prop,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_i = (missionNamespace getVariable 'QS_v_Monitor') findIf {((_x select 0) isEqualTo _prop)};
 			if (!(_i isEqualTo -1)) then {
 				_array = (missionNamespace getVariable 'QS_v_Monitor') select _i;
 				_array params [
@@ -93,7 +93,7 @@ if (!isNull _prop) then {
 					};
 				};
 				if (!((str _configCode) isEqualTo '{}')) then {
-					_v = [_v] call _configCode;
+					_v call _configCode;
 				};
 				[_v] call (missionNamespace getVariable 'QS_fnc_vSetup');
 				if (_isCarrierVehicle isEqualTo 0) then {

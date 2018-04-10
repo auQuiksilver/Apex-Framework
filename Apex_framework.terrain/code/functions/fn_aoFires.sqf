@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	5/10/2016 A3 1.64 by Quiksilver
+	9/03/2018 A3 1.80 by Quiksilver
 
 Description:
 
@@ -42,8 +42,18 @@ if (isDedicated) then {
 		_fires = missionNamespace getVariable ['QS_fires',[]];
 		if (!(_fires isEqualTo [])) exitWith {diag_log '***** FIRES ***** already active *****';};
 		_wreckTypes = [	
-			'Land_Wreck_Hunter_F','Land_Wreck_Truck_F','Land_Bulldozer_01_wreck_F','Land_CombineHarvester_01_wreck_F','Land_Excavator_01_wreck_F','Land_Bulldozer_01_abandoned_F',
-			'Land_Wreck_Slammer_F','Land_RailwayCar_01_tank_F','Land_RailwayCar_01_sugarcane_F'
+			'land_wreck_hunter_f',0.1,
+			'land_wreck_truck_f',0.1,
+			'land_bulldozer_01_wreck_f',0.1,
+			'land_combineharvester_01_wreck_f',0.1,
+			'land_excavator_01_wreck_f',0.1,
+			'land_bulldozer_01_abandoned_f',0.1,
+			'land_wreck_slammer_f',0.3,
+			'land_railwaycar_01_tank_f',0.1,
+			'land_railwaycar_01_sugarcane_f',0.1,
+			'land_wreck_afv_wheeled_01_f',1,
+			'land_wreck_mbt_04_f',1,
+			'land_wreck_lt_01_f',1
 		];
 		_wreckType = '';
 		_wreck = objNull;
@@ -54,7 +64,7 @@ if (isDedicated) then {
 			if (!(surfaceIsWater _position)) then {
 				_randomPos = ['RADIUS',_position,_radius,'LAND',[0,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 				if ((_randomPos distance2D (missionNamespace getVariable 'QS_AOpos')) < 2000) then {
-					_wreckType = selectRandom _wreckTypes;
+					_wreckType = selectRandomWeighted _wreckTypes;
 					_randomPos set [2,0];
 					_randomPos = AGLToASL _randomPos;
 					_configClass = configFile >> 'CfgVehicles' >> _wreckType;

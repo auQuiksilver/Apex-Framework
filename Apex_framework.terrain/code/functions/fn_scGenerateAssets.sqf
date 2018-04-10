@@ -91,7 +91,7 @@ if ((([(_sectorPosition select 0),(_sectorPosition select 1)] nearObjects ['Hous
 		for '_x' from 0 to 10 step 1 do {
 			_spawnPosition = [_sectorPosition,12,50,8,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 			if ((_spawnPosition distance2D _sectorPosition) < 100) then {
-				if (({((_spawnPosition distance2D _x) < 20)} count _buildingSpawnPositions) isEqualTo 0) then {
+				if ((_buildingSpawnPositions findIf {((_spawnPosition distance2D _x) < 20)}) isEqualTo -1) then {
 					if ((([_spawnPosition select 0,_spawnPosition select 1] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 						_buildingType = selectRandom _buildingPool;
 						_building = createVehicle [_buildingType,_spawnPosition,[],0,'NONE'];

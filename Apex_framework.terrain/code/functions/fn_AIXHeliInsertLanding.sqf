@@ -52,8 +52,8 @@ private _grp = grpNull;
 _grp setSpeedMode 'FULL';
 _grp move (_v getVariable ['QS_heli_centerPosition',[0,0,0]]);
 {
-	_x setUnitPos 'MIDDLE';
-	_x forceSpeed -1;
+	_x setUnitPosWeak 'MIDDLE';
+	doStop _x;
 	_x doMove (_v getVariable ['QS_heli_centerPosition',[0,0,0]]);
 } forEach (units _grp);	
 _helipad = _v getVariable ['QS_assignedHelipad',objNull];
@@ -84,7 +84,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 	_supportHeli = _v getVariable 'QS_heliInsert_supportHeli';
 	_v removeAllEventHandlers 'Hit';
 	if (alive _supportHeli) then {
-		if (({(alive _x)} count (crew _supportHeli)) > 0) then {
+		if (!(((crew _supportHeli) findIf {(alive _x)}) isEqualTo -1)) then {
 			_supportGroup = group (effectiveCommander _supportHeli);
 			[_supportHeli,_supportGroup,_v] spawn {
 				params ['_supportHeli','_supportGroup','_v'];
@@ -102,7 +102,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 				} forEach (units _supportGroup);
 				_waypointIndex = currentWaypoint _supportGroup;
 				_waypoint = [_supportGroup,_waypointIndex];
-				_waypoint setWaypointPosition [(_v getVariable ['QS_heli_spawnPosition',[0,0,50]]),0];
+				_waypoint setWaypointPosition [(_v getVariable ['QS_heli_spawnPosition',[0,0,100]]),0];
 				_waypoint setWaypointType 'MOVE';
 				_waypoint setWaypointCompletionRadius 150;
 				_waypoint setWaypointStatements [

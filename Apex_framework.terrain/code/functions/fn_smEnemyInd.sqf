@@ -98,8 +98,10 @@ _u2 moveInGunner _SMveh;
 _u3 moveInCommander _SMveh;
 (missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh;
 _SMveh lock 3;
+[0,_SMveh,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 _SMveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
-[_SMvehPatrol,_pos, 150,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
+_SMveh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+[_SMvehPatrol,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 [(units _SMvehPatrol),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 if (random 1 >= 0.333) then {
 	_SMveh allowCrewInImmobile TRUE;
@@ -116,7 +118,7 @@ _enemiesArray pushBack _SMveh;
 
 /*/---------- AA VEHICLE/*/
 
-if ((count allPlayers) > 30) then {
+if ((count allPlayers) > 25) then {
 	for '_x' from 0 to 1 step 1 do {
 		_randomPos = ['RADIUS',_pos,300,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		_SMaa = createVehicle [_aaType,_randomPos,[],0,'NONE'];
@@ -135,7 +137,8 @@ if ((count allPlayers) > 30) then {
 		_grp = group ((crew _SMaa) select 0);
 		_SMaa lock 3;
 		_SMaa addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
-		[_grp,_pos, 150,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
+		_SMaa addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+		[_grp,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 		[(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		if (random 1 >= 0.25) then {
 			_SMaa allowCrewInImmobile TRUE;

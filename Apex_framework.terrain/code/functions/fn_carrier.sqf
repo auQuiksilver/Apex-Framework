@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/11/2017 A3 1.78 by Quiksilver
+	17/03/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -49,12 +49,13 @@ if (_type isEqualTo 'ACTION_CONDPROGRESS') exitWith {
 	TRUE
 };
 if (_type isEqualTo 'TAKEOFF_END') exitWith {
-	systemChat 'takeoff end';
+	
 };
 if (_type isEqualTo 'TAKEOFF_START') exitWith {
-	systemChat 'takeoff start';
+	
 };
 if (_type isEqualTo 'MOVE') exitWith {
+	// Not capable of moving without more development, for instance respawning vehicles would not follow
 	if (isDedicated) then {
 		private ['_position','_direction'];
 		if ((count _this) > 1) then {
@@ -70,34 +71,20 @@ if (_type isEqualTo 'MOVE') exitWith {
 			_carrier setDir (_direction + 180);
 			_carrier setVectorUp [0,0,1];
 			[_carrier] call (missionNamespace getVariable 'BIS_fnc_Carrier01PosUpdate');
+			if (!((_carrier getVariable ['QS_carrier_turrets',[]]) isEqualTo [])) then {
+				_logic = _carrier getVariable ['QS_carrier_defenseLogic',objNull];
+				if (!isNull _logic) then {
+					_logic setPosWorld (getPosWorld _carrier);
+					_logic attachTo [_carrier,[0,0,0]];
+					detach _logic;
+					_logic setDir (getDir _carrier);
+				};
+			};
 		};
 		'QS_marker_carrier_1' setMarkerDir 0;
 	};
 };
 if (_type isEqualTo 'INIT') exitWith {
-	if (isDedicated) then {
-		diag_log 'Spawning aircraft carrier';
-		private ['_position','_direction'];
-		if ((count _this) > 1) then {
-			_position = (_this select 1) select 0;
-			_direction = (_this select 1) select 1;
-		} else {
-			_position = markerPos 'QS_marker_carrier_1';
-			_direction = markerDir 'QS_marker_carrier_1';
-		};
-		_carrier = createVehicle ['Land_Carrier_01_base_F',_position,[],0,'CAN_COLLIDE'];
-		_carrier setPosWorld _position;
-		_carrier setDir (_direction + 180);
-		_carrier setVectorUp [0,0,1];
-		missionNamespace setVariable ['QS_carrierObject',_carrier,TRUE];
-		[_carrier] call (missionNamespace getVariable 'BIS_fnc_Carrier01PosUpdate');
-		'QS_marker_carrier_1' setMarkerDir 0;
-		if (!((allAirports select 1) isEqualTo [])) then {
-			((allAirports select 1) select 0) setAirportSide WEST;
-		};
-	};
-};
-if (_type isEqualTo 'INIT2') exitWith {
 	if (isDedicated) then {
 		diag_log 'Spawning aircraft carrier';
 		private ['_marker','_positionsData','_positionData'];
@@ -211,10 +198,10 @@ if (_type isEqualTo 'PROPS') exitWith {
 		_prop setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x select 2));
 		_props pushBack _prop;
 	} forEach [
-		["B_supplyCrate_F",[-22.603,107.664,23.5],-89.5743],	//--- Arsenal
-		["Land_FirstAidKit_01_closed_F",[-26.5304,115.991,23.575],-358.472],
-		["Land_CampingChair_V2_F",[-23.0007,109.621,23.5],-251.104],
-		["Land_CampingChair_V2_F",[-22.8322,111.798,23.5],-287.446]
+		['B_supplyCrate_F',[-22.603,107.664,23.5],-89.5743],	//--- Arsenal
+		['Land_FirstAidKit_01_closed_F',[-26.5304,115.991,23.575],-358.472],
+		['Land_CampingChair_V2_F',[-23.0007,109.621,23.5],-251.104],
+		['Land_CampingChair_V2_F',[-22.8322,111.798,23.5],-287.446]
 	];
 	private _moreProps = [
 		['Land_HelipadEmpty_F',[-32.0634,69.3691,24.2326],0,{}],
@@ -251,62 +238,75 @@ if (_type isEqualTo 'PROPS') exitWith {
 	(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_props',_props,FALSE];
 };
 if (_type isEqualTo 'DEFENSE') exitWith {
-	private _turret = objNull;
-	private _turrets = [];
-	private _turretGrp = createGroup [WEST,TRUE];
-	{
-		_turret = createVehicle [(_x select 0),[-1000,-1000,500],[],100,'NONE'];
-		_turret allowDamage FALSE;
-		_turret enableSimulation FALSE;
-		_turret enableVehicleCargo FALSE;
-		_turret enableRopeAttach FALSE;
-		_turret setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x select 2));
-		_turret setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x select 1));
-		_turret setVelocity [0,0,0];
-		_turret setVehicleReportRemoteTargets FALSE;
-		_turret setVehicleReceiveRemoteTargets FALSE;
-		_turret setVehicleReportOwnPosition FALSE;
-		_turret setVehicleRadar 2;
-		_turret setVariable ['QS_curator_disableEditability',TRUE,FALSE];
-		_turret setVariable ['QS_hidden',TRUE,TRUE];
-		_turret addEventHandler [
-			'Deleted',
-			{
-				params ['_entity'];
-				{
-					_x setDamage [1,FALSE];
-					deleteVehicle _x;
-				} forEach (crew _entity);
-			}
-		];
-		createVehicleCrew _turret;
-		_turrets pushBack _turret;
-		[_turret,_turretGrp] spawn {
-			uiSleep 1;
-			(_this select 0) enableSimulation TRUE;
-			(crew (_this select 0)) joinSilent (_this select 1);
-			(_this select 1) addVehicle (_this select 0);
-			detach (_this select 0);
-			(_this select 0) setMass ((getMass (_this select 0)) * 3);
-		};
+	if (((missionNamespace getVariable 'QS_carrierObject') getVariable ['QS_carrier_turrets',[]]) isEqualTo []) then {
+		_logic = (createGroup [sideLogic,TRUE]) createUnit ['Logic',[-1000,-1000,500],[],0,'CAN_COLLIDE'];
+		_logic enableDynamicSimulation FALSE;
+		_logic setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+		_logic setPosWorld (getPosWorld (missionNamespace getVariable 'QS_carrierObject'));
+		_logic attachTo [(missionNamespace getVariable 'QS_carrierObject'),[0,0,0]];
+		detach _logic;
+		_logic setDir (getDir (missionNamespace getVariable 'QS_carrierObject'));
+		(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_defenseLogic',_logic,FALSE];
+		private _turret = objNull;
+		private _turrets = [];
+		private _turretGrp = createGroup [WEST,TRUE];
 		{
-			_x setVariable ['QS_curator_disableEditability',TRUE,FALSE];
-			_x setVariable ['QS_hidden',TRUE,TRUE];
-			_x allowDamage FALSE;
-		} forEach (crew _turret);
-		[_turret,(missionNamespace getVariable 'QS_carrierObject'),TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
-		_turret setVariable ['QS_uav_protected',TRUE,FALSE];
-	} forEach [
-		['B_SAM_System_01_F',[25.0508,-114.915,18.2391],-89.5441],
-		['B_AAA_System_01_F',[47.6074,-0.0134888,20.3989],-88.2512],
-		['B_AAA_System_01_F',[-30.0938,-105.529,20.203],-269.183],
-		['B_SAM_System_02_F',[-29.3047,-100.712,21.2492],-269.888],
-		['B_SAM_System_01_F',[-39.4346,178.48,21.7008],-269.263],
-		['B_AAA_System_01_F',[-16.7842,188.944,13.7356],-0.132763],
-		['B_SAM_System_02_F',[30.3721,174.906,21.578],-89.5648]
-	];
-	(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_turrets',_turrets,FALSE];
-	'QS_marker_carrier_1' setMarkerText (format ['%1 (Armed)',(markerText 'QS_marker_carrier_1')]);
+			_turret = createVehicle [(_x select 0),[-1000,-1000,500],[],100,'NONE'];
+			_turret allowDamage FALSE;
+			_turret enableSimulation FALSE;
+			_turret enableVehicleCargo FALSE;
+			_turret enableRopeAttach FALSE;
+			_turret setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x select 2));
+			_turret setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x select 1));
+			_turret setVelocity [0,0,0];
+			[_turret,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+			_turret enableSimulation TRUE;
+			_turret setVehicleReportRemoteTargets FALSE;
+			_turret setVehicleReceiveRemoteTargets FALSE;
+			_turret setVehicleReportOwnPosition FALSE;
+			_turret setVehicleRadar 2;
+			_turret setVariable ['QS_curator_disableEditability',TRUE,FALSE];
+			_turret setVariable ['QS_hidden',TRUE,TRUE];
+			_turret setVariable ['QS_uav_protected',TRUE,FALSE];
+			_turret addEventHandler [
+				'Deleted',
+				{
+					params ['_entity'];
+					{
+						_x setDamage [1,FALSE];
+						deleteVehicle _x;
+					} forEach (crew _entity);
+				}
+			];
+			createVehicleCrew _turret;
+			_turrets pushBack _turret;
+			/*/
+			[_turret,_turretGrp] spawn {
+				uiSleep 1;
+				(_this select 0) enableSimulation TRUE;
+				(crew (_this select 0)) joinSilent (_this select 1);
+				(_this select 1) addVehicle (_this select 0);
+				detach (_this select 0);
+				(_this select 0) setMass ((getMass (_this select 0)) * 3);
+			};
+			/*/
+			{
+				_x setVariable ['QS_curator_disableEditability',TRUE,FALSE];
+				_x setVariable ['QS_hidden',TRUE,TRUE];
+				_x allowDamage FALSE;
+			} forEach (crew _turret);
+		} forEach [
+			['B_SAM_System_01_F',[25.0508,-114.915,18.2391],-89.5441],
+			['B_AAA_System_01_F',[47.6074,-0.0134888,20.3989],-88.2512],
+			['B_AAA_System_01_F',[-30.0938,-105.529,20.203],-269.183],
+			['B_SAM_System_02_F',[-29.3047,-100.712,21.2492],-269.888],
+			['B_SAM_System_01_F',[-39.4346,178.48,21.7008],-269.263],
+			['B_AAA_System_01_F',[-16.7842,188.944,13.7356],-0.132763],
+			['B_SAM_System_02_F',[30.3721,174.906,21.578],-89.5648]
+		];
+		(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_turrets',_turrets,FALSE];
+		'QS_marker_carrier_1' setMarkerText (format ['%1 (Armed)',(markerText 'QS_marker_carrier_1')]);
+	};
 };
 if (_type isEqualTo 'DEFENSE_SERVICE') exitWith {
 	if (!(((missionNamespace getVariable 'QS_carrierObject') getVariable ['QS_carrier_turrets',[]]) isEqualTo [])) then {
@@ -323,7 +323,7 @@ if (_type isEqualTo 'HOSPITAL') then {
 		missionNamespace setVariable ['QS_positions_fieldHospitals',(missionNamespace getVariable 'QS_positions_fieldHospitals'),TRUE];
 	};
 	if (_subType isEqualTo 'REMOVE') then {
-		_arrayIndex = [(missionNamespace getVariable 'QS_positions_fieldHospitals'),'CARRIER',0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+		_arrayIndex = ((missionNamespace getVariable 'QS_positions_fieldHospitals') findIf {((_x select 0) isEqualTo 'CARRIER')});
 		if (!(_arrayIndex isEqualTo -1)) then {
 			(missionNamespace getVariable 'QS_positions_fieldHospitals') set [_arrayIndex,FALSE];
 			(missionNamespace getVariable 'QS_positions_fieldHospitals') deleteAt _arrayIndex;
@@ -335,9 +335,7 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 	private _list = [
 		// Hummingbird Heli 1
 		[objNull,30,false,{
-			_v = _this select 0;
-			_v setVelocity [0,0,0];
-			_v;
+			_this setVelocity [0,0,0];
 		},
 		'B_Heli_Light_01_F',
 		((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-34.8799,139.995,25.3029]),((getDir (missionNamespace getVariable 'QS_carrierObject')) - -126.998),false,0,-1,250,250,-1,5,FALSE,1]
@@ -349,11 +347,9 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 			} forEach [
 				// Fighter jet 1
 				[objNull,30,false,{
-					_v = _this select 0;
-					_v animateSource ['wing_fold_r',1,TRUE];
-					_v animateSource ['wing_fold_l',1,TRUE];
-					_v setVelocity [0,0,0];	
-					_v;
+					_this animateSource ['wing_fold_r',1,TRUE];
+					_this animateSource ['wing_fold_l',1,TRUE];
+					_this setVelocity [0,0,0];	
 				},
 				'B_Plane_Fighter_01_F',
 				((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [34.4048,125.563,25.6195]),((getDir (missionNamespace getVariable 'QS_carrierObject')) - -181.109),false,0,-1,250,250,-1,5,FALSE,1]
@@ -366,31 +362,23 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 		} forEach [
 			// Fighter jet 2
 			[objNull,30,false,{
-				_v = _this select 0;
-				_v animateSource ['wing_fold_r',1,TRUE];
-				_v animateSource ['wing_fold_l',1,TRUE];		
-				_v setVelocity [0,0,0];	
-				_v;
+				_this animateSource ['wing_fold_r',1,TRUE];
+				_this animateSource ['wing_fold_l',1,TRUE];
+				_this setVelocity [0,0,0];	
 			},'B_Plane_Fighter_01_F',((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-33.5347,-9.15674,25.8687]),((getDir (missionNamespace getVariable 'QS_carrierObject')) - -127.312),false,0,-1,250,250,-1,5,FALSE,1],
 			// Fighter jet 3
 			[objNull,30,false,{
-				_v = _this select 0;
-				_v animateSource ['wing_fold_r',1,TRUE];
-				_v animateSource ['wing_fold_l',1,TRUE];	
-				_v setVelocity [0,0,0];	
-				_v;
+				_this animateSource ['wing_fold_r',1,TRUE];
+				_this animateSource ['wing_fold_l',1,TRUE];	
+				_this setVelocity [0,0,0];	
 			},'B_Plane_Fighter_01_F',((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-33.5016,6.19629,25.8204]),((getDir (missionNamespace getVariable 'QS_carrierObject')) - -128.053),false,0,-1,250,250,-1,5,FALSE,1],
 			// Huron Heli 1
 			[objNull,30,false,{
-				_v = _this select 0;
-				_v setVelocity [0,0,0];	
-				_v;
+				_this setVelocity [0,0,0];
 			},'B_Heli_Transport_03_unarmed_F',((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-32.0634,69.3691,27.2326]),((getDir (missionNamespace getVariable 'QS_carrierObject')) - -120.453),false,0,-1,250,250,-1,5,FALSE,1],
 			// Huron Heli 2
 			[objNull,30,false,{
-				_v = _this select 0;
-				_v setVelocity [0,0,0];			
-				_v;
+				_this setVelocity [0,0,0];
 			},'B_Heli_Transport_03_unarmed_F',((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-34.8141,160.094,27.1154]),((getDir (missionNamespace getVariable 'QS_carrierObject')) - -139.238),false,0,-1,250,250,-1,5,FALSE,1]		
 		];
 	};

@@ -15,7 +15,7 @@ __________________________________________________________/*/
 
 if (diag_tickTime > (player getVariable ['QS_RD_holstering',-1])) then {
 	player setVariable ['QS_RD_holstering',(diag_tickTime + 1),FALSE];
-	if (((attachedObjects player) isEqualTo []) || {(({(_x isKindOf 'Man')} count (attachedObjects player)) isEqualTo 0)}) then {
+	if (((attachedObjects player) isEqualTo []) || {(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)}) then {
 		if (!((currentWeapon player) isEqualTo '')) then {
 			player setVariable ['QS_RD_holsteredWeapon',(currentWeapon player),FALSE];
 			player action ['SwitchWeapon',player,player,100];

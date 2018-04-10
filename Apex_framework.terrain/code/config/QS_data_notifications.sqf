@@ -548,14 +548,14 @@ if (_case isEqualType '') then {
 			/*/description string/*/ 		'%2',
 			/*/difficulties array/*/ 		[],
 			/*/duration number/*/ 			5,
-			/*/iconPicture string/*/ 		'a3\ui_f\data\gui\cfg\ranks\sergeant_gs.paa',
+			/*/iconPicture string/*/ 		'a3\ui_f\data\gui\cfg\ranks\colonel_pr.paa',
 			/*/iconText string/*/ 			'',
 			/*/iconSize number/*/			1,
 			/*/priority number/*/ 			5,
 			/*/sound string/*/ 				'QS_audio_notification_2',
 			/*/soundClose string/*/ 		'QS_audio_notification_2Close',
 			/*/soundRadio string/*/ 		'',
-			/*/title string/*/ 				'High Command'
+			/*/title string/*/ 				'Commander'
 		];	
 	};
 	if (_case isEqualTo 'hcTaskSucceeded') then {
@@ -566,14 +566,14 @@ if (_case isEqualType '') then {
 			/*/description string/*/ 		'%2',
 			/*/difficulties array/*/ 		[],
 			/*/duration number/*/ 			5,
-			/*/iconPicture string/*/ 		'a3\ui_f\data\gui\cfg\ranks\sergeant_gs.paa',
+			/*/iconPicture string/*/ 		'a3\ui_f\data\gui\cfg\ranks\colonel_pr.paa',
 			/*/iconText string/*/ 			'',
 			/*/iconSize number/*/			1,
 			/*/priority number/*/ 			6,
 			/*/sound string/*/ 				'QS_audio_notification_2',
 			/*/soundClose string/*/ 		'QS_audio_notification_2Close',
 			/*/soundRadio string/*/ 		'',
-			/*/title string/*/ 				'High Command'
+			/*/title string/*/ 				'Commander'
 		];	
 	};
 	if (_case isEqualTo 'hcTaskFailed') then {
@@ -584,14 +584,14 @@ if (_case isEqualType '') then {
 			/*/description string/*/ 		'%2',
 			/*/difficulties array/*/ 		[],
 			/*/duration number/*/ 			5,
-			/*/iconPicture string/*/ 		'a3\ui_f\data\gui\cfg\ranks\sergeant_gs.paa',
+			/*/iconPicture string/*/ 		'a3\ui_f\data\gui\cfg\ranks\colonel_pr.paa',
 			/*/iconText string/*/ 			'',
 			/*/iconSize number/*/			1,
 			/*/priority number/*/ 			5,
 			/*/sound string/*/ 				'QS_audio_notification_2',
 			/*/soundClose string/*/ 		'QS_audio_notification_2Close',
 			/*/soundRadio string/*/ 		'',
-			/*/title string/*/ 				'High Command'
+			/*/title string/*/ 				'Commander'
 		];	
 	};
 	if (_case isEqualTo 'System') then {

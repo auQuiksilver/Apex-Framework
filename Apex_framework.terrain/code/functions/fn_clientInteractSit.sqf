@@ -98,22 +98,28 @@ if (_type isEqualTo 1) then {
 		_attachY = 0;
 	};
 	player attachTo [_object,[0,_attachY,0]];
+	player setVariable [
+		'QS_interact_actionStand',
+		(player addAction ['Stand',(missionNamespace getVariable 'QS_fnc_clientInteractSit'),0,49,FALSE,TRUE,'','TRUE',2,FALSE]),
+		FALSE
+	];
+	player setUserActionText [(player getVariable 'QS_interact_actionStand'),((player actionParams (player getVariable 'QS_interact_actionStand')) select 0),(format ["<t size='3'>%1</t>",((player actionParams (player getVariable 'QS_interact_actionStand')) select 0)])];
 	[_object] spawn {
 		scriptName 'Seated thread';
 		_object = _this select 0;
 		detach player;
 		player setDir ((getDir _object) - 180);
-		uiSleep 0.25;
+		uiSleep 0.05;
 		if (((typeOf _object) in ['Land_RattanChair_01_F','Land_ArmChair_01_F']) || {((toLower ((getModelInfo _object) select 0)) in ['rattanchair_01_f.p3d','armchair_01_f.p3d'])}) then {
 			private _playerPos = getPosWorld player;
 			_playerPos set [2,((_playerPos select 2) - 1)];
 			player setPosWorld _playerPos;
 		};
-		uiSleep 2;
+		uiSleep 0.05;
 		_animationState = animationState player;
 		for '_x' from 0 to 1 step 0 do {
 			if (!((animationState player) isEqualTo _animationState)) exitWith {player setVariable ['QS_seated_oldAnimState',nil,FALSE];};
-			if ((player distance _object) > 1) exitWith {
+			if ((player distance2D _object) > 1) exitWith {
 				if ((animationState player) isEqualTo _animationState) then {
 					[nil,nil,nil,0] call (missionNamespace getVariable 'QS_fnc_clientInteractSit');
 				};
@@ -129,7 +135,7 @@ if (_type isEqualTo 1) then {
 				};
 			};
 			if (!alive player) exitWith {player setVariable ['QS_seated_oldAnimState',nil,FALSE];};
-			uiSleep 1;
+			uiSleep 0.05;
 		};
 		if (!isNil {player getVariable 'QS_interact_actionStand'}) then {
 			player removeAction (player getVariable 'QS_interact_actionStand');
@@ -139,10 +145,4 @@ if (_type isEqualTo 1) then {
 			player setVariable ['QS_seated_oldAnimState',nil,FALSE];
 		};
 	};
-	player setVariable [
-		'QS_interact_actionStand',
-		(player addAction ['Stand',(missionNamespace getVariable 'QS_fnc_clientInteractSit'),0,49,FALSE,TRUE,'','TRUE',2,FALSE]),
-		FALSE
-	];
-	player setUserActionText [(player getVariable 'QS_interact_actionStand'),((player actionParams (player getVariable 'QS_interact_actionStand')) select 0),(format ["<t size='3'>%1</t>",((player actionParams (player getVariable 'QS_interact_actionStand')) select 0)])];
 };

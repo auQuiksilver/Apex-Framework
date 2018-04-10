@@ -53,7 +53,7 @@ if (_side isEqualTo sideUnknown) then {
 /*/'QS_marker_module_fob' setMarkerColor 'ColorINDEPENDENT';/*/
 ['sideChat',[WEST,'HQ'],(format ['FOB %1 activated by %2!',(missionNamespace getVariable 'QS_module_fob_displayName'),_activatorName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 ['FOB_UPDATE',['','Online']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-TRUE spawn {
+0 spawn {
 	sleep 2;
 	{
 		if (!isNull _x) then {

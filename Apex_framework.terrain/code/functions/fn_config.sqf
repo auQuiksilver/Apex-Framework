@@ -13,8 +13,8 @@ Description:
 	Configure Server
 ______________________________________________________________________/*/
 
-_missionProductVersion = '1.0.5';
-_missionProductStatus = 'Beta';
+_missionProductVersion = '1.0.7';
+_missionProductStatus = 'Gold';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
 	'_QS_PARAMS_DATE','_year','_month','_day','_hour','_minute','_QS_date','_n','_QS_currentWeatherData','_QS_code',
@@ -64,6 +64,7 @@ private [
 	'*****************************************************************************'
 ];
 if (!isDedicated) exitWith {
+	diag_log '***** SETUP ERROR * Server must be Dedicated *';
 	[
 		[],
 		{
@@ -76,14 +77,28 @@ if (!isDedicated) exitWith {
 		} 
 	] remoteExec ['call',-2,TRUE];
 };
-
 if ((!((productVersion select 7) isEqualTo 'x64')) && (!((productVersion select 6) isEqualTo 'Linux'))) exitWith {
+	diag_log '***** SETUP ERROR * Server must be x64 or Linux *';
 	[
 		[],
 		{
 			0 spawn {
 				while {true} do {
 					hintSilent 'Server must be running 64-bit';
+					uisleep 1;
+				};
+			};
+		} 
+	] remoteExec ['call',-2,TRUE];
+};
+if (!isFilePatchingEnabled) exitWith {
+	diag_log '***** SETUP ERROR * File patching must be enabled *';
+	[
+		[],
+		{
+			0 spawn {
+				while {true} do {
+					hintSilent '-filePatching must be enabled in Server launch options';
 					uisleep 1;
 				};
 			};
@@ -223,8 +238,6 @@ if (_worldName isEqualTo 'Altis') then {
 	} forEach (allAirports select 0);		/*/0 = Airbase 1 = AAC Airfield 2 = Krya Nera Airstrip 3 = Selakeno Airfield 4 = Molos Airfield 5 = Almyra Salt Lake Airstrip/*/
 };
 if (_worldName isEqualTo 'Tanoa') then {
-	_obj = createSimpleObject ["a3\structures_f_exp\naval\canals\canal_dutch_01_15m_f.p3d",[0,worldSize,-7]];	/*/[0,worldSize,-6.54091]/*/
-	_obj setDir 0;
 	{
 		_x setAirportSide WEST;
 	} forEach (allAirports select 0);			/*/0 = Aeroport de Tanoa 1 = Tuvanaka Airbase 2 = Saint-George Airstrip 3 = Bala Airstrip 4 = La Rochelle Aerodome /*/
@@ -306,19 +319,12 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'SC'
 };
 private _medicalGarbage = [];
 _medicalGarbageData = [
-	[
-		"a3\props_f_orange\humanitarian\garbage\medicalgarbage_01_1x1_v1_f.p3d",
-		"a3\props_f_orange\humanitarian\garbage\medicalgarbage_01_1x1_v2_f.p3d",
-		"a3\props_f_orange\humanitarian\garbage\medicalgarbage_01_1x1_v3_f.p3d"
-	],
-	[
-		0.333,
-		0.333,
-		0.333
-	]
+	'a3\props_f_orange\humanitarian\garbage\medicalgarbage_01_1x1_v1_f.p3d',0.333,
+	'a3\props_f_orange\humanitarian\garbage\medicalgarbage_01_1x1_v2_f.p3d',0.333,
+	'a3\props_f_orange\humanitarian\garbage\medicalgarbage_01_1x1_v3_f.p3d',0.333
 ];
 for '_x' from 0 to 11 step 1 do {
-	_medicalGarbage pushBack (createSimpleObject [((_medicalGarbageData select 0) selectRandomWeighted (_medicalGarbageData select 1)),[-1000,-1000,0]]);
+	_medicalGarbage pushBack (createSimpleObject [(selectRandomWeighted _medicalGarbageData),[-1000,-1000,0]]);
 };
 private _globalLightpoints = [];
 /*/
@@ -330,6 +336,30 @@ for '_x' from 0 to 9 step 1 do {
 	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 } forEach _globalLightpoints;
 /*/
+_recyclerUnitTypes = [
+	[
+		'o_soldier_ar_f',
+		'o_medic_f',
+		'o_engineer_f',
+		'o_soldier_exp_f',
+		'o_soldier_gl_f',
+		'o_soldier_m_f',
+		'o_soldier_f',
+		'o_soldier_sl_f',
+		'o_soldier_tl_f'
+	],
+	[
+		'o_t_soldier_ar_f',
+		'o_t_medic_f',
+		'o_t_engineer_f',
+		'o_t_soldier_exp_f',
+		'o_t_soldier_gl_f',
+		'o_t_soldier_m_f',
+		'o_t_soldier_f',
+		'o_t_soldier_tl_f',
+		'o_t_soldier_sl_f'
+	]
+] select (worldName in ['Tanoa','Lingor3']);
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -466,7 +496,7 @@ for '_x' from 0 to 9 step 1 do {
 	['QS_staff_requestBaseCleanup_time',0,FALSE],
 	['QS_roboCop',[],FALSE],
 	['QS_panel_support',objNull,TRUE],
-	['QS_smReward_array',[5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23,24,25,26,27],FALSE],
+	['QS_smReward_array',[5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23,24,25,26,27,29,30,31],FALSE],
 	['QS_ao_aaMarkers',[],FALSE],
 	['QS_module_fob_enabled',TRUE,TRUE],
 	['QS_module_fob_centerPosition',[0,0,0],FALSE],
@@ -577,6 +607,7 @@ for '_x' from 0 to 9 step 1 do {
 	['QS_AI_supportProviders_CASUAV',[],FALSE],
 	['QS_AI_supportProviders_ARTY',[],FALSE],
 	['QS_AI_supportProviders_INTEL',[],FALSE],
+	['QS_AI_hostileBuildings',[],FALSE],
 	['QS_client_showKnownEnemies',TRUE,TRUE],
 	['QS_client_showStealthEnemies',FALSE,TRUE],
 	['QS_enemy_mortarFireMessage',diag_tickTime,FALSE],
@@ -593,7 +624,11 @@ for '_x' from 0 to 9 step 1 do {
 	['QS_dynTask_medevac_inProgress',FALSE,TRUE],
 	['QS_dynTask_medevac_array',[],FALSE],
 	['QS_primaryObjective_civilians',[],FALSE],
-	['QS_recycler_objects',[[],[]],FALSE],
+	['QS_recycler_units',((missionNamespace getVariable 'QS_missionConfig_aoType') in ['CLASSIC','SC']),FALSE],
+	['QS_recycler_unitTypes',_recyclerUnitTypes,FALSE],
+	['QS_recycler_unitCount',8,FALSE],
+	['QS_recycler_nullGrp',grpNull,FALSE],
+	['QS_recycler_objects',[[],[],[]],FALSE],
 	['QS_recycler_position',[-1100,-1100,0],FALSE],
 	['QS_AI_insertHeli_enabled',TRUE,TRUE],
 	['QS_AI_insertHeli_maxHelis',3,TRUE],
@@ -605,13 +640,18 @@ for '_x' from 0 to 9 step 1 do {
 	['QS_AI_insertHeli_spawnedAO',0,TRUE],
 	['QS_AI_unitsGestureReady',[],FALSE],
 	['QS_AI_regroupPositions',[],FALSE],
+	['QS_AI_regenerator',objNull,FALSE],
+	['QS_AI_regen_usedPositions',[[0,0,0]],FALSE],
 	['QS_positions_fieldHospitals',[],TRUE],
+	['QS_sideMission_terrainData',[],FALSE],
 	['QS_classic_AOData',[],TRUE],
+	['QS_classic_terrainData',[],FALSE],
 	['QS_classic_AI_triggerDeinit',FALSE,FALSE],
 	['QS_classic_AI_triggerInit',FALSE,FALSE],
 	['QS_classic_AI_active',FALSE,FALSE],
 	['QS_classic_AI_enemy_0',[],FALSE],
 	['QS_classic_subObjectives',[],FALSE],
+	['QS_classic_subObjectiveData',[],FALSE],
 	['QS_mission_tasks',[],TRUE],
 	['QS_anim_script',scriptNull,FALSE],
 	['QS_grid_initialized',FALSE,FALSE],
@@ -676,8 +716,13 @@ for '_x' from 0 to 9 step 1 do {
 	['QS_prisoners',[],TRUE],
 	['QS_vehicle_register',[],FALSE],
 	['QS_flare_lightpoints',_globalLightpoints,TRUE],
-	['QS_AI_vehicles',[],FALSE]
+	['QS_AI_vehicles',[],FALSE],
+	['QS_genericAO_terrainData',[],FALSE],
+	['QS_ao_createDelayedMinefield',FALSE,FALSE],
+	['QS_ao_createDelayedMinefieldPos',[0,0,0],FALSE],
+	['QS_mission_gpsJammers',[],TRUE]
 ];
+missionNamespace setVariable ['QS_data_arsenal',(compileFinal (preprocessFileLineNumbers '@Apex_cfg\arsenal.sqf')),TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	{
 		missionNamespace setVariable _x;
@@ -1050,7 +1095,7 @@ if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqu
 			_x call (missionNamespace getVariable 'QS_fnc_carrier');
 		};
 	} forEach [
-		['INIT2'],
+		['INIT'],
 		['PROPS'],
 		['HOSPITAL','ADD'],
 		['DEFENSE']
@@ -1059,6 +1104,16 @@ if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqu
 
 0 spawn (missionNamespace getVariable 'QS_fnc_easterEggs');
 [0] call (missionNamespace getVariable 'QS_fnc_artillery');
+
+if (!((allMissionObjects 'Land_RepairDepot_01_base_F') isEqualTo [])) then {
+	{
+		if (!isSimpleObject _x) then {
+			_x setRepairCargo 0;
+			_x setAmmoCargo 0;
+			_x setFuelCargo 0;
+		};
+	} forEach (allMissionObjects 'Land_RepairDepot_01_base_F');
+};
 
 /*/===== DATE CONFIG /*/
 

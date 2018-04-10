@@ -571,16 +571,11 @@ if (_type isEqualTo 1) then {
 		];
 		comment 'Magazines';
 		for '_x' from 0 to (_maxMagazines - 1) step 1 do {
-			_magazineType = [
-				'30Rnd_556x45_Stanag_Tracer_Red',
-				'30Rnd_65x39_caseless_mag_Tracer',
-				'20Rnd_762x51_Mag',
-				'NLAW_F'
-			] selectRandomWeighted [
-				0.6,
-				0.5,
-				0.2,
-				0.1
+			_magazineType = selectRandomWeighted [
+				'30Rnd_556x45_Stanag_Tracer_Red',0.6,
+				'30Rnd_65x39_caseless_mag_Tracer',0.5,
+				'20Rnd_762x51_Mag',0.2,
+				'NLAW_F',0.1
 			];
 			_magazineTypesToAdd pushBackUnique (toLower _magazineType);
 			_magazinesToAdd pushBack (toLower _magazineType);
@@ -591,16 +586,11 @@ if (_type isEqualTo 1) then {
 		} forEach _magazineTypesToAdd;
 		comment 'Weapons';
 		for '_x' from 0 to (_maxWeapons - 1) step 1 do {
-			_weaponType = [
-				'arifle_spar_01_blk_erco_pointer_f',
-				'arifle_MX_Black_Hamr_pointer_F',
-				'srifle_DMR_06_olive_F',
-				'launch_nlaw_f'
-			] selectRandomWeighted [
-				0.5,
-				0.4,
-				0.2,
-				0.2
+			_weaponType = selectRandomWeighted [
+				'arifle_spar_01_blk_erco_pointer_f',0.5,
+				'arifle_MX_Black_Hamr_pointer_F',0.4,
+				'srifle_DMR_06_olive_F',0.2,
+				'launch_nlaw_f',0.2
 			];
 			_weaponTypesToAdd pushBackUnique (toLower _weaponType);
 			_weaponsToAdd pushBack (toLower _weaponType);
@@ -611,16 +601,11 @@ if (_type isEqualTo 1) then {
 		} forEach _weaponTypesToAdd;		
 		comment 'Backpacks';
 		for '_x' from 0 to (_maxBackpacks - 1) step 1 do {
-			_backpackType = [
-				'B_AssaultPack_rgr',
-				'B_Kitbag_rgr',
-				'B_FieldPack_oli',
-				'B_Bergen_rgr'
-			] selectRandomWeighted [
-				0.25,
-				0.25,
-				0.25,
-				0.25
+			_backpackType = selectRandomWeighted [
+				'B_AssaultPack_rgr',0.25,
+				'B_Kitbag_rgr',0.25,
+				'B_FieldPack_oli',0.25,
+				'B_Bergen_rgr',0.25
 			];
 			_backpackTypesToAdd pushBackUnique (toLower _backpackType);
 			_backpacksToAdd pushBack (toLower _backpackType);

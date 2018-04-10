@@ -92,7 +92,8 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 	['QS_revive_respawnType','',FALSE],
 	['QS_revive_disable',FALSE,TRUE],
 	['QS_respawn_disable',-1,FALSE],
-	['QS_client_medevacRequested',FALSE,FALSE]
+	['QS_client_medevacRequested',FALSE,FALSE],
+	['QS_client_playerViewChanged',TRUE,FALSE]
 ];
 50 cutText ['','BLACK IN',1];
 {
@@ -125,9 +126,11 @@ enableRadio TRUE;
 	[4,[TRUE,TRUE]],
 	[5,[TRUE,TRUE]]
 ];
-for '_x' from 0 to 499 step 1 do {
-	_x ppEffectEnable FALSE;
-	_x ppEffectCommit 0;
+for '_i' from 0 to 499 step 1 do {
+	if (ppEffectEnabled _i) then {
+		_i ppEffectEnable FALSE;
+		_i ppEffectCommit 0;
+	};
 };
 if (player getUnitTrait 'uavhacker') then {
 	if (!isNull (getConnectedUAV _oldUnit)) then {
@@ -230,6 +233,7 @@ if (['officer',_playerClass,FALSE] call (missionNamespace getVariable 'QS_fnc_in
 		player setUnitTrait ['QS_trait_HQ',TRUE,TRUE];
 	};
 	missionNamespace setVariable ['QS_hc_Commander',player,TRUE];
+	player setVariable ['QS_ST_customDN','Commander',TRUE];
 } else {
 	if (player getUnitTrait 'QS_trait_HQ') then {
 		player setUnitTrait ['QS_trait_HQ',FALSE,TRUE];

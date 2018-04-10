@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	3/09/2017 A3 1.74 by Quiksilver
+	29/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -39,13 +39,19 @@ __________________________________________________________________________/*/
 	["Land_HBarrier_01_wall_6_green_F",[-4.65039,-14.1714,0],178.418,[],false,false,true,{}], 
 	["Land_HBarrier_01_wall_6_green_F",[-14.3359,-5.28174,0],265.262,[],false,false,true,{}], 
 	["Land_HBarrier_01_wall_6_green_F",[-11.6533,-12.0586,0],234.447,[],false,false,true,{}], 
-	["O_T_MBT_02_arty_ghex_F",[4.01807,-1.67236,-0.0691381],353.719,[],true,true,false,{
+	[(["O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F"] select (worldName in ['Tanoa','Lingor3'])),[4.01807,-1.67236,-0.0691381],353.719,[],true,true,false,{
 		_arty = _this select 0;
 		(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _arty;
-		if ((random 1) > 0.25) then {
-			_arty allowCrewInImmobile TRUE;
-		};
 		_arty setVariable ['QS_hidden',TRUE,TRUE];
+		_arty addEventHandler [
+			'HandleDamage',
+			{
+				params ['_vehicle','','_damage','','','_hitPartIndex','',''];
+				_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
+				_damage = _oldDamage + (_damage - _oldDamage) * 0.5;
+				_damage;
+			}
+		];
 		_arty addEventHandler ['GetOut',{(_this select 2) setDamage [1,TRUE];}];
 		_arty addEventHandler ['Deleted',{
 			{
@@ -94,13 +100,19 @@ __________________________________________________________________________/*/
 		} forEach (units _group1);
 		_arty;
 	}], 
-	["O_T_MBT_02_arty_ghex_F",[-6.7666,-2.89453,-0.0691385],353.719,[],true,true,false,{
+	[(["O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F"] select (worldName in ['Tanoa','Lingor3'])),[-6.7666,-2.89453,-0.0691385],353.719,[],true,true,false,{
 		_arty = _this select 0;
 		(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _arty;
-		if ((random 1) > 0.25) then {
-			_arty allowCrewInImmobile TRUE;
-		};
 		_arty setVariable ['QS_hidden',TRUE,TRUE];
+		_arty addEventHandler [
+			'HandleDamage',
+			{
+				params ['_vehicle','','_damage','','','_hitPartIndex','',''];
+				_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
+				_damage = _oldDamage + (_damage - _oldDamage) * 0.5;
+				_damage;
+			}
+		];
 		_arty addEventHandler ['GetOut',{(_this select 2) setDamage [1,TRUE];}];
 		_arty addEventHandler ['Deleted',{
 			{

@@ -11,28 +11,14 @@ Last Modified:
 Description:
 
 	Client Initialization 
-______________________________________________________/*/ 
-
-if (isDedicated) exitWith {}; 
-player setVehiclePosition [(getPosWorld player),[],0,'NONE']; 
+______________________________________________________/*/
+if (isDedicated || !isMultiplayer || is3DEN) exitWith {};
 0 spawn {
 	setViewDistance 200; 	
 	setObjectViewDistance 0; 	
 	_hasInterface = hasInterface; 	
 	if (_hasInterface) then {
-		TRUE spawn {
-			waitUntil {
-				(!isNull player)
-			};
-			if (!((getOxygenRemaining player) isEqualTo 1)) then {
-				player setOxygenRemaining 1;
-			};
-			player setPosASL [
-				((getPosASL player) select 0),
-				((getPosASL player) select 1),
-				1
-			];
-		};
+		player setVehiclePosition [(getPosWorld player),[],0,'NONE'];
 		waitUntil {
 			(!(isNull(findDisplay 46)))
 		};

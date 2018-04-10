@@ -69,7 +69,9 @@ if (_type isEqualTo 0) exitWith {
 			];
 			_v lock 3;
 			_return pushBack _v;
+			_v addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 			_v addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
+			[0,_v,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 			_v allowCrewInImmobile TRUE;
 			_v enableRopeAttach FALSE;
 			_v enableVehicleCargo FALSE;

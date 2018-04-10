@@ -94,7 +94,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 							_muzzle = if (_x == "this") then {_weaponCfg} else {_weaponCfg >> _x};
 							{
 								_mag = tolower _x;
-								if ({(_x select 0) == _mag} count _addonListType == 0) then {
+								if ((_addonListType findIf {((_x select 0) == _mag)}) isEqualTo -1) then {
 									_magCfg = configfile >> "cfgmagazines" >> _mag;
 									if (getnumber (_magCfg >> "scope") == 2) then {
 										_displayName = gettext (_magCfg >> "displayName");

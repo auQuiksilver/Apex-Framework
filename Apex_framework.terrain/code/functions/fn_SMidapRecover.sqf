@@ -6,12 +6,12 @@ Author:
 	
 Last Modified:
 
-	3/01/2018 A3 1.80 by Quiksilver
+	24/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 	
 	Recover some stuff stolen from an IDAP supply depot
-___________________________________________________________________________/*/
+_________________________________________________/*/
 
 scriptName 'Side Mission - IDAP Recover';
 _validTerrains = ['Altis','Tanoa','Malden'];
@@ -144,7 +144,7 @@ for '_x' from 0 to 1 step 0 do {
 	_idapScenePosition = ['WORLD',-1,-1,'LAND',[10,-1,0.2,20,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	if ((([(_idapScenePosition select 0),(_idapScenePosition select 1)] nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 		if (!((([(_idapScenePosition select 0),(_idapScenePosition select 1)] nearRoads 100) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo [])) then {
-			if (({((_x distance2D _idapScenePosition) < 300)} count _allPlayers) isEqualTo 0) then {
+			if ((_allPlayers findIf {((_x distance2D _idapScenePosition) < 300)}) isEqualTo -1) then {
 				if (!([_idapScenePosition,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 					if ((_idapScenePosition distance2D _basePosition) > _baseRadius) then {
 						if ((_idapScenePosition distance2D _fobPosition) > _fobRadius) then {
@@ -239,9 +239,9 @@ _idapComposition = [
 	_composition
 ] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 _uniforms = ['U_C_IDAP_Man_cargo_F','U_C_IDAP_Man_casual_F','U_C_IDAP_Man_Jeans_F','U_C_IDAP_Man_shorts_F','U_C_IDAP_Man_Tee_F','U_C_IDAP_Man_TeeShorts_F'];
-_vests = [['','V_Plain_crystal_F','V_Plain_medical_F','V_Safety_orange_F'],[0.55,0.15,0.15,0.15]];
-_headgear = [['','H_Cap_Orange_IDAP_F','H_Cap_White_IDAP_F','H_Cap_Black_IDAP_F'],[0.25,0.25,0.25,0.25]];
-_backpacks = [['','B_Messenger_Gray_Medical_F','B_Messenger_IDAP_F','B_Messenger_IDAP_Medical_F'],[0.55,0.15,0.15,0.15]];
+_vests = ['',0.55,'V_Plain_crystal_F',0.15,'V_Plain_medical_F',0.15,'V_Safety_orange_F',0.15];
+_headgear = ['',0.25,'H_Cap_Orange_IDAP_F',0.25,'H_Cap_White_IDAP_F',0.25,'H_Cap_Black_IDAP_F',0.25];
+_backpacks = ['',0.55,'B_Messenger_Gray_Medical_F',0.15,'B_Messenger_IDAP_F',0.15,'B_Messenger_IDAP_Medical_F',0.15];
 _idapTypes = ['C_IDAP_Man_AidWorker_01_F','C_IDAP_Man_AidWorker_07_F','C_IDAP_Man_AidWorker_08_F','C_IDAP_Man_AidWorker_09_F','C_IDAP_Man_AidWorker_02_F','C_IDAP_Man_AidWorker_05_F','C_IDAP_Man_AidWorker_06_F','C_IDAP_Man_AidWorker_04_F','C_IDAP_Man_AidWorker_03_F'];
 _bloodTypes = ['BloodPool_01_Large_New_F','BloodPool_01_Medium_New_F','BloodSplatter_01_Large_New_F','BloodSplatter_01_Medium_New_F'];
 private _agent = objNull;
@@ -257,9 +257,9 @@ for '_x' from 0 to (4 + (round (random 3))) step 1 do {
 		[],
 		[],
 		[(selectRandom _uniforms),[]],
-		[((_vests select 0) selectRandomWeighted (_vests select 1)),[]],
-		[((_backpacks select 0) selectRandomWeighted (_backpacks select 1)),[]],
-		((_headgear select 0) selectRandomWeighted (_headgear select 1)),
+		[(selectRandomWeighted _vests),[]],
+		[(selectRandomWeighted _backpacks),[]],
+		(selectRandomWeighted _headgear),
 		'',
 		[],
 		[]
@@ -357,9 +357,9 @@ _recoverableUnit setUnitLoadout [
 	[],
 	[],
 	[(selectRandom _uniforms),[]],
-	[((_vests select 0) selectRandomWeighted (_vests select 1)),[]],
-	[((_backpacks select 0) selectRandomWeighted (_backpacks select 1)),[]],
-	((_headgear select 0) selectRandomWeighted (_headgear select 1)),
+	[(selectRandomWeighted _vests),[]],
+	[(selectRandomWeighted _backpacks),[]],
+	(selectRandomWeighted _headgear),
 	'',
 	[],
 	[]
@@ -480,6 +480,8 @@ private _cratePositionIndex = -1;
 private _crateCompletionRadius = 6;
 private _crateState = 'DETACHED';
 private _crateAttachedTo = objNull;
+private _crateSpawned = FALSE;
+private _timeoutFailsafe = -1;
 
 private _houseMarker = '';
 private _houseFoundAttempts = 0;
@@ -538,10 +540,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_woundedSounds) then {
 		if (time > _woundedSoundsCheckDelay) then {
 			if (_recoverableUnit getVariable ['QS_unit_needsStabilise',FALSE]) then {
-				_sound = format ['A3\Missions_F_EPA\data\sounds\WoundedGuy%1.wss',(selectRandom _sounds)];
-				_soundPosASL = getPosASL _recoverableUnit;
-				_headPos = _recoverableUnit modelToWorld (_recoverableUnit selectionPosition ['head','hitpoints']);
-				playSound3D [_sound,_recoverableUnit,FALSE,[(_headPos select 0),(_headPos select 1),(_soundPosASL select 2)],6,1,25];
+				playSound3D [(format ['A3\Missions_F_EPA\data\sounds\WoundedGuy%1.wss',(selectRandom _sounds)]),_recoverableUnit,FALSE,(_recoverableUnit modelToWorldWorld (_recoverableUnit selectionPosition ['head','hitpoints'])),6,1,25];
 			};
 			_woundedSoundsCheckDelay = time + (random [7,10,16]);
 		};
@@ -565,8 +564,8 @@ for '_x' from 0 to 1 step 0 do {
 			if (!isNull _house) then {
 				_house allowDamage FALSE;
 				_housePosition = position _house;
-				if (({((_housePosition distance2D _x) < 300)} count _usedPositions) isEqualTo 0) then {
-					if (({((_housePosition distance2D _x) < 300)} count _allPlayers) isEqualTo 0) then {
+				if ((_usedPositions findIf {((_housePosition distance2D _x) < 300)}) isEqualTo -1) then {
+					if ((_allPlayers findIf {((_housePosition distance2D _x) < 300)}) isEqualTo -1) then {
 						if ((_housePosition distance2D _basePosition) > 500) then {
 							_houseFound = TRUE;
 							_findNewLocation = FALSE;
@@ -605,10 +604,10 @@ for '_x' from 0 to 1 step 0 do {
 			if ((_truckPos distance2D _housePosition) < 30) then {
 				_truckPos set [2,0];
 				_truckTypes = [
-					'O_G_Offroad_01_F',
-					'O_G_Van_01_transport_F',
-					'I_C_Van_01_transport_F',
-					'C_Truck_02_transport_F'
+					'o_g_offroad_01_f',
+					'o_g_van_01_transport_f',
+					'i_c_van_01_transport_f',
+					'c_truck_02_transport_f'
 				];
 				_truck = createVehicle [(selectRandom _truckTypes),[-500,-500,50],[],25,'NONE'];
 				_truck setDir (random 360);
@@ -630,6 +629,8 @@ for '_x' from 0 to 1 step 0 do {
 				_crate setVariable ['QS_inventory_disabled',TRUE,TRUE];
 				_crate setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 				_crate setVariable ['QS_ST_customDN','Medical Supplies',TRUE];
+				_timeoutFailsafe = serverTime + 3600;
+				_crateSpawned = TRUE;
 				_cratePositionIndex = _houseBuildingPositions find _cratePosition;
 				_houseBuildingPositions set [_cratePositionIndex,FALSE];
 				_houseBuildingPositions deleteAt _cratePositionIndex;
@@ -666,14 +667,12 @@ for '_x' from 0 to 1 step 0 do {
 			if (_currentSceneChance isEqualTo 0) then {
 				if (([_housePosition,15,[WEST],allPlayers,1] call _fn_serverDetector) > 0) then {
 					if (([_housePosition,15,[EAST,RESISTANCE],allUnits,1] call _fn_serverDetector) isEqualTo 0) then {
-						
 						[
 							[],
 							{
 								50 cutText ['No medical supplies found. Keep searching, soldier!','PLAIN DOWN',0.75];
 							}
 						] remoteExec ['call',(allPlayers select {((_x distance2D _housePosition) < 300)}),FALSE];
-
 						['SM_IDAP_UPDATE',['Side Mission Update','Medical supplies not found']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 						
 						_findNewLocation = TRUE;
@@ -765,6 +764,7 @@ for '_x' from 0 to 1 step 0 do {
 							_sceneType = 1;
 							deleteMarker _aidMarker;
 							deleteVehicle _crate;
+							_crateSpawned = FALSE;
 							deleteMarker _houseMarker;
 							[78,0,'QS_client_customDraw2D',_iconID,_iconData] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
 							_medevacTimeout = serverTime + _medevacTime;
@@ -867,7 +867,8 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (alive _x) then {
 							if (_x isKindOf 'Man') then {
-								if (alive _crate) then {
+								if (alive _crate) then {	
+									doStop _x;
 									_x doMove (getPosATL _crate);
 								};
 							};
@@ -883,6 +884,16 @@ for '_x' from 0 to 1 step 0 do {
 			if (!isNull _crate) then {
 				_houseMarker setMarkerPos (getPosWorld _crate);
 			};
+		};
+	};
+	if (_crateSpawned) then {
+		if (!alive _crate) then {
+			[[WEST,'BLU'],'Medical supplies destroyed, mission failed!'] remoteExec ['sideChat',-2,FALSE];
+			_taskState = 'FAILED';
+		};
+		if (serverTime > _timeoutFailsafe) then {
+			[[WEST,'BLU'],'Mission failed, took too long!'] remoteExec ['sideChat',-2,FALSE];
+			_taskState = 'FAILED';
 		};
 	};
 	sleep 3;
@@ -906,7 +917,7 @@ if (!(_allArray isEqualTo [])) then {
 		_toDelete = _x;
 		if (_toDelete isKindOf 'LandVehicle') then {
 			if (alive _toDelete) then {
-				if (({(alive _x)} count (crew _toDelete)) isEqualTo 0) then {
+				if (((crew _toDelete) findIf {(alive _x)}) isEqualTo -1) then {
 					deleteVehicle _toDelete;
 				} else {
 					_toDelete setVariable ['QS_vehicle_delayedDelete',(diag_tickTime + 600),FALSE];
@@ -915,7 +926,7 @@ if (!(_allArray isEqualTo [])) then {
 						{
 							params ['_vehicle'];
 							if (diag_tickTime > (_vehicle getVariable ['QS_vehicle_delayedDelete',-1])) then {
-								if (({(alive _x)} count (crew _vehicle)) isEqualTo 0) then {
+								if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
 									deleteVehicle _vehicle;
 								};
 							};

@@ -44,15 +44,15 @@ if (_type isEqualTo 1) then {
 	_rewardVeh = objNull;
 	if ((count (missionNamespace getVariable 'QS_smReward_array')) > 2) then {
 		if (_isArmedAirEnabled) then {
-			_newRewardArray = missionNamespace getVariable ['QS_smReward_array',[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]];
+			_newRewardArray = missionNamespace getVariable ['QS_smReward_array',[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]];
 		} else {
-			_newRewardArray = missionNamespace getVariable ['QS_smReward_array',[5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23,28]];
+			_newRewardArray = missionNamespace getVariable ['QS_smReward_array',[5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23,28,29,30,31]];
 		};
 	} else {
 		if (_isArmedAirEnabled) then {
-			_newRewardArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28];
+			_newRewardArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
 		} else {
-			_newRewardArray = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23,28];
+			_newRewardArray = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,23,28,29,30,31];
 		};
 	};
 	_reward = selectRandom _newRewardArray;
@@ -266,9 +266,9 @@ if (_type isEqualTo 1) then {
 	if (_reward isEqualTo 11) then {
 		comment 'MSE-3 Marid';
 		if (worldName isEqualTo 'Tanoa') then {
-			_rewardType = 'O_T_APC_Wheeled_02_rcws_ghex_F';
+			_rewardType = 'O_T_APC_Wheeled_02_rcws_v2_ghex_F';
 		} else {
-			_rewardType = 'O_APC_Wheeled_02_rcws_F';
+			_rewardType = 'O_APC_Wheeled_02_rcws_v2_F';
 		};
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -947,12 +947,9 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 23) then {
 		comment 'AA truck';
-		_rewardType = [
-			'B_SAM_System_01_F',
-			'B_AAA_System_01_F'
-		] selectRandomWeighted [
-			0.666,
-			0.333
+		_rewardType = selectRandomWeighted [
+			'B_SAM_System_01_F',0.666,
+			'B_AAA_System_01_F',0.333
 		];
 		_rewardText = 'HEMTT (AA)';
 		if ((toLower _rewardType) isEqualTo 'b_sam_system_01_f') then {
@@ -1178,7 +1175,57 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','Shitty Technical (GMG)',TRUE];
 		_rewardText = 'a(n) Shitty Technical';
 	};
-	
+	if (_reward isEqualTo 29) then {
+		comment 'Nyx';
+		_rewardType = selectRandomWeighted [
+			'I_LT_01_AT_F',1,
+			'I_LT_01_scout_F',1,
+			'I_LT_01_cannon_F',1,
+			'I_LT_01_AA_F',1
+		];
+		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
+		missionNamespace setVariable [
+			'QS_analytics_entities_created',
+			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+			FALSE
+		];
+		_rewardVeh setDir (random 360);
+		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
+		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
+		_rewardText = format ['a(n) %1',(getText (configFile >> 'CfgVehicles' >> _rewardType >> 'displayName'))];
+	};
+	if (_reward isEqualTo 30) then {
+		comment 'Angara';
+		_rewardType = ['O_MBT_04_cannon_F','O_T_MBT_04_cannon_F'] select (worldName in ['Tanoa','Lingor3']);
+		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
+		missionNamespace setVariable [
+			'QS_analytics_entities_created',
+			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+			FALSE
+		];
+		_rewardVeh setDir (random 360);
+		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
+		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
+		_rewardText = format ['a(n) %1',(getText (configFile >> 'CfgVehicles' >> _rewardType >> 'displayName'))];
+	};
+	if (_reward isEqualTo 31) then {
+		comment 'Rhino';
+		_rewardTypes = [
+			['B_AFV_Wheeled_01_up_cannon_F',0.333,'B_AFV_Wheeled_01_cannon_F',0.666],
+			['B_T_AFV_Wheeled_01_up_cannon_F',0.333,'B_T_AFV_Wheeled_01_cannon_F',0.666]
+		] select (worldName in ['Tanoa','Lingor3']);
+		_rewardType = selectRandomWeighted _rewardTypes;
+		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
+		missionNamespace setVariable [
+			'QS_analytics_entities_created',
+			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+			FALSE
+		];
+		_rewardVeh setDir (random 360);
+		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
+		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
+		_rewardText = format ['a(n) %1',(getText (configFile >> 'CfgVehicles' >> _rewardType >> 'displayName'))];
+	};	
 	if (!isNull _rewardVeh) then {
 		if ((attachedObjects _rewardVeh) isEqualTo []) then {
 			(missionNamespace getVariable 'QS_v_Monitor') pushBack [_rewardVeh,30,FALSE,{},_rewardType,_rewardPosition,(getDir _rewardVeh),FALSE,0,-1,50,500,0,6,FALSE,0];

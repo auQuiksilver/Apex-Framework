@@ -6,13 +6,15 @@ Author:
 	
 Last modified:
 
-	14/03/2017 A3 1.66 by Quiksilver
+	1/04/2018 A3 1.82 by Quiksilver
 	
 Description:
+
 	Function which selects a position that provides overwatch
 	onto another position.
 
 Parameter(s):
+
 	_this select 0: the target position (position)
 	_this select 1: maximum distance from target in meters (optional)
 	_this select 2: minimum distance from target in meters (optional)
@@ -20,27 +22,25 @@ Parameter(s):
 	_this select 4: check visibility
 __________________________________________________________________________/*/
 
-params ['_targetPos','_maxrange','_minrange','_minheight','_checkVisibility'];
-private [
-	'_selectedPositions','_result','_checkPos','_height','_dis',
-	'_terrainBlocked','_counter1','_counter2','_isCheckVisibility'
+params [
+	['_targetPos',[0,0,0]],
+	['_maxrange',3000],
+	['_minrange',0],
+	['_minheight',0],
+	['_checkVisibility',[]]
 ];
 scopeName 'main';
-_targetPos = [(_targetPos select 0),(_targetPos select 1), ((_targetPos select 2) + 1)];
-_minheight = _minheight + (getTerrainHeightASL _targetPos);
-_selectedPositions = [];
-_result = [];
-_checkPos = [];
-_dis = 0;
-_counter1 = 0;
-_counter2 = 0;
-_terrainBlocked = TRUE;
-_isCheckVisibility = FALSE;
-if (!isNil '_checkVisibility') then {
-	if (!(_checkVisibility isEqualTo [])) then {
-		_isCheckVisibility = TRUE;
-	};
-};
+_targetPos set [2,((_targetPos select 2) + 1)];
+private _minheight = _minheight + (getTerrainHeightASL _targetPos);
+private _selectedPositions = [];
+private _result = [];
+private _checkPos = [];
+private _dis = 0;
+private _counter1 = 0;
+private _counter2 = 0;
+private _terrainBlocked = TRUE;
+private _isCheckVisibility = (!(_checkVisibility isEqualTo []));
+private _height = 0;
 for '_x' from 0 to 49 step 1 do {
 	for '_x' from 0 to 49 step 1 do {
 		_checkPos = [_targetPos,_minrange,_maxrange,3,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
@@ -63,11 +63,11 @@ for '_x' from 0 to 49 step 1 do {
 				};
 			};
 			if (_counter2 <= 25) then {
-				if ((count _selectedPositions) >= 5) then {
+				if ((count _selectedPositions) >= 10) then {
 					breakTo 'main';
 				};
 			} else {
-				if ((count _selectedPositions) >= 1) then {
+				if (!(_selectedPositions isEqualTo [])) then {
 					breakTo 'main';
 				};
 			};
@@ -75,11 +75,11 @@ for '_x' from 0 to 49 step 1 do {
 		};
 	};
 	if (_counter1 <= 25) then {
-		if ((count _selectedPositions) >= 5) then {
+		if ((count _selectedPositions) >= 10) then {
 			breakTo 'main';
 		};
 	} else {
-		if ((count _selectedPositions) >= 1) then {
+		if (!(_selectedPositions isEqualTo [])) then {
 			breakTo 'main';
 		};
 	};
@@ -88,7 +88,7 @@ for '_x' from 0 to 49 step 1 do {
 };
 if (!(_selectedPositions isEqualTo [])) then {
 	if (!((count _selectedPositions) isEqualTo 1)) then {
-		_result = selectRandom _selectedPositions;
+		_result = _selectedPositions select 0;
 		_maximum = getTerrainHeightASL _result;
 		{
 			_height = getTerrainHeightASL _x;
@@ -114,11 +114,11 @@ if (!(_selectedPositions isEqualTo [])) then {
 				_selectedPositions pushBack _checkPos;
 			};
 		};
-		if ((count _selectedPositions) >= 1) exitWith {};
+		if (!(_selectedPositions isEqualTo [])) exitWith {};
 	};
 	if (!(_selectedPositions isEqualTo [])) then {
 		if (!((count _selectedPositions) isEqualTo 1)) then {
-			_result = selectRandom _selectedPositions;
+			_result = _selectedPositions select 0;
 			_maximum = getTerrainHeightASL _result;
 			{
 				_height = getTerrainHeightASL _x;

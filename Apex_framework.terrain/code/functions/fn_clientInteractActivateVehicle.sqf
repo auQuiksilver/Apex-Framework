@@ -28,7 +28,7 @@ if ((_cursorObject isKindOf 'Plane') && (!(player getUnitTrait 'QS_trait_pilot')
 };
 if (
 	((missionNamespace getVariable ['QS_missionConfig_armor',1]) isEqualTo 0) &&
-	((toLower (typeOf _cursorObject)) in ["b_apc_wheeled_01_cannon_f","b_apc_tracked_01_rcws_f","b_mbt_01_cannon_f","b_mbt_01_tusk_f","b_apc_tracked_01_aa_f","b_t_apc_wheeled_01_cannon_f","b_t_apc_tracked_01_rcws_f","b_t_apc_tracked_01_aa_f","b_t_mbt_01_cannon_f","b_t_mbt_01_tusk_f","o_mbt_02_cannon_f","o_apc_tracked_02_cannon_f","o_apc_wheeled_02_rcws_f","o_apc_tracked_02_aa_f","o_t_apc_tracked_02_aa_ghex_f","o_t_apc_tracked_02_cannon_ghex_f","o_t_apc_wheeled_02_rcws_ghex_f","o_t_mbt_02_cannon_ghex_f","i_apc_wheeled_03_cannon_f","i_apc_tracked_03_cannon_f","i_mbt_03_cannon_f"])
+	((toLower (typeOf _cursorObject)) in ["b_apc_wheeled_01_cannon_f","b_apc_tracked_01_rcws_f","b_mbt_01_cannon_f","b_mbt_01_tusk_f","b_apc_tracked_01_aa_f","b_t_apc_wheeled_01_cannon_f","b_t_apc_tracked_01_rcws_f","b_t_apc_tracked_01_aa_f","b_t_mbt_01_cannon_f","b_t_mbt_01_tusk_f","o_mbt_02_cannon_f","o_apc_tracked_02_cannon_f","o_apc_wheeled_02_rcws_f","o_apc_wheeled_02_rcws_v2_f","o_apc_tracked_02_aa_f","o_t_apc_tracked_02_aa_ghex_f","o_t_apc_tracked_02_cannon_ghex_f","o_t_apc_wheeled_02_rcws_ghex_f","o_t_apc_wheeled_02_rcws_v2_ghex_f","o_t_mbt_02_cannon_ghex_f","i_apc_wheeled_03_cannon_f","i_apc_tracked_03_cannon_f","i_mbt_03_cannon_f"])
 ) exitWith {
 	50 cutText ['Armored vehicles not authorized for use at this time (server config)','PLAIN DOWN',0.75];
 };

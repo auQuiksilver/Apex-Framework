@@ -13,8 +13,6 @@ Description:
 	-
 ____________________________________________________________________________/*/
 
-diag_log '***** QS ***** AI * Grid spawn attack * 0 *****';
-
 params ['_type','_aoPos','_aoSize','_igPos','_teamsize'];
 private _enemyUnits = [];
 _worldName = worldName;
@@ -45,34 +43,35 @@ if (_worldName isEqualTo 'Tanoa') then {
 private _spawnPos = [0,0,0];
 private _foundSpawnPos = FALSE;
 private _unitTypes = [
-	'O_G_Soldier_A_F',0.2,
-	'O_G_Soldier_AR_F',0.4,
-	'O_G_medic_F',0.2,
-	'O_G_engineer_F',0.2,
-	'O_G_Soldier_exp_F',0.2,
-	'O_G_Soldier_GL_F',0.2,
-	'O_G_Soldier_M_F',0.2,
-	'O_G_Soldier_F',0.2,
-	'O_G_Soldier_LAT_F',0.2,
-	'O_G_Soldier_lite_F',0.2,
-	'O_G_Sharpshooter_F',0.2,
-	'O_G_Soldier_TL_F',0.2,
-	'I_C_Soldier_Bandit_7_F',0.2,
-	'I_C_Soldier_Bandit_3_F',0.4,
-	'I_C_Soldier_Bandit_2_F',0.2,
-	'I_C_Soldier_Bandit_5_F',0.2,
-	'I_C_Soldier_Bandit_6_F',0.2,
-	'I_C_Soldier_Bandit_1_F',0.2,
-	'I_C_Soldier_Bandit_8_F',0.2,
-	'I_C_Soldier_Bandit_4_F',0.2,
-	'I_C_Soldier_Para_7_F',0.1,
-	'I_C_Soldier_Para_2_F',0.1,
-	'I_C_Soldier_Para_3_F',0.1,
-	'I_C_Soldier_Para_4_F',0.3,
-	'I_C_Soldier_Para_6_F',0.1,
-	'I_C_Soldier_Para_8_F',0.1,
-	'I_C_Soldier_Para_1_F',0.1,
-	'I_C_Soldier_Para_5_F',0.1
+	'O_G_Soldier_A_F',1,
+	'O_G_Soldier_AR_F',3,
+	'O_G_medic_F',1,
+	'O_G_engineer_F',1,
+	'O_G_Soldier_exp_F',1,
+	'O_G_Soldier_GL_F',1,
+	'O_G_Soldier_M_F',1,
+	'O_G_Soldier_F',1,
+	'O_G_Soldier_LAT_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
+	'O_G_Soldier_LAT2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
+	'O_G_Soldier_lite_F',1,
+	'O_G_Sharpshooter_F',3,
+	'O_G_Soldier_TL_F',1,
+	'I_C_Soldier_Bandit_7_F',1,
+	'I_C_Soldier_Bandit_3_F',3,
+	'I_C_Soldier_Bandit_2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
+	'I_C_Soldier_Bandit_5_F',2,
+	'I_C_Soldier_Bandit_6_F',2,
+	'I_C_Soldier_Bandit_1_F',2,
+	'I_C_Soldier_Bandit_8_F',2,
+	'I_C_Soldier_Bandit_4_F',2,
+	'I_C_Soldier_Para_7_F',1,
+	'I_C_Soldier_Para_2_F',1,
+	'I_C_Soldier_Para_3_F',1,
+	'I_C_Soldier_Para_4_F',3,
+	'I_C_Soldier_Para_6_F',1,
+	'I_C_Soldier_Para_8_F',1,
+	'I_C_Soldier_Para_1_F',1,
+	'I_C_Soldier_Para_5_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4)
 ];
 private _allPlayers = allPlayers;
 private _playersCount = count _allPlayers;
@@ -91,7 +90,7 @@ if (_type isEqualTo 0) exitWith {
 			_spawnPos = [_igPos,250,500,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 		};
 		if (!(_spawnPos isEqualTo [])) then {
-			if (({((_x distance2D _spawnPos) < 300)} count _allPlayers) isEqualTo 0) then {
+			if ((_allPlayers findif {((_x distance2D _spawnPos) < 300)}) isEqualTo -1) then {
 				if ((_spawnPos distance2D _igPos) < 1001) then {
 					if (_spawnPos call _fn_blacklist) then {
 						if (!([_spawnPos,_igPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
@@ -153,9 +152,6 @@ if (_type isEqualTo 0) exitWith {
 		};	
 		_enemyGrp move _igPos;
 	};
-	
-	diag_log '***** QS ***** AI * Grid spawn attack * 1 *****';
-	
 	_enemyUnits;
 };
 _enemyUnits;

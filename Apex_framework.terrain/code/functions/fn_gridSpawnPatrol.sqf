@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	14/12/2017 A3 1.78 by Quiksilver
+	8/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -41,34 +41,35 @@ _terrainData params [
 	'_buildingPositionsInPolygonNearGround'
 ];
 private _unitTypes = [
-	'O_G_Soldier_A_F',0.2,
-	'O_G_Soldier_AR_F',0.4,
-	'O_G_medic_F',0.2,
-	'O_G_engineer_F',0.2,
-	'O_G_Soldier_exp_F',0.2,
-	'O_G_Soldier_GL_F',0.2,
-	'O_G_Soldier_M_F',0.2,
-	'O_G_Soldier_F',0.2,
-	'O_G_Soldier_LAT_F',0.2,
-	'O_G_Soldier_lite_F',0.2,
-	'O_G_Sharpshooter_F',0.2,
-	'O_G_Soldier_TL_F',0.2,
-	'I_C_Soldier_Bandit_7_F',0.2,
-	'I_C_Soldier_Bandit_3_F',0.4,
-	'I_C_Soldier_Bandit_2_F',0.2,
-	'I_C_Soldier_Bandit_5_F',0.2,
-	'I_C_Soldier_Bandit_6_F',0.2,
-	'I_C_Soldier_Bandit_1_F',0.2,
-	'I_C_Soldier_Bandit_8_F',0.2,
-	'I_C_Soldier_Bandit_4_F',0.2,
-	'I_C_Soldier_Para_7_F',0.1,
-	'I_C_Soldier_Para_2_F',0.1,
-	'I_C_Soldier_Para_3_F',0.1,
-	'I_C_Soldier_Para_4_F',0.3,
-	'I_C_Soldier_Para_6_F',0.1,
-	'I_C_Soldier_Para_8_F',0.1,
-	'I_C_Soldier_Para_1_F',0.1,
-	'I_C_Soldier_Para_5_F',0.1
+	'O_G_Soldier_A_F',1,
+	'O_G_Soldier_AR_F',3,
+	'O_G_medic_F',1,
+	'O_G_engineer_F',1,
+	'O_G_Soldier_exp_F',1,
+	'O_G_Soldier_GL_F',1,
+	'O_G_Soldier_M_F',1,
+	'O_G_Soldier_F',1,
+	'O_G_Soldier_LAT_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
+	'O_G_Soldier_LAT2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
+	'O_G_Soldier_lite_F',1,
+	'O_G_Sharpshooter_F',3,
+	'O_G_Soldier_TL_F',1,
+	'I_C_Soldier_Bandit_7_F',1,
+	'I_C_Soldier_Bandit_3_F',3,
+	'I_C_Soldier_Bandit_2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
+	'I_C_Soldier_Bandit_5_F',2,
+	'I_C_Soldier_Bandit_6_F',2,
+	'I_C_Soldier_Bandit_1_F',2,
+	'I_C_Soldier_Bandit_8_F',2,
+	'I_C_Soldier_Bandit_4_F',2,
+	'I_C_Soldier_Para_7_F',1,
+	'I_C_Soldier_Para_2_F',1,
+	'I_C_Soldier_Para_3_F',1,
+	'I_C_Soldier_Para_4_F',3,
+	'I_C_Soldier_Para_6_F',1,
+	'I_C_Soldier_Para_8_F',1,
+	'I_C_Soldier_Para_1_F',1,
+	'I_C_Soldier_Para_5_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4)
 ];
 _worldName = worldName;
 _worldSize = worldSize;
@@ -95,7 +96,7 @@ if (_type isEqualTo 0) exitWith {
 			_c = TRUE;
 			_c;
 		};
-		if (({(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} count _usedPositions) isEqualTo 0) then {
+		if ((_usedPositions findIf {(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))}) isEqualTo -1) then {
 			if (([_pos,300,[WEST,CIVILIAN],_allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
 				_c = TRUE;
 			};
@@ -128,7 +129,7 @@ if (_type isEqualTo 0) exitWith {
 			if (_isDedicated) then {
 				[_enemyUnit,'amovppnemstpsraswrfldnon'] remoteExecCall ['switchMove',-2,FALSE];
 			} else {
-				['switchMove',_enemyUnit,'amovppnemstpsraswrfldnon'] remoteExecCall ['QS_fnc_remoteExecCmd',-2,FALSE];	
+				['switchMove',_enemyUnit,'amovppnemstpsraswrfldnon'] remoteExecCall ['QS_fnc_remoteExecCmd',-2,FALSE];
 			};
 			_enemyUnit setVehiclePosition [(getPosWorld _enemyUnit),[],10,'NONE'];
 			_enemyUnit disableAI 'COVER';
@@ -137,8 +138,8 @@ if (_type isEqualTo 0) exitWith {
 			_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			if ((toLower _enemyUnitType) in ['o_g_soldier_f','o_g_soldier_lite_f','i_c_soldier_bandit_6_f','i_c_soldier_para_1_f']) then {
 				if ((random 1) > 0.5) then {
-					_enemyUnit addBackpack (['b_bergen_hex_f','b_carryall_ghex_f'] select (_worldName isEqualTo 'Tanoa'));
-					[_enemyUnit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (_worldName isEqualTo 'Tanoa')),4] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+					_enemyUnit addBackpack (['b_bergen_hex_f','b_carryall_ghex_f'] select (_worldName in ['Tanoa','Lingor3']));
+					[_enemyUnit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (_worldName in ['Tanoa','Lingor3'])),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 				};
 			};
 			[_enemyUnit] joinSilent _enemyGrp;
@@ -171,7 +172,7 @@ if (_type isEqualTo 1) exitWith {
 			_c = TRUE;
 			_c;
 		};
-		if (({(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} count _usedPositions) isEqualTo 0) then {
+		if ((_usedPositions findIf {(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))}) isEqualTo -1) then {
 			if (([_pos,300,[WEST,CIVILIAN],_allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
 				_c = TRUE;
 			};
@@ -207,8 +208,8 @@ if (_type isEqualTo 1) exitWith {
 			_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			if ((toLower _enemyUnitType) in ['o_g_soldier_f','o_g_soldier_lite_f','i_c_soldier_bandit_6_f','i_c_soldier_para_1_f']) then {
 				if ((random 1) > 0.5) then {
-					_enemyUnit addBackpack (['b_bergen_hex_f','b_carryall_ghex_f'] select (_worldName isEqualTo 'Tanoa'));
-					[_enemyUnit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (_worldName isEqualTo 'Tanoa')),4] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+					_enemyUnit addBackpack (['b_bergen_hex_f','b_carryall_ghex_f'] select (_worldName in ['Tanoa','Lingor3']));
+					[_enemyUnit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (_worldName in ['Tanoa','Lingor3'])),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 				};
 			};
 			[_enemyUnit] joinSilent _enemyGrp;

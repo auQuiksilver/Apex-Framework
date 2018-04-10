@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/12/2017 A3 1.80 by Quiksilver
+	27/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -34,16 +34,17 @@ _timeout = _time + _duration;
 _moveDelay = 15;
 private _moveCheckDelay = _time + 0;
 private _exit = FALSE;
-_startPosition = position _unit;
+_startPosition = getPosATL _unit;
+_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
 for '_x' from 0 to 1 step 0 do {
 	_time = diag_tickTime;
-	if ((!alive _unit) || {(!((lifeState _unit) in ['HEALTHY','INJURED']))} || {(!alive _target)}) then {
+	if ((!alive _unit) || {(!((lifeState _unit) in ['HEALTHY','INJURED']))} || {(!alive _target)} || {((damage _target) isEqualTo 0)}) then {
 		_exit = TRUE;
 	};
 	if ((_unit distance2D _target) > _setRadius) then {
 		if (_time > _moveCheckDelay) then {
 			doStop _unit;
-			_unit doMove (position _target);
+			_unit doMove (getPosATL _target);
 			_moveCheckDelay = _time + _moveDelay;
 		};
 	} else {
@@ -84,6 +85,7 @@ if (!alive _unit) exitWith {};
 	'TARGET',
 	'WEAPONAIM'
 ];
+_unit setVariable ['QS_AI_JOB',FALSE,FALSE];
 doStop _unit;
 _unit doMove _startPosition;
 _unit doFollow (leader (group _unit));

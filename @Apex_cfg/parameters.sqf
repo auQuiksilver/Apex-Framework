@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	31/01/2018 A3 1.80 by Quiksilver
+	10/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -60,10 +60,13 @@ _staffNames = 'bob (admin), billy (moderator), albert (moderator), carl (mission
 
 _baseLayout = 0;										// Base layout.	0 - Default. 1 - Create custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
 _closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
-_arsenal = 0;											// Arsenal.		0 - Unrestricted. 1- Restricted. Evaluated in fn_clientInteractArsenal.sqf .
+_arsenal = 1;											// Arsenal.		0 - Unrestricted. 1 - Use Whitelist. 2 - Use Blacklist.			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured. Note: Currently in 1.0.7 the Blacklist only works for gear restriction, not the Arsenal menu until we can find a workaround.
+_gearRestrictions = 1;									// Gear Restrictions.	0 - Disabled. 1 - Enabled. (Default = 1). 	Controls whether non-snipers can use sniper rifles, non-AT soldiers use missile launchers, etc.
 _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles with default layout.
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
+_enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
+_commander = 2;											// [Beta] Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel, and view bodycam live feeds of any soldier.
 
 //===================================================== SYSTEM
 
@@ -133,8 +136,11 @@ if (!(_restart_hours isEqualTo [])) then {
 	['QS_missionConfig_baseLayout',_baseLayout,TRUE],
 	['QS_missionConfig_AH',(compileFinal (str _anticheat)),TRUE],
 	['QS_missionConfig_stamina',_stamina,TRUE],
+	['QS_missionConfig_enemyCAS',_enemyCAS,FALSE],
 	['QS_missionConfig_CAS',_closeAirSupport,TRUE],
+	['QS_missionConfig_Commander',_commander,TRUE],
 	['QS_missionConfig_Arsenal',_arsenal,TRUE],
+	['QS_missionConfig_gearRestrictions',_gearRestrictions,TRUE],
 	['QS_missionConfig_armor',_armor,TRUE],
 	['QS_missionConfig_reducedDamage',(compileFinal (str _reducedDamage)),TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],

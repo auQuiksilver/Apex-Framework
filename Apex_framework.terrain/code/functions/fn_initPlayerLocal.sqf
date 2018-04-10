@@ -76,16 +76,22 @@ if (['whitelist',_roleDescription,FALSE] call _fn_inString) then {
 			endMission 'QS_RD_end_1';
 		};
 	};
-	if (['Commander',_roleDescription,FALSE] call _fn_inString) then {
-		if ((!(_uid in ((['S1'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))) && (!(serverCommandAvailable '#logout'))) then {
+};
+if (['Commander',_roleDescription,FALSE] call _fn_inString) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_Commander',0]) isEqualTo 0) then {
+		_exit = TRUE;
+		endMission 'QS_RD_end_8';
+	};
+	if ((missionNamespace getVariable ['QS_missionConfig_Commander',0]) isEqualTo 2) then {
+		if (!(_uid in ((['S1'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))) then {
 			_exit = TRUE;
-			endMission 'QS_RD_end_8';
+			endMission 'QS_RD_end_1';
 		};
 	};
 };
 if (['disabled',_roleDescription,FALSE] call _fn_inString) then {
 	_exit = TRUE;
-	endMission 'end1';
+	endMission 'QS_RD_end_8';
 };
 if (_exit) exitWith {};
 if (['medic',_playerClass,FALSE] call _fn_inString) then {
@@ -290,6 +296,7 @@ if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 	['RscMissionStatus_draw3D',-9,FALSE],
 	['QS_dynSim_script',scriptNull,FALSE],
 	['QS_medSys',FALSE,FALSE],
+	['QS_client_deltaVD',scriptNull,FALSE],
 	['QS_earplug_EH_respawn',nil,FALSE],
 	['QS_earplug_action',nil,FALSE],
 	['QS_repairing_vehicle',FALSE,FALSE],
@@ -494,8 +501,6 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['QS_FiredInAO',FALSE,TRUE],
 	['QS_directPlayID',(missionNamespace getVariable 'QS_directPlayID'),TRUE],
 	['QS_client_init',TRUE,TRUE],
-	['QS_client_lastKey',-1,FALSE],
-	['QS_client_countKey',[],FALSE],
 	['QS_earsCollected_session',0,FALSE],
 	['QS_revive_killedVehiclePosition',[],FALSE],
 	['QS_backpack_data',[(backpack player),(backpackItems player),(backpackMagazines player)],FALSE],
@@ -510,7 +515,6 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['QS_client_sectorScanLastRequest',time,FALSE],
 	['QS_client_hc_waypoint',[],FALSE],
 	['QS_client_uiLastAction',diag_tickTime,FALSE],
-	['QS_ST_iconColor',[[0,0,1,1],WEST],FALSE],
 	['QS_client_soundControllers',[(getAllSoundControllers (vehicle player)),(getAllEnvSoundControllers (getPosWorld player))],FALSE],
 	['QS_client_lastMedevacRequest',diag_tickTime,FALSE],
 	['QS_revive_disable',FALSE,TRUE],
@@ -610,14 +614,17 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['MusicStart',{}],
 	['MusicStop',{}]
 ];
-
+// Setup Arsenal
+if (!((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 0)) then {
+	call (missionNamespace getVariable 'QS_fnc_clientArsenal');
+};
 {
 	if (simulationEnabled _x) then {
 		if ((player knowsAbout _x) < 3) then {
 			player reveal [_x,3];
 		};
 	};
-} count ((position player) nearObjects ['All',30]);
+} count ((getPosATL player) nearObjects ['All',30]);
 if (!isNil {missionNamespace getVariable 'QS_arsenals'}) then {
 	if ((missionNamespace getVariable 'QS_arsenals') isEqualType []) then {
 		if ((count (missionNamespace getVariable 'QS_arsenals')) > 0) then {
@@ -633,7 +640,7 @@ _playerClass spawn {
 	if (!isNil {profileNamespace getVariable 'QS_saved_loadouts'}) then {
 		if ((profileNamespace getVariable 'QS_saved_loadouts') isEqualType []) then {
 			if (!((profileNamespace getVariable 'QS_saved_loadouts') isEqualTo [])) then {
-				_QS_loadoutIndex = [(profileNamespace getVariable 'QS_saved_loadouts'),_this,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+				_QS_loadoutIndex = (profileNamespace getVariable 'QS_saved_loadouts') findIf {((_x select 0) isEqualTo _this)};
 				if (!(_QS_loadoutIndex isEqualTo -1)) then {
 					player setUnitLoadout [(((profileNamespace getVariable 'QS_saved_loadouts') select _QS_loadoutIndex) select 1),TRUE];
 				};
@@ -784,13 +791,15 @@ if (!(_squadParams isEqualTo [])) then {
 	_squadName = (_squadParams select 0) select 0;
 	private _exit3 = FALSE;
 	{
-		if (!((squadParams _x) isEqualTo [])) then {
-			if ((((squadParams _x) select 0) select 0) isEqualTo _squadName) then {
-				[player] joinSilent (group _x);
-				_exit3 = TRUE;
+		if ((side _x) isEqualTo playerSide) then {
+			if (!((squadParams _x) isEqualTo [])) then {
+				if ((((squadParams _x) select 0) select 0) isEqualTo _squadName) then {
+					[player] joinSilent (group _x);
+					_exit3 = TRUE;
+				};
 			};
+			if (_exit3) exitWith {};
 		};
-		if (_exit3) exitWith {};
 	} forEach allPlayers;
 };
 [29,(missionNamespace getVariable 'QS_module_fob_side')] call (missionNamespace getVariable 'QS_fnc_remoteExec');
@@ -884,34 +893,49 @@ if (isNil {profileNamespace getVariable 'QS_client_radioChannels_profile'}) then
 if (isNil {uiNamespace getVariable 'QS_hasJoinedSession'}) then {
 	uiNamespace setVariable ['QS_hasJoinedSession',TRUE];
 	if ((random 1) > 0.333) then {
-		_track = selectRandom ['Intro','Intro2','Intro3','Intro4','Intro5','Intro6'];
+		_track = selectRandomWeighted [
+			'Intro',0.1,
+			'Intro2',0.1,
+			'Intro3',0.1,
+			'Intro4',0.1,
+			'Intro5',0.1,
+			'Intro6',0.1
+		];
 		if (isClass (missionConfigFile >> 'CfgSounds' >> _track)) then {
 			playSound [_track,FALSE];
 		};
 	} else {
 		1 fadeMusic 0.333;
+		_musicClasses = [
+			['EventTrack01_F_Jets',0.1],			// Track + probability weighting
+			['LeadTrack01_F_Jets',0.1],
+			['LeadTrack02_F_Jets',0.1],
+			['AmbientTrack02_F_Exp',0.1],
+			['AmbientTrack02a_F_Exp',0.1],
+			['AmbientTrack02b_F_Exp',0.1],
+			['AmbientTrack02c_F_Exp',0.1],
+			['AmbientTrack02d_F_Exp',0.1],
+			['AmbientTrack01_F_Orange',0.1],
+			['AmbientTrack02_F_Orange',0.1],
+			['LeadTrack01_F_Orange',0.1],
+			['LeadTrack01_F_Malden',0.1],
+			['AmbientTrack04a_F_Tacops',0.1],
+			['AmbientTrack04b_F_Tacops',0.1],
+			['LeadTrack01_F_Tank',0.1],
+			['LeadTrack02_F_Tank',0.1],
+			['LeadTrack03_F_Tank',0.1],
+			['LeadTrack04_F_Tank',0.1],
+			['LeadTrack05_F_Tank',0.1],
+			['LeadTrack06_F_Tank',0.1]
+		];
 		private _music = [];
 		{
-			if (isClass (configFile >> 'CfgMusic' >> _x)) then {
-				_music pushBack _x;
+			if (isClass (configFile >> 'CfgMusic' >> (_x select 0))) then {
+				_music pushBack (_x select 0);
+				_music pushBack (_x select 1);
 			};
-		} forEach [
-			'EventTrack01_F_Jets',
-			'LeadTrack01_F_Jets',
-			'LeadTrack02_F_Jets',
-			'AmbientTrack02_F_Exp',
-			'AmbientTrack02a_F_Exp',
-			'AmbientTrack02b_F_Exp',
-			'AmbientTrack02c_F_Exp',
-			'AmbientTrack02d_F_Exp',
-			'AmbientTrack01_F_Orange',
-			'AmbientTrack02_F_Orange',
-			'LeadTrack01_F_Orange',
-			'LeadTrack01_F_Malden',
-			'AmbientTrack04a_F_Tacops',
-			'AmbientTrack04b_F_Tacops'
-		];
-		playMusic [(selectRandom _music),0];
+		} forEach _musicClasses;
+		playMusic [(selectRandomWeighted _music),0];
 	};
 };
 0 spawn (missionNamespace getVariable 'QS_fnc_clientCore');

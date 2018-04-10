@@ -44,7 +44,7 @@ if (_weapon isEqualTo 'Throw') then {
 			if (_magazine in [
 				'SmokeShell','SmokeShellBlue','SmokeShellGreen','SmokeShellOrange','SmokeShellPurple','SmokeShellRed','SmokeShellYellow'
 			]) then {
-				if (((_unit distance (missionNamespace getVariable 'QS_HQpos')) < 50) || (!(({((_unit distance2D _x) < 50)} count (missionNamespace getVariable ['QS_virtualSectors_positions',[[0,0,0]]])) isEqualTo 0))) then {
+				if (((_unit distance2D (missionNamespace getVariable 'QS_HQpos')) < 50) || (!(((missionNamespace getVariable ['QS_virtualSectors_positions',[[0,0,0]]]) findIf {((_unit distance2D _x) < 50)}) isEqualTo -1))) then {
 					if (!isNil {_unit getVariable 'QS_client_hqLastSmoke'}) then {
 						if (time < ((_unit getVariable 'QS_client_hqLastSmoke') + 20)) then {
 							0 = [_projectile] spawn {
@@ -92,6 +92,15 @@ if (_weapon isEqualTo 'Throw') then {
 						'_objectParent'
 					];
 					_canAttachExp = _objectParent getVariable ['QS_client_canAttachExp',FALSE];
+					if (((_objectParent isKindOf 'AllVehicles') && (((side _objectParent) in [EAST,RESISTANCE]) || {(_canAttachExp)})) || {(!(_objectParent isKindOf 'AllVehicles'))}) then {
+						_projectile setVectorUp _surfaceNormal;
+						_projectile setPosASL _intersectPosASL;
+						[_projectile,_objectParent,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+						if ((_objectParent getVariable ['QS_client_canAttachDetach',FALSE]) || (!simulationEnabled _objectParent)) then {
+							detach _projectile;
+						};
+					};
+					/*/
 					if ((simulationEnabled _objectParent) || {(_canAttachExp)}) then {
 						if ((_objectParent isKindOf 'AllVehicles') || {(_canAttachExp)}) then {
 							if (((side _objectParent) in [EAST,RESISTANCE]) || {(_canAttachExp)}) then {
@@ -104,6 +113,7 @@ if (_weapon isEqualTo 'Throw') then {
 							};
 						};
 					};
+					/*/
 				};
 			};
 		};
@@ -114,34 +124,38 @@ if (_weapon isEqualTo 'Throw') then {
 			};
 		};
 	} else {
-		if ((_unit getVariable 'QS_tto') > 0) then {
+		if ((_unit getVariable ['QS_tto',0]) > 0) then {
 			private _cursorObject = cursorObject;
 			private _cursorTarget = cursorTarget;
 			if (
 				((side _unit) isEqualTo sideEnemy) ||
 				{((rating _unit) < -500)} ||
 				{((!(isNull _cursorObject)) && (isPlayer _cursorObject))} ||
-				{((!(isNull _cursorTarget)) && (isPlayer _cursorTarget))}	||
+				{((!(isNull _cursorTarget)) && (isPlayer _cursorTarget))} ||
 				{((!(isNull _cursorObject)) && (!(isNull (effectiveCommander _cursorObject))) && (isPlayer (effectiveCommander _cursorObject)))}
 			) then {
-				deleteVehicle _projectile;
+				if (!((side (group _cursorTarget)) in (playerSide call (missionNamespace getVariable 'QS_fnc_enemySides')))) then {
+					deleteVehicle _projectile;
+				};
 			};
 		};
 		if (!isNull _projectile) then {
 			if ((toLower _weapon) in ['mortar_82mm','mortar_155mm_amos','rockets_230mm_gat']) then {
 				if ((toLower _ammo) in ['sh_82mm_amos','sh_155mm_amos','sh_155mm_amos_guided','r_230mm_he']) then {
-					if (missionNamespace getVariable 'QS_customAO_GT_active') then {
-						_projectile spawn {
-							scriptName 'QS Fired Shell Monitor';
-							_missionPos = [[3480.95,13111.1,0],[5762,10367,0]] select (worldName isEqualTo 'Tanoa');
-							waitUntil {
-								uiSleep 0.1;
-								if ((_this distance2D _missionPos) < 750) then {
-									50 cutText ['Firing into restricted area, shell disarmed','PLAIN DOWN',0.25];
-									deleteVehicle _this;
+					if (worldName in ['Altis','Tanoa']) then {
+						if (missionNamespace getVariable 'QS_customAO_GT_active') then {
+							_projectile spawn {
+								scriptName 'QS Fired Shell Monitor';
+								_missionPos = [[3480.95,13111.1,0],[5762,10367,0]] select (worldName isEqualTo 'Tanoa');
+								waitUntil {
+									uiSleep 0.1;
+									if ((_this distance2D _missionPos) < 750) then {
+										50 cutText ['Firing into restricted area, shell disarmed','PLAIN DOWN',0.25];
+										deleteVehicle _this;
+									};
+									((isNull _this) ||
+									((velocity _this) isEqualTo [0,0,0]))
 								};
-								((isNull _this) ||
-								((velocity _this) isEqualTo [0,0,0]))
 							};
 						};
 					};

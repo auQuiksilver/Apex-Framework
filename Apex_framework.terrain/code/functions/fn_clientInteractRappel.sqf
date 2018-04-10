@@ -18,7 +18,7 @@ if (_type isEqualTo 1) then {
 	[player,(vehicle player)] call (missionNamespace getVariable 'AR_Rappel_From_Heli_Action');
 } else {
 	if (_type isEqualTo 2) then {
-		TRUE spawn {
+		0 spawn {
 			{
 				if (!isPlayer _x) then {
 					if ((vehicle _x) isEqualTo (vehicle player)) then {

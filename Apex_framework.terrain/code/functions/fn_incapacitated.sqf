@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	18/12/2017 A3 1.80 by Quiksilver
+	24/02/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -53,11 +53,8 @@ if (!isNull (objectParent _unit)) then {
 			];
 			uiSleep 0.25;
 		} else {
-			if ((_unit isEqualTo (driver _objectParent)) || {((_objectParent isKindOf 'Air') && (_unit in [(_objectParent turretUnit [-1]),(_objectParent turretUnit [0]),(_objectParent turretUnit [1])]))}) then {
-				moveOut _unit;
-				unassignVehicle _unit;
-			} else {
-				_unit setVariable ['QS_RD_loaded',TRUE,TRUE];
+			_unit setVariable ['QS_RD_loaded',TRUE,TRUE];
+			if (!(_objectParent getVariable ['QS_RD_activeCargo',FALSE])) then {
 				_objectParent setVariable ['QS_RD_activeCargo',TRUE,TRUE];
 			};
 		};
@@ -208,6 +205,7 @@ bis_revive_ppBlur ppEffectAdjust [0];
 } forEach [bis_revive_ppColor, bis_revive_ppVig, bis_revive_ppBlur];
 private _forceRespawned = FALSE;
 //private _clientFOBRespawnEnabled = missionNamespace getVariable 'QS_module_fob_client_respawnEnabled';
+_unit setTargetAge 'UNKNOWN';
 _unit setMimic 'hurt';
 private _exit = FALSE;
 if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) exitWith {
@@ -216,11 +214,9 @@ if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) exitWith {
 private _initialAnimSet = FALSE;
 private _initialAnimDelay = _tickTimeNow + 8;
 private _chatShown = shownChat;
-comment 'Block shooting';
-_QS_action_cockblock = _unit addAction ['   ',{},nil,-99,FALSE,TRUE,'DefaultAction','TRUE',5,TRUE,''];
 comment 'Functions preload';
 _fn_findHealer = missionNamespace getVariable 'QS_fnc_clientMFindHealer';
-_fn_secondsToString = missionNamespace getVariable 'BIS_fnc_secondsToString';
+_fn_secondsToString = missionNamespace getVariable 'QS_fnc_secondsToString';
 _fn_isNearFieldHospital = missionNamespace getVariable 'QS_fnc_isNearFieldHospital';
 _fn_inString = missionNamespace getVariable 'QS_fnc_inString';
 comment 'Loop';
@@ -241,11 +237,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_tickTimeNow > _soundDelay) then {
 		if (isNull _objectParent) then {
 			if (isNull _attachedTo) then {
-				_sound = format ['A3\Missions_F_EPA\data\sounds\WoundedGuy%1.wss',(selectRandom _sounds)];
-				//_posASL = getPosASL _unit;
-				_headPos = _unit modelToWorldWorld (_unit selectionPosition ['head','hitpoints']);
-				//playSound3D [_sound,_unit,FALSE,[(_headPos select 0),(_headPos select 1),(_posASL select 2)],5,1,20];
-				playSound3D [_sound,_unit,FALSE,_headPos,5,1,20];
+				playSound3D [(format ['A3\Missions_F_EPA\data\sounds\WoundedGuy%1.wss',(selectRandom _sounds)]),_unit,FALSE,(_unit modelToWorldWorld (_unit selectionPosition ['head','hitpoints'])),5,1,20];
 			};
 		};
 		_soundDelay = _tickTimeNow + _soundDelayFixed + (random _soundDelayRandom);
@@ -399,14 +391,16 @@ for '_x' from 0 to 1 step 0 do {
 				if (player getVariable ['QS_animDone',TRUE]) then {
 					if ((isNull _attachedTo) && (isNull _objectParent)) then {
 						_deadVehicles = allDead - allDeadMen;
-						if (({((_x distance _unit) < 5)} count _deadVehicles) isEqualTo 0) then {
+						if ((_deadVehicles findIf {((_x distance2D _unit) < 5)}) isEqualTo -1) then {
 							if (!(((getPosASL _unit) select 2) < -1)) then {
-								_text = 'Revived by an act of the gods. Praise the gods!';
-								50 cutText [_text,'PLAIN DOWN',0.5];
-								if (_lifeState isEqualTo 'INCAPACITATED') then {
-									_unit setUnconscious FALSE;
-									if (captive _unit) then {
-										_unit setCaptive FALSE;
+								if ((_unit targets [TRUE,30]) isEqualTo []) then {
+									_text = 'Revived by an act of the gods. Praise the gods!';
+									50 cutText [_text,'PLAIN DOWN',0.5];
+									if (_lifeState isEqualTo 'INCAPACITATED') then {
+										_unit setUnconscious FALSE;
+										if (captive _unit) then {
+											_unit setCaptive FALSE;
+										};
 									};
 								};
 							};
@@ -434,7 +428,9 @@ for '_x' from 0 to 1 step 0 do {
 			];
 			uiSleep 0.25;
 			_unit setUnconscious TRUE;
-		} else {
+		};
+		/*/
+		else {
 			if ((_unit isEqualTo (driver _objectParent)) || {((_objectParent isKindOf 'Air') && (_unit in [(_objectParent turretUnit [-1]),(_objectParent turretUnit [0]),(_objectParent turretUnit [1])]))}) then {
 				_unit setVariable ['QS_incapacitated_processMoveOutRequest',TRUE,FALSE];
 			} else {
@@ -456,6 +452,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			};
 		};
+		/*/
 	};
 	comment 'Pause Menu handling';
 	if (!(_49Opened)) then {
@@ -572,7 +569,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_tickTimeNow > (_unit getVariable ['QS_respawn_disable',-1])) then {
 				_QS_buttonMedevac ctrlSetText 'Request Medevac';
 			} else {
-				_QS_buttonMedevac ctrlSetText ([((_unit getVariable ['QS_respawn_disable',-1]) - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString'));
+				_QS_buttonMedevac ctrlSetText ([((_unit getVariable ['QS_respawn_disable',-1]) - _tickTimeNow),'MM:SS'] call _fn_secondsToString);
 			};
 			_QS_buttonMedevac ctrlSetTooltip (['Disables Revive/Respawn and creates a Medevac mission for others to attempt.','Medevac unavailable at this time.'] select ((missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE]) || {(_tickTimeNow < (_unit getVariable ['QS_client_lastMedevacRequest',-1]))}));
 			_QS_buttonAction = 'call (missionNamespace getVariable "QS_fnc_clientRequestMedevac");';
@@ -600,7 +597,6 @@ for '_x' from 0 to 1 step 0 do {
 	if (_exit) exitWith {};
 	uiSleep 0.035;
 };
-_unit removeAction _QS_action_cockblock;
 if (!isNull (findDisplay 49)) then {
 	(findDisplay 49) closeDisplay 2;
 };

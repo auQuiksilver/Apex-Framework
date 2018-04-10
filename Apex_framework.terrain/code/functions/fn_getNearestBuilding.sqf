@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	21/10/2017 A3 1.76 by Quiksilver
+	10/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -15,10 +15,30 @@ ________________________________________________________/*/
 
 _position = getPosATL (_this select 0);
 _radius = param [1,100];
+private _buildings = [];
 private _building = objNull;
 private _return = [objNull,0];
+private _exit = FALSE;
+private _i = 0;
+if (!( (missionNamespace getVariable ['QS_AI_hostileBuildings',[]]) isEqualTo [] )) then {
+	_hostileBuildings = missionNamespace getVariable ['QS_AI_hostileBuildings',[]];
+	{
+		if ((_position distance2D _x) < _radius) exitWith {
+			_exit = TRUE;
+			_building = _x;
+			_i = (count ([_building,(_building buildingPos -1)] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions'))) - 1;
+		};
+	} forEach _hostileBuildings;
+};
+if (_exit) exitWith {
+	[_building,_i]
+};
 _buildingClass = ['House','Building'];
-_buildings = nearestObjects [_position,_buildingClass,_radius];
+if ((random 1) > 0.5) then {
+	_buildings = (nearestObjects [_position,_buildingClass,_radius,TRUE]) select {(!((_x buildingPos -1) isEqualTo []))};
+} else {
+	_buildings = nearestObjects [_position,_buildingClass,_radius,TRUE];
+};
 if (_buildings isEqualTo []) then {
 	_building = nearestBuilding _position;
 } else {

@@ -16,11 +16,11 @@ __________________________________________________________*/
 params ['_vehicle','_weapon','_muzzle','_mode','_ammo','_magazine','_projectile','_gunner'];
 if (_vehicle isKindOf 'LandVehicle') then {
 	if (player isEqualTo (_vehicle turretUnit [0])) then {
-		private _vehicleType = typeOf _vehicle;
+		_vehicleType = toLower (typeOf _vehicle);
 		if (_vehicleType in [
-			"B_APC_Wheeled_01_cannon_F","B_APC_Tracked_01_CRV_F","B_APC_Tracked_01_rcws_F","B_MRAP_01_gmg_F","B_MRAP_01_hmg_F","B_MBT_01_cannon_F","B_MBT_01_TUSK_F","B_T_MBT_01_TUSK_F","B_APC_Tracked_01_AA_F","B_HMG_01_high_F","B_HMG_01_F","B_GMG_01_F","B_GMG_01_high_F","B_T_MRAP_01_hmg_F","B_T_MRAP_01_gmg_F","B_T_APC_Tracked_01_AA_F","B_T_APC_Wheeled_01_cannon_F","B_T_APC_Tracked_01_CRV_F","B_T_APC_Tracked_01_rcws_F","B_T_MBT_01_cannon_F","B_T_GMG_01_F","B_T_HMG_01_F","B_G_Offroad_01_armed_F",
-			"I_APC_tracked_03_cannon_F","I_APC_Wheeled_03_cannon_F","I_MRAP_03_gmg_F","I_MRAP_03_hmg_F","I_G_Offroad_01_armed_F","I_HMG_01_F","I_HMG_01_high_F","I_GMG_01_F","I_GMG_01_high_F",
-			"O_APC_Tracked_02_AA_F","O_APC_Tracked_02_cannon_F","O_APC_Wheeled_02_rcws_F","O_MRAP_02_gmg_F","O_MRAP_02_hmg_F","O_LSV_02_armed_F","O_HMG_01_F","O_HMG_01_high_F","O_GMG_01_F","O_GMG_01_high_F","O_T_APC_Tracked_02_AA_ghex_F","O_T_APC_Tracked_02_cannon_ghex_F","O_T_MRAP_02_gmg_ghex_F","O_T_APC_Wheeled_02_rcws_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F","O_G_Offroad_01_armed_F"
+			"b_apc_wheeled_01_cannon_f","b_apc_tracked_01_crv_f","b_apc_tracked_01_rcws_f","b_mrap_01_gmg_f","b_mrap_01_hmg_f","b_mbt_01_cannon_f","b_mbt_01_tusk_f","b_t_mbt_01_tusk_f","b_apc_tracked_01_aa_f","b_hmg_01_high_f","b_hmg_01_f","b_gmg_01_f","b_gmg_01_high_f","b_t_mrap_01_hmg_f","b_t_mrap_01_gmg_f","b_t_apc_tracked_01_aa_f","b_t_apc_wheeled_01_cannon_f","b_t_apc_tracked_01_crv_f","b_t_apc_tracked_01_rcws_f","b_t_mbt_01_cannon_f","b_t_gmg_01_f","b_t_hmg_01_f","b_g_offroad_01_armed_f",
+			"i_apc_tracked_03_cannon_f","i_apc_wheeled_03_cannon_f","i_mrap_03_gmg_f","i_mrap_03_hmg_f","i_g_offroad_01_armed_f","i_hmg_01_f","i_hmg_01_high_f","i_gmg_01_f","i_gmg_01_high_f",
+			"o_apc_tracked_02_aa_f","o_apc_tracked_02_cannon_f","o_apc_wheeled_02_rcws_f","o_apc_wheeled_02_rcws_v2_f","o_mrap_02_gmg_f","o_mrap_02_hmg_f","o_lsv_02_armed_f","o_hmg_01_f","o_hmg_01_high_f","o_gmg_01_f","o_gmg_01_high_f","o_t_apc_tracked_02_aa_ghex_f","o_t_apc_tracked_02_cannon_ghex_f","o_t_mrap_02_gmg_ghex_f","o_t_apc_wheeled_02_rcws_ghex_f","o_t_apc_wheeled_02_rcws_v2_ghex_f","o_t_mrap_02_hmg_ghex_f","o_t_lsv_02_armed_f","o_g_offroad_01_armed_f"
 		]) then {
 			_cursorTarget = cursorTarget;
 			_cursorObject = cursorObject;
@@ -40,7 +40,6 @@ if (_vehicle isKindOf 'LandVehicle') then {
 		};
 	};
 	if (player isEqualTo (_vehicle turretUnit [1])) then {
-		_vehicleType = typeOf _vehicle;
 		if (_weapon in [
 			'MMG_02_vehicle','HMG_127_MBT','HMG_127_APC','HMG_NSVT'
 		]) then {

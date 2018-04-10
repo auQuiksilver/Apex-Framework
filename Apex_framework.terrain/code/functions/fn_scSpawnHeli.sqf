@@ -33,7 +33,7 @@ _grp = createGroup [_side,TRUE];
 _playerCount = count allPlayers;
 for '_x' from 0 to 1 step 0 do {
 	_randomPos = [(random _worldSize),(random _worldSize),1000];
-	if (({((_x distance2D _randomPos) < 2000)} count allPlayers) isEqualTo 0) exitWith {};
+	if ((allPlayers findIf {((_x distance2D _randomPos) < 2000)}) isEqualTo -1) exitWith {};
 };
 if (_playerCount > 20) then {
 	_airTypes = if (_worldName isEqualTo 'Tanoa') then [
@@ -61,6 +61,7 @@ _air addEventHandler [
 		(_this select 2) setDamage 1;
 	}
 ];
+_air addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 _air setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 clearMagazineCargoGlobal _air;
 clearWeaponCargoGlobal _air;
@@ -104,12 +105,12 @@ if (!((typeOf _air) in ['O_Heli_Light_02_v2_F','O_Heli_Light_02_dynamicLoadout_F
 if ((toLower _airType) isEqualTo 'i_heli_light_03_dynamicloadout_f') then {
 	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo 'Tanoa')),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
-	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit moveInCargo [_air,0];
 	_unit selectWeapon (primaryWeapon _unit);
 	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo 'Tanoa')),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
-	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit moveInCargo [_air,1];
 	_unit selectWeapon (primaryWeapon _unit);
 	if (!(sunOrMoon isEqualTo 1)) then {

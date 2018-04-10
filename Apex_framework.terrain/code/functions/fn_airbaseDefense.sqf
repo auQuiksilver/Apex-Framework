@@ -19,8 +19,12 @@ _duration = time + 300;
 _cooldown = time + 900;
 _defensePos = markerPos 'QS_marker_airbaseDefense';
 [_defensePos,15,30,75] call (missionNamespace getVariable 'QS_fnc_clearPosition');
-_defenderType = ['B_AAA_System_01_F','B_SAM_System_01_F','B_SAM_System_02_F'] selectRandomWeighted [0.5,0.25,0.25];
-_defender = createVehicle [_defenderType,[-500,-500,50],[],25,'NONE'];
+_defenderType = selectRandomWeighted [
+	'B_AAA_System_01_F',0.5,
+	'B_SAM_System_01_F',0.25,
+	'B_SAM_System_02_F',0.25
+];
+_defender = createVehicle [_defenderType,[-500,-500,50],[],0,'NONE'];
 _defender allowDamage FALSE;
 _defender allowCrewInImmobile TRUE;
 _defender enableVehicleCargo FALSE;
@@ -28,7 +32,7 @@ _defender enableRopeAttach FALSE;
 _worldName = worldName;
 { 
 	_defender setObjectTextureGlobal [_forEachIndex,_x]; 
-} forEach (getArray (configFile >> 'CfgVehicles' >> _defenderType >> 'TextureSources' >> (['Sand','Green'] select (_worldName isEqualTo 'Tanoa')) >> 'textures'));
+} forEach (getArray (configFile >> 'CfgVehicles' >> _defenderType >> 'TextureSources' >> (['Sand','Green'] select (_worldName in ['Tanoa','Lingor3'])) >> 'textures'));
 _defender setVehicleRadar 2;
 _defender setVariable ['QS_uav_protected',TRUE,FALSE];
 _defender setVariable ['QS_curator_disableEditability',TRUE,FALSE];

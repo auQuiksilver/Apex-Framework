@@ -25,7 +25,7 @@ if (!(missionNamespace getVariable 'QS_base_lamps')) then {
 	_x setHit ['light_3_hitpoint',_QS_lampHitValue];
 	_x setHit ['light_4_hitpoint',_QS_lampHitValue];
 	_x enableSimulation	_simulated;
-} forEach ((missionNamespace getVariable 'QS_lamps') + (nearestObjects [(markerPos 'QS_marker_base_marker'),['Land_LampDecor_F','Land_LampHalogen_F','Land_LampStreet_F','Land_LampStreet_small_F','Land_LampShabby_F','Land_LampAirport_F','Land_LampHarbour_F'],500]));
+} forEach ((missionNamespace getVariable 'QS_lamps') + (nearestObjects [(markerPos 'QS_marker_base_marker'),['Land_LampDecor_F','Land_LampHalogen_F','Land_LampStreet_F','Land_LampStreet_small_F','Land_LampShabby_F','Land_LampAirport_F','Land_LampHarbour_F'],500,TRUE]));
 if (!isDedicated) then {
 	if (!(missionNamespace getVariable 'QS_base_lamps')) then {
 		_object = missionNamespace getVariable 'QS_torch';

@@ -116,13 +116,13 @@ if (_type isEqualTo 'B1') exitWith {
 						if (_rank <= 8) then {
 							lnbAddRow [1808,['',_pname,(str _points)]];
 							if (_rank isEqualTo 1) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\general_gs.paa'];};
-							if (_rank isEqualTo 2) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\colonel_gs.paa'];};
-							if (_rank isEqualTo 3) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\major_gs.paa'];};
-							if (_rank isEqualTo 4) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\captain_gs.paa'];};
-							if (_rank isEqualTo 5) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\lieutenant_gs.paa'];};
-							if (_rank isEqualTo 6) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\sergeant_gs.paa'];};
-							if (_rank isEqualTo 7) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\corporal_gs.paa'];};
-							if (_rank isEqualTo 8) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\private_gs.paa'];};		
+							if (_rank isEqualTo 2) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\colonel_pr.paa'];};
+							if (_rank isEqualTo 3) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\major_pr.paa'];};
+							if (_rank isEqualTo 4) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\captain_pr.paa'];};
+							if (_rank isEqualTo 5) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\lieutenant_pr.paa'];};
+							if (_rank isEqualTo 6) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\sergeant_pr.paa'];};
+							if (_rank isEqualTo 7) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\corporal_pr.paa'];};
+							if (_rank isEqualTo 8) then {lnbSetPicture [1808,[_forEachIndex,0],'a3\ui_f\data\gui\cfg\ranks\private_pr.paa'];};		
 						} else {
 							lnbAddRow [1808,[(str _rank),_pname,(str _points)]];
 							if (_myUID == _puid) then {

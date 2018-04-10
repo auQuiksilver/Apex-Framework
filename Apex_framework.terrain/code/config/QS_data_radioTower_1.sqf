@@ -3,6 +3,7 @@
 		_tower = _this select 0;
 		missionNamespace setVariable ['QS_virtualSectors_sub_2_obj',_tower,TRUE];
 		missionNamespace setVariable ['QS_radioTower',_tower,FALSE];
+		missionNamespace setVariable ['QS_radioTower_pos',(getPos _tower),FALSE];
 		_tower setVariable ['QS_client_canAttachExp',TRUE,TRUE];
 		_tower setVectorUp [0,0,1];
 		_tower addEventHandler [

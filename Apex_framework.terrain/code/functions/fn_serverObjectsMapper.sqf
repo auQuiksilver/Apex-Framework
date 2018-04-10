@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	19/10/2017 A3 1.76 by Quiksilver
+	5/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -19,11 +19,18 @@ params [
 	['_data',[]],
 	['_useRecycler',FALSE]
 ];
-private ['_newObjs','_newObj','_rotMatrix','_newRelPos','_newPos','_z','_configClass','_model','_dir','_newPosZ','_dynSim','_array'];
-_newObjs = [];
+private _newObjs = [];
 _pos params ['_posX','_posY'];
 _dynSim = dynamicSimulationSystemEnabled;
-_array = [];
+private _array = [];
+private _newObj = nil;
+private _rotMatrix = [];
+private _newRelPos = [];
+private _newPos = [];
+private _z = 0;
+private _configClass = '';
+private _model = '';
+private _newPosZ = 0;
 {
 	_array = _x;
 	_array params [
@@ -36,6 +43,7 @@ _array = [];
 		['_isSimpleObject',FALSE],
 		['_code',{}]
 	];
+	_newObj = nil;
 	_rotMatrix = [
 		[(cos _azi),(sin _azi)],
 		[-(sin _azi),(cos _azi)]
@@ -79,8 +87,7 @@ _array = [];
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 			FALSE
 		];
-		_dir = _azi + _azimuth;
-		_newObj setDir _dir;
+		_newObj setDir (_azi + _azimuth);
 		if ((toLower (getText (_configClass >> 'vehicleClass'))) in ['fortifications','ruins','car','armored','air','ship','support']) then {
 			_newObj setVectorUp (surfaceNormal _newPos);
 		};
@@ -118,7 +125,7 @@ _array = [];
 		if (_simulation) then {
 			if (_dynSim) then {
 				if (!(_newObj isKindOf 'LandVehicle')) then {
-					/*/_newObj enableDynamicSimulation TRUE;/*/ /*/this is too soon/*/
+					//_newObj enableDynamicSimulation TRUE;
 				};
 			};
 		};
@@ -126,6 +133,14 @@ _array = [];
 	if (!(_code isEqualTo {})) then {
 		_newObj = [_newObj] call _code;
 	};
-	0 = _newObjs pushBack _newObj;
-} count _data;
+	if (_newObj isEqualType objNull) then {
+		0 = _newObjs pushBack _newObj;
+	} else {
+		if (_newObj isEqualType []) then {
+			{
+				0 = _newObjs pushBack _x;
+			} forEach _newObj;
+		};
+	};
+} forEach _data;
 _newObjs;

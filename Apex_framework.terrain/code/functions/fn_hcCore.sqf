@@ -63,7 +63,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_tickTimeNow > _cleanGroups_checkDelay) then {
 			{
 				if (local _x) then {
-					if (({(alive _x)} count (units _x)) isEqualTo 0) then {
+					if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
 						deleteGroup _x;
 					};
 				};

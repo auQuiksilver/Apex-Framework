@@ -101,7 +101,7 @@ if (_module_fob_enabled) then {
 			(_referencePosition inPolygon _scAreaPolygon) && 
 			((_referencePosition distance2D (missionNamespace getVariable 'QS_virtualSectors_lastReferencePosition')) >= _minDistFromLastRefPos) && 
 			((_referencePosition distance2D (markerPos 'QS_marker_base_marker')) > 1200) && 
-			(({((_referencePosition distance2D _x) < _distFromLastRefPositions)} count (missionNamespace getVariable 'QS_virtualSectors_regionUsedRefPositions')) isEqualTo 0) &&
+			(((missionNamespace getVariable 'QS_virtualSectors_regionUsedRefPositions') findIf {((_referencePosition distance2D _x) < _distFromLastRefPositions)}) isEqualTo -1) &&
 			(!([_referencePosition,300,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))
 		) exitWith {};
 	};
@@ -124,7 +124,7 @@ if (_module_fob_enabled) then {
 		if (
 			(((_requireNearSettlement) && (!(_nearestLocations isEqualTo []))) || (!(_requireNearSettlement))) && 
 			((_referencePosition distance2D (missionNamespace getVariable 'QS_virtualSectors_lastReferencePosition')) >= _minDistFromLastRefPos) && 
-			(({((_referencePosition distance2D _x) < 1500)} count (missionNamespace getVariable 'QS_virtualSectors_regionUsedRefPositions')) isEqualTo 0) && 
+			(((missionNamespace getVariable 'QS_virtualSectors_regionUsedRefPositions') findIf {((_referencePosition distance2D _x) < 1500)}) isEqualTo -1) && 
 			((_referencePosition distance2D (markerPos 'QS_marker_base_marker')) > 1200) && 
 			(!([_referencePosition,300,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))
 		) exitWith {};
@@ -152,9 +152,9 @@ for '_x' from 0 to 1 step 0 do {
 	_position = _foundPositionData select 0;
 	_foundPositionType = _foundPositionData select 1;
 	if ((!(_module_fob_enabled)) || {((_module_fob_enabled) && ((_position distance2D _fobMarkerPos) >= _minDistFromFOB))}) then {
-		if (({((_position distance2D _x) < (_minDistBetweenSectors max 200))} count (missionNamespace getVariable 'QS_virtualSectors_positions')) isEqualTo 0) then {
-			if (({((_position distance2D _x) < (_minDistFromUsedPositions max 50))} count (missionNamespace getVariable 'QS_virtualSectors_regionUsedPositions')) isEqualTo 0) then {
-				if (((count (missionNamespace getVariable 'QS_virtualSectors_positions')) isEqualTo 0) || ((!((count (missionNamespace getVariable 'QS_virtualSectors_positions')) isEqualTo 0)) && (({([_position,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))} count (missionNamespace getVariable 'QS_virtualSectors_positions')) isEqualTo 0))) then {
+		if (((missionNamespace getVariable 'QS_virtualSectors_positions') findIf {((_position distance2D _x) < (_minDistBetweenSectors max 200))}) isEqualTo -1) then {
+			if (((missionNamespace getVariable 'QS_virtualSectors_regionUsedPositions') findIf {((_position distance2D _x) < (_minDistFromUsedPositions max 50))}) isEqualTo -1) then {
+				if (((missionNamespace getVariable 'QS_virtualSectors_positions') isEqualTo []) || ((!((missionNamespace getVariable 'QS_virtualSectors_positions') isEqualTo [])) && (((missionNamespace getVariable 'QS_virtualSectors_positions') findIf {([_position,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))}) isEqualTo -1))) then {
 					if ((!(surfaceIsWater _position)) && (!(_position isEqualTo [0,0,0]))) then {
 						(missionNamespace getVariable 'QS_virtualSectors_positions') pushBack _position;
 						missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];

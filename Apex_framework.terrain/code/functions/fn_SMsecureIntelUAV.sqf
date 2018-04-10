@@ -57,7 +57,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (surfaceIsWater _testPos) then {
 		if (((ASLToATL _testPos) select 2) < 75) then {
 			if (((ASLToATL _testPos) select 2) > 13) then {
-				if (({((_testPos distance2D _x) < 300)} count (missionNamespace getVariable 'QS_uavMission_usedPositions')) isEqualTo 0) then {
+				if (((missionNamespace getVariable 'QS_uavMission_usedPositions') findIf {((_testPos distance2D _x) < 300)}) isEqualTo -1) then {
 					if (missionNamespace getVariable 'QS_module_fob_enabled') then {
 						if ((_testPos distance (markerPos 'QS_marker_module_fob')) > 1000) then {
 							_safePos = _testPos isFlatEmpty [5,0,1,5,2,FALSE,objNull];

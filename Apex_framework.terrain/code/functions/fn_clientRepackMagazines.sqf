@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	25/03/2017 A3 1.68 by Quiksilver
+	18/03/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -15,14 +15,9 @@ Description:
 	
 Example:
 
-	<unit> call QS_fnc_clientRepackMagazines;
+	<unit> spawn QS_fnc_clientRepackMagazines;
 __________________________________________________________/*/
 
-private [
-	'_unit','_data1','_data2','_i','_magazineClass','_magazineAmmoCount','_magazineAmmoCapacity',
-	'_totalAmmoCountForMagazine','_magazineCountArray','_index','_addMagazineArray','_magazineAmmoCountTotal',
-	'_magazineAmmoCapacity_moving','_currentMagIndex','_magazineTypes','_currentMagazines','_canSuspend'
-];
 _unit = _this;
 if (
 	(!(_unit isEqualType objNull)) ||
@@ -47,15 +42,19 @@ _canSuspend = canSuspend;
 if (isNull (objectParent _unit)) then {
 	_unit playActionNow 'Medic';
 };
-_magazineTypes = [];
-_data1 = [];
+private _magazineTypes = [];
+private _data1 = [];
 {
 	if ((_x select 3) in [-1,1,2]) then {
 		_data1 pushBack _x;
 	};
 } forEach (magazinesAmmoFull _unit);
-_data2 = [];
+private _data2 = [];
 if (_data1 isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazines',nil,FALSE];};
+private _i = 0;
+private _magazineClass = '';
+private _magazineAmmoCount = 0;
+private _magazineAmmoCapacity = 0;
 {
 	_magazineClass = _x select 0;
 	_magazineAmmoCount = _x select 1;
@@ -63,7 +62,7 @@ if (_data1 isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazine
 	if (_magazineAmmoCapacity > 3) then {
 		_magazineTypes pushBackUnique _magazineClass;
 		if (!(_data2 isEqualTo [])) then {
-			_i = [_data2,_magazineClass,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_i = _data2 findIf {((_x select 0) isEqualTo _magazineClass)};
 			if (_i isEqualTo -1) then {
 				_data2 pushBack [_magazineClass,_magazineAmmoCapacity,[_magazineAmmoCount]];
 			} else {
@@ -75,19 +74,25 @@ if (_data1 isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazine
 	};
 } forEach _data1;
 if (_data2 isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazines',nil,FALSE];};
+private _totalAmmoCountForMagazine = 0;
+private _magazineCountArray = [];
+_i = 0;
 {
 	_magazineClass = _x select 0;
 	_magazineAmmoCapacity = _x select 1;
 	_magazineCountArray = _x select 2;
 	_totalAmmoCountForMagazine = 0;
-	for '_index' from 0 to ((count _magazineCountArray) - 1) step 1 do {
-		_totalAmmoCountForMagazine = _totalAmmoCountForMagazine + (_magazineCountArray select _index);
+	for '_i' from 0 to ((count _magazineCountArray) - 1) step 1 do {
+		_totalAmmoCountForMagazine = _totalAmmoCountForMagazine + (_magazineCountArray select _i);
 	};
 	(_data2 select _forEachIndex) set [2,_totalAmmoCountForMagazine];
 	(_data2 select _forEachIndex) pushBack (ceil(_totalAmmoCountForMagazine / _magazineAmmoCapacity));
 } forEach _data2;
 if (_data2 isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazines',nil,FALSE];};
-_addMagazineArray = [];
+private _addMagazineArray = [];
+private _magazineAmmoCountTotal = 0;
+private _magazineAmmoCapacity_moving = 0;
+private _currentMagIndex = 0;
 {
 	_magazineClass = _x select 0;
 	_magazineAmmoCapacity = _x select 1;

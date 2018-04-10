@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/09/2017 A3 1.76 by Quiksilver
+	5/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -23,17 +23,18 @@ Example:
 	_units = [_pos,300,(units _grp),[]] call QS_fnc_garrisonUnits;
 _____________________________________________________/*/
 
-params ['_position','_radius','_gUnits','_typeNames'];
-private [
-	'_buildingPositions','_buildings','_arrayPositions','_unit','_building','_count','_arrayPositions2','_positionToAdd','_index','_structure',
-	'_structureModelPos','_relPos','_wallOffset'
-];
+params ['_position','_radius','_gUnits','_typeNames',['_structureData',[]]];
+if (canSuspend) then {
+	scriptName 'QS - Script - Garrison Units';
+};
 scopeName 'QS_main';
-_buildings = nearestObjects [_position,_typeNames,_radius,TRUE];
+private _buildings = nearestObjects [_position,_typeNames,_radius,TRUE];
 _buildings = _buildings + ((allSimpleObjects []) select {((_x distance2D _position) <= _radius)});
-_arrayPositions = [];
+private _arrayPositions = [];
 _wallOffset = 0.25;
 _buildings = _buildings call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+private _buildingPositions = [];
+private _building = objNull;
 {
 	_building = _x;
 	_buildingPositions = [_building,(_building buildingPos -1)] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
@@ -46,7 +47,12 @@ _buildings = _buildings call (missionNamespace getVariable 'QS_fnc_arrayShuffle'
 if (_arrayPositions isEqualTo []) exitWith {diag_log '***** DEBUG ***** fn_garrisonUnits ***** No building positions available *****';};
 _arrayPositions = _arrayPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 _count = count _gUnits - 1;
-_arrayPositions2 = [];
+private _arrayPositions2 = [];
+private _index = -1;
+private _positionToAdd = [0,0,0];
+private _structureModelPos = [0,0,0];
+private _structure = objNull;
+private _relPos = [0,0,0];
 for '_x' from 0 to _count step 1 do {
 	_positionToAdd = selectRandom _arrayPositions;
 	if (!isNil '_positionToAdd') then {
@@ -57,6 +63,7 @@ for '_x' from 0 to _count step 1 do {
 	};
 };
 private _isServerHC = ((isDedicated) || (!(hasInterface)));
+private _unit = objNull;
 {
 	if (_forEachIndex > _count) exitWith {breakTo 'QS_main';};
 	_unit = _gUnits select _forEachIndex;

@@ -250,7 +250,7 @@ if (_type isEqualTo 'ADD') exitWith {
 if (_type isEqualTo 'REMOVE') exitWith {
 	diag_log '***** SC REMOVE * 0 *****';
 	_sectorID = _this select 1;
-	_index = [(missionNamespace getVariable 'QS_virtualSectors_data'),_sectorID,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+	_index = (missionNamespace getVariable 'QS_virtualSectors_data') findIf {((_x select 0) isEqualTo _sectorID)};
 	if (!(_index isEqualTo -1)) then {
 		diag_log '***** SC REMOVE * 1 *****';
 		_sectorData = (missionNamespace getVariable 'QS_virtualSectors_data') select _index;
@@ -323,7 +323,7 @@ if (_type isEqualTo 'ACT') exitWith {
 	diag_log '***** SC ACT * 0 *****';
 	_sectorID = _this select 1;
 	_activationState = _this select 2;
-	_index = [(missionNamespace getVariable 'QS_virtualSectors_data'),_sectorID,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+	_index = (missionNamespace getVariable 'QS_virtualSectors_data') findIf {((_x select 0) isEqualTo _sectorID)};
 	if (!(_index isEqualTo -1)) then {
 		diag_log '***** SC ACT * 1 *****';
 		_sectorData = (missionNamespace getVariable 'QS_virtualSectors_data') select _index;

@@ -26,7 +26,7 @@ _towedVehicle enableVehicleCargo FALSE;
 _towedVehicle setVariable ['QS_transporter',[profileName,player,(getPlayerUID player)],TRUE];
 _QS_action_ugv_stretcherModel = 'a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d';
 if (_isUAV) then {
-	if (!(({(((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) && (!(isObjectHidden _x)))} count (attachedObjects _vehicle)) isEqualTo 0)) then {
+	if (!(((attachedObjects _vehicle) findIf {(((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) && (!(isObjectHidden _x)))}) isEqualTo -1)) then {
 		{
 			if ((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) then {
 				if (!(isObjectHidden _x)) then {
@@ -154,7 +154,7 @@ if (!(_isUAV)) then {
 	};
 };
 if (_isUAV) then {
-	if (!(({(((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) && (isObjectHidden _x))} count (attachedObjects _vehicle)) isEqualTo 0)) then {
+	if (!(((attachedObjects _vehicle) findIf {(((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) && (isObjectHidden _x))}) isEqualTo -1)) then {
 		{
 			if ((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) then {
 				if (isObjectHidden _x) then {

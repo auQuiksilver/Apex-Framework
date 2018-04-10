@@ -3,11 +3,11 @@ File: QS_icons.sqf
 Script Name: Soldier Tracker
 Author:
 
-	Quiksilver (contact: camball@gmail.com)
+	Quiksilver (contact: armacombatgroup@gmail.com)
 	
 Version:
 
-	2.4.0 (released 7/02/2017 A3 v1.66)
+	2.5.0 (released 24/02/2018 A3 1.80)
 
 Created: 
 
@@ -15,247 +15,277 @@ Created:
 	
 Last Modified: 
 
-	7/02/2017 A3 1.66 by Quiksilver
+	11/03/2018 A3 1.80 by Quiksilver
 	
 Installation: 
 
 	In client/player init (initPlayerLocal.sqf)
+		
 		[] execVM "QS_icons.sqf";
+		
 	or 
+		
 		[] execVM "scripts\QS_icons.sqf";    (if in a folder called scripts in your mission directory.)
 
 	Follow instructions posted in the below link
-		http://forums.bistudio.com/showthread.php?184108-Soldier-Tracker-(-Map-and-GPS-Icons-)
 		
+		http://forums.bistudio.com/showthread.php?184108-Soldier-Tracker-(-Map-and-GPS-Icons-)
 _________________________________________________________________/*/
-if (isDedicated) exitWith {};
-if (!hasInterface) exitWith {};
+
+if (isDedicated || !hasInterface) exitWith {};
 private [
 	'_side','_sides','_QS_ST_X','_QS_ST_map_enableUnitIcons','_QS_ST_gps_enableUnitIcons',	'_QS_ST_enableGroupIcons','_QS_ST_faction','_QS_ST_friendlySides_EAST',
 	'_QS_ST_friendlySides_WEST','_QS_ST_friendlySides_RESISTANCE','_QS_ST_friendlySides_CIVILIAN','_QS_ST_friendlySides_Dynamic','_QS_ST_iconColor_EAST','_QS_ST_iconColor_WEST',
 	'_QS_ST_iconColor_RESISTANCE','_QS_ST_iconColor_CIVILIAN','_QS_ST_iconColor_UNKNOWN','_QS_ST_showMedicalWounded','_QS_ST_MedicalSystem','_QS_ST_MedicalIconColor','_QS_ST_iconShadowMap',
 	'_QS_ST_iconShadowGPS','_QS_ST_iconTextSize_Map','_QS_ST_iconTextSize_GPS','_QS_ST_iconTextOffset','_QS_ST_iconSize_Man','_QS_ST_iconSize_LandVehicle',	
 	'_QS_ST_iconSize_Ship','_QS_ST_iconSize_Air','_QS_ST_iconSize_StaticWeapon','_QS_ST_GPSDist','_QS_ST_GPSshowNames','_QS_ST_GPSshowGroupOnly',	'_QS_ST_showAIGroups',			
-	'_QS_ST_showGroupMapIcons','_QS_ST_showGroupHudIcons','_QS_ST_groupInteractiveIcons','_QS_ST_groupInteractiveIcons_showClass','_QS_ST_dynamicGroupID',			
+	'_QS_ST_showGroupMapIcons','_QS_ST_showGroupHudIcons','_QS_ST_groupInteractiveIcons','_QS_ST_groupInteractiveIcons_showClass',		
 	'_QS_ST_showGroupMapText','_QS_ST_groupIconScale','_QS_ST_groupIconOffset','_QS_ST_groupIconText','_QS_ST_autonomousVehicles','_QS_fnc_iconColor','_QS_fnc_iconType',				
 	'_QS_fnc_iconSize','_QS_fnc_iconPosDir','_QS_fnc_iconText','_QS_fnc_iconUnits','_QS_fnc_onMapSingleClick','_QS_fnc_mapVehicleShowCrew','_QS_fnc_iconDrawMap',			
 	'_QS_fnc_iconDrawGPS','_QS_fnc_groupIconText','_QS_fnc_groupIconType','_QS_fnc_configGroupIcon','_QS_fnc_onGroupIconClick','_QS_fnc_onGroupIconOverLeave',	
 	'_QS_ST_iconMapClickShowDetail','_QS_ST_showFriendlySides','_QS_fnc_onGroupIconOverEnter','_QS_ST_showCivilianGroups','_QS_ST_iconTextFont','_QS_ST_showAll','_QS_ST_showFactionOnly',		
-	'_QS_ST_showAI','_QS_ST_showMOS','_QS_ST_showGroupOnly','_QS_ST_iconUpdatePulseDelay','_QS_ST_iconMapText','_QS_ST_showMOS_range','_QS_ST_autonomousVehicles_Vanilla',
-	'_QS_ST_autonomousVehicles_Modded','_QS_ST_iconTextFonts','_QS_fnc_isIncapacitated','_QS_ST_htmlColorMedical','_QS_ST_R','_QS_ST_showAINames','_QS_ST_AINames',
+	'_QS_ST_showAI','_QS_ST_showMOS','_QS_ST_showGroupOnly','_QS_ST_iconUpdatePulseDelay','_QS_ST_iconMapText','_QS_ST_showMOS_range',
+	'_QS_ST_iconTextFonts','_QS_fnc_isIncapacitated','_QS_ST_htmlColorMedical','_QS_ST_R','_QS_ST_showAINames','_QS_ST_AINames',
 	'_QS_ST_groupTextFactionOnly','_QS_ST_showCivilianIcons','_QS_ST_showOnlyVehicles','_QS_ST_showOwnGroup','_QS_ST_iconColor_empty',
-	'_QS_ST_iconSize_empty','_QS_ST_showEmptyVehicles','_QS_ST_colorInjured','_QS_ST_htmlColorInjured','_QS_fnc_iconColorGroup','_QS_ST_otherDisplays','_QS_ST_showKnownEnemies',
-	'_QS_fnc_showKnownEnemies'
+	'_QS_ST_iconSize_empty','_QS_ST_showEmptyVehicles','_QS_ST_colorInjured','_QS_ST_htmlColorInjured','_QS_fnc_iconColorGroup','_QS_ST_otherDisplays','_QS_ST_MAPrequireGPSItem',
+	'_QS_ST_GPSrequireGPSItem','_QS_ST_GRPrequireGPSItem','_QS_ST_admin','_QS_ST_showKnownEnemies'
 ];
 
-/*/================== MASTER SWITCHES/*/
+//==============================================================================================================================//
+//=============================================================== CONFIGURATION START ==========================================//
+//==============================================================================================================================//
+//============================================================== FREE TO EDIT BELOW!!! =========================================//
+//==============================================================================================================================//
 
-_QS_ST_map_enableUnitIcons = TRUE;							/*/BOOL. TRUE to enable MAP unit/vehicle Icons. Default TRUE./*/
-_QS_ST_gps_enableUnitIcons = TRUE;							/*/ BOOL. TRUE to enable GPS unit/vehicle Icons. Default TRUE./*/
-_QS_ST_enableGroupIcons = FALSE;								/*/BOOL. TRUE to enable Map+GPS+HUD GROUP Icons. Default TRUE./*/
+//==================================================================================//
+//================================ CONFIGURE COMMON ================================//
+//==================================================================================//
+
+//================== MASTER SWITCHES
+
+_QS_ST_map_enableUnitIcons = TRUE;														// BOOL. TRUE to enable MAP unit/vehicle Icons. Default TRUE.
+_QS_ST_gps_enableUnitIcons = TRUE;														// BOOL. TRUE to enable GPS unit/vehicle Icons. Default TRUE.
+_QS_ST_enableGroupIcons = player getUnitTrait 'QS_trait_HQ';							// BOOL. TRUE to enable Map+GPS+HUD GROUP Icons. Default TRUE.
+
+disableMapIndicators [
+	TRUE,				// --- Friendly
+	TRUE,				// --- Enemy
+	TRUE,				// --- Mines
+	TRUE				// --- Tactical Ping
+];
+
+//================= ADMIN
+
+_QS_ST_admin = FALSE;										// BOOL. TRUE to enable showing all units (even enemies) if logged in as admin on a server. Default FALSE;
+_QS_ST_showAll = 0;											// NUMBER. Intended for Debug / Development use only! Caution: Will cause lag if 1 or 2! Settings -  0 = Disabled (Recommended). 1 = Reveal all Units + vehicles. 2 = Reveal all mission objects + vehicles + units. May override below configurations if set at 1 or 2.
 	
-/*/================= DIPLOMACY - set the Friendly factions for each faction./*/
+//================= DIPLOMACY - set the Friendly factions for each faction.
 
-_QS_ST_friendlySides_Dynamic = FALSE;						/*/ BOOL. Set TRUE to allow faction alliances to change dynamically (IE. AAF may not always be loyal to NATO) and be represented on the map. Default TRUE./*/
-_QS_ST_friendlySides_EAST = [								/*/ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!)./*/
-	//1,		/*/EAST is friendly to WEST/*/
-	/*/2,/*/		/*/EAST is friendly to INDEPENDENT/RESISTANCE/*/
-	3		/*/EAST is friendly to CIVILIANS/*/
+_QS_ST_friendlySides_Dynamic = TRUE;						// BOOL. Set TRUE to allow faction alliances to change dynamically (IE. AAF may not always be loyal to NATO) and be represented on the map. Default TRUE.
+_QS_ST_friendlySides_EAST = [								// ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!).
+	//1,					//EAST is friendly to WEST
+	//2,					//EAST is friendly to INDEPENDENT/RESISTANCE
+	3						//EAST is friendly to CIVILIANS
 ];
-_QS_ST_friendlySides_WEST = [								/*/ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!)./*/
-	/*/0,/*/		/*/WEST is friendly to EAST/*/
-	/*/2/*/		/*/WEST is friendly to INDEP/RESISTANCE/*/
-	/*/3/*/		/*/WEST is friendly to CIVILIAN/*/
+_QS_ST_friendlySides_WEST = [								// ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!).
+	//0,					//WEST is friendly to EAST
+	2						//WEST is friendly to INDEP/RESISTANCE
+	//3						//WEST is friendly to CIVILIAN
 ];
-_QS_ST_friendlySides_RESISTANCE = [							/*/ ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!)./*/
-	/*/0,/*/		/*/RESISTANCE is friendly to EAST/*/
-	1,		/*/RESISTANCE is friendly to WEST/*/
-	3		/*/RESISTANCE is friendly to CIVILIAN/*/
+_QS_ST_friendlySides_RESISTANCE = [							// ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!).
+	//0,					//RESISTANCE is friendly to EAST
+	1,						//RESISTANCE is friendly to WEST
+	3						//RESISTANCE is friendly to CIVILIAN
 ];
-_QS_ST_friendlySides_CIVILIAN = [							/*/ ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!)./*/
-	0,		/*/CIVILIAN is friendly to EAST/*/
-	/*/1,/*/		/*/CIVILIAN is friendly to WEST/*/
-	2		/*/CIVILIAN is friendly to INDEP/RESISTANCE/*/
+_QS_ST_friendlySides_CIVILIAN = [							// ARRAY (NUMBER). Uncomment the relevant number(s). Remove comma after last used entry (important!).
+	0,						//CIVILIAN is friendly to EAST
+	//1,					//CIVILIAN is friendly to WEST
+	2						//CIVILIAN is friendly to INDEP/RESISTANCE
 ];
 
-/*/================= DEFAULT ICON COLORS by FACTION/*/
+//================= DEFAULT ICON COLORS by FACTION
 
-_QS_ST_iconColor_EAST = [0.5,0,0,0.65];						/*/ ARRAY (NUMBER). RGBA color code.	Default [0.5,0,0,0.65];/*/
-_QS_ST_iconColor_WEST = [0,0.3,0.6,0.65];					/*/ ARRAY (NUMBER). RGBA color code. Default [0,0.3,0.6,0.65];/*/
-_QS_ST_iconColor_RESISTANCE = [0,0.5,0,0.65];					/*/ ARRAY (NUMBER). RGBA color code. Default [0,0.5,0,0.65];	/*/
-_QS_ST_iconColor_CIVILIAN = [0.4,0,0.5,0.65];					/*/ ARRAY (NUMBER). RGBA color code. Default [0.4,0,0.5,0.65];	/*/
-_QS_ST_iconColor_UNKNOWN = [0.7,0.6,0,0.5];					/*/ARRAY (NUMBER). RGBA color code. Default [0.7,0.6,0,0.5];/*/
+_QS_ST_iconColor_EAST = [0.5,0,0,0.65];							// ARRAY (NUMBER). RGBA color code.	Default [0.5,0,0,0.65];
+_QS_ST_iconColor_WEST = [0,0.3,0.6,0.65];						// ARRAY (NUMBER). RGBA color code. Default [0,0.3,0.6,0.65];
+_QS_ST_iconColor_RESISTANCE = [0,0.5,0,0.65];					// ARRAY (NUMBER). RGBA color code. Default [0,0.5,0,0.65];	
+_QS_ST_iconColor_CIVILIAN = [0.4,0,0.5,0.65];					// ARRAY (NUMBER). RGBA color code. Default [0.4,0,0.5,0.65];	
+_QS_ST_iconColor_UNKNOWN = [0.7,0.6,0,0.5];						// ARRAY (NUMBER). RGBA color code. Default [0.7,0.6,0,0.5];
 
 //================= MEDICAL
 
-_QS_ST_showMedicalWounded = TRUE;							/*/ BOOL. TRUE to show wounded on the map and GPS. FALSE to not show wounded on the map with this script. Default TRUE./*/
-_QS_ST_MedicalSystem = [									/*/ ARRAY(STRING). The Active Medical System. Uncomment ONLY ONE. FIRST UNCOMMENTED ONE WILL BE USED. Comment the rest out as shown. Do not add commas and only allow 1 to be uncommented./*/
-	/*/'BIS'/*/												/*/ BIS Revive./*/
-	/*/'BTC'	/*/											/*/ BTC Revive./*/
-	/*/'AIS'	/*/											/*/AIS Revive./*/
-	/*/'ACE'	/*/											/*/ACE 3 Revive./*/
-	/*/'FAR'	/*/											/*/ Farooqs Revive./*/
-	/*/'AWS' /*/   											/*/ A3 Wounding System by Psycho./*/
-	'QS'												/*/ Quiksilver's Revive/*/
+_QS_ST_showMedicalWounded = TRUE;								// BOOL. TRUE to show wounded on the map and GPS. FALSE to not show wounded on the map with this script. Default TRUE.
+_QS_ST_MedicalSystem = [										// ARRAY(STRING). The Active Medical System. Uncomment ONLY ONE. FIRST UNCOMMENTED ONE WILL BE USED. Comment the rest out as shown. Do not add commas and only allow 1 to be uncommented.
+	'BIS'														// BIS Revive.
+	//'BTC'														// BTC Revive.
+	//'AIS'														// AIS Revive.
+	//'ACE'														// ACE 3 Revive.
+	//'FAR'														// Farooq's Revive.
+	//'AWS'    													// A3 Wounding System by Psycho.
 ];
-_QS_ST_MedicalIconColor = [1,0.41,0,1];						/*/ ARRAY (NUMBER). Color of medical icons in RGBA format. Default [1,0.41,0,1];/*/
-_QS_ST_colorInjured = [0.75,0.55,0,0.75];					/*/ ARRAY (NUMBER). RGBA color code. Color of units with > 10% damage, in map group interactive interface. Default [0.7,0.6,0,0.5];/*/
+_QS_ST_MedicalIconColor = [1,0.41,0,1];							// ARRAY (NUMBER). Color of medical icons in RGBA format. Default [1,0.41,0,1];
+_QS_ST_colorInjured = [0.75,0.55,0,0.75];						// ARRAY (NUMBER). RGBA color code. Color of units with > 10% damage, in map group interactive interface. Default [0.7,0.6,0,0.5];
 
-/*/================= MODDED AUTONOMOUS REMOTE-CONTROLLABLE VEHICLES (UAVs/UGVs/Autonomous Statics)/*/
+//==================================================================================//
+//=========================== CONFIGURE MAP (UNIT/VEHICLE) ICONS ===================//
+//==================================================================================//
 
-_QS_ST_autonomousVehicles_Modded = [];						/*/ OBSOLETE. ARRAY (STRING). If you are using mods with custom UAV/UGV/autonomous type vehicles, enter them here. Ex:  _QS_ST_autonomousVehicles_Modded = ['B_MOD_UAV_01_F','O_MOD_UAV_01_F','I_MOD_UAV_02_F'];/*/
-
-/*/==================================================================================/*/
-/*/=========================== CONFIGURE MAP (UNIT/VEHICLE) ICONS ===================/*/
-/*/==================================================================================/*/
-
-_QS_ST_showAll = 0;										/*/ NUMBER. Intended for Debug / Development use only! Caution: WILL CAUSE LAG IF 1 or 2! Settings -  0 = Disabled (Recommended). 1 = Reveal all Units + vehicles. 2 = Reveal all mission objects + vehicles + units. May override below configurations if set at 1 or 2./*/
-_QS_ST_showFactionOnly = FALSE;								/*/ BOOL. will override ST_showFriendlySides TRUE. If TRUE then will only show players faction. If FALSE then can show friendly factions. Default FALSE./*/
-_QS_ST_showAI = TRUE;										/*/ BOOL. FALSE = players only, TRUE = players and AI. Default TRUE./*/
-_QS_ST_AINames = FALSE;									/*/ BOOL. Set TRUE to show human names for AI with the map/vehicle icons. Set FALSE and will be named 'AI'. Default FALSE./*/
-_QS_ST_showCivilianIcons = FALSE;							/*/ BOOL. Set TRUE to allow showing of civilians, only works if Dynamic Diplomacy is enabled above. Default FALSE./*/
-_QS_ST_iconMapText = TRUE;									/*/ BOOL. TRUE to show unit/vehicle icon text on the map. FALSE to only show the icon and NO text (name/class). Default TRUE./*/
-_QS_ST_showMOS = TRUE;										/*/ BOOL. TRUE = show Military Occupational Specialty text(unit/vehicle class/role display name), FALSE = disable and only show icons and names. Default FALSE./*/
-_QS_ST_showMOS_range = 3500;								/*/ NUMBER. Range in distance to show MOS on the map. Default 3500./*/
-_QS_ST_showGroupOnly = FALSE;								/*/ BOOL. Set TRUE to show ONLY the unit icons of THE PLAYERS GROUP MEMBERS on the MAP, FALSE to show ALL your factions units. May override other config. Default TRUE./*/
-_QS_ST_showOnlyVehicles = FALSE;							/*/ BOOL. Set TRUE to show ONLY vehicles, no foot-soldier units will be shown. May override other config. Default TRUE./*/
-_QS_ST_iconMapClickShowDetail = TRUE;						/*/ BOOL. Set TRUE to show unit/vehicle detail when player clicks on their map near the vehicle. Only works for shown vehicles. Default TRUE./*/
-_QS_ST_iconUpdatePulseDelay = 0;							/*/ NUMBER. How often should location of unit on the MAP be updated? 0 = as fast as possible, else if > 0 then it = time in seconds. Default 0./*/
-_QS_ST_iconShadowMap = 1;									/*/ NUMBER. Icon Shadow on MAP. 0 = no shadow. 1 = shadow. 2 = outline. Must be 0, 1, or 2. Default 1./*/
-_QS_ST_iconTextSize_Map = 0.05;								/*/ NUMBER. Icon Text Size on MAP display. Default is 0.05./*/
-_QS_ST_iconTextOffset = 'right';							/*/ STRING. Icon Text Offset. Can be 'left' or 'center' or 'right'. Default is 'right'/*/
-_QS_ST_iconSize_Man = 22;									/*/ NUMBER. Icon Size by Vehicle Type. Man/Units. Default = 22/*/
-_QS_ST_iconSize_LandVehicle = 26;							/*/ NUMBER. Icon Size by Vehicle Type. Ground-based vehicles. Default = 26	/*/
-_QS_ST_iconSize_Ship = 24;									/*/ NUMBER. Icon Size by Vehicle Type. Water-based vehicles. Default = 24/*/
-_QS_ST_iconSize_Air = 24;									/*/ NUMBER. Icon Size by Vehicle Type. Air vehicles. Default = 24/*/
-_QS_ST_iconSize_StaticWeapon = 22;							/*/ NUMBER. Icon Size by Vehicle Type. Static Weapon (Mortar, remote designator, HMG/GMG. Default = 22/*/
-_QS_ST_iconTextFonts = [									/*/ ARRAY (STRING). Icon Text Font. Only the uncommented one will be used. Do not add commas and only allow 1 to be uncommented. Default 'RobotoCondensed'./*/
-	/*/'EtelkaMonospacePro'/*/
-	/*/'EtelkaMonospaceProBold'/*/
-	/*/'EtelkaNarrowMediumPro'/*/
-	/*/'LucidaConsoleB'/*/
-	/*/'PuristaBold'/*/
-	/*/'PuristaLight'/*/
-	/*/'puristaMedium'/*/
-	/*/'PuristaSemibold'/*/
-	/*/'TahomaB'/*/
-	'RobotoCondensed'
+_QS_ST_showFactionOnly = FALSE;									// BOOL. will override ST_showFriendlySides TRUE. If TRUE then will only show players faction. If FALSE then can show friendly factions. Default FALSE.
+_QS_ST_showAI = TRUE;											// BOOL. FALSE = players only, TRUE = players and AI. Default TRUE.
+_QS_ST_AINames = FALSE;											// BOOL. Set TRUE to show human names for AI with the map/vehicle icons. Set FALSE and will be named 'AI'. Default FALSE.
+_QS_ST_showCivilianIcons = FALSE;								// BOOL. Set TRUE to allow showing of civilians, only works if Dynamic Diplomacy is enabled above. Default FALSE.
+_QS_ST_iconMapText = TRUE;										// BOOL. TRUE to show unit/vehicle icon text on the map. FALSE to only show the icon and NO text (name/class). Default TRUE.
+_QS_ST_showMOS = TRUE;											// BOOL. TRUE = show Military Occupational Specialty text(unit/vehicle class/role display name), FALSE = disable and only show icons and names. Default FALSE.
+_QS_ST_showMOS_range = 3500;									// NUMBER. Range in distance to show MOS on the map. Default 3500.
+_QS_ST_showGroupOnly = FALSE;									// BOOL. Set TRUE to show ONLY the unit icons of THE PLAYERS GROUP MEMBERS on the MAP, FALSE to show ALL your factions units. May override other config. Default TRUE.
+_QS_ST_showOnlyVehicles = FALSE;								// BOOL. Set TRUE to show ONLY vehicles, no foot-soldier units will be shown. May override other config. Default TRUE.
+_QS_ST_iconMapClickShowDetail = TRUE;							// BOOL. Set TRUE to show unit/vehicle detail when player clicks on their map near the vehicle. Only works for shown vehicles. Default TRUE.
+_QS_ST_iconUpdatePulseDelay = 0;								// NUMBER. How often should location of unit on the MAP be updated? 0 = as fast as possible, else if > 0 then it = time in seconds. Default 0.
+_QS_ST_iconShadowMap = 1;										// NUMBER. Icon Shadow on MAP. 0 = no shadow. 1 = shadow. 2 = outline. Must be 0, 1, or 2. Default 1.
+_QS_ST_iconTextSize_Map = 0.05;									// NUMBER. Icon Text Size on MAP display. Default is 0.05.
+_QS_ST_iconTextOffset = 'right';								// STRING. Icon Text Offset. Can be 'left' or 'center' or 'right'. Default is 'right'
+_QS_ST_iconSize_Man = 22;										// NUMBER. Icon Size by Vehicle Type. Man/Units. Default = 22
+_QS_ST_iconSize_LandVehicle = 26;								// NUMBER. Icon Size by Vehicle Type. Ground-based vehicles. Default = 26	
+_QS_ST_iconSize_Ship = 24;										// NUMBER. Icon Size by Vehicle Type. Water-based vehicles. Default = 24
+_QS_ST_iconSize_Air = 24;										// NUMBER. Icon Size by Vehicle Type. Air vehicles. Default = 24
+_QS_ST_iconSize_StaticWeapon = 22;								// NUMBER. Icon Size by Vehicle Type. Static Weapon (Mortar, remote designator, HMG/GMG. Default = 22
+_QS_ST_iconTextFonts = [										// ARRAY (STRING). Icon Text Font. Only the uncommented one will be used. Do not add commas and only allow 1 to be uncommented. Default 'puristaMedium'.
+	//'EtelkaMonospacePro'
+	//'EtelkaMonospaceProBold'
+	//'EtelkaNarrowMediumPro'
+	//'LucidaConsoleB'
+	//'PuristaBold'
+	//'PuristaLight'
+	//'puristaMedium'
+	//'PuristaSemibold'
+	//'RobotoCondensed'
+	'TahomaB'
 ];
-_QS_ST_otherDisplays = FALSE;
+_QS_ST_otherDisplays = FALSE;									// BOOL. TRUE to add Unit/Vehicle Icon support for UAV Terminal and Artillery Computer. Runs a separate script to handle these displays. Only works if  _QS_ST_map_enableUnitIcons = TRUE;
+_QS_ST_MAPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GPS in his assigned items. Default FALSE.
 if ((['uav',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['mort',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
      _QS_ST_otherDisplays = TRUE;     /*/ BOOL. TRUE to add Unit/Vehicle Icon support for UAV Terminal and Artillery Computer. Runs a separate script to handle these displays. Only works if  _QS_ST_map_enableUnitIcons = TRUE;	/*/
 };
 
-/*/==================================================================================/*/
-/*/=========================== CONFIGURE GPS (UNIT/VEHICLE) ICONS ===================/*/
-/*/==================================================================================/*/
+//==================================================================================//
+//=========================== CONFIGURE GPS (UNIT/VEHICLE) ICONS ===================//
+//==================================================================================//
 
-_QS_ST_GPSDist = 300;										/*/ NUMBER. Distance from player that units shown on GPS. Higher number = lower script performance. Not significant but every 1/10th of a frame counts! Default 300/*/
-_QS_ST_GPSshowNames = FALSE;								/*/ BOOL. TRUE to show unit names on the GPS display. Default FALSE./*/
-_QS_ST_GPSshowGroupOnly = FALSE;							/*/ BOOL. TRUE to show only group members on the GPS display. Default TRUE./*/
-_QS_ST_iconTextSize_GPS = 0.05;								/*/ NUMBER. Icon Text Size on GPS display. Default is 0.05./*/
-_QS_ST_iconShadowGPS = 1;									/*/ NUMBER. Icon Shadow on GPS. 0 = no shadow. 1 = shadow. 2 = outline. Must be 0, 1, or 2. Default 1./*/
+_QS_ST_GPSDist = 300;											// NUMBER. Distance from player that units shown on GPS. Higher number = lower script performance. Not significant but every 1/10th of a frame counts! Default 300
+_QS_ST_GPSshowNames = FALSE;									// BOOL. TRUE to show unit names on the GPS display. Default FALSE.
+_QS_ST_GPSshowGroupOnly = FALSE;								// BOOL. TRUE to show only group members on the GPS display. Default TRUE.
+_QS_ST_iconTextSize_GPS = 0.05;									// NUMBER. Icon Text Size on GPS display. Default is 0.05.
+_QS_ST_iconShadowGPS = 1;										// NUMBER. Icon Shadow on GPS. 0 = no shadow. 1 = shadow. 2 = outline. Must be 0, 1, or 2. Default 1.
+_QS_ST_GPSrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GPS in his assigned items. Default FALSE.
 
-/*/==================================================================================/*/
-/*/============================= CONFIGURE GROUP ICONS ==============================/*/
-/*/==================================================================================/*/
+//==================================================================================//
+//============================= CONFIGURE GROUP ICONS ==============================//
+//==================================================================================//
 
-_QS_ST_showGroupMapIcons = TRUE;							/*/BOOL. Group icons displayed on map. Default TRUE./*/
-_QS_ST_showGroupHudIcons = FALSE;							/*/ BOOL. Group icons displayed on player 3D HUD. Default FALSE./*/
-_QS_ST_showAIGroups = FALSE;								/*/BOOL. Show Groups with AI leaders. Default TRUE./*/
-_QS_ST_showAINames = FALSE;								/*/ BOOL. Show AI Names. If FALSE, when names are listed with Group features, will only display as '[AI]'. Default FALSE./*/
-_QS_ST_groupInteractiveIcons = TRUE;						/*/BOOL. Group icons are interactable (mouse hover and mouse click for group details). Default TRUE./*/
-_QS_ST_groupInteractiveIcons_showClass = TRUE;				/*/ BOOL. TRUE to show units vehicle class when revealing group details with interactive map group click. Default TRUE./*/
-_QS_ST_showGroupMapText = TRUE;							/*/ BOOL. TRUE to show Group Name on the map. If FALSE, name can still be seen by clicking on the group icon, if QS_ST_groupInteractiveIcons = TRUE. Default FALSE./*/
-_QS_ST_groupIconScale = 0.5;								/*/NUMBER. Group Icon Scale. Default = 0.5/*/
-_QS_ST_groupIconOffset = [0.65,0.65];						/*/ ARRAY (NUMBERS). [X,Y], offset position of icon from group leaders position. Can be positive or negative numbers. Default = [0.65,0.65];/*/
-_QS_ST_groupTextFactionOnly = TRUE;							/*/ BOOL. TRUE to show group icon text from ONLY the PLAYERS faction. FALSE will show text for all friendly/revealed factions. Default TRUE./*/
-_QS_ST_showCivilianGroups = FALSE;							/*/ BOOL. TRUE to show Civilian groups. Must be whitelisted above in friendlySides. Default FALSE./*/
-_QS_ST_showOwnGroup = TRUE;								/*/ BOOL. TRUE to show the Players own group icon. Default TRUE./*/
+_QS_ST_showGroupMapIcons = TRUE;								// BOOL. Group icons displayed on map. Default TRUE.
+_QS_ST_showGroupHudIcons = FALSE;								// BOOL. Group icons displayed on player 3D HUD. Default FALSE.
+_QS_ST_showAIGroups = TRUE;										// BOOL. Show Groups with AI leaders. Default TRUE.
+_QS_ST_showAINames = FALSE;										// BOOL. Show AI Names. If FALSE, when names are listed with Group features, will only display as '[AI]'. Default FALSE.
+_QS_ST_groupInteractiveIcons = TRUE;							// BOOL. Group icons are interactable (mouse hover and mouse click for group details). Default TRUE.
+_QS_ST_groupInteractiveIcons_showClass = TRUE;					// BOOL. TRUE to show units vehicle class when revealing group details with interactive map group click. Default TRUE.
+_QS_ST_showGroupMapText = TRUE;									// BOOL. TRUE to show Group Name on the map. If FALSE, name can still be seen by clicking on the group icon, if QS_ST_groupInteractiveIcons = TRUE. Default FALSE.
+_QS_ST_groupIconScale = 0.75;										// NUMBER. Group Icon Scale. Default = 0.75
+_QS_ST_groupIconOffset = [0.65,0.65];							// ARRAY (NUMBERS). [X,Y], offset position of icon from group leaders position. Can be positive or negative numbers. Default = [0.65,0.65];
+_QS_ST_groupTextFactionOnly = TRUE;								// BOOL. TRUE to show group icon text from ONLY the PLAYERS faction. FALSE will show text for all friendly/revealed factions. Default TRUE.
+_QS_ST_showCivilianGroups = FALSE;								// BOOL. TRUE to show Civilian groups. Must be whitelisted above in friendlySides. Default FALSE.
+_QS_ST_showOwnGroup = TRUE;									// BOOL. TRUE to show the Players own group icon. Default FALSE.
+_QS_ST_GRPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GPS in his assigned items. Default FALSE.
 
-/*/==================================================================================/*/
-/*/============================= CONFIGURE BONUS FEATURES ===========================/*/
-/*/==================================================================================/*/
+//==================================================================================//
+//============================= CONFIGURE BONUS FEATURES ===========================//
+//==================================================================================//
 
-_QS_ST_showEmptyVehicles = FALSE;							/*/ BOOL. TRUE to mark certain unoccupied vehicles on the map. The vehicle must be assigned this variable:    <vehicle> setVariable ['QS_ST_drawEmptyVehicle',TRUE,TRUE];    Default FALSE.   Only works if  _QS_ST_map_enableUnitIcons = TRUE;/*/
-_QS_ST_iconColor_empty = [0.7,0.6,0,0.5];					/*/ ARRAY (NUMBERS). Color of unoccupied vehicles, in RGBA. Default = [0.7,0.6,0,0.5];/*/
-_QS_ST_iconSize_empty = 20;									/*/ NUMBER. Icon size of unoccupied vehicles, if shown./*/
-_QS_ST_showKnownEnemies = TRUE;								/*/ BOOL. TRUE to mark known enemies on the map. Default - FALSE./*/
+_QS_ST_showEmptyVehicles = FALSE;								// BOOL. TRUE to mark certain unoccupied vehicles on the map. The vehicle must be assigned this variable:    <vehicle> setVariable ['QS_ST_drawEmptyVehicle',TRUE,TRUE];    Default FALSE.   Only works if  _QS_ST_map_enableUnitIcons = TRUE;
+_QS_ST_iconColor_empty = [0.7,0.6,0,0.5];						// ARRAY (NUMBERS). Color of unoccupied vehicles, in RGBA. Default = [0.7,0.6,0,0.5];
+_QS_ST_iconSize_empty = 20;										// NUMBER. Icon size of unoccupied vehicles, if shown.
+_QS_ST_showKnownEnemies = TRUE;									// BOOL. TRUE to mark known enemies on the map. Default - FALSE.
 
-/*/==================================================================================/*/
-/*/================ TEXT (for LOCALIZATION / LANGUAGE TRANSLATION) ==================/*/
-/*/==================================================================================/*/
+//==================================================================================//
+//================ TEXT (for LOCALIZATION / LANGUAGE TRANSLATION) ==================//
+//==================================================================================//
 
 missionNamespace setVariable ['QS_ST_STR_text1','Click to show group details',FALSE];				/*/ STRING. Text shown when a player passes Mouse over Group leader (only if _QS_ST_groupInteractiveIcons = TRUE;)/*/
 missionNamespace setVariable ['QS_ST_STR_text2','This group is not in your faction!',FALSE];		/*/ STRING. Text shown when a player clicks on a Group Icon of other faction. (only if _QS_ST_groupInteractiveIcons = TRUE;)/*/
 
-/*/==============================================================================================================================/*/
-/*/=============================================================== CONFIGURATION END ============================================/*/
-/*/==============================================================================================================================/*/
-/*/===================================================== EDITING BELOW FOR ADVANCED USERS ONLY!!! ===============================/*/
-/*/==============================================================================================================================/*/
-
-/*/===== Define all functions/*/
+//==============================================================================================================================//
+//=============================================================== CONFIGURATION END ============================================//
+//==============================================================================================================================//
+//===================================================== EDITING BELOW FOR ADVANCED USERS ONLY!!! ===============================//
+//==============================================================================================================================//
 
 _QS_fnc_isIncapacitated = {
-	_u = _this select 0;
+	params ['_u'];
 	((lifeState _u) isEqualTo 'INCAPACITATED')
 };
 _QS_fnc_iconColor = {
-	private ['_u','_c','_a','_ps','_ms','_i','_ic','_display','_QS_ST_X','_v'];
-	_v = _this select 0;
+	params [['_v',objNull],['_ds',1],'_QS_ST_X',['_ms',1]];
 	_u = effectiveCommander _v;
-	_display = _this select 1;
-	_QS_ST_X = _this select 2;
-	if ((count _this) > 3) then {_ms = _this select 3;};
-	_ps = side _u;
-	_exit = FALSE;
+	_s = side (group _u);
+	private _exit = FALSE;
+	private _c = _QS_ST_X select 13;
+	private _a = 0;
 	if (!(_v isKindOf 'Man')) then {
-		if (!isNil {_v getVariable 'QS_ST_drawEmptyVehicle'}) then {
-			if (_v getVariable 'QS_ST_drawEmptyVehicle') then {
-				if ((count (crew _v)) isEqualTo 0) then {
-					_exit = TRUE;
-					_c = _QS_ST_X select 78;
-					_c set [3,0.65];
-					if (_ms > 0.80) then {
-						if (_display isEqualTo 1) then {
-							_c set [3,0];
-						};
+		if (_v getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
+			if ((count (crew _v)) isEqualTo 0) then {
+				_exit = TRUE;
+				_c = _QS_ST_X select 78;
+				_c set [3,0.65];
+				if (_ms > 0.80) then {
+					if (_ds isEqualTo 1) then {
+						_c set [3,0];
 					};
 				};
 			};
-		};			
+		};
 	};
 	if (_exit) exitWith {_c;};
-	if ((group _u) isEqualTo (group player)) then {_a = 0.85;} else {_a = 0.65;};
-	if ((_QS_ST_X select 14)) then {
+	private _useTeamColor = FALSE;
+	if ((group _u) isEqualTo (group player)) then {
+		_useTeamColor = TRUE;
+		_a = 0.85;
+	} else {
+		_a = 0.65;
+	};
+	if (_QS_ST_X select 14) then {
 		if ([_u,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {
 			_exit = TRUE;
 			_c = _QS_ST_X select 16;
 			_c set [3,_a];
 			if (_ms > 0.80) then {
-				if (_display isEqualTo 1) then {
+				if (_ds isEqualTo 1) then {
 					_c set [3,0];
 				};
 			};
-			_c;
 		};
 	} else {
 		if ([_u,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {
 			_exit = TRUE;
 			_c = _QS_ST_X select 16;
 			_c set [3,0];
-			_c;
 		};
 	};
 	if (_exit) exitWith {_c;};
-	if (!isNil {_u getVariable 'QS_ST_iconColor'}) then {
-		_ic = _u getVariable 'QS_ST_iconColor';
-		if (_ps isEqualTo (_ic select 1)) then {
-			_c = _ic select 0;
+	if (_useTeamColor) then {
+		if (isNull (objectParent _u)) then {
+			private _teamID = 0;
+			if (!isNil {assignedTeam _u}) then {
+				_teamID = ['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _u);
+				if (_teamID isEqualTo -1) then {
+					_teamID = 0;
+				};
+			};
+			if (_s isEqualTo EAST) then {_c = _QS_ST_X select 9;};
+			if (_s isEqualTo WEST) then {_c = _QS_ST_X select 10;};
+			if (_s isEqualTo RESISTANCE) then {_c = _QS_ST_X select 11;};
+			if (_s isEqualTo CIVILIAN) then {_c = _QS_ST_X select 12;};
+			_c = [_c,[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] select _teamID;
 			_c set [3,_a];
 			if (_ms > 0.80) then {
-				if (_display isEqualTo 1) then {
+				if (_ds isEqualTo 1) then {
 					_c set [3,0];
 				};
 			};
@@ -263,96 +293,106 @@ _QS_fnc_iconColor = {
 		};
 	};
 	if (_exit) exitWith {_c;};
-	if (_ps isEqualTo EAST) exitWith {_c = _QS_ST_X select 9; _c set [3,_a];if (_display isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];_c;};};_u setVariable ['QS_ST_iconColor',[_c,_ps],FALSE];_c;};
-	if (_ps isEqualTo WEST) exitWith {_c = _QS_ST_X select 10; _c set [3,_a];if (_display isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];_c;};};_u setVariable ['QS_ST_iconColor',[_c,_ps],FALSE];_c;};
-	if (_ps isEqualTo RESISTANCE) exitWith {_c = _QS_ST_X select 11; _c set [3,_a];if (_display isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];_c;};};_u setVariable ['QS_ST_iconColor',[_c,_ps],FALSE];_c;};
-	if (_ps isEqualTo CIVILIAN) exitWith {_c = _QS_ST_X select 12; _c set [3,_a];if (_display isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];_c;};};_u setVariable ['QS_ST_iconColor',[_c,_ps],FALSE];_c;};
-	_c = _QS_ST_X select 13;if (_display isEqualTo 1) then { if (_ms > 0.80) then {_c set [3,0];_c;};};_u setVariable ['QS_ST_iconColor',[_c,_ps],FALSE];_c;
+	if (_s isEqualTo EAST) exitWith {_c = _QS_ST_X select 9; _c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	if (_s isEqualTo WEST) exitWith {_c = _QS_ST_X select 10;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	if (_s isEqualTo RESISTANCE) exitWith {_c = _QS_ST_X select 11;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	if (_s isEqualTo CIVILIAN) exitWith {_c = _QS_ST_X select 12;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	_c = _QS_ST_X select 13;if (_ds isEqualTo 1) then { if (_ms > 0.80) then {_c set [3,0];};};_c;
 };
 _QS_fnc_iconType = {
-	_vt = typeOf (_this select 0);
+	params ['_u'];
+	private _vt = typeOf (vehicle _u);
 	private _i = missionNamespace getVariable [format ['QS_ST_iconType#%1',_vt],''];
 	if (_i isEqualTo '') then {
-		_i = getText (configFile >> 'CfgVehicles' >> _vt >> 'icon');
-		missionNamespace setVariable [format ['QS_ST_iconType#%1',_vt],_i];
+		if ((vehicle _u) isKindOf 'CAManBase') then {
+			if (_u getUnitTrait 'medic') then {
+				_vt = 'B_medic_F';
+			} else {
+				if (_u getUnitTrait 'engineer') then {
+					_vt = 'B_engineer_F';
+				} else {
+					if (_u getUnitTrait 'explosiveSpecialist') then {
+						_vt = 'B_soldier_exp_F';
+					};
+				};
+			};
+			if (_u getUnitTrait 'QS_trait_HQ') then {
+				_i = 'a3\ui_f\data\map\vehicleicons\iconManCommander_ca.paa';
+			};
+		};
+		if (_i isEqualTo '') then {
+			_i = getText (configFile >> 'CfgVehicles' >> _vt >> 'icon');
+		};
+		missionNamespace setVariable [format ['QS_ST_iconType#%1',_vt],_i,FALSE];
 	};
 	_i;
 };
 _QS_fnc_iconSize = {
-	params ['_v','_display','_QS_ST_X'];
-	private _i = missionNamespace getVariable [format ['QS_ST_iconSize#%1',(typeOf _v)],0];
+	params ['_v','','_QS_ST_X'];
+	private _i = missionNamespace getVariable [(format ['QS_ST_iconSize#%1',(typeOf _v)]),0];
 	if (_i isEqualTo 0) then {
-		_i = 22;
-		if (_v isKindOf 'Man') then {_i = _QS_ST_X select 22;_i;};
-		if (_v isKindOf 'StaticWeapon') then {_i = _QS_ST_X select 26; _i;};
-		if (_v isKindOf 'LandVehicle') then {_i = _QS_ST_X select 23;_i;};
-		if (_v isKindOf 'Air') then {_i = _QS_ST_X select 25;_i;};
-		if (_v isKindOf 'Ship') then {_i = _QS_ST_X select 24;_i;};
-		missionNamespace setVariable [format ['QS_ST_iconSize#%1',(typeOf _v)],_i];
+		if (_v isKindOf 'Man') then {_i = _QS_ST_X select 22;};
+		if (_v isKindOf 'LandVehicle') then {_i = _QS_ST_X select 23;};
+		if (_v isKindOf 'Air') then {_i = _QS_ST_X select 25;};
+		if (_v isKindOf 'StaticWeapon') then {_i = _QS_ST_X select 26;};
+		if (_v isKindOf 'Ship') then {_i = _QS_ST_X select 24;};
+		missionNamespace setVariable [(format ['QS_ST_iconSize#%1',(typeOf _v)]),_i,FALSE];
 	};
 	_i;
 };
 _QS_fnc_iconPosDir = {
-	params ['_v','_display','_delay'];
-	private _posDir = [[-1000,-1000,0],0];
-	if (_display isEqualTo 1) then {
-		if (_delay > 0) then {
-			if (time > (missionNamespace getVariable 'QS_ST_iconUpdatePulseTimer')) then {
-				_posDir = [(getPosASLVisual _v),(getDirVisual _v)];
+	params ['_v','_ds','_dl'];
+	private _posDir = [[0,0,0],0];
+	if (_ds isEqualTo 1) then {
+		if (_dl > 0) then {
+			if (diag_tickTime > (missionNamespace getVariable 'QS_ST_iconUpdatePulseTimer')) then {
+				_posDir = [getPosASLVisual _v,getDirVisual _v];
 				_v setVariable ['QS_ST_lastPulsePos',_posDir,FALSE];
 			} else {
 				if (!isNil {_v getVariable 'QS_ST_lastPulsePos'}) then {
 					_posDir = _v getVariable 'QS_ST_lastPulsePos';
 				} else {
-					_posDir = [(getPosASLVisual _v),(getDirVisual _v)];
+					_posDir = [getPosASLVisual _v,getDirVisual _v];
 					_v setVariable ['QS_ST_lastPulsePos',_posDir,FALSE];
 				};		
 			};
 		} else {
-			_posDir = [(getPosASLVisual _v),(getDirVisual _v)];
+			_posDir = [getPosASLVisual _v,getDirVisual _v];
 		};
 	} else {
-		_posDir = [(getPosASLVisual _v),(getDirVisual _v)];
+		_posDir = [getPosASLVisual _v,getDirVisual _v];
 	};
 	_posDir;
 };
 _QS_fnc_iconText = {
-	private ['_n','_v','_y','_vt','_t','_vn','_ms','_isAdmin','_newText','_crewIndex','_crewCount','_crewIndex_indexed','_showMOS','_showAINames','_auv','_na'];
-	_v = _this select 0;
-	_display = _this select 1;
-	if (_display isEqualTo 2) exitWith {
-		_t = '';
-		_t;
-	};
-	_QS_ST_X = _this select 2;
-	if ((count _this) > 3) then {_ms = _this select 3;};
-	if (!(_QS_ST_X select 67)) exitWith {
-		_t = ''; 
-		_t;
+	params ['_v','_ds','_QS_ST_X',['_ms',1]];
+	if ((_ds isEqualTo 2) || {(!(_QS_ST_X select 67))}) exitWith {
+		''
 	};
 	_showMOS = _QS_ST_X select 64;
 	_showAINames = _QS_ST_X select 71;
-	if (!isNil {_v getVariable 'QS_ST_customDN'}) then {
-		_vt = _v getVariable 'QS_ST_customDN';
-	} else {
-		_vt = missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],''];
-		if (_vt isEqualTo '') then {
-			_vt = getText (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'displayName');
-			missionNamespace setVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],_vt];
-		};
+	private _t = '';
+	private _n = 0;
+	private _vt = missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],''];
+	if (_vt isEqualTo '') then {
+		_vt = getText (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'displayName');
+		missionNamespace setVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],_vt];
+	};
+	if (!((_v getVariable ['QS_ST_customDN','']) isEqualTo '')) then {
+		_vt = _v getVariable ['QS_ST_customDN',''];
 	};
 	if (!(_QS_ST_X select 64)) then {
 		_vt = '';
 	};
-	_vn = name ((crew _v) select 0);
+	private _vn = name ((crew _v) select 0);
 	if (!isPlayer ((crew _v) select 0)) then {
 		if (!(_showAINames)) then {
 			_vn = '[AI]';
 		};
 	};
-	_isAdmin = serverCommandAvailable '#logout';
-	if (((_v distance player) < (_QS_ST_X select 68)) || {(_isAdmin)}) then {
-		if ((_ms < 0.5) || {(_isAdmin)}) then {
+	_isAdmin = (((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2) && (_QS_ST_X select 86));
+	if (((_v distance2D player) < (_QS_ST_X select 68)) || {(_isAdmin)}) then {
+		if ((_ms < 0.75) || {(_isAdmin)}) then {
 			if ((_ms > 0.25) || {(_isAdmin)}) then {
 				if (_showMOS) then {
 					_t = format ['%1 [%2]',_vn,_vt];
@@ -374,7 +414,7 @@ _QS_fnc_iconText = {
 			_t = '';
 		};
 	} else {
-		if (_ms < 0.5) then {
+		if (_ms < 0.75) then {
 			if (_ms > 0.25) then {
 				_t = format ['%1',_vn];
 			} else {
@@ -395,9 +435,9 @@ _QS_fnc_iconText = {
 			if (!isNil {_v getVariable 'QS_ST_mapClickShowCrew'}) then {
 				if (_v getVariable 'QS_ST_mapClickShowCrew') then {
 					_t = '';
-					_crewIndex = 0;
-					_crewCount = count (crew _v);
-					_crewIndex_indexed = _crewCount - 1;
+					private _crewIndex = 0;
+					private _na = '';
+					_crewCount = (count (crew _v)) - 1;
 					{
 						_na = name _x;
 						if (!(_showAINames)) then {
@@ -406,7 +446,7 @@ _QS_fnc_iconText = {
 							};
 						};
 						if (!(['error',_na,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-							if (!(_crewIndex isEqualTo _crewIndex_indexed)) then {
+							if (!(_crewIndex isEqualTo _crewCount)) then {
 								_t = _t + _na + ', ';
 							} else {
 								_t = _t + _na;
@@ -416,7 +456,7 @@ _QS_fnc_iconText = {
 					} count (crew _v);
 				} else {
 					if (!isNull driver _v) then {
-						if (_ms < 0.5) then {
+						if (_ms < 0.75) then {
 							if (_ms > 0.25) then {
 								if (_showMOS) then {
 									_t = format ['%1 [%2] +%3',_vn,_vt,_n];
@@ -438,7 +478,7 @@ _QS_fnc_iconText = {
 							_t = format ['+%1',_n];
 						};
 					} else {
-						if (_ms < 0.5) then {
+						if (_ms < 0.75) then {
 							if (_ms > 0.25) then {
 								if (_showMOS) then {
 									_t = format ['[%1] %2 +%3',_vt,_vn,_n];
@@ -463,7 +503,7 @@ _QS_fnc_iconText = {
 				};
 			} else {
 				if (!isNull driver _v) then {
-					if (_ms < 0.5) then {
+					if (_ms < 0.75) then {
 						if (_ms > 0.25) then {
 							if (_showMOS) then {
 								_t = format ['%1 [%2] +%3',_vn,_vt,_n];
@@ -485,7 +525,7 @@ _QS_fnc_iconText = {
 						_t = format ['+%1',_n];
 					};
 				} else {
-					if (_ms < 0.5) then {
+					if (_ms < 0.75) then {
 						if (_ms > 0.25) then {
 							if (_showMOS) then {
 								_t = format ['[%1] %2 +%3',_vt,_vn,_n];
@@ -510,7 +550,7 @@ _QS_fnc_iconText = {
 			};
 		} else {
 			if (!isNull driver _v) then {
-				if (_ms < 0.5) then {
+				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
 							_t = format ['%1 [%2]',_vn,_vt];
@@ -532,7 +572,7 @@ _QS_fnc_iconText = {
 					_t = '';
 				};
 			} else {
-				if (_ms < 0.5) then {
+				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
 							_t = format ['[%1] %2',_vt,_vn];
@@ -555,22 +595,22 @@ _QS_fnc_iconText = {
 				};
 			};
 		};
-		if (unitIsUav _v) then {
+		if (unitIsUAV _v) then {
 			if (isUavConnected _v) then {
 				_y = (UAVControl _v) select 0;
-				if (_ms < 0.5) then {
+				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
-							_t = format ['%1 [%2]',name _y,_vt]; _t;
+							_t = format ['%1 [%2]',name _y,_vt];
 						} else {
-							_t = format ['%1',name _y]; _t;
+							_t = format ['%1',name _y];
 						};
 					} else {
 						if (_ms < 0.006) then {
 							if (_showMOS) then {
-								_t = format ['%1 [%2]',name _y,_vt]; _t;
+								_t = format ['%1 [%2]',name _y,_vt];
 							} else {
-								_t = format ['%1',name _y]; _t;
+								_t = format ['%1',name _y];
 							};
 						} else {
 							_t = '';
@@ -580,19 +620,19 @@ _QS_fnc_iconText = {
 					_t = '';
 				};
 			} else {
-				if (_ms < 0.5) then {
+				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
-							_t = format ['[AUTO] [%1]',_vt]; _t;
+							_t = format ['[AUTO] [%1]',_vt];
 						} else {
-							_t = '[AUTO]'; _t;
+							_t = '[AUTO]';
 						};
 					} else {
 						if (_ms < 0.006) then {
 							if (_showMOS) then {
-								_t = format ['[AUTO] [%1]',_vt]; _t;
+								_t = format ['[AUTO] [%1]',_vt];
 							} else {
-								_t = '[AUTO]'; _t;
+								_t = '[AUTO]';
 							};
 						} else {
 							_t = '';
@@ -607,21 +647,17 @@ _QS_fnc_iconText = {
 	_t;
 };
 _QS_fnc_iconUnits = {
-	private ['_si','_as','_au','_exit'];
-	_di = _this select 0;
-	_QS_ST_X = _this select 1;
-	_exit = FALSE;
-	if (!((side player) isEqualTo CIVILIAN)) then {
-		if ((_QS_ST_X select 74)) then {
-			_si = [EAST,WEST,RESISTANCE,CIVILIAN];
-		} else {
+	params ['_di','_QS_ST_X'];
+	private _exit = FALSE;
+	private _si = [EAST,WEST,RESISTANCE,CIVILIAN];
+	private _as = [];
+	private _au = [];
+	_isAdmin = (((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2) && (_QS_ST_X select 86));
+	if (!(playerSide isEqualTo CIVILIAN)) then {
+		if (!(_QS_ST_X select 74)) then {
 			_si = [EAST,WEST,RESISTANCE];
 		};
-	} else {
-		_si = [EAST,WEST,RESISTANCE,CIVILIAN];
 	};
-	_as = [];
-	_au = [];
 	if ((_QS_ST_X select 61) > 0) exitWith {
 		if ((_QS_ST_X select 61) isEqualTo 1) then {
 			_au = allUnits + vehicles;
@@ -631,18 +667,15 @@ _QS_fnc_iconUnits = {
 		};
 		_au;
 	};
-	
 	if (((_di isEqualTo 1) && ((_QS_ST_X select 65))) && {(!(_QS_ST_X select 75))}) then {
 		_exit = TRUE;
 		_au = units (group player);
 		if ((_QS_ST_X select 80)) then {
 			{
 				if (!(_x in _au)) then {
-					if (!isNil {_x getVariable 'QS_ST_drawEmptyVehicle'}) then {
-						if (_x getVariable 'QS_ST_drawEmptyVehicle') then {
-							if ((crew _x) isEqualTo []) then {
-								0 = _au pushBack _x;
-							};
+					if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
+						if ((crew _x) isEqualTo []) then {
+							0 = _au pushBack _x;
 						};
 					};
 				};
@@ -657,23 +690,23 @@ _QS_fnc_iconUnits = {
 	};
 	if (_exit) exitWith {_au;};
 	if ((_QS_ST_X select 62)) then {
-		0 = _as pushBack (_si select (_QS_ST_X select 3));
+		_as pushBack (_si select (_QS_ST_X select 3));
 	} else {
 		if (isMultiplayer) then {
-			if (serverCommandAvailable '#kick') then {
+			if (_isAdmin) then {
 				{
 					0 = _as pushBack _x;
 				} count _si;
 			} else {
 				if ((_QS_ST_X select 8)) then {
-					0 = _as pushBack (_si select (_QS_ST_X select 3));
+					_as pushBack (_si select (_QS_ST_X select 3));
 					{
 						if (((_si select (_QS_ST_X select 3)) getFriend _x) > 0.6) then {
 							0 = _as pushBack _x;
 						};
 					} count _si;
 				} else {
-					0 = _as pushBack (_si select (_QS_ST_X select 3));
+					_as pushBack (_si select (_QS_ST_X select 3));
 					{
 						0 = _as pushBack (_si select _x);
 					} count (_QS_ST_X select 57);
@@ -681,14 +714,14 @@ _QS_fnc_iconUnits = {
 			};
 		} else {
 			if ((_QS_ST_X select 8)) then {
-				0 = _as pushBack (_si select (_QS_ST_X select 3));
+				_as pushBack (_si select (_QS_ST_X select 3));
 				{
 					if (((_si select (_QS_ST_X select 3)) getFriend _x) > 0.6) then {
 						0 = _as pushBack _x;
 					};
 				} count _si;
 			} else {
-				0 = _as pushBack (_si select (_QS_ST_X select 3));
+				_as pushBack (_si select (_QS_ST_X select 3));
 				{
 					0 = _as pushBack (_si select _x);
 				} count (_QS_ST_X select 57);
@@ -697,15 +730,15 @@ _QS_fnc_iconUnits = {
 	};
 	if (!(_QS_ST_X select 63)) then {
 		if (isMultiplayer) then {
-			if (serverCommandAvailable '#kick') then {
-				if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
-					{
+			if (_isAdmin) then {
+				{
+					if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
 						0 = _au pushBack _x;
-					} count allUnits;
-				};
+					};
+				} count allUnits;
 			} else {
 				{
-					if (((side _x) in _as) || {(captive _x)}) then {
+					if (((side (group _x)) in _as) || {(captive _x)}) then {
 						if (isPlayer _x) then {
 							if (_di isEqualTo 2) then {
 								if ((_x distance2D player) < (_QS_ST_X select 27)) then {
@@ -724,7 +757,7 @@ _QS_fnc_iconUnits = {
 			};
 		} else {
 			{
-				if (((side _x) in _as) || {(captive _x)}) then {
+				if (((side (group _x)) in _as) || {(captive _x)}) then {
 					if (isPlayer _x) then {
 						if (_di isEqualTo 2) then {
 							if ((_x distance2D player) < (_QS_ST_X select 27)) then {
@@ -747,23 +780,19 @@ _QS_fnc_iconUnits = {
 		};
 	} else {
 		{
-			if (((side _x) in _as) || {(captive _x)}) then {
-				if (_x isEqualTo player) then {
-					0 = _au pushBack _x;
-				} else {
-					if (_di isEqualTo 2) then {
-						if ((_x distance2D player) < (_QS_ST_X select 27)) then {
-							if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
-								if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
-									0 = _au pushBack _x;
-								};
-							};
-						};
-					} else {
-						if (_x isEqualTo (effectiveCommander (vehicle _x))) then {
+			if (((side (group _x)) in _as) || {(captive _x)}) then {
+				if (_di isEqualTo 2) then {
+					if ((_x distance2D player) < (_QS_ST_X select 27)) then {
+						if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
 							if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
 								0 = _au pushBack _x;
 							};
+						};
+					};
+				} else {
+					if (_x isEqualTo (effectiveCommander (vehicle _x))) then {
+						if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+							0 = _au pushBack _x;
 						};
 					};
 				};
@@ -780,11 +809,9 @@ _QS_fnc_iconUnits = {
 		if ((_QS_ST_X select 80)) then {
 			{
 				if (!(_x in _auv)) then {
-					if (!isNil {_x getVariable 'QS_ST_drawEmptyVehicle'}) then {
-						if (_x getVariable 'QS_ST_drawEmptyVehicle') then {
-							if ((crew _x) isEqualTo []) then {
-								0 = _auv pushBack _x;
-							};
+					if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
+						if ((crew _x) isEqualTo []) then {
+							0 = _auv pushBack _x;
 						};
 					};
 				};
@@ -800,11 +827,9 @@ _QS_fnc_iconUnits = {
 	if ((_di isEqualTo 1) && (_QS_ST_X select 80)) exitWith {
 		{
 			if (!(_x in _au)) then {
-				if (!isNil {_x getVariable 'QS_ST_drawEmptyVehicle'}) then {
-					if (_x getVariable 'QS_ST_drawEmptyVehicle') then {
-						if ((crew _x) isEqualTo []) then {
-							0 = _au pushBack _x;
-						};
+				if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
+					if ((crew _x) isEqualTo []) then {
+						0 = _au pushBack _x;
 					};
 				};
 			};
@@ -814,97 +839,94 @@ _QS_fnc_iconUnits = {
 	_au;
 };
 _QS_fnc_onMapSingleClick = {
-	private ['_QS_ST_X','_vehicles','_vehicle','_pos','_vehicle','_vehicles','_position'];
-	if ((player getVariable 'QS_ST_mapSingleClick')) exitWith {
-		player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
-		if (!isNull (player getVariable 'QS_ST_map_vehicleShowCrew')) then {
-			if (alive (player getVariable 'QS_ST_map_vehicleShowCrew')) then {
-				(player getVariable 'QS_ST_map_vehicleShowCrew') setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
-			};
-		};
-	};
-	player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
-	player setVariable ['QS_ST_mapSingleClick',TRUE,FALSE];
-	_position = _pos;
-	_vehicle = objNull;
-	_vehicles = _position nearEntities [['Air','LandVehicle','Ship'],50];
-	if ((count _vehicles) > 0) then {
-		_vehicle = _vehicles select 0;
-	} else {
-		_position set [2,50];
-		_vehicles = _position nearEntities ['Air',50];
-		if ((count _vehicles) > 0) then {
-			_vehicle = _vehicles select 0;
-		} else {
-			_position set [2,100];
-			_vehicles = _position nearEntities ['Air',80];
-		};
-	};
-	_QS_ST_X = [] call (missionNamespace getVariable 'QS_ST_X');
-	if (!isNull _vehicle) then {
-		if ((count (crew _vehicle)) > 1) then {
-			if ((side (effectiveCommander _vehicle)) isEqualTo playerSide) then {
-				player setVariable ['QS_ST_map_vehicleShowCrew',_vehicle,FALSE];
-				_vehicle setVariable ['QS_ST_mapClickShowCrew',TRUE,FALSE];
-				[_vehicle] spawn (_QS_ST_X select 48);
-			};
-		};
-	};
-};
-_QS_fnc_mapVehicleShowCrew = {
-	private ['_exit','_vehicle'];
-	player setVariable ['QS_ST_mapSingleClick',TRUE,FALSE];
-	_vehicle = _this select 0;
-	for '_x' from 0 to 1 step 0 do {
-		if ((!(visibleMap)) || {(!alive player)} || {(isNull (player getVariable 'QS_ST_map_vehicleShowCrew'))}) exitWith {
+	params ['_units','_position','_alt','_shift'];
+	if ((!(_alt)) && (!(_shift))) then {
+		if (player getVariable 'QS_ST_mapSingleClick') then {
 			player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
-			player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
-			_vehicle setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
-		};
-		uiSleep 1;
-	};
-};
-_QS_fnc_showKnownEnemies = {
-	private [
-		'_p','_s','_targetAccuracy','_targetObj','_targetSide','_targetType','_targetPosition','_targetAge','_perceivedPosition','_iconType','_co','_QS_ST_X','_ms','_is'
-	];
-	_QS_ST_X = _this select 0;
-	_ms = _this select 1;
-	_ke = [];
-	_s = playerSide;
-	{
-		_targetAccuracy = _x select 0;
-		_targetObj = _x select 1;
-		_targetSide = _x select 2;
-		_targetType = _x select 3;
-		_targetPosition = _x select 4;
-		_targetAge = _x select 5;
-		if (!isNull _targetObj) then {
-			if (alive _targetObj) then {
-				_iconType = missionNamespace getVariable [format ['QS_ST_iconType#%1',_targetType],''];
-				if (_iconType isEqualTo '') then {
-					_iconType = getText (configFile >> 'CfgVehicles' >> _targetType >> 'icon');
-					missionNamespace setVariable [format ['QS_ST_iconType#%1',_targetType],_iconType];
-				};
-				_co = [_targetObj,1,_QS_ST_X,_ms] call (_QS_ST_X select 41);
-				_perceivedPosition = player getHideFrom _targetObj;
-				_is = [_targetObj,1,_QS_ST_X] call (_QS_ST_X select 43);
-				0 = _ke pushBack [_iconType,_co,_perceivedPosition,_is,_is,(getDirVisual _targetObj),'',0,0.03,'puristaMedium','right'];
+			if (alive (player getVariable ['QS_ST_map_vehicleShowCrew',objNull])) then {
+				(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
 			};
 		};
-	} count (player targetsQuery [objNull,sideUnknown,'',[],0]);
-	_ke;
+		comment "player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];";
+		player setVariable ['QS_ST_mapSingleClick',TRUE,FALSE];
+		private _vehicle = objNull;
+		_vehicles = (nearestObjects [_position,['Air','LandVehicle','Ship'],250,TRUE]) select {(alive _x)};
+		if ((count _vehicles) > 0) then {
+			if ((count _vehicles) > 1) then {
+				private _dist = 999999;
+				{
+					if ((_x distance2D _position) < _dist) then {
+						_dist = _x distance2D _position;
+						_vehicle = _x;
+					};
+				} forEach _vehicles;
+			} else {
+				_vehicle = _vehicles select 0;
+			};
+		};
+		_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
+		if (alive _vehicle) then {
+			if ((count (crew _vehicle)) > 1) then {
+				if ((side (effectiveCommander _vehicle)) isEqualTo playerSide) then {
+					if (!(_vehicle isEqualTo (player getVariable ['QS_ST_map_vehicleShowCrew',objNull]))) then {
+						player setVariable ['QS_ST_map_vehicleShowCrew',_vehicle,FALSE];
+						_vehicle setVariable ['QS_ST_mapClickShowCrew',TRUE,FALSE];
+					} else {
+						(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+						player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
+						player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+					};
+				} else {
+					(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+					player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
+					player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+				};
+			} else {
+				(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+				player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
+				player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+			};
+		} else {
+			(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+			player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
+			player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+		};
+	};
+	if (_shift) then {
+		if (player isEqualTo (leader (group player))) then {
+			private _nearUnit = objNull;
+			_nearUnits = (nearestObjects [_position,['CAManBase'],250,TRUE]) select {((alive _x) && ((group _x) isEqualTo (group player)) && (isNull (objectParent _x)))};
+			if ((count _nearUnits) > 0) then {
+				if ((count _nearUnits) > 1) then {
+					private _dist = 999999;
+					{
+						if ((_x distance2D _position) < _dist) then {
+							_dist = _x distance2D _position;
+							_nearUnit = _x;
+						};
+					} forEach _nearUnits;
+				} else {
+					_nearUnit = _nearUnits select 0;
+				};
+			};
+			if (alive _nearUnit) then {
+				player groupSelectUnit [_nearUnit,(!(_nearUnit in _units))];
+			};
+		};
+	};
 };
+_QS_fnc_mapVehicleShowCrew = {};
 _QS_fnc_iconDrawMap = {
-	private ['_ve','_po','_is'];
-	_m = _this select 0;
-	_QS_ST_X = [] call (missionNamespace getVariable 'QS_ST_X');
-	_ms = ctrlMapScale _m;
-	if (time > (missionNamespace getVariable 'QS_ST_updateDraw_map')) then {
-		missionNamespace setVariable ['QS_ST_updateDraw_map',(time + 3),FALSE];
+	params ['_m'];
+	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
+	if ((_QS_ST_X select 83) && (!('ItemGPS' in (assignedItems player)))) exitWith {};
+	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
+	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
+	if (diag_tickTime > (missionNamespace getVariable 'QS_ST_updateDraw_map')) then {
+		missionNamespace setVariable ['QS_ST_updateDraw_map',(diag_tickTime + 5),FALSE];
 		missionNamespace setVariable ['QS_ST_drawArray_map',([1,_QS_ST_X] call (_QS_ST_X select 46)),FALSE];
 		if (_QS_ST_X select 35) then {
-			missionNamespace setVariable ['QS_ST_drawArrayEnemy_map',([0,_QS_ST_X,(_QS_ST_X select 43)] call (missionNamespace getVariable 'QS_fnc_getKnownEnemies')),FALSE];
+			missionNamespace setVariable ['QS_ST_drawArrayEnemy_map',([([0,1] select (player getUnitTrait 'QS_trait_HQ')),_QS_ST_X,(_QS_ST_X select 43),_fn_jammer,_gpsJammers] call (missionNamespace getVariable 'QS_fnc_getKnownEnemies')),FALSE];
 		};
 	};
 	_sh = _QS_ST_X select 17;
@@ -912,46 +934,123 @@ _QS_fnc_iconDrawMap = {
 	_tf = _QS_ST_X select 60;
 	_to = _QS_ST_X select 21;
 	_de = _QS_ST_X select 66;
+	_fn_po = _QS_ST_X select 44;
+	_fn_is = _QS_ST_X select 43;
+	_fn_it = _QS_ST_X select 42;
+	_fn_ic = _QS_ST_X select 41;
+	_fn_ite = _QS_ST_X select 45;
 	if (!((missionNamespace getVariable 'QS_ST_drawArrayEnemy_map') isEqualTo [])) then {
 		{
 			_m drawIcon _x;
 		} count (missionNamespace getVariable ['QS_ST_drawArrayEnemy_map',[]]);
 	};
+	_player = player;
+	_ms = ctrlMapScale _m;
+	private _ve = objNull;
+	private _po = [[0,0,0],0];
+	private _is = 0;
 	if (!((missionNamespace getVariable 'QS_ST_drawArray_map') isEqualTo [])) then {
 		{
 			if (!isNull _x) then {
 				_ve = vehicle _x;
 				if (alive _ve) then {
 					if (!(_ve getVariable ['QS_hidden',FALSE])) then {
-						_po = [_ve,1,_de] call (_QS_ST_X select 44);
-						_is = [_ve,1,_QS_ST_X] call (_QS_ST_X select 43);
-						_m drawIcon [
-							([_ve,1,_QS_ST_X] call (_QS_ST_X select 42)),
-							([_ve,1,_QS_ST_X,_ms] call (_QS_ST_X select 41)),
-							(_po select 0),
-							_is,
-							_is,
-							(_po select 1),
-							([_ve,1,_QS_ST_X,_ms] call (_QS_ST_X select 45)),
-							_sh,
-							_ts,
-							_tf,
-							_to
-						];
-						if (_ve isEqualTo (vehicle player)) then {
-							_m drawIcon ['a3\ui_f\data\igui\cfg\islandmap\iconplayer_ca.paa',[1,0,0,0.75],(_po select 0),24,24,(_po select 1),'',0,0.03,_tf,_to];
+						if ((_gpsJammers isEqualTo []) || {((!(_gpsJammers isEqualTo [])) && {(!([0,_ve] call _fn_jammer))})}) then {
+							_po = [_ve,1,_de] call _fn_po;
+							_is = [_ve,1,_QS_ST_X] call _fn_is;
+							if (_ve isEqualTo (vehicle _player)) then {
+								_m drawIcon ['a3\ui_f\data\igui\cfg\islandmap\iconplayer_ca.paa',[1,0,0,0.666],(_po select 0),24,24,(_po select 1),'',0,0.03,_tf,_to];
+							};
+							_m drawIcon [
+								([_ve,1,_QS_ST_X] call _fn_it),
+								([_ve,1,_QS_ST_X,_ms] call _fn_ic),
+								(_po select 0),
+								_is,
+								_is,
+								(_po select 1),
+								([_ve,1,_QS_ST_X,_ms] call _fn_ite),
+								_sh,
+								_ts,
+								_tf,
+								_to
+							];
 						};
 					};
 				};
 			};
 		} count (missionNamespace getVariable ['QS_ST_drawArray_map',[]]);
 	};
+	_grp = group _player;
+	_grpLeader = leader _grp;
+	if (_grp getVariable ['QS_HComm_grp',FALSE]) then {
+		if (!((waypoints _grp) isEqualTo [])) then {
+			_grpWaypoints = waypoints _grp;
+			private _wpType = '';
+			private _wpIcon = '';
+			private _wpTypeName = '';
+			for '_i' from 0 to ((count _grpWaypoints) - 1) step 1 do {
+				if (!((waypointPosition [_grp,_i]) isEqualTo [0,0,0])) then {
+					if (_i isEqualTo 0) then {
+						_m drawLine [
+							(getPosASLVisual (vehicle _grpLeader)),
+							(waypointPosition [_grp,_i]),
+							[0,0,0,0.6]
+						];
+					} else {
+						_m drawLine [
+							(waypointPosition [_grp,_i]),
+							(waypointPosition [_grp,(_i - 1)]),
+							[0,0,0,0.6]
+						];
+					};
+					_wpType = waypointType [_grp,_i];
+					if (_wpType isEqualTo 'SAD') then {
+						_wpType = 'SeekAndDestroy';
+					};
+					if (_wpType isEqualTo 'TR UNLOAD') then {
+						_wpType = 'TransportUnload';
+					};
+					_wpIcon = getText (configFile >> 'cfgWaypoints' >> 'Default' >> _wpType >> 'icon');
+					_wpTypeName = getText (configFile >> 'cfgWaypoints' >> 'Default' >> _wpType >> 'displayName');
+					_m drawIcon [
+						_wpIcon,
+						[0,0,0,0.6],
+						(waypointPosition [_grp,_i]),
+						26,
+						26,
+						0,
+						_wpTypeName,
+						0,
+						0.04,
+						'RobotoCondensed',
+						'left'
+					];
+				};
+			};
+		};
+	};
+	if (_player isEqualTo _grpLeader) then {
+		if (!((groupSelectedUnits _player) isEqualTo [])) then {
+			{
+				_m drawLine [(getPosASLVisual _player),(getPosASLVisual (vehicle _x)),[0,1,1,0.5]];
+			} count (groupSelectedUnits _player);
+		};
+	} else {
+		if (isNull (objectParent _player)) then {
+			if (isNull (objectParent _grpLeader)) then {
+				if ((_grpLeader distance2D _player) < (_QS_ST_X select 27)) then {
+					_m drawLine [(getPosASLVisual _player),(getPosASLVisual _grpLeader),[0,1,1,0.5]];
+				};
+			};
+		};
+	};
 	if (_de > 0) then {
-		if (time > (missionNamespace getVariable 'QS_ST_iconUpdatePulseTimer')) then {
-			missionNamespace setVariable ['QS_ST_iconUpdatePulseTimer',(time + _de)];
+		if (diag_tickTime > (missionNamespace getVariable 'QS_ST_iconUpdatePulseTimer')) then {
+			missionNamespace setVariable ['QS_ST_iconUpdatePulseTimer',(diag_tickTime + _de)];
 		};
 	};
 	if (!((missionNamespace getVariable ['QS_draw2D_projectiles',[]]) isEqualTo [])) then {
+		_deg = ((ceil diag_tickTime) - diag_tickTime) * 360;
 		{
 			if (_x isEqualType objNull) then {
 				if (!isNull _x) then {
@@ -959,9 +1058,9 @@ _QS_fnc_iconDrawMap = {
 						'a3\ui_f\data\igui\cfg\cursors\explosive_ca.paa',
 						[1,0,0,0.75],
 						(getPosASLVisual _x),
-						12,
-						12,
-						0,
+						13,
+						13,
+						_deg,
 						'',
 						0,
 						0,
@@ -970,7 +1069,7 @@ _QS_fnc_iconDrawMap = {
 					];
 				};
 			};
-		} count (missionNamespace getVariable 'QS_draw2D_projectiles');
+		} forEach (missionNamespace getVariable 'QS_draw2D_projectiles');
 	};
 	if (!((missionNamespace getVariable ['QS_client_customDraw2D',[]]) isEqualTo [])) then {
 		{
@@ -1000,97 +1099,139 @@ _QS_fnc_iconDrawMap = {
 					_m drawArrow (_x select 2);
 				};
 			};
-		} count (missionNamespace getVariable 'QS_client_customDraw2D');
+		} forEach (missionNamespace getVariable 'QS_client_customDraw2D');
+	};
+	if (!(_gpsJammers isEqualTo [])) then {
+		{
+			_m drawEllipse [(_x select 2),(_x select 3),(_x select 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+		} forEach _gpsJammers;
+		{
+			_m drawIcon ['iconMan',[1,1,1,1],(_x select 2),0,0,0,'   GPS Jammer',2,0.04,'TahomaB','right'];
+		} forEach _gpsJammers;
 	};
 };
 _QS_fnc_iconDrawGPS = {
-	if (!('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) exitWith {};
-	if (visibleMap) exitWith {};
-	private ['_ve','_po','_is'];
-	_m = _this select 0;
-	_QS_ST_X = [] call (missionNamespace getVariable 'QS_ST_X');
-	if (time > (missionNamespace getVariable 'QS_ST_updateDraw_gps')) then {
-		missionNamespace setVariable ['QS_ST_updateDraw_gps',(time + 3),FALSE];
+	params ['_m'];
+	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
+	if (
+		(!('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) ||
+		{(visibleMap)} ||
+		{((_QS_ST_X select 84) && (!('ItemGPS' in (assignedItems player))))}
+	) exitWith {};
+	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
+	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
+	if (diag_tickTime > (missionNamespace getVariable 'QS_ST_updateDraw_gps')) then {
+		missionNamespace setVariable ['QS_ST_updateDraw_gps',(diag_tickTime + 3),FALSE];
 		missionNamespace setVariable ['QS_ST_drawArray_gps',([2,_QS_ST_X] call (_QS_ST_X select 46)),FALSE];
 	};
-	_sh = _QS_ST_X select 18;
-	_ts = _QS_ST_X select 20;
-	_tf = _QS_ST_X select 60;
-	_to = _QS_ST_X select 21;
-	_de = _QS_ST_X select 66;
 	if (!((missionNamespace getVariable 'QS_ST_drawArray_gps') isEqualTo [])) then {
+		_sh = _QS_ST_X select 18;
+		_ts = _QS_ST_X select 20;
+		_tf = _QS_ST_X select 60;
+		_to = _QS_ST_X select 21;
+		_de = _QS_ST_X select 66;
+		_fn_po = _QS_ST_X select 44;
+		_fn_is = _QS_ST_X select 43;
+		_fn_it = _QS_ST_X select 42;
+		_fn_ic = _QS_ST_X select 41;
+		_fn_ite = _QS_ST_X select 45;
+		private _ve = objNull;
+		private _po = [[0,0,0],0];
+		private _is = 0;
 		{
 			if (!isNull _x) then {
 				_ve = vehicle _x;
-				if (!isNull _ve) then {
+				if (alive _ve) then {
 					if (!(_ve getVariable ['QS_hidden',FALSE])) then {
-						_po = [_ve,2,_de] call (_QS_ST_X select 44);
-						_is = [_ve,2,_QS_ST_X] call (_QS_ST_X select 43);
-						_m drawIcon [
-							([_ve,2,_QS_ST_X] call (_QS_ST_X select 42)),
-							([_ve,2,_QS_ST_X] call (_QS_ST_X select 41)),
-							(_po select 0),
-							_is,
-							_is,
-							(_po select 1),
-							([_ve,2,_QS_ST_X] call (_QS_ST_X select 45)),
-							_sh,
-							_ts,
-							_tf,
-							_to
-						];
+						if ((_gpsJammers isEqualTo []) || {((!(_gpsJammers isEqualTo [])) && {(!([0,_ve] call _fn_jammer))})}) then {
+							_po = [_ve,2,_de] call _fn_po;
+							_is = [_ve,2,_QS_ST_X] call _fn_is;
+							_m drawIcon [
+								([_ve,2,_QS_ST_X] call _fn_it),
+								([_ve,2,_QS_ST_X] call _fn_ic),
+								(_po select 0),
+								_is,
+								_is,
+								(_po select 1),
+								([_ve,2,_QS_ST_X] call _fn_ite),
+								_sh,
+								_ts,
+								_tf,
+								_to
+							];
+						};
 					};
 				};
 			};
 		} count (missionNamespace getVariable ['QS_ST_drawArray_gps',[]]);
 	};
+	if (player isEqualTo (leader (group player))) then {
+		if (!((groupSelectedUnits player) isEqualTo [])) then {
+			{
+				_m drawLine [(getPosASLVisual player),(getPosASLVisual (vehicle _x)),[0,1,1,0.5]];
+			} count (groupSelectedUnits player);
+		};
+	} else {
+		if (isNull (objectParent player)) then {
+			if (isNull (objectParent (leader (group player)))) then {
+				if (((leader (group player)) distance2D player) < (_QS_ST_X select 27)) then {
+					_m drawLine [(getPosASLVisual player),(getPosASLVisual (leader (group player))),[0,1,1,0.5]];
+				};
+			};
+		};
+	};
+	if (!(_gpsJammers isEqualTo [])) then {
+		{
+			_m drawEllipse [(_x select 2),(_x select 3),(_x select 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+		} forEach _gpsJammers;
+	};
 };
 _QS_fnc_groupIconText = {
-	private ['_text','_group','_QS_ST_X','_di','_getIndex','_element','_counter','_index','_grpIndex'];
-	_grp = _this select 0;
-	_QS_ST_X = _this select 1;
-	_di = _this select 2;
-	_text = '';
+	params ['_grp','_QS_ST_X','_di'];
+	private _text = '';
 	if (_di isEqualTo 1) then {
-		if ((_QS_ST_X select 36)) then {
-			_text = groupId _grp;
+		if (_QS_ST_X select 36) then {
+			if ((leader _grp) isEqualTo (effectiveCommander (vehicle (leader _grp)))) then {
+				_text = groupId _grp;
+			} else {
+				_text = '';
+			};
 		};
 	};
 	_text;
 };
 _QS_fnc_groupIconType = {
-	private [
-		'_iconType','_grp','_iconTypes_EAST','_iconTypes_WEST','_iconTypes_RESISTANCE','_iconTypes_CIVILIAN','_vType','_grpSide','_grpSize','_grpVehicle','_iconTypes',
-		'_grpVehicle_type'
-	];
-	_grp = _this select 0;
-	_grpSize = _this select 1;
-	_grpVehicle = _this select 2;
-	_grpSide = _this select 3;
+	params ['_grp','_grpSize','_grpVehicle','_grpSide'];
 	_grpVehicle_type = typeOf _grpVehicle;
 	_vehicleClass = _grpVehicle getVariable ['QS_ST_groupVehicleClass',''];
 	if (_vehicleClass isEqualTo '') then {
 		_vehicleClass = getText (configFile >> 'CfgVehicles' >> _grpVehicle_type >> 'vehicleClass');
 		_grpVehicle setVariable ['QS_ST_groupVehicleClass',_vehicleClass];
 	};
-	_iconType = _grpVehicle getVariable ['QS_ST_groupVehicleIconType',''];
+	private _iconType = _grpVehicle getVariable ['QS_ST_groupVehicleIconType',''];
 	if (!(_iconType isEqualTo '')) exitWith {
 		_iconType;
 	};
-	_iconTypes_EAST = ['o_inf','o_motor_inf','o_mech_inf','o_armor','o_recon','o_air','o_plane','o_uav','o_med','o_art','o_mortar','o_hq','o_support','o_maint','o_service','o_naval','o_unknown'];
-	_iconTypes_WEST = ['b_inf','b_motor_inf','b_mech_inf','b_armor','b_recon','b_air','b_plane','b_uav','b_med','b_art','b_mortar','b_hq','b_support','b_maint','b_service','b_naval','b_unknown'];
-	_iconTypes_RESISTANCE = ['n_inf','n_motor_inf','n_mech_inf','n_armor','n_recon','n_air','n_plane','n_uav','n_med','n_art','n_mortar','n_hq','n_support','n_maint','n_service','n_naval','n_unknown'];
+	_iconTypes_EAST = ['o_inf','o_motor_inf','o_mech_inf','o_armor','o_recon','o_air','o_plane','o_uav','o_med','o_art','o_mortar','o_hq','o_support','o_maint','o_service','o_naval','o_unknown','o_antiair'];
+	_iconTypes_WEST = ['b_inf','b_motor_inf','b_mech_inf','b_armor','b_recon','b_air','b_plane','b_uav','b_med','b_art','b_mortar','b_hq','b_support','b_maint','b_service','b_naval','b_unknown','b_antiair'];
+	_iconTypes_RESISTANCE = ['n_inf','n_motor_inf','n_mech_inf','n_armor','n_recon','n_air','n_plane','n_uav','n_med','n_art','n_mortar','n_hq','n_support','n_maint','n_service','n_naval','n_unknown','n_antiair'];
 	_iconTypes_CIVILIAN = ['c_air','c_car','c_plane','c_ship','c_unknown'];
+	private _iconTypes = [];
+	_iconType = 'c_unknown';
 	if (_grpSide isEqualTo EAST) then {
+		_iconType = 'o_unknown';
 		_iconTypes = _iconTypes_EAST;
 	};
 	if (_grpSide isEqualTo WEST) then {
+		_iconType = 'b_unknown';
 		_iconTypes = _iconTypes_WEST;
 	};
 	if (_grpSide isEqualTo RESISTANCE) then {
+		_iconType = 'n_unknown';
 		_iconTypes = _iconTypes_RESISTANCE;
 	};
 	if (_grpSide isEqualTo CIVILIAN) exitWith {
+		_iconType = 'c_unknown';
 		_iconTypes = _iconTypes_CIVILIAN;
 		if (_grpVehicle isKindOf 'Helicopter') then {
 			_iconType = _iconTypes select 0;
@@ -1111,7 +1252,8 @@ _QS_fnc_groupIconType = {
 		_iconType;
 	};
 	if ((_vehicleClass isEqualTo 'Ship') || {(_vehicleClass isEqualTo 'Submarine')}) exitWith {
-		_iconType = _iconTypes select 15; _iconType;
+		_iconType = _iconTypes select 15; 
+		_iconType;
 	};
 	if (_vehicleClass in ['Men','MenRecon','MenSniper','MenDiver','MenSupport','MenUrban','MenStory']) exitWith {
 		_iconType = _iconTypes select 0;
@@ -1131,7 +1273,11 @@ _QS_fnc_groupIconType = {
 		if (['mortar',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 			_iconType = _iconTypes select 10; 
 		} else {
-			_iconType = _iconTypes select 12; 
+			if (['_aa_',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+				_iconType = _iconTypes select 17; 
+			} else {
+				_iconType = _iconTypes select 12;
+			};
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 		_iconType;
@@ -1141,7 +1287,11 @@ _QS_fnc_groupIconType = {
 			_iconType = _iconTypes select 7; 
 		} else {
 			if (['UGV',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-				_iconType = _iconTypes select 12; 
+				_iconType = _iconTypes select 12;
+			} else {
+				if ((['SAM',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || (['AAA',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_iconType = _iconTypes select 12;
+				};
 			};
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
@@ -1157,14 +1307,18 @@ _QS_fnc_groupIconType = {
 		_iconType;
 	};
 	if (_vehicleClass isEqualTo 'Armored') exitWith {
-		if (['APC',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+		if ((['apc',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['afv_',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
 			_iconType = _iconTypes select 2; 
 		} else {
 			if ((['arty',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['mlrs',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
 				_iconType = _iconTypes select 9; 
 			} else {
-				if (['MBT',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+				if (['mbt',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 					_iconType = _iconTypes select 3; 
+				} else {
+					if (['_aa_',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+						_iconType = _iconTypes select 17; 
+					};
 				};
 			};
 		};
@@ -1187,18 +1341,17 @@ _QS_fnc_groupIconType = {
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 		_iconType;
 	};
-	_iconType = _iconTypes select 16;
 	_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 	_iconType;
 };
 _QS_fnc_configGroupIcon = {
-	private[
-		'_grp','_type','_vars','_grpLeader','_grpLeader_vehicle','_scale','_text','_visibility','_grpIconColor','_grpSize','_grpLeader_vType','_iconID',
-		'_grpIconType','_iconDetail','_grpIcon','_grpIconParams','_grpSide','_updateParams','_update','_updateIcon','_QS_ST_X'
-	];
-	_grp = _this select 0;
-	_type = _this select 1;
-	_QS_ST_X = _this select 2;
+	params ['_grp','_type','_QS_ST_X'];
+	private _scale = 0;
+	private _text = '';
+	private _visibility = TRUE;
+	private _grpIconColor = [0,0,0,0];
+	private _iconID = -1;
+	private _grpIconType = 'c_unknown';
 	_grpLeader = leader _grp;
 	_grpLeader_vehicle = vehicle _grpLeader;
 	_grpLeader_vType = typeOf _grpLeader_vehicle;
@@ -1217,16 +1370,11 @@ _QS_fnc_configGroupIcon = {
 		_grp setVariable ['QS_ST_Group_Icon',[_iconID,_grpIconType,_grpLeader_vType,_grpIconColor,_text,_scale,_visibility],FALSE];
 	};
 	if (_type isEqualTo 1) then {
-		_update = FALSE;
-		_updateIcon = FALSE;
-		_updateParams = FALSE;
+		private _update = FALSE;
+		private _updateIcon = FALSE;
+		private _updateParams = FALSE;
 		_iconDetail = _grp getVariable 'QS_ST_Group_Icon';
-		_iconID = _iconDetail select 0;
-		_grpIconType = _iconDetail select 1;
-		_grpLeaderType = _iconDetail select 2;
-		_text = _iconDetail select 4;
-		_scale = _iconDetail select 5;
-		_visibility = _iconDetail select 6;
+		_iconDetail params ['_iconID','_grpIconType','_grpLeaderType','','_text','_scale','_visibility'];
 		if (!(_grpLeaderType isEqualTo (typeOf _grpLeader_vehicle))) then {
 			_update = TRUE;
 			_updateIcon = TRUE;
@@ -1258,11 +1406,10 @@ _QS_fnc_configGroupIcon = {
 	true;
 };
 _QS_fnc_iconColorGroup = {
-	private ['_u','_c','_ps','_QS_ST_X','_v'];
-	_v = _this select 0;
-	_QS_ST_X = _this select 1;
+	params ['_v','_QS_ST_X'];
 	_u = effectiveCommander _v;
 	_ps = side _u;
+	private _c = [0,0,0,0];
 	if (_ps isEqualTo EAST) exitWith {_c = _QS_ST_X select 9; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
 	if (_ps isEqualTo WEST) exitWith {_c = _QS_ST_X select 10; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
 	if (_ps isEqualTo RESISTANCE) exitWith {_c = _QS_ST_X select 11; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
@@ -1272,22 +1419,21 @@ _QS_fnc_iconColorGroup = {
 	_c;
 };
 _QS_fnc_onGroupIconClick = {
-	private ['_lifeState','_unitNameList','_unitMOS','_unitName','_leaderText','_groupCount','_text','_isIncapacitated','_color','_showClass','_AINames','_colorIncapacitated','_colorInjured','_colorDead'];
 	scriptName 'QS_ST_onGroupIconClick';
-	_is3D = _this select 0;
-	_group = _this select 1;
-	if (!((side _group) isEqualTo playerSide)) exitWith {hintSilent (missionNamespace getVariable 'QS_ST_STR_text2');[] spawn {uiSleep 3;hintSilent '';};};
-	_wpID = _this select 2;
-	_button = _this select 3;
-	_posx = _this select 4;
-	_posy = _this select 5;
-	_shift = _this select 6;
-	_ctrl = _this select 7;
-	_alt = _this select 8;
-	_QS_ST_X = [] call (missionNamespace getVariable 'QS_ST_X');
-	_text = [_group,_QS_ST_X,2] call (_QS_ST_X select 51);
+	params ['_is3D','_group','_wpID','_button','_posx','_posy','_shift','_ctrl','_alt'];
+	if (!isNull (objectParent (leader _group))) exitWith {};
+	if (!((side _group) isEqualTo playerSide)) exitWith {hintSilent QS_ST_STR_text2;0 spawn {uiSleep 3;hintSilent '';};};
+	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
+	private _lifeState = '';
+	private _unitMOS = '';
+	private _unitName = '';
+	private _color = [0,0,0,1];
+	private _colorIncapacitated = [1,0.41,0,1];
+	private _colorInjured = [0,0,0,1];
+	private _colorDead = [0.4,0,0.5,0.65];
+	_text = [_group,_QS_ST_X,1] call (_QS_ST_X select 51);
 	_groupCount = count (units _group);
-	_unitNameList = '';
+	private _unitNameList = '';
 	_leader = TRUE;
 	if ((_QS_ST_X select 14)) then {
 		_colorIncapacitated = _QS_ST_X select 70;
@@ -1296,7 +1442,7 @@ _QS_fnc_onGroupIconClick = {
 	} else {
 		_colorIncapacitated = [1,0.41,0,1];
 		_colorInjured = [0,0,0,1];
-		_colorDead = [0.4,0,0.5,0.65];
+		_colorDead = [0.4,0,0.5,0.65];	
 	};
 	_showClass = _QS_ST_X select 34;
 	_AINames = _QS_ST_X select 72;
@@ -1349,7 +1495,6 @@ _QS_fnc_onGroupIconClick = {
 };
 _QS_fnc_onGroupIconOverEnter = {
 	if (!((side (_this select 1)) isEqualTo playerSide)) exitWith {};
-	//hintSilent QS_ST_STR_text1;
 };
 _QS_fnc_onGroupIconOverLeave = {
 	hintSilent '';
@@ -1371,14 +1516,7 @@ if (_side isEqualTo RESISTANCE) then {
 if (_side isEqualTo CIVILIAN) then {
 	_QS_ST_showFriendlySides = _QS_ST_friendlySides_CIVILIAN;
 };
-
-_QS_ST_autonomousVehicles_Vanilla = [
-	'I_UAV_01_F','B_UAV_01_F','O_UAV_01_F','I_UAV_02_F','O_UAV_02_F','I_UAV_02_CAS_F','O_UAV_02_CAS_F','B_UAV_02_F','B_UAV_02_CAS_F',
-	'O_UAV_01_F','O_UGV_01_F','O_UGV_01_rcws_F','I_UGV_01_F','B_UGV_01_F','I_UGV_01_rcws_F','B_UGV_01_rcws_F','B_GMG_01_A_F','B_HMG_01_A_F',
-	'O_GMG_01_A_F','O_HMG_01_A_F','I_GMG_01_A_F','I_HMG_01_A_F','O_Static_Designator_02_F','B_Static_Designator_01_F'
-];
-
-_QS_ST_autonomousVehicles = _QS_ST_autonomousVehicles_Vanilla + _QS_ST_autonomousVehicles_Modded;
+_QS_ST_autonomousVehicles = [];
 if (!(_QS_ST_iconShadowMap in [0,1,2])) then {
 	_QS_ST_iconShadowMap = 1;
 };
@@ -1386,7 +1524,7 @@ if (!(_QS_ST_iconShadowGPS in [0,1,2])) then {
 	_QS_ST_iconShadowGPS = 1;
 };
 if (_QS_ST_iconUpdatePulseDelay > 0) then {
-	missionNamespace setVariable ['QS_ST_iconUpdatePulseTimer',time];
+	missionNamespace setVariable ['QS_ST_iconUpdatePulseTimer',diag_tickTime];
 };
 _QS_ST_iconTextFont = _QS_ST_iconTextFonts select 0;
 if (_QS_ST_enableGroupIcons) then {
@@ -1490,27 +1628,28 @@ _QS_ST_R = [
 	_QS_ST_showEmptyVehicles,
 	_QS_ST_htmlColorInjured,
 	_QS_ST_otherDisplays,
-	_QS_fnc_showKnownEnemies
+	_QS_ST_MAPrequireGPSItem,
+	_QS_ST_GPSrequireGPSItem,
+	_QS_ST_GRPrequireGPSItem,
+	_QS_ST_admin
 ];
-
-//===== Compile
-
-QS_ST_X = compileFinal str _QS_ST_R;
-
-//===== Init
-
+{
+	missionNamespace setVariable _x;
+} forEach [
+	['QS_ST_X',(compileFinal (str _QS_ST_R)),FALSE],
+	['QS_ST_updateDraw_map',(diag_tickTime + 2),FALSE],
+	['QS_ST_updateDraw_gps',(diag_tickTime + 1),FALSE],
+	['QS_ST_drawArray_map',[],FALSE],
+	['QS_ST_drawArray_gps',[],FALSE],
+	['QS_ST_drawArrayEnemy_map',[],FALSE]
+];
 waitUntil {
 	uiSleep 0.1; 
-	(!(isNull (findDisplay 12)))
+	!(isNull (findDisplay 12))
 };
-missionNamespace setVariable ['QS_ST_updateDraw_map',(time + 2),FALSE];
-missionNamespace setVariable ['QS_ST_updateDraw_gps',(time + 1),FALSE];
-missionNamespace setVariable ['QS_ST_drawArray_map',[],FALSE];
-missionNamespace setVariable ['QS_ST_drawArray_gps',[],FALSE];
-missionNamespace setVariable ['QS_ST_drawArrayEnemy_map',[],FALSE];
-_QS_ST_X = [] call (missionNamespace getVariable 'QS_ST_X');
+_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
 if (_QS_ST_X select 0) then {
-	((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ['Draw',(_QS_ST_X select 49)];
+	((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 49)])];
 	if (_QS_ST_X select 82) then {
 		[_QS_ST_X] spawn {
 			scriptName 'Soldier Tracker by Quiksilver - Artillery Computer and UAV Terminal support';
@@ -1520,22 +1659,20 @@ if (_QS_ST_X select 0) then {
 			_QS_display2Opened = FALSE;
 			disableSerialization;
 			for '_x' from 0 to 1 step 0 do {
-				comment 'UAV Terminal';
 				if (!(_QS_display1Opened)) then {
 					if (!isNull ((findDisplay 160) displayCtrl 51)) then {
 						_QS_display1Opened = TRUE;
-						((findDisplay 160) displayCtrl 51) ctrlAddEventHandler ['Draw',(_QS_ST_X select 49)];
+						((findDisplay 160) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 49)])];
 					};
 				} else {
 					if (isNull ((findDisplay 160) displayCtrl 51)) then {
 						_QS_display1Opened = FALSE;
 					};		
 				};
-				comment 'Artillery computer';
 				if (!(_QS_display2Opened)) then {
 					if (!isNull((findDisplay -1) displayCtrl 500)) then {
 						_QS_display2Opened = TRUE;
-						((findDisplay -1) displayCtrl 500) ctrlAddEventHandler ['Draw',(_QS_ST_X select 49)];
+						((findDisplay -1) displayCtrl 500) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 49)])];
 					};
 				} else {
 					if (isNull ((findDisplay -1) displayCtrl 500)) then {
@@ -1549,51 +1686,65 @@ if (_QS_ST_X select 0) then {
 	if (_QS_ST_X select 56) then {
 		player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
 		player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
-		addMissionEventHandler ['MapSingleClick',(_QS_ST_X select 47)];
+		{
+			addMissionEventHandler _x;
+		} forEach [
+			['MapSingleClick',(_QS_ST_X select 47)],
+			[
+				'Map',
+				{
+					params ['_mapIsOpened','_mapIsForced'];
+					if (!(_mapIsOpened)) then {
+						if (alive (player getVariable ['QS_ST_map_vehicleShowCrew',objNull])) then {
+							player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+							(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+							player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
+						};
+					};
+				}
+			]
+		];
 	};
 };
+
 if (_QS_ST_X select 1) then {
 	[_QS_ST_X] spawn {
 		scriptName 'Soldier Tracker (GPS Icons) by Quiksilver - Waiting for GPS display';
-		private ['_gps','_QS_ST_X'];
-		_QS_ST_X = _this select 0;
+		params ['_QS_ST_X'];
 		disableSerialization;
-		_gps = controlNull;
+		private _gps = controlNull;
 		private _exit = FALSE;
 		for '_x' from 0 to 1 step 0 do {
 			{
-				if (['311',(str _x),FALSE] call BIS_fnc_inString) then {
-					if (!isNull (_x displayCtrl 101)) then {
+				if (['311',(str _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+					if (!isNull (_x displayCtrl 101)) exitWith {
 						_gps = (_x displayCtrl 101);
+						_gps ctrlRemoveAllEventHandlers 'Draw';
+						_gps ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 50)])];
 						_exit = TRUE;
 					};
 				};
 			} forEach (uiNamespace getVariable 'IGUI_displays');
 			uiSleep 0.25;
-			if (_exit) exitWith {
-				_gps ctrlRemoveAllEventHandlers 'Draw';
-				_gps ctrlAddEventHandler ['Draw',(_QS_ST_X select 50)];
-			};
+			if (_exit) exitWith {};
 		};
 	};
 };
 if (_QS_ST_X select 2) then {
 	setGroupIconsVisible [(_QS_ST_X select 31),(_QS_ST_X select 32)];
 	setGroupIconsSelectable (_QS_ST_X select 33);
-	if ((_QS_ST_X select 33)) then {
-		addMissionEventHandler ['GroupIconClick',(_QS_ST_X select 54)];
-		addMissionEventHandler ['GroupIconOverEnter',(_QS_ST_X select 58)];
-		addMissionEventHandler ['GroupIconOverLeave',(_QS_ST_X select 55)];
+	if (_QS_ST_X select 33) then {
+		{
+			addMissionEventHandler _x;
+		} forEach [
+			['GroupIconClick',(_QS_ST_X select 54)],
+			['GroupIconOverEnter',(_QS_ST_X select 58)],
+			['GroupIconOverLeave',(_QS_ST_X select 55)]
+		];
 	};
 	[_QS_ST_X] spawn {
 		scriptName 'Soldier Tracker (Group Icons) by Quiksilver';
-		private [
-			'_grp','_grpLeader','_as','_QS_ST_X','_grpIconArray','_grpID','_sidesFriendly','_checkDiplomacy_delay','_checkDiplomacy','_dynamicDiplomacy','_showFriendlySides',
-			'_playerFaction','_showAIGroups','_configGroupIcon','_groupUpdateDelay','_showCivilianGroups','_groupUpdateDelay_timer','_friendlySidesDefault','_groupIconsVisibleMap',
-			'_showMapUnitIcons','_showOwnGroup'
-		];
-		_QS_ST_X = _this select 0;
-		_sidesFriendly = [];
+		params ['_QS_ST_X'];
 		_showMapUnitIcons = _QS_ST_X select 0;
 		_dynamicDiplomacy = _QS_ST_X select 8;
 		_showFriendlySides = _QS_ST_X select 57;
@@ -1603,40 +1754,44 @@ if (_QS_ST_X select 2) then {
 		_showCivilianGroups = _QS_ST_X select 59;
 		_groupIconsVisibleMap = _QS_ST_X select 31;
 		_showOwnGroup = _QS_ST_X select 76;
-		_sides = [EAST,WEST,RESISTANCE,CIVILIAN];
-		_grpLeader = objNull;
+		_gpsRequired = _QS_ST_X select 85;
+		private _sidesFriendly = [];
+		private _grp = grpNull;
+		private _sides = [EAST,WEST,RESISTANCE,CIVILIAN];
+		private _grpLeader = objNull;
+		private _refreshGroups = FALSE;
 		if (!(_showCivilianGroups)) then {
 			_sides deleteAt 3;
 		};
 		_groupUpdateDelay_timer = 5;
-		_groupUpdateDelay = time + _groupUpdateDelay_timer;
+		private _groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
+		private _checkDiplomacy_delay = 10;
+		private _checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
 		if (_dynamicDiplomacy) then {
-			_checkDiplomacy_delay = 10;
-			_checkDiplomacy = time + _checkDiplomacy_delay;
 			_sidesFriendly = _sides;
 		};
-		_as = [];
-		0 = _as pushBack (_sides select _playerFaction);
+		private _as = [];
+		_as pushBack (_sides select _playerFaction);
 		{
 			0 = _as pushBack (_sides select _x);
 		} count _showFriendlySides;
 		for '_x' from 0 to 1 step 0 do {
 			if (_dynamicDiplomacy) then {
-				if (time > _checkDiplomacy) then {
+				if (diag_tickTime > _checkDiplomacy) then {
 					_as = [];
 					{
 						if (((_sides select _playerFaction) getFriend _x) > 0.6) then {
 							0 = _as pushBack _x;
 						};
 					} count _sides;
-					_checkDiplomacy = time + _checkDiplomacy_delay;
+					_checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
 				};
 			};
-			if (time > _groupUpdateDelay) then {
+			if (diag_tickTime > _groupUpdateDelay) then {
 				{
-					_grp = _x;
-					if ((_showOwnGroup) || {((!(_showOwnGroup)) && (!(_grp isEqualTo (group player))))} || {(!(_showMapUnitIcons))}) then {
-						if (({(alive _x)} count (units _grp)) > 0) then {
+					if ((_showOwnGroup) || {((!(_showOwnGroup)) && (!(_x isEqualTo (group player))))} || {(!(_showMapUnitIcons))}) then {
+						_grp = _x;
+						if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
 							if ((side _grp) in _as) then {
 								_grpLeader = leader _grp;
 								if (_showAIGroups) then {
@@ -1680,12 +1835,31 @@ if (_QS_ST_X select 2) then {
 								[_grp,2,_QS_ST_X] call _configGroupIcon;
 							};
 						};
+						uiSleep ([0.05,0.01] select _refreshGroups);
 					};
-					uiSleep 0.05;
 				} count allGroups;
-				_groupUpdateDelay = time + _groupUpdateDelay_timer;
+				if (_refreshGroups) then {
+					_refreshGroups = FALSE;
+				};
+				_groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
 			};
-			if ((visibleMap) || {(shownArtilleryComputer)} || {(!isNull ((findDisplay -1) displayCtrl 500))}) then {
+			if (_gpsRequired) then {
+				if (!('ItemGPS' in (assignedItems player))) then {
+					setGroupIconsVisible [FALSE,FALSE];
+					waitUntil {
+						uiSleep 0.25;
+						('ItemGPS' in (assignedItems player))
+					};
+				};
+			};
+			if ((!(visibleMap)) && (isNull ((findDisplay 160) displayCtrl 51)) && (isNull ((findDisplay -1) displayCtrl 500))) then {
+				waitUntil {
+					uiSleep 0.25;
+					((visibleMap) || {(!isNull ((findDisplay 160) displayCtrl 51))} || {(!isNull ((findDisplay -1) displayCtrl 500))})
+				};
+				_refreshGroups = TRUE;
+			};
+			if ((visibleMap) || {(!isNull ((findDisplay 160) displayCtrl 51))} || {(!isNull ((findDisplay -1) displayCtrl 500))}) then {
 				if ((ctrlMapScale ((findDisplay 12) displayCtrl 51)) isEqualTo 1) then {
 					if (groupIconsVisible select 0) then {
 						setGroupIconsVisible [FALSE,(groupIconsVisible select 1)];

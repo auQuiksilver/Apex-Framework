@@ -1,6 +1,6 @@
-/*
+/*/
 	Author: 
-		Nelson Duarte, optimised by Killzone_Kid
+		Grumpy Old Man  (  https://forums.bohemia.net/forums/topic/215557-bis_fnc_arrayshuffle-does-it-work/?do=findComment&comment=3278000   )
 	
 	Description:
 		This returns a new array with randomized order of elements from input array
@@ -10,15 +10,11 @@
 	
 	Returns:
 		ARRAY
-	
-	Example:
-	[1, 2, 3] call BIS_fnc_arrayShuffle
-	Returns: [2, 3, 1] (For example)
-*/
+______________________________________________/*/
 
 _this = +_this;
-private _cnt = count _this;
+_cnt = count _this;
 for '_i' from 1 to _cnt do {
-	_this pushBack (_this deleteAt floor random _cnt);
+	_this pushBack (_this deleteAt floor random (_cnt + 1 - _i));
 };
 _this;

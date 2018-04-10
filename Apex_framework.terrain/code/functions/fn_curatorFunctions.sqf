@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/04/2017 A3 1.68 by Quiksilver
+	10/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -69,7 +69,7 @@ if (_key isEqualTo 80) exitWith {
 	_selectedGroups = [];
 	if ((curatorSelected select 1) isEqualTo []) then {breakTo 'main';};
 	{
-		if (({(alive _x)} count (units _x)) > 0) then {
+		if (!(((units _x) findIf {(alive _x)}) isEqualTo -1)) then {
 			if (!(isPlayer (leader _x))) then {
 				0 = _selectedGroups pushBack _x;
 			};
@@ -89,12 +89,12 @@ if (_key isEqualTo 81) exitWith {
 	if ((curatorSelected select 1) isEqualTo []) then {breakTo 'main';};
 	{
 		_grp = _x;
-		if (({(alive _x)} count (units _grp)) > 0) then {
+		if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
 			if (!(isPlayer (leader _grp))) then {
 				if ((count (waypoints _grp)) > 1) then {
 					if ((count (waypoints _grp)) isEqualTo 2) then {
 						_waypoint = (waypoints _grp) select 1;
-						_buildings = nearestObjects [(waypointPosition _waypoint),['House'],15];
+						_buildings = nearestObjects [(waypointPosition _waypoint),['House'],15,TRUE];
 						if (_buildings isEqualTo []) then {breakTo 'main';};
 						_building = _buildings select 0;
 						deleteWaypoint _waypoint;
@@ -116,17 +116,17 @@ if (_key isEqualTo 75) exitWith {
 	{
 		_grp = _x;
 		if (local _grp) then {
-			if (({(alive _x)} count (units _grp)) > 0) then {
+			if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
 				if (!(isPlayer (leader _grp))) then {
 					if (!((waypoints _grp) isEqualTo [])) then {
 						if (!((waypointPosition [_grp,(currentWaypoint _grp)]) isEqualTo [0,0,0])) then {
 							_wpPosition = waypointPosition [_grp,(currentWaypoint _grp)];
-							_nearestUnits = _wpPosition nearEntities ['Man',15];
+							_nearestUnits = _wpPosition nearEntities [['CAManBase','LandVehicle'],25];
 							if (!(_nearestUnits isEqualTo [])) then {
 								_nearestUnit = _nearestUnits select 0;
 								if (!isNull _nearestUnit) then {
 									if (alive _nearestUnit) then {
-										if ((lifeState _nearestUnit) in ['HEALTHY','INJURED']) then {
+										if (((lifeState _nearestUnit) in ['HEALTHY','INJURED']) || {(_nearestUnit isKindOf 'LandVehicle')}) then {
 											[
 												_grp,
 												_nearestUnit,
@@ -139,7 +139,7 @@ if (_key isEqualTo 75) exitWith {
 												0,
 												FALSE
 											] spawn (missionNamespace getVariable 'QS_fnc_stalk');
-											(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Stalking',[],-1];
+											0 = (missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Stalking',[],-1];
 										};
 									};
 								};
@@ -312,12 +312,12 @@ if (_key isEqualTo 71) exitWith {
 	/*/[28,_module,((curatorPoints _module) - 0.05)] remoteExec ['QS_fnc_remoteExec',2,FALSE];/*/
 	private _text = '';
 	if ((random 1) > 0.333) then {
-		_text = format ['%1 has been revived by a divine intervention!',(name _unit)];
+		_text = format ['%1 has been revived by a divine intervention!',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
 	} else {
 		if ((random 1) > 0.5) then {
-			_text = format ['The gods have smiled upon %1!',(name _unit)];
+			_text = format ['The gods have smiled upon %1!',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
 		} else {
-			_text = format ['%1 has been revived by an act of the gods!',(name _unit)];
+			_text = format ['%1 has been revived by an act of the gods!',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
 		};
 	};
 	if (!(_text isEqualTo '')) then {

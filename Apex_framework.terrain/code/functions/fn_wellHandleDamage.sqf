@@ -29,11 +29,7 @@ if ((_entity getVariable ['QS_entity_sumDmg',0]) >= (_entity getVariable ['QS_en
 		deleteVehicle _x;
 	} forEach ((_this select 0) getVariable ['QS_entity_assocObjects',[]]);
 	deleteVehicle (_this select 0);
-	_craterTypes = [
-		['CraterLong','CraterLong_small'],
-		[0.666,0.333]
-	];
-	_craterType = (_craterTypes select 0) selectRandomWeighted (_craterTypes select 1);
+	_craterType = selectRandomWeighted ['CraterLong',0.666,'CraterLong_small',0.333];
 	_configClass = configFile >> 'CfgVehicles' >> _craterType;
 	_model = getText (_configClass >> 'model');
 	if ((_model select [0,1]) isEqualTo '\') then {

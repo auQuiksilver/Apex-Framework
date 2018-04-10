@@ -6,21 +6,11 @@ Author:
 	
 Last Modified:
 
-	25/06/2017 A3 1.72 by Quiksilver
+	2/03/2018 A3 1.80 by Quiksilver
 
 Description:
 
 	Procedure Visualization
-	
-	[
-		'Confirming Target ...',
-		5,
-		0,
-		[[],{FALSE}],
-		[[],{FALSE}],
-		[[],{FALSE}],
-		[[],{FALSE}]
-	] spawn QS_fnc_clientProgressVisualization;
 __________________________________________________________*/
 
 if (!canSuspend) exitWith {};
@@ -38,7 +28,8 @@ params [
 	'_onProgress',
 	'_onCancelled',
 	'_onCompleted',
-	'_onFailed'
+	'_onFailed',
+	['_moveToCorner',TRUE]
 ];
 _onProgress params ['_argumentsProgress','_expressionProgress'];
 _onCancelled params ['_argumentsCancelled','_expressionCancelled'];
@@ -54,6 +45,7 @@ _QS_ctrl_0 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl_0 ctrlSetText _text;
 _QS_ctrl_0 ctrlSetFont 'RobotoCondensed';
 _QS_ctrl_0 ctrlSetBackgroundColor [0,0,0,0.5];
+/*/
 _QS_ctrl_0 ctrlSetPosition [
 	0.5,
 	0.5,
@@ -62,20 +54,27 @@ _QS_ctrl_0 ctrlSetPosition [
 ];
 /*/
 _QS_ctrl_0 ctrlSetPosition [
-	(10 * (((safezoneW / safezoneH) min 1.2) / 40) + (profilenamespace getvariable ["IGUI_GRID_MISSION_X",(safezoneX + safezoneW - 21 * (((safezoneW / safezoneH) min 1.2) / 40))])),
-	(3.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
+	0.5,
+	(-10 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
 	(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
 	(0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
 ];
-/*/
 _QS_controls pushBack _QS_ctrl_0;
 _QS_ctrlCreateArray = ['RscBackground',5002];
 _QS_ctrl_1 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl_1 ctrlSetText '';
 _QS_ctrl_1 ctrlSetBackgroundColor [0,0,0,0.5];
+/*/
 _QS_ctrl_1 ctrlSetPosition [
 	(10 * (((safezoneW / safezoneH) min 1.2) / 40) + (profilenamespace getvariable ["IGUI_GRID_MISSION_X",(safezoneX + safezoneW - 21 * (((safezoneW / safezoneH) min 1.2) / 40))])),
 	(4.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
+	(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
+	(0.3 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
+];
+/*/
+_QS_ctrl_1 ctrlSetPosition [
+	0.5,
+	(-9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
 	(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
 	(0.3 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
 ];
@@ -84,9 +83,17 @@ _QS_ctrlCreateArray = ['RscProgress',5003];
 _QS_ctrl_2 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl_2 ctrlSetText '';
 _QS_ctrl_2 ctrlSetTextColor _QS_color_profile;
+/*/
 _QS_ctrl_2 ctrlSetPosition [
 	(10 * (((safezoneW / safezoneH) min 1.2) / 40) + (profilenamespace getvariable ["IGUI_GRID_MISSION_X",(safezoneX + safezoneW - 21 * (((safezoneW / safezoneH) min 1.2) / 40))])),
 	(4.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
+	(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
+	(0.3 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
+];
+/*/
+_QS_ctrl_2 ctrlSetPosition [
+	0.5,
+	(-9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
 	(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
 	(0.3 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
 ];
@@ -94,14 +101,29 @@ _QS_controls pushBack _QS_ctrl_2;
 {
 	_x ctrlCommit 0;
 } forEach _QS_controls;
-_QS_ctrl_0 ctrlSetPosition [
-	(10 * (((safezoneW / safezoneH) min 1.2) / 40) + (profilenamespace getvariable ["IGUI_GRID_MISSION_X",(safezoneX + safezoneW - 21 * (((safezoneW / safezoneH) min 1.2) / 40))])),
-	(3.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
-	(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
-	(0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
-];
-_QS_ctrl_0 ctrlCommit 0.5;
-
+if (_moveToCorner) then {
+	_QS_ctrl_0 ctrlSetPosition [
+		(10 * (((safezoneW / safezoneH) min 1.2) / 40) + (profilenamespace getvariable ["IGUI_GRID_MISSION_X",(safezoneX + safezoneW - 21 * (((safezoneW / safezoneH) min 1.2) / 40))])),
+		(3.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
+		(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
+		(0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
+	];
+	_QS_ctrl_1 ctrlSetPosition [
+		(10 * (((safezoneW / safezoneH) min 1.2) / 40) + (profilenamespace getvariable ["IGUI_GRID_MISSION_X",(safezoneX + safezoneW - 21 * (((safezoneW / safezoneH) min 1.2) / 40))])),
+		(4.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
+		(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
+		(0.3 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
+	];
+	_QS_ctrl_2 ctrlSetPosition [
+		(10 * (((safezoneW / safezoneH) min 1.2) / 40) + (profilenamespace getvariable ["IGUI_GRID_MISSION_X",(safezoneX + safezoneW - 21 * (((safezoneW / safezoneH) min 1.2) / 40))])),
+		(4.7 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (profilenamespace getvariable ["IGUI_GRID_MISSION_Y",(safezoneY + safezoneH - 10.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])),
+		(10 * (((safezoneW / safezoneH) min 1.2) / 40)),
+		(0.3 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))
+	];
+	{
+		_x ctrlCommit 0.5;
+	} forEach _QS_controls;
+};
 private _timeStart = diag_tickTime;
 _timeComplete = _timeStart + _duration;
 _timeDiff = (_timeComplete - _timeStart) + 0.01;

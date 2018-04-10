@@ -7,7 +7,7 @@ Author:
 	
 Last modified:
 
-	19/01/2018 A3 1.80 by Quiksilver
+	21/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -24,7 +24,8 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 		{(captive _player)} ||
 		{(!(((uavControl (getConnectedUav _player)) select 1) isEqualTo ''))} ||
 		{(!(cameraOn isEqualTo (vehicle _player)))} ||
-		{((count (units _player)) < 2)}
+		{((count (units _player)) < 2)} ||
+		{(!isNull curatorCamera)}
 	) exitWith {
 		if (!((ctrlText ((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1002)) isEqualTo '')) then {
 			((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1002) ctrlSetText '';
@@ -33,11 +34,7 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 			((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1003) ctrlSetText '';
 		};
 	};
-	private [
-		'_unit','_unitVehicle','_grpLeader','_distToLeader','_posLeader','_pos','_icon','_teamID','_colorTeam',
-		'_posSelectedUnit','_selectedUnit','_distToSelectedUnit'
-	];
-	_map = _this select 0;
+	_map = param [0];
 	_grp = group _player;
 	_000 = positionCameraToWorld [0,0,0];
 	_001 = positionCameraToWorld [0,0,1];
@@ -65,6 +62,16 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 	};
 	_groupedUnits = missionNamespace getVariable ['QS_client_groupIndicator_units',[]];
 	if (!(_groupedUnits isEqualTo [])) then {
+		private _unit = objNull;
+		private _unitVehicle = objNull;
+		private _unitType = '';
+		private _grpLeader = objNull;
+		private _distToLeader = 0;
+		private _posLeader = [0,0,0];
+		private _pos = [0,0,0];
+		private _icon = '';
+		private _teamID = 0;
+		private _colorTeam = [0,0,0,0];
 		{
 			_unit = _x;
 			if (alive _unit) then {
@@ -77,6 +84,9 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 				if (_unit isEqualTo _player) then {
 					if (_player isEqualTo _grpLeader) then {
 						if (!((groupSelectedUnits _player) isEqualTo [])) then {
+							private _selectedUnit = objNull;
+							private _posSelectedUnit = [0,0,0];
+							private _distToSelectedUnit = 0;
 							{
 								_selectedUnit = _x;
 								_distToSelectedUnit = _player distance2D _selectedUnit;
@@ -98,14 +108,18 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 						};
 					};
 				};
-				_teamID = ['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _unit);
-				if (_teamID isEqualTo -1) then {
+				if (!isNil {assignedTeam _unit}) then {
+					_teamID = ['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _unit);
+					if (_teamID isEqualTo -1) then {
+						_teamID = 0;
+					};
+				} else {
 					_teamID = 0;
 				};
 				_colorTeam = [[1,1,1,1],[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] select _teamID;
 				if (isNull (objectParent _unit)) then {
 					if (!(_unit isEqualTo _grpLeader)) then {
-						if (!(({((_unit distance2D _x) < 3)} count ((units _grp) - [_unit])) isEqualTo 0)) then {
+						if (!((((units _grp) - [_unit]) findIf {((_unit distance2D _x) < 3)}) isEqualTo -1)) then {
 							_colorTeam = [1,0.68,0.64,1];
 						};
 					};
@@ -113,14 +127,38 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 				if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 					_colorTeam = [1,0.41,0,1];
 				};
-				
 				if ((isPlayer _unit) && (!((getPlayerChannel _unit) isEqualTo -1))) then {
 					_icon = 'a3\ui_f\data\igui\rscingameui\rscdisplayvoicechat\microphone_ca.paa';
 				} else {
-					_icon = _player getVariable [(format ['QS_HUD_unitType#%1',(typeOf _unitVehicle)]),''];
+					_unitType = typeOf _unitVehicle;
+					_icon = missionNamespace getVariable [format ['QS_ST_iconType#%1',_unitType],''];
 					if (_icon isEqualTo '') then {
-						_icon = getText (configFile >> 'CfgVehicles' >> (typeOf _unitVehicle) >> 'icon');
-						_player setVariable [(format ['QS_HUD_unitType#%1',(typeOf _unitVehicle)]),_icon,FALSE];
+						if (_unitVehicle isKindOf 'CAManBase') then {
+							if (_unit getUnitTrait 'QS_trait_HQ') then {
+								_icon = 'a3\ui_f\data\map\vehicleicons\iconManCommander_ca.paa';
+								_icon = getText (configFile >> 'CfgVehicles' >> _unitType >> 'icon');
+							} else {
+								if (_unit getUnitTrait 'medic') then {
+									_unitType = 'B_medic_F';
+									_icon = getText (configFile >> 'CfgVehicles' >> _unitType >> 'icon');
+								} else {
+									if (_unit getUnitTrait 'engineer') then {
+										_unitType = 'B_engineer_F';
+										_icon = getText (configFile >> 'CfgVehicles' >> _unitType >> 'icon');
+									} else {
+										if (_unit getUnitTrait 'explosiveSpecialist') then {
+											_unitType = 'B_soldier_exp_F';
+											_icon = getText (configFile >> 'CfgVehicles' >> _unitType >> 'icon');
+										} else {
+											_icon = getText (configFile >> 'CfgVehicles' >> _unitType >> 'icon');
+										};
+									};
+								};
+							};
+						} else {
+							_icon = getText (configFile >> 'CfgVehicles' >> _unitType >> 'icon');
+						};
+						missionNamespace setVariable [format ['QS_ST_iconType#%1',_unitType],_icon,FALSE];
 					};
 				};
 				if (alive _unit) then {
@@ -169,6 +207,6 @@ if ((_this select 0) isEqualTo 'Exit') then {
 	disableSerialization;
 	_map = (uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1001;
 	_map ctrlRemoveEventHandler ['Draw',(player getVariable 'QS_HUD_3')];
-	player setVariable ['QS_HUD_3',nil];
+	player setVariable ['QS_HUD_3',nil,FALSE];
 	16000 cutText ['','PLAIN'];
 };

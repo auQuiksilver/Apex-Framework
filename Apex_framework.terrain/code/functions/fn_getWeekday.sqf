@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_getWeekday.sqf
 Author:
 
@@ -11,9 +11,9 @@ Last Modified:
 Description:
 
 	Get Day of Week
-____________________________________________________*/
+____________________________________________________/*/
 
-params [['_date',date]];
+params [['_date',date],['_type','SHORT']];
 _date params ['_year','_m','_q'];
 _weekday = '';
 _yeararray = _year call (missionNamespace getVariable 'BIS_fnc_numberDigits');
@@ -23,5 +23,5 @@ _K = (_y2 * 10) + _y3;
 if (_m < 3) then {_m = _m + 12};
 _hgreg = (_q + floor ( ((_m + 1) * 26) / 10 ) + _K + floor (_K / 4) + floor (_J / 4) - (2 * _J)) mod 7;
 _dayNames = ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'];
-if ('SHORT' in _this) exitWith {((_dayNames select _hgreg) select [0,3])};
+if (_type isEqualTo 'SHORT') exitWith {((_dayNames select _hgreg) select [0,3])};
 (_dayNames select _hgreg);

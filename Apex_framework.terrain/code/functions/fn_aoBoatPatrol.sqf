@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	1/04/2016 A3 1.56 by Quiksilver
+	26/03/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -21,16 +21,9 @@ params ['_pos'];
 private ['_return','_position','_boat','_grp','_count','_boatTypes'];
 private _isHCActive = missionNamespace getVariable ['QS_HC_Active',FALSE];
 _return = [];
-if (worldName isEqualTo 'Tanoa') then {
-	_boatTypes = ['O_T_Boat_Armed_01_hmg_F'];
-} else {
-	_boatTypes = ['O_Boat_Armed_01_hmg_F','I_Boat_Armed_01_minigun_F'];
-};
+_boatTypes = [['O_Boat_Armed_01_hmg_F'],['O_T_Boat_Armed_01_hmg_F']] select (worldName in ['Tanoa','Lingor3']);
 _boat = objNull;
-_count = 1;
-if (worldName in ['Tanoa']) then {
-	_count = 2;
-};
+_count = [1,2] select (worldName in ['Tanoa','Lingor3']);
 for '_i' from 0 to 1 step 1 do {
 	_position = ['RADIUS',_pos,((missionNamespace getVariable ['QS_aoSize',800]) * 2),'WATER',[],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	if (!(_position in [[worldSize,worldSize,0],[]])) then {
@@ -96,12 +89,12 @@ for '_i' from 0 to 1 step 1 do {
 			for '_x' from 0 to 2 step 1 do {
 				for '_x' from 0 to 1 step 0 do {
 					_patrolPosition = (position _boat) getPos [(50 + (random 500)),(random 360)];
-					if ((({((_x distance2D _patrolPosition) < 50)} count _virtualPatrol) isEqualTo 0) && (surfaceIsWater _patrolPosition) && ((getTerrainHeightASL _patrolPosition) < -5)) exitWith {};
+					if (((_virtualPatrol findIf {((_x distance2D _patrolPosition) < 50)}) isEqualTo -1) && (surfaceIsWater _patrolPosition) && ((getTerrainHeightASL _patrolPosition) < -5)) exitWith {};
 				};
 				_virtualPatrol pushBack _patrolPosition;
 			};
 			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_CONFIG',['BOAT_PATROL','',_boat],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['BOAT_PATROL','',(count (units _grp)),_boat],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			_grp setVariable ['QS_AI_GRP_TASK',['BOAT_PATROL',_virtualPatrol,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];

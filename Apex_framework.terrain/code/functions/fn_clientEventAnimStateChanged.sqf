@@ -1,5 +1,5 @@
 /*
-File: fn_clientEventAnimDone.sqf
+File: fn_clientEventAnimStateChanged.sqf
 Author: 
 
 	Quiksilver
@@ -10,5 +10,5 @@ Last modified:
 	
 Description:
 
-	Anim Done event
+	Anim State Changed Event
 ___________________________________________________________________*/

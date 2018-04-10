@@ -1,7 +1,7 @@
 QS_fnc_serverObjectsGrabber = {
 	params ['_anchorPos','_anchorDim','_grabOrientation'];
 	private ['_type','_objs','_br','_tab','_outputText','_allDynamic','_sim','_objPos','_dX','_dY','_z','_azimuth','_orientation','_outputArray','_simulated'];
-	_objs = nearestObjects [_anchorPos,['All'],_anchorDim];
+	_objs = nearestObjects [_anchorPos,['All'],_anchorDim,TRUE];
 	_br = toString [13,10];
 	_tab = toString [9];
 	_outputText = '/*' + _br + 'Grab data:' + _br;
@@ -25,7 +25,7 @@ QS_fnc_serverObjectsGrabber = {
 	_objs = _objs - [-1];
 	{
 		_type = typeOf _x;
-		_objPos = position _x;
+		_objPos = getPosATL _x; //_objPos = position _x;
 		_dX = (_objPos select 0) - (_anchorPos select 0);
 		_dY = (_objPos select 1) - (_anchorPos select 1);
 		_z = _objPos select 2;

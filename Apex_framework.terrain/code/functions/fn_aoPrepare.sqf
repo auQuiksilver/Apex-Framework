@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_aoPrepare.sqf
 Author: 
 
@@ -6,19 +6,18 @@ Author:
 
 Last modified: 
 
-	20/08/2016 A3 1.62 by Quiksilver
+	10/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Prepare AO
-______________________________________________*/
+______________________________________________/*/
 
-private ['_ao','_QS_AOpos','_aoArray','_aoHQ','_aoRadioTower','_aoMinefield','_enemyArray','_isHCEnabled','_minefield','_result'];
-
-_ao = _this select 0;
+params ['_ao'];
+private ['_aoHQ','_aoRadioTower','_aoMinefield','_enemyArray','_minefield','_result'];
 _QS_AOpos = _ao select 1;
-_aoArray = [];
-_isHCEnabled = FALSE;
+private _aoArray = [];
+private _isHCEnabled = FALSE;
 
 /*/====================================================================== HEADLESS CLIENT VALIDATION/*/
 
@@ -91,26 +90,6 @@ diag_log '****************************************************';
 
 [_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoHQ');
 
-/*/======================================================================= RADIOTOWER/*/
-
-diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 2 *************************';
-diag_log '****************************************************';
-
-[_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoRadiotower');
-
-/*/======================================================================= MINEFIELD/*/
-
-diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 3 *************************';
-diag_log '****************************************************';
-
-if ((random 1) > 0.5) then {
-	_minefield = [] call (missionNamespace getVariable 'QS_fnc_aoMinefield');
-} else {
-	_minefield = [];
-};
-
 /*/======================================================================= CUSTOMIZATIONS/*/
 
 _result = [(_ao select 0)] call (missionNamespace getVariable 'QS_fnc_aoCustomize');
@@ -119,26 +98,18 @@ _result = [(_ao select 0)] call (missionNamespace getVariable 'QS_fnc_aoCustomiz
 diag_log '****************************************************';
 diag_log '***** AO PREPARE ******* 4 *************************';
 diag_log '****************************************************';
-
-/*/======================================================================= FORCE PROTECTION/*/
-
-/*/
-if (!(_isHCEnabled)) then {
-	[_QS_AOpos,FALSE,_ao,_minefield] call (missionNamespace getVariable 'QS_fnc_aoEnemy');
-} else {
-	if ((count (missionNamespace getVariable 'QS_headlessClients')) > 0) then {
-		diag_log '***** SERVER ***** HC spawning AO enemy *****';
-		[_QS_AOpos,TRUE,_ao,_minefield] remoteExec ['QS_fnc_aoEnemy',((missionNamespace getVariable 'QS_headlessClients') select 0),FALSE];
-	} else {
-		_isHCEnabled = FALSE;
-		[_QS_AOpos,FALSE,_ao,_minefield] call (missionNamespace getVariable 'QS_fnc_aoEnemy');
-	};
+_subObjectiveList = [
+	[1,'ENEMYPOP'],
+	[1,'RADIOTOWER']
+];
+if ((random 1) > 0.5) then {
+	_subObjectiveList pushBack [1,'JAMMER'];
 };
-/*/
-
-diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 5 *************************';
-diag_log '****************************************************';
+_subObjectiveData = [];
+{
+	_subObjectiveData pushBack (_x call (missionNamespace getVariable 'QS_fnc_aoSubObjectives'));
+} forEach _subObjectiveList;
+missionNamespace setVariable ['QS_classic_subObjectiveData',_subObjectiveData,FALSE];
 
 /*/======================================================================= CIVILIANS/*/
 
@@ -158,8 +129,8 @@ if (!(_nearestLocations isEqualTo [])) then {
 
 for '_x' from 0 to 2 step 1 do {
 	[
-		(['RADIUS',_QS_AOpos,((missionNamespace getVariable 'QS_aoSize') * 1.25),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos')),
-		(selectRandom ['SHEEP','GOAT','SHEEP','GOAT','HEN','SHEEP']),
+		(['RADIUS',_QS_AOpos,(_aoSize * 1.1),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos')),
+		(selectRandomWeighted ['SHEEP',3,'GOAT',2,'HEN',1]),
 		(round (3 + (random 3)))
 	] call (missionNamespace getVariable 'QS_fnc_aoAnimals');
 };
@@ -169,7 +140,7 @@ diag_log '****************************************************';
 
 /*/======================================================================= JUNGLE CAMP/*/
 
-if (worldName isEqualTo 'Tanoa') then {
+if ((random 1) > 0.5) then {
 	[_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoForestCamp');
 };
 
@@ -186,18 +157,6 @@ if ((random 1) > 0) then {
 /*/======================================================================= OTHER SUBS/*/
 
 comment 'Create other objectives';
-/*/
-private _subObj = [];
-{
-	_subObj = _x call (missionNamespace getVariable 'QS_fnc_scSubObjective');
-	if (!(_subObj isEqualTo [])) then {
-		(missionNamespace getVariable 'QS_classic_subObjectives') pushBack _subObj;
-	};
-} forEach [
-	[1,'INTEL'],
-	[1,'GEAR']
-];
-/*/
 _subObj = (selectRandomWeighted [[1,'INTEL'],0.5,[1,'GEAR'],0.5]) call (missionNamespace getVariable 'QS_fnc_scSubObjective');
 (missionNamespace getVariable 'QS_classic_subObjectives') pushBack _subObj;
 

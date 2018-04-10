@@ -59,7 +59,7 @@ if (_state isEqualTo 1) then {
 						if ((!(_testVehicle isKindOf 'StaticWeapon')) && (!(_testVehicle isKindOf 'Air'))) then {
 							if (alive _testVehicle) then {
 								if (canMove _testVehicle) then {
-									if (({(alive _x)} count (crew _testVehicle)) > 0) then {
+									if (!(((crew _testVehicle) findIf {(alive _x)}) isEqualTo -1)) then {
 										if ((side (effectiveCommander _testVehicle)) in [EAST,RESISTANCE]) then {
 											_vehicle = _x;
 										};

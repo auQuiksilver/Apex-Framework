@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	6/12/2017 A3 1.78 by Quiksilver
+	24/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -164,7 +164,7 @@ __________________________________________________________________________/*/
 			[1,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext2_IG_01_CO.paa"],
 			[2,"A3\Data_F_Tacops\data\RCWS30_IG_01_CO.paa"],
 			[3,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext_alpha_IG_01_CO.paa"]
-		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
+		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F','B_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
 	],
 	[
 		0,'Gorgon IG 2',
@@ -173,7 +173,7 @@ __________________________________________________________________________/*/
 			[1,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext2_IG_02_CO.paa"],
 			[2,"A3\Data_F_Tacops\data\RCWS30_IG_02_CO.paa"],
 			[3,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext_alpha_IG_02_CO.paa"]
-		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
+		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F','B_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
 	],
 	[
 		0,'Gorgon IG 1',
@@ -182,7 +182,7 @@ __________________________________________________________________________/*/
 			[1,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext2_IG_03_CO.paa"],
 			[2,"A3\Data_F_Tacops\data\RCWS30_IG_03_CO.paa"],
 			[3,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext_alpha_IG_03_CO.paa"]
-		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
+		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F','B_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
 	]
 ]
 
@@ -200,7 +200,7 @@ __________________________________________________________________________/*/
 	[0,'Honey',[[0,'media\images\vskins\huron\HoneybeeHuronFront.paa'],[1,'media\images\vskins\huron\HoneybeeHuronBack.paa']],'CH-67 Huron (Heli)',['B_Heli_Transport_03_black_F','B_Heli_Transport_03_F','B_Heli_Transport_03_unarmed_F','B_Heli_Transport_03_unarmed_green_F'],'Johnny Honeybee (N/A)'],
 	[0,'AMV-8',[[0,'media\images\vskins\amv7\jungleamv_01_co.paa'],[1,'media\images\vskins\amv7\jungleamv_02_co.paa'],[2,'media\images\vskins\amv7\jungleamv_03_co.paa']],'AMV-7 Marshall (APC)',['B_APC_Wheeled_01_cannon_F','B_T_APC_Wheeled_01_cannon_F'],'Redphoenix (gamingwithredphoenix@gmail.com)'],		
 	[0,'Rocky Road',[[0,'media\images\vskins\amv7\amvrus00.paa'],[1,'media\images\vskins\amv7\amvrus01.paa'],[2,'media\images\vskins\amv7\amvrus02.paa']],'AMV-7 Marshall (APC)',['B_APC_Wheeled_01_cannon_F','B_T_APC_Wheeled_01_cannon_F'],'Fitz (fitz@acf.sx)'],
-	[0,'Arctic',[[0,'media\images\vskins\mse3\arctic\apc_wheeled_02_ext_01_blufor_co.paa'],[1,'media\images\vskins\mse3\arctic\apc_wheeled_02_ext_02_blufor_co.paa'],[2,'media\images\vskins\mse3\arctic\apc_wheeled_02_ext_02_blufor_co.paa']],'MSE-3 Marid (APC)',['O_T_APC_Wheeled_02_rcws_ghex_F','O_APC_Wheeled_02_rcws_F'],'Archimedes'],
+	[0,'Arctic',[[0,'media\images\vskins\mse3\arctic\apc_wheeled_02_ext_01_blufor_co.paa'],[1,'media\images\vskins\mse3\arctic\apc_wheeled_02_ext_02_blufor_co.paa'],[2,'media\images\vskins\mse3\arctic\apc_wheeled_02_ext_02_blufor_co.paa']],'MSE-3 Marid (APC)',['O_T_APC_Wheeled_02_rcws_ghex_F','O_T_APC_Wheeled_02_rcws_v2_ghex_F','O_APC_Wheeled_02_rcws_F','O_APC_Wheeled_02_rcws_v2_F'],'Archimedes'],
 	[0,'Lightning I',[[0,'media\images\vskins\m2a4\bluelightning\mbt_01_body_co.paa'],[1,'media\images\vskins\m2a4\bluelightning\mbt_addons_co.paa'],[2,'media\images\vskins\m2a4\bluelightning\mbt_addons_co.paa']],'M2A4 Slammer (Tank)',['B_MBT_01_TUSK_F','B_MBT_01_cannon_F','B_T_MBT_01_TUSK_F','B_T_MBT_01_cannon_F'],'Archimedes'],		
 	[0,'Molten',[[0,'media\images\vskins\mbt52\mb1.paa'],[1,'media\images\vskins\mbt52\mbt2.paa'],[2,'media\images\vskins\mbt52\mbt3.paa']],'MBT-52 Kuma (Tank)',['I_MBT_03_cannon_F'],'Dasweetdude (dasweetdude@gmail.com)'],		
 	[0,'Medevac',[[0,'media\images\vskins\uh80\medevac\medevacghosthawk.paa'],[1,'media\images\vskins\uh80\medevac\medevacghosthawk1.paa']],'UH-80 Ghosthawk',["B_Heli_Transport_01_camo_F","B_Heli_Transport_01_F","B_CTRG_Heli_Transport_01_sand_F","B_CTRG_Heli_Transport_01_tropic_F"],'Bohemia Interactive'],
@@ -320,7 +320,7 @@ __________________________________________________________________________/*/
 			[1,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext2_IG_01_CO.paa"],
 			[2,"A3\Data_F_Tacops\data\RCWS30_IG_01_CO.paa"],
 			[3,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext_alpha_IG_01_CO.paa"]
-		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
+		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F','B_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
 	],
 	[
 		0,'Gorgon IG 2',
@@ -329,7 +329,7 @@ __________________________________________________________________________/*/
 			[1,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext2_IG_02_CO.paa"],
 			[2,"A3\Data_F_Tacops\data\RCWS30_IG_02_CO.paa"],
 			[3,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext_alpha_IG_02_CO.paa"]
-		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
+		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F','B_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
 	],
 	[
 		0,'Gorgon IG 1',
@@ -338,7 +338,7 @@ __________________________________________________________________________/*/
 			[1,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext2_IG_03_CO.paa"],
 			[2,"A3\Data_F_Tacops\data\RCWS30_IG_03_CO.paa"],
 			[3,"A3\Data_F_Tacops\data\APC_Wheeled_03_Ext_alpha_IG_03_CO.paa"]
-		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
+		],'AFV-4 Gorgon (APC)',['I_APC_Wheeled_03_cannon_F','B_APC_Wheeled_03_cannon_F'],'Bohemia Interactive'
 	]
 ]
 /*/

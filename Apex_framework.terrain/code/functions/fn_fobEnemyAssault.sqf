@@ -27,9 +27,9 @@ _base = markerPos 'QS_marker_base_marker';
 _foundSpawnPos = FALSE;
 while {!_foundSpawnPos} do {
 	_spawnPosDefault = [_pos,500,850,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if ((count _spawnPosDefault) > 0) then {
-		if (({((_x distance _spawnPosDefault) < 350)} count allPlayers) isEqualTo 0) then {
-			if ((_spawnPosDefault distance _base) > 1200) then {
+	if (!(_spawnPosDefault isEqualTo [])) then {
+		if ((allPlayers findIf {((_x distance2D _spawnPosDefault) < 350)}) isEqualTo -1) then {
+			if ((_spawnPosDefault distance2D _base) > 1200) then {
 				_foundSpawnPos = TRUE;
 			};
 		};

@@ -129,7 +129,7 @@ if (isTouchingGround _vehicle) then {
 	_objectiveCode = {
 		params ['_boxes','_centerPos'];
 		private _return = 0;
-		if (({(((_x distance _centerPos) > 15) || (!isNull (attachedTo _x)) || (!isNull (objectParent _x)))} count _boxes) isEqualTo 0) then {
+		if ((_boxes findIf {(((_x distance _centerPos) > 15) || (!isNull (attachedTo _x)) || (!isNull (objectParent _x)))}) isEqualTo -1) then {
 			_return = 1;
 		};
 		_return;
@@ -459,6 +459,7 @@ for '_x' from 0 to 1 step 0 do {
 			_qrfGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			_qrfGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			{
+				doStop _x;
 				_x doMove _connectedRoadPos;
 			} forEach (units _grpGroup);
 		};
@@ -478,7 +479,7 @@ private _toDelete = objNull;
 				'GetOut',
 				{
 					params ['_vehicle'];
-					if (({(alive _x)} count (crew _vehicle)) isEqualTo 0) then {
+					if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
 						deleteVehicle _vehicle;
 					};
 				}

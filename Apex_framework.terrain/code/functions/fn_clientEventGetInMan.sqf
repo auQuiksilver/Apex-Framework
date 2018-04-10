@@ -50,7 +50,7 @@ if (player getUnitTrait 'QS_trait_pilot') then {
 					uiNamespace setVariable ['QS_pilotROE_msg',TRUE];
 					// This will broadcast CAS ROE to pilots on entry to CAS Jet
 					/*/
-					TRUE spawn {
+					0 spawn {
 						uiSleep 5;
 						'CAS Rules of Engagement' hintC [
 							'0. CAS must be called in by ground elements (infantry who are near the target).',

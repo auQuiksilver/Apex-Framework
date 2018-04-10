@@ -80,7 +80,7 @@ _findIncrementX = 2 * _halfLength * sin _dir;
 _findIncrementY = 2 * _halfLength * cos _dir;
 _findPos = [(_pos select 0) - _findIncrementX, (_pos select 1) - _findIncrementY, _pos select 2];
 while {(_foundVehicles isEqualTo []) && (_findCount < 3)} do {
-	_foundVehicles = ((_findPos nearEntities [_towableCargoObjects,(1.2 * _halfLength)]) + (nearestObjects [_findPos,_towableCargoObjects,(1.2 * _halfLength)]));
+	_foundVehicles = ((_findPos nearEntities [_towableCargoObjects,(1.2 * _halfLength)]) + (nearestObjects [_findPos,_towableCargoObjects,(1.2 * _halfLength),TRUE]));
 	_findPos = [((_findPos select 0) - _findIncrementX),((_findPos select 1) - _findIncrementY),(_findPos select 2)];
 	_findCount = _findCount + 1;
 };
@@ -106,7 +106,7 @@ if (_foundMass > _towMaxMass) exitWith {
 };
 if ((toLower _ft) in _disAllowed) exitWith {50 cutText [format ['%1 cannot be towed',_foundName],'PLAIN DOWN',0.5];};
 if (isNil {_found getVariable 'QS_ropeAttached'}) exitWith {50 cutText ['This vehicle cannot be towed','PLAIN DOWN',0.5];};
-if (!(({(alive _x)} count (crew _found)) isEqualTo 0)) then {
+if (!(((crew _found) findIf {(alive _x)}) isEqualTo -1)) then {
 	if (!(unitIsUAV _found)) then {
 		_crewInVehicle = TRUE;
 	};
@@ -149,7 +149,7 @@ if (((toLower _vt) in [
 ]))) exitWith {
 	50 cutText ['This vehicle can only tow Static Weapons and Mortars currently','PLAIN DOWN',0.5];
 };
-TRUE spawn {
+0 spawn {
 	disableUserInput TRUE;
 	uiSleep 0.25;
 	disableUserInput FALSE;

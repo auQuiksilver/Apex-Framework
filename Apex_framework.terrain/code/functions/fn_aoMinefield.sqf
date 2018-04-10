@@ -1,8 +1,8 @@
-/*
+/*/
 File: fn_aoMinefield.sqf
 Author:
 
-	Quiksilver (credit Rarek [ahoyworld] for initial build)
+	Quiksilver
 	
 Last modified:
 
@@ -11,7 +11,7 @@ Last modified:
 Description:
 
 	Spawn a radial minefield with some razorwire around it
-________________________________________________________________*/
+___________________________________________/*/
 
 private ['_centralPos','_objectsArray','_mineTypes','_mine','_mineType','_distance','_distance2','_barriers','_angle','_signPos','_pos','_minePos'];
 _centralPos = getPosATL (missionNamespace getVariable 'QS_radioTower');

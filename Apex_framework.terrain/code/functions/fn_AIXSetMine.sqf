@@ -30,12 +30,12 @@ params [
 private _magazineDetail = '';
 if (_addMagazine) then {
 	if (['explosive charge',_mineType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-		if (({((toLower _x) isEqualTo 'democharge_remote_mag')} count (magazines _unit)) isEqualTo 0) then {
+		if (((magazines _unit) findIf {((toLower _x) isEqualTo 'democharge_remote_mag')}) isEqualTo -1) then {
 			_unit addMagazine 'DemoCharge_Remote_Mag';
 		};
 	};
 	if (['satchel',_mineType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-		if (({((toLower _x) isEqualTo 'satchelcharge_remote_mag')} count (magazines _unit)) isEqualTo 0) then {
+		if (((magazines _unit) findIf {((toLower _x) isEqualTo 'satchelcharge_remote_mag')}) isEqualTo -1) then {
 			_unit addMagazine 'SatchelCharge_Remote_Mag';
 		};
 	};
@@ -58,12 +58,12 @@ private _moveCheckDelay = _time + 0;
 private _exit = FALSE;
 private _exit2 = FALSE;
 private _useStartPosition = FALSE;
-_startPosition = position _unit;
+_startPosition = getPosATL _unit;
 if ((_startPosition distance2D _target) > 50) then {
 	_useStartPosition = TRUE;
 };
 _isTargetObject = _target isEqualType objNull;
-private _minePosition = if (_isTargetObject) then {(position _target)} else {_target};
+private _minePosition = if (_isTargetObject) then {(getPosATL _target)} else {_target};
 _unit allowFleeing 0;
 _unit setUnitPos 'MIDDLE';
 {
@@ -75,6 +75,7 @@ _unit setUnitPos 'MIDDLE';
 	'AUTOTARGET',
 	'WEAPONAIM'
 ];
+_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
 private _touchOffDelay = 30;
 private _touchOffTimer = -1;
 for '_x' from 0 to 1 step 0 do {
@@ -91,19 +92,18 @@ for '_x' from 0 to 1 step 0 do {
 		if (_time > _moveCheckDelay) then {
 			doStop _unit;
 			if (_isTargetObject) then {
-				_unit doMove (position _target);
+				_unit doMove (getPosATL _target);
 			} else {
 				_unit doMove _target;
 			};
 			_moveCheckDelay = _time + _moveDelay;
 		};
 	} else {
-		_minePosition = position _unit;
-		_unit forceSpeed 0;
+		_minePosition = getPosATL _unit;
+		doStop _unit;
 		_unit setDir (_unit getDir _target);
 		uiSleep 0.1;
 		_unit action ['UseMagazine',_unit,_unit,_mineCreator,_mineID];
-		_unit forceSpeed -1;
 		_exit = TRUE;
 	};
 	if (_exit) exitWith {};
@@ -111,10 +111,11 @@ for '_x' from 0 to 1 step 0 do {
 	if (_time > _timeout) exitWith {};
 	uiSleep 3;
 };
-_emptyPosition = [(position _unit),40,100,0.5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
+_emptyPosition = [(getPosATL _unit),40,100,0.5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 _unit doTarget objNull;
 resetSubgroupDirection _unit;
 doStop _unit;
+_unit forceSpeed 24;
 _unit doMove _emptyPosition;
 if (_exit) then {
 	_touchOffTimer = diag_tickTime + _touchOffDelay;

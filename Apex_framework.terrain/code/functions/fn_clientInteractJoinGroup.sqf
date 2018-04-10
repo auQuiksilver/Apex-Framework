@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_clientInteractJoinGroup.sqf
 Author:
 	
@@ -6,18 +6,19 @@ Author:
 	
 Last Modified:
 
-	12/08/2016 A3 1.62 by Quiksilver
+	4/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Join Group
-__________________________________________________________*/
+__________________________________________/*/
 
 _t = cursorTarget;
-if (isNull _t) exitWith {};
-if (!(_t isKindOf 'Man')) exitWith {};
-if (!alive _t) exitWith {};
-if (!isPlayer _t) exitWith {};
+if (
+	(!alive _t) ||
+	{(!(_t isKindOf 'CAManBase'))} ||
+	{(!isPlayer _t)}
+) exitWith {};
 [player] joinSilent (group _t);
 player playActionNow 'gestureHi';
 50 cutText [(format ['Joined %1s group ( %2 )',(name _t),(groupID (group _t))]),'PLAIN DOWN'];

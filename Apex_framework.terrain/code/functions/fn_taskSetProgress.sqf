@@ -21,7 +21,7 @@ params ['_taskID','_enable','_progress'];
 if (isNil {missionNamespace getVariable 'QS_mission_tasks'}) then {
 	missionNamespace setVariable ['QS_mission_tasks',[],FALSE];
 };
-_taskIndex = [(missionNamespace getVariable 'QS_mission_tasks'),_taskID,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+_taskIndex = (missionNamespace getVariable 'QS_mission_tasks') findIf {((_x select 0) isEqualTo _taskID)};
 if (!(_taskIndex isEqualTo -1)) then {
 	_taskData = (missionNamespace getVariable 'QS_mission_tasks') select _taskIndex;
 	_taskData set [3,[_enable,_progress]];

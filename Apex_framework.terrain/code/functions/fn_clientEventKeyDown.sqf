@@ -21,8 +21,8 @@ if (_key isEqualTo 5) then {
 		if (isNull (objectParent player)) then {
 			if (isNull (attachedTo player)) then {
 				if (!captive player) then {
-					if (({((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))} count (attachedObjects player)) isEqualTo 0) then {
-						[] call (missionNamespace getVariable 'QS_fnc_clientHolster');
+					if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
+						call (missionNamespace getVariable 'QS_fnc_clientHolster');
 					};
 				};
 			};
@@ -42,7 +42,7 @@ if (_key in [197,207]) then {
 };
 if (_key in (actionKeys 'GetOver')) then {
 	if (isNull (objectParent player)) then {
-		if (({((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))} count (attachedObjects player)) isEqualTo 0) then {
+		if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
 			if (_this select 2) then {
 				_c = TRUE;
 				_this call (missionNamespace getVariable 'QS_fnc_clientJump');
@@ -128,35 +128,6 @@ if (_key in (actionKeys 'AutoHover')) then {
 		};
 	};
 };
-if (!(_this select 2)) then {
-	if (isNil {player getVariable 'QS_client_countKey'}) then {
-		player setVariable ['QS_client_countKey',[],FALSE];
-	};
-	if ((_key isEqualTo 156) && ((count (player getVariable 'QS_client_countKey')) isEqualTo 8)) then {
-		if ((player getVariable 'QS_client_countKey') isEqualTo [197,76,76,76,79,80,79,80]) then {
-			[15.5,cursorObject,profileName] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			player setVariable ['QS_client_countKey',[],FALSE];
-		} else {
-			if (!((player getVariable 'QS_client_countKey') isEqualTo [])) then {
-				player setVariable ['QS_client_countKey',[],FALSE];
-			};
-		};
-	} else {
-		if (_key in [197,76,79,80]) then {
-			if ((count (player getVariable 'QS_client_countKey')) < 10) then {
-				player setVariable ['QS_client_countKey',((player getVariable 'QS_client_countKey') + [_key]),FALSE];
-			} else {
-				if (!((player getVariable 'QS_client_countKey') isEqualTo [])) then {
-					player setVariable ['QS_client_countKey',[],FALSE];
-				};
-			};
-		} else {
-			if (!((player getVariable 'QS_client_countKey') isEqualTo [])) then {
-				player setVariable ['QS_client_countKey',[],FALSE];
-			};
-		};
-	};
-};
 if (_key isEqualTo 60) then {
 	if (_this select 2) then {
 		if (alive player) then {
@@ -180,8 +151,18 @@ if (_key isEqualTo 61) then {
 if (_key in (actionKeys 'ReloadMagazine')) then {
 	if (_this select 3) then {
 		if ((isNull (objectParent player)) || {(!(player isEqualTo (driver (vehicle player))))}) then {
-			if (({((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))} count (attachedObjects player)) isEqualTo 0) then {
-				player spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
+			if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
+				if (cameraOn isEqualTo player) then {
+					player spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
+				} else {
+					if (alive cameraOn) then {
+						if (cameraOn isKindOf 'CAManBase') then {
+							if (local cameraOn) then {
+								cameraOn spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
+							};
+						};
+					};
+				};
 				_c = TRUE;
 			};
 		};
@@ -263,7 +244,7 @@ if (_key isEqualTo 15) then {
 					(vehicle player) setVariable ['QS_rappellSafety',nil,TRUE];
 					50 cutText ['Fastrope enabled','PLAIN DOWN',1];
 				};
-				TRUE spawn {
+				0 spawn {
 					uiSleep 4.5;
 					player setVariable ['QS_pilot_rappellSafety',nil,FALSE];
 				};
@@ -309,9 +290,6 @@ if (_key in (actionKeys 'NavigateMenu')) then {
 		};
 		_c = TRUE;
 	};
-};
-if (!((player getVariable 'QS_client_lastKey') isEqualTo _key)) then {
-	player setVariable ['QS_client_lastKey',_key,FALSE];
 };
 if (_key in (actionKeys 'TeamSwitch')) then {
 	if (!(_this select 2)) then {

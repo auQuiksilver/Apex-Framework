@@ -6,14 +6,14 @@ Author:
 
 Last Modified:
 
-	15/05/2017 A3 1.70 by Quiksilver
+	28/03/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Curator Sync
-____________________________________________________________________________/*/
+_______________________________________/*/
 
-_module = _this select 0;
+params ['_module'];
 if (!isNull _module) then {
 	private _arrayToAdd = [];
 	{
@@ -29,7 +29,7 @@ if (!isNull _module) then {
 			{(_x isKindOf 'Ship')} ||
 			{(_x isKindOf 'StaticWeapon')}
 		) then {
-			if (isNil {_x getVariable 'QS_curator_disableEditability'}) then {
+			if (!(_x getVariable ['QS_curator_disableEditability',FALSE])) then {
 				if (!(_x getVariable ['QS_dead_prop',FALSE])) then {
 					0 = _arrayToAdd pushBackUnique _x;
 				};
@@ -45,7 +45,7 @@ if (!isNull _module) then {
 		sleep 0.2;
 	} forEach [	
 		[allPlayers,FALSE],
-		[(allUnits select {(isNil {_x getVariable 'QS_curator_disableEditability'})}),TRUE],
+		[(allUnits select {(!(_x getVariable ['QS_curator_disableEditability',FALSE]))}),TRUE],
 		[(allDead select {(!(_x getVariable ['QS_dead_prop',FALSE]))}),TRUE],
 		[_arrayToAdd,TRUE]
 	];

@@ -41,8 +41,8 @@ if (_state isEqualTo 1) then {
 		_missionDestination = markerPos 'QS_marker_medevac_hq';
 		private ['_unitType','_position'];
 		for '_x' from 0 to 49 step 1 do {
-			_position = ['RADIUS',_aoPos,((missionNamespace getVariable 'QS_aoSize') * 1.25),'LAND',[2,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-			if ((([(_position select 0),(_position select 1)] nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) exitWith {};
+			_position = ['RADIUS',_aoPos,((missionNamespace getVariable 'QS_aoSize') * 0.75),'LAND',[2,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+			if ((([(_position select 0),(_position select 1)] nearRoads 15) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) exitWith {};
 		};
 		if (worldName isEqualTo 'Tanoa') then {
 			_unitType = selectRandom ['B_T_Recon_TL_F','B_T_Recon_M_F','B_T_Recon_Medic_F','B_T_Recon_LAT_F','B_T_Recon_JTAC_F','B_T_Recon_Exp_F'];

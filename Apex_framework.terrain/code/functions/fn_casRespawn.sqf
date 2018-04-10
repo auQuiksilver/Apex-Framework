@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/02/2018 A3 1.80 by Quiksilver
+	8/04/2018 A3 1.82 by Quiksilver
 
 Description: 
 
@@ -50,45 +50,27 @@ private _dir = 0;
 private _typeOverride = '';
 if (_missionConfig_CAS isEqualTo 1) then {
 	_pool = [
-		[
-			'O_Plane_CAS_02_dynamicLoadout_F',
-			'O_Plane_Fighter_02_F',
-			'B_Plane_Fighter_01_F',
-			'B_Plane_CAS_01_dynamicLoadout_F',
-			'I_Plane_Fighter_04_F'
-		],
-		[
-			1,
-			1,
-			2,
-			2,
-			1
-		]
+		'O_Plane_CAS_02_dynamicLoadout_F',1,
+		'O_Plane_Fighter_02_F',1,
+		'B_Plane_Fighter_01_F',2,
+		'B_Plane_CAS_01_dynamicLoadout_F',2,
+		'I_Plane_Fighter_04_F',1
 	];
 };
 if (_missionConfig_CAS isEqualTo 2) then {
 	_pool = [
-		[
-			'O_Plane_CAS_02_dynamicLoadout_F',
-			'O_Plane_Fighter_02_F',
-			'B_Plane_Fighter_01_F',
-			'B_Plane_CAS_01_dynamicLoadout_F',
-			'I_Plane_Fighter_04_F'
-		],
-		[
-			1,
-			1,
-			2,
-			2,
-			1
-		]
+		'O_Plane_CAS_02_dynamicLoadout_F',1,
+		'O_Plane_Fighter_02_F',1,
+		'B_Plane_Fighter_01_F',2,
+		'B_Plane_CAS_01_dynamicLoadout_F',2,
+		'I_Plane_Fighter_04_F',1
 	];
 };
 if (_missionConfig_CAS isEqualTo 3) then {
 	private _pilot = missionNamespace getVariable ['QS_fighterPilot',objNull];
 	_uid = getPlayerUID _pilot;
 	if (_uid isEqualTo '') exitWith {_exit = TRUE;};
-	private _airIndex = [(missionNamespace getVariable 'QS_CAS_jetAllowance'),_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+	private _airIndex = ((missionNamespace getVariable 'QS_CAS_jetAllowance') findIf {((_x select 0) isEqualTo _uid)});
 	if (_airIndex isEqualTo -1) exitWith {_exit = TRUE;};
 	diag_log format ['***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****',(name _pilot),((missionNamespace getVariable 'QS_CAS_jetAllowance') select _airIndex)];
 	private _aircraftPool = ((missionNamespace getVariable 'QS_CAS_jetAllowance') select _airIndex) select 1;
@@ -131,130 +113,65 @@ if (_missionConfig_CAS isEqualTo 3) then {
 		_exit = TRUE;
 	};
 	_pool0 = [
-		[
-			'O_Plane_CAS_02_dynamicLoadout_F',
-			'O_Plane_Fighter_02_F',
-			'O_Plane_Fighter_02_Stealth_F',
-			'B_Plane_Fighter_01_F',
-			'B_Plane_Fighter_01_Stealth_F',
-			'B_Plane_CAS_01_dynamicLoadout_F',
-			'I_Plane_Fighter_03_dynamicLoadout_F',
-			'I_Plane_Fighter_04_F',
-			'i_c_plane_civil_01_f'
-		],
-		[
-			0.0,
-			0.0,
-			0.0,
-			0.0,
-			0.0,
-			0.0,
-			1,
-			0.0,
-			0.0
-		]
+		'O_Plane_CAS_02_dynamicLoadout_F',0,
+		'O_Plane_Fighter_02_F',0,
+		'O_Plane_Fighter_02_Stealth_F',0,
+		'B_Plane_Fighter_01_F',0,
+		'B_Plane_Fighter_01_Stealth_F',0,
+		'B_Plane_CAS_01_dynamicLoadout_F',0,
+		'I_Plane_Fighter_03_dynamicLoadout_F',1,
+		'I_Plane_Fighter_04_F',0,
+		'i_c_plane_civil_01_f',0
 	];
 	_pool1 = [
-		[
-			'O_Plane_CAS_02_dynamicLoadout_F',
-			'O_Plane_Fighter_02_F',
-			'O_Plane_Fighter_02_Stealth_F',
-			'B_Plane_Fighter_01_F',
-			'B_Plane_Fighter_01_Stealth_F',
-			'B_Plane_CAS_01_dynamicLoadout_F',
-			'I_Plane_Fighter_03_dynamicLoadout_F',
-			'I_Plane_Fighter_04_F',
-			'i_c_plane_civil_01_f'
-		],
-		[
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.5,
-			0.5,
-			0.0
-		]
+		'O_Plane_CAS_02_dynamicLoadout_F',1,
+		'O_Plane_Fighter_02_F',1,
+		'O_Plane_Fighter_02_Stealth_F',1,
+		'B_Plane_Fighter_01_F',1,
+		'B_Plane_Fighter_01_Stealth_F',1,
+		'B_Plane_CAS_01_dynamicLoadout_F',1,
+		'I_Plane_Fighter_03_dynamicLoadout_F',5,
+		'I_Plane_Fighter_04_F',5,
+		'i_c_plane_civil_01_f',0
 	];
 	_pool2 = [
-		[
-			'O_Plane_CAS_02_dynamicLoadout_F',
-			'O_Plane_Fighter_02_F',
-			'O_Plane_Fighter_02_Stealth_F',
-			'B_Plane_Fighter_01_F',
-			'B_Plane_Fighter_01_Stealth_F',
-			'B_Plane_CAS_01_dynamicLoadout_F',
-			'I_Plane_Fighter_03_dynamicLoadout_F',
-			'I_Plane_Fighter_04_F',
-			'i_c_plane_civil_01_f'
-		],
-		[
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.0
-		]
+		'O_Plane_CAS_02_dynamicLoadout_F',1,
+		'O_Plane_Fighter_02_F',1,
+		'O_Plane_Fighter_02_Stealth_F',1,
+		'B_Plane_Fighter_01_F',1,
+		'B_Plane_Fighter_01_Stealth_F',1,
+		'B_Plane_CAS_01_dynamicLoadout_F',1,
+		'I_Plane_Fighter_03_dynamicLoadout_F',1,
+		'I_Plane_Fighter_04_F',1,
+		'i_c_plane_civil_01_f',0
 	];
 	_pool3 = [
-		[
-			'O_Plane_CAS_02_dynamicLoadout_F',
-			'O_Plane_Fighter_02_F',
-			'O_Plane_Fighter_02_Stealth_F',
-			'B_Plane_Fighter_01_F',
-			'B_Plane_Fighter_01_Stealth_F',
-			'B_Plane_CAS_01_dynamicLoadout_F',
-			'I_Plane_Fighter_03_dynamicLoadout_F',
-			'I_Plane_Fighter_04_F',
-			'i_c_plane_civil_01_f'
-		],
-		[
-			0.3,
-			0.3,
-			0.1,
-			0.3,
-			0.1,
-			0.3,
-			0.0,
-			0.2,
-			0.0
-		]
+		'O_Plane_CAS_02_dynamicLoadout_F',3,
+		'O_Plane_Fighter_02_F',3,
+		'O_Plane_Fighter_02_Stealth_F',1,
+		'B_Plane_Fighter_01_F',3,
+		'B_Plane_Fighter_01_Stealth_F',1,
+		'B_Plane_CAS_01_dynamicLoadout_F',3,
+		'I_Plane_Fighter_03_dynamicLoadout_F',0,
+		'I_Plane_Fighter_04_F',2,
+		'i_c_plane_civil_01_f',0
 	];
 	_pool4 = [
-		[
-			'O_Plane_CAS_02_dynamicLoadout_F',
-			'O_Plane_Fighter_02_F',
-			'O_Plane_Fighter_02_Stealth_F',
-			'B_Plane_Fighter_01_F',
-			'B_Plane_Fighter_01_Stealth_F',
-			'B_Plane_CAS_01_dynamicLoadout_F',
-			'I_Plane_Fighter_03_dynamicLoadout_F',
-			'I_Plane_Fighter_04_F',
-			'i_c_plane_civil_01_f'
-		],
-		[
-			0.5,
-			0.5,
-			0.1,
-			0.5,
-			0.1,
-			0.5,
-			0.0,
-			0.1,
-			0.0
-		]
+		'O_Plane_CAS_02_dynamicLoadout_F',5,
+		'O_Plane_Fighter_02_F',5,
+		'O_Plane_Fighter_02_Stealth_F',1,
+		'B_Plane_Fighter_01_F',5,
+		'B_Plane_Fighter_01_Stealth_F',1,
+		'B_Plane_CAS_01_dynamicLoadout_F',5,
+		'I_Plane_Fighter_03_dynamicLoadout_F',0,
+		'I_Plane_Fighter_04_F',1,
+		'i_c_plane_civil_01_f',0
 	];
 	_pilotLeaderboards = (missionNamespace getVariable ['QS_leaderboards',[[],[],[]]]) select 1;
 	_pilotLeaderboards select {((_x select 0) >= 10)};
 	_pilotLeaderboards sort FALSE;
 	_countLeaderboard = count _pilotLeaderboards;
-	_pilotLeaderboardIndex = [_pilotLeaderboards,_uid,1] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+	_pilotLeaderboardIndex = (_pilotLeaderboards findIf {((_x select 1) isEqualTo _uid)});
 	if (!(_pilotLeaderboardIndex isEqualTo -1)) then {
 		_pilotTransportRank = _pilotLeaderboardIndex + 1;
 		_pilotScore = (_pilotLeaderboards select _pilotLeaderboardIndex) select 0;
@@ -281,7 +198,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	};
 };
 if (_exit) exitWith {};
-_newCasType = (_pool select 0) selectRandomWeighted (_pool select 1);
+_newCasType = selectRandomWeighted _pool;
 if (!(_typeOverride isEqualTo '')) then {
 	_newCasType = _typeOverride;
 };

@@ -17,12 +17,11 @@ private _canUnflip = TRUE;
 _t = cursorTarget;
 _engies = (getPosATL _t) nearEntities [['Man'],10];
 _v = vehicle player;
-if ((!(unitIsUav _t)) && (({(alive _x)} count (crew _t)) > 0)) exitWith {
-	_canUnflip = FALSE;
+if ((!(unitIsUav _t)) && (!(((crew _t) findIf {(alive _x)}) isEqualTo -1))) exitWith {
 	50 cutText ['Crew in vehicle, unflip failed!','PLAIN DOWN',0.5];
 };
 if (((count _engies) < 2) && {(!((toLower (typeOf _v)) in ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f']))}) then {
-	if ((getMass _t) >= 10000) exitWith {
+	if ((getMass _t) >= 10000) then {
 		_canUnflip = FALSE;
 		50 cutText ['Need another person nearby to unflip this vehicle, or use a(n) CRV-6e Bobcat APC','PLAIN DOWN',1];
 	};

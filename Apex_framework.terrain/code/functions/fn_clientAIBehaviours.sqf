@@ -25,7 +25,7 @@ private _oldUnitPos = '';
 private _job = FALSE;
 for '_x' from 0 to 1 step 0 do {
 	_time = diag_tickTime;
-	if ((!(player isEqualTo (leader (group player)))) || (({((alive _x) && (!(isPlayer _x)) && (!(unitIsUav _x)))} count (units (group player))) isEqualTo 0)) exitWith {};
+	if ((!(player isEqualTo (leader (group player)))) || (((units (group player)) findIf {((alive _x) && (!(isPlayer _x)) && (!(unitIsUav _x)))}) isEqualTo -1)) exitWith {};
 	{
 		_entity = _x;
 		_entitySide = side _entity;
@@ -103,7 +103,7 @@ for '_x' from 0 to 1 step 0 do {
 											_entity setUnitPos 'MIDDLE';
 										};
 										if ((_entity distance _jobTarget) > 4) then {
-											_entity forceSpeed -1;
+											doStop _entity;
 											_entity doMove (position _jobTarget);
 										} else {
 											if (isNull _jobScript) then {
@@ -124,7 +124,7 @@ for '_x' from 0 to 1 step 0 do {
 														};
 													};
 													_entity doWatch objNull;
-													_entity forceSpeed -1;
+													doStop _entity;
 													_entity doFollow (leader (group _entity));
 													_entity setVariable ['QS_AI_JOB',FALSE,FALSE];
 													_entity setVariable ['QS_AI_JOB_DATA',[],FALSE];

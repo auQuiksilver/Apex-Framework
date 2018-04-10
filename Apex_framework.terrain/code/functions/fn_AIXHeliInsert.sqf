@@ -37,10 +37,10 @@ params [
 ];
 missionNamespace setVariable ['QS_AI_insertHeli_helis',((missionNamespace getVariable 'QS_AI_insertHeli_helis') select {(alive _x)}),FALSE];
 if (_heliType isEqualType []) then {
-	_heliType = (_heliType select 0) selectRandomWeighted (_heliType select 1);
+	_heliType = selectRandomWeighted _heliType;
 };
 if (_supportType isEqualType []) then {
-	_supportType = (_supportType select 0) selectRandomWeighted (_supportType select 1);
+	_supportType = selectRandomWeighted _supportType;
 };
 _worldName = worldName;
 _worldSize = worldSize + 2000;
@@ -90,9 +90,9 @@ private _HLZ = [0,0,0];
 _helipadType = 'Land_HelipadEmpty_F';
 for '_x' from 0 to 99 step 1 do {
 	_HLZ = [_position,0,300,17,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if ((nearestObjects [_HLZ,[_helipadType],75]) isEqualTo []) then {
+	if ((nearestObjects [_HLZ,[_helipadType],75,TRUE]) isEqualTo []) then {
 		if ((nearestTerrainObjects [_HLZ,['TREE','SMALL TREE'],12,FALSE,TRUE]) isEqualTo []) then {
-			if (({((_x distance2D _HLZ) < 50)} count allPlayers) isEqualTo 0) then {
+			if ((allPlayers findIf {((_x distance2D _HLZ) < 50)}) isEqualTo -1) then {
 				if ((_HLZ distance2D _position) < 300) then {
 					_foundHLZ = TRUE;
 				};
@@ -159,6 +159,7 @@ _heli addEventHandler [
 		};
 	}
 ];
+_heli addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 _heli addEventHandler [
 	'GetOut',
 	{
@@ -369,6 +370,7 @@ if (_useSupport) then {
 				} forEach (crew _killed);
 			}
 		];
+		_supportHeli addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 		_supportHeli addEventHandler [
 			'GetOut',
 			{
@@ -381,7 +383,7 @@ if (_useSupport) then {
 				params ['_vehicle','_causedBy','_damage','_instigator'];
 				_supportGroup = _vehicle getVariable ['QS_heliInsert_supportGroup',grpNull];
 				if (!isNull _supportGroup) then {
-					if (({(alive _x)} count (units _supportGroup)) > 0) then {
+					if (!(((units _supportGroup) findIf {(alive _x)}) isEqualTo -1)) then {
 						if ((_supportGroup knowsAbout _instigator) isEqualTo 0) then {
 							_supportGroup reveal [_instigator,4];
 						};
@@ -404,17 +406,17 @@ if ((_manageGroup) && (_spawnUnits)) then {
 	comment 'Monitor';
 	_timeout = time + 900;
 	for '_x' from 0 to 1 step 0 do {
-		if (({(alive _x)} count (units _infantryGroup)) > 0) then {
+		if (!(((units _infantryGroup) findIf {(alive _x)}) isEqualTo -1)) then {
 			{
 				if (isNull (objectParent _x)) then {
-					_x forceSpeed -1;
+					doStop _x;
 					_x doMove [((_position select 0) + (10 - (random 20))),((_position select 1) + (10 - (random 20))),(_position select 2)];
 				};
 				sleep 0.1;
 			} forEach (units _infantryGroup);
 		};
 		if (!isNull _supportGroup) then {
-			if (({(alive _x)} count (units _supportGroup)) > 0) then {
+			if (!(((units _supportGroup) findIf {(alive _x)}) isEqualTo -1)) then {
 				{
 					if (!((behaviour _x) in ['COMBAT','AWARE'])) then {
 						_x setBehaviour 'COMBAT';

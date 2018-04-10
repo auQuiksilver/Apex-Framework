@@ -28,7 +28,7 @@ _onCancelled = {
 	params ['_entity','_position'];
 	private _c = FALSE;
 	if (!alive player) then {_c = TRUE;};
-	if ((player distance2D _position) > 4) then {_c = TRUE;};
+	if ((player distance2D _position) > 5.1) then {_c = TRUE;};
 	if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_c = TRUE;};
 	if ((!(_entity isEqualTo cursorObject)) && (!(_entity isEqualTo cursorTarget))) then {_c = TRUE;};
 	if (!isNull (objectParent player)) then {_c = TRUE;};
@@ -57,5 +57,6 @@ _onFailed = {
 	[[_t],{FALSE}],
 	[[_t,(position _t)],_onCancelled],
 	[[_t],_onCompleted],
-	[[],{FALSE}]
+	[[],{FALSE}],
+	FALSE
 ] spawn (missionNamespace getVariable 'QS_fnc_clientProgressVisualization');

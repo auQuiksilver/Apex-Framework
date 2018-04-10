@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	18/12/2017 A3 1.80 by Quiksilver
+	28/02/2018 A3 1.80 by Quiksilver
 
 Description:
 
@@ -63,11 +63,10 @@ QS_data_IDAPHospital = compileFinal preprocessFileLineNumbers 'code\config\QS_da
 QS_data_siteIG = compileFinal preprocessFileLineNumbers 'code\config\QS_data_siteIG.sqf';
 QS_data_siteMortar = compileFinal preprocessFileLineNumbers 'code\config\QS_data_siteMortar.sqf';
 QS_data_siteFoxhole = compileFinal preprocessFileLineNumbers 'code\config\QS_data_siteFoxhole.sqf';
+QS_data_fortifiedAA = compileFinal preprocessFileLineNumbers 'code\config\QS_data_fortifiedAA.sqf';
 QS_site_radar = compileFinal preprocessFileLineNumbers 'code\config\smCompositions\QS_data_siteRadar.sqf';
 QS_RSC_weatherData = compileFinal preprocessFileLineNumbers 'code\config\QS_data_weather.sqf';
 QS_data_vehicles = compileFinal preprocessFileLineNumbers 'code\config\QS_data_vehicles.sqf';
-QS_data_arsenal = compileFinal preprocessFileLineNumbers 'code\config\QS_data_arsenal.sqf';
-QS_data_gearRestrictions = compileFinal preprocessFileLineNumbers 'code\config\QS_data_gearRestrictions.sqf';
 QS_data_carrierLaunch = compileFinal preprocessFileLineNumbers 'code\config\QS_data_carrierLaunch.sqf';
 QS_data_fobs = compileFinal preprocessFileLineNumbers 'code\config\QS_data_fobs.sqf';
 QS_data_forestCamp = compileFinal preprocessFileLineNumbers 'code\config\QS_data_forestCamp.sqf';

@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_clientSetUnitInsignia.sqf
 Author:
 
@@ -6,28 +6,20 @@ Author:
 	
 Last modified:
 
-	8/01/2015 ArmA 3 1.54 by Quiksilver
+	31/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	QS_fnc_clientSetUnitInsignia
-__________________________________________________________________________*/
+_____________________________________________________/*/
 
-private ['_unit','_cfgTexture','_texture','_index'];
-_texture = _this select 0;
+params [['_texture',''],['_unit',player]];
 if (_texture isEqualTo '') then {
 	_texture = '#(argb,8,8,3)color(0,0,0,0)';
 };
-_index = -1;
-{
-	if (_x isEqualTo 'insignia') exitWith {
-		_index = _forEachIndex;
-	};
-} forEach (getArray (configFile >> 'CfgVehicles' >> getText (configFile >> 'CfgWeapons' >> (uniform player) >> 'ItemInfo' >> 'uniformClass') >> 'hiddenSelections'));
-if (_index < 0) then {
-	false
-} else {
-	player setVariable ['QS_ClientUnitInsignia2',_texture,TRUE];
-	player setObjectTextureGlobal [_index,_texture];
-	true
-};
+if ((uniform _unit) isEqualTo '') exitWith {FALSE};
+_index = (getArray (configFile >> 'CfgVehicles' >> getText (configFile >> 'CfgWeapons' >> (uniform _unit) >> 'ItemInfo' >> 'uniformClass') >> 'hiddenSelections')) findIf {(_x isEqualTo 'insignia')};
+if (_index isEqualTo -1) exitWith {FALSE};
+_unit setVariable ['QS_ClientUnitInsignia2',_texture,TRUE];
+_unit setObjectTextureGlobal [_index,_texture];
+TRUE;

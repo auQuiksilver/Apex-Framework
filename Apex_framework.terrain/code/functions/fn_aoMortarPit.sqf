@@ -19,7 +19,7 @@ _aoSize = missionNamespace getVariable 'QS_aoSize';
 _multiplier = 0.75;
 for '_x' from 0 to 11 step 1 do {
 	_position = ['RADIUS',_pos,(_aoSize * _multiplier),'LAND',[10,0,0.3,10,0,FALSE,objNull],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if ((({((_position distance2D _x) < 100)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) && ((([_position select 0,_position select 1] nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) && (!((toLower(surfaceType _position)) in ['#gdtasphalt'])) && (!([_position,20,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) exitWith {};
+	if ((((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 100)}) isEqualTo -1) && ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) && (!((toLower(surfaceType _position)) in ['#gdtasphalt'])) && (!([_position,20,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) exitWith {};
 	_multiplier = _multiplier + 0.1;
 };
 if (((_position distance2D _pos) > (_aoSize * 3)) || {(_position isEqualTo [])}) exitWith {[]};

@@ -16,21 +16,21 @@ _____________________________________________________________________/*/
 params ['_type','_quantity','_total',['_viperGroup',grpNull]];
 _unitTypes = [
 	[
-		'O_V_Soldier_TL_hex_F',0.1,
-		'O_V_Soldier_JTAC_hex_F',0.1,
-		'O_V_Soldier_M_hex_F',0.3,
-		'O_V_Soldier_Exp_hex_F',0.3,
-		'O_V_Soldier_LAT_hex_F',0.3,
-		'O_V_Soldier_Medic_hex_F',0.2,
+		'o_v_soldier_tl_hex_f',0.1,
+		'o_v_soldier_jtac_hex_f',0.1,
+		'o_v_soldier_m_hex_f',0.3,
+		'o_v_soldier_exp_hex_f',0.3,
+		'o_v_soldier_lat_hex_f',0.3,
+		'o_v_soldier_medic_hex_f',0.2,
 		'o_v_soldier_hex_f',0.6
 	],
 	[
-		'O_V_Soldier_TL_ghex_F',0.1,
-		'O_V_Soldier_JTAC_ghex_F',0.1,
-		'O_V_Soldier_M_ghex_F',0.3,
-		'O_V_Soldier_Exp_ghex_F',0.3,
-		'O_V_Soldier_LAT_ghex_F',0.3,
-		'O_V_Soldier_Medic_ghex_F',0.2,
+		'o_v_soldier_tl_ghex_f',0.1,
+		'o_v_soldier_jtac_ghex_f',0.1,
+		'o_v_soldier_m_ghex_f',0.3,
+		'o_v_soldier_exp_ghex_f',0.3,
+		'o_v_soldier_lat_ghex_f',0.3,
+		'o_v_soldier_medic_ghex_f',0.2,
 		'o_v_soldier_ghex_f',0.6
 	]
 ] select (worldName isEqualTo 'Tanoa');
@@ -47,8 +47,8 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	for '_x' from 0 to 1 step 0 do {
 		_position1 = ['RADIUS',_centerPos,_aoSize,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[_centerPos,300,'(1 + forest) * (1 - houses)',15,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if ((_position1 distance2D _centerPos) < 1500) then {
-			if (({((_x distance2D _position1) < 250)} count _players) isEqualTo 0) then {
-				if ((([(_position1 select 0),(_position1 select 1)] nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+			if ((_players findIf {((_x distance2D _position1) < 250)}) isEqualTo -1) then {
+				if ((((_position1 select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 					if (([(AGLToASL _position1),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
 						_positionFound = TRUE;
 					};
@@ -106,7 +106,7 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	_grp setCombatMode 'YELLOW';
 	[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_TASK',['HUNT',[0,0,0],diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_position1,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_grp setVariable ['QS_AI_GRP_DATA',[_position1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	(units _grp);

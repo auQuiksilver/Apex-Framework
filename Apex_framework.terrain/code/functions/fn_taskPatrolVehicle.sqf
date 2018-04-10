@@ -14,16 +14,16 @@ Description:
 __________________________________________________/*/
 
 _grp = param [0,grpNull];
-_pos = param [1,[0,0,0]];
+_vCenterPos = param [1,[0,0,0]];
 _patrolRadius = param [2,300];
 _nearRoads = param [3,[]];
 _new = param [4,FALSE];
 _vehiclePos = getPosATL (vehicle (leader _grp));
 private _nearRoadsPositions = [];
 if (_nearRoads isEqualTo []) then {
-	_nearRoadsPositions = ((_pos nearRoads _patrolRadius) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) apply {(getPosATL _x)};
+	_nearRoadsPositions = (((_vCenterPos select [0,2]) nearRoads _patrolRadius) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) apply {(getPosATL _x)};
 } else {
-	_nearRoadsPositions = _nearRoads;
+	_nearRoadsPositions = _nearRoads apply {if (_x isEqualType objNull) then {(getPosATL _x)} else {_x};};
 };
 _nearRoadsPositions = _nearRoadsPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 private _waypointPositions = [_vehiclePos];
@@ -53,7 +53,7 @@ for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
 };
 if (!(_waypointPositions isEqualTo [])) exitWith {
 	if (_new) then {
-		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,-1,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	} else {
 		{

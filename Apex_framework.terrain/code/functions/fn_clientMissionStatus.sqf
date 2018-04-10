@@ -880,9 +880,11 @@ _client_uiCtrl_earplugs = nil;
 ];
 
 _fn_inString = missionNamespace getVariable 'QS_fnc_inString';
-_fn_secondsToString = missionNamespace getVariable 'BIS_fnc_secondsToString';
+_fn_secondsToString = missionNamespace getVariable 'QS_fnc_secondsToString';
 
 private _isStreamFriendly = isStreamFriendlyUIEnabled;
+_true = TRUE;
+_false = FALSE;
 //_productVersionCtrl ctrlShow TRUE;
 
 for '_x' from 0 to 1 step 0 do {
@@ -898,7 +900,7 @@ for '_x' from 0 to 1 step 0 do {
 				_rateAdjusted = (round(_rate * 24));
 				_isBeingInterrupted = _x select 27;
 				if (_forEachIndex isEqualTo 0) then {
-					if ([((_x select 22) select 0),_currentTaskStr,FALSE] call _fn_inString) then {
+					if ([((_x select 22) select 0),_currentTaskStr,_false] call _fn_inString) then {
 						_QS_ctrl4 ctrlSetTextColor [0.8,0.6,0,1];
 					} else {
 						_QS_ctrl4 ctrlSetTextColor _QS_ctrl_color4;
@@ -992,7 +994,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 				if (_forEachIndex isEqualTo 1) then {
-					if ([((_x select 22) select 0),_currentTaskStr,FALSE] call _fn_inString) then {
+					if ([((_x select 22) select 0),_currentTaskStr,_false] call _fn_inString) then {
 						_QS_ctrl5 ctrlSetTextColor [0.8,0.6,0,1];
 					} else {
 						_QS_ctrl5 ctrlSetTextColor _QS_ctrl_color5;
@@ -1086,7 +1088,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 				if (_forEachIndex isEqualTo 2) then {
-					if ([((_x select 22) select 0),_currentTaskStr,FALSE] call _fn_inString) then {
+					if ([((_x select 22) select 0),_currentTaskStr,_false] call _fn_inString) then {
 						_QS_ctrl6 ctrlSetTextColor [0.8,0.6,0,1];
 					} else {
 						_QS_ctrl6 ctrlSetTextColor _QS_ctrl_color6;
@@ -1189,7 +1191,7 @@ for '_x' from 0 to 1 step 0 do {
 		if ((!(missionNamespace getVariable 'QS_missionStatus_shown')) || {(!(missionNamespace getVariable 'QS_missionStatus_SC_canShow'))}) then {
 			{
 				if (ctrlShown _x) then {
-					_x ctrlShow FALSE;
+					_x ctrlShow _false;
 				};
 			} forEach [
 				_QS_ctrl0,
@@ -1219,7 +1221,7 @@ for '_x' from 0 to 1 step 0 do {
 								_array2 = _x;
 								{
 									if (!(isObjectHidden _x)) then {
-										_x hideObject TRUE;
+										_x hideObject _true;
 									};
 								} count _array2;
 							} forEach _array;
@@ -1230,7 +1232,7 @@ for '_x' from 0 to 1 step 0 do {
 		} else {
 			{
 				if (!(ctrlShown _x)) then {
-					_x ctrlShow TRUE;
+					_x ctrlShow _true;
 				};
 			} forEach [
 				_QS_ctrl0,
@@ -1260,7 +1262,7 @@ for '_x' from 0 to 1 step 0 do {
 								_array2 = _x;
 								{
 									if (isObjectHidden _x) then {
-										_x hideObject FALSE;
+										_x hideObject _false;
 									};
 								} count _array2;
 							} forEach _array;
@@ -1321,7 +1323,7 @@ for '_x' from 0 to 1 step 0 do {
 	} else {
 		{
 			if (ctrlShown _x) then {
-				_x ctrlShow FALSE;
+				_x ctrlShow _false;
 			};
 		} forEach [
 			_QS_ctrl0,
@@ -1345,10 +1347,10 @@ for '_x' from 0 to 1 step 0 do {
 		uiSleep 0.15;
 	};
 	if (!isNull _currentTask) then {
-		_currentTaskTimer = FALSE;
-		_currentTaskProgress = FALSE;
+		_currentTaskTimer = _false;
+		_currentTaskProgress = _false;
 		if (!((missionNamespace getVariable 'QS_mission_tasks') isEqualTo [])) then {
-			_exit = FALSE;
+			_exit = _false;
 			{
 				_currentTaskData = _x;
 				if (_currentTaskData isEqualType []) then {
@@ -1356,8 +1358,8 @@ for '_x' from 0 to 1 step 0 do {
 					_currentTaskCustomData = _currentTaskData select 1; 
 					_currentTaskTimerData = _currentTaskData select 2;
 					_currentTaskProgressData = _currentTaskData select 3;
-					if ([_currentTaskID,_currentTaskStr,FALSE] call _fn_inString) then {
-						_exit = TRUE;
+					if ([_currentTaskID,_currentTaskStr,_false] call _fn_inString) then {
+						_exit = _true;
 						_currentTaskType = _currentTaskCustomData select 0; 
 						_currentTaskTooltip = _currentTaskCustomData select 1;
 						_currentTaskDescription = _currentTaskCustomData select 2;
@@ -1387,7 +1389,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (_exit) exitWith {};
 			} forEach (missionNamespace getVariable 'QS_mission_tasks');
 		};
-		if ((!(_isStreamFriendly)) && (missionNamespace getVariable ['QS_missionStatus_shown',FALSE])) then {
+		if ((!(_isStreamFriendly)) && (missionNamespace getVariable ['QS_missionStatus_shown',_false])) then {
 			if (_currentTaskTimer) then {
 				comment 'Show timer';
 				_currentTaskTime = _currentTaskTimeout - serverTime;
@@ -1407,7 +1409,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_ctrl20 ctrlSetStructuredText _currentTaskTimerTextFormat;
 				{
 					if (!(ctrlShown _x)) then {
-						_x ctrlShow TRUE;
+						_x ctrlShow _true;
 					};
 				} forEach [
 					_QS_ctrl17,
@@ -1419,7 +1421,7 @@ for '_x' from 0 to 1 step 0 do {
 				comment 'Hide timer';
 				{
 					if (ctrlShown _x) then {
-						_x ctrlShow FALSE;
+						_x ctrlShow _false;
 					};
 				} forEach [
 					_QS_ctrl17,
@@ -1440,7 +1442,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				{
 					if (!(ctrlShown _x)) then {
-						_x ctrlShow TRUE;
+						_x ctrlShow _true;
 					};
 				} forEach [
 					_QS_ctrl21,
@@ -1452,7 +1454,7 @@ for '_x' from 0 to 1 step 0 do {
 				comment 'Hide progress';
 				{
 					if (ctrlShown _x) then {
-						_x ctrlShow FALSE;
+						_x ctrlShow _false;
 					};
 				} forEach [
 					_QS_ctrl21,
@@ -1465,7 +1467,7 @@ for '_x' from 0 to 1 step 0 do {
 			comment 'Hide all';
 			{
 				if (ctrlShown _x) then {
-					_x ctrlShow FALSE;
+					_x ctrlShow _false;
 				};
 			} forEach [
 				_QS_ctrl17,
@@ -1481,7 +1483,7 @@ for '_x' from 0 to 1 step 0 do {
 	} else {
 		{
 			if (ctrlShown _x) then {
-				_x ctrlShow FALSE;
+				_x ctrlShow _false;
 			};
 		} forEach [
 			_QS_ctrl17,

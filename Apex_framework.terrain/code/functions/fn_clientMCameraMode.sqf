@@ -61,7 +61,7 @@ if (_t isEqualTo 1) exitWith {
 /*/======================================= ADJUST THE CAMERA (NVG)/*/
 
 if (_t isEqualTo 2) exitWith {
-	TRUE spawn {
+	0 spawn {
 		disableSerialization;
 		private _buttonCameraMode = ((uiNamespace getVariable 'QS_revive_dialog') displayCtrl 1602);
 		_buttonCameraMode ctrlEnable FALSE;

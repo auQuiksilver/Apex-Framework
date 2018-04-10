@@ -23,6 +23,11 @@ Notes:
 ____________________________________________________________________________/*/
 
 params ['_type'];
+if (_type isEqualTo 'RESET') exitWith {
+	diag_log format ['***** GRID RESETTING - %1 *****',worldName];
+	profileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
+	saveProfileNamespace;
+};
 if (_type isEqualTo 'SAVE') exitWith {
 	diag_log '***** GRID SAVING *****';
 	profileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),(missionNamespace getVariable ['QS_grid_data',[]])];

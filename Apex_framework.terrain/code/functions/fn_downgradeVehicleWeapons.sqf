@@ -133,7 +133,9 @@ if (_type in [
 comment 'Marid';
 if (_type in [
 	'o_apc_wheeled_02_rcws_f',
-	'o_t_apc_wheeled_02_rcws_ghex_f'
+	'o_apc_wheeled_02_rcws_v2_f',
+	'o_t_apc_wheeled_02_rcws_ghex_f',
+	'o_t_apc_wheeled_02_rcws_v2_ghex_f'
 ]) then {
 	_vehicle removeWeaponTurret ['HMG_127_APC',[0]];
 	_vehicle addWeaponTurret ['LMG_RCWS',[0]];

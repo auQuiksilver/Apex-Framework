@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	13/02/2018 A3 1.80 by Quiksilver
+	18/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -34,32 +34,28 @@ List of jets:
 	'i_plane_fighter_04_cluster_f'
 ______________________________________________________*/
 
-private ['_QS_AOpos','_spawnPos','_jetSelect','_casArray','_jetLimit','_jetLimit1','_jetLimit2','_jetPilot','_jetActual','_new','_grp','_playerJetCount'];
-if ((count _this) > 0) then {
-	_playerJetCount = _this select 0;
-} else {
-	_allJetTypes = [
-		'b_plane_cas_01_f',
-		'b_plane_cas_01_dynamicloadout_f',
-		'b_plane_cas_01_cluster_f',
-		'b_plane_fighter_01_f',
-		'b_plane_fighter_01_stealth_f',
-		'b_plane_fighter_01_cluster_f',
-		'o_plane_cas_02_f',
-		'o_plane_cas_02_dynamicloadout_f',
-		'o_plane_cas_02_cluster_f',
-		'o_plane_fighter_02_f',
-		'o_plane_fighter_02_stealth_f',
-		'o_plane_fighter_02_cluster_f',
-		'i_plane_fighter_03_aa_f',
-		'i_plane_fighter_03_cas_f',
-		'i_plane_fighter_03_dynamicloadout_f',
-		'i_plane_fighter_03_cluster_f',
-		'i_plane_fighter_04_f',
-		'i_plane_fighter_04_cluster_f'
-	];
-	_playerJetCount = count (allPlayers select {((toLower (typeOf (vehicle _x))) in _allJetTypes)});
-};
+_allJetTypes = [
+	'b_plane_cas_01_f',
+	'b_plane_cas_01_dynamicloadout_f',
+	'b_plane_cas_01_cluster_f',
+	'b_plane_fighter_01_f',
+	'b_plane_fighter_01_stealth_f',
+	'b_plane_fighter_01_cluster_f',
+	'o_plane_cas_02_f',
+	'o_plane_cas_02_dynamicloadout_f',
+	'o_plane_cas_02_cluster_f',
+	'o_plane_fighter_02_f',
+	'o_plane_fighter_02_stealth_f',
+	'o_plane_fighter_02_cluster_f',
+	'i_plane_fighter_03_aa_f',
+	'i_plane_fighter_03_cas_f',
+	'i_plane_fighter_03_dynamicloadout_f',
+	'i_plane_fighter_03_cluster_f',
+	'i_plane_fighter_04_f',
+	'i_plane_fighter_04_cluster_f'
+];
+_playerJetCount = count (allPlayers select {((toLower (typeOf (vehicle _x))) in _allJetTypes)});
+if (((count allPlayers) < 10) && (_playerJetCount isEqualTo 0)) exitWith {};
 _jetSelect = selectRandomWeighted [
 	'O_Plane_CAS_02_dynamicLoadout_F',0.3,
 	'O_Plane_Fighter_02_F',([0.15,0.3] select (_playerJetCount > 0)),
@@ -70,9 +66,9 @@ _jetSelect = selectRandomWeighted [
 	'c_plane_civil_01_racing_f',0.1,
 	'I_Plane_Fighter_03_Cluster_F',0.1
 ];
-_spawnPos = [(random worldSize),(random worldSize),2000];
+_spawnPos = [(random worldSize),(random worldSize),1000];
 _QS_AOpos = missionNamespace getVariable 'QS_AOpos';
-_new = FALSE;
+private _new = FALSE;
 if (isNull (missionNamespace getVariable 'QS_enemyCasGroup')) then {
 	_new = TRUE;
 	missionNamespace setVariable ['QS_enemyCasGroup',(createGroup [EAST,TRUE]),FALSE];
@@ -95,6 +91,7 @@ _jetActual setPosASL [
 	((getPosASL _jetActual) select 1),
 	(((getPosASL _jetActual) select 2) + 1000)
 ];
+_jetActual setVectorUp [0,0,1];
 _jetActual engineOn TRUE;
 _jetActual setAirplaneThrottle 1;
 _jetActual allowCrewInImmobile TRUE;
@@ -169,7 +166,7 @@ _jetPilot addEventHandler [
 		{
 			params ['_vehicle','_position','_unit','_turret'];
 			_unit setDamage [1,TRUE];
-			if (({(alive _x)} count (crew _vehicle)) isEqualTo 0) then {
+			if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
 				_vehicle setDamage [1,TRUE];
 			};
 		}
@@ -179,13 +176,12 @@ _jetPilot addEventHandler [
 		{
 			params ['_jet','_killer'];
 			_jet removeAllEventHandlers 'Hit';
-			_jet removeAllEventHandlers 'Killed';
 			['EnemyJetDown',['Enemy plane is down!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-			if (isPlayer _killer) then {
-				_name = name _killer;
-				['sideChat',[WEST,'HQ'],(format ['%1 destroyed the enemy plane!',_name])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			};
 		}
+	],
+	[
+		'Killed',
+		(missionNamespace getVariable 'QS_fnc_vKilled2')
 	],
 	[
 		'IncomingMissile',

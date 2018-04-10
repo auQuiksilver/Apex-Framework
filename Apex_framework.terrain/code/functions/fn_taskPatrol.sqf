@@ -13,26 +13,20 @@ Description:
 	AI Patrol
 __________________________________________________/*/
 
-params ['_grp','_pos','_maxDist'];
+params ['_grp','_pos','_maxDist',['_QS_new',FALSE]];
 private [
 	'_grpBehaviour','_grpWPFormations','_grpWPSpeed','_grpWPType','_grpWPCombatMode','_prevPos','_wp','_newPos','_n',
 	'_combatModes','_foundPos','_behaviours','_patrolRoute','_QS_new','_grpVehicle','_isWaterPatrol','_exit','_waterMode'
 ];
-
-if ((count _this) > 3) then {
-	_QS_new = _this select 3;
-} else {
-	_QS_new = FALSE;
-};
 _isWaterPatrol = FALSE;
 _waterMode = 0;
-_grpVehicle = vehicle ((units _grp) select 0);
+_grpVehicle = objectParent (leader _grp);
 if (!isNil '_grpvehicle') then {
 	if (_grpVehicle isKindOf 'Ship') then {
 		_isWaterPatrol = TRUE;
 		_waterMode = 2;
 	} else {
-		if (['wet',(uniform ((units _grp) select 0)),FALSE] call (missionNamespace getVariable 'BIS_fnc_inString')) then {
+		if (['wet',(uniform ((units _grp) select 0)),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 			_isWaterPatrol = TRUE;
 			_waterMode = 2;
 		};
@@ -42,6 +36,7 @@ _grp setBehaviour 'SAFE';
 _grp enableAttack TRUE;
 {
 	_x enableStamina FALSE;
+	_x enableFatigue FALSE;
 } count (units _grp);
 _prevPos = _pos;
 if (!(_prevPos isEqualType [])) exitWith {diag_log '***** DEBUG ***** fn_taskPatrol ***** pos is not a valid type *****';};
@@ -71,7 +66,7 @@ for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
 	_prevPos = _newPos;
 	if (_QS_new) then {
 		_newPos set [2,((_newPos select 2) + 1)];
-		0 = _patrolRoute pushBack _newPos;
+		_patrolRoute pushBack _newPos;
 	} else {
 		if ((random 1) > 0.2) then {
 			_grpBehaviour = 'SAFE';
@@ -110,7 +105,7 @@ for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
 	};
 };
 if (_QS_new) then {
-	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,-1,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 } else {
 	if (surfaceIsWater _pos) then {

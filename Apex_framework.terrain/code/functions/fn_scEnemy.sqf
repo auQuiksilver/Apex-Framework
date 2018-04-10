@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	19/02/2018 A3 1.80 by Quiksilver
+	5/03/2018 A3 1.80 by Quiksilver
 
 Description:
 
@@ -41,17 +41,17 @@ _playerCount = count allPlayers;
 _playerThreshold = 30;
 _roadsValidCopy = [];
 _unit = objNull;
-_roadsValid = ([(_centerPos select 0),(_centerPos select 1)] nearRoads _centerRadius) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
+_roadsValid = ((_centerPos select [0,2]) nearRoads _centerRadius) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
 _allowVehicles = _QS_module_virtualSectors_vehiclesEnabled;
 if (_allowVehicles) then {
 	_roadsValid = _roadsValid call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 	_roadsValidCopy = _roadsValid;
-	_roadsValidPositions = _roadsValid apply {(position _x)};
+	_roadsValidPositions = _roadsValid apply {(getPosATL _x)};
 };
 comment 'Do unscheduled';
 _fnc_getBuildingPositions = {
 	params ['_centerPos','_centerRadius'];
-	private _areaHouses = nearestObjects [_centerPos,['House','Building'],_centerRadius];
+	private _areaHouses = nearestObjects [_centerPos,['House','Building'],_centerRadius,TRUE];
 	_areaHouses = _areaHouses + ((allSimpleObjects []) select {((_x distance2D _centerPos) <= _centerRadius)});
 	_areaHousesWithPositions = _areaHouses select {(!((_x buildingPos -1) isEqualTo []))};
 	_areaHousesWithPositions;
@@ -103,98 +103,179 @@ _grp = grpNull;
 _side = EAST;
 _infantryGroupType = '';
 _infantryGroupTypes = [
-	"OIA_InfSentry",1,
-	"OIA_InfSquad",3,
-	"OIA_InfTeam",4,
-	"OIA_InfTeam_LAT",3,
-	"OIA_InfAssault",2,
-	"OIA_InfTeam_AA",2,
-	"OIA_InfTeam_AT",2,
-	"OIA_ARTeam",2
+	'OIA_InfSentry',1,
+	'OIA_InfSquad',3,
+	'OIA_InfTeam',4,
+	'OIA_InfTeam_LAT',3,
+	'OIA_InfAssault',2,
+	'OIA_InfTeam_AA',2,
+	'OIA_InfTeam_AT',2,
+	'OIA_ARTeam',2
 ];
 if (_worldName isEqualTo 'Tanoa') then {
 	_staticTypes = ['O_HMG_01_high_F'];
-	_airTypes = ["i_heli_light_03_dynamicloadout_f","O_Heli_Light_02_dynamicLoadout_F","O_Heli_Light_02_v2_F"];
+	_airTypes = ['i_heli_light_03_dynamicloadout_f','O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F'];
 	_engineerType = 'O_T_Engineer_F';
-	_infUrbanTypes = ["OIA_InfTeam","OIA_InfTeam"];
 	_aaTypes = ['O_T_APC_Tracked_02_AA_ghex_F'];
-	_mrapTypes = ["O_T_MRAP_02_gmg_ghex_F",'O_T_MRAP_02_hmg_ghex_F','O_T_LSV_02_armed_F'];
+	_mrapTypes = ['O_T_MRAP_02_gmg_ghex_F','O_T_MRAP_02_hmg_ghex_F','O_T_LSV_02_armed_F'];
 	if (_playerCount >= _playerThreshold) then {
 		if (_isArmedAirEnabled) then {
 			_vehTypes = [
-				"O_T_APC_Tracked_02_cannon_ghex_F","O_T_APC_Wheeled_02_rcws_ghex_F","O_T_APC_Tracked_02_cannon_ghex_F",
-				"I_APC_Wheeled_03_cannon_F","I_APC_tracked_03_cannon_F",'B_APC_Tracked_01_rcws_F','O_T_MBT_02_cannon_ghex_F',"I_APC_Wheeled_03_cannon_F",'I_MBT_03_cannon_F',
-				"O_T_MRAP_02_gmg_ghex_F",'O_T_MRAP_02_hmg_ghex_F','O_T_LSV_02_armed_F',
-				"O_T_MRAP_02_gmg_ghex_F",'O_T_MRAP_02_hmg_ghex_F','O_T_LSV_02_armed_F'
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'B_APC_Tracked_01_rcws_F',
+				'O_T_MBT_02_cannon_ghex_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_MBT_03_cannon_F',
+				'O_T_MRAP_02_gmg_ghex_F',
+				'O_T_MRAP_02_hmg_ghex_F',
+				'O_T_LSV_02_armed_F',
+				'O_T_MRAP_02_gmg_ghex_F',
+				'O_T_MRAP_02_hmg_ghex_F',
+				'O_T_LSV_02_armed_F'
 			];
 		} else {
 			_vehTypes = [
-				"O_T_APC_Tracked_02_cannon_ghex_F","O_T_APC_Wheeled_02_rcws_ghex_F","O_T_APC_Tracked_02_cannon_ghex_F","O_T_APC_Tracked_02_cannon_ghex_F","O_T_APC_Wheeled_02_rcws_ghex_F","O_T_APC_Tracked_02_cannon_ghex_F",
-				"I_APC_Wheeled_03_cannon_F","I_APC_tracked_03_cannon_F",'B_APC_Tracked_01_rcws_F','O_T_MBT_02_cannon_ghex_F',"I_APC_Wheeled_03_cannon_F",'I_MBT_03_cannon_F',
-				"O_T_MRAP_02_gmg_ghex_F",'O_T_MRAP_02_hmg_ghex_F','O_T_LSV_02_armed_F',
-				"O_T_MRAP_02_gmg_ghex_F",'O_T_MRAP_02_hmg_ghex_F','O_T_LSV_02_armed_F'
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'B_APC_Tracked_01_rcws_F',
+				'O_T_MBT_02_cannon_ghex_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_MBT_03_cannon_F',
+				'O_T_MRAP_02_gmg_ghex_F',
+				'O_T_MRAP_02_hmg_ghex_F',
+				'O_T_LSV_02_armed_F',
+				'O_T_MRAP_02_gmg_ghex_F',
+				'O_T_MRAP_02_hmg_ghex_F',
+				'O_T_LSV_02_armed_F'
 			];		
 		};
 	} else {
 		if (_isArmedAirEnabled) then {
 			_vehTypes = [
-				"O_T_APC_Tracked_02_cannon_ghex_F","O_T_APC_Wheeled_02_rcws_ghex_F",
-				"I_APC_Wheeled_03_cannon_F",'I_MRAP_03_hmg_F'
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_MRAP_03_hmg_F'
 			];
 		} else {
 			_vehTypes = [
-				"O_T_APC_Tracked_02_cannon_ghex_F","O_T_APC_Wheeled_02_rcws_ghex_F",
-				"I_APC_Wheeled_03_cannon_F",'I_MRAP_03_hmg_F'
+				'O_T_APC_Tracked_02_cannon_ghex_F',
+				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_MRAP_03_hmg_F'
 			];
 		};
 	};
-	_mortGunnerType = "O_T_Support_Mort_F";
-	_pilotType = "O_T_Helipilot_F";
-	_jtacType = "O_T_Recon_JTAC_F";
+	_mortGunnerType = 'O_T_Support_Mort_F';
+	_pilotType = 'O_T_Helipilot_F';
+	_jtacType = 'O_T_Recon_JTAC_F';
 	_officerType = 'O_T_Officer_F';
 } else {
 	_staticTypes = ['O_HMG_01_high_F'];
-	_airTypes = ["i_heli_light_03_dynamicloadout_f","O_Heli_Light_02_dynamicLoadout_F","O_Heli_Light_02_v2_F",'O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F'];
+	_airTypes = ['i_heli_light_03_dynamicloadout_f','O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F'];
 	_engineerType = 'O_engineer_F';
-	_infUrbanTypes = ["OIA_InfTeam","OIA_InfTeam"];
 	_aaTypes = ['O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','B_APC_Tracked_01_AA_F','O_APC_Tracked_02_AA_F'];
 	_mrapTypes = ['O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F'];
 	if (_playerCount >= _playerThreshold) then {
 		if (_isArmedAirEnabled) then {
 			_vehTypes = [
-				"O_MBT_02_cannon_F","O_APC_Tracked_02_cannon_F","O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","I_APC_Wheeled_03_cannon_F",
-				"I_APC_tracked_03_cannon_F","I_MBT_03_cannon_F",'B_APC_Tracked_01_rcws_F','O_MBT_02_cannon_F',"I_APC_tracked_03_cannon_F",
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F'
+				'O_MBT_02_cannon_F',
+				'O_APC_Tracked_02_cannon_F',
+				'O_APC_Wheeled_02_rcws_v2_F',
+				'O_APC_Tracked_02_cannon_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'I_MBT_03_cannon_F',
+				'B_APC_Tracked_01_rcws_F',
+				'O_MBT_02_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F'
 			];
 		} else {
 			_vehTypes = [
-				"O_MBT_02_cannon_F","O_APC_Tracked_02_cannon_F","O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","I_APC_Wheeled_03_cannon_F","O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","I_APC_Wheeled_03_cannon_F",
-				"I_APC_tracked_03_cannon_F","I_MBT_03_cannon_F",'B_APC_Tracked_01_rcws_F','O_MBT_02_cannon_F',"I_APC_tracked_03_cannon_F",
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F'
+				'O_MBT_02_cannon_F',
+				'O_APC_Tracked_02_cannon_F',
+				'O_APC_Wheeled_02_rcws_v2_F',
+				'O_APC_Tracked_02_cannon_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'O_APC_Wheeled_02_rcws_v2_F',
+				'O_APC_Tracked_02_cannon_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'I_MBT_03_cannon_F',
+				'B_APC_Tracked_01_rcws_F',
+				'O_MBT_02_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F'
 			];	
 		};
 	} else {
 		if (_isArmedAirEnabled) then {
 			_vehTypes = [
-				"O_MBT_02_cannon_F","O_APC_Tracked_02_cannon_F","O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","I_APC_Wheeled_03_cannon_F",
-				"I_APC_tracked_03_cannon_F","I_MBT_03_cannon_F",'B_APC_Tracked_01_rcws_F','O_MBT_02_cannon_F',"I_APC_tracked_03_cannon_F",
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F'
+				'O_MBT_02_cannon_F',
+				'O_APC_Tracked_02_cannon_F',
+				'O_APC_Wheeled_02_rcws_v2_F',
+				'O_APC_Tracked_02_cannon_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'I_MBT_03_cannon_F',
+				'B_APC_Tracked_01_rcws_F',
+				'O_MBT_02_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F'
 			];
 		} else {
 			_vehTypes = [
-				"O_MBT_02_cannon_F","O_APC_Tracked_02_cannon_F","O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","I_APC_Wheeled_03_cannon_F","O_APC_Wheeled_02_rcws_F","O_APC_Tracked_02_cannon_F","I_APC_Wheeled_03_cannon_F",
-				"I_APC_tracked_03_cannon_F","I_MBT_03_cannon_F",'B_APC_Tracked_01_rcws_F','O_MBT_02_cannon_F',"I_APC_tracked_03_cannon_F",
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F'
+				'O_MBT_02_cannon_F',
+				'O_APC_Tracked_02_cannon_F',
+				'O_APC_Wheeled_02_rcws_v2_F',
+				'O_APC_Tracked_02_cannon_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'O_APC_Wheeled_02_rcws_v2_F',
+				'O_APC_Tracked_02_cannon_F',
+				'I_APC_Wheeled_03_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'I_MBT_03_cannon_F',
+				'B_APC_Tracked_01_rcws_F',
+				'O_MBT_02_cannon_F',
+				'I_APC_tracked_03_cannon_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F',
+				'O_MRAP_02_gmg_F',
+				'O_MRAP_02_hmg_F',
+				'O_LSV_02_armed_F'
 			];
 		};
 	};
-	_mortGunnerType = "O_support_MG_F";
-	_pilotType = "O_Helipilot_F";
-	_jtacType = "O_recon_JTAC_F";
+	_mortGunnerType = 'O_support_MG_F';
+	_pilotType = 'O_Helipilot_F';
+	_jtacType = 'O_recon_JTAC_F';
 	_officerType = 'O_officer_F';
 };
 
@@ -273,12 +354,12 @@ if (!((typeOf _air) in ['O_Heli_Light_02_v2_F','O_Heli_Light_02_dynamicLoadout_F
 if ((toLower _airType) isEqualTo 'i_heli_light_03_dynamicloadout_f') then {
 	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo 'Tanoa')),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
-	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit moveInCargo [_air,0];
 	_entityArray pushBack _unit;
 	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo 'Tanoa')),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
-	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit moveInCargo [_air,1];
 	_entityArray pushBack _unit;
 	missionNamespace setVariable [
@@ -342,7 +423,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_spawnedRadialPatrolInfantry >= _maxRadialPatrolInfantry) exitWith {};
 	_randomPos = ['RADIUS',_centerPos,_centerRadius,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	_infantryGroupType = selectRandomWeighted _infantryGroupTypes;
-	_grp = [_randomPos,(random 360),_side,_infantryGroupType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
+	_grp = [_randomPos,(random 360),_side,_infantryGroupType,FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 	[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	{
 		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
@@ -396,19 +477,6 @@ if (_allowVehicles) then {
 	diag_log '***** SC ENEMY ***** Spawning vehicle patrols ******';
 	diag_log '****************************************************';
 
-	_vehEHKilled = {
-		params ['_killed','_killer','_instigator','_useEffects'];
-		_objType = typeOf (vehicle _killed);
-		if (isPlayer _instigator) then {
-			if ((vehicle _instigator) isKindOf 'Air') then {
-				_killerType = typeOf (vehicle _instigator);
-				_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
-				_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
-				_name = name _instigator;
-				['sideChat',[WEST,'BLU'],(format ['%1 has destroyed a(n) %2 with a(n) %3!',_name,_objDisplayName,_killerDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			};
-		};
-	};
 	if (_playerCount >= 0) then {_maxPatrolVehicles = 1;};
 	if (_playerCount > 10) then {_maxPatrolVehicles = 2;};
 	if (_playerCount > 20) then {_maxPatrolVehicles = 2;};
@@ -438,9 +506,10 @@ if (_allowVehicles) then {
 			_vehicle enableVehicleCargo FALSE;
 			_vehicle forceFollowRoad TRUE;
 			_vehicle setConvoySeparation 50;
-			_vehicle addEventHandler ['Killed',_vehEHKilled];
+			_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 			_vehicle allowCrewInImmobile TRUE;
 			_vehicle setUnloadInCombat [TRUE,FALSE];
+			[0,_vehicle,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 			_vehicle addEventHandler [
 				'GetOut',
 				{
@@ -454,13 +523,6 @@ if (_allowVehicles) then {
 			clearBackpackCargoGlobal _vehicle;
 			[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 			if ((toLower _vehicleType) in ['b_apc_tracked_01_rcws_f','b_t_apc_tracked_01_rcws_f']) then {
-				{
-					_vehicle setObjectTextureGlobal _x;
-				} forEach [
-					[0,'A3\armor_f_beta\apc_tracked_01\data\apc_tracked_01_body_indp_co.paa'],
-					[1,'A3\armor_f_beta\apc_tracked_01\data\apc_tracked_01_body_indp_co.paa'],
-					[2,'A3\armor_f_beta\apc_tracked_01\data\apc_tracked_01_body_indp_co.paa']
-				];
 				_grp = createGroup [_side,TRUE];
 				_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
 				_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -497,6 +559,7 @@ if (_allowVehicles) then {
 				0 = _arrayVehicles pushBack _x;
 				0 = _entityArray pushBack _x;
 			} forEach (units _grp);
+			/*/
 			if (!isNull (gunner _vehicle)) then {
 				(gunner _vehicle) setSkill 0.1;
 				(gunner _vehicle) setSkill ['aimingAccuracy',(random [0.05,0.06,0.08])];
@@ -505,6 +568,7 @@ if (_allowVehicles) then {
 				(commander _vehicle) setSkill 0.1;
 				(commander _vehicle) setSkill ['aimingAccuracy',(random [0.05,0.06,0.08])];
 			};
+			/*/
 			_vehicleRoadPatrolPositions = [];
 			_vehicleRoadPatrolPositions pushBack (selectRandom _roadsValidPositions);
 			for '_x' from 0 to 2 step 1 do {
@@ -528,6 +592,22 @@ if (_allowVehicles) then {
 			};
 		};
 	};
+	private _supportData = [];
+	private _supportEntities = [];
+	private _supportElement = [];
+	private _supportEntity = objNull;
+	_supportData pushBack ['REPAIR',TRUE,[_roadsValidPositions]];
+	if ((random 1) > 0.5) then {
+		_supportData pushBack ['MEDICAL',TRUE,[_roadsValidPositions]];
+	};
+	{
+		_supportElement = _x;
+		_supportEntities = _supportElement call (missionNamespace getVariable 'QS_fnc_spawnSupport');
+		{
+			_supportEntity = _x;
+			_entityArray pushBack _supportEntity;
+		} forEach _supportEntities;
+	} forEach _supportData;	
 };
 _arrayGarrison = [];
 if (_allowedGarrison) then {

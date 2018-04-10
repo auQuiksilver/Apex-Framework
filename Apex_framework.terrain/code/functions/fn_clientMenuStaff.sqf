@@ -38,7 +38,7 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
 	playSound 'Click';
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
-	TRUE spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
+	0 spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
 	_moderatorsActions = [
 		['0 - Close Menu',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),2,81,TRUE,TRUE,'','TRUE'],
 		['1 - (Target) Delete',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),3,80,TRUE,TRUE,'','TRUE'],
@@ -106,7 +106,7 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'Curator')) exitWith {
 	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
 	playSound 'Click';
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
-	TRUE spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
+	0 spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
 	private ['_curators','_logic'];
 	_curators = ['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist');
 	if (_uid in _curators) then {
@@ -118,7 +118,7 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'Curator')) exitWith {
 				};
 			};
 			player setVariable ['QS_staff_curatorLastUpdate',TRUE,FALSE];
-			TRUE spawn {uiSleep 10;player setVariable ['QS_staff_curatorLastUpdate',nil,FALSE];};
+			0 spawn {uiSleep 10;player setVariable ['QS_staff_curatorLastUpdate',nil,FALSE];};
 			[49,_logic] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			if (!isStreamFriendlyUIEnabled) then {
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Synchronizing Curator Module',[],-1];
@@ -284,7 +284,7 @@ if (_type2 isEqualType 0) exitWith {
 			player linkItem 'ItemMap';	
 		};
 		openMap TRUE;
-		TRUE spawn {
+		0 spawn {
 			missionNamespace setVariable ['QS_mapSelected',FALSE,FALSE];
 			_timeOut = time + 15;	
 			missionNamespace setVariable [
@@ -338,13 +338,13 @@ if (_type2 isEqualType 0) exitWith {
 		playSound 'ClickSoft';
 		createDialog 'RscDisplayCamera';
 		if (!(_uid in _developers)) then {
-			TRUE spawn {
+			0 spawn {
 				disableUserInput TRUE;
 				uiSleep 0.5;
 				disableUserInput FALSE;
 			};
 			comment 'Wait a second and then get the display, tweak the controls and switch the keyDown event handler';
-			TRUE spawn {
+			0 spawn {
 				disableSerialization;
 				uiSleep 0.5;
 				private _display = findDisplay 314;

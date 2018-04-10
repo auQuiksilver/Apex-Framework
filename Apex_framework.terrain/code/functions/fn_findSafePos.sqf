@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_findSafePos.sqf
 Author:
 
@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	21/03/2016 A3 1.56 by Quiksilver
+	17/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -39,10 +39,9 @@ TODO:
 	avoid several things?
 	* Interpretation of minDist / maxDist is wrong. It's not true distance that is used. Too bad?
 	'TRAIL','TREE','SMALL TREE','BUSH','MAIN ROAD','TRACK','FOREST',
-________________________________________________________________________________________________________*/
+________________________________________________________________________________________________________/*/
 
 params ['_pos','_minDist','_maxDist','_objDist','_waterMode','_maxGradient','_shoreMode'];
-private ['_newPos','_posX','_posY','_newX','_newY','_testPos','_defaultPos','_blacklist','_isTanoa','_bto'];
 scopeName 'main';
 if (_shoreMode isEqualTo 0) then {_shoreMode = FALSE;} else {_shoreMode = TRUE;};
 if (_pos isEqualTo []) then {
@@ -52,7 +51,7 @@ if (_pos isEqualTo []) then {
 		missionNamespace setVariable ['QS_safePositionAnchor',(if (worldName isEqualTo 'Tanoa') then [{[2086.95,7805.91,0]},{_pos}]),TRUE];
 	};
 };
-if (_pos isEqualTo []) exitWith {diag_log 'Log: [findSafePos] No center position was passed!'; []};
+if (_pos isEqualTo []) exitWith {diag_log 'Log: [findSafePos] No center position was passed!';[]};
 if (_maxDist isEqualTo -1) then {
 	_maxDist = missionNamespace getVariable ['QS_safePositionRadius',-1];
 	if (_maxDist isEqualTo -1) then {
@@ -60,41 +59,40 @@ if (_maxDist isEqualTo -1) then {
 		missionNamespace setVariable ['QS_safePositionRadius',_maxDist,TRUE];
 	};
 };
-_newPos = [];
-_defaultPos = [];
-_posX = _pos select 0;
-_posY = _pos select 1;
-_posZ = _pos select 2;
-_isTanoa = FALSE;
-if (worldName isEqualTo 'Tanoa') then {
-	_isTanoa = TRUE;
-};
+private _newPos = [];
+private _defaultPos = [];
+private _testPos = [-1000,-1000,0];
+private _newY = 0;
+private _newX = 0;
+_pos params ['_posX','_posY','_posZ'];
+_isTropics = worldName in ['Tanoa','Lingor3'];
 _bto = [
-	'BUILDING','HOUSE','FOREST BORDER', 
-	'FOREST TRIANGLE','FOREST SQUARE','CHURCH','CHAPEL', 
-	'CROSS','ROCK','BUNKER','FORTRESS','FOUNTAIN','VIEW-TOWER', 
-	'LIGHTHOUSE','QUAY','FUELSTATION','HOSPITAL','FENCE','WALL', 
-	'HIDE','BUSSTOP','ROAD','TRANSMITTER','STACK','RUIN', 
-	'TOURISM','WATERTOWER','ROCKS','POWER LINES','RAILWAY', 
-	'POWERSOLAR','POWERWAVE','POWERWIND','SHIPWRECK'
+	'building','house','forest border', 
+	'forest triangle','forest square','church','chapel', 
+	'cross','rock','bunker','fortress','fountain','view-tower', 
+	'lighthouse','quay','fuelstation','hospital','fence','wall', 
+	'hide','busstop','road','transmitter','stack','ruin', 
+	'tourism','watertower','rocks','power lines','railway', 
+	'powersolar','powerwave','powerwind','shipwreck'
 ];
-
 for '_x' from 0 to 999 step 1 do {
 	_newX = _posX + (_maxDist - (random (_maxDist * 2)));
 	_newY = _posY + (_maxDist - (random (_maxDist * 2)));
 	_testPos = [_newX,_newY,_posZ];
 	if ((_pos distance2D _testPos) >= _minDist) then {
-		if (_isTanoa) then {
-			if (!((_testPos isFlatEmpty [0,-1,_maxGradient,(_objDist max 2),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
+		if (_isTropics) then {
+			if (!((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 2),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
 				if ((nearestTerrainObjects [_testPos,_bto,_objDist,FALSE,TRUE]) isEqualTo []) then {
 					_newPos = _testPos;
 					breakTo 'main';
 				};
 			};
 		} else {
-			if (!((_testPos isFlatEmpty [_objDist,-1,_maxGradient,(_objDist max 5),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
-				_newPos = _testPos;
-				breakTo 'main';
+			if (!((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 3),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
+				if ((nearestTerrainObjects [_testPos,_bto,_objDist,FALSE,TRUE]) isEqualTo []) then {
+					_newPos = _testPos;
+					breakTo 'main';
+				};
 			};
 		};
 	};

@@ -1,0 +1,7 @@
+Some preliminary steps to go through before adding mods.
+
+1. Disable the anticheat in the "@Apex_cfg\parameters.sqf" file.
+
+2. Check description.ext "class CfgRemoteExec" if necessary.
+
+3. Check description.ext "class CfgDisabledCommands" if necessary.

@@ -13,13 +13,13 @@ Description:
 	Spawn AO Radio tower
 ____________________________________________________________________________/*/
 
-private ['_pos','_position'];
-_pos = _this select 0;
+params ['_pos'];
 _baseMarker = markerPos 'QS_marker_base_marker';
 _hqPos = missionNamespace getVariable ['QS_HQpos',[0,0,0]];
+private _position = [0,0,0];
 for '_x' from 0 to 9 step 1 do {
 	_position = ['RADIUS',_pos,((missionNamespace getVariable 'QS_aoSize') * 0.75),'LAND',[1,0,0.5,4,0,FALSE,objNull],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if (((_position distance2D _baseMarker) > 500) && ((_position distance2D _hqPos) > 200) && (((_position nearRoads 15) select {((_x isEqualType objNull) && (!((count (roadsConnectedTo _x)) isEqualTo 0)))}) isEqualTo [])) exitWith {};
+	if (((_position distance2D _baseMarker) > 500) && ((_position distance2D _hqPos) > 200) && ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo [])) exitWith {};
 };
 _position set [2,0];
 _roughPos = [((_position select 0) - 140) + (random 280),((_position select 1) - 140) + (random 280),0];

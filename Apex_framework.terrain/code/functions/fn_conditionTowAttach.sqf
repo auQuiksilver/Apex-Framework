@@ -13,16 +13,13 @@ Description:
 	Condition for add-Action
 __________________________________________________________________*/
 
-private ['_v','_c'];
 _v = vehicle player;
-_c = FALSE;
+private _c = FALSE;
 if (_v isKindOf 'LandVehicle') then {
-	if ((speed _v) < 1) then {
-		if ((speed _v) > -1) then {
-			if ((_v getVariable 'QS_tow_veh') > 0) then {
-				if ([_v] call (missionNamespace getVariable 'QS_fnc_vTowable')) then {
-					_c = TRUE;
-				};	
+	if (((vectorMagnitude (velocity _v)) * 3.6) < 1) then {
+		if ((_v getVariable 'QS_tow_veh') > 0) then {
+			if ([_v] call (missionNamespace getVariable 'QS_fnc_vTowable')) then {
+				_c = TRUE;
 			};
 		};
 	};

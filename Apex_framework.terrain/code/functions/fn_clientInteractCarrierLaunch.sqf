@@ -6,12 +6,12 @@ Author:
 	
 Last modified:
 
-	30/11/2017 A3 1.78
+	10/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 	
-	-
-__________________________________________________________________________/*/
+	Carrier Launch handling
+___________________________________________________/*/
 
 _cameraOn = cameraOn;
 _cameraOnPos = getPosWorld _cameraOn;
@@ -46,8 +46,9 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		_carrierParts = nearestObjects [_launchPos,[_carrierObjectSegmentType],100,TRUE];
 		if (!(_carrierParts isEqualTo [])) then {
 			_carrierPart = _carrierParts select 0;
-			_carrierPart animateSource [_deflectorSelection,10,3];
-			_cameraOn setVariable ['QS_vehicle_carrierAnimData',[_carrierPart,[_deflectorSelection,0,3]],TRUE];
+			_carrierPart animateSource [_deflectorSelection,10,7.5];
+			playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Up.wss',objNull,FALSE,(_carrierPart modelToWorldWorld (_carrierPart selectionPosition _deflectorSelection)),25,1,75];
+			_cameraOn setVariable ['QS_vehicle_carrierAnimData',[_carrierPart,[_deflectorSelection,0,7.5]],TRUE];
 			[83,1,_cameraOn] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		};
 		_cameraOn setVelocity [0,0,0];
@@ -74,6 +75,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 				_carrierAnimData = _cameraOn getVariable ['QS_vehicle_carrierAnimData',[]];
 				if (!(_carrierAnimData isEqualTo [])) then {
 					(_carrierAnimData select 0) animateSource (_carrierAnimData select 1);
+					playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData select 0) modelToWorldWorld ((_carrierAnimData select 0) selectionPosition ((_carrierAnimData select 1) select 0))),25,1,75];
 				};
 				[83,0,_cameraOn] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 				50 cutText ['Launch Cancelled','PLAIN DOWN',0.75];
@@ -100,6 +102,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		_carrierAnimData = _this getVariable ['QS_vehicle_carrierAnimData',[]];
 		if (!(_carrierAnimData isEqualTo [])) then {
 			(_carrierAnimData select 0) animateSource (_carrierAnimData select 1);
+			playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData select 0) modelToWorldWorld ((_carrierAnimData select 0) selectionPosition ((_carrierAnimData select 1) select 0))),25,1,75];
 		};
 		[83,0,_this] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};

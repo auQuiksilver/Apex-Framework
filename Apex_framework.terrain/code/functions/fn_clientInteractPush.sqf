@@ -36,7 +36,7 @@ if ((!underwater player) && (((eyePos player) select 2) > 0)) then {
 	player playAction 'PutDown';
 };
 player allowDamage FALSE;
-TRUE spawn {
+0 spawn {
 	uiSleep 3;
 	player allowDamage TRUE;
 };

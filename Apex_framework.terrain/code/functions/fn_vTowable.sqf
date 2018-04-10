@@ -27,4 +27,4 @@ _towableCargoObjects = [
 	"land_watertank_f",
 	"land_cargo10_idap_f","land_cargo20_idap_f",'land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f'
 ];
-((count ((_findPos nearEntities [_towableCargoObjects,(2 * _vehicleHalfLength)]) + (nearestObjects [_findPos,_towableCargoObjects,(2 * _vehicleHalfLength)]))) > 0);
+((count ((_findPos nearEntities [_towableCargoObjects,(2 * _vehicleHalfLength)]) + (nearestObjects [_findPos,_towableCargoObjects,(2 * _vehicleHalfLength),TRUE]))) > 0);

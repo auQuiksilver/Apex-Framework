@@ -132,7 +132,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 		for '_x' from 0 to 1 step 0 do {
 			_position = ['RADIUS',_aoPos,_aoSize,'LAND',[2,0,0.25,5,0,FALSE,objNull],FALSE,[_aoPos,200,(selectRandom _positionTypes),15,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if (_position inPolygon _aoPolygon) then {
-				if (({((_position distance2D _x) < _safeDistance)} count _usedPositions) isEqualTo 0) then {
+				if ((_usedPositions findif {((_position distance2D _x) < _safeDistance)}) isEqualTo -1) then {
 					if (!([_position,30,6] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 						if ((([(_position select 0),(_position select 1)] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 							if ([_position,1.5,6,2] call _fn_checkSafePosition) then {
@@ -157,7 +157,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 					(missionNamespace getVariable 'QS_grid_hiddenTerrainObjects') pushBack _x;
 					_x hideObjectGlobal TRUE;
 				};
-			} forEach (nearestTerrainObjects [_position,[],15]);
+			} forEach (nearestTerrainObjects [_position,[],15,FALSE,TRUE]);
 			_entities pushBack ([1,_position,nil] call (missionNamespace getVariable 'QS_fnc_createWell'));
 			diag_log format ['QS QS QS * Spawned position: %1',_position];
 		};
@@ -227,7 +227,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 	for '_x' from 0 to 1 step 0 do {
 		_spawnPos = ['RADIUS',_aoPos,_aoSize,'LAND',[8,0,0.1,15,0,FALSE,objNull],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if (_spawnPos inPolygon _aoPolygon) then {
-			if (({((_spawnPos distance2D _x) < _safeDistance)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
+			if (((missionNamespace getVariable 'QS_registeredPositions') findif {((_spawnPos distance2D _x) < _safeDistance)}) isEqualTo -1) then {
 				if (!([_spawnPos,30,6] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 					if ((([(_spawnPos select 0),(_spawnPos select 1)] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 						if (([_spawnPos,300,[WEST],_allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
@@ -251,7 +251,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 		{	
 			(missionNamespace getVariable 'QS_grid_hiddenTerrainObjects') pushBack _x;
 			_x hideObjectGlobal TRUE;
-		} forEach (nearestTerrainObjects [_spawnPos,[],15]);
+		} forEach (nearestTerrainObjects [_spawnPos,[],15,FALSE,TRUE]);
 		_composition = [
 			_spawnPos,
 			(random 360),
@@ -478,7 +478,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 	for '_x' from 0 to 1 step 0 do {
 		_checkPos = ['RADIUS',_aoPos,_aoSize,'LAND',[5,0,0.1,15,0,FALSE,objNull],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if (_checkPos inPolygon _aoPolygon) then {
-			if (({((_checkPos distance2D _x) < _safeDistance)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
+			if (((missionNamespace getVariable 'QS_registeredPositions') findif {((_checkPos distance2D _x) < _safeDistance)}) isEqualTo -1) then {
 				if (!([_checkPos,30,6] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 					if ((([(_checkPos select 0),(_checkPos select 1)] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 						if (([_checkPos,300,[WEST],_allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
@@ -499,7 +499,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 		{	
 			(missionNamespace getVariable 'QS_grid_hiddenTerrainObjects') pushBack _x;
 			_x hideObjectGlobal TRUE;
-		} forEach (nearestTerrainObjects [_checkPos,[],12]);
+		} forEach (nearestTerrainObjects [_checkPos,[],12,FALSE,TRUE]);
 		_composition = [
 			_checkPos,
 			(random 360),
@@ -582,7 +582,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 			_uxoPos = ['RADIUS',_aoPos,_aoSize,'LAND',[1,0,-1,-1,0,FALSE,objNull],FALSE,[_aoPos,200,'(1 + forest) * (1 - houses)',25,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((_uxoPos distance2D _baseMarker) > 750) then {
 				if ((_uxoPos distance2D _checkPos) > 100) then {
-					if (({((_uxoPos distance2D _x) < 50)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
+					if (((missionNamespace getVariable 'QS_registeredPositions') findif {((_uxoPos distance2D _x) < 50)}) isEqualTo -1) then {
 						_uxoPosFound = TRUE;
 					};
 				};

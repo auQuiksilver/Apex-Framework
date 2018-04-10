@@ -356,7 +356,7 @@ for '_x' from 0 to 49 step 1 do {
 if (worldName isEqualTo 'Tanoa') then {
 	_QS_approvedBuildingTypes = ['House'];
 };
-_QS_buildingList_pre = (nearestObjects [_QS_locationCenterPos,_QS_approvedBuildingTypes,400]) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+_QS_buildingList_pre = (nearestObjects [_QS_locationCenterPos,_QS_approvedBuildingTypes,400,TRUE]) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 _QS_buildingList = [];
 {
 	_QS_buildingPositions = _x buildingPos -1;
@@ -755,7 +755,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		} count _QS_allArray;
 	};
-	if (({(alive _x)} count _QS_objectArray) isEqualTo 0) then {
+	if ((_QS_objectArray findIf {(alive _x)}) isEqualTo -1) then {
 		_QS_missionSuccess = FALSE;
 		_QS_missionFailed = TRUE;		
 	};

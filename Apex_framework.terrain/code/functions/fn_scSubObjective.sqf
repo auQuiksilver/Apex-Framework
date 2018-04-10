@@ -42,6 +42,12 @@ if (_type isEqualTo 0) exitWith {
 	if (_subType isEqualTo 'GEAR') then {
 	
 	};
+	if (_subType isEqualTo 'SUPPORT') then {
+	
+	};
+	if (_subType isEqualTo 'JAMMER') then {
+	
+	};
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
@@ -49,7 +55,7 @@ if (_type isEqualTo 1) exitWith {
 	_basePosition = markerPos 'QS_marker_base_marker';
 	_fobPosition = markerPos 'QS_marker_module_fob';
 	_centerPos = missionNamespace getVariable 'QS_AOpos';
-	private _centerRadius = missionNamespace getVariable 'QS_aoSize';
+	private _centerRadius = (missionNamespace getVariable 'QS_aoSize') * 0.75;
 	private _positionFound = FALSE;
 	private _position = [0,0,0];
 	private _uncertaintyPos = [0,0,0];
@@ -78,18 +84,18 @@ if (_type isEqualTo 1) exitWith {
 			] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((_position distance2D _basePosition) > 1000) then {
 				if ((_position distance2D _fobPosition) > 150) then {
-					if (({((_position distance2D _x) < 200)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
+					if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 200)}) isEqualTo -1) then {
 						if ((getTerrainHeightASL _position) > 2) then {
 							if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 6) then {
 								if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -6) then {
-									if ((([(_position select 0),(_position select 1)] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+									if ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 										if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 											if ((nearestObjects [_position,['House','Building'],7,FALSE]) isEqualTo []) then {
 												if ((nearestTerrainObjects [
 													_position,
 													[
 														"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
-														"FENCE","WALL","HIDE","BUSSTOP","ROAD","TRANSMITTER","STACK","RUIN","WATERTOWER","MAIN ROAD",
+														"FENCE","WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
 														"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
 													],
 													10,
@@ -108,7 +114,7 @@ if (_type isEqualTo 1) exitWith {
 				};
 			};
 			if (_attempts > 100) then {
-				_centerRadius = _centerRadius + 10;
+				_centerRadius = _centerRadius + 3;
 				_attempts = 0;
 			};
 			_attempts = _attempts + 1;
@@ -145,7 +151,7 @@ if (_type isEqualTo 1) exitWith {
 					0 = (missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _x;
 					_x hideObjectGlobal TRUE;
 				};
-			} forEach (nearestTerrainObjects [_house,[],20]);
+			} forEach (nearestTerrainObjects [_house,[],20,FALSE,TRUE]);
 			missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
 			private _configClass = configNull;
 			private _model = '';
@@ -281,18 +287,18 @@ if (_type isEqualTo 1) exitWith {
 			] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((_position distance2D _basePosition) > 1000) then {
 				if ((_position distance2D _fobPosition) > 150) then {
-					if (({((_position distance2D _x) < 200)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
+					if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 200)}) isEqualTo -1) then {
 						if ((getTerrainHeightASL _position) > 2) then {
 							if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 8) then {
 								if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -8) then {
-									if ((([(_position select 0),(_position select 1)] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+									if ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 										if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 											if ((nearestObjects [_position,['House','Building'],10,FALSE]) isEqualTo []) then {
 												if ((nearestTerrainObjects [
 													_position,
 													[
 														"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
-														"FENCE","WALL","HIDE","BUSSTOP","ROAD","TRANSMITTER","STACK","RUIN","WATERTOWER","MAIN ROAD",
+														"WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
 														"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
 													],
 													10,
@@ -320,14 +326,17 @@ if (_type isEqualTo 1) exitWith {
 		comment 'Spawn composition';
 		if (_positionFound) then {
 			missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
+			{	
+				if ((_x distance2D _position) < 8) then {
+					0 = (missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _x;
+					_x hideObjectGlobal TRUE;
+				};
+			} forEach (nearestTerrainObjects [_position,[],20,FALSE,TRUE]);
 			_compositionData = selectRandom (missionNamespace getVariable 'QS_compositions_radioTower');
 			_composition = [_position,0,(call _compositionData)] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 			private _mines = [];
 			if (((random 1) > 0.666) || ((_position distance2D _centerPos) > _centerRadius)) then {
-				_mines = [_position,5,25,29,[],TRUE,FALSE] call (missionNamespace getVariable 'QS_fnc_createMinefield');
-				{
-					0 = _composition pushBack _x;
-				} forEach _mines;
+				missionNamespace setVariable ['QS_ao_createDelayedMinefield',TRUE,FALSE];
 			};
 			_grpTypes = [
 				'OIA_InfSentry',
@@ -424,18 +433,18 @@ if (_type isEqualTo 1) exitWith {
 			] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((_position distance2D _basePosition) > 1000) then {
 				if ((_position distance2D _fobPosition) > 150) then {
-					if (({((_position distance2D _x) < 200)} count (missionNamespace getVariable 'QS_registeredPositions')) isEqualTo 0) then {
+					if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 200)}) isEqualTo -1) then {
 						if ((getTerrainHeightASL _position) > 2) then {
 							if (([_position,15] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 7) then {
 								if (([_position,15] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -7) then {
-									if ((([(_position select 0),(_position select 1)] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+									if ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 										if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 											if ((nearestObjects [_position,['House','Building'],18,FALSE]) isEqualTo []) then {
 												if ((nearestTerrainObjects [
 													_position,
 													[
 														"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
-														"FENCE","WALL","HIDE","BUSSTOP","ROAD","TRANSMITTER","STACK","RUIN","WATERTOWER","MAIN ROAD",
+														"FENCE","WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
 														"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
 													],
 													7,
@@ -454,7 +463,7 @@ if (_type isEqualTo 1) exitWith {
 				};
 			};
 			if (_attempts > 100) then {
-				_centerRadius = _centerRadius + 10;
+				_centerRadius = _centerRadius + 3;
 				_attempts = 0;
 			};
 			_attempts = _attempts + 1;
@@ -544,6 +553,25 @@ if (_type isEqualTo 1) exitWith {
 			_return = [2,_subType,[_position,{},_composition]];
 		};
 	};
+	if (_subType isEqualTo 'SUPPORT') then {
+		comment 'Vehicle support base';
+		
+		
+		
+	};
+	if (_subType isEqualTo 'JAMMER') then {
+		private _position = [0,0,0];
+		for '_x' from 0 to 9 step 1 do {
+			_position = ['RADIUS',_centerPos,(_centerRadius * 0.666),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+			if (((_position distance2D _basePosition) > 500) && ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) && (!([_position,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) exitWith {};
+		};
+		_roughPos = [((_position select 0) - 140) + (random 280),((_position select 1) - 140) + (random 280),0];
+		_jammer = [1,'QS_ao_jammer_1',_position,_roughPos,(ceil (random [150,200,300]))] call (missionNamespace getVariable 'QS_fnc_gpsJammer');
+		if (alive _jammer) then {
+			_composition = [_jammer];
+			_return = [2,_subType,[_position,{},_composition]];
+		};
+	};
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
@@ -557,6 +585,12 @@ if (_type isEqualTo 2) exitWith {
 	
 	};
 	if (_subType isEqualTo 'GEAR') then {
+	
+	};
+	if (_subType isEqualTo 'SUPPORT') then {
+	
+	};
+	if (_subType isEqualTo 'JAMMER') then {
 	
 	};
 	_return;

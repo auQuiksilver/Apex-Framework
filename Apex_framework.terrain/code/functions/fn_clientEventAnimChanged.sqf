@@ -25,7 +25,7 @@ if (_anim in ['acinpknlmstpsraswrfldnon','acinpknlmstpsnonwpstdnon','acinpknlmst
 				if (!alive player) exitWith {};
 				if (!isNull (objectParent player)) exitWith {};
 				if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {};
-				if (({((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))} count (attachedObjects player)) isEqualTo 0) exitWith {
+				if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1) exitWith {
 					player playActionNow 'released';
 				};
 				uiSleep 1;
@@ -82,10 +82,10 @@ if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmst
 				if (!isNull (objectParent player)) exitWith {_putDown = TRUE;};
 				if (!alive _carried) exitWith {_putDown = TRUE;};
 				if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {};
-				if (({((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))} count (attachedObjects player)) isEqualTo 0) exitWith {
+				if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1) exitWith {
 					player playActionNow 'released';
 				};
-				if (!(({((_x isKindOf 'Man') && (!((lifeState _x) isEqualTo 'INCAPACITATED')))} count (attachedObjects player)) isEqualTo 0)) exitWith {
+				if (!(((attachedObjects player) findIf {((_x isKindOf 'Man') && (!((lifeState _x) isEqualTo 'INCAPACITATED')))}) isEqualTo -1)) exitWith {
 					{
 						detach _x;
 					} count attachedObjects player;

@@ -21,7 +21,7 @@ if (!alive _cursorObject) exitWith {
 if ((!(_cursorObject isKindOf 'LandVehicle')) && (!(_cursorObject isKindOf 'Air')) && (!(_cursorObject isKindOf 'Ship')) && (!(_cursorObject isKindOf 'StaticWeapon'))) exitWith {
 	50 cutText ['Invalid target','PLAIN DOWN',0.25];
 };
-if (({(alive _x)} count (crew _cursorObject)) isEqualTo 0) exitWith {
+if (((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1) exitWith {
 	50 cutText ['Target unoccupied','PLAIN DOWN',0.25];
 };
 if (_cursorObject isSensorTargetConfirmed playerSide) exitWith {

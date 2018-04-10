@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	31/07/2016 A3 1.62 by Quiksilver
+	8/03/2018 A3 1.80 by Quiksilver
 
 Description:
 
@@ -16,11 +16,20 @@ __________________________________________________________*/
 params ['_vehicle','_ammo','_shooter','_instigator'];
 private _projectile = nearestObject [_shooter,_ammo];
 if (!isNull _projectile) then {
-	missionNamespace setVariable [
-		'QS_draw3D_projectiles',
-		((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),
-		FALSE
-	];
+	if (!(_projectile in (missionNamespace getVariable 'QS_draw2D_projectiles'))) then {
+		missionNamespace setVariable [
+			'QS_draw2D_projectiles',
+			((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),
+			FALSE
+		];
+	};
+	if (!(_projectile in (missionNamespace getVariable 'QS_draw3D_projectiles'))) then {
+		missionNamespace setVariable [
+			'QS_draw3D_projectiles',
+			((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),
+			FALSE
+		];
+	};
 };
 private _cfgRadar = _vehicle getVariable ['QS_vehicle_radarType',-2];
 if (_cfgRadar isEqualTo -2) then {

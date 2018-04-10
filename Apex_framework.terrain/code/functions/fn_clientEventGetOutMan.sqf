@@ -39,7 +39,7 @@ if (!((typeOf _vehicle) in ['Steerable_Parachute_F'])) then {
 				};
 			};
 		};
-		TRUE spawn {
+		0 spawn {
 			uiSleep 1;
 			if (!(((player getVariable 'QS_backpack_data') select 0) isEqualTo '')) then {
 				player addBackpack ((player getVariable 'QS_backpack_data') select 0);
@@ -68,7 +68,7 @@ if (!isNil {player getVariable 'QS_pilot_vehicleInfo'}) then {
 if ((toLower (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracked_01_crv_f']) then {
 	player removeAction (missionNamespace getVariable 'QS_action_plow');
 };
-if ((({(alive _x)} count (crew _vehicle)) isEqualTo 0) || (player isEqualTo (driver _vehicle))) then {
+if ((((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) || {(player isEqualTo (driver _vehicle))}) then {
 	if (local _vehicle) then {
 		_vehicle engineOn FALSE;
 	};

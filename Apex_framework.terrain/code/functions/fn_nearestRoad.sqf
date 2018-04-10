@@ -17,7 +17,7 @@ params ['_centerPos','_centerRadius'];
 if (_centerPos isEqualType objNull) then {
 	_centerPos = getPosATL _centerPos;
 };
-_roads = ([_centerPos select 0,_centerPos select 1] nearRoads _centerRadius) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
+_roads = ((_centerPos select [0,2]) nearRoads _centerRadius) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
 private _road = objNull;
 if (!(_roads isEqualTo [])) then {
 	private _dist = 999999;

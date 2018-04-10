@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/12/2017 A3 1.78 by Quiksilver
+	5/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -36,9 +36,6 @@ if (_type isEqualTo 'S3') then {
 	];
 };
 
-
-
-
 //================================================== CAS JET
 if (_type isEqualTo 'CAS') then {
 	/*/These IDs have access to fixed-wing Jets, subject to mission parameters/*/
@@ -47,23 +44,22 @@ if (_type isEqualTo 'CAS') then {
 		'76561100000000000'
 	];
 };
-
-
-
-
-
+//================================================= COMMANDER
+if (_type isEqualTo 'S1') then {
+	/*/ These IDs have access to the Commander role, if Commander whitelisting is used. /*/
+	_return = [
+		'76561100000000000',
+		'76561100000000000'
+	];
+};
 //================================================== ALL STAFF IDS. IDs below must be registered here first/*/
 if (_type isEqualTo 'ALL') then {
 	/*/ All staff UIDs (does not grant permissions/menus, that stuff is below). Robocop reports trolling events and hacking events to these people though./*/
 	_return = [
 		'76561100000000000',
-		'76561100000000000',
-		'76561198084065754'
+		'76561100000000000'
 	];
 };
-
-
-
 
 //================================================== ADMIN IDs/*/
 if (_type isEqualTo 'ADMIN') then {
@@ -118,8 +114,7 @@ if (_type isEqualTo 'CURATOR') then {
 	/*/Zeus. These IDs have access to Zeus and mission curation functionality. They can suspend side missions and main missions, and cycle main missions (this is done on "air defense laptop" at base)./*/
 	_return = [
 		'76561100000000000',
-		'76561100000000000',
-		'76561198084065754'
+		'76561100000000000'
 	];
 };
 
@@ -131,8 +126,7 @@ if (_type isEqualTo 'DEVELOPER') then {
 	/*/ Developer UIDs. These IDs have access to integrated Debug Console (execution is logged and filtered) and all other ingame tools./*/
 	_return = [
 		'76561100000000000',
-		'76561100000000000',
-		'76561198084065754'
+		'76561100000000000'
 	];
 };
 _return;

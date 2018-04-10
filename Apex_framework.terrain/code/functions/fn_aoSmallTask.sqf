@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_aoSmallTask.sqf
 Author: 
 
@@ -17,7 +17,8 @@ Spawn small task in AO
 	Capture officer
 	Medevac soldier
 	Destroy vehicle
-____________________________________________________________________________*/
+	Destroy SAM
+________________________________________________________/*/
 
 params ['_case','_state','_data'];
 private ['_return','_taskFunction'];
@@ -40,6 +41,11 @@ if (_case isEqualTo 2) then {
 if (_case isEqualTo 3) then {
 	comment 'Destroy vehicle';
 	_taskFunction = 'QS_fnc_aoTaskDestroyVehicle';
+	_return = _this call (missionNamespace getVariable _taskFunction);
+};
+if (_case isEqualTo 4) then {
+	comment 'Destroy mobile SAM';
+	_taskFunction = 'QS_fnc_aoTaskSAM';
 	_return = _this call (missionNamespace getVariable _taskFunction);
 };
 _return;

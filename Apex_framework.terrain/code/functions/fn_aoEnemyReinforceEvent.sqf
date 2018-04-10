@@ -33,12 +33,10 @@ QS_fnc_aoEnemyReinforceEvent = {
 			_foundSpawnPos = FALSE;
 			for '_x' from 0 to 49 step 1 do {
 				_spawnPos = _centerPos getPos [(2000 + (random 2000)),(random 360)];
-				if ((count _spawnPos) > 0) then {
-					if (({((_x distance2D _spawnPos) < 400)} count allPlayers) isEqualTo 0) then {
-						if ((_spawnPos distance2D (markerPos 'QS_marker_base_marker')) > 2000) then {
-							if ((_spawnPos distance2D _centerPos) < 1201) then {
-								_foundSpawnPos = TRUE;
-							};
+				if ((allPlayers findIf {((_x distance2D _spawnPos) < 400)}) isEqualTo -1) then {
+					if ((_spawnPos distance2D (markerPos 'QS_marker_base_marker')) > 2000) then {
+						if ((_spawnPos distance2D _centerPos) < 1201) then {
+							_foundSpawnPos = TRUE;
 						};
 					};
 				};
@@ -48,7 +46,7 @@ QS_fnc_aoEnemyReinforceEvent = {
 			for '_x' from 0 to 49 step 1 do {
 				_HLZ = [_centerPos,100,500,15,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 				if ((count _HLZ) > 0) then {
-					if (({((_x distance2D _HLZ) < 50)} count allPlayers) isEqualTo 0) then {
+					if ((allPlayers findIf {((_x distance2D _HLZ) < 50)}) isEqualTo -1) then {
 						if ((_HLZ distance2D _centerPos) < 500) then {
 							_foundHLZ = TRUE;
 						};
@@ -238,7 +236,7 @@ QS_fnc_aoEnemyReinforceEvent = {
 };
 
 
-systemChat str (nearestObjects [player,['Land_HelipadEmpty_F'],500]);
+systemChat str (nearestObjects [player,['Land_HelipadEmpty_F'],500,TRUE]);
 
 QS_fnc_aoEnemyReinforceEvent = {
 	_event = _this select 0;
@@ -256,22 +254,20 @@ QS_fnc_aoEnemyReinforceEvent = {
 			_foundSpawnPos = FALSE;
 			for '_x' from 0 to 49 step 1 do {
 				_spawnPos = _centerPos getPos [(2000 + (random 2000)),(random 360)];
-				if ((count _spawnPos) > 0) then {
-					if (({((_x distance2D _spawnPos) < 400)} count allPlayers) isEqualTo 0) then {
-						comment "if ((_spawnPos distance2D (markerPos 'QS_marker_base_marker')) > 2000) then {";
-							if ((_spawnPos distance2D _centerPos) < 1201) then {
-								_foundSpawnPos = TRUE;
-							};
-						comment "};";
-					};
+				if ((allPlayers findIf {((_x distance2D _spawnPos) < 400)}) isEqualTo -1) then {
+					comment "if ((_spawnPos distance2D (markerPos 'QS_marker_base_marker')) > 2000) then {";
+						if ((_spawnPos distance2D _centerPos) < 1201) then {
+							_foundSpawnPos = TRUE;
+						};
+					comment "};";
 				};
 				if (_foundSpawnPos) exitWith {};
 			};
 			_foundHLZ = FALSE;
 			for '_x' from 0 to 49 step 1 do {
 				_HLZ = [_centerPos,100,500,15,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-				if ((count _HLZ) > 0) then {
-					if (({((_x distance2D _HLZ) < 50)} count allPlayers) isEqualTo 0) then {
+				if (!(_HLZ isEqualTo [])) then {
+					if ((allPlayers findIf {((_x distance2D _HLZ) < 50)}) isEqualTo -1) then {
 						if ((_HLZ distance2D _centerPos) < 500) then {
 							_foundHLZ = TRUE;
 						};

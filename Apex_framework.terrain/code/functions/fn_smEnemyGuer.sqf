@@ -78,6 +78,8 @@ for '_x' from 0 to 2 do {
 	];
 	_SMveh lock 3;
 	_SMveh allowCrewInImmobile TRUE;
+	_SMveh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+	[0,_SMveh,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh;
 	_SMveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 	createVehicleCrew _SMveh;
@@ -87,9 +89,7 @@ for '_x' from 0 to 2 do {
 		FALSE
 	];
 	_grp = group ((crew _SMveh) select 0);
-	if ((random 1) > 0.5) then {
-		[_grp,_pos, 300,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
-	};
+	[_grp,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 	[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	{
 		_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -104,7 +104,7 @@ for '_x' from 0 to 2 do {
 
 /*/---------- VEHICLE AA/*/
 
-if ((count allPlayers) > 30) then {
+if ((count allPlayers) > 25) then {
 	for '_x' from 0 to 1 do {
 		_randomPos = ['RADIUS',_pos,300,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		_SMaa = createVehicle [_aaType,_randomPos,[],0,'NONE'];
@@ -115,6 +115,7 @@ if ((count allPlayers) > 30) then {
 		];
 		_SMaa allowCrewInImmobile TRUE;
 		_SMaa addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
+		_SMaa addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 		createVehicleCrew _SMaa;
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
@@ -123,7 +124,7 @@ if ((count allPlayers) > 30) then {
 		];
 		_grp = group ((crew _SMaa) select 0);
 		_SMaa lock 3;
-		[_grp,_pos, 150,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
+		[_grp,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 		{
 			_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
 			[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');

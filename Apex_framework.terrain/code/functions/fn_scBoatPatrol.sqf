@@ -72,6 +72,7 @@ for '_i' from 0 to 1 step 1 do {
 					};
 				}
 			];
+			_boat addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 			_boat setDir (random 360);
 			{
 				_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];

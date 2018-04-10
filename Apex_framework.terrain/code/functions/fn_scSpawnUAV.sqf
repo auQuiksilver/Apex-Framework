@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	11/05/2017 ArmA 3 1.70 by Quiksilver
+	6/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -16,17 +16,23 @@ __________________________________________________/*/
 private _return = [];
 _centerPos = missionNamespace getVariable 'QS_AOpos';
 _centerRadius = missionNamespace getVariable 'QS_aoSize';
-_type = ['O_UAV_02_dynamicLoadout_F','i_uav_02_dynamicloadout_f','O_UAV_06_F','O_UAV_06_medical_F','O_UAV_01_F'] selectRandomWeighted [0.4,0.222,0.222,0.222];
+_type = selectRandomWeighted [
+	'o_uav_02_dynamicloadout_f',0.4,
+	//'i_uav_02_dynamicloadout_f',0.222,
+	'o_uav_06_f',0.222,
+	'o_uav_06_medical_f',0.222,
+	'o_uav_01_f',0.222
+];
 private _position = [0,0,0];
 private _dist = 2000;
-if ((toLower _type) in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
+if (_type in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
 	_dist = 300;
 	_position = _centerPos getPos [(_dist + (random _dist)),(random 360)];
 	_position set [2,100];
 } else {
 	for '_x' from 0 to 9 step 1 do {
 		_position = _centerPos getPos [(_dist + (random _dist)),(random 360)];
-		if (({((_x distance2D _position) < 500)} count allPlayers) isEqualTo 0) exitWith {};
+		if ((allPlayers findIf {((_x distance2D _position) < 500)}) isEqualTo -1) exitWith {};
 	};
 	_position set [2,(1500 + (random 1500))];
 };
@@ -50,19 +56,29 @@ if (!isNull _vehicle) then {
 			} count (crew (_this select 0));		
 		}
 	];
+	_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 	_grp = group (effectiveCommander _vehicle);
 	_grp addVehicle _vehicle;
 	_return pushBack _vehicle;
+	_vehicle setAutonomous TRUE;
 	_vehicle setVehicleReceiveRemoteTargets TRUE;
 	_vehicle setVehicleReportRemoteTargets TRUE;
 	{
 		_x setVehicleReceiveRemoteTargets TRUE;
 		_x setVehicleReportRemoteTargets TRUE;
 		_x setSkill 1;
+		_x enableAI 'TARGET';
+		_x enableAI 'AUTOTARGET';
+		_x setSkill ['spotDistance',1];
 	} forEach (units _grp);
-	if ((toLower _type) in ['o_uav_02_dynamicloadout_f','i_uav_02_dynamicloadout_f']) then {
+	if (!((waypoints _grp) isEqualTo [])) then {
+		[_grp,0] setWaypointForceBehaviour FALSE;
+	};
+	if (_type in ['o_uav_02_dynamicloadout_f','i_uav_02_dynamicloadout_f']) then {
 		['setFeatureType',_vehicle,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_vehicle];
-		_vehicle flyInHeightASL [500,(300 + (random 100)),(500 + (random 500))];
+		if ((random 1) > 0.333) then {
+			_vehicle flyInHeightASL [500,(300 + (random 100)),(500 + (random 500))];
+		};
 		(missionNamespace getVariable 'QS_AI_supportProviders_CASUAV') pushBack (effectiveCommander _vehicle);
 		(missionNamespace getVariable 'QS_AI_supportProviders_INTEL') pushBack (effectiveCommander _vehicle);
 		_vehicle addEventHandler [
@@ -84,8 +100,10 @@ if (!isNull _vehicle) then {
 		_grp setVariable ['QS_AI_GRP_TASK',['',[],diag_tickTime,-1],FALSE];
 		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 	};
-	if ((toLower _type) in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
-		_vehicle flyInHeightASL [75,75,150];
+	if (_type in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
+		if ((random 1) > 0.333) then {
+			_vehicle flyInHeightASL [75,75,150];
+		};
 		(missionNamespace getVariable 'QS_AI_supportProviders_INTEL') pushBack (effectiveCommander _vehicle);
 		comment 'Radial positions';
 		private _radialIncrement = 45;

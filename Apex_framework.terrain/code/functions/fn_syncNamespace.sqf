@@ -11,23 +11,6 @@ Last Modified:
 Description:
 
 	Synchronize Namespace
-	
-_i = [
-	_manifest,
-	_uid,
-	0
-] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
-0 = _QS_clientManifest pushBack [_QS_function,_QS_version,_QS_useEncryption];
-
-_profileManifest = [
-	['QS_fnc_randomfunction',1,''],
-	['QS_fnc_somefunction',2,''],
-	['QS_fnc_thatfunction',3,'']
-];
-
-
-
-
 _____________________________________________________*/
 
 private ['_i'];

@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_spawnGroup.sqf
 Author:
 
@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/03/2017 A3 1.68 by Quiksilver
+	26/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 	
@@ -15,9 +15,9 @@ Description:
 Example:
 
 	_grp = [_pos,_dir,_side,_type,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-______________________________________________*/
+______________________________________________/*/
 
-params [['_pos',[]],['_dir',-1],['_side',sideUnknown],['_type',''],['_isProne',FALSE]];
+params [['_pos',[]],['_dir',-1],['_side',sideUnknown],['_type',''],['_isProne',FALSE],['_grp',grpNull],['_useRecycler',FALSE],['_deleteWhenEmpty',TRUE]];
 if (
 	(_pos isEqualTo []) ||
 	{(_dir isEqualTo -1)} ||
@@ -26,28 +26,57 @@ if (
 ) exitWith {};
 private _unit = objNull;
 if (_type isEqualType []) then {
-	_type = selectRandom _type;
+	if (!((_type findIf {(_x isEqualType 0)}) isEqualTo -1)) then {
+		_type = selectRandomWeighted _type;
+	} else {
+		_type = selectRandom _type;
+	};
+};
+if (_useRecycler) then {
+	_useRecycler = isDedicated;
 };
 _groupComposition = [_side,_type] call (missionNamespace getVariable 'QS_fnc_returnGroupComposition');
-_grp = createGroup [_side,TRUE];
-_grp setFormation 'WEDGE';
-_grp setFormDir _dir;
+if (isNull _grp) then {
+	_grp = createGroup [_side,_deleteWhenEmpty];
+	_grp setFormation 'WEDGE';
+	_grp setFormDir _dir;
+};
 for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
-	_unit = _grp createUnit [((_groupComposition select _i) select 0),[(0 + (5 - (random 10))),(0 + (5 - (random 10))),0],[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
+	if (_useRecycler) then {
+		_unit = [2,2,((_groupComposition select _i) select 0)] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
+		if (isNull _unit) then {
+			_unit = _grp createUnit [((_groupComposition select _i) select 0),[-1015,-1015,0],[],15,'NONE'];
+		} else {
+			// wake up unit
+			{
+				_unit setVariable [_x,nil,TRUE];
+			} forEach (allVariables _unit);
+			_unit setVariable ['QS_curator_disableEditability',FALSE,FALSE];
+			_unit setVariable ['QS_dynSim_ignore',FALSE,TRUE];
+			_unit hideObjectGlobal FALSE;
+			_unit enableSimulationGlobal TRUE;
+			_unit enableAI 'ALL';
+			[_unit] joinSilent _grp;
+			_unit setUnitLoadout [(getUnitLoadout ((_groupComposition select _i) select 0)),TRUE];
+			if ((damage _unit) > 0) then {
+				_unit setDamage [0,FALSE];
+			};
+		};
+	} else {
+		_unit = _grp createUnit [((_groupComposition select _i) select 0),[-1015,-1015,0],[],15,'NONE'];
+	};
+	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-	_unit setRank ((_groupComposition select _i) select 1);
+	if (!((rank _unit) isEqualTo ((_groupComposition select _i) select 1))) then {
+		_unit setRank ((_groupComposition select _i) select 1);
+	};
 	if (_isProne) then {
 		_unit switchMove 'amovppnemstpsraswrfldnon';
 	};
-	if (!((side _unit) isEqualTo _side)) then {
+	if (!((side (group _unit)) isEqualTo _side)) then {
 		[_unit] joinSilent _grp;
 	};
 	_unit setDir _dir;
-	_unit setPos [((_pos select 0) + (5 - (random 10))),((_pos select 1) + (5 - (random 10))),0];
+	_unit setVehiclePosition [(AGLToASL _pos),[],5,'NONE'];
 };
 _grp;

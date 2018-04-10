@@ -18,10 +18,10 @@ _t = cursorTarget;
 if (isNil {_t getVariable 'QS_RD_vehicleRespawnable'}) exitWith {};
 if (!(_t getVariable 'QS_RD_vehicleRespawnable')) exitWith {};
 if ((!(_t isKindOf 'LandVehicle')) && (!(_t isKindOf 'Air')) && (!(_t isKindOf 'Ship'))) exitWith {};
-if (!(({(alive _x)} count (crew _t)) isEqualTo 0)) exitWith {};
+if (!(((crew _t) findIf {(alive _x)}) isEqualTo -1)) exitWith {};
 if (!simulationEnabled _t) exitWith {};
 if ((isMultiplayer) && (!(local _t))) exitWith {};
-if ((!((speed _t) < 1)) && (!((speed _t) > -1))) exitWith {};
+if (((vectorMagnitude (velocity _t)) * 3.6) > 1) exitWith {};
 if (diag_tickTime < (player getVariable ['QS_RD_canRespawnVehicle',-1])) exitWith {};
 if (!((getVehicleCargo _t) isEqualTo [])) exitWith {
 	50 cutText ['Vehicle has cargo inside.','PLAIN',0.3];
@@ -40,7 +40,7 @@ if (_result) then {
 	player setVariable ['QS_RD_canRespawnVehicle',(diag_tickTime + 120),FALSE];
 	player playAction 'PutDown';
 	playSound 'ClickSoft';
-	50 cutText ['Respawning vehicle','PLAIN DOWN',1];
+	50 cutText ['Respawning vehicle','PLAIN DOWN',0.5];
 	if ((_t distance2D (markerPos 'QS_marker_base_marker')) >= 1000) then {
 		_text = format ['%1 has respawned a(n) %2 at grid %3',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),(mapGridPosition (getPosWorld player))];
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];

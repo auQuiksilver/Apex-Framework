@@ -74,7 +74,7 @@ if ((count _groupMembers) > 1) then {
 };
 if (!(player getVariable 'QS_medical_spectating')) then {
 	player setVariable ['QS_medical_spectating',TRUE];
-	TRUE spawn {
+	0 spawn {
 		while {(player getVariable 'QS_medical_spectating')} do {
 			if (cameraView isEqualTo 'External') then {
 				(vehicle (missionNamespace getVariable 'QS_client_spectatedUnit')) switchCamera 'Internal';

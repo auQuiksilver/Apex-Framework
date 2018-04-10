@@ -1,220 +1,256 @@
-/*
+/*/
+File: fn_SMpriorityAA.sqf
 Author:
 
 	Quiksilver
 	
 Last modified:
 
-	24/10/2014 ArmA 1.32 by Quiksilver
+	11/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 
-	Anti-Air Battery.
-_____________________________________________________________________________________*/
+	Anti-Air Battery
+______________________________________________/*/
 
-scriptName 'Side Mission - AA';
-
-if ((count allPlayers) < 25) exitWith {};
-if (worldName in ['Tanoa','Stratis','Malden']) exitWith {};
-
-private [
-	'_rearmDelay','_rearmMessage','_rearming','_rearmInterval','_rearmTime','_heliDetectDist',"_stealthAir","_barrierArray",
-	"_defaultDetectDist","_stealthDetectDist","_typeOfAir","_basepos","_loopVar","_dir","_PTdir","_pos","_barrier","_unitsArray",
-	"_flatPos","_accepted","_position","_enemiesArray","_targetList","_fuzzyPos","_x","_briefing","_enemiesArray","_unitsArray",
-	"_flatPos1","_flatPos2","_flatPos3","_doTargets","_targetSelect","_targetListEnemy",'_priorityObj1','_priorityObj2','_ammoTruck',
-	'_priorityCommander1','_priorityCommander2','_priorityGunner1','_priorityGunner2','_aaType','_ammoTruckType','_engineerType'
-];
-
-_stealthAir = ['B_Heli_Attack_01_F','B_Heli_Attack_01_dynamicLoadout_F','B_Heli_Transport_01_F','B_Heli_Transport_01_camo_F','B_CTRG_Heli_Transport_01_sand_F','B_CTRG_Heli_Transport_01_tropic_F'];
-_stealthDetectDist = 2500;
-_heliDetectDist = 4500;
-_defaultDetectDist = 7500;
-if (worldName isEqualTo 'Tanoa') then {
-	_engineerType = 'O_T_engineer_F';
-} else {
-	_engineerType = 'O_engineer_F';
-};
-
-/*/-------------------- 1. FIND POSITION FOR OBJECTIVE/*/
-
+scriptName 'QS - SM - AA';
+comment 'Get any data we need';
+private _spawnPosition = [0,0,0];
+private _aaTypes = ['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f'];
+private _aaHulls = [];
+private _aaTurrets = [];
+private _aaTurretObjects = [];
+private _allAssets = [];
+private _enemyAssets = [];
+private _allAircraft = [];
+private _aaHull = objNull;
+private _aaTurret = objNull;
+private _ammoTruck = objNull;
+private _stealthAircraft = ['b_ctrg_heli_transport_01_sand_f','b_ctrg_heli_transport_01_tropic_f','b_heli_attack_01_dynamicloadout_f','b_heli_transport_01_f','b_heli_transport_01_camo_f','b_plane_fighter_01_stealth_f','b_t_uav_03_dynamicloadout_f','o_plane_fighter_02_stealth_f'];
+private _time = diag_tickTime;
+private _delay = 5;
+private _checkDelay = _time + _delay;
+private _targetingRange_max = [7500,3500] select (worldName in ['Tanoa','Malden']);
+private _targetingRange_heli = [4500,3000] select (worldName in ['Tanoa','Malden']);
+private _targetingRange_stealthCoef = 0.666;
+private _targetingRange_stealthCoef2 = 0.8;
+private _targetingAltitudeMin = random [20,25,30];
+private _entitiesParams = [['Air'],['UAV_01_base_F','UAV_06_base_F','ParachuteBase'],FALSE,TRUE];
+private _rearmInterval = _time + (240 + (random 80));
+private _rearming = FALSE;
+private _rearmDelay = [25,30,45];
+_rearmingText = 'The CSAT AA Battery is rearming!';
+_finishedRearmText = 'The CSAT AA Battery has finished rearming!';
+private _turretParams = [];
+private _targetListEnemy = [];
+private _targetType = '';
+private _targetCandidate = objNull;
+private _targetPosition = [0,0,0];
+private _targetDir = 0;
+private _aircraftPosition = [0,0,0];
+comment 'Find position';
 _basepos = markerPos 'QS_marker_base_marker';
-_flatPos = [0,0,0];
-_accepted = false;
-while {!_accepted} do {
-	_flatPos = ['RADIUS',_basepos,6000,'LAND',[5,0,0.2,5,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if ((_flatPos distance2D _basepos) > 2000) then {
-		if ((_flatPos distance2D _basepos) < 3750) then {
-			if ((_flatPos distance2D (missionNamespace getVariable 'QS_AOpos')) > 500) then {
-				_accepted = TRUE;
+_fobpos = markerPos 'QS_marker_module_fob';
+private _spawnPosition = [0,0,0];
+private _accepted = FALSE;
+for '_x' from 0 to 1 step 0 do {
+	_spawnPosition = ['RADIUS',_basepos,4500,'LAND',[5,0,0.2,5,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+	if ((_spawnPosition distance2D _basepos) > 2000) then {
+		if ((_spawnPosition distance2D _fobpos) > 250) then {
+			if ((_spawnPosition distance2D (missionNamespace getVariable 'QS_AOpos')) > 500) then {
+				if (((((_spawnPosition select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) && (!((toLower(surfaceType _spawnPosition)) in ['#gdtasphalt'])) && (!([_spawnPosition,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) then {
+					_accepted = TRUE;
+				};
 			};
 		};
 	};
 	if (_accepted) exitWith {};
 };
-
-_flatPos1 = [(_flatPos select 0) - 3, (_flatPos select 1) - 3, (_flatPos select 2)];
-_flatPos2 = [(_flatPos select 0) + 3, (_flatPos select 1) + 3, (_flatPos select 2)];
-_flatPos3 = [(_flatPos select 0) + 20, (_flatPos select 1) + random 20, (_flatPos select 2)];
-
-_aaType = 'O_APC_Tracked_02_AA_F';
-if (worldName isEqualTo 'Tanoa') then {
-	_aaType = 'O_T_APC_Tracked_02_AA_ghex_F';
-};
-
-/*/-------------------- 2. SPAWN OBJECTIVES/*/
-
-_PTdir = random 360;
-
-
-/*/ Spawn composition/*/
-
-
-_priorityObj1 = createVehicle [_aaType,_flatPos1,[],0,'NONE'];
-_priorityObj1 setDir _PTdir;
-_priorityObj2 = createVehicle [_aaType,_flatPos2,[],0,'NONE'];
-_priorityObj2 setDir _PTdir;
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 2),
-	FALSE
-];
-
-/*/----- SPAWN AMMO TRUCK (for ambiance and plausibiliy of unlimited ammo)/*/
-
-if (worldName isEqualTo 'Tanoa') then {
-	_ammoTruckType = 'O_T_Truck_03_ammo_ghex_F';
-} else {
-	_ammoTruckType = 'O_Truck_03_ammo_F';
-};
-
-_ammoTruck = createVehicle [_ammoTruckType,_flatPos3,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-_ammoTruck setDir random 360;
+comment 'Generate composition and assets';
+private _compositionData = [
+	[
+		["O_APC_Tracked_02_AA_F",[0.230469,-6.17627,0.0173378],179.236,[],FALSE,TRUE,FALSE,{}], 
+		["O_APC_Tracked_02_AA_F",[-0.212402,9.61426,0.0157723],359.523,[],FALSE,TRUE,FALSE,{}], 
+		["Land_HBarrier_5_F",[-0.302979,1.63086,1.72132],0,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_Big_F",[-0.20874,1.77246,0],0,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_Big_F",[5.12134,-1.37109,0],271.094,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_5_F",[5.0769,1.81445,1.72132],89.7338,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_Big_F",[-5.27954,-1.6084,0],271.094,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_5_F",[-5.30835,1.51318,1.72132],89.7338,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_Big_F",[5.03076,5.12256,0],271.094,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[-7.21362,-0.240234,0.0305414],360,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_Big_F",[-5.32275,4.90576,0],271.094,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[7.15332,3.21045,0.0305414],359.999,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[-5.26563,-6.72168,0.0305414],6.13621e-005,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[4.98267,10.3843,0.0305424],360,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[3.98584,-11.5811,0],176.61,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[-10.6821,-6.2666,0],272.427,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[-3.64233,-11.9756,0],182.945,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[-10.8394,6.53223,0],270.45,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[12.0781,-4.38086,0],90.4428,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[9.75806,-9.31543,0],145.115,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[11.6382,8.96875,0],90.4428,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[-8.74756,12.0044,0],315.066,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall6_F",[-2.82495,14.6338,0],2.07366,[],FALSE,FALSE,TRUE,{}],  
+		["Land_HBarrierWall6_F",[5.39624,14.6694,0],1.06539,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall_corner_F",[-10.2822,-11.9663,0],182.02,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrierWall_corner_F",[11.0156,14.7471,0],0,[],FALSE,FALSE,TRUE,{}]
+	],
+	[
+		["O_T_APC_Tracked_02_AA_ghex_F",[-0.0292969,-6.354,0.0168018],178.855,[],FALSE,TRUE,FALSE,{}], 
+		["O_T_APC_Tracked_02_AA_ghex_F",[-0.321777,8.54443,0.0163908],359.998,[],FALSE,TRUE,FALSE,{}], 
+		["Land_HBarrier_01_big_4_green_F",[-0.081543,1.03174,0],0,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_line_5_green_F",[-0.195801,1.05566,1.74458],0,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_line_5_green_F",[5.23779,0.97168,1.69463],90,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_line_5_green_F",[-5.31372,0.904785,1.69334],268.879,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_big_4_green_F",[5.17529,-2.11475,0],88.4046,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_big_4_green_F",[-5.32666,-2.39697,0],269.013,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_big_4_green_F",[5.19482,4.3623,0],89.9908,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_big_4_green_F",[-5.57227,4.06348,0],269.013,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[-7.29956,-1.11963,0.0305424],0.000326158,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[7.06738,2.33105,0.0305405],359.999,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[-5.35156,-7.60107,0.0305414],360,[],FALSE,FALSE,TRUE,{}], 
+		["Box_East_AmmoVeh_F",[4.89673,9.50488,0.0305443],359.998,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[-10.9766,5.59082,0],272.586,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[-10.927,-6.896,0],272.586,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[3.46362,-12.6069,0],178.77,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[11.8621,-5.60059,0],90,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[-4.17578,-12.7153,0],181.822,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[11.6755,7.30371,0],90,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[-3.31226,13.3999,0],1.80299,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[9.60425,-10.2549,0],144.711,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[-8.68701,11.1494,0],316.332,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_6_green_F",[4.74365,13.3765,0],1.80299,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_corner_green_F",[-10.5381,-12.6621,0],183.027,[],FALSE,FALSE,TRUE,{}], 
+		["Land_HBarrier_01_wall_corner_green_F",[11.1887,13.1079,0],4.08422,[],FALSE,FALSE,TRUE,{}]
+	]
+] select (worldName in ['Tanoa','Lingor3']);
+_composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
+_compositionData = nil;
+comment 'Configure assets';
 {
-	_x lock 3;
-	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _x;
-	_x allowCrewInImmobile TRUE;
-} forEach [_priorityObj1,_priorityObj2,_ammoTruck];
-	
-/*/-------------------- 3. SPAWN CREW/*/
-	
-_unitsArray = []; 			/*/ for crew and h-barriers/*/
-_priorityGroup = createGroup [EAST,TRUE];
-_priorityCommander1 = _priorityGroup createUnit [_engineerType,_flatPos,[],0,'NONE'];
-_priorityCommander2 = _priorityGroup createUnit [_engineerType,_flatPos,[],0,'NONE'];
-_priorityGunner1 = _priorityGroup createUnit [_engineerType,_flatPos,[],0,'NONE'];
-_priorityGunner2 = _priorityGroup createUnit [_engineerType,_flatPos,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 4),
-	FALSE
-];
+	if (!(isSimpleObject _x)) then {
+		if ((toLower (typeOf _x)) in _aaTypes) then {
+			_aaHulls pushBack _x;
+		};
+	};
+} forEach _composition;
 {
-	_x = _x call (missionNamespace getVariable 'QS_fnc_unitSetup');
-} count (units _priorityGroup);
-_priorityCommander1 assignAsCommander _priorityObj1;
-_priorityCommander1 moveInCommander _priorityObj1;
-_priorityCommander2 assignAsCommander _priorityObj2;
-_priorityCommander2 moveInCommander _priorityObj2;
-_priorityGunner1 assignAsGunner _priorityObj1;
-_priorityGunner1 moveInGunner _priorityObj1;
-_priorityGunner2 assignAsGunner _priorityObj2;
-_priorityGunner2 moveInGunner _priorityObj2;
-
-{0 = _unitsArray pushBack _x;} count (units _priorityGroup);
-
-/*/---------- Engines on baby/*/
-
-_priorityObj1 engineOn TRUE;
-_priorityObj2 engineOn TRUE;
-
-/*/-------------------- 4. SPAWN H-BARRIER RING/*/
-
-_barrierArray = [];
-_distance = 16;
-_dir = 0;
-for '_c' from 0 to 7 do {
-	_pos = _flatPos getPos [_distance,_dir];
-	_barrier = createVehicle ['Land_HBarrierBig_F',[0,0,0],[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
-	_barrier setDir _dir;
-	_dir = _dir + 45;
-	_pos set [2,0];
-	_barrier allowDamage FALSE;
-	_barrier setPos _pos;
-	_barrier setVectorUp (surfaceNormal (getPosWorld _barrier));
-	0 = _barrierArray pushBack _barrier;
-	0 = _unitsArray pushBack _barrier;
-};
-
-/*/-------------------- 5. SPAWN FORCE PROTECTION/*/
-
-_enemiesArray = [_priorityObj1] call (missionNamespace getVariable 'QS_fnc_smEnemyEast');
-
-/*/-------------------- 6. THAT GIRL IS SO DANGEROUS!/*/
-
-[(units _priorityGroup),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-_priorityGroup setBehaviour 'COMBAT';
-_priorityGroup setCombatMode 'RED';	
-_priorityGroup allowFleeing 0;
-
-/*/----- 6a. UNLIMITED AMMO/*/
-
-{
-	_x setVariable ['selections', []];
-	_x setVariable ['gethit', []];
-	_x addEventHandler [
-		'HandleDamage',
+	if (alive _x) then {
+		_aaHull = _x;
 		{
-			_unit = _this select 0;
-			_selections = _unit getVariable ['selections', []];
-			_gethit = _unit getVariable ['gethit', []];
-			_selection = _this select 1;
-			if !(_selection in _selections) then
+			_aaHull animateSource _x;
+		} forEach [
+			['hideturret',1,1],
+			['showslathull',1,1]
+		];
+		_aaHull lockDriver TRUE;
+		_aaHull lockTurret [[0],TRUE];
+		_aaHull lockTurret [[0,0],TRUE];
+		_aaHull lock 2;
+		_aaHull enableDynamicSimulation FALSE;
+		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _aaHull;
+		clearItemCargoGlobal _aaHull;
+		clearBackpackCargoGlobal _aaHull;
+		clearWeaponCargoGlobal _aaHull;
+		clearMagazineCargoGlobal _aaHull;
+		_aaHull setVariable ['QS_client_canAttachExp',TRUE,TRUE];
+		_aaHull addEventHandler [
+			'HandleDamage',
 			{
-				_selections set [count _selections, _selection];
-				_gethit set [count _gethit, 0];
-			};
-			_i = _selections find _selection;
-			_olddamage = _gethit select _i;
-			_damage = _olddamage + ((_this select 2) - _olddamage) * 0.25;
-			_gethit set [_i,_damage];
-			_damage;
-		}
-	];
-	_x addEventHandler [
-		'Fired',
+				params ['_vehicle','','_damage','','','_hitPartIndex','',''];
+				_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
+				_damage = _oldDamage + (_damage - _oldDamage) * 0.333;
+				_damage;
+			}
+		];
+		_aaHull addEventHandler [
+			'Deleted',
+			{
+				params ['_entity'];
+				if (!( (attachedObjects _entity) isEqualTo [])) then {
+					{
+						deleteVehicle _x;
+					} forEach (attachedObjects _entity);
+				};
+			}
+		];
+		_aaHull addEventHandler [
+			'Killed',
+			{
+				params ['_killed','_killer','_instigator',''];
+				if (!((attachedObjects _killed) isEqualTo [])) then {
+					{
+						detach _x;
+						deleteVehicle _x;
+					} forEach (attachedObjects _killed);
+				};
+				if (!isNull _instigator) then {
+					if (isPlayer _instigator) then {
+						_text = format ['%1 ( %2 ) destroyed an AA tank!',(name _instigator),(groupID (group _instigator))];
+						[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
+					} else {
+						[[WEST,'BLU'],'AA tank destroyed!'] remoteExec ['sideChat',-2,FALSE];
+					};
+				} else {
+					[[WEST,'BLU'],'AA tank destroyed!'] remoteExec ['sideChat',-2,FALSE];
+				};
+			}
+		];
+		_aaTurret = createVehicle [(['B_SAM_System_01_F','B_SAM_System_02_F'] select (_forEachIndex isEqualTo 0)),[-50,-50,100],[],0,'NONE'];
+		_aaTurret setVariable ['QS_hidden',TRUE,TRUE];
+		_aaTurret setVariable ['QS_uav_protected',TRUE,FALSE];
+		createVehicleCrew _aaTurret;
+		(crew _aaTurret) joinSilent (createGroup [EAST,TRUE]);
 		{
-			(_this select 0) setVehicleAmmo 1;
-		}
-	];
-} forEach [
-	_priorityObj1,
-	_priorityObj2
-];
-	
-/*/-------------------- 7. BRIEFING/*/
-
-_fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 300) + (random 600),0];
+			_x setVariable ['QS_hidden',TRUE,TRUE];
+		} forEach (crew _aaTurret);
+		(group (gunner _aaTurret)) deleteGroupWhenEmpty TRUE;
+		(group (gunner _aaTurret)) setBehaviour 'AWARE';
+		(group (gunner _aaTurret)) setCombatMode 'RED';
+		_aaTurret setVehicleRadar 1;
+		_aaTurret setVehicleReceiveRemoteTargets TRUE;
+		_aaTurrets pushBack [_aaTurret,(gunner _aaTurret),(group (gunner _aaTurret)),(typeOf _aaTurret),((weapons _aaTurret) select 0),0,0,0];
+		_aaTurret allowDamage FALSE;
+		{
+			_x allowDamage FALSE;
+		} forEach (crew _aaTurret);
+		{ 
+			_aaTurret setObjectTextureGlobal [_forEachIndex,_x]; 
+		} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _aaTurret) >> 'TextureSources' >> (['Sand','Green'] select (worldName in ['Tanoa','Lingor'])) >> 'textures'));
+		_aaTurret addEventHandler [
+			'Fired',
+			{
+				missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [(_this select 6)]),TRUE];
+			}
+		];
+		_aaTurret attachTo [_aaHull,([[0,-3.25,1],[0,-3,1]] select (_aaTurret isKindOf 'B_SAM_System_02_F'))];
+		_aaTurret setVariable ['QS_v_targetPosition',_targetPosition,FALSE];
+		_aaHull setVariable ['QS_RD_noRepair',TRUE,TRUE];
+		_aaTurret setVariable ['QS_RD_noRepair',TRUE,TRUE];
+		_aaTurret setVariable ['QS_disableRearm',TRUE,FALSE];
+		_aaHull allowDamage TRUE;
+	};
+} forEach _aaHulls;
+comment 'Generate force protection';
+{
+	_enemyAssets pushBack _x;
+	if (!isNull (group _x)) then {
+		(group _x) addVehicle (selectRandom _aaHulls);
+	};
+} forEach ([(_composition select 0)] call (missionNamespace getVariable 'QS_fnc_smEnemyEast'));
+comment 'Brief players';
+_fuzzyPos = [((_spawnPosition select 0) - 300) + (random 600),((_spawnPosition select 1) - 300) + (random 600),0];
 {
 	_x setMarkerPos _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 'QS_marker_sideMarker' setMarkerText (format ['%1Priority Target: Anti-Air Battery',(toString [32,32,32])]);
-
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'The enemy has set up an Anti-Air Battery near our base. This is a priority target, soldiers! It has extremely long range! Get over there and take it out at all cost. While it is active, it is not advised to use air transport. This objective is not accurately marked. While it is re-arming (30 seconds), it will not be able to lock on at long range.',
+		'The enemy has set up an Anti-Air Battery near our base. This is a priority target, soldiers! It has extremely long range! Get over there and take it out at all cost. While it is active, it is not advised to use air transport. This objective is not accurately marked. While it is re-arming (30 seconds), it will not be able to lock on at long range. Bringing heavy explosives is advised.',
 		'Anti-Air Battery',
 		'Anti-Air Battery'
 	],
@@ -226,154 +262,111 @@ _fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 3
 	'destroy',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-
 _briefing = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t size='1.5' color='#b60000'>Anti-Air Battery</t><br/>____________________<br/>OPFOR forces are setting up an anti-air battery to hit you guys damned hard! We've picked up their positions with thermal imaging scans and have marked it on your map.<br/><br/>This is a priority target, boys!";
-['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+//['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 ['NewPriorityTarget',['Anti-Air Battery']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-	
-/*/-------------------- 8. CORE LOOP/*/
-
-_rearmDelay = 45;
-_rearmMessage = FALSE;
-_rearming = FALSE;
-_rearmInterval = time + (240 + (random 80));
-_rearmTime = time + _rearmDelay;
-
-_loopVar = TRUE;
-_doTargets = [];
-_targetSelect = objNull;
-
+comment 'Loop';
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
-
 for '_x' from 0 to 1 step 0 do {
-
-	if (!(_rearming)) then {
-
-		/*/========== Small targeting system routine/*/
-		
-		_doTargets = [];
-		_targetSelect = objNull;
-		_targetList = _flatPos nearEntities [['Air'],_defaultDetectDist];
-		if ((count _targetList) > 0) then {
-			{_priorityGroup reveal [_x,4];} forEach _targetList;
-			_targetListEnemy = [];
+	if (((_aaHulls findIf {(alive _x)}) isEqualTo -1) || {(missionNamespace getVariable ['QS_smSuccess',FALSE])}) exitWith {
+		['CompletedPriorityTarget',['Anti-Air Battery Neutralized']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		[1,_spawnPosition] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
+		{
+			_x setMarkerAlpha 0;
+		} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
+	};
+	uiSleep 1;
+	_time = diag_tickTime;
+	if (_time > _checkDelay) then {
+		_allAircraft = (entities _entitiesParams) select {
+			_aircraftPosition = getPosATL _x;
+			if (surfaceIsWater _aircraftPosition) then {
+				_aircraftPosition = ATLToASL _aircraftPosition;
+			};
+			(((_x distance2D _spawnPosition) < _targetingRange_max) && ((_aircraftPosition select 2) > _targetingAltitudeMin))
+		};
+		_targetListEnemy = [];
+		if (!(_allAircraft isEqualTo [])) then {
 			{
-				if ((side _x) isEqualTo WEST) then {
-					_typeOfAir = typeOf _x;
-					if (_x isKindOf 'Plane') then {
-						0 = _targetListEnemy pushBack _x;
-					} else {
-						if (_x isKindOf 'Helicopter') then {
-							if (_typeOfAir in _stealthAir) then {
-								if ((_x distance _flatPos) < _stealthDetectDist) then {	
-									0 = _targetListEnemy pushBack _x;
+				_targetCandidate = _x;
+				if ((side _targetCandidate) isEqualTo WEST) then {
+					if (!(((crew _targetCandidate) findIf {(alive _x)}) isEqualTo -1)) then {
+						_targetType = toLower (typeOf _targetCandidate);
+						if (_targetCandidate isKindOf 'Plane') then {
+							if ((_targetType in _stealthAircraft) && (!(isVehicleRadarOn _targetCandidate)) && (!(isLaserOn _targetCandidate))) then {
+								if ((_targetCandidate distance2D _spawnPosition) < (_targetingRange_max * _targetingRange_stealthCoef)) then {
+									_targetListEnemy pushBack _targetCandidate;
 								};
 							} else {
-								if ((_x distance _flatPos) < _heliDetectDist) then {
-									0 = _targetListEnemy pushBack _x;
+								if ((!(isVehicleRadarOn _targetCandidate)) && (!(isLaserOn _targetCandidate))) then {
+									if ((_targetCandidate distance2D _spawnPosition) < (_targetingRange_max * _targetingRange_stealthCoef2)) then {
+										_targetListEnemy pushBack _targetCandidate;
+									};
+								};
+							};
+						} else {
+							if (_targetCandidate isKindOf 'Helicopter') then {
+								if ((_targetType in _stealthAircraft) && (!(isLaserOn _targetCandidate))) then {
+									if ((_targetCandidate distance2D _spawnPosition) < (_targetingRange_heli * _targetingRange_stealthCoef)) then {
+										_targetListEnemy pushBack _targetCandidate;
+									};
+								} else {
+									if ((!(isVehicleRadarOn _targetCandidate)) && (!(isLaserOn _targetCandidate))) then {
+										if ((_targetCandidate distance2D _spawnPosition) < (_targetingRange_heli * _targetingRange_stealthCoef2)) then {
+											_targetListEnemy pushBack _targetCandidate;
+										};
+									};
 								};
 							};
 						};
 					};
 				};
-			} count _targetList;
-			
-			if ((count _targetListEnemy) > 0) then {
-				{
-					if (((getPosATL _x) select 2) > 25) then {
-						0 = _doTargets pushBack _x;
+			} forEach _allAircraft;
+		};
+		{
+			_turretParams = _x;
+			_turretParams params [
+				'_aaTurret',
+				'_aaGunner',
+				'_aaGunnerGroup',
+				'_aaTurretType',
+				'_aaTurretWeapon',
+				'_aaNeedReload',
+				'_aaReloadTimeout',
+				''
+			];
+			if (alive _aaTurret) then {
+				if ((_aaTurret ammo _aaTurretWeapon) > 0) then {
+					if (!(_targetListEnemy isEqualTo [])) then {
+						_targetCandidate = selectRandom _targetListEnemy;
+						_aaGunner reveal [_targetCandidate,4];
+						_aaGunner doTarget _targetCandidate;
+						_aaGunner doWatch (_aaTurret getVariable 'QS_v_targetPosition');
+						uiSleep 2;
+						_aaTurret fireAtTarget [_targetCandidate,_aaTurretWeapon];
 					};
-				} count _targetListEnemy;
-				if ((count _doTargets) > 0) then {
-					_targetSelect = selectRandom _doTargets;
-					if (canFire _priorityObj1) then {
-						_priorityObj1 doWatch [((getPosWorld _targetSelect) select 0),((getPosWorld _targetSelect) select 1),2000];
-						_priorityObj1 doTarget _targetSelect;
-						sleep 2;
-						_priorityObj1 fireAtTarget [_targetSelect,'missiles_titan'];
-						sleep 2;
-						if (canFire _priorityObj2) then {
-							_targetSelect = selectRandom _doTargets;
-							_priorityObj2 doWatch [((getPosWorld _targetSelect) select 0),((getPosWorld _targetSelect) select 1),2000];
-							_priorityObj2 doTarget _targetSelect;
-							sleep 2;
-							_priorityObj2 fireAtTarget [_targetSelect,'missiles_titan'];
-							sleep 2;
-						};
+				} else {
+					if (_aaNeedReload isEqualTo 0) then {
+						_aaNeedReload = 1;
+						_aaReloadTimeout = _time + (random _rearmDelay);
+						_turretParams set [5,_aaNeedReload];
+						_turretParams set [6,_aaReloadTimeout];
+						_aaTurrets set [_forEachIndex,_turretParams];
 					} else {
-						if (canFire _priorityObj2) then {
-							_priorityObj2 doTarget _targetSelect;
-							sleep 2;
-							_priorityObj2 doFire _targetSelect;
-							sleep 2;
+						if (_time > _aaReloadTimeout) then {
+							_aaTurret setVehicleAmmo 1;
+							_aaNeedReload = 0;
+							_turretParams set [5,_aaNeedReload];
+							_turretParams set [6,_aaReloadTimeout];
+							_aaTurrets set [_forEachIndex,_turretParams];
 						};
 					};
 				};
 			};
-		};
-	} else {
-		if (time > _rearmTime) then {
-			_rearming = FALSE;
-			['sideChat',[WEST,'BLU'],'The CSAT AA Battery has finished rearming!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-		};
+		} forEach _aaTurrets;
+		_checkDelay = _time + _delay;
 	};
-	
-	if (time > _rearmInterval) then {
-		if (!(_rearming)) then {
-			_rearming = TRUE;
-			_rearmTime = time + _rearmDelay;
-			['sideChat',[WEST,'BLU'],'The CSAT AA Battery is rearming!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-		};
-		_rearmInterval = time + (240 + (random 80));
-	};
-	
-	/*/============================== Exit strategy/*/
-
-	if ((!alive _priorityObj1) || {(missionNamespace getVariable 'QS_smSuccess')}) then {
-		if ((!alive _priorityObj2) || {(missionNamespace getVariable 'QS_smSuccess')}) then {
-			
-			_loopVar = FALSE;
-
-			/*/-------------------- 9. DE-BRIEF/*/
-			
-			_completeText = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t size='1.5' color='#08b000'>NEUTRALISED</t><br/>____________________<br/>Incredible job, boys! Make sure you jump on those priority targets quickly; they can really cause havoc if they're left to their own devices.<br/><br/>Keep on with the main objective; we'll tell you if anything comes up.";
-			['hint',_completeText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			['CompletedPriorityTarget',['Anti-Air Battery Neutralized']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-			[1,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
-			{
-				_x removeAllEventHandlers 'HandleDamage';
-			} forEach [
-				_priorityObj1,
-				_priorityObj2
-			];
-			{
-				_x setMarkerPos [-5000,-5000,0];
-				_x setMarkerAlpha 0;
-			} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-
-			/*/-------------------- 10. DELETE/*/
-
-			sleep 120;
-			{
-				if (_x isEqualType objNull) then {
-					0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
-				};
-			} count _enemiesArray;
-			{
-				if (_x isEqualType objNull) then {
-					0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
-				};
-			} count _unitsArray;
-			{
-				missionNamespace setVariable [
-					'QS_analytics_entities_deleted',
-					((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-					FALSE
-				];
-				deleteVehicle _x;
-			} forEach [_priorityObj1,_priorityObj2,_ammoTruck];
-		};
-	};
-	if (!(_loopVar)) exitWith {};
-	sleep 5;
 };
+{
+	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
+} forEach (_enemyAssets + _composition + _aaTurrets);

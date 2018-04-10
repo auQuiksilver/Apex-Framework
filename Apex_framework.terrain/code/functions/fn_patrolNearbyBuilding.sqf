@@ -34,7 +34,7 @@ _array params [
 	'_indices'
 ];
 _grp setFormDir (_leader getDir _building);
-_startingPosition = position _leader;
+_startingPosition = getPosATL _leader;
 private _buildingExits = [];
 private _buildingExit = 0;
 private _index = 0;
@@ -82,6 +82,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_aliveUnits isEqualTo []) exitWith {};
 	{
 		if ((_x distance2D _building) > _size2) then {
+			doStop _x;
 			_x doMove (selectRandom _buildingPositions);
 		} else {
 			if ((random 1) > 0.5) then {
@@ -98,9 +99,9 @@ for '_x' from 0 to 1 step 0 do {
 _grp setVariable ['QS_AI_GRP_SCRIPT',scriptNull,FALSE];
 _grp setVariable ['QS_AI_GRP_TASK',[((_grp getVariable 'QS_AI_GRP_TASK') select 0),((_grp getVariable 'QS_AI_GRP_TASK') select 1),diag_tickTime,-1],FALSE];
 if (_regroup) then {
-	if (({(alive _x)} count (units _grp)) > 0) then {
+	if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
 		_leader = leader _grp;
-		_position = position _leader;
+		_position = getPosATL _leader;
 		{
 			if (alive _x) then {
 				resetSubgroupDirection _x;

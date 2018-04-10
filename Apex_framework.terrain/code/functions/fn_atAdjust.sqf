@@ -23,11 +23,11 @@ _val = _array select 1;
 _adjuster = _array select 2;
 _uid = getPlayerUID _target;
 _cid = owner _target;
-_i = [QS_roboCop,_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
-_clientArray = QS_roboCop select _i;
+_i = ((missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)});
+_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
 _clientVal = _clientArray select 1;
 _a = [_uid,_val];
-QS_roboCop set [_i,_a];
+(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
 _targetName = name _target;
 if (_val > 9) exitWith {
 	for '_x' from 0 to 2 step 1 do {

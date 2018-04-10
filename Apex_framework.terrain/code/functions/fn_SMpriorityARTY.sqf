@@ -14,7 +14,7 @@ Description:
 __________________________________________________________________________*/
 
 scriptName 'Side Mission - Artillery';
-if ((count allPlayers) < 25) exitWith {};
+if ((count allPlayers) < 20) exitWith {};
 if (worldName in ['Stratis']) exitWith {};
 private ['_flatPos','_accepted','_unitsArray','_enemiesArray','_fuzzyPos','_briefing','_completeText','_baseMarker','_priorityTargets'];
 missionNamespace setVariable ['QS_sideMission_enemyArray',[],FALSE];
@@ -33,8 +33,14 @@ for '_x' from 0 to 1 step 0 do {
 _unitsArray = [_flatPos,(random 360),([] call (missionNamespace getVariable 'QS_data_artyPit'))] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 _priorityTargets = [];
 {
-	if ((_x isKindOf 'LandVehicle') && (!isSimpleObject _x)) then {
-		_priorityTargets pushBack _x;
+	
+	if (!isSimpleObject _x) then {
+		if ((toLower (typeOf _x)) in [
+			'o_mbt_02_arty_f','o_t_mbt_02_arty_ghex_f','i_truck_02_mrl_f'
+		]) then {
+			[0,_x,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
+			_priorityTargets pushBack _x;
+		};
 	};
 } forEach _unitsArray;
 _enemiesArray = [_unitsArray select 0] call (missionNamespace getVariable 'QS_fnc_smEnemyEast');
@@ -66,7 +72,7 @@ _briefing = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t s
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
 waitUntil {
 	sleep 5;
-	((({ ((canMove _x) && (alive _x)) } count _priorityTargets) isEqualTo 0) || {(missionNamespace getVariable 'QS_smSuccess')})
+	(((_priorityTargets findIf {((canMove _x) && (alive _x))}) isEqualTo -1) || {(missionNamespace getVariable 'QS_smSuccess')})
 };
 _completeText = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t size='1.5' color='#08b000'>NEUTRALISED</t><br/>____________________<br/>Incredible job, boys! Make sure you jump on those priority targets quickly; they can really cause havoc if they're left to their own devices.<br/><br/>Keep on with the main objective; we'll tell you if anything comes up.";
 ['hint',_completeText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];

@@ -18,11 +18,9 @@ private [
 ];
 _t = cursorTarget;
 _approved = FALSE;
-if ((speed _t) < 2) then {
-	if ((speed _t) > -2) then {
-		if ((_t isKindOf 'LandVehicle') || {(_t isKindOf 'Air')} || {(_t isKindOf 'Ship')}) then {
-			_approved = TRUE;
-		};
+if (((vectorMagnitude (velocity _t)) * 3.6) < 2) then {
+	if ((_t isKindOf 'LandVehicle') || {(_t isKindOf 'Air')} || {(_t isKindOf 'Ship')}) then {
+		_approved = TRUE;
 	};
 };
 if (!(_approved)) exitWith {
@@ -43,7 +41,9 @@ _exit = FALSE;
 					};
 					/*/0 = ['switchMove',_unit,(['AinjPpneMstpSnonWnonDnon','acts_InjuredLyingRifle02'] select (isPlayer _unit))] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];/*/
 				};
-			} else {
+			};
+			/*/
+			else {
 				0 = [_unit,_t] spawn {
 					params ['_unit','_t'];
 					if (isPlayer _unit) exitWith {
@@ -73,6 +73,7 @@ _exit = FALSE;
 					};
 				};
 			};
+			/*/
 		};
 		if (_exit) exitWith {};
 		if (!isNil {_unit getVariable 'QS_RD_loadable'}) then {

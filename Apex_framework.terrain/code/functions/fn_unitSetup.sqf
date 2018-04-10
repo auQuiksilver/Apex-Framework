@@ -35,9 +35,9 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 			{
 				_unit removeMagazine _x;
 			} forEach (magazines _unit);
-			[_unit,(selectRandom _weapons),4] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+			[_unit,(selectRandom _weapons),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 			if (!((handgunWeapon _unit) isEqualTo '')) then {
-				[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+				[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 			};
 			_unit selectWeapon (primaryWeapon _unit);
 		};
@@ -59,10 +59,10 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 					{
 						_unit removeMagazine _x;
 					} forEach (magazines _unit);
-					[_unit,(selectRandom _weapons),8] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+					[_unit,(selectRandom _weapons),8] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 					_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS','optic_Arco_blk_F','optic_Hamr','optic_ERCO_blk_F','optic_Arco']);
 					if (!((handgunWeapon _unit) isEqualTo '')) then {
-						[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+						[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 					};
 					_unit selectWeapon (primaryWeapon _unit);
 				} else {
@@ -85,9 +85,9 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 					{
 						_unit removeMagazine _x;
 					} forEach (magazines _unit);
-					[_unit,(selectRandom _weapons),8] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+					[_unit,(selectRandom _weapons),8] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 					if (!((handgunWeapon _unit) isEqualTo '')) then {
-						[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+						[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 					};
 					_unit selectWeapon (primaryWeapon _unit);
 					if (_unitType in ['o_soldier_m_f','o_t_soldier_m_f','o_g_soldier_m_f','i_soldier_m_f','i_g_soldier_m_f']) then {
@@ -142,7 +142,7 @@ if ((random 1) > 0.5) then {
 	};
 };
 if ((random 1) > 0.333) then {
-	if (({((toLower _x) in ['optic_aco','optic_aco_grn'])} count (primaryWeaponItems _unit)) > 0) then {
+	if (!(((primaryWeaponItems _unit) findIf {((toLower _x) in ['optic_aco','optic_aco_grn'])}) isEqualTo -1)) then {
 		_unit addPrimaryWeaponItem 'optic_Arco';
 	};
 };
@@ -183,13 +183,6 @@ if (_unitType in [
 		_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS','optic_Arco_blk_F','optic_Hamr','optic_ERCO_blk_F']);
 	};
 };
-/*/ Redundant?
-if (_unitType in ["o_g_soldier_a_f","o_g_soldier_ar_f","o_g_medic_f","o_g_engineer_f","o_g_soldier_exp_f","o_g_soldier_gl_f","o_g_soldier_m_f","o_g_soldier_f","o_g_soldier_lat_f","o_g_soldier_lite_f","o_g_sharpshooter_f","o_g_soldier_tl_f"]) then {
-	if ((random 1) > 0.5) then {
-		_unit addPrimaryWeaponItem (selectRandom ['optic_Hamr','optic_MRCO','optic_DMS','optic_Holosight','optic_Holosight','optic_Aco','optic_ACO_grn','optic_Arco']);
-	};
-};
-/*/
 private _toRemove = [];
 private _container = [];
 {

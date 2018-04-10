@@ -37,17 +37,17 @@ if (!isNull _killer) then {
 									_uid = getPlayerUID _x;
 									_cid = owner _x;
 									_val = 1;
-									_i = [QS_roboCop,_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+									_i = (missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)};
 									if (_i isEqualTo -1) then {
 										_a = [_uid,_val];
-										0 = QS_roboCop pushBack _a;
+										0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;
 										[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];		
 									} else {
-										_clientArray = QS_roboCop select _i;
+										_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
 										_clientVal = _clientArray select 1;
 										_val = _val + _clientVal;
 										_a = [_uid,_val];
-										QS_roboCop set [_i,_a];
+										(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
 										[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 									};
 								};
@@ -56,17 +56,17 @@ if (!isNull _killer) then {
 								_uid = getPlayerUID _x;
 								_cid = owner _x;
 								_val = 1;
-								_i = [QS_roboCop,_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+								_i = (missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)};
 								if (_i isEqualTo -1) then {
 									_a = [_uid,_val];
-									0 = QS_roboCop pushBack _a;
+									0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;
 									[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 								} else {
-									_clientArray = QS_roboCop select _i;
+									_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
 									_clientVal = _clientArray select 1;
 									_val = _val + _clientVal;
 									_a = [_uid,_val];
-									QS_roboCop set [_i,_a];
+									(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
 									[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 								};
 							};
@@ -80,17 +80,17 @@ if (!isNull _killer) then {
 					_uid = getPlayerUID _killer;
 					_cid = owner _killer;
 					_val = 1;
-					_i = [QS_roboCop,_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+					_i = (missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)};
 					if (_i isEqualTo -1) then {
 						_a = [_uid,_val];
-						0 = QS_roboCop pushBack _a;
+						0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;
 						[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 					} else {
-						_clientArray = QS_roboCop select _i;
+						_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
 						_clientVal = _clientArray select 1;
 						_val = _val + _clientVal;
 						_a = [_uid,_val];
-						QS_roboCop set [_i,_a];
+						(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
 						[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 					};
 					diag_log format ['************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************',time,_vTypeName,_n,_kTypeName,_killerPos,_vTypeName,_killedPos];

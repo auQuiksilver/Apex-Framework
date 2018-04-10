@@ -6,12 +6,12 @@ Author:
 
 Last modified:
 
-	25/02/2018 A3 1.80 by Quiksilver
+	10/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
-____________________________________________________________________/*/
+____________________________________________/*/
 
 author = "Quiksilver";												/*/ Visible when loading mission/*/
 onLoadName = "Invade & Annex";										/*/ Visible when loading mission/*/
@@ -49,6 +49,8 @@ wreckRemovalMaxTime = 1200;
 minPlayerDistance = 50;
 disableRandomization[] = {};
 disableGateRandomization = 1;
+class CfgUnitTemplates {};
+class CfgVehicleTemplates {};
 class CfgDisabledCommands {
     class CREATEUNIT
     {
@@ -80,6 +82,7 @@ class CfgDisabledCommands {
             args[] = {{"OBJECT"},{"ARRAY"}};
         };
     };
+	/*/
     class SETWAYPOINTSTATEMENTS
     {
         class SYNTAX1
@@ -88,6 +91,7 @@ class CfgDisabledCommands {
             args[] = {{"ARRAY"},{"ARRAY"}};
         };
     };
+	/*/
     class PUBLICVARIABLE
     {
         class SYNTAX1
@@ -276,8 +280,10 @@ class CfgLeaflets {
 class CfgFunctions {
 	class QS {
 		class apex_framework {
+			class addWeapon {file = "code\functions\fn_addWeapon.sqf";};
 			class ahScanString {file = "code\functions\fn_ahScanString.sqf";};
 			class AI {file = "code\functions\fn_AI.sqf";};
+			class AIdisableCollision {file = "code\functions\fn_AIdisableCollision.sqf";};
 			class AIFindNearestRegroup {file = "code\functions\fn_AIFindNearestRegroup.sqf";};
 			class AIFireMission {file = "code\functions\fn_AIFireMission.sqf";};
 			class AIGetKnownEnemies {file = "code\functions\fn_AIGetKnownEnemies.sqf";};
@@ -296,7 +302,9 @@ class CfgFunctions {
 			class AIXRepairVehicle {file = "code\functions\fn_AIXRepairVehicle.sqf";};
 			class AIXSetMine {file = "code\functions\fn_AIXSetMine.sqf";};
 			class AIXSuppressiveFire {file = "code\functions\fn_AIXSuppressiveFire.sqf";};
+			class AIXThrow {file = "code\functions\fn_AIXThrow.sqf";};
 			class AIXVehicleUnstuck {file = "code\functions\fn_AIXVehicleUnstuck.sqf";};
+			class ambientHostility {file = "code\functions\fn_ambientHostility.sqf";};
 			class aoAnimals {file = "code\functions\fn_aoAnimals.sqf";};
 			class aoBoatPatrol {file = "code\functions\fn_aoBoatPatrol.sqf";};
 			class aoBriefing {file = "code\functions\fn_aoBriefing.sqf";};
@@ -318,6 +326,7 @@ class CfgFunctions {
 			class aoRadiotower {file = "code\functions\fn_aoRadiotower.sqf";};
 			class aoRandomVehicles {file = "code\functions\fn_aoRandomVehicles.sqf";};
 			class aoSmallTask {file = "code\functions\fn_aoSmallTask.sqf";};
+			class aoSubObjectives {file = "code\functions\fn_aoSubObjectives.sqf";};
 			class aoTaskDestroyVehicle {file = "code\functions\fn_aoTaskDestroyVehicle.sqf";};
 			class aoTaskHVT {file = "code\functions\fn_aoTaskHVT.sqf";};
 			class aoTaskIDAP {file = "code\functions\fn_aoTaskIDAP.sqf";};
@@ -325,6 +334,7 @@ class CfgFunctions {
 			class aoTaskKill {file = "code\functions\fn_aoTaskKill.sqf";};
 			class aoTaskMedevac {file = "code\functions\fn_aoTaskMedevac.sqf";};
 			class areaGradient {file = "code\functions\fn_areaGradient.sqf";};
+			class arrayGetIndex {file = "code\functions\fn_arrayGetIndex.sqf";};
 			class arrayShuffle {file = "code\functions\fn_arrayShuffle.sqf";};
 			class artillery {file = "code\functions\fn_artillery.sqf";};
 			class atAdjust {file = "code\functions\fn_atAdjust.sqf";};
@@ -337,6 +347,7 @@ class CfgFunctions {
 			class casRespawn {file = "code\functions\fn_casRespawn.sqf";};
 			class clearPosition {file = "code\functions\fn_clearPosition.sqf";};
 			class clientAIBehaviours {file = "code\functions\fn_clientAIBehaviours.sqf";};
+			class clientArsenal {file = "code\functions\fn_clientArsenal.sqf";};
 			class clientATAdjust {file = "code\functions\fn_clientATAdjust.sqf";};
 			class clientBaseLights {file = "code\functions\fn_clientBaseLights.sqf";};
 			class clientCore {file = "code\functions\fn_clientCore.sqf";};
@@ -402,6 +413,7 @@ class CfgFunctions {
 			class clientInteractActivateVehicle {file = "code\functions\fn_clientInteractActivateVehicle.sqf";};
 			class clientInteractAlert {file = "code\functions\fn_clientInteractAlert.sqf";};
 			class clientInteractArsenal {file = "code\functions\fn_clientInteractArsenal.sqf";};
+			class clientInteractCamoNet {file = "code\functions\fn_clientInteractCamoNet.sqf";};
 			class clientInteractCarrierLaunch {file = "code\functions\fn_clientInteractCarrierLaunch.sqf";};
 			class clientInteractCarry {file = "code\functions\fn_clientInteractCarry.sqf";};
 			class clientInteractCivilian {file = "code\functions\fn_clientInteractCivilian.sqf";};
@@ -433,6 +445,7 @@ class CfgFunctions {
 			class clientInteractSensorTarget {file = "code\functions\fn_clientInteractSensorTarget.sqf";};
 			class clientInteractServiceVehicle {file = "code\functions\fn_clientInteractServiceVehicle.sqf";};
 			class clientInteractSit {file = "code\functions\fn_clientInteractSit.sqf";};
+			class clientInteractSlatArmor {file = "code\functions\fn_clientInteractSlatArmor.sqf";};
 			class clientInteractStabilise {file = "code\functions\fn_clientInteractStabilise.sqf";};
 			class clientInteractSurrender {file = "code\functions\fn_clientInteractSurrender.sqf";};
 			class clientInteractTalkToContact {file = "code\functions\fn_clientInteractTalkToContact.sqf";};
@@ -503,6 +516,7 @@ class CfgFunctions {
 			class conditionTurretActionUnlockR {file = "code\functions\fn_conditionTurretActionUnlockR.sqf";};
 			class config {file = "code\functions\fn_config.sqf";};
 			class core {file = "code\functions\fn_core.sqf";};
+			class createAAVehicle {file = "code\functions\fn_createAAVehicle.sqf";};
 			class createHQComposition {file = "code\functions\fn_createHQComposition.sqf";};
 			class createMinefield {file = "code\functions\fn_createMinefield.sqf";};
 			class createWell {file = "code\functions\fn_createWell.sqf";};
@@ -510,12 +524,14 @@ class CfgFunctions {
 			class curatorSync {file = "code\functions\fn_curatorSync.sqf";};
 			class customBuildingPositions {file = "code\functions\fn_customBuildingPositions.sqf";};
 			class customInventory {file = "code\functions\fn_customInventory.sqf";};
+			class deltaVD {file = "code\functions\fn_deltaVD.sqf";};
 			class dirtEffect {file = "code\functions\fn_dirtEffect.sqf";};
 			class downgradeVehicleWeapons {file = "code\functions\fn_downgradeVehicleWeapons.sqf";};
 			class dynamicTasks {file = "code\functions\fn_dynamicTasks.sqf";};
 			class easterEggs {file = "code\functions\fn_easterEggs.sqf";};
 			class enemyCAS {file = "code\functions\fn_enemyCAS.sqf";};
 			class enemyDetected {file = "code\functions\fn_enemyDetected.sqf";};
+			class enemySides {file = "code\functions\fn_enemySides.sqf";};
 			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
 			class eventEntityKilled {file = "code\functions\fn_eventEntityKilled.sqf";};
@@ -534,6 +550,7 @@ class CfgFunctions {
 			class garrisonUnits {file = "code\functions\fn_garrisonUnits.sqf";};
 			class gearRestrictions {file = "code\functions\fn_gearRestrictions.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
+			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
 			class getClientFromDPID {file = "code\functions\fn_getClientFromDPID.sqf";};
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
@@ -545,6 +562,7 @@ class CfgFunctions {
 			class getSolarHorizon {file = "code\functions\fn_getSolarHorizon.sqf";};
 			class getWeekday {file = "code\functions\fn_getWeekday.sqf";};
 			class geomPolygonCentroid {file = "code\functions\fn_geomPolygonCentroid.sqf";};
+			class gpsJammer {file = "code\functions\fn_gpsJammer.sqf";};
 			class grid {file = "code\functions\fn_grid.sqf";};
 			class gridBrief {file = "code\functions\fn_gridBrief.sqf";};
 			class gridDefend {file = "code\functions\fn_gridDefend.sqf";};
@@ -555,8 +573,11 @@ class CfgFunctions {
 			class gridSpawnPatrol {file = "code\functions\fn_gridSpawnPatrol.sqf";};
 			class groupIndicator {file = "code\functions\fn_groupIndicator.sqf";};
 			class hcCore {file = "code\functions\fn_hcCore.sqf";};
+			class hCommMenu {file = "code\functions\fn_hCommMenu.sqf";};
+			class highCommand {file = "code\functions\fn_highCommand.sqf";};
 			class icons {file = "code\functions\fn_icons.sqf";};
 			class incapacitated {file = "code\functions\fn_incapacitated.sqf";};
+			class inHouse {file = "code\functions\fn_inHouse.sqf";};
 			class init {file = "code\functions\fn_init.sqf";preInit = 1;};
 			class initClientLocal {file = "code\functions\fn_initClientLocal.sqf";preInit = 1;};
 			class initCommon {file = "code\functions\fn_initCommon.sqf";preInit = 1;};
@@ -566,11 +587,13 @@ class CfgFunctions {
 			class inString {file = "code\functions\fn_inString.sqf";};
 			class isBoundingBoxIntersected {file = "code\functions\fn_isBoundingBoxIntersected.sqf";};
 			class isNearFieldHospital {file = "code\functions\fn_isNearFieldHospital.sqf";};
+			class isNearRepairDepot {file = "code\functions\fn_isNearRepairDepot.sqf";};
 			class isPosVisible {file = "code\functions\fn_isPosVisible.sqf";};
 			class isValidCargoV {file = "code\functions\fn_isValidCargoV.sqf";};
 			class leaderboardAddToWhitelist {file = "code\functions\fn_leaderboardAddToWhitelist.sqf";};
 			class listRemoteTargets {file = "code\functions\fn_listRemoteTargets.sqf";};
 			class logEvent {file = "code\functions\fn_logEvent.sqf";};
+			class mapGetNearestWaypoint {file = "code\functions\fn_mapGetNearestWaypoint.sqf";};
 			class missionGeorgetown {file = "code\functions\fn_missionGeorgetown.sqf";};
 			class missionKavala {file = "code\functions\fn_missionKavala.sqf";};
 			class monthDays {file = "code\functions\fn_monthDays.sqf";};
@@ -605,6 +628,7 @@ class CfgFunctions {
 			class scSpawnUAV {file = "code\functions\fn_scSpawnUAV.sqf";};
 			class scSubObjective {file = "code\functions\fn_scSubObjective.sqf";};
 			class searchNearbyBuilding {file = "code\functions\fn_searchNearbyBuilding.sqf";};
+			class secondsToString {file = "code\functions\fn_secondsToString.sqf";};
 			class sectorScan {file = "code\functions\fn_sectorScan.sqf";};
 			class serverDetector {file = "code\functions\fn_serverDetector.sqf";};
 			class serverObjectsMapper {file = "code\functions\fn_serverObjectsMapper.sqf";};
@@ -632,6 +656,7 @@ class CfgFunctions {
 			class smIDAP {file = "code\functions\fn_smIDAP.sqf";};
 			class spawnAmbientCivilians {file = "code\functions\fn_spawnAmbientCivilians.sqf";};
 			class spawnGroup {file = "code\functions\fn_spawnGroup.sqf";};
+			class spawnSupport {file = "code\functions\fn_spawnSupport.sqf";};
 			class spawnViperTeam {file = "code\functions\fn_spawnViperTeam.sqf";};
 			class stalk {file = "code\functions\fn_stalk.sqf";};
 			class taskAttack {file = "code\functions\fn_taskAttack.sqf";};
@@ -656,8 +681,10 @@ class CfgFunctions {
 			class vEventRopeBreak {file = "code\functions\fn_vEventRopeBreak.sqf";};
 			class vHandleDamage {file = "code\functions\fn_vHandleDamage.sqf";};
 			class vKilled {file = "code\functions\fn_vKilled.sqf";};
+			class vKilled2 {file = "code\functions\fn_vKilled2.sqf";};
 			class vRandom {file = "code\functions\fn_vRandom.sqf";};
 			class vSetup {file = "code\functions\fn_vSetup.sqf";};
+			class vSetup2 {file = "code\functions\fn_vSetup2.sqf";};
 			class vTow {file = "code\functions\fn_vTow.sqf";};
 			class vTowable {file = "code\functions\fn_vTowable.sqf";};
 			class vTowAttachGround {file = "code\functions\fn_vTowAttachGround.sqf";};
@@ -683,12 +710,7 @@ class CfgFunctions {
 			class SMsecureRadar {file = "code\functions\fn_SMsecureRadar.sqf";};
 			class SMsecureUrban {file = "code\functions\fn_SMsecureUrban.sqf";};
 			class SMidapRecover {file = "code\functions\fn_SMidapRecover.sqf";};
-		};
-	};
-	class ZEN {
-		tag = "ZEN";
-		class playerlocal2 {
-			class arrayGetNestedIndex {file = "code\functions\fn_arrayGetNestedIndex.sqf";headerType = -1;};
+			class SMregenerator {file = "code\functions\fn_SMregenerator.sqf";};
 		};
 	};
 };
@@ -828,6 +850,20 @@ class CfgSFX
 		sounds[] = {sound0};
 		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
 	};
+	/*/
+	class QS_DeviceAssembled_SFX
+	{
+		sound0[] = {"@A3\Sounds_F_EPC\Device\device_assembled_loop",10,1,75,0,26,26,26};
+		sounds[] = {sound0};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+	class QS_DeviceDisassembled_SFX
+	{
+		sound0[] = {"@A3\Sounds_F_EPC\Device\device_disassembled_loop",10,1,75,0,26,26,26};
+		sounds[] = {sound0};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+	/*/
 };
 class CfgVehicles
 {
@@ -839,6 +875,16 @@ class CfgVehicles
 	{
 		sound = "PlowUp";
 	};
+	/*/
+	class QS_deviceAssembled
+	{
+		sound = "QS_DeviceAssembled_SFX";
+	};
+	class QS_deviceDisassembled
+	{
+		sound = "QS_DeviceDisassembled_SFX";
+	};
+	/*/
 };
 class CfgUnitInsignia {
 	class A3CG {
@@ -4999,9 +5045,9 @@ class RscTitles {
 				idc = 1001;
 				size = 0.040;
 				x = 0.677 * safezoneW + safezoneX;
-				y = 0.78 * safezoneH + safezoneY;
-				w = 0.12 * safezoneW;
-				h = 0.22 * safezoneH;
+				y = 0.83 * safezoneH + safezoneY; //y = 0.78 * safezoneH + safezoneY;
+				w = 0.09 * safezoneW;	//w = 0.12 * safezoneW;
+				h = 0.165 * safezoneH;	//h = 0.22 * safezoneH;
 				colorText[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])","(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])","(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])","(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
 				lineSpacing = 2;
 				colorBackground[] = {0,0,0,0};
@@ -5023,9 +5069,9 @@ class RscTitles {
 				idc = 1002;
 				size = 0.040;
 				x = 0.68 * safezoneW + safezoneX;
-				y = 0.78 * safezoneH + safezoneY;
-				w = 0.12 * safezoneW;
-				h = 0.22 * safezoneH;
+				y = 0.83 * safezoneH + safezoneY; //y = 0.78 * safezoneH + safezoneY;
+				w = 0.09 * safezoneW;	//w = 0.12 * safezoneW;
+				h = 0.165 * safezoneH;	//h = 0.22 * safezoneH;
 				colorText[] = {0.5,0.5,0.5,1};
 				colorBackground[] = {0,0,0,0};
 				text = "media\images\icons\SquadBack.paa";
@@ -5039,9 +5085,9 @@ class RscTitles {
 				idc = 1003;
 				size = 0.040;
 				x = 0.68 * safezoneW + safezoneX;
-				y = 0.78 * safezoneH + safezoneY;
-				w = 0.12 * safezoneW;
-				h = 0.22 * safezoneH;
+				y = 0.83 * safezoneH + safezoneY; //y = 0.78 * safezoneH + safezoneY;
+				w = 0.09 * safezoneW;	//w = 0.12 * safezoneW;
+				h = 0.165 * safezoneH;	//h = 0.22 * safezoneH;
 				colorText[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])","(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])","(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])","(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
 				colorBackground[] = {0,0,0,0};
 				text = "media\images\icons\SquadRadarBackgroundTexture_ca.paa";
@@ -5081,6 +5127,47 @@ class RscTitles {
 			};
 		};
 	};
+	class QS_HComm_LiveFeed {
+		idd = 30000;
+		onLoad = "[_this,1] call (missionNamespace getVariable ['QS_fnc_HCommLFSetPosition',{}]);";
+		onUnload = "[_this,0] call (missionNamespace getVariable ['QS_fnc_HCommLFSetPosition',{}]);";
+		duration = 9999999999;
+		fadeIn = 0.2;
+		fadeOut = 0.2;
+		name = "QS_HComm_LiveFeed";
+		movingEnable = 1;
+		class controls {
+			class CameraPictureSingleView: QS_RD_dialog_RscPicture {
+				idc = 102;
+				moving = 1;
+				h = "(profilenamespace getvariable [""IGUI_GRID_CUSTOMINFORIGHT_H"",		(10 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25))]) - 1.25 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				w = "(profilenamespace getvariable [""IGUI_GRID_CUSTOMINFORIGHT_W"",		(10 * 			(			((safezoneW / safezoneH) min 1.2) / 40))]) - 0.25 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";			
+				x = "0.125 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "1.125 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				text = "#(argb,512,512,1)r2t(QS_HComm_LiveFeed_r2t,1.25)";
+				colorBackground[] = {0,0,0,0};
+				colorText[] = {1,1,1,1};
+				font = "RobotoCondensed";
+			};
+			class Title: QS_RD_dialog_RscText {
+				idc = 103;
+				moving = 1;
+				h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				w = "(profilenamespace getvariable [""IGUI_GRID_CUSTOMINFORIGHT_W"",		(10 * 			(			((safezoneW / safezoneH) min 1.2) / 40))])";
+				x = "0 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "0 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				sizeEx = "0.8 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				text = "";
+				colorBackground[] = {0,0,0,0};
+				colorText[] = {1,1,1,1};
+				font = "RobotoCondensed";
+				class Attributes {
+					align = "left";
+				};
+			};
+		};
+	};
+	
 	class Default 
 	{
 		idd = -1;

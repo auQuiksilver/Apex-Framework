@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	18/11/2017 A3 1.76 by Quiksilver
+	8/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -36,8 +36,9 @@ if (!(_targets isEqualTo [])) then {
 		};
 	} forEach (_unit targets [TRUE,150]);
 	_unit doWatch _target;
-	_unit doTarget _target;
-	_unit suppressFor (random [10,15,20]);
+	if ((_unit isKindOf 'AllVehicles') || {(_unit isKindOf 'CAManBase')}) then {
+		_unit doTarget _target;
+	};
 	_unit doSuppressiveFire _target;
 	_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [20,40,60])),FALSE];
 } else {

@@ -6,18 +6,22 @@ Author:
 	
 Last modified:
 
-	18/12/2016 A3 1.66 by Quiksilver
+	25/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Enemy reinforce AO
 __________________________________________________/*/
+
+'Spawning reinforcement vehicle' remoteExec ['systemChat',-2];
+params ['_pos'];
 private [
-	'_pos','_base','_foundSpawnPos','_spawnPosDefault','_reinforceGroup','_infTypes','_infType','_destination','_count','_wp','_ticker','_playerSelected','_arr','_playerPos',
-	'_vehTypes','_QS_array','_minDist','_maxDist','_nearRoads','_roadsValid','_roadRoadValid','_fn_blacklist','_worldName','_worldSize'
+	'_base','_foundSpawnPos','_spawnPosDefault','_reinforceGroup','_infTypes','_infType','_destination','_count','_wp','_ticker','_playerSelected','_arr','_playerPos',
+	'_vehTypes','_QS_array','_minDist','_maxDist','_nearRoads','_roadsValid','_roadRoadValid','_fn_blacklist'
 ];
 _worldName = worldName;
 _worldSize = worldSize;
+_allPlayers = allPlayers;
 _QS_array = [];
 _destination = [0,0,0];
 if (_worldName isEqualTo 'Tanoa') then {
@@ -48,17 +52,16 @@ if (_worldName isEqualTo 'Tanoa') then {
 _roadsValid = [];
 _validRoadSurfaces = ['#gdtreddirt','#gdtasphalt','#gdtsoil','#gdtconcrete'];
 _ticker = 0;
-_pos = _this select 0;
 _base = markerPos 'QS_marker_base_marker';
 _foundSpawnPos = FALSE;
 for '_x' from 0 to 499 step 1 do {
 	_roadRoadValid = [0,0,0];
 	_spawnPosDefault = [_pos,_minDist,_maxDist,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if (({((_x distance _spawnPosDefault) < 500)} count allPlayers) isEqualTo 0) then {
+	if ((_allPlayers findIf {((_x distance2D _spawnPosDefault) < 500)}) isEqualTo -1) then {
 		if (_spawnPosDefault call _fn_blacklist) then {
 			if (!([_spawnPosDefault,_pos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 				if (!(_spawnPosDefault isEqualTo [])) then {
-					_nearRoads = (_spawnPosDefault nearRoads 250) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
+					_nearRoads = ((_spawnPosDefault select [0,2]) nearRoads 250) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
 					if (!(_nearRoads isEqualTo [])) then {
 						{
 							if ((toLower (surfaceType (getPosATL _x))) in _validRoadSurfaces) then {
@@ -82,20 +85,7 @@ if (_roadRoadValid isEqualTo [0,0,0]) then {
 /*/================================================ SELECT + SPAWN UNITS/*/
 
 _reinforceGroup = createGroup [EAST,TRUE];
-if ((count allPlayers) > 20) then {
-	if (_worldName isEqualTo 'Tanoa') then {
-		_vehTypes = ["O_T_MRAP_02_gmg_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F","O_T_APC_Wheeled_02_rcws_ghex_F",'O_G_Offroad_01_armed_F','I_APC_tracked_03_cannon_F'];
-	} else {
-		_vehTypes = ['O_MBT_02_cannon_F','O_APC_Tracked_02_cannon_F','O_MRAP_02_hmg_F','I_APC_tracked_03_cannon_F','I_MBT_03_cannon_F','O_G_Offroad_01_armed_F','O_MRAP_02_gmg_F'];
-	};
-} else {
-	if (_worldName isEqualTo 'Tanoa') then {
-		_vehTypes = ['O_G_Offroad_01_armed_F',"O_T_MRAP_02_gmg_ghex_F","O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F"];
-	} else {
-		_vehTypes = ['O_APC_Tracked_02_cannon_F','O_MRAP_02_hmg_F','O_MRAP_02_gmg_F','I_APC_tracked_03_cannon_F'];
-	};
-};
-_vType = selectRandom _vehTypes;
+_vType = selectRandomWeighted ([0] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
 _v = createVehicle [_vType,_roadRoadValid,[],0,'NONE'];
 missionNamespace setVariable [
 	'QS_analytics_entities_created',
@@ -110,6 +100,7 @@ _v enableVehicleCargo FALSE;
 _v forceFollowRoad TRUE;
 _v setConvoySeparation 50;
 _v limitSpeed (50 + (random [10,20,30]));
+[0,_v,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 clearMagazineCargoGlobal _v;
 clearWeaponCargoGlobal _v;
 clearItemCargoGlobal _v;
@@ -125,23 +116,7 @@ missionNamespace setVariable [
 _vCrewGroup = group (driver _v);
 _vCrewGroup setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _vCrewGroup addVehicle _v;
-_v addEventHandler [
-	'Killed',
-	{
-		params ['_object','_killer'];
-		private ['_name','_objType','_killerType','_killerDisplayName','_objDisplayName'];
-		_objType = typeOf _object;
-		if (isPlayer _killer) then {
-			if ((vehicle _killer) isKindOf 'Air') then {
-				_killerType = typeOf (vehicle _killer);
-				_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
-				_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
-				_name = name _killer;
-				['sideChat',[WEST,'BLU'],(format ['%1 has destroyed a(n) %2 with a %3!',_name,_objDisplayName,_killerDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			};
-		};
-	}
-];
+_v addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 _v addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 _QS_array pushBack _v;
 {
@@ -184,9 +159,10 @@ _vCrewGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'Q
 _vCrewGroup enableAttack TRUE;
 if ((toLower _vType) in [
 	'o_mrap_02_f','o_mrap_02_gmg_f','o_mrap_02_hmg_f','o_lsv_02_armed_f','o_lsv_02_unarmed_f','o_t_mrap_02_ghex_f','o_t_mrap_02_gmg_ghex_f','o_t_mrap_02_hmg_ghex_f','o_t_lsv_02_armed_f','o_t_lsv_02_unarmed_f',
-	'i_mrap_03_f','i_mrap_03_gmg_f','i_mrap_03_hmg_f','o_g_offroad_01_armed_f','o_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_Offroad_01_f',
+	'i_mrap_03_f','i_mrap_03_gmg_f','i_mrap_03_hmg_f','o_g_offroad_01_armed_f','o_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_offroad_01_f',
 	'i_truck_02_transport_f','i_truck_02_covered_f','o_truck_02_transport_f','o_truck_02_covered_f',
-	'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f'
+	'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f',
+	'o_lsv_02_at_f','o_g_offroad_01_at_f','i_c_offroad_02_at_f','i_c_offroad_02_lmg_f','i_g_offroad_01_at_f','o_t_lsv_02_at_f'
 ]) then {
 	if (diag_fps > 15) then {
 		if (!(allPlayers isEqualTo [])) then {
@@ -205,12 +181,12 @@ if ((toLower _vType) in [
 										if ((toLower _vType) in [
 											'o_mrap_02_f','o_mrap_02_gmg_f','o_mrap_02_hmg_f','o_lsv_02_armed_f','o_lsv_02_unarmed_f','o_t_mrap_02_ghex_f','o_t_mrap_02_gmg_ghex_f','o_t_mrap_02_hmg_ghex_f','o_t_lsv_02_armed_f','o_t_lsv_02_unarmed_f',
 											'i_mrap_03_f','i_mrap_03_gmg_f','i_mrap_03_hmg_f','i_truck_02_transport_f','i_truck_02_covered_f','o_truck_02_transport_f','o_truck_02_covered_f',
-											'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f'
+											'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f','o_lsv_02_at_f','o_t_lsv_02_at_f'
 										]) then {
 											_insertHeliType = ['O_Heli_Transport_04_F','O_Heli_Transport_04_black_F'] select (_worldName isEqualTo 'Tanoa');
 										};
 										if ((toLower _vType) in [
-											'o_g_offroad_01_armed_f','o_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_Offroad_01_f'
+											'o_g_offroad_01_armed_f','o_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_offroad_01_f','o_g_offroad_01_at_f','i_c_offroad_02_at_f','i_c_offroad_02_lmg_f','i_g_offroad_01_at_f'
 										]) then {
 											_insertHeliType = ['O_Heli_Light_02_unarmed_F','O_Heli_Light_02_unarmed_F'] select (_worldName isEqualTo 'Tanoa');
 										};

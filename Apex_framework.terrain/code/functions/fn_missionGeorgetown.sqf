@@ -258,7 +258,7 @@ for '_x' from 0 to 99 step 1 do {
 		_vehicle setVectorDirAndUp (_parkingSpace select 2);
 		[_vehicle,'', []] call (missionNamespace getVariable 'BIS_fnc_initVehicle');
 		_vehicle hideSelection ['clan',FALSE];
-		if (['offroad',_type,FALSE] call BIS_fnc_inString) then {
+		if (['offroad',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 			_vehicle animate ['HideBackpacks',1,1];
 		};
 		_all pushBack _vehicle;
@@ -405,7 +405,7 @@ for '_x' from 0 to _vehiclesOnRoad step 1 do {
 		_allSimpleObjects pushBack _vehicle;
 		[_vehicle,'', []] call (missionNamespace getVariable 'BIS_fnc_initVehicle');
 		_vehicle hideSelection ['clan',FALSE];
-		if (['offroad',_vehicleType,FALSE] call BIS_fnc_inString) then {
+		if (['offroad',_vehicleType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 			_vehicle animate ['HideBackpacks',1,1];
 		};
 		comment '
@@ -461,7 +461,7 @@ for '_x' from 0 to _enemiesInBuildings step 1 do {
 			if ((random 1) > 0.333) then {
 				removeBackpack _unit;
 				_unit addBackpack _backpackType;
-				[_unit,_launcherType,3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+				[_unit,_launcherType,3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 				_aaSoldiers pushBack _unit;
 			};
 		};
@@ -715,7 +715,7 @@ comment 'Spawn all intel objects';
 for '_x' from 0 to (_intelObjectCount - 1) step 1 do {
 	for '_x' from 0 to 1 step 0 do {
 		_intelObjectBuildingPosition = selectRandom _intelObjectBuildingPositions;
-		if (({((_x distance _intelObjectBuildingPosition) < 30)} count _intelObjectUsedPositions) isEqualTo 0) exitWith {};
+		if ((_intelObjectUsedPositions findIf {((_x distance2D _intelObjectBuildingPosition) < 30)}) isEqualTo -1) exitWith {};
 	};
 	_intelObjectUsedPositions pushBack _intelObjectBuildingPosition;
 	_intelMarker = createMarker [(format ['QS_marker_GTobj_%1',_x]),[0,0,0]];
@@ -789,7 +789,7 @@ for '_x' from 0 to 2 step 1 do {
 	_radial = 120;
 	for '_x' from 0 to 1 step 0 do {
 		_supplyPosition = selectRandom _suppliesPositions;
-		if (({((_x distance2D _supplyPosition) < 100)} count _usedSupplyPositions) isEqualTo 0) exitWith {};
+		if ((_usedSupplyPositions findIf {((_x distance2D _supplyPosition) < 100)}) isEqualTo -1) exitWith {};
 	};
 	_suppliesPositions deleteAt (_suppliesPositions find _supplyPosition);
 	_supplyMarker = createMarker [(format ['QS_marker_supply_%1',(str (random 10e3))]),[0,0,0]];
@@ -1061,8 +1061,8 @@ for '_x' from 0 to 1 step 0 do {
 				_houseEnemies pushBack _unit;
 				_enemies pushBack _unit;
 				_position = selectRandom QS_buildingPositions_inner;
-				if (!(({((_position distance2D _x) < _minDistanceFromPlayers)} count _unitsToAvoid) isEqualTo 0)) then {
-					while {(!(({((_position distance2D _x) < _minDistanceFromPlayers)} count _unitsToAvoid) isEqualTo 0))} do {
+				if (!((_unitsToAvoid findIf {((_position distance2D _x) < _minDistanceFromPlayers)}) isEqualTo -1)) then {
+					while {(!((_unitsToAvoid findIf {((_position distance2D _x) < _minDistanceFromPlayers)}) isEqualTo -1))} do {
 						_position = selectRandom QS_buildingPositions_inner_ground;
 						uiSleep 0.001;
 					};
@@ -1080,7 +1080,7 @@ for '_x' from 0 to 1 step 0 do {
 						if ((random 1) > 0.333) then {
 							removeBackpack _unit;
 							_unit addBackpack _backpackType;
-							[_unit,_launcherType,3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+							[_unit,_launcherType,3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 							_aaSoldiers pushBack _unit;
 						};
 					};
@@ -1139,8 +1139,8 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 				_position = selectRandom QS_buildingPositions_inner_ground;
-				if (!(({((_position distance2D _x) < _minDistanceFromPlayers)} count _unitsToAvoid) isEqualTo 0)) then {
-					while {(!(({((_position distance2D _x) < _minDistanceFromPlayers)} count _unitsToAvoid) isEqualTo 0))} do {
+				if (!((_unitsToAvoid findIf {((_position distance2D _x) < _minDistanceFromPlayers)}) isEqualTo -1)) then {
+					while {(!((_unitsToAvoid findIf {((_position distance2D _x) < _minDistanceFromPlayers)}) isEqualTo -1))} do {
 						_position = selectRandom QS_buildingPositions_inner_ground;
 						uiSleep 0.001;
 					};
@@ -1203,27 +1203,35 @@ for '_x' from 0 to 1 step 0 do {
 											if (alive _nearestEnemy) then {
 												if ((_nearestEnemy distance _unit) < 100) then {
 													if ((getPosATL _nearestEnemy) inPolygon QS_georgetown_vExclusion_polygon) then {
+														doStop _unit;
 														_unit doMove (position _nearestEnemy);
 													} else {
+														doStop _unit;
 														_unit doMove _destination;
 													};
 												} else {
+													doStop _unit;
 													_unit doMove _destination;
 												};
 											} else {
+												doStop _unit;
 												_unit doMove _destination;
 											};
 										} else {
+											doStop _unit;
 											_unit doMove _destination;
 										};
 									} else {
 										if (!isNil {_unit getVariable 'QS_AI_unit_checkBuilding'}) then {
 											if ((random 1) > 0.5) then {
+												doStop _unit;
 												_unit doMove (selectRandom (_unit getVariable 'QS_AI_enemy_bWaypoints'));
 											} else {
+												doStop _unit;
 												_unit doMove _destination;
 											};
 										} else {
+											doStop _unit;
 											_unit doMove _destination;
 										};
 									};

@@ -13,12 +13,17 @@ Description:
 	Client View Options
 __________________________________________________________/*/
 
+params ['_type','_mode','_value'];
+private _setting = -1;
+_QS_worldName = worldName;
+/*/
 private ['_type','_mode','_value','_QS_client_viewSettings','_setting'];
 disableSerialization;
 _type = _this select 0;
 _QS_worldName = worldName;
 if ((count _this) > 1) then {_mode = _this select 1;};
 if ((count _this) > 2) then {_value = _this select 2;};
+/*/
 if (_type isEqualTo 'onLoad') exitWith {
 	uiSleep 0.01;
 	_display = findDisplay 3000;

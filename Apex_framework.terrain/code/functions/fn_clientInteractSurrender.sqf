@@ -90,7 +90,7 @@ _onCompleted = {
 How hard should it be to capture the unit?
 Maybe we could check how depleted the enemy units group is
 /*/
-_duration = random [2,3,4];
+_duration = ((random [1.75,2.5,3]) + (morale _t) - (damage _t)) max 0.25;
 [
 	'Capturing unit',
 	_duration,
@@ -98,5 +98,6 @@ _duration = random [2,3,4];
 	[[_t],{FALSE}],
 	[[_t],_onCancelled],
 	[[_t],_onCompleted],
-	[[],{FALSE}]
+	[[],{FALSE}],
+	FALSE
 ] spawn (missionNamespace getVariable 'QS_fnc_clientProgressVisualization');

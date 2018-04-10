@@ -15,10 +15,10 @@ __________________________________________________/*/
 
 scriptName 'QS InitPlayerServer';
 params ['_client','_jip','_cid','_uid','_profileName'];
-if (isNil {missionNamespace getVariable 'QS_mission_init'}) then {
+if (!(missionNamespace getVariable ['QS_mission_init',FALSE])) then {
 	waitUntil {
 		uiSleep 0.1;
-		(!isNil {missionNamespace getVariable 'QS_mission_init'})
+		(missionNamespace getVariable ['QS_mission_init',FALSE])
 	};
 };
 _t = diag_tickTime + 15;
@@ -32,7 +32,6 @@ missionNamespace setVariable [
 	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 	FALSE
 ];
-
 if (['HC',_uid,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) exitWith {
 	(missionNamespace getVariable ['QS_headlessClients',[]]) pushBack _cid;
 	{
@@ -58,7 +57,7 @@ if (!(allCurators isEqualTo [])) then {
 	} count allCurators;
 };
 
-_ii = [(missionNamespace getVariable 'QS_roboCop'),_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+_ii = ((missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)});
 private _val = 0;
 private _a = [_uid,_val];
 if (_ii isEqualTo -1) then {
@@ -119,7 +118,7 @@ if ((toLower (typeOf _client)) in ['b_fighter_pilot_f','b_soldier_uav_f','b_t_so
 					_isCAS = TRUE;
 
 					private _aircraftPool = 0;
-					private _airIndex = [(missionNamespace getVariable 'QS_CAS_jetAllowance'),_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+					private _airIndex = (missionNamespace getVariable 'QS_CAS_jetAllowance') findIf {((_x select 0) isEqualTo _uid)};
 					if (_airIndex isEqualTo -1) then {
 						(missionNamespace getVariable 'QS_CAS_jetAllowance') pushBack [_uid,_aircraftPool];
 					} else {

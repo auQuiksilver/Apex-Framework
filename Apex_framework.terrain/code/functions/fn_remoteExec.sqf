@@ -180,7 +180,7 @@ if (_case < 10) exitWith {
 		_anim = _this select 3;
 		if (local _t) then {
 			if (isPlayer _t) then {
-				TRUE spawn {
+				0 spawn {
 					player setVariable ['QS_animDone',FALSE,FALSE];
 					player setVariable ['QS_RD_interacting',TRUE,TRUE];
 					uiSleep 7;
@@ -471,6 +471,7 @@ if (_case < 30) exitWith {
 				_unitVest = vest _unit;
 				_unitHeadgear = headgear _unit;
 				_unitFace = face _unit;
+				_name = name _unit;
 				private _isPrisoner = _unit getVariable ['QS_unit_isPrisoner',FALSE];
 				_agent = createAgent [_unitType,[0,0,0],[],0,'NONE'];
 				missionNamespace setVariable [
@@ -478,9 +479,8 @@ if (_case < 30) exitWith {
 					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 					FALSE
 				];
-				{
-					_agent disableAI _x;
-				} count ['FSM','TEAMSWITCH','TARGET','AUTOTARGET','CHECKVISIBLE','SUPPRESSION','AIMINGERROR','COVER','AUTOCOMBAT','PATH'];
+				_agent disableAI 'ALL';
+				_agent enableAI 'ANIM';
 				removeAllWeapons _agent;
 				removeGoggles _agent;
 				removeHeadgear _agent;
@@ -494,7 +494,8 @@ if (_case < 30) exitWith {
 				[_agent,'amovpercmstpssurwnondnon'] remoteExecCall ['switchMove',0,FALSE];
 				_agent setUnitPos 'UP';
 				_agent setDir _unitDir;
-				[_agent,_unitFace] remoteExec ['setFace',0,FALSE];
+				[_agent,_unitFace] remoteExec ['setFace',-2,FALSE];
+				[_agent,_name] remoteExec ['setName',-2,FALSE];
 				_agent forceAddUniform _unitUniform;
 				_agent addHeadgear _unitHeadgear;
 				if (_unitDamage < 0.89) then {
@@ -578,13 +579,11 @@ if (_case < 30) exitWith {
 															diag_log format ['***** DEV CONSOLE ***** Compiling String ***** %1',_string];
 															_code = compile _string;
 															if (_code isEqualType {}) then {
-																if (isDedicated) then {
-																	diag_log format ['***** DEV CONSOLE ***** Code %1 executed by %2 ( %3 * %4)',_targetLocality,_executorProfileName,_executorUID,_executorProfileNameSteam];
-																	if (_targetLocality isEqualTo 2) then {
-																		_args call _code;
-																	} else {
-																		[_args,_code] remoteExec ['call',_targetLocality,FALSE];
-																	};
+																diag_log format ['***** DEV CONSOLE ***** Code %1 executed by %2 ( %3 * %4)',_targetLocality,_executorProfileName,_executorUID,_executorProfileNameSteam];
+																if (_targetLocality isEqualTo 2) then {
+																	_args call _code;
+																} else {
+																	[_args,_code] remoteExec ['call',_targetLocality,FALSE];
 																};
 															};
 														};
@@ -870,10 +869,10 @@ if (_case < 50) exitWith {
 	if (_case isEqualTo 43) then {
 		if (isDedicated) then {
 			_array = _this select 1;
-			private ['_object','_puid','_i'];
+			private ['_object','_puid'];
 			_object = _array select 0;
 			_puid = _array select 1;
-			_i = [((missionNamespace getVariable 'QS_leaderboards') select 2),_puid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_i = ((missionNamespace getVariable 'QS_leaderboards') select 2) findIf {((_x select 0) isEqualTo _puid)};
 			if (_i isEqualTo -1) then {
 				_object setVariable ['QS_IA_revivePoints',0,TRUE];
 			} else {
@@ -889,7 +888,7 @@ if (_case < 50) exitWith {
 			private ['_object','_puid'];
 			_object = _array select 0;
 			_puid = _array select 1;
-			_i = [((missionNamespace getVariable 'QS_leaderboards') select 1),_puid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_i = ((missionNamespace getVariable 'QS_leaderboards') select 1) findIf {((_x select 0) isEqualTo _puid)};
 			if (_i isEqualTo -1) then {
 				_object setVariable ['QS_IA_PP',0,TRUE];
 			} else {
@@ -905,14 +904,14 @@ if (_case < 50) exitWith {
 			private ['_object','_puid','_i','_element'];
 			_object = _array select 0;
 			_puid = _array select 1;
-			_i = [((missionNamespace getVariable 'QS_leaderboards') select 3),_puid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_i = ((missionNamespace getVariable 'QS_leaderboards') select 3) findIf {((_x select 0) isEqualTo _puid)};
 			if (_i isEqualTo -1) then {
 				_object setVariable ['QS_IA_earPoints',0,TRUE];
 			} else {
 				_element = ((missionNamespace getVariable 'QS_leaderboards') select 3) select _i;
 				_object setVariable ['QS_IA_earPoints',(_element select 1),TRUE];
 			};
-			_i = [((missionNamespace getVariable 'QS_leaderboards') select 4),_puid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_i = ((missionNamespace getVariable 'QS_leaderboards') select 4) findIf {((_x select 0) isEqualTo _puid)};
 			if (_i isEqualTo -1) then {
 				_object setVariable ['QS_IA_toothPoints',0,TRUE];
 			} else {
@@ -995,7 +994,7 @@ if (_case < 60) exitWith {
 			if (!(_arrayToSend isEqualTo [])) then {
 				[nil,[_message,objNull,1]] remoteExec ['QS_fnc_msgToStaff',_arrayToSend,FALSE];
 			};
-			TRUE spawn {
+			0 spawn {
 				scriptName 'AH Controller';
 				missionNamespace setVariable ['QS_AH_enabled',TRUE,TRUE];
 				uiSleep 300;
@@ -1043,7 +1042,7 @@ if (_case < 60) exitWith {
 							if ((damage _x) > 0) then {
 								_x setDamage 0;
 							};
-						} forEach (nearestObjects [_baseMarker,[],300]);
+						} forEach (nearestObjects [_baseMarker,[],300,TRUE]);
 					};
 				};
 			};
@@ -1052,7 +1051,7 @@ if (_case < 60) exitWith {
 	/*/===== Remote Delete Request/*/
 	if (_case isEqualTo 54) then {
 		if (isDedicated) then {
-			TRUE spawn {
+			0 spawn {
 				scriptName 'Remote Delete';
 				private _toDelete = [];
 				{
@@ -1542,7 +1541,7 @@ if (_case < 80) exitWith {
 		params ['','_addRemoveSet','_var','_iconID','_iconData'];
 		if (_addRemoveSet isEqualTo 0) then {
 			comment 'Remove';
-			_iconIndex = [(missionNamespace getVariable _var),_iconID,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_iconIndex = (missionNamespace getVariable _var) findIf {((_x select 0) isEqualTo _iconID)};
 			if (!(_iconIndex isEqualTo -1)) then {
 				(missionNamespace getVariable _var) set [_iconIndex,FALSE];
 				(missionNamespace getVariable _var) deleteAt _iconIndex;
@@ -1554,7 +1553,7 @@ if (_case < 80) exitWith {
 		};
 		if (_addRemoveSet isEqualTo 2) then {
 			comment 'Update';
-			_iconIndex = [(missionNamespace getVariable _var),_iconID,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+			_iconIndex = (missionNamespace getVariable _var) findIf {((_x select 0) isEqualTo _iconID)};
 			if (!(_iconIndex isEqualTo -1)) then {
 				(missionNamespace getVariable _var) set [_iconIndex,_iconData];
 			} else {
@@ -1678,6 +1677,7 @@ if (_case < 90) exitWith {
 						_carrierAnimData = _entity getVariable ['QS_vehicle_carrierAnimData',[]];
 						if (!(_carrierAnimData isEqualTo [])) then {
 							(_carrierAnimData select 0) animateSource (_carrierAnimData select 1);
+							playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData select 0) modelToWorldWorld ((_carrierAnimData select 0) selectionPosition ((_carrierAnimData select 1) select 0))),25,1,75];
 						};
 					}
 				],
@@ -1691,6 +1691,7 @@ if (_case < 90) exitWith {
 						_carrierAnimData = _entity getVariable ['QS_vehicle_carrierAnimData',[]];
 						if (!(_carrierAnimData isEqualTo [])) then {
 							(_carrierAnimData select 0) animateSource (_carrierAnimData select 1);
+							playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData select 0) modelToWorldWorld ((_carrierAnimData select 0) selectionPosition ((_carrierAnimData select 1) select 0))),25,1,75];
 						};						
 					}
 				],
@@ -1704,6 +1705,7 @@ if (_case < 90) exitWith {
 						_carrierAnimData = _entity getVariable ['QS_vehicle_carrierAnimData',[]];
 						if (!(_carrierAnimData isEqualTo [])) then {
 							(_carrierAnimData select 0) animateSource (_carrierAnimData select 1);
+							playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData select 0) modelToWorldWorld ((_carrierAnimData select 0) selectionPosition ((_carrierAnimData select 1) select 0))),25,1,75];
 						};						
 					}
 				],
@@ -1717,6 +1719,7 @@ if (_case < 90) exitWith {
 						_carrierAnimData = _entity getVariable ['QS_vehicle_carrierAnimData',[]];
 						if (!(_carrierAnimData isEqualTo [])) then {
 							(_carrierAnimData select 0) animateSource (_carrierAnimData select 1);
+							playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData select 0) modelToWorldWorld ((_carrierAnimData select 0) selectionPosition ((_carrierAnimData select 1) select 0))),25,1,75];
 						};						
 					}
 				],
@@ -1730,6 +1733,7 @@ if (_case < 90) exitWith {
 						_carrierAnimData = _entity getVariable ['QS_vehicle_carrierAnimData',[]];
 						if (!(_carrierAnimData isEqualTo [])) then {
 							(_carrierAnimData select 0) animateSource (_carrierAnimData select 1);
+							playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData select 0) modelToWorldWorld ((_carrierAnimData select 0) selectionPosition ((_carrierAnimData select 1) select 0))),25,1,75];
 						};						
 					}
 				]
@@ -1797,6 +1801,20 @@ if (_case < 90) exitWith {
 				};
 			};
 		};
+	};
+	if (_case isEqualTo 88) then {
+		params ['',['_vehicle',objNull]];
+		if (!isNull _vehicle) then {
+			if (local _vehicle) then {
+				_vehicle setRepairCargo 0;
+				_vehicle setAmmoCargo 0;
+				_vehicle setFuelCargo 0;
+			};
+		};
+	};
+	if (_case isEqualTo 89) then {
+		params ['','_command','_profileName','_hcSelected'];
+		[0,_command,_profileName,_hcSelected] call (missionNamespace getVariable 'QS_fnc_hCommMenu');
 	};
 };
 if (_case < 100) exitWith {

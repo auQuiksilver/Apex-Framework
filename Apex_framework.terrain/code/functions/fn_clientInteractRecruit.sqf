@@ -16,9 +16,11 @@ _____________________________________________________________*/
 private ['_t','_exit'];
 _exit = FALSE;
 _t = cursorTarget;
-if (!isNull (objectParent _t)) exitWith {};
-if (isPlayer _t) exitWith {};
-if (!alive _t) exitWith {};
+if (
+	(!isNull (objectParent _t)) ||
+	(isPlayer _t) ||
+	(!alive _t)
+) exitWith {};
 private _text = '';
 if (['heli',(typeOf _t),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 	if (!(['heli',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
@@ -33,6 +35,9 @@ if (['heli',(typeOf _t),FALSE] call (missionNamespace getVariable 'QS_fnc_inStri
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
 	};	
 };
+if (player getUnitTrait 'QS_trait_HQ') exitWith {
+	50 cutText ['Commander cannot directly recruit AI','PLAIN',0.5];
+};																						
 if (_exit) exitWith {};
 player playActionNow 'gestureHi';
 [_t] joinSilent (group player);

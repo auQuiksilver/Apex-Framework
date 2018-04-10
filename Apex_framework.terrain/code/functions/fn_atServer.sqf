@@ -24,7 +24,7 @@ _uid = _array select 1;
 _causedBy = objNull;
 _nameCausedBy = _array select 3;
 {
-	if ((getPlayerUID _x) == _uid) exitWith {
+	if ((getPlayerUID _x) isEqualTo _uid) exitWith {
 		_causedBy = _x;
 	};
 } count allPlayers;
@@ -38,14 +38,14 @@ _uidReporter = getPlayerUID _reporter;
 _posReporter = getPosWorld _reporter;
 _posCausedBy = getPosWorld _causedBy;
 if (_type isEqualTo 1) then {
-	_i = [QS_roboCop,_uid,0] call (missionNamespace getVariable 'ZEN_fnc_arrayGetNestedIndex');
+	_i = ((missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)});
 	diag_log format ['***** fn_atServer ***** UID to robocop: %1 *****',_uid];
 	if (_i isEqualTo -1) then {
 		_a = [_uid,_val];
-		0 = QS_roboCop pushBack _a;		
+		0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;		
 		[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 	} else {
-		_clientArray = QS_roboCop select _i;
+		_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
 		_clientVal = _clientArray select 1;
 		_watchList = profileNamespace getVariable 'QS_robocop_watchlist';
 		if (_clientVal > 3) then {
@@ -63,7 +63,7 @@ if (_type isEqualTo 1) then {
 		_val = _val + _clientVal;
 		diag_log format ['************************ ADMIN ***** %1 ***** %2 has been threat-adjusted to %3 *****',time,_nameCausedBy,_val];
 		_a = [_uid,_val];
-		QS_roboCop set [_i,_a];
+		(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
 		[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 	};
 	_message = format ['ROBOCOP: %1 has been reported',_nameCausedBy];

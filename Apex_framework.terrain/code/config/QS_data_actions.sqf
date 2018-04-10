@@ -6,12 +6,12 @@ Author:
 	
 Last modified:
 
-	20/01/2018 A3 1.80 by Quiksilver
+	27/03/2018 A3 1.82 by Quiksilver
 	
 Description:
 
-	Actions
-__________________________________________________________________________/*/
+	Actions Text
+___________________________________________/*/
 
 [
 	'Sit',
@@ -81,7 +81,7 @@ __________________________________________________________________________/*/
 	'Cycle primary mission',
 	'0 - Close Menu',
 	'1 - (Target) Delete',
-	'2 - Spectate',
+	'2 - Spectate',			
 	'3 - Invincibility',
 	'4 - Show Pilots',
 	'5 - (Target) Repair',
@@ -118,5 +118,17 @@ __________________________________________________________________________/*/
 	'Launch',
 	'Stabilise',
 	'Inspect',
-	'Self destruct'
+	'Self destruct',
+	'Deploy camo net',
+	'Remove camo net',
+	'Mount slat armor',
+	'Remove slat armor',
+	'Retract Cargo Ropes',
+	'Extend Cargo Ropes',
+	'Shorten Cargo Ropes',
+	'Release Cargo',
+	'Deploy Cargo Ropes',
+	'Attach To Cargo Ropes',
+	'Drop Cargo Ropes',
+	'Pickup Cargo Ropes'
 ]

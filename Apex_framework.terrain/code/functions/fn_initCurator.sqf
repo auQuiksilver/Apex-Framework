@@ -220,16 +220,17 @@ if (_type isEqualTo 1) then {
 									if (_result) then {
 										missionNamespace setVariable ['QS_aoSuspended',TRUE,TRUE];
 										missionNamespace setVariable ['QS_aoCycleVar',TRUE,TRUE];
-										50 cutText ['Primary missions suspended','PLAIN DOWN',0.5];
+										missionNamespace setVariable ['QS_forceDefend',-1,TRUE];
+										50 cutText ['Primary missions suspended, please wait ...','PLAIN DOWN',0.5];
 										_actionTarget setUserActionText [_actionID,'Resume primary missions',(format ["<t size='3'>%1</t>",'Resume primary missions'])];
 										['systemChat',(format ['%1 (staff) suspended primary missions',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
 								} else {
 									_result = ['Resume primary missions','Primary missions','Resume','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
 									if (_result) then {
-										missionNamespace setVariable ['QS_aoSuspended',TRUE,TRUE];
-										missionNamespace setVariable ['QS_aoCycleVar',TRUE,TRUE];
-										50 cutText ['Primary missions resumed','PLAIN DOWN',0.5];
+										missionNamespace setVariable ['QS_aoSuspended',FALSE,TRUE];
+										missionNamespace setVariable ['QS_aoCycleVar',FALSE,TRUE];
+										50 cutText ['Primary missions resumed, please wait ...','PLAIN DOWN',0.5];
 										_actionTarget setUserActionText [_actionID,'Suspend primary missions',(format ["<t size='3'>%1</t>",'Suspend primary missions'])];
 										['systemChat',(format ['%1 (staff) resumed primary missions',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
@@ -263,7 +264,7 @@ if (_type isEqualTo 1) then {
 								};
 								player setVariable ['QS_client_aoCycleCooldown',(diag_tickTime + 60),FALSE];
 								if (!(missionNamespace getVariable ['QS_aoSuspended',FALSE])) then {
-									_result = ['Cycle primary mission','Primary missions','Cycle','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
+									_result = ['Cycle primary mission, please wait ...','Primary missions','Cycle','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
 									if (_result) then {
 										missionNamespace setVariable ['QS_aoCycleVar',TRUE,TRUE];
 										['systemChat',(format ['%1 (staff) cycled primary missions',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];

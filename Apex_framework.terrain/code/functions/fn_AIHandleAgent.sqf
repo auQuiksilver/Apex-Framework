@@ -20,6 +20,11 @@ if (
 	{(!(simulationEnabled _entity))} ||
 	{(!((lifeState _entity) in ['','HEALTHY','INJURED']))}
 ) exitWith {};
+
+if (!(_entity getVariable ['QS_AI_ENTITY_setup',FALSE])) then {
+	_entity setVariable ['QS_AI_ENTITY_setup',TRUE,FALSE];
+	_entity setVariable ['QS_AI_ENTITY_rv',[(random 1),(random 1),(random 1)],FALSE];
+};
 _side = side _entity;
 _type = toLower (typeOf _entity);
 _position = position _entity;
@@ -136,7 +141,7 @@ if (_type in ['goat_random_f']) exitWith {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];
 			if ((random 1) > 0.85) then {
 				if (_fps > 15) then {
-					playSound3D ["a3\Sounds_F\environment\animals\Goats\Goat_" + (selectRandom ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18"]) + ".wss",_entity,FALSE,(getPosASL _entity),1,1,45];
+					playSound3D ['a3\Sounds_F\environment\animals\Goats\Goat_' + (selectRandom ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18']) + '.wss',_entity,FALSE,(getPosASL _entity),1,1,45];
 				};
 			};
 			_entity moveTo _movePosition;
@@ -155,7 +160,7 @@ if (_type in ['hen_random_f','cock_random_f','cock_white_f']) exitWith {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];
 			if ((random 1) > 0.85) then {
 				if (_fps > 15) then {
-					playSound3D ["a3\Sounds_F\environment\animals\Chickens\Chicken_" + (selectRandom ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"]) + ".wss",_entity,FALSE,getPosASL _entity,1,1,35];
+					playSound3D ['a3\Sounds_F\environment\animals\Chickens\Chicken_' + (selectRandom ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20']) + '.wss',_entity,FALSE,getPosASL _entity,1,1,35];
 				};
 			};
 			_entity moveTo _movePosition;

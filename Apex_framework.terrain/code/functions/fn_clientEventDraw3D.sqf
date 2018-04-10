@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	16/12/2017 A3 1.80 by Quiksilver
+	4/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -25,7 +25,14 @@ if (_time >= (uiNamespace getVariable ['QS_dynamicGroups_update',0])) then {
 _player = player;
 _cameraOn = cameraOn;
 if ((!(_cameraOn in [_player,(vehicle _player)])) && (!(unitIsUav _cameraOn))) exitWith {};
-private ['_alpha','_unit','_distance','_unitName','_unitType','_objectParent','_rgba','_array'];
+private _alpha = 0;
+private _unit = objNull;
+private _distance = 0;
+private _unitName = '';
+private _unitType = '';
+private _rgba = [0,0,0,0];
+private _array = [];
+_font = 'RobotoCondensedBold';
 if (isNull (objectParent _player)) then {
 	if ((getPlayerChannel _player) isEqualTo 4) then {
 		setCurrentChannel 5;
@@ -75,36 +82,32 @@ if (isNull (objectParent _player)) then {
 };
 if (visibleMap) exitWith {};
 if (_player getUnitTrait 'medic') then {
-	private ['_pdist','_color','_lifeState','_vehicle'];
+	private _vehicle = objNull;
 	{
 		_unit = _x;
-		_lifeState = lifeState _unit;
-		if (_lifeState isEqualTo 'INCAPACITATED') then {
-			_pdist = _player distance2D _unit;
-			if (_pdist > 2) then {
+		if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
+			_distance = _player distance2D _unit;
+			if (_distance > 2) then {
 				_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\r100_ca.paa';
-				if (_lifeState in ['DEAD','DEAD-RESPAWN','DEAD-SWITCHING']) then {
-					_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\f100_ca.paa';
-				};
-				_alpha = 1 - (((_pdist / 500)) % 1);
-				_color = [1,0,0,_alpha];					
+				_alpha = 1 - (((_distance / 500)) % 1);
+				_rgba = [1,0,0,_alpha];					
 				if (!(((_unit nearEntities ['CAManBase',2]) select {(!(_x isEqualTo _unit)) && (_x getUnitTrait 'medic') && ((lifeState _x) in ['HEALTHY','INJURED'])}) isEqualTo [])) then {
 					_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\u100_ca.paa';
-					_color = [0,0,1,_alpha];
+					_rgba = [0,0,1,_alpha];
 				};
 				_vehicle = vehicle _unit;
 				if (_alpha > 0) then {
 					drawIcon3D [
 						_icon,
-						_color,
-						(if (_vehicle isKindOf 'Man') then {(_unit modelToWorldVisual (_unit selectionPosition 'Spine3'))} else {(_vehicle modelToWorldVisual [0,0,0])}),
+						_rgba,
+						(if (_vehicle isKindOf 'CAManBase') then {(_unit modelToWorldVisual (_unit selectionPosition 'Spine3'))} else {(_vehicle modelToWorldVisual [0,0,0])}),
 						0.666,
 						0.666,
 						0,
-						(if (_vehicle isKindOf 'Man') then {(format ['%1 (%2m)',(name _unit),(ceil _pdist)])} else {''}),
+						(if (_vehicle isKindOf 'CAManBase') then {(format ['%1 (%2m)',(name _unit),(ceil _distance)])} else {''}),
 						1,
 						0.03,
-						'RobotoCondensed',
+						'RobotoCondensedBold',
 						'center',
 						TRUE
 					];
@@ -159,7 +162,7 @@ if (!isStreamFriendlyUIEnabled) then {
 					'',
 					0,
 					0,
-					'RobotoCondensed',
+					'RobotoCondensedBold',
 					'right',
 					FALSE
 				];
@@ -174,7 +177,7 @@ if (!isStreamFriendlyUIEnabled) then {
 						'',
 						0,
 						0,
-						'RobotoCondensed',
+						'RobotoCondensedBold',
 						'right',
 						TRUE
 					];
@@ -184,22 +187,26 @@ if (!isStreamFriendlyUIEnabled) then {
 		if (freeLook) then {
 			{
 				_unit = _x;
-				if ((isPlayer _unit) || {(_unit in (units (group _player)))}) then {
+				if ((side _unit) isEqualTo playerSide) then {
 					if (!(_unit getVariable ['QS_hidden',FALSE])) then {
 						if (!(_unit isEqualTo _player)) then {
-							if (((speed _unit) < 20) && ((speed _unit) > -20)) then {
+							if (((vectorMagnitude (velocity _unit)) * 3.6) <= 24) then {
 								_icon = '';
 								if (_unit in [cursorObject,cursorTarget]) then {
-									_unitType = _player getVariable [(format ['QS_HUD_unitDN#%1',_unitType]),''];
-									if (_unitType isEqualTo '') then {
-										_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
-										_player setVariable [(format ['QS_HUD_unitDN#%1',_unitType]),_unitType,FALSE];
+									if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+										_unitType = _unit getVariable ['QS_ST_customDN',''];
+									} else {
+										_unitType = _player getVariable [(format ['QS_HUD_unitDN#%1',_unitType]),''];
+										if (_unitType isEqualTo '') then {
+											_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
+											_player setVariable [(format ['QS_HUD_unitDN#%1',_unitType]),_unitType,FALSE];
+										};
 									};
 									_unitName = (name _unit) + (format [' (%1)',_unitType]);
 								} else {
 									_unitName = (name _unit);
 								};
-								_distance = _cameraOn distance _unit;
+								_distance = _cameraOn distance2D _unit;
 								_alpha = 1 - (((_distance / 31)) % 1);
 								if (_alpha > 0) then {
 									drawIcon3D [
@@ -211,8 +218,8 @@ if (!isStreamFriendlyUIEnabled) then {
 										0,
 										_unitName,
 										2,
-										(1 * 0.025),
-										'RobotoCondensed',
+										0.025,
+										'RobotoCondensedBold',
 										'right',
 										FALSE
 									];
@@ -227,13 +234,13 @@ if (!isStreamFriendlyUIEnabled) then {
 			if (isNull _unit) then {
 				_unit = cursorObject;
 			} else {
-				if (!(_unit isKindOf 'Man')) then {
+				if (!(_unit isKindOf 'CAManBase')) then {
 					_unit = cursorObject;
 				};
 			};
 			if (!isNull _unit) then {
-				if ((_unit isKindOf 'Man') || {((effectiveCommander _unit) isKindOf 'Man')}) then {
-					if (((side _unit) isEqualTo playerSide) || {(isPlayer _unit)}) then {
+				if ((_unit isKindOf 'CAManBase') || {((effectiveCommander _unit) isKindOf 'CAManBase')}) then {
+					if ((side _unit) isEqualTo playerSide) then {
 						if (!(_unit isEqualTo _player)) then {
 							if (!(_unit getVariable ['QS_hidden',FALSE])) then {
 								_icon = '';
@@ -270,15 +277,15 @@ if (!isStreamFriendlyUIEnabled) then {
 								};
 								drawIcon3D [
 									_icon,
-									[0,125,255,1],	/*/[0.25,1,0.25,1],/*/
-									(_unit modelToWorldVisual ((_unit selectionPosition (['pilot','head'] select (_unit isKindOf 'Man'))) vectorAdd [0,0,0.5])),	/*/Issue here when vehicle is crossing bridge or something/*/
+									[0,125,255,1],
+									(_unit modelToWorldVisual ((_unit selectionPosition (['pilot','head'] select (_unit isKindOf 'CAManBase'))) vectorAdd [0,0,0.5])),
 									1,
 									1,
 									0,
 									_unitName,
 									2,
-									(1 * 0.03),
-									'RobotoCondensed',
+									0.03,
+									'RobotoCondensedBold',
 									'right',
 									FALSE
 								];
@@ -297,6 +304,7 @@ if (!isStreamFriendlyUIEnabled) then {
 if (!((missionNamespace getVariable ['QS_draw3D_projectiles',[]]) isEqualTo [])) then {
 	private _scale = 1;
 	_array = missionNamespace getVariable ['QS_draw3D_projectiles',[]];
+	_deg = ((ceil _time) - _time) * 720;
 	{
 		if (_x isEqualType objNull) then {
 			if (!isNull _x) then {
@@ -309,7 +317,7 @@ if (!((missionNamespace getVariable ['QS_draw3D_projectiles',[]]) isEqualTo []))
 							(getPosVisual _x),
 							_scale,
 							_scale,
-							0
+							_deg
 						];
 					};
 				};

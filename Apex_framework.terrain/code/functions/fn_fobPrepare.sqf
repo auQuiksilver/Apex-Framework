@@ -59,7 +59,8 @@ if (_type isEqualTo 1) then {
 	_array = [
 		(([_2] call (missionNamespace getVariable 'QS_data_fobs')) select 0),
 		0,
-		(([_2] call (missionNamespace getVariable 'QS_data_fobs')) select 1)
+		(([_2] call (missionNamespace getVariable 'QS_data_fobs')) select 1),
+		FALSE
 	] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 	missionNamespace setVariable ['QS_module_fob_displayName',(([_2] call (missionNamespace getVariable 'QS_data_fobs')) select 5),TRUE];
 	'QS_marker_module_fob' setMarkerPos (([_2] call (missionNamespace getVariable 'QS_data_fobs')) select 0);

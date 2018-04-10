@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_clientEventHit.sqf
 Author:
 
@@ -6,20 +6,12 @@ Author:
 	
 Last modified:
 
-	25/02/2017 A3 1.66 by Quiksilver
+	10/03/2018 A3 1.80 by Quiksilver
 	
 Description:
 
 	-
-	
-Notes:
-
-	Most of this function is obsolete, since introduction of _instigator param in Arma 3 v1.65
-	
-	(most of this function is just determining instigator
-	
-	https://community.bistudio.com/wiki/Arma_3:_Event_Handlers#Hit
-__________________________________________________*/
+__________________________________________________/*/
 
 params [['_unit',objNull],['_causedBy',objNull],['_dmg',0],['_instigator',objNull]];
 private _vu = vehicle _unit;
@@ -31,9 +23,10 @@ if (
 	{(_unit isEqualTo _causedBy)} ||
 	{(_vu isEqualTo _v)} ||
 	{((rating _unit) < 0)} ||
-	{((player getVariable 'QS_tto') > 3)} ||
+	{((player getVariable ['QS_tto',0]) > 3)} ||
 	{(!((lifeState player) in ['HEALTHY','INJURED']))} ||
 	{(['U_O',(uniform player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))} ||
+	{((!isNull _instigator) && ((side (group _instigator)) in (playerSide call (missionNamespace getVariable 'QS_fnc_enemySides'))))} ||
 	{((missionNamespace getVariable 'QS_sub_sd') && ((count _this) <= 4))}
 ) exitWith {
 	if (!isNull _instigator) then {
@@ -72,6 +65,7 @@ _n2 = '';
 _n3 = '';
 scopeName 'main';
 _vType = typeOf _v;
+_vTypeL = toLower _vType;
 _vtxt = getText (configFile >> 'CfgVehicles' >> _vType >> 'displayName');
 _posObject = getPosATL _unit;
 _posCausedBy = getPosATL _causedBy;
@@ -84,12 +78,11 @@ if (_v isKindOf 'Man') then {
 	_text = format ['You were wounded by %1, a %2, likely with a %3',_n1,_vtxt,_currentWeaponText];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [1,TRUE,10,-1,_text,[],(serverTime + 20)];
 };
-
 if (_v isKindOf 'StaticWeapon') then {
 	_gunnerVehicles = [
-		"B_G_Mortar_01_F","B_HMG_01_F","B_HMG_01_high_F","B_HMG_01_A_F","B_GMG_01_F","B_GMG_01_high_F","B_GMG_01_A_F","B_Mortar_01_F","B_static_AA_F","B_static_AT_F","B_T_HMG_01_F","B_T_GMG_01_F","B_T_Mortar_01_F",
-		"B_T_Static_AA_F","B_T_Static_AT_F","O_HMG_01_F","O_HMG_01_high_F","O_HMG_01_A_F","O_GMG_01_F","O_GMG_01_high_F","O_GMG_01_A_F","O_Mortar_01_F","O_static_AA_F","O_static_AT_F","O_G_Mortar_01_F","I_HMG_01_F",
-		"I_HMG_01_high_F","I_HMG_01_A_F","I_GMG_01_F","I_GMG_01_high_F","I_GMG_01_A_F","I_Mortar_01_F","I_static_AA_F","I_static_AT_F","I_G_Mortar_01_F"
+		'b_g_mortar_01_f','b_hmg_01_f','b_hmg_01_high_f','b_hmg_01_a_f','b_gmg_01_f','b_gmg_01_high_f','b_gmg_01_a_f','b_mortar_01_f','b_static_aa_f','b_static_at_f','b_t_hmg_01_f','b_t_gmg_01_f','b_t_mortar_01_f',
+		'b_t_static_aa_f','b_t_static_at_f','o_hmg_01_f','o_hmg_01_high_f','o_hmg_01_a_f','o_gmg_01_f','o_gmg_01_high_f','o_gmg_01_a_f','o_mortar_01_f','o_static_aa_f','o_static_at_f','o_g_mortar_01_f','i_hmg_01_f',
+		'i_hmg_01_high_f','i_hmg_01_a_f','i_gmg_01_f','i_gmg_01_high_f','i_gmg_01_a_f','i_mortar_01_f','i_static_aa_f','i_static_at_f','i_g_mortar_01_f'
 	];
 	if (!isNull (gunner _v)) then {
 		if (isPlayer (gunner _v)) then {
@@ -104,20 +97,25 @@ if (_v isKindOf 'StaticWeapon') then {
 
 if ((_v isKindOf 'LandVehicle') || {(_v isKindOf 'Ship')}) then {
 	_gunnerVehicles = [
-		"B_G_Offroad_01_armed_F","B_MRAP_01_gmg_F","B_MRAP_01_hmg_F","B_LSV_01_armed_F","B_T_MRAP_01_gmg_F","B_T_MRAP_01_hmg_F","B_T_LSV_01_armed_F","O_MRAP_02_gmg_F",
-		"O_MRAP_02_hmg_F","O_LSV_02_armed_F","B_APC_Wheeled_01_cannon_F","B_APC_Tracked_01_CRV_F","B_APC_Tracked_01_rcws_F","B_T_APC_Wheeled_01_cannon_F","B_T_APC_Tracked_01_CRV_F",
-		"B_T_APC_Tracked_01_rcws_F","O_APC_Tracked_02_cannon_F","O_APC_Wheeled_02_rcws_F","O_T_APC_Tracked_02_cannon_ghex_F","O_T_APC_Wheeled_02_rcws_ghex_F","O_T_MRAP_02_gmg_ghex_F",
-		"O_T_MRAP_02_hmg_ghex_F","O_T_LSV_02_armed_F","O_G_Offroad_01_armed_F","I_APC_Wheeled_03_cannon_F","I_APC_tracked_03_cannon_F","I_MRAP_03_gmg_F","I_MRAP_03_hmg_F","I_G_Offroad_01_armed_F",
-		"B_MBT_01_cannon_F","B_T_MBT_01_cannon_F","B_MBT_01_mlrs_F","B_T_MBT_01_mlrs_F","B_LSV_01_armed_black_F","B_LSV_01_armed_olive_F","B_LSV_01_armed_sand_F","B_T_LSV_01_armed_black_F",
-		"B_T_LSV_01_armed_CTRG_F","B_T_LSV_01_armed_olive_F","B_T_LSV_01_armed_sand_F","O_LSV_02_armed_arid_F","O_LSV_02_armed_black_F","O_LSV_02_armed_ghex_F","O_LSV_02_armed_viper_F"
+		'b_g_offroad_01_armed_f','b_mrap_01_gmg_f','b_mrap_01_hmg_f','b_lsv_01_armed_f','b_t_mrap_01_gmg_f','b_t_mrap_01_hmg_f','b_t_lsv_01_armed_f','o_mrap_02_gmg_f',
+		'o_mrap_02_hmg_f','o_lsv_02_armed_f','b_apc_wheeled_01_cannon_f','b_apc_tracked_01_crv_f','b_apc_tracked_01_rcws_f','b_t_apc_wheeled_01_cannon_f','b_t_apc_tracked_01_crv_f',
+		'b_t_apc_tracked_01_rcws_f','o_apc_tracked_02_cannon_f','o_apc_wheeled_02_rcws_f','o_apc_wheeled_02_rcws_v2_f','o_t_apc_tracked_02_cannon_ghex_f','o_t_apc_wheeled_02_rcws_v2_ghex_f',
+		'o_t_apc_wheeled_02_rcws_ghex_f','o_t_mrap_02_gmg_ghex_f','o_t_mrap_02_hmg_ghex_f','o_t_lsv_02_armed_f','o_g_offroad_01_armed_f','i_apc_wheeled_03_cannon_f','i_apc_tracked_03_cannon_f',
+		'i_mrap_03_gmg_f','i_mrap_03_hmg_f','i_g_offroad_01_armed_f',
+		'b_mbt_01_cannon_f','b_t_mbt_01_cannon_f','b_mbt_01_mlrs_f','b_t_mbt_01_mlrs_f','b_lsv_01_armed_black_f','b_lsv_01_armed_olive_f','b_lsv_01_armed_sand_f','b_t_lsv_01_armed_black_f',
+		'b_t_lsv_01_armed_ctrg_f','b_t_lsv_01_armed_olive_f','b_t_lsv_01_armed_sand_f','o_lsv_02_armed_arid_f','o_lsv_02_armed_black_f','o_lsv_02_armed_ghex_f','o_lsv_02_armed_viper_f',
+		'b_g_offroad_01_at_f','b_lsv_01_at_f','b_t_lsv_01_at_f','o_lsv_02_at_f','o_t_lsv_02_at_f',
+		'o_g_offroad_01_at_f','i_g_offroad_01_at_f','i_c_offroad_02_lmg_f','i_c_offroad_02_at_f',
+		'i_lt_01_aa_f','i_lt_01_at_f','i_lt_01_cannon_f','i_truck_02_mrl_f','b_afv_wheeled_01_cannon_f','b_t_afv_wheeled_01_cannon_f'
 	];
 	_gunnerCommanderVehicles = [
-		"B_Boat_Armed_01_minigun_F","B_T_Boat_Armed_01_minigun_F","O_Boat_Armed_01_hmg_F","I_Boat_Armed_01_minigun_F","B_MBT_01_arty_F","B_T_MBT_01_arty_F","B_MBT_01_TUSK_F",
-		"B_T_MBT_01_TUSK_F","O_MBT_02_cannon_F","O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F","O_T_MBT_02_cannon_ghex_F","O_T_Boat_Armed_01_hmg_F","I_MBT_03_cannon_F"
+		'b_boat_armed_01_minigun_f','b_t_boat_armed_01_minigun_f','o_boat_armed_01_hmg_f','i_boat_armed_01_minigun_f','b_mbt_01_arty_f','b_t_mbt_01_arty_f','b_mbt_01_tusk_f',
+		'b_t_mbt_01_tusk_f','o_mbt_02_cannon_f','o_mbt_02_arty_f','o_t_mbt_02_arty_ghex_f','o_t_mbt_02_cannon_ghex_f','o_t_boat_armed_01_hmg_f','i_mbt_03_cannon_f',
+		'b_afv_wheeled_01_up_cannon_f','b_t_afv_wheeled_01_up_cannon_f','o_mbt_04_cannon_f','o_mbt_04_command_f','o_t_mbt_04_cannon_f','o_t_mbt_04_command_f'
 	];
-	if ((_vType in _gunnerVehicles) || {(_vType in _gunnerCommanderVehicles)}) then {
-		if (_vType in _gunnerVehicles) then {
-			if ((_posObject distance _posCausedBy) > 15) then {
+	if ((_vTypeL in _gunnerVehicles) || {(_vTypeL in _gunnerCommanderVehicles)}) then {
+		if (_vTypeL in _gunnerVehicles) then {
+			if ((_posObject distance2D _posCausedBy) > 15) then {
 				if (!isNull (gunner _v)) then {
 					if (isPlayer (gunner _v)) then {
 						_causedBy2 = gunner _v;
@@ -158,8 +156,8 @@ if ((_v isKindOf 'LandVehicle') || {(_v isKindOf 'Ship')}) then {
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,TRUE,10,-1,_text,[],(serverTime + 20)];
 			};
 		};
-		if (_vType in _gunnerCommanderVehicles) then {
-			if ((_posObject distance _posCausedBy) > 15) then {
+		if (_vTypeL in _gunnerCommanderVehicles) then {
+			if ((_posObject distance2D _posCausedBy) > 15) then {
 				if (!isNull (gunner _v)) then {
 					if (isPlayer (gunner _v)) then {
 						_causedBy2 = gunner _v;
@@ -243,9 +241,9 @@ if ((_v isKindOf 'LandVehicle') || {(_v isKindOf 'Ship')}) then {
 			};
 		};
 	};
-	if ((_posCausedBy distance _posObject) < 10) then {
-		_list = (_posCausedBy nearRoads 15) select {(((getModelInfo _x) select 1) isEqualTo '')};
-		if (!(_list isEqualTo [])) then {
+	if ((_posCausedBy distance2D _posObject) < 10) then {
+		_list = ((_posCausedBy select [0,2]) nearRoads 15) select {(((getModelInfo _x) select 1) isEqualTo '')};
+		if ((!(_list isEqualTo [])) || {(isOnRoad _v)} || {(!isNull (roadAt _v))}) then {
 			_causedBy1 = objNull;
 		};
 	};
@@ -253,21 +251,21 @@ if ((_v isKindOf 'LandVehicle') || {(_v isKindOf 'Ship')}) then {
 
 if (_v isKindOf 'Air') then {
 	_turretVehicles = [
-		"B_CTRG_Heli_Transport_01_sand_F","B_CTRG_Heli_Transport_01_tropic_F","B_Heli_Transport_03_F","B_Heli_Transport_01_F","B_Heli_Transport_01_camo_F","B_Heli_Transport_03_black_F"
+		'b_ctrg_heli_transport_01_sand_f','b_ctrg_heli_transport_01_tropic_f','b_heli_transport_03_f','b_heli_transport_01_f','b_heli_transport_01_camo_f','b_heli_transport_03_black_f'
 	];
 	_gunnerVehicles = [
-		'B_Heli_Attack_01_F','O_Heli_Attack_02_F','O_Heli_Attack_02_black_F',"O_T_VTOL_02_infantry_F","O_T_VTOL_02_infantry_ghex_F","O_T_VTOL_02_infantry_dynamicLoadout_F","O_T_VTOL_02_vehicle_dynamicLoadout_F",
-		"O_T_VTOL_02_infantry_grey_F","O_T_VTOL_02_infantry_hex_F","O_T_VTOL_02_vehicle_F","O_T_VTOL_02_vehicle_ghex_F",
-		"O_T_VTOL_02_vehicle_grey_F","O_T_VTOL_02_vehicle_hex_F",'B_T_VTOL_01_armed_blue_F','B_T_VTOL_01_armed_F','B_T_VTOL_01_armed_olive_F','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F',
-		'B_Heli_Attack_01_dynamicLoadout_F'
+		'b_heli_attack_01_f','o_heli_attack_02_f','o_heli_attack_02_black_f','o_t_vtol_02_infantry_f','o_t_vtol_02_infantry_ghex_f','o_t_vtol_02_infantry_dynamicloadout_f','o_t_vtol_02_vehicle_dynamicloadout_f',
+		'o_t_vtol_02_infantry_grey_f','o_t_vtol_02_infantry_hex_f','o_t_vtol_02_vehicle_f','o_t_vtol_02_vehicle_ghex_f',
+		'o_t_vtol_02_vehicle_grey_f','o_t_vtol_02_vehicle_hex_f','b_t_vtol_01_armed_blue_f','b_t_vtol_01_armed_f','b_t_vtol_01_armed_olive_f','o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_f',
+		'b_heli_attack_01_dynamicloadout_f'
 	];
 	_driverGunnerVehicles = [
-		'O_Heli_Light_02_F','O_Heli_Light_02_v2_F','I_Heli_light_03_F','B_Heli_Light_01_armed_F','O_Plane_CAS_02_dynamicLoadout_F','B_Plane_CAS_01_F','O_Plane_CAS_02_dynamicLoadout_F','B_Plane_CAS_01_dynamicLoadout_F',
-		'I_Plane_Fighter_03_AA_F','I_Plane_Fighter_03_CAS_F','I_Plane_Fighter_03_dynamicLoadout_F','B_Plane_Fighter_01_F','B_Plane_Fighter_01_Stealth_F','O_Heli_Light_02_dynamicLoadout_F',
-		'I_Heli_light_03_dynamicLoadout_F','B_Heli_Light_01_dynamicLoadout_F'
+		'o_heli_light_02_f','o_heli_light_02_v2_f','i_heli_light_03_f','b_heli_light_01_armed_f','o_plane_cas_02_dynamicloadout_f','b_plane_cas_01_f','o_plane_cas_02_dynamicloadout_f','b_plane_cas_01_dynamicloadout_f',
+		'i_plane_fighter_03_aa_f','i_plane_fighter_03_cas_f','i_plane_fighter_03_dynamicloadout_f','b_plane_fighter_01_f','b_plane_fighter_01_stealth_f','o_heli_light_02_dynamicloadout_f',
+		'i_heli_light_03_dynamicloadout_f','b_heli_light_01_dynamicloadout_f'
 	];
-	if (_vType in _turretVehicles) then {
-		if ((_posObject distance _posCausedBy) > 12) then {
+	if (_vTypeL in _turretVehicles) then {
+		if ((_posObject distance2D _posCausedBy) > 12) then {
 			_relDirTo = _causedBy getRelDir _unit;
 			if ((_relDirTo <= 180) && (_relDirTo >= 0)) then {
 				if (!isNull (_v turretUnit [2])) then {
@@ -342,8 +340,8 @@ if (_v isKindOf 'Air') then {
 		};
 	};
 	
-	if (_vType in _gunnerVehicles) then {
-		if ((_posObject distance _posCausedBy) > 15) then {
+	if (_vTypeL in _gunnerVehicles) then {
+		if ((_posObject distance2D _posCausedBy) > 15) then {
 			if (!isNull (gunner _v)) then {
 				if (isPlayer (gunner _v)) then {
 					_causedBy2 = gunner _v;
@@ -385,7 +383,7 @@ if (_v isKindOf 'Air') then {
 		};
 	};
 	
-	if (_vType in _driverGunnerVehicles) then {
+	if (_vTypeL in _driverGunnerVehicles) then {
 		_causedBy1 = driver _v;
 		_n1 = name _causedBy1;
 		_uid1 = getPlayerUID _causedBy1;
@@ -429,7 +427,7 @@ if (_v isKindOf 'Air') then {
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [1,TRUE,10,-1,_text,[],(serverTime + 20)];
 		};
 	};
-	if (!(_vType in _turretVehicles) && (!(_vType in _gunnerVehicles)) && (!(_vType in _driverGunnerVehicles)) && (!(unitIsUAV _v))) then {
+	if (!(_vTypeL in _turretVehicles) && (!(_vTypeL in _gunnerVehicles)) && (!(_vTypeL in _driverGunnerVehicles)) && (!(unitIsUAV _v))) then {
 		if (!isNull (driver _v)) then {
 			if (isPlayer (driver _v)) then {
 				_causedBy1 = driver _v;
@@ -443,10 +441,10 @@ if (_v isKindOf 'Air') then {
 		};
 	};
 	
-	if ((_posCausedBy distance _posObject) < 15) then {
+	if ((_posCausedBy distance2D _posObject) < 15) then {
 		_exclusionFound = FALSE;
 		if (_v isKindOf 'Helicopter') then {
-			_list = nearestObjects [_posCausedBy,['House','Building'],20];
+			_list = nearestObjects [_posCausedBy,[],20,TRUE];
 			if (!(_list isEqualTo [])) then {
 				_exclusions = ['land_helipadsquare_f','land_helipadcivil_f','land_helipadrescue_f','land_helipadcircle_f','land_helipadempty_f','helipadsquare_f','helipadcivil_f','helipadrescue_f','helipadcircle_f','helipadempty_f'];
 				{
@@ -460,7 +458,7 @@ if (_v isKindOf 'Air') then {
 			};
 		};
 		if (_v isKindOf 'Plane') then {
-			_list = nearestObjects [_posCausedBy,['House','Building'],20];
+			_list = nearestObjects [_posCausedBy,[],20,TRUE];
 			if (!(_list isEqualTo [])) then {
 				_exclusions = ['land_runway_edgelight_blue_f','land_flush_light_green_f','land_flush_light_red_f','land_flush_light_yellow_f','runway_edgelight_blue_F','flush_light_green_f','flush_light_red_f','flush_light_yellow_f','land_tenthangar_v1_f','tenthangar_v1_f'];
 				{
@@ -475,14 +473,12 @@ if (_v isKindOf 'Air') then {
 		};
 	};
 };
-
 if (_exit) exitWith {
 	0 spawn {
 		uiSleep 10;
 		missionNamespace setVariable ['QS_sub_sd',FALSE,FALSE];
 	};
 };
-
 [_n1,_causedBy1,_uid1,_n2,_causedBy2,_uid2,_n3,_causedBy3,_uid3,_posObject] spawn {
 	params ['_n1','_causedBy1','_uid1','_n2','_causedBy2','_uid2','_n3','_causedBy3','_uid3','_posObject'];
 	uiSleep 10;
@@ -546,7 +542,7 @@ if (_exit) exitWith {
 			0 = QS_sub_actions pushBack QS_sub_actions04;
 		};
 		if (_optionAvailable) then {
-			TRUE spawn {
+			0 spawn {
 				private ['_ti','_tr'];
 				_ti = time + 40;
 				_image = "media\images\general\robocop.jpg";

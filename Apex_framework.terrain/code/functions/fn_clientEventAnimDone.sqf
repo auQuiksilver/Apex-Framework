@@ -13,4 +13,6 @@ Description:
 	Anim Done event
 ___________________________________________________________________*/
 
-player setVariable ['QS_animDone',TRUE,FALSE];
+if (!(player getVariable ['QS_animDone',FALSE])) then {
+	player setVariable ['QS_animDone',TRUE,FALSE];
+};

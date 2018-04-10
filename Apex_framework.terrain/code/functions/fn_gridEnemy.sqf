@@ -84,13 +84,19 @@ if (_worldName isEqualTo 'Tanoa') then {
 	_vehicleTypesArmed = [
 		'O_G_Offroad_01_armed_F',0.3,
 		'O_T_LSV_02_armed_F',0.2,
-		'I_C_Van_01_transport_F',0.1
+		'I_C_Van_01_transport_F',0.1,
+		'O_G_Offroad_01_AT_F',0.2,
+		'I_C_Offroad_02_AT_F',0.2,
+		'I_C_Offroad_02_LMG_F',0.2
 	];
 } else {
 	_vehicleTypesArmed = [
 		'O_G_Offroad_01_armed_F',0.3,
 		'O_LSV_02_armed_F',0.2,
-		'O_G_Van_01_transport_F',0.1
+		'O_G_Van_01_transport_F',0.1,
+		'O_G_Offroad_01_AT_F',0.2,
+		'I_C_Offroad_02_AT_F',0.2,
+		'I_C_Offroad_02_LMG_F',0.2
 	];
 };
 
@@ -180,7 +186,7 @@ if (!(_buildingPositions isEqualTo [])) then {
 		_enemyUnit disableAI 'TARGET';
 		_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-		_enemyUnit setUnitPosWeak (selectRandom ['UP','UP','MIDDLE']);
+		_enemyUnit setUnitPosWeak (selectRandomWeighted ['UP',0.666,'MIDDLE',0.333]);
 		_buildingEnemies pushBack _enemyUnit;
 		if ((random 1) > 0.666) then {
 			_enemyUnit addEventHandler [
@@ -230,7 +236,7 @@ if (_interBuildingPatrols > 0) then {
 			_c = TRUE;
 			_c;
 		};
-		if (({(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} count _usedPositions) isEqualTo 0) then {
+		if ((_usedPositions findIf {(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))}) isEqualTo -1) then {
 			_c = TRUE;
 		};
 		_c;
@@ -296,7 +302,7 @@ if (_areaPatrols > 0) then {
 			_c = TRUE;
 			_c;
 		};
-		if (({(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} count _usedPositions) isEqualTo 0) then {
+		if ((_usedPositions findIf {(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))}) isEqualTo -1) then {
 			_c = TRUE;
 		};
 		_c;
@@ -326,13 +332,12 @@ if (_areaPatrols > 0) then {
 				_enemyUnit setVehiclePosition [(getPosASL _enemyUnit),[],10,'NONE'];
 				_enemyUnit disableAI 'COVER';
 				_enemyUnit disableAI 'AUTOCOMBAT';
-				_enemyUnit disableAI 'COVER';
 				_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 				_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				if ((toLower _enemyUnitType) in ['o_g_soldier_f','o_g_soldier_lite_f','i_c_soldier_bandit_6_f','i_c_soldier_para_1_f']) then {
 					if ((random 1) > 0.5) then {
 						_enemyUnit addBackpack (['b_bergen_hex_f','b_carryall_ghex_f'] select (_worldName isEqualTo 'Tanoa'));
-						[_enemyUnit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (_worldName isEqualTo 'Tanoa')),4] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+						[_enemyUnit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (_worldName isEqualTo 'Tanoa')),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 					};
 				};
 				[_enemyUnit] joinSilent _enemyGrp;
@@ -355,19 +360,7 @@ if (_areaPatrols > 0) then {
 };
 
 /*/================================================================================================== Vehicle patrols/*/
-_vehEHKilled = {
-	params ['_killed','_killer','_instigator','_useEffects'];
-	_objType = typeOf (vehicle _killed);
-	if (isPlayer _instigator) then {
-		if ((vehicle _instigator) isKindOf 'Air') then {
-			_killerType = typeOf (vehicle _instigator);
-			_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
-			_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
-			_name = name _instigator;
-			['sideChat',[WEST,'BLU'],(format ['%1 has destroyed a(n) %2 with a(n) %3!',_name,_objDisplayName,_killerDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-		};
-	};
-};
+
 private _armedVehiclePatrolEnemies = [];
 private _roadSegment = objNull;
 private _vehicle = objNull;
@@ -385,7 +378,7 @@ if (_armedVehicleCount > 0) then {
 				_c = TRUE;
 				_c;
 			};
-			if (({(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} count _usedPositions) isEqualTo 0) then {
+			if ((_usedPositions findIf {(((_pos distance2D _x) < _radius) && ([_pos,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))}) isEqualTo -1) then {
 				if ((_pos nearEntities ['All',6]) isEqualTo []) then {
 					_c = TRUE;
 				};
@@ -417,7 +410,7 @@ if (_armedVehicleCount > 0) then {
 				if (!isNull (roadAt _spawnPos)) then {
 					_spawnDirection = _spawnPos getDir ((roadsConnectedTo (roadAt _spawnPos)) select 0);
 				};
-				_vehicle = createVehicle [(selectRandomWeighted _vehicleTypesArmed),[_spawnPos select 0,_spawnPos select 1,((_spawnPos select 2) + 5)],[],0,'NONE'];
+				_vehicle = createVehicle [(selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),[_spawnPos select 0,_spawnPos select 1,((_spawnPos select 2) + 5)],[],0,'NONE'];
 				if (!(_spawnDirection isEqualTo 0)) then {
 					_vehicle setDir _spawnDirection;
 				};
@@ -432,7 +425,9 @@ if (_armedVehicleCount > 0) then {
 				_vehicle forceFollowRoad TRUE;
 				_vehicle setConvoySeparation 50;
 				_vehicle limitSpeed 60;
-				_vehicle addEventHandler ['Killed',_vehEHKilled];
+				[0,_vehicle,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
+				_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+				_vehicle addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 				_armedVehiclePatrolEnemies pushBack _vehicle;
 				for '_j' from 0 to (((count (fullCrew [_vehicle,'',TRUE])) - 1) min 3) step 1 do {
 					_enemyUnitType = selectRandomWeighted _unitTypes;
@@ -538,7 +533,6 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 			_enemyUnit disableAI 'PATH';
 			_enemyUnit disableAI 'COVER';
 			_enemyUnit disableAI 'AUTOCOMBAT';
-			_enemyUnit disableAI 'TARGET';
 			if ((random 1) > 0.666) then {
 				_enemyUnit addEventHandler [
 					'Hit',

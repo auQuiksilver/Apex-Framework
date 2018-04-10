@@ -18,7 +18,7 @@ if (!isNull (attachedTo _t)) exitWith {};
 if (!isNull (objectParent _t)) exitWith {};
 if ((!(_t isKindOf 'Man')) && (!([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) && (!(_t getVariable ['QS_RD_draggable',FALSE]))) exitWith {};
 if (!alive _t) exitWith {};
-if ((_t isKindOf 'StaticWeapon') && (({(alive _x)} count (crew _t)) > 0)) exitWith {};
+if ((_t isKindOf 'StaticWeapon') && (!(((crew _t) findIf {(alive _x)}) isEqualTo -1))) exitWith {};
 if (_t getVariable ['QS_interaction_disabled',FALSE]) exitWith {
 	50 cutText ['Interaction disabled on this object','PLAIN',0.3];
 };
@@ -39,7 +39,7 @@ if (_t isKindOf 'Man') exitWith {
 	_t attachTo [player,[0,1.1,0.092]];
 	[6,_t,180,'AinjPpneMrunSnonWnonDb_grab'] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 	50 cutText [(format ['Dragging %1',(name _t)]),'PLAIN DOWN',0.3];
-	TRUE spawn {
+	0 spawn {
 		player setVariable ['QS_RD_interaction_busy',TRUE,FALSE];
 		uiSleep 2;
 		player setVariable ['QS_RD_interaction_busy',FALSE,FALSE];

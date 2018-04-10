@@ -16,7 +16,7 @@
 if ((!(missionNamespace getVariable 'BIS_performingDustPP'))  && (isAbleToBreathe player) && (((uavControl (getConnectedUav player)) select 1) isEqualTo '')) then {
 	missionNamespace setVariable ['BIS_performingDustPP',TRUE,FALSE];
 	missionNamespace setVariable ['BIS_damageFromExplosion',(_this select 1),FALSE];
-	TRUE spawn {
+	0 spawn {
 		scriptName 'BIS dirtEffect';
 		private ['_display','_texLower','_texUpper','_x','_y','_w','_h'];
 		disableSerialization;

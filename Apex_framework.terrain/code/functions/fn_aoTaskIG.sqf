@@ -177,7 +177,7 @@ _objUnit setPos _buildingPosition;
 _entities pushBack _objUnit;
 _objUnit removeWeapon (primaryWeapon _objUnit);
 uiSleep 0.1;
-[_objUnit,(selectRandom ['hgun_Pistol_heavy_01_F','hgun_ACPC2_F','hgun_Pistol_01_F','hgun_Rook40_F','hgun_Pistol_heavy_02_F']),5] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+[_objUnit,(selectRandom ['hgun_Pistol_heavy_01_F','hgun_ACPC2_F','hgun_Pistol_01_F','hgun_Rook40_F','hgun_Pistol_heavy_02_F']),5] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 _objUnit setUnitPos 'UP';
 _objUnit disableAI 'PATH';
 _objUnit forceAddUniform 'U_C_ConstructionCoverall_Blue_F';
@@ -335,7 +335,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_objUnit getVariable ['QS_secured',FALSE]) then {
 			_taskSucceeded = TRUE;
 		} else {
-			if ((!((_objUnit targets [TRUE,_targetsRadius]) isEqualTo [])) || (({((alive _x) && (!((_x targets [TRUE,_targetsRadius]) isEqualTo [])))} count (units _sentryGrp)) > 0)) then {
+			if ((!((_objUnit targets [TRUE,_targetsRadius]) isEqualTo [])) || (!(((units _sentryGrp) findIf {((alive _x) && (!((_x targets [TRUE,_targetsRadius]) isEqualTo [])))}) isEqualTo -1))) then {
 				['GRID_IG_UPDATE',['Side Task','Enemy has detected our presence']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				_enemyDetected = TRUE;
 				_sentryGrp setSpeedMode 'FULL';

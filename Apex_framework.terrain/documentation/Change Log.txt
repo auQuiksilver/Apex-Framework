@@ -1,5 +1,68 @@
 Official change log
 
+1.0.7 "Tanks" (ArmA 3 1.82) 11/04/2018
+
+[ADDED] Interaction to deploy/retract armored vehicle Camo Nets.
+[ADDED] Interaction to mount/remove armored vehicle Cage Armor at vehicle service points.
+[ADDED] AI enemy support vehicles & AI support logic (repair, rearm, refuel).
+[ADDED] AI increased use of frags & smoke.
+[ADDED] Enemy armor appearance randomization.
+[ADDED] New enemy vehicle spawn logic.
+[ADDED] AI recycler system.
+[ADDED] New side mission.
+[ADDED] Tanks DLC Repair Depots.
+[ADDED] Ambient hostility module.
+[ADDED] Commander role (Beta).
+[TWEAKED] Overhaul of AA Battery side mission.
+[TWEAKED] Added some of the NATO skins for opfor/indep vehicles (varsuk, mora, marid, kuma).
+[TWEAKED] Extended use of "Attach explosive charge" ability. (will now work on most map objects + enemy vehicles + flagged entities)
+[TWEAKED] Overhaul of how Classic AO objectives system, to support more flexible/dynamic objectives.
+[TWEAKED] Enemy infantry patrols at Classic AO now patrol forests better.
+[TWEAKED] Many code optimizations in frequently-used functions & procedures.
+[TWEAKED] Blufor Tracker overhaul (optimized + teams integration + bug fixes).
+[TWEAKED] View Distance delta smoothing.
+[TWEAKED] Removed workarounds for Incapacitation arma bugs (player could keep driving and shoot vehicle turrets and could not be unloaded from vehicles normally).
+[TWEAKED] Artillery script to add Tropical vehicle variant.
+[TWEAKED] Reduced memory footprint of core client scripts.
+[TWEAKED] Surrender interaction speed linked to target morale
+[TWEAKED] Surrender progress bar will now remain in center of screen
+[TWEAKED] Created more performance-efficient versions of some heavily-used BIS functions.w
+[TWEAKED] Marid APC upgraded to new Tanks DLC variant (2 crew instead of 3).
+[TWEAKED] Gear restriction now uses mostly data from "code\config\QS_data_gearRestrictions.sqf" and "code\config\QS_data_arsenal.sqf"
+[TWEAKED] Squad Radar HUD reduced in size by 25%.
+[TWEAKED] AA Sites given added force protection.
+[TWEAKED] AA Site compositions tweaked.
+[TWEAKED] Some enemy groups in AO were using default fireteam composition instead of specialized/randomized composition.
+[TWEAKED] AA Sites can spawn closer to center of AO (more protected).
+[TWEAKED] Projectile HUD icons (2D and 3D) now spin in flight.
+[TWEAKED] Incoming missiles are now visualized on your map.
+[TWEAKED] AA Battery missiles are now visualized in 2D and 3D HUD.
+[TWEAKED] AO Sub objectives should spawn closer to center of AO.
+[TWEAKED] Aircraft Carrier defense turrets will behave properly now.
+[TWEAKED] Enemy fixed-wing support now has config option.
+[TWEAKED] Removed Zeus camera pitch restriction (it can not look up in vanilla).
+[TWEAKED] Vehicles not Blackfish-loadable with Slat armor applied.
+[TWEAKED] Enemy CAS/UAV now provide support to AI at side missions and elsewhere.
+[TWEAKED] Enemy AI ground vehicles will do more to support their infantry during combat.
+[TWEAKED] Crates should now usually keep their custom inventory when reset to base.
+[TWEAKED] Enemy AI threat analysis for Commander-controlled adaptive spawning.
+[TWEAKED] Rescue-maneuver to 'unstuck' enemy boats.
+[TWEAKED] Extra health for enemy artillery vehicles.
+[TWEAKED] Towing of larger vehicles like Blackfish/Huron/Xian (with HEMTT Mover) no longer looks so weird.
+[TWEAKED] Convoy side mission will spawn stronger enemies if convoy stops.
+[TWEAKED] AO minefield will only spawn once players are in the vicinity (reduces chance of AI walking in prematurely).
+[TWEAKED] Added failsafe timeout to IDAP side mission incase crate becomes unfinishable.
+[TWEAKED] Examine interaction could be hard to get.
+[TWEAKED] Adaptive enemy infantry group-type spawning.
+[TWEAKED] Carrier jet launch sequence now plays sound for deflectors.
+[TWEAKED] Anticheat to 1.82 compatibility.
+[FIXED] Bug with Viper Teams on Sector Control mode.
+[FIXED] Enemy artillery was using Tropical variant on Desert terrains. (composition is still tropical)
+[FIXED] Tropical engineer unit was appearing on desert terrains.
+[FIXED] Legacy side mission enemy vehicles didnt have new AI vehicle brains.
+[FIXED] Stand interaction could disappear while seated, if Sit/Stand were spammed.
+[FIXED] Ruined structures were not being cleaned up.
+
 1.0.6 (ArmA 3 1.80)
 
 [ADDED] AI Vehicle "Unstuck" logic.

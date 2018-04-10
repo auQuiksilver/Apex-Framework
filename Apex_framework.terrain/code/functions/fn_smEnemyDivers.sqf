@@ -74,7 +74,7 @@ for '_x' from 0 to (_AboatsCount - 1) step 1 do {
 		_grpUnit forceAddUniform 'U_O_Wetsuit';
 		_grpUnit addVest 'V_RebreatherIR';
 		_grpUnit addGoggles 'G_O_Diving';
-		[_grpUnit,'arifle_SDAR_F',3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+		[_grpUnit,'arifle_SDAR_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 		_grpUnit selectWeapon (primaryWeapon _grpUnit);
 		0 = _enemiesArray pushBack _grpUnit;
 		{
@@ -134,7 +134,7 @@ _grp = group (effectiveCommander _boat);
 	_grpUnit forceAddUniform 'U_O_Wetsuit';
 	_grpUnit addVest 'V_RebreatherIR';
 	_grpUnit addGoggles 'G_O_Diving';
-	[_grpUnit,'arifle_SDAR_F',3] call (missionNamespace getVariable 'BIS_fnc_addWeapon');
+	[_grpUnit,'arifle_SDAR_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_grpUnit selectWeapon (primaryWeapon _grpUnit);
 	0 = _enemiesArray pushBack _grpUnit;
 	{
