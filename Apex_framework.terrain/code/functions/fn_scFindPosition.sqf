@@ -20,8 +20,9 @@ private _attempts = 0;
 private _maxAttempts = 300;
 private _placeType = '';
 private _terrainObjectsExclusion = [
-	"building","house","church","chapel","cross","rock","bunker","fortress","fountain","view-tower","lighthouse","quay","fuelstation","hospital","wall","busstop","road","transmitter","stack","ruin","watertower","main road",
-	"rocks","power lines","railway","powersolar","powerwave","powerwind","shipwreck"
+	"BUILDING", "HOUSE", "CHURCH", "CHAPEL", "CROSS", "BUNKER", 
+	"FORTRESS", "FOUNTAIN", "VIEW-TOWER", "LIGHTHOUSE", "QUAY", "FUELSTATION", "HOSPITAL", "FENCE", "WALL", "BUSSTOP", "TRANSMITTER", 
+	"STACK", "RUIN", "TOURISM", "WATERTOWER", "ROCK", "ROCKS", "POWER LINES", "RAILWAY", "POWERSOLAR", "POWERWAVE", "POWERWIND", "SHIPWRECK"
 ];
 private _objectsExclusion = ['House','Building'];
 _basePosition = markerPos 'QS_marker_base_marker';
@@ -60,7 +61,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (([_position,16] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -7) then {
 						if ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 							if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-								if ((nearestObjects [_position,_objectsExclusion,9,FALSE]) isEqualTo []) then {
+								if ((nearestObjects [_position,_objectsExclusion,12,FALSE]) isEqualTo []) then {
 									if ((nearestTerrainObjects [
 										_position,
 										_terrainObjectsExclusion,

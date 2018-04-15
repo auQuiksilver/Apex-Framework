@@ -22,6 +22,7 @@ _grp setVariable ['QS_RD_group_noHC',TRUE,FALSE];
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _unit enableStamina FALSE;
 _unit addEventHandler ['HandleScore',{FALSE}];
+_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 for '_x' from 0 to 2 step 1 do {
 	_unit setVariable ['QS_RD_interactable',TRUE,TRUE];
 	_unit setVariable ['QS_RD_interacted',FALSE,TRUE];

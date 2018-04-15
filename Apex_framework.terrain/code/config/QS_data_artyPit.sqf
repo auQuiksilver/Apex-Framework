@@ -52,6 +52,8 @@ __________________________________________________________________________/*/
 				_damage;
 			}
 		];
+		_arty enableDynamicSimulation FALSE;
+		_arty setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_arty addEventHandler ['GetOut',{(_this select 2) setDamage [1,TRUE];}];
 		_arty addEventHandler ['Deleted',{
 			{
@@ -61,6 +63,8 @@ __________________________________________________________________________/*/
 		createVehicleCrew _arty;
 		_group1 = group (effectiveCommander _arty);
 		_group1 deleteGroupWhenEmpty TRUE;
+		_group1 enableDynamicSimulation FALSE;
+		_group1 setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_arty deleteVehicleCrew (driver _arty);
 		_group1 selectLeader (gunner _arty);
 		[(units _group1),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
@@ -113,6 +117,8 @@ __________________________________________________________________________/*/
 				_damage;
 			}
 		];
+		_arty enableDynamicSimulation FALSE;
+		_arty setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_arty addEventHandler ['GetOut',{(_this select 2) setDamage [1,TRUE];}];
 		_arty addEventHandler ['Deleted',{
 			{
@@ -122,6 +128,8 @@ __________________________________________________________________________/*/
 		createVehicleCrew _arty;
 		_group1 = group (effectiveCommander _arty);
 		_group1 deleteGroupWhenEmpty TRUE;
+		_group1 enableDynamicSimulation FALSE;
+		_group1 setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_arty deleteVehicleCrew (driver _arty);
 		_group1 selectLeader (gunner _arty);
 		[(units _group1),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');

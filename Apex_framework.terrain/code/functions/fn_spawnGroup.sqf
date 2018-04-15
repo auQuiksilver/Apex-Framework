@@ -55,6 +55,7 @@ for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 			_unit setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 			_unit hideObjectGlobal FALSE;
 			_unit enableSimulationGlobal TRUE;
+			_unit allowDamage TRUE;
 			_unit enableAI 'ALL';
 			[_unit] joinSilent _grp;
 			_unit setUnitLoadout [(getUnitLoadout ((_groupComposition select _i) select 0)),TRUE];

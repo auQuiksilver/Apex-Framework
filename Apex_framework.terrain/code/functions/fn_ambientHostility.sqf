@@ -6,17 +6,11 @@ Author:
 	
 Last Modified:
 
-	8/04/2018 A3 1.82 by Quiksilver
+	14/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Ambient Hostility
-	
-Notes:
-
-	- Away from marked main AO
-	- Away from main base
-	- Select WEST side unit
 _______________________________________________/*/
 
 params ['_type','_target','_nearbyCount'];
@@ -26,6 +20,16 @@ if (_type isEqualTo 0) exitWith {
 	private _targetVehicle = vehicle _target;
 	private _isVehicle = !(_targetVehicle isKindOf 'CAManBase');
 	_basePosition = markerPos 'QS_marker_base_marker';
+	_fobPosition = markerPos 'QS_marker_module_fob';
+	_aoPosition = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
+	_smPosition = markerPos 'QS_marker_sideMarker';
+	_blacklistedPositions = [
+		[_basePosition,1000],
+		[_fobPosition,150],
+		[_aoPosition,600],
+		[_smPosition,300],
+		[(markerPos 'QS_marker_Almyra_blacklist_area'),400]
+	];
 	_knowsAbout = EAST knowsAbout _targetVehicle;
 	private _threat = 2;
 	if (_targetVehicle isKindOf 'CAManBase') then {
@@ -111,10 +115,10 @@ if (_type isEqualTo 0) exitWith {
 	for '_x' from 0 to 49 step 1 do {
 		_spawnPosition = ['RADIUS',_targetPosition,_maxDist,'LAND',[3,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if (((_spawnPosition distance2D _targetPosition) > _minDist) && ((_spawnPosition distance2D _targetPosition) < _maxDist)) then {
-			if ((_players findIf {((_x distance2D _spawnPosition) < 250)}) isEqualTo -1) then {
+			if ((_players findIf {((_x distance2D _spawnPosition) < 300)}) isEqualTo -1) then {
 				if (!([_spawnPosition,_targetPosition,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 					if (([(AGLToASL _spawnPosition),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
-						if ((_spawnPosition distance2D _basePosition) > 1000) then {
+						if ((_blacklistedPositions findIf {((_spawnPosition distance2D (_x select 0)) < (_x select 1))}) isEqualTo -1) then {
 							_positionFound = TRUE;
 						};
 					};

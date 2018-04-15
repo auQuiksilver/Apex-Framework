@@ -266,14 +266,18 @@ if (_fps > 12) then {
 						_assignedTarget = vehicle (_unit findNearestEnemy _unit);
 					};
 					if (alive _assignedTarget) then {
-						if ((_assignedTarget distance2D _unit) < 1000) then {
-							if (([_unit,'FIRE',_assignedTarget] checkVisibility [(eyePos _unit),(aimPos _assignedTarget)]) > 0) then {
-								_unit removeAllEventHandlers 'FiredMan';
-								_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
-								_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [10,15,20])),FALSE];
-								_unit doWatch _assignedTarget;
-								[_unit,_assignedTarget] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
-								_isSuppressing = TRUE;
+						if (!(_assignedTarget isKindOf 'Air')) then {
+							if ((_assignedTarget distance2D _unit) < 1000) then {
+								if (([_unit,'FIRE',_assignedTarget] checkVisibility [(eyePos _unit),(aimPos _assignedTarget)]) > 0) then {
+									_unit removeAllEventHandlers 'FiredMan';
+									_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
+									_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [10,15,20])),FALSE];
+									_unit doWatch _assignedTarget;
+									[_unit,_assignedTarget] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
+									_isSuppressing = TRUE;
+								} else {
+									_unit suppressFor (random [10,15,20]);
+								};
 							} else {
 								_unit suppressFor (random [10,15,20]);
 							};

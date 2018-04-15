@@ -157,8 +157,8 @@ _QS_ST_iconTextFonts = [										// ARRAY (STRING). Icon Text Font. Only the un
 	//'PuristaLight'
 	//'puristaMedium'
 	//'PuristaSemibold'
-	//'RobotoCondensed'
-	'TahomaB'
+	'RobotoCondensed'
+	//'TahomaB'
 ];
 _QS_ST_otherDisplays = FALSE;									// BOOL. TRUE to add Unit/Vehicle Icon support for UAV Terminal and Artillery Computer. Runs a separate script to handle these displays. Only works if  _QS_ST_map_enableUnitIcons = TRUE;
 _QS_ST_MAPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GPS in his assigned items. Default FALSE.
@@ -273,10 +273,7 @@ _QS_fnc_iconColor = {
 		if (isNull (objectParent _u)) then {
 			private _teamID = 0;
 			if (!isNil {assignedTeam _u}) then {
-				_teamID = ['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _u);
-				if (_teamID isEqualTo -1) then {
-					_teamID = 0;
-				};
+				_teamID = (['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _u)) max 0;
 			};
 			if (_s isEqualTo EAST) then {_c = _QS_ST_X select 9;};
 			if (_s isEqualTo WEST) then {_c = _QS_ST_X select 10;};

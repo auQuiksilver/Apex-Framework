@@ -6,15 +6,11 @@ Author:
 	
 Last Modified:
 
-	18/12/2017 A3 1.80 by Quiksilver
+	15/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Gear Restrictions
-	
-Notes:
-
-	Gear Restriction Application
 _____________________________________________________________________/*/
 
 params ['_unit',['_arsenalType',1],'_arsenalData'];
@@ -31,85 +27,97 @@ _weaponAttachments3 = (handgunItems _unit) apply {(toLower _x)};
 _magazines = (magazines _unit) apply {(toLower _x)};
 _items = (items _unit) apply {(toLower _x)};
 _assignedItems = (assignedItems _unit) apply {(toLower _x)};
+_index = [1,0] select ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 2);
+_all = [];
+{
+	if (_forEachIndex isEqualTo 0) then {
+		{
+			_all = _all + _x;
+		} forEach ((_arsenalData select _index) select 0);
+	} else {
+		_all = _all + _x;
+	};
+} forEach (_arsenalData select _index);
+_missionBlacklist = (missionNamespace getVariable ['QS_arsenal_missionBlacklist',[[[],[],[],[]],[]]]) select 0;
 if (_arsenalType isEqualTo 1) exitWith {
 	// WHITELIST
 	if (!(_weapons isEqualTo [])) then {
-		_weaponsWhitelisted = (_arsenalData select 1) select 3;
+		_weaponsWhitelisted = ((_arsenalData select _index) select 3) apply {(toLower _x)};
 		{
-			if (!(_x in _weaponsWhitelisted)) then {
+			if ((!((toLower (_x call (missionNamespace getVariable 'QS_fnc_baseWeapon'))) in _weaponsWhitelisted)) || {((toLower (_x call (missionNamespace getVariable 'QS_fnc_baseWeapon'))) in (_missionBlacklist select 1))}) then {
 				_unit removeWeapon _x;
 			};
 		} forEach _weapons;
 	};
-	_uniformsWhitelisted = ((_arsenalData select 1) select 0) select 0;
-	if (!(_uniform in _uniformsWhitelisted)) then {
+	_uniformsWhitelisted = (((_arsenalData select _index) select 0) select 0) apply {(toLower _x)};
+	if ((!(_uniform in _uniformsWhitelisted)) || {(_uniform in (_missionBlacklist select 0))}) then {
 		removeUniform _unit;
 		_unit forceAddUniform (selectRandom _uniformsWhitelisted);
 	};
-	_backpacksWhitelisted = (_arsenalData select 1) select 2;
-	if (!(_backpack in _backpacksWhitelisted)) then {
+	_backpacksWhitelisted = ((_arsenalData select _index) select 2) apply {(toLower _x)};
+	if ((!((toLower (_backpack call (missionNamespace getVariable 'QS_fnc_baseBackpack'))) in _backpacksWhitelisted)) || {((toLower (_backpack call (missionNamespace getVariable 'QS_fnc_baseBackpack'))) in (_missionBlacklist select 3))}) then {
 		removeBackpack _unit;
 	};
-	_vestsWhitelisted = ((_arsenalData select 1) select 0) select 1;
-	if (!(_vest in _vestsWhitelisted)) then {
+	_vestsWhitelisted = (((_arsenalData select _index) select 0) select 1) apply {(toLower _x)};
+	if ((!(_vest in _vestsWhitelisted)) || {(_vest in (_missionBlacklist select 0))}) then {
 		removeVest _unit;
 	};
-	_headgearWhitelisted = ((_arsenalData select 1) select 0) select 4;
-	if (!(_headgear in _headgearWhitelisted)) then {
+	_headgearWhitelisted = (((_arsenalData select _index) select 0) select 4) apply {(toLower _x)};
+	if ((!(_headgear in _headgearWhitelisted)) || {(_headgear in (_missionBlacklist select 0))}) then {
 		removeHeadgear _unit;
 	};
-	_gogglesWhitelisted = ((_arsenalData select 1) select 0) select 5;
-	if (!(_goggles in _gogglesWhitelisted)) then {
+	_gogglesWhitelisted = (((_arsenalData select _index) select 0) select 5) apply {(toLower _x)};
+	if ((!(_goggles in _gogglesWhitelisted)) || {(_goggles in (_missionBlacklist select 0))}) then {
 		removeGoggles _unit;
 	};
-	_hmdWhitelisted = ((_arsenalData select 1) select 0) select 3; 
-	if (!(_hmd in _hmdWhitelisted)) then {
+	_hmdWhitelisted = (((_arsenalData select _index) select 0) select 3) apply {(toLower _x)}; 
+	if ((!(_hmd in _hmdWhitelisted)) || {(_hmd in (_missionBlacklist select 0))}) then {
 		_unit unlinkItem _hmd;
 	};
 	if (!(_weaponAttachments isEqualTo [])) then {
-		_attachmentsWhitelisted = ((_arsenalData select 1) select 0) select 6; 
+		_attachmentsWhitelisted = (((_arsenalData select _index) select 0) select 6) apply {(toLower _x)}; 
 		{
-			if (!(_x in _attachmentsWhitelisted)) then {
+			if ((!(_x in _attachmentsWhitelisted)) || {(_x in ((_missionBlacklist select 0) + (_missionBlacklist select 2)))}) then {
 				_unit removePrimaryWeaponItem _x;
 			};
 		} forEach _weaponAttachments;
 	};
 	if (!(_weaponAttachments2 isEqualTo [])) then {
-		_attachments2Whitelisted = ((_arsenalData select 1) select 0) select 6; 
+		_attachments2Whitelisted = (((_arsenalData select _index) select 0) select 6) apply {(toLower _x)}; 
 		{
-			if (!(_x in _attachments2Whitelisted)) then {
+			if ((!(_x in _attachments2Whitelisted)) || {(_x in ((_missionBlacklist select 0) + (_missionBlacklist select 2)))}) then {
 				_unit removeSecondaryWeaponItem _x;
 			};
 		} forEach _weaponAttachments2;
 	};
 	if (!(_weaponAttachments3 isEqualTo [])) then {
-		_attachments3Whitelisted = ((_arsenalData select 1) select 0) select 6; 
+		_attachments3Whitelisted = (((_arsenalData select _index) select 0) select 6) apply {(toLower _x)}; 
 		{
-			if (!(_x in _attachments3Whitelisted)) then {
+			if ((!(_x in _attachments3Whitelisted)) || {(_x in ((_missionBlacklist select 0) + (_missionBlacklist select 2)))}) then {
 				_unit removeHandgunItem _x;
 			};
 		} forEach _weaponAttachments3;
 	};
-	_magazinesWhitelisted = (_arsenalData select 1) select 1;
+	_magazinesWhitelisted = ((_arsenalData select _index) select 1) apply {(toLower _x)};
 	if (!(_magazines isEqualTo [])) then {
 		{
-			if (!(_x in _magazinesWhitelisted)) then {
+			if ((!(_x in _magazinesWhitelisted)) || {(_x in (_missionBlacklist select 2))}) then {
 				_unit removeMagazine _x;
 			};
 		} forEach _magazines;
 	};
 	if (!(_items isEqualTo [])) then {
-		_whitelistedItems = ((_arsenalData select 1) select 0) select 2;
+		_whitelistedItems = _all apply {(toLower _x)};
 		{
-			if (!(_x in _whitelistedItems)) then {
+			if ((!(_x in _whitelistedItems)) || {(_x in ((missionNamespace getVariable ['QS_arsenal_missionBlacklist',[[[],[],[],[]],[]]]) select 1))}) then {
 				_unit removeItem _x;
 			};
 		} forEach _items;
 	};
 	if (!(_assignedItems isEqualTo [])) then {
-		_whitelistedAssignedItems = ((_arsenalData select 1) select 0) select 3;
+		_whitelistedAssignedItems = (((_arsenalData select _index) select 0) select 3) apply {(toLower _x)};
 		{
-			if (!(_x in _whitelistedAssignedItems)) then {
+			if ((!(_x in _whitelistedAssignedItems)) || {(_x in (_missionBlacklist select 0))}) then {
 				_unit unlinkItem _x;
 				_unit unassignItem _x;
 				_unit removeItem _x;
@@ -119,81 +127,81 @@ if (_arsenalType isEqualTo 1) exitWith {
 };
 // BLACKLIST
 if (!(_weapons isEqualTo [])) then {
-	_weaponsBlacklisted = (_arsenalData select 0) select 3;
+	_weaponsBlacklisted = ((_arsenalData select _index) select 3) apply {(toLower _x)};
 	{
-		if (_x in _weaponsBlacklisted) then {
+		if (((toLower (_x call (missionNamespace getVariable 'QS_fnc_baseWeapon'))) in _weaponsBlacklisted) || {((toLower (_x call (missionNamespace getVariable 'QS_fnc_baseWeapon'))) in (_missionBlacklist select 1))}) then {
 			_unit removeWeapon _x;
 		};
 	} forEach _weapons;
 };
-_uniformsBlacklisted = ((_arsenalData select 0) select 0) select 0;
-if (_uniform in _uniformsBlacklisted) then {
+_uniformsBlacklisted = (((_arsenalData select _index) select 0) select 0) apply {(toLower _x)};
+if ((_uniform in _uniformsBlacklisted) || {(_uniform in (_missionBlacklist select 0))}) then {
 	removeUniform _unit;
 };
-_backpacksBlacklisted = (_arsenalData select 0) select 2;
-if (_backpack in _backpacksBlacklisted) then {
+_backpacksBlacklisted = ((_arsenalData select _index) select 2) apply {(toLower _x)};
+if (((toLower (_backpack call (missionNamespace getVariable 'QS_fnc_baseBackpack'))) in _backpacksBlacklisted) || {((toLower (_backpack call (missionNamespace getVariable 'QS_fnc_baseBackpack'))) in (_missionBlacklist select 3))}) then {
 	removeBackpack _unit;
 };
-_vestsBlacklisted = ((_arsenalData select 0) select 0) select 1;
-if (_vest in _vestsBlacklisted) then {
+_vestsBlacklisted = (((_arsenalData select _index) select 0) select 1) apply {(toLower _x)};
+if ((_vest in _vestsBlacklisted) || {(_vest in (_missionBlacklist select 0))}) then {
 	removeVest _unit;
 };
-_headgearBlacklisted = ((_arsenalData select 0) select 0) select 4;
-if (_headgear in _headgearBlacklisted) then {
+_headgearBlacklisted = (((_arsenalData select _index) select 0) select 4) apply {(toLower _x)};
+if ((_headgear in _headgearBlacklisted) || {(_headgear in (_missionBlacklist select 0))}) then {
 	removeHeadgear _unit;
 };
-_gogglesBlacklisted = ((_arsenalData select 0) select 0) select 5;
-if (_goggles in _gogglesBlacklisted) then {
+_gogglesBlacklisted = (((_arsenalData select _index) select 0) select 5) apply {(toLower _x)};
+if ((_goggles in _gogglesBlacklisted) || {(_goggles in (_missionBlacklist select 0))}) then {
 	removeGoggles _unit;
 };
-_hmdBlacklisted = ((_arsenalData select 0) select 0) select 3; 
-if (_hmd in _hmdBlacklisted) then {
+_hmdBlacklisted = (((_arsenalData select _index) select 0) select 3) apply {(toLower _x)};
+if ((_hmd in _hmdBlacklisted) || {(_hmd in (_missionBlacklist select 0))}) then {
 	_unit unlinkItem _hmd;
 };
 if (!(_weaponAttachments isEqualTo [])) then {
-	_attachmentsBlacklisted = ((_arsenalData select 0) select 0) select 6; 
+	_attachmentsBlacklisted = (((_arsenalData select _index) select 0) select 6) apply {(toLower _x)}; 
 	{
-		if (_x in _attachmentsBlacklisted) then {
+		if ((_x in _attachmentsBlacklisted) || {(_x in ((_missionBlacklist select 0) + (_missionBlacklist select 2)))}) then {
 			_unit removePrimaryWeaponItem _x;
 		};
 	} forEach _attachmentsBlacklisted;
 };
 if (!(_weaponAttachments2 isEqualTo [])) then {
-	_attachments2Blacklisted = ((_arsenalData select 0) select 0) select 6; 
+	_attachments2Blacklisted = (((_arsenalData select _index) select 0) select 6) apply {(toLower _x)}; 
 	{
-		if (_x in _attachments2Blacklisted) then {
+		if ((_x in _attachments2Blacklisted) || {(_x in ((_missionBlacklist select 0) + (_missionBlacklist select 2)))}) then {
 			_unit removeSecondaryWeaponItem _x;
 		};
 	} forEach _weaponAttachments2;
 };
 if (!(_weaponAttachments3 isEqualTo [])) then {
-	_attachments3Blacklisted = ((_arsenalData select 0) select 0) select 6; 
+	_attachments3Blacklisted = (((_arsenalData select _index) select 0) select 6) apply {(toLower _x)}; 
 	{
-		if (_x in _attachments3Blacklisted) then {
+		if ((_x in _attachments3Blacklisted) || {(_x in ((_missionBlacklist select 0) + (_missionBlacklist select 2)))}) then {
 			_unit removeHandgunItem _x;
 		};
 	} forEach _weaponAttachments3;
 };
-_magazinesBlacklisted = (_arsenalData select 0) select 1;
+_magazinesBlacklisted = ((_arsenalData select _index) select 1) apply {(toLower _x)};
 if (!(_magazines isEqualTo [])) then {
 	{
-		if (_x in _magazinesBlacklisted) then {
+		if ((_x in _magazinesBlacklisted) || {(_x in (_missionBlacklist select 2))}) then {
 			_unit removeMagazine _x;
 		};
 	} forEach _magazines;
 };
 if (!(_items isEqualTo [])) then {
-	_blacklistedItems = ((_arsenalData select 0) select 0) select 2;
+	_blacklistedItems = _all apply {(toLower _x)};
 	{
-		if (_x in _blacklistedItems) then {
+		if ((_x in _blacklistedItems) || {(_x in ((missionNamespace getVariable ['QS_arsenal_missionBlacklist',[[[],[],[],[]],[]]]) select 1))}) then {
 			_unit removeItem _x;
 		};
 	} forEach _items;
 };
 if (!(_assignedItems isEqualTo [])) then {
-	_blacklistedAssignedItems = ((_arsenalData select 0) select 0) select 3;
+	_blacklistedAssignedItems = (((_arsenalData select _index) select 0) select 3) apply {(toLower _x)};
 	{
-		if (_x in _blacklistedAssignedItems) then {
+		if ((_x in _blacklistedAssignedItems) || {(_x in (_missionBlacklist select 0))}) then {
 			_unit unlinkItem _x;
 			_unit unassignItem _x;
 			_unit removeItem _x;

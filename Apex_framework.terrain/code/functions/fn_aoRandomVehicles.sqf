@@ -21,7 +21,7 @@ private _vehicleType = '';
 private _vehicleTypesWeighted = [
 	'C_Hatchback_01_F',0.1,
 	'C_Offroad_02_unarmed_F',0.5,
-	//'C_Offroad_01_F',0.3,			// bugged by Bohemia, spawns floating above ground. we could do a workaround but, meh ...
+	//'C_Offroad_01_F',0.3,			// bugged by Bohemia, spawns floating above ground. we could do a workaround but, meh ... Re-enable once they fix it
 	'C_SUV_01_F',0.1,
 	'C_Van_01_transport_F',0.3,
 	'C_Van_02_transport_F',0.3,
@@ -30,7 +30,7 @@ private _vehicleTypesWeighted = [
 	'B_G_Offroad_01_armed_F',0.4,
 	'B_G_Offroad_01_F',0.3,
 	'B_G_Van_02_transport_F',0.3,
-	'B_G_Offroad_01_AT_F',0.3,
+	//'B_G_Offroad_01_AT_F',0.3,		// bugged by Bohemia, spawns floating above ground. we could do a workaround but, meh ... Re-enable once they fix it
 	'I_C_Offroad_02_LMG_F',0.3,
 	'I_C_Offroad_02_AT_F',0.3
 ];

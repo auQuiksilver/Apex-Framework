@@ -6,17 +6,17 @@ Author:
 	
 Last modified:
 
-	23/10/2017 A3 1.76 by Quiksilver
+	14/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Evade hits
 __________________________________________________/*/
-params ['_u','','','_i'];
+params ['_u','_s','',''];
 if (local _u) then {
 	if ((random 1) > 0.5) then {
-		if (alive _i) then {
-			if (isPlayer _i) then {
+		if (alive _s) then {
+			if (isPlayer _s) then {
 				_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
 				if ((random 1) > 0.5) then {
 					_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);

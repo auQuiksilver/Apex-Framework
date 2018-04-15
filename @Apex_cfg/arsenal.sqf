@@ -6,46 +6,15 @@ Author:
 	
 Last Modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	15/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
-	Arsenal whitelisting (WIP)
+	Arsenal Whitelisting & Blacklisting for each player role/class
 	
-Notes:
+Documentation File:
 
-	This file is currently unused and is not compiled by the engine.
-	This file may be used in the future for comprehensive arsenal gear whitelisting, both in general and also by class.
-	Currently gear restrictions are done in a number of files, and we would like to tie them all back here for easy editing.
-	
-	Locations for gear restriction configuration currently:
-	
-		"code\functions\fn_clientCore.sqf" - lines 711-792
-		"code\functions\fn_clientEventArsenalClosed.sqf" - lines 52-55
-		"code\functions\fn_clientEventArsenalOpened.sqf" - lines 25-28
-		
-	Arsenal function is called from:
-	
-		"code\functions\fn_clientInteractArsenal.sqf"
-		
-Resources:
-
-	https://community.bistudio.com/wiki/Arma_3_CfgWeapons_Weapons
-	https://community.bistudio.com/wiki/Arma_3_CfgMagazines
-	https://community.bistudio.com/wiki/Arma_3_CfgVehicles_WEST
-	https://community.bistudio.com/wiki/Arma_3_CfgWeapons_Items
-	
-Important:
-
-	- MAKE SURE ALL CLASSNAMES ARE LOWERCASE (EXCEPT FOR GOGGLES, thanks arma)
-	
-	- ALL CLASSNAMES MUST BE lowercase
-	
-	- Some text editors have a [Ctrl]+[U] function to convert to lowercase.
-	
-	- Remember your Commas, this is incorrect:    ['blah','blah',]      this is correct:    ['blah','blah']
-	
-	- Check server RPT log for errors on mission startup if something is not working
+	"documentation\Arsenal & Gear Restrictions.txt"
 _______________________________________________________/*/
 
 //=========================================== GET PLAYER ROLE
@@ -100,9 +69,10 @@ if (_class in [
 	_role = 'UAV';
 };
 
-//=========================================== GET WHITELIST + BLACKLIST FOR PLAYER ROLE
+//=========================================== GET [BLACKLIST + WHITELIST] FOR PLAYER ROLE
 
-if (_role isEqualTo '') exitWith {				//===== Generic whitelist/blacklist
+// Undefined role (not used).
+if (_role isEqualTo '') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
 			[	// ITEMS
@@ -116,7 +86,7 @@ if (_role isEqualTo '') exitWith {				//===== Generic whitelist/blacklist
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -129,7 +99,7 @@ if (_role isEqualTo '') exitWith {				//===== Generic whitelist/blacklist
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -268,6 +238,7 @@ if (_role isEqualTo '') exitWith {				//===== Generic whitelist/blacklist
 		]
 	]
 };
+// Rifleman role (Grenadier, marksman, engineer, medic, etc)
 if (_role isEqualTo 'RIFLEMAN') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -282,7 +253,7 @@ if (_role isEqualTo 'RIFLEMAN') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -295,7 +266,7 @@ if (_role isEqualTo 'RIFLEMAN') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -437,6 +408,7 @@ if (_role isEqualTo 'RIFLEMAN') exitWith {
 		]
 	]
 };
+// Machine gunner, autorifleman, etc
 if (_role isEqualTo 'AUTORIFLEMAN') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -451,7 +423,7 @@ if (_role isEqualTo 'AUTORIFLEMAN') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -464,7 +436,7 @@ if (_role isEqualTo 'AUTORIFLEMAN') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -602,6 +574,7 @@ if (_role isEqualTo 'AUTORIFLEMAN') exitWith {
 		]
 	]
 };
+// AT / AA / Missile soldiers, etc
 if (_role isEqualTo 'MISSILE') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -616,7 +589,7 @@ if (_role isEqualTo 'MISSILE') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -629,7 +602,7 @@ if (_role isEqualTo 'MISSILE') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -768,6 +741,7 @@ if (_role isEqualTo 'MISSILE') exitWith {
 		]
 	]
 };
+// Sniper role
 if (_role isEqualTo 'SNIPER') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -782,7 +756,7 @@ if (_role isEqualTo 'SNIPER') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -795,7 +769,7 @@ if (_role isEqualTo 'SNIPER') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -924,6 +898,7 @@ if (_role isEqualTo 'SNIPER') exitWith {
 		]
 	]
 };
+// JTAC role
 if (_role isEqualTo 'JTAC') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -938,7 +913,7 @@ if (_role isEqualTo 'JTAC') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -951,7 +926,7 @@ if (_role isEqualTo 'JTAC') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -1088,6 +1063,7 @@ if (_role isEqualTo 'JTAC') exitWith {
 		]
 	]
 };
+// Pilot role
 if (_role isEqualTo 'PILOT') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -1102,7 +1078,7 @@ if (_role isEqualTo 'PILOT') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -1115,7 +1091,7 @@ if (_role isEqualTo 'PILOT') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -1243,6 +1219,7 @@ if (_role isEqualTo 'PILOT') exitWith {
 		]
 	]
 };
+// Officer/Commander role
 if (_role isEqualTo 'OFFICER') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -1257,7 +1234,7 @@ if (_role isEqualTo 'OFFICER') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -1270,7 +1247,7 @@ if (_role isEqualTo 'OFFICER') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -1407,6 +1384,7 @@ if (_role isEqualTo 'OFFICER') exitWith {
 		]
 	]
 };
+// Squad leader/Team leader role
 if (_role isEqualTo 'LEADER') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -1421,7 +1399,7 @@ if (_role isEqualTo 'LEADER') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal','b_uavterminal'
+					'b_uavterminal'
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -1434,7 +1412,7 @@ if (_role isEqualTo 'LEADER') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -1571,6 +1549,7 @@ if (_role isEqualTo 'LEADER') exitWith {
 		]
 	]
 };
+// UAV Operator role
 if (_role isEqualTo 'UAV') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST
@@ -1585,7 +1564,7 @@ if (_role isEqualTo 'UAV') exitWith {
 				
 				],
 				[	// assigned items
-					'integrated_nvg_f','integrated_nvg_ti_0_f','integrated_nvg_ti_1_f','o_uavterminal','i_uavterminal','c_uavterminal'
+					
 				],
 				[	// headgear
 					'h_helmeto_vipersp_ghex_f','h_helmeto_vipersp_hex_f'
@@ -1598,7 +1577,7 @@ if (_role isEqualTo 'UAV') exitWith {
 				]
 			],
 			[	// MAGAZINES
-				'apersminedispenser_mag'
+				
 			],
 			[	// BACKPACKS
 			
@@ -1735,4 +1714,5 @@ if (_role isEqualTo 'UAV') exitWith {
 		]
 	]
 };
+// Default
 ('RIFLEMAN' call (missionNamespace getVariable 'QS_data_arsenal'))

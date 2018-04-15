@@ -19,3 +19,6 @@ if (player getVariable ['QS_client_radioDisabled',FALSE]) then {
 		player unassignItem 'ItemRadio';
 	};
 };
+if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {
+	missionNamespace setVariable ['QS_client_triggerGearCheck',TRUE,FALSE];
+};

@@ -108,13 +108,9 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 						};
 					};
 				};
+				_teamID = 0;
 				if (!isNil {assignedTeam _unit}) then {
-					_teamID = ['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _unit);
-					if (_teamID isEqualTo -1) then {
-						_teamID = 0;
-					};
-				} else {
-					_teamID = 0;
+					_teamID = (['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _unit)) max 0;
 				};
 				_colorTeam = [[1,1,1,1],[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] select _teamID;
 				if (isNull (objectParent _unit)) then {

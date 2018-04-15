@@ -6,13 +6,11 @@ Author:
 	
 Last modified:
 
-	19/12/2017 A3 1.80 by Quiksilver
+	14/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	UAV Operator
-	
-	missionNamespace setVariable ['QS_uavCanSpawn',TRUE,TRUE];
 __________________________________________________/*/
 scriptName 'QS Script Client UAV';
 private [
@@ -113,9 +111,9 @@ _nearServiceMarkers = {
 	_c;
 };
 _firedEvent = {
-	_vehicle = _this select 0;
+	params ['_vehicle','','','','','','_projectile',''];
 	if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 500) exitWith {
-		deleteVehicle (_this select 6);
+		deleteVehicle _projectile;
 	};
 	if (!isNull (assignedTarget _vehicle)) then {
 		if (alive (assignedTarget _vehicle)) then {
@@ -152,6 +150,7 @@ for '_x' from 0 to 1 step 0 do {
 					_x disableAI 'COVER';
 					_x setVehicleReportRemoteTargets FALSE;
 				} count (units _grp);
+				_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 				_QS_wp = _grp addWaypoint [_QS_loiterPos,500];
 				_QS_wp setWaypointType 'LOITER';
 				_QS_uav addEventHandler [
@@ -192,6 +191,8 @@ for '_x' from 0 to 1 step 0 do {
 		[72,1,(1 + (count (crew _QS_ugv)))] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		_QS_ugv addEventHandler ['Fired',_firedEvent];
 		_QS_ugv addEventHandler ['HandleDamage',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandleDamage')}];
+		_grp = group (driver _QS_ugv);
+		_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 		_QS_ugv addBackpackCargoGlobal ['B_UAV_01_backpack_F',2];
 	} else {
 		if (((getPosASL _QS_ugv) select 2) < -1.5) then {
@@ -210,6 +211,8 @@ for '_x' from 0 to 1 step 0 do {
 		_QS_ugv2 setVariable ['QS_tow_veh',2,TRUE];
 		createVehicleCrew _QS_ugv2;
 		[72,1,(1 + (count (crew _QS_ugv2)))] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+		_grp = group (driver _QS_ugv2);
+		_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 		_QS_ugv2 addEventHandler ['HandleDamage',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandleDamage')}];
 		_QS_ugv2 addBackpackCargoGlobal ['B_UAV_01_backpack_F',2];
 		_QS_ugv2 addEventHandler [
@@ -273,6 +276,7 @@ for '_x' from 0 to 1 step 0 do {
 					createVehicleCrew _QS_heliDrone;
 					[72,1,(1 + (count (crew _QS_heliDrone)))] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 					_grp = group (effectiveCommander _QS_heliDrone);
+					_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 					{
 						_x setSkill 0.5;
 						_x disableAI 'AUTOCOMBAT';

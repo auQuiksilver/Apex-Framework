@@ -19,7 +19,7 @@ _vehicle allowCrewInImmobile TRUE;
 _vehicle lock 2;
 _vehicle lockDriver TRUE;
 _vehicle allowDamage FALSE;
-_vehicle spawn {uiSleep 5;_this enableSimulationGlobal TRUE;uiSleep 5;_this allowDamage TRUE;};
+_vehicle spawn {uiSleep 3;_this enableSimulationGlobal TRUE;uiSleep 3;_this allowDamage TRUE;};
 _vehicle setVariable ['QS_disableRefuel',TRUE,FALSE];
 _vehicle setVariable ['QS_vehicle_markers',[],FALSE];
 _vehicle setVariable ['QS_hidden',TRUE,TRUE];
@@ -39,6 +39,9 @@ _vehicle setVehicleRadar (selectRandomWeighted [0,0.5,1,0.5]);
 					_x setMarkerAlpha 0;
 				} count (_killed getVariable 'QS_vehicle_markers');
 			};
+			{
+				_x setDamage [1,FALSE];
+			} forEach (crew _killed);
 			if (!isNil {_killed getVariable 'QS_vehicleCrew'}) then {
 				{
 					if (!isNull _x) then {

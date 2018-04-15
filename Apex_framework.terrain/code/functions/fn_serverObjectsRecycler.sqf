@@ -162,6 +162,7 @@ if (_type isEqualTo 1) exitWith {
 								private _grp = missionNamespace getVariable ['QS_recycler_nullGrp',grpNull];
 								if (isNull _grp) then {
 									_grp = createGroup [CIVILIAN,FALSE];
+									missionNamespace getVariable ['QS_recycler_nullGrp',_grp,FALSE];
 									_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 									_grp enableDynamicSimulation FALSE;
 								} else {
@@ -176,7 +177,7 @@ if (_type isEqualTo 1) exitWith {
 								} forEach (allVariables _object);
 								_object setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 								_object setVariable ['QS_curator_disableEditability',TRUE,FALSE];
-								_object setPos (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
+								_object setPosASL (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
 								_object hideObjectGlobal TRUE;
 								_object enableSimulationGlobal FALSE;
 								_object enableDynamicSimulation FALSE;

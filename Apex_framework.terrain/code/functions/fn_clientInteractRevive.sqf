@@ -139,7 +139,7 @@ if (_stance isEqualTo 'PRONE') then {
 		TRUE,
 		'',
 		'TRUE',
-		5,
+		-1,
 		FALSE,
 		''
 	];

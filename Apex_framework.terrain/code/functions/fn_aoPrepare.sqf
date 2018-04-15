@@ -118,7 +118,7 @@ if (!(_nearestLocations isEqualTo [])) then {
 	_nearestLocation = _nearestLocations select 0;
 	missionNamespace setVariable [
 		'QS_primaryObjective_civilians',
-		([(locationPosition _nearestLocation),300,'FOOT',10,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians')),
+		([(locationPosition _nearestLocation),300,'FOOT',([6,10] select (diag_fps > 20)),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians')),
 		FALSE
 	];
 	comment 'Random vehicles';

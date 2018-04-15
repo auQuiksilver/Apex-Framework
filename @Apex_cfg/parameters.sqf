@@ -60,7 +60,7 @@ _staffNames = 'bob (admin), billy (moderator), albert (moderator), carl (mission
 
 _baseLayout = 0;										// Base layout.	0 - Default. 1 - Create custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
 _closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
-_arsenal = 1;											// Arsenal.		0 - Unrestricted. 1 - Use Whitelist. 2 - Use Blacklist.			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured. Note: Currently in 1.0.7 the Blacklist only works for gear restriction, not the Arsenal menu until we can find a workaround.
+_arsenal = 1;											// Arsenal.		0 - Unrestricted. 1 - Use Whitelist. 2 - Use Blacklist.			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured.
 _gearRestrictions = 1;									// Gear Restrictions.	0 - Disabled. 1 - Enabled. (Default = 1). 	Controls whether non-snipers can use sniper rifles, non-AT soldiers use missile launchers, etc.
 _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles with default layout.
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
@@ -102,7 +102,7 @@ _infostand_2 = ['media\images\billboards\billboard6.jpg','media\images\billboard
 //===================================================== SECURITY
 
 _serverCommandPassword = "'ShVQArtpGdc5aDQq'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
-_anticheat = 1;											// 0 - Disabled. 1 - Enabled. (Default 0). 		Disable if running mods or in private/secure setting.
+_anticheat = 0;											// 0 - Disabled. 1 - Enabled. (Default 0). 		Disable if running mods or in private/secure setting.
 
 //===================================================== MONETIZATION
 

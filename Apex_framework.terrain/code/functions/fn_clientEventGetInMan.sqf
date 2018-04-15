@@ -156,7 +156,7 @@ if ((toLower (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracked_01
 						_c;
 					})
 				',
-				2,
+				-1,
 				FALSE,
 				''
 			]

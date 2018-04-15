@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	6/03/2018 A3 1.80 by Quiksilver
+	14/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 	
@@ -41,7 +41,7 @@ if ((!(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_S
 };
 private _exit = FALSE;
 private _text = '';
-private _QS_module_opsec = (call (missionNamespace getVariable ['QS_missionConfig_AH',{1}])) isEqualTo 1;
+_QS_module_opsec = (call (missionNamespace getVariable ['QS_missionConfig_AH',{1}])) isEqualTo 1;
 if (_QS_actionName isEqualTo 'User') then {
 	if (!((_this select 4) isEqualTo '')) then {
 		if (_QS_module_opsec) then {
@@ -502,6 +502,12 @@ if (_QS_actionName isEqualTo 'UAVTerminalHackConnection') then {
 	if (!local _QS_actionTarget) then {
 		_text = format ['%1 (%2) has hacked a(n) %3!',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf player) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf _QS_actionTarget) >> 'displayName'))];
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	};
+	_QS_actionTarget spawn {
+		uiSleep 1;
+		if (!((crew _this) isEqualTo [])) then {
+			(group (driver _this)) setVariable ['QS_HComm_grp',FALSE,TRUE];
+		};
 	};
 };
 if (_QS_actionName isEqualTo 'OpenBag') then {

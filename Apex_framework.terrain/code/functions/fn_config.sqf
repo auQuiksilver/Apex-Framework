@@ -414,7 +414,7 @@ _recyclerUnitTypes = [
 		'QS_radioChannels',
 		[
 			(radioChannelCreate [[0.4,1,1,1],'Side channel (No voice)','%UNIT_GRP_NAME ' + '(%UNIT_NAME)',[],TRUE]),
-			(radioChannelCreate [[1,0.4,1,1],'Aircraft channel','%UNIT_GRP_NAME ' + '(%UNIT_NAME)',[],TRUE]),
+			(radioChannelCreate [[1,0.4,1,1],'Aircraft channel','%UNIT_VEH_NAME ' + '(%UNIT_NAME)',[],TRUE]),
 			(radioChannelCreate [[0.4,1,0.4,1],'Primary AO channel','%UNIT_GRP_NAME ' + '(%UNIT_NAME)',[],TRUE]),
 			(radioChannelCreate [[1,1,0.4,1],'Secondary AO channel','%UNIT_GRP_NAME ' + '(%UNIT_NAME)',[],TRUE]),
 			(radioChannelCreate [[1,0.4,0.4,1],'PLT Alpha channel','%UNIT_GRP_NAME ' + '(%UNIT_NAME)',[],TRUE]),

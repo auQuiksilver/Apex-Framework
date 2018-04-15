@@ -83,7 +83,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 			_cameraOn removeAction _actionID;
 			missionNamespace setVariable ['QS_client_action_carrierLaunchCancel',[],FALSE];
 		};
-		_launchCancelAction = _cameraOn addAction ['Cancel',_launchCancel,[_cameraOn],0,FALSE,TRUE,'','TRUE',5,FALSE,''];
+		_launchCancelAction = _cameraOn addAction ['Cancel',_launchCancel,[_cameraOn],0,FALSE,TRUE,'','TRUE',-1,FALSE,''];
 		_cameraOn setUserActionText [_launchCancelAction,((_cameraOn actionParams _launchCancelAction) select 0),(format ["<t size='3'>%1</t>",((_cameraOn actionParams _launchCancelAction) select 0)])];
 		missionNamespace setVariable ['QS_client_action_carrierLaunchCancel',[_cameraOn,_launchCancelAction],FALSE];
 	};

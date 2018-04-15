@@ -614,7 +614,7 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['MusicStart',{}],
 	['MusicStop',{}]
 ];
-// Setup Arsenal
+// Preload Arsenal
 if (!((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 0)) then {
 	call (missionNamespace getVariable 'QS_fnc_clientArsenal');
 };

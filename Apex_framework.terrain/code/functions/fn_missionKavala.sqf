@@ -189,7 +189,7 @@ private _vehicleTypes = [
 ];	
 private _vehicleType = '';
 comment 'Spawn vehicles on roads';
-private _vehicleExclusionZone_roads = ([3478.81,13106.2,0.00132751] nearRoads 300) select {(((position _x) inPolygon QS_georgetown_vExclusion_polygon) && (_x isEqualType objNull))};
+private _vehicleExclusionZone_roads = ([3478.81,13106.2,0.00132751] nearRoads 300) select {(((getPosATL _x) inPolygon QS_georgetown_vExclusion_polygon) && (_x isEqualType objNull))};
 private _vehiclesOnRoad = 25 - 1;
 private _road = objNull;
 private _roadPosition = [0,0,0];
@@ -744,7 +744,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_serverTime > _missionEnd) exitWith {
 		comment 'Mission failure';
 		['CUSTOM_GEORGETOWN',['','Mission failed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		['sideChat',[WEST,'HQ'],'We took too long in Georgetown, soldiers. Better luck next time!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],'We took too long in Kavala, soldiers. Better luck next time!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_missionStatus isEqualTo 'SUCCESS') exitWith {
 		comment 'Mission success';

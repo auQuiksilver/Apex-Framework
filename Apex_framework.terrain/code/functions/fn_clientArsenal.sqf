@@ -6,30 +6,236 @@ Author:
 
 Last Modified:
 
-	28/02/2018 A3 1.80 by Quiksilver
+	15/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Setup Client Arsenal
-____________________________________________________________________________/*/
+____________________________________________________/*/
 
 if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 0) exitWith {};
+private _QS_restrictedItems = [
+	'h_helmetleadero_oucamo',
+	'h_helmetleadero_ocamo',
+	'h_helmetleadero_ghex_f',
+	'h_helmeto_oucamo',
+	'h_helmeto_ocamo',
+	'h_helmeto_ghex_f',
+	'h_racinghelmet_1_black_f',
+	'h_racinghelmet_1_blue_f',
+	'h_racinghelmet_2_f',
+	'h_racinghelmet_1_f',
+	'h_racinghelmet_1_green_f',
+	'h_racinghelmet_1_orange_f',
+	'h_racinghelmet_1_red_f',
+	'h_racinghelmet_3_f',
+	'h_racinghelmet_4_f',
+	'h_racinghelmet_1_white_f',
+	'h_racinghelmet_1_yellow_f',
+	'u_c_idap_man_cargo_f',
+	'u_c_idap_man_jeans_f',
+	'u_c_idap_man_casual_f',
+	'u_c_idap_man_shorts_f',
+	'u_c_idap_man_tee_f',
+	'u_c_idap_man_teeshorts_f',
+	'u_c_driver_1_black',
+	'u_c_driver_1_blue',
+	'u_c_driver_2',
+	'u_c_driver_1',
+	'u_c_driver_1_green',
+	'u_c_driver_1_orange',
+	'u_c_driver_1_red',
+	'u_c_driver_3',
+	'u_c_driver_4',
+	'u_c_driver_1_white',
+	'u_c_driver_1_yellow',
+	'u_o_t_soldier_f',
+	'u_o_combatuniform_ocamo',
+	'u_o_combatuniform_oucamo',
+	'u_o_fullghillie_ard',
+	'u_o_t_fullghillie_tna_f',
+	'u_o_fullghillie_lsh',
+	'u_o_fullghillie_sard',
+	'u_o_t_sniper_f',
+	'u_o_ghilliesuit',
+	'u_orestesbody',
+	'u_o_officer_noinsignia_hex_f',
+	'u_o_t_officer_f',
+	'u_o_officeruniform_ocamo',
+	'u_o_pilotcoveralls',
+	'u_o_specopsuniform_ocamo',
+	'u_o_v_soldier_viper_f',
+	'u_o_v_soldier_viper_hex_f',
+	'u_i_protagonist_vr',
+	'u_c_protagonist_vr',
+	'u_o_protagonist_vr',
+	'u_b_protagonist_vr',
+	'v_plain_medical_f',
+	'v_eod_idap_blue_f',
+	'apersminedispenser_mag',
+	'integrated_nvg_f',
+	'integrated_nvg_ti_0_f',
+	'integrated_nvg_ti_1_f',
+	'o_uavterminal',
+	'i_uavterminal',
+	'c_uavterminal'
+];
+private _QS_restrictedWeapons = [
+	'apersminedispenser_mag'
+];
+private _QS_restrictedMagazines = [
+	'apersminedispenser_mag'
+];
+private _QS_restrictedBackpacks = [
+	'weapon_bag_base',
+	'o_hmg_01_support_f',
+	'i_hmg_01_support_f',
+	'o_hmg_01_support_high_f',
+	'i_hmg_01_support_high_f',
+	'o_hmg_01_weapon_f',
+	'i_hmg_01_weapon_f',
+	'b_hmg_01_a_weapon_f',
+	'o_hmg_01_a_weapon_f',
+	'i_hmg_01_a_weapon_f',
+	'o_gmg_01_weapon_f',
+	'i_gmg_01_weapon_f',
+	'b_gmg_01_a_weapon_f',
+	'o_gmg_01_a_weapon_f',
+	'i_gmg_01_a_weapon_f',
+	'o_hmg_01_high_weapon_f',
+	'i_hmg_01_high_weapon_f',
+	'o_gmg_01_high_weapon_f',
+	'i_gmg_01_high_weapon_f',
+	'o_mortar_01_support_f',
+	'i_mortar_01_support_f',
+	'o_mortar_01_weapon_f',
+	'i_mortar_01_weapon_f',
+	'b_o_parachute_02_f',
+	'b_i_parachute_02_f',
+	'o_aa_01_weapon_f',
+	'i_aa_01_weapon_f',
+	'o_at_01_weapon_f',
+	'i_at_01_weapon_f',
+	'o_uav_01_backpack_f',
+	'i_uav_01_backpack_f',
+	'b_respawn_tentdome_f',
+	'b_respawn_tenta_f',
+	'b_respawn_sleeping_bag_f',
+	'b_respawn_sleeping_bag_blue_f',
+	'b_respawn_sleeping_bag_brown_f',
+	'o_static_designator_02_weapon_f',
+	'b_patrol_respawn_bag_f',
+	'b_messenger_idap_f',
+	'c_idap_uav_01_backpack_f',
+	'o_uav_06_backpack_f',
+	'i_uav_06_backpack_f',
+	'c_idap_uav_06_backpack_f',
+	'c_uav_06_backpack_f',
+	'c_idap_uav_06_antimine_backpack_f',
+	'o_uav_06_medical_backpack_f',
+	'i_uav_06_medical_backpack_f',
+	'c_idap_uav_06_medical_backpack_f',
+	'c_uav_06_medical_backpack_f'
+];
+missionNamespace setVariable ['QS_arsenal_missionBlacklist',[[_QS_restrictedItems,_QS_restrictedWeapons,_QS_restrictedMagazines,_QS_restrictedBackpacks],(_QS_restrictedItems + _QS_restrictedWeapons + _QS_restrictedMagazines + _QS_restrictedBackpacks)],FALSE];
 _isBlacklisted = (missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 2;
 if (_isBlacklisted) then {
+	// If using blacklist, we first have to add everything, so we can remove the blacklisted items.
+	private _internalRestrictions = TRUE;		// Caution, leave TRUE unless you know what you're doing. Set FALSE to disable hard-coded restrictions (respawn backpacks, racing + vr uniforms, etc).
+	private _cfgItems = [];
+	private _cfgWeapons = [];
+	private _cfgMagazines = [];
+	private _cfgBackpacks = [];
+	_configArray = (
+		('((isclass _x) && ((((configName _x) isKindOf ["ItemCore",configFile >> "CfgWeapons"])) || (((configName _x) isKindOf ["DetectorCore",configFile >> "CfgWeapons"])) || (((configName _x) isKindOf ["NVGoggles",configFile >> "CfgWeapons"]))))' configclasses (configfile >> 'cfgweapons')) + 
+		('("isclass _x && getnumber (_x >> ""scope"") == 2 && getnumber (_x >> ""isBackpack"") == 1")' configclasses (configfile >> 'cfgvehicles')) + 
+		('isclass _x' configclasses (configfile >> 'cfgglasses'))
+	);
+	private _weaponType = '';
+	private _weaponTypeCategory = '';
+	private _class = configNull;
+	private _className = '';
+	private _scope = -1;
+	private _isBase = FALSE;
+	private _weaponTypeSpecific = '';
+	private _weaponTypeID = -1;
+	if (!(_internalRestrictions)) then {
+		_QS_restrictedItems = [];
+	};
 	{
-		[missionNamespace,TRUE,FALSE,FALSE] call (missionNamespace getVariable _x);
-	} forEach [
-		'BIS_fnc_addVirtualItemCargo',
-		'BIS_fnc_addVirtualMagazineCargo',
-		'BIS_fnc_addVirtualBackpackCargo',
-		'BIS_fnc_addVirtualWeaponCargo'
-	];
+		_class = _x;
+		_className = configName _class;
+		_scope = if (isnumber (_class >> 'scopeArsenal')) then {getnumber (_class >> 'scopeArsenal')} else {getnumber (_class >> 'scope')};
+		_isBase = if (isarray (_class >> 'muzzles')) then {((_className call (missionNamespace getVariable 'QS_fnc_baseWeapon')) == _className)} else {TRUE};
+		if ((_scope isEqualTo 2) && {(!((gettext (_class >> 'model')) isEqualTo ''))} && _isBase) then {
+			_weaponType = (_className call (missionNamespace getVariable 'BIS_fnc_itemType'));
+			_weaponTypeCategory = _weaponType select 0;
+			if (_weaponTypeCategory != 'VehicleWeapon') then {
+				if (!( (toLower _className) in _QS_restrictedItems)) then {
+					_cfgItems pushBackUnique _className;
+				};
+			};
+		};
+	} foreach _configArray;
+	_cfgWeapons = ("(isclass _x) && ((getnumber (_x >> 'scope')) isEqualTo 2) && (((getnumber (_x >> 'type')) < 5) || ((getnumber (_x >> 'type')) isEqualTo 4096))") configClasses (configFile >> 'cfgWeapons');
+	_cfgWeapons = _cfgWeapons apply { (configName _x) };
+	_cfgWeapons = _cfgWeapons select {((_x call (missionNamespace getVariable 'QS_fnc_baseWeapon')) == _x)};
+	_cfgWeapons = _cfgWeapons arrayIntersect _cfgWeapons;
+	if (!(_internalRestrictions)) then {
+		_QS_restrictedWeapons = [];
+	};
+	_cfgWeapons = _cfgWeapons select {(!((toLower _x) in _QS_restrictedWeapons))};
+	private _weaponClass = '';
+	private _mag = '';
+	private _cfgMag = configNull;
+	private _weapon = configNull;
+	private _muzzles = [];
+	private _muzzle = configNull;
+	private _magazines = [];
+	if (!(_internalRestrictions)) then {
+		_QS_restrictedMagazines = [];
+	};
+	{
+		_weaponClass = _x;
+		_weapon = configFile >> 'CfgWeapons' >> _weaponClass;
+		if ((toLower _weaponClass) in ['throw','put']) then {
+			_muzzles = getArray (_weapon >> 'muzzles');
+			{
+				_muzzle = _x;
+				_magazines = getArray (configFile >> 'CfgWeapons' >> _weaponClass >> _muzzle >> 'magazines');
+				{
+					if (isClass (configFile >> 'CfgMagazines' >> _x)) then {
+						if ((getNumber (configFile >> 'CfgMagazines' >> _x >> 'scope')) isEqualTo 2) then {
+							_cfgMagazines pushBackUnique _x;
+						};
+					};
+				} forEach _magazines;
+			} forEach _muzzles;
+		} else {
+			{
+				_mag = _x;
+				if (!(_x in _cfgMagazines)) then {
+					if (!((toLower _x) in _QS_restrictedMagazines)) then {
+						_cfgMagazines pushBackUnique _x;
+					};
+				};
+			} foreach (getarray (_weapon >> 'magazines'));
+		};
+	} foreach (_cfgWeapons + ['throw','put']);
+	_cfgBackpacks = ("isclass _x && getnumber (_x >> 'scope') isEqualTo 2 && getnumber (_x >> 'isBackpack') isEqualTo 1") configClasses (configFile >> 'cfgvehicles');
+	_cfgBackpacks = _cfgBackpacks apply { (configName _x) };
+	_cfgBackpacks = _cfgBackpacks select {((_x call (missionNamespace getVariable 'QS_fnc_baseBackpack')) == _x)};
+	_cfgBackpacks = _cfgBackpacks arrayIntersect _cfgBackpacks;
+	if (!(_internalRestrictions)) then {
+		_QS_restrictedBackpacks = [];
+	};
+	_cfgBackpacks = _cfgBackpacks select {(!((toLower _x) in _QS_restrictedBackpacks))};
+	missionNamespace setVariable ['bis_addVirtualWeaponCargo_cargo',[_cfgItems,_cfgWeapons,_cfgMagazines,_cfgBackpacks],FALSE];	
 };
 _data = call (missionNamespace getVariable 'QS_data_arsenal');
 private _weapons = [];
 (_data select ([1,0] select _isBlacklisted)) params ['_itemsData','_magazines','_backpacks','_weapons'];
 private _items = [];
-
 private _goggles = _itemsData select 5;
 if (!(_goggles isEqualTo [])) then {
 	_binGoggles = configFile >> 'CfgGlasses';
@@ -50,9 +256,6 @@ if (!(_goggles isEqualTo [])) then {
 	_items = _items + _x;
 } forEach _itemsData;
 if (_isBlacklisted) exitWith {
-
-	// This section doesnt work, BIS replaces the classnames with "%ALL" for some reason
-
 	_cargo = missionNamespace getvariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]]];
 	_cargo params ['_cargoItems','_cargoWeapons','_cargoMagazines','_cargoBackpacks'];
 	private _class = '';
@@ -66,7 +269,7 @@ if (_isBlacklisted) exitWith {
 	} forEach _items;
 	if (!(_weapons isEqualTo [])) then {
 		{
-			_class = configname (configfile >> "cfgweapons" >> _x);
+			_class = configname (configfile >> 'cfgweapons' >> _x);
 			_foundIndex = _cargoWeapons findIf {((toLower _x) isEqualTo (toLower _class))};
 			if (!(_foundIndex isEqualTo -1)) then {
 				_cargoWeapons deleteAt _foundIndex;
@@ -75,7 +278,7 @@ if (_isBlacklisted) exitWith {
 	};
 	if (!(_magazines isEqualTo [])) then {
 		{
-			_class = configname (configfile >> "cfgweapons" >> _x);
+			_class = configname (configfile >> 'cfgweapons' >> _x);
 			_foundIndex = _cargoMagazines findIf {((toLower _x) isEqualTo (toLower _class))};
 			if (!(_foundIndex isEqualTo -1)) then {
 				_cargoMagazines deleteAt _foundIndex;
@@ -98,8 +301,8 @@ if (_isBlacklisted) exitWith {
 		[missionNamespace,(_x select 1),FALSE,FALSE] call (missionNamespace getVariable (_x select 0));
 	};
 } forEach [
-	[(format ['BIS_fnc_%1VirtualItemCargo',(['add','remove'] select _isBlacklisted)]),_items],
-	[(format ['BIS_fnc_%1VirtualMagazineCargo',(['add','remove'] select _isBlacklisted)]),_magazines],
-	[(format ['BIS_fnc_%1VirtualBackpackCargo',(['add','remove'] select _isBlacklisted)]),_backpacks],
-	[(format ['BIS_fnc_%1VirtualWeaponCargo',(['add','remove'] select _isBlacklisted)]),_weapons]
+	[(format ['BIS_fnc_%1VirtualItemCargo',(['add','remove'] select _isBlacklisted)]),(_items select {(!( (toLower _x) in _QS_restrictedItems))})],
+	[(format ['BIS_fnc_%1VirtualMagazineCargo',(['add','remove'] select _isBlacklisted)]),(_magazines select {(!( (toLower _x) in _QS_restrictedMagazines))})],
+	[(format ['BIS_fnc_%1VirtualBackpackCargo',(['add','remove'] select _isBlacklisted)]),(_backpacks select {(!( (toLower _x) in _QS_restrictedBackpacks))})],
+	[(format ['BIS_fnc_%1VirtualWeaponCargo',(['add','remove'] select _isBlacklisted)]),(_weapons select {(!( (toLower _x) in _QS_restrictedWeapons))})]
 ];

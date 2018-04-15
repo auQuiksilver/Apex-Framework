@@ -342,6 +342,8 @@ class CfgFunctions {
 			class atNameCheck {file = "code\functions\fn_atNameCheck.sqf";};
 			class atReport {file = "code\functions\fn_atReport.sqf";};
 			class atServer {file = "code\functions\fn_atServer.sqf";};
+			class baseBackpack {file = "code\functions\fn_baseBackpack.sqf";};
+			class baseWeapon {file = "code\functions\fn_baseWeapon.sqf";};
 			class boxTransferCargo {file = "code\functions\fn_boxTransferCargo.sqf";};
 			class carrier {file = "code\functions\fn_carrier.sqf";};
 			class casRespawn {file = "code\functions\fn_casRespawn.sqf";};
@@ -603,6 +605,7 @@ class CfgFunctions {
 			class p2pMessage {file = "code\functions\fn_p2pMessage.sqf";};
 			class paraDrop {file = "code\functions\fn_paraDrop.sqf";};
 			class patrolNearbyBuilding {file = "code\functions\fn_patrolNearbyBuilding.sqf";};
+			class pulsate {file = "code\functions\fn_pulsate.sqf";};
 			class Q51 {file = "code\functions\fn_Q51.sqf";};
 			class registerUnit {file = "code\functions\fn_registerUnit.sqf";};
 			class registerVehicle {file = "code\functions\fn_registerVehicle.sqf";};

@@ -6,14 +6,17 @@ Author:
 	
 Last modified:
 
-	13/05/2017 A3 1.70 by Quiksilver
+	15/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Mortar pit
+	
+	_grp enableDynamicSimulation FALSE;
+	_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 __________________________________________________________________________/*/
 
-if (worldName isEqualTo 'Tanoa') exitWith {
+if (worldName in ['Tanoa','Lingor3']) exitWith {
 	[
 		["Land_BagFence_01_round_green_F",[0.84375,-0.822754,-0.0026021],93.7561,[],false,false,TRUE,{}], 
 		["Land_BagFence_01_round_green_F",[-0.249023,1.80664,-0.0026021],285.207,[],false,false,TRUE,{}], 
@@ -37,7 +40,7 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 				_mortar,
 				(effectiveCommander _mortar)
 			];
-			if (worldName isEqualTo 'Tanoa') then {
+			if (worldName in ['Tanoa','Lingor3']) then {
 				(effectiveCommander _mortar) setUnitLoadout (selectRandom [
 					"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
 					"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
@@ -52,6 +55,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 				]);
 			};
 			_mortar lock 3;
+			_mortar enableDynamicSimulation FALSE;
+			_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_mortar enableWeaponDisassembly FALSE;
 			_mortar setVariable ['QS_hidden',TRUE,TRUE];
 			_mortar addEventHandler [
@@ -100,6 +105,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
 			_grp = group (gunner _mortar);
 			_grp deleteGroupWhenEmpty TRUE;
+			_grp enableDynamicSimulation FALSE;
+			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_grp addVehicle _mortar;
 			_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 			_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
@@ -126,7 +133,7 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 				_mortar,
 				(effectiveCommander _mortar)
 			];
-			if (worldName isEqualTo 'Tanoa') then {
+			if (worldName in ['Tanoa','Lingor3']) then {
 				(effectiveCommander _mortar) setUnitLoadout (selectRandom [
 					"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
 					"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
@@ -141,6 +148,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 				]);
 			};
 			_mortar lock 3;
+			_mortar enableDynamicSimulation FALSE;
+			_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_mortar enableWeaponDisassembly FALSE;
 			_mortar setVariable ['QS_hidden',TRUE,TRUE];
 			_mortar addEventHandler [
@@ -183,6 +192,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
 			_grp = group (gunner _mortar);
 			_grp deleteGroupWhenEmpty TRUE;
+			_grp enableDynamicSimulation FALSE;
+			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_grp addVehicle _mortar;
 			_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 			_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
@@ -209,7 +220,7 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 				_mortar,
 				(effectiveCommander _mortar)
 			];
-			if (worldName isEqualTo 'Tanoa') then {
+			if (worldName in ['Tanoa','Lingor3']) then {
 				(effectiveCommander _mortar) setUnitLoadout (selectRandom [
 					"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
 					"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
@@ -224,6 +235,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 				]);
 			};
 			_mortar lock 3;
+			_mortar enableDynamicSimulation FALSE;
+			_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_mortar enableWeaponDisassembly FALSE;
 			_mortar setVariable ['QS_hidden',TRUE,TRUE];
 			_mortar addEventHandler [
@@ -266,6 +279,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
 			_grp = group (gunner _mortar);
 			_grp deleteGroupWhenEmpty TRUE;
+			_grp enableDynamicSimulation FALSE;
+			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_grp addVehicle _mortar;
 			_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 			_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
@@ -335,7 +350,7 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			_mortar,
 			(effectiveCommander _mortar)
 		];
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Lingor3']) then {
 			(effectiveCommander _mortar) setUnitLoadout (selectRandom [
 				"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
 				"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
@@ -350,6 +365,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			]);
 		};
 		_mortar lock 3;
+		_mortar enableDynamicSimulation FALSE;
+		_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_hidden',TRUE,TRUE];
 		_mortar addEventHandler [
@@ -392,6 +409,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
 		_grp = group (gunner _mortar);
 		_grp deleteGroupWhenEmpty TRUE;
+		_grp enableDynamicSimulation FALSE;
+		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_grp addVehicle _mortar;
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
@@ -417,7 +436,7 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			_mortar,
 			(effectiveCommander _mortar)
 		];
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Lingor3']) then {
 			(effectiveCommander _mortar) setUnitLoadout (selectRandom [
 				"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
 				"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
@@ -432,6 +451,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			]);
 		};
 		_mortar lock 3;
+		_mortar enableDynamicSimulation FALSE;
+		_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_hidden',TRUE,TRUE];
 		_mortar addEventHandler [
@@ -474,6 +495,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
 		_grp = group (gunner _mortar);
 		_grp deleteGroupWhenEmpty TRUE;
+		_grp enableDynamicSimulation FALSE;
+		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_grp addVehicle _mortar;
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
@@ -500,7 +523,7 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			_mortar,
 			(effectiveCommander _mortar)
 		];
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Lingor3']) then {
 			(effectiveCommander _mortar) setUnitLoadout (selectRandom [
 				"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
 				"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
@@ -515,6 +538,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 			]);
 		};
 		_mortar lock 3;
+		_mortar enableDynamicSimulation FALSE;
+		_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_hidden',TRUE,TRUE];
 		_mortar addEventHandler [
@@ -557,6 +582,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
 		_grp = group (gunner _mortar);
 		_grp deleteGroupWhenEmpty TRUE;
+		_grp enableDynamicSimulation FALSE;
+		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_grp addVehicle _mortar;
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];

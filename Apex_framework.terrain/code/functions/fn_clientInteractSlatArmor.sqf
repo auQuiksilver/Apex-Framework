@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/02/2018 A3 1.80 by Quiksilver
+	14/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -20,6 +20,9 @@ if ((!(player getUnitTrait 'engineer')) && (!(['_crew_',(typeOf player),FALSE] c
 };
 if (isEngineOn _vehicle) exitWith {
 	50 cutText ['Engine must be off','PLAIN DOWN',0.5];
+};
+if (!((damage _vehicle) isEqualTo 0)) exitWith {
+	50 cutText ['Vehicle must be undamaged to modify slat armor','PLAIN DOWN',0.5];
 };
 private _exitCamo = FALSE;
 _camonetArmor_anims = ['showcamonethull','showcamonetcannon','showcamonetcannon1','showcamonetturret','showcamonetplates1','showcamonetplates2'];

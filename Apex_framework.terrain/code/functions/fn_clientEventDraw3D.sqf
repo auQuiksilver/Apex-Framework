@@ -107,7 +107,7 @@ if (_player getUnitTrait 'medic') then {
 						(if (_vehicle isKindOf 'CAManBase') then {(format ['%1 (%2m)',(name _unit),(ceil _distance)])} else {''}),
 						1,
 						0.03,
-						'RobotoCondensedBold',
+						_font,
 						'center',
 						TRUE
 					];
@@ -152,20 +152,41 @@ if (!isStreamFriendlyUIEnabled) then {
 	if (!isNull _cameraOn) then {
 		if ('ItemGPS' in (assignedItems _player)) then {
 			{
-				drawIcon3D [
-					'a3\ui_f\data\igui\cfg\cursors\select_ca.paa',
-					[0,125,255,([1,0.5] select ((getPlayerChannel _x) isEqualTo -1))],
-					(if (isNull (objectParent _x)) then {(_x modelToWorldVisual (_x selectionPosition 'Spine3'))} else {((objectParent _x) modelToWorldVisual [0,0,0])}),
-					0.5,
-					0.5,
-					0,
-					'',
-					0,
-					0,
-					'RobotoCondensedBold',
-					'right',
-					FALSE
-				];
+				if ((_player isEqualTo (leader (group _player))) && (_x in (groupSelectedUnits _player))) then {
+					private _teamID = 0;
+					if (!isNil {assignedTeam _x}) then {
+						_teamID = (['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _x)) max 0;
+					};
+					drawIcon3D [
+						'a3\ui_f\data\igui\cfg\cursors\select_ca.paa',
+						([([0,125,255,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))]),[1,0,0,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],[0,1,0.5,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],[0,0.5,1,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],[1,1,0,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))]] select _teamID),
+						(if (isNull (objectParent _x)) then {(_x modelToWorldVisual (_x selectionPosition 'Spine3'))} else {((objectParent _x) modelToWorldVisual [0,0,0])}),
+						0.7,
+						0.7,
+						0,
+						(['',(format ['%1',((((units _player) find _x) + 1) max 1)])] select (isNull (objectParent _x))),
+						1,
+						0.03,
+						_font,
+						'center',
+						FALSE
+					];
+				} else {
+					drawIcon3D [
+						'a3\ui_f\data\igui\cfg\cursors\select_ca.paa',
+						[0,125,255,([1,0.5] select ((getPlayerChannel _x) isEqualTo -1))],
+						(if (isNull (objectParent _x)) then {(_x modelToWorldVisual (_x selectionPosition 'Spine3'))} else {((objectParent _x) modelToWorldVisual [0,0,0])}),
+						0.5,
+						0.5,
+						0,
+						'',
+						0,
+						0,
+						'',
+						'center',
+						FALSE
+					];
+				};
 				if (_x isEqualTo (leader _player)) then {
 					drawIcon3D [
 						'a3\ui_f\data\igui\cfg\cursors\leader_ca.paa',
@@ -175,10 +196,10 @@ if (!isStreamFriendlyUIEnabled) then {
 						0.5,
 						0,
 						'',
+						1,
 						0,
-						0,
-						'RobotoCondensedBold',
-						'right',
+						'',
+						'center',
 						TRUE
 					];
 				};
@@ -219,7 +240,7 @@ if (!isStreamFriendlyUIEnabled) then {
 										_unitName,
 										2,
 										0.025,
-										'RobotoCondensedBold',
+										_font,
 										'right',
 										FALSE
 									];
@@ -285,7 +306,7 @@ if (!isStreamFriendlyUIEnabled) then {
 									_unitName,
 									2,
 									0.03,
-									'RobotoCondensedBold',
+									_font,
 									'right',
 									FALSE
 								];

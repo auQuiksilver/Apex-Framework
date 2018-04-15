@@ -70,9 +70,6 @@ if (_type isEqualTo 'ADMIN') then {
 	];
 };
 
-
-
-
 //================================================== MODERATOR IDS/*/
 if (_type isEqualTo 'MODERATOR') then {
 	/*/ Moderator IDs - remove ID from ADMIN IDs/*/
@@ -81,9 +78,6 @@ if (_type isEqualTo 'MODERATOR') then {
 		'76561100000000000'
 	];
 };
-
-
-
 
 //================================================== TRUSTED NON-STAFF IDS/*/
 if (_type isEqualTo 'TRUSTED') then {
@@ -94,9 +88,6 @@ if (_type isEqualTo 'TRUSTED') then {
 	];
 };
 
-
-
-
 //================================================== MEDIA IDS/*/
 if (_type isEqualTo 'MEDIA') then {
 	/*/ Media. These IDs will have access to a limited Splendid Camera (which is normally only availabe to Developers), but no other options. May be required to be in 'ALL' first./*/
@@ -106,9 +97,6 @@ if (_type isEqualTo 'MEDIA') then {
 	];
 };
 
-
-
-
 //================================================== ZEUS IDs/*/
 if (_type isEqualTo 'CURATOR') then {
 	/*/Zeus. These IDs have access to Zeus and mission curation functionality. They can suspend side missions and main missions, and cycle main missions (this is done on "air defense laptop" at base)./*/
@@ -117,9 +105,6 @@ if (_type isEqualTo 'CURATOR') then {
 		'76561100000000000'
 	];
 };
-
-
-
 
 //================================================== DEVELOPER IDS/*/
 if (_type isEqualTo 'DEVELOPER') then {

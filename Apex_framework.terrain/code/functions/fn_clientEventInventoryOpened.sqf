@@ -14,6 +14,9 @@ Description:
 ___________________________________________________________________*/
 
 params ['_unit','_inventory','_inventory2'];
+if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {
+	missionNamespace setVariable ['QS_client_triggerGearCheck',TRUE,FALSE];
+};
 private _c = FALSE;
 private _isBackpack = getNumber (configFile >> 'CfgVehicles' >> (typeOf _inventory) >> 'isBackpack');
 [_unit,_inventory,_isBackpack] spawn {

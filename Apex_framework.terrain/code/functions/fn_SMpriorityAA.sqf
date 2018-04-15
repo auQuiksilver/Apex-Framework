@@ -160,7 +160,7 @@ comment 'Configure assets';
 			{
 				params ['_vehicle','','_damage','','','_hitPartIndex','',''];
 				_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
-				_damage = _oldDamage + (_damage - _oldDamage) * 0.333;
+				_damage = _oldDamage + (_damage - _oldDamage) * 0.5;
 				_damage;
 			}
 		];

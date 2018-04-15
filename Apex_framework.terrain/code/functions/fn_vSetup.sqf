@@ -562,9 +562,9 @@ if (!(_isSimpleObject)) then {
 			];
 		};
 	};
+	_u setVehicleReportRemoteTargets (_u isKindOf 'i_lt_01_scout_f');
 	if (_u isKindOf 'Air') then {
-		_u setVehicleReceiveRemoteTargets FALSE;
-		_u setVehicleReportRemoteTargets FALSE;
+		_u setVehicleReceiveRemoteTargets TRUE;
 		_u setVehicleReportOwnPosition TRUE;
 		[_u,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		['setFeatureType',_u,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_u];

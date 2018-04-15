@@ -13,7 +13,6 @@ Description:
 	Enemy reinforce AO
 __________________________________________________/*/
 
-'Spawning reinforcement vehicle' remoteExec ['systemChat',-2];
 params ['_pos'];
 private [
 	'_base','_foundSpawnPos','_spawnPosDefault','_reinforceGroup','_infTypes','_infType','_destination','_count','_wp','_ticker','_playerSelected','_arr','_playerPos',

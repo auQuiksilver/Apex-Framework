@@ -13,14 +13,10 @@ Description:
 
 _______________________________________________________/*/
 
-_type = _this select 0;
+params ['_type'];
 if (_type isEqualTo 0) then {
-	if (!isServer) exitWith {};
 	if (!isDedicated) exitWith {};
-	private ['_client','_logicGrp','_module','_puid','_cid'];
-	_client = _this select 1;
-	_puid = _this select 2;
-	_cid = _this select 3;
+	params ['','_client','_puid','_cid'];
 	if (!isNull (getAssignedCuratorLogic _client)) exitWith {diag_log '***** CURATOR ***** Client already has curator module assigned *****';};
 	_logicGrp = createGroup [sideLogic,TRUE];
 	_logicGrp setVariable ['isCuratorModuleGroup',TRUE,TRUE];
@@ -34,6 +30,7 @@ if (_type isEqualTo 0) then {
 	_module allowDamage FALSE;
 	_module enableStamina FALSE;
 	_module enableFatigue FALSE;
+	_module disableAI 'ALL';
 	_module addCuratorPoints 1;
 	_module setVehicleVarName (format ['%1',(name _client)]);
 	{
@@ -57,8 +54,7 @@ if (_type isEqualTo 0) then {
 		if ((getAssignedCuratorUnit _module) isEqualTo _client) exitWith {
 			[1,_module] remoteExec ['QS_fnc_initCurator',_cid,FALSE];
 		};
-		if (isNull _module) exitWith {};
-		if (isNull _client) exitWith {};
+		if ((isNull _module) || (isNull _client)) exitWith {};
 		sleep 2;
 	};
 	_module addEventHandler [
@@ -127,8 +123,7 @@ if (_type isEqualTo 0) then {
 	diag_log format ['***** CURATOR ***** Module created for %1 ( %2 ) *****',(name _client),_puid];
 };
 if (_type isEqualTo 1) then {
-	if (isServer) exitWith {};
-	if (!hasInterface) exitWith {};
+	if (isServer || !hasInterface) exitWith {};
 	_module = getAssignedCuratorLogic player;
 	if (!isNull _module) then {
 		[_module,'Init'] call (missionNamespace getVariable 'BIS_fnc_moduleInit');
@@ -170,6 +165,7 @@ if (_type isEqualTo 1) then {
 			['QS_curator_modules',[],TRUE],
 			['QS_curator_markers',[],TRUE]
 		];
+		_module disableAI 'ALL';
 		private _actionID = -1;
 		if (!isNil {missionNamespace getVariable 'QS_airdefense_laptop'}) then {
 			if (!isNull (missionNamespace getVariable 'QS_airdefense_laptop')) then {
@@ -203,7 +199,7 @@ if (_type isEqualTo 1) then {
 					TRUE,
 					'',
 					'(!isNull (getAssignedCuratorLogic player))',
-					4,
+					5,
 					FALSE
 				];
 				_laptop setUserActionText [_actionID,((_laptop actionParams _actionID) select 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID) select 0)])];
@@ -248,7 +244,7 @@ if (_type isEqualTo 1) then {
 					TRUE,
 					'',
 					'(!isNull (getAssignedCuratorLogic player))',
-					4,
+					5,
 					FALSE
 				];
 				_laptop setUserActionText [_actionID2,((_laptop actionParams _actionID2) select 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID2) select 0)])];
@@ -288,7 +284,7 @@ if (_type isEqualTo 1) then {
 					TRUE,
 					'',
 					'(!isNull (getAssignedCuratorLogic player))',
-					4,
+					5,
 					FALSE
 				];
 				_laptop setUserActionText [_actionID3,((_laptop actionParams _actionID3) select 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID3) select 0)])];

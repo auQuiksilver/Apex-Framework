@@ -176,7 +176,9 @@ _jetPilot addEventHandler [
 		{
 			params ['_jet','_killer'];
 			_jet removeAllEventHandlers 'Hit';
-			['EnemyJetDown',['Enemy plane is down!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			if (!isNull _killer) then {
+				['EnemyJetDown',['Enemy plane is down!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			};
 		}
 	],
 	[

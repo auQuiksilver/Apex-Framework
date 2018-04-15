@@ -1,5 +1,33 @@
 Official change log
 
+1.0.8 "Hotfix"
+
+- [ADDED] Documentation file for Arsenal + Gear Restrictions.
+- [TWEAKED] Arsenal system.
+- [TWEAKED] Gear Restrictions system.
+- [TWEAKED] 3D HUD icons better integration with Teams + Commanding.
+- [TWEAKED] 2D map font reverted from TahomaB to RobotoCondensed
+- [TWEAKED] Enemy less likely to spawn T140K at low server population.
+- [TWEAKED] Removed AT Offroad from easter egg vehicle spawning, as it was spawning underground (BIS has not configured it for simple object yet).
+- [TWEAKED] Datalink system. (Nyx Recon should be more effective).
+- [TWEAKED] Ambient hostility tweaks.
+- [TWEAKED] AA Battery hulls made slightly less durable.
+- [TWEAKED] Min FPS threshold to ambient hostility module.
+- [TWEAKED] Ambient Hostility enabled only when Mission type is "Sector Control" or "Classic".
+- [TWEAKED] Sector control sites are spawning too close to map structures.
+- [FIXED] Recycled AI were invincible.
+- [FIXED] Ambient hostility should avoid some areas (base, fob, AO, side mission).
+- [FIXED] Some vehicle-related user interactions were not working (arma game change).
+- [FIXED] Removed debug line from reinforcement vehicle spawn script.
+- [FIXED] Commander could give orders to unrecruited recruitable AI at base.
+- [FIXED] Small internal bug with AI recycler.
+- [FIXED] Incorrect failure message in Kavala mission.
+- [FIXED] small AI-related Script error.
+- [FIXED] Player killed while in ambulance causes medical revive glitches.
+- [FIXED] Vehicle Service & slat armor can be applied from any distance.
+- [FIXED] Commander could control drones owned by UAV operator.
+- [FIXED] Enemy indirect fire (mortars,arty) was adversely affected by Dynamic Simulation system.
+
 1.0.7 "Tanks" (ArmA 3 1.82) 11/04/2018
 
 [ADDED] Interaction to deploy/retract armored vehicle Camo Nets.

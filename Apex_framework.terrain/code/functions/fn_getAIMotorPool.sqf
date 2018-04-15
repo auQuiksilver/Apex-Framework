@@ -87,7 +87,7 @@ if (_case isEqualTo 0) exitWith {
 	// Classic AO - armed
 	_return = [
 		[
-			'o_mbt_04_command_f',_tank_modifier * _p_1,
+			'o_mbt_04_command_f',_tank_modifier * _p_0,
 			'o_mbt_04_cannon_f',_tank_modifier * _p_1,
 			'o_mbt_02_cannon_f',_tank_modifier * _p_1,
 			'i_mbt_03_cannon_f',_tank_modifier * _p_1,
@@ -112,7 +112,7 @@ if (_case isEqualTo 0) exitWith {
 			'i_c_offroad_02_lmg_f',_p_1
 		],
 		[
-			'o_t_mbt_04_command_f',_tank_modifier * _p_1,
+			'o_t_mbt_04_command_f',_tank_modifier * _p_0,
 			'o_t_mbt_04_cannon_f',_tank_modifier * _p_1,
 			'o_t_mbt_02_cannon_ghex_f',_tank_modifier * _p_1,
 			'i_mbt_03_cannon_f',_tank_modifier * _p_1,
@@ -359,7 +359,7 @@ if (_case isEqualTo 1) exitWith {
 	// SC AO - armed
 	_return = [
 		[
-			'o_mbt_04_command_f',_tank_modifier * _p_1,
+			'o_mbt_04_command_f',_tank_modifier * _p_0,
 			'o_mbt_04_cannon_f',_tank_modifier * _p_1,
 			'o_mbt_02_cannon_f',_tank_modifier * _p_1,
 			'i_mbt_03_cannon_f',_tank_modifier * _p_1,
@@ -384,7 +384,7 @@ if (_case isEqualTo 1) exitWith {
 			'i_c_offroad_02_lmg_f',_p_1
 		],
 		[
-			'o_t_mbt_04_command_f',_tank_modifier * _p_1,
+			'o_t_mbt_04_command_f',_tank_modifier * _p_0,
 			'o_t_mbt_04_cannon_f',_tank_modifier * _p_1,
 			'o_t_mbt_02_cannon_ghex_f',_tank_modifier * _p_1,
 			'i_mbt_03_cannon_f',_tank_modifier * _p_1,

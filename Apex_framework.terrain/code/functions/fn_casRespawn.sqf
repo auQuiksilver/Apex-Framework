@@ -255,10 +255,8 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 	_casJet setVariable ['QS_ropeAttached',FALSE,TRUE];
 	_casJet lock 0;
 	_casJet setVehicleReportRemoteTargets FALSE;
-	if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
-		_casJet setVehicleReceiveRemoteTargets (!(missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]));
-		_casJet setVehicleReportOwnPosition (!(missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]));
-	};
+	_casJet setVehicleReceiveRemoteTargets (!(missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]));
+	_casJet setVehicleReportOwnPosition (!(missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]));
 	[_casJet,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 	_casJet addMPEventHandler [
 		'MPKilled',

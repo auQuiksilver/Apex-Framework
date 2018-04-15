@@ -355,7 +355,7 @@ private _QS_module_civilian_houseCoef = 2;
 private _QS_module_civilian_houseCount = 0;
 comment 'Manage ambient hostility';
 
-private _QS_module_ambientHostility = _true;
+private _QS_module_ambientHostility = _true && ((missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) in ['CLASSIC','SC']);
 private _QS_module_ambientHostility_delay = 30;
 private _QS_module_ambientHostility_checkDelay = _QS_uiTime + _QS_module_ambientHostility_delay;
 private _QS_module_ambientHostility_cooldown = -1;
@@ -1477,45 +1477,38 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					} forEach _QS_module_ambientHostility_entities;
 				};
-				if (_QS_uiTime > _QS_module_ambientHostility_graceTime) then {
-					if (_QS_uiTime > _QS_module_ambientHostility_duration) then {
-						_QS_module_ambientHostility_inProgress = _false;
-						_QS_module_ambientHostility_cooldown = _QS_uiTime + (random 600);
-						{
-							if (alive _x) then {
-								(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
-							};
-						} forEach _QS_module_ambientHostility_entities;
-					};
+				if (_QS_uiTime > _QS_module_ambientHostility_duration) then {
 					{
-						if (([(getPosATL _x),1100,_friendlySides,_QS_allUnits,0] call _fn_serverDetector) isEqualTo []) then {
+						if (([(getPosATL _x),1000,_friendlySides,_QS_allUnits,0] call _fn_serverDetector) isEqualTo []) then {
 							deleteVehicle _x;
 						};
 					} forEach _QS_module_ambientHostility_entities;
 				};
 			} else {
-				if (_QS_uiTime > _QS_module_ambientHostility_cooldown) then {
-					_QS_module_ambientHostility_validTargets = _QS_allUnits select { ((side (group _x)) isEqualTo _west) };
-					if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {
-						_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((_x distance2D _basePosition) > 1000) && ((_x distance2D (missionNamespace getVariable 'QS_aoPos')) > 800) && ((lifeState _x) in ['HEALTHY','INJURED']) };
+				if (_QS_diag_fps > 12) then {
+					if (_QS_uiTime > _QS_module_ambientHostility_cooldown) then {
+						_QS_module_ambientHostility_validTargets = _QS_allUnits select { ((side (group _x)) isEqualTo _west) };
 						if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {
-							_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((((vehicle _x) isKindOf 'LandVehicle') || {((vehicle _x) isKindOf 'CAManBase')}) && (isTouchingGround (vehicle _x))) };
+							_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((_x distance2D _basePosition) > 1000) && ((_x distance2D (missionNamespace getVariable 'QS_aoPos')) > 800) && ((lifeState _x) in ['HEALTHY','INJURED']) };
 							if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {
-								_QS_module_ambientHostility_graceTime = _QS_uiTime + 60;
-								_QS_module_ambientHostility_duration = _QS_uiTime + (random [480,600,720]);
-								_QS_module_ambientHostility_target = selectRandom _QS_module_ambientHostility_validTargets;
-								_QS_module_ambientHostility_position = getPosATL _QS_module_ambientHostility_target;
-								_QS_module_ambientHostility_nearbyCount = count (_QS_module_ambientHostility_validTargets inAreaArray [_QS_module_ambientHostility_position,100,100,0,_false,-1]);
-								if (!(_QS_module_ambientHostility_entities isEqualTo [])) then {
-									{
-										if (alive _x) then {
-											deleteVehicle _x;
-										};
-									} forEach _QS_module_ambientHostility_entities;
-									_QS_module_ambientHostility_entities = [];
+								_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((((vehicle _x) isKindOf 'LandVehicle') || {((vehicle _x) isKindOf 'CAManBase')}) && (isTouchingGround (vehicle _x))) };
+								if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {
+									_QS_module_ambientHostility_graceTime = _QS_uiTime + 60;
+									_QS_module_ambientHostility_duration = _QS_uiTime + (random [480,600,720]);
+									_QS_module_ambientHostility_target = selectRandom _QS_module_ambientHostility_validTargets;
+									_QS_module_ambientHostility_position = getPosATL _QS_module_ambientHostility_target;
+									_QS_module_ambientHostility_nearbyCount = count (_QS_module_ambientHostility_validTargets inAreaArray [_QS_module_ambientHostility_position,100,100,0,_false,-1]);
+									if (!(_QS_module_ambientHostility_entities isEqualTo [])) then {
+										{
+											if (alive _x) then {
+												deleteVehicle _x;
+											};
+										} forEach _QS_module_ambientHostility_entities;
+										_QS_module_ambientHostility_entities = [];
+									};
+									_QS_module_ambientHostility_entities = [0,_QS_module_ambientHostility_target,_QS_module_ambientHostility_nearbyCount] call _fn_ambientHostility;
+									_QS_module_ambientHostility_inProgress = !(_QS_module_ambientHostility_entities isEqualTo []);
 								};
-								_QS_module_ambientHostility_entities = [0,_QS_module_ambientHostility_target,_QS_module_ambientHostility_nearbyCount] call _fn_ambientHostility;
-								_QS_module_ambientHostility_inProgress = !(_QS_module_ambientHostility_entities isEqualTo []);
 							};
 						};
 					};

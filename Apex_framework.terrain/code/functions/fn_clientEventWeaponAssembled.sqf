@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	19/01/2018 A3 1.80 by Quiksilver
+	14/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -61,6 +61,12 @@ params ['_player','_weapon'];
 				if (unitIsUAV _weapon) then {
 					_weapon setVehicleReportRemoteTargets FALSE;
 					_weapon setVehicleReceiveRemoteTargets FALSE;
+					_weapon spawn {
+						uiSleep 1;
+						if (!((crew _this) isEqualTo [])) then {
+							(group (driver _this)) setVariable ['QS_HComm_grp',FALSE,TRUE];
+						};
+					};
 					player setVariable [
 						'QS_client_assembledWeapons',
 						((player getVariable 'QS_client_assembledWeapons') + [_weapon]),

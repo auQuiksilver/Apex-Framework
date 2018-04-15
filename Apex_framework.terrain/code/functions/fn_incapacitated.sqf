@@ -214,6 +214,7 @@ if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) exitWith {
 private _initialAnimSet = FALSE;
 private _initialAnimDelay = _tickTimeNow + 8;
 private _chatShown = shownChat;
+private _ambulanceDelay = _tickTimeNow + 5;
 comment 'Functions preload';
 _fn_findHealer = missionNamespace getVariable 'QS_fnc_clientMFindHealer';
 _fn_secondsToString = missionNamespace getVariable 'QS_fnc_secondsToString';
@@ -307,61 +308,50 @@ for '_x' from 0 to 1 step 0 do {
 		};
 	};
 	comment 'Underwater';
-	if (((getPosASL _unit) select 2) < -1.5) then {
-		['systemChat',(format ['%1 drowned',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-		_forceRespawned = TRUE;
+	if (_tickTimeNow > _ambulanceDelay) then {
+		if (((getPosASL _unit) select 2) < -1.5) then {
+			['systemChat',(format ['%1 drowned',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			_forceRespawned = TRUE;
+		};
 	};
 	if (_forceRespawned) exitWith {
 		forceRespawn _unit;
 	};
 	comment 'Is at medevac HQ';
-	if (((_unit distance2D _medevacBase) < 4) || {([0,_unit] call _fn_isNearFieldHospital)}) then {
-		if (isNull _objectParent) then {
-			if (isNull _attachedTo) then {
-				if (_lifeState isEqualTo 'INCAPACITATED') then {
-					if ([0,_unit] call _fn_isNearFieldHospital) then {
-						if (_tickTimeNow > (_unit getVariable ['QS_client_revivedAtHospital',-1])) then {
-							50 cutText ['Revived at field hospital','PLAIN DOWN',0.5];
-							_unit setVariable ['QS_client_revivedAtHospital',(_tickTimeNow + 900),FALSE];
+	if (_tickTimeNow > _ambulanceDelay) then {
+		if (((_unit distance2D _medevacBase) < 4) || {([0,_unit] call _fn_isNearFieldHospital)}) then {
+			if (isNull _objectParent) then {
+				if (isNull _attachedTo) then {
+					if (_lifeState isEqualTo 'INCAPACITATED') then {
+						if ([0,_unit] call _fn_isNearFieldHospital) then {
+							if (_tickTimeNow > (_unit getVariable ['QS_client_revivedAtHospital',-1])) then {
+								50 cutText ['Revived at field hospital','PLAIN DOWN',0.5];
+								_unit setVariable ['QS_client_revivedAtHospital',(_tickTimeNow + 900),FALSE];
+								_unit setUnconscious FALSE;
+								if (captive _unit) then {
+									_unit setCaptive FALSE;
+								};
+							};
+						} else {
 							_unit setUnconscious FALSE;
 							if (captive _unit) then {
 								_unit setCaptive FALSE;
 							};
+							[34,['ST_MEDEVAC',['Medevac Complete',(format ['%1 medevac<br/>successfully completed!',profileName])]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
 						};
-					} else {
-						_unit setUnconscious FALSE;
-						if (captive _unit) then {
-							_unit setCaptive FALSE;
-						};
-						[34,['ST_MEDEVAC',['Medevac Complete',(format ['%1 medevac<br/>successfully completed!',profileName])]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
 					};
 				};
 			};
 		};
 	};
 	comment 'Is in medical vehicle';
-	if (!(_unit getVariable ['QS_revive_disable',FALSE])) then {
-		if (!(_revivedAtVehicle)) then {
-			if (!isNull _objectParent) then {
-				if ((['medical',(typeOf _vehicle),FALSE] call _fn_inString) || {(['medevac',(typeOf _vehicle),FALSE] call _fn_inString)}) then {
-					if (isNil {_vehicle getVariable 'QS_medicalVehicle_reviveTickets'}) then {
-						_revivedAtVehicle = TRUE;
-						if (_lifeState isEqualTo 'INCAPACITATED') then {
-							_unit setUnconscious FALSE;
-						};
-						if (captive _unit) then {
-							_unit setCaptive FALSE;
-						};
-						if (_unit getVariable ['QS_RD_loaded',FALSE]) then {
-							_unit setVariable ['QS_RD_loaded',FALSE,TRUE];
-						};
-						_remainingTickets = (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'transportSoldier')) - 1;
-						_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-						_textReviveTickets = format ['%1 ( %2 ) - Revive Tickets Remaining - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
-						['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-					} else {
-						if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') isEqualType 0) then {
-							if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') > 0) then {
+	if (_tickTimeNow > _ambulanceDelay) then {
+		if (!(_unit getVariable ['QS_revive_disable',FALSE])) then {
+			if (!(_revivedAtVehicle)) then {
+				if (!isNull _objectParent) then {
+					if ((['medical',(typeOf _vehicle),FALSE] call _fn_inString) || {(['medevac',(typeOf _vehicle),FALSE] call _fn_inString)}) then {
+						if (!(_unit isEqualTo (driver _vehicle))) then {
+							if (isNil {_vehicle getVariable 'QS_medicalVehicle_reviveTickets'}) then {
 								_revivedAtVehicle = TRUE;
 								if (_lifeState isEqualTo 'INCAPACITATED') then {
 									_unit setUnconscious FALSE;
@@ -372,10 +362,29 @@ for '_x' from 0 to 1 step 0 do {
 								if (_unit getVariable ['QS_RD_loaded',FALSE]) then {
 									_unit setVariable ['QS_RD_loaded',FALSE,TRUE];
 								};
-								_remainingTickets = (_vehicle getVariable 'QS_medicalVehicle_reviveTickets') - 1;
+								_remainingTickets = (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'transportSoldier')) - 1;
 								_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
 								_textReviveTickets = format ['%1 ( %2 ) - Revive Tickets Remaining - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
 								['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+							} else {
+								if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') isEqualType 0) then {
+									if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') > 0) then {
+										_revivedAtVehicle = TRUE;
+										if (_lifeState isEqualTo 'INCAPACITATED') then {
+											_unit setUnconscious FALSE;
+										};
+										if (captive _unit) then {
+											_unit setCaptive FALSE;
+										};
+										if (_unit getVariable ['QS_RD_loaded',FALSE]) then {
+											_unit setVariable ['QS_RD_loaded',FALSE,TRUE];
+										};
+										_remainingTickets = (_vehicle getVariable 'QS_medicalVehicle_reviveTickets') - 1;
+										_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
+										_textReviveTickets = format ['%1 ( %2 ) - Revive Tickets Remaining - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
+										['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+									};
+								};
 							};
 						};
 					};
