@@ -1,7 +1,11 @@
 # Apex Framework 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Apex Framework 1.0.8 by Quiksilver       (armacombatgroup@gmail.com)
+=======
+Apex Framework 1.0.7 "Tanks" by Quiksilver       (armacombatgroup@gmail.com)
+>>>>>>> 564dffd5e3bb3430bd7fc507eaff2540ac57ba6f
 =======
 Apex Framework 1.0.7 "Tanks" by Quiksilver       (armacombatgroup@gmail.com)
 >>>>>>> 564dffd5e3bb3430bd7fc507eaff2540ac57ba6f
@@ -22,7 +26,11 @@ Apex Framework step-by-step setup guide:
 _______________
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 0. Download the "Apex_framework_108_allFiles.zip" file.
+=======
+0. Download the "Apex_framework_107_allFiles.zip" file.
+>>>>>>> 564dffd5e3bb3430bd7fc507eaff2540ac57ba6f
 =======
 0. Download the "Apex_framework_107_allFiles.zip" file.
 >>>>>>> 564dffd5e3bb3430bd7fc507eaff2540ac57ba6f
@@ -62,11 +70,19 @@ class Missions {
 class apex_framework {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 template="Apex_framework_108.Altis";
 
 //template="Apex_framework_108.Tanoa";
 
 //template="Apex_framework_108.Malden";
+=======
+template="Apex_framework_107.Altis";
+
+//template="Apex_framework_107.Tanoa";
+
+//template="Apex_framework_107.Malden";
+>>>>>>> 564dffd5e3bb3430bd7fc507eaff2540ac57ba6f
 =======
 template="Apex_framework_107.Altis";
 
@@ -84,7 +100,11 @@ difficulty="Custom";
 forcedDifficulty = "Custom";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 missionWhitelist[] = {"Apex_framework_108.Altis","Apex_framework_108.Tanoa","Apex_framework_108.Malden"};
+=======
+missionWhitelist[] = {"Apex_framework_107.Altis","Apex_framework_107.Tanoa","Apex_framework_107.Malden"};
+>>>>>>> 564dffd5e3bb3430bd7fc507eaff2540ac57ba6f
 =======
 missionWhitelist[] = {"Apex_framework_107.Altis","Apex_framework_107.Tanoa","Apex_framework_107.Malden"};
 >>>>>>> 564dffd5e3bb3430bd7fc507eaff2540ac57ba6f
