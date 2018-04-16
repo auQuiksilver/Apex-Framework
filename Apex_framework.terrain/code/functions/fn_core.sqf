@@ -1206,6 +1206,7 @@ _fn_sunriseSunsetTime = missionNamespace getVariable 'BIS_fnc_sunriseSunsetTime'
 _fn_setUnitInsignia = missionNamespace getVariable 'BIS_fnc_setUnitInsignia';
 _fn_setTask = missionNamespace getVariable 'BIS_fnc_setTask';
 _fn_taskSetState = missionNamespace getVariable 'BIS_fnc_taskSetState';
+_fn_attachToRelative = missionNamespace getVariable 'BIS_fnc_attachToRelative';
 _fn_aoPrepare = missionNamespace getVariable 'QS_fnc_aoPrepare';
 _fn_artillery = missionNamespace getVariable 'QS_fnc_artillery';
 _fn_aoFires = missionNamespace getVariable 'QS_fnc_aoFires';
@@ -2882,14 +2883,15 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_v = vehicle _unit;
 					if (!(_QS_v in _HVT_currentTargets)) then {
 						if ((_QS_v isKindOf 'Tank') || {(_QS_v isKindOf 'Wheeled_APC_F')}) then {
-							if ((_east knowsAbout _QS_v) > 0) then {
+							if ((_east knowsAbout _QS_v) > 1) then {
 								if (!([_QS_v] call _HVT_fn_isStealthy)) then {
 									if ((_QS_v distance2D _baseMarker) > 1000) then {
 										_HVT_currentTargets pushBack _QS_v;
 										_HVT_laserTarget = createVehicle ['LaserTargetE',[0,0,0],[],0,'NONE'];
 										missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),_false];
-										_HVT_laserTarget allowDamage _false;
-										_HVT_laserTarget attachTo [_QS_v,[0,2,0.25]];
+										_HVT_laserTarget allowDamage _true;
+										_HVT_laserTarget setPosASL (AGLToASL (_QS_v getRelPos [(40 * (sqrt (random 1))),(random 360)]));
+										[_HVT_laserTarget,_QS_v,_false] call _fn_attachToRelative;
 										_HVT_laserTarget hideObjectGlobal _true;
 										_HVT_laserTargets pushBack _HVT_laserTarget;
 										uiSleep 0.25;
@@ -2921,9 +2923,27 @@ for '_x' from 0 to 1 step 0 do {
 									_HVT_removeFrom = _true;
 								};
 							} else {
-								if ((_east knowsAbout _QS_v) isEqualTo 0) then {
+								if ((_east knowsAbout _QS_v) < 1) then {
 									if (!(_HVT_removeFrom)) then {
 										_HVT_removeFrom = _true;
+									};
+								} else {
+									if (((attachedObjects _QS_v) findIf {(_x isKindOf 'LaserTargetE')}) isEqualTo -1) then {
+										if (!(_HVT_removeFrom)) then {
+											_HVT_removeFrom = _true;
+										};
+									} else {
+										if (!isTouchingGround _QS_v) then {
+											if (!(_HVT_removeFrom)) then {
+												_HVT_removeFrom = _true;
+											};
+										} else {
+											if (!canMove _QS_v) then {
+												if (!(_HVT_removeFrom)) then {
+													_HVT_removeFrom = _true;
+												};
+											};
+										};
 									};
 								};
 							};
