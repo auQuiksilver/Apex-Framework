@@ -1196,7 +1196,8 @@ for '_x' from 0 to 1 step 0 do {
 		_QS_missionSuccessRate = (_QS_priorMissionStatistics_completions / _QS_missionAttempts) * 100;
 		_text = parseText format ['P.O.W. Rescue Mission Statistics: <br/>Attempts: %2<br/>Successful Completions: %1<br/>Success Rate: %3 percent',_QS_priorMissionStatistics_completions,_QS_missionAttempts,(round _QS_missionSuccessRate)];
 		['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-		moveOut _QS_POW;
+		//moveOut _QS_POW;	// https://feedback.bistudio.com/T128186
+		[90,_QS_POW,0] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',
 			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),

@@ -749,7 +749,7 @@ _QS_module_fuelConsumption_rpmRed = 0;
 _QS_module_fuelConsumption_rpmDiff = 0;
 _QS_module_fuelConsumption_rpmFactor = 0;
 _QS_module_fuelConsumption_useRPMFactor = FALSE;
-/*/===================== Gear manager module/*/;
+/*/===================== Gear manager module/*/
 _QS_module_gearManager = ((missionNamespace getVariable ['QS_missionConfig_gearRestrictions',1]) isEqualTo 1) && (!((missionNamespace getVariable ['QS_missionConfig_Arsenal',1]) isEqualTo 0));
 _arsenalType = missionNamespace getVariable ['QS_missionConfig_Arsenal',1];
 _arsenalData = call (missionNamespace getVariable 'QS_data_arsenal');

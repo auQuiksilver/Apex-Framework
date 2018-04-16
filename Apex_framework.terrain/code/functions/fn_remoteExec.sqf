@@ -92,26 +92,13 @@ if (_case < 10) exitWith {
 	};
 	/*/pow/*/
 	if (_case isEqualTo 2) then {
-		private ['_unit'];
-		_unit = _this select 1;
-		if (isMultiplayer) then {
-			if (local _unit) then {
-				unassignVehicle _unit;
-				moveOut _unit;
-				_unit disableAI 'PATH';
-				_unit disableAI 'MOVE';
-				_unit disableAI 'FSM';
-				_unit disableAI 'TEAMSWITCH';
-			};
-		} else {
-			if (isServer) then {
-				unassignVehicle _unit;
-				moveOut _unit;
-				_unit disableAI 'PATH';
-				_unit disableAI 'MOVE';
-				_unit disableAI 'FSM';
-				_unit disableAI 'TEAMSWITCH';
-			};
+		params ['','_unit'];
+		if (local _unit) then {
+			unassignVehicle _unit;
+			_unit disableAI 'PATH';
+			_unit disableAI 'MOVE';
+			_unit disableAI 'FSM';
+			_unit disableAI 'TEAMSWITCH';
 		};
 	};
 	/*/Load unit into vehicle/*/
@@ -1819,7 +1806,24 @@ if (_case < 90) exitWith {
 };
 if (_case < 100) exitWith {
 	if (_case isEqualTo 90) then {
-	
+		// https://feedback.bistudio.com/T128186
+		params ['',['_unit',objNull],['_case',0]];
+		if (alive _unit) then {
+			_objectParent = objectParent _unit;
+			if (alive _objectParent) then {
+				if (_case isEqualTo 1) then {
+					if (local _unit) then {
+						unassignVehicle _unit;
+						_unit disableAI 'MOVE';
+						_unit disableAI 'FSM';
+						_unit disableAI 'PATH';
+					};
+				};
+				if (local _objectParent) then {
+					moveOut _unit;
+				};
+			};
+		};
 	};
 	if (_case isEqualTo 91) then {
 	

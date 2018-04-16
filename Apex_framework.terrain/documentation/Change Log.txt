@@ -1,6 +1,13 @@
 Official change log
 
-1.0.8 "Hotfix"
+1.0.8 "Hotfix" (ArmA 3 1.82) 16/04/2018
+
+- [TWEAKED] Reduced effectiveness of enemy bombs against player-controlled armored vehicles.
+- [TWEAKED] Forcefully apply Guerilla camouflage to guerilla offroad vehicles (BIS has not configured them properly).
+- [FIXED] Game crash. Changed way units are unloaded from vehicles, to avoid ArmA game crash bug. Related to: https://feedback.bistudio.com/T128186
+- [FIXED] Fonts issue in 3D hud script.
+
+1.0.8 "Hotfix" (ArmA 3 1.82) 15/04/2018
 
 - [ADDED] Documentation file for Arsenal + Gear Restrictions.
 - [TWEAKED] Arsenal system.

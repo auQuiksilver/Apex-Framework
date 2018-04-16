@@ -85,7 +85,7 @@ _exit = FALSE;
 					_unit disableAI 'FSM';
 					_unit disableAI 'PATH';
 				} else {
-					0 = [2,_unit] remoteExec ['QS_fnc_remoteExec',0,FALSE];
+					0 = [90,_unit,1] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 				};
 				50 cutText [(format ['%1 unloaded',(name _unit)]),'PLAIN DOWN',0.3];
 				_unit setVariable ['QS_RD_loaded',FALSE,TRUE];
