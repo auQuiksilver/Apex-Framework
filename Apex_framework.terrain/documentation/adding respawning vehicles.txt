@@ -1,3 +1,5 @@
+* UAVs are handled within "code\functions\fn_uavOperator.sqf"
+
 1. In the editor, create a vehicle at the position and orientation you would like it to spawn, in water or on land. Note: Not suitable for aircraft carrier or elevated spawning.
 
 2. Add the below to the init field:

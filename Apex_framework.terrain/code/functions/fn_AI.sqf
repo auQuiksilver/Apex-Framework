@@ -467,7 +467,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_module_dynamicSkill) then {
 		if (_QS_uiTime > _QS_module_dynamicSkill_checkDelay) then {
 			/*/pulled from release build/*/
-			_QS_module_dynamicSkill_checkDelay = diag_tickTime + _QS_module_dynamicSkill_delay;
+			_QS_module_dynamicSkill_checkDelay = _QS_uiTime + _QS_module_dynamicSkill_delay;
 		};
 	};
 	if (_QS_module_groupBehaviors) then {

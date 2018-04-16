@@ -67,6 +67,7 @@ _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (De
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 _enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
 _commander = 2;											// [Beta] Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel, and view bodycam live feeds of any soldier.
+_sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable side missions.
 
 //===================================================== SYSTEM
 
@@ -145,6 +146,7 @@ if (!(_restart_hours isEqualTo [])) then {
 	['QS_missionConfig_reducedDamage',(compileFinal (str _reducedDamage)),TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
+	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
 	['QS_missionConfig_carrierEnabled',_aircraft_carrier_enabled,TRUE],
 	['QS_missionConfig_carrierVehicles',_aircraft_carrier_vehicles,TRUE],
 	['QS_missionConfig_carrierRespawn',_aircraft_carrier_respawning,TRUE],

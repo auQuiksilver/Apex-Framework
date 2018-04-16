@@ -65,7 +65,7 @@ private _entityEHs = [];
 private _distanceToEntity = 1000;
 private _updateEntitiesDelay = 5;
 private _updateEntitesCheckDelay = _tickTime + _updateEntitiesDelay;
-private _runDelay = 20;
+private _runDelay = 15;
 private _runCheckDelay = _tickTime + _runDelay;
 _eventKilled = {
 	params ['_entity','','',''];

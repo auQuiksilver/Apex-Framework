@@ -6,7 +6,7 @@ Author:
 
 Last modified: 
 
-	6/04/2018 A3 1.82 by Quiksilver
+	16/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -136,26 +136,23 @@ _QS_system_weekday = toLower ([_QS_missionStart,'SHORT'] call (missionNamespace 
 _aoStartDelay = 60;
 _sentencesEnabled = FALSE;
 enableSentences _sentencesEnabled;
-
-/*/==== Enemy ground reinforcement vars*/
+// The below variables are obsolete, moved to "fn_AI.sqf"
 _enemyGroundReinforce = FALSE;
 _playerThreshold = 20;
-_enemyGroundReinforceLimit = 40;											/*/ Cant have more reinforcements than this in play at one time*/
+_enemyGroundReinforceLimit = 40;
 _enemyGroundReinforceLimitReal = 0;
-_enemyGroundReinforceCap = 40;												/*/ Total to spawn*/
+_enemyGroundReinforceCap = 40;
 _enemyGroundReinforceSpawned = 0;
 _enemyGroundReinforceThreshold = 50;
-
-/*/==== Enemy vehicle reinforcement vars*/
-
 _enemyVehicleReinforcements = FALSE;
-_enemyVehicleReinforcementsLimit = 2;										/*/ Limit in play at one time*/
+_enemyVehicleReinforcementsLimit = 2;
 _enemyVehicleReinforceLimitReal = 0;
 _enemyVehicleReinforcementsSpawned = 0;
-_enemyVehicleReinforceCap = 2;												/*/ Total to spawn*/
+_enemyVehicleReinforceCap = 2;
 _enemyVehicle_canReinforce = TRUE;
 _enemyVehicleReinforceChance = 1;
 _enemyVehicleReinforceThreshold = 50;
+// The above variables are obsolete, moved to "fn_AI.sqf"
 
 /*/============================ PRIMARY AO*/
 
@@ -222,7 +219,7 @@ _scAOCount = 0;
 
 /*/============================ Primary AO small tasks/*/
 
-_QS_module_aoSmallTasks = TRUE;
+_QS_module_aoSmallTasks = (missionNamespace getVariable ['QS_missionConfig_sideMissions',1]) isEqualTo 1;
 _QS_module_aoSmallTasks_delay = 5;
 _QS_module_aoSmallTasks_checkDelay = _timeNow + _QS_module_aoSmallTasks_delay;
 _QS_module_aoSmallTasks_timeout = 1200;
@@ -279,7 +276,7 @@ _QS_module_fob_sideShownHUD_radarOFF = [TRUE,TRUE,FALSE,FALSE,TRUE,TRUE,TRUE,TRU
 
 /*/============================ SIDE MISSIONS/*/
 
-_sideMissions = TRUE;
+_sideMissions = (missionNamespace getVariable ['QS_missionConfig_sideMissions',1]) isEqualTo 1;
 _sideMissionActive = FALSE;
 _resumeScript = TRUE;
 _currentSideMission = '';
@@ -383,6 +380,9 @@ private _HVT_fn_isStealthy = {
 	};
 	_c;
 };
+private _HVT_targetingDelay = -1;
+private _HVT_isTargeting = FALSE;
+private _HVT_targetingThreshold = 16;
 _QS_heliDroneRespawnDelay = 1200;
 _QS_heliDroneRespawnCheckDelay = _timeNow + _QS_heliDroneRespawnDelay;
 
@@ -2876,6 +2876,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (_HVT_targeting_system) then {
 		if (_timeNow > _HVT_checkDelay) then {
+			_HVT_isTargeting = _false;
 			{
 				if ((alive (effectiveCommander _x)) && {((side (group (effectiveCommander _x))) isEqualTo _west)}) then {
 					_HVT_removeFrom = _false;
@@ -2886,16 +2887,24 @@ for '_x' from 0 to 1 step 0 do {
 							if ((_east knowsAbout _QS_v) > 1) then {
 								if (!([_QS_v] call _HVT_fn_isStealthy)) then {
 									if ((_QS_v distance2D _baseMarker) > 1000) then {
-										_HVT_currentTargets pushBack _QS_v;
-										_HVT_laserTarget = createVehicle ['LaserTargetE',[0,0,0],[],0,'NONE'];
-										missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),_false];
-										_HVT_laserTarget allowDamage _true;
-										_HVT_laserTarget setPosASL (AGLToASL (_QS_v getRelPos [(40 * (sqrt (random 1))),(random 360)]));
-										[_HVT_laserTarget,_QS_v,_false] call _fn_attachToRelative;
-										_HVT_laserTarget hideObjectGlobal _true;
-										_HVT_laserTargets pushBack _HVT_laserTarget;
-										uiSleep 0.25;
-										_HVT_laserTarget hideObject _false;
+										if (!(_HVT_isTargeting)) then {
+											if (_allPlayersCount >= _HVT_targetingThreshold) then {
+												if (_timeNow > _HVT_targetingDelay) then {
+													_HVT_isTargeting = _true;
+													_HVT_targetingDelay = _timeNow + (random [600,1200,2400]);
+													_HVT_currentTargets pushBack _QS_v;
+													_HVT_laserTarget = createVehicle ['LaserTargetE',[0,0,0],[],0,'NONE'];
+													missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),_false];
+													_HVT_laserTarget allowDamage _true;
+													_HVT_laserTarget setPosASL (AGLToASL (_QS_v getRelPos [(40 * (sqrt (random 1))),(random 360)]));
+													[_HVT_laserTarget,_QS_v,_false] call _fn_attachToRelative;
+													_HVT_laserTarget hideObjectGlobal _true;
+													_HVT_laserTargets pushBack _HVT_laserTarget;
+													uiSleep 0.25;
+													_HVT_laserTarget hideObject _false;
+												};
+											};
+										};
 									} else {
 										if (!(_HVT_removeFrom)) then {
 											_HVT_removeFrom = _true;

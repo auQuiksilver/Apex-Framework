@@ -24,7 +24,7 @@ Example:
 	] call QS_fnc_registerUnit;
 _____________________________________________________________________/*/
 
-if (!isDedicated) exitWith {};
+if (!isDedicated) exitWith {0};
 _this spawn {
 	waitUntil {
 		uiSleep (0.1 + (random 0.1));
@@ -53,3 +53,4 @@ _this spawn {
 	];
 	deleteVehicle _unit;
 };
+0;

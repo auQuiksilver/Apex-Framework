@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/03/2018 A3 1.82 by Quiksilver
+	16/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -161,12 +161,8 @@ _armoredvehicles = [
 	'o_mbt_04_cannon_f','o_mbt_04_command_f','o_t_mbt_04_cannon_f','o_t_mbt_04_command_f',
 	'b_afv_wheeled_01_cannon_f','b_afv_wheeled_01_up_cannon_f','b_t_afv_wheeled_01_cannon_f','b_t_afv_wheeled_01_up_cannon_f'
 ];
-_nyx = [
-	'i_lt_01_aa_f','i_lt_01_at_f','i_lt_01_scout_f','i_lt_01_cannon_f'
-];
-_angara = [
-	'o_mbt_04_cannon_f','o_mbt_04_command_f','o_t_mbt_04_cannon_f','o_t_mbt_04_command_f'
-];
+_nyx = ['i_lt_01_aa_f','i_lt_01_at_f','i_lt_01_scout_f','i_lt_01_cannon_f'];
+_angara = ['o_mbt_04_cannon_f','o_mbt_04_command_f','o_t_mbt_04_cannon_f','o_t_mbt_04_command_f'];
 _buzzard = ['i_plane_fighter_03_cas_f','i_plane_fighter_03_aa_f','i_plane_fighter_03_dynamicloadout_f','i_plane_fighter_03_cluster_f'];
 _offroadServices = [
 	'c_offroad_01_repair_f','c_van_02_service_f','b_g_offroad_01_repair_f','o_g_offroad_01_repair_f','i_g_offroad_01_repair_f'
@@ -174,7 +170,7 @@ _offroadServices = [
 _offroadPolice = [
 	'b_gen_offroad_01_gen_f','b_gen_van_02_vehicle_f','b_gen_van_02_transport_f'
 ];
-_offroad = ['o_g_offroad_01_at_f','o_g_offroad_01_armed_f','i_g_offroad_01_at_f','i_g_offroad_01_armed_f','b_g_offroad_01_at_f','b_g_offroad_01_armed_f'];
+_offroad = ['b_g_offroad_01_f','b_g_offroad_01_at_f','b_g_offroad_01_armed_f','b_g_offroad_01_repair_f','o_g_offroad_01_f','o_g_offroad_01_at_f','o_g_offroad_01_armed_f','o_g_offroad_01_repair_f','i_g_offroad_01_f','i_g_offroad_01_at_f','i_g_offroad_01_armed_f','i_g_offroad_01_repair_f'];
 
 /*/============================================= APPLY/*/
 if (_t2 in _blackVehicles) then {
@@ -314,7 +310,7 @@ if (_t2 in _offroad) then {
 	_u animateSource ['HideBackpacks',(selectRandom [0,1]),1];
 	{ 
 		_u setObjectTextureGlobal [_forEachIndex,_x]; 
-	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> (format ['Guerilla_%1',(selectRandom ['01','02','03','04','05','06','07','08','09','10','11','12'])]) >> 'textures'));
+	} forEach (getArray (configFile >> 'CfgVehicles' >> 'b_g_offroad_01_f' >> 'TextureSources' >> (format ['Guerilla_%1',(selectRandom ['01','02','03','04','05','06','07','08','09','10','11','12'])]) >> 'textures'));
 };
 if (!(_isSimpleObject)) then {
 	_u lock 0;
@@ -335,6 +331,9 @@ if (!(_isSimpleObject)) then {
 				};
 			};
 		};
+	};
+	if (_u isKindOf 'AFV_Wheeled_01_base_F') then {
+		_u animateSource ['showslathull',0,1];
 	};
 	if (_t2 in _offroadServices) then {
 		_u animate ['hidePolice',1,1];
