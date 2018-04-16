@@ -6,12 +6,12 @@ Author:
 	
 Last modified:
 
-	4/03/2018 A3 1.80 by Quiksilver
+	16/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Draw 3D Event
-__________________________________________________________________________/*/
+_________________________________________________/*/
 
 if ((!((lifeState player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 49))}) exitWith {};
 _time = diag_tickTime;
@@ -182,7 +182,7 @@ if (!isStreamFriendlyUIEnabled) then {
 						'',
 						0,
 						0,
-						'',
+						_font,
 						'center',
 						FALSE
 					];
@@ -198,7 +198,7 @@ if (!isStreamFriendlyUIEnabled) then {
 						'',
 						1,
 						0,
-						'',
+						_font,
 						'center',
 						TRUE
 					];
