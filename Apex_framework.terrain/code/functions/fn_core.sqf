@@ -3536,7 +3536,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				uiSleep 0.005;
 			};
-			if ((typeOf _missionObject) isEqualTo 'WeaponHolderSimulated') then {
+			if (_missionObjectType isEqualTo 'weaponholdersimulated') then {
 				if (!(([(getPosATL _missionObject),100,[_west,_civilian],_allPlayers,0] call _fn_serverDetector) isEqualTo [])) then {
 					0 = _missionWeaponHolderSimulated pushBack _missionObject;
 				} else {
@@ -3550,23 +3550,16 @@ for '_x' from 0 to 1 step 0 do {
 				uiSleep 0.005;
 			};
 			if (_missionObjectType in _jetJunk) then {
-				if (!(([(getPosATL _missionObject),100,[_west,_civilian],_allPlayers,0] call _fn_serverDetector) isEqualTo [])) then {
-					0 = _deleteNow pushBack _missionObject;
+				if (((vectorMagnitude (velocity _missionObject)) * 3.6) < 1) then {
+					if (((_missionObject nearEntities ['CAManBase',10]) select {((alive _x) && (isPlayer _x))}) isEqualTo []) then {
+						0 = _deleteNow pushBack _missionObject;
+					};
 				};
 			};
 			if (_missionObjectType in _chuteTypes) then {
-				if (isNil {_missionObject getVariable 'QS_cleanup_delay'}) then {
-					_missionObject setVariable ['QS_cleanup_delay',(time + 180),_false];
-				} else {
-					if (_timeNow > (_missionObject getVariable ['QS_cleanup_delay',0])) then {
-						if (!((attachedObjects _missionObject) isEqualTo [])) then {
-							{
-								detach _x;
-							} count (attachedObjects _missionObject);
-						};
-						if (((crew _missionObject) findIf {((isPlayer _x) && (alive _x))}) isEqualTo -1) then {
-							0 = _deleteNow pushBack _missionObject;
-						};
+				if (((vectorMagnitude (velocity _missionObject)) * 3.6) < 1) then {
+					if (((_missionObject nearEntities ['CAManBase',25]) select {((alive _x) && (isPlayer _x))}) isEqualTo []) then {
+						0 = _deleteNow pushBack _missionObject;
 					};
 				};
 			};
