@@ -103,6 +103,10 @@ if (isForcedWalk _unit) then {
 };
 comment 'AI Exit';
 if (!isPlayer _unit) exitWith {};
+if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) exitWith {
+	['systemChat',(format ['%1 died of unknown causes',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	_unit setDamage [1,TRUE];
+};
 showHUD [FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE];
 disableSerialization;
 scopeName 'QS_main_1';
@@ -208,9 +212,6 @@ private _forceRespawned = FALSE;
 _unit setTargetAge 'UNKNOWN';
 _unit setMimic 'hurt';
 private _exit = FALSE;
-if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) exitWith {
-	_unit setDamage [1,TRUE];
-};
 private _initialAnimSet = FALSE;
 private _initialAnimDelay = _tickTimeNow + 8;
 private _chatShown = shownChat;
@@ -602,7 +603,6 @@ for '_x' from 0 to 1 step 0 do {
 			_medicalTimer = _unit getVariable ['QS_respawn_disable',-1];
 		};
 	};
-
 	if (_exit) exitWith {};
 	uiSleep 0.035;
 };
