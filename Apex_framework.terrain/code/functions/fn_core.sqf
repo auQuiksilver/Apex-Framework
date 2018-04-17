@@ -2729,7 +2729,7 @@ for '_x' from 0 to 1 step 0 do {
 							if (_timeNow < _module_fob_assault_duration) then {
 								if (_allAICount < _unitCap) then {
 									if (((missionNamespace getVariable 'QS_module_fob_assaultArray') isEqualTo []) || {(({(alive _x)} count (missionNamespace getVariable 'QS_module_fob_assaultArray')) < 3)}) then {
-										if (_fps >= 15) then {
+										if (_fps >= 13) then {
 											if (!(missionNamespace getVariable 'QS_defendActive')) then {
 												[(markerPos 'QS_marker_module_fob')] call _fn_fobEnemyAssault;
 											};
