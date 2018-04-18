@@ -162,7 +162,7 @@ if (_type isEqualTo 1) exitWith {
 								private _grp = missionNamespace getVariable ['QS_recycler_nullGrp',grpNull];
 								if (isNull _grp) then {
 									_grp = createGroup [CIVILIAN,FALSE];
-									missionNamespace getVariable ['QS_recycler_nullGrp',_grp,FALSE];
+									missionNamespace setVariable ['QS_recycler_nullGrp',_grp,FALSE];
 									_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 									_grp enableDynamicSimulation FALSE;
 								} else {
