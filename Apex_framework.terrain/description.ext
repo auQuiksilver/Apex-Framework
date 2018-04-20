@@ -675,7 +675,7 @@ class CfgFunctions {
 			class turretActionCancel {file = "code\functions\fn_turretActionCancel.sqf";};
 			class turretActions {file = "code\functions\fn_turretActions.sqf";};
 			class turretReset {file = "code\functions\fn_turretReset.sqf";};
-			class uavOperator {file = "code\functions\fn_uavOperator.sqf";};
+			class uavOperator {file = "code\functions\fn_uavOperator2.sqf";};
 			class unitSetup {file = "code\functions\fn_unitSetup.sqf";};
 			class utilityLights {file = "code\functions\fn_utilityLights.sqf";};
 			class vehicleLoadouts {file = "code\functions\fn_vehicleLoadouts.sqf";};

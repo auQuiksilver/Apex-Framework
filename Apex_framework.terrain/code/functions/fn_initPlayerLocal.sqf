@@ -306,7 +306,6 @@ if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 	['QS_sub_actions',[],FALSE],
 	['QS_underEnforcement',FALSE,FALSE],
 	['QS_exitingEnforcedVehicle',FALSE,FALSE],
-	['QS_module_fob_client_respawnEnabled',TRUE,FALSE],
 	['QS_module_fob_client_timeLastRespawn',time,FALSE],
 	['QS_client_radioChannels',[],FALSE],
 	['QS_client_radioChannels_dynamic',[FALSE,FALSE],FALSE],
@@ -526,7 +525,8 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['QS_client_revivedAtHospital',-1,FALSE],
 	['QS_client_animCancel',FALSE,FALSE],
 	['QS_client_currentAnim',(animationState player),FALSE],
-	['QS_client_playerViewChanged',TRUE,FALSE]
+	['QS_client_playerViewChanged',TRUE,FALSE],
+	['QS_module_fob_client_respawnEnabled',TRUE,TRUE]
 ];
 /*/===== Remove BI Event Handlers/*/
 {

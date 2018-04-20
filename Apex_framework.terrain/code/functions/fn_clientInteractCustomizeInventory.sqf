@@ -70,7 +70,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 				} foreach _types;
 				if (_weaponTypeCategory != "VehicleWeapon" && _weaponTypeID >= 0) then {
 					_weaponCfg = configfile >> "cfgweapons" >> _weapon;
-					_weaponPublic = getnumber (_weaponCfg >> "scope") == 2;
+					_weaponPublic = getnumber (_weaponCfg >> "scope") isEqualTo 2;
 					_addonListType = _addonList select _weaponTypeID;
 					if (_weaponPublic) then {
 						_displayName = gettext (_weaponCfg >> "displayName");
@@ -96,7 +96,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 								_mag = tolower _x;
 								if ((_addonListType findIf {((_x select 0) == _mag)}) isEqualTo -1) then {
 									_magCfg = configfile >> "cfgmagazines" >> _mag;
-									if (getnumber (_magCfg >> "scope") == 2) then {
+									if (getnumber (_magCfg >> "scope") isEqualTo 2) then {
 										_displayName = gettext (_magCfg >> "displayName");
 										_picture = gettext (_magCfg >> "picture");
 										_addonListType pushback [_mag,_displayName,_displayName,_picture,2,_mag in _magazines];
@@ -118,7 +118,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 				} foreach _types;
 				if (_weaponTypeID >= 0) then {
 					_weaponCfg = configfile >> "cfgvehicles" >> _weapon;
-					if (getnumber (_weaponCfg >> "scope") == 2) then {
+					if (getnumber (_weaponCfg >> "scope") isEqualTo 2) then {
 						_displayName = gettext (_weaponCfg >> "displayName");
 						_picture = gettext (_weaponCfg >> "picture");
 						_addonListType = _addonList select _weaponTypeID;

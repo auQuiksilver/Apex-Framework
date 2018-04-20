@@ -54,6 +54,7 @@ if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo 1) then {missionNa
 if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo -1) exitWith {missionNamespace setVariable ['QS_forceDefend',0,TRUE];missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo -2) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 if ((_allPlayersCount > 60) && ((missionNamespace getVariable 'QS_defendCount') > 2)) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
+diag_log 'Defend AO 0.5';
 missionNamespace setVariable ['QS_defendCount',((missionNamespace getVariable 'QS_defendCount') + 1),TRUE];
 missionNamespace setVariable ['QS_defendActive',TRUE,TRUE];
 _defendMessages = [

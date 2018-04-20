@@ -1,5 +1,3 @@
-* UAVs are handled within "code\functions\fn_uavOperator.sqf"
-
 1. In the editor, create a vehicle at the position and orientation you would like it to spawn, in water or on land. Note: Not suitable for aircraft carrier or elevated spawning.
 
 2. Add the below to the init field:
@@ -32,3 +30,5 @@
 4. You can use this system to spawn ammo crates, Huron containers, etc. for use with the FOBs system and player-generated logistics.
 
 5. The FOBs require all the Huron crates or HEMTT trucks to fully activate them.
+
+6. UAVs and UGVs can be spawned the same way, however they will only appear once the UAV operator player has joined the role. Also spawning may change with the presence of the Aircraft Carrier, some assets may spawn there instead, regardless of where you put it in the editor. Fixed-wing aircraft drones also spawn in mid-air, and disregard the position you place them at.

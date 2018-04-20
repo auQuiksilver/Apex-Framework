@@ -1,13 +1,38 @@
 Official change log
 
-1.0.8 "Hotfix" (ArmA 3 1.82) 16/04/2018
+1.0.8 "Hotfix 3" (ArmA 3 1.82) 20/04/2018
+
+- [ADDED] Medical drone boxes & Medical drones now revive incapacitated players if within 5m (consumes the box/drone).
+- [ADDED] Documentation for creating base speed-limited areas and base vehicle-restricted area.
+- [TWEAKED] Friendly respawning UAVs can now be placed in 3D Editor.
+- [TWEAKED] Overhaul of friendly UAV operator script.
+- [TWEAKED] Attempt to reduce chance of enemy CAS nose-diving after spawn.
+- [TWEAKED] AI building usage will check to see if structure is hidden/invisible before trying to use it.
+- [TWEAKED] Desert mortar pit composition.
+- [TWEAKED] Some enemy at Escort Vehicle side mission now have AA shoulder launchers.
+- [TWEAKED] Should be at least 1-2 vehicles in AO even if AO doesnt have enough road segments (Classic & Sector Control).
+- [TWEAKED] New AI vehicle selection logic enabled for Sector Control mode.
+- [FIXED] Group Management system was not updating changes properly.
+- [FIXED] Pilot would sometimes teleport to ocean when ejecting from plane.
+- [FIXED] Incapacitation overlay would stay on screen after death.
+- [FIXED] Decorative submarine had incorrect "featureType".
+- [FIXED] Crew HUD missing icons.
+- [FIXED] Medical UAVs can add respawn tickets to FOB.
+- [FIXED] GPS jammer task icon would not clean up if Jammer was deleted instead of destroyed.
+- [FIXED] Text error in admin/curator "cycle mission" option.
+- [FIXED] Small error in AI recycler.
+- [FIXED] Hidden a partially submerged terrain structure on Malden.
+- [FIXED] UGV Stompers (unarmed) now correctly spawn with Stretchers & logistics system even when created with Zeus.
+- [FIXED] Falcon UAV drone would sometimes spawn damaged and partially tipped over on Aircraft Carrier.
+
+1.0.8 "Hotfix 2" (ArmA 3 1.82) 16/04/2018
 
 - [TWEAKED] Reduced effectiveness of enemy bombs against player-controlled armored vehicles.
 - [TWEAKED] Forcefully apply Guerilla camouflage to guerilla offroad vehicles (BIS has not configured them properly).
 - [FIXED] Game crash. Changed way units are unloaded from vehicles, to avoid ArmA game crash bug. Related to: https://feedback.bistudio.com/T128186
 - [FIXED] Fonts issue in 3D hud script.
 
-1.0.8 "Hotfix" (ArmA 3 1.82) 15/04/2018
+1.0.8 "Hotfix 1" (ArmA 3 1.82) 15/04/2018
 
 - [ADDED] Documentation file for Arsenal + Gear Restrictions.
 - [TWEAKED] Arsenal system.

@@ -29,7 +29,7 @@ if (canSuspend) then {
 };
 scopeName 'QS_main';
 private _buildings = nearestObjects [_position,_typeNames,_radius,TRUE];
-_buildings = _buildings + ((allSimpleObjects []) select {((_x distance2D _position) <= _radius)});
+_buildings = _buildings + ((allSimpleObjects []) select {(((_x distance2D _position) <= _radius) && (!(isObjectHidden _x)))});
 private _arrayPositions = [];
 _wallOffset = 0.25;
 _buildings = _buildings call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
@@ -37,11 +37,13 @@ private _buildingPositions = [];
 private _building = objNull;
 {
 	_building = _x;
-	_buildingPositions = [_building,(_building buildingPos -1)] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
-	if (!(_buildingPositions isEqualTo [])) then {
-		{
-			0 = _arrayPositions pushBack _x;
-		} forEach _buildingPositions;
+	if (!(isObjectHidden _building)) then {
+		_buildingPositions = [_building,(_building buildingPos -1)] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
+		if (!(_buildingPositions isEqualTo [])) then {
+			{
+				0 = _arrayPositions pushBack _x;
+			} forEach _buildingPositions;
+		};
 	};
 } forEach _buildings;
 if (_arrayPositions isEqualTo []) exitWith {diag_log '***** DEBUG ***** fn_garrisonUnits ***** No building positions available *****';};

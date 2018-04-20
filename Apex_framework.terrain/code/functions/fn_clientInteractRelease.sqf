@@ -106,7 +106,7 @@ if (!((attachedObjects player) isEqualTo [])) then {
 							player setVariable ['QS_RD_interacting',FALSE,TRUE];
 						};
 						if (!(_unit isEqualTo (missionNamespace getVariable 'QS_sideMission_POW'))) then {
-							if ((player distance2D (markerPos 'QS_marker_gitmo')) < 20) then {
+							if ((player distance2D (missionNamespace getVariable ['QS_prisonPos',(markerPos 'QS_marker_gitmo')])) < 20) then {
 								50 cutText ['Imprisoned!','PLAIN DOWN',0.3];
 								_prisonPos = missionNamespace getVariable ['QS_prisonPos',[0,0,0]];
 								_unit setPos [((_prisonPos select 0) + 2 - (random 4)),((_prisonPos select 1) + 2 - (random 4)),0];

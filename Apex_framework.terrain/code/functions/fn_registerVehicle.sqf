@@ -13,8 +13,6 @@ Description:
 	Vehicle Registration
 	
 Notes:
-
-	WIP system
 	
 	[
 		objnull,				// --- [DO NOT EDIT] the vehicle object stored here once it spawns
@@ -34,36 +32,17 @@ Notes:
 		true,					// --- [CAN EDIT] is a dynamic "Activate" vehicle (performance saving)
 		0						// --- [CAN EDIT] is spawned on an aircraft carrier deck
 	]
-	
-	params [
-		['_vehicle',objNull],
-		['_respawnDelay',30],
-		['_randomize',FALSE],
-		['_initCode',{}],
-		['_vehicleType',''],
-		['_spawnPosition',[0,0,0]],
-		['_spawnDirection',0],
-		['_isRespawning',FALSE],
-		['_canRespawnAfter',0],
-		['_vehicleFobID',-1],
-		['_abandonmentDistanceBase',50],
-		['_abandonmentDistanceField',500],
-		['_respawnTickets',-1],
-		['_safeRespawnRadius',5],
-		['_isDynamicVehicle',TRUE],
-		['_isCarrierVehicle',0]
-	];
 
-0 = [
-	this,
-	30,
-	false,
-	{},
-	50,
-	500,
-	-1,
-	true
-] call QS_fnc_registerVehicle;
+	0 = [
+		this,
+		30,
+		false,
+		{},
+		50,
+		500,
+		-1,
+		true
+	] call QS_fnc_registerVehicle;
 _____________________________________________________________________/*/
 
 if (!isDedicated) exitWith {0};
@@ -92,6 +71,23 @@ _this spawn {
 	private _vehicleFobID = -1;
 	private _safeRespawnRadius = 4;
 	private _isCarrierVehicle = 0;
+	if (unitIsUav _vehicle) exitWith {
+		if (isNil {missionNamespace getVariable 'QS_uav_Monitor'}) then {
+			missionNamespace setVariable ['QS_uav_Monitor',[],TRUE];
+		};
+		(missionNamespace getVariable 'QS_uav_Monitor') pushBack [
+			objNull,
+			(toLower _vehicleType),
+			(getPosASL _vehicle),
+			(getDir _vehicle),
+			[(vectorDir _vehicle),(vectorUp _vehicle)],
+			_initCode,
+			FALSE,
+			-1
+		];
+		missionNamespace setVariable ['QS_uav_Monitor',(missionNamespace getVariable ['QS_uav_Monitor',[]]),TRUE];
+		deleteVehicle _vehicle;
+	};
 	if (isNil {missionNamespace getVariable 'QS_v_Monitor'}) then {
 		missionNamespace setVariable ['QS_v_Monitor',[],FALSE];
 	};

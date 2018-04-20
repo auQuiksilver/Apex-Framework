@@ -148,7 +148,7 @@ if (_isBlacklisted) then {
 	private _cfgBackpacks = [];
 	_configArray = (
 		('((isclass _x) && ((((configName _x) isKindOf ["ItemCore",configFile >> "CfgWeapons"])) || (((configName _x) isKindOf ["DetectorCore",configFile >> "CfgWeapons"])) || (((configName _x) isKindOf ["NVGoggles",configFile >> "CfgWeapons"]))))' configclasses (configfile >> 'cfgweapons')) + 
-		('("isclass _x && getnumber (_x >> ""scope"") == 2 && getnumber (_x >> ""isBackpack"") == 1")' configclasses (configfile >> 'cfgvehicles')) + 
+		('("isclass _x && getnumber (_x >> ""scope"") isEqualTo 2 && getnumber (_x >> ""isBackpack"") isEqualTo 1")' configclasses (configfile >> 'cfgvehicles')) + 
 		('isclass _x' configclasses (configfile >> 'cfgglasses'))
 	);
 	private _weaponType = '';

@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	5/03/2018 A3 1.80 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -22,7 +22,8 @@ private [
 	'_maxPatrolVehicles','_roadsValidCopy','_roadsValidPositions','_maxSniperTeams','_spawnedSniperTeams','_positionASL','_position','_allowedGarrison','_areaHouses',
 	'_areaBuildingPositions','_house','_countAreaBuildingPositions','_areaBuildingPositionIndex','_indUnitTypes','_unit','_boatArray','_boatPatrolEnabled',
 	'_maxStaticWeapons','_spawnedStaticWeapons','_staticWeaponPositions','_countStaticWeaponPositions','_staticWeaponsEnabled','_staticSpawned','_allBuildingPositions',
-	'_areaHousesWithPositions','_increment','_air','_airType','_arrayHelicopters','_arrayInfPatrols','_arrayVehicles','_arrayGarrison','_arrayBoat','_arraySniper'
+	'_areaHousesWithPositions','_increment','_air','_airType','_arrayHelicopters','_arrayInfPatrols','_arrayVehicles','_arrayGarrison','_arrayBoat','_arraySniper','_randomRoadPosition',
+	'_randomRoad','_vehicleRoadPatrolPositions'
 ];
 _isHCActive = missionNamespace getVariable ['QS_HC_Active',FALSE];
 _centerPos = missionNamespace getVariable 'QS_AOpos';
@@ -110,7 +111,8 @@ _infantryGroupTypes = [
 	'OIA_InfAssault',2,
 	'OIA_InfTeam_AA',2,
 	'OIA_InfTeam_AT',2,
-	'OIA_ARTeam',2
+	'OIA_ARTeam',2,
+	'OIA_InfTeam_HAT',2
 ];
 if (_worldName isEqualTo 'Tanoa') then {
 	_staticTypes = ['O_HMG_01_high_F'];
@@ -471,127 +473,143 @@ for '_x' from 0 to 1 step 0 do {
 };
 
 _arrayVehicles = [];
-if (_allowVehicles) then {
 
-	diag_log '****************************************************';
-	diag_log '***** SC ENEMY ***** Spawning vehicle patrols ******';
-	diag_log '****************************************************';
+diag_log '****************************************************';
+diag_log '***** SC ENEMY ***** Spawning vehicle patrols ******';
+diag_log '****************************************************';
 
-	if (_playerCount >= 0) then {_maxPatrolVehicles = 1;};
-	if (_playerCount > 10) then {_maxPatrolVehicles = 2;};
-	if (_playerCount > 20) then {_maxPatrolVehicles = 2;};
-	if (_playerCount > 30) then {_maxPatrolVehicles = 3;};
-	if (_playerCount > 40) then {_maxPatrolVehicles = 3;};
-	if (_playerCount > 50) then {_maxPatrolVehicles = 3;};
-	for '_x' from 0 to 1 step 0 do {
-		if (_spawnedPatrolVehicles >= _maxPatrolVehicles) exitWith {};
-		_randomRoad = selectRandom _roadsValidCopy;
-		_randomRoadPosition = position _randomRoad;
-		if ((_randomRoadPosition nearEntities [['AllVehicles'],7]) isEqualTo []) then {
+if (_playerCount >= 0) then {_maxPatrolVehicles = 1;};
+if (_playerCount > 10) then {_maxPatrolVehicles = 2;};
+if (_playerCount > 20) then {_maxPatrolVehicles = 2;};
+if (_playerCount > 30) then {_maxPatrolVehicles = 3;};
+if (_playerCount > 40) then {_maxPatrolVehicles = 3;};
+if (_playerCount > 50) then {_maxPatrolVehicles = 4;};
+for '_x' from 0 to 1 step 0 do {
+	if (_spawnedPatrolVehicles >= _maxPatrolVehicles) exitWith {};
+	if (_allowVehicles) then {
+		_randomRoad = selectRandom _roadsValidCopy;	
+		_randomRoadPosition = getPosATL _randomRoad;
+	} else {
+		_randomRoadPosition = [_centerPos,50,_centerRadius,2.5,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
+	};
+	if ((_randomRoadPosition nearEntities [['AllVehicles'],6]) isEqualTo []) then {
+		if (_allowVehicles) then {
 			_roadsValidCopy deleteAt (_roadsValidCopy find _randomRoad);
-			_vehicleType = selectRandom _vehTypes;
-			_vehicle = createVehicle [_vehicleType,[(_randomRoadPosition select 0),(_randomRoadPosition select 1),((_randomRoadPosition select 2) + 5)],[],0,'NONE'];
-			_spawnedPatrolVehicles = _spawnedPatrolVehicles + 1;
+		};
+		_vehicleType = selectRandomWeighted ([1] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
+		_vehicle = createVehicle [_vehicleType,[(_randomRoadPosition select 0),(_randomRoadPosition select 1),((_randomRoadPosition select 2) + 5)],[],0,'NONE'];
+		_spawnedPatrolVehicles = _spawnedPatrolVehicles + 1;
+		missionNamespace setVariable [
+			'QS_analytics_entities_created',
+			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+			FALSE
+		];	
+		_arrayVehicles pushBack _vehicle;
+		_entityArray pushBack _vehicle;
+		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
+		_vehicle lock 2;
+		_vehicle allowDamage FALSE;
+		_vehicle enableRopeAttach FALSE;
+		_vehicle enableVehicleCargo FALSE;
+		_vehicle forceFollowRoad TRUE;
+		_vehicle setConvoySeparation 50;
+		_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+		_vehicle allowCrewInImmobile TRUE;
+		_vehicle setUnloadInCombat [TRUE,FALSE];
+		[0,_vehicle,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
+		_vehicle addEventHandler [
+			'GetOut',
+			{
+				(_this select 2) setDamage 1;
+				(_this select 0) setDamage 1;
+			}
+		];
+		clearMagazineCargoGlobal _vehicle;
+		clearWeaponCargoGlobal _vehicle;
+		clearItemCargoGlobal _vehicle;
+		clearBackpackCargoGlobal _vehicle;
+		[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+		if ((toLower _vehicleType) in ['b_apc_tracked_01_rcws_f','b_t_apc_tracked_01_rcws_f']) then {
+			_grp = createGroup [_side,TRUE];
+			_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+			_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+			_unit assignAsDriver _vehicle;
+			_unit moveInDriver _vehicle;
+			_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+			_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+			_unit assignAsGunner _vehicle;
+			_unit moveInGunner _vehicle;
+			_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+			_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+			_unit assignAsCommander _vehicle;
+			_unit moveInCommander _vehicle;
+		} else {
+			createVehicleCrew _vehicle;
+			_grp = group (effectiveCommander _vehicle);
+		};
+		if (_allowVehicles) then {
+			_vehicle setDir (_randomRoadPosition getDir (position ((roadsConnectedTo _randomRoad) select 0)));
+		} else {
+			_vehicle setDir (random 360);
+		};
+		_vehicle setVectorUp (surfaceNormal _randomRoadPosition);
+		_vehicle setVehiclePosition [_randomRoadPosition,[],0,'NONE'];
+		_grp addVehicle _vehicle;
+		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+		{
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 				FALSE
-			];	
-			_arrayVehicles pushBack _vehicle;
-			_entityArray pushBack _vehicle;
-			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
-			_vehicle lock 2;
-			_vehicle allowDamage FALSE;
-			_vehicle enableRopeAttach FALSE;
-			_vehicle enableVehicleCargo FALSE;
-			_vehicle forceFollowRoad TRUE;
-			_vehicle setConvoySeparation 50;
-			_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
-			_vehicle allowCrewInImmobile TRUE;
-			_vehicle setUnloadInCombat [TRUE,FALSE];
-			[0,_vehicle,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
-			_vehicle addEventHandler [
-				'GetOut',
-				{
-					(_this select 2) setDamage 1;
-					(_this select 0) setDamage 1;
-				}
 			];
-			clearMagazineCargoGlobal _vehicle;
-			clearWeaponCargoGlobal _vehicle;
-			clearItemCargoGlobal _vehicle;
-			clearBackpackCargoGlobal _vehicle;
-			[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
-			if ((toLower _vehicleType) in ['b_apc_tracked_01_rcws_f','b_t_apc_tracked_01_rcws_f']) then {
-				_grp = createGroup [_side,TRUE];
-				_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
-				_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				_unit assignAsDriver _vehicle;
-				_unit moveInDriver _vehicle;
-				_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
-				_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				_unit assignAsGunner _vehicle;
-				_unit moveInGunner _vehicle;
-				_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
-				_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				_unit assignAsCommander _vehicle;
-				_unit moveInCommander _vehicle;
-			} else {
-				createVehicleCrew _vehicle;
-				_grp = group (effectiveCommander _vehicle);
-			};
-			_vehicle setDir (_randomRoadPosition getDir (position ((roadsConnectedTo _randomRoad) select 0)));
-			_vehicle setVectorUp (surfaceNormal _randomRoadPosition);
-			_vehicle setPos _randomRoadPosition;
-			_grp addVehicle _vehicle;
-			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-			{
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
-				_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
-				_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
-				_x setSpeaker 'NoVoice';
-				_x allowDamage FALSE;
-				_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				0 = _arrayVehicles pushBack _x;
-				0 = _entityArray pushBack _x;
-			} forEach (units _grp);
-			/*/
-			if (!isNull (gunner _vehicle)) then {
-				(gunner _vehicle) setSkill 0.1;
-				(gunner _vehicle) setSkill ['aimingAccuracy',(random [0.05,0.06,0.08])];
-			};
-			if (!isNull (commander _vehicle)) then {
-				(commander _vehicle) setSkill 0.1;
-				(commander _vehicle) setSkill ['aimingAccuracy',(random [0.05,0.06,0.08])];
-			};
-			/*/
+			_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
+			_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
+			_x setSpeaker 'NoVoice';
+			_x allowDamage FALSE;
+			_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
+			0 = _arrayVehicles pushBack _x;
+			0 = _entityArray pushBack _x;
+		} forEach (units _grp);
+		/*/
+		if (!isNull (gunner _vehicle)) then {
+			(gunner _vehicle) setSkill 0.1;
+			(gunner _vehicle) setSkill ['aimingAccuracy',(random [0.05,0.06,0.08])];
+		};
+		if (!isNull (commander _vehicle)) then {
+			(commander _vehicle) setSkill 0.1;
+			(commander _vehicle) setSkill ['aimingAccuracy',(random [0.05,0.06,0.08])];
+		};
+		/*/
+		if (_allowVehicles) then {
 			_vehicleRoadPatrolPositions = [];
 			_vehicleRoadPatrolPositions pushBack (selectRandom _roadsValidPositions);
 			for '_x' from 0 to 2 step 1 do {
 				_vehicleRoadPatrolPositions pushBack (selectRandom (_roadsValidPositions select {((_x distance2D (_vehicleRoadPatrolPositions select ((count _vehicleRoadPatrolPositions) - 1))) > 35)}));
 			};
-			_grp setSpeedMode 'LIMITED';
-			_grp setBehaviour 'SAFE';
-			_grp setCombatMode 'YELLOW';
-			_grp setFormation 'COLUMN';
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_CONFIG',['SC','VEH_PATROL',(count (units _grp)),_vehicle],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			_grp setVariable ['QS_AI_GRP_TASK',['PATROL_VEH',_vehicleRoadPatrolPositions,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			if (_isHCActive) then {
-				_grp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			};
+		} else {
+			[_grp,_centerPos,_centerRadius,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
+		};			
+		_grp setSpeedMode 'LIMITED';
+		_grp setBehaviour 'SAFE';
+		_grp setCombatMode 'YELLOW';
+		_grp setFormation 'COLUMN';
+		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['SC','VEH_PATROL',(count (units _grp)),_vehicle],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		if (_isHCActive) then {
+			_grp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		};
+		if (_allowVehicles) then {
 			if (!(_vehicleRoadPatrolPositions isEqualTo [])) then {
 				_grp setFormDir (_randomRoadPosition getDir (_vehicleRoadPatrolPositions select 0));
 				_grp move (_vehicleRoadPatrolPositions select 0);
 			};
 		};
 	};
+};
+if (_allowVehicles) then {
 	private _supportData = [];
 	private _supportEntities = [];
 	private _supportElement = [];
@@ -607,7 +625,7 @@ if (_allowVehicles) then {
 			_supportEntity = _x;
 			_entityArray pushBack _supportEntity;
 		} forEach _supportEntities;
-	} forEach _supportData;	
+	} forEach _supportData;
 };
 _arrayGarrison = [];
 if (_allowedGarrison) then {

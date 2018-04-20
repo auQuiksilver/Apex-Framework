@@ -6,14 +6,14 @@ Author:
 	
 Last modified: 
 
-	20/01/2018 A3 1.80 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Configure Server
 ______________________________________________________________________/*/
 
-_missionProductVersion = '1.0.7';
+_missionProductVersion = '1.0.8';
 _missionProductStatus = 'Gold';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
@@ -720,7 +720,8 @@ _recyclerUnitTypes = [
 	['QS_genericAO_terrainData',[],FALSE],
 	['QS_ao_createDelayedMinefield',FALSE,FALSE],
 	['QS_ao_createDelayedMinefieldPos',[0,0,0],FALSE],
-	['QS_mission_gpsJammers',[],TRUE]
+	['QS_mission_gpsJammers',[],TRUE],
+	['QS_uav_Monitor',[],TRUE]
 ];
 missionNamespace setVariable ['QS_data_arsenal',(compileFinal (preprocessFileLineNumbers '@Apex_cfg\arsenal.sqf')),TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
@@ -752,7 +753,6 @@ _allMapMarkers = allMapMarkers;
 	0 = _markers pushBack (_x select 0);
 } count _markerData;
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 1) then {
-
 	private _markerText = '';
 	{
 		_markerText = markerText _x;
@@ -856,12 +856,14 @@ if (_worldName in ['Altis','Tanoa','Malden']) then {
 		};
 		_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
 		_sub setDir (random 360);
+		['setFeatureType',_sub,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_sub];
 	} else {
 		if ('QS_marker_subPosition' in allMapMarkers) then {
 			if (surfaceIsWater (markerPos 'QS_marker_subPosition')) then {
 				_subPos = [((markerPos 'QS_marker_subPosition') select 0),((markerPos 'QS_marker_subPosition') select 1),(0 - (random 2))];
 				_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
 				_sub setDir (markerDir 'QS_marker_subPosition');
+				['setFeatureType',_sub,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_sub];
 			};
 			deleteMarker 'QS_marker_subPosition';
 		};
@@ -871,6 +873,13 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'GRI
 	{
 		_x hideObjectGlobal TRUE;
 	} forEach (nearestTerrainObjects [[worldSize/2, worldSize/2],['Land_ConcreteWell_01_F'],worldSize,FALSE,TRUE]);
+};
+if (_worldName isEqualTo 'Malden') then {
+	{
+		((_x select 0) nearestObject (_x select 1)) hideObjectGlobal (!isObjectHidden ((_x select 0) nearestObject (_x select 1)));
+	} forEach [
+		[[4779.35,5697.9,0.0012207],'Land_Bunker_01_HQ_F']
+	];
 };
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	if (_worldName isEqualTo 'Altis') then {
@@ -886,11 +895,11 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		{
 			((_x select 0) nearestObject (_x select 1)) hideObjectGlobal (!isObjectHidden ((_x select 0) nearestObject (_x select 1)));
 		} forEach [
-			[[14529.1,16713.4,-0.095396],"Land_Airport_Tower_F"],
-			[[14616.3,16714.1,3.8147e-006],"Land_LampAirport_off_F"],
-			[[14677.8,16777,3.8147e-006],"Land_LampAirport_off_F"],
-			[[14723.3,16821.3,3.8147e-006],"Land_LampAirport_F"],
-			[[14572.2,16668.5,3.8147e-006],"Land_LampAirport_F"]
+			[[14529.1,16713.4,-0.095396],'Land_Airport_Tower_F'],
+			[[14616.3,16714.1,3.8147e-006],'Land_LampAirport_off_F'],
+			[[14677.8,16777,3.8147e-006],'Land_LampAirport_off_F'],
+			[[14723.3,16821.3,3.8147e-006],'Land_LampAirport_F'],
+			[[14572.2,16668.5,3.8147e-006],'Land_LampAirport_F']
 		];
 		0 spawn {
 			private ['_obj','_pos'];
@@ -938,13 +947,13 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		{
 			((_x select 0) nearestObject (_x select 1)) hideObjectGlobal (!isObjectHidden ((_x select 0) nearestObject (_x select 1)));
 		} forEach [
-			[[8066.87,10196.4,0.0199451],"Land_HelipadSquare_F"],
-			[[8020.53,10196.8,0.0200291],"Land_HelipadSquare_F"],
+			[[8066.87,10196.4,0.0199451],'Land_HelipadSquare_F'],
+			[[8020.53,10196.8,0.0200291],'Land_HelipadSquare_F'],
 			[[8068.54,9995.96,-0.320858],'Land_Hangar_F'],
-			[[8091.6,9672.57,0.0110703],"Land_HelipadRescue_F"],
-			[[8013.59,9688.03,0.0123863],"Land_HelipadCivil_F"],
-			[[8100.73,10111.4,-0.000911713],"Land_LampAirport_F"],
-			[[8093.89,10235.7,-0.00857162],"Land_LampAirport_F"]
+			[[8091.6,9672.57,0.0110703],'Land_HelipadRescue_F'],
+			[[8013.59,9688.03,0.0123863],'Land_HelipadCivil_F'],
+			[[8100.73,10111.4,-0.000911713],'Land_LampAirport_F'],
+			[[8093.89,10235.7,-0.00857162],'Land_LampAirport_F']
 		];
 	};
 } else {
@@ -958,20 +967,20 @@ if (_worldName isEqualTo 'Altis') then {
 		((_x select 0) nearestObject (_x select 1)) allowDamage FALSE;
 		((_x select 0) nearestObject (_x select 1)) hideObjectGlobal (!isObjectHidden ((_x select 0) nearestObject (_x select 1)));
 	} forEach [
-		[[5428.85,17939.7,0.037674],"Land_dp_smallTank_F"],
-		[[5436.7,17940.3,0.0728378],"Land_dp_smallTank_F"],
-		[[5435.64,17902.7,0.149261],"Land_Shed_Small_F"],
-		[[5402.13,17884.5,0.0144043],"Land_Factory_Hopper_F"],
-		[[5378.34,17893.5,0.0342789],"Land_Factory_Main_F"],
-		[[5374.33,17869.2,3.20747],"Land_Factory_Conv2_F"],
-		[[5359.47,17896.4,-0.127708],"Land_cmp_Tower_F"],
-		[[5365.29,17906.5,-0.198288],"Land_cmp_Shed_F"],
-		[[5391.01,17918.7,0.0248795],"Land_IndPipe2_big_18ladder_F"],
-		[[5389.69,17932.3,-0.359444],"Land_IndPipe2_bigL_R_F"],
-		[[5409.25,17933.7,-0.0294113],"Land_IndPipe2_big_18ladder_F"],
-		[[5421.76,17936.2,-0.135414],"Land_IndPipe2_big_ground2_F"],
-		[[5390.69,17907,7.83025],""],
-		[[5397.52,17934.3,7.93568],""]
+		[[5428.85,17939.7,0.037674],'Land_dp_smallTank_F'],
+		[[5436.7,17940.3,0.0728378],'Land_dp_smallTank_F'],
+		[[5435.64,17902.7,0.149261],'Land_Shed_Small_F'],
+		[[5402.13,17884.5,0.0144043],'Land_Factory_Hopper_F'],
+		[[5378.34,17893.5,0.0342789],'Land_Factory_Main_F'],
+		[[5374.33,17869.2,3.20747],'Land_Factory_Conv2_F'],
+		[[5359.47,17896.4,-0.127708],'Land_cmp_Tower_F'],
+		[[5365.29,17906.5,-0.198288],'Land_cmp_Shed_F'],
+		[[5391.01,17918.7,0.0248795],'Land_IndPipe2_big_18ladder_F'],
+		[[5389.69,17932.3,-0.359444],'Land_IndPipe2_bigL_R_F'],
+		[[5409.25,17933.7,-0.0294113],'Land_IndPipe2_big_18ladder_F'],
+		[[5421.76,17936.2,-0.135414],'Land_IndPipe2_big_ground2_F'],
+		[[5390.69,17907,7.83025],''],
+		[[5397.52,17934.3,7.93568],'']
 	];
 };
 
@@ -1113,6 +1122,11 @@ if (!((allMissionObjects 'Land_RepairDepot_01_base_F') isEqualTo [])) then {
 			_x setFuelCargo 0;
 		};
 	} forEach (allMissionObjects 'Land_RepairDepot_01_base_F');
+};
+if (!((allMissionObjects 'ModuleCurator_F') isEqualTo [])) then {
+	{
+		deleteVehicle _x;
+	} forEach (allMissionObjects 'ModuleCurator_F');
 };
 
 /*/===== DATE CONFIG /*/

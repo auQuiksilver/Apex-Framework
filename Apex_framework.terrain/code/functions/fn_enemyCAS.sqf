@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	18/03/2018 A3 1.82 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -75,6 +75,8 @@ if (isNull (missionNamespace getVariable 'QS_enemyCasGroup')) then {
 };
 _grp = missionNamespace getVariable 'QS_enemyCasGroup';
 _jetPilot = (missionNamespace getVariable 'QS_enemyCasGroup') createUnit ['o_fighter_pilot_f',[-100,-100,0],[],0,'NONE'];
+_jetPilot setVariable ['QS_dynSim_ignore',TRUE,FALSE];
+_jetPilot enableDynamicSimulation FALSE;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',
 	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -92,6 +94,17 @@ _jetActual setPosASL [
 	(((getPosASL _jetActual) select 2) + 1000)
 ];
 _jetActual setVectorUp [0,0,1];
+_jetActual spawn {
+	_jetActual = _this;
+	for '_x' from 0 to 49 step 1 do {
+		_jetActual setVelocity [
+			((velocity _jetActual) select 0),
+			((velocity _jetActual) select 1),
+			((((velocity _jetActual) select 2) max 0) + 5)
+		];
+		uiSleep 0.05;
+	};
+};
 _jetActual engineOn TRUE;
 _jetActual setAirplaneThrottle 1;
 _jetActual allowCrewInImmobile TRUE;

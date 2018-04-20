@@ -66,6 +66,9 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		_launchCancel = {
 			params ['_actionTarget','_actionCaller','_actionID','_actionArguments'];
 			_actionArguments params ['_cameraOn'];
+			if (!isEngineOn _cameraOn) exitWith {
+				50 cutText ['Engine must be ON to launch','PLAIN',0.5];
+			};
 			if (_cameraOn getVariable ['QS_carrier_launch',FALSE]) then {
 				_cameraOn setAirplaneThrottle 0;
 				detach _cameraOn;

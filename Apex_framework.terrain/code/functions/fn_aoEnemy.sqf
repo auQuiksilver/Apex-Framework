@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	4/04/2018 A3 1.82 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -506,97 +506,99 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning Armored Vehicles *****';
 diag_log '****************************************************';
 
-if (_allowVehicles) then {
-	_vehCount = 2;
-	if (_playerCount > 10) then {
-		_vehCount = 3;
-	};
-	if (_playerCount > 20) then {
-		_vehCount = 3;
-	};
-	if (_playerCount > 30) then {
-		_vehCount = 4;
-	};
-	if (_playerCount > 40) then {
-		_vehCount = 5;
-	};	
-	if (_playerCount > 50) then {
-		_vehCount = 5;
-	};
-	for '_x' from 0 to (_vehCount - 1) step 1 do {
-		_AOvehGroup = createGroup [EAST,TRUE];
+_vehCount = [1,2] select _allowVehicles;
+if (_playerCount > 10) then {
+	_vehCount = [2,3] select _allowVehicles;
+};
+if (_playerCount > 20) then {
+	_vehCount = [2,3] select _allowVehicles;
+};
+if (_playerCount > 30) then {
+	_vehCount = [3,4] select _allowVehicles;
+};
+if (_playerCount > 40) then {
+	_vehCount = [4,5] select _allowVehicles;
+};	
+if (_playerCount > 50) then {
+	_vehCount = [4,5] select _allowVehicles;
+};
+for '_x' from 0 to (_vehCount - 1) step 1 do {
+	_AOvehGroup = createGroup [EAST,TRUE];
+	if (_allowVehicles) then {
 		_randomPos = selectRandom _roadPositionsValid;
-		_AOveh = createVehicle [(selectRandomWeighted ([0] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),[(_randomPos select 0),(_randomPos select 1),0.25],[],0,'NONE'];
-		missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
-		_AOveh allowDamage FALSE;
-		_AOveh limitSpeed (random [30,40,50]);
-		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _AOveh;
-		clearMagazineCargoGlobal _AOveh;
-		clearWeaponCargoGlobal _AOveh;
-		clearItemCargoGlobal _AOveh;
-		clearBackpackCargoGlobal _AOveh;
-		_AOveh setUnloadInCombat [TRUE,FALSE];
-		[0,_AOveh,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
-		_AOveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
-		_AOveh enableRopeAttach FALSE;
-		_AOveh enableVehicleCargo FALSE;
-		if (random 1 >= 0.25) then {_AOveh allowCrewInImmobile TRUE;};
-		/*/_AOveh forceFollowRoad TRUE;/*/
-		_AOveh setConvoySeparation 50;
-		[_AOveh] spawn {sleep 5; (_this select 0) allowDamage TRUE;};
-		_AOveh setVectorUp (surfaceNormal _randomPos);
-		if (_playerCount < 30) then {
-			[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
-		} else {
-			if ((random 1) > 0.5) then {
-				[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
-			};
-		};
-		_AOveh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
-		_unit1 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
-		_unit1 = _unit1 call (missionNamespace getVariable 'QS_fnc_unitSetup');
-		_unit1 assignAsDriver _AOveh;
-		_unit1 moveInDriver _AOveh;
-		_unit2 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
-		_unit2 = _unit2 call (missionNamespace getVariable 'QS_fnc_unitSetup');
-		_unit2 assignAsGunner _AOveh;
-		_unit2 moveInGunner _AOveh;
-		if ((_AOveh emptyPositions 'commander') isEqualTo 1) then {
-			_unit3 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
-			_unit3 = _unit3 call (missionNamespace getVariable 'QS_fnc_unitSetup');
-			_unit3 assignAsCommander _AOveh;
-			_unit3 moveInCommander _AOveh;
-		};
-		_AOvehGroup addVehicle _AOveh;
-		[_AOvehGroup,_randomPos,_aoSize,_roadPositionsValid,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
-		_AOveh lock 3;
-		[(units _AOvehGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-		{
-			_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
-			0 = _enemiesArray pushBack _x;
-		} count (units _AOvehGroup);
-		_unit2 setSkill ['aimingAccuracy',0.1];
-		_AOvehGroup allowFleeing 0;
-		0 = _enemiesArray pushBack _AOveh;
-		_AOvehGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_AOvehGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _AOvehGroup)),_AOveh],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_AOvehGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	} else {
+		_randomPos = [_centerPos,0,_aoSize,2.5,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 	};
+	_AOveh = createVehicle [(selectRandomWeighted ([([0,7] select _allowVehicles)] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),[(_randomPos select 0),(_randomPos select 1),0.25],[],0,'NONE'];
+	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
+	_AOveh allowDamage FALSE;
+	_AOveh limitSpeed (random [30,40,50]);
+	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _AOveh;
+	clearMagazineCargoGlobal _AOveh;
+	clearWeaponCargoGlobal _AOveh;
+	clearItemCargoGlobal _AOveh;
+	clearBackpackCargoGlobal _AOveh;
+	_AOveh setUnloadInCombat [TRUE,FALSE];
+	[0,_AOveh,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
+	_AOveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
+	_AOveh enableRopeAttach FALSE;
+	_AOveh enableVehicleCargo FALSE;
+	if (random 1 >= 0.25) then {_AOveh allowCrewInImmobile TRUE;};
+	/*/_AOveh forceFollowRoad TRUE;/*/
+	_AOveh setConvoySeparation 50;
+	[_AOveh] spawn {sleep 5; (_this select 0) allowDamage TRUE;};
+	_AOveh setVectorUp (surfaceNormal _randomPos);
+	if (_playerCount < 30) then {
+		[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+	} else {
+		if ((random 1) > 0.5) then {
+			[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+		};
+	};
+	_AOveh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+	_unit1 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
+	missionNamespace setVariable [
+		'QS_analytics_entities_created',
+		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+		FALSE
+	];
+	_unit1 = _unit1 call (missionNamespace getVariable 'QS_fnc_unitSetup');
+	_unit1 assignAsDriver _AOveh;
+	_unit1 moveInDriver _AOveh;
+	_unit2 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
+	missionNamespace setVariable [
+		'QS_analytics_entities_created',
+		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+		FALSE
+	];
+	_unit2 = _unit2 call (missionNamespace getVariable 'QS_fnc_unitSetup');
+	_unit2 assignAsGunner _AOveh;
+	_unit2 moveInGunner _AOveh;
+	if ((_AOveh emptyPositions 'commander') isEqualTo 1) then {
+		_unit3 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
+		missionNamespace setVariable [
+			'QS_analytics_entities_created',
+			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+			FALSE
+		];
+		_unit3 = _unit3 call (missionNamespace getVariable 'QS_fnc_unitSetup');
+		_unit3 assignAsCommander _AOveh;
+		_unit3 moveInCommander _AOveh;
+	};
+	_AOvehGroup addVehicle _AOveh;
+	[_AOvehGroup,_randomPos,_aoSize,_roadPositionsValid,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
+	_AOveh lock 3;
+	[(units _AOvehGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+	{
+		_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
+		0 = _enemiesArray pushBack _x;
+	} count (units _AOvehGroup);
+	_unit2 setSkill ['aimingAccuracy',0.1];
+	_AOvehGroup allowFleeing 0;
+	0 = _enemiesArray pushBack _AOveh;
+	_AOvehGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_AOvehGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _AOvehGroup)),_AOveh],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_AOvehGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 };
 
 /*/===== Spawning Support vehicle/*/

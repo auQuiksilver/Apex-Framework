@@ -122,12 +122,13 @@ if (_type isEqualTo 1) exitWith {
 					if (alive _entity) then {
 						_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
 						if (!(_gpsJammers isEqualTo [])) then {
-							_jammerIndex = _gpsJammers findIf {((_x select 4) isEqualTo _killed)};
+							_jammerIndex = _gpsJammers findIf {((_x select 4) isEqualTo _entity)};
 							if (!(_jammerIndex isEqualTo -1)) then {
 								[((_gpsJammers select _jammerIndex) select 0)] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 								[2,((_gpsJammers select _jammerIndex) select 0)] call (missionNamespace getVariable 'QS_fnc_gpsJammer');
 							};
 						};
+						_entity setDamage [1,FALSE];
 					};
 				}
 			],
@@ -170,8 +171,10 @@ if (_type isEqualTo 2) exitWith {
 	if (!(_gpsJammers isEqualTo [])) then {
 		_jammerIndex = _gpsJammers findIf {((_x select 0) isEqualTo _id)};
 		if (!(_jammerIndex isEqualTo -1)) then {
+			[_id] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 			(_gpsJammers select _jammerIndex) params ['','','','',['_jammerObject',objNull],['_assocObjects',[]]];
 			if (!isNull _jammerObject) then {
+				_jammerObject setDamage [1,FALSE];
 				(missionNamespace getVariable 'QS_garbageCollector') pushBack [_jammerObject,'NOW_DISCREET',0];
 			};
 			if (!(_assocObjects isEqualTo [])) then {

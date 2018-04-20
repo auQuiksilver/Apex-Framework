@@ -25,7 +25,9 @@ if (_nearRoads isEqualTo []) then {
 } else {
 	_nearRoadsPositions = _nearRoads apply {if (_x isEqualType objNull) then {(getPosATL _x)} else {_x};};
 };
-_nearRoadsPositions = _nearRoadsPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+if (!(_nearRoadsPositions isEqualTo [])) then {
+	_nearRoadsPositions = _nearRoadsPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+};
 private _waypointPositions = [_vehiclePos];
 private _waypointPosition = nil;
 _checkDist = {
@@ -43,15 +45,17 @@ _grpWPType = 'MOVE';
 _grpWPCombatMode = selectRandom ['WHITE','YELLOW','RED'];
 _behaviours = ['SAFE','AWARE','COMBAT'];
 private _grpBehaviour = 'SAFE';
-for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
-	_waypointPosition = (_nearRoadsPositions select { ([_x,_waypointPositions,75] call _checkDist) }) select 0;
-	if (!isNil '_waypointPosition') then {
-		_waypointPositions pushBack _waypointPosition;
-	} else {
-		diag_log '***** QS ERROR ***** fn_taskPatrolVehicle * Waypoint position is nil *****';
+if (!(_nearRoadsPositions isEqualTo [])) then {
+	for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
+		_waypointPosition = (_nearRoadsPositions select { ([_x,_waypointPositions,75] call _checkDist) }) select 0;
+		if (!isNil '_waypointPosition') then {
+			_waypointPositions pushBack _waypointPosition;
+		} else {
+			diag_log '***** QS ERROR ***** fn_taskPatrolVehicle * Waypoint position is nil *****';
+		};
 	};
 };
-if (!(_waypointPositions isEqualTo [])) exitWith {
+if ((count _waypointPositions) > 1) exitWith {
 	if (_new) then {
 		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,-1,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
@@ -105,5 +109,26 @@ if (!(_waypointPositions isEqualTo [])) exitWith {
 		] call (missionNamespace getVariable 'QS_fnc_taskSetSingleWaypoint');
 	};
 	TRUE;
+};
+if (_new) then {
+	private _prevPos = _vehiclePos;
+	private _newPos = [0,0,0];
+	private _exit = FALSE;
+	for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
+		_exit = FALSE;
+		for '_x' from 0 to 49 step 1 do {
+			_newPos = [_prevPos,50,300,0.1,0,0.75,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
+			if ((_newPos distance2D _prevPos) < 350) then {
+				if (!(surfaceIsWater _newPos)) then {
+					_prevPos = _newPos;
+					_exit = TRUE;
+				};
+			};
+			if (_exit) exitWith {};
+		};
+		_waypointPositions pushBack _newPos;
+	};
+	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,-1,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 };
 FALSE;

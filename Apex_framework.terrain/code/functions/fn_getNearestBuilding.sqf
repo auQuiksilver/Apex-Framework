@@ -23,7 +23,7 @@ private _i = 0;
 if (!( (missionNamespace getVariable ['QS_AI_hostileBuildings',[]]) isEqualTo [] )) then {
 	_hostileBuildings = missionNamespace getVariable ['QS_AI_hostileBuildings',[]];
 	{
-		if ((_position distance2D _x) < _radius) exitWith {
+		if ((!(isObjectHidden _x)) && ((_position distance2D _x) < _radius)) exitWith {
 			_exit = TRUE;
 			_building = _x;
 			_i = (count ([_building,(_building buildingPos -1)] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions'))) - 1;
@@ -35,12 +35,15 @@ if (_exit) exitWith {
 };
 _buildingClass = ['House','Building'];
 if ((random 1) > 0.5) then {
-	_buildings = (nearestObjects [_position,_buildingClass,_radius,TRUE]) select {(!((_x buildingPos -1) isEqualTo []))};
+	_buildings = (nearestObjects [_position,_buildingClass,_radius,TRUE]) select {((!((_x buildingPos -1) isEqualTo [])) && (!(isObjectHidden _x)))};
 } else {
-	_buildings = nearestObjects [_position,_buildingClass,_radius,TRUE];
+	_buildings = nearestObjects [_position,_buildingClass,_radius,TRUE] select {(!(isObjectHidden _x))};
 };
 if (_buildings isEqualTo []) then {
 	_building = nearestBuilding _position;
+	if (isObjectHidden _building) then {
+		_building = objNull;
+	};
 } else {
 	_building = _buildings select 0;
 	/*/get closest building/*/

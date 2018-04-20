@@ -323,7 +323,7 @@ _smDelay = _sideMissionDelayFixed + (random _sideMissionDelayRandom);
 
 /*/============================ CUSTOM MISSIONS/*/
 
-_QS_module_customMissions = (random 1) > 0.8;
+_QS_module_customMissions = ((random 1) > 0.8);
 _QS_module_customMissions_list = [];
 if (_QS_worldName isEqualTo 'Tanoa') then {
 	{
@@ -340,7 +340,7 @@ if (_QS_worldName isEqualTo 'Altis') then {
 	];
 };
 _QS_module_customMission_selected = '';
-_QS_module_customMissions_delay = time + 3600 + (random 10800);
+_QS_module_customMissions_delay = time + 1800 + (random 10800);
 _QS_module_customMission_played = FALSE;
 {
 	missionNamespace setVariable _x;
@@ -2729,7 +2729,7 @@ for '_x' from 0 to 1 step 0 do {
 							if (_timeNow < _module_fob_assault_duration) then {
 								if (_allAICount < _unitCap) then {
 									if (((missionNamespace getVariable 'QS_module_fob_assaultArray') isEqualTo []) || {(({(alive _x)} count (missionNamespace getVariable 'QS_module_fob_assaultArray')) < 3)}) then {
-										if (_fps >= 13) then {
+										if (_fps >= 15) then {
 											if (!(missionNamespace getVariable 'QS_defendActive')) then {
 												[(markerPos 'QS_marker_module_fob')] call _fn_fobEnemyAssault;
 											};
@@ -2771,7 +2771,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (!(missionNamespace getVariable 'QS_customAO_active')) then {
 			if ((!(_QS_module_customMission_played)) || {(missionNamespace getVariable 'QS_customAO_trigger')}) then {
 				if ((!(_mainMissionActive)) && (!(_defendAOActive)) && (!(missionNamespace getVariable ['QS_grid_defend_active',_false]))) then {
-					if (((_timeNow > _QS_module_customMissions_delay) && (_allPlayersCount <= 30) && (_allPlayersCount >= 5)) || {(missionNamespace getVariable 'QS_customAO_trigger')}) then {
+					if (((_timeNow > _QS_module_customMissions_delay) && (_allPlayersCount <= 36) && (_allPlayersCount >= 4)) || {(missionNamespace getVariable 'QS_customAO_trigger')}) then {
 						if (missionNamespace getVariable 'QS_customAO_trigger') then {
 							missionNamespace setVariable ['QS_customAO_trigger',_false,_false];
 						};

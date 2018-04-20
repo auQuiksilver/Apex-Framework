@@ -31,7 +31,9 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	};
 	if (isNil {_unit getVariable 'QS_AI_UNIT_isMG'}) then {
 		if (((getText (configFile >> 'CfgWeapons' >> (primaryWeapon _unit) >> 'cursor')) isEqualTo 'mg') || {((toLower (typeOf _unit)) in ['o_t_soldier_ar_f'])} || {((!isNull (objectParent _unit)) && (_unit isEqualTo (gunner (objectParent _unit))))}) then {
-			_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
+			if ((isNull (objectParent _unit)) || ((!isNull (objectParent _unit)) && {(!( ['_aa_',(typeOf (objectParent _unit)),FALSE] call (missionNamespace getVariable 'QS_fnc_inString') ))})) then {
+				_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
+			};
 		} else {
 			_unit setVariable ['QS_AI_UNIT_isMG',FALSE,FALSE];
 		};

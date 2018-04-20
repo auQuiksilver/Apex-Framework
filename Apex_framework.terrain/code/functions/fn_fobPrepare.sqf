@@ -23,7 +23,6 @@ if (_type isEqualTo 0) then {
 		['QS_module_fob_services_fuel',FALSE,TRUE],
 		['QS_module_fob_services_repair',FALSE,TRUE],
 		['QS_module_fob_services_ammo',FALSE,TRUE],
-		['QS_module_fob_client_respawnEnabled',FALSE,TRUE],
 		['QS_module_fob_vehicleRespawnEnabled',FALSE,TRUE]
 	];
 	{

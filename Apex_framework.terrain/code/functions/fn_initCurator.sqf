@@ -260,11 +260,11 @@ if (_type isEqualTo 1) then {
 								};
 								player setVariable ['QS_client_aoCycleCooldown',(diag_tickTime + 60),FALSE];
 								if (!(missionNamespace getVariable ['QS_aoSuspended',FALSE])) then {
-									_result = ['Cycle primary mission, please wait ...','Primary missions','Cycle','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
+									_result = ['Cycle primary mission','Primary missions','Cycle','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
 									if (_result) then {
 										missionNamespace setVariable ['QS_aoCycleVar',TRUE,TRUE];
 										['systemChat',(format ['%1 (staff) cycled primary missions',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-										50 cutText ['Primary mission cycling ...','PLAIN DOWN',0.5];
+										50 cutText ['Primary mission cycling, please wait ...','PLAIN DOWN',0.5];
 									} else {
 										50 cutText ['Cancelled cycle attempt','PLAIN DOWN',0.5];
 									};

@@ -6,14 +6,13 @@ Author:
 	
 Last modified:
 
-	16/04/2018 A3 1.82 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Draw 3D Event
 _________________________________________________/*/
 
-if ((!((lifeState player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 49))}) exitWith {};
 _time = diag_tickTime;
 if (_time >= (uiNamespace getVariable ['QS_dynamicGroups_update',0])) then {
 	_display = uiNamespace getVariable ['BIS_dynamicGroups_display',displayNull];
@@ -23,6 +22,7 @@ if (_time >= (uiNamespace getVariable ['QS_dynamicGroups_update',0])) then {
 	uiNamespace setVariable ['QS_dynamicGroups_update',(_time + ([0.5,2] select (isNull _display)))];
 };
 _player = player;
+if ((!((lifeState _player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 49))}) exitWith {};
 _cameraOn = cameraOn;
 if ((!(_cameraOn in [_player,(vehicle _player)])) && (!(unitIsUav _cameraOn))) exitWith {};
 private _alpha = 0;

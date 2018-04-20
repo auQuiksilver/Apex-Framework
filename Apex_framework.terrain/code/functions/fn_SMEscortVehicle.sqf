@@ -171,10 +171,10 @@ _vehicle setFuelCargo 0;
 _vehicle setAmmoCargo 0;
 _vehicle forceFollowRoad TRUE;
 _technicalTypes = [
-	'O_G_Offroad_01_armed_F',0.3,
-	'O_G_Offroad_01_AT_F',0.3,
-	'I_C_Offroad_02_LMG_F',0.3,
-	'I_C_Offroad_02_AT_F',0.3
+	'O_G_Offroad_01_armed_F',3,
+	'O_G_Offroad_01_AT_F',1,
+	'I_C_Offroad_02_LMG_F',3,
+	'I_C_Offroad_02_AT_F',1
 ];
 _vehicle addEventHandler [
 	'GetIn',
@@ -542,6 +542,10 @@ for '_x' from 0 to 1 step 0 do {
 					_x disableAI 'AUTOCOMBAT';
 				};
 				_x disableAI 'COVER';
+				if ((random 1) > 0.9) then {
+					_x addBackpack (['b_carryall_ocamo','b_carryall_ghex_f'] select (worldName in ['Tanoa','Lingor3']));
+					[_x,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (worldName in ['Tanoa','Lingor3'])),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+				};
 				_x enableStamina FALSE;
 				_x enableFatigue FALSE;
 				_x setUnitPosWeak (selectRandom ['UP','MIDDLE']);
@@ -565,6 +569,10 @@ for '_x' from 0 to 1 step 0 do {
 							_x disableAI 'AUTOCOMBAT';
 						};
 						_x disableAI 'COVER';
+						if ((random 1) > 0.9) then {
+							_x addBackpack (['b_carryall_ocamo','b_carryall_ghex_f'] select (worldName in ['Tanoa','Lingor3']));
+							[_x,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (worldName in ['Tanoa','Lingor3'])),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+						};
 						_x enableStamina FALSE;
 						_x enableFatigue FALSE;
 						_x setUnitPosWeak (selectRandom ['UP','MIDDLE']);
@@ -591,6 +599,10 @@ for '_x' from 0 to 1 step 0 do {
 						};
 						if ((random 1) > 0.5) then {
 							_x disableAI 'AUTOCOMBAT';
+						};
+						if ((random 1) > 0.9) then {
+							_x addBackpack (['b_carryall_ocamo','b_carryall_ghex_f'] select (worldName in ['Tanoa','Lingor3']));
+							[_x,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (worldName in ['Tanoa','Lingor3'])),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 						};
 						_x disableAI 'COVER';
 						_x enableStamina FALSE;

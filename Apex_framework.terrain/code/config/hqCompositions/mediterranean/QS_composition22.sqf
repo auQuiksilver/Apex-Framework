@@ -9,7 +9,10 @@ Using orientation of objects: no
 
 [
 	["Land_CombineHarvester_01_wreck_F",[-3.12939,0.575684,0],323.558,[],false,true,false,{}], 
-	["Flag_White_F",[5.79053,-6.39551,0],0,[],false,true,false,{}], 
+	["Flag_White_F",[5.79053,-6.39551,0],0,[],false,true,false,{
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
+		(_this select 0);
+	}], 
 	["Land_Cargo_House_V4_F",[7.89844,-7.52246,0],78.8866,[],false,true,false,{}], 
 	["Land_Mil_WallBig_Corner_F",[11.1777,2.51416,0],212.679,[],false,true,false,{}], 
 	["Land_Mil_WallBig_Corner_F",[12.0059,-0.605957,0],212.679,[],false,true,false,{}], 

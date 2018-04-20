@@ -97,7 +97,7 @@ if (_type isEqualTo 0) exitWith {
 		'I_C_Soldier_Para_1_F',1,
 		'I_C_Soldier_Para_5_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4)
 	];
-	_vehicleTypes = [([5,-1] select (_knowsAbout >= 2))] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool');
+	_vehicleTypes = [([5,6] select (_knowsAbout >= 2))] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool');
 	// find position
 	private _targetPosition = _targetVehicle getRelPos [500,0];
 	if (_isVehicle) then {

@@ -6,3 +6,5 @@
 
 4. Keep vehicles away from one another and away from walls, or they will not detect a safe space to spawn. If your vehicle is not spawning after the initial spawn delay (respawn delay), check its position and ensure its +5m from the nearest obstacle.
 
+5. Convert as many objects to "Simple Object" (toggle box under Special States in EDEN editor) as you can, while ensuring the asset functions correctly.
+

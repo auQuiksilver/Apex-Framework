@@ -389,12 +389,12 @@ _QS_revive_injuredAnims = [
 	'unconsciousrevivedefault_b','unconsciousrevivedefault_base','unconsciousrevivedefault_c'
 ];
 _QS_medics = [
-	'B_medic_F','B_recon_medic_F','B_G_medic_F','O_G_medic_F','I_G_medic_F','O_medic_F','I_medic_F','O_recon_medic_f',
-	'B_CTRG_soldier_M_medic_F','B_soldier_universal_f','O_soldier_universal_f','I_soldier_universal_f',"B_T_Medic_F","B_T_Recon_Medic_F",'B_CTRG_Soldier_Medic_tna_F'
+	'b_medic_f','b_recon_medic_f','b_g_medic_f','o_g_medic_f','i_g_medic_f','o_medic_f','i_medic_f','o_recon_medic_f',
+	'b_ctrg_soldier_m_medic_f','b_soldier_universal_f','o_soldier_universal_f','i_soldier_universal_f','b_t_medic_f','b_t_recon_medic_f','b_ctrg_soldier_medic_tna_f'
 ];
 _checkworldtime = time + 30 + (random 600);
 _QS_iAmMedic = FALSE;
-if ((_playerClass in _QS_medics) || (player getUnitTrait 'medic')) then {
+if (((toLower _playerClass) in _QS_medics) || {(player getUnitTrait 'medic')}) then {
 	_QS_iAmMedic = TRUE;
 	[43,[player,_puid]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
@@ -3637,7 +3637,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (!isNull _cursorObject) then {
 						if (_cursorObjectDistance < 3) then {
 							if (_cursorObject isEqualTo (missionNamespace getVariable 'QS_module_fob_dataTerminal')) then {
-								if (!(missionNamespace getVariable 'QS_module_fob_client_respawnEnabled')) then {
+								if (!(player getVariable ['QS_module_fob_client_respawnEnabled',_true])) then {
 									if (!(_QS_interaction_fob_respawn)) then {
 										_QS_interaction_fob_respawn = _true;
 										_QS_action_fob_respawn = player addAction _QS_action_fob_respawn_array;
@@ -3734,7 +3734,7 @@ for '_x' from 0 to 1 step 0 do {
 							if (_cursorObject isKindOf 'Ship') then {
 								if ((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) then {
 									if (alive _cursorObject) then {
-										if (((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1) then {
+										if (((crew _cursorObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1) then {
 											if (!(_QS_interaction_pushVehicle)) then {
 												_QS_interaction_pushVehicle = _true;
 												_QS_action_pushVehicle = player addAction _QS_action_pushVehicle_array;
@@ -4569,8 +4569,8 @@ for '_x' from 0 to 1 step 0 do {
 								_QS_ugvSD = _QS_cO;
 							};
 							if (local _QS_ugvSD) then {
-								if ((!(canMove _QS_ugvSD)) || {((fuel _QS_ugvSD) isEqualTo 0)}) then {
-									if ((_QS_ugvSD distance2D _QS_module_safezone_pos) > 600) then {
+								if ((!(canMove _QS_ugvSD)) || {((fuel _QS_ugvSD) isEqualTo 0)} || {(!((((getAllHitPointsDamage _QS_ugvSD) select 2) findIf {(_x > 0.5)}) isEqualTo -1))} || {(((vectorUp _QS_ugvSD) select 2) < 0.1)}) then {
+									if ((_QS_ugvSD distance2D _QS_module_safezone_pos) > 500) then {
 										if (!(_QS_interaction_uavSelfDestruct)) then {
 											_QS_interaction_uavSelfDestruct = _true;
 											_QS_action_uavSelfDestruct = _QS_ugvSD addAction _QS_action_uavSelfDestruct_array;
@@ -5284,35 +5284,35 @@ for '_x' from 0 to 1 step 0 do {
 										if (({(alive (_x select 0))} count _fullCrew) > 1) then {
 											_crewManifest = '';
 											for '_y' from 0 to ((count _fullCrew) - 1) step 1 do {
-												(_fullCrew select _y) params ['_unit','_role','_cargoIndex','_turretPath','_personTurret'];
+												(_fullCrew select _y) params ['_unit','_role','','_turretPath','_personTurret'];
 												_text = '';
 												_roleImg = '';
 												_unitName = name _unit;
 												if (!(_unitName isEqualTo 'Error: No unit')) then {
-													if (_role isEqualTo 'DRIVER') then {
+													if ((toUpper _role) isEqualTo 'DRIVER') then {
 														_roleImg = _QS_crewIndicator_imgDriver;
 													} else {
-														if (_role isEqualTo 'COMMANDER') then {
+														if ((toUpper _role) isEqualTo 'COMMANDER') then {
 															_roleImg = _QS_crewIndicator_imgCommander;
 														} else {
-															if (_role isEqualTo 'GUNNER') then {
+															if ((toUpper _role) isEqualTo 'GUNNER') then {
 																_roleImg = _QS_crewIndicator_imgGunner;
 															} else {
-																if (_role isEqualTo 'TURRET') then {
+																if ((toUpper _role) isEqualTo 'TURRET') then {
 																	if (_personTurret) then {
 																		_roleImg = _QS_crewIndicator_imgCargo;
 																	} else {
 																		_roleImg = _QS_crewIndicator_imgGunner;
 																	};
 																} else {
-																	if (_role isEqualTo 'CARGO') then {
+																	if ((toUpper _role) isEqualTo 'CARGO') then {
 																		_roleImg = _QS_crewIndicator_imgCargo;
 																	};
 																};
 															};
 														};
 													};
-													if (!(_role isEqualTo 'DRIVER')) then {
+													if (!((toUpper _role) isEqualTo 'DRIVER')) then {
 														if (!(_turretPath isEqualTo [])) then {
 															_text = format ["<img image=%1/><t size='0.666'>%2</t> <t size='0.75'>%3</t><br/>",_roleImg,(_turretPath select 0),_unitName];
 														} else {
@@ -5377,7 +5377,6 @@ for '_x' from 0 to 1 step 0 do {
 		if (missionNamespace getVariable ['QS_client_triggerGearCheck',_false]) then {
 			missionNamespace setVariable ['QS_client_triggerGearCheck',_false,_false];
 			[_QS_player,_arsenalType,_arsenalData] call _fn_gearRestrictions;
-			_QS_module_gearManager_checkDelay = _timeNow + _QS_module_gearManager_delay;
 		};
 	};
 	

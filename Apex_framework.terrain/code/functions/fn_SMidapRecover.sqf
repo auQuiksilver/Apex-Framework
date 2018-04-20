@@ -626,6 +626,7 @@ for '_x' from 0 to 1 step 0 do {
 				_crate allowDamage FALSE;
 				_cratePosition = selectRandom _houseBuildingPositions;
 				_crate setPos _cratePosition;
+				_crate setVariable ['QS_medbox_disableRevive',TRUE,TRUE];
 				_crate setVariable ['QS_inventory_disabled',TRUE,TRUE];
 				_crate setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 				_crate setVariable ['QS_ST_customDN','Medical Supplies',TRUE];

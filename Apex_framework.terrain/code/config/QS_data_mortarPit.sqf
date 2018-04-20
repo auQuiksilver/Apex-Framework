@@ -6,14 +6,11 @@ Author:
 	
 Last modified:
 
-	15/04/2018 A3 1.82 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Mortar pit
-	
-	_grp enableDynamicSimulation FALSE;
-	_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 __________________________________________________________________________/*/
 
 if (worldName in ['Tanoa','Lingor3']) exitWith {
@@ -327,98 +324,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 	]
 };
 [
-	["Land_BagFence_Round_F",[-1.06055,0.576172,-0.00130081],255.744,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[0.841797,-1.64258,-0.00130081],87.1952,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[2.41992,0.0859375,-0.00130081],176.862,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[-2.39844,-1.35352,-0.00130081],352.093,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[1.24414,2.17773,-0.00130081],352.093,[],false,true,true,{}], 
-	["I_G_Mortar_01_F",[-2.78711,-0.201172,-0.0383983],359.995,[],false,true,false,{
-		_mortar = _this select 0;
-		createVehicleCrew _mortar;
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
-		{
-			missionNamespace setVariable [
-				'QS_HC_AO_enemyArray',
-				((missionNamespace getVariable 'QS_HC_AO_enemyArray') + [_x]),
-				FALSE
-			];
-		} forEach [
-			_mortar,
-			(effectiveCommander _mortar)
-		];
-		if (worldName in ['Tanoa','Lingor3']) then {
-			(effectiveCommander _mortar) setUnitLoadout (selectRandom [
-				"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
-				"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
-			]);
-		} else {
-			(effectiveCommander _mortar) setUnitLoadout (selectRandom [
-				"O_soldierU_A_F","O_soldierU_AAR_F","O_soldierU_AR_F","O_soldierU_medic_F","O_engineer_U_F","O_soldierU_exp_F","O_SoldierU_GL_F",
-				"O_Urban_HeavyGunner_F","O_soldierU_M_F","O_soldierU_AT_F","O_soldierU_F","O_soldierU_LAT_F","O_Urban_Sharpshooter_F",
-				"O_SoldierU_SL_F","O_soldierU_TL_F","O_G_engineer_F","O_G_medic_F","O_G_Soldier_A_F","O_G_Soldier_AR_F","O_G_Soldier_exp_F","O_G_Soldier_F","O_G_Soldier_F",
-				"O_G_Soldier_GL_F","O_G_Soldier_LAT_F","O_G_Soldier_lite_F","O_G_Soldier_M_F","O_G_Soldier_SL_F","O_G_Soldier_TL_F",
-				"O_G_Sharpshooter_F","O_G_Soldier_AR_F"
-			]);
-		};
-		_mortar lock 3;
-		_mortar enableDynamicSimulation FALSE;
-		_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
-		_mortar enableWeaponDisassembly FALSE;
-		_mortar setVariable ['QS_hidden',TRUE,TRUE];
-		_mortar addEventHandler [
-			'Killed',
-			{
-				_mortar = _this select 0;
-				if (!isNull (gunner _mortar)) then {
-					(gunner _mortar) setDamage 1;
-				};
-			}
-		];
-		(gunner _mortar) addEventHandler [
-			'Killed',
-			{
-				params ['_killed','_killer'];
-				(vehicle _killed) setDamage 1;
-			}
-		];
-		(gunner _mortar) call (missionNamespace getVariable 'QS_fnc_unitSetup');
-		(gunner _mortar) addEventHandler [
-			'FiredMan',
-			{
-				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
-					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
-				};
-				if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
-				missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
-				['sideChat',[WEST,'HQ'],'Enemy mortars are firing!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			}
-		];
-		(gunner _mortar) addEventHandler [
-			'HandleRating',
-			{
-				params ['_unit','_rating'];
-				if ((rating _unit) < 0) then {
-					_unit addRating (0 - (rating _unit));
-				};
-			}
-		];
-		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
-		_grp = group (gunner _mortar);
-		_grp deleteGroupWhenEmpty TRUE;
-		_grp enableDynamicSimulation FALSE;
-		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
-		_grp addVehicle _mortar;
-		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
-		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
-		_mortar;		
-	}], 
-	["I_G_Mortar_01_F",[2.55078,-1.90039,-0.0383978],359.994,[],false,true,false,{
+	["I_G_Mortar_01_F",[3.13574,1.62061,0.036881],360,[],false,true,false,{
 		_mortar = _this select 0;
 		createVehicleCrew _mortar;
 		missionNamespace setVariable [
@@ -504,8 +410,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
 		_mortar;
 	}], 
-	["Land_BagFence_Round_F",[-2.78711,2,-0.00130081],176.862,[],false,true,true,{}], 
-	["I_G_Mortar_01_F",[0.886719,3.65039,-0.0383978],359.995,[],false,true,false,{
+	["I_G_Mortar_01_F",[0.695801,-3.58252,0.0368857],360,[],false,true,false,{
 		_mortar = _this select 0;
 		createVehicleCrew _mortar;
 		missionNamespace setVariable [
@@ -591,40 +496,129 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
 		_mortar;
 	}], 
-	["Land_BagFence_Round_F",[-0.722656,3.80273,-0.00130081],87.1952,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[-4.36523,0.271484,-0.00130081],87.1952,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[2.80859,-3.26758,-0.00130081],352.093,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[4.14648,-1.33789,-0.00130081],255.744,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[2.58203,4.10742,-0.00130081],255.744,[],false,true,true,{}], 
-	["Land_BagFence_Round_F",[0.855469,5.53125,-0.00130081],176.862,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-2.10742,7,0],135.745,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-5.82422,3.04102,0],109.089,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-0.783203,-7.00195,0],350.031,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[4.51563,-5.57227,0],305.326,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[7.35938,-1.03906,0],268.986,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[3,7.45898,0],179.679,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[-7.66602,0.396484,0],97.2722,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[6.77734,3.96289,0],227.88,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[0.144531,-7.93555,0],6.45383,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[-5.14844,6.37109,0],134.646,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[7,-5.21875,0],316.681,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-8.44531,-1.76953,0],257.899,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[0.662109,9.25586,0],178.647,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[9.31445,1.06641,0],269.594,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[0.912109,-9.77344,0],190.079,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[6.65625,7.04883,0],227.488,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-7.70508,5.94922,0],312.54,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-9.28125,3.32813,0],290.985,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[-5.19141,-8.42969,0],144.13,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[4.26953,-9.82227,0],175.368,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[9.64258,-5.16797,0],136.214,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[6.49609,-8.5625,0],148.868,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-4.26953,9.83594,0],337.604,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[-1.36523,10.9102,0],0.528867,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[10.9766,3.2793,0],89.6286,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[11.125,-2.12695,0],113.757,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[9.89453,5.88086,0],64.4096,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[6.60352,9.73242,0],46.734,[],false,true,true,{}], 
-	['Land_HBarrier_5_F',[3.86914,11.1094,0],21.9666,[],false,true,true,{}], 
-	['Land_HBarrier_Big_F',[-10.2246,-7.89063,0],233.805,[],false,true,true,{}]
+	["I_G_Mortar_01_F",[-3.28564,1.77783,0.0368829],360,[],false,true,false,{
+		_mortar = _this select 0;
+		createVehicleCrew _mortar;
+		missionNamespace setVariable [
+			'QS_analytics_entities_created',
+			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+			FALSE
+		];
+		{
+			missionNamespace setVariable [
+				'QS_HC_AO_enemyArray',
+				((missionNamespace getVariable 'QS_HC_AO_enemyArray') + [_x]),
+				FALSE
+			];
+		} forEach [
+			_mortar,
+			(effectiveCommander _mortar)
+		];
+		if (worldName in ['Tanoa','Lingor3']) then {
+			(effectiveCommander _mortar) setUnitLoadout (selectRandom [
+				"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
+				"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
+			]);
+		} else {
+			(effectiveCommander _mortar) setUnitLoadout (selectRandom [
+				"O_soldierU_A_F","O_soldierU_AAR_F","O_soldierU_AR_F","O_soldierU_medic_F","O_engineer_U_F","O_soldierU_exp_F","O_SoldierU_GL_F",
+				"O_Urban_HeavyGunner_F","O_soldierU_M_F","O_soldierU_AT_F","O_soldierU_F","O_soldierU_LAT_F","O_Urban_Sharpshooter_F",
+				"O_SoldierU_SL_F","O_soldierU_TL_F","O_G_engineer_F","O_G_medic_F","O_G_Soldier_A_F","O_G_Soldier_AR_F","O_G_Soldier_exp_F","O_G_Soldier_F","O_G_Soldier_F",
+				"O_G_Soldier_GL_F","O_G_Soldier_LAT_F","O_G_Soldier_lite_F","O_G_Soldier_M_F","O_G_Soldier_SL_F","O_G_Soldier_TL_F",
+				"O_G_Sharpshooter_F","O_G_Soldier_AR_F"
+			]);
+		};
+		_mortar lock 3;
+		_mortar enableDynamicSimulation FALSE;
+		_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
+		_mortar enableWeaponDisassembly FALSE;
+		_mortar setVariable ['QS_hidden',TRUE,TRUE];
+		_mortar addEventHandler [
+			'Killed',
+			{
+				_mortar = _this select 0;
+				if (!isNull (gunner _mortar)) then {
+					(gunner _mortar) setDamage 1;
+				};
+			}
+		];
+		(gunner _mortar) addEventHandler [
+			'Killed',
+			{
+				params ['_killed','_killer'];
+				(vehicle _killed) setDamage 1;
+			}
+		];
+		(gunner _mortar) call (missionNamespace getVariable 'QS_fnc_unitSetup');
+		(gunner _mortar) addEventHandler [
+			'FiredMan',
+			{
+				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
+				};
+				if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
+				missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
+				['sideChat',[WEST,'HQ'],'Enemy mortars are firing!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			}
+		];
+		(gunner _mortar) addEventHandler [
+			'HandleRating',
+			{
+				params ['_unit','_rating'];
+				if ((rating _unit) < 0) then {
+					_unit addRating (0 - (rating _unit));
+				};
+			}
+		];
+		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
+		_grp = group (gunner _mortar);
+		_grp deleteGroupWhenEmpty TRUE;
+		_grp enableDynamicSimulation FALSE;
+		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
+		_grp addVehicle _mortar;
+		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
+		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+		_mortar;
+	}], 
+	["Land_BagFence_Round_F",[1.52246,-2.35498,0],221.198,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[-0.530273,-2.83887,0],109.416,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[1.97559,2.3125,0],109.416,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[-3.01025,0.794434,0],350.741,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[3.36084,0.631348,0],350.741,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[-2.34277,2.95947,0],221.198,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[0.85498,-4.52002,0],350.741,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[4.02832,2.79639,0],221.198,[],false,false,true,{}], 
+	["Land_BagFence_Round_F",[-4.39551,2.47559,0],109.416,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-6.64014,-1.69385,0],76.7103,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-3.80322,-6.1333,0],40.5611,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[3.71826,6.52148,0],214.752,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[6.61816,3.55078,0],232.769,[],false,false,true,{}], 
+	["Land_HBarrier_1_F",[-7.35205,1.54688,0],333.341,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[0.95752,-7.73779,0],1.1124,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-0.0424805,7.81396,0],192.983,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[7.87842,-1.30908,0],271.626,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[5.53076,-6.01514,0],313.739,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[-8.46289,0.229492,0],90.299,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[-5.86865,-6.31934,0],48.8287,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[0.214844,8.80615,0],182.173,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[6.51758,6.07178,0],230.221,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[0.36084,-9.2627,0],2.1171,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[9.30566,-0.566406,0],271.267,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[6.66406,-6.91455,0],316.879,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-9.91455,0.293945,0],269.435,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-6.72266,-7.48779,0],47.4539,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[-9.28125,-4.021,0],247.194,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[4.81787,9.10449,0],14.4074,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[7.91748,6.83301,0],47.4539,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[10.2246,3.46387,0],66.2934,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[10.7993,-0.578613,0],89.9335,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[0.412598,-10.8335,0],179.914,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[-3.61719,-10.2759,0],205.419,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[8.10791,-7.76953,0],135.185,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[4.63623,-10.2441,0],158.593,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[10.396,-4.64355,0],109.741,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[-10.1948,7.51416,0],62.8607,[],false,false,true,{}], 
+	["Land_HBarrier_Big_F",[-8.77148,12.1636,0],152.389,[],false,false,true,{}]
 ]

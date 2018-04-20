@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	27/01/2018 A3 1.80 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -15,35 +15,62 @@ Description:
 Notes:
 
 	- Must be a polygon ( https://community.bistudio.com/wiki/inPolygon )
-	
-if (worldName isEqualTo 'Altis') exitWith {
-	[
-		[14590,16753.9,0],
-		[14628.8,16723.1,0],
-		[14686.4,16783.1,0],
-		[14661.9,16810.1,0],
-		[14655.3,16808,0],
-		[14649.2,16813.4,0]
-	]
-};
-if (worldName isEqualTo 'Tanoa') exitWith {
-	[
-		[6918.41,7376.67,0],
-		[6937.73,7381.24,0],
-		[6927.28,7437.82,0],
-		[6907.94,7434.23,0]
-	]
-};
-if (worldName isEqualTo 'Malden') exitWith {
-	[
-		[8123.71,10132.7,0],
-		[8103.02,10133.3,0],
-		[8102.68,10099,0],
-		[8121.91,10100.2,0]
-	]
-};
-[[0,0,0],[1,0,0],[1,1,0],[0,1,0]]
+	- Only one Vehicle Restricted area is allowed, unlike Speed Limited areas where you can have several.
 __________________________________________________________________________/*/
+
+private _return = [ [[0,0,1],[1,0,1],[1,1,1],[0,1,1]] ];	// Do not edit this line
+
+// EDIT BELOW
+if (!((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0)) exitWith {
+	if (worldName isEqualTo 'Altis') then {
+		// CUSTOM Vehicle Restricted area for ALTIS
+		_return = [
+			[14590,16753.9,0],
+			[14628.8,16723.1,0],
+			[14686.4,16783.1,0],
+			[14661.9,16810.1,0],
+			[14655.3,16808,0],
+			[14649.2,16813.4,0]
+		];
+	};
+	if (worldName isEqualTo 'Tanoa') then {
+		// CUSTOM Vehicle Restricted area for TANOA
+		_return = [
+			[6918.41,7376.67,0],
+			[6937.73,7381.24,0],
+			[6927.28,7437.82,0],
+			[6907.94,7434.23,0]
+		];
+	};
+	if (worldName isEqualTo 'Malden') then {
+		// CUSTOM Vehicle Restricted area for MALDEN
+		_return = [
+			[8123.71,10132.7,0],
+			[8103.02,10133.3,0],
+			[8102.68,10099,0],
+			[8121.91,10100.2,0]
+		];
+	};
+	_return;
+};
+// EDIT ABOVE, the below is for default base layout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if (worldName isEqualTo 'Altis') exitWith {
 	[
@@ -71,4 +98,4 @@ if (worldName isEqualTo 'Malden') exitWith {
 		[8121.91,10100.2,0]
 	]
 };
-[[0,0,0],[1,0,0],[1,1,0],[0,1,0]]
+[[0,0,0],[1,0,0],[1,1,0],[0,1,0]]						// Do not edit this line

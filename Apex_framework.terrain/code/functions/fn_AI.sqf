@@ -1489,7 +1489,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (_QS_uiTime > _QS_module_ambientHostility_cooldown) then {
 						_QS_module_ambientHostility_validTargets = _QS_allUnits select { ((side (group _x)) isEqualTo _west) };
 						if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {
-							_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((_x distance2D _basePosition) > 1000) && ((_x distance2D (missionNamespace getVariable 'QS_aoPos')) > 800) && ((lifeState _x) in ['HEALTHY','INJURED']) };
+							_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((_x distance2D _basePosition) > 1500) && ((_x distance2D (missionNamespace getVariable 'QS_aoPos')) > 800) && ((lifeState _x) in ['HEALTHY','INJURED']) };
 							if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {
 								_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((((vehicle _x) isKindOf 'LandVehicle') || {((vehicle _x) isKindOf 'CAManBase')}) && (isTouchingGround (vehicle _x))) };
 								if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {

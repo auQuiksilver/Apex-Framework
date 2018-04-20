@@ -467,7 +467,7 @@ if (!(_isSimpleObject)) then {
 		};
 	};
 	/*/[_u] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');   // players might not like this? /*/
-	if (_t2 in ['c_idap_ugv_01_f']) then {
+	if ((_u isKindOf 'ugv_01_base_f') && (!(_u isKindOf 'ugv_01_rcws_base_f'))) then {
 		_u addEventHandler [
 			'Deleted',
 			{
@@ -495,9 +495,11 @@ if (!(_isSimpleObject)) then {
 							deleteVehicle _x;
 						};
 					} forEach (attachedObjects _vehicle);
-				};			
+				};
 			}
 		];
+		_stretcher1 setVariable ['QS_ropeAttached',FALSE,TRUE];
+		_stretcher1 setVariable ['QS_tow_veh',2,TRUE];
 		_stretcher1 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
 		_stretcher1 attachTo [_u,[0,-0.75,-0.7]];
 		_stretcher2 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
@@ -653,8 +655,10 @@ if (!(_isSimpleObject)) then {
 				_u setVariable ['QS_medicalVehicle_reviveTickets',_cargoseats,TRUE];
 			};
 		} else {
-			for '_x' from 0 to 1 step 1 do {
-				_u setVariable ['QS_medicalVehicle_reviveTickets',4,TRUE];
+			if (!(_u isKindOf 'UAV_06_base_F')) then {
+				for '_x' from 0 to 1 step 1 do {
+					_u setVariable ['QS_medicalVehicle_reviveTickets',4,TRUE];
+				};
 			};
 		};
 		_u setVariable ['QS_isMedicalVehicle',(_u getVariable ['QS_medicalVehicle_reviveTickets',4]),FALSE];
@@ -686,7 +690,7 @@ if (!(_isSimpleObject)) then {
 	_u addEventHandler ['Local',{}];
 	if (_u isKindOf 'LandVehicle') then {
 		_u setPlateNumber '#MAGA';
-		if (!(['medevac',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+		if ((!(['medical',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) && (!(['medevac',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))) then {
 			[_u,1,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 		};
 		_u setConvoySeparation 50;

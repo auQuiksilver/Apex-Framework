@@ -57,7 +57,7 @@ if (_type isEqualTo 1) exitWith {
 		_vehicleFuelService = '<t size="1" align="left">Vehicle Services - Fuel</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
 	};
 	_text = _text + _vehicleFuelService;
-	if (missionNamespace getVariable 'QS_module_fob_client_respawnEnabled') then {
+	if (player getVariable ['QS_module_fob_client_respawnEnabled',TRUE]) then {
 		_personalRespawn = '<br/><t size="1" align="left">Personal FOB Respawn Beacon</t><t color="#008000" size="1" align="right">Online</t><br/>';
 	} else {
 		_personalRespawn = '<br/><t size="1" align="left">Personal FOB Respawn Beacon</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';

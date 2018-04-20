@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	15/04/2018 A3 1.82 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -15,6 +15,10 @@ Description:
 Documentation File:
 
 	"documentation\Arsenal & Gear Restrictions.txt"
+	
+Notes:
+
+	Hard-coded gear blacklists are inside "code\functions\fn_clientArsenal.sqf"
 _______________________________________________________/*/
 
 //=========================================== GET PLAYER ROLE
@@ -68,6 +72,20 @@ if (_class in [
 ]) then {
 	_role = 'UAV';
 };
+
+//=========================================== At this point you could build up lists of weapons like "normalguns + marksmanguns + sniperguns + LMGguns + HMGguns" and use those variables instead of the default copy-paste used below.
+// These variables are just suggestions, you would add them together like this:   (_weaponsBasic + _weaponsMarksman + _weaponsHandgun)
+_weaponsBasic = [];
+_weaponsMarksman = [];
+_weaponsSniper = [];
+_weaponsLMG = [];
+_weaponsHMG = [];
+_weaponsLauncher = [];
+_weaponsHandgun = [];
+_weaponsSMG = [];
+_uniformsBasic = [];
+_uniformsSniper = [];
+_uniformsPilot = [];
 
 //=========================================== GET [BLACKLIST + WHITELIST] FOR PLAYER ROLE
 

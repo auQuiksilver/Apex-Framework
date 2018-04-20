@@ -6,16 +6,20 @@ Author:
 	
 Last modified:
 
-	23/05/2016 ArmA 3 1.58 by Quiksilver
+	17/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	FOB Enemy Assault
+	
+Notes:
+
+	Not plugged into new AI architecture
 __________________________________________________*/
 
 private [
-	'_pos','_base','_foundSpawnPos',"_spawnPosDefault","_reinforceGroup","_infTypes","_infType",
-	"_destination","_count","_wp",'_playerSelected','_arr','_playerPos','_ticker','_attackPos','_QS_array'
+	'_pos','_base','_foundSpawnPos','_spawnPosDefault','_reinforceGroup','_infTypes','_infType',
+	'_destination','_count','_wp','_playerSelected','_arr','_playerPos','_ticker','_attackPos','_QS_array'
 ];
 
 _QS_array = [];
@@ -38,8 +42,13 @@ while {!_foundSpawnPos} do {
 
 /*/================================================ SELECT + SPAWN UNITS/*/
 
-_infTypes = ['OG_ReconSentry','OG_InfAssaultTeam','OG_SniperTeam_M','OG_InfAssaultTeam','OG_ReconSentry'];
-_infType = selectRandom _infTypes;
+_infTypes = [
+	'OG_ReconSentry',2,
+	'OG_InfAssaultTeam',2,
+	'OG_SniperTeam_M',2,
+	'OG_InfTeam',2
+];
+_infType = selectRandomWeighted _infTypes;
 _reinforceGroup = [_spawnPosDefault,(random 360),EAST,_infType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 
 /*/================================================ MANAGE UNITS/*/
@@ -61,7 +70,7 @@ if ((random 1) > 0.3) then {
 	} else {
 		_playerSelected = objNull;
 		_arr = [(missionNamespace getVariable 'QS_module_fob_centerPosition'),600,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector');
-		if ((count _arr) > 0) then {
+		if (!(_arr isEqualTo [])) then {
 			_arr = _arr call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 			{
 				if (alive _x) then {
@@ -83,9 +92,9 @@ if ((random 1) > 0.3) then {
 	_attackPos = missionNamespace getVariable 'QS_module_fob_centerPosition';
 } else {
 	_destination = [_pos,600,50,10] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
-	if ((count _destination) isEqualTo 0) then {
+	if (_destination isEqualTo []) then {
 		_ticker = 0;
-		while {((count _destination) isEqualTo 0)} do {
+		while {(_destination isEqualTo [])} do {
 			_destination = [_pos,600,50,10] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
 			_ticker = _ticker + 1;
 			if (_ticker > 30) exitWith {_destination = _pos;};
@@ -100,13 +109,14 @@ if ((random 1) > 0.3) then {
 	_wp setWaypointSpeed 'FULL';
 	_attackPos = _destination;
 };
-[(units _reinforceGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+[(units _reinforceGroup),(selectRandom [1,2])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _QS_array = missionNamespace getVariable 'QS_module_fob_assaultArray';
 {
 	0 = _QS_array pushBack _x;
 	_x enableStamina FALSE;
+	_x enableFatigue FALSE;
 	_x disableAI 'AUTOCOMBAT';
-	[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
+	_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 } count (units _reinforceGroup);
 missionNamespace setVariable ['QS_module_fob_assaultArray',_QS_array,TRUE];
 _reinforceGroup enableAttack FALSE;

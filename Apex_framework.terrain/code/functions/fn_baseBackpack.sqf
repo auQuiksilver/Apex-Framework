@@ -18,7 +18,7 @@ Example:
 	
 Notes:
 
-	'(isclass _x && ((getnumber (_x >> "isBackpack")) == 1))' configClasses (configfile >> 'cfgvehicles');
+	'(isclass _x && ((getnumber (_x >> "isBackpack")) isEqualTo 1))' configClasses (configfile >> 'cfgvehicles');
 	
 _fn_debug = {
 	private _class = '';

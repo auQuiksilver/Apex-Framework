@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	14/04/2018 A3 1.82 by Quiksilver
+	18/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -59,6 +59,9 @@ params ['_player','_weapon'];
 				};
 			} else {
 				if (unitIsUAV _weapon) then {
+					if ((['medical',(typeOf _weapon),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['medevac',(typeOf _weapon),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
+						_weapon setVariable ['QS_medicalVehicle_reviveTickets',0,TRUE];
+					};
 					_weapon setVehicleReportRemoteTargets FALSE;
 					_weapon setVehicleReceiveRemoteTargets FALSE;
 					_weapon spawn {

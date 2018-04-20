@@ -50,7 +50,7 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 			"o_t_recon_m_f","o_t_recon_medic_f","o_t_recon_f","o_t_recon_lat_f","o_t_recon_tl_f","o_t_sniper_f","o_t_ghillie_tna_f","o_t_spotter_f",
 			"o_diver_f","o_diver_exp_f","o_diver_tl_f","o_t_diver_f","o_t_diver_exp_f","o_t_diver_tl_f",'i_spotter_f','i_sniper_f','i_ghillie_ard_f','i_ghillie_lsh_f','i_ghillie_sard_f'
 		])) then {
-			if ((random 1) > 0.5) then {
+			if ((random 1) > 0.666) then {
 				if (['_GL_',_unitType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 					_weapons = [
 						"arifle_TRG21_GL_F",

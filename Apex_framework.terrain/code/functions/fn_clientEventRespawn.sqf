@@ -60,10 +60,6 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 		['QS_client_inBaseArea',TRUE,FALSE]
 	];
 	call (missionNamespace getVariable 'QS_fnc_respawnPilot');
-	if (missionNamespace getVariable 'QS_module_fob_client_respawnEnabled') then {
-		/*/50 cutText ['Personal Respawn Beacon de-activated!','PLAIN'];/*/
-		/*/missionNamespace setVariable ['QS_module_fob_client_respawnEnabled',FALSE,FALSE];/*/
-	};
 } else {
 	if ((player getVariable 'QS_revive_respawnType') isEqualTo 'FOB') then {
 		player switchMove '';
