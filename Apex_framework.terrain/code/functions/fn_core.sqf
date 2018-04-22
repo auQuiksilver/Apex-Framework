@@ -6,7 +6,7 @@ Author:
 
 Last modified: 
 
-	16/04/2018 A3 1.82 by Quiksilver
+	22/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -351,6 +351,9 @@ _QS_module_customMission_played = FALSE;
 	['QS_customAO_select','',FALSE],
 	['QS_customAO_GT_active',FALSE,TRUE]
 ];
+if (_QS_module_customMissions_list isEqualTo []) then {
+	_QS_module_customMissions = FALSE;
+};
 
 /*/============================= ENEMY CAS/*/
 _enemyCAS = TRUE;
@@ -462,6 +465,7 @@ _jetJunk = [
 	"plane_fighter_04_canopy_f"
 ];
 _chuteTypes = ['nonsteerable_parachute_f','steerable_parachute_f','b_parachute_02_f','o_parachute_02_f','i_parachute_02_f'];
+_jetStuff = _jetJunk + _chuteTypes;
 _backpackDroneTypes = ["b_uav_06_f","b_uav_06_medical_f","o_uav_06_f","o_uav_06_medical_f","i_uav_06_f","i_uav_06_medical_f","c_uav_06_f","c_uav_06_medical_f","c_idap_uav_06_antimine_f","c_idap_uav_01_f","c_idap_uav_06_f","c_idap_uav_06_medical_f","b_uav_01_f","o_uav_01_f","i_uav_01_f"];
 _allDeadMenCount = 0;
 _allDeadVehiclesCount = 0;
@@ -2772,19 +2776,21 @@ for '_x' from 0 to 1 step 0 do {
 			if ((!(_QS_module_customMission_played)) || {(missionNamespace getVariable 'QS_customAO_trigger')}) then {
 				if ((!(_mainMissionActive)) && (!(_defendAOActive)) && (!(missionNamespace getVariable ['QS_grid_defend_active',_false]))) then {
 					if (((_timeNow > _QS_module_customMissions_delay) && (_allPlayersCount <= 36) && (_allPlayersCount >= 4)) || {(missionNamespace getVariable 'QS_customAO_trigger')}) then {
-						if (missionNamespace getVariable 'QS_customAO_trigger') then {
-							missionNamespace setVariable ['QS_customAO_trigger',_false,_false];
+						if (!(_QS_module_customMissions_list isEqualTo [])) then {
+							if (missionNamespace getVariable 'QS_customAO_trigger') then {
+								missionNamespace setVariable ['QS_customAO_trigger',_false,_false];
+							};
+							if (!((missionNamespace getVariable 'QS_customAO_select') isEqualTo '')) then {
+								_QS_module_customMission_selected = missionNamespace getVariable 'QS_customAO_select';
+							} else {
+								_QS_module_customMission_selected = selectRandom _QS_module_customMissions_list;
+								_QS_module_customMissions_list deleteAt (_QS_module_customMissions_list find _QS_module_customMission_selected);
+							};
+							_QS_module_customMission_played = _true;
+							missionNamespace setVariable ['QS_customAO_active',_true,_false];
+							diag_log '***** Spawning custom AO *****';
+							missionNamespace setVariable ['QS_customAO_script',(0 spawn (missionNamespace getVariable _QS_module_customMission_selected)),_false];
 						};
-						if (!((missionNamespace getVariable 'QS_customAO_select') isEqualTo '')) then {
-							_QS_module_customMission_selected = missionNamespace getVariable 'QS_customAO_select';
-						} else {
-							_QS_module_customMission_selected = selectRandom _QS_module_customMissions_list;
-							_QS_module_customMissions_list deleteAt (_QS_module_customMissions_list find _QS_module_customMission_selected);
-						};
-						_QS_module_customMission_played = _true;
-						missionNamespace setVariable ['QS_customAO_active',_true,_false];
-						diag_log '***** Spawning custom AO *****';
-						missionNamespace setVariable ['QS_customAO_script',(0 spawn (missionNamespace getVariable _QS_module_customMission_selected)),_false];
 					};
 				};
 			};
@@ -3549,17 +3555,12 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				uiSleep 0.005;
 			};
-			if (_missionObjectType in _jetJunk) then {
+			if (_missionObjectType in _jetStuff) then {
 				if (((vectorMagnitude (velocity _missionObject)) * 3.6) < 1) then {
-					if (((_missionObject nearEntities ['CAManBase',10]) select {((alive _x) && (isPlayer _x))}) isEqualTo []) then {
-						0 = _deleteNow pushBack _missionObject;
-					};
-				};
-			};
-			if (_missionObjectType in _chuteTypes) then {
-				if (((vectorMagnitude (velocity _missionObject)) * 3.6) < 1) then {
-					if (((_missionObject nearEntities ['CAManBase',25]) select {((alive _x) && (isPlayer _x))}) isEqualTo []) then {
-						0 = _deleteNow pushBack _missionObject;
+					if (((crew _missionObject) isEqualTo []) || {(((crew _missionObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)}) then {
+						if (((_missionObject nearEntities ['CAManBase',25]) select {((alive _x) && (isPlayer _x))}) isEqualTo []) then {
+							0 = _deleteNow pushBack _missionObject;
+						};
 					};
 				};
 			};
