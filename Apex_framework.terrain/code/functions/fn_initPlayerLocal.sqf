@@ -832,7 +832,7 @@ if (currentChannel isEqualTo 4) then {
 	setCurrentChannel 5;
 };
 private _QS_radioChannels = [1];
-if ((player getUnitTrait 'QS_trait_pilot') || {(player getUnitTrait 'uavhacker')}) then {
+if ((player getUnitTrait 'QS_trait_pilot') || {(player getUnitTrait 'uavhacker')} || {(player getUnitTrait 'QS_trait_HQ')}) then {
 	_QS_radioChannels pushBack 2;
 };
 {
