@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	14/04/2018 A3 1.82 by Quiksilver
+	20/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -158,6 +158,7 @@ _uavInitCodeGeneric = {
 		_uavEntity setVehicleReportRemoteTargets FALSE;
 		_uavEntity engineOn TRUE;
 		_uavEntity flyInHeightASL [500,500,500];
+		['setFeatureType',_uavEntity,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_uavEntity];
 		_uavEntity spawn {
 			_uavEntity = _this;
 			for '_x' from 0 to 49 step 1 do {
@@ -197,6 +198,7 @@ _uavInitCodeGeneric = {
 		};
 		[_uavEntity,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_uavEntity removeWeapon 'missiles_SCALPEL';
+		['setFeatureType',_uavEntity,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_uavEntity];
 		_uavEntity addEventHandler ['Fired',
 			{
 				params ['_vehicle','','','','','','_projectile',''];
