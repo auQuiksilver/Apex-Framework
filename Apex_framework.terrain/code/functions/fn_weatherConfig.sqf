@@ -39,12 +39,12 @@ _QS_weatherData = [] call (missionNamespace getVariable 'QS_RSC_weatherData');
 if (_QS_type isEqualTo 'WIND') then {
 	_QS_windSpeedMonthly = _QS_weatherData select 5;
 	_QS_windSpeedAvg = _QS_windSpeedMonthly select _QS_month;
-	_QS_windDirAvgMonthly = 0;
+	_QS_windDirAvgMonthly = 205;
 	if (worldName in ['Altis','Stratis','Malden']) then {
 		_QS_windDirAvgMonthly = 205;
 	};
 	if (worldName isEqualTo 'Tanoa') then {
-		[0,90,50,70,(random [45,80,130]),120,120,120,120,123,120,100,90] select (date select 1);
+		_QS_windDirAvgMonthly = [0,90,50,70,(random [45,80,130]),120,120,120,120,123,120,100,90] select (date select 1);
 	};
 	if ((random 1) > 0.25) then {
 		_QS_windDirVariabilityRange = 5;
@@ -126,7 +126,7 @@ if (_QS_type isEqualTo 'RAIN') then {
 	_QS_rainChangeTime = _this select 4;
 	_QS_currentOvercast = _this select 5;
 	if (worldName isEqualTo 'Tanoa') then {
-		comment 'Tanoa rain sim';
+		//comment 'Tanoa rain sim';
 		if ((random 1) > 0.333) then {
 			_QS_array = [30,0];
 		} else {
@@ -169,43 +169,84 @@ if (_QS_type isEqualTo 'RAIN') then {
 			};
 		};
 	} else {
-		comment 'Altis rain sim';
-		if (_QS_currentOvercast > 0.55) then {
-			if (_QS_currentOvercast > 0.65) then {
-				if (_QS_currentOvercast > 0.75) then {
-					if (_QS_currentOvercast > 0.85) then {
-						if (_QS_currentOvercast > 0.95) then {
-							if ((random 1) > 0.5) then {
-								_QS_array = [_QS_rainChangeTime,(0.8 + (random 0.2))];
+		//comment 'Altis rain sim';
+		if (worldName in ['Altis','Malden','Stratis']) then {
+			if (_QS_currentOvercast > 0.55) then {
+				if (_QS_currentOvercast > 0.65) then {
+					if (_QS_currentOvercast > 0.75) then {
+						if (_QS_currentOvercast > 0.85) then {
+							if (_QS_currentOvercast > 0.95) then {
+								if ((random 1) > 0.5) then {
+									_QS_array = [_QS_rainChangeTime,(0.8 + (random 0.2))];
+								} else {
+									_QS_array = [_QS_rainChangeTime,(random 0.5)];
+								};
 							} else {
-								_QS_array = [_QS_rainChangeTime,(random 0.5)];
+								if ((random 1) > 0.5) then {
+									_QS_array = [_QS_rainChangeTime,(0.6 + (random 0.2))];
+								} else {
+									_QS_array = [_QS_rainChangeTime,(random 0.4)];
+								};
 							};
 						} else {
 							if ((random 1) > 0.5) then {
-								_QS_array = [_QS_rainChangeTime,(0.6 + (random 0.2))];
+								_QS_array = [_QS_rainChangeTime,(0.4 + (random 0.2))];
 							} else {
-								_QS_array = [_QS_rainChangeTime,(random 0.4)];
+								_QS_array = [_QS_rainChangeTime,(random 0.3)];
 							};
 						};
 					} else {
 						if ((random 1) > 0.5) then {
-							_QS_array = [_QS_rainChangeTime,(0.4 + (random 0.2))];
+							_QS_array = [_QS_rainChangeTime,(0.2 + (random 0.2))];
 						} else {
-							_QS_array = [_QS_rainChangeTime,(random 0.3)];
+							_QS_array = [_QS_rainChangeTime,(random 0.2)];
 						};
 					};
 				} else {
-					if ((random 1) > 0.5) then {
-						_QS_array = [_QS_rainChangeTime,(0.2 + (random 0.2))];
-					} else {
-						_QS_array = [_QS_rainChangeTime,(random 0.2)];
-					};
+					_QS_array = [_QS_rainChangeTime,(random 0.2)];
 				};
 			} else {
-				_QS_array = [_QS_rainChangeTime,(random 0.2)];
+				_QS_array = [30,0];
 			};
 		} else {
-			_QS_array = [30,0];
+			// Custom terrains
+			if (_QS_currentOvercast > 0.55) then {
+				if (_QS_currentOvercast > 0.65) then {
+					if (_QS_currentOvercast > 0.75) then {
+						if (_QS_currentOvercast > 0.85) then {
+							if (_QS_currentOvercast > 0.95) then {
+								if ((random 1) > 0.5) then {
+									_QS_array = [_QS_rainChangeTime,(0.8 + (random 0.2))];
+								} else {
+									_QS_array = [_QS_rainChangeTime,(random 0.5)];
+								};
+							} else {
+								if ((random 1) > 0.5) then {
+									_QS_array = [_QS_rainChangeTime,(0.6 + (random 0.2))];
+								} else {
+									_QS_array = [_QS_rainChangeTime,(random 0.4)];
+								};
+							};
+						} else {
+							if ((random 1) > 0.5) then {
+								_QS_array = [_QS_rainChangeTime,(0.4 + (random 0.2))];
+							} else {
+								_QS_array = [_QS_rainChangeTime,(random 0.3)];
+							};
+						};
+					} else {
+						if ((random 1) > 0.5) then {
+							_QS_array = [_QS_rainChangeTime,(0.2 + (random 0.2))];
+						} else {
+							_QS_array = [_QS_rainChangeTime,(random 0.2)];
+						};
+					};
+				} else {
+					_QS_array = [_QS_rainChangeTime,(random 0.2)];
+				};
+			} else {
+				_QS_array = [30,0];
+			};		
 		};
 	};
 	//diag_log format ['***** DEBUG ***** weather config ***** Next rain array: ***** %1*****',_QS_array];
