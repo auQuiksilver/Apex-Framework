@@ -30,7 +30,7 @@ private _centroid = missionNamespace getVariable ['QS_grid_aoCentroid',[0,0,0]];
 	};
 } forEach _aoPolygon;
 missionNamespace setVariable ['QS_aoSize',_aoSize,TRUE];
-comment 'Get AO terrain data (roads, buildings, building count ,etc)';
+//comment 'Get AO terrain data (roads, buildings, building count ,etc)';
 diag_log format ['Getting terrain data START %1',diag_tickTime];
 _terrainData = [0,_aoPos,_aoSize,_this] call (missionNamespace getVariable 'QS_fnc_aoGetTerrainData');
 diag_log format ['Getting terrain data END %1',diag_tickTime];
@@ -59,18 +59,18 @@ if (_playersCount > 3) then {
 	};
 } forEach _currentObjectives;
 missionNamespace setVariable ['QS_grid_objectivesData',_gridObjectives,FALSE];
-comment 'Illumination';
+//comment 'Illumination';
 if (!(sunOrMoon isEqualTo 1)) then {
 	[0,_aoPos,300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 	[1,_aoPos,300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 };
-comment 'Civ vehicles';
+//comment 'Civ vehicles';
 if (!isNil {_terrainData select 1}) then {
 	if ((count (_terrainData select 1)) > 15) then {
 		[] call (missionNamespace getVariable 'QS_fnc_aoRandomVehicles');
 	};
 };
-comment 'UXO field';
+//comment 'UXO field';
 if ((random 1) > 0.333) then {
 	missionNamespace setVariable [
 		'QS_ao_UXOs',
@@ -79,7 +79,7 @@ if ((random 1) > 0.333) then {
 	];
 };
 
-comment 'Briefing';
+//comment 'Briefing';
 [1,_usedObjectives,_aoGridMarkers] call (missionNamespace getVariable 'QS_fnc_gridBrief');
 missionNamespace setVariable ['QS_grid_civCasualties',FALSE,TRUE];
 missionNamespace setVariable ['QS_grid_AI_triggerInit',TRUE,TRUE];

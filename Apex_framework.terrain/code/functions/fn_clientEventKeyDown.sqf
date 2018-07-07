@@ -6,14 +6,14 @@ Author:
 	
 Last Modified:  	
 
-	20/06/2017 A3 1.70 by Quiksilver  
+	10/06/2018 A3 1.82 by Quiksilver  
 	
 Description:  	
 
 	Client Event Key Down 
 __________________________________________________________/*/  
 
-_key = _this select 1; 
+params ['','_key','_shift','_ctrl','_alt'];
 private _c = FALSE; 
 player setVariable ['QS_client_afkTimeout',time,FALSE]; 
 if (_key isEqualTo 5) then { 	
@@ -43,7 +43,7 @@ if (_key in [197,207]) then {
 if (_key in (actionKeys 'GetOver')) then {
 	if (isNull (objectParent player)) then {
 		if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
-			if (_this select 2) then {
+			if (_shift) then {
 				_c = TRUE;
 				_this call (missionNamespace getVariable 'QS_fnc_clientJump');
 			};
@@ -129,7 +129,7 @@ if (_key in (actionKeys 'AutoHover')) then {
 	};
 };
 if (_key isEqualTo 60) then {
-	if (_this select 2) then {
+	if (_shift) then {
 		if (alive player) then {
 			if (!((lifeState player) isEqualTo 'INCAPACITATED')) then {
 				['KeyDown'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
@@ -139,7 +139,7 @@ if (_key isEqualTo 60) then {
 	};
 };
 if (_key isEqualTo 61) then {
-	if (_this select 2) then {
+	if (_shift) then {
 		if (alive player) then {
 			if (!((lifeState player) isEqualTo 'INCAPACITATED')) then {
 				['Curator'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
@@ -149,7 +149,7 @@ if (_key isEqualTo 61) then {
 	};
 };
 if (_key in (actionKeys 'ReloadMagazine')) then {
-	if (_this select 3) then {
+	if (_ctrl) then {
 		if ((isNull (objectParent player)) || {(!(player isEqualTo (driver (vehicle player))))}) then {
 			if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
 				if (cameraOn isEqualTo player) then {
@@ -170,7 +170,7 @@ if (_key in (actionKeys 'ReloadMagazine')) then {
 };
 if (_key in (actionKeys 'VehLockTargets')) then {};
 if (_key in (actionKeys 'Zeus')) then {}; 
-if (_this select 3) then {
+if (_ctrl) then {
 	if (_key in [0x4C,0x4B,0x47,0x48,0x49,0x4D,0x51]) then {
 		if (isNull (objectParent player)) then {
 			if ((stance player) in ['STAND','CROUCH']) then {
@@ -252,8 +252,116 @@ if (_key isEqualTo 15) then {
 		};
 	};
 };
+if (((_key isEqualTo 201) && ((actionKeys 'User18') isEqualTo [])) || {((_key in (actionKeys 'HeliRopeAction')) && _ctrl)} || {(_key in (actionKeys 'User18'))}) then {
+	_vehicle = cameraOn;
+	if (_vehicle isKindOf 'Helicopter') then {
+		if (local _vehicle) then {
+			if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
+				if ('EmptyDisplay' in (infoPanel 'left')) then {
+					setInfoPanel ['left','SlingLoadDisplay'];
+				} else {
+					if ('EmptyDisplay' in (infoPanel 'right')) then {
+						setInfoPanel ['right','SlingLoadDisplay'];
+					} else {
+						setInfoPanel ['left','SlingLoadDisplay'];
+					};
+				};
+			};
+			private _heliplayer = if (isNull (missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])) then {player} else {(missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])};
+			if ((_heliplayer isEqualTo (driver _vehicle)) || {((_vehicle isKindOf 'heli_transport_04_base_f') && (_heliplayer isEqualTo (_vehicle turretUnit [1])))}) then {
+				if (diag_tickTime > (player getVariable ['QS_sling_keyDownDelay',-1])) then {
+					player setVariable ['QS_sling_keyDownDelay',(diag_tickTime + 0.5),FALSE];
+					_c = TRUE;
+					['UP'] call (missionNamespace getVariable 'QS_fnc_slingRope');
+				};
+			} else {
+				_c = TRUE;
+			};
+		} else {
+			_c = TRUE;
+		};
+	};
+};
+if (((_key isEqualTo 209) && ((actionKeys 'User17') isEqualTo [])) || {((_key in (actionKeys 'HeliRopeAction')) && _alt)} || {(_key in (actionKeys 'User17'))}) then {
+	_vehicle = cameraOn;
+	if (_vehicle isKindOf 'Helicopter') then {
+		if (local _vehicle) then {
+			if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
+				if ('EmptyDisplay' in (infoPanel 'left')) then {
+					setInfoPanel ['left','SlingLoadDisplay'];
+				} else {
+					if ('EmptyDisplay' in (infoPanel 'right')) then {
+						setInfoPanel ['right','SlingLoadDisplay'];
+					} else {
+						setInfoPanel ['left','SlingLoadDisplay'];
+					};
+				};
+			};
+			private _heliplayer = if (isNull (missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])) then {player} else {(missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])};
+			if ((_heliplayer isEqualTo (driver _vehicle)) || {((_vehicle isKindOf 'heli_transport_04_base_f') && (_heliplayer isEqualTo (_vehicle turretUnit [1])))}) then {
+				if (diag_tickTime > (player getVariable ['QS_sling_keyDownDelay',-1])) then {
+					player setVariable ['QS_sling_keyDownDelay',(diag_tickTime + 0.5),FALSE];
+					_c = TRUE;
+					['DOWN'] call (missionNamespace getVariable 'QS_fnc_slingRope');
+				};
+			} else {
+				_c = TRUE;
+			};
+		} else {
+			_c = TRUE;
+		};
+	};
+};
+if (_key in (actionKeys 'HeliRopeAction')) then {
+	if ((!(_alt)) && (!(_ctrl))) then {
+		if (!(_c)) then {
+			_vehicle = cameraOn;
+			if (_vehicle isKindOf 'Helicopter') then {
+				if (local _vehicle) then {
+					if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
+						if ('EmptyDisplay' in (infoPanel 'left')) then {
+							setInfoPanel ['left','SlingLoadDisplay'];
+						} else {
+							if ('EmptyDisplay' in (infoPanel 'right')) then {
+								setInfoPanel ['right','SlingLoadDisplay'];
+							} else {
+								setInfoPanel ['left','SlingLoadDisplay'];
+							};
+						};
+					};
+					private _heliplayer = if (isNull (missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])) then {player} else {(missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])};
+					if ((_heliplayer isEqualTo (driver _vehicle)) || {((_vehicle isKindOf 'heli_transport_04_base_f') && (_heliplayer isEqualTo (_vehicle turretUnit [1])))}) then {
+						if (diag_tickTime > (player getVariable ['QS_sling_keyDownDelay',-1])) then {
+							player setVariable ['QS_sling_keyDownDelay',(diag_tickTime + 0.5),FALSE];
+							if ((!isNull (getSlingLoad _vehicle)) || {(!isNull (_vehicle getVariable ['QS_sling_attached',objNull]))}) then {
+								if ((!isNull (getSlingLoad _vehicle)) && {((getSlingLoad _vehicle) in (attachedObjects _vehicle))}) then {
+									_c = TRUE;
+									['DOWN'] call (missionNamespace getVariable 'QS_fnc_slingRope');
+								};
+								if (!(_c)) then {
+									if ((!isNull (_vehicle getVariable ['QS_sling_attached',objNull])) && {((_vehicle getVariable ['QS_sling_attached',objNull]) in (attachedObjects _vehicle))}) then {
+										_c = TRUE;
+										['DOWN'] call (missionNamespace getVariable 'QS_fnc_slingRope');
+									};
+								};
+							};
+						} else {
+							_c = TRUE;
+						};
+					} else {
+						_c = TRUE;
+					};
+				} else {
+					_c = TRUE;
+				};
+			};
+		};
+	} else {
+		_c = TRUE;
+	};
+};
 if (_key isEqualTo 25) then {
-	if (_this select 2) then {
+	if (_shift) then {
 		_DLCsOwned = getDLCs 1;
 		if ((304400 in _DLCsOwned) || {((288520 in _DLCsOwned) && (304380 in _DLCsOwned) && (332350 in _DLCsOwned))}) then {
 			if (scriptDone QS_script_closeDLCs) then {
@@ -292,8 +400,8 @@ if (_key in (actionKeys 'NavigateMenu')) then {
 	};
 };
 if (_key in (actionKeys 'TeamSwitch')) then {
-	if (!(_this select 2)) then {
-		if (!(_this select 3)) then {
+	if (!(_shift)) then {
+		if (!(_ctrl)) then {
 			if (isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
 				uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',time];
 				uiNamespace setVariable ['BIS_dynamicGroups_ignoreInterfaceOpening',nil];
@@ -304,10 +412,21 @@ if (_key in (actionKeys 'TeamSwitch')) then {
 	};
 };
 if (_key in (actionKeys 'help')) then {
-	if ((!(_this select 2)) && (!(_this select 3)) && (!(_this select 4))) then {
-		missionNamespace setVariable ['BIS_fnc_advHint_HPressed',TRUE,FALSE];
-		missionNamespace setVariable ['BIS_fnc_advHint_RefreshCtrl',TRUE,FALSE];
-		[TRUE] call (missionNamespace getVariable 'BIS_fnc_AdvHintCall');
+	if ((!(_shift)) && (!(_ctrl)) && (!(_alt))) then {
+		if (diag_tickTime > (uiNamespace getVariable ['QS_hint_lastKeyDown',-1])) then {
+			uiNamespace setVariable ['QS_hint_lastKeyDown',(diag_tickTime + 0.25)];
+			missionNamespace setVariable ['BIS_fnc_advHint_HPressed',TRUE,FALSE];
+			missionNamespace setVariable ['BIS_fnc_advHint_RefreshCtrl',TRUE,FALSE];
+			if (uiNamespace getVariable ['QS_hint_opened',FALSE]) then {
+				playSound 'HintCollapse';
+				[''] call (missionNamespace getVariable 'QS_fnc_hint');
+			} else {
+				if (!((uiNamespace getVariable ['QS_hint_recalledHint',[]]) isEqualTo [])) then {
+					playSound 'HintExpand';
+					(uiNamespace getVariable ['QS_hint_recalledHint',[]]) call (missionNamespace getVariable 'QS_fnc_hint');
+				};
+			};
+		};
 		_c = TRUE;
 	};
 };

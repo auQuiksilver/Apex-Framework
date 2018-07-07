@@ -27,6 +27,7 @@ _list = [
 if (_type isEqualTo 'onLoad') exitWith {
 	disableSerialization;
 	_display = _this select 1;
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	(_display displayCtrl 1802) ctrlSetText 'Leaderboards';
 	(_display displayCtrl 1802) ctrlSetToolTip 'v1.0';
 	(_display displayCtrl 1803) ctrlSetText 'media\images\insignia\comm_patch.paa';
@@ -184,9 +185,10 @@ if (_type isEqualTo 'B1') exitWith {
 	};
 };
 if (_type isEqualTo 'B2') exitWith {
-	closeDialog 0;
+	closeDialog 2;
 	createDialog 'QS_RD_client_dialog_menu_main';
 };
 if (_type isEqualTo 'onUnload') exitWith {
-	closeDialog 0;
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
+	closeDialog 2;
 };

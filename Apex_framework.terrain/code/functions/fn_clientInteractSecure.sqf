@@ -19,7 +19,6 @@ __________________________________________________/*/
 ];
 
 if ((cameraOn distance _cursorObject) > 25) exitWith {
-	comment 'This is to patch a distance-detection issue with the "getCursorObjectParams" command';
 	50 cutText ['Too far','PLAIN DOWN',0.25];
 };
 if (((!isNil {_cursorTarget getVariable 'QS_secured'}) && (_cursorTarget getVariable 'QS_secured')) || ((!isNil {_cursorObject getVariable 'QS_secured'}) && (_cursorObject getVariable 'QS_secured'))) exitWith {

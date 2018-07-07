@@ -32,7 +32,7 @@ if (_type isEqualTo 0) exitWith {
 	_c;
 };
 if (_type isEqualTo 1) exitWith {
-	comment 'Get nearest field hospital position';
+	//comment 'Get nearest field hospital position';
 
 	_c;
 };

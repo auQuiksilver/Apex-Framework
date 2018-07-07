@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	17/07/2016 A3 1.62
+	13/06/2018 A3 1.82
 	
 Description:
 
@@ -25,7 +25,7 @@ if ((getMass _t) > 5000) then {
 	_nearbyUnits = (getPosATL _t) nearEntities ['Man',10];
 	if ((count _nearbyUnits) < 2) then {
 		_canPush = FALSE;
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,'No other person nearby. You need another person nearby (10m) in order to push a vehicle this heavy!',[],-1];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,'No other person nearby. You need another person nearby (10m) in order to push a vehicle this heavy!',[],-1,TRUE,'Too weak',TRUE];
 	};
 };
 if (!(_canPush)) exitWith {};

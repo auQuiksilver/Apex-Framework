@@ -59,7 +59,7 @@ _fn_sectorHint = {
 				missionNamespace setVariable ['QS_client_vs_msgEnteredControlArea',FALSE,FALSE];
 			};
 		} else {
-			comment 'Was in Cap area, entering Ctrl area';
+			//comment 'Was in Cap area, entering Ctrl area';
 			if (missionNamespace getVariable 'QS_client_vs_isInCaptureArea') then {
 				missionNamespace setVariable ['QS_client_vs_isInCaptureArea',FALSE,FALSE];
 			};
@@ -97,7 +97,7 @@ _fn_sectorHint = {
 	};
 };
 
-comment '****************************** 1 ******************************';
+//comment '****************************** 1 ******************************';
 
 _QS_color_profile = [(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843]),(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019]),(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862]),(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])];
 _QS_ctrlCreateArray = ['RscFrame',12340];
@@ -150,7 +150,7 @@ _QS_ctrl1_position_1 = (ctrlPosition _QS_ctrl1) select 1;
 _QS_ctrl1_position_2 = (ctrlPosition _QS_ctrl1) select 2;
 _QS_ctrl1_position_3 = (ctrlPosition _QS_ctrl1) select 3;
 
-comment '****************************** 2 ******************************';
+//comment '****************************** 2 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12346];
 _QS_ctrl2 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl2 ctrlShow FALSE;
@@ -173,7 +173,7 @@ _QS_ctrl2_position_1 = (ctrlPosition _QS_ctrl2) select 1;
 _QS_ctrl2_position_2 = (ctrlPosition _QS_ctrl2) select 2;
 _QS_ctrl2_position_3 = (ctrlPosition _QS_ctrl2) select 3;
 
-comment '****************************** 3 ******************************';
+//comment '****************************** 3 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12347];
 _QS_ctrl3 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl3 ctrlShow FALSE;
@@ -196,7 +196,7 @@ _QS_ctrl3_position_1 = (ctrlPosition _QS_ctrl3) select 1;
 _QS_ctrl3_position_2 = (ctrlPosition _QS_ctrl3) select 2;
 _QS_ctrl3_position_3 = (ctrlPosition _QS_ctrl3) select 3;
 
-comment '****************************** 4 ******************************';
+//comment '****************************** 4 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12348];
 _QS_ctrl4 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl4 ctrlShow FALSE;
@@ -216,7 +216,7 @@ _QS_ctrl4_scale = 1;
 _QS_ctrl4 ctrlSetScale _QS_ctrl4_scale;
 _QS_ctrl4 ctrlCommit 0;
 
-comment '****************************** 5 ******************************';
+//comment '****************************** 5 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12349];
 _QS_ctrl5 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl5 ctrlShow FALSE;
@@ -234,7 +234,7 @@ _QS_ctrl5 ctrlSetText _QS_ctrl_text5;
 _QS_ctrl5 ctrlSetTextColor _QS_ctrl_color5;
 _QS_ctrl5 ctrlCommit 0;
 
-comment '****************************** 6 ******************************';
+//comment '****************************** 6 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12350];
 _QS_ctrl6 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl6 ctrlShow FALSE;
@@ -252,12 +252,12 @@ _QS_ctrl6 ctrlSetText _QS_ctrl_text6;
 _QS_ctrl6 ctrlSetTextColor _QS_ctrl_color6;
 _QS_ctrl6 ctrlCommit 0;
 
-comment '****************************** Attack/Defend ******************************';
+//comment '****************************** Attack/Defend ******************************';
 
 _QS_icon_attack = 'a3\ui_f\data\igui\cfg\simpleTasks\types\attack_ca.paa';
 _QS_icon_defend = 'a3\ui_f\data\gui\cfg\GameTypes\defend_ca.paa';
 
-comment '****************************** 7 ******************************';
+//comment '****************************** 7 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12351];
 _QS_ctrl7 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl7 ctrlShow FALSE;
@@ -276,7 +276,7 @@ _QS_ctrl7 ctrlSetTextColor _QS_ctrl_color7;
 private _QS_ctrl7_fadeDir = -1;
 _QS_ctrl7 ctrlCommit 0;
 
-comment '****************************** 8 ******************************';
+//comment '****************************** 8 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12352];
 _QS_ctrl8 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl8 ctrlShow FALSE;
@@ -295,7 +295,7 @@ _QS_ctrl8 ctrlSetTextColor _QS_ctrl_color8;
 private _QS_ctrl8_fadeDir = -1;
 _QS_ctrl8 ctrlCommit 0;
 
-comment '****************************** 9 ******************************';
+//comment '****************************** 9 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12353];
 _QS_ctrl9 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl9 ctrlShow FALSE;
@@ -314,7 +314,7 @@ _QS_ctrl9 ctrlSetTextColor _QS_ctrl_color9;
 private _QS_ctrl9_fadeDir = -1;
 _QS_ctrl9 ctrlCommit 0;
 
-comment '****************************** 10 ******************************';
+//comment '****************************** 10 ******************************';
 _QS_ctrlCreateArray = ['RscIGUIText',12354];
 _QS_ctrl10 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl10 ctrlShow FALSE;
@@ -355,14 +355,14 @@ _QS_ctrl_color10 = [0.5,0.5,0.5,_QS_ctrl10_alpha];
 _QS_ctrl10 ctrlSetTextColor _QS_ctrl_color10;
 _QS_ctrl10 ctrlCommit 0;
 
-comment '****************************** 11 ******************************';
+//comment '****************************** 11 ******************************';
 
 _QS_flag_west = missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa'];
 _QS_flag_east = '\a3\Data_f_exp\Flags\flag_viper_co.paa';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12355];
 _QS_ctrl11 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl11 ctrlShow FALSE;
-comment 'QS_ctrl11_pos_x = ((0.44 * safezoneW) + safezoneX);';
+//comment 'QS_ctrl11_pos_x = ((0.44 * safezoneW) + safezoneX);';
 _QS_ctrl11_pos_x = ((ctrlPosition _QS_ctrl1) select 0) + (((ctrlPosition _QS_ctrl1) select 2) / 0.98);
 _QS_ctrl11_pos_y = ((0.005 * safezoneH) + safezoneY);
 _QS_ctrl11_pos_w = 0.1;
@@ -381,11 +381,11 @@ _QS_ctrl11 ctrlSetTextColor _QS_ctrl_color11;
 _QS_ctrl11 ctrlSetScale _QS_ctrl11_scale;
 _QS_ctrl11 ctrlCommit 0;
 
-comment '****************************** 12 ******************************';
-comment 'Progress bar';
+//comment '****************************** 12 ******************************';
+//comment 'Progress bar';
 
 _QS_ctrl12_pos_x = ((ctrlPosition _QS_ctrl1) select 0) + (((ctrlPosition _QS_ctrl1) select 2) / 0.98);
-_QS_ctrl12_pos_y = ((0.025 * safezoneH) + safezoneY) + (((ctrlPosition _QS_ctrl1) select 3) / 4); comment '0.035';
+_QS_ctrl12_pos_y = ((0.025 * safezoneH) + safezoneY) + (((ctrlPosition _QS_ctrl1) select 3) / 4); //comment '0.035';
 _QS_ctrl12_pos_w = 0.1;
 _QS_ctrl12_pos_h = 0.015;	
 _QS_ctrlCreateArray = ['RscBackground',12359];
@@ -419,11 +419,11 @@ _QS_ctrl12 ctrlSetScale _QS_ctrl12_scale;
 _QS_ctrl12 ctrlCommit 0;
 _QS_ctrl12 progressSetPosition _QS_ctrl12_progress;
 
-comment '****************************** 13 ******************************';
+//comment '****************************** 13 ******************************';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12357];
 _QS_ctrl13 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl13 ctrlShow FALSE;
-comment 'QS_ctrl13_pos_x = ((0.525 * safezoneW) + safezoneX);';
+//comment 'QS_ctrl13_pos_x = ((0.525 * safezoneW) + safezoneX);';
 _QS_ctrl13_pos_x = ((ctrlPosition _QS_ctrl1) select 0) + (((ctrlPosition _QS_ctrl1) select 2) / 0.33);
 _QS_ctrl13_pos_y = ((0.005 * safezoneH) + safezoneY);
 _QS_ctrl13_pos_w = 0.1;
@@ -442,8 +442,8 @@ _QS_ctrl13 ctrlSetTextColor _QS_ctrl_color13;
 _QS_ctrl13 ctrlSetScale _QS_ctrl13_scale;
 _QS_ctrl13 ctrlCommit 0;
 
-comment '****************************** 14 ******************************';
-comment 'Progress bar';
+//comment '****************************** 14 ******************************';
+//comment 'Progress bar';
 _QS_ctrl14_pos_x = ((ctrlPosition _QS_ctrl1) select 0) + (((ctrlPosition _QS_ctrl1) select 2) / 0.33);
 _QS_ctrl14_pos_y = ((0.025 * safezoneH) + safezoneY) + (((ctrlPosition _QS_ctrl1) select 3) / 4);
 _QS_ctrl14_pos_w = 0.1;
@@ -463,7 +463,7 @@ _QS_ctrl140 ctrlCommit 0;
 _QS_ctrlCreateArray = ['RscProgress',12358];
 _QS_ctrl14 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl14 ctrlShow FALSE;
-comment 'QS_ctrl14_pos_x = ((0.525 * safezoneW) + safezoneX);';
+//comment 'QS_ctrl14_pos_x = ((0.525 * safezoneW) + safezoneX);';
 _QS_ctrl14_scale = 1;
 _QS_ctrl_text14 = '';
 _QS_ctrl_color14 = _QS_color_profile;
@@ -480,7 +480,7 @@ _QS_ctrl14 ctrlSetScale _QS_ctrl14_scale;
 _QS_ctrl14 ctrlCommit 0;
 _QS_ctrl14 progressSetPosition _QS_ctrl14_progress;
 
-comment '****************************************************************';
+//comment '****************************************************************';
 
 _QS_ctrl4_scale = 0.5;
 _QS_ctrl1_position_0 = ((ctrlPosition _QS_ctrl1) select 0) + (((ctrlPosition _QS_ctrl1) select 2) / 4);
@@ -647,8 +647,8 @@ _QS_ctrl14 ctrlSetScale _QS_ctrl14_scale;
 _QS_ctrl14 ctrlCommit 0;
 _QS_ctrl14 progressSetPosition ((round((missionNamespace getVariable ['QS_virtualSectors_scoreSides',[0,0,0,0,0]]) select 0)) / _scoreWin);
 
-comment 'Mission timer';
-comment 'Frame';
+//comment 'Mission timer';
+//comment 'Frame';
 _QS_ctrlCreateArray = ['RscFrame',12370];
 _QS_ctrl17 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl17 ctrlShow FALSE;
@@ -658,11 +658,11 @@ _QS_ctrl17 ctrlSetPosition [
 	0.10,
 	0.13
 ];
-_QS_ctrl17_backgroundColor = [0,0,0,0]; comment '[0,0,0,0.95];';
+_QS_ctrl17_backgroundColor = [0,0,0,0]; //comment '[0,0,0,0.95];';
 _QS_ctrl17 ctrlSetTextColor [0,0,0,0];
 _QS_ctrl17 ctrlSetBackgroundColor _QS_ctrl17_backgroundColor;
 _QS_ctrl17 ctrlCommit 0;
-comment 'Background';
+//comment 'Background';
 _QS_ctrlCreateArray = ['RscPicture',12371];
 _QS_ctrl18 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl18 ctrlShow FALSE;
@@ -677,7 +677,7 @@ _QS_ctrl18_backgroundColor = [0,0,0,0.5];
 _QS_ctrl18 ctrlSetTextColor _QS_ctrl18_backgroundColor;
 _QS_ctrl18 ctrlSetBackgroundColor _QS_ctrl18_backgroundColor;
 _QS_ctrl18 ctrlCommit 0;
-comment 'Picture';
+//comment 'Picture';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12372];
 _QS_ctrl19 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl19 ctrlShow FALSE;
@@ -694,7 +694,7 @@ _QS_ctrl19 ctrlSetTextColor _QS_ctrl_color19;
 _QS_ctrl19_scale = 1;
 _QS_ctrl19 ctrlSetScale _QS_ctrl19_scale;
 _QS_ctrl19 ctrlCommit 0;
-comment 'Text';
+//comment 'Text';
 _QS_ctrlCreateArray = ['RscStructuredText',12373];
 private _QS_ctrl_color20 = [1,1,1,0.35];
 private _QS_ctrl_text20 = parseText '';
@@ -718,12 +718,12 @@ _QS_ctrl21 ctrlSetPosition [
 	0.10,
 	0.13
 ];
-_QS_ctrl21_backgroundColor = [0,0,0,0]; comment '[0,0,0,0.95];';
+_QS_ctrl21_backgroundColor = [0,0,0,0]; //comment '[0,0,0,0.95];';
 _QS_ctrl21 ctrlSetTextColor [0,0,0,0];
 _QS_ctrl21 ctrlSetBackgroundColor _QS_ctrl21_backgroundColor;
 _QS_ctrl21 ctrlCommit 0;		
 
-comment 'Background';
+//comment 'Background';
 _QS_ctrlCreateArray = ['RscPicture',12385];
 _QS_ctrl22 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl22 ctrlShow FALSE;
@@ -738,7 +738,7 @@ _QS_ctrl22_backgroundColor = [0,0,0,0.5];
 _QS_ctrl22 ctrlSetTextColor _QS_ctrl22_backgroundColor;
 _QS_ctrl22 ctrlSetBackgroundColor _QS_ctrl22_backgroundColor;
 _QS_ctrl22 ctrlCommit 0;
-comment 'Picture';
+//comment 'Picture';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12386];
 _QS_ctrl23 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl23 ctrlShow FALSE;
@@ -756,7 +756,7 @@ _QS_ctrl23_scale = 1;
 _QS_ctrl23 ctrlSetScale _QS_ctrl23_scale;
 _QS_ctrl23 ctrlCommit 0;
 
-comment 'Picture';
+//comment 'Picture';
 _QS_ctrlCreateArray = ['RscPictureKeepAspect',12387];
 _QS_ctrl24 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl24 ctrlShow FALSE;
@@ -1391,7 +1391,7 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		if ((!(_isStreamFriendly)) && (missionNamespace getVariable ['QS_missionStatus_shown',_false])) then {
 			if (_currentTaskTimer) then {
-				comment 'Show timer';
+				//comment 'Show timer';
 				_currentTaskTime = _currentTaskTimeout - serverTime;
 				if (_currentTaskTime >= 60) then {
 					_currentTaskTimerTextFormat = parseText (format ['<t shadow="2">%1</t>',([_currentTaskTime,'MM:SS'] call _fn_secondsToString)]);
@@ -1418,7 +1418,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_ctrl20
 				];
 			} else {
-				comment 'Hide timer';
+				//comment 'Hide timer';
 				{
 					if (ctrlShown _x) then {
 						_x ctrlShow _false;
@@ -1431,7 +1431,7 @@ for '_x' from 0 to 1 step 0 do {
 				];
 			};
 			if (_currentTaskProgress) then {
-				comment 'Show progress';
+				//comment 'Show progress';
 				_currentTaskProgression = round (_currentTaskRate * 24);
 				_QS_ctrl_text23 = format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_currentTaskProgression];
 				if (!((ctrlText _QS_ctrl23) isEqualTo _QS_ctrl_text23)) then {
@@ -1451,7 +1451,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_ctrl24
 				];
 			} else {
-				comment 'Hide progress';
+				//comment 'Hide progress';
 				{
 					if (ctrlShown _x) then {
 						_x ctrlShow _false;
@@ -1464,7 +1464,7 @@ for '_x' from 0 to 1 step 0 do {
 				];
 			};
 		} else {
-			comment 'Hide all';
+			//comment 'Hide all';
 			{
 				if (ctrlShown _x) then {
 					_x ctrlShow _false;

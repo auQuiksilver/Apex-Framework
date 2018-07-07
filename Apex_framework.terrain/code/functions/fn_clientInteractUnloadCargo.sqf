@@ -97,7 +97,7 @@ private _hasUnloaded = FALSE;
 					};
 					detach _cargo;				
 					_cargo setVectorUp (surfaceNormal _position);
-					_cargo setPos _position; comment 'maybe setvehicleposition?';
+					_cargo setPos _position; //comment 'maybe setvehicleposition?';
 					_cargo allowDamage (_cargo getVariable ['QS_isDamageAllowed',TRUE]);
 					player setVariable ['QS_tempDrawObject',[_cargo,(diag_tickTime + 15)],FALSE];
 					addMissionEventHandler [

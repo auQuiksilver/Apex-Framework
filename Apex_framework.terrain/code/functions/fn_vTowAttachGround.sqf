@@ -124,9 +124,6 @@ if (_isUAV) then {
 	];
 	player setUserActionText [(_vehicle getVariable 'QS_action_towLoadCargo2'),((player actionParams (_vehicle getVariable 'QS_action_towLoadCargo2')) select 0),(format ["<t size='3'>%1</t>",((player actionParams (_vehicle getVariable 'QS_action_towLoadCargo2')) select 0)])];
 };
-
-//QS_loadCargoIn
-
 waitUntil {
 	uiSleep 0.075;
 	(

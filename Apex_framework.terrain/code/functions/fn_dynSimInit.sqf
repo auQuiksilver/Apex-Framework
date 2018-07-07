@@ -18,13 +18,13 @@ if (_type isEqualTo 0) then {
 	enableDynamicSimulationSystem FALSE;
 };
 if (_type isEqualTo 1) then {
-	comment 'Disable while we configure';
+	//comment 'Disable while we configure';
 	enableDynamicSimulationSystem FALSE;
 	'GROUP' setDynamicSimulationDistance 500;
 	'VEHICLE' setDynamicSimulationDistance 350;
 	'EMPTYVEHICLE' setDynamicSimulationDistance 250;
 	'PROP' setDynamicSimulationDistance 250;
 	'ISMOVING' setDynamicSimulationDistanceCoef 2;
-	comment 'Enable after configure';
+	//comment 'Enable after configure';
 	enableDynamicSimulationSystem TRUE;
 };

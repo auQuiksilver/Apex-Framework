@@ -29,11 +29,13 @@ if (((vectorMagnitude (velocity player)) * 3.6) > 4) then {
 							_speed = 0.4;
 							_max_height = 4.5;
 							if (_height > _max_height) then {_height = _max_height};
-							private _allPlayers = allPlayers select {((_x distance2D player) < 100)};
+							private _allPlayers = allPlayers inAreaArray [(getPosATL player),100,100,0,FALSE];
 							_allPlayers = _allPlayers - [player];
 							player setVelocity [(_vel select 0)+(sin _dir*_speed),(_vel select 1)+(cos _dir*_speed),((_vel select 2)+_height)];
 							player switchMove 'AovrPercMrunSrasWrflDf';
-							['switchMove',player,'AovrPercMrunSrasWrflDf'] remoteExec ['QS_fnc_remoteExecCmd',_allPlayers,FALSE];
+							if (!(_allPlayers isEqualTo [])) then {
+								['switchMove',player,'AovrPercMrunSrasWrflDf'] remoteExec ['QS_fnc_remoteExecCmd',_allPlayers,FALSE];
+							};
 							player spawn {
 								uiSleep 0.5;
 								_this setvariable ['jump',TRUE,FALSE];

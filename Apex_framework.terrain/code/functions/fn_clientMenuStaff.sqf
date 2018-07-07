@@ -6,7 +6,7 @@ Author:
 	
 Last Modified: 
 
-	24/01/2017 A3 1.66 by Quiksilver
+	7/07/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -114,14 +114,14 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'Curator')) exitWith {
 		if (!isNull _logic) then {
 			if (!isNil {player getVariable 'QS_staff_curatorLastUpdate'}) exitWith {
 				if (!isStreamFriendlyUIEnabled) then {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Please wait a short time (10s) between sync attempts...',[],(serverTime + 10)];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Please wait a short time (10s) between sync attempts...',[],(serverTime + 10),TRUE,'Curator',FALSE];
 				};
 			};
 			player setVariable ['QS_staff_curatorLastUpdate',TRUE,FALSE];
 			0 spawn {uiSleep 10;player setVariable ['QS_staff_curatorLastUpdate',nil,FALSE];};
 			[49,_logic] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			if (!isStreamFriendlyUIEnabled) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Synchronizing Curator Module',[],-1];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Synchronizing editable entities',[],-1,TRUE,'Curator',FALSE];
 			};
 		};
 	};
@@ -318,21 +318,27 @@ if (_type2 isEqualType 0) exitWith {
 		};
 	};
 	if (_type2 isEqualTo 14) then {
-		playSound 'ClickSoft';
-		[53,[profileName,(getPlayerUID player)]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Cleaning in progress ...',[],(serverTime + 6)];
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,'Base cleaned. Executing this function too often will increase network de-sync.',[],(serverTime + 20)];
-		_text = format ['%1 (staff) has cleaned the spawn area.',profileName];
-		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		_result = ['Clean base. Executing this function too often will increase network de-sync.','Base cleanup','Execute','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
+		if (_result) then {	
+			playSound 'ClickSoft';
+			[53,[profileName,(getPlayerUID player)]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Cleaning in progress ...',[],(serverTime + 6)];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,'Base cleaned. Executing this function too often will increase network de-sync.',[],(serverTime + 20)];
+			_text = format ['%1 (staff) has cleaned the spawn area.',profileName];
+			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		};
 	};
 	if (_type2 isEqualTo 15) then {
-		playSound 'ClickSoft';
-		[54] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Cleaning in progress ...',[],(serverTime + 6)];
-		_hintText = format ['%1 cleaned. Executing this function too often will increase network de-sync.',worldName];
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,_hintText,[],(serverTime + 20)];
-		_text = format ['%1 (staff) has initialized %2 cleanup.',profileName,worldName];
-		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		_result = [(format ['Clean %1. Executing this function too often will increase network de-sync.',worldName]),(format ['%1 cleanup',worldName]),'Execute','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');	
+		if (_result) then {	
+			playSound 'ClickSoft';
+			[54] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Cleaning in progress ...',[],(serverTime + 6)];
+			_hintText = format ['%1 cleaned. Executing this function too often will increase network de-sync.',worldName];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,_hintText,[],(serverTime + 20)];
+			_text = format ['%1 (staff) has initialized %2 cleanup.',profileName,worldName];
+			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		};
 	};
 	if (_type2 isEqualTo 16) then {
 		playSound 'ClickSoft';
@@ -343,7 +349,7 @@ if (_type2 isEqualType 0) exitWith {
 				uiSleep 0.5;
 				disableUserInput FALSE;
 			};
-			comment 'Wait a second and then get the display, tweak the controls and switch the keyDown event handler';
+			//comment 'Wait a second and then get the display, tweak the controls and switch the keyDown event handler';
 			0 spawn {
 				disableSerialization;
 				uiSleep 0.5;
@@ -478,9 +484,9 @@ if (_type2 isEqualType 0) exitWith {
 										case (_key == DIK_V): {
 											if (_ctrl) then {
 												_clipboard = call compile copyfromclipboard;
-												if (typename _clipboard == typename []) then {
+												if (_clipboard isEqualType []) then {
 													_clipboard = [_clipboard] param [0,[],[[]],[13]];
-													if (count _clipboard == 13) then {
+													if ((count _clipboard) isEqualTo 13) then {
 														["Paste",_clipboard] call bis_fnc_camera;
 													} else {
 														["Wrong format of camera params (""%1"")",copyfromclipboard] call bis_fnc_error;

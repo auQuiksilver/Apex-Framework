@@ -100,7 +100,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	missionNamespace setVariable ['QS_casJet_destroyedAtBase',FALSE,FALSE];
 	['sideChat',[WEST,'AirBase'],(format ['Aircraft spawning (%1/%2) ...',_aircraftPool,(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])])] remoteExec ['QS_fnc_remoteExecCmd',_pilot,FALSE];
 	private ['_newCasType','_dir','_obstructions','_obstructionArray'];
-	comment 'Now lets decide what will spawn';
+	//comment 'Now lets decide what will spawn';
 	private [
 		'_playerPilot','_pilotTransportRank','_pilotLeaderboards','_pilotLeaderboardIndex','_pilotScore','_countLeaderboard',
 		'_pool0','_pool1','_pool2','_pool3','_pool4'

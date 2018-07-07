@@ -29,7 +29,7 @@ _arr = selectRandom [
 		["Box_IED_Exp_F",[6.60242,-2.64941,7.43866e-005],248.768,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
@@ -45,7 +45,7 @@ _arr = selectRandom [
 		["Box_Syndicate_Wps_F",[7.10132,-1.83691,3.52859e-005],0.000278935,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
@@ -66,7 +66,7 @@ _arr = selectRandom [
 		["Box_Syndicate_Ammo_F",[7.47241,-2.76709,8.29697e-005],360,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
@@ -97,7 +97,7 @@ _arr = selectRandom [
 		["Box_Syndicate_Wps_F",[3.8916,-0.20752,-9.53674e-007],0,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
@@ -115,7 +115,7 @@ _arr = selectRandom [
 		["Box_Syndicate_WpsLaunch_F",[-4.74512,-1.16406,-1.83582e-005],281.423,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
@@ -130,7 +130,7 @@ _arr = selectRandom [
 		["Box_Syndicate_Ammo_F",[-2.07861,-4.46387,3.09944e-006],0,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
@@ -146,7 +146,7 @@ _arr = selectRandom [
 		["Box_GEN_Equip_F",[-0.699707,5.01465,-1.66893e-006],275.153,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
@@ -171,7 +171,7 @@ _arr = selectRandom [
 		["Box_IED_Exp_F",[5.03174,3.93555,-1.26362e-005],296.601,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
 			_box = _this select 0;
-			comment 'Clear smoke grenades as anti-troll measure.';
+			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;

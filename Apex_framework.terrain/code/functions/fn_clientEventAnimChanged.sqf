@@ -14,7 +14,7 @@ Description:
 ___________________________________________________________________/*/
 params ['_unit','_anim'];
 if (_anim in ['acinpknlmstpsraswrfldnon','acinpknlmstpsnonwpstdnon','acinpknlmstpsnonwnondnon']) then {
-	comment 'Dragging';
+	//comment 'Dragging';
 	if (scriptDone QS_anim_script) then {
 		QS_anim_script = _this spawn {
 			params ['_unit','_anim'];
@@ -34,7 +34,7 @@ if (_anim in ['acinpknlmstpsraswrfldnon','acinpknlmstpsnonwpstdnon','acinpknlmst
 	};
 };
 if (_anim in ['ainjppnemrunsnonwnondb_still','ainjppnemrunsnonwrfldb_still','ainjppnemrunsnonwpstdb_still']) then {
-	comment 'Dragged';
+	//comment 'Dragged';
 	if (scriptDone QS_anim_script) then {
 		QS_anim_script = _this spawn {
 			params ['_unit','_anim'];
@@ -56,7 +56,7 @@ if (_anim in ['ainjppnemrunsnonwnondb_still','ainjppnemrunsnonwrfldb_still','ain
 	};
 };
 if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmstpsraswpstdnon','acinpercmstpsnonwnondnon']) then {
-	comment 'Carrying';
+	//comment 'Carrying';
 	if (scriptDone QS_anim_script) then {
 		QS_anim_script = _this spawn {
 			params ['_unit','_anim'];
@@ -104,7 +104,7 @@ if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmst
 	};
 };
 if (_anim in ['ainjpfalmstpsnonwrfldnon_carried_still','ainjpfalmstpsnonwnondnon_carried_still','ainjpfalmstpsnonwnondf_carried_dead','ainjpfalmstpsnonwnondnon_carried_up']) then {
-	comment 'Carried';
+	//comment 'Carried';
 	if (scriptDone QS_anim_script) then {
 		QS_anim_script = _this spawn {
 			params ['_unit','_anim'];

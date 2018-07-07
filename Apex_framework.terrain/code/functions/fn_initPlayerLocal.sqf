@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	19/01/2018 A3 1.80 by Quiksilver
+	7/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -131,8 +131,10 @@ player setUnitTrait ['QS_trait_AT',FALSE,TRUE];
 if ((['_AT_',_playerClass,FALSE] call _fn_inString) || {(['_LAT_',_playerClass,FALSE] call _fn_inString)}) then {
 	player setUnitTrait ['QS_trait_AT',TRUE,TRUE];
 };
+if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) in [0,1]) then {
+	enableEngineArtillery FALSE;
+};
 player setUnitTrait ['QS_trait_gunner',FALSE,TRUE];
-enableEngineArtillery FALSE;
 if (['_Mort_',_playerClass,FALSE] call _fn_inString) then {
 	player setUnitTrait ['QS_trait_gunner',TRUE,TRUE];
 };
@@ -310,6 +312,7 @@ if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 	['QS_client_radioChannels',[],FALSE],
 	['QS_client_radioChannels_dynamic',[FALSE,FALSE],FALSE],
 	['QS_client_heartbeat',-1,FALSE],
+	['QS_client_infoPanels',[(infoPanel 'left'),(infoPanel 'right')],FALSE],
 	['QS_draw2D_projectiles',[],FALSE],
 	[
 		'QS_veh_repair_mkrs',
@@ -430,34 +433,6 @@ if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 	['QS_client_action_carrierLaunchCancel',[],FALSE],
 	['QS_managed_hints',[],FALSE]
 ];
-
-/*/
-	[
-		'QS_client_customDraw2D',
-		[
-			[
-				'QS_icon_ID',
-				'ICON',
-				[
-					'a3\ui_f\data\igui\cfg\simpleTasks\interaction_pointer6_ca.paa',
-					[1,1,1,1],
-					(markerPos 'QS_marker_module_fob'),
-					50,
-					50,
-					0,
-					'',
-					2,
-					0,
-					'RobotoCondensed',
-					'right'
-				]
-			]
-		],
-		FALSE
-	]
-/*/
-
-
 if ((profileNamespace getVariable ['QS_IA_joinToken',0]) < 10) then {
 	if (!((missionNamespace getVariable ['QS_arsenals',[]]) isEqualTo [])) then {
 		{
@@ -476,15 +451,17 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	missionNamespace setVariable ['BIS_dg_fia',nil,FALSE];
 };
 
-/*/====================== PLAYER OBJECT VARS/*/
+/*/====================== UI VARS/*/
 {
 	uiNamespace setVariable _x;
 } forEach [
 	['BIS_fnc_advHint_hintHandlers',TRUE],
 	['QS_ui_timeLastRadioIn',diag_tickTime],
 	['QS_ui_timeLastRadioOut',diag_tickTime],
+	['QS_ui_mousePosition',getMousePosition],
 	['RscMissionStatus_display',displayNull]
 ];
+/*/====================== PLAYER OBJECT VARS/*/
 {
 	player setVariable _x;
 } forEach [
@@ -615,9 +592,7 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['MusicStop',{}]
 ];
 // Preload Arsenal
-if (!((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 0)) then {
-	call (missionNamespace getVariable 'QS_fnc_clientArsenal');
-};
+call (missionNamespace getVariable 'QS_fnc_clientArsenal');
 {
 	if (simulationEnabled _x) then {
 		if ((player knowsAbout _x) < 3) then {
@@ -657,7 +632,7 @@ _playerClass spawn {
 0 spawn {
 	uiSleep 1;
 	if ((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-		comment 'Insignia';
+		//comment 'Insignia';
 		if (!isNil {profileNamespace getVariable 'QS_ClientUnitInsignia2'}) then {
 			if ((profileNamespace getVariable 'QS_ClientUnitInsignia2') isEqualType '') then {
 				if (!((profileNamespace getVariable 'QS_ClientUnitInsignia2') isEqualTo '')) then {
@@ -666,7 +641,7 @@ _playerClass spawn {
 				};
 			};
 		};
-		comment 'Uniform';
+		//comment 'Uniform';
 		if (!isNil {profileNamespace getVariable 'QS_ClientUTexture2'}) then {
 			if ((profileNamespace getVariable 'QS_ClientUTexture2') isEqualType '') then {
 				if (!((profileNamespace getVariable 'QS_ClientUTexture2') isEqualTo '')) then {

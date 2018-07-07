@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	28/01/2018 A3 1.80 by Quiksilver
+	7/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -214,7 +214,9 @@ if ((['_AT_',_playerClass,FALSE] call (missionNamespace getVariable 'QS_fnc_inSt
 		player setUnitTrait ['QS_trait_AT',FALSE,TRUE];
 	};
 };
-enableEngineArtillery FALSE;
+if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) in [0,1]) then {
+	enableEngineArtillery FALSE;
+};
 if (['_Mort_',_playerClass,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 	if (!(player getUnitTrait 'QS_trait_gunner')) then {
 		player setUnitTrait ['QS_trait_gunner',TRUE,TRUE];

@@ -16,7 +16,7 @@ ________________________________________________________/*/
 params ['_type'];
 if (_type isEqualTo 0) exitWith {
 	private _return = TRUE;
-	comment 'Evaluate';
+	//comment 'Evaluate';
 	private _objectivesData_update = FALSE;
 	private _objectiveReturn = 0;
 	private _objectiveData = [];
@@ -60,10 +60,10 @@ if (_type isEqualTo 1) exitWith {
 	private _objectiveCode = {0};
 	private _objectiveOnCompleted = {};
 	private _objectiveOnFailed = {};
-	comment 'Create';
-	comment 'Radio tower';
-	comment 'Secure HQ';
-	comment 'Enemy pop threshold';
+	//comment 'Create';
+	//comment 'Radio tower';
+	//comment 'Secure HQ';
+	//comment 'Enemy pop threshold';
 	if (_subType isEqualTo 'ENEMYPOP') then {
 		_pos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
 		_aoSize = missionNamespace getVariable ['QS_aoSize',500];

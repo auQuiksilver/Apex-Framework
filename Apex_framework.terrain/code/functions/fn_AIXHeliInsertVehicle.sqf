@@ -56,7 +56,7 @@ _helipadType = 'Land_HelipadEmpty_F';
 for '_x' from 0 to 99 step 1 do {
 	_HLZ = [_position,0,300,17,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 	if ((nearestObjects [_position,[_helipadType],75,TRUE]) isEqualTo []) then {
-		if ((_allPlayers findIf {((_x distance2D _HLZ) < 50)}) isEqualTo -1) then {
+		if ((_allPlayers inAreaArray [_HLZ,50,50,0,FALSE]) isEqualTo []) then {
 			if ((_HLZ distance2D _position) < 300) then {
 				_foundHLZ = TRUE;
 			};
@@ -70,7 +70,7 @@ private _spawnPosition = [0,0,0];
 private _foundSpawnPosition = FALSE;
 for '_x' from 0 to 99 step 1 do {
 	_spawnPosition = [_HLZ,1000,2500,1,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if ((_allPlayers findIf {((_x distance2D _spawnPosition) < 500)}) isEqualTo -1) then {
+	if ((_allPlayers inAreaArray [_spawnPosition,500,500,0,FALSE]) isEqualTo []) then {
 		if (!((((_spawnPosition select [0,2]) nearRoads 30) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo [])) then {
 			_foundSpawnPosition = TRUE;
 		};

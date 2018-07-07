@@ -19,7 +19,7 @@ if (_this isEqualType '') then {
 	private _QS_hcSelected = hcSelected player;
 	//systemChat str _QS_hcSelected;
 	if (!( _QS_hcSelected isEqualTo [] )) then {
-		comment 'Main HC commanding menu stuff here';
+		//comment 'Main HC commanding menu stuff here';
 		private _undefined = FALSE;
 		_text = 'Command issued';
 		_text1 = 'Undefined command';

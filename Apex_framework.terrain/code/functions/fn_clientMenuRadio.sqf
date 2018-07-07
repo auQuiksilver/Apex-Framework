@@ -16,6 +16,7 @@ disableSerialization;
 _type = _this select 0;
 if (_type isEqualTo 'onLoad') then {
 	_display = _this select 1;
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	{
 		(_x select 0) ctrlSetText (_x select 1);
 	} forEach [
@@ -112,13 +113,20 @@ if (_type isEqualTo 'onLoad') then {
 	(_display displayCtrl 1826) ctrlEnable FALSE;
 };
 if (_type isEqualTo 'onUnload') then {
-
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
 };
 if (_type isEqualTo 'Manage') then {
 
 };
 if (_type isEqualTo 'Close') then {
-	closeDialog 0;
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+	};
 };
 if (_type in [
 	'Check_1','Check_2','Check_3','Check_4','Check_5','Check_6',

@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	8/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -156,6 +156,22 @@ class CfgDisabledCommands {
         {
             targets[] = {1,1,1};
             args[] = {{},{"LOCATION"}};
+        };
+    };
+    class HINT
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"STRING","TEXT"}};
+        };
+    };
+    class HINTSILENT
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"STRING","TEXT"}};
         };
     };
 };
@@ -577,6 +593,7 @@ class CfgFunctions {
 			class hcCore {file = "code\functions\fn_hcCore.sqf";};
 			class hCommMenu {file = "code\functions\fn_hCommMenu.sqf";};
 			class highCommand {file = "code\functions\fn_highCommand.sqf";};
+			class hint {file = "code\functions\fn_hint.sqf";};
 			class icons {file = "code\functions\fn_icons.sqf";};
 			class incapacitated {file = "code\functions\fn_incapacitated.sqf";};
 			class inHouse {file = "code\functions\fn_inHouse.sqf";};
@@ -649,6 +666,8 @@ class CfgFunctions {
 			class simpleObjectCreate {file = "code\functions\fn_simpleObjectCreate.sqf";};
 			class simpleObjectData {file = "code\functions\fn_simpleObjectData.sqf";};
 			class simpleObjectReplaceWith {file = "code\functions\fn_simpleObjectReplaceWith.sqf";};
+			class slingData {file = "code\functions\fn_slingData.sqf";};
+			class slingRope {file = "code\functions\fn_slingRope.sqf";};
 			class smDebrief {file = "code\functions\fn_smDebrief.sqf";};
 			class smDelete {file = "code\functions\fn_smDelete.sqf";};
 			class smEnemyDivers {file = "code\functions\fn_smEnemyDivers.sqf";};
@@ -2291,7 +2310,7 @@ class QS_RD_client_dialog_menu_main {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			text = "";
-			tooltip = "Score (Team), Score (Individual), Rating (Individual)";
+			tooltip = "Score, Rating, Health, Equipment";
 		};
 		class QS_RD_client_dialog_menu_main_text_2: QS_RD_dialog_RscText {
 			moving = 1;
@@ -2303,7 +2322,7 @@ class QS_RD_client_dialog_menu_main {
 			sizeEx = 0.028;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			tooltip = "Health, Equipment Load (kg), FPS";
+			tooltip = "FPS, Time to server restart (estimated)";
 		};
 		
 		class QS_RD_client_dialog_menu_main_button_1: QS_RD_dialog_RscButton {
@@ -5170,78 +5189,57 @@ class RscTitles {
 			};
 		};
 	};
-	
-	class Default 
-	{
+	class Default {
 		idd = -1;
 		fadein = 0;
 		fadeout = 0;
 		duration = 0;
 	};
-
-	class TIBattery
-	{
-		idd = 20000;
-		duration = 1e10;
-		fadein = 0;
-		fadeout = 0;
-		onLoad = "uiNamespace setVariable [ 'TIBattery_UI', _this select 0 ];";
-		onUnLoad = "uiNamespace setVariable [ 'TIBattery_UI', displayNull ];";
-		
-		class Controls
-		{
-						
-			//Progress background
-			class TIBattery_ProgBck: QS_RD_dialog_RscPictureKeepAspect
-			{
-				idc = -1;
-				x = ( safeZoneX + ( 200 * pixelGrid * pixelW )) + (( 24 * pixelW ) * 0.25 ) ;
-				y = ( safeZoneY + ( 90 * pixelGrid * pixelH ))  + (( 36 * pixelH ) * 0.25 );
-				w = (( 80 * pixelW ) * 0.25 ) ;
-				h = (( 204 * pixelH ) * 0.25 ) ;
-				
-				colorText[] = { 0.94, 0.94, 0.94, 1 };
-				text = "#(argb,8,8,3)color(1,1,1,1)";
-			};		
-			//Progress bar
-			class TIBattery_Prog: RscProgress
-			{
-				idc = 20002;
-				x = ( safeZoneX + ( 200 * pixelGrid * pixelW )) + (( 24 * pixelW ) * 0.25 ) ;
-				y = ( safeZoneY + ( 90 * pixelGrid * pixelH ))  + (( 36 * pixelH ) * 0.25 );
-				w = (( 80 * pixelW ) * 0.25 ) ;
-				h = (( 204 * pixelH ) * 0.25 ) ;
-				
-				style = ST_VERTICAL;
-				colorBar[] = { 0.14, 0.53, 0.14, 1 };
-				texture = "";
-			};
-			
-			//Main Overlay Battery Graphic
-			class TIBattery_Main: QS_RD_dialog_RscPictureKeepAspect
-			{
-				idc = -1;
+	class QS_hud_hint {
+		idd = 33000;
+		onLoad = "uiNamespace setVariable ['QS_hint_display_1',(_this select 0)];";
+		onUnload = "";
+		deletable = 0;
+		fade = 0;
+		fadein = 0.1;
+		fadeout = 0.1;
+		duration = 30;
+		h = "5 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+		shadow = 0;
+		style = 16;
+		type = 15;
+		w = "(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40))";
+		x = "0 * 					(			((safezoneW / safezoneH) min 1.2) / 40) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_X"",		((safezoneX + safezoneW) - 		(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40)) - 1 * 			(			((safezoneW / safezoneH) min 1.2) / 40))])";
+		y = "0 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_Y"",		(safezoneY + 6 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])";
+		class controls {
+			class QS_hint_1: QS_RD_RscStructuredText {
+				idc = 101;
+				onLoad = "uiNamespace setVariable ['QS_hint_display_2',(_this select 0)];";
+				onUnload = "";
+				colorBackground[] = {"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])","(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])","(profilenamespace getvariable ['IGUI_BCG_RGB_B',1])",0.7};
+				colorText[] = {1,1,1,1};
+				deletable = 0;
+				linespacing = 1;
+				fixedWidth = 0;
+				fade = 0;
+				h = "5 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";//h = "4 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				shadow = 1;
+				size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+				style = 0;
 				text = "";
-				x = ( safeZoneX + ( 200 * pixelGrid * pixelW ));
-				y = ( safeZoneY + ( 90 * pixelGrid * pixelH )) ;
-				w = ( 128 * pixelW * 0.25 );
-				h = ( 256 * pixelH * 0.25 );
+				type = 13;
+				w = "(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40))";//w = "(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40))";
+				x = "0 * 					(			((safezoneW / safezoneH) min 1.2) / 40) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_X"",		((safezoneX + safezoneW) - 		(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40)) - 1 * 			(			((safezoneW / safezoneH) min 1.2) / 40))])";//x = "0 * 					(			((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "0 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_Y"",		(safezoneY + 6 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])";//y = "1 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				class Attributes {
+					align = "center";
+					color = "#ffffff";
+					colorLink = "#D09B43";
+					font = "RobotoCondensed";
+					shadow = 1;
+				};
 			};
-
-			//Number of Batteries
-			class TIBattery_TextBottom: QS_RD_dialog_RscText
-			{
-				idc = 20001;
-				x = ( safeZoneX + ( 200 * pixelGrid * pixelW ));
-				y = ( safeZoneY + ( 90 * pixelGrid * pixelH ))  + ( 6 * pixelH * pixelGrid );
-				w = ( 128 * pixelW * 0.25 );
-				h = ( 256 * pixelH * 0.25 );
-				
-				style = ST_CENTER;
-				sizeEx = GUI_TEXT_SIZE_SMALL;
-				text = "+0";
-			};		
 		};
-	};	
+	};
 };
 dev = "Quiksilver";

@@ -53,7 +53,7 @@ if (_type isEqualTo 'LAND') exitWith {
 		if (diag_tickTime > ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 0)) then {
 			if ((_vehicle distance2D ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 1)) < 5) then {
 				if (((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) > 2) then {
-					if ((allPlayers findIf {((_x distance2D _vehicle) < 100)}) isEqualTo -1) then {
+					if ((allPlayers inAreaArray [(getPosATL _vehicle),100,100,0,FALSE]) isEqualTo []) then {
 						_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosATL _vehicle),-1],FALSE];
 						_nearestRoad = [((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 1),125] call (missionNamespace getVariable 'QS_fnc_nearestRoad');
 						if (!isNull _nearestRoad) then {
@@ -86,7 +86,7 @@ if (_type isEqualTo 'SHIP') exitWith {
 			if (diag_tickTime > ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 0)) then {
 				if ((_vehicle distance2D ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 1)) < 5) then {
 					if (((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) > 2) then {
-						if ((allPlayers findIf {((_x distance2D _vehicle) < 100)}) isEqualTo -1) then {
+						if ((allPlayers inAreaArray [(getPosATL _vehicle),100,100,0,FALSE]) isEqualTo []) then {
 							_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosASL _vehicle),-1],FALSE];
 							if (!alive (driver _vehicle)) then {
 								if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {

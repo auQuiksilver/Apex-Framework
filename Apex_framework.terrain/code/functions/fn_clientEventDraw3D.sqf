@@ -249,7 +249,7 @@ if (!isStreamFriendlyUIEnabled) then {
 						};
 					};
 				};
-			} count ((getPosATL _player) nearEntities ['CAManBase',30]);
+			} count ((getPosATL _cameraOn) nearEntities ['CAManBase',30]);
 		} else {
 			_unit = cursorTarget;
 			if (isNull _unit) then {
@@ -279,8 +279,12 @@ if (!isStreamFriendlyUIEnabled) then {
 									if (isPlayer _unit) then {
 										_unitType = _player getVariable [(format ['QS_HUD_unitDN#%1',_unitType]),''];
 										if (_unitType isEqualTo '') then {
-											_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
-											_player setVariable [(format ['QS_HUD_unitDN#%1',_unitType]),_unitType,FALSE];
+											if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+												_unitType = _unit getVariable ['QS_ST_customDN',''];
+											} else {
+												_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
+												_player setVariable [(format ['QS_HUD_unitDN#%1',_unitType]),_unitType,FALSE];
+											};
 										};
 										_unitName = (name _unit) + (format [' (%1)',_unitType]);
 									} else {

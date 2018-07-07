@@ -186,6 +186,7 @@ _heli addEventHandler [
 		};
 	}
 ];
+['setFeatureType',_heli,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_heli];
 _heliGroup enableAttack FALSE;
 _heliGroup addVehicle _heli;
 {
@@ -263,7 +264,7 @@ if (!(_spawnUnits)) then {
 		};
 	} forEach _useUnits;
 };
-comment 'Radial positions';
+//comment 'Radial positions';
 if (_spawnUnits) then {
 	_infantryGroup enableAttack TRUE;
 	[(units _infantryGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
@@ -299,6 +300,7 @@ _wp setWaypointType 'MOVE';		/*/ 'TR UNLOAD' /*/
 _wp setWaypointSpeed 'NORMAL';
 _wp setWaypointBehaviour 'CARELESS';
 _wp setWaypointCombatMode 'BLUE';
+_wp setWaypointForceBehaviour TRUE;
 _wp setWaypointStatements [
 	'TRUE',
 	'
@@ -334,19 +336,16 @@ if (_useSupport) then {
 		_supportHeli setUnloadInCombat [FALSE,FALSE];
 		_supportHeli allowCrewInImmobile TRUE;
 		_supportHeli lock 3;
+		['setFeatureType',_supportHeli,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_supportHeli];
 		[_supportHeli,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
-		comment "
-		if (!isNull (gunner _supportHeli)) then {
-			(gunner _supportHeli) doWatch _position;
-		};
-		";
 		_wp = _supportGroup addWaypoint [_HLZ,0];
 		_wp setWaypointType 'LOITER';
 		_wp setWaypointLoiterType 'CIRCLE_L';
 		_wp setWaypointLoiterRadius (random [150,200,300]);
-		comment "_wp setWaypointType 'SAD';";
-		_wp setWaypointBehaviour 'COMBAT';
+		//comment "_wp setWaypointType 'SAD';";
+		_wp setWaypointBehaviour 'AWARE';
 		_wp setWaypointCombatMode 'RED';
+		_wp setWaypointForceBehaviour TRUE;
 		_supportGroup lockWP TRUE;
 		_supportGroup enableAttack TRUE;
 		_supportGroup setBehaviour 'AWARE';
@@ -403,7 +402,7 @@ if (_useSupport) then {
 	};
 };
 if ((_manageGroup) && (_spawnUnits)) then {
-	comment 'Monitor';
+	//comment 'Monitor';
 	_timeout = time + 900;
 	for '_x' from 0 to 1 step 0 do {
 		if (!(((units _infantryGroup) findIf {(alive _x)}) isEqualTo -1)) then {

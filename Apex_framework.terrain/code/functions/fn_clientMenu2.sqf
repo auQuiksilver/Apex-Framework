@@ -13,7 +13,7 @@ Description:
 	Client Menu
 __________________________________________________________*/
 
-closeDialog 0;
+closeDialog 2;
 if (isNull (findDisplay 2000)) then {
 	[0] call (missionNamespace getVariable 'QS_fnc_clientMenu');
 } else {

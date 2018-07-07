@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/04/2018 A3 1.82 by Quiksilver
+	2/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -138,8 +138,9 @@ if (!(_isOwnedJets)) then {
 } forEach _uavData;
 private _uavElement = [];
 private _uiTime = diag_tickTime;
-private _QS_laserTarget = objNull;
 private _ugvRespawnDelay = 30;
+private _ugvRespawnFOB = FALSE;
+private _operatorAtFOB = FALSE;
 _uavRespawnDelay = 300;
 _uavInitCodeGeneric = {
 	params ['_uavEntity'];
@@ -222,6 +223,10 @@ _uavInitCodeGeneric = {
 		_uavEntity addBackpackCargoGlobal ['b_uav_06_medical_backpack_f',2];
 		_uavEntity enableVehicleCargo TRUE;
 		_uavEntity enableRopeAttach TRUE;
+		_uavEntity addRating (0 - (rating _uavEntity));
+		{
+			_x addRating (0 - (rating _x));
+		} forEach (crew _uavEntity);
 		_uavEntity addEventHandler ['HandleDamage',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandleDamage')}];
 		_uavEntity setVariable ['QS_ropeAttached',FALSE,TRUE];
 		_uavEntity setVariable ['QS_tow_veh',2,TRUE];
@@ -300,9 +305,20 @@ _fn_isPosSafe = {
 	} count (nearestObjects [_position,[],_radius,TRUE]);
 	_return;
 };
+_fn_findSafePos = missionNamespace getVariable 'QS_fnc_findSafePos';
+private _safePos = [0,0,0];
 for '_i' from 0 to 1 step 0 do {
 	uiSleep 3;
 	_uiTime = diag_tickTime;
+	if ((player distance2D (markerPos 'QS_marker_module_fob')) < 300) then {
+		if (!(_ugvRespawnFOB)) then {
+			_ugvRespawnFOB = TRUE;
+		};
+	} else {
+		if (_ugvRespawnFOB) then {
+			_ugvRespawnFOB = FALSE;
+		};
+	};
 	{
 		_x params [
 			'_uavEntity',
@@ -336,17 +352,24 @@ for '_i' from 0 to 1 step 0 do {
 							deleteVehicle _uavEntity;
 							uiSleep 0.1;
 						};
-						if (_uavType isKindOf ['Plane',_cfgVehicles]) then {	
+						if (_uavType isKindOf ['Plane',_cfgVehicles]) then {
 							// UCav + Greyhawk
 							_uavEntity = createVehicle [_uavType,_uavLoiterPosition,[],50,'FLY'];
 						} else {
-							_uavEntity = createVehicle [_uavType,(ASLToAGL _uavSpawnPosition),[],0,'NONE'];
-							if (_uavSpawnVectors isEqualTo []) then {
-								_uavEntity setDir _uavSpawnDirection;
+							if ((_ugvRespawnFOB) && (_uavType isKindOf ['ugv_01_base_f',_cfgVehicles]) && ((missionNamespace getVariable ['QS_module_fob_side',sideUnknown]) isEqualTo playerSide)) then {
+								_safePos = [(markerPos 'QS_marker_module_fob'),0,70,5,0,5,0] call _fn_findSafePos;
+								_uavEntity = createVehicle [_uavType,_safePos,[],0,'NONE'];
+								_uavEntity setDir (random 360);
+								_uavEntity setVehiclePosition [_safePos,[],0,'NONE'];
 							} else {
-								_uavEntity setVectorDirAndUp _uavSpawnVectors;
+								_uavEntity = createVehicle [_uavType,(ASLToAGL _uavSpawnPosition),[],0,'NONE'];
+								if (_uavSpawnVectors isEqualTo []) then {
+									_uavEntity setDir _uavSpawnDirection;
+								} else {
+									_uavEntity setVectorDirAndUp _uavSpawnVectors;
+								};
+								_uavEntity setPosASL _uavSpawnPosition;
 							};
-							_uavEntity setPosASL _uavSpawnPosition;
 						};
 						_uavEntity call _uavInitCodeGeneric;
 						if (!(_uavInitCode isEqualTo {})) then {
@@ -357,6 +380,16 @@ for '_i' from 0 to 1 step 0 do {
 				};
 			};
 		} else {
+			if ((_uavEntity isKindOf 'ugv_01_base_f') && (!(_uavEntity isKindOf 'ugv_01_rcws_base_f'))) then {
+				if (!((rating _uavEntity) isEqualTo 0)) then {
+					_uavEntity addRating (0 - (rating _uavEntity));
+				};
+				{
+					if (!((rating _x) isEqualTo 0)) then {
+						_x addRating (0 - (rating _x));
+					};
+				} forEach (crew _uavEntity);
+			};
 			// UAV is still alive, handle various situations
 			if (((getPosASL _uavEntity) select 2) < -1.5) then {
 				_uavEntity setDamage [1,FALSE];
@@ -365,14 +398,35 @@ for '_i' from 0 to 1 step 0 do {
 	} forEach _uavData;
 	{
 		if (local _x) then {
-			_x enableAI 'TEAMSWITCH';
-			if (((side _x) isEqualTo sideEnemy) || {(((side _x) getFriend WEST) < 0.6)}) then {
-				[17,_x] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+			_uavEntity = _x;
+			_uavEntity enableAI 'TEAMSWITCH';
+			if ((!isNull (attachedTo _uavEntity)) || {(!isNull (isVehicleCargo _uavEntity))} || {(!isNull (ropeAttachedTo _uavEntity))}) then {
+				if (!(_uavEntity getVariable ['QS_uav_disabledAI',FALSE])) then {
+					_uavEntity setVariable ['QS_uav_disabledAI',TRUE,FALSE];
+					_uavEntity disableAI 'ALL';
+					{
+						_x disableAI 'ALL';
+					} forEach (crew _uavEntity);
+				};
+			} else {
+				if (_uavEntity getVariable ['QS_uav_disabledAI',FALSE]) then {
+					_uavEntity setVariable ['QS_uav_disabledAI',FALSE,FALSE];
+					_uavEntity enableAI 'ALL';
+					{
+						_x enableAI 'ALL';
+					} forEach (crew _uavEntity);
+				};
 			};
-			if (!isNull (laserTarget _x)) then {
-				_QS_laserTarget = laserTarget _x;
-				if ((_QS_laserTarget distance2D _QS_module_safezone_pos) < 500) then {
-					deleteVehicle _QS_laserTarget;
+			if (isLaserOn _uavEntity) then {
+				if (!isNull (laserTarget _uavEntity)) then {
+					if (((laserTarget _uavEntity) distance2D _QS_module_safezone_pos) < 500) then {
+						deleteVehicle (laserTarget _uavEntity);
+					};
+				};
+			};
+			if (alive (driver _uavEntity)) then {
+				if (((side (group (driver _uavEntity))) isEqualTo sideEnemy) || {(((side (group (driver _uavEntity))) getFriend WEST) < 0.6)}) then {
+					[17,_x] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 				};
 			};
 		};

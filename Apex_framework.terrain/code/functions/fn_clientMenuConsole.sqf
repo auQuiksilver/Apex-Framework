@@ -83,19 +83,19 @@ if (_type in ['B1','B2','B3']) then {
 };
 if (_type isEqualTo 'B1') exitWith {
 	if (!(_QS_input isEqualTo '')) then {
-		comment 'Exec on server';
+		//comment 'Exec on server';
 		[22,[],_QS_input,0,player,(getPlayerUID player),profileName,profileNameSteam,clientOwner,2] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 };
 if (_type isEqualTo 'B2') exitWith {
 	if (!(_QS_input isEqualTo '')) then {
-		comment 'Exec on global';
+		//comment 'Exec on global';
 		[22,[],_QS_input,0,player,(getPlayerUID player),profileName,profileNameSteam,clientOwner,0] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 };
 if (_type isEqualTo 'B3') exitWith {
 	if (!(_QS_input isEqualTo '')) then {
-		comment 'Exec local';
+		//comment 'Exec local';
 		[22,[],_QS_input,0,player,(getPlayerUID player),profileName,profileNameSteam,clientOwner,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 };

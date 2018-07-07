@@ -6,13 +6,11 @@ Author:
 	
 Last Modified:
 
-	30/09/2017 A3 1.76 by Quiksilver
+	23/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Client Menu Options
-	
-	missionNamespace setVariable ['QS_missionConfig_stamina',_stamina,TRUE];
 __________________________________________________________/*/
 disableSerialization;
 private ['_type','_display','_value'];
@@ -21,6 +19,7 @@ if (_type isEqualTo 'onLoad') then {
 	(findDisplay 2000) closeDisplay 1;
 	(findDisplay 3000) closeDisplay 1;
 	_display = _this select 1;
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 1) then {
 			ctrlEnable [1805,FALSE];
 			(_display displayCtrl 1805) ctrlSetTooltip 'Stamina forced ON in server configuration, sorry';
@@ -45,7 +44,7 @@ if (_type isEqualTo 'onLoad') then {
 	};
 	(_display displayCtrl 1813) cbSetChecked (!isNil {player getVariable 'QS_HUD_3'});
 	(_display displayCtrl 1815) cbSetChecked (environmentEnabled select 0);
-	if ((player getUnitTrait 'uavhacker') || {(player getUnitTrait 'QS_trait_pilot')} || {(player getUnitTrait 'QS_trait_CAS')}) then {
+	if ((player getUnitTrait 'uavhacker') || {(player getUnitTrait 'QS_trait_pilot')} || {(player getUnitTrait 'QS_trait_CAS')} || {(player getUnitTrait 'QS_trait_HQ')}) then {
 		ctrlEnable [1817,FALSE];
 	} else {
 		ctrlEnable [1817,TRUE];
@@ -53,6 +52,7 @@ if (_type isEqualTo 'onLoad') then {
 	(_display displayCtrl 1817) cbSetChecked (!isNull (missionNamespace getVariable ['QS_dynSim_script',scriptNull]));
 };
 if (_type isEqualTo 'onUnload') then {
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
 	profileNamespace setVariable ['QS_stamina',(player getVariable 'QS_stamina')];
 	profileNamespace setVariable ['QS_1PV',(player getVariable 'QS_1PV')];
 	saveProfileNamespace;
@@ -155,6 +155,13 @@ if (_type isEqualTo 'DynSimCheckbox') then {
 	saveProfileNamespace;
 };
 if (_type isEqualTo 'Back') then {
-	closeDialog 0;
-	createDialog 'QS_RD_client_dialog_menu_main';
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_main';
+	};
 };

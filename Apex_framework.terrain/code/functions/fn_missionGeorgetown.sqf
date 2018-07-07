@@ -300,9 +300,7 @@ _QS_intersections = [
 QS_buildingPositions_inner = QS_buildingPositions select {(_x inPolygon QS_georgetown_vExclusion_polygon)};
 QS_buildingPositions_inner_ground = QS_buildingPositions_inner select {((_x select 2) < 5)};
 _QS_fnc_posVisibility = {
-	comment '
-		Is this position visible to any players
-	';
+	//comment 'Is this position visible to any players';
 	params ['_position','_radius','_units','_sides','_tolerance','_returnType'];
 	scopeName 'main';
 	private _isMultiplayer = isMultiplayer;
@@ -381,7 +379,7 @@ private _vehicleTypes = [
 	"B_GEN_Offroad_01_gen_F","C_Truck_02_transport_F","C_Truck_02_covered_F","I_C_Offroad_02_unarmed_F","I_C_Van_01_transport_F","c_van_02_vehicle_f","c_van_02_transport_f"
 ];	
 private _vehicleType = '';
-comment 'Spawn vehicles on roads';
+//comment 'Spawn vehicles on roads';
 private _vehicleExclusionZone_roads = ([5770.46,10369.2,0.00140572] nearRoads 500) select {(((position _x) inPolygon QS_georgetown_vExclusion_polygon) && (_x isEqualType objNull))};
 private _vehiclesOnRoad = 25 - 1;
 private _road = objNull;
@@ -408,20 +406,12 @@ for '_x' from 0 to _vehiclesOnRoad step 1 do {
 		if (['offroad',_vehicleType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 			_vehicle animate ['HideBackpacks',1,1];
 		};
-		comment '
-		_vehicle enableSimulationGlobal FALSE;
-		_vehicle enableSimulation FALSE;
-		_vehicle allowDamage FALSE;
-		_vehicle setFuel 0;
-		_vehicle lock 2;
-		_vehicle setDamage [((random 1) min 0.8),FALSE];
-		';
 	};
 };
 private _aaSoldiers = [];
 private _enemiesInBuildings = 50 - 1;
 private _houseEnemiesMinThreshold = 30;
-comment 'Spawn static enemies in buildings';
+//comment 'Spawn static enemies in buildings';
 _houseGrp = grpNull;
 _houseGrp = createGroup [_side,TRUE];
 _houseGrp enableAttack FALSE;
@@ -467,7 +457,7 @@ for '_x' from 0 to _enemiesInBuildings step 1 do {
 		};
 	};
 };
-comment 'Spawn static weapons on buildings';
+//comment 'Spawn static weapons on buildings';
 private _staticWeaponPositions = QS_buildingPositions_inner select {
 	(((_x select 2) > 5) && (([objNull,'GEOM',objNull] checkVisibility [(AGLToASL _x),[((AGLToASL _x) select 0),((AGLToASL _x) select 1),(((AGLToASL _x) select 2) + 50)]]) isEqualTo 1))
 };
@@ -526,7 +516,7 @@ if (_staticsEnabled) then {
 		_all pushBack _vehicle;
 	};
 };
-comment 'Spawn civilians';
+//comment 'Spawn civilians';
 private _civilians = [];
 private _civilianTypes = [
 	"C_man_p_beggar_F","C_man_1","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F",
@@ -555,7 +545,7 @@ private _civilianDelay = 60;
 private _civilianCheckDelay = _timeNow + _civilianDelay;
 private _civiliansCount = 20;
 
-comment 'map markers';
+//comment 'map markers';
 
 _pdMarker = createMarker ['QS_marker_GTPD',[0,0,0]];
 _pdMarker setMarkerText (format ['%1Police Department',(toString [32,32,32])]);
@@ -654,7 +644,7 @@ if (!isNil 'minEnemiesPatrolThreshold_override') then {
 	_minEnemiesPatrolThreshold = minEnemiesPatrolThreshold_override;
 };
 
-comment 'Spawn convoy for mission stuff';
+//comment 'Spawn convoy for mission stuff';
 _opforTruckTypes = ["O_T_Truck_03_repair_ghex_F","O_T_Truck_03_repair_ghex_F"];
 private _truck = objNull;
 private _truckType = '';
@@ -677,7 +667,7 @@ _truck setVectorUp (surfaceNormal _truckRoadPosition);
 _all pushBack _truck;
 _allSimpleObjects pushBack _truck;
 
-comment 'Spawn crate and initial object     "Land_WoodenCrate_01_F"   Land_Tablet_02_F   [3.47705,-4.96191,-0.430527] ';
+//comment 'Spawn crate and initial object     "Land_WoodenCrate_01_F"   Land_Tablet_02_F   [3.47705,-4.96191,-0.430527] ';
 private _missionObjects = [];
 private _tabletMarkers = [];
 private _triggerObjective = FALSE;
@@ -711,7 +701,7 @@ _intelObjectCount = 20;
 private _intelObjectBuildingPositions = QS_buildingPositions_inner_ground;
 private _intelObjectBuildingPosition = [0,0,0];
 private _intelObjectUsedPositions = [[-100,-100,0]];
-comment 'Spawn all intel objects';
+//comment 'Spawn all intel objects';
 for '_x' from 0 to (_intelObjectCount - 1) step 1 do {
 	for '_x' from 0 to 1 step 0 do {
 		_intelObjectBuildingPosition = selectRandom _intelObjectBuildingPositions;
@@ -819,11 +809,10 @@ for '_x' from 0 to 2 step 1 do {
 		_supplyCrate setVariable ['QS_RD_draggable',TRUE,TRUE];
 		_supplyCrates pushBack _supplyCrate;
 		_supplyCrate addItemCargo ['FirstAidKit',10];
-		comment 'To Do: Randomize crate contents';
 		_radial = _radial + 120;
 	};
 };
-comment 'AA patrol center pos + radius: [5912.77,11110.3,0.00141931] + 300   OIA_InfTeam_AA';
+//comment 'AA patrol center pos + radius: [5912.77,11110.3,0.00141931] + 300   OIA_InfTeam_AA';
 
 private _aaPatrolCenter = [5912.77,11110.3,0.00141931];
 private _aaPatrolRadius = 100;
@@ -835,7 +824,7 @@ private _aaUnits = [];
 private _aaDelay = 60;
 private _aaCheckDelay = _timeNow + _aaDelay;
 
-comment 'Sniper patrol center pos + radius: [6038.61,10422,0.00112915] + 300';
+//comment 'Sniper patrol center pos + radius: [6038.61,10422,0.00112915] + 300';
 private _sniperPatrolCenter = [6038.61,10422,0.00112915];
 private _sniperPatrolRadius = 100;
 private _sniperPatrols = TRUE;
@@ -847,7 +836,7 @@ private _sniperDelay = 60;
 private _sniperCheckDelay = _timeNow + _sniperDelay;
 
 
-comment 'AT patrol center pos + radius: [5532.41,9892.05,0.0014472] + 300';
+//comment 'AT patrol center pos + radius: [5532.41,9892.05,0.0014472] + 300';
 private _atPatrolCenter = [5532.41,9892.05,0.0014472];
 private _atPatrolRadius = 100;
 private _atPatrols = TRUE;
@@ -859,7 +848,7 @@ private _atDelay = 60;
 private _atCheckDelay = _timeNow + _atDelay;
 
 
-comment 'Mission stuff';
+//comment 'Mission stuff';
 _captureThreshold = 18;
 private _missionStatus = '';
 private _missionDuration = 2700 + (random 600);
@@ -868,7 +857,7 @@ private _missionEnd = serverTime + _missionDuration;
 private _countTablets = -1;
 private _hiddenTablets = [];
 
-comment 'Mission task location';
+//comment 'Mission task location';
 
 [
 	'QS_IA_TASK_GT_0',
@@ -897,7 +886,7 @@ comment 'Mission task location';
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
 ['QS_IA_TASK_GT_0',TRUE,_missionEnd] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 
-comment 'Intel collection marker location [6315.03,10640.2,0.00127029]';
+//comment 'Intel collection marker location [6315.03,10640.2,0.00127029]';
 private _missionObjectiveMarkers = [];
 _intelStateMarker = createMarker ['QS_marker_GTintelState',[0,0,0]];
 _intelStateMarker setMarkerText (format ['%1Intel secured: 0',(toString [32,32,32])]);
@@ -943,12 +932,12 @@ for '_x' from 0 to 1 step 0 do {
 	_timeNow = diag_tickTime;
 	_serverTime = serverTime;
 	if (_serverTime > _missionEnd) exitWith {
-		comment 'Mission failure';
+		//comment 'Mission failure';
 		['CUSTOM_GEORGETOWN',['','Mission failed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['sideChat',[WEST,'HQ'],'We took too long in Georgetown, soldiers. Better luck next time!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_missionStatus isEqualTo 'SUCCESS') exitWith {
-		comment 'Mission success';
+		//comment 'Mission success';
 		['CUSTOM_GEORGETOWN',['','Mission success!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['sideChat',[WEST,'HQ'],'Great work soldiers, get back to base and prepare for your next mission!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
@@ -1092,7 +1081,7 @@ for '_x' from 0 to 1 step 0 do {
 			_grp enableAttack TRUE;
 			_grp setVariable ['QS_AI_move_nextRefresh',(_timeNow - 1),FALSE];
 			_enemyPatrolGroups pushBack _grp;
-			_unitsToAvoid = allUnits select {(((side _x) in _sidesHiddenFrom) && (alive _x))}; comment 'allPlayers';
+			_unitsToAvoid = allUnits select {(((side _x) in _sidesHiddenFrom) && (alive _x))}; //comment 'allPlayers';
 			for '_x' from 0 to 9 step 1 do {
 				_type = selectRandom _types;
 				_unit = _grp createUnit [_type,_nullPos,[],0,'NONE'];
@@ -1164,7 +1153,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (!(_enemies isEqualTo [])) then {
 			{
 				if (!alive _x) then {
-					comment 'deleteVehicle _x;';
+					//comment 'deleteVehicle _x;';
 					_enemies deleteAt _forEachIndex;
 				};
 			} forEach _enemies;
@@ -1334,7 +1323,7 @@ for '_x' from 0 to 1 step 0 do {
 		} forEach _civilians;
 		_civilianCheckDelay = _timeNow + _civilianDelay;
 	};
-	comment 'AA GRP';
+	//comment 'AA GRP';
 	if (_aaPatrols) then {
 		if (_timeNow > _aaCheckDelay) then {
 			if (isNull _aaGrp) then {
@@ -1364,7 +1353,7 @@ for '_x' from 0 to 1 step 0 do {
 			_aaCheckDelay = _timeNow + _aaDelay;
 		};
 	};	
-	comment 'SNIPER GRP';
+	//comment 'SNIPER GRP';
 	if (_sniperPatrols) then {
 		if (_timeNow > _sniperCheckDelay) then {
 			if (isNull _sniperGrp) then {
@@ -1394,7 +1383,7 @@ for '_x' from 0 to 1 step 0 do {
 			_sniperCheckDelay = _timeNow + _sniperDelay;
 		};
 	};
-	comment 'AT GRP';
+	//comment 'AT GRP';
 	if (_atPatrols) then {
 		if (_timeNow > _atCheckDelay) then {
 			if (isNull _atGrp) then {
@@ -1506,7 +1495,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	uiSleep 3;
 };
-comment 'Cleanup';
+//comment 'Cleanup';
 {
 	_x call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 } forEach [

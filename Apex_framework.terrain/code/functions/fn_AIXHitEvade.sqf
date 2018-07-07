@@ -20,6 +20,10 @@ if (local _u) then {
 				_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
 				if ((random 1) > 0.5) then {
 					_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
+				} else {
+					if ((stance _u) isEqualTo 'STAND') then {
+						_u setUnitPosWeak 'DOWN';
+					};
 				};
 			};
 		};

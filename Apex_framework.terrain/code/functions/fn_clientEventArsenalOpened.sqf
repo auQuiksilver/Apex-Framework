@@ -22,6 +22,8 @@ ____________________________________________________________________________/*/
 	};
 	if (!isNull (uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull])) then {
 		(uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull]) displayRemoveAllEventHandlers 'KeyDown';
+		((uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull]) displayCtrl 44150) ctrlEnable FALSE;
+		((uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull]) displayCtrl 44150) ctrlCommit 0;
 		_defaultUniform = ['U_B_CombatUniform_mcam','U_B_T_Soldier_F'] select (worldName isEqualTo 'Tanoa');
 		if (isNil {player getVariable 'QS_arsenalAmmoPrompt'}) then {
 			player setVariable ['QS_arsenalAmmoPrompt',TRUE,FALSE];

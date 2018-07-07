@@ -16,7 +16,7 @@ ____________________________________________________________________________/*/
 params ['_type'];
 private _return = [];
 if (_type isEqualTo 'SITE_TUNNEL') exitWith {
-	comment 'Find position';
+	//comment 'Find position';
 	
 	
 	

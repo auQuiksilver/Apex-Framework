@@ -62,7 +62,7 @@ if (_sectorData isEqualType []) exitWith {
 	for '_x' from 0 to 1 step 0 do {
 		_position = ['RADIUS',_centerPos,_aoSize,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if ((_position distance2D _centerPos) < 1500) then {
-			if ((_players findIf {((_x distance2D _position) < 250)}) isEqualTo -1) then {
+			if ((_players inAreaArray [_position,250,250,0,FALSE]) isEqualTo []) then {
 				if ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 					if (!([_position,_centerPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 						if (([(AGLToASL _position),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
@@ -194,7 +194,7 @@ if (_sectorData isEqualType 0) exitWith {
 		for '_x' from 0 to 1 step 0 do {
 			_position = ['RADIUS',_centerPos,_radius,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((_position distance2D _centerPos) < 600) then {
-				if ((_players findIf {((_x distance2D _position) < 250)}) isEqualTo -1) then {
+				if ((_players inAreaArray [_position,250,250,0,FALSE]) isEqualTo []) then {
 					if (!([_position,_centerPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 						if (([(AGLToASL _position),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.25) then {
 							_positionFound = TRUE;
@@ -291,7 +291,7 @@ if (_sectorData isEqualType 0) exitWith {
 		for '_x' from 0 to 1 step 0 do {
 			_randomPos = ['RADIUS',_centerPos,_centerRadius,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((_randomPos distance2D _centerPos) < 1500) then {
-				if ((_players findIf {((_x distance2D _randomPos) < 250)}) isEqualTo -1) then {
+				if ((_players inAreaArray [_randomPos,250,250,0,FALSE]) isEqualTo []) then {	
 					if ((((_randomPos select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 						if (!([_randomPos,_centerPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 							if (([(AGLToASL _randomPos),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
@@ -401,7 +401,7 @@ if (_sectorData isEqualType 0) exitWith {
 		for '_x' from 0 to 1 step 0 do {
 			_position = ['RADIUS',_attackPosition,_radius,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if (((_position distance2D _attackPosition) < 350) && ((_position distance2D _attackPosition) > 125)) then {
-				if ((_players findIf {((_x distance2D _position) < 150)}) isEqualTo -1) then {
+				if ((_players inAreaArray [_position,150,150,0,FALSE]) isEqualTo []) then {
 					if (!([_position,_attackPosition,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 						if (([(AGLToASL _position),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.25) then {
 							_positionFound = TRUE;

@@ -15,7 +15,7 @@ __________________________________________________________*/
 
 params ['_type','_vehicle'];
 if (_type isEqualTo 0) then {
-	comment 'Remove Events';
+	//comment 'Remove Events';
 	if (!isNil {_vehicle getVariable 'QS_client_vehicleEventHandlers'}) then {
 		if (!((_vehicle getVariable 'QS_client_vehicleEventHandlers') isEqualTo [])) then {
 			{
@@ -26,7 +26,7 @@ if (_type isEqualTo 0) then {
 	};
 };
 if (_type isEqualTo 1) then {
-	comment 'Add Events';
+	//comment 'Add Events';
 	if (isNil {_vehicle getVariable 'QS_client_vehicleEventHandlers'}) then {
 		private _vehicleEventHandlers = [];
 		{

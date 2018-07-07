@@ -29,7 +29,7 @@ _side = side _entity;
 _type = toLower (typeOf _entity);
 _position = position _entity;
 if (_entity isKindOf 'CAManBase') exitWith {
-	comment 'Humans';
+	//comment 'Humans';
 	if (isNull (objectParent _entity)) then {
 		if (!(_entity getVariable ['QS_AI_ENTITY_PANIC',FALSE])) then {
 			if (!(_entity getVariable ['QS_AI_ENTITY_PANIC_DISABLED',FALSE])) then {
@@ -107,7 +107,7 @@ _taskData params [
 	'_taskTimeout'
 ];
 if (_type in ['fin_random_f','fin_blackwhite_f','fin_ocherwhite_f','fin_sand_f','fin_tricolour_f']) exitWith {
-	comment 'Dogs';
+	//comment 'Dogs';
 	if (_taskType isEqualTo 'SITE_AMBIENT') then {
 		if ((_uiTime > _taskTimeout) || {((_entity distance2D _taskPosition) > _taskRadius)}) then {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];
@@ -121,7 +121,7 @@ if (_type in ['fin_random_f','fin_blackwhite_f','fin_ocherwhite_f','fin_sand_f',
 	};
 };
 if (_type in ['sheep_random_f']) exitWith {
-	comment 'Sheep';
+	//comment 'Sheep';
 	if (_taskType isEqualTo 'SITE_AMBIENT') then {
 		if ((_uiTime > _taskTimeout) || {((_entity distance2D _taskPosition) > _taskRadius)}) then {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];
@@ -135,7 +135,7 @@ if (_type in ['sheep_random_f']) exitWith {
 	};
 };
 if (_type in ['goat_random_f']) exitWith {
-	comment 'Goats';
+	//comment 'Goats';
 	if (_taskType isEqualTo 'SITE_AMBIENT') then {
 		if ((_uiTime > _taskTimeout) || {((_entity distance2D _taskPosition) > _taskRadius)}) then {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];
@@ -154,7 +154,7 @@ if (_type in ['goat_random_f']) exitWith {
 	};
 };
 if (_type in ['hen_random_f','cock_random_f','cock_white_f']) exitWith {
-	comment 'Chickens';
+	//comment 'Chickens';
 	if (_taskType isEqualTo 'SITE_AMBIENT') then {
 		if ((_uiTime > _taskTimeout) || {((_entity distance2D _taskPosition) > _taskRadius)}) then {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];
@@ -173,7 +173,7 @@ if (_type in ['hen_random_f','cock_random_f','cock_white_f']) exitWith {
 	};
 };
 if (_type in ['rabbit_f']) exitWith {
-	comment 'Rabbits';
+	//comment 'Rabbits';
 	if (_taskType isEqualTo 'SITE_AMBIENT') then {
 		if ((_uiTime > _taskTimeout) || {((_entity distance2D _taskPosition) > _taskRadius)}) then {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];
@@ -187,7 +187,7 @@ if (_type in ['rabbit_f']) exitWith {
 	};
 };
 if (_type in ['snake_random_f']) exitWith {
-	comment 'Snakes';
+	//comment 'Snakes';
 	if (_taskType isEqualTo 'SITE_AMBIENT') then {
 		if ((_uiTime > _taskTimeout) || {((_entity distance2D _taskPosition) > _taskRadius)}) then {
 			_movePosition = _taskPosition getPos [(_taskRadius * (sqrt (random 1))),(random 360)];

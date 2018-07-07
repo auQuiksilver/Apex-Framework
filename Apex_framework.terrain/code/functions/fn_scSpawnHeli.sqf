@@ -33,7 +33,7 @@ _grp = createGroup [_side,TRUE];
 _playerCount = count allPlayers;
 for '_x' from 0 to 1 step 0 do {
 	_randomPos = [(random _worldSize),(random _worldSize),1000];
-	if ((allPlayers findIf {((_x distance2D _randomPos) < 2000)}) isEqualTo -1) exitWith {};
+	if ((allPlayers inAreaArray [_randomPos,2000,2000,0,FALSE]) isEqualTo []) exitWith {};
 };
 if (_playerCount > 20) then {
 	_airTypes = if (_worldName isEqualTo 'Tanoa') then [

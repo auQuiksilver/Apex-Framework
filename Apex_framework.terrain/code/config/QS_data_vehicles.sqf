@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	13/12/2017 A3 1.80 by Quiksilver
+	7/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -24,7 +24,7 @@ Editing Notes:
 		0,						// --- [CAN EDIT] vehicle spawn direction
 		false,					// --- [DO NOT EDIT] is vehicle respawning now
 		0,						// --- [DO NOT EDIT] when can vehicle respawn
-		-1,						// --- [CAN EDIT] FOB vehicle ID (-1 if not a FOB vehicle)
+		-1,						// --- [CAN EDIT] FOB vehicle ID (-1 if not a FOB vehicle, -2 if a terrain vehicle (like boat))
 		50,						// --- [CAN EDIT] vehicle abandonment distance (at base)
 		500,					// --- [CAN EDIT] vehicle abandonment distance (away from base)
 		-1,						// --- [CAN EDIT] respawn tickets
@@ -118,18 +118,18 @@ if (_worldName isEqualTo 'Altis') exitWith {
 		[objNull,30,FALSE,{},'B_G_Quadbike_01_F',[0,0,0],0,false,0,6,50,500,-1,2,TRUE,0],
 		[objNull,30,FALSE,{},'B_G_Quadbike_01_F',[0,0,0],0,false,0,7,50,500,-1,2,TRUE,0],
 		[objNull,30,FALSE,{},'B_G_Quadbike_01_F',[0,0,0],0,false,0,8,50,500,-1,2,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[16750.5,20509.4,0],131.562,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[9741.65,22346.4,0],0,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[3347.64,12946.1,0],244.878,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[5064.69,9920.25,0],324.237,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[10630.5,10967.9,0],232.065,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[12526,12777.4,0],337.855,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[16610.7,12276.1,0],270.943,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[22224.4,8555.64,0],315.63,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[22738.4,13829.1,0],310.942,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[27945.6,23757,0],336.937,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[23257,24202.7,0],277.103,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[20617.4,19509.5,0],305.684,false,0,-1,50,500,-1,4,true,0]
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[16750.5,20509.4,0],131.562,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[9741.65,22346.4,0],0,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[3347.64,12946.1,0],244.878,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[5064.69,9920.25,0],324.237,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[10630.5,10967.9,0],232.065,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[12526,12777.4,0],337.855,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[16610.7,12276.1,0],270.943,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[22224.4,8555.64,0],315.63,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[22738.4,13829.1,0],310.942,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[27945.6,23757,0],336.937,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[23257,24202.7,0],277.103,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[20617.4,19509.5,0],305.684,false,0,-2,50,500,-1,4,true,0]
 	]
 };
 if (_worldName isEqualTo 'Tanoa') exitWith {
@@ -197,13 +197,13 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 		[objNull,30,false,{},"B_T_Boat_Armed_01_minigun_F",[6605.38,6903.29,0],224.704,false,0,-1,50,500,-1,4,TRUE,0],
 		[objNull,30,false,{},"B_T_Boat_Armed_01_minigun_F",[6591.08,6902.12,0],224.704,false,0,-1,50,500,-1,4,TRUE,0],
 		[objNull,30,false,{},"B_SDV_01_F",[6581.72,6905.7,0],196.077,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Civil_01_police_F",[6580.56,6916.18,0],287.649,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[4958.3,11315.8,0],225.186,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[4226.92,11642.8,0],82.6999,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[11062.6,13376.4,0],31.5238,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[13249.2,13666.4,0],193.904,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[2216.72,8643.08,0],359.678,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[4529.2,5215.22,0],291.975,false,0,-1,50,500,-1,4,TRUE,0],
+		[objNull,30,false,{},"C_Boat_Civil_01_police_F",[6580.56,6916.18,0],287.649,false,0,-2,50,500,-1,4,TRUE,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[4958.3,11315.8,0],225.186,false,0,-2,50,500,-1,4,TRUE,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[4226.92,11642.8,0],82.6999,false,0,-2,50,500,-1,4,TRUE,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[11062.6,13376.4,0],31.5238,false,0,-2,50,500,-1,4,TRUE,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[13249.2,13666.4,0],193.904,false,0,-2,50,500,-1,4,TRUE,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[2216.72,8643.08,0],359.678,false,0,-2,50,500,-1,4,TRUE,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[4529.2,5215.22,0],291.975,false,0,-2,50,500,-1,4,TRUE,0],
 		[objNull,30,FALSE,{},'B_G_Van_01_transport_F',[0,0,0],0,false,0,0,50,250,-1,5,TRUE,0],
 		[objNull,30,FALSE,{},'B_G_Van_01_transport_F',[0,0,0],0,false,0,1,50,250,-1,5,TRUE,0],
 		[objNull,30,TRUE,{},'b_t_lsv_01_armed_f',[0,0,0],0,false,0,2,50,250,-1,5,TRUE,0],
@@ -278,11 +278,11 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		[objNull,30,false,{(_this select 0) allowDamage FALSE;(_this select 0);},"C_Scooter_Transport_01_F",[8551.06,10108.5,0.3],185.031,false,0,-1,50,500,-1,4,TRUE,0],
 		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[8547.54,10108.3,0],173.447,false,0,-1,50,500,-1,4,TRUE,0],
 		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[8542.26,10111.8,0],173.447,false,0,-1,50,500,-1,4,TRUE,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[8496.87,3797.07,0],178.204,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[9285.57,3719.64,0],267.934,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[3667.66,3045.14,0],261.82,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[5495.98,11691.9,0],331.305,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[893.722,11858.7,0],277.775,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[927.442,11827.1,0],201.613,false,0,-1,50,500,-1,4,true,0]
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[8496.87,3797.07,0],178.204,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[9285.57,3719.64,0],267.934,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[3667.66,3045.14,0],261.82,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[5495.98,11691.9,0],331.305,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[893.722,11858.7,0],277.775,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[927.442,11827.1,0],201.613,false,0,-2,50,500,-1,4,true,0]
 	]
 };

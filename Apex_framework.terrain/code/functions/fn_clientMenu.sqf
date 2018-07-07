@@ -6,32 +6,38 @@ Author:
 	
 Last Modified:
 
-	8/09/2015 ArmA 3 1.50 by Quiksilver
+	22/05/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Client Menu
 __________________________________________________________*/
 
-_type = _this select 0;
+params ['_type'];
 if (_type isEqualTo -1) then {
-	closeDialog 0;
+	closeDialog 2;
 };
 playSound 'ClickSoft';
-player setVariable ['QS_RD_menuing',TRUE,FALSE];
 if (_type isEqualTo 0) then {
-	if (!isNull (findDisplay 2000)) then {
-		(findDisplay 2000) closeDisplay 0;
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_main';
 	};
-	createDialog 'QS_RD_client_dialog_menu_main';
 };
 
 if (_type isEqualTo 1) then {
-	if (!isNull (findDisplay 2000)) then {
-		(findDisplay 2000) closeDisplay 1;
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_viewSettings';
 	};
-	if (!isNull (findDisplay 3000)) then {
-		(findDisplay 3000) closeDisplay 0;
-	};
-	createDialog 'QS_RD_client_dialog_menu_viewSettings';
 };

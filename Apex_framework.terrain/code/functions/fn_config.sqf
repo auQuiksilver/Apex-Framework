@@ -6,22 +6,20 @@ Author:
 	
 Last modified: 
 
-	20/04/2018 A3 1.82 by Quiksilver
+	5/05/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Configure Server
-______________________________________________________________________/*/
+____________________________________________________/*/
 
-_missionProductVersion = '1.0.8';
+_missionProductVersion = '1.0.9';
 _missionProductStatus = 'Gold';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
-	'_QS_PARAMS_DATE','_year','_month','_day','_hour','_minute','_QS_date','_n','_QS_currentWeatherData','_QS_code',
-	'_QS_debug','_QS_function','_QS_filePath','_QS_isPublic','_QS_functions','_QS_lock','_QS_key','_crypt','_spawnPoint_1',
+	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
 	'_aoSize','_flagTextureFriendly','_flagTextureEast','_flagTextureWest','_flagTextureResistance','_flagTextureCivilian',
-	'_flagTextureUnknown','_teamspeak','_website','_ah','_markers','_QS_clientManifest','_QS_addToManifest','_QS_useEncryption',
-	'_QS_callSpawn','_QS_element','_QS_version','_QS_new','_environment','_simple','_worldName','_QS_internal','_result'
+	'_flagTextureUnknown','_teamspeak','_website','_ah','_markers','_environment','_simple','_worldName','_result'
 ];
 {
 	diag_log _x;
@@ -70,7 +68,7 @@ if (!isDedicated) exitWith {
 		{
 			0 spawn {
 				while {true} do {
-					hintSilent 'Server must be Dedicated.';
+					['Server must be Dedicated'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -84,7 +82,7 @@ if ((!((productVersion select 7) isEqualTo 'x64')) && (!((productVersion select 
 		{
 			0 spawn {
 				while {true} do {
-					hintSilent 'Server must be running 64-bit';
+					['Server must be running 64-bit'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -98,7 +96,7 @@ if (!isFilePatchingEnabled) exitWith {
 		{
 			0 spawn {
 				while {true} do {
-					hintSilent '-filePatching must be enabled in Server launch options';
+					['-filePatching must be enabled in Server launch options'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -141,7 +139,7 @@ if (_difficultyInvalid) exitWith {
 		{
 			0 spawn {
 				while {true} do {
-					hintSilent 'Invalid mission difficulties, view server RPT log file for more details';
+					['Invalid mission difficulties, view server RPT log file for more details'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -154,7 +152,7 @@ if ((('real_date' callExtension '') isEqualTo '') && (!((productVersion select 6
 		{
 			0 spawn {
 				while {true} do {
-					hintSilent 'Real_date extension must be active';
+					['Real_date extension must be active'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -179,7 +177,7 @@ if (!(_addonActive)) exitWith {
 		{
 			0 spawn {
 				while {true} do {
-					hintSilent 'Apex Framework servermod @Apex must be active';
+					['Apex Framework servermod @Apex must be active'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -192,7 +190,7 @@ if (isNil {uiNamespace getVariable 'QS_fnc_serverCommandPassword'}) exitWith {
 		{
 			0 spawn {
 				while {true} do {
-					hintSilent 'Apex Framework config files missing: @Apex_cfg';
+					['Apex Framework config files missing: @Apex_cfg'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -247,7 +245,7 @@ if (_worldName isEqualTo 'Malden') then {
 		_x setAirportSide WEST;
 	} forEach (allAirports select 0);
 };
-_environment = ['mediterranean','tropic'] select (_worldName isEqualTo 'Tanoa');
+_environment = ['mediterranean','tropic'] select (_worldName in ['Tanoa','Lingor3']);
 
 /*/==================== MISSION NAMESPACE VARS/*/
 
@@ -267,6 +265,11 @@ _aoSize = 800;	/*/ AO Circle Radius /*/
 if (_worldName isEqualTo 'Altis') then {_aoSize = 800;};
 if (_worldName isEqualTo 'Tanoa') then {_aoSize = 600;};
 if (_worldName isEqualTo 'Malden') then {_aoSize = 300;};
+_flagTextureEast = 'a3\data_f\flags\flag_csat_co.paa';
+_flagTextureWest = (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
+_flagTextureResistance = 'a3\data_f\flags\flag_aaf_co.paa';
+_flagTextureCivilian = 'a3\data_f\flags\flag_altis_co.paa';
+_flagTextureUnknown = 'a3\data_f\flags\flag_uno_co.paa';
 if (_worldName in ['Altis','Tanoa','Malden']) then {
 	_flagTextureEast = 'a3\data_f\flags\flag_csat_co.paa';
 	_flagTextureWest = (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
@@ -275,8 +278,8 @@ if (_worldName in ['Altis','Tanoa','Malden']) then {
 	_flagTextureUnknown = 'a3\data_f\flags\flag_uno_co.paa';
 };
 _sidesFlagsTextures = [
-	['\a3\Data_f\Flags\flag_CSAT_co.paa',_flagTextureWest,'\a3\Data_f\Flags\flag_AAF_co.paa','\a3\Data_f\Flags\flag_Altis_co.paa','a3\data_f\flags\flag_uno_co.paa'],
-	['\a3\Data_f\Flags\flag_CSAT_co.paa',_flagTextureWest,'\a3\Data_F_Exp\Flags\flag_SYND_CO.paa','a3\data_f_exp\flags\flag_tanoa_co.paa','a3\data_f\flags\flag_uno_co.paa']
+	[_flagTextureEast,_flagTextureWest,_flagTextureResistance,_flagTextureCivilian,_flagTextureUnknown],
+	[_flagTextureEast,_flagTextureWest,'\a3\Data_F_Exp\Flags\flag_SYND_CO.paa','a3\data_f_exp\flags\flag_tanoa_co.paa',_flagTextureUnknown]
 ] select (_worldName isEqualTo 'Tanoa');
 _ah = TRUE;
 _flagTextureFriendly = (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
@@ -634,7 +637,7 @@ _recyclerUnitTypes = [
 	['QS_AI_insertHeli_maxHelis',3,TRUE],
 	['QS_AI_insertHeli_inProgress',FALSE,TRUE],
 	['QS_AI_insertHeli_lastEvent',-1,TRUE],
-	['QS_AI_insertHeli_cooldown',900,TRUE],	/*/DEBUG 900/*/
+	['QS_AI_insertHeli_cooldown',900,TRUE],
 	['QS_AI_insertHeli_helis',[],TRUE],
 	['QS_AI_insertHeli_maxAO',3,TRUE],
 	['QS_AI_insertHeli_spawnedAO',0,TRUE],
@@ -721,7 +724,9 @@ _recyclerUnitTypes = [
 	['QS_ao_createDelayedMinefield',FALSE,FALSE],
 	['QS_ao_createDelayedMinefieldPos',[0,0,0],FALSE],
 	['QS_mission_gpsJammers',[],TRUE],
-	['QS_uav_Monitor',[],TRUE]
+	['QS_uav_Monitor',[],TRUE],
+	['QS_defend_propulsion',1,FALSE],
+	['QS_AI_targetsKnowledge_suspend',FALSE,FALSE]
 ];
 missionNamespace setVariable ['QS_data_arsenal',(compileFinal (preprocessFileLineNumbers '@Apex_cfg\arsenal.sqf')),TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {

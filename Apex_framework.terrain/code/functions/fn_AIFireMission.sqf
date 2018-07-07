@@ -6,28 +6,31 @@ Author:
 	
 Last modified:
 
-	4/09/2017 A3 1.76 by Quiksilver
+	26/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	AI Fire Mission
 __________________________________________________/*/
-_type = _this select 0;
+params ['_type'];
 if (_type isEqualTo 0) exitWith {
 	scriptName 'QS AI FIRE MISSION - ARTY';
-	comment 'Artillery';
+	//comment 'Artillery';
 	params ['','_grpLeader','_firePosition','_fireShells','_fireRounds'];
 	_vehicle = vehicle _grpLeader;
+	_vehicle setVehicleAmmo 1;
 	_grp = group _grpLeader;
 	_grp setFormDir ((position _grpLeader) getDir _firePosition);
 	uiSleep (3 + (random 5));
+	_nearbyTargetsCount = count ([12,EAST,_firePosition,100] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies'));
+	if (_nearbyTargetsCount > (selectRandom [5,6])) then {
+		_fireRounds = round (_fireRounds * 2);
+	};
 	private _radius = 90;
 	private _firstShell = TRUE;
 	_grpLeader doWatch [(_firePosition select 0),(_firePosition select 1),(1000 + (random 1000))];
 	for '_x' from 0 to (_fireRounds - 1) step 1 do {
-		if (!alive _vehicle) exitWith {};
-		if (!alive _grpLeader) exitWith {};
-		if (isNull (objectParent _grpLeader)) exitWith {};
+		if ((!alive _vehicle) || {(!alive _grpLeader)} || {(isNull (objectParent _grpLeader))}) exitWith {};
 		_grpLeader doArtilleryFire [(_firePosition getPos [(_radius * (sqrt (random 1))),(random 360)]),_fireShells,1];
 		_radius = _radius * (random [0.7,0.75,1]);
 		if (_firstShell) then {
@@ -39,7 +42,7 @@ if (_type isEqualTo 0) exitWith {
 };
 if (_type isEqualTo 1) exitWith {
 	scriptName 'QS AI FIRE MISSION - HELI';
-	comment 'Heli CAS';
+	//comment 'Heli CAS';
 	params ['','_supportProvider','_supportGroup','_targetObject','_targetPosition','_smokePosition','_duration'];
 	_vehicle = vehicle _supportProvider;
 	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition];
@@ -122,7 +125,7 @@ if (_type isEqualTo 1) exitWith {
 		};
 		if (_time > _fireDelay) then {
 			if (((_vehicle aimedAtTarget [_selectedTarget]) isEqualTo 1) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _selectedTarget)]))) then {
-				comment 'Fire';
+				//comment 'Fire';
 				_supportProvider doSuppressiveFire _selectedTarget;
 				_fireDuration = time + 5;
 				_vehicle setVehicleAmmo 1;
@@ -167,7 +170,7 @@ if (_type isEqualTo 1) exitWith {
 };
 if (_type isEqualTo 2) exitWith {
 	scriptName 'QS AI FIRE MISSION - PLANE';
-	comment 'Plane CAS';
+	//comment 'Plane CAS';
 	params ['','_supportProvider','_supportGroup','_targetObject','_targetPosition','_duration'];
 	_vehicle = vehicle _supportProvider;
 	_vehicle flyInHeight (200 + (random 100));
@@ -235,7 +238,7 @@ if (_type isEqualTo 2) exitWith {
 		
 		if (_time > _fireDelay) then {
 			if (((_vehicle aimedAtTarget [_laserTarget]) isEqualTo 1) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _laserTarget)]))) then {
-				comment 'Fire';
+				//comment 'Fire';
 				_firedEvent = _vehicle addEventHandler [
 					'Fired',
 					{
@@ -303,7 +306,7 @@ if (_type isEqualTo 2) exitWith {
 };
 if (_type isEqualTo 3) exitWith {
 	scriptName 'QS AI FIRE MISSION - UAV';
-	comment 'UAV CAS';
+	//comment 'UAV CAS';
 	params ['','_supportProvider','_supportGroup','_targetObject','_targetPosition','_duration'];
 	_vehicle = vehicle _supportProvider;
 	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition];

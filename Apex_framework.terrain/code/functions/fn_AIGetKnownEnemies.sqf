@@ -67,7 +67,7 @@ if (_type isEqualTo 0) exitWith {
 		_basePosition = markerPos 'QS_marker_base_marker';
 		_baseRadius = 1000;
 		for '_x' from 0 to 1 step 0 do {
-			if (diag_fps > 12) then {
+			if ((diag_fps > 12) && (!(missionNamespace getVariable ['QS_AI_targetsKnowledge_suspend',_false]))) then {
 				if (!((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') isEqualTo [])) then {
 					missionNamespace setVariable [
 						'QS_AI_targetsKnowledge_EAST',
@@ -409,5 +409,33 @@ if (_type isEqualTo 11) exitWith {
 		} forEach _targetsKnowledge;
 	};
 	missionNamespace setVariable ['QS_AI_hostileBuildings',_return,FALSE];
+};
+if (_type isEqualTo 12) exitWith {
+	// Targets in area
+	_position = param [2];
+	_radius = param [3];
+	// Check for vehicles in area
+	private _return = 0;
+	private _vehicle = objNull;
+	private _val = -1;
+	private _targets = [];
+	if (!((missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]) isEqualTo [])) then {
+		_targetsKnowledge = missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]];
+		{
+			_vehicle = _x select 2;
+			if (alive _vehicle) then {
+				if (_vehicle isKindOf 'AllVehicles') then {
+					if ((_vehicle distance2D _position) < _radius) then {
+						if (!(_vehicle in _targets)) then {
+							if (isTouchingGround _vehicle) then {
+								_targets pushBack _vehicle;
+							};
+						};
+					};
+				};
+			};
+		} forEach _targetsKnowledge;
+	};
+	_targets;
 };
 _return;

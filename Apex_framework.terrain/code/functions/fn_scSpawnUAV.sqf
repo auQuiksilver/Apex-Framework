@@ -32,7 +32,7 @@ if (_type in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
 } else {
 	for '_x' from 0 to 9 step 1 do {
 		_position = _centerPos getPos [(_dist + (random _dist)),(random 360)];
-		if ((allPlayers findIf {((_x distance2D _position) < 500)}) isEqualTo -1) exitWith {};
+		if ((allPlayers inAreaArray [_position,500,500,0,FALSE]) isEqualTo []) exitWith {};
 	};
 	_position set [2,(1500 + (random 1500))];
 };

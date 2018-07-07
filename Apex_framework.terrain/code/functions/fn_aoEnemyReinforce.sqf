@@ -54,7 +54,7 @@ _foundSpawnPos = FALSE;
 for '_x' from 0 to 1 step 0 do {
 	_spawnPosDefault = [_pos,_minDist,_maxDist,2,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 	if (!(_spawnPosDefault isEqualTo [])) then {
-		if ((allPlayers findIf {((_x distance2D _spawnPosDefault) < 300)}) isEqualTo -1) then {
+		if ((allPlayers inAreaArray [_spawnPosDefault,300,300,0,FALSE]) isEqualTo []) then {
 			if ((_spawnPosDefault distance2D _base) > 1200) then {
 				if (_spawnPosDefault call _fn_blacklist) then {
 					if (!([_spawnPosDefault,_pos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
@@ -180,7 +180,7 @@ if ((random 1) > 0.5) then {
 	};
 	if (!(_radialPatrolPositions isEqualTo [])) then {
 		_radialPatrolPositions = _radialPatrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-		comment 'Initial movement';
+		//comment 'Initial movement';
 		if (!(_heliInsert)) then {
 			_reinforceGroup move (_radialPatrolPositions select 0);
 			_reinforceGroup setFormDir (_spawnPosDefault getDir (_radialPatrolPositions select 0));

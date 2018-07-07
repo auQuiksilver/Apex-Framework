@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	11/05/2018 A3 1.82 by Quiksilver
+	16/05/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -168,6 +168,14 @@ _weaponsSMG = [
 // binoculars, rangefinders, designators
 _viewersAll = [
 	'binocular','laserdesignator_02_ghex_f','laserdesignator_02','laserdesignator_01_khk_f','laserdesignator_03','laserdesignator','rangefinder'
+];
+// Binoculars and rangefinders (no lasers)
+_viewersBasic = [
+	'binocular','rangefinder'
+];
+// Laser designators
+_viewersLaser = [
+	'laserdesignator_02_ghex_f','laserdesignator_02','laserdesignator_01_khk_f','laserdesignator_03','laserdesignator'
 ];
 // all uniforms
 _uniformsAll = [
@@ -498,33 +506,17 @@ if (_role isEqualTo 'AUTORIFLEMAN') exitWith {
 		],
 		[	// -------------------------------------------------------------- WHITELIST
 			[	// ITEMS
-				_uniformsAll,	// whitelisted UNIFORMS
-				_vestsAll,	// whitelisted VESTS
-				_inventoryAll,		// whitelisted Inventory
-				_assignedItemsAll,	// whitelisted ASSIGNED ITEMS
-				_headgearBasic,	// whitelisted HEADGEAR
-				_gogglesAll,	// whitelisted goggles
-				_attachmentsAll	// whitelisted Attachments
+				_uniformsAll,						// whitelisted UNIFORMS
+				_vestsAll,							// whitelisted VESTS
+				_inventoryAll,						// whitelisted Inventory
+				_assignedItemsAll,					// whitelisted ASSIGNED ITEMS
+				_headgearBasic,						// whitelisted HEADGEAR
+				_gogglesAll,						// whitelisted goggles
+				_attachmentsAll						// whitelisted Attachments
 			],
-			_magazinesAll,	// whitelisted MAGAZINES
-			_backpacksAll,	// whitelisted BACKPACKS
-			[	// whitelisted WEAPONS
-				'','arifle_arx_ghex_f','hgun_pistol_heavy_02_f','arifle_ak12_f','arifle_ak12_gl_f','arifle_akm_f','arifle_aks_f','srifle_dmr_04_f',
-				'srifle_dmr_04_tan_f','arifle_ctars_blk_f','arifle_ctars_ghex_f','arifle_ctars_hex_f','arifle_ctar_blk_f','arifle_ctar_ghex_f','arifle_ctar_hex_f',
-				'arifle_ctar_gl_blk_f','arifle_ctar_gl_ghex_f','arifle_ctar_gl_hex_f','srifle_dmr_07_blk_f','srifle_dmr_07_ghex_f','srifle_dmr_07_hex_f','srifle_dmr_05_blk_f',
-				'srifle_dmr_05_hex_f','srifle_dmr_05_tan_f','arifle_katiba_f','arifle_katiba_c_f','arifle_katiba_gl_f',
-				'mmg_01_hex_arco_lp_f','mmg_02_black_rco_bi_f','mmg_02_sand_rco_lp_f',	
-				'lmg_03_f','srifle_dmr_02_f','srifle_dmr_02_camo_f','srifle_dmr_02_sniper_f','srifle_dmr_03_f','srifle_dmr_03_multicam_f',
-				'srifle_dmr_03_khaki_f','srifle_dmr_03_tan_f','srifle_dmr_03_woodland_f','srifle_dmr_06_camo_f','srifle_dmr_06_olive_f','srifle_ebr_f','arifle_mk20_plain_f','arifle_mk20_f',
-				'arifle_mk20_gl_plain_f','arifle_mk20_gl_f','lmg_mk200_f','arifle_mk20c_plain_f','arifle_mk20c_f','arifle_mx_gl_black_f','arifle_mx_gl_khk_f','arifle_mx_gl_f','arifle_mx_black_f',
-				'arifle_mx_khk_f','arifle_mx_f','arifle_mx_sw_black_f','arifle_mx_sw_khk_f','arifle_mx_sw_f','arifle_mxc_black_f','arifle_mxc_khk_f','arifle_mxc_f','arifle_mxm_black_f','arifle_mxm_khk_f',
-				'arifle_mxm_f','mmg_01_hex_f','mmg_01_tan_f','hgun_pdw2000_f','smg_05_f','srifle_dmr_01_f','arifle_sdar_f','arifle_spar_01_blk_f','arifle_spar_01_khk_f','arifle_spar_01_snd_f',
-				'arifle_spar_01_gl_blk_f','arifle_spar_01_gl_khk_f','arifle_spar_01_gl_snd_f','arifle_spar_02_blk_f','arifle_spar_02_khk_f','arifle_spar_02_snd_f','arifle_spar_03_blk_f','arifle_spar_03_khk_f',
-				'arifle_spar_03_snd_f','mmg_02_black_f','mmg_02_camo_f','mmg_02_sand_f','smg_02_f','arifle_trg20_f','arifle_trg21_f','arifle_trg21_gl_f','arifle_arx_blk_f','arifle_arx_hex_f','smg_01_f',
-				'lmg_zafir_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f',
-				'hgun_rook40_f','hgun_pistol_signal_f','binocular','laserdesignator_02_ghex_f','laserdesignator_02','laserdesignator_01_khk_f','laserdesignator_03','laserdesignator','rangefinder',
-				'launch_rpg7_f'
-			]
+			_magazinesAll,							// whitelisted MAGAZINES
+			_backpacksAll,							// whitelisted BACKPACKS
+			(_weaponsSW + _weaponsLMG + _weaponsMMG + _weaponsLauncherBasic + _weaponsHandgun + _viewersAll)	// whitelisted WEAPONS
 		]
 	]
 };
@@ -565,34 +557,17 @@ if (_role isEqualTo 'MISSILE') exitWith {
 		],
 		[	// -------------------------------------------------------------- WHITELIST
 			[	// ITEMS
-				_uniformsAll,	// whitelisted UNIFORMS
-				_vestsAll,	// whitelisted VESTS
-				_inventoryAll,		// whitelisted Inventory
-				_assignedItemsAll,	// whitelisted ASSIGNED ITEMS
-				_headgearBasic,	// whitelisted HEADGEAR
-				_gogglesAll,	// whitelisted goggles
-				_attachmentsAll	// whitelisted Attachments
+				_uniformsAll,							// whitelisted UNIFORMS
+				_vestsAll,								// whitelisted VESTS
+				_inventoryAll,							// whitelisted Inventory
+				_assignedItemsAll,						// whitelisted ASSIGNED ITEMS
+				_headgearBasic,							// whitelisted HEADGEAR
+				_gogglesAll,							// whitelisted goggles
+				_attachmentsAll							// whitelisted Attachments
 			],
-			_magazinesAll,	// whitelisted MAGAZINES
-			_backpacksAll,	// whitelisted BACKPACKS
-			[	// whitelisted WEAPONS
-				'','arifle_arx_ghex_f','hgun_pistol_heavy_02_f','arifle_ak12_f','arifle_ak12_gl_f','arifle_akm_f','arifle_aks_f','srifle_dmr_04_f',
-				'srifle_dmr_04_tan_f','arifle_ctars_blk_f','arifle_ctars_ghex_f','arifle_ctars_hex_f','arifle_ctar_blk_f','arifle_ctar_ghex_f','arifle_ctar_hex_f',
-				'arifle_ctar_gl_blk_f','arifle_ctar_gl_ghex_f','arifle_ctar_gl_hex_f','srifle_dmr_07_blk_f','srifle_dmr_07_ghex_f','srifle_dmr_07_hex_f','srifle_dmr_05_blk_f',
-				'srifle_dmr_05_hex_f','srifle_dmr_05_tan_f','arifle_katiba_f','arifle_katiba_c_f','arifle_katiba_gl_f',
-				'srifle_dmr_02_f','srifle_dmr_02_camo_f','srifle_dmr_02_sniper_f','srifle_dmr_03_f','srifle_dmr_03_multicam_f',
-				'srifle_dmr_03_khaki_f','srifle_dmr_03_tan_f','srifle_dmr_03_woodland_f','srifle_dmr_06_camo_f','srifle_dmr_06_olive_f','srifle_ebr_f','arifle_mk20_plain_f','arifle_mk20_f',
-				'arifle_mk20_gl_plain_f','arifle_mk20_gl_f','arifle_mk20c_plain_f','arifle_mk20c_f','arifle_mx_gl_black_f','arifle_mx_gl_khk_f','arifle_mx_gl_f','arifle_mx_black_f',
-				'arifle_mx_khk_f','arifle_mx_f','arifle_mx_sw_black_f','arifle_mx_sw_khk_f','arifle_mx_sw_f','arifle_mxc_black_f','arifle_mxc_khk_f','arifle_mxc_f','arifle_mxm_black_f','arifle_mxm_khk_f',
-				'arifle_mxm_f','mmg_01_hex_f','mmg_01_tan_f','hgun_pdw2000_f','smg_05_f','srifle_dmr_01_f','arifle_sdar_f','arifle_spar_01_blk_f','arifle_spar_01_khk_f','arifle_spar_01_snd_f',
-				'arifle_spar_01_gl_blk_f','arifle_spar_01_gl_khk_f','arifle_spar_01_gl_snd_f','arifle_spar_02_blk_f','arifle_spar_02_khk_f','arifle_spar_02_snd_f','arifle_spar_03_blk_f','arifle_spar_03_khk_f',
-				'arifle_spar_03_snd_f','mmg_02_black_f','mmg_02_camo_f','mmg_02_sand_f','smg_02_f','arifle_trg20_f','arifle_trg21_f','arifle_trg21_gl_f','arifle_arx_blk_f','arifle_arx_hex_f','smg_01_f',
-				'hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f',
-				'hgun_rook40_f','hgun_pistol_signal_f','binocular','laserdesignator_02_ghex_f','laserdesignator_02','laserdesignator_01_khk_f','laserdesignator_03','laserdesignator','rangefinder',
-				'launch_nlaw_f','launch_rpg32_f','launch_rpg32_ghex_f','launch_rpg7_f','launch_i_titan_f','launch_o_titan_ghex_f','launch_o_titan_f','launch_b_titan_f','launch_b_titan_tna_f',
-				'launch_o_titan_short_f','launch_o_titan_short_ghex_f','launch_i_titan_short_f','launch_b_titan_short_tna_f','launch_b_titan_short_f',
-				'launch_o_vorona_brown_f','launch_o_vorona_green_f','launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_mraws_green_f','launch_mraws_olive_f','launch_mraws_sand_f'
-			]
+			_magazinesAll,								// whitelisted MAGAZINES
+			_backpacksAll,								// whitelisted BACKPACKS
+			(_weaponsBasic + _weaponsLauncherAll + _weaponsHandgun + _weaponsSMG + _viewersAll)	// whitelisted WEAPONS
 		]
 	]
 };
@@ -633,16 +608,16 @@ if (_role isEqualTo 'SNIPER') exitWith {
 		],
 		[	// -------------------------------------------------------------- WHITELIST
 			[	// ITEMS
-				_uniformsAll,	// whitelisted UNIFORMS
-				_vestsAll,	// whitelisted VESTS
-				_inventoryAll,		// whitelisted Inventory
-				_assignedItemsAll,	// whitelisted ASSIGNED ITEMS
-				_headgearBasic,	// whitelisted HEADGEAR
-				_gogglesAll,	// whitelisted goggles
-				_attachmentsAll	// whitelisted Attachments
+				_uniformsAll,						// whitelisted UNIFORMS
+				_vestsAll,							// whitelisted VESTS
+				_inventoryAll,						// whitelisted Inventory
+				_assignedItemsAll,					// whitelisted ASSIGNED ITEMS
+				_headgearBasic,						// whitelisted HEADGEAR
+				_gogglesAll,						// whitelisted goggles
+				_attachmentsAll						// whitelisted Attachments
 			],
-			_magazinesAll,	// whitelisted MAGAZINES
-			_backpacksAll,	// whitelisted BACKPACKS
+			_magazinesAll,							// whitelisted MAGAZINES
+			_backpacksAll,							// whitelisted BACKPACKS
 			(_weaponsSniper + _weaponsSMG + _weaponsHandgun + _viewersAll)	// whitelisted WEAPONS
 		]
 	]
@@ -684,16 +659,16 @@ if (_role isEqualTo 'JTAC') exitWith {
 		],
 		[	// -------------------------------------------------------------- WHITELIST
 			[	// ITEMS
-				_uniformsAll,	// whitelisted UNIFORMS
-				_vestsAll,	// whitelisted VESTS
-				_inventoryAll,		// whitelisted Inventory
-				_assignedItemsAll,	// whitelisted ASSIGNED ITEMS
-				_headgearBasic,	// whitelisted HEADGEAR
-				_gogglesAll,	// whitelisted goggles
-				_attachmentsAll	// whitelisted Attachments
+				_uniformsAll,							// whitelisted UNIFORMS
+				_vestsAll,								// whitelisted VESTS
+				_inventoryAll,							// whitelisted Inventory
+				_assignedItemsAll,						// whitelisted ASSIGNED ITEMS
+				_headgearBasic,							// whitelisted HEADGEAR
+				_gogglesAll,							// whitelisted goggles
+				_attachmentsAll							// whitelisted Attachments
 			],
-			_magazinesAll,	// whitelisted MAGAZINES
-			_backpacksAll,	// whitelisted BACKPACKS
+			_magazinesAll,								// whitelisted MAGAZINES
+			_backpacksAll,								// whitelisted BACKPACKS
 			(_weaponsBasic + _weaponsHandgun + _weaponsSMG + _weaponsLauncherBasic + _viewersAll)	// whitelisted WEAPONS
 		]
 	]
@@ -735,16 +710,16 @@ if (_role isEqualTo 'PILOT') exitWith {
 		],
 		[	// -------------------------------------------------------------- WHITELIST
 			[	// ITEMS
-				_uniformsAll,	// whitelisted UNIFORMS
-				_vestsAll,	// whitelisted VESTS
-				_inventoryAll,		// whitelisted Inventory
-				_assignedItemsAll,	// whitelisted ASSIGNED ITEMS
-				_headgearBasic,	// whitelisted HEADGEAR
-				_gogglesAll,	// whitelisted goggles
-				_attachmentsAll	// whitelisted Attachments
+				_uniformsAll,						// whitelisted UNIFORMS
+				_vestsAll,							// whitelisted VESTS
+				_inventoryAll,						// whitelisted Inventory
+				_assignedItemsAll,					// whitelisted ASSIGNED ITEMS
+				_headgearBasic,						// whitelisted HEADGEAR
+				_gogglesAll,						// whitelisted goggles
+				_attachmentsAll						// whitelisted Attachments
 			],
-			_magazinesAll,	// whitelisted MAGAZINES
-			_backpacksAll,	// whitelisted BACKPACKS
+			_magazinesAll,							// whitelisted MAGAZINES
+			_backpacksAll,							// whitelisted BACKPACKS
 			(_weaponsHandgun + _weaponsSMG + _weaponsLauncherBasic + _viewersAll)	// whitelisted WEAPONS
 		]
 	]
@@ -786,16 +761,16 @@ if (_role isEqualTo 'OFFICER') exitWith {
 		],
 		[	// -------------------------------------------------------------- WHITELIST
 			[	// ITEMS
-				_uniformsAll,	// whitelisted UNIFORMS
-				_vestsAll,	// whitelisted VESTS
-				_inventoryAll,		// whitelisted Inventory
-				_assignedItemsAll,	// whitelisted ASSIGNED ITEMS
-				_headgearBasic,	// whitelisted HEADGEAR
-				_gogglesAll,	// whitelisted goggles
-				_attachmentsAll	// whitelisted Attachments
+				_uniformsAll,						// whitelisted UNIFORMS
+				_vestsAll,							// whitelisted VESTS
+				_inventoryAll,						// whitelisted Inventory
+				_assignedItemsAll,					// whitelisted ASSIGNED ITEMS
+				_headgearBasic,						// whitelisted HEADGEAR
+				_gogglesAll,						// whitelisted goggles
+				_attachmentsAll						// whitelisted Attachments
 			],
-			_magazinesAll,	// whitelisted MAGAZINES
-			_backpacksAll,	// whitelisted BACKPACKS
+			_magazinesAll,							// whitelisted MAGAZINES
+			_backpacksAll,							// whitelisted BACKPACKS
 			(_weaponsHandgun + _weaponsSMG + _weaponsLauncherBasic + _viewersAll)	// whitelisted WEAPONS
 		]
 	]
@@ -837,16 +812,16 @@ if (_role isEqualTo 'LEADER') exitWith {
 		],
 		[	// -------------------------------------------------------------- WHITELIST
 			[	// ITEMS
-				_uniformsAll,	// whitelisted UNIFORMS
-				_vestsAll,	// whitelisted VESTS
-				_inventoryAll,		// whitelisted Inventory
-				_assignedItemsAll,	// whitelisted ASSIGNED ITEMS
-				_headgearBasic,	// whitelisted HEADGEAR
-				_gogglesAll,	// whitelisted goggles
-				_attachmentsAll	// whitelisted Attachments
+				_uniformsAll,						// whitelisted UNIFORMS
+				_vestsAll,							// whitelisted VESTS
+				_inventoryAll,						// whitelisted Inventory
+				_assignedItemsAll,					// whitelisted ASSIGNED ITEMS
+				_headgearBasic,						// whitelisted HEADGEAR
+				_gogglesAll,						// whitelisted goggles
+				_attachmentsAll						// whitelisted Attachments
 			],
-			_magazinesAll,	// whitelisted MAGAZINES
-			_backpacksAll,	// whitelisted BACKPACKS
+			_magazinesAll,							// whitelisted MAGAZINES
+			_backpacksAll,							// whitelisted BACKPACKS
 			(_weaponsBasic + _weaponsHandgun + _weaponsSMG + _weaponsLauncherBasic + _viewersAll)	// whitelisted WEAPONS
 		]
 	]

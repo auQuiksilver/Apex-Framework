@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	6/03/2018 A3 1.80 by Quiksilver
+	5/05/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -14,8 +14,7 @@ Description:
 _______________________________________________/*/
 
 params [['_unitsArray',[]],['_skillLevel',1]];
-if (_unitsArray isEqualTo []) exitWith {};
-if (!(_skillLevel in [0,1,2,3,4])) exitWith {};
+if ((_unitsArray isEqualTo []) || (!(_skillLevel in [0,1,2,3,4]))) exitWith {};
 private ['_aimingAccuracyDefault','_aimingAccuracy','_aimingShake','_aimingSpeed','_commanding','_courage','_endurance','_general','_reloadSpeed','_spotDistance','_spotTime','_fleeing','_unit'];
 if (worldName isEqualTo 'Tanoa') then {
 	_aimingAccuracyDefault = [0.09,0.12] select ((count allPlayers) > 20);

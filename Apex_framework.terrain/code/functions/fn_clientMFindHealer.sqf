@@ -26,7 +26,7 @@ private _mx = objNull;
 	if (!((crew _x) isEqualTo [])) then {
 		{
 			if (alive _x) then {
-				0 = _mn pushBack _x;
+				_mn pushBack _x;
 			};
 		} forEach (crew _x);
 	};

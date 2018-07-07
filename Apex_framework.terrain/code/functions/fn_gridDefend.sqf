@@ -85,11 +85,11 @@ for '_x' from 0 to 1 step 0 do {
 		};
 	};
 	if (_sectorControl <= 0) exitWith {
-		comment 'enemy wins';
+		//comment 'enemy wins';
 		['GRID_IG_UPDATE',['Defend','Defense failed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	};
 	if (_serverTime > _endTime) exitWith {
-		comment 'friends win';
+		//comment 'friends win';
 		['GRID_IG_UPDATE',['Defend','Defense successful!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	};
 	uiSleep 2;

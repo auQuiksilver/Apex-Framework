@@ -233,7 +233,7 @@ _objUnit setSkill ['spotTime',0.25];
 for '_x' from 0 to 2 step 1 do {
 	_objUnit setVariable ['QS_secureable',TRUE,TRUE];
 };
-comment 'spawn sentries';
+//comment 'spawn sentries';
 _unitTypes = [
 	[
 		'O_G_Soldier_A_F',

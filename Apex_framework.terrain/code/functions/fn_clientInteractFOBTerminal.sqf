@@ -64,8 +64,8 @@ if (_type isEqualTo 1) exitWith {
 	};
 	_text = _text + _personalRespawn;
 	playSound ['AddItemOK',FALSE];
-	_text = parseText _text;
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,15,-1,_text,[],-1];
+	//_text = parseText _text;
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,15,-1,_text,[],-1,TRUE,'',TRUE];
 	player selectDiarySubject 'fobs';
 };
 if (_type isEqualTo 2) exitWith {
@@ -82,7 +82,7 @@ if (_type isEqualTo 3) exitWith {
 	} else {
 		50 cutText ['Personal Respawn Beacon activated','PLAIN'];
 		playSound ['AddItemOK',FALSE];
-		missionNamespace setVariable ['QS_module_fob_client_respawnEnabled',TRUE,FALSE];	
+		player setVariable ['QS_module_fob_client_respawnEnabled',TRUE,FALSE];	
 	};
 };
 if (_type isEqualTo 4) exitWith {

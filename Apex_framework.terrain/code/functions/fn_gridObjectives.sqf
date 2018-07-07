@@ -126,7 +126,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 	};
 	private _searchTimeout = -1;
 	for '_x' from 0 to _nSites step 1 do {
-		comment 'Find position';
+		//comment 'Find position';
 		_foundPosition = FALSE;
 		_searchTimeout = diag_tickTime + 15;
 		for '_x' from 0 to 1 step 0 do {
@@ -151,7 +151,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 		if ((_position distance2D _aoPos) < (_aoSize * 2)) then {
 			(missionNamespace getVariable 'QS_registeredPositions') pushBack _position;
 			_usedPositions pushBack _position;
-			comment 'Spawn composition';
+			//comment 'Spawn composition';
 			{	
 				if ((_x distance2D _position) < 6) then {
 					(missionNamespace getVariable 'QS_grid_hiddenTerrainObjects') pushBack _x;
@@ -221,7 +221,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 	private _igFlag = objNull;
 	private _igLeader = objNull;
 	private _composition = [];
-	comment 'Find position';
+	//comment 'Find position';
 	private _searchTimeout = diag_tickTime + 15;
 	_allPlayers = allPlayers;
 	for '_x' from 0 to 1 step 0 do {
@@ -247,7 +247,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 	};
 	_spawnPos set [2,0];
 	if ((_spawnPos distance2D _aoPos) < (_aoSize * 2)) then {
-		comment 'Spawn composition';
+		//comment 'Spawn composition';
 		{	
 			(missionNamespace getVariable 'QS_grid_hiddenTerrainObjects') pushBack _x;
 			_x hideObjectGlobal TRUE;
@@ -472,7 +472,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 	private _checkPos = [0,0,0];
 	private _composition = [];
 	private _intel = [];
-	comment 'Find position';
+	//comment 'Find position';
 	private _searchTimeout = diag_tickTime + 15;
 	_allPlayers = allPlayers;
 	for '_x' from 0 to 1 step 0 do {
@@ -495,7 +495,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 		_return;
 	};
 	if ((_checkPos distance2D _aoPos) < (_aoSize * 2)) then {
-		comment 'Spawn composition';
+		//comment 'Spawn composition';
 		{	
 			(missionNamespace getVariable 'QS_grid_hiddenTerrainObjects') pushBack _x;
 			_x hideObjectGlobal TRUE;
@@ -729,7 +729,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 				for '_j' from 0 to 2 step 1 do {
 					_monitorStructure = FALSE;
 					if (_intelType isEqualTo 'TUNNEL_ENTRANCE') then {
-						comment 'Find position';
+						//comment 'Find position';
 						
 						_buildingPosition = selectRandom _buildingPositionsInPolygon;
 						_buildingPositionIndex = _buildingPositionsInPolygon find _buildingPosition;
@@ -738,7 +738,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 						
 						diag_log format ['QS intel building position: %1',_buildingPosition];
 						
-						comment 'Get building';
+						//comment 'Get building';
 						_buildingPositionASL = AGLToASL _buildingPosition;
 						_intersections = lineIntersectsSurfaces [
 							_buildingPositionASL,
@@ -773,7 +773,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 							};
 						};
 						
-						comment 'Create entities';
+						//comment 'Create entities';
 						_buildingPositionASL set [2,((_buildingPositionASL select 2) + 0.15)];  /*/0.3 - can be too high off ground in some cases due to poorly configured vanilla building positions/*/
 						_table = createSimpleObject ['a3\structures_f\civ\camping\campingtable_small_f.p3d',_buildingPositionASL];
 						_table setDir (random 360);
@@ -790,7 +790,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 						_entities pushBack _intel;
 						_entityIntels pushBack _intel;
 						
-						comment 'Assign variables';
+						//comment 'Assign variables';
 						
 						diag_log (str _j);
 						
@@ -879,10 +879,10 @@ if (_type isEqualTo 'INTEL') exitWith {
 				};
 			};
 		} else {
-			comment 'Not enough building positions';
+			//comment 'Not enough building positions';
 		};
 	} else {
-		comment 'No intel required';
+		//comment 'No intel required';
 	};
 	missionNamespace setVariable ['QS_grid_intelEntities',_entities,FALSE];
 	diag_log 'Intel 1';

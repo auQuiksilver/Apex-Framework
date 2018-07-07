@@ -163,7 +163,7 @@ QS_hc_mapTest_1 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 					{
 						if (!(_x isEqualTo _grpLeader)) then {
 							if (!((vehicle _x) isEqualTo (vehicle _grpLeader))) then {
-								_m drawLine [(getPosASLVisual (vehicle _x)),(getPosASLVisual _grpLeader),[0,1,0,0.75]]; comment "[0,1,1,0.5]";
+								_m drawLine [(getPosASLVisual (vehicle _x)),(getPosASLVisual _grpLeader),[0,1,0,0.75]]; //comment "[0,1,1,0.5]";
 							};
 						};
 					} forEach (units _grp);
@@ -280,6 +280,9 @@ for '_x' from 0 to 1 step 0 do {
 				player setVelocity [0,0,0];
 			};
 		};
+	};
+	if (!((rating player) isEqualTo 9000)) then {
+		player addRating (9000 - (rating player));
 	};
 	uiSleep 3;
 };

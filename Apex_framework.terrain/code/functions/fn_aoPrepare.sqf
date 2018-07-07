@@ -14,7 +14,6 @@ Description:
 ______________________________________________/*/
 
 params ['_ao'];
-private ['_aoHQ','_aoRadioTower','_aoMinefield','_enemyArray','_minefield','_result'];
 _QS_AOpos = _ao select 1;
 private _aoArray = [];
 private _isHCEnabled = FALSE;
@@ -33,51 +32,25 @@ missionNamespace setVariable ['QS_aoDisplayName',(_ao select 0),TRUE];
 /*/======================================================================= SET CURRENT AO SIZE/*/
 
 private _playerCount = count allPlayers;
-private _aoSize = 800;
-if (worldName isEqualTo 'Altis') then {
-	if (_playerCount > 10) then {
-		if (_playerCount > 20) then {
-			if (_playerCount > 30) then {
-				if (_playerCount > 40) then {
-					if (_playerCount > 50) then {
-						_aoSize = 1000;
-					} else {
-						_aoSize = 900;
-					};
-				} else {
-					_aoSize = 800;
-				};
-			} else {
-				_aoSize = 700;
-			};
-		} else {
-			_aoSize = 600;
-		};
-	} else {
-		_aoSize = 500;
-	};
-} else {
-	if (_playerCount > 10) then {
-		if (_playerCount > 20) then {
-			if (_playerCount > 30) then {
-				if (_playerCount > 40) then {
-					if (_playerCount > 50) then {
-						_aoSize = 800;
-					} else {
-						_aoSize = 750;
-					};
-				} else {
-					_aoSize = 700;
-				};
-			} else {
-				_aoSize = 650;
-			};
-		} else {
-			_aoSize = 600;
-		};
-	} else {
-		_aoSize = 500;
-	};
+_bigTerrain = worldName in ['Altis'];
+private _aoSize = [350,400] select _bigTerrain;
+if (_playerCount > 10) then {
+	_aoSize = [400,450] select _bigTerrain;
+};
+if (_playerCount > 20) then {
+	_aoSize = [450,500] select _bigTerrain;
+};
+if (_playerCount > 30) then {
+	_aoSize = [500,550] select _bigTerrain;
+};
+if (_playerCount > 40) then {
+	_aoSize = [550,600] select _bigTerrain;
+};
+if (_playerCount > 50) then {
+	_aoSize = [600,650] select _bigTerrain;
+};
+if (_playerCount > 60) then {
+	_aoSize = [650,700] select _bigTerrain;
 };
 missionNamespace setVariable ['QS_aoSize',_aoSize,TRUE];
 'QS_marker_aoCircle' setMarkerSize [_aoSize,_aoSize];
@@ -121,7 +94,7 @@ if (!(_nearestLocations isEqualTo [])) then {
 		([(locationPosition _nearestLocation),300,'FOOT',([6,10] select (diag_fps > 20)),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians')),
 		FALSE
 	];
-	comment 'Random vehicles';
+	//comment 'Random vehicles';
 	[] call (missionNamespace getVariable 'QS_fnc_aoRandomVehicles');
 };
 
@@ -156,7 +129,7 @@ if ((random 1) > 0) then {
 
 /*/======================================================================= OTHER SUBS/*/
 
-comment 'Create other objectives';
+//comment 'Create other objectives';
 _subObj = (selectRandomWeighted [[1,'INTEL'],0.5,[1,'GEAR'],0.5]) call (missionNamespace getVariable 'QS_fnc_scSubObjective');
 (missionNamespace getVariable 'QS_classic_subObjectives') pushBack _subObj;
 

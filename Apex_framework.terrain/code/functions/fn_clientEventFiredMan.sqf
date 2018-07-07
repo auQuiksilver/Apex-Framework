@@ -67,7 +67,7 @@ if (_weapon isEqualTo 'Throw') then {
 		_nearEntities = _unit nearEntities ['Air',20];
 		if (!(_nearEntities isEqualTo [])) then {
 			{
-				if ((({(alive _x)} count (crew _x)) > 1) && (!(_unit getUnitTrait 'QS_trait_pilot')) && ((side _x) in [WEST,CIVILIAN])) exitWith {
+				if ((({(alive _x)} count (crew _x)) > 1) && (!(_unit getUnitTrait 'QS_trait_pilot')) && ((side _x) in [WEST,CIVILIAN,sideFriendly])) exitWith {
 					deleteVehicle _projectile;
 				};
 			} forEach _nearEntities;
@@ -100,20 +100,6 @@ if (_weapon isEqualTo 'Throw') then {
 							detach _projectile;
 						};
 					};
-					/*/
-					if ((simulationEnabled _objectParent) || {(_canAttachExp)}) then {
-						if ((_objectParent isKindOf 'AllVehicles') || {(_canAttachExp)}) then {
-							if (((side _objectParent) in [EAST,RESISTANCE]) || {(_canAttachExp)}) then {
-								_projectile setVectorUp _surfaceNormal;
-								_projectile setPosASL _intersectPosASL;
-								[_projectile,_objectParent,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
-								if (_objectParent getVariable ['QS_client_canAttachDetach',FALSE]) then {
-									detach _projectile;
-								};
-							};
-						};
-					};
-					/*/
 				};
 			};
 		};

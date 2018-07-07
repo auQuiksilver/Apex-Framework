@@ -192,7 +192,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 	private _weaponCargo = weaponCargo _entity;
 	for '_x' from 0 to 1 step 0 do {
 		if (alive _entity) then {
-			comment 'Validate weight params here';
+			//comment 'Validate weight params here';
 			_backpackCargo = backpackCargo _entity;
 			if ((count _backpackCargo) > _cfgTransportMaxBackpacks) then {
 				clearBackpackCargoGlobal _entity;

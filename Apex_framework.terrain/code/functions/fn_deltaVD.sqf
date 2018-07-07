@@ -14,11 +14,10 @@ Description:
 _______________________________________________/*/
 
 scriptName 'QS - Client - Delta VD';
-params ['_viewDistanceData','_objectViewDistanceData','_shadowDistanceData','_terrainGridData'];
+params ['_viewDistanceData','_objectViewDistanceData','_shadowDistanceData',''];
 _viewDistanceData params [['_currentVD',-1],['_targetVD',-1],['_incrementVD',10]];
 _objectViewDistanceData params [['_currentOD',-1],['_targetOD',-1],['_incrementOD',10]];
 _shadowDistanceData params [['_currentSH',-1],['_targetSH',-1],['_incrementSH',1]];
-_terrainGridData params [['_currentTG',-1],['_targetTG',-1],['_incrementTG',0.25]];
 private _helper = 0;
 private _increment = 1;
 private _difference = 0;
@@ -50,6 +49,12 @@ for '_x' from 0 to 99 step 1 do {
 	};
 	uiSleep 0.025;
 };
-setShadowDistance _targetSH;
-setObjectViewDistance _targetOD;
-setViewDistance _targetVD;
+if (_rampShadow) then {
+	setShadowDistance _targetSH;
+};
+if (_rampObject) then {
+	setObjectViewDistance _targetOD;
+};
+if (_rampView) then {
+	setViewDistance _targetVD;
+};

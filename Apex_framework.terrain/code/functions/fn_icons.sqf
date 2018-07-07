@@ -25,11 +25,15 @@ Installation:
 		
 	or 
 		
-		[] execVM "scripts\QS_icons.sqf";    (if in a folder called scripts in your mission directory.)
+		[] execVM "scripts\QS_icons.sqf";    (if in a folder called "scripts" in your mission directory.)
 
 	Follow instructions posted in the below link
 		
 		http://forums.bistudio.com/showthread.php?184108-Soldier-Tracker-(-Map-and-GPS-Icons-)
+		
+Notes:
+
+	missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit', player]
 _________________________________________________________________/*/
 
 if (isDedicated || !hasInterface) exitWith {};
@@ -735,7 +739,8 @@ _QS_fnc_iconUnits = {
 				} count allUnits;
 			} else {
 				{
-					if (((side (group _x)) in _as) || {(captive _x)}) then {
+					if (((side (group _x)) in _as) || {((captive _x) && (!((lifeState _x) isEqualTo 'INCAPACITATED')))}) then {
+					//if (((side (group _x)) in _as) || {(captive _x)}) then {
 						if (isPlayer _x) then {
 							if (_di isEqualTo 2) then {
 								if ((_x distance2D player) < (_QS_ST_X select 27)) then {
@@ -754,7 +759,8 @@ _QS_fnc_iconUnits = {
 			};
 		} else {
 			{
-				if (((side (group _x)) in _as) || {(captive _x)}) then {
+				if (((side (group _x)) in _as) || {((captive _x) && (!((lifeState _x) isEqualTo 'INCAPACITATED')))}) then {
+				//if (((side (group _x)) in _as) || {(captive _x)}) then {
 					if (isPlayer _x) then {
 						if (_di isEqualTo 2) then {
 							if ((_x distance2D player) < (_QS_ST_X select 27)) then {
@@ -777,7 +783,8 @@ _QS_fnc_iconUnits = {
 		};
 	} else {
 		{
-			if (((side (group _x)) in _as) || {(captive _x)}) then {
+			if (((side (group _x)) in _as) || {((captive _x) && (!((lifeState _x) isEqualTo 'INCAPACITATED')))}) then {
+			//if (((side (group _x)) in _as) || {(captive _x)}) then {
 				if (_di isEqualTo 2) then {
 					if ((_x distance2D player) < (_QS_ST_X select 27)) then {
 						if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
@@ -844,7 +851,7 @@ _QS_fnc_onMapSingleClick = {
 				(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
 			};
 		};
-		comment "player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];";
+		//comment "player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];";
 		player setVariable ['QS_ST_mapSingleClick',TRUE,FALSE];
 		private _vehicle = objNull;
 		_vehicles = (nearestObjects [_position,['Air','LandVehicle','Ship'],250,TRUE]) select {(alive _x)};
@@ -1419,7 +1426,10 @@ _QS_fnc_onGroupIconClick = {
 	scriptName 'QS_ST_onGroupIconClick';
 	params ['_is3D','_group','_wpID','_button','_posx','_posy','_shift','_ctrl','_alt'];
 	if (!isNull (objectParent (leader _group))) exitWith {};
-	if (!((side _group) isEqualTo playerSide)) exitWith {hintSilent QS_ST_STR_text2;0 spawn {uiSleep 3;hintSilent '';};};
+	if (!((side _group) isEqualTo playerSide)) exitWith {
+		[QS_ST_STR_text2] call (missionNamespace getVariable 'QS_fnc_hint');
+		0 spawn {uiSleep 3;[''] call (missionNamespace getVariable 'QS_fnc_hint');};
+	};
 	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
 	private _lifeState = '';
 	private _unitMOS = '';
@@ -1480,7 +1490,7 @@ _QS_fnc_onGroupIconClick = {
 			};
 		};
 	} count (units _group);
-	hintSilent parseText format [
+	[(format [
 		"
 			<t align='left'><t size='2'>%1</t></t><t align='right'>%2</t><br/><br/>
 			%3
@@ -1488,7 +1498,7 @@ _QS_fnc_onGroupIconClick = {
 		_text,
 		_groupCount,
 		_unitNameList
-	];
+	])] call (missionNamespace getVariable 'QS_fnc_hint');
 };
 _QS_fnc_onGroupIconOverEnter = {
 	if (!((side (_this select 1)) isEqualTo playerSide)) exitWith {};

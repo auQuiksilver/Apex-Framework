@@ -135,17 +135,17 @@ scopeName 'main';
 for '_x' from 0 to 1 step 0 do {
 	if (_argumentsCancelled call _expressionCancelled) then {
 		breakTo 'main';
-		comment 'Cancelled';
+		//comment 'Cancelled';
 	};
 	if (_argumentsFailed call _expressionFailed) then {
 		breakTo 'main';
-		comment 'Failed';		
+		//comment 'Failed';		
 	};
 	if (_progress >= 1) then {
 		_argumentsCompleted call _expressionCompleted;
 		uiSleep 0.25;
 		breakTo 'main';
-		comment 'Completed';
+		//comment 'Completed';
 	};
 	_progress = 0 max (_initialProgress + ((diag_tickTime - _timeStart) / _timeDiff)) min 1;
 	if (!(_expressionProgress isEqualTo {FALSE})) then {

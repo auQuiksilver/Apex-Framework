@@ -42,8 +42,8 @@ if (_type isEqualTo 1) exitWith {
 		{
 			_vehicle setPylonLoadout _x;
 		} forEach [
-			[1,'PylonMissile_1Rnd_Bomb_03_F',TRUE],
-			[2,'PylonMissile_1Rnd_Bomb_03_F',TRUE]
+			[1,'PylonMissile_1Rnd_Bomb_03_F',TRUE,[0]],
+			[2,'PylonMissile_1Rnd_Bomb_03_F',TRUE,[0]]
 		];
 	};
 	if (_vehicleType isEqualTo 'b_plane_cas_01_dynamicloadout_f') then {

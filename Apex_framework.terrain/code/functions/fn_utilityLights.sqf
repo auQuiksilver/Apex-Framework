@@ -36,11 +36,11 @@ if (_isOffroad) then {
 	_attachPointL = [-0.37,0,0.56];
 	_attachPointR = [0.37,0,0.56];
 	if ((_vehicle animationPhase 'hidePolice') isEqualTo 0) then {
-		comment 'Must be police';
+		//comment 'Must be police';
 		_lightRed = [1,0,0];
 		_lightBlue = [0,0,1];
 	} else {
-		comment 'Must be services';
+		//comment 'Must be services';
 		_lightRed = [1,0.41,0];
 		_lightBlue = [1,0.41,0];
 		_deAnim = TRUE;

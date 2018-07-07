@@ -89,7 +89,7 @@ for '_i' from 0 to 1 step 1 do {
 			for '_x' from 0 to 2 step 1 do {
 				for '_x' from 0 to 1 step 0 do {
 					_patrolPosition = (position _boat) getPos [(50 + (random 500)),(random 360)];
-					if (((_virtualPatrol findIf {((_x distance2D _patrolPosition) < 50)}) isEqualTo -1) && (surfaceIsWater _patrolPosition) && ((getTerrainHeightASL _patrolPosition) < -5)) exitWith {};
+					if (((_virtualPatrol inAreaArray [_patrolPosition,50,50,0,FALSE]) isEqualTo []) && (surfaceIsWater _patrolPosition) && ((getTerrainHeightASL _patrolPosition) < -5)) exitWith {};
 				};
 				_virtualPatrol pushBack _patrolPosition;
 			};

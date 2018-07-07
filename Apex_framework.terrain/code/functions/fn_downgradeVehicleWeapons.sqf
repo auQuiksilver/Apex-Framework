@@ -21,7 +21,7 @@ ____________________________________________________________________________/*/
 params ['_vehicle',['_forced',FALSE]];
 if (((random 1) < 0.333) && (!(_forced))) exitWith {};
 _type = toLower (typeOf _vehicle);
-comment 'Slammer UP';
+//comment 'Slammer UP';
 if (_type in [
 	'b_mbt_01_tusk_f',
 	'b_t_mbt_01_tusk_f'
@@ -49,7 +49,7 @@ if (_type in [
 		['1000Rnd_65x39_Belt_Tracer_Red',[0]]
 	];
 };
-comment 'Panther';
+//comment 'Panther';
 if (_type in [
 	'b_apc_tracked_01_rcws_f',
 	'b_t_apc_tracked_01_rcws_f'
@@ -63,7 +63,7 @@ if (_type in [
 		['1000Rnd_65x39_Belt_Tracer_Red',[0]]
 	];
 };
-comment 'MRAPs';
+//comment 'MRAPs';
 if (_type in [
 	'b_mrap_01_hmg_f',
 	'b_t_mrap_01_hmg_f',
@@ -87,7 +87,7 @@ if (_type in [
 		[_magazine,[0]]
 	];	
 };
-comment 'LSV';
+//comment 'LSV';
 if (_type in [
 	'b_lsv_01_armed_black_f',
 	'b_lsv_01_armed_f',
@@ -107,7 +107,7 @@ if (_type in [
 		['100Rnd_127x99_mag_Tracer_Red',[0]]
 	];
 };
-comment 'Artillery';
+//comment 'Artillery';
 if (_type in [
 	'o_mbt_02_arty_f',
 	'b_mbt_01_arty_f',
@@ -130,7 +130,7 @@ if (_type in [
 		[_magazine,[0,0]]
 	];
 };
-comment 'Marid';
+//comment 'Marid';
 if (_type in [
 	'o_apc_wheeled_02_rcws_f',
 	'o_apc_wheeled_02_rcws_v2_f',
@@ -146,7 +146,7 @@ if (_type in [
 		['1000Rnd_65x39_Belt_Tracer_Green',[0]]
 	];
 };
-comment 'T100';
+//comment 'T100';
 if (_type in [
 	'o_t_mbt_02_cannon_ghex_f',
 	'o_mbt_02_cannon_f'
@@ -160,7 +160,7 @@ if (_type in [
 		['1000Rnd_762x51_Belt_T_Green',[0,0]]
 	];
 };
-comment 'Kuma';
+//comment 'Kuma';
 if (_type in [
 	'i_mbt_03_cannon_f'
 ]) then {
@@ -173,7 +173,7 @@ if (_type in [
 		['1000Rnd_762x51_Belt_T_Yellow',[0,0]]
 	];
 };
-comment 'Boats';
+//comment 'Boats';
 if (_type in [
 	'o_boat_armed_01_hmg_f',
 	'o_t_boat_armed_01_hmg_f'
@@ -187,7 +187,7 @@ if (_type in [
 		['1000Rnd_762x51_Belt_T_Green',[1]]
 	];
 };
-comment 'Statics';
+//comment 'Statics';
 if (_type in [
 	'b_hmg_01_f',
 	'b_hmg_01_high_f',

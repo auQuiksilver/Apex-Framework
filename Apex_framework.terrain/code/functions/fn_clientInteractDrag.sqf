@@ -53,8 +53,12 @@ _pos = ((getPosATL player) vectorAdd ((vectorDir player) vectorMultiply 1.5));
 _pos set [2,((_pos select 2) + 0.2)];
 _t setPosATL _pos;
 [_t,player,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
-comment '_t attachTo [player];';
+//comment '_t attachTo [player];';
 player playActionNow 'grabDrag';
 _text = format ['Dragging %1',(_t getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName'))])];
 50 cutText [_text,'PLAIN DOWN',0.75];
+if ((uiNamespace getVariable ['QS_dragStuckMsg',-1]) isEqualTo -1) then {
+	uiNamespace setVariable ['QS_dragStuckMsg',0];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Feet stuck? Tap [C] or double-tap [C], or [W]+[S]',[],-1,TRUE,'Help',TRUE];
+};
 TRUE;

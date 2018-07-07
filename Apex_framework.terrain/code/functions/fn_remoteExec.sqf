@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	19/01/2018 A3 1.80 by Quiksilver
+	14/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -1825,10 +1825,13 @@ if (_case < 100) exitWith {
 			};
 		};
 	};
+	// future cases
+	/*/
 	if (_case isEqualTo 91) then {
 	
 	};
 	if (_case isEqualTo 92) then {
 	
 	};
+	/*/
 };

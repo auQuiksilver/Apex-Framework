@@ -36,7 +36,7 @@ params [
 	]
 ];
 _return = [];
-comment 'Find position';
+//comment 'Find position';
 private _spawnPos = [0,0,0];
 if (surfaceIsWater _aoPos) then {
 	for '_x' from 0 to 14 step 1 do {

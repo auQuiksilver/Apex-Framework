@@ -14,8 +14,9 @@ Description:
 __________________________________________________/*/
 
 scriptName 'QS AI';
+if ((!hasInterface) && (!isDedicated)) exitWith {};
 private _isDedicated = isDedicated;
-private _isHC = !(_isDedicated) && !hasInterface;
+private _isHC = !_isDedicated;
 private _QS_uiTime = diag_tickTime;
 private _QS_time = time;
 private _QS_serverTime = serverTime;
@@ -38,7 +39,7 @@ _resistance = RESISTANCE;
 _sideFriendly = sideFriendly;
 _enemySides = [_east,_resistance];
 _friendlySides = [_west,_civilian,_sideFriendly];
-comment 'General Info';
+//comment 'General Info';
 private _QS_updateGeneralInfoDelay = 10;
 private _QS_updateGeneralInfoCheckDelay = _QS_uiTime + _QS_updateGeneralInfoDelay;
 private _QS_diag_fps = round diag_fps;
@@ -48,11 +49,11 @@ private _QS_allGroups = allGroups;
 private _QS_allGroupsCount = count _QS_allGroups;
 private _QS_allUnits = allUnits;
 private _QS_allUnitsCount = count _QS_allUnits;
-comment 'Dynamic skill';
+//comment 'Dynamic skill';
 private _QS_module_dynamicSkill = _false;
 private _QS_module_dynamicSkill_delay = 300;
 private _QS_module_dynamicSkill_checkDelay = _QS_uiTime + _QS_module_dynamicSkill_delay;
-comment 'General group behaviors';
+//comment 'General group behaviors';
 private _QS_module_groupBehaviors = _true;
 private _QS_module_groupBehaviors_delay = 15;
 private _QS_module_groupBehaviors_checkDelay = _QS_uiTime + _QS_module_groupBehaviors_delay;
@@ -66,19 +67,19 @@ private _QS_module_groupBehaviors_groupTask_type = '';
 private _QS_module_groupBehaviors_groupTask_simple = '';
 private _QS_module_groupBehaviors_groupTask_startTime = -1;
 private _QS_module_groupBehaviors_groupTask_endTime = -1;
-comment 'General unit behaviors';
+//comment 'General unit behaviors';
 private _QS_module_unitBehaviors = _true;
 private _QS_module_unitBehaviors_delay = 25;
 private _QS_module_unitBehaviors_checkDelay = _QS_uiTime + _QS_module_unitBehaviors_delay;
 private _QS_module_unitBehaviors_localUnits = [];
 private _QS_module_unitBehaviors_unit = objNull;
-comment 'General agent (civ + animal) behaviors';
+//comment 'General agent (civ + animal) behaviors';
 private _QS_module_agentBehaviors = _true;
 private _QS_module_agentBehaviors_delay = 30;
 private _QS_module_agentBehaviors_checkDelay = _QS_uiTime + _QS_module_agentBehaviors_delay;
 private _QS_module_agentBehaviors_localAgents = [];
 private _QS_module_agentBehaviors_agent = objNull;
-comment 'Virtual sectors logic';
+//comment 'Virtual sectors logic';
 private _QS_module_virtualSectors = (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'SC';
 private _QS_module_virtualSectors_delay = 15;	/*/this value influences difficulty substantially/*/
 private _QS_module_virtualSectors_checkDelay = _QS_uiTime + _QS_module_virtualSectors_delay;
@@ -230,7 +231,7 @@ private _QS_module_virtualSectors_defenderCheckDelay = _QS_uiTime + _QS_module_v
 private _QS_module_virtualSectors_attackerDelay = 30;
 private _QS_module_virtualSectors_attackerCheckDelay = _QS_uiTime + _QS_module_virtualSectors_attackerDelay;
 
-comment 'Classic AO logic';
+//comment 'Classic AO logic';
 private _QS_module_classic = (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'CLASSIC';
 private _QS_module_classic_delay = 10;
 private _QS_module_classic_checkDelay = _QS_uiTime + _QS_module_classic_delay;
@@ -244,17 +245,17 @@ private _QS_module_classic_aoData = [];
 private _QS_module_classic_spawnedEntities = [];
 private _QS_module_classic_terrainData = [];
 
-comment 'classic ao uavs';
+//comment 'classic ao uavs';
 private _QS_module_classic_uavEnabled = _true;
 private _QS_module_classic_uav_delay = 30;
 private _QS_module_classic_uav_checkDelay = _QS_uiTime + _QS_module_classic_uav_delay;
 private _QS_module_classic_uavs = [];
-comment 'classic ao helis';
+//comment 'classic ao helis';
 private _QS_module_classic_heliEnabled = _true;
 private _QS_module_classic_patrolsHeli_delay = 60;
 private _QS_module_classic_patrolsHeli_checkDelay = _QS_uiTime + _QS_module_classic_patrolsHeli_delay;
 private _QS_module_classic_patrolsHeli = [];
-comment 'classic ao reinforcements';
+//comment 'classic ao reinforcements';
 private _QS_module_classic_infReinforce = _true;
 private _QS_module_classic_infReinforce_enabled = _true;
 private _QS_module_classic_infReinforce_delay = 20;
@@ -271,7 +272,7 @@ private _QS_module_classic_infReinforce_limit = 60;
 private _QS_module_classic_infReinforce_limitReal = 0;
 private _QS_module_classic_infReinforce_AIThreshold = 75;
 private _QS_module_classic_infReinforce_array = [];
-comment 'classic ao veh reinforcements';
+//comment 'classic ao veh reinforcements';
 private _QS_module_classic_vehReinforce = _true;
 private _QS_module_classic_vehReinforce_enabled = _true;
 private _QS_module_classic_vehReinforce_delay = 30;
@@ -288,13 +289,13 @@ private _QS_module_classic_vehReinforce_limit = 3;
 private _QS_module_classic_vehReinforce_limitReal = 0;
 private _QS_module_classic_vehReinforce_AIThreshold = 75;
 private _QS_module_classic_vehReinforce_array = [];
-comment 'classic ao fallback logic';
+//comment 'classic ao fallback logic';
 private _QS_module_classic_efb = _false;
 private _QS_module_classic_efb_delay = 60;
 private _QS_module_classic_efb_checkDelay = _QS_uiTime + _QS_module_classic_efb_delay;
 private _QS_module_classic_efb_group = grpNull;
 private _QS_module_classic_efb_threshold = 25;
-comment 'grid ao';
+//comment 'grid ao';
 private _QS_module_grid = (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'GRID';
 private _QS_module_grid_delay = 10;
 private _QS_module_grid_checkDelay = _QS_uiTime + _QS_module_grid_delay;
@@ -353,7 +354,7 @@ private _QS_module_civilian_count_5 = 16;
 private _QS_module_civilian_count_6 = 20;
 private _QS_module_civilian_houseCoef = 2;
 private _QS_module_civilian_houseCount = 0;
-comment 'Manage ambient hostility';
+//comment 'Manage ambient hostility';
 
 private _QS_module_ambientHostility = _true && ((missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) in ['CLASSIC','SC']);
 private _QS_module_ambientHostility_delay = 30;
@@ -368,7 +369,7 @@ private _QS_module_ambientHostility_entities = [];
 private _QS_module_ambientHostility_validTargets = [];
 private _QS_module_ambientHostility_nearbyCount = -1;
 
-comment 'Manage enemy jets';
+//comment 'Manage enemy jets';
 private _QS_module_enemyCAS = (missionNamespace getVariable ['QS_missionConfig_enemyCAS',1]) isEqualTo 1;
 private _QS_module_enemyCAS_delay = 15;
 private _QS_module_enemyCAS_checkDelay = _QS_uiTime + _QS_module_enemyCAS_delay;
@@ -401,12 +402,12 @@ private _QS_module_enemyCas_allJetTypes = [
 	'i_plane_fighter_04_f',
 	'i_plane_fighter_04_cluster_f'
 ];
-comment 'Manage support providers';
+//comment 'Manage support providers';
 private _QS_module_supportProvision = _true;
 private _QS_module_supportProvision_delay = 60;
 private _QS_module_supportProvision_checkDelay = _QS_uiTime + _QS_module_supportProvision_delay;
 
-comment 'Manage custom scripts';
+//comment 'Manage custom scripts';
 private _QS_module_scripts = _true;
 private _QS_module_scripts_delay = 15;
 private _QS_module_scripts_checkDelay = _QS_uiTime + _QS_module_scripts_delay;
@@ -414,9 +415,15 @@ private _QS_module_tracers = _true;
 private _QS_module_tracers_delay = 600;
 private _QS_module_tracers_checkDelay = _QS_uiTime + _QS_module_tracers_delay;
 private _QS_module_tracers_checkOverride = _false;
-comment 'Targets Knowledge script';
+//comment 'Dyn sim helper';
+private _QS_module_dynSimHelper = _true;
+private _QS_module_dynSimHelper_delay = 15;
+private _QS_module_dynSimHelper_check = _QS_uiTime + _QS_module_dynSimHelper_delay;
+
+
+//comment 'Targets Knowledge script';
 missionNamespace setVariable ['QS_AI_script_targetsKnowledge',([0,_east] spawn (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')),_false];
-comment 'Preload Functions';
+//comment 'Preload Functions';
 _fn_aoGetTerrainData = missionNamespace getVariable 'QS_fnc_aoGetTerrainData';
 _fn_serverDetector = missionNamespace getVariable 'QS_fnc_serverDetector';
 _fn_AIHandleGroup = missionNamespace getVariable 'QS_fnc_AIHandleGroup';
@@ -443,7 +450,7 @@ _fn_spawnViperTeam = missionNamespace getVariable 'QS_fnc_spawnViperTeam';
 _fn_serverObjectsRecycler = missionNamespace getVariable 'QS_fnc_serverObjectsRecycler';
 _fn_aiGetKnownEnemies = missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies';
 _fn_ambientHostility = missionNamespace getVariable 'QS_fnc_ambientHostility';
-comment 'Loop';
+//comment 'Loop';
 for '_x' from 0 to 1 step 0 do {
 	uiSleep 3;
 	_QS_uiTime = diag_tickTime;
@@ -550,7 +557,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			};
 			if (missionNamespace getVariable 'QS_virtualSectors_active') then {
-				comment 'General sectors info';
+				//comment 'General sectors info';
 				if (_QS_allPlayersCount < 10) then {
 					_QS_module_virtualSectors_maxAI = _QS_module_virtualSectors_maxAI_0;
 					_QS_module_virtualSectors_maxAISector = _QS_module_virtualSectors_maxAISector_0;
@@ -587,32 +594,31 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_module_virtualSectors_maxAIX = _QS_module_virtualSectors_maxAIX_5;
 					_QS_module_virtualSectors_patrolsInf_thresh = round (56 / 2);
 				};
-				comment 'Manage assault';
+				//comment 'Manage assault';
 				_QS_module_virtualSectors_scoreSides = missionNamespace getVariable ['QS_virtualSectors_scoreSides',[0,0,0,0,0]];
 				_QS_module_virtualSectors_resultsFactors = missionNamespace getVariable ['QS_virtualSectors_resultsFactors',[0,0,0,0,0,0]];
 				if (_QS_module_virtualSectors_assaultEnabled) then {
 					if (_QS_module_virtualSectors_assaultReady) then {
 						if (!(_QS_module_virtualSectors_assaultActive)) then {
-							comment 'Assault not active';
+							//comment 'Assault not active';
 							if ((_QS_module_virtualSectors_scoreSides select 1) >= _QS_module_virtualSectors_assaultScore) then {
 								_QS_module_virtualSectors_assaultActive = _true;
 								diag_log '***** QS AI - Sector Assault Active *****';
 								
-								comment 'Select sector herePick random WEST-owned sector
-								';
+								//comment 'Select sector herePick random WEST-owned sector';
 								_QS_module_virtualSectors_assaultDuration = _QS_uiTime + _QS_module_virtualSectors_assaultDuration_fixed + (random _QS_module_virtualSectors_assaultDuration_variable);
 							};
 						} else {
-							comment 'Assault active';
+							//comment 'Assault active';
 							if (_QS_diag_tickTimeNow > _QS_module_virtualSectors_assaultDuration) then {
-								comment 'Assault terminated';
+								//comment 'Assault terminated';
 							} else {
-								comment 'Assault active';
+								//comment 'Assault active';
 							};
 						};
 					};
 				};
-				comment 'Manage general area patrols';
+				//comment 'Manage general area patrols';
 				_QS_module_virtualSectors_patrolsInf = _QS_module_virtualSectors_patrolsInf select {(alive _x)};
 				if (!(_QS_module_virtualSectors_patrolFallback)) then {
 					if ((_QS_module_virtualSectors_scoreSides select 1) >= _QS_module_virtualSectors_scoreEndClose) then {
@@ -661,7 +667,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_module_virtualSectors_countAIInfPatrols = count _QS_module_virtualSectors_patrolsInf;
 					if (_QS_module_virtualSectors_countAIInfPatrols < (_QS_module_virtualSectors_patrolsInf_thresh - 4)) then {
 						if ((count _QS_module_unitBehaviors_localUnits) < _QS_unitCap) then {
-							comment 'Spawn more radial inf patrols';
+							//comment 'Spawn more radial inf patrols';
 							_QS_module_virtualSectors_spawnedGrp = [-2,_QS_module_virtualSectors_countAIInfPatrols,_QS_module_virtualSectors_patrolsInf_thresh] call _fn_scSpawnGroup;
 							if (!(_QS_module_virtualSectors_spawnedGrp isEqualTo [])) then {
 								{
@@ -672,7 +678,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 				};
-				comment 'Manage vehicle patrols';
+				//comment 'Manage vehicle patrols';
 				if (_QS_module_virtualSectors_vehiclesEnabled) then {
 					if (missionNamespace getVariable 'QS_virtualSectors_sub_2_active') then {
 						if (_QS_uiTime > _QS_module_virtualSectors_patrolsVeh_checkDelay) then {
@@ -692,7 +698,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 				};
-				comment 'Manage heli patrols';
+				//comment 'Manage heli patrols';
 				if (_QS_diag_fps > 15) then {
 					if (_QS_module_virtualSectors_heliEnabled) then {
 						if (missionNamespace getVariable 'QS_virtualSectors_sub_2_active') then {
@@ -713,7 +719,7 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 					};
-					comment 'Manage UAV patrol';
+					//comment 'Manage UAV patrol';
 					if (_QS_module_virtualSectors_uavEnabled) then {
 						if (missionNamespace getVariable 'QS_virtualSectors_sub_1_active') then {
 							if (_QS_uiTime > _QS_module_virtualSectors_uav_checkDelay) then {
@@ -796,7 +802,7 @@ for '_x' from 0 to 1 step 0 do {
 								'_conversionRate',
 								'_isBeingInterrupted'
 							];
-							comment 'Manage sector patrols';
+							//comment 'Manage sector patrols';
 							/*/ Debug lines
 							if (!isNil 'QS_module_virtualSectors_maxAI') then {
 								_QS_module_virtualSectors_maxAI = QS_module_virtualSectors_maxAI;
@@ -811,7 +817,7 @@ for '_x' from 0 to 1 step 0 do {
 							_QS_module_virtualSectors_assignedUnitsSector = _QS_module_virtualSectors_assignedUnits select _forEachIndex;
 							_QS_module_virtualSectors_countAISector = count _QS_module_virtualSectors_assignedUnitsSector;
 							if (_QS_module_virtualSectors_countAISector <= (_QS_module_virtualSectors_maxAISector - _QS_module_virtualSectors_spawnGroupCount)) then {
-								comment 'Spawn more AI';
+								//comment 'Spawn more AI';
 								_QS_module_virtualSectors_spawnedGrp = [_QS_module_virtualSectors_sectorData,_QS_module_virtualSectors_spawnGroupCount] call _fn_scSpawnGroup;
 								{
 									_QS_module_virtualSectors_assignedUnitsSector pushBack _x;
@@ -822,7 +828,7 @@ for '_x' from 0 to 1 step 0 do {
 						_QS_module_virtualSectors_defenderCheckDelay = _QS_uiTime + _QS_module_virtualSectors_defenderDelay;
 					};
 					if (_QS_uiTime > _QS_module_virtualSectors_attackerCheckDelay) then {
-						comment 'Fourth block of AI here, spawned all over zone and move between to nearest contested sector';
+						//comment 'Fourth block of AI here, spawned all over zone and move between to nearest contested sector';
 						_QS_module_virtualSectors_assignedUnitsSector = _QS_module_virtualSectors_assignedUnits select 3;
 						_QS_module_virtualSectors_countAISector = count _QS_module_virtualSectors_assignedUnitsSector;
 						if (_QS_module_virtualSectors_countAISector <= (_QS_module_virtualSectors_maxAIX - _QS_module_virtualSectors_spawnGroupCount)) then {
@@ -992,7 +998,7 @@ for '_x' from 0 to 1 step 0 do {
 					} forEach (missionNamespace getVariable ['QS_classic_AI_enemy_0',[]]);
 					missionNamespace setVariable ['QS_classic_AI_enemy_0',[],_false];
 				};
-				comment 'Enemy inf reinforcements';
+				//comment 'Enemy inf reinforcements';
 				if (_QS_module_classic_infReinforce) then {
 					if (_QS_module_classic_infReinforce_enabled) then {
 						if (_QS_uiTime > _QS_module_classic_infReinforce_checkDelay) then {
@@ -1015,7 +1021,6 @@ for '_x' from 0 to 1 step 0 do {
 											{
 												_QS_module_classic_infReinforce_array pushBack _x;
 											} forEach _QS_module_classic_spawnedEntities;
-											
 											if (!alive (missionNamespace getVariable ['QS_radioTower',objNull])) then {
 												_QS_module_classic_infReinforce_spawned = _QS_module_classic_infReinforce_spawned + 4;
 											};
@@ -1027,7 +1032,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 				};
-				comment 'Enemy vic reinforcements';
+				//comment 'Enemy vic reinforcements';
 				if (_QS_module_classic_vehReinforce) then {
 					if (_QS_module_classic_vehReinforce_enabled) then {
 						if (_QS_uiTime > _QS_module_classic_vehReinforce_checkDelay) then {
@@ -1061,7 +1066,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 				};
-				comment 'Enemy helo respawning';
+				//comment 'Enemy helo respawning';
 				if (_QS_diag_fps > 15) then {
 					if (_QS_module_classic_heliEnabled) then {
 						if (alive (missionNamespace getVariable 'QS_radioTower')) then {
@@ -1081,9 +1086,9 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 					};
-					comment 'Manage UAV patrol';
+					//comment 'Manage UAV patrol';
 					if (_QS_module_classic_uavEnabled) then {
-						comment "if (missionNamespace getVariable 'QS_classic_sub_1_active') then {";
+						//comment "if (missionNamespace getVariable 'QS_classic_sub_1_active') then {";
 							if (_QS_uiTime > _QS_module_classic_uav_checkDelay) then {
 								_QS_module_classic_uavs = _QS_module_classic_uavs select {(alive _x)};
 								if ((_QS_module_classic_uavs findIf {(unitIsUav _x)}) isEqualTo -1) then {
@@ -1096,7 +1101,7 @@ for '_x' from 0 to 1 step 0 do {
 								};
 								_QS_module_classic_uav_checkDelay = diag_tickTime + _QS_module_classic_uav_delay;
 							};
-						comment "};";
+						//comment "};";
 					};
 					if (_QS_module_viperTeam) then {
 						if (_QS_uiTime > _QS_module_viperTeam_checkDelay) then {
@@ -1124,7 +1129,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 				};
-				comment 'Enemy fallback';
+				//comment 'Enemy fallback';
 				if (_QS_uiTime > _QS_module_classic_efb_checkDelay) then {
 					if (!(_QS_module_classic_efb)) then {
 						if (([_QS_module_classic_aoPos,_QS_module_classic_aoSize,[_east],_QS_allUnits,1] call _fn_serverDetector) < _QS_module_classic_efb_threshold) then {
@@ -1523,6 +1528,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (!(missionNamespace getVariable 'QS_casSuspend')) then {
 				missionNamespace setVariable ['QS_enemyCasArray2',((missionNamespace getVariable 'QS_enemyCasArray2') select {(alive _x)}),_false];
 				_QS_module_enemyCas_array = missionNamespace getVariable ['QS_enemyCasArray2',[]];
+				_playerJetCount = count (_QS_allPlayers select {((toLower (typeOf (vehicle _x))) in _QS_module_enemyCas_allJetTypes)});
 				if (_QS_allPlayersCount > 10) then {
 					if (_QS_allPlayersCount > 25) then {
 						_QS_module_enemyCas_limit = _QS_module_enemyCas_limitHigh;
@@ -1532,7 +1538,6 @@ for '_x' from 0 to 1 step 0 do {
 				} else {
 					_QS_module_enemyCas_limit = 1;
 				};
-				_playerJetCount = count (_QS_allPlayers select {((toLower (typeOf (vehicle _x))) in _QS_module_enemyCas_allJetTypes)});
 				if (_playerJetCount > 0) then {
 					if (_playerJetCount > 1) then {
 						_QS_module_enemyCas_limit = _QS_module_enemyCas_limit + 1;
@@ -1611,6 +1616,31 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_module_enemyCAS_checkDelay = diag_tickTime + _QS_module_enemyCAS_delay;
 		};
 	};
+	
+	/*/Module Dynamic Simulation helper/*/
+	if (_QS_module_dynSimHelper) then {
+		if (_QS_uiTime > _QS_module_dynSimHelper_check) then {
+			{
+				if (!isNull _x) then {
+					if (local _x) then {
+						if ((_x isKindOf 'LandVehicle') || {(_x isKindOf 'Ship')}) then {
+							if (!((crew _x) isEqualTo [])) then {
+								if (simulationEnabled _x) then {
+									if ((_x distance2D (_x getVariable ['QS_v_dynSimPos',[0,0,0]])) > 150) then {
+										_x setVariable ['QS_v_dynSimPos',(getPosWorld _x),TRUE];
+									};
+								};
+							};
+						};
+						uiSleep 0.01;
+					};
+				};
+				uiSleep 0.01;
+			} forEach vehicles;
+			_QS_module_dynSimHelper_check = _QS_uiTime + _QS_module_dynSimHelper_delay;
+		};
+	};
+
 	/*/Module support provision/*/
 	if (_QS_module_supportProvision) then {
 		if (_QS_uiTime > _QS_module_supportProvision_checkDelay) then {

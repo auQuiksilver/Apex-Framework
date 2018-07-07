@@ -132,7 +132,7 @@ _validBuildingTypes = [
 	"Land_GH_MainBuilding_left_F",
 	"Land_GH_Gazebo_F"
 ];
-comment 'Find position';
+//comment 'Find position';
 private _idapScenePosition = [0,0,0];
 private _accepted = FALSE;
 private _allPlayers = allPlayers;
@@ -157,8 +157,8 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_accepted) exitWith {};
 };
-comment 'Spawn IDAP scene';
-comment 'To do: 3 different scenes';
+//comment 'Spawn IDAP scene';
+//comment 'To do: 3 different scenes';
 _scenes = [
 	'QS_data_siteIDAPSupply_1'
 ];
@@ -296,7 +296,7 @@ for '_x' from 0 to (4 + (round (random 3))) step 1 do {
 	_allArray pushBack _blood;
 };
 
-comment 'Add examine intel';
+//comment 'Add examine intel';
 
 private _enableDocumentTask = TRUE;
 private _documentTask = FALSE;
@@ -339,7 +339,7 @@ for '_x' from 0 to (_intelCount - 1) step 1 do {
 	_intelAgentArray pushBack _agent;
 };
 
-comment 'Spawn recoverable unit';
+//comment 'Spawn recoverable unit';
 
 _emptyPosition = [_idapScenePosition,1,12,0.5,0,0.5,0] call _fn_findSafePos;
 _recoverableUnit = createAgent [(selectRandom _idapTypes),[-50,-50,0],[],0,'CAN_COLLIDE'];
@@ -387,9 +387,9 @@ private _enemyArray1_threshold = 4;
 private _enemyArray2_threshold = 6;
 _enemyArray1 = [_idapScenePosition,0,0] call _fn_smIDAP;
 
-comment 'Create some enemies at IDAP scene';
+//comment 'Create some enemies at IDAP scene';
 
-comment 'Wait for intel found';
+//comment 'Wait for intel found';
 
 private _uncertainPosition = [
 	((_idapScenePosition select 0) + 300 - (random 600)),
@@ -418,25 +418,23 @@ private _uncertainPosition = [
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
 ['SM_IDAP_BRIEF',['Side Mission','Recover IDAP aid worker']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-QS_idapmission_debugskip = false;
 for '_x' from 0 to 1 step 0 do {
 	sleep 3;
 	if (
 		(({(_x getVariable ['QS_entity_examined',FALSE])} count _intelAgentArray) isEqualTo _intelCount) ||
 		(({(!isNull _x)} count _intelAgentArray) < (count _intelAgentArray))
 	) exitWith {};
-	if (QS_idapmission_debugskip) exitWith {};
 };
 {
 	_x setVariable ['QS_entity_examine',FALSE,TRUE];
 } forEach _agentArray;
-comment 'Stage 2';
+//comment 'Stage 2';
 private _sceneChance = [];
 for '_x' from 0 to 5 step 1 do {
 	_sceneChance pushBack (selectRandom [0,1,0]);
 };
 _sceneChance pushBack 1;
-comment 'Find stage 2 position';
+//comment 'Find stage 2 position';
 _findHouse = {
 	params ['_centerPos','_minRadius','_maxRadius','_validHouseTypes','_usedPositions'];
 	private _house = objNull;
@@ -465,7 +463,7 @@ private _sceneType = -1;
 private _monitorScene = FALSE;
 
 private _crate = objNull;
-comment "private _crateType = 'land_plasticcase_01_medium_idap_f';";
+//comment "private _crateType = 'land_plasticcase_01_medium_idap_f';";
 private _crateType = 'box_b_uav_06_medical_f';
 private _crateIcon = 'a3\ui_f\data\map\VehicleIcons\iconcrate_ca.paa';
 private _iconData = [];
@@ -621,7 +619,7 @@ for '_x' from 0 to 1 step 0 do {
 			_currentSceneChance = _sceneChance select 0;
 			_sceneChance deleteAt 0;
 			if (_currentSceneChance isEqualTo 1) then {
-				comment 'Create intel object';
+				//comment 'Create intel object';
 				_crate = createVehicle [_crateType,[-175,-175,0],[],20,'NONE'];
 				_crate allowDamage FALSE;
 				_cratePosition = selectRandom _houseBuildingPositions;
@@ -637,8 +635,8 @@ for '_x' from 0 to 1 step 0 do {
 				_houseBuildingPositions deleteAt _cratePositionIndex;
 				_allArray pushBack _crate;
 			};
-			comment 'Spawn house guards';
-			comment 'Spawn civilians?';
+			//comment 'Spawn house guards';
+			//comment 'Spawn civilians?';
 			if (!(_houseMines isEqualTo [])) then {
 				{
 					deleteVehicle _x;

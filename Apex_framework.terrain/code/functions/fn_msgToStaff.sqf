@@ -22,7 +22,7 @@ _message = _array select 0;
 _object = _array select 1;
 _type = _array select 2;
 systemChat str _message;
-hintSilent str _message;
+[str _message] call (missionNamespace getVariable 'QS_fnc_hint');
 if (isNull _object) exitWith {};
 if (_type isEqualTo 1) then {
 	if (isNil {missionNamespace getVariable 'QS_kiddieActions'}) then {

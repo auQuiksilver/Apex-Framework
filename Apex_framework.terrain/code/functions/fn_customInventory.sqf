@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	7/10/2017 A3 1.76 by Quiksilver
+	14/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -458,10 +458,14 @@ _allMagazines = [
 	"RPG7_F", /*/ PG-7VM HEAT Grenade/*/
 	"Titan_AA", /*/ Titan AA Missile/*/
 	"Titan_AP", /*/ Titan AP Missile/*/
-	"Titan_AT" /*/ Titan AT Missile/*/
+	"Titan_AT", /*/ Titan AT Missile/*/
+	'vorona_heat',
+	'vorona_he',
+	'mraws_heat_f',
+	'mraws_he_f'
 ];
 if (_type isEqualTo 0) then {
-	comment 'Randomize';
+	//comment 'Randomize';
 	_entityType = toLower (typeOf _entity);
 	private _weaponType = '';
 	private _magazineType = '';
@@ -485,7 +489,7 @@ if (_type isEqualTo 0) then {
 	_qtyBackpacks = round (_maxBackpacks / 2);
 	_qtyMagazines = round (_maxMagazines / 2); 
 	_qtyWeapons = round (_maxWeapons / 2);
-		comment 'Magazines';
+		//comment 'Magazines';
 		_magazineTypesToAdd = [];
 		_magazinesToAdd = [];
 		for '_x' from 0 to (_qtyMagazines - 1) step 1 do {
@@ -497,11 +501,11 @@ if (_type isEqualTo 0) then {
 			_magazineTypeUnique = _x;
 			_entity addMagazineCargoGlobal [_magazineTypeUnique,({_x isEqualTo _magazineTypeUnique} count _magazinesToAdd)];
 		} forEach _magazineTypesToAdd;
-		comment 'Items';
+		//comment 'Items';
 		for '_x' from 0 to 5 step 1 do {
 			_entity addItemCargoGlobal [(selectRandom _allItems),1];
 		};
-		comment 'Weapons';
+		//comment 'Weapons';
 		_weaponTypesToAdd = [];
 		_weaponsToAdd = [];
 		for '_x' from 0 to (_qtyWeapons - 1) step 1 do {
@@ -515,7 +519,7 @@ if (_type isEqualTo 0) then {
 		} forEach _weaponTypesToAdd;
 };
 if (_type isEqualTo 1) then {
-	comment 'Preset';
+	//comment 'Preset';
 	_entityType = toLower (typeOf _entity);
 	private _weaponType = '';
 	private _magazineType = '';
@@ -533,7 +537,7 @@ if (_type isEqualTo 1) then {
 	private _cfgTransportMaxBackpacks = getNumber (_cfgEntity >> 'transportMaxBackpacks');
 	private _cfgTransportMaxMagazines = getNumber (_cfgEntity >> 'transportMaxMagazines');
 	private _cfgTransportMaxWeapons = getNumber (_cfgEntity >> 'transportMaxWeapons');
-	comment 'Fill to 50 percent';
+	//comment 'Fill to 50 percent';
 	_maxBackpacks = round (_cfgTransportMaxBackpacks * 0.1);
 	_maxMagazines = round (_cfgTransportMaxMagazines * 0.25);
 	_maxWeapons = round (_cfgTransportMaxWeapons * 0.15);
@@ -541,7 +545,7 @@ if (_type isEqualTo 1) then {
 	_qtyMagazines = round (_maxMagazines / 2); 
 	_qtyWeapons = round (_maxWeapons / 2);
 
-	comment 'Default items';
+	//comment 'Default items';
 	if ((_entityType in [
 		"b_slingload_01_ammo_f","b_slingload_01_cargo_f","b_slingload_01_fuel_f","b_slingload_01_medevac_f","b_slingload_01_repair_f",
 		"i_supplycrate_f","o_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","b_supplycrate_f",
@@ -557,7 +561,7 @@ if (_type isEqualTo 1) then {
 		clearWeaponCargoGlobal _entity;
 		clearMagazineCargoGlobal _entity;
 		clearBackpackCargoGlobal _entity;
-		comment 'Items';
+		//comment 'Items';
 		{
 			_entity addItemCargoGlobal _x;
 		} forEach [
@@ -569,7 +573,7 @@ if (_type isEqualTo 1) then {
 			['Toolkit',1],
 			['ItemRadio',2]
 		];
-		comment 'Magazines';
+		//comment 'Magazines';
 		for '_x' from 0 to (_maxMagazines - 1) step 1 do {
 			_magazineType = selectRandomWeighted [
 				'30Rnd_556x45_Stanag_Tracer_Red',0.6,
@@ -584,7 +588,7 @@ if (_type isEqualTo 1) then {
 			_magazineTypeUnique = _x;
 			_entity addMagazineCargoGlobal [_magazineTypeUnique,({_x isEqualTo _magazineTypeUnique} count _magazinesToAdd)];
 		} forEach _magazineTypesToAdd;
-		comment 'Weapons';
+		//comment 'Weapons';
 		for '_x' from 0 to (_maxWeapons - 1) step 1 do {
 			_weaponType = selectRandomWeighted [
 				'arifle_spar_01_blk_erco_pointer_f',0.5,
@@ -599,7 +603,7 @@ if (_type isEqualTo 1) then {
 			_weaponTypeUnique = _x;
 			_entity addWeaponCargoGlobal [_weaponTypeUnique,({_x isEqualTo _weaponTypeUnique} count _weaponsToAdd)];
 		} forEach _weaponTypesToAdd;		
-		comment 'Backpacks';
+		//comment 'Backpacks';
 		for '_x' from 0 to (_maxBackpacks - 1) step 1 do {
 			_backpackType = selectRandomWeighted [
 				'B_AssaultPack_rgr',0.25,
@@ -615,8 +619,8 @@ if (_type isEqualTo 1) then {
 			_entity addBackpackCargoGlobal [_backpackTypeUnique,({_x isEqualTo _backpackTypeUnique} count _backpacksToAdd)];
 		} forEach _backpackTypesToAdd;
 		
-		comment 'Now randomized';
-		comment 'Magazines';
+		//comment 'Now randomized';
+		//comment 'Magazines';
 		_magazineTypesToAdd = [];
 		_magazinesToAdd = [];
 		for '_x' from 0 to (_qtyMagazines - 1) step 1 do {
@@ -628,11 +632,11 @@ if (_type isEqualTo 1) then {
 			_magazineTypeUnique = _x;
 			_entity addMagazineCargoGlobal [_magazineTypeUnique,({_x isEqualTo _magazineTypeUnique} count _magazinesToAdd)];
 		} forEach _magazineTypesToAdd;
-		comment 'Items';
+		//comment 'Items';
 		for '_x' from 0 to 5 step 1 do {
 			_entity addItemCargoGlobal [(selectRandom _allItems),1];
 		};
-		comment 'Weapons';
+		//comment 'Weapons';
 		_weaponTypesToAdd = [];
 		_weaponsToAdd = [];
 		for '_x' from 0 to (_qtyWeapons - 1) step 1 do {

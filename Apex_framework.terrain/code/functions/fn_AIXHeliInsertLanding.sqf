@@ -65,6 +65,7 @@ _wp setWaypointType 'MOVE';
 _wp setWaypointSpeed 'FULL';
 _wp setWaypointBehaviour 'CARELESS';
 _wp setWaypointCombatMode 'BLUE';
+_wp setWaypointForceBehaviour TRUE;
 _wp setWaypointCompletionRadius 150;
 _wp setWaypointStatements [
 	'TRUE',
@@ -96,6 +97,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 				private _unit = objNull;
 				{
 					_unit = _x;
+					_unit disableAI 'AUTOCOMBAT';
 					{
 						_unit forgetTarget _x;
 					} forEach (_unit targets [TRUE]);
@@ -105,6 +107,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 				_waypoint setWaypointPosition [(_v getVariable ['QS_heli_spawnPosition',[0,0,100]]),0];
 				_waypoint setWaypointType 'MOVE';
 				_waypoint setWaypointCompletionRadius 150;
+				_waypoint setWaypointForceBehaviour TRUE;
 				_waypoint setWaypointStatements [
 					"TRUE",
 					"

@@ -6,12 +6,12 @@ Author:
 	
 Last Modified:
 
-	17/03/2018 A3 1.82 by Quiksilver
+	2/06/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Carrier
-__________________________________________________________/*/
+______________________________________/*/
 
 params ['_type'];
 if (_type isEqualTo 'INPOLYGON_FOOT') exitWith {
@@ -104,14 +104,14 @@ if (_type isEqualTo 'INIT') exitWith {
 				[[6489.22,7066.53,0],11.2106],
 				[[355.559,1222.49,0],26.2458],
 				[[955.478,7563.02,0],34.7778]
-			];		
+			];
 		};
 		if (_worldName isEqualTo 'Malden') then {
 			_positionsData = [
 				[[10859.8,1702.29,0],37.2264],
 				[[10696.3,11392.5,0],61.1328],
 				[[566.918,9716.05,0],29.2914]
-			];		
+			];
 		};
 		if (_worldName isEqualTo 'Tanoa') then {
 			_positionsData = [
@@ -119,7 +119,7 @@ if (_type isEqualTo 'INIT') exitWith {
 				[[13879.4,1167.44,0],315.955],
 				[[14213.3,14722.7,0],110.978],
 				[[1141.3,14536.3,0],236.489]
-			];		
+			];
 		};
 		_positionData = selectRandom _positionsData;
 		_positionData params ['_pos','_dir'];
@@ -170,6 +170,13 @@ if (_type isEqualTo 'INIT') exitWith {
 			}
 		];
 		_carrier setVariable ['bis_carrierParts',(_carrier getVariable ['bis_carrierParts',[]]),TRUE];
+		{
+			if ((toLower (typeOf (_x select 0))) in ['land_carrier_01_island_01_f','land_carrier_01_island_02_f','land_carrier_01_island_03_f']) then {
+				for '_i' from 1 to 4 step 1 do {
+					(_x select 0) animateSource [(format ['Door_%1_source',_i]),1];
+				};
+			};
+		} forEach (_carrier getVariable ['bis_carrierParts',[]]);
 		if (!((allAirports select 1) isEqualTo [])) then {
 			((allAirports select 1) select 0) setAirportSide WEST;
 		};
@@ -215,11 +222,7 @@ if (_type isEqualTo 'PROPS') exitWith {
 		} forEach [
 			['Land_CampingTable_small_F',[-32.2679,93.8193,23.9735],0,{}],
 			['Land_Laptop_unfolded_F',[-32.265,93.834,24.538],31.794,{
-				missionNamespace setVariable [
-					'QS_carrier_casLaptop',
-					(_this select 0),
-					TRUE
-				];
+				missionNamespace setVariable ['QS_carrier_casLaptop',(_this select 0),TRUE];
 			}]
 		];
 	};
@@ -280,16 +283,6 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 			];
 			createVehicleCrew _turret;
 			_turrets pushBack _turret;
-			/*/
-			[_turret,_turretGrp] spawn {
-				uiSleep 1;
-				(_this select 0) enableSimulation TRUE;
-				(crew (_this select 0)) joinSilent (_this select 1);
-				(_this select 1) addVehicle (_this select 0);
-				detach (_this select 0);
-				(_this select 0) setMass ((getMass (_this select 0)) * 3);
-			};
-			/*/
 			{
 				_x setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_x setVariable ['QS_hidden',TRUE,TRUE];

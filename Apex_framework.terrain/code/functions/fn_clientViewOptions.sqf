@@ -27,6 +27,7 @@ if ((count _this) > 2) then {_value = _this select 2;};
 if (_type isEqualTo 'onLoad') exitWith {
 	uiSleep 0.01;
 	_display = findDisplay 3000;
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	if ((cameraOn isKindOf 'Man') || {(isNull cameraOn)}) exitWith {
 		['onButtonClick',0] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');
 		{
@@ -521,13 +522,20 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 	};
 };
 if (_type isEqualTo 'Unload') exitWith {
-	closeDialog 0;
-	(findDisplay 3000) closeDisplay 1;
-	createDialog 'QS_RD_client_dialog_menu_main';
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_main';
+	};
 	profileNamespace setVariable [(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),(player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName]))];
 	saveProfileNamespace;
 };
 if (_type isEqualTo 'onUnload') exitWith {
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
 	profileNamespace setVariable [(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),(player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName]))];
 	saveProfileNamespace;
 };

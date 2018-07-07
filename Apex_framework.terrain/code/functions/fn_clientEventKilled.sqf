@@ -25,8 +25,17 @@ if (!((attachedObjects _co) isEqualTo [])) then {
 	{
 		if (!isNull _x) then {
 			detach _x;
+			if (_x isKindOf 'CAManBase') then {
+				if (alive _x) then {
+					if ((lifeState _x) isEqualTo 'INCAPACITATED') then {
+						if (['carr',(animationState _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+							['switchMove',_x,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+						};
+					};
+				};
+			};
 		};
-	} count (attachedObjects _co);
+	} forEach (attachedObjects _co);
 };
 if (!isNull (attachedTo _co)) then {
 	detach _co;

@@ -15,7 +15,7 @@ ____________________________________________________________________________/*/
 
 params ['_type','_usedObjectives','_gridMarkers'];
 if (_type isEqualTo 0) exitWith {
-	comment 'Debrief';
+	//comment 'Debrief';
 	['QS_TASK_GRID_0'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 	['GRID_BRIEF',['Area Of Operations','Objectives complete']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	{
@@ -41,7 +41,7 @@ if (_type isEqualTo 0) exitWith {
 	};
 };
 if (_type isEqualTo 1) exitWith {
-	comment 'Brief';
+	//comment 'Brief';
 	private _text = '';
 	{
 		_x setMarkerAlpha 0.75;

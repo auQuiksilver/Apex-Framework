@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	29/05/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -58,16 +58,16 @@ _staffNames = 'bob (admin), billy (moderator), albert (moderator), carl (mission
 
 //===================================================== GAMEPLAY
 
-_baseLayout = 0;										// Base layout.	0 - Default. 1 - Create custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
+_baseLayout = 0;										// Base layout.	0 - Integrated base. 1 - Custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
 _closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
 _arsenal = 1;											// Arsenal.		0 - Unrestricted. 1 - Use Whitelist. 2 - Use Blacklist.			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured.
-_gearRestrictions = 1;									// Gear Restrictions.	0 - Disabled. 1 - Enabled. (Default = 1). 	Controls whether non-snipers can use sniper rifles, non-AT soldiers use missile launchers, etc.
 _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles with default layout.
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 _enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
 _commander = 2;											// [Beta] Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel, and view bodycam live feeds of any soldier.
 _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable side missions.
+_artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1).
 
 //===================================================== SYSTEM
 
@@ -75,12 +75,12 @@ _restart_hours = [0,12,18];								// Hours (24hr clock) which server will resta
 
 //===================================================== MAIN MISSION TYPE
 
-_main_mission_type = 'NONE';
+_main_mission_type = 'CLASSIC';
 
 //========== DESCRIPTION===============================//
 // 		'CLASSIC' 			Classic I&A. 					Recommended: 24-48+ players.			Example: 	_main_mission_type = 'CLASSIC';
 // 		'SC' 				Sector Control.		 			Recommended: 36-64+ players.			Example: 	_main_mission_type = 'SC';
-// 		'GRID'				Campaign (Beta). 				Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (9/12/2017)
+// 		'GRID'				Insurgency Campaign (Beta). 	Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (9/12/2017)
 // 		'NONE'				Primary missions disabled.												Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
 //====================================================//	
 
@@ -121,8 +121,16 @@ _monetizeURL = [
 	"Link 4"															// Tooltip (text shown when mouse hovering over button).
 ];
 
-//==================DO NOT EDIT BELOW=================== INTERPRETING MISSION PARAMETERS
 
+
+
+
+
+
+
+
+
+//==================DO NOT EDIT BELOW=================== INTERPRETING MISSION PARAMETERS
 
 if (!(_restart_hours isEqualTo [])) then {
 	_restart_hours sort TRUE;
@@ -141,12 +149,12 @@ if (!(_restart_hours isEqualTo [])) then {
 	['QS_missionConfig_CAS',_closeAirSupport,TRUE],
 	['QS_missionConfig_Commander',_commander,TRUE],
 	['QS_missionConfig_Arsenal',_arsenal,TRUE],
-	['QS_missionConfig_gearRestrictions',_gearRestrictions,TRUE],
 	['QS_missionConfig_armor',_armor,TRUE],
 	['QS_missionConfig_reducedDamage',(compileFinal (str _reducedDamage)),TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
 	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
+	['QS_missionConfig_artyEngine',_artilleryComputer,TRUE],
 	['QS_missionConfig_carrierEnabled',_aircraft_carrier_enabled,TRUE],
 	['QS_missionConfig_carrierVehicles',_aircraft_carrier_vehicles,TRUE],
 	['QS_missionConfig_carrierRespawn',_aircraft_carrier_respawning,TRUE],

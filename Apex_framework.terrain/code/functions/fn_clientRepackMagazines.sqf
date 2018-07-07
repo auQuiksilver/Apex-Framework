@@ -33,7 +33,9 @@ if (
 	diag_log '***** QS Mag Repack ***** Log ***** Repack failed *****';
 };
 _vehicle = vehicle _unit;
-if ((isPlayer _unit) && (!isNull (objectParent _unit)) && (_unit in [(driver _vehicle),(gunner _vehicle),(commander _vehicle)])) exitWith {comment 'Fail quietly, key binding overlap';};
+if ((isPlayer _unit) && (!isNull (objectParent _unit)) && (_unit in [(driver _vehicle),(gunner _vehicle),(commander _vehicle)])) exitWith {
+	//comment 'Fail quietly, key binding overlap';
+};
 if (_unit isEqualTo player) then {
 	50 cutText ['Repacking magazines','PLAIN DOWN',0.3];
 };

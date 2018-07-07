@@ -29,6 +29,9 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 		_grp setVariable ['QS_AI_GRP_TASK',[-1,-1,-1,-1],FALSE];
 	};
 	if (!isNull (objectParent _grpLeader)) then {
+		{
+			_x disableAI 'COVER';
+		} forEach (units _grp);
 		if (((objectParent _grpLeader) isKindOf 'LandVehicle') || {((objectParent _grpLeader) isKindOf 'Ship')} || {((objectParent _grpLeader) isKindOf 'Helicopter')} || {(unitIsUav (objectParent _grpLeader))}) then {
 			if (!(_grp getVariable ['QS_AI_GRP_canNearTargets',FALSE])) then {
 				_grp setVariable ['QS_AI_GRP_canNearTargets',TRUE,FALSE];
@@ -42,6 +45,13 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 		};
 		if (isNil {_grp getVariable 'QS_AI_GRP_vUnstuck'}) then {
 			_grp setVariable ['QS_AI_GRP_vUnstuck',(_uiTime + 300),FALSE];
+		};
+	} else {
+		if ((random 1) > 0.75) then {
+			{
+				_x disableAI 'COVER';
+				_x disableAI 'AUTOCOMBAT';
+			} forEach (units _grp);
 		};
 	};
 	if (!isNil {_grp getVariable 'QS_AI_GRP_canNearTargets'}) then {

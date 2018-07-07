@@ -65,7 +65,7 @@ for '_x' from 0 to (3 + (round(random 2))) do {
 			_box setVariable ['QS_RD_draggable',TRUE,TRUE];
 		};
 		0 = _spawnedBoxArray pushBack _box;
-		comment 'Clear smoke grenades as anti-troll measure.';
+		//comment 'Clear smoke grenades as anti-troll measure.';
 		_magazineCargo = getMagazineCargo _box;
 		clearMagazineCargoGlobal _box;
 		_index = 0;

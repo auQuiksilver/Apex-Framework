@@ -72,7 +72,7 @@ if (_type isEqualTo 'REGION_SETSTATE') exitWith {
 	private _markerAlphas = [0,0.75,0.75,0.75];
 	_markerAlpha = _markerAlphas select _newState;
 	_markerColor = _markerColors select _newState;
-	comment 'Set main data';
+	//comment 'Set main data';
 	_region_data1 set [2,_newState];
 	QS_GRID_DATA set [_regionIndex,_region_data1];
 };
@@ -162,7 +162,7 @@ if (_type isEqualTo 'AO_SETSTATE') exitWith {
 			_region_ao_data1 set [_forEachIndex,_ao_data];
 		};
 	} forEach _region_ao_data1;
-	comment 'Set main data';
+	//comment 'Set main data';
 	_region_data1 set [1,_region_ao_data1];
 	QS_GRID_DATA set [_regionIndex,_region_data1];
 	_ao_data;
@@ -190,10 +190,10 @@ if (_type isEqualTo 'EVALUATE_REGION') exitWith {
 	(_remainingAOs <= _threshold)
 };
 if (_type isEqualTo 'AI_TRIGGER') exitWith {
-	comment 'Trigger AI init/de-init for server + HCs';
+	//comment 'Trigger AI init/de-init for server + HCs';
 };
 if (_type isEqualTo 'INIT') exitWith {
-	comment 'Get persistent data';
+	//comment 'Get persistent data';
 	// Note: This part takes way too long and needs to be optimized at some point.
 	
 	diag_log format ['Grid initializing START - %1',diag_tickTime];
@@ -218,7 +218,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_tempData pushBack [_aoPolygon,_aoState,_regionState];
 		} forEach _regionAOs;
 	} forEach _grid_data_persistent;
-	comment 'Build marker layout here';
+	//comment 'Build marker layout here';
 	_inPolygons = {
 		params ['_position','_tempData'];
 		private _c = [FALSE,0];
@@ -302,7 +302,7 @@ if (_type isEqualTo 'INIT') exitWith {
 	} forEach _markers;
 	missionNamespace setVariable ['QS_grid_markers',_markers,FALSE];
 	missionNamespace setVariable ['QS_grid_markers_data',_markersData,FALSE];
-	comment 'Now lets store the markers in the data array';
+	//comment 'Now lets store the markers in the data array';
 	private _grid_data_region = [];
 	private _ao_data = [];
 	{
@@ -378,12 +378,12 @@ if (_type isEqualTo 'INIT') exitWith {
 	_grid_data_persistent;
 };
 if (_type isEqualTo 'EXIT') exitWith {
-	comment 'End of mission';
-	comment 'AAR';
+	//comment 'End of mission';
+	//comment 'AAR';
 };
 if (_type isEqualTo 'MANAGE') then {
 	scriptName 'QS GRID MANAGEMENT';
-	comment 'Configure';
+	//comment 'Configure';
 	private _sleep = 3;
 	private _uiTime = diag_tickTime;
 	private _unitCap = -1;
@@ -426,7 +426,7 @@ if (_type isEqualTo 'MANAGE') then {
 	private _objectiveEvalGraceTime = -1;
 	private _objectivesRequiredComplete = FALSE;
 	private _objectiveReturn = 0;
-	comment 'Loop';
+	//comment 'Loop';
 	for '_x' from 0 to 1 step 0 do {
 		_uiTime = diag_tickTime;
 		if (_uiTime > _generalInfoCheckDelay) then {
@@ -528,7 +528,7 @@ if (_type isEqualTo 'MANAGE') then {
 					};
 				};
 			};
-			comment 'Handle grid markers';
+			//comment 'Handle grid markers';
 			if (_uiTime > _markerUpdateCheckDelay) then {
 				_markerUpdateCheckDelay = _uiTime + _markerUpdateDelay;
 				if (!(_aoData isEqualTo [])) then {
@@ -550,7 +550,7 @@ if (_type isEqualTo 'MANAGE') then {
 								};
 							} else {
 								if (_markerColor isEqualTo 'ColorGREEN') then {
-									comment 'Evaluate for red conditions';
+									//comment 'Evaluate for red conditions';
 									if (!((_allEnemies inAreaArray _marker) isEqualTo [])) then {
 										_marker setMarkerColor 'ColorOPFOR';
 									};
@@ -603,7 +603,7 @@ if (_type isEqualTo 'MANAGE') then {
 				uiSleep 1;
 				(missionNamespace getVariable ['QS_grid_active',FALSE])
 			};
-			comment 'Grid init?';
+			//comment 'Grid init?';
 			_objectiveEvalGraceTime = diag_tickTime + 60;
 			_aoData = missionNamespace getVariable ['QS_grid_aoData',[]];
 			if (!(_aoData isEqualTo [])) then {

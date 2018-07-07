@@ -11,7 +11,6 @@ Last Modified:
 Description:
 
 	-
-	acinpercmstpsnonwnondnon
 _____________________________________________________________*/
 
 private ['_t','_anim','_dir'];
@@ -66,7 +65,7 @@ if (_t isKindOf 'CAManBase') then {
 		50 cutText ['Need a weapon in hand to start carrying a person.','PLAIN DOWN',0.4];
 	};
 } else {
-	comment 'Crate carrying';
+	//comment 'Crate carrying';
 	if ([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) then {
 		if ([4,_t,(vehicle player)] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) then {
 			if ((stance player) isEqualTo 'STAND') then {

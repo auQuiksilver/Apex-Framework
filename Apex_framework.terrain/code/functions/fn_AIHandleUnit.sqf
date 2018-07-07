@@ -87,7 +87,7 @@ if (isNull _objectParent) then {
 	_unitPos = unitPos _unit;
 	if ((_suppression >= 0.2) || {(_unitMorale < 0)}) then {
 		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastStanceAdjust',-1])) then {
-			_unit setVariable ['QS_AI_UNIT_lastStanceAdjust',(_uiTime + (random [30,60,90])),FALSE];
+			_unit setVariable ['QS_AI_UNIT_lastStanceAdjust',(_uiTime + (random [20,40,60])),FALSE];
 			if (!(_unitPos isEqualTo 'MIDDLE')) then {
 				_unit setUnitPosWeak 'MIDDLE';
 			};

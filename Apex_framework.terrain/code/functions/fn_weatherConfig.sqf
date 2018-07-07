@@ -6,12 +6,12 @@ Author:
 	
 Last Modified:
 
-	24/08/2016 A3 1.62 by Quiksilver
+	20/05/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Weather Config
-____________________________________________________________________*/
+________________________________________________*/
 
 params ['_QS_date','_QS_worldName','_QS_simulation','_QS_type'];
 _QS_date params ['_QS_year','_QS_month','_QS_day','_QS_hour'];
@@ -64,7 +64,7 @@ if (_QS_type isEqualTo 'WIND') then {
 		
 		_QS_windArray = ['SET',_QS_nextWindDirRounded,_QS_windSpeedAvgRounded] call (missionNamespace getVariable 'QS_fnc_windCalculation');
 		0 = _QS_array pushBack [_QS_windArray select 0,_QS_windArray select 1,TRUE];
-		diag_log str _QS_windArray;
+		//diag_log str _QS_windArray;
 	};
 };
 

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	10/03/2018 A3 1.80 by Quiksilver
+	7/07/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -36,10 +36,10 @@ player setVariable ['QS_curator_executingFunction',(diag_tickTime + 2),FALSE];
 scopeName 'main';
 if (_key isEqualTo 82) exitWith {
 	playSound ['ClickSoft',FALSE];
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - No function',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'No function',[],-1,TRUE,'Curator',FALSE];
 };
 if (_key isEqualTo 79) exitWith {
-	comment 'Garrison selected units into buildings';
+	//comment 'Garrison selected units into buildings';
 	playSound ['ClickSoft',FALSE];
 	private ['_selectedUnits','_countUnits','_radius'];
 	_selectedUnits = [];
@@ -60,10 +60,10 @@ if (_key isEqualTo 79) exitWith {
 	if (_countUnits > 16) then {_radius = 200;};
 	if (_countUnits > 24) then {_radius = 300;};
 	[(getPosATL (_selectedUnits select 0)),_radius,_selectedUnits,['House','Building']] spawn (missionNamespace getVariable 'QS_fnc_garrisonUnits');
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Units garrisoned',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Units garrisoned',[],-1,TRUE,'Curator',FALSE];
 };
 if (_key isEqualTo 80) exitWith {
-	comment 'Group patrol';
+	//comment 'Group patrol';
 	playSound ['ClickSoft',FALSE];
 	private ['_selectedGroups','_countGroups','_radius'];
 	_selectedGroups = [];
@@ -79,12 +79,12 @@ if (_key isEqualTo 80) exitWith {
 	{
 		[_x,(getPosATL ((units _x) select 0)),100] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 	} forEach _selectedGroups;
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Group patrol',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Group patrol',[],-1,TRUE,'Curator',FALSE];
 };
 if (_key isEqualTo 81) exitWith {
-	comment 'Search building';
+	//comment 'Search building';
 	playSound ['ClickSoft',FALSE];
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Group search building',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Group search building',[],-1,TRUE,'Curator',FALSE];
 	private ['_buildings','_building','_selectedGroup','_waypoint','_grp'];
 	if ((curatorSelected select 1) isEqualTo []) then {breakTo 'main';};
 	{
@@ -108,7 +108,7 @@ if (_key isEqualTo 81) exitWith {
 	} count (curatorSelected select 1);
 };
 if (_key isEqualTo 75) exitWith {
-	comment 'Stalker squad';
+	//comment 'Stalker squad';
 	playSound ['ClickSoft',FALSE];
 	private ['_prey','_building','_selectedGroups','_selectedGroup','_waypoint','_grp','_wpPosition','_nearestUnit','_nearestUnits'];
 	_selectedGroups = [];
@@ -139,35 +139,35 @@ if (_key isEqualTo 75) exitWith {
 												0,
 												FALSE
 											] spawn (missionNamespace getVariable 'QS_fnc_stalk');
-											0 = (missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Stalking',[],-1];
+											0 = (missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Stalking target',[],-1,TRUE,'Curator',FALSE];
 										};
 									};
 								};
 							} else {
-								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Curator - Stalking failed - No units within 15m of waypoint position',[],-1];
+								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Stalking failed - No units within 15m of waypoint position',[],-1,TRUE,'Curator',FALSE];
 							};
 						} else {
-							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Curator - Stalking failed - Invalid waypoint position',[],-1];
+							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Stalking failed - Invalid waypoint position',[],-1,TRUE,'Curator',FALSE];
 						};
 					} else {
-						(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Stalking failed - No waypoints',[],-1];
+						(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Stalking failed - No waypoints',[],-1,TRUE,'Curator',FALSE];
 					};
 				} else {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Stalking failed - Group leader is player',[],-1];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Stalking failed - Group leader is player',[],-1,TRUE,'Curator',FALSE];
 				};
 			};
 		} else {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Stalking failed - Group not local',[],-1];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Stalking failed - Group not local',[],-1,TRUE,'Curator',FALSE];
 		};
 	} count (curatorSelected select 1);
 };
 if (_key isEqualTo 76) exitWith {
 	playSound ['ClickSoft',FALSE];
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - No function',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'No function',[],-1,TRUE,'Curator',FALSE];
 };
 if (_key isEqualTo 77) exitWith {
 	playSound ['ClickSoft',FALSE];
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Suppressive Fire',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Suppressive Fire',[],-1,TRUE,'Curator',FALSE];
 	private ['_selectedUnits','_countUnits','_radius','_unit'];
 	_selectedUnits = [];
 	if ((curatorSelected select 0) isEqualTo []) then {breakTo 'main';};
@@ -266,15 +266,15 @@ if (_key isEqualTo 77) exitWith {
 if (_key isEqualTo 71) exitWith {
 	/*/
 	if ((missionNamespace getVariable 'QS_curator_revivePoints') < 1) exitWith {
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,7.5,-1,'Insufficient Curator Points. Curator points refill at the end of each AO.',[],-1];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,7.5,-1,'Insufficient Curator Points. Curator points refill at the end of each AO.',[],-1,TRUE,'Curator',FALSE];
 	};
 	if ((curatorPoints (getAssignedCuratorLogic player)) <= 0.05) exitWith {
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,7.5,-1,'Insufficient Curator Points. Curator points refill at the end of each AO.',[],-1];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,7.5,-1,'Insufficient Curator Points. Curator points refill at the end of each AO.',[],-1,TRUE,'Curator',FALSE];
 	};
 	/*/
 	//_module = getAssignedCuratorLogic player;
 	//[28,_module,((curatorPoints _module) - 0.05)] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-	comment 'Revive selected players';
+	//comment 'Revive selected players';
 	private _selectedUnits = [];
 	if ((curatorSelected select 0) isEqualTo []) then {breakTo 'main';};
 	{
@@ -323,13 +323,13 @@ if (_key isEqualTo 71) exitWith {
 	if (!(_text isEqualTo '')) then {
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Revived Selected Player',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Revived selected unit',[],-1,TRUE,'Curator',FALSE];
 };
 if (_key isEqualTo 72) exitWith {
-	comment 'Toggle player view directions';
+	//comment 'Toggle player view directions';
 	playSound ['ClickSoft',FALSE];
 	if (isNil {missionNamespace getVariable 'QS_curator_playerViewDirections'}) then {
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Player View Directions - ON',[],-1];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Player view directions - ON',[],-1,TRUE,'Curator',FALSE];
 		missionNamespace setVariable [
 			'QS_curator_playerViewDirections',
 			(
@@ -360,14 +360,14 @@ if (_key isEqualTo 72) exitWith {
 			FALSE
 		];
 	} else {
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Curator - Player View Directions - OFF',[],-1];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Player view directions - OFF',[],-1,TRUE,'Curator',FALSE];
 		removeMissionEventHandler ['Draw3D',(missionNamespace getVariable 'QS_curator_playerViewDirections')];
 		missionNamespace setVariable ['QS_curator_playerViewDirections',nil,FALSE];
 	};	
 };
 if (_key isEqualTo 73) exitWith {
 	playSound ['ClickSoft',FALSE];
-	comment 'Revive selected players';
+	//comment 'Revive selected players';
 	private _selectedUnits = [];
 	if ((curatorSelected select 0) isEqualTo []) then {breakTo 'main';};
 	{
@@ -398,7 +398,7 @@ if (_key isEqualTo 73) exitWith {
 			];
 			_unit setUnconscious TRUE;
 			_unit setCaptive TRUE;
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Curator - Unit set unconscious',[],-1];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Unit set unconscious',[],-1,TRUE,'Curator',FALSE];
 		} else {
 			50 cutText ['Can only set unconscious units spawned by Zeus','PLAIN DOWN',0.333];
 		};

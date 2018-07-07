@@ -14,6 +14,22 @@ Description:
 _____________________________________________________________________/*/
 
 params ['_unit',['_arsenalType',1],'_arsenalData'];
+if (_arsenalType isEqualTo 0) then {
+	_arsenalData = 	[
+		[
+			[[],[],[],[],[],[],[]],
+			[],
+			[],
+			[]
+		],
+		[
+			[[],[],[],[],[],[],[]],
+			[],
+			[],
+			[]
+		]
+	];
+};
 _uniform = toLower (uniform _unit);
 _backpack = toLower (backpack _unit);
 _vest = toLower (vest _unit);

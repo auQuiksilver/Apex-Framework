@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	10/11/2017 A3 1.76 by Quiksilver
+	27/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 	
@@ -28,7 +28,7 @@ params [
 ];
 private _return = -1;
 if (_type isEqualTo 0) exitWith {
-	comment 'Is eligible stomper for medical loading, return type BOOL';
+	//comment 'Is eligible stomper for medical loading, return type BOOL';
 	_return = FALSE;
 	_return = (!(((attachedObjects _vehicle) select {
 		(
@@ -39,7 +39,7 @@ if (_type isEqualTo 0) exitWith {
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
-	comment 'Get available space, return type SCALAR';
+	//comment 'Get available space, return type SCALAR';
 	_nStretchers = count ((attachedObjects _vehicle) select {
 		(
 			((!(isSimpleObject _x)) && ((toLower (typeOf _x)) in ['land_stretcher_01_f','land_stretcher_01_olive_f','land_stretcher_01_sand_f'])) ||
@@ -53,8 +53,8 @@ if (_type isEqualTo 1) exitWith {
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
-	comment 'Load, return type BOOL';
-	_body = _this select 2;
+	//comment 'Load, return type BOOL';
+	params ['','',['_body',objNull]];
 	_return = FALSE;
 	if (alive _body) then {
 		_cargoPosition = [[0,-0.75,-0.5],[0.85,-0.75,-0.5]] select ((count ((attachedObjects _vehicle) select {((_x isKindOf 'CAManBase') && (alive _x))})) isEqualTo 1);
@@ -70,8 +70,8 @@ if (_type isEqualTo 2) exitWith {
 	_return;
 };
 if (_type isEqualTo 3) exitWith {
-	comment 'Unload, return type BOOL';
-	_body = _this select 2;
+	//comment 'Unload, return type BOOL';
+	params ['','',['_body',objNull]];
 	_return = TRUE;
 	_position = _vehicle modelToWorld (_vehicle selectionPosition ['pos cargo','memory']);
 	_body setVariable ['QS_RD_loaded',FALSE,TRUE];

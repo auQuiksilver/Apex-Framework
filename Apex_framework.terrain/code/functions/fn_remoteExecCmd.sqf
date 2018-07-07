@@ -6,24 +6,21 @@ Author:
 	
 Last modified:
 
-	24/06/2017 ArmA 1.72 by Quiksilver
+	5/05/2018 ArmA 1.82 by Quiksilver
 	
 Description:
 
-	-
-remoteExec and remoteExecCall are currently filtered by BattlEye's remoteexec.txt, the string analyzed by BE is formatted the same way as the following example's output:
-format ["%1 %2", functionName, str params]
-If CfgRemoteExec class Functions is in mode 1 (whitelist), the following BE filter exclusion can be used to safely allow all whitelisted *_fnc_* functions taking an array as parameter to go through:
-!="\w+?_fnc_\w+? \[.*\]"
-Any attempt to exploit this exclusion using other RE methods like createUnit will run into "Error Missing ;" without any malicious code being executed.
+	Remote Execution Commands
 
-Mod makers should refrain from remote-executing raw commands from clients, and instead use functions, as commands need to be excluded individually for BE, while all functions are covered by the above exclusion.
+Notes:
+
+	//_isRx = isRemoteExecuted;
+	//_isRxJ = isRemoteExecutedJIP;
+	//_rxID = remoteExecutedOwner;
 _______________________________________________________/*/
 
+if (!isRemoteExecuted) exitWith {};
 params ['_type','_1','_2'];
-_isRx = isRemoteExecuted;
-_isRxJ = isRemoteExecutedJIP;
-_rxID = remoteExecutedOwner;
 if (_type isEqualTo 'switchMove') exitWith {
 	_1 switchMove _2;
 };
@@ -136,4 +133,7 @@ if (_type isEqualTo 'setWaypointType') exitWith {
 };
 if (_type isEqualTo 'setFormDir') exitWith {
 	_1 setFormDir _2;
+};
+if (_type isEqualTo 'ropeUnwind') exitWith {
+	ropeUnwind _1;
 };

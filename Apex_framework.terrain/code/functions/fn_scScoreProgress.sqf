@@ -63,6 +63,9 @@ if (_type isEqualTo 0) then {
 			'_scorePlayerCoef',
 			'_playerCount'
 		];
+		
+		/*/ If players are winning by X margin, reduce _constant by some percent /*/
+		
 		_constant = 1;
 		_return = (_constant + (1 - _scorePlayerCoef));
 		if (!isNil {profileNamespace getVariable 'QS_sc_scoreCoef_west_override'}) then {

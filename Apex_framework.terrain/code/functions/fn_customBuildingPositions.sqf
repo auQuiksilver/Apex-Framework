@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_customBuildingPositions.sqf
 Author:
 
@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/07/2016 A3 1.62 by Quiksilver
+	22/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -21,16 +21,16 @@ Notes:
 		QS_array pushBack (QS_building worldToModel _x);
 	} forEach (QS_building buildingPos -1);
 	copyToClipboard str QS_array;
-___________________________________________________*/
+___________________________________________________/*/
 
 params ['_building','_buildingPositions'];
-private _type = typeOf _building;
-private _model = toLower ((getModelInfo _building) select 1);
+_type = toLower (typeOf _building);
+_model = toLower ((getModelInfo _building) select 1);
 if (isNil '_model') exitWith {
 	[]
 };
 private _array = [];
-if ((_type in ['Land_Cargo_HQ_V1_F','Land_Cargo_HQ_V2_F','Land_Cargo_HQ_V3_F','Land_Cargo_HQ_V4_F','Land_Medevac_HQ_V1_F','Land_Research_HQ_F']) || {(_model in [
+if ((_type in ['land_cargo_hq_v1_f','land_cargo_hq_v2_f','land_cargo_hq_v3_f','land_cargo_hq_v4_f','land_medevac_hq_v1_f','land_research_hq_f']) || {(_model in [
 	"a3\structures_f\mil\cargo\cargo_hq_v3_f.p3d",
 	"a3\structures_f\mil\cargo\cargo_hq_v1_f.p3d",
 	"a3\structures_f\mil\cargo\medevac_hq_v1_f.p3d",
@@ -38,7 +38,7 @@ if ((_type in ['Land_Cargo_HQ_V1_F','Land_Cargo_HQ_V2_F','Land_Cargo_HQ_V3_F','L
 	"a3\structures_f\research\research_hq_f.p3d",
 	"a3\structures_f_exp\military\containerbases\cargo_hq_v4_f.p3d"
 ])}) exitWith {
-	comment 'Military Cargo HQ';
+	//comment 'Military Cargo HQ';
 	_array = [
 		[4.16016,1.31641,-0.747444],
 		[-0.625,-1.65918,-0.747444],
@@ -54,7 +54,7 @@ if ((_type in ['Land_Cargo_HQ_V1_F','Land_Cargo_HQ_V2_F','Land_Cargo_HQ_V3_F','L
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_Cargo_House_V1_F','Land_Cargo_House_V2_F','Land_Cargo_House_V3_F','Land_Cargo_House_V4_F','Land_Medevac_house_V1_F','Land_Research_house_V1_F']) || {(_model in [
+if ((_type in ['land_cargo_house_v1_f','land_cargo_house_v2_f','land_cargo_house_v3_f','land_cargo_house_v4_f','land_medevac_house_v1_f','land_research_house_v1_f']) || {(_model in [
 	"a3\structures_f\mil\cargo\cargo_house_v1_f.p3d",
 	"a3\structures_f\mil\cargo\cargo_house_v2_f.p3d",
 	"a3\structures_f\mil\cargo\cargo_house_v3_f.p3d",
@@ -62,7 +62,7 @@ if ((_type in ['Land_Cargo_House_V1_F','Land_Cargo_House_V2_F','Land_Cargo_House
 	"a3\structures_f\mil\cargo\medevac_house_v1_f.p3d",
 	"a3\structures_f\research\research_house_v1_f.p3d"
 ])}) exitWith {
-	comment 'Military Cargo House';
+	//comment 'Military Cargo House';
 	_array = [
 		[-1.18359,2.7207,0.0402908],
 		[1.06836,2.85547,0.0402832],
@@ -74,13 +74,13 @@ if ((_type in ['Land_Cargo_House_V1_F','Land_Cargo_House_V2_F','Land_Cargo_House
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_Cargo_Patrol_V1_F','Land_Cargo_Patrol_V2_F','Land_Cargo_Patrol_V3_F','Land_Cargo_Patrol_V4_F']) || {(_model in [
+if ((_type in ['land_cargo_patrol_v1_f','land_cargo_patrol_v2_f','land_cargo_patrol_v3_f','land_cargo_patrol_v4_f']) || {(_model in [
 	"a3\structures_f\mil\cargo\cargo_patrol_v1_f.p3d",
 	"a3\structures_f\mil\cargo\cargo_patrol_v2_f.p3d",
 	"a3\structures_f\mil\cargo\cargo_patrol_v3_f.p3d",
 	"a3\structures_f_exp\military\containerbases\cargo_patrol_v4_f.p3d"
 ])}) exitWith {
-	comment 'Military Cargo Patrol';
+	//comment 'Military Cargo Patrol';
 	_array = [
 		[1.16406,-0.665039,-0.559517],
 		[-1.07617,-0.521484,-0.559525],
@@ -106,7 +106,7 @@ if (_model in [
 	"a3\structures_f\mil\cargo\cargo_tower_v1_no7_f.p3d"
 ]) exitWith {
 	if (!simulationEnabled _building) then {	/*/isSimpleObject/*/
-		comment 'Military Cargo Tower';
+		//comment 'Military Cargo Tower';
 		_array = [
 			[4.09033,1.19067,-7.79243],
 			[-4.0459,2.32178,-3.74691],
@@ -134,10 +134,10 @@ if (_model in [
 	};
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrier_01_wall_6_green_F']) || {(_model in [
+if ((_type in ['land_hbarrier_01_wall_6_green_f']) || {(_model in [
 	"a3\structures_f_exp\military\fortifications\hbarrier_01_wall_6_green_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier wall long green';
+	//comment 'Hbarrier wall long green';
 	_array = [
 		[-2.1228,-0.0185547,1.299683],
 		[-0.530273,0.0859375,1.261597],
@@ -150,10 +150,10 @@ if ((_type in ['Land_HBarrier_01_wall_6_green_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrier_01_wall_corner_green_F']) || {(_model in [
+if ((_type in ['land_hbarrier_01_wall_corner_green_f']) || {(_model in [
 	"a3\structures_f_exp\military\fortifications\hbarrier_01_wall_corner_green_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier wall corner green';
+	//comment 'Hbarrier wall corner green';
 	_array = [
 		[-0.837158,-0.185547,1.264481],
 		[0.4375,-0.0874023,1.264359],
@@ -164,10 +164,10 @@ if ((_type in ['Land_HBarrier_01_wall_corner_green_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrier_01_wall_4_green_F']) || {(_model in [
+if ((_type in ['land_hbarrier_01_wall_4_green_f']) || {(_model in [
 	"a3\structures_f_exp\military\fortifications\hbarrier_01_wall_4_green_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier wall short green';
+	//comment 'Hbarrier wall short green';
 	_array = [
 		[-0.782227,-0.348633,1.276073],
 		[0.551758,-0.201172,1.268616],
@@ -178,10 +178,10 @@ if ((_type in ['Land_HBarrier_01_wall_4_green_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrierWall6_F']) || {(_model in [
+if ((_type in ['land_hbarrierwall6_f']) || {(_model in [
 	"a3\structures_f\mil\fortification\hbarrierwall6_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier wall long brown';
+	//comment 'Hbarrier wall long brown';
 	_array = [
 		[-2.12573,-0.18457,1.270451],
 		[-0.697021,0.0532227,1.259338],
@@ -194,10 +194,10 @@ if ((_type in ['Land_HBarrierWall6_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrierWall_corner_F']) || {(_model in [
+if ((_type in ['land_hbarrierwall_corner_f']) || {(_model in [
 	"a3\structures_f\mil\fortification\hbarrierwall_corner_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier wall corner brown';
+	//comment 'Hbarrier wall corner brown';
 	_array = [
 		[-0.805786,-0.28125,1.247017],
 		[0.338989,0.0161133,1.265213],
@@ -208,10 +208,10 @@ if ((_type in ['Land_HBarrierWall_corner_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrierWall4_F']) || {(_model in [
+if ((_type in ['land_hbarrierwall4_f']) || {(_model in [
 	"a3\structures_f\mil\fortification\hbarrierwall4_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier wall short brown';
+	//comment 'Hbarrier wall short brown';
 	_array = [
 		[-0.799438,-0.300293,1.268677],
 		[0.68689,0.00976563,1.26947],
@@ -222,10 +222,10 @@ if ((_type in ['Land_HBarrierWall4_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrier_01_big_tower_green_F']) || {(_model in [
+if ((_type in ['land_hbarrier_01_big_tower_green_f']) || {(_model in [
 	"a3\structures_f_exp\military\fortifications\hbarrier_01_big_tower_green_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier watchtower green';
+	//comment 'Hbarrier watchtower green';
 	_array = [
 		[0.493286,-1.5415,2.39154],
 		[-0.590088,-1.88867,2.4043],
@@ -236,10 +236,10 @@ if ((_type in ['Land_HBarrier_01_big_tower_green_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrierTower_F']) || {(_model in [
+if ((_type in ['land_hbarriertower_f']) || {(_model in [
 	"a3\structures_f\mil\fortification\hbarriertower_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier watchtower brown';
+	//comment 'Hbarrier watchtower brown';
 	_array = [
 		[0.87085,-1.77588,2.19548],
 		[-0.746216,-1.89111,2.19724],
@@ -250,10 +250,10 @@ if ((_type in ['Land_HBarrierTower_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_HBarrier_01_tower_green_F']) || {(_model in [
+if ((_type in ['land_hbarrier_01_tower_green_f']) || {(_model in [
 	"a3\structures_f_exp\military\fortifications\hbarrier_01_tower_green_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier bunker green';
+	//comment 'Hbarrier bunker green';
 	_array = [
 		[-0.256714,-1.99414,-2.28195],
 		[1.35254,1.3584,-2.37676],
@@ -268,10 +268,10 @@ if ((_type in ['Land_HBarrier_01_tower_green_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_BagBunker_Tower_F']) || {(_model in [
+if ((_type in ['land_bagbunker_tower_f']) || {(_model in [
 	"a3\structures_f\mil\bagbunker\bagbunker_tower_f.p3d"
 ])}) exitWith {
-	comment 'Hbarrier bunker brown';
+	//comment 'Hbarrier bunker brown';
 	_array = [
 		[0.429688,2.15332,-2.31577],
 		[-0.80188,0.628418,-2.2505],
@@ -287,10 +287,10 @@ if ((_type in ['Land_BagBunker_Tower_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_PillboxBunker_01_big_F']) || {(_model in [
+if ((_type in ['land_pillboxbunker_01_big_f']) || {(_model in [
 	"a3\structures_f_exp\military\pillboxes\pillboxbunker_01_big_f.p3d"
 ])}) exitWith {
-	comment 'Big pillbox';
+	//comment 'Big pillbox';
 	_array = [
 		[-2.85889,6.88379,-0.636113],
 		[2.68164,6.84692,-0.636113],
@@ -304,10 +304,10 @@ if ((_type in ['Land_PillboxBunker_01_big_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_PillboxBunker_01_hex_F']) || {(_model in [
+if ((_type in ['land_pillboxbunker_01_hex_f']) || {(_model in [
 	"a3\structures_f_exp\military\pillboxes\pillboxbunker_01_hex_f.p3d"
 ])}) exitWith {
-	comment 'Hex pillbox';
+	//comment 'Hex pillbox';
 	_array = [
 		[-1.30615,-1.59546,-0.692594],
 		[-2.96631,-1.45654,-0.692843],
@@ -320,10 +320,10 @@ if ((_type in ['Land_PillboxBunker_01_hex_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_PillboxBunker_01_rectangle_F']) || {(_model in [
+if ((_type in ['land_pillboxbunker_01_rectangle_f']) || {(_model in [
 	"a3\structures_f_exp\military\pillboxes\pillboxbunker_01_rectangle_f.p3d"
 ])}) exitWith {
-	comment 'Hex pillbox';
+	//comment 'Hex pillbox';
 	_array = [
 		[-0.808105,-0.687012,0.318469],
 		[-3.02246,-2.47461,0.370508],
@@ -335,10 +335,10 @@ if ((_type in ['Land_PillboxBunker_01_rectangle_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_BagBunker_01_large_green_F']) || {(_model in [
+if ((_type in ['land_bagbunker_01_large_green_f']) || {(_model in [
 	"a3\structures_f_exp\military\fortifications\bagbunker_01_large_green_f.p3d"
 ])}) exitWith {
-	comment 'Large green bunker';
+	//comment 'Large green bunker';
 	_array = [
 		[-0.664551,3.20801,-0.787395],
 		[-3.44629,0.798096,-0.787395],
@@ -359,10 +359,10 @@ if ((_type in ['Land_BagBunker_01_large_green_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_BagBunker_Large_F']) || {(_model in [
+if ((_type in ['land_bagbunker_large_f']) || {(_model in [
 	"a3\structures_f\mil\bagbunker\bagbunker_large_f.p3d"
 ])}) exitWith {
-	comment 'Large bunker';
+	//comment 'Large bunker';
 	_array = [
 		[-0.664551,3.20801,-0.655681],
 		[-3.44629,0.798096,-0.655681],
@@ -383,10 +383,10 @@ if ((_type in ['Land_BagBunker_Large_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_BagBunker_01_small_green_F']) || {(_model in [
+if ((_type in ['land_bagbunker_01_small_green_f']) || {(_model in [
 	"a3\structures_f_exp\military\fortifications\bagbunker_01_small_green_f.p3d"
 ])}) exitWith {
-	comment 'Small green bunker';
+	//comment 'Small green bunker';
 	_array = [
 		[-0.0742188,1.17383,-0.982835],
 		[-0.857422,-1.17651,-0.982835],
@@ -397,10 +397,10 @@ if ((_type in ['Land_BagBunker_01_small_green_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_BagBunker_Small_F']) || {(_model in [
+if ((_type in ['land_bagbunker_small_f']) || {(_model in [
 	"a3\structures_f\mil\bagbunker\bagbunker_small_f.p3d"
 ])}) exitWith {
-	comment 'Small bunker';
+	//comment 'Small bunker';
 	_array = [
 		[-0.0742188,1.17383,-0.879961],
 		[-0.857422,-1.17651,-0.879961],
@@ -411,11 +411,10 @@ if ((_type in ['Land_BagBunker_Small_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;
 };
-if ((_type in ['Land_Bunker_01_blocks_3_F']) || {(_model in [
+if ((_type in ['land_bunker_01_blocks_3_f']) || {(_model in [
 	"a3\structures_f_argo\military\bunkers\bunker_01_blocks_3_f.p3d"
 ])}) exitWith {
-	comment 'Malden stone bunker wall';
-	
+	//comment 'Malden stone bunker wall';
 	if (isSimpleObject _building) then {
 		_array = [
 			[-1.75586,-1.81006,-0.158836],
@@ -434,10 +433,10 @@ if ((_type in ['Land_Bunker_01_blocks_3_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;	
 };
-if ((_type in ['Land_Bunker_01_HQ_F']) || {(_model in [
+if ((_type in ['land_bunker_01_hq_f']) || {(_model in [
 	"a3\structures_f_argo\military\bunkers\bunker_01_hq_f.p3d"
 ])}) exitWith {
-	comment 'Malden stone bunker wall';
+	//comment 'Malden stone bunker wall';
 	if (isSimpleObject _building) then {
 		_array = [
 			[4.07617,3.84473,-1.11057],
@@ -485,10 +484,10 @@ if ((_type in ['Land_Bunker_01_HQ_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;	
 };
-if ((_type in ['Land_Bunker_01_big_F']) || {(_model in [
+if ((_type in ['land_bunker_01_big_f']) || {(_model in [
 	"a3\structures_f_argo\military\bunkers\bunker_01_big_f.p3d"
 ])}) exitWith {
-	comment 'Malden stone bunker wall';
+	//comment 'Malden stone bunker wall';
 	if (isSimpleObject _building) then {
 		_array = [
 			[4.05322,1.35059,-0.102413],
@@ -530,10 +529,10 @@ if ((_type in ['Land_Bunker_01_big_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;	
 };
-if ((_type in ['Land_SandbagBarricade_01_half_F']) || {(_model in [
+if ((_type in ['land_sandbagbarricade_01_half_f']) || {(_model in [
 	"a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d"
 ])}) exitWith {
-	comment 'Malden stone bunker wall';
+	//comment 'Malden stone bunker wall';
 	_array = [
 		[-0.140625,-1.94678,-0.667547]
 	];
@@ -542,10 +541,10 @@ if ((_type in ['Land_SandbagBarricade_01_half_F']) || {(_model in [
 	} count _array;
 	_buildingPositions;	
 };
-if ((_type in ['Land_SandbagBarricade_01_hole_F']) || {(_model in [
+if ((_type in ['land_sandbagbarricade_01_hole_f']) || {(_model in [
 	"a3\structures_f_argo\military\fortifications\sandbagbarricade_01_hole_f.p3d"
 ])}) exitWith {
-	comment 'Malden stone bunker wall';
+	//comment 'Malden stone bunker wall';
 	_array = [
 		[-0.0761719,-1.87988,-1.28429]
 	];

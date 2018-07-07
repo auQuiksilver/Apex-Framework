@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	8/04/2018 A3 1.82 by Quiksilver
+	7/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -29,11 +29,12 @@ for '_x' from 0 to 99 step 1 do {
 	_spawnPosition = ['WORLD',-1,-1,'LAND',[1.5,0,0.1,3,0,FALSE,objNull],TRUE,[[0,0,0],300,_bestPlaces,15,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	_posGradient = [_spawnPosition,12] call (missionNamespace getVariable 'QS_fnc_areaGradient');
 	if (
-		((_usedPositions findIf {((_x distance2D _spawnPosition) < 500)}) isEqualTo -1) &&
-		((_allPlayers findIf {((_x distance2D _spawnPosition) < 500)}) isEqualTo -1) &&
+		((_usedPositions inAreaArray [_spawnPosition,500,500,0,FALSE]) isEqualTo []) &&
+		((_allPlayers inAreaArray [_spawnPosition,500,500,0,FALSE]) isEqualTo []) &&
 		(!([_spawnPosition,150,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) &&
 		((_spawnPosition distance2D _basePosition) > _baseRadius) &&
 		((_spawnPosition distance2D _fobPosition) > _fobRadius) &&
+		((_spawnPosition distance2D (missionNamespace getVariable 'QS_aoPos')) > 1000) &&
 		((_posGradient < 5) && (_posGradient > -5)) &&
 		(((_spawnPosition select [0,2]) nearRoads 100) isEqualTo [])
 	) exitWith {};
@@ -103,10 +104,6 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 		}
 	]
 ];
-
-//_soundSource = createSoundSource ['SoundPlowDown',(_v modelToWorld (_v selectionPosition 'plow')),[],0];
-
-
 _unitTypes = [
 	[
 		'o_v_soldier_tl_hex_f',0.1,
@@ -264,67 +261,68 @@ for '_x' from 0 to 1 step 0 do {
 	if (_time > _respawnCheckDelay) then {
 		_enemies = _enemies select {(alive _x)};
 		if ((count _enemies) < _unitCount) then {
-			_grp = createGroup [EAST,TRUE];
 			_posFound = FALSE;
-			for '_x' from 0 to 9 step 1 do {
-				_grpSpawnPos = ['RADIUS',_spawnPosition,150,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[[0,0,0],150,'(1 + forest)',15,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-				if ((_allPlayers findIf {((_x distance2D _grpSpawnPos) < 250)}) isEqualTo -1) then {
+			for '_x' from 0 to 29 step 1 do {
+				_grpSpawnPos = ['RADIUS',_spawnPosition,500,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[[0,0,0],150,'(1 + forest)',15,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+				if ((_allPlayers inAreaArray [_grpSpawnPos,300,300,0,FALSE]) isEqualTo []) exitWith {
 					_posFound = TRUE;
 				};
-				if (_posFound) exitWith {};
 			};
-			_grp setFormDir (_spawnPosition getDir _grpSpawnPos);
-			for '_x' from 0 to (_groupSize - 1) step 1 do {
-				_unit = _grp createUnit [(selectRandomWeighted _unitTypes),_grpSpawnPos,[],5,'FORM'];
-				_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
-				_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');
-				{
-					_unit setUnitTrait _x;
-				} forEach [
-					['camouflageCoef',0.5,FALSE],
-					['audibleCoef',0.5,FALSE]
-				];
-				if ((random 1) > 0.8) then {
-					_unit removeWeapon (primaryWeapon _unit);
+			if (_posFound) then {
+				_grp = createGroup [EAST,TRUE];
+				_grp setFormDir (_spawnPosition getDir _grpSpawnPos);
+				for '_x' from 0 to (_groupSize - 1) step 1 do {
+					_unit = _grp createUnit [(selectRandomWeighted _unitTypes),_grpSpawnPos,[],5,'FORM'];
+					_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
+					_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+					[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 					{
-						_unit removeMagazine _x;
-					} forEach (magazines _unit);
-					[_unit,'MMG_01_hex_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-					_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
-					_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime - 1),FALSE];
-					{
-						_unit addPrimaryWeaponItem _x;
+						_unit setUnitTrait _x;
 					} forEach [
-						'muzzle_snds_93mmg',
-						(selectRandom ['optic_tws_mg','optic_Nightstalker'])
+						['camouflageCoef',0.5,FALSE],
+						['audibleCoef',0.5,FALSE]
 					];
-					_unit selectWeapon (primaryWeapon _unit);
-				} else {
-					{
-						_unit addPrimaryWeaponItem _x;
-					} forEach [
-						(selectRandom ['optic_tws','optic_Nightstalker'])
-					];	
+					if ((random 1) > 0.8) then {
+						_unit removeWeapon (primaryWeapon _unit);
+						{
+							_unit removeMagazine _x;
+						} forEach (magazines _unit);
+						[_unit,'MMG_01_hex_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+						_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
+						_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime - 1),FALSE];
+						{
+							_unit addPrimaryWeaponItem _x;
+						} forEach [
+							'muzzle_snds_93mmg',
+							(selectRandom ['optic_tws_mg','optic_Nightstalker'])
+						];
+						_unit selectWeapon (primaryWeapon _unit);
+					} else {
+						{
+							_unit addPrimaryWeaponItem _x;
+						} forEach [
+							(selectRandom ['optic_tws','optic_Nightstalker'])
+						];	
+					};
+					_all pushBack _unit;
+					_enemies pushBack _unit;
 				};
-				_all pushBack _unit;
-				_enemies pushBack _unit;
-			};
-			[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			if ((random 1) > 0.333) then {
-				if (!(_enoughPositions)) then {
-					[_grp,_spawnPosition,50,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
+				[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+				_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+				if ((random 1) > 0.333) then {
+					if (!(_enoughPositions)) then {
+						[_grp,_spawnPosition,50,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
+					} else {
+						_forestPositions = _forestPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+						_grp setVariable ['QS_AI_GRP_TASK',['PATROL',(_forestPositions select [0,4]),diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+					};
+					_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 				} else {
-					_forestPositions = _forestPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-					_grp setVariable ['QS_AI_GRP_TASK',['PATROL',(_forestPositions select [0,4]),diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+					_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_spawnPosition,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+					_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 				};
-				_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			} else {
-				_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_spawnPosition,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+				_grp setVariable ['QS_AI_GRP_DATA',[_spawnPosition],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 			};
-			_grp setVariable ['QS_AI_GRP_DATA',[_spawnPosition],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		};
 		_respawnCheckDelay = _time + _respawnDelay;
 	};

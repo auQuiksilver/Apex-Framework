@@ -6,14 +6,13 @@ Author:
 
 Last Modified:
 
-	15/04/2018 A3 1.82 by Quiksilver
+	6/05/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Setup Client Arsenal
 ____________________________________________________/*/
 
-if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 0) exitWith {};
 private _QS_restrictedItems = [
 	'h_helmetleadero_oucamo',
 	'h_helmetleadero_ocamo',
@@ -139,7 +138,7 @@ private _QS_restrictedBackpacks = [
 ];
 missionNamespace setVariable ['QS_arsenal_missionBlacklist',[[_QS_restrictedItems,_QS_restrictedWeapons,_QS_restrictedMagazines,_QS_restrictedBackpacks],(_QS_restrictedItems + _QS_restrictedWeapons + _QS_restrictedMagazines + _QS_restrictedBackpacks)],FALSE];
 _isBlacklisted = (missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 2;
-if (_isBlacklisted) then {
+if ((_isBlacklisted) || {((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 0)}) then {
 	// If using blacklist, we first have to add everything, so we can remove the blacklisted items.
 	private _internalRestrictions = TRUE;		// Caution, leave TRUE unless you know what you're doing. Set FALSE to disable hard-coded restrictions (respawn backpacks, racing + vr uniforms, etc).
 	private _cfgItems = [];
@@ -235,6 +234,12 @@ if (_isBlacklisted) then {
 _data = call (missionNamespace getVariable 'QS_data_arsenal');
 private _weapons = [];
 (_data select ([1,0] select _isBlacklisted)) params ['_itemsData','_magazines','_backpacks','_weapons'];
+if (!(_backpacks isEqualTo [])) then {
+	_backpacks = _backpacks select {((_x call (missionNamespace getVariable 'QS_fnc_baseBackpack')) == _x)};
+};
+if (!(_weapons isEqualTo [])) then {
+	_weapons = _weapons select {((_x call (missionNamespace getVariable 'QS_fnc_baseWeapon')) == _x)};
+};
 private _items = [];
 private _goggles = _itemsData select 5;
 if (!(_goggles isEqualTo [])) then {
@@ -306,3 +311,4 @@ if (_isBlacklisted) exitWith {
 	[(format ['BIS_fnc_%1VirtualBackpackCargo',(['add','remove'] select _isBlacklisted)]),(_backpacks select {(!( (toLower _x) in _QS_restrictedBackpacks))})],
 	[(format ['BIS_fnc_%1VirtualWeaponCargo',(['add','remove'] select _isBlacklisted)]),(_weapons select {(!( (toLower _x) in _QS_restrictedWeapons))})]
 ];
+['Preload'] call (missionNamespace getVariable 'BIS_fnc_arsenal');

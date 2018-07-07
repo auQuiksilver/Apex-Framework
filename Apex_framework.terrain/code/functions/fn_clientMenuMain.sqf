@@ -6,20 +6,18 @@ Author:
 	
 Last Modified:
 
-	9/02/2015 A3 1.54 by Quiksilver
+	22/05/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Client Menu Main
-	
-	missionNamespace setVariable ['QS_missionConfig_cosmetics',_monetizeCosmetics,TRUE];
 __________________________________________________________*/
 
-disableSerialization;
-private ['_type','_display','_index'];
-_type = _this select 0;
+params ['_type'];
 if (_type isEqualTo 'onLoad') exitWith {
-	_display = _this select 1;
+	disableSerialization;
+	params ['','_display'];
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	(_display displayCtrl 1600) ctrlEnable TRUE;
 	(_display displayCtrl 1600) ctrlSetText 'Comm-Link';
 	(_display displayCtrl 1600) ctrlSetToolTip 'Community Hub & Radio Control';
@@ -45,28 +43,70 @@ if (_type isEqualTo 'onLoad') exitWith {
 	(_display displayCtrl 1605) ctrlSetToolTip '';
 };
 if (_type isEqualTo 'onUnload') exitWith {
-	closeDialog 0;
+	closeDialog 2;
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
 };
 if (_type isEqualTo 'B1') exitWith {
+	closeDialog 2;
 	['onUnload'] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');
-	createDialog 'QS_RD_client_dialog_menu_hub';
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_hub';
+	};
 };
 if (_type isEqualTo 'B2') exitWith {
+	closeDialog 2;
 	['onUnload'] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');
-	createDialog 'QS_RD_client_dialog_menu_supporters';
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_supporters';
+	};
 };
 if (_type isEqualTo 'B3') exitWith {
+	closeDialog 2;
 	['onUnload'] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');
-	createDialog 'QS_RD_client_dialog_menu_leaderboard';
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_leaderboard';
+	};
 };
 if (_type isEqualTo 'B4') exitWith {
+	closeDialog 2;
 	['onUnload'] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');
-	createDialog 'QS_RD_client_dialog_menu_viewSettings';
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_viewSettings';
+	};
 };
 if (_type isEqualTo 'B5') exitWith {
+	closeDialog 2;
 	['onUnload'] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');
-	createDialog 'QS_RD_client_dialog_menu_options';
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_options';
+	};
 };
 if (_type isEqualTo 'B6') exitWith {
+	closeDialog 2;
 	['onUnload'] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');
 };

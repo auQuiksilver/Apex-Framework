@@ -15,7 +15,7 @@ ___________________________________________________/*/
 
 params ['_type','_2'];
 if (_type isEqualTo 0) then {
-	comment 'Deconstruct';
+	//comment 'Deconstruct';
 	{
 		missionNamespace setVariable _x;
 	} forEach [
@@ -54,7 +54,7 @@ if (_type isEqualTo 0) then {
 	'QS_marker_module_fob' setMarkerAlpha 0;
 };
 if (_type isEqualTo 1) then {
-	comment 'Construct';
+	//comment 'Construct';
 	_array = [
 		(([_2] call (missionNamespace getVariable 'QS_data_fobs')) select 0),
 		0,

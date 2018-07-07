@@ -47,7 +47,7 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	for '_x' from 0 to 1 step 0 do {
 		_position1 = ['RADIUS',_centerPos,_aoSize,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[_centerPos,300,'(1 + forest) * (1 - houses)',15,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if ((_position1 distance2D _centerPos) < 1500) then {
-			if ((_players findIf {((_x distance2D _position1) < 250)}) isEqualTo -1) then {
+			if ((_players inAreaArray [_position1,250,250,0,FALSE]) isEqualTo []) then {
 				if ((((_position1 select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
 					if (([(AGLToASL _position1),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
 						_positionFound = TRUE;

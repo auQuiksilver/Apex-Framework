@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	12/01/2015 ArmA 3 1.54 by Quiksilver
+	13/06/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -15,17 +15,15 @@ __________________________________________________________*/
 
 disableSerialization;
 private [
-	'_supporterLevel','_list','_type','_supporterAccess','_displayName','_texture','_index','_display','_v','_vehicleTypes','_textureSample','_textureSample','_nearSite','_idc','_author'
+	'_supporterLevel','_list','_supporterAccess','_displayName','_texture','_index','_v','_vehicleTypes','_textureSample','_textureSample','_nearSite','_idc','_author'
 ];
-_type = _this select 0;
-_display = _this select 1;
-
+params ['_type','_display'];
 _supporterLevel = [] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel');
 _list = [] call (missionNamespace getVariable 'QS_VTextures');
-
 if (_type isEqualTo 'onLoad') then {
 	(findDisplay 2000) closeDisplay 1;
 	(findDisplay 3000) closeDisplay 1;
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	_v = vehicle player;
 	_idc = 1804;
 	{
@@ -81,7 +79,7 @@ if (_type isEqualTo 'Select') then {
 				};
 			};
 			player setVariable ['QS_ClientVTexture',[objNull,(getPlayerUID player),[],(time + 5)],TRUE];
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'Vehicle texture reset, you can now texture a different vehicle. You must first reset that vehicle before texturing another!',[],-1];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'Vehicle texture reset, you can now texture a different vehicle. You must first reset that vehicle before texturing another!',[],-1,TRUE,'Vehicle Skin',TRUE];
 		} else {
 			if (_supporterAccess <= _supporterLevel) then {
 				if ((typeOf _v) in _vehicleTypes) then {
@@ -105,37 +103,44 @@ if (_type isEqualTo 'Select') then {
 									} forEach _textures;
 									player setVariable ['QS_ClientVTexture',[_v,(getPlayerUID player),(getObjectTextures _v),(time + 2)],TRUE];
 									_v setVariable ['QS_ClientVTexture_owner',(getPlayerUID player),TRUE];
-									_text = parseText format ['Vehicle Texture Set: %1<br/>Author: %2',_displayName,_author];
-									(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,_text,[],-1];
+									_text = format ['Vehicle Texture Set: %1<br/>Author: %2',_displayName,_author];
+									(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,_text,[],-1,TRUE,'Vehicle Skin',FALSE];
 								} else {
-									(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'Please wait ... Can only set a vehicle texture every 2 seconds',[],-1];
+									(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'Please wait ... Can only set a vehicle texture every 2 seconds',[],-1,TRUE,'Vehicle Skin',FALSE];
 								};
 							} else {
-								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'You must be at base to re-skin your vehicle!',[],-1];
+								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'You must be at base to re-skin your vehicle!',[],-1,TRUE,'Vehicle Skin',FALSE];
 							};
 						} else {
 							_text = format ['You already have a textured vehicle. A(n) %1 at grid %2.',(getText (configFile >> 'CfgVehicles' >> (typeOf ((player getVariable 'QS_ClientVTexture') select 0)) >> 'displayName')),(mapGridPosition (getPosWorld ((player getVariable 'QS_ClientVTexture') select 0)))];
-							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1];
+							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1,TRUE,'Vehicle Skin',FALSE];
 						};
 					} else {
-						(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'You must be the vehicle commander/driver/owner.',[],-1];
+						(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'You must be the vehicle commander/driver/owner.',[],-1,TRUE,'Vehicle Skin',FALSE];
 					};
 				} else {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,12,-1,'Incorrect vehicle type. Vehicle texture not set. You must be inside the desired vehicle, and be the vehicle commander/driver/owner.',[],-1];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,12,-1,'Incorrect vehicle type. Vehicle texture not set. You must be inside the desired vehicle, and be the vehicle commander/driver/owner.',[],-1,TRUE,'Vehicle Skin',TRUE];
 				};
 			} else {
-				_text = parseText format ['Supporter level required: %1<br/>Your supporter level: %2<br/>Vehicle Texture not set.',_supporterAccess,_supporterLevel];
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,12,-1,_text,[],-1];
+				_text = format ['Supporter level required: %1<br/>Your supporter level: %2<br/>Vehicle Texture not set.',_supporterAccess,_supporterLevel];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,12,-1,_text,[],-1,TRUE,'Vehicle Skin',FALSE];
 			};
 		};
 	};
 };
 
 if (_type isEqualTo 'Back') then {
-	closeDialog 0;
-	createDialog 'QS_RD_client_dialog_menu_supporters';
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_supporters';
+	};
 };
 
 if (_type isEqualTo 'onUnload') then {
-
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
 };

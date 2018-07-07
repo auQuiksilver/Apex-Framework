@@ -6,17 +6,18 @@ Author:
 	
 Last modified:
 
-	12/09/2017 A3 1.76 by Quiksilver
+	7/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
-	
+	-
 __________________________________________________*/
 
 params ['_unit','_position','_vehicle','_turretPath'];
 if (!simulationEnabled _vehicle) then {
 	_vehicle enableSimulation TRUE;
 };
+//missionNamespace setVariable ['QS_client_infoPanels',[(infoPanel 'left'),(infoPanel 'right')],FALSE];
 player setVariable ['QS_RD_crewIndicator_show',TRUE,FALSE];
 if (_vehicle isKindOf 'Air') then {
 	if (!((getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'transportSoldier')) isEqualTo 0)) then {
@@ -69,8 +70,10 @@ if (player getUnitTrait 'QS_trait_pilot') then {
 		};
 	};
 };
-if (_vehicle isEqualTo (missionNamespace getVariable ['QS_arty',objNull])) then {
-	enableEngineArtillery TRUE;
+if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) isEqualTo 1) then {
+	if (_vehicle isEqualTo (missionNamespace getVariable ['QS_arty',objNull])) then {
+		enableEngineArtillery TRUE;
+	};
 };
 if (_vehicle isKindOf 'StaticMortar') then {
 	_nearEntities = (position _vehicle) nearEntities [['LandVehicle','Reammobox_F'],50];

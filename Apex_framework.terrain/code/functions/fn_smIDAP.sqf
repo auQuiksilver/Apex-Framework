@@ -6,20 +6,11 @@ Author:
 	
 Last modified:
 
-	8/11/2017 A3 1.76 by Quiksilver
+	21/04/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	IDAP force protection
-	
-Notes:
-
-	OG_InfTeam
-	OG_InfTeam_AT
-	OG_ReconSentry
-	OG_InfAssaultTeam
-	
-	_patrolGroup = [_randomPos,(random 360),EAST,_infType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 ___________________________________________/*/
 
 params ['_position','_type','_subType'];
@@ -32,9 +23,6 @@ private _grpTypes = [
 	'OG_InfTeam_AT',
 	'OG_ReconSentry',
 	'OG_InfAssaultTeam'
-];
-private _vTypes = [
-	'o_g_offroad_01_armed_f'
 ];
 if (_type isEqualTo 0) exitWith {
 	comment 'IDAP scene';
@@ -61,7 +49,7 @@ if (_type isEqualTo 0) exitWith {
 		};
 		if ((random 1) > 0) then {
 			_spawnPosition = ['RADIUS',_position,150,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-			_v = createVehicle [(selectRandom _vTypes),_spawnPosition,[],0,'NONE'];
+			_v = createVehicle [(selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),_spawnPosition,[],0,'NONE'];
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),

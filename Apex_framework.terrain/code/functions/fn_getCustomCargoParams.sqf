@@ -32,7 +32,7 @@ params [
 	['_parent',objNull]
 ];
 if (_type isEqualTo 0) exitWith {
-	comment 'Loadable object types';
+	//comment 'Loadable object types';
 	private _return = FALSE;
 	_childType = toLower (typeOf _child);
 	_loadableObjects = [
@@ -121,7 +121,7 @@ if (_type isEqualTo 0) exitWith {
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
-	comment 'Can load to parent';
+	//comment 'Can load to parent';
 	private _return = FALSE;
 	private _capacity = 0;
 	private _count = 0;
@@ -155,7 +155,7 @@ if (_type isEqualTo 1) exitWith {
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
-	comment 'Towable non-vehicle object types';
+	//comment 'Towable non-vehicle object types';
 	private _return = FALSE;
 	_towableCargoObjects = [
 		"b_slingload_01_repair_f","b_slingload_01_medevac_f","b_slingload_01_fuel_f","b_slingload_01_ammo_f","b_slingload_01_cargo_f",
@@ -181,7 +181,7 @@ if (_type isEqualTo 2) exitWith {
 	_return;
 };
 if (_type isEqualTo 3) exitWith {
-	comment 'Return capacity';
+	//comment 'Return capacity';
 	private _return = FALSE;
 	private _capacity = 0;
 	private _count = 0;
@@ -211,7 +211,7 @@ if (_type isEqualTo 3) exitWith {
 	_return;
 };
 if (_type isEqualTo 4) exitWith {
-	comment 'carry-ability';
+	//comment 'carry-ability';
 	private _return = TRUE;
 	_childType = toLower (typeOf _child);
 	_nonCarryable = [

@@ -59,7 +59,7 @@ _base = markerPos 'QS_marker_base_marker';
 for '_x' from 0 to 499 step 1 do {
 	_roadRoadValid = [0,0,0];
 	_spawnPosDefault = [_centerPos,_minDist,_maxDist,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if ((_allPlayers findIf {((_x distance2D _spawnPosDefault) < 500)}) isEqualTo -1) then {
+	if ((_allPlayers inAreaArray [_spawnPosDefault,500,500,0,FALSE]) isEqualTo []) then {
 		if (_spawnPosDefault call _fn_blacklist) then {
 			if (!([_spawnPosDefault,_centerPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 				if (!(_spawnPosDefault isEqualTo [])) then {

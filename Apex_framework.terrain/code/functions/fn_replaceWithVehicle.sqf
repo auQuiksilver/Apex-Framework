@@ -47,7 +47,7 @@ if (!isNull _prop) then {
 				}
 			];
 			[_v] call (missionNamespace getVariable 'QS_fnc_vSetup');
-			QS_garbageCollector pushBack [_v,'DELAYED_DISCREET',300];
+			(missionNamespace getVariable 'QS_garbageCollector') pushBack [_v,'DELAYED_DISCREET',300];
 		} else {
 			comment 'Insert spawned thread here to ensure it cant be exploited or spammed';
 			_i = (missionNamespace getVariable 'QS_v_Monitor') findIf {((_x select 0) isEqualTo _prop)};
@@ -99,7 +99,7 @@ if (!isNull _prop) then {
 				if (_isCarrierVehicle isEqualTo 0) then {
 					_v setPos [(_vpos select 0),(_vpos select 1),((_vpos select 2)+0.1)];
 				};
-				QS_v_Monitor set [_i,[_v,_vdelay,_randomize,_configCode,_t,_vpos,_dir,FALSE,0,_fobVehicleID,_QS_vRespawnDist_base,_QS_vRespawnDist_field,_vRespawnTickets,_nearEntitiesCheck,_isDynamicVehicle,_isCarrierVehicle]];
+				(missionNamespace getVariable 'QS_v_Monitor') set [_i,[_v,_vdelay,_randomize,_configCode,_t,_vpos,_dir,FALSE,0,_fobVehicleID,_QS_vRespawnDist_base,_QS_vRespawnDist_field,_vRespawnTickets,_nearEntitiesCheck,_isDynamicVehicle,_isCarrierVehicle]];
 			};
 		};
 	};

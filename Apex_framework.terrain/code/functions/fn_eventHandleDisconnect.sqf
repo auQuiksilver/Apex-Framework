@@ -16,7 +16,7 @@ __________________________________________________/*/
 params ['_object','_cid','_uid','_name'];
 if (['HC',_uid,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) exitWith {
 	(missionNamespace getVariable 'QS_headlessClients') deleteAt ((missionNamespace getVariable 'QS_headlessClients') find _cid);
-	comment 'De-init headless client';
+	//comment 'De-init headless client';
 	diag_log format ['Headless Client %1 ( %2 ) disconnected',_cid,_uid];
 };
 if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
@@ -158,7 +158,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 										params ['_vehicle','_airportID'];
 										if (!isNull (driver _vehicle)) then {
 											if (!isPlayer (driver _vehicle)) then {
-												comment "deleteVehicle (driver _vehicle);";
+												//comment "deleteVehicle (driver _vehicle);";
 											};
 										};
 										_vehicle removeEventHandler ['LandedTouchDown',_thisEventHandler];
@@ -184,12 +184,12 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							};
 						};
 						QS_garbageCollector pushBack [_unit,'DELAYED_FORCED',(time + 600)];
-						comment 'Communicate with players here';
+						//comment 'Communicate with players here';
 						private _arrayToSend = [];
 						{
 							if (isPlayer _x) then {
 								if (alive _x) then {
-									comment "Send code to passengers here";
+									//comment "Send code to passengers here";
 									0 = _arrayToSend pushBack _x;
 								};
 							};
@@ -210,7 +210,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						{
 							if (alive _x) then {
 								if (_x getUnitTrait 'QS_trait_pilot') then {
-									comment 'Send code to other available pilots here';
+									//comment 'Send code to other available pilots here';
 									0 = _arrayToSend pushBack _x;
 								};
 							};

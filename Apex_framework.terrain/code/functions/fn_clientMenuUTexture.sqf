@@ -24,6 +24,7 @@ _list = [] call (missionNamespace getVariable 'QS_UTextures');
 if (_type isEqualTo 'onLoad') then {
 	(findDisplay 2000) closeDisplay 1;
 	(findDisplay 3000) closeDisplay 1;
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	{
 		_supporterAccess = _x select 0;
 		_displayName = _x select 1;
@@ -98,9 +99,16 @@ if (_type isEqualTo 'Select') then {
 	};
 };
 if (_type isEqualTo 'Back') then {
-	closeDialog 0;
-	createDialog 'QS_RD_client_dialog_menu_supporters';
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_supporters';
+	};
 };
 if (_type isEqualTo 'onUnload') then {
-
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
 };

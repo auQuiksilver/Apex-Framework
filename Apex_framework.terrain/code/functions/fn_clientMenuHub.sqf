@@ -6,20 +6,20 @@ Author:
 	
 Last Modified:
 
-	9/12/2017 A3 1.80 by Quiksilver
+	22/05/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Client Menu Hub
 __________________________________________________________/*/
 
-disableSerialization;
-private ['_type','_display','_ctrl','_link','_ctrlB1','_ctrlB2','_ctrlB3'];
-_type = _this select 0;
+params ['_type'];
 if (_type isEqualTo 'onLoad') exitWith {
-	_display = _this select 1;
+	disableSerialization;
+	params ['','_display'];
 	_title = _display displayCtrl 1802;
 	_title ctrlSetText 'Comm-Link';
+	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	
 	/*/======================= EDIT BELOW =======================/*/ 
 	_ctrlB1 = _display displayCtrl 1804;
@@ -34,10 +34,10 @@ if (_type isEqualTo 'onLoad') exitWith {
 	_ctrlB3 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) select 0),((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) select 1)]));
 	_ctrlB3 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) select 2);
 	_ctrlB3 ctrlEnable TRUE;
-	_ctrlB3 = _display displayCtrl 1812;
-	_ctrlB3 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 0),((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 1)]));
-	_ctrlB3 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 2);
-	_ctrlB3 ctrlEnable TRUE;	
+	_ctrlB4 = _display displayCtrl 1812;
+	_ctrlB4 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 0),((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 1)]));
+	_ctrlB4 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 2);
+	_ctrlB4 ctrlEnable TRUE;	
 	/*/======================= EDIT ABOVE =======================/*/ 
 	
 	
@@ -76,7 +76,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	/*/
 };
 if (_type isEqualTo 'onUnload') exitWith {
-
+	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
 };
 if (_type isEqualTo 'B1') exitWith {
 
@@ -85,13 +85,27 @@ if (_type isEqualTo 'B2') exitWith {
 
 };
 if (_type isEqualTo 'B3') exitWith {
-	closeDialog 0;
-	createDialog 'QS_RD_client_dialog_menu_radio';
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_radio';
+	};
 };
 if (_type isEqualTo 'B4') exitWith {
-	closeDialog 0;
-	(findDisplay 46) createDisplay 'RscDisplayDynamicGroups';
-	50 cutText ['Use [Page Up] / [Page Down] to navigate the group list','PLAIN'];
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		(findDisplay 46) createDisplay 'RscDisplayDynamicGroups';
+		50 cutText ['Use [Page Up] / [Page Down] to navigate the group list','PLAIN'];
+	};
 };
 if (_type isEqualTo 'B5') exitWith {
 
@@ -100,6 +114,13 @@ if (_type isEqualTo 'B6') exitWith {
 
 };
 if (_type isEqualTo 'Back') exitWith {
-	closeDialog 0;
-	createDialog 'QS_RD_client_dialog_menu_main';
+	closeDialog 2;
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		createDialog 'QS_RD_client_dialog_menu_main';
+	};
 };

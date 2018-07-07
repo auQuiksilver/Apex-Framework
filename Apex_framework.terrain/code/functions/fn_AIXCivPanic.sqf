@@ -27,7 +27,7 @@ _unit setVariable ['QS_AI_ENTITY_PANIC',FALSE,FALSE];
 _unit setVariable ['QS_AI_ENTITY_PANIC_ACTIVE',TRUE,FALSE];
 _unit doWatch objNull;
 if ((count _this) > 3) exitWith {
-	comment 'FiredNear';
+	//comment 'FiredNear';
 	params ['','_shooter','_distance'];
 	_unit playMoveNow (selectRandom ['ApanPknlMsprSnonWnonDf','ApanPercMsprSnonWnonDf']);
 	_agent forceSpeed 24;
@@ -36,7 +36,7 @@ if ((count _this) > 3) exitWith {
 		_unit setDestination [_panicPos,'LEADER PLANNED',((random 1) > 0.5)];
 	};
 };
-comment 'Explosion';
+//comment 'Explosion';
 _unit playMoveNow (selectRandom ['ApanPknlMsprSnonWnonDf','ApanPercMsprSnonWnonDf']);
 _agent forceSpeed 24;
 _panicPos = _unit getPos [(50 + (random 100)),(random 360)];

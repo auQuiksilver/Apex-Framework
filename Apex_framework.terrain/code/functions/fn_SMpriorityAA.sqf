@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	11/03/2018 A3 1.80 by Quiksilver
+	2/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -14,7 +14,7 @@ Description:
 ______________________________________________/*/
 
 scriptName 'QS - SM - AA';
-comment 'Get any data we need';
+//comment 'Get any data we need';
 private _spawnPosition = [0,0,0];
 private _aaTypes = ['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f'];
 private _aaHulls = [];
@@ -48,7 +48,7 @@ private _targetCandidate = objNull;
 private _targetPosition = [0,0,0];
 private _targetDir = 0;
 private _aircraftPosition = [0,0,0];
-comment 'Find position';
+//comment 'Find position';
 _basepos = markerPos 'QS_marker_base_marker';
 _fobpos = markerPos 'QS_marker_module_fob';
 private _spawnPosition = [0,0,0];
@@ -66,11 +66,11 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_accepted) exitWith {};
 };
-comment 'Generate composition and assets';
+//comment 'Generate composition and assets';
 private _compositionData = [
 	[
-		["O_APC_Tracked_02_AA_F",[0.230469,-6.17627,0.0173378],179.236,[],FALSE,TRUE,FALSE,{}], 
-		["O_APC_Tracked_02_AA_F",[-0.212402,9.61426,0.0157723],359.523,[],FALSE,TRUE,FALSE,{}], 
+		["O_APC_Tracked_02_AA_F",[0.230469,-6.17627,0.0173378],179.236,[],TRUE,TRUE,FALSE,{}], 
+		["O_APC_Tracked_02_AA_F",[-0.212402,9.61426,0.0157723],359.523,[],TRUE,TRUE,FALSE,{}], 
 		["Land_HBarrier_5_F",[-0.302979,1.63086,1.72132],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_Big_F",[-0.20874,1.77246,0],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_Big_F",[5.12134,-1.37109,0],271.094,[],FALSE,FALSE,TRUE,{}], 
@@ -97,8 +97,8 @@ private _compositionData = [
 		["Land_HBarrierWall_corner_F",[11.0156,14.7471,0],0,[],FALSE,FALSE,TRUE,{}]
 	],
 	[
-		["O_T_APC_Tracked_02_AA_ghex_F",[-0.0292969,-6.354,0.0168018],178.855,[],FALSE,TRUE,FALSE,{}], 
-		["O_T_APC_Tracked_02_AA_ghex_F",[-0.321777,8.54443,0.0163908],359.998,[],FALSE,TRUE,FALSE,{}], 
+		["O_T_APC_Tracked_02_AA_ghex_F",[-0.0292969,-6.354,0.0168018],178.855,[],TRUE,TRUE,FALSE,{}], 
+		["O_T_APC_Tracked_02_AA_ghex_F",[-0.321777,8.54443,0.0163908],359.998,[],TRUE,TRUE,FALSE,{}], 
 		["Land_HBarrier_01_big_4_green_F",[-0.081543,1.03174,0],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[-0.195801,1.05566,1.74458],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[5.23779,0.97168,1.69463],90,[],FALSE,FALSE,TRUE,{}], 
@@ -127,7 +127,7 @@ private _compositionData = [
 ] select (worldName in ['Tanoa','Lingor3']);
 _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 _compositionData = nil;
-comment 'Configure assets';
+//comment 'Configure assets';
 {
 	if (!(isSimpleObject _x)) then {
 		if ((toLower (typeOf _x)) in _aaTypes) then {
@@ -141,7 +141,6 @@ comment 'Configure assets';
 		{
 			_aaHull animateSource _x;
 		} forEach [
-			['hideturret',1,1],
 			['showslathull',1,1]
 		];
 		_aaHull lockDriver TRUE;
@@ -155,12 +154,13 @@ comment 'Configure assets';
 		clearWeaponCargoGlobal _aaHull;
 		clearMagazineCargoGlobal _aaHull;
 		_aaHull setVariable ['QS_client_canAttachExp',TRUE,TRUE];
+		_aaHull setVariable ['QS_RD_noRepair',TRUE,TRUE];
 		_aaHull addEventHandler [
 			'HandleDamage',
 			{
 				params ['_vehicle','','_damage','','','_hitPartIndex','',''];
 				_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
-				_damage = _oldDamage + (_damage - _oldDamage) * 0.5;
+				_damage = _oldDamage + (_damage - _oldDamage) * 0.67;
 				_damage;
 			}
 		];
@@ -197,49 +197,22 @@ comment 'Configure assets';
 				};
 			}
 		];
-		_aaTurret = createVehicle [(['B_SAM_System_01_F','B_SAM_System_02_F'] select (_forEachIndex isEqualTo 0)),[-50,-50,100],[],0,'NONE'];
-		_aaTurret setVariable ['QS_hidden',TRUE,TRUE];
-		_aaTurret setVariable ['QS_uav_protected',TRUE,FALSE];
-		createVehicleCrew _aaTurret;
-		(crew _aaTurret) joinSilent (createGroup [EAST,TRUE]);
+		createVehicleCrew _aaHull;
+		(crew _aaHull) joinSilent (createGroup [EAST,TRUE]);
 		{
 			_x setVariable ['QS_hidden',TRUE,TRUE];
-		} forEach (crew _aaTurret);
-		(group (gunner _aaTurret)) deleteGroupWhenEmpty TRUE;
-		(group (gunner _aaTurret)) setBehaviour 'AWARE';
-		(group (gunner _aaTurret)) setCombatMode 'RED';
-		_aaTurret setVehicleRadar 1;
-		_aaTurret setVehicleReceiveRemoteTargets TRUE;
-		_aaTurrets pushBack [_aaTurret,(gunner _aaTurret),(group (gunner _aaTurret)),(typeOf _aaTurret),((weapons _aaTurret) select 0),0,0,0];
-		_aaTurret allowDamage FALSE;
-		{
-			_x allowDamage FALSE;
-		} forEach (crew _aaTurret);
-		{ 
-			_aaTurret setObjectTextureGlobal [_forEachIndex,_x]; 
-		} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _aaTurret) >> 'TextureSources' >> (['Sand','Green'] select (worldName in ['Tanoa','Lingor'])) >> 'textures'));
-		_aaTurret addEventHandler [
-			'Fired',
-			{
-				missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [(_this select 6)]),TRUE];
-			}
-		];
-		_aaTurret attachTo [_aaHull,([[0,-3.25,1],[0,-3,1]] select (_aaTurret isKindOf 'B_SAM_System_02_F'))];
-		_aaTurret setVariable ['QS_v_targetPosition',_targetPosition,FALSE];
-		_aaHull setVariable ['QS_RD_noRepair',TRUE,TRUE];
-		_aaTurret setVariable ['QS_RD_noRepair',TRUE,TRUE];
-		_aaTurret setVariable ['QS_disableRearm',TRUE,FALSE];
-		_aaHull allowDamage TRUE;
+		} forEach (crew _aaHull);		
+		_aaTurrets pushBack [_aaHull,(gunner _aaHull),(group (gunner _aaHull)),(typeOf _aaHull),((weapons _aaHull) select 1),0,0,0];
 	};
 } forEach _aaHulls;
-comment 'Generate force protection';
+//comment 'Generate force protection';
 {
 	_enemyAssets pushBack _x;
 	if (!isNull (group _x)) then {
 		(group _x) addVehicle (selectRandom _aaHulls);
 	};
 } forEach ([(_composition select 0)] call (missionNamespace getVariable 'QS_fnc_smEnemyEast'));
-comment 'Brief players';
+//comment 'Brief players';
 _fuzzyPos = [((_spawnPosition select 0) - 300) + (random 600),((_spawnPosition select 1) - 300) + (random 600),0];
 {
 	_x setMarkerPos _fuzzyPos;
@@ -265,7 +238,7 @@ _fuzzyPos = [((_spawnPosition select 0) - 300) + (random 600),((_spawnPosition s
 _briefing = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t size='1.5' color='#b60000'>Anti-Air Battery</t><br/>____________________<br/>OPFOR forces are setting up an anti-air battery to hit you guys damned hard! We've picked up their positions with thermal imaging scans and have marked it on your map.<br/><br/>This is a priority target, boys!";
 //['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 ['NewPriorityTarget',['Anti-Air Battery']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-comment 'Loop';
+//comment 'Loop';
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
 for '_x' from 0 to 1 step 0 do {
 	if (((_aaHulls findIf {(alive _x)}) isEqualTo -1) || {(missionNamespace getVariable ['QS_smSuccess',FALSE])}) exitWith {

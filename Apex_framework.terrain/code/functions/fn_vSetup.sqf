@@ -95,8 +95,10 @@ _taru_with_pod = [
 ];
 _taru = _taru_default + _taru_with_pod;
 _taru_pod = [
-	'land_pod_heli_transport_04_ammo_f','land_pod_heli_transport_04_box_f','land_pod_heli_transport_04_fuel_f','land_pod_heli_transport_04_medevac_f',
-	'land_pod_heli_transport_04_repair_f','land_pod_heli_transport_04_covered_f','land_pod_heli_transport_04_covered_black_f'
+	'land_pod_heli_transport_04_ammo_f','land_pod_heli_transport_04_ammo_black_f','land_pod_heli_transport_04_repair_f','land_pod_heli_transport_04_repair_black_f','land_pod_heli_transport_04_box_f','land_pod_heli_transport_04_box_black_f',
+	'land_pod_heli_transport_04_covered_f','land_pod_heli_transport_04_covered_black_f',
+	'land_pod_heli_transport_04_medevac_f','land_pod_heli_transport_04_medevac_black_f',
+	'land_pod_heli_transport_04_bench_f','land_pod_heli_transport_04_bench_black_f'
 ];
 _taru_bench = [
 	'land_pod_heli_transport_04_bench_f','land_pod_heli_transport_04_bench_black_f'
@@ -171,6 +173,7 @@ _offroadPolice = [
 	'b_gen_offroad_01_gen_f','b_gen_van_02_vehicle_f','b_gen_van_02_transport_f'
 ];
 _offroad = ['b_g_offroad_01_f','b_g_offroad_01_at_f','b_g_offroad_01_armed_f','b_g_offroad_01_repair_f','o_g_offroad_01_f','o_g_offroad_01_at_f','o_g_offroad_01_armed_f','o_g_offroad_01_repair_f','i_g_offroad_01_f','i_g_offroad_01_at_f','i_g_offroad_01_armed_f','i_g_offroad_01_repair_f'];
+_hellcat = ['i_heli_light_03_f','i_heli_light_03_dynamicloadout_f','i_heli_light_03_unarmed_f'];
 
 /*/============================================= APPLY/*/
 if (_t2 in _blackVehicles) then {
@@ -274,37 +277,39 @@ if (_t2 in _t100) then {
 		];
 	};
 };
+if (_t2 in _hellcat) then {
+	if (_isSimpleObject || {(isNull (driver _u))}) then {
+		{ 
+			_u setObjectTextureGlobal [_forEachIndex,_x]; 
+		} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> 'Green' >> 'textures'));
+	};
+};
 if (_t2 in _taru_default) then {
-	_u setObjectTextureGlobal [0,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_base_01_black_CO.paa'];
-	_u setObjectTextureGlobal [1,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_base_02_black_CO.paa'];
+	{ 
+		_u setObjectTextureGlobal [_forEachIndex,_x]; 
+	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> 'Black' >> 'textures'));
 };
 if (_t2 in _taru_pod) then {
-	_u setObjectTextureGlobal [0,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_Pod_Ext01_black_CO.paa'];
-	_u setObjectTextureGlobal [1,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_Pod_Ext02_black_CO.paa'];
+	{ 
+		_u setObjectTextureGlobal [_forEachIndex,_x]; 
+	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> 'Black' >> 'textures'));
 };
 if (_t2 in _taru_bench) then {
-	_u setObjectTextureGlobal [0,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_bench_black_CO.paa'];
+	{ 
+		_u setObjectTextureGlobal [_forEachIndex,_x]; 
+	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> 'Black' >> 'textures'));
 };
 if (_t2 in _taru_with_bench) then {
-	{
-		_u setObjectTextureGlobal _x;
-	} forEach [
-		[0,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_base_01_black_CO.paa'],
-		[1,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_base_02_black_CO.paa'],
-		[2,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_bench_black_CO.paa']
-	];
+	{ 
+		_u setObjectTextureGlobal [_forEachIndex,_x]; 
+	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> 'Black' >> 'textures'));
 	_u animateSource ['Bench_default_hide',1];
 	_u animateSource ['Bench_black_hide',0];
 };
 if (_t2 in _taru_with_pod) then {
-	{
-		_u setObjectTextureGlobal _x;
-	} forEach [
-		[0,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_base_01_black_CO.paa'],
-		[1,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_base_02_black_CO.paa'],
-		[2,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_Pod_Ext01_black_CO.paa'],
-		[3,'A3\Air_F_Heli\Heli_Transport_04\Data\Heli_Transport_04_Pod_Ext02_black_CO.paa']
-	];
+	{ 
+		_u setObjectTextureGlobal [_forEachIndex,_x]; 
+	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> 'Black' >> 'textures'));
 };
 if (_t2 in _offroad) then {
 	_u animateSource ['HideBackpacks',(selectRandom [0,1]),1];

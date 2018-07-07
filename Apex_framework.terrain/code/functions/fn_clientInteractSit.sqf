@@ -6,22 +6,22 @@ Author:
 	
 Last Modified:
 
-	24/11/2017 A3 1.78 by Quiksilver
+	27/04/2018 A3 1.82 by Quiksilver
 	
 Description:
 
 	Sit Down / Stand Up
-_____________________________________________________________/*/
+_____________________________________/*/
 
 _type = _this select 3;
 _chairTypes = [
-	'Land_CampingChair_V1_F',
-	'Land_CampingChair_V2_F',
-	'Land_ChairPlastic_F',
-	'Land_RattanChair_01_F',
-	'Land_ChairWood_F',
-	'Land_OfficeChair_01_F',
-	'Land_ArmChair_01_F'
+	'land_campingchair_v1_f',
+	'land_campingchair_v2_f',
+	'land_chairplastic_f',
+	'land_rattanchair_01_f',
+	'land_chairwood_f',
+	'land_officechair_01_f',
+	'land_armchair_01_f'
 ];
 _chairModels = [
 	'campingchair_v1_f.p3d',
@@ -33,12 +33,12 @@ _chairModels = [
 	'armchair_01_f.p3d'
 ];
 _sittingAnimations = [
-	'HubSittingChairA_idle1','HubSittingChairA_idle2','HubSittingChairA_idle3',
-	'HubSittingChairB_idle1','HubSittingChairB_idle2','HubSittingChairB_idle3',
-	'HubSittingChairC_idle1','HubSittingChairC_idle2','HubSittingChairC_idle3',
-	'HubSittingChairUA_idle1','HubSittingChairUA_idle2','HubSittingChairUA_idle3',
-	'HubSittingChairUB_idle1','HubSittingChairUB_idle2','HubSittingChairUB_idle3',
-	'HubSittingChairUC_idle1','HubSittingChairUC_idle2','HubSittingChairUC_idle3'
+	'hubsittingchaira_idle1','hubsittingchaira_idle2','hubsittingchaira_idle3',
+	'hubsittingchairb_idle1','hubsittingchairb_idle2','hubsittingchairb_idle3',
+	'hubsittingchairc_idle1','hubsittingchairc_idle2','hubsittingchairc_idle3',
+	'hubsittingchairua_idle1','hubsittingchairua_idle2','hubsittingchairua_idle3',
+	'hubsittingchairub_idle1','hubsittingchairub_idle2','hubsittingchairub_idle3',
+	'hubsittingchairuc_idle1','hubsittingchairuc_idle2','hubsittingchairuc_idle3'
 ];
 if (_type isEqualTo 0) then {
 	if (!isNull (attachedTo player)) then {
@@ -57,8 +57,8 @@ if (_type isEqualTo 0) then {
 };
 if (_type isEqualTo 1) then {
 	_object = cursorObject;
-	if ((player distance _object) > 2) exitWith {};
-	if ((!((typeOf _object) in _chairTypes)) && {(!((toLower ((getModelInfo _object) select 0)) in _chairModels))}) exitWith {};
+	if ((player distance2D _object) > 2) exitWith {};
+	if ((!((toLower (typeOf _object)) in _chairTypes)) && {(!((toLower ((getModelInfo _object) select 0)) in _chairModels))}) exitWith {};
 	if (!((attachedObjects _object) isEqualTo [])) exitWith {};
 	if (!isNull (attachedTo _object)) exitWith {};
 	if (!((stance player) isEqualTo 'STAND')) exitWith {};
@@ -76,7 +76,7 @@ if (_type isEqualTo 1) then {
 	if (_chairTaken) exitWith {
 		50 cutText ['Someone is too close to this chair!','PLAIN DOWN'];
 	};
-	if ((animationState player) in _sittingAnimations) exitWith {50 cutText ['Already seated!','PLAIN DOWN'];};
+	if ((toLower (animationState player)) in _sittingAnimations) exitWith {50 cutText ['Already seated!','PLAIN DOWN'];};
 	
 	if (local _object) then {
 		_object setVectorUp [0,0,1];
@@ -94,7 +94,7 @@ if (_type isEqualTo 1) then {
 		player switchMove _sittingAnimation;
 	};
 	private _attachY = -0.1;
-	if (((typeOf _object) in ['Land_ArmChair_01_F']) || {((toLower ((getModelInfo _object) select 0)) in ['armchair_01_f.p3d'])}) then {
+	if (((toLower (typeOf _object)) in ['land_armchair_01_f']) || {((toLower ((getModelInfo _object) select 0)) in ['armchair_01_f.p3d'])}) then {
 		_attachY = 0;
 	};
 	player attachTo [_object,[0,_attachY,0]];
@@ -108,9 +108,13 @@ if (_type isEqualTo 1) then {
 		scriptName 'Seated thread';
 		_object = _this select 0;
 		detach player;
-		player setDir ((getDir _object) - 180);
+		private _sitDirectionOffset = 180;
+		if (((toLower (typeOf _object)) in ['land_armchair_01_f']) || {((toLower ((getModelInfo _object) select 0)) in ['armchair_01_f.p3d'])}) then {
+			_sitDirectionOffset = 0;
+		};
+		player setDir ((getDir _object) - _sitDirectionOffset);
 		uiSleep 0.05;
-		if (((typeOf _object) in ['Land_RattanChair_01_F','Land_ArmChair_01_F']) || {((toLower ((getModelInfo _object) select 0)) in ['rattanchair_01_f.p3d','armchair_01_f.p3d'])}) then {
+		if (((toLower (typeOf _object)) in ['land_rattanchair_01_f','land_armchair_01_f']) || {((toLower ((getModelInfo _object) select 0)) in ['rattanchair_01_f.p3d','armchair_01_f.p3d'])}) then {
 			private _playerPos = getPosWorld player;
 			_playerPos set [2,((_playerPos select 2) - 1)];
 			player setPosWorld _playerPos;

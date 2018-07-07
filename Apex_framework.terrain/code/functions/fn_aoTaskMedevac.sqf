@@ -16,7 +16,7 @@ ____________________________________________________________________________*/
 params ['_case','_state','_data'];
 private _return = -1;
 if (_state isEqualTo 0) then {
-	comment 'Clean up mission';
+	//comment 'Clean up mission';
 	_unit = _data select 0;
 	_missionDuration = _data select 1;
 	_missionDestination = _data select 2;
@@ -27,7 +27,7 @@ if (_state isEqualTo 0) then {
 	_return = [];
 };
 if (_state isEqualTo 1) then {
-	comment 'Create mission';
+	//comment 'Create mission';
 	diag_log 'Medevac task created 0';
 	_aoPos = markerPos 'QS_marker_aoMarker';
 	_worldSize = worldSize;
@@ -153,7 +153,7 @@ if (_state isEqualTo 1) then {
 	diag_log 'Medevac task created 1';
 };
 if (_state isEqualTo 2) then {
-	comment 'Check mission state';
+	//comment 'Check mission state';
 	_unit = _data select 0;
 	_missionDuration = _data select 1;
 	_missionDestination = _data select 2;
@@ -163,7 +163,7 @@ if (_state isEqualTo 2) then {
 		};
 	};
 	if (serverTime > _missionDuration) exitWith {
-		comment 'Mission failure';
+		//comment 'Mission failure';
 		['ST_MEDEVAC',['Medevac','Medevac failed, soldier bled out!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['QS_IA_TASK_AO_3'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 		_return = [
@@ -177,7 +177,7 @@ if (_state isEqualTo 2) then {
 		];
 	};	
 	if ((((_unit distance _missionDestination) < 3.5) && (isNull (attachedTo _unit))) || (([0,_unit] call (missionNamespace getVariable 'QS_fnc_isNearFieldHospital')) && (isNull (attachedTo _unit)) && (isNull (objectParent _unit)))) exitWith {
-		comment 'Mission success';
+		//comment 'Mission success';
 		['ST_MEDEVAC',['Medevac','Medevac complete!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['QS_IA_TASK_AO_3'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 		if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
@@ -201,7 +201,7 @@ if (_state isEqualTo 2) then {
 		];
 	};
 	if (!alive _unit) exitWith {
-		comment 'Mission failure';
+		//comment 'Mission failure';
 		['ST_MEDEVAC',['Medevac','Medevac failed, soldier killed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['QS_IA_TASK_AO_3'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 		_return = [

@@ -40,7 +40,7 @@ if (['HC',_uid,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) exi
 	} forEach [
 		'QS_fnc_AI'
 	];
-	comment 'Init headless client';
+	//comment 'Init headless client';
 	[
 		[_uid,_cid,_jip],
 		{
@@ -125,13 +125,13 @@ if ((toLower (typeOf _client)) in ['b_fighter_pilot_f','b_soldier_uav_f','b_t_so
 						_aircraftPool = ((missionNamespace getVariable 'QS_CAS_jetAllowance') select _airIndex) select 1;
 					};
 					if (_aircraftPool >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) then {
-						comment 'No aircraft remaining in client aircraft pool';
+						//comment 'No aircraft remaining in client aircraft pool';
 						_kicked = TRUE;
 						FALSE remoteExecCall ['disableUserInput',_cid,FALSE];
 						uiSleep 0.1;
 						[[],{endMission 'QS_RD_end_7';}] remoteExec ['call',_cid,FALSE];
 					} else {
-						comment 'Good to go!';
+						//comment 'Good to go!';
 						missionNamespace setVariable ['QS_fighterPilot',_client,TRUE];
 					};
 				} else {
@@ -142,7 +142,7 @@ if ((toLower (typeOf _client)) in ['b_fighter_pilot_f','b_soldier_uav_f','b_t_so
 				};
 			};
 		} else {
-			comment 'UAV Operator, let him through';
+			//comment 'UAV Operator, let him through';
 			_isCAS = TRUE;
 		};
 	} else {

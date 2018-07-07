@@ -8,3 +8,5 @@
 
 5. Convert as many objects to "Simple Object" (toggle box under Special States in EDEN editor) as you can, while ensuring the asset functions correctly.
 
+* It is not recommended to create bases or respawnable vehicles near Kavala (Altis) or Georgetown (Tanoa), as these are locations for custom missions built into the framework.
+

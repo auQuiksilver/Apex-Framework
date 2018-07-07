@@ -127,17 +127,17 @@ if (dayTime < 16) then {
 };
 if ((random 1) > 0.5) then {
 	if (!(_unitType in [
-		"o_v_soldier_exp_hex_f","o_v_soldier_jtac_hex_f","o_v_soldier_m_hex_f","o_v_soldier_hex_f","o_v_soldier_medic_hex_f","o_v_soldier_lat_hex_f",
-		"o_v_soldier_tl_hex_f","o_v_soldier_exp_ghex_f","o_v_soldier_jtac_ghex_f","o_v_soldier_m_ghex_f","o_v_soldier_ghex_f","o_v_soldier_medic_ghex_f",
-		"o_v_soldier_lat_ghex_f","o_v_soldier_tl_ghex_f","o_recon_exp_f","o_recon_jtac_f","o_recon_m_f","o_recon_medic_f","o_pathfinder_f","o_recon_f",
-		"o_recon_lat_f","o_recon_tl_f","o_sniper_f","o_ghillie_ard_f","o_ghillie_lsh_f","o_ghillie_sard_f","o_spotter_f","o_t_recon_exp_f","o_t_recon_jtac_f",
-		"o_t_recon_m_f","o_t_recon_medic_f","o_t_recon_f","o_t_recon_lat_f","o_t_recon_tl_f","o_t_sniper_f","o_t_ghillie_tna_f","o_t_spotter_f",
-		"o_diver_f","o_diver_exp_f","o_diver_tl_f","o_t_diver_f","o_t_diver_exp_f","o_t_diver_tl_f",'i_spotter_f','i_sniper_f','i_ghillie_ard_f','i_ghillie_lsh_f','i_ghillie_sard_f'
+		'o_v_soldier_exp_hex_f','o_v_soldier_jtac_hex_f','o_v_soldier_m_hex_f','o_v_soldier_hex_f','o_v_soldier_medic_hex_f','o_v_soldier_lat_hex_f',
+		'o_v_soldier_tl_hex_f','o_v_soldier_exp_ghex_f','o_v_soldier_jtac_ghex_f','o_v_soldier_m_ghex_f','o_v_soldier_ghex_f','o_v_soldier_medic_ghex_f',
+		'o_v_soldier_lat_ghex_f','o_v_soldier_tl_ghex_f','o_recon_exp_f','o_recon_jtac_f','o_recon_m_f','o_recon_medic_f','o_pathfinder_f','o_recon_f',
+		'o_recon_lat_f','o_recon_tl_f','o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_spotter_f','o_t_recon_exp_f','o_t_recon_jtac_f',
+		'o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f','o_t_sniper_f','o_t_ghillie_tna_f','o_t_spotter_f',
+		'o_diver_f','o_diver_exp_f','o_diver_tl_f','o_t_diver_f','o_t_diver_exp_f','o_t_diver_tl_f','i_spotter_f','i_sniper_f','i_ghillie_ard_f','i_ghillie_lsh_f','i_ghillie_sard_f'
 	])) then {
 		_unit addHeadgear (selectRandom [
-			"H_Bandanna_gry","H_Bandanna_cbr","H_Bandanna_khk","H_Bandanna_sand","H_Bandanna_surfer","H_Bandanna_surfer_blk","H_Bandanna_surfer_grn","H_Booniehat_khk","H_Booniehat_dgtl","H_Cap_blk","H_Cap_grn","H_Cap_red",
-			"H_Cap_blk_Raven","H_Cap_brn_SPECOPS","H_HelmetCrew_O_ghex_F","H_Hat_camo","H_CrewHelmetHeli_I","H_CrewHelmetHeli_O","H_HelmetB_Light_tna_F","H_MilCap_ghex_F","H_MilCap_gry","H_MilCap_tna_F","H_MilCap_dgtl","H_Shemag_olive",
-			"H_ShemagOpen_tan","H_ShemagOpen_khk","H_Helmet_Skate",'H_PASGT_basic_black_F','H_PASGT_basic_blue_F','H_PASGT_basic_olive_F','H_PASGT_basic_white_F'
+			'H_Bandanna_gry','H_Bandanna_cbr','H_Bandanna_khk','H_Bandanna_sand','H_Bandanna_surfer','H_Bandanna_surfer_blk','H_Bandanna_surfer_grn','H_Booniehat_khk','H_Booniehat_dgtl','H_Cap_blk','H_Cap_grn','H_Cap_red',
+			'H_Cap_blk_Raven','H_Cap_brn_SPECOPS','H_HelmetCrew_O_ghex_F','H_Hat_camo','H_CrewHelmetHeli_I','H_CrewHelmetHeli_O','H_HelmetB_Light_tna_F','H_MilCap_ghex_F','H_MilCap_gry','H_MilCap_tna_F','H_MilCap_dgtl','H_Shemag_olive',
+			'H_ShemagOpen_tan','H_ShemagOpen_khk','H_Helmet_Skate','H_PASGT_basic_black_F','H_PASGT_basic_blue_F','H_PASGT_basic_olive_F','H_PASGT_basic_white_F'
 		]);
 	};
 };
@@ -191,8 +191,8 @@ private _container = [];
 		if (!isNil '_container') then {
 			if (!(_container isEqualTo [])) then {
 				{
-					if (_x in [
-						'Chemlight_blue','Chemlight_green','Chemlight_red','Chemlight_yellow'
+					if ((toLower _x) in [
+						'chemlight_blue','chemlight_green','chemlight_red','chemlight_yellow'
 					]) then {
 						_toRemove pushBack _x;
 					};

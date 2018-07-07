@@ -16,8 +16,8 @@ ____________________________________________________________________________/*/
 params ['_case','_state','_data'];
 private _return = -1;
 if (_state isEqualTo 0) then {
-	comment 'Clean up mission';
-	comment 'Return empty array';
+	//comment 'Clean up mission';
+	//comment 'Return empty array';
 	_agent = _data select 0;
 	_enemyArray = _data select 1;
 	if (!isNull _agent) then {
@@ -35,8 +35,8 @@ if (_state isEqualTo 0) then {
 	_return = [];
 };
 if (_state isEqualTo 1) then {
-	comment 'Create mission';
-	comment 'Return array';
+	//comment 'Create mission';
+	//comment 'Return array';
 	_aoPos = markerPos 'QS_marker_aoMarker';
 	_worldSize = worldSize;
 	if (_aoPos inPolygon [
@@ -242,7 +242,7 @@ if (_state isEqualTo 1) then {
 					'Default',
 					TRUE
 				] call (missionNamespace getVariable 'BIS_fnc_setTask');
-				comment 'Force protection';
+				//comment 'Force protection';
 				_enemyArray = [];
 				_enemyTypes = [
 					"I_C_Soldier_Bandit_7_F","I_C_Soldier_Bandit_3_F","I_C_Soldier_Bandit_2_F","I_C_Soldier_Bandit_5_F","I_C_Soldier_Bandit_6_F","I_C_Soldier_Bandit_1_F",
@@ -289,12 +289,12 @@ if (_state isEqualTo 1) then {
 	};
 };
 if (_state isEqualTo 2) then {
-	comment 'Check mission state';
-	comment 'Return -1 unless state changes';
+	//comment 'Check mission state';
+	//comment 'Return -1 unless state changes';
 	_agent = _data select 0;
 	_enemyArray = _data select 1;
 	if (missionNamespace getVariable ['QS_aoSmallTask_Arrested',FALSE]) then {
-		comment 'Mission success';
+		//comment 'Mission success';
 		['ST_HVT',['High Value Target','HVT arrested']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['sideChat',[WEST,'HQ'],'Bring the HVT back to base and imprison him in Gitmo'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		['QS_IA_TASK_AO_3'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
@@ -318,7 +318,7 @@ if (_state isEqualTo 2) then {
 		];
 	} else {
 		if (!alive _agent) then {
-			comment 'Mission failure';
+			//comment 'Mission failure';
 			['ST_HVT',['High Value Target','HVT killed, arrest failed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			['QS_IA_TASK_AO_3'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 			_return = [

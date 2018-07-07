@@ -21,30 +21,29 @@ Spawn small task in AO
 ________________________________________________________/*/
 
 params ['_case','_state','_data'];
-private ['_return','_taskFunction'];
-_return = -1;
-_taskFunction = '';
+private _return = -1;
+private _taskFunction = '';
 if (_case isEqualTo 0) then {
-	comment 'Default';
+	//comment 'Default';
 	_taskFunction = '';
 };
 if (_case isEqualTo 1) then {
-	comment 'Medevac Soldier';
+	//comment 'Medevac Soldier';
 	_taskFunction = 'QS_fnc_aoTaskMedevac';
 	_return = _this call (missionNamespace getVariable _taskFunction);
 };
 if (_case isEqualTo 2) then {
-	comment 'Arrest HVT';
+	//comment 'Arrest HVT';
 	_taskFunction = 'QS_fnc_aoTaskHVT';
 	_return = _this call (missionNamespace getVariable _taskFunction);
 };
 if (_case isEqualTo 3) then {
-	comment 'Destroy vehicle';
+	//comment 'Destroy vehicle';
 	_taskFunction = 'QS_fnc_aoTaskDestroyVehicle';
 	_return = _this call (missionNamespace getVariable _taskFunction);
 };
 if (_case isEqualTo 4) then {
-	comment 'Destroy mobile SAM';
+	//comment 'Destroy mobile SAM';
 	_taskFunction = 'QS_fnc_aoTaskSAM';
 	_return = _this call (missionNamespace getVariable _taskFunction);
 };

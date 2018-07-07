@@ -33,9 +33,9 @@ for '_x' from 0 to 1 step 0 do {
 			if (alive _entity) then {
 				if ((getSuppression _entity) isEqualTo 0) then {
 					if (!(_entity getVariable ['QS_AI_JOB',FALSE])) then {
-						comment 'MEDIC AUTO REVIVE';
+						//comment 'MEDIC AUTO REVIVE';
 						if (_entity getUnitTrait 'medic') then {
-							_nearUnits = (position _entity) nearEntities ['CAManBase',([50,15] select ((lifeState player) in ['HEALTHY','INJURED']))];
+							_nearUnits = (getPosATL _entity) nearEntities ['CAManBase',([50,15] select ((lifeState player) in ['HEALTHY','INJURED']))];
 							if (!(_nearUnits isEqualTo [])) then {
 								_job = FALSE;
 								{
@@ -49,7 +49,7 @@ for '_x' from 0 to 1 step 0 do {
 															_job = TRUE;
 															_unit setVariable ['QS_AI_JOB_PROVIDER',_entity,FALSE];
 															_entity setVariable ['QS_AI_JOB',TRUE,FALSE];
-															_entity setVariable ['QS_AI_JOB_DATA',[(_time + 30),1,_time,scriptNull,'MEDIC',_unit,(position _unit)],FALSE];
+															_entity setVariable ['QS_AI_JOB_DATA',[(_time + 30),1,_time,scriptNull,'MEDIC',_unit,(getPosATL _unit)],FALSE];
 															if ((unitPos _entity) in ['UP','AUTO']) then {
 																_entity setUnitPos 'MIDDLE';
 															};
@@ -64,11 +64,11 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 						
-						comment 'OTHER BEHAVIOURS';
+						//comment 'OTHER BEHAVIOURS';
 						
 						
 					} else {
-						comment 'Unit is on job, evaluate';
+						//comment 'Unit is on job, evaluate';
 						_jobData = _entity getVariable ['QS_AI_JOB_DATA',[]];
 						_jobData params [
 							'_jobTimeout',
@@ -87,7 +87,7 @@ for '_x' from 0 to 1 step 0 do {
 						} else {
 							if (_time > _jobEvalCheckDelay) then {
 								_jobData set [2,(_time + _jobEvalDelay)];
-								comment 'MEDIC AUTO REVIVE';
+								//comment 'MEDIC AUTO REVIVE';
 								if (_jobType isEqualTo 'MEDIC') then {
 									_jobData params [
 										'',
@@ -104,7 +104,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										if ((_entity distance _jobTarget) > 4) then {
 											doStop _entity;
-											_entity doMove (position _jobTarget);
+											_entity doMove (getPosATL _jobTarget);
 										} else {
 											if (isNull _jobScript) then {
 												_jobScript = [_entity,_jobTarget] spawn {
@@ -133,14 +133,14 @@ for '_x' from 0 to 1 step 0 do {
 												_jobData set [3,_jobScript];
 											};
 										};
-										_jobData set [6,(position _jobTarget)];
+										_jobData set [6,(getPosATL _jobTarget)];
 										_entity setVariable ['QS_AI_JOB_DATA',_jobData,FALSE];
 									} else {
 										_entity setVariable ['QS_AI_JOB',FALSE,FALSE];
 										_entity setVariable ['QS_AI_JOB_DATA',[],FALSE];
 									};
 								};
-								comment 'OTHER BEHAVIOURS';
+								//comment 'OTHER BEHAVIOURS';
 								
 							};
 						};

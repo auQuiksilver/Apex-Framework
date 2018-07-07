@@ -115,7 +115,7 @@ if (_type isEqualTo 0) exitWith {
 	for '_x' from 0 to 49 step 1 do {
 		_spawnPosition = ['RADIUS',_targetPosition,_maxDist,'LAND',[3,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if (((_spawnPosition distance2D _targetPosition) > _minDist) && ((_spawnPosition distance2D _targetPosition) < _maxDist)) then {
-			if ((_players findIf {((_x distance2D _spawnPosition) < 300)}) isEqualTo -1) then {
+			if ((_players inAreaArray [_spawnPosition,300,300,0,FALSE]) isEqualTo []) then {
 				if (!([_spawnPosition,_targetPosition,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 					if (([(AGLToASL _spawnPosition),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
 						if ((_blacklistedPositions findIf {((_spawnPosition distance2D (_x select 0)) < (_x select 1))}) isEqualTo -1) then {

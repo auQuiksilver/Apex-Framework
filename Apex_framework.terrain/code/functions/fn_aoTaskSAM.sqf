@@ -16,7 +16,7 @@ __________________________________________________________/*/
 params ['_case','_state','_data'];
 private _return = -1;
 if (_state isEqualTo 0) then {
-	comment 'Clean up mission';
+	//comment 'Clean up mission';
 	_vehicle = _data select 0;
 	if (!isNull _vehicle) then {
 		/*/
@@ -28,11 +28,11 @@ if (_state isEqualTo 0) then {
 		deleteVehicle _vehicle;/*/
 	};
 	diag_log 'Destroy vehicle task deleted';
-	comment 'RETURN EMPTY ARRAY';
+	//comment 'RETURN EMPTY ARRAY';
 	_return = [];
 };
 if (_state isEqualTo 1) then {
-	comment 'Create mission';
+	//comment 'Create mission';
 	diag_log 'Destroy vehicle task created';
 	_aoPos = markerPos 'QS_marker_aoMarker';
 	_worldSize = worldSize;
@@ -106,10 +106,10 @@ if (_state isEqualTo 1) then {
 	};
 };
 if (_state isEqualTo 2) then {
-	comment 'Check mission state';
+	//comment 'Check mission state';
 	_vehicle = _data select 0;
 	if ((!alive _vehicle) || {(isNull _vehicle)}) exitWith {
-		comment 'Mission success';
+		//comment 'Mission success';
 		['ST_DESTROY_VEHICLE',['Destroy','Enemy vehicle destroyed']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['QS_IA_TASK_AO_3'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 		if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {

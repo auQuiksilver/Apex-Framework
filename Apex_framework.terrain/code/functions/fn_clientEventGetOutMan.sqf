@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	12/09/2017 A3 1.76 by Quiksilver
+	7/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -19,6 +19,11 @@ __________________________________________________*/
 params ['_unit','_position','_vehicle','_turret'];
 player enableAI 'CHECKVISIBLE';
 [0,_vehicle] call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandlers');
+/*/
+{
+	setInfoPanel [(['left','right'] select (_forEachIndex isEqualTo 1)),(_x select 0)];
+} forEach (missionNamespace getVariable 'QS_client_infoPanels');
+/*/
 if (!((typeOf _vehicle) in ['Steerable_Parachute_F'])) then {
 	player setVariable ['QS_lastObjectParent',_vehicle,FALSE];
 	if (!((backpack player) isEqualTo 'B_Parachute')) then {
@@ -59,8 +64,10 @@ if (!((typeOf _vehicle) in ['Steerable_Parachute_F'])) then {
 		};
 	};	
 };
-if (_vehicle isEqualTo (missionNamespace getVariable ['QS_arty',objNull])) then {
-	enableEngineArtillery FALSE;
+if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) isEqualTo 1) then {
+	if (_vehicle isEqualTo (missionNamespace getVariable ['QS_arty',objNull])) then {
+		enableEngineArtillery FALSE;
+	};
 };
 if (!isNil {player getVariable 'QS_pilot_vehicleInfo'}) then {
 	player setVariable ['QS_pilot_vehicleInfo',nil,TRUE];

@@ -6,12 +6,12 @@ Author:
 	
 Last modified:
 
-	14/04/2018 A3 1.82 by Quiksilver
+	5/05/2018 A3 1.82 by Quiksilver
 	
 Description:
 	
 	-
-__________________________________________________________________________/*/
+______________________________________________/*/
 
 if (_this isEqualTo []) exitWith {TRUE};
 if (!(diag_tickTime > (player getVariable 'QS_client_uiLastAction'))) exitWith {TRUE};
@@ -32,8 +32,8 @@ if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {
 	_QS_c = TRUE;
 	_QS_c;
 };
-if ((!(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)) && (!(_QS_actionText in [
-	'Release','Load','Retract Cargo Ropes','Extend Cargo Ropes','Shorten Cargo Ropes','Release Cargo','Deploy Cargo Ropes','Attach To Cargo Ropes','Drop Cargo Ropes','Pickup Cargo Ropes'
+if ((!(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)) && (!((toLower _QS_actionText) in [
+	'release','load','retract cargo ropes','extend cargo ropes','shorten cargo ropes','release cargo','deploy cargo ropes','attach to cargo ropes','drop cargo ropes','pickup cargo ropes'
 ])) && (!(_QS_actionName in ['OpenParachute']))) exitWith {
 	50 cutText ['Busy','PLAIN DOWN',0.333];
 	_QS_c = TRUE;
@@ -60,7 +60,8 @@ if (_QS_actionName isEqualTo 'User') then {
 							(getPlayerUID player),
 							2,
 							(format ['Non-whitelisted scroll action text: "%1"',(_this select 4)]),
-							player
+							player,
+							productVersion
 						]
 					] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 					_co = player;
@@ -534,10 +535,10 @@ if (_QS_actionName isEqualTo 'UserType') then {
 	} else {
 		if (_actionTextLower in ['beacons on','beacons off']) then {
 			if (_actionTextLower isEqualTo 'beacons on') then {
-				comment 'Beacons on';
+				//comment 'Beacons on';
 				[] call (missionNamespace getVariable 'QS_fnc_clientInteractUtilityOffroad');
 			} else {
-				comment 'Beacons off';
+				//comment 'Beacons off';
 				(vehicle player) setVariable ['Utility_Offroad_Beacons',FALSE,TRUE];
 			};
 		};
@@ -545,13 +546,66 @@ if (_QS_actionName isEqualTo 'UserType') then {
 };
 if (_QS_actionName in ['ListRightVehicleDisplay','NextModeRightVehicleDisplay']) then {
 	_QS_c = TRUE;
-	50 cutText ['Please bind these actions to keys. [Esc]>>[Configure]>>[Controls]>>[Keyboard]>>[Common]>>[Panels]. Suggest [ and ] keys','PLAIN DOWN',2];
+	50 cutText ['Please bind these actions to keys. [Esc]>>[Configure]>>[Controls]>>[Keyboard]>>[Common]>>[Panels]. Default [ and ] keys','PLAIN DOWN',2];
 };
 if (_QS_actionName isEqualTo 'UnloadUnconsciousUnits') then {
 	if (isNull (objectParent player)) then {
 		50 cutText ['Unconscious units unloaded','PLAIN DOWN',0.5];
 	} else {
 		50 cutText ['Must be on foot','PLAIN DOWN',0.5];
+		_QS_c = TRUE;
+	};
+	if (!isNull (isVehicleCargo _QS_actionTarget)) then {
+		50 cutText ['Cannot do that at this time','PLAIN DOWN',0.5];
+		_QS_c = TRUE;
+		
+	};
+	if (surfaceIsWater (getPosWorld _QS_actionTarget)) then {
+		50 cutText ['Cannot do that here','PLAIN DOWN',0.5];
+		_QS_c = TRUE;
+	};
+	if (!isNull (ropeAttachedTo _QS_actionTarget)) then {
+		50 cutText ['Cannot do that at this time','PLAIN DOWN',0.5];
+		_QS_c = TRUE;
+	};
+};
+if (_QS_actionName isEqualTo 'HookCargo') then {
+	if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
+		if ('EmptyDisplay' in (infoPanel 'left')) then {
+			setInfoPanel ['left','SlingLoadDisplay'];
+		} else {
+			if ('EmptyDisplay' in (infoPanel 'right')) then {
+				setInfoPanel ['right','SlingLoadDisplay'];
+			} else {
+				setInfoPanel ['left','SlingLoadDisplay'];
+			};
+		};
+	};
+};
+if (_QS_actionName isEqualTo 'UnhookCargo') then {
+	_vehicle = cameraOn;
+	if (local _vehicle) then {
+		if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
+			if ('EmptyDisplay' in (infoPanel 'left')) then {
+				setInfoPanel ['left','SlingLoadDisplay'];
+			} else {
+				if ('EmptyDisplay' in (infoPanel 'right')) then {
+					setInfoPanel ['right','SlingLoadDisplay'];
+				} else {
+					setInfoPanel ['left','SlingLoadDisplay'];
+				};
+			};
+		};
+		_heliplayer = if (isNull (missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])) then {player} else {(missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])};
+		if ((_heliplayer isEqualTo (driver _vehicle)) || {((_vehicle isKindOf 'heli_transport_04_base_f') && (_heliplayer isEqualTo (_vehicle turretUnit [1])))}) then {
+			if (!isNull (getSlingLoad _vehicle)) then {
+				if ((getSlingLoad _vehicle) in (attachedObjects _vehicle)) then {
+					_QS_c = TRUE;
+					['DOWN'] call (missionNamespace getVariable 'QS_fnc_slingRope');
+				};
+			};
+		};
+	} else {
 		_QS_c = TRUE;
 	};
 };

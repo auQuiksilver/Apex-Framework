@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	19/04/2018 A3 1.82 by Quiksilver
+	14/06/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -16,7 +16,7 @@ ______________________________________________/*/
 params ['_unit','_selectionName','_damage','_source','_projectile','_hitPartIndex','_instigator','_hitPoint'];
 if (isPlayer _unit) then {
 	if (dialog) then {
-		closeDialog 0;
+		closeDialog 2;
 	};
 	setCurrentChannel 5;
 };
@@ -56,7 +56,7 @@ if (!isNull _objectParent) then {
 	};
 };
 if ((_unit getUnitTrait 'QS_trait_pilot') || {(_unit getUnitTrait 'QS_trait_fighterPilot')} || {((getTerrainHeightASL (getPosWorld _unit)) < -2)}) exitWith {
-	comment 'If pilot or over water, set dead';
+	//comment 'If pilot or over water, set dead';
 	_unit setDamage [1,TRUE];
 	if (isPlayer _unit) then {
 		['systemChat',(format ['%1 was killed',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
@@ -72,18 +72,30 @@ if (!isNull (attachedTo _unit)) then {
 };
 if (!((attachedObjects _unit) isEqualTo [])) then {
 	{
-		detach _x;
-	} count (attachedObjects _unit);
+		if (!isNull _x) then {
+			detach _x;
+			if (_x isKindOf 'CAManBase') then {
+				if (alive _x) then {
+					if ((lifeState _x) isEqualTo 'INCAPACITATED') then {
+						if (['carr',(animationState _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+							['switchMove',_x,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+						};
+					};
+				};
+			};
+		};
+	} forEach (attachedObjects _unit);
 };
 if (!(captive _unit)) then {
 	_unit setCaptive TRUE;
 };
-comment 'Set unconscious';
+//comment 'Set unconscious';
 _unit setUnconscious TRUE;
-comment 'Set interaction variables';
+//comment 'Set interaction variables';
 {
 	_unit setVariable _x;
 } forEach [
+	['QS_revive_downtime',serverTime,TRUE],
 	['QS_RD_draggable',TRUE,TRUE],
 	['QS_RD_carryable',TRUE,TRUE],
 	['QS_RD_loadable',TRUE,TRUE],
@@ -96,7 +108,7 @@ _unit setDamage [0.25,TRUE];
 if (isForcedWalk _unit) then {
 	_unit forceWalk FALSE;
 };
-comment 'AI Exit';
+//comment 'AI Exit';
 if (!isPlayer _unit) exitWith {};
 if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) exitWith {
 	['systemChat',(format ['%1 died of unknown causes',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
@@ -106,6 +118,7 @@ showHUD [FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE];
 disableSerialization;
 scopeName 'QS_main_1';
 _profileName = profileName;
+private _text = '';
 private _timeNow = time;
 private _tickTimeNow = diag_tickTime;
 private _actOfGod = FALSE;
@@ -219,12 +232,12 @@ private _initialAnimSet = FALSE;
 private _initialAnimDelay = _tickTimeNow + 8;
 private _chatShown = shownChat;
 private _ambulanceDelay = _tickTimeNow + 5;
-comment 'Functions preload';
+//comment 'Functions preload';
 _fn_findHealer = missionNamespace getVariable 'QS_fnc_clientMFindHealer';
 _fn_secondsToString = missionNamespace getVariable 'QS_fnc_secondsToString';
 _fn_isNearFieldHospital = missionNamespace getVariable 'QS_fnc_isNearFieldHospital';
 _fn_inString = missionNamespace getVariable 'QS_fnc_inString';
-comment 'Loop';
+//comment 'Loop';
 for '_x' from 0 to 1 step 0 do {
 	//comment 'Update useful info';
 	_timeNow = time;
@@ -398,10 +411,14 @@ for '_x' from 0 to 1 step 0 do {
 						if (!(_nearMedicalBoxes isEqualTo [])) then {
 							_medicalBox = _nearMedicalBoxes select 0;
 							if ((vectorMagnitude (velocity _medicalBox)) < 1) then {
-								deleteVehicle _medicalBox;
-								_revivedAtVehicle = TRUE;
-								if (_lifeState isEqualTo 'INCAPACITATED') then {
-									_unit setUnconscious FALSE;
+								if ((!(unitIsUav _medicalBox)) || {((unitIsUav _medicalBox) && (isUavConnected _medicalBox))}) then {
+									deleteVehicle _medicalBox;
+									_text = format ['%1 was revived with a(n) %1',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _medicalBox) >> 'displayName'))])];
+									['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+									_revivedAtVehicle = TRUE;
+									if (_lifeState isEqualTo 'INCAPACITATED') then {
+										_unit setUnconscious FALSE;
+									};
 								};
 							};
 						};
@@ -418,7 +435,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (player getVariable ['QS_animDone',TRUE]) then {
 					if ((isNull _attachedTo) && (isNull _objectParent)) then {
 						_deadVehicles = allDead - allDeadMen;
-						if ((_deadVehicles findIf {((_x distance2D _unit) < 5)}) isEqualTo -1) then {
+						if ((_deadVehicles inAreaArray [(getPosATL _unit),5,5,0,FALSE]) isEqualTo []) then {
 							if (!(((getPosASL _unit) select 2) < -1)) then {
 								if ((_unit targets [TRUE,30]) isEqualTo []) then {
 									_text = 'Revived by an act of the gods. Praise the gods!';

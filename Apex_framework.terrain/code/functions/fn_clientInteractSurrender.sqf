@@ -13,21 +13,21 @@ Description:
 	Command Surrender
 __________________________________________________________/*/
 _t = cursorTarget;
-if (!alive _t) exitWith {};
-if (!(_t isKindOf 'Man')) exitWith {};
-if (!isNull (objectParent _t)) exitWith {};
-if (captive _t) exitWith {};
-if (!(_t getVariable ['QS_surrenderable',FALSE])) exitWith {};
-if (!((lineIntersectsSurfaces [(eyePos player),(aimPos _t),player,_t,TRUE,-1,'GEOM','VIEW',TRUE]) isEqualTo [])) exitWith {};
-if (uiNamespace getVariable ['QS_client_progressVisualization_active',FALSE]) exitWith {};
+if (
+	(!alive _t) ||
+	{(!(_t isKindOf 'Man'))} ||
+	{(!isNull (objectParent _t))} ||
+	{(captive _t)} ||
+	{(!(_t getVariable ['QS_surrenderable',FALSE]))} ||
+	{(!((lineIntersectsSurfaces [(eyePos player),(aimPos _t),player,_t,TRUE,-1,'GEOM','VIEW',TRUE]) isEqualTo []))} ||
+	{(uiNamespace getVariable ['QS_client_progressVisualization_active',FALSE])}
+) exitWith {};
 playSound 'click';
-
 if (!(_t getVariable ['QS_unit_enableMove',FALSE])) then {
 	['enableAI',_t,'PATH'] remoteExecCall ['QS_fnc_remoteExecCmd',_t,FALSE];
 	_t setVariable ['QS_unit_enableMove',TRUE,FALSE];
 	_t setVariable ['QS_unitGarrisoned',FALSE,TRUE];
 };
-
 _onProgress = {
 	FALSE
 };
@@ -90,7 +90,9 @@ _onCompleted = {
 How hard should it be to capture the unit?
 Maybe we could check how depleted the enemy units group is
 /*/
-_duration = ((random [1.75,2.5,3]) + (morale _t) - (damage _t)) max 0.25;
+private _timerRange = [1.5,2.1,2.35];
+private _timerMin = 0.5;
+private _duration = ((random _timerRange) + (morale _t) - (damage _t) - (needReload _t)) max _timerMin;
 [
 	'Capturing unit',
 	_duration,

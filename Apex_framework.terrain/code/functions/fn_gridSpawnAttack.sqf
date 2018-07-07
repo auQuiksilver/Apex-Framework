@@ -90,7 +90,7 @@ if (_type isEqualTo 0) exitWith {
 			_spawnPos = [_igPos,250,500,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 		};
 		if (!(_spawnPos isEqualTo [])) then {
-			if ((_allPlayers findif {((_x distance2D _spawnPos) < 300)}) isEqualTo -1) then {
+			if ((_allPlayers inAreaArray [_spawnPos,300,300,0,FALSE]) isEqualTo []) then {
 				if ((_spawnPos distance2D _igPos) < 1001) then {
 					if (_spawnPos call _fn_blacklist) then {
 						if (!([_spawnPos,_igPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {

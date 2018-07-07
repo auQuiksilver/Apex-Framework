@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	13/01/2018 A3 1.80 by Quiksilver
+	16/05/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -48,8 +48,10 @@ _incapacitatedHasFAK = (!((_fak findIf {(_x in _itemsIncapacitated)}) isEqualTo 
 if ((!(_playerHasFAK)) && (!(_incapacitatedHasFAK))) exitWith {
 	50 cutText ['Revive failed! No available First Aid Kits! You require both a Medikit and a First Aid Kit to revive fallen soldiers. Each revive consumes a first aid kit.','PLAIN DOWN'];
 };
-private _text = format ['Being revived by %1',profileName];
-[63,[5,[_text,'PLAIN',0.5]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
+if (isPlayer _t) then {
+	private _text = format ['Being revived by %1',profileName];
+	[63,[5,[_text,'PLAIN',0.5]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
+};
 _time = diag_tickTime + 5.5;
 _fak = ['FirstAidKit'];
 if (_incapacitatedHasFAK) then {
@@ -217,8 +219,10 @@ if (!(player getVariable ['QS_client_animCancel',FALSE])) then {
 							};
 							_t allowDamage TRUE;
 						};
-						_text = format ['Revived by %1',profileName];
-						[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
+						if (isPlayer _t) then {
+							_text = format ['Revived by %1',profileName];
+							[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
+						};
 						if (isNil {player getVariable 'QS_revive_lastPatient'}) then {
 							player setVariable ['QS_revive_lastPatient',[(getPlayerUID _t),(time + 180)],FALSE];
 							[51,[player,(getPlayerUID player),profileName,_val]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
