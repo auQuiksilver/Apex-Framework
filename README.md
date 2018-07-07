@@ -106,7 +106,7 @@ Other notes:
 - There are a few other options to choose inside that "parameters.sqf" file.
 - Inside the "whitelist.sqf" file, you can set player UIDs to give them various permissions. Zeus and Developer permissions are located near the bottom. For Zeus you do not need to edit the mission file, the framework will generate a module on the fly as you log in.
 - You can set custom chat messages inside the "chatMessages.sqf" file.
-- Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings".
+- Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings". 
 
 
 
