@@ -3174,7 +3174,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					} else {
 						if (_module_fob_logistics_vehicleRespawnEnabled) then {
-							if (!(_fobVehicleID isEqualTo -1)) then {
+							if (!(_fobVehicleID in [-1,-2])) then {
 								if (_module_fob_isFobActive) then {
 									if (!(_module_fob_activeRegion in [-1,0])) then {
 										if (!(_module_fob_vData isEqualTo [])) then {
@@ -3190,7 +3190,7 @@ for '_x' from 0 to 1 step 0 do {
 								};
 							};
 						};
-						if ((!isSimpleObject _v) || {(!(_fobVehicleID isEqualTo -1))}) then {
+						if ((!isSimpleObject _v) || {(!(_fobVehicleID in [-1,-2]))}) then {
 							if (!isSimpleObject _v) then {
 								if (!isNil {_v getVariable 'QS_ClientVTexture_owner'}) then {
 									_ownerInGame = _false;
