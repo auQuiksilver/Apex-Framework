@@ -1,4 +1,4 @@
-Apex Framework 1.0.8 by Quiksilver       (armacombatgroup@gmail.com)
+Apex Framework 1.0.9 by Quiksilver       (armacombatgroup@gmail.com)
 
 Support
 
@@ -15,7 +15,7 @@ Apex Framework step-by-step setup guide:
 * Server must be running Windows x64, or Linux.
 _______________
 
-0. Download the "Apex_framework_108_allFiles.zip" file.
+0. Download the "Apex_framework_109_allFiles.zip" file.
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
@@ -51,11 +51,11 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_108.Altis";
+template="Apex_framework_109.Altis";
 
-//template="Apex_framework_108.Tanoa";
+//template="Apex_framework_109.Tanoa";
 
-//template="Apex_framework_108.Malden";
+//template="Apex_framework_109.Malden";
 
 difficulty="Custom";
 
@@ -64,7 +64,7 @@ difficulty="Custom";
 };
 
 forcedDifficulty = "Custom";
-missionWhitelist[] = {"Apex_framework_108.Altis","Apex_framework_108.Tanoa","Apex_framework_108.Malden"};
+missionWhitelist[] = {"Apex_framework_109.Altis","Apex_framework_109.Tanoa","Apex_framework_109.Malden"};
 
 --------------------------
 
@@ -106,7 +106,7 @@ Other notes:
 - There are a few other options to choose inside that "parameters.sqf" file.
 - Inside the "whitelist.sqf" file, you can set player UIDs to give them various permissions. Zeus and Developer permissions are located near the bottom. For Zeus you do not need to edit the mission file, the framework will generate a module on the fly as you log in.
 - You can set custom chat messages inside the "chatMessages.sqf" file.
-- Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings".
+- Ingame admin tools are accessed with key-combo [Shift]+[F2]. For more info, view the map diary tab "Key bindings". 
 
 
 
