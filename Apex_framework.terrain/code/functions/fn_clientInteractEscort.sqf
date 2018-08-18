@@ -6,18 +6,21 @@ Author:
 	
 Last Modified:
 
-	1/08/2015 A3 1.62 by Quiksilver
+	15/08/2018 A3 1.84 by Quiksilver
 	
 Description:
 
 	-
-_____________________________________________________________*/
+________________________________________________*/
 
-private ['_obj','_exit'];
-_exit = FALSE;
 _obj = cursorTarget;
-if (isNull _obj) exitWith {};
-if (isNil {_obj getVariable 'QS_RD_escortable'}) exitWith {};
+if (
+	(isNull _obj) ||
+	(isNil {_obj getVariable 'QS_RD_escortable'}) ||
+	(isPlayer _obj) ||
+	(!isNull (attachedTo _obj))
+) exitWith {};
+private _exit = FALSE;
 if (!((attachedObjects _obj) isEqualTo [])) then {
 	{
 		if (_x isKindOf 'Man') then {
@@ -25,7 +28,6 @@ if (!((attachedObjects _obj) isEqualTo [])) then {
 		};
 	} count (attachedObjects _obj);
 };
-if (!isNull (attachedTo _obj)) exitWith {};
 if (_exit) exitWith {};
 player setVariable ['QS_RD_interacting',TRUE,TRUE];
 _obj setVariable ['QS_RD_storedAnim',(animationState _obj),TRUE];

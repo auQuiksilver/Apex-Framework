@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	2/06/2018 A3 1.82 by Quiksilver
+	21/07/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -16,7 +16,7 @@ ______________________________________________/*/
 scriptName 'QS - SM - AA';
 //comment 'Get any data we need';
 private _spawnPosition = [0,0,0];
-private _aaTypes = ['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f'];
+private _aaTypes = ['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_sam_system_04_f'];
 private _aaHulls = [];
 private _aaTurrets = [];
 private _aaTurretObjects = [];
@@ -38,7 +38,7 @@ private _targetingAltitudeMin = random [20,25,30];
 private _entitiesParams = [['Air'],['UAV_01_base_F','UAV_06_base_F','ParachuteBase'],FALSE,TRUE];
 private _rearmInterval = _time + (240 + (random 80));
 private _rearming = FALSE;
-private _rearmDelay = [25,30,45];
+private _rearmDelay = [15,20,30];
 _rearmingText = 'The CSAT AA Battery is rearming!';
 _finishedRearmText = 'The CSAT AA Battery has finished rearming!';
 private _turretParams = [];
@@ -69,8 +69,8 @@ for '_x' from 0 to 1 step 0 do {
 //comment 'Generate composition and assets';
 private _compositionData = [
 	[
-		["O_APC_Tracked_02_AA_F",[0.230469,-6.17627,0.0173378],179.236,[],TRUE,TRUE,FALSE,{}], 
-		["O_APC_Tracked_02_AA_F",[-0.212402,9.61426,0.0157723],359.523,[],TRUE,TRUE,FALSE,{}], 
+		["o_sam_system_04_f",[0.230469,-6.17627,0.0173378],179.236,[],TRUE,TRUE,FALSE,{(_this select 0)}], 			// o_sam_system_04_f   O_APC_Tracked_02_AA_F
+		["o_sam_system_04_f",[-0.212402,9.61426,0.0157723],359.523,[],TRUE,TRUE,FALSE,{(_this select 0)}], 			//	o_sam_system_04_f   O_APC_Tracked_02_AA_F
 		["Land_HBarrier_5_F",[-0.302979,1.63086,1.72132],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_Big_F",[-0.20874,1.77246,0],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_Big_F",[5.12134,-1.37109,0],271.094,[],FALSE,FALSE,TRUE,{}], 
@@ -97,8 +97,8 @@ private _compositionData = [
 		["Land_HBarrierWall_corner_F",[11.0156,14.7471,0],0,[],FALSE,FALSE,TRUE,{}]
 	],
 	[
-		["O_T_APC_Tracked_02_AA_ghex_F",[-0.0292969,-6.354,0.0168018],178.855,[],TRUE,TRUE,FALSE,{}], 
-		["O_T_APC_Tracked_02_AA_ghex_F",[-0.321777,8.54443,0.0163908],359.998,[],TRUE,TRUE,FALSE,{}], 
+		["o_sam_system_04_f",[-0.0292969,-6.354,0.0168018],178.855,[],TRUE,TRUE,FALSE,{(_this select 0)}], 		// o_sam_system_04_f    O_T_APC_Tracked_02_AA_ghex_F
+		["o_sam_system_04_f",[-0.321777,8.54443,0.0163908],359.998,[],TRUE,TRUE,FALSE,{(_this select 0)}], 		// o_sam_system_04_f   O_T_APC_Tracked_02_AA_ghex_F
 		["Land_HBarrier_01_big_4_green_F",[-0.081543,1.03174,0],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[-0.195801,1.05566,1.74458],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[5.23779,0.97168,1.69463],90,[],FALSE,FALSE,TRUE,{}], 
@@ -143,6 +143,16 @@ _compositionData = nil;
 		} forEach [
 			['showslathull',1,1]
 		];
+		if (unitIsUav _aaHull) then {
+			_aaHull setVariable ['QS_uav_protected',TRUE,FALSE];
+		};
+		if ((toLower (typeOf _aaHull)) in ['o_sam_system_04_f','o_radar_system_02_f']) then {
+			{
+				_aaHull setObjectTextureGlobal [_forEachIndex,_x];
+			} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _aaHull) >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
+		};
+		_aaHull setVehicleRadar 1;
+		_aaHull setVehicleReceiveRemoteTargets TRUE;
 		_aaHull lockDriver TRUE;
 		_aaHull lockTurret [[0],TRUE];
 		_aaHull lockTurret [[0,0],TRUE];
@@ -155,15 +165,27 @@ _compositionData = nil;
 		clearMagazineCargoGlobal _aaHull;
 		_aaHull setVariable ['QS_client_canAttachExp',TRUE,TRUE];
 		_aaHull setVariable ['QS_RD_noRepair',TRUE,TRUE];
-		_aaHull addEventHandler [
-			'HandleDamage',
-			{
-				params ['_vehicle','','_damage','','','_hitPartIndex','',''];
-				_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
-				_damage = _oldDamage + (_damage - _oldDamage) * 0.67;
-				_damage;
-			}
-		];
+		if ((toLower (typeOf _aaHull)) in ['o_sam_system_04_f','o_radar_system_02_f']) then {
+			_aaHull addEventHandler [
+				'HandleDamage',
+				{
+					params ['_vehicle','','_damage','','','_hitPartIndex','',''];
+					_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
+					_damage = _oldDamage + (_damage - _oldDamage) * 0.5;
+					_damage;
+				}
+			];
+		} else {
+			_aaHull addEventHandler [
+				'HandleDamage',
+				{
+					params ['_vehicle','','_damage','','','_hitPartIndex','',''];
+					_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
+					_damage = _oldDamage + (_damage - _oldDamage) * 0.67;
+					_damage;
+				}
+			];		
+		};
 		_aaHull addEventHandler [
 			'Deleted',
 			{
@@ -202,7 +224,7 @@ _compositionData = nil;
 		{
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 		} forEach (crew _aaHull);		
-		_aaTurrets pushBack [_aaHull,(gunner _aaHull),(group (gunner _aaHull)),(typeOf _aaHull),((weapons _aaHull) select 1),0,0,0];
+		_aaTurrets pushBack [_aaHull,(gunner _aaHull),(group (gunner _aaHull)),(typeOf _aaHull),((weapons _aaHull) select ([0,1] select (_aaHull isKindOf 'Tank'))),0,0,0];
 	};
 } forEach _aaHulls;
 //comment 'Generate force protection';

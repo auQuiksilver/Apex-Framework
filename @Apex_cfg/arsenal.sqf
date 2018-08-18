@@ -369,7 +369,7 @@ _inventoryAll = [
 
 //=========================================== GET [BLACKLIST + WHITELIST] FOR PLAYER ROLE
 
-// Undefined role (not used).
+// Undefined role (not used, kept here as an example/template).
 if (_role isEqualTo '') exitWith {
 	[
 		[	// -------------------------------------------------------------- BLACKLIST

@@ -37,8 +37,8 @@ if (_type in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
 	_position set [2,(1500 + (random 1500))];
 };
 _vehicle = createVehicle [_type,_position,[],0,'FLY'];
-_vehicle setVariable ['QS_uav_protected',TRUE,FALSE];
 if (!isNull _vehicle) then {
+	_vehicle setVariable ['QS_uav_protected',TRUE,FALSE];
 	createVehicleCrew _vehicle;
 	_vehicle addEventHandler [
 		'Deleted',

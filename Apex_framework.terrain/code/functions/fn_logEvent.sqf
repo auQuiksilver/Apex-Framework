@@ -32,7 +32,7 @@ _QS_UID = ['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist');
 if ((_array select 5) in _QS_UID) exitWith {};
 private _message = parseText format ['ROBOCOP believes %1 has hacked the server.<br/><br/> Detected: %2',(str (_array select 2)),(str (_array select 7))];
 if ((_array select 6) > 1) then {
-	([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#exec kick %1',(owner (_array select 8))]);
+	(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#exec kick %1',(owner (_array select 8))]);
 	private _arrayToSend = [];
 	{
 		_unit = _x;

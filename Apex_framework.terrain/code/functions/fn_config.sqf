@@ -6,14 +6,14 @@ Author:
 	
 Last modified: 
 
-	5/05/2018 A3 1.82 by Quiksilver
+	4/08/2018 A3 1.82 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.0.9';
+_missionProductVersion = '1.1.0';
 _missionProductStatus = 'Gold';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
@@ -621,7 +621,7 @@ _recyclerUnitTypes = [
 	['QS_medical_garbage_backup',_medicalGarbage,FALSE],
 	['QS_medical_garbage_enabled',TRUE,TRUE],
 	['QS_medical_garbage_script',scriptNull,FALSE],
-	['QS_server_dynSim',TRUE,TRUE],
+	['QS_server_dynSim',((missionNamespace getVariable ['QS_missionConfig_dynSim',1]) isEqualTo 1),TRUE],
 	['QS_ao_civVehicles',[],FALSE],
 	['QS_module_dynamicTasks_add',[],FALSE],
 	['QS_dynTask_medevac_inProgress',FALSE,TRUE],
@@ -1108,6 +1108,16 @@ if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqu
 		} else {
 			_x call (missionNamespace getVariable 'QS_fnc_carrier');
 		};
+	} forEach [
+		['INIT'],
+		['PROPS'],
+		['HOSPITAL','ADD'],
+		['DEFENSE']
+	];
+};
+if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 0)) then {
+	{
+		_x call (missionNamespace getVariable 'QS_fnc_destroyer');
 	} forEach [
 		['INIT'],
 		['PROPS'],

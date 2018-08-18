@@ -6,11 +6,11 @@ Author:
 	
 Last Modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	18/08/2018 A3 1.84 by Quiksilver
 
 Description:
 
 	Get antihack compatibility
 __________________________________________________________*/
 
-182;
+184;

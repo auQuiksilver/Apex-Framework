@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=140;
+		nextID=144;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6939.1821,16.154284,7371.0073};
-		dir[]={0.90318662,-0.38186231,0.19666876};
-		up[]={0.37321478,0.92417586,0.081267491};
-		aside[]={0.21279274,1.1538759e-006,-0.97721791};
+		pos[]={6899.8062,28.937849,7367.8389};
+		dir[]={0.91602278,-0.37699586,0.1371621};
+		up[]={0.37284765,0.92621571,0.055828813};
+		aside[]={0.14808959,-5.8520527e-008,-0.98899359};
 	};
 };
 binarizationWanted=0;
@@ -170,7 +170,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=46;
+		items=48;
 		class Item0
 		{
 			dataType="Group";
@@ -3141,13 +3141,14 @@ class Mission
 		class Item39
 		{
 			dataType="Marker";
-			position[]={7113.5498,0,6644.8892};
+			position[]={7513.8599,0,6066.645};
 			name="QS_marker_subPosition";
 			text="   Submarine position";
 			type="Empty";
 			alpha=0.5;
+			angle=91.614243;
 			id=132;
-			atlOffset=20.025497;
+			atlOffset=25.101099;
 		};
 		class Item40
 		{
@@ -3245,6 +3246,30 @@ class Mission
 				};
 				nAttributes=1;
 			};
+		};
+		class Item46
+		{
+			dataType="Marker";
+			position[]={7831.0405,2.019434,5639.1704};
+			name="QS_marker_destroyer_1";
+			text="Destroyer ship position";
+			type="Empty";
+			alpha=0.5;
+			angle=88.54924;
+			id=142;
+			atlOffset=26.347755;
+		};
+		class Item47
+		{
+			dataType="Marker";
+			position[]={7133.2847,6.8069134,5293.5757};
+			name="QS_marker_carrier_1";
+			text="Carrier ship position";
+			type="Empty";
+			alpha=0.5;
+			angle=102.89074;
+			id=143;
+			atlOffset=34.02446;
 		};
 	};
 };

@@ -165,9 +165,14 @@ if (_typeL in [
 	'land_cargo10_yellow_f','land_cargo10_white_f','land_cargo10_sand_f','land_cargo10_red_f','land_cargo10_orange_f','land_cargo10_military_green_f','land_cargo10_light_green_f','land_cargo10_light_blue_f','land_cargo10_grey_f','land_cargo10_cyan_f','land_cargo10_brick_red_f','land_cargo10_blue_f',
 	'land_cargo20_yellow_f','land_cargo20_white_f','land_cargo20_sand_f','land_cargo20_red_f','land_cargo20_orange_f','land_cargo20_military_green_f','land_cargo20_light_green_f','land_cargo20_light_blue_f','land_cargo20_grey_f','land_cargo20_cyan_f','land_cargo20_brick_red_f','land_cargo20_blue_f',
 	'land_watertank_f',
-	'land_cargo10_idap_f','land_cargo20_idap_f','land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f'
-	]) then {
+	'land_cargo10_idap_f','land_cargo20_idap_f','land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f',
+	'land_destroyer_01_boat_rack_01_f'
+]) then {
 	_object setVariable ['QS_ropeAttached',FALSE,TRUE];
+	if (_typeL in ['land_destroyer_01_boat_rack_01_f']) then {
+		_object allowDamage FALSE;
+		[91] remoteExec ['QS_fnc_remoteExec',0,FALSE];
+	};
 };
 if ((_object isKindOf 'LandVehicle') || {(_object isKindOf 'Air')} || {(_object isKindOf 'Ship')} || {(_object isKindOf 'Reammobox_F')}) exitWith {
 	if (_typeL in ['b_t_vtol_01_vehicle_f','b_t_vtol_01_vehicle_blue_f','b_t_vtol_01_vehicle_olive_f','b_t_vtol_01_armed_blue_f','b_t_vtol_01_armed_f','b_t_vtol_01_armed_olive_f']) then {

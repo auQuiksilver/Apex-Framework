@@ -1,3 +1,4 @@
+diag_log format ['***** %1 * Loading mission parameters *****',diag_tickTime];
 /*/
 File: parameters.sqf
 Author:
@@ -6,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	29/05/2018 A3 1.82 by Quiksilver
+	17/08/2018 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -27,8 +28,6 @@ Notes for editing below:
 	- Be aware of the quotation marks " and ', they need to be what they are. Notice in links there are two sets of quotations:   "'https://goo.gl/7Xajd9'"     and for servercommandpassword:   _serverCommandPassword = "'ShVQArtpGdc5aDQq'";
 	- Improving this file will likely be an ongoing task. save and backup your copy before downloading a new one. be careful with pasting info from one to the other, as data types may change.
 _______________________________________________________/*/
-
-diag_log '***** Loading mission parameters *****';
 
 //===================================================== COMMUNITY / SERVER
 
@@ -67,15 +66,15 @@ _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). 
 _enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
 _commander = 2;											// [Beta] Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel, and view bodycam live feeds of any soldier.
 _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable side missions.
-_artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1).
+_artillery = 1;											// Base artillery.	0 - Disabled. 1 - Enabled. 	If enabled, a self-propelled artillery asset is available for use. Does not affect Mk.6 mortars access. Does not affect naval artillery.
+_artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1). Note: Applies to mortars as well.
 
 //===================================================== SYSTEM
 
 _restart_hours = [0,12,18];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_dynamic_simulation = 1;								// Dynamic Simulation. 	0 - Disabled. 1 - Enabled. 	Raises FPS and performance slightly. Server freezes entities which are far away from all players.    Info: https://community.bistudio.com/wiki/Arma_3_Dynamic_Simulation
 
 //===================================================== MAIN MISSION TYPE
-
-_main_mission_type = 'CLASSIC';
 
 //========== DESCRIPTION===============================//
 // 		'CLASSIC' 			Classic I&A. 					Recommended: 24-48+ players.			Example: 	_main_mission_type = 'CLASSIC';
@@ -84,12 +83,22 @@ _main_mission_type = 'CLASSIC';
 // 		'NONE'				Primary missions disabled.												Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
 //====================================================//	
 
-//===================================================== AIRCRAFT CARRIER
+_main_mission_type = 'CLASSIC';
 
-_aircraft_carrier_enabled = 1;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
+//===================================================== STATIC SHIPS
+// Aircraft Carrier
+_aircraft_carrier_enabled = 0;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _aircraft_carrier_vehicles = 1;								// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
 _aircraft_carrier_respawning = 1;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
-
+// Destroyer
+_destroyer_enabled = 0;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
+_destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
+_destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
+_destroyer_artillery = 0;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
+_destroyer_flag = 'a3\data_f\flags\flag_us_co.paa';			// Texture applied to Destroyer flag. Default:  'a3\data_f\flags\flag_us_co.paa'
+_destroyer_name = 'a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa';		// Name presented on stern of ship. Comes with 7 defaults, just change ..._tag_01_co... to _tag_02_co... etc, from 01 to 07, 00 is blank. You can also set as a custom texture/name/logo.
+_destroyer_numbers = [6,6,6];								// Numbers shown on the ship hull.
+_destroyer_hangar = 1;										// Hangar Door initial state. 0 - Hangar doors start closed. 1 - Hangar doors start opened.
 //===================================================== TEXTURES
 
 _community_logo = '';
@@ -103,7 +112,7 @@ _infostand_2 = ['media\images\billboards\billboard6.jpg','media\images\billboard
 //===================================================== SECURITY
 
 _serverCommandPassword = "'ShVQArtpGdc5aDQq'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
-_anticheat = 1;											// 0 - Disabled. 1 - Enabled. (Default 0). 		Disable if running mods or in private/secure setting.
+_anticheat = 1;											// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
 
 //===================================================== MONETIZATION
 
@@ -130,10 +139,19 @@ _monetizeURL = [
 
 
 
-//==================DO NOT EDIT BELOW=================== INTERPRETING MISSION PARAMETERS
+//================== DO NOT EDIT BELOW =================== INTERPRETING MISSION PARAMETERS
 
 if (!(_restart_hours isEqualTo [])) then {
 	_restart_hours sort TRUE;
+};
+if (_aircraft_carrier_enabled > 0) then {
+	if (_aircraft_carrier_respawning > 1) then {
+		if (_destroyer_enabled > 0) then {
+			if (_destroyer_respawning > 0) then {
+				private _destroyer_respawning = 0;
+			};
+		};
+	};
 };
 {
 	missionNamespace setVariable _x;
@@ -152,12 +170,22 @@ if (!(_restart_hours isEqualTo [])) then {
 	['QS_missionConfig_armor',_armor,TRUE],
 	['QS_missionConfig_reducedDamage',(compileFinal (str _reducedDamage)),TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
+	['QS_missionConfig_dynSim',_dynamic_simulation,FALSE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
 	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
+	['QS_missionConfig_arty',_artillery,FALSE],
 	['QS_missionConfig_artyEngine',_artilleryComputer,TRUE],
 	['QS_missionConfig_carrierEnabled',_aircraft_carrier_enabled,TRUE],
 	['QS_missionConfig_carrierVehicles',_aircraft_carrier_vehicles,TRUE],
 	['QS_missionConfig_carrierRespawn',_aircraft_carrier_respawning,TRUE],
+	['QS_missionConfig_destroyerEnabled',_destroyer_enabled,TRUE],
+	['QS_missionConfig_destroyerVehicles',_destroyer_vehicles,FALSE],
+	['QS_missionConfig_destroyerRespawn',_destroyer_respawning,TRUE],
+	['QS_missionConfig_destroyerArtillery',_destroyer_artillery,TRUE],
+	['QS_missionConfig_destroyerFlag',_destroyer_flag,FALSE],
+	['QS_missionConfig_destroyerName',_destroyer_name,FALSE],
+	['QS_missionConfig_destroyerNumbers',_destroyer_numbers,FALSE],
+	['QS_missionConfig_destroyerHangar',_destroyer_hangar,FALSE],
 	['QS_missionConfig_communityLogo',_community_logo,TRUE],
 	['QS_missionConfig_textures_communityFlag',_community_flag_texture,TRUE],
 	['QS_missionConfig_textures_defaultFlag',_default_flag_texture,TRUE],
@@ -170,5 +198,9 @@ if (!(_restart_hours isEqualTo [])) then {
 	['QS_missionConfig_cosmetics',(compileFinal (str _monetizeCosmetics)),TRUE],
 	['QS_missionConfig_monetizeURL',(compileFinal (str _monetizeURL)),TRUE]
 ];
-uiNamespace setVariable ['QS_fnc_serverCommandPassword',(compileFinal _serverCommandPassword)];
-diag_log '***** Loaded mission parameters *****';
+{
+	uiNamespace setVariable _x;
+} forEach [
+	['QS_fnc_serverCommandPassword',(compileFinal _serverCommandPassword)]
+];
+diag_log format ['***** %1 * Loaded mission parameters *****',diag_tickTime];

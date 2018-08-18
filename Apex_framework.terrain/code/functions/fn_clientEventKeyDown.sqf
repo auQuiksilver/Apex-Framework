@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:  	
 
-	10/06/2018 A3 1.82 by Quiksilver  
+	15/08/2018 A3 1.84 by Quiksilver  
 	
 Description:  	
 
@@ -153,17 +153,18 @@ if (_key in (actionKeys 'ReloadMagazine')) then {
 		if ((isNull (objectParent player)) || {(!(player isEqualTo (driver (vehicle player))))}) then {
 			if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
 				if (cameraOn isEqualTo player) then {
+					_c = TRUE;
 					player spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
 				} else {
 					if (alive cameraOn) then {
 						if (cameraOn isKindOf 'CAManBase') then {
 							if (local cameraOn) then {
+								_c = TRUE;
 								cameraOn spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
 							};
 						};
 					};
 				};
-				_c = TRUE;
 			};
 		};
 	};

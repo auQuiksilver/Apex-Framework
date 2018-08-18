@@ -197,12 +197,12 @@ _vehicle addEventHandler [
 	'SeatSwitched',
 	{
 		params ['_vehicle','_unit1','_unit2'];
-		if ((assignedVehicleRole _unit1) == ['Driver']) then {
+		if ('Driver' in (assignedVehicleRole _unit1)) then {
 			if (isPlayer _unit1) then {
 				['vehicleChat',_vehicle,'Mission: Get this vehicle to its destination, soldier!'] remoteExec ['QS_fnc_remoteExecCmd',_unit1,FALSE];
 			};
 		};
-		if ((assignedVehicleRole _unit2) == ['Driver']) then {
+		if ('Driver' in (assignedVehicleRole _unit2)) then {
 			if (isPlayer _unit2) then {
 				['vehicleChat',_vehicle,'Mission: Get this vehicle to its destination, soldier!'] remoteExec ['QS_fnc_remoteExecCmd',_unit2,FALSE];
 			};

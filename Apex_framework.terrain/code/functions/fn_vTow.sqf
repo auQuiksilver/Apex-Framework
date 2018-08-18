@@ -1,3 +1,17 @@
+/*/
+File: fn_vTow.sqf
+Author:
+
+	Quiksilver
+	
+Last modified:
+
+	15/08/2018 A3 1.82 by Quiksilver
+	
+Description:
+
+	Filter Tow attempt
+__________________________________________________/*/
 private [
 	'_towable','_vehicle','_crewInVehicle','_pos','_dir','_halfLength','_foundVehicles','_findCount','_findIncrementX','_findIncrementY',
 	'_findPos','_found','_foundName','_disAllowed','_foundMass','_towMaxMass','_isUAV','_text'
@@ -71,7 +85,8 @@ _towableCargoObjects = [
 	"land_cargo10_yellow_f","land_cargo10_white_f","land_cargo10_sand_f","land_cargo10_red_f","land_cargo10_orange_f","land_cargo10_military_green_f","land_cargo10_light_green_f","land_cargo10_light_blue_f","land_cargo10_grey_f","land_cargo10_cyan_f","land_cargo10_brick_red_f","land_cargo10_blue_f",
 	"land_cargo20_yellow_f","land_cargo20_white_f","land_cargo20_sand_f","land_cargo20_red_f","land_cargo20_orange_f","land_cargo20_military_green_f","land_cargo20_light_green_f","land_cargo20_light_blue_f","land_cargo20_grey_f","land_cargo20_cyan_f","land_cargo20_brick_red_f","land_cargo20_blue_f",
 	"land_watertank_f",
-	"land_cargo10_idap_f","land_cargo20_idap_f",'land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f'
+	"land_cargo10_idap_f","land_cargo20_idap_f",'land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f',
+	'Land_Destroyer_01_Boat_Rack_01_F'
 ];
 _crewInVehicle = FALSE;
 _foundVehicles = [];

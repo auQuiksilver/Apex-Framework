@@ -51,6 +51,13 @@ if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqu
 		_isCarrier = TRUE;
 	};
 };
+if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 0)) then {
+	if (['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_destroyer')) then {
+		_nearestServiceSite = '';
+		_fieldService = TRUE;
+		_isCarrier = TRUE;
+	};
+};
 
 /*/=========================================== BASE SERVICE/*/
 private _isDepot = [_v] call (missionNamespace getVariable 'QS_fnc_isNearRepairDepot');

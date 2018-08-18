@@ -240,11 +240,14 @@ if (isNil {profileNamespace getVariable 'QS_stamina'}) then {
 };
 
 /*/=========================== 1PV/*/
-{
-	if (local _x) then {
-		deleteVehicle _x;
-	};
-} forEach (allMissionObjects 'EmptyDetector');
+
+if (!((allMissionObjects 'EmptyDetector') isEqualTo [])) then {
+	{
+		if (local _x) then {
+			deleteVehicle _x;
+		};
+	} forEach (allMissionObjects 'EmptyDetector');
+};
 if (isNil {profileNamespace getVariable 'QS_1PV'}) then {
 	player setVariable ['QS_1PV',[FALSE,time],FALSE];
 	profileNamespace setVariable ['QS_1PV',FALSE];

@@ -30,12 +30,13 @@ _kuma = ['i_mbt_03_cannon_f'];
 _nyx = ['i_lt_01_aa_f','i_lt_01_at_f','i_lt_01_scout_f','i_lt_01_cannon_f'];
 _offroad = ['o_g_offroad_01_at_f','o_g_offroad_01_armed_f','i_g_offroad_01_at_f','i_g_offroad_01_armed_f','b_g_offroad_01_at_f','b_g_offroad_01_armed_f'];
 _offroad2 = ['i_c_offroad_02_lmg_f'];
+_sam = ['b_sam_system_03_f','b_radar_system_01_f','o_sam_system_04_f','o_radar_system_02_f'];
 _reserved_1 = [''];
 _reserved_2 = [''];
 _reserved_3 = [''];
 scopeName 'main';
 if (_case isEqualTo 0) then {
-	comment 'Randomized';
+	//comment 'Randomized';
 	if (_type in _tigris) then {
 		if ((random 1) < 0.666) then {
 			_vehicle animateSource ['showslathull',1,1];
@@ -61,7 +62,7 @@ if (_case isEqualTo 0) then {
 		};
 		if (_side in [EAST,RESISTANCE]) then {
 			if (worldName in ['Tanoa','Lingor3']) then {
-				comment 'Tropics';
+				//comment 'Tropics';
 				{
 					_vehicle setObjectTextureGlobal _x;
 				} forEach [
@@ -70,7 +71,7 @@ if (_case isEqualTo 0) then {
 					[2,'A3\armor_f_beta\apc_tracked_01\data\apc_tracked_01_body_indp_co.paa']
 				];
 			} else {
-				comment 'Desert';
+				//comment 'Desert';
 				{
 					_vehicle setObjectTextureGlobal _x;
 				} forEach [
@@ -312,5 +313,13 @@ if (_case isEqualTo 0) then {
 			_vehicle removeWeaponTurret ['LMG_03_Vehicle_F',[0]];
 		};
 		breakTo 'main';
+	};
+	if (_type in _sam) then {
+		_vehicle setVehicleRadar 1;
+		if (_type in ['o_sam_system_04_f','o_radar_system_02_f']) then {
+			{
+				_vehicle setObjectTextureGlobal [_forEachIndex,_x];
+			} forEach (getArray (configFile >> 'CfgVehicles' >> _type >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
+		};
 	};
 };

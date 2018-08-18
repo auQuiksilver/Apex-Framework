@@ -405,6 +405,9 @@ _vehData = [] call (missionNamespace getVariable 'QS_data_vehicles');
 if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
 	['VEHICLES'] call (missionNamespace getVariable 'QS_fnc_carrier');
 };
+if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 0)) then {
+	['VEHICLES'] call (missionNamespace getVariable 'QS_fnc_destroyer');
+};
 _vehData = nil;
 _QS_distance = 500;					/*/ 500; Normal abandonment distance, if the vehicle is not near its starting position/*/
 _distReal = 0;
@@ -1099,7 +1102,7 @@ _player = objNull;
 
 /*/===== Dynamic Simulation/*/
 
-_QS_module_dynSim = TRUE;
+_QS_module_dynSim = (missionNamespace getVariable ['QS_missionConfig_dynSim',1]) isEqualTo 1;
 _QS_module_dynSim_delay = 30;
 _QS_module_dynSim_checkDelay = _timeNow + _QS_module_dynSim_delay;
 {
@@ -3239,6 +3242,11 @@ for '_x' from 0 to 1 step 0 do {
 														_v setDamage [0,_false];
 													};
 													_v setPosASL (AGLToASL _vpos);
+													if (_isCarrierVehicle isEqualTo 1) then {
+														if (!((str _configCode) isEqualTo '{}')) then {
+															_v call _configCode;
+														};													
+													};
 												};
 											};
 										} else {
@@ -3274,6 +3282,11 @@ for '_x' from 0 to 1 step 0 do {
 																_v setDamage [0,_false];
 															};
 															_v setPosASL (AGLToASL _vpos);
+															if (_isCarrierVehicle isEqualTo 1) then {
+																if (!((str _configCode) isEqualTo '{}')) then {
+																	_v call _configCode;
+																};
+															};
 														};
 													};
 												};

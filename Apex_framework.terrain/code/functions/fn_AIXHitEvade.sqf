@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	14/04/2018 A3 1.82 by Quiksilver
+	21/07/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -15,14 +15,16 @@ __________________________________________________/*/
 params ['_u','_s','',''];
 if (local _u) then {
 	if ((random 1) > 0.5) then {
-		if (alive _s) then {
-			if (isPlayer _s) then {
-				_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
-				if ((random 1) > 0.5) then {
+		if (_s isEqualType objNull) then {
+			if (alive _s) then {
+				if (isPlayer _s) then {
 					_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
-				} else {
-					if ((stance _u) isEqualTo 'STAND') then {
-						_u setUnitPosWeak 'DOWN';
+					if ((random 1) > 0.5) then {
+						_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
+					} else {
+						if ((stance _u) isEqualTo 'STAND') then {
+							_u setUnitPosWeak 'DOWN';
+						};
 					};
 				};
 			};

@@ -130,5 +130,6 @@ ___________________________________________/*/
 	'Deploy Cargo Ropes',
 	'Attach To Cargo Ropes',
 	'Drop Cargo Ropes',
-	'Pickup Cargo Ropes'
+	'Pickup Cargo Ropes',
+	(if (isLocalized 'STR_A3_action_Recover_Boat') then {localize 'STR_A3_action_Recover_Boat'} else {'Recover boat'})
 ]

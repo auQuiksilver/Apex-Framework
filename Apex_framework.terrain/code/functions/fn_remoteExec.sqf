@@ -1825,13 +1825,17 @@ if (_case < 100) exitWith {
 			};
 		};
 	};
-	// future cases
-	/*/
 	if (_case isEqualTo 91) then {
-	
+		0 spawn {
+			sleep 3;
+			{
+				if (local _x) then {
+					deleteVehicle _x;
+				};
+			} forEach (allMissionObjects 'EmptyDetector');
+		};
 	};
 	if (_case isEqualTo 92) then {
 	
 	};
-	/*/
 };

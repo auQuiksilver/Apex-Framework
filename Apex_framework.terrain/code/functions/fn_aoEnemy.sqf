@@ -668,7 +668,7 @@ if ((random 1) > 0.5) then {
 diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning Enemies in buildings *';
 diag_log '****************************************************';
-
+_toGarrison = [];
 if ((count (_terrainData select 4)) > 6) then {
 	if (worldName in ['Tanoa','Lingor3']) then {
 		_indArray = [
@@ -711,12 +711,14 @@ missionNamespace setVariable [
 _unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _enemiesArray pushBack _unit;
 _toGarrison pushBack _unit;
-[_centerPos,(_aoSize / 1.5),_toGarrison,['House']] call (missionNamespace getVariable 'QS_fnc_garrisonUnits');
-{
-	if (!isNull _x) then {
-		[_x] joinSilent _resistanceGrp;
-	};
-} count _toGarrison;
+if (!(_toGarrison isEqualTo [])) then {
+	[_centerPos,(_aoSize / 1.5),_toGarrison,['House']] call (missionNamespace getVariable 'QS_fnc_garrisonUnits');
+	{
+		if (!isNull _x) then {
+			[_x] joinSilent _resistanceGrp;
+		};
+	} count _toGarrison;
+};
 /*/=============================================================== ENEMIES IN HQ BUILDINGS/*/
 if (worldName in ['Tanoa','Lingor3']) then {
 	_indArray = [

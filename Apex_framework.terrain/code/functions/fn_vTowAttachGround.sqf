@@ -45,7 +45,8 @@ if (!(_towedVehicle isKindOf 'StaticWeapon')) then {
 	};
 };
 private _defaultAttachPoint = [[0,-_ropeLength,0.75],0];
-private _attachPoint = [TRUE,_vehicle,_towedVehicle,_defaultAttachPoint] call (missionNamespace getVariable 'QS_fnc_getCustomAttachPoint');
+private _attachPointReturn = [TRUE,_vehicle,_towedVehicle,_defaultAttachPoint] call (missionNamespace getVariable 'QS_fnc_getCustomAttachPoint');
+private _attachPoint = _attachPointReturn select [0,2];
 _towedVehicle attachTo [_vehicle,(_attachPoint select 0)];
 if (!((_attachPoint select 1) isEqualTo 0)) then {
 	if (local _towedVehicle) then {
@@ -56,7 +57,7 @@ if (!((_attachPoint select 1) isEqualTo 0)) then {
 };
 private _checkIntersections = FALSE;
 private _isHauling = FALSE;
-if (_attachPoint isEqualTo _defaultAttachPoint) then {
+if ((_attachPoint isEqualTo _defaultAttachPoint) || {((count _attachPointReturn) > 2)}) then {
 	_vehicle setVariable ['QS_vehicle_hauling',[FALSE,_towedVehicle],TRUE];
 	50 cutText [format ['Towing %1',_displayName],'PLAIN DOWN',0.5];
 	_checkIntersections = TRUE;

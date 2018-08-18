@@ -228,7 +228,40 @@ AR_Enable_Rappelling_Animation_Client = compileFinal " 	params [""_player"",[""_
 AR_Rappel_Detach_Action = compileFinal " 	params [""_player""]; 	_player setVariable [""AR_Detach_Rope"",true]; ";  
 AR_Rappel_Detach_Action_Check = compileFinal " 	params [""_player""]; 	if!(_player getVariable [""AR_Is_Rappelling"",false]) exitWith {false;}; 	true; ";  
 AR_Rappel_From_Heli_Action = compileFinal " 	params [""_player"",""_vehicle""];	 	if([_player, _vehicle] call AR_Rappel_From_Heli_Action_Check) then { 		[_player, _vehicle] call AR_Rappel_From_Heli; 	}; "; 
-AR_Rappel_From_Heli_Action_Check = compileFinal " 	params ['_player','_vehicle']; 	private _c = FALSE; 	if ([_vehicle] call AR_Is_Supported_Vehicle) then { 		if (!(_player isEqualTo (driver _vehicle))) then { 			private _vehPos = getPosWorld _vehicle; 			if (surfaceIsWater _vehPos) then { 				_vehPos = getPosASL _vehicle; 			} else { 				_vehPos = getPosATL _vehicle; 			}; 			if (isNil {_vehicle getVariable 'QS_rappellSafety'}) then { 				if ((_vehPos select 2) > 5) then { 					if ((_vehPos select 2) < 55) then { 						if ((speed _vehicle) < 35) then { 							if ((speed _vehicle) > -35) then { 								if (((velocity _vehicle) select 2) >= -2.5) then { 									if (((assignedVehicleRole _player) select 0) in ['cargo','Turret']) then { 										if ((count (assignedVehicleRole _player)) > 1) then { 											if (!((((assignedVehicleRole _player) select 0) isEqualTo 'Turret') && ((((assignedVehicleRole _player) select 1) select 0) < 1))) then { 												_c = TRUE; 											}; 										} else { 											_c = TRUE; 										}; 									}; 								}; 							}; 						}; 					}; 				}; 			}; 		}; 	}; 	_c; "; 
+AR_Rappel_From_Heli_Action_Check = compileFinal "
+	params ['_player','_vehicle']; 	
+	private _c = FALSE; 	
+	if ([_vehicle] call AR_Is_Supported_Vehicle) then {
+		if (!(_player isEqualTo (driver _vehicle))) then {
+			private _vehPos = getPosWorld _vehicle;
+			if (surfaceIsWater _vehPos) then {
+				_vehPos = getPosASL _vehicle;
+			} else {
+				_vehPos = getPosATL _vehicle;
+			};
+			if (isNil {_vehicle getVariable 'QS_rappellSafety'}) then {
+				if (((_vehPos select 2) > 5) && ((lineIntersectsSurfaces [(_vehicle modelToWorldWorld [0,0,-1]),(_vehicle modelToWorldWorld [0,0,-6]),_vehicle,objNull,TRUE,-1,'GEOM','GEOM',TRUE]) isEqualTo [])) then {
+					if ((_vehPos select 2) < 55) then {
+						if (((vectorMagnitude (velocity _vehicle)) * 3.6) < 35) then {
+							if (((velocity _vehicle) select 2) >= -2.5) then {
+								if (((assignedVehicleRole _player) select 0) in ['cargo','Turret']) then {
+									if ((count (assignedVehicleRole _player)) > 1) then {
+										if (!((((assignedVehicleRole _player) select 0) isEqualTo 'Turret') && ((((assignedVehicleRole _player) select 1) select 0) < 1))) then {
+											_c = TRUE;
+										};
+									} else {
+										_c = TRUE;
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+	_c; 
+"; 
 AR_Rappel_AI_Units_From_Heli_Action_Check = compileFinal " 	params [""_player""]; 	if((leader _player) != _player) exitWith {false}; 	_canRappelOne = false; 	{ 		if(((vehicle _x) != _x) && (!isPlayer _x)) then { 			if([_x, vehicle _x] call AR_Rappel_From_Heli_Action_Check) then { 				_canRappelOne = true; 			}; 		}; 	} forEach (units _player); 	_canRappelOne; ";  
 AR_Get_Corner_Points = compileFinal " 	params [""_vehicle""]; 	private [""_centerOfMass"",""_bbr"",""_p1"",""_p2"",""_rearCorner"",""_rearCorner2"",""_frontCorner"",""_frontCorner2""]; 	private [""_maxWidth"",""_widthOffset"",""_maxLength"",""_lengthOffset"",""_widthFactor"",""_lengthFactor"",""_maxHeight"",""_heightOffset""]; 	 	_widthFactor = 0.5; 	_lengthFactor = 0.5; 	if(_vehicle isKindOf ""Air"") then { 		_widthFactor = 0.3; 	}; 	if(_vehicle isKindOf ""Helicopter"") then { 		_widthFactor = 0.2; 		_lengthFactor = 0.45; 	}; 	 	_centerOfMass = getCenterOfMass _vehicle; 	_bbr = boundingBoxReal _vehicle; 	_p1 = _bbr select 0; 	_p2 = _bbr select 1; 	_maxWidth = abs ((_p2 select 0) - (_p1 select 0)); 	_widthOffset = ((_maxWidth / 2) - abs ( _centerOfMass select 0 )) * _widthFactor; 	_maxLength = abs ((_p2 select 1) - (_p1 select 1)); 	_lengthOffset = ((_maxLength / 2) - abs (_centerOfMass select 1 )) * _lengthFactor; 	_maxHeight = abs ((_p2 select 2) - (_p1 select 2)); 	_heightOffset = _maxHeight/6; 	 	_rearCorner = [(_centerOfMass select 0) + _widthOffset, (_centerOfMass select 1) - _lengthOffset, (_centerOfMass select 2)+_heightOffset]; 	_rearCorner2 = [(_centerOfMass select 0) - _widthOffset, (_centerOfMass select 1) - _lengthOffset, (_centerOfMass select 2)+_heightOffset]; 	_frontCorner = [(_centerOfMass select 0) + _widthOffset, (_centerOfMass select 1) + _lengthOffset, (_centerOfMass select 2)+_heightOffset]; 	_frontCorner2 = [(_centerOfMass select 0) - _widthOffset, (_centerOfMass select 1) + _lengthOffset, (_centerOfMass select 2)+_heightOffset]; 	 	[_rearCorner,_rearCorner2,_frontCorner,_frontCorner2]; "; /*/"VTOL_Base_F"/*/ 
 AR_SUPPORTED_VEHICLES = [ 	"Helicopter" ];  

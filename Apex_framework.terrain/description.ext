@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	8/06/2018 A3 1.82 by Quiksilver
+	17/08/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -454,6 +454,7 @@ class CfgFunctions {
 			class clientInteractMedStation {file = "code\functions\fn_clientInteractMedStation.sqf";};
 			class clientInteractPush {file = "code\functions\fn_clientInteractPush.sqf";};
 			class clientInteractRappel {file = "code\functions\fn_clientInteractRappel.sqf";};
+			class clientInteractRecoverBoat {file = "code\functions\fn_clientInteractRecoverBoat.sqf";};
 			class clientInteractRecruit {file = "code\functions\fn_clientInteractRecruit.sqf";};
 			class clientInteractRelease {file = "code\functions\fn_clientInteractRelease.sqf";};
 			class clientInteractRescue {file = "code\functions\fn_clientInteractRescue.sqf";};
@@ -543,6 +544,7 @@ class CfgFunctions {
 			class customBuildingPositions {file = "code\functions\fn_customBuildingPositions.sqf";};
 			class customInventory {file = "code\functions\fn_customInventory.sqf";};
 			class deltaVD {file = "code\functions\fn_deltaVD.sqf";};
+			class destroyer {file = "code\functions\fn_destroyer.sqf";};
 			class dirtEffect {file = "code\functions\fn_dirtEffect.sqf";};
 			class downgradeVehicleWeapons {file = "code\functions\fn_downgradeVehicleWeapons.sqf";};
 			class dynamicTasks {file = "code\functions\fn_dynamicTasks.sqf";};

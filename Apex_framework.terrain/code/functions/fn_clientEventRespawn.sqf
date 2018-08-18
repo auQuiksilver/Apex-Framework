@@ -34,9 +34,7 @@ if (isForcedWalk player) then {
 	player forceWalk FALSE;
 };
 if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
-	if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2) then {
-		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
-	} else {
+	if ((!((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2)) && (!((missionNamespace getVariable ['QS_missionConfig_destroyerRespawn',0]) isEqualTo 1))) then {
 		if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 			if (worldName isEqualTo 'Altis') then {
 				_position = [((_position select 0) + 12 - (random 24)),((_position select 1) + 12 - (random 24)),(_position select 2)];

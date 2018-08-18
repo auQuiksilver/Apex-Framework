@@ -2,7 +2,20 @@ Official change log
 
 1.1.0 "Encore"
 
-[ In progress ]
+- [ADDED] USS Liberty destroyer.
+- [ADDED] New Encore assets.
+- [ADDED] More parameter options.
+- [ADDED] Towing (logistics) support for new assets (including boat rack).
+- [ADDED] User interaction for boat rack.
+- [TWEAKED] Chance of enemy calling in (stealth) shikra for CAS reduced.
+- [TWEAKED] Air defense SAM missiles added to 2D/3D projectile visualizer.
+- [TWEAKED] Magazine Repack to not conflict with vehicle systems (radar binding).
+- [TWEAKED] Towing (logistics) system.
+- [TWEAKED] Fastrope to prevent fastroping beneath ship decks.
+- [FIXED] Some small script errors/bugs.
+- [FIXED] Players could "Escort" one another in rare cases.
+- [FIXED] Players could "Carry" more than 1 wounded at a time.
+- [FIXED] Static ships were not being spawned at the positions defined by the editor map markers, when custom base was used.
 
 1.0.9
 

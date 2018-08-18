@@ -317,6 +317,14 @@ if (_t2 in _offroad) then {
 		_u setObjectTextureGlobal [_forEachIndex,_x]; 
 	} forEach (getArray (configFile >> 'CfgVehicles' >> 'b_g_offroad_01_f' >> 'TextureSources' >> (format ['Guerilla_%1',(selectRandom ['01','02','03','04','05','06','07','08','09','10','11','12'])]) >> 'textures'));
 };
+if (_t2 in ['o_sam_system_04_f','o_radar_system_02_f']) then {
+	if (!isSimpleObject _u) then {
+		_u setVehicleRadar 1;
+	};
+	{
+		_u setObjectTextureGlobal [_forEachIndex,_x];
+	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
+};
 if (!(_isSimpleObject)) then {
 	_u lock 0;
 	_u setVariable ['QS_ropeAttached',FALSE,TRUE];
@@ -568,7 +576,7 @@ if (!(_isSimpleObject)) then {
 			];
 		};
 	};
-	_u setVehicleReportRemoteTargets (_u isKindOf 'i_lt_01_scout_f');
+	_u setVehicleReportRemoteTargets ((_u isKindOf 'i_lt_01_scout_f') || (_t2 in ['b_radar_system_01_f','o_radar_system_02_f']));
 	if (_u isKindOf 'Air') then {
 		_u setVehicleReceiveRemoteTargets TRUE;
 		_u setVehicleReportOwnPosition TRUE;
@@ -694,7 +702,7 @@ if (!(_isSimpleObject)) then {
 	_u setVariable ['QS_transporter',nil,FALSE];
 	_u addEventHandler ['Local',{}];
 	if (_u isKindOf 'LandVehicle') then {
-		_u setPlateNumber '#MAGA';
+		_u setPlateNumber 'abc123';
 		if ((!(['medical',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) && (!(['medevac',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))) then {
 			[_u,1,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 		};

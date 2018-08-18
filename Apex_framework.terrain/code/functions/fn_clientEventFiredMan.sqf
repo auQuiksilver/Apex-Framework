@@ -32,7 +32,7 @@ if (_weapon isEqualTo 'Throw') then {
 				if (!(_playersNearby isEqualTo [])) then {
 					{
 						if ((([objNull,'GEOM'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0) || {(([objNull,'VIEW'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0)}) exitWith {
-							if ((player targets [TRUE,30,[],0,(position _projectile)]) isEqualTo []) then {
+							if ((player targets [TRUE,30,[],0,(getPos _projectile)]) isEqualTo []) then {
 								deleteVehicle _projectile;
 								50 cutText [(format ['Friendlies in lethal radius, %1 disarmed',(getText (configFile >> 'CfgAmmo' >> (typeOf _projectile) >> 'displayName'))]),'PLAIN DOWN',0.5];
 							};

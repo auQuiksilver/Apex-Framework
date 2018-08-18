@@ -124,22 +124,23 @@ if (_type isEqualTo 'INIT') exitWith {
 		_positionData = selectRandom _positionsData;
 		_positionData params ['_pos','_dir'];
 		_dir = _dir + 180;
+		_markerData = ['QS_marker_carrier_1',[-1500,-1500,0],'b_naval','Icon','','ColorWEST',[0.25,0.25],0.5,[-1500,-1500,0],0,'Aircraft Carrier'];
 		if ('QS_marker_carrier_1' in allMapMarkers) then {
-			'QS_marker_carrier_1' setMarkerPos _pos;
-			'QS_marker_carrier_1' setMarkerDir _dir;
-			'QS_marker_carrier_1' setMarkerAlpha 0.5;
+			_marker = 'QS_marker_carrier_1';
+			_pos = markerPos _marker;
+			_dir = markerDir _marker;
+			_dir = _dir + 180;
 		} else {
-			_markerData = ['QS_marker_carrier_1',[-1500,-1500,0],'b_naval','Icon','','ColorWEST',[0.25,0.25],0.5,[-1500,-1500,0],0,'Aircraft Carrier'];
 			_marker = createMarker ['QS_marker_carrier_1',(_markerData select 1)];
-			_marker setMarkerType (_markerData select 2);
-			_marker setMarkerShape (_markerData select 3);
-			_marker setMarkerColor (_markerData select 5);
-			_marker setMarkerSize (_markerData select 6);
-			_marker setMarkerAlpha (_markerData select 7);
 			_marker setMarkerPos _pos;
 			_marker setMarkerDir _dir;
-			_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData select 10)]);
 		};
+		_marker setMarkerType (_markerData select 2);
+		_marker setMarkerShape (_markerData select 3);
+		_marker setMarkerColor (_markerData select 5);
+		_marker setMarkerSize (_markerData select 6);
+		_marker setMarkerAlpha (_markerData select 7);
+		_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData select 10)]);
 		_carrier = createVehicle ['Land_Carrier_01_base_F',_pos,[],0,'CAN_COLLIDE'];
 		_carrier setPosWorld _pos;
 		_carrier setDir _dir;
@@ -245,6 +246,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 		_logic = (createGroup [sideLogic,TRUE]) createUnit ['Logic',[-1000,-1000,500],[],0,'CAN_COLLIDE'];
 		_logic enableDynamicSimulation FALSE;
 		_logic setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+		_logic setVariable ['QS_cleanup_protected',TRUE,FALSE];
 		_logic setPosWorld (getPosWorld (missionNamespace getVariable 'QS_carrierObject'));
 		_logic attachTo [(missionNamespace getVariable 'QS_carrierObject'),[0,0,0]];
 		detach _logic;

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	17/06/2018 A3 1.82 by Quiksilver
+	4/08/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -107,7 +107,8 @@ private [
 	'_QS_interaction_camonetArmor','_QS_action_camonetArmor_anims','_QS_action_camonetArmor_vAnims','_animationSources','_animationSource','_QS_module_highCommand','_QS_module_highCommand_delay',
 	'_QS_module_highCommand_checkDelay','_QS_module_highCommand_waypoints','_civSide','_QS_module_gpsJammer','_QS_module_gpsJammer_delay','_QS_module_gpsJammer_checkDelay','_QS_module_gpsJammer_signalDelay',
 	'_QS_module_gpsJammer_signalCheck','_QS_module_gpsJammer_ctrlPlayer','_QS_module_gpsJammer_inArea','_isNearRepairDepot','_isNearRepairDepot2','_uavNearRepairDepot','_viewDistance_target','_objectViewDistance_target',
-	'_shadowDistance_target','_terrainGrid_target','_deltaVD_script','_fadeView','_arsenalType','_arsenalData','_noObjectParent','_parsedText','_QS_module_opsec_hints','_ahHintText','_ahHintList'
+	'_shadowDistance_target','_terrainGrid_target','_deltaVD_script','_fadeView','_arsenalType','_arsenalData','_noObjectParent','_parsedText','_QS_module_opsec_hints','_ahHintText','_ahHintList',
+	'_QS_destroyerEnabled'
 ];
 disableSerialization;
 _QS_productVersion = productVersion;
@@ -496,6 +497,11 @@ _QS_action_createBoat = nil;
 _QS_action_createBoat_text = 'Inflate boat';
 _QS_action_createBoat_array = [_QS_action_createBoat_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractCreateBoat')},[],25,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_createBoat = FALSE;
+/*/===== Recover Boat (boat rack)/*/
+_QS_action_recoverBoat = nil;
+_QS_action_recoverBoat_text = if (isLocalized 'STR_A3_action_Recover_Boat') then {localize 'STR_A3_action_Recover_Boat'} else {'Recover boat'};
+_QS_action_recoverBoat_array = [_QS_action_recoverBoat_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractRecoverBoat')},[],25,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+_QS_interaction_recoverBoat = FALSE;
 /*/===== Sit/*/
 _QS_action_sit = nil;
 _QS_action_sit_text = 'Sit';
@@ -601,6 +607,7 @@ _QS_carrierPolygon = [];
 _QS_carrierLaunchData = [];
 _QS_carrierPos = [0,0,0];
 _QS_carrierEnabled = missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0];
+_QS_destroyerEnabled = missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0];
 /*/===== Armor Camonets/*/
 _QS_action_camonetArmor = nil;
 _QS_action_camonetArmor_textA = 'Deploy camo net';
@@ -1178,7 +1185,7 @@ if (_QS_module_opsec) then {
 	_QS_module_opsec_iguiDisplays = _QS_productVersionSync;						/*/ check memory editing of igui displays/*/
 	_QS_module_opsec_rsctitles = _QS_productVersionSync;							/*/ check memory editing of titles /*/
 	_QS_module_opsec_rsctitlesMission = TRUE;									/*/ check memory editing of titles (mission)/*/
-	_QS_module_opsec_hints = TRUE;
+	_QS_module_opsec_hints = TRUE && (!(_puid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))));
 	_QS_module_opsec_detected = 0;
 	_detected = '';
 	_QS_module_opsec_chatIntercept_IDD = 24;
@@ -1438,23 +1445,22 @@ if (_QS_module_opsec) then {
 	_QS_module_opsec_memArrayTitles = [3] call (missionNamespace getVariable 'QS_fnc_clientMemArrays');
 	_QS_module_opsec_memArrayTitlesMission = [4] call (missionNamespace getVariable 'QS_fnc_clientMemArrays');
 	if (_QS_module_opsec_patches) then {
-		_patchList = [] call (missionNamespace getVariable 'QS_data_patches');
+		_patchList = (call (missionNamespace getVariable 'QS_data_patches')) apply { (toLower _x) };
 		_binConfigPatches = configFile >> 'CfgPatches';
+		private _patchConfigName = '';
 		for '_i' from 0 to ((count _binConfigPatches) - 1) step 1 do {
 			_patchEntry = _binConfigPatches select _i;
 			if (isClass _patchEntry) then {
-				if (!((configName _patchEntry) in _patchList)) then {
-					if ((!(['jsrs',(configName _patchEntry),FALSE] call _fn_inString)) && (!(['jpex',(configName _patchEntry),FALSE] call _fn_inString))) then {
-						if (!(['blastcore',(configName _patchEntry),FALSE] call _fn_inString)) then {
-							if (!(['aegis',(configName _patchEntry),FALSE] call _fn_inString)) then {
-								_detected = format ['Unknown Addon Patch: %1',(configName _patchEntry)];
-								_QS_module_opsec_detected = 1;
-							};
-						};
+				_patchConfigName = toLower (configName _patchEntry);
+				if (!(_patchConfigName in _patchList)) then {
+					if ((!(['jsrs',_patchConfigName,FALSE] call _fn_inString)) && (!(['jpex',_patchConfigName,FALSE] call _fn_inString)) && (!(['blastcore',_patchConfigName,FALSE] call _fn_inString)) && (!(['aegis',_patchConfigName,FALSE] call _fn_inString))) then {
+						_detected = format ['Unknown Addon Patch: %1',_patchConfigName];
+						_QS_module_opsec_detected = 1;	// change this to 2 to force a kick instead
 					};
 				};
 			};
 		};
+		_patchConfigName = nil;
 		_binConfigPatches = nil;
 		_patchEntry = nil;
 		_patchList = nil;
@@ -1747,6 +1753,7 @@ _fn_AIRappelDetachActionCheck = missionNamespace getVariable 'AR_Rappel_Detach_A
 _fn_uidStaff = missionNamespace getVariable 'QS_fnc_whitelist';
 _fn_data_carrierLaunch = call (missionNamespace getVariable 'QS_data_carrierLaunch');
 _fn_carrier = missionNamespace getVariable 'QS_fnc_carrier';
+_fn_destroyer = missionNamespace getVariable 'QS_fnc_destroyer';
 _fn_clientHintPresets = missionNamespace getVariable 'QS_fnc_clientHintPresets';
 _fn_secondsToString = missionNamespace getVariable 'QS_fnc_secondsToString';
 _fn_gearRestrictions = missionNamespace getVariable 'QS_fnc_gearRestrictions';
@@ -2300,6 +2307,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (
 					(_noObjectParent) &&
 					{(_cursorDistance < 1.9)} &&
+					{(((attachedObjects _QS_player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)} &&
 					{(isNull (attachedTo _cursorTarget))} &&
 					{(isNull (objectParent _cursorTarget))}
 				) then {
@@ -2390,6 +2398,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (
 					(_noObjectParent) &&
 					{(!isNull _cursorObject)} &&
+					{(isNull (isVehicleCargo _cursorObject))} &&
 					{(_cursorObjectDistance <= 2)} &&
 					{(_QS_uiTime > (player getVariable ['QS_RD_canRespawnVehicle',-1]))} &&
 					{(_cursorObject getVariable ['QS_RD_vehicleRespawnable',_false])} &&
@@ -2462,10 +2471,10 @@ for '_x' from 0 to 1 step 0 do {
 							_nearSite = _true;
 						};
 					} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
-					if ((_nearSite) || {(_isNearRepairDepot)} || {((!(_QS_carrierEnabled isEqualTo 0)) && (['INPOLYGON_FOOT',_QS_player] call _fn_carrier))}) then {
+					if ((_nearSite) || {(_isNearRepairDepot)} || {((!(_QS_carrierEnabled isEqualTo 0)) && (['INPOLYGON_FOOT',_QS_player] call _fn_carrier))} || {((!(_QS_destroyerEnabled isEqualTo 0)) && (['INPOLYGON_FOOT',_QS_player] call _fn_destroyer))}) then {
 						if (!(_QS_interaction_serviceVehicle)) then {
 							_QS_interaction_serviceVehicle = _true;
-							if (['INPOLYGON_FOOT',_QS_player] call _fn_carrier) then {
+							if ((['INPOLYGON_FOOT',_QS_player] call _fn_carrier) || {(['INPOLYGON_FOOT',_QS_player] call _fn_destroyer)}) then {
 								_QS_action_serviceVehicle_array set [3,-1];
 							} else {
 								_QS_action_serviceVehicle_array set [3,10];
@@ -2850,7 +2859,10 @@ for '_x' from 0 to 1 step 0 do {
 					{(alive _cursorObject)} &&
 					{(_cursorObject isKindOf 'Ship')} &&
 					{((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget))} &&
-					{(((crew _cursorObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)}
+					{(((crew _cursorObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)} &&
+					{(isNull (ropeAttachedTo _cursorObject))} &&
+					{(isNull (isVehicleCargo _cursorObject))} &&
+					{(isNull (attachedTo _cursorObject))}
 				) then {
 					if (!(_QS_interaction_pushVehicle)) then {
 						_QS_interaction_pushVehicle = _true;
@@ -2883,6 +2895,31 @@ for '_x' from 0 to 1 step 0 do {
 						_QS_interaction_createBoat = _false;
 						player removeAction _QS_action_createBoat;
 					};
+				};
+				
+				/*/===== Action Recover Boat/*/
+				
+				if (
+					(!(_noObjectParent)) &&
+					{(_objectParent isKindOf 'Ship')} &&
+					{(alive _objectParent)} &&
+					{(_QS_player isEqualTo (effectiveCommander _objectParent))} &&
+					{(((vectorMagnitude (velocity _objectParent)) * 3.6) < 10)} &&
+					{(isNull (attachedTo _objectParent))} &&
+					{(isNull (isVehicleCargo _objectParent))} &&
+					{(isNull (ropeAttachedTo _objectParent))} &&
+					{(!(((nearestObjects [_objectParent,['land_destroyer_01_boat_rack_01_f'],20,_true]) select {((getVehicleCargo _x) isEqualTo [])}) isEqualTo []))}
+				) then {
+					if (!(_QS_interaction_recoverBoat)) then {
+						_QS_interaction_recoverBoat = _true;
+						_QS_action_recoverBoat = player addAction _QS_action_recoverBoat_array;
+						player setUserActionText [_QS_action_recoverBoat,((player actionParams _QS_action_recoverBoat) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_recoverBoat) select 0)])];
+					};
+				} else {
+					if (_QS_interaction_recoverBoat) then {
+						_QS_interaction_recoverBoat = _false;
+						player removeAction _QS_action_recoverBoat;
+					};				
 				};
 				
 				/*/===== Sit/*/
@@ -5381,6 +5418,7 @@ for '_x' from 0 to 1 step 0 do {
 								if ([_x,_ahHintText,_false] call _fn_inString) exitWith {
 									_QS_module_opsec_detected = 1;
 									_detected = format ['Blacklisted text in hint display: %1 * %2',_x,_ahHintText];
+									[''] call _fn_hint;
 								};
 							} forEach _ahHintList;
 						};
@@ -5438,19 +5476,6 @@ for '_x' from 0 to 1 step 0 do {
 								};
 							};
 						} forEach _opsec_actionIDs;
-					};
-				};
-				if (_QS_module_opsec_hints) then {
-					_display = uiNamespace getVariable ['QS_hint_display_1',_dNull];
-					if (!isNull _display) then {
-						_ahHintText = toLower (ctrlText (_display displayCtrl 101));
-						if (!(_ahHintText isEqualTo '')) then {
-							{
-								if ([_x,_ahHintText,_false] call _fn_inString) then {
-									
-								};
-							} forEach _ahHintList;
-						};
 					};
 				};
 				_bis_fnc_diagkey = uiNamespace getVariable ['BIS_fnc_diagKey',{FALSE}];
@@ -5728,6 +5753,7 @@ for '_x' from 0 to 1 step 0 do {
 						if ([_x,_ahHintText,_false] call _fn_inString) exitWith {
 							_QS_module_opsec_detected = 1;
 							_detected = format ['Blacklisted text in hint display: %1 * %2',_x,_ahHintText];
+							[''] call _fn_hint;
 						};
 					} forEach _ahHintList;
 				};

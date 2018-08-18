@@ -26,6 +26,44 @@ private _uavData = missionNamespace getVariable ['QS_uav_Monitor',[]];
 private _uavLoiterPosition = [0,0,0];
 private _uavRespawnDelay = uiNamespace getVariable ['QS_uavRespawnDelay',-1];
 private _cfgVehicles = configFile >> 'CfgVehicles';
+if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 0)) then {
+	if (!((missionNamespace getVariable ['QS_missionConfig_destroyerArtillery',0]) isEqualTo 0)) then {
+		_turrets = (missionNamespace getVariable 'QS_destroyerObject') getVariable ['QS_destroyer_turrets',[]];
+		if (!(_turrets isEqualTo [])) then {
+			private _turret = objNull;
+			{
+				_turret = _x;
+				['setOwner',_turret,clientOwner] remoteExec ['QS_fnc_remoteExecCmd',2,FALSE];
+				['setGroupOwner',(group (gunner _turret)),clientOwner] remoteExec ['QS_fnc_remoteExecCmd',2,FALSE];
+				_turret addEventHandler [
+					'Fired',
+					{
+						params ['','','','','','','_projectile',''];
+						missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
+						missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),TRUE];
+					}
+				];
+				_turret addEventHandler [
+					'Local',
+					{
+						params ['_entity','_isLocal'];
+						if (_isLocal) then {
+							_entity removeAllEventHandlers 'Fired';
+							_entity addEventHandler [
+								'Fired',
+								{
+									params ['','','','','','','_projectile',''];
+									missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
+									missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),TRUE];
+								}
+							];
+						};
+					}
+				];
+			} forEach _turrets;
+		};
+	};
+};
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	if (_worldName isEqualTo 'Altis') then {
 		_uavLoiterPosition = [0,3000,500];

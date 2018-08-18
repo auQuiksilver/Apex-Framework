@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	28/03/2018 A3 1.82 by Quiksilver
+	15/08/2018 A3 1.82 by Quiksilver
 
 Description:
 
@@ -32,7 +32,7 @@ if (_child isEqualType objNull) then {
 _parent = toLower _parent;
 _child = toLower _child;
 if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
-	if (_child in ["b_slingload_01_repair_f","b_slingload_01_medevac_f","b_slingload_01_fuel_f","b_slingload_01_ammo_f","b_slingload_01_cargo_f"]) then {
+	if (_child in ['b_slingload_01_repair_f','b_slingload_01_medevac_f','b_slingload_01_fuel_f','b_slingload_01_ammo_f','b_slingload_01_cargo_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3.2,1],0];
 		} else {
@@ -40,8 +40,8 @@ if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
 		};
 	};
 	if (_child in [
-		"land_pod_heli_transport_04_medevac_f","land_pod_heli_transport_04_covered_f","land_pod_heli_transport_04_ammo_f","land_pod_heli_transport_04_box_f","land_pod_heli_transport_04_repair_f",
-		"land_pod_heli_transport_04_medevac_black_f","land_pod_heli_transport_04_covered_black_f","land_pod_heli_transport_04_ammo_black_f","land_pod_heli_transport_04_box_black_f","land_pod_heli_transport_04_repair_black_f"
+		'land_pod_heli_transport_04_medevac_f','land_pod_heli_transport_04_covered_f','land_pod_heli_transport_04_ammo_f','land_pod_heli_transport_04_box_f','land_pod_heli_transport_04_repair_f',
+		'land_pod_heli_transport_04_medevac_black_f','land_pod_heli_transport_04_covered_black_f','land_pod_heli_transport_04_ammo_black_f','land_pod_heli_transport_04_box_black_f','land_pod_heli_transport_04_repair_black_f'
 	]) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3.5,0.9],0];
@@ -50,7 +50,7 @@ if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
 		};
 	};
 	if (_child in [
-		"land_pod_heli_transport_04_fuel_f","land_pod_heli_transport_04_fuel_black_f"
+		'land_pod_heli_transport_04_fuel_f','land_pod_heli_transport_04_fuel_black_f'
 	]) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-2.75,1],0];
@@ -59,7 +59,7 @@ if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
 		};
 	};
 	if (_child in [
-		"land_pod_heli_transport_04_bench_f","land_pod_heli_transport_04_bench_black_f"
+		'land_pod_heli_transport_04_bench_f','land_pod_heli_transport_04_bench_black_f'
 	]) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0.15,-3.6,0.95],0];
@@ -67,70 +67,70 @@ if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
 			_attachPoint = [0.179199,-8.35583,-1.80251];
 		};
 	};
-	if (_child in ["box_nato_ammoveh_f","box_ind_ammoveh_f","box_east_ammoveh_f"]) then {
+	if (_child in ['box_nato_ammoveh_f','box_ind_ammoveh_f','box_east_ammoveh_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3,0.4],0];
 		} else {
 			_attachPoint = [0.0349121,-6.88416,-1.67472];
 		};
 	};
-	if (_child in ["b_cargonet_01_ammo_f","o_cargonet_01_ammo_f","i_cargonet_01_ammo_f","c_idap_cargonet_01_supplies_f"]) then {
+	if (_child in ['b_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_cargonet_01_ammo_f','c_idap_cargonet_01_supplies_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3,0.4],0];
 		} else {
 			_attachPoint = [0.0927734,-6.72534,-1.70423];
 		};
 	};
-	if (_child in ["cargonet_01_box_f"]) then {
+	if (_child in ['cargonet_01_box_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3,0.25],0];
 		} else {
 			_attachPoint = [0.0692139,-6.75977,-1.70436];
 		};
 	};
-	if (_child in ["cargonet_01_barrels_f"]) then {
+	if (_child in ['cargonet_01_barrels_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3,0.2],0];
 		} else {
 			_attachPoint = [0.0203857,-6.60645,-1.70345];
 		};
 	};
-	if (_child in ["b_supplycrate_f","o_supplycrate_f","i_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","c_idap_supplycrate_f"]) then {
+	if (_child in ['b_supplycrate_f','o_supplycrate_f','i_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','c_idap_supplycrate_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3.2,0.5],0];
 		} else {
 			_attachPoint = [0.0090332,-6.42297,-1.70078];
 		};
 	};
-	if (_child in ["land_device_slingloadable_f"]) then {
+	if (_child in ['land_device_slingloadable_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-4,0.5],0];
 		} else {
 			_attachPoint = [0.0341797,-8.34705,-1.67805];
 		};
 	};
-	if (_child in ["land_cargobox_v1_f"]) then {
+	if (_child in ['land_cargobox_v1_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3,0.4],0];
 		} else {
 			_attachPoint = [0.0151367,-6.23706,-1.677];
 		};
 	};
-	if (_child in ["land_cargo10_yellow_f","land_cargo10_white_f","land_cargo10_sand_f","land_cargo10_red_f","land_cargo10_orange_f","land_cargo10_military_green_f","land_cargo10_light_green_f","land_cargo10_light_blue_f","land_cargo10_grey_f","land_cargo10_cyan_f","land_cargo10_brick_red_f","land_cargo10_blue_f","land_cargo10_idap_f"]) then {
+	if (_child in ['land_cargo10_yellow_f','land_cargo10_white_f','land_cargo10_sand_f','land_cargo10_red_f','land_cargo10_orange_f','land_cargo10_military_green_f','land_cargo10_light_green_f','land_cargo10_light_blue_f','land_cargo10_grey_f','land_cargo10_cyan_f','land_cargo10_brick_red_f','land_cargo10_blue_f','land_cargo10_idap_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3.4,1],270];
 		} else {
 			_attachPoint = [0.129883,-7.21118,-1.71386];
 		};
 	};
-	if (_child in ["land_cargo20_yellow_f","land_cargo20_white_f","land_cargo20_sand_f","land_cargo20_red_f","land_cargo20_orange_f","land_cargo20_military_green_f","land_cargo20_light_green_f","land_cargo20_light_blue_f","land_cargo20_grey_f","land_cargo20_cyan_f","land_cargo20_brick_red_f","land_cargo20_blue_f","land_cargo20_idap_f"]) then {
+	if (_child in ['land_cargo20_yellow_f','land_cargo20_white_f','land_cargo20_sand_f','land_cargo20_red_f','land_cargo20_orange_f','land_cargo20_military_green_f','land_cargo20_light_green_f','land_cargo20_light_blue_f','land_cargo20_grey_f','land_cargo20_cyan_f','land_cargo20_brick_red_f','land_cargo20_blue_f','land_cargo20_idap_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3.2,0.95],270];
 		} else {
 			_attachPoint = [-0.0400391,-8.89111,-1.72491];
 		};
 	};
-	if (_child in ["land_watertank_f"]) then {
+	if (_child in ['land_watertank_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3.2,0.3],90];
 		} else {
@@ -194,33 +194,78 @@ if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
 			_attachPoint = [0.00488281,-12.624,-1.92691];
 		};
 	};
+	if (_child in [
+		'b_sam_system_03_f'
+	]) then {
+		if (_detachAttach) then {
+			_attachPoint = [[0.03,-7.3,2],0,0];
+		} else {
+			_attachPoint = [0.0571289,-9.15479,-1.95839];
+		};
+	};
+	if (_child in [
+		'b_radar_system_01_f'
+	]) then {
+		if (_detachAttach) then {
+			_attachPoint = [[0.03,-7,1],0,0];
+		} else {
+			_attachPoint = [0.0317383,-9.14307,-1.95822];
+		};
+	};		
+	if (_child in [
+		'o_sam_system_04_f'
+	]) then {
+		if (_detachAttach) then {
+			_attachPoint = [[0.03,-7.1,0.3],0,0];
+		} else {
+			_attachPoint = [0.0366211,-8.9917,-1.9519];
+		};
+	};
+	if (_child in [
+		'o_radar_system_02_f'
+	]) then {
+		if (_detachAttach) then {
+			_attachPoint = [[0.03,-5.5,1.98],0,0];
+		} else {
+			_attachPoint = [0.0473633,-7.97949,-3.73414];
+		};
+	};
+	if (_child in [
+		'land_destroyer_01_boat_rack_01_f'
+	]) then {
+		if (_detachAttach) then {
+			_attachPoint = [[0.0126953,-9.56494,-2],0,0];
+		} else {
+			_attachPoint = [0.0126953,-9.56494,-1.5];
+		};	
+	};
 };
 if (_parent in [
-	"c_offroad_01_f","c_offroad_01_repair_f","o_g_offroad_01_f","b_g_offroad_01_f","i_g_offroad_01_f","o_g_offroad_01_repair_f","i_g_offroad_01_repair_f","b_g_offroad_01_repair_f",
-	"b_gen_offroad_01_gen_f","c_idap_offroad_01_f"
+	'c_offroad_01_f','c_offroad_01_repair_f','o_g_offroad_01_f','b_g_offroad_01_f','i_g_offroad_01_f','o_g_offroad_01_repair_f','i_g_offroad_01_repair_f','b_g_offroad_01_repair_f',
+	'b_gen_offroad_01_gen_f','c_idap_offroad_01_f'
 ]) then {
-	if (_child in ["b_supplycrate_f","o_supplycrate_f","i_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","c_idap_supplycrate_f"]) then {
+	if (_child in ['b_supplycrate_f','o_supplycrate_f','i_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','c_idap_supplycrate_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-2.1,0.25],90];
 		} else {
 			_attachPoint = [-0.0697021,-5.31775,-1.54134];
 		};
 	};
-	if (_child in ["b_cargonet_01_ammo_f","o_cargonet_01_ammo_f","i_cargonet_01_ammo_f",'c_idap_cargonet_01_supplies_f']) then {
+	if (_child in ['b_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_cargonet_01_ammo_f','c_idap_cargonet_01_supplies_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[-0.03,-2.1,0.15],0];
 		} else {
 			_attachPoint = [-0.0563965,-5.10864,-1.53924];
 		};
 	};
-	if (_child in ["cargonet_01_box_f"]) then {
+	if (_child in ['cargonet_01_box_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[-0.03,-2.1,-0.025],0];
 		} else {
 			_attachPoint = [-0.0499268,-5.13037,-1.53947];
 		};
 	};
-	if (_child in ["cargonet_01_barrels_f"]) then {
+	if (_child in ['cargonet_01_barrels_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[-0.03,-2.1,-0.15],0];
 		} else {
@@ -233,7 +278,29 @@ if (_parent in [
 		} else {
 			_attachPoint = [0.00219727,-5.27832,-1.40842];
 		};	
-	};	
+	};
+	if (_child in [
+		'land_destroyer_01_boat_rack_01_f'
+	]) then {
+		if (_detachAttach) then {
+			_attachPoint = [[-0.0263672,-8.23633,-1.67117],0,0];
+		} else {
+			_attachPoint = [-0.0263672,-8.23633,-1.67117];
+		};	
+	};
+};
+if (_parent in [
+	'b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f'
+]) then {
+	if (_child in [
+		'land_destroyer_01_boat_rack_01_f'
+	]) then {
+		if (_detachAttach) then {
+			_attachPoint = [[-0.00488281,-10.1553,-2.60176],0,0];
+		} else {
+			_attachPoint = [-0.00488281,-10.1553,-2.2];
+		};	
+	};
 };
 if (_parent in [
 	'b_ugv_01_f',
@@ -242,28 +309,28 @@ if (_parent in [
 	'i_ugv_01_f',
 	'c_idap_ugv_01_f'
 ]) then {
-	if (_child in ["b_supplycrate_f","o_supplycrate_f","i_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","c_idap_supplycrate_f"]) then {
+	if (_child in ['b_supplycrate_f','o_supplycrate_f','i_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','c_idap_supplycrate_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0.43,-0.54,0.2],0];
 		} else {
 			_attachPoint = [0.43,-3.73389,-1.92198];
 		};
 	};
-	if (_child in ["b_cargonet_01_ammo_f","o_cargonet_01_ammo_f","i_cargonet_01_ammo_f",'c_idap_cargonet_01_supplies_f']) then {
+	if (_child in ['b_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_cargonet_01_ammo_f','c_idap_cargonet_01_supplies_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0.43,-0.45,0.10],0];
 		} else {
 			_attachPoint = [0.43,-4.30127,-1.92299];
 		};
 	};
-	if (_child in ["cargonet_01_box_f"]) then {
+	if (_child in ['cargonet_01_box_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0.43,-0.45,-0.069],0];
 		} else {
 			_attachPoint = [0.43,-3.93823,-1.9223];
 		};
 	};
-	if (_child in ["cargonet_01_barrels_f"]) then {
+	if (_child in ['cargonet_01_barrels_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0.43,-0.45,-0.175],0];
 		} else {
@@ -317,24 +384,24 @@ if (_parent in [
 	};
 };
 if (_parent in [
-	"b_g_van_01_transport_f","o_g_van_01_transport_f","i_g_van_01_transport_f","i_c_van_01_transport_f","i_c_van_01_transport_brown_f",
-	"i_c_van_01_transport_olive_f","c_van_01_transport_f","c_van_01_transport_red_f","c_van_01_transport_white_f"
+	'b_g_van_01_transport_f','o_g_van_01_transport_f','i_g_van_01_transport_f','i_c_van_01_transport_f','i_c_van_01_transport_brown_f',
+	'i_c_van_01_transport_olive_f','c_van_01_transport_f','c_van_01_transport_red_f','c_van_01_transport_white_f'
 ]) then {
-	if (_child in ["b_hmg_01_high_f","b_gmg_01_high_f","o_hmg_01_high_f","o_gmg_01_high_f","i_hmg_01_high_f","i_gmg_01_high_f"]) then {
+	if (_child in ['b_hmg_01_high_f','b_gmg_01_high_f','o_hmg_01_high_f','o_gmg_01_high_f','i_hmg_01_high_f','i_gmg_01_high_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-2.5,1],0];
 		} else {
 			_attachPoint = [-0.0332031,-6.5061,-1.97767];
 		};
 	};
-	if (_child in ["b_static_aa_f","b_static_at_f","o_static_aa_f","o_static_at_f","i_static_aa_f","i_static_at_f","b_t_static_aa_f","b_t_static_at_f"]) then {
+	if (_child in ['b_static_aa_f','b_static_at_f','o_static_aa_f','o_static_at_f','i_static_aa_f','i_static_at_f','b_t_static_aa_f','b_t_static_at_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-2.5,0.375],180];
 		} else {
 			_attachPoint = [-0.0205078,-5.62256,-1.94009];
 		};
 	};
-	if (_child in ["b_g_mortar_01_f","b_mortar_01_f","b_t_mortar_01_f","o_mortar_01_f","o_g_mortar_01_f","i_mortar_01_f","i_g_mortar_01_f"]) then {
+	if (_child in ['b_g_mortar_01_f','b_mortar_01_f','b_t_mortar_01_f','o_mortar_01_f','o_g_mortar_01_f','i_mortar_01_f','i_g_mortar_01_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-2.25,0.1],0];
 		} else {

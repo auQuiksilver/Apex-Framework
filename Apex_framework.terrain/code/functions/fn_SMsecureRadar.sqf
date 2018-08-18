@@ -63,7 +63,6 @@ _objectsArray = [
 	(random 360),
 	(call (missionNamespace getVariable 'QS_site_radar'))
 ] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
-
 waitUntil {
 	sleep 0.01;
 	(!isNull (missionNamespace getVariable 'QS_sideObj'))
