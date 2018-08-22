@@ -1,4 +1,4 @@
-Apex Framework 1.1.0 "Encore" by Quiksilver       (armacombatgroup@gmail.com)
+Apex Framework 1.1.0 "Encore" by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
 
