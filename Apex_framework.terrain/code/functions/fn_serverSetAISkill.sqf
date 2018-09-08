@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/05/2018 A3 1.82 by Quiksilver
+	29/08/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,7 @@ params [['_unitsArray',[]],['_skillLevel',1]];
 if ((_unitsArray isEqualTo []) || (!(_skillLevel in [0,1,2,3,4]))) exitWith {};
 private ['_aimingAccuracyDefault','_aimingAccuracy','_aimingShake','_aimingSpeed','_commanding','_courage','_endurance','_general','_reloadSpeed','_spotDistance','_spotTime','_fleeing','_unit'];
 if (worldName isEqualTo 'Tanoa') then {
-	_aimingAccuracyDefault = [0.09,0.12] select ((count allPlayers) > 20);
+	_aimingAccuracyDefault = [0.1,0.13] select ((count allPlayers) > 20);
 	// no skill
 	if (_skillLevel isEqualTo 0) then {
 		_aimingAccuracy = 	0;
@@ -34,7 +34,7 @@ if (worldName isEqualTo 'Tanoa') then {
 	};
 	// normal skill
 	if (_skillLevel isEqualTo 1) then {
-		_aimingAccuracy = 	[_aimingAccuracyDefault,0.1] select ((random 1) > 0.5);
+		_aimingAccuracy = 	[_aimingAccuracyDefault,0.12] select ((random 1) > 0.5);
 		_aimingShake = 		random [0.45,0.5,0.55];
 		_aimingSpeed = 		random [0.3,0.35,0.4];
 		_commanding = 		1;
@@ -48,7 +48,7 @@ if (worldName isEqualTo 'Tanoa') then {
 	};
 	// hard skill
 	if (_skillLevel isEqualTo 2) then {
-		_aimingAccuracy = 	[_aimingAccuracyDefault,0.11] select ((random 1) > 0.5);
+		_aimingAccuracy = 	[_aimingAccuracyDefault,0.12] select ((random 1) > 0.5);
 		_aimingShake = 		random [0.6,0.65,0.7];
 		_aimingSpeed = 		random [0.35,0.4,0.45];
 		_commanding = 		1;
@@ -89,7 +89,7 @@ if (worldName isEqualTo 'Tanoa') then {
 		_fleeing = 			0;
 	};
 } else {
-	_aimingAccuracyDefault = [0.13,0.15] select ((count allPlayers) > 20);
+	_aimingAccuracyDefault = [0.15,0.17] select ((count allPlayers) > 20);
 	// no skill
 	if (_skillLevel isEqualTo 0) then {
 		_aimingAccuracy = 	0;
@@ -106,7 +106,7 @@ if (worldName isEqualTo 'Tanoa') then {
 	};
 	// normal skill
 	if (_skillLevel isEqualTo 1) then {
-		_aimingAccuracy = 	[_aimingAccuracyDefault,0.12] select ((random 1) > 0.5);
+		_aimingAccuracy = 	[_aimingAccuracyDefault,0.14] select ((random 1) > 0.5);
 		_aimingShake = 		random [0.55,0.6,0.65];
 		_aimingSpeed = 		random [0.35,0.4,0.45];
 		_commanding = 		1;
@@ -120,7 +120,7 @@ if (worldName isEqualTo 'Tanoa') then {
 	};
 	// hard skill
 	if (_skillLevel isEqualTo 2) then {
-		_aimingAccuracy = 	[_aimingAccuracyDefault,0.12] select ((random 1) > 0.5);
+		_aimingAccuracy = 	[_aimingAccuracyDefault,0.14] select ((random 1) > 0.5);
 		_aimingShake = 		random [0.6,0.65,0.7];
 		_aimingSpeed = 		random [0.4,0.45,0.5];
 		_commanding = 		1;
