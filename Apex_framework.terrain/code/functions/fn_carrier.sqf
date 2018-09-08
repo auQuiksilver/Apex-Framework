@@ -131,7 +131,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_dir = markerDir _marker;
 			_dir = _dir + 180;
 		} else {
-			_marker = createMarker ['QS_marker_carrier_1',(_markerData select 1)];
+			_marker = createMarker ['QS_marker_carrier_1',_pos];
 			_marker setMarkerPos _pos;
 			_marker setMarkerDir _dir;
 		};

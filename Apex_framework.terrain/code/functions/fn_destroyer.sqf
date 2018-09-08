@@ -90,7 +90,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_dir = markerDir _marker;
 			_dir = _dir + 180;
 		} else {
-			_marker = createMarker ['QS_marker_destroyer_1',(_markerData select 1)];
+			_marker = createMarker ['QS_marker_destroyer_1',_pos];
 			_marker setMarkerPos _pos;
 			_marker setMarkerDir _dir;
 		};
@@ -310,6 +310,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					];
 				};
 				if ((toLower (_x select 0)) in ['b_ship_mrls_01_f']) then {
+					_turret setVehicleReceiveRemoteTargets TRUE;
 					{
 						_turret removeMagazineTurret [_x,[0]];
 					} forEach [
