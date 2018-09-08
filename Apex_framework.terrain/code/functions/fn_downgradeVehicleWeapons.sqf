@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	17/01/2018 A3 1.80 by Quiksilver
+	7/9/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -19,7 +19,7 @@ To Do:
 ____________________________________________________________________________/*/
 
 params ['_vehicle',['_forced',FALSE]];
-if (((random 1) < 0.333) && (!(_forced))) exitWith {};
+if (((random 1) < ([0.666,0.333] select (worldName in ['Tanoa','Lingor3']))) && (!(_forced))) exitWith {};
 _type = toLower (typeOf _vehicle);
 //comment 'Slammer UP';
 if (_type in [
