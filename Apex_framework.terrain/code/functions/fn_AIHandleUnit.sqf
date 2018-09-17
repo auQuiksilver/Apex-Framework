@@ -407,7 +407,7 @@ if (_isLeader) then {
 													if ((_supportGroup getVariable 'QS_AI_GRP_DATA') select 0) then {
 														if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 															if (isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
-																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],'32Rnd_155mm_Mo_shells']) then {
+																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],'32Rnd_155mm_Mo_shells_O']) then {
 																	_unit playActionNow 'HandSignalRadio';
 																	if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 																		if (missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]) then {
@@ -426,7 +426,7 @@ if (_isLeader) then {
 																	];
 																	_targetPos = ((_unit targetKnowledge _target) select 6) getPos [(random 25),(random 360)];
 																	_targetPos set [2,0];
-																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'32Rnd_155mm_Mo_shells',(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
+																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'32Rnd_155mm_Mo_shells_O',(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
 																	_exit = TRUE;
 																};
 															};
