@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/04/2018 A3 1.82 by Quiksilver
+	30/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -452,7 +452,7 @@ _fn_aiGetKnownEnemies = missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies';
 _fn_ambientHostility = missionNamespace getVariable 'QS_fnc_ambientHostility';
 //comment 'Loop';
 for '_x' from 0 to 1 step 0 do {
-	uiSleep 3;
+	uiSleep (random [2.5,3,3.5]);
 	_QS_uiTime = diag_tickTime;
 	_QS_time = time;
 	/*/Module get general data/*/
@@ -699,7 +699,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 				//comment 'Manage heli patrols';
-				if (_QS_diag_fps > 15) then {
+				if (_QS_diag_fps > 10) then {
 					if (_QS_module_virtualSectors_heliEnabled) then {
 						if (missionNamespace getVariable 'QS_virtualSectors_sub_2_active') then {
 							if (_QS_uiTime > _QS_module_virtualSectors_patrolsHeli_checkDelay) then {
@@ -1067,7 +1067,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 				//comment 'Enemy helo respawning';
-				if (_QS_diag_fps > 15) then {
+				if (_QS_diag_fps > 10) then {
 					if (_QS_module_classic_heliEnabled) then {
 						if (alive (missionNamespace getVariable 'QS_radioTower')) then {
 							if (_QS_uiTime > _QS_module_classic_patrolsHeli_checkDelay) then {
@@ -1490,7 +1490,7 @@ for '_x' from 0 to 1 step 0 do {
 					} forEach _QS_module_ambientHostility_entities;
 				};
 			} else {
-				if (_QS_diag_fps > 12) then {
+				if (_QS_diag_fps > 10) then {
 					if (_QS_uiTime > _QS_module_ambientHostility_cooldown) then {
 						_QS_module_ambientHostility_validTargets = _QS_allUnits select { ((side (group _x)) isEqualTo _west) };
 						if (!(_QS_module_ambientHostility_validTargets isEqualTo [])) then {
@@ -1667,6 +1667,10 @@ for '_x' from 0 to 1 step 0 do {
 			if (!((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') isEqualTo [])) then {
 				missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') select {(alive _x)}),_false];
 			};
+			uiSleep 0.1;
+			if (!((missionNamespace getVariable ['QS_AI_fireMissions',[]]) isEqualTo [])) then {
+				missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') select {(_QS_uiTime < (_x select 2))}),_false];
+			};
 			_QS_module_supportProvision_checkDelay = diag_tickTime + _QS_module_supportProvision_delay;
 		};
 	};
@@ -1693,7 +1697,9 @@ for '_x' from 0 to 1 step 0 do {
 			if (!((missionNamespace getVariable 'QS_AI_unitsGestureReady') isEqualTo [])) then {
 				missionNamespace setVariable ['QS_AI_unitsGestureReady',((missionNamespace getVariable 'QS_AI_unitsGestureReady') select {((alive _x) && (_x getVariable ['QS_AI_UNIT_gestureEvent',_false]))}),_false];
 			};
-			[11,_east] call _fn_aiGetKnownEnemies;
+			if (_QS_diag_fps > 10) then {
+				[11,_east] call _fn_aiGetKnownEnemies;
+			};
 			if (_QS_module_tracers) then {
 				if ((_QS_uiTime > _QS_module_tracers_checkDelay) || {(_QS_module_tracers_checkOverride)}) then {
 					if (_QS_module_tracers_checkOverride) then {

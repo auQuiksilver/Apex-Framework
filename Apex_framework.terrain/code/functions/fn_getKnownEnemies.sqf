@@ -123,7 +123,7 @@ if (_type isEqualTo 0) exitWith {
 						};
 					};
 				};
-			} forEach ((_player targets [TRUE,([300,500] select (_player getUnitTrait 'QS_trait_leader'))]) + _remoteTargets);
+			} forEach ((_player targets [TRUE,([250,450] select (_player getUnitTrait 'QS_trait_leader'))]) + _remoteTargets);
 		};
 	};
 	_array;

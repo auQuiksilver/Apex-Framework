@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	6/03/2018 A3 1.80 by Quiksilver
+	13/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -25,7 +25,7 @@ _vehicle setVariable ['QS_vehicle_markers',[],FALSE];
 _vehicle setVariable ['QS_hidden',TRUE,TRUE];
 _vehicle setVehicleReceiveRemoteTargets TRUE;
 _vehicle setVehicleReportRemoteTargets TRUE;
-_vehicle setVehicleRadar (selectRandomWeighted [0,0.5,1,0.5]);
+//_vehicle setVehicleRadar (selectRandomWeighted [0,0.5,1,0.5]);
 [0,_vehicle,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 {
 	_vehicle addEventHandler _x;
@@ -73,7 +73,7 @@ _vehicle setVehicleRadar (selectRandomWeighted [0,0.5,1,0.5]);
 	[
 		'Fired',
 		{
-			if ((random 1) > 0.9) then {
+			if ((random 1) > 0.95) then {
 				(_this select 0) setVehicleAmmo 1;
 			};
 		}
@@ -141,6 +141,17 @@ private _grp = createGroup [EAST,TRUE];
 _grp addVehicle _vehicle;
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _vehicle setVariable ['QS_vehicleCrew',[(gunner _vehicle),(commander _vehicle)],FALSE];
+if ((random 1) > 0.666) then {
+	_vehicle removeWeapon 'autocannon_35mm';
+	_vehicle addEventHandler [
+		'Fired',
+		{
+			if (((_this select 0) ammo 'missiles_titan_AA') isEqualTo 0) then {
+				(_this select 0) setVehicleAmmo 1;
+			};
+		}
+	];
+};
 _baseMarker = markerPos 'QS_marker_base_marker';
 {
 	_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];

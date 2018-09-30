@@ -45,6 +45,9 @@ if (
 _vehicle setVariable ['QS_ST_customDN','Q-51 Mosquito',TRUE];
 _vehicle setObjectTextureGlobal [0,"a3\Air_F_Gamma\Plane_Fighter_03\Data\Plane_Fighter_03_body_1_brownhex_CO.paa"];
 _vehicle setObjectTextureGlobal [1,"a3\Air_F_Gamma\Plane_Fighter_03\Data\Plane_Fighter_03_body_1_brownhex_CO.paa"];
+_vehicle setVehicleReceiveRemoteTargets TRUE;
+_vehicle setVehicleReportRemoteTargets TRUE;
+_vehicle setVehicleReportOwnPosition FALSE;
 if (isDedicated) then {
 	_vehicle addEventHandler [
 		'HandleDamage',
@@ -55,7 +58,7 @@ if (isDedicated) then {
 				_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
 				if (!isNull _source) then {
 					_scale = 0.25;
-					_oldDamage = if (_selectionName isEqualTo '') then [{(damage _unit)},{(_unit getHit _selectionName)}];
+					_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
 					_damage = ((_damage - _oldDamage) * _scale) + _oldDamage;
 				} else {
 					if (_ammo isEqualTo '') then {

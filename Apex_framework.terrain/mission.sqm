@@ -3146,7 +3146,7 @@ class Mission
 			text="   Submarine position";
 			type="Empty";
 			alpha=0.5;
-			angle=91.614243;
+			angle=91.614227;
 			id=132;
 			atlOffset=25.101099;
 		};
@@ -3255,7 +3255,7 @@ class Mission
 			text="Destroyer ship position";
 			type="Empty";
 			alpha=0.5;
-			angle=88.54924;
+			angle=88.549187;
 			id=142;
 			atlOffset=26.347755;
 		};

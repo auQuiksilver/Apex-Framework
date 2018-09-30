@@ -71,24 +71,7 @@ if (_ii isEqualTo -1) then {
 if (_val > 5) exitWith {
 	FALSE remoteExecCall ['disableUserInput',_cid,FALSE];
 	uiSleep 0.1;
-	([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand format ['#exec kick %1',_cid];
-};
-
-if (_uid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-	if (_cid isEqualType 0) then {
-		if (_cid > 2) then {
-			{
-				_cid publicVariableClient _x;
-				uiSleep 0.05;
-			} forEach [
-				'QS_fnc_whitelist',
-				'QS_fnc_clientMenuStaff',
-				'QS_fnc_clientMenuConsole',
-				'QS_fnc_curatorFunctions',
-				'QS_fnc_initCurator'
-			];
-		};
-	};
+	([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#exec kick %1',_cid]);
 };
 private _sLevel = 0;
 if (_uid in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
@@ -149,6 +132,10 @@ if ((toLower (typeOf _client)) in ['b_fighter_pilot_f','b_soldier_uav_f','b_t_so
 		_isCAS = TRUE;
 	};
 };
+
+// Register leaderboards stuff
+
+
 _loginVal = 998;
 _client setVariable ['QS_5551212',_loginVal,FALSE];
 _client setVariable ['QS_ClientSupporterLevel',_sLevel,FALSE];

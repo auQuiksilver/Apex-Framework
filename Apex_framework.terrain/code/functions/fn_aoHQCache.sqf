@@ -47,7 +47,7 @@ if (worldName isEqualTo 'Tanoa') then {
 		'Box_IND_Ammo_F'
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
-for '_x' from 0 to (3 + (round(random 2))) do {
+for '_x' from 0 to (2 + (round(random 2))) do {
 	_boxSelect = selectRandom _boxArray;
 	_spawnPos = _pos findEmptyPosition [0,40,_boxSelect];
 	if (!(_spawnPos isEqualTo [])) then {
@@ -61,7 +61,7 @@ for '_x' from 0 to (3 + (round(random 2))) do {
 		if ((random 1) > 0.666) then {
 			[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 		};
-		if (!((toLower _boxSelect) in ['o_supplycrate_f','o_cargonet_01_ammo_f'])) then {
+		if (!((toLower _boxSelect) in ['o_supplycrate_f','o_cargonet_01_ammo_f','box_east_ammoveh_f'])) then {
 			_box setVariable ['QS_RD_draggable',TRUE,TRUE];
 		};
 		0 = _spawnedBoxArray pushBack _box;

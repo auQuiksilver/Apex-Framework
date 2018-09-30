@@ -69,11 +69,12 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	for '_x' from 0 to ((_total - _quantity) - 1) step 1 do {
 		_unit = _grp createUnit [(selectRandomWeighted _unitTypes),_position1,[],0,'NONE'];
 		_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-		_unit setAnimSpeedCoef 1.1;
-		_unit setCustomAimCoef 0.9;
-		_unit setUnitRecoilCoefficient 0.9;
+		_unit setAnimSpeedCoef 1.15;
+		_unit setCustomAimCoef 0.75;
+		_unit setUnitRecoilCoefficient 0.75;
 		_unit setUnitTrait ['camouflageCoef',0.5,FALSE];
 		_unit setUnitTrait ['audibleCoef',0.5,FALSE];
+		_unit setVariable ['QS_tracersAdded',TRUE,FALSE];
 		if ((random 1) > 0.5) then {
 			_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
 			_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime - 1),FALSE];

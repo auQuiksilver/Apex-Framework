@@ -38,7 +38,6 @@ disableSerialization;
 	['QS_revive_waitButton',TRUE,FALSE],
 	['QS_revive_waitTime',-1,FALSE],
 	['QS_RD_draggable',TRUE,TRUE],
-	['QS_RD_carryable',TRUE,TRUE],
 	['QS_RD_loadable',TRUE,TRUE],
 	['QS_medical_spectating',FALSE],
 	['QS_revive_respawnType','',FALSE]
@@ -477,7 +476,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			player allowDamage TRUE;
 			player setVariable ['QS_RD_draggable',FALSE,TRUE];
-			player setVariable ['QS_RD_carryable',FALSE,TRUE];
 			player setVariable ['QS_RD_loadable',FALSE,TRUE];
 			player setVariable ['QS_revive_healer',nil,TRUE];
 			['switchMove',player,'AmovPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];

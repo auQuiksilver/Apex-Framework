@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/04/2017 A3 1.68 by Quiksilver
+	22/08/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -14,11 +14,13 @@ Description:
 _____________________________________________________________*/
 
 private _t = cursorTarget;
-if (!isNull (attachedTo _t)) exitWith {};
-if (!isNull (objectParent _t)) exitWith {};
-if ((!(_t isKindOf 'Man')) && (!([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) && (!(_t getVariable ['QS_RD_draggable',FALSE]))) exitWith {};
-if (!alive _t) exitWith {};
-if ((_t isKindOf 'StaticWeapon') && (!(((crew _t) findIf {(alive _x)}) isEqualTo -1))) exitWith {};
+if (
+	(!alive _t) ||
+	(!isNull (attachedTo _t)) ||
+	(!isNull (objectParent _t)) ||
+	((!(_t isKindOf 'Man')) && (!([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) && (!(_t getVariable ['QS_RD_draggable',FALSE]))) ||
+	((_t isKindOf 'StaticWeapon') && (!(((crew _t) findIf {(alive _x)}) isEqualTo -1)))
+) exitWith {};
 if (_t getVariable ['QS_interaction_disabled',FALSE]) exitWith {
 	50 cutText ['Interaction disabled on this object','PLAIN',0.3];
 };
@@ -39,11 +41,6 @@ if (_t isKindOf 'Man') exitWith {
 	_t attachTo [player,[0,1.1,0.092]];
 	[6,_t,180,'AinjPpneMrunSnonWnonDb_grab'] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 	50 cutText [(format ['Dragging %1',(name _t)]),'PLAIN DOWN',0.3];
-	0 spawn {
-		player setVariable ['QS_RD_interaction_busy',TRUE,FALSE];
-		uiSleep 2;
-		player setVariable ['QS_RD_interaction_busy',FALSE,FALSE];
-	};
 	player playActionNow 'grabDrag';
 };
 if (!local _t) then {
@@ -53,7 +50,6 @@ _pos = ((getPosATL player) vectorAdd ((vectorDir player) vectorMultiply 1.5));
 _pos set [2,((_pos select 2) + 0.2)];
 _t setPosATL _pos;
 [_t,player,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
-//comment '_t attachTo [player];';
 player playActionNow 'grabDrag';
 _text = format ['Dragging %1',(_t getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName'))])];
 50 cutText [_text,'PLAIN DOWN',0.75];

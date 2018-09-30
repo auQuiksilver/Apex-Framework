@@ -1,5 +1,31 @@
 Official change log
 
+1.1.1 (A3 1.84 30/09/2018)
+
+- [ADDED] Enemy heavy artillery targeting system.
+- [ADDED] Parameter option for enemy map indicators.
+- [TWEAKED] AI units have access to more powerful rifles on Arid terrains (Altis, Malden).
+- [TWEAKED] Reduced unnecessary network traffic created by some client data.
+- [TWEAKED] AI Vehicle "Unstuck" logic.
+- [TWEAKED] Destroyer cruise missile launcher to receive target data from datalink.
+- [TWEAKED] Escort Vehicle side mission will no longer auto-group players when within 1000m of base.
+- [TWEAKED] Camo netting on enemy vehicles should block "Report target" player interaction.
+- [TWEAKED] AI strategic awareness of armor/jet threats.
+- [TWEAKED] AI heli tail rotors buffed.
+- [TWEAKED] Friendly vehicle "is stealthy" function for enemy awareness.
+- [FIXED] Enemy artillery side mission.
+- [FIXED] Potential script error with custom task info GUI.
+- [FIXED] Enemy AI vehicles would stop their patrol route after the first waypoint.
+- [FIXED] Some AI vehicles would not move at all, despite being given patrol logic.
+- [FIXED] Bug in "Escort Vehicle" side mission.
+- [FIXED] Bug in enemy reinforcement vehicle spawning.
+- [FIXED] Bug in enemy light recon aircraft spawning.
+- [FIXED] Bug in defend mission transport vehicle damage handling.
+- [FIXED] Bug in some enemy group compositions.
+- [FIXED] AO in campaign/insurgency (grid) mode was spawning on top of the main base on Malden.
+- [FIXED] Players could drag a Vehicle Ammo Crate in some cases.
+- [FIXED] Script error with "uav self destruct" user action when controlling the AR-2 Darter.
+
 1.1.0 "Encore"
 
 - [ADDED] USS Liberty destroyer.

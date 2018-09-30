@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	26/04/2018 A3 1.82 by Quiksilver
+	18/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -20,24 +20,31 @@ if (_type isEqualTo 0) exitWith {
 	_vehicle = vehicle _grpLeader;
 	_vehicle setVehicleAmmo 1;
 	_grp = group _grpLeader;
-	_grp setFormDir ((position _grpLeader) getDir _firePosition);
-	uiSleep (3 + (random 5));
+	_grp setFormDir ((getPos _grpLeader) getDir _firePosition);
+	_sleep_1 = [5,2] select (_vehicle isKindOf 'StaticMortar');
+	_sleep_2 = [7,4] select (_vehicle isKindOf 'StaticMortar');
 	_nearbyTargetsCount = count ([12,EAST,_firePosition,100] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies'));
-	if (_nearbyTargetsCount > (selectRandom [5,6])) then {
+	if ((_vehicle isKindOf 'StaticMortar') && (_nearbyTargetsCount > (selectRandom [5,6]))) then {
 		_fireRounds = round (_fireRounds * 2);
 	};
 	private _radius = 90;
 	private _firstShell = TRUE;
 	_grpLeader doWatch [(_firePosition select 0),(_firePosition select 1),(1000 + (random 1000))];
-	for '_x' from 0 to (_fireRounds - 1) step 1 do {
-		if ((!alive _vehicle) || {(!alive _grpLeader)} || {(isNull (objectParent _grpLeader))}) exitWith {};
-		_grpLeader doArtilleryFire [(_firePosition getPos [(_radius * (sqrt (random 1))),(random 360)]),_fireShells,1];
-		_radius = _radius * (random [0.7,0.75,1]);
-		if (_firstShell) then {
-			_firstShell = FALSE;
-			uiSleep (2 + (random 2));
+	uiSleep (3 + (random 5));
+	if (_vehicle isKindOf 'StaticMortar') then {
+		for '_x' from 0 to (_fireRounds - 1) step 1 do {
+			if ((!alive _vehicle) || {(!alive _grpLeader)} || {(isNull (objectParent _grpLeader))}) exitWith {};
+			_grpLeader doArtilleryFire [(_firePosition getPos [(_radius * (sqrt (random 1))),(random 360)]),_fireShells,1];
+			_radius = _radius * (random [0.7,0.75,1]);
+			if (_firstShell) then {
+				_firstShell = FALSE;
+				uiSleep (_sleep_1 + (random _sleep_1));
+			};
+			uiSleep (_sleep_2 + (random _sleep_1));
 		};
-		uiSleep (4 + (random 2));
+	} else {
+		_grpLeader doArtilleryFire [(_firePosition getPos [(15 * (sqrt (random 1))),(random 360)]),_fireShells,_fireRounds];
+		_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(diag_tickTime + 60)],FALSE];
 	};
 };
 if (_type isEqualTo 1) exitWith {

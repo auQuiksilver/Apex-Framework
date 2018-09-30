@@ -24,9 +24,9 @@ if (_type isEqualTo 0) exitWith {
 		'QS_marker_aoMarker'
 	];
 	missionNamespace setVariable ['QS_missionStatus_SC_canShow',FALSE,TRUE];
-	comment 'Communicate here';
+	//comment 'Communicate here';
 	if (_scWinningSide in [0,2]) then {
-		comment 'Mission failed!';
+		//comment 'Mission failed!';
 		['SC_EXIT_BAD',['','Mission failed...']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		[
 			[],
@@ -39,7 +39,7 @@ if (_type isEqualTo 0) exitWith {
 			}
 		] remoteExec ['spawn',-2,FALSE];
 	} else {
-		comment 'Mission complete!';
+		//comment 'Mission complete!';
 		['SC_EXIT_GOOD',['','Mission complete!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		[
 			[],
@@ -104,7 +104,7 @@ if (_type isEqualTo 1) exitWith {
 			_x setMarkerAlpha 0.5;
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_siteMarkers');
 	};
-	comment 'Communicate here';	
+	//comment 'Communicate here';	
 	['SC_INIT',['','Secure all objectives!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	missionNamespace setVariable ['QS_missionStatus_SC_canShow',TRUE,TRUE];
 };

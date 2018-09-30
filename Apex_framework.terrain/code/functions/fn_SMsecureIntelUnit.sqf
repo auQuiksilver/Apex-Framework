@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/10/2017 A3 1.76 by Quiksilver
+	7/9/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -89,6 +89,7 @@ _obj1 setDir (random 360);
 _obj1 enableRopeAttach FALSE;
 _obj1 enableVehicleCargo FALSE;
 _obj1 setVectorUp (surfaceNormal (getPosWorld _obj1));
+_obj1 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _objUnitType = selectRandom _objUnitTypes;
 _intelObj = _aGroup createUnit [_objUnitType,_flatPos1,[],0,'NONE'];
 _intelDriver = _aGroup createUnit [_crewUnitType,_flatPos1,[],0,'NONE'];
@@ -135,6 +136,7 @@ _obj2 setDir (random 360);
 _obj2 enableRopeAttach FALSE;
 _obj2 enableVehicleCargo FALSE;
 _obj2 setVectorUp (surfaceNormal (getPosWorld _obj2));
+_obj2 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _objUnitType = selectRandom _objUnitTypes;
 _decoy1 = _bGroup createUnit [_objUnitType,_flatPos1,[],0,'NONE'];
 _decoyDriver1 = _bGroup createUnit [_crewUnitType,_flatPos1,[],0,'NONE'];
@@ -161,6 +163,7 @@ _obj3 setDir (random 360);
 _obj3 enableRopeAttach FALSE;
 _obj3 enableVehicleCargo FALSE;
 _obj3 setVectorUp (surfaceNormal (getPosWorld _obj3));
+_obj3 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _objUnitType = selectRandom _objUnitTypes;
 _decoy2 = _cGroup createUnit [_objUnitType,_flatPos1,[],0,'NONE'];
 _decoyDriver2 = _cGroup createUnit [_crewUnitType,_flatPos1,[],0,'NONE'];

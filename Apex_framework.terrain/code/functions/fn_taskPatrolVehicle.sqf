@@ -11,13 +11,17 @@ Last modified:
 Description:
 
 	AI Vehicle Patrol
+	
+	[_grp,_flatPos,400,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 __________________________________________________/*/
 
-_grp = param [0,grpNull];
-_vCenterPos = param [1,[0,0,0]];
-_patrolRadius = param [2,300];
-_nearRoads = param [3,[]];
-_new = param [4,FALSE];
+params [
+	['_grp',grpNull],
+	['_vCenterPos',[0,0,0]],
+	['_patrolRadius',300],
+	['_nearRoads',[]],
+	['_new',FALSE]
+];
 _vehiclePos = getPosATL (vehicle (leader _grp));
 private _nearRoadsPositions = [];
 if (_nearRoads isEqualTo []) then {

@@ -74,12 +74,8 @@ if (_type isEqualTo 'B1') exitWith {
 							lnbSetPicture [1808,[_forEachIndex,3],'media\images\insignia\comm_patch.paa'];
 						};
 					} else {
-						if (!isNil {_object getVariable 'QS_ClientUnitInsignia2'}) then {
-							if ((!((_object getVariable 'QS_ClientUnitInsignia2') isEqualTo '')) && (!((_object getVariable 'QS_ClientUnitInsignia2') == '#(argb,8,8,3)color(0,0,0,0)'))) then {
-								lnbSetPicture [1808,[_forEachIndex,3],(_object getVariable 'QS_ClientUnitInsignia2')];
-							} else {
-								lnbSetPicture [1808,[_forEachIndex,3],'media\images\insignia\comm_patch.paa'];
-							};
+						if ((!((_object getVariable ['QS_ClientUnitInsignia2','']) isEqualTo '')) && (!((_object getVariable ['QS_ClientUnitInsignia2','']) == '#(argb,8,8,3)color(0,0,0,0)'))) then {
+							lnbSetPicture [1808,[_forEachIndex,3],(_object getVariable ['QS_ClientUnitInsignia2',''])];
 						} else {
 							lnbSetPicture [1808,[_forEachIndex,3],'media\images\insignia\comm_patch.paa'];
 						};
@@ -160,12 +156,8 @@ if (_type isEqualTo 'B1') exitWith {
 									lnbSetPicture [1808,[_forEachIndex,3],'media\images\insignia\comm_patch.paa'];
 								};
 							} else {
-								if (!isNil {_object getVariable 'QS_ClientUnitInsignia2'}) then {
-									if ((!((_object getVariable 'QS_ClientUnitInsignia2') isEqualTo '')) && (!((_object getVariable 'QS_ClientUnitInsignia2') isEqualTo '#(argb,8,8,3)color(0,0,0,0)'))) then {
-										lnbSetPicture [1808,[_forEachIndex,3],(_object getVariable 'QS_ClientUnitInsignia2')];
-									} else {
-										lnbSetPicture [1808,[_forEachIndex,3],'media\images\insignia\comm_patch.paa'];
-									};
+								if ((!((_object getVariable ['QS_ClientUnitInsignia2','']) isEqualTo '')) && (!((_object getVariable ['QS_ClientUnitInsignia2','']) isEqualTo '#(argb,8,8,3)color(0,0,0,0)'))) then {
+									lnbSetPicture [1808,[_forEachIndex,3],(_object getVariable ['QS_ClientUnitInsignia2',''])];
 								} else {
 									lnbSetPicture [1808,[_forEachIndex,3],'media\images\insignia\comm_patch.paa'];
 								};

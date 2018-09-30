@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	10/07/2017 A3 1.72 by Quiksilver
+	13/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -14,11 +14,7 @@ Description:
 __________________________________________________*/
 
 params ['_killed','_killer','_instigator','_useEffects'];
-missionNamespace setVariable [
-	'QS_analytics_entities_killed',
-	((missionNamespace getVariable 'QS_analytics_entities_killed') + 1),
-	FALSE
-];
+missionNamespace setVariable ['QS_analytics_entities_killed',((missionNamespace getVariable 'QS_analytics_entities_killed') + 1),FALSE];
 missionNamespace setVariable ['QS_system_entitiesKilled',((missionNamespace getVariable ['QS_system_entitiesKilled',0]) + 1),FALSE];
 if (_killed isKindOf 'Man') then {
 	if (!(_killed getVariable ['QS_dead_prop',FALSE])) then {
@@ -38,11 +34,7 @@ if (_killed isKindOf 'Man') then {
 if (isPlayer _killed) then {
 	if (!isNull _killer) then {
 		if (!(_killer isEqualTo _killed)) then {
-			missionNamespace setVariable [
-				'QS_playerKilledCountServer',
-				((missionNamespace getVariable 'QS_playerKilledCountServer') + 1),
-				FALSE
-			];	
+			missionNamespace setVariable ['QS_playerKilledCountServer',((missionNamespace getVariable 'QS_playerKilledCountServer') + 1),FALSE];
 			if (unitIsUAV _killer) then {
 				if (!local _killer) then {
 					if (([(getPosATL _killer),15,[WEST,CIVILIAN],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {

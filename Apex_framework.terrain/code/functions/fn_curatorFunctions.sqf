@@ -393,7 +393,6 @@ if (_key isEqualTo 73) exitWith {
 				_unit setVariable _x;
 			} forEach [
 				['QS_RD_draggable',TRUE,TRUE],
-				['QS_RD_carryable',TRUE,TRUE],
 				['QS_RD_loadable',TRUE,TRUE]
 			];
 			_unit setUnconscious TRUE;

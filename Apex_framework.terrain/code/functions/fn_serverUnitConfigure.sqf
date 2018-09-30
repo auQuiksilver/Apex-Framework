@@ -23,9 +23,8 @@ _grp setVariable ['QS_RD_group_noHC',TRUE,FALSE];
 _unit enableStamina FALSE;
 _unit addEventHandler ['HandleScore',{FALSE}];
 _grp setVariable ['QS_HComm_grp',FALSE,TRUE];
-for '_x' from 0 to 2 step 1 do {
+for '_x' from 0 to 1 step 1 do {
 	_unit setVariable ['QS_RD_interactable',TRUE,TRUE];
-	_unit setVariable ['QS_RD_interacted',FALSE,TRUE];
 	_unit setVariable ['QS_RD_recruitable',TRUE,TRUE];
 	_unit setVariable ['QS_RD_recruited',FALSE,TRUE];
 	_unit setVariable ['QS_RD_dismissable',TRUE,TRUE];
@@ -56,28 +55,4 @@ _unit addEventHandler [
 		};
 	}
 ];
-
-/*/
-_unit addEventHandler [
-	'HandleDamage',
-	{
-		params ['_unit','_selectionName','_damage','_source','_projectile','_hitPartIndex','_instigator'];
-		if (isBurning _unit) exitWith {_damage};
-		private ['_scale','_oldDamage'];
-		if (!(_selectionName isEqualTo '?')) then {
-			_oldDamage = if (_selectionName isEqualTo '') then [{damage _unit},{_unit getHit _selectionName}];
-			_damage = ((_damage - _oldDamage) * 0.5) + _oldDamage;
-		};
-		if (!((vehicle _unit) isKindOf 'Man')) exitWith {_damage};
-		if (_damage > 0.97) exitWith {
-			if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) then {
-				_unit allowDamage FALSE;
-				_unit setUnconscious TRUE;
-			};
-			_damage;
-		};
-		_damage;
-	}
-];
-/*/
 TRUE;

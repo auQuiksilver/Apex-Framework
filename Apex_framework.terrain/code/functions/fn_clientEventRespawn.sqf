@@ -74,17 +74,10 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 	player setVariable _x;
 } forEach [
 	['QS_RD_interacting',FALSE,TRUE],
-	['QS_RD_interacted',FALSE,TRUE],
-	['QS_RD_draggable',FALSE,TRUE],
-	['QS_RD_carryable',FALSE,TRUE],
-	['QS_RD_loadable',FALSE,TRUE],
 	['QS_RD_loaded',FALSE,TRUE],
-	['QS_RD_escorting',FALSE,TRUE],
-	['QS_RD_escortable',FALSE,TRUE],
-	['QS_RD_interaction_busy',FALSE,FALSE],
 	['QS_event_handleHeal',nil,TRUE],
 	['QS_revive_respawnType','',FALSE],
-	['QS_revive_disable',FALSE,TRUE],
+	['QS_revive_disable',FALSE,(player getVariable ['QS_revive_disable',FALSE])],
 	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE],
 	['QS_client_playerViewChanged',TRUE,FALSE]

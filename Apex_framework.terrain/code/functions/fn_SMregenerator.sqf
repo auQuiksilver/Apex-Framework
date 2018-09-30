@@ -176,7 +176,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 	};
 };
 private _tent = objNull;
-if ((random 1) > 0) then {
+if ((random 1) > 0.5) then {
 	_grpSpawnPos = ['RADIUS',_spawnPosition,600,'LAND',[5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	if ((_grpSpawnPos distance2D _spawnPosition) < 600) then {
 		_tank = createVehicle ['I_LT_01_scout_F',_grpSpawnPos,[],0,'NONE'];
@@ -187,6 +187,7 @@ if ((random 1) > 0) then {
 		_tank enableRopeAttach FALSE;
 		_tank lock 3;
 		_tank lockDriver TRUE;
+		_tank setVariable ['QS_vehicle_disableAIUnstuck',TRUE,FALSE];
 		[0,_tank,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _tank;
 		createVehicleCrew _tank;
@@ -194,7 +195,7 @@ if ((random 1) > 0) then {
 		_tank setVehicleRadar 1;
 		_tank setVehicleReportRemoteTargets TRUE;
 		_tank setVehicleReceiveRemoteTargets TRUE;
-		_tank setVehicleReportOwnPosition TRUE;
+		_tank setVehicleReportOwnPosition FALSE;
 		_tank engineOn FALSE;
 		(crew _tank) joinSilent _grp;
 		_all pushBack _tank;

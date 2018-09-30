@@ -20,21 +20,21 @@ params [
 ];
 if (_type isEqualTo 0) exitWith {
 	_airToGroundMissiles = [
-		"pylonmissile_1rnd_lg_scalpel",
-		"pylonmissile_missile_agm_02_x1",
-		"pylonmissile_missile_agm_02_x2",
-		"pylonmissile_missile_agm_kh25_int_x1",
-		"pylonmissile_missile_agm_kh25_x1",
-		"pylonrack_12rnd_pg_missiles",
-		"pylonrack_1rnd_lg_scalpel",
-		"pylonrack_1rnd_missile_agm_01_f",
-		"pylonrack_1rnd_missile_agm_02_f",
-		"pylonrack_3rnd_lg_scalpel",
-		"pylonrack_3rnd_missile_agm_02_f",
-		"pylonrack_4rnd_lg_scalpel",
-		"pylonrack_missile_agm_02_x1",
-		"pylonrack_missile_agm_02_x2",
-		"pylonmissile_1rnd_mk82_f"
+		'pylonmissile_1rnd_lg_scalpel',
+		'pylonmissile_missile_agm_02_x1',
+		'pylonmissile_missile_agm_02_x2',
+		'pylonmissile_missile_agm_kh25_int_x1',
+		'pylonmissile_missile_agm_kh25_x1',
+		'pylonrack_12rnd_pg_missiles',
+		'pylonrack_1rnd_lg_scalpel',
+		'pylonrack_1rnd_missile_agm_01_f',
+		'pylonrack_1rnd_missile_agm_02_f',
+		'pylonrack_3rnd_lg_scalpel',
+		'pylonrack_3rnd_missile_agm_02_f',
+		'pylonrack_4rnd_lg_scalpel',
+		'pylonrack_missile_agm_02_x1',
+		'pylonrack_missile_agm_02_x2',
+		'pylonmissile_1rnd_mk82_f'
 	];
 	private _compatiblePylonMagazines = _vehicle getCompatiblePylonMagazines _pylon;
 	private _pylonMagazines = [];

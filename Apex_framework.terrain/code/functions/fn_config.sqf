@@ -6,14 +6,14 @@ Author:
 	
 Last modified: 
 
-	4/08/2018 A3 1.82 by Quiksilver
+	30/09/2018 A3 1.84 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.0';
+_missionProductVersion = '1.1.1';
 _missionProductStatus = 'Gold';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
@@ -207,7 +207,9 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	{
 		if (!isNull _x) then {
 			if (!(_x isKindOf 'Logic')) then {
-				deleteVehicle _x;
+				if (!(_x getVariable ['QS_missionObject_protected',FALSE])) then {
+					deleteVehicle _x;
+				};
 			};
 		};
 	} forEach (allMissionObjects '');
@@ -218,7 +220,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 enableDynamicSimulationSystem TRUE;
 enableEnvironment [FALSE,FALSE];
 disableRemoteSensors TRUE;
-useAISteeringComponent TRUE;
+useAISteeringComponent FALSE;
 {
 	(_x select 0) enableAIFeature (_x select 1);
 } forEach [
@@ -611,6 +613,7 @@ _recyclerUnitTypes = [
 	['QS_AI_supportProviders_ARTY',[],FALSE],
 	['QS_AI_supportProviders_INTEL',[],FALSE],
 	['QS_AI_hostileBuildings',[],FALSE],
+	['QS_AI_fireMissions',[],FALSE],
 	['QS_client_showKnownEnemies',TRUE,TRUE],
 	['QS_client_showStealthEnemies',FALSE,TRUE],
 	['QS_enemy_mortarFireMessage',diag_tickTime,FALSE],
@@ -988,9 +991,7 @@ if (_worldName isEqualTo 'Altis') then {
 		[[5397.52,17934.3,7.93568],'']
 	];
 };
-
 [0] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
-
 missionNamespace setVariable [
 	'QS_hqArray',
 	[
@@ -1088,11 +1089,7 @@ missionNamespace setVariable [
 
 /*/===== watchlist of troublemaker UIDs, harvested from RPT files. Reports against these players in the future are given 2x weighting by Robocop./*/
 
-missionNamespace setVariable [
-	'QS_robocop_watchlist',
-	[],
-	FALSE
-];
+missionNamespace setVariable ['QS_robocop_watchlist',[],FALSE];
 if (isNil {profileNamespace getVariable 'QS_robocop_watchlist'}) then {
 	profileNamespace setVariable ['QS_robocop_watchlist',[]];
 	saveProfileNamespace;
@@ -1125,10 +1122,8 @@ if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isE
 		['DEFENSE']
 	];
 };
-
 0 spawn (missionNamespace getVariable 'QS_fnc_easterEggs');
 [0] call (missionNamespace getVariable 'QS_fnc_artillery');
-
 if (!((allMissionObjects 'Land_RepairDepot_01_base_F') isEqualTo [])) then {
 	{
 		if (!isSimpleObject _x) then {

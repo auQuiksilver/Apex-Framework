@@ -113,7 +113,6 @@ if (_state isEqualTo 1) then {
 				['QS_RD_unloadable',TRUE,TRUE],
 				['QS_RD_draggable',TRUE,TRUE],
 				['QS_RD_dragged',FALSE,TRUE],
-				['QS_RD_carryable',TRUE,TRUE],
 				['QS_RD_carried',FALSE,TRUE],
 				['QS_RD_recovered',FALSE,FALSE],
 				['QS_noHeal',TRUE,TRUE],

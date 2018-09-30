@@ -62,7 +62,7 @@ params ['_player','_weapon'];
 					if ((['medical',(typeOf _weapon),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['medevac',(typeOf _weapon),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
 						_weapon setVariable ['QS_medicalVehicle_reviveTickets',0,TRUE];
 					};
-					_weapon setVehicleReportRemoteTargets FALSE;
+					_weapon setVehicleReportRemoteTargets TRUE;
 					_weapon setVehicleReceiveRemoteTargets FALSE;
 					_weapon spawn {
 						uiSleep 1;

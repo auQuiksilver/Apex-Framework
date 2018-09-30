@@ -127,6 +127,9 @@ _heli addEventHandler [
 		if (_selectionName isEqualTo '?') then {
 			_scale = 0.2;
 		};
+		if ((_vehicle getHit 'tail_rotor_hit') > 0) then {
+			_vehicle setHit ['tail_rotor_hit',0,TRUE];
+		};
 		_damage = ((_damage - _oldDamage) * _scale) + _oldDamage;
 		_damage;
 	}

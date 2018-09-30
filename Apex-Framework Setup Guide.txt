@@ -1,5 +1,5 @@
 Apex Framework
-Apex Framework 1.1.0 by Quiksilver ( armacombatgroup@gmail.com )
+Apex Framework 1.1.1 by Quiksilver ( armacombatgroup@gmail.com )
 
 Support
 
@@ -14,7 +14,7 @@ Apex Framework step-by-step setup guide:
 Setup time: 10-15 minutes.
 Server must be a Dedicated server. Not configured for local client hosting.
 Server must be running Windows x64, or Linux.
-Download the "Apex_framework_110_allFiles.zip" file.
+Download the "Apex_framework_111_allFiles.zip" file.
 It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 Place mission PBO files in your servers MPMissions folder.
 2a. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
@@ -35,11 +35,11 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_110.Altis";
+template="Apex_framework_111.Altis";
 
-//template="Apex_framework_110.Tanoa";
+//template="Apex_framework_111.Tanoa";
 
-//template="Apex_framework_110.Malden";
+//template="Apex_framework_111.Malden";
 
 difficulty="Custom";
 
@@ -49,7 +49,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_110.Altis","Apex_framework_110.Tanoa","Apex_framework_110.Malden"};
+missionWhitelist[] = {"Apex_framework_111.Altis","Apex_framework_111.Tanoa","Apex_framework_111.Malden"};
 
 6b. Ensure that: forcedDifficulty = "Custom";
 

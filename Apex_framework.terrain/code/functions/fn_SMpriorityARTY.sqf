@@ -1,20 +1,20 @@
 /*
-File: priorityARTY.sqf
+File: fn_SMpriorityARTY.sqf
 Author:
 
 	Quiksilver
 	
 Last modified:
 
-	3/09/2017 A3 1.74 by Quiksilver
+	19/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
 	-
-__________________________________________________________________________*/
+______________________________________________________*/
 
-scriptName 'Side Mission - Artillery';
-if ((count allPlayers) < 20) exitWith {};
+scriptName 'QS - Side Mission - Artillery';
+if ((count allPlayers) < 15) exitWith {};
 if (worldName in ['Stratis']) exitWith {};
 private ['_flatPos','_accepted','_unitsArray','_enemiesArray','_fuzzyPos','_briefing','_completeText','_baseMarker','_priorityTargets'];
 missionNamespace setVariable ['QS_sideMission_enemyArray',[],FALSE];
@@ -44,6 +44,57 @@ _priorityTargets = [];
 	};
 } forEach _unitsArray;
 _enemiesArray = [_unitsArray select 0] call (missionNamespace getVariable 'QS_fnc_smEnemyEast');
+
+
+private _playerCount = count allPlayers;
+private _grp = grpNull;
+private _grpSpawnPos = [0,0,0];
+_tankTypes = [
+	'I_LT_01_AA_F',0.4,
+	'I_LT_01_AT_F',0.4,
+	'I_LT_01_cannon_F',0.2
+];
+private _tank = objNull;
+private _tankCount = 1;
+if (_playerCount > 10) then {_tankCount = 1;} else {_tankCount = 1;};
+if (_playerCount > 20) then {_tankCount = 2;};
+if (_playerCount > 30) then {_tankCount = 2;};
+if (_playerCount > 40) then {_tankCount = 3;};
+if (_playerCount > 50) then {_tankCount = 3;};
+_tankCount = 2;
+_speed = ceil (random [30,40,50]);
+private _tanks = [];
+for '_x' from 0 to (_tankCount - 1) step 1 do {
+	_grpSpawnPos = ['RADIUS',_flatPos,300,'LAND',[5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+	if ((_grpSpawnPos distance2D _flatPos) < 500) then {
+		//_grp = createGroup [EAST,TRUE];
+		_tank = createVehicle [(selectRandomWeighted _tankTypes),_grpSpawnPos,[],0,'NONE'];
+		_tank setDir (random 360);
+		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
+		_tank allowCrewInImmobile TRUE;
+		_tank enableVehicleCargo FALSE;
+		_tank enableRopeAttach FALSE;
+		_tank lock 3;
+		_tank setConvoySeparation 50;
+		_tank limitSpeed _speed;
+		_tank addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
+		[0,_tank,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
+		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _tank;
+		createVehicleCrew _tank;
+		_grp = group (effectiveCommander _tank);
+		[_grp,_flatPos,400,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
+		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_tank],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_enemiesArray pushBack _tank;
+		{
+			_x setUnitTrait ['engineer',TRUE,FALSE];
+			_x setUnitLoadout (getUnitLoadout (['O_engineer_F','O_T_Engineer_F'] select (worldName in ['Tanoa','Lingor3'])));
+			_enemiesArray pushBack _x;
+		} forEach (crew _tank);
+		_tanks pushBack _tank;
+	};
+};
 _fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 300) + (random 600),0];
 {
 	_x setMarkerPos _fuzzyPos;
@@ -88,8 +139,8 @@ _completeText = parseText "<t align='center' size='2.2'>Priority Target</t><br/>
 	};
 } forEach (missionNamespace getVariable ['QS_sideMission_enemyArray',[]]);
 {
-	0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
+	0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 } count _enemiesArray;
 {
-	0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
+	0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 } count _unitsArray;

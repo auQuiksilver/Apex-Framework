@@ -6,16 +6,11 @@ Author:
 
 Last Modified:
 
-	8/04/2018 A3 1.82 by Quiksilver
+	18/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
 	AI Get Known Enemies
-	
-To Do:
-
-	- Identify tight groups of players for fire support attack
-	- Analyze after collation
 ________________________________________________________/*/
 
 params ['_type','_side'];
@@ -67,7 +62,7 @@ if (_type isEqualTo 0) exitWith {
 		_basePosition = markerPos 'QS_marker_base_marker';
 		_baseRadius = 1000;
 		for '_x' from 0 to 1 step 0 do {
-			if ((diag_fps > 12) && (!(missionNamespace getVariable ['QS_AI_targetsKnowledge_suspend',_false]))) then {
+			if ((diag_fps > 10) && (!(missionNamespace getVariable ['QS_AI_targetsKnowledge_suspend',_false]))) then {
 				if (!((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') isEqualTo [])) then {
 					missionNamespace setVariable [
 						'QS_AI_targetsKnowledge_EAST',
@@ -75,8 +70,8 @@ if (_type isEqualTo 0) exitWith {
 						_false
 					];
 				};
-				_threat_armor = [];
-				_threat_air = [];
+				_threat_armor = _threat_armor select {((alive _x) && ((_east knowsAbout _x) > 3))};
+				_threat_air = _threat_air select {((alive _x) && (!isTouchingGround _x) && ((_east knowsAbout _x) > 3))};
 				_allUnits = allUnits;
 				{
 					if (alive _x) then {
@@ -99,7 +94,7 @@ if (_type isEqualTo 0) exitWith {
 											];
 											if (_knownByGroup) then {
 												if ((_targetPosition distance2D _basePosition) > _baseRadius) then {
-													if (_positionError <= 10) then {
+													if ((_positionError <= 50) || {(_knownVehicle isKindOf 'Air')}) then {		// <= 10
 														if (!(_targetPosition isEqualTo [0,0,0])) then {
 															_targetIndexMem = ((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') findIf {((_x select 2) isEqualTo _knownVehicle)});
 															if (_targetIndexMem isEqualTo -1) then {
@@ -252,6 +247,20 @@ if (_type isEqualTo 4) exitWith {
 };
 if (_type isEqualTo 5) exitWith {
 	// Get highest-rated enemy
+	
+/*/
+							if ((random 1) > 0.5) then {
+								_target = selectRandom _filteredTargets;
+							} else {
+								private _rating = -9999;
+								{
+									if ((rating _x) > _rating) then {
+										_target = _x;
+										_rating = rating _x;
+									};
+								} count _filteredTargets;
+							};
+/*/
 };
 if (_type isEqualTo 6) exitWith {
 	_position = param [2];
@@ -366,6 +375,15 @@ if (_type isEqualTo 9) exitWith {
 				};
 			};
 		} forEach _targetsKnowledge;
+		{
+			if ((objectParent _x) isKindOf 'Plane') then {
+				if (!isTouchingGround (objectParent _x)) then {
+					if ((EAST knowsAbout (objectParent _x)) > 3.5) then {
+						_grp reveal [(objectParent _x),(EAST knowsAbout (objectParent _x))];
+					};
+				};
+			};
+		} forEach allPlayers;
 	};
 };
 if (_type isEqualTo 10) exitWith {
@@ -392,13 +410,14 @@ if (_type isEqualTo 11) exitWith {
 	private _return = [];
 	if (!((missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]) isEqualTo [])) then {
 		_targetsKnowledge = missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]];
+		_fn_inHouse = missionNamespace getVariable 'QS_fnc_inHouse';
 		{
 			_vehicle = _x select 2;
 			if (alive _vehicle) then {
 				if (_vehicle isKindOf 'CAManBase') then {
 					if ((_x select 7) > 2) then {
 						if ((_vehicle distance2D (nearestBuilding _vehicle)) < 25) then {
-							([_vehicle,(getPosWorld _vehicle)] call (missionNamespace getVariable 'QS_fnc_inHouse')) params ['_inHouse','_house'];
+							([_vehicle,(getPosWorld _vehicle)] call _fn_inHouse) params ['_inHouse','_house'];
 							if (_inHouse) then {
 								_return pushBackUnique _house;
 							};
@@ -412,8 +431,12 @@ if (_type isEqualTo 11) exitWith {
 };
 if (_type isEqualTo 12) exitWith {
 	// Targets in area
-	_position = param [2];
-	_radius = param [3];
+	params [
+		'',
+		'',
+		'_targetPos',
+		['_targetRad',100,[0]]
+	];
 	// Check for vehicles in area
 	private _return = 0;
 	private _vehicle = objNull;
@@ -425,11 +448,9 @@ if (_type isEqualTo 12) exitWith {
 			_vehicle = _x select 2;
 			if (alive _vehicle) then {
 				if (_vehicle isKindOf 'AllVehicles') then {
-					if ((_vehicle distance2D _position) < _radius) then {
-						if (!(_vehicle in _targets)) then {
-							if (isTouchingGround _vehicle) then {
-								_targets pushBack _vehicle;
-							};
+					if ((_vehicle distance2D _targetPos) < _targetRad) then {
+						if (isTouchingGround _vehicle) then {
+							_targets pushBackUnique _vehicle;
 						};
 					};
 				};
@@ -437,5 +458,130 @@ if (_type isEqualTo 12) exitWith {
 		} forEach _targetsKnowledge;
 	};
 	_targets;
+};
+if (_type isEqualTo 13) exitWith {
+	params ['','','_isArty','_supportProvider','_supportShells'];
+	_data = [['',0]];
+	_enemySides = [_side] call (missionNamespace getVariable 'QS_fnc_enemySides');
+	_fn_isStealthy = {
+		params ['_vehicle'];
+		private _c = FALSE;
+		if ((((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) && (((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)) || {(!isEngineOn _vehicle)}) then {
+			if (!isVehicleRadarOn _vehicle) then {
+				if (!isLaserOn _vehicle) then {
+					if (!isOnRoad _vehicle) then {
+						if (!((toLower (surfaceType (getPosWorld _vehicle))) in ['#gdtasphalt'])) then {
+							if ((((getPosATL _vehicle) getEnvSoundController 'houses') isEqualTo 0) || {(((getPosATL _vehicle) getEnvSoundController 'forest') isEqualTo 1)}) then {
+								_c = TRUE;
+							};
+						};
+					};
+				};
+			};
+		};
+		_c;
+	};
+	private _return = [0,0,0];
+	private _index = -1;
+	private _mapGridPos = '';
+	private _cost = -1;
+	private _gridCenter = [0,0,0];
+	private _gridData = [];
+	private _costThreshold = 750;
+	_camanbase = 100000;
+	_sniper = 350000;
+	_staticweapon = 200000;
+	_car_f = 300000;
+	_wheeled_apc_f = 500000;
+	_tank_f = 1000000;
+	_air_f = 1000000;
+	private _vehicle = objNull;
+	{
+		_vehicle = _x select 2;
+		if ((side _vehicle) in _enemySides) then {
+			if ((_vehicle isKindOf 'CAManBase') || {(((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)}) then {
+				if ((isTouchingGround _vehicle) && (!(surfaceIsWater (_x select 1)))) then {
+					_mapGridPos = mapGridPosition (_x select 1);
+					_cost = -1;
+					if (_vehicle isKindOf 'CAManBase') then {
+						_cost = _camanbase;
+						if (_vehicle isKindOf 'B_Soldier_sniper_base_F') then {
+							_cost = _sniper;
+						};
+					};
+					if (_vehicle isKindOf 'StaticWeapon') then {
+						_cost = _staticweapon;
+					};
+					if (_vehicle isKindOf 'Car_F') then {
+						_cost = [_car_f,(_car_f / 2)] select (_vehicle call _fn_isStealthy);
+					};
+					if (_vehicle isKindOf 'Wheeled_APC_F') then {
+						_cost = [_wheeled_apc_f,(_wheeled_apc_f / 3)] select (_vehicle call _fn_isStealthy);
+					};
+					if (_vehicle isKindOf 'Tank_F') then {
+						_cost = [_tank_f,(_tank_f / 3)] select (_vehicle call _fn_isStealthy);
+					};
+					if (_cost isEqualTo -1) then {
+						_cost = getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'cost');
+					};
+					_cost = _cost / 1000;
+					_index = _data findIf {((_x select 1) isEqualTo _mapGridPos)};
+					if (_index isEqualTo -1) then {
+						_data pushBack [_cost,_mapGridPos];
+					} else {
+						_data set [_index,[(((_data select _index) select 0) + _cost),((_data select _index) select 1)]];
+					};
+				};
+			};
+		};
+	} forEach (missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]]);
+	_data set [0,-1];
+	_data deleteAt 0;
+	_data sort FALSE;
+	if (!(_data isEqualTo [])) then {
+		{
+			_gridData = (_x select 1) call (missionNamespace getVariable 'QS_fnc_gridToPos');
+			_gridCenter = [(((_gridData select 0) select 0) + (((_gridData select 1) select 0) / 2)),(((_gridData select 0) select 1) + (((_gridData select 1) select 1) / 2)),0];
+			_data set [_forEachIndex,[_x select 0,_gridCenter]];
+		} forEach _data;
+		diag_log str _data;
+		private _targetingData = [];
+		private _targetWeighted = [];
+		private _targetPosition = [0,0,0];
+		private _targetCost = -1;
+		{
+			_targetCost = _x select 0;
+			_targetPosition = _x select 1;
+			if (([_targetPosition,50,[_side],allUnits,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')) <= 4) then {
+				if (_targetCost > _costThreshold) then {
+					if (!(_isArty)) then {
+						_targetingData pushBack _x;
+					} else {
+						if (_targetPosition inRangeOfArtillery [[gunner _supportProvider],_supportShells]) then {
+							if (((missionNamespace getVariable ['QS_AI_fireMissions',[]]) isEqualTo []) || {(((missionNamespace getVariable ['QS_AI_fireMissions',[]]) findIf {(((_x select 0) distance2D _targetPosition) < (_x select 1))}) isEqualTo -1)}) then {
+								_targetingData pushBack _x;
+							};
+						};
+					};
+				};
+			};
+		} forEach _data;
+		if (!(_targetingData isEqualTo [])) then {
+			diag_log str _targetingData;
+			if ((count _targetingData) > 3) then {
+				_targetingData = [_targetingData select 0,_targetingData select 1,_targetingData select 2];
+			};
+			if ((count _targetingData) > 1) then {
+				{
+					_targetWeighted pushBack (_x select 1);
+					_targetWeighted pushBack ((_x select 0) / 10000);
+				} forEach _targetingData;
+				_return = selectRandomWeighted _targetWeighted;
+			} else {
+				_return = (_targetingData select 0) select 1;
+			};
+		};
+	};
+	_return;
 };
 _return;

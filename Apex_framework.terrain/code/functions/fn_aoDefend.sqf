@@ -827,7 +827,7 @@ for '_x' from 0 to 1 step 0 do {
 									_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
 									if (!isNull _source) then {
 										_scale = 0.25;
-										_oldDamage = if (_selectionName isEqualTo '') then [{(damage _unit)},{(_unit getHit _selectionName)}];
+										_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
 										_damage = ((_damage - _oldDamage) * _scale) + _oldDamage;
 									} else {
 										if (_ammo isEqualTo '') then {

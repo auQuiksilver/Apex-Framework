@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	7/04/2018 A3 1.82 by Quiksilver
+	19/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 

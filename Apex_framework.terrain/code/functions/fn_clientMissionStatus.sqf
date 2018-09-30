@@ -1352,36 +1352,38 @@ for '_x' from 0 to 1 step 0 do {
 		if (!((missionNamespace getVariable 'QS_mission_tasks') isEqualTo [])) then {
 			_exit = _false;
 			{
-				_currentTaskData = _x;
-				if (_currentTaskData isEqualType []) then {
-					_currentTaskID = _currentTaskData select 0;
-					_currentTaskCustomData = _currentTaskData select 1; 
-					_currentTaskTimerData = _currentTaskData select 2;
-					_currentTaskProgressData = _currentTaskData select 3;
-					if ([_currentTaskID,_currentTaskStr,_false] call _fn_inString) then {
-						_exit = _true;
-						_currentTaskType = _currentTaskCustomData select 0; 
-						_currentTaskTooltip = _currentTaskCustomData select 1;
-						_currentTaskDescription = _currentTaskCustomData select 2;
-						_currentTaskTimer = _currentTaskTimerData select 0; 
-						_currentTaskTimeout = _currentTaskTimerData select 1; 
-						_currentTaskProgress = _currentTaskProgressData select 0; 
-						_currentTaskRate = _currentTaskProgressData select 1; 
-						if (_currentTaskTimer) then {
-							_currentTaskTimeout = _currentTaskTimeout max 0;
-						};
-						if (_currentTaskProgress) then {
-							_currentTaskRate = _currentTaskRate max 0;
-						};
-						if (!((ctrlText _QS_ctrl24) isEqualTo _currentTaskIconPath)) then {
-							if (!isNil '_currentTaskType') then {
-								if (_currentTaskType isEqualTo '') then {
-									_currentTaskIconPath = _currentTaskIconPathDefault;
+				if (!isNil '_x') then {
+					_currentTaskData = _x;
+					if (_currentTaskData isEqualType []) then {
+						_currentTaskID = _currentTaskData select 0;
+						_currentTaskCustomData = _currentTaskData select 1; 
+						_currentTaskTimerData = _currentTaskData select 2;
+						_currentTaskProgressData = _currentTaskData select 3;
+						if ([_currentTaskID,_currentTaskStr,_false] call _fn_inString) then {
+							_exit = _true;
+							_currentTaskType = _currentTaskCustomData select 0; 
+							_currentTaskTooltip = _currentTaskCustomData select 1;
+							_currentTaskDescription = _currentTaskCustomData select 2;
+							_currentTaskTimer = _currentTaskTimerData select 0; 
+							_currentTaskTimeout = _currentTaskTimerData select 1; 
+							_currentTaskProgress = _currentTaskProgressData select 0; 
+							_currentTaskRate = _currentTaskProgressData select 1; 
+							if (_currentTaskTimer) then {
+								_currentTaskTimeout = _currentTaskTimeout max 0;
+							};
+							if (_currentTaskProgress) then {
+								_currentTaskRate = _currentTaskRate max 0;
+							};
+							if (!((ctrlText _QS_ctrl24) isEqualTo _currentTaskIconPath)) then {
+								if (!isNil '_currentTaskType') then {
+									if (_currentTaskType isEqualTo '') then {
+										_currentTaskIconPath = _currentTaskIconPathDefault;
+									} else {
+										_currentTaskIconPath = getText (_taskTypesConfig >> _currentTaskType >> 'icon');
+									};
 								} else {
-									_currentTaskIconPath = getText (_taskTypesConfig >> _currentTaskType >> 'icon');
+									_currentTaskIconPath = _currentTaskIconPathDefault;
 								};
-							} else {
-								_currentTaskIconPath = _currentTaskIconPathDefault;
 							};
 						};
 					};

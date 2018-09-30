@@ -27,10 +27,11 @@ _____________________________________________________________________/*/
 if (!isDedicated) exitWith {0};
 _this spawn {
 	waitUntil {
-		uiSleep (0.1 + (random 0.1));
+		uiSleep (random [0.1,0.125,0.15]);
 		(!((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isEqualTo -1))
 	};
 	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) exitWith {};
+	if ((missionNamespace getVariable ['QS_missionConfig_recruitableAI',1]) isEqualTo 0) exitWith {};
 	params ['_unit','_respawnDelay','_randomize','_initCode','_respawnTickets','_playerThreshold'];
 	_unitType = typeOf _unit;
 	_unitPos = position _unit;

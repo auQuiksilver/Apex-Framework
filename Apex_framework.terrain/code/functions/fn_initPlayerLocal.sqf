@@ -477,9 +477,6 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['QS_revive_respawnType','',FALSE],
 	['QS_RD_earplugs',FALSE,FALSE],
 	['QS_RD_soundVolume',soundVolume,FALSE],
-	['QS_FiredInAO',FALSE,TRUE],
-	['QS_directPlayID',(missionNamespace getVariable 'QS_directPlayID'),TRUE],
-	['QS_client_init',TRUE,TRUE],
 	['QS_earsCollected_session',0,FALSE],
 	['QS_revive_killedVehiclePosition',[],FALSE],
 	['QS_backpack_data',[(backpack player),(backpackItems player),(backpackMagazines player)],FALSE],
@@ -496,7 +493,6 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['QS_client_uiLastAction',diag_tickTime,FALSE],
 	['QS_client_soundControllers',[(getAllSoundControllers (vehicle player)),(getAllEnvSoundControllers (getPosWorld player))],FALSE],
 	['QS_client_lastMedevacRequest',diag_tickTime,FALSE],
-	['QS_revive_disable',FALSE,TRUE],
 	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE],
 	['QS_client_inBaseArea',FALSE,FALSE],
@@ -705,6 +701,7 @@ if (!((uniform player) isEqualTo '')) then {
 [] call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
 enableDynamicSimulationSystem FALSE;
 disableRemoteSensors TRUE;
+useAISteeringComponent FALSE;
 if (isNil {profileNamespace getVariable 'QS_options_ambientLife'}) then {
 	profileNamespace setVariable ['QS_options_ambientLife',TRUE];
 	enableEnvironment [TRUE,TRUE];

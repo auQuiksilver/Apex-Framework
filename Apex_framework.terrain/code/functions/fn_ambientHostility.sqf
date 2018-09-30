@@ -140,6 +140,7 @@ if (_type isEqualTo 0) exitWith {
 			_vehicle setDir (random 360);
 			_vehicle setVehiclePosition [(AGLToASL _spawnPosition),[],0,'NONE'];
 			createVehicleCrew _vehicle;
+			//_grp = group (effectiveCommander _vehicle);
 			(crew _vehicle) joinSilent _grp;
 			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
 			clearMagazineCargoGlobal _vehicle;
@@ -155,7 +156,7 @@ if (_type isEqualTo 0) exitWith {
 			if ((count allPlayers) < 30) then {
 				[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 			} else {
-				if ((random 1) > 0.5) then {
+				if ((random 1) > 0.666) then {
 					[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 				};
 			};

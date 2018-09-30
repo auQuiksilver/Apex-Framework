@@ -50,7 +50,6 @@ if (_co getUnitTrait 'uavhacker') then {
 	removeAllAssignedItems _co;
 };
 missionNamespace setVariable ['QS_revive_KilledInventory',(getUnitLoadout _co),FALSE];	
-player setVariable ['QS_FiredInAO',FALSE,TRUE];
 private _rd = player getVariable ['QS_respawnDelay',-1];
 if (_rd isEqualTo -1) then {
 	_rd = getMissionConfigValue ['respawnDelay',3];

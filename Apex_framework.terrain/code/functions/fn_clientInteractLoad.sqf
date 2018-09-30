@@ -24,11 +24,9 @@ if (!(_attachedObjects isEqualTo [])) then {
 	{
 		_obj = _x;
 		if (_obj isKindOf 'Man') then {
-			if (!isNil {_obj getVariable 'QS_RD_carryable'}) then {
-				if (_obj getVariable 'QS_RD_carried') then {
-					for '_x' from 0 to 2 step 1 do {
-						_obj setVariable ['QS_RD_carried',FALSE,TRUE];
-					};
+			if (_obj getVariable 'QS_RD_carried') then {
+				for '_x' from 0 to 2 step 1 do {
+					_obj setVariable ['QS_RD_carried',FALSE,TRUE];
 				};
 			};
 			detach _obj;
@@ -94,8 +92,10 @@ if (_obj isKindOf 'Man') then {
 	if ((unitIsUav _t) && (([_t,1] call (missionNamespace getVariable 'QS_fnc_clientInteractUGV')) > 0)) then {
 		if ([_t,2,_obj] call (missionNamespace getVariable 'QS_fnc_clientInteractUGV')) then {
 			for '_x' from 0 to 1 step 1 do {
-				_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
-				_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
+				if (!isPlayer _obj) then {
+					_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
+					_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
+				};
 				_t setVariable ['QS_RD_activeCargo',TRUE,TRUE];
 			};
 			['switchMove',_obj,(['AinjPpneMstpSnonWnonDnon','acts_InjuredLyingRifle02'] select (isPlayer _obj))] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
@@ -106,8 +106,10 @@ if (_obj isKindOf 'Man') then {
 		};
 	} else {
 		for '_x' from 0 to 1 step 1 do {
-			_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
-			_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
+			if (!isPlayer _obj) then {
+				_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
+				_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
+			};
 			_t setVariable ['QS_RD_activeCargo',TRUE,TRUE];
 		};
 		detach _obj;

@@ -47,9 +47,11 @@ if (!isNull _prop) then {
 				}
 			];
 			[_v] call (missionNamespace getVariable 'QS_fnc_vSetup');
+			clearMagazineCargoGlobal _v;
+			clearWeaponCargoGlobal _v;
 			(missionNamespace getVariable 'QS_garbageCollector') pushBack [_v,'DELAYED_DISCREET',300];
 		} else {
-			comment 'Insert spawned thread here to ensure it cant be exploited or spammed';
+			//comment 'Insert spawned thread here to ensure it cant be exploited or spammed';
 			_i = (missionNamespace getVariable 'QS_v_Monitor') findIf {((_x select 0) isEqualTo _prop)};
 			if (!(_i isEqualTo -1)) then {
 				_array = (missionNamespace getVariable 'QS_v_Monitor') select _i;

@@ -64,6 +64,7 @@ __________________________________________________________________________/*/
 		_group1 = group (effectiveCommander _arty);
 		_group1 deleteGroupWhenEmpty TRUE;
 		_group1 enableDynamicSimulation FALSE;
+		_arty setVehicleReceiveRemoteTargets TRUE;
 		_group1 setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_arty deleteVehicleCrew (driver _arty);
 		_group1 selectLeader (gunner _arty);
@@ -102,6 +103,11 @@ __________________________________________________________________________/*/
 		{
 			(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _x;
 		} forEach (units _group1);
+		{
+			_x setVariable ['QS_dynSim_ignore',TRUE,FALSE];
+			_x enableSimulation TRUE;
+			_x enableDynamicSimulation FALSE;
+		} forEach (crew _arty);
 		_arty;
 	}], 
 	[(["O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F"] select (worldName in ['Tanoa','Lingor3'])),[-6.7666,-2.89453,-0.0691385],353.719,[],true,true,false,{
@@ -166,6 +172,11 @@ __________________________________________________________________________/*/
 		{
 			(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _x;
 		} forEach (units _group1);
+		{
+			_x setVariable ['QS_dynSim_ignore',TRUE,FALSE];
+			_x enableSimulation TRUE;
+			_x enableDynamicSimulation FALSE;
+		} forEach (crew _arty);
 		_arty;
 	}]
 ]

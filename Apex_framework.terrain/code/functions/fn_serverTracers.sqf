@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	2/07/2016 A3 1.62 by Quiksilver
+	25/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -14,8 +14,12 @@ Description:
 __________________________________________________________/*/
 
 scriptName 'QS Set Tracers';
-private ['_QS_newUnit','_QS_unitSide','_QS_magazinesUnit','_QS_testMag','_QS_primaryWeaponMag','_pool'];
-_pool = _this select 0;
+params ['_pool'];
+private _QS_newUnit = objNull;
+private _QS_unitSide = sideEmpty;
+private _QS_magazinesUnit = [];
+private _QS_testMag = '';
+private _QS_primaryWeaponMag = '';
 {
 	if (local _x) then {
 		if (alive _x) then {
@@ -68,51 +72,51 @@ _pool = _this select 0;
 						if (_QS_testMag in ['200Rnd_556x45_Box_F','200Rnd_556x45_Box_Red_F']) then {
 							if (_QS_unitSide isEqualTo EAST) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "200Rnd_556x45_Box_Tracer_F";							
+								_QS_newUnit addMagazine '200Rnd_556x45_Box_Tracer_F';							
 							};
 							if (_QS_unitSide isEqualTo WEST) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "200Rnd_556x45_Box_Tracer_Red_F";							
+								_QS_newUnit addMagazine '200Rnd_556x45_Box_Tracer_Red_F';							
 							};
 							if (_QS_unitSide isEqualTo RESISTANCE) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "200Rnd_556x45_Box_Tracer_F";
+								_QS_newUnit addMagazine '200Rnd_556x45_Box_Tracer_F';
 							};
 						};
-						if (_QS_testMag in ["30Rnd_545x39_Mag_F","30Rnd_545x39_Mag_Green_F"]) then {
+						if (_QS_testMag in ['30Rnd_545x39_Mag_F','30Rnd_545x39_Mag_Green_F']) then {
 							if (_QS_unitSide isEqualTo EAST) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "30Rnd_545x39_Mag_Tracer_Green_F";							
+								_QS_newUnit addMagazine '30Rnd_545x39_Mag_Tracer_Green_F';							
 							};
 							if (_QS_unitSide isEqualTo WEST) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "30Rnd_545x39_Mag_Tracer_F";							
+								_QS_newUnit addMagazine '30Rnd_545x39_Mag_Tracer_F';							
 							};
 							if (_QS_unitSide isEqualTo RESISTANCE) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "30Rnd_545x39_Mag_Tracer_Green_F";
+								_QS_newUnit addMagazine '30Rnd_545x39_Mag_Tracer_Green_F';
 							};
 						};
-						if (_QS_testMag in ["30Rnd_580x42_Mag_F"]) then {
+						if (_QS_testMag in ['30Rnd_580x42_Mag_F']) then {
 							_QS_newUnit removeMagazine _QS_testMag;
-							_QS_newUnit addMagazine "30Rnd_580x42_Mag_Tracer_F";
+							_QS_newUnit addMagazine '30Rnd_580x42_Mag_Tracer_F';
 						};
-						if (_QS_testMag in ["100Rnd_580x42_Mag_F"]) then {
+						if (_QS_testMag in ['100Rnd_580x42_Mag_F']) then {
 							_QS_newUnit removeMagazine _QS_testMag;
-							_QS_newUnit addMagazine "100Rnd_580x42_Mag_Tracer_F";
+							_QS_newUnit addMagazine '100Rnd_580x42_Mag_Tracer_F';
 						};
-						if (_QS_testMag in ["30Rnd_762x39_Mag_F","30Rnd_762x39_Mag_Green_F"]) then {
+						if (_QS_testMag in ['30Rnd_762x39_Mag_F','30Rnd_762x39_Mag_Green_F']) then {
 							if (_QS_unitSide isEqualTo EAST) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "30Rnd_762x39_Mag_Tracer_Green_F";							
+								_QS_newUnit addMagazine '30Rnd_762x39_Mag_Tracer_Green_F';							
 							};
 							if (_QS_unitSide isEqualTo WEST) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "30Rnd_762x39_Mag_Tracer_F";							
+								_QS_newUnit addMagazine '30Rnd_762x39_Mag_Tracer_F';							
 							};
 							if (_QS_unitSide isEqualTo RESISTANCE) then {
 								_QS_newUnit removeMagazine _QS_testMag;
-								_QS_newUnit addMagazine "30Rnd_762x39_Mag_Tracer_Green_F";
+								_QS_newUnit addMagazine '30Rnd_762x39_Mag_Tracer_Green_F';
 							};
 						};						
 					} forEach _QS_magazinesUnit;	
@@ -160,52 +164,52 @@ _pool = _this select 0;
 						if (_QS_primaryWeaponMag in ['200Rnd_556x45_Box_F','200Rnd_556x45_Box_Red_F']) then {
 							if (_QS_unitSide isEqualTo EAST) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "200Rnd_556x45_Box_Tracer_F";							
+								_QS_newUnit addPrimaryWeaponItem '200Rnd_556x45_Box_Tracer_F';							
 							};
 							if (_QS_unitSide isEqualTo WEST) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "200Rnd_556x45_Box_Tracer_Red_F";							
+								_QS_newUnit addPrimaryWeaponItem '200Rnd_556x45_Box_Tracer_Red_F';							
 							};
 							if (_QS_unitSide isEqualTo RESISTANCE) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "200Rnd_556x45_Box_Tracer_F";
+								_QS_newUnit addPrimaryWeaponItem '200Rnd_556x45_Box_Tracer_F';
 							};
 						};
 						
-						if (_QS_primaryWeaponMag in ["30Rnd_545x39_Mag_F","30Rnd_545x39_Mag_Green_F"]) then {
+						if (_QS_primaryWeaponMag in ['30Rnd_545x39_Mag_F','30Rnd_545x39_Mag_Green_F']) then {
 							if (_QS_unitSide isEqualTo EAST) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "30Rnd_545x39_Mag_Tracer_Green_F";							
+								_QS_newUnit addPrimaryWeaponItem '30Rnd_545x39_Mag_Tracer_Green_F';							
 							};
 							if (_QS_unitSide isEqualTo WEST) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "30Rnd_545x39_Mag_Tracer_F";							
+								_QS_newUnit addPrimaryWeaponItem '30Rnd_545x39_Mag_Tracer_F';							
 							};
 							if (_QS_unitSide isEqualTo RESISTANCE) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "30Rnd_545x39_Mag_Tracer_Green_F";
+								_QS_newUnit addPrimaryWeaponItem '30Rnd_545x39_Mag_Tracer_Green_F';
 							};
 						};						
-						if (_QS_primaryWeaponMag in ["30Rnd_580x42_Mag_F"]) then {
+						if (_QS_primaryWeaponMag in ['30Rnd_580x42_Mag_F']) then {
 							_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-							_QS_newUnit addPrimaryWeaponItem "30Rnd_580x42_Mag_Tracer_F";
+							_QS_newUnit addPrimaryWeaponItem '30Rnd_580x42_Mag_Tracer_F';
 						};
-						if (_QS_primaryWeaponMag in ["100Rnd_580x42_Mag_F"]) then {
+						if (_QS_primaryWeaponMag in ['100Rnd_580x42_Mag_F']) then {
 							_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-							_QS_newUnit addPrimaryWeaponItem "100Rnd_580x42_Mag_Tracer_F";
+							_QS_newUnit addPrimaryWeaponItem '100Rnd_580x42_Mag_Tracer_F';
 						};
-						if (_QS_primaryWeaponMag in ["30Rnd_762x39_Mag_F","30Rnd_762x39_Mag_Green_F"]) then {
+						if (_QS_primaryWeaponMag in ['30Rnd_762x39_Mag_F','30Rnd_762x39_Mag_Green_F']) then {
 							if (_QS_unitSide isEqualTo EAST) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "30Rnd_762x39_Mag_Tracer_Green_F";							
+								_QS_newUnit addPrimaryWeaponItem '30Rnd_762x39_Mag_Tracer_Green_F';							
 							};
 							if (_QS_unitSide isEqualTo WEST) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "30Rnd_762x39_Mag_Tracer_F";							
+								_QS_newUnit addPrimaryWeaponItem '30Rnd_762x39_Mag_Tracer_F';							
 							};
 							if (_QS_unitSide isEqualTo RESISTANCE) then {
 								_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
-								_QS_newUnit addPrimaryWeaponItem "30Rnd_762x39_Mag_Tracer_Green_F";
+								_QS_newUnit addPrimaryWeaponItem '30Rnd_762x39_Mag_Tracer_Green_F';
 							};
 						};
 					};

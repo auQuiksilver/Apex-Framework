@@ -40,7 +40,6 @@ if (!((attachedObjects player) isEqualTo [])) then {
 					for '_x' from 0 to 1 step 1 do {
 						_unit setVariable ['QS_RD_draggable',TRUE,TRUE];
 						_unit setVariable ['QS_RD_interacting',FALSE,TRUE];
-						_unit setVariable ['QS_RD_interacted',FALSE,TRUE];
 						player setVariable ['QS_RD_interacting',FALSE,TRUE];
 					};
 				} else {
@@ -55,9 +54,7 @@ if (!((attachedObjects player) isEqualTo [])) then {
 						player playMoveNow 'AidlPknlMstpSrasWrflDnon_AI';
 						0 = [8,_unit,(getDir player),(['',_anim] select ((lifeState _unit) isEqualTo 'INCAPACITATED'))] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 						for '_x' from 0 to 1 step 1 do {
-							_unit setVariable ['QS_RD_carryable',TRUE,TRUE];
 							_unit setVariable ['QS_RD_interacting',FALSE,TRUE];
-							_unit setVariable ['QS_RD_interacted',FALSE,TRUE];
 							player setVariable ['QS_RD_interacting',FALSE,TRUE];
 						};
 					} else {
@@ -67,9 +64,7 @@ if (!((attachedObjects player) isEqualTo [])) then {
 						if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 							['switchMove',_unit,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 							for '_x' from 0 to 1 step 1 do {
-								_unit setVariable ['QS_RD_carryable',TRUE,TRUE];
 								_unit setVariable ['QS_RD_interacting',FALSE,TRUE];
-								_unit setVariable ['QS_RD_interacted',FALSE,TRUE];
 								player setVariable ['QS_RD_interacting',FALSE,TRUE];
 							};
 						} else {
@@ -92,47 +87,46 @@ if (!((attachedObjects player) isEqualTo [])) then {
 						};
 					};
 				};
-				if (!isNil {_unit getVariable 'QS_RD_escorted'}) then {
-					if (_unit getVariable 'QS_RD_escorted') then {
-						50 cutText ['Released','PLAIN DOWN',0.3];
-						_released = TRUE;
-						detach _unit;
-						0 = ['switchMove',_unit,(_unit getVariable ['QS_RD_storedAnim',''])] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
-						for '_x' from 0 to 1 step 1 do {
+				if (_unit getVariable ['QS_RD_escorted',FALSE]) then {
+					50 cutText ['Released','PLAIN DOWN',0.3];
+					_released = TRUE;
+					detach _unit;
+					0 = ['switchMove',_unit,(_unit getVariable ['QS_RD_storedAnim',''])] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+					for '_x' from 0 to 1 step 1 do {
+						if (!isPlayer _unit) then {
 							_unit setVariable ['QS_RD_escorted',FALSE,TRUE];
 							_unit setVariable ['QS_RD_escortable',TRUE,TRUE];
-							_unit setVariable ['QS_RD_interacting',FALSE,TRUE];
-							_unit setVariable ['QS_RD_interacted',FALSE,TRUE];
-							player setVariable ['QS_RD_interacting',FALSE,TRUE];
 						};
-						if (!(_unit isEqualTo (missionNamespace getVariable 'QS_sideMission_POW'))) then {
-							if ((player distance2D (missionNamespace getVariable ['QS_prisonPos',(markerPos 'QS_marker_gitmo')])) < 20) then {
-								50 cutText ['Imprisoned!','PLAIN DOWN',0.3];
-								_prisonPos = missionNamespace getVariable ['QS_prisonPos',[0,0,0]];
-								_unit setPos [((_prisonPos select 0) + 2 - (random 4)),((_prisonPos select 1) + 2 - (random 4)),0];
-								_unit forceAddUniform 'U_C_WorkerCoveralls';
-								_unit spawn {uiSleep 1; _this setObjectTextureGlobal [0,'#(rgb,8,8,3)color(1,0.1,0,1)'];};
-								_unit setVariable ['QS_RD_escortable',FALSE,TRUE];
-								if (local _unit) then {
-									_unit setDir (random 360);
-								} else {
-									['setDir',_unit,(random 360)] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
-								};
-								_text = format ['%1 has put a prisoner into Gitmo!',profileName];
-								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-								_puid1 = getPlayerUID player;
-								_pname1 = profileName;
-								_puid2 = (_unit getVariable 'QS_captor') select 0;
-								_pname2 = (_unit getVariable 'QS_captor') select 1;
-								['switchMove',_unit,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
-								_allAgents = (agents apply {(agent _x)}) select {(!isNull _x)};
-								missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') + [_unit]),TRUE];
-								if (!(_unit in _allAgents)) then {
-									[79,_unit,EAST,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-								};								
-								[60,[['PRISONER',_puid1,_pname1,1],['PRISONER',_puid2,_pname2,1],[player,1]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-								['ScoreBonus',[(format ['%1 Corrections',worldName]),'1']] call (missionNamespace getVariable 'QS_fnc_showNotification');
+						_unit setVariable ['QS_RD_interacting',FALSE,TRUE];
+						player setVariable ['QS_RD_interacting',FALSE,TRUE];
+					};
+					if (!(_unit isEqualTo (missionNamespace getVariable 'QS_sideMission_POW'))) then {
+						if ((player distance2D (missionNamespace getVariable ['QS_prisonPos',(markerPos 'QS_marker_gitmo')])) < 20) then {
+							50 cutText ['Imprisoned!','PLAIN DOWN',0.3];
+							_prisonPos = missionNamespace getVariable ['QS_prisonPos',[0,0,0]];
+							_unit setPos [((_prisonPos select 0) + 2 - (random 4)),((_prisonPos select 1) + 2 - (random 4)),0];
+							_unit forceAddUniform 'U_C_WorkerCoveralls';
+							_unit spawn {uiSleep 1; _this setObjectTextureGlobal [0,'#(rgb,8,8,3)color(1,0.1,0,1)'];};
+							_unit setVariable ['QS_RD_escortable',FALSE,TRUE];
+							if (local _unit) then {
+								_unit setDir (random 360);
+							} else {
+								['setDir',_unit,(random 360)] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
 							};
+							_text = format ['%1 has put a prisoner into Gitmo!',profileName];
+							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+							_puid1 = getPlayerUID player;
+							_pname1 = profileName;
+							_puid2 = (_unit getVariable 'QS_captor') select 0;
+							_pname2 = (_unit getVariable 'QS_captor') select 1;
+							['switchMove',_unit,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+							_allAgents = (agents apply {(agent _x)}) select {(!isNull _x)};
+							missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') + [_unit]),TRUE];
+							if (!(_unit in _allAgents)) then {
+								[79,_unit,EAST,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+							};								
+							[60,[['PRISONER',_puid1,_pname1,1],['PRISONER',_puid2,_pname2,1],[player,1]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+							['ScoreBonus',[(format ['%1 Corrections',worldName]),'1']] call (missionNamespace getVariable 'QS_fnc_showNotification');
 						};
 					};
 				};

@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	22/11/2017 A3 1.78 by Quiksilver
+	12/09/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -426,6 +426,8 @@ if (_type isEqualTo 'MANAGE') then {
 	private _objectiveEvalGraceTime = -1;
 	private _objectivesRequiredComplete = FALSE;
 	private _objectiveReturn = 0;
+	private _false = FALSE;
+	private _true = TRUE;
 	//comment 'Loop';
 	for '_x' from 0 to 1 step 0 do {
 		_uiTime = diag_tickTime;
@@ -436,13 +438,13 @@ if (_type isEqualTo 'MANAGE') then {
 			_allEnemies = (_allUnits select {(((side _x) in _enemySides) && ((lifeState _x) in ['HEALTHY','INJURED']))}) unitsBelowHeight _markerZ;
 			_allFriends = (_allUnits select {(((side _x) in _friendSides) && ((lifeState _x) in ['HEALTHY','INJURED']))}) unitsBelowHeight _markerZ;
 		};
-		if (missionNamespace getVariable ['QS_grid_active',FALSE]) then {
+		if (missionNamespace getVariable ['QS_grid_active',_false]) then {
 			if (_uiTime > _objectiveEvalGraceTime) then {
 				if (!((missionNamespace getVariable ['QS_grid_objectivesData',[]]) isEqualTo [])) then {
 					_objectivesData = missionNamespace getVariable ['QS_grid_objectivesData',[]];
 					if (!(_objectivesData isEqualTo [])) then {
-						_objectivesData_update = FALSE;
-						_objectivesRequiredComplete = TRUE;
+						_objectivesData_update = _false;
+						_objectivesRequiredComplete = _true;
 						{
 							_objectiveData = _x;
 							_objectiveData params [
@@ -457,7 +459,7 @@ if (_type isEqualTo 'MANAGE') then {
 							if (_objectiveState isEqualTo 0) then {
 								_objectiveReturn = _objectiveArguments call _objectiveCode;
 								if (!(_objectiveReturn isEqualTo _objectiveState)) then {
-									_objectivesData_update = TRUE;
+									_objectivesData_update = _true;
 									_objectiveData set [1,_objectiveReturn];
 									_objectivesData set [_forEachIndex,_objectiveData];
 									call ([_objectiveOnFailed,_objectiveOnCompleted] select (_objectiveReturn isEqualTo 1));
@@ -465,65 +467,65 @@ if (_type isEqualTo 'MANAGE') then {
 							};
 							if (_objectivesRequiredComplete) then {
 								if ((_objectiveIsRequired isEqualTo 1) && (_objectiveState isEqualTo 0)) then {
-									_objectivesRequiredComplete = FALSE;
+									_objectivesRequiredComplete = _false;
 								};
 							};
 						} forEach _objectivesData;
 						if (_objectivesData_update) then {
-							_objectivesData_update = FALSE;
-							missionNamespace setVariable ['QS_grid_objectivesData',_objectivesData,FALSE];
+							_objectivesData_update = _false;
+							missionNamespace setVariable ['QS_grid_objectivesData',_objectivesData,_false];
 						};
-						if ((_objectivesRequiredComplete) || {(missionNamespace getVariable ['QS_aoCycleVar',FALSE])}) then {
+						if ((_objectivesRequiredComplete) || {(missionNamespace getVariable ['QS_aoCycleVar',_false])}) then {
 							[0,[]] call (missionNamespace getVariable 'QS_fnc_gridBrief');
-							if (missionNamespace getVariable ['QS_aoCycleVar',FALSE]) then {
-								missionNamespace setVariable ['QS_aoCycleVar',FALSE,FALSE];
+							if (missionNamespace getVariable ['QS_aoCycleVar',_false]) then {
+								missionNamespace setVariable ['QS_aoCycleVar',_false,_false];
 							};
-							if ((missionNamespace getVariable ['QS_grid_defend_trigger',FALSE]) || {(missionNamespace getVariable ['QS_grid_defend_force',FALSE])}) then {
-								if (missionNamespace getVariable ['QS_grid_defend_active',FALSE]) then {
-									missionNamespace setVariable ['QS_grid_defend_active',FALSE,TRUE];
+							if ((missionNamespace getVariable ['QS_grid_defend_trigger',_false]) || {(missionNamespace getVariable ['QS_grid_defend_force',_false])}) then {
+								if (missionNamespace getVariable ['QS_grid_defend_active',_false]) then {
+									missionNamespace setVariable ['QS_grid_defend_active',_false,_true];
 								};
-								if (!(missionNamespace getVariable ['QS_grid_AI_triggerDeinit',FALSE])) then {
-									missionNamespace setVariable ['QS_grid_AI_triggerDeinit',TRUE,TRUE];
+								if (!(missionNamespace getVariable ['QS_grid_AI_triggerDeinit',_false])) then {
+									missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_true,_true];
 								};
 								if (!((missionNamespace getVariable ['QS_grid_intelEntities',[]]) isEqualTo [])) then {
 									{
 										deleteVehicle _x;
 									} forEach (missionNamespace getVariable ['QS_grid_intelEntities',[]]);
-									missionNamespace setVariable ['QS_grid_intelEntities',[],FALSE];
+									missionNamespace setVariable ['QS_grid_intelEntities',[],_false];
 								};
 								if (!isNull (missionNamespace getVariable ['QS_grid_IGintel',objNull])) then {
 									deleteVehicle (missionNamespace getVariable 'QS_grid_IGintel');
-									missionNamespace setVariable ['QS_grid_IGintel',objNull,FALSE];
+									missionNamespace setVariable ['QS_grid_IGintel',objNull,_false];
 								};
 								if (!isNull (missionNamespace getVariable ['QS_grid_IDAPintel',objNull])) then {
 									deleteVehicle (missionNamespace getVariable 'QS_grid_IDAPintel');
-									missionNamespace setVariable ['QS_grid_IDAPintel',objNull,FALSE];
+									missionNamespace setVariable ['QS_grid_IDAPintel',objNull,_false];
 								};
-								if (missionNamespace getVariable ['QS_grid_defend_force',FALSE]) then {
-									missionNamespace setVariable ['QS_grid_defend_force',FALSE,FALSE];
+								if (missionNamespace getVariable ['QS_grid_defend_force',_false]) then {
+									missionNamespace setVariable ['QS_grid_defend_force',_false,_false];
 								};
-								if (missionNamespace getVariable ['QS_grid_defend_trigger',FALSE]) then {
-									missionNamespace setVariable ['QS_grid_defend_trigger',FALSE,FALSE];
+								if (missionNamespace getVariable ['QS_grid_defend_trigger',_false]) then {
+									missionNamespace setVariable ['QS_grid_defend_trigger',_false,_false];
 								};
-								missionNamespace setVariable ['QS_grid_AIRspTotal',0,FALSE];
-								missionNamespace setVariable ['QS_grid_AIRspDestroyed',0,FALSE];
+								missionNamespace setVariable ['QS_grid_AIRspTotal',0,_false];
+								missionNamespace setVariable ['QS_grid_AIRspDestroyed',0,_false];
 								if (!((missionNamespace getVariable ['QS_ao_UXOs',[]]) isEqualTo [])) then {
 									{
 										deleteVehicle _x;
 									} forEach (missionNamespace getVariable ['QS_ao_UXOs',[]]);
-									missionNamespace setVariable ['QS_ao_UXOs',[],FALSE];
+									missionNamespace setVariable ['QS_ao_UXOs',[],_false];
 								};
-								missionNamespace setVariable ['QS_grid_defend_script',(0 spawn (missionNamespace getVariable 'QS_fnc_gridDefend')),FALSE];
+								missionNamespace setVariable ['QS_grid_defend_script',(0 spawn (missionNamespace getVariable 'QS_fnc_gridDefend')),_false];
 								waitUntil {
 									uiSleep 1;
 									(scriptDone (missionNamespace getVariable ['QS_grid_defend_script',scriptNull]))
 								};
-								missionNamespace setVariable ['QS_grid_defend_script',scriptNull,FALSE];
+								missionNamespace setVariable ['QS_grid_defend_script',scriptNull,_false];
 							};
-							if (!(missionNamespace getVariable ['QS_grid_AI_triggerDeinit',FALSE])) then {
-								missionNamespace setVariable ['QS_grid_AI_triggerDeinit',TRUE,TRUE];
+							if (!(missionNamespace getVariable ['QS_grid_AI_triggerDeinit',_false])) then {
+								missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_true,_true];
 							};
-							missionNamespace setVariable ['QS_TEST_GRID',TRUE,FALSE];
+							missionNamespace setVariable ['QS_TEST_GRID',_true,_false];
 						};
 					};
 				};
@@ -533,7 +535,7 @@ if (_type isEqualTo 'MANAGE') then {
 				_markerUpdateCheckDelay = _uiTime + _markerUpdateDelay;
 				if (!(_aoData isEqualTo [])) then {
 					if (!(_aoGridMarkerData isEqualTo [])) then {
-						missionNamespace setVariable ['QS_grid_evalMarkers',TRUE,FALSE];
+						missionNamespace setVariable ['QS_grid_evalMarkers',_true,_false];
 						{
 							_markerData = _x;
 							_markerData params [
@@ -571,7 +573,7 @@ if (_type isEqualTo 'MANAGE') then {
 							uiSleep _markerCheckSleep;
 							if (!(missionNamespace getVariable 'QS_grid_active')) exitWith {};
 						} forEach _aoGridMarkerData;
-						missionNamespace setVariable ['QS_grid_evalMarkers',FALSE,FALSE];
+						missionNamespace setVariable ['QS_grid_evalMarkers',_false,_false];
 					};
 				};
 			};
@@ -589,7 +591,7 @@ if (_type isEqualTo 'MANAGE') then {
 								{
 									if (!(isNull _x)) then {
 										if (!(isObjectHidden _x)) then {
-											_x hideObjectGlobal TRUE;
+											_x hideObjectGlobal _true;
 										};
 									};
 								} forEach _intelItems;
@@ -601,7 +603,7 @@ if (_type isEqualTo 'MANAGE') then {
 		} else {
 			waitUntil {
 				uiSleep 1;
-				(missionNamespace getVariable ['QS_grid_active',FALSE])
+				(missionNamespace getVariable ['QS_grid_active',_false])
 			};
 			//comment 'Grid init?';
 			_objectiveEvalGraceTime = diag_tickTime + 60;

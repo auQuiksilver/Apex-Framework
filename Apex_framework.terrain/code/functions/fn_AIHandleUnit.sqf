@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	8/04/2018 A3 1.82 by Quiksilver
+	30/09/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -139,11 +139,11 @@ if (isNull _objectParent) then {
 			};
 		};
 	};
-	if (_fps > 12) then {
+	if (_fps > 10) then {
 		if ((random 1) > 0.9) then {
 			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_LastGesture',-1])) then {
 				_unit setVariable ['QS_AI_UNIT_LastGesture',(_uiTime + (random ([[5,10,15],[20,40,60]] select (_unitMorale < 0)))),FALSE];
-				if ((count (missionNamespace getVariable 'QS_AI_unitsGestureReady')) < ([5,10] select (_fps > 20))) then {
+				if ((count (missionNamespace getVariable 'QS_AI_unitsGestureReady')) < ([5,10] select (_fps > 15))) then {
 					_unit setVariable ['QS_AI_UNIT_gestureEvent',TRUE,FALSE];
 					_unit addEventHandler ['Hit',{_this call (missionNamespace getVariable 'QS_fnc_AIXHitEvade')}];
 					(missionNamespace getVariable 'QS_AI_unitsGestureReady') pushBack _unit;
@@ -151,7 +151,7 @@ if (isNull _objectParent) then {
 			};
 		};
 	};
-	if (_fps > 12) then {
+	if (_fps > 10) then {
 		if (_unit getUnitTrait 'explosiveSpecialist') then {
 			if ((random 1) > 0) then {
 				if (!(_unit getVariable ['QS_AI_JOB',FALSE])) then {
@@ -257,7 +257,7 @@ if (isNull _objectParent) then {
 	};
 	/*/
 };
-if (_fps > 12) then {
+if (_fps > 10) then {
 	if (_unit getVariable ['QS_AI_UNIT_isMG',FALSE]) then {
 		if ((random 1) > 0.75) then {
 			if (_unitBehaviour in ['AWARE','COMBAT']) then {
@@ -407,7 +407,7 @@ if (_isLeader) then {
 													if ((_supportGroup getVariable 'QS_AI_GRP_DATA') select 0) then {
 														if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 															if (isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
-																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],'32Rnd_155mm_Mo_shells_O']) then {
+																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) select 0)]) then {
 																	_unit playActionNow 'HandSignalRadio';
 																	if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 																		if (missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]) then {
@@ -419,14 +419,10 @@ if (_isLeader) then {
 																	_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
 																	_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 																	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
-																	missionNamespace setVariable [
-																		'QS_analytics_entities_created',
-																		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-																		FALSE
-																	];
+																	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 																	_targetPos = ((_unit targetKnowledge _target) select 6) getPos [(random 25),(random 360)];
 																	_targetPos set [2,0];
-																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'32Rnd_155mm_Mo_shells_O',(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
+																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) select 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
 																	_exit = TRUE;
 																};
 															};
@@ -449,7 +445,7 @@ if (_isLeader) then {
 													if ((_supportGroup getVariable 'QS_AI_GRP_DATA') select 0) then {
 														if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 															if (isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
-																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],'8Rnd_82mm_Mo_shells']) then {
+																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) select 0)]) then {
 																	_unit playActionNow 'HandSignalRadio';
 																	if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 																		if (missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]) then {
@@ -461,14 +457,10 @@ if (_isLeader) then {
 																	_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
 																	_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 																	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
-																	missionNamespace setVariable [
-																		'QS_analytics_entities_created',
-																		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-																		FALSE
-																	];
+																	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 																	_targetPos = ((_unit targetKnowledge _target) select 6) getPos [(random 25),(random 360)];
 																	_targetPos set [2,0];
-																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,'8Rnd_82mm_Mo_shells',(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
+																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) select 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
 																	_exit = TRUE;
 																};
 															};

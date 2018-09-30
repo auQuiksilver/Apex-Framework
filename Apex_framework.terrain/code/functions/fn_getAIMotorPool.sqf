@@ -11,10 +11,6 @@ Last Modified:
 Description:
 
 	AI Motor Pool
-	
-Notes:
-
-	A bit messy but it should do the job
 __________________________________________________/*/
 
 params ['_case'];

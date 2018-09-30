@@ -17,14 +17,14 @@ class DifficultyPresets
 			mapContentEnemy=0;
 			mapContentFriendly=0;
 			mapContentMines=0;
-			mapContentPing=1;
+			mapContentPing=0;
 			multipleSaves=0;
 			reducedDamage=0;
 			scoreTable=1;
 			squadRadar=2;
 			staminaBar=2;
 			stanceIndicator=2;
-			tacticalPing=1;
+			tacticalPing=0;
 			thirdPersonView=1;
 			visionAid=0;
 			vonID=1;

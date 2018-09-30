@@ -97,8 +97,6 @@ _unit setUnconscious TRUE;
 } forEach [
 	['QS_revive_downtime',serverTime,TRUE],
 	['QS_RD_draggable',TRUE,TRUE],
-	['QS_RD_carryable',TRUE,TRUE],
-	['QS_RD_loadable',TRUE,TRUE],
 	['QS_incapacitated_processMoveOutRequest',FALSE,FALSE],
 	['QS_revive_disable',FALSE,FALSE],
 	['QS_respawn_disable',-1,FALSE],
@@ -269,7 +267,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (isNull _objectParent) then {
 						['switchMove',_unit,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						_unit switchMove 'acts_InjuredLyingRifle02';
-						_unit setDir ((getDir _unit) + 180);
+						//_unit setDir ((getDir _unit) + 180);
 					};
 				};
 			};
@@ -639,10 +637,8 @@ _unit setMimic 'neutral';
 	_unit setVariable _x;
 } forEach [
 	['QS_RD_draggable',FALSE,TRUE],
-	['QS_RD_carryable',FALSE,TRUE],
-	['QS_RD_loadable',FALSE,TRUE],
 	['QS_incapacitated_processMoveOutRequest',FALSE,FALSE],
-	['QS_revive_disable',FALSE,TRUE],
+	['QS_revive_disable',FALSE,(player getVariable ['QS_revive_disable',FALSE])],
 	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE]
 ];

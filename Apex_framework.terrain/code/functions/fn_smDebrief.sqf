@@ -85,7 +85,7 @@ if (_type isEqualTo 1) then {
 		_rewardPosition = selectRandom _landRewardLocations;
 	};
 	if (_reward isEqualTo 0) then {
-		comment 'AH 9 Pawnee with flares';
+		//comment 'AH 9 Pawnee with flares';
 		_rewardType = 'B_Heli_Light_01_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -103,7 +103,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','AH-9+',TRUE];
 	};
 	if (_reward isEqualTo 1) then {
-		comment 'AH 99 Blackfoot';
+		//comment 'AH 99 Blackfoot';
 		_rewardType = 'B_Heli_Attack_01_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -118,7 +118,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'an AH-99 Blackfoot';
 	};
 	if (_reward isEqualTo 2) then {
-		comment 'Mi 48 Kajman';
+		//comment 'Mi 48 Kajman';
 		_rewardType = 'O_Heli_Attack_02_black_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -133,7 +133,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'an Mi-48 Kajman';
 	};
 	if (_reward isEqualTo 3) then {
-		comment 'PO 30 Orca - random type';
+		//comment 'PO 30 Orca - random type';
 		_rewardType = selectRandom ['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F'];
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -148,7 +148,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a PO-30 Orca';
 	};
 	if (_reward isEqualTo 4) then {
-		comment 'WY-55 Hellcat';
+		//comment 'WY-55 Hellcat';
 		_rewardType = 'I_Heli_light_03_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -163,7 +163,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a WY-55 Hellcat';
 	};
 	if (_reward isEqualTo 5) then {
-		comment 'MH 9 with flares';
+		//comment 'MH 9 with flares';
 		_rewardType = 'B_Heli_Light_01_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -181,7 +181,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','MH-9+',TRUE];
 	};
 	if (_reward isEqualTo 6) then {
-		comment 'Ifrit GMG';
+		//comment 'Ifrit GMG';
 		if (worldName isEqualTo 'Tanoa') then {
 			_rewardType = 'O_T_MRAP_02_gmg_ghex_F';
 		} else {
@@ -200,7 +200,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'an Ifrit GMG';
 	};
 	if (_reward isEqualTo 7) then {
-		comment 'Strider GMG';
+		//comment 'Strider GMG';
 		_rewardType = 'I_MRAP_03_gmg_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -215,7 +215,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) Strider GMG';
 	};
 	if (_reward isEqualTo 8) then {
-		comment 'MBT-52 Kuma';
+		//comment 'MBT-52 Kuma';
 		_rewardType = 'I_MBT_03_cannon_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -230,7 +230,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) MBT-52 Kuma';
 	};
 	if (_reward isEqualTo 9) then {
-		comment 'BTR-K Kamysh';
+		//comment 'BTR-K Kamysh';
 		if (worldName isEqualTo 'Tanoa') then {
 			_rewardType = 'O_T_APC_Tracked_02_cannon_ghex_F';
 		} else {
@@ -249,7 +249,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) BTR-K Kamysh';
 	};
 	if (_reward isEqualTo 10) then {
-		comment 'AFV-4 Gorgon';
+		//comment 'AFV-4 Gorgon';
 		_rewardType = 'I_APC_Wheeled_03_cannon_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -264,7 +264,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) AFV-4 Gorgon';
 	};
 	if (_reward isEqualTo 11) then {
-		comment 'MSE-3 Marid';
+		//comment 'MSE-3 Marid';
 		if (worldName isEqualTo 'Tanoa') then {
 			_rewardType = 'O_T_APC_Wheeled_02_rcws_v2_ghex_F';
 		} else {
@@ -283,7 +283,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) MSE-3 Marid';
 	};
 	if (_reward isEqualTo 12) then {
-		comment 'IFV-6a Cheetah';
+		//comment 'IFV-6a Cheetah';
 		_rewardType = 'B_APC_Tracked_01_AA_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -298,7 +298,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) IFV-6a Cheetah';
 	};
 	if (_reward isEqualTo 13) then {
-		comment 'Truck with mortar and stronger wheels';
+		//comment 'Truck with mortar and stronger wheels';
 		_rewardType = 'B_G_Van_01_transport_F';
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
@@ -381,7 +381,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) Mortar Truck';
 	};
 	if (_reward isEqualTo 14) then {
-		comment 'HEMTT with Static weapons and increased armor';
+		//comment 'HEMTT with Static weapons and increased armor';
 		_rewardType = ['B_Truck_01_transport_F','B_T_Truck_01_transport_F'] select (worldName isEqualTo 'Tanoa');
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
@@ -569,7 +569,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','HEMTT (Bush Pig)',TRUE];
 	};
 	if (_reward isEqualTo 15) then {
-		comment 'Boat with mortar';
+		//comment 'Boat with mortar';
 		if (worldName isEqualTo 'Tanoa') then {
 			_rewardType = 'B_T_Boat_Transport_01_F';
 		} else {
@@ -649,7 +649,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) Mortar Boat';
 	};
 	if (_reward isEqualTo 16) then {
-		comment 'Quadbikes (pair) with autoturret and stronger wheels';
+		//comment 'Quadbikes (pair) with autoturret and stronger wheels';
 		for '_x' from 0 to 1 step 1 do {
 			if (worldName isEqualTo 'Tanoa') then {
 				_rewardType = 'B_T_Quadbike_01_F';
@@ -712,7 +712,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'Recon Quad Bikes (x2)';
 	};
 	if (_reward isEqualTo 17) then {
-		comment 'SUV with autoturret and stronger wheels and paint job and lower center of gravity';
+		//comment 'SUV with autoturret and stronger wheels and paint job and lower center of gravity';
 		_rewardType = 'C_SUV_01_F';
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
@@ -805,7 +805,7 @@ if (_type isEqualTo 1) then {
 		];
 	};
 	if (_reward isEqualTo 18) then {
-		comment 'Qilin (Armed)';
+		//comment 'Qilin (Armed)';
 		_rewardVeh = createVehicle ['O_T_LSV_02_armed_black_F',_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
@@ -818,7 +818,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) Qilin (Armed)';
 	};	
 	if (_reward isEqualTo 19) then {
-		comment 'O_T_VTOL_02_infantry_grey_F';
+		//comment 'O_T_VTOL_02_infantry_grey_F';
 		_rewardType = 'O_T_VTOL_02_infantry_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -841,7 +841,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = "a(n) Y-32 Xi'an (Infantry Transport)";
 	};
 	if (_reward isEqualTo 20) then {
-		comment 'Armed VTOL NATO';
+		//comment 'Armed VTOL NATO';
 		_rewardType = 'B_T_VTOL_01_armed_blue_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -856,7 +856,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) V-44 X Blackfish (Armed)';
 	};
 	if (_reward isEqualTo 21) then {
-		comment 'Armed jeep';
+		//comment 'Armed jeep';
 		/*/QS_static1 attachTo [QS_car,[-0.15,-1,0.43]]; QS_static1 setDir 180;B_HMG_01_F/*/
 		_rewardType = 'I_C_Offroad_02_unarmed_olive_F';
 		_rewardPosition = selectRandom _landRewardLocations;
@@ -929,7 +929,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','MB 4WD Stalker',TRUE];
 	};	
 	if (_reward isEqualTo 22) then {
-		comment "'c_plane_civil_01_racing_f','i_c_plane_civil_01_f'";
+		//comment "'c_plane_civil_01_racing_f','i_c_plane_civil_01_f'";
 		_rewardType = selectRandom ['i_c_plane_civil_01_f','i_c_plane_civil_01_f'];
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -946,7 +946,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','Q-51 Mosquito',TRUE];
 	};
 	if (_reward isEqualTo 23) then {
-		comment 'AA truck';
+		//comment 'AA truck';
 		_rewardType = selectRandomWeighted [
 			'B_SAM_System_01_F',0.666,
 			'B_AAA_System_01_F',0.333
@@ -1039,7 +1039,7 @@ if (_type isEqualTo 1) then {
 		];
 	};
 	if (_reward isEqualTo 24) then {
-		comment 'AH-9 Pawnee X';
+		//comment 'AH-9 Pawnee X';
 		_rewardType = 'B_Heli_Light_01_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -1056,7 +1056,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','AH-9 Pawnee X',TRUE];
 	};
 	if (_reward isEqualTo 25) then {
-		comment 'WY-55 Hellcat X';
+		//comment 'WY-55 Hellcat X';
 		_rewardType = 'I_Heli_light_03_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -1073,7 +1073,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','WY-55 Hellcat X',TRUE];
 	};
 	if (_reward isEqualTo 26) then {
-		comment 'PO-30 Orca X';
+		//comment 'PO-30 Orca X';
 		_rewardType = 'O_Heli_Light_02_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
@@ -1090,7 +1090,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_ST_customDN','PO-30 Orca X',TRUE];
 	};
 	if (_reward isEqualTo 27) then {
-		comment 'Attack Helis';
+		//comment 'Attack Helis';
 		_rewardData = selectRandom [
 			['O_Heli_Attack_02_dynamicLoadout_black_F','a(n) Mi-48 Kajman X'],
 			['B_Heli_Attack_01_dynamicLoadout_F','a(n) AH-99 Blackfoot X']
@@ -1112,7 +1112,7 @@ if (_type isEqualTo 1) then {
 	};
 	
 	if (_reward isEqualTo 28) then {
-		comment 'Shitty technical';
+		//comment 'Shitty technical';
 		_rewardType = 'B_G_Van_01_transport_F';
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
@@ -1176,7 +1176,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = 'a(n) Shitty Technical';
 	};
 	if (_reward isEqualTo 29) then {
-		comment 'Nyx';
+		//comment 'Nyx';
 		_rewardType = selectRandomWeighted [
 			'I_LT_01_AT_F',1,
 			'I_LT_01_scout_F',1,
@@ -1195,7 +1195,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = format ['a(n) %1',(getText (configFile >> 'CfgVehicles' >> _rewardType >> 'displayName'))];
 	};
 	if (_reward isEqualTo 30) then {
-		comment 'Angara';
+		//comment 'Angara';
 		_rewardType = ['O_MBT_04_cannon_F','O_T_MBT_04_cannon_F'] select (worldName in ['Tanoa','Lingor3']);
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
@@ -1209,7 +1209,7 @@ if (_type isEqualTo 1) then {
 		_rewardText = format ['a(n) %1',(getText (configFile >> 'CfgVehicles' >> _rewardType >> 'displayName'))];
 	};
 	if (_reward isEqualTo 31) then {
-		comment 'Rhino';
+		//comment 'Rhino';
 		_rewardTypes = [
 			['B_AFV_Wheeled_01_up_cannon_F',0.333,'B_AFV_Wheeled_01_cannon_F',0.666],
 			['B_T_AFV_Wheeled_01_up_cannon_F',0.333,'B_T_AFV_Wheeled_01_cannon_F',0.666]

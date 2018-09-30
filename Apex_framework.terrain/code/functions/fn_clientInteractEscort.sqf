@@ -16,7 +16,7 @@ ________________________________________________*/
 _obj = cursorTarget;
 if (
 	(isNull _obj) ||
-	(isNil {_obj getVariable 'QS_RD_escortable'}) ||
+	(!(_obj getVariable ['QS_RD_escortable',FALSE])) ||
 	(isPlayer _obj) ||
 	(!isNull (attachedTo _obj))
 ) exitWith {};

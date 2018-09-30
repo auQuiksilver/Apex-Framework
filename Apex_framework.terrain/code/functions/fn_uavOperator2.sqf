@@ -187,14 +187,14 @@ _uavInitCodeGeneric = {
 	_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 	if (_uavEntity isKindOf 'Plane') then {
 		params ['','_loiterPos'];
-		_text = format ['A(n) %1 has spawned at grid %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _uavEntity) >> 'displayName')),(mapGridPosition _uavEntity),worldName];
+		_text = format ['A(n) %1 is available at grid %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _uavEntity) >> 'displayName')),(mapGridPosition _uavEntity),worldName];
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7,-1,_text,[],-1];
 		_uavEntity setVariable ['QS_ropeAttached',FALSE,TRUE];
 		_uavEntity enableRopeAttach TRUE;
 		_uavEntity enableVehicleCargo TRUE;
 		[57,_uavEntity] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		[_uavEntity,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
-		_uavEntity setVehicleReportRemoteTargets FALSE;
+		_uavEntity setVehicleReportRemoteTargets TRUE;
 		_uavEntity engineOn TRUE;
 		_uavEntity flyInHeightASL [500,500,500];
 		['setFeatureType',_uavEntity,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_uavEntity];

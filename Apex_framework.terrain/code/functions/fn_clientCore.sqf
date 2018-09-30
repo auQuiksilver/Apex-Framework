@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/08/2018 A3 1.84 by Quiksilver
+	22/08/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -53,7 +53,7 @@ private [
 	'_QS_handleHeal_unit','_isCurator','_curatorDisplay','_curatorDisplay_loaded','_restrictions_AT_msg','_restrictions_SNIPER_msg','_restrictions_AUTOTUR_msg',
 	'_restrictions_UAV_msg','_restrictions_OPTICS_msg','_restrictions_MG_msg','_restrictions_MMG_msg','_restrictions_SOPT_msg','_restrictions_MK_msg',
 	'_restrictions_PACK_msg','_restrictions_FIRED_msg','_QS_weapons','_QS_playerType','_QS_objectTypes','_QS_objectRange','_cursorObject','_cursorObjectDistance',
-	'_directPlayID','_playerClassDName','_grpTarget','_pilotAtBase','_QS_module_pilotSafezone_radius','_QS_module_pilotSafezone_checkDelay','_QS_module_pilotSafezone_delay',
+	'_playerClassDName','_grpTarget','_pilotAtBase','_QS_module_pilotSafezone_radius','_QS_module_pilotSafezone_checkDelay','_QS_module_pilotSafezone_delay',
 	'_QS_module_pilotSafezone_isInSafezone','_QS_action_fob_status','_QS_action_fob_status_text','_QS_action_fob_status_array','_QS_interaction_fob_status','_QS_action_fob_terminals',
 	'_QS_action_fob_activate','_QS_action_fob_activate_text','_QS_action_fob_activate_array','_QS_interaction_fob_activate','_QS_action_fob_respawn',
 	'_QS_action_fob_respawn_text','_QS_action_fob_respawn_array','_QS_interaction_fob_respawn','_QS_action_crate_customize','_QS_action_crate_customize_text',
@@ -143,7 +143,6 @@ _QS_moveTime = moveTime player;
 _QS_objectTypePlayer = getObjectType player;
 _QS_modelInfoPlayer = getModelInfo player;
 _QS_side = playerSide;
-_directPlayID = player getVariable ['QS_directPlayID',-1];
 _dNull = displayNull;
 _objNull = objNull;
 _QS_nullPos = [0,0,0];
@@ -280,17 +279,7 @@ if (_revalidate) then {
 	player setVariable _x;
 } forEach [
 	['QS_RD_interacting',FALSE,TRUE],
-	['QS_RD_interacted',FALSE,TRUE],
-	['QS_RD_draggable',FALSE,TRUE],
-	['QS_RD_carryable',FALSE,TRUE],
-	['QS_RD_escorting',FALSE,TRUE],
-	['QS_RD_escorted',FALSE,TRUE],
-	['QS_RD_escortable',FALSE,TRUE],
-	['QS_RD_interaction_busy',FALSE,FALSE],
-	['QS_RD_canRespawnVehicle',-1,FALSE],
-	['QS_RD_draggable',FALSE,TRUE],
-	['QS_RD_carryable',FALSE,TRUE],
-	['QS_RD_loadable',FALSE,TRUE]
+	['QS_RD_canRespawnVehicle',-1,FALSE]
 ];
 _cursorTarget = cursorTarget;
 _cursorObject = cursorObject;
@@ -390,9 +379,6 @@ _QS_revive_injuredAnims = [
 	'unconsciousrevivedefault_b','unconsciousrevivedefault_base','unconsciousrevivedefault_c'
 ];
 _checkworldtime = time + 30 + (random 600);
-if (player getUnitTrait 'medic') then {
-	[43,[player,_puid]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-};
 /*/===== Stabilise/*/
 _QS_action_stabilise = nil;
 _QS_action_stabilise_text = 'Stabilise';
@@ -446,7 +432,7 @@ _QS_action_turretSafety_text = 'Turret safety';
 _QS_action_turretSafety_array = [_QS_action_turretSafety_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractTurretControl')},[],-50,FALSE,FALSE,'','TRUE',-1,FALSE,''];
 _QS_interaction_turretSafety = FALSE;
 missionNamespace setVariable ['QS_inturretloop',FALSE,FALSE];
-_QS_turretSafety_heliTypes = ['B_Heli_Transport_01_camo_F','B_Heli_Transport_01_F','B_Heli_Transport_03_F',"B_CTRG_Heli_Transport_01_sand_F","B_CTRG_Heli_Transport_01_tropic_F"];
+_QS_turretSafety_heliTypes = ['B_Heli_Transport_01_camo_F','B_Heli_Transport_01_F','B_Heli_Transport_03_F','B_CTRG_Heli_Transport_01_sand_F','B_CTRG_Heli_Transport_01_tropic_F'];
 /*/===== Ear collector/*/
 _QS_action_ears = nil;
 _QS_action_ears_text = 'Collect ear';
@@ -664,7 +650,7 @@ if (_QS_module_liveFeed) then {
 	_QS_liveFeed_camera_offset = [-0.18,0.08,0.05];
 	_QS_liveFeed_vehicle_current = objNull;
 	_QS_liveFeed_text = 'Helmet Cam (Live Feed):';
-	player setVariable ['QS_RD_client_liveFeed',FALSE,TRUE];
+	player setVariable ['QS_RD_client_liveFeed',FALSE,FALSE];
 	_QS_liveFeed_action_1 = _QS_liveFeed_display addAction [
 		'Turn on live feed',
 		{
@@ -952,7 +938,6 @@ _iAmPilot = FALSE;
 if (player getUnitTrait 'QS_trait_pilot') then {
 	_iAmPilot = TRUE;
 	_pilotAtBase = TRUE;
-	[44,[player,_puid]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	_difficultyEnabledRTD = difficultyEnabledRTD;
 	player setVariable ['QS_PP_difficultyEnabledRTD',[_difficultyEnabledRTD,time],TRUE];
 };
@@ -974,7 +959,7 @@ _QS_afkTimer_playerThreshold = 40;
 _QS_afkTimer_playerPos = _QS_posWorldPlayer;
 /*/===== Leaderboards module/*/
 _QS_module_leaderboards = TRUE;
-_QS_module_leaderboards_delay = 2.5;
+_QS_module_leaderboards_delay = 5;
 _QS_module_leaderboards_checkDelay = _timeNow + _QS_module_leaderboards_delay;
 _QS_module_leaderboards_pilots = TRUE;
 if (_iAmPilot) then {
@@ -987,8 +972,8 @@ if (_iAmPilot) then {
 	player setVariable ['QS_IA_PP_loadedAtMission',[],TRUE];
 	player setVariable ['QS_IA_PP_loadedInField',[],TRUE];
 };
-/*/Register collector/*/
-[45,[player,_puid]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+/*/Register Leaderboard/*/
+[45,[player,_puid,(player getUnitTrait 'medic'),(player getUnitTrait 'QS_trait_pilot')]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 /*/===== Difficulties propagation/*/
 _QS_reportDifficulty = TRUE;
 _QS_reportDifficulty_delay = 25;
@@ -1010,7 +995,7 @@ player setVariable [
 		(difficultyEnabled 'roughLanding'),
 		(difficultyEnabled 'windEnabled')
 	],
-	TRUE
+	FALSE
 ];
 _clientDifficulty = player getVariable 'QS_clientDifficulty';
 if (!(_clientDifficulty select 0)) then {
@@ -1037,16 +1022,13 @@ _QS_module_texture = TRUE;
 _QS_module_texture_delay = 20;
 _QS_module_texture_checkDelay = _timeNow + _QS_module_texture_delay;
 _myV = objNull;
-if (isNil {player getVariable 'QS_ClientUnitInsignia2'}) then {
-	player setVariable ['QS_ClientUnitInsignia2','',TRUE];
-};
 if (isNil {player getVariable 'QS_ClientUTexture2'}) then {
 	player setVariable ['QS_ClientUTexture2','',FALSE];
 };
 if (isNil {player getVariable 'QS_ClientUTexture2_Uniforms2'}) then {
 	player setVariable ['QS_ClientUTexture2_Uniforms2',[],FALSE];
 };
-player setVariable ['QS_ClientVTexture',[_myV,_puid,'',(_timeNow + 5)],TRUE];
+player setVariable ['QS_ClientVTexture',[_myV,_puid,'',(_timeNow + 5)],FALSE];
 /*/===== HandleHeal Handler/*/
 _QS_module_handleHeal = TRUE;
 _QS_module_handleHeal_delay = 30;
@@ -1604,10 +1586,7 @@ if (((leader (group player)) isEqualTo player) && (!(['IsGroupRegistered',[group
 [''] call (missionNamespace getVariable 'QS_fnc_clientSetUnitInsignia');
 /*/========== Transfer third-party loadouts to Arsenal/*/
 0 spawn (missionNamespace getVariable 'QS_fnc_clientVAS2VA');
-/*/===== Generate client owner ID/*/
-for '_x' from 0 to 1 step 1 do {
-	player setVariable ['QS_clientOwner',clientOwner,TRUE];
-};
+//player setVariable ['QS_clientOwner',clientOwner,TRUE];
 if (_puid in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	0 spawn {
 		scriptName 'QS - Connect to Curator';
@@ -1827,41 +1806,37 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (_QS_module_liveFeed) then {
 		if (_timeNow > _QS_module_liveFeed_checkDelay) then {
-			if ((_QS_player getVariable 'QS_RD_client_liveFeed') isEqualType _true) then {
-				if (_QS_player getVariable 'QS_RD_client_liveFeed') then {
-					if (isPipEnabled) then {
-						_QS_liveFeed_display = missionNamespace getVariable ['QS_Billboard_02',_objNull];
-						if (!isNull _QS_liveFeed_display) then {
-							if ((_QS_player distance2D _QS_liveFeed_display) < 30) then {
-								_QS_liveFeed_vehicle = missionNamespace getVariable ['QS_RD_liveFeed_vehicle',_objNull];
-								if (_QS_liveFeed_vehicle isEqualType _objNull) then {
-									if (!isNull _QS_liveFeed_vehicle) then {
-										if (alive _QS_liveFeed_vehicle) then {
-											if (!(_QS_liveFeed_vehicle isEqualTo _QS_liveFeed_vehicle_current)) then {
-												_QS_liveFeed_vehicle_current = _QS_liveFeed_vehicle;
-												if (_QS_liveFeed_vehicle isKindOf 'Man') then {
-													_QS_liveFeed_camera attachTo [(missionNamespace getVariable 'QS_RD_liveFeed_neck'),[0.25,-0.10,0.05]];
-												} else {
-													_QS_liveFeed_camera attachTo [(missionNamespace getVariable 'QS_RD_liveFeed_neck'),[2,-4,2]];
-												};
-												_QS_liveFeed_camera cameraEffect ['Internal','Back','qs_rd_lfe'];
-												_QS_liveFeed_camera camSetTarget (missionNamespace getVariable 'QS_RD_liveFeed_target');
-												_QS_liveFeed_display setObjectTexture [0,'#(argb,512,512,1)r2t(qs_rd_lfe,1)'];
-												if (sunOrMoon < 0.25) then {
-													'qs_rd_lfe' setPiPEffect [1];
-												} else {
-													'qs_rd_lfe' setPiPEffect [0];
-												};
-												_QS_liveFeed_camera camCommit 1;
-												_screenPos = worldToScreen _displayPos;
-												if (!(_screenPos isEqualTo [])) then {
-													if (isNull (objectParent _QS_player)) then {
-														[format [_QS_liveFeed_text + ' %1',(name (effectiveCommander _QS_liveFeed_vehicle_current))],((_screenPos select 0) - 0.25),((_screenPos select 1) + 0.1),2.75,0.25] spawn (missionNamespace getVariable 'BIS_fnc_dynamicText');
-													};
+			if (_QS_player getVariable ['QS_RD_client_liveFeed',_false]) then {
+				if (isPipEnabled) then {
+					_QS_liveFeed_display = missionNamespace getVariable ['QS_Billboard_02',_objNull];
+					if (!isNull _QS_liveFeed_display) then {
+						if ((_QS_player distance2D _QS_liveFeed_display) < 30) then {
+							_QS_liveFeed_vehicle = missionNamespace getVariable ['QS_RD_liveFeed_vehicle',_objNull];
+							if (_QS_liveFeed_vehicle isEqualType _objNull) then {
+								if (!isNull _QS_liveFeed_vehicle) then {
+									if (alive _QS_liveFeed_vehicle) then {
+										if (!(_QS_liveFeed_vehicle isEqualTo _QS_liveFeed_vehicle_current)) then {
+											_QS_liveFeed_vehicle_current = _QS_liveFeed_vehicle;
+											if (_QS_liveFeed_vehicle isKindOf 'Man') then {
+												_QS_liveFeed_camera attachTo [(missionNamespace getVariable 'QS_RD_liveFeed_neck'),[0.25,-0.10,0.05]];
+											} else {
+												_QS_liveFeed_camera attachTo [(missionNamespace getVariable 'QS_RD_liveFeed_neck'),[2,-4,2]];
+											};
+											_QS_liveFeed_camera cameraEffect ['Internal','Back','qs_rd_lfe'];
+											_QS_liveFeed_camera camSetTarget (missionNamespace getVariable 'QS_RD_liveFeed_target');
+											_QS_liveFeed_display setObjectTexture [0,'#(argb,512,512,1)r2t(qs_rd_lfe,1)'];
+											if (sunOrMoon < 0.25) then {
+												'qs_rd_lfe' setPiPEffect [1];
+											} else {
+												'qs_rd_lfe' setPiPEffect [0];
+											};
+											_QS_liveFeed_camera camCommit 1;
+											_screenPos = worldToScreen _displayPos;
+											if (!(_screenPos isEqualTo [])) then {
+												if (isNull (objectParent _QS_player)) then {
+													[format [_QS_liveFeed_text + ' %1',(name (effectiveCommander _QS_liveFeed_vehicle_current))],((_screenPos select 0) - 0.25),((_screenPos select 1) + 0.1),2.75,0.25] spawn (missionNamespace getVariable 'BIS_fnc_dynamicText');
 												};
 											};
-										} else {
-											_QS_liveFeed_display setObjectTexture [0,_QS_module_liveFeed_noSignalFile];
 										};
 									} else {
 										_QS_liveFeed_display setObjectTexture [0,_QS_module_liveFeed_noSignalFile];
@@ -1872,11 +1847,13 @@ for '_x' from 0 to 1 step 0 do {
 							} else {
 								_QS_liveFeed_display setObjectTexture [0,_QS_module_liveFeed_noSignalFile];
 							};
+						} else {
+							_QS_liveFeed_display setObjectTexture [0,_QS_module_liveFeed_noSignalFile];
 						};
 					};
-				} else {
-					_QS_liveFeed_display setObjectTexture [0,_QS_module_liveFeed_noSignalFile];
 				};
+			} else {
+				_QS_liveFeed_display setObjectTexture [0,_QS_module_liveFeed_noSignalFile];
 			};
 			_QS_module_liveFeed_checkDelay = _timeNow + _QS_module_liveFeed_delay;
 		};
@@ -2050,443 +2027,436 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (alive _QS_player) then {
 		if ((lifeState _QS_player) in ['HEALTHY','INJURED']) then {
-			if (!(_QS_player getVariable ['QS_RD_interaction_busy',_false])) then {
-				_cursorTarget = cursorTarget;
-				_cursorDistance = _QS_player distance _cursorTarget;
-				getCursorObjectParams params ['_cursorObject','_cursorObjectNamedSel','_cursorObjectDistance'];
-				if (isNull _cursorObject) then {
-					_cursorObject = cursorObject;
-				};
-				if (!isNull _cursorObject) then {
-					if (_cursorObject isKindOf 'CAManBase') then {
-						if (_cursorObjectDistance < 15) then {
-							if ((_QS_player knowsAbout _cursorObject) < 1) then {
-								_QS_player reveal [_cursorObject,4];
-							};
+			_cursorTarget = cursorTarget;
+			_cursorDistance = _QS_player distance _cursorTarget;
+			getCursorObjectParams params ['_cursorObject','_cursorObjectNamedSel','_cursorObjectDistance'];
+			if (isNull _cursorObject) then {
+				_cursorObject = cursorObject;
+			};
+			if (!isNull _cursorObject) then {
+				if (_cursorObject isKindOf 'CAManBase') then {
+					if (_cursorObjectDistance < 15) then {
+						if ((_QS_player knowsAbout _cursorObject) < 1) then {
+							_QS_player reveal [_cursorObject,4];
 						};
 					};
 				};
-				_noObjectParent = isNull _objectParent;
-				if (_timeNow > _QS_nearEntities_revealCheckDelay) then {
-					if (_noObjectParent) then {
-						{
-							if (simulationEnabled _x) then {
-								if ((_QS_player knowsAbout _x) < 1) then {
-									_QS_player reveal [_x,3.9];
-								};
-							};
-						} count (((_posATLPlayer select [0,2]) nearEntities [_QS_entityTypes,_QS_entityRange]) + (_posATLPlayer nearObjects [_QS_objectTypes,_QS_objectRange]));
-						{
-							if (!isNull (_x select 0)) then {
-								if ((_x select 1) < 5) then {
-									if (simulationEnabled (_x select 0)) then {
-										if ((_QS_player knowsAbout (_x select 0)) < 1) then {
-											_QS_player reveal [(_x select 0),3.9];
-										};
-									};
-								};
-							};
-						} count [
-							[_cursorTarget,_cursorDistance],
-							[_cursorObject,_cursorObjectDistance]
-						];
-					};
-					_QS_nearEntities_revealCheckDelay = _timeNow + _QS_nearEntities_revealDelay;
-				};
-				
-				/*/===== Action Escort/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_cursorDistance < 2)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{(isNull (attachedTo _cursorTarget))} &&
-					{(_cursorTarget getVariable ['QS_RD_escortable',_false])}
-				) then {
-					if (!(_QS_interaction_escort)) then {
-						_QS_interaction_escort = _true;
-						_QS_action_escort = player addAction _QS_action_escort_array;
-						player setUserActionText [_QS_action_escort,((player actionParams _QS_action_escort) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_escort) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_escort) then {
-						_QS_interaction_escort = _false;
-						player removeAction _QS_action_escort;
-					};
-				};
-				
-				/*/========== REVIVE/*/
-	
-				if (
-					(_noObjectParent) &&
-					{(_QS_player getUnitTrait 'medic')} &&
-					{(_cursorDistance < 1.9)} &&
-					{(((attachedObjects _QS_player) findIf {(_x isKindOf 'CAManBase')}) isEqualTo -1)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{((lifeState _cursorTarget) isEqualTo 'INCAPACITATED')}
-				) then {
-					if (!(_QS_interaction_revive)) then {
-						_QS_interaction_revive = _true;
-						_QS_action_revive = player addAction _QS_action_revive_array;
-						player setUserActionText [_QS_action_revive,((player actionParams _QS_action_revive) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_revive) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_revive) then {
-						_QS_interaction_revive = _false;
-						player removeAction _QS_action_revive;
-					};
-				};
-				
-				/*/===== Stabilise/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_cursorDistance < 1.9)} &&
-					{(((attachedObjects _QS_player) findIf {(_x isKindOf 'CAManBase')}) isEqualTo -1)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{(_cursorTarget getVariable ['QS_interact_stabilise',_false])} &&
-					{(!(_cursorTarget getVariable ['QS_interact_stabilised',_true]))}
-				) then {
-					if (!(_QS_interaction_stabilise)) then {
-						_QS_interaction_stabilise = _true;
-						_QS_action_stabilise = player addAction _QS_action_stabilise_array;
-						player setUserActionText [_QS_action_stabilise,((player actionParams _QS_action_stabilise) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_stabilise) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_stabilise) then {
-						_QS_interaction_stabilise = _false;
-						player removeAction _QS_action_stabilise;
-					};
-				};
-							
-				/*/===== Action Load/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance <= 2)} &&
-					{((_cursorTarget isKindOf 'LandVehicle') || {(_cursorTarget isKindOf 'Air')} || {(_cursorTarget isKindOf 'Ship')})} &&
-					{(alive _cursorTarget)} &&
-					{(((_cursorTarget emptyPositions 'Cargo') > 0) || {((unitIsUav _cursorTarget) && (([_cursorTarget,1] call _fn_clientInteractUGV) > 0))})} &&
-					{((locked _cursorTarget) in [-1,0,1])} &&
-					{(!(((attachedObjects _QS_player) findIf {(_x isKindOf 'CAManBase')}) isEqualTo -1))}
-				) then {
+			};
+			_noObjectParent = isNull _objectParent;
+			if (_timeNow > _QS_nearEntities_revealCheckDelay) then {
+				if (_noObjectParent) then {
 					{
-						if (!isNull _x) then {
-							if (_x isKindOf 'Man') then {
-								if (alive _x) then {
-									if (!(_QS_interaction_load)) then {
-										_QS_interaction_load = _true;
-										_QS_action_load = player addAction _QS_action_load_array;
-										player setUserActionText [_QS_action_load,((player actionParams _QS_action_load) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_load) select 0)])];
-									};
-								} else {
-									if (_QS_interaction_load) then {
-										_QS_interaction_load = _false;
-										player removeAction _QS_action_load;
+						if (simulationEnabled _x) then {
+							if ((_QS_player knowsAbout _x) < 1) then {
+								_QS_player reveal [_x,3.9];
+							};
+						};
+					} count (((_posATLPlayer select [0,2]) nearEntities [_QS_entityTypes,_QS_entityRange]) + (_posATLPlayer nearObjects [_QS_objectTypes,_QS_objectRange]));
+					{
+						if (!isNull (_x select 0)) then {
+							if ((_x select 1) < 5) then {
+								if (simulationEnabled (_x select 0)) then {
+									if ((_QS_player knowsAbout (_x select 0)) < 1) then {
+										_QS_player reveal [(_x select 0),3.9];
 									};
 								};
 							};
 						};
-					} count (attachedObjects _QS_player);
-				} else {
-					if (_QS_interaction_load) then {
-						_QS_interaction_load = _false;
-						player removeAction _QS_action_load;
-					};
+					} count [
+						[_cursorTarget,_cursorDistance],
+						[_cursorObject,_cursorObjectDistance]
+					];
 				};
-				
-				/*/===== Action Unload/*/
+				_QS_nearEntities_revealCheckDelay = _timeNow + _QS_nearEntities_revealDelay;
+			};
+			
+			/*/===== Action Escort/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_cursorDistance < 2)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{(isNull (attachedTo _cursorTarget))} &&
+				{(_cursorTarget getVariable ['QS_RD_escortable',_false])}
+			) then {
+				if (!(_QS_interaction_escort)) then {
+					_QS_interaction_escort = _true;
+					_QS_action_escort = player addAction _QS_action_escort_array;
+					player setUserActionText [_QS_action_escort,((player actionParams _QS_action_escort) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_escort) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_escort) then {
+					_QS_interaction_escort = _false;
+					player removeAction _QS_action_escort;
+				};
+			};
+			
+			/*/========== REVIVE/*/
 
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance <= 2)} &&
-					{((_cursorTarget isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')})} &&
-					{((!(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1)) || ((unitIsUav _cursorObject) && ([_cursorObject,0] call _fn_clientInteractUGV) && (!(((attachedObjects _cursorObject) findIf {((_x isKindOf 'CAManBase') && (alive _x))}) isEqualTo -1))))} &&
-					{((!(((crew _cursorObject) findIf {(_x getVariable ['QS_RD_loaded',_false])}) isEqualTo -1)) || {(!(((crew _cursorObject) findIf {((lifeState _x) isEqualTo 'INCAPACITATED')}) isEqualTo -1))} || {(!(((attachedObjects _cursorObject) findIf {((_x isKindOf 'CAManBase') && (alive _x) && (_x getVariable ['QS_RD_loaded',_false]))}) isEqualTo -1))})}
-				) then {
-					{
-						if (!(_QS_interaction_unload)) then {
-							if ((_x getVariable ['QS_RD_loaded',_false]) || {((lifeState _x) isEqualTo 'INCAPACITATED')}) then {
-								if (alive _x) then {
-									_QS_interaction_unload = _true;
-									_QS_action_unload = player addAction _QS_action_unload_array;
-									player setUserActionText [_QS_action_unload,((player actionParams _QS_action_unload) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_unload) select 0)])];
-								} else {
-									if (_QS_interaction_unload) then {
-										_QS_interaction_unload = _false;
-										player removeAction _QS_action_unload;
-									};
+			if (
+				(_noObjectParent) &&
+				{(_QS_player getUnitTrait 'medic')} &&
+				{(_cursorDistance < 1.9)} &&
+				{(((attachedObjects _QS_player) findIf {(_x isKindOf 'CAManBase')}) isEqualTo -1)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{((lifeState _cursorTarget) isEqualTo 'INCAPACITATED')}
+			) then {
+				if (!(_QS_interaction_revive)) then {
+					_QS_interaction_revive = _true;
+					_QS_action_revive = player addAction _QS_action_revive_array;
+					player setUserActionText [_QS_action_revive,((player actionParams _QS_action_revive) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_revive) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_revive) then {
+					_QS_interaction_revive = _false;
+					player removeAction _QS_action_revive;
+				};
+			};
+			
+			/*/===== Stabilise/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_cursorDistance < 1.9)} &&
+				{(((attachedObjects _QS_player) findIf {(_x isKindOf 'CAManBase')}) isEqualTo -1)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{(_cursorTarget getVariable ['QS_interact_stabilise',_false])} &&
+				{(!(_cursorTarget getVariable ['QS_interact_stabilised',_true]))}
+			) then {
+				if (!(_QS_interaction_stabilise)) then {
+					_QS_interaction_stabilise = _true;
+					_QS_action_stabilise = player addAction _QS_action_stabilise_array;
+					player setUserActionText [_QS_action_stabilise,((player actionParams _QS_action_stabilise) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_stabilise) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_stabilise) then {
+					_QS_interaction_stabilise = _false;
+					player removeAction _QS_action_stabilise;
+				};
+			};
+						
+			/*/===== Action Load/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance <= 2)} &&
+				{((_cursorTarget isKindOf 'LandVehicle') || {(_cursorTarget isKindOf 'Air')} || {(_cursorTarget isKindOf 'Ship')})} &&
+				{(alive _cursorTarget)} &&
+				{(((_cursorTarget emptyPositions 'Cargo') > 0) || {((unitIsUav _cursorTarget) && (([_cursorTarget,1] call _fn_clientInteractUGV) > 0))})} &&
+				{((locked _cursorTarget) in [-1,0,1])} &&
+				{(!(((attachedObjects _QS_player) findIf {(_x isKindOf 'CAManBase')}) isEqualTo -1))}
+			) then {
+				{
+					if (!isNull _x) then {
+						if (_x isKindOf 'Man') then {
+							if (alive _x) then {
+								if (!(_QS_interaction_load)) then {
+									_QS_interaction_load = _true;
+									_QS_action_load = player addAction _QS_action_load_array;
+									player setUserActionText [_QS_action_load,((player actionParams _QS_action_load) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_load) select 0)])];
 								};
+							} else {
+								if (_QS_interaction_load) then {
+									_QS_interaction_load = _false;
+									player removeAction _QS_action_load;
+								};
+							};
+						};
+					};
+				} count (attachedObjects _QS_player);
+			} else {
+				if (_QS_interaction_load) then {
+					_QS_interaction_load = _false;
+					player removeAction _QS_action_load;
+				};
+			};
+			
+			/*/===== Action Unload/*/
+
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance <= 2)} &&
+				{((_cursorTarget isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')})} &&
+				{((!(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1)) || ((unitIsUav _cursorObject) && ([_cursorObject,0] call _fn_clientInteractUGV) && (!(((attachedObjects _cursorObject) findIf {((_x isKindOf 'CAManBase') && (alive _x))}) isEqualTo -1))))} &&
+				{((!(((crew _cursorObject) findIf {(_x getVariable ['QS_RD_loaded',_false])}) isEqualTo -1)) || {(!(((crew _cursorObject) findIf {((lifeState _x) isEqualTo 'INCAPACITATED')}) isEqualTo -1))} || {(!(((attachedObjects _cursorObject) findIf {((_x isKindOf 'CAManBase') && (alive _x) && (_x getVariable ['QS_RD_loaded',_false]))}) isEqualTo -1))})}
+			) then {
+				{
+					if (!(_QS_interaction_unload)) then {
+						if ((_x getVariable ['QS_RD_loaded',_false]) || {((lifeState _x) isEqualTo 'INCAPACITATED')}) then {
+							if (alive _x) then {
+								_QS_interaction_unload = _true;
+								_QS_action_unload = player addAction _QS_action_unload_array;
+								player setUserActionText [_QS_action_unload,((player actionParams _QS_action_unload) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_unload) select 0)])];
 							} else {
 								if (_QS_interaction_unload) then {
 									_QS_interaction_unload = _false;
 									player removeAction _QS_action_unload;
 								};
 							};
-						};
-					} count ((crew _cursorObject) + (attachedObjects _cursorObject));
-				} else {
-					if (_QS_interaction_unload) then {
-						_QS_interaction_unload = _false;
-						player removeAction _QS_action_unload;
-					};
-				};
-				
-				/*/===== Action Question Civilian/*/
-				
-				if (
-					(_cursorDistance < 10) &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{((side _cursorTarget) isEqualTo _civSide)} &&
-					{(alive _cursorTarget)} &&
-					{(_cursorTarget getVariable ['QS_civilian_interactable',_false])}
-				) then {
-					if (!(_QS_interaction_questionCivilian)) then {
-						_QS_interaction_questionCivilian = _true;
-						_QS_action_questionCivilian = player addAction _QS_action_questionCivilian_array;
-						player setUserActionText [_QS_action_questionCivilian,((player actionParams _QS_action_questionCivilian) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_questionCivilian) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_questionCivilian) then {
-						_QS_interaction_questionCivilian = _false;
-						player removeAction _QS_action_questionCivilian;
-					};
-				};
-				
-				/*/===== Action Drag/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_cursorDistance < 1.9)} &&
-					{(((attachedObjects _QS_player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)} &&
-					{(alive _cursorTarget)} &&
-					{(isNull (attachedTo _cursorTarget))} &&
-					{(isNull (ropeAttachedTo _cursorTarget))}
-				) then {
-					if (_cursorTarget isKindOf 'Man') then {
-						if (((lifeState _cursorTarget) isEqualTo 'INCAPACITATED') && {((isNull (attachedTo _cursorTarget)) && (isNull (objectParent _cursorTarget)))}) then {
-							if (!(_QS_interaction_drag)) then {
-								_QS_interaction_drag = _true;
-								_QS_action_drag = player addAction _QS_action_drag_array;
-								player setUserActionText [_QS_action_drag,((player actionParams _QS_action_drag) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_drag) select 0)])];
-							};
 						} else {
-							if (_QS_interaction_drag) then {
-								_QS_interaction_drag = _false;
-								player removeAction _QS_action_drag;
+							if (_QS_interaction_unload) then {
+								_QS_interaction_unload = _false;
+								player removeAction _QS_action_unload;
 							};
+						};
+					};
+				} count ((crew _cursorObject) + (attachedObjects _cursorObject));
+			} else {
+				if (_QS_interaction_unload) then {
+					_QS_interaction_unload = _false;
+					player removeAction _QS_action_unload;
+				};
+			};
+			
+			/*/===== Action Question Civilian/*/
+			
+			if (
+				(_cursorDistance < 10) &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{((side _cursorTarget) isEqualTo _civSide)} &&
+				{(alive _cursorTarget)} &&
+				{(_cursorTarget getVariable ['QS_civilian_interactable',_false])}
+			) then {
+				if (!(_QS_interaction_questionCivilian)) then {
+					_QS_interaction_questionCivilian = _true;
+					_QS_action_questionCivilian = player addAction _QS_action_questionCivilian_array;
+					player setUserActionText [_QS_action_questionCivilian,((player actionParams _QS_action_questionCivilian) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_questionCivilian) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_questionCivilian) then {
+					_QS_interaction_questionCivilian = _false;
+					player removeAction _QS_action_questionCivilian;
+				};
+			};
+			
+			/*/===== Action Drag/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_cursorDistance < 1.9)} &&
+				{(((attachedObjects _QS_player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)} &&
+				{(alive _cursorTarget)} &&
+				{(isNull (attachedTo _cursorTarget))} &&
+				{(isNull (ropeAttachedTo _cursorTarget))}
+			) then {
+				if (_cursorTarget isKindOf 'Man') then {
+					if (((lifeState _cursorTarget) isEqualTo 'INCAPACITATED') && {((isNull (attachedTo _cursorTarget)) && (isNull (objectParent _cursorTarget)))}) then {
+						if (!(_QS_interaction_drag)) then {
+							_QS_interaction_drag = _true;
+							_QS_action_drag = player addAction _QS_action_drag_array;
+							player setUserActionText [_QS_action_drag,((player actionParams _QS_action_drag) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_drag) select 0)])];
 						};
 					} else {
-						if (([0,_cursorTarget,_objNull] call _fn_getCustomCargoParams) || {((!isNil {_cursorTarget getVariable 'QS_RD_draggable'}) && (_cursorTarget getVariable ['QS_RD_draggable',_false]))}) then {
-							if (!(_QS_interaction_drag)) then {
-								_QS_interaction_drag = _true;
-								_QS_action_drag = player addAction _QS_action_drag_array;
-								player setUserActionText [_QS_action_drag,((player actionParams _QS_action_drag) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_drag) select 0)])];
-							};
-						} else {
-							if (_QS_interaction_drag) then {
-								_QS_interaction_drag = _false;
-								player removeAction _QS_action_drag;
-							};
+						if (_QS_interaction_drag) then {
+							_QS_interaction_drag = _false;
+							player removeAction _QS_action_drag;
 						};
 					};
 				} else {
-					if (_QS_interaction_drag) then {
-						_QS_interaction_drag = _false;
-						player removeAction _QS_action_drag;
+					if (([0,_cursorTarget,_objNull] call _fn_getCustomCargoParams) || {(_cursorTarget getVariable ['QS_RD_draggable',_false])}) then {
+						if (!(_QS_interaction_drag)) then {
+							_QS_interaction_drag = _true;
+							_QS_action_drag = player addAction _QS_action_drag_array;
+							player setUserActionText [_QS_action_drag,((player actionParams _QS_action_drag) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_drag) select 0)])];
+						};
+					} else {
+						if (_QS_interaction_drag) then {
+							_QS_interaction_drag = _false;
+							player removeAction _QS_action_drag;
+						};
 					};
 				};
+			} else {
+				if (_QS_interaction_drag) then {
+					_QS_interaction_drag = _false;
+					player removeAction _QS_action_drag;
+				};
+			};
 
-				/*/===== Action Carry/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_cursorDistance < 1.9)} &&
-					{(((attachedObjects _QS_player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)} &&
-					{(isNull (attachedTo _cursorTarget))} &&
-					{(isNull (objectParent _cursorTarget))}
-				) then {
-					if (_cursorTarget isKindOf 'CAManBase') then {
-						if ((alive _cursorTarget) && {((lifeState _cursorTarget) isEqualTo 'INCAPACITATED')}) then {
-							if (!(_QS_interaction_carry)) then {
-								_QS_interaction_carry = _true;
-								_QS_action_carry = player addAction _QS_action_carry_array;
-								player setUserActionText [_QS_action_carry,((player actionParams _QS_action_carry) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_carry) select 0)])];
-							};
-						} else {
-							if (_QS_interaction_carry) then {
-								_QS_interaction_carry = _false;
-								player removeAction _QS_action_carry;
-							};
+			/*/===== Action Carry/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_cursorDistance < 1.9)} &&
+				{(((attachedObjects _QS_player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)} &&
+				{(isNull (attachedTo _cursorTarget))} &&
+				{(isNull (objectParent _cursorTarget))}
+			) then {
+				if (_cursorTarget isKindOf 'CAManBase') then {
+					if ((alive _cursorTarget) && {((lifeState _cursorTarget) isEqualTo 'INCAPACITATED')}) then {
+						if (!(_QS_interaction_carry)) then {
+							_QS_interaction_carry = _true;
+							_QS_action_carry = player addAction _QS_action_carry_array;
+							player setUserActionText [_QS_action_carry,((player actionParams _QS_action_carry) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_carry) select 0)])];
 						};
 					} else {
-						if (([0,_cursorTarget,_objNull] call _fn_getCustomCargoParams) && {([4,_cursorTarget,_QS_v2] call _fn_getCustomCargoParams)}) then {
-							if (!(_QS_interaction_carry)) then {
-								_QS_interaction_carry = _true;
-								_QS_action_carry = player addAction _QS_action_carry_array;
-								player setUserActionText [_QS_action_carry,((player actionParams _QS_action_carry) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_carry) select 0)])];
-							};
-						} else {
-							if (_QS_interaction_carry) then {
-								_QS_interaction_carry = _false;
-								player removeAction _QS_action_carry;
-							};							
+						if (_QS_interaction_carry) then {
+							_QS_interaction_carry = _false;
+							player removeAction _QS_action_carry;
 						};
 					};
 				} else {
-					if (_QS_interaction_carry) then {
-						_QS_interaction_carry = _false;
-						player removeAction _QS_action_carry;
+					if (([0,_cursorTarget,_objNull] call _fn_getCustomCargoParams) && {([4,_cursorTarget,_QS_v2] call _fn_getCustomCargoParams)}) then {
+						if (!(_QS_interaction_carry)) then {
+							_QS_interaction_carry = _true;
+							_QS_action_carry = player addAction _QS_action_carry_array;
+							player setUserActionText [_QS_action_carry,((player actionParams _QS_action_carry) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_carry) select 0)])];
+						};
+					} else {
+						if (_QS_interaction_carry) then {
+							_QS_interaction_carry = _false;
+							player removeAction _QS_action_carry;
+						};							
 					};
 				};
-				
-				/*/===== Action Recruit/*/
+			} else {
+				if (_QS_interaction_carry) then {
+					_QS_interaction_carry = _false;
+					player removeAction _QS_action_carry;
+				};
+			};
+			
+			/*/===== Action Recruit/*/
 
-				if (
-					(_noObjectParent) &&
-					{(_cursorDistance < 3)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{(!(_cursorTarget isEqualTo _QS_player))} &&
-					{(_QS_player isEqualTo (leader (group _QS_player)))} &&
-					{(!((group _cursorTarget) isEqualTo (group _QS_player)))} &&
-					{(_cursorTarget getVariable ['QS_RD_recruitable',_false])}
-				) then {
-					if (!(_QS_interaction_recruit)) then {
-						_QS_interaction_recruit = _true;
-						_QS_action_recruit = player addAction _QS_action_recruit_array;
-						player setUserActionText [_QS_action_recruit,((player actionParams _QS_action_recruit) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_recruit) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_recruit) then {
-						_QS_interaction_recruit = _false;
-						player removeAction _QS_action_recruit;
-					};
+			if (
+				(_noObjectParent) &&
+				{(_cursorDistance < 3)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{(!(_cursorTarget isEqualTo _QS_player))} &&
+				{(_QS_player isEqualTo (leader (group _QS_player)))} &&
+				{(!((group _cursorTarget) isEqualTo (group _QS_player)))} &&
+				{(_cursorTarget getVariable ['QS_RD_recruitable',_false])}
+			) then {
+				if (!(_QS_interaction_recruit)) then {
+					_QS_interaction_recruit = _true;
+					_QS_action_recruit = player addAction _QS_action_recruit_array;
+					player setUserActionText [_QS_action_recruit,((player actionParams _QS_action_recruit) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_recruit) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_recruit) then {
+					_QS_interaction_recruit = _false;
+					player removeAction _QS_action_recruit;
+				};
+			};
 
-				/*/===== Action Dismiss/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_cursorDistance < 3.5)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{(!(_cursorTarget isEqualTo _QS_player))} &&
-					{(_QS_player isEqualTo (leader (group _QS_player)))} &&
-					{((group _cursorTarget) isEqualTo (group _QS_player))} &&
-					{(_cursorTarget getVariable ['QS_RD_dismissable',_false])}
-				) then {
-					if (!(_QS_interaction_dismiss)) then {
-						_QS_interaction_dismiss = _true;
-						_QS_action_dismiss = player addAction _QS_action_dismiss_array;
-						player setUserActionText [_QS_action_dismiss,((player actionParams _QS_action_dismiss) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_dismiss) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_dismiss) then {
-						_QS_interaction_dismiss = _false;
-						player removeAction _QS_action_dismiss;
-					};
+			/*/===== Action Dismiss/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_cursorDistance < 3.5)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{(!(_cursorTarget isEqualTo _QS_player))} &&
+				{(_QS_player isEqualTo (leader (group _QS_player)))} &&
+				{((group _cursorTarget) isEqualTo (group _QS_player))} &&
+				{(_cursorTarget getVariable ['QS_RD_dismissable',_false])}
+			) then {
+				if (!(_QS_interaction_dismiss)) then {
+					_QS_interaction_dismiss = _true;
+					_QS_action_dismiss = player addAction _QS_action_dismiss_array;
+					player setUserActionText [_QS_action_dismiss,((player actionParams _QS_action_dismiss) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_dismiss) select 0)])];
 				};
-				
-				/*/===== Action Respawn Vehicle/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(isNull (isVehicleCargo _cursorObject))} &&
-					{(_cursorObjectDistance <= 2)} &&
-					{(_QS_uiTime > (player getVariable ['QS_RD_canRespawnVehicle',-1]))} &&
-					{(_cursorObject getVariable ['QS_RD_vehicleRespawnable',_false])} &&
-					{(!(_cursorObject getVariable ['QS_disableRespawnAction',_false]))} &&
-					{((crew _cursorObject) isEqualTo [])} &&
-					{(local _cursorObject)}
-				) then {
-					if (!(_QS_interaction_respawnVehicle)) then {
-						_QS_interaction_respawnVehicle = _true;
-						_QS_action_respawnVehicle = player addAction _QS_action_respawnVehicle_array;
-						player setUserActionText [_QS_action_respawnVehicle,((player actionParams _QS_action_respawnVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_respawnVehicle) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_respawnVehicle) then {
-						_QS_interaction_respawnVehicle = _false;
-						player removeAction _QS_action_respawnVehicle;
-					};
+			} else {
+				if (_QS_interaction_dismiss) then {
+					_QS_interaction_dismiss = _false;
+					player removeAction _QS_action_dismiss;
 				};
-				
-				/*/===== Vehicle Doors/*/
-				
-				if (
-					(!(_noObjectParent)) &&
-					{(_QS_v2TypeL in _QS_action_vehDoors_vehicles)} &&
-					{(_QS_player isEqualTo (effectiveCommander _QS_v2))}
-				) then {
-					if (!(_QS_interaction_vehDoors)) then {
-						_QS_interaction_vehDoors = _true;
-						if (([_QS_v2] call _fn_clientGetDoorPhase) isEqualTo 1) then {
-							_QS_action_vehDoors_array set [0,_QS_action_vehDoors_textClose];
-							_QS_action_vehDoors_array set [2,[_QS_v2,0]];
-						} else {
-							_QS_action_vehDoors_array set [0,_QS_action_vehDoors_textOpen];
-							_QS_action_vehDoors_array set [2,[_QS_v2,1]];
-						};
-						_QS_action_vehDoors = player addAction _QS_action_vehDoors_array;
-						player setUserActionText [_QS_action_vehDoors,((player actionParams _QS_action_vehDoors) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_vehDoors) select 0)])];
+			};
+			
+			/*/===== Action Respawn Vehicle/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(isNull (isVehicleCargo _cursorObject))} &&
+				{(_cursorObjectDistance <= 2)} &&
+				{(_QS_uiTime > (player getVariable ['QS_RD_canRespawnVehicle',-1]))} &&
+				{(_cursorObject getVariable ['QS_RD_vehicleRespawnable',_false])} &&
+				{(!(_cursorObject getVariable ['QS_disableRespawnAction',_false]))} &&
+				{((crew _cursorObject) isEqualTo [])} &&
+				{(local _cursorObject)}
+			) then {
+				if (!(_QS_interaction_respawnVehicle)) then {
+					_QS_interaction_respawnVehicle = _true;
+					_QS_action_respawnVehicle = player addAction _QS_action_respawnVehicle_array;
+					player setUserActionText [_QS_action_respawnVehicle,((player actionParams _QS_action_respawnVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_respawnVehicle) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_respawnVehicle) then {
+					_QS_interaction_respawnVehicle = _false;
+					player removeAction _QS_action_respawnVehicle;
+				};
+			};
+			
+			/*/===== Vehicle Doors/*/
+			
+			if (
+				(!(_noObjectParent)) &&
+				{(_QS_v2TypeL in _QS_action_vehDoors_vehicles)} &&
+				{(_QS_player isEqualTo (effectiveCommander _QS_v2))}
+			) then {
+				if (!(_QS_interaction_vehDoors)) then {
+					_QS_interaction_vehDoors = _true;
+					if (([_QS_v2] call _fn_clientGetDoorPhase) isEqualTo 1) then {
+						_QS_action_vehDoors_array set [0,_QS_action_vehDoors_textClose];
+						_QS_action_vehDoors_array set [2,[_QS_v2,0]];
 					} else {
-						if (([_QS_v2] call _fn_clientGetDoorPhase) isEqualTo 1) then {
-							if ((_QS_action_vehDoors_array select 0) isEqualTo _QS_action_vehDoors_textOpen) then {
-								_QS_interaction_vehDoors = _false;
-								player removeAction _QS_action_vehDoors;
-							};
-						} else {
-							if ((_QS_action_vehDoors_array select 0) isEqualTo _QS_action_vehDoors_textClose) then {
-								_QS_interaction_vehDoors = _false;
-								player removeAction _QS_action_vehDoors;
-							};
-						};
+						_QS_action_vehDoors_array set [0,_QS_action_vehDoors_textOpen];
+						_QS_action_vehDoors_array set [2,[_QS_v2,1]];
 					};
+					_QS_action_vehDoors = player addAction _QS_action_vehDoors_array;
+					player setUserActionText [_QS_action_vehDoors,((player actionParams _QS_action_vehDoors) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_vehDoors) select 0)])];
 				} else {
-					if (_QS_interaction_vehDoors) then {
-						_QS_interaction_vehDoors = _false;
-						player removeAction _QS_action_vehDoors;
-					};
-				};
-				
-				/*/===== Vehicle Service/*/
-				
-				if (
-					((_cursorObjectDistance < 7) || {(!(_noObjectParent))}) &&
-					{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_QS_v2 isKindOf 'LandVehicle')} || {(_QS_v2 isKindOf 'Air')})} &&
-					{(!(missionNamespace getVariable ['QS_repairing_vehicle',_false]))} &&
-					{(((vectorMagnitude (velocity _QS_v2)) * 3.6) <= 1)}
-				) then {
-					_isNearRepairDepot = (([_QS_v2] call _fn_isNearRepairDepot) || {([_cursorObject] call _fn_isNearRepairDepot)});
-					_nearSite = _false;
-					{
-						if ((_QS_v2 distance2D (markerPos _x)) < 12) exitWith {
-							_nearSite = _true;
-						};
-					} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
-					if ((_nearSite) || {(_isNearRepairDepot)} || {((!(_QS_carrierEnabled isEqualTo 0)) && (['INPOLYGON_FOOT',_QS_player] call _fn_carrier))} || {((!(_QS_destroyerEnabled isEqualTo 0)) && (['INPOLYGON_FOOT',_QS_player] call _fn_destroyer))}) then {
-						if (!(_QS_interaction_serviceVehicle)) then {
-							_QS_interaction_serviceVehicle = _true;
-							if ((['INPOLYGON_FOOT',_QS_player] call _fn_carrier) || {(['INPOLYGON_FOOT',_QS_player] call _fn_destroyer)}) then {
-								_QS_action_serviceVehicle_array set [3,-1];
-							} else {
-								_QS_action_serviceVehicle_array set [3,10];
-							};
-							_QS_action_serviceVehicle = player addAction _QS_action_serviceVehicle_array;
-							player setUserActionText [_QS_action_serviceVehicle,((player actionParams _QS_action_serviceVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_serviceVehicle) select 0)])];
+					if (([_QS_v2] call _fn_clientGetDoorPhase) isEqualTo 1) then {
+						if ((_QS_action_vehDoors_array select 0) isEqualTo _QS_action_vehDoors_textOpen) then {
+							_QS_interaction_vehDoors = _false;
+							player removeAction _QS_action_vehDoors;
 						};
 					} else {
-						if (_QS_interaction_serviceVehicle) then {
-							_QS_interaction_serviceVehicle = _false;
-							player removeAction _QS_action_serviceVehicle;
+						if ((_QS_action_vehDoors_array select 0) isEqualTo _QS_action_vehDoors_textClose) then {
+							_QS_interaction_vehDoors = _false;
+							player removeAction _QS_action_vehDoors;
 						};
+					};
+				};
+			} else {
+				if (_QS_interaction_vehDoors) then {
+					_QS_interaction_vehDoors = _false;
+					player removeAction _QS_action_vehDoors;
+				};
+			};
+			
+			/*/===== Vehicle Service/*/
+			
+			if (
+				((_cursorObjectDistance < 7) || {(!(_noObjectParent))}) &&
+				{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_QS_v2 isKindOf 'LandVehicle')} || {(_QS_v2 isKindOf 'Air')})} &&
+				{(!(missionNamespace getVariable ['QS_repairing_vehicle',_false]))} &&
+				{(((vectorMagnitude (velocity _QS_v2)) * 3.6) <= 1)}
+			) then {
+				_isNearRepairDepot = (([_QS_v2] call _fn_isNearRepairDepot) || {([_cursorObject] call _fn_isNearRepairDepot)});
+				_nearSite = _false;
+				{
+					if ((_QS_v2 distance2D (markerPos _x)) < 12) exitWith {
+						_nearSite = _true;
+					};
+				} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
+				if ((_nearSite) || {(_isNearRepairDepot)} || {((!(_QS_carrierEnabled isEqualTo 0)) && (['INPOLYGON_FOOT',_QS_player] call _fn_carrier))} || {((!(_QS_destroyerEnabled isEqualTo 0)) && (['INPOLYGON_FOOT',_QS_player] call _fn_destroyer))}) then {
+					if (!(_QS_interaction_serviceVehicle)) then {
+						_QS_interaction_serviceVehicle = _true;
+						if ((['INPOLYGON_FOOT',_QS_player] call _fn_carrier) || {(['INPOLYGON_FOOT',_QS_player] call _fn_destroyer)}) then {
+							_QS_action_serviceVehicle_array set [3,-1];
+						} else {
+							_QS_action_serviceVehicle_array set [3,10];
+						};
+						_QS_action_serviceVehicle = player addAction _QS_action_serviceVehicle_array;
+						player setUserActionText [_QS_action_serviceVehicle,((player actionParams _QS_action_serviceVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_serviceVehicle) select 0)])];
 					};
 				} else {
 					if (_QS_interaction_serviceVehicle) then {
@@ -2494,355 +2464,355 @@ for '_x' from 0 to 1 step 0 do {
 						player removeAction _QS_action_serviceVehicle;
 					};
 				};
-				
-				/*/===== Unflip vehicle/*/
-				
-				if (
-					(alive _cursorObject) &&
-					{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Reammobox_F')})} &&
-					{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLower _QS_v2Type) in ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f']) && (_cursorObjectDistance <= 10))})} &&
-					{(((vectorUp _cursorObject) select 2) < 0.1)}
-				) then {
-					if (!(_QS_interaction_unflipVehicle)) then {
-						_QS_interaction_unflipVehicle = _true;
-						_QS_action_unflipVehicle = player addAction _QS_action_unflipVehicle_array;
-						player setUserActionText [_QS_action_unflipVehicle,((player actionParams _QS_action_unflipVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_unflipVehicle) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_unflipVehicle) then {
-						_QS_interaction_unflipVehicle = _false;
-						player removeAction _QS_action_unflipVehicle;
-					};
+			} else {
+				if (_QS_interaction_serviceVehicle) then {
+					_QS_interaction_serviceVehicle = _false;
+					player removeAction _QS_action_serviceVehicle;
 				};
-				
-				/*/===== Arsenal/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_cursorObjectDistance < 20)} &&
-					{(((((getModelInfo _cursorObject) select 1) isEqualTo _QS_arsenal_model) && (!(simulationEnabled _cursorObject))) || {(_cursorTarget getVariable ['QS_arsenal_object',_false])})} &&
-					{(((vectorMagnitude (velocity _QS_player)) * 3.6) < 1)}
-				) then {
-					if (!(_QS_interaction_arsenal)) then {
-						_QS_interaction_arsenal = _true;
-						_QS_action_arsenal = player addAction _QS_action_arsenal_array;
-						player setUserActionText [_QS_action_arsenal,((player actionParams _QS_action_arsenal) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_arsenal) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_arsenal) then {
-						_QS_interaction_arsenal = _false;
-						player removeAction _QS_action_arsenal;
-					};
+			};
+			
+			/*/===== Unflip vehicle/*/
+			
+			if (
+				(alive _cursorObject) &&
+				{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Reammobox_F')})} &&
+				{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLower _QS_v2Type) in ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f']) && (_cursorObjectDistance <= 10))})} &&
+				{(((vectorUp _cursorObject) select 2) < 0.1)}
+			) then {
+				if (!(_QS_interaction_unflipVehicle)) then {
+					_QS_interaction_unflipVehicle = _true;
+					_QS_action_unflipVehicle = player addAction _QS_action_unflipVehicle_array;
+					player setUserActionText [_QS_action_unflipVehicle,((player actionParams _QS_action_unflipVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_unflipVehicle) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_unflipVehicle) then {
+					_QS_interaction_unflipVehicle = _false;
+					player removeAction _QS_action_unflipVehicle;
+				};
+			};
+			
+			/*/===== Arsenal/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_cursorObjectDistance < 20)} &&
+				{(((((getModelInfo _cursorObject) select 1) isEqualTo _QS_arsenal_model) && (!(simulationEnabled _cursorObject))) || {(_cursorTarget getVariable ['QS_arsenal_object',_false])})} &&
+				{(((vectorMagnitude (velocity _QS_player)) * 3.6) < 1)}
+			) then {
+				if (!(_QS_interaction_arsenal)) then {
+					_QS_interaction_arsenal = _true;
+					_QS_action_arsenal = player addAction _QS_action_arsenal_array;
+					player setUserActionText [_QS_action_arsenal,((player actionParams _QS_action_arsenal) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_arsenal) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_arsenal) then {
+					_QS_interaction_arsenal = _false;
+					player removeAction _QS_action_arsenal;
+				};
+			};
 
-				/*/===== Action Tow/*/
-				
-				if (
-					(!(_noObjectParent)) &&
-					{(_QS_v2 isKindOf 'LandVehicle')} &&
-					{(((vectorMagnitude (velocity _QS_v2)) * 3.6) < 1)} &&
-					{((_QS_v2 getVariable ['QS_tow_veh',-1]) > 0)} &&
-					{(canMove _QS_v2)} &&
-					{(((vectorUp _QS_v2) select 2) > 0.1)} &&
-					{(isNull (isVehicleCargo _QS_v2))} &&
-					{(isNull (ropeAttachedTo _QS_v2))} &&
-					{(isNull (attachedTo _QS_v2))} &&
-					{([_QS_v2] call _fn_vTowable)}
-				) then {
-					if (!(_QS_interaction_tow)) then {
-						_QS_interaction_tow = _true;
-						_QS_action_tow = player addAction _QS_action_tow_array;
-						player setUserActionText [_QS_action_tow,((player actionParams _QS_action_tow) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_tow) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_tow) then {
-						_QS_interaction_tow = _false;
-						player removeAction _QS_action_tow;
-					};
+			/*/===== Action Tow/*/
+			
+			if (
+				(!(_noObjectParent)) &&
+				{(_QS_v2 isKindOf 'LandVehicle')} &&
+				{(((vectorMagnitude (velocity _QS_v2)) * 3.6) < 1)} &&
+				{((_QS_v2 getVariable ['QS_tow_veh',-1]) > 0)} &&
+				{(canMove _QS_v2)} &&
+				{(((vectorUp _QS_v2) select 2) > 0.1)} &&
+				{(isNull (isVehicleCargo _QS_v2))} &&
+				{(isNull (ropeAttachedTo _QS_v2))} &&
+				{(isNull (attachedTo _QS_v2))} &&
+				{([_QS_v2] call _fn_vTowable)}
+			) then {
+				if (!(_QS_interaction_tow)) then {
+					_QS_interaction_tow = _true;
+					_QS_action_tow = player addAction _QS_action_tow_array;
+					player setUserActionText [_QS_action_tow,((player actionParams _QS_action_tow) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_tow) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_tow) then {
+					_QS_interaction_tow = _false;
+					player removeAction _QS_action_tow;
+				};
+			};
 
-				/*/===== Action Command Surrender/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorTarget)} &&
-					{(_cursorDistance < 6)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{(!(captive _cursorTarget))} &&
-					{((lifeState _cursorTarget) in ['HEALTHY','INJURED'])} &&
-					{(isNull (objectParent _cursorTarget))} &&
-					{(_cursorTarget getVariable ['QS_surrenderable',_false])} &&
-					{(!((currentWeapon _QS_player) in ['',(binocular _QS_player),(secondaryWeapon _QS_player)]))} &&
-					{(!(weaponLowered _QS_player))} &&
-					{(!(underwater _QS_player))} &&
-					{((stance _QS_player) in ['STAND','CROUCH'])} &&
-					{((lineIntersectsSurfaces [(eyePos _QS_player),(aimPos _cursorTarget),_QS_player,_cursorTarget,_true,-1,'FIRE','VIEW',_true]) isEqualTo [])} &&
-					{(!(uiNamespace getVariable ['QS_client_progressVisualization_active',_false]))}
-				) then {
-					if (!(_QS_interaction_commandSurrender)) then {
-						_QS_interaction_commandSurrender = _true;
-						_QS_action_commandSurrender = player addAction _QS_action_commandSurrender_array;
-						player setUserActionText [_QS_action_commandSurrender,((player actionParams _QS_action_commandSurrender) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_commandSurrender) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_commandSurrender) then {
-						_QS_interaction_commandSurrender = _false;
-						player removeAction _QS_action_commandSurrender;
-					};
+			/*/===== Action Command Surrender/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorTarget)} &&
+				{(_cursorDistance < 6)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{(!(captive _cursorTarget))} &&
+				{((lifeState _cursorTarget) in ['HEALTHY','INJURED'])} &&
+				{(isNull (objectParent _cursorTarget))} &&
+				{(_cursorTarget getVariable ['QS_surrenderable',_false])} &&
+				{(!((currentWeapon _QS_player) in ['',(binocular _QS_player),(secondaryWeapon _QS_player)]))} &&
+				{(!(weaponLowered _QS_player))} &&
+				{(!(underwater _QS_player))} &&
+				{((stance _QS_player) in ['STAND','CROUCH'])} &&
+				{((lineIntersectsSurfaces [(eyePos _QS_player),(aimPos _cursorTarget),_QS_player,_cursorTarget,_true,-1,'FIRE','VIEW',_true]) isEqualTo [])} &&
+				{(!(uiNamespace getVariable ['QS_client_progressVisualization_active',_false]))}
+			) then {
+				if (!(_QS_interaction_commandSurrender)) then {
+					_QS_interaction_commandSurrender = _true;
+					_QS_action_commandSurrender = player addAction _QS_action_commandSurrender_array;
+					player setUserActionText [_QS_action_commandSurrender,((player actionParams _QS_action_commandSurrender) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_commandSurrender) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_commandSurrender) then {
+					_QS_interaction_commandSurrender = _false;
+					player removeAction _QS_action_commandSurrender;
+				};
+			};
 
-				/*/===== Action Rescue/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorTarget)} &&
-					{(_cursorDistance < 4)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{(captive _cursorTarget)} &&
-					{(isNull (objectParent _cursorTarget))} &&
-					{(isNull (attachedTo _cursorTarget))} &&
-					{(_cursorTarget getVariable ['QS_rescueable',_false])}
-				) then {
-					if (!(_QS_interaction_rescue)) then {
-						_QS_interaction_rescue = _true;
-						_QS_action_rescue = player addAction _QS_action_rescue_array;
-						player setUserActionText [_QS_action_rescue,((player actionParams _QS_action_rescue) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rescue) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_rescue) then {
-						_QS_interaction_rescue = _false;
-						player removeAction _QS_action_rescue;
-					};
+			/*/===== Action Rescue/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorTarget)} &&
+				{(_cursorDistance < 4)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{(captive _cursorTarget)} &&
+				{(isNull (objectParent _cursorTarget))} &&
+				{(isNull (attachedTo _cursorTarget))} &&
+				{(_cursorTarget getVariable ['QS_rescueable',_false])}
+			) then {
+				if (!(_QS_interaction_rescue)) then {
+					_QS_interaction_rescue = _true;
+					_QS_action_rescue = player addAction _QS_action_rescue_array;
+					player setUserActionText [_QS_action_rescue,((player actionParams _QS_action_rescue) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rescue) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_rescue) then {
+					_QS_interaction_rescue = _false;
+					player removeAction _QS_action_rescue;
+				};
+			};
 
-				/*/===== Action Secure/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance <= 2)} &&
-					{(_cursorObject getVariable ['QS_secureable',_false])} &&
-					{(!(_cursorObject getVariable ['QS_secured',_false]))} &&
-					{(!isObjectHidden _cursorObject)}
-				) then {
-					if (!(_QS_interaction_secure)) then {
-						_QS_interaction_secure = _true;
-						_QS_action_secure_array set [2,[_cursorTarget,_cursorObject]];
-						_QS_action_secure = player addAction _QS_action_secure_array;
-						player setUserActionText [_QS_action_secure,((player actionParams _QS_action_secure) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_secure) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_secure) then {
-						_QS_interaction_secure = _false;
-						player removeAction _QS_action_secure;
-					};
+			/*/===== Action Secure/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance <= 2)} &&
+				{(_cursorObject getVariable ['QS_secureable',_false])} &&
+				{(!(_cursorObject getVariable ['QS_secured',_false]))} &&
+				{(!isObjectHidden _cursorObject)}
+			) then {
+				if (!(_QS_interaction_secure)) then {
+					_QS_interaction_secure = _true;
+					_QS_action_secure_array set [2,[_cursorTarget,_cursorObject]];
+					_QS_action_secure = player addAction _QS_action_secure_array;
+					player setUserActionText [_QS_action_secure,((player actionParams _QS_action_secure) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_secure) select 0)])];
 				};
-				
-				/*/===== Action Examine/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{((_cursorDistance < 5) || {(_cursorObjectDistance < 5)} || {((!alive _cursorObject) && (_cursorObject isKindOf 'CAManBase') && (_cursorDistance < 5))})} &&
-					{(_cursorObject getVariable ['QS_entity_examine',_false])} &&
-					{(!(_cursorObject getVariable ['QS_entity_examined',_false]))} &&
-					{(!(player getVariable ['QS_client_examining',_false]))} &&
-					{(!isObjectHidden _cursorObject)}
-				) then {
-					if (!(_QS_interaction_examine)) then {
-						_QS_interaction_examine = _true;
-						_QS_action_examine_array set [2,[_cursorTarget,_cursorObject]];
-						_QS_action_examine = player addAction _QS_action_examine_array;
-						player setUserActionText [_QS_action_examine,((player actionParams _QS_action_examine) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_examine) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_examine) then {
-						_QS_interaction_examine = _false;
-						player removeAction _QS_action_examine;
-					};
+			} else {
+				if (_QS_interaction_secure) then {
+					_QS_interaction_secure = _false;
+					player removeAction _QS_action_secure;
 				};
-				
-				/*/===== Action turret safety/*/
-				
-				if (
-					(!(_noObjectParent)) &&
-					{(_QS_v2Type in _QS_turretSafety_heliTypes)} &&
-					{(player isEqualTo (driver _QS_v2))} &&
-					{(!(missionNamespace getVariable 'QS_inturretloop'))}
-				) then {
-					if (!(_QS_interaction_turretSafety)) then {
-						_QS_interaction_turretSafety = _true;
-						_QS_action_turretSafety = player addAction _QS_action_turretSafety_array;
-						player setUserActionText [_QS_action_turretSafety,((player actionParams _QS_action_turretSafety) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_turretSafety) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_turretSafety) then {
-						_QS_interaction_turretSafety = _false;
-						player removeAction _QS_action_turretSafety;
-					};
+			};
+			
+			/*/===== Action Examine/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{((_cursorDistance < 5) || {(_cursorObjectDistance < 5)} || {((!alive _cursorObject) && (_cursorObject isKindOf 'CAManBase') && (_cursorDistance < 5))})} &&
+				{(_cursorObject getVariable ['QS_entity_examine',_false])} &&
+				{(!(_cursorObject getVariable ['QS_entity_examined',_false]))} &&
+				{(!(player getVariable ['QS_client_examining',_false]))} &&
+				{(!isObjectHidden _cursorObject)}
+			) then {
+				if (!(_QS_interaction_examine)) then {
+					_QS_interaction_examine = _true;
+					_QS_action_examine_array set [2,[_cursorTarget,_cursorObject]];
+					_QS_action_examine = player addAction _QS_action_examine_array;
+					player setUserActionText [_QS_action_examine,((player actionParams _QS_action_examine) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_examine) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_examine) then {
+					_QS_interaction_examine = _false;
+					player removeAction _QS_action_examine;
+				};
+			};
+			
+			/*/===== Action turret safety/*/
+			
+			if (
+				(!(_noObjectParent)) &&
+				{(_QS_v2Type in _QS_turretSafety_heliTypes)} &&
+				{(player isEqualTo (driver _QS_v2))} &&
+				{(!(missionNamespace getVariable 'QS_inturretloop'))}
+			) then {
+				if (!(_QS_interaction_turretSafety)) then {
+					_QS_interaction_turretSafety = _true;
+					_QS_action_turretSafety = player addAction _QS_action_turretSafety_array;
+					player setUserActionText [_QS_action_turretSafety,((player actionParams _QS_action_turretSafety) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_turretSafety) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_turretSafety) then {
+					_QS_interaction_turretSafety = _false;
+					player removeAction _QS_action_turretSafety;
+				};
+			};
 
-				/*/===== Ear Collector/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorTarget)} &&
-					{(_cursorDistance < 3)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(!alive _cursorTarget)} &&
-					{(_cursorTarget getVariable ['QS_collectible_ears',_false])} &&
-					{((_cursorTarget getVariable ['QS_ears_remaining',0]) > 0)}
-				) then {
-					if (!(_QS_interaction_ears)) then {
-						_QS_interaction_ears = _true;
-						_QS_action_ears = player addAction _QS_action_ears_array;
-						player setUserActionText [_QS_action_ears,((player actionParams _QS_action_ears) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_ears) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_ears) then {
-						_QS_interaction_ears = _false;
-						player removeAction _QS_action_ears;
-					};
+			/*/===== Ear Collector/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorTarget)} &&
+				{(_cursorDistance < 3)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(!alive _cursorTarget)} &&
+				{(_cursorTarget getVariable ['QS_collectible_ears',_false])} &&
+				{((_cursorTarget getVariable ['QS_ears_remaining',0]) > 0)}
+			) then {
+				if (!(_QS_interaction_ears)) then {
+					_QS_interaction_ears = _true;
+					_QS_action_ears = player addAction _QS_action_ears_array;
+					player setUserActionText [_QS_action_ears,((player actionParams _QS_action_ears) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_ears) select 0)])];
 				};
-				
-				/*/===== Tooth Collector/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorTarget)} &&
-					{(_cursorDistance < 3)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(!alive _cursorTarget)} &&
-					{(_cursorTarget getVariable ['QS_collectible_tooth',_false])}
-				) then {
-					if (!(_QS_interaction_teeth)) then {
-						_QS_interaction_teeth = _true;
-						_QS_action_teeth = player addAction _QS_action_teeth_array;
-						player setUserActionText [_QS_action_teeth,((player actionParams _QS_action_teeth) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_teeth) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_teeth) then {
-						_QS_interaction_teeth = _false;
-						player removeAction _QS_action_teeth;
-					};
+			} else {
+				if (_QS_interaction_ears) then {
+					_QS_interaction_ears = _false;
+					player removeAction _QS_action_ears;
 				};
-				
-				/*/===== Join Group/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorTarget)} &&
-					{(_cursorDistance < 5)} &&
-					{(_cursorTarget isKindOf 'CAManBase')} &&
-					{(alive _cursorTarget)} &&
-					{(isPlayer _cursorTarget)} &&
-					{(!((group _cursorTarget) isEqualTo (group _QS_player)))} &&
-					{(!(_grpTarget getVariable [_QS_joinGroup_privateVar,_false]))}
-				) then {
-					if (!(_QS_interaction_joinGroup)) then {
-						_QS_interaction_joinGroup = _true;
-						_QS_action_joinGroup = player addAction _QS_action_joinGroup_array;
-						player setUserActionText [_QS_action_joinGroup,((player actionParams _QS_action_joinGroup) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_joinGroup) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_joinGroup) then {
-						_QS_interaction_joinGroup = _false;
-						player removeAction _QS_action_joinGroup;
-					};
+			};
+			
+			/*/===== Tooth Collector/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorTarget)} &&
+				{(_cursorDistance < 3)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(!alive _cursorTarget)} &&
+				{(_cursorTarget getVariable ['QS_collectible_tooth',_false])}
+			) then {
+				if (!(_QS_interaction_teeth)) then {
+					_QS_interaction_teeth = _true;
+					_QS_action_teeth = player addAction _QS_action_teeth_array;
+					player setUserActionText [_QS_action_teeth,((player actionParams _QS_action_teeth) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_teeth) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_teeth) then {
+					_QS_interaction_teeth = _false;
+					player removeAction _QS_action_teeth;
+				};
+			};
+			
+			/*/===== Join Group/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorTarget)} &&
+				{(_cursorDistance < 5)} &&
+				{(_cursorTarget isKindOf 'CAManBase')} &&
+				{(alive _cursorTarget)} &&
+				{(isPlayer _cursorTarget)} &&
+				{(!((group _cursorTarget) isEqualTo (group _QS_player)))} &&
+				{(!(_grpTarget getVariable [_QS_joinGroup_privateVar,_false]))}
+			) then {
+				if (!(_QS_interaction_joinGroup)) then {
+					_QS_interaction_joinGroup = _true;
+					_QS_action_joinGroup = player addAction _QS_action_joinGroup_array;
+					player setUserActionText [_QS_action_joinGroup,((player actionParams _QS_action_joinGroup) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_joinGroup) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_joinGroup) then {
+					_QS_interaction_joinGroup = _false;
+					player removeAction _QS_action_joinGroup;
+				};
+			};
 
-				/*/===== Action Terminal FOB Status/*/
+			/*/===== Action Terminal FOB Status/*/
 
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObject in ([(missionNamespace getVariable ['QS_module_fob_dataTerminal',_objNull]),(missionNamespace getVariable ['QS_module_fob_baseDataTerminal',_objNull])] select {(!isNull _x)}))}
-				) then {
-					if (!(_QS_interaction_fob_status)) then {
-						_QS_interaction_fob_status = _true;
-						_QS_action_fob_status = player addAction _QS_action_fob_status_array;
-						player setUserActionText [_QS_action_fob_status,((player actionParams _QS_action_fob_status) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_fob_status) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_fob_status) then {
-						_QS_interaction_fob_status = _false;
-						player removeAction _QS_action_fob_status;
-					};
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObject in ([(missionNamespace getVariable ['QS_module_fob_dataTerminal',_objNull]),(missionNamespace getVariable ['QS_module_fob_baseDataTerminal',_objNull])] select {(!isNull _x)}))}
+			) then {
+				if (!(_QS_interaction_fob_status)) then {
+					_QS_interaction_fob_status = _true;
+					_QS_action_fob_status = player addAction _QS_action_fob_status_array;
+					player setUserActionText [_QS_action_fob_status,((player actionParams _QS_action_fob_status) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_fob_status) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_fob_status) then {
+					_QS_interaction_fob_status = _false;
+					player removeAction _QS_action_fob_status;
+				};
+			};
 
-				/*/===== Action Activate FOB/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance < 3)} &&
-					{(_cursorObject isEqualTo (missionNamespace getVariable ['QS_module_fob_dataTerminal',_objNull]))} &&
-					{(!((missionNamespace getVariable 'QS_module_fob_side') isEqualTo WEST))}
-				) then {
-					if (!(_QS_interaction_fob_activate)) then {
-						_QS_interaction_fob_activate = _true;
-						_QS_action_fob_activate = player addAction _QS_action_fob_activate_array;
-						player setUserActionText [_QS_action_fob_activate,((player actionParams _QS_action_fob_activate) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_fob_activate) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_fob_activate) then {
-						_QS_interaction_fob_activate = _false;
-						player removeAction _QS_action_fob_activate;
-					};
+			/*/===== Action Activate FOB/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance < 3)} &&
+				{(_cursorObject isEqualTo (missionNamespace getVariable ['QS_module_fob_dataTerminal',_objNull]))} &&
+				{(!((missionNamespace getVariable 'QS_module_fob_side') isEqualTo WEST))}
+			) then {
+				if (!(_QS_interaction_fob_activate)) then {
+					_QS_interaction_fob_activate = _true;
+					_QS_action_fob_activate = player addAction _QS_action_fob_activate_array;
+					player setUserActionText [_QS_action_fob_activate,((player actionParams _QS_action_fob_activate) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_fob_activate) select 0)])];
 				};
-				
-				/*/===== Action Enable Player Respawn/*/
+			} else {
+				if (_QS_interaction_fob_activate) then {
+					_QS_interaction_fob_activate = _false;
+					player removeAction _QS_action_fob_activate;
+				};
+			};
+			
+			/*/===== Action Enable Player Respawn/*/
 
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance < 3)} &&
-					{(_cursorObject isEqualTo (missionNamespace getVariable 'QS_module_fob_dataTerminal'))} &&
-					{(!(player getVariable ['QS_module_fob_client_respawnEnabled',_true]))}
-				) then {
-					if (!(_QS_interaction_fob_respawn)) then {
-						_QS_interaction_fob_respawn = _true;
-						_QS_action_fob_respawn = player addAction _QS_action_fob_respawn_array;
-						player setUserActionText [_QS_action_fob_respawn,((player actionParams _QS_action_fob_respawn) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_fob_respawn) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_fob_respawn) then {
-						_QS_interaction_fob_respawn = _false;
-						player removeAction _QS_action_fob_respawn;
-					};
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance < 3)} &&
+				{(_cursorObject isEqualTo (missionNamespace getVariable 'QS_module_fob_dataTerminal'))} &&
+				{(!(player getVariable ['QS_module_fob_client_respawnEnabled',_true]))}
+			) then {
+				if (!(_QS_interaction_fob_respawn)) then {
+					_QS_interaction_fob_respawn = _true;
+					_QS_action_fob_respawn = player addAction _QS_action_fob_respawn_array;
+					player setUserActionText [_QS_action_fob_respawn,((player actionParams _QS_action_fob_respawn) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_fob_respawn) select 0)])];
 				};
-				
-				/*/===== Customize Crates/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_cursorObjectDistance < 3)} &&
-					{(simulationEnabled _cursorObject)} &&
-					{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Reammobox_F')})} &&
-					{(!(_cursorObject getVariable ['QS_inventory_disabled',_false]))}
-				) then {
-					_nearInvSite = _false;
-					{
-						if ((_x isEqualTo 'QS_marker_veh_inventoryService_01') && ((_cursorObject distance2D (markerPos _x)) < 5)) exitWith {
-							_nearInvSite = _true;
-						};
-						if ((_x isEqualTo 'QS_marker_crate_area') && ((_cursorObject distance2D (markerPos _x)) < 50)) exitWith {
-							_nearInvSite = _true;
-						};
-					} count (missionNamespace getVariable 'QS_veh_inventory_mkrs');
-					if (_nearInvSite) then {
-						if (!(_QS_interaction_customizeCrate)) then {
-							_QS_interaction_customizeCrate = _true;
-							_QS_action_crate_customize = player addAction _QS_action_crate_array;
-							player setUserActionText [_QS_action_crate_customize,((player actionParams _QS_action_crate_customize) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_crate_customize) select 0)])];
-						};
-					} else {
-						if (_QS_interaction_customizeCrate) then {
-							_QS_interaction_customizeCrate = _false;
-							player removeAction _QS_action_crate_customize;
-						};
+			} else {
+				if (_QS_interaction_fob_respawn) then {
+					_QS_interaction_fob_respawn = _false;
+					player removeAction _QS_action_fob_respawn;
+				};
+			};
+			
+			/*/===== Customize Crates/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_cursorObjectDistance < 3)} &&
+				{(simulationEnabled _cursorObject)} &&
+				{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Reammobox_F')})} &&
+				{(!(_cursorObject getVariable ['QS_inventory_disabled',_false]))}
+			) then {
+				_nearInvSite = _false;
+				{
+					if ((_x isEqualTo 'QS_marker_veh_inventoryService_01') && ((_cursorObject distance2D (markerPos _x)) < 5)) exitWith {
+						_nearInvSite = _true;
+					};
+					if ((_x isEqualTo 'QS_marker_crate_area') && ((_cursorObject distance2D (markerPos _x)) < 50)) exitWith {
+						_nearInvSite = _true;
+					};
+				} count (missionNamespace getVariable 'QS_veh_inventory_mkrs');
+				if (_nearInvSite) then {
+					if (!(_QS_interaction_customizeCrate)) then {
+						_QS_interaction_customizeCrate = _true;
+						_QS_action_crate_customize = player addAction _QS_action_crate_array;
+						player setUserActionText [_QS_action_crate_customize,((player actionParams _QS_action_crate_customize) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_crate_customize) select 0)])];
 					};
 				} else {
 					if (_QS_interaction_customizeCrate) then {
@@ -2850,142 +2820,141 @@ for '_x' from 0 to 1 step 0 do {
 						player removeAction _QS_action_crate_customize;
 					};
 				};
-				
-				/*/===== Action push vehicle/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(alive _cursorObject)} &&
-					{(_cursorObject isKindOf 'Ship')} &&
-					{((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget))} &&
-					{(((crew _cursorObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)} &&
-					{(isNull (ropeAttachedTo _cursorObject))} &&
-					{(isNull (isVehicleCargo _cursorObject))} &&
-					{(isNull (attachedTo _cursorObject))}
-				) then {
-					if (!(_QS_interaction_pushVehicle)) then {
-						_QS_interaction_pushVehicle = _true;
-						_QS_action_pushVehicle = player addAction _QS_action_pushVehicle_array;
-						player setUserActionText [_QS_action_pushVehicle,((player actionParams _QS_action_pushVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_pushVehicle) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_pushVehicle) then {
-						_QS_interaction_pushVehicle = _false;
-						player removeAction _QS_action_pushVehicle;
-					};
+			} else {
+				if (_QS_interaction_customizeCrate) then {
+					_QS_interaction_customizeCrate = _false;
+					player removeAction _QS_action_crate_customize;
 				};
-				
-				/*/===== Action Create Boat/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(_QS_player getUnitTrait 'engineer')} &&
-					{(surfaceIsWater _QS_posWorldPlayer)} &&
-					{('ToolKit' in (items _QS_player))} &&
-					{(((getPosASL _QS_player) select 2) < 0)}
-				) then {
-					if (!(_QS_interaction_createBoat)) then {
-						_QS_interaction_createBoat = _true;
-						_QS_action_createBoat = player addAction _QS_action_createBoat_array;
-						player setUserActionText [_QS_action_createBoat,((player actionParams _QS_action_createBoat) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_createBoat) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_createBoat) then {
-						_QS_interaction_createBoat = _false;
-						player removeAction _QS_action_createBoat;
-					};
+			};
+			
+			/*/===== Action push vehicle/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(alive _cursorObject)} &&
+				{(_cursorObject isKindOf 'Ship')} &&
+				{((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget))} &&
+				{(((crew _cursorObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)} &&
+				{(isNull (ropeAttachedTo _cursorObject))} &&
+				{(isNull (isVehicleCargo _cursorObject))} &&
+				{(isNull (attachedTo _cursorObject))}
+			) then {
+				if (!(_QS_interaction_pushVehicle)) then {
+					_QS_interaction_pushVehicle = _true;
+					_QS_action_pushVehicle = player addAction _QS_action_pushVehicle_array;
+					player setUserActionText [_QS_action_pushVehicle,((player actionParams _QS_action_pushVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_pushVehicle) select 0)])];
 				};
-				
-				/*/===== Action Recover Boat/*/
-				
-				if (
-					(!(_noObjectParent)) &&
-					{(_objectParent isKindOf 'Ship')} &&
-					{(alive _objectParent)} &&
-					{(_QS_player isEqualTo (effectiveCommander _objectParent))} &&
-					{(((vectorMagnitude (velocity _objectParent)) * 3.6) < 10)} &&
-					{(isNull (attachedTo _objectParent))} &&
-					{(isNull (isVehicleCargo _objectParent))} &&
-					{(isNull (ropeAttachedTo _objectParent))} &&
-					{(!(((nearestObjects [_objectParent,['land_destroyer_01_boat_rack_01_f'],20,_true]) select {((getVehicleCargo _x) isEqualTo [])}) isEqualTo []))}
-				) then {
-					if (!(_QS_interaction_recoverBoat)) then {
-						_QS_interaction_recoverBoat = _true;
-						_QS_action_recoverBoat = player addAction _QS_action_recoverBoat_array;
-						player setUserActionText [_QS_action_recoverBoat,((player actionParams _QS_action_recoverBoat) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_recoverBoat) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_recoverBoat) then {
-						_QS_interaction_recoverBoat = _false;
-						player removeAction _QS_action_recoverBoat;
-					};				
+			} else {
+				if (_QS_interaction_pushVehicle) then {
+					_QS_interaction_pushVehicle = _false;
+					player removeAction _QS_action_pushVehicle;
 				};
-				
-				/*/===== Sit/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance < 2.2)} &&
-					{((stance _QS_player) isEqualTo 'STAND')} &&
-					{(((typeOf _cursorObject) in _QS_action_sit_chairTypes) || {(((getModelInfo _cursorObject) select 0) in _QS_action_sit_chairModels)})} &&
-					{(isNull (attachedTo _cursorObject))} &&
-					{((attachedObjects _cursorObject) isEqualTo [])}
-				) then {
-					if (!(_QS_interaction_sit)) then {
-						_QS_interaction_sit = _true;
-						_QS_action_sit = player addAction _QS_action_sit_array;
-						player setUserActionText [_QS_action_sit,((player actionParams _QS_action_sit) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_sit) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_sit) then {
-						_QS_interaction_sit = _false;
-						player removeAction _QS_action_sit;
-					};
+			};
+			
+			/*/===== Action Create Boat/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(_QS_player getUnitTrait 'engineer')} &&
+				{(surfaceIsWater _QS_posWorldPlayer)} &&
+				{('ToolKit' in (items _QS_player))} &&
+				{(((getPosASL _QS_player) select 2) < 0)}
+			) then {
+				if (!(_QS_interaction_createBoat)) then {
+					_QS_interaction_createBoat = _true;
+					_QS_action_createBoat = player addAction _QS_action_createBoat_array;
+					player setUserActionText [_QS_action_createBoat,((player actionParams _QS_action_createBoat) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_createBoat) select 0)])];
 				};
-				
-				/*/===== Cargo Load/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(alive _cursorObject)} &&
-					{(simulationEnabled _cursorObject)} &&
-					{(_cursorObjectDistance < 4)} &&
-					{((_cursorObject isKindOf 'Reammobox_F') || {((typeOf _cursorObject) in _QS_action_loadCargo_cargoTypes)})} &&
-					{(isNull (attachedTo _cursorObject))} &&
-					{(!(isSimpleObject _cursorObject))} &&
-					{(isNull (isVehicleCargo _cursorObject))} &&
-					{(!( ((getPosATL _cursorObject) nearEntities [['Air','LandVehicle'],21]) isEqualTo []))}
-				) then {
-					if (_QS_action_loadCargo_validated) then {
-						_QS_action_loadCargo_validated = _false;
-						_QS_action_loadCargo_vehicle = _objNull;
-					};
-					{
-						if ((!isNil {_x getVariable 'QS_ViV_v'}) || {((toLower (typeOf _x)) in _QS_action_loadCargo_vTypes)} || {(isClass (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'VehicleTransport' >> 'Carrier'))}) exitWith {
-							if (vehicleCargoEnabled _x) then {
-								if (isNil {_x getVariable 'QS_ViV_v'}) then {
-									_x setVariable ['QS_ViV_v',_true,_true];
-								};
-								_QS_action_loadCargo_validated = _true;
-								_QS_action_loadCargo_vehicle = _x;
+			} else {
+				if (_QS_interaction_createBoat) then {
+					_QS_interaction_createBoat = _false;
+					player removeAction _QS_action_createBoat;
+				};
+			};
+			
+			/*/===== Action Recover Boat/*/
+			
+			if (
+				(!(_noObjectParent)) &&
+				{(_objectParent isKindOf 'Ship')} &&
+				{(alive _objectParent)} &&
+				{(_QS_player isEqualTo (effectiveCommander _objectParent))} &&
+				{(((vectorMagnitude (velocity _objectParent)) * 3.6) < 10)} &&
+				{(isNull (attachedTo _objectParent))} &&
+				{(isNull (isVehicleCargo _objectParent))} &&
+				{(isNull (ropeAttachedTo _objectParent))} &&
+				{(!(((nearestObjects [_objectParent,['land_destroyer_01_boat_rack_01_f'],20,_true]) select {((getVehicleCargo _x) isEqualTo [])}) isEqualTo []))}
+			) then {
+				if (!(_QS_interaction_recoverBoat)) then {
+					_QS_interaction_recoverBoat = _true;
+					_QS_action_recoverBoat = player addAction _QS_action_recoverBoat_array;
+					player setUserActionText [_QS_action_recoverBoat,((player actionParams _QS_action_recoverBoat) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_recoverBoat) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_recoverBoat) then {
+					_QS_interaction_recoverBoat = _false;
+					player removeAction _QS_action_recoverBoat;
+				};				
+			};
+			
+			/*/===== Sit/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance < 2.2)} &&
+				{((stance _QS_player) isEqualTo 'STAND')} &&
+				{(((typeOf _cursorObject) in _QS_action_sit_chairTypes) || {(((getModelInfo _cursorObject) select 0) in _QS_action_sit_chairModels)})} &&
+				{(isNull (attachedTo _cursorObject))} &&
+				{((attachedObjects _cursorObject) isEqualTo [])}
+			) then {
+				if (!(_QS_interaction_sit)) then {
+					_QS_interaction_sit = _true;
+					_QS_action_sit = player addAction _QS_action_sit_array;
+					player setUserActionText [_QS_action_sit,((player actionParams _QS_action_sit) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_sit) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_sit) then {
+					_QS_interaction_sit = _false;
+					player removeAction _QS_action_sit;
+				};
+			};
+			
+			/*/===== Cargo Load/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(alive _cursorObject)} &&
+				{(simulationEnabled _cursorObject)} &&
+				{(_cursorObjectDistance < 4)} &&
+				{((_cursorObject isKindOf 'Reammobox_F') || {((typeOf _cursorObject) in _QS_action_loadCargo_cargoTypes)})} &&
+				{(isNull (attachedTo _cursorObject))} &&
+				{(!(isSimpleObject _cursorObject))} &&
+				{(isNull (isVehicleCargo _cursorObject))} &&
+				{(!( ((getPosATL _cursorObject) nearEntities [['Air','LandVehicle'],21]) isEqualTo []))}
+			) then {
+				if (_QS_action_loadCargo_validated) then {
+					_QS_action_loadCargo_validated = _false;
+					_QS_action_loadCargo_vehicle = _objNull;
+				};
+				{
+					if ((!isNil {_x getVariable 'QS_ViV_v'}) || {((toLower (typeOf _x)) in _QS_action_loadCargo_vTypes)} || {(isClass (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'VehicleTransport' >> 'Carrier'))}) exitWith {
+						if (vehicleCargoEnabled _x) then {
+							if (isNil {_x getVariable 'QS_ViV_v'}) then {
+								_x setVariable ['QS_ViV_v',_true,_true];
 							};
+							_QS_action_loadCargo_validated = _true;
+							_QS_action_loadCargo_vehicle = _x;
 						};
-					} count ((getPosATL _cursorObject) nearEntities [['Air','LandVehicle'],21]);
-					if (_QS_action_loadCargo_validated) then {
-						if (!(_QS_interaction_loadCargo)) then {
-							_QS_interaction_loadCargo = _true;
-							_QS_action_loadCargo_array set [2,[_cursorObject,_QS_action_loadCargo_vehicle]];
-							_QS_action_loadCargo = player addAction _QS_action_loadCargo_array;
-							player setUserActionText [_QS_action_loadCargo,((player actionParams _QS_action_loadCargo) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_loadCargo) select 0)])];
-						};
-					} else {
-						if (_QS_interaction_loadCargo) then {
-							_QS_interaction_loadCargo = _false;
-							_QS_action_loadCargo_array set [2,[]];
-							player removeAction _QS_action_loadCargo;
-						};
+					};
+				} count ((getPosATL _cursorObject) nearEntities [['Air','LandVehicle'],21]);
+				if (_QS_action_loadCargo_validated) then {
+					if (!(_QS_interaction_loadCargo)) then {
+						_QS_interaction_loadCargo = _true;
+						_QS_action_loadCargo_array set [2,[_cursorObject,_QS_action_loadCargo_vehicle]];
+						_QS_action_loadCargo = player addAction _QS_action_loadCargo_array;
+						player setUserActionText [_QS_action_loadCargo,((player actionParams _QS_action_loadCargo) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_loadCargo) select 0)])];
 					};
 				} else {
 					if (_QS_interaction_loadCargo) then {
@@ -2994,35 +2963,35 @@ for '_x' from 0 to 1 step 0 do {
 						player removeAction _QS_action_loadCargo;
 					};
 				};
-				
-				/*/===== Action Load 2/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(alive _cursorObject)} &&
-					{(_cursorObjectDistance <= 4)} &&
-					{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Air')})} &&
-					{((locked _cursorObject) in [-1,0,1])} &&
-					{((!((attachedObjects _QS_player) isEqualTo [])) && (!(((attachedObjects _QS_player) findIf {([0,_x,_cursorObject] call _fn_getCustomCargoParams)}) isEqualTo -1)))}
-				) then {
-					{
-						_object = _x;
-						if (!isNull _object) then {
-							if (!((toLower (typeOf _object)) isEqualTo _QS_helmetCam_helperType)) then {
-								if (([0,_object,_cursorObject] call _fn_getCustomCargoParams) || {([_cursorObject,_object] call _fn_isValidCargoV)}) then {
-									if (([1,_object,_cursorObject] call _fn_getCustomCargoParams) || {([_cursorObject,_object] call _fn_isValidCargoV)}) then {
-										if (!(_QS_interaction_load2)) then {
-											_QS_interaction_load2 = _true;
-											_QS_action_load_array set [2,[_object,_cursorObject]];
-											_QS_action_load = player addAction _QS_action_load_array;
-											player setUserActionText [_QS_action_load,((player actionParams _QS_action_load) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_load) select 0)])];
-										};
-									} else {
-										if (_QS_interaction_load2) then {
-											_QS_interaction_load2 = _false;
-											_QS_action_load_array set [2,[]];
-											player removeAction _QS_action_load;
-										};
+			} else {
+				if (_QS_interaction_loadCargo) then {
+					_QS_interaction_loadCargo = _false;
+					_QS_action_loadCargo_array set [2,[]];
+					player removeAction _QS_action_loadCargo;
+				};
+			};
+			
+			/*/===== Action Load 2/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(alive _cursorObject)} &&
+				{(_cursorObjectDistance <= 4)} &&
+				{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Air')})} &&
+				{((locked _cursorObject) in [-1,0,1])} &&
+				{((!((attachedObjects _QS_player) isEqualTo [])) && (!(((attachedObjects _QS_player) findIf {([0,_x,_cursorObject] call _fn_getCustomCargoParams)}) isEqualTo -1)))}
+			) then {
+				{
+					_object = _x;
+					if (!isNull _object) then {
+						if (!((toLower (typeOf _object)) isEqualTo _QS_helmetCam_helperType)) then {
+							if (([0,_object,_cursorObject] call _fn_getCustomCargoParams) || {([_cursorObject,_object] call _fn_isValidCargoV)}) then {
+								if (([1,_object,_cursorObject] call _fn_getCustomCargoParams) || {([_cursorObject,_object] call _fn_isValidCargoV)}) then {
+									if (!(_QS_interaction_load2)) then {
+										_QS_interaction_load2 = _true;
+										_QS_action_load_array set [2,[_object,_cursorObject]];
+										_QS_action_load = player addAction _QS_action_load_array;
+										player setUserActionText [_QS_action_load,((player actionParams _QS_action_load) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_load) select 0)])];
 									};
 								} else {
 									if (_QS_interaction_load2) then {
@@ -3031,166 +3000,167 @@ for '_x' from 0 to 1 step 0 do {
 										player removeAction _QS_action_load;
 									};
 								};
+							} else {
+								if (_QS_interaction_load2) then {
+									_QS_interaction_load2 = _false;
+									_QS_action_load_array set [2,[]];
+									player removeAction _QS_action_load;
+								};
 							};
 						};
-					} count (attachedObjects _QS_player);
-				} else {
-					if (_QS_interaction_load2) then {
-						_QS_interaction_load2 = _false;
-						_QS_action_load_array set [2,[]];
-						player removeAction _QS_action_load;
 					};
+				} count (attachedObjects _QS_player);
+			} else {
+				if (_QS_interaction_load2) then {
+					_QS_interaction_load2 = _false;
+					_QS_action_load_array set [2,[]];
+					player removeAction _QS_action_load;
 				};
-				
-				/*/===== Action Unload Cargo/*/
+			};
+			
+			/*/===== Action Unload Cargo/*/
 
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance <= 2)} &&
-					{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Air')})} &&
-					{(simulationEnabled _cursorObject)} &&
-					{(!((attachedObjects _cursorObject) isEqualTo []))} &&
-					{(!(((attachedObjects _cursorObject) findIf {(([0,_x,_cursorObject] call _fn_getCustomCargoParams) && (!(_x getVariable ['QS_interaction_disabled',_false])))}) isEqualTo -1))}
-				) then {
-					if (!(_QS_interaction_unloadCargo)) then {
-						_QS_interaction_unloadCargo = _true;
-						_QS_action_unloadCargo = player addAction _QS_action_unloadCargo_array;
-						player setUserActionText [_QS_action_unloadCargo,((player actionParams _QS_action_unloadCargo) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_unloadCargo) select 0)])];
-					};
-				} else {
-					if (_QS_interaction_unloadCargo) then {
-						_QS_interaction_unloadCargo = _false;
-						player removeAction _QS_action_unloadCargo;
-					};
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance <= 2)} &&
+				{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Air')})} &&
+				{(simulationEnabled _cursorObject)} &&
+				{(!((attachedObjects _cursorObject) isEqualTo []))} &&
+				{(!(((attachedObjects _cursorObject) findIf {(([0,_x,_cursorObject] call _fn_getCustomCargoParams) && (!(_x getVariable ['QS_interaction_disabled',_false])))}) isEqualTo -1))}
+			) then {
+				if (!(_QS_interaction_unloadCargo)) then {
+					_QS_interaction_unloadCargo = _true;
+					_QS_action_unloadCargo = player addAction _QS_action_unloadCargo_array;
+					player setUserActionText [_QS_action_unloadCargo,((player actionParams _QS_action_unloadCargo) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_unloadCargo) select 0)])];
 				};
+			} else {
+				if (_QS_interaction_unloadCargo) then {
+					_QS_interaction_unloadCargo = _false;
+					player removeAction _QS_action_unloadCargo;
+				};
+			};
 
-				/*/===== Action Activate Vehicle/*/
-				//(missionNamespace getVariable ['QS_customAO_GT_active',_false])
+			/*/===== Action Activate Vehicle/*/
+			//(missionNamespace getVariable ['QS_customAO_GT_active',_false])
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance <= 3)} &&
+				{(isSimpleObject _cursorObject)} &&
+				{(!((typeOf _cursorObject) isEqualTo ''))} &&
+				{(_cursorObject isKindOf 'AllVehicles')} &&
+				{(!(missionNamespace getVariable ['QS_customAO_GT_active',_false])) || ((missionNamespace getVariable ['QS_customAO_GT_active',_false]) && {(((_isAltis) && ((_cursorObject distance2D [3476.77,13108.7,0]) > 500)) || {((_isTanoa) && ((_cursorObject distance2D [5762,10367,0]) > 500))})}) || ((!(_isAltis)) && (!(_isTanoa)))} &&
+				//{(((_isTanoa) && ((_cursorObject distance2D [5762,10367,0]) > 500)) || {((_isAltis) && ((_cursorObject distance2D [3476.77,13108.7,0]) > 500))} || {((!(_isAltis)) && (!(_isTanoa)))})} &&
+				{(!(_cursorObject getVariable ['QS_v_disableProp',_false]))}
+			) then {
+				if (!(_QS_interaction_activateVehicle)) then {
+					_QS_interaction_activateVehicle = _true;
+					_QS_action_activateVehicle = player addAction _QS_action_activateVehicle_array;
+					player setUserActionText [_QS_action_activateVehicle,((player actionParams _QS_action_activateVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_activateVehicle) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_activateVehicle) then {
+					_QS_interaction_activateVehicle = _false;
+					player removeAction _QS_action_activateVehicle;
+				};
+			};
+			
+			/*/===== Action Med Station/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance <= 2)} &&
+				{(isSimpleObject _cursorObject)} &&
+				{((toLower ((getModelInfo _cursorObject) select 1)) in _QS_action_medevac_models)} &&
+				{(((damage _QS_player) > 0) || {(!((((getAllHitPointsDamage _QS_player) select 2) findIf {(!(_x isEqualTo 0))}) isEqualTo -1))})}
+			) then {
+				if (!(_QS_interaction_huronContainer)) then {
+					_QS_interaction_huronContainer = _true;
+					_QS_action_huronContainer = player addAction _QS_action_huronContainer_array;
+					player setUserActionText [_QS_action_huronContainer,((player actionParams _QS_action_huronContainer) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_huronContainer) select 0)])];
+				};
+			} else {
+				if (_QS_interaction_huronContainer) then {
+					_QS_interaction_huronContainer = _false;
+					player removeAction _QS_action_huronContainer;
+				};
+			};
+			
+			/*/===== Action Sensor Target/*/
+			
+			if (_QS_interaction_sensorTarget_canReport) then {
 				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance <= 3)} &&
-					{(isSimpleObject _cursorObject)} &&
-					{(!((typeOf _cursorObject) isEqualTo ''))} &&
-					{(_cursorObject isKindOf 'AllVehicles')} &&
-					{(!(missionNamespace getVariable ['QS_customAO_GT_active',_false])) || ((missionNamespace getVariable ['QS_customAO_GT_active',_false]) && {(((_isAltis) && ((_cursorObject distance2D [3476.77,13108.7,0]) > 500)) || {((_isTanoa) && ((_cursorObject distance2D [5762,10367,0]) > 500))})}) || ((!(_isAltis)) && (!(_isTanoa)))} &&
-					//{(((_isTanoa) && ((_cursorObject distance2D [5762,10367,0]) > 500)) || {((_isAltis) && ((_cursorObject distance2D [3476.77,13108.7,0]) > 500))} || {((!(_isAltis)) && (!(_isTanoa)))})} &&
-					{(!(_cursorObject getVariable ['QS_v_disableProp',_false]))}
+					(!((binocular _QS_player) isEqualTo '')) &&
+					{((currentWeapon _QS_player) isEqualTo (binocular _QS_player))} &&
+					{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'StaticWeapon')})} &&
+					{(!(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1))} &&
+					{(alive (effectiveCommander _cursorObject))} &&
+					{((side (group (effectiveCommander _cursorObject))) in _enemysides)}
 				) then {
-					if (!(_QS_interaction_activateVehicle)) then {
-						_QS_interaction_activateVehicle = _true;
-						_QS_action_activateVehicle = player addAction _QS_action_activateVehicle_array;
-						player setUserActionText [_QS_action_activateVehicle,((player actionParams _QS_action_activateVehicle) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_activateVehicle) select 0)])];
+					if (!(_QS_interaction_sensorTarget)) then {
+						_QS_interaction_sensorTarget = _true;
+						_QS_action_sensorTarget = player addAction _QS_action_sensorTarget_array;
+						player setUserActionText [_QS_action_sensorTarget,((player actionParams _QS_action_sensorTarget) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_sensorTarget) select 0)])];
 					};
 				} else {
-					if (_QS_interaction_activateVehicle) then {
-						_QS_interaction_activateVehicle = _false;
-						player removeAction _QS_action_activateVehicle;
+					if (_QS_interaction_sensorTarget) then {
+						_QS_interaction_sensorTarget = _false;
+						player removeAction _QS_action_sensorTarget;
 					};
 				};
-				
-				/*/===== Action Med Station/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance <= 2)} &&
-					{(isSimpleObject _cursorObject)} &&
-					{((toLower ((getModelInfo _cursorObject) select 1)) in _QS_action_medevac_models)} &&
-					{(((damage _QS_player) > 0) || {(!((((getAllHitPointsDamage _QS_player) select 2) findIf {(!(_x isEqualTo 0))}) isEqualTo -1))})}
-				) then {
-					if (!(_QS_interaction_huronContainer)) then {
-						_QS_interaction_huronContainer = _true;
-						_QS_action_huronContainer = player addAction _QS_action_huronContainer_array;
-						player setUserActionText [_QS_action_huronContainer,((player actionParams _QS_action_huronContainer) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_huronContainer) select 0)])];
-					};
+			};
+			
+			/*/===== Action Attach Exp (Underwater)/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance <= 2)} &&
+				{(((side _cursorObject) in _enemysides) || {(_cursorObject getVariable ['QS_client_canAttachExp',_false])})} &&
+				{(((getPosASL _QS_player) select 2) < 0)} &&
+				{('DemoCharge_Remote_Mag' in (magazines _QS_player))}
+			) then {
+				if (!(_QS_interaction_attachExp)) then {
+					_QS_interaction_attachExp = _true;
+					_QS_userActionText = format ['%1 (%2 left)',_QS_action_attachExp_text,({(_x isEqualTo 'DemoCharge_Remote_Mag')} count (magazines _QS_player))];
+					_QS_action_attachExp_array set [0,_QS_userActionText];
+					_QS_action_attachExp = player addAction _QS_action_attachExp_array;
+					player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
 				} else {
-					if (_QS_interaction_huronContainer) then {
-						_QS_interaction_huronContainer = _false;
-						player removeAction _QS_action_huronContainer;
-					};
+					_QS_userActionText = format ['%1 (%2 left)',_QS_action_attachExp_text,({(_x isEqualTo 'DemoCharge_Remote_Mag')} count (magazines _QS_player))];
+					player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
 				};
-				
-				/*/===== Action Sensor Target/*/
-				
-				if (_QS_interaction_sensorTarget_canReport) then {
-					if (
-						(!((binocular _QS_player) isEqualTo '')) &&
-						{((currentWeapon _QS_player) isEqualTo (binocular _QS_player))} &&
-						{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'StaticWeapon')})} &&
-						{(!(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1))} &&
-						{(alive (effectiveCommander _cursorObject))} &&
-						{((side (group (effectiveCommander _cursorObject))) in _enemysides)}
-					) then {
-						if (!(_QS_interaction_sensorTarget)) then {
-							_QS_interaction_sensorTarget = _true;
-							_QS_action_sensorTarget = player addAction _QS_action_sensorTarget_array;
-							player setUserActionText [_QS_action_sensorTarget,((player actionParams _QS_action_sensorTarget) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_sensorTarget) select 0)])];
-						};
-					} else {
-						if (_QS_interaction_sensorTarget) then {
-							_QS_interaction_sensorTarget = _false;
-							player removeAction _QS_action_sensorTarget;
-						};
-					};
+			} else {
+				if (_QS_interaction_attachExp) then {
+					_QS_interaction_attachExp = _false;
+					player removeAction _QS_action_attachExp;
 				};
-				
-				/*/===== Action Attach Exp (Underwater)/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(!isNull _cursorObject)} &&
-					{(_cursorObjectDistance <= 2)} &&
-					{(((side _cursorObject) in _enemysides) || {(_cursorObject getVariable ['QS_client_canAttachExp',_false])})} &&
-					{(((getPosASL _QS_player) select 2) < 0)} &&
-					{('DemoCharge_Remote_Mag' in (magazines _QS_player))}
-				) then {
-					if (!(_QS_interaction_attachExp)) then {
-						_QS_interaction_attachExp = _true;
-						_QS_userActionText = format ['%1 (%2 left)',_QS_action_attachExp_text,({(_x isEqualTo 'DemoCharge_Remote_Mag')} count (magazines _QS_player))];
-						_QS_action_attachExp_array set [0,_QS_userActionText];
-						_QS_action_attachExp = player addAction _QS_action_attachExp_array;
-						player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
-					} else {
-						_QS_userActionText = format ['%1 (%2 left)',_QS_action_attachExp_text,({(_x isEqualTo 'DemoCharge_Remote_Mag')} count (magazines _QS_player))];
-						player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
-					};
-				} else {
-					if (_QS_interaction_attachExp) then {
-						_QS_interaction_attachExp = _false;
-						player removeAction _QS_action_attachExp;
-					};
-				};
+			};
 
-				/*/===== UGV/*/
-				
-				if ((_QS_player getUnitTrait 'uavhacker') || {(!isNull (getAssignedCuratorLogic _QS_player))}) then {
-					if (
-						(unitIsUav _QS_cO) &&
-						{((toLower (typeOf _QS_cO)) in _QS_action_ugv_types)} &&
-						{(isTouchingGround _QS_cO)} &&
-						{(((vectorMagnitude (velocity _QS_cO)) * 3.6) < 1)} &&
-						{(!((attachedObjects _QS_cO) isEqualTo []))} &&
-						{(!(((attachedObjects _QS_cO) findIf {(((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) && (!(isObjectHidden _x)))}) isEqualTo -1))}
-					) then {
-						if (!(_QS_ugv isEqualTo _QS_cO)) then {
-							_QS_ugv = _QS_cO;
-						};
-						if (({(_x isKindOf 'CAManBase')} count (attachedObjects _QS_cO)) < ({((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel)} count (attachedObjects _QS_cO))) then {
-							_listOfFrontStuff = ((_QS_cO getRelPos [3,0]) nearEntities ['CAManBase',3]) select {(((lifeState _x) isEqualTo 'INCAPACITATED') && (isNull (attachedTo _x)) && (isNull (objectParent _x)) && (!(_x getVariable ['QS_unit_needsStabilise',FALSE])))};	/*/unit needs to be stabilised first?/*/
-							if (!(_listOfFrontStuff isEqualTo [])) then {
-								if (!(_QS_interaction_ugvLoad)) then {
-									_QS_interaction_ugvLoad = _true;
-									_QS_action_ugvLoad_array set [2,[_QS_ugv,4]];
-									_QS_action_ugvLoad = _QS_ugv addAction _QS_action_ugvLoad_array;
-									_QS_ugv setUserActionText [_QS_action_ugvLoad,((_QS_ugv actionParams _QS_action_ugvLoad) select 0),(format ["<t size='3'>%1</t>",((_QS_ugv actionParams _QS_action_ugvLoad) select 0)])];
-								};
-							} else {
-								if (_QS_interaction_ugvLoad) then {
-									_QS_interaction_ugvLoad = _false;
-									_QS_ugv removeAction _QS_action_ugvLoad;
-								};
+			/*/===== UGV/*/
+			
+			if ((_QS_player getUnitTrait 'uavhacker') || {(!isNull (getAssignedCuratorLogic _QS_player))}) then {
+				if (
+					(unitIsUav _QS_cO) &&
+					{((toLower (typeOf _QS_cO)) in _QS_action_ugv_types)} &&
+					{(isTouchingGround _QS_cO)} &&
+					{(((vectorMagnitude (velocity _QS_cO)) * 3.6) < 1)} &&
+					{(!((attachedObjects _QS_cO) isEqualTo []))} &&
+					{(!(((attachedObjects _QS_cO) findIf {(((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel) && (!(isObjectHidden _x)))}) isEqualTo -1))}
+				) then {
+					if (!(_QS_ugv isEqualTo _QS_cO)) then {
+						_QS_ugv = _QS_cO;
+					};
+					if (({(_x isKindOf 'CAManBase')} count (attachedObjects _QS_cO)) < ({((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel)} count (attachedObjects _QS_cO))) then {
+						_listOfFrontStuff = ((_QS_cO getRelPos [3,0]) nearEntities ['CAManBase',3]) select {(((lifeState _x) isEqualTo 'INCAPACITATED') && (isNull (attachedTo _x)) && (isNull (objectParent _x)) && (!(_x getVariable ['QS_unit_needsStabilise',FALSE])))};	/*/unit needs to be stabilised first?/*/
+						if (!(_listOfFrontStuff isEqualTo [])) then {
+							if (!(_QS_interaction_ugvLoad)) then {
+								_QS_interaction_ugvLoad = _true;
+								_QS_action_ugvLoad_array set [2,[_QS_ugv,4]];
+								_QS_action_ugvLoad = _QS_ugv addAction _QS_action_ugvLoad_array;
+								_QS_ugv setUserActionText [_QS_action_ugvLoad,((_QS_ugv actionParams _QS_action_ugvLoad) select 0),(format ["<t size='3'>%1</t>",((_QS_ugv actionParams _QS_action_ugvLoad) select 0)])];
 							};
 						} else {
 							if (_QS_interaction_ugvLoad) then {
@@ -3198,56 +3168,56 @@ for '_x' from 0 to 1 step 0 do {
 								_QS_ugv removeAction _QS_action_ugvLoad;
 							};
 						};
-						if (!(((attachedObjects _QS_cO) findIf {((_x isKindOf 'CAManBase') && (alive _x))}) isEqualTo -1)) then {
-							if (!(_QS_interaction_ugvUnload)) then {
-								_QS_interaction_ugvUnload = _true;
-								_QS_action_ugvUnload_array set [2,[_QS_ugv,5]];
-								_QS_action_ugvUnload = _QS_ugv addAction _QS_action_ugvUnload_array;
-								_QS_ugv setUserActionText [_QS_action_ugvUnload,((_QS_ugv actionParams _QS_action_ugvUnload) select 0),(format ["<t size='3'>%1</t>",((_QS_ugv actionParams _QS_action_ugvUnload) select 0)])];
-							};
-						} else {
-							if (_QS_interaction_ugvUnload) then {
-								_QS_interaction_ugvUnload = _false;
-								_QS_ugv removeAction _QS_action_ugvUnload;
-							};
-						};
 					} else {
 						if (_QS_interaction_ugvLoad) then {
 							_QS_interaction_ugvLoad = _false;
 							_QS_ugv removeAction _QS_action_ugvLoad;
 						};
+					};
+					if (!(((attachedObjects _QS_cO) findIf {((_x isKindOf 'CAManBase') && (alive _x))}) isEqualTo -1)) then {
+						if (!(_QS_interaction_ugvUnload)) then {
+							_QS_interaction_ugvUnload = _true;
+							_QS_action_ugvUnload_array set [2,[_QS_ugv,5]];
+							_QS_action_ugvUnload = _QS_ugv addAction _QS_action_ugvUnload_array;
+							_QS_ugv setUserActionText [_QS_action_ugvUnload,((_QS_ugv actionParams _QS_action_ugvUnload) select 0),(format ["<t size='3'>%1</t>",((_QS_ugv actionParams _QS_action_ugvUnload) select 0)])];
+						};
+					} else {
 						if (_QS_interaction_ugvUnload) then {
 							_QS_interaction_ugvUnload = _false;
 							_QS_ugv removeAction _QS_action_ugvUnload;
 						};
 					};
-					
-					/*/===== UAV Service/*/
-					
-					if (unitIsUav _QS_cO) then {
-						if (!(_QS_uav isEqualTo _QS_cO)) then {
-							_QS_uav = _QS_cO;
-						};
-						if (!(missionNamespace getVariable 'QS_repairing_vehicle')) then {
-							if (((vectorMagnitude (velocity _QS_uav)) * 3.6) < 1) then {
-								_nearSite2 = _false;
-								_uavNearRepairDepot = [_QS_uav] call _fn_isNearRepairDepot;
-								{
-									if ((_QS_uav distance2D (markerPos _x)) < 12) exitWith {
-										_nearSite2 = _true;
-									};
-								} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
-								if ((_nearSite2) || {(_uavNearRepairDepot)}) then {
-									if (!(_QS_interaction_serviceDrone)) then {
-										_QS_interaction_serviceDrone = _true;
-										_QS_action_serviceVehicle = _QS_uav addAction _QS_action_serviceVehicle_array;
-										_QS_uav setUserActionText [_QS_action_serviceVehicle,((_QS_uav actionParams _QS_action_serviceVehicle) select 0),(format ["<t size='3'>%1</t>",((_QS_uav actionParams _QS_action_serviceVehicle) select 0)])];
-									};
-								} else {
-									if (_QS_interaction_serviceDrone) then {
-										_QS_interaction_serviceDrone = _false;
-										_QS_uav removeAction _QS_action_serviceVehicle;
-									};
+				} else {
+					if (_QS_interaction_ugvLoad) then {
+						_QS_interaction_ugvLoad = _false;
+						_QS_ugv removeAction _QS_action_ugvLoad;
+					};
+					if (_QS_interaction_ugvUnload) then {
+						_QS_interaction_ugvUnload = _false;
+						_QS_ugv removeAction _QS_action_ugvUnload;
+					};
+				};
+				
+				/*/===== UAV Service/*/
+				
+				if (unitIsUav _QS_cO) then {
+					if (!(_QS_uav isEqualTo _QS_cO)) then {
+						_QS_uav = _QS_cO;
+					};
+					if (!(missionNamespace getVariable 'QS_repairing_vehicle')) then {
+						if (((vectorMagnitude (velocity _QS_uav)) * 3.6) < 1) then {
+							_nearSite2 = _false;
+							_uavNearRepairDepot = [_QS_uav] call _fn_isNearRepairDepot;
+							{
+								if ((_QS_uav distance2D (markerPos _x)) < 12) exitWith {
+									_nearSite2 = _true;
+								};
+							} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
+							if ((_nearSite2) || {(_uavNearRepairDepot)}) then {
+								if (!(_QS_interaction_serviceDrone)) then {
+									_QS_interaction_serviceDrone = _true;
+									_QS_action_serviceVehicle = _QS_uav addAction _QS_action_serviceVehicle_array;
+									_QS_uav setUserActionText [_QS_action_serviceVehicle,((_QS_uav actionParams _QS_action_serviceVehicle) select 0),(format ["<t size='3'>%1</t>",((_QS_uav actionParams _QS_action_serviceVehicle) select 0)])];
 								};
 							} else {
 								if (_QS_interaction_serviceDrone) then {
@@ -3267,31 +3237,31 @@ for '_x' from 0 to 1 step 0 do {
 							_QS_uav removeAction _QS_action_serviceVehicle;
 						};
 					};
-					
-					/*/===== UGV Tow/*/
-					
-					if (unitIsUav _QS_cO) then {
-						if (!(_QS_ugvTow isEqualTo _QS_cO)) then {
-							_QS_ugvTow = _QS_cO;
-						};
-						if (
-							((toLower (typeOf _QS_ugvTow)) in _QS_action_ugv_types) &&
-							{(((vectorMagnitude (velocity _QS_cO)) * 3.6) < 1)} &&
-							{((_QS_ugvTow getVariable ['QS_tow_veh',-1]) > 0)} &&
-							{(canMove _QS_ugvTow)} &&
-							{(((attachedObjects _QS_ugvTow) findIf {((alive _x) && (_x isKindOf 'CAManBase'))}) isEqualTo -1)} &&
-							{([_QS_ugvTow] call _fn_vTowable)}
-						) then {
-							if (!(_QS_interaction_towUGV)) then {
-								_QS_interaction_towUGV = _true;
-								_QS_action_towUGV = _QS_ugvTow addAction _QS_action_tow_array;
-								_QS_ugvTow setUserActionText [_QS_action_towUGV,((_QS_ugvTow actionParams _QS_action_towUGV) select 0),(format ["<t size='3'>%1</t>",((_QS_ugvTow actionParams _QS_action_towUGV) select 0)])];
-							};
-						} else {
-							if (_QS_interaction_towUGV) then {
-								_QS_interaction_towUGV = _false;
-								_QS_ugvTow removeAction _QS_action_towUGV;
-							};
+				} else {
+					if (_QS_interaction_serviceDrone) then {
+						_QS_interaction_serviceDrone = _false;
+						_QS_uav removeAction _QS_action_serviceVehicle;
+					};
+				};
+				
+				/*/===== UGV Tow/*/
+				
+				if (unitIsUav _QS_cO) then {
+					if (!(_QS_ugvTow isEqualTo _QS_cO)) then {
+						_QS_ugvTow = _QS_cO;
+					};
+					if (
+						((toLower (typeOf _QS_ugvTow)) in _QS_action_ugv_types) &&
+						{(((vectorMagnitude (velocity _QS_cO)) * 3.6) < 1)} &&
+						{((_QS_ugvTow getVariable ['QS_tow_veh',-1]) > 0)} &&
+						{(canMove _QS_ugvTow)} &&
+						{(((attachedObjects _QS_ugvTow) findIf {((alive _x) && (_x isKindOf 'CAManBase'))}) isEqualTo -1)} &&
+						{([_QS_ugvTow] call _fn_vTowable)}
+					) then {
+						if (!(_QS_interaction_towUGV)) then {
+							_QS_interaction_towUGV = _true;
+							_QS_action_towUGV = _QS_ugvTow addAction _QS_action_tow_array;
+							_QS_ugvTow setUserActionText [_QS_action_towUGV,((_QS_ugvTow actionParams _QS_action_towUGV) select 0),(format ["<t size='3'>%1</t>",((_QS_ugvTow actionParams _QS_action_towUGV) select 0)])];
 						};
 					} else {
 						if (_QS_interaction_towUGV) then {
@@ -3299,24 +3269,24 @@ for '_x' from 0 to 1 step 0 do {
 							_QS_ugvTow removeAction _QS_action_towUGV;
 						};
 					};
-					/*/UAV self destruct/*/
-					if (unitIsUav _QS_cO) then {
-						if (!(_QS_ugvSD isEqualTo _QS_cO)) then {
-							_QS_ugvSD = _QS_cO;
-						};
-						if (local _QS_ugvSD) then {
-							if ((!(canMove _QS_ugvSD)) || {((fuel _QS_ugvSD) isEqualTo 0)} || {(!((((getAllHitPointsDamage _QS_ugvSD) select 2) findIf {(_x > 0.5)}) isEqualTo -1))} || {(((vectorUp _QS_ugvSD) select 2) < 0.1)}) then {
-								if ((_QS_ugvSD distance2D _QS_module_safezone_pos) > 500) then {
-									if (!(_QS_interaction_uavSelfDestruct)) then {
-										_QS_interaction_uavSelfDestruct = _true;
-										_QS_action_uavSelfDestruct = _QS_ugvSD addAction _QS_action_uavSelfDestruct_array;
-										_QS_ugvSD setUserActionText [_QS_action_uavSelfDestruct,((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) select 0),(format ["<t size='3'>%1</t>",((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) select 0)])];
-									};
-								} else {
-									if (_QS_interaction_uavSelfDestruct) then {
-										_QS_interaction_uavSelfDestruct = _false;
-										_QS_ugvSD removeAction _QS_action_uavSelfDestruct;
-									};
+				} else {
+					if (_QS_interaction_towUGV) then {
+						_QS_interaction_towUGV = _false;
+						_QS_ugvTow removeAction _QS_action_towUGV;
+					};
+				};
+				/*/UAV self destruct/*/
+				if (unitIsUav _QS_cO) then {
+					if (!(_QS_ugvSD isEqualTo _QS_cO)) then {
+						_QS_ugvSD = _QS_cO;
+					};
+					if (local _QS_ugvSD) then {
+						if ((!(canMove _QS_ugvSD)) || {((fuel _QS_ugvSD) isEqualTo 0)} || {(!(_QS_ugvSD isKindOf 'UAV_01_base_F')) && {(!((((getAllHitPointsDamage _QS_ugvSD) select 2) findIf {(_x > 0.5)}) isEqualTo -1))}} || {(((vectorUp _QS_ugvSD) select 2) < 0.1)}) then {
+							if ((_QS_ugvSD distance2D _QS_module_safezone_pos) > 500) then {
+								if (!(_QS_interaction_uavSelfDestruct)) then {
+									_QS_interaction_uavSelfDestruct = _true;
+									_QS_action_uavSelfDestruct = _QS_ugvSD addAction _QS_action_uavSelfDestruct_array;
+									_QS_ugvSD setUserActionText [_QS_action_uavSelfDestruct,((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) select 0),(format ["<t size='3'>%1</t>",((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) select 0)])];
 								};
 							} else {
 								if (_QS_interaction_uavSelfDestruct) then {
@@ -3336,51 +3306,51 @@ for '_x' from 0 to 1 step 0 do {
 							_QS_ugvSD removeAction _QS_action_uavSelfDestruct;
 						};
 					};
+				} else {
+					if (_QS_interaction_uavSelfDestruct) then {
+						_QS_interaction_uavSelfDestruct = _false;
+						_QS_ugvSD removeAction _QS_action_uavSelfDestruct;
+					};
 				};
+			};
 
-				if ((!(_QS_carrierEnabled isEqualTo 0)) && (!isNull (missionNamespace getVariable ['QS_carrierObject',_objNull]))) then {
-					if (_QS_cO isKindOf 'Plane') then {
-						if (unitIsUav _QS_cO) then {
+			if ((!(_QS_carrierEnabled isEqualTo 0)) && (!isNull (missionNamespace getVariable ['QS_carrierObject',_objNull]))) then {
+				if (_QS_cO isKindOf 'Plane') then {
+					if (unitIsUav _QS_cO) then {
+						_QS_carrier_cameraOn = _QS_cO;
+					} else {
+						if ((alive (driver _QS_cO)) && (local (driver _QS_cO))) then {
 							_QS_carrier_cameraOn = _QS_cO;
-						} else {
-							if ((alive (driver _QS_cO)) && (local (driver _QS_cO))) then {
-								_QS_carrier_cameraOn = _QS_cO;
-							};
 						};
-						if (canMove _QS_carrier_cameraOn) then {
-							if (((vectorMagnitude (velocity _QS_carrier_cameraOn)) * 3.6) < 30) then {
-								if ((_QS_carrier_cameraOn distance2D (missionNamespace getVariable 'QS_carrierObject')) < 150) then {
-									if ((_QS_carrier_cameraOn animationPhase 'wing_fold_l') isEqualTo 0) then {
-										if (_QS_carrier_inPolygon) then {
-											_QS_carrier_inPolygon = _false;
+					};
+					if (canMove _QS_carrier_cameraOn) then {
+						if (((vectorMagnitude (velocity _QS_carrier_cameraOn)) * 3.6) < 30) then {
+							if ((_QS_carrier_cameraOn distance2D (missionNamespace getVariable 'QS_carrierObject')) < 150) then {
+								if ((_QS_carrier_cameraOn animationPhase 'wing_fold_l') isEqualTo 0) then {
+									if (_QS_carrier_inPolygon) then {
+										_QS_carrier_inPolygon = _false;
+									};
+									_QS_carrierPos = getPosWorld _QS_carrier_cameraOn;
+									{
+										_QS_carrierLaunchData = _x;
+										_QS_carrierPolygon = (_QS_carrierLaunchData select 0) apply {((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x)};
+										if (_QS_carrierPos inPolygon _QS_carrierPolygon) exitWith {
+											_QS_carrier_inPolygon = _true;
 										};
-										_QS_carrierPos = getPosWorld _QS_carrier_cameraOn;
-										{
-											_QS_carrierLaunchData = _x;
-											_QS_carrierPolygon = (_QS_carrierLaunchData select 0) apply {((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x)};
-											if (_QS_carrierPos inPolygon _QS_carrierPolygon) exitWith {
-												_QS_carrier_inPolygon = _true;
-											};
-										} forEach _fn_data_carrierLaunch;
-										if (_QS_carrier_inPolygon) then {
-											if (!(_QS_interaction_carrierLaunch)) then {
-												_QS_interaction_carrierLaunch = _true;
-												_QS_action_carrierLaunch = _QS_carrier_cameraOn addAction _QS_action_carrierLaunch_array;
-												_QS_carrier_cameraOn setUserActionText [_QS_action_carrierLaunch,'Initiate Launch Sequence','<t size="3">Initiate Launch Sequence</t>'];
-											};
-											if (_QS_carrier_cameraOn getVariable ['QS_carrier_launch',_false]) then {
-												if (((_QS_carrier_cameraOn actionParams _QS_action_carrierLaunch) select 0) isEqualTo 'Initiate Launch Sequence') then {
-													_QS_carrier_cameraOn setUserActionText [_QS_action_carrierLaunch,'Launch','<t size="3">Launch</t>'];
-												};
-											} else {
-												if (((_QS_carrier_cameraOn actionParams _QS_action_carrierLaunch) select 0) isEqualTo 'Launch') then {
-													_QS_carrier_cameraOn setUserActionText [_QS_action_carrierLaunch,'Initiate Launch Sequence','<t size="3">Initiate Launch Sequence</t>'];
-												};
+									} forEach _fn_data_carrierLaunch;
+									if (_QS_carrier_inPolygon) then {
+										if (!(_QS_interaction_carrierLaunch)) then {
+											_QS_interaction_carrierLaunch = _true;
+											_QS_action_carrierLaunch = _QS_carrier_cameraOn addAction _QS_action_carrierLaunch_array;
+											_QS_carrier_cameraOn setUserActionText [_QS_action_carrierLaunch,'Initiate Launch Sequence','<t size="3">Initiate Launch Sequence</t>'];
+										};
+										if (_QS_carrier_cameraOn getVariable ['QS_carrier_launch',_false]) then {
+											if (((_QS_carrier_cameraOn actionParams _QS_action_carrierLaunch) select 0) isEqualTo 'Initiate Launch Sequence') then {
+												_QS_carrier_cameraOn setUserActionText [_QS_action_carrierLaunch,'Launch','<t size="3">Launch</t>'];
 											};
 										} else {
-											if (_QS_interaction_carrierLaunch) then {
-												_QS_interaction_carrierLaunch = _false;
-												_QS_carrier_cameraOn removeAction _QS_action_carrierLaunch;
+											if (((_QS_carrier_cameraOn actionParams _QS_action_carrierLaunch) select 0) isEqualTo 'Launch') then {
+												_QS_carrier_cameraOn setUserActionText [_QS_action_carrierLaunch,'Initiate Launch Sequence','<t size="3">Initiate Launch Sequence</t>'];
 											};
 										};
 									} else {
@@ -3419,71 +3389,71 @@ for '_x' from 0 to 1 step 0 do {
 						_QS_carrier_cameraOn removeAction _QS_action_carrierLaunch;
 					};
 				};
-				
-				/*/===== Armor Camonets (Tanks DLC)/*/
-				
-				if (
-					(_noObjectParent) &&
-					{(alive _cursorObject)} &&
-					{(_cursorObjectDistance < 3)} &&
-					{((_cursorObject isKindOf 'Tank') || {(_cursorObject isKindOf 'Wheeled_APC_F')})} &&
-					{(canMove _cursorObject)} &&
-					{(!(isSimpleObject _cursorObject))} &&
-					{((locked _cursorObject) in [0,1])} &&
-					{(((crew _cursorObject) findIf {((side (group _x)) in _enemysides)}) isEqualTo -1)}
-				) then {
-					_QS_action_camonetArmor_vAnims = _cursorObject getVariable ['QS_vehicle_camonetAnims',-1];
-					if (_QS_action_camonetArmor_vAnims isEqualTo -1) then {
-						_array = [];
-						_animationSources = configFile >> 'CfgVehicles' >> (typeOf _cursorObject) >> 'animationSources';
-						_i = 0;
-						for '_i' from 0 to ((count _animationSources) - 1) step 1 do {
-							_animationSource = _animationSources select _i;
-							if (((toLower (configName _animationSource)) in _QS_action_camonetArmor_anims) || {(['showcamo',(configName _animationSource),_false] call _fn_inString)}) then {
-								0 = _array pushBack (toLower (configName _animationSource));
+			} else {
+				if (_QS_interaction_carrierLaunch) then {
+					_QS_interaction_carrierLaunch = _false;
+					_QS_carrier_cameraOn removeAction _QS_action_carrierLaunch;
+				};
+			};
+			
+			/*/===== Armor Camonets (Tanks DLC)/*/
+			
+			if (
+				(_noObjectParent) &&
+				{(alive _cursorObject)} &&
+				{(_cursorObjectDistance < 3)} &&
+				{((_cursorObject isKindOf 'Tank') || {(_cursorObject isKindOf 'Wheeled_APC_F')})} &&
+				{(canMove _cursorObject)} &&
+				{(!(isSimpleObject _cursorObject))} &&
+				{((locked _cursorObject) in [0,1])} &&
+				{(((crew _cursorObject) findIf {((side (group _x)) in _enemysides)}) isEqualTo -1)}
+			) then {
+				_QS_action_camonetArmor_vAnims = _cursorObject getVariable ['QS_vehicle_camonetAnims',-1];
+				if (_QS_action_camonetArmor_vAnims isEqualTo -1) then {
+					_array = [];
+					_animationSources = configFile >> 'CfgVehicles' >> (typeOf _cursorObject) >> 'animationSources';
+					_i = 0;
+					for '_i' from 0 to ((count _animationSources) - 1) step 1 do {
+						_animationSource = _animationSources select _i;
+						if (((toLower (configName _animationSource)) in _QS_action_camonetArmor_anims) || {(['showcamo',(configName _animationSource),_false] call _fn_inString)}) then {
+							0 = _array pushBack (toLower (configName _animationSource));
+						};
+					};
+					{
+						if (_x isEqualType '') then {
+							if (!((toLower _x) in _array)) then {
+								if (((toLower _x) in _QS_action_camonetArmor_anims) || {(['showcamo',_x,_false] call _fn_inString)}) then {
+									_array pushBack (toLower _x);
+								};
 							};
 						};
-						{
-							if (_x isEqualType '') then {
-								if (!((toLower _x) in _array)) then {
-									if (((toLower _x) in _QS_action_camonetArmor_anims) || {(['showcamo',_x,_false] call _fn_inString)}) then {
-										_array pushBack (toLower _x);
-									};
-								};
-							};
-						} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _cursorObject) >> 'animationList'));
-						_cursorObject setVariable ['QS_vehicle_camonetAnims',_array,_false];
-					} else {
-						if (_QS_action_camonetArmor_vAnims isEqualType []) then {
-							if (!(_QS_action_camonetArmor_vAnims isEqualTo [])) then {
-								if (!(_QS_interaction_camonetArmor)) then {
-									if (!((_QS_action_camonetArmor_vAnims findIf {((_cursorObject animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
-										_QS_action_camonetArmor_array set [0,_QS_action_camonetArmor_textB];
-										_QS_action_camonetArmor_array set [2,[_cursorObject,0,_QS_action_camonetArmor_vAnims]];
-									} else {
-										_QS_action_camonetArmor_array set [0,_QS_action_camonetArmor_textA];
-										_QS_action_camonetArmor_array set [2,[_cursorObject,1,_QS_action_camonetArmor_vAnims]];
-									};
-									_QS_interaction_camonetArmor = _true;
-									_QS_action_camonetArmor = player addAction _QS_action_camonetArmor_array;
-									player setUserActionText [_QS_action_camonetArmor,((player actionParams _QS_action_camonetArmor) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_camonetArmor) select 0)])];
+					} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _cursorObject) >> 'animationList'));
+					_cursorObject setVariable ['QS_vehicle_camonetAnims',_array,_false];
+				} else {
+					if (_QS_action_camonetArmor_vAnims isEqualType []) then {
+						if (!(_QS_action_camonetArmor_vAnims isEqualTo [])) then {
+							if (!(_QS_interaction_camonetArmor)) then {
+								if (!((_QS_action_camonetArmor_vAnims findIf {((_cursorObject animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
+									_QS_action_camonetArmor_array set [0,_QS_action_camonetArmor_textB];
+									_QS_action_camonetArmor_array set [2,[_cursorObject,0,_QS_action_camonetArmor_vAnims]];
 								} else {
-									if (!((_QS_action_camonetArmor_vAnims findIf {((_cursorObject animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
-										if ((_QS_action_camonetArmor_array select 0) isEqualTo _QS_action_camonetArmor_textA) then {
-											_QS_interaction_camonetArmor = _false;
-											player removeAction _QS_action_camonetArmor;
-										};
-									} else {
-										if ((_QS_action_camonetArmor_array select 0) isEqualTo _QS_action_camonetArmor_textB) then {
-											_QS_interaction_camonetArmor = _false;
-											player removeAction _QS_action_camonetArmor;
-										};
-									};
+									_QS_action_camonetArmor_array set [0,_QS_action_camonetArmor_textA];
+									_QS_action_camonetArmor_array set [2,[_cursorObject,1,_QS_action_camonetArmor_vAnims]];
 								};
+								_QS_interaction_camonetArmor = _true;
+								_QS_action_camonetArmor = player addAction _QS_action_camonetArmor_array;
+								player setUserActionText [_QS_action_camonetArmor,((player actionParams _QS_action_camonetArmor) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_camonetArmor) select 0)])];
 							} else {
-								if (_QS_interaction_camonetArmor) then {
-									_QS_interaction_camonetArmor = _false;
-									player removeAction _QS_action_camonetArmor;
+								if (!((_QS_action_camonetArmor_vAnims findIf {((_cursorObject animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
+									if ((_QS_action_camonetArmor_array select 0) isEqualTo _QS_action_camonetArmor_textA) then {
+										_QS_interaction_camonetArmor = _false;
+										player removeAction _QS_action_camonetArmor;
+									};
+								} else {
+									if ((_QS_action_camonetArmor_array select 0) isEqualTo _QS_action_camonetArmor_textB) then {
+										_QS_interaction_camonetArmor = _false;
+										player removeAction _QS_action_camonetArmor;
+									};
 								};
 							};
 						} else {
@@ -3492,84 +3462,84 @@ for '_x' from 0 to 1 step 0 do {
 								player removeAction _QS_action_camonetArmor;
 							};
 						};
-					};
-				} else {
-					if (_QS_interaction_camonetArmor) then {
-						_QS_interaction_camonetArmor = _false;
-						player removeAction _QS_action_camonetArmor;
+					} else {
+						if (_QS_interaction_camonetArmor) then {
+							_QS_interaction_camonetArmor = _false;
+							player removeAction _QS_action_camonetArmor;
+						};
 					};
 				};
-				
-				/*/===== Armor Slat (Tanks DLC)/*/
-				
-				if (
-					(!(_noObjectParent)) &&
-					{(alive _QS_v2)} &&
-					{((_QS_v2 isKindOf 'Tank') || {(_QS_v2 isKindOf 'Wheeled_APC_F')})} &&
-					{(_QS_player isEqualTo (effectiveCommander _QS_v2))} &&
-					{(!(missionNamespace getVariable ['QS_repairing_vehicle',_false]))} &&
-					{(((vectorMagnitude (velocity _QS_v2)) * 3.6) < 2)}
-				) then {
-					_isNearRepairDepot2 = (([_QS_v2] call _fn_isNearRepairDepot) || {([_cursorObject] call _fn_isNearRepairDepot)});
-					_nearSite3 = _false;
-					{
-						if ((_QS_v2 distance2D (markerPos _x)) < 12) exitWith {
-							_nearSite3 = _true;
+			} else {
+				if (_QS_interaction_camonetArmor) then {
+					_QS_interaction_camonetArmor = _false;
+					player removeAction _QS_action_camonetArmor;
+				};
+			};
+			
+			/*/===== Armor Slat (Tanks DLC)/*/
+			
+			if (
+				(!(_noObjectParent)) &&
+				{(alive _QS_v2)} &&
+				{((_QS_v2 isKindOf 'Tank') || {(_QS_v2 isKindOf 'Wheeled_APC_F')})} &&
+				{(_QS_player isEqualTo (effectiveCommander _QS_v2))} &&
+				{(!(missionNamespace getVariable ['QS_repairing_vehicle',_false]))} &&
+				{(((vectorMagnitude (velocity _QS_v2)) * 3.6) < 2)}
+			) then {
+				_isNearRepairDepot2 = (([_QS_v2] call _fn_isNearRepairDepot) || {([_cursorObject] call _fn_isNearRepairDepot)});
+				_nearSite3 = _false;
+				{
+					if ((_QS_v2 distance2D (markerPos _x)) < 12) exitWith {
+						_nearSite3 = _true;
+					};
+				} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
+				if ((_nearSite3) || (_isNearRepairDepot2)) then {
+					_QS_action_slatArmor_vAnims = _QS_v2 getVariable ['QS_vehicle_slatarmorAnims',-1];
+					if (_QS_action_slatArmor_vAnims isEqualTo -1) then {
+						_array = [];
+						_animationSources = configFile >> 'CfgVehicles' >> (typeOf _QS_v2) >> 'animationSources';
+						_i = 0;
+						for '_i' from 0 to ((count _animationSources) - 1) step 1 do {
+							_animationSource = _animationSources select _i;
+							if (((toLower (configName _animationSource)) in _QS_action_slatArmor_anims) || {(['showslat',(configName _animationSource),_false] call _fn_inString)}) then {
+								0 = _array pushBack (toLower (configName _animationSource));
+							};
 						};
-					} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
-					if ((_nearSite3) || (_isNearRepairDepot2)) then {
-						_QS_action_slatArmor_vAnims = _QS_v2 getVariable ['QS_vehicle_slatarmorAnims',-1];
-						if (_QS_action_slatArmor_vAnims isEqualTo -1) then {
-							_array = [];
-							_animationSources = configFile >> 'CfgVehicles' >> (typeOf _QS_v2) >> 'animationSources';
-							_i = 0;
-							for '_i' from 0 to ((count _animationSources) - 1) step 1 do {
-								_animationSource = _animationSources select _i;
-								if (((toLower (configName _animationSource)) in _QS_action_slatArmor_anims) || {(['showslat',(configName _animationSource),_false] call _fn_inString)}) then {
-									0 = _array pushBack (toLower (configName _animationSource));
+						{
+							if (_x isEqualType '') then {
+								if (!((toLower _x) in _array)) then {
+									if (((toLower _x) in _QS_action_slatArmor_anims) || {(['showslat',_x,_false] call _fn_inString)}) then {
+										_array pushBack (toLower _x);
+									};
 								};
 							};
-							{
-								if (_x isEqualType '') then {
-									if (!((toLower _x) in _array)) then {
-										if (((toLower _x) in _QS_action_slatArmor_anims) || {(['showslat',_x,_false] call _fn_inString)}) then {
-											_array pushBack (toLower _x);
-										};
-									};
-								};
-							} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _QS_v2) >> 'animationList'));
-							_QS_v2 setVariable ['QS_vehicle_slatarmorAnims',_array,_false];
-						} else {
-							if (_QS_action_slatArmor_vAnims isEqualType []) then {
-								if (!(_QS_action_slatArmor_vAnims isEqualTo [])) then {
-									if (!(_QS_interaction_slatArmor)) then {
-										if (!((_QS_action_slatArmor_vAnims findIf {((_QS_v2 animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
-											_QS_action_slatArmor_array set [0,_QS_action_slatArmor_textB];
-											_QS_action_slatArmor_array set [2,[_QS_v2,0,_QS_action_slatArmor_vAnims]];
-										} else {
-											_QS_action_slatArmor_array set [0,_QS_action_slatArmor_textA];
-											_QS_action_slatArmor_array set [2,[_QS_v2,1,_QS_action_slatArmor_vAnims]];
-										};
-										_QS_interaction_slatArmor = _true;
-										_QS_action_slatArmor = player addAction _QS_action_slatArmor_array;
-										player setUserActionText [_QS_action_slatArmor,((player actionParams _QS_action_slatArmor) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_slatArmor) select 0)])];
+						} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _QS_v2) >> 'animationList'));
+						_QS_v2 setVariable ['QS_vehicle_slatarmorAnims',_array,_false];
+					} else {
+						if (_QS_action_slatArmor_vAnims isEqualType []) then {
+							if (!(_QS_action_slatArmor_vAnims isEqualTo [])) then {
+								if (!(_QS_interaction_slatArmor)) then {
+									if (!((_QS_action_slatArmor_vAnims findIf {((_QS_v2 animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
+										_QS_action_slatArmor_array set [0,_QS_action_slatArmor_textB];
+										_QS_action_slatArmor_array set [2,[_QS_v2,0,_QS_action_slatArmor_vAnims]];
 									} else {
-										if (!((_QS_action_slatArmor_vAnims findIf {((_QS_v2 animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
-											if ((_QS_action_slatArmor_array select 0) isEqualTo _QS_action_slatArmor_textA) then {
-												_QS_interaction_slatArmor = _false;
-												player removeAction _QS_action_slatArmor;
-											};
-										} else {
-											if ((_QS_action_slatArmor_array select 0) isEqualTo _QS_action_slatArmor_textB) then {
-												_QS_interaction_slatArmor = _false;
-												player removeAction _QS_action_slatArmor;
-											};
-										};
+										_QS_action_slatArmor_array set [0,_QS_action_slatArmor_textA];
+										_QS_action_slatArmor_array set [2,[_QS_v2,1,_QS_action_slatArmor_vAnims]];
 									};
+									_QS_interaction_slatArmor = _true;
+									_QS_action_slatArmor = player addAction _QS_action_slatArmor_array;
+									player setUserActionText [_QS_action_slatArmor,((player actionParams _QS_action_slatArmor) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_slatArmor) select 0)])];
 								} else {
-									if (_QS_interaction_slatArmor) then {
-										_QS_interaction_slatArmor = _false;
-										player removeAction _QS_action_slatArmor;
+									if (!((_QS_action_slatArmor_vAnims findIf {((_QS_v2 animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1)) then {
+										if ((_QS_action_slatArmor_array select 0) isEqualTo _QS_action_slatArmor_textA) then {
+											_QS_interaction_slatArmor = _false;
+											player removeAction _QS_action_slatArmor;
+										};
+									} else {
+										if ((_QS_action_slatArmor_array select 0) isEqualTo _QS_action_slatArmor_textB) then {
+											_QS_interaction_slatArmor = _false;
+											player removeAction _QS_action_slatArmor;
+										};
 									};
 								};
 							} else {
@@ -3578,11 +3548,11 @@ for '_x' from 0 to 1 step 0 do {
 									player removeAction _QS_action_slatArmor;
 								};
 							};
-						};
-					} else {
-						if (_QS_interaction_slatArmor) then {
-							_QS_interaction_slatArmor = _false;
-							player removeAction _QS_action_slatArmor;
+						} else {
+							if (_QS_interaction_slatArmor) then {
+								_QS_interaction_slatArmor = _false;
+								player removeAction _QS_action_slatArmor;
+							};
 						};
 					};
 				} else {
@@ -3591,88 +3561,80 @@ for '_x' from 0 to 1 step 0 do {
 						player removeAction _QS_action_slatArmor;
 					};
 				};
-				
-				/*/===== Action Rappelling/*/
-				
-				if (_QS_rappelling) then {
-					/*/===== Action Rappel Self/*/
-					if (!(_noObjectParent)) then {
-						if (_QS_v2 isKindOf 'Air') then {
-							if ((_QS_v2 distance2D _QS_module_safezone_pos) > 500) then {
-								if ([_QS_player,_QS_v2] call _fn_ARRappelFromHeliActionCheck) then {
-									if (!(_QS_interaction_rappelSelf)) then {
-										_QS_interaction_rappelSelf = _true;
-										_QS_action_rappelSelf = player addAction _QS_action_rappelSelf_array;
-										player setUserActionText [_QS_action_rappelSelf,((player actionParams _QS_action_rappelSelf) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelSelf) select 0)])];
-									};
-								} else {
-									if (_QS_interaction_rappelSelf) then {
-										_QS_interaction_rappelSelf = _false;
-										player removeAction _QS_action_rappelSelf;
-									};
-								};
-								if ([_QS_player] call _fn_ARRappelAIUnitsFromHeliActionCheck) then {
-									if (!(_QS_interaction_rappelAI)) then {
-										_QS_interaction_rappelAI = _true;
-										_QS_action_rappelAI = player addAction _QS_action_rappelAI_array;
-										player setUserActionText [_QS_action_rappelAI,((player actionParams _QS_action_rappelAI) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelAI) select 0)])];
-									};
-								} else {
-									if (_QS_interaction_rappelAI) then {
-										_QS_interaction_rappelAI = _false;
-										player removeAction _QS_action_rappelAI;
-									};
-								};
-								if (_iAmPilot) then {
-									if (_QS_v2 isKindOf 'Helicopter') then {
-										if (_QS_player isEqualTo (effectiveCommander _QS_v2)) then {
-											if (!(_QS_interaction_rappelSafety)) then {
-												_QS_interaction_rappelSafety = _true;
-												if (isNil {_QS_v2 getVariable 'QS_rappellSafety'}) then {
-													_QS_action_rappelSafety_array set [0,_QS_action_rappelSafety_textDisable];
-												} else {
-													_QS_action_rappelSafety_array set [0,_QS_action_rappelSafety_textEnable];
-												};
-												_QS_action_rappelSafety = player addAction _QS_action_rappelSafety_array;
-												player setUserActionText [_QS_action_rappelSafety,((player actionParams _QS_action_rappelSafety) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelSafety) select 0)])];
-											} else {
-												if (isNil {_QS_v2 getVariable 'QS_rappellSafety'}) then {
-													if ((_QS_action_rappelSafety_array select 0) isEqualTo _QS_action_rappelSafety_textEnable) then {
-														_QS_interaction_rappelSafety = _false;
-														player removeAction _QS_action_rappelSafety;
-													};
-												} else {
-													if ((_QS_action_rappelSafety_array select 0) isEqualTo _QS_action_rappelSafety_textDisable) then {
-														_QS_interaction_rappelSafety = _false;
-														player removeAction _QS_action_rappelSafety;
-													};
-												};
-											};
-										} else {
-											if (_QS_interaction_rappelSafety) then {
-												_QS_interaction_rappelSafety = _false;
-												player removeAction _QS_action_rappelSafety;
-											};
-										};	
-									} else {
-										if (_QS_interaction_rappelSafety) then {
-											_QS_interaction_rappelSafety = _false;
-											player removeAction _QS_action_rappelSafety;
-										};
-									};
+			} else {
+				if (_QS_interaction_slatArmor) then {
+					_QS_interaction_slatArmor = _false;
+					player removeAction _QS_action_slatArmor;
+				};
+			};
+			
+			/*/===== Action Rappelling/*/
+			
+			if (_QS_rappelling) then {
+				/*/===== Action Rappel Self/*/
+				if (!(_noObjectParent)) then {
+					if (_QS_v2 isKindOf 'Air') then {
+						if ((_QS_v2 distance2D _QS_module_safezone_pos) > 500) then {
+							if ([_QS_player,_QS_v2] call _fn_ARRappelFromHeliActionCheck) then {
+								if (!(_QS_interaction_rappelSelf)) then {
+									_QS_interaction_rappelSelf = _true;
+									_QS_action_rappelSelf = player addAction _QS_action_rappelSelf_array;
+									player setUserActionText [_QS_action_rappelSelf,((player actionParams _QS_action_rappelSelf) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelSelf) select 0)])];
 								};
 							} else {
 								if (_QS_interaction_rappelSelf) then {
 									_QS_interaction_rappelSelf = _false;
 									player removeAction _QS_action_rappelSelf;
 								};
+							};
+							if ([_QS_player] call _fn_ARRappelAIUnitsFromHeliActionCheck) then {
+								if (!(_QS_interaction_rappelAI)) then {
+									_QS_interaction_rappelAI = _true;
+									_QS_action_rappelAI = player addAction _QS_action_rappelAI_array;
+									player setUserActionText [_QS_action_rappelAI,((player actionParams _QS_action_rappelAI) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelAI) select 0)])];
+								};
+							} else {
 								if (_QS_interaction_rappelAI) then {
 									_QS_interaction_rappelAI = _false;
 									player removeAction _QS_action_rappelAI;
 								};
-								if (_QS_interaction_rappelSafety) then {
-									_QS_interaction_rappelSafety = _false;
-									player removeAction _QS_action_rappelSafety;
+							};
+							if (_iAmPilot) then {
+								if (_QS_v2 isKindOf 'Helicopter') then {
+									if (_QS_player isEqualTo (effectiveCommander _QS_v2)) then {
+										if (!(_QS_interaction_rappelSafety)) then {
+											_QS_interaction_rappelSafety = _true;
+											if (isNil {_QS_v2 getVariable 'QS_rappellSafety'}) then {
+												_QS_action_rappelSafety_array set [0,_QS_action_rappelSafety_textDisable];
+											} else {
+												_QS_action_rappelSafety_array set [0,_QS_action_rappelSafety_textEnable];
+											};
+											_QS_action_rappelSafety = player addAction _QS_action_rappelSafety_array;
+											player setUserActionText [_QS_action_rappelSafety,((player actionParams _QS_action_rappelSafety) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelSafety) select 0)])];
+										} else {
+											if (isNil {_QS_v2 getVariable 'QS_rappellSafety'}) then {
+												if ((_QS_action_rappelSafety_array select 0) isEqualTo _QS_action_rappelSafety_textEnable) then {
+													_QS_interaction_rappelSafety = _false;
+													player removeAction _QS_action_rappelSafety;
+												};
+											} else {
+												if ((_QS_action_rappelSafety_array select 0) isEqualTo _QS_action_rappelSafety_textDisable) then {
+													_QS_interaction_rappelSafety = _false;
+													player removeAction _QS_action_rappelSafety;
+												};
+											};
+										};
+									} else {
+										if (_QS_interaction_rappelSafety) then {
+											_QS_interaction_rappelSafety = _false;
+											player removeAction _QS_action_rappelSafety;
+										};
+									};	
+								} else {
+									if (_QS_interaction_rappelSafety) then {
+										_QS_interaction_rappelSafety = _false;
+										player removeAction _QS_action_rappelSafety;
+									};
 								};
 							};
 						} else {
@@ -3702,67 +3664,75 @@ for '_x' from 0 to 1 step 0 do {
 							_QS_interaction_rappelSafety = _false;
 							player removeAction _QS_action_rappelSafety;
 						};
-					};				
-					/*/===== Action Rappel Detach/*/
+					};
+				} else {
+					if (_QS_interaction_rappelSelf) then {
+						_QS_interaction_rappelSelf = _false;
+						player removeAction _QS_action_rappelSelf;
+					};
+					if (_QS_interaction_rappelAI) then {
+						_QS_interaction_rappelAI = _false;
+						player removeAction _QS_action_rappelAI;
+					};
+					if (_QS_interaction_rappelSafety) then {
+						_QS_interaction_rappelSafety = _false;
+						player removeAction _QS_action_rappelSafety;
+					};
+				};				
+				/*/===== Action Rappel Detach/*/
 
-					if ([_QS_player] call _fn_AIRappelDetachActionCheck) then {
-						if (!(_QS_interaction_rappelDetach)) then {
-							_QS_interaction_rappelDetach = _true;
-							_QS_action_rappelDetach = player addAction _QS_action_rappelDetach_array;
-							player setUserActionText [_QS_action_rappelDetach,((player actionParams _QS_action_rappelDetach) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelDetach) select 0)])];
-						};
-					} else {
-						if (_QS_interaction_rappelDetach) then {
-							_QS_interaction_rappelDetach = _false;
-							player removeAction _QS_action_rappelDetach;
-						};
-					};	
-				};
-				
-				/*/===== Action Release/*/
+				if ([_QS_player] call _fn_AIRappelDetachActionCheck) then {
+					if (!(_QS_interaction_rappelDetach)) then {
+						_QS_interaction_rappelDetach = _true;
+						_QS_action_rappelDetach = player addAction _QS_action_rappelDetach_array;
+						player setUserActionText [_QS_action_rappelDetach,((player actionParams _QS_action_rappelDetach) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_rappelDetach) select 0)])];
+					};
+				} else {
+					if (_QS_interaction_rappelDetach) then {
+						_QS_interaction_rappelDetach = _false;
+						player removeAction _QS_action_rappelDetach;
+					};
+				};	
+			};
+			
+			/*/===== Action Release/*/
 
-				if (!(((attachedObjects _QS_player) findIf {((!isNull _x) && ((_x isKindOf 'Man') || {([0,_x,_objNull] call _fn_getCustomCargoParams)} || {(_x isKindOf 'StaticWeapon')}))}) isEqualTo -1)) then {
-					{
-						if ((_x isKindOf 'Man') || {([0,_x,_objNull] call _fn_getCustomCargoParams)} || {(_x isKindOf 'StaticWeapon')}) then {
+			if (!(((attachedObjects _QS_player) findIf {((!isNull _x) && ((_x isKindOf 'Man') || {([0,_x,_objNull] call _fn_getCustomCargoParams)} || {(_x isKindOf 'StaticWeapon')}))}) isEqualTo -1)) then {
+				{
+					if ((_x isKindOf 'Man') || {([0,_x,_objNull] call _fn_getCustomCargoParams)} || {(_x isKindOf 'StaticWeapon')}) then {
+						if (!(_QS_interaction_release)) then {
+							_QS_interaction_release = _true;
+							_QS_action_release = player addAction _QS_action_release_array;
+							player setUserActionText [_QS_action_release,((player actionParams _QS_action_release) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_release) select 0)])];
+						};
+						if (_x getVariable ['QS_RD_escorted',_false]) then {
 							if (!(_QS_interaction_release)) then {
 								_QS_interaction_release = _true;
 								_QS_action_release = player addAction _QS_action_release_array;
 								player setUserActionText [_QS_action_release,((player actionParams _QS_action_release) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_release) select 0)])];
 							};
-							if (_x getVariable ['QS_RD_escorted',_false]) then {
-								if (!(_QS_interaction_release)) then {
-									_QS_interaction_release = _true;
-									_QS_action_release = player addAction _QS_action_release_array;
-									player setUserActionText [_QS_action_release,((player actionParams _QS_action_release) select 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_release) select 0)])];
-								};
-							};
 						};
-					} count (attachedObjects _QS_player);
-				} else {
-					if (_QS_interaction_release) then {
-						_QS_interaction_release = _false;
-						player removeAction _QS_action_release;
-						if (!isNil {player getVariable 'QS_RD_interacting'}) then {
-							if (player getVariable 'QS_RD_interacting') then {
-								_QS_player setVariable ['QS_RD_interacting',_false,_true];
-							};
+					};
+				} count (attachedObjects _QS_player);
+			} else {
+				if (_QS_interaction_release) then {
+					_QS_interaction_release = _false;
+					player removeAction _QS_action_release;
+					if (!isNil {player getVariable 'QS_RD_interacting'}) then {
+						if (player getVariable 'QS_RD_interacting') then {
+							_QS_player setVariable ['QS_RD_interacting',_false,_true];
 						};
-						if (!isNil {player getVariable 'QS_RD_escorting'}) then {
-							if (player getVariable 'QS_RD_escorting') then {
-								_QS_player setVariable ['QS_RD_escorting',_false,_true];
-							};
+					};
+					if (!isNil {player getVariable 'QS_RD_dragging'}) then {
+						if (player getVariable 'QS_RD_dragging') then {
+							player setVariable ['QS_RD_dragging',_false,_true];
+							_QS_player playAction 'released';
 						};
-						if (!isNil {player getVariable 'QS_RD_dragging'}) then {
-							if (player getVariable 'QS_RD_dragging') then {
-								player setVariable ['QS_RD_dragging',_false,_true];
-								_QS_player playAction 'released';
-							};
-						};
-						if (!isNil {player getVariable 'QS_RD_carrying'}) then {
-							if (player getVariable 'QS_RD_carrying') then {
-								player setVariable ['QS_RD_carrying',_false,_true];
-								_QS_player playMoveNow 'AidlPknlMstpSrasWrflDnon_AI';
-							};
+					};
+					if (!isNil {player getVariable 'QS_RD_carrying'}) then {
+						if (player getVariable 'QS_RD_carrying') then {
+							player setVariable ['QS_RD_carrying',_false,_true];
+							_QS_player playMoveNow 'AidlPknlMstpSrasWrflDnon_AI';
 						};
 					};
 				};
@@ -3782,21 +3752,6 @@ for '_x' from 0 to 1 step 0 do {
 		if (!isNil {player getVariable 'QS_RD_dragging'}) then {
 			if (player getVariable 'QS_RD_dragging') then {
 				player setVariable ['QS_RD_dragging',_false,_true];
-			};
-		};
-		if (!isNil {player getVariable 'QS_RD_escorting'}) then {
-			if (player getVariable 'QS_RD_escorting') then {
-				if (!(((attachedObjects _QS_player) findIf {((!isNull _x) && (_x isKindOf 'CAManBase'))}) isEqualTo -1)) then {
-					{
-						if (_x isKindOf 'Man') then {
-							_x setVariable ['QS_RD_escorted',_false,_true];
-							_x setVariable ['QS_RD_interacted',_false,_true];
-							_x setVariable ['QS_RD_interacting',_false,_true];
-							detach _x;
-						};
-					} count (attachedObjects _QS_player);
-				};
-				player setVariable ['QS_RD_escorting',_false,_true];
 			};
 		};
 	};
@@ -3854,40 +3809,6 @@ for '_x' from 0 to 1 step 0 do {
 											};
 										};
 									};
-								};
-							} count (attachedObjects _QS_player);							
-						};
-					};
-				};
-			};
-			if (!isNil {player getVariable 'QS_RD_escorting'}) then {
-				if (player getVariable 'QS_RD_escorting') then {
-					if (((attachedObjects _QS_player) isEqualTo []) || {(((attachedObjects _QS_player) findIf {((!isNull _x) && (_x isKindOf 'Man'))}) isEqualTo -1)}) then {
-						player setVariable ['QS_RD_escorting',_false,_true];
-					} else {
-						{
-							if (_x isKindOf 'Man') then {
-								if (!isNil {_x getVariable 'QS_RD_escorted'}) then {
-									if (_x getVariable 'QS_RD_escorted') then {
-										if ((isNull _x) || {(!alive _x)}) then {
-											detach _x;
-											player setVariable ['QS_RD_escorting',_false,_true];
-										};
-									};
-								};
-							};
-						} count (attachedObjects _QS_player);
-					};
-					if (!(isNull _objectParent)) then {
-						if (!(((attachedObjects _QS_player) findIf {(!isNull _x)}) isEqualTo -1)) then {
-							{
-								if (_x isKindOf 'Man') then {
-									detach _x;
-									_x setVariable ['QS_RD_escorted',_false,_true];
-									_x setVariable ['QS_RD_interacted',_false,_true];
-									_x setVariable ['QS_RD_interacting',_false,_true];
-									player setVariable ['QS_RD_escorting',_false,_true];
-									player setVariable ['QS_RD_interacting',_false,_true];
 								};
 							} count (attachedObjects _QS_player);
 						};
@@ -4503,27 +4424,27 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if ((isNull _x) || {(!alive _x)}) then {
 								_newArray = (player getVariable 'QS_IA_PP_loadedAtBase') - [_x];
-								player setVariable ['QS_IA_PP_loadedAtBase',_newArray,_true];
 							};
 						} count _loadedAtBase;
+						player setVariable ['QS_IA_PP_loadedAtBase',_newArray,_true];
 					};
 					_loadedAtMission = player getVariable 'QS_IA_PP_loadedAtMission';
 					if (!(_loadedAtMission isEqualTo [])) then {
 						{
 							if ((isNull _x) || {(!alive _x)}) then {
 								_newArray = (player getVariable 'QS_IA_PP_loadedAtMission') - [_x];
-								player setVariable ['QS_IA_PP_loadedAtMission',_newArray,_true];
 							};
 						} count _loadedAtMission;
+						player setVariable ['QS_IA_PP_loadedAtMission',_newArray,_true];
 					};
 					_loadedInField = player getVariable 'QS_IA_PP_loadedInField';
 					if (!(_loadedInField isEqualTo [])) then {
 						{
 							if ((isNull _x) || {(!alive _x)}) then {
 								_newArray = (player getVariable 'QS_IA_PP_loadedInField') - [_x];
-								player setVariable ['QS_IA_PP_loadedInField',_newArray,_true];
 							};
 						} count _loadedInField;
+						player setVariable ['QS_IA_PP_loadedInField',_newArray,_true];
 					};
 				};
 			};

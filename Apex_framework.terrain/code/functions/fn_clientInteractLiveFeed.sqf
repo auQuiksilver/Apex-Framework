@@ -6,14 +6,14 @@ Author:
 	
 Last Modified:
 
-	18/09/2015 ArmA 3 1.50 by Quiksilver
+	22/08/2018 ArmA 3 1.84 by Quiksilver
 
 Description:
 
 	Live Feed toggle
 __________________________________________________________*/
 
-private _onOrOff = player getVariable 'QS_RD_client_liveFeed';
+private _onOrOff = player getVariable ['QS_RD_client_liveFeed',FALSE];
 if (_onOrOff) then {
 	player setVariable ['QS_RD_client_liveFeed',FALSE,FALSE];
 	playSound 'clickSoft';

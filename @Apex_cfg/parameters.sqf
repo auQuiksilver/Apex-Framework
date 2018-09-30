@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	17/08/2018 A3 1.82 by Quiksilver
+	30/09/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -64,10 +64,12 @@ _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default 
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 _enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
-_commander = 2;											// [Beta] Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel, and view bodycam live feeds of any soldier.
+_commander = 2;											// Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel, and view bodycam live feeds of any soldier.
 _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable side missions.
 _artillery = 1;											// Base artillery.	0 - Disabled. 1 - Enabled. 	If enabled, a self-propelled artillery asset is available for use. Does not affect Mk.6 mortars access. Does not affect naval artillery.
 _artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1). Note: Applies to mortars as well.
+_mapContentEnemy = 1;									// Enemy Map Indicators. 	0 - Disabled. 1 - Enabled. Recommended = 1.	    Controls whether enemies known to the player are visible on the map.
+_recruitableAI = 1;										// Recruitable AI.	0 - Disabled. 1 - Enabled. 		If there are recruitable AI available (default base layout or placed by you in custom base layout), this toggles them on or off.
 
 //===================================================== SYSTEM
 
@@ -175,6 +177,8 @@ if (_aircraft_carrier_enabled > 0) then {
 	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
 	['QS_missionConfig_arty',_artillery,FALSE],
 	['QS_missionConfig_artyEngine',_artilleryComputer,TRUE],
+	['QS_missionConfig_mapContentEnemy',_mapContentEnemy,TRUE],
+	['QS_missionConfig_recruitableAI',_recruitableAI,FALSE],
 	['QS_missionConfig_carrierEnabled',_aircraft_carrier_enabled,TRUE],
 	['QS_missionConfig_carrierVehicles',_aircraft_carrier_vehicles,TRUE],
 	['QS_missionConfig_carrierRespawn',_aircraft_carrier_respawning,TRUE],

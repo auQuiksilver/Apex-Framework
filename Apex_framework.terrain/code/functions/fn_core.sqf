@@ -6,7 +6,7 @@ Author:
 
 Last modified: 
 
-	7/06/2018 A3 1.82 by Quiksilver
+	30/09/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -304,16 +304,16 @@ _sideMissionList = [
 		'QS_fnc_SMregenerator'
 	],
 	[
-		0.2,							// Side mission frequency weighting  ( https://community.bistudio.com/wiki/selectRandomWeighted )
+		0.2,							// Side mission frequency weighting (of the above missions)  ( https://community.bistudio.com/wiki/selectRandomWeighted )
+		0.2,
+		0.3,
+		0.4,
+		0.4,
 		0.2,
 		0.2,
 		0.2,
-		0.2,
-		0.2,
-		0.2,
-		0.2,
-		0.2,
-		0.2
+		0.3,
+		0.3
 	]
 ];
 _sideMissionRefreshAt = 2;
@@ -373,11 +373,15 @@ private _HVT_laserTargets = [];
 private _HVT_fn_isStealthy = {
 	params ['_vehicle'];
 	private _c = FALSE;
-	if (((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) || (!isEngineOn _vehicle)) then {
-		if (!isOnRoad _vehicle) then {
-			if (!((toLower (surfaceType (getPosWorld _vehicle))) in ['#gdtasphalt'])) then {
-				if ((((getPosATL _vehicle) getEnvSoundController 'houses') isEqualTo 0) || {(((getPosATL _vehicle) getEnvSoundController 'forest') isEqualTo 1)}) then {
-					_c = TRUE;
+	if ((((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) && (((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)) || {(!isEngineOn _vehicle)}) then {
+		if (!isVehicleRadarOn _vehicle) then {
+			if (!isLaserOn _vehicle) then {
+				if (!isOnRoad _vehicle) then {
+					if (!((toLower (surfaceType (getPosWorld _vehicle))) in ['#gdtasphalt'])) then {
+						if ((((getPosATL _vehicle) getEnvSoundController 'houses') isEqualTo 0) || {(((getPosATL _vehicle) getEnvSoundController 'forest') isEqualTo 1)}) then {
+							_c = TRUE;
+						};
+					};
 				};
 			};
 		};
@@ -844,7 +848,7 @@ if (_QS_helmetCam) then {
 
 /*/===== RECRUITABLE AI*/
 
-_QS_module_recruitableAI = TRUE;
+_QS_module_recruitableAI = TRUE && ((missionNamespace getVariable ['QS_missionConfig_recruitableAI',1]) isEqualTo 1);
 if (_QS_module_recruitableAI) then {
 	_QS_module_recruitableAI_delay = 15;
 	_QS_module_recruitableAI_checkDelay = time + _QS_module_recruitableAI_delay;
@@ -4570,7 +4574,6 @@ for '_x' from 0 to 1 step 0 do {
 														};
 														_unit setVariable ['QS_RD_dragged',_false,_true];
 														_unit setVariable ['QS_RD_interacting',_false,_true];
-														_unit setVariable ['QS_RD_interacted',_false,_true];
 													};
 												};
 											};
@@ -4591,29 +4594,27 @@ for '_x' from 0 to 1 step 0 do {
 														};
 														_unit setVariable ['QS_RD_carried',_false,_true];
 														_unit setVariable ['QS_RD_interacting',_false,_true];
-														_unit setVariable ['QS_RD_interacted',_false,_true];
 													};
-												};								
+												};
 											};
 										};
 									};
-									if (!isNil {_unit getVariable 'QS_RD_escorted'}) then {
-										if (_unit getVariable 'QS_RD_escorted') then {
-											if (isNull (attachedTo _unit)) then {
-												if (!isNil {_unit getVariable 'QS_RD_storedAnim'}) then {
-													if ((_unit getVariable 'QS_RD_storedAnim') isEqualType '') then {
-														0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
-													} else {
-														0 = ['switchMove',_unit,''] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
-													};
+									if (_unit getVariable ['QS_RD_escorted',_false]) then {
+										if (isNull (attachedTo _unit)) then {
+											if (!isNil {_unit getVariable 'QS_RD_storedAnim'}) then {
+												if ((_unit getVariable 'QS_RD_storedAnim') isEqualType '') then {
+													0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 												} else {
 													0 = ['switchMove',_unit,''] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 												};
-												_unit setVariable ['QS_RD_escorted',_false,_true];
-												_unit setVariable ['QS_RD_interacting',_false,_true];
-												_unit setVariable ['QS_RD_interacted',_false,_true];
+											} else {
+												0 = ['switchMove',_unit,''] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 											};
-										};							
+											if (!isPlayer _unit) then {
+												_unit setVariable ['QS_RD_escorted',_false,_true];
+											};
+											_unit setVariable ['QS_RD_interacting',_false,_true];
+										};
 									};
 								} else {
 									_missionObjectives set [_forEachIndex,_false];

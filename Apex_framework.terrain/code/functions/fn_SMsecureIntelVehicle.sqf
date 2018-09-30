@@ -6,22 +6,20 @@ Author:
 	
 Last Modified:
 
-	5/10/2017 A3 1.76 by Quiksilver
+	7/9/2018 A3 1.84 by Quiksilver
 	
 Description:
 
 	Recover intel from a vehicle
-	
-	((([_position select 0,_position select 1] nearRoads 25) select {((_x isEqualType objNull) && (!((count (roadsConnectedTo _x)) isEqualTo 0)))}) isEqualTo [])
 ___________________________________________________________________________/*/
 
 scriptName 'Side Mission - Secure Intel Vehicle';
 
 private [
-	"_objVehTypes","_chaseTime","_chaseTimer","_objVehType","_emptySpawnPos","_altVehTypes","_altVehType","_objUnitTypes",
-	"_objUnitType","_currentIntelPos","_notEscaping","_gettingAway","_heEscaped","_aGroup","_bGroup","_cGroup","_objUnit1",
-	"_objUnit2","_objUnit3","_obj1","_obj2","_obj3","_intelObj","_enemiesArray","_randomDir","_poi","_flatPos","_flatPos1",
-	"_flatPos2","_flatPos3","_position","_accepted","_fuzzyPos","_briefing","_escapeWP",'_crewUnitType'
+	'_objVehTypes','_chaseTime','_chaseTimer','_objVehType','_emptySpawnPos','_altVehTypes','_altVehType','_objUnitTypes',
+	'_objUnitType','_currentIntelPos','_notEscaping','_gettingAway','_heEscaped','_aGroup','_bGroup','_cGroup','_objUnit1',
+	'_objUnit2','_objUnit3','_obj1','_obj2','_obj3','_intelObj','_enemiesArray','_randomDir','_poi','_flatPos','_flatPos1',
+	'_flatPos2','_flatPos3','_position','_accepted','_fuzzyPos','_briefing','_escapeWP','_crewUnitType'
 ];
 
 if (worldName isEqualTo 'Tanoa') then {
@@ -84,6 +82,7 @@ _obj1 setDir (random 360);
 _obj1 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj1 enableRopeAttach FALSE;
 _obj1 enableVehicleCargo FALSE;
+_obj1 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _aGroup = createGroup [EAST,TRUE];
 _objUnit1 = _aGroup createUnit [(selectRandom _objUnitTypes),_flatPos1,[],0,'NONE'];
 missionNamespace setVariable [
@@ -107,6 +106,7 @@ _obj2 setDir (random 360);
 _obj2 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj2 enableRopeAttach FALSE;
 _obj2 enableVehicleCargo FALSE;
+_obj2 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _bGroup = createGroup [EAST,TRUE];
 _objUnit2 = _bGroup createUnit [(selectRandom _objUnitTypes),_flatPos1,[],0,'NONE'];
 missionNamespace setVariable [
@@ -130,6 +130,7 @@ _obj3 setDir (random 360);
 _obj3 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj3 enableRopeAttach FALSE;
 _obj3 enableVehicleCargo FALSE;
+_obj3 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _cGroup = createGroup [EAST,TRUE];
 _objUnit3 = _cGroup createUnit [(selectRandom _objUnitTypes),_flatPos2,[],0,'NONE'];
 missionNamespace setVariable [

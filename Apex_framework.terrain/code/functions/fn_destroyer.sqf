@@ -316,6 +316,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					} forEach [
 						'magazine_Missiles_Cruise_01_Cluster_x18'
 					];
+					/*/
 					_turret addEventHandler [
 						'Fired',
 						{
@@ -341,6 +342,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 							};
 						}
 					];
+					/*/
 				};
 				if ((toLower (_x select 0)) in ['b_ship_gun_01_f']) then {
 					{
@@ -399,6 +401,16 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 							_boatRack setVehicleCargo _this;
 						};
 					};
+					sleep 1;
+					_this addEventHandler [
+						'GetIn',
+						{
+							params ['_v','','',''];
+							_v enableSimulationGlobal TRUE;
+							_v removeEventHandler ['GetIn',_thisEventHandler];
+						}
+					];
+					_this enableSimulationGlobal FALSE;
 				};
 			},
 			(['b_boat_armed_01_minigun_f','b_t_boat_armed_01_minigun_f'] select (worldName in ['Tanoa','Lingor3'])),
@@ -416,6 +428,16 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 							_boatRack setVehicleCargo _this;
 						};
 					};
+					sleep 1;
+					_this addEventHandler [
+						'GetIn',
+						{
+							params ['_v','','',''];
+							_v enableSimulationGlobal TRUE;
+							_v removeEventHandler ['GetIn',_thisEventHandler];
+						}
+					];
+					_this enableSimulationGlobal FALSE;
 				};
 			},
 			(['b_boat_armed_01_minigun_f','b_t_boat_armed_01_minigun_f'] select (worldName in ['Tanoa','Lingor3'])),
@@ -428,7 +450,19 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 		} forEach [
 			// Heli 1
 			[objNull,30,false,{
-				_this setVelocity [0,0,0];	
+				_this setVelocity [0,0,0];
+				_this spawn {
+					sleep 2;
+					_this addEventHandler [
+						'GetIn',
+						{
+							params ['_v','','',''];
+							_v enableSimulationGlobal TRUE;
+							_v removeEventHandler ['GetIn',_thisEventHandler];
+						}
+					];
+					_this enableSimulationGlobal FALSE;
+				};
 			},
 			'b_heli_transport_01_f',
 			((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0.144043,77.332,10.9379]),((getDir (missionNamespace getVariable 'QS_destroyerObject')) - -179.518),false,0,-1,250,250,-1,5,FALSE,1]

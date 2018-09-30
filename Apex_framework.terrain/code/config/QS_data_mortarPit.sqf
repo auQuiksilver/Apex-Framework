@@ -108,7 +108,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 			_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
 			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];	
 			_mortar;
 		}], 
 		["Land_BagFence_01_round_green_F",[2.76563,0.580566,-0.0026021],190.105,[],false,false,TRUE,{}], 

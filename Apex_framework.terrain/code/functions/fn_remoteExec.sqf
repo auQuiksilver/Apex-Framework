@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	14/06/2018 A3 1.82 by Quiksilver
+	22/08/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -852,46 +852,19 @@ if (_case < 50) exitWith {
 			[nil,_array] call (missionNamespace getVariable 'QS_fnc_atAdjust');
 		};
 	};
-	/*/===== Register Healer/*/
 	if (_case isEqualTo 43) then {
-		if (isDedicated) then {
-			_array = _this select 1;
-			private ['_object','_puid'];
-			_object = _array select 0;
-			_puid = _array select 1;
-			_i = ((missionNamespace getVariable 'QS_leaderboards') select 2) findIf {((_x select 0) isEqualTo _puid)};
-			if (_i isEqualTo -1) then {
-				_object setVariable ['QS_IA_revivePoints',0,TRUE];
-			} else {
-				_element = ((missionNamespace getVariable 'QS_leaderboards') select 2) select _i;
-				_object setVariable ['QS_IA_revivePoints',(_element select 1),TRUE];
-			};	
-		};
+		// Unused
 	};
-	/*/===== Register Pilot/*/
 	if (_case isEqualTo 44) then {
-		if (isDedicated) then {
-			_array = _this select 1;
-			private ['_object','_puid'];
-			_object = _array select 0;
-			_puid = _array select 1;
-			_i = ((missionNamespace getVariable 'QS_leaderboards') select 1) findIf {((_x select 0) isEqualTo _puid)};
-			if (_i isEqualTo -1) then {
-				_object setVariable ['QS_IA_PP',0,TRUE];
-			} else {
-				_element = ((missionNamespace getVariable 'QS_leaderboards') select 1) select _i;
-				_object setVariable ['QS_IA_PP',(_element select 1),TRUE];
-			};
-		};
+		// Unused
 	};
-	/*/===== Register Collector/*/
+	/*/===== Register Leaderboard/*/
 	if (_case isEqualTo 45) then {
 		if (isDedicated) then {
 			_array = _this select 1;
-			private ['_object','_puid','_i','_element'];
-			_object = _array select 0;
-			_puid = _array select 1;
-			_i = ((missionNamespace getVariable 'QS_leaderboards') select 3) findIf {((_x select 0) isEqualTo _puid)};
+			_array params ['_object','_puid','_isMedic','_isPilot'];
+			private _element = -1;
+			private _i = ((missionNamespace getVariable 'QS_leaderboards') select 3) findIf {((_x select 0) isEqualTo _puid)};
 			if (_i isEqualTo -1) then {
 				_object setVariable ['QS_IA_earPoints',0,TRUE];
 			} else {
@@ -904,6 +877,24 @@ if (_case < 50) exitWith {
 			} else {
 				_element = ((missionNamespace getVariable 'QS_leaderboards') select 4) select _i;
 				_object setVariable ['QS_IA_toothPoints',(_element select 1),TRUE];
+			};
+			if (_isMedic) then {
+				_i = ((missionNamespace getVariable 'QS_leaderboards') select 2) findIf {((_x select 0) isEqualTo _puid)};
+				if (_i isEqualTo -1) then {
+					_object setVariable ['QS_IA_revivePoints',0,TRUE];
+				} else {
+					_element = ((missionNamespace getVariable 'QS_leaderboards') select 2) select _i;
+					_object setVariable ['QS_IA_revivePoints',(_element select 1),TRUE];
+				};
+			};
+			if (_isPilot) then {
+				_i = ((missionNamespace getVariable 'QS_leaderboards') select 1) findIf {((_x select 0) isEqualTo _puid)};
+				if (_i isEqualTo -1) then {
+					_object setVariable ['QS_IA_PP',0,TRUE];
+				} else {
+					_element = ((missionNamespace getVariable 'QS_leaderboards') select 1) select _i;
+					_object setVariable ['QS_IA_PP',(_element select 1),TRUE];
+				};
 			};
 		};
 	};

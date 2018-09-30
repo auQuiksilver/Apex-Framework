@@ -20,6 +20,7 @@ setViewDistance 1200;
 setObjectViewDistance 1000;
 setTerrainGrid 50;
 setShadowDistance 0;
+if (TRUE) exitWith {};	// Headless client system not currently functional.
 [20,player] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 private _timeNow = time;
 private _tickTimeNow = diag_tickTime;

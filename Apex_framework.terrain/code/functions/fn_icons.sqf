@@ -71,6 +71,7 @@ _QS_ST_map_enableUnitIcons = TRUE;														// BOOL. TRUE to enable MAP unit
 _QS_ST_gps_enableUnitIcons = TRUE;														// BOOL. TRUE to enable GPS unit/vehicle Icons. Default TRUE.
 _QS_ST_enableGroupIcons = player getUnitTrait 'QS_trait_HQ';							// BOOL. TRUE to enable Map+GPS+HUD GROUP Icons. Default TRUE.
 
+// These are overridden by custom scripted systems
 disableMapIndicators [
 	TRUE,				// --- Friendly
 	TRUE,				// --- Enemy
@@ -206,7 +207,7 @@ _QS_ST_GRPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GP
 _QS_ST_showEmptyVehicles = FALSE;								// BOOL. TRUE to mark certain unoccupied vehicles on the map. The vehicle must be assigned this variable:    <vehicle> setVariable ['QS_ST_drawEmptyVehicle',TRUE,TRUE];    Default FALSE.   Only works if  _QS_ST_map_enableUnitIcons = TRUE;
 _QS_ST_iconColor_empty = [0.7,0.6,0,0.5];						// ARRAY (NUMBERS). Color of unoccupied vehicles, in RGBA. Default = [0.7,0.6,0,0.5];
 _QS_ST_iconSize_empty = 20;										// NUMBER. Icon size of unoccupied vehicles, if shown.
-_QS_ST_showKnownEnemies = TRUE;									// BOOL. TRUE to mark known enemies on the map. Default - FALSE.
+_QS_ST_showKnownEnemies = TRUE && ((missionNamespace getVariable ['QS_missionConfig_mapContentEnemy',1]) isEqualTo 1);		// BOOL. TRUE to mark known enemies on the map. Default - FALSE.
 
 //==================================================================================//
 //================ TEXT (for LOCALIZATION / LANGUAGE TRANSLATION) ==================//
@@ -900,7 +901,7 @@ _QS_fnc_onMapSingleClick = {
 		if (player isEqualTo (leader (group player))) then {
 			private _nearUnit = objNull;
 			_nearUnits = (nearestObjects [_position,['CAManBase'],250,TRUE]) select {((alive _x) && ((group _x) isEqualTo (group player)) && (isNull (objectParent _x)))};
-			if ((count _nearUnits) > 0) then {
+			if (!(_nearUnits isEqualTo [])) then {
 				if ((count _nearUnits) > 1) then {
 					private _dist = 999999;
 					{
