@@ -348,11 +348,13 @@ for '_x' from 0 to 1 step 0 do {
 					if ((side (group _x)) isEqualTo _east) then {
 						if ((damage _x) > 0) then {
 							_unit = _x;
-							{
-								if (_x > 0) then {
-									_unit setHitIndex [_forEachIndex,(_x * 0.5),FALSE];
-								};
-							} forEach ((getAllHitPointsDamage _unit) select 2);
+							if (!((getAllHitPointsDamage _unit) isEqualTo [])) then {
+								{
+									if (_x > 0) then {
+										_unit setHitIndex [_forEachIndex,(_x * 0.5),FALSE];
+									};
+								} forEach ((getAllHitPointsDamage _unit) select 2);
+							};
 							uiSleep 0.005;
 						};
 					};

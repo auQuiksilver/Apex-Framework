@@ -536,7 +536,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 							if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
 								_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 								_fireMission params ['_firePosition','_fireShells','_fireRounds'];
-								
+								_allPlayerCount = count allPlayers;
 								private _cooldown = 0;
 								if (_allPlayerCount < 20) then {
 									_cooldown = 480 + (random 480);
@@ -547,14 +547,12 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 								if (_allPlayerCount >= 40) then {
 									_cooldown = 60 + (random 60);
 								};
-								
 								if (_firePosition inRangeOfArtillery [[_grpLeader],_fireShells]) then {
 									_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(_uiTime + _cooldown)],FALSE];								
 									_handle = [0,_grpLeader,_firePosition,_fireShells,_fireRounds] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 									(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
 								};
 								_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
-								_allPlayerCount = count allPlayers;
 								_grp setVariable ['QS_AI_GRP_MTR_cooldown',(diag_tickTime + _cooldown),FALSE];
 							};
 						};
@@ -602,7 +600,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						_v = _x;
 						if (alive _v) then {
 							if ((_grp getVariable ['QS_AI_GRP_services',[FALSE,FALSE,FALSE]]) select 0) then {
-								if (((damage _v) > 0) || {(!((((getAllHitPointsDamage _v) select 2) findIf {(_x > 0)}) isEqualTo -1))}) then {
+								if (((damage _v) > 0) || {((!((getAllHitPointsDamage _v) isEqualTo [])) && {(!((((getAllHitPointsDamage _v) select 2) findIf {(_x > 0)}) isEqualTo -1))})}) then {
 									_v setDamage [0,TRUE];
 								};
 							};
