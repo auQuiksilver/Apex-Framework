@@ -47,24 +47,27 @@ _______________
 6a. In your "server.cfg" file, ensure your server will load the correct difficulty options. Example:
 
 --------------------------
+```
 class Missions {
 
-class apex_framework {
+  class apex_framework {
 
-template="Apex_framework_111.Altis";
+    template="Apex_framework_111.Altis";
 
-//template="Apex_framework_111.Tanoa";
+    //template="Apex_framework_111.Tanoa";
 
-//template="Apex_framework_111.Malden";
+    //template="Apex_framework_111.Malden";
 
-difficulty="Custom";
+    difficulty="Custom";
 
+  };
 };
+```
 
-};
-
+```
 forcedDifficulty = "Custom";
 missionWhitelist[] = {"Apex_framework_111.Altis","Apex_framework_111.Tanoa","Apex_framework_111.Malden"};
+```
 
 --------------------------
 
