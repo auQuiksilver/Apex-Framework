@@ -47,34 +47,37 @@ _______________
 6a. In your "server.cfg" file, ensure your server will load the correct difficulty options. Example:
 
 --------------------------
+```
 class Missions {
 
-class apex_framework {
+  class apex_framework {
 
-template="Apex_framework_111.Altis";
+    template="Apex_framework_111.Altis";
 
-//template="Apex_framework_111.Tanoa";
+    //template="Apex_framework_111.Tanoa";
 
-//template="Apex_framework_111.Malden";
+    //template="Apex_framework_111.Malden";
 
-difficulty="Custom";
+    difficulty="Custom";
 
+  };
 };
+```
 
-};
-
+```
 forcedDifficulty = "Custom";
 missionWhitelist[] = {"Apex_framework_111.Altis","Apex_framework_111.Tanoa","Apex_framework_111.Malden"};
+```
 
 --------------------------
 
-6b. Ensure that:    forcedDifficulty = "Custom";
+6b. Ensure that:    ```forcedDifficulty = "Custom";```
 
 6c. At this time, also double check to ensure the mission template matches the mission you are trying to run.
 _______________
 7. In your "server.cfg" file, ensure you have a serverCommandPassword set. Example:
 
-serverCommandPassword = "ShVQArtpGdc5aDQq";
+```serverCommandPassword = "ShVQArtpGdc5aDQq";```
 
 Make note of the password you have (or created), you will need it now. Copy it to your clipboard.
 _______________
@@ -85,7 +88,7 @@ _______________
 8c. Locate this:
 
 
-_serverCommandPassword = "'ShVQArtpGdc5aDQq'";
+```_serverCommandPassword = "'ShVQArtpGdc5aDQq'";```
 
 
 8d. Ignoring the " and ' quotations (do not touch them), copy your serverCommandPassword into that line as shown. See #7 to compare.
@@ -94,7 +97,7 @@ _serverCommandPassword = "'ShVQArtpGdc5aDQq'";
 _______________
 9. In the "parameters.sqf" file, locate this:
 
-_main_mission_type = 'NONE';
+```_main_mission_type = 'NONE';```
 
 Using the notes and examples posted beneath that line, select the mission type you want to run. Reference:   https://i.imgur.com/FI8tWHZ.png
 _______________
