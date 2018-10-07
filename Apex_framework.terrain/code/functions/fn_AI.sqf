@@ -415,11 +415,6 @@ private _QS_module_tracers = _true;
 private _QS_module_tracers_delay = 600;
 private _QS_module_tracers_checkDelay = _QS_uiTime + _QS_module_tracers_delay;
 private _QS_module_tracers_checkOverride = _false;
-//comment 'Dyn sim helper';
-private _QS_module_dynSimHelper = _true;
-private _QS_module_dynSimHelper_delay = 15;
-private _QS_module_dynSimHelper_check = _QS_uiTime + _QS_module_dynSimHelper_delay;
-
 
 //comment 'Targets Knowledge script';
 missionNamespace setVariable ['QS_AI_script_targetsKnowledge',([0,_east] spawn (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')),_false];
@@ -1614,30 +1609,6 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			};
 			_QS_module_enemyCAS_checkDelay = diag_tickTime + _QS_module_enemyCAS_delay;
-		};
-	};
-	
-	/*/Module Dynamic Simulation helper/*/
-	if (_QS_module_dynSimHelper) then {
-		if (_QS_uiTime > _QS_module_dynSimHelper_check) then {
-			{
-				if (!isNull _x) then {
-					if (local _x) then {
-						if ((_x isKindOf 'LandVehicle') || {(_x isKindOf 'Ship')}) then {
-							if (!((crew _x) isEqualTo [])) then {
-								if (simulationEnabled _x) then {
-									if ((_x distance2D (_x getVariable ['QS_v_dynSimPos',[0,0,0]])) > 150) then {
-										_x setVariable ['QS_v_dynSimPos',(getPosWorld _x),TRUE];
-									};
-								};
-							};
-						};
-						uiSleep 0.01;
-					};
-				};
-				uiSleep 0.01;
-			} forEach vehicles;
-			_QS_module_dynSimHelper_check = _QS_uiTime + _QS_module_dynSimHelper_delay;
 		};
 	};
 
