@@ -6,15 +6,14 @@ Author:
 	
 Last Modified:
 
-	18/12/2017 A3 1.80 by Quiksilver
+	9/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
 	Towing
-_____________________________________________________________________/*/
+_______________________________________________________/*/
 
 params ['_vehicle','_towedVehicle','_isUAV'];
-private ['_position','_center','_getMass','_getCMass','_posToSet'];
 _ropeLength = ((((boundingBoxReal _vehicle) select 1) select 1) / 1.5) + 1 + (((boundingBoxReal _towedVehicle) select 1) select 1);
 _vehicle setVariable ['QS_ropeAttached',TRUE,TRUE];
 _towedVehicle setVariable ['QS_ropeAttached',TRUE,TRUE];
@@ -187,18 +186,18 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 	if (!(_line02 isEqualTo [])) then {_posIsClear = FALSE;};
 	if (!(_line03 isEqualTo [])) then {_posIsClear = FALSE;};
 	if (!(_posIsClear)) then {
-		_center = getPosWorld _towedVehicle;
+		private _center = getPosWorld _towedVehicle;
 		for '_x' from 0 to 1 step 0 do {
-			_position = _center findEmptyPosition [0,40,(typeOf _towedVehicle)];
+			private _position = _center findEmptyPosition [0,40,(typeOf _towedVehicle)];
 			if (_position isEqualTo []) then {
 				_position = [_center,0,50,(sizeOf (typeOf _towedVehicle)),0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 			};
 			if ((lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [0,0,0])),(AGLToASL _position),_vehicle,_towedVehicle,TRUE,1,'GEOM']) isEqualTo []) exitWith {};
 		};
 		_position set [2,(_center select 2)];
-		_posToSet = [(_position select 0),(_position select 1),((_position select 2)+0.35)];
+		private _posToSet = [(_position select 0),(_position select 1),((_position select 2)+0.35)];
 	} else {
-		_posToSet = [((getPosWorld _towedVehicle) select 0),((getPosWorld _towedVehicle) select 1),(((getPosWorld _towedVehicle) select 2)+0.35)];
+		private _posToSet = [((getPosWorld _towedVehicle) select 0),((getPosWorld _towedVehicle) select 1),(((getPosWorld _towedVehicle) select 2)+0.35)];
 	};
 	_towedVehicle setPosWorld _posToSet;
 	[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this select 0) allowDamage TRUE;(_this select 0) setVectorUp (surfaceNormal (_this select 1));};
@@ -234,13 +233,15 @@ if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
 	uiSleep 0.5;
 	_vehicle allowDamage TRUE;
 };
-_towedVehicle setPos (_vehicle modelToWorld _detachPos);
+_towedVehicle setPosWorld (_vehicle modelToWorldWorld _detachPos);
 if (!isNull (attachedTo _towedVehicle)) then {
 	_towedVehicle attachTo [_vehicle,[(_detachPos select 0),(_detachPos select 1),((_vehicle worldToModelVisual (position _towedVehicle)) select 2)]];
 	detach _towedVehicle;
 };
-_towedVehicle setPos (_vehicle modelToWorld _detachPos);
-_towedVehicle setVectorUp (surfaceNormal (getPosWorld _towedVehicle));
+_towedVehicle setPosWorld (_vehicle modelToWorldWorld _detachPos);
+if (((getPosATL _towedVehicle) select 2) < 5) then {
+	_towedVehicle setVectorUp (surfaceNormal (getPosWorld _towedVehicle));
+};
 50 cutText ['Released','PLAIN DOWN',0.25];
 uiSleep 0.5;
 _vehicle allowDamage TRUE;
