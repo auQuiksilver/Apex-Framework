@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:  	
 
-	15/08/2018 A3 1.84 by Quiksilver  
+	9/10/2018 A3 1.84 by Quiksilver  
 	
 Description:  	
 
@@ -428,6 +428,11 @@ if (_key in (actionKeys 'help')) then {
 				};
 			};
 		};
+		_c = TRUE;
+	};
+};
+if (_key in (actionKeys 'deployWeaponAuto')) then {
+	if (!((lifeState player) in ['HEALTHY','INJURED'])) then {
 		_c = TRUE;
 	};
 };
