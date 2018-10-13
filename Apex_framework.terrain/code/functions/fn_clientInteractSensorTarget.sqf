@@ -69,8 +69,10 @@ _onCompleted = {
 			};
 		};
 		if ((!(_cursorObject in ([(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets')))) && (!(_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]))) then {
+			['confirmSensorTarget',_cursorObject,[playerSide,TRUE]] remoteExec ['QS_fnc_remoteExecCmd',playerSide,FALSE];
 			_cursorObject confirmSensorTarget [playerSide,TRUE];
 			_cursorObject setVariable ['QS_remoteTarget_reported',TRUE,TRUE];
+			['reportRemoteTarget',playerSide,[_cursorObject,360]] remoteExec ['QS_fnc_remoteExecCmd',playerSide,FALSE];
 			playerSide reportRemoteTarget [_cursorObject,360];
 			player setVariable ['QS_client_jtac_sensorTarget',_cursorObject,FALSE];
 			50 cutText ['Target reported','PLAIN DOWN',0.3];
@@ -82,6 +84,7 @@ _onCompleted = {
 		};
 	} else {
 		if ((!(_cursorObject in ([(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets')))) && (!(_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]))) then {
+			['reportRemoteTarget',playerSide,[_cursorObject,180]] remoteExec ['QS_fnc_remoteExecCmd',playerSide,FALSE];
 			playerSide reportRemoteTarget [_cursorObject,180];
 			_cursorObject setVariable ['QS_remoteTarget_reported',TRUE,TRUE];
 			50 cutText ['Target reported','PLAIN DOWN',0.3];

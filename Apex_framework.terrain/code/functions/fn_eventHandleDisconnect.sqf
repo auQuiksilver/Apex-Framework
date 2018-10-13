@@ -14,11 +14,7 @@ Description:
 __________________________________________________/*/
 
 params ['_object','_cid','_uid','_name'];
-if (['HC',_uid,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) exitWith {
-	(missionNamespace getVariable 'QS_headlessClients') deleteAt ((missionNamespace getVariable 'QS_headlessClients') find _cid);
-	//comment 'De-init headless client';
-	diag_log format ['Headless Client %1 ( %2 ) disconnected',_cid,_uid];
-};
+if (((_this select 1) select [0,2]) isEqualTo 'HC') exitWith {};
 if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 	_vehicleInfo = _object getVariable 'QS_pilot_vehicleInfo';
 	_vehicle = _vehicleInfo select 0;
@@ -40,11 +36,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						private ['_grp','_unit','_wp','_posToGo','_helipad'];
 						_grp = createGroup [WEST,TRUE];
 						private _unit = _grp createUnit [(if (_vehicle isKindOf 'Helicopter') then [{'B_helipilot_F'},{'B_pilot_F'}]),[6946,7450,0],[],0,'NONE'];
-						missionNamespace setVariable [
-							'QS_analytics_entities_created',
-							((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-							FALSE
-						];
+						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						removeAllWeapons _unit;
 						removeAllItems _unit;
 						_unit enableStamina FALSE;
@@ -65,11 +57,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							};
 							sleep 2;
 							if (!((vehicle _unit) isEqualTo _vehicle)) then {
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									FALSE
-								];
+								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 								deleteVehicle _unit;
 							};
 						};
@@ -89,23 +77,34 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						_unit addEventHandler [
 							'GetOutMan',
 							{
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									FALSE
-								];
+								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 								deleteVehicle (_this select 0);
 							}
 						];
 						_unit addEventHandler [
 							'SeatSwitchedMan',
 							{
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									FALSE
-								];
+								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 								deleteVehicle (_this select 0);
+							}
+						];
+						_unit addEventHandler [
+							'Deleted',
+							{
+								params ['_entity'];
+								(objectParent _entity) removeAllEventHandlers 'ControlsShifted';
+							}
+						];
+						_vehicle addEventHandler [
+							'ControlsShifted',
+							{
+								params ['_vehicle','_newController','_oldController'];
+								if (!isPlayer _oldController) then {
+									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
+									deleteVehicle _oldController;
+								};
+								// move new controller to pilot seat
+								_vehicle removeEventHandler ['ControlsShifted',_thisEventHandler];
 							}
 						];
 						{
@@ -140,7 +139,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 								((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 								FALSE
 							];
-							QS_garbageCollector pushBack [_helipad,'DELAYED_FORCED',(time + 600)];
+							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_helipad,'DELAYED_FORCED',(time + 600)];
 						} else {
 							if (_vehicle isKindOf 'Plane') then {
 								_vehicle assignToAirport _baseID;
@@ -183,7 +182,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 								];
 							};
 						};
-						QS_garbageCollector pushBack [_unit,'DELAYED_FORCED',(time + 600)];
+						(missionNamespace getVariable 'QS_garbageCollector') pushBack [_unit,'DELAYED_FORCED',(time + 600)];
 						//comment 'Communicate with players here';
 						private _arrayToSend = [];
 						{
@@ -251,7 +250,7 @@ if (!isNil {_object getVariable 'QS_ClientVTexture'}) then {
 	};
 
 };
-diag_log format ['***** PLAYER DISCONNECT: ***** %1 ***** %2 * %3 ****',time,_uid,_name];
+diag_log (format ['***** PLAYER DISCONNECT: ***** %1 ***** %2 * %3 ****',time,_uid,_name]);
 if (_uid in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	[_object] spawn {
 		_object = _this select 0;
@@ -317,11 +316,7 @@ if ((_object isEqualTo (missionNamespace getVariable 'QS_fighterPilot')) || {(_o
 };
 if (!((getAllOwnedMines _object) isEqualTo [])) then {
 	{
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 		deleteVehicle _x;
 	} count (getAllOwnedMines _object);
 };

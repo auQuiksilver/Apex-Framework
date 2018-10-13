@@ -230,7 +230,10 @@ if (!(_toRemove isEqualTo [])) then {
 };
 _unit enableFatigue FALSE;
 _unit enableStamina FALSE;
-[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');
+if (!(missionNamespace getVariable ['QS_defendActive',FALSE])) then {
+	[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');
+};
+
 if (missionNamespace getVariable ['QS_HC_Active',FALSE]) then {
 	_unit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 } else {

@@ -28,7 +28,7 @@ if (_weapon isEqualTo 'Throw') then {
 			0 = [_projectile] spawn {
 				params ['_projectile'];
 				uiSleep 3.666;
-				private _playersNearby = [(getPos _projectile),15,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector');
+				private _playersNearby = ([(getPos _projectile),15,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) select {(!(_x isEqualTo player))};
 				if (!(_playersNearby isEqualTo [])) then {
 					{
 						if ((([objNull,'GEOM'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0) || {(([objNull,'VIEW'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0)}) exitWith {

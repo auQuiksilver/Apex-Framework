@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=135;
+		nextID=138;
 	};
 	class Camera
 	{
@@ -157,7 +157,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=46;
+		items=48;
 		class Item0
 		{
 			dataType="Group";
@@ -2724,6 +2724,30 @@ class Mission
 				};
 				nAttributes=1;
 			};
+		};
+		class Item46
+		{
+			dataType="Marker";
+			position[]={15451.209,-39.57505,14867.957};
+			name="QS_marker_destroyer_1";
+			text="Destroyer ship position";
+			type="Empty";
+			alpha=0.5;
+			angle=88.549187;
+			id=136;
+			atlOffset=26.347755;
+		};
+		class Item47
+		{
+			dataType="Marker";
+			position[]={15369.932,-17.892792,14191.984};
+			name="QS_marker_carrier_1";
+			text="Carrier ship position";
+			type="Empty";
+			alpha=0.5;
+			angle=102.89074;
+			id=137;
+			atlOffset=36.70335;
 		};
 	};
 };

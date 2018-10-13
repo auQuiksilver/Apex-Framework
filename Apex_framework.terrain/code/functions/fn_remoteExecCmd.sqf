@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/05/2018 ArmA 1.82 by Quiksilver
+	30/09/2018 ArmA 1.84 by Quiksilver
 	
 Description:
 
@@ -136,4 +136,10 @@ if (_type isEqualTo 'setFormDir') exitWith {
 };
 if (_type isEqualTo 'ropeUnwind') exitWith {
 	ropeUnwind _1;
+};
+if (_type isEqualTo 'reportRemoteTarget') exitWith {
+	_1 reportRemoteTarget _2;
+};
+if (_type isEqualTo 'confirmSensorTarget') exitWith {
+	_1 confirmSensorTarget _2;
 };

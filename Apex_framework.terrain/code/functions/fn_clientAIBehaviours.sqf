@@ -110,7 +110,7 @@ for '_x' from 0 to 1 step 0 do {
 												_jobScript = [_entity,_jobTarget] spawn {
 													params ['_entity','_jobTarget'];
 													_entity doWatch _jobTarget;
-													_entity action ['Heal',_jobTarget];
+													_entity action ['HealSoldier',_jobTarget];
 													uiSleep 6;
 													if ((alive _jobTarget) && ((lifeState _jobTarget) isEqualTo 'INCAPACITATED') && (isNull (objectParent _jobTarget)) && (isNull (attachedTo _jobTarget)) && (alive _entity) && ((lifeState _entity) in ['HEALTHY','INJURED'])) then {
 														if (local _jobTarget) then {

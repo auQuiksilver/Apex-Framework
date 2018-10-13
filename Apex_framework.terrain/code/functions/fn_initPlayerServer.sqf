@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/12/2017 A3 1.78 by Quiksilver
+	7/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -26,29 +26,7 @@ waitUntil {
 	uiSleep 0.1;
 	((!isNull _client) || {(diag_tickTime > _t)})
 };
-if (isNull _client) exitWith {};
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-if (['HC',_uid,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) exitWith {
-	(missionNamespace getVariable ['QS_headlessClients',[]]) pushBack _cid;
-	{
-		_cid publicVariableClient _x;
-		uiSleep 0.05;
-	} forEach [
-		'QS_fnc_AI'
-	];
-	//comment 'Init headless client';
-	[
-		[_uid,_cid,_jip],
-		{
-			player setVariable ['QS_5551212',(_this select 2),FALSE];
-			[] spawn (missionNamespace getVariable 'QS_fnc_hcCore');
-		}
-	] remoteExec ['call',_cid,FALSE];
-};
+missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 if (!(allCurators isEqualTo [])) then {
 	{
 		if (!isNull (getAssignedCuratorUnit _x)) then {
@@ -56,7 +34,7 @@ if (!(allCurators isEqualTo [])) then {
 		};
 	} count allCurators;
 };
-
+if (isNull _client) exitWith {};
 _ii = ((missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)});
 private _val = 0;
 private _a = [_uid,_val];
@@ -159,7 +137,7 @@ if (!(_kicked)) then {
 					player setUnitTrait ['QS_trait_fighterPilot',FALSE,TRUE];
 				};
 			};
-			[] spawn (missionNamespace getVariable 'QS_fnc_initPlayerLocal');
+			0 spawn (missionNamespace getVariable 'QS_fnc_initPlayerLocal');
 		}
 	] remoteExec ['call',_cid,FALSE];
 };

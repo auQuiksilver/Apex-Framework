@@ -18,17 +18,16 @@ _unit = _this select 0;
 _unitType = typeOf _unit;
 _grp = group _unit;
 _grp setBehaviour 'CARELESS';
-_grp setVariable ['QS_RD_group_noHC',TRUE,FALSE];
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _unit enableStamina FALSE;
 _unit addEventHandler ['HandleScore',{FALSE}];
 _grp setVariable ['QS_HComm_grp',FALSE,TRUE];
-for '_x' from 0 to 1 step 1 do {
-	_unit setVariable ['QS_RD_interactable',TRUE,TRUE];
-	_unit setVariable ['QS_RD_recruitable',TRUE,TRUE];
-	_unit setVariable ['QS_RD_recruited',FALSE,TRUE];
-	_unit setVariable ['QS_RD_dismissable',TRUE,TRUE];
-};
+_grp setVariable ['QS_GRP_HC',FALSE,FALSE];
+_unit setVariable ['QS_RD_interactable',TRUE,TRUE];
+_unit setVariable ['QS_RD_recruitable',TRUE,TRUE];
+_unit setVariable ['QS_RD_recruited',FALSE,TRUE];
+_unit setVariable ['QS_RD_dismissable',TRUE,TRUE];
+_unit setVariable ['QS_GRP_HC',FALSE,FALSE];
 {
 	_unit disableAI _x;
 } count [

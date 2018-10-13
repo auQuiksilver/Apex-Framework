@@ -57,6 +57,7 @@ for '_x' from 0 to (round (1 + (random 2))) step 1 do {
 	_infteamPatrol setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_infteamPatrol setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _infteamPatrol))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_infteamPatrol setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_infteamPatrol setVariable ['QS_GRP_HC',TRUE,FALSE];
 };
 
 /*/---------- SNIPER/*/
@@ -73,6 +74,7 @@ for '_x' from 0 to 1 step 1 do {
 		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 		_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];
 	} count (units _smSniperTeam);
+	_smSniperTeam setVariable ['QS_GRP_HC',TRUE,FALSE];
 };
 	
 /*/---------- VEHICLE RANDOM/*/
@@ -106,6 +108,7 @@ _grp = group ((crew _SMveh1) select 0);
 _grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 _grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_SMveh1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 _grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
 _enemiesArray pushBack _SMveh1;
 {
 	_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
@@ -145,7 +148,7 @@ if ((count allPlayers) > 25) then {
 	_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_SMaa],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	
+	_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
 	{
 		_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
 		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
@@ -183,14 +186,5 @@ for '_x' from 0 to 11 step 1 do {
 };
 [_pos,150,(units _garrisonGrp),['House','Building']] spawn (missionNamespace getVariable 'QS_fnc_garrisonUnits');
 [(units _garrisonGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-if (missionNamespace getVariable ['QS_HC_Active',FALSE]) then {
-	{
-		if (_x isKindOf 'Man') then {
-			_grp = group _x;
-			if (isNil {_grp getVariable 'QS_grp_HC'}) then {
-				_grp setVariable ['QS_grp_HC',TRUE,FALSE];
-			};
-		};
-	} forEach _enemiesArray;
-};
+_garrisonGrp setVariable ['QS_GRP_HC',TRUE,FALSE];
 _enemiesArray;

@@ -6,14 +6,14 @@ Author:
 	
 Last modified: 
 
-	30/09/2018 A3 1.84 by Quiksilver
+	12/10/2018 A3 1.84 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.1';
+_missionProductVersion = '1.1.2';
 _missionProductStatus = 'Gold';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
@@ -391,6 +391,7 @@ _recyclerUnitTypes = [
 	['QS_analytics_entities_deleted',0,FALSE],
 	['QS_analytics_entities_respawned',0,FALSE],
 	['QS_analytics_entities_killed',0,FALSE],
+	['QS_analytics_entities_recycled',0,FALSE],
 	['QS_aar_A_killed_bad',0,TRUE],
 	['QS_aar_A_killed_good',0,TRUE],
 	['QS_aar_A_killed_civ',0,TRUE],
@@ -729,7 +730,10 @@ _recyclerUnitTypes = [
 	['QS_mission_gpsJammers',[],TRUE],
 	['QS_uav_Monitor',[],TRUE],
 	['QS_defend_propulsion',1,FALSE],
-	['QS_AI_targetsKnowledge_suspend',FALSE,FALSE]
+	['QS_AI_targetsKnowledge_suspend',FALSE,FALSE],
+	['QS_entities_ao_customEntities',[],FALSE],
+	['QS_entities_ao_customStructures',[],FALSE],
+	['QS_entities_ao_customHTO',[],FALSE]
 ];
 missionNamespace setVariable ['QS_data_arsenal',(compileFinal (preprocessFileLineNumbers '@Apex_cfg\arsenal.sqf')),TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
@@ -1202,7 +1206,7 @@ if (isNil {profileNamespace getVariable (format ['QS_QRF_weatherCurrent_%1',worl
 forceWeatherChange;
 0 spawn (missionNamespace getVariable 'QS_fnc_core');
 0 spawn (missionNamespace getVariable 'QS_fnc_AI');
-missionNamespace setVariable ['QS_mission_init',TRUE,FALSE];
+missionNamespace setVariable ['QS_mission_init',TRUE,TRUE];
 {
 	diag_log _x;
 } count [

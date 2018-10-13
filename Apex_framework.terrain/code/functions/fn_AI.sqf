@@ -14,9 +14,15 @@ Description:
 __________________________________________________/*/
 
 scriptName 'QS AI';
-if ((!hasInterface) && (!isDedicated)) exitWith {};
+if ((hasInterface) && (!isDedicated)) exitWith {};
 private _isDedicated = isDedicated;
-private _isHC = !_isDedicated;
+private _isHC = !isServer && !hasInterface;
+if (_isHC) then {
+	waitUntil {
+		uiSleep 1;
+		(missionNamespace getVariable ['QS_mission_init',FALSE])
+	};
+};
 private _QS_uiTime = diag_tickTime;
 private _QS_time = time;
 private _QS_serverTime = serverTime;
@@ -25,6 +31,7 @@ _worldName = worldName;
 _worldSize = worldSize;
 _true = TRUE;
 _false = FALSE;
+_endl = endl;
 _isTropical = _worldName in ['Tanoa','Lingor3'];
 private _QS_unitCap = [125,110] select (_worldName isEqualTo 'Tanoa');
 private _array = [];
@@ -49,6 +56,12 @@ private _QS_allGroups = allGroups;
 private _QS_allGroupsCount = count _QS_allGroups;
 private _QS_allUnits = allUnits;
 private _QS_allUnitsCount = count _QS_allUnits;
+// Headless client
+
+
+
+
+
 //comment 'Dynamic skill';
 private _QS_module_dynamicSkill = _false;
 private _QS_module_dynamicSkill_delay = 300;
@@ -416,6 +429,7 @@ private _QS_module_tracers_delay = 600;
 private _QS_module_tracers_checkDelay = _QS_uiTime + _QS_module_tracers_delay;
 private _QS_module_tracers_checkOverride = _false;
 
+
 //comment 'Targets Knowledge script';
 missionNamespace setVariable ['QS_AI_script_targetsKnowledge',([0,_east] spawn (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')),_false];
 //comment 'Preload Functions';
@@ -445,6 +459,18 @@ _fn_spawnViperTeam = missionNamespace getVariable 'QS_fnc_spawnViperTeam';
 _fn_serverObjectsRecycler = missionNamespace getVariable 'QS_fnc_serverObjectsRecycler';
 _fn_aiGetKnownEnemies = missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies';
 _fn_ambientHostility = missionNamespace getVariable 'QS_fnc_ambientHostility';
+
+// Headless client
+private _QS_module_hc = FALSE;
+private _QS_module_hc_delay = 30;
+private _QS_module_hc_checkDelay = time + _QS_module_hc_delay;
+private _QS_module_hc_clientID = -1;
+private _QS_module_hc_active = FALSE;
+private _QS_module_hc_managedSides = [EAST,WEST,RESISTANCE,CIVILIAN];
+private _QS_module_hc_grp = grpNull;
+private _QS_module_hc_entity = objNull;
+private _text = '';
+
 //comment 'Loop';
 for '_x' from 0 to 1 step 0 do {
 	uiSleep (random [2.5,3,3.5]);
@@ -466,6 +492,48 @@ for '_x' from 0 to 1 step 0 do {
 		_QS_module_agentBehaviors_localAgents = _QS_allAgents select {(local _x)};
 		_QS_updateGeneralInfoCheckDelay = _QS_uiTime + _QS_updateGeneralInfoDelay;
 	};
+	
+	if (_QS_module_hc) then {
+		if (missionNamespace getVariable ['QS_HC_Active',_false]) then {
+			if (_isDedicated) then {
+				_QS_headlessClients = missionNamespace getVariable ['QS_headlessClients',[]];
+				if (!(_QS_headlessClients isEqualTo [])) then {
+					_QS_hc_id = (missionNamespace getVariable ['QS_headlessClients',[]]) select 0;
+					{
+						_QS_module_hc_grp = _x;
+						if (local _QS_module_hc_grp) then {
+							if (_QS_module_hc_grp getVariable ['QS_GRP_HC',_false]) then {
+								{
+									_QS_module_hc_grp setVariable [_x,(_QS_module_hc_grp getVariable _x),_QS_hc_id];
+								} forEach (allVariables _QS_module_hc_grp);
+								_text = format ['Change of group owner %1 * %2',_QS_module_hc_grp,(['false','true'] select (_QS_module_hc_grp setGroupOwner _QS_hc_id))];
+								diag_log _text;
+								_text remoteExec ['systemChat',-2];
+							};
+						};
+						uiSleep 0.05;
+					} forEach _QS_module_groupBehaviors_localGroups;
+					{
+						_QS_module_hc_entity = _x;
+						if (local _x) then {
+							if (_QS_module_hc_entity getVariable ['QS_ENTITY_HC',_false]) then {
+								{
+									_QS_module_hc_entity setVariable [_x,(_QS_module_hc_entity getVariable _x),_QS_hc_id];
+								} forEach (allVariables _QS_module_hc_entity);
+								_text = format ['Change of entity owner %1 * %2',_QS_module_hc_entity,(['false','true'] select (_QS_module_hc_entity setOwner _QS_hc_id))];
+								diag_log _text;
+								_text remoteExec ['systemChat',-2];
+							};
+						};
+					} forEach _QS_module_agentBehaviors_localAgents;
+				};
+				diag_log (format ['AI Report (Server): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+			} else {
+				diag_log (format ['AI Report (Headless Client): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+			};
+		};
+	};
+	
 	if (_QS_module_dynamicSkill) then {
 		if (_QS_uiTime > _QS_module_dynamicSkill_checkDelay) then {
 			/*/pulled from release build/*/
@@ -1292,7 +1360,6 @@ for '_x' from 0 to 1 step 0 do {
 	/*/Module Grid/*/
 	if (_QS_module_grid) then {
 		if (_QS_uiTime > _QS_module_grid_checkDelay) then {
-		
 			if (missionNamespace getVariable ['QS_grid_AI_triggerDeinit',_false]) then {
 				diag_log 'QS AI GRID deinit';
 				missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_false,_true];
@@ -1318,11 +1385,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (!((missionNamespace getVariable ['QS_aoAnimals',[]]) isEqualTo [])) then {
 					{
 						if (!isNull _x) then {
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								_false
-							];
+							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							deleteVehicle _x;
 						};
 					} count (missionNamespace getVariable 'QS_aoAnimals');
@@ -1330,7 +1393,10 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				if (!(_QS_module_grid_defendUnits isEqualTo [])) then {
 					{
-						deleteVehicle _x;
+						if (alive _x) then {
+							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+							deleteVehicle _x;
+						};
 					} forEach _QS_module_grid_defendUnits;
 					_QS_module_grid_defendUnits = [];
 				};
@@ -1516,6 +1582,13 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			_QS_module_ambientHostility_checkDelay = _QS_uiTime + _QS_module_ambientHostility_delay;
 		};
+	} else {
+		if (_QS_module_ambientHostility_inProgress) then {
+			_QS_module_ambientHostility_inProgress = _false;
+			{
+				_x setDamage [1,_false];
+			} forEach _QS_module_ambientHostility_entities;
+		};
 	};
 	/*/Module Enemy CAS/*/
 	if (_QS_module_enemyCAS) then {
@@ -1547,7 +1620,7 @@ for '_x' from 0 to 1 step 0 do {
 							if (missionNamespace getVariable 'QS_cycleCAS') then {
 								missionNamespace setVariable ['QS_cycleCAS',_false,_false];
 							};
-							[] call _fn_enemyCAS;
+							call _fn_enemyCAS;
 						};
 						_QS_module_enemyCAS_checkSpawnDelay = _QS_uiTime + _QS_module_enemyCAS_spawnDelay;
 					};
@@ -1609,6 +1682,12 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			};
 			_QS_module_enemyCAS_checkDelay = diag_tickTime + _QS_module_enemyCAS_delay;
+		};
+	} else {
+		if (!((missionNamespace getVariable ['QS_enemyCasArray2',[]]) isEqualTo [])) then {
+			{
+				_x setDamage [1,TRUE];
+			} forEach (missionNamespace getVariable ['QS_enemyCasArray2',[]]);
 		};
 	};
 

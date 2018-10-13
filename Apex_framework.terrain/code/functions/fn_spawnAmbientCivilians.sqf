@@ -136,6 +136,7 @@ if (_type isEqualTo 'FOOT') then {
 				_agent setVariable ['QS_AI_ENTITY_TASK',['CIRCUIT',[_spawnPos,(selectRandom _arrayBuildingPositionsProxy),(selectRandom _arrayBuildingPositionsProxy)],-1],FALSE];
 				_agent setVariable ['QS_AI_ENTITY_DATA',[],FALSE];
 				_agent setVariable ['QS_AI_ENTITY',TRUE,FALSE];
+				_agent setVariable ['QS_ENTITY_HC',TRUE,FALSE];
 				if (_isGrid) then {
 					_agent addEventHandler [
 						'Killed',

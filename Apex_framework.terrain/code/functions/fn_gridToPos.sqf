@@ -32,7 +32,7 @@ private _stepY = 1e10;
 		_stepX = getnumber (_x >> 'stepX');
 		_stepY = getnumber (_x >> 'stepY');
 	};
-} foreach configproperties [_cfgGrid,'isclass _x',false];
+} foreach (configproperties [_cfgGrid,'isclass _x',false]);
 private _iX = -1;
 private _iY = -1;
 {if (_iX < 0) then {_iX = _format find _x;};} foreach ['X','x'];

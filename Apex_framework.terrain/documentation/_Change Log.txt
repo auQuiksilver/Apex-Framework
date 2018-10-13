@@ -1,5 +1,19 @@
 Official change log
 
+1.1.2 (A3 1.84 13/10/2018)
+
+- [TWEAKED] Defend mission for increased enemy aggression.
+- [TWEAKED] Vanilla "Treat" user action to increase usability.
+- [TWEAKED] AI groups will select a new leader faster, if their group leader is killed or incapacitated.
+- [TWEAKED] Relying more on the object recycling system instead of object creating/deleting. (WIP).
+- [TWEAKED] Frag grenades will no longer delete if the thrower is the only friendly player nearby.
+- [TWEAKED] Less anti-tank soldiers during Escort Truck side mission.
+- [TWEAKED] Towing system to add support for ship decks (carrier, etc).
+- [TWEAKED] Transport leaderboard network traffic optimized.
+- [FIXED] Aircraft carrier map marker was not available for placement in 3DEN Editor.
+- [FIXED] Player could deploy bipod while incapacitated (breaking wounded animation).
+- [FIXED] Transport leaderboard (broken in 1.1.1).
+
 1.1.1 (A3 1.84 30/09/2018)
 
 - [ADDED] Enemy heavy artillery targeting system.
@@ -24,7 +38,7 @@ Official change log
 - [FIXED] Bug in some enemy group compositions.
 - [FIXED] AO in campaign/insurgency (grid) mode was spawning on top of the main base on Malden.
 - [FIXED] Players could drag a Vehicle Ammo Crate in some cases.
-- [FIXED] Script error with "uav self destruct" user action when controlling the AR-2 Darter.
+- [FIXED] Script error with "uav self destruct" user action when controlling the AR-2 Darter
 
 1.1.0 "Encore"
 

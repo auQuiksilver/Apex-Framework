@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	18/09/2018 A3 1.84 by Quiksilver
+	6/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -129,8 +129,8 @@ if (_type isEqualTo 0) exitWith {
 				} forEach _allUnits;
 				// Analyze intel, could also plug into objective/mission consideration
 				if (_analyze) then {
-					missionNamespace setVariable ['QS_AI_targetsKnowledge_threat_armor',(count _threat_armor),FALSE];
-					missionNamespace setVariable ['QS_AI_targetsKnowledge_threat_air',(count _threat_air),FALSE];
+					missionNamespace setVariable ['QS_AI_targetsKnowledge_threat_armor',(count _threat_armor),_false];
+					missionNamespace setVariable ['QS_AI_targetsKnowledge_threat_air',(count _threat_air),_false];
 				};
 			};
 			uiSleep 5;
@@ -248,19 +248,19 @@ if (_type isEqualTo 4) exitWith {
 if (_type isEqualTo 5) exitWith {
 	// Get highest-rated enemy
 	
-/*/
-							if ((random 1) > 0.5) then {
-								_target = selectRandom _filteredTargets;
-							} else {
-								private _rating = -9999;
-								{
-									if ((rating _x) > _rating) then {
-										_target = _x;
-										_rating = rating _x;
-									};
-								} count _filteredTargets;
-							};
-/*/
+	/*/
+		if ((random 1) > 0.5) then {
+			_target = selectRandom _filteredTargets;
+		} else {
+			private _rating = -9999;
+			{
+				if ((rating _x) > _rating) then {
+					_target = _x;
+					_rating = rating _x;
+				};
+			} count _filteredTargets;
+		};
+	/*/
 };
 if (_type isEqualTo 6) exitWith {
 	_position = param [2];
@@ -275,13 +275,11 @@ if (_type isEqualTo 6) exitWith {
 		{
 			_vehicle = _x select 2;
 			if (alive _vehicle) then {
-				if (_vehicle isKindOf 'AllVehicles') then {
-					if (!(_vehicle isKindOf 'CAManBase')) then {
-						if ((_vehicle distance2D _position) < _radius) then {
-							if (!(_vehicle in _vehicles)) then {
-								if (isTouchingGround _vehicle) then {
-									_vehicles pushBack _vehicle;
-								};
+				if (isTouchingGround _vehicle) then {
+					if (_vehicle isKindOf 'AllVehicles') then {
+						if (!(_vehicle isKindOf 'CAManBase')) then {
+							if ((_vehicle distance2D _position) < _radius) then {
+								_vehicles pushBackUnique _vehicle;
 							};
 						};
 					};
@@ -376,10 +374,11 @@ if (_type isEqualTo 9) exitWith {
 			};
 		} forEach _targetsKnowledge;
 		{
-			if ((objectParent _x) isKindOf 'Plane') then {
-				if (!isTouchingGround (objectParent _x)) then {
-					if ((EAST knowsAbout (objectParent _x)) > 3.5) then {
-						_grp reveal [(objectParent _x),(EAST knowsAbout (objectParent _x))];
+			_targetVehicle = objectParent _x;
+			if (!isTouchingGround _targetVehicle) then {
+				if (_targetVehicle isKindOf 'Plane') then {
+					if ((EAST knowsAbout _targetVehicle) > 3.5) then {
+						_grp reveal [_targetVehicle,(EAST knowsAbout _targetVehicle)];
 					};
 				};
 			};
@@ -395,8 +394,8 @@ if (_type isEqualTo 10) exitWith {
 	{
 		_vehicle = _x select 2;
 		if (alive _vehicle) then {
-			if ((_vehicle isKindOf 'Tank') || {(_vehicle isKindOf 'Wheeled_APC_F')}) then {
-				if (alive (effectiveCommander _vehicle)) then {
+			if (alive (effectiveCommander _vehicle)) then {
+				if ((_vehicle isKindOf 'Tank') || {(_vehicle isKindOf 'Wheeled_APC_F')}) then {
 					_return pushBack _vehicle;
 				};
 			};
@@ -447,9 +446,9 @@ if (_type isEqualTo 12) exitWith {
 		{
 			_vehicle = _x select 2;
 			if (alive _vehicle) then {
-				if (_vehicle isKindOf 'AllVehicles') then {
-					if ((_vehicle distance2D _targetPos) < _targetRad) then {
-						if (isTouchingGround _vehicle) then {
+				if (isTouchingGround _vehicle) then {
+					if (_vehicle isKindOf 'AllVehicles') then {
+						if ((_vehicle distance2D _targetPos) < _targetRad) then {
 							_targets pushBackUnique _vehicle;
 						};
 					};

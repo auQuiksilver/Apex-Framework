@@ -308,7 +308,6 @@ class CfgFunctions {
 			class AIHandleUnit {file = "code\functions\fn_AIHandleUnit.sqf";};
 			class AIOwners {file = "code\functions\fn_AIOwners.sqf";};
 			class airbaseDefense {file = "code\functions\fn_airbaseDefense.sqf";};
-			class AIunitEventFired_1 {file = "code\functions\fn_AIunitEventFired_1.sqf";};
 			class AIXCivPanic {file = "code\functions\fn_AIXCivPanic.sqf";};
 			class AIXDismountDisabled {file = "code\functions\fn_AIXDismountDisabled.sqf";};
 			class AIXHeliInsert {file = "code\functions\fn_AIXHeliInsert.sqf";};

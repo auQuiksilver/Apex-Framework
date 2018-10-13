@@ -19,9 +19,6 @@ if (!isNil {missionNamespace getVariable 'QS_init_doorCloser'}) exitWith {
 missionNamespace setVariable ['QS_init_doorCloser',TRUE,FALSE];
 uiNamespace setVariable ['BIS_fnc_advHint_hintHandlers',TRUE];
 private ['_validated','_playerClass','_reviveSetup','_roleDescription','_exit','_qs_1pv','_position','_qs_stamina','_stamina','_aimcoef','_spawnPos','_QS_radioChannels','_QS_radioChannels_profile'];
-if (!hasInterface) exitWith {
-	[] spawn (missionNamespace getVariable 'QS_fnc_hcCore');
-};
 _exit = FALSE;
 _uid = getPlayerUID player;
 _roleDescription = roleDescription player;
@@ -766,7 +763,7 @@ if (!(_squadParams isEqualTo [])) then {
 	_squadName = (_squadParams select 0) select 0;
 	private _exit3 = FALSE;
 	{
-		if ((side _x) isEqualTo playerSide) then {
+		if ((side (group _x)) isEqualTo playerSide) then {
 			if (!((squadParams _x) isEqualTo [])) then {
 				if ((((squadParams _x) select 0) select 0) isEqualTo _squadName) then {
 					[player] joinSilent (group _x);

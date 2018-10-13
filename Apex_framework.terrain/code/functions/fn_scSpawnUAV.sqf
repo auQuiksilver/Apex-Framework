@@ -99,6 +99,7 @@ if (!isNull _vehicle) then {
 		_grp setVariable ['QS_AI_GRP_DATA',[],FALSE];
 		_grp setVariable ['QS_AI_GRP_TASK',['',[],diag_tickTime,-1],FALSE];
 		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
+		_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
 	};
 	if (_type in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
 		if ((random 1) > 0.333) then {
@@ -138,6 +139,7 @@ if (!isNull _vehicle) then {
 		_grp setVariable ['QS_AI_GRP_DATA',[],FALSE];
 		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,diag_tickTime,-1],FALSE];
 		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
+		_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
 	};
 };
 _return;

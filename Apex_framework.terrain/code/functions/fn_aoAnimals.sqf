@@ -34,11 +34,7 @@ if (_type isEqualTo 'HEN') then {
 for '_x' from 0 to (_quantity - 1) step 1 do {
 	_class = selectRandom _classes;
 	_animal = createAgent [_class,_position,[],15,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
+	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 	/*/_animal setVariable ['BIS_fnc_animalBehaviour_disable',TRUE,TRUE];/*/
 	_animal enableDynamicSimulation TRUE;
 	['switchMove',_animal,_animStart] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
@@ -46,16 +42,7 @@ for '_x' from 0 to (_quantity - 1) step 1 do {
 	_animal setVariable ['QS_animal_sitePosition',_position,(!isServer)];
 	_animal setDir (random 360);
 	_animal setVariable ['QS_AI_ENTITY',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_animal setVariable ['QS_AI_ENTITY',TRUE,FALSE];
-	_animal setVariable ['QS_AI_ENTITY_TASK',['SITE_AMBIENT',_position,50,diag_tickTime],FALSE];
-	/*/
-	if (!(allPlayers isEqualTo [])) then {
-		_animal setOwner (owner (selectRandom allPlayers));
-	};
-	/*/
-	missionNamespace setVariable [
-		'QS_aoAnimals',
-		((missionNamespace getVariable 'QS_aoAnimals') + [_animal]),
-		(!isServer)
-	];
+	_animal setVariable ['QS_AI_ENTITY_TASK',['SITE_AMBIENT',_position,50,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_animal setVariable ['QS_ENTITY_HC',TRUE,FALSE];
+	missionNamespace setVariable ['QS_aoAnimals',((missionNamespace getVariable 'QS_aoAnimals') + [_animal]),(!isServer)];
 };

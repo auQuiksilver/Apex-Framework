@@ -150,6 +150,7 @@ _vCrewGroup setVariable [
 ];
 _vCrewGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 _vCrewGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_vCrewGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
 {
 	_x enableStamina FALSE;
 	_x enableFatigue FALSE;

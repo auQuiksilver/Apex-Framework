@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/08/2018 A3 1.84 by Quiksilver
+	10/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -73,7 +73,7 @@ private [
 	'_opsec_actionCondition','_opsec_actionRadius','_opsec_actionUnconscious','_opsec_actionTextWindowB','_opsec_actionTextWindowF','_opsec_actionIDs',
 	'_opsec_actionParams','_opsec_actionWhitelist','_nearCargoVehicles','_QS_action_loadCargo','_QS_action_loadCargo_text','_QS_action_loadCargo_array',
 	'_QS_interaction_loadCargo','_QS_action_loadCargo_vTypes','_QS_action_loadCargo_cargoTypes','_QS_action_loadCargo_validated','_QS_action_loadCargo_vehicle','_thermalsEnabled','_QS_module_revealPlayers',
-	'_QS_module_revealPlayers_delay','_QS_module_revealPlayers_checkDelay','_QS_lbRank','_QS_modelInfoPlayer','_QS_rappelling','_QS_action_rappelSelf','_QS_action_rappelSelf_text','_QS_action_rappelSelf_array',
+	'_QS_module_revealPlayers_delay','_QS_module_revealPlayers_checkDelay','_QS_modelInfoPlayer','_QS_rappelling','_QS_action_rappelSelf','_QS_action_rappelSelf_text','_QS_action_rappelSelf_array',
 	'_QS_action_rappelAI','_QS_action_rappelAI_text','_QS_action_rappelAI_array','_QS_action_rappelDetach','_QS_action_rappelDetach_text','_QS_action_rappelDetach_array','_QS_interaction_rappelSelf',
 	'_QS_interaction_rappelAI','_QS_interaction_rappelDetach','_commandingMenu','_kicked','_QS_module_opsec_memCheck_script','_QS_objectTypePlayer','_QS_action_sit_chairModels','_QS_action_rappelSafety',
 	'_QS_action_rappelSafety_textDisable','_QS_action_rappelSafety_textEnable','_QS_action_rappelSafety_array','_QS_interaction_rappelSafety','_QS_arsenal_model','_QS_resolution','_QS_module_opsec_displays_default',
@@ -962,16 +962,6 @@ _QS_module_leaderboards = TRUE;
 _QS_module_leaderboards_delay = 5;
 _QS_module_leaderboards_checkDelay = _timeNow + _QS_module_leaderboards_delay;
 _QS_module_leaderboards_pilots = TRUE;
-if (_iAmPilot) then {
-	_QS_lbRank = [player,'TRANSPORT'] call (missionNamespace getVariable 'QS_fnc_clientGetLBRank');
-	if (_QS_lbRank isEqualTo 9999) then {
-		_QS_lbRank = 0;
-	};
-	player setVariable ['QS_IA_PP',_QS_lbRank,TRUE];
-	player setVariable ['QS_IA_PP_loadedAtBase',[],TRUE];
-	player setVariable ['QS_IA_PP_loadedAtMission',[],TRUE];
-	player setVariable ['QS_IA_PP_loadedInField',[],TRUE];
-};
 /*/Register Leaderboard/*/
 [45,[player,_puid,(player getUnitTrait 'medic'),(player getUnitTrait 'QS_trait_pilot')]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 /*/===== Difficulties propagation/*/
@@ -3154,7 +3144,7 @@ for '_x' from 0 to 1 step 0 do {
 						_QS_ugv = _QS_cO;
 					};
 					if (({(_x isKindOf 'CAManBase')} count (attachedObjects _QS_cO)) < ({((toLower ((getModelInfo _x) select 1)) isEqualTo _QS_action_ugv_stretcherModel)} count (attachedObjects _QS_cO))) then {
-						_listOfFrontStuff = ((_QS_cO getRelPos [3,0]) nearEntities ['CAManBase',3]) select {(((lifeState _x) isEqualTo 'INCAPACITATED') && (isNull (attachedTo _x)) && (isNull (objectParent _x)) && (!(_x getVariable ['QS_unit_needsStabilise',FALSE])))};	/*/unit needs to be stabilised first?/*/
+						_listOfFrontStuff = ((_QS_cO getRelPos [3,0]) nearEntities ['CAManBase',3]) select {(((lifeState _x) isEqualTo 'INCAPACITATED') && (isNull (attachedTo _x)) && (isNull (objectParent _x)) && (!(_x getVariable ['QS_unit_needsStabilise',_false])))};	/*/unit needs to be stabilised first?/*/
 						if (!(_listOfFrontStuff isEqualTo [])) then {
 							if (!(_QS_interaction_ugvLoad)) then {
 								_QS_interaction_ugvLoad = _true;
@@ -4279,7 +4269,7 @@ for '_x' from 0 to 1 step 0 do {
 										forceRespawn player;
 									} else {
 										if (_QS_currentTimeOnGround > _QS_warningTimeOnGround) then {
-											(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,'You are a pilot. Please play your role or re-assign. There are over 30 players on the server, please respawn if timely evac is not available.',[],(serverTime + 20),_true,'Role Restriction',_false];
+											(missionNamespace getVariable 'QS_managed_hints') pushBack [5,_false,10,-1,'You are a pilot. Please play your role or re-assign. There are over 30 players on the server, please respawn if timely evac is not available.',[],(serverTime + 20),_true,'Role Restriction',_false];
 										};
 									};
 								} else {
@@ -4297,7 +4287,7 @@ for '_x' from 0 to 1 step 0 do {
 					if ((_timeNow - _QS_afkTimer) >= (player getVariable 'QS_client_afkTimeout')) then {
 						if (!(_QS_isAdmin)) then {
 							if (!(_kicked)) then {
-								_kicked = TRUE;
+								_kicked = _true;
 								with uiNamespace do {
 									0 spawn {
 										[
@@ -4311,12 +4301,12 @@ for '_x' from 0 to 1 step 0 do {
 										] call (missionNamespace getVariable 'BIS_fnc_GUImessage');
 									};
 								};
-								[33,_QS_clientOwner,_profileName] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+								[33,_QS_clientOwner,_profileName] remoteExec ['QS_fnc_remoteExec',2,_false];
 							};
 						};
 					} else {
 						if (!(_QS_posWorldPlayer isEqualTo _QS_afkTimer_playerPos)) then {
-							player setVariable ['QS_client_afkTimeout',time,FALSE];
+							player setVariable ['QS_client_afkTimeout',time,_false];
 							_QS_afkTimer_playerPos = _QS_posWorldPlayer;
 						};
 					};
@@ -4400,14 +4390,8 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (_QS_module_leaderboards) then {
 		if (_timeNow > _QS_module_leaderboards_checkDelay) then {
-		
-			/*/===== Pilot scoring/*/
-		
 			if (_QS_module_leaderboards_pilots) then {
 				if (_iAmPilot) then {
-				
-					/*/===== Is advanced flight model enabled?/*/
-			
 					_difficultyEnabledRTD = difficultyEnabledRTD;
 					if (!((player getVariable 'QS_PP_difficultyEnabledRTD') select 0)) then {
 						if (_timeNow > ((player getVariable 'QS_PP_difficultyEnabledRTD') select 1)) then {
@@ -4418,34 +4402,22 @@ for '_x' from 0 to 1 step 0 do {
 							player setVariable ['QS_PP_difficultyEnabledRTD',[_difficultyEnabledRTD,(_timeNow + 900)],_true];
 						};
 					};
-
-					_loadedAtBase = player getVariable 'QS_IA_PP_loadedAtBase';
+					/*/
+					_loadedAtBase = player getVariable ['QS_IA_PP_loadedAtBase',[]];
 					if (!(_loadedAtBase isEqualTo [])) then {
-						{
-							if ((isNull _x) || {(!alive _x)}) then {
-								_newArray = (player getVariable 'QS_IA_PP_loadedAtBase') - [_x];
-							};
-						} count _loadedAtBase;
-						player setVariable ['QS_IA_PP_loadedAtBase',_newArray,_true];
+						_loadedAtBase = _loadedAtBase select {(alive _x)};
+						player setVariable ['QS_IA_PP_loadedAtBase',(_loadedAtBase select {(alive _x)}),_true];
 					};
-					_loadedAtMission = player getVariable 'QS_IA_PP_loadedAtMission';
+					_loadedAtMission = player getVariable ['QS_IA_PP_loadedAtMission',[]];
 					if (!(_loadedAtMission isEqualTo [])) then {
-						{
-							if ((isNull _x) || {(!alive _x)}) then {
-								_newArray = (player getVariable 'QS_IA_PP_loadedAtMission') - [_x];
-							};
-						} count _loadedAtMission;
-						player setVariable ['QS_IA_PP_loadedAtMission',_newArray,_true];
+						_loadedAtMission = _loadedAtMission select {(alive _x)};
+						player setVariable ['QS_IA_PP_loadedAtMission',(_loadedAtMission select {(alive _x)}),_true];
 					};
-					_loadedInField = player getVariable 'QS_IA_PP_loadedInField';
+					_loadedInField = player getVariable ['QS_IA_PP_loadedInField',[]];
 					if (!(_loadedInField isEqualTo [])) then {
-						{
-							if ((isNull _x) || {(!alive _x)}) then {
-								_newArray = (player getVariable 'QS_IA_PP_loadedInField') - [_x];
-							};
-						} count _loadedInField;
-						player setVariable ['QS_IA_PP_loadedInField',_newArray,_true];
+						player setVariable ['QS_IA_PP_loadedInField',(_loadedInField select {(alive _x)}),_true];
 					};
+					/*/
 				};
 			};
 			_QS_module_leaderboards_checkDelay = _timeNow + _QS_module_leaderboards_delay;
@@ -4710,7 +4682,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			};
 		};
-		if (player getVariable ['QS_client_radioDisabled',FALSE]) then {
+		if (player getVariable ['QS_client_radioDisabled',_false]) then {
 			if ('ItemRadio' in (assignedItems _QS_player)) then {
 				_QS_player unassignItem 'ItemRadio'; 
 			};
@@ -4949,7 +4921,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 									};
 									if (!(((crew _QS_v2) findIf {(alive _x)}) isEqualTo -1)) then {
-										['setVehicleAmmo',_QS_v2,0] remoteExec ['QS_fnc_remoteExecCmd',(crew _QS_v2),FALSE];
+										['setVehicleAmmo',_QS_v2,0] remoteExec ['QS_fnc_remoteExecCmd',(crew _QS_v2),_false];
 									};
 								};
 							};
@@ -5069,7 +5041,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_QS_uiTime > _QS_module_groupIndicator_checkDelay) then {
 			if (isNull _objectParent) then {
 				if (!isNil {player getVariable ['QS_HUD_3',nil]}) then {
-					missionNamespace setVariable ['QS_client_groupIndicator_units',(((_posATLPlayer select [0,2]) nearEntities [_QS_module_groupIndicator_types,_QS_module_groupIndicator_radius]) select _QS_module_groupIndicator_filter),FALSE];
+					missionNamespace setVariable ['QS_client_groupIndicator_units',(((_posATLPlayer select [0,2]) nearEntities [_QS_module_groupIndicator_types,_QS_module_groupIndicator_radius]) select _QS_module_groupIndicator_filter),_false];
 				};
 			};
 			_QS_module_groupIndicator_checkDelay = _QS_uiTime + _QS_module_groupIndicator_delay;

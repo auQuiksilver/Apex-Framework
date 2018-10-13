@@ -16,13 +16,7 @@ ______________________________________________/*/
 params ['_ao'];
 _QS_AOpos = _ao select 1;
 private _aoArray = [];
-private _isHCEnabled = FALSE;
-
-/*/====================================================================== HEADLESS CLIENT VALIDATION/*/
-
-if (missionNamespace getVariable 'QS_HC_Active') then {
-	_isHCEnabled = TRUE;
-};
+private _isHCEnabled = (missionNamespace getVariable 'QS_HC_Active');
 
 /*/======================================================================= SET CURRENT AO/*/
 
@@ -65,6 +59,7 @@ diag_log '****************************************************';
 
 /*/======================================================================= CUSTOMIZATIONS/*/
 
+diag_log str (_ao select 0);
 _result = [(_ao select 0)] call (missionNamespace getVariable 'QS_fnc_aoCustomize');
 /*/if (_result isEqualType scriptNull) exitWith {};/*/
 
@@ -154,8 +149,8 @@ diag_log '****************************************************';
 
 /*/======================================================================= TRIGGER INIT/*/
 
-missionNamespace setVariable ['QS_classic_AI_triggerInit',TRUE,FALSE];
-missionNamespace setVariable ['QS_classic_AI_active',TRUE,FALSE];
+missionNamespace setVariable ['QS_classic_AI_triggerInit',TRUE,([FALSE,((missionNamespace getVariable 'QS_headlessClients') select 0)] select _isHCEnabled)];
+missionNamespace setVariable ['QS_classic_AI_active',TRUE,([FALSE,((missionNamespace getVariable 'QS_headlessClients') select 0)] select _isHCEnabled)];
 
 /*/======================================================================= RETURN/*/
 

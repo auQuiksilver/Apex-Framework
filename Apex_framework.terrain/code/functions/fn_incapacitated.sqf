@@ -97,7 +97,6 @@ _unit setUnconscious TRUE;
 } forEach [
 	['QS_revive_downtime',serverTime,TRUE],
 	['QS_RD_draggable',TRUE,TRUE],
-	['QS_incapacitated_processMoveOutRequest',FALSE,FALSE],
 	['QS_revive_disable',FALSE,FALSE],
 	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE]
@@ -286,9 +285,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	//comment 'Revived';
 	if (_lifeState in ['HEALTHY','INJURED']) then {
-		if (!(_unit getVariable 'QS_incapacitated_processMoveOutRequest')) then {
-			_exit = TRUE;
-		};
+		_exit = TRUE;
 	};
 	//comment 'Bled out';
 	if (_tickTimeNow >= _medicalTimer) then {
@@ -637,7 +634,6 @@ _unit setMimic 'neutral';
 	_unit setVariable _x;
 } forEach [
 	['QS_RD_draggable',FALSE,TRUE],
-	['QS_incapacitated_processMoveOutRequest',FALSE,FALSE],
 	['QS_revive_disable',FALSE,(player getVariable ['QS_revive_disable',FALSE])],
 	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE]

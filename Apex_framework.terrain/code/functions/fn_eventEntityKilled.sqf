@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	13/09/2018 A3 1.84 by Quiksilver
+	13/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -24,6 +24,25 @@ if (_killed isKindOf 'Man') then {
 			{
 				_x removeCuratorEditableObjects [[_killed],TRUE];
 			} forEach allCurators;
+		};
+	};
+	if (!isNull (group _killed)) then {
+		_grp = group _killed;
+		if ((side _grp) in [EAST,RESISTANCE]) then {
+			if (!isPlayer (leader _grp)) then {
+				if (_killed isEqualTo (leader _grp)) then {
+					private _grpUnits = (units _grp) select {((alive _x) && ((lifeState _x) in ['HEALTHY','INJURED']))};
+					if (!(_grpUnits isEqualTo [])) then {
+						_grpUnits = _grpUnits apply {[rankId _x,_x]};
+						_grpUnits sort FALSE;
+						if (local _grp) then {
+							_grp selectLeader ((_grpUnits select 0) select 1);
+						} else {
+							[_grp,((_grpUnits select 0) select 1)] remoteExec ['selectLeader',(groupOwner _grp),FALSE];
+						};
+					};
+				};
+			};
 		};
 	};
 } else {
@@ -58,7 +77,7 @@ if (isPlayer _killed) then {
 				if (isPlayer _killer) then {
 					if (!((vehicle _killer) isKindOf 'Air')) then {
 						_text = format ['Enemy sniper ( %1 ) killed by %2!',(name _killed),(name _killer)];
-						['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+						_text remoteExec ['systemChat',-2,FALSE];
 					};
 				};
 			};

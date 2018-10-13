@@ -57,10 +57,12 @@ _patrolGroup = [_position,(random 360),RESISTANCE,_sentryType,FALSE] call (missi
 		_x disableAI 'PATH';
 	};
 } count (units _patrolGroup);
+_patrolGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
 for '_x' from 0 to 1 step 1 do {
 	_patrolGroup = [_position,(random 360),RESISTANCE,_sentryType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 	[(units _patrolGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	_patrolGroup enableAttack TRUE;
+	_patrolGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
 	{
 		0 = _return pushBack _x;
 	} count (units _patrolGroup);

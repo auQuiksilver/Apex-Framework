@@ -166,6 +166,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_tank],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
 		_all pushBack _tank;
 		{
 			_x setUnitTrait ['engineer',TRUE,FALSE];
@@ -323,6 +324,7 @@ for '_x' from 0 to 1 step 0 do {
 					_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 				};
 				_grp setVariable ['QS_AI_GRP_DATA',[_spawnPosition],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+				_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
 			};
 		};
 		_respawnCheckDelay = _time + _respawnDelay;

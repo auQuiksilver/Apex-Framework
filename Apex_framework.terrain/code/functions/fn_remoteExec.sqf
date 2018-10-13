@@ -407,36 +407,8 @@ if (_case < 20) exitWith {
 };
 if (_case < 30) exitWith {
 	if (_case isEqualTo 20) then {
-		if (isServer) then {
-			private ['_object','_owner','_array'];
-			_object = _this select 1;
-			_owner = owner _object;
-			_object setVariable ['QS_HC_ownerID',_owner,FALSE];
-			_array = missionNamespace getVariable ['QS_headlessClients',[]];
-			0 = _array pushBack _owner;
-			missionNamespace setVariable [
-				'QS_headlessClients',
-				_array,
-				FALSE
-			];
-			if (!isNil {missionNamespace getVariable 'QS_HC_Active'}) then {
-				if (!(missionNamespace getVariable 'QS_HC_Active')) then {
-					missionNamespace setVariable ['QS_HC_Active',TRUE,FALSE];
-				};
-			};
-			['sideChat',[WEST,'HQ'],'A Headless Client has connected.'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			diag_log format ['***** SERVER ***** HC Registered ***** %1 * %2 *****',(missionNamespace getVariable 'QS_headlessClients'),(missionNamespace getVariable 'QS_HC_Active')];
-		};
+		// Unused
 	};
-	/*/HC AO Enemy/*/
-	if (_case isEqualTo 20) then {
-		if (!isServer) then {
-			if (!hasInterface) then {
-			
-			};
-		};
-	};
-
 	/*/Surrender/*/
 	if (_case isEqualTo 21) then {
 		private ['_unit'];
@@ -888,13 +860,9 @@ if (_case < 50) exitWith {
 				};
 			};
 			if (_isPilot) then {
-				_i = ((missionNamespace getVariable 'QS_leaderboards') select 1) findIf {((_x select 0) isEqualTo _puid)};
-				if (_i isEqualTo -1) then {
-					_object setVariable ['QS_IA_PP',0,TRUE];
-				} else {
-					_element = ((missionNamespace getVariable 'QS_leaderboards') select 1) select _i;
-					_object setVariable ['QS_IA_PP',(_element select 1),TRUE];
-				};
+				_object setVariable ['QS_IA_PP_loadedAtBase',[],FALSE];
+				_object setVariable ['QS_IA_PP_loadedAtMission',[],FALSE];
+				_object setVariable ['QS_IA_PP_loadedInField',[],FALSE];
 			};
 		};
 	};

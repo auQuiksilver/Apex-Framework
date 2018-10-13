@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/04/2018 A3 1.82 by Quiksilver
+	10/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -22,7 +22,7 @@ if (_time >= (uiNamespace getVariable ['QS_dynamicGroups_update',0])) then {
 	uiNamespace setVariable ['QS_dynamicGroups_update',(_time + ([0.5,2] select (isNull _display)))];
 };
 _player = player;
-if ((!((lifeState _player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 49))}) exitWith {};
+if ((!((lifeState _player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 49))} || {(!isNull curatorCamera)}) exitWith {};
 _cameraOn = cameraOn;
 if ((!(_cameraOn in [_player,(vehicle _player)])) && (!(unitIsUav _cameraOn))) exitWith {};
 private _alpha = 0;
@@ -83,17 +83,18 @@ if (isNull (objectParent _player)) then {
 if (visibleMap) exitWith {};
 if (_player getUnitTrait 'medic') then {
 	private _vehicle = objNull;
+	_pulse = ([2,25] call (missionNamespace getVariable 'QS_fnc_pulsate')) max 0.1;
 	{
 		_unit = _x;
 		if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 			_distance = _player distance2D _unit;
 			if (_distance > 2) then {
 				_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\r100_ca.paa';
-				_alpha = 1 - (((_distance / 500)) % 1);
-				_rgba = [1,0,0,_alpha];					
+				_alpha = (1 - (((_distance / 500)) % 1)) min _pulse;
+				_rgba = [1,0.41,0,_alpha];					
 				if (!(((_unit nearEntities ['CAManBase',2]) select {(!(_x isEqualTo _unit)) && (_x getUnitTrait 'medic') && ((lifeState _x) in ['HEALTHY','INJURED'])}) isEqualTo [])) then {
 					_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\u100_ca.paa';
-					_rgba = [0,0,1,_alpha];
+					_rgba = [0.25,0.5,1,_alpha];
 				};
 				_vehicle = vehicle _unit;
 				if (_alpha > 0) then {
@@ -208,7 +209,7 @@ if (!isStreamFriendlyUIEnabled) then {
 		if (freeLook) then {
 			{
 				_unit = _x;
-				if ((side _unit) isEqualTo playerSide) then {
+				if ((side (group _unit)) isEqualTo playerSide) then {
 					if (!(_unit getVariable ['QS_hidden',FALSE])) then {
 						if (!(_unit isEqualTo _player)) then {
 							if (((vectorMagnitude (velocity _unit)) * 3.6) <= 24) then {
@@ -226,6 +227,9 @@ if (!isStreamFriendlyUIEnabled) then {
 									_unitName = (name _unit) + (format [' (%1)',_unitType]);
 								} else {
 									_unitName = (name _unit);
+								};
+								if (_player getUnitTrait 'medic') then {
+									_unitName = format ['%1 (%2)',_unitName,(lifeState _unit)];
 								};
 								_distance = _cameraOn distance2D _unit;
 								_alpha = 1 - (((_distance / 31)) % 1);
@@ -261,7 +265,7 @@ if (!isStreamFriendlyUIEnabled) then {
 			};
 			if (!isNull _unit) then {
 				if ((_unit isKindOf 'CAManBase') || {((effectiveCommander _unit) isKindOf 'CAManBase')}) then {
-					if ((side _unit) isEqualTo playerSide) then {
+					if ((side (group _unit)) isEqualTo playerSide) then {
 						if (!(_unit isEqualTo _player)) then {
 							if (!(_unit getVariable ['QS_hidden',FALSE])) then {
 								_icon = '';

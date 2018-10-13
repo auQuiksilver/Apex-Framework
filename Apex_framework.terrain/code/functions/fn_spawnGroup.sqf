@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/03/2018 A3 1.82 by Quiksilver
+	5/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 	
@@ -46,13 +46,15 @@ for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 		_unit = [2,2,((_groupComposition select _i) select 0)] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 		if (isNull _unit) then {
 			_unit = _grp createUnit [((_groupComposition select _i) select 0),[-1015,-1015,0],[],15,'NONE'];
+			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 		} else {
 			// wake up unit
+			missionNamespace setVariable ['QS_analytics_entities_recycled',((missionNamespace getVariable ['QS_analytics_entities_recycled',0]) + 1),FALSE];
 			{
 				_unit setVariable [_x,nil,TRUE];
 			} forEach (allVariables _unit);
 			_unit setVariable ['QS_curator_disableEditability',FALSE,FALSE];
-			_unit setVariable ['QS_dynSim_ignore',FALSE,TRUE];
+			_unit setVariable ['QS_dynSim_ignore',FALSE,FALSE];
 			_unit hideObjectGlobal FALSE;
 			_unit enableSimulationGlobal TRUE;
 			_unit allowDamage TRUE;
@@ -65,8 +67,8 @@ for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 		};
 	} else {
 		_unit = _grp createUnit [((_groupComposition select _i) select 0),[-1015,-1015,0],[],15,'NONE'];
+		missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 	};
-	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	if (!((rank _unit) isEqualTo ((_groupComposition select _i) select 1))) then {
 		_unit setRank ((_groupComposition select _i) select 1);

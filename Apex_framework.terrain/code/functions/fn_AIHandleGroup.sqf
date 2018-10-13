@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	30/09/2018 A3 1.84 by Quiksilver
+	13/10/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -14,7 +14,7 @@ Description:
 _______________________________________________________/*/
 
 params ['_grp','_uiTime','_fps'];
-_grpLeader = leader _grp;
+private _grpLeader = leader _grp;
 if (!(simulationEnabled _grpLeader)) exitWith {};
 if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 	_grp setVariable ['QS_AI_GRP_SETUP',TRUE,FALSE];
@@ -68,8 +68,18 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 		_grp setVariable ['QS_AI_GRP_lastEnvSoundCtrl',_uiTime,FALSE];
 	};
 };
+private _grpLeaderLifestate = lifeState _grpLeader;
+if (!(_grpLeaderLifestate in ['HEALTHY','INJURED'])) then {
+	private _grpUnits = (units _grp) select {((alive _x) && ((lifeState _x) in ['HEALTHY','INJURED']))};
+	if (!(_grpUnits isEqualTo [])) then {
+		_grpUnits = _grpUnits apply {[rankId _x,_x]};
+		_grpUnits sort FALSE;
+		_grp selectLeader ((_grpUnits select 0) select 1);
+		_grpLeader = leader _grp;
+		_grpLeaderLifestate = lifeState _grpLeader;
+	};
+};
 _grpLeaderPosition = getPosATL _grpLeader;
-_grpLeaderLifestate = lifeState _grpLeader;
 _grpObjectParent = objectParent _grpLeader;
 _grpMorale = morale _grpLeader;
 _grpBehaviour = behaviour _grpLeader;
@@ -179,7 +189,7 @@ if (_grp getVariable ['QS_AI_GRP_regrouping',FALSE]) exitWith {
 	} else {
 		if ((_grpLeader distance2D (_grp getVariable 'QS_AI_GRP_regroupPos')) > 100) then {
 			doStop _grpLeader;
-			_grpLeader doMove (_grp getVariable ['QS_AI_GRP_regroupPos',_grpLeaderPosition]);
+			_grpLeader commandMove (_grp getVariable ['QS_AI_GRP_regroupPos',_grpLeaderPosition]);
 		};
 	};
 };
@@ -944,21 +954,9 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 			};
 		};
 		if (_currentConfig_minor isEqualTo 'VEHICLE') then {
-			
-			diag_log format ['AI V: 0 * %1',(typeOf _currentConfig_vehicle)];
-		
 			if (_currentTask_type isEqualTo 'PATROL') then {
-			
-				diag_log format ['AI V: 1 * %1',(typeOf _currentConfig_vehicle)];
-			
 				if (alive _currentConfig_vehicle) then {
-				
-					diag_log format ['AI V: 2 * %1',(typeOf _currentConfig_vehicle)];
-				
 					if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
-					
-						diag_log format ['AI V: 3 * %1',(typeOf _currentConfig_vehicle)];
-					
 						if ((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) >= ((count _currentTask_position) - 1)) then {
 							_grp setVariable ['QS_AI_GRP_PATROLINDEX',-1,FALSE];
 						};
@@ -967,13 +965,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (90 + (random 90))),-1],FALSE];
 						_movePos set [2,1];
 						if (alive (driver _currentConfig_vehicle)) then {
-						
-							diag_log format ['AI V: 4 * %1',(typeOf _currentConfig_vehicle)];
-						
 							if (((vectorMagnitude (velocity _currentConfig_vehicle)) * 3.6) < 2) then {
-							
-								diag_log format ['AI V: 5 * %1',(typeOf _currentConfig_vehicle)];
-							
 								doStop (driver _currentConfig_vehicle);
 								if ((driver _currentConfig_vehicle) isEqualTo _grpLeader) then {
 									(driver _currentConfig_vehicle) commandMove _movePos;

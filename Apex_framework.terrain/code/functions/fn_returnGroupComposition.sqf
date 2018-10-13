@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/09/2018 A3 1.84 by Quiksilver
+	10/10/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -26,6 +26,7 @@ if (_side isEqualTo EAST) exitWith {
 		if (_type isEqualTo 'OIA_InfSentry') then {_return = [['O_T_soldier_GL_F','CORPORAL'],['O_T_soldier_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfSquad') then {_return = [['O_T_Soldier_SL_F','SERGEANT'],['O_T_Soldier_F','PRIVATE'],['O_T_Soldier_LAT_F','CORPORAL'],['O_T_Soldier_M_F','PRIVATE'],['O_T_Soldier_AR_F','SERGEANT'],['O_T_Soldier_AR_F','CORPORAL'],['O_T_Engineer_F','PRIVATE'],['O_T_medic_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfSquad_Weapons') then {_return = [['O_T_Soldier_SL_F','SERGEANT'],['O_T_Soldier_AR_F','PRIVATE'],['O_T_Soldier_GL_F','CORPORAL'],['O_T_Soldier_M_F','SERGEANT'],['O_T_Soldier_AT_F','PRIVATE'],['O_T_Engineer_F','PRIVATE'],['O_T_Soldier_AAT_F','PRIVATE'],['O_T_medic_F','PRIVATE']];breakTo 'main';};
+		if (_type isEqualTo 'OIA_InfSquad_L') then {_return = [['O_T_Soldier_M_F','SERGEANT'],['O_T_Soldier_M_F','CORPORAL'],['O_T_Soldier_AR_F','PRIVATE'],['O_T_Soldier_AR_F','PRIVATE'],['O_T_Soldier_AR_F','PRIVATE'],['O_T_Soldier_AR_F','PRIVATE'],['O_T_Soldier_M_F','PRIVATE'],['O_T_Soldier_M_F','PRIVATE'],['O_T_Soldier_LAT_F','PRIVATE'],['O_T_Soldier_LAT_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfTeam') then {_return = [['O_T_soldier_TL_F','SERGEANT'],['O_T_soldier_AR_F','CORPORAL'],['O_T_soldier_GL_F','PRIVATE'],['O_T_soldier_LAT_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfTeam_AA') then {_return = [['O_T_soldier_TL_F','SERGEANT'],['O_T_soldier_AA_F','CORPORAL'],['O_T_soldier_AA_F','PRIVATE'],['O_T_soldier_AAA_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfTeam_AT') then {_return = [['O_T_soldier_TL_F','SERGEANT'],['O_T_soldier_AT_F','CORPORAL'],['O_T_soldier_AT_F','PRIVATE'],['O_T_soldier_AAT_F','PRIVATE']];breakTo 'main';};
@@ -60,6 +61,7 @@ if (_side isEqualTo EAST) exitWith {
 		if (_type isEqualTo 'OIA_InfSentry') then {_return = [['O_soldier_GL_F','CORPORAL'],['O_soldier_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfSquad') then {_return = [['O_Soldier_SL_F','SERGEANT'],['O_Soldier_F','PRIVATE'],['O_Soldier_LAT_F','CORPORAL'],['O_Soldier_M_F','PRIVATE'],['O_Soldier_AR_F','SERGEANT'],['O_Soldier_AR_F','CORPORAL'],['O_engineer_F','PRIVATE'],['O_medic_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfSquad_Weapons') then {_return = [['O_Soldier_SL_F','SERGEANT'],['O_Soldier_AR_F','PRIVATE'],['O_Soldier_GL_F','CORPORAL'],['O_Soldier_M_F','SERGEANT'],['O_Soldier_AT_F','PRIVATE'],['O_engineer_F','PRIVATE'],['O_Soldier_AAT_F','PRIVATE'],['O_medic_F','PRIVATE']];breakTo 'main';};
+		if (_type isEqualTo 'OIA_InfSquad_L') then {_return = [['O_soldier_M_F','SERGEANT'],['O_soldier_M_F','CORPORAL'],['O_Soldier_AR_F','PRIVATE'],['O_Sharpshooter_F','PRIVATE'],['O_HeavyGunner_F','PRIVATE'],['O_Soldier_AR_F','PRIVATE'],['O_HeavyGunner_F','PRIVATE'],['O_Sharpshooter_F','PRIVATE'],['O_Soldier_HAT_F','PRIVATE'],['O_Soldier_HAT_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfTeam') then {_return = [['O_soldier_TL_F','SERGEANT'],['O_soldier_AR_F','CORPORAL'],['O_soldier_GL_F','PRIVATE'],['O_soldier_LAT_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfTeam_AA') then {_return = [['O_soldier_TL_F','SERGEANT'],['O_soldier_AA_F','CORPORAL'],['O_soldier_AA_F','PRIVATE'],['O_soldier_AAA_F','PRIVATE']];breakTo 'main';};
 		if (_type isEqualTo 'OIA_InfTeam_AT') then {_return = [['O_soldier_TL_F','SERGEANT'],['O_soldier_AT_F','CORPORAL'],['O_soldier_AT_F','PRIVATE'],['O_soldier_AAT_F','PRIVATE']];breakTo 'main';};

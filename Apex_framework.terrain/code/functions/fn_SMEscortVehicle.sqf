@@ -228,18 +228,17 @@ _spawnDoubleChance = 0;
 if (worldName isEqualTo 'Tanoa') then {
 	_groupSide = RESISTANCE;
 	_enemyGroupTypes = ['IG_InfSentry','IG_ReconSentry','IG_ReconSentry','IG_InfSentry','IG_InfTeam','IG_InfTeam'];
-	//comment "_enemyGroupTypes_big = ['IG_InfAssault','IG_InfSquad'];";
 	_enemyGroupTypes_big = ['IG_InfTeam','IG_InfSquad'];
 	_enemyGroupTypes_small = ['IG_InfSentry','IG_ReconSentry'];
-	_enemyGroupTypes_reinf_small = ['OG_InfAssaultTeam','OG_InfSquad_Weapons'];
-	_enemyGroupTypes_reinf_big = ['OG_InfAssaultTeam','OG_InfSquad_Weapons'];
+	_enemyGroupTypes_reinf_small = ['OG_InfAssaultTeam'];
+	_enemyGroupTypes_reinf_big = ['OG_InfAssaultTeam'];
 } else {
 	_groupSide = EAST;
 	_enemyGroupTypes = ['OG_InfSentry','OG_InfSentry','OG_ReconSentry','OG_InfSentry','OG_InfTeam','OG_InfTeam'];
 	_enemyGroupTypes_big = ['OG_InfAssault','OG_InfTeam'];
 	_enemyGroupTypes_small = ['OG_InfSentry','OG_ReconSentry'];
-	_enemyGroupTypes_reinf_small = ['OG_InfAssaultTeam','OG_InfSquad_Weapons'];
-	_enemyGroupTypes_reinf_big = ['OG_InfAssaultTeam','OG_InfSquad_Weapons'];
+	_enemyGroupTypes_reinf_small = ['OG_InfAssaultTeam'];
+	_enemyGroupTypes_reinf_big = ['OG_InfAssaultTeam'];
 };
 _enemyGroupType = '';
 _enemySpawnPos = [0,0,0];

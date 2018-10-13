@@ -16,17 +16,24 @@ ____________________________________________________________________________*/
 private ['_return'];
 _aoName = toLower (_this select 0);
 _return = [];
-if (_aoName isEqualTo 'oreokastro') then {
-	/*/ Scaffolding to get ontop of castle/*/
+if (worldName isEqualTo 'Altis') then {
+	if (_aoName isEqualTo 'oreokastro') then {
+		/*/ Scaffolding to get ontop of castle/*/
+	};
+	if (_aoName isEqualTo 'research facility') then {
+		/*/ Minefield on the approach hill sometimes/*/
+	};
+	if (_aoName isEqualTo 'zaros power station') then {
+		/*/ Minefield on the approach hill sometimes/*/
+	};
+	IF (_aoName isEqualTo 'limni') then {
+	
+	};
 };
-if (_aoName isEqualTo 'research facility') then {
-	/*/ Minefield on the approach hill sometimes/*/
+if (worldName isEqualTo 'Tanoa') then {
+
 };
-if (_aoName isEqualTo 'zaros power station') then {
-	/*/ Minefield on the approach hill sometimes/*/
-};
-if (_aoName isEqualTo 'georgetown') then {
-	_return = [] spawn (missionNamespace getVariable 'QS_fnc_missionGeorgetown');
-	missionNamespace setVariable ['QS_customAO_script',_return,FALSE];
+if (worldName isEqualTo 'Malden') then {
+
 };
 _return;

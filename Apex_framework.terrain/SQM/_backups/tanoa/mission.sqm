@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=137;
+		nextID=144;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6890.9883,50.428967,7365.8354};
-		dir[]={0.89328259,-0.40682435,0.19164675};
-		up[]={0.39783835,0.91347784,0.08535371};
-		aside[]={0.20978992,2.2837776e-007,-0.97784191};
+		pos[]={6902.521,27.202335,7360.5322};
+		dir[]={0.89875388,-0.31955341,0.30027926};
+		up[]={0.30309403,0.94756842,0.10126551};
+		aside[]={0.31689504,-2.1304004e-008,-0.94848198};
 	};
 };
 binarizationWanted=0;
@@ -170,7 +170,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=46;
+		items=48;
 		class Item0
 		{
 			dataType="Group";
@@ -2425,14 +2425,14 @@ class Mission
 					class PositionInfo
 					{
 						position[]={7650.5889,20.846748,14871.794};
-						angles[]={0.058599081,0,0.018663859};
+						angles[]={0.058590703,0,0.018657569};
 					};
 					side="West";
 					flags=6;
 					class Attributes
 					{
 						skill=0.2;
-						description="Commander ( disabled )";
+						description="Commander";
 						isPlayer=1;
 						isPlayable=1;
 					};
@@ -3141,13 +3141,14 @@ class Mission
 		class Item39
 		{
 			dataType="Marker";
-			position[]={7113.5498,0,6644.8892};
+			position[]={7513.8599,0,6066.645};
 			name="QS_marker_subPosition";
 			text="   Submarine position";
 			type="Empty";
 			alpha=0.5;
+			angle=91.614227;
 			id=132;
-			atlOffset=20.025497;
+			atlOffset=25.101099;
 		};
 		class Item40
 		{
@@ -3245,6 +3246,30 @@ class Mission
 				};
 				nAttributes=1;
 			};
+		};
+		class Item46
+		{
+			dataType="Marker";
+			position[]={7831.0405,2.019434,5639.1704};
+			name="QS_marker_destroyer_1";
+			text="Destroyer ship position";
+			type="Empty";
+			alpha=0.5;
+			angle=88.549187;
+			id=142;
+			atlOffset=26.347755;
+		};
+		class Item47
+		{
+			dataType="Marker";
+			position[]={7133.2847,6.8069134,5293.5757};
+			name="QS_marker_carrier_1";
+			text="Carrier ship position";
+			type="Empty";
+			alpha=0.5;
+			angle=102.89074;
+			id=143;
+			atlOffset=34.02446;
 		};
 	};
 };

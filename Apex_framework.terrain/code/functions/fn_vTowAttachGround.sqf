@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/10/2018 A3 1.84 by Quiksilver
+	13/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -233,15 +233,18 @@ if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
 	uiSleep 0.5;
 	_vehicle allowDamage TRUE;
 };
-_towedVehicle setPosWorld (_vehicle modelToWorldWorld _detachPos);
+_towedVehicle allowDamage FALSE;
+uiSleep 0.05;
+_towedVehicle setPosASL (_vehicle modelToWorldWorld _detachPos);
 if (!isNull (attachedTo _towedVehicle)) then {
 	_towedVehicle attachTo [_vehicle,[(_detachPos select 0),(_detachPos select 1),((_vehicle worldToModelVisual (position _towedVehicle)) select 2)]];
 	detach _towedVehicle;
 };
-_towedVehicle setPosWorld (_vehicle modelToWorldWorld _detachPos);
+_towedVehicle setPosASL (_vehicle modelToWorldWorld _detachPos);
 if (((getPosATL _towedVehicle) select 2) < 5) then {
 	_towedVehicle setVectorUp (surfaceNormal (getPosWorld _towedVehicle));
 };
 50 cutText ['Released','PLAIN DOWN',0.25];
 uiSleep 0.5;
+_towedVehicle allowDamage TRUE;
 _vehicle allowDamage TRUE;

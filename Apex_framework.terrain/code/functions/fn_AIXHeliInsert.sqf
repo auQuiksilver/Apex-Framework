@@ -399,7 +399,7 @@ if (_useSupport) then {
 		_timeDelete = time + 900;
 		{
 			if (_x isEqualType objNull) then {
-				0 = QS_garbageCollector pushBack [_x,'DELAYED_DISCREET',_timeDelete];
+				0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'DELAYED_DISCREET',_timeDelete];
 			};
 		} forEach _array;
 	};

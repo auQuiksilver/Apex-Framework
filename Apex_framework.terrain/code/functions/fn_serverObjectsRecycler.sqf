@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	27/03/2018 A3 1.82 by Quiksilver
+	5/10/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -24,40 +24,40 @@ if (_type isEqualTo 0) exitWith {
 	private _units = [];
 	private _simpleObjectData = [
 		[
-			['Land_HBarrier_3_F',5],
-			['Land_HBarrier_5_F',5],
-			['Land_HBarrier_Big_F',12],
-			['Land_HBarrier_1_F',5],
+			['Land_HBarrier_3_F',10],
+			['Land_HBarrier_5_F',12],
+			['Land_HBarrier_Big_F',20],
+			['Land_HBarrier_1_F',10],
 			['Land_HBarrierWall_corner_F',3],
 			['Land_HBarrierWall6_F',3],
 			['Land_HBarrierWall4_F',3],
 			['Land_BagFence_Corner_F',5],
 			['Land_BagFence_End_F',5],
-			['Land_BagFence_Long_F',5],
+			['Land_BagFence_Long_F',10],
 			['Land_BagFence_Round_F',5],
-			['Land_BagFence_Short_F',5]
+			['Land_BagFence_Short_F',10]
 		],
 		[
-			['Land_HBarrier_01_line_3_green_F',8],
-			['Land_HBarrier_01_line_5_green_F',8],
-			['Land_HBarrier_01_big_4_green_F',12],
-			['Land_HBarrier_01_line_1_green_F',5],
+			['Land_HBarrier_01_line_3_green_F',10],
+			['Land_HBarrier_01_line_5_green_F',12],
+			['Land_HBarrier_01_big_4_green_F',20],
+			['Land_HBarrier_01_line_1_green_F',10],
 			['Land_HBarrier_01_wall_corner_green_F',2],
 			['Land_HBarrier_01_wall_6_green_F',2],
 			['Land_HBarrier_01_wall_4_green_F',2],
 			['Land_BagFence_01_corner_green_F',5],
 			['Land_BagFence_01_end_green_F',5],
-			['Land_BagFence_01_long_green_F',5],
+			['Land_BagFence_01_long_green_F',10],
 			['Land_BagFence_01_round_green_F',5],
-			['Land_BagFence_01_short_green_F',5]
+			['Land_BagFence_01_short_green_F',10]
 		]
 	] select (worldName isEqualTo 'Tanoa');
 	_simpleObjectData = _simpleObjectData + [
-		['Land_PaperBox_closed_F',3],
-		['Land_PaperBox_open_full_F',3],
-		['Land_Mil_WallBig_4m_F',3],
-		['Land_Bunker_01_blocks_1_F',5],
-		['Land_Bunker_01_blocks_3_F',5]
+		['Land_PaperBox_closed_F',5],
+		['Land_PaperBox_open_full_F',5],
+		['Land_Mil_WallBig_4m_F',10],
+		['Land_Bunker_01_blocks_1_F',8],
+		['Land_Bunker_01_blocks_3_F',8]
 	];
 	_normalObjectData = [
 	
@@ -136,7 +136,7 @@ if (_type isEqualTo 0) exitWith {
 					_unit hideObjectGlobal TRUE;
 					_unit enableSimulationGlobal FALSE;
 					_unit disableAI 'ALL';
-					_unit setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+					_unit setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 					_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 					[_unit] joinSilent _nullGrp;
 					_units pushBack _unit;
@@ -175,7 +175,7 @@ if (_type isEqualTo 1) exitWith {
 										_object setVariable [_x,nil,FALSE];
 									};
 								} forEach (allVariables _object);
-								_object setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+								_object setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 								_object setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 								_object setPosASL (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
 								_object hideObjectGlobal TRUE;

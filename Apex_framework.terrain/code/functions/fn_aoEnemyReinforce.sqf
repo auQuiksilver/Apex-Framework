@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/04/2018 A3 1.82 by Quiksilver
+	7/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -85,6 +85,7 @@ if (diag_fps > 15) then {
 									_infTypes = [['OIA_InfSquad','OIA_InfAssault'],['OIA_InfSquad','OIA_InfAssault']] select (_worldName isEqualTo 'Altis');
 									_infType = selectRandom _infTypes;
 									_reinforceGroup = [_spawnPosDefault,(random 360),EAST,_infType,FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
+									_reinforceGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
 									[
 										_hqPos,
 										EAST,
@@ -162,6 +163,7 @@ if ((random 1) > 0.5) then {
 	_reinforceGroup setVariable ['QS_AI_GRP_TASK',[_attackType,_attackPosition,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_reinforceGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_reinforceGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
 } else {
 	private _radialIncrement = 45;
 	private _radialStart = round (random 360);
@@ -191,6 +193,7 @@ if ((random 1) > 0.5) then {
 	_reinforceGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,diag_tickTime,-1],FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP',TRUE,FALSE];
+	_reinforceGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
 };
 [(units _reinforceGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';

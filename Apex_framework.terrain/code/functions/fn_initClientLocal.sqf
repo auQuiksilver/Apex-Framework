@@ -16,17 +16,15 @@ if (isDedicated || !isMultiplayer || is3DEN) exitWith {};
 0 spawn {
 	setViewDistance 200; 	
 	setObjectViewDistance 0; 	
-	_hasInterface = hasInterface; 	
+	_hasInterface = hasInterface;
+	if (!(_hasInterface)) exitWith {
+		0 spawn (missionNamespace getVariable 'QS_fnc_hcCore');
+		0 spawn (missionNamespace getVariable 'QS_fnc_AI');
+	};
 	if (_hasInterface) then {
 		player setVehiclePosition [(getPosWorld player),[],0,'NONE'];
 		waitUntil {
 			(!(isNull(findDisplay 46)))
-		};
-	};
-	if (isNil {missionNamespace getVariable 'QS_fnc_remoteExec'}) then {
-		waitUntil {
-			uiSleep 0.1;
-			(!isNil {missionNamespace getVariable 'QS_fnc_remoteExec'})
 		};
 	};
 	if (isMultiplayer) then {

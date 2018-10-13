@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	30/09/2018 A3 1.84 by Quiksilver
+	13/10/2018 A3 1.84 by Quiksilver
 
 Description:
 
@@ -19,7 +19,19 @@ if (
 	{(!(local _unit))} ||
 	{(!(simulationEnabled _unit))} ||
 	{(!((lifeState _unit) in ['HEALTHY','INJURED']))}
-) exitWith {};
+) exitWith {
+	if (_unit isEqualTo (leader (group _unit))) then {
+		_grp = group _unit;
+		if (!alive _unit) then {
+			private _grpUnits = (units _grp) select {((alive _x) && ((lifeState _x) in ['HEALTHY','INJURED']))};
+			if (!(_grpUnits isEqualTo [])) then {
+				_grpUnits = _grpUnits apply {[rankId _x,_x]};
+				_grpUnits sort FALSE;
+				_grp selectLeader ((_grpUnits select 0) select 1);
+			};
+		};
+	};
+};
 if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	_unit setVariable ['QS_AI_UNIT',TRUE,FALSE];
 	_unit setVariable ['QS_AI_UNIT_rv',[(random 1),(random 1),(random 1)],FALSE];
@@ -66,7 +78,7 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 		};
 	};
 };
-_grp = group _unit;
+private _grp = group _unit;
 _isLeader = _unit isEqualTo (leader _grp);
 if (_isLeader) then {
 	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSupportRequest'}) then {
@@ -74,6 +86,14 @@ if (_isLeader) then {
 	};
 	if (isNil {_unit getVariable 'QS_AI_UNIT_lastRegroup'}) then {
 		_unit setVariable ['QS_AI_UNIT_lastRegroup',(_uiTime + (random [30,60,90])),FALSE];
+	};
+	if (!alive _unit) then {
+		private _grpUnits = (units _grp) select {((lifeState _x) in ['HEALTHY','INJURED'])};
+		if (!(_grpUnits isEqualTo [])) then {
+			_grpUnits = _grpUnits apply {[rankId _x,_x]};
+			_grpUnits sort FALSE;
+			_grp selectLeader ((_grpUnits select 0) select 1);
+		};
 	};
 };
 _objectParent = objectParent _unit;

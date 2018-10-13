@@ -1,12 +1,12 @@
 /*
-File: fn_atVKilled.sqf
+File: fn_vKilled.sqf
 Author:
 
 	Quiksilver
 	
 Last modified:
 
-	1/01/2016 ArmA 3 1.54 by Quiksilver
+	10/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -99,30 +99,10 @@ if (!isNull _killer) then {
 		};
 	};
 };
-if (_killed isKindOf 'Helicopter') then {
-	if (!isNull (driver _killed)) then {
-		_driver = driver _killed;
-		if ((count (crew _killed)) > 1) then {
-			if (!isNil {_driver getVariable 'QS_IA_PP'}) then {
-				_delta = 0;
-				for '_x' from 0 to ((count (crew _killed)) - 2) step 1 do {
-					_delta = _delta + 1;
-				};
-				_oldVal = _driver getVariable 'QS_IA_PP';
-				_newVal = _oldVal - _delta;
-				if (_newVal < -1) then {
-					_newVal = -1;
-				};
-				_driver setVariable ['QS_IA_PP',_newVal,TRUE];
-				0 = QS_leaderboards_session_queue pushBack ['TRANSPORT',(getPlayerUID _driver),-_delta];
-			};
-		};
-	};
-};
 if ((typeOf _killed) in [
 	"B_T_VTOL_01_armed_blue_F","B_T_VTOL_01_armed_F","B_T_VTOL_01_armed_olive_F",
 	"B_T_VTOL_01_infantry_blue_F","B_T_VTOL_01_infantry_F","B_T_VTOL_01_infantry_olive_F",
 	"B_T_VTOL_01_vehicle_blue_F","B_T_VTOL_01_vehicle_F","B_T_VTOL_01_vehicle_olive_F"
 ]) then {
-	0 = QS_garbageCollector pushBack [_killed,'DELAYED_FORCED',(time + 30)];
+	0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_killed,'DELAYED_FORCED',(time + 30)];
 };

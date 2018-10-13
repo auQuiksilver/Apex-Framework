@@ -6,27 +6,27 @@ Author:
 	
 Last modified:
 
-	15/02/2016 ArmA 3 1.54 by Quiksilver
+	7/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
-	Headless Client Core
+	Headless Client Core Script
 __________________________________________________*/
 
 if (hasInterface) exitWith {};
-disableRemoteSensors TRUE;
+disableRemoteSensors FALSE;
 enableEnvironment [FALSE,FALSE];
 setViewDistance 1200;
-setObjectViewDistance 1000;
+setObjectViewDistance 1200;
 setTerrainGrid 50;
 setShadowDistance 0;
-if (TRUE) exitWith {};	// Headless client system not currently functional.
-[20,player] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 private _timeNow = time;
+private _serverTime = serverTime;
 private _tickTimeNow = diag_tickTime;
 private _loopSleep = 3;
 private _QS_worldName = worldName;
 private _QS_worldSize = worldSize;
+_baseMarker = markerPos 'QS_marker_base_marker';
 /*/Dynamic Simulation/*/
 private _QS_module_dynSim = TRUE;
 private _QS_module_dynSim_delay = 30;
@@ -45,7 +45,6 @@ enableDynamicSimulationSystem _QS_module_dynSim;
 private _cleanGroups = TRUE;
 private _cleanGroups_delay = 60;
 private _cleanGroups_checkDelay = _timeNow + _cleanGroups_delay;
-
 private _fpsCheckDelay = 0;
 private _fps = 50;
 
@@ -55,9 +54,8 @@ for '_x' from 0 to 1 step 0 do {
 	/*/Report/*/
 	if (_tickTimeNow > _fpsCheckDelay) then {
 		_fps = round diag_fps;
-		missionNamespace setVariable ['QS_serverFPS',_fps,TRUE];
 		diag_log format ['Headless Client FPS: %1 * Time: %2 * Active Scripts: %3 * Active SQF Scripts: %4 *',_fps,(round _tickTimeNow),diag_activeScripts,diag_activeSQFScripts];
-		_fpsCheckDelay = _tickTimeNow + 30;
+		_fpsCheckDelay = _tickTimeNow + 15;
 	};
 	/*/Groups cleaner/*/
 	if (_cleanGroups) then {

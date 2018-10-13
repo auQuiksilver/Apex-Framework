@@ -88,12 +88,14 @@ missionNamespace setVariable [
 	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 	FALSE
 ];
+/*/
 _jetActual setPosASL [
 	((getPosASL _jetActual) select 0),
 	((getPosASL _jetActual) select 1),
 	(((getPosASL _jetActual) select 2) + 1000)
-];
-_jetActual setVectorUp [0,0,1];
+];/*/
+//_jetActual setVectorUp [0,0,1];
+/*/
 _jetActual spawn {
 	_jetActual = _this;
 	for '_x' from 0 to 49 step 1 do {
@@ -104,7 +106,7 @@ _jetActual spawn {
 		];
 		uiSleep 0.05;
 	};
-};
+};/*/
 _jetActual engineOn TRUE;
 _jetActual setAirplaneThrottle 1;
 _jetActual allowCrewInImmobile TRUE;

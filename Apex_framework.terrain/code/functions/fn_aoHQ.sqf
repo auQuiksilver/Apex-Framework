@@ -29,7 +29,7 @@ _roughPos1 = [(((missionNamespace getVariable 'QS_HQpos') select 0) - 150) + (ra
 {
 	_x setMarkerPos _roughPos1;
 } count ['QS_marker_hqMarker','QS_marker_hqCircle'];
-missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [(missionNamespace getVariable 'QS_HQpos')]),FALSE];
+missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [(missionNamespace getVariable 'QS_HQpos')]),TRUE];
 missionNamespace setVariable [
 	'QS_aoHQ',
 	([(missionNamespace getVariable 'QS_HQpos'),0,(call _hqSelect),TRUE] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper')),
