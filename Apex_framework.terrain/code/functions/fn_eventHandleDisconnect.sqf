@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	28/09/2017 A3 1.76 by Quiksilver
+	18/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -14,7 +14,7 @@ Description:
 __________________________________________________/*/
 
 params ['_object','_cid','_uid','_name'];
-if (((_this select 1) select [0,2]) isEqualTo 'HC') exitWith {};
+if ((_uid select [0,2]) isEqualTo 'HC') exitWith {};
 if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 	_vehicleInfo = _object getVariable 'QS_pilot_vehicleInfo';
 	_vehicle = _vehicleInfo select 0;
