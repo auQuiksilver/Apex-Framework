@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	18/10/2018 A3 1.84 by Quiksilver
+	29/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -15,6 +15,17 @@ __________________________________________________/*/
 
 params ['_object','_cid','_uid','_name'];
 if ((_uid select [0,2]) isEqualTo 'HC') exitWith {};
+if (!isNull (group _object)) then {
+	if (!isNull (objectParent _object)) then {
+		if ((objectParent _object) isKindOf 'AllVehicles') then {
+			if (local (objectParent _object)) then {
+				(objectParent _object) deleteVehicleCrew _object;
+			} else {
+				[(objectParent _object),_object] remoteExec ['deleteVehicleCrew',(objectParent _object),FALSE];
+			};
+		};
+	};
+};
 if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 	_vehicleInfo = _object getVariable 'QS_pilot_vehicleInfo';
 	_vehicle = _vehicleInfo select 0;
@@ -23,12 +34,10 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 		if ((_vehicle distance (markerPos 'QS_marker_base_marker')) > 600) then {
 			if (!isTouchingGround _vehicle) then {
 				if ((_vehicleRole select 0) isEqualTo 'driver') then {
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _object;
+					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
+					if (!isNull _object) then {
+						deleteVehicle _object;
+					};
 					[_vehicle,_name] spawn {
 						scriptName 'QS Script RTB';
 						sleep 0.5;
