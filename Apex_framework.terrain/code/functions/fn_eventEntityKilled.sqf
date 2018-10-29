@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	13/10/2018 A3 1.84 by Quiksilver
+	29/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -27,6 +27,15 @@ if (_killed isKindOf 'Man') then {
 		};
 	};
 	if (!isNull (group _killed)) then {
+		if (!isNull (objectParent _killed)) then {
+			if ((objectParent _killed) isKindOf 'AllVehicles') then {
+				if (local (objectParent _killed)) then {
+					(objectParent _killed) deleteVehicleCrew _killed;
+				} else {
+					[(objectParent _killed),_killed] remoteExec ['deleteVehicleCrew',(objectParent _killed),FALSE];
+				};
+			};
+		};
 		_grp = group _killed;
 		if ((side _grp) in [EAST,RESISTANCE]) then {
 			if (!isPlayer (leader _grp)) then {
