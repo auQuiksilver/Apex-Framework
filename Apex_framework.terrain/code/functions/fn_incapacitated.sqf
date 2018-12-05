@@ -119,12 +119,7 @@ private _text = '';
 private _timeNow = time;
 private _tickTimeNow = diag_tickTime;
 private _actOfGod = FALSE;
-private _iAmMedic = FALSE;
-private _chance = 0.625;
-if (_unit getUnitTrait 'medic') then {
-	_iAmMedic = TRUE;
-	_chance = 0.57;
-};
+private _chance = [0.57,0.625] select (_unit getUnitTrait 'medic');
 private _randomN = random 1;
 private _actOfGod_delay = -1;
 if (_randomN > 0.5) then {
@@ -143,7 +138,7 @@ _soundDelayRandom = 20;
 _soundDelay = _tickTimeNow + _soundDelayFixed + (random _soundDelayRandom);
 _sound = '';
 _medevacBase = markerPos 'QS_marker_medevac_hq';
-private _medicalTimerDelay = 10 * 60;
+private _medicalTimerDelay = 600;
 private _medicalStartTime = _tickTimeNow;
 private _medicalTimer = _medicalStartTime + _medicalTimerDelay;
 private _medevacRequested = FALSE;
@@ -408,7 +403,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((vectorMagnitude (velocity _medicalBox)) < 1) then {
 								if ((!(unitIsUav _medicalBox)) || {((unitIsUav _medicalBox) && (isUavConnected _medicalBox))}) then {
 									deleteVehicle _medicalBox;
-									_text = format ['%1 was revived with a(n) %1',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _medicalBox) >> 'displayName'))])];
+									_text = format ['%1 was revived with a(n) %2',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _medicalBox) >> 'displayName'))])];
 									['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									_revivedAtVehicle = TRUE;
 									if (_lifeState isEqualTo 'INCAPACITATED') then {

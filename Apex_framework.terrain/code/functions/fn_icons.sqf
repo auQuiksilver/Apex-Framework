@@ -259,6 +259,9 @@ _QS_fnc_iconColor = {
 		if ([_u,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {
 			_exit = TRUE;
 			_c = _QS_ST_X select 16;
+			if (isPlayer _u) then {
+				_c set [1,((_c select 1) * ((((_u getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))];
+			};
 			_c set [3,_a];
 			if (_ms > 0.80) then {
 				if (_ds isEqualTo 1) then {
@@ -270,6 +273,9 @@ _QS_fnc_iconColor = {
 		if ([_u,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {
 			_exit = TRUE;
 			_c = _QS_ST_X select 16;
+			if (isPlayer _u) then {
+				_c set [1,((_c select 1) * ((((_u getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))];
+			};
 			_c set [3,0];
 		};
 	};

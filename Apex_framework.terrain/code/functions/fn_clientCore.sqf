@@ -1730,6 +1730,8 @@ _fn_gpsJammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
 _fn_isNearRepairDepot = missionNamespace getVariable 'QS_fnc_isNearRepairDepot';
 _fn_deltaVD = missionNamespace getVariable 'QS_fnc_deltaVD';
 _fn_hint = missionNamespace getVariable 'QS_fnc_hint';
+_fn_enemySides = missionNamespace getVariable 'BIS_fnc_enemySides';
+_fn_getNearbyIncapacitated = missionNamespace getVariable 'QS_fnc_getNearbyIncapacitated';
 
 /*/================================================================================================================= LOOP/*/
 for '_x' from 0 to 1 step 0 do {
@@ -2091,7 +2093,8 @@ for '_x' from 0 to 1 step 0 do {
 				{(((attachedObjects _QS_player) findIf {(_x isKindOf 'CAManBase')}) isEqualTo -1)} &&
 				{(_cursorTarget isKindOf 'CAManBase')} &&
 				{(alive _cursorTarget)} &&
-				{((lifeState _cursorTarget) isEqualTo 'INCAPACITATED')}
+				{((lifeState _cursorTarget) isEqualTo 'INCAPACITATED')} &&
+				{(!(['medic',(animationState _QS_player),_false] call _fn_inString))}
 			) then {
 				if (!(_QS_interaction_revive)) then {
 					_QS_interaction_revive = _true;
@@ -5052,7 +5055,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (_QS_player getUnitTrait 'medic') then {
 		if (_QS_uiTime > _QS_medicIcons_checkDelay) then {
-			missionNamespace setVariable ['QS_client_medicIcons_units',(_posATLPlayer nearEntities ['CAManBase',_QS_medicIcons_radius]),_false];
+			[_posATLPlayer,500,_fn_enemySides] spawn _fn_getNearbyIncapacitated;
 			_QS_medicIcons_checkDelay = _QS_uiTime + _QS_medicIcons_delay;
 		};
 	};

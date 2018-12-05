@@ -13,7 +13,7 @@ Description:
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.2';
+_missionProductVersion = '1.1.3';
 _missionProductStatus = 'Gold';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [

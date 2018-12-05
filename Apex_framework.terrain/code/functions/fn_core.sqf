@@ -1180,10 +1180,10 @@ if (_QS_module_restart) then {
 			['playSound','QS_restart'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		uiSleep 25;
-		_text = 'Server restarting!';
+		private _text = 'Server restarting!';
 		['System',['',_text]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		_text = format ['Server restarting! Server name: %1',serverName];
-		[63,[5,[_text,'PLAIN DOWN',5]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
+		_text = format ["<t size='3'>Server restarting!<br/> Server name: %1</t>",serverName];
+		[63,[5,[_text,'PLAIN DOWN',5,TRUE,TRUE]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
 		private _leaderboards = missionNamespace getVariable 'QS_leaderboards';
 		_transportLeaderboards = (_leaderboards select 1) select {((_x select 0) > 1)};
 		_leaderboards set [1,_transportLeaderboards];

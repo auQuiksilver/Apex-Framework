@@ -1,5 +1,17 @@
 Official change log
 
+1.1.3 "Warlords" (A3 1.86 5/12/2018)
+
+- [ADDED] ADR-97 (p90) weapon to Arsenal whitelist.
+- [TWEAKED] 1.86 compatibility
+- [TWEAKED] Enemy sniper teams (2 snipers instead of sniper + spotter).
+- [TWEAKED] Medic UI icons.
+- [TWEAKED] Revive action removed from action menu when currently reviving.
+- [TWEAKED] Text format of on-screen Server Restart notification.
+- [FIXED] Error in UI text of incapacitation system.
+- [FIXED] Medic UI to show nearby wounded in vehicles.
+- [FIXED] AI Naval divers could spawn without proper weapon sometimes.
+
 1.1.2 (A3 1.84 13/10/2018)
 
 - [TWEAKED] Defend mission for increased enemy aggression.

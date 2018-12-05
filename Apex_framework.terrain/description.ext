@@ -577,6 +577,7 @@ class CfgFunctions {
 			class getDoor {file = "code\functions\fn_getDoor.sqf";};
 			class getDoorAnimations {file = "code\functions\fn_getDoorAnimations.sqf";};
 			class getKnownEnemies {file = "code\functions\fn_getKnownEnemies.sqf";};
+			class getNearbyIncapacitated {file = "code\functions\fn_getNearbyIncapacitated.sqf";};
 			class getNearestBuilding {file = "code\functions\fn_getNearestBuilding.sqf";};
 			class getSolarHorizon {file = "code\functions\fn_getSolarHorizon.sqf";};
 			class getWeekday {file = "code\functions\fn_getWeekday.sqf";};

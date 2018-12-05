@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	16/05/2018 A3 1.82 by Quiksilver
+	5/12/2018 A3 1.86 by Quiksilver
 	
 Description:
 
@@ -97,7 +97,9 @@ _weaponsAll = [
 	'arifle_mxm_f','mmg_01_hex_f','mmg_01_tan_f','hgun_pdw2000_f','smg_05_f','srifle_dmr_01_f','arifle_sdar_f','arifle_spar_01_blk_f','arifle_spar_01_khk_f','arifle_spar_01_snd_f',
 	'arifle_spar_01_gl_blk_f','arifle_spar_01_gl_khk_f','arifle_spar_01_gl_snd_f','arifle_spar_02_blk_f','arifle_spar_02_khk_f','arifle_spar_02_snd_f','arifle_spar_03_blk_f','arifle_spar_03_khk_f',
 	'arifle_spar_03_snd_f','mmg_02_black_f','mmg_02_camo_f','mmg_02_sand_f','smg_02_f','arifle_trg20_f','arifle_trg21_f','arifle_trg21_gl_f','arifle_arx_blk_f','arifle_arx_hex_f','smg_01_f',
-	'lmg_zafir_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f',
+	'lmg_zafir_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f',	
+	'smg_03_black','smg_03_camo','smg_03_hex','smg_03_khaki','smg_03_tr_black','smg_03_tr_camo','smg_03_tr_hex','smg_03_tr_khaki',
+	'smg_03c_black','smg_03c_camo','smg_03c_hex','smg_03c_khaki','smg_03c_tr_black','smg_03c_tr_camo','smg_03c_tr_hex','smg_03c_tr_khaki',
 	'hgun_rook40_f','hgun_pistol_signal_f','binocular','laserdesignator_02_ghex_f','laserdesignator_02','laserdesignator_01_khk_f','laserdesignator_03','laserdesignator','rangefinder',
 	'launch_nlaw_f','launch_rpg32_f','launch_rpg32_ghex_f','launch_rpg7_f','launch_i_titan_f','launch_o_titan_ghex_f','launch_o_titan_f','launch_b_titan_f','launch_b_titan_tna_f',
 	'launch_o_titan_short_f','launch_o_titan_short_ghex_f','launch_i_titan_short_f','launch_b_titan_short_tna_f','launch_b_titan_short_f',
@@ -163,7 +165,9 @@ _weaponsHandgun = [
 ];
 // submachine guns
 _weaponsSMG = [
-	'smg_01_f','smg_02_f','smg_05_f','hgun_pdw2000_f'
+	'smg_01_f','smg_02_f','smg_05_f','hgun_pdw2000_f',
+	'smg_03_black','smg_03_camo','smg_03_hex','smg_03_khaki','smg_03_tr_black','smg_03_tr_camo','smg_03_tr_hex','smg_03_tr_khaki',
+	'smg_03c_black','smg_03c_camo','smg_03c_hex','smg_03c_khaki','smg_03c_tr_black','smg_03c_tr_camo','smg_03c_tr_hex','smg_03c_tr_khaki'
 ];
 // binoculars, rangefinders, designators
 _viewersAll = [
@@ -312,7 +316,7 @@ _magazinesAll = [
 	'10rnd_762x54_mag','10rnd_9x21_mag','16rnd_9x21_mag','16rnd_9x21_green_mag','16rnd_9x21_red_mag','16rnd_9x21_yellow_mag','30rnd_9x21_mag',
 	'apersboundingmine_range_mag','apersmine_range_mag','aperstripmine_wire_mag','atmine_range_mag','claymoredirectionalmine_remote_mag','democharge_remote_mag',
 	'satchelcharge_remote_mag','iedlandbig_remote_mag','iedurbanbig_remote_mag','slamdirectionalmine_wire_mag','iedlandsmall_remote_mag','iedurbansmall_remote_mag',
-	'vorona_heat','vorona_he','mraws_heat_f','mraws_he_f'
+	'vorona_heat','vorona_he','mraws_heat_f','mraws_he_f','50rnd_570x28_smg_03'
 ];
 // all weapon attachments
 _attachmentsAll = [

@@ -121,7 +121,7 @@ if ((_this select 0) isEqualType controlNull) exitWith {
 					};
 				};
 				if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
-					_colorTeam = [1,0.41,0,1];
+					_colorTeam = [1,(([0.41,(0.41 * ((((_unit getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))] select (isPlayer _unit)) max 0),0,1];
 				};
 				if ((isPlayer _unit) && (!((getPlayerChannel _unit) isEqualTo -1))) then {
 					_icon = 'a3\ui_f\data\igui\rscingameui\rscdisplayvoicechat\microphone_ca.paa';

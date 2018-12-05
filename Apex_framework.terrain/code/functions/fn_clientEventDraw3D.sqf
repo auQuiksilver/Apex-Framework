@@ -82,6 +82,7 @@ if (isNull (objectParent _player)) then {
 };
 if (visibleMap) exitWith {};
 if (_player getUnitTrait 'medic') then {
+	private _sTime = serverTime;
 	private _vehicle = objNull;
 	_pulse = ([2,25] call (missionNamespace getVariable 'QS_fnc_pulsate')) max 0.1;
 	{
@@ -91,7 +92,7 @@ if (_player getUnitTrait 'medic') then {
 			if (_distance > 2) then {
 				_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\r100_ca.paa';
 				_alpha = (1 - (((_distance / 500)) % 1)) min _pulse;
-				_rgba = [1,0.41,0,_alpha];					
+				_rgba = [1,(([0.41,(0.41 * ((((_unit getVariable ['QS_revive_downtime',_sTime]) + 600) - _sTime) / 600))] select (isPlayer _unit)) max 0),0,_alpha];
 				if (!(((_unit nearEntities ['CAManBase',2]) select {(!(_x isEqualTo _unit)) && (_x getUnitTrait 'medic') && ((lifeState _x) in ['HEALTHY','INJURED'])}) isEqualTo [])) then {
 					_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\u100_ca.paa';
 					_rgba = [0.25,0.5,1,_alpha];
