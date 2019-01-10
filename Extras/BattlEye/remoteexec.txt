@@ -1,0 +1,1 @@
+1 "" !="\w+?_fnc_\w+? \[.*\]" !"\[_this,\"bis_fnc_curatorrespawn\",false\] call bis_fnc_mp;" !"^[\"true\", \"\"" !"^vehicle this (flyInHeight \d+|land 'LAND')$"

@@ -1,0 +1,2 @@
+//new
+1 "" !"NVG_Target" !"Shot" !"GroundWeaponHolder" !"WeaponHolderSimulated" !"NetworkMessageCreateHelicopterRTD" !"NetworkMessageCreateRopeObject" !"SuppressTarget" !"B_UAV_AI" !"C_UAV_AI"
