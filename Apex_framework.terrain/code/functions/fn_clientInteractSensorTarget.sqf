@@ -33,10 +33,10 @@ if (_cursorObject in ([(listRemoteTargets playerSide),0] call (missionNamespace 
 if (_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]) exitWith {
 	50 cutText ['Target already reported','PLAIN DOWN',0.45];
 };
-if ((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) exitWith {
+if (("showcamonethull" in (animationNames _cursorObject)) && ((_cursorObject animationSourcePhase 'showcamonethull') isEqualTo 1)) exitWith {
 	50 cutText ['Unable to track target (camo net)','PLAIN DOWN',0.45];
 };
-if (_vehicle getVariable ['QS_reportTarget_disable',FALSE]) exitWith {
+if (_cursorObject getVariable ['QS_reportTarget_disable',FALSE]) exitWith {
 	50 cutText ['Unable to report this target','PLAIN DOWN',0.45];
 };
 if (uiNamespace getVariable ['QS_client_progressVisualization_active',FALSE]) exitWith {};
