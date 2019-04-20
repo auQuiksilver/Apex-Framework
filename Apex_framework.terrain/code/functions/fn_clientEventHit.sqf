@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	13/06/2018 A3 1.82 by Quiksilver
+	18/12/2018 A3 1.88 by Quiksilver
 	
 Description:
 
@@ -23,16 +23,16 @@ if (
 	{(_unit isEqualTo _causedBy)} ||
 	{(_vu isEqualTo _v)} ||
 	{((rating _unit) < 0)} ||
-	{((player getVariable ['QS_tto',0]) > 3)} ||
-	{(!((lifeState player) in ['HEALTHY','INJURED']))} ||
-	{(['U_O',(uniform player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))} ||
-	{((!isNull _instigator) && ((side (group _instigator)) in (playerSide call (missionNamespace getVariable 'QS_fnc_enemySides'))))} ||
+	{((_unit getVariable ['QS_tto',0]) > 3)} ||
+	{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
+	{(['U_O',(uniform _unit),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))} ||
+	{((!isNull _instigator) && ((side (group _instigator)) in ((_unit getVariable ['QS_unit_side',WEST]) call (missionNamespace getVariable 'QS_fnc_enemySides'))))} ||
 	{((missionNamespace getVariable 'QS_sub_sd') && ((count _this) <= 4))}
 ) exitWith {
 	if (!isNull _instigator) then {
 		if (alive _instigator) then {
 			if (!isPlayer _instigator) then {
-				if ((side _instigator) isEqualTo WEST) then {
+				if ((side (group _instigator)) isEqualTo (_unit getVariable ['QS_unit_side',WEST])) then {
 					if (_dmg > 0.25) then {
 						[17,_instigator] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 					};
@@ -50,6 +50,7 @@ private [
 _exit = FALSE;
 missionNamespace setVariable ['QS_sub_sd',TRUE,FALSE];
 if (((count _this) > 4) && (time < (missionNamespace getVariable ['QS_sub_ramDetection',0]))) exitWith {};
+if (diag_tickTime < (uiNamespace getVariable ['QS_robocop_timeout',-1])) exitWith {};
 if ((count _this) > 4) then {
 	missionNamespace setVariable ['QS_sub_ramDetection',(time + 30),FALSE];
 };
@@ -549,7 +550,6 @@ if (_exit) exitWith {
 				while {(!((missionNamespace getVariable 'QS_sub_actions') isEqualTo []))} do {
 					_tr = (_ti - time);
 					[(format ['<t size="1.1">ROBOCOP<t/><br/><img size="7" image="%2"/><br/><br/>In your Action Menu (SCROLL MENU), you have the option to anonymously report the incident. This option is available for %1 seconds.',(round _tr),_image])] call (missionNamespace getVariable 'QS_fnc_hint');
-					//hintSilent parseText format ['<t size="1.1">ROBOCOP<t/><br/><img size="7" image="%2"/><br/><br/>In your Action Menu (SCROLL MENU), you have the option to anonymously report the incident. This option is available for %1 seconds.',(round _tr),_image];					
 					uiSleep 0.5;
 					if ((missionNamespace getVariable 'QS_sub_actions') isEqualTo []) exitWith {};
 					if (time >= _ti) exitWith {[''] call (missionNamespace getVariable 'QS_fnc_hint');};

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	1/04/2018 A3 1.82 by Quiksilver
+	23/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -15,11 +15,18 @@ Description:
 
 Parameter(s):
 
-	_this select 0: the target position (position)
+	_this select 0: the target position (ASL)
 	_this select 1: maximum distance from target in meters (optional)
 	_this select 2: minimum distance from target in meters (optional)
 	_this select 3: minimum height in relation to target in meters (optional)
 	_this select 4: check visibility
+	_this select 5: return array of positions instead of single position
+	
+Returns:
+
+	Position (ASL) or array of ASL positions.
+	
+	systemChat str ([getPosASL,1000,100,10,[[player, "VIEW"],1],3] call QS_fnc_findOverwatchPos);
 __________________________________________________________________________/*/
 
 params [
@@ -27,7 +34,8 @@ params [
 	['_maxrange',3000],
 	['_minrange',0],
 	['_minheight',0],
-	['_checkVisibility',[]]
+	['_checkVisibility',[]],
+	['_returnList',-1]
 ];
 scopeName 'main';
 _targetPos set [2,((_targetPos select 2) + 1)];
@@ -48,12 +56,13 @@ for '_x' from 0 to 49 step 1 do {
 		if (!(_checkPos isEqualTo [])) then {
 			_height = getTerrainHeightASL _checkPos;
 			_dis = _checkPos distance2D _targetPos;
+			_checkPos set [2,_height + 1];
 			if (_height >= _minheight) then {
 				if (_dis > _minrange) then {
 					_terrainBlocked = terrainIntersect [_targetPos,_checkPos];
 					if (!(_terrainBlocked)) then {
 						if (_isCheckVisibility) then {
-							if (((_checkVisibility select 0) checkVisibility [[(_checkPos select 0),(_checkPos select 1),(_height + 1)],(_checkVisibility select 1)]) > (_checkVisibility select 2)) then {
+							if (((_checkVisibility select 0) checkVisibility [_checkPos,_targetPos]) >= (_checkVisibility select 1)) then {
 								_selectedPositions pushBack _checkPos;
 							};
 						} else {
@@ -89,7 +98,7 @@ for '_x' from 0 to 49 step 1 do {
 if (!(_selectedPositions isEqualTo [])) then {
 	if (!((count _selectedPositions) isEqualTo 1)) then {
 		_result = _selectedPositions select 0;
-		_maximum = getTerrainHeightASL _result;
+		private _maximum = getTerrainHeightASL _result;
 		{
 			_height = getTerrainHeightASL _x;
 			if (_height > _maximum) then {
@@ -107,7 +116,7 @@ if (!(_selectedPositions isEqualTo [])) then {
 		_terrainBlocked = terrainIntersect [_targetPos,_checkPos];
 		if (!(_terrainBlocked)) then {
 			if (_isCheckVisibility) then {
-				if (((_checkVisibility select 0) checkVisibility [[(_checkPos select 0),(_checkPos select 1),(_height + 1)],(_checkVisibility select 1)]) > (_checkVisibility select 2)) then {
+				if (((_checkVisibility select 0) checkVisibility [_checkPos,_targetPos]) >= (_checkVisibility select 1)) then {
 					_selectedPositions pushBack _checkPos;
 				};
 			} else {
@@ -119,7 +128,7 @@ if (!(_selectedPositions isEqualTo [])) then {
 	if (!(_selectedPositions isEqualTo [])) then {
 		if (!((count _selectedPositions) isEqualTo 1)) then {
 			_result = _selectedPositions select 0;
-			_maximum = getTerrainHeightASL _result;
+			private _maximum = getTerrainHeightASL _result;
 			{
 				_height = getTerrainHeightASL _x;
 				if (_height > _maximum) then {
@@ -131,6 +140,10 @@ if (!(_selectedPositions isEqualTo [])) then {
 			_result = _selectedPositions select 0;
 		};
 	};
+};
+if (!(_returnList isEqualTo -1)) exitWith {
+	_selectedPositions = _selectedPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+	(_selectedPositions select [0,_returnList]);
 };
 if (_result isEqualTo []) then {
 	_result = _targetPos;

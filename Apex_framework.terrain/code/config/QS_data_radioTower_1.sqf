@@ -26,8 +26,8 @@
 						} else {
 							['sideChat',[WEST,'HQ'],(format ['%1 (%2) brought down the tower! Great work boys!',_name,(groupID (group _instigator))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
-						if (!((toLower(typeOf _instigator)) in ['b_pilot_f','b_helipilot_f','b_soldier_uav_f','b_fighter_pilot_f'])) then {
-							0 = QS_leaderboards_session_queue pushBack ['TOWER',(getPlayerUID _instigator),(name _instigator),1];
+						if ((!(_instigator getUnitTrait 'uavhacker')) && (!(_instigator getUnitTrait 'QS_trait_pilot')) && (!(_instigator getUnitTrait 'QS_trait_fighterPilot'))) then {
+							(missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TOWER',(getPlayerUID _instigator),(name _instigator),1];
 						};
 					};
 				};

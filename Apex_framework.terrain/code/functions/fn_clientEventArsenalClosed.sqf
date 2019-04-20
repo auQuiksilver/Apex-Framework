@@ -6,26 +6,13 @@ Author:
 
 Last Modified:
 
-	10/03/2018 A3 1.81 by Quiksilver
+	21/11/2018 A3 1.86 by Quiksilver
 
 Description:
 
 	Event Arsenal Closed
 _______________________________________________/*/
 
-_QS_playerClass = typeOf player;
-_QS_loadout = getUnitLoadout player;
-missionNamespace setVariable ['QS_revive_arsenalInventory',_QS_loadout,FALSE];
-private _QS_savedLoadouts = profileNamespace getVariable 'QS_saved_loadouts';
-_QS_loadoutIndex = (_QS_savedLoadouts findIf {((_x select 0) isEqualTo _QS_playerClass)});
-_a = [_QS_playerClass,_QS_loadout];
-if (_QS_loadoutIndex isEqualTo -1) then {
-	_QS_savedLoadouts pushBack _a;
-} else {
-	_QS_savedLoadouts set [_QS_loadoutIndex,_a];
-};
-profileNamespace setVariable ['QS_saved_loadouts',_QS_savedLoadouts];
-saveProfileNamespace;
 if ((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	0 spawn {
 		uiSleep 0.1;
@@ -88,6 +75,19 @@ if (!((uniform player) isEqualTo '')) then {
 		};
 	};	
 };
+_QS_playerRole = player getVariable ['QS_unit_role','rifleman'];
+_QS_loadout = getUnitLoadout player;
+missionNamespace setVariable ['QS_revive_arsenalInventory',_QS_loadout,FALSE];
+private _QS_savedLoadouts = profileNamespace getVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),[]];
+_QS_loadoutIndex = (_QS_savedLoadouts findIf {((_x # 0) isEqualTo _QS_playerRole)});
+_a = [_QS_playerRole,_QS_loadout];
+if (_QS_loadoutIndex isEqualTo -1) then {
+	_QS_savedLoadouts pushBack _a;
+} else {
+	_QS_savedLoadouts set [_QS_loadoutIndex,_a];
+};
+profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),_QS_savedLoadouts];
+saveProfileNamespace;
 if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {
 	missionNamespace setVariable ['QS_client_triggerGearCheck',TRUE,FALSE];
 };

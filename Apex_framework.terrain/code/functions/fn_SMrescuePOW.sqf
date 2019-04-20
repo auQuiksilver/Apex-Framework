@@ -1157,7 +1157,7 @@ for '_x' from 0 to 1 step 0 do {
 		_QS_medicInVehicle = FALSE;
 		if ((count _QS_medVehCrew) > 0) then {
 			{
-				if ((typeOf _x) in _QS_medics) then {
+				if (_x getUnitTrait 'medic') then {
 					if (alive _x) then {
 						_QS_medicInVehicle = TRUE;
 					};

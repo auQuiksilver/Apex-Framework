@@ -326,9 +326,6 @@ if (_type isEqualTo 'HOSPITAL') then {
 		};	
 	};
 };
-
-
-//["B_Truck_01_mover_F",[-38.0713,100.011,25.3474],-179.807,179.807]
 if (_type isEqualTo 'VEHICLES') exitWith {
 	private _list = [
 		// Hummingbird Heli 1

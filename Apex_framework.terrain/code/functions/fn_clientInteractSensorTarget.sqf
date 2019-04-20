@@ -24,19 +24,19 @@ if ((!(_cursorObject isKindOf 'LandVehicle')) && (!(_cursorObject isKindOf 'Air'
 if (((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1) exitWith {
 	50 cutText ['Target unoccupied','PLAIN DOWN',0.25];
 };
-if (_cursorObject isSensorTargetConfirmed playerSide) exitWith {
+if (_cursorObject isSensorTargetConfirmed (player getVariable ['QS_unit_side',WEST])) exitWith {
 	50 cutText ['Target already confirmed','PLAIN DOWN',0.45];
 };
-if (_cursorObject in ([(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets'))) exitWith {
+if (_cursorObject in ([(listRemoteTargets (player getVariable ['QS_unit_side',WEST])),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets'))) exitWith {
 	50 cutText ['Target already reported','PLAIN DOWN',0.45];
 };
 if (_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]) exitWith {
 	50 cutText ['Target already reported','PLAIN DOWN',0.45];
 };
-if ((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) exitWith {
+if ((_cursorObject animationSourcePhase 'showcamonethull') isEqualTo 1) exitWith {
 	50 cutText ['Unable to track target (camo net)','PLAIN DOWN',0.45];
 };
-if (_vehicle getVariable ['QS_reportTarget_disable',FALSE]) exitWith {
+if (_cursorObject getVariable ['QS_reportTarget_disable',FALSE]) exitWith {
 	50 cutText ['Unable to report this target','PLAIN DOWN',0.45];
 };
 if (uiNamespace getVariable ['QS_client_progressVisualization_active',FALSE]) exitWith {};
@@ -55,7 +55,7 @@ _onCancelled = {
 	if (!alive _cursorObject) then {
 		_c = TRUE;
 	};
-	if (_cursorObject in ([(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets'))) then {
+	if (_cursorObject in ([(listRemoteTargets (player getVariable ['QS_unit_side',WEST])),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets'))) then {
 		_c = TRUE;
 	};
 	_c;
@@ -65,15 +65,15 @@ _onCompleted = {
 	if (player getUnitTrait 'QS_trait_JTAC') then {
 		if (!isNil {player getVariable 'QS_client_jtac_sensorTarget'}) then {
 			if (!alive (player getVariable 'QS_client_jtac_sensorTarget')) then {
-				(player getVariable 'QS_client_jtac_sensorTarget') confirmSensorTarget [playerSide,FALSE];
+				(player getVariable 'QS_client_jtac_sensorTarget') confirmSensorTarget [(player getVariable ['QS_unit_side',WEST]),FALSE];
 			};
 		};
-		if ((!(_cursorObject in ([(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets')))) && (!(_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]))) then {
-			['confirmSensorTarget',_cursorObject,[playerSide,TRUE]] remoteExec ['QS_fnc_remoteExecCmd',playerSide,FALSE];
-			_cursorObject confirmSensorTarget [playerSide,TRUE];
+		if ((!(_cursorObject in ([(listRemoteTargets (player getVariable ['QS_unit_side',WEST])),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets')))) && (!(_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]))) then {
+			['confirmSensorTarget',_cursorObject,[(player getVariable ['QS_unit_side',WEST]),TRUE]] remoteExec ['QS_fnc_remoteExecCmd',(player getVariable ['QS_unit_side',WEST]),FALSE];
+			_cursorObject confirmSensorTarget [(player getVariable ['QS_unit_side',WEST]),TRUE];
 			_cursorObject setVariable ['QS_remoteTarget_reported',TRUE,TRUE];
-			['reportRemoteTarget',playerSide,[_cursorObject,360]] remoteExec ['QS_fnc_remoteExecCmd',playerSide,FALSE];
-			playerSide reportRemoteTarget [_cursorObject,360];
+			['reportRemoteTarget',(player getVariable ['QS_unit_side',WEST]),[_cursorObject,360]] remoteExec ['QS_fnc_remoteExecCmd',(player getVariable ['QS_unit_side',WEST]),FALSE];
+			(player getVariable ['QS_unit_side',WEST]) reportRemoteTarget [_cursorObject,360];
 			player setVariable ['QS_client_jtac_sensorTarget',_cursorObject,FALSE];
 			50 cutText ['Target reported','PLAIN DOWN',0.3];
 			playSound 'beep_target';
@@ -83,9 +83,9 @@ _onCompleted = {
 			50 cutText ['Target already reported','PLAIN DOWN',0.3];
 		};
 	} else {
-		if ((!(_cursorObject in ([(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets')))) && (!(_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]))) then {
-			['reportRemoteTarget',playerSide,[_cursorObject,180]] remoteExec ['QS_fnc_remoteExecCmd',playerSide,FALSE];
-			playerSide reportRemoteTarget [_cursorObject,180];
+		if ((!(_cursorObject in ([(listRemoteTargets (player getVariable ['QS_unit_side',WEST])),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets')))) && (!(_cursorObject getVariable ['QS_remoteTarget_reported',FALSE]))) then {
+			['reportRemoteTarget',(player getVariable ['QS_unit_side',WEST]),[_cursorObject,180]] remoteExec ['QS_fnc_remoteExecCmd',(player getVariable ['QS_unit_side',WEST]),FALSE];
+			(player getVariable ['QS_unit_side',WEST]) reportRemoteTarget [_cursorObject,180];
 			_cursorObject setVariable ['QS_remoteTarget_reported',TRUE,TRUE];
 			50 cutText ['Target reported','PLAIN DOWN',0.3];
 			playSound 'beep_target';

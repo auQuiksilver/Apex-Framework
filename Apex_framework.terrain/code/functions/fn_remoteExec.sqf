@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/08/2018 A3 1.84 by Quiksilver
+	31/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -212,17 +212,6 @@ if (_case < 10) exitWith {
 			[_t2,_anim2] call (missionNamespace getVariable 'QS_fnc_clientEventAnimChanged');
 		};
 	};
-	/*/unload/*/
-	/*/
-	if (_case isEqualTo 7.3) then {
-		private ['_t'];
-		_t = _this select 1;
-		_dir = _this select 2;
-		if (local _t) then {
-			_t setDir _dir;
-		};
-	};
-	/*/
 	/*/release carry/*/
 	if (_case isEqualTo 8) then {
 		private _t = _this select 1;
@@ -311,10 +300,19 @@ if (_case < 20) exitWith {
 			2 fadeMusic (_QS_musicVolume + ((random 0.2) - (random 0.4)));
 		};
 	};
-	/*/ Obsolete/*/
-	if (_case isEqualTo 15.5) exitWith {};
-	/*/ Obsolete/*/
-	if (_case isEqualTo 16) exitWith {};
+	/*/ Role Request/*/
+	if (_case isEqualTo 15) exitWith {
+		params ['','_uid','_side','_role','_unit','_clientOwner'];
+		// To Do: Sanity checks
+		if (_clientOwner isEqualTo _rxID) then {
+			['HANDLE',['HANDLE_REQUEST_ROLE','',_side,_role,_unit]] call (missionNamespace getVariable 'QS_fnc_roles');
+		};
+	};
+	/*/ Role Set/*/
+	if (_case isEqualTo 16) exitWith {
+		params ['','_role'];
+		['INIT_ROLE',_role] call (missionNamespace getVariable ['QS_fnc_roles',{}]);
+	};
 	/*/ Remote Delete/*/
 	if (_case isEqualTo 17) exitWith {
 		_object = _this select 1;
@@ -322,20 +320,12 @@ if (_case < 20) exitWith {
 			if (_object isEqualType objNull) then {
 				if (!((attachedObjects _object) isEqualTo [])) then {
 					{
-						missionNamespace setVariable [
-							'QS_analytics_entities_deleted',
-							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-							FALSE
-						];
+						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 						detach _x;
 						deleteVehicle _x;
 					} count (attachedObjects _object);
 				};
-				missionNamespace setVariable [
-					'QS_analytics_entities_deleted',
-					((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-					FALSE
-				];
+				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _object;
 			} else {
 				if (_object isEqualType []) then {
@@ -527,7 +517,7 @@ if (_case < 30) exitWith {
 				if (!isNil '_executor') then {
 					if (!isNull _executor) then {
 						if (isPlayer _executor) then {
-							if (_executor isEqualTo ((allPlayers select {((owner _x) isEqualTo _rxID)}) select 0)) then {
+							if (_executor isEqualTo ((allPlayers select {((owner _x) isEqualTo _rxID)}) # 0)) then {
 								if (!isNil '_executorUID') then {
 									if (_executorUID isEqualType '') then {
 										if ((count _executorUID) isEqualTo 17) then {
@@ -536,7 +526,7 @@ if (_case < 30) exitWith {
 													if (_executorOwner isEqualTo _rxID) then {
 														if (_targetLocality isEqualType 0) then {
 															diag_log format ['***** DEV CONSOLE ***** Compiling String ***** %1',_string];
-															_code = compile _string;
+															_code = compile _string;	// _code = compile [_string,TRUE];
 															if (_code isEqualType {}) then {
 																diag_log format ['***** DEV CONSOLE ***** Code %1 executed by %2 ( %3 * %4)',_targetLocality,_executorProfileName,_executorUID,_executorProfileNameSteam];
 																if (_targetLocality isEqualTo 2) then {
@@ -652,13 +642,13 @@ if (_case < 30) exitWith {
 	if (_case isEqualTo 29) then {
 		if (isServer) exitWith {};
 		_side = _this select 1;
-		if (playerSide isEqualTo _side) then {
-			comment 'Enable';
+		if ((player getVariable ['QS_unit_side',WEST]) isEqualTo _side) then {
+			//comment 'Enable';
 			player enableAI 'TARGET';
 			player enableAI 'AUTOTARGET';
 			disableRemoteSensors FALSE;
 		} else {
-			comment 'Disable';
+			//comment 'Disable';
 			player disableAI 'TARGET';
 			player disableAI 'AUTOTARGET';
 			disableRemoteSensors TRUE;
@@ -697,12 +687,13 @@ if (_case < 40) exitWith {
 	};
 	/*/===== AFK kick/*/
 	if (_case isEqualTo 33) then {
-		if (isServer) then {
-			_cid = _this select 1;
-			_profileName = _this select 2;
-			diag_log format ['***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****',time,_profileName];
-			['systemChat',(format ['Robocop kicked %1 for AFK timeout.',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#exec kick %1',_cid]);
+		if (isDedicated) then {
+			if (_rxID isEqualTo _cid) then {
+				params ['','_cid','_profileName'];
+				diag_log format ['***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****',time,_profileName];
+				['systemChat',(format ['Robocop kicked %1 for AFK timeout.',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#exec kick %1',_cid]);
+			};
 		};
 	};
 	/*/===== Notification/*/
@@ -1454,17 +1445,16 @@ if (_case < 80) exitWith {
 					((scriptDone (missionNamespace getVariable 'QS_medical_garbage_script')) || (time > _time))
 				};
 			};
-			/*/_position = AGLToASL _position;/*/
 			_position set [2,((_position select 2) + (random [0.02,0.0225,0.025]))];
 			missionNamespace setVariable [
 				'QS_medical_garbage_script',
 				([_position,_vectorNormal] spawn {
 					params ['_position','_vectorNormal'];
-					_garbage = (missionNamespace getVariable 'QS_medical_garbage') select 0;
+					_garbage = (missionNamespace getVariable 'QS_medical_garbage') deleteAt 0;
+					(missionNamespace getVariable 'QS_medical_garbage') pushBack _garbage;
 					_garbage setDir (random 360);
 					_garbage setVectorUp _vectorNormal;
 					_garbage setPosASL _position;
-					(missionNamespace getVariable 'QS_medical_garbage') append [((missionNamespace getVariable 'QS_medical_garbage') deleteAt 0)];
 					_garbage enableSimulationGlobal TRUE;
 					uiSleep 0.2;
 					_garbage enableSimulationGlobal FALSE;
@@ -1486,7 +1476,7 @@ if (_case < 80) exitWith {
 	if (_case isEqualTo 78) then {
 		params ['','_addRemoveSet','_var','_iconID','_iconData'];
 		if (_addRemoveSet isEqualTo 0) then {
-			comment 'Remove';
+			//comment 'Remove';
 			_iconIndex = (missionNamespace getVariable _var) findIf {((_x select 0) isEqualTo _iconID)};
 			if (!(_iconIndex isEqualTo -1)) then {
 				(missionNamespace getVariable _var) set [_iconIndex,FALSE];
@@ -1494,11 +1484,11 @@ if (_case < 80) exitWith {
 			};
 		};
 		if (_addRemoveSet isEqualTo 1) then {
-			comment 'Add';
+			//comment 'Add';
 			(missionNamespace getVariable _var) pushBack _iconData;
 		};
 		if (_addRemoveSet isEqualTo 2) then {
-			comment 'Update';
+			//comment 'Update';
 			_iconIndex = (missionNamespace getVariable _var) findIf {((_x select 0) isEqualTo _iconID)};
 			if (!(_iconIndex isEqualTo -1)) then {
 				(missionNamespace getVariable _var) set [_iconIndex,_iconData];

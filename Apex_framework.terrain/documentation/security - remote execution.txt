@@ -1,0 +1,47 @@
+For security reasons, by default remote execution (from the client machine) of script Commands is disabled.
+
+If you are modifying this framework and encountering Remote Execution restrictions, you may need to set "mode = 2;" in CfgRemoteExec in description.ext file.
+
+By default, we also tightly control which script Functions are available for Remote Execution.
+
+The framework uses two functions for whitelisted/pre-scripted remote execution:
+
+QS_fnc_remoteExec
+QS_fnc_remoteExecCmd
+
+The first one is for handling scripted procedures using a numbered case structure.
+
+The second is for more basic execution of script commands, where the name of the command is used as a parameter.
+
+Reference:
+
+class CfgRemoteExec {
+	class Commands {
+		mode = 1;
+	};
+	class Functions {
+		mode = 1;
+		jip = 0;
+		allowedTargets = 0;
+		class BIS_fnc_callScriptedEventHandler {};
+		class BIS_fnc_curatorRespawn {};
+		class BIS_fnc_deleteTask {jip = 1;};
+		class BIS_fnc_dynamicGroups {};
+		class BIS_fnc_effectKilled {};
+		class BIS_fnc_effectKilledSecondaries {};
+		class BIS_fnc_effectKilledAirDestruction {};
+		class BIS_fnc_effectKilledAirDestructionStage2 {};
+		class BIS_fnc_error {};
+		class BIS_fnc_initIntelObject {jip = 1;};
+		class BIS_fnc_objectVar {};
+		class BIS_fnc_playSound {allowedTargets = 1;};
+		class BIS_fnc_sayMessage {allowedTargets = 1;};
+		class BIS_fnc_setIdentity {};
+		class BIS_fnc_setTask {jip = 1;};
+		class BIS_fnc_setTaskLocal {jip = 1;};
+		class BIS_fnc_sharedObjectives {};
+		class BIS_fnc_showNotification {allowedTargets = 1;};
+		class QS_fnc_remoteExec {allowedTargets = 0;};
+		class QS_fnc_remoteExecCmd {allowedTargets = 0;};
+	};
+};

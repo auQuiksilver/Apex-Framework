@@ -18,6 +18,10 @@ if (_worldName isEqualTo 'Altis') exitWith {
 	_markerStoragePos = [-5000,-5000,0];
 	[
 		['respawn',[8455.03,25102.1,0.00178528],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[8455.03,25102.1,0.00178528],0,''],
+		['respawn_east',[8455.03,25102.1,0.00178528],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[8455.03,25102.1,0.00178528],0,''],
+		['respawn_west',[8455.03,25102.1,0.00178528],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[8455.03,25102.1,0.00178528],0,''],
+		['respawn_guerrila',[8455.03,25102.1,0.00178528],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[8455.03,25102.1,0.00178528],0,''],
+		['respawn_civilian',[8455.03,25102.1,0.00178528],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[8455.03,25102.1,0.00178528],0,''],
 		['QS_marker_aoMarker',_markerStoragePos,'o_unknown','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
 		['QS_marker_aoCircle',_markerStoragePos,'Empty','Ellipse','FDiagonal','ColorOPFOR',[800,800],0,_markerStoragePos,0,''],
 		['QS_marker_sideMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
@@ -67,13 +71,16 @@ if (_worldName isEqualTo 'Altis') exitWith {
 		['QS_marker_ferry_10',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[16743.5,20514,0],0,'Boat'],
 		['QS_marker_ferry_11',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[10632.4,10972.6,0],0,'Boat'],
 		['QS_marker_ferry_12',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[3366.78,12924.7,0],0,'Boat']
-		//['QS_marker_carrier_1',_markerStoragePos,'b_naval','Icon','','ColorWEST',[0.25,0.25],0,[-1500,-1500,0],0,'Aircraft Carrier']
 	]
 };
 if (_worldName isEqualTo 'Tanoa') exitWith {
 	_markerStoragePos = [-5000,-5000,0];
 	[
 		['respawn',[7624.04,14926.3,0.00173545],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7624.04,14926.3,0.00173545],0,''],
+		['respawn_east',[7624.04,14926.3,0.00173545],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7624.04,14926.3,0.00173545],0,''],
+		['respawn_west',[7624.04,14926.3,0.00173545],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7624.04,14926.3,0.00173545],0,''],
+		['respawn_guerrila',[7624.04,14926.3,0.00173545],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7624.04,14926.3,0.00173545],0,''],
+		['respawn_civilian',[7624.04,14926.3,0.00173545],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7624.04,14926.3,0.00173545],0,''],
 		['QS_marker_aoMarker',_markerStoragePos,'o_unknown','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
 		['QS_marker_aoCircle',_markerStoragePos,'Empty','Ellipse','FDiagonal','ColorOPFOR',[800,800],0,_markerStoragePos,0,''],
 		['QS_marker_sideMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
@@ -116,13 +123,16 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 		['QS_marker_ferry_4',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[11061.8,13375.1,-0.493759],0,'Boat'],
 		['QS_marker_ferry_5',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[13248.8,13663.7,-0.584546],0,'Boat'],
 		['QS_marker_ferry_6',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[4528.14,5215.41,-0.625423],0,'Boat']
-		//['QS_marker_carrier_1',_markerStoragePos,'b_naval','Icon','','ColorWEST',[0.25,0.25],0,[-1500,-1500,0],0,'Aircraft Carrier']
 	]
 };
 if (_worldName isEqualTo 'Malden') exitWith {
 	_markerStoragePos = [-5000,-5000,0];
 	[
 		['respawn',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[12000.8,4139.13,0],0,''],
+		['respawn_east',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[12000.8,4139.13,0],0,''],
+		['respawn_west',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[12000.8,4139.13,0],0,''],
+		['respawn_guerrila',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[12000.8,4139.13,0],0,''],
+		['respawn_civilian',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[12000.8,4139.13,0],0,''],
 		['QS_marker_aoMarker',_markerStoragePos,'o_unknown','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
 		['QS_marker_aoCircle',_markerStoragePos,'Empty','Ellipse','FDiagonal','ColorOPFOR',[800,800],0,_markerStoragePos,0,''],
 		['QS_marker_sideMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
@@ -164,7 +174,6 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		['QS_marker_ferry_3',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[9286.06,3720.37,0],0,'Boat'],
 		['QS_marker_ferry_4',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[8497.2,3799.11,0],0,'Boat'],
 		['QS_marker_ferry_5',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[3676.83,3035.56,0],0,'Boat']
-		//['QS_marker_carrier_1',_markerStoragePos,'b_naval','Icon','','ColorWEST',[0.25,0.25],0,[-1500,-1500,0],0,'Aircraft Carrier']
 	]
 };
 []

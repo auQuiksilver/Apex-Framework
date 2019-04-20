@@ -14,13 +14,11 @@ Description:
 ____________________________________________________________________________/*/
 
 params ['_entity','','_dmg'];
-diag_log (format ['QS damage handling %1',_dmg]);
 if (_dmg > 10) then {
 	_entity setVariable ['QS_entity_sumDmg',((_entity getVariable ['QS_entity_sumDmg',0]) + _dmg),TRUE];
 };
 if ((_entity getVariable ['QS_entity_sumDmg',0]) >= (_entity getVariable ['QS_entity_reqDmg',1500])) then {
 	params ['','','','','','','_instigator',''];
-	diag_log 'QS damage handling 1';
 	_entity removeEventHandler ['HandleDamage',_thisEventHandler];
 	private _position = position _entity;
 	_position set [2,0];

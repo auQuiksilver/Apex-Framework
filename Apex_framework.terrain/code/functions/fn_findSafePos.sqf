@@ -43,7 +43,7 @@ ________________________________________________________________________________
 
 params ['_pos','_minDist','_maxDist','_objDist','_waterMode','_maxGradient','_shoreMode'];
 scopeName 'main';
-if (_shoreMode isEqualTo 0) then {_shoreMode = FALSE;} else {_shoreMode = TRUE;};
+_shoreMode = !(_shoreMode isEqualTo 0);
 if (_pos isEqualTo []) then {
 	_pos = missionNamespace getVariable ['QS_safePositionAnchor',-1];
 	if (_pos isEqualTo -1) then {

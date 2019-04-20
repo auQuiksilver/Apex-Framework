@@ -6,14 +6,16 @@ Author:
 	
 Last Modified:
 
-	3/09/2017 A3 1.74 by Quiksilver
+	1/12/2018 A3 1.86 by Quiksilver
 	
 Description:
 
 	Fired Man Event
-___________________________________________________________________/*/
+	
+	params ['_unit','_weapon','_muzzle','_mode','_ammo','_magazine','_projectile','_vehicle'];
+_______________________________________________________/*/
 
-params ['_unit','_weapon','_muzzle','_mode','_ammo','_magazine','_projectile','_vehicle'];
+params ['_unit','_weapon','_muzzle','','_ammo','_magazine','_projectile',''];
 if (!((lifeState _unit) in ['HEALTHY','INJURED'])) exitWith {
 	deleteVehicle _projectile;
 };
@@ -84,11 +86,11 @@ if (_weapon isEqualTo 'Throw') then {
 					'GEOM'
 				];
 				if (!(_cursorIntersections isEqualTo [])) then {
-					_firstCursorIntersection = _cursorIntersections select 0;
+					_firstCursorIntersection = _cursorIntersections # 0;
 					_firstCursorIntersection params [
 						'_intersectPosASL',
 						'_surfaceNormal',
-						'_intersectObject',
+						'',
 						'_objectParent'
 					];
 					_canAttachExp = _objectParent getVariable ['QS_client_canAttachExp',FALSE];
@@ -105,7 +107,7 @@ if (_weapon isEqualTo 'Throw') then {
 		};
 		if (!((getAllOwnedMines _unit) isEqualTo [])) then {
 			if ((count (getAllOwnedMines _unit)) > 7) then {
-				deleteVehicle ((getAllOwnedMines _unit) select 0);
+				deleteVehicle ((getAllOwnedMines _unit) # 0);
 				50 cutText ['Explosives limit ( 7 ) exceeded','PLAIN DOWN',0.5];
 			};
 		};
@@ -120,7 +122,7 @@ if (_weapon isEqualTo 'Throw') then {
 				{((!(isNull _cursorTarget)) && (isPlayer _cursorTarget))} ||
 				{((!(isNull _cursorObject)) && (!(isNull (effectiveCommander _cursorObject))) && (isPlayer (effectiveCommander _cursorObject)))}
 			) then {
-				if (!((side (group _cursorTarget)) in (playerSide call (missionNamespace getVariable 'QS_fnc_enemySides')))) then {
+				if (!((side (group _cursorTarget)) in ((player getVariable ['QS_unit_side',WEST]) call (missionNamespace getVariable 'QS_fnc_enemySides')))) then {
 					deleteVehicle _projectile;
 				};
 			};

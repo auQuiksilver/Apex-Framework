@@ -190,6 +190,9 @@ if (_type2 isEqualType 0) exitWith {
 		playSound 'ClickSoft';
 		private _text = '';
 		{
+			
+		
+		
 			if ((['pilot',(typeOf _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['uav',(typeOf _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
 				systemChat format ['%1 - %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),(name _x)];
 				_text = _text + (format ['<br/><br/>%1 - %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),(name _x)]);

@@ -104,7 +104,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_aliveUnits isEqualTo []) exitWith {};
 	
 	{
-		if (((unitReady _x) && ((_x distance2D _building) < _size)) || {(moveToCompleted _x)} || {(moveToFailed _x)}) then {
+		if (((unitReady _x) && ((_x distance2D _building) < _size)) || {(weaponLowered _x)} || {(moveToCompleted _x)} || {(moveToFailed _x)}) then {
 			doStop _x;
 			_x doMove (_building buildingPos _indices);
 			_indices = _indices - 1;

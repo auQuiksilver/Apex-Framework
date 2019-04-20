@@ -6,12 +6,12 @@ Author:
 
 Last Modified:
 
-	30/07/2016 A3 1.62 by Quiksilver
+	14/01/2019 A3 1.88 by Quiksilver
 
 Description:
 
 	Area Gradient
-____________________________________________________________________________*/
+________________________________________________*/
 
 params ['_position','_area'];
 private _return = 0;
@@ -26,5 +26,4 @@ private _array_gradient = [];
 		_return = _return + _x;
 	};
 } forEach _array_gradient;
-_return = _return / (count _array_gradient);
-_return;
+(_return / (count _array_gradient));

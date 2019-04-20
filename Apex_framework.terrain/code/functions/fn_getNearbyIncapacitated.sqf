@@ -15,7 +15,7 @@ _____________________________________________/*/
 
 params ['_origin','_radius','_fn_enemySides'];
 private _incapacitated = ((_origin select [0,2]) nearEntities ['CAManBase',_radius]) select {
-	( ((lifeState _x) isEqualTo 'INCAPACITATED') && ( (isNull (group _x)) || {(!((side (group _x)) in (playerSide call _fn_enemySides)))}) )
+	( ((lifeState _x) isEqualTo 'INCAPACITATED') && ( (isNull (group _x)) || {(!((side (group _x)) in ((player getVariable ['QS_unit_side',WEST]) call _fn_enemySides)))}) )
 };
 private _v = objNull;
 {
@@ -28,7 +28,7 @@ private _v = objNull;
 						if (isNull (group _x)) then {
 							_incapacitated pushBackUnique _x;
 						} else {
-							if (!((side (group _x)) in (playerSide call _fn_enemySides))) then {
+							if (!((side (group _x)) in ((player getVariable ['QS_unit_side',WEST]) call _fn_enemySides))) then {
 								_incapacitated pushBackUnique _x;
 							};
 						};

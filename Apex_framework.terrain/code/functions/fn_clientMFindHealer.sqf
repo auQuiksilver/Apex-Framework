@@ -35,7 +35,7 @@ if (!(_mn isEqualTo [])) then {
 	{
 		if (!(_x isEqualTo _px)) then {
 			if (!(captive _x)) then {
-				if ((side _x) in [WEST,CIVILIAN]) then {
+				if (((side (group _x)) getFriend (side (group player))) > 0.6) then {
 					if (alive _x) then {
 						if (isPlayer _x) then {
 							if (((vehicle _x) distance _px) < _md) then {

@@ -13,7 +13,7 @@ Description:
 	Apply code to player when killed
 ___________________________________________________________________*/
 
-params ['_co','_killer','_instigator','_useEffects'];
+params ['_co','_killer','_instigator','_usedEffects'];
 if (currentChannel > 5) then {
 	setCurrentChannel 5;
 };
@@ -49,7 +49,15 @@ if (!isNull (getConnectedUAV _co)) then {
 if (_co getUnitTrait 'uavhacker') then {
 	removeAllAssignedItems _co;
 };
-missionNamespace setVariable ['QS_revive_KilledInventory',(getUnitLoadout _co),FALSE];	
+if (!isNull (objectParent _co)) then {
+	if ((objectParent _co) isKindOf 'AllVehicles') then {
+		if (local (objectParent _co)) then {
+			(objectParent _co) deleteVehicleCrew _co;
+		};
+	};
+};
+uiNamespace setVariable ['QS_client_respawnCooldown',diag_tickTime + 30];
+missionNamespace setVariable ['QS_revive_KilledInventory',(getUnitLoadout _co),FALSE];
 private _rd = player getVariable ['QS_respawnDelay',-1];
 if (_rd isEqualTo -1) then {
 	_rd = getMissionConfigValue ['respawnDelay',3];

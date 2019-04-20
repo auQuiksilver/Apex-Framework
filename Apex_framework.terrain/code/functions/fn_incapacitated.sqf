@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	14/06/2018 A3 1.82 by Quiksilver
+	22/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -55,8 +55,12 @@ if (!isNull _objectParent) then {
 		};
 	};
 };
-if ((_unit getUnitTrait 'QS_trait_pilot') || {(_unit getUnitTrait 'QS_trait_fighterPilot')} || {((getTerrainHeightASL (getPosWorld _unit)) < -2)}) exitWith {
-	//comment 'If pilot or over water, set dead';
+if (
+	(_unit getUnitTrait 'QS_trait_pilot') || 
+	{(_unit getUnitTrait 'QS_trait_fighterPilot')} || 
+	{((getTerrainHeightASL (getPosWorld _unit)) < -2)} || 
+	{((_unit getVariable ['QS_unit_side',WEST]) in [EAST,RESISTANCE,CIVILIAN])}
+) exitWith {
 	_unit setDamage [1,TRUE];
 	if (isPlayer _unit) then {
 		['systemChat',(format ['%1 was killed',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
@@ -89,13 +93,18 @@ if (!((attachedObjects _unit) isEqualTo [])) then {
 if (!(captive _unit)) then {
 	_unit setCaptive TRUE;
 };
-//comment 'Set unconscious';
 _unit setUnconscious TRUE;
-//comment 'Set interaction variables';
+private _timeNow = time;
+private _serverTime = serverTime;
+private _tickTimeNow = diag_tickTime;
+private _medicalTimerDelay = 10 * 60;
+private _medicalStartTime = _tickTimeNow;
+private _medicalTimer = _medicalStartTime + _medicalTimerDelay;
 {
 	_unit setVariable _x;
 } forEach [
-	['QS_revive_downtime',serverTime,TRUE],
+	['QS_revive_timeDown',_serverTime,TRUE],
+	['QS_revive_timeBleedout',(_serverTime + _medicalTimerDelay),TRUE],
 	['QS_RD_draggable',TRUE,TRUE],
 	['QS_revive_disable',FALSE,FALSE],
 	['QS_respawn_disable',-1,FALSE],
@@ -105,7 +114,6 @@ _unit setDamage [0.25,TRUE];
 if (isForcedWalk _unit) then {
 	_unit forceWalk FALSE;
 };
-//comment 'AI Exit';
 if (!isPlayer _unit) exitWith {};
 if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) exitWith {
 	['systemChat',(format ['%1 died of unknown causes',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
@@ -116,8 +124,6 @@ disableSerialization;
 scopeName 'QS_main_1';
 _profileName = profileName;
 private _text = '';
-private _timeNow = time;
-private _tickTimeNow = diag_tickTime;
 private _actOfGod = FALSE;
 private _chance = [0.57,0.625] select (_unit getUnitTrait 'medic');
 private _randomN = random 1;
@@ -138,9 +144,6 @@ _soundDelayRandom = 20;
 _soundDelay = _tickTimeNow + _soundDelayFixed + (random _soundDelayRandom);
 _sound = '';
 _medevacBase = markerPos 'QS_marker_medevac_hq';
-private _medicalTimerDelay = 600;
-private _medicalStartTime = _tickTimeNow;
-private _medicalTimer = _medicalStartTime + _medicalTimerDelay;
 private _medevacRequested = FALSE;
 private _revivedAtVehicle = FALSE;
 private _incapacitatedText = format ['%1 was incapacitated',_profileName];
@@ -148,7 +151,7 @@ if (!isNull _instigator) then {
 	if (_instigator isEqualTo _unit) then {
 		_incapacitatedText = format ['%1 was incapacitated',_profileName];
 	} else {
-		if ((toLower (typeOf _instigator)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f']) then {
+		if ((_instigator getUnitTrait 'QS_trait_sniper') || ((toLower (typeOf _instigator)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f'])) then {
 			_nameKiller = name _instigator;
 			_incapacitatedText = format ['%1 %2',_profileName,(selectRandom [(format ['was rekt by an enemy sniper ( %1 )',_nameKiller]),(format ['was incapacitated by an enemy sniper ( %1 )',_nameKiller]),(format ['got sniped ( %1 )',_nameKiller]),(format ['was blown away by an enemy sniper ( %1 )',_nameKiller])])];
 		} else {
@@ -224,26 +227,25 @@ private _initialAnimSet = FALSE;
 private _initialAnimDelay = _tickTimeNow + 8;
 private _chatShown = shownChat;
 private _ambulanceDelay = _tickTimeNow + 5;
-//comment 'Functions preload';
+_QS_productVersion = productVersion;
+_QS_missionVersion = missionNamespace getVariable ['QS_system_devBuild_text',''];
+_roleSelectionSystem = missionNamespace getVariable ['QS_RSS_enabled',TRUE];
 _fn_findHealer = missionNamespace getVariable 'QS_fnc_clientMFindHealer';
 _fn_secondsToString = missionNamespace getVariable 'QS_fnc_secondsToString';
 _fn_isNearFieldHospital = missionNamespace getVariable 'QS_fnc_isNearFieldHospital';
 _fn_inString = missionNamespace getVariable 'QS_fnc_inString';
-//comment 'Loop';
 for '_x' from 0 to 1 step 0 do {
-	//comment 'Update useful info';
 	_timeNow = time;
+	_serverTime = serverTime;
 	_tickTimeNow = diag_tickTime;
 	_lifeState = lifeState _unit;
 	_incapacitatedState = incapacitatedState _unit;
 	_vehicle = vehicle _unit;
 	_objectParent = objectParent _unit;
 	_attachedTo = attachedTo _unit;
-	//comment 'Display';
 	_string1 = actionKeysNames ['InGamePause',1];
 	_text1 = parseText format ['<t size="1.5" align="left">INCAPACITATED<t/><br/><t size="1" align="left">Press [%1] to respawn<br/>Bleeding out (%2)<br/>%3</t>',(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call _fn_secondsToString),(call _fn_findHealer)];
 	_ctrlIncapacitated ctrlSetStructuredText ([_text1,(parseText '')] select visibleMap);
-	//comment 'Agony sound simulation';
 	if (_tickTimeNow > _soundDelay) then {
 		if (isNull _objectParent) then {
 			if (isNull _attachedTo) then {
@@ -252,7 +254,6 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		_soundDelay = _tickTimeNow + _soundDelayFixed + (random _soundDelayRandom);
 	};
-	//comment 'Initial anim delay';
 	if (!(_initialAnimSet)) then {
 		if (_tickTimeNow > _initialAnimDelay) then {
 			_initialAnimSet = TRUE;
@@ -261,13 +262,11 @@ for '_x' from 0 to 1 step 0 do {
 					if (isNull _objectParent) then {
 						['switchMove',_unit,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						_unit switchMove 'acts_InjuredLyingRifle02';
-						//_unit setDir ((getDir _unit) + 180);
 					};
 				};
 			};
 		};
 	};
-	//comment 'Respawned';
 	if (!((_unit getVariable ['QS_revive_respawnType','']) isEqualTo '')) then {
 		if ((_unit getVariable 'QS_revive_respawnType') isEqualTo 'FOB') then {
 			missionNamespace setVariable [
@@ -278,11 +277,9 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		_forceRespawned = TRUE;
 	};
-	//comment 'Revived';
 	if (_lifeState in ['HEALTHY','INJURED']) then {
 		_exit = TRUE;
 	};
-	//comment 'Bled out';
 	if (_tickTimeNow >= _medicalTimer) then {
 		['systemChat',(format ['%1 bled out',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		_forceRespawned = TRUE;
@@ -314,7 +311,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
-	//comment 'Underwater';
 	if (_tickTimeNow > _ambulanceDelay) then {
 		if (((getPosASL _unit) select 2) < -1.5) then {
 			['systemChat',(format ['%1 drowned',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
@@ -324,7 +320,6 @@ for '_x' from 0 to 1 step 0 do {
 	if (_forceRespawned) exitWith {
 		forceRespawn _unit;
 	};
-	//comment 'Is at medevac HQ';
 	if (_tickTimeNow > _ambulanceDelay) then {
 		if (((_unit distance2D _medevacBase) < 4) || {([0,_unit] call _fn_isNearFieldHospital)}) then {
 			if (isNull _objectParent) then {
@@ -351,7 +346,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
-	//comment 'Is in medical vehicle';
 	if (_tickTimeNow > _ambulanceDelay) then {
 		if (!(_unit getVariable ['QS_revive_disable',FALSE])) then {
 			if (!(_revivedAtVehicle)) then {
@@ -417,7 +411,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
-	//comment 'Act of god';
 	if (!(_unit getVariable ['QS_revive_disable',FALSE])) then {
 		if (_actOfGod) then {
 			if (_tickTimeNow > _actOfGod_delay) then {
@@ -441,7 +434,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
-	//comment 'Move out handling';
 	if (!isNull _objectParent) then {
 		if (!alive _objectParent) then {
 			_unit setUnconscious FALSE;
@@ -461,7 +453,6 @@ for '_x' from 0 to 1 step 0 do {
 			_unit setUnconscious TRUE;
 		};
 	};
-	//comment 'Pause Menu handling';
 	if (!(_49Opened)) then {
 		_d49 = findDisplay 49;
 		if (!isNull _d49) then {
@@ -533,8 +524,8 @@ for '_x' from 0 to 1 step 0 do {
 			(_d49 displayCtrl 122) ctrlEnable TRUE;
 			(_d49 displayCtrl 122) ctrlSetText 'Field Manual';
 			(_d49 displayCtrl 104) ctrlEnable FALSE;
-			(_d49 displayCtrl 104) ctrlSetText 'Abort';
-			(_d49 displayCtrl 104) ctrlSetTooltip 'Abort to role assignment (Respawn to enable).';
+			(_d49 displayCtrl 104) ctrlSetText (['Abort','Exit'] select _roleSelectionSystem);
+			(_d49 displayCtrl 104) ctrlSetTooltip (['Abort to role assignment (lobby).','Leave server.'] select _roleSelectionSystem);
 			(_d49 displayCtrl 523) ctrlSetText (format ['%1',_profileName]);
 			(_d49 displayCtrl 109) ctrlSetText (format ['%1',_playerClassDName]);
 		};
@@ -572,6 +563,8 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			(_d49 displayCtrl 1010) ctrlSetText (format ['Respawn at FOB (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets')]);
 			(_d49 displayCtrl 1010) ctrlCommit 0;
+			(_d49 displayCtrl 1005) ctrlSetText (format ['%1 - ArmA 3 %2',_QS_missionVersion,_QS_productVersion]);
+			(_d49 displayCtrl 1005) ctrlCommit 0;
 			_QS_buttonMedevac ctrlEnable ((!(missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE])) && (_tickTimeNow > (_unit getVariable ['QS_client_lastMedevacRequest',-1])) && ((lifeState _unit) isEqualTo 'INCAPACITATED') && (isNull (objectParent _unit)) && (isNull (attachedTo _unit)));
 			if (_tickTimeNow > (_unit getVariable ['QS_respawn_disable',-1])) then {
 				_QS_buttonMedevac ctrlSetText 'Request Medevac';
@@ -633,7 +626,7 @@ _unit setMimic 'neutral';
 	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE]
 ];
-showHUD (missionNamespace getVariable [(format ['QS_allowedHUD_%1',playerSide]),WEST]);
+showHUD (missionNamespace getVariable [(format ['QS_allowedHUD_%1',(player getVariable ['QS_unit_side',WEST])]),WEST]);
 [29,(missionNamespace getVariable 'QS_module_fob_side')] call (missionNamespace getVariable 'QS_fnc_remoteExec');
 if ((lifeState _unit) in ['HEALTHY','INJURED']) then {
 	if (isNull _objectParent) then {

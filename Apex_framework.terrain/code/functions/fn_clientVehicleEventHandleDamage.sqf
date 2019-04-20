@@ -21,7 +21,7 @@ if (!(_selectionName isEqualTo '?')) then {
 	if (!isNull _instigator) then {
 		if ((isPlayer _instigator) || {(isPlayer (effectiveCommander _instigator))}) then {
 			if (!(_vehicle in [_source,_instigator])) then {
-				if ((side (group _instigator)) in [playerSide,sideEnemy]) then {
+				if ((side (group _instigator)) in [(player getVariable ['QS_unit_side',WEST]),sideEnemy]) then {
 					_scale = 0.05;
 				};
 			};
@@ -34,7 +34,7 @@ if (!(_selectionName isEqualTo '?')) then {
 	if (!isNull _source) then {
 		if ((isPlayer _source) || {(isPlayer (effectiveCommander _source))}) then {
 			if (!(_vehicle in [_source,_instigator])) then {
-				if ((side (group _instigator)) in [playerSide,sideEnemy]) then {
+				if ((side (group _instigator)) in [(player getVariable ['QS_unit_side',WEST]),sideEnemy]) then {
 					_scale = 0.05;
 				};
 			};

@@ -44,7 +44,7 @@ if (isPlayer _killed) then {
 				_killed setVariable [_x,nil,FALSE];
 			} count (allVariables _killed);
 		};
-		if ((toLower (typeOf _killed)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f']) then {
+		if (((toLower (typeOf _killed)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f','i_sniper_f']) || (_killed getUnitTrait 'QS_trait_sniper')) then {
 			if (!isNull _killer) then {
 				if (isPlayer _killer) then {
 					if (!((vehicle _killer) isKindOf 'Air')) then {

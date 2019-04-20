@@ -6,17 +6,14 @@ Author:
 	
 Last modified:
 
-	9/06/2016 A3 1.61 by Quiksilver
+	5/12/2018 A3 1.86 by Quiksilver
 	
 Description:
 
 	Event Radio Tower Killed
 __________________________________________________*/
 
-private ['_object','_killer','_name'];
-_object = _this select 0;
-_killer = _this select 1;
-missionNamespace setVariable ['radioTowerAlive',FALSE,FALSE];
+params ['_object','_killer'];
 {
 	_x setMarkerAlpha 0;
 	_x setMarkerPos [-5000,-5000,0];
@@ -33,8 +30,8 @@ if (!isNull _killer) then {
 		} else {
 			['sideChat',[WEST,'HQ'],(format ['%1 brought down the tower! Great work boys!',_name])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
-		if (!((toLower (typeOf _killer)) in ['b_pilot_f','b_helipilot_f','b_soldier_uav_f','b_fighter_pilot_f'])) then {
-			0 = QS_leaderboards_session_queue pushBack ['TOWER',(getPlayerUID _killer),(name _killer),1];
+		if ((!(_killer getUnitTrait 'uavhacker')) && (!(_killer getUnitTrait 'QS_trait_pilot')) && (!(_killer getUnitTrait 'QS_trait_fighterPilot'))) then {
+			(missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TOWER',(getPlayerUID _killer),(name _killer),1];
 		};
 	};
 };

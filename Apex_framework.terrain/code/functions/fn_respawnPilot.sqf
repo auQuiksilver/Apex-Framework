@@ -16,7 +16,7 @@ __________________________________________________/*/
 
 _worldName = worldName;
 _typeL = toLower (typeOf player);
-if (_typeL in ['b_fighter_pilot_f']) exitWith {
+if ((player getUnitTrait 'QS_trait_fighterPilot') || (_typeL in ['b_fighter_pilot_f'])) exitWith {
 	if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
 		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
 	} else {
@@ -45,7 +45,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqual
 if ((missionNamespace getVariable ['QS_missionConfig_destroyerRespawn',0]) isEqualTo 1) exitWith {
 	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_destroyer');
 };
-if (_typeL in ['b_pilot_f','b_helipilot_f','b_t_helipilot_f','b_helicrew_f','o_pilot_f','o_helipilot_f','o_helicrew_f','i_pilot_f','i_helipilot_f','i_helicrew_f']) then {
+if ((player getUnitTrait 'QS_trait_pilot') || (_typeL in ['b_pilot_f','b_helipilot_f','b_t_helipilot_f','b_helicrew_f','o_pilot_f','o_helipilot_f','o_helicrew_f','i_pilot_f','i_helipilot_f','i_helicrew_f'])) then {
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2) then {
 		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
 	} else {
@@ -68,7 +68,7 @@ if (_typeL in ['b_pilot_f','b_helipilot_f','b_t_helipilot_f','b_helicrew_f','o_p
 		};
 	};
 };
-if (_typeL in ['b_soldier_uav_f','b_t_soldier_uav_f']) then {
+if ((player getUnitTrait 'uavhacker') || (_typeL in ['b_soldier_uav_f','b_t_soldier_uav_f'])) then {
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2) then {
 		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
 	} else {

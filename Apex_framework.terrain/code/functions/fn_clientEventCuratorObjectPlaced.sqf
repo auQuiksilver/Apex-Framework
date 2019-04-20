@@ -90,9 +90,9 @@ if (_object isKindOf 'Man') exitWith {
 			};
 			_object enableStamina FALSE;
 			_object enableFatigue FALSE;
-			private ['_QS_unitSide','_QS_magazinesUnit','_QS_testMag','_QS_primaryWeaponMag'];
+			private ['_QS_unit_side','_QS_magazinesUnit','_QS_testMag','_QS_primaryWeaponMag'];
 			[[_object],1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-			_QS_unitSide = side _object;
+			_QS_unit_side = side _object;
 			_QS_magazinesUnit = magazines _object;
 			if (['recon',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 				_object enableStamina FALSE;

@@ -21,7 +21,7 @@ private _nearestWaypoint = [grpNull,-1];
 private _dist = 999999;
 private _max = _dist;
 _radius = (10 max (200 * _mScale));
-_playerSide = playerSide;
+_playerSide = player getVariable ['QS_unit_side',WEST];
 {
 	if (!isNull _x) then {
 		if ((side _x) isEqualTo _playerSide) then {

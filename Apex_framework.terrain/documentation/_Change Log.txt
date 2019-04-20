@@ -1,16 +1,53 @@
 Official change log
 
-1.1.3 "Warlords" (A3 1.86 5/12/2018)
+To do:
 
-- [ADDED] ADR-97 (p90) weapon to Arsenal whitelist.
-- [TWEAKED] 1.86 compatibility
-- [TWEAKED] Enemy sniper teams (2 snipers instead of sniper + spotter).
-- [TWEAKED] Medic UI icons.
+- Role assignment menu
+- Headless client
+- Remove ability for players to report pilots when pilot crashes
+- New sub objective (ammo caches/ammo dumps)
+- [FIXED] FindOverwatch check-visibility component not working
+- Find suitable buildings to spawn AI in
+- "get nearest overwatch"
+- 2 new idap mission scenes
+- [DONE] Towing for big vehicles (huron, mohawk, VTOLs) on carrier needs config
+- [DONE] Make towing work on carrier
+- [DONE] Carrier marker is missing on some terrains?
+- Add support for Achilles mod + documentation
+- Respawn more enemies indoors
+- Saw a white flag at an HQ (green one on Altis)
+- [DONE] Player can deploy bipod while down, breaking animations
+- Enemy reinforcement helo deletes itself too fast?
+- [TT] Enemy planes at defend mission not spawning?
+- [CANCELLED] Only propagate wounded noises if there is someone to hear them (use playsound instead when no one else is around)
+- Enemy needs AA air support during defend attacks
+- Side mission rewards can blow up on spawn
+- [TT] Check incapacitation initial anim set direction
+- Add enemy SAM ao task
+- [TT] Add stealth benefit to enemy artillery targeting system
+- Custom AO entity management
+- [TT] Remove most ammo/supplies from vehicles that spawn in AO
+- Look at remote artillery controls/management
+- easter egg air vehicles despawn with player inside
+- [DONE] players can manual fire in base
+
+1.1.4
+
+- [ADDED] Role Selection System.
+- [TWEAKED] Replaced "select" with "#" in most active server/client scripted systems.
+- [TWEAKED] Micro optimizations to main client scripts.
+- [TWEAKED] Small optimization to player object namespace for UI data.
+- [TWEAKED] It was possible to use vehicle Manual Fire mode to bypass the base safezone protections.
+- [TWEAKED] AI skills boosted slightly for Regular and Veteran AI.
+- [FIXED] Easter Egg helicopters could de-spawn with players inside!
+
+1.1.3
+
+- [TWEAKED] Medic UI to show nearby wounded in vehicles.
+- [TWEAKED] Enemy snipers
+- [TWEAKED] Overwatch position-finding function.
 - [TWEAKED] Revive action removed from action menu when currently reviving.
-- [TWEAKED] Text format of on-screen Server Restart notification.
 - [FIXED] Error in UI text of incapacitation system.
-- [FIXED] Medic UI to show nearby wounded in vehicles.
-- [FIXED] AI Naval divers could spawn without proper weapon sometimes.
 
 1.1.2 (A3 1.84 13/10/2018)
 

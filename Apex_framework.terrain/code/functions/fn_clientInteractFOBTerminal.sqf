@@ -20,7 +20,7 @@ if (_type isEqualTo 1) exitWith {
 		'<t align="left" size="2">FOB %1<t/><br/><t align="left" size="1.5">Status</t><br/><t align="left" size="1">__________</t><br/>',
 		(missionNamespace getVariable 'QS_module_fob_displayName')
 	];
-	if ((missionNamespace getVariable 'QS_module_fob_side') isEqualTo playerSide) then {
+	if ((missionNamespace getVariable 'QS_module_fob_side') isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
 		_radarServices = '<t size="1" align="left">Radar Services</t><t color="#008000" size="1" align="right">Online</t><br/>';
 	} else {
 		_radarServices = '<t size="1" align="left">Radar Services</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
@@ -71,13 +71,13 @@ if (_type isEqualTo 1) exitWith {
 if (_type isEqualTo 2) exitWith {
 	if (([(getPosATL player),100,([player] call (missionNamespace getVariable 'QS_fnc_enemySides')),allUnits,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo 0) then {
 		playSound ['AddItemOK',FALSE];
-		[50,[playerSide,profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+		[50,[(player getVariable ['QS_unit_side',WEST]),profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	} else {
 		50 cutText ['Enemies are within 100m of you, FOB activation failed!','PLAIN DOWN',1];
 	};
 };
 if (_type isEqualTo 3) exitWith {
-	if (['pilot',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+	if ((player getUnitTrait 'uavhacker') || (player getUnitTrait 'QS_trait_pilot') || (player getUnitTrait 'QS_trait_fighterPilot')) then {
 		50 cutText ['Pilots cannot respawn at the FOB!','PLAIN'];
 	} else {
 		50 cutText ['Personal Respawn Beacon activated','PLAIN'];

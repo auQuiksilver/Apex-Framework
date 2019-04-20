@@ -13,8 +13,8 @@ Description:
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.3';
-_missionProductStatus = 'Gold';
+_missionProductVersion = '1.1.4';
+_missionProductStatus = 'DEV';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
@@ -67,7 +67,7 @@ if (!isDedicated) exitWith {
 		[],
 		{
 			0 spawn {
-				while {true} do {
+				for '_x' from 0 to 1 step 0 do {
 					['Server must be Dedicated'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
@@ -81,7 +81,7 @@ if ((!((productVersion select 7) isEqualTo 'x64')) && (!((productVersion select 
 		[],
 		{
 			0 spawn {
-				while {true} do {
+				for '_x' from 0 to 1 step 0 do {
 					['Server must be running 64-bit'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
@@ -95,7 +95,7 @@ if (!isFilePatchingEnabled) exitWith {
 		[],
 		{
 			0 spawn {
-				while {true} do {
+				for '_x' from 0 to 1 step 0 do {
 					['-filePatching must be enabled in Server launch options'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
@@ -138,7 +138,7 @@ if (_difficultyInvalid) exitWith {
 		[],
 		{
 			0 spawn {
-				while {true} do {
+				for '_x' from 0 to 1 step 0 do {
 					['Invalid mission difficulties, view server RPT log file for more details'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
@@ -151,7 +151,7 @@ if ((('real_date' callExtension '') isEqualTo '') && (!((productVersion select 6
 		[],
 		{
 			0 spawn {
-				while {true} do {
+				for '_x' from 0 to 1 step 0 do {
 					['Real_date extension must be active'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
@@ -176,7 +176,7 @@ if (!(_addonActive)) exitWith {
 		[],
 		{
 			0 spawn {
-				while {true} do {
+				for '_x' from 0 to 1 step 0 do {
 					['Apex Framework servermod @Apex must be active'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
@@ -189,7 +189,7 @@ if (isNil {uiNamespace getVariable 'QS_fnc_serverCommandPassword'}) exitWith {
 		[],
 		{
 			0 spawn {
-				while {true} do {
+				for '_x' from 0 to 1 step 0 do {
 					['Apex Framework config files missing: @Apex_cfg'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
@@ -366,6 +366,11 @@ _recyclerUnitTypes = [
 	]
 ] select (worldName in ['Tanoa','Lingor3']);
 {
+	uiNamespace setVariable _x;
+} forEach [
+	['QS_roles_handler',[]]
+];
+{
 	missionNamespace setVariable _x;
 } forEach [
 	['BIS_initRespawn_disconnect',-1,FALSE],
@@ -374,13 +379,17 @@ _recyclerUnitTypes = [
 	['BIS_dynamicGroups_allowInterface',TRUE,TRUE],
 	['RscSpectator_allowedGroups',[],TRUE],
 	['RscSpectator_allowFreeCam',FALSE,TRUE],
+	['QS_RSS_enabled',((getMissionConfigValue ['skipLobby',0]) isEqualTo 1),TRUE],
+	['QS_RSS_client_canSideSwitch',(!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)),TRUE],
 	['QS_missionConfig_restartHours',[0,6,12,18],FALSE],
 	['QS_mission_aoType',(profileNamespace getVariable ['QS_mission_aoType','CLASSIC']),TRUE],
 	['QS_system_realTimeStart',missionStart,TRUE],
 	['QS_carrierObject',objNull,TRUE],
 	['QS_AI_dynSkill_coef',0,TRUE],
-	['QS_CAS_jetAllowance_value',3,FALSE],
+	['QS_CAS_jetAllowance_value',3,TRUE],
+	['QS_CAS_jetAllowance_current',0,FALSE],
 	['QS_CAS_jetAllowance',[],FALSE],
+	['QS_CAS_jetAllowance_gameover',FALSE,FALSE],
 	['QS_fighterPilot',objNull,FALSE],
 	['QS_casJet_destroyedAtBase',FALSE,FALSE],
 	['QS_casJet_destroyedAtBase_type','',FALSE],
@@ -733,8 +742,17 @@ _recyclerUnitTypes = [
 	['QS_AI_targetsKnowledge_suspend',FALSE,FALSE],
 	['QS_entities_ao_customEntities',[],FALSE],
 	['QS_entities_ao_customStructures',[],FALSE],
-	['QS_entities_ao_customHTO',[],FALSE]
+	['QS_entities_ao_customHTO',[],FALSE],
+	['QS_mission_clearedBuildings',[],FALSE],
+	['QS_ao_controlledSpawnPoints',[],FALSE],
+	['QS_AI_targetsKnowledge_threat_armor_entities',[],FALSE],
+	['QS_AI_targetsKnowledge_threat_air_entities',[],FALSE],
+	['QS_AI_targetsKnowledge_threat_air',0,FALSE],
+	['QS_AI_targetsKnowledge_threat_armor',0,FALSE]
 ];
+call (compile (preprocessFileLineNumbers '@Apex_cfg\roles.sqf'));
+['INIT_SYSTEM'] call (missionNamespace getVariable 'QS_fnc_roles');
+
 missionNamespace setVariable ['QS_data_arsenal',(compileFinal (preprocessFileLineNumbers '@Apex_cfg\arsenal.sqf')),TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	{
@@ -794,8 +812,8 @@ _markers = nil;
 	[4,[TRUE,TRUE]],
 	[5,[TRUE,TRUE]]
 ];
-['Initialize'] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
-[] call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
+['Initialize',50,FALSE,''] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
+call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
 
 /*/===== Build base/*/
 

@@ -46,7 +46,7 @@ _huronarmed = [
 _towvs = [
 	'b_apc_tracked_01_crv_f','b_truck_01_mover_f','b_t_apc_tracked_01_crv_f','b_t_truck_01_mover_f','c_offroad_01_f','c_offroad_01_repair_f',
 	'o_g_offroad_01_f','b_g_offroad_01_f','i_g_offroad_01_f','o_g_offroad_01_repair_f','i_g_offroad_01_repair_f','b_g_offroad_01_repair_f','b_gen_offroad_01_gen_f','c_idap_offroad_01_f',
-	'b_ugv_01_f',
+	'b_ugv_01_f','b_t_ugv_01_olive_f',
 	'o_ugv_01_f',
 	'o_t_ugv_01_ghex_f',
 	'i_ugv_01_f',

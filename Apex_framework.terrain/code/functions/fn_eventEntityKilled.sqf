@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/10/2018 A3 1.84 by Quiksilver
+	30/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -32,7 +32,13 @@ if (_killed isKindOf 'Man') then {
 				if (local (objectParent _killed)) then {
 					(objectParent _killed) deleteVehicleCrew _killed;
 				} else {
-					[(objectParent _killed),_killed] remoteExec ['deleteVehicleCrew',(objectParent _killed),FALSE];
+					if (isPlayer _killed) then {
+						if (!((owner _killed) isEqualTo (owner (objectParent _killed)))) then {
+							[(objectParent _killed),_killed] remoteExec ['deleteVehicleCrew',(objectParent _killed),FALSE];
+						};
+					} else {
+						[(objectParent _killed),_killed] remoteExec ['deleteVehicleCrew',(objectParent _killed),FALSE];
+					};
 				};
 			};
 		};
@@ -81,7 +87,7 @@ if (isPlayer _killed) then {
 				} count (allVariables _killed);
 			};
 		};
-		if ((toLower (typeOf _killed)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f']) then {
+		if (((toLower (typeOf _killed)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f']) || {(_killed getUnitTrait 'QS_trait_sniper')}) then {
 			if (!isNull _killer) then {
 				if (isPlayer _killer) then {
 					if (!((vehicle _killer) isKindOf 'Air')) then {

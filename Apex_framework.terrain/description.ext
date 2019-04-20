@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	17/08/2018 A3 1.84 by Quiksilver
+	20/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -26,7 +26,7 @@ onLoadMissionTime = 0;												/*/ Time and date displayed while the mission 
 class Header {
 	gameType = COOP;												/*/ Unknown, COOP, DM, TDM, CTF, SC, CTI, RPG, Sandbox, Seize, Defend./*/
 	minPlayers = 1;													/*/ Min # of players the MISSION supports/*/
-	maxPlayers = 83;												/*/ Max # of players the MISSION supports, not server slots. Make sure # is greater than server slots./*/
+	maxPlayers = 81;												/*/ Max # of players the MISSION supports, not server slots. Make sure # is greater than server slots./*/
 };
 disabledAI = 1;											/*/ No AI in playable units/*/
 aiKills = 0; 											/*/ disable scorelist for AI players/*/
@@ -37,7 +37,7 @@ showGroupIndicator = 0;
 showSquadRadar = 0;
 forceRotorLibSimulation = 0;							/*/ Advanced Flight Model /*/
 scriptedPlayer = 1;
-skipLobby = 0;
+skipLobby = 1;
 corpseManagerMode = 0;
 corpseLimit = 30;
 corpseRemovalMinTime = 60;
@@ -177,10 +177,10 @@ class CfgDisabledCommands {
 };
 class CfgRemoteExec {
 	class Commands {
-		mode = 1;
+		mode = 2;
 	};
 	class Functions {
-		mode = 1;
+		mode = 2;
 		jip = 0;
 		allowedTargets = 0;
 		class BIS_fnc_callScriptedEventHandler {};
@@ -237,7 +237,7 @@ class CfgDebriefing {
 	};
 	class QS_RD_end_4 {
 		title = "Reserved Profile Name";
-		description = "Your profile name is reserved for another a staff member or supporter on this server, please use different profile name!";
+		description = "Your profile name is reserved for a staff member or supporter on this server, please use a different profile name!";
 		picture = "media\images\insignia\comm_patch.paa";
 	};
 	class QS_RD_end_5 {
@@ -380,6 +380,7 @@ class CfgFunctions {
 			class clientEventCuratorGroupPlaced {file = "code\functions\fn_clientEventCuratorGroupPlaced.sqf";};
 			class clientEventCuratorKeyDown {file = "code\functions\fn_clientEventCuratorKeyDown.sqf";};
 			class clientEventCuratorMarkerPlaced {file = "code\functions\fn_clientEventCuratorMarkerPlaced.sqf";};
+			class clientEventCuratorObjectDeleted {file = "code\functions\fn_clientEventCuratorObjectDeleted.sqf";};
 			class clientEventCuratorObjectPlaced {file = "code\functions\fn_clientEventCuratorObjectPlaced.sqf";};
 			class clientEventCuratorObjectRegistered {file = "code\functions\fn_clientEventCuratorObjectRegistered.sqf";};
 			class clientEventCuratorWaypointPlaced {file = "code\functions\fn_clientEventCuratorWaypointPlaced.sqf";};
@@ -493,6 +494,7 @@ class CfgFunctions {
 			class clientMenuMain {file = "code\functions\fn_clientMenuMain.sqf";};
 			class clientMenuOptions {file = "code\functions\fn_clientMenuOptions.sqf";};
 			class clientMenuRadio {file = "code\functions\fn_clientMenuRadio.sqf";};
+			class clientMenuRSS {file = "code\functions\fn_clientMenuRSS.sqf";};
 			class clientMenuStaff {file = "code\functions\fn_clientMenuStaff.sqf";};
 			class clientMenuSupporters {file = "code\functions\fn_clientMenuSupporters.sqf";};
 			class clientMenuUTexture {file = "code\functions\fn_clientMenuUTexture.sqf";};
@@ -506,6 +508,8 @@ class CfgFunctions {
 			class clientServiceVehicle {file = "code\functions\fn_clientServiceVehicle.sqf";};
 			class clientSetUnitInsignia {file = "code\functions\fn_clientSetUnitInsignia.sqf";};
 			class clientSimulationManager {file = "code\functions\fn_clientSimulationManager.sqf";};
+			class clientVehicleEventDammaged {file = "code\functions\fn_clientVehicleEventDammaged.sqf";};
+			class clientVehicleEventDeleted {file = "code\functions\fn_clientVehicleEventDeleted.sqf";};
 			class clientVehicleEventEngine {file = "code\functions\fn_clientVehicleEventEngine.sqf";};
 			class clientVehicleEventEpeContactStart {file = "code\functions\fn_clientVehicleEventEpeContactStart.sqf";};
 			class clientVehicleEventFired {file = "code\functions\fn_clientVehicleEventFired.sqf";};
@@ -553,6 +557,7 @@ class CfgFunctions {
 			class enemySides {file = "code\functions\fn_enemySides.sqf";};
 			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
+			class eventEachFrame {file = "code\functions\fn_eventEachFrame.sqf";};
 			class eventEntityKilled {file = "code\functions\fn_eventEntityKilled.sqf";};
 			class eventEntityRespawned {file = "code\functions\fn_eventEntityRespawned.sqf";};
 			class eventHandleDisconnect {file = "code\functions\fn_eventHandleDisconnect.sqf";};
@@ -606,6 +611,7 @@ class CfgFunctions {
 			class initCurator {file = "code\functions\fn_initCurator.sqf";};
 			class initPlayerLocal {file = "code\functions\fn_initPlayerLocal.sqf";};
 			class initPlayerServer {file = "code\functions\fn_initPlayerServer.sqf";};
+			class initTrait {file = "code\functions\fn_initTrait.sqf";};
 			class inString {file = "code\functions\fn_inString.sqf";};
 			class isBoundingBoxIntersected {file = "code\functions\fn_isBoundingBoxIntersected.sqf";};
 			class isNearFieldHospital {file = "code\functions\fn_isNearFieldHospital.sqf";};
@@ -632,8 +638,10 @@ class CfgFunctions {
 			class remoteExec {file = "code\functions\fn_remoteExec.sqf";};
 			class remoteExecCmd {file = "code\functions\fn_remoteExecCmd.sqf";};
 			class replaceWithVehicle {file = "code\functions\fn_replaceWithVehicle.sqf";};
+			class respawnOPFOR {file = "code\functions\fn_respawnOPFOR.sqf";};
 			class respawnPilot {file = "code\functions\fn_respawnPilot.sqf";};
 			class returnGroupComposition {file = "code\functions\fn_returnGroupComposition.sqf";};
+			class roles {file = "code\functions\fn_roles.sqf";};
 			class sc {file = "code\functions\fn_sc.sqf";};
 			class scBrief {file = "code\functions\fn_scBrief.sqf";};
 			class scEnemy {file = "code\functions\fn_scEnemy.sqf";};
@@ -662,8 +670,10 @@ class CfgFunctions {
 			class setCollectible {file = "code\functions\fn_setCollectible.sqf";};
 			class setFlag {file = "code\functions\fn_setFlag.sqf";};
 			class setSimpleObject {file = "code\functions\fn_setSimpleObject.sqf";};
+			//class setUnitRole {file = "code\functions\fn_setUnitRole.sqf";};
 			class showNotification {file = "code\functions\fn_showNotification.sqf";};
 			class showNotification_process {file = "code\functions\fn_showNotification_process.sqf";};
+			class sideID {file = "code\functions\fn_sideID.sqf";};
 			class signalStrength {file = "code\functions\fn_signalStrength.sqf";};
 			class simpleObjectAdjust {file = "code\functions\fn_simpleObjectAdjust.sqf";};
 			class simpleObjectCreate {file = "code\functions\fn_simpleObjectCreate.sqf";};
@@ -1044,7 +1054,7 @@ class QS_RD_dialog_RscCombo {
 	color[] = {0, 0, 0, 0.6};
 	colorActive[] = {0, 0, 0, 1};
 	colorDisabled[] = {0, 0, 0, 0.3};
-	font = "Zeppelin32";
+	font = "RobotoCondensed";
 	sizeEx = 0.031;
 	soundSelect[] = {"\ca\ui\data\sound\new1", 0.09, 1};
 	soundExpand[] = {"\ca\ui\data\sound\new1", 0.09, 1};
@@ -1083,6 +1093,69 @@ class QS_RD_dialog_RscCombo {
 		height = 0.028;
 		shadow = 0;
 	};
+};
+
+class QS_RD_dialog_RscCombo_2
+{
+    deletable = 0;
+    fade = 0;
+    access = 0;
+    type = CT_COMBO;
+	style = ST_LEFT;
+    colorSelect[] = {0, 0, 0, 1};
+    colorText[] = {1, 1, 1, 1};
+    colorBackground[] = {0, 0, 0, 0.5};
+    colorScrollbar[] = {1, 0, 0, 1};
+    colorDisabled[] = {1, 1, 1, 0.25};
+    colorPicture[] = {1, 1, 1, 1};
+    colorPictureSelected[] = {1, 1, 1, 1};
+    colorPictureDisabled[] = {1, 1, 1, 0.25};
+    colorPictureRight[] = {1, 1, 1, 1};
+    colorPictureRightSelected[] = {1, 1, 1, 1};
+    colorPictureRightDisabled[] = {1, 1, 1, 0.25};
+    colorTextRight[] = {1, 1, 1, 1};
+    colorSelectRight[] = {0, 0, 0, 1};
+    colorSelect2Right[] = {0, 0, 0, 1};
+    tooltipColorText[] = {1, 1, 1, 1};
+    tooltipColorBox[] = {1, 1, 1, 1};
+    tooltipColorShade[] = {0, 0, 0, 0.65};
+    soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
+    soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand", 0.1, 1};
+    soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse", 0.1, 1};
+    maxHistoryDelay = 1;
+	class ScrollBar {
+		color[] = {1, 1, 1, 0.6};
+		colorActive[] = {1, 1, 1, 1};
+		colorDisabled[] = {1, 1, 1, 0.3};
+		thumb = "";
+		arrowFull = "\ca\ui\data\ui_arrow_top_active_ca.paa";
+		arrowEmpty = "\ca\ui\data\ui_arrow_top_ca.paa";
+		border = "\ca\ui\data\ui_border_scroll_ca.paa";
+	};
+    class ComboScrollBar: ScrollBar {
+        color[] = {1, 1, 1, 1};
+    };
+	class VScrollbar {
+		color[] = {1, 1, 1, 0.6};
+		width = 0.021;
+		autoScrollSpeed = -1;
+		autoScrollDelay = 5;
+		autoScrollRewind = 0;
+		shadow = 0;
+	};
+    colorSelectBackground[] = {1, 1, 1, 0.7};
+    colorActive[] = {1, 0, 0, 1};
+    font = "RobotoCondensed";
+    sizeEx = 0.02;
+    shadow = 0;
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
+    arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+    arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+    wholeHeight = 0.05;
+	rowHeight = 0.04;
 };
 
 class QS_RD_dialog_RscControlsGroup {
@@ -1365,6 +1438,22 @@ class QS_RD_dialog_Box {
     font = "RobotoCondensed";
     sizeEx = 0.03;
     text = "";
+};
+class QS_RD_dialog_Box_2: QS_RD_dialog_Box {
+    type = CT_STATIC;
+    idc = -1;
+    style = ST_CENTER;
+    shadow = 0;
+    colorBackground[] = {0,0,0,0.5};
+	colorBorder[] = {1,1,1,1};
+    colorText[] = {1,1,1,0.5};
+    font = "RobotoCondensed";
+    sizeEx = 0.03;
+    text = "";
+	x = 0;
+	y = 0;
+	w = 0;
+	h = 0;
 };
 
 class QS_RD_XSlider {
@@ -2253,6 +2342,13 @@ class QS_RD_dialog_RscMapControl2 {
 		coefMax = 1;
 		color[] = {0, 0, 0, 1};
 	};
+};
+class QS_client_dialog_menu_roles {
+	idd = 42000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "uiNamespace setVariable ['QS_client_dialog_menu_roles',_this select 0]; 0 spawn (missionNamespace getVariable 'QS_fnc_clientMenuRSS');";
+	onUnload = "uiNamespace setVariable ['QS_client_dialog_menu_roles',displayNull];";
 };
 class QS_RD_client_dialog_menu_main {
 	idd = 2000;

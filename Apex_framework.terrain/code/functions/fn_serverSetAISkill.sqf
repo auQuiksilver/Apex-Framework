@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	29/08/2018 A3 1.84 by Quiksilver
+	20/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,7 @@ params [['_unitsArray',[]],['_skillLevel',1]];
 if ((_unitsArray isEqualTo []) || (!(_skillLevel in [0,1,2,3,4]))) exitWith {};
 private ['_aimingAccuracyDefault','_aimingAccuracy','_aimingShake','_aimingSpeed','_commanding','_courage','_endurance','_general','_reloadSpeed','_spotDistance','_spotTime','_fleeing','_unit'];
 if (worldName isEqualTo 'Tanoa') then {
-	_aimingAccuracyDefault = [0.1,0.13] select ((count allPlayers) > 20);
+	_aimingAccuracyDefault = [0.12,0.14] select ((count allPlayers) > 20);
 	// no skill
 	if (_skillLevel isEqualTo 0) then {
 		_aimingAccuracy = 	0;
@@ -34,16 +34,16 @@ if (worldName isEqualTo 'Tanoa') then {
 	};
 	// normal skill
 	if (_skillLevel isEqualTo 1) then {
-		_aimingAccuracy = 	[_aimingAccuracyDefault,0.12] select ((random 1) > 0.5);
-		_aimingShake = 		random [0.45,0.5,0.55];
-		_aimingSpeed = 		random [0.3,0.35,0.4];
+		_aimingAccuracy = 	[_aimingAccuracyDefault,0.13] select ((random 1) > 0.5);
+		_aimingShake = 		random [0.5,0.55,0.6];
+		_aimingSpeed = 		random [0.35,0.4,0.45];
 		_commanding = 		1;
 		_courage = 			1;
 		_endurance = 		1;
 		_general = 			1;
 		_reloadSpeed = 		random [0.45,0.5,0.55];
-		_spotDistance = 	random [0.25,0.3,0.35];
-		_spotTime = 		random [0.45,0.5,0.55];
+		_spotDistance = 	random [0.4,0.45,0.5];
+		_spotTime = 		random [0.5,0.55,0.6];
 		_fleeing = 			0;
 	};
 	// hard skill
@@ -56,8 +56,8 @@ if (worldName isEqualTo 'Tanoa') then {
 		_endurance = 		1;
 		_general = 			1;
 		_reloadSpeed = 		random [0.8,0.85,0.9];
-		_spotDistance = 	random [0.45,0.5,0.55];
-		_spotTime = 		random [0.45,0.5,0.55];
+		_spotDistance = 	random [0.6,0.65,0.7];
+		_spotTime = 		random [0.55,0.6,0.65];
 		_fleeing = 			0;
 	};
 	// very hard skill

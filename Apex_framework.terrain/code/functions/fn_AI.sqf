@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/09/2018 A3 1.84 by Quiksilver
+	12/02/2018 A3 1.88 by Quiksilver
 	
 Description:
 
@@ -498,7 +498,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_isDedicated) then {
 				_QS_headlessClients = missionNamespace getVariable ['QS_headlessClients',[]];
 				if (!(_QS_headlessClients isEqualTo [])) then {
-					_QS_hc_id = (missionNamespace getVariable ['QS_headlessClients',[]]) select 0;
+					_QS_hc_id = (missionNamespace getVariable ['QS_headlessClients',[]]) # 0;
 					{
 						_QS_module_hc_grp = _x;
 						if (local _QS_module_hc_grp) then {
@@ -599,12 +599,12 @@ for '_x' from 0 to 1 step 0 do {
 				uiSleep 0.1;
 				_QS_module_virtualSectors_enemy_0 = missionNamespace getVariable 'QS_virtualSectors_enemy_0';
 				_QS_module_virtualSectors_enemy_1 = missionNamespace getVariable 'QS_virtualSectors_enemy_1';
-				_QS_module_virtualSectors_patrolsHeli = _QS_module_virtualSectors_enemy_1 select 0;
-				_QS_module_virtualSectors_patrolsInf = _QS_module_virtualSectors_enemy_1 select 1;
-				_QS_module_virtualSectors_patrolsVeh = _QS_module_virtualSectors_enemy_1 select 2;
-				_QS_module_virtualSectors_patrolsGarrison = _QS_module_virtualSectors_enemy_1 select 3;
-				_QS_module_virtualSectors_patrolsBoat = _QS_module_virtualSectors_enemy_1 select 4;
-				_QS_module_virtualSectors_patrolsSniper = _QS_module_virtualSectors_enemy_1 select 5;
+				_QS_module_virtualSectors_patrolsHeli = _QS_module_virtualSectors_enemy_1 # 0;
+				_QS_module_virtualSectors_patrolsInf = _QS_module_virtualSectors_enemy_1 # 1;
+				_QS_module_virtualSectors_patrolsVeh = _QS_module_virtualSectors_enemy_1 # 2;
+				_QS_module_virtualSectors_patrolsGarrison = _QS_module_virtualSectors_enemy_1 # 3;
+				_QS_module_virtualSectors_patrolsBoat = _QS_module_virtualSectors_enemy_1 # 4;
+				_QS_module_virtualSectors_patrolsSniper = _QS_module_virtualSectors_enemy_1 # 5;
 				_QS_module_virtualSectors_patrolsInf_thresh = round ((count _QS_module_virtualSectors_patrolsInf) / 2);
 				_QS_module_virtualSectors_patrolsVeh_thresh = round ((count _QS_module_virtualSectors_patrolsVeh) / 2);
 				_QS_module_virtualSectors_patrolsSniper_thresh = round ((count _QS_module_virtualSectors_patrolsSniper) / 2);
@@ -664,7 +664,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (_QS_module_virtualSectors_assaultReady) then {
 						if (!(_QS_module_virtualSectors_assaultActive)) then {
 							//comment 'Assault not active';
-							if ((_QS_module_virtualSectors_scoreSides select 1) >= _QS_module_virtualSectors_assaultScore) then {
+							if ((_QS_module_virtualSectors_scoreSides # 1) >= _QS_module_virtualSectors_assaultScore) then {
 								_QS_module_virtualSectors_assaultActive = _true;
 								diag_log '***** QS AI - Sector Assault Active *****';
 								
@@ -684,7 +684,7 @@ for '_x' from 0 to 1 step 0 do {
 				//comment 'Manage general area patrols';
 				_QS_module_virtualSectors_patrolsInf = _QS_module_virtualSectors_patrolsInf select {(alive _x)};
 				if (!(_QS_module_virtualSectors_patrolFallback)) then {
-					if ((_QS_module_virtualSectors_scoreSides select 1) >= _QS_module_virtualSectors_scoreEndClose) then {
+					if ((_QS_module_virtualSectors_scoreSides # 1) >= _QS_module_virtualSectors_scoreEndClose) then {
 						_QS_module_virtualSectors_patrolFallback = _true;
 						diag_log '***** QS AI - Patrol Fall Back *****';
 						if (!(_QS_module_virtualSectors_patrolsInf isEqualTo [])) then {
@@ -716,8 +716,8 @@ for '_x' from 0 to 1 step 0 do {
 											'QS_AI_GRP_CONFIG',
 											[
 												'SC',
-												((_QS_grp getVariable ['QS_AI_GRP_CONFIG',['','','']]) select 1),
-												((_QS_grp getVariable ['QS_AI_GRP_CONFIG',['','','']]) select 2)
+												((_QS_grp getVariable ['QS_AI_GRP_CONFIG',['','','']]) # 1),
+												((_QS_grp getVariable ['QS_AI_GRP_CONFIG',['','','']]) # 2)
 											],
 											_false
 										];
@@ -877,7 +877,7 @@ for '_x' from 0 to 1 step 0 do {
 								_QS_module_virtualSectors_maxAIX = QS_module_virtualSectors_maxAIX;
 							};
 							/*/
-							_QS_module_virtualSectors_assignedUnitsSector = _QS_module_virtualSectors_assignedUnits select _forEachIndex;
+							_QS_module_virtualSectors_assignedUnitsSector = _QS_module_virtualSectors_assignedUnits # _forEachIndex;
 							_QS_module_virtualSectors_countAISector = count _QS_module_virtualSectors_assignedUnitsSector;
 							if (_QS_module_virtualSectors_countAISector <= (_QS_module_virtualSectors_maxAISector - _QS_module_virtualSectors_spawnGroupCount)) then {
 								//comment 'Spawn more AI';
@@ -892,7 +892,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 					if (_QS_uiTime > _QS_module_virtualSectors_attackerCheckDelay) then {
 						//comment 'Fourth block of AI here, spawned all over zone and move between to nearest contested sector';
-						_QS_module_virtualSectors_assignedUnitsSector = _QS_module_virtualSectors_assignedUnits select 3;
+						_QS_module_virtualSectors_assignedUnitsSector = _QS_module_virtualSectors_assignedUnits # 3;
 						_QS_module_virtualSectors_countAISector = count _QS_module_virtualSectors_assignedUnitsSector;
 						if (_QS_module_virtualSectors_countAISector <= (_QS_module_virtualSectors_maxAIX - _QS_module_virtualSectors_spawnGroupCount)) then {
 							_QS_module_virtualSectors_spawnedGrp = [-1,_QS_module_virtualSectors_spawnGroupCount] call _fn_scSpawnGroup;
@@ -915,14 +915,22 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_module_virtualSectors_assignedUnitsSector = _x;
 					{
 						if (!isNull _x) then {
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								_false
-							];
+							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							uiSleep 0.05;
 							if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
-								deleteVehicle _x;
+								if (_x isKindOf 'CAManBase') then {
+									if (!isNull (objectParent _x)) then {
+										if ((objectParent _x) isKindOf 'AllVehicles') then {
+											(objectParent _x) deleteVehicleCrew _x;
+										} else {
+											deleteVehicle _x;
+										};
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
 							};
 						};
 					} forEach _QS_module_virtualSectors_assignedUnitsSector;
@@ -933,14 +941,22 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (_x isEqualType objNull) then {
 							if (!isNull _x) then {
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									_false
-								];
+								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								uiSleep 0.05;
 								if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
-									deleteVehicle _x;
+									if (_x isKindOf 'CAManBase') then {
+										if (!isNull (objectParent _x)) then {
+											if ((objectParent _x) isKindOf 'AllVehicles') then {
+												(objectParent _x) deleteVehicleCrew _x;
+											} else {
+												deleteVehicle _x;
+											};
+										} else {
+											deleteVehicle _x;
+										};
+									} else {
+										deleteVehicle _x;
+									};
 								};
 							};
 						};
@@ -955,14 +971,22 @@ for '_x' from 0 to 1 step 0 do {
 								{
 									if (_x isEqualType objNull) then {
 										if (!isNull _x) then {
-											missionNamespace setVariable [
-												'QS_analytics_entities_deleted',
-												((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-												_false
-											];
+											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											uiSleep 0.05;
 											if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
-												deleteVehicle _x;
+												if (_x isKindOf 'CAManBase') then {
+													if (!isNull (objectParent _x)) then {
+														if ((objectParent _x) isKindOf 'AllVehicles') then {
+															(objectParent _x) deleteVehicleCrew _x;
+														} else {
+															deleteVehicle _x;
+														};
+													} else {
+														deleteVehicle _x;
+													};
+												} else {
+													deleteVehicle _x;
+												};
 											};
 										};
 									};
@@ -977,11 +1001,7 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (_x isEqualType objNull) then {
 							if (!isNull _x) then {
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									_false
-								];
+								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								_x setDamage [1,_false];
 								uiSleep 0.1;
 								deleteVehicle _x;
@@ -993,14 +1013,21 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (_x isEqualType objNull) then {
 							if (!isNull _x) then {
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									_false
-								];
-								_x setDamage [1,_false];
+								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								uiSleep 0.1;
-								deleteVehicle _x;
+								if (_x isKindOf 'CAManBase') then {
+									if (!isNull (objectParent _x)) then {
+										if ((objectParent _x) isKindOf 'AllVehicles') then {
+											(objectParent _x) deleteVehicleCrew _x;
+										} else {
+											deleteVehicle _x;
+										};
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
 							};
 						};
 					} forEach _QS_module_viperTeam_array;
@@ -1042,8 +1069,8 @@ for '_x' from 0 to 1 step 0 do {
 				uiSleep 0.1;
 				_QS_module_classic_enemy_0 = missionNamespace getVariable ['QS_classic_AI_enemy_0',[]];
 				missionNamespace setVariable ['QS_classic_AI_enemy_0',[],_false];
-				_QS_module_classic_infReinforce_enabled = (_QS_module_classic_aoData select 8) isEqualTo 1;
-				_QS_module_classic_vehReinforce_enabled = (_QS_module_classic_aoData select 9) isEqualTo 1;
+				_QS_module_classic_infReinforce_enabled = (_QS_module_classic_aoData # 8) isEqualTo 1;
+				_QS_module_classic_vehReinforce_enabled = (_QS_module_classic_aoData # 9) isEqualTo 1;
 				_QS_module_classic_efb = _false;
 				_QS_module_classic_infReinforce_spawned = 0;
 				_QS_module_classic_vehReinforce_spawned = 0;
@@ -1250,14 +1277,22 @@ for '_x' from 0 to 1 step 0 do {
 										if ((_x isKindOf 'Building') || {(_x isKindOf 'House')}) then {
 											0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 										} else {
-											missionNamespace setVariable [
-												'QS_analytics_entities_deleted',
-												((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-												_false
-											];
+											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											uiSleep 0.05;
 											if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
-												deleteVehicle _x;
+												if (_x isKindOf 'CAManBase') then {
+													if (!isNull (objectParent _x)) then {
+														if ((objectParent _x) isKindOf 'AllVehicles') then {
+															(objectParent _x) deleteVehicleCrew _x;
+														} else {
+															deleteVehicle _x;
+														};
+													} else {
+														deleteVehicle _x;
+													};
+												} else {
+													deleteVehicle _x;
+												};
 											};
 										};
 									};
@@ -1270,14 +1305,22 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										_false
-									];
+									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.05;
 									if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
-										deleteVehicle _x;
+										if (_x isKindOf 'CAManBase') then {
+											if (!isNull (objectParent _x)) then {
+												if ((objectParent _x) isKindOf 'AllVehicles') then {
+													(objectParent _x) deleteVehicleCrew _x;
+												} else {
+													deleteVehicle _x;
+												};
+											} else {
+												deleteVehicle _x;
+											};
+										} else {
+											deleteVehicle _x;
+										};
 									};
 								};
 							};
@@ -1288,13 +1331,21 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										_false
-									];
+									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
-									deleteVehicle _x;
+									if (_x isKindOf 'CAManBase') then {
+										if (!isNull (objectParent _x)) then {
+											if ((objectParent _x) isKindOf 'AllVehicles') then {
+												(objectParent _x) deleteVehicleCrew _x;
+											} else {
+												deleteVehicle _x;
+											};
+										} else {
+											deleteVehicle _x;
+										};
+									} else {
+										deleteVehicle _x;
+									};
 								};
 							};
 						} forEach _QS_module_classic_vehReinforce_array;
@@ -1304,14 +1355,21 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										_false
-									];
-									_x setDamage [1,_false];
+									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
-									deleteVehicle _x;
+									if (_x isKindOf 'CAManBase') then {
+										if (!isNull (objectParent _x)) then {
+											if ((objectParent _x) isKindOf 'AllVehicles') then {
+												(objectParent _x) deleteVehicleCrew _x;
+											} else {
+												deleteVehicle _x;
+											};
+										} else {
+											deleteVehicle _x;
+										};
+									} else {
+										deleteVehicle _x;
+									};
 								};
 							};
 						} forEach _QS_module_classic_uavs;
@@ -1321,14 +1379,21 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										_false
-									];
-									_x setDamage [1,_false];
+									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
-									deleteVehicle _x;
+									if (_x isKindOf 'CAManBase') then {
+										if (!isNull (objectParent _x)) then {
+											if ((objectParent _x) isKindOf 'AllVehicles') then {
+												(objectParent _x) deleteVehicleCrew _x;
+											} else {
+												deleteVehicle _x;
+											};
+										} else {
+											deleteVehicle _x;
+										};
+									} else {
+										deleteVehicle _x;
+									};
 								};
 							};
 						} forEach _QS_module_viperTeam_array;
@@ -1339,14 +1404,21 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										_false
-									];
-									_x setDamage [1,_false];
+									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
-									deleteVehicle _x;
+									if (_x isKindOf 'CAManBase') then {
+										if (!isNull (objectParent _x)) then {
+											if ((objectParent _x) isKindOf 'AllVehicles') then {
+												(objectParent _x) deleteVehicleCrew _x;
+											} else {
+												deleteVehicle _x;
+											};
+										} else {
+											deleteVehicle _x;
+										};
+									} else {
+										deleteVehicle _x;
+									};
 								};
 							};
 						} forEach _QS_module_classic_patrolsHeli;
@@ -1368,7 +1440,19 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						_QS_module_grid_enemy_X = _x;
 						{
-							deleteVehicle _x;
+							if (_x isKindOf 'CAManBase') then {
+								if (!isNull (objectParent _x)) then {
+									if ((objectParent _x) isKindOf 'AllVehicles') then {
+										(objectParent _x) deleteVehicleCrew _x;
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
+							} else {
+								deleteVehicle _x;
+							};
 						} forEach _QS_module_grid_enemy_X;
 					} forEach _QS_module_grid_enemy;
 					_QS_module_grid_enemy_X = [];
@@ -1377,7 +1461,19 @@ for '_x' from 0 to 1 step 0 do {
 				if (!((missionNamespace getVariable ['QS_primaryObjective_civilians',[]]) isEqualTo [])) then {
 					{
 						if (!isNull _x) then {
-							deleteVehicle _x;
+							if (_x isKindOf 'CAManBase') then {
+								if (!isNull (objectParent _x)) then {
+									if ((objectParent _x) isKindOf 'AllVehicles') then {
+										(objectParent _x) deleteVehicleCrew _x;
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
+							} else {
+								deleteVehicle _x;
+							};
 						};
 					} forEach (missionNamespace getVariable ['QS_primaryObjective_civilians',[]]);
 					missionNamespace setVariable ['QS_primaryObjective_civilians',[],_false];
@@ -1386,7 +1482,19 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (!isNull _x) then {
 							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-							deleteVehicle _x;
+							if (_x isKindOf 'CAManBase') then {
+								if (!isNull (objectParent _x)) then {
+									if ((objectParent _x) isKindOf 'AllVehicles') then {
+										(objectParent _x) deleteVehicleCrew _x;
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
+							} else {
+								deleteVehicle _x;
+							};
 						};
 					} count (missionNamespace getVariable 'QS_aoAnimals');
 					missionNamespace setVariable ['QS_aoAnimals',[],_false];
@@ -1395,7 +1503,19 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (alive _x) then {
 							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-							deleteVehicle _x;
+							if (_x isKindOf 'CAManBase') then {
+								if (!isNull (objectParent _x)) then {
+									if ((objectParent _x) isKindOf 'AllVehicles') then {
+										(objectParent _x) deleteVehicleCrew _x;
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
+							} else {
+								deleteVehicle _x;
+							};
 						};
 					} forEach _QS_module_grid_defendUnits;
 					_QS_module_grid_defendUnits = [];
@@ -1415,12 +1535,12 @@ for '_x' from 0 to 1 step 0 do {
 					(scriptDone _QS_module_grid_scriptCreateEnemy)
 				};
 				_QS_module_grid_enemy = missionNamespace getVariable ['QS_grid_AI_enemy_1',[]];
-				_QS_module_grid_bldgPatrolUnits = _QS_module_grid_enemy select 1;
-				_QS_module_grid_areaPatrolUnits = _QS_module_grid_enemy select 2;
+				_QS_module_grid_bldgPatrolUnits = _QS_module_grid_enemy # 1;
+				_QS_module_grid_areaPatrolUnits = _QS_module_grid_enemy # 2;
 				_QS_module_grid_bldgPatrolRespawnThreshold = (round ((count _QS_module_grid_bldgPatrolUnits) / 1.5)) max 0;
 				_QS_module_grid_areaPatrolRespawnThreshold = (round ((count _QS_module_grid_areaPatrolUnits) / 1.5)) max 0;
-				if (!isNil {_QS_module_grid_terrainData select 4}) then {
-					_QS_module_civilian_houseCount = count (_QS_module_grid_terrainData select 4);
+				if (!isNil {_QS_module_grid_terrainData # 4}) then {
+					_QS_module_civilian_houseCount = count (_QS_module_grid_terrainData # 4);
 					if (_QS_module_civilian_houseCount > 0) then {
 						_QS_module_civilian_count = _QS_module_civilian_count_1;
 					} else {
@@ -1518,7 +1638,21 @@ for '_x' from 0 to 1 step 0 do {
 				missionNamespace setVariable ['QS_grid_defend_AIdeInit',_false,_true];
 				if (!(_QS_module_grid_defendUnits isEqualTo [])) then {
 					{
-						deleteVehicle _x;
+						if (!isNull _x) then {
+							if (_x isKindOf 'CAManBase') then {
+								if (!isNull (objectParent _x)) then {
+									if ((objectParent _x) isKindOf 'AllVehicles') then {
+										(objectParent _x) deleteVehicleCrew _x;
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
+							} else {
+								deleteVehicle _x;
+							};
+						};
 					} forEach _QS_module_grid_defendUnits;
 					_QS_module_grid_defendUnits = [];
 				};
@@ -1546,7 +1680,19 @@ for '_x' from 0 to 1 step 0 do {
 				if (_QS_uiTime > _QS_module_ambientHostility_duration) then {
 					{
 						if (([(getPosATL _x),1000,_friendlySides,_QS_allUnits,0] call _fn_serverDetector) isEqualTo []) then {
-							deleteVehicle _x;
+							if (_x isKindOf 'CAManBase') then {
+								if (!isNull (objectParent _x)) then {
+									if ((objectParent _x) isKindOf 'AllVehicles') then {
+										(objectParent _x) deleteVehicleCrew _x;
+									} else {
+										deleteVehicle _x;
+									};
+								} else {
+									deleteVehicle _x;
+								};
+							} else {
+								deleteVehicle _x;
+							};
 						};
 					} forEach _QS_module_ambientHostility_entities;
 				};
@@ -1567,7 +1713,19 @@ for '_x' from 0 to 1 step 0 do {
 									if (!(_QS_module_ambientHostility_entities isEqualTo [])) then {
 										{
 											if (alive _x) then {
-												deleteVehicle _x;
+												if (_x isKindOf 'CAManBase') then {
+													if (!isNull (objectParent _x)) then {
+														if ((objectParent _x) isKindOf 'AllVehicles') then {
+															(objectParent _x) deleteVehicleCrew _x;
+														} else {
+															deleteVehicle _x;
+														};
+													} else {
+														deleteVehicle _x;
+													};
+												} else {
+													deleteVehicle _x;
+												};
 											};
 										} forEach _QS_module_ambientHostility_entities;
 										_QS_module_ambientHostility_entities = [];
@@ -1719,7 +1877,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			uiSleep 0.1;
 			if (!((missionNamespace getVariable ['QS_AI_fireMissions',[]]) isEqualTo [])) then {
-				missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') select {(_QS_uiTime < (_x select 2))}),_false];
+				missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') select {(_QS_uiTime < (_x # 2))}),_false];
 			};
 			_QS_module_supportProvision_checkDelay = diag_tickTime + _QS_module_supportProvision_delay;
 		};

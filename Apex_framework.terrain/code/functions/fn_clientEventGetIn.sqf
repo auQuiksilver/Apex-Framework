@@ -19,13 +19,15 @@ if (_position in ['cargo','gunner','commander']) then {
 		_driver = driver _vehicle;
 		if (alive _driver) then {
 			if (isPlayer _driver) then {
-				if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 300) then {
-					_driver setVariable ['QS_IA_PP_loadedAtBase',((_driver getVariable 'QS_IA_PP_loadedAtBase') + [_unit]),(!isDedicated)];
-				} else {
-					if (((_vehicle distance2D (markerPos 'QS_marker_aoMarker')) < 2000) || {((_vehicle distance2D (markerPos 'QS_marker_sideMarker')) < 2000)} || {((_vehicle distance2D (markerPos 'QS_marker_priorityMarker')) < 2000)} || {((_vehicle distance2D (markerPos 'QS_marker_aoMarker_2')) < 2000)} || {((_vehicle distance2D (markerPos 'QS_marker_hqMarker')) < 2000)} || {((_vehicle distance2D (missionNamespace getVariable 'QS_evacPosition_1')) < 1500)} || {((_vehicle distance2D (missionNamespace getVariable 'QS_evacPosition_2')) < 1000)}) then {
-						_driver setVariable ['QS_IA_PP_loadedAtMission',((_driver getVariable 'QS_IA_PP_loadedAtMission') + [_unit]),(!isDedicated)];
+				if (_driver getUnitTrait 'QS_trait_pilot') then {
+					if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 300) then {
+						_driver setVariable ['QS_IA_PP_loadedAtBase',((_driver getVariable 'QS_IA_PP_loadedAtBase') + [_unit]),(!isDedicated)];
 					} else {
-						_driver setVariable ['QS_IA_PP_loadedInField',((_driver getVariable 'QS_IA_PP_loadedInField') + [_unit]),(!isDedicated)];
+						if (((_vehicle distance2D (markerPos 'QS_marker_aoMarker')) < 2000) || {((_vehicle distance2D (markerPos 'QS_marker_sideMarker')) < 2000)} || {((_vehicle distance2D (markerPos 'QS_marker_priorityMarker')) < 2000)} || {((_vehicle distance2D (markerPos 'QS_marker_aoMarker_2')) < 2000)} || {((_vehicle distance2D (markerPos 'QS_marker_hqMarker')) < 2000)} || {((_vehicle distance2D (missionNamespace getVariable 'QS_evacPosition_1')) < 1500)} || {((_vehicle distance2D (missionNamespace getVariable 'QS_evacPosition_2')) < 1000)}) then {
+							_driver setVariable ['QS_IA_PP_loadedAtMission',((_driver getVariable 'QS_IA_PP_loadedAtMission') + [_unit]),(!isDedicated)];
+						} else {
+							_driver setVariable ['QS_IA_PP_loadedInField',((_driver getVariable 'QS_IA_PP_loadedInField') + [_unit]),(!isDedicated)];
+						};
 					};
 				};
 			};

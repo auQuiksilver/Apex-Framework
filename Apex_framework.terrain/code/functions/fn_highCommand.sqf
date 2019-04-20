@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	21/03/2018 A3 1.80 by Quiksilver
+	14/11/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -20,9 +20,9 @@ Concept:
 __________________________________________________/*/
 
 scriptName 'QS - Script - HComm';
-private _commanderCanLeaveBase = TRUE;
-private _commanderCanUseWeapons = TRUE;
-_maxDistFromBase = 1000;
+private _commanderCanLeaveBase = FALSE;
+private _commanderCanUseWeapons = FALSE;
+_maxDistFromBase = 500;
 _basePos = markerPos 'QS_marker_base_marker';
 if (!(_commanderCanLeaveBase)) then {
 	50 cutText ['Commander is not able to leave the base area','PLAIN',3];
@@ -33,10 +33,12 @@ disableRemoteSensors FALSE;
 if (!(_commanderCanUseWeapons)) then {
 	player action ['SwitchWeapon',player,player,100];
 };
-player setVariable ['QS_ST_customDN','Commander',TRUE];
 hcShowBar TRUE;
 setGroupIconsVisible [TRUE,TRUE];
 setGroupIconsSelectable TRUE;
+private _missionEvents = [];
+private _controlEvents = [];
+private _displayEvents = [];
 player setVariable ['QS_HC_selectedGroups',[],FALSE];
 player setVariable ['QS_HComm_groupIconOver',FALSE,FALSE];
 player setVariable ['QS_HComm_groupIconClick_delay',-1,FALSE];
@@ -64,6 +66,7 @@ QS_HComm_testEvent_3 = addMissionEventHandler [
 		};
 	}
 ];
+_missionEvents pushBack ['GroupIconClick',QS_HComm_testEvent_3];
 removeAllMissionEventHandlers 'GroupIconOverEnter';
 QS_HComm_testEvent_4 = addMissionEventHandler [
 	'GroupIconOverEnter',
@@ -74,6 +77,7 @@ QS_HComm_testEvent_4 = addMissionEventHandler [
 		};
 	}
 ];
+_missionEvents pushBack ['GroupIconOverEnter',QS_HComm_testEvent_4];
 removeAllMissionEventHandlers 'GroupIconOverLeave';
 QS_HComm_testEvent_5 = addMissionEventHandler [
 	'GroupIconOverLeave',
@@ -84,6 +88,7 @@ QS_HComm_testEvent_5 = addMissionEventHandler [
 		};
 	}
 ];
+_missionEvents pushBack ['GroupIconOverLeave',QS_HComm_testEvent_5];
 QS_hc_mapTest_1 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 	'Draw',
 	{
@@ -102,7 +107,7 @@ QS_hc_mapTest_1 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		_nearestWaypoint = [(_m ctrlMapScreenToWorld getMousePosition),_mScale] call (missionNamespace getVariable 'QS_fnc_mapGetNearestWaypoint');
 		{
 			if (!isNull _x) then {
-				if ((side _x) isEqualTo playerSide) then {
+				if ((side _x) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
 					_grp = _x;
 					if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
 						_grpLeader = leader _grp;
@@ -172,6 +177,7 @@ QS_hc_mapTest_1 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		};
 	}
 ];
+_controlEvents pushBack [12,51,'Draw',QS_hc_mapTest_1];
 QS_hc_mapTest_2 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 	'KeyDown',
 	{
@@ -188,6 +194,7 @@ QS_hc_mapTest_2 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		};
 	}
 ];
+_controlEvents pushBack [12,51,'KeyDown',QS_hc_mapTest_2];
 QS_hc_mapTest_3 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 	'MouseButtonDown',
 	{
@@ -214,6 +221,164 @@ QS_hc_mapTest_3 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		};
 	}
 ];
+_controlEvents pushBack [12,51,'MouseButtonDown',QS_hc_mapTest_3];
+
+if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) then {
+	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
+	_grpscript = [_QS_ST_X] spawn {
+		scriptName 'Soldier Tracker (Group Icons) by Quiksilver';
+		params ['_QS_ST_X'];
+		_showMapUnitIcons = _QS_ST_X select 0;
+		_dynamicDiplomacy = TRUE;
+		_showFriendlySides = _QS_ST_X select 57;
+		private _playerFaction = _QS_ST_X select 3;
+		_showAIGroups = _QS_ST_X select 30;
+		_configGroupIcon = _QS_ST_X select 53;
+		_showCivilianGroups = _QS_ST_X select 59;
+		_groupIconsVisibleMap = _QS_ST_X select 31;
+		_showOwnGroup = _QS_ST_X select 76;
+		_gpsRequired = _QS_ST_X select 85;
+		private _sidesFriendly = [];
+		private _grp = grpNull;
+		private _sides = [EAST,WEST,RESISTANCE,CIVILIAN];
+		private _grpLeader = objNull;
+		private _refreshGroups = FALSE;
+		if (!(_showCivilianGroups)) then {
+			_sides deleteAt 3;
+		};
+		_groupUpdateDelay_timer = 5;
+		private _groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
+		private _checkDiplomacy_delay = 1;
+		private _checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
+		
+		_groupIconsVisible = groupIconsVisible;
+		_groupIconSelectable = groupIconSelectable;
+		
+		if (_dynamicDiplomacy) then {
+			_sidesFriendly = _sides;
+		};
+		private _as = [];
+		_as pushBack (_sides select _playerFaction);
+		{
+			0 = _as pushBack (_sides select _x);
+		} count _showFriendlySides;
+		for '_x' from 0 to 1 step 0 do {
+			if (_dynamicDiplomacy) then {
+				if (diag_tickTime > _checkDiplomacy) then {
+					_as = [];
+					{
+						if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+							_as pushBack _x;
+						};
+					} forEach _sides;
+					_checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
+				};
+			};
+			if (diag_tickTime > _groupUpdateDelay) then {
+				{
+					if ((_showOwnGroup) || {((!(_showOwnGroup)) && (!(_x isEqualTo (group player))))} || {(!(_showMapUnitIcons))}) then {
+						_grp = _x;
+						if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
+							if ((side _grp) in _as) then {
+								_grpLeader = leader _grp;
+								if (_showAIGroups) then {
+									if (isNil {_grp getVariable 'QS_ST_Group'}) then {
+										if (!isNull _grp) then {
+											if (!isNull _grpLeader) then {
+												[_grp,0,_QS_ST_X] call _configGroupIcon;
+											};
+										};
+									} else {
+										if (!isNull _grp) then {
+											if (!isNull _grpLeader) then {
+												[_grp,1,_QS_ST_X] call _configGroupIcon;
+											};
+										};
+									};
+								} else {
+									if (isPlayer _grpLeader) then {
+										if (isNil {_grp getVariable 'QS_ST_Group'}) then {
+											if (!isNull _grp) then {
+												if (!isNull _grpLeader) then {
+													[_grp,0,_QS_ST_X] call _configGroupIcon;
+												};
+											};
+										} else {
+											if (!isNull _grp) then {
+												if (!isNull _grpLeader) then {
+													[_grp,1,_QS_ST_X] call _configGroupIcon;
+												};
+											};
+										};
+									};
+								};
+							} else {
+								if (!isNil {_grp getVariable 'QS_ST_Group_Icon'}) then {
+									[_grp,2,_QS_ST_X] call _configGroupIcon;
+								};
+							};
+						} else {
+							if (!isNil {_grp getVariable 'QS_ST_Group_Icon'}) then {
+								[_grp,2,_QS_ST_X] call _configGroupIcon;
+							};
+						};
+						uiSleep ([0.05,0.01] select _refreshGroups);
+					};
+				} count allGroups;
+				if (_refreshGroups) then {
+					_refreshGroups = FALSE;
+				};
+				_groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
+			};
+			if (_gpsRequired) then {
+				if (!('ItemGPS' in (assignedItems player))) then {
+					setGroupIconsVisible [FALSE,FALSE];
+					waitUntil {
+						uiSleep 0.25;
+						('ItemGPS' in (assignedItems player))
+					};
+				};
+			};
+			if ((!(visibleMap)) && (isNull ((findDisplay 160) displayCtrl 51)) && (isNull ((findDisplay -1) displayCtrl 500))) then {
+				waitUntil {
+					uiSleep 0.25;
+					((visibleMap) || {(!isNull ((findDisplay 160) displayCtrl 51))} || {(!isNull ((findDisplay -1) displayCtrl 500))})
+				};
+				_refreshGroups = TRUE;
+			};
+			if ((visibleMap) || {(!isNull ((findDisplay 160) displayCtrl 51))} || {(!isNull ((findDisplay -1) displayCtrl 500))}) then {
+				if ((ctrlMapScale ((findDisplay 12) displayCtrl 51)) isEqualTo 1) then {
+					if (groupIconsVisible select 0) then {
+						setGroupIconsVisible [FALSE,(groupIconsVisible select 1)];
+					};
+				} else {
+					if (_groupIconsVisibleMap) then {
+						if (!(groupIconsVisible select 0)) then {
+							setGroupIconsVisible [TRUE,(groupIconsVisible select 1)];
+						};
+					};
+				};
+			} else {
+				if (_groupIconsVisibleMap) then {
+					if (groupIconsVisible select 0) then {
+						setGroupIconsVisible [FALSE,(groupIconsVisible select 1)];
+					};
+				};
+			};
+			if (!(player getUnitTrait 'QS_trait_HQ')) exitWith {
+				{
+					clearGroupIcons _x;
+					_x setVariable ['QS_ST_Group_Icon',nil,FALSE];
+					_x setVariable ['QS_ST_Group',nil,FALSE];
+				} forEach allGroups;
+				setGroupIconsVisible _groupIconsVisible;
+				setGroupIconsSelectable _groupIconSelectable;
+			};
+			uiSleep 0.1;
+		};
+	};
+	missionNamespace setVariable ['QS_script_grpIcons',_grpscript,FALSE];
+};
 private _grp = grpNull;
 for '_x' from 0 to 1 step 0 do {
 	if (!hcShownBar) then {
@@ -227,12 +392,10 @@ for '_x' from 0 to 1 step 0 do {
 		if ((side _grp) isEqualTo WEST) then {
 			if (!(_grp in (hcAllGroups player))) then {
 				if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
-					if (_grp getVariable ['QS_HComm_grp',TRUE]) then {
-						if (!(_grp getVariable ['QS_HComm_grp',FALSE])) then {
-							_grp setVariable ['QS_HComm_grp',TRUE,TRUE];
-						};
-						player hcSetGroup [_grp,(groupID _grp),'teammain'];
+					if (isNil {_grp getVariable ['QS_HComm_grp',FALSE]}) then {
+						_grp setVariable ['QS_HComm_grp',TRUE,TRUE];
 					};
+					player hcSetGroup [_grp,(groupID _grp),'teammain'];
 				};
 			} else {
 				if (((units _grp) findIf {(alive _x)}) isEqualTo -1) then {
@@ -258,11 +421,13 @@ for '_x' from 0 to 1 step 0 do {
 		uiSleep 0.01;
 	} count allGroups;
 	if (!(_commanderCanUseWeapons)) then {
-		if (!((primaryWeapon player) isEqualTo '')) then {
-			player removeWeapon (primaryWeapon player);
-		};
-		if (!((secondaryWeapon player) isEqualTo '')) then {
-			player removeWeapon (secondaryWeapon player);
+		if (!(dialog)) then {
+			if (!((primaryWeapon player) isEqualTo '')) then {
+				player removeWeapon (primaryWeapon player);
+			};
+			if (!((secondaryWeapon player) isEqualTo '')) then {
+				player removeWeapon (secondaryWeapon player);
+			};
 		};
 	};
 	if (!(_commanderCanLeaveBase)) then {
@@ -285,4 +450,29 @@ for '_x' from 0 to 1 step 0 do {
 		player addRating (9000 - (rating player));
 	};
 	uiSleep 3;
+	if (!(player getUnitTrait 'QS_trait_HQ')) exitWith {
+		// de-init commander stuff
+		systemChat 'no longer commander';
+		{
+			removeMissionEventHandler _x;
+		} forEach _missionEvents;
+		{
+			((findDisplay (_x select 0)) displayCtrl (_x select 1)) ctrlRemoveEventHandler [_x select 2,_x select 3];
+		} forEach _controlEvents;
+		{
+			if (_x getVariable ['QS_HComm_grp',FALSE]) then {
+				uiSleep 0.1;
+				_x setVariable ['QS_HComm_grp',nil,TRUE];
+			};
+		} forEach allGroups;
+		if (hcShownBar) then {
+			hcShowBar FALSE;
+		};
+		hcRemoveAllGroups player;
+		setGroupIconsVisible [FALSE,FALSE];
+		setGroupIconsSelectable FALSE;
+		disableRemoteSensors TRUE;
+		1 enableChannel [TRUE,FALSE];
+		(group player) setGroupIDGlobal [(format ['%1',profileName])];
+	};
 };

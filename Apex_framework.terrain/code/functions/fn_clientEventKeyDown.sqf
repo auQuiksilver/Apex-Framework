@@ -101,17 +101,29 @@ if (_key in (actionKeys 'PushToTalkSide')) then {
 	};
 };
 if (_key in ((actionKeys 'PersonView') + (actionKeys 'TacticalView') + (actionKeys 'ForceCommandingMode'))) then {
-	if ((player getVariable 'QS_1PV') select 0) then {
+	if ((player getVariable 'QS_1PV') # 0) then {
 		_c = TRUE;
 	};
 	if (!isNull cameraOn) then {
-		if ((side cameraOn) in [EAST,RESISTANCE,sideEnemy]) then {
+		if ((side cameraOn) isEqualTo sideEnemy) then {
 			if (cameraView isEqualTo 'INTERNAL') then {
 				_c = TRUE;
 			};
 		};
+		if ((side cameraOn) in [EAST,RESISTANCE]) then {
+			if (!(cameraView in ['INTERNAL','GUNNER'])) then {
+				if (!((lifeState player) isEqualTo 'INCAPACITATED')) then {
+					if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) then {
+						50 cutText ['3rd Person disabled for OPFOR players','PLAIN DOWN',0.5];
+						player switchCamera 'INTERNAL';
+						_c = TRUE;
+					};
+				};
+			};
+		};
 	};
 };
+if (_c) exitWith {_c};
 if (_key in (actionKeys 'AutoHover')) then {
 	_v = vehicle player;
 	if (_v isKindOf 'Helicopter') then {
@@ -434,6 +446,17 @@ if (_key in (actionKeys 'help')) then {
 if (_key in (actionKeys 'deployWeaponAuto')) then {
 	if (!((lifeState player) in ['HEALTHY','INJURED'])) then {
 		_c = TRUE;
+	};
+};
+if (_key in (actionKeys 'HeliManualFire')) then {
+	if (!isNull (objectParent player)) then {
+		if (local (objectParent player)) then {
+			if (isManualFire (objectParent player)) then {
+				if (((objectParent player) distance2D (markerPos 'QS_marker_base_marker')) < 500) then {
+					_c = TRUE;
+				};
+			};
+		};
 	};
 };
 _c;

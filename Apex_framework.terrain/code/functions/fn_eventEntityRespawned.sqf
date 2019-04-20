@@ -14,19 +14,11 @@ Description:
 __________________________________________________*/
 
 params ['_newEntity','_oldEntity'];
-missionNamespace setVariable [
-	'QS_analytics_entities_respawned',
-	((missionNamespace getVariable 'QS_analytics_entities_respawned') + 1),
-	FALSE
-];
+missionNamespace setVariable ['QS_analytics_entities_respawned',((missionNamespace getVariable 'QS_analytics_entities_respawned') + 1),FALSE];
 missionNamespace setVariable ['QS_system_entitiesRespawned',((missionNamespace getVariable ['QS_system_entitiesRespawned',0]) + 1),FALSE];
 if (!isNull _newEntity) then {
 	if (isPlayer _newEntity) then {
-		missionNamespace setVariable [
-			'QS_playerRespawnCountServer',
-			((missionNamespace getVariable 'QS_playerRespawnCountServer') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_playerRespawnCountServer',((missionNamespace getVariable 'QS_playerRespawnCountServer') + 1),FALSE];
 		if (_newEntity getUnitTrait 'QS_trait_fighterPilot') then {
 			missionNamespace setVariable ['QS_fighterPilot',_newEntity,TRUE];
 		};

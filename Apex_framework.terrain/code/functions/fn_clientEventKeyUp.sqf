@@ -6,16 +6,18 @@ Author:
 	
 Last Modified:
 
-	20/06/2017 A3 1.70 by Quiksilver
+	7/11/2018 A3 1.84 by Quiksilver
 
 Description:
 
-	Client Event Key  Up
+	Client Event KeyUp
 __________________________________________________________*/
 
 _key = _this select 1;
 private _c = FALSE;
-uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',nil];
+if (!isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
+	uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',nil];
+};
 if (_key in (actionKeys 'TeamSwitch')) then {
 	if (!(_this select 2)) then {
 		if (!(_this select 3)) then {

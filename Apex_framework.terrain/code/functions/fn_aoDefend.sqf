@@ -546,27 +546,23 @@ for '_x' from 0 to 1 step 0 do {
 					_uav setDir _direction;
 					_uav enableRopeAttach FALSE;
 					_uav enableVehicleCargo FALSE;
-					_grp = group (effectiveCommander _uav);
-					if (!isNil '_grp') then {
-						if (!isNull _grp) then {
-							[(units _grp),0] call _fn_setAISkill;
-							_wp = _grp addWaypoint [_centerPos,0];
-							_wp setWaypointType 'LOITER';
-							_wp setWaypointSpeed 'NORMAL';
-							_wp setWaypointBehaviour 'CARELESS';
-							_wp setWaypointCombatMode 'WHITE';
-							_wp setWaypointLoiterType 'CIRCLE';
-							_wp setWaypointLoiterRadius (800 + (random 300));
-							_uav setVehicleReportRemoteTargets TRUE;
-							_uav setVehicleReceiveRemoteTargets TRUE;
-							_uav setVehicleRadar 1;
-							_uav flyInHeight _uavFlyInHeight;
-							_uav flyInHeightASL [_uavFlyInHeight,_uavFlyInHeight,_uavFlyInHeight];
-							_grp setFormDir _direction;
-							(gunner _uav) doWatch _centerPos;
-							_uavSpawnDelay = time + 5;
-						};
-					};
+					_grp = group ((crew _uav) select 0);
+					[(units _grp),0] call _fn_setAISkill;
+					_wp = _grp addWaypoint [_centerPos,0];
+					_wp setWaypointType 'LOITER';
+					_wp setWaypointSpeed 'NORMAL';
+					_wp setWaypointBehaviour 'CARELESS';
+					_wp setWaypointCombatMode 'WHITE';
+					_wp setWaypointLoiterType 'CIRCLE';
+					_wp setWaypointLoiterRadius (800 + (random 300));
+					_uav setVehicleReportRemoteTargets TRUE;
+					_uav setVehicleReceiveRemoteTargets TRUE;
+					_uav setVehicleRadar 1;
+					_uav flyInHeight _uavFlyInHeight;
+					_uav flyInHeightASL [_uavFlyInHeight,_uavFlyInHeight,_uavFlyInHeight];
+					_grp setFormDir _direction;
+					(gunner _uav) doWatch _centerPos;
+					_uavSpawnDelay = time + 5;
 				};
 			};
 			_uavCheckDelay = time + 5;
@@ -755,11 +751,7 @@ for '_x' from 0 to 1 step 0 do {
 				_direction = _spawnPos getDir _centerPos;
 				_av setDir _direction;
 				createVehicleCrew _av;
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _av))),
-					FALSE
-				];
+				missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _av))),FALSE];
 				_grp = group ((crew _av) select 0);
 				_destination = [_centerPos,(200 + (random 200)),(50 + (random 50)),10] call _fn_findOverwatchPos;
 				_grp move _destination;
@@ -767,6 +759,16 @@ for '_x' from 0 to 1 step 0 do {
 				{
 					doStop _x;
 					_x doMove _destination;
+					_x addEventHandler [
+						'Killed',
+						{
+							params ['_killed'];
+							_vehicle = vehicle _killed;
+							if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
+								_vehicle setDamage [1,TRUE];
+							};
+						}
+					];
 				} forEach (units _grp);
 				_av enableRopeAttach FALSE;
 				_av enableVehicleCargo FALSE;
@@ -913,11 +915,7 @@ for '_x' from 0 to 1 step 0 do {
 						for '_x' from 0 to (round(((_v emptyPositions 'Cargo') - 1) / _divisor)) step 1 do {
 							_unitType = selectRandom _unitTypes;
 							_unit = _grp2 createUnit [_unitType,[0,0,0],[],0,'NONE'];
-							missionNamespace setVariable [
-								'QS_analytics_entities_created',
-								((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-								FALSE
-							];
+							missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 							sleep 0.1;
 							_unit = _unit call _fn_unitSetup;
 							_unit moveInAny _v;
@@ -996,19 +994,11 @@ for '_x' from 0 to 1 step 0 do {
 					_spawnPos set [2,(800 + (random 400))];
 					_vParaType = selectRandom _vParaTypes;
 					_vParaV = createVehicle [_vParaType,[0,0,(100 + (random 1000))],[],0,'NONE'];
-					missionNamespace setVariable [
-						'QS_analytics_entities_created',
-						((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-						FALSE
-					];
+					missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 					0 = _allArray pushBack _vParaV;
 					_vParaV setVariable ['QS_uav_protected',TRUE,(!isServer)];
 					createVehicleCrew _vParaV;
-					missionNamespace setVariable [
-						'QS_analytics_entities_created',
-						((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _vParaV))),
-						FALSE
-					];
+					missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _vParaV))),FALSE];
 					_vParaV setPos _spawnPos;
 					_vParaV enableRopeAttach FALSE;
 					_vParaV enableVehicleCargo FALSE;

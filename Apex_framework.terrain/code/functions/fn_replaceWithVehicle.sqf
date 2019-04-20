@@ -27,11 +27,7 @@ if (!isNull _prop) then {
 			];
 			deleteVehicle _prop;
 			_v = createVehicle [_type,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
+			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 			_v setVectorDirAndUp _vectorDirAndUp;
 			_v setPosATL _position;
 			_v setVariable ['QS_vehicle_delayedDelete',(diag_tickTime + 600),FALSE];
@@ -41,7 +37,9 @@ if (!isNull _prop) then {
 					params ['_vehicle'];
 					if (diag_tickTime > (_vehicle getVariable ['QS_vehicle_delayedDelete',-1])) then {
 						if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
-							deleteVehicle _vehicle;
+							if (!(_vehicle isKindOf 'Air')) then {
+								deleteVehicle _vehicle;
+							};
 						};
 					};
 				}
@@ -73,18 +71,10 @@ if (!isNull _prop) then {
 					'_isDynamicVehicle',
 					'_isCarrierVehicle'
 				];
-				missionNamespace setVariable [
-					'QS_analytics_entities_deleted',
-					((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-					FALSE
-				];
+				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _prop;
 				_v = createVehicle [_t,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
+				missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 				_v setDir _dir;
 				if (_isCarrierVehicle isEqualTo 0) then {
 					_v setVectorUp (surfaceNormal _vpos);

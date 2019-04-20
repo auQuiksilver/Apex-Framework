@@ -26,124 +26,6 @@ _playerClass = typeOf player;
 _validated = [_uid] call (missionNamespace getVariable 'QS_fnc_atNameCheck');
 if (!(_validated)) exitWith {};
 _fn_inString = missionNamespace getVariable 'QS_fnc_inString';
-if (['whitelist',_roleDescription,FALSE] call _fn_inString) then {
-	if (['Spectator',_roleDescription,FALSE] call _fn_inString) then {
-		if (isNil 'QS_Spectator_Whitelist') then {
-			_exit = TRUE;
-			waitUntil {(!isNull (findDisplay 46))};
-			endMission 'QS_RD_end_1';
-		};
-		if ((!(_uid in ((['S2'] call (missionNamespace getVariable 'QS_fnc_whitelist')) + (missionNamespace getVariable 'QS_spectator_whitelist')))) && (!(serverCommandAvailable '#logout'))) then {
-			_exit = TRUE;
-			waitUntil {(!isNull (findDisplay 46))};
-			endMission 'QS_RD_end_1';
-		};
-	};
-	if (!((toLower _playerClass) in ['b_fighter_pilot_f'])) then {
-		if (['Pilot',_roleDescription,FALSE] call _fn_inString) then {
-			if (isNil 'QS_pilot_whitelist') then {
-				_exit = TRUE;
-				endMission 'QS_RD_end_1';
-			};
-			if ((!(_uid in ((['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist')) + (missionNamespace getVariable 'QS_pilot_whitelist')))) && (!(serverCommandAvailable '#logout'))) then {
-				_exit = TRUE;
-				endMission 'QS_RD_end_1';
-			};
-		};
-	};
-	if (['Medic',_roleDescription,FALSE] call _fn_inString) then {
-		if (isNil 'QS_cls_whitelist') then {
-			_exit = TRUE;
-			endMission 'QS_RD_end_1';
-		};
-		if ((!(_uid in ((['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist')) + (missionNamespace getVariable 'QS_cls_whitelist')))) && (!(serverCommandAvailable '#logout'))) then {
-			_exit = TRUE;
-			endMission 'QS_RD_end_1';
-		};
-	};
-	if (['Sniper',_roleDescription,FALSE] call _fn_inString) then {
-		if ((!(_uid in ((['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))) && (!(serverCommandAvailable '#logout'))) then {
-			_exit = TRUE;
-			endMission 'QS_RD_end_1';
-		};
-	};
-	if (['Engineer',_roleDescription,FALSE] call _fn_inString) then {
-		if ((!(_uid in ((['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))) && (!(serverCommandAvailable '#logout'))) then {
-			_exit = TRUE;
-			endMission 'QS_RD_end_1';
-		};
-	};
-};
-if (['Commander',_roleDescription,FALSE] call _fn_inString) then {
-	if ((missionNamespace getVariable ['QS_missionConfig_Commander',0]) isEqualTo 0) then {
-		_exit = TRUE;
-		endMission 'QS_RD_end_8';
-	};
-	if ((missionNamespace getVariable ['QS_missionConfig_Commander',0]) isEqualTo 2) then {
-		if (!(_uid in ((['S1'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))) then {
-			_exit = TRUE;
-			endMission 'QS_RD_end_1';
-		};
-	};
-};
-if (['disabled',_roleDescription,FALSE] call _fn_inString) then {
-	_exit = TRUE;
-	endMission 'QS_RD_end_8';
-};
-if (_exit) exitWith {};
-if (['medic',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['medic',TRUE,FALSE];
-};
-if (['engineer',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['engineer',TRUE,FALSE];
-};
-if (['exp',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['explosivespecialist',TRUE,FALSE];
-};
-if (['uav',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['uavhacker',TRUE,FALSE];
-};
-if (['recon',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['audibleCoef',0.5,FALSE];
-};
-if ((['sniper',_playerClass,FALSE] call _fn_inString) || (['ghillie',_playerClass,FALSE] call _fn_inString) || (['spotter',_playerClass,FALSE] call _fn_inString)) then {
-	player setUnitTrait ['camouflageCoef',0.5,FALSE];
-};
-player setUnitTrait ['QS_trait_leader',FALSE,TRUE];
-if ((['_SL_',_playerClass,FALSE] call _fn_inString) || (['_TL_',_playerClass,FALSE] call _fn_inString)) then {
-	player setUnitTrait ['loadCoef',0.5,FALSE];
-	player setUnitTrait ['QS_trait_leader',TRUE,TRUE];
-};
-player setUnitTrait ['QS_trait_pilot',FALSE,TRUE];
-if (['pilot',_playerClass,FALSE] call _fn_inString) then {
-    if ((_uid in (['S4'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) || {(_uid in (missionNamespace getVariable 'QS_pilot_blacklist'))}) then {
-	    endMission 'QS_RD_end_3';
-    };
-	player setUnitTrait ['QS_trait_pilot',TRUE,TRUE];
-};
-if (['_AR_',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['loadCoef',0.75,FALSE];
-};
-player setUnitTrait ['QS_trait_AT',FALSE,TRUE];
-if ((['_AT_',_playerClass,FALSE] call _fn_inString) || {(['_LAT_',_playerClass,FALSE] call _fn_inString)}) then {
-	player setUnitTrait ['QS_trait_AT',TRUE,TRUE];
-};
-if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) in [0,1]) then {
-	enableEngineArtillery FALSE;
-};
-player setUnitTrait ['QS_trait_gunner',FALSE,TRUE];
-if (['_Mort_',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['QS_trait_gunner',TRUE,TRUE];
-};
-player setUnitTrait ['QS_trait_HQ',FALSE,TRUE];
-if (['officer',_playerClass,FALSE] call _fn_inString) then {
-	player setUnitTrait ['QS_trait_HQ',TRUE,TRUE];
-	missionNamespace setVariable ['QS_hc_Commander',player,TRUE];
-};
-if (player getUnitTrait 'QS_trait_fighterPilot') then {
-	missionNamespace setVariable ['QS_fighterPilot',player,TRUE];
-};
-player setUnitTrait ['QS_trait_JTAC',(['jtac',_playerClass,FALSE] call _fn_inString),TRUE];
 if (_uid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	missionNamespace setVariable [
 		'QS_fnc_actionEjectSuspect',
@@ -174,6 +56,8 @@ if (_uid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) th
 		FALSE
 	];
 };
+
+setPlayerRespawnTime 5;
 
 /*/===== Date year sync fix/*/
 if (!isNil {missionNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
@@ -269,14 +153,6 @@ if (!isNil {profileNamespace getVariable 'QS_QTHUD'}) then {
 
 /*/========= UAV Operators/*/
 
-if ((toLower _playerClass) in ['b_soldier_uav_f','b_t_soldier_uav_f']) then {
-	if (isNil {missionNamespace getVariable 'QS_fnc_uavOperator'}) then {
-		waitUntil {
-			(!isNil {missionNamespace getVariable 'QS_fnc_uavOperator'})
-		};
-	};
-	0 spawn (missionNamespace getVariable 'QS_fnc_uavOperator');
-};
 0 spawn {
 	uiSleep 3;
 	if (!isNil {missionNamespace getVariable 'QS_atClientMisc'}) then {
@@ -455,12 +331,14 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 {
 	uiNamespace setVariable _x;
 } forEach [
+	['RscMissionStatus_display',displayNull],
 	['BIS_fnc_advHint_hintHandlers',TRUE],
+	['RscEGSpectator_availableInsignias',((configFile >> 'CfgUnitInsignia') call (missionNamespace getVariable 'BIS_fnc_getCfgSubClasses'))],
 	['QS_ui_timeLastRadioIn',diag_tickTime],
 	['QS_ui_timeLastRadioOut',diag_tickTime],
-	['QS_ui_mousePosition',getMousePosition],
-	['RscMissionStatus_display',displayNull]
+	['QS_ui_mousePosition',getMousePosition]
 ];
+
 /*/====================== PLAYER OBJECT VARS/*/
 {
 	player setVariable _x;
@@ -607,24 +485,6 @@ if (!isNil {missionNamespace getVariable 'QS_arsenals'}) then {
 		};
 	};
 };
-_playerClass spawn {
-	if (!isNil {profileNamespace getVariable 'QS_saved_loadouts'}) then {
-		if ((profileNamespace getVariable 'QS_saved_loadouts') isEqualType []) then {
-			if (!((profileNamespace getVariable 'QS_saved_loadouts') isEqualTo [])) then {
-				_QS_loadoutIndex = (profileNamespace getVariable 'QS_saved_loadouts') findIf {((_x select 0) isEqualTo _this)};
-				if (!(_QS_loadoutIndex isEqualTo -1)) then {
-					player setUnitLoadout [(((profileNamespace getVariable 'QS_saved_loadouts') select _QS_loadoutIndex) select 1),TRUE];
-				};
-			};
-		} else {
-			profileNamespace setVariable ['QS_saved_loadouts',[]];
-			saveProfileNamespace;
-		};
-	} else {
-		profileNamespace setVariable ['QS_saved_loadouts',[]];
-		saveProfileNamespace;
-	};
-};
 0 spawn {
 	uiSleep 1;
 	if ((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
@@ -746,7 +606,7 @@ player addRating (0 - (rating player));
 ];
 player enableAI 'MOVE';
 if (isNil {(group player) getVariable 'BIS_dg_reg'}) then {
-	_allGroups = allGroups select {(((side _x) isEqualTo playerSide) && (isPlayer (leader _x)) && (!isNil {_x getVariable 'BIS_dg_reg'}) && (!(_x getVariable ['BIS_dg_pri',FALSE])))};
+	_allGroups = allGroups select {(((side _x) isEqualTo (player getVariable ['QS_unit_side',WEST])) && (isPlayer (leader _x)) && (!isNil {_x getVariable 'BIS_dg_reg'}) && (!(_x getVariable ['BIS_dg_pri',FALSE])))};
 	if (!(_allGroups isEqualTo [])) then {
 		private _allGroupsSorted = [];
 		{
@@ -763,7 +623,7 @@ if (!(_squadParams isEqualTo [])) then {
 	_squadName = (_squadParams select 0) select 0;
 	private _exit3 = FALSE;
 	{
-		if ((side (group _x)) isEqualTo playerSide) then {
+		if ((side (group _x)) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
 			if (!((squadParams _x) isEqualTo [])) then {
 				if ((((squadParams _x) select 0) select 0) isEqualTo _squadName) then {
 					[player] joinSilent (group _x);

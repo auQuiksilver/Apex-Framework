@@ -1,23 +1,36 @@
 /*/
-File: fn_uavOperator.sqf
+File: fn_uavOperator2.sqf
 Author:
 
 	Quiksilver
 	
 Last modified:
 
-	2/06/2018 A3 1.82 by Quiksilver
+	16/02/2019 A3 1.88 by Quiksilver
 	
 Description:
 
 	UAV Operator
 __________________________________________________/*/
 scriptName 'QS - Script - UAV';
+private _role_check = diag_tickTime + 15;
+for '_x' from 0 to 1 step 0 do {
+	if (!(isNull (uiNamespace getVariable ['QS_client_dialog_menu_roles',displayNull]))) then {
+		waitUntil {
+			uiSleep 0.1;
+			((isNull (uiNamespace getVariable ['QS_client_dialog_menu_roles',displayNull])) || (!(player getUnitTrait 'uavhacker')))
+		};
+		_role_check = diag_tickTime + 15;
+	};
+	if (!(player getUnitTrait 'uavhacker')) exitWith {};
+	if (diag_tickTime > _role_check) exitWith {};
+	uiSleep 0.1;
+};
+if (!(player getUnitTrait 'uavhacker')) exitWith {};
 private _casEnabled = (((missionNamespace getVariable ['QS_missionConfig_CAS',2]) in [2]) || (((missionNamespace getVariable ['QS_missionConfig_CAS',2]) in [1,3]) && ((getPlayerUID player) in (['CAS'] call (missionNamespace getVariable 'QS_fnc_whitelist')))));
 _QS_module_safezone_pos = markerPos 'QS_marker_base_marker';
 _isOwnedApex = 395180 in (getDLCs 1);
 _isOwnedJets = 601670 in (getDLCs 1);
-_isCASWhiteListed = player getUnitTrait 'QS_trait_cas';
 _worldName = worldName;
 _worldSize = worldSize;
 createCenter WEST;
@@ -77,8 +90,8 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	if (_worldName isEqualTo 'Tanoa') then {
 		_uavLoiterPosition = [((_worldSize / 2) + (250 - (random 500))),0,(500 + (random 500))];
 		_uavData = [
-			[objNull,'b_ugv_01_rcws_f',(AGLToASL [6851.85,7436.02,0]),137.086,[],{},TRUE,-1],
-			[objNull,'b_ugv_01_f',(AGLToASL [6845.19,7443.85,0]),138.766,[],{},TRUE,-1],
+			[objNull,'b_t_ugv_01_rcws_olive_f',(AGLToASL [6851.85,7436.02,0]),137.086,[],{},TRUE,-1],
+			[objNull,'b_t_ugv_01_olive_f',(AGLToASL [6845.19,7443.85,0]),138.766,[],{},TRUE,-1],
 			[objNull,'b_t_uav_03_dynamicloadout_f',(AGLToASL [6902.32,7400.82,4.22622]),76.2204,[],{},TRUE,_uavRespawnDelay],
 			[objNull,(['b_uav_02_dynamicloadout_f',(selectRandomWeighted ['b_uav_02_dynamicloadout_f',0.5,'b_uav_05_f',0.5])] select _isOwnedJets),[100,100,500],0,[],{},TRUE,_uavRespawnDelay]
 		];
@@ -344,6 +357,7 @@ _fn_isPosSafe = {
 	_return;
 };
 _fn_findSafePos = missionNamespace getVariable 'QS_fnc_findSafePos';
+private _grp = grpNull;
 private _safePos = [0,0,0];
 for '_i' from 0 to 1 step 0 do {
 	uiSleep 3;
@@ -394,7 +408,7 @@ for '_i' from 0 to 1 step 0 do {
 							// UCav + Greyhawk
 							_uavEntity = createVehicle [_uavType,_uavLoiterPosition,[],50,'FLY'];
 						} else {
-							if ((_ugvRespawnFOB) && (_uavType isKindOf ['ugv_01_base_f',_cfgVehicles]) && ((missionNamespace getVariable ['QS_module_fob_side',sideUnknown]) isEqualTo playerSide)) then {
+							if ((_ugvRespawnFOB) && (_uavType isKindOf ['ugv_01_base_f',_cfgVehicles]) && ((missionNamespace getVariable ['QS_module_fob_side',sideUnknown]) isEqualTo (player getVariable ['QS_unit_side',WEST]))) then {
 								_safePos = [(markerPos 'QS_marker_module_fob'),0,70,5,0,5,0] call _fn_findSafePos;
 								_uavEntity = createVehicle [_uavType,_safePos,[],0,'NONE'];
 								_uavEntity setDir (random 360);
@@ -470,4 +484,19 @@ for '_i' from 0 to 1 step 0 do {
 		};
 		uiSleep 0.1;
 	} count allUnitsUav;
+	if (!(player getUnitTrait 'uavhacker')) exitWith {
+		{
+			if (local _x) then {
+				_uavEntity = _x;
+				if (!((crew _uavEntity) isEqualTo [])) then {
+					_grp = group (effectiveCommander _uavEntity);
+					{
+						_uavEntity deleteVehicleCrew _x;
+					} forEach (crew _uavEntity);
+					deleteGroup _grp;
+				};
+				deleteVehicle _uavEntity;
+			};
+		} forEach allUnitsUav;
+	};
 };

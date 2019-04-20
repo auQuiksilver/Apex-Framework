@@ -91,7 +91,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 						_unitsInterruptingCoef = (0 max _unitsInterruptingInArea min 10) / ([10,10] select ((_sidesCanInterrupt select 0) isEqualTo _enemySide));
 						_isBeingInterrupted = ((!(_unitsConvertingInArea isEqualTo 0)) && (!(_unitsInterruptingInArea isEqualTo 0)));
 						if (!(_unitsInterruptingCoef > _unitsConvertingCoef)) then {
-							comment 'Half duration to capture already-owned sector';
+							//comment 'Half duration to capture already-owned sector';
 							_interruptMultiplier = 1;
 						};
 						_conversionValuePrior = _conversionValue;
@@ -100,7 +100,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 						_sideIndex = _sides find (_sidesOwnedBy select 0);
 						if (_conversionValue isEqualTo 0) then {
 							_conversionValuePrior = _conversionValue;
-							comment 'Flip ownership';
+							//comment 'Flip ownership';
 							_sidesOwnedByPrior = _sidesOwnedBy;
 							_sidesOwnedBy = _sidesCanConvert;
 							_sidesCanInterrupt = _sidesCanConvert;
@@ -174,7 +174,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 						if (!((flagAnimationPhase (_flagData select 0)) isEqualTo _conversionRate)) then {
 							(_flagData select 0) setFlagAnimationPhase _conversionRate;
 						};
-						comment 'Scoring component';
+						//comment 'Scoring component';
 						/*/if ((count _playersAO) > 0) then {/*/
 							if (_conversionValue >= _conversionValuePrior) then {
 								if ((_scoreSides select _sideIndex) <= _scoreWin) then {
@@ -185,7 +185,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 						/*/};/*/
 					};
 				} else {
-					comment 'Sector inactive, make sure markers and UI elements are grey';
+					//comment 'Sector inactive, make sure markers and UI elements are grey';
 				
 				};
 				_sectorData = [_sectorID,_isActive,_nextEvaluationTime,_increment,_minConversionTime,_interruptMultiplier,_areaType,_centerPos,_areaOrRadiusConvert,_areaOrRadiusInterrupt,_sidesOwnedBy,_sidesCanConvert,_sidesCanInterrupt,_conversionValue,_conversionValuePrior,_conversionAlgorithm,_importance,_flagData,_sectorAreaObjects,_locationData,_objectData,_markerData,_taskData,_initFunction,_manageFunction,_exitFunction,_conversionRate,_isBeingInterrupted];

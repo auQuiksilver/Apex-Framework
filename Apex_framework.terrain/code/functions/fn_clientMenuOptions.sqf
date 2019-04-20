@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/04/2018 A3 1.82 by Quiksilver
+	4/01/2019 A3 1.88 by Quiksilver
 
 Description:
 
@@ -43,9 +43,10 @@ if (_type isEqualTo 'onLoad') then {
 		(_display displayCtrl 1810) ctrlSetToolTip 'Third Person View disabled by server';
 	};
 	(_display displayCtrl 1813) cbSetChecked (!isNil {player getVariable 'QS_HUD_3'});
-	(_display displayCtrl 1815) cbSetChecked (environmentEnabled select 0);
-	if ((player getUnitTrait 'uavhacker') || {(player getUnitTrait 'QS_trait_pilot')} || {(player getUnitTrait 'QS_trait_CAS')} || {(player getUnitTrait 'QS_trait_HQ')}) then {
+	(_display displayCtrl 1815) cbSetChecked (environmentEnabled # 0);
+	if ((player getUnitTrait 'uavhacker') || {(player getUnitTrait 'QS_trait_fighterPilot')} || {(player getUnitTrait 'QS_trait_pilot')} || {(player getUnitTrait 'QS_trait_CAS')} ||{(player getUnitTrait 'QS_trait_HQ')}) then {
 		ctrlEnable [1817,FALSE];
+		(_display displayCtrl 1817) ctrlSetTooltip 'Simulation Manager not available for pilots, uav operators and commanders';
 	} else {
 		ctrlEnable [1817,TRUE];
 	};

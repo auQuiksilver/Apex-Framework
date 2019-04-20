@@ -23,7 +23,6 @@ __________________________________________________________________________/*/
 
 _type = param [0,''];
 private _return = [];
-
 //================================================== WHITELISTED ROLES + SKINS ACCESS
 if (_type isEqualTo 'S3') then {
 	/*/ 
@@ -35,7 +34,6 @@ if (_type isEqualTo 'S3') then {
 		'76561100000000000'
 	];
 };
-
 //================================================== CAS JET
 if (_type isEqualTo 'CAS') then {
 	/*/These IDs have access to fixed-wing Jets, subject to mission parameters/*/
@@ -52,6 +50,14 @@ if (_type isEqualTo 'S1') then {
 		'76561100000000000'
 	];
 };
+//================================================= OPFOR
+if (_type isEqualTo 'OPFOR') then {
+	/*/ These IDs have access to the OPFOR slots, if OPFOR whitelisting is used. /*/
+	_return = [
+		'76561100000000000',
+		'76561100000000000'
+	];
+};
 //================================================== ALL STAFF IDS. IDs below must be registered here first/*/
 if (_type isEqualTo 'ALL') then {
 	/*/ All staff UIDs (does not grant permissions/menus, that stuff is below). Robocop reports trolling events and hacking events to these people though./*/
@@ -60,7 +66,6 @@ if (_type isEqualTo 'ALL') then {
 		'76561100000000000'
 	];
 };
-
 //================================================== ADMIN IDs/*/
 if (_type isEqualTo 'ADMIN') then {
 	/*/ Admin UIDs. These IDs have access to all admin tools below Developer access. They do not have Debug Console.  - remove ID from MODERATOR IDs/*/
@@ -69,7 +74,6 @@ if (_type isEqualTo 'ADMIN') then {
 		'76561100000000000'
 	];
 };
-
 //================================================== MODERATOR IDS/*/
 if (_type isEqualTo 'MODERATOR') then {
 	/*/ Moderator IDs - remove ID from ADMIN IDs/*/
@@ -78,7 +82,6 @@ if (_type isEqualTo 'MODERATOR') then {
 		'76561100000000000'
 	];
 };
-
 //================================================== TRUSTED NON-STAFF IDS/*/
 if (_type isEqualTo 'TRUSTED') then {
 	/*/ Trusted non-staff IDs. Potentially obsolete./*/
@@ -87,7 +90,6 @@ if (_type isEqualTo 'TRUSTED') then {
 		'76561100000000000'
 	];
 };
-
 //================================================== MEDIA IDS/*/
 if (_type isEqualTo 'MEDIA') then {
 	/*/ Media. These IDs will have access to a limited Splendid Camera (which is normally only availabe to Developers), but no other options. May be required to be in 'ALL' first./*/
@@ -96,7 +98,6 @@ if (_type isEqualTo 'MEDIA') then {
 		'76561100000000000'
 	];
 };
-
 //================================================== ZEUS IDs/*/
 if (_type isEqualTo 'CURATOR') then {
 	/*/Zeus. These IDs have access to Zeus and mission curation functionality. They can suspend side missions and main missions, and cycle main missions (this is done on "air defense laptop" at base)./*/
@@ -105,7 +106,6 @@ if (_type isEqualTo 'CURATOR') then {
 		'76561100000000000'
 	];
 };
-
 //================================================== DEVELOPER IDS/*/
 if (_type isEqualTo 'DEVELOPER') then {
 	/*/ Developer UIDs. These IDs have access to integrated Debug Console (execution is logged and filtered) and all other ingame tools./*/

@@ -1,4 +1,4 @@
-/*
+/*/
 File: fn_clientVehicleEventHandlers.sqf
 Author:
 	
@@ -6,12 +6,12 @@ Author:
 	
 Last Modified:
 
-	3/06/2017 A3 1.70 by Quiksilver
+	15/11/2018 A3 1.84 by Quiksilver
 
 Description:
 
 	Set Vehicle Event Handlers
-__________________________________________________________*/
+_________________________________________________/*/
 
 params ['_type','_vehicle'];
 if (_type isEqualTo 0) then {
@@ -41,7 +41,8 @@ if (_type isEqualTo 1) then {
 			['EpeContactStart',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventEpeContactStart')}],
 			['Engine',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventEngine')}],
 			['Fuel',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventFuel')}],
-			['Deleted',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventDeleted')}]
+			['Deleted',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventDeleted')}],
+			['Dammaged',{_this call (missionNamespace getVariable 'QS_fnc_clientVehicleEventDammaged')}]
 		];
 		if (_vehicle isKindOf 'Air') then {
 			{

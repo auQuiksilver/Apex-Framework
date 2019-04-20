@@ -76,7 +76,7 @@ private _isBackpack = getNumber (configFile >> 'CfgVehicles' >> (typeOf _invento
 			};
 		};
 	};
-	(_display displayCtrl 111) ctrlSetText (format ['%1 ( %2 )',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf player) >> 'displayName'))]);
+	(_display displayCtrl 111) ctrlSetText (['GET_ROLE_DISPLAYNAME',(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'rifleman'}]));
 	(_display displayCtrl 6308) ctrlSetTooltip (format ['Load: %1 lbs',(round ((loadAbs player) * 0.1))]);
 	(_display displayCtrl 12346) ctrlSetTooltip 'Backpack lock';
 	_exit = FALSE;

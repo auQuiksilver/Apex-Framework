@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/09/2018 ArmA 1.84 by Quiksilver
+	30/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -19,7 +19,7 @@ Notes:
 	//_rxID = remoteExecutedOwner;
 _______________________________________________________/*/
 
-if (!isRemoteExecuted) exitWith {};
+if ((!isRemoteExecuted) || {isRemoteExecutedJIP}) exitWith {};
 params ['_type','_1','_2'];
 if (_type isEqualTo 'switchMove') exitWith {
 	_1 switchMove _2;
@@ -142,4 +142,13 @@ if (_type isEqualTo 'reportRemoteTarget') exitWith {
 };
 if (_type isEqualTo 'confirmSensorTarget') exitWith {
 	_1 confirmSensorTarget _2;
+};
+if (_type isEqualTo 'doSuppressiveFire') exitWith {
+	_1 doSuppressiveFire _2;
+};
+if (_type isEqualTo 'commandSuppressiveFire') exitWith {
+	_1 commandSuppressiveFire _2;
+};
+if (_type isEqualTo 'deleteVehicleCrew') exitWith {
+	_1 deleteVehicleCrew _2;
 };

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	7/06/2018 A3 1.82 by Quiksilver
+	5/12/2018 A3 1.86 by Quiksilver
 	
 Description:
 
@@ -80,3 +80,4 @@ if ((((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) || {(player isEqualTo (
 		_vehicle engineOn FALSE;
 	};
 };
+uiNamespace setVariable ['QS_robocop_timeout',diag_tickTime + 2];

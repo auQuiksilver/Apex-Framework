@@ -15,7 +15,7 @@ _____________________________________________________________/*/
 
 params ['_actionTarget','_actionCaller','_actionID','_actionArguments'];
 _actionArguments params ['_vehicle','_newPhase','_animationSources'];
-if ((!(player getUnitTrait 'engineer')) && (!(['_crew_',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))) exitWith {
+if ((!(player getUnitTrait 'engineer')) && (!(player getUnitTrait 'QS_trait_crewman'))) exitWith {
 	50 cutText ['Only engineers and crewmen can mount or remove slat armor','PLAIN DOWN',0.5];
 };
 if (isEngineOn _vehicle) exitWith {

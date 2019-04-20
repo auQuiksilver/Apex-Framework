@@ -142,7 +142,7 @@ if (_player getUnitTrait 'medic') then {
 							];
 						};
 					};
-				} count (detectedMines playerSide);
+				} count (detectedMines (_player getVariable ['QS_unit_side',WEST]));
 			};
 		};
 	};
@@ -210,19 +210,27 @@ if (!isStreamFriendlyUIEnabled) then {
 		if (freeLook) then {
 			{
 				_unit = _x;
-				if ((side (group _unit)) isEqualTo playerSide) then {
+				if ((side (group _unit)) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
 					if (!(_unit getVariable ['QS_hidden',FALSE])) then {
 						if (!(_unit isEqualTo _player)) then {
 							if (((vectorMagnitude (velocity _unit)) * 3.6) <= 24) then {
 								_icon = '';
 								if (_unit in [cursorObject,cursorTarget]) then {
-									if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
-										_unitType = _unit getVariable ['QS_ST_customDN',''];
+									if (isPlayer _unit) then {
+										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+											_unitType = _unit getVariable ['QS_ST_customDN',''];
+										} else {
+											_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'Rifleman'}]);
+										};
 									} else {
-										_unitType = _player getVariable [(format ['QS_HUD_unitDN#%1',_unitType]),''];
-										if (_unitType isEqualTo '') then {
-											_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
-											_player setVariable [(format ['QS_HUD_unitDN#%1',_unitType]),_unitType,FALSE];
+										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+											_unitType = _unit getVariable ['QS_ST_customDN',''];
+										} else {
+											_unitType = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_unitType]),''];
+											if (_unitType isEqualTo '') then {
+												_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
+												missionNamespace setVariable [(format ['QS_ST_iconType#%1',_unitType]),_unitType,FALSE];
+											};
 										};
 									};
 									_unitName = (name _unit) + (format [' (%1)',_unitType]);
@@ -266,7 +274,7 @@ if (!isStreamFriendlyUIEnabled) then {
 			};
 			if (!isNull _unit) then {
 				if ((_unit isKindOf 'CAManBase') || {((effectiveCommander _unit) isKindOf 'CAManBase')}) then {
-					if ((side (group _unit)) isEqualTo playerSide) then {
+					if ((side (group _unit)) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
 						if (!(_unit isEqualTo _player)) then {
 							if (!(_unit getVariable ['QS_hidden',FALSE])) then {
 								_icon = '';
@@ -282,24 +290,20 @@ if (!isStreamFriendlyUIEnabled) then {
 									};
 								} else {
 									if (isPlayer _unit) then {
-										_unitType = _player getVariable [(format ['QS_HUD_unitDN#%1',_unitType]),''];
-										if (_unitType isEqualTo '') then {
-											if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
-												_unitType = _unit getVariable ['QS_ST_customDN',''];
-											} else {
-												_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
-												_player setVariable [(format ['QS_HUD_unitDN#%1',_unitType]),_unitType,FALSE];
-											};
-										};
+										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+											_unitType = _unit getVariable ['QS_ST_customDN',''];
+										} else {
+											_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'Rifleman'}]);
+										};								
 										_unitName = (name _unit) + (format [' (%1)',_unitType]);
 									} else {
 										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
 											_unitType = _unit getVariable ['QS_ST_customDN',''];
 										} else {
-											_unitType = _player getVariable [(format ['QS_HUD_unitDN#%1',_unitType]),''];
+											_unitType = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_unitType]),''];
 											if (_unitType isEqualTo '') then {
 												_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
-												_player setVariable [(format ['QS_HUD_unitDN#%1',_unitType]),_unitType,FALSE];
+												missionNamespace setVariable [(format ['QS_ST_iconType#%1',_unitType]),_unitType,FALSE];
 											};
 										};
 										_unitName = '[AI]' + (format [' (%1)',_unitType]);
@@ -307,7 +311,7 @@ if (!isStreamFriendlyUIEnabled) then {
 								};
 								drawIcon3D [
 									_icon,
-									[0,125,255,1],
+									[0,125,255,1],		// [0,125,255,([1,0.5] select (terrainIntersect [getPosVisual _cameraOn,getPosVisual _unit]))],
 									(_unit modelToWorldVisual ((_unit selectionPosition (['pilot','head'] select (_unit isKindOf 'CAManBase'))) vectorAdd [0,0,0.5])),
 									1,
 									1,

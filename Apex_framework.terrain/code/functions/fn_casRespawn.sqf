@@ -48,6 +48,7 @@ private _isCarrier = FALSE;
 private _pos = [0,0,0];
 private _dir = 0;
 private _typeOverride = '';
+private _aircraftPool = 0;
 if (_missionConfig_CAS isEqualTo 1) then {
 	_pool = [
 		'O_Plane_CAS_02_dynamicLoadout_F',1,
@@ -74,31 +75,31 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	if (_airIndex isEqualTo -1) exitWith {_exit = TRUE;};
 	diag_log format ['***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****',(name _pilot),((missionNamespace getVariable 'QS_CAS_jetAllowance') select _airIndex)];
 	private _aircraftPool = ((missionNamespace getVariable 'QS_CAS_jetAllowance') select _airIndex) select 1;
-	if (_aircraftPool >= 3) exitWith {
+	if (_aircraftPool >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) exitWith {
 		if (isPlayer _pilot) then {
 			if (_pilot getUnitTrait 'QS_trait_fighterPilot') then {
-				[
-					[],
-					{
-						if (player getUnitTrait 'QS_trait_fighterPilot') then {
-							endMission 'QS_RD_end_7';
-						};
-					}
-				] remoteExec ['call',_pilot,FALSE];
+				['HANDLE',['HANDLE_REQUEST_ROLE','',(_pilot getVariable ['QS_unit_side',WEST]),'rifleman',_pilot]] call (missionNamespace getVariable 'QS_fnc_roles');
+				_pilot spawn {
+					moveOut _this;
+					uiSleep 0.5;
+					remoteExec ['QS_fnc_clientEventRespawn',_this,FALSE];
+				};
 			};
 		};
 		_exit = TRUE;
 	};
 	if (!(missionNamespace getVariable ['QS_casJet_destroyedAtBase',FALSE])) then {
 		_aircraftPool = _aircraftPool + 1;
-	};
+	};	
 	if (!((missionNamespace getVariable ['QS_casJet_destroyedAtBase_type','']) isEqualTo '')) then {
 		_typeOverride = missionNamespace getVariable ['QS_casJet_destroyedAtBase_type',''];
 		missionNamespace setVariable ['QS_casJet_destroyedAtBase_type','',FALSE];
 	};
+	_pilot setVariable ['QS_client_casAllowance',_aircraftPool,[2,(owner _pilot)]];
 	(missionNamespace getVariable 'QS_CAS_jetAllowance') set [_airIndex,[_uid,_aircraftPool]];
+	missionNamespace setVariable ['QS_CAS_jetAllowance_current',_aircraftPool,FALSE];
 	missionNamespace setVariable ['QS_casJet_destroyedAtBase',FALSE,FALSE];
-	['sideChat',[WEST,'AirBase'],(format ['Aircraft spawning (%1/%2) ...',_aircraftPool,(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])])] remoteExec ['QS_fnc_remoteExecCmd',_pilot,FALSE];
+	['sideChat',[WEST,'AirBase'],(format ['Friendly CAS respawning ( %1 / %2 ) ...',_aircraftPool,(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])])] remoteExec ['QS_fnc_remoteExecCmd',_pilot,FALSE];
 	private ['_newCasType','_dir','_obstructions','_obstructionArray'];
 	//comment 'Now lets decide what will spawn';
 	private [
@@ -235,11 +236,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 		(createVehicle [_newCasType,[-500,-500,100],[],0,'CAN_COLLIDE']),
 		TRUE
 	];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
+	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 	private _casJet = missionNamespace getVariable 'QS_casJet';
 	_casJet setDir _dir;
 	if (_isCarrier) then {
@@ -275,6 +272,12 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 				if ((_jet distance2D (markerPos 'QS_marker_base_marker')) < 600) then {
 					missionNamespace setVariable ['QS_casJet_destroyedAtBase',TRUE,FALSE];
 					missionNamespace setVariable ['QS_casJet_destroyedAtBase_type',(typeOf _jet),FALSE];
+				} else {
+					if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 3) then {
+						if ((missionNamespace getVariable ['QS_CAS_jetAllowance_current',0]) >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) then {
+							missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',TRUE,FALSE];
+						};
+					};
 				};
 				(missionNamespace getVariable 'QS_garbageCollector') pushBack [_jet,'NOW_DISCREET',0];
 			};

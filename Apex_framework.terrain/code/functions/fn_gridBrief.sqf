@@ -53,6 +53,9 @@ if (_type isEqualTo 1) exitWith {
 		'QS_marker_aoMarker',
 		'QS_marker_aoCircle'
 	];
+	if (!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)) then {
+		[objNull,_centroid] remoteExec ['QS_fnc_respawnOPFOR',[EAST,RESISTANCE],FALSE];
+	};
 	_centroidOffset = [
 		((_centroid select 0) + 1000),
 		((_centroid select 1) + 300),

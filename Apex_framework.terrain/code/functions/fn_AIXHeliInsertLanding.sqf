@@ -65,7 +65,6 @@ _wp setWaypointType 'MOVE';
 _wp setWaypointSpeed 'FULL';
 _wp setWaypointBehaviour 'CARELESS';
 _wp setWaypointCombatMode 'BLUE';
-_wp setWaypointForceBehaviour TRUE;
 _wp setWaypointCompletionRadius 150;
 _wp setWaypointStatements [
 	'TRUE',
@@ -87,6 +86,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 	if (alive _supportHeli) then {
 		if (!(((crew _supportHeli) findIf {(alive _x)}) isEqualTo -1)) then {
 			_supportGroup = group (effectiveCommander _supportHeli);
+			_supportGroup lockWP FALSE;
 			[_supportHeli,_supportGroup,_v] spawn {
 				params ['_supportHeli','_supportGroup','_v'];
 				sleep 10;

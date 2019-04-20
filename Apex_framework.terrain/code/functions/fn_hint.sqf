@@ -72,7 +72,6 @@ if ((_adv) && (_text isEqualType '')) then {
 	};
 	_control ctrlSetStructuredText _text;
 };
-_h = ctrlTextHeight _control;
 _ctrlPosition = ctrlPosition _control;
 _ctrlPosition set [3,(((ctrlTextHeight _control) + 0.02) max 0.06)];
 _control ctrlSetPosition _ctrlPosition;

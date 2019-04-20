@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	13/06/2018 A3 1.82 by Quiksilver
+	4/01/2019 A3 1.88 by Quiksilver
 	
 Description:
 
@@ -15,10 +15,10 @@ ________________________________________________/*/
 
 if (
 	(player getUnitTrait 'uavhacker') ||
+	{(player getUnitTrait 'QS_trait_fighterPilot')} ||
 	{(player getUnitTrait 'QS_trait_pilot')} ||
 	{(player getUnitTrait 'QS_trait_CAS')} ||
-	{(player getUnitTrait 'QS_trait_HQ')} ||
-	{(['pilot',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}
+	{(player getUnitTrait 'QS_trait_HQ')}
 ) exitWith {
 	missionNamespace setVariable ['QS_client_dynSim',FALSE,FALSE];
 };
@@ -168,7 +168,7 @@ for '_i' from 0 to 1 step 0 do {
 	_tickTime = diag_tickTime;
 	_objectParent = objectParent player;
 	if (_isActive) then {
-		if ((_objectParent isKindOf 'Air') || {(((getPosASL player) select 2) > _maxAltASL)} || {(!(isNull curatorCamera))}) then {
+		if ((_objectParent isKindOf 'Air') || {(((getPosASL player) # 2) > _maxAltASL)} || {(!(isNull curatorCamera))}) then {
 			_isActive = _false;
 			_entities = (entities _entitiesParams) + (allMissionObjects 'WeaponHolder');
 			{
@@ -200,7 +200,7 @@ for '_i' from 0 to 1 step 0 do {
 				_positionCamera = positionCameraToWorld [0,0,0];
 				_entities = (entities _entitiesParams) + (allMissionObjects 'WeaponHolder');
 				_posPlayerATL = _positionCamera;
-				_posPlayerATL set [2,((_posPlayerATL select 2) + 10)];
+				_posPlayerATL set [2,((_posPlayerATL # 2) + 10)];
 				{
 					_entity = _x;
 					if (!isNull _entity) then {
@@ -223,7 +223,7 @@ for '_i' from 0 to 1 step 0 do {
 								_isMoving = (vectorMagnitude (velocity _entity)) > _velocityThreshold;
 								_isChild = ((!isNull (isVehicleCargo _entity)) || {(!isNull (ropeAttachedTo _entity))});
 								if (_isChild) then {
-									_entityObjectParent = ([(isVehicleCargo _entity),(ropeAttachedTo _entity)] select {(!isNull _x)}) select 0;
+									_entityObjectParent = ([(isVehicleCargo _entity),(ropeAttachedTo _entity)] select {(!isNull _x)}) # 0;
 								};
 								if (
 									(_isMoving) || 
@@ -259,7 +259,7 @@ for '_i' from 0 to 1 step 0 do {
 													if ((_entity getVariable ['QS_sim_EHs',[]]) isEqualTo []) then {
 														_entityEHs = [];
 														{
-															_entityEHs pushBack [(_x select 0),(_entity addEventHandler _x)];
+															_entityEHs pushBack [(_x # 0),(_entity addEventHandler _x)];
 														} forEach [
 															['Killed',_eventKilled],
 															['Local',_eventLocal],
@@ -310,9 +310,50 @@ for '_i' from 0 to 1 step 0 do {
 			};
 		};
 	} else {
-		if ((!(_objectParent isKindOf 'Air')) && (((getPosASL player) select 2) <= _maxAltASL) && (isNull curatorCamera)) then {
+		if ((!(_objectParent isKindOf 'Air')) && (((getPosASL player) # 2) <= _maxAltASL) && (isNull curatorCamera)) then {
 			_isActive = _true;
 		};
+	};
+	if (
+		(player getUnitTrait 'uavhacker') ||
+		{(player getUnitTrait 'QS_trait_fighterPilot')} ||
+		{(player getUnitTrait 'QS_trait_pilot')} ||
+		{(player getUnitTrait 'QS_trait_CAS')} ||
+		{(player getUnitTrait 'QS_trait_HQ')}
+	) then {
+		_entities = (entities _entitiesParams) + (allMissionObjects 'WeaponHolder');
+		{
+			_entity = _x;
+			if (!((_entity getVariable ['QS_sim_entityCoolDown',0]) isEqualTo 0)) then {
+				if ((!(simulationEnabled _entity)) || {(isObjectHidden _entity)}) then {
+					if (!((_entity getVariable ['QS_sim_EHs',[]]) isEqualTo [])) then {
+						{
+							_entity removeEventHandler _x;
+						} forEach (_entity getVariable ['QS_sim_EHs',[]]);
+						_entity setVariable ['QS_sim_EHs',[],_false];
+					};
+					_entity setVariable ['QS_sim_entityCoolDown',nil,_false];
+					_entity enableSimulation _true;
+					if (_disable_hideEntity) then {
+						if (isObjectHidden _entity) then {
+							_entity hideObject _false;
+						};
+					};
+				};
+			};
+		} forEach _entities;
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Simulation manager paused',[],-1,TRUE,'Role Selection',FALSE];
+		waitUntil {
+			uiSleep 5;
+			(!(
+				(player getUnitTrait 'uavhacker') ||
+				{(player getUnitTrait 'QS_trait_fighterPilot')} ||
+				{(player getUnitTrait 'QS_trait_pilot')} ||
+				{(player getUnitTrait 'QS_trait_CAS')} ||
+				{(player getUnitTrait 'QS_trait_HQ')}
+			))
+		};
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Simulation manager resumed',[],-1,TRUE,'Role Selection',FALSE];
 	};
 	if (!(missionNamespace getVariable ['QS_options_dynSim',_false])) exitWith {
 		_entities = (entities _entitiesParams) + (allMissionObjects 'WeaponHolder');

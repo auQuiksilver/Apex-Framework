@@ -323,18 +323,20 @@ if (_fps > 10) then {
 						} forEach _hostileBuildings;
 						if (!isNull _hostileBuilding) then {
 							_unit doWatch _hostileBuilding;
-							/*/
-							private _aimPos = aimPos _hostileBuilding;
-							_intersections = lineIntersectsSurfaces [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _hostileBuilding),_objectParent,objNull,TRUE,-1,'VIEW','FIRE',TRUE];
-							if (!(_intersections isEqualTo [])) then {
-								{
-									if ((_x select 3) isEqualTo _hostileBuilding) exitWith {
-										_aimPos = _x select 0;
-									};
-								} forEach _intersections;
+							if ((random 1) > 0.5) then {
+								private _aimPos = aimPos _hostileBuilding;
+								_intersections = lineIntersectsSurfaces [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _hostileBuilding),_objectParent,objNull,TRUE,-1,'VIEW','FIRE',TRUE];
+								if (!(_intersections isEqualTo [])) then {
+									{
+										if ((_x select 3) isEqualTo _hostileBuilding) exitWith {
+											_aimPos = _x select 0;
+										};
+									} forEach _intersections;
+									[_unit,_aimPos] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (_this select 1);};
+								};
+							} else {
+								[_unit,_hostileBuilding] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (_this select 1);};
 							};
-							/*/
-							[_unit,_hostileBuilding] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (_this select 1);};
 							_unit removeAllEventHandlers 'FiredMan';
 							_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
 							_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [10,15,20])),FALSE];

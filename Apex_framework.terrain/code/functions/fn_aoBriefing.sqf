@@ -27,7 +27,10 @@ if (_type isEqualTo 'BRIEF') then {
 		'QS_marker_aoCircle',
 		'QS_marker_aoMarker'
 	];
-	'QS_marker_aoMarker' setMarkerText format ['%1Take %2',(toString [32,32,32]),_ao];
+	if (!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)) then {
+		[objNull,_QS_AOpos] remoteExec ['QS_fnc_respawnOPFOR',[EAST,RESISTANCE],FALSE];
+	};
+	'QS_marker_aoMarker' setMarkerText (format ['%1Take %2',(toString [32,32,32]),_ao]);
 	_targetStartText = parseText format [
 		"<t align='center' size='2.2'>New Target</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/>We did a good job with the last target, lads. I want to see the same again. Get yourselves over to %1 and take 'em all down!<br/><br/>Remember to take down that radio tower to stop the enemy from calling in CAS.",
 		_ao

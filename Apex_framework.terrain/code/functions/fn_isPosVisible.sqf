@@ -15,10 +15,9 @@ __________________________________________________/*/
 
 params ['_position','_radius','_units','_sides','_tolerance','_returnType'];
 scopeName 'main';
-private _isMultiplayer = isMultiplayer;
 private _return = 0;
 private _visibility = 0;
-_position set [2,((_position select 2) + 0.5)];
+_position set [2,((_position # 2) + 0.5)];
 {
 	if ((side _x) in _sides) then {
 		if ((_x distance2D _position) <= _radius) then {

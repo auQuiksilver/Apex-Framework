@@ -42,7 +42,7 @@ if (_type isEqualTo 0) exitWith {
 			private _icon = 'a3\ui_f\data\igui\RscCustomInfo\Sensors\Targets\EnemyMan_ca.paa';
 			private _color = [0.5,0,0,0.65];
 			_showStealth = missionNamespace getVariable ['QS_client_showStealthEnemies',FALSE];
-			_remoteTargets = [(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets');
+			_remoteTargets = [(listRemoteTargets (player getVariable ['QS_unit_side',WEST])),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets');
 			private _isRemoteTarget = FALSE;
 			private _dir = 0;
 			_time = time;
@@ -146,7 +146,7 @@ if (_type isEqualTo 1) exitWith {
 		'o_uav_02_dynamicloadout_f','o_uav_02_cas_f','i_uav_02_dynamicloadout_f','i_uav_02_cas_f','b_plane_fighter_01_stealth_f','b_uav_05_f','b_t_uav_03_dynamicloadout_f'
 	];
 	_player = player;
-	_playerSide = playerSide;
+	_playerSide = _player getVariable ['QS_unit_side',WEST];
 	_enemySides = [_playerSide] call (missionNamespace getVariable 'QS_fnc_enemySides');
 	private _target = objNull;
 	private _targetType = '';
@@ -155,7 +155,7 @@ if (_type isEqualTo 1) exitWith {
 	_sides = [EAST,WEST,RESISTANCE,CIVILIAN,SIDEUNKNOWN];
 	private _color = [0.5,0,0,0.65];
 	_showStealth = missionNamespace getVariable ['QS_client_showStealthEnemies',FALSE];
-	_remoteTargets = [(listRemoteTargets playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets');
+	_remoteTargets = [(listRemoteTargets _playerSide),0] call (missionNamespace getVariable 'QS_fnc_listRemoteTargets');
 	private _targetSide = EAST;
 	private _unit = objNull;
 	private _icon = '';
@@ -217,7 +217,6 @@ if (_type isEqualTo 1) exitWith {
 													};
 													_color set [3,1];
 													_dir = getDirVisual _target;
-													//_targetPosition = getPosASLVisual _target;
 												};
 												if (!(_targetPosition isEqualTo [0,0,0])) then {
 													_is = [_target,1,_QS_ST_X] call _fn_is;

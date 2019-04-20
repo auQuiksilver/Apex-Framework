@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/10/2018 A3 1.84 by Quiksilver
+	30/10/2018 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -15,6 +15,7 @@ __________________________________________________/*/
 
 params ['_object','_cid','_uid','_name'];
 if ((_uid select [0,2]) isEqualTo 'HC') exitWith {};
+['HANDLE',['HANDLE_DISCONNECT',_this]] call (missionNamespace getVariable 'QS_fnc_roles');
 if (!isNull (group _object)) then {
 	if (!isNull (objectParent _object)) then {
 		if ((objectParent _object) isKindOf 'AllVehicles') then {
@@ -26,6 +27,13 @@ if (!isNull (group _object)) then {
 		};
 	};
 };
+
+if (_object getUnitTrait 'QS_trait_fighterPilot') then {
+	if (missionNamespace getVariable ['QS_CAS_jetAllowance_gameover',FALSE]) then {
+		missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',FALSE,FALSE];
+	};
+};
+
 if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 	_vehicleInfo = _object getVariable 'QS_pilot_vehicleInfo';
 	_vehicle = _vehicleInfo select 0;
@@ -35,9 +43,6 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 			if (!isTouchingGround _vehicle) then {
 				if ((_vehicleRole select 0) isEqualTo 'driver') then {
 					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-					if (!isNull _object) then {
-						deleteVehicle _object;
-					};
 					[_vehicle,_name] spawn {
 						scriptName 'QS Script RTB';
 						sleep 0.5;
@@ -46,6 +51,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						_grp = createGroup [WEST,TRUE];
 						private _unit = _grp createUnit [(if (_vehicle isKindOf 'Helicopter') then [{'B_helipilot_F'},{'B_pilot_F'}]),[6946,7450,0],[],0,'NONE'];
 						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
+						_unit setUnitTrait ['QS_trait_pilot',TRUE,TRUE];
 						removeAllWeapons _unit;
 						removeAllItems _unit;
 						_unit enableStamina FALSE;
@@ -87,14 +93,14 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							'GetOutMan',
 							{
 								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-								deleteVehicle (_this select 0);
+								(objectParent (_this select 0)) deleteVehicleCrew (_this select 0);
 							}
 						];
 						_unit addEventHandler [
 							'SeatSwitchedMan',
 							{
 								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-								deleteVehicle (_this select 0);
+								(objectParent (_this select 0)) deleteVehicleCrew (_this select 0);
 							}
 						];
 						_unit addEventHandler [
@@ -110,7 +116,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 								params ['_vehicle','_newController','_oldController'];
 								if (!isPlayer _oldController) then {
 									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-									deleteVehicle _oldController;
+									_vehicle deleteVehicleCrew _oldController;
 								};
 								// move new controller to pilot seat
 								_vehicle removeEventHandler ['ControlsShifted',_thisEventHandler];
@@ -143,11 +149,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							_vehicle forceSpeed (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'maxSpeed'));
 							_helipad = 'Land_HelipadEmpty_F' createVehicleLocal _posToGo;
 							_vehicle setVariable ['QS_heli_landingPad',_helipad,FALSE];
-							missionNamespace setVariable [
-								'QS_analytics_entities_created',
-								((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-								FALSE
-							];
+							missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_helipad,'DELAYED_FORCED',(time + 600)];
 						} else {
 							if (_vehicle isKindOf 'Plane') then {
@@ -178,12 +180,8 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 										params ['_vehicle','_airportID'];
 										if (!isNull (driver _vehicle)) then {
 											if (!isPlayer (driver _vehicle)) then {
-												missionNamespace setVariable [
-													'QS_analytics_entities_deleted',
-													((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-													FALSE
-												];
-												deleteVehicle (driver _vehicle);
+												missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
+												_vehicle deleteVehicleCrew (driver _vehicle);
 											};
 										};
 										_vehicle removeEventHandler ['LandedStopped',_thisEventHandler];
@@ -270,11 +268,7 @@ if (_uid in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))
 				if ((_module getVariable 'QS_curator_modules') isEqualType []) then {
 					{
 						if (!isNull _x) then {
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								FALSE
-							];
+							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 							deleteVehicle _x;
 						};
 					} count (_module getVariable 'QS_curator_modules');
@@ -338,17 +332,14 @@ if (!isNull _object) then {
 	if (_object isEqualTo (vehicle _object)) then {
 		if (isNull (objectParent _object)) then {
 			if (isNull (attachedTo _object)) then {
-				missionNamespace setVariable [
-					'QS_analytics_entities_deleted',
-					((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-					FALSE
-				];
+				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _object;
 			};
 		};
 	} else {
 		if (alive _object) then {
 			_object setDamage [1,FALSE];
+			[(objectParent _object),_object] remoteExec ['deleteVehicleCrew',(objectParent _object),FALSE];
 		};
 	};
 };

@@ -42,7 +42,30 @@ if (_type isEqualTo 1) then {
 	if (_command isEqualTo 'WP_TYPE_UNLOAD') then {_waypoint setWaypointType 'UNLOAD';};
 	if (_command isEqualTo 'WP_TYPE_LOAD') then {_waypoint setWaypointType 'LOAD';};
 	if (_command isEqualTo 'WP_TYPE_GETOUT') then {_waypoint setWaypointType 'GETOUT';};
-	if (_command isEqualTo 'WP_TYPE_GETIN') then {_waypoint setWaypointType 'GETIN';};
+	if (_command isEqualTo 'WP_TYPE_GETIN') then {
+		_waypoint setWaypointType 'GETIN';
+		private _vehicle = objNull;
+		_position = waypointPosition _waypoint;
+		_vehicles = (_position nearEntities [['Land','Air','Ship'],100]) select {((canMove _x) && ((side _x) in [(side _group),CIVILIAN]) && ((locked _x) in [0,1,3]))};
+		if (!(_vehicles isEqualTo [])) then {
+			if ((count _vehicles) > 1) then {
+				private _dist = 999999;
+				{
+					if ((_x distance2D _position) < _dist) then {
+						_dist = _x distance2D _position;
+						_vehicle = _x;
+					};
+				} forEach _vehicles;
+			} else {
+				_vehicle = _vehicles # 0;
+			};
+		};
+		if (isNull _vehicle) then {
+			50 cutText ['No suitable vehicle found for GET IN waypoint',0.5,TRUE,FALSE];
+		} else {
+			_waypoint waypointAttachVehicle _vehicle;
+		};
+	};
 
 	if (_command isEqualTo 'WP_COMBAT_STEALTH') then {_waypoint setWaypointBehaviour 'STEALTH';_waypoint setWaypointForceBehaviour TRUE;};
 	if (_command isEqualTo 'WP_COMBAT_DANGER') then {_waypoint setWaypointBehaviour 'COMBAT';_waypoint setWaypointForceBehaviour FALSE;};
@@ -66,16 +89,16 @@ if (_type isEqualTo 1) then {
 	if (_command isEqualTo 'WP_SPEED_FULL') then {_waypoint setWaypointSpeed 'FULL';};
 	if (_command isEqualTo 'WP_SPEED_UNCHANGED') then {_waypoint setWaypointSpeed 'UNCHANGED';};
 
-	if (_command isEqualTo 'WP_WAIT_NO') then {};
-	if (_command isEqualTo 'WP_WAIT_1MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_5MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_10MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_15MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_20MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_25MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_30MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_45MIN') then {};
-	if (_command isEqualTo 'WP_WAIT_60MIN') then {};
+	if (_command isEqualTo 'WP_WAIT_NO') then {_waypoint setWaypointTimeout [0,0,0];};
+	if (_command isEqualTo 'WP_WAIT_1MIN') then {_waypoint setWaypointTimeout [59,60,61];};
+	if (_command isEqualTo 'WP_WAIT_5MIN') then {_waypoint setWaypointTimeout [299,300,301];};
+	if (_command isEqualTo 'WP_WAIT_10MIN') then {_waypoint setWaypointTimeout [599,600,601];};
+	if (_command isEqualTo 'WP_WAIT_15MIN') then {_waypoint setWaypointTimeout [899,900,901];};
+	if (_command isEqualTo 'WP_WAIT_20MIN') then {_waypoint setWaypointTimeout [1199,1200,1201];};
+	if (_command isEqualTo 'WP_WAIT_25MIN') then {_waypoint setWaypointTimeout [1499,1500,1501];};
+	if (_command isEqualTo 'WP_WAIT_30MIN') then {_waypoint setWaypointTimeout [1799,1800,1801];};
+	if (_command isEqualTo 'WP_WAIT_45MIN') then {_waypoint setWaypointTimeout [2699,2700,2701];};
+	if (_command isEqualTo 'WP_WAIT_60MIN') then {_waypoint setWaypointTimeout [3599,3600,3601];};
 
 	if (_command isEqualTo 'WP_CREATETASK') then {};
 	if (_command isEqualTo 'WP_CANCELWP') then {deleteWaypoint _waypoint;};
@@ -91,7 +114,20 @@ if (_type isEqualTo 1) then {
 		};
 	};
 
-	if (_command isEqualTo 'OPENFIRE') then {_group setCombatMode 'RED';};
+	if (_command isEqualTo 'OPENFIRE') then {
+		_group setCombatMode 'RED';
+		{
+			if (!isPlayer _x) then {
+				if (alive (assignedTarget _x)) then {
+					if (local _x) then {
+						_x commandSuppressiveFire (assignedTarget _x);
+					} else {
+						['commandSuppressiveFire',_x,(assignedTarget _x)] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
+					};
+				};
+			};
+		} forEach (units _group);
+	};
 	if (_command isEqualTo 'HOLDFIRE') then {_group setCombatMode 'GREEN';};
 
 	if (_command isEqualTo 'SPEED_LIMITED') then {_group setSpeedMode 'LIMITED';};

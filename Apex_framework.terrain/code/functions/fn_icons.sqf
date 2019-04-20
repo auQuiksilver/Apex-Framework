@@ -15,7 +15,7 @@ Created:
 	
 Last Modified: 
 
-	11/03/2018 A3 1.80 by Quiksilver
+	18/11/2018 A3 1.84 by Quiksilver
 	
 Installation: 
 
@@ -167,9 +167,6 @@ _QS_ST_iconTextFonts = [										// ARRAY (STRING). Icon Text Font. Only the un
 ];
 _QS_ST_otherDisplays = FALSE;									// BOOL. TRUE to add Unit/Vehicle Icon support for UAV Terminal and Artillery Computer. Runs a separate script to handle these displays. Only works if  _QS_ST_map_enableUnitIcons = TRUE;
 _QS_ST_MAPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GPS in his assigned items. Default FALSE.
-if ((['uav',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['mort',(typeOf player),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
-     _QS_ST_otherDisplays = TRUE;     /*/ BOOL. TRUE to add Unit/Vehicle Icon support for UAV Terminal and Artillery Computer. Runs a separate script to handle these displays. Only works if  _QS_ST_map_enableUnitIcons = TRUE;	/*/
-};
 
 //==================================================================================//
 //=========================== CONFIGURE GPS (UNIT/VEHICLE) ICONS ===================//
@@ -309,29 +306,15 @@ _QS_fnc_iconColor = {
 };
 _QS_fnc_iconType = {
 	params ['_u'];
-	private _vt = typeOf (vehicle _u);
+	private _vt = typeOf _u;
 	private _i = missionNamespace getVariable [format ['QS_ST_iconType#%1',_vt],''];
-	if (_i isEqualTo '') then {
-		if ((vehicle _u) isKindOf 'CAManBase') then {
-			if (_u getUnitTrait 'medic') then {
-				_vt = 'B_medic_F';
-			} else {
-				if (_u getUnitTrait 'engineer') then {
-					_vt = 'B_engineer_F';
-				} else {
-					if (_u getUnitTrait 'explosiveSpecialist') then {
-						_vt = 'B_soldier_exp_F';
-					};
-				};
-			};
-			if (_u getUnitTrait 'QS_trait_HQ') then {
-				_i = 'a3\ui_f\data\map\vehicleicons\iconManCommander_ca.paa';
-			};
-		};
+	if ((_u isKindOf 'CAManBase') && {(isPlayer (effectiveCommander _u))}) then {
+		_i = ['GET_ROLE_ICONMAP',((effectiveCommander _u) getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'a3\ui_f\data\map\vehicleicons\iconMan_ca.paa'}]);
+	} else {
 		if (_i isEqualTo '') then {
 			_i = getText (configFile >> 'CfgVehicles' >> _vt >> 'icon');
+			missionNamespace setVariable [format ['QS_ST_iconType#%1',_vt],_i,FALSE];
 		};
-		missionNamespace setVariable [format ['QS_ST_iconType#%1',_vt],_i,FALSE];
 	};
 	_i;
 };
@@ -339,11 +322,11 @@ _QS_fnc_iconSize = {
 	params ['_v','','_QS_ST_X'];
 	private _i = missionNamespace getVariable [(format ['QS_ST_iconSize#%1',(typeOf _v)]),0];
 	if (_i isEqualTo 0) then {
-		if (_v isKindOf 'Man') then {_i = _QS_ST_X select 22;};
-		if (_v isKindOf 'LandVehicle') then {_i = _QS_ST_X select 23;};
-		if (_v isKindOf 'Air') then {_i = _QS_ST_X select 25;};
-		if (_v isKindOf 'StaticWeapon') then {_i = _QS_ST_X select 26;};
-		if (_v isKindOf 'Ship') then {_i = _QS_ST_X select 24;};
+		if (_v isKindOf 'Man') then {_i = _QS_ST_X # 22;};
+		if (_v isKindOf 'LandVehicle') then {_i = _QS_ST_X # 23;};
+		if (_v isKindOf 'Air') then {_i = _QS_ST_X # 25;};
+		if (_v isKindOf 'StaticWeapon') then {_i = _QS_ST_X # 26;};
+		if (_v isKindOf 'Ship') then {_i = _QS_ST_X # 24;};
 		missionNamespace setVariable [(format ['QS_ST_iconSize#%1',(typeOf _v)]),_i,FALSE];
 	};
 	_i;
@@ -382,9 +365,13 @@ _QS_fnc_iconText = {
 	private _t = '';
 	private _n = 0;
 	private _vt = missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],''];
-	if (_vt isEqualTo '') then {
-		_vt = getText (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'displayName');
-		missionNamespace setVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],_vt];
+	if ((_vt isEqualTo '') || {((_v isKindOf 'CAManBase') && (isPlayer _v))})  then {
+		if ((_v isKindOf 'CAManBase') && (isPlayer _v)) then {
+			_vt = ['GET_ROLE_DISPLAYNAME',(_v getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'Rifleman'}]);
+		} else {
+			_vt = getText (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'displayName');
+			missionNamespace setVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],_vt];
+		};
 	};
 	if (!((_v getVariable ['QS_ST_customDN','']) isEqualTo '')) then {
 		_vt = _v getVariable ['QS_ST_customDN',''];
@@ -398,7 +385,7 @@ _QS_fnc_iconText = {
 			_vn = '[AI]';
 		};
 	};
-	_isAdmin = (((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2) && (_QS_ST_X select 86));
+	_isAdmin = ((_QS_ST_X select 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
 	if (((_v distance2D player) < (_QS_ST_X select 68)) || {(_isAdmin)}) then {
 		if ((_ms < 0.75) || {(_isAdmin)}) then {
 			if ((_ms > 0.25) || {(_isAdmin)}) then {
@@ -660,8 +647,8 @@ _QS_fnc_iconUnits = {
 	private _si = [EAST,WEST,RESISTANCE,CIVILIAN];
 	private _as = [];
 	private _au = [];
-	_isAdmin = (((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2) && (_QS_ST_X select 86));
-	if (!(playerSide isEqualTo CIVILIAN)) then {
+	_isAdmin = ((_QS_ST_X select 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
+	if (!((player getVariable ['QS_unit_side',WEST]) isEqualTo CIVILIAN)) then {
 		if (!(_QS_ST_X select 74)) then {
 			_si = [EAST,WEST,RESISTANCE];
 		};
@@ -698,42 +685,44 @@ _QS_fnc_iconUnits = {
 	};
 	if (_exit) exitWith {_au;};
 	if ((_QS_ST_X select 62)) then {
-		_as pushBack (_si select (_QS_ST_X select 3));
+		_as pushBack (player getVariable ['QS_unit_side',WEST]);
+		//_as pushBack (_si select (_QS_ST_X select 3));
 	} else {
 		if (isMultiplayer) then {
 			if (_isAdmin) then {
 				{
-					0 = _as pushBack _x;
-				} count _si;
+					_as pushBack _x;
+				} forEach _si;
 			} else {
-				if ((_QS_ST_X select 8)) then {
-					_as pushBack (_si select (_QS_ST_X select 3));
+				//if ((_QS_ST_X select 8)) then {
+					_as pushBack (player getVariable ['QS_unit_side',WEST]);
+					//_as pushBack (_si select (_QS_ST_X select 3));
 					{
-						if (((_si select (_QS_ST_X select 3)) getFriend _x) > 0.6) then {
-							0 = _as pushBack _x;
+						if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+							_as pushBackUnique _x;
 						};
-					} count _si;
-				} else {
-					_as pushBack (_si select (_QS_ST_X select 3));
-					{
-						0 = _as pushBack (_si select _x);
-					} count (_QS_ST_X select 57);
-				};
+					} forEach _si;
+				//} else {
+				//	_as pushBack (_si select (player getVariable ['QS_unit_side',WEST]));
+				//	{
+				//		0 = _as pushBack (_si select _x);
+				//	} count (_QS_ST_X select 57);
+				//};
 			};
 		} else {
-			if ((_QS_ST_X select 8)) then {
-				_as pushBack (_si select (_QS_ST_X select 3));
+			//if ((_QS_ST_X select 8)) then {
+				_as pushBack (player getVariable ['QS_unit_side',WEST]);
 				{
-					if (((_si select (_QS_ST_X select 3)) getFriend _x) > 0.6) then {
-						0 = _as pushBack _x;
+					if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+						_as pushBack _x;
 					};
-				} count _si;
-			} else {
-				_as pushBack (_si select (_QS_ST_X select 3));
-				{
-					0 = _as pushBack (_si select _x);
-				} count (_QS_ST_X select 57);
-			};
+				} forEach _si;
+			//} else {
+			//	_as pushBack (_si select (_QS_ST_X select 3));
+			//	{
+			//		0 = _as pushBack (_si select _x);
+			//	} count (_QS_ST_X select 57);
+			//};
 		};		
 	};
 	if (!(_QS_ST_X select 63)) then {
@@ -741,9 +730,9 @@ _QS_fnc_iconUnits = {
 			if (_isAdmin) then {
 				{
 					if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
-						0 = _au pushBack _x;
+						_au pushBack _x;
 					};
-				} count allUnits;
+				} forEach allUnits;
 			} else {
 				{
 					if (((side (group _x)) in _as) || {((captive _x) && (!((lifeState _x) isEqualTo 'INCAPACITATED')))}) then {
@@ -878,7 +867,7 @@ _QS_fnc_onMapSingleClick = {
 		_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
 		if (alive _vehicle) then {
 			if ((count (crew _vehicle)) > 1) then {
-				if ((side (effectiveCommander _vehicle)) isEqualTo playerSide) then {
+				if ((side (effectiveCommander _vehicle)) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
 					if (!(_vehicle isEqualTo (player getVariable ['QS_ST_map_vehicleShowCrew',objNull]))) then {
 						player setVariable ['QS_ST_map_vehicleShowCrew',_vehicle,FALSE];
 						_vehicle setVariable ['QS_ST_mapClickShowCrew',TRUE,FALSE];
@@ -1433,7 +1422,7 @@ _QS_fnc_onGroupIconClick = {
 	scriptName 'QS_ST_onGroupIconClick';
 	params ['_is3D','_group','_wpID','_button','_posx','_posy','_shift','_ctrl','_alt'];
 	if (!isNull (objectParent (leader _group))) exitWith {};
-	if (!((side _group) isEqualTo playerSide)) exitWith {
+	if (!((side _group) isEqualTo (player getVariable ['QS_unit_side',WEST]))) exitWith {
 		[QS_ST_STR_text2] call (missionNamespace getVariable 'QS_fnc_hint');
 		0 spawn {uiSleep 3;[''] call (missionNamespace getVariable 'QS_fnc_hint');};
 	};
@@ -1475,7 +1464,11 @@ _QS_fnc_onGroupIconClick = {
 			};
 		};
 		if ([_x,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {_color = _colorIncapacitated;};
-		_unitMOS = getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName');
+		private _unitMOS = if (isPlayer _x) then {
+			(['GET_ROLE_DISPLAYNAME',(_x getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'Rifleman'}]))
+		} else {
+			(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))
+		};
 		_unitName = name _x;
 		if (!isPlayer _x) then {
 			if (!(_AINames)) then {
@@ -1508,13 +1501,13 @@ _QS_fnc_onGroupIconClick = {
 	])] call (missionNamespace getVariable 'QS_fnc_hint');
 };
 _QS_fnc_onGroupIconOverEnter = {
-	if (!((side (_this select 1)) isEqualTo playerSide)) exitWith {};
+	if (!((side (_this select 1)) isEqualTo (player getVariable ['QS_unit_side',WEST]))) exitWith {};
 };
 _QS_fnc_onGroupIconOverLeave = {
 	hintSilent '';
 };
 scriptName 'Soldier Tracker by Quiksilver - (Init)';
-_side = playerSide;
+_side = player getVariable ['QS_unit_side',WEST];
 _sides = [EAST,WEST,RESISTANCE,CIVILIAN];
 uiSleep 0.1;
 _QS_ST_faction = _sides find _side;
@@ -1549,7 +1542,7 @@ if (_QS_ST_enableGroupIcons) then {
 _QS_ST_groupIconText = FALSE;
 _QS_ST_htmlColorMedical = [_QS_ST_MedicalIconColor select 0,_QS_ST_MedicalIconColor select 1,_QS_ST_MedicalIconColor select 2,_QS_ST_MedicalIconColor select 3] call (missionNamespace getVariable 'BIS_fnc_colorRGBtoHTML');
 _QS_ST_htmlColorInjured = [_QS_ST_colorInjured select 0,_QS_ST_colorInjured select 1,_QS_ST_colorInjured select 2,_QS_ST_colorInjured select 3] call (missionNamespace getVariable 'BIS_fnc_colorRGBtoHTML');
-
+_QS_ST_otherDisplays = FALSE;	// debug - part of new role selection system
 _QS_ST_R = [
 	_QS_ST_map_enableUnitIcons,
 	_QS_ST_gps_enableUnitIcons,
@@ -1665,6 +1658,7 @@ _QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
 if (_QS_ST_X select 0) then {
 	((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 49)])];
 	if (_QS_ST_X select 82) then {
+		/*/
 		[_QS_ST_X] spawn {
 			scriptName 'Soldier Tracker by Quiksilver - Artillery Computer and UAV Terminal support';
 			private ['_QS_display1Opened','_QS_display2Opened'];
@@ -1696,6 +1690,7 @@ if (_QS_ST_X select 0) then {
 				uiSleep 0.25;
 			};
 		};
+		/*/
 	};
 	if (_QS_ST_X select 56) then {
 		player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
@@ -1756,13 +1751,13 @@ if (_QS_ST_X select 2) then {
 			['GroupIconOverLeave',(_QS_ST_X select 55)]
 		];
 	};
-	[_QS_ST_X] spawn {
+	_grpscript = [_QS_ST_X] spawn {
 		scriptName 'Soldier Tracker (Group Icons) by Quiksilver';
 		params ['_QS_ST_X'];
 		_showMapUnitIcons = _QS_ST_X select 0;
-		_dynamicDiplomacy = _QS_ST_X select 8;
+		_dynamicDiplomacy = TRUE;
 		_showFriendlySides = _QS_ST_X select 57;
-		_playerFaction = _QS_ST_X select 3;
+		private _playerFaction = _QS_ST_X select 3;
 		_showAIGroups = _QS_ST_X select 30;
 		_configGroupIcon = _QS_ST_X select 53;
 		_showCivilianGroups = _QS_ST_X select 59;
@@ -1779,7 +1774,7 @@ if (_QS_ST_X select 2) then {
 		};
 		_groupUpdateDelay_timer = 5;
 		private _groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
-		private _checkDiplomacy_delay = 10;
+		private _checkDiplomacy_delay = 1;
 		private _checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
 		if (_dynamicDiplomacy) then {
 			_sidesFriendly = _sides;
@@ -1794,10 +1789,10 @@ if (_QS_ST_X select 2) then {
 				if (diag_tickTime > _checkDiplomacy) then {
 					_as = [];
 					{
-						if (((_sides select _playerFaction) getFriend _x) > 0.6) then {
-							0 = _as pushBack _x;
+						if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+							_as pushBack _x;
 						};
-					} count _sides;
+					} forEach _sides;
 					_checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
 				};
 			};
@@ -1895,4 +1890,5 @@ if (_QS_ST_X select 2) then {
 			uiSleep 0.1;
 		};
 	};
+	missionNamespace setVariable ['QS_script_grpIcons',_grpscript,FALSE];
 };
