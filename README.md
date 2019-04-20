@@ -1,4 +1,4 @@
-Apex Framework 1.1.3 "Warlords" by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
+Apex Framework 1.1.4 Dev Build by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
 
@@ -15,7 +15,7 @@ Apex Framework step-by-step setup guide:
 * Server must be running Windows x64, or Linux.
 _______________
 
-0. Download the "Apex_framework_113_allFiles.zip" file.
+0. Download the "Apex_framework_114_dev_allFiles.zip" file.
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
@@ -52,11 +52,11 @@ class Missions {
 
   class apex_framework {
 
-    template="Apex_framework_113.Altis";
+    template="Apex_framework_114_dev.Altis";
 
-    //template="Apex_framework_113.Tanoa";
+    //template="Apex_framework_114_dev.Tanoa";
 
-    //template="Apex_framework_113.Malden";
+    //template="Apex_framework_114_dev.Malden";
 
     difficulty="Custom";
 
@@ -66,7 +66,7 @@ class Missions {
 
 ```
 forcedDifficulty = "Custom";
-missionWhitelist[] = {"Apex_framework_113.Altis","Apex_framework_113.Tanoa","Apex_framework_113.Malden"};
+missionWhitelist[] = {"Apex_framework_114_dev.Altis","Apex_framework_114_dev.Tanoa","Apex_framework_114_dev.Malden"};
 ```
 
 --------------------------
