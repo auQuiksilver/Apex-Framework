@@ -27,7 +27,6 @@ if (isForcedWalk player) then {
 	['QS_RD_interacting',FALSE,TRUE],
 	['QS_RD_loaded',FALSE,TRUE],
 	['QS_event_handleHeal',nil,TRUE],
-	['QS_revive_respawnType','',FALSE],
 	['QS_revive_disable',FALSE,(player getVariable ['QS_revive_disable',FALSE])],
 	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE],
@@ -202,6 +201,7 @@ if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo EAST) exitWith {
 			};
 		};
 	};
+	0 spawn {uiSleep 1;createDialog 'QS_client_dialog_menu_roles';};
 };
 // RESISTANCE respawn
 if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo RESISTANCE) exitWith {
@@ -218,6 +218,7 @@ if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo RESISTANCE) exitWith 
 			};
 		};
 	};
+	0 spawn {uiSleep 1;createDialog 'QS_client_dialog_menu_roles';};
 };
 // CIVILIAN respawn
 if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo CIVILIAN) exitWith {
@@ -229,6 +230,7 @@ if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo CIVILIAN) exitWith {
 		};
 		setPlayerRespawnTime 15;
 	};
+	0 spawn {uiSleep 1;createDialog 'QS_client_dialog_menu_roles';};
 };
 // WEST respawn
 setPlayerRespawnTime 5;
@@ -276,3 +278,8 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 		missionNamespace setVariable ['QS_module_fob_client_timeLastRespawn',(time + 180),FALSE];
 	};
 };
+{
+	player setVariable _x;
+} forEach [
+	['QS_revive_respawnType','',FALSE]
+];

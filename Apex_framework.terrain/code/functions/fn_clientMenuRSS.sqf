@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/04/2019 A3 1.90 by Quiksilver
+	22/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -311,16 +311,18 @@ _QS_ctrl_16 ctrlCommit 0;
 _controls pushBack _QS_ctrl_16;
 _QS_ctrlCreateArray = ['RscButton',120];
 _QS_ctrl_17 = _display ctrlCreate _QS_ctrlCreateArray;
-_QS_ctrl_17 ctrlShow FALSE;
+_QS_ctrl_17 ctrlShow TRUE;
 _QS_ctrl_17 ctrlSetPosition [
-	((ctrlPosition _QS_ctrl_1) # 0) + (0.015 / _uiScale),
+	((ctrlPosition _QS_ctrl_1) # 0) + (0.0125 / _uiScale),
 	((ctrlPosition _QS_ctrl_1) # 1) + (0.5485 / _uiScale),
 	((ctrlPosition _QS_ctrl_1) # 2) * 0.1,
 	((ctrlPosition _QS_ctrl_1) # 3) * 0.06
 ];
-_QS_ctrl_17 ctrlEnable FALSE;
-_QS_ctrl_17 ctrlSetText '- - -';
-_QS_ctrl_17 ctrlSetTooltip 'Undefined';
+_QS_ctrl_17 ctrlEnable TRUE;
+_QS_buttonAction = "closeDialog 2;";
+_QS_ctrl_17 buttonSetAction _QS_buttonAction;
+_QS_ctrl_17 ctrlSetText 'Close';
+_QS_ctrl_17 ctrlSetTooltip 'Close role selection menu';
 _QS_ctrl_17 ctrlSetTextColor [1,1,1,1];
 _QS_ctrl_17 ctrlSetBackgroundColor [0,0,0,1];
 _QS_ctrl_17 ctrlCommit 0;
@@ -439,8 +441,7 @@ _controls pushBack _QS_ctrl_24;
 _QS_ctrlCreateArray = ['RscText',127];
 _QS_ctrl_25 = _display ctrlCreate _QS_ctrlCreateArray;
 _QS_ctrl_25 ctrlShow TRUE;
-_QS_ctrl_25 ctrlSetText 'Engineer';
-
+_QS_ctrl_25 ctrlSetText '';
 _QS_ctrl_25 ctrlSetPosition [
 	((ctrlPosition _QS_ctrl_3) # 0) + (((ctrlPosition _QS_ctrl_3) # 2) / 2),
 	((ctrlPosition _QS_ctrl_1) # 1) + (0.01333 / _uiScale),
@@ -507,23 +508,17 @@ waitUntil {
 			lnbSetCurSelRow [108,0];
 		};
 	};
+	if (missionNamespace getVariable ['QS_RSS_refreshUI',FALSE]) then {
+		_list = (allPlayers - (entities 'HeadlessClient_F')) apply { [ (name _x) , ([(side (group _x)),FALSE] call _fn_sideColor) ] };
+		_list sort TRUE;
+		_list select [0,100];
+		lnbClear 119;
+		{
+			lnbAddRow [119,[_x # 0]];
+			lnbSetColor [119,[_forEachIndex,0],(_x # 1)];
+		} forEach _list;
+	};
 	if (!(_selectedFactionRow isEqualTo -1)) then {
-		if (missionNamespace getVariable ['QS_RSS_refreshUI',FALSE]) then {
-			_list = ((allPlayers - (entities 'HeadlessClient_F')) select 
-				{
-					((!isNull (group _x)) && ((side (group _x)) isEqualTo (_selectedFaction # 0)))
-				}) apply 
-				{ 
-					[ (name _x) , ([(side (group _x)),FALSE] call _fn_sideColor) ] 
-				};
-			_list sort TRUE;
-			_list select [0,100];
-			lnbClear 119;
-			{
-				lnbAddRow [119,[_x # 0]];
-				lnbSetColor [119,[_forEachIndex,0],(_x # 1)];
-			} forEach _list;
-		};
 		_list = [];
 		_listRoles = [];
 		{
@@ -536,7 +531,7 @@ waitUntil {
 				(call (_x # 10)),
 				(['GET_ROLE_COUNT',(_x # 0),(_x # 1),FALSE] call _fn_roles)
 			];
-			_listRoles pushBack [(_x # 0),(_x # 1)];
+			_listRoles pushBack [(_x # 0),(_x # 1),(_x # 8)];
 		} forEach ((missionNamespace getVariable 'QS_roles_data') # _selectedFactionRow);
 		if (missionNamespace getVariable ['QS_RSS_refreshUI',FALSE]) then {
 			missionNamespace setVariable ['QS_RSS_refreshUI',FALSE,FALSE];
@@ -560,13 +555,19 @@ waitUntil {
 	if (!(_selectedRoleRow isEqualTo -1)) then {
 		_selectedRole = (_listRoles # _selectedRoleRow) # 0;
 		_selectedRoleSide = (_listRoles # _selectedRoleRow) # 1;
+		_selectedRoleVisible = (_listRoles # _selectedRoleRow) # 2;
 		_selectedRoleCanSelect = (lnbValue [108,[_selectedRoleRow,0]]) isEqualTo 1;
 		if (!( (uiNamespace getVariable ['QS_client_roles_menu_selectedRole',[]]) isEqualTo (_listRoles # _selectedRoleRow))) then {
 			uiNamespace setVariable ['QS_client_roles_menu_selectedRole',(_listRoles # _selectedRoleRow)];
 		};
 		uiNamespace setVariable ['QS_RSS_currentSelectedRole',_selectedRole];
-		_QS_ctrl_13 ctrlSetStructuredText (['GET_ROLE_DESCRIPTION',_selectedRole] call _fn_roles);
-		_QS_ctrl_13 ctrlSetPosition [0,0,((ctrlPosition _QS_ctrl_13) # 2),((ctrlTextHeight _QS_ctrl_13) max (((ctrlPosition _QS_ctrl_1) # 3) * 0.701))];
+		if (call _selectedRoleVisible) then {
+			_QS_ctrl_13 ctrlSetStructuredText (['GET_ROLE_DESCRIPTION',_selectedRole] call _fn_roles);
+			_QS_ctrl_13 ctrlSetPosition [0,0,((ctrlPosition _QS_ctrl_13) # 2),((ctrlTextHeight _QS_ctrl_13) max (((ctrlPosition _QS_ctrl_1) # 3) * 0.701))];
+		} else {
+			_QS_ctrl_13 ctrlSetStructuredText (parseText 'Not available');
+			_QS_ctrl_13 ctrlSetPosition [0,0,((ctrlPosition _QS_ctrl_13) # 2),((ctrlTextHeight _QS_ctrl_13) max (((ctrlPosition _QS_ctrl_1) # 3) * 0.701))];
+		};
 	};
 	uiNamespace setVariable ['QS_client_roles_menu_canSelectRole',_selectedRoleCanSelect];
 	{

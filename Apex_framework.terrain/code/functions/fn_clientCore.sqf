@@ -3396,7 +3396,7 @@ for 'x' from 0 to 1 step 0 do {
 					_animationSources = configFile >> 'CfgVehicles' >> (typeOf _cursorObject) >> 'animationSources';
 					_i = 0;
 					for '_i' from 0 to ((count _animationSources) - 1) step 1 do {
-						_animationSource = _animationSources # _i;
+						_animationSource = _animationSources select _i;
 						if (((toLower (configName _animationSource)) in _QS_action_camonetArmor_anims) || {(['showcamo',(configName _animationSource),_false] call _fn_inString)}) then {
 							0 = _array pushBack (toLower (configName _animationSource));
 						};
@@ -3482,7 +3482,7 @@ for 'x' from 0 to 1 step 0 do {
 						_animationSources = configFile >> 'CfgVehicles' >> (typeOf _QS_v2) >> 'animationSources';
 						_i = 0;
 						for '_i' from 0 to ((count _animationSources) - 1) step 1 do {
-							_animationSource = _animationSources # _i;
+							_animationSource = _animationSources select _i;
 							if (((toLower (configName _animationSource)) in _QS_action_slatArmor_anims) || {(['showslat',(configName _animationSource),_false] call _fn_inString)}) then {
 								0 = _array pushBack (toLower (configName _animationSource));
 							};
@@ -5115,7 +5115,7 @@ for 'x' from 0 to 1 step 0 do {
 							if (_targetDisplay isEqualType '') then {
 								if (!isNull (uiNamespace getVariable [_targetDisplay,_dNull])) then {
 									if (_targetDisplay isEqualTo 'BIS_fnc_arsenal_display') then {
-										if ((count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display'))) > 203) then {
+										if ((count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display'))) > 205) then {
 											_QS_module_opsec_detected = 1;
 											_detected = format ['MenuHack_%1_CtrlCnt_%2',_targetName,(count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display')))];
 											_targetFlag = 1;
@@ -5413,6 +5413,7 @@ for 'x' from 0 to 1 step 0 do {
 				} forEach [16700,2];
 				_QS_buttonCtrl = _d49 displayCtrl 103;
 				_QS_buttonCtrl ctrlEnable (([_false,_true] select _roleSelectionSystem) && _RSS_MenuButton);
+				_QS_buttonCtrl ctrlShow (([_false,_true] select _roleSelectionSystem) && _RSS_MenuButton);
 				_QS_buttonCtrl ctrlSetText (['','Role Selection'] select _roleSelectionSystem);
 				if (_roleSelectionSystem) then {
 					_QS_buttonCtrl buttonSetAction _QS_buttonAction2;

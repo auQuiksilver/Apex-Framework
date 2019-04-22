@@ -1,37 +1,16 @@
 Official change log
 
-To do:
+1.1.4 Release Candidate 1
 
-- Role assignment menu
-- Headless client
-- Remove ability for players to report pilots when pilot crashes
-- New sub objective (ammo caches/ammo dumps)
-- [FIXED] FindOverwatch check-visibility component not working
-- Find suitable buildings to spawn AI in
-- "get nearest overwatch"
-- 2 new idap mission scenes
-- [DONE] Towing for big vehicles (huron, mohawk, VTOLs) on carrier needs config
-- [DONE] Make towing work on carrier
-- [DONE] Carrier marker is missing on some terrains?
-- Add support for Achilles mod + documentation
-- Respawn more enemies indoors
-- Saw a white flag at an HQ (green one on Altis)
-- [DONE] Player can deploy bipod while down, breaking animations
-- Enemy reinforcement helo deletes itself too fast?
-- [TT] Enemy planes at defend mission not spawning?
-- [CANCELLED] Only propagate wounded noises if there is someone to hear them (use playsound instead when no one else is around)
-- Enemy needs AA air support during defend attacks
-- Side mission rewards can blow up on spawn
-- [TT] Check incapacitation initial anim set direction
-- Add enemy SAM ao task
-- [TT] Add stealth benefit to enemy artillery targeting system
-- Custom AO entity management
-- [TT] Remove most ammo/supplies from vehicles that spawn in AO
-- Look at remote artillery controls/management
-- easter egg air vehicles despawn with player inside
-- [DONE] players can manual fire in base
+- [TWEAKED] Role selection pause menu button now hidden when disabled in parameters.
+- [TWEAKED] OPFOR slots hidden when not available, by default.
+- [TWEAKED] Role menu player list shows all players now, instead of only those in the selected faction.
+- [TWEAKED] Added a "Close" button to Role menu.
+- [TWEAKED] OPFOR players have Role menu access when respawning.
+- [FIXED] 1.1.4 patch broke the ability to respawn at FOB instead of base.
+- [FIXED] Script error related to vehicle access and use of the new # command.
 
-1.1.4
+1.1.4 Dev Build
 
 - [ADDED] Role Selection System.
 - [TWEAKED] Replaced "select" with "#" in most active server/client scripted systems.

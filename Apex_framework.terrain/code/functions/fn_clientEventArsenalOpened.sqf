@@ -59,7 +59,7 @@ ____________________________________________________________________________/*/
 		_ctrl_roleDisplayName ctrlSetStructuredText (parseText (format ['<t size="3">%1</t>',(['GET_ROLE_DISPLAYNAME',(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles'))]));
 		_ctrl_roleDisplayName ctrlCommit 0;
 		_QS_module_opsec = (call (missionNamespace getVariable ['QS_missionConfig_AH',{1}])) isEqualTo 1;
-		_maxControls = 204;
+		_maxControls = 205;
 		for '_x' from 0 to 1 step 0 do {
 			_ctrl_roleDisplayName ctrlShow (ctrlShown (_display displayCtrl 44046));
 			if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {

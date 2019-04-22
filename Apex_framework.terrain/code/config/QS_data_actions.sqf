@@ -33,6 +33,7 @@ ___________________________________________/*/
 	'Open cargo doors',
 	'Close cargo doors',
 	'Service vehicle',
+	'Service',
 	'Clear vehicle inventory',
 	'Unflip',
 	'Revive',
@@ -131,5 +132,6 @@ ___________________________________________/*/
 	'Attach To Cargo Ropes',
 	'Drop Cargo Ropes',
 	'Pickup Cargo Ropes',
-	(if (isLocalized 'STR_A3_action_Recover_Boat') then {localize 'STR_A3_action_Recover_Boat'} else {'Recover boat'})
+	(if (isLocalized 'STR_A3_action_Recover_Boat') then {localize 'STR_A3_action_Recover_Boat'} else {'Recover boat'}),
+	'Role Selection'
 ]

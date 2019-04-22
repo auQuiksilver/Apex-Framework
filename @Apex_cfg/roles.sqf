@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	3/02/2019 A3 1.88 by Quiksilver
+	22/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -66,7 +66,7 @@ QS_roles_data = [
 			0,	
 			3,
 			0,
-			{},
+			{((missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]) && (((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 2) || {(((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 1) && ((getPlayerUID player) in (['OPFOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))}))},
 			{((player getVariable ['QS_unit_side',WEST]) isEqualTo EAST) || ((missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]) && (((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 2) || {(((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 1) && ((getPlayerUID player) in (['OPFOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))}))},
 			{}
 		]
@@ -81,7 +81,7 @@ QS_roles_data = [
 			0,	
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -94,7 +94,7 @@ QS_roles_data = [
 			0,	
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -107,7 +107,7 @@ QS_roles_data = [
 			0,	
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -120,7 +120,7 @@ QS_roles_data = [
 			0,	
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -133,7 +133,7 @@ QS_roles_data = [
 			0,	
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -146,7 +146,7 @@ QS_roles_data = [
 			0,
 			3,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -159,7 +159,7 @@ QS_roles_data = [
 			0,
 			3,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -172,7 +172,7 @@ QS_roles_data = [
 			0,
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -185,7 +185,7 @@ QS_roles_data = [
 			0,
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -198,7 +198,7 @@ QS_roles_data = [
 			0,
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -211,7 +211,7 @@ QS_roles_data = [
 			0,
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		],
@@ -224,7 +224,7 @@ QS_roles_data = [
 			0,
 			0,
 			0,
-			{},
+			{TRUE},
 			{((((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE])) && (!((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 0)))},
 			{}
 		],
@@ -237,7 +237,7 @@ QS_roles_data = [
 			0,
 			0,
 			0,
-			{},
+			{TRUE},
 			{((((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE])) && (!((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 0)))},
 			{}
 		],
@@ -250,7 +250,7 @@ QS_roles_data = [
 			0,
 			0,
 			0,
-			{},
+			{TRUE},
 			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
 			{}
 		]
