@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/04/2019 A3 1.90 by Quiksilver
+	23/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -107,7 +107,7 @@ private [
 	'_QS_interaction_camonetArmor','_QS_action_camonetArmor_anims','_QS_action_camonetArmor_vAnims','_animationSources','_animationSource','_QS_module_highCommand','_QS_module_highCommand_delay',
 	'_QS_module_highCommand_checkDelay','_QS_module_highCommand_waypoints','_civSide','_QS_module_gpsJammer','_QS_module_gpsJammer_delay','_QS_module_gpsJammer_checkDelay','_QS_module_gpsJammer_signalDelay',
 	'_QS_module_gpsJammer_signalCheck','_QS_module_gpsJammer_ctrlPlayer','_QS_module_gpsJammer_inArea','_isNearRepairDepot','_isNearRepairDepot2','_uavNearRepairDepot','_viewDistance_target','_objectViewDistance_target',
-	'_shadowDistance_target','_terrainGrid_target','_deltaVD_script','_fadeView','_arsenalType','_arsenalData','_noObjectParent','_parsedText','_QS_module_opsec_hints','_ahHintText','_ahHintList',
+	'_shadowDistance_target','_terrainGrid_target','_deltaVD_script','_fadeView','_arsenalType','_noObjectParent','_parsedText','_QS_module_opsec_hints','_ahHintText','_ahHintList',
 	'_QS_destroyerEnabled','_lifeState','_QS_action_RSS','_QS_action_RSS_text','_QS_action_RSS_array','_QS_interaction_RSS'
 ];
 disableSerialization;
@@ -743,7 +743,7 @@ _QS_module_fuelConsumption_useRPMFactor = FALSE;
 /*/===================== Gear manager module/*/
 _QS_module_gearManager = TRUE && (!((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3));
 _arsenalType = missionNamespace getVariable ['QS_missionConfig_Arsenal',1];
-_arsenalData = call (missionNamespace getVariable 'QS_data_arsenal');
+missionNamespace setVariable ['QS_client_arsenalData',([(player getVariable ['QS_unit_side',WEST]),(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_data_arsenal')),FALSE];
 _QS_module_gearManager_delay = 3;
 _QS_module_gearManager_checkDelay = time + _QS_module_gearManager_delay;
 _szmkr = markerPos 'QS_marker_base_marker';
@@ -909,8 +909,6 @@ _QS_module_leaderboards = TRUE;
 _QS_module_leaderboards_delay = 5;
 _QS_module_leaderboards_checkDelay = _timeNow + _QS_module_leaderboards_delay;
 _QS_module_leaderboards_pilots = TRUE;
-/*/Register Leaderboard/*/
-[45,[player,_puid,(player getUnitTrait 'medic'),(player getUnitTrait 'QS_trait_pilot')]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 /*/===== Difficulties propagation/*/
 _QS_reportDifficulty = TRUE;
 _QS_reportDifficulty_delay = 25;
@@ -1668,8 +1666,6 @@ _fn_hint = missionNamespace getVariable 'QS_fnc_hint';
 _fn_enemySides = missionNamespace getVariable 'QS_fnc_enemySides';
 _fn_getNearbyIncapacitated = missionNamespace getVariable 'QS_fnc_getNearbyIncapacitated';
 _fn_roles = missionNamespace getVariable 'QS_fnc_roles';
-_fn_clientArsenal = missionNamespace getVariable 'QS_fnc_clientArsenal';
-_fn_dataArsenal = missionNamespace getVariable 'QS_data_arsenal';
 _fn_mapDraw = (call (missionNamespace getVariable 'QS_ST_X')) # 49;
 _fn_ARRappelFromHeliActionCheck = missionNamespace getVariable 'AR_Rappel_From_Heli_Action_Check';
 _fn_ARRappelAIUnitsFromHeliActionCheck = missionNamespace getVariable 'AR_Rappel_AI_Units_From_Heli_Action_Check';
@@ -3947,7 +3943,7 @@ for 'x' from 0 to 1 step 0 do {
 	if (_QS_module_gearManager) then {
 		if (missionNamespace getVariable ['QS_client_triggerGearCheck',_false]) then {
 			missionNamespace setVariable ['QS_client_triggerGearCheck',_false,_false];
-			[_QS_player,_arsenalType,_arsenalData] call _fn_gearRestrictions;
+			[_QS_player,_arsenalType,(missionNamespace getVariable 'QS_client_arsenalData')] call _fn_gearRestrictions;
 		};
 	};
 	
@@ -5681,16 +5677,12 @@ for 'x' from 0 to 1 step 0 do {
 		if (!(_QS_side isEqualTo (_QS_player getVariable ['QS_unit_side',_west]))) then {
 			_QS_side = _QS_player getVariable ['QS_unit_side',_west];
 			_enemysides = _QS_side call _fn_enemySides;
-			call _fn_clientArsenal;
-			_arsenalData = [_QS_side,_playerRole] call _fn_dataArsenal;
 			setPlayerRespawnTime ([15,5] select (_QS_side isEqualTo _west));
 		};
 		if (!(_playerRole isEqualTo (_QS_player getVariable ['QS_unit_role','rifleman']))) then {
 			_playerRole = _QS_player getVariable ['QS_unit_role','rifleman'];
 			_roleDisplayName = ['GET_ROLE_DISPLAYNAME',_playerRole] call _fn_roles;
 			_roleDisplayNameL = toLower _roleDisplayName;
-			call _fn_clientArsenal;
-			_arsenalData = [_QS_side,_playerRole] call _fn_dataArsenal;
 			if (_QS_player getUnitTrait 'QS_trait_pilot') then {
 				_iAmPilot = _true;
 				_pilotAtBase = _true;

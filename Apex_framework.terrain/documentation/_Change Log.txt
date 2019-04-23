@@ -1,5 +1,19 @@
 Official change log
 
+1.1.4 Release Candidate 2
+
+- [TWEAKED] Reduced slightly AI skills on Tanoa, raised slightly AI skills on Altis/Malden.
+- [TWEAKED] CAS pilots will have Role menu appear on respawn, instead of having to run long distance to access at an Arsenal crate.
+- [TWEAKED] If you are a gunner in an armed offroad and get incapacitated, you'll be knocked out of the vehicle instead of remain on the gun.
+- [FIXED] widthRailway config error when joining server.
+- [FIXED] Arsenal could sometimes display gear for a role different to yours.
+- [FIXED] Enemy transport helos would regularly de-spawn after dropping soldiers.
+- [FIXED] Transport leaderboard was broken in 1.1.4 update.
+- [FIXED] A Classic mode enemy HQ had a white flag instead of faction flags.
+- [FIXED] Bug with players unable to join roles which were close to capacity. Ex. sniper (1 / 2)
+- [REMOVED] Ear collector leaderboard (network optimization).
+- [REMOVED] Obsolete leaderboard player registration code (network optimization).
+
 1.1.4 Release Candidate 1
 
 - [TWEAKED] Role selection pause menu button now hidden when disabled in parameters.

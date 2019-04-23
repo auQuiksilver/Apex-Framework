@@ -303,7 +303,6 @@ _wp setWaypointType 'MOVE';		/*/ 'TR UNLOAD' /*/
 _wp setWaypointSpeed 'NORMAL';
 _wp setWaypointBehaviour 'CARELESS';
 _wp setWaypointCombatMode 'BLUE';
-_wp setWaypointForceBehaviour TRUE;
 _wp setWaypointStatements [
 	'TRUE',
 	'

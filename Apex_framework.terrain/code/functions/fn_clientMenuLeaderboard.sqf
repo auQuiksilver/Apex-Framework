@@ -19,7 +19,7 @@ _list = [
 	[0,'<Empty>',''],
 	[1,'Transporters','Transport pilot leaderboard'],
 	[2,'Revivalists','Combat life saver leaderboard'],
-	[3,'Ear Slicers','Ear collector leaderboard'],
+	[3,'---','---'],
 	[4,'Gold Diggers','Gold Tooth collector leaderboard'],
 	[5,'Tower Rangers','Radio tower leaderboard'],
 	[6,'Gitmo','Enemy capture leaderboard']
@@ -58,7 +58,7 @@ if (_type isEqualTo 'B1') exitWith {
 	if (!(_index isEqualTo -1)) then {
 		_leaderboardID = (_list select _index) select 0;
 		lnbClear 1808;
-		if (_leaderboardID isEqualTo 0) then {
+		if (_leaderboardID in [0,3]) then {
 			(_display displayCtrl 1809) ctrlSetText 'Player';
 			(_display displayCtrl 1810) ctrlSetText 'Role';
 			(_display displayCtrl 1811) ctrlSetText 'Rating';

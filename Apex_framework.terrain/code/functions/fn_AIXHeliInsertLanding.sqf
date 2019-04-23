@@ -55,11 +55,12 @@ _grp move (_v getVariable ['QS_heli_centerPosition',[0,0,0]]);
 	_x setUnitPosWeak 'MIDDLE';
 	doStop _x;
 	_x doMove (_v getVariable ['QS_heli_centerPosition',[0,0,0]]);
-} forEach (units _grp);	
+} forEach (units _grp);
 _helipad = _v getVariable ['QS_assignedHelipad',objNull];
 if (!isNull _helipad) then {
 	deleteVehicle _helipad;
 };
+_v land 'NONE';
 _wp = _g addWaypoint [(_v getVariable ['QS_heli_spawnPosition',[0,0,50]]),0];
 _wp setWaypointType 'MOVE';
 _wp setWaypointSpeed 'FULL';

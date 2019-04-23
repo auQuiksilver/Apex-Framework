@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	7/10/2018 A3 1.84 by Quiksilver
+	23/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -70,12 +70,12 @@ for '_x' from 0 to 1 step 0 do {
 /*/================================================ MANAGE UNITS/*/
 
 private _heliInsert = FALSE;
-if (diag_fps > 15) then {
+if (diag_fps > 14) then {
 	if (!(allPlayers isEqualTo [])) then {
-		if ((random 1) > 0.666) then {
+		if ((random 1) > 0.6) then {
 			if (missionNamespace getVariable ['QS_AI_insertHeli_enabled',FALSE]) then {
 				if (({(alive _x)} count (missionNamespace getVariable ['QS_AI_insertHeli_helis',[]])) < (missionNamespace getVariable ['QS_AI_insertHeli_maxHelis',3])) then {
-					if (diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',600]))) then {
+					if (diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',480]))) then {
 						if ((missionNamespace getVariable ['QS_AI_insertHeli_spawnedAO',0]) < (missionNamespace getVariable ['QS_AI_insertHeli_maxAO',3])) then {
 							if (([4,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2) then {
 								if (([3,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2) then {

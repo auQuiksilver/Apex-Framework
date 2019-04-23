@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/04/2015 A3 1.58 by Quiksilver
+	23/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -14,19 +14,14 @@ Description:
 _____________________________________________________*/
 
 private ['_unit','_r'];
-_unit = _this select 0;
+_unit = _this # 0;
 _r = random 1;
 if (_r > 0.333) then {
-	_unit setVariable ['QS_collectible_ears',TRUE,TRUE];
-	_unit setVariable ['QS_ears_remaining',2,TRUE];
+	//_unit setVariable ['QS_collectible_ears',TRUE,TRUE];
+	//_unit setVariable ['QS_ears_remaining',2,TRUE];
 };
 if ((_r > 0.45) && (_r < 0.55)) then {
 	_unit setVariable ['QS_collectible_tooth',TRUE,TRUE];
 };
 _unit setVariable ['QS_surrenderable',TRUE,TRUE];
-/*/
-if ((random 1) > 0.8) then {
-	_unit addMagazine 'LaserBatteries';
-};
-/*/
 TRUE;

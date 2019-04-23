@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/04/2019 A3 1.90 by Quiksilver
+	24/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -34,7 +34,7 @@ if (_type isEqualTo 'GET_ROLE_COUNT') exitWith {
 	private _return = [[_occupied,_capacity,_waiting_occupied,_waiting_capacity],'( 0 / 0 )'] select _returnText;
 	_side_ID = _side call (missionNamespace getVariable 'QS_fnc_sideID');
 	private _role_index_data = [];
-	_playerCount = missionNamespace getVariable ['QS_virtualPlayerCount',(count allPlayers)];
+	_playerCount = count allPlayers;
 	{
 		_role_index_data = _x;
 		if (((_role_index_data # 0) # 0) isEqualTo _role) exitWith {
@@ -168,7 +168,6 @@ if (_type isEqualTo 'HANDLE_DISCONNECT') exitWith {
 			} forEach _roles_side;
 		};
 	} forEach _roles;
-	diag_log str QS_unit_roles;
 };
 if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 	params [
@@ -277,14 +276,14 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 		};
 	} forEach _roles;
 	_roles = missionNamespace getVariable 'QS_unit_roles';
-	private _roles_side = _roles # _side_ID;
+	private _roles_side = _roles # _side_ID;	
 	_role_data_index = _roles_side findIf {(((_x # 0) # 0) isEqualTo _role)};
 	(_roles_side # _role_data_index) params [
 		'_role_data',
 		'_role_units',
 		'_role_queue'
 	];
-	_available_role_index = _role_units findIf {(((_x # 0) isEqualTo '') && (((_x # 1) isEqualTo -1) || (_pCnt <= (_x # 1))))};
+	_available_role_index = _role_units findIf {(((_x # 0) isEqualTo '') && (((_x # 1) isEqualTo -1) || (_pCnt > (_x # 1))))};
 	if (_available_role_index isEqualTo -1) exitWith {
 		diag_log (format ['***** QS ROLES ***** no role available ***** %1 *****',_role_data]);
 	};
@@ -336,8 +335,6 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 		};
 	};
 	diag_log (format ['***** QS ROLES ***** Setting %1 role from %2 to %3 *****',_uid,(_unit getVariable 'QS_unit_role'),_role]);
-	diag_log 'QS ROLES ***** SETTING ROLE * 2 *****';
-	diag_log str QS_unit_roles;
 };
 if (_type isEqualTo 'INIT_ROLE') exitWith {
 	params ['','_role'];
@@ -669,6 +666,8 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			};
 		};
 	} forEach _traitsData;
+	call (missionNamespace getVariable 'QS_fnc_clientArsenal');
+	missionNamespace setVariable ['QS_client_arsenalData',([(player getVariable ['QS_unit_side',WEST]),_role] call (missionNamespace getVariable 'QS_data_arsenal')),FALSE];
 	['SET_SAVED_LOADOUT',_role] call (missionNamespace getVariable 'QS_fnc_roles');
 	call (missionNamespace getVariable 'QS_fnc_respawnPilot');
 	uiNamespace setVariable ['QS_client_respawnCooldown',diag_tickTime + 30];
@@ -742,7 +741,6 @@ if (_type isEqualTo 'INIT_SYSTEM') exitWith {
 		['QS_fnc_roleDescription',(missionNamespace getVariable 'QS_fnc_roleDescription'),TRUE]
 	];
 	// To do: compileFinal
-
 	QS_unit_roles = [ [ ] , [ ] , [ ] , [ ] ];
 	private _data_roles = QS_roles_data;
 	private _data_roles_side = [];
@@ -779,7 +777,9 @@ if (_type isEqualTo 'INIT_SYSTEM') exitWith {
 				_slot_availability_at = -1;
 				for '_i' from 0 to (_max_slots - 1) step 1 do {
 					if (!(_slot_availability_coef isEqualTo -1)) then {
-						_slot_availability_at = _slot_availability_at + _slot_availability_coef;
+						if (_i >= _min_slots) then {
+							_slot_availability_at = _slot_availability_at + _slot_availability_coef;
+						};
 					};
 					_slots pushBack ['',([_slot_availability_at,-1] select (_i < _min_slots))];
 				};
@@ -788,12 +788,10 @@ if (_type isEqualTo 'INIT_SYSTEM') exitWith {
 				for '_i' from 0 to (_queue_capacity - 1) step 1 do {
 					_queue pushBack ['',-1];
 				};
-				
 				_role_to_add = [];
 				_role_to_add pushBack _data_role;
 				_role_to_add pushBack _slots;
 				_role_to_add pushBack _queue;
-				
 				_side_roles = QS_unit_roles # _sideID;
 				_side_roles pushBack _role_to_add;
 				QS_unit_roles set [_sideID,_side_roles];

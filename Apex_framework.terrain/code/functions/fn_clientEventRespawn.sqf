@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	3/02/2019 A3 1.88 by Quiksilver
+	23/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -277,6 +277,9 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 		player setVariable ['QS_client_inFOBArea',TRUE,FALSE];
 		missionNamespace setVariable ['QS_module_fob_client_timeLastRespawn',(time + 180),FALSE];
 	};
+};
+if (player getUnitTrait 'QS_trait_fighterPilot') then {
+	0 spawn {uiSleep 1;createDialog 'QS_client_dialog_menu_roles';};
 };
 {
 	player setVariable _x;

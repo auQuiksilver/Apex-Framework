@@ -1731,6 +1731,7 @@ class QS_RD_dialog_RscMapControl {
 	fontLevel = "TahomaB";
 	sizeExLevel = 0.02;
 	text = "#(argb,8,8,3)color(1,1,1,1)";
+	widthRailWay = 4;
 
 	class Legend {
 		colorBackground[] = {1, 1, 1, 0.5};

@@ -29,7 +29,9 @@ if (!isNull _objectParent) then {
 	if (
 		(_objectParent isKindOf 'StaticWeapon') ||
 		{(_objectParent isKindOf 'Quadbike_01_base_F')} ||
-		{(_objectParent isKindOf 'Kart_01_Base_F')}
+		{(_objectParent isKindOf 'Kart_01_Base_F')} ||
+		{((_objectParent isKindOf 'Offroad_01_armed_base_F') && (_unit isEqualTo (gunner _objectParent)))} ||
+		{((_objectParent isKindOf 'Offroad_01_AT_base_F') && (_unit isEqualTo (gunner _objectParent)))}
 	) then {
 		moveOut _unit;
 		unassignVehicle _unit;
@@ -563,7 +565,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			(_d49 displayCtrl 1010) ctrlSetText (format ['Respawn at FOB (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets')]);
 			(_d49 displayCtrl 1010) ctrlCommit 0;
-			(_d49 displayCtrl 1005) ctrlSetText (format ['%1 - ArmA 3 %2',_QS_missionVersion,_QS_productVersion]);
+			(_d49 displayCtrl 1005) ctrlSetText (format ['%1 - A3 %2',_QS_missionVersion,(format ['%1.%2',(_QS_productVersion # 2),(_QS_productVersion # 3)])]);
 			(_d49 displayCtrl 1005) ctrlCommit 0;
 			_QS_buttonMedevac ctrlEnable ((!(missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE])) && (_tickTimeNow > (_unit getVariable ['QS_client_lastMedevacRequest',-1])) && ((lifeState _unit) isEqualTo 'INCAPACITATED') && (isNull (objectParent _unit)) && (isNull (attachedTo _unit)));
 			if (_tickTimeNow > (_unit getVariable ['QS_respawn_disable',-1])) then {

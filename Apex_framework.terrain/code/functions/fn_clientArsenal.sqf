@@ -15,7 +15,6 @@ ____________________________________________________/*/
 
 missionNamespace setVariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]],FALSE];
 if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) exitWith {
-	['Preload'] call (missionNamespace getVariable 'BIS_fnc_arsenal');
 	// Populate faces list
 	private _data = [];
 	private _index = -1;
@@ -160,11 +159,6 @@ if ((player getVariable ['QS_unit_side',WEST]) in [EAST,RESISTANCE]) then {
 		'u_o_officer_noinsignia_hex_f','u_o_t_officer_f','u_o_officeruniform_ocamo','u_i_c_soldier_para_2_f','u_i_c_soldier_para_3_f','u_i_c_soldier_para_5_f','u_i_c_soldier_para_4_f',
 		'u_i_c_soldier_para_1_f','u_o_pilotcoveralls','u_o_specopsuniform_ocamo','u_i_c_soldier_camo_f'
 	];
-	//'v_harnessogl_brn','v_harnessogl_ghex_f','v_harnesso_brn','v_harnesso_ghex_f','v_harnesso_gry','v_bandollierb_cbr','v_tacchestrig_cbr_f','v_tacvest_khk'
-	
-	//'h_helmetspeco_blk','h_helmetspeco_ghex_f','h_helmetspeco_ocamo','h_bandanna_gry','h_bandanna_blu','h_bandanna_cbr','h_bandanna_khk_hs','h_bandanna_khk',
-	//'h_bandanna_mcamo','h_cap_brn_specops','h_helmetcrew_o','h_helmetleadero_ghex_f','h_helmetleadero_ocamo','h_helmetleadero_oucamo','h_milcap_ghex_f','h_milcap_ocamo',
-	//'h_milcap_dgtl','h_helmeto_ghex_f','h_helmeto_ocamo','h_helmeto_oucamo','h_shemag_olive','h_shemag_olive_hs','h_shemagopen_tan','h_shemagopen_khk'
 };
 missionNamespace setVariable ['QS_arsenal_missionBlacklist',[[_QS_restrictedItems,_QS_restrictedWeapons,_QS_restrictedMagazines,_QS_restrictedBackpacks],(_QS_restrictedItems + _QS_restrictedWeapons + _QS_restrictedMagazines + _QS_restrictedBackpacks)],FALSE];
 _isBlacklisted = (missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 2;

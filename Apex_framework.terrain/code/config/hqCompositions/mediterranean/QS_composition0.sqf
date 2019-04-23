@@ -38,7 +38,10 @@ Using orientation of objects: no
 	["Land_TTowerSmall_1_F",[-15.3755,1.29639,-2.60793],0,[],false,true,false,{}], 
 	["Land_PaperBox_closed_F",[12.8818,-9.82129,0],0,[],false,true,false,{}], 
 	["Land_BagFence_01_short_green_F",[15.9712,3.02246,-0.000999928],80.121,[],false,true,false,{}], 
-	["Flag_White_F",[-15.3228,7.82813,0],81.6358,[],false,true,false,{}], 
+	["Flag_White_F",[-15.3228,7.82813,0],81.6358,[],false,true,false,{
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
+		(_this select 0);
+	}], 
 	["Land_HBarrier_01_line_3_green_F",[16.1079,5.02344,0],79.382,[],false,true,false,{}], 
 	["Land_BagFence_01_short_green_F",[-3.66455,16.8428,-0.000999928],136.024,[],false,true,false,{}], 
 	["Land_PowerGenerator_F",[-17.0967,2.52881,0],258.78,[],false,true,false,{}], 
