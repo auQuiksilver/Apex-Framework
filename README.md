@@ -1,4 +1,5 @@
-Apex Framework 1.1.4 Release Candidate 2 by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
+Apex Framework 1.1.4 Release Candidate 2
+by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
 
