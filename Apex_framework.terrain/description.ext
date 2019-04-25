@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	20/04/2019 A3 1.90 by Quiksilver
+	25/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -31,13 +31,13 @@ class Header {
 disabledAI = 1;											/*/ No AI in playable units/*/
 aiKills = 0; 											/*/ disable scorelist for AI players/*/
 enableItemsDropping = 0; 								/*/ disabled with 0/*/
-joinUnassigned = 1;										/*/ 0 = players forced into role on join/*/
+joinUnassigned = 0;										/*/ 0 = players forced into role on join/*/
 showUAVFeed = 1;										/*/ Enables/Disables the UAV Feed./*/
 showGroupIndicator = 0;
 showSquadRadar = 0;
 forceRotorLibSimulation = 0;							/*/ Advanced Flight Model /*/
 scriptedPlayer = 1;
-skipLobby = 1;
+skipLobby = 0;
 corpseManagerMode = 0;
 corpseLimit = 30;
 corpseRemovalMinTime = 60;

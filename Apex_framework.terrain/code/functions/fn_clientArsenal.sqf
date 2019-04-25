@@ -335,4 +335,3 @@ if (_isBlacklisted) exitWith {
 	[(format ['BIS_fnc_%1VirtualBackpackCargo',(['add','remove'] select _isBlacklisted)]),(_backpacks select {(!( (toLower _x) in _QS_restrictedBackpacks))})],
 	[(format ['BIS_fnc_%1VirtualWeaponCargo',(['add','remove'] select _isBlacklisted)]),(_weapons select {(!( (toLower _x) in _QS_restrictedWeapons))})]
 ];
-['Preload'] call (missionNamespace getVariable 'BIS_fnc_arsenal');

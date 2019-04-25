@@ -1,4 +1,10 @@
-Official change log
+Official Change Log
+
+1.1.5 (26/04/2019 A3 1.90)
+
+- [TWEAKED] Major optimization to Role Selection System net code.
+- [TWEAKED] Disabled "skipLobby" parameter due to unstable results.
+- [TWEAKED] FOB vehicles would not appear for a long time when vehicle respawn activated.
 
 1.1.4 Release Candidate 2
 

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/04/2019 A3 1.90 by Quiksilver
+	26/04/2019 A3 1.90 by Quiksilver
 	
 Description:
 
@@ -90,7 +90,7 @@ QS_roles_data = [
 			WEST,
 			3,
 			10,
-			6,
+			8,
 			0,	
 			0,
 			0,
@@ -142,7 +142,7 @@ QS_roles_data = [
 			WEST,
 			2,
 			10,
-			6,
+			8,
 			0,
 			0,
 			0,
@@ -155,7 +155,7 @@ QS_roles_data = [
 			WEST,
 			2,
 			10,
-			6,
+			8,
 			0,
 			0,
 			0,

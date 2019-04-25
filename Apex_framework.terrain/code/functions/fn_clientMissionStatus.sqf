@@ -775,6 +775,7 @@ _QS_ctrl24_scale = 1.333;
 _QS_ctrl24 ctrlSetScale _QS_ctrl24_scale;
 _QS_ctrl24 ctrlCommit 0;
 
+/*/
 _productVersionCtrl = _display ctrlCreate ['RscText',5678];
 _productVersionCtrl ctrlShow FALSE;
 _productVersionCtrl ctrlSetPosition [
@@ -787,6 +788,7 @@ _productVersionCtrl ctrlSetTextColor [1,1,1,0.075];
 _productVersionCtrl ctrlSetFont 'TahomaB';
 _productVersionCtrl ctrlSetText (missionNamespace getVariable ['QS_system_devBuild_text','Apex Framework 1.1.4 (Dev)']);
 _productVersionCtrl ctrlCommit 0;
+/*/
 
 private _virtualSectorsData = [];
 private _progress1 = 0;
@@ -884,7 +886,7 @@ _fn_secondsToString = missionNamespace getVariable 'QS_fnc_secondsToString';
 private _isStreamFriendly = isStreamFriendlyUIEnabled;
 _true = TRUE;
 _false = FALSE;
-_productVersionCtrl ctrlShow TRUE;
+//_productVersionCtrl ctrlShow TRUE;
 
 for '_x' from 0 to 1 step 0 do {
 	_isStreamFriendly = isStreamFriendlyUIEnabled;

@@ -57,7 +57,7 @@ if (_type isEqualTo 0) then {
 };
 if (_type isEqualTo 1) then {
 	_object = cursorObject;
-	if ((player distance2D _object) > 2) exitWith {};
+	if ((player distance2D _object) > 2.5) exitWith {};
 	if ((!((toLower (typeOf _object)) in _chairTypes)) && {(!((toLower ((getModelInfo _object) select 0)) in _chairModels))}) exitWith {};
 	if (!((attachedObjects _object) isEqualTo [])) exitWith {};
 	if (!isNull (attachedTo _object)) exitWith {};

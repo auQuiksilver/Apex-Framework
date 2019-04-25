@@ -32,18 +32,6 @@ if (_type isEqualTo 'onLoad') then {
 		(missionNamespace getVariable ['QS_missionConfig_splash_adminNames',''])
 	];
 	_ctrlSText1 ctrlSetStructuredText _text;
-	
-	// DEV BUILD 1.1.4
-	[
-		'This is an experimental development build.<br/><br/>We are testing a new Role Selection System menu.<br/><br/>Please report any related issues to your server admin.',
-		'Development Build 1.1.4',
-		(selectRandom ['Thanks','Gotcha','Roger','Cool story bro','Yes','Nice']),
-		(selectRandom ['Cool story bro','Yes','Nice','Thanks','Gotcha','Roger']),
-		(findDisplay 46),
-		FALSE,
-		FALSE
-	] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
-	
 };
 if (_type isEqualTo 'B1') then {
 	closeDialog 0;

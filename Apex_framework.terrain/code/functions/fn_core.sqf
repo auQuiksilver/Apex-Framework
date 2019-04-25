@@ -3177,6 +3177,11 @@ for '_x' from 0 to 1 step 0 do {
 																_v setPosASL (AGLToASL _vpos);
 															};
 														};
+														_v enableSimulationGlobal TRUE;
+														_v spawn {
+															sleep 1;
+															_this enableSimulationGlobal FALSE;
+														};
 													} else {
 														_v = createVehicle [_t,[(random -1000),(random -1000),(1000 + (random 2000))],[],0,'NONE'];
 														missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),_false];

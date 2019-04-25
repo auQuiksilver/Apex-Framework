@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=330;
+		nextID=331;
 	};
 	class MarkerIDProvider
 	{
@@ -16,7 +16,7 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6949.394,8.1414452,7364.2593};
+		pos[]={6948.6216,7.2969747,7356.4629};
 		dir[]={0.70273983,-0.26716551,0.6594305};
 		up[]={0.19483496,0.96364683,0.18282697};
 		aside[]={0.68430495,7.2534021e-007,-0.72924691};
@@ -936,19 +936,6 @@ class Mission
 		};
 		class Item32
 		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={7579.1309,1.3281776,14950.336};
-				angles[]={6.2778587,0,0.0080009829};
-			};
-			name="headlessclient";
-			isPlayable=1;
-			id=97;
-			type="HeadlessClient_F";
-		};
-		class Item33
-		{
 			dataType="Group";
 			side="West";
 			class Entities
@@ -966,6 +953,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=151;
@@ -1021,7 +1009,7 @@ class Mission
 			id=150;
 			atlOffset=4.7683716e-007;
 		};
-		class Item34
+		class Item33
 		{
 			dataType="Group";
 			side="West";
@@ -1040,6 +1028,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=153;
@@ -1095,7 +1084,7 @@ class Mission
 			id=152;
 			atlOffset=4.7683716e-007;
 		};
-		class Item35
+		class Item34
 		{
 			dataType="Group";
 			side="West";
@@ -1114,6 +1103,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=155;
@@ -1169,7 +1159,7 @@ class Mission
 			id=154;
 			atlOffset=4.7683716e-007;
 		};
-		class Item36
+		class Item35
 		{
 			dataType="Group";
 			side="West";
@@ -1188,6 +1178,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=157;
@@ -1243,7 +1234,7 @@ class Mission
 			id=156;
 			atlOffset=4.7683716e-007;
 		};
-		class Item37
+		class Item36
 		{
 			dataType="Group";
 			side="West";
@@ -1262,6 +1253,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=159;
@@ -1317,7 +1309,7 @@ class Mission
 			id=158;
 			atlOffset=4.7683716e-007;
 		};
-		class Item38
+		class Item37
 		{
 			dataType="Group";
 			side="West";
@@ -1329,18 +1321,20 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7651.9341,21.049217,14865.556};
+						position[]={7615.2939,3.5881519,14922.531};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayer=1;
 						isPlayable=1;
 					};
 					id=161;
 					type="B_T_Soldier_F";
+					atlOffset=-7.1525574e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1389,8 +1383,9 @@ class Mission
 			{
 			};
 			id=160;
+			atlOffset=-7.1525574e-007;
 		};
-		class Item39
+		class Item38
 		{
 			dataType="Group";
 			side="West";
@@ -1402,18 +1397,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7618.3296,3.5837686,14924.176};
+						position[]={7618.3301,3.5837681,14924.176};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=163;
 					type="B_T_Soldier_F";
-					atlOffset=7.1525574e-007;
+					atlOffset=2.3841858e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1462,9 +1458,9 @@ class Mission
 			{
 			};
 			id=162;
-			atlOffset=7.1525574e-007;
+			atlOffset=2.3841858e-007;
 		};
-		class Item40
+		class Item39
 		{
 			dataType="Group";
 			side="West";
@@ -1483,6 +1479,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=165;
@@ -1538,7 +1535,7 @@ class Mission
 			id=164;
 			atlOffset=-1.9073486e-006;
 		};
-		class Item41
+		class Item40
 		{
 			dataType="Group";
 			side="West";
@@ -1557,6 +1554,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=167;
@@ -1612,7 +1610,7 @@ class Mission
 			id=166;
 			atlOffset=2.3841858e-007;
 		};
-		class Item42
+		class Item41
 		{
 			dataType="Group";
 			side="West";
@@ -1631,6 +1629,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=169;
@@ -1686,7 +1685,7 @@ class Mission
 			id=168;
 			atlOffset=4.7683716e-007;
 		};
-		class Item43
+		class Item42
 		{
 			dataType="Group";
 			side="West";
@@ -1705,6 +1704,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=171;
@@ -1760,7 +1760,7 @@ class Mission
 			id=170;
 			atlOffset=4.7683716e-007;
 		};
-		class Item44
+		class Item43
 		{
 			dataType="Group";
 			side="West";
@@ -1779,6 +1779,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=173;
@@ -1834,7 +1835,7 @@ class Mission
 			id=172;
 			atlOffset=4.7683716e-007;
 		};
-		class Item45
+		class Item44
 		{
 			dataType="Group";
 			side="West";
@@ -1853,6 +1854,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=175;
@@ -1908,7 +1910,7 @@ class Mission
 			id=174;
 			atlOffset=4.7683716e-007;
 		};
-		class Item46
+		class Item45
 		{
 			dataType="Group";
 			side="West";
@@ -1927,6 +1929,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=177;
@@ -1982,7 +1985,7 @@ class Mission
 			id=176;
 			atlOffset=4.7683716e-007;
 		};
-		class Item47
+		class Item46
 		{
 			dataType="Group";
 			side="West";
@@ -2001,6 +2004,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=179;
@@ -2056,7 +2060,7 @@ class Mission
 			id=178;
 			atlOffset=7.1525574e-007;
 		};
-		class Item48
+		class Item47
 		{
 			dataType="Group";
 			side="West";
@@ -2075,6 +2079,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=181;
@@ -2130,7 +2135,7 @@ class Mission
 			id=180;
 			atlOffset=4.7683716e-007;
 		};
-		class Item49
+		class Item48
 		{
 			dataType="Group";
 			side="West";
@@ -2149,6 +2154,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=183;
@@ -2204,7 +2210,7 @@ class Mission
 			id=182;
 			atlOffset=2.3841858e-007;
 		};
-		class Item50
+		class Item49
 		{
 			dataType="Group";
 			side="West";
@@ -2223,6 +2229,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=185;
@@ -2278,7 +2285,7 @@ class Mission
 			id=184;
 			atlOffset=4.7683716e-007;
 		};
-		class Item51
+		class Item50
 		{
 			dataType="Group";
 			side="West";
@@ -2297,6 +2304,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=187;
@@ -2352,7 +2360,7 @@ class Mission
 			id=186;
 			atlOffset=4.7683716e-007;
 		};
-		class Item52
+		class Item51
 		{
 			dataType="Group";
 			side="West";
@@ -2371,6 +2379,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=189;
@@ -2426,7 +2435,7 @@ class Mission
 			id=188;
 			atlOffset=4.7683716e-007;
 		};
-		class Item53
+		class Item52
 		{
 			dataType="Group";
 			side="West";
@@ -2445,6 +2454,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=211;
@@ -2500,7 +2510,7 @@ class Mission
 			id=210;
 			atlOffset=4.7683716e-007;
 		};
-		class Item54
+		class Item53
 		{
 			dataType="Group";
 			side="West";
@@ -2519,6 +2529,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=213;
@@ -2574,7 +2585,7 @@ class Mission
 			id=212;
 			atlOffset=7.1525574e-007;
 		};
-		class Item55
+		class Item54
 		{
 			dataType="Group";
 			side="West";
@@ -2593,6 +2604,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=215;
@@ -2648,7 +2660,7 @@ class Mission
 			id=214;
 			atlOffset=4.7683716e-007;
 		};
-		class Item56
+		class Item55
 		{
 			dataType="Group";
 			side="West";
@@ -2667,6 +2679,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=217;
@@ -2722,7 +2735,7 @@ class Mission
 			id=216;
 			atlOffset=4.7683716e-007;
 		};
-		class Item57
+		class Item56
 		{
 			dataType="Group";
 			side="West";
@@ -2741,6 +2754,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=219;
@@ -2796,7 +2810,7 @@ class Mission
 			id=218;
 			atlOffset=4.7683716e-007;
 		};
-		class Item58
+		class Item57
 		{
 			dataType="Group";
 			side="West";
@@ -2815,6 +2829,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=221;
@@ -2870,7 +2885,7 @@ class Mission
 			id=220;
 			atlOffset=2.3841858e-007;
 		};
-		class Item59
+		class Item58
 		{
 			dataType="Group";
 			side="West";
@@ -2889,6 +2904,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=223;
@@ -2944,7 +2960,7 @@ class Mission
 			id=222;
 			atlOffset=7.1525574e-007;
 		};
-		class Item60
+		class Item59
 		{
 			dataType="Group";
 			side="West";
@@ -2963,6 +2979,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=225;
@@ -3018,7 +3035,7 @@ class Mission
 			id=224;
 			atlOffset=4.7683716e-007;
 		};
-		class Item61
+		class Item60
 		{
 			dataType="Group";
 			side="West";
@@ -3037,6 +3054,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=227;
@@ -3092,7 +3110,7 @@ class Mission
 			id=226;
 			atlOffset=2.3841858e-007;
 		};
-		class Item62
+		class Item61
 		{
 			dataType="Group";
 			side="West";
@@ -3111,6 +3129,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=229;
@@ -3166,7 +3185,7 @@ class Mission
 			id=228;
 			atlOffset=4.7683716e-007;
 		};
-		class Item63
+		class Item62
 		{
 			dataType="Group";
 			side="West";
@@ -3185,6 +3204,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=231;
@@ -3240,7 +3260,7 @@ class Mission
 			id=230;
 			atlOffset=4.7683716e-007;
 		};
-		class Item64
+		class Item63
 		{
 			dataType="Group";
 			side="West";
@@ -3259,6 +3279,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=233;
@@ -3314,7 +3335,7 @@ class Mission
 			id=232;
 			atlOffset=4.7683716e-007;
 		};
-		class Item65
+		class Item64
 		{
 			dataType="Group";
 			side="West";
@@ -3333,6 +3354,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=235;
@@ -3388,7 +3410,7 @@ class Mission
 			id=234;
 			atlOffset=4.7683716e-007;
 		};
-		class Item66
+		class Item65
 		{
 			dataType="Group";
 			side="West";
@@ -3407,6 +3429,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=237;
@@ -3462,7 +3485,7 @@ class Mission
 			id=236;
 			atlOffset=4.7683716e-007;
 		};
-		class Item67
+		class Item66
 		{
 			dataType="Group";
 			side="West";
@@ -3481,6 +3504,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=239;
@@ -3536,7 +3560,7 @@ class Mission
 			id=238;
 			atlOffset=4.7683716e-007;
 		};
-		class Item68
+		class Item67
 		{
 			dataType="Group";
 			side="West";
@@ -3555,6 +3579,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=241;
@@ -3610,7 +3635,7 @@ class Mission
 			id=240;
 			atlOffset=4.7683716e-007;
 		};
-		class Item69
+		class Item68
 		{
 			dataType="Group";
 			side="West";
@@ -3629,6 +3654,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=243;
@@ -3684,7 +3710,7 @@ class Mission
 			id=242;
 			atlOffset=4.7683716e-007;
 		};
-		class Item70
+		class Item69
 		{
 			dataType="Group";
 			side="West";
@@ -3703,6 +3729,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=245;
@@ -3758,7 +3785,7 @@ class Mission
 			id=244;
 			atlOffset=4.7683716e-007;
 		};
-		class Item71
+		class Item70
 		{
 			dataType="Group";
 			side="West";
@@ -3777,6 +3804,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=247;
@@ -3832,7 +3860,7 @@ class Mission
 			id=246;
 			atlOffset=4.7683716e-007;
 		};
-		class Item72
+		class Item71
 		{
 			dataType="Group";
 			side="West";
@@ -3851,6 +3879,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=249;
@@ -3906,7 +3935,7 @@ class Mission
 			id=248;
 			atlOffset=4.7683716e-007;
 		};
-		class Item73
+		class Item72
 		{
 			dataType="Group";
 			side="West";
@@ -3925,6 +3954,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=251;
@@ -3980,7 +4010,7 @@ class Mission
 			id=250;
 			atlOffset=4.7683716e-007;
 		};
-		class Item74
+		class Item73
 		{
 			dataType="Group";
 			side="West";
@@ -3999,6 +4029,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=253;
@@ -4054,7 +4085,7 @@ class Mission
 			id=252;
 			atlOffset=4.7683716e-007;
 		};
-		class Item75
+		class Item74
 		{
 			dataType="Group";
 			side="West";
@@ -4073,6 +4104,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=255;
@@ -4128,7 +4160,7 @@ class Mission
 			id=254;
 			atlOffset=4.7683716e-007;
 		};
-		class Item76
+		class Item75
 		{
 			dataType="Group";
 			side="West";
@@ -4147,6 +4179,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=257;
@@ -4202,7 +4235,7 @@ class Mission
 			id=256;
 			atlOffset=4.7683716e-007;
 		};
-		class Item77
+		class Item76
 		{
 			dataType="Group";
 			side="West";
@@ -4221,6 +4254,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=259;
@@ -4276,7 +4310,7 @@ class Mission
 			id=258;
 			atlOffset=4.7683716e-007;
 		};
-		class Item78
+		class Item77
 		{
 			dataType="Group";
 			side="West";
@@ -4295,6 +4329,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=261;
@@ -4350,7 +4385,7 @@ class Mission
 			id=260;
 			atlOffset=2.3841858e-007;
 		};
-		class Item79
+		class Item78
 		{
 			dataType="Group";
 			side="West";
@@ -4369,6 +4404,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=263;
@@ -4424,7 +4460,7 @@ class Mission
 			id=262;
 			atlOffset=4.7683716e-007;
 		};
-		class Item80
+		class Item79
 		{
 			dataType="Group";
 			side="West";
@@ -4443,6 +4479,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=265;
@@ -4498,7 +4535,7 @@ class Mission
 			id=264;
 			atlOffset=7.1525574e-007;
 		};
-		class Item81
+		class Item80
 		{
 			dataType="Group";
 			side="West";
@@ -4517,6 +4554,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=267;
@@ -4572,7 +4610,7 @@ class Mission
 			id=266;
 			atlOffset=4.7683716e-007;
 		};
-		class Item82
+		class Item81
 		{
 			dataType="Group";
 			side="West";
@@ -4591,6 +4629,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=269;
@@ -4646,7 +4685,7 @@ class Mission
 			id=268;
 			atlOffset=4.7683716e-007;
 		};
-		class Item83
+		class Item82
 		{
 			dataType="Group";
 			side="West";
@@ -4665,6 +4704,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=271;
@@ -4720,7 +4760,7 @@ class Mission
 			id=270;
 			atlOffset=4.7683716e-007;
 		};
-		class Item84
+		class Item83
 		{
 			dataType="Group";
 			side="West";
@@ -4739,6 +4779,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=273;
@@ -4794,7 +4835,7 @@ class Mission
 			id=272;
 			atlOffset=4.7683716e-007;
 		};
-		class Item85
+		class Item84
 		{
 			dataType="Group";
 			side="West";
@@ -4813,6 +4854,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=275;
@@ -4868,7 +4910,7 @@ class Mission
 			id=274;
 			atlOffset=4.7683716e-007;
 		};
-		class Item86
+		class Item85
 		{
 			dataType="Group";
 			side="West";
@@ -4887,6 +4929,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=277;
@@ -4942,7 +4985,7 @@ class Mission
 			id=276;
 			atlOffset=4.7683716e-007;
 		};
-		class Item87
+		class Item86
 		{
 			dataType="Group";
 			side="West";
@@ -4961,6 +5004,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=279;
@@ -5016,7 +5060,7 @@ class Mission
 			id=278;
 			atlOffset=4.7683716e-007;
 		};
-		class Item88
+		class Item87
 		{
 			dataType="Group";
 			side="West";
@@ -5028,18 +5072,18 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7600.0913,2.9843252,14946.478};
+						position[]={7600.0908,2.9843099,14946.478};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=281;
 					type="B_T_Soldier_F";
-					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5088,9 +5132,8 @@ class Mission
 			{
 			};
 			id=280;
-			atlOffset=4.7683716e-007;
 		};
-		class Item89
+		class Item88
 		{
 			dataType="Group";
 			side="West";
@@ -5102,18 +5145,18 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7602.769,2.9278736,14948.048};
+						position[]={7602.769,2.9278731,14948.048};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=283;
 					type="B_T_Soldier_F";
-					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5162,9 +5205,8 @@ class Mission
 			{
 			};
 			id=282;
-			atlOffset=4.7683716e-007;
 		};
-		class Item90
+		class Item89
 		{
 			dataType="Group";
 			side="West";
@@ -5176,18 +5218,18 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7605.3174,3.0506582,14949.727};
+						position[]={7605.3169,3.0506625,14949.727};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=285;
 					type="B_T_Soldier_F";
-					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5236,9 +5278,8 @@ class Mission
 			{
 			};
 			id=284;
-			atlOffset=4.7683716e-007;
 		};
-		class Item91
+		class Item90
 		{
 			dataType="Group";
 			side="West";
@@ -5250,17 +5291,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7607.6802,2.9318273,14951.128};
+						position[]={7607.6802,2.9318268,14951.128};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=287;
 					type="B_T_Soldier_F";
+					atlOffset=-4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5309,8 +5352,9 @@ class Mission
 			{
 			};
 			id=286;
+			atlOffset=-4.7683716e-007;
 		};
-		class Item92
+		class Item91
 		{
 			dataType="Group";
 			side="West";
@@ -5322,18 +5366,18 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7610.4668,2.778362,14952.881};
+						position[]={7610.4668,2.7783616,14952.881};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=289;
 					type="B_T_Soldier_F";
-					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -5382,9 +5426,8 @@ class Mission
 			{
 			};
 			id=288;
-			atlOffset=4.7683716e-007;
 		};
-		class Item93
+		class Item92
 		{
 			dataType="Group";
 			side="West";
@@ -5403,6 +5446,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=291;
@@ -5458,7 +5502,7 @@ class Mission
 			id=290;
 			atlOffset=4.7683716e-007;
 		};
-		class Item94
+		class Item93
 		{
 			dataType="Group";
 			side="West";
@@ -5477,6 +5521,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=293;
@@ -5532,7 +5577,7 @@ class Mission
 			id=292;
 			atlOffset=4.7683716e-007;
 		};
-		class Item95
+		class Item94
 		{
 			dataType="Group";
 			side="West";
@@ -5551,6 +5596,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=295;
@@ -5606,7 +5652,7 @@ class Mission
 			id=294;
 			atlOffset=4.7683716e-007;
 		};
-		class Item96
+		class Item95
 		{
 			dataType="Group";
 			side="West";
@@ -5625,6 +5671,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=297;
@@ -5680,7 +5727,7 @@ class Mission
 			id=296;
 			atlOffset=4.7683716e-007;
 		};
-		class Item97
+		class Item96
 		{
 			dataType="Group";
 			side="West";
@@ -5699,6 +5746,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=299;
@@ -5754,7 +5802,7 @@ class Mission
 			id=298;
 			atlOffset=4.7683716e-007;
 		};
-		class Item98
+		class Item97
 		{
 			dataType="Group";
 			side="West";
@@ -5773,6 +5821,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=301;
@@ -5828,7 +5877,7 @@ class Mission
 			id=300;
 			atlOffset=4.7683716e-007;
 		};
-		class Item99
+		class Item98
 		{
 			dataType="Group";
 			side="West";
@@ -5847,6 +5896,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=303;
@@ -5902,7 +5952,7 @@ class Mission
 			id=302;
 			atlOffset=2.3841858e-007;
 		};
-		class Item100
+		class Item99
 		{
 			dataType="Group";
 			side="West";
@@ -5921,6 +5971,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=305;
@@ -5976,7 +6027,7 @@ class Mission
 			id=304;
 			atlOffset=4.7683716e-007;
 		};
-		class Item101
+		class Item100
 		{
 			dataType="Group";
 			side="West";
@@ -5995,6 +6046,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=307;
@@ -6050,7 +6102,7 @@ class Mission
 			id=306;
 			atlOffset=4.7683716e-007;
 		};
-		class Item102
+		class Item101
 		{
 			dataType="Group";
 			side="West";
@@ -6069,6 +6121,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=309;
@@ -6124,7 +6177,7 @@ class Mission
 			id=308;
 			atlOffset=4.7683716e-007;
 		};
-		class Item103
+		class Item102
 		{
 			dataType="Group";
 			side="West";
@@ -6143,6 +6196,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=311;
@@ -6198,7 +6252,7 @@ class Mission
 			id=310;
 			atlOffset=7.3432922e-005;
 		};
-		class Item104
+		class Item103
 		{
 			dataType="Group";
 			side="West";
@@ -6217,6 +6271,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=313;
@@ -6272,7 +6327,7 @@ class Mission
 			id=312;
 			atlOffset=4.7683716e-007;
 		};
-		class Item105
+		class Item104
 		{
 			dataType="Group";
 			side="West";
@@ -6291,6 +6346,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=315;
@@ -6346,7 +6402,7 @@ class Mission
 			id=314;
 			atlOffset=4.7683716e-007;
 		};
-		class Item106
+		class Item105
 		{
 			dataType="Group";
 			side="West";
@@ -6365,6 +6421,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=317;
@@ -6420,7 +6477,7 @@ class Mission
 			id=316;
 			atlOffset=4.7683716e-007;
 		};
-		class Item107
+		class Item106
 		{
 			dataType="Group";
 			side="West";
@@ -6439,6 +6496,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=319;
@@ -6494,7 +6552,7 @@ class Mission
 			id=318;
 			atlOffset=2.3841858e-007;
 		};
-		class Item108
+		class Item107
 		{
 			dataType="Group";
 			side="West";
@@ -6506,18 +6564,19 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7613.6978,2.6476626,14954.34};
+						position[]={7613.6982,2.6476622,14954.34};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=321;
 					type="B_T_Soldier_F";
-					atlOffset=7.1525574e-007;
+					atlOffset=2.3841858e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -6566,9 +6625,9 @@ class Mission
 			{
 			};
 			id=320;
-			atlOffset=7.1525574e-007;
+			atlOffset=2.3841858e-007;
 		};
-		class Item109
+		class Item108
 		{
 			dataType="Group";
 			side="West";
@@ -6580,18 +6639,18 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7616.3745,2.5062928,14955.91};
+						position[]={7616.375,2.5062947,14955.91};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=323;
 					type="B_T_Soldier_F";
-					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -6640,9 +6699,8 @@ class Mission
 			{
 			};
 			id=322;
-			atlOffset=4.7683716e-007;
 		};
-		class Item110
+		class Item109
 		{
 			dataType="Group";
 			side="West";
@@ -6654,18 +6712,18 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7618.9233,2.3683057,14957.589};
+						position[]={7618.9229,2.368304,14957.589};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=325;
 					type="B_T_Soldier_F";
-					atlOffset=4.7683716e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -6714,9 +6772,8 @@ class Mission
 			{
 			};
 			id=324;
-			atlOffset=4.7683716e-007;
 		};
-		class Item111
+		class Item110
 		{
 			dataType="Group";
 			side="West";
@@ -6735,6 +6792,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=327;
@@ -6790,7 +6848,7 @@ class Mission
 			id=326;
 			atlOffset=4.7683716e-007;
 		};
-		class Item112
+		class Item111
 		{
 			dataType="Group";
 			side="West";
@@ -6809,6 +6867,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
+						description="Select role ingame";
 						isPlayable=1;
 					};
 					id=329;
@@ -6863,6 +6922,19 @@ class Mission
 			};
 			id=328;
 			atlOffset=4.7683716e-007;
+		};
+		class Item112
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={7579.6309,1.4014819,14943.872};
+				angles[]={6.2778587,0,0.0080009829};
+			};
+			name="headlessclient";
+			isPlayable=1;
+			id=330;
+			type="HeadlessClient_F";
 		};
 	};
 };
