@@ -1,4 +1,5 @@
-Apex Framework 1.1.4 Release Candidate 1 by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
+Apex Framework 1.1.4 Release Candidate 2
+by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
 
@@ -15,7 +16,7 @@ Apex Framework step-by-step setup guide:
 * Server must be running Windows x64, or Linux.
 _______________
 
-0. Download the "Apex_framework_114_rc1_allFiles.zip" file.
+0. Download the "Apex_framework_114_rc2_allFiles.zip" file.
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
@@ -52,11 +53,11 @@ class Missions {
 
   class apex_framework {
 
-    template="Apex_framework_114_rc1.Altis";
+    template="Apex_framework_114_rc2.Altis";
 
-    //template="Apex_framework_114_rc1.Tanoa";
+    //template="Apex_framework_114_rc2.Tanoa";
 
-    //template="Apex_framework_114_rc1.Malden";
+    //template="Apex_framework_114_rc2.Malden";
 
     difficulty="Custom";
 
@@ -66,7 +67,7 @@ class Missions {
 
 ```
 forcedDifficulty = "Custom";
-missionWhitelist[] = {"Apex_framework_114_rc1.Altis","Apex_framework_114_rc1.Tanoa","Apex_framework_114_rc1.Malden"};
+missionWhitelist[] = {"Apex_framework_114_rc2.Altis","Apex_framework_114_rc2.Tanoa","Apex_framework_114_rc2.Malden"};
 ```
 
 --------------------------
