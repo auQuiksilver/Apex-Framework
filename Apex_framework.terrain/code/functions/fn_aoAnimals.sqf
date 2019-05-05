@@ -6,13 +6,13 @@ Author:
 
 Last Modified:
 
-	21/03/2016 A3 1.56 by Quiksilver
+	5/05/2019 A3 1.92 by Quiksilver
 
 Description:
 
 	AO Animals
-____________________________________________________________________________*/
-
+____________________________________________________*/
+if ((count allPlayers) >= 50) exitwith {};
 params ['_position','_type','_quantity'];
 private ['_classes','_class','_animal','_animStart'];
 if (_type isEqualTo 'DOG') then {

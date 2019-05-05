@@ -346,32 +346,56 @@ _QS_ctrl_18 ctrlCommit 0;
 _controls pushBack _QS_ctrl_18;
 _QS_ctrlCreateArray = ['RscButton',122];
 _QS_ctrl_19 = _display ctrlCreate _QS_ctrlCreateArray;
-_QS_ctrl_19 ctrlShow FALSE;
+_QS_ctrl_19 ctrlShow TRUE;
 _QS_ctrl_19 ctrlSetPosition [
-	((ctrlPosition _QS_ctrl_1) # 0) + (0.2 / _uiScale),
+	((ctrlPosition _QS_ctrl_1) # 0) + (0.1875 / _uiScale),
 	((ctrlPosition _QS_ctrl_1) # 1) + (0.5485 / _uiScale),
 	((ctrlPosition _QS_ctrl_1) # 2) * 0.1,
 	((ctrlPosition _QS_ctrl_1) # 3) * 0.06
 ];
-_QS_ctrl_19 ctrlEnable FALSE;
-_QS_ctrl_19 ctrlSetText '- - -';
-_QS_ctrl_19 ctrlSetTooltip 'Undefined';
+_QS_ctrl_19 ctrlEnable TRUE;
+_QS_ctrl_19 ctrlSetText 'Arsenal';
+_QS_buttonAction = "
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		call (missionNamespace getVariable 'QS_fnc_clientInteractArsenal');
+	};
+";
+_QS_ctrl_19 buttonSetAction _QS_buttonAction;
+_QS_ctrl_19 ctrlSetTooltip 'Virtual Arsenal';
 _QS_ctrl_19 ctrlSetTextColor [1,1,1,1];
 _QS_ctrl_19 ctrlSetBackgroundColor [0,0,0,1];
 _QS_ctrl_19 ctrlCommit 0;
 _controls pushBack _QS_ctrl_19;
 _QS_ctrlCreateArray = ['RscButton',123];
 _QS_ctrl_20 = _display ctrlCreate _QS_ctrlCreateArray;
-_QS_ctrl_20 ctrlShow FALSE;
+_QS_ctrl_20 ctrlShow TRUE;
 _QS_ctrl_20 ctrlSetPosition [
-	((ctrlPosition _QS_ctrl_1) # 0) + (0.3 / _uiScale),
+	((ctrlPosition _QS_ctrl_1) # 0) + (0.275 / _uiScale),
 	((ctrlPosition _QS_ctrl_1) # 1) + (0.5485 / _uiScale),
 	((ctrlPosition _QS_ctrl_1) # 2) * 0.1,
 	((ctrlPosition _QS_ctrl_1) # 3) * 0.06
 ];
-_QS_ctrl_20 ctrlEnable FALSE;
-_QS_ctrl_20 ctrlSetText '- - -';
-_QS_ctrl_20 ctrlSetTooltip 'Undefined';
+_QS_ctrl_20 ctrlEnable TRUE;
+_QS_ctrl_20 ctrlSetText 'Group';
+_QS_buttonAction = "
+	0 spawn {
+		uiSleep 0.1;
+		waitUntil {
+			closeDialog 2;
+			(!dialog)
+		};
+		uiSleep 0.01;
+		(findDisplay 46) createDisplay 'RscDisplayDynamicGroups';
+		50 cutText ['Use [Page Up] / [Page Down] to navigate the group list','PLAIN'];
+	};
+";
+_QS_ctrl_20 buttonSetAction _QS_buttonAction;
+_QS_ctrl_20 ctrlSetTooltip 'Group Management';
 _QS_ctrl_20 ctrlSetTextColor [1,1,1,1];
 _QS_ctrl_20 ctrlSetBackgroundColor [0,0,0,1];
 _QS_ctrl_20 ctrlCommit 0;
@@ -453,6 +477,11 @@ _QS_ctrl_25 ctrlSetBackgroundColor [0,0,0,0];
 _QS_ctrl_25 ctrlCommit 0;
 _controls pushBack _QS_ctrl_25;
 
+private _whitelist_color = _background_color_1;
+private _whitelist_value = 0;
+private _whitelisted = (getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
+private _roleCount = 0;
+
 private _selectedRoleRow = 0;
 private _currentSelectedFaction = 0;
 private _selectedRoleCanSelect = FALSE;
@@ -509,13 +538,14 @@ waitUntil {
 		};
 	};
 	if (missionNamespace getVariable ['QS_RSS_refreshUI',FALSE]) then {
-		_list = (allPlayers - (entities 'HeadlessClient_F')) apply { [ (name _x) , ([(side (group _x)),FALSE] call _fn_sideColor) ] };
+		_list = (allPlayers - (entities 'HeadlessClient_F')) apply { [ (name _x) , ([(side (group _x)),FALSE] call _fn_sideColor) , _x ] };
 		_list sort TRUE;
 		_list select [0,100];
 		lnbClear 119;
 		{
 			lnbAddRow [119,[_x # 0]];
 			lnbSetColor [119,[_forEachIndex,0],(_x # 1)];
+			lnbSetTooltip [119,[_forEachIndex,0],(format ['%1 - %2',(groupId (group (_x # 2))),(['GET_ROLE_DISPLAYNAME',((_x # 2) getVariable ['QS_unit_role','rifleman'])] call _fn_roles)])];
 		} forEach _list;
 	};
 	if (!(_selectedFactionRow isEqualTo -1)) then {
@@ -529,7 +559,8 @@ waitUntil {
 				(call (_x # 8)),
 				(call (_x # 9)),
 				(call (_x # 10)),
-				(['GET_ROLE_COUNT',(_x # 0),(_x # 1),FALSE] call _fn_roles)
+				(['GET_ROLE_COUNT',(_x # 0),(_x # 1),FALSE] call _fn_roles),
+				(_x # 5)
 			];
 			_listRoles pushBack [(_x # 0),(_x # 1),(_x # 8)];
 		} forEach ((missionNamespace getVariable 'QS_roles_data') # _selectedFactionRow);
@@ -537,16 +568,35 @@ waitUntil {
 			missionNamespace setVariable ['QS_RSS_refreshUI',FALSE,FALSE];
 			lnbClear 108;
 			{
-				if ((isNil {_x # 3}) || {(_x # 3)}) then {
+				if (_x # 3) then {
 					lnbAddRow [108,[_x # 0,_x # 1]];
 					lnbSetPicture [108,[_forEachIndex,2],(_x # 2)];
+					lnbSetTooltip [108,[_forEachIndex,0],(_x # 0)];
 					if ((!(_x # 4)) || {(((_x # 6) # 0) >= ((_x # 6) # 1))}) then {
 						lnbSetValue [108,[_forEachIndex,0],0];
 						lnbSetColor [108,[_forEachIndex,0],[0.5,0.5,0.5,1]];
 						lnbSetColor [108,[_forEachIndex,1],[0.5,0.5,0.5,1]];
 					} else {
-						lnbSetValue [108,[_forEachIndex,0],1];
+						_whitelist_value = _x # 7;
+						if (_whitelist_value > 0) then {
+							_roleCount = _x # 6;
+							_roleCount set [1,((_roleCount # 1) - _whitelist_value)];
+							if ((_roleCount # 0) >= (_roleCount # 1)) then {
+								lnbSetValue [108,[_forEachIndex,0],1];
+								lnbSetColor [108,[_forEachIndex,0],_whitelist_color];
+								lnbSetColor [108,[_forEachIndex,1],_whitelist_color];
+							} else {
+								lnbSetValue [108,[_forEachIndex,0],1];
+							};
+						} else {
+							lnbSetValue [108,[_forEachIndex,0],1];
+						};
 					};
+				} else {
+					lnbAddRow [108,['','']];
+					lnbSetPicture [108,[_forEachIndex,2],''];
+					lnbSetTooltip [108,[_forEachIndex,0],''];
+					lnbSetValue [108,[_forEachIndex,0],0];
 				};
 			} forEach _list;
 		};

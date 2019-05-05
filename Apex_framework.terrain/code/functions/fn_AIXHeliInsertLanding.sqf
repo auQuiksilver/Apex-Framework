@@ -94,6 +94,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 				_supportGroup = group (effectiveCommander _supportHeli);
 				_supportGroup setCombatMode 'BLUE';
 				_supportGroup setBehaviour 'CARELESS';
+				_supportGroup setBehaviourStrong 'CARELESS';
 				_supportGroup setSpeedMode 'FULL';
 				private _unit = objNull;
 				{

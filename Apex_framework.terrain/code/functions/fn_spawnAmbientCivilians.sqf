@@ -6,13 +6,13 @@ Author:
 	
 Last Modified:
 
-	3/12/2017 A3 1.78 by Quiksilver
+	5/05/2019 A3 1.92 by Quiksilver
 
 Description:
 
 	Spawn ambient civilians
 ______________________________________________________/*/
-
+if ((count allPlayers) >= 50) exitwith {};
 params [
 	'_centerPos',
 	'_centerRad',

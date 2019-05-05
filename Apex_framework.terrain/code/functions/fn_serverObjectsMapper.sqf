@@ -48,6 +48,7 @@ private _newPosZ = 0;
 		[(cos _azi),(sin _azi)],
 		[-(sin _azi),(cos _azi)]
 	];
+	//_newRelPos = _rotMatrix matrixMultiply _relPos;
 	_newRelPos = [_rotMatrix,_relPos] call (missionNamespace getVariable 'QS_fnc_commonMultiplyMatrix');
 	if ((count _relPos) > 2) then {
 		_z = _relPos select 2;

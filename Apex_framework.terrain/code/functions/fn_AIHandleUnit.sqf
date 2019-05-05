@@ -27,7 +27,7 @@ if (
 			if (!(_grpUnits isEqualTo [])) then {
 				_grpUnits = _grpUnits apply {[rankId _x,_x]};
 				_grpUnits sort FALSE;
-				_grp selectLeader ((_grpUnits select 0) select 1);
+				_grp selectLeader ((_grpUnits # 0) # 1);
 			};
 		};
 	};
@@ -35,6 +35,7 @@ if (
 if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	_unit setVariable ['QS_AI_UNIT',TRUE,FALSE];
 	_unit setVariable ['QS_AI_UNIT_rv',[(random 1),(random 1),(random 1)],FALSE];
+	_unit setVariable ['QS_AI_UNIT_delayedInstructions',[],FALSE];
 	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSelfRearm'}) then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfRearm',_uiTime,FALSE];
 	};
@@ -75,6 +76,22 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	if (_unit getUnitTrait 'engineer') then {
 		if (isNil {_unit getVariable 'QS_AI_UNIT_assignedVehicle'}) then {
 			_unit setVariable ['QS_AI_UNIT_assignedVehicle',(assignedVehicle _unit),FALSE];
+		};
+	};
+	if (isNil {_unit getVariable 'QS_AI_UNIT_tankGunner'}) then {
+		if ((objectParent _unit) isKindOf 'Tank') then {
+			if (_unit isEqualTo (gunner (objectParent _unit))) then {
+				if (!(((weapons (objectParent _unit)) findIf {(_x in ['cannon_125mm_advanced','cannon_125mm','cannon_120mm_long','cannon_20mm','cannon_120mm'])}) isEqualTo -1)) then {
+					_unit setVariable ['QS_AI_UNIT_tankGunner',TRUE,FALSE];
+					_unit setVariable ['QS_AI_UNIT_gunnerMuzzle',(['cannon_125mm_advanced','cannon_125mm','cannon_120mm_long','cannon_20mm','cannon_120mm'] select {(_x in (weapons (objectParent _unit)))}),FALSE];
+				} else {
+					_unit setVariable ['QS_AI_UNIT_tankGunner',FALSE,FALSE];
+				};
+			} else {
+				_unit setVariable ['QS_AI_UNIT_tankGunner',FALSE,FALSE];
+			};
+		} else {
+			_unit setVariable ['QS_AI_UNIT_tankGunner',FALSE,FALSE];
 		};
 	};
 };
@@ -277,9 +294,9 @@ if (isNull _objectParent) then {
 	};
 	/*/
 };
-if (_fps > 10) then {
+if (_fps > 9) then {
 	if (_unit getVariable ['QS_AI_UNIT_isMG',FALSE]) then {
-		if ((random 1) > 0.75) then {
+		if ((random 1) > 0.666) then {
 			if (_unitBehaviour in ['AWARE','COMBAT']) then {
 				private _isSuppressing = FALSE;
 				if ((alive (assignedTarget _unit)) || {(alive (_unit findNearestEnemy _unit))}) then {
@@ -295,6 +312,7 @@ if (_fps > 10) then {
 									_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
 									_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [10,15,20])),FALSE];
 									_unit doWatch _assignedTarget;
+									_unit doTarget _assignedTarget;
 									[_unit,_assignedTarget] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
 									_isSuppressing = TRUE;
 								} else {
@@ -332,10 +350,10 @@ if (_fps > 10) then {
 											_aimPos = _x select 0;
 										};
 									} forEach _intersections;
-									[_unit,_aimPos] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (_this select 1);};
+									[_unit,_aimPos] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
 								};
 							} else {
-								[_unit,_hostileBuilding] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (_this select 1);};
+								[_unit,_hostileBuilding] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
 							};
 							_unit removeAllEventHandlers 'FiredMan';
 							_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
@@ -349,6 +367,43 @@ if (_fps > 10) then {
 			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1])) then {
 				_unit setVariable ['QS_AI_UNIT_sfEvent',TRUE,FALSE];
 				_unit addEventHandler ['FiredMan',{_this call (missionNamespace getVariable 'QS_fnc_AIXSuppressiveFire')}];
+			};
+		};
+	};
+	if (_unit getVariable ['QS_AI_UNIT_tankGunner',FALSE]) then {
+		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1])) then {
+			if ((random 1) > 0.666) then {
+				if (_unitBehaviour in ['AWARE','COMBAT']) then {
+					_hostileBuildings = missionNamespace getVariable ['QS_AI_hostileBuildings',[]];
+					if (!(_hostileBuildings isEqualTo [])) then {
+						private _hostileBuilding = objNull;
+						{
+							if (((_objectParent distance2D _x) < 600) && {(([_objectParent,'FIRE',_x] checkVisibility [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _x)]) > 0.1)}) exitWith {
+								_hostileBuilding = _x;
+							};
+						} forEach _hostileBuildings;
+						if (!isNull _hostileBuilding) then {
+							_unit doWatch _hostileBuilding;
+							_unit doTarget _hostileBuilding;
+							private _aimPos = aimPos _hostileBuilding;
+							_intersections = lineIntersectsSurfaces [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _hostileBuilding),_objectParent,objNull,TRUE,-1,'VIEW','FIRE',TRUE];
+							if (!(_intersections isEqualTo [])) then {
+								{
+									if ((_x # 3) isEqualTo _hostileBuilding) exitWith {
+										_aimPos = _x # 0;
+									};
+								} forEach _intersections;
+								[_unit,_aimPos] spawn {
+									params ['_unit','_aimPos'];
+									uiSleep 3; 
+									_unit doSuppressiveFire _aimPos;
+								};
+							};
+							_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
+							_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [30,60,90])),FALSE];
+						};
+					};
+				};
 			};
 		};
 	};
@@ -371,6 +426,14 @@ if (_grp getVariable ['BLDG_GARRISON',FALSE]) then {
 				];
 			};
 		};
+	};
+};
+if (!((_unit getVariable ['QS_AI_UNIT_delayedInstructions',[]]) isEqualTo [])) then {
+	_delayedInstructions = _unit getVariable ['QS_AI_UNIT_delayedInstructions',[]];
+	_delayedInstructions sort TRUE;
+	if (diag_tickTime > ((_delayedInstructions # 0) # 1)) then {
+		_currentInstruction = (_unit getVariable ['QS_AI_UNIT_delayedInstructions',[]]) deleteAt 0;
+		(_currentInstruction # 2) call (_currentInstruction # 3);
 	};
 };
 if (_isLeader) then {

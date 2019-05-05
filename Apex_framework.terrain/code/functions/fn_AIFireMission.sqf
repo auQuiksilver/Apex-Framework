@@ -119,7 +119,7 @@ if (_type isEqualTo 1) exitWith {
 				_selectedTarget = selectRandom _nearTargets;
 			};
 			if (!((behaviour _supportProvider) isEqualTo 'COMBAT')) then {
-				_supportGroup setBehaviour 'COMBAT';
+				_supportGroup setBehaviourStrong 'COMBAT';
 			};
 			{
 				_x reveal [_selectedTarget,3.9];
@@ -133,7 +133,7 @@ if (_type isEqualTo 1) exitWith {
 		if (_time > _fireDelay) then {
 			if (((_vehicle aimedAtTarget [_selectedTarget]) isEqualTo 1) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _selectedTarget)]))) then {
 				//comment 'Fire';
-				_supportProvider doSuppressiveFire _selectedTarget;
+				_supportProvider doSuppressiveFire (aimPos _selectedTarget);
 				_fireDuration = time + 5;
 				_vehicle setVehicleAmmo 1;
 				for '_x' from 0 to 1 step 0 do {
@@ -227,7 +227,7 @@ if (_type isEqualTo 2) exitWith {
 		if (_time > _targetDelay) then {
 			_vehicle setVehicleAmmo 1;
 			if (!((behaviour _supportProvider) isEqualTo 'COMBAT')) then {
-				_supportGroup setBehaviour 'COMBAT';
+				_supportGroup setBehaviourStrong 'COMBAT';
 			};
 			{
 				_unit = _x;
@@ -259,7 +259,7 @@ if (_type isEqualTo 2) exitWith {
 					}
 				];
 				uiSleep 0.01;
-				_supportProvider doSuppressiveFire _laserTarget;
+				_supportProvider doSuppressiveFire (aimPos _laserTarget);
 				_fireDuration = time + 5;
 				for '_x' from 0 to 1 step 0 do {
 					if (!alive _supportProvider) exitWith {};
@@ -347,7 +347,7 @@ if (_type isEqualTo 3) exitWith {
 	private _exit = FALSE;
 	_vehicle setVehicleAmmo 1;
 	_supportGroup setCombatMode 'RED';
-	_supportGroup setBehaviour 'COMBAT';
+	_supportGroup setBehaviourStrong 'COMBAT';
 	for '_x' from 0 to 1 step 0 do {
 		_time = time;
 		if (
@@ -359,7 +359,7 @@ if (_type isEqualTo 3) exitWith {
 		) exitWith {};
 		if (_time > _targetDelay) then {
 			if (!((behaviour _supportProvider) isEqualTo 'COMBAT')) then {
-				_supportGroup setBehaviour 'COMBAT';
+				_supportGroup setBehaviourStrong 'COMBAT';
 			};
 			if (!((combatMode _supportGroup) isEqualTo 'RED')) then {
 				_supportGroup setCombatMode 'RED';

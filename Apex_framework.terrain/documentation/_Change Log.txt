@@ -1,5 +1,24 @@
 Official Change Log
 
+1.1.6 (6/05/2019 A3 1.92)
+
+- [ADDED] Role Whitelisting for Role Selection System.
+- [ADDED] Parameter option for Ambient Civilians.
+- [ADDED] Parameter option for Ambient Animals.
+- [ADDED] 2 New buttons to Role Selection menu (Arsenal + Group).
+- [TWEAKED] When over 50 players on server, Ambient Animals and Ambient Civilians are disabled regardless of parameter option, to preserve performance during peak demand.
+- [TWEAKED] Implemented improved "switchLight" command.
+- [TWEAKED] Implemented new command "lnbSetTooltip" to role selection system menu lists.
+- [TWEAKED] AI Tank gunners more likely to attack player-occupied buildings.
+- [TWEAKED] Capped ability for client to spam "Jump" animation net messages.
+- [TWEAKED] Role Selection System documentation in the file "documentation\role selection system.txt" for role whitelisting.
+- [FIXED] (Bigly network optimization) Removed beta net code for new Roles system.
+- [FIXED] Server-spawned UAV turrets would be deleted when the UAV operator used them and then left the slot.
+- [FIXED] Server script error in robocop AFK auto-kick system.
+- [FIXED] Server script error when initializing Group Management system.
+- [FIXED] Client script error when opening the Virtual Arsenal system.
+- [REMOVED] Game bug workaround for date year sync issue, as BIS has fixed it internally.
+
 1.1.5 (26/04/2019 A3 1.90)
 
 - [TWEAKED] Major optimization to Role Selection System net code.

@@ -81,7 +81,7 @@ _gunner setSkill ['aimingAccuracy',0.075];
 _airdefenseGroup setFormDir 135;
 _relPos = markerPos 'QS_marker_aoMarker';
 _gunner doWatch [(_relPos select 0),(_relPos select 1),((_relPos select 2) + 2000)];
-_airdefenseGroup setBehaviour 'AWARE';
+_airdefenseGroup setBehaviourStrong 'AWARE';
 _airdefenseGroup setCombatMode 'RED';
 [[_defender],{player disableUAVConnectability [(_this select 0),TRUE];}] remoteExec ['call',-2,_defender];
 if (!(_nearAir isEqualTo [])) then {

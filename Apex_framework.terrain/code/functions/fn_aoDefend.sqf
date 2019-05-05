@@ -145,13 +145,13 @@ _infantryArray = [];
 _infantryCheckDelay = _tickTimeNow + 10;
 _infantrySpawnDelay = time + 10;
 if (worldName isEqualTo 'Tanoa') then {
+	_infantrySpawnDistanceFixed = 700;
+	_infantrySpawnDistanceRandom = 800;
+	_infantrySpawnDistanceFromPlayer = 350;
+} else {
 	_infantrySpawnDistanceFixed = 800;
 	_infantrySpawnDistanceRandom = 1000;
-	_infantrySpawnDistanceFromPlayer = 500;
-} else {
-	_infantrySpawnDistanceFixed = 1000;
-	_infantrySpawnDistanceRandom = 1250;
-	_infantrySpawnDistanceFromPlayer = 500;
+	_infantrySpawnDistanceFromPlayer = 400;
 };
 _infTypes = [
 	'OIA_InfTeam_AA',0.25,
@@ -617,7 +617,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			_grp enableAttack FALSE;
 			_grp setCombatMode 'YELLOW';
-			_grp setBehaviour 'AWARE';
+			_grp setBehaviourStrong 'AWARE';
 			_grp setSpeedMode 'FULL';
 			if ((random 1) > 0.5) then {
 				{
@@ -667,6 +667,7 @@ for '_x' from 0 to 1 step 0 do {
 				_wp setWaypointSpeed 'FULL';
 				_wp setWaypointBehaviour 'AWARE';
 				_wp setWaypointCombatMode 'YELLOW';
+				_grp setBehaviourStrong 'AWARE';
 				_wp setWaypointForceBehaviour TRUE;
 				_wp setWaypointCompletionRadius 5;
 				_grp setCurrentWaypoint _wp;
@@ -783,6 +784,7 @@ for '_x' from 0 to 1 step 0 do {
 				];
 				[(units _grp),([1,2] select ((random 1) > 0.85))] call _fn_setAISkill;
 				_grp setCombatMode 'RED';
+				_grp setBehaviourStrong 'AWARE';
 				{
 					0 = _allArray pushBack _x;
 				} count (units _grp);
@@ -938,7 +940,7 @@ for '_x' from 0 to 1 step 0 do {
 							'TRUE',
 							'
 								if (local this) then {
-									(group this) setBehaviour "CARELESS";
+									(group this) setBehaviourStrong "CARELESS";
 									_v = vehicle this;
 									{
 										if (!(_x isEqualTo this)) then {
@@ -1288,7 +1290,7 @@ for '_x' from 0 to 1 step 0 do {
 				_grp = group (driver _helicopter);
 				[_grp,_centerPos,FALSE] call _fn_taskAttack;
 				_grp lockWP TRUE;
-				_grp setBehaviour 'AWARE';
+				_grp setBehaviourStrong 'AWARE';
 				_grp setCombatMode 'RED';
 				_grp setSpeedMode 'FULL';
 				_grp enableAttack TRUE;

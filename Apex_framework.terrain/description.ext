@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	25/04/2019 A3 1.90 by Quiksilver
+	30/04/2019 A3 1.92 by Quiksilver
 	
 Description:
 
@@ -406,6 +406,7 @@ class CfgFunctions {
 			class clientEventMap {file = "code\functions\fn_clientEventMap.sqf";};
 			class clientEventMapSingleClick {file = "code\functions\fn_clientEventMapSingleClick.sqf";};
 			class clientEventOnFlare {file = "code\functions\fn_clientEventOnFlare.sqf";};
+			class clientEventOnGameInterrupt {file = "code\functions\fn_clientEventOnGameInterrupt.sqf";};
 			class clientEventOnMiniMap {file = "code\functions\fn_clientEventOnMiniMap.sqf";};
 			class clientEventPlayerViewChanged {file = "code\functions\fn_clientEventPlayerViewChanged.sqf";};
 			class clientEventPostReset {file = "code\functions\fn_clientEventPostReset.sqf";};

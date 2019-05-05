@@ -348,6 +348,7 @@ if (_useSupport) then {
 		_wp setWaypointBehaviour 'AWARE';
 		_wp setWaypointCombatMode 'RED';
 		_wp setWaypointForceBehaviour TRUE;
+		_supportGroup setBehaviourStrong 'AWARE';
 		_supportGroup lockWP TRUE;
 		_supportGroup enableAttack TRUE;
 		_supportGroup setBehaviour 'AWARE';

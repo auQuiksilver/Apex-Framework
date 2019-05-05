@@ -488,14 +488,16 @@ for '_i' from 0 to 1 step 0 do {
 		{
 			if (local _x) then {
 				_uavEntity = _x;
-				if (!((crew _uavEntity) isEqualTo [])) then {
-					_grp = group (effectiveCommander _uavEntity);
-					{
-						_uavEntity deleteVehicleCrew _x;
-					} forEach (crew _uavEntity);
-					deleteGroup _grp;
+				if (!(_uavEntity getVariable ['QS_uav_protected',FALSE])) then {
+					if (!((crew _uavEntity) isEqualTo [])) then {
+						_grp = group (effectiveCommander _uavEntity);
+						{
+							_uavEntity deleteVehicleCrew _x;
+						} forEach (crew _uavEntity);
+						deleteGroup _grp;
+					};
+					deleteVehicle _uavEntity;
 				};
-				deleteVehicle _uavEntity;
 			};
 		} forEach allUnitsUav;
 	};

@@ -13,7 +13,7 @@ Description:
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.5';
+_missionProductVersion = '1.1.6';
 _missionProductStatus = 'Stable';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
@@ -812,7 +812,7 @@ _markers = nil;
 	[4,[TRUE,TRUE]],
 	[5,[TRUE,TRUE]]
 ];
-['Initialize',50,FALSE,''] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
+['Initialize',[FALSE,50,FALSE,'']] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
 call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
 
 /*/===== Build base/*/

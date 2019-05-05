@@ -277,7 +277,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 				_turret setVehicleReportOwnPosition FALSE;
 				_turret setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_turret setVariable ['QS_hidden',TRUE,TRUE];
-				_turret setVariable ['QS_uav_protected',TRUE,FALSE];
+				_turret setVariable ['QS_uav_protected',TRUE,TRUE];
 				_turret addEventHandler [
 					'Deleted',
 					{

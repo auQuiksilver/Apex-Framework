@@ -122,7 +122,7 @@ Orientation:
 			<minimum slots available>,
 			<maximum slots available>,
 			<per N players on the server a new role will open, up to the maximum>,
-			<whitelist value>,
+			<Number of whitelisted slots in this role>,
 			<waiting list capacity>,
 			<spare variable, unused>,
 			<code with bool return, determines whether players can see this role in their menu>,
@@ -170,7 +170,7 @@ d. Remember this format:
 			<minimum slots available>,
 			<maximum slots available>,
 			<per N players on the server a new role will open, up to the maximum>,
-			<whitelist value>,
+			<Number of whitelisted slots in this role>,
 			<waiting list capacity>,
 			<spare variable, unused>,
 			<code with bool return, determines whether players can see this role in their menu>,
@@ -180,8 +180,28 @@ d. Remember this format:
 
 e. Focus on the Minimum and Maximum numbers, and the "per N players" number.
 f. Changing the Minimum number will provide an easy thing for you to test making changes to.
+g. Important!!! Some roles like Fighter Pilot and UAV Operator are scripted and cannot support more than 1 slot.
 
+Adding whitelisted slots to a Role:
 
+a. Locate the file "@Apex_cfg\roles.sqf".
+b. Locate the main "QS_roles_data" list.
+c. Locate the role you would like to edit.
+d. Remember this format:
 
-More documentation coming soon.
+		[
+			<role ID>,
+			<side>,
+			<minimum slots available>,
+			<maximum slots available>,
+			<per N players on the server a new role will open, up to the maximum>,
+			<Number of whitelisted slots in this role>,
+			<waiting list capacity>,
+			<spare variable, unused>,
+			<code with bool return, determines whether players can see this role in their menu>,
+			<code with bool return, determines whether players can select this role in their menu>,
+			<unused code>
+		],
 
+e. Set the "number of whitelisted slots" value to your desired number of whitelisted slots.
+f. Important!!! Some roles like Fighter Pilot and UAV Operator are scripted and cannot support more than 1 slot.

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/04/2019 A3 1.90 by Quiksilver
+	5/05/2019 A3 1.92 by Quiksilver
 	
 Description:
 
@@ -34,6 +34,7 @@ if (_type isEqualTo 'PROPAGATE') exitWith {
 	private _role_queue_capacity = 0;
 	private _role_queue_count = 0;
 	private _role_index = -1;
+	private _whitelist_capacity = 0;
 	private _propagate = _force;
 	{
 		_side_roles_data = _x;
@@ -86,6 +87,7 @@ if (_type isEqualTo 'GET_ROLE_COUNT') exitWith {
 	private _min = 0;
 	private _max = 0;
 	private _coef = 0;
+	private _whitelist_value = 0;
 	private _role_data = [];
 	{
 		_roles_side = _x;
@@ -96,6 +98,11 @@ if (_type isEqualTo 'GET_ROLE_COUNT') exitWith {
 					_min = _x # 2;
 					_max = _x # 3;
 					_coef = _x # 4;
+					_whitelist_value = _x # 5;
+					if (_whitelist_value > 0) then {
+						_min = _min + _whitelist_value;
+						_max = _max + _whitelist_value;
+					};
 					_exit = TRUE;
 				};
 				if (_exit) exitWith {};
@@ -103,8 +110,6 @@ if (_type isEqualTo 'GET_ROLE_COUNT') exitWith {
 		};
 		if (_exit) exitWith {};
 	} forEach (missionNamespace getVariable 'QS_roles_data');
-	
-	//_role_capacity
 	if (_coef isEqualTo -1) then {
 		_role_capacity = _min max _max;
 	} else {
@@ -134,6 +139,44 @@ if (_type isEqualTo 'GET_ROLE_DISPLAYNAME') exitWith {
 	_table_index = (missionNamespace getVariable 'QS_roles_UI_info') findIf {((_x # 0) isEqualTo _role)};
 	if (!(_table_index isEqualTo -1)) then {
 		_return = ((missionNamespace getVariable 'QS_roles_UI_info') # _table_index) # 1;
+	};
+	_return;
+};
+if (_type isEqualTo 'GET_ROLE_DISPLAYNAME2') exitWith {
+	params [
+		'',
+		['_role',''],
+		['_unit',objNull]
+	];
+	private _return = 'Rifleman';
+	if (_role isEqualTo '') then {
+		if (!isNull _unit) then {
+			_role = _unit getVariable ['QS_unit_role','rifleman'];
+		};
+	};
+	_table_index = (missionNamespace getVariable 'QS_roles_UI_info') findIf {((_x # 0) isEqualTo _role)};
+	if (!(_table_index isEqualTo -1)) then {
+		_return = ((missionNamespace getVariable 'QS_roles_UI_info') # _table_index) # 1;
+	};
+	private _exit = FALSE;
+	private _roles_side = [];
+	private _role_whitelisted = FALSE;
+	{
+		_roles_side = _x;
+		if (!(_roles_side isEqualTo [])) then {
+			{
+				_role2 = _x # 0;
+				if (_role isEqualTo _role2) then {
+					_exit = TRUE;
+					_role_whitelisted = (_x # 5) > 0;
+				};
+				if (_exit) exitWith {};
+			} forEach _roles_side;
+		};
+		if (_exit) exitWith {};
+	} forEach (missionNamespace getVariable 'QS_roles_data');
+	if (_role_whitelisted) then {
+		_return = _return + ' [Whitelist]';
 	};
 	_return;
 };
@@ -212,7 +255,6 @@ if (_type isEqualTo 'HANDLE_DISCONNECT') exitWith {
 					_roles_role set [1,_role_manifest];
 					_roles_side set [_forEachIndex,_roles_role];
 					(missionNamespace getVariable 'QS_unit_roles') set [_roles_side_ID,_roles_side];
-					missionNamespace setVariable ['QS_unit_roles',(missionNamespace getVariable 'QS_unit_roles'),TRUE];
 					['PROPAGATE'] call (missionNamespace getVariable 'QS_fnc_roles');
 				};
 				_prior_queue_index = _role_queue findIf {((_x # 0) isEqualTo _uid)};
@@ -221,7 +263,6 @@ if (_type isEqualTo 'HANDLE_DISCONNECT') exitWith {
 					_roles_role set [2,_role_queue];
 					_roles_side set [_forEachIndex,_roles_role];
 					(missionNamespace getVariable 'QS_unit_roles') set [_roles_side_ID,_roles_side];
-					missionNamespace setVariable ['QS_unit_roles',(missionNamespace getVariable 'QS_unit_roles'),TRUE];
 					['PROPAGATE'] call (missionNamespace getVariable 'QS_fnc_roles');
 				};
 			} forEach _roles_side;
@@ -237,6 +278,31 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 		'_unit',
 		'_clientOwner'
 	];
+	private _isCAS = FALSE;
+	private _exit = FALSE;
+	private _roles_side = [];
+	private _role_data = [];
+	private _role_whitelisted = FALSE;
+	private _whitelisted = _uid in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
+	private _roleCount = [0,0];
+	private _whitelist_value = 0;
+	{
+		_roles_side = _x;
+		if (!(_roles_side isEqualTo [])) then {
+			{
+				_role2 = _x # 0;
+				if ((_x # 1) isEqualTo _side) then {
+					if (_role isEqualTo _role2) then {
+						_exit = TRUE;
+						_whitelist_value = _x # 5;
+						_role_whitelisted = _whitelist_value > 0;
+					};
+				};
+				if (_exit) exitWith {};
+			} forEach _roles_side;
+		};
+		if (_exit) exitWith {};
+	} forEach (missionNamespace getVariable 'QS_roles_data');
 	if (diag_tickTime >= (uiNamespace getVariable ['QS_RSS_requestCooldown',-1])) then {
 		uiNamespace setVariable ['QS_RSS_requestCooldown',(diag_tickTime + 3)];
 		private _allowRequest = TRUE;
@@ -263,6 +329,7 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 			};
 		};
 		if (_role in ['pilot_plane','pilot_cas']) then {
+			_isCAS = TRUE;
 			if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 0) then {
 				_allowRequest = FALSE;
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Close Air Support roles disabled in mission parameters.',[],-1,TRUE,'Role Selection',FALSE];
@@ -280,6 +347,16 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 				};
 			};
 		};
+		if (!(_isCAS)) then {
+			if (_role_whitelisted && (!(_whitelisted))) then {
+				_roleCount = ['GET_ROLE_COUNT',_role,_side,FALSE] call (missionNamespace getVariable 'QS_fnc_roles');
+				_roleCount set [1,((_roleCount # 1) - _whitelist_value)];
+				if ((_roleCount # 0) >= (_roleCount # 1)) then {
+					_allowRequest = FALSE;
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Whitelisted slot<br/><br/>(talk to admins to get whitelisted!)',[],-1,TRUE,'Role Selection',FALSE];
+				};
+			};
+		};
 		if (_allowRequest) then {
 			[15,_uid,_side,_role,_unit,_clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		};
@@ -293,6 +370,9 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 		['_role','rifleman'],
 		['_unit',objNull]
 	];
+	
+	diag_log (format ['Role requested: %1',_this]);
+	
 	if (_uid isEqualTo '') then {
 		_uid = getPlayerUID _unit;
 	};
@@ -357,7 +437,6 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 	_role_units set [_available_role_index,_available_role];
 	_roles_side set [_role_data_index,[_role_data,_role_units,_role_queue]];
 	(missionNamespace getVariable 'QS_unit_roles') set [_side_ID,_roles_side];
-	missionNamespace setVariable ['QS_unit_roles',(missionNamespace getVariable 'QS_unit_roles'),TRUE];
 	['PROPAGATE'] call (missionNamespace getVariable 'QS_fnc_roles');
 	missionNamespace setVariable ['QS_RSS_refreshUI',TRUE,TRUE];
 	if (!((side (group _unit)) isEqualTo _side)) then {
@@ -391,6 +470,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 if (_type isEqualTo 'INIT_ROLE') exitWith {
 	params ['','_role'];
 	playSound 'orange_choice_select';
+	player setVariable ['QS_unit_role',_role,FALSE];
 	private _traitsData = [
 		[['medic',FALSE,FALSE]],
 		[['uavhacker',FALSE,FALSE]],
@@ -706,7 +786,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 		};
 	} forEach _traitsData;
 	_role spawn {
-		uiSleep 0.5;
+		uiSleep 0.1;
 		call (missionNamespace getVariable 'QS_fnc_clientArsenal');
 		uiSleep 0.1;
 		missionNamespace setVariable ['QS_client_arsenalData',([(player getVariable ['QS_unit_side',WEST]),_this] call (missionNamespace getVariable 'QS_data_arsenal')),FALSE];
@@ -714,6 +794,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	['SET_SAVED_LOADOUT',_role] call (missionNamespace getVariable 'QS_fnc_roles');
 	call (missionNamespace getVariable 'QS_fnc_respawnPilot');
 	uiNamespace setVariable ['QS_client_respawnCooldown',diag_tickTime + 30];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,(format ['Role changed to %1',(['GET_ROLE_DISPLAYNAME',_role] call (missionNamespace getVariable 'QS_fnc_roles'))]),[],-1,TRUE,'Role Selection',FALSE];
 };
 if (_type isEqualTo 'SET_DEFAULT_LOADOUT') exitWith {
 	params ['','_role',['_save',FALSE]];
@@ -826,6 +907,12 @@ if (_type isEqualTo 'INIT_SYSTEM') exitWith {
 						};
 					};
 					_slots pushBack ['',([_slot_availability_at,-1] select (_i < _min_slots))];
+				};
+				if (_whitelist_value > 0) then {
+					_i = 0;
+					for '_i' from 0 to (_whitelist_value - 1) step 1 do {
+						_slots pushBack ['',-1];
+					};
 				};
 				_queue = [];
 				_i = 0;

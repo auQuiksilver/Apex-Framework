@@ -253,7 +253,7 @@ if (_new) then {_jetPilot setRank 'COLONEL';} else {_jetPilot setRank 'MAJOR';};
 _grp move (missionNamespace getVariable ['QS_AOpos',[(worldSize / 2),(worldSize / 2),500]]);
 _grp enableAttack TRUE;
 _grp setCombatMode 'RED';
-_grp setBehaviour 'COMBAT';
+_grp setBehaviourStrong 'COMBAT';
 _grp setSpeedMode 'FULL';
 [9,EAST,_grp,(leader _grp),_jetActual] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
 if (!((toLower _jetSelect) in ['o_plane_fighter_02_stealth_f'])) then {

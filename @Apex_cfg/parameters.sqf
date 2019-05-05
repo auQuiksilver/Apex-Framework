@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	22/04/2019 A3 1.90 by Quiksilver
+	5/05/2019 A3 1.92 by Quiksilver
 	
 Description:
 
@@ -22,6 +22,10 @@ Official Support/Help Channels:
 For URLs:
 
 	Use Google URL Shortener ( https://goo.gl/ ) to make something like this:   https://goo.gl/7Xajd9
+	
+Goo.gl alternatives:
+
+	https://www.androidauthority.com/best-google-url-shortener-alternatives-853168/
 	
 Notes for editing below:
 
@@ -70,6 +74,8 @@ _artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1
 _mapContentEnemy = 1;									// Enemy Map Indicators. 	0 - Disabled. 1 - Enabled. Recommended = 1.	    Controls whether enemies known to the player are visible on the map.
 _recruitableAI = 1;										// Recruitable AI.	0 - Disabled. 1 - Enabled. 		If there are recruitable AI available (default base layout or placed by you in custom base layout), this toggles them on or off.
 _playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (Whitelisted). 2 - Enabled (Unrestricted).		Enable a limited number of enemy player roles for the supported mission types. Highly recommended to NOT use with the standard missions unless you know your players are comfortable with it. Designed for future Framework flexibility and development.
+_ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
+_ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 
 //===================================================== SYSTEM
 
@@ -90,7 +96,7 @@ _main_mission_type = 'CLASSIC';
 
 //===================================================== SIDE MISSIONS
 
-_sideMissions = 0;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions.
+_sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions.
 
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
@@ -180,6 +186,8 @@ if (_aircraft_carrier_enabled > 0) then {
 	['QS_missionConfig_Arsenal',_arsenal,TRUE],
 	['QS_missionConfig_armor',_armor,TRUE],
 	['QS_missionConfig_reducedDamage',(compileFinal (str _reducedDamage)),TRUE],
+	['QS_missionConfig_AmbCiv',_ambient_civilians,FALSE],
+	['QS_missionConfig_AmbAnim',_ambient_animals,FALSE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_dynSim',_dynamic_simulation,FALSE],

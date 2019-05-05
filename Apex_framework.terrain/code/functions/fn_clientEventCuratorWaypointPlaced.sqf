@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	1/03/2016 A3 1.56 by Quiksilver
+	30/04/2019 A3 1.92 by Quiksilver
 	
 Description:
 
@@ -28,4 +28,4 @@ if (_wpIndex in [0,1]) then {
 	} forEach (units _group);
 };
 _group setFormDir ((leader _group) getDir (waypointPosition [_group,_wpIndex]));
-[_group,_wpIndex] setWaypointForceBehaviour TRUE;
+_group setBehaviourStrong 'AWARE';

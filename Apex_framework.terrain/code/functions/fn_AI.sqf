@@ -1237,7 +1237,7 @@ for '_x' from 0 to 1 step 0 do {
 														};
 													} forEach (units _QS_module_classic_efb_group);
 													_QS_module_classic_efb_group setSpeedMode 'FULL';
-													_QS_module_classic_efb_group setBehaviour 'AWARE';
+													_QS_module_classic_efb_group setBehaviourStrong 'AWARE';
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _QS_module_classic_efb_group))],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_DATA',[],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_TASK',['PATROL',[_QS_module_classic_hqPos,(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)])],diag_tickTime,-1],_false];
@@ -1246,7 +1246,7 @@ for '_x' from 0 to 1 step 0 do {
 												};
 												if (((objectParent (leader _QS_module_classic_efb_group)) isKindOf 'LandVehicle') && (!((objectParent (leader _QS_module_classic_efb_group)) isKindOf 'StaticWeapon'))) then {
 													_QS_module_classic_efb_group setSpeedMode 'FULL';
-													_QS_module_classic_efb_group setBehaviour 'AWARE';
+													_QS_module_classic_efb_group setBehaviourStrong 'AWARE';
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _QS_module_classic_efb_group)),(objectParent (leader _QS_module_classic_efb_group))],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_DATA',[],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_TASK',['PATROL',[(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)])],diag_tickTime,-1],_false];
@@ -1562,17 +1562,21 @@ for '_x' from 0 to 1 step 0 do {
 						_QS_module_civilian_count = _QS_module_civilian_count_6;
 					};
 					if (_QS_module_civilian_count > 0) then {
-						missionNamespace setVariable [
-							'QS_primaryObjective_civilians',
-							([_QS_module_grid_aoPos,_QS_module_grid_aoSize,'FOOT',_QS_module_civilian_count,_false,_true] call _fn_spawnAmbientCivilians),
-							_false
-						];
+						if (!((missionNamespace getVariable ['QS_missionConfig_AmbCiv',1]) isEqualTo 0)) then {
+							missionNamespace setVariable [
+								'QS_primaryObjective_civilians',
+								([_QS_module_grid_aoPos,_QS_module_grid_aoSize,'FOOT',_QS_module_civilian_count,_false,_true] call _fn_spawnAmbientCivilians),
+								_false
+							];
+						};
 					};
 				};
 				for '_x' from 0 to 2 step 1 do {
 					_QS_module_animalSpawnPosition = ['RADIUS',_QS_module_grid_aoPos,(_QS_module_grid_aoSize * 1.25),'LAND',[],_false,[],[],_false] call _fn_findRandomPos;
 					if ((_QS_module_animalSpawnPosition distance2D _QS_module_grid_aoPos) < (_QS_module_grid_aoSize * 1.5)) then {
-						[_QS_module_animalSpawnPosition,(selectRandomWeighted ['SHEEP',0.3,'GOAT',0.2,'HEN',0.1]),(round (3 + (random 3)))] call _fn_aoAnimals;
+						if (!((missionNamespace getVariable ['QS_missionConfig_AmbAnim',1]) isEqualTo 0)) then {
+							[_QS_module_animalSpawnPosition,(selectRandomWeighted ['SHEEP',0.3,'GOAT',0.2,'HEN',0.1]),(round (3 + (random 3)))] call _fn_aoAnimals;
+						};
 					};
 				};
 				_QS_module_tracers_checkOverride = _true;

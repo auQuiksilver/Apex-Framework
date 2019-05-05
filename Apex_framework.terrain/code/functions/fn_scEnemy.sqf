@@ -374,7 +374,7 @@ if ((toLower _airType) isEqualTo 'i_heli_light_03_dynamicloadout_f') then {
 	};
 };
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-_grp setBehaviour 'AWARE';
+_grp setBehaviourStrong 'AWARE';
 _grp setCombatMode 'RED';
 _grp addVehicle _air;
 _grp enableAttack TRUE;

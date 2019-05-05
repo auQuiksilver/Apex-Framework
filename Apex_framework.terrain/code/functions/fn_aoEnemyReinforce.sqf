@@ -136,7 +136,7 @@ if (!(_heliInsert)) then {
 	_reinforceGroup = [_spawnPosDefault,(random 360),EAST,(selectRandomWeighted _infTypes),FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 };
 _reinforceGroup setSpeedMode 'FULL';
-_reinforceGroup setBehaviour 'AWARE';
+_reinforceGroup setBehaviourStrong 'AWARE';
 _buildings = nearestObjects [_hqPos,['Building','House'],50,TRUE];
 _buildings = _buildings + ((allSimpleObjects []) select {((_x distance2D _hqPos) <= 50)});
 _arrayPositions = [];

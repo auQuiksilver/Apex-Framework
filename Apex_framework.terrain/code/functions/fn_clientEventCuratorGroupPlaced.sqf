@@ -11,8 +11,6 @@ Last modified:
 Description:
 
 	Curator Group Placed
-	
-	generic error in expression
 __________________________________________________*/
 
 params ['_module','_group'];
@@ -21,6 +19,7 @@ params ['_module','_group'];
 	_x disableAI 'COVER';
 } count (units _group);
 _group setSpeedMode 'FULL';
+_group setBehaviourStrong 'AWARE';
 _group deleteGroupWhenEmpty TRUE;
 if (!isNull (objectParent (leader _group))) then {
 	if ((objectParent (leader _group)) isKindOf 'LandVehicle') then {

@@ -144,10 +144,10 @@ if (_type isEqualTo 'confirmSensorTarget') exitWith {
 	_1 confirmSensorTarget _2;
 };
 if (_type isEqualTo 'doSuppressiveFire') exitWith {
-	_1 doSuppressiveFire _2;
+	_1 doSuppressiveFire (aimPos _2);
 };
 if (_type isEqualTo 'commandSuppressiveFire') exitWith {
-	_1 commandSuppressiveFire _2;
+	_1 commandSuppressiveFire (aimPos _2);
 };
 if (_type isEqualTo 'deleteVehicleCrew') exitWith {
 	_1 deleteVehicleCrew _2;

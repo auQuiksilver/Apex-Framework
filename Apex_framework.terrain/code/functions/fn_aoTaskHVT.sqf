@@ -39,6 +39,7 @@ if (_state isEqualTo 1) then {
 	//comment 'Return array';
 	_aoPos = markerPos 'QS_marker_aoMarker';
 	_worldSize = worldSize;
+	private _agent = objNull;
 	if (_aoPos inPolygon [
 		[0,0,0],
 		[_worldSize,0,0],

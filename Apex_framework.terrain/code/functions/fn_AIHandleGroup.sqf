@@ -726,7 +726,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 				if (_uiTime > (_fireMission select 1)) then {
 					_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
 					_grp setCombatMode 'RED';
-					_grp setBehaviour 'AWARE';
+					_grp setBehaviourStrong 'AWARE';
 					if (!(attackEnabled _grp)) then {
 						_grp enableAttack TRUE;
 					};
@@ -793,7 +793,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 								};
 							} forEach (units _grp);
 							if (!(_grpBehaviour isEqualTo 'STEALTH')) then {
-								_grp setBehaviour 'STEALTH';
+								_grp setBehaviourStrong 'STEALTH';
 							};
 						};
 					};
@@ -823,7 +823,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 							_x setUnitPosWeak 'MIDDLE';
 						} forEach (units _grp);
 						if (!(_grpBehaviour isEqualTo 'STEALTH')) then {
-							_grp setBehaviour 'STEALTH';
+							_grp setBehaviourStrong 'STEALTH';
 						};
 					};
 				};

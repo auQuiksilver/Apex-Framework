@@ -53,7 +53,7 @@ if (!((combatMode _predatorGrp) isEqualTo _combatMode)) then {
 };
 if (!((behaviour (leader _predatorGrp)) isEqualTo _behaviour)) then {
 	{
-		_x setBehaviour _behaviour;
+		_x setBehaviourStrong _behaviour;
 	} count (units _predatorGrp);
 };
 _predatorGrp setSpeedMode _speedMode;
@@ -103,7 +103,7 @@ if (!(((units _predatorGrp) findIf {(alive _x)}) isEqualTo -1)) then {
 	_predatorGrp setVariable ['QS_AI_GRP_stalker',FALSE,FALSE];
 	_predatorGrp setCombatMode _priorCombatMode;
 	{
-		_x setBehaviour _priorBehaviour;
+		_x setBehaviourStrong _priorBehaviour;
 	} count (units _predatorGrp);	
 	{
 		_x setAnimSpeedCoef _priorAnimSpeedCoef;

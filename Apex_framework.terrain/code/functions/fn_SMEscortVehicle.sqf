@@ -249,7 +249,7 @@ _enemyFiredEvent = {
 	_unit removeEventHandler ['Fired',_thisEventHandler];
 	_unit suppressFor 5;
 	if (!isNull (assignedTarget _unit)) then {
-		_unit doSuppressiveFire (assignedTarget _unit);
+		_unit doSuppressiveFire (aimPos (assignedTarget _unit));
 	};
 };
 _veh = objNull;

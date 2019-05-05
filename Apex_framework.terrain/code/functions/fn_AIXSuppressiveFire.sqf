@@ -39,7 +39,7 @@ if (!(_targets isEqualTo [])) then {
 	if ((_unit isKindOf 'AllVehicles') || {(_unit isKindOf 'CAManBase')}) then {
 		_unit doTarget _target;
 	};
-	_unit doSuppressiveFire _target;
+	_unit doSuppressiveFire (aimPos _target);
 	_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [20,40,60])),FALSE];
 } else {
 	_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [5,10,15])),FALSE];

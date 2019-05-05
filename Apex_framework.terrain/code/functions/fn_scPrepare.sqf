@@ -172,19 +172,23 @@ comment 'Civilians';
 _nearestLocations = nearestLocations [(missionNamespace getVariable 'QS_AOpos'),['NameVillage','NameCity','NameCityCapital'],((missionNamespace getVariable 'QS_aoSize') * 1.1)];
 if (!(_nearestLocations isEqualTo [])) then {
 	_nearestLocation = _nearestLocations select 0;
-	missionNamespace setVariable [
-		'QS_primaryObjective_civilians',
-		([(locationPosition _nearestLocation),250,'FOOT',10,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians')),
-		FALSE
-	];
+	if (!((missionNamespace getVariable ['QS_missionConfig_AmbCiv',1]) isEqualTo 0)) then {
+		missionNamespace setVariable [
+			'QS_primaryObjective_civilians',
+			([(locationPosition _nearestLocation),250,'FOOT',10,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians')),
+			FALSE
+		];
+	};
 };
 comment 'Animals';
-for '_x' from 0 to 2 step 1 do {
-	[
-		(['RADIUS',(missionNamespace getVariable 'QS_AOpos'),((missionNamespace getVariable 'QS_aoSize') * 1.1),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos')),
-		(selectRandomWeighted ['SHEEP',3,'GOAT',2,'HEN',1]),
-		(round (2 + (random 3)))
-	] call (missionNamespace getVariable 'QS_fnc_aoAnimals');
+if (!((missionNamespace getVariable ['QS_missionConfig_AmbAnim',1]) isEqualTo 0)) then {
+	for '_x' from 0 to 2 step 1 do {
+		[
+			(['RADIUS',(missionNamespace getVariable 'QS_AOpos'),((missionNamespace getVariable 'QS_aoSize') * 1.1),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos')),
+			(selectRandomWeighted ['SHEEP',3,'GOAT',2,'HEN',1]),
+			(round (2 + (random 3)))
+		] call (missionNamespace getVariable 'QS_fnc_aoAnimals');
+	};
 };
 comment 'UXOs';
 if ((random 1) > 0.5) then {

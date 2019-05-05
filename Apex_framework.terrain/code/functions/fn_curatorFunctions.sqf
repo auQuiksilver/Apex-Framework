@@ -189,13 +189,13 @@ if (_key isEqualTo 77) exitWith {
 		if (!isNull (assignedTarget _unit)) then {
 			if (([objNull,'VIEW'] checkVisibility [(eyePos _unit),(getPosASL (assignedTarget _unit))]) > 0) then {
 				if (local _unit) then {
-					_unit doSuppressiveFire (assignedTarget _unit);
+					_unit doSuppressiveFire (aimPos (assignedTarget _unit));
 				} else {
 					0 = [30,_unit,(assignedTarget _unit)] remoteExec ['QS_fnc_remoteExec',_unit,FALSE];
 				};
 			} else {
 				if (local _unit) then {
-					_unit doSuppressiveFire (assignedTarget _unit);
+					_unit doSuppressiveFire (aimPos (assignedTarget _unit));
 				} else {
 					0 = [30,_unit,(getPosASL (assignedTarget _unit))] remoteExec ['QS_fnc_remoteExec',_unit,FALSE];
 				};
@@ -204,13 +204,13 @@ if (_key isEqualTo 77) exitWith {
 			if (!isNull (_unit findNearestEnemy _unit)) then {
 				if (([objNull,'VIEW'] checkVisibility [(eyePos _unit),(getPosASL (assignedTarget _unit))]) > 0) then {
 					if (local _unit) then {
-						_unit doSuppressiveFire (_unit findNearestEnemy _unit);
+						_unit doSuppressiveFire (aimPos (_unit findNearestEnemy _unit));
 					} else {
 						0 = [30,_unit,(_unit findNearestEnemy _unit)] remoteExec ['QS_fnc_remoteExec',_unit,FALSE];
 					};				
 				} else {
 					if (local _unit) then {
-						_unit doSuppressiveFire (getPosASL (_unit findNearestEnemy _unit));
+						_unit doSuppressiveFire (aimPos (_unit findNearestEnemy _unit));
 					} else {
 						0 = [30,_unit,(getPosASL (_unit findNearestEnemy _unit))] remoteExec ['QS_fnc_remoteExec',_unit,FALSE];
 					};

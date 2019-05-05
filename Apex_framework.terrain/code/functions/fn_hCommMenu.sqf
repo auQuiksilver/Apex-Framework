@@ -67,10 +67,10 @@ if (_type isEqualTo 1) then {
 		};
 	};
 
-	if (_command isEqualTo 'WP_COMBAT_STEALTH') then {_waypoint setWaypointBehaviour 'STEALTH';_waypoint setWaypointForceBehaviour TRUE;};
-	if (_command isEqualTo 'WP_COMBAT_DANGER') then {_waypoint setWaypointBehaviour 'COMBAT';_waypoint setWaypointForceBehaviour FALSE;};
-	if (_command isEqualTo 'WP_COMBAT_AWARE') then {_waypoint setWaypointBehaviour 'AWARE';_waypoint setWaypointForceBehaviour TRUE;};
-	if (_command isEqualTo 'WP_COMBAT_SAFE') then {_waypoint setWaypointBehaviour 'SAFE';_waypoint setWaypointForceBehaviour TRUE;};
+	if (_command isEqualTo 'WP_COMBAT_STEALTH') then {_waypoint setWaypointBehaviour 'STEALTH'; _group setBehaviourStrong 'STEALTH'; _waypoint setWaypointForceBehaviour TRUE;};
+	if (_command isEqualTo 'WP_COMBAT_DANGER') then {_waypoint setWaypointBehaviour 'COMBAT'; _waypoint setWaypointForceBehaviour FALSE;};
+	if (_command isEqualTo 'WP_COMBAT_AWARE') then {_waypoint setWaypointBehaviour 'AWARE'; _group setBehaviourStrong 'AWARE'; _waypoint setWaypointForceBehaviour TRUE;};
+	if (_command isEqualTo 'WP_COMBAT_SAFE') then {_waypoint setWaypointBehaviour 'SAFE';};
 	if (_command isEqualTo 'WP_COMBAT_UNCHANGED') then {_waypoint setWaypointBehaviour 'UNCHANGED';_waypoint setWaypointForceBehaviour TRUE;};
 
 	if (_command isEqualTo 'WP_COLUMN') then {_waypoint setWaypointFormation 'COLUMN';};
@@ -120,9 +120,9 @@ if (_type isEqualTo 1) then {
 			if (!isPlayer _x) then {
 				if (alive (assignedTarget _x)) then {
 					if (local _x) then {
-						_x commandSuppressiveFire (assignedTarget _x);
+						_x doSuppressiveFire (aimPos (assignedTarget _x));
 					} else {
-						['commandSuppressiveFire',_x,(assignedTarget _x)] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
+						['doSuppressiveFire',_x,(aimPos (assignedTarget _x))] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
 					};
 				};
 			};
@@ -134,10 +134,10 @@ if (_type isEqualTo 1) then {
 	if (_command isEqualTo 'SPEED_NORMAL') then {_group setSpeedMode 'NORMAL';};
 	if (_command isEqualTo 'SPEED_FULL') then {_group setSpeedMode 'FULL';};
 
-	if (_command isEqualTo 'COMBAT_STEALTH') then {_group setBehaviour 'STEALTH';_waypoint setWaypointForceBehaviour TRUE;};
-	if (_command isEqualTo 'COMBAT_DANGER') then {_group setBehaviour 'COMBAT';_waypoint setWaypointForceBehaviour FALSE;};
-	if (_command isEqualTo 'COMBAT_AWARE') then {_group setBehaviour 'AWARE';_waypoint setWaypointForceBehaviour TRUE;};
-	if (_command isEqualTo 'COMBAT_SAFE') then {_group setBehaviour 'SAFE';_waypoint setWaypointForceBehaviour TRUE;};
+	if (_command isEqualTo 'COMBAT_STEALTH') then {_group setBehaviourStrong 'STEALTH';};
+	if (_command isEqualTo 'COMBAT_DANGER') then {_group setBehaviour 'COMBAT';};
+	if (_command isEqualTo 'COMBAT_AWARE') then {_group setBehaviourStrong 'AWARE';};
+	if (_command isEqualTo 'COMBAT_SAFE') then {_group setBehaviour 'SAFE';};
 
 	if (_command isEqualTo 'COLUMN') then {_group setFormation 'COLUMN';};
 	if (_command isEqualTo 'STAG COLUMN') then {_group setFormation 'STAG COLUMN';};

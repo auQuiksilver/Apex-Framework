@@ -661,7 +661,7 @@ if (_case < 40) exitWith {
 		_unit = _this # 1;
 		_fireTarget = _this # 2;
 		if (local _unit) then {
-			_unit doSuppressiveFire _fireTarget;
+			_unit doSuppressiveFire (aimPos _fireTarget);
 		};
 	};
 	/*/===== Incoming Missile/*/
@@ -687,9 +687,9 @@ if (_case < 40) exitWith {
 	};
 	/*/===== AFK kick/*/
 	if (_case isEqualTo 33) then {
+		params ['','_cid','_profileName'];
 		if (isDedicated) then {
 			if (_rxID isEqualTo _cid) then {
-				params ['','_cid','_profileName'];
 				diag_log format ['***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****',time,_profileName];
 				['systemChat',(format ['Robocop kicked %1 for AFK timeout.',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#exec kick %1',_cid]);

@@ -1356,7 +1356,6 @@ if (_QS_module_opsec) then {
 	if (_QS_module_opsec_patches) then {
 		_patchList = (call (missionNamespace getVariable 'QS_data_patches')) apply { (toLower _x) };
 		_binConfigPatches = configFile >> 'CfgPatches';
-		diag_log (format ['typename: %1',typeName _binConfigPatches]);
 		private _patchConfigName = '';
 		for '_i' from 0 to ((count _binConfigPatches) - 1) step 1 do {
 			_patchEntry = _binConfigPatches select _i;

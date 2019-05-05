@@ -56,16 +56,7 @@ if (_uid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) th
 		FALSE
 	];
 };
-
 setPlayerRespawnTime 5;
-
-/*/===== Date year sync fix/*/
-if (!isNil {missionNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
-	_QS_qrf_date = missionNamespace getVariable (format ['QS_QRF_date_%1',worldName]);
-	if (!isNil {_QS_qrf_date}) then {
-		setDate [(_QS_qrf_date select 0),(date select 1),(date select 2),(date select 3),(date select 4)];
-	};
-};
 
 /*/=========================== PLAYER JOIN TOKEN/*/
 
