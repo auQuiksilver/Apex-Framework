@@ -16,5 +16,5 @@ _____________________________________________________________/*/
 if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) exitWith {
 	['Open',TRUE] call (missionNamespace getVariable 'BIS_fnc_arsenal');
 };
-[] spawn (missionNamespace getVariable 'BIS_fnc_arsenal');
+['Open',[nil,player,player]] call (missionNamespace getVariable 'BIS_fnc_arsenal');
 TRUE;

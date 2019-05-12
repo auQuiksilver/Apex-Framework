@@ -550,6 +550,7 @@ if (!((uniform player) isEqualTo '')) then {
 enableDynamicSimulationSystem FALSE;
 disableRemoteSensors TRUE;
 useAISteeringComponent FALSE;
+enableEngineArtillery ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) isEqualTo 2);
 if (isNil {profileNamespace getVariable 'QS_options_ambientLife'}) then {
 	profileNamespace setVariable ['QS_options_ambientLife',TRUE];
 	enableEnvironment [TRUE,TRUE];

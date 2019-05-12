@@ -37,7 +37,7 @@ ___________________________________________/*/
 	'Clear vehicle inventory',
 	'Unflip',
 	'Revive',
-	'Arsenal',
+	(localize 'STR_A3_Arsenal'),
 	'Beacons On',
 	'Beacons Off',
 	'Tow',

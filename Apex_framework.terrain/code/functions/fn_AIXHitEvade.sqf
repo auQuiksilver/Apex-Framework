@@ -18,12 +18,14 @@ if (local _u) then {
 		if (_s isEqualType objNull) then {
 			if (alive _s) then {
 				if (isPlayer _s) then {
-					_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
-					if ((random 1) > 0.5) then {
+					if (((vectorMagnitude (velocity _u)) * 3.6) < 0.5) then {
 						_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
-					} else {
-						if ((stance _u) isEqualTo 'STAND') then {
-							_u setUnitPosWeak 'DOWN';
+						if ((random 1) > 0.5) then {
+							_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
+						} else {
+							if ((stance _u) isEqualTo 'STAND') then {
+								_u setUnitPosWeak 'DOWN';
+							};
 						};
 					};
 				};

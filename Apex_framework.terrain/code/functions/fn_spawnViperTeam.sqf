@@ -85,12 +85,14 @@ if (_type in ['CLASSIC','SC']) exitWith {
 				if ((random 1) > 0.5) then {
 					params ['_u','','','_i'];
 					if (local _u) then {
-						if (alive _i) then {
-							if ((side _i) isEqualTo WEST) then {
-								if ((stance _u) in ['CROUCH','STAND']) then {
-									_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
-									if ((random 1) > 0.5) then {
+						if (((vectorMagnitude (velocity _u)) * 3.6) < 0.5) then {
+							if (alive _i) then {
+								if ((side _i) isEqualTo WEST) then {
+									if ((stance _u) in ['CROUCH','STAND']) then {
 										_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
+										if ((random 1) > 0.5) then {
+											_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
+										};
 									};
 								};
 							};

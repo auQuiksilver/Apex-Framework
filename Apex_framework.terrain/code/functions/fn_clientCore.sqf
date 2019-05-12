@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/04/2019 A3 1.90 by Quiksilver
+	12/05/2019 A3 1.92 by Quiksilver
 	
 Description:
 
@@ -150,7 +150,6 @@ _west = WEST;
 _QS_side = player getVariable ['QS_unit_side',_west];
 _dNull = displayNull;
 _objNull = objNull;
-_nil = nil;
 _QS_nullPos = [0,0,0];
 _QS_firstRun = TRUE;
 _mainMenuIDD = 2000;
@@ -392,7 +391,7 @@ _QS_action_stabilise_array = [_QS_action_stabilise_text,{_this spawn (missionNam
 _QS_interaction_stabilise = FALSE;
 /*/===== Arsenal/*/
 _QS_action_arsenal = nil;
-_QS_action_arsenal_text = 'Arsenal';
+_QS_action_arsenal_text = localize 'STR_A3_Arsenal';
 _QS_action_arsenal_array = [_QS_action_arsenal_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractArsenal')},[],90,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_arsenal = FALSE;
 _QS_arsenal_model = 'a3\weapons_f\ammoboxes\supplydrop.p3d';
@@ -2521,7 +2520,7 @@ for 'x' from 0 to 1 step 0 do {
 				{(_cursorTarget isKindOf 'CAManBase')} &&
 				{(alive _cursorTarget)} &&
 				{(!(captive _cursorTarget))} &&
-				{((side _cursorTarget) in _enemysides)} &&
+				{((side _cursorTarget) in (_enemysides + [CIVILIAN]))} &&
 				{((lifeState _cursorTarget) in ['HEALTHY','INJURED'])} &&
 				{(isNull (objectParent _cursorTarget))} &&
 				{(_cursorTarget getVariable ['QS_surrenderable',_false])} &&
@@ -2772,6 +2771,7 @@ for 'x' from 0 to 1 step 0 do {
 				(_noObjectParent) &&
 				{(_cursorObjectDistance < 3)} &&
 				{(simulationEnabled _cursorObject)} &&
+				{(alive _cursorObject)} &&
 				{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Reammobox_F')})} &&
 				{(!(_cursorObject getVariable ['QS_inventory_disabled',_false]))}
 			) then {
@@ -4512,7 +4512,7 @@ for 'x' from 0 to 1 step 0 do {
 							{
 								_myV setObjectTextureGlobal [_forEachIndex,_x];
 							} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _myV) >> 'hiddenSelectionsTextures'));
-							_myV setVariable ['QS_ClientVTexture_owner',_nil,_true];
+							_myV setVariable ['QS_ClientVTexture_owner',nil,_true];
 							_QS_player setVariable ['QS_ClientVTexture',[_objNull,_puid,'',(_timeNow + 5)],_true];
 						};
 					};
@@ -5014,7 +5014,7 @@ for 'x' from 0 to 1 step 0 do {
 	if (_QS_module_groupIndicator) then {
 		if (_QS_uiTime > _QS_module_groupIndicator_checkDelay) then {
 			if (isNull _objectParent) then {
-				if (!isNil {_QS_player getVariable ['QS_HUD_3',_nil]}) then {
+				if (!isNil {_QS_player getVariable ['QS_HUD_3',nil]}) then {
 					missionNamespace setVariable ['QS_client_groupIndicator_units',(((_posATLPlayer select [0,2]) nearEntities [_QS_module_groupIndicator_types,_QS_module_groupIndicator_radius]) select _QS_module_groupIndicator_filter),_false];
 				};
 			};

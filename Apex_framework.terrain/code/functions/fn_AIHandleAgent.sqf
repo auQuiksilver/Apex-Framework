@@ -6,12 +6,12 @@ Author:
 
 Last Modified:
 
-	18/10/2017 A3 1.76 by Quiksilver
+	8/05/2019 A3 1.92 by Quiksilver
 
 Description:
 
 	Handle Agents (Civilians, Animals)
-____________________________________________________________________________/*/
+________________________________________/*/
 
 params ['_entity','_uiTime','_fps'];
 if (
@@ -20,7 +20,6 @@ if (
 	{(!(simulationEnabled _entity))} ||
 	{(!((lifeState _entity) in ['','HEALTHY','INJURED']))}
 ) exitWith {};
-
 if (!(_entity getVariable ['QS_AI_ENTITY_setup',FALSE])) then {
 	_entity setVariable ['QS_AI_ENTITY_setup',TRUE,FALSE];
 	_entity setVariable ['QS_AI_ENTITY_rv',[(random 1),(random 1),(random 1)],FALSE];
@@ -43,7 +42,7 @@ if (_entity isKindOf 'CAManBase') exitWith {
 					_entity setVariable ['QS_AI_ENTITY_PANIC_DELAY',(_uiTime - 1),FALSE];
 					private _events = [];
 					{
-						_events pushBack [(_x select 0),(_entity addEventHandler _x)];
+						_events pushBack [(_x # 0),(_entity addEventHandler _x)];
 					} forEach [
 						['FiredNear',{_this call (missionNamespace getVariable 'QS_fnc_AIXCivPanic')}],
 						['Explosion',{_this call (missionNamespace getVariable 'QS_fnc_AIXCivPanic')}]
@@ -58,7 +57,7 @@ if (_entity isKindOf 'CAManBase') exitWith {
 	_currentTask = _entity getVariable ['QS_AI_ENTITY_TASK',[]];
 	_currentConfig params ['_currentConfig_major','_currentConfig_minor','_currentConfig_vehicle'];
 	_currentTask params ['_currentTask_type','_currentTask_position','_currentTask_timeout'];
-	if (((vectorMagnitude (velocity _entity)) < 0.1) || {(_uiTime > _currentTask_timeout)} || {((_entity distance2D ((expectedDestination _entity) select 0)) < 5)}) then {
+	if (((vectorMagnitude (velocity _entity)) < 0.1) || {(_uiTime > _currentTask_timeout)} || {((_entity distance2D ((expectedDestination _entity) # 0)) < 5)}) then {
 		if (_side isEqualTo CIVILIAN) then {
 			if (_uiTime > (_entity getVariable ['QS_AI_ENTITY_PANIC_DELAY',-1])) then {
 				if (_currentConfig_major isEqualTo 'AMBIENT') then {
@@ -69,7 +68,7 @@ if (_entity isKindOf 'CAManBase') exitWith {
 									_entity setVariable ['QS_AI_ENTITY_CIRCUITINDEX',-1,FALSE];
 								};
 								_entity setVariable ['QS_AI_ENTITY_CIRCUITINDEX',((_entity getVariable ['QS_AI_ENTITY_CIRCUITINDEX',0]) + 1),FALSE];
-								_movePos = _currentTask_position select (_entity getVariable ['QS_AI_ENTITY_CIRCUITINDEX',0]);
+								_movePos = _currentTask_position # (_entity getVariable ['QS_AI_ENTITY_CIRCUITINDEX',0]);
 								_entity setDestination [_movePos,'LEADER PLANNED',TRUE];
 								if ((random 1) > 0) then {
 									_buildingExit = (nearestBuilding _movePos) buildingExit 0;
@@ -87,7 +86,7 @@ if (_entity isKindOf 'CAManBase') exitWith {
 									_entity setVariable ['QS_AI_ENTITY_CIRCUITINDEX',-1,FALSE];
 								};
 								_entity setVariable ['QS_AI_ENTITY_CIRCUITINDEX',((_entity getVariable ['QS_AI_ENTITY_CIRCUITINDEX',0]) + 1),FALSE];
-								_movePos = _currentTask_position select (_entity getVariable ['QS_AI_ENTITY_CIRCUITINDEX',0]);
+								_movePos = _currentTask_position # (_entity getVariable ['QS_AI_ENTITY_CIRCUITINDEX',0]);
 								_entity setDestination [_movePos,'VEHICLE PLANNED',TRUE];
 							};
 						};

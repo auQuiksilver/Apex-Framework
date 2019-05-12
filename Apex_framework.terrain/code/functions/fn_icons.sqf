@@ -228,13 +228,13 @@ _QS_fnc_iconColor = {
 	_u = effectiveCommander _v;
 	_s = side (group _u);
 	private _exit = FALSE;
-	private _c = _QS_ST_X select 13;
+	private _c = _QS_ST_X # 13;
 	private _a = 0;
 	if (!(_v isKindOf 'Man')) then {
 		if (_v getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
 			if ((count (crew _v)) isEqualTo 0) then {
 				_exit = TRUE;
-				_c = _QS_ST_X select 78;
+				_c = _QS_ST_X # 78;
 				_c set [3,0.65];
 				if (_ms > 0.80) then {
 					if (_ds isEqualTo 1) then {
@@ -252,12 +252,12 @@ _QS_fnc_iconColor = {
 	} else {
 		_a = 0.65;
 	};
-	if (_QS_ST_X select 14) then {
-		if ([_u,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {
+	if (_QS_ST_X # 14) then {
+		if ([_u,((_QS_ST_X # 15) # 0)] call (_QS_ST_X # 69)) then {
 			_exit = TRUE;
-			_c = _QS_ST_X select 16;
+			_c = _QS_ST_X # 16;
 			if (isPlayer _u) then {
-				_c set [1,((_c select 1) * ((((_u getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))];
+				_c set [1,((_c # 1) * ((((_u getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))];
 			};
 			_c set [3,_a];
 			if (_ms > 0.80) then {
@@ -267,11 +267,11 @@ _QS_fnc_iconColor = {
 			};
 		};
 	} else {
-		if ([_u,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {
+		if ([_u,((_QS_ST_X # 15) # 0)] call (_QS_ST_X # 69)) then {
 			_exit = TRUE;
-			_c = _QS_ST_X select 16;
+			_c = _QS_ST_X # 16;
 			if (isPlayer _u) then {
-				_c set [1,((_c select 1) * ((((_u getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))];
+				_c set [1,((_c # 1) * ((((_u getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))];
 			};
 			_c set [3,0];
 		};
@@ -283,11 +283,11 @@ _QS_fnc_iconColor = {
 			if (!isNil {assignedTeam _u}) then {
 				_teamID = (['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _u)) max 0;
 			};
-			if (_s isEqualTo EAST) then {_c = _QS_ST_X select 9;};
-			if (_s isEqualTo WEST) then {_c = _QS_ST_X select 10;};
-			if (_s isEqualTo RESISTANCE) then {_c = _QS_ST_X select 11;};
-			if (_s isEqualTo CIVILIAN) then {_c = _QS_ST_X select 12;};
-			_c = [_c,[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] select _teamID;
+			if (_s isEqualTo EAST) then {_c = _QS_ST_X # 9;};
+			if (_s isEqualTo WEST) then {_c = _QS_ST_X # 10;};
+			if (_s isEqualTo RESISTANCE) then {_c = _QS_ST_X # 11;};
+			if (_s isEqualTo CIVILIAN) then {_c = _QS_ST_X # 12;};
+			_c = [_c,[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] # _teamID;
 			_c set [3,_a];
 			if (_ms > 0.80) then {
 				if (_ds isEqualTo 1) then {
@@ -298,11 +298,11 @@ _QS_fnc_iconColor = {
 		};
 	};
 	if (_exit) exitWith {_c;};
-	if (_s isEqualTo EAST) exitWith {_c = _QS_ST_X select 9; _c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
-	if (_s isEqualTo WEST) exitWith {_c = _QS_ST_X select 10;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
-	if (_s isEqualTo RESISTANCE) exitWith {_c = _QS_ST_X select 11;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
-	if (_s isEqualTo CIVILIAN) exitWith {_c = _QS_ST_X select 12;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
-	_c = _QS_ST_X select 13;if (_ds isEqualTo 1) then { if (_ms > 0.80) then {_c set [3,0];};};_c;
+	if (_s isEqualTo EAST) exitWith {_c = _QS_ST_X # 9; _c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	if (_s isEqualTo WEST) exitWith {_c = _QS_ST_X # 10;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	if (_s isEqualTo RESISTANCE) exitWith {_c = _QS_ST_X # 11;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	if (_s isEqualTo CIVILIAN) exitWith {_c = _QS_ST_X # 12;_c set [3,_a];if (_ds isEqualTo 1) then {if (_ms > 0.80) then {_c set [3,0];};};_c;};
+	_c = _QS_ST_X # 13;if (_ds isEqualTo 1) then { if (_ms > 0.80) then {_c set [3,0];};};_c;
 };
 _QS_fnc_iconType = {
 	params ['_u'];
@@ -357,11 +357,11 @@ _QS_fnc_iconPosDir = {
 };
 _QS_fnc_iconText = {
 	params ['_v','_ds','_QS_ST_X',['_ms',1]];
-	if ((_ds isEqualTo 2) || {(!(_QS_ST_X select 67))}) exitWith {
+	if ((_ds isEqualTo 2) || {(!(_QS_ST_X # 67))}) exitWith {
 		''
 	};
-	_showMOS = _QS_ST_X select 64;
-	_showAINames = _QS_ST_X select 71;
+	_showMOS = _QS_ST_X # 64;
+	_showAINames = _QS_ST_X # 71;
 	private _t = '';
 	private _n = 0;
 	private _vt = missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],''];
@@ -376,17 +376,17 @@ _QS_fnc_iconText = {
 	if (!((_v getVariable ['QS_ST_customDN','']) isEqualTo '')) then {
 		_vt = _v getVariable ['QS_ST_customDN',''];
 	};
-	if (!(_QS_ST_X select 64)) then {
+	if (!(_QS_ST_X # 64)) then {
 		_vt = '';
 	};
-	private _vn = name ((crew _v) select 0);
-	if (!isPlayer ((crew _v) select 0)) then {
+	private _vn = name ((crew _v) # 0);
+	if (!isPlayer ((crew _v) # 0)) then {
 		if (!(_showAINames)) then {
 			_vn = '[AI]';
 		};
 	};
-	_isAdmin = ((_QS_ST_X select 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
-	if (((_v distance2D player) < (_QS_ST_X select 68)) || {(_isAdmin)}) then {
+	_isAdmin = ((_QS_ST_X # 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
+	if (((_v distance2D player) < (_QS_ST_X # 68)) || {(_isAdmin)}) then {
 		if ((_ms < 0.75) || {(_isAdmin)}) then {
 			if ((_ms > 0.25) || {(_isAdmin)}) then {
 				if (_showMOS) then {
@@ -592,7 +592,7 @@ _QS_fnc_iconText = {
 		};
 		if (unitIsUAV _v) then {
 			if (isUavConnected _v) then {
-				_y = (UAVControl _v) select 0;
+				_y = (UAVControl _v) # 0;
 				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
@@ -647,25 +647,25 @@ _QS_fnc_iconUnits = {
 	private _si = [EAST,WEST,RESISTANCE,CIVILIAN];
 	private _as = [];
 	private _au = [];
-	_isAdmin = ((_QS_ST_X select 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
+	_isAdmin = ((_QS_ST_X # 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
 	if (!((player getVariable ['QS_unit_side',WEST]) isEqualTo CIVILIAN)) then {
-		if (!(_QS_ST_X select 74)) then {
+		if (!(_QS_ST_X # 74)) then {
 			_si = [EAST,WEST,RESISTANCE];
 		};
 	};
-	if ((_QS_ST_X select 61) > 0) exitWith {
-		if ((_QS_ST_X select 61) isEqualTo 1) then {
+	if ((_QS_ST_X # 61) > 0) exitWith {
+		if ((_QS_ST_X # 61) isEqualTo 1) then {
 			_au = allUnits + vehicles;
 		};
-		if ((_QS_ST_X select 61) isEqualTo 2) then {
+		if ((_QS_ST_X # 61) isEqualTo 2) then {
 			_au = entities [[],[],TRUE,TRUE];
 		};
 		_au;
 	};
-	if (((_di isEqualTo 1) && ((_QS_ST_X select 65))) && {(!(_QS_ST_X select 75))}) then {
+	if (((_di isEqualTo 1) && ((_QS_ST_X # 65))) && {(!(_QS_ST_X # 75))}) then {
 		_exit = TRUE;
 		_au = units (group player);
-		if ((_QS_ST_X select 80)) then {
+		if ((_QS_ST_X # 80)) then {
 			{
 				if (!(_x in _au)) then {
 					if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
@@ -678,15 +678,15 @@ _QS_fnc_iconUnits = {
 		};
 		_au;
 	};
-	if ((_di isEqualTo 2) && ((_QS_ST_X select 29))) then {
+	if ((_di isEqualTo 2) && ((_QS_ST_X # 29))) then {
 		_exit = TRUE;
 		_au = units (group player);
 		_au;
 	};
 	if (_exit) exitWith {_au;};
-	if ((_QS_ST_X select 62)) then {
+	if ((_QS_ST_X # 62)) then {
 		_as pushBack (player getVariable ['QS_unit_side',WEST]);
-		//_as pushBack (_si select (_QS_ST_X select 3));
+		//_as pushBack (_si # (_QS_ST_X # 3));
 	} else {
 		if (isMultiplayer) then {
 			if (_isAdmin) then {
@@ -694,23 +694,23 @@ _QS_fnc_iconUnits = {
 					_as pushBack _x;
 				} forEach _si;
 			} else {
-				//if ((_QS_ST_X select 8)) then {
+				//if ((_QS_ST_X # 8)) then {
 					_as pushBack (player getVariable ['QS_unit_side',WEST]);
-					//_as pushBack (_si select (_QS_ST_X select 3));
+					//_as pushBack (_si # (_QS_ST_X # 3));
 					{
 						if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
 							_as pushBackUnique _x;
 						};
 					} forEach _si;
 				//} else {
-				//	_as pushBack (_si select (player getVariable ['QS_unit_side',WEST]));
+				//	_as pushBack (_si # (player getVariable ['QS_unit_side',WEST]));
 				//	{
-				//		0 = _as pushBack (_si select _x);
-				//	} count (_QS_ST_X select 57);
+				//		0 = _as pushBack (_si # _x);
+				//	} count (_QS_ST_X # 57);
 				//};
 			};
 		} else {
-			//if ((_QS_ST_X select 8)) then {
+			//if ((_QS_ST_X # 8)) then {
 				_as pushBack (player getVariable ['QS_unit_side',WEST]);
 				{
 					if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
@@ -718,18 +718,18 @@ _QS_fnc_iconUnits = {
 					};
 				} forEach _si;
 			//} else {
-			//	_as pushBack (_si select (_QS_ST_X select 3));
+			//	_as pushBack (_si # (_QS_ST_X # 3));
 			//	{
-			//		0 = _as pushBack (_si select _x);
-			//	} count (_QS_ST_X select 57);
+			//		0 = _as pushBack (_si # _x);
+			//	} count (_QS_ST_X # 57);
 			//};
 		};		
 	};
-	if (!(_QS_ST_X select 63)) then {
+	if (!(_QS_ST_X # 63)) then {
 		if (isMultiplayer) then {
 			if (_isAdmin) then {
 				{
-					if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
+					if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 						_au pushBack _x;
 					};
 				} forEach allUnits;
@@ -739,13 +739,13 @@ _QS_fnc_iconUnits = {
 					//if (((side (group _x)) in _as) || {(captive _x)}) then {
 						if (isPlayer _x) then {
 							if (_di isEqualTo 2) then {
-								if ((_x distance2D player) < (_QS_ST_X select 27)) then {
-									if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
+								if ((_x distance2D player) < (_QS_ST_X # 27)) then {
+									if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 										0 = _au pushBack _x;
 									};
 								};
 							} else {
-								if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
+								if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 									0 = _au pushBack _x;
 								};
 							};
@@ -759,15 +759,15 @@ _QS_fnc_iconUnits = {
 				//if (((side (group _x)) in _as) || {(captive _x)}) then {
 					if (isPlayer _x) then {
 						if (_di isEqualTo 2) then {
-							if ((_x distance2D player) < (_QS_ST_X select 27)) then {
-								if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
+							if ((_x distance2D player) < (_QS_ST_X # 27)) then {
+								if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 									if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
 										0 = _au pushBack _x;
 									};
 								};
 							};
 						} else {
-							if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
+							if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 								if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
 									0 = _au pushBack _x;
 								};
@@ -782,8 +782,8 @@ _QS_fnc_iconUnits = {
 			if (((side (group _x)) in _as) || {((captive _x) && (!((lifeState _x) isEqualTo 'INCAPACITATED')))}) then {
 			//if (((side (group _x)) in _as) || {(captive _x)}) then {
 				if (_di isEqualTo 2) then {
-					if ((_x distance2D player) < (_QS_ST_X select 27)) then {
-						if (_x isEqualTo ((crew (vehicle _x)) select 0)) then {
+					if ((_x distance2D player) < (_QS_ST_X # 27)) then {
+						if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 							if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
 								0 = _au pushBack _x;
 							};
@@ -799,14 +799,14 @@ _QS_fnc_iconUnits = {
 			};
 		} count allUnits;
 	};
-	if ((_di isEqualTo 1) && (_QS_ST_X select 75)) exitWith {
+	if ((_di isEqualTo 1) && (_QS_ST_X # 75)) exitWith {
 		_auv = [];
 		{
 			if (!((vehicle _x) isKindOf 'Man')) then {
 				0 = _auv pushBack _x;
 			};
 		} count _au;
-		if ((_QS_ST_X select 80)) then {
+		if ((_QS_ST_X # 80)) then {
 			{
 				if (!(_x in _auv)) then {
 					if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
@@ -817,14 +817,14 @@ _QS_fnc_iconUnits = {
 				};
 			} count vehicles;
 		};
-		if ((_QS_ST_X select 65)) then {
+		if ((_QS_ST_X # 65)) then {
 			{
 				0 = _auv pushBack _x;
 			} count (units (group player));
 		};
 		_auv;
 	};
-	if ((_di isEqualTo 1) && (_QS_ST_X select 80)) exitWith {
+	if ((_di isEqualTo 1) && (_QS_ST_X # 80)) exitWith {
 		{
 			if (!(_x in _au)) then {
 				if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
@@ -861,7 +861,7 @@ _QS_fnc_onMapSingleClick = {
 					};
 				} forEach _vehicles;
 			} else {
-				_vehicle = _vehicles select 0;
+				_vehicle = _vehicles # 0;
 			};
 		};
 		_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
@@ -906,7 +906,7 @@ _QS_fnc_onMapSingleClick = {
 						};
 					} forEach _nearUnits;
 				} else {
-					_nearUnit = _nearUnits select 0;
+					_nearUnit = _nearUnits # 0;
 				};
 			};
 			if (alive _nearUnit) then {
@@ -919,26 +919,26 @@ _QS_fnc_mapVehicleShowCrew = {};
 _QS_fnc_iconDrawMap = {
 	params ['_m'];
 	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
-	if ((_QS_ST_X select 83) && (!('ItemGPS' in (assignedItems player)))) exitWith {};
+	if ((_QS_ST_X # 83) && (!('ItemGPS' in (assignedItems player)))) exitWith {};
 	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
 	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
 	if (diag_tickTime > (missionNamespace getVariable 'QS_ST_updateDraw_map')) then {
 		missionNamespace setVariable ['QS_ST_updateDraw_map',(diag_tickTime + 5),FALSE];
-		missionNamespace setVariable ['QS_ST_drawArray_map',([1,_QS_ST_X] call (_QS_ST_X select 46)),FALSE];
-		if (_QS_ST_X select 35) then {
-			missionNamespace setVariable ['QS_ST_drawArrayEnemy_map',([([0,1] select (player getUnitTrait 'QS_trait_HQ')),_QS_ST_X,(_QS_ST_X select 43),_fn_jammer,_gpsJammers] call (missionNamespace getVariable 'QS_fnc_getKnownEnemies')),FALSE];
+		missionNamespace setVariable ['QS_ST_drawArray_map',([1,_QS_ST_X] call (_QS_ST_X # 46)),FALSE];
+		if (_QS_ST_X # 35) then {
+			missionNamespace setVariable ['QS_ST_drawArrayEnemy_map',([([0,1] select (player getUnitTrait 'QS_trait_HQ')),_QS_ST_X,(_QS_ST_X # 43),_fn_jammer,_gpsJammers] call (missionNamespace getVariable 'QS_fnc_getKnownEnemies')),FALSE];
 		};
 	};
-	_sh = _QS_ST_X select 17;
-	_ts = _QS_ST_X select 19;
-	_tf = _QS_ST_X select 60;
-	_to = _QS_ST_X select 21;
-	_de = _QS_ST_X select 66;
-	_fn_po = _QS_ST_X select 44;
-	_fn_is = _QS_ST_X select 43;
-	_fn_it = _QS_ST_X select 42;
-	_fn_ic = _QS_ST_X select 41;
-	_fn_ite = _QS_ST_X select 45;
+	_sh = _QS_ST_X # 17;
+	_ts = _QS_ST_X # 19;
+	_tf = _QS_ST_X # 60;
+	_to = _QS_ST_X # 21;
+	_de = _QS_ST_X # 66;
+	_fn_po = _QS_ST_X # 44;
+	_fn_is = _QS_ST_X # 43;
+	_fn_it = _QS_ST_X # 42;
+	_fn_ic = _QS_ST_X # 41;
+	_fn_ite = _QS_ST_X # 45;
 	if (!((missionNamespace getVariable 'QS_ST_drawArrayEnemy_map') isEqualTo [])) then {
 		{
 			_m drawIcon _x;
@@ -959,15 +959,15 @@ _QS_fnc_iconDrawMap = {
 							_po = [_ve,1,_de] call _fn_po;
 							_is = [_ve,1,_QS_ST_X] call _fn_is;
 							if (_ve isEqualTo (vehicle _player)) then {
-								_m drawIcon ['a3\ui_f\data\igui\cfg\islandmap\iconplayer_ca.paa',[1,0,0,0.666],(_po select 0),24,24,(_po select 1),'',0,0.03,_tf,_to];
+								_m drawIcon ['a3\ui_f\data\igui\cfg\islandmap\iconplayer_ca.paa',[1,0,0,0.666],(_po # 0),24,24,(_po # 1),'',0,0.03,_tf,_to];
 							};
 							_m drawIcon [
 								([_ve,1,_QS_ST_X] call _fn_it),
 								([_ve,1,_QS_ST_X,_ms] call _fn_ic),
-								(_po select 0),
+								(_po # 0),
 								_is,
 								_is,
-								(_po select 1),
+								(_po # 1),
 								([_ve,1,_QS_ST_X,_ms] call _fn_ite),
 								_sh,
 								_ts,
@@ -1038,7 +1038,7 @@ _QS_fnc_iconDrawMap = {
 	} else {
 		if (isNull (objectParent _player)) then {
 			if (isNull (objectParent _grpLeader)) then {
-				if ((_grpLeader distance2D _player) < (_QS_ST_X select 27)) then {
+				if ((_grpLeader distance2D _player) < (_QS_ST_X # 27)) then {
 					_m drawLine [(getPosASLVisual _player),(getPosASLVisual _grpLeader),[0,1,1,0.5]];
 				};
 			};
@@ -1074,39 +1074,39 @@ _QS_fnc_iconDrawMap = {
 	if (!((missionNamespace getVariable ['QS_client_customDraw2D',[]]) isEqualTo [])) then {
 		{
 			if (_x isEqualType []) then {
-				if ((_x select 1) isEqualTo 'ICON') exitWith {
-					_m drawIcon (_x select 2);
+				if ((_x # 1) isEqualTo 'ICON') exitWith {
+					_m drawIcon (_x # 2);
 				};
-				if ((_x select 1) isEqualTo 'ELLIPSE') exitWith {
-					_m drawEllipse (_x select 2);
+				if ((_x # 1) isEqualTo 'ELLIPSE') exitWith {
+					_m drawEllipse (_x # 2);
 				};
-				if ((_x select 1) isEqualTo 'RECTANGLE') exitWith {
-					_m drawRectangle (_x select 2);
+				if ((_x # 1) isEqualTo 'RECTANGLE') exitWith {
+					_m drawRectangle (_x # 2);
 				};
-				if ((_x select 1) isEqualTo 'POLYGON') exitWith {
-					_m drawPolygon (_x select 2);
+				if ((_x # 1) isEqualTo 'POLYGON') exitWith {
+					_m drawPolygon (_x # 2);
 				};
-				if ((_x select 1) isEqualTo 'TRIANGLE') exitWith {
-					_m drawTriangle (_x select 2);
+				if ((_x # 1) isEqualTo 'TRIANGLE') exitWith {
+					_m drawTriangle (_x # 2);
 				};
-				if ((_x select 1) isEqualTo 'LOCATION') exitWith {
-					_m drawLocation (_x select 2);
+				if ((_x # 1) isEqualTo 'LOCATION') exitWith {
+					_m drawLocation (_x # 2);
 				};
-				if ((_x select 1) isEqualTo 'LINE') exitWith {
-					_m drawLine (_x select 2);
+				if ((_x # 1) isEqualTo 'LINE') exitWith {
+					_m drawLine (_x # 2);
 				};
-				if ((_x select 1) isEqualTo 'ARROW') exitWith {
-					_m drawArrow (_x select 2);
+				if ((_x # 1) isEqualTo 'ARROW') exitWith {
+					_m drawArrow (_x # 2);
 				};
 			};
 		} forEach (missionNamespace getVariable 'QS_client_customDraw2D');
 	};
 	if (!(_gpsJammers isEqualTo [])) then {
 		{
-			_m drawEllipse [(_x select 2),(_x select 3),(_x select 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+			_m drawEllipse [(_x # 2),(_x # 3),(_x # 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
 		} forEach _gpsJammers;
 		{
-			_m drawIcon ['iconMan',[1,1,1,1],(_x select 2),0,0,0,'   GPS Jammer',2,0.04,'TahomaB','right'];
+			_m drawIcon ['iconMan',[1,1,1,1],(_x # 2),0,0,0,'   GPS Jammer',2,0.04,'TahomaB','right'];
 		} forEach _gpsJammers;
 	};
 };
@@ -1116,25 +1116,25 @@ _QS_fnc_iconDrawGPS = {
 	if (
 		(!('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) ||
 		{(visibleMap)} ||
-		{((_QS_ST_X select 84) && (!('ItemGPS' in (assignedItems player))))}
+		{((_QS_ST_X # 84) && (!('ItemGPS' in (assignedItems player))))}
 	) exitWith {};
 	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
 	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
 	if (diag_tickTime > (missionNamespace getVariable 'QS_ST_updateDraw_gps')) then {
 		missionNamespace setVariable ['QS_ST_updateDraw_gps',(diag_tickTime + 3),FALSE];
-		missionNamespace setVariable ['QS_ST_drawArray_gps',([2,_QS_ST_X] call (_QS_ST_X select 46)),FALSE];
+		missionNamespace setVariable ['QS_ST_drawArray_gps',([2,_QS_ST_X] call (_QS_ST_X # 46)),FALSE];
 	};
 	if (!((missionNamespace getVariable 'QS_ST_drawArray_gps') isEqualTo [])) then {
-		_sh = _QS_ST_X select 18;
-		_ts = _QS_ST_X select 20;
-		_tf = _QS_ST_X select 60;
-		_to = _QS_ST_X select 21;
-		_de = _QS_ST_X select 66;
-		_fn_po = _QS_ST_X select 44;
-		_fn_is = _QS_ST_X select 43;
-		_fn_it = _QS_ST_X select 42;
-		_fn_ic = _QS_ST_X select 41;
-		_fn_ite = _QS_ST_X select 45;
+		_sh = _QS_ST_X # 18;
+		_ts = _QS_ST_X # 20;
+		_tf = _QS_ST_X # 60;
+		_to = _QS_ST_X # 21;
+		_de = _QS_ST_X # 66;
+		_fn_po = _QS_ST_X # 44;
+		_fn_is = _QS_ST_X # 43;
+		_fn_it = _QS_ST_X # 42;
+		_fn_ic = _QS_ST_X # 41;
+		_fn_ite = _QS_ST_X # 45;
 		private _ve = objNull;
 		private _po = [[0,0,0],0];
 		private _is = 0;
@@ -1149,10 +1149,10 @@ _QS_fnc_iconDrawGPS = {
 							_m drawIcon [
 								([_ve,2,_QS_ST_X] call _fn_it),
 								([_ve,2,_QS_ST_X] call _fn_ic),
-								(_po select 0),
+								(_po # 0),
 								_is,
 								_is,
-								(_po select 1),
+								(_po # 1),
 								([_ve,2,_QS_ST_X] call _fn_ite),
 								_sh,
 								_ts,
@@ -1174,7 +1174,7 @@ _QS_fnc_iconDrawGPS = {
 	} else {
 		if (isNull (objectParent player)) then {
 			if (isNull (objectParent (leader (group player)))) then {
-				if (((leader (group player)) distance2D player) < (_QS_ST_X select 27)) then {
+				if (((leader (group player)) distance2D player) < (_QS_ST_X # 27)) then {
 					_m drawLine [(getPosASLVisual player),(getPosASLVisual (leader (group player))),[0,1,1,0.5]];
 				};
 			};
@@ -1182,7 +1182,7 @@ _QS_fnc_iconDrawGPS = {
 	};
 	if (!(_gpsJammers isEqualTo [])) then {
 		{
-			_m drawEllipse [(_x select 2),(_x select 3),(_x select 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+			_m drawEllipse [(_x # 2),(_x # 3),(_x # 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
 		} forEach _gpsJammers;
 	};
 };
@@ -1190,7 +1190,7 @@ _QS_fnc_groupIconText = {
 	params ['_grp','_QS_ST_X','_di'];
 	private _text = '';
 	if (_di isEqualTo 1) then {
-		if (_QS_ST_X select 36) then {
+		if (_QS_ST_X # 36) then {
 			if ((leader _grp) isEqualTo (effectiveCommander (vehicle (leader _grp)))) then {
 				_text = groupId _grp;
 			} else {
@@ -1234,49 +1234,49 @@ _QS_fnc_groupIconType = {
 		_iconType = 'c_unknown';
 		_iconTypes = _iconTypes_CIVILIAN;
 		if (_grpVehicle isKindOf 'Helicopter') then {
-			_iconType = _iconTypes select 0;
+			_iconType = _iconTypes # 0;
 		};
 		if (_grpVehicle isKindOf 'LandVehicle') then {
-			_iconType = _iconTypes select 1;
+			_iconType = _iconTypes # 1;
 		};
 		if (_grpVehicle isKindOf 'Plane') then {
-			_iconType = _iconTypes select 2;
+			_iconType = _iconTypes # 2;
 		};
 		if (_grpVehicle isKindOf 'Ship') then {
-			_iconType = _iconTypes select 3;
+			_iconType = _iconTypes # 3;
 		};
 		if (_grpVehicle isKindOf 'Man') then {
-			_iconType = _iconTypes select 4;
+			_iconType = _iconTypes # 4;
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 		_iconType;
 	};
 	if ((_vehicleClass isEqualTo 'Ship') || {(_vehicleClass isEqualTo 'Submarine')}) exitWith {
-		_iconType = _iconTypes select 15; 
+		_iconType = _iconTypes # 15; 
 		_iconType;
 	};
 	if (_vehicleClass in ['Men','MenRecon','MenSniper','MenDiver','MenSupport','MenUrban','MenStory']) exitWith {
-		_iconType = _iconTypes select 0;
+		_iconType = _iconTypes # 0;
 		if (_vehicleClass isEqualTo 'Men') then {
-			_iconType = _iconTypes select 0;
+			_iconType = _iconTypes # 0;
 		};
 		if (_vehicleClass in ['MenRecon','MenSniper','MenDiver']) then {
-			_iconType = _iconTypes select 4;
+			_iconType = _iconTypes # 4;
 		};
 		if (['medic',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-			_iconType = _iconTypes select 8;
+			_iconType = _iconTypes # 8;
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 		_iconType;
 	};
 	if (_vehicleClass isEqualTo 'Static') exitWith {
 		if (['mortar',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-			_iconType = _iconTypes select 10; 
+			_iconType = _iconTypes # 10; 
 		} else {
 			if (['_aa_',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-				_iconType = _iconTypes select 17; 
+				_iconType = _iconTypes # 17; 
 			} else {
-				_iconType = _iconTypes select 12;
+				_iconType = _iconTypes # 12;
 			};
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
@@ -1284,13 +1284,13 @@ _QS_fnc_groupIconType = {
 	};
 	if (_vehicleClass isEqualTo 'Autonomous') exitWith {
 		if (['UAV',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-			_iconType = _iconTypes select 7; 
+			_iconType = _iconTypes # 7; 
 		} else {
 			if (['UGV',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-				_iconType = _iconTypes select 12;
+				_iconType = _iconTypes # 12;
 			} else {
 				if ((['SAM',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || (['AAA',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_iconType = _iconTypes select 12;
+					_iconType = _iconTypes # 12;
 				};
 			};
 		};
@@ -1299,25 +1299,25 @@ _QS_fnc_groupIconType = {
 	};
 	if (_vehicleClass isEqualTo 'Air') exitWith {
 		if (_grpVehicle isKindOf 'Helicopter') then {
-			_iconType = _iconTypes select 5; 
+			_iconType = _iconTypes # 5; 
 		} else {
-			_iconType = _iconTypes select 6; 
+			_iconType = _iconTypes # 6; 
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 		_iconType;
 	};
 	if (_vehicleClass isEqualTo 'Armored') exitWith {
 		if ((['apc',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['afv_',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
-			_iconType = _iconTypes select 2; 
+			_iconType = _iconTypes # 2; 
 		} else {
 			if ((['arty',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['mlrs',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
-				_iconType = _iconTypes select 9; 
+				_iconType = _iconTypes # 9; 
 			} else {
 				if (['mbt',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-					_iconType = _iconTypes select 3; 
+					_iconType = _iconTypes # 3; 
 				} else {
 					if (['_aa_',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-						_iconType = _iconTypes select 17; 
+						_iconType = _iconTypes # 17; 
 					};
 				};
 			};
@@ -1326,16 +1326,16 @@ _QS_fnc_groupIconType = {
 		_iconType;
 	};
 	if (_vehicleClass isEqualTo 'Car') exitWith {
-		_iconType = _iconTypes select 1; 
+		_iconType = _iconTypes # 1; 
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 		_iconType;
 	};
 	if (_vehicleClass isEqualTo 'Support') exitWith {
 		if (['medical',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-			_iconType = _iconTypes select 8; 
+			_iconType = _iconTypes # 8; 
 		} else {
 			if ((['ammo',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['box',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))} || {(['fuel',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))} || {(['CRV',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))} || {(['repair',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
-				_iconType = _iconTypes select 14; 
+				_iconType = _iconTypes # 14; 
 			};
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
@@ -1358,13 +1358,13 @@ _QS_fnc_configGroupIcon = {
 	_grpSize = count (units _grp);
 	_grpSide = side _grpLeader;
 	if (_type isEqualTo 0) then {
-		_grpIconType = [_grp,_grpSize,_grpLeader_vehicle,_grpSide] call (_QS_ST_X select 52);		
+		_grpIconType = [_grp,_grpSize,_grpLeader_vehicle,_grpSide] call (_QS_ST_X # 52);		
 		_grp setVariable ['QS_ST_Group',1,FALSE];
-		_iconID = _grp addGroupIcon [_grpIconType,(_QS_ST_X select 38)];
+		_iconID = _grp addGroupIcon [_grpIconType,(_QS_ST_X # 38)];
 		_grp setGroupIcon [_iconID,_grpIconType];
-		_grpIconColor = [_grpLeader,_QS_ST_X] call (_QS_ST_X select 77);
-		_text = [_grp,_QS_ST_X,1] call (_QS_ST_X select 51);
-		_scale = (_QS_ST_X select 37);
+		_grpIconColor = [_grpLeader,_QS_ST_X] call (_QS_ST_X # 77);
+		_text = [_grp,_QS_ST_X,1] call (_QS_ST_X # 51);
+		_scale = (_QS_ST_X # 37);
 		_visibility = TRUE;
 		_grp setGroupIconParams [_grpIconColor,_text,_scale,_visibility];
 		_grp setVariable ['QS_ST_Group_Icon',[_iconID,_grpIconType,_grpLeader_vType,_grpIconColor,_text,_scale,_visibility],FALSE];
@@ -1379,18 +1379,18 @@ _QS_fnc_configGroupIcon = {
 			_update = TRUE;
 			_updateIcon = TRUE;
 		};
-		if (!(_text isEqualTo ([_grp,_QS_ST_X,1] call (_QS_ST_X select 51)))) then {
+		if (!(_text isEqualTo ([_grp,_QS_ST_X,1] call (_QS_ST_X # 51)))) then {
 			_update = TRUE;
 			_updateParams = TRUE;
 		};
 		if (_update) then {
-			_grpIconColor = [_grpLeader_vehicle,_QS_ST_X] call (_QS_ST_X select 77);
+			_grpIconColor = [_grpLeader_vehicle,_QS_ST_X] call (_QS_ST_X # 77);
 			if (_updateIcon) then {
-				_grpIconType = [_grp,_grpSize,_grpLeader_vehicle,_grpSide] call (_QS_ST_X select 52);	
+				_grpIconType = [_grp,_grpSize,_grpLeader_vehicle,_grpSide] call (_QS_ST_X # 52);	
 				_grp setGroupIcon [_iconID,_grpIconType];
 			};
 			if (_updateParams) then {
-				_text = [_grp,_QS_ST_X,1] call (_QS_ST_X select 51);
+				_text = [_grp,_QS_ST_X,1] call (_QS_ST_X # 51);
 				_grp setGroupIconParams [_grpIconColor,_text,_scale,_visibility];
 			};
 			_grp setVariable ['QS_ST_Group_Icon',[_iconID,_grpIconType,_grpLeader_vType,_grpIconColor,_text,_scale,_visibility],FALSE];
@@ -1398,7 +1398,7 @@ _QS_fnc_configGroupIcon = {
 	};
 	if (_type isEqualTo 2) then {
 		_grpIconArray = _grp getVariable 'QS_ST_Group_Icon';
-		_grpID = _grpIconArray select 0;
+		_grpID = _grpIconArray # 0;
 		clearGroupIcons _grp;
 		_grp setVariable ['QS_ST_Group_Icon',nil,FALSE];
 		_grp setVariable ['QS_ST_Group',nil,FALSE];
@@ -1410,11 +1410,11 @@ _QS_fnc_iconColorGroup = {
 	_u = effectiveCommander _v;
 	_ps = side _u;
 	private _c = [0,0,0,0];
-	if (_ps isEqualTo EAST) exitWith {_c = _QS_ST_X select 9; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
-	if (_ps isEqualTo WEST) exitWith {_c = _QS_ST_X select 10; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
-	if (_ps isEqualTo RESISTANCE) exitWith {_c = _QS_ST_X select 11; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
-	if (_ps isEqualTo CIVILIAN) exitWith {_c = _QS_ST_X select 12; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
-	_c = _QS_ST_X select 13;
+	if (_ps isEqualTo EAST) exitWith {_c = _QS_ST_X # 9; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
+	if (_ps isEqualTo WEST) exitWith {_c = _QS_ST_X # 10; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
+	if (_ps isEqualTo RESISTANCE) exitWith {_c = _QS_ST_X # 11; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
+	if (_ps isEqualTo CIVILIAN) exitWith {_c = _QS_ST_X # 12; _u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];_c;};
+	_c = _QS_ST_X # 13;
 	_u setVariable ['QS_ST_groupIconColor',[_c,_ps],FALSE];
 	_c;
 };
@@ -1434,21 +1434,21 @@ _QS_fnc_onGroupIconClick = {
 	private _colorIncapacitated = [1,0.41,0,1];
 	private _colorInjured = [0,0,0,1];
 	private _colorDead = [0.4,0,0.5,0.65];
-	_text = [_group,_QS_ST_X,1] call (_QS_ST_X select 51);
+	_text = [_group,_QS_ST_X,1] call (_QS_ST_X # 51);
 	_groupCount = count (units _group);
 	private _unitNameList = '';
 	_leader = TRUE;
-	if ((_QS_ST_X select 14)) then {
-		_colorIncapacitated = _QS_ST_X select 70;
-		_colorInjured = _QS_ST_X select 81;
+	if ((_QS_ST_X # 14)) then {
+		_colorIncapacitated = _QS_ST_X # 70;
+		_colorInjured = _QS_ST_X # 81;
 		_colorDead = [0.4,0,0.5,0.65];
 	} else {
 		_colorIncapacitated = [1,0.41,0,1];
 		_colorInjured = [0,0,0,1];
 		_colorDead = [0.4,0,0.5,0.65];	
 	};
-	_showClass = _QS_ST_X select 34;
-	_AINames = _QS_ST_X select 72;
+	_showClass = _QS_ST_X # 34;
+	_AINames = _QS_ST_X # 72;
 	{
 		_color = [0,0,0,1];
 		_lifeState = lifeState _x;
@@ -1463,7 +1463,7 @@ _QS_fnc_onGroupIconClick = {
 				};
 			};
 		};
-		if ([_x,((_QS_ST_X select 15) select 0)] call (_QS_ST_X select 69)) then {_color = _colorIncapacitated;};
+		if ([_x,((_QS_ST_X # 15) # 0)] call (_QS_ST_X # 69)) then {_color = _colorIncapacitated;};
 		private _unitMOS = if (isPlayer _x) then {
 			(['GET_ROLE_DISPLAYNAME',(_x getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'Rifleman'}]))
 		} else {
@@ -1501,7 +1501,7 @@ _QS_fnc_onGroupIconClick = {
 	])] call (missionNamespace getVariable 'QS_fnc_hint');
 };
 _QS_fnc_onGroupIconOverEnter = {
-	if (!((side (_this select 1)) isEqualTo (player getVariable ['QS_unit_side',WEST]))) exitWith {};
+	if (!((side (_this # 1)) isEqualTo (player getVariable ['QS_unit_side',WEST]))) exitWith {};
 };
 _QS_fnc_onGroupIconOverLeave = {
 	hintSilent '';
@@ -1533,15 +1533,15 @@ if (!(_QS_ST_iconShadowGPS in [0,1,2])) then {
 if (_QS_ST_iconUpdatePulseDelay > 0) then {
 	missionNamespace setVariable ['QS_ST_iconUpdatePulseTimer',diag_tickTime];
 };
-_QS_ST_iconTextFont = _QS_ST_iconTextFonts select 0;
+_QS_ST_iconTextFont = _QS_ST_iconTextFonts # 0;
 if (_QS_ST_enableGroupIcons) then {
 	if (!(_QS_ST_map_enableUnitIcons)) then {
 		_QS_ST_groupIconOffset = [0,0];
 	};
 };
 _QS_ST_groupIconText = FALSE;
-_QS_ST_htmlColorMedical = [_QS_ST_MedicalIconColor select 0,_QS_ST_MedicalIconColor select 1,_QS_ST_MedicalIconColor select 2,_QS_ST_MedicalIconColor select 3] call (missionNamespace getVariable 'BIS_fnc_colorRGBtoHTML');
-_QS_ST_htmlColorInjured = [_QS_ST_colorInjured select 0,_QS_ST_colorInjured select 1,_QS_ST_colorInjured select 2,_QS_ST_colorInjured select 3] call (missionNamespace getVariable 'BIS_fnc_colorRGBtoHTML');
+_QS_ST_htmlColorMedical = [_QS_ST_MedicalIconColor # 0,_QS_ST_MedicalIconColor # 1,_QS_ST_MedicalIconColor # 2,_QS_ST_MedicalIconColor # 3] call (missionNamespace getVariable 'BIS_fnc_colorRGBtoHTML');
+_QS_ST_htmlColorInjured = [_QS_ST_colorInjured # 0,_QS_ST_colorInjured # 1,_QS_ST_colorInjured # 2,_QS_ST_colorInjured # 3] call (missionNamespace getVariable 'BIS_fnc_colorRGBtoHTML');
 _QS_ST_otherDisplays = FALSE;	// debug - part of new role selection system
 _QS_ST_R = [
 	_QS_ST_map_enableUnitIcons,
@@ -1655,14 +1655,14 @@ waitUntil {
 	!(isNull (findDisplay 12))
 };
 _QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
-if (_QS_ST_X select 0) then {
-	((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 49)])];
-	if (_QS_ST_X select 82) then {
+if (_QS_ST_X # 0) then {
+	((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X # 49)])];
+	if (_QS_ST_X # 82) then {
 		/*/
 		[_QS_ST_X] spawn {
 			scriptName 'Soldier Tracker by Quiksilver - Artillery Computer and UAV Terminal support';
 			private ['_QS_display1Opened','_QS_display2Opened'];
-			_QS_ST_X = _this select 0;
+			_QS_ST_X = _this # 0;
 			_QS_display1Opened = FALSE;
 			_QS_display2Opened = FALSE;
 			disableSerialization;
@@ -1670,7 +1670,7 @@ if (_QS_ST_X select 0) then {
 				if (!(_QS_display1Opened)) then {
 					if (!isNull ((findDisplay 160) displayCtrl 51)) then {
 						_QS_display1Opened = TRUE;
-						((findDisplay 160) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 49)])];
+						((findDisplay 160) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X # 49)])];
 					};
 				} else {
 					if (isNull ((findDisplay 160) displayCtrl 51)) then {
@@ -1680,7 +1680,7 @@ if (_QS_ST_X select 0) then {
 				if (!(_QS_display2Opened)) then {
 					if (!isNull((findDisplay -1) displayCtrl 500)) then {
 						_QS_display2Opened = TRUE;
-						((findDisplay -1) displayCtrl 500) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 49)])];
+						((findDisplay -1) displayCtrl 500) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X # 49)])];
 					};
 				} else {
 					if (isNull ((findDisplay -1) displayCtrl 500)) then {
@@ -1692,13 +1692,13 @@ if (_QS_ST_X select 0) then {
 		};
 		/*/
 	};
-	if (_QS_ST_X select 56) then {
+	if (_QS_ST_X # 56) then {
 		player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
 		player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
 		{
 			addMissionEventHandler _x;
 		} forEach [
-			['MapSingleClick',(_QS_ST_X select 47)],
+			['MapSingleClick',(_QS_ST_X # 47)],
 			[
 				'Map',
 				{
@@ -1716,7 +1716,7 @@ if (_QS_ST_X select 0) then {
 	};
 };
 
-if (_QS_ST_X select 1) then {
+if (_QS_ST_X # 1) then {
 	[_QS_ST_X] spawn {
 		scriptName 'Soldier Tracker (GPS Icons) by Quiksilver - Waiting for GPS display';
 		params ['_QS_ST_X'];
@@ -1729,7 +1729,7 @@ if (_QS_ST_X select 1) then {
 					if (!isNull (_x displayCtrl 101)) exitWith {
 						_gps = (_x displayCtrl 101);
 						_gps ctrlRemoveAllEventHandlers 'Draw';
-						_gps ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X select 50)])];
+						_gps ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X # 50)])];
 						_exit = TRUE;
 					};
 				};
@@ -1739,31 +1739,31 @@ if (_QS_ST_X select 1) then {
 		};
 	};
 };
-if (_QS_ST_X select 2) then {
-	setGroupIconsVisible [(_QS_ST_X select 31),(_QS_ST_X select 32)];
-	setGroupIconsSelectable (_QS_ST_X select 33);
-	if (_QS_ST_X select 33) then {
+if (_QS_ST_X # 2) then {
+	setGroupIconsVisible [(_QS_ST_X # 31),(_QS_ST_X # 32)];
+	setGroupIconsSelectable (_QS_ST_X # 33);
+	if (_QS_ST_X # 33) then {
 		{
 			addMissionEventHandler _x;
 		} forEach [
-			['GroupIconClick',(_QS_ST_X select 54)],
-			['GroupIconOverEnter',(_QS_ST_X select 58)],
-			['GroupIconOverLeave',(_QS_ST_X select 55)]
+			['GroupIconClick',(_QS_ST_X # 54)],
+			['GroupIconOverEnter',(_QS_ST_X # 58)],
+			['GroupIconOverLeave',(_QS_ST_X # 55)]
 		];
 	};
 	_grpscript = [_QS_ST_X] spawn {
 		scriptName 'Soldier Tracker (Group Icons) by Quiksilver';
 		params ['_QS_ST_X'];
-		_showMapUnitIcons = _QS_ST_X select 0;
+		_showMapUnitIcons = _QS_ST_X # 0;
 		_dynamicDiplomacy = TRUE;
-		_showFriendlySides = _QS_ST_X select 57;
-		private _playerFaction = _QS_ST_X select 3;
-		_showAIGroups = _QS_ST_X select 30;
-		_configGroupIcon = _QS_ST_X select 53;
-		_showCivilianGroups = _QS_ST_X select 59;
-		_groupIconsVisibleMap = _QS_ST_X select 31;
-		_showOwnGroup = _QS_ST_X select 76;
-		_gpsRequired = _QS_ST_X select 85;
+		_showFriendlySides = _QS_ST_X # 57;
+		private _playerFaction = _QS_ST_X # 3;
+		_showAIGroups = _QS_ST_X # 30;
+		_configGroupIcon = _QS_ST_X # 53;
+		_showCivilianGroups = _QS_ST_X # 59;
+		_groupIconsVisibleMap = _QS_ST_X # 31;
+		_showOwnGroup = _QS_ST_X # 76;
+		_gpsRequired = _QS_ST_X # 85;
 		private _sidesFriendly = [];
 		private _grp = grpNull;
 		private _sides = [EAST,WEST,RESISTANCE,CIVILIAN];
@@ -1780,9 +1780,9 @@ if (_QS_ST_X select 2) then {
 			_sidesFriendly = _sides;
 		};
 		private _as = [];
-		_as pushBack (_sides select _playerFaction);
+		_as pushBack (_sides # _playerFaction);
 		{
-			0 = _as pushBack (_sides select _x);
+			0 = _as pushBack (_sides # _x);
 		} count _showFriendlySides;
 		for '_x' from 0 to 1 step 0 do {
 			if (_dynamicDiplomacy) then {
@@ -1870,20 +1870,20 @@ if (_QS_ST_X select 2) then {
 			};
 			if ((visibleMap) || {(!isNull ((findDisplay 160) displayCtrl 51))} || {(!isNull ((findDisplay -1) displayCtrl 500))}) then {
 				if ((ctrlMapScale ((findDisplay 12) displayCtrl 51)) isEqualTo 1) then {
-					if (groupIconsVisible select 0) then {
-						setGroupIconsVisible [FALSE,(groupIconsVisible select 1)];
+					if (groupIconsVisible # 0) then {
+						setGroupIconsVisible [FALSE,(groupIconsVisible # 1)];
 					};
 				} else {
 					if (_groupIconsVisibleMap) then {
-						if (!(groupIconsVisible select 0)) then {
-							setGroupIconsVisible [TRUE,(groupIconsVisible select 1)];
+						if (!(groupIconsVisible # 0)) then {
+							setGroupIconsVisible [TRUE,(groupIconsVisible # 1)];
 						};
 					};
 				};
 			} else {
 				if (_groupIconsVisibleMap) then {
-					if (groupIconsVisible select 0) then {
-						setGroupIconsVisible [FALSE,(groupIconsVisible select 1)];
+					if (groupIconsVisible # 0) then {
+						setGroupIconsVisible [FALSE,(groupIconsVisible # 1)];
 					};
 				};
 			};

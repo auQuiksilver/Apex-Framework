@@ -1,5 +1,13 @@
 Official Change Log
 
+1.1.6 Hotfix 1 (12/05/2019 A3 1.92)
+
+- [FIXED] HVT could not be captured.
+- [FIXED] Vehicle Inventory Editor worked even on destroyed vehicles.
+- [FIXED] Artillery Computer parameter was not working since 1.1.4.
+- [FIXED] Fighter pilot could not activate Simple Object planes.
+- [FIXED] Arsenal bug (displaying gear for incorrect role when using whitelisting or blacklisting).
+
 1.1.6 (6/05/2019 A3 1.92)
 
 - [ADDED] Role Whitelisting for Role Selection System.

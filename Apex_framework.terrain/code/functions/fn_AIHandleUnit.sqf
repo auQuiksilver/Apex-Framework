@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	13/10/2018 A3 1.84 by Quiksilver
+	8/05/2019 A3 1.92 by Quiksilver
 
 Description:
 
@@ -81,9 +81,11 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	if (isNil {_unit getVariable 'QS_AI_UNIT_tankGunner'}) then {
 		if ((objectParent _unit) isKindOf 'Tank') then {
 			if (_unit isEqualTo (gunner (objectParent _unit))) then {
-				if (!(((weapons (objectParent _unit)) findIf {(_x in ['cannon_125mm_advanced','cannon_125mm','cannon_120mm_long','cannon_20mm','cannon_120mm'])}) isEqualTo -1)) then {
+				_vehicle_weapons = (weapons (objectParent _unit)) apply {(toLower _x)};
+				_whitelisted_weapons = ['cannon_125mm_advanced','cannon_125mm','cannon_120mm_long','cannon_20mm','cannon_120mm','autocannon_30mm','autocannon_30mm_ctws'];		// Lowercase
+				if (!((_vehicle_weapons findIf {(_x in _whitelisted_weapons)}) isEqualTo -1)) then {
 					_unit setVariable ['QS_AI_UNIT_tankGunner',TRUE,FALSE];
-					_unit setVariable ['QS_AI_UNIT_gunnerMuzzle',(['cannon_125mm_advanced','cannon_125mm','cannon_120mm_long','cannon_20mm','cannon_120mm'] select {(_x in (weapons (objectParent _unit)))}),FALSE];
+					_unit setVariable ['QS_AI_UNIT_gunnerMuzzle',(_whitelisted_weapons select {(_x in _vehicle_weapons)}),FALSE];
 				} else {
 					_unit setVariable ['QS_AI_UNIT_tankGunner',FALSE,FALSE];
 				};
@@ -109,7 +111,7 @@ if (_isLeader) then {
 		if (!(_grpUnits isEqualTo [])) then {
 			_grpUnits = _grpUnits apply {[rankId _x,_x]};
 			_grpUnits sort FALSE;
-			_grp selectLeader ((_grpUnits select 0) select 1);
+			_grp selectLeader ((_grpUnits # 0) # 1);
 		};
 	};
 };
@@ -144,7 +146,7 @@ if (isNull _objectParent) then {
 	};
 	if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSelfHeal',-1])) then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfHeal',(_uiTime + (random [30,60,90])),FALSE];
-		if ((!((damage _unit) isEqualTo 0)) || {(!((((getAllHitPointsDamage _unit) select 2) findIf {(!(_x isEqualTo 0))}) isEqualTo -1))}) then {
+		if ((!((damage _unit) isEqualTo 0)) || {(!((((getAllHitPointsDamage _unit) # 2) findIf {(!(_x isEqualTo 0))}) isEqualTo -1))}) then {
 			if (isNull _objectParent) then {
 				_weaponLowered = weaponLowered _unit;
 				if ((isNull (_unit findNearestEnemy _unit)) || {(_unitReady)} || {(_weaponLowered)}) then {
@@ -167,10 +169,10 @@ if (isNull _objectParent) then {
 			};
 		};
 		if (!(_fragAttempted)) then {
-			if (((_unit getVariable ['QS_AI_UNIT_rv',[-1,-1,-1]]) select 0) > 0.5) then {
+			if (((_unit getVariable ['QS_AI_UNIT_rv',[-1,-1,-1]]) # 0) > 0.5) then {
 				if (!(_unit getVariable ['QS_unitGarrisoned',FALSE])) then {
 					if ((_unit distance2D _nearestEnemy) < 30) then {
-						_unit doMove [(((_unit targetKnowledge _nearestEnemy) select 6) select 0),(((_unit targetKnowledge _nearestEnemy) select 6) select 1),(((getPosATL _nearestEnemy) select 2) + 1)];
+						_unit doMove [(((_unit targetKnowledge _nearestEnemy) # 6) # 0),(((_unit targetKnowledge _nearestEnemy) # 6) # 1),(((getPosATL _nearestEnemy) # 2) + 1)];
 					};
 				};
 			};
@@ -213,7 +215,7 @@ if (isNull _objectParent) then {
 							};
 							if (!(_targetFound)) then {
 								if (!((_grp getVariable ['QS_AI_GRP_nearTargets',[]]) isEqualTo [])) then {
-									_targets = (_grp getVariable 'QS_AI_GRP_nearTargets') select 0;
+									_targets = (_grp getVariable 'QS_AI_GRP_nearTargets') # 0;
 									private _targetFound = FALSE;
 									if (!(_targets isEqualTo [])) then {
 										{
@@ -313,7 +315,7 @@ if (_fps > 9) then {
 									_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [10,15,20])),FALSE];
 									_unit doWatch _assignedTarget;
 									_unit doTarget _assignedTarget;
-									[_unit,_assignedTarget] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
+									[_unit,_assignedTarget] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (aimPos (_this # 1));};
 									_isSuppressing = TRUE;
 								} else {
 									_unit suppressFor (random [10,15,20]);
@@ -346,14 +348,14 @@ if (_fps > 9) then {
 								_intersections = lineIntersectsSurfaces [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _hostileBuilding),_objectParent,objNull,TRUE,-1,'VIEW','FIRE',TRUE];
 								if (!(_intersections isEqualTo [])) then {
 									{
-										if ((_x select 3) isEqualTo _hostileBuilding) exitWith {
-											_aimPos = _x select 0;
+										if ((_x # 3) isEqualTo _hostileBuilding) exitWith {
+											_aimPos = _x # 0;
 										};
 									} forEach _intersections;
-									[_unit,_aimPos] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
+									[_unit,_aimPos] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (aimPos (_this # 1));};
 								};
 							} else {
-								[_unit,_hostileBuilding] spawn {uiSleep 1; (_this select 0) doSuppressiveFire (aimPos (_this select 1));};
+								[_unit,_hostileBuilding] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (aimPos (_this # 1));};
 							};
 							_unit removeAllEventHandlers 'FiredMan';
 							_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
@@ -415,7 +417,7 @@ if (_grp getVariable ['BLDG_GARRISON',FALSE]) then {
 				_unit addEventHandler [
 					'Hit',
 					{
-						_unit = _this select 0;
+						_unit = _this # 0;
 						_unit removeEventHandler ['Hit',_thisEventHandler];
 						_enemy = _unit findNearestEnemy _unit;
 						_unit setVariable ['QS_unit_hitEvent',nil,FALSE];
@@ -456,11 +458,11 @@ if (_isLeader) then {
 				_allTargets = _unit targets [TRUE,600];
 				if (!(_allTargets isEqualTo [])) then {
 					_time = time;
-					private _filteredTargets = _allTargets select {(((_time - ((_unit targetKnowledge _x) select 2)) < 30) && (isTouchingGround _x) && ((lifeState _x) in ['HEALTHY','INJURED']))};
+					private _filteredTargets = _allTargets select {(((_time - ((_unit targetKnowledge _x) # 2)) < 30) && (isTouchingGround _x) && ((lifeState _x) in ['HEALTHY','INJURED']))};
 					if (!(_filteredTargets isEqualTo [])) then {
 						private _target = objNull;
 						if ((count _filteredTargets) isEqualTo 1) then {
-							_target = _filteredTargets select 0;
+							_target = _filteredTargets # 0;
 						} else {
 							if ((random 1) > 0.5) then {
 								_target = selectRandom _filteredTargets;
@@ -489,25 +491,25 @@ if (_isLeader) then {
 											if (alive _supportProvider) then {
 												if ((vehicle _supportProvider) isKindOf 'LandVehicle') then {
 													_supportGroup = group _supportProvider;
-													if ((_supportGroup getVariable 'QS_AI_GRP_DATA') select 0) then {
+													if ((_supportGroup getVariable 'QS_AI_GRP_DATA') # 0) then {
 														if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 															if (isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
-																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) select 0)]) then {
+																if (((_unit targetKnowledge _target) # 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)]) then {
 																	_unit playActionNow 'HandSignalRadio';
 																	if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 																		if (missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]) then {
 																			EAST reportRemoteTarget [_target,60];
 																		};
 																	};
-																	_smokePos = ((_unit targetKnowledge _target) select 6) getPos [(random 10),(random 360)];
+																	_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
 																	_smokePos set [2,0.25];
-																	_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
+																	_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
 																	_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 																	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
 																	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
-																	_targetPos = ((_unit targetKnowledge _target) select 6) getPos [(random 25),(random 360)];
+																	_targetPos = ((_unit targetKnowledge _target) # 6) getPos [(random 25),(random 360)];
 																	_targetPos set [2,0];
-																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) select 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
+																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) # 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
 																	_exit = TRUE;
 																};
 															};
@@ -527,25 +529,25 @@ if (_isLeader) then {
 											if (alive _supportProvider) then {
 												if ((vehicle _supportProvider) isKindOf 'StaticMortar') then {
 													_supportGroup = group _supportProvider;
-													if ((_supportGroup getVariable 'QS_AI_GRP_DATA') select 0) then {
+													if ((_supportGroup getVariable 'QS_AI_GRP_DATA') # 0) then {
 														if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 															if (isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
-																if (((_unit targetKnowledge _target) select 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) select 0)]) then {
+																if (((_unit targetKnowledge _target) # 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)]) then {
 																	_unit playActionNow 'HandSignalRadio';
 																	if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 																		if (missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]) then {
 																			EAST reportRemoteTarget [_target,60];
 																		};
 																	};
-																	_smokePos = ((_unit targetKnowledge _target) select 6) getPos [(random 10),(random 360)];
+																	_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
 																	_smokePos set [2,0.25];
-																	_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
+																	_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
 																	_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 																	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
 																	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
-																	_targetPos = ((_unit targetKnowledge _target) select 6) getPos [(random 25),(random 360)];
+																	_targetPos = ((_unit targetKnowledge _target) # 6) getPos [(random 25),(random 360)];
 																	_targetPos set [2,0];
-																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) select 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
+																	_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) # 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
 																	_exit = TRUE;
 																};
 															};
@@ -571,9 +573,9 @@ if (_isLeader) then {
 															_unit playActionNow 'HandSignalRadio';
 															_exit = TRUE;
 															_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(diag_tickTime + 240)],FALSE];
-															_smokePos = ((_unit targetKnowledge _target) select 6) getPos [(random 10),(random 360)];
+															_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
 															_smokePos set [2,0.25];
-															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
+															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
 															_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 															(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
 															_handle = [1,_supportProvider,_supportGroup,_target,(position _target),_smokePos,(diag_tickTime + 180)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
@@ -605,14 +607,14 @@ if (_isLeader) then {
 														_unit playActionNow 'HandSignalRadio';
 														_exit = TRUE;
 														_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(diag_tickTime + 180)],FALSE];
-														_laserPos = (_unit targetKnowledge _target) select 6;
+														_laserPos = (_unit targetKnowledge _target) # 6;
 														_laserPos set [2,1];
 														_handle = [2,_supportProvider,_supportGroup,_target,(position _target),(diag_tickTime + 120)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 														(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
 														if ((random 1) > 0.666) then {
-															_smokePos = ((_unit targetKnowledge _target) select 6) getPos [(random 10),(random 360)];
+															_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
 															_smokePos set [2,0.25];
-															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos select 0,_smokePos select 1,25],[],0,'NONE'];
+															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
 															_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 															(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
 														};
@@ -642,7 +644,7 @@ if (_isLeader) then {
 														_unit playActionNow 'HandSignalRadio';
 														_exit = TRUE;
 														_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(diag_tickTime + 180)],FALSE];
-														_laserPos = (_unit targetKnowledge _target) select 6;
+														_laserPos = (_unit targetKnowledge _target) # 6;
 														_laserPos set [2,1];
 														_handle = [3,_supportProvider,_supportGroup,_target,(position _target),(diag_tickTime + 180)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 														(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;

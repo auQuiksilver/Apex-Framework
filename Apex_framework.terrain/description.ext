@@ -37,7 +37,6 @@ showGroupIndicator = 0;
 showSquadRadar = 0;
 forceRotorLibSimulation = 0;							/*/ Advanced Flight Model /*/
 scriptedPlayer = 1;
-skipLobby = 0;
 corpseManagerMode = 0;
 corpseLimit = 30;
 corpseRemovalMinTime = 60;

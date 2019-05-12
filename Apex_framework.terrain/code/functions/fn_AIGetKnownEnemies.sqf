@@ -545,7 +545,6 @@ if (_type isEqualTo 13) exitWith {
 			_gridCenter = [(((_gridData # 0) # 0) + (((_gridData # 1) # 0) / 2)),(((_gridData # 0) # 1) + (((_gridData # 1) # 1) / 2)),0];
 			_data set [_forEachIndex,[_x # 0,_gridCenter]];
 		} forEach _data;
-		diag_log str _data;
 		private _targetingData = [];
 		private _targetWeighted = [];
 		private _targetPosition = [0,0,0];
@@ -568,7 +567,6 @@ if (_type isEqualTo 13) exitWith {
 			};
 		} forEach _data;
 		if (!(_targetingData isEqualTo [])) then {
-			diag_log str _targetingData;
 			if ((count _targetingData) > 3) then {
 				_targetingData = [_targetingData # 0,_targetingData # 1,_targetingData # 2];
 			};

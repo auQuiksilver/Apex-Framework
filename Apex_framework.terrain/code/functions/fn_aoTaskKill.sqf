@@ -100,7 +100,7 @@ for '_x' from 0 to 2 step 1 do {
 		_radialPatrolPositions pushBack _patrolPosition;
 	};
 };
-_enemyGrp setBehaviour 'AWARE';
+_enemyGrp setBehaviourStrong 'AWARE';
 _enemyGrp setCombatMode 'RED';
 if ((random 1) > 0.333) then {
 	_enemyGrp setVariable ['QS_AI_GRP',TRUE,FALSE];

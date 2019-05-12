@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	23/10/2017 A3 1.76 by Quiksilver
+	6/05/2019 A3 1.92 by Quiksilver
 	
 Description:
 	
@@ -23,7 +23,7 @@ _QS_tto = player getVariable ['QS_tto',0];
 if (_QS_tto > 3) exitWith {
 	50 cutText ['ROBOCOP: Access denied, please wait until restart or request Pardon from staff','PLAIN DOWN',1];
 };
-if ((_cursorObject isKindOf 'Plane') && (!(player getUnitTrait 'QS_trait_pilot'))) exitWith {
+if ((_cursorObject isKindOf 'Plane') && (!(player getUnitTrait 'QS_trait_pilot')) && (!(player getUnitTrait 'QS_trait_fighterPilot'))) exitWith {
 	50 cutText ['Only pilots can activate planes and VTOLs','PLAIN DOWN',0.5];
 };
 if (

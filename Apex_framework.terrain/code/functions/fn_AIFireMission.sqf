@@ -44,7 +44,7 @@ if (_type isEqualTo 0) exitWith {
 		};
 	} else {
 		_grpLeader doArtilleryFire [(_firePosition getPos [(15 * (sqrt (random 1))),(random 360)]),_fireShells,_fireRounds];
-		_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(diag_tickTime + 60)],FALSE];
+		_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(diag_tickTime + 45)],FALSE];
 	};
 };
 if (_type isEqualTo 1) exitWith {

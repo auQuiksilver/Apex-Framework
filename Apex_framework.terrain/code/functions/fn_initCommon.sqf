@@ -13,7 +13,10 @@ Description:
 	Common pre-init
 _______________________________________________/*/
 
-_environment = ['mediterranean','tropic'] select (worldName in ['Tanoa','Lingor3']);
+private _environment = ['mediterranean','tropic'] select (worldName in ['Tanoa','Lingor3']);
+if (worldName in []) then {
+	_environment = '';
+};
 private _code = {};
 {
 	missionNamespace setVariable [_x # 0,(compileFinal preprocessFileLineNumbers (_x # 1)),FALSE];

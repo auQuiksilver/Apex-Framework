@@ -77,7 +77,7 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 		{
 			params ['_vehicle','','_damage','','','_hitPartIndex','',''];
 			_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
-			_damage = _oldDamage + (_damage - _oldDamage) * 0.333;
+			_damage = _oldDamage + (_damage - _oldDamage) * 0.2;
 			_damage;
 		}
 	],
@@ -239,7 +239,7 @@ _task = [
 private _time = diag_tickTime;
 private _respawnDelay = 30;
 private _respawnCheckDelay = _time + _respawnDelay;
-private _regeneratorDelay = 15;
+private _regeneratorDelay = 5;
 private _regeneratorCheckDelay = _time + _regeneratorDelay;
 private _posFound = FALSE;
 private _forestPositions = (_terrainData select 8) select {((_x distance2D _spawnPosition) < 300)};
@@ -357,11 +357,11 @@ for '_x' from 0 to 1 step 0 do {
 									};
 								} forEach ((getAllHitPointsDamage _unit) select 2);
 							};
-							uiSleep 0.005;
 						};
 					};
 				};
 			};
+			uiSleep 0.01;
 		} forEach allUnits;
 		_regeneratorCheckDelay = _time + _regeneratorDelay;
 	};
