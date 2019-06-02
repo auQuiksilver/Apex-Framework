@@ -299,7 +299,12 @@ _magazinesAll = [
 	'10rnd_762x54_mag','10rnd_9x21_mag','16rnd_9x21_mag','16rnd_9x21_green_mag','16rnd_9x21_red_mag','16rnd_9x21_yellow_mag','30rnd_9x21_mag','50rnd_570x28_smg_03',
 	'apersboundingmine_range_mag','apersmine_range_mag','aperstripmine_wire_mag','atmine_range_mag','claymoredirectionalmine_remote_mag','democharge_remote_mag',
 	'satchelcharge_remote_mag','iedlandbig_remote_mag','iedurbanbig_remote_mag','slamdirectionalmine_wire_mag','iedlandsmall_remote_mag','iedurbansmall_remote_mag',
-	'vorona_he','mraws_heat_f','mraws_he_f'
+	'vorona_he','mraws_heat_f','mraws_he_f',
+	'30rnd_762x39_ak12_mag_f','30rnd_762x39_ak12_mag_tracer_f','30rnd_556x45_stanag_sand','30rnd_556x45_stanag_sand_green','30rnd_556x45_stanag_sand_red','30rnd_556x45_stanag_sand_tracer_red',
+	'30rnd_556x45_stanag_sand_tracer_green','30rnd_556x45_stanag_sand_tracer_yellow','150rnd_556x45_drum_sand_mag_f','150rnd_556x45_drum_sand_mag_tracer_f','150rnd_556x45_drum_green_mag_f',
+	'150rnd_556x45_drum_green_mag_tracer_f','30rnd_65x39_caseless_khaki_mag','30rnd_65x39_caseless_black_mag','30rnd_65x39_caseless_khaki_mag_tracer','30rnd_65x39_caseless_black_mag_tracer',
+	'100rnd_65x39_caseless_khaki_mag','100rnd_65x39_caseless_black_mag','100rnd_65x39_caseless_khaki_mag_tracer','100rnd_65x39_caseless_black_mag_tracer','100rnd_580x42_hex_mag_f',
+	'100rnd_580x42_hex_mag_tracer_f','100rnd_580x42_ghex_mag_f','100rnd_580x42_ghex_mag_tracer_f'
 ];
 // all weapon attachments
 _attachmentsAll = [
