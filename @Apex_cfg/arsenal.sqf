@@ -56,8 +56,20 @@ _weaponsAll = [
 	'hgun_rook40_f','hgun_pistol_signal_f','binocular','laserdesignator_02_ghex_f','laserdesignator_02','laserdesignator_01_khk_f','laserdesignator_03','laserdesignator','rangefinder',
 	'launch_nlaw_f','launch_rpg32_f','launch_rpg32_ghex_f','launch_rpg7_f','launch_i_titan_f','launch_o_titan_ghex_f','launch_o_titan_f','launch_b_titan_f','launch_b_titan_tna_f',
 	'launch_o_titan_short_f','launch_o_titan_short_ghex_f','launch_i_titan_short_f','launch_b_titan_short_tna_f','launch_b_titan_short_f',
-	'launch_o_vorona_brown_f','launch_o_vorona_green_f','launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_mraws_green_f','launch_mraws_olive_f','launch_mraws_sand_f'
+	'launch_o_vorona_brown_f','launch_o_vorona_green_f','launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_mraws_green_f','launch_mraws_olive_f','launch_mraws_sand_f',
+	'arifle_ak12_arid_f','arifle_ak12_lush_f','arifle_ak12_gl_arid_f','arifle_ak12_gl_lush_f',
+	'arifle_ak12u_f','arifle_ak12u_arid_f','arifle_ak12u_lush_f',
+	'sgun_huntershotgun_01_f','sgun_huntershotgun_01_sawedoff_f',
+	'srifle_dmr_06_hunter_f',
+	'lmg_mk200_black_f',
+	'arifle_msbs65_f','arifle_msbs65_black_f','arifle_msbs65_camo_f','arifle_msbs65_sand_f','arifle_msbs65_gl_f','arifle_msbs65_gl_black_f','arifle_msbs65_gl_camo_f','arifle_msbs65_gl_sand_f',
+	'arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f','arifle_msbs65_ubs_f','arifle_msbs65_ubs_black_f','arifle_msbs65_ubs_camo_f','arifle_msbs65_ubs_sand_f',
+	'arifle_rpk12_f','arifle_rpk12_arid_f','arifle_rpk12_lush_f',
+	'launch_rpg32_green_f',
+	'launch_i_titan_eaf_f','launch_b_titan_olive_f',
+	'hgun_pistol_heavy_01_green_f'	
 ];
+
 // General infantry rifles + marksman rifles
 _weaponsBasic = [
 	'','arifle_arx_ghex_f','arifle_ak12_f','arifle_ak12_gl_f','arifle_akm_f','arifle_aks_f','srifle_dmr_04_f',
@@ -71,7 +83,13 @@ _weaponsBasic = [
 	'arifle_mxm_f','srifle_dmr_01_f','arifle_sdar_f','arifle_spar_01_blk_f','arifle_spar_01_khk_f','arifle_spar_01_snd_f',
 	'arifle_spar_01_gl_blk_f','arifle_spar_01_gl_khk_f','arifle_spar_01_gl_snd_f','arifle_spar_03_blk_f','arifle_spar_03_khk_f',
 	'arifle_spar_03_snd_f','arifle_trg20_f','arifle_trg21_f','arifle_trg21_gl_f','arifle_arx_blk_f','arifle_arx_hex_f','arifle_sdar_f',
-	'smg_03_black','smg_03_camo','smg_03_hex','smg_03_khaki','smg_03_tr_black','smg_03_tr_camo','smg_03_tr_hex','smg_03_tr_khaki'
+	'smg_03_black','smg_03_camo','smg_03_hex','smg_03_khaki','smg_03_tr_black','smg_03_tr_camo','smg_03_tr_hex','smg_03_tr_khaki',
+	'arifle_ak12_arid_f','arifle_ak12_lush_f','arifle_ak12_gl_arid_f','arifle_ak12_gl_lush_f',
+	'arifle_ak12u_f','arifle_ak12u_arid_f','arifle_ak12u_lush_f',
+	'sgun_huntershotgun_01_f','sgun_huntershotgun_01_sawedoff_f',
+	'srifle_dmr_06_hunter_f',
+	'arifle_msbs65_f','arifle_msbs65_black_f','arifle_msbs65_camo_f','arifle_msbs65_sand_f','arifle_msbs65_gl_f','arifle_msbs65_gl_black_f','arifle_msbs65_gl_camo_f','arifle_msbs65_gl_sand_f',
+	'arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f','arifle_msbs65_ubs_f','arifle_msbs65_ubs_black_f','arifle_msbs65_ubs_camo_f','arifle_msbs65_ubs_sand_f'
 ];
 // marksman rifles
 _weaponsMarksman = [
@@ -96,7 +114,7 @@ _weaponsSW = [
 ];
 // light machine guns
 _weaponsLMG = [
-	'lmg_03_f','lmg_mk200_f','lmg_zafir_f'
+	'lmg_03_f','lmg_mk200_f','lmg_zafir_f','arifle_rpk12_f','arifle_rpk12_arid_f','arifle_rpk12_lush_f','lmg_mk200_black_f'
 ];
 // medium machine guns
 _weaponsMMG = [
@@ -105,13 +123,16 @@ _weaponsMMG = [
 // compact weapons
 _weaponsCompact = [
 	'arifle_aks_f','arifle_ctar_blk_f','arifle_ctar_ghex_f','arifle_ctar_hex_f','arifle_katiba_c_f','arifle_mk20_plain_f','arifle_mk20_f','arifle_mxc_f',
-	'arifle_mxc_black_f','arifle_mxc_khk_f','arifle_sdar_f','arifle_spar_01_blk_f','arifle_spar_01_khk_f','arifle_spar_01_snd_f','arifle_trg20_f'
+	'arifle_mxc_black_f','arifle_mxc_khk_f','arifle_sdar_f','arifle_spar_01_blk_f','arifle_spar_01_khk_f','arifle_spar_01_snd_f','arifle_trg20_f',
+	'arifle_ak12u_f','arifle_ak12u_arid_f','arifle_ak12u_lush_f',
+	'arifle_msbs65_f','arifle_msbs65_black_f','arifle_msbs65_camo_f','arifle_msbs65_sand_f'
 ];
 // all launchers
 _weaponsLauncherAll = [
 	'launch_nlaw_f','launch_rpg32_f','launch_rpg32_ghex_f','launch_rpg7_f','launch_i_titan_f','launch_o_titan_ghex_f','launch_o_titan_f','launch_b_titan_f','launch_b_titan_tna_f',
 	'launch_o_titan_short_f','launch_o_titan_short_ghex_f','launch_i_titan_short_f','launch_b_titan_short_tna_f','launch_b_titan_short_f',
-	'launch_o_vorona_brown_f','launch_o_vorona_green_f','launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_mraws_green_f','launch_mraws_olive_f','launch_mraws_sand_f'
+	'launch_o_vorona_brown_f','launch_o_vorona_green_f','launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_mraws_green_f','launch_mraws_olive_f','launch_mraws_sand_f',
+	'launch_rpg32_green_f','launch_i_titan_eaf_f','launch_b_titan_olive_f'
 ];
 // basic launchers (rpg)
 _weaponsLauncherBasic = [
@@ -121,21 +142,23 @@ _weaponsLauncherBasic = [
 _weaponsLauncherRegular = [
 	'launch_nlaw_f','launch_rpg32_f','launch_rpg32_ghex_f','launch_i_titan_f','launch_o_titan_ghex_f','launch_o_titan_f','launch_b_titan_f','launch_b_titan_tna_f',
 	'launch_o_titan_short_f','launch_o_titan_short_ghex_f','launch_i_titan_short_f','launch_b_titan_short_tna_f','launch_b_titan_short_f',
-	'launch_o_vorona_brown_f','launch_o_vorona_green_f','launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_mraws_green_f','launch_mraws_olive_f','launch_mraws_sand_f'
+	'launch_o_vorona_brown_f','launch_o_vorona_green_f','launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_mraws_green_f','launch_mraws_olive_f','launch_mraws_sand_f',
+	'launch_rpg32_green_f','launch_i_titan_eaf_f','launch_b_titan_olive_f'
 ];
 // light AT
 _weaponsLauncherLAT = [
 	'launch_nlaw_f','launch_rpg32_f','launch_rpg32_ghex_f','launch_rpg7_f','launch_i_titan_f','launch_o_titan_ghex_f','launch_o_titan_f','launch_b_titan_f','launch_b_titan_tna_f',
-	'launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f'
+	'launch_mraws_green_rail_f','launch_mraws_olive_rail_f','launch_mraws_sand_rail_f','launch_rpg32_green_f','launch_i_titan_eaf_f','launch_b_titan_olive_f'
 ];
 // heavy AT
 _weaponsLauncherHAT = [
 	'launch_rpg7_f','launch_i_titan_f','launch_o_titan_ghex_f','launch_o_titan_f','launch_b_titan_f','launch_b_titan_tna_f',
-	'launch_o_titan_short_f','launch_o_titan_short_ghex_f','launch_i_titan_short_f','launch_b_titan_short_tna_f','launch_b_titan_short_f','launch_o_vorona_brown_f','launch_o_vorona_green_f'
+	'launch_o_titan_short_f','launch_o_titan_short_ghex_f','launch_i_titan_short_f','launch_b_titan_short_tna_f','launch_b_titan_short_f','launch_o_vorona_brown_f','launch_o_vorona_green_f',
+	'launch_i_titan_eaf_f','launch_b_titan_olive_f'
 ];
 // pistols / handguns
 _weaponsHandgun = [
-	'hgun_pistol_heavy_02_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f','hgun_rook40_f','hgun_pistol_signal_f','arifle_sdar_f'
+	'hgun_pistol_heavy_02_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f','hgun_rook40_f','hgun_pistol_signal_f','arifle_sdar_f','hgun_pistol_heavy_01_green_f'
 ];
 // submachine guns
 _weaponsSMG = [
@@ -171,7 +194,7 @@ _uniformsAll = [
 	'u_c_mechanic_01_f','u_c_paramedic_01_f','u_i_c_soldier_para_2_f','u_i_c_soldier_para_3_f','u_i_c_soldier_para_5_f','u_i_c_soldier_para_4_f','u_i_c_soldier_para_1_f','u_i_pilotcoveralls',
 	'u_b_pilotcoveralls','u_rangemaster','u_b_combatuniform_mcam_vest','u_b_t_soldier_sl_f','u_c_man_casual_6_f','u_c_man_casual_4_f','u_c_man_casual_5_f','u_b_survival_uniform',
 	'u_i_c_soldier_camo_f','u_b_wetsuit','u_i_wetsuit','u_c_workercoveralls','u_c_poor_1','u_i_g_story_protagonist_f','u_b_combatuniform_mcam_worn',
-	'u_tank_green_f'
+	'u_tank_green_f','u_b_cbrn_suit_01_wdl_f'
 ];
 // basic uniforms
 _uniformsBasic = [
@@ -204,7 +227,7 @@ _headgearBasic = [
 	'h_cap_marshal','h_milcap_blue','h_milcap_gen_f','h_milcap_gry','h_milcap_mcamo','h_milcap_tna_f','h_milcap_dgtl','h_helmetia','h_pilothelmetfighter_b','h_pasgt_basic_blue_press_f',
 	'h_pasgt_neckprot_blue_press_f','h_cap_headphones','h_hat_safari_olive_f','h_hat_safari_sand_f','h_shemag_olive','h_shemag_olive_hs','h_shemagopen_tan','h_shemagopen_khk','h_helmet_skate',
 	'h_helmetb_ti_tna_f','h_strawhat','h_strawhat_dark','h_wirelessearpiece_f',
-	'h_tank_black_f'
+	'h_tank_black_f','h_hat_tinfoil_f','h_helmethbk_chops_f','h_helmetaggressor_cover_f'
 ];
 // thermal helmets
 _headgearThermal = [
@@ -220,7 +243,8 @@ _vestsAll = [
 	'v_harnessogl_brn','v_harnessogl_ghex_f','v_harnessogl_gry','v_harnesso_brn','v_harnesso_ghex_f','v_harnesso_gry','v_legstrapbag_black_f','v_legstrapbag_coyote_f','v_legstrapbag_olive_f',
 	'v_pocketed_black_f','v_pocketed_coyote_f','v_pocketed_olive_f','v_rangemaster_belt','v_tacvestir_blk','v_rebreatherb','v_safety_blue_f','v_safety_orange_f','v_safety_yellow_f',
 	'v_bandollierb_blk','v_bandollierb_cbr','v_bandollierb_ghex_f','v_bandollierb_rgr','v_bandollierb_khk','v_bandollierb_oli','v_tacchestrig_cbr_f','v_tacchestrig_grn_f','v_tacchestrig_oli_f',
-	'v_tacvest_blk','v_tacvest_brn','v_tacvest_camo','v_tacvest_khk','v_tacvest_oli','v_tacvest_blk_police','v_i_g_resistanceleader_f','v_platecarrier_kerry','v_press_f'
+	'v_tacvest_blk','v_tacvest_brn','v_tacvest_camo','v_tacvest_khk','v_tacvest_oli','v_tacvest_blk_police','v_i_g_resistanceleader_f','v_platecarrier_kerry','v_press_f',
+	'v_carrierrigkbt_01_eaf_f','v_smershvest_01_radio_f'
 ];
 // all backpacks
 _backpacksAll = [
@@ -233,7 +257,7 @@ _backpacksAll = [
 	'b_at_01_weapon_f','b_parachute','b_tacticalpack_blk','b_tacticalpack_rgr','b_tacticalpack_ocamo','b_tacticalpack_mcamo','b_tacticalpack_oli','b_uav_06_backpack_f',
 	'b_uav_06_medical_backpack_f','b_uav_01_backpack_f','b_assaultpack_kerry','b_viperharness_blk_f','b_viperharness_ghex_f','b_viperharness_hex_f','b_viperharness_khk_f',
 	'b_viperharness_oli_f','b_viperlightharness_blk_f','b_viperlightharness_ghex_f','b_viperlightharness_hex_f','b_viperlightharness_khk_f','b_viperlightharness_oli_f',
-	'b_mortar_01_weapon_grn_f'
+	'b_mortar_01_weapon_grn_f','b_radiobag_01_f','b_combinationunitrespirator_01_f','g_airpurifyingrespirator_01_f'
 ];
 // Regular sized backpacks (all backpacks except for the big ones)
 _backpacksBasic = [
@@ -246,7 +270,7 @@ _backpacksBasic = [
 	'b_at_01_weapon_f','b_parachute','b_tacticalpack_blk','b_tacticalpack_rgr','b_tacticalpack_ocamo','b_tacticalpack_mcamo','b_tacticalpack_oli','b_uav_06_backpack_f',
 	'b_uav_06_medical_backpack_f','b_uav_01_backpack_f','b_assaultpack_kerry','b_viperharness_blk_f','b_viperharness_ghex_f','b_viperharness_hex_f','b_viperharness_khk_f',
 	'b_viperharness_oli_f','b_viperlightharness_blk_f','b_viperlightharness_ghex_f','b_viperlightharness_hex_f','b_viperlightharness_khk_f','b_viperlightharness_oli_f',
-	'b_mortar_01_weapon_grn_f'
+	'b_mortar_01_weapon_grn_f','b_radiobag_01_f','b_combinationunitrespirator_01_f','g_airpurifyingrespirator_01_f'
 ];
 // Large backpacks
 _backpacksLarge = [
@@ -272,7 +296,7 @@ _gogglesAll = [
 	'g_b_diving','g_o_diving','g_i_diving','g_goggles_vr','g_balaclava_blk','g_balaclava_oli','g_balaclava_combat','g_balaclava_lowprofile','g_bandanna_blk','g_bandanna_oli','g_bandanna_khk',
 	'g_bandanna_tan','g_bandanna_beast','g_bandanna_shades','g_bandanna_sport','g_bandanna_aviator','g_shades_blue','g_sport_blackred','g_tactical_clear','g_balaclava_ti_blk_f','g_balaclava_ti_tna_f',
 	'g_balaclava_ti_g_blk_f','g_balaclava_ti_g_tna_f','g_combat_goggles_tna_f','g_respirator_base_f','g_respirator_white_f','g_respirator_yellow_f','g_respirator_blue_f','g_eyeprotectors_base_f',
-	'g_eyeprotectors_f','g_eyeprotectors_earpiece_f','g_wirelessearpiece_base_f','g_wirelessearpiece_f'
+	'g_eyeprotectors_f','g_eyeprotectors_earpiece_f','g_wirelessearpiece_base_f','g_wirelessearpiece_f','g_regulatormask_f','g_airpurifyingrespirator_01_f','g_blindfold_01_white_f'
 ];
 // armor piercing rockets
 _magazinesAT = [
@@ -304,7 +328,11 @@ _magazinesAll = [
 	'30rnd_556x45_stanag_sand_tracer_green','30rnd_556x45_stanag_sand_tracer_yellow','150rnd_556x45_drum_sand_mag_f','150rnd_556x45_drum_sand_mag_tracer_f','150rnd_556x45_drum_green_mag_f',
 	'150rnd_556x45_drum_green_mag_tracer_f','30rnd_65x39_caseless_khaki_mag','30rnd_65x39_caseless_black_mag','30rnd_65x39_caseless_khaki_mag_tracer','30rnd_65x39_caseless_black_mag_tracer',
 	'100rnd_65x39_caseless_khaki_mag','100rnd_65x39_caseless_black_mag','100rnd_65x39_caseless_khaki_mag_tracer','100rnd_65x39_caseless_black_mag_tracer','100rnd_580x42_hex_mag_f',
-	'100rnd_580x42_hex_mag_tracer_f','100rnd_580x42_ghex_mag_f','100rnd_580x42_ghex_mag_tracer_f'
+	'100rnd_580x42_hex_mag_tracer_f','100rnd_580x42_ghex_mag_f','100rnd_580x42_ghex_mag_tracer_f',
+	'30rnd_65x39_caseless_msbs_mag','30rnd_65x39_caseless_msbs_mag_tracer','2rnd_12gauge_pellets','2rnd_12gauge_slug',
+	'30rnd_762x39_ak12_arid_mag_f','30rnd_762x39_ak12_arid_mag_tracer_f','30rnd_762x39_ak12_lush_mag_f','30rnd_762x39_ak12_lush_mag_tracer_f','30rnd_762x39_ak12_mag_green_f','30rnd_762x39_ak12_mag_tracer_green_f',
+	'75rnd_762x39_mag_tracer_f','75rnd_762x39_mag_f','75rnd_762x39_ak12_mag_tracer_f','75rnd_762x39_ak12_mag_f','75rnd_762x39_ak12_lush_mag_tracer_f','75rnd_762x39_ak12_lush_mag_f',
+	'75rnd_762x39_ak12_arid_mag_tracer_f','75rnd_762x39_ak12_arid_mag_f'
 ];
 // all weapon attachments
 _attachmentsAll = [
@@ -317,7 +345,10 @@ _attachmentsAll = [
 	'bipod_01_f_khk','bipod_01_f_mtp','bipod_03_f_oli','bipod_01_f_snd','bipod_02_f_tan','muzzle_snds_m','muzzle_snds_m_khk_f','muzzle_snds_m_snd_f','muzzle_snds_93mmg',
 	'muzzle_snds_93mmg_tan','muzzle_snds_l','muzzle_snds_58_blk_f','muzzle_snds_58_ghex_f','muzzle_snds_58_hex_f','muzzle_snds_65_ti_blk_f','muzzle_snds_65_ti_ghex_f',
 	'muzzle_snds_65_ti_hex_f','muzzle_snds_h_snd_f','muzzle_snds_h_khk_f','muzzle_snds_h','muzzle_snds_338_black','muzzle_snds_338_green','muzzle_snds_338_sand','muzzle_snds_acp',
-	'optic_mrd','acc_flashlight_pistol','acc_flashlight_smg_01','optic_yorris','muzzle_snds_570'
+	'optic_mrd','acc_flashlight_pistol','acc_flashlight_smg_01','optic_yorris','muzzle_snds_570',
+	'optic_arco_arid_f','optic_arco_lush_f','optic_arco_ak_arid_f','optic_arco_ak_blk_f','optic_arco_ak_lush_f','optic_dms_weathered_f',
+	'optic_dms_weathered_kir_f','optic_holosight_arid_f','optic_holosight_lush_f','muzzle_snds_b_arid_f','muzzle_snds_b_lush_f','bipod_02_f_arid',
+	'bipod_02_f_lush','optic_ico_01_f','optic_ico_01_black_f','optic_ico_01_camo_f','optic_ico_01_sand_f','optic_mrd_black'
 ];
 // all weapon attachments
 _attachmentsBasic = [
@@ -329,7 +360,10 @@ _attachmentsBasic = [
 	'bipod_01_f_khk','bipod_01_f_mtp','bipod_03_f_oli','bipod_01_f_snd','bipod_02_f_tan','muzzle_snds_m','muzzle_snds_m_khk_f','muzzle_snds_m_snd_f','muzzle_snds_93mmg',
 	'muzzle_snds_93mmg_tan','muzzle_snds_l','muzzle_snds_58_blk_f','muzzle_snds_58_ghex_f','muzzle_snds_58_hex_f','muzzle_snds_65_ti_blk_f','muzzle_snds_65_ti_ghex_f',
 	'muzzle_snds_65_ti_hex_f','muzzle_snds_h_snd_f','muzzle_snds_h_khk_f','muzzle_snds_h','muzzle_snds_338_black','muzzle_snds_338_green','muzzle_snds_338_sand','muzzle_snds_acp',
-	'optic_mrd','acc_flashlight_pistol','acc_flashlight_smg_01','optic_yorris','muzzle_snds_570'
+	'optic_mrd','acc_flashlight_pistol','acc_flashlight_smg_01','optic_yorris','muzzle_snds_570',
+	'optic_arco_arid_f','optic_arco_lush_f','optic_arco_ak_arid_f','optic_arco_ak_blk_f','optic_arco_ak_lush_f','optic_dms_weathered_f',
+	'optic_dms_weathered_kir_f','optic_holosight_arid_f','optic_holosight_lush_f','muzzle_snds_b_arid_f','muzzle_snds_b_lush_f','bipod_02_f_arid',
+	'bipod_02_f_lush','optic_ico_01_f','optic_ico_01_black_f','optic_ico_01_camo_f','optic_ico_01_sand_f','optic_mrd_black'
 ];
 // thermal weapon attachments
 _attachmentsThermal = [
