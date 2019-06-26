@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/01/2019 A3 1.88 by Quiksilver
+	27/06/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -194,7 +194,11 @@ _uniformsAll = [
 	'u_c_mechanic_01_f','u_c_paramedic_01_f','u_i_c_soldier_para_2_f','u_i_c_soldier_para_3_f','u_i_c_soldier_para_5_f','u_i_c_soldier_para_4_f','u_i_c_soldier_para_1_f','u_i_pilotcoveralls',
 	'u_b_pilotcoveralls','u_rangemaster','u_b_combatuniform_mcam_vest','u_b_t_soldier_sl_f','u_c_man_casual_6_f','u_c_man_casual_4_f','u_c_man_casual_5_f','u_b_survival_uniform',
 	'u_i_c_soldier_camo_f','u_b_wetsuit','u_i_wetsuit','u_c_workercoveralls','u_c_poor_1','u_i_g_story_protagonist_f','u_b_combatuniform_mcam_worn',
-	'u_tank_green_f','u_b_cbrn_suit_01_wdl_f'
+	'u_tank_green_f','u_c_cbrn_suit_01_blue_f','u_b_cbrn_suit_01_mtp_f','u_b_cbrn_suit_01_tropic_f','u_c_cbrn_suit_01_white_f','u_b_cbrn_suit_01_wdl_f','u_i_cbrn_suit_01_aaf_f',
+	'u_i_e_cbrn_suit_01_eaf_f','u_i_e_uniform_01_officer_f','u_i_e_uniform_01_shortsleeve_f','u_i_e_uniform_01_tanktop_f','u_b_combatuniform_mcam_wdl_f','u_b_combatuniform_tshirt_mcam_wdl_f',
+	'u_i_e_uniform_01_f','u_c_uniform_farmer_01_f','u_o_r_gorka_01_f','u_o_r_gorka_01_brown_f','u_o_r_gorka_01_camo_f','u_i_e_uniform_01_coveralls_f','u_i_l_uniform_01_camo_f','u_i_l_uniform_01_deserter_f',
+	'u_c_e_looterjacket_01_f','u_i_l_uniform_01_tshirt_black_f','u_i_l_uniform_01_tshirt_olive_f','u_i_l_uniform_01_tshirt_skull_f','u_i_l_uniform_01_tshirt_sport_f','u_c_uniform_scientist_01_formal_f',
+	'u_c_uniform_scientist_01_f','u_c_uniform_scientist_02_f','u_c_uniform_scientist_02_formal_f','u_o_r_gorka_01_black_f'
 ];
 // basic uniforms
 _uniformsBasic = [
@@ -227,7 +231,9 @@ _headgearBasic = [
 	'h_cap_marshal','h_milcap_blue','h_milcap_gen_f','h_milcap_gry','h_milcap_mcamo','h_milcap_tna_f','h_milcap_dgtl','h_helmetia','h_pilothelmetfighter_b','h_pasgt_basic_blue_press_f',
 	'h_pasgt_neckprot_blue_press_f','h_cap_headphones','h_hat_safari_olive_f','h_hat_safari_sand_f','h_shemag_olive','h_shemag_olive_hs','h_shemagopen_tan','h_shemagopen_khk','h_helmet_skate',
 	'h_helmetb_ti_tna_f','h_strawhat','h_strawhat_dark','h_wirelessearpiece_f',
-	'h_tank_black_f','h_hat_tinfoil_f','h_helmethbk_chops_f','h_helmetaggressor_cover_f'
+	'h_tank_black_f','h_helmethbk_headset_f','h_helmethbk_chops_f','h_helmethbk_ear_f','h_helmethbk_f','h_helmetaggressor_f','h_helmetaggressor_cover_f','h_helmetaggressor_cover_taiga_f',
+	'h_beret_eaf_01_f','h_booniehat_mgrn','h_booniehat_taiga','h_booniehat_wdl','h_booniehat_eaf','h_helmetb_plain_wdl','h_tank_eaf_f','h_helmetcrew_i_e','h_helmetspecb_wdl',
+	'h_crewhelmetheli_i_e','h_pilothelmetheli_i_e','h_helmetb_light_wdl','h_milcap_grn','h_milcap_taiga','h_milcap_wdl','h_milcap_eaf','h_pilothelmetfighter_i_e','h_hat_tinfoil_f'
 ];
 // thermal helmets
 _headgearThermal = [
@@ -244,7 +250,8 @@ _vestsAll = [
 	'v_pocketed_black_f','v_pocketed_coyote_f','v_pocketed_olive_f','v_rangemaster_belt','v_tacvestir_blk','v_rebreatherb','v_safety_blue_f','v_safety_orange_f','v_safety_yellow_f',
 	'v_bandollierb_blk','v_bandollierb_cbr','v_bandollierb_ghex_f','v_bandollierb_rgr','v_bandollierb_khk','v_bandollierb_oli','v_tacchestrig_cbr_f','v_tacchestrig_grn_f','v_tacchestrig_oli_f',
 	'v_tacvest_blk','v_tacvest_brn','v_tacvest_camo','v_tacvest_khk','v_tacvest_oli','v_tacvest_blk_police','v_i_g_resistanceleader_f','v_platecarrier_kerry','v_press_f',
-	'v_carrierrigkbt_01_eaf_f','v_smershvest_01_radio_f'
+	'v_carrierrigkbt_01_eaf_f','v_platecarriergl_wdl','v_platecarrier1_wdl','v_platecarrier2_wdl','v_platecarrierspec_wdl','v_smershvest_01_f','v_smershvest_01_radio_f','v_carrierrigkbt_01_heavy_eaf_f',
+	'v_carrierrigkbt_01_heavy_olive_f','v_carrierrigkbt_01_light_eaf_f','v_carrierrigkbt_01_light_olive_f','v_carrierrigkbt_01_eaf_f','v_carrierrigkbt_01_olive_f'
 ];
 // all backpacks
 _backpacksAll = [
@@ -257,7 +264,10 @@ _backpacksAll = [
 	'b_at_01_weapon_f','b_parachute','b_tacticalpack_blk','b_tacticalpack_rgr','b_tacticalpack_ocamo','b_tacticalpack_mcamo','b_tacticalpack_oli','b_uav_06_backpack_f',
 	'b_uav_06_medical_backpack_f','b_uav_01_backpack_f','b_assaultpack_kerry','b_viperharness_blk_f','b_viperharness_ghex_f','b_viperharness_hex_f','b_viperharness_khk_f',
 	'b_viperharness_oli_f','b_viperlightharness_blk_f','b_viperlightharness_ghex_f','b_viperlightharness_hex_f','b_viperlightharness_khk_f','b_viperlightharness_oli_f',
-	'b_mortar_01_weapon_grn_f','b_radiobag_01_f','b_combinationunitrespirator_01_f','g_airpurifyingrespirator_01_f'
+	'b_mortar_01_weapon_grn_f','b_radiobag_01_f',
+	'b_assaultpack_eaf_f','b_assaultpack_wdl_f','b_carryall_eaf_f','b_carryall_green_f','b_carryall_taiga_f','b_carryall_wdl_f','b_fieldpack_green_f','b_fieldpack_taiga_f','b_combinationunitrespirator_01_f',
+	'b_radiobag_01_black_f','b_radiobag_01_digi_f','b_radiobag_01_eaf_f','b_radiobag_01_ghex_f','b_radiobag_01_hex_f','b_radiobag_01_mtp_f','b_radiobag_01_tropic_f','b_radiobag_01_oucamo_f','b_radiobag_01_wdl_f',
+	'b_scba_01_f'
 ];
 // Regular sized backpacks (all backpacks except for the big ones)
 _backpacksBasic = [
@@ -270,12 +280,15 @@ _backpacksBasic = [
 	'b_at_01_weapon_f','b_parachute','b_tacticalpack_blk','b_tacticalpack_rgr','b_tacticalpack_ocamo','b_tacticalpack_mcamo','b_tacticalpack_oli','b_uav_06_backpack_f',
 	'b_uav_06_medical_backpack_f','b_uav_01_backpack_f','b_assaultpack_kerry','b_viperharness_blk_f','b_viperharness_ghex_f','b_viperharness_hex_f','b_viperharness_khk_f',
 	'b_viperharness_oli_f','b_viperlightharness_blk_f','b_viperlightharness_ghex_f','b_viperlightharness_hex_f','b_viperlightharness_khk_f','b_viperlightharness_oli_f',
-	'b_mortar_01_weapon_grn_f','b_radiobag_01_f','b_combinationunitrespirator_01_f','g_airpurifyingrespirator_01_f'
+	'b_mortar_01_weapon_grn_f',
+	'b_assaultpack_eaf_f','b_assaultpack_wdl_f','b_fieldpack_green_f','b_fieldpack_taiga_f','b_combinationunitrespirator_01_f',
+	'b_scba_01_f'
 ];
 // Large backpacks
 _backpacksLarge = [
 	'b_bergen_dgtl_f','b_bergen_hex_f','b_bergen_mcamo_f','b_bergen_tna_f',
-	'b_carryall_cbr','b_carryall_ghex_f','b_carryall_ocamo','b_carryall_khk','b_carryall_mcamo','b_carryall_oli','b_carryall_oucamo'
+	'b_carryall_cbr','b_carryall_ghex_f','b_carryall_ocamo','b_carryall_khk','b_carryall_mcamo','b_carryall_oli','b_carryall_oucamo',
+	'b_carryall_eaf_f','b_carryall_green_f','b_carryall_taiga_f','b_carryall_wdl_f'
 ];
 // backpacks which can be assembled into static turrets (tripods + weapon)
 _backpacksStatic = [
@@ -283,11 +296,16 @@ _backpacksStatic = [
 	'b_mortar_01_support_f','b_mortar_01_weapon_f',
 	'b_hmg_01_support_high_f','b_hmg_01_support_f',
 	'b_static_designator_01_weapon_f',
-	'b_aa_01_weapon_f','b_at_01_weapon_f'
+	'b_aa_01_weapon_f','b_at_01_weapon_f',
+	'b_mortar_01_weapon_grn_f'
 ];
 // UAV backpacks
 _backpacksUAV = [
-	'b_uav_01_backpack_f','b_uav_06_medical_backpack_f'
+	'b_uav_01_backpack_f','b_uav_06_medical_backpack_f','b_ugv_02_demining_backpack_f','b_ugv_02_science_backpack_f'
+];
+// Radio backpacks
+_backpacksRadio = [
+	'b_radiobag_01_black_f','b_radiobag_01_digi_f','b_radiobag_01_eaf_f','b_radiobag_01_ghex_f','b_radiobag_01_hex_f','b_radiobag_01_mtp_f','b_radiobag_01_tropic_f','b_radiobag_01_oucamo_f','b_radiobag_01_wdl_f'
 ];
 // all goggles
 _gogglesAll = [
@@ -296,9 +314,10 @@ _gogglesAll = [
 	'g_b_diving','g_o_diving','g_i_diving','g_goggles_vr','g_balaclava_blk','g_balaclava_oli','g_balaclava_combat','g_balaclava_lowprofile','g_bandanna_blk','g_bandanna_oli','g_bandanna_khk',
 	'g_bandanna_tan','g_bandanna_beast','g_bandanna_shades','g_bandanna_sport','g_bandanna_aviator','g_shades_blue','g_sport_blackred','g_tactical_clear','g_balaclava_ti_blk_f','g_balaclava_ti_tna_f',
 	'g_balaclava_ti_g_blk_f','g_balaclava_ti_g_tna_f','g_combat_goggles_tna_f','g_respirator_base_f','g_respirator_white_f','g_respirator_yellow_f','g_respirator_blue_f','g_eyeprotectors_base_f',
-	'g_eyeprotectors_f','g_eyeprotectors_earpiece_f','g_wirelessearpiece_base_f','g_wirelessearpiece_f','g_regulatormask_f','g_airpurifyingrespirator_01_f','g_blindfold_01_white_f'
+	'g_eyeprotectors_f','g_eyeprotectors_earpiece_f','g_wirelessearpiece_base_f','g_wirelessearpiece_f',
+	'g_airpurifyingrespirator_02_black_f','g_airpurifyingrespirator_02_olive_f','g_airpurifyingrespirator_02_sand_f','g_airpurifyingrespirator_01_f','g_blindfold_01_black_f','g_blindfold_01_white_f','g_regulatormask_f'
 ];
-// armor piercing rockets
+// armor piercing missiles
 _magazinesAT = [
 	'vorona_heat','mraws_heat_f','titan_at'
 ];
@@ -373,12 +392,12 @@ _attachmentsThermal = [
 _assignedItemsAll = [
 	'nvgogglesb_blk_f','nvgogglesb_grn_f','nvgogglesb_gry_f',
 	'','itemmap','itemcompass','itemwatch','itemradio','itemgps',
-	'nvgoggles_tna_f','o_nvgoggles_ghex_f','o_nvgoggles_hex_f','o_nvgoggles_urb_f','nvgoggles_opfor','nvgoggles','nvgoggles_indep'
+	'nvgoggles_tna_f','o_nvgoggles_ghex_f','o_nvgoggles_hex_f','o_nvgoggles_urb_f','o_nvgoggles_grn_f','nvgoggles_opfor','nvgoggles','nvgoggles_indep'
 ];
 // same as above but with no thermal
 _assignedItemsBasic = [
 	'','itemmap','itemcompass','itemwatch','itemradio','itemgps',
-	'nvgoggles_tna_f','o_nvgoggles_ghex_f','o_nvgoggles_hex_f','o_nvgoggles_urb_f','nvgoggles_opfor','nvgoggles','nvgoggles_indep'
+	'nvgoggles_tna_f','o_nvgoggles_ghex_f','o_nvgoggles_hex_f','o_nvgoggles_urb_f','o_nvgoggles_grn_f','nvgoggles_opfor','nvgoggles','nvgoggles_indep'
 ];
 // uav terminal
 _assignedItemsUAV = [
