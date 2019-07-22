@@ -35,15 +35,15 @@ if (!(allCurators isEqualTo [])) then {
 	} count allCurators;
 };
 if (isNull _client) exitWith {};
-_ii = (missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)};
+_ii = (missionNamespace getVariable 'QS_roboCop') findIf {((_x # 0) isEqualTo _uid)};
 private _val = 0;
 private _a = [_uid,_val];
 if (_ii isEqualTo -1) then {
 	_a = [_uid,_val];
 	(missionNamespace getVariable 'QS_roboCop') pushBack _a;
 } else {
-	_a = (missionNamespace getVariable 'QS_roboCop') select _ii;
-	_val = _a select 1;
+	_a = (missionNamespace getVariable 'QS_roboCop') # _ii;
+	_val = _a # 1;
 	(missionNamespace getVariable 'QS_roboCop') set [_ii,_a];
 };
 if (_val > 5) exitWith {

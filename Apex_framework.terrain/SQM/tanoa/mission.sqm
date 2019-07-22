@@ -180,7 +180,7 @@ class Mission
 				disableSimulation=1;
 			};
 			id=98;
-			type="Land_Laptop_unfolded_F";
+			type="Land_Laptop_03_black_F";
 			class CustomAttributes
 			{
 				class Attribute0
@@ -344,7 +344,7 @@ class Mission
 				disableSimulation=1;
 			};
 			id=106;
-			type="Land_Laptop_unfolded_F";
+			type="Land_Laptop_03_black_F";
 			class CustomAttributes
 			{
 				class Attribute0

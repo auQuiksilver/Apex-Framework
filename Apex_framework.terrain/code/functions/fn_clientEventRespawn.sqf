@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	23/04/2019 A3 1.90 by Quiksilver
+	9/06/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -252,6 +252,9 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 				_position = AGLToASL _position;
 				player setDir (_position getDir (([8133.47,10123,-0.147434] nearestObject 'Land_MilOffices_V1_F') buildingExit 0));
 			};
+			if (worldName isEqualTo 'Enoch') then {
+				_position = [((_position select 0) + 12 - (random 24)),((_position select 1) + 12 - (random 24)),(_position select 2)];
+			};
 		};
 		preloadCamera _position;
 		player setPosWorld _position;
@@ -266,7 +269,7 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 } else {
 	if ((player getVariable 'QS_revive_respawnType') isEqualTo 'FOB') then {
 		player switchMove '';
-		_position = (missionNamespace getVariable 'QS_module_fob_HQ') buildingPos (selectRandom [0,1,2,3,9,10,11,12]);
+		_position = selectRandom ([(missionNamespace getVariable 'QS_module_fob_HQ'),(((missionNamespace getVariable 'QS_module_fob_HQ') buildingPos -1) select {(!(_x isEqualTo [0,0,0]))})] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions'));
 		preloadCamera _position;
 		_position spawn {
 			uiSleep 0.1;

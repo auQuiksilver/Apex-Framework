@@ -34,7 +34,7 @@ if (_vehicle isKindOf 'Air') then {
 	};
 };
 [1,_vehicle] call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandlers');
-if (player getUnitTrait 'QS_trait_pilot') then {
+if (player getUnitTrait 'QS_trait_fighterPilot') then {
 	if (_vehicle isKindOf 'Air') then {
 		if (_position in ['driver','gunner']) then {
 			private _isCAS = FALSE;

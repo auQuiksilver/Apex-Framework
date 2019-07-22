@@ -80,8 +80,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		_tank addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 		[0,_tank,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _tank;
-		createVehicleCrew _tank;
-		_grp = group (effectiveCommander _tank);
+		_grp = createVehicleCrew _tank;
 		[_grp,_flatPos,400,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_tank],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];

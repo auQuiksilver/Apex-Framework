@@ -65,13 +65,12 @@ if (_type isEqualTo 0) exitWith {
 			_v enableVehicleCargo FALSE;
 			_v setUnloadInCombat [TRUE,FALSE];
 			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _v;
-			createVehicleCrew _v;
+			_grp = createVehicleCrew _v;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _v))),
 				FALSE
 			];
-			_grp = group (effectiveCommander _v);
 			_grp addVehicle _v;
 			[_grp,_position,350,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_v],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];

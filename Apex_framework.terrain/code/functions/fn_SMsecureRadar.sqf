@@ -77,7 +77,7 @@ missionNamespace setVariable [
 	FALSE
 ];
 _researchTable attachTo [(missionNamespace getVariable 'QS_sm_radarHouse'),[0,3,0.45]];
-_objectTypes = ['Land_Laptop_unfolded_F','Land_Laptop_device_F'];
+_objectTypes = ['Land_Laptop_03_black_F','Land_Laptop_device_F'];
 _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
 missionNamespace setVariable [

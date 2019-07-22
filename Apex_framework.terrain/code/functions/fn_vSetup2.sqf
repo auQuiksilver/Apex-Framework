@@ -36,6 +36,13 @@ _reserved_2 = [''];
 _reserved_3 = [''];
 scopeName 'main';
 if (_case isEqualTo 0) then {
+	if (
+		(_vehicle isKindOf 'Helicopter') ||
+		{(_vehicle isKindOf 'Tank')} ||
+		{(_vehicle isKindOf 'Wheeled_APC_F')}
+	) then {
+		_vehicle addEventHandler ['IncomingMissile',(missionNamespace getVariable 'QS_fnc_AIXMissileCountermeasure')];
+	};
 	//comment 'Randomized';
 	if (_type in _tigris) then {
 		if ((random 1) < 0.666) then {

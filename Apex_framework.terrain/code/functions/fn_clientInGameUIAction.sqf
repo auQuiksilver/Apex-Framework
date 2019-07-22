@@ -376,8 +376,8 @@ if (_QS_actionName isEqualTo 'GetInTurret') exitWith {
 	if ((!isNil {player getVariable 'QS_tto'}) && ((player getVariable 'QS_tto') > 3)) then {
 		_QS_c = TRUE;
 	};
-	if (['Copilot',(_this select 4),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-		if (!( (toLower (typeOf (_this select 0))) in ['b_heli_light_01_f','b_heli_light_01_stripped_f','i_heli_light_03_f','i_heli_light_03_unarmed_f','i_heli_light_03_dynamicloadout_f'])) then {
+	if (['Copilot',(_this # 4),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+		if (!( (toLower (typeOf (_this # 0))) in ['b_heli_light_01_f','b_heli_light_01_stripped_f','i_heli_light_03_f','i_heli_light_03_unarmed_f','i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f'])) then {
 			if ((count allPlayers) > 20) then {
 				if ((!(player getUnitTrait 'QS_trait_pilot')) && (!(player getUnitTrait 'QS_trait_fighterPilot'))) then {
 					_QS_c = TRUE;

@@ -75,13 +75,15 @@ if (_key in (actionKeys 'PushToTalk')) then {
 				};
 			} else {
 				if (currentChannel isEqualTo 7) then {
-					if (!(player getUnitTrait 'QS_trait_pilot')) then {
-						if (!(player getUnitTrait 'uavhacker')) then {
-							if (!(player getUnitTrait 'QS_trait_HQ')) then {
-								if (!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist')))) then {
-									setCurrentChannel 5;
-									50 cutText ['Only Pilots and UAV Operator can transmit voice on Aircraft channel','PLAIN DOWN'];
-									_c = TRUE;
+					if (!(player getUnitTrait 'QS_trait_fighterPilot')) then {
+						if (!(player getUnitTrait 'QS_trait_pilot')) then {
+							if (!(player getUnitTrait 'uavhacker')) then {
+								if (!(player getUnitTrait 'QS_trait_HQ')) then {
+									if (!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist')))) then {
+										setCurrentChannel 5;
+										50 cutText ['Only Pilots and UAV Operator can transmit voice on Aircraft channel','PLAIN DOWN'];
+										_c = TRUE;
+									};
 								};
 							};
 						};

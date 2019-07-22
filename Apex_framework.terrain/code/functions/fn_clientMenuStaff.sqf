@@ -47,9 +47,9 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 		['4 - Show Pilots',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),6,77,TRUE,TRUE,'','TRUE'],
 		['5 - (Target) Repair',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),7,76,TRUE,TRUE,'','TRUE'],
 		['6 - (Target) Pardon',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),8,75,TRUE,TRUE,'','TRUE'],
-		['7 - (Target) Punish',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),9,75,TRUE,TRUE,'','TRUE']
-		/*/['8 - Anti-hack (toggle)',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),10,74,TRUE,TRUE,'','TRUE'],/*/
-		/*/['9 - Tag Map Markers',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),11,73,TRUE,TRUE,'','TRUE']/*/
+		['7 - (Target) Punish',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),9,75,TRUE,TRUE,'','TRUE'],
+		['8 - No function assigned',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),10,74,TRUE,TRUE,'','TRUE'],
+		['9 - No function assigned',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),11,73,TRUE,TRUE,'','TRUE']
 	];
 	_adminsActions = [
 		['10 - (Target) Revive',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),12,72,TRUE,TRUE,'','TRUE'],
@@ -191,11 +191,13 @@ if (_type2 isEqualType 0) exitWith {
 		private _text = '';
 		{
 			
-		
-		
-			if ((['pilot',(typeOf _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['uav',(typeOf _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
-				systemChat format ['%1 - %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),(name _x)];
-				_text = _text + (format ['<br/><br/>%1 - %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),(name _x)]);
+			if (
+				(_x getUnitTrait 'QS_trait_pilot') ||
+				(_x getUnitTrait 'QS_trait_fighterPilot') ||
+				(_x getUnitTrait 'uavhacker')
+			) then {
+				systemChat format ['%1 - %2',(['GET_ROLE_DISPLAYNAME',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)];
+				_text = _text + (format ['<br/><br/>%1 - %2',(['GET_ROLE_DISPLAYNAME',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)]);
 			};
 		} count allPlayers;
 		_text = parseText _text;
@@ -254,11 +256,12 @@ if (_type2 isEqualType 0) exitWith {
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_type2 isEqualTo 10) then {
-		/*/Obsolete/*/
+		/*/No function assigned/*/
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'No function assigned',[],-1,TRUE,'Admin Tools',FALSE];
 	};
-	/*/Map Markers/*/
 	if (_type2 isEqualTo 11) then {
-		/*/Obsolete/*/
+		/*/No function assigned/*/
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'No function assigned',[],-1,TRUE,'Admin Tools',FALSE];
 	};
 	if (_type2 isEqualTo 12) then {
 		_cursorTarget = cursorTarget;

@@ -63,13 +63,12 @@ if ((random 1) >= 0.333) then {
 	_SMveh allowCrewInImmobile TRUE;
 };
 (missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh;
-createVehicleCrew _SMveh;
+_grp = createVehicleCrew _SMveh;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',
 	((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _SMveh))),
 	FALSE
 ];
-_grp = group ((crew _SMveh) select 0);
 [_grp,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 
 _grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];

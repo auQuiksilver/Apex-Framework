@@ -196,16 +196,23 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 		};
 		_position set [2,(_center select 2)];
 		private _posToSet = [(_position select 0),(_position select 1),((_position select 2)+0.35)];
+		_towedVehicle setPosWorld _posToSet;
+		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this select 0) allowDamage TRUE;(_this select 0) setVectorUp (surfaceNormal (_this select 1));};
+		if (!isNull (attachedTo _towedVehicle)) then {
+			_towedVehicle attachTo [_vehicle,[(_detachPos select 0),(_detachPos select 1),((_vehicle worldToModelVisual (position _towedVehicle)) select 2)]];
+			detach _towedVehicle;
+		};
+		_towedVehicle setPosWorld _posToSet;
 	} else {
 		private _posToSet = [((getPosWorld _towedVehicle) select 0),((getPosWorld _towedVehicle) select 1),(((getPosWorld _towedVehicle) select 2)+0.35)];
+		_towedVehicle setPosWorld _posToSet;
+		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this select 0) allowDamage TRUE;(_this select 0) setVectorUp (surfaceNormal (_this select 1));};
+		if (!isNull (attachedTo _towedVehicle)) then {
+			_towedVehicle attachTo [_vehicle,[(_detachPos select 0),(_detachPos select 1),((_vehicle worldToModelVisual (position _towedVehicle)) select 2)]];
+			detach _towedVehicle;
+		};
+		_towedVehicle setPosWorld _posToSet;
 	};
-	_towedVehicle setPosWorld _posToSet;
-	[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this select 0) allowDamage TRUE;(_this select 0) setVectorUp (surfaceNormal (_this select 1));};
-	if (!isNull (attachedTo _towedVehicle)) then {
-		_towedVehicle attachTo [_vehicle,[(_detachPos select 0),(_detachPos select 1),((_vehicle worldToModelVisual (position _towedVehicle)) select 2)]];
-		detach _towedVehicle;
-	};
-	_towedVehicle setPosWorld _posToSet;
 };
 if (local _towedVehicle) then {
 	_towedVehicle lock 0;

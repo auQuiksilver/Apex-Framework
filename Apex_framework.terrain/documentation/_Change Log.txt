@@ -1,5 +1,28 @@
 Official Change Log
 
+1.1.7 "Contact" (23/07/2019 A3 1.94)
+
+- [ADDED] Contact DLC Integration.
+- [ADDED] QS Active Protection System, for armored vehicles. Based on Israeli "Trophy" and Russian "Afghanit" systems.
+- [ADDED] FOBs to Malden.
+- [ADDED] Medical cabinets to FOBs (all terrains).
+- [ADDED] DLC gear to scripted Arsenal.
+- [ADDED] New enemy static weapon emplacement in AOs.
+- [TWEAKED] Improved enemy loadout randomization.
+- [TWEAKED] Overhaul of enemy AI gear randomization system.
+- [TWEAKED] FOB'ified the main mission types for Malden.
+- [TWEAKED] Added ability to disregard "is respawn position clear" parameter for Vehicle Respawn (set near entities check radius to -1).
+- [TWEAKED] Prisoners converted from object type 'agent' (more resources) to 'vehicle' (less resources) when placed into Prison.
+- [TWEAKED] Contact DLC objects can be dragged/carried when appropriate.
+- [TWEAKED] Integrated new & improved A3 1.94 script commands.
+- [FIXED] Player vehicle event handlers were not unloading properly on player death.
+- [FIXED] "FOB Status" user action had no maximum radius.
+- [FIXED] Fighter pilot was unable to properly use Aircraft radio channel.
+- [FIXED] Engineer was unable to disarm landmines.
+- [FIXED] Enemy forces were unaware of where their own minefields were.
+- [FIXED] Script error in Towing Release script.
+- [FIXED] Fixed potential script error in AO Defend mission.
+
 1.1.6 Hotfix 1 (12/05/2019 A3 1.92)
 
 - [FIXED] HVT could not be captured.

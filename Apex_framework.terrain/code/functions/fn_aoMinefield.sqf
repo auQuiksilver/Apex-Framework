@@ -40,6 +40,9 @@ for '_x' from 0 to (round (29 + (random 19))) step 1 do {
 	];
 	//_mine enableDynamicSimulation TRUE;
 	_mine setVectorUp (surfaceNormal (getPosWorld _mine));
+	{
+		_x revealMine _mine;
+	} forEach [EAST,RESISTANCE];
 	if (surfaceIsWater (getPosWorld _mine)) then {
 		deleteVehicle _mine;
 	} else {

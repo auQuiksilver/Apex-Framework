@@ -1,14 +1,27 @@
 /*/
-File: fn_clientEachFrame.sqf
+File: fn_clientEventEachFrame.sqf
 Author: 
 
 	Quiksilver
 	
 Last modified:
 
-	21/11/2017 A3 1.78 by Quiksilver
+	19/06/2019 A3 1.94 by Quiksilver
 	
 Description:
 
 	Each Frame
-___________________________________________________________________/*/
+______________________________________________/*/
+
+if ((missionNamespace getVariable ['QS_projectile_manager',[]]) isEqualTo []) then {
+	removeMissionEventHandler ['EachFrame',_thisEventHandler];
+	missionNamespace setVariable ['QS_projectile_manager_PFH',-1,FALSE];
+} else {
+	{
+		if (!isNull (_x # 1)) then {
+			_x call (missionNamespace getVariable 'QS_fnc_clientProjectileManager');
+		} else {
+			(missionNamespace getVariable ['QS_projectile_manager',[]]) deleteAt _forEachIndex;
+		};
+	} forEach (missionNamespace getVariable ['QS_projectile_manager',[]]);
+};

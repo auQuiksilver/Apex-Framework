@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/04/2018 A3 1.82 by Quiksilver
+	3/06/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -45,6 +45,13 @@ if (!((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo
 		_return = [
 			[ [8098.5,10237.6,1],[7987.92,10238.1,1],[7987.61,10022.9,1],[8097.11,10023.5,1] ],								// Speed limited area #1
 			[ [8017.61,10385.9,1],[8012.09,10246.4,1],[8115.71,10244.8,1],[8118.9,10382.4,1] ]								// Speed limited area #2
+		];
+	};
+	if (worldName isEqualTo 'Enoch') then {
+		// Default base layout, speed limited areas for LIVONIA
+		_return = [
+			[[4070.12,10310.7,0],[3942.69,10181.2,0],[3976.86,10147.4,0],[4105.77,10273.6,0]],								// Speed limited area #1
+			[[3810.13,10133.7,0],[3832.01,10091.3,0],[3926.57,10177.1,0],[3890.72,10213.8,0]]								// Speed limited area #2
 		];
 	};
 	_return;
@@ -96,6 +103,14 @@ if (worldName isEqualTo 'Malden') exitWith {
 	_return = [
 		[[8098.5,10237.6,1],[7987.92,10238.1,1],[7987.61,10022.9,1],[8097.11,10023.5,1]],
 		[[8017.61,10385.9,1],[8012.09,10246.4,1],[8115.71,10244.8,1],[8118.9,10382.4,1]]
+	];
+	_return;
+};
+if (worldName isEqualTo 'Enoch') exitWith {
+	// Default base layout, speed limited areas for LIVONIA
+	_return = [
+		[[4070.12,10310.7,0],[3942.69,10181.2,0],[3976.86,10147.4,0],[4105.77,10273.6,0]],
+		[[3810.13,10133.7,0],[3832.01,10091.3,0],[3926.57,10177.1,0],[3890.72,10213.8,0]]
 	];
 	_return;
 };

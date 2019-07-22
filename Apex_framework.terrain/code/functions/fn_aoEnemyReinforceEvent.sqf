@@ -63,7 +63,7 @@ QS_fnc_aoEnemyReinforceEvent = {
 				FALSE
 			];
 			0 = _array pushBack _v;
-			createVehicleCrew _v;
+			_grp = createVehicleCrew _v;
 			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _v;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
@@ -93,7 +93,6 @@ QS_fnc_aoEnemyReinforceEvent = {
 					_damage;
 				}
 			];
-			_grp = group (driver _v);
 			_v allowCrewInImmobile TRUE;
 			_v lock 3;
 			_grp setVariable ['QS_IA_spawnPos',_spawnPos,FALSE];
@@ -284,7 +283,7 @@ QS_fnc_aoEnemyReinforceEvent = {
 				FALSE
 			];
 			0 = _array pushBack _v;
-			createVehicleCrew _v;
+			_grp = createVehicleCrew _v;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _v))),
@@ -313,7 +312,6 @@ QS_fnc_aoEnemyReinforceEvent = {
 					_damage;
 				}
 			];
-			_grp = group (driver _v);
 			_v setUnloadInCombat [FALSE,FALSE];
 			_v allowCrewInImmobile TRUE;
 			_v flyInHeight (25 + (random 30));

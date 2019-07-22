@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	21/07/2018 A3 1.84 by Quiksilver
+	2/06/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -66,6 +66,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_accepted) exitWith {};
 };
+private _watchPosition = _spawnPosition vectorAdd [0,0,1000];
 //comment 'Generate composition and assets';
 private _compositionData = [
 	[
@@ -223,7 +224,8 @@ _compositionData = nil;
 		(crew _aaHull) joinSilent (createGroup [EAST,TRUE]);
 		{
 			_x setVariable ['QS_hidden',TRUE,TRUE];
-		} forEach (crew _aaHull);		
+		} forEach (crew _aaHull);
+		//_aaHull doWatch _watchPosition;
 		_aaTurrets pushBack [_aaHull,(gunner _aaHull),(group (gunner _aaHull)),(typeOf _aaHull),((weapons _aaHull) select ([0,1] select (_aaHull isKindOf 'Tank'))),0,0,0];
 	};
 } forEach _aaHulls;
@@ -273,6 +275,11 @@ for '_x' from 0 to 1 step 0 do {
 	uiSleep 1;
 	_time = diag_tickTime;
 	if (_time > _checkDelay) then {
+		{
+			if (alive _x) then {
+				//_x doWatch _watchPosition;
+			};
+		} forEach _aaHulls;
 		_allAircraft = (entities _entitiesParams) select {
 			_aircraftPosition = getPosATL _x;
 			if (surfaceIsWater _aircraftPosition) then {
@@ -335,8 +342,8 @@ for '_x' from 0 to 1 step 0 do {
 					if (!(_targetListEnemy isEqualTo [])) then {
 						_targetCandidate = selectRandom _targetListEnemy;
 						_aaGunner reveal [_targetCandidate,4];
-						_aaGunner doTarget _targetCandidate;
-						_aaGunner doWatch (_aaTurret getVariable 'QS_v_targetPosition');
+						_aaTurret doTarget _targetCandidate;
+						_aaTurret doWatch _targetCandidate;
 						uiSleep 2;
 						_aaTurret fireAtTarget [_targetCandidate,_aaTurretWeapon];
 					};

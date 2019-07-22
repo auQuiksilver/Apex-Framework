@@ -6,12 +6,12 @@ Author:
 
 Last Modified:
 
-	30/07/2016 A3 1.62 by Quiksilver
+	22/07/2019 A3 1.94 by Quiksilver
 
 Description:
 
 	AO Jungle Camp
-____________________________________________________________________________*/
+_________________________________________________*/
 
 params ['_centerpos'];
 private ['_position','_return','_sentryType','_patrolGroup'];
@@ -43,12 +43,15 @@ missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVar
 		_x setPosATL [((getPosATL _x) select 0),((getPosATL _x) select 1),0];
 	};
 } count _return;
-_sentryType = 'HAF_InfSentry';
+_sentryType = selectRandomWeighted ['HAF_InfSentry',1,'IG_SniperTeam_M',1];
 if (worldName isEqualTo 'Tanoa') then {
-	_sentryType = 'IG_InfSentry';
+	_sentryType = selectRandomWeighted ['IG_InfSentry',1,'IG_ReconSentry',1];
+};
+if (worldName isEqualTo 'Enoch') then {
+	_sentryType = selectRandomWeighted ['I_E_InfSentry',1,'I_L_CriminalSentry',1];
 };
 _patrolGroup = [_position,(random 360),RESISTANCE,_sentryType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-[(units _patrolGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+[(units _patrolGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 {
 	[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 	0 = _return pushBack _x;
@@ -64,6 +67,7 @@ for '_x' from 0 to 1 step 1 do {
 	_patrolGroup enableAttack TRUE;
 	_patrolGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
 	{
+		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 		0 = _return pushBack _x;
 	} count (units _patrolGroup);
 };

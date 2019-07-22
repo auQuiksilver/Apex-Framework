@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	30/04/2019 A3 1.92 by Quiksilver
+	22/06/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -50,6 +50,7 @@ disableRandomization[] = {};
 disableGateRandomization = 1;
 class CfgUnitTemplates {};
 class CfgVehicleTemplates {};
+unsafeCVL=1;					// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
 class CfgDisabledCommands {
     class CREATEUNIT
     {
@@ -176,10 +177,10 @@ class CfgDisabledCommands {
 };
 class CfgRemoteExec {
 	class Commands {
-		mode = 2;
+		mode = 1;
 	};
 	class Functions {
-		mode = 2;
+		mode = 1;
 		jip = 0;
 		allowedTargets = 0;
 		class BIS_fnc_callScriptedEventHandler {};
@@ -313,6 +314,7 @@ class CfgFunctions {
 			class AIXHeliInsertLanding {file = "code\functions\fn_AIXHeliInsertLanding.sqf";};
 			class AIXHeliInsertVehicle {file = "code\functions\fn_AIXHeliInsertVehicle.sqf";};
 			class AIXHitEvade {file = "code\functions\fn_AIXHitEvade.sqf";};
+			class AIXMissileCountermeasure {file = "code\functions\fn_AIXMissileCountermeasure.sqf";};
 			class AIXRepairVehicle {file = "code\functions\fn_AIXRepairVehicle.sqf";};
 			class AIXSetMine {file = "code\functions\fn_AIXSetMine.sqf";};
 			class AIXSuppressiveFire {file = "code\functions\fn_AIXSuppressiveFire.sqf";};
@@ -323,6 +325,7 @@ class CfgFunctions {
 			class aoBoatPatrol {file = "code\functions\fn_aoBoatPatrol.sqf";};
 			class aoBriefing {file = "code\functions\fn_aoBriefing.sqf";};
 			class aoCreateUXOfield {file = "code\functions\fn_aoCreateUXOfield.sqf";};
+			class aoCustomize {file = "code\functions\fn_aoCustomize.sqf";};
 			class aoDefend {file = "code\functions\fn_aoDefend.sqf";};
 			class aoEnemy {file = "code\functions\fn_aoEnemy.sqf";};
 			class aoEnemyReinforce {file = "code\functions\fn_aoEnemyReinforce.sqf";};
@@ -384,6 +387,7 @@ class CfgFunctions {
 			class clientEventCuratorObjectRegistered {file = "code\functions\fn_clientEventCuratorObjectRegistered.sqf";};
 			class clientEventCuratorWaypointPlaced {file = "code\functions\fn_clientEventCuratorWaypointPlaced.sqf";};
 			class clientEventDraw3D {file = "code\functions\fn_clientEventDraw3D.sqf";};
+			class clientEventEachFrame {file = "code\functions\fn_clientEventEachFrame.sqf";};
 			class clientEventExplosion {file = "code\functions\fn_clientEventExplosion.sqf";};
 			class clientEventFired {file = "code\functions\fn_clientEventFired.sqf";};
 			class clientEventFiredMan {file = "code\functions\fn_clientEventFiredMan.sqf";};
@@ -502,6 +506,7 @@ class CfgFunctions {
 			class clientMFindHealer {file = "code\functions\fn_clientMFindHealer.sqf";};
 			class clientMissionStatus {file = "code\functions\fn_clientMissionStatus.sqf";};
 			class clientProgressVisualization {file = "code\functions\fn_clientProgressVisualization.sqf";};
+			class clientProjectileManager {file = "code\functions\fn_clientProjectileManager.sqf";};
 			class clientRadio {file = "code\functions\fn_clientRadio.sqf";};
 			class clientRepackMagazines {file = "code\functions\fn_clientRepackMagazines.sqf";};
 			class clientRequestMedevac {file = "code\functions\fn_clientRequestMedevac.sqf";};
@@ -539,6 +544,7 @@ class CfgFunctions {
 			class config {file = "code\functions\fn_config.sqf";};
 			class core {file = "code\functions\fn_core.sqf";};
 			class createAAVehicle {file = "code\functions\fn_createAAVehicle.sqf";};
+			class createEntityComposition {file = "code\functions\fn_createEntityComposition.sqf";};
 			class createHQComposition {file = "code\functions\fn_createHQComposition.sqf";};
 			class createMinefield {file = "code\functions\fn_createMinefield.sqf";};
 			class createWell {file = "code\functions\fn_createWell.sqf";};
@@ -568,6 +574,7 @@ class CfgFunctions {
 			class findOverwatchPos {file = "code\functions\fn_findOverwatchPos.sqf";};
 			class findRandomPos {file = "code\functions\fn_findRandomPos.sqf";};
 			class findSafePos {file = "code\functions\fn_findSafePos.sqf";};
+			class fobAssets {file = "code\functions\fn_fobAssets.sqf";};
 			class fobEnable {file = "code\functions\fn_fobEnable.sqf";};
 			class fobEnemyAssault {file = "code\functions\fn_fobEnemyAssault.sqf";};
 			class fobPrepare {file = "code\functions\fn_fobPrepare.sqf";};
@@ -710,6 +717,7 @@ class CfgFunctions {
 			class uavOperator {file = "code\functions\fn_uavOperator2.sqf";};
 			class unitSetup {file = "code\functions\fn_unitSetup.sqf";};
 			class utilityLights {file = "code\functions\fn_utilityLights.sqf";};
+			class vehicleAPSParams {file = "code\functions\fn_vehicleAPSParams.sqf";};
 			class vehicleLoadouts {file = "code\functions\fn_vehicleLoadouts.sqf";};
 			class vEventControlsShifted {file = "code\functions\fn_vEventControlsShifted.sqf";};
 			class vEventRopeAttach {file = "code\functions\fn_vEventRopeAttach.sqf";};

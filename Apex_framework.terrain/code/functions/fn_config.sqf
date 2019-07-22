@@ -6,15 +6,15 @@ Author:
 	
 Last modified: 
 
-	26/04/2019 A3 1.90 by Quiksilver
+	5/06/2019 A3 1.94 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.6';
-_missionProductStatus = 'Stable';
+_missionProductVersion = '1.1.7';
+_missionProductStatus = 'Beta';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
@@ -220,7 +220,12 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 enableDynamicSimulationSystem TRUE;
 enableEnvironment [FALSE,FALSE];
 disableRemoteSensors TRUE;
+calculatePlayerVisibilityByFriendly FALSE;
 useAISteeringComponent FALSE;
+setViewDistance 2500;
+setObjectViewDistance 2500;
+setShadowDistance 0;
+setTerrainGrid 50;
 {
 	(_x select 0) enableAIFeature (_x select 1);
 } forEach [
@@ -235,19 +240,24 @@ _worldName = worldName;
 if (_worldName isEqualTo 'Altis') then {
 	{
 		_x setAirportSide WEST;
-	} forEach (allAirports select 0);		/*/0 = Airbase 1 = AAC Airfield 2 = Krya Nera Airstrip 3 = Selakeno Airfield 4 = Molos Airfield 5 = Almyra Salt Lake Airstrip/*/
+	} forEach (allAirports # 0);		/*/0 = Airbase 1 = AAC Airfield 2 = Krya Nera Airstrip 3 = Selakeno Airfield 4 = Molos Airfield 5 = Almyra Salt Lake Airstrip/*/
 };
 if (_worldName isEqualTo 'Tanoa') then {
 	{
 		_x setAirportSide WEST;
-	} forEach (allAirports select 0);			/*/0 = Aeroport de Tanoa 1 = Tuvanaka Airbase 2 = Saint-George Airstrip 3 = Bala Airstrip 4 = La Rochelle Aerodome /*/
+	} forEach (allAirports # 0);			/*/0 = Aeroport de Tanoa 1 = Tuvanaka Airbase 2 = Saint-George Airstrip 3 = Bala Airstrip 4 = La Rochelle Aerodome /*/
 };
 if (_worldName isEqualTo 'Malden') then {
 	{
 		_x setAirportSide WEST;
-	} forEach (allAirports select 0);
+	} forEach (allAirports # 0);
 };
-_environment = ['mediterranean','tropic'] select (_worldName in ['Tanoa','Lingor3']);
+if (_worldName isEqualTo 'Enoch') then {
+	{
+		_x setAirportSide WEST;
+	} forEach (allAirports # 0);
+};
+_environment = ['mediterranean','tropic'] select (_worldName in ['Tanoa','Lingor3','Enoch']);
 
 /*/==================== MISSION NAMESPACE VARS/*/
 
@@ -267,12 +277,13 @@ _aoSize = 800;	/*/ AO Circle Radius /*/
 if (_worldName isEqualTo 'Altis') then {_aoSize = 800;};
 if (_worldName isEqualTo 'Tanoa') then {_aoSize = 600;};
 if (_worldName isEqualTo 'Malden') then {_aoSize = 300;};
+if (_worldName isEqualTo 'Enoch') then {_aoSize = 500;};
 _flagTextureEast = 'a3\data_f\flags\flag_csat_co.paa';
 _flagTextureWest = (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
 _flagTextureResistance = 'a3\data_f\flags\flag_aaf_co.paa';
 _flagTextureCivilian = 'a3\data_f\flags\flag_altis_co.paa';
 _flagTextureUnknown = 'a3\data_f\flags\flag_uno_co.paa';
-if (_worldName in ['Altis','Tanoa','Malden']) then {
+if (_worldName in ['Altis','Tanoa','Malden','Enoch']) then {
 	_flagTextureEast = 'a3\data_f\flags\flag_csat_co.paa';
 	_flagTextureWest = (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
 	_flagTextureResistance = 'a3\data_f\flags\flag_aaf_co.paa';
@@ -532,6 +543,7 @@ _recyclerUnitTypes = [
 	['QS_module_fob_supplycrate',objNull,FALSE],
 	['QS_module_fob_assaultArray',[],FALSE],
 	['QS_module_fob_flag_textures',['a3\data_f\flags\flag_csat_co.paa',_flagTextureFriendly,'a3\data_f\flags\flag_aaf_co.paa','a3\data_f\flags\flag_altis_co.paa','a3\data_f\flags\flag_uno_co.paa'],FALSE],
+	['QS_module_fob_repairDepot',objNull,FALSE],
 	['QS_module_upload_device',objNull,FALSE],
 	['QS_module_upload_flag',objNull,FALSE],
 	['QS_module_upload_intel_1',objNull,FALSE],
@@ -752,7 +764,6 @@ _recyclerUnitTypes = [
 ];
 call (compile (preprocessFileLineNumbers '@Apex_cfg\roles.sqf'));
 ['INIT_SYSTEM'] call (missionNamespace getVariable 'QS_fnc_roles');
-
 missionNamespace setVariable ['QS_data_arsenal',(compileFinal (preprocessFileLineNumbers '@Apex_cfg\arsenal.sqf')),TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	{
@@ -872,25 +883,31 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 };
 
 /*/===== World config/*/
-if (_worldName in ['Altis','Tanoa','Malden']) then {
+if (_worldName in ['Altis','Tanoa','Malden','Enoch']) then {
 	private _subPos = [0,0,0];
+	private _spawnSub = FALSE;
 	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 		if (_worldName isEqualTo 'Altis') then {
 			_subPos = [15197.437,15219.423,(0 - (random 2))];
+			_spawnSub = TRUE;
 		};
 		if (_worldName isEqualTo 'Tanoa') then {
 			_subPos = [7025.683,6660.926,(0 - (random 2))];
+			_spawnSub = TRUE;
 		};
 		if (_worldName isEqualTo 'Malden') then {
 			_subPos = [8851.859,9930.916,(0 - (random 2))];
+			_spawnSub = TRUE;
 		};
-		_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
-		_sub setDir (random 360);
-		['setFeatureType',_sub,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_sub];
+		if (_spawnSub) then {
+			_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
+			_sub setDir (random 360);
+			['setFeatureType',_sub,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_sub];
+		};
 	} else {
 		if ('QS_marker_subPosition' in allMapMarkers) then {
 			if (surfaceIsWater (markerPos 'QS_marker_subPosition')) then {
-				_subPos = [((markerPos 'QS_marker_subPosition') select 0),((markerPos 'QS_marker_subPosition') select 1),(0 - (random 2))];
+				_subPos = [((markerPos 'QS_marker_subPosition') # 0),((markerPos 'QS_marker_subPosition') # 1),(0 - (random 2))];
 				_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
 				_sub setDir (markerDir 'QS_marker_subPosition');
 				['setFeatureType',_sub,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_sub];
@@ -902,11 +919,11 @@ if (_worldName in ['Altis','Tanoa','Malden']) then {
 if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'GRID') then {
 	{
 		_x hideObjectGlobal TRUE;
-	} forEach (nearestTerrainObjects [[worldSize/2, worldSize/2],['Land_ConcreteWell_01_F'],worldSize,FALSE,TRUE]);
+	} forEach (nearestTerrainObjects [[worldSize/2, worldSize/2],['Land_ConcreteWell_01_F','Land_SewerCover_04_F','Land_ConcreteWell_02_F','Land_StoneWell_01_F'],worldSize,FALSE,TRUE]);
 };
 if (_worldName isEqualTo 'Malden') then {
 	{
-		((_x select 0) nearestObject (_x select 1)) hideObjectGlobal (!isObjectHidden ((_x select 0) nearestObject (_x select 1)));
+		((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
 	} forEach [
 		[[4779.35,5697.9,0.0012207],'Land_Bunker_01_HQ_F']
 	];
@@ -931,6 +948,16 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 			[[14723.3,16821.3,3.8147e-006],'Land_LampAirport_F'],
 			[[14572.2,16668.5,3.8147e-006],'Land_LampAirport_F']
 		];
+		{
+			_x hideObjectGlobal TRUE; 
+			_x enableSimulationGlobal FALSE;
+		} forEach (nearestTerrainObjects [[16899.4,9935.51,0.00149155],['BUSH'],5,FALSE,TRUE]);
+		{
+			if ((getPosWorld _x) inPolygon [[5443.56,17947,0],[5387.14,17940.1,0],[5383.96,17933.4,0],[5368.8,17932.5,0],[5343.63,17919,0],[5355.7,17878.1,0],[5364.41,17850.4,0],[5379.65,17850.7,0],[5395.13,17870.1,0],[5434.97,17871.2,0],[5438.15,17916.3,0],[5445.73,17929.3,0]]) then {
+				_x hideObjectGlobal TRUE;
+				_x enableSimulationGlobal FALSE;
+			};
+		} forEach (nearestTerrainObjects [[5398.63,17897.7,0.00141144],[],100,FALSE,TRUE]);
 		0 spawn {
 			private ['_obj','_pos'];
 			_simpleObjects = call (compile (preprocessFileLineNumbers 'code\config\QS_data_simpleobjects.sqf'));
@@ -962,6 +989,10 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 			],
 			TRUE
 		];
+		{
+			_x hideObjectGlobal TRUE;
+			_x enableSimulationGlobal FALSE;
+		} forEach (nearestTerrainObjects [[4009.65,11793.7,0.00143814],['TREE'],10,FALSE,TRUE]);
 	};
 	if (_worldName isEqualTo 'Malden') then {
 		missionNamespace setVariable ['QS_prisonPos',[8106.4,10049.15,0],TRUE];
@@ -975,7 +1006,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 			TRUE
 		];
 		{
-			((_x select 0) nearestObject (_x select 1)) hideObjectGlobal (!isObjectHidden ((_x select 0) nearestObject (_x select 1)));
+			((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
 		} forEach [
 			[[8066.87,10196.4,0.0199451],'Land_HelipadSquare_F'],
 			[[8020.53,10196.8,0.0200291],'Land_HelipadSquare_F'],
@@ -986,32 +1017,22 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 			[[8093.89,10235.7,-0.00857162],'Land_LampAirport_F']
 		];
 	};
+	if (_worldName isEqualTo 'Enoch') then {
+		missionNamespace setVariable ['QS_prisonPos',[4104.49,10211.3,0],TRUE];
+		missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
+		missionNamespace setVariable [
+			'QS_baseProtection_polygons',
+			[
+				[[4070.12,10310.7,0],[3942.69,10181.2,0],[3976.86,10147.4,0],[4105.77,10273.6,0]],
+				[[3810.13,10133.7,0],[3832.01,10091.3,0],[3926.57,10177.1,0],[3890.72,10213.8,0]]
+			],
+			TRUE
+		];
+	};
 } else {
 	missionNamespace setVariable ['QS_baseProtection_polygons',(call (compile (preprocessFileLineNumbers 'code\config\QS_data_speedLimitAreas.sqf'))),TRUE];
 	missionNamespace setVariable ['QS_prisonPos',(markerPos 'QS_marker_gitmo'),TRUE];
 	missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
-};
-
-if (_worldName isEqualTo 'Altis') then {
-	{
-		((_x select 0) nearestObject (_x select 1)) allowDamage FALSE;
-		((_x select 0) nearestObject (_x select 1)) hideObjectGlobal (!isObjectHidden ((_x select 0) nearestObject (_x select 1)));
-	} forEach [
-		[[5428.85,17939.7,0.037674],'Land_dp_smallTank_F'],
-		[[5436.7,17940.3,0.0728378],'Land_dp_smallTank_F'],
-		[[5435.64,17902.7,0.149261],'Land_Shed_Small_F'],
-		[[5402.13,17884.5,0.0144043],'Land_Factory_Hopper_F'],
-		[[5378.34,17893.5,0.0342789],'Land_Factory_Main_F'],
-		[[5374.33,17869.2,3.20747],'Land_Factory_Conv2_F'],
-		[[5359.47,17896.4,-0.127708],'Land_cmp_Tower_F'],
-		[[5365.29,17906.5,-0.198288],'Land_cmp_Shed_F'],
-		[[5391.01,17918.7,0.0248795],'Land_IndPipe2_big_18ladder_F'],
-		[[5389.69,17932.3,-0.359444],'Land_IndPipe2_bigL_R_F'],
-		[[5409.25,17933.7,-0.0294113],'Land_IndPipe2_big_18ladder_F'],
-		[[5421.76,17936.2,-0.135414],'Land_IndPipe2_big_ground2_F'],
-		[[5390.69,17907,7.83025],''],
-		[[5397.52,17934.3,7.93568],'']
-	];
 };
 [0] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 missionNamespace setVariable [
@@ -1181,7 +1202,6 @@ if (isNil {profileNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) 
 	};
 };
 missionNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),date,TRUE];
-missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 
 /*/==== Weather Config/*/
 

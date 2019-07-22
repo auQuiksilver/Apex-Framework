@@ -6,128 +6,395 @@ Author:
 
 Last Modified:
 
-	27/08/2017 A3 1.84 by Quiksilver
+	24/06/2019 A3 1.94 by Quiksilver
 	
 Description:
 
 	Setup unit
+	
+Notes:
+
+	- Change primary weapons
+	- Change optics
+	- Change headgear
+	- Remove proxies + hmd + binocular
+	- Remove unnecessary inventory items
+	- Disable stamina
+	- Set collectible
 ______________________________________________________/*/
 
 _unit = _this;
 _unitType = toLower (typeOf _unit);
+private _weapons = [];
+private _optics = [];
+private _backpacks = [];
+private _weaponHandled = FALSE;
+// Randomize primary weapon
 if ((side _unit) in [EAST,RESISTANCE]) then {
-	private _weapons = [];
-	if (_unitType in ['o_t_soldier_ar_f','o_soldier_ar_f','o_g_soldier_ar_f','i_g_soldier_ar_f','i_c_soldier_bandit_3_f','i_c_soldier_para_4_f','i_soldier_ar_f']) then {
-		if ((random 1) > ([0.5,0.333] select (worldName in ['Tanoa']))) then {
-			if ((backpack _unit) isEqualTo '') then {
-				_unit addBackpack (['b_fieldpack_ocamo','b_fieldpack_ghex_f'] select (worldName in ['Tanoa','Lingor3']));
-			};
-			_weapons = [
-				[
-					'LMG_03_F',0.1,
-					'LMG_Mk200_F',0.1,
-					'LMG_Zafir_F',0.1,
-					'MMG_01_hex_F',0.05
-				],
-				[
-					'LMG_03_F',0.1,
-					'LMG_Mk200_F',0.1
-				]
-			] select (worldName in ['Tanoa']);
-			{
-				_unit removeMagazine _x;
-			} forEach (magazines _unit);
-			[_unit,(selectRandomWeighted _weapons),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-			if (!((handgunWeapon _unit) isEqualTo '')) then {
-				[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-			};
-			_unit selectWeapon (primaryWeapon _unit);
+	_excluded = [
+		'o_v_soldier_exp_hex_f','o_v_soldier_jtac_hex_f','o_v_soldier_m_hex_f','o_v_soldier_hex_f','o_v_soldier_medic_hex_f','o_v_soldier_lat_hex_f',
+		'o_v_soldier_tl_hex_f','o_v_soldier_exp_ghex_f','o_v_soldier_jtac_ghex_f','o_v_soldier_m_ghex_f','o_v_soldier_ghex_f','o_v_soldier_medic_ghex_f',
+		'o_v_soldier_lat_ghex_f','o_v_soldier_tl_ghex_f','o_recon_exp_f','o_recon_jtac_f','o_recon_m_f','o_recon_medic_f','o_pathfinder_f','o_recon_f',
+		'o_recon_lat_f','o_recon_tl_f','o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_spotter_f','o_t_recon_exp_f','o_t_recon_jtac_f',
+		'o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f','o_t_sniper_f','o_t_ghillie_tna_f','o_t_spotter_f',
+		'o_diver_f','o_diver_exp_f','o_diver_tl_f','o_t_diver_f','o_t_diver_exp_f','o_t_diver_tl_f','i_spotter_f','i_sniper_f','i_ghillie_ard_f','i_ghillie_lsh_f','i_ghillie_sard_f',
+		'i_diver_f','i_diver_exp_f','i_diver_tl_f',
+		'o_r_soldier_ar_f','o_r_medic_f','o_r_soldier_exp_f','o_r_soldier_gl_f','o_r_jtac_f','o_r_soldier_m_f','o_r_soldier_lat_f','o_r_soldier_tl_f',
+		'o_r_recon_ar_f','o_r_recon_exp_f','o_r_recon_gl_f','o_r_recon_jtac_f','o_r_recon_m_f','o_r_recon_medic_f','o_r_recon_lat_f','o_r_recon_tl_f'
+	];
+	// Add radio backpack
+	if (_unitType in [
+		'o_soldier_sl_f','o_recon_jtac_f','o_recon_tl_f','o_v_soldier_jtac_hex_f','o_v_soldier_tl_hex_f','o_t_soldier_sl_f','o_t_recon_jtac_f','o_t_recon_tl_f','o_v_soldier_jtac_ghex_f',
+		'o_v_soldier_tl_ghex_f','o_r_jtac_f','o_r_soldier_tl_f','o_r_recon_jtac_f','o_r_recon_tl_f','i_soldier_sl_f','o_soldieru_sl_f'
+	]) then {
+		if (_unitType in [
+			'o_soldier_sl_f','o_recon_jtac_f','o_recon_tl_f','o_v_soldier_jtac_hex_f','o_v_soldier_tl_hex_f'
+		]) then {
+			_unit addBackpack 'B_RadioBag_01_hex_F';
 		};
-	} else {
-		if (!(_unitType in [
-			'o_v_soldier_exp_hex_f','o_v_soldier_jtac_hex_f','o_v_soldier_m_hex_f','o_v_soldier_hex_f','o_v_soldier_medic_hex_f','o_v_soldier_lat_hex_f',
-			'o_v_soldier_tl_hex_f','o_v_soldier_exp_ghex_f','o_v_soldier_jtac_ghex_f','o_v_soldier_m_ghex_f','o_v_soldier_ghex_f','o_v_soldier_medic_ghex_f',
-			'o_v_soldier_lat_ghex_f','o_v_soldier_tl_ghex_f','o_recon_exp_f','o_recon_jtac_f','o_recon_m_f','o_recon_medic_f','o_pathfinder_f','o_recon_f',
-			'o_recon_lat_f','o_recon_tl_f','o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_spotter_f','o_t_recon_exp_f','o_t_recon_jtac_f',
-			'o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f','o_t_sniper_f','o_t_ghillie_tna_f','o_t_spotter_f',
-			'o_diver_f','o_diver_exp_f','o_diver_tl_f','o_t_diver_f','o_t_diver_exp_f','o_t_diver_tl_f','i_spotter_f','i_sniper_f','i_ghillie_ard_f','i_ghillie_lsh_f','i_ghillie_sard_f',
-			'i_diver_f','i_diver_exp_f','i_diver_tl_f'
-		])) then {
-			if ((random 1) > 0.5) then {
-				if (['_GL_',_unitType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-					_weapons = [
-						'arifle_TRG21_GL_F',0.15,
-						'arifle_Mk20_GL_F',0.1,
-						'arifle_AK12_GL_F',([0.3,0.1] select (worldName in ['Tanoa','Lingor3']))
-					];
-					{
-						if (!((toLower _x) in ['1rnd_he_grenade_shell'])) then {
-							_unit removeMagazine _x;
-						};
-					} forEach (magazines _unit);
-					if ((backpack _unit) isEqualTo '') then {
-						_unit addBackpack (['b_fieldpack_ocamo','b_fieldpack_ghex_f'] select (worldName in ['Tanoa','Lingor3']));
-					};
-					[_unit,(selectRandomWeighted _weapons),10] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-					for '_x' from 0 to 29 step 1 do {
-						_unit addMagazine '1rnd_he_grenade_shell';
-					};
-					_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS','optic_Arco_blk_F','optic_Hamr','optic_ERCO_blk_F','optic_Arco']);
-					if (!((handgunWeapon _unit) isEqualTo '')) then {
-						[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-					};
-					_unit selectWeapon (primaryWeapon _unit);
-				} else {
-					_weapons = [
-						'arifle_TRG20_F',0.1,
-						'arifle_TRG21_F',0.2,
-						'arifle_Mk20C_F',0.1,
-						'arifle_Mk20_F',0.1,
-						'arifle_AK12_F',([0.5,0.10] select (worldName in ['Tanoa','Lingor3']))
-					];
-					if (_unitType in ['o_soldier_m_f','o_t_soldier_m_f','o_g_soldier_m_f','i_soldier_m_f','i_g_soldier_m_f']) then {
-						_weapons = [
-							'srifle_DMR_07_blk_F',0.1,
-							'srifle_DMR_05_blk_F',0.1,
-							'srifle_DMR_02_F',0.1,
-							'srifle_DMR_06_camo_F',0.1,
-							'srifle_DMR_01_F',0.1,
-							'srifle_DMR_06_olive_F',0.1
-						];
-					};
-					{
-						_unit removeMagazine _x;
-					} forEach (magazines _unit);
-					[_unit,(selectRandomWeighted _weapons),10] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-					if (!((handgunWeapon _unit) isEqualTo '')) then {
-						[_unit,(handgunWeapon _unit),3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-					};
-					_unit selectWeapon (primaryWeapon _unit);
-					if (_unitType in ['o_soldier_m_f','o_t_soldier_m_f','o_g_soldier_m_f','i_soldier_m_f','i_g_soldier_m_f']) then {
-						_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS']);
-					} else {
-						if ((random 1) > 0.333) then {
-							_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS','optic_Arco_blk_F','optic_Hamr','optic_ERCO_blk_F']);
-						} else {
-							if ((toLower (primaryWeapon _unit)) in ['arifle_trg20_f','arifle_trg21_f','arifle_mk20c_f','arifle_mk20_f','arifle_ak12_f']) then {
-								_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS','optic_Arco_blk_F','optic_Hamr','optic_ERCO_blk_F','optic_Arco']);
-							};
-						};
-					};
-				};
+		if (_unitType in [
+			'o_r_jtac_f','o_r_soldier_tl_f','o_r_recon_jtac_f','o_r_recon_tl_f'
+		]) then {
+			_unit addBackpack 'B_RadioBag_01_eaf_F';
+		};
+		if (_unitType in [
+			'o_t_soldier_sl_f','o_t_recon_jtac_f','o_t_recon_tl_f','o_v_soldier_jtac_ghex_f','o_v_soldier_tl_ghex_f'
+		]) then {
+			_unit addBackpack 'B_RadioBag_01_ghex_F';
+		};
+		if (_unitType in [
+			'i_soldier_sl_f'
+		]) then {
+			_unit addBackpack 'B_RadioBag_01_digi_F';
+		};
+		if (_unitType in [
+			'o_soldieru_sl_f'
+		]) then {
+			_unit addBackpack 'B_RadioBag_01_oucamo_F';
+		};
+	};
+	// autoriflemen
+	if (_unitType in [
+		'o_t_soldier_ar_f','o_soldier_ar_f','o_g_soldier_ar_f','i_g_soldier_ar_f','i_c_soldier_bandit_3_f','i_c_soldier_para_4_f','i_soldier_ar_f','i_e_soldier_ar_f','o_soldieru_ar_f'
+	]) then {
+		_weaponHandled = TRUE;
+		_weapons = [
+			'lmg_03_f',0.1,
+			(selectRandom ['lmg_mk200_f','lmg_mk200_black_f']),0.1,
+			'lmg_zafir_f',0.25,
+			'arifle_rpk12_f',0.25,
+			'mmg_01_hex_f',0.125
+		];
+		_backpacks = [
+			'b_fieldpack_cbr',
+			'b_fieldpack_ocamo',
+			'b_fieldpack_khk',
+			'b_kitbag_tan',
+			'b_tacticalpack_ocamo',
+			'b_viperharness_hex_f',
+			'b_viperlightharness_hex_f'
+		];
+		if (worldName in ['Tanoa']) then {
+			_weapons = [
+				'lmg_03_f',0.25,
+				(selectRandom ['lmg_mk200_f','lmg_mk200_black_f']),0.25,
+				'lmg_zafir_f',0.1,
+				'arifle_rpk12_f',0.125,
+				'mmg_01_hex_f',0.05
+			];
+			_backpacks = [
+				'b_fieldpack_taiga_f',
+				'b_assaultpack_wdl_f',
+				'b_assaultpack_eaf_f',
+				'b_fieldpack_taiga_f',
+				'b_fieldpack_green_f',
+				'b_fieldpack_ghex_f',
+				'b_viperharness_ghex_f',
+				'b_viperharness_oli_f',
+				'b_viperlightharness_oli_f',
+				'b_viperlightharness_ghex_f'
+			];
+		};
+		if (worldName in ['Enoch']) then {
+			_weapons = [
+				'lmg_03_f',0.1,
+				(selectRandom ['lmg_mk200_f','lmg_mk200_black_f']),0.1,
+				'lmg_zafir_f',0.25,
+				'arifle_rpk12_f',0.25,
+				'mmg_01_hex_f',0.125
+			];
+			_backpacks = [
+				'b_fieldpack_taiga_f',
+				'b_assaultpack_wdl_f',
+				'b_assaultpack_eaf_f',
+				'b_fieldpack_taiga_f',
+				'b_fieldpack_green_f',
+				'b_fieldpack_ghex_f',
+				'b_viperharness_ghex_f',
+				'b_viperharness_oli_f',
+				'b_viperlightharness_oli_f',
+				'b_viperlightharness_ghex_f'
+			];
+		};
+		if ((backpack _unit) isEqualTo '') then {
+			_unit addBackpack (selectRandom _backpacks);
+		};
+		[_unit,(selectRandomWeighted _weapons),5] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+		if ((toLower (primaryWeapon _unit)) in ['mmg_01_hex_f']) then {
+			_unit removeWeapon (handgunWeapon _unit);
+		};
+		if (!((handgunWeapon _unit) isEqualTo '')) then {
+			[_unit,(handgunWeapon _unit),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+		};
+		_unit addPrimaryWeaponItem (selectRandom ['optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps','optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f']);
+	};
+	// grenade launcher
+	if (_unitType in [
+		'o_soldier_gl_f','o_soldier_tl_f','o_soldieru_gl_f','o_soldieru_tl_f','o_t_soldier_gl_f','o_t_soldier_tl_f','o_g_soldier_gl_f','o_g_soldier_tl_f','i_soldier_gl_f','i_soldier_tl_f',
+		'i_g_soldier_gl_f','i_g_soldier_tl_f','i_e_soldier_gl_f','i_e_soldier_tl_f','i_c_soldier_bandit_6_f','i_c_soldier_para_6_f'
+	]) then {
+		_weaponHandled = TRUE;
+		_weapons = [
+			(selectRandom ['arifle_ak12_gl_f','arifle_ak12_gl_arid_f','arifle_ak12_gl_lush_f']),0.3,
+			(selectRandom ['arifle_ctar_gl_blk_f','arifle_ctar_gl_ghex_f','arifle_ctar_gl_hex_f']),0.1,
+			'arifle_katiba_gl_f',0.1,
+			(selectRandom ['arifle_mk20_gl_plain_f','arifle_mk20_gl_f']),0.05,
+			(selectRandom ['arifle_msbs65_gl_f','arifle_msbs65_gl_black_f','arifle_msbs65_gl_camo_f','arifle_msbs65_gl_sand_f']),0.2,
+			'arifle_trg21_gl_f',0.05
+		];
+		_backpacks = [
+			'b_fieldpack_cbr',
+			'b_fieldpack_ocamo',
+			'b_fieldpack_khk',
+			'b_kitbag_tan',
+			'b_tacticalpack_ocamo',
+			'b_viperharness_hex_f',
+			'b_viperlightharness_hex_f'
+		];
+		if (worldName in ['Tanoa']) then {
+			_weapons = [
+				(selectRandom ['arifle_ak12_gl_f','arifle_ak12_gl_arid_f','arifle_ak12_gl_lush_f']),0.1,
+				(selectRandom ['arifle_ctar_gl_blk_f','arifle_ctar_gl_ghex_f','arifle_ctar_gl_hex_f']),0.1,
+				'arifle_katiba_gl_f',0.1,
+				(selectRandom ['arifle_mk20_gl_plain_f','arifle_mk20_gl_f']),0.1,
+				(selectRandom ['arifle_msbs65_gl_f','arifle_msbs65_gl_black_f','arifle_msbs65_gl_camo_f','arifle_msbs65_gl_sand_f']),0.1,
+				'arifle_trg21_gl_f',0.1
+			];
+			_backpacks = [
+				'b_fieldpack_taiga_f',
+				'b_assaultpack_wdl_f',
+				'b_assaultpack_eaf_f',
+				'b_fieldpack_taiga_f',
+				'b_fieldpack_green_f',
+				'b_fieldpack_ghex_f',
+				'b_viperharness_ghex_f',
+				'b_viperharness_oli_f',
+				'b_viperlightharness_oli_f',
+				'b_viperlightharness_ghex_f'
+			];
+		};
+		if (worldName in ['Enoch']) then {
+			_weapons = [
+				(selectRandom ['arifle_ak12_gl_f','arifle_ak12_gl_arid_f','arifle_ak12_gl_lush_f']),0.3,
+				(selectRandom ['arifle_ctar_gl_blk_f','arifle_ctar_gl_ghex_f','arifle_ctar_gl_hex_f']),0.1,
+				'arifle_katiba_gl_f',0.1,
+				(selectRandom ['arifle_mk20_gl_plain_f','arifle_mk20_gl_f']),0.1,
+				(selectRandom ['arifle_msbs65_gl_f','arifle_msbs65_gl_black_f','arifle_msbs65_gl_camo_f','arifle_msbs65_gl_sand_f']),0.2,
+				'arifle_trg21_gl_f',0.1
+			];
+			_backpacks = [
+				'b_fieldpack_taiga_f',
+				'b_assaultpack_wdl_f',
+				'b_assaultpack_eaf_f',
+				'b_fieldpack_taiga_f',
+				'b_fieldpack_green_f',
+				'b_fieldpack_ghex_f',
+				'b_viperharness_ghex_f',
+				'b_viperharness_oli_f',
+				'b_viperlightharness_oli_f',
+				'b_viperlightharness_ghex_f'
+			];
+		};
+		{
+			if (!((toLower _x) in ['1rnd_he_grenade_shell'])) then {
+				_unit removeMagazine _x;
 			};
-			for '_x' from 0 to 2 step 1 do {
+		} forEach (magazines _unit);
+		if ((backpack _unit) isEqualTo '') then {
+			_unit addBackpack (selectRandom _backpacks);
+		};
+		[_unit,(selectRandomWeighted _weapons),10] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+		_unit addPrimaryWeaponItem (selectRandom [
+			'optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps',
+			'optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f',
+			'optic_arco','optic_arco_arid_f','optic_arco_blk_f','optic_arco_ghex_f','optic_arco_lush_f','optic_arco_ak_arid_f','optic_arco_ak_blk_f',
+			'optic_arco_ak_lush_f','optic_erco_blk_f','optic_erco_khk_f','optic_erco_snd_f','optic_mrco','optic_hamr','optic_hamr_khk_f'
+		]);
+		for '_x' from 0 to 29 step 1 do {
+			_unit addMagazine '1rnd_he_grenade_shell';
+		};
+		if (!((handgunWeapon _unit) isEqualTo '')) then {
+			[_unit,(handgunWeapon _unit),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+		};
+	};
+	// marksmen
+	if (_unitType in [
+		'o_soldier_m_f','o_soldieru_m_f','o_sharpshooter_f','o_urban_sharpshooter_f','o_t_soldier_m_f','o_g_soldier_m_f','o_g_sharpshooter_f','i_soldier_m_f','i_g_soldier_m_f','i_g_sharpshooter_f','i_e_soldier_m_f'
+	]) then {
+		_weaponHandled = TRUE;
+		_weapons = [
+			(selectRandom ['srifle_dmr_07_blk_f','srifle_dmr_07_ghex_f','srifle_dmr_07_hex_f']),0.05,
+			(selectRandom ['srifle_dmr_05_blk_f','srifle_dmr_05_hex_f','srifle_dmr_05_tan_f']),0.3,
+			(selectRandom ['srifle_dmr_02_f','srifle_dmr_02_camo_f','srifle_dmr_02_sniper_f']),0.3,
+			(selectRandom ['srifle_dmr_03_f','srifle_dmr_03_multicam_f','srifle_dmr_03_khaki_f','srifle_dmr_03_tan_f','srifle_dmr_03_woodland_f']),0.1,
+			(selectRandom ['srifle_dmr_06_camo_f','srifle_dmr_06_olive_f']),0.1,
+			(selectRandom ['arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f']),0.1,
+			'srifle_ebr_f',0.1,
+			'srifle_dmr_01_f',0.3
+		];
+		if (worldName in ['Tanoa']) then {
+			_weapons = [
+				(selectRandom ['srifle_dmr_07_blk_f','srifle_dmr_07_ghex_f','srifle_dmr_07_hex_f']),0.3,
+				(selectRandom ['srifle_dmr_05_blk_f','srifle_dmr_05_hex_f','srifle_dmr_05_tan_f']),0.1,
+				(selectRandom ['srifle_dmr_02_f','srifle_dmr_02_camo_f','srifle_dmr_02_sniper_f']),0.1,
+				(selectRandom ['srifle_dmr_03_f','srifle_dmr_03_multicam_f','srifle_dmr_03_khaki_f','srifle_dmr_03_tan_f','srifle_dmr_03_woodland_f']),0.1,
+				(selectRandom ['srifle_dmr_06_camo_f','srifle_dmr_06_olive_f']),0.3,
+				(selectRandom ['arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f']),0.3,
+				'srifle_ebr_f',0.1,
+				'srifle_dmr_01_f',0.1
+			];
+		};
+		if (worldName in ['Enoch']) then {
+			_weapons = [
+				(selectRandom ['srifle_dmr_07_blk_f','srifle_dmr_07_ghex_f','srifle_dmr_07_hex_f']),0.1,
+				(selectRandom ['srifle_dmr_05_blk_f','srifle_dmr_05_hex_f','srifle_dmr_05_tan_f']),0.1,
+				(selectRandom ['srifle_dmr_02_f','srifle_dmr_02_camo_f','srifle_dmr_02_sniper_f']),0.1,
+				(selectRandom ['srifle_dmr_03_f','srifle_dmr_03_multicam_f','srifle_dmr_03_khaki_f','srifle_dmr_03_tan_f','srifle_dmr_03_woodland_f']),0.1,
+				(selectRandom ['srifle_dmr_06_camo_f','srifle_dmr_06_olive_f']),0.1,
+				(selectRandom ['arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f']),0.5,
+				'srifle_ebr_f',0.1,
+				'srifle_dmr_01_f',0.1
+			];
+		};
+		[_unit,(selectRandomWeighted _weapons),12] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+		if (!((handgunWeapon _unit) isEqualTo '')) then {
+			[_unit,(handgunWeapon _unit),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+		};
+		_unit addPrimaryWeaponItem (selectRandom ['optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps','optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f']);
+	};
+	// spotter
+	if (_unitType in [
+		'o_spotter_f','o_t_spotter_f','i_spotter_f'
+	]) then {
+		_weaponHandled = TRUE;
+		_unit addPrimaryWeaponItem (selectRandom ['optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps','optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f']);
+		_unit addPrimaryWeaponItem 'muzzle_snds_H';
+	};
+	if (!(_weaponHandled)) then {
+		if (!(_unitType in _excluded)) then {
+			// regular units
+			_weaponHandled = TRUE;
+			_weapons = [
+				(selectRandom ['arifle_ak12_f','arifle_ak12_arid_f','arifle_ak12_lush_f']),0.5,
+				'arifle_akm_f',0.1,
+				(selectRandom ['arifle_ctar_blk_f','arifle_ctar_ghex_f','arifle_ctar_hex_f']),0.1,
+				'arifle_katiba_f',0.5,
+				(selectRandom ['arifle_mk20_plain_f','arifle_mk20_f']),0.1,
+				(selectRandom ['arifle_msbs65_f','arifle_msbs65_black_f','arifle_msbs65_camo_f','arifle_msbs65_sand_f']),0.1,
+				(selectRandom ['arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f']),0.1,
+				'arifle_trg21_f',0.1
+			];
+			if (worldName in ['Tanoa']) then {
+				_weapons = [
+					(selectRandom ['arifle_ak12_f','arifle_ak12_arid_f','arifle_ak12_lush_f']),0.1,
+					'arifle_akm_f',0.3,
+					(selectRandom ['arifle_ctar_blk_f','arifle_ctar_ghex_f','arifle_ctar_hex_f']),0.3,
+					'arifle_katiba_f',0.1,
+					(selectRandom ['arifle_mk20_plain_f','arifle_mk20_f']),0.3,
+					(selectRandom ['arifle_msbs65_f','arifle_msbs65_black_f','arifle_msbs65_camo_f','arifle_msbs65_sand_f']),0.1,
+					(selectRandom ['arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f']),0.1,
+					'arifle_trg21_f',0.3
+				];
+			};
+			if (worldName in ['Enoch']) then {
+				_weapons = [
+					(selectRandom ['arifle_ak12_f','arifle_ak12_arid_f','arifle_ak12_lush_f']),0.3,
+					'arifle_akm_f',0.2,
+					(selectRandom ['arifle_ctar_blk_f','arifle_ctar_ghex_f','arifle_ctar_hex_f']),0.1,
+					'arifle_katiba_f',0.1,
+					(selectRandom ['arifle_mk20_plain_f','arifle_mk20_f']),0.1,
+					(selectRandom ['arifle_msbs65_f','arifle_msbs65_black_f','arifle_msbs65_camo_f','arifle_msbs65_sand_f']),0.3,
+					(selectRandom ['arifle_msbs65_mark_f','arifle_msbs65_mark_black_f','arifle_msbs65_mark_camo_f','arifle_msbs65_mark_sand_f']),0.3,
+					'arifle_trg21_f',0.1
+				];
+			};
+			[_unit,(selectRandomWeighted _weapons),8] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+			_unit addPrimaryWeaponItem (selectRandom [
+				'optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps',
+				'optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f',
+				'optic_arco','optic_arco_arid_f','optic_arco_blk_f','optic_arco_ghex_f','optic_arco_lush_f','optic_arco_ak_arid_f','optic_arco_ak_blk_f',
+				'optic_arco_ak_lush_f','optic_erco_blk_f','optic_erco_khk_f','optic_erco_snd_f','optic_mrco','optic_hamr','optic_hamr_khk_f'
+			]);
+			for '_x' from 0 to 1 step 1 do {
 				_unit addMagazine 'MiniGrenade';
 				_unit addMagazine 'HandGrenade';
 			};
-		} else {
-			if (['spotter',_unitType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-				_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS','optic_Arco_blk_F','optic_Hamr','optic_ERCO_blk_F']);
-				_unit addPrimaryWeaponItem 'muzzle_snds_H';
-			};
 		};
 	};
+	// Randomize Headgear
+	if (!(_unitType in _excluded)) then {
+		private _headgear = [
+			'h_helmetspeco_ocamo',0.1,
+			'h_helmethbk_headset_f',0.1,
+			'h_helmethbk_chops_f',0.1,
+			'h_helmethbk_ear_f',0.1,
+			'h_helmethbk_f',0.1,
+			'h_helmetaggressor_f',0.1,
+			'h_helmetaggressor_cover_f',0.1,
+			'h_helmetaggressor_cover_taiga_f',0.1,
+			'h_helmetcrew_i',0.1,
+			'h_helmetcrew_o',0.1,
+			'h_helmetleadero_ocamo',0.1,
+			'h_helmetleadero_oucamo',0.1,
+			'h_helmetia',0.1,
+			'h_helmeto_ocamo',0.1,
+			'h_helmeto_oucamo',0.1
+		];
+		if (worldName in ['Tanoa','Enoch']) then {
+			_headgear = [
+				'h_helmethbk_headset_f',0.1,
+				'h_helmethbk_chops_f',0.1,
+				'h_helmethbk_ear_f',0.1,
+				'h_helmethbk_f',0.1,
+				'h_helmetspeco_ghex_f',0.1,
+				'h_helmetaggressor_cover_taiga_f',0.1,
+				'h_helmetaggressor_f',0.1,
+				'h_helmetaggressor_cover_f',0.1,
+				'h_helmetcrew_o_ghex_f',0.1,
+				'h_helmetcrew_i',0.1,
+				'h_helmetleadero_ghex_f',0.1,
+				'h_helmetia',0.1,
+				'h_helmeto_ghex_f',0.1
+			];
+		};
+		// Add unconventional hats sometimes
+		if ((random 1) > 0.75) then {
+			_headgear = _headgear + [
+				'h_bandanna_khk',0.1,
+				'h_bandanna_cbr',0.1,
+				'h_bandanna_camo',0.1,
+				'h_watchcap_blk',0.1,
+				'h_watchcap_cbr',0.1,
+				'h_watchcap_khk',0.1,
+				'h_milcap_ghex_f',0.1,
+				'h_milcap_ocamo',0.1,
+				'h_milcap_wdl',0.1
+			];
+		};
+		_unit addHeadgear (selectRandomWeighted _headgear);
+	};
 };
+// Remove proxies
 if ('acc_pointer_IR' in (primaryWeaponItems _unit)) then {
 	_unit removePrimaryWeaponItem 'acc_pointer_IR';
 } else {
@@ -142,62 +409,14 @@ if (dayTime < 16) then {
 		};
 	};
 };
-if ((random 1) > 0.5) then {
-	if (!(_unitType in [
-		'o_v_soldier_exp_hex_f','o_v_soldier_jtac_hex_f','o_v_soldier_m_hex_f','o_v_soldier_hex_f','o_v_soldier_medic_hex_f','o_v_soldier_lat_hex_f',
-		'o_v_soldier_tl_hex_f','o_v_soldier_exp_ghex_f','o_v_soldier_jtac_ghex_f','o_v_soldier_m_ghex_f','o_v_soldier_ghex_f','o_v_soldier_medic_ghex_f',
-		'o_v_soldier_lat_ghex_f','o_v_soldier_tl_ghex_f','o_recon_exp_f','o_recon_jtac_f','o_recon_m_f','o_recon_medic_f','o_pathfinder_f','o_recon_f',
-		'o_recon_lat_f','o_recon_tl_f','o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_spotter_f','o_t_recon_exp_f','o_t_recon_jtac_f',
-		'o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f','o_t_sniper_f','o_t_ghillie_tna_f','o_t_spotter_f',
-		'o_diver_f','o_diver_exp_f','o_diver_tl_f','o_t_diver_f','o_t_diver_exp_f','o_t_diver_tl_f','i_spotter_f','i_sniper_f','i_ghillie_ard_f','i_ghillie_lsh_f','i_ghillie_sard_f'
-	])) then {
-		_unit addHeadgear (selectRandom [
-			'H_Bandanna_gry','H_Bandanna_cbr','H_Bandanna_khk','H_Bandanna_sand','H_Bandanna_surfer','H_Bandanna_surfer_blk','H_Bandanna_surfer_grn','H_Booniehat_khk','H_Booniehat_dgtl','H_Cap_blk','H_Cap_grn','H_Cap_red',
-			'H_Cap_blk_Raven','H_Cap_brn_SPECOPS','H_HelmetCrew_O_ghex_F','H_Hat_camo','H_CrewHelmetHeli_I','H_CrewHelmetHeli_O','H_HelmetB_Light_tna_F','H_MilCap_ghex_F','H_MilCap_gry','H_MilCap_tna_F','H_MilCap_dgtl','H_Shemag_olive',
-			'H_ShemagOpen_tan','H_ShemagOpen_khk','H_Helmet_Skate','H_PASGT_basic_black_F','H_PASGT_basic_blue_F','H_PASGT_basic_olive_F','H_PASGT_basic_white_F'
-		]);
-	};
-};
-if ((random 1) > 0.333) then {
-	if (!(((primaryWeaponItems _unit) findIf {((toLower _x) in ['optic_aco','optic_aco_grn'])}) isEqualTo -1)) then {
-		_unit addPrimaryWeaponItem 'optic_Arco';
-	};
-};
-if ((random 1) > 0.25) then {
+if (!(_unitType in [
+	'o_soldier_sl_f','o_recon_jtac_f','o_recon_tl_f','o_v_soldier_jtac_hex_f','o_v_soldier_tl_hex_f','o_t_soldier_sl_f','o_t_recon_jtac_f','o_t_recon_tl_f','o_v_soldier_jtac_ghex_f',
+	'o_v_soldier_tl_ghex_f','o_r_jtac_f','o_r_soldier_tl_f','o_r_recon_jtac_f','o_r_recon_tl_f','i_soldier_sl_f','o_soldieru_sl_f'
+])) then {
 	if (_unit hasWeapon 'Binocular') then {
-		_unit removeWeapon 'Binocular';
-	};
-};
-if ((random 1) > 0.75) then {
-	_unit removeWeapon (handgunWeapon _unit);
-};
-if ((['recon',_unitType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(_unitType in [
-	'o_v_soldier_exp_hex_f','o_v_soldier_jtac_hex_f','o_v_soldier_m_hex_f','o_v_soldier_hex_f','o_v_soldier_medic_hex_f','o_v_soldier_lat_hex_f',
-	'o_v_soldier_tl_hex_f','o_v_soldier_exp_ghex_f','o_v_soldier_jtac_ghex_f','o_v_soldier_m_ghex_f','o_v_soldier_ghex_f','o_v_soldier_medic_ghex_f',
-	'o_v_soldier_lat_ghex_f','o_v_soldier_tl_ghex_f'
-])}) then {
-	if ((random 1) > 0.5) then {
-		_unit addPrimaryWeaponItem (selectRandom ['optic_Nightstalker','optic_tws']);
-	};
-	if (!(_unitType in [
-		'o_v_soldier_exp_hex_f','o_v_soldier_jtac_hex_f','o_v_soldier_m_hex_f','o_v_soldier_hex_f','o_v_soldier_medic_hex_f','o_v_soldier_lat_hex_f',
-		'o_v_soldier_tl_hex_f','o_v_soldier_exp_ghex_f','o_v_soldier_jtac_ghex_f','o_v_soldier_m_ghex_f','o_v_soldier_ghex_f','o_v_soldier_medic_ghex_f',
-		'o_v_soldier_lat_ghex_f','o_v_soldier_tl_ghex_f'
-	])) then {
-		if ((side _unit) isEqualTo EAST) then {
-			_unit addHeadgear 'H_HelmetSpecO_blk';
+		if (!(_unit isEqualTo (leader (group _unit)))) then {
+			_unit removeWeapon 'Binocular';
 		};
-	};
-};
-if (_unitType in [
-	'i_c_soldier_para_4_f','i_c_soldier_bandit_3_f','i_g_soldier_ar_f','i_soldier_ar_f','b_ctrg_soldier_ar_tna_f','b_g_soldier_ar_f',
-	'b_soldier_ar_f','b_heavygunner_f','b_t_soldier_ar_f','o_soldier_ar_f','o_heavygunner_f','o_soldieru_ar_f','o_urban_heavygunner_f',
-	'o_t_soldier_ar_f','o_g_soldier_ar_f'
-]) then {
-	if ((random 1) > 0.5) then {
-		_unit addPrimaryWeaponItem (selectRandom ['optic_Hamr','optic_MRCO','optic_DMS','optic_Holosight']);
-	} else {
-		_unit addPrimaryWeaponItem (selectRandom ['optic_AMS','optic_DMS','optic_KHS_blk','optic_LRPS','optic_SOS','optic_Arco_blk_F','optic_Hamr','optic_ERCO_blk_F']);
 	};
 };
 private _toRemove = [];
@@ -231,10 +450,10 @@ if (!(_toRemove isEqualTo [])) then {
 };
 _unit enableFatigue FALSE;
 _unit enableStamina FALSE;
+_unit selectWeapon (primaryWeapon _unit);
 if (!(missionNamespace getVariable ['QS_defendActive',FALSE])) then {
 	[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 };
-
 if (missionNamespace getVariable ['QS_HC_Active',FALSE]) then {
 	_unit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 } else {

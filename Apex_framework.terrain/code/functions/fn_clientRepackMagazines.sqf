@@ -45,7 +45,7 @@ if (isNull (objectParent _unit)) then {
 private _magazineTypes = [];
 private _data1 = [];
 {
-	if ((_x select 3) in [-1,1,2]) then {
+	if ((_x # 3) in [-1,1,2]) then {
 		_data1 pushBack _x;
 	};
 } forEach (magazinesAmmoFull _unit);
@@ -56,17 +56,17 @@ private _magazineClass = '';
 private _magazineAmmoCount = 0;
 private _magazineAmmoCapacity = 0;
 {
-	_magazineClass = _x select 0;
-	_magazineAmmoCount = _x select 1;
+	_magazineClass = _x # 0;
+	_magazineAmmoCount = _x # 1;
 	_magazineAmmoCapacity = getNumber (configFile >> 'CfgMagazines' >> _magazineClass >> 'count');
 	if (_magazineAmmoCapacity > 3) then {
 		_magazineTypes pushBackUnique _magazineClass;
 		if (!(_data2 isEqualTo [])) then {
-			_i = _data2 findIf {((_x select 0) isEqualTo _magazineClass)};
+			_i = _data2 findIf {((_x # 0) isEqualTo _magazineClass)};
 			if (_i isEqualTo -1) then {
 				_data2 pushBack [_magazineClass,_magazineAmmoCapacity,[_magazineAmmoCount]];
 			} else {
-				((_data2 select _i) select 2) pushBack _magazineAmmoCount;
+				((_data2 # _i) # 2) pushBack _magazineAmmoCount;
 			};
 		} else {
 			_data2 pushBack [_magazineClass,_magazineAmmoCapacity,[_magazineAmmoCount]];
@@ -78,15 +78,15 @@ private _totalAmmoCountForMagazine = 0;
 private _magazineCountArray = [];
 _i = 0;
 {
-	_magazineClass = _x select 0;
-	_magazineAmmoCapacity = _x select 1;
-	_magazineCountArray = _x select 2;
+	_magazineClass = _x # 0;
+	_magazineAmmoCapacity = _x # 1;
+	_magazineCountArray = _x # 2;
 	_totalAmmoCountForMagazine = 0;
 	for '_i' from 0 to ((count _magazineCountArray) - 1) step 1 do {
-		_totalAmmoCountForMagazine = _totalAmmoCountForMagazine + (_magazineCountArray select _i);
+		_totalAmmoCountForMagazine = _totalAmmoCountForMagazine + (_magazineCountArray # _i);
 	};
-	(_data2 select _forEachIndex) set [2,_totalAmmoCountForMagazine];
-	(_data2 select _forEachIndex) pushBack (ceil(_totalAmmoCountForMagazine / _magazineAmmoCapacity));
+	(_data2 # _forEachIndex) set [2,_totalAmmoCountForMagazine];
+	(_data2 # _forEachIndex) pushBack (ceil(_totalAmmoCountForMagazine / _magazineAmmoCapacity));
 } forEach _data2;
 if (_data2 isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazines',nil,FALSE];};
 private _addMagazineArray = [];
@@ -94,9 +94,9 @@ private _magazineAmmoCountTotal = 0;
 private _magazineAmmoCapacity_moving = 0;
 private _currentMagIndex = 0;
 {
-	_magazineClass = _x select 0;
-	_magazineAmmoCapacity = _x select 1;
-	_magazineAmmoCountTotal = _x select 2;
+	_magazineClass = _x # 0;
+	_magazineAmmoCapacity = _x # 1;
+	_magazineAmmoCountTotal = _x # 2;
 	_magazineAmmoCapacity_moving = 0;
 	_currentMagIndex = _addMagazineArray pushBack [_magazineClass,_magazineAmmoCapacity_moving];
 	for '_x' from 0 to (_magazineAmmoCountTotal - 1) step 1 do {
@@ -109,10 +109,10 @@ private _currentMagIndex = 0;
 	};
 } forEach _data2;
 if (!((primaryWeapon _unit) isEqualTo '')) then {
-	_unit removePrimaryWeaponItem ((primaryWeaponMagazine _unit) select 0);
+	_unit removePrimaryWeaponItem ((primaryWeaponMagazine _unit) # 0);
 };
 if (!((handgunWeapon _unit) isEqualTo '')) then {
-	_unit removeHandgunItem ((handgunMagazine _unit) select 0);
+	_unit removeHandgunItem ((handgunMagazine _unit) # 0);
 };
 _currentMagazines = magazines _unit;
 if (!(_currentMagazines isEqualTo [])) then {
@@ -124,7 +124,7 @@ if (!(_currentMagazines isEqualTo [])) then {
 };
 if (_addMagazineArray isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazines',nil,FALSE];};
 {
-	if ((_x select 1) > 0) then {
+	if ((_x # 1) > 0) then {
 		_unit addMagazine _x;
 	};
 	if (_canSuspend) then {

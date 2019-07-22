@@ -33,6 +33,10 @@ if ((player getUnitTrait 'QS_trait_fighterPilot') || (_typeL in ['b_fighter_pilo
 				player setDir 100.961;
 				player setPosWorld [8055.05,10014.9,30.0609];
 			};
+			if (_worldName isEqualTo 'Enoch') exitWith {
+				player setDir 68.4751;
+				player setPosWorld [4306.76,10501.5,68.1707];
+			};
 		} else {
 			player setDir (random 360);
 			player setPosATL [((markerPos 'QS_marker_respawn_jetpilot') select 0),((markerPos 'QS_marker_respawn_jetpilot') select 1), 0];	/*/ Edit the 0 here to change elevation /*/
@@ -62,6 +66,10 @@ if ((player getUnitTrait 'QS_trait_pilot') || (_typeL in ['b_pilot_f','b_helipil
 				player setDir (random 360);
 				player setPosWorld [(8057.48 + 2 - (random 4)),(10291 + 2 - (random 4)),29.8258];
 			};
+			if (_worldName isEqualTo 'Enoch') exitWith {
+				player setDir (random 360);
+				player setPosWorld [3864.66,10137,67.7403];
+			};
 		} else {
 			player setDir (random 360);
 			player setPosATL [((markerPos 'QS_marker_respawn_helipilot') select 0),((markerPos 'QS_marker_respawn_helipilot') select 1), 0];	/*/ Edit the 0 here to change elevation /*/
@@ -84,6 +92,10 @@ if ((player getUnitTrait 'uavhacker') || (_typeL in ['b_soldier_uav_f','b_t_sold
 			if (_worldName isEqualTo 'Malden') exitWith {
 				player setDir 252.468;
 				player setPosWorld [8106.64,10104.3,42.5627];
+			};
+			if (_worldName isEqualTo 'Enoch') exitWith {
+				player setDir 258.922;
+				player setPosWorld [4110.76,10286.7,77.2023];
 			};
 		} else {
 			player setDir (random 360);

@@ -21,7 +21,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		["Land_BagFence_01_round_green_F",[-1.79004,-1.65137,-0.0026021],190.105,[],false,false,TRUE,{}], 
 		["I_G_Mortar_01_F",[-1.45361,2.0835,-0.0753462],0,[],false,TRUE,false,{
 			_mortar = _this select 0;
-			createVehicleCrew _mortar;
+			_grp = createVehicleCrew _mortar;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -100,7 +100,6 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				}
 			];
 			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
-			_grp = group (gunner _mortar);
 			_grp deleteGroupWhenEmpty TRUE;
 			_grp enableDynamicSimulation FALSE;
 			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
@@ -114,7 +113,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		["Land_BagFence_01_round_green_F",[2.76563,0.580566,-0.0026021],190.105,[],false,false,TRUE,{}], 
 		["I_G_Mortar_01_F",[2.96875,-1.1333,-0.0753462],0,[],false,TRUE,false,{
 			_mortar = _this select 0;
-			createVehicleCrew _mortar;
+			_grp = createVehicleCrew _mortar;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -187,7 +186,6 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				}
 			];
 			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
-			_grp = group (gunner _mortar);
 			_grp deleteGroupWhenEmpty TRUE;
 			_grp enableDynamicSimulation FALSE;
 			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
@@ -201,7 +199,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		["Land_BagFence_01_round_green_F",[2.02832,-2.75488,-0.0026021],14.8742,[],false,false,TRUE,{}], 
 		["I_G_Mortar_01_F",[-1.67529,-3.41846,-0.0753462],0,[],false,TRUE,false,{
 			_mortar = _this select 0;
-			createVehicleCrew _mortar;
+			_grp = createVehicleCrew _mortar;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -274,7 +272,6 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				}
 			];
 			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
-			_grp = group (gunner _mortar);
 			_grp deleteGroupWhenEmpty TRUE;
 			_grp enableDynamicSimulation FALSE;
 			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
@@ -326,7 +323,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 [
 	["I_G_Mortar_01_F",[3.13574,1.62061,0.036881],360,[],false,true,false,{
 		_mortar = _this select 0;
-		createVehicleCrew _mortar;
+		_grp = createVehicleCrew _mortar;
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -399,7 +396,6 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			}
 		];
 		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
-		_grp = group (gunner _mortar);
 		_grp deleteGroupWhenEmpty TRUE;
 		_grp enableDynamicSimulation FALSE;
 		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
@@ -412,7 +408,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 	}], 
 	["I_G_Mortar_01_F",[0.695801,-3.58252,0.0368857],360,[],false,true,false,{
 		_mortar = _this select 0;
-		createVehicleCrew _mortar;
+		_grp = createVehicleCrew _mortar;
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -485,7 +481,6 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			}
 		];
 		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
-		_grp = group (gunner _mortar);
 		_grp deleteGroupWhenEmpty TRUE;
 		_grp enableDynamicSimulation FALSE;
 		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
@@ -498,7 +493,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 	}], 
 	["I_G_Mortar_01_F",[-3.28564,1.77783,0.0368829],360,[],false,true,false,{
 		_mortar = _this select 0;
-		createVehicleCrew _mortar;
+		_grp = createVehicleCrew _mortar;
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -571,7 +566,6 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			}
 		];
 		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
-		_grp = group (gunner _mortar);
 		_grp deleteGroupWhenEmpty TRUE;
 		_grp enableDynamicSimulation FALSE;
 		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];

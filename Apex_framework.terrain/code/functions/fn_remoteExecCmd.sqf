@@ -6,8 +6,8 @@ Author:
 	
 Last modified:
 
-	30/10/2018 A3 1.84 by Quiksilver
-	
+	9/06/2019 A3 1.94 by Quiksilver
+
 Description:
 
 	Remote Execution Commands
@@ -151,4 +151,13 @@ if (_type isEqualTo 'commandSuppressiveFire') exitWith {
 };
 if (_type isEqualTo 'deleteVehicleCrew') exitWith {
 	_1 deleteVehicleCrew _2;
+};
+if (_type isEqualTo 'setMissileTarget') exitWith {
+	_1 setMissileTarget _2;
+};
+if (_type isEqualTo 'setMissileTargetPos') exitWith {
+	_1 setMissileTargetPos _2;
+};
+if (_type isEqualTo 'triggerAmmo') exitWith {
+	triggerAmmo _1;
 };

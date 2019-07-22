@@ -49,7 +49,7 @@ for '_i' from 0 to 1 step 1 do {
 			clearWeaponCargoGlobal _boat;
 			clearItemCargoGlobal _boat;
 			clearBackpackCargoGlobal _boat;
-			createVehicleCrew _boat;
+			_grp = createVehicleCrew _boat;
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _boat))),
@@ -80,7 +80,6 @@ for '_i' from 0 to 1 step 1 do {
 				0 = _return pushBack _x;
 				_x doWatch (missionNamespace getVariable 'QS_AOpos');
 			} count (crew _boat);
-			_grp = group (effectiveCommander _boat);
 			_grp enableAttack TRUE;
 			_grp addVehicle _boat;
 			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');

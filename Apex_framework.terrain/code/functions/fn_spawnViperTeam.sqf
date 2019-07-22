@@ -33,7 +33,7 @@ _unitTypes = [
 		'o_v_soldier_medic_ghex_f',0.2,
 		'o_v_soldier_ghex_f',0.6
 	]
-] select (worldName isEqualTo 'Tanoa');
+] select (worldName in ['Tanoa','Enoch']);
 if (_type in ['CLASSIC','SC']) exitWith {
 	comment 'Position';
 	private _centerPos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];

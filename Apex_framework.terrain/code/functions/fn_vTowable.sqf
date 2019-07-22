@@ -16,11 +16,11 @@ params ['_vehicle'];
 if (_vehicle getVariable ['QS_ropeAttached',TRUE]) exitWith {FALSE;};
 _vehiclePos = getPos _vehicle;
 _vehicleRearDir = ((getDir _vehicle) + 180) mod 360;
-_vehicleHalfLength = ((boundingBoxReal _vehicle) select 1) select 1;
+_vehicleHalfLength = ((boundingBoxReal _vehicle) # 1) # 1;
 _findPos = [
-	(_vehiclePos select 0) + 2 * _vehicleHalfLength * sin _vehicleRearDir,
-	(_vehiclePos select 1) + 2 * _vehicleHalfLength * cos _vehicleRearDir,
-	_vehiclePos select 2
+	(_vehiclePos # 0) + 2 * _vehicleHalfLength * sin _vehicleRearDir,
+	(_vehiclePos # 1) + 2 * _vehicleHalfLength * cos _vehicleRearDir,
+	_vehiclePos # 2
 ];
 _towableCargoObjects = [
 	'LandVehicle','Air','Ship','Reammobox_F',
@@ -29,8 +29,8 @@ _towableCargoObjects = [
 	'land_pod_heli_transport_04_medevac_black_f','land_pod_heli_transport_04_covered_black_f','land_pod_heli_transport_04_ammo_black_f','land_pod_heli_transport_04_box_black_f','land_pod_heli_transport_04_repair_black_f',
 	'land_pod_heli_transport_04_fuel_f','land_pod_heli_transport_04_fuel_black_f',
 	'land_pod_heli_transport_04_bench_f','land_pod_heli_transport_04_bench_black_f',
-	'box_nato_ammoveh_f','box_ind_ammoveh_f','box_east_ammoveh_f',
-	'b_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_cargonet_01_ammo_f','c_idap_cargonet_01_supplies_f',
+	'box_nato_ammoveh_f','box_ind_ammoveh_f','box_east_ammoveh_f','box_eaf_ammoveh_f',
+	'b_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_cargonet_01_ammo_f','c_idap_cargonet_01_supplies_f','i_e_cargonet_01_ammo_f',
 	'cargonet_01_box_f',
 	'cargonet_01_barrels_f',
 	'b_supplycrate_f','o_supplycrate_f','i_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','c_idap_supplycrate_f',

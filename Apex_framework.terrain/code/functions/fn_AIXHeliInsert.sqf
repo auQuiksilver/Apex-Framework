@@ -107,9 +107,8 @@ private _array = [];
 _heli = createVehicle [_heliType,_mapEdgePosition,[],500,'FLY'];
 _heli setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _heli enableDynamicSimulation FALSE;
-createVehicleCrew _heli;
+_heliGroup = createVehicleCrew _heli;
 _array pushBack _heli;
-_heliGroup = group (effectiveCommander _heli);
 {
 	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 	_x enableDynamicSimulation FALSE;
@@ -172,19 +171,20 @@ _heli addEventHandler [
 _heli addEventHandler [
 	'IncomingMissile',
 	{
-		params ['_vehicle','_ammo','_firer','_instigator'];
-		if (!isNull (driver _vehicle)) then {
-			if (alive (driver _vehicle)) then {
-				(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
-				(driver _vehicle) spawn {
-					scriptName 'QS Incoming Missile Flares';
-					_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					sleep 1;
-					_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					sleep 1;
-					_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					(vehicle _this) setVehicleAmmo 1;
-				};
+		params ['_vehicle','_ammo','_shooter','_instigator'];
+		private _projectile = nearestObject [_shooter,_ammo];
+		if (alive (driver _vehicle)) then {
+			(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
+			[driver _vehicle,_shooter,_projectile] spawn {
+				params ['_pilot','_shooter','_projectile'];
+				scriptName 'QS Incoming Missile Flares';
+				_pilot forceWeaponFire ['CMFlareLauncher','AIBurst'];
+				sleep 1;
+				_pilot forceWeaponFire ['CMFlareLauncher','AIBurst'];
+				sleep 1;
+				_pilot forceWeaponFire ['CMFlareLauncher','AIBurst'];
+				(vehicle _pilot) setVehicleAmmo 1;
+				[_projectile,objNull] remoteExec ['setMissileTarget',_shooter,FALSE];
 			};
 		};
 	}
@@ -318,9 +318,8 @@ if (_useSupport) then {
 		_supportHeli = createVehicle [_supportType,_supportSpawnPosition,[],0,'FLY'];
 		_supportHeli setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 		_supportHeli enableDynamicSimulation FALSE;
-		createVehicleCrew _supportHeli;
+		_supportGroup = createVehicleCrew _supportHeli;
 		_array pushBack _supportHeli;
-		_supportGroup = group (effectiveCommander _supportHeli);
 		{
 			_x setSkill 1;
 			_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];

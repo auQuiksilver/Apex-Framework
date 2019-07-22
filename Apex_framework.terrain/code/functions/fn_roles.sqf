@@ -424,13 +424,13 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 	if (_available_role_index isEqualTo -1) exitWith {};
 	_available_role = _role_units # _available_role_index;
 	_role_data params [
-		'_role_data_role',
+		'',	//'_role_data_role',
 		'_role_data_side',
-		'_role_data_min',
-		'_role_data_max',
-		'_role_data_availabilityCoef',
-		'_whitelist_value',
-		'_queue_capacity'
+		'',	//'_role_data_min',
+		'',	//'_role_data_max',
+		'',	//'_role_data_availabilityCoef',
+		'',	//'_whitelist_value',
+		''	//'_queue_capacity'
 	];
 	if (!(_role_data_side isEqualTo _side)) exitWith {};
 	_available_role set [0,_uid];
@@ -584,7 +584,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['medic',FALSE,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',TRUE,FALSE]],
-			[['explosiveSpecialist',FALSE,FALSE]],
+			[['explosiveSpecialist',TRUE,FALSE]],
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],

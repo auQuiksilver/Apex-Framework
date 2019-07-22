@@ -41,6 +41,7 @@ if (!isNull (attachedTo _co)) then {
 	detach _co;
 };
 if (!isNull (objectParent _co)) then {
+	[0,(objectParent _co)] call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandlers');
 	_co playActionNow 'Die';
 };
 if (!isNull (getConnectedUAV _co)) then {

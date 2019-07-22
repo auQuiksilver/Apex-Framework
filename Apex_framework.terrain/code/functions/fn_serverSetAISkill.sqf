@@ -163,7 +163,7 @@ if (worldName isEqualTo 'Tanoa') then {
 };
 {
 	_unit = _x;
-	_unit setSkill 0.1;
+	_unit setSkill 0.5;
 	_unit allowFleeing _fleeing;
 	{
 		_unit setSkill _x;

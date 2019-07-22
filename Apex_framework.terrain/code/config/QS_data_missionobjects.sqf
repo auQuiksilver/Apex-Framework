@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/12/2016 A3 1.66 by Quiksilver
+	22/07/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -204,8 +204,8 @@ if (_worldName isEqualTo 'Altis') exitWith {
 		["Land_FlatTV_01_F","a3\structures_f_heli\items\electronics\flattv_01_f.p3d",[14669.1,16791.4,19.034],[[-0.694708,0.719292,0],[0,0,1]],0,0,2,[],{}],
 		["Land_PCSet_01_screen_F","a3\structures_f_heli\items\electronics\pcset_01_screen_f.p3d",[14668.5,16790.8,18.9805],[[-0.955244,0.295818,0],[0,0,1]],0,0,2,[],{}],
 		["Land_PCSet_01_screen_F","a3\structures_f_heli\items\electronics\pcset_01_screen_f.p3d",[14668.4,16790.2,18.978],[[-0.999889,-0.0149235,0],[0,0,1]],0,0,2,[],{}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[14668.8,16789.6,18.8661],[[0.808736,0.588172,0],[0,0,1]],0,0,0,[],{
-		
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[14668.8,16789.6,18.8661],[[0.808736,0.588172,0],[0,0,1]],0,0,0,[],{
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["Land_TripodScreen_01_large_F","a3\props_f_exp\military\camps\tripodscreen_01_large_f.p3d",[14677.3,16791.8,18.9532],[[-0.998595,0.0529823,0],[0,0,1]],0,0,0,[],{
 			(_this select 0) setObjectTextureGlobal [0,(selectRandom (missionNamespace getVariable ['QS_missionConfig_textures_billboard2',[]]))];
@@ -381,16 +381,18 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			(_this select 0) setVariable ['QS_arsenal_object',TRUE,TRUE];
 			missionNamespace setVariable ['QS_arsenals',((missionNamespace getVariable 'QS_arsenals') + [(_this select 0)]),TRUE];
 		}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[14459.4,16266.4,19.6304],[[0.76795,-0.64051,0],[0,0,1]],0,0,0,[],{
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[14459.4,16266.4,19.6304],[[0.76795,-0.64051,0],[0,0,1]],0,0,0,[],{
 			missionNamespace setVariable ['QS_cas_laptop',(_this select 0),TRUE];
 			if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
 				(_this select 0) enableDynamicSimulation FALSE;
 				(_this select 0) setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 				(_this select 0) hideObjectGlobal TRUE;
 			};
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[14626.6,16722,31.7596],[[-0.995978,0.0896037,0],[0,0,1]],0,0,0,[],{
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[14626.6,16722,31.7596],[[-0.995978,0.0896037,0],[0,0,1]],0,0,0,[],{
 			missionNamespace setVariable ['QS_airdefense_laptop',(_this select 0),TRUE];
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["B_supplyCrate_F","a3\weapons_f\ammoboxes\supplydrop.p3d",[14597.4,16813.8,18.9274],[[-0.723569,0.690252,0],[0,0,1]],0,0,2,[],{
 			(_this select 0) setVariable ['QS_arsenal_object',TRUE,TRUE];
@@ -640,8 +642,9 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[7073.74,7335.69,3.87],[[0.13414,-0.990962,0],[0,0,1]],0,0,2,[],{}],
 		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[7065.03,7334.37,3.87],[[-0.170696,0.985324,0],[0,0,1]],0,0,2,[],{}],
 		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[7060.19,7335.49,3.40051],[[-0.988083,-0.153922,0],[0,0,1]],0,0,2,[],{}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[6900.87,7424.17,16.8384],[[-0.97679,-0.214197,0],[0,0,1]],0,0,0,[],{
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[6900.87,7424.17,16.8384],[[-0.97679,-0.214197,0],[0,0,1]],0,0,0,[],{
 			missionNamespace setVariable ['QS_airdefense_laptop',(_this select 0),TRUE];
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[6908.14,7426.6,3.07155],[[-0.214971,0.97662,0],[0,0,1]],0,0,2,[],{}],
 		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[6911.18,7424.03,3.07155],[[-0.214971,0.97662,0],[0,0,1]],0,0,2,[],{}],
@@ -652,8 +655,8 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 		["Land_PCSet_01_mouse_F","a3\structures_f_heli\items\electronics\pcset_01_mouse_f.p3d",[6911.42,7424.33,3.50807],[[0.5547,-0.83205,0],[0,0,1]],0,0,2,[],{}],
 		["Land_PCSet_01_screen_F","a3\structures_f_heli\items\electronics\pcset_01_screen_f.p3d",[6912.02,7424.06,3.73028],[[0.534409,-0.845226,0],[0,0,1]],0,0,2,[],{}],
 		["Land_PCSet_01_screen_F","a3\structures_f_heli\items\electronics\pcset_01_screen_f.p3d",[6912.42,7424.46,3.73028],[[0.845631,-0.533767,0],[0,0,1]],0,0,2,[],{}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[6912.34,7425.09,3.63167],[[-0.995202,0.097839,0],[0,0,1]],0,0,0,[],{
-		
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[6912.34,7425.09,3.63167],[[-0.995202,0.097839,0],[0,0,1]],0,0,0,[],{
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["Land_Portable_generator_F","a3\structures_f\items\electronics\portable_generator_f.p3d",[6909.72,7423.48,3.01918],[[0,1,0],[0,0,1]],0,0,2,[],{}],
 		["Land_PCSet_01_case_F","a3\structures_f_heli\items\electronics\pcset_01_case_f.p3d",[6910.96,7424.08,2.91704],[[0.131496,-0.991317,0],[0,0,1]],0,0,2,[],{}],
@@ -687,13 +690,14 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 				(_this select 0) hideObjectGlobal TRUE;
 			};
 		}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[6841.68,7276.29,3.64628],[[-0.56136,0.827572,0.000274102],[0.000488281,0,1]],0,0,0,[],{
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[6841.68,7276.29,3.64628],[[-0.56136,0.827572,0.000274102],[0.000488281,0,1]],0,0,0,[],{
 			missionNamespace setVariable ['QS_cas_laptop',(_this select 0),TRUE];
 			if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
 				(_this select 0) enableDynamicSimulation FALSE;
 				(_this select 0) setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 				(_this select 0) hideObjectGlobal TRUE;
 			};
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["Land_SCF_01_chimney_F","a3\structures_f_exp\industrial\sugarcanefactory_01\scf_01_chimney_f.p3d",[6876.81,7240.19,33.2707],[[-0.532993,-0.84612,0],[0,0,1]],0,0,2,[],{
 			_chimney = _this select 0;
@@ -820,8 +824,9 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		["Land_HelipadCircle_F","a3\structures_f\mil\helipads\helipadcircle_f.p3d",[8100.01,10287.2,29.5571],[[-0.999957,-0.00915517,-0.00166274],[-0.00158221,-0.00879574,0.99996]],0,0,0,[],{}],
 		["Land_PedestrianCrossing_01_6m_4str_F","a3\structures_f_argo\decals\horizontal\pedestriancrossing_01_6m_4str_f.p3d",[8096.35,10124.8,29.5558],[[-0.0086324,-0.999963,0],[0,0,1]],0,0,2,[],{}],
 		["Land_Airport_02_controlTower_F","a3\structures_f_exp\infrastructure\airports\airport_02_controltower_f.p3d",[8110.43,10103.6,40.4159],[[-0.999982,0.00599668,0],[0,0,1]],0,1,0,[],{}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[8103.9,10103.7,43.6637],[[0.999181,0.0404527,0],[0,0,1]],0,0,0,[],{
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[8103.9,10103.7,43.6637],[[0.999181,0.0404527,0],[0,0,1]],0,0,0,[],{
 			missionNamespace setVariable ['QS_airdefense_laptop',(_this select 0),TRUE];
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["Land_TripodScreen_01_large_F","a3\props_f_exp\military\camps\tripodscreen_01_large_f.p3d",[8140.9,10106.5,30.7192],[[-0.354884,0.93491,0.000300135],[0.000845728,0,1]],0,0,0,[],{
 			(_this select 0) setObjectTextureGlobal [0,(selectRandom (missionNamespace getVariable ['QS_missionConfig_textures_billboard2',[]]))];
@@ -831,8 +836,8 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[8136.6,10106.2,30.0912],[[0.00809035,0.999967,-6.84224e-006],[0.000845728,0,1]],0,0,2,[],{}],
 		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[8135.22,10106.8,30.0923],[[0.999993,-0.00370363,-0.000845722],[0.000845728,0,1]],0,0,2,[],{}],
 		["Land_OfficeChair_01_F","a3\structures_f_heli\furniture\officechair_01_f.p3d",[8136.88,10107.3,30.3538],[[0.804667,0.593725,-0.00068053],[0.000845728,0,1]],0,0,2,[],{}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[8135.21,10107.4,30.6525],[[0.958359,-0.285566,-0.000810511],[0.000845728,0,1]],0,0,0,[],{
-		
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[8135.21,10107.4,30.6525],[[0.958359,-0.285566,-0.000810511],[0.000845728,0,1]],0,0,0,[],{
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["Land_FlatTV_01_F","a3\structures_f_heli\items\electronics\flattv_01_f.p3d",[8136.57,10105.9,30.8058],[[-0.127821,-0.991797,0.000108102],[0.000845728,0,1]],0,0,0,[],{}],
 		["Land_PCSet_01_screen_F","a3\structures_f_heli\items\electronics\pcset_01_screen_f.p3d",[8135.64,10106.2,30.7507],[[-0.438452,-0.898754,0.000370811],[0.000845728,0,1]],0,0,2,[],{}],
@@ -986,13 +991,14 @@ if (_worldName isEqualTo 'Malden') exitWith {
 				(_this select 0) hideObjectGlobal TRUE;
 			};
 		}],
-		["Land_Laptop_unfolded_F","a3\structures_f\items\electronics\laptop_unfolded_f.p3d",[8058.24,10015.4,31.0285],[[-0.9131,0.407736,0],[0,0,1]],0,0,0,[],{
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[8058.24,10015.4,31.0285],[[-0.9131,0.407736,0],[0,0,1]],0,0,0,[],{
 			missionNamespace setVariable ['QS_cas_laptop',(_this select 0),TRUE];
 			if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
 				(_this select 0) enableDynamicSimulation FALSE;
 				(_this select 0) setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 				(_this select 0) hideObjectGlobal TRUE;
 			};
+			(_this # 0) setDir ((getDir (_this # 0)) + 180);
 		}],
 		["Land_PortableGenerator_01_F","a3\props_f_exp\military\camps\portablegenerator_01_f.p3d",[8106.05,10133.1,29.9173],[[0,1,0.00077204],[0.00077204,-0.00077204,0.999999]],0,0,2,[],{}],
 		["Land_TripodScreen_01_large_F","a3\props_f_exp\military\camps\tripodscreen_01_large_f.p3d",[8105.14,10133.3,30.5857],[[0.485414,-0.874284,-0.00104974],[0.00077204,-0.00077204,0.999999]],0,0,0,[],{
@@ -1020,5 +1026,225 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		["Land_New_WiredFence_10m_F","a3\structures_f\walls\new_wiredfence_10m_f.p3d",[8104.05,10059.8,30.5957],[[-0.0216466,-0.999766,0],[0,0,1]],0,0,2,[],{}],
 		//["Land_TripodScreen_01_dual_v1_F","a3\props_f_exp\military\camps\tripodscreen_01_dual_v1_f.p3d",[8102.88,10118.3,30.3551],[[0.810759,0.585378,-0.00125188],[0.00154408,0,0.999999]],0,0,0,[],{missionNamespace setVariable ['QS_panel_support',(_this select 0),TRUE];}],
 		["Land_New_WiredFence_10m_F","a3\structures_f\walls\new_wiredfence_10m_f.p3d",[8109.12,10057.8,30.4996],[[0,1,0],[0,0,1]],0,0,2,[],{}]
+	]
+};
+if (_worldName isEqualTo 'Enoch') exitWith {
+	[
+		["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[4068.7,10214.2,72.1358],[[-0.706138,0.708074,0],[0,0,1]],0,1,0,[],{
+			(_this select 0) setFlagTexture (missionNamespace getVariable ['QS_missionConfig_textures_communityFlag','a3\data_f\flags\flag_nato_co.paa']);
+		}],
+		["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[4086,10231.8,72.1368],[[-0.706138,0.708074,0],[0,0,1]],0,1,0,[],{
+			(_this select 0) setFlagTexture (missionNamespace getVariable ['QS_missionConfig_textures_communityFlag','a3\data_f\flags\flag_nato_co.paa']);
+		}],
+		["Flag_RedCrystal_F","a3\structures_f\mil\flags\mast_f.p3d",[4032.36,10180.9,72.075],[[-0.73256,0.680703,0],[0,0,1]],0,1,0,[],{}],
+		["Land_HelipadSquare_F","a3\structures_f\mil\helipads\helipadsquare_f.p3d",[4032.29,10232.4,68.16],[[0.702466,-0.711717,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HelipadSquare_F","a3\structures_f\mil\helipads\helipadsquare_f.p3d",[4068.05,10268.3,68.16],[[0.702466,-0.711717,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HelipadRescue_F","a3\structures_f\mil\helipads\helipadrescue_f.p3d",[4021.16,10193.8,68.16],[[0.699628,-0.714507,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HelipadCircle_F","a3\structures_f\mil\helipads\helipadcircle_f.p3d",[3885.25,10190.2,67.9006],[[0.218673,0.975395,0.0280322],[0.0287868,-0.0351633,0.998967]],0,0,2,[],{}],
+		["Land_HelipadCircle_F","a3\structures_f\mil\helipads\helipadcircle_f.p3d",[3879.85,10154.2,67.4235],[[0.218757,0.975625,-0.0173602],[0.00800059,0.0159972,0.99984]],0,0,2,[],{}],
+		["Land_HelipadCircle_F","a3\structures_f\mil\helipads\helipadcircle_f.p3d",[3844.94,10152.3,67.9446],[[0.218741,0.974736,0.0451939],[0.0143974,-0.0495345,0.998669]],0,0,2,[],{}],
+		["Land_HelipadCircle_F","a3\structures_f\mil\helipads\helipadcircle_f.p3d",[3838.9,10116.5,67.7822],[[0.218764,0.975633,-0.0168221],[-0.00158221,0.0175944,0.999844]],0,0,2,[],{}],
+		["Land_ControlTower_02_F","a3\structures_f_enoch\military\airfield\controltower_02_f.p3d",[4112.95,10282.9,78.2724],[[-0.705802,-0.708409,0],[0,0,1]],0,0,2,[],{
+			(_this # 0) animateSource ['door_1_nosound_source',1];
+			(_this # 0) animateSource ['door_1_sound_source',1];
+		}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4100.4,10384.5,69.6528],[[0.697604,0.709915,-0.0967917],[0.0797452,0.0573212,0.995166]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4099.09,10390.4,69.5918],[[0.768459,-0.634781,-0.0807737],[0.109732,0.00636504,0.993941]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4104.81,10396.8,69.5187],[[0.740862,-0.671242,-0.023609],[0.0303859,-0.00161842,0.999537]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4109.21,10401.2,69.5427],[[0.731693,-0.680161,-0.0447899],[0.00320178,-0.0622794,0.998054]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4115.15,10399.9,69.4218],[[-0.673772,-0.738875,0.00969902],[0.0143936,0,0.999896]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4121.37,10394.3,69.37],[[-0.673842,-0.738875,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4122.98,10388.4,69.37],[[0.742179,-0.670202,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4117.23,10382.1,69.3829],[[0.710449,-0.703676,-0.0101295],[0,-0.0143936,0.999896]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[4105.07,10379.9,69.1131],[[-0.668117,-0.734403,0.119465],[0.0797452,0.0889574,0.992838]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_3_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_3_green_f.p3d",[4113.38,10378.1,68.9583],[[0.689797,-0.724003,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4216.45,10511.4,69.5395],[[0.773123,-0.634251,-0.00247538],[0.00320178,0,0.999995]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4222.17,10517.8,69.4575],[[0.741196,-0.671261,0.00611021],[0.00479631,0.0143975,0.999885]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4228.79,10517.1,69.43],[[-0.673842,-0.738875,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4235.02,10511.5,69.3938],[[-0.673811,-0.738875,0.00646396],[0.00959269,0,0.999954]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4215.94,10504.6,69.52],[[-0.673842,-0.738875,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4222.16,10499,69.5772],[[-0.673842,-0.738663,-0.0177264],[0,-0.023991,0.999712]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4229.13,10498.8,69.4352],[[0.772985,-0.634172,-0.0178818],[0.0191947,-0.00479543,0.999804]],0,0,2,[],{}],
+		["Land_HBarrier_01_big_4_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_big_4_green_f.p3d",[4234.84,10505.2,69.3955],[[0.74117,-0.671279,-0.00711014],[0.00959269,0,0.999954]],0,0,2,[],{}],
+		["B_supplyCrate_F","a3\weapons_f\ammoboxes\supplydrop.p3d",[4086.75,10232.9,69.0524],[[-0.73445,0.678663,0],[0,0,1]],0,0,2,[],{
+
+		}],
+		["B_supplyCrate_F","a3\weapons_f\ammoboxes\supplydrop.p3d",[4092.53,10231.1,69.1536],[[0.689826,-0.723975,0],[0,0,1]],0,0,2,[],{
+
+		}],
+		["B_supplyCrate_F","a3\weapons_f\ammoboxes\supplydrop.p3d",[4098.15,10225.3,69.1536],[[-0.706152,0.70806,0],[0,0,1]],0,0,2,[],{
+
+		}],
+		["Land_Cargo20_EMP_F","a3\structures_f_enoch\industrial\cargo\cargo20_emp_f.p3d",[4090.05,10231.4,69.3279],[[0.688477,-0.725258,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Cargo20_EMP_F","a3\structures_f_enoch\industrial\cargo\cargo20_emp_f.p3d",[4091.04,10205.6,69.4718],[[0.739811,0.672814,0],[0,0,1]],0,0,2,[],{}],
+		["Land_WoodenCrate_01_stack_x5_F","a3\props_f_exp\commercial\market\woodencrate_01_stack_x5_f.p3d",[4099.18,10224,69.2232],[[-0.774293,-0.632827,0],[0,0,1]],0,0,2,[],{}],
+		["Fridge_01_closed_F","a3\structures_f_heli\items\electronics\fridge_01_f.p3d",[4089.47,10228.6,68.7797],[[-0.650578,0.75944,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4103.11,10206.5,71.9016],[[0.2341,-0.972213,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4105.07,10208.7,71.9016],[[0.981233,-0.192827,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4067.18,10214,68.6324],[[0.234085,-0.972122,0.0135086],[-0.0111984,0.0111977,0.999875]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4069.14,10216.2,68.6664],[[0.981233,-0.192827,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[4100.98,10234.6,68.6728],[[-0.698269,0.715836,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[4101.53,10234,68.6728],[[0.704876,-0.70933,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4102.18,10236.4,68.7677],[[0.230496,0.973073,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4103.37,10235.3,68.7677],[[0.901645,0.432478,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4100.38,10236,68.7677],[[-0.683343,0.730098,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4099.33,10234.9,68.7677],[[-0.931115,0.364726,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4099.29,10233.1,68.7677],[[-0.688165,-0.725554,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4100.54,10231.9,68.7677],[[-0.395555,-0.918442,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4102.32,10232.7,68.7677],[[0.518334,-0.855178,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingTable_small_F","a3\structures_f\civ\camping\campingtable_small_f.p3d",[4115.69,10224.5,71.8013],[[0.70096,0.7132,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[4105.71,10286.4,78.201],[[-0.821088,0.570802,0],[0,0,1]],0,0,0,[],{
+			missionNamespace setVariable ['QS_airdefense_laptop',(_this select 0),TRUE];
+		}],
+		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[4106.01,10286.7,77.6307],[[0.707498,-0.706715,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4104.1,10285.8,77.6636],[[0.946704,0.322104,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4084.68,10230.5,68.8003],[[-0.718662,0.695359,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4083.39,10229.1,68.8003],[[0.122073,0.992521,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4081.81,10228,68.8003],[[-0.903106,-0.429418,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4080.45,10226.3,68.8003],[[0.99879,-0.0491797,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4079.16,10225,68.8003],[[0.705427,-0.708782,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4077.86,10224,68.8003],[[-0.749812,0.66165,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4076.4,10222.4,68.8003],[[0.151091,-0.98852,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4075.22,10220.8,68.8003],[[0.992552,0.12182,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4073.99,10219.7,68.8018],[[-0.12964,0.99156,0.0015308],[0,-0.00154382,0.999999]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4072.2,10218.2,68.8003],[[-0.0539685,-0.998543,0],[0,0,1]],0,0,2,[],{}],
+		["Land_DragonsTeeth_01_1x1_old_F","a3\structures_f_tank\military\fortifications\dragonsteeth_01_1x1_old_f.p3d",[4071.11,10216.7,68.8003],[[0.861456,0.507832,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CncBarrier_F","a3\structures_f\walls\cncbarrier_f.p3d",[4085.53,10228.8,68.6469],[[-0.710168,0.704033,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CncBarrier_F","a3\structures_f\walls\cncbarrier_f.p3d",[4082.98,10226.2,68.6469],[[-0.710168,0.704033,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CncBarrier_F","a3\structures_f\walls\cncbarrier_f.p3d",[4080.34,10223.6,68.6469],[[-0.710168,0.704033,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CncBarrier_F","a3\structures_f\walls\cncbarrier_f.p3d",[4077.72,10220.9,68.6458],[[-0.710168,0.704033,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CncBarrier_F","a3\structures_f\walls\cncbarrier_f.p3d",[4075.09,10218.3,68.6458],[[-0.710168,0.704033,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CncBarrier_F","a3\structures_f\walls\cncbarrier_f.p3d",[4072.77,10215.9,68.6458],[[-0.710168,0.704033,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Smokestack_03_F","a3\structures_f_enoch\industrial\smokestacks\smokestack_03_f.p3d",[4018.93,10132.6,85.5996],[[-0.124837,-0.992177,0],[0,0,1]],0,0,2,[],{
+			_chimney = _this # 0;
+			missionNamespace setVariable [
+				'QS_setFeatureType',
+				((missionNamespace getVariable 'QS_setFeatureType') + [[_chimney,2]]),
+				TRUE
+			];
+			_fire = createVehicle ['test_EmptyObjectForFireBig',[0,0,0],[],0,'NONE'];
+			_fire allowDamage FALSE;
+			missionNamespace setVariable [
+				'QS_setFeatureType',
+				((missionNamespace getVariable 'QS_setFeatureType') + [[_fire,2]]),
+				TRUE
+			];			
+			missionNamespace setVariable ['QS_torch',_fire,TRUE];
+			_fire enableDynamicSimulation FALSE;
+			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+			_fire attachTo [_chimney,[1,1,20]];
+			_fire spawn {
+				uiSleep 0.1;
+				detach _this;
+			};
+		}],
+		["Land_HelipadCivil_F","a3\structures_f\mil\helipads\helipadcivil_f.p3d",[4070.25,10353.9,68.16],[[0.697268,-0.716811,0],[0,0,1]],0,0,2,[],{}],
+		["Land_WoodenShelter_01_F","a3\structures_f_exp\commercial\market\woodenshelter_01_f.p3d",[4052.73,10338.2,69.2738],[[-0.772037,-0.635578,0],[0,0,1]],0,0,2,[],{}],
+		["Land_FirstAidKit_01_closed_F","a3\props_f_orange\humanitarian\camps\firstaidkit_01_closed_f.p3d",[4052.68,10338.2,69.1272],[[-0.769548,-0.638589,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingTable_small_F","a3\structures_f\civ\camping\campingtable_small_f.p3d",[4052.7,10338.2,68.564],[[0.765511,0.643422,0],[0,0,1]],0,0,2,[],{}],
+		["Land_MedicalTent_01_white_generic_open_F","a3\structures_f_orange\humanitarian\camps\medicaltent_01_f.p3d",[4037.4,10177.8,69.4647],[[-0.709705,0.704499,0.00109566],[0.00154382,0,0.999999]],0,0,1,[],{}],
+		["Land_MedicalTent_01_floor_light_F","a3\structures_f_orange\humanitarian\camps\medicaltent_01_floor_light_f.p3d",[4037.39,10177.8,68.0902],[[-0.706874,0.707339,0.00109129],[0.00154382,0,0.999999]],0,0,2,[],{}],
+		["Land_Stretcher_01_F","a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d",[4037.19,10181.3,68.3324],[[-0.66666,-0.745358,-0.00252036],[0.00158197,-0.00479631,0.999987]],0,0,2,[],{}],
+		["Land_Stretcher_01_F","a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d",[4039.08,10179.7,68.3316],[[-0.666661,-0.745361,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Stretcher_01_F","a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d",[4040.88,10177.9,68.3316],[[-0.666661,-0.745361,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Stretcher_01_F","a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d",[4035.68,10176.1,68.3345],[[0.686433,0.727193,-0.00105973],[0.00154382,0,0.999999]],0,0,2,[],{}],
+		["Land_Stretcher_01_F","a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d",[4033.87,10178,68.3374],[[-0.66666,-0.745361,0.00102921],[0.00154382,0,0.999999]],0,0,2,[],{}],
+		["Land_IntravenStand_01_empty_F","a3\props_f_orange\humanitarian\camps\intravenstand_01_f.p3d",[4034.35,10176.5,69.0264],[[-0.698074,0.716024,0.0010777],[0.00154382,0,0.999999]],0,0,2,[],{}],
+		["Land_IntravenStand_01_2bags_F","a3\props_f_orange\humanitarian\camps\intravenstand_01_f.p3d",[4038.41,10180.9,69.0214],[[-0.725295,0.688439,0],[0,0,1]],0,0,2,[],{}],
+		["Land_IntravenStand_01_2bags_F","a3\props_f_orange\humanitarian\camps\intravenstand_01_f.p3d",[4040.32,10179.2,69.0214],[[-0.725295,0.688439,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_white_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4037.84,10174.6,68.5966],[[0.0326465,0.999466,-0.00163301],[0.00158197,0.00158221,0.999997]],0,0,2,[],{}],
+		["Land_CampingTable_white_F","a3\structures_f\civ\camping\campingtable_f.p3d",[4037.6,10173.3,68.5042],[[0.70504,0.709164,-0.0022374],[0.00158197,0.00158221,0.999997]],0,0,2,[],{}],
+		["Land_CampingTable_small_white_F","a3\structures_f\civ\camping\campingtable_small_f.p3d",[4038.66,10173.5,68.4958],[[-0.688495,0.725241,-5.83049e-005],[0.00158197,0.00158221,0.999997]],0,0,2,[],{}],
+		["Land_FirstAidKit_01_open_F","a3\props_f_orange\humanitarian\camps\firstaidkit_01_open_f.p3d",[4038.81,10173.7,68.9658],[[0.717174,0.696891,-0.00223718],[0.00158197,0.00158221,0.999997]],0,0,2,[],{}],
+		["Land_FirstAidKit_01_closed_F","a3\props_f_orange\humanitarian\camps\firstaidkit_01_closed_f.p3d",[4036.56,10177,68.2703],[[-0.692362,-0.72155,0.00106889],[0.00154382,0,0.999999]],0,0,2,[],{}],
+		["Land_New_WiredFence_10m_F","a3\structures_f\walls\new_wiredfence_10m_f.p3d",[4108.29,10217,69.4751],[[0.715475,0.698638,0],[0,0,1]],0,0,2,[],{}],
+		["Land_New_WiredFence_10m_F","a3\structures_f\walls\new_wiredfence_10m_f.p3d",[4100.8,10216.8,69.4751],[[-0.716555,0.697531,0],[0,0,1]],0,0,2,[],{}],
+		["Land_New_WiredFence_10m_F","a3\structures_f\walls\new_wiredfence_10m_f.p3d",[4099.76,10208.2,69.4751],[[0.715475,0.698638,0],[0,0,1]],0,0,2,[],{}],
+		["Land_New_WiredFence_5m_F","a3\structures_f\walls\new_wiredfence_5m_f.p3d",[4099.96,10211.3,69.3537],[[0.70475,-0.709455,0],[0,0,1]],0,0,2,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4046.16,10169.4,74.0722],[[0.710814,0.70338,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4044.63,10177.2,74.0722],[[0.710814,0.70338,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4037.72,10170.6,74.0789],[[0.710814,0.70338,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4095.67,10241.7,74.1422],[[0.710814,0.70338,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4094.94,10241,74.1422],[[0.710814,0.70338,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4059.87,10205.4,74.0722],[[0.710814,0.70338,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4059.14,10204.6,74.0722],[[0.710814,0.70338,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampShabby_F","a3\structures_f\civ\lamps\lampshabby_f.p3d",[4104.03,10380.9,72.1378],[[0.934888,0.354942,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampShabby_F","a3\structures_f\civ\lamps\lampshabby_f.p3d",[4225.98,10497.4,72.1292],[[0.143188,0.989695,0],[0,0,1]],0,1,0,[],{}],
+		["Reflector_Cone_01_wide_green_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[4115.78,10240.6,74.3931],[[-0.764634,-0.644465,0],[0,0,1]],0,1,0,[],{}],
+		//["Reflector_Cone_01_wide_green_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[4106.82,10208.6,74.1574],[[-0.698904,0.715216,0],[0,0,1]],0,1,0,[],{}],
+		//["Reflector_Cone_01_wide_green_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[4061.12,10183.3,73.2304],[[0.753835,0.657064,0],[0,0,1]],0,1,0,[],{}],
+		["Reflector_Cone_01_wide_white_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[4051.73,10337.4,70.4815],[[0.759794,0.650164,0],[0,0,1]],0,1,0,[],{}],
+		["Reflector_Cone_01_wide_white_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[3899.21,10192.9,67.7863],[[-0.982182,-0.187934,0],[0,0,1]],0,1,0,[],{}],
+		["Reflector_Cone_01_wide_white_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[3893.58,10157.8,67.6803],[[-0.923855,-0.382743,0],[0,0,1]],0,1,0,[],{}],
+		["Land_Shed_06_F","a3\structures_f_exp\civilian\sheds\shed_06_f.p3d",[3863.99,10135.6,69.1922],[[-0.775547,-0.631289,0],[0,0,1]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[3858.68,10137.2,68.2219],[[0.638436,-0.768999,0.0322689],[-0.0543197,-0.00319705,0.998518]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[3863.07,10140.9,68.4378],[[0.639327,-0.768891,0.00818273],[-0.0127979,0,0.999918]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[3864.72,10130.4,68.5617],[[0.638138,-0.768238,0.0508853],[-0.0622778,0.0143698,0.997955]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[3869.19,10133.9,68.6835],[[0.639298,-0.767591,0.0458556],[-0.0159977,0.0463439,0.998797]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[3867.19,10141.7,68.4906],[[0.774118,0.632963,0.00990792],[-0.0127979,0,0.999918]],0,0,2,[],{}],
+		["Land_HBarrier_01_line_5_green_F","a3\structures_f_exp\military\fortifications\hbarrier_01_line_5_green_f.p3d",[3860.64,10129.7,68.3262],[[-0.777734,-0.627575,-0.0357627],[-0.0575043,0.014378,0.998242]],0,0,2,[],{}],
+		["B_supplyCrate_F","a3\weapons_f\ammoboxes\supplydrop.p3d",[3866.94,10134.6,68.7772],[[-0.621167,0.782427,-0.0442593],[-0.0127933,0.0463448,0.998844]],0,0,2,[],{}],
+		["Reflector_Cone_01_wide_red_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[3862.22,10129.7,70.4948],[[0.273554,0.961857,0],[0,0,1]],0,1,0,[],{}],
+		["Land_CampingTable_F","a3\structures_f\civ\camping\campingtable_f.p3d",[4097.43,10239.6,68.6728],[[0.726801,-0.686848,0],[0,0,1]],0,0,2,[],{}],
+		["Land_TripodScreen_01_large_black_F","a3\props_f_exp\military\camps\tripodscreen_01_large_f.p3d",[4096.88,10240.1,69.3044],[[0.731999,-0.681306,0],[0,0,1]],0,0,1,[],{
+			missionNamespace setVariable ['QS_Billboard_02',(_this select 0),TRUE];
+			(_this select 0) setObjectTextureGlobal [0,(selectRandom (missionNamespace getVariable ['QS_missionConfig_textures_billboard1',[]]))];
+		}],
+		["Land_PortableGenerator_01_black_F","a3\props_f_exp\military\camps\portablegenerator_01_f.p3d",[4096.05,10239,68.6369],[[0.783756,-0.621069,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Router_01_black_F","a3\props_f_enoch\military\equipment\router_01_f.p3d",[4097.84,10240.3,69.1926],[[0.477772,-0.878484,0],[0,0,1]],0,0,2,[],{}],
+		["Land_PortableServer_01_cover_black_F","a3\props_f_enoch\military\equipment\portableserver_01_cover_f.p3d",[4096.95,10239.1,69.1188],[[0.706271,0.707941,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingTable_small_F","a3\structures_f\civ\camping\campingtable_small_f.p3d",[4114.98,10225.3,71.8084],[[0.70096,0.7132,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingTable_small_F","a3\structures_f\civ\camping\campingtable_small_f.p3d",[4114.98,10225.3,72.6214],[[0.70096,0.7132,0],[0,0,1]],0,0,2,[],{}],
+		["Land_PortableServer_01_black_F","a3\props_f_enoch\military\equipment\portableserver_01_f.p3d",[4115.01,10225.2,73.2023],[[-0.709965,-0.704237,0],[0,0,1]],0,0,2,[],{}],
+		["Land_PortableServer_01_black_F","a3\props_f_enoch\military\equipment\portableserver_01_f.p3d",[4114.98,10225.2,72.3892],[[-0.718122,-0.695917,0],[0,0,1]],0,0,2,[],{}],
+		["Land_PortableGenerator_01_black_F","a3\props_f_exp\military\camps\portablegenerator_01_f.p3d",[4115.07,10225.4,71.7788],[[-0.679683,0.733506,0],[0,0,1]],0,0,2,[],{}],
+		["Land_MultiScreenComputer_01_black_F","a3\props_f_enoch\military\equipment\multiscreencomputer_01_f.p3d",[4115.58,10224.8,72.4592],[[-0.994515,0.104593,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingTable_small_F","a3\structures_f\civ\camping\campingtable_small_f.p3d",[4116.4,10223.8,71.8084],[[0.70096,0.7132,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[4116.55,10223.7,72.3836],[[-0.203669,-0.97904,0],[0,0,1]],0,0,2,[],{}],
+		["Land_CampingChair_V2_F","a3\structures_f\civ\camping\campingchair_v2_f.p3d",[4117.01,10224.9,71.9096],[[0.862064,0.506799,0],[0,0,1]],0,0,2,[],{}],
+		["Land_MobilePhone_smart_F","a3\structures_f\items\electronics\mobilephone_smart_f.p3d",[4116.18,10224.1,72.2206],[[0.913812,0.406138,0],[0,0,1]],0,0,2,[],{}],
+		["Land_TripodScreen_01_dual_v1_black_F","a3\props_f_exp\military\camps\tripodscreen_01_dual_v1_f.p3d",[4072.97,10215.1,69.0698],[[0.979234,-0.202732,0],[0,0,1]],0,0,2,[],{}],
+		["Land_TripodScreen_01_dual_v1_black_F","a3\props_f_exp\military\camps\tripodscreen_01_dual_v1_f.p3d",[4086.35,10228.8,69.0709],[[0.042913,-0.999079,0],[0,0,1]],0,0,2,[],{}],
+		["Land_MapBoard_Enoch_F","a3\structures_f\civ\infoboards\mapboard_f.p3d",[4090.67,10229.6,69.2301],[[-0.666514,0.745493,0],[0,0,1]],0,0,1,[],{}],
+		["Land_MapBoard_01_Wall_Enoch_F","a3\props_f_orange\civilian\infoboards\mapboard_01_wall_f.p3d",[4116.8,10222.8,73.0898],[[-0.709975,-0.704227,0],[0,0,1]],0,0,1,[],{}],
+		["Land_Can_V3_F","a3\structures_f\items\food\can_v3_f.p3d",[4116.07,10223.9,72.2572],[[0.635425,-0.772162,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Can_V3_F","a3\structures_f\items\food\can_v3_f.p3d",[4089.48,10228.5,69.3347],[[-0.454326,-0.890835,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Orange_01_F","a3\props_f_orange\humanitarian\supplies\orange_01_f.p3d",[4101.17,10233.6,69.118],[[0,1,0],[0,0,1]],0,0,2,[],{}],
+		["Land_BottlePlastic_V2_F","a3\structures_f_epa\items\food\bottleplastic_v2_f.p3d",[4101.09,10234.7,69.2076],[[0,1,0],[0,0,1]],0,0,2,[],{}],
+		["OmniDirectionalAntenna_01_black_F","a3\props_f_enoch\military\equipment\omnidirectionalantenna_01_f.p3d",[4116.5,10227.1,73.4446],[[0.314094,0.949392,0],[0,0,1]],0,0,2,[],{}],
+		["Land_InfoStand_V2_F","a3\structures_f\civ\infoboards\infostand_v2_f.p3d",[4077.96,10220.7,68.8485],[[-0.708753,0.705457,0],[0,0,1]],0,0,1,[],{
+			(_this select 0) setObjectTextureGlobal [0,(selectRandom (missionNamespace getVariable ['QS_missionConfig_textures_infostand2',[]]))];
+		}],
+		["Land_InfoStand_V1_F","a3\structures_f\civ\infoboards\infostand_v1_f.p3d",[4080.52,10223.3,68.8366],[[-0.696967,0.717103,0],[0,0,1]],0,0,1,[],{
+			(_this select 0) setObjectTextureGlobal [0,(selectRandom (missionNamespace getVariable ['QS_missionConfig_textures_infostand1',[]]))];
+		}],
+		["Land_GymRack_01_F","a3\structures_f_bootcamp\civ\sportsgrounds\gymrack_01_f.p3d",[4119.2,10223.2,69.3554],[[0.685925,-0.727672,0],[0,0,1]],0,0,2,[],{}],
+		["Land_GymRack_01_F","a3\structures_f_bootcamp\civ\sportsgrounds\gymrack_01_f.p3d",[4121.38,10225.5,69.3554],[[0.720446,-0.693511,0],[0,0,1]],0,0,2,[],{}],
+		["Land_GymBench_01_F","a3\structures_f_bootcamp\civ\sportsgrounds\gymbench_01_f.p3d",[4116.49,10225.5,68.8505],[[-0.681758,0.731578,0],[0,0,1]],0,0,2,[],{}],
+		["Land_GymRack_03_F","a3\structures_f_bootcamp\civ\sportsgrounds\gymrack_03_f.p3d",[4117.45,10227.2,68.8439],[[0.704941,-0.709266,0],[0,0,1]],0,0,2,[],{}],
+		["Land_PaperBox_open_full_F","a3\structures_f_epa\mil\scrapyard\paperbox_open_full_f.p3d",[4092.01,10222.6,68.8692],[[-0.875411,0.48338,0],[0,0,1]],0,0,2,[],{}],
+		["Land_PaperBox_closed_F","a3\structures_f_epa\mil\scrapyard\paperbox_closed_f.p3d",[4090.51,10223.5,68.9044],[[0.984418,0.175845,0],[0,0,1]],0,0,2,[],{}],
+		["Land_Airport_01_hangar_F","a3\structures_f_exp\infrastructure\airports\airport_01_hangar_f.p3d",[4322,10505.2,70.825],[[0.698572,-0.71554,0],[0,0,1]],0,1,0,[],{}],
+		["Land_CampingTable_small_F","a3\structures_f\civ\camping\campingtable_small_f.p3d",[4309.19,10502.7,68.5745],[[-0.860878,-0.508812,0],[0,0,1]],0,0,2,[],{
+			if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
+				(_this select 0) hideObjectGlobal TRUE;
+			};
+		}],
+		["Land_Laptop_03_black_F","a3\props_f_enoch\military\equipment\laptop_03_f.p3d",[4309.1,10502.7,69.1497],[[0.945998,0.324174,0],[0,0,1]],0,0,0,[],{
+			missionNamespace setVariable ['QS_cas_laptop',(_this select 0),TRUE];
+			if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
+				(_this select 0) enableDynamicSimulation FALSE;
+				(_this select 0) setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+				(_this select 0) hideObjectGlobal TRUE;
+			};
+		}],
+		["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[4312.98,10453.7,70.6447],[[-0.702112,0.712067,1.55774e-005],[-0.00158221,-0.00158197,0.999997]],0,0,2,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4271.94,10370.8,76.1413],[[0.998157,-0.0606768,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4229.51,10419.4,74.2522],[[-0.622104,-0.782935,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4295.24,10399.2,75.9248],[[0.239087,0.970998,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4332.35,10475.2,74.3015],[[-0.897281,0.441459,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4332.06,10476.1,74.2944],[[0.0291564,0.999575,0],[0,0,1]],0,1,0,[],{}],
+		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[4332.8,10494,74.1528],[[0.707853,0.70636,0],[0,0,1]],0,1,0,[],{}],
+		["Reflector_Cone_01_wide_white_F","a3\structures_f_enoch\vr\helpers\reflector_01_f.p3d",[4316.03,10458.5,71.9273],[[-0.633392,-0.773831,0],[0,0,1]],0,1,0,[],{}]
 	]
 };

@@ -104,6 +104,22 @@ if (_worldName isEqualTo 'Malden') then {
 		[7689.35,3309.53,0]
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
+if (_worldName isEqualTo 'Enoch') then {
+	_destinations = [
+		[11151.5,11434.7,0.00144577],
+		[11436.9,9484.55,0.0016613],
+		[11226.9,4360.06,0.00143433],
+		[5946.78,4097.98,0.00137329],
+		[4949.62,2143.18,0.00149536],
+		[1664.64,3653.66,0.00143433],
+		[11429.7,503.399,0.0014534],
+		[7363.54,2856.99,0.00144196],
+		[4906.16,5423.01,0.00140381],
+		[9065.14,6668.31,0.00143433],
+		[565.645,947.551,0.00146484],
+		[565.645,947.551,0.00146484]
+	];
+};
 _vehicleType = selectRandom _vehicleTypes;
 _vehicle = createVehicle [_vehicleType,_startPosition,[],0,'NONE'];
 missionNamespace setVariable [
@@ -628,13 +644,12 @@ for '_x' from 0 to 1 step 0 do {
 				_veh enableVehicleCargo FALSE;
 				_veh setConvoySeparation 50;
 				_veh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
-				createVehicleCrew _veh;
+				_grp = createVehicleCrew _veh;
 				missionNamespace setVariable [
 					'QS_analytics_entities_created',
 					((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _veh))),
 					FALSE
 				];
-				_grp = group ((crew _veh) select 0);
 				[(units _grp),(selectRandom [1,2])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 				_enemyGroupArray pushBack _grp;
 				_enemyArray pushBack _veh;

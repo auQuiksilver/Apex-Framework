@@ -32,7 +32,9 @@ if (_type isEqualTo 0) exitWith {
 				'o_recon_lat_f','o_recon_tl_f','o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_spotter_f','o_t_recon_exp_f','o_t_recon_jtac_f',
 				'o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f','o_t_sniper_f','o_t_ghillie_tna_f','o_t_spotter_f',
 				'o_plane_fighter_02_stealth_f','o_diver_f','o_diver_exp_f','o_diver_tl_f','o_t_diver_f','o_t_diver_exp_f','o_t_diver_tl_f','o_uav_01_f','o_t_uav_04_cas_f',
-				'o_uav_02_dynamicloadout_f','o_uav_02_cas_f','i_uav_02_dynamicloadout_f','i_uav_02_cas_f','b_plane_fighter_01_stealth_f','b_uav_05_f','b_t_uav_03_dynamicloadout_f'
+				'o_uav_02_dynamicloadout_f','o_uav_02_cas_f','i_uav_02_dynamicloadout_f','i_uav_02_cas_f','b_plane_fighter_01_stealth_f','b_uav_05_f','b_t_uav_03_dynamicloadout_f',
+				'o_r_soldier_ar_f','o_r_medic_f','o_r_soldier_exp_f','o_r_soldier_gl_f','o_r_jtac_f','o_r_soldier_m_f','o_r_soldier_lat_f','o_r_soldier_tl_f',
+				'o_r_recon_ar_f','o_r_recon_exp_f','o_r_recon_gl_f','o_r_recon_jtac_f','o_r_recon_m_f','o_r_recon_medic_f','o_r_recon_lat_f','o_r_recon_tl_f'
 			];
 			private _target = objNull;
 			private _targetType = '';
@@ -143,7 +145,9 @@ if (_type isEqualTo 1) exitWith {
 		'o_recon_lat_f','o_recon_tl_f','o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_spotter_f','o_t_recon_exp_f','o_t_recon_jtac_f',
 		'o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f','o_t_sniper_f','o_t_ghillie_tna_f','o_t_spotter_f',
 		'o_plane_fighter_02_stealth_f','o_diver_f','o_diver_exp_f','o_diver_tl_f','o_t_diver_f','o_t_diver_exp_f','o_t_diver_tl_f','o_uav_01_f','o_t_uav_04_cas_f',
-		'o_uav_02_dynamicloadout_f','o_uav_02_cas_f','i_uav_02_dynamicloadout_f','i_uav_02_cas_f','b_plane_fighter_01_stealth_f','b_uav_05_f','b_t_uav_03_dynamicloadout_f'
+		'o_uav_02_dynamicloadout_f','o_uav_02_cas_f','i_uav_02_dynamicloadout_f','i_uav_02_cas_f','b_plane_fighter_01_stealth_f','b_uav_05_f','b_t_uav_03_dynamicloadout_f',
+		'o_r_soldier_ar_f','o_r_medic_f','o_r_soldier_exp_f','o_r_soldier_gl_f','o_r_jtac_f','o_r_soldier_m_f','o_r_soldier_lat_f','o_r_soldier_tl_f',
+		'o_r_recon_ar_f','o_r_recon_exp_f','o_r_recon_gl_f','o_r_recon_jtac_f','o_r_recon_m_f','o_r_recon_medic_f','o_r_recon_lat_f','o_r_recon_tl_f'
 	];
 	_player = player;
 	_playerSide = _player getVariable ['QS_unit_side',WEST];

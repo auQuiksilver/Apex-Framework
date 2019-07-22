@@ -130,8 +130,7 @@ if ((toLower _vehicleType) in ['b_apc_tracked_01_rcws_f','b_t_apc_tracked_01_rcw
 	_unit assignAsCommander _vehicle;
 	_unit moveInCommander _vehicle;
 } else {
-	createVehicleCrew _vehicle;
-	_grp = group (effectiveCommander _vehicle);
+	_grp = createVehicleCrew _vehicle;
 };
 if (!isNull (roadAt _randomRoadPosition)) then {
 	_vehicle setDir (_randomRoadPosition getDir (position ((roadsConnectedTo (roadAt _randomRoadPosition)) select 0)));

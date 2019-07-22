@@ -51,6 +51,15 @@ if (!((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo
 			[8121.91,10100.2,0]
 		];
 	};
+	if (worldName isEqualTo 'Enoch') then {
+		// CUSTOM Vehicle Restricted area for LIVONIA
+		_return = [
+			[4051.23,10193.4,0],
+			[4071.29,10173.2,0],
+			[4126.5,10229.4,0],
+			[4106.57,10249.8,0]
+		];
+	};
 	_return;
 };
 // EDIT ABOVE, the below is for default base layout
@@ -96,6 +105,14 @@ if (worldName isEqualTo 'Malden') exitWith {
 		[8103.02,10133.3,0],
 		[8102.68,10099,0],
 		[8121.91,10100.2,0]
+	]
+};
+if (worldName isEqualTo 'Enoch') exitWith {
+	[
+		[4051.23,10193.4,0],
+		[4071.29,10173.2,0],
+		[4126.5,10229.4,0],
+		[4106.57,10249.8,0]
 	]
 };
 [[0,0,0],[1,0,0],[1,1,0],[0,1,0]]						// Do not edit this line

@@ -31,7 +31,7 @@ if (_type isEqualTo 'REPAIR') then {
 				'o_t_truck_03_repair_ghex_f',0.666,
 				'b_t_apc_tracked_01_crv_f',0.333
 			]
-		] select (worldName in ['Tanoa','Lingor3']);
+		] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		_roads = _roads call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		_roadIndex = _roads findIf {(((_x select [0,2]) nearEntities ['AllVehicles',8]) isEqualTo [])};
 		if (_roadIndex isEqualTo -1) exitWith {};
@@ -71,7 +71,7 @@ if (_type isEqualTo 'REPAIR') then {
 		_type = [
 			'land_repairdepot_01_green_f',
 			'land_repairdepot_01_tan_f'
-		] select (worldName in ['Tanoa','Lingor3']);
+		] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		// spawn beside road segment
 		
 		
@@ -81,7 +81,7 @@ if (_type isEqualTo 'MEDICAL') then {
 	_data params ['_roads'];
 	// spawn near HQ
 	if (_mobile) then {
-		_vTypes = ['o_truck_03_medical_f','o_t_truck_03_medical_ghex_f'] select (worldName in ['Tanoa','Lingor3']);
+		_vTypes = ['o_truck_03_medical_f','o_t_truck_03_medical_ghex_f'] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		_roads = _roads call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		_roadIndex = _roads findIf {(((_x select [0,2]) nearEntities ['AllVehicles',8]) isEqualTo [])};
 		if (_roadIndex isEqualTo -1) exitWith {};

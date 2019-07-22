@@ -210,7 +210,7 @@ if (_type isEqualTo 1) exitWith {
 			[2,'PylonMissile_1Rnd_Bomb_03_F',TRUE]
 		];
 	};
-	if (_vehicleType isEqualTo 'i_heli_light_03_dynamicloadout_f') then {
+	if (_vehicleType in ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f']) then {
 		//_vehicle call _preparePylons;
 		{
 			_vehicle setPylonLoadout _x;

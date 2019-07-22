@@ -263,7 +263,7 @@ if (_v isKindOf 'Air') then {
 	_driverGunnerVehicles = [
 		'o_heli_light_02_f','o_heli_light_02_v2_f','i_heli_light_03_f','b_heli_light_01_armed_f','o_plane_cas_02_dynamicloadout_f','b_plane_cas_01_f','o_plane_cas_02_dynamicloadout_f','b_plane_cas_01_dynamicloadout_f',
 		'i_plane_fighter_03_aa_f','i_plane_fighter_03_cas_f','i_plane_fighter_03_dynamicloadout_f','b_plane_fighter_01_f','b_plane_fighter_01_stealth_f','o_heli_light_02_dynamicloadout_f',
-		'i_heli_light_03_dynamicloadout_f','b_heli_light_01_dynamicloadout_f'
+		'i_heli_light_03_dynamicloadout_f','b_heli_light_01_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f'
 	];
 	if (_vTypeL in _turretVehicles) then {
 		if ((_posObject distance2D _posCausedBy) > 12) then {

@@ -176,4 +176,52 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		['QS_marker_ferry_5',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[3676.83,3035.56,0],0,'Boat']
 	]
 };
+if (_worldName isEqualTo 'Enoch') exitWith {
+	_markerStoragePos = [-5000,-5000,0];
+	[
+		['respawn',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[4109.77,10234.7,0.00144196],0,''],
+		['respawn_east',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7992.24,-309.422,0.00132751],0,''],
+		['respawn_west',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[4109.77,10234.7,0.00144196],0,''],
+		['respawn_guerrila',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7992.24,-309.422,0.00132751],0,''],
+		['respawn_civilian',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[7992.24,-309.422,0.00132751],0,''],
+		['QS_marker_aoMarker',_markerStoragePos,'o_unknown','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
+		['QS_marker_aoCircle',_markerStoragePos,'Empty','Ellipse','FDiagonal','ColorOPFOR',[800,800],0,_markerStoragePos,0,''],
+		['QS_marker_sideMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
+		['QS_marker_sideCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[300,300],0,_markerStoragePos,0,''],
+		['QS_marker_radioMarker',_markerStoragePos,'loc_Transmitter','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,'Radiotower'],
+		['QS_marker_radioCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[300,300],0,_markerStoragePos,0,''],
+		['QS_marker_hqMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,'HQ'],
+		['QS_marker_hqCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[150,150],0,_markerStoragePos,0,''],
+		['QS_marker_mortMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,'Mortars'],
+		['QS_marker_mortCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[300,300],0,_markerStoragePos,0,'   '],
+		['QS_marker_base_marker',[4109.18,10236.6,0],'respawn_unknown','Icon','','ColorWEST',[0.5,0.5],0.5,[4109.18,10236.6,0],0,'Base'],
+		['QS_marker_airbaseDefense',[4225.65,10507.8,0],'b_antiair','Icon','','ColorWEST',[0.5,0.5],0,[4225.65,10507.8,0],0,''],
+		['QS_marker_airbaseArtillery',[4111,10389.9,0],'b_art','Icon','','ColorWEST',[0.5,0.5],0.75,[4111,10389.9,0],0,'Arty'],
+		['QS_marker_casJet_spawn',[4323.54,10503.7,0],'respawn_plane','Icon','','ColorWEST',[0.5,0.5],0.75,[4323.54,10503.7,0],0,'CAS'],
+		['QS_marker_crate_area',[3983.08,10263.3,0],'b_support','Icon','','ColorWEST',[0.5,0.5],0.75,[3983.08,10263.3,0],0,'Crate Area'],
+		['QS_marker_heli_spawn',[3864.32,10135.7,0],'respawn_air','Icon','','ColorWEST',[0.5,0.5],0.75,[3864.32,10135.7,0],0,'Heli'],
+		['QS_marker_veh_spawn',[4257.09,10400.1,0],'respawn_armor','Icon','','ColorWEST',[0.5,0.5],0.75,[4257.09,10400.1,0],0,'Vehicle'],
+		['QS_marker_boats_1',[4173.6,8827.88,0],'respawn_naval','Icon','','ColorWEST',[0.5,0.5],0.75,[4173.6,8827.88,0],0,'Boat'],
+		['QS_marker_side_rewards',[4165.3,10451.5,0],'b_unknown','Icon','','ColorWEST',[0.5,0.5],0.75,[4165.3,10451.5,0],0,'Rewards'],
+		['QS_marker_gitmo',[4104.49,10211.3,0],'b_unknown','Icon','','ColorWEST',[0.5,0.5],0.75,[4104.49,10211.3,0],0,'Gitmo'],
+		['QS_marker_medevac_hq',[4037.48,10177.4,0],'b_med','Icon','','ColorWEST',[0.5,0.5],0.75,[4037.48,10177.4,0],0,'Medevac HQ'],
+		['QS_marker_base_toc',[4119.29,10225.5,0],'b_hq','Icon','','ColorWEST',[0.5,0.5],0.75,[4119.29,10225.5,0],0,'TOC'],
+		['QS_marker_base_atc',[4110.41,10286.4,0],'b_support','Icon','','ColorWEST',[0.5,0.5],0.75,[4110.41,10286.4,0],0,'ATC'],
+		['QS_marker_veh_baseservice_01',[4310.05,10451.5,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[4310.05,10451.5,0],0,'Vehicle Service'],
+		['QS_marker_veh_baseservice_02',[4070.28,10353.6,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[4070.28,10353.6,0],0,'Heli Service'],
+		['QS_marker_veh_baseservice_03',[3566.78,9856.76,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[3566.78,9856.76,0],0,'Plane Service'],
+		['QS_marker_veh_fieldservice_01',[0,0,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0,[-5000,-5000,0],0,'Vehicle Service'],
+		['QS_marker_veh_fieldservice_02',[0,0,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0,[-5000,-5000,0],0,'Vehicle Service'],
+		['QS_marker_veh_fieldservice_03',[0,0,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0,[-5000,-5000,0],0,'Vehicle Service'],
+		['QS_marker_veh_fieldservice_04',[0,0,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0,[-5000,-5000,0],0,'Air Service'],
+		['QS_marker_ferry_1',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[732.031,7628.35,0],0,'Boat'],
+		['QS_marker_ferry_2',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[9512.26,11717.9,0],0,'Boat'],
+		['QS_marker_Almyra_blacklist_area',_markerStoragePos,'Empty','Icon','','ColorWEST',[0.25,0.25],0,_markerStoragePos,0,''],
+		['QS_marker_fpsMarker',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),worldSize,0],0,''],
+		['QS_marker_curators',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),(worldSize - 500),0],0,'Active Zeus - []'],
+		['QS_marker_module_fob',_markerStoragePos,'b_hq','Icon','','ColorWEST',[0.5,0.5],0,_markerStoragePos,0,'FOB'],
+		['QS_marker_veh_inventoryService_01',[4326.31,10455.4,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[4326.31,10455.4,0],0,'Inventory'],
+		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['Teamspeak:   %1',_teamspeakText])]
+	]
+};
 []

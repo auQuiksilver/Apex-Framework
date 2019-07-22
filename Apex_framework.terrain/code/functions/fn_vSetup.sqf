@@ -52,7 +52,8 @@ _towvs = [
 	'i_ugv_01_f',
 	'c_idap_ugv_01_f',
 	'b_g_van_01_transport_f','o_g_van_01_transport_f','i_g_van_01_transport_f','i_c_van_01_transport_f','i_c_van_01_transport_brown_f',
-	'i_c_van_01_transport_olive_f','c_van_01_transport_f','c_van_01_transport_red_f','c_van_01_transport_white_f'
+	'i_c_van_01_transport_olive_f','c_van_01_transport_f','c_van_01_transport_red_f','c_van_01_transport_white_f',
+	'i_e_ugv_01_f'
 ];
 _towLite = [
 	'c_offroad_01_f','c_offroad_01_repair_f','o_g_offroad_01_f','b_g_offroad_01_f','i_g_offroad_01_f','o_g_offroad_01_repair_f','i_g_offroad_01_repair_f','b_g_offroad_01_repair_f',
@@ -173,7 +174,7 @@ _offroadPolice = [
 	'b_gen_offroad_01_gen_f','b_gen_van_02_vehicle_f','b_gen_van_02_transport_f'
 ];
 _offroad = ['b_g_offroad_01_f','b_g_offroad_01_at_f','b_g_offroad_01_armed_f','b_g_offroad_01_repair_f','o_g_offroad_01_f','o_g_offroad_01_at_f','o_g_offroad_01_armed_f','o_g_offroad_01_repair_f','i_g_offroad_01_f','i_g_offroad_01_at_f','i_g_offroad_01_armed_f','i_g_offroad_01_repair_f'];
-_hellcat = ['i_heli_light_03_f','i_heli_light_03_dynamicloadout_f','i_heli_light_03_unarmed_f'];
+_hellcat = ['i_heli_light_03_f','i_heli_light_03_dynamicloadout_f','i_heli_light_03_unarmed_f','i_e_heli_light_03_dynamicloadout_f','i_e_heli_light_03_unarmed_f'];
 
 /*/============================================= APPLY/*/
 if (_t2 in _blackVehicles) then {
@@ -402,7 +403,7 @@ if (!(_isSimpleObject)) then {
 	if (_t2 in [
 		'b_slingload_01_ammo_f','b_slingload_01_cargo_f','b_slingload_01_fuel_f','b_slingload_01_medevac_f','b_slingload_01_repair_f',
 		'i_supplycrate_f','o_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','b_supplycrate_f',
-		'b_cargonet_01_ammo_f','i_cargonet_01_ammo_f','o_cargonet_01_ammo_f'
+		'b_cargonet_01_ammo_f','i_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_e_cargonet_01_ammo_f'
 	]) then {
 		[_u,1,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 	};
@@ -415,7 +416,8 @@ if (!(_isSimpleObject)) then {
 			'o_ugv_01_f',
 			'o_t_ugv_01_ghex_f',
 			'i_ugv_01_f',
-			'c_idap_ugv_01_f'
+			'c_idap_ugv_01_f',
+			'i_e_ugv_01_f'
 		];
 		_towMed = [];
 		_towHeavy = ['b_apc_tracked_01_crv_f','b_truck_01_mover_f','b_t_apc_tracked_01_crv_f','b_t_truck_01_mover_f'];
@@ -555,6 +557,7 @@ if (!(_isSimpleObject)) then {
 		_u addEventHandler ['SeatSwitched',(missionNamespace getVariable 'QS_fnc_clientEventSeatSwitched')];
 	};
 	if ((_u isKindOf 'LandVehicle') || {(_u isKindOf 'Air')} || {(_u isKindOf 'Ship')}) then {
+		[_u] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
 		_u addEventHandler ['Engine',{}];
 		_u addEventHandler ['Fuel',{}];
 	};
@@ -702,7 +705,7 @@ if (!(_isSimpleObject)) then {
 	_u setVariable ['QS_transporter',nil,FALSE];
 	_u addEventHandler ['Local',{}];
 	if (_u isKindOf 'LandVehicle') then {
-		_u setPlateNumber 'abc123';
+		//_u setPlateNumber 'abc123';
 		if ((!(['medical',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) && (!(['medevac',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))) then {
 			[_u,1,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 		};

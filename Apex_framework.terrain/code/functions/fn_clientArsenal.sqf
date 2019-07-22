@@ -92,7 +92,8 @@ private _QS_restrictedItems = [
 	'integrated_nvg_ti_1_f',
 	'o_uavterminal',
 	'i_uavterminal',
-	'c_uavterminal'
+	'c_uavterminal',
+	'i_e_uavterminal'
 ];
 private _QS_restrictedWeapons = [
 	'apersminedispenser_mag'
@@ -149,7 +150,29 @@ private _QS_restrictedBackpacks = [
 	'o_uav_06_medical_backpack_f',
 	'i_uav_06_medical_backpack_f',
 	'c_idap_uav_06_medical_backpack_f',
-	'c_uav_06_medical_backpack_f'
+	'c_uav_06_medical_backpack_f',
+	'i_e_mortar_01_support_f',
+	'i_e_mortar_01_weapon_f',
+	'i_e_hmg_01_support_high_f',
+	'i_e_hmg_01_support_f',
+	'i_e_gmg_01_a_weapon_f',
+	'i_e_hmg_01_a_weapon_f',
+	'i_e_hmg_01_high_weapon_f',
+	'i_e_hmg_01_weapon_f',
+	'i_e_gmg_01_high_weapon_f',
+	'i_e_gmg_01_weapon_f',
+	'i_e_ugv_02_demining_backpack_f',
+	'i_ugv_02_science_backpack_f',
+	'o_ugv_02_science_backpack_f',
+	'i_e_ugv_02_science_backpack_f',
+	'i_e_aa_01_weapon_f',
+	'i_e_at_01_weapon_f',
+	'i_e_uav_06_backpack_f',
+	'i_e_uav_06_medical_backpack_f',
+	'i_e_uav_01_backpack_f',
+	'c_idap_ugv_02_demining_backpack_f',
+	'i_ugv_02_demining_backpack_f',
+	'o_ugv_02_demining_backpack_f'
 ];
 if ((player getVariable ['QS_unit_side',WEST]) in [EAST,RESISTANCE]) then {
 	_QS_restrictedItems = _QS_restrictedItems -	[

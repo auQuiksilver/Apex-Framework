@@ -17,15 +17,12 @@ private _return = [];
 _centerPos = missionNamespace getVariable 'QS_AOpos';
 _centerRadius = missionNamespace getVariable 'QS_aoSize';
 _type = selectRandomWeighted [
-	'o_uav_02_dynamicloadout_f',0.4,
-	//'i_uav_02_dynamicloadout_f',0.222,
-	'o_uav_06_f',0.222,
-	'o_uav_06_medical_f',0.222,
-	'o_uav_01_f',0.222
+	'o_uav_02_dynamicloadout_f',0.5,
+	'o_uav_01_f',0.5
 ];
 private _position = [0,0,0];
 private _dist = 2000;
-if (_type in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
+if (_type in ['o_uav_01_f']) then {
 	_dist = 300;
 	_position = _centerPos getPos [(_dist + (random _dist)),(random 360)];
 	_position set [2,100];
@@ -38,8 +35,9 @@ if (_type in ['o_uav_06_f','o_uav_06_medical_f','o_uav_01_f']) then {
 };
 _vehicle = createVehicle [_type,_position,[],0,'FLY'];
 if (!isNull _vehicle) then {
+	_vehicle enableVehicleSensor ['manSensorComponent',TRUE];
 	_vehicle setVariable ['QS_uav_protected',TRUE,FALSE];
-	createVehicleCrew _vehicle;
+	_grp = createVehicleCrew _vehicle;
 	_vehicle addEventHandler [
 		'Deleted',
 		{
@@ -57,9 +55,12 @@ if (!isNull _vehicle) then {
 		}
 	];
 	_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
-	_grp = group (effectiveCommander _vehicle);
 	_grp addVehicle _vehicle;
 	_return pushBack _vehicle;
+	{
+		_x disableAI 'LIGHTS';
+	} forEach (crew _vehicle);
+	_vehicle setCollisionLight FALSE;
 	_vehicle setAutonomous TRUE;
 	_vehicle setVehicleReceiveRemoteTargets TRUE;
 	_vehicle setVehicleReportRemoteTargets TRUE;

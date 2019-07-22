@@ -29,7 +29,7 @@ if (_t getVariable ['QS_unit_needsStabilise',FALSE]) exitWith {
 };
 disableUserInput TRUE;
 [0.5] spawn (missionNamespace getVariable 'QS_fnc_clientDisableUserInput');
-if (_t isKindOf 'Man') exitWith {
+if (_t isKindOf 'CAManBase') exitWith {
 	_t setVariable ['QS_RD_storedAnim',(animationState _t),TRUE];
 	_t setPosWorld ((getPosWorld player) vectorAdd ((vectorDir player) vectorMultiply 1.5));
 	for '_x' from 0 to 1 step 1 do {

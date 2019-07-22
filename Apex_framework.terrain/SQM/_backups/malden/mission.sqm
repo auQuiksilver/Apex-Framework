@@ -159,7 +159,7 @@ class Mission
 				disableSimulation=1;
 			};
 			id=100;
-			type="Land_Laptop_unfolded_F";
+			type="Land_Laptop_03_black_F";
 			atlOffset=3.8146973e-006;
 			class CustomAttributes
 			{
@@ -325,7 +325,7 @@ class Mission
 				disableSimulation=1;
 			};
 			id=103;
-			type="Land_Laptop_unfolded_F";
+			type="Land_Laptop_03_black_F";
 			atlOffset=3.8146973e-006;
 			class CustomAttributes
 			{

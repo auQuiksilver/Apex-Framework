@@ -151,6 +151,7 @@ if ((toLower(typeOf _jetActual)) in ['c_plane_civil_01_racing_f']) then {
 	[_jetActual] call (missionNamespace getVariable 'QS_fnc_Q51');
 };
 _jetActual lock 2;
+_jetActual addEventHandler ['IncomingMissile',(missionNamespace getVariable 'QS_fnc_AIXMissileCountermeasure')];
 if (!(['cluster',(typeOf _jetActual),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
 	[_jetActual,([1,2] select ((random 1) > 0.666)),[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 } else {

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	12/05/2019 A3 1.92 by Quiksilver
+	23/07/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -551,7 +551,8 @@ _QS_action_medevac_models = [
 	'a3\soft_f_gamma\truck_02\truck_02_medevac_f.p3d',
 	'a3\soft_f_epc\truck_03\truck_03_medevac_f.p3d',
 	'a3\soft_f_gamma\truck_01\truck_01_medevac_f.p3d',
-	'a3\air_f_orange\uav_06\box_uav_06_f.p3d'
+	'a3\air_f_orange\uav_06\box_uav_06_f.p3d',
+	'a3\props_f_enoch\military\camps\portablecabinet_01_medical_f.p3d'
 ];
 /*/===== Sensor Target/*/
 _QS_action_sensorTarget = nil;
@@ -570,7 +571,9 @@ _QS_action_ugv_types = [
 	'o_ugv_01_f',
 	'o_t_ugv_01_ghex_f',
 	'i_ugv_01_f',
-	'c_idap_ugv_01_f'
+	'c_idap_ugv_01_f',
+	'i_e_ugv_01_f',
+	'i_e_ugv_01_rcws_f'
 ];
 _QS_uav = objNull;
 _QS_ugv = objNull;
@@ -1089,12 +1092,12 @@ if (_QS_module_opsec) then {
 	_QS_module_opsec_hidden = TRUE;												/*/ check hidden /*/
 	_QS_module_opsec_menus = TRUE;												/*/ check menus /*/
 	_QS_module_opsec_vars = FALSE;												/*/ check variables /*/
-	_QS_module_opsec_patches = _QS_productVersionSync;							/*/ check patches /*/
+	_QS_module_opsec_patches = TRUE && _QS_productVersionSync;							/*/ check patches /*/
 	_QS_module_opsec_checkScripts = FALSE;										/*/ check scripts /*/
 	_QS_module_opsec_checkActions = TRUE;										/*/ check action menu /*/
 	_QS_module_opsec_checkMarkers = FALSE;										/*/ check map markers /*/
 	_QS_module_opsec_chatIntercept = TRUE;										/*/ check chat box /*/
-	_QS_module_opsec_memory = _QS_productVersionSync;								/*/ check memory editing /*/
+	_QS_module_opsec_memory = FALSE && _QS_productVersionSync;								/*/ check memory editing /*/
 	_QS_module_opsec_memoryMission = TRUE;										/*/ check memory editing of mission displays /*/
 	_QS_module_opsec_iguiDisplays = _QS_productVersionSync;						/*/ check memory editing of igui displays/*/
 	_QS_module_opsec_rsctitles = _QS_productVersionSync;							/*/ check memory editing of titles /*/
@@ -1548,6 +1551,9 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		_position = selectRandom (([8133.47,10123,-0.147434] nearestObject 'Land_MilOffices_V1_F') buildingPos -1);
 		_position = AGLToASL _position;
 		player setDir (_position getDir (([8133.47,10123,-0.147434] nearestObject 'Land_MilOffices_V1_F') buildingExit 0));
+	};
+	if (_QS_worldName isEqualTo 'Enoch') then {
+		_position = [((_position # 0) + 6 - (random 12)),((_position # 1) + 6 - (random 12)),(_position # 2)];
 	};
 };
 if (!(simulationEnabled player)) then {
@@ -2709,6 +2715,7 @@ for 'x' from 0 to 1 step 0 do {
 			if (
 				(_noObjectParent) &&
 				{(!isNull _cursorObject)} &&
+				{(_cursorObjectDistance < 3)} &&
 				{(_cursorObject in ([(missionNamespace getVariable ['QS_module_fob_dataTerminal',_objNull]),(missionNamespace getVariable ['QS_module_fob_baseDataTerminal',_objNull])] select {(!isNull _x)}))}
 			) then {
 				if (!(_QS_interaction_fob_status)) then {
@@ -4215,7 +4222,7 @@ for 'x' from 0 to 1 step 0 do {
 			if (_QS_v2 isKindOf 'Air') then {
 				if (!(_QS_v2Type in ['B_Heli_Light_01_F','Steerable_Parachute_F'])) then {
 					if (_QS_player in [(driver _QS_v2)]) then {
-						if (!(_QS_player getUnitTrait 'QS_trait_pilot')) then {
+						if ((!(_QS_player getUnitTrait 'QS_trait_pilot')) && {(!(_QS_player getUnitTrait 'QS_trait_fighterPilot'))}) then {
 							if (((getPosATL _QS_v2) # 2) < 5) then {
 								moveOut _QS_player;
 								0 spawn {
@@ -4228,7 +4235,7 @@ for 'x' from 0 to 1 step 0 do {
 				} else {
 					if (!(_QS_v2Type in ['Steerable_Parachute_F'])) then {
 						if (_QS_player in [(driver _QS_v2)]) then {
-							if (!(_QS_player getUnitTrait 'QS_trait_pilot')) then {
+							if ((!(_QS_player getUnitTrait 'QS_trait_pilot')) && {(!(_QS_player getUnitTrait 'QS_trait_fighterPilot'))}) then {
 								if (((getPosATL _QS_v2) # 2) < 5) then {
 									moveOut _QS_player;
 									0 spawn {
@@ -4244,7 +4251,7 @@ for 'x' from 0 to 1 step 0 do {
 			/*/===== Pilot babysitter/*/
 			
 			if (_QS_pilotBabysitter) then {
-				if ((count _allPlayers) >= 30) then {
+				if ((count _allPlayers) >= 20) then {
 					if (_QS_player getUnitTrait 'QS_trait_pilot') then {
 						if (time > _QS_secondsCounter) then {
 							_QS_secondsCounter = time + 1;

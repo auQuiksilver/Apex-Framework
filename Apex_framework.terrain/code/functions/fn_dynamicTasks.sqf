@@ -151,6 +151,7 @@ if (_case isEqualTo 1) then {
 	};
 	if (_type isEqualTo 'PRISONER') then {
 		_entity = _params select 0;
+		_entity setTaskMarkerOffset [0,-10,1];
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		private _description = 'Ground forces have arrested a unit, get him back to base for interrogation. Locate the fenced area at base (map marker GITMO) and release him there to complete the mission.';
 		_array = [

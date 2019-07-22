@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 	
-	13/10/2015 ArmA 3 1.52
+	22/07/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -28,6 +28,7 @@ _unit setVariable ['QS_RD_recruitable',TRUE,TRUE];
 _unit setVariable ['QS_RD_recruited',FALSE,TRUE];
 _unit setVariable ['QS_RD_dismissable',TRUE,TRUE];
 _unit setVariable ['QS_GRP_HC',FALSE,FALSE];
+_unit addPrimaryWeaponItem (selectRandom ['optic_erco_blk_f','optic_dms']);
 if (_unit getUnitTrait 'medic') then {
 	
 };

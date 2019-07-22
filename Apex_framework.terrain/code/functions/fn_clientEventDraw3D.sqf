@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	10/10/2018 A3 1.84 by Quiksilver
+	11/07/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -84,39 +84,41 @@ if (visibleMap) exitWith {};
 if (_player getUnitTrait 'medic') then {
 	private _sTime = serverTime;
 	private _vehicle = objNull;
-	_pulse = ([2,25] call (missionNamespace getVariable 'QS_fnc_pulsate')) max 0.1;
-	{
-		_unit = _x;
-		if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
-			_distance = _player distance2D _unit;
-			if (_distance > 2) then {
-				_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\r100_ca.paa';
-				_alpha = (1 - (((_distance / 500)) % 1)) min _pulse;
-				_rgba = [1,(([0.41,(0.41 * ((((_unit getVariable ['QS_revive_downtime',_sTime]) + 600) - _sTime) / 600))] select (isPlayer _unit)) max 0),0,_alpha];
-				if (!(((_unit nearEntities ['CAManBase',2]) select {(!(_x isEqualTo _unit)) && (_x getUnitTrait 'medic') && ((lifeState _x) in ['HEALTHY','INJURED'])}) isEqualTo [])) then {
-					_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\u100_ca.paa';
-					_rgba = [0.25,0.5,1,_alpha];
-				};
-				_vehicle = vehicle _unit;
-				if (_alpha > 0) then {
-					drawIcon3D [
-						_icon,
-						_rgba,
-						(if (_vehicle isKindOf 'CAManBase') then {(_unit modelToWorldVisual (_unit selectionPosition 'Spine3'))} else {(_vehicle modelToWorldVisual [0,0,0])}),
-						0.666,
-						0.666,
-						0,
-						(if (_vehicle isKindOf 'CAManBase') then {(format ['%1 (%2m)',(name _unit),(ceil _distance)])} else {''}),
-						1,
-						0.03,
-						_font,
-						'center',
-						TRUE
-					];
+	if (!((missionNamespace getVariable ['QS_client_medicIcons_units',[]]) isEqualTo [])) then {
+		_pulse = ([2,25] call (missionNamespace getVariable 'QS_fnc_pulsate')) max 0.1;
+		{
+			_unit = _x;
+			if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
+				_distance = _player distance2D _unit;
+				if (_distance > 2) then {
+					_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\r100_ca.paa';
+					_alpha = (1 - (((_distance / 500)) % 1)) min _pulse;
+					_rgba = [1,(([0.41,(0.41 * ((((_unit getVariable ['QS_revive_downtime',_sTime]) + 600) - _sTime) / 600))] select (isPlayer _unit)) max 0),0,_alpha];
+					if (!(((_unit nearEntities ['CAManBase',2]) select {(!(_x isEqualTo _unit)) && (_x getUnitTrait 'medic') && ((lifeState _x) in ['HEALTHY','INJURED'])}) isEqualTo [])) then {
+						_icon = 'a3\ui_f\data\igui\cfg\revive\overlayIcons\u100_ca.paa';
+						_rgba = [0.25,0.5,1,_alpha];
+					};
+					_vehicle = vehicle _unit;
+					if (_alpha > 0) then {
+						drawIcon3D [
+							_icon,
+							_rgba,
+							(if (_vehicle isKindOf 'CAManBase') then {(_unit modelToWorldVisual (_unit selectionPosition 'Spine3'))} else {(_vehicle modelToWorldVisual [0,0,0])}),
+							0.666,
+							0.666,
+							0,
+							(if (_vehicle isKindOf 'CAManBase') then {(format ['%1 (%2m)',(name _unit),(ceil _distance)])} else {''}),
+							1,
+							0.03,
+							_font,
+							'center',
+							TRUE
+						];
+					};
 				};
 			};
-		};
-	} count (missionNamespace getVariable ['QS_client_medicIcons_units',[]]);
+		} count (missionNamespace getVariable ['QS_client_medicIcons_units',[]]);
+	};
 } else {
 	if ((_player getUnitTrait 'engineer') || {(_player getUnitTrait 'explosivespecialist')}) then {
 		if ('MineDetectorDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
@@ -135,7 +137,7 @@ if (_player getUnitTrait 'medic') then {
 							drawIcon3D [
 								'a3\ui_f\data\map\VehicleIcons\iconexplosivegp_ca.paa',
 								[1,0,0,_scale],
-								[(_minePos select 0),(_minePos select 1),((_minePos select 2) + 1)],
+								[(_minePos # 0),(_minePos # 1),((_minePos # 2) + 1)],
 								1,
 								1,
 								0
@@ -220,7 +222,7 @@ if (!isStreamFriendlyUIEnabled) then {
 										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
 											_unitType = _unit getVariable ['QS_ST_customDN',''];
 										} else {
-											_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'Rifleman'}]);
+											_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
 										};
 									} else {
 										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
@@ -293,7 +295,7 @@ if (!isStreamFriendlyUIEnabled) then {
 										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
 											_unitType = _unit getVariable ['QS_ST_customDN',''];
 										} else {
-											_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'Rifleman'}]);
+											_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
 										};								
 										_unitName = (name _unit) + (format [' (%1)',_unitType]);
 									} else {
@@ -311,7 +313,7 @@ if (!isStreamFriendlyUIEnabled) then {
 								};
 								drawIcon3D [
 									_icon,
-									[0,125,255,1],		// [0,125,255,([1,0.5] select (terrainIntersect [getPosVisual _cameraOn,getPosVisual _unit]))],
+									[0,125,255,1],
 									(_unit modelToWorldVisual ((_unit selectionPosition (['pilot','head'] select (_unit isKindOf 'CAManBase'))) vectorAdd [0,0,0.5])),
 									1,
 									1,
@@ -372,9 +374,9 @@ if (_player getVariable ['QS_client_inBaseArea',FALSE]) then {
 		{
 			_array = _x;
 			if (_array isEqualType []) then {
-				if ((_cameraOn distance2D (_array select 2)) < 29.5) then {
-					_rgba = _array select 1;
-					_rgba set [3,(1 - ((((_cameraOn distance2D (_array select 2)) / 30)) % 1))];
+				if ((_cameraOn distance2D (_array # 2)) < 29.5) then {
+					_rgba = _array # 1;
+					_rgba set [3,(1 - ((((_cameraOn distance2D (_array # 2)) / 30)) % 1))];
 					_array set [1,_rgba];
 					drawIcon3D _array;
 				};
@@ -387,9 +389,9 @@ if (_player getVariable ['QS_client_inBaseArea',FALSE]) then {
 			{
 				_array = _x;
 				if (_array isEqualType []) then {
-					if ((_cameraOn distance2D (_array select 2)) < 29.5) then {
-						_rgba = _array select 1;
-						_rgba set [3,(1 - ((((_cameraOn distance2D (_array select 2)) / 30)) % 1))];
+					if ((_cameraOn distance2D (_array # 2)) < 29.5) then {
+						_rgba = _array # 1;
+						_rgba set [3,(1 - ((((_cameraOn distance2D (_array # 2)) / 30)) % 1))];
 						_array set [1,_rgba];
 						drawIcon3D _array;
 					};
@@ -402,9 +404,9 @@ if (_player getVariable ['QS_client_inBaseArea',FALSE]) then {
 				{
 					_array = _x;
 					if (_array isEqualType []) then {
-						if ((_cameraOn distance2D (_array select 2)) < 29.5) then {
-							_rgba = _array select 1;
-							_rgba set [3,(1 - ((((_cameraOn distance2D (_array select 2)) / 30)) % 1))];
+						if ((_cameraOn distance2D (_array # 2)) < 29.5) then {
+							_rgba = _array # 1;
+							_rgba set [3,(1 - ((((_cameraOn distance2D (_array # 2)) / 30)) % 1))];
 							_array set [1,_rgba];
 							drawIcon3D _array;
 						};

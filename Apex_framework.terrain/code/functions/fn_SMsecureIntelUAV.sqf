@@ -18,7 +18,7 @@ To do:
 ___________________________________________________________*/
 
 scriptName 'Side Mission - Secure Intel UAV';
-
+if (worldName in ['Enoch']) exitWith {};
 private [
 	'_inset','_max','_safePos','_testPos','_uav','_dummyObj','_index','_timeEnd','_uavOnGround','_diverTypes','_diverType','_unit','_enemiesArray',
 	'_fuzzyPos','_briefing','_enemiesCheckDelay','_foundPos','_checkPos','_QS_fnc_radPos','_signalPulseCheckDelay','_val','_safePosATL','_endTimeBroadcastDelay',

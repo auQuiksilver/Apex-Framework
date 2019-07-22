@@ -82,9 +82,8 @@ _spawnPosition set [2,0];
 _heli = createVehicle [_heliType,_spawnPosition,[],500,'FLY'];
 _heli setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _heli enableDynamicSimulation FALSE;
-createVehicleCrew _heli;
+_heliGroup = createVehicleCrew _heli;
 (missionNamespace getVariable 'QS_garbageCollector') pushBack [_heli,'DELAYED_DISCREET',(time + 600)];
-_heliGroup = group (effectiveCommander _heli);
 _heliGroup addVehicle _heli;
 (missionNamespace getVariable 'QS_AI_insertHeli_helis') pushBack _heli;
 _heliGroup deleteGroupWhenEmpty TRUE;
@@ -152,18 +151,20 @@ _heli addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')
 _heli addEventHandler [
 	'IncomingMissile',
 	{
-		params ['_vehicle','_ammo','_firer','_instigator'];
-		if (!isNull (driver _vehicle)) then {
-			if (alive (driver _vehicle)) then {
-				(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
-				(driver _vehicle) spawn {
-					scriptName 'QS Incoming Missile Flares';
-					_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					sleep 1;
-					_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					sleep 1;
-					_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-				};
+		params ['_vehicle','_ammo','_shooter','_instigator'];
+		private _projectile = nearestObject [_shooter,_ammo];
+		if (alive (driver _vehicle)) then {
+			(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
+			[driver _vehicle,_shooter,_projectile] spawn {
+				params ['_pilot','_shooter','_projectile'];
+				scriptName 'QS Incoming Missile Flares';
+				_pilot forceWeaponFire ['CMFlareLauncher','AIBurst'];
+				sleep 1;
+				_pilot forceWeaponFire ['CMFlareLauncher','AIBurst'];
+				sleep 1;
+				_pilot forceWeaponFire ['CMFlareLauncher','AIBurst'];
+				(vehicle _pilot) setVehicleAmmo 1;
+				[_projectile,objNull] remoteExec ['setMissileTarget',_shooter,FALSE];
 			};
 		};
 	}

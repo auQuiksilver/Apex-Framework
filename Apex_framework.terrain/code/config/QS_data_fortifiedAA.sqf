@@ -13,7 +13,7 @@ Description:
 	Fortified AA Data
 __________________________________________________________________________/*/
 
-if (worldName in ['Tanoa','Lingor3']) exitWith {
+if (worldName in ['Tanoa','Lingor3','Enoch']) exitWith {
 	if ((random 1) > 0.333) then [
 		{
 			[

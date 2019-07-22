@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	27/03/2018 A3 1.82 by Quiksilver
+	27/05/2019 A3 1.92 by Quiksilver
 	
 Description:
 
@@ -88,8 +88,8 @@ ___________________________________________/*/
 	'5 - (Target) Repair',
 	'6 - (Target) Pardon',
 	'7 - (Target) Punish',
-	'8 - Anti-hack (toggle)',
-	'9 - Tag Map Markers',
+	'8 - No function assigned',
+	'9 - No function assigned',
 	'10 - (Target) Revive',
 	'11 - Map Teleport',
 	'12 - (Clean) Base',

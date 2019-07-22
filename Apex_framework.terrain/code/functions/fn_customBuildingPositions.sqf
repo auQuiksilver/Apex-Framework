@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/04/2018 A3 1.82 by Quiksilver
+	9/06/2019 A3 1.94 by Quiksilver
 
 Description:
 
@@ -25,7 +25,7 @@ ___________________________________________________/*/
 
 params ['_building','_buildingPositions'];
 _type = toLower (typeOf _building);
-_model = toLower ((getModelInfo _building) select 1);
+_model = toLower ((getModelInfo _building) # 1);
 if (isNil '_model') exitWith {
 	[]
 };
@@ -436,7 +436,7 @@ if ((_type in ['land_bunker_01_blocks_3_f']) || {(_model in [
 if ((_type in ['land_bunker_01_hq_f']) || {(_model in [
 	"a3\structures_f_argo\military\bunkers\bunker_01_hq_f.p3d"
 ])}) exitWith {
-	//comment 'Malden stone bunker wall';
+	//comment 'Malden stone bunker hq';
 	if (isSimpleObject _building) then {
 		_array = [
 			[4.07617,3.84473,-1.11057],
@@ -487,7 +487,7 @@ if ((_type in ['land_bunker_01_hq_f']) || {(_model in [
 if ((_type in ['land_bunker_01_big_f']) || {(_model in [
 	"a3\structures_f_argo\military\bunkers\bunker_01_big_f.p3d"
 ])}) exitWith {
-	//comment 'Malden stone bunker wall';
+	//comment 'Malden stone bunker';
 	if (isSimpleObject _building) then {
 		_array = [
 			[4.05322,1.35059,-0.102413],
@@ -548,6 +548,52 @@ if ((_type in ['land_sandbagbarricade_01_hole_f']) || {(_model in [
 	_array = [
 		[-0.0761719,-1.87988,-1.28429]
 	];
+	{
+		0 = _buildingPositions pushBack (_building modelToWorld _x);
+	} count _array;
+	_buildingPositions;	
+};
+if ((_type in ['land_guardhouse_02_f','land_guardhouse_02_grey_f']) || {(_model in [
+	"a3\structures_f_enoch\military\barracks\guardhouse_02_grey_f.p3d",
+	"a3\structures_f_enoch\military\barracks\guardhouse_02_f.p3d"
+])}) exitWith {
+	//comment 'Livonia guard house';
+	if (isSimpleObject _building) then {
+		_array = [
+			[-0.0488281,0.30011,-1.5513],
+			[0.294922,-2.27106,-1.5513],
+			[-0.975098,-3.35565,-1.5513],
+			[3.91992,-1.75702,-1.5513],
+			[2.85791,2.31146,-1.5513],
+			[3.93262,3.36713,-1.5513],
+			[-0.0361328,3.00732,-1.5513]
+		];
+	};
+	{
+		0 = _buildingPositions pushBack (_building modelToWorld _x);
+	} count _array;
+	_buildingPositions;	
+};
+if ((_type in ['land_barn_01_brown_f','land_barn_01_grey_f']) || {(_model in [
+	"a3\structures_f_argo\industrial\agriculture\barn_01_brown_f.p3d",
+	"a3\structures_f_argo\industrial\agriculture\barn_01_grey_f.p3d"
+])}) exitWith {
+	//comment 'Malden barn';
+	if (isSimpleObject _building) then {
+		_array = [
+			[7.25488,-3.56445,-0.696281],
+			[7.43262,3.59375,-0.696281],
+			[4.84082,-3.96094,-0.696281],
+			[4.85352,0.0507813,-0.696281],
+			[-0.625,3.47266,-0.696281],
+			[-1.26953,-3.50391,-0.696281],
+			[-4.28711,-3.44922,-0.696281],
+			[-3.03223,3.47266,-0.696281],
+			[-7.34863,-2.39258,-0.715977],
+			[-7.37598,0.695313,-0.734272],
+			[4.99609,1.85938,-0.696281]
+		];
+	};
 	{
 		0 = _buildingPositions pushBack (_building modelToWorld _x);
 	} count _array;

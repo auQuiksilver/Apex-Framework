@@ -18,6 +18,20 @@ ____________________________________________________________________________/*/
 private ['_pos','_boxArray','_box','_boxSelect','_spawnedBoxArray','_magazineCargo','_index'];
 _pos = _this select 0;
 _spawnedBoxArray = [];
+_boxArray = [
+	'Box_East_Ammo_F',
+	'Box_East_Wps_F',
+	'O_CargoNet_01_ammo_F',
+	'Box_East_AmmoOrd_F',
+	'Box_East_Grenades_F',
+	'Box_East_WpsLaunch_F',
+	'Box_East_WpsSpecial_F',
+	'O_supplyCrate_F',
+	'Box_East_Support_F',
+	'Box_East_AmmoVeh_F',
+	'Box_NATO_Ammo_F',
+	'Box_IND_Ammo_F'
+] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 if (worldName isEqualTo 'Tanoa') then {
 	_boxArray = [
 		"Box_T_East_Ammo_F",
@@ -31,11 +45,12 @@ if (worldName isEqualTo 'Tanoa') then {
 		"Box_T_NATO_WpsSpecial_F",
 		"Box_GEN_Equip_F"
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-} else {
+};
+if (worldName isEqualTo 'Enoch') then {
 	_boxArray = [
 		'Box_East_Ammo_F',
 		'Box_East_Wps_F',
-		'O_CargoNet_01_ammo_F',
+		'i_e_cargonet_01_ammo_f',
 		'Box_East_AmmoOrd_F',
 		'Box_East_Grenades_F',
 		'Box_East_WpsLaunch_F',
@@ -61,7 +76,7 @@ for '_x' from 0 to (2 + (round(random 2))) do {
 		if ((random 1) > 0.666) then {
 			[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 		};
-		if (!((toLower _boxSelect) in ['o_supplycrate_f','o_cargonet_01_ammo_f','box_east_ammoveh_f'])) then {
+		if (!((toLower _boxSelect) in ['o_supplycrate_f','o_cargonet_01_ammo_f','box_east_ammoveh_f','i_e_cargonet_01_ammo_f'])) then {
 			_box setVariable ['QS_RD_draggable',TRUE,TRUE];
 		};
 		0 = _spawnedBoxArray pushBack _box;

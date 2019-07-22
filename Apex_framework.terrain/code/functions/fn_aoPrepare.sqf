@@ -118,7 +118,7 @@ if ((random 1) > 0.5) then {
 
 /*/======================================================================= UXOs/*/
 
-if ((random 1) > 0) then {
+if ((random 1) > 0.5) then {
 	missionNamespace setVariable [
 		'QS_ao_UXOs',
 		([_QS_AOpos,_aoSize,(10 + (round (random 10))),[]] call (missionNamespace getVariable 'QS_fnc_aoCreateUXOfield')),

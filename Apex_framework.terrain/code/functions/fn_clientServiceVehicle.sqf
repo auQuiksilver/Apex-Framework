@@ -61,6 +61,10 @@ if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isE
 
 /*/=========================================== BASE SERVICE/*/
 private _isDepot = [_v] call (missionNamespace getVariable 'QS_fnc_isNearRepairDepot');
+if (_isDepot) then {
+	_fieldService = FALSE;
+	_baseService = TRUE
+};
 private _isQualified = TRUE;
 if ((_baseService) || (_isDepot)) then {
 	/*/=========================================== QUALIFY BY VEHICLE TYPE/*/
@@ -115,6 +119,9 @@ if ((_baseService) || (_isDepot)) then {
 		_v setFuelCargo 1;
 		_v setRepairCargo 1;
 		_v setAmmoCargo 1;
+		if (_v isKindOf 'LandVehicle') then {
+			[_v] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
+		};
 		if ((['medical',(typeOf _v),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['medevac',(typeOf _v),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
 			_v setVariable ['QS_medicalVehicle_reviveTickets',(getNumber (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'transportSoldier')),TRUE];
 		};
@@ -298,6 +305,9 @@ if (_fieldService) then {
 			player playActionNow 'stop';
 			if ((missionNamespace getVariable 'QS_module_fob_services_repair') || {(_isCarrier)}) then {
 				_t setDamage [0,FALSE];
+			};
+			if (_t isKindOf 'LandVehicle') then {
+				[_t] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
 			};
 			if (local _t) then {
 				_t setFuel ([_fuel,1] select ((missionNamespace getVariable 'QS_module_fob_services_fuel') || {(_isCarrier)}));

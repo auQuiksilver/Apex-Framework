@@ -106,7 +106,6 @@ if (!((attachedObjects player) isEqualTo [])) then {
 							_prisonPos = missionNamespace getVariable ['QS_prisonPos',[0,0,0]];
 							_unit setPos [((_prisonPos select 0) + 2 - (random 4)),((_prisonPos select 1) + 2 - (random 4)),0];
 							_unit forceAddUniform 'U_C_WorkerCoveralls';
-							_unit spawn {uiSleep 1; _this setObjectTextureGlobal [0,'#(rgb,8,8,3)color(1,0.1,0,1)'];};
 							_unit setVariable ['QS_RD_escortable',FALSE,TRUE];
 							if (local _unit) then {
 								_unit setDir (random 360);
@@ -119,12 +118,8 @@ if (!((attachedObjects player) isEqualTo [])) then {
 							_pname1 = profileName;
 							_puid2 = (_unit getVariable 'QS_captor') select 0;
 							_pname2 = (_unit getVariable 'QS_captor') select 1;
-							['switchMove',_unit,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
-							_allAgents = (agents apply {(agent _x)}) select {(!isNull _x)};
 							missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') + [_unit]),TRUE];
-							if (!(_unit in _allAgents)) then {
-								[79,_unit,EAST,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-							};								
+							[92,_unit,EAST,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];							
 							[60,[['PRISONER',_puid1,_pname1,1],['PRISONER',_puid2,_pname2,1],[player,1]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 							['ScoreBonus',[(format ['%1 Corrections',worldName]),'1']] call (missionNamespace getVariable 'QS_fnc_showNotification');
 						};

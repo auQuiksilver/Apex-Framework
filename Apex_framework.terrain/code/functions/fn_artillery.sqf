@@ -23,7 +23,7 @@ _ammo = [
 _va = [
 	['B_MBT_01_arty_F','B_MBT_01_mlrs_F'],
 	['B_T_MBT_01_arty_F','B_T_MBT_01_mlrs_F']
-] select (worldName isEqualTo 'Tanoa');
+] select (worldName in ['Tanoa','Enoch']);
 if (_type isEqualTo 0) exitWith {
 	if ((!isNil {missionNamespace getVariable 'QS_arty'}) && (!isNull (missionNamespace getVariable 'QS_arty'))) exitWith {};
 	if (!((missionNamespace getVariable ['QS_missionConfig_arty',0]) isEqualTo 0)) then {
@@ -37,6 +37,9 @@ if (_type isEqualTo 0) exitWith {
 			};
 			if (worldName isEqualTo 'Malden') then {
 				_dir = 269.346;
+			};
+			if (worldName isEqualTo 'Enoch') then {
+				_dir = 313.506;
 			};
 		} else {
 			_dir = markerDir 'QS_marker_airbaseArtillery';

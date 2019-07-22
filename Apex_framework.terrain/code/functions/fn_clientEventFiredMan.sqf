@@ -15,7 +15,7 @@ Description:
 	params ['_unit','_weapon','_muzzle','_mode','_ammo','_magazine','_projectile','_vehicle'];
 _______________________________________________________/*/
 
-params ['_unit','_weapon','_muzzle','','_ammo','_magazine','_projectile',''];
+params ['_unit','_weapon','_muzzle','','_ammo','_magazine','_projectile','_vehicle'];
 if (!((lifeState _unit) in ['HEALTHY','INJURED'])) exitWith {
 	deleteVehicle _projectile;
 };
@@ -128,6 +128,10 @@ if (_weapon isEqualTo 'Throw') then {
 			};
 		};
 		if (!isNull _projectile) then {
+			if ((_projectile isKindOf 'RocketCore') || {(_projectile isKindOf 'MissileCore')}) then {
+				['HANDLE',['AT',_projectile,_unit,_vehicle,getPosATL (vehicle _unit),FALSE]] call (missionNamespace getVariable 'QS_fnc_clientProjectileManager');
+			};
+			private _cursorTarget = cursorTarget;
 			if ((toLower _weapon) in ['mortar_82mm','mortar_155mm_amos','rockets_230mm_gat']) then {
 				if ((toLower _ammo) in ['sh_82mm_amos','sh_155mm_amos','sh_155mm_amos_guided','r_230mm_he']) then {
 					if (worldName in ['Altis','Tanoa']) then {
@@ -141,8 +145,7 @@ if (_weapon isEqualTo 'Throw') then {
 										50 cutText ['Firing into restricted area, shell disarmed','PLAIN DOWN',0.25];
 										deleteVehicle _this;
 									};
-									((isNull _this) ||
-									((velocity _this) isEqualTo [0,0,0]))
+									((isNull _this) || {((velocity _this) isEqualTo [0,0,0])})
 								};
 							};
 						};

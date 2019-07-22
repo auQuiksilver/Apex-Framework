@@ -17,7 +17,7 @@ params ['_module','_object'];
 _type = typeOf _object;
 _typeL = toLower _type;
 if (_object isKindOf 'Man') exitWith {
-	_side = side _object;
+	_side = side (group _object);
 	if ((_side getFriend WEST) < 0.6) then {
 		[_object] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 	};
@@ -86,32 +86,15 @@ if (_object isKindOf 'Man') exitWith {
 		if (_side in [EAST,WEST,RESISTANCE]) then {
 			if (_side in [EAST,RESISTANCE]) then {
 				_object call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				_object setVariable ['QS_surrenderable',TRUE,TRUE];
 			};
-			_object enableStamina FALSE;
-			_object enableFatigue FALSE;
-			private ['_QS_unit_side','_QS_magazinesUnit','_QS_testMag','_QS_primaryWeaponMag'];
 			[[_object],1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 			_QS_unit_side = side _object;
-			_QS_magazinesUnit = magazines _object;
 			if (['recon',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 				_object enableStamina FALSE;
 				_object enableFatigue FALSE;
 				_object setAnimSpeedCoef 1.1;
 			};
 			[[_object]] spawn (missionNamespace getVariable 'QS_fnc_serverTracers');
-			if ((random 1) > 0.333) then {
-				if (!(((primaryWeaponItems _object) findIf {((toLower _x) in ['optic_aco','optic_aco_grn'])}) isEqualTo -1)) then {
-					_object addPrimaryWeaponItem 'optic_Arco';
-				};
-			};
-			if (_typeL in [
-				'i_c_soldier_para_4_f','i_c_soldier_bandit_3_f','i_g_soldier_ar_f','i_soldier_ar_f','b_ctrg_soldier_ar_tna_f',
-				'b_g_soldier_ar_f','b_soldier_ar_f','b_heavygunner_f','b_t_soldier_ar_f','o_soldier_ar_f','o_heavygunner_f',
-				'o_soldieru_ar_f','o_urban_heavygunner_f','o_t_soldier_ar_f','o_g_soldier_ar_f'	
-			]) then {
-				_object addPrimaryWeaponItem (selectRandom ['optic_Hamr','optic_MRCO','optic_DMS','optic_Holosight','optic_ERCO_blk_F','optic_ERCO_khk_F','optic_ERCO_snd_F','optic_KHS_old']);
-			};
 			if (['recon',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 				if ((side _object) isEqualTo EAST) then {
 					_object addHeadgear 'H_HelmetSpecO_blk';
@@ -120,15 +103,11 @@ if (_object isKindOf 'Man') exitWith {
 					_object addPrimaryWeaponItem (selectRandom ['optic_Nightstalker','optic_tws']);
 				};
 			};
-			if (['O_V_',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+			if ((['O_V_',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['O_V_',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
 				_object enableStamina FALSE;
 				_object enableFatigue FALSE;
 				_object setAnimSpeedCoef 1.25;
-			};
-			if (['officer',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-				if ((side _object) in [EAST,RESISTANCE]) then {
-					_object setVariable ['QS_surrenderable',TRUE,TRUE];
-				};
+				[[_object],3] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 			};
 		};
 	};
@@ -156,7 +135,7 @@ if (_typeL in [
 	'land_pod_heli_transport_04_fuel_f','land_pod_heli_transport_04_fuel_black_f',
 	'land_pod_heli_transport_04_bench_f','land_pod_heli_transport_04_bench_black_f',
 	'box_nato_ammoveh_f','box_ind_ammoveh_f','box_east_ammoveh_f',
-	'b_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_cargonet_01_ammo_f','c_idap_cargonet_01_supplies_f',
+	'b_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_cargonet_01_ammo_f','c_idap_cargonet_01_supplies_f','i_e_cargonet_01_ammo_f',
 	'cargonet_01_box_f',
 	'cargonet_01_barrels_f',
 	'b_supplycrate_f','o_supplycrate_f','i_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','c_idap_supplycrate_f',
@@ -195,7 +174,7 @@ if ((_object isKindOf 'LandVehicle') || {(_object isKindOf 'Air')} || {(_object 
 	};
 	[_object,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 	if (_object isKindOf 'Helicopter') then {
-		if (_typeL in ['b_heli_light_01_armed_f','b_heli_attack_01_f','o_heli_light_02_f','o_heli_light_02_v2_f','i_heli_light_03_f','o_heli_attack_02_f','o_heli_attack_02_black_f','o_heli_light_02_dynamicloadout_f','o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_black_f','i_heli_light_03_dynamicloadout_f','b_heli_attack_01_dynamicloadout_f','b_heli_light_01_dynamicloadout_f']) then {
+		if (_typeL in ['b_heli_light_01_armed_f','b_heli_attack_01_f','o_heli_light_02_f','o_heli_light_02_v2_f','i_heli_light_03_f','o_heli_attack_02_f','o_heli_attack_02_black_f','o_heli_light_02_dynamicloadout_f','o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_black_f','i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f','b_heli_attack_01_dynamicloadout_f','b_heli_light_01_dynamicloadout_f']) then {
 			if (!(missionNamespace getVariable 'QS_armedAirEnabled')) then {
 				50 cutText ['Armed aircraft currently disabled','PLAIN DOWN',1];
 				[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];

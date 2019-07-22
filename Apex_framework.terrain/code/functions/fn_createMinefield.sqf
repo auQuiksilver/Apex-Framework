@@ -31,12 +31,16 @@ private _mine = objNull;
 private _position = [0,0,0];
 private _radius = _outerRadius - _innerRadius;
 if (_types isEqualTo []) then {
-	_types = ['APERSBoundingMine','APERSBoundingMine','APERSMine','ATMine','APERSMine','APERSMine'];
+	_types = [
+		'APERSBoundingMine',0.333,
+		'APERSMine',0.5,
+		'ATMine',0.167
+	];
 };
 while {((count _mines) < _quantity)} do {
 	_position = _centerPos getPos [(_innerRadius + (random _outerRadius)),(random 360)];
 	if (!surfaceIsWater _position) then {
-		_mine = createMine [(selectRandom _types),_position,[],1];
+		_mine = createMine [(selectRandomWeighted _types),_position,[],1];
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -45,6 +49,9 @@ while {((count _mines) < _quantity)} do {
 		_mines pushBack _mine;
 		//_mine enableDynamicSimulation TRUE;
 		_mine setVectorUp (surfaceNormal (getPosWorld _mine));
+		{
+			_x revealMine _mine;
+		} forEach [EAST,RESISTANCE];
 	};
 	if (_attempts > _maxAttempts) exitWith {};
 	_attempts = _attempts + 1;
@@ -75,11 +82,7 @@ if (_isMarked) then {
 		_pos set [2,(getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset'))];
 		_pos = ATLToASL _pos;
 		_sign = createSimpleObject [_model,_pos];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 		_sign setDir ((_centerPos getDir _pos) - 180);
 		if ((random 1) > 0.666) then {
 			_sign setVectorUp (surfaceNormal _pos);

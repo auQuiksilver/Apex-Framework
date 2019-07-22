@@ -212,3 +212,54 @@ if (_worldName isEqualTo 'Malden') exitWith {
 	]
 };
 if (_worldName isEqualTo 'Stratis') exitWith {};
+if (_worldName isEqualTo 'Enoch') exitWith {
+	[
+		[
+			0,
+			[
+				['Lukow',[3543.5,11956,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Branzow Military Base',[2102.43,11010.3,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Bielawa',[1634.77,9569.02,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Gliniska',[5063.05,9999.29,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Sobotka',[6297.63,10247.6,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Brena',[6511.11,11293.7,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Kolembrody',[8431.23,12018,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Nidek',[6075.37,8169.23,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Radacz',[4038.24,7967.7,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Topolin Farms',[1341.16,7904.08,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1]
+			]
+		],
+		[
+			1,
+			[
+				['Zalesie',[900.4,5474.43,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Topolin',[1859.42,7156.54,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Adamow',[3150.43,6819.21,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Muratyn',[4555.1,6487.41,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Lipina',[5996.71,6828.78,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Huta',[5159.8,5511.28,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Nadbor',[6149.1,4130.38,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				//['Polana',[3283.81,2140.41,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Swarog',[5087.63,2164.47,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1]
+			]
+		],
+		[
+			2,
+			[
+				['Grabin',[10846.9,11121.7,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Tarnow',[9372.92,10685.6,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Sitnik',[11495.7,9598.7,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Borek',[9851.51,8498.16,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Zapadlisko',[8147.45,8725.8,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Radunin',[7341.45,6271.45,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Lembork',[8761.65,6640.22,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Karlin',[10252.3,6821.98,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Power Plant',[11567.9,7090.72,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Roztoka',[7705.89,5223.32,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Wrzeszcz',[9098.17,4396.06,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Gieraltow',[11306.3,4377.55,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1],
+				['Dolnik',[11400.3,593.375,0],'QS_fnc_aoCustomize',1,0,0,0,1,1,1]
+			]
+		]
+	]
+};

@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	5/05/2019 A3 1.92 by Quiksilver
+	23/07/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -73,9 +73,10 @@ _artillery = 1;											// Base artillery.	0 - Disabled. 1 - Enabled. 	If enab
 _artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1). Note: Applies to mortars as well.
 _mapContentEnemy = 1;									// Enemy Map Indicators. 	0 - Disabled. 1 - Enabled. Recommended = 1.	    Controls whether enemies known to the player are visible on the map.
 _recruitableAI = 1;										// Recruitable AI.	0 - Disabled. 1 - Enabled. 		If there are recruitable AI available (default base layout or placed by you in custom base layout), this toggles them on or off.
-_playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (Whitelisted). 2 - Enabled (Unrestricted).		Enable a limited number of enemy player roles for the supported mission types. Highly recommended to NOT use with the standard missions unless you know your players are comfortable with it. Designed for future Framework flexibility and development.
+_playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (Whitelisted). 2 - Enabled (Unrestricted).	Recommended = 0.	Enable a limited number of enemy player roles for the supported mission types. Highly recommended to NOT use with the standard missions unless you know your players are comfortable with it. Designed for future Framework flexibility and development.
 _ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
 _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
+_vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
 
 //===================================================== SYSTEM
 
@@ -188,6 +189,7 @@ if (_aircraft_carrier_enabled > 0) then {
 	['QS_missionConfig_reducedDamage',(compileFinal (str _reducedDamage)),TRUE],
 	['QS_missionConfig_AmbCiv',_ambient_civilians,FALSE],
 	['QS_missionConfig_AmbAnim',_ambient_animals,FALSE],
+	['QS_missionConfig_APS',_vehicle_active_protection,TRUE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_dynSim',_dynamic_simulation,FALSE],

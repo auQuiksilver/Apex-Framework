@@ -86,100 +86,102 @@ if (_type isEqualTo 'MOVE') exitWith {
 };
 if (_type isEqualTo 'INIT') exitWith {
 	if (isDedicated) then {
-		diag_log 'Spawning aircraft carrier';
-		private ['_marker','_positionsData','_positionData'];
-		_worldName = worldName;
-		_worldSize = worldSize;
-		if (_worldName isEqualTo 'Altis') then {
-			_positionsData = [
-				[[26789.1,4641.8,0],9.62274],
-				[[3495.56,3444.6,0],37.8404],
-				[[3217.6,27733.9,0],60.2552],
-				[[23722.2,28258.7,0],44.2461]
-			];
-		};
-		if (_worldName isEqualTo 'Stratis') then {
-			_positionsData = [
-				[[6332.64,1061.12,0],24.6236],
-				[[6489.22,7066.53,0],11.2106],
-				[[355.559,1222.49,0],26.2458],
-				[[955.478,7563.02,0],34.7778]
-			];
-		};
-		if (_worldName isEqualTo 'Malden') then {
-			_positionsData = [
-				[[10859.8,1702.29,0],37.2264],
-				[[10696.3,11392.5,0],61.1328],
-				[[566.918,9716.05,0],29.2914]
-			];
-		};
-		if (_worldName isEqualTo 'Tanoa') then {
-			_positionsData = [
-				[[343.525,5595.97,0],62.8601],
-				[[13879.4,1167.44,0],315.955],
-				[[14213.3,14722.7,0],110.978],
-				[[1141.3,14536.3,0],236.489]
-			];
-		};
-		_positionData = selectRandom _positionsData;
-		_positionData params ['_pos','_dir'];
-		_dir = _dir + 180;
-		_markerData = ['QS_marker_carrier_1',[-1500,-1500,0],'b_naval','Icon','','ColorWEST',[0.25,0.25],0.5,[-1500,-1500,0],0,'Aircraft Carrier'];
-		if ('QS_marker_carrier_1' in allMapMarkers) then {
-			_marker = 'QS_marker_carrier_1';
-			_pos = markerPos _marker;
-			_dir = markerDir _marker;
-			_dir = _dir + 180;
-		} else {
-			_marker = createMarker ['QS_marker_carrier_1',_pos];
-			_marker setMarkerPos _pos;
-			_marker setMarkerDir _dir;
-		};
-		_marker setMarkerType (_markerData select 2);
-		_marker setMarkerShape (_markerData select 3);
-		_marker setMarkerColor (_markerData select 5);
-		_marker setMarkerSize (_markerData select 6);
-		_marker setMarkerAlpha (_markerData select 7);
-		_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData select 10)]);
-		_carrier = createVehicle ['Land_Carrier_01_base_F',_pos,[],0,'CAN_COLLIDE'];
-		_carrier setPosWorld _pos;
-		_carrier setDir _dir;
-		_carrier setVectorUp [0,0,1];
-		missionNamespace setVariable ['QS_carrierObject',_carrier,TRUE];
-		[_carrier] call (missionNamespace getVariable 'BIS_fnc_Carrier01PosUpdate');
-		_carrier addEventHandler [
-			'Deleted',
-			{
-				params ['_entity'];
-				if (!((_entity getVariable ['bis_carrierParts',[]]) isEqualTo [])) then {
-					{
-						deleteVehicle _x;
-					} forEach (_entity getVariable ['bis_carrierParts',[]]);
-				};
-				if (!((_entity getVariable ['QS_carrier_turrets',[]]) isEqualTo [])) then {
-					{
-						_x setDamage [1,FALSE];
-						deleteVehicle _x;
-					} forEach (_entity getVariable ['QS_carrier_turrets',[]]);
-				};
-				if (!((_entity getVariable ['QS_carrier_props',[]]) isEqualTo [])) then {
-					{
-						deleteVehicle _x;
-					} forEach (_entity getVariable ['QS_carrier_props',[]]);
-				};
-				missionNamespace setVariable ['QS_carrierObject',objNull,TRUE];
-			}
-		];
-		_carrier setVariable ['bis_carrierParts',(_carrier getVariable ['bis_carrierParts',[]]),TRUE];
-		{
-			if ((toLower (typeOf (_x select 0))) in ['land_carrier_01_island_01_f','land_carrier_01_island_02_f','land_carrier_01_island_03_f']) then {
-				for '_i' from 1 to 4 step 1 do {
-					(_x select 0) animateSource [(format ['Door_%1_source',_i]),1];
-				};
+		if (!(worldName in ['Enoch'])) then {
+			diag_log 'Spawning aircraft carrier';
+			private ['_marker','_positionsData','_positionData'];
+			_worldName = worldName;
+			_worldSize = worldSize;
+			if (_worldName isEqualTo 'Altis') then {
+				_positionsData = [
+					[[26789.1,4641.8,0],9.62274],
+					[[3495.56,3444.6,0],37.8404],
+					[[3217.6,27733.9,0],60.2552],
+					[[23722.2,28258.7,0],44.2461]
+				];
 			};
-		} forEach (_carrier getVariable ['bis_carrierParts',[]]);
-		if (!((allAirports select 1) isEqualTo [])) then {
-			((allAirports select 1) select 0) setAirportSide WEST;
+			if (_worldName isEqualTo 'Stratis') then {
+				_positionsData = [
+					[[6332.64,1061.12,0],24.6236],
+					[[6489.22,7066.53,0],11.2106],
+					[[355.559,1222.49,0],26.2458],
+					[[955.478,7563.02,0],34.7778]
+				];
+			};
+			if (_worldName isEqualTo 'Malden') then {
+				_positionsData = [
+					[[10859.8,1702.29,0],37.2264],
+					[[10696.3,11392.5,0],61.1328],
+					[[566.918,9716.05,0],29.2914]
+				];
+			};
+			if (_worldName isEqualTo 'Tanoa') then {
+				_positionsData = [
+					[[343.525,5595.97,0],62.8601],
+					[[13879.4,1167.44,0],315.955],
+					[[14213.3,14722.7,0],110.978],
+					[[1141.3,14536.3,0],236.489]
+				];
+			};
+			_positionData = selectRandom _positionsData;
+			_positionData params ['_pos','_dir'];
+			_dir = _dir + 180;
+			_markerData = ['QS_marker_carrier_1',[-1500,-1500,0],'b_naval','Icon','','ColorWEST',[0.25,0.25],0.5,[-1500,-1500,0],0,'Aircraft Carrier'];
+			if ('QS_marker_carrier_1' in allMapMarkers) then {
+				_marker = 'QS_marker_carrier_1';
+				_pos = markerPos _marker;
+				_dir = markerDir _marker;
+				_dir = _dir + 180;
+			} else {
+				_marker = createMarker ['QS_marker_carrier_1',_pos];
+				_marker setMarkerPos _pos;
+				_marker setMarkerDir _dir;
+			};
+			_marker setMarkerType (_markerData select 2);
+			_marker setMarkerShape (_markerData select 3);
+			_marker setMarkerColor (_markerData select 5);
+			_marker setMarkerSize (_markerData select 6);
+			_marker setMarkerAlpha (_markerData select 7);
+			_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData select 10)]);
+			_carrier = createVehicle ['Land_Carrier_01_base_F',_pos,[],0,'CAN_COLLIDE'];
+			_carrier setPosWorld _pos;
+			_carrier setDir _dir;
+			_carrier setVectorUp [0,0,1];
+			missionNamespace setVariable ['QS_carrierObject',_carrier,TRUE];
+			[_carrier] call (missionNamespace getVariable 'BIS_fnc_Carrier01PosUpdate');
+			_carrier addEventHandler [
+				'Deleted',
+				{
+					params ['_entity'];
+					if (!((_entity getVariable ['bis_carrierParts',[]]) isEqualTo [])) then {
+						{
+							deleteVehicle _x;
+						} forEach (_entity getVariable ['bis_carrierParts',[]]);
+					};
+					if (!((_entity getVariable ['QS_carrier_turrets',[]]) isEqualTo [])) then {
+						{
+							_x setDamage [1,FALSE];
+							deleteVehicle _x;
+						} forEach (_entity getVariable ['QS_carrier_turrets',[]]);
+					};
+					if (!((_entity getVariable ['QS_carrier_props',[]]) isEqualTo [])) then {
+						{
+							deleteVehicle _x;
+						} forEach (_entity getVariable ['QS_carrier_props',[]]);
+					};
+					missionNamespace setVariable ['QS_carrierObject',objNull,TRUE];
+				}
+			];
+			_carrier setVariable ['bis_carrierParts',(_carrier getVariable ['bis_carrierParts',[]]),TRUE];
+			{
+				if ((toLower (typeOf (_x # 0))) in ['land_carrier_01_island_01_f','land_carrier_01_island_02_f','land_carrier_01_island_03_f']) then {
+					for '_i' from 1 to 4 step 1 do {
+						(_x # 0) animateSource [(format ['Door_%1_source',_i]),1];
+					};
+				};
+			} forEach (_carrier getVariable ['bis_carrierParts',[]]);
+			if (!((allAirports # 1) isEqualTo [])) then {
+				((allAirports # 1) # 0) setAirportSide WEST;
+			};
 		};
 	};
 };
@@ -222,14 +224,14 @@ if (_type isEqualTo 'PROPS') exitWith {
 			_moreProps pushBack _x;
 		} forEach [
 			['Land_CampingTable_small_F',[-32.2679,93.8193,23.9735],0,{}],
-			['Land_Laptop_unfolded_F',[-32.265,93.834,24.538],31.794,{
+			['Land_Laptop_03_black_F',[-32.265,93.834,24.538],31.794,{
 				missionNamespace setVariable ['QS_carrier_casLaptop',(_this select 0),TRUE];
 			}]
 		];
 	};
 	{
 		_prop = createVehicle [(_x select 0),[-100,-100,0],[],5,'NONE'];
-		if ((_x select 0) in ['Land_CampingTable_small_F','Land_Laptop_unfolded_F']) then {
+		if ((_x select 0) in ['Land_CampingTable_small_F','Land_Laptop_03_black_F']) then {
 			_prop enableSimulationGlobal FALSE;
 		};
 		_prop setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x select 1));

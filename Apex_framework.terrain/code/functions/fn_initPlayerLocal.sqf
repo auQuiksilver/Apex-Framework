@@ -298,7 +298,8 @@ if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 		FALSE
 	],
 	['QS_client_action_carrierLaunchCancel',[],FALSE],
-	['QS_managed_hints',[],FALSE]
+	['QS_managed_hints',[],FALSE],
+	['QS_projectile_manager',[],FALSE]
 ];
 if ((profileNamespace getVariable ['QS_IA_joinToken',0]) < 10) then {
 	if (!((missionNamespace getVariable ['QS_arsenals',[]]) isEqualTo [])) then {
@@ -549,6 +550,7 @@ if (!((uniform player) isEqualTo '')) then {
 [] call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
 enableDynamicSimulationSystem FALSE;
 disableRemoteSensors TRUE;
+calculatePlayerVisibilityByFriendly FALSE;
 useAISteeringComponent FALSE;
 enableEngineArtillery ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) isEqualTo 2);
 if (isNil {profileNamespace getVariable 'QS_options_ambientLife'}) then {

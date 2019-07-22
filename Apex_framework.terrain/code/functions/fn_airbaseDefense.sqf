@@ -57,17 +57,17 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	if (_worldName isEqualTo 'Altis') then {_defender setDir 135;};
 	if (_worldName isEqualTo 'Tanoa') then {_defender setDir 77.8;};
 	if (_worldName isEqualTo 'Malden') then {_defender setDir 269.576;};
+	if (_worldName isEqualTo 'Enoch') then {_defender setDir 313.878;};
 } else {
 	_defender setDir (markerDir 'QS_marker_airbaseDefense');
 };
 _defender setVehiclePosition [_defensePos,[],0,'NONE'];
 _defender lock 2;
-createVehicleCrew _defender;
+_airdefenseGroup = createVehicleCrew _defender;
 _gunner = gunner _defender;
 _gunner setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 _defender setVariable ['QS_hidden',TRUE,TRUE];
 _gunner setVariable ['QS_hidden',TRUE,TRUE];
-_airdefenseGroup = group _gunner;
 _airdefenseGroup deleteGroupWhenEmpty TRUE;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',

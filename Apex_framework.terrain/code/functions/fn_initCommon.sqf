@@ -6,16 +6,19 @@ Author:
 	
 Last Modified:
 
-	8/02/2019 A3 1.88 by Quiksilver
+	30/05/2019 A3 1.94 by Quiksilver
 
 Description:
 
 	Common pre-init
 _______________________________________________/*/
 
-private _environment = ['mediterranean','tropic'] select (worldName in ['Tanoa','Lingor3']);
-if (worldName in []) then {
-	_environment = '';
+private _environment = 'mediterranean';
+if (worldName in ['Tanoa','Lingor3']) then {
+	_environment = 'tropic';
+};
+if (worldName in ['Enoch','gm_weferlingen_summer','gm_weferlingen_winter']) then {
+	_environment = 'temperate';
 };
 private _code = {};
 {

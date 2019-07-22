@@ -217,6 +217,10 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 			_pos = [8068.67,10002.2,0.395561];
 			_dir = 358.366;
 		};
+		if (worldName isEqualTo 'Enoch') then {
+			_pos = [4321.49,10505,0.3];
+			_dir = 314.899;		
+		};
 	} else {
 		_pos = markerPos 'QS_marker_casJet_spawn';
 		_dir = markerDir 'QS_marker_casJet_spawn';

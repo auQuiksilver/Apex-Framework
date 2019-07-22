@@ -44,7 +44,7 @@ private _spawnPos = [0,0,0];
 private _foundSpawnPos = FALSE;
 private _unitTypes = [
 	'O_G_Soldier_A_F',1,
-	'O_G_Soldier_AR_F',3,
+	'O_G_Soldier_AR_F',4,
 	'O_G_medic_F',1,
 	'O_G_engineer_F',1,
 	'O_G_Soldier_exp_F',1,
@@ -141,7 +141,7 @@ if (_type isEqualTo 0) exitWith {
 		_enemyGrp setCombatMode 'RED';
 		_enemyGrp setBehaviour 'AWARE';
 		_enemyGrp setSpeedMode 'FULL';
-		[(units _enemyGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+		[(units _enemyGrp),(selectRandomWeighted [1,0.5,2,0.5])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_enemyGrp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
 		_enemyGrp setVariable ['QS_AI_GRP_TASK',[_moveType,_moveData,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/05/2017 ArmA 3 1.70 by Quiksilver
+	22/07/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -36,18 +36,51 @@ for '_x' from 0 to 1 step 0 do {
 	if ((allPlayers inAreaArray [_randomPos,2000,2000,0,FALSE]) isEqualTo []) exitWith {};
 };
 if (_playerCount > 20) then {
-	_airTypes = if (_worldName isEqualTo 'Tanoa') then [
-		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']},
-		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f','O_Heli_Attack_02_dynamicLoadout_F']}
-	];
+	if (_playerCount > 40) then {
+		if (_worldName in ['Tanoa','Enoch']) then {
+			_airType = selectRandomWeighted [
+				'o_heli_light_02_dynamicloadout_f',1,
+				'i_e_heli_light_03_dynamicloadout_f',1,
+				'o_heli_attack_02_dynamicloadout_f',0.25
+			];
+		} else {
+			_airType = selectRandomWeighted [
+				'o_heli_light_02_dynamicloadout_f',1,
+				'i_heli_light_03_dynamicloadout_f',1,
+				'o_heli_attack_02_dynamicloadout_f',([0,0.75] select (_worldName isEqualTo 'Altis'))
+			];
+		};
+	} else {
+		if (_worldName in ['Tanoa','Enoch']) then {
+			_airType = selectRandomWeighted [
+				'o_heli_light_02_dynamicloadout_f',1,
+				'i_e_heli_light_03_dynamicloadout_f',1,
+				'o_heli_attack_02_dynamicloadout_f',0.1
+			];		
+		} else {
+			_airType = selectRandomWeighted [
+				'o_heli_light_02_dynamicloadout_f',1,
+				'i_heli_light_03_dynamicloadout_f',1,
+				'o_heli_attack_02_dynamicloadout_f',([0,0.25] select (_worldName isEqualTo 'Altis'))
+			];		
+		};
+	};
 } else {
-	_airTypes = if (_worldName isEqualTo 'Tanoa') then [
-		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']},
-		{['O_Heli_Light_02_dynamicLoadout_F','i_heli_light_03_dynamicloadout_f']}
-	];
+	if (_worldName in ['Tanoa','Enoch']) then {
+		_airType = selectRandomWeighted [
+			'o_heli_light_02_dynamicloadout_f',1,
+			'i_e_heli_light_03_dynamicloadout_f',1,
+			'o_heli_attack_02_dynamicloadout_f',0
+		];
+	} else {
+		_airType = selectRandomWeighted [
+			'o_heli_light_02_dynamicloadout_f',1,
+			'i_heli_light_03_dynamicloadout_f',1,
+			'o_heli_attack_02_dynamicloadout_f',0
+		];
+	};
 };
-_airType = selectRandom _airTypes;
-_air = createVehicle [_airType,[(_randomPos select 0),(_randomPos select 1),1000],[],0,'FLY'];
+_air = createVehicle [_airType,[(_randomPos # 0),(_randomPos # 1),1000],[],0,'FLY'];
 missionNamespace setVariable [
 	'QS_analytics_entities_created',
 	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -62,6 +95,7 @@ _air addEventHandler [
 	}
 ];
 _air addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+_air addEventHandler ['IncomingMissile',(missionNamespace getVariable 'QS_fnc_AIXMissileCountermeasure')];
 _air setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 clearMagazineCargoGlobal _air;
 clearWeaponCargoGlobal _air;
@@ -97,30 +131,29 @@ if (!((typeOf _air) in ['O_Heli_Light_02_v2_F','O_Heli_Light_02_dynamicLoadout_F
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsTurret [_air,[0]];
 	_unit moveInTurret [_air,[0]];
-	/*/
-	_unit assignAsGunner _air;
-	_unit moveInGunner _air;
-	/*/
 };
-if ((toLower _airType) isEqualTo 'i_heli_light_03_dynamicloadout_f') then {
-	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo 'Tanoa')),[0,0,0],[],0,'NONE'];
+if ((toLower _airType) in ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f']) then {
+	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName in ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
-	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+	_unit addPrimaryWeaponItem 'optic_lrps';
 	_unit moveInCargo [_air,0];
 	_unit selectWeapon (primaryWeapon _unit);
-	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo 'Tanoa')),[0,0,0],[],0,'NONE'];
+	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
-	[_unit,'MMG_01_hex_ARCO_LP_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+	_unit addPrimaryWeaponItem 'optic_lrps';
 	_unit moveInCargo [_air,1];
 	_unit selectWeapon (primaryWeapon _unit);
 	if (!(sunOrMoon isEqualTo 1)) then {
 		(_air turretUnit [0]) action ['SearchlightOn',_air];
 	};
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 2),
-		FALSE
-	];
+	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 2),FALSE];
+} else {
+	{
+		_x disableAI 'LIGHTS';
+	} forEach (crew _air);
+	_air setCollisionLight FALSE;
 };
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _grp setBehaviour 'AWARE';

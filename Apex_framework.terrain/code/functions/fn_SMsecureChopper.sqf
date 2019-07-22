@@ -95,7 +95,7 @@ _researchTable attachTo [_house,[0,3,0.45]];
 sleep 0.3;
 _dummyTypes = ['Box_East_AmmoOrd_F','Box_IND_AmmoOrd_F'];
 _dummyType = selectRandom _dummyTypes;
-_objectTypes = ['Land_Laptop_unfolded_F','Land_Laptop_device_F'];
+_objectTypes = ['Land_Laptop_03_black_F','Land_Laptop_device_F'];
 _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
 missionNamespace setVariable [

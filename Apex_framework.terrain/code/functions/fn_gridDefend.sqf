@@ -26,7 +26,7 @@ _centerRadius = 20;
 private _serverTime = serverTime;
 _duration = 900 + (random 360);
 _endTime = _serverTime + _duration;
-private _enemyInRadiusThreshold = 4;
+private _enemyInRadiusThreshold = 2;
 private _enemyCoefLow = 0.025;
 private _enemyCoefHigh = 0.05;
 private _sectorControl = 1;
@@ -69,8 +69,8 @@ for '_x' from 0 to 1 step 0 do {
 		_allUnits = allUnits;
 		_nearUnits = (_centerPos nearEntities ['CAManBase',_nearUnitsRadius]) select {((lifeState _x) in ['HEALTHY','INJURED'])};
 		if (!(_nearUnits isEqualTo [])) then {
-			_enemiesInRadius = _nearUnits select {((side _x) in _enemySides)};
-			_friendsInRadius = _nearUnits select {((side _x) in _friendSides)};
+			_enemiesInRadius = _nearUnits select {((side (group _x)) in _enemySides)};
+			_friendsInRadius = _nearUnits select {((side (group _x)) in _friendSides)};
 			if ((count _enemiesInRadius) > _enemyInRadiusThreshold) then {
 				if (_sectorControl > 0) then {
 					_sectorControl = (_sectorControl - ([_enemyCoefLow,_enemyCoefHigh] select ((count _friendsInRadius) > 0))) max 0;

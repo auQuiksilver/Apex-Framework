@@ -1711,7 +1711,68 @@ if (_case < 100) exitWith {
 			} forEach (allMissionObjects 'EmptyDetector');
 		};
 	};
+	// Replace agent with vehicle
 	if (_case isEqualTo 92) then {
-	
+		params ['','_unit','_side','_isPrisoner'];
+		_unitDir = getDir _unit;
+		_unitPos = getPosWorld _unit;
+		_unitType = typeOf _unit;
+		_unitDamage = damage _unit;
+		_unitUniform = uniform _unit;
+		_unitVest = vest _unit;
+		_unitHeadgear = headgear _unit;
+		_unitFace = face _unit;
+		_agent = createVehicle [_unitType,[0,0,0],[],0,'NONE'];
+		_agent disableAI 'ALL';
+		deleteVehicle _unit;
+		_agent setPosWorld _unitPos;
+		removeAllWeapons _agent;
+		removeGoggles _agent;
+		removeHeadgear _agent;
+		removeBackpack _agent;
+		removeVest _agent;
+		_agent setCaptive TRUE;
+		{
+			_agent unlinkItem _x;
+		} count (assignedItems _agent);
+		{
+			_agent removeItem _x;
+		} forEach (items _agent);
+		_agent switchMove 'amovpercmstpsnonwnondnon';
+		[_agent,'amovpercmstpsnonwnondnon'] remoteExec ['switchMove',0,FALSE];
+		_agent setUnitPos 'UP';
+		_agent setDir _unitDir;
+		_agent setFace _unitFace;
+		_agent forceAddUniform _unitUniform;
+		_agent addHeadgear _unitHeadgear;
+		if (_unitDamage < 0.89) then {
+			_agent setDamage [_unitDamage,FALSE];
+		};
+		if (_isPrisoner) then {
+			0 = [_agent] spawn {
+				uiSleep 1; 
+				(_this # 0) setObjectTextureGlobal [0,'#(rgb,8,8,3)color(1,0.1,0,1)'];
+				(_this # 0) enableSimulationGlobal FALSE;
+				(_this # 0) enableDynamicSimulation FALSE;
+			};
+		};
+	};
+	if (_case isEqualTo 93) then {
+		params ['','_type','_vehicle','_unit','_firedPosition'];
+		if (!((behaviour (effectiveCommander _vehicle)) isEqualTo 'COMBAT')) then {
+			(group (effectiveCommander _vehicle)) setBehaviour 'COMBAT';
+			(crew _vehicle) doWatch _firedPosition;
+		};
+		if (_type isEqualTo 1) then {
+			_grp = group (effectiveCommander _vehicle);
+			if (!isNull _grp) then {
+				{
+					_grp reveal _x;
+				} forEach [
+					[_unit,4],
+					[vehicle _unit,4]
+				];
+			};
+		};
 	};
 };

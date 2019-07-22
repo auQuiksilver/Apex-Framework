@@ -127,14 +127,13 @@ if ((count allPlayers) > 25) then {
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
 			FALSE
 		];
-		createVehicleCrew _SMaa;
+		_grp = createVehicleCrew _SMaa;
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMaa;
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _SMaa))),
 			FALSE
 		];
-		_grp = group ((crew _SMaa) select 0);
 		_SMaa lock 3;
 		_SMaa addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 		_SMaa addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];

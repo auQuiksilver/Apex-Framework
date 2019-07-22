@@ -549,7 +549,7 @@ if (_type isEqualTo 1) then {
 	if ((_entityType in [
 		"b_slingload_01_ammo_f","b_slingload_01_cargo_f","b_slingload_01_fuel_f","b_slingload_01_medevac_f","b_slingload_01_repair_f",
 		"i_supplycrate_f","o_supplycrate_f","c_t_supplycrate_f","c_supplycrate_f","ig_supplycrate_f","b_supplycrate_f",
-		"b_cargonet_01_ammo_f","i_cargonet_01_ammo_f","o_cargonet_01_ammo_f"
+		"b_cargonet_01_ammo_f","i_cargonet_01_ammo_f","o_cargonet_01_ammo_f",'i_e_cargonet_01_ammo_f'
 	]) || (_entity isKindOf 'LandVehicle')) then {
 		if (_entityType in ["b_cargonet_01_ammo_f","i_cargonet_01_ammo_f","o_cargonet_01_ammo_f"]) then {
 			_cfgEntity = configfile >> 'cfgvehicles' >> 'b_supplycrate_f';

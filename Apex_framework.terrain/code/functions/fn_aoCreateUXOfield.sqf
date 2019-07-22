@@ -75,6 +75,9 @@ if ((_spawnPos distance2D _aoPos) < (_aoSize * 1.1)) then {
 		};
 		//_mine enableDynamicSimulation TRUE;
 		_mine setVectorUp (surfaceNormal (getPosWorld _mine));
+		{
+			_x revealMine _mine;
+		} forEach [EAST,RESISTANCE];
 	};
 };
 _return;

@@ -140,7 +140,6 @@ if (_type isEqualTo 0) exitWith {
 			_vehicle setDir (random 360);
 			_vehicle setVehiclePosition [(AGLToASL _spawnPosition),[],0,'NONE'];
 			createVehicleCrew _vehicle;
-			//_grp = group (effectiveCommander _vehicle);
 			(crew _vehicle) joinSilent _grp;
 			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
 			clearMagazineCargoGlobal _vehicle;
@@ -186,6 +185,9 @@ if (_type isEqualTo 0) exitWith {
 			/*/
 		};
 	} else {
+		
+		
+		/*/
 		_vehicle = createVehicle [
 			(selectRandom ([['o_truck_02_transport_f','o_truck_02_covered_f'],['o_t_truck_03_transport_ghex_f','o_t_truck_03_covered_ghex_f']] select (worldName in ['Tanoa','Lingor3']))),
 			_spawnPosition,
@@ -205,6 +207,9 @@ if (_type isEqualTo 0) exitWith {
 		clearBackpackCargoGlobal _vehicle;
 		_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 		_return pushBack _vehicle;
+		/*/
+		
+		
 		_grpSize = [2,4] select (_nearbyCount > 4);
 		for '_x' from 0 to 1 step 1 do {
 			_grp = createGroup [EAST,TRUE];
@@ -234,7 +239,8 @@ if (_type isEqualTo 0) exitWith {
 				{
 					_x reveal [_targetVehicle,_knowsAbout];
 				} forEach (units _grp);
-				_grp setFormDir (_vehicle getDir _targetPosition);
+				//_grp setFormDir (_vehicle getDir _targetPosition);
+				_grp setFormDir ((leader _grp) getDir _targetPosition);
 				_grp move (_targetPosition getPos [(random 50),(random 360)]);
 			};
 		};

@@ -149,7 +149,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 4) then {
 		//comment 'WY-55 Hellcat';
-		_rewardType = 'I_Heli_light_03_dynamicLoadout_F';
+		_rewardType = ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f'] select (worldName in ['Tanoa','Enoch']);
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [

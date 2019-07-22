@@ -61,13 +61,12 @@ for '_x' from 0 to (_AboatsCount - 1) step 1 do {
 	_boat lock 2;
 	0 = _enemiesArray pushBack _boat;
 	_boat setDir (random 360);
-	createVehicleCrew _boat;
+	_grp = createVehicleCrew _boat;
 	missionNamespace setVariable [
 		'QS_analytics_entities_created',
 		((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _boat))),
 		FALSE
 	];
-	_grp = group (effectiveCommander _boat);
 	{
 		_grpUnit = _x;
 		_grpUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -122,13 +121,12 @@ missionNamespace setVariable [
 _boat lock 2;
 0 = _enemiesArray pushBack _boat;
 _boat setDir (random 360);
-createVehicleCrew _boat;
+_grp = createVehicleCrew _boat;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',
 	((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _boat))),
 	FALSE
 ];
-_grp = group (effectiveCommander _boat);
 {
 	_grpUnit = _x;
 	_grpUnit forceAddUniform 'U_O_Wetsuit';
@@ -176,13 +174,12 @@ missionNamespace setVariable [
 _sub lock 3;
 _sub allowCrewInImmobile TRUE;
 0 = _enemiesArray pushBack _sub;
-createVehicleCrew _sub;
+_grp = createVehicleCrew _sub;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',
 	((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _sub))),
 	FALSE
 ];
-_grp = group (effectiveCommander _sub);
 _sub swimInDepth -2.5;
 {
 	_grpUnit = _x;

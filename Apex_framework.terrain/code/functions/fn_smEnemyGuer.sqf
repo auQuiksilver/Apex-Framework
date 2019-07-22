@@ -82,13 +82,12 @@ for '_x' from 0 to 2 do {
 	[0,_SMveh,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMveh;
 	_SMveh addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
-	createVehicleCrew _SMveh;
+	_grp = createVehicleCrew _SMveh;
 	missionNamespace setVariable [
 		'QS_analytics_entities_created',
 		((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _SMveh))),
 		FALSE
 	];
-	_grp = group ((crew _SMveh) select 0);
 	[_grp,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 	[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	{
@@ -116,13 +115,12 @@ if ((count allPlayers) > 25) then {
 		_SMaa allowCrewInImmobile TRUE;
 		_SMaa addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 		_SMaa addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
-		createVehicleCrew _SMaa;
+		_grp = createVehicleCrew _SMaa;
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _SMaa))),
 			FALSE
 		];
-		_grp = group ((crew _SMaa) select 0);
 		_SMaa lock 3;
 		[_grp,_pos,250,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 		{

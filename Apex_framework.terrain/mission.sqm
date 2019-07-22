@@ -16,16 +16,16 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6949.1475,7.2411137,7356.4736};
-		dir[]={0.70273983,-0.26716551,0.6594305};
-		up[]={0.19483496,0.96364683,0.18282697};
-		aside[]={0.68430495,7.2534021e-007,-0.72924691};
+		pos[]={6931.5376,14.150242,7362.4502};
+		dir[]={0.86231756,-0.29069862,0.41480774};
+		up[]={0.26200876,0.95679617,0.12603568};
+		aside[]={0.4335244,-2.0721927e-008,-0.90123004};
 	};
 };
 binarizationWanted=0;
 addons[]=
 {
-	"A3_Structures_F_Items_Electronics",
+	"A3_Props_F_Enoch_Military_Equipment",
 	"A3_Weapons_F_Ammoboxes",
 	"A3_Soft_F_Exp_MRAP_01",
 	"A3_Ui_F",
@@ -41,8 +41,8 @@ class AddonsMetaData
 		items=8;
 		class Item0
 		{
-			className="A3_Structures_F";
-			name="Arma 3 - Buildings and Structures";
+			className="A3_Props_F_Enoch";
+			name="Arma 3 Enoch - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -180,7 +180,8 @@ class Mission
 				disableSimulation=1;
 			};
 			id=98;
-			type="Land_Laptop_unfolded_F";
+			type="Land_Laptop_03_black_F";
+			atlOffset=-0.011340857;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -344,7 +345,8 @@ class Mission
 				disableSimulation=1;
 			};
 			id=106;
-			type="Land_Laptop_unfolded_F";
+			type="Land_Laptop_03_black_F";
+			atlOffset=-0.011340857;
 			class CustomAttributes
 			{
 				class Attribute0
