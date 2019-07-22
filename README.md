@@ -1,4 +1,4 @@
-Apex Framework 1.1.6
+Apex Framework 1.1.7 "Contact"
 by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
@@ -16,7 +16,7 @@ Apex Framework step-by-step setup guide:
 * Server must be running Windows x64, or Linux.
 _______________
 
-0. Download the "Apex_framework_116_allFiles.zip" file.
+0. Download the "Apex_framework_117_allFiles.zip" file.    (please note some mission files need to be downloaded separately due to 100MB github file size limit).
 
 * It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
 
@@ -53,11 +53,13 @@ class Missions {
 
   class apex_framework {
 
-    template="Apex_framework_116.Altis";
+    template="Apex_framework_117.Altis";
 
-    //template="Apex_framework_116.Tanoa";
+    //template="Apex_framework_117.Tanoa";
 
-    //template="Apex_framework_116.Malden";
+    //template="Apex_framework_117.Malden";
+    
+    //template="Apex_framework_117.Enoch";
 
     difficulty="Custom";
 
@@ -67,7 +69,7 @@ class Missions {
 
 ```
 forcedDifficulty = "Custom";
-missionWhitelist[] = {"Apex_framework_116.Altis","Apex_framework_116.Tanoa","Apex_framework_116.Malden"};
+missionWhitelist[] = {"Apex_framework_117.Altis","Apex_framework_117.Tanoa","Apex_framework_117.Malden","Apex_framework_117.Enoch"};
 ```
 
 --------------------------
