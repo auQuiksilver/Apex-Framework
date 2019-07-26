@@ -352,7 +352,7 @@ if (_fps > 9) then {
 											_aimPos = _x # 0;
 										};
 									} forEach _intersections;
-									[_unit,_aimPos] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (aimPos (_this # 1));};
+									[_unit,_aimPos] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (_this # 1);};
 								};
 							} else {
 								[_unit,_hostileBuilding] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (aimPos (_this # 1));};

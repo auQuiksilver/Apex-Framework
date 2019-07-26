@@ -84,6 +84,12 @@ if (_type isEqualTo 1) then {
 		];
 		_rewardPosition = selectRandom _landRewardLocations;
 	};
+	if (_landRewardLocations isEqualTo []) then {
+		_rewardPosition = markerPos 'QS_marker_side_rewards';
+	};
+	if (_shipRewardLocations isEqualTo []) then {
+		_rewardPosition = markerPos 'QS_marker_side_rewards';
+	};
 	if (_reward isEqualTo 0) then {
 		//comment 'AH 9 Pawnee with flares';
 		_rewardType = 'B_Heli_Light_01_dynamicLoadout_F';

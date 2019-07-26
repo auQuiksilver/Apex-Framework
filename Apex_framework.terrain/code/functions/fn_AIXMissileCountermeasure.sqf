@@ -28,11 +28,11 @@ if (alive (effectiveCommander _vehicle)) then {
 						_timeout = diag_tickTime + 15;
 						waitUntil {
 							uiSleep 0.1;
-							(((_projectile distance _vehicle) < 150) || {(isNull _projectile)} || {(diag_tickTime >= _timeout)})
+							(((_this distance _vehicle) < 150) || {(isNull _this)} || {(diag_tickTime >= _timeout)})
 						};
-						if (!isNull _projectile) then {
+						if (!isNull _this) then {
 							if (diag_tickTime < _timeout) then {
-								[_projectile,objNull] remoteExecCall ['setMissileTarget',_shooter,FALSE];
+								[_this,objNull] remoteExecCall ['setMissileTarget',_shooter,FALSE];
 							};
 						};
 					};

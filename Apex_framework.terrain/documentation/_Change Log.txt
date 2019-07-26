@@ -1,5 +1,14 @@
 Official Change Log
 
+1.1.7 Hotfix 1
+
+- [FIXED] "Escort Vehicle" side mission was not available on Livonia.
+- [FIXED] Script error in AI suppressive fire system
+- [FIXED] Script error in AI countermeasure system
+- [FIXED] Shotgun magazines added to Arsenal whitelist.
+- [FIXED] Side mission rewards were not spawning on Livonia.
+
+
 1.1.7 "Contact" (23/07/2019 A3 1.94)
 
 - [ADDED] Contact DLC Integration.

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/09/2018 A3 1.84 by Quiksilver
+	27/07/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -46,7 +46,7 @@ _functionAttack = 'QS_fnc_taskAttack';
 _base = markerPos 'QS_marker_base_marker';
 _baseBufferDist = 1000;
 _worldName = worldName;
-if (!(_worldName in ['Altis','Malden','Tanoa'])) exitWith {
+if (!(_worldName in ['Altis','Malden','Tanoa','Enoch'])) exitWith {
 	diag_log '***** ERROR * Truck side mission * terrain not supported (needs config) *****';
 };
 if (_worldName isEqualTo 'Tanoa') then {
@@ -105,6 +105,9 @@ if (_worldName isEqualTo 'Malden') then {
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 if (_worldName isEqualTo 'Enoch') then {
+	_startPosition = [4268.87,10463.4,0];
+	_startDir = 134;
+	_vehicleTypes = ['B_T_Truck_01_fuel_F','B_T_Truck_01_box_F'];
 	_destinations = [
 		[11151.5,11434.7,0.00144577],
 		[11436.9,9484.55,0.0016613],
@@ -118,15 +121,11 @@ if (_worldName isEqualTo 'Enoch') then {
 		[9065.14,6668.31,0.00143433],
 		[565.645,947.551,0.00146484],
 		[565.645,947.551,0.00146484]
-	];
+	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 _vehicleType = selectRandom _vehicleTypes;
 _vehicle = createVehicle [_vehicleType,_startPosition,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
+missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 _enabled_IED = FALSE;
 _enabled_mech = FALSE;
 _enabled_RPG = FALSE;
