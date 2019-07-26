@@ -24,15 +24,16 @@ if (alive (effectiveCommander _vehicle)) then {
 				if ((random 1) > 0.5) then {
 					[_projectile,objNull] remoteExec ['setMissileTarget',_shooter,FALSE];
 				} else {
-					_projectile spawn {
+					[_vehicle,_shooter,_projectile] spawn {
+						params ['_vehicle','_shooter','_projectile']
 						_timeout = diag_tickTime + 15;
 						waitUntil {
 							uiSleep 0.1;
-							(((_this distance _vehicle) < 150) || {(isNull _this)} || {(diag_tickTime >= _timeout)})
+							(((_projectile distance _vehicle) < 150) || {(isNull _projectile)} || {(diag_tickTime >= _timeout)})
 						};
-						if (!isNull _this) then {
+						if (!isNull _projectile) then {
 							if (diag_tickTime < _timeout) then {
-								[_this,objNull] remoteExecCall ['setMissileTarget',_shooter,FALSE];
+								[_projectile,objNull] remoteExecCall ['setMissileTarget',_shooter,FALSE];
 							};
 						};
 					};
