@@ -351,7 +351,8 @@ _magazinesAll = [
 	'30rnd_65x39_caseless_msbs_mag','30rnd_65x39_caseless_msbs_mag_tracer','2rnd_12gauge_pellets','2rnd_12gauge_slug',
 	'30rnd_762x39_ak12_arid_mag_f','30rnd_762x39_ak12_arid_mag_tracer_f','30rnd_762x39_ak12_lush_mag_f','30rnd_762x39_ak12_lush_mag_tracer_f','30rnd_762x39_ak12_mag_green_f','30rnd_762x39_ak12_mag_tracer_green_f',
 	'75rnd_762x39_mag_tracer_f','75rnd_762x39_mag_f','75rnd_762x39_ak12_mag_tracer_f','75rnd_762x39_ak12_mag_f','75rnd_762x39_ak12_lush_mag_tracer_f','75rnd_762x39_ak12_lush_mag_f',
-	'75rnd_762x39_ak12_arid_mag_tracer_f','75rnd_762x39_ak12_arid_mag_f'
+	'75rnd_762x39_ak12_arid_mag_tracer_f','75rnd_762x39_ak12_arid_mag_f',
+	'6rnd_12gauge_pellets','6rnd_12gauge_slug'
 ];
 // all weapon attachments
 _attachmentsAll = [
