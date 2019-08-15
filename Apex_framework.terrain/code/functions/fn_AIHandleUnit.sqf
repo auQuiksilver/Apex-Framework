@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	8/05/2019 A3 1.92 by Quiksilver
+	11/08/2019 A3 1.94 by Quiksilver
 
 Description:
 
@@ -36,8 +36,8 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	_unit setVariable ['QS_AI_UNIT',TRUE,FALSE];
 	_unit setVariable ['QS_AI_UNIT_rv',[(random 1),(random 1),(random 1)],FALSE];
 	_unit setVariable ['QS_AI_UNIT_delayedInstructions',[],FALSE];
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSelfRearm'}) then {
-		_unit setVariable ['QS_AI_UNIT_lastSelfRearm',_uiTime,FALSE];
+	if (isNil {_unit getVariable 'QS_AI_UNIT_nextSelfRearm'}) then {
+		_unit setVariable ['QS_AI_UNIT_nextSelfRearm',(_uiTime + (random [180,300,420])),FALSE];
 	};
 	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSelfHeal'}) then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfHeal',_uiTime,FALSE];
@@ -436,6 +436,57 @@ if (!((_unit getVariable ['QS_AI_UNIT_delayedInstructions',[]]) isEqualTo [])) t
 	if (diag_tickTime > ((_delayedInstructions # 0) # 1)) then {
 		_currentInstruction = (_unit getVariable ['QS_AI_UNIT_delayedInstructions',[]]) deleteAt 0;
 		(_currentInstruction # 2) call (_currentInstruction # 3);
+	};
+};
+if (isNull _objectParent) then {
+	if (_uiTime > (_unit getVariable ['QS_AI_UNIT_nextSelfRearm',0])) then {
+		if (!((primaryWeapon _unit) isEqualTo '')) then {
+			if ((_unit ammo (primaryWeapon _unit)) isEqualTo 0) then {
+					private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLower ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
+					private _cfgMagazines = [];
+					if (_magIndex isEqualTo -1) then {
+						_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLower _x};
+						(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLower ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
+					} else {
+						_cfgMagazines = ((missionNamespace getVariable 'QS_AI_weaponMagazines') # _magIndex) # 1;
+					};
+					if (!(_cfgMagazines isEqualTo [])) then {
+						_cfgMagazines = _cfgMagazines apply {(toLower _x)};
+						private _magazines = (magazines _unit) select {((toLower _x) in _cfgMagazines)};
+						if (_magazines isEqualTo []) then {
+							for '_i' from 0 to 5 step 1 do {
+								_unit addMagazine (_cfgMagazines # 0);
+							};
+							_unit addPrimaryWeaponItem (_cfgMagazines # 0);
+							_unit selectWeapon (primaryWeapon _unit);
+						};
+					};
+			};
+		};
+		if (!((secondaryWeapon _unit) isEqualTo '')) then {
+			if ((_unit ammo (secondaryWeapon _unit)) isEqualTo 0) then {
+				private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLower ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
+				private _cfgMagazines = [];
+				if (_magIndex isEqualTo -1) then {
+					_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLower _x};
+					(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLower ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
+				} else {
+					_cfgMagazines = ((missionNamespace getVariable 'QS_AI_weaponMagazines') # _magIndex) # 1;
+				};
+				if (!(_cfgMagazines isEqualTo [])) then {
+					_cfgMagazines = _cfgMagazines apply {(toLower _x)};
+					private _magazines = (magazines _unit) select {((toLower _x) in _cfgMagazines)};
+					if (_magazines isEqualTo []) then {
+						for '_i' from 0 to 2 step 1 do {
+							_unit addMagazine (_cfgMagazines # 0);
+						};
+						_unit addSecondaryWeaponItem (_cfgMagazines # 0);
+						_unit selectWeapon (primaryWeapon _unit);
+					};
+				};
+			};
+		};
+		_unit setVariable ['QS_AI_UNIT_nextSelfRearm',(_uiTime + (random [180,300,420])),FALSE];
 	};
 };
 if (_isLeader) then {

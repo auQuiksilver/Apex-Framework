@@ -1,12 +1,27 @@
 Official Change Log
 
-1.1.7 Hotfix 1
+1.1.7 Hotfix 2 (15/08/2019 A3 1.94)
 
+- [ADDED] AI re-arming.
+- [TWEAKED] T140 Angara improved APS, but extended minimum effective range.
+- [TWEAKED] Commander no longer required for Active Protection System to work.
+- [TWEAKED] @Apex servermod, added override for BIS_fnc_setCustomSoundController running on server.
+- [TWEAKED] Removed enemy UGV from defend missions due to potential server crash.
+- [FIXED] "Edit Inventory" menu was broken by the arma update. (Thanks Fitz)
+- [FIXED] Robocop kick+ban features were broken by the arma update. (Thanks Fitz)
 - [FIXED] "Escort Vehicle" side mission was not available on Livonia.
 - [FIXED] Script error in AI suppressive fire system
 - [FIXED] Script error in AI countermeasure system
-- [FIXED] Shotgun magazines added to Arsenal whitelist.
-- [FIXED] Side mission rewards were not spawning on Livonia.
+- [FIXED] Shotgun magazines added to Arsenal whitelist. (Thanks Fitz)
+- [FIXED] Side mission rewards were not spawning on Livonia. (Thanks Mynar)
+- [FIXED] APS UI color was switching to red and not switching back to white.
+- [FIXED] APS UI visible only when in correct vehicle role.
+- [FIXED] Cancel action remained after reviving/healing.
+- [FIXED] "Edit Inventory" user action was broken by a recent arma update.
+- [FIXED] Auto-cancel of Treat action not working when heal target moved out of range.
+- [FIXED] AI units have ammo for incorrect gun (leaving limited space for ammo for correct gun).
+- [FIXED] Missions spawning outside map area (Livonia)
+- [FIXED] Script error in Sector Control mode, causing some AI to become invincible.
 
 
 1.1.7 "Contact" (23/07/2019 A3 1.94)

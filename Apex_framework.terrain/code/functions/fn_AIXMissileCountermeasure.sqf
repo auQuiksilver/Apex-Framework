@@ -25,7 +25,7 @@ if (alive (effectiveCommander _vehicle)) then {
 					[_projectile,objNull] remoteExec ['setMissileTarget',_shooter,FALSE];
 				} else {
 					[_vehicle,_shooter,_projectile] spawn {
-						params ['_vehicle','_shooter','_projectile']
+						params ['_vehicle','_shooter','_projectile'];
 						_timeout = diag_tickTime + 15;
 						waitUntil {
 							uiSleep 0.1;

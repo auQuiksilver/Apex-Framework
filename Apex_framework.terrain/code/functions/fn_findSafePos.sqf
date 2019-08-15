@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/03/2018 A3 1.82 by Quiksilver
+	11/08/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -64,8 +64,10 @@ private _defaultPos = [];
 private _testPos = [-1000,-1000,0];
 private _newY = 0;
 private _newX = 0;
+_true = TRUE;
+_false = FALSE;
 _pos params ['_posX','_posY','_posZ'];
-_isTropics = worldName in ['Tanoa','Lingor3'];
+_isTropics = worldName in ['Tanoa','Lingor3','Enoch'];
 _bto = [
 	'building','house','forest border', 
 	'forest triangle','forest square','church','chapel', 
@@ -79,19 +81,21 @@ for '_x' from 0 to 999 step 1 do {
 	_newX = _posX + (_maxDist - (random (_maxDist * 2)));
 	_newY = _posY + (_maxDist - (random (_maxDist * 2)));
 	_testPos = [_newX,_newY,_posZ];
-	if ((_pos distance2D _testPos) >= _minDist) then {
-		if (_isTropics) then {
-			if (!((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 2),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
-				if ((nearestTerrainObjects [_testPos,_bto,_objDist,FALSE,TRUE]) isEqualTo []) then {
-					_newPos = _testPos;
-					breakTo 'main';
+	if (_testPos inArea (missionNamespace getVariable 'QS_terrain_worldArea')) then {
+		if ((_pos distance2D _testPos) >= _minDist) then {
+			if (_isTropics) then {
+				if (!((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 2),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
+					if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
+						_newPos = _testPos;
+						breakTo 'main';
+					};
 				};
-			};
-		} else {
-			if (!((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 3),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
-				if ((nearestTerrainObjects [_testPos,_bto,_objDist,FALSE,TRUE]) isEqualTo []) then {
-					_newPos = _testPos;
-					breakTo 'main';
+			} else {
+				if (!((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 3),_waterMode,_shoreMode,objNull]) isEqualTo [])) then {
+					if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
+						_newPos = _testPos;
+						breakTo 'main';
+					};
 				};
 			};
 		};
@@ -100,7 +104,7 @@ for '_x' from 0 to 999 step 1 do {
 if (_newPos isEqualTo []) then {
 	if (_waterMode isEqualTo 0) then {
 		if (!(_defaultPos isEqualTo [])) then {
-			_newPos = _defaultPos select 0;
+			_newPos = _defaultPos # 0;
 		} else {
 			_newPos = missionNamespace getVariable ['QS_positionStart',-1];
 			if (_newPos isEqualTo -1) then {
@@ -110,7 +114,7 @@ if (_newPos isEqualTo []) then {
 		};
 	} else {
 		if ((count _defaultPos) > 1) then {
-			_newPos = _defaultPos select 1;
+			_newPos = _defaultPos # 1;
 		} else {
 			_newPos = missionNamespace getVariable ['QS_positionStartWater',-1];
 			if (_newPos isEqualTo -1) then {

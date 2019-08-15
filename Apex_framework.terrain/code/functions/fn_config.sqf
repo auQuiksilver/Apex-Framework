@@ -6,7 +6,7 @@ Author:
 	
 Last modified: 
 
-	5/06/2019 A3 1.94 by Quiksilver
+	15/08/2019 A3 1.94 by Quiksilver
 
 Description:
 
@@ -14,7 +14,7 @@ Description:
 ____________________________________________________/*/
 
 _missionProductVersion = '1.1.7';
-_missionProductStatus = 'Beta';
+_missionProductStatus = 'Stable';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
@@ -375,7 +375,7 @@ _recyclerUnitTypes = [
 		'o_t_soldier_tl_f',
 		'o_t_soldier_sl_f'
 	]
-] select (worldName in ['Tanoa','Lingor3']);
+] select (worldName in ['Tanoa','Lingor3','Enoch']);
 {
 	uiNamespace setVariable _x;
 } forEach [
@@ -390,6 +390,7 @@ _recyclerUnitTypes = [
 	['BIS_dynamicGroups_allowInterface',TRUE,TRUE],
 	['RscSpectator_allowedGroups',[],TRUE],
 	['RscSpectator_allowFreeCam',FALSE,TRUE],
+	['QS_terrain_worldArea',[[(worldSize / 2),(worldSize / 2),0],(worldSize / 2),(worldSize / 2),0,TRUE,-1],TRUE],
 	['QS_RSS_enabled',((getMissionConfigValue ['skipLobby',0]) isEqualTo 1),TRUE],
 	['QS_RSS_client_canSideSwitch',(!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)),TRUE],
 	['QS_missionConfig_restartHours',[0,6,12,18],FALSE],
@@ -636,6 +637,7 @@ _recyclerUnitTypes = [
 	['QS_AI_supportProviders_INTEL',[],FALSE],
 	['QS_AI_hostileBuildings',[],FALSE],
 	['QS_AI_fireMissions',[],FALSE],
+	['QS_AI_weaponMagazines',[],TRUE],
 	['QS_client_showKnownEnemies',TRUE,TRUE],
 	['QS_client_showStealthEnemies',FALSE,TRUE],
 	['QS_enemy_mortarFireMessage',diag_tickTime,FALSE],

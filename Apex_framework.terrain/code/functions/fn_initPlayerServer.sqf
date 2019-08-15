@@ -49,7 +49,7 @@ if (_ii isEqualTo -1) then {
 if (_val > 5) exitWith {
 	FALSE remoteExecCall ['disableUserInput',_cid,FALSE];
 	uiSleep 0.1;
-	([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#exec kick %1',_cid]);
+	([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',_cid]);
 };
 private _sLevel = 0;
 if (_uid in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {

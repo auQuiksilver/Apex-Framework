@@ -111,7 +111,7 @@ private _newPosZ = 0;
 			sleep 0.1;
 			_newObj setDir (_azi + _azimuth);
 			_newObj setPos _newPos;
-			if (_newObj isKindOf 'House') then {
+			if ((_newObj isKindOf 'House') || {(!((_newObj buildingPos -1) isEqualTo []))}) then {
 				_newObj setVectorUp [0,0,1];
 			};
 		};

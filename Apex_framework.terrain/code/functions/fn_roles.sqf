@@ -116,7 +116,7 @@ if (_type isEqualTo 'GET_ROLE_COUNT') exitWith {
 		_role_capacity = _min max (_min + (floor (_playerCount / _coef))) min _max;
 	};
 	if (_returnText) then {
-		if (!( [_role_count,_role_capacity] isEqualTo [0,0] )) then {
+		if (!([_role_count,_role_capacity] isEqualTo [0,0])) then {
 			_return = format ['( %1 / %2 )',_role_count,_role_capacity];
 		};
 	} else {
@@ -186,7 +186,7 @@ if (_type isEqualTo 'GET_ROLE_ICON') exitWith {
 		['_role',''],
 		['_unit',objNull]
 	];
-	private _return = 'a3\Ui_f\data\GUI\Cfg\RespawnRoles\assault_ca.paa';
+	private _return = 'a3\ui_f\data\gui\cfg\respawnroles\assault_ca.paa';
 	if (_role isEqualTo '') then {
 		if (!isNull _unit) then {
 			_role = _unit getVariable ['QS_unit_role','rifleman'];
@@ -370,9 +370,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 		['_role','rifleman'],
 		['_unit',objNull]
 	];
-	
-	diag_log (format ['Role requested: %1',_this]);
-	
+	//diag_log (format ['Role requested: %1',_this]);
 	if (_uid isEqualTo '') then {
 		_uid = getPlayerUID _unit;
 	};
@@ -816,7 +814,7 @@ if (_type isEqualTo 'SET_DEFAULT_LOADOUT') exitWith {
 	if (_save) then {
 		_QS_playerRole = player getVariable ['QS_unit_role','rifleman'];
 		missionNamespace setVariable ['QS_revive_arsenalInventory',(getUnitLoadout player),FALSE];
-		private _QS_savedLoadouts = profileNamespace getVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),[]];
+		private _QS_savedLoadouts = profileNamespace getVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
 		_QS_loadoutIndex = (_QS_savedLoadouts findIf {((_x # 0) isEqualTo _QS_playerRole)});
 		_a = [_QS_playerRole,(getUnitLoadout player)];
 		if (_QS_loadoutIndex isEqualTo -1) then {
@@ -824,7 +822,7 @@ if (_type isEqualTo 'SET_DEFAULT_LOADOUT') exitWith {
 		} else {
 			_QS_savedLoadouts set [_QS_loadoutIndex,_a];
 		};
-		profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),_QS_savedLoadouts];
+		profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),_QS_savedLoadouts];
 		saveProfileNamespace;
 	};
 };
@@ -832,21 +830,21 @@ if (_type isEqualTo 'SET_SAVED_LOADOUT') exitWith {
 	params ['',['_role','rifleman']];
 	private _customLoadout = FALSE;
 	if ((((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) && ((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST)) || {(!((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']))}) then {
-		if (!isNil {profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))])}) then {
-			if ((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))])) isEqualType []) then {
-				if (!((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))])) isEqualTo [])) then {
-					_QS_loadoutIndex = (profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))])) findIf {((_x # 0) isEqualTo _role)};
+		if (!isNil {profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])}) then {
+			if ((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isEqualType []) then {
+				if (!((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isEqualTo [])) then {
+					_QS_loadoutIndex = (profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) findIf {((_x # 0) isEqualTo _role)};
 					if (!(_QS_loadoutIndex isEqualTo -1)) then {
-						player setUnitLoadout [(((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))])) # _QS_loadoutIndex) # 1),TRUE];
+						player setUnitLoadout [(((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) # _QS_loadoutIndex) # 1),TRUE];
 						_customLoadout = TRUE;
 					};
 				};
 			} else {
-				profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),[]];
+				profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
 				saveProfileNamespace;
 			};
 		} else {
-			profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),[]];
+			profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
 			saveProfileNamespace;
 		};
 	};

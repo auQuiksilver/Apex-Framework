@@ -196,6 +196,7 @@ class CfgRemoteExec {
 		class BIS_fnc_objectVar {};
 		class BIS_fnc_playSound {allowedTargets = 1;};
 		class BIS_fnc_sayMessage {allowedTargets = 1;};
+		class BIS_fnc_setCustomSoundController {};
 		class BIS_fnc_setIdentity {};
 		class BIS_fnc_setTask {jip = 1;};
 		class BIS_fnc_setTaskLocal {jip = 1;};
@@ -644,6 +645,7 @@ class CfgFunctions {
 			class registerVehicle {file = "code\functions\fn_registerVehicle.sqf";};
 			class remoteExec {file = "code\functions\fn_remoteExec.sqf";};
 			class remoteExecCmd {file = "code\functions\fn_remoteExecCmd.sqf";};
+			class removeWeapon {file = "code\functions\fn_removeWeapon.sqf";};
 			class replaceWithVehicle {file = "code\functions\fn_replaceWithVehicle.sqf";};
 			class respawnOPFOR {file = "code\functions\fn_respawnOPFOR.sqf";};
 			class respawnPilot {file = "code\functions\fn_respawnPilot.sqf";};

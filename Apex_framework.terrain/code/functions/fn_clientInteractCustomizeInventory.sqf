@@ -87,23 +87,30 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 							_displayNameShort = tostring _displayNameShortArray + "...";
 						};
 						_type = if (getnumber (configfile >> "cfgweapons" >> _weapon >> "type") in [4096,131072]) then {1} else {0};
-						_addonListType pushback [_weapon,_displayName,_displayNameShort,_picture,_type,false];
+						_addonListType pushback [_displayName,_displayNameShort,_weapon,_picture,_type,false];
 					};
 					if (_weaponPublic || _weapon in ["throw","put"]) then {
 						{
 							_muzzle = if (_x == "this") then {_weaponCfg} else {_weaponCfg >> _x};
+							_magazinesList = getArray (_muzzle >> "magazines");
+							// Add magazines from magazine wells
+							{
+								{
+									_magazinesList append (getArray _x);
+								} foreach  configProperties [configFile >> "CfgMagazineWells" >> _x, "isArray _x"];
+							} foreach getArray (_muzzle >> "magazineWell");
 							{
 								_mag = tolower _x;
-								if ((_addonListType findIf {((_x select 0) == _mag)}) isEqualTo -1) then {
+								if ((_addonListType findIf {((_x select 2) == _mag)}) isEqualTo -1) then {
 									_magCfg = configfile >> "cfgmagazines" >> _mag;
 									if (getnumber (_magCfg >> "scope") isEqualTo 2) then {
 										_displayName = gettext (_magCfg >> "displayName");
 										_picture = gettext (_magCfg >> "picture");
-										_addonListType pushback [_mag,_displayName,_displayName,_picture,2,_mag in _magazines];
+										_addonListType pushback [_displayName,_displayName,_mag,_picture,2,_mag in _magazines];
 										_magazines pushback _mag;
 									};
 								};
-							} foreach getarray (_muzzle >> "magazines");
+							} foreach _magazinesList;
 						} foreach getarray (_weaponCfg >> "muzzles");
 					};
 				};
@@ -122,7 +129,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 						_displayName = gettext (_weaponCfg >> "displayName");
 						_picture = gettext (_weaponCfg >> "picture");
 						_addonListType = _addonList select _weaponTypeID;
-						_addonListType pushback [_weapon,_displayName,_displayName,_picture,3,false];
+						_addonListType pushback [_displayName,_displayName,_weapon,_picture,3,false];
 					};
 				};
 			} foreach getarray (configfile >> "cfgpatches" >> _x >> "units");

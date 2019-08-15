@@ -196,8 +196,8 @@ if (_type2 isEqualType 0) exitWith {
 				(_x getUnitTrait 'QS_trait_fighterPilot') ||
 				(_x getUnitTrait 'uavhacker')
 			) then {
-				systemChat format ['%1 - %2',(['GET_ROLE_DISPLAYNAME',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)];
-				_text = _text + (format ['<br/><br/>%1 - %2',(['GET_ROLE_DISPLAYNAME',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)]);
+				systemChat format ['%1 - %2',(['GET_ROLE_DISPLAYNAME','',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)];
+				_text = _text + (format ['<br/><br/>%1 - %2',(['GET_ROLE_DISPLAYNAME','',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)]);
 			};
 		} count allPlayers;
 		_text = parseText _text;

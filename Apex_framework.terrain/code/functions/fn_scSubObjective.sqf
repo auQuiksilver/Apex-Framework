@@ -140,7 +140,7 @@ if (_type isEqualTo 1) exitWith {
 			_houseType = [
 				'Land_Cargo_House_V3_F',
 				'Land_Cargo_House_V4_F'
-			] select (worldName isEqualTo 'Tanoa');
+			] select (worldName in ['Tanoa','Enoch']);
 			_position set [2,0];
 			_house = createVehicle [_houseType,_position,[],0,'CAN_COLLIDE'];
 			_house allowDamage FALSE;
@@ -192,7 +192,7 @@ if (_type isEqualTo 1) exitWith {
 			private _grp = [_position,(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 			[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 			{
-				_x setUnitLoadout (['o_soldier_uav_f','o_t_soldier_uav_f'] select (worldName isEqualTo 'Tanoa'));
+				_x setUnitLoadout (['o_soldier_uav_f','o_t_soldier_uav_f'] select (worldName in ['Tanoa','Enoch']));
 				_x allowDamage FALSE;
 				_x setUnitPosWeak (selectRandom ['UP','MIDDLE','UP']);
 				_x setVariable ['QS_hidden',TRUE,TRUE];

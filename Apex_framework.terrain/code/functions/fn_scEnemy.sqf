@@ -770,7 +770,7 @@ for '_x' from 0 to 1 step 0 do {
 	_positionASL = AGLToASL _position;
 	_positionASL set [2,((_positionASL select 2) + 1)];
 	for '_x' from 0 to 9 step 1 do {
-		_randomPos = [_position,500,25,7.5,[[objNull,'VIEW',objNull],_positionASL,0.5]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
+		_randomPos = [_position,500,25,7.5,[[objNull,'VIEW',objNull],0.75]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
 		if ((([_randomPos select 0,_randomPos select 1] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) exitWith {};
 	};
 	_grp = [_randomPos,(random 360),_side,'OI_SniperTeam',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');

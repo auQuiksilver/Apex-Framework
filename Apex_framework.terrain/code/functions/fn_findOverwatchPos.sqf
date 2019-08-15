@@ -52,7 +52,7 @@ private _height = 0;
 for '_x' from 0 to 49 step 1 do {
 	for '_x' from 0 to 49 step 1 do {
 		_checkPos = [_targetPos,_minrange,_maxrange,3,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-		_checkPos set [2,((_checkPos select 2) + 0.5)];
+		_checkPos set [2,((_checkPos # 2) + 0.5)];
 		if (!(_checkPos isEqualTo [])) then {
 			_height = getTerrainHeightASL _checkPos;
 			_dis = _checkPos distance2D _targetPos;
@@ -62,7 +62,7 @@ for '_x' from 0 to 49 step 1 do {
 					_terrainBlocked = terrainIntersect [_targetPos,_checkPos];
 					if (!(_terrainBlocked)) then {
 						if (_isCheckVisibility) then {
-							if (((_checkVisibility select 0) checkVisibility [_checkPos,_targetPos]) >= (_checkVisibility select 1)) then {
+							if (((_checkVisibility # 0) checkVisibility [_checkPos,_targetPos]) >= (_checkVisibility # 1)) then {
 								_selectedPositions pushBack _checkPos;
 							};
 						} else {
@@ -97,7 +97,7 @@ for '_x' from 0 to 49 step 1 do {
 };
 if (!(_selectedPositions isEqualTo [])) then {
 	if (!((count _selectedPositions) isEqualTo 1)) then {
-		_result = _selectedPositions select 0;
+		_result = _selectedPositions # 0;
 		private _maximum = getTerrainHeightASL _result;
 		{
 			_height = getTerrainHeightASL _x;
@@ -107,16 +107,16 @@ if (!(_selectedPositions isEqualTo [])) then {
 			};
 		} count _selectedPositions;
 	} else {
-		_result = _selectedPositions select 0;
+		_result = _selectedPositions # 0;
 	};
 } else {
 	for '_x' from 0 to 299 step 1 do {
 		_checkPos = [_targetPos,_minrange,_maxrange,3,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-		_checkPos set [2,((_checkPos select 2) + 0.5)];
+		_checkPos set [2,((_checkPos # 2) + 0.5)];
 		_terrainBlocked = terrainIntersect [_targetPos,_checkPos];
 		if (!(_terrainBlocked)) then {
 			if (_isCheckVisibility) then {
-				if (((_checkVisibility select 0) checkVisibility [_checkPos,_targetPos]) >= (_checkVisibility select 1)) then {
+				if (((_checkVisibility # 0) checkVisibility [_checkPos,_targetPos]) >= (_checkVisibility # 1)) then {
 					_selectedPositions pushBack _checkPos;
 				};
 			} else {
@@ -127,7 +127,7 @@ if (!(_selectedPositions isEqualTo [])) then {
 	};
 	if (!(_selectedPositions isEqualTo [])) then {
 		if (!((count _selectedPositions) isEqualTo 1)) then {
-			_result = _selectedPositions select 0;
+			_result = _selectedPositions # 0;
 			private _maximum = getTerrainHeightASL _result;
 			{
 				_height = getTerrainHeightASL _x;
@@ -137,7 +137,7 @@ if (!(_selectedPositions isEqualTo [])) then {
 				};
 			} count _selectedPositions;
 		} else {
-			_result = _selectedPositions select 0;
+			_result = _selectedPositions # 0;
 		};
 	};
 };

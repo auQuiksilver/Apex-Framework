@@ -807,6 +807,7 @@ if ((count (_terrainData select 4)) > 6) then {
 	};
 	[_toGarrison,2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 };
+_QS_HQpos set [2,0];
 _resistanceGrp = createGroup [RESISTANCE,TRUE];
 _unit = _resistanceGrp createUnit ['I_C_Soldier_Para_1_F',_QS_HQpos,[],0,'NONE'];
 missionNamespace setVariable [
@@ -839,7 +840,6 @@ if (worldName in ['Tanoa','Lingor3']) then {
 };
 _AOgarrisonGroup2 = createGroup [RESISTANCE,TRUE];
 _toGarrison = [];
-_QS_HQpos set [2,0];
 for '_x' from 0 to 8 step 1 do {
 	_randomUnit = selectRandom _indArray;
 	_unit = _AOgarrisonGroup2 createUnit [_randomUnit,_QS_HQpos,[],0,'NONE'];
@@ -894,7 +894,7 @@ _hqGroup1 setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNames
 	0 = _enemiesArray pushBack _x;
 } count (units _hqGroup1);
 _infUrbanType = selectRandomWeighted _infUrbanTypes;
-_randomPos = ['RADIUS',_QS_HQpos,50,'LAND',[],FALSE,[],[0,40,'O_soldier_F'],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+_randomPos = ['RADIUS',_QS_HQpos,50,'LAND',[],FALSE,[],[0,40,'O_soldier_F'],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 _hqGroup2 = [_randomPos,(random 360),EAST,_infUrbanType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 [_hqGroup2,_QS_HQpos,70,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 [(units _hqGroup2),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');

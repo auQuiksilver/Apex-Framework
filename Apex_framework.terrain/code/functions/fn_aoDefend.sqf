@@ -359,15 +359,15 @@ if ((random 1) > 0.666) then {
 };
 if (worldName isEqualTo 'Tanoa') then {
 	_vParaTypes = [
-		'O_T_MRAP_02_hmg_ghex_F','O_T_UGV_01_rcws_ghex_F','O_T_MRAP_02_gmg_ghex_F','O_T_LSV_02_armed_F','O_T_LSV_02_armed_F',
+		'O_T_MRAP_02_hmg_ghex_F','O_T_MRAP_02_gmg_ghex_F','O_T_LSV_02_armed_F','O_T_LSV_02_armed_F',
 		'I_MRAP_03_gmg_F','I_MRAP_03_hmg_F','Land_Pod_Heli_Transport_04_covered_F','Land_Pod_Heli_Transport_04_bench_F','Land_Pod_Heli_Transport_04_bench_F',
-		'Land_Pod_Heli_Transport_04_covered_F','O_T_UGV_01_rcws_ghex_F'
+		'Land_Pod_Heli_Transport_04_covered_F'
 	];
 } else {
 	_vParaTypes = [
-		'O_MRAP_02_hmg_F','O_UGV_01_rcws_F','I_UGV_01_rcws_F','O_MRAP_02_gmg_F','O_G_Offroad_01_armed_F','O_G_Offroad_01_armed_F',
+		'O_MRAP_02_hmg_F','O_MRAP_02_gmg_F','O_G_Offroad_01_armed_F','O_G_Offroad_01_armed_F',
 		'I_MRAP_03_gmg_F','I_MRAP_03_hmg_F','Land_Pod_Heli_Transport_04_covered_F','Land_Pod_Heli_Transport_04_bench_F','Land_Pod_Heli_Transport_04_bench_F',
-		'Land_Pod_Heli_Transport_04_covered_F','O_UGV_01_rcws_F','I_UGV_01_rcws_F'
+		'Land_Pod_Heli_Transport_04_covered_F'
 	];
 };
 _vParaType = '';

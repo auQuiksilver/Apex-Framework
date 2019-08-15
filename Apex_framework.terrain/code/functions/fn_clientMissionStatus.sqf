@@ -852,12 +852,13 @@ _client_uiCtrl_earplugs = nil;
 private _ctrl_aps_1_type = 'APS';
 private _ctrl_aps_count = 0;
 private _ctrl_aps_textSize = 0.8;
-private _ctrl_aps_color = [
+private _ctrl_aps_color_default = [
 	(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0]),
 	(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1]),
 	(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1]),
 	(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])
 ];
+private _ctrl_aps_color = _ctrl_aps_color_default;
 _ctrl_aps_1_ctrl = (findDisplay 46) ctrlCreate ['RscStructuredText',30001];
 _ctrl_aps_1_ctrl ctrlSetStructuredText (parseText (format ['<t size="%1">%2</t>',_ctrl_aps_textSize,_ctrl_aps_1_type]));
 _ctrl_aps_1_ctrl ctrlSetTextColor _ctrl_aps_color;
@@ -1536,8 +1537,8 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (
 		(!isNull _objectParent) &&
-		{(player in [driver _objectParent,gunner _objectParent,commander _objectParent])} &&
-		{(!(isTurnedOut player))} &&
+		{(_objectParent isKindOf 'LandVehicle')} &&
+		{(!((assignedVehicleRole player) isEqualTo [])) && {(((assignedVehicleRole player) # 0) in ['driver','Turret'])}} &&
 		{['APS_VEHICLE',_objectParent] call _fn_vehicleAPSParams}
 	) then {
 		if (!(ctrlShown _ctrl_aps_1_ctrl)) then {
@@ -1546,7 +1547,7 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		_ctrl_aps_1_ctrl ctrlSetStructuredText (parseText (format ['<t size="%1">%2</t>',_ctrl_aps_textSize,((_objectParent getVariable ['QS_aps_params',[_true,[0,0,0],-1,30,50,-0.3,20,1,_false,'APS']]) # 9)]));
 		_ctrl_aps_2_ctrl ctrlSetStructuredText (parseText (format ['<t size="%1">%2</t>',_ctrl_aps_textSize,(_objectParent getVariable ['QS_aps_ammo',0])]));
-		_ctrl_aps_color = [[1,0,0,0.8],_ctrl_aps_color] select (((_objectParent getVariable ['QS_aps_ammo',0]) > 0) && (serverTime > (_objectParent getVariable ['QS_aps_reloadDelay',-1])));
+		_ctrl_aps_color = [[1,0,0,0.8],_ctrl_aps_color_default] select (((_objectParent getVariable ['QS_aps_ammo',0]) > 0) && (serverTime > (_objectParent getVariable ['QS_aps_reloadDelay',-1])));
 		_ctrl_aps_1_ctrl ctrlSetTextColor _ctrl_aps_color;
 		_ctrl_aps_2_ctrl ctrlSetTextColor _ctrl_aps_color;
 	} else {

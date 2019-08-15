@@ -182,11 +182,11 @@ if (player getVariable 'QS_client_animCancel') exitWith {
 	player setVariable ['QS_client_animCancel',FALSE,FALSE];
 	50 cutText ['Cancelled','PLAIN DOWN',0.333];
 };
-if (_exit) exitWith {
-	50 cutText ['Revive cancelled','PLAIN DOWN',0.25];
-};
 if (_cancelEnabled) then {
 	player removeAction _action_cancel;
+};
+if (_exit) exitWith {
+	50 cutText ['Revive cancelled','PLAIN DOWN',0.25];
 };
 if (missionNamespace getVariable ['QS_medical_garbage_enabled',FALSE]) then {
 	if (((getPosASL player) select 2) > 0.1) then {

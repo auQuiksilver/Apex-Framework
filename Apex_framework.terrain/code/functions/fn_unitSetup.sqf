@@ -6,21 +6,11 @@ Author:
 
 Last Modified:
 
-	24/06/2019 A3 1.94 by Quiksilver
+	11/08/2019 A3 1.94 by Quiksilver
 	
 Description:
 
 	Setup unit
-	
-Notes:
-
-	- Change primary weapons
-	- Change optics
-	- Change headgear
-	- Remove proxies + hmd + binocular
-	- Remove unnecessary inventory items
-	- Disable stamina
-	- Set collectible
 ______________________________________________________/*/
 
 _unit = _this;
@@ -139,12 +129,14 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		if ((backpack _unit) isEqualTo '') then {
 			_unit addBackpack (selectRandom _backpacks);
 		};
+		[_unit,(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_removeWeapon');
 		[_unit,(selectRandomWeighted _weapons),5] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 		if ((toLower (primaryWeapon _unit)) in ['mmg_01_hex_f']) then {
-			_unit removeWeapon (handgunWeapon _unit);
-		};
-		if (!((handgunWeapon _unit) isEqualTo '')) then {
-			[_unit,(handgunWeapon _unit),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+			[_unit,(handgunWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_removeWeapon');
+		} else {
+			if (!((handgunWeapon _unit) isEqualTo '')) then {
+				[_unit,(handgunWeapon _unit),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+			};
 		};
 		_unit addPrimaryWeaponItem (selectRandom ['optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps','optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f']);
 	};
@@ -276,6 +268,7 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 				'srifle_dmr_01_f',0.1
 			];
 		};
+		[_unit,(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_removeWeapon');
 		[_unit,(selectRandomWeighted _weapons),12] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 		if (!((handgunWeapon _unit) isEqualTo '')) then {
 			[_unit,(handgunWeapon _unit),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
@@ -328,6 +321,7 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 					'arifle_trg21_f',0.1
 				];
 			};
+			[_unit,(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_removeWeapon');
 			[_unit,(selectRandomWeighted _weapons),8] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 			_unit addPrimaryWeaponItem (selectRandom [
 				'optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps',
@@ -378,7 +372,7 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 			];
 		};
 		// Add unconventional hats sometimes
-		if ((random 1) > 0.75) then {
+		if ((random 1) > 0.85) then {
 			_headgear = _headgear + [
 				'h_bandanna_khk',0.1,
 				'h_bandanna_cbr',0.1,

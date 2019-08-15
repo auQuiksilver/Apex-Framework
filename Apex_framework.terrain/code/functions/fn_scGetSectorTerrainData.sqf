@@ -85,7 +85,7 @@ private _overwatch = [];
 private _centerPosASL = AGLToASL _centerPos;
 private _canSuspend = canSuspend;
 for '_x' from 0 to 9 step 1 do {
-	_position = [_centerPos,300,30,10,[[objNull,'VIEW',objNull],_centerPosASL,0.25]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
+	_position = [_centerPos,300,30,10,[[objNull,'VIEW',objNull],0.25]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
 	if (_position isEqualTo _centerPos) exitWith {};
 	_overwatch pushBack _position;
 	if (_canSuspend) then {

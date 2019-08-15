@@ -18,7 +18,7 @@ _weaponExists = isClass (configFile >> 'CfgWeapons' >> _weapon);
 if (_magazineCount > 0) then {
 	if (_magazineClass isEqualType 0) then {
 		_magazines = getArray (configFile >> 'CfgWeapons' >> _weapon >> 'magazines');
-		if (((count _magazines) > 0) && _weaponExists) then {
+		if ((!(_magazines isEqualTo [])) && _weaponExists) then {
 			_magazineClass = _magazines select (_magazineClass min ((count _magazines) - 1));
 		} else {
 			_magazineClass = '';

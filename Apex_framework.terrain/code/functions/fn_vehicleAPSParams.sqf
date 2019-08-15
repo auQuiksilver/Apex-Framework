@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	19/07/2019 A3 1.94 by Quiksilver
+	12/08/2019 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -33,19 +33,17 @@ if ((_this # 0) isEqualType '') exitWith {
 		if (_vehicle isKindOf 'LandVehicle') then {
 			_return = (!(([
 				'mrap_03_base_f',
-				//'mrap_02_base_f',
-				//'mrap_01_base_f',
 				'lt_01_base_f',
-				'apc_wheeled_03_base_f',
-				'apc_wheeled_02_base_f',
 				'apc_wheeled_01_base_f',
+				'apc_wheeled_02_base_f',
+				'apc_wheeled_03_base_f',
 				'afv_wheeled_01_base_f',
 				'apc_tracked_01_base_f',
 				'apc_tracked_02_base_f',
 				'apc_tracked_03_base_f',
+				'mbt_01_base_f',
 				'mbt_02_base_f',
 				'mbt_03_base_f',
-				'mbt_01_base_f',
 				'mbt_04_base_f'
 			] findIf {(_vehicle isKindOf _x)}) isEqualTo -1));
 		} else {
@@ -62,18 +60,13 @@ private _list = [
 	-1,													// QS_aps_maxAmmo		- How much ammo in the magazine
 	30,													// QS_aps_reloadTime	- Reload time
 	50,													// QS_aps_minRange		- Minimum effective range
-	-0.3,												// QS_aps_maxAngle		- Max angle the projectile can be detected at.
+	-0.4,												// QS_aps_maxAngle		- Max angle the projectile can be detected at.
 	20,													// QS_aps_interceptRange	- Intercept range for the projectile
-	1,													// QS_aps_randomChance		- Random chance the system fails
-	FALSE,												// QS_aps_disableBlindspot	- Does the vehicle have a blind spot
+	1,													// QS_aps_randomChance		- Chance that the system works (0-1)
+	FALSE,												// QS_aps_disableBlindspot	- Is the APS blind spot disabled.
 	_designation
 ];
-if (!(([
-	'mrap_03_base_f',
-	//'mrap_02_base_f',
-	//'mrap_01_base_f',
-	'lt_01_base_f'
-] findIf {(_vehicle isKindOf _x)}) isEqualTo -1)) then {
+if (!((['mrap_03_base_f','lt_01_base_f'] findIf {(_vehicle isKindOf _x)}) isEqualTo -1)) then {
 	// Tier 0
 	_list = [
 		TRUE,												// QS_aps_enabled
@@ -81,9 +74,9 @@ if (!(([
 		1,													// QS_aps_maxAmmo
 		30,													// QS_aps_reloadTime
 		50,													// QS_aps_minRange
-		-0.3,												// QS_aps_maxAngle
+		-0.5,												// QS_aps_maxAngle
 		20,													// QS_aps_interceptRange
-		0.75,													// QS_aps_randomChance
+		0.75,												// QS_aps_randomChance
 		FALSE,												// QS_aps_disableBlindspot
 		_designation
 	];
@@ -96,9 +89,9 @@ if (!((['apc_wheeled_03_base_f','apc_wheeled_02_base_f','apc_wheeled_01_base_f',
 		2,													// QS_aps_maxAmmo
 		15,													// QS_aps_reloadTime
 		50,													// QS_aps_minRange
-		-0.4,												// QS_aps_maxAngle
+		-0.5,												// QS_aps_maxAngle
 		20,													// QS_aps_interceptRange
-		0.8,													// QS_aps_randomChance
+		0.8,												// QS_aps_randomChance
 		FALSE,												// QS_aps_disableBlindspot
 		_designation
 	];
@@ -113,7 +106,7 @@ if (!((['apc_tracked_01_base_f','apc_tracked_02_base_f','apc_tracked_03_base_f']
 		50,													// QS_aps_minRange
 		-0.5,												// QS_aps_maxAngle
 		20,													// QS_aps_interceptRange
-		0.85,													// QS_aps_randomChance
+		0.85,												// QS_aps_randomChance
 		FALSE,												// QS_aps_disableBlindspot
 		_designation
 	];
@@ -125,10 +118,10 @@ if (!((['mbt_02_base_f','mbt_03_base_f','mbt_01_base_f'] findIf {(_vehicle isKin
 		(_vehicle selectionPosition 'commander_gun'),		// QS_aps_sensorPos
 		4,													// QS_aps_maxAmmo
 		7.5,												// QS_aps_reloadTime
-		50,													// QS_aps_minRange
+		100,													// QS_aps_minRange
 		-0.6,												// QS_aps_maxAngle
 		25,													// QS_aps_interceptRange
-		0.9,													// QS_aps_randomChance
+		0.9,												// QS_aps_randomChance
 		FALSE,												// QS_aps_disableBlindspot
 		_designation
 	];
@@ -139,9 +132,9 @@ if (!((['mbt_04_base_f'] findIf {(_vehicle isKindOf _x)}) isEqualTo -1)) then {
 		TRUE,												// QS_aps_enabled
 		(_vehicle selectionPosition 'commander_gun'),		// QS_aps_sensorPos
 		8,													// QS_aps_maxAmmo
-		5,													// QS_aps_reloadTime
-		50,													// QS_aps_minRange
-		-0.65,												// QS_aps_maxAngle
+		4,													// QS_aps_reloadTime
+		150,												// QS_aps_minRange
+		-0.7,												// QS_aps_maxAngle
 		25,													// QS_aps_interceptRange
 		0.95,												// QS_aps_randomChance
 		FALSE,												// QS_aps_disableBlindspot

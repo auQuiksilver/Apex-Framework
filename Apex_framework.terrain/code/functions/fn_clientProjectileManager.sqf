@@ -12,11 +12,7 @@ Description:
 
 	Projectile Manager
 	
-Notes:
-
-	- We need algorithm for min distance
-	- We need algorithm for random chance
-	- We need algorithm for reload time
+	{((!(_incoming)) || ((_incoming) && ((lifeState (commander _objectParent)) in ['HEALTHY','INJURED'])))}
 ___________________________________________________/*/
 
 if ((_this # 0) isEqualTo 'HANDLE') exitWith {
@@ -72,18 +68,17 @@ if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,3]) then {
 						{((_objectParent distance _unit) >= _aps_minRange)} &&
 						{(((_begPos vectorFromTo _endPos) # 2) > _aps_maxAngle)} &&
 						{(serverTime > (_objectParent getVariable ['QS_aps_reloadDelay',-1]))} &&
-						{((_aps_disableBlindspot) || (['APS_BLINDSPOT',_objectParent,_projectile] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams')))} &&
-						{((!(_incoming)) || ((_incoming) && ((lifeState (commander _objectParent)) in ['HEALTHY','INJURED'])))}
+						{((_aps_disableBlindspot) || (['APS_BLINDSPOT',_objectParent,_projectile] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams')))}
 					) then {
 						_sensorPos = _objectParent modelToWorldVisualWorld _aps_sensorPos;
 						if (([_objectParent,'VIEW',_projectile] checkVisibility [_begPos,_sensorPos]) > 0.5) then {
 							_interceptPos = (_objectParent worldToModelVisual (getPosATL _projectile)) vectorMultiply 0.5;
-							_charge_1 = (selectRandomWeighted ['SLAMDirectionalMine_Wire_Ammo',0.333,'APERSTripMine_Wire_Ammo',0.333,'ClaymoreDirectionalMine_Remote_Ammo_Scripted',0.333]) createVehicle [0,0,0];
+							_charge_1 = createVehicle [(selectRandomWeighted ['SLAMDirectionalMine_Wire_Ammo',0.333,'APERSTripMine_Wire_Ammo',0.333,'ClaymoreDirectionalMine_Remote_Ammo_Scripted',0.333]),[0,0,0]];
 							_charge_1 setPosATL (_objectParent modelToWorldVisual _interceptPos);
 							_charge_1 setVectorDirAndUp [(_endPos vectorFromTo _begPos),[0,0,1]];
 							_charge_1 setDamage [1,TRUE];
 							if ((random 1) > 0.5) then {
-								_charge_2 = (selectRandomWeighted ['SLAMDirectionalMine_Wire_Ammo',0.4,'APERSTripMine_Wire_Ammo',0.4,'ClaymoreDirectionalMine_Remote_Ammo_Scripted',([0.2,0] select ((damage _objectParent) > 0.5))]) createVehicle [0,0,0];
+								_charge_2 = createVehicle [(selectRandomWeighted ['SLAMDirectionalMine_Wire_Ammo',0.4,'APERSTripMine_Wire_Ammo',0.4,'ClaymoreDirectionalMine_Remote_Ammo_Scripted',([0.2,0] select ((damage _objectParent) > 0.5))]),[0,0,0]];
 								_charge_2 setPosATL (getPosATL _projectile);
 								_charge_2 setVectorDirAndUp [(_begPos vectorFromTo _endPos),[0,0,1]];
 								_charge_2 setDamage [1,TRUE];

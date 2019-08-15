@@ -58,7 +58,7 @@ _playerJetCount = count (allPlayers select {((toLower (typeOf (vehicle _x))) in 
 if (((count allPlayers) < 10) && (_playerJetCount isEqualTo 0)) exitWith {};
 _jetSelect = selectRandomWeighted [
 	'O_Plane_CAS_02_dynamicLoadout_F',0.3,
-	'O_Plane_Fighter_02_F',([0.1,0.2] select (_playerJetCount > 0)),
+	'O_Plane_Fighter_02_F',([0,0.1] select (_playerJetCount > 0)),
 	'O_Plane_Fighter_02_Stealth_F',([0,0.1] select (_playerJetCount > 1)),
 	'I_Plane_Fighter_03_AA_F',0.1,
 	'I_Plane_Fighter_03_dynamicLoadout_F',0.3,
