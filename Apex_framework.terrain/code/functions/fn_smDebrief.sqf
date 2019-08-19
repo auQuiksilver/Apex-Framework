@@ -85,9 +85,15 @@ if (_type isEqualTo 1) then {
 		_rewardPosition = selectRandom _landRewardLocations;
 	};
 	if (_landRewardLocations isEqualTo []) then {
+		for '_x' from 0 to 19 step 1 do {
+			_landRewardLocations pushBack (markerPos 'QS_marker_side_rewards');
+		};
 		_rewardPosition = markerPos 'QS_marker_side_rewards';
 	};
 	if (_shipRewardLocations isEqualTo []) then {
+		for '_x' from 0 to 19 step 1 do {
+			_shipRewardLocations pushBack (markerPos 'QS_marker_side_rewards');
+		};
 		_rewardPosition = markerPos 'QS_marker_side_rewards';
 	};
 	if (_reward isEqualTo 0) then {
@@ -188,7 +194,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 6) then {
 		//comment 'Ifrit GMG';
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Enoch']) then {
 			_rewardType = 'O_T_MRAP_02_gmg_ghex_F';
 		} else {
 			_rewardType = 'O_MRAP_02_gmg_F';
@@ -237,7 +243,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 9) then {
 		//comment 'BTR-K Kamysh';
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Enoch']) then {
 			_rewardType = 'O_T_APC_Tracked_02_cannon_ghex_F';
 		} else {
 			_rewardType = 'O_APC_Tracked_02_cannon_F';
@@ -271,7 +277,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 11) then {
 		//comment 'MSE-3 Marid';
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Enoch']) then {
 			_rewardType = 'O_T_APC_Wheeled_02_rcws_v2_ghex_F';
 		} else {
 			_rewardType = 'O_APC_Wheeled_02_rcws_v2_F';
@@ -388,7 +394,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 14) then {
 		//comment 'HEMTT with Static weapons and increased armor';
-		_rewardType = ['B_Truck_01_transport_F','B_T_Truck_01_transport_F'] select (worldName isEqualTo 'Tanoa');
+		_rewardType = ['B_Truck_01_transport_F','B_T_Truck_01_transport_F'] select (worldName in ['Tanoa','Enoch']);
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
@@ -526,7 +532,7 @@ if (_type isEqualTo 1) then {
 			}
 		];
 		private ['_obj','_bagFenceRoundType','_bagFenceLongType'];
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Enoch']) then {
 			_bagFenceRoundType = 'Land_BagFence_01_round_green_F';
 			_bagFenceLongType = 'Land_BagFence_01_long_green_F';		
 		} else {
@@ -576,7 +582,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 15) then {
 		//comment 'Boat with mortar';
-		if (worldName isEqualTo 'Tanoa') then {
+		if (worldName in ['Tanoa','Enoch']) then {
 			_rewardType = 'B_T_Boat_Transport_01_F';
 		} else {
 			_rewardType = 'B_Boat_Transport_01_F';
@@ -657,7 +663,7 @@ if (_type isEqualTo 1) then {
 	if (_reward isEqualTo 16) then {
 		//comment 'Quadbikes (pair) with autoturret and stronger wheels';
 		for '_x' from 0 to 1 step 1 do {
-			if (worldName isEqualTo 'Tanoa') then {
+			if (worldName in ['Tanoa','Enoch']) then {
 				_rewardType = 'B_T_Quadbike_01_F';
 			} else {
 				_rewardType = 'B_G_Quadbike_01_F';
@@ -965,7 +971,7 @@ if (_type isEqualTo 1) then {
 				_rewardText = 'HEMTT (Praetorian 1C)';
 			};
 		};
-		_rewardVeh = createVehicle [(['B_Truck_01_mover_F','B_T_Truck_01_mover_F'] select (worldName isEqualTo 'Tanoa')),_rewardPosition,[],0,'NONE'];
+		_rewardVeh = createVehicle [(['B_Truck_01_mover_F','B_T_Truck_01_mover_F'] select (worldName in ['Tanoa','Enoch'])),_rewardPosition,[],0,'NONE'];
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		_rewardVeh setVariable ['QS_RD_vehicleRespawnable',FALSE,TRUE];
 		private _attachPoint = [0,0,0];
@@ -983,7 +989,7 @@ if (_type isEqualTo 1) then {
 		_static setVariable ['QS_uav_protected',TRUE,FALSE];
 		{ 
 			_static setObjectTextureGlobal [_forEachIndex,_x]; 
-		} forEach (getArray (configFile >> 'CfgVehicles' >> _rewardType >> 'TextureSources' >> (['Sand','Green'] select (worldName isEqualTo 'Tanoa')) >> 'textures'));
+		} forEach (getArray (configFile >> 'CfgVehicles' >> _rewardType >> 'TextureSources' >> (['Sand','Green'] select (worldName in ['Tanoa','Enoch'])) >> 'textures'));
 		_rewardVeh enableRopeAttach FALSE;
 		_rewardVeh enableVehicleCargo FALSE;
 		_static attachTo [_rewardVeh,_attachPoint];
@@ -1202,7 +1208,7 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 30) then {
 		//comment 'Angara';
-		_rewardType = ['O_MBT_04_cannon_F','O_T_MBT_04_cannon_F'] select (worldName in ['Tanoa','Lingor3']);
+		_rewardType = ['O_MBT_04_cannon_F','O_T_MBT_04_cannon_F'] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
@@ -1219,7 +1225,7 @@ if (_type isEqualTo 1) then {
 		_rewardTypes = [
 			['B_AFV_Wheeled_01_up_cannon_F',0.333,'B_AFV_Wheeled_01_cannon_F',0.666],
 			['B_T_AFV_Wheeled_01_up_cannon_F',0.333,'B_T_AFV_Wheeled_01_cannon_F',0.666]
-		] select (worldName in ['Tanoa','Lingor3']);
+		] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		_rewardType = selectRandomWeighted _rewardTypes;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		missionNamespace setVariable [

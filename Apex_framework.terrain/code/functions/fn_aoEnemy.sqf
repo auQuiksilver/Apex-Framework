@@ -880,7 +880,7 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning HQ Guards *****';
 diag_log '****************************************************';
 
-_randomPos = ['RADIUS',_QS_HQpos,50,'LAND',[],FALSE,[],[0,40,'O_soldier_F'],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+_randomPos = ['RADIUS',_QS_HQpos,50,'LAND',[],FALSE,[],[0,40,'O_soldier_F'],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 _infUrbanType = selectRandomWeighted _infUrbanTypes;
 _hqGroup1 = [_randomPos,(random 360),EAST,_infUrbanType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 [_hqGroup1,_QS_HQpos,70,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');

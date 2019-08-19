@@ -87,28 +87,29 @@ if (_type isEqualTo 'VEHICLES_ADD') exitWith {
 if (_type isEqualTo 'VEHICLES_REMOVE') exitWith {
 	private _entity = objNull;
 	{
-		if (!( (_x # 9) isEqualTo -1 )) then {
-			_entity = _x # 0;
-			_entity addEventHandler [
-				'GetOut',
-				{
-					params ['_vehicle'];
-					if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
-						deleteVehicle _vehicle;
-						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-					};
-				}
-			];
-			if (isSimpleObject _entity) then {
-				deleteVehicle _entity;
-				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-			} else {
-				(missionNamespace getVariable 'QS_garbageCollector') pushBack [_entity,'NOW_DISCREET',0];
+		if (_x isEqualType []) then {
+			if (!( (_x # 9) isEqualTo -1 )) then {
+				_entity = _x # 0;
+				_entity addEventHandler [
+					'GetOut',
+					{
+						params ['_vehicle'];
+						if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {
+							deleteVehicle _vehicle;
+							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
+						};
+					}
+				];
+				if (isSimpleObject _entity) then {
+					deleteVehicle _entity;
+					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
+				} else {
+					(missionNamespace getVariable 'QS_garbageCollector') pushBack [_entity,'NOW_DISCREET',0];
+				};
+				(missionNamespace getVariable 'QS_v_Monitor') set [_forEachIndex,TRUE];
 			};
 		};
-		(missionNamespace getVariable 'QS_v_Monitor') set [_forEachIndex,FALSE];
 	} forEach (missionNamespace getVariable 'QS_v_Monitor');
-};
-if (_type isEqualTo '') then {
-
+	missionNamespace setVariable ['QS_v_Monitor',((missionNamespace getVariable 'QS_v_Monitor') select {(_x isEqualType [])}),FALSE];
+	TRUE;
 };

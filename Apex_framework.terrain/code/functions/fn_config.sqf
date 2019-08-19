@@ -6,14 +6,14 @@ Author:
 	
 Last modified: 
 
-	15/08/2019 A3 1.94 by Quiksilver
+	19/08/2019 A3 1.94 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.7';
+_missionProductVersion = '1.1.8';
 _missionProductStatus = 'Stable';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [

@@ -3013,7 +3013,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				} forEach _HVT_laserTargets;
 			};
-			_HVT_checkDelay = _timeNow + 90;		//DEBUG, set to 90
+			_HVT_checkDelay = _timeNow + 90;
 		};
 	};
 	
@@ -3088,7 +3088,8 @@ for '_x' from 0 to 1 step 0 do {
 													_v setPosASL _vpos;
 												} else {
 													_v setVectorUp (surfaceNormal _vpos);
-													if ((toLower _t) in ['b_truck_01_mover_f','b_truck_01_ammo_f','b_truck_01_box_f','b_truck_01_fuel_f','b_truck_01_medical_f','b_truck_01_repair_f','b_truck_01_transport_f','b_truck_01_covered_f','b_t_truck_01_mover_f','b_t_truck_01_ammo_f','b_t_truck_01_box_f','b_t_truck_01_fuel_f','b_t_truck_01_medical_f','b_t_truck_01_repair_f','b_t_truck_01_transport_f','b_t_truck_01_covered_f','b_truck_01_cargo_f','b_truck_01_flatbed_f']) then {
+													if (_v isKindOf 'truck_01_base_f') then {
+													//if ((toLower _t) in ['b_truck_01_mover_f','b_truck_01_ammo_f','b_truck_01_box_f','b_truck_01_fuel_f','b_truck_01_medical_f','b_truck_01_repair_f','b_truck_01_transport_f','b_truck_01_covered_f','b_t_truck_01_mover_f','b_t_truck_01_ammo_f','b_t_truck_01_box_f','b_t_truck_01_fuel_f','b_t_truck_01_medical_f','b_t_truck_01_repair_f','b_t_truck_01_transport_f','b_t_truck_01_covered_f','b_truck_01_cargo_f','b_truck_01_flatbed_f','b_t_truck_01_cargo_f','b_t_truck_01_flatbed_f']) then {
 														_v setPosASL (AGLToASL [_vpos # 0,_vpos # 1,((_vpos # 2) + 0.7)]);
 													} else {
 														_v setPosASL (AGLToASL _vpos);
@@ -3152,7 +3153,8 @@ for '_x' from 0 to 1 step 0 do {
 															_v setPosASL _vpos;
 														} else {
 															_v setVectorUp (surfaceNormal _vpos);
-															if ((toLower _t) in ['b_truck_01_mover_f','b_truck_01_ammo_f','b_truck_01_box_f','b_truck_01_fuel_f','b_truck_01_medical_f','b_truck_01_repair_f','b_truck_01_transport_f','b_truck_01_covered_f','b_t_truck_01_mover_f','b_t_truck_01_ammo_f','b_t_truck_01_box_f','b_t_truck_01_fuel_f','b_t_truck_01_medical_f','b_t_truck_01_repair_f','b_t_truck_01_transport_f','b_t_truck_01_covered_f','b_truck_01_cargo_f','b_truck_01_flatbed_f']) then {
+															if (_v isKindOf 'truck_01_base_f') then {
+															//if ((toLower _t) in ['b_truck_01_mover_f','b_truck_01_ammo_f','b_truck_01_box_f','b_truck_01_fuel_f','b_truck_01_medical_f','b_truck_01_repair_f','b_truck_01_transport_f','b_truck_01_covered_f','b_t_truck_01_mover_f','b_t_truck_01_ammo_f','b_t_truck_01_box_f','b_t_truck_01_fuel_f','b_t_truck_01_medical_f','b_t_truck_01_repair_f','b_t_truck_01_transport_f','b_t_truck_01_covered_f','b_truck_01_cargo_f','b_truck_01_flatbed_f','b_t_truck_01_cargo_f','b_t_truck_01_flatbed_f']) then {
 																_v setPosASL (AGLToASL [_vpos # 0,_vpos # 1,((_vpos # 2) + 0.7)]);
 															} else {
 																_v setPosASL (AGLToASL _vpos);
@@ -3370,11 +3372,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				sleep 0.01;
 			} forEach (missionNamespace getVariable 'QS_v_Monitor');
-			{
-				if (_x isEqualType _true) then {
-					(missionNamespace getVariable 'QS_v_Monitor') deleteAt _forEachIndex;
-				};
-			} forEach (missionNamespace getVariable 'QS_v_Monitor');
+			missionNamespace setVariable ['QS_v_Monitor',((missionNamespace getVariable 'QS_v_Monitor') select {(_x isEqualType [])}),_false];
 		};
 		_vRespawn_checkDelay = time + _vRespawn_delay;
 	};

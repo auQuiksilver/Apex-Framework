@@ -41,43 +41,41 @@ if (_cfgRadar isEqualTo -2) then {
 	_cfgRadar = getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'radarType');
 	_vehicle setVariable ['QS_vehicle_radarType',_cfgRadar,FALSE];
 };
-//if (_cfgRadar > 0) then {
-	if (!isNil {player getVariable 'QS_incomingMissile_active'}) exitWith {};
-	player setVariable ['QS_incomingMissile_active',TRUE,FALSE];
-	if (!((_vehicle isKindOf 'Air') && (player isEqualTo (driver _vehicle)) && (!((toLower (typeOf _vehicle)) in ['i_c_plane_civil_01_f','c_plane_civil_01_racing_f','c_plane_civil_01_f'])))) then {
-		playSound ['missile_warning_1',FALSE];
-	};
-	if (_vehicle isKindOf 'LandVehicle') then {
-		_soundPath = [(str missionConfigFile), 0, -15] call (missionNamespace getVariable 'BIS_fnc_trimString');
-		_soundToPlay = _soundPath + "media\audio\locking_2.wss";
-		playSound3D [_soundToPlay, _vehicle, FALSE, getPosASL _vehicle, 10, 1, 50];
-	};
-	private _relDir = _vehicle getRelDir _shooter;
-	private _relDirText = '';
-	if ((_relDir > 337.5) || {(_relDir <= 22.5)}) then {
-		_relDirText = '( Front )';
+if (!isNil {player getVariable 'QS_incomingMissile_active'}) exitWith {};
+player setVariable ['QS_incomingMissile_active',TRUE,FALSE];
+if (!((_vehicle isKindOf 'Air') && (player isEqualTo (driver _vehicle)) && (!((toLower (typeOf _vehicle)) in ['i_c_plane_civil_01_f','c_plane_civil_01_racing_f','c_plane_civil_01_f'])))) then {
+	playSound ['missile_warning_1',FALSE];
+};
+if (_vehicle isKindOf 'LandVehicle') then {
+	_soundPath = [(str missionConfigFile), 0, -15] call (missionNamespace getVariable 'BIS_fnc_trimString');
+	_soundToPlay = _soundPath + "media\audio\locking_2.wss";
+	playSound3D [_soundToPlay, _vehicle, FALSE, getPosASL _vehicle, 10, 1, 50];
+};
+private _relDir = _vehicle getRelDir _shooter;
+private _relDirText = '';
+if ((_relDir > 337.5) || {(_relDir <= 22.5)}) then {
+	_relDirText = '( Front )';
+} else {
+	if ((_relDir > 22.5) && (_relDir <= 67.5)) then {
+		_relDirText = '( Front Right )';
 	} else {
-		if ((_relDir > 22.5) && (_relDir <= 67.5)) then {
-			_relDirText = '( Front Right )';
+		if ((_relDir > 67.5) && (_relDir <= 112.5)) then {
+			_relDirText = '( Right )';
 		} else {
-			if ((_relDir > 67.5) && (_relDir <= 112.5)) then {
-				_relDirText = '( Right )';
+			if ((_relDir > 112.5) && (_relDir <= 157.5)) then {
+				_relDirText = '( Rear Right )';
 			} else {
-				if ((_relDir > 112.5) && (_relDir <= 157.5)) then {
-					_relDirText = '( Rear Right )';
+				if ((_relDir > 157.5) && (_relDir <= 202.5)) then {
+					_relDirText = '( Rear )';
 				} else {
-					if ((_relDir > 157.5) && (_relDir <= 202.5)) then {
-						_relDirText = '( Rear )';
+					if ((_relDir > 202.5) && (_relDir <= 247.5)) then {
+						_relDirText = '( Rear Left )';
 					} else {
-						if ((_relDir > 202.5) && (_relDir <= 247.5)) then {
-							_relDirText = '( Rear Left )';
+						if ((_relDir > 247.5) && (_relDir <= 292.5)) then {
+							_relDirText = '( Left )';
 						} else {
-							if ((_relDir > 247.5) && (_relDir <= 292.5)) then {
-								_relDirText = '( Left )';
-							} else {
-								if ((_relDir > 292.5) && (_relDir <= 337.5)) then {
-									_relDirText = '( Front Left )';
-								};
+							if ((_relDir > 292.5) && (_relDir <= 337.5)) then {
+								_relDirText = '( Front Left )';
 							};
 						};
 					};
@@ -85,9 +83,9 @@ if (_cfgRadar isEqualTo -2) then {
 			};
 		};
 	};
-	50 cutText [(format ['Incoming missile! Bearing %1 %2',(round (_vehicle getDir _shooter)),_relDirText]),'PLAIN',0.5];
-	0 spawn {
-		uiSleep 2;
-		player setVariable ['QS_incomingMissile_active',nil,FALSE];
-	};
-//};
+};
+50 cutText [(format ['Incoming missile! Bearing %1 %2',(round (_vehicle getDir _shooter)),_relDirText]),'PLAIN',0.5];
+0 spawn {
+	uiSleep 2;
+	player setVariable ['QS_incomingMissile_active',nil,FALSE];
+};

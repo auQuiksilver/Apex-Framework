@@ -1,5 +1,14 @@
 Official Change Log
 
+1.1.8 (19/08/2019 A3 1.94)
+
+- [ADDED] Sector Control mission type to Livonia.
+- [TWEAKED] Added new Mora variant (Livonia) to enemy vehicle config files.
+- [TWEAKED] (Livonia) Classic mission type: removed Gliniska AO (too close to base).
+- [FIXED] Game-breaking bug with vehicle respawn system.
+- [FIXED] Potentially game-breaking bug which causes AI to sometimes stop spawning.
+- [FIXED] (Again) Side mission rewards were not spawning in some cases.
+
 1.1.7 Hotfix 2 (15/08/2019 A3 1.94)
 
 - [ADDED] AI re-arming.
