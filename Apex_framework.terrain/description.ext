@@ -50,6 +50,7 @@ disableRandomization[] = {};
 disableGateRandomization = 1;
 class CfgUnitTemplates {};
 class CfgVehicleTemplates {};
+arsenalRestrictedItems[] = {};
 unsafeCVL=1;					// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
 class CfgDisabledCommands {
     class CREATEUNIT
@@ -565,6 +566,7 @@ class CfgFunctions {
 			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
 			class eventEachFrame {file = "code\functions\fn_eventEachFrame.sqf";};
+			class eventEachFrame2 {file = "code\functions\fn_eventEachFrame2.sqf";};
 			class eventEntityKilled {file = "code\functions\fn_eventEntityKilled.sqf";};
 			class eventEntityRespawned {file = "code\functions\fn_eventEntityRespawned.sqf";};
 			class eventHandleDisconnect {file = "code\functions\fn_eventHandleDisconnect.sqf";};

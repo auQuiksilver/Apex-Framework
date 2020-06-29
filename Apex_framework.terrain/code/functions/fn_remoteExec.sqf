@@ -1775,4 +1775,10 @@ if (_case < 100) exitWith {
 			};
 		};
 	};
+	if (_case isEqualTo 94) then {
+		params ['','_rxAPSParams'];
+		if (isDedicated) then {
+			_rxAPSParams call (missionNamespace getVariable 'QS_fnc_clientProjectileManager');
+		};
+	};
 };

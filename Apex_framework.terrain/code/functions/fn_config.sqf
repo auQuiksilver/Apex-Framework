@@ -393,7 +393,7 @@ _recyclerUnitTypes = [
 	['QS_terrain_worldArea',[[(worldSize / 2),(worldSize / 2),0],(worldSize / 2),(worldSize / 2),0,TRUE,-1],TRUE],
 	['QS_RSS_enabled',((getMissionConfigValue ['skipLobby',0]) isEqualTo 1),TRUE],
 	['QS_RSS_client_canSideSwitch',(!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)),TRUE],
-	['QS_missionConfig_restartHours',[0,6,12,18],FALSE],
+	['QS_missionConfig_restartHours',(missionNamespace getVariable ['QS_missionConfig_restartHours',[0,6,12,18]]),FALSE],
 	['QS_mission_aoType',(profileNamespace getVariable ['QS_mission_aoType','CLASSIC']),TRUE],
 	['QS_system_realTimeStart',missionStart,TRUE],
 	['QS_carrierObject',objNull,TRUE],
@@ -762,7 +762,8 @@ _recyclerUnitTypes = [
 	['QS_AI_targetsKnowledge_threat_armor_entities',[],FALSE],
 	['QS_AI_targetsKnowledge_threat_air_entities',[],FALSE],
 	['QS_AI_targetsKnowledge_threat_air',0,FALSE],
-	['QS_AI_targetsKnowledge_threat_armor',0,FALSE]
+	['QS_AI_targetsKnowledge_threat_armor',0,FALSE],
+	['QS_projectile_manager',[],FALSE]
 ];
 call (compile (preprocessFileLineNumbers '@Apex_cfg\roles.sqf'));
 ['INIT_SYSTEM'] call (missionNamespace getVariable 'QS_fnc_roles');

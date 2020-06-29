@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/10/2017 A3 1.76 by Quiksilver
+	21/6/2020 A3 1.98 by Quiksilver
 	
 Description:
 
@@ -75,7 +75,9 @@ for '_x' from 0 to 1 step 0 do {
 							'_jobEvalDelay',
 							'_jobEvalCheckDelay',
 							'_jobScript',
-							'_jobType'
+							'_jobType',
+							'_jobTarget',
+							'_jobPosition'
 						];
 						if (_time > _jobTimeout) then {
 							_entity doWatch objNull;

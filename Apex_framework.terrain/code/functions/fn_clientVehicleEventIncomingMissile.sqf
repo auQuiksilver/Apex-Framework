@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	16/07/2019 A3 1.84 by Quiksilver
+	21/06/2020 A3 1.98 by Quiksilver
 
 Description:
 
@@ -32,7 +32,17 @@ if (!isNull _projectile) then {
 	};
 	if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [2,3]) then {
 		if (_vehicle isKindOf 'LandVehicle') then {
-			['HANDLE',['AT',_projectile,_shooter,_shooter,getPosATL (vehicle _shooter),TRUE]] call (missionNamespace getVariable 'QS_fnc_clientProjectileManager');
+			if ((missionNamespace getVariable ['QS_missionConfig_APS_ext',1]) > 0) then {
+				if (!local _shooter) then {
+					if (((vehicle _shooter) isKindOf 'Man') || {((vehicle _shooter) isKindOf 'LandVehicle')} || {((vehicle _shooter) isKindOf 'StaticWeapon')}) then {
+						[94,['HANDLE',['AT',_projectile,_shooter,_shooter,getPosATL (vehicle _shooter),TRUE]]] remoteExecCall ['QS_fnc_remoteExec',_shooter,FALSE];
+					};
+				} else {
+					['HANDLE',['AT',_projectile,_shooter,_shooter,getPosATL (vehicle _shooter),TRUE]] call (missionNamespace getVariable 'QS_fnc_clientProjectileManager');	
+				};
+			} else {
+				['HANDLE',['AT',_projectile,_shooter,_shooter,getPosATL (vehicle _shooter),TRUE]] call (missionNamespace getVariable 'QS_fnc_clientProjectileManager');			
+			};
 		};
 	};
 };
