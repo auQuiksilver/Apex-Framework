@@ -19,21 +19,23 @@ if ((_this # 0) isEqualTo 'HANDLE') exitWith {
 		(missionNamespace getVariable 'QS_projectile_manager') pushBack (_this # 1);
 		if ((missionNamespace getVariable ['QS_projectile_manager_PFH',-1]) isEqualTo -1) then {
 			if (isDedicated) then {
-				missionNamespace setVariable ['QS_projectile_manager_PFH',(addMissionEventHandler ['EachFrame',(missionNamespace getVariable 'QS_fnc_eventEachFrame2')])];
+				missionNamespace setVariable ['QS_projectile_manager_PFH',(addMissionEventHandler ['EachFrame',(missionNamespace getVariable 'QS_fnc_eventEachFrame2')]),FALSE];
 			} else {
-				missionNamespace setVariable ['QS_projectile_manager_PFH',(addMissionEventHandler ['EachFrame',(missionNamespace getVariable 'QS_fnc_clientEventEachFrame')])];
+				missionNamespace setVariable ['QS_projectile_manager_PFH',(addMissionEventHandler ['EachFrame',(missionNamespace getVariable 'QS_fnc_clientEventEachFrame')]),FALSE];
 			};
 		};
 	};
 };
 params ['_type','_projectile','_unit','_vehicle','_firedPosition',['_incoming',FALSE]];
 if (isNull _projectile) exitWith {};
-if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,3]) then {
+if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,2,3]) then {
 	if (_type isEqualTo 'AT') then {
+		diag_log 'APS 0';
 		_begPos = getPosWorldVisual _projectile;
 		_endPos = _projectile modelToWorldVisualWorld [0,25,0];
 		_intersections = lineIntersectsSurfaces [_begPos,_endPos,vehicle _unit,objNull,FALSE,1,'VIEW','GEOM',TRUE];
 		if (!(_intersections isEqualTo [])) then {
+			diag_log 'APS 1';
 			_firstIntersection = _intersections # 0;
 			_firstIntersection params [
 				'',
@@ -42,7 +44,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,3]) then {
 				'_objectParent'
 			];
 			if (
-				(!isNull _objectParent) &&
+				(alive _objectParent) &&
 				{(_objectParent isKindOf 'LandVehicle')}
 			) then {
 				private _apsParams = _objectParent getVariable ['QS_aps_params',-1];
@@ -60,7 +62,24 @@ if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,3]) then {
 					['_aps_randomChance',1],
 					['_aps_disableBlindspot',FALSE]
 				];
+				
+				diag_log 'debug APS 2';
+				diag_log str _apsParams;
+				
 				if (_aps_enabled) then {
+					diag_log (format [
+						'%1 - %2 - %3 - %4 - %5 - %6',
+						(alive (effectiveCommander _objectParent)),
+						((_objectParent getVariable ['QS_aps_ammo',0]) > 0),
+						((_objectParent distance _unit) >= _aps_minRange),
+						(((_begPos vectorFromTo _endPos) # 2) > _aps_maxAngle),
+						(serverTime > (_objectParent getVariable ['QS_aps_reloadDelay',-1])),
+						(['APS_BLINDSPOT',_objectParent,_projectile] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams'))
+					]);
+			
+
+				
+				
 					if (
 						(alive (effectiveCommander _objectParent)) &&
 						{(isNull (isVehicleCargo _objectParent))} &&
@@ -72,8 +91,14 @@ if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,3]) then {
 						{(serverTime > (_objectParent getVariable ['QS_aps_reloadDelay',-1]))} &&
 						{((_aps_disableBlindspot) || (['APS_BLINDSPOT',_objectParent,_projectile] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams')))}
 					) then {
+					
+						diag_log 'debug APS 3';
+					
 						_sensorPos = _objectParent modelToWorldVisualWorld _aps_sensorPos;
 						if (([_objectParent,'VIEW',_projectile] checkVisibility [_begPos,_sensorPos]) > 0.5) then {
+							
+							diag_log 'debug APS 4';
+						
 							_interceptPos = (_objectParent worldToModelVisual (getPosATLVisual _projectile)) vectorMultiply 0.5;
 							_charge_1 = createVehicle [(selectRandomWeighted ['SLAMDirectionalMine_Wire_Ammo',0.333,'APERSTripMine_Wire_Ammo',0.333,'ClaymoreDirectionalMine_Remote_Ammo_Scripted',0.333]),[0,0,0]];
 							_charge_1 setPosATL (_objectParent modelToWorldVisual _interceptPos);

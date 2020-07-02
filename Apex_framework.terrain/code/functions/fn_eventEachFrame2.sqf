@@ -15,7 +15,7 @@ __________________________________________________/*/
 
 if ((missionNamespace getVariable ['QS_projectile_manager',[]]) isEqualTo []) then {
 	removeMissionEventHandler ['EachFrame',_thisEventHandler];
-	uiNamespace setVariable ['QS_projectile_manager_PFH',-1];
+	missionNamespace setVariable ['QS_projectile_manager_PFH',-1,FALSE];
 } else {
 	{
 		if (!isNull (_x # 1)) then {

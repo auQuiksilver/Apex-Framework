@@ -763,7 +763,8 @@ _recyclerUnitTypes = [
 	['QS_AI_targetsKnowledge_threat_air_entities',[],FALSE],
 	['QS_AI_targetsKnowledge_threat_air',0,FALSE],
 	['QS_AI_targetsKnowledge_threat_armor',0,FALSE],
-	['QS_projectile_manager',[],FALSE]
+	['QS_projectile_manager',[],FALSE],
+	['QS_projectile_manager_PFH',-1,FALSE]
 ];
 call (compile (preprocessFileLineNumbers '@Apex_cfg\roles.sqf'));
 ['INIT_SYSTEM'] call (missionNamespace getVariable 'QS_fnc_roles');
