@@ -118,11 +118,11 @@ if (_type isEqualTo 1) then {
 		_group setCombatMode 'RED';
 		{
 			if (!isPlayer _x) then {
-				if (alive (assignedTarget _x)) then {
+				if (alive (getAttackTarget _x)) then {
 					if (local _x) then {
-						_x doSuppressiveFire (aimPos (assignedTarget _x));
+						_x doSuppressiveFire (aimPos (getAttackTarget _x));
 					} else {
-						['doSuppressiveFire',_x,(aimPos (assignedTarget _x))] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
+						['doSuppressiveFire',_x,(aimPos (getAttackTarget _x))] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
 					};
 				};
 			};

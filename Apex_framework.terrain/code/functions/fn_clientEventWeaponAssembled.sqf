@@ -28,11 +28,8 @@ params ['_player','_weapon'];
 				_weapon setVariable ['QS_ropeAttached',FALSE,TRUE];
 				_weapon enableVehicleCargo TRUE;
 				if (_weapon isKindOf 'StaticWeapon') then {
-					player setVariable [
-						'QS_client_assembledWeapons',
-						((player getVariable 'QS_client_assembledWeapons') + [_weapon]),
-						FALSE
-					];
+					_weapon disableTIEquipment TRUE;
+					player setVariable ['QS_client_assembledWeapons',((player getVariable 'QS_client_assembledWeapons') + [_weapon]),FALSE];
 				};
 				if (_weapon isKindOf 'StaticMortar') then {
 					private _array = [];
@@ -70,11 +67,7 @@ params ['_player','_weapon'];
 							(group (driver _this)) setVariable ['QS_HComm_grp',FALSE,TRUE];
 						};
 					};
-					player setVariable [
-						'QS_client_assembledWeapons',
-						((player getVariable 'QS_client_assembledWeapons') + [_weapon]),
-						FALSE
-					];
+					player setVariable ['QS_client_assembledWeapons',((player getVariable 'QS_client_assembledWeapons') + [_weapon]),FALSE];
 				};
 			};
 		};

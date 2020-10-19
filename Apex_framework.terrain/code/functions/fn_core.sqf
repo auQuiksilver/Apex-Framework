@@ -134,7 +134,9 @@ if ((_QS_ext_date callExtension '') isEqualTo '') then {
 } else {
 	_QS_missionStart = parseSimpleArray (_QS_ext_date callExtension '');
 };
+_QS_missionStart = systemTime;
 _QS_system_weekday = toLower ([_QS_missionStart,'SHORT'] call (missionNamespace getVariable 'QS_fnc_getWeekday'));
+
 _aoStartDelay = 60;
 _sentencesEnabled = FALSE;
 enableSentences _sentencesEnabled;
@@ -1156,18 +1158,20 @@ _QS_module_emergentTask_maxType = 3;
 _QS_module_emergentTask_countType = 0;
 _QS_module_emergentTasks_medevac = TRUE;
 /*/===== Restart scheduler/*/
-_QS_module_restart = ((!((missionNamespace getVariable ['QS_missionConfig_restartHours',[]]) isEqualTo [])) && (!((_QS_productVersion # 6) isEqualTo 'Linux')));
+
+//systemTime
+//[year, month, day, hour, minute, second, millisecond]
+//[2020,8,12,7,13,29,140]
+
+
+//missionStart
+//[year, month, day, hour, minute, second]
+
+_QS_module_restart = (!((missionNamespace getVariable ['QS_missionConfig_restartHours',[]]) isEqualTo []));
 missionNamespace setVariable ['QS_debugCanRestart',TRUE,FALSE];
 _QS_module_restart_isRestarting = FALSE;
 if (_QS_module_restart) then {
-	_QS_module_restart_realTimeStart = '';
-	_QS_module_restart_realTimeStart = _QS_ext_date callExtension '';
-	if (_QS_module_restart_realTimeStart isEqualTo '') then {
-		diag_log format ['***** RESTART SCHEDULE * Extension failed!!! %1 *****',_QS_module_restart_realTimeStart];	 
-		_QS_module_restart = FALSE;
-		breakTo '0';
-	};
-	_QS_module_restart_realTimeStart = parseSimpleArray _QS_module_restart_realTimeStart;
+	_QS_module_restart_realTimeStart = systemTime;
 	missionNamespace setVariable ['QS_system_realTimeStart',_QS_module_restart_realTimeStart,TRUE];
 	diag_log format ['***** RESTART SCHEDULE * %1 *****',_QS_module_restart_realTimeStart];	
 	_QS_module_restart_realTimeStart = (_QS_module_restart_realTimeStart select [2,3]);
@@ -1702,8 +1706,12 @@ for '_x' from 0 to 1 step 0 do {
 						if (!((missionNamespace getVariable ['QS_entities_ao_customEntities',[]]) isEqualTo [])) then {
 							{
 								if (!isNull _x) then {
-									deleteVehicle _x;
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+									if (isSimpleObject _x) then {
+										(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
+									} else {
+										deleteVehicle _x;
+										missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+									};
 								};
 							} forEach (missionNamespace getVariable ['QS_entities_ao_customEntities',[]]);
 							missionNamespace setVariable ['QS_entities_ao_customEntities',[],_false];
@@ -1712,7 +1720,6 @@ for '_x' from 0 to 1 step 0 do {
 							{
 								if (!isNull _x) then {
 									(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								};
 							} forEach (missionNamespace getVariable ['QS_entities_ao_customStructures',[]]);
 							missionNamespace setVariable ['QS_entities_ao_customStructures',[],_false];
@@ -2165,8 +2172,12 @@ for '_x' from 0 to 1 step 0 do {
 							if (!((missionNamespace getVariable ['QS_entities_ao_customEntities',[]]) isEqualTo [])) then {
 								{
 									if (!isNull _x) then {
-										deleteVehicle _x;
-										missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+										if (isSimpleObject _x) then {
+											(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
+										} else {
+											deleteVehicle _x;
+											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+										};
 									};
 								} forEach (missionNamespace getVariable ['QS_entities_ao_customEntities',[]]);
 								missionNamespace setVariable ['QS_entities_ao_customEntities',[],_false];
@@ -2334,8 +2345,12 @@ for '_x' from 0 to 1 step 0 do {
 								if (!((missionNamespace getVariable ['QS_entities_ao_customEntities',[]]) isEqualTo [])) then {
 									{
 										if (!isNull _x) then {
-											deleteVehicle _x;
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+											if (isSimpleObject _x) then {
+												(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
+											} else {
+												deleteVehicle _x;
+												missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+											};
 										};
 									} forEach (missionNamespace getVariable ['QS_entities_ao_customEntities',[]]);
 									missionNamespace setVariable ['QS_entities_ao_customEntities',[],_false];
@@ -2344,7 +2359,6 @@ for '_x' from 0 to 1 step 0 do {
 									{
 										if (!isNull _x) then {
 											(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 										};
 									} forEach (missionNamespace getVariable ['QS_entities_ao_customStructures',[]]);
 									missionNamespace setVariable ['QS_entities_ao_customStructures',[],_false];
@@ -4496,8 +4510,8 @@ for '_x' from 0 to 1 step 0 do {
 								};
 							};
 						};
-						if (!isNull (assignedTarget _unit)) then {
-							_QS_aiAssignedTarget = assignedTarget _unit;
+						if (!isNull (getAttackTarget _unit)) then {
+							_QS_aiAssignedTarget = getAttackTarget _unit;
 							if (alive _QS_aiAssignedTarget) then {
 								if (_QS_aiAssignedTarget isKindOf 'Man') then {
 									if (isPlayer _QS_aiAssignedTarget) then {
@@ -5309,11 +5323,11 @@ for '_x' from 0 to 1 step 0 do {
 	};
 
 	/*/===== Restart scheduler/*/
-
+	
 	if (_QS_module_restart) then {
 		if (_timeNow > _QS_module_restart_checkDelay) then {
 			if (!(_QS_module_restart_isRestarting)) then {
-				_QS_module_restart_realTimeNow = parseSimpleArray (_QS_ext_date callExtension '');
+				_QS_module_restart_realTimeNow = systemTime; //parseSimpleArray (_QS_ext_date callExtension '');
 				_QS_module_restart_hourCurrent = _QS_module_restart_realTimeNow # 3;
 				if (_QS_module_restart_hour < _QS_module_restart_hourCurrent) then {
 					_estimatedTimeLeft = (24 - _QS_module_restart_hourCurrent) + _QS_module_restart_hour - ((_QS_module_restart_realTimeNow # 4) / 60);

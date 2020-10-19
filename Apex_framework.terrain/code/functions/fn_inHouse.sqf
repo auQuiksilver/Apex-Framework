@@ -15,6 +15,9 @@ _______________________________________________/*/
 
 params ['_entity','_posworld'];
 _intersections = lineIntersectsSurfaces [_posworld,(_posworld vectorAdd [0,0,25]),_entity,objNull,TRUE,1,'GEOM','NONE',TRUE];
+if (_intersections isEqualTo []) then {
+	_intersections = lineIntersectsSurfaces [_posworld,(_posworld vectorAdd [0,0,-25]),_entity,objNull,TRUE,1,'GEOM','NONE',TRUE];
+};
 if (_intersections isEqualTo []) exitWith {
 	[FALSE,objNull]
 };

@@ -1,4 +1,4 @@
-QS_fnc_serverObjectsGrabber = {
+_QS_fnc_serverObjectsGrabber = {
 	params ['_anchorPos','_anchorDim','_grabOrientation'];
 	private ['_type','_objs','_br','_tab','_outputText','_allDynamic','_sim','_objPos','_dX','_dY','_z','_azimuth','_orientation','_outputArray','_simulated'];
 	_objs = nearestObjects [_anchorPos,['All'],_anchorDim,TRUE];
@@ -45,4 +45,4 @@ QS_fnc_serverObjectsGrabber = {
 	systemChat 'done';
 	_outputText;
 };
-[(position player),75,FALSE] call QS_fnc_serverObjectsGrabber;
+[(position player),75,FALSE] call _QS_fnc_serverObjectsGrabber;

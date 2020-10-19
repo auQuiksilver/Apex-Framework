@@ -385,14 +385,18 @@ diag_log '***** AO ENEMY ***** Spawning static weapons *****';
 diag_log '****************************************************';
 for '_x' from 0 to 49 step 1 do {
 	_randomPos = ['RADIUS',_centerPos,(_aoSize * 0.85),'LAND',[5,0,0.3,5,0,FALSE,objNull],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+	if (
+		(((missionNamespace getVariable 'QS_registeredPositions') findIf {((_randomPos distance2D _x) < 50)}) isEqualTo -1) && 
+		((((_randomPos select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo [])
+	) exitWith {};
 };
 _list = [
 	["Land_Mil_WallBig_4m_F",[-0.354004,-0.0078125,11.045],0,270.632],
 	["Land_Mil_WallBig_4m_F",[-0.0952148,0.0634766,11.082],0,0],
-	["I_E_HMG_01_high_F",[-2.18506,-2.04688,10.4124],0,234.27],
-	["I_E_HMG_01_high_F",[-1.84229,2.15332,10.4124],0,309.028],
-	["I_E_HMG_01_high_F",[2.16064,1.62402,10.4124],0,42.212],
-	["I_E_HMG_01_high_F",[1.96973,-2.24854,10.4124],0,139.225]
+	["I_E_HMG_02_high_F",[-2.18506,-2.04688,10.4124],0,234.27],
+	["I_E_HMG_02_high_F",[-1.84229,2.15332,10.4124],0,309.028],
+	["I_E_HMG_02_high_F",[2.16064,1.62402,10.4124],0,42.212],
+	["I_E_HMG_02_high_F",[1.96973,-2.24854,10.4124],0,139.225]
 ];
 _tower = createVehicle ['CargoPlaftorm_01_green_F',[0,0,0]];
 _tower setPosASL _randomPos;
@@ -493,75 +497,6 @@ _towerGrp = createGroup [EAST,TRUE];
 _towerGrp setCombatMode 'RED';
 _towerGrp setBehaviourStrong 'COMBAT';
 _towerGrp enableAttack TRUE;
-
-/*/
-private _staticUnits = [];
-_staticGroup = createGroup [RESISTANCE,TRUE];
-for '_x' from 0 to 2 do {
-	private _watchPos = selectRandom [(AGLToASL _centerPos),(AGLToASL _QS_HQpos)];
-	_randomPos = [_watchPos,(_aoSize * 0.5),10,10,[[objNull,'VIEW'],(0.1 max (random 1))]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
-	_staticType = selectRandom _staticTypes;
-	_static = createVehicle [_staticType,_randomPos,[],0,'NONE'];
-	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
-	_static setVectorUp (surfaceNormal _randomPos);
-	_static setVelocity [0,0,0];
-	if (_playerCount < 30) then {
-		[_static] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
-	} else {
-		if ((random 1) > 0.666) then {
-			[_static] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
-		};
-	};
-	_unit1 = _staticGroup createUnit [_mortGunnerType,_randomPos,[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
-	_unit1 = _unit1 call (missionNamespace getVariable 'QS_fnc_unitSetup');
-	_unit1 assignAsGunner _static; 
-	_unit1 moveInGunner _static;
-	_staticUnits pushBack _unit1;
-	_unit1 setVariable ['QS_staticGunnerVehicle',_static,FALSE];
-	_unit1 addEventHandler [
-		'Killed',
-		{
-			_killed = _this select 0;
-			if (!isNull _killed) then {
-				if (!isNull (_killed getVariable 'QS_staticGunnerVehicle')) then {
-					(_killed getVariable 'QS_staticGunnerVehicle') setDamage 1;
-				};
-			};
-		}
-	];
-	_static addEventHandler [
-		'GetOut',
-		{
-			(_this select 2) setDamage 1;
-			(_this select 0) setDamage 1;
-		}
-	];
-	_staticGroup setBehaviour 'AWARE';
-	_staticGroup setCombatMode 'RED';
-	_dirToCenter = _randomPos getDir _watchPos;
-	_static setDir _dirToCenter;
-	_staticGroup setFormDir _dirToCenter;
-	_unit1 doWatch (ASLToAGL _watchPos);
-	_static lock 3;
-	for '_x' from 0 to 2 step 1 do {
-		_static setVectorUp [0,0,1];
-	};
-	[(units _staticGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	{
-		0 = _enemiesArray pushBack _x;
-	} count (units _staticGroup);
-	0 = _enemiesArray pushBack _static;
-};
-_staticGroup2 = createGroup [RESISTANCE,TRUE];
-{
-	[_x] joinSilent _staticGroup2;
-} count _staticUnits;
-/*/
 
 /*/=============================================================== INFANTRY OVERWATCH/*/
 

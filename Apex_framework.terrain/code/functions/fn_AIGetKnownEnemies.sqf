@@ -417,7 +417,7 @@ if (_type isEqualTo 11) exitWith {
 			if (alive _vehicle) then {
 				if (_vehicle isKindOf 'CAManBase') then {
 					if ((_x # 7) > 2) then {
-						if ((_vehicle distance2D (nearestBuilding _vehicle)) < 25) then {
+						if (((_vehicle distance2D (nearestBuilding _vehicle)) < 25) || ((random 1) > 0.666)) then {
 							([_vehicle,(getPosWorld _vehicle)] call _fn_inHouse) params ['_inHouse','_house'];
 							if (_inHouse) then {
 								_return pushBackUnique _house;

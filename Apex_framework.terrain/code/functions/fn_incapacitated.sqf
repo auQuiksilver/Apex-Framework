@@ -527,7 +527,7 @@ for '_x' from 0 to 1 step 0 do {
 			(_d49 displayCtrl 122) ctrlSetText 'Field Manual';
 			(_d49 displayCtrl 104) ctrlEnable FALSE;
 			(_d49 displayCtrl 104) ctrlSetText (['Abort','Exit'] select _roleSelectionSystem);
-			(_d49 displayCtrl 104) ctrlSetTooltip (['Abort to role assignment (lobby).','Leave server.'] select _roleSelectionSystem);
+			(_d49 displayCtrl 104) ctrlSetTooltip (['Abort to lobby.','Leave server.'] select _roleSelectionSystem);
 			(_d49 displayCtrl 523) ctrlSetText (format ['%1',_profileName]);
 			(_d49 displayCtrl 109) ctrlSetText (format ['%1',_playerClassDName]);
 		};

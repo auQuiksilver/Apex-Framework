@@ -1830,7 +1830,7 @@ for '_x' from 0 to 1 step 0 do {
 											if ((vehicle _x) isKindOf 'Plane') then {
 												if (_x isEqualTo (driver (vehicle _x))) then {
 													(group (driver _QS_module_enemyCas_plane)) reveal [(vehicle _x),4];
-													if (isNull (assignedTarget _QS_module_enemyCas_plane)) then {
+													if (isNull (getAttackTarget (driver _QS_module_enemyCas_plane))) then {
 														(driver _QS_module_enemyCas_plane) doTarget (vehicle _x);
 													};
 												};
@@ -1883,9 +1883,6 @@ for '_x' from 0 to 1 step 0 do {
 			if (!((missionNamespace getVariable ['QS_AI_fireMissions',[]]) isEqualTo [])) then {
 				missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') select {(_QS_uiTime < (_x # 2))}),_false];
 			};
-			
-			//(missionNamespace getVariable ['QS_AI_fireMissions',[]]) pushBack [_firePosition,50,(diag_tickTime + 60)];
-			
 			_QS_module_supportProvision_checkDelay = diag_tickTime + _QS_module_supportProvision_delay;
 		};
 	};

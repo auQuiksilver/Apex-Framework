@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/01/2019 A3 1.88 by Quiksilver
+	15/10/2020 A3 2.00 by Quiksilver
 	
 Description:
 
@@ -30,6 +30,7 @@ Notes:
 _______________________________________________________/*/
 
 //=========================================== GET PLAYER ROLE
+
 params [
 	['_side',WEST],
 	['_role','rifleman']
@@ -50,7 +51,7 @@ _weaponsAll = [
 	'arifle_mxm_f','mmg_01_hex_f','mmg_01_tan_f','hgun_pdw2000_f','smg_05_f','srifle_dmr_01_f','arifle_sdar_f','arifle_spar_01_blk_f','arifle_spar_01_khk_f','arifle_spar_01_snd_f',
 	'arifle_spar_01_gl_blk_f','arifle_spar_01_gl_khk_f','arifle_spar_01_gl_snd_f','arifle_spar_02_blk_f','arifle_spar_02_khk_f','arifle_spar_02_snd_f','arifle_spar_03_blk_f','arifle_spar_03_khk_f',
 	'arifle_spar_03_snd_f','mmg_02_black_f','mmg_02_camo_f','mmg_02_sand_f','smg_02_f','arifle_trg20_f','arifle_trg21_f','arifle_trg21_gl_f','arifle_arx_blk_f','arifle_arx_hex_f','smg_01_f',
-	'lmg_zafir_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f',	
+	'lmg_zafir_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f','hgun_p07_blk_f',
 	'smg_03_black','smg_03_camo','smg_03_hex','smg_03_khaki','smg_03_tr_black','smg_03_tr_camo','smg_03_tr_hex','smg_03_tr_khaki',
 	'smg_03c_black','smg_03c_camo','smg_03c_hex','smg_03c_khaki','smg_03c_tr_black','smg_03c_tr_camo','smg_03c_tr_hex','smg_03c_tr_khaki',
 	'hgun_rook40_f','hgun_pistol_signal_f','binocular','laserdesignator_02_ghex_f','laserdesignator_02','laserdesignator_01_khk_f','laserdesignator_03','laserdesignator','rangefinder',
@@ -158,7 +159,7 @@ _weaponsLauncherHAT = [
 ];
 // pistols / handguns
 _weaponsHandgun = [
-	'hgun_pistol_heavy_02_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f','hgun_rook40_f','hgun_pistol_signal_f','arifle_sdar_f','hgun_pistol_heavy_01_green_f'
+	'hgun_pistol_heavy_02_f','hgun_pistol_heavy_01_f','hgun_acpc2_f','hgun_p07_khk_f','hgun_p07_f','hgun_pistol_01_f','hgun_rook40_f','hgun_pistol_signal_f','arifle_sdar_f','hgun_pistol_heavy_01_green_f','hgun_p07_blk_f'
 ];
 // submachine guns
 _weaponsSMG = [
@@ -198,7 +199,7 @@ _uniformsAll = [
 	'u_i_e_cbrn_suit_01_eaf_f','u_i_e_uniform_01_officer_f','u_i_e_uniform_01_shortsleeve_f','u_i_e_uniform_01_tanktop_f','u_b_combatuniform_mcam_wdl_f','u_b_combatuniform_tshirt_mcam_wdl_f',
 	'u_i_e_uniform_01_f','u_c_uniform_farmer_01_f','u_o_r_gorka_01_f','u_o_r_gorka_01_brown_f','u_o_r_gorka_01_camo_f','u_i_e_uniform_01_coveralls_f','u_i_l_uniform_01_camo_f','u_i_l_uniform_01_deserter_f',
 	'u_c_e_looterjacket_01_f','u_i_l_uniform_01_tshirt_black_f','u_i_l_uniform_01_tshirt_olive_f','u_i_l_uniform_01_tshirt_skull_f','u_i_l_uniform_01_tshirt_sport_f','u_c_uniform_scientist_01_formal_f',
-	'u_c_uniform_scientist_01_f','u_c_uniform_scientist_02_f','u_c_uniform_scientist_02_formal_f','u_o_r_gorka_01_black_f'
+	'u_c_uniform_scientist_01_f','u_c_uniform_scientist_02_f','u_c_uniform_scientist_02_formal_f','u_o_r_gorka_01_black_f','u_b_ctrg_soldier_arid_f','u_b_ctrg_soldier_3_arid_f','u_b_ctrg_soldier_2_arid_f'
 ];
 // basic uniforms
 _uniformsBasic = [
@@ -233,7 +234,7 @@ _headgearBasic = [
 	'h_helmetb_ti_tna_f','h_strawhat','h_strawhat_dark','h_wirelessearpiece_f',
 	'h_tank_black_f','h_helmethbk_headset_f','h_helmethbk_chops_f','h_helmethbk_ear_f','h_helmethbk_f','h_helmetaggressor_f','h_helmetaggressor_cover_f','h_helmetaggressor_cover_taiga_f',
 	'h_beret_eaf_01_f','h_booniehat_mgrn','h_booniehat_taiga','h_booniehat_wdl','h_booniehat_eaf','h_helmetb_plain_wdl','h_tank_eaf_f','h_helmetcrew_i_e','h_helmetspecb_wdl',
-	'h_crewhelmetheli_i_e','h_pilothelmetheli_i_e','h_helmetb_light_wdl','h_milcap_grn','h_milcap_taiga','h_milcap_wdl','h_milcap_eaf','h_pilothelmetfighter_i_e','h_hat_tinfoil_f'
+	'h_crewhelmetheli_i_e','h_pilothelmetheli_i_e','h_helmetb_light_wdl','h_milcap_grn','h_milcap_taiga','h_milcap_wdl','h_milcap_eaf','h_pilothelmetfighter_i_e','h_hat_tinfoil_f','h_helmetb_ti_arid_f'
 ];
 // thermal helmets
 _headgearThermal = [
@@ -282,7 +283,9 @@ _backpacksBasic = [
 	'b_viperharness_oli_f','b_viperlightharness_blk_f','b_viperlightharness_ghex_f','b_viperlightharness_hex_f','b_viperlightharness_khk_f','b_viperlightharness_oli_f',
 	'b_mortar_01_weapon_grn_f',
 	'b_assaultpack_eaf_f','b_assaultpack_wdl_f','b_fieldpack_green_f','b_fieldpack_taiga_f','b_combinationunitrespirator_01_f',
-	'b_scba_01_f'
+	'b_scba_01_f','b_w_static_designator_01_weapon_f',
+	//'b_g_hmg_02_high_weapon_f','b_g_hmg_02_support_f','b_g_hmg_02_support_high_f','b_g_hmg_02_weapon_f'	// these are not arsenal compatible yet (Arma 2.00)
+	'i_c_hmg_02_support_f','i_c_hmg_02_weapon_f','i_c_hmg_02_high_weapon_f','i_c_hmg_02_support_high_f'
 ];
 // Large backpacks
 _backpacksLarge = [
@@ -290,14 +293,16 @@ _backpacksLarge = [
 	'b_carryall_cbr','b_carryall_ghex_f','b_carryall_ocamo','b_carryall_khk','b_carryall_mcamo','b_carryall_oli','b_carryall_oucamo',
 	'b_carryall_eaf_f','b_carryall_green_f','b_carryall_taiga_f','b_carryall_wdl_f'
 ];
-// backpacks which can be assembled into static turrets (tripods + weapon)
+// NATO backpacks which can be assembled into static turrets (tripods + weapon)
 _backpacksStatic = [
 	'b_hmg_01_high_weapon_f','b_hmg_01_weapon_f','b_gmg_01_high_weapon_f','b_gmg_01_weapon_f',
 	'b_mortar_01_support_f','b_mortar_01_weapon_f',
 	'b_hmg_01_support_high_f','b_hmg_01_support_f',
-	'b_static_designator_01_weapon_f',
+	'b_static_designator_01_weapon_f','b_w_static_designator_01_weapon_f',
 	'b_aa_01_weapon_f','b_at_01_weapon_f',
-	'b_mortar_01_weapon_grn_f'
+	'b_mortar_01_weapon_grn_f',
+	//'b_g_hmg_02_high_weapon_f','b_g_hmg_02_support_f','b_g_hmg_02_support_high_f','b_g_hmg_02_weapon_f'	// these are not arsenal compatible yet (Arma 2.00)
+	'i_c_hmg_02_support_f','i_c_hmg_02_weapon_f','i_c_hmg_02_high_weapon_f','i_c_hmg_02_support_high_f'
 ];
 // UAV backpacks
 _backpacksUAV = [

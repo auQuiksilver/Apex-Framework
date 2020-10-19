@@ -135,12 +135,16 @@ if (_type isEqualTo 0) exitWith {
 	_spawnPosition set [2,0];
 	if (_isVehicle) then {
 		for '_x' from 0 to 1 step 1 do {
-			_grp = createGroup [EAST,TRUE];
 			_vehicle = createVehicle [(selectRandomWeighted _vehicleTypes),_spawnPosition,[],50,'NONE'];
 			_vehicle setDir (random 360);
 			_vehicle setVehiclePosition [(AGLToASL _spawnPosition),[],0,'NONE'];
-			createVehicleCrew _vehicle;
-			(crew _vehicle) joinSilent _grp;
+			_grp = createVehicleCrew _vehicle;
+			if (!((side _grp) in [EAST,RESISTANCE])) then {
+				_grp = createGroup [EAST,TRUE];
+				{
+					[_x] joinSilent _grp;
+				} forEach (crew _vehicle);
+			};
 			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
 			clearMagazineCargoGlobal _vehicle;
 			clearWeaponCargoGlobal _vehicle;
@@ -172,44 +176,8 @@ if (_type isEqualTo 0) exitWith {
 				_return pushBack _x;
 				_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			} forEach (units _grp);
-			/*/
-			if (_knowsAbout > 2.75) then {
-				_grp reveal [_targetVehicle,_knowsAbout];
-				{
-					_x reveal [_targetVehicle,_knowsAbout];
-				} forEach (units _grp);
-				_grp setFormDir (_vehicle getDir _targetPosition);
-				doStop (driver _vehicle);
-				(driver _vehicle) doMove (_targetPosition getPos [(random 150),(random 360)]);
-			};
-			/*/
 		};
 	} else {
-		
-		
-		/*/
-		_vehicle = createVehicle [
-			(selectRandom ([['o_truck_02_transport_f','o_truck_02_covered_f'],['o_t_truck_03_transport_ghex_f','o_t_truck_03_covered_ghex_f']] select (worldName in ['Tanoa','Lingor3']))),
-			_spawnPosition,
-			[],
-			50,
-			'NONE'
-		];
-		_vehicle setDir (random 360);
-		_vehicle setVehiclePosition [(AGLToASL _spawnPosition),[],0,'NONE'];
-		_vehicle setVehicleTIPars [1,1,1];
-		_vehicle lock 2;
-		_vehicle lockDriver TRUE;
-		_vehicle enableRopeAttach FALSE;
-		_vehicle enableVehicleCargo FALSE;
-		clearMagazineCargoGlobal _vehicle;
-		clearWeaponCargoGlobal _vehicle;
-		clearBackpackCargoGlobal _vehicle;
-		_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
-		_return pushBack _vehicle;
-		/*/
-		
-		
 		_grpSize = [2,4] select (_nearbyCount > 4);
 		for '_x' from 0 to 1 step 1 do {
 			_grp = createGroup [EAST,TRUE];

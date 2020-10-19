@@ -17,25 +17,25 @@ _____________________________________________________________*/
 	'_vehicle',
 	'_value'
 ];
-_vt = typeOf _vehicle;
+_vt = toLower (typeOf _vehicle);
 _animateDoor = [
-	'B_Heli_Transport_01_F','B_Heli_Transport_01_camo_F','O_Heli_Attack_02_F','O_Heli_Attack_02_black_F',
-	'B_Heli_Transport_03_F','B_Heli_Transport_03_unarmed_F','B_Heli_Transport_03_unarmed_green_F','I_Heli_Transport_02_F','C_IDAP_Heli_Transport_02_F',
-	'O_Heli_Transport_04_ammo_black_F','O_Heli_Transport_04_ammo_F','O_Heli_Transport_04_bench_black_F',
-	'O_Heli_Transport_04_bench_F','O_Heli_Transport_04_black_F','O_Heli_Transport_04_box_black_F',
-	'O_Heli_Transport_04_box_F','O_Heli_Transport_04_covered_black_F','O_Heli_Transport_04_covered_F',
-	'O_Heli_Transport_04_F','O_Heli_Transport_04_fuel_black_F','O_Heli_Transport_04_fuel_F','O_Heli_Transport_04_medevac_black_F',
-	'O_Heli_Transport_04_medevac_F','O_Heli_Transport_04_repair_black_F','O_Heli_Transport_04_repair_F','B_CTRG_Heli_Transport_01_tropic_F','B_CTRG_Heli_Transport_01_sand_F',
-	'O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F',
-	'C_Van_02_medevac_F','C_Van_02_vehicle_F','C_Van_02_service_F','C_Van_02_transport_F','C_IDAP_Van_02_medevac_F','C_IDAP_Van_02_vehicle_F','C_IDAP_Van_02_transport_F',
-	'B_G_Van_02_vehicle_F','B_G_Van_02_transport_F','O_G_Van_02_vehicle_F','O_G_Van_02_transport_F','I_C_Van_02_vehicle_F','I_C_Van_02_transport_F','I_G_Van_02_vehicle_F','I_G_Van_02_transport_F',
-	'B_GEN_Van_02_vehicle_F','B_GEN_Van_02_transport_F'
+	'b_heli_transport_01_f','b_heli_transport_01_camo_f','o_heli_attack_02_f','o_heli_attack_02_black_f',
+	'b_heli_transport_03_f','b_heli_transport_03_unarmed_f','b_heli_transport_03_unarmed_green_f','i_heli_transport_02_f','c_idap_heli_transport_02_f',
+	'o_heli_transport_04_ammo_black_f','o_heli_transport_04_ammo_f','o_heli_transport_04_bench_black_f',
+	'o_heli_transport_04_bench_f','o_heli_transport_04_black_f','o_heli_transport_04_box_black_f',
+	'o_heli_transport_04_box_f','o_heli_transport_04_covered_black_f','o_heli_transport_04_covered_f',
+	'o_heli_transport_04_f','o_heli_transport_04_fuel_black_f','o_heli_transport_04_fuel_f','o_heli_transport_04_medevac_black_f',
+	'o_heli_transport_04_medevac_f','o_heli_transport_04_repair_black_f','o_heli_transport_04_repair_f','b_ctrg_heli_transport_01_tropic_f','b_ctrg_heli_transport_01_sand_f',
+	'o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_f',
+	'c_van_02_medevac_f','c_van_02_vehicle_f','c_van_02_service_f','c_van_02_transport_f','c_idap_van_02_medevac_f','c_idap_van_02_vehicle_f','c_idap_van_02_transport_f',
+	'b_g_van_02_vehicle_f','b_g_van_02_transport_f','o_g_van_02_vehicle_f','o_g_van_02_transport_f','i_c_van_02_vehicle_f','i_c_van_02_transport_f','i_g_van_02_vehicle_f','i_g_van_02_transport_f',
+	'b_gen_van_02_vehicle_f','b_gen_van_02_transport_f','i_e_van_02_medevac_f','i_e_van_02_transport_mp_f'
 ];
-_animate = ['O_Heli_Light_02_unarmed_F','O_Heli_Light_02_F','O_Heli_Light_02_v2_F','O_Heli_Light_02_dynamicLoadout_F'];
+_animate = ['o_heli_light_02_unarmed_f','o_heli_light_02_f','o_heli_light_02_v2_f','o_heli_light_02_dynamicloadout_f'];
 if (_vt in _animateDoor) exitWith {
 	if (_vt in [
-		'B_Heli_Transport_01_F','B_Heli_Transport_01_camo_F','O_Heli_Attack_02_F','O_Heli_Attack_02_black_F','B_CTRG_Heli_Transport_01_tropic_F','B_CTRG_Heli_Transport_01_sand_F',
-		'O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F'
+		'b_heli_transport_01_f','b_heli_transport_01_camo_f','o_heli_attack_02_f','o_heli_attack_02_black_f','b_ctrg_heli_transport_01_tropic_f','b_ctrg_heli_transport_01_sand_f',
+		'o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_f'
 	]) then {
 		if ((_vehicle doorPhase 'door_R') isEqualTo 0) then {
 			_vehicle animateDoor ['door_R',1];
@@ -47,7 +47,7 @@ if (_vt in _animateDoor) exitWith {
 			};
 		};
 	} else {
-		if (_vt in ['B_Heli_Transport_03_F','B_Heli_Transport_03_unarmed_F','B_Heli_Transport_03_unarmed_green_F']) then {
+		if (_vt in ['b_heli_transport_03_f','b_heli_transport_03_unarmed_f','b_heli_transport_03_unarmed_green_f']) then {
 			if ((_vehicle doorPhase 'Door_R_source') isEqualTo 0) then {
 				_vehicle animateDoor ['Door_R_source',1];
 				_vehicle animateDoor ['Door_L_source',1];
@@ -58,7 +58,7 @@ if (_vt in _animateDoor) exitWith {
 				};
 			};		
 		} else {
-			if (_vt in ['I_Heli_Transport_02_F','C_IDAP_Heli_Transport_02_F']) then {
+			if (_vt in ['i_heli_transport_02_f','c_idap_heli_transport_02_f']) then {
 				if ((_vehicle doorPhase 'Door_Back_R') isEqualTo 0) then {
 					{
 						_vehicle animateDoor _x;
@@ -78,11 +78,11 @@ if (_vt in _animateDoor) exitWith {
 				};
 			} else {
 				if (_vt in [
-					'O_Heli_Transport_04_ammo_black_F','O_Heli_Transport_04_ammo_F','O_Heli_Transport_04_bench_black_F',
-					'O_Heli_Transport_04_bench_F','O_Heli_Transport_04_black_F','O_Heli_Transport_04_box_black_F',
-					'O_Heli_Transport_04_box_F','O_Heli_Transport_04_covered_black_F','O_Heli_Transport_04_covered_F',
-					'O_Heli_Transport_04_F','O_Heli_Transport_04_fuel_black_F','O_Heli_Transport_04_fuel_F','O_Heli_Transport_04_medevac_black_F',
-					'O_Heli_Transport_04_medevac_F','O_Heli_Transport_04_repair_black_F','O_Heli_Transport_04_repair_F'
+					'o_heli_transport_04_ammo_black_f','o_heli_transport_04_ammo_f','o_heli_transport_04_bench_black_f',
+					'o_heli_transport_04_bench_f','o_heli_transport_04_black_f','o_heli_transport_04_box_black_f',
+					'o_heli_transport_04_box_f','o_heli_transport_04_covered_black_f','o_heli_transport_04_covered_f',
+					'o_heli_transport_04_f','o_heli_transport_04_fuel_black_f','o_heli_transport_04_fuel_f','o_heli_transport_04_medevac_black_f',
+					'o_heli_transport_04_medevac_f','o_heli_transport_04_repair_black_f','o_heli_transport_04_repair_f'
 				]) then {
 					if ((_vehicle doorPhase 'Door_1_source') isEqualTo 0) then {
 						{
@@ -105,9 +105,9 @@ if (_vt in _animateDoor) exitWith {
 					};
 				} else {
 					if (_vt in [
-						'C_Van_02_medevac_F','C_Van_02_vehicle_F','C_Van_02_service_F','C_Van_02_transport_F','C_IDAP_Van_02_medevac_F','C_IDAP_Van_02_vehicle_F','C_IDAP_Van_02_transport_F',
-						'B_G_Van_02_vehicle_F','B_G_Van_02_transport_F','O_G_Van_02_vehicle_F','O_G_Van_02_transport_F','I_C_Van_02_vehicle_F','I_C_Van_02_transport_F','I_G_Van_02_vehicle_F','I_G_Van_02_transport_F',
-						'B_GEN_Van_02_vehicle_F','B_GEN_Van_02_transport_F'
+						'c_van_02_medevac_f','c_van_02_vehicle_f','c_van_02_service_f','c_van_02_transport_f','c_idap_van_02_medevac_f','c_idap_van_02_vehicle_f','c_idap_van_02_transport_f',
+						'b_g_van_02_vehicle_f','b_g_van_02_transport_f','o_g_van_02_vehicle_f','o_g_van_02_transport_f','i_c_van_02_vehicle_f','i_c_van_02_transport_f','i_g_van_02_vehicle_f','i_g_van_02_transport_f',
+						'b_gen_van_02_vehicle_f','b_gen_van_02_transport_f','i_e_van_02_medevac_f','i_e_van_02_transport_mp_f'
 					]) then {
 						if ((_vehicle doorPhase 'Door_3_source') isEqualTo 0) then {
 							{

@@ -102,7 +102,7 @@ if (_type isEqualTo 0) exitWith {
 														};
 														_color set [3,1];
 														_dir = getDirVisual _target;
-														_targetPosition = getPosASLVisual _target;
+														_targetPosition = getPosWorldVisual _target;
 													} else {
 														_color = _sideColors select (_sides find _targetSide);
 														_icon = [

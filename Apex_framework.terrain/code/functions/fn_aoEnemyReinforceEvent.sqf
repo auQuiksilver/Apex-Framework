@@ -15,7 +15,7 @@ Description:
 	[1] call QS_fnc_aoEnemyReinforceEvent;
 __________________________________________________/*/
 
-QS_fnc_aoEnemyReinforceEvent = {
+QS_fnc_aoEnemyReinforceEvent3 = {
 	_event = _this select 0;
 	if (_event isEqualTo 1) exitWith {
 		private ['_centerPos','_foundSpawnPos','_spawnPos','_v','_grp','_direction','_HLZ','_unit','_unitType','_unitTypes','_grp2','_wp','_foundHLZ','_helipad','_array'];
@@ -106,7 +106,7 @@ QS_fnc_aoEnemyReinforceEvent = {
 			_direction = _spawnPos getDir _HLZ;
 			_v setDir _direction;
 			_grp2 = createGroup [EAST,TRUE];
-			for '_x' from 0 to ((_v emptyPositions 'Cargo') - 1) step 1 do {
+			for '_x' from 0 to (round(((_v emptyPositions 'Cargo') - 1) / 2)) step 1 do {
 				_unitType = selectRandom _unitTypes;
 				_unit = _grp2 createUnit [_unitType,[0,0,0],[],0,'NONE'];
 				missionNamespace setVariable [
@@ -233,7 +233,8 @@ QS_fnc_aoEnemyReinforceEvent = {
 		_array;
 	};
 };
-QS_fnc_aoEnemyReinforceEvent = {
+[1] call QS_fnc_aoEnemyReinforceEvent3;
+QS_fnc_aoEnemyReinforceEvent3 = {
 	_event = _this select 0;
 	if (_event isEqualTo 1) exitWith {
 		private ['_centerPos','_foundSpawnPos','_spawnPos','_v','_grp','_direction','_HLZ','_unit','_unitType','_unitTypes','_grp2','_wp','_foundHLZ','_helipad','_array'];
@@ -387,7 +388,7 @@ QS_fnc_aoEnemyReinforceEvent = {
 						moveOut _x;
 					};
 				} count (crew _v);
-				[_grp,(position player),TRUE] call BIS_fnc_taskAttack;
+				[_grp,(position player),TRUE] call QS_fnc_taskAttack;
 				if ((random 1) > 0.5) then {
 					_wp = _g addWaypoint [[0,0,50],0];
 				} else {
@@ -445,4 +446,4 @@ QS_fnc_aoEnemyReinforceEvent = {
 		_array;
 	};
 };
-[1,'O_Heli_Transport_04_covered_F'] spawn QS_fnc_aoEnemyReinforceEvent;
+[1,'O_Heli_Transport_04_covered_F'] spawn QS_fnc_aoEnemyReinforceEvent3;

@@ -45,6 +45,7 @@ if (_type isEqualTo 1) exitWith {
 		clearMagazineCargoGlobal _jammer;
 		clearItemCargoGlobal _jammer;
 		clearBackpackCargoGlobal _jammer;
+		_jammer lockInventory TRUE;
 		_jammer enableVehicleCargo FALSE;
 		_jammer enableRopeAttach FALSE;
 		_jammer setRepairCargo 0;

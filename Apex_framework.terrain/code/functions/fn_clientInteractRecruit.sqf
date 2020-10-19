@@ -72,8 +72,8 @@ for '_x' from 0 to 1 step 1 do {
 _t addEventHandler [
 	'FiredMan',
 	{
-		if (!isNull (assignedTarget (_this select 0))) then {
-			_assignedTarget = assignedTarget (_this select 0);
+		if (alive (getAttackTarget (_this select 0))) then {
+			_assignedTarget = getAttackTarget (_this select 0);
 			if ((isPlayer _assignedTarget) || {(isPlayer (effectiveCommander _assignedTarget))}) then {
 				deleteVehicle (_this select 6);
 			};

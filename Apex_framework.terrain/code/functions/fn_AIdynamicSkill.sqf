@@ -203,26 +203,3 @@ _____________________________________________________________________/*/
 		]		
 	]
 ]
-
-QS_fnc_AISkill = {
-	params ['_type','_units','_skillLevel'];
-	_skill_data = QS_data_AISkill;
-	_isCrew = !isNull (objectParent (_units # 0));
-	if (_type isEqualTo 0) then {
-		params ['','_units','_skillLevel'];
-		private _is
-		// group
-		{
-		
-		
-		} forEach _units;
-	
-	
-	
-	
-	};
-	if (_type isEqualTo 1) then {
-		params ['','_unit','_skillLevel'];
-		// single unit
-	};
-};

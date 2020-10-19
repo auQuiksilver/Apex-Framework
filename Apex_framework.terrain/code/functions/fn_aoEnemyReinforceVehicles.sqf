@@ -105,7 +105,13 @@ clearWeaponCargoGlobal _v;
 clearItemCargoGlobal _v;
 clearBackpackCargoGlobal _v;
 _v lock 3;
-_vCrewGroup = createVehicleCrew _v;
+private _vCrewGroup = createVehicleCrew _v;
+if (!((side _vCrewGroup) in [EAST,RESISTANCE])) then {
+	_vCrewGroup = createGroup [EAST,TRUE];
+	{
+		[_x] joinSilent _vCrewGroup;
+	} forEach (crew _v);
+};
 (missionNamespace getVariable 'QS_AI_vehicles') pushBack _v;
 missionNamespace setVariable [
 	'QS_analytics_entities_created',

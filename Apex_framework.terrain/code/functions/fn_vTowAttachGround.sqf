@@ -173,7 +173,7 @@ _vehicle enableVehicleCargo TRUE;
 _towedVehicle enableRopeAttach TRUE;
 _towedVehicle enableVehicleCargo TRUE;
 if (_towedVehicle isKindOf 'StaticWeapon') then {
-	_towedVehicle enableWeaponDisassembly TRUE;
+	_towedVehicle enableWeaponDisassembly FALSE;
 };
 _detachPos = [FALSE,_vehicle,_towedVehicle,[0,((-_ropeLength) - 1),0.75]] call (missionNamespace getVariable 'QS_fnc_getCustomAttachPoint');
 if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {

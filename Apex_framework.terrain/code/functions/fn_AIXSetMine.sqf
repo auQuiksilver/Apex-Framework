@@ -24,7 +24,7 @@ params [
 	['_duration',300],
 	['_mineType','explosive charge'],
 	['_setRadius',6],
-	['_manualTouchOff',TRUE],
+	['_manualTouchOff',FALSE],
 	['_addMagazine',FALSE]
 ];
 private _magazineDetail = '';

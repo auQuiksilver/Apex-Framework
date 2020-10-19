@@ -198,7 +198,19 @@ if (_type in [
 	'o_hmg_01_a_f',
 	'i_hmg_01_f',
 	'i_hmg_01_high_f',
-	'i_hmg_01_a_f'
+	'i_hmg_01_a_f',
+	'b_g_hmg_02_f',
+	'b_g_hmg_02_high_f',
+	'o_g_hmg_02_f',
+	'o_g_hmg_02_high_f',
+	'i_hmg_02_f',
+	'i_hmg_02_high_f',
+	'i_g_hmg_02_f',
+	'i_g_hmg_02_high_f',
+	'i_e_hmg_02_f',
+	'i_e_hmg_02_high_f',
+	'i_c_hmg_02_f',
+	'i_c_hmg_02_high_f'
 ]) then {
 	_vehicle removeWeaponTurret ['HMG_static',[0]];
 	_vehicle addWeaponTurret ['LMG_coax',[0]];

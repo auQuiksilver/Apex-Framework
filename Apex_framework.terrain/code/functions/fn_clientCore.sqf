@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/07/2019 A3 1.94 by Quiksilver
+	19/10/2020 A3 2.00 by Quiksilver
 	
 Description:
 
@@ -114,7 +114,7 @@ disableSerialization;
 _QS_productVersion = productVersion;
 _QS_missionVersion = missionNamespace getVariable ['QS_system_devBuild_text',''];
 _QS_resolution = getResolution;
-_missionStart = missionStart;
+_missionStart = systemTime;
 _QS_worldName = worldName;
 _QS_worldSize = worldSize;
 _QS_clientDLCs = [(getDLCs 0),(getDLCs 1),(getDLCs 2)];
@@ -357,7 +357,7 @@ _QS_action_vehDoors_vehicles = [
 	'b_ctrg_heli_transport_01_tropic_f','b_ctrg_heli_transport_01_sand_f','o_heli_light_02_dynamicloadout_f','o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_f',
 	'c_van_02_medevac_f','c_van_02_vehicle_f','c_van_02_service_f','c_van_02_transport_f','c_idap_van_02_medevac_f','c_idap_van_02_vehicle_f','c_idap_van_02_transport_f',
 	'b_g_van_02_vehicle_f','b_g_van_02_transport_f','o_g_van_02_vehicle_f','o_g_van_02_transport_f','i_c_van_02_vehicle_f','i_c_van_02_transport_f','i_g_van_02_vehicle_f','i_g_van_02_transport_f',
-	'b_gen_van_02_vehicle_f','b_gen_van_02_transport_f'
+	'b_gen_van_02_vehicle_f','b_gen_van_02_transport_f','i_e_van_02_medevac_f','i_e_van_02_transport_mp_f'
 ];
 _QS_action_serviceVehicle = nil;
 _QS_action_serviceVehicle_text = 'Service';
@@ -646,6 +646,17 @@ if (_QS_rappelling) then {
 	_QS_action_rappelSafety_array = [_QS_action_rappelSafety_textDisable,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractRappel')},4,-12,FALSE,TRUE,'','TRUE',-1,FALSE,''];
 	_QS_interaction_rappelSafety = FALSE;
 };
+/*/============================ Sandbags/*/
+_QS_action_sandbagDeploy = nil;
+_QS_action_sandbagDeploy_text = 'Deploy sandbag wall';
+_QS_action_sandbagDeploy_array = [];
+_QS_interaction_sandbagDeploy = FALSE;
+
+_QS_action_sandbagRetract = nil;
+_QS_action_sandbagRetract_text = 'Pick up';
+_QS_action_sandbagRetract_array = [];
+_QS_interaction_sandbagRetract = FALSE;
+
 /*/============================ Live feed module/*/
 _QS_module_liveFeed = TRUE;
 if (_QS_module_liveFeed) then {
@@ -1082,7 +1093,26 @@ _QS_module_gpsJammer_signalDelay = 10;
 _QS_module_gpsJammer_signalCheck = _QS_uiTime + _QS_module_gpsJammer_signalDelay;
 _QS_module_gpsJammer_ctrlPlayer = (findDisplay 12) displayCtrl 1202;
 _QS_module_gpsJammer_inArea = FALSE;
-/*/===== Operational Security Module - will detect some low-hanging fruit. To date it has caught around 30 cheaters./*/
+/*/===== Operational Security Module - will detect some low-hanging fruit. To date it has caught around 60 cheaters./*/
+if (!((uiNamespace getVariable ['BIS_shownChat',TRUE]) isEqualType TRUE)) exitWith {
+	[
+		40,
+		[
+			time,
+			serverTime,
+			(name player),
+			profileName,
+			profileNameSteam,
+			(getPlayerUID player),
+			2,
+			(format ['Anti-Hack * BIS_shownChat : %1',(uiNamespace getVariable 'BIS_shownChat'),2]),
+			player,
+			productVersion
+		]
+	] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+	//disableUserInput TRUE;
+	endMission 'QS_RD_end_2';
+};
 _QS_productVersionSync = ((_QS_productVersion # 2) isEqualTo (call (missionNamespace getVariable 'QS_fnc_getAHCompat')));
 _QS_module_opsec = (call (missionNamespace getVariable ['QS_missionConfig_AH',{1}])) isEqualTo 1;
 if (_QS_module_opsec) then {
@@ -1097,10 +1127,10 @@ if (_QS_module_opsec) then {
 	_QS_module_opsec_checkActions = TRUE;										/*/ check action menu /*/
 	_QS_module_opsec_checkMarkers = FALSE;										/*/ check map markers /*/
 	_QS_module_opsec_chatIntercept = TRUE;										/*/ check chat box /*/
-	_QS_module_opsec_memory = FALSE && _QS_productVersionSync;								/*/ check memory editing /*/
+	_QS_module_opsec_memory = TRUE && _QS_productVersionSync;					/*/ check memory editing /*/
 	_QS_module_opsec_memoryMission = TRUE;										/*/ check memory editing of mission displays /*/
-	_QS_module_opsec_iguiDisplays = _QS_productVersionSync;						/*/ check memory editing of igui displays/*/
-	_QS_module_opsec_rsctitles = _QS_productVersionSync;							/*/ check memory editing of titles /*/
+	_QS_module_opsec_iguiDisplays = TRUE && _QS_productVersionSync;				/*/ check memory editing of igui displays/*/
+	_QS_module_opsec_rsctitles = TRUE && _QS_productVersionSync;				/*/ check memory editing of titles /*/
 	_QS_module_opsec_rsctitlesMission = TRUE;									/*/ check memory editing of titles (mission)/*/
 	_QS_module_opsec_hints = TRUE && (!(_puid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))));
 	_QS_module_opsec_detected = 0;
@@ -1166,12 +1196,12 @@ if (_QS_module_opsec) then {
 		if (_type isEqualTo 'RscDisplay') then {
 			{
 				_onLoad = toArray (getText (configFile >> (_x # 1) >> 'onLoad'));
-				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo ''))) then {
+				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo '')) && (!(_onLoad isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified Display Method OL: %1 (Memory Hack)',(_x # 1)];
 				};
 				_onUnload = toArray (getText (configFile >> (_x # 1) >> 'onUnload'));
-				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo ''))) then {
+				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo '')) && (!(_onUnload isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified Display Method OUL: %1 (Memory Hack)',(_x # 1)];
 				};
@@ -1183,7 +1213,7 @@ if (_QS_module_opsec) then {
 		if (_type isEqualTo 'IGUIDisplay') then {
 			{
 				_onLoad = toArray (getText (configFile >> 'RscInGameUI' >> (_x # 1) >> 'onLoad'));
-				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo ''))) then {
+				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo '')) && (!(_onLoad isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					if (['RscUnitInfoAirRTDFullDigital',(_x # 1),FALSE] call _fn_inString) then {
 						_QS_module_opsec_detected = 1;
@@ -1191,7 +1221,7 @@ if (_QS_module_opsec) then {
 					_detected = format ['Modified IGUI Method OL: %1 (Memory Hack)',(_x # 1)];
 				};
 				_onUnload = toArray (getText (configFile >> 'RscInGameUI' >> (_x # 1) >> 'onUnload'));
-				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo ''))) then {
+				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo '')) && (!(_onUnload isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					if (['RscUnitInfoAirRTDFullDigital',(_x # 1),FALSE] call _fn_inString) then {
 						_QS_module_opsec_detected = 1;
@@ -1206,12 +1236,12 @@ if (_QS_module_opsec) then {
 		if (_type isEqualTo 'MissionDisplay') then {
 			{
 				_onLoad = toArray (getText (missionConfigFile >> (_x # 1) >> 'onLoad'));
-				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo ''))) then {
+				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo '')) && (!(_onLoad isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified MissionDisplay Method OL: %1 (Memory Hack)',(_x # 1)];
 				};
 				_onUnload = toArray (getText (missionConfigFile >> (_x # 1) >> 'onUnload'));
-				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo ''))) then {
+				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo '')) && (!(_onUnload isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified MissionDisplay Method OUL: %1 (Memory Hack)',(_x # 1)];
 				};
@@ -1223,12 +1253,12 @@ if (_QS_module_opsec) then {
 		if (_type isEqualTo 'RscTitles') then {
 			{
 				_onLoad = toArray (getText (configFile >> 'RscTitles' >> (_x # 1) >> 'onLoad'));
-				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo ''))) then {
+				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo '')) && (!(_onLoad isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)];
 				};
 				_onUnload = toArray (getText (configFile >> 'RscTitles' >> (_x # 1) >> 'onUnload'));
-				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo ''))) then {
+				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo '')) && (!(_onUnload isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified RscTitles Method OUL: %1 (Memory Hack)',(_x # 1)];
 				};
@@ -1240,12 +1270,12 @@ if (_QS_module_opsec) then {
 		if (_type isEqualTo 'MissionTitles') then {
 			{
 				_onLoad = toArray (getText (missionConfigFile >> 'RscTitles' >> (_x # 1) >> 'onLoad'));
-				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo ''))) then {
+				if ((!(_onLoad isEqualTo (_x # 2))) && (!(_onLoad isEqualTo '')) && (!(_onLoad isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)];
 				};
 				_onUnload = toArray (getText (missionConfigFile >> 'RscTitles' >> (_x # 1) >> 'onUnload'));
-				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo ''))) then {
+				if ((!(_onUnload isEqualTo (_x # 3))) && (!(_onUnload isEqualTo '')) && (!(_onUnload isEqualTo []))) then {
 					_QS_module_opsec_detected = 2;
 					_detected = format ['Modified RscTitles Method OUL: %1 (Memory Hack)',(_x # 1)];
 				};
@@ -5056,7 +5086,7 @@ for 'x' from 0 to 1 step 0 do {
 	/*/========== Operational Security Module/*/
 	
 	if (_QS_module_opsec) then {
-		if (_QS_uiTime > _QS_module_opsec_checkDelay) then {
+		if ((_QS_uiTime > _QS_module_opsec_checkDelay) || {isGamePaused} || {!isGameFocused})  then {
 			_QS_module_opsec_detected = 0;
 			if (_QS_module_opsec_detected < 2) then {
 				if (_QS_module_opsec_recoilSway) then {
@@ -5343,7 +5373,7 @@ for 'x' from 0 to 1 step 0 do {
 												_co = player;
 												removeAllActions _co;
 											} else {
-												//comment 'Robocop is in action text, now what?';
+												
 											};
 										};
 									};
@@ -5392,6 +5422,55 @@ for 'x' from 0 to 1 step 0 do {
 				};
 			};
 		};
+		if (_QS_module_opsec_checkActions) then {
+			if (isActionMenuVisible) then {
+				_opsec_actionIDs = actionIDs player;
+				_opsec_actionParams = [];
+				if (!(_opsec_actionIDs isEqualTo [])) then {
+					{
+						_opsec_actionParams = player actionParams _forEachIndex;
+						_opsec_actionParams = [];
+						if (!(isNil '_opsec_actionParams')) then {
+							if (!(_opsec_actionParams isEqualTo [])) then {
+								_opsec_actionParams params [
+									'_opsec_actionTitle',
+									'_opsec_actionCode'
+								];
+								if (!(_opsec_actionTitle in _opsec_actionWhitelist)) then {
+									if (!(_puid in (['DEVELOPER'] call _fn_uidStaff))) then {
+										if ((!(['ROBOCOP',_opsec_actionTitle,_false] call _fn_inString)) && (!(['Put Explosive Charge',_opsec_actionTitle,_false] call _fn_inString))) then {
+											_QS_module_opsec_return = [_QS_module_opsec_memArray,_namePlayer,_profileName,_profileNameSteam,_puid] call _QS_module_opsec_memCheck_script;
+											if (!((_QS_module_opsec_return # 0) isEqualTo 0)) then {
+												_detected = format ['%1 + %2',_detected,(_QS_module_opsec_return # 1)];
+											};
+											[
+												40,
+												[
+													time,
+													serverTime,
+													_namePlayer,
+													_profileName,
+													_profileNameSteam,
+													_puid,
+													2,
+													(format ['Anti-Hack * Non-whitelisted scroll action text: "%1" %2',_opsec_actionTitle,_opsec_actionCode]),
+													player,
+													_QS_productVersion
+												]
+											] remoteExec ['QS_fnc_remoteExec',2,_false];
+											_co = player;
+											removeAllActions _co;
+										} else {
+											
+										};
+									};
+								};
+							};
+						};
+					} forEach _opsec_actionIDs;
+				};
+			};
+		};
 	};
 	if (!(_lifeState isEqualTo 'INCAPACITATED')) then {
 		if (!(_QS_module_49Opened)) then {
@@ -5427,7 +5506,7 @@ for 'x' from 0 to 1 step 0 do {
 				(_d49 displayCtrl 109) ctrlSetText (format ['%1',_roleDisplayName]);
 				(_d49 displayCtrl 104) ctrlEnable _true;
 				(_d49 displayCtrl 104) ctrlSetText (['Abort','Exit'] select _roleSelectionSystem);
-				(_d49 displayCtrl 104) ctrlSetTooltip (['Abort to role assignment (lobby).','Leave server.'] select _roleSelectionSystem);
+				(_d49 displayCtrl 104) ctrlSetTooltip (['Abort to lobby.','Leave server.'] select _roleSelectionSystem);
 				(_d49 displayCtrl 1005) ctrlSetText (format ['%1 - A3 %2',_QS_missionVersion,(format ['%1.%2',(_QS_productVersion # 2),(_QS_productVersion # 3)])]);
 			};
 		} else {
@@ -5603,8 +5682,6 @@ for 'x' from 0 to 1 step 0 do {
 					['_advTitle','',['',_parsedText]],
 					['_advRecall',_false,[_false]]
 				];	
-				//_hintsQueue set [0,_false];
-				//_hintsQueue deleteAt 0;
 				if ((!((toLower (str _hintText)) isEqualTo (toLower (str _hintTextPrevious)))) || {(_QS_uiTime > (_hintPriorClosedAt + 15))} || {(_hintsQueue isEqualTo [])}) then {
 					if ((_hintIrrelevantWhen isEqualTo -1) || {(_serverTime < _hintIrrelevantWhen)}) then {
 						if (!(_hintPreset isEqualTo -1)) then {

@@ -23,7 +23,7 @@ params ['_vehicle','_type'];
 _vehicleType = toLower (typeOf _vehicle);
 private _isOffroad = ((_vehicleType in ['b_g_offroad_01_f','b_g_offroad_01_armed_f','b_g_offroad_01_repair_f','b_gen_offroad_01_gen_f','o_g_offroad_01_f','o_g_offroad_01_armed_f','o_g_offroad_01_repair_f','i_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_offroad_01_repair_f','c_offroad_01_f','c_offroad_01_repair_f','c_idap_offroad_01_f']) || (['offroad_01',_vehicleType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')));
 private _isPoliceBoat = _vehicleType in ['c_boat_civil_01_police_f'];
-private _isAmbulance = _vehicleType in ['c_van_02_medevac_f','c_idap_van_02_medevac_f','b_gen_van_02_vehicle_f','b_gen_van_02_transport_f'];
+private _isAmbulance = _vehicleType in ['c_van_02_medevac_f','c_idap_van_02_medevac_f','b_gen_van_02_vehicle_f','b_gen_van_02_transport_f','i_e_van_02_medevac_f','i_e_van_02_transport_mp_f'];
 private _isServicesVan = _vehicleType in ['c_van_02_service_f'];
 if ((!(_isOffroad)) && (!(_isPoliceBoat)) && (!(_isAmbulance)) && (!(_isServicesVan))) exitWith {};
 private _exit = FALSE;

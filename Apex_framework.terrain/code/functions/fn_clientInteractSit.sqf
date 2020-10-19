@@ -63,15 +63,8 @@ if (_type isEqualTo 1) then {
 	if (!isNull (attachedTo _object)) exitWith {};
 	if (!((stance player) isEqualTo 'STAND')) exitWith {};
 	private _chairTaken = FALSE;
-	_nearMen = (getPosATL _object) nearEntities ['Man',0.75];
-	if (!(_nearMen isEqualTo [])) then {
-		if ((count _nearMen) > 1) then {
+	if (!((((getPosATL _object) nearEntities ['Man',0.75]) select {(!(_x isEqualTo player))}) isEqualTo [])) then {
 			_chairTaken = TRUE;
-		} else {
-			if (!(player isEqualTo (_nearMen select 0))) then {
-				_chairTaken = TRUE;
-			};
-		};
 	};
 	if (_chairTaken) exitWith {
 		50 cutText ['Someone is too close to this chair!','PLAIN DOWN'];

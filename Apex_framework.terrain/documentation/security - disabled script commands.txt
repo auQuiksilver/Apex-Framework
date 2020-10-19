@@ -4,8 +4,7 @@ These can be viewed/modified in description.ext file.
 
 If you are heavily modifying this framework and some things are not working for no apparent reason, its a good idea to know which commands are disabled.
 
-Here is a rough list of what is disabled by default (as of 1.1.2):
-
+Here is a rough list of what is disabled by default (as of 1.1.9):
 
 createUnit (syntax with init field)
 setMarkerText
@@ -15,7 +14,7 @@ onMapSingleClick
 allVariables (namespace syntax)
 hint
 hintSilent
-
+onEachFrame
 
 Reference:
 

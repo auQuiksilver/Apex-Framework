@@ -45,7 +45,8 @@ if (_vehicleType in [
 };
 if (_vehicleType in [
 	'c_van_02_medevac_f',
-	'c_idap_van_02_medevac_f'
+	'c_idap_van_02_medevac_f',
+	'i_e_van_02_medevac_f'
 ]) then {
 	_medicalCargoIndex = [3,4];
 };

@@ -60,7 +60,6 @@ if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,2,3]) then {
 					['_aps_randomChance',1],
 					['_aps_disableBlindspot',FALSE]
 				];
-				
 				if (_aps_enabled) then {
 					if (
 						(alive (effectiveCommander _objectParent)) &&

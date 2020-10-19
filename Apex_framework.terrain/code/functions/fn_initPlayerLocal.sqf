@@ -328,7 +328,8 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['RscEGSpectator_availableInsignias',((configFile >> 'CfgUnitInsignia') call (missionNamespace getVariable 'BIS_fnc_getCfgSubClasses'))],
 	['QS_ui_timeLastRadioIn',diag_tickTime],
 	['QS_ui_timeLastRadioOut',diag_tickTime],
-	['QS_ui_mousePosition',getMousePosition]
+	['QS_ui_mousePosition',getMousePosition],
+	['QS_client_menu_interaction',FALSE]
 ];
 
 /*/====================== PLAYER OBJECT VARS/*/

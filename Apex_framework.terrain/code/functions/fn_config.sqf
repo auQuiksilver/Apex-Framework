@@ -6,14 +6,14 @@ Author:
 	
 Last modified: 
 
-	19/08/2019 A3 1.94 by Quiksilver
+	19/10/2020 A3 2.00 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.1.8';
+_missionProductVersion = '1.1.9';
 _missionProductStatus = 'Stable';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
@@ -27,7 +27,7 @@ private [
 	'*****************************************************************************',
 	'************************* Server Config Starting ****************************',
 	'*****************************************************************************',
-	(format ['***** Mission Start: %1 * Product Version: %2 * Mission Name: %3 * Server Name: %4 * Briefing Name: %5 * Mission Version: %6 * Mission Difficulty: %7 * Mission DLCs: %8 * Distribution Region: %9 *****',missionStart,productVersion,missionName,serverName,briefingName,missionVersion,missionDifficulty,getMissionDLCs,distributionRegion]),
+	(format ['***** System Time: %1 * Product Version: %2 * Mission Name: %3 * Server Name: %4 * Briefing Name: %5 * Mission Version: %6 * Mission Difficulty: %7 * Mission DLCs: %8 * Distribution Region: %9 *****',systemTime,productVersion,missionName,serverName,briefingName,missionVersion,missionDifficulty,getMissionDLCs,distributionRegion]),
 	'*****************************************************************************',
 	(format [
 		'***** Difficulty Options *****%1*****autoReport: %2%1*****cameraShake: %3%1*****commands: %4%1*****deathMessages: %5%1*****detectedMines: %6%1*****enemyTags: %7%1*****friendlyTags: %8%1*****groupIndicators: %9%1*****mapContent: %10%1*****mapContentEnemy: %11%1*****mapContentFriendly: %12%1*****mapContentMines: %13%1*****mapContentPing: %14%1*****multipleSaves: %15%1*****reducedDamage: %16%1*****scoreTable: %17%1*****squadRadar: %18%1*****staminaBar: %19%1*****stanceIndicator: %20%1*****tacticalPing: %21%1*****thirdPersonView: %22%1*****visionAid: %23%1*****vonID: %24%1*****waypoints: %25%1*****weaponCrosshair: %26%1*****weaponInfo: %27%1',
@@ -140,19 +140,6 @@ if (_difficultyInvalid) exitWith {
 			0 spawn {
 				for '_x' from 0 to 1 step 0 do {
 					['Invalid mission difficulties, view server RPT log file for more details'] call (missionNamespace getVariable 'QS_fnc_hint');
-					uisleep 1;
-				};
-			};
-		} 
-	] remoteExec ['call',-2,TRUE];
-};
-if ((('real_date' callExtension '') isEqualTo '') && (!((productVersion select 6) isEqualTo 'Linux'))) exitWith {
-	[
-		[],
-		{
-			0 spawn {
-				for '_x' from 0 to 1 step 0 do {
-					['Real_date extension must be active'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -395,7 +382,7 @@ _recyclerUnitTypes = [
 	['QS_RSS_client_canSideSwitch',(!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)),TRUE],
 	['QS_missionConfig_restartHours',(missionNamespace getVariable ['QS_missionConfig_restartHours',[0,6,12,18]]),FALSE],
 	['QS_mission_aoType',(profileNamespace getVariable ['QS_mission_aoType','CLASSIC']),TRUE],
-	['QS_system_realTimeStart',missionStart,TRUE],
+	['QS_system_realTimeStart',systemTime,TRUE],
 	['QS_carrierObject',objNull,TRUE],
 	['QS_AI_dynSkill_coef',0,TRUE],
 	['QS_CAS_jetAllowance_value',3,TRUE],
@@ -848,6 +835,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 				'_damageAllowed',
 				'_simulationEnabled',
 				'_simpleObject',
+				'_clientOnly',
 				'_args',
 				'_code'
 			];

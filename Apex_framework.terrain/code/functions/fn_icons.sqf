@@ -337,21 +337,21 @@ _QS_fnc_iconPosDir = {
 	if (_ds isEqualTo 1) then {
 		if (_dl > 0) then {
 			if (diag_tickTime > (missionNamespace getVariable 'QS_ST_iconUpdatePulseTimer')) then {
-				_posDir = [getPosASLVisual _v,getDirVisual _v];
+				_posDir = [getPosWorldVisual _v,getDirVisual _v];
 				_v setVariable ['QS_ST_lastPulsePos',_posDir,FALSE];
 			} else {
 				if (!isNil {_v getVariable 'QS_ST_lastPulsePos'}) then {
 					_posDir = _v getVariable 'QS_ST_lastPulsePos';
 				} else {
-					_posDir = [getPosASLVisual _v,getDirVisual _v];
+					_posDir = [getPosWorldVisual _v,getDirVisual _v];
 					_v setVariable ['QS_ST_lastPulsePos',_posDir,FALSE];
 				};		
 			};
 		} else {
-			_posDir = [getPosASLVisual _v,getDirVisual _v];
+			_posDir = [getPosWorldVisual _v,getDirVisual _v];
 		};
 	} else {
-		_posDir = [getPosASLVisual _v,getDirVisual _v];
+		_posDir = [getPosWorldVisual _v,getDirVisual _v];
 	};
 	_posDir;
 };
@@ -992,7 +992,7 @@ _QS_fnc_iconDrawMap = {
 				if (!((waypointPosition [_grp,_i]) isEqualTo [0,0,0])) then {
 					if (_i isEqualTo 0) then {
 						_m drawLine [
-							(getPosASLVisual (vehicle _grpLeader)),
+							(getPosWorldVisual (vehicle _grpLeader)),
 							(waypointPosition [_grp,_i]),
 							[0,0,0,0.6]
 						];
@@ -1032,14 +1032,14 @@ _QS_fnc_iconDrawMap = {
 	if (_player isEqualTo _grpLeader) then {
 		if (!((groupSelectedUnits _player) isEqualTo [])) then {
 			{
-				_m drawLine [(getPosASLVisual _player),(getPosASLVisual (vehicle _x)),[0,1,1,0.5]];
+				_m drawLine [(getPosWorldVisual _player),(getPosWorldVisual (vehicle _x)),[0,1,1,0.5]];
 			} count (groupSelectedUnits _player);
 		};
 	} else {
 		if (isNull (objectParent _player)) then {
 			if (isNull (objectParent _grpLeader)) then {
 				if ((_grpLeader distance2D _player) < (_QS_ST_X # 27)) then {
-					_m drawLine [(getPosASLVisual _player),(getPosASLVisual _grpLeader),[0,1,1,0.5]];
+					_m drawLine [(getPosWorldVisual _player),(getPosWorldVisual _grpLeader),[0,1,1,0.5]];
 				};
 			};
 		};
@@ -1057,7 +1057,7 @@ _QS_fnc_iconDrawMap = {
 					_m drawIcon [
 						'a3\ui_f\data\igui\cfg\cursors\explosive_ca.paa',
 						[1,0,0,0.75],
-						(getPosASLVisual _x),
+						(getPosWorldVisual _x),
 						13,
 						13,
 						_deg,
@@ -1168,14 +1168,14 @@ _QS_fnc_iconDrawGPS = {
 	if (player isEqualTo (leader (group player))) then {
 		if (!((groupSelectedUnits player) isEqualTo [])) then {
 			{
-				_m drawLine [(getPosASLVisual player),(getPosASLVisual (vehicle _x)),[0,1,1,0.5]];
+				_m drawLine [(getPosWorldVisual player),(getPosWorldVisual (vehicle _x)),[0,1,1,0.5]];
 			} count (groupSelectedUnits player);
 		};
 	} else {
 		if (isNull (objectParent player)) then {
 			if (isNull (objectParent (leader (group player)))) then {
 				if (((leader (group player)) distance2D player) < (_QS_ST_X # 27)) then {
-					_m drawLine [(getPosASLVisual player),(getPosASLVisual (leader (group player))),[0,1,1,0.5]];
+					_m drawLine [(getPosWorldVisual player),(getPosWorldVisual (leader (group player))),[0,1,1,0.5]];
 				};
 			};
 		};

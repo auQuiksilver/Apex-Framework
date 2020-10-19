@@ -270,13 +270,11 @@ _uavInitCodeGeneric = {
 				if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 500) exitWith {
 					deleteVehicle _projectile;
 				};
-				if (!isNull (assignedTarget _vehicle)) then {
-					if (alive (assignedTarget _vehicle)) then {
-						_assignedTarget = assignedTarget _vehicle;
-						if (!isNull (effectiveCommander _assignedTarget)) then {
-							if (isPlayer (effectiveCommander _assignedTarget)) then {
-								[17,_vehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-							};
+				if (alive (getAttackTarget _vehicle)) then {
+					_assignedTarget = getAttackTarget _vehicle;
+					if (!isNull (effectiveCommander _assignedTarget)) then {
+						if (isPlayer (effectiveCommander _assignedTarget)) then {
+							[17,_vehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 						};
 					};
 				};
@@ -338,13 +336,11 @@ _uavInitCodeGeneric = {
 				if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 500) exitWith {
 					deleteVehicle _projectile;
 				};
-				if (!isNull (assignedTarget _vehicle)) then {
-					if (alive (assignedTarget _vehicle)) then {
-						_assignedTarget = assignedTarget _vehicle;
-						if (!isNull (effectiveCommander _assignedTarget)) then {
-							if (isPlayer (effectiveCommander _assignedTarget)) then {
-								[17,_vehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-							};
+				if (alive (getAttackTarget _vehicle)) then {
+					_assignedTarget = getAttackTarget _vehicle;
+					if (!isNull (effectiveCommander _assignedTarget)) then {
+						if (isPlayer (effectiveCommander _assignedTarget)) then {
+							[17,_vehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 						};
 					};
 				};

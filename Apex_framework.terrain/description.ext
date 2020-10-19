@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	22/06/2019 A3 1.94 by Quiksilver
+	19/10/2020 A3 2.00 by Quiksilver
 	
 Description:
 
@@ -175,6 +175,15 @@ class CfgDisabledCommands {
             args[] = {{},{"STRING","TEXT"}};
         };
     };
+    class ONEACHFRAME
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"STRING","CODE"}};
+        };
+    };
+
 };
 class CfgRemoteExec {
 	class Commands {
@@ -186,7 +195,7 @@ class CfgRemoteExec {
 		allowedTargets = 0;
 		class BIS_fnc_callScriptedEventHandler {};
 		class BIS_fnc_curatorRespawn {};
-		class BIS_fnc_deleteTask {jip = 1;};
+		class BIS_fnc_deleteTask {jip = 1;}; 
 		class BIS_fnc_dynamicGroups {};
 		class BIS_fnc_effectKilled {};
 		class BIS_fnc_effectKilledSecondaries {};

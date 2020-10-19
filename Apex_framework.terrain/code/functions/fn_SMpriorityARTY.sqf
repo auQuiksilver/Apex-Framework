@@ -43,9 +43,7 @@ _priorityTargets = [];
 		};
 	};
 } forEach _unitsArray;
-_enemiesArray = [_unitsArray select 0] call (missionNamespace getVariable 'QS_fnc_smEnemyEast');
-
-
+_enemiesArray = [_unitsArray # 0] call (missionNamespace getVariable 'QS_fnc_smEnemyEast');
 private _playerCount = count allPlayers;
 private _grp = grpNull;
 private _grpSpawnPos = [0,0,0];

@@ -79,6 +79,7 @@ if (!(_grpLeaderLifestate in ['HEALTHY','INJURED'])) then {
 		_grpLeaderLifestate = lifeState _grpLeader;
 	};
 };
+_grpAttackTarget = getAttackTarget _grpLeader;
 _grpLeaderPosition = getPosATL _grpLeader;
 _grpObjectParent = objectParent _grpLeader;
 _grpMorale = morale _grpLeader;

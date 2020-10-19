@@ -23,14 +23,14 @@ if (worldName in ['Tanoa','Lingor3']) then {
 		'O_Heli_Attack_02_black_F','O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_unarmed_F',
 		'i_e_heli_light_03_dynamicloadout_f','I_Heli_light_03_unarmed_F','I_APC_Wheeled_03_cannon_F','I_APC_tracked_03_cannon_F',
 		'B_APC_Tracked_01_AA_F','B_MBT_01_cannon_F','I_MBT_03_cannon_F','O_T_APC_Wheeled_02_rcws_v2_ghex_F','I_LT_01_AT_F','I_LT_01_scout_F','I_LT_01_cannon_F','I_LT_01_AA_F',
-		'O_T_MBT_04_cannon_F'
+		'O_T_MBT_04_cannon_F','C_Tractor_01_F'
 	];
 	if (!(missionNamespace getVariable ['QS_armedAirEnabled',TRUE])) then {
 		_vtypes = [
 			'C_Heli_Light_01_civil_F','O_Heli_Transport_04_F',
 			'O_Heli_Light_02_unarmed_F','I_Heli_light_03_unarmed_F','I_APC_Wheeled_03_cannon_F','I_APC_tracked_03_cannon_F',
 			'B_APC_Tracked_01_AA_F','B_MBT_01_cannon_F','I_MBT_03_cannon_F','O_T_APC_Wheeled_02_rcws_v2_ghex_F','I_LT_01_AT_F','I_LT_01_scout_F','I_LT_01_cannon_F','I_LT_01_AA_F',
-			'O_T_MBT_04_cannon_F'
+			'O_T_MBT_04_cannon_F','C_Tractor_01_F'
 		];
 	};
 } else {
@@ -39,14 +39,14 @@ if (worldName in ['Tanoa','Lingor3']) then {
 		'O_Heli_Attack_02_black_F','O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_unarmed_F',
 		'I_Heli_light_03_dynamicLoadout_F','I_Heli_light_03_unarmed_F','I_APC_Wheeled_03_cannon_F','I_APC_tracked_03_cannon_F',
 		'B_APC_Tracked_01_AA_F','B_MBT_01_cannon_F','I_MBT_03_cannon_F','O_APC_Wheeled_02_rcws_v2_F','I_LT_01_AT_F','I_LT_01_scout_F','I_LT_01_cannon_F','I_LT_01_AA_F',
-		'O_MBT_04_cannon_F'
+		'O_MBT_04_cannon_F','C_Tractor_01_F'
 	];
 	if (!(missionNamespace getVariable ['QS_armedAirEnabled',TRUE])) then {
 		_vtypes = [
 			'C_Heli_Light_01_civil_F','O_Heli_Transport_04_F',
 			'O_Heli_Light_02_unarmed_F','I_Heli_light_03_unarmed_F','I_APC_Wheeled_03_cannon_F','I_APC_tracked_03_cannon_F',
 			'B_APC_Tracked_01_AA_F','B_MBT_01_cannon_F','I_MBT_03_cannon_F','O_APC_Wheeled_02_rcws_v2_F','I_LT_01_AT_F','I_LT_01_scout_F','I_LT_01_cannon_F','I_LT_01_AA_F',
-			'O_MBT_04_cannon_F'
+			'O_MBT_04_cannon_F','C_Tractor_01_F'
 		];
 	};
 };

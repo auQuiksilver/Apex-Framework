@@ -13,7 +13,7 @@ Description:
 	Client Event KeyUp
 __________________________________________________________*/
 
-_key = _this select 1;
+_key = _this # 1;
 private _c = FALSE;
 if (!isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
 	uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',nil];
@@ -33,5 +33,9 @@ if (_key in (actionKeys 'TeamSwitch')) then {
 			};
 		};
 	};
+};
+if (_key isEqualTo 219) then {
+	uiNamespace setVariable ['QS_client_menu_interaction',FALSE];
+	//systemChat 'Interaction key up';
 };
 _c;

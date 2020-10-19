@@ -424,7 +424,7 @@ if (_type isEqualTo 1) then {
 			((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _static1))),
 			FALSE
 		];
-		_static2 = createVehicle ['B_HMG_01_high_F',[0,0,0],[],0,'NONE'];
+		_static2 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -455,7 +455,7 @@ if (_type isEqualTo 1) then {
 				};
 			}
 		];
-		_static3 = createVehicle ['B_HMG_01_high_F',[0,0,0],[],0,'NONE'];
+		_static3 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
 		missionNamespace setVariable [
 			'QS_analytics_entities_created',
 			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -678,7 +678,7 @@ if (_type isEqualTo 1) then {
 			_rewardVeh setDir (random 360);
 			_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 			_rewardVeh lockCargo TRUE;
-			private _static1 = createVehicle ['B_HMG_01_high_F',[0,0,0],[],0,'NONE'];
+			private _static1 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
 			missionNamespace setVariable [
 				'QS_analytics_entities_created',
 				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
@@ -869,7 +869,6 @@ if (_type isEqualTo 1) then {
 	};
 	if (_reward isEqualTo 21) then {
 		//comment 'Armed jeep';
-		/*/QS_static1 attachTo [QS_car,[-0.15,-1,0.43]]; QS_static1 setDir 180;B_HMG_01_F/*/
 		_rewardType = 'I_C_Offroad_02_unarmed_olive_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];

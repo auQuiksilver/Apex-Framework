@@ -263,8 +263,8 @@ _enemyFiredEvent = {
 	_unit = _this select 0;
 	_unit removeEventHandler ['Fired',_thisEventHandler];
 	_unit suppressFor 5;
-	if (!isNull (assignedTarget _unit)) then {
-		_unit doSuppressiveFire (aimPos (assignedTarget _unit));
+	if (alive (getAttackTarget _unit)) then {
+		_unit doSuppressiveFire (aimPos (getAttackTarget _unit));
 	};
 };
 _veh = objNull;

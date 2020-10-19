@@ -728,11 +728,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				_armorType = selectRandom _armorTypes;
 				_av = createVehicle [(selectRandomWeighted ([0] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),_spawnPos,[],0,'NONE'];
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
+				missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 				_av setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 				_av enableDynamicSimulation FALSE;
 				0 = _armorArray pushBack _av;
@@ -751,6 +747,12 @@ for '_x' from 0 to 1 step 0 do {
 				_direction = _spawnPos getDir _centerPos;
 				_av setDir _direction;
 				_grp = createVehicleCrew _av;
+				if (!((side _grp) in [EAST,RESISTANCE])) then {
+					_grp = createGroup [EAST,TRUE];
+					{
+						[_x] joinSilent _grp;
+					} forEach (crew _vehicle);
+				};
 				missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _av))),FALSE];
 				_destination = [_centerPos,(200 + (random 200)),(50 + (random 50)),10] call _fn_findOverwatchPos;
 				_grp move _destination;
@@ -1065,9 +1067,9 @@ for '_x' from 0 to 1 step 0 do {
 								};
 								if (((vectorMagnitude (velocity _unit)) * 3.6) < 2) then {
 									if ((random 1) > 0.5) then {
-										if (alive (_unit findNearestEnemy _unit)) then {
-											if (((_unit findNearestEnemy _unit) distance2D _unit) < 50) then {
-												_moveToPos = getPosATL (_unit findNearestEnemy _unit);
+										if (alive (getAttackTarget _unit)) then {
+											if (((getAttackTarget _unit) distance2D _unit) < 50) then {
+												_moveToPos = getPosATL (getAttackTarget _unit);
 											} else {
 												_moveToPos = selectRandom _hqBuildingPositions;
 											}

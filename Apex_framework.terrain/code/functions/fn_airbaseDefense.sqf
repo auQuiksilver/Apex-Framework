@@ -19,12 +19,15 @@ _duration = time + 300;	// online for x seconds
 _cooldown = time + 900;	// unavailable for x seconds
 _defensePos = markerPos 'QS_marker_airbaseDefense';
 [_defensePos,15,30,75] call (missionNamespace getVariable 'QS_fnc_clearPosition');
+_defenderType = 'b_aaa_system_01_f';
+/*/
 _defenderType = selectRandomWeighted [
 	'b_aaa_system_01_f',0.333,	//0.5
 	'b_sam_system_01_f',0.333,	//0.25
 	'b_sam_system_02_f',0.333,	//0.25
 	'b_sam_system_03_f',0.0		// kind of sucks at base defense
 ];
+/*/
 _defender = createVehicle [_defenderType,[-500,-500,50],[],0,'NONE'];
 _defender allowDamage FALSE;
 _defender allowCrewInImmobile TRUE;

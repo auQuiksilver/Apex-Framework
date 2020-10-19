@@ -42,7 +42,7 @@ class AddonsMetaData
 		class Item0
 		{
 			className="A3_Props_F_Enoch";
-			name="Arma 3 Enoch - Decorative and Mission Objects";
+			name="Arma 3 Contact Platform - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};

@@ -60,6 +60,7 @@ if (_type isEqualTo 0) exitWith {
 		_arty setPos _pos;
 		_arty setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_arty setVariable ['QS_inventory_disabled',TRUE,TRUE];
+		_arty lockInventory TRUE;
 		if (_arty isKindOf 'B_MBT_01_arty_F') then {
 			{
 				_arty removeMagazineTurret [_x,[0]];

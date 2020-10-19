@@ -52,9 +52,9 @@ if (_type isEqualTo 1) exitWith {
 	//comment 'Heli CAS';
 	params ['','_supportProvider','_supportGroup','_targetObject','_targetPosition','_smokePosition','_duration'];
 	_vehicle = vehicle _supportProvider;
-	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition];
+	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition,TRUE];
 	_targetAssistant attachTo [_targetObject,[0,0,1]];
-	_targetAssistant hideObjectGlobal TRUE;
+	_targetAssistant hideObject TRUE;
 	detach _targetAssistant;
 	_laserTarget = createVehicle ['LaserTargetE',_targetPosition,[],0,'NONE'];
 	missionNamespace setVariable [
@@ -183,9 +183,9 @@ if (_type isEqualTo 2) exitWith {
 	_vehicle flyInHeight (200 + (random 100));
 	_vehicle forceSpeed -1;
 	_vehicle setVariable ['QS_AI_PLANE_fireMission',TRUE,FALSE];
-	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition];
+	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition,TRUE];
 	_targetAssistant attachTo [_targetObject,[0,0,1]];
-	_targetAssistant hideObjectGlobal TRUE;
+	_targetAssistant hideObject TRUE;
 	detach _targetAssistant;
 	_laserTarget = createVehicle ['LaserTargetE',_targetPosition,[],0,'NONE'];
 	missionNamespace setVariable [
@@ -316,9 +316,9 @@ if (_type isEqualTo 3) exitWith {
 	//comment 'UAV CAS';
 	params ['','_supportProvider','_supportGroup','_targetObject','_targetPosition','_duration'];
 	_vehicle = vehicle _supportProvider;
-	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition];
+	_targetAssistant = createSimpleObject ['A3\Structures_F_Heli\VR\Helpers\Sign_sphere10cm_F.p3d',_targetPosition,TRUE];
 	_targetAssistant attachTo [_targetObject,[0,0,1]];
-	_targetAssistant hideObjectGlobal TRUE;
+	_targetAssistant hideObject TRUE;
 	detach _targetAssistant;
 	_laserTarget = createVehicle ['LaserTargetE',_targetPosition,[],0,'NONE'];
 	_laserTarget attachTo [_targetAssistant,[0,0,0.5]];
