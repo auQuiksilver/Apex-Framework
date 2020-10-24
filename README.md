@@ -18,8 +18,6 @@ _______________
 
 0. Download the "Apex_framework_119_allFiles.zip" file.    (please note some mission files need to be downloaded separately due to 100MB github file size limit).
 
-* It contains a .dll extension which may upset your antivirus. the .dll extension is for getting real time ingame.
-
 _______________
 1. Place mission PBO files in your servers MPMissions folder.
 
