@@ -232,7 +232,7 @@ _QS_fnc_iconColor = {
 	private _a = 0;
 	if (!(_v isKindOf 'Man')) then {
 		if (_v getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
-			if ((count (crew _v)) isEqualTo 0) then {
+			if ((crew _v) isEqualTo []) then {
 				_exit = TRUE;
 				_c = _QS_ST_X # 78;
 				_c set [3,0.65];
