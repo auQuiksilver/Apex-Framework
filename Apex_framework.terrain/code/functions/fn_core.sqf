@@ -3131,7 +3131,7 @@ for '_x' from 0 to 1 step 0 do {
 												if ((_vpos distance2D _baseMarker) < 1000) then {
 													if (_v isKindOf 'Air') then {
 														_v allowDamage _false;
-														_v enableSimulationGlobal _false;
+														//_v enableSimulationGlobal _false;
 														_v addEventHandler [
 															'GetIn',
 															{
@@ -3177,7 +3177,7 @@ for '_x' from 0 to 1 step 0 do {
 														_v enableSimulationGlobal TRUE;
 														_v spawn {
 															sleep 1;
-															_this enableSimulationGlobal FALSE;
+															//_this enableSimulationGlobal FALSE;
 														};
 													} else {
 														_v = createVehicle [_t,[(random -1000),(random -1000),(1000 + (random 2000))],[],0,'NONE'];
@@ -3197,7 +3197,7 @@ for '_x' from 0 to 1 step 0 do {
 														if ((_vpos distance2D _baseMarker) < 1000) then {
 															if (_v isKindOf 'Air') then {
 																_v allowDamage _false;
-																_v enableSimulationGlobal _false;
+																//_v enableSimulationGlobal _false;
 																_v addEventHandler [
 																	'GetIn',
 																	{
