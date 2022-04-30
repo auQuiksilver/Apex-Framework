@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/04/2018 A3 1.82 by Quiksilver
+	28/04/2022 A3 2.08 by Quiksilver
 	
 Description:
 
@@ -19,6 +19,8 @@ Comment:
 	For staff IDs, ensure ID is in only one list. For instance, either moderator, admin or developer, but not all of them together.
 	
 	They DO all have to be in the 'ALL' list though.
+	
+			'76561198084065754'
 __________________________________________________________________________/*/
 
 _type = param [0,''];

@@ -951,7 +951,7 @@ if (_role isEqualTo 'jtac') exitWith {
 				_attachmentsAll							// whitelisted Attachments
 			],
 			_magazinesAll,								// whitelisted MAGAZINES
-			_backpacksAll,								// whitelisted BACKPACKS
+			_backpacksRadio,							// whitelisted BACKPACKS
 			(_weaponsBasic + _weaponsHandgun + _weaponsSMG + _weaponsLauncherBasic + _viewersAll)	// whitelisted WEAPONS
 		]
 	]

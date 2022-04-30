@@ -1,0 +1,524 @@
+Official Change Log
+
+1.2.0 (30/04/2022 A3 2.08)
+
+Overview: 
+
+First update after some time away. Areas of focus are key bug fixes, script optimisations, and gameplay ergonomics tweaks.
+
+- [ADDED] (Options Menu) Option to hide 3D group hexagons.
+- [ADDED] (Options Menu) Option to hide extended system chat messages (battleye chat spam).
+- [ADDED] AI Medics now have more advanced behaviour (Both player-controlled and Zeus-spawned).
+- [ADDED] Ability for passengers & other pilots to Take Control of a helicopter mid-air, when the pilot disconnects from server with passengers on-board.
+- [ADDED] Increased Helicopter survivability on taking critical damage.
+- [TWEAKED] Smoke countermeasures now work much better.
+- [TWEAKED] Dramatically reduced probability of T-140 Angara spawning at all missions (due to its superior active protection system)
+- [TWEAKED] Dramatically reduced enemy drone spawn frequency at defend missions.
+- [TWEAKED] Upgraded our main position-finding functions
+- [TWEAKED] Small optimisation, applied new "isNotEqualTo" command across most frequently CPU-evaluated functions.
+- [TWEAKED] Small optimisation to network bandwidth of map marker updates
+- [TWEAKED] Small optimisation, replacing "compile preprocessfilelinenumbers" with "compilescript"
+- [TWEAKED] Improved weapon sway with heavy weapons (MMG & Sniper) when player is standing/crouched and weapon is stabilized but not formally deployed
+- [TWEAKED] 1 less enemy sniper team in AOs (if player count is < 25)
+- [TWEAKED] Players will now get incapacitated when on the deck of a ship, instead of killed
+- [TWEAKED] Enemy vehicles with camo net can now be Reported/Confirmed, it just takes longer
+- [TWEAKED] Group leaders can report enemy vehicles to the map if their group size is 4+ (fireteam and above), but not create Fire support tasks like JTAC
+- [TWEAKED] Group leaders of groups 4+ players, can see map enemies at much further distances
+- [TWEAKED] Improving & Optimising player damage effects feedback (screen post-processing effects)
+- [TWEAKED] Reduced skill accuracy of AI spawned by Zeus.
+- [TWEAKED] Enemy UAVs at low-player-count times no longer carry bombs.
+- [TWEAKED] Enemy plane countermeasures less effective against shoulder-fired AA (to promote infantry gameplay)
+- [TWEAKED] Big UI optimisations to map icons, gps and squad radar.
+- [TWEAKED] Vehicle crew display now shows the player role icon.
+- [TWEAKED] Some FOB respawn tickets are retained from old FOB when new FOB is created.
+- [TWEAKED] Robocop hit detection was re-factored & optimised, plus better detection of vehicle ramming.
+- [TWEAKED] Robocop now logs recent events to server profile
+- [TWEAKED] AI saboteurs now more use a dead-man switch (enemy units which plant explosives on player vehicles)
+- [TWEAKED] Helicopters have armor upgrade package
+- [FIXED] Fog on Tanoa was higher than intended.
+- [FIXED] Enemy helicopters at AO could disobey orders and hover in place for several minutes.
+- [FIXED] Players can now correctly get in Helicopters at base in official version.
+- [FIXED] Trophy APS system did not work against missiles fired by Zeus-spawned units.
+- [FIXED] Uniform MP bug where some players appeared naked to others (but not themselves).
+- [FIXED] Whitelisted slots did not work correctly
+- [FIXED] Static weapons (mortars, HMG) could not be mounted by the small flatbed truck
+- [FIXED] Small ammo/revive crates were not spawning on Altis main base, the collision detection range was too wide.
+- [FIXED] Boats were not spawning at north dock (Kalithea)
+- [FIXED] Role Selection Menu button was not available in Escape/Pause menu, even when set in parameters.
+
+1.1.9 (20/10/2020 A3 2.00)
+
+- [ADDED] New script commands (systemTime, getAttackTarget, etc).
+- [TWEAKED] Vehicle Active Protection System to improve player-vehicle protection from enemy AI-fired projectiles. 
+- [TWEAKED] AI awareness of hostile (player occupied) buildings.
+- [TWEAKED] Added civilian Tractor to easter eggs
+- [TWEAKED] Enemy MG towers no longer spawn on roads, probably.
+- [TWEAKED] Server security to A3 2.00 compatibility.
+- [FIXED] Friendly AI vehicles could spawn at some enemy objectives.
+- [FIXED] Custom terrain structures will no longer delete at the start of Defend missions/end of AO when players are nearby.
+- [REMOVED] real_date.dll extension dependency
+
+1.1.8 (19/08/2019 A3 1.94)
+
+- [ADDED] Sector Control mission type to Livonia.
+- [TWEAKED] Added new Mora variant (Livonia) to enemy vehicle config files.
+- [TWEAKED] (Livonia) Classic mission type: removed Gliniska AO (too close to base).
+- [FIXED] Game-breaking bug with vehicle respawn system.
+- [FIXED] Potentially game-breaking bug which causes AI to sometimes stop spawning.
+- [FIXED] (Again) Side mission rewards were not spawning in some cases.
+
+1.1.7 Hotfix 2 (15/08/2019 A3 1.94)
+
+- [ADDED] AI re-arming.
+- [TWEAKED] T140 Angara improved APS, but extended minimum effective range.
+- [TWEAKED] Commander no longer required for Active Protection System to work.
+- [TWEAKED] @Apex servermod, added override for BIS_fnc_setCustomSoundController running on server.
+- [TWEAKED] Removed enemy UGV from defend missions due to potential server crash.
+- [FIXED] "Edit Inventory" menu was broken by the arma update. (Thanks Fitz)
+- [FIXED] Robocop kick+ban features were broken by the arma update. (Thanks Fitz)
+- [FIXED] "Escort Vehicle" side mission was not available on Livonia.
+- [FIXED] Script error in AI suppressive fire system
+- [FIXED] Script error in AI countermeasure system
+- [FIXED] Shotgun magazines added to Arsenal whitelist. (Thanks Fitz)
+- [FIXED] Side mission rewards were not spawning on Livonia. (Thanks Mynar)
+- [FIXED] APS UI color was switching to red and not switching back to white.
+- [FIXED] APS UI visible only when in correct vehicle role.
+- [FIXED] Cancel action remained after reviving/healing.
+- [FIXED] "Edit Inventory" user action was broken by a recent arma update.
+- [FIXED] Auto-cancel of Treat action not working when heal target moved out of range.
+- [FIXED] AI units have ammo for incorrect gun (leaving limited space for ammo for correct gun).
+- [FIXED] Missions spawning outside map area (Livonia)
+- [FIXED] Script error in Sector Control mode, causing some AI to become invincible.
+
+
+1.1.7 "Contact" (23/07/2019 A3 1.94)
+
+- [ADDED] Contact DLC Integration.
+- [ADDED] QS Active Protection System, for armored vehicles. Based on Israeli "Trophy" and Russian "Afghanit" systems.
+- [ADDED] FOBs to Malden.
+- [ADDED] Medical cabinets to FOBs (all terrains).
+- [ADDED] DLC gear to scripted Arsenal.
+- [ADDED] New enemy static weapon emplacement in AOs.
+- [TWEAKED] Improved enemy loadout randomization.
+- [TWEAKED] Overhaul of enemy AI gear randomization system.
+- [TWEAKED] FOB'ified the main mission types for Malden.
+- [TWEAKED] Added ability to disregard "is respawn position clear" parameter for Vehicle Respawn (set near entities check radius to -1).
+- [TWEAKED] Prisoners converted from object type 'agent' (more resources) to 'vehicle' (less resources) when placed into Prison.
+- [TWEAKED] Contact DLC objects can be dragged/carried when appropriate.
+- [TWEAKED] Integrated new & improved A3 1.94 script commands.
+- [FIXED] Player vehicle event handlers were not unloading properly on player death.
+- [FIXED] "FOB Status" user action had no maximum radius.
+- [FIXED] Fighter pilot was unable to properly use Aircraft radio channel.
+- [FIXED] Engineer was unable to disarm landmines.
+- [FIXED] Enemy forces were unaware of where their own minefields were.
+- [FIXED] Script error in Towing Release script.
+- [FIXED] Fixed potential script error in AO Defend mission.
+
+1.1.6 Hotfix 1 (12/05/2019 A3 1.92)
+
+- [FIXED] HVT could not be captured.
+- [FIXED] Vehicle Inventory Editor worked even on destroyed vehicles.
+- [FIXED] Artillery Computer parameter was not working since 1.1.4.
+- [FIXED] Fighter pilot could not activate Simple Object planes.
+- [FIXED] Arsenal bug (displaying gear for incorrect role when using whitelisting or blacklisting).
+
+1.1.6 (6/05/2019 A3 1.92)
+
+- [ADDED] Role Whitelisting for Role Selection System.
+- [ADDED] Parameter option for Ambient Civilians.
+- [ADDED] Parameter option for Ambient Animals.
+- [ADDED] 2 New buttons to Role Selection menu (Arsenal + Group).
+- [TWEAKED] When over 50 players on server, Ambient Animals and Ambient Civilians are disabled regardless of parameter option, to preserve performance during peak demand.
+- [TWEAKED] Implemented improved "switchLight" command.
+- [TWEAKED] Implemented new command "lnbSetTooltip" to role selection system menu lists.
+- [TWEAKED] AI Tank gunners more likely to attack player-occupied buildings.
+- [TWEAKED] Capped ability for client to spam "Jump" animation net messages.
+- [TWEAKED] Role Selection System documentation in the file "documentation\role selection system.txt" for role whitelisting.
+- [FIXED] (Bigly network optimization) Removed beta net code for new Roles system.
+- [FIXED] Server-spawned UAV turrets would be deleted when the UAV operator used them and then left the slot.
+- [FIXED] Server script error in robocop AFK auto-kick system.
+- [FIXED] Server script error when initializing Group Management system.
+- [FIXED] Client script error when opening the Virtual Arsenal system.
+- [REMOVED] Game bug workaround for date year sync issue, as BIS has fixed it internally.
+
+1.1.5 (26/04/2019 A3 1.90)
+
+- [TWEAKED] Major optimization to Role Selection System net code.
+- [TWEAKED] Disabled "skipLobby" parameter due to unstable results.
+- [TWEAKED] FOB vehicles would not appear for a long time when vehicle respawn activated.
+
+1.1.4 Release Candidate 2
+
+- [TWEAKED] Reduced slightly AI skills on Tanoa, raised slightly AI skills on Altis/Malden.
+- [TWEAKED] CAS pilots will have Role menu appear on respawn, instead of having to run long distance to access at an Arsenal crate.
+- [TWEAKED] If you are a gunner in an armed offroad and get incapacitated, you'll be knocked out of the vehicle instead of remain on the gun.
+- [FIXED] widthRailway config error when joining server.
+- [FIXED] Arsenal could sometimes display gear for a role different to yours.
+- [FIXED] Enemy transport helos would regularly de-spawn after dropping soldiers.
+- [FIXED] Transport leaderboard was broken in 1.1.4 update.
+- [FIXED] A Classic mode enemy HQ had a white flag instead of faction flags.
+- [FIXED] Bug with players unable to join roles which were close to capacity. Ex. sniper (1 / 2)
+- [REMOVED] Ear collector leaderboard (network optimization).
+- [REMOVED] Obsolete leaderboard player registration code (network optimization).
+
+1.1.4 Release Candidate 1
+
+- [TWEAKED] Role selection pause menu button now hidden when disabled in parameters.
+- [TWEAKED] OPFOR slots hidden when not available, by default.
+- [TWEAKED] Role menu player list shows all players now, instead of only those in the selected faction.
+- [TWEAKED] Added a "Close" button to Role menu.
+- [TWEAKED] OPFOR players have Role menu access when respawning.
+- [FIXED] 1.1.4 patch broke the ability to respawn at FOB instead of base.
+- [FIXED] Script error related to vehicle access and use of the new # command.
+
+1.1.4 Dev Build
+
+- [ADDED] Role Selection System.
+- [TWEAKED] Replaced "select" with "#" in most active server/client scripted systems.
+- [TWEAKED] Micro optimizations to main client scripts.
+- [TWEAKED] Small optimization to player object namespace for UI data.
+- [TWEAKED] It was possible to use vehicle Manual Fire mode to bypass the base safezone protections.
+- [TWEAKED] AI skills boosted slightly for Regular and Veteran AI.
+- [FIXED] Easter Egg helicopters could de-spawn with players inside!
+
+1.1.3
+
+- [TWEAKED] Medic UI to show nearby wounded in vehicles.
+- [TWEAKED] Enemy snipers
+- [TWEAKED] Overwatch position-finding function.
+- [TWEAKED] Revive action removed from action menu when currently reviving.
+- [FIXED] Error in UI text of incapacitation system.
+
+1.1.2 (A3 1.84 13/10/2018)
+
+- [TWEAKED] Defend mission for increased enemy aggression.
+- [TWEAKED] Vanilla "Treat" user action to increase usability.
+- [TWEAKED] AI groups will select a new leader faster, if their group leader is killed or incapacitated.
+- [TWEAKED] Relying more on the object recycling system instead of object creating/deleting. (WIP).
+- [TWEAKED] Frag grenades will no longer delete if the thrower is the only friendly player nearby.
+- [TWEAKED] Less anti-tank soldiers during Escort Truck side mission.
+- [TWEAKED] Towing system to add support for ship decks (carrier, etc).
+- [TWEAKED] Transport leaderboard network traffic optimized.
+- [FIXED] Aircraft carrier map marker was not available for placement in 3DEN Editor.
+- [FIXED] Player could deploy bipod while incapacitated (breaking wounded animation).
+- [FIXED] Transport leaderboard (broken in 1.1.1).
+
+1.1.1 (A3 1.84 30/09/2018)
+
+- [ADDED] Enemy heavy artillery targeting system.
+- [ADDED] Parameter option for enemy map indicators.
+- [TWEAKED] AI units have access to more powerful rifles on Arid terrains (Altis, Malden).
+- [TWEAKED] Reduced unnecessary network traffic created by some client data.
+- [TWEAKED] AI Vehicle "Unstuck" logic.
+- [TWEAKED] Destroyer cruise missile launcher to receive target data from datalink.
+- [TWEAKED] Escort Vehicle side mission will no longer auto-group players when within 1000m of base.
+- [TWEAKED] Camo netting on enemy vehicles should block "Report target" player interaction.
+- [TWEAKED] AI strategic awareness of armor/jet threats.
+- [TWEAKED] AI heli tail rotors buffed.
+- [TWEAKED] Friendly vehicle "is stealthy" function for enemy awareness.
+- [FIXED] Enemy artillery side mission.
+- [FIXED] Potential script error with custom task info GUI.
+- [FIXED] Enemy AI vehicles would stop their patrol route after the first waypoint.
+- [FIXED] Some AI vehicles would not move at all, despite being given patrol logic.
+- [FIXED] Bug in "Escort Vehicle" side mission.
+- [FIXED] Bug in enemy reinforcement vehicle spawning.
+- [FIXED] Bug in enemy light recon aircraft spawning.
+- [FIXED] Bug in defend mission transport vehicle damage handling.
+- [FIXED] Bug in some enemy group compositions.
+- [FIXED] AO in campaign/insurgency (grid) mode was spawning on top of the main base on Malden.
+- [FIXED] Players could drag a Vehicle Ammo Crate in some cases.
+- [FIXED] Script error with "uav self destruct" user action when controlling the AR-2 Darter
+
+1.1.0 "Encore"
+
+- [ADDED] USS Liberty destroyer.
+- [ADDED] New Encore assets.
+- [ADDED] More parameter options.
+- [ADDED] Towing (logistics) support for new assets (including boat rack).
+- [ADDED] User interaction for boat rack.
+- [TWEAKED] Chance of enemy calling in (stealth) shikra for CAS reduced.
+- [TWEAKED] Air defense SAM missiles added to 2D/3D projectile visualizer.
+- [TWEAKED] Magazine Repack to not conflict with vehicle systems (radar binding).
+- [TWEAKED] Towing (logistics) system.
+- [TWEAKED] Fastrope to prevent fastroping beneath ship decks.
+- [FIXED] Some small script errors/bugs.
+- [FIXED] Players could "Escort" one another in rare cases.
+- [FIXED] Players could "Carry" more than 1 wounded at a time.
+- [FIXED] Static ships were not being spawned at the positions defined by the editor map markers, when custom base was used.
+
+1.0.9
+
+- [ADDED] QS Slingload Assistant (incl. Taru Pod enhancement) feature. (allows raising and lowering of sling ropes + Taru pod attachment to Taru helicopter).
+- [ADDED] Framework parameter for artillery computer access.
+- [ADDED] Advanced Hints system.
+- [TWEAKED] Added sanity checks to "Unload Incapacitatated" user interaction.
+- [TWEAKED] Wrong orientation when sitting on "Sofa" chair.
+- [TWEAKED] Enemy mortar fire missions now fire extra shells if more targets are in the area.
+- [TWEAKED] Friendly UAVs had incorrect "featureType"
+- [TWEAKED] Enemy reinforcement transport helis had incorrect "featureType"
+- [TWEAKED] Removed all "comment" command compiles (micro-optimization).
+- [TWEAKED] Added safety check to admin "cleanup" functions.
+- [TWEAKED] Sling Load Assistant panel will automatically open when interacting with helicopter sling loading.
+- [TWEAKED] UAV operator uavs get AI disabled when towed/sling loaded.
+- [TWEAKED] Weather config data now uses default values (prevents errors on unofficial terrains).
+- [TWEAKED] Major code refactor for main client script, reducing its size by 1500 lines.
+- [TWEAKED] Disabled "Random" button in Arsenal.
+- [TWEAKED] Attempt to improve enemy transport heli waypoint loyalty.
+- [TWEAKED] Removed MP admin commands from chat code blocker.
+- [TWEAKED] Some small function speed optimizations.
+- [TWEAKED] Aircraft carrier island doors forced open during init.
+- [TWEAKED] Disabled the "hint" and "hintSilent" script commands (replaced with scripted system for more control).
+- [TWEAKED] Player menu mouse cursor position to remember last position between sub-menus.
+- [TWEAKED] Reduced AO size, especially on higher player counts.
+- [TWEAKED] Classic AO defend mission, disabled the randomized "extended timer" chance (can still be activated manually).
+- [TWEAKED] Added script suspension to AI info-gathering during Classic AO defend mission (to improve performance).
+- [FIXED] Getting incapacitated while carrying a player would leave them suspended in "carried" animation.
+- [FIXED] Taru assets were being improperly skinned in vehicle setup.
+- [FIXED] Wind direction variability on Tanoa was not correct.
+- [FIXED] Destroyed structures were being handled incorrectly by the remains collector.
+- [FIXED] Greyhawk UAV turret was unable to use the bombs.
+- [FIXED] Some small issues with the player menu system.
+- [FIXED] Small script error in anti-cheat.
+
+1.0.8 "Hotfix 3" (ArmA 3 1.82) 20/04/2018
+
+- [ADDED] Medical drone boxes & Medical drones now revive incapacitated players if within 5m (consumes the box/drone).
+- [ADDED] Documentation for creating base speed-limited areas and base vehicle-restricted area.
+- [TWEAKED] Friendly respawning UAVs can now be placed in 3D Editor.
+- [TWEAKED] Overhaul of friendly UAV operator script.
+- [TWEAKED] Attempt to reduce chance of enemy CAS nose-diving after spawn.
+- [TWEAKED] AI building usage will check to see if structure is hidden/invisible before trying to use it.
+- [TWEAKED] Desert mortar pit composition.
+- [TWEAKED] Some enemy at Escort Vehicle side mission now have AA shoulder launchers.
+- [TWEAKED] Should be at least 1-2 vehicles in AO even if AO doesnt have enough road segments (Classic & Sector Control).
+- [TWEAKED] New AI vehicle selection logic enabled for Sector Control mode.
+- [FIXED] Group Management system was not updating changes properly.
+- [FIXED] Pilot would sometimes teleport to ocean when ejecting from plane.
+- [FIXED] Incapacitation overlay would stay on screen after death.
+- [FIXED] Decorative submarine had incorrect "featureType".
+- [FIXED] Crew HUD missing icons.
+- [FIXED] Medical UAVs can add respawn tickets to FOB.
+- [FIXED] GPS jammer task icon would not clean up if Jammer was deleted instead of destroyed.
+- [FIXED] Text error in admin/curator "cycle mission" option.
+- [FIXED] Small error in AI recycler.
+- [FIXED] Hidden a partially submerged terrain structure on Malden.
+- [FIXED] UGV Stompers (unarmed) now correctly spawn with Stretchers & logistics system even when created with Zeus.
+- [FIXED] Falcon UAV drone would sometimes spawn damaged and partially tipped over on Aircraft Carrier.
+
+1.0.8 "Hotfix 2" (ArmA 3 1.82) 16/04/2018
+
+- [TWEAKED] Reduced effectiveness of enemy bombs against player-controlled armored vehicles.
+- [TWEAKED] Forcefully apply Guerilla camouflage to guerilla offroad vehicles (BIS has not configured them properly).
+- [FIXED] Game crash. Changed way units are unloaded from vehicles, to avoid ArmA game crash bug. Related to: https://feedback.bistudio.com/T128186
+- [FIXED] Fonts issue in 3D hud script.
+
+1.0.8 "Hotfix 1" (ArmA 3 1.82) 15/04/2018
+
+- [ADDED] Documentation file for Arsenal + Gear Restrictions.
+- [TWEAKED] Arsenal system.
+- [TWEAKED] Gear Restrictions system.
+- [TWEAKED] 3D HUD icons better integration with Teams + Commanding.
+- [TWEAKED] 2D map font reverted from TahomaB to RobotoCondensed
+- [TWEAKED] Enemy less likely to spawn T140K at low server population.
+- [TWEAKED] Removed AT Offroad from easter egg vehicle spawning, as it was spawning underground (BIS has not configured it for simple object yet).
+- [TWEAKED] Datalink system. (Nyx Recon should be more effective).
+- [TWEAKED] Ambient hostility tweaks.
+- [TWEAKED] AA Battery hulls made slightly less durable.
+- [TWEAKED] Min FPS threshold to ambient hostility module.
+- [TWEAKED] Ambient Hostility enabled only when Mission type is "Sector Control" or "Classic".
+- [TWEAKED] Sector control sites are spawning too close to map structures.
+- [FIXED] Recycled AI were invincible.
+- [FIXED] Ambient hostility should avoid some areas (base, fob, AO, side mission).
+- [FIXED] Some vehicle-related user interactions were not working (arma game change).
+- [FIXED] Removed debug line from reinforcement vehicle spawn script.
+- [FIXED] Commander could give orders to unrecruited recruitable AI at base.
+- [FIXED] Small internal bug with AI recycler.
+- [FIXED] Incorrect failure message in Kavala mission.
+- [FIXED] small AI-related Script error.
+- [FIXED] Player killed while in ambulance causes medical revive glitches.
+- [FIXED] Vehicle Service & slat armor can be applied from any distance.
+- [FIXED] Commander could control drones owned by UAV operator.
+- [FIXED] Enemy indirect fire (mortars,arty) was adversely affected by Dynamic Simulation system.
+
+1.0.7 "Tanks" (ArmA 3 1.82) 11/04/2018
+
+[ADDED] Interaction to deploy/retract armored vehicle Camo Nets.
+[ADDED] Interaction to mount/remove armored vehicle Cage Armor at vehicle service points.
+[ADDED] AI enemy support vehicles & AI support logic (repair, rearm, refuel).
+[ADDED] AI increased use of frags & smoke.
+[ADDED] Enemy armor appearance randomization.
+[ADDED] New enemy vehicle spawn logic.
+[ADDED] AI recycler system.
+[ADDED] New side mission.
+[ADDED] Tanks DLC Repair Depots.
+[ADDED] Ambient hostility module.
+[ADDED] Commander role (Beta).
+[TWEAKED] Overhaul of AA Battery side mission.
+[TWEAKED] Added some of the NATO skins for opfor/indep vehicles (varsuk, mora, marid, kuma).
+[TWEAKED] Extended use of "Attach explosive charge" ability. (will now work on most map objects + enemy vehicles + flagged entities)
+[TWEAKED] Overhaul of how Classic AO objectives system, to support more flexible/dynamic objectives.
+[TWEAKED] Enemy infantry patrols at Classic AO now patrol forests better.
+[TWEAKED] Many code optimizations in frequently-used functions & procedures.
+[TWEAKED] Blufor Tracker overhaul (optimized + teams integration + bug fixes).
+[TWEAKED] View Distance delta smoothing.
+[TWEAKED] Removed workarounds for Incapacitation arma bugs (player could keep driving and shoot vehicle turrets and could not be unloaded from vehicles normally).
+[TWEAKED] Artillery script to add Tropical vehicle variant.
+[TWEAKED] Reduced memory footprint of core client scripts.
+[TWEAKED] Surrender interaction speed linked to target morale
+[TWEAKED] Surrender progress bar will now remain in center of screen
+[TWEAKED] Created more performance-efficient versions of some heavily-used BIS functions.w
+[TWEAKED] Marid APC upgraded to new Tanks DLC variant (2 crew instead of 3).
+[TWEAKED] Gear restriction now uses mostly data from "code\config\QS_data_gearRestrictions.sqf" and "code\config\QS_data_arsenal.sqf"
+[TWEAKED] Squad Radar HUD reduced in size by 25%.
+[TWEAKED] AA Sites given added force protection.
+[TWEAKED] AA Site compositions tweaked.
+[TWEAKED] Some enemy groups in AO were using default fireteam composition instead of specialized/randomized composition.
+[TWEAKED] AA Sites can spawn closer to center of AO (more protected).
+[TWEAKED] Projectile HUD icons (2D and 3D) now spin in flight.
+[TWEAKED] Incoming missiles are now visualized on your map.
+[TWEAKED] AA Battery missiles are now visualized in 2D and 3D HUD.
+[TWEAKED] AO Sub objectives should spawn closer to center of AO.
+[TWEAKED] Aircraft Carrier defense turrets will behave properly now.
+[TWEAKED] Enemy fixed-wing support now has config option.
+[TWEAKED] Removed Zeus camera pitch restriction (it can not look up in vanilla).
+[TWEAKED] Vehicles not Blackfish-loadable with Slat armor applied.
+[TWEAKED] Enemy CAS/UAV now provide support to AI at side missions and elsewhere.
+[TWEAKED] Enemy AI ground vehicles will do more to support their infantry during combat.
+[TWEAKED] Crates should now usually keep their custom inventory when reset to base.
+[TWEAKED] Enemy AI threat analysis for Commander-controlled adaptive spawning.
+[TWEAKED] Rescue-maneuver to 'unstuck' enemy boats.
+[TWEAKED] Extra health for enemy artillery vehicles.
+[TWEAKED] Towing of larger vehicles like Blackfish/Huron/Xian (with HEMTT Mover) no longer looks so weird.
+[TWEAKED] Convoy side mission will spawn stronger enemies if convoy stops.
+[TWEAKED] AO minefield will only spawn once players are in the vicinity (reduces chance of AI walking in prematurely).
+[TWEAKED] Added failsafe timeout to IDAP side mission incase crate becomes unfinishable.
+[TWEAKED] Examine interaction could be hard to get.
+[TWEAKED] Adaptive enemy infantry group-type spawning.
+[TWEAKED] Carrier jet launch sequence now plays sound for deflectors.
+[TWEAKED] Anticheat to 1.82 compatibility.
+[FIXED] Bug with Viper Teams on Sector Control mode.
+[FIXED] Enemy artillery was using Tropical variant on Desert terrains. (composition is still tropical)
+[FIXED] Tropical engineer unit was appearing on desert terrains.
+[FIXED] Legacy side mission enemy vehicles didnt have new AI vehicle brains.
+[FIXED] Stand interaction could disappear while seated, if Sit/Stand were spammed.
+[FIXED] Ruined structures were not being cleaned up.
+
+1.0.6 (ArmA 3 1.80)
+
+[ADDED] AI Vehicle "Unstuck" logic.
+[ADDED] AI enemy rally point logic for depleted groups.
+[ADDED] Viper team logic (Classic + Sector Control).
+[ADDED] AI enemy vehicle repair logic.
+[ADDED] Random pylon loadouts on enemy helicopters and some jets (at random).
+[ADDED] Battleye filters.
+[ADDED] New enemy group config (ar team).
+[TWEAKED] Default mission.sqm file is no longer used, only Custom is necessary.
+[TWEAKED] Defend mission (Classic AO) AI overhaul.
+[TWEAKED] AI regrouping fixed & improved.
+[TWEAKED] AI driving (wheeled vehicles) tweaked and improved.
+[TWEAKED] AI infantry patrol logic tweaked and improved.
+[TWEAKED] AI Fire mission (UAV bomb) tweaked and improved.
+[TWEAKED] AI Fire mission (Mortar) tweaked and improved.
+[TWEAKED] Plane service takes 20 extra seconds.
+[TWEAKED] Classic AO sub-objective randomization.
+[TWEAKED] AI enemy CAS.
+[TWEAKED] AI info-sharing extended.
+[TWEAKED] Enemy vehicle weapon-downgrade now randomized instead of all the time.
+[TWEAKED] AI enemy UAVs were not behaving properly when given a fire mission.
+[TWEAKED] AI enemy CAS/UAVs were diving too low when dropping bombs in some cases.
+[TWEAKED] More enemy jets will spawn when players have 2+ jets in the air.
+[TWEAKED] Enemy jet spawn tempo increased when defend mission is active.
+[TWEAKED] Enemy vehicle slingloading was not working well.
+[FIXED] AI enemy CAS was not spawning when player count > 15.
+[FIXED] AI enemy CAS force-spawn override was not working.
+[FIXED] AI enemy backpack drones were spawning too far from AO.
+[FIXED] CRV Bobcat can now clean up large wrecks like Blackfish.
+[FIXED] Vehicle-in-Vehicle loading from Towing was not preventing incompatible load attempts (ex: Taru pod to Blackfish).
+[FIXED] Vehicle-in-Vehicle + Towing could be exploited to daisy-chain vehicles.
+[FIXED] AI vehicle 'evasive dismount' logic was interfering with their ability to reclaim the vehicle after it was repaired/unstuck.
+[FIXED] Side mission reward aircraft could sometimes have air-to-ground missiles.
+[FIXED] Screen blur on respawn after dying in freefall animation.
+[FIXED] AI enemy CAS rearm delay was using wrong time measurement.
+[FIXED] Enemy reinforcements (classic AO) were constrained by wrong unit-cap measurement.
+[FIXED] AO illumination was not going to next AO after a defend mission.
+[FIXED] Live-Feed screen was not present in Custom SQM file.
+
+1.0.5 (Release Candidate)
+
+[ADDED] Some documentation files.
+[ADDED] Custom build kit (Editor compatibility).
+[TWEAKED] AI skill function ("code\functions\fn_serverSetAISkill.sqf"). 		* Tweak this file to tune your AI to your liking.
+[TWEAKED] Landmine concealment and placement improved.
+[TWEAKED] Classic AO defend mission, for increased enemy aggression.
+[TWEAKED] Surrender interaction.
+[TWEAKED] Carry interaction to fix "stuck walking after carried unit dies on my back" bug.
+[FIXED] Robocop anti-troll system could sometimes trigger on player connection.
+
+1.0.4 (Beta)
+
+[ADDED] Stringtable file (WIP).
+[TWEAKED] Raised total AI unit cap slightly for Altis/Malden.
+[TWEAKED] AI difficulty increased slightly.
+[TWEAKED] Classic AO Defend difficulty increased slightly.
+[TWEAKED] More enemy groups spawn on Altis (Classic AO).
+[TWEAKED] Client damage modifier.
+[TWEAKED] Enemy vehicle weapon downgrade now randomized instead of all the time.
+[TWEAKED] Server will no longer restart while a Classic AO defend mission is ongoing (it will wait until finished instead).
+[TWEAKED] Enemy with weaker weapons (5.56) should get better optics (increases their effective range).
+[FIXED] Malden AOs would not spawn in some cases.
+[FIXED] Bug with invisible enemy reinforcement vehicle at Classic AO defend mission.
+[FIXED] Jungle camo vehicle was spawning on Altis Classic AO defend mission.
+[FIXED] Player-assembled static weapons could not be Mounted onto flatbed trucks.
+[FIXED] Taru pods could not be released once towed.
+[FIXED] Vehicle-in-Vehicle loading while towing was not working.
+[FIXED] Unflip Vehicle interaction was not working in some cases.
+[FIXED] Enemy heli landings were not working properly in some cases (script error).
+[FIXED] Player could not release a dragged crate when inside a building in some cases.
+[FIXED] Unload interaction would still be present even when no incapacitated units in the vehicle.
+[FIXED] Player could use some on-foot interactions while in vehicle (ongoing fixes).
+[FIXED] Reported enemy vehicles could sometimes be reported multiple times (stacked tasks).
+[FIXED] Medical garbage on revive could be floating sometimes.
+[FIXED] Script error in AI repair vehicle behavior script.
+[FIXED] Enemy vehicle reinforcement helicopters would not spawn.
+[FIXED] Various script errors.
+[FIXED] Player would get kicked from server for using uav self-destruct interaction.
+
+1.0.3 (Beta)
+
+N/A
+
+1.0.2 (Beta)
+
+N/A
+
+1.0.1 (Beta)
+
+N/A
+
+1.0.0 (Beta)
+
+N/A
+
+
+------------------------------------------------------------------------
+
+Looking Ahead:
+
+1.2.2 (TBA)
+
+Overview:
+
+This update will be split between game design, and player mechanics. The intention is to implement key player mechanics like Sandbag deployment and a Pylon manager for CAS.
+At the same time, extending changes to Missions and AI Logic.
+------------------------------------------------------------------------
+1.2.1 (TBA) 
+
+Overview: 
+
+The area of focus of the next update will be mostly related to game design, missions and objectives. 
+
+- Missions
+- Tasks
+- AI Logic
+- AI Headless Client
+------------------------------------------------------------------------

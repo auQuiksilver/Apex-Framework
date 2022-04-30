@@ -1,0 +1,24 @@
+For security reasons we have disabled a number of script commands associated with common cheat scripts and not associated with mission/framework scripts, for instance the "onMapSingleClick" command, and one syntax of the "createUnit" command.
+
+These can be viewed/modified in description.ext file.
+
+If you are heavily modifying this framework and some things are not working for no apparent reason, its a good idea to know which commands are disabled.
+
+Here is a rough list of what is disabled by default (as of 1.1.9):
+
+createUnit (syntax with init field)
+addMPEventHandler
+publicVariable
+onMapSingleClick
+allVariables (namespace syntax)
+hint
+hintSilent
+onEachFrame
+
+Note:
+
+	In 1.2.0 we have re-enabled "setMarkerText" to allow Zeus to edit marker text. To further lock down security, you can disable this command.
+
+Reference:
+
+https://community.bistudio.com/wiki/CfgDisabledCommands

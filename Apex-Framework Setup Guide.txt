@@ -1,5 +1,5 @@
 Apex Framework
-Apex Framework 1.1.9 (20/10/2020) by Quiksilver ( armacombatgroup@gmail.com )
+Apex Framework 1.2.0 (30/04/2022) by Quiksilver ( armacombatgroup@gmail.com )
 
 Support
 
@@ -11,7 +11,7 @@ https://community.bistudio.com/wiki/server.cfg
 
 Apex Framework step-by-step setup guide:
 
-Setup time: 30 minutes.
+Setup time: 60 minutes.
 Server must be a Dedicated server. Not configured for local client hosting.
 Server must be running Windows x64, or Linux.
 Download the "Apex_framework_119_allFiles.zip" file.
@@ -34,13 +34,13 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_119.Altis";
+template="Apex_framework_120.Altis";
 
-//template="Apex_framework_119.Tanoa";
+//template="Apex_framework_120.Tanoa";
 
-//template="Apex_framework_119.Malden";
+//template="Apex_framework_120.Malden";
 
-//template="Apex_framework_119.Enoch";
+//template="Apex_framework_120.Enoch";
 
 difficulty="Custom";
 
@@ -50,7 +50,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_119.Altis","Apex_framework_119.Tanoa","Apex_framework_119.Malden","Apex_framework_119.Enoch"};
+missionWhitelist[] = {"Apex_framework_120.Altis","Apex_framework_120.Tanoa","Apex_framework_120.Malden","Apex_framework_120.Enoch"};
 
 6b. Ensure that: forcedDifficulty = "Custom";
 
@@ -73,8 +73,10 @@ _serverCommandPassword = "'ShVQArtpGdc5aDQq'";
 
 8e. Dont use that password!!!
 
-In the "parameters.sqf" file, locate this:
-_main_mission_type = 'NONE';
+8f. Ensure you change the passwordAdmin setting as well.
+
+In the "@Apex_cfg\parameters.sqf" file, locate this:
+_main_mission_type = 'CLASSIC';
 
 Using the notes and examples posted beneath that line, select the mission type you want to run. Reference: https://i.imgur.com/FI8tWHZ.png
 

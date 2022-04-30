@@ -1,0 +1,5388 @@
+/*/
+File: description.ext
+Author:
+	
+	Quiksilver
+
+Last modified:
+
+	30/04/2022 A3 2.08 by Quiksilver
+	
+Description:
+
+	https://community.bistudio.com/wiki/Description.ext
+____________________________________________/*/
+
+author = "Quiksilver";												/*/ Visible when loading mission/*/
+onLoadName = "Invade & Annex";										/*/ Visible when loading mission/*/
+onLoadMission = "";
+loadScreen = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
+overviewPicture = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
+overviewText = "";
+overviewTextLocked = "";
+onLoadIntro = "";													/*/ Displays a message while the intro is loading./*/
+onLoadIntroTime = 0;												/*/ Time and date displayed while the intro loads. 1 visible, 0 hidden./*/
+onLoadMissionTime = 0;												/*/ Time and date displayed while the mission loads. 1 visible, 0 hidden./*/
+class Header {
+	gameType = COOP;												/*/ Unknown, COOP, DM, TDM, CTF, SC, CTI, RPG, Sandbox, Seize, Defend./*/
+	minPlayers = 1;													/*/ Min # of players the MISSION supports/*/
+	maxPlayers = 81;												/*/ Max # of players the MISSION supports, not server slots. Make sure # is greater than server slots./*/
+};
+disabledAI = 1;											/*/ No AI in playable units/*/
+aiKills = 0; 											/*/ disable scorelist for AI players/*/
+enableItemsDropping = 0; 								/*/ disabled with 0/*/
+joinUnassigned = 0;										/*/ 0 = players forced into role on join/*/
+showUAVFeed = 1;										/*/ Enables/Disables the UAV Feed./*/
+showGroupIndicator = 0;
+showSquadRadar = 0;
+forceRotorLibSimulation = 0;							/*/ Advanced Flight Model /*/
+scriptedPlayer = 1;
+corpseManagerMode = 0;
+corpseLimit = 30;
+corpseRemovalMinTime = 60;
+corpseRemovalMaxTime = 1200;
+wreckManagerMode = 0;
+wreckLimit = 10;
+wreckRemovalMinTime = 60;
+wreckRemovalMaxTime = 1200;
+minPlayerDistance = 50;
+disableRandomization[] = {};
+disableGateRandomization = 1;
+class CfgUnitTemplates {};
+class CfgVehicleTemplates {};
+arsenalRestrictedItems[] = {};
+overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom handling. Default: not set
+unsafeCVL=1;					// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
+class CfgDisabledCommands {
+    class CREATEUNIT
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{"STRING"},{"ARRAY"}};
+        };
+
+        class SYNTAX2
+        {
+            targets[] = {1,1,1};
+            args[] = {{"GROUP"},{"ARRAY"}};
+        };
+    };
+	
+	
+	/*/
+    class SETMARKERTEXT
+    {
+        class SYNTAX1
+        {
+            targets[] = {1,0,0};
+            args[] = {{"STRING"},{"STRING"}};
+        };
+    };
+	/*/
+
+
+    class ADDMPEVENTHANDLER
+    {
+        class SYNTAX1
+        {
+            targets[] = {1,0,0};
+            args[] = {{"OBJECT"},{"ARRAY"}};
+        };
+    };
+	
+	
+	/*/
+    class SETWAYPOINTSTATEMENTS
+    {
+        class SYNTAX1
+        {
+            targets[] = {1,0,1};
+            args[] = {{"ARRAY"},{"ARRAY"}};
+        };
+    };
+	/*/
+	
+	
+    class PUBLICVARIABLE
+    {
+        class SYNTAX1
+        {
+            targets[] = {1,0,1};
+            args[] = {{},{"STRING"}};
+        };
+    };
+    class ONMAPSINGLECLICK
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{"ANY"},{"STRING","CODE"}};
+        };
+
+        class SYNTAX2
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"STRING","CODE"}};
+        };
+    };
+    class ALLVARIABLES
+    {
+        class SYNTAX1
+        {
+            targets[] = {1,1,1};
+            args[] = {{},{"CONTROL"}};
+        };
+
+        class SYNTAX2
+        {
+            targets[] = {1,1,1};
+            args[] = {{},{"TEAM_MEMBER"}};
+        };
+
+        class SYNTAX3
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"NAMESPACE"}};
+        };
+
+        class SYNTAX4
+        {
+            targets[] = {1,1,1};
+            args[] = {{},{"OBJECT"}};
+        };
+
+        class SYNTAX5
+        {
+            targets[] = {1,1,1};
+            args[] = {{},{"GROUP"}};
+        };
+
+        class SYNTAX6
+        {
+            targets[] = {1,1,1};
+            args[] = {{},{"TASK"}};
+        };
+
+        class SYNTAX7
+        {
+            targets[] = {1,1,1};
+            args[] = {{},{"LOCATION"}};
+        };
+    };
+    class HINT
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"STRING","TEXT"}};
+        };
+    };
+    class HINTSILENT
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"STRING","TEXT"}};
+        };
+    };
+    class ONEACHFRAME
+    {
+        class SYNTAX1
+        {
+            targets[] = {0,0,0};
+            args[] = {{},{"STRING","CODE"}};
+        };
+    };
+
+};
+class CfgRemoteExec {
+	class Commands {
+		mode = 1;
+	};
+	class Functions {
+		mode = 1;
+		jip = 0;
+		allowedTargets = 0;
+		class BIS_fnc_callScriptedEventHandler {};
+		class BIS_fnc_curatorRespawn {};
+		class BIS_fnc_deleteTask {jip = 1;}; 
+		class BIS_fnc_dynamicGroups {};
+		class BIS_fnc_effectKilled {};
+		class BIS_fnc_effectKilledSecondaries {};
+		class BIS_fnc_effectKilledAirDestruction {};
+		class BIS_fnc_effectKilledAirDestructionStage2 {};
+		class BIS_fnc_error {};
+		class BIS_fnc_initIntelObject {jip = 1;};
+		class BIS_fnc_objectVar {};
+		class BIS_fnc_playSound {allowedTargets = 1;};
+		class BIS_fnc_sayMessage {allowedTargets = 1;};
+		class BIS_fnc_setCustomSoundController {};
+		class BIS_fnc_setIdentity {};
+		class BIS_fnc_setTask {jip = 1;};
+		class BIS_fnc_setTaskLocal {jip = 1;};
+		class BIS_fnc_sharedObjectives {};
+		class BIS_fnc_showNotification {allowedTargets = 1;};
+		class QS_fnc_remoteExec {allowedTargets = 0;};
+		class QS_fnc_remoteExecCmd {allowedTargets = 0;};
+	};
+};
+respawn = 3;											/*/ 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird./*/
+respawnDelay = 5;										/*/ Delay prior to respawn/*/
+respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard when killed./*/
+respawnOnStart = 0;
+reviveMode = 0;
+reviveUnconsciousStateMode = 0;
+reviveRequiredTrait = 0;
+reviveRequiredItems = 2;
+reviveRequiredItemsFakConsumed = 1;
+reviveMedicSpeedMultiplier = 2;
+reviveDelay = 6;
+reviveForceRespawnDelay = 3;
+reviveBleedOutDelay = 120;
+debriefing = 1;
+class CfgDebriefing {
+	class QS_RD_end_1 {
+		title = "Role whitelisted";
+		description = "You have joined a whitelisted role, please re-assign. If you would like to be on the whitelist, please speak to staff.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_2 {
+		title = "Imperfect connection";
+		description = "Your connection was imperfect, please re-connect. This measure reduces the prevalence of bugs and glitches caused by de-sync/packet loss during initialization. Thank you for your patience.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_3 {
+		title = "Blacklisted";
+		description = "You have been temporarily blacklisted from this role, please re-assign.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_4 {
+		title = "Reserved Profile Name";
+		description = "Your profile name is reserved for a staff member or supporter on this server, please use a different profile name!";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_5 {
+		title = "Invalid Profile Name";
+		description = "Your profile name has been rejected by this server. Please use a different profile name.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_6 {
+		title = "Fighter Pilot Whitelist";
+		description = "You are not whitelisted as a Fighter Pilot.";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
+	};
+	class QS_RD_end_7 {
+		title = "Depleted Assets";
+		description = "You have depleted your pool of aircraft (3), it will refresh after server restart!";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
+	};
+	class QS_RD_end_8 {
+		title = "Role Disabled";
+		description = "This role is currently disabled!";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_9 {
+		title = "Insufficient Transport Score";
+		description = "You have insufficient Transport Score as a helipilot, please fly transport!";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
+	};
+	class QS_RD_end_10 {
+		title = "Insufficient Playtime";
+		description = "You must play on the server more prior to using the Pilot roles";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
+	};
+};
+class CfgLeaflets {
+	class East {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
+	};
+	class West {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
+	};
+	class Guer {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
+	};
+	class Civ {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
+	};
+};
+class CfgFunctions {
+	class QS {
+		class apex_framework {
+			class addWeapon {file = "code\functions\fn_addWeapon.sqf";};
+			class ahScanString {file = "code\functions\fn_ahScanString.sqf";};
+			class AI {file = "code\functions\fn_AI.sqf";};
+			class AIdisableCollision {file = "code\functions\fn_AIdisableCollision.sqf";};
+			class AIFindNearestRegroup {file = "code\functions\fn_AIFindNearestRegroup.sqf";};
+			class AIFireMission {file = "code\functions\fn_AIFireMission.sqf";};
+			class AIGetAttackTarget {file = "code\functions\fn_AIGetAttackTarget.sqf";};
+			class AIGetKnownEnemies {file = "code\functions\fn_AIGetKnownEnemies.sqf";};
+			class AIHandleAgent {file = "code\functions\fn_AIHandleAgent.sqf";};
+			class AIHandleGroup {file = "code\functions\fn_AIHandleGroup.sqf";};
+			class AIHandleUnit {file = "code\functions\fn_AIHandleUnit.sqf";};
+			class AIOwners {file = "code\functions\fn_AIOwners.sqf";};
+			class airbaseDefense {file = "code\functions\fn_airbaseDefense.sqf";};
+			class AIXCivPanic {file = "code\functions\fn_AIXCivPanic.sqf";};
+			class AIXDismountDisabled {file = "code\functions\fn_AIXDismountDisabled.sqf";};
+			class AIXHeliInsert {file = "code\functions\fn_AIXHeliInsert.sqf";};
+			class AIXHeliInsertLanding {file = "code\functions\fn_AIXHeliInsertLanding.sqf";};
+			class AIXHeliInsertVehicle {file = "code\functions\fn_AIXHeliInsertVehicle.sqf";};
+			class AIXHitEvade {file = "code\functions\fn_AIXHitEvade.sqf";};
+			class AIXMissileCountermeasure {file = "code\functions\fn_AIXMissileCountermeasure.sqf";};
+			class AIXRepairVehicle {file = "code\functions\fn_AIXRepairVehicle.sqf";};
+			class AIXSetMine {file = "code\functions\fn_AIXSetMine.sqf";};
+			class AIXSuppressiveFire {file = "code\functions\fn_AIXSuppressiveFire.sqf";};
+			class AIXThrow {file = "code\functions\fn_AIXThrow.sqf";};
+			class AIXVehicleUnstuck {file = "code\functions\fn_AIXVehicleUnstuck.sqf";};
+			class ambientHostility {file = "code\functions\fn_ambientHostility.sqf";};
+			class aoAnimals {file = "code\functions\fn_aoAnimals.sqf";};
+			class aoBoatPatrol {file = "code\functions\fn_aoBoatPatrol.sqf";};
+			class aoBriefing {file = "code\functions\fn_aoBriefing.sqf";};
+			class aoCreateUXOfield {file = "code\functions\fn_aoCreateUXOfield.sqf";};
+			class aoCustomize {file = "code\functions\fn_aoCustomize.sqf";};
+			class aoDefend {file = "code\functions\fn_aoDefend.sqf";};
+			class aoEnemy {file = "code\functions\fn_aoEnemy.sqf";};
+			class aoEnemyReinforce {file = "code\functions\fn_aoEnemyReinforce.sqf";};
+			class aoEnemyReinforceVehicles {file = "code\functions\fn_aoEnemyReinforceVehicles.sqf";};
+			class aoFires {file = "code\functions\fn_aoFires.sqf";};
+			class aoForestCamp {file = "code\functions\fn_aoForestCamp.sqf";};
+			class aoFortifiedAA {file = "code\functions\fn_aoFortifiedAA.sqf";};
+			class aoGetTerrainData {file = "code\functions\fn_aoGetTerrainData.sqf";};
+			class aoHQ {file = "code\functions\fn_aoHQ.sqf";};
+			class aoHQCache {file = "code\functions\fn_aoHQCache.sqf";};
+			class aoMinefield {file = "code\functions\fn_aoMinefield.sqf";};
+			class aoMortarPit {file = "code\functions\fn_aoMortarPit.sqf";};
+			class aoMortarSite {file = "code\functions\fn_aoMortarSite.sqf";};
+			class aoPrepare {file = "code\functions\fn_aoPrepare.sqf";};
+			class aoRadiotower {file = "code\functions\fn_aoRadiotower.sqf";};
+			class aoRandomVehicles {file = "code\functions\fn_aoRandomVehicles.sqf";};
+			class aoSmallTask {file = "code\functions\fn_aoSmallTask.sqf";};
+			class aoSubObjectives {file = "code\functions\fn_aoSubObjectives.sqf";};
+			class aoTaskDestroyVehicle {file = "code\functions\fn_aoTaskDestroyVehicle.sqf";};
+			class aoTaskHVT {file = "code\functions\fn_aoTaskHVT.sqf";};
+			class aoTaskIDAP {file = "code\functions\fn_aoTaskIDAP.sqf";};
+			class aoTaskIG {file = "code\functions\fn_aoTaskIG.sqf";};
+			class aoTaskKill {file = "code\functions\fn_aoTaskKill.sqf";};
+			class aoTaskMedevac {file = "code\functions\fn_aoTaskMedevac.sqf";};
+			class areaGradient {file = "code\functions\fn_areaGradient.sqf";};
+			class arrayGetIndex {file = "code\functions\fn_arrayGetIndex.sqf";};
+			class arrayShuffle {file = "code\functions\fn_arrayShuffle.sqf";};
+			class artillery {file = "code\functions\fn_artillery.sqf";};
+			class atAdjust {file = "code\functions\fn_atAdjust.sqf";};
+			class atClientMisc {file = "code\functions\fn_atClientMisc.sqf";};
+			class atNameCheck {file = "code\functions\fn_atNameCheck.sqf";};
+			class atReport {file = "code\functions\fn_atReport.sqf";};
+			class atServer {file = "code\functions\fn_atServer.sqf";};
+			class baseBackpack {file = "code\functions\fn_baseBackpack.sqf";};
+			class baseWeapon {file = "code\functions\fn_baseWeapon.sqf";};
+			class boxTransferCargo {file = "code\functions\fn_boxTransferCargo.sqf";};
+			class carrier {file = "code\functions\fn_carrier.sqf";};
+			class casRespawn {file = "code\functions\fn_casRespawn.sqf";};
+			class clearPosition {file = "code\functions\fn_clearPosition.sqf";};
+			class clientAIBehaviours {file = "code\functions\fn_clientAIBehaviours.sqf";};
+			class clientArsenal {file = "code\functions\fn_clientArsenal.sqf";};
+			class clientATAdjust {file = "code\functions\fn_clientATAdjust.sqf";};
+			class clientBaseLights {file = "code\functions\fn_clientBaseLights.sqf";};
+			class clientCore {file = "code\functions\fn_clientCore.sqf";};
+			class clientDamageModifier {file = "code\functions\fn_clientDamageModifier.sqf";};
+			class clientDiary {file = "code\functions\fn_clientDiary.sqf";};
+			class clientDisableUserInput {file = "code\functions\fn_clientDisableUserInput.sqf";};
+			class clientEarplugs {file = "code\functions\fn_clientEarplugs.sqf";};
+			class clientEventAnimChanged {file = "code\functions\fn_clientEventAnimChanged.sqf";};
+			class clientEventAnimDone {file = "code\functions\fn_clientEventAnimDone.sqf";};
+			class clientEventAnimStateChanged {file = "code\functions\fn_clientEventAnimStateChanged.sqf";};
+			class clientEventArsenalClosed {file = "code\functions\fn_clientEventArsenalClosed.sqf";};
+			class clientEventArsenalOpened {file = "code\functions\fn_clientEventArsenalOpened.sqf";};
+			class clientEventCuratorGroupPlaced {file = "code\functions\fn_clientEventCuratorGroupPlaced.sqf";};
+			class clientEventCuratorKeyDown {file = "code\functions\fn_clientEventCuratorKeyDown.sqf";};
+			class clientEventCuratorMarkerPlaced {file = "code\functions\fn_clientEventCuratorMarkerPlaced.sqf";};
+			class clientEventCuratorObjectDeleted {file = "code\functions\fn_clientEventCuratorObjectDeleted.sqf";};
+			class clientEventCuratorObjectPlaced {file = "code\functions\fn_clientEventCuratorObjectPlaced.sqf";};
+			class clientEventCuratorObjectRegistered {file = "code\functions\fn_clientEventCuratorObjectRegistered.sqf";};
+			class clientEventCuratorWaypointPlaced {file = "code\functions\fn_clientEventCuratorWaypointPlaced.sqf";};
+			class clientEventDraw3D {file = "code\functions\fn_clientEventDraw3D.sqf";};
+			class clientEventEachFrame {file = "code\functions\fn_clientEventEachFrame.sqf";};
+			class clientEventExplosion {file = "code\functions\fn_clientEventExplosion.sqf";};
+			class clientEventFired {file = "code\functions\fn_clientEventFired.sqf";};
+			class clientEventFiredMan {file = "code\functions\fn_clientEventFiredMan.sqf";};
+			class clientEventFiredNear {file = "code\functions\fn_clientEventFiredNear.sqf";};
+			class clientEventGestureChanged {file = "code\functions\fn_clientEventGestureChanged.sqf";};
+			class clientEventGestureDone {file = "code\functions\fn_clientEventGestureDone.sqf";};
+			class clientEventGetIn {file = "code\functions\fn_clientEventGetIn.sqf";};
+			class clientEventGetInMan {file = "code\functions\fn_clientEventGetInMan.sqf";};
+			class clientEventGetOut {file = "code\functions\fn_clientEventGetOut.sqf";};
+			class clientEventGetOutMan {file = "code\functions\fn_clientEventGetOutMan.sqf";};
+			class clientEventHandleChatMessage {file = "code\functions\fn_clientEventHandleChatMessage.sqf";};
+			class clientEventHandleDamage {file = "code\functions\fn_clientEventHandleDamage.sqf";};
+			class clientEventHandleHeal {file = "code\functions\fn_clientEventHandleHeal.sqf";};
+			class clientEventHandleRating {file = "code\functions\fn_clientEventHandleRating.sqf";};
+			class clientEventHit {file = "code\functions\fn_clientEventHit.sqf";};
+			class clientEventHitPart {file = "code\functions\fn_clientEventHitPart.sqf";};
+			class clientEventInventoryClosed {file = "code\functions\fn_clientEventInventoryClosed.sqf";};
+			class clientEventInventoryOpened {file = "code\functions\fn_clientEventInventoryOpened.sqf";};
+			class clientEventKeyDown {file = "code\functions\fn_clientEventKeyDown.sqf";};
+			class clientEventKeyUp {file = "code\functions\fn_clientEventKeyUp.sqf";};
+			class clientEventKilled {file = "code\functions\fn_clientEventKilled.sqf";};
+			class clientEventMap {file = "code\functions\fn_clientEventMap.sqf";};
+			class clientEventMapSingleClick {file = "code\functions\fn_clientEventMapSingleClick.sqf";};
+			class clientEventOnFlare {file = "code\functions\fn_clientEventOnFlare.sqf";};
+			class clientEventOnGameInterrupt {file = "code\functions\fn_clientEventOnGameInterrupt.sqf";};
+			class clientEventOnMiniMap {file = "code\functions\fn_clientEventOnMiniMap.sqf";};
+			class clientEventPlayerViewChanged {file = "code\functions\fn_clientEventPlayerViewChanged.sqf";};
+			class clientEventPostReset {file = "code\functions\fn_clientEventPostReset.sqf";};
+			class clientEventReloaded {file = "code\functions\fn_clientEventReloaded.sqf";};
+			class clientEventRespawn {file = "code\functions\fn_clientEventRespawn.sqf";};
+			class clientEventSeatSwitched {file = "code\functions\fn_clientEventSeatSwitched.sqf";};
+			class clientEventSeatSwitchedMan {file = "code\functions\fn_clientEventSeatSwitchedMan.sqf";};
+			class clientEventSoundPlayed {file = "code\functions\fn_clientEventSoundPlayed.sqf";};
+			class clientEventSuppressed {file = "code\functions\fn_clientEventSuppressed.sqf";};
+			class clientEventTake {file = "code\functions\fn_clientEventTake.sqf";};
+			class clientEventTaskSetAsCurrent {file = "code\functions\fn_clientEventTaskSetAsCurrent.sqf";};
+			class clientEventVisionModeChanged {file = "code\functions\fn_clientEventVisionModeChanged.sqf";};
+			class clientEventWeaponAssembled {file = "code\functions\fn_clientEventWeaponAssembled.sqf";};
+			class clientEventWeaponDisassembled {file = "code\functions\fn_clientEventWeaponDisassembled.sqf";};
+			class clientExamineResult {file = "code\functions\fn_clientExamineResult.sqf";};
+			class clientGetDoorPhase {file = "code\functions\fn_clientGetDoorPhase.sqf";};
+			class clientGetLBRank {file = "code\functions\fn_clientGetLBRank.sqf";};
+			class clientGetSupporterLevel {file = "code\functions\fn_clientGetSupporterLevel.sqf";};
+			class clientHeartbeat {file = "code\functions\fn_clientHeartbeat.sqf";};
+			class clientHintPresets {file = "code\functions\fn_clientHintPresets.sqf";};
+			class clientHolster {file = "code\functions\fn_clientHolster.sqf";};
+			class clientInGameUIAction {file = "code\functions\fn_clientInGameUIAction.sqf";};
+			class clientInGameUIPrevAction {file = "code\functions\fn_clientInGameUIPrevAction.sqf";};
+			class clientInGameUINextAction {file = "code\functions\fn_clientInGameUINextAction.sqf";};
+			class clientInteractActivateVehicle {file = "code\functions\fn_clientInteractActivateVehicle.sqf";};
+			class clientInteractAlert {file = "code\functions\fn_clientInteractAlert.sqf";};
+			class clientInteractArsenal {file = "code\functions\fn_clientInteractArsenal.sqf";};
+			class clientInteractCamoNet {file = "code\functions\fn_clientInteractCamoNet.sqf";};
+			class clientInteractCarrierLaunch {file = "code\functions\fn_clientInteractCarrierLaunch.sqf";};
+			class clientInteractCarry {file = "code\functions\fn_clientInteractCarry.sqf";};
+			class clientInteractCivilian {file = "code\functions\fn_clientInteractCivilian.sqf";};
+			class clientInteractClearInventory {file = "code\functions\fn_clientInteractClearInventory.sqf";};
+			class clientInteractCreateBoat {file = "code\functions\fn_clientInteractCreateBoat.sqf";};
+			class clientInteractCustomizeInventory {file = "code\functions\fn_clientInteractCustomizeInventory.sqf";};
+			class clientInteractDismiss {file = "code\functions\fn_clientInteractDismiss.sqf";};
+			class clientInteractDoor {file = "code\functions\fn_clientInteractDoor.sqf";};
+			class clientInteractDownloadIntel {file = "code\functions\fn_clientInteractDownloadIntel.sqf";};
+			class clientInteractDrag {file = "code\functions\fn_clientInteractDrag.sqf";};
+			class clientInteractEar {file = "code\functions\fn_clientInteractEar.sqf";};
+			class clientInteractEscort {file = "code\functions\fn_clientInteractEscort.sqf";};
+			class clientInteractExamine {file = "code\functions\fn_clientInteractExamine.sqf";};
+			class clientInteractFOBTerminal {file = "code\functions\fn_clientInteractFOBTerminal.sqf";};
+			class clientInteractFollow {file = "code\functions\fn_clientInteractFollow.sqf";};
+			class clientInteractJoinGroup {file = "code\functions\fn_clientInteractJoinGroup.sqf";};
+			class clientInteractLiveFeed {file = "code\functions\fn_clientInteractLiveFeed.sqf";};
+			class clientInteractLoad {file = "code\functions\fn_clientInteractLoad.sqf";};
+			class clientInteractLoadCargo {file = "code\functions\fn_clientInteractLoadCargo.sqf";};
+			class clientInteractMedStation {file = "code\functions\fn_clientInteractMedStation.sqf";};
+			class clientInteractPush {file = "code\functions\fn_clientInteractPush.sqf";};
+			class clientInteractRappel {file = "code\functions\fn_clientInteractRappel.sqf";};
+			class clientInteractRecoverBoat {file = "code\functions\fn_clientInteractRecoverBoat.sqf";};
+			class clientInteractRecruit {file = "code\functions\fn_clientInteractRecruit.sqf";};
+			class clientInteractRelease {file = "code\functions\fn_clientInteractRelease.sqf";};
+			class clientInteractRescue {file = "code\functions\fn_clientInteractRescue.sqf";};
+			class clientInteractRespawnVehicle {file = "code\functions\fn_clientInteractRespawnVehicle.sqf";};
+			class clientInteractRevive {file = "code\functions\fn_clientInteractRevive.sqf";};
+			class clientInteractSecure {file = "code\functions\fn_clientInteractSecure.sqf";};
+			class clientInteractSensorTarget {file = "code\functions\fn_clientInteractSensorTarget.sqf";};
+			class clientInteractServiceVehicle {file = "code\functions\fn_clientInteractServiceVehicle.sqf";};
+			class clientInteractSit {file = "code\functions\fn_clientInteractSit.sqf";};
+			class clientInteractSlatArmor {file = "code\functions\fn_clientInteractSlatArmor.sqf";};
+			class clientInteractStabilise {file = "code\functions\fn_clientInteractStabilise.sqf";};
+			class clientInteractSurrender {file = "code\functions\fn_clientInteractSurrender.sqf";};
+			class clientInteractTalkToContact {file = "code\functions\fn_clientInteractTalkToContact.sqf";};
+			class clientInteractTooth {file = "code\functions\fn_clientInteractTooth.sqf";};
+			class clientInteractTowLoadCargo {file = "code\functions\fn_clientInteractTowLoadCargo.sqf";};
+			class clientInteractTurretControl {file = "code\functions\fn_clientInteractTurretControl.sqf";};
+			class clientInteractUnderwaterDemo {file = "code\functions\fn_clientInteractUnderwaterDemo.sqf";};
+			class clientInteractUnflipVehicle {file = "code\functions\fn_clientInteractUnflipVehicle.sqf";};
+			class clientInteractUAVSelfDestruct {file = "code\functions\fn_clientInteractUAVSelfDestruct.sqf";};
+			class clientInteractUGV {file = "code\functions\fn_clientInteractUGV.sqf";};
+			class clientInteractUnload {file = "code\functions\fn_clientInteractUnload.sqf";};
+			class clientInteractUnloadCargo {file = "code\functions\fn_clientInteractUnloadCargo.sqf";};
+			class clientInteractUtilityOffroad {file = "code\functions\fn_clientInteractUtilityOffroad.sqf";};
+			class clientInteractVehicleDoors {file = "code\functions\fn_clientInteractVehicleDoors.sqf";};
+			class clientInteractWeaponSafety {file = "code\functions\fn_clientInteractWeaponSafety.sqf";};
+			class clientJump {file = "code\functions\fn_clientJump.sqf";};
+			class clientMCameraMode {file = "code\functions\fn_clientMCameraMode.sqf";};
+			class clientMemArrays {file = "code\functions\fn_clientMemArrays.sqf";};
+			class clientMenu {file = "code\functions\fn_clientMenu.sqf";};
+			class clientMenu2 {file = "code\functions\fn_clientMenu2.sqf";};
+			class clientMenuConsole {file = "code\functions\fn_clientMenuConsole.sqf";};
+			class clientMenuContext {file = "code\functions\fn_clientMenuContext.sqf";};
+			class clientMenuEntry {file = "code\functions\fn_clientMenuEntry.sqf";};
+			class clientMenuHub {file = "code\functions\fn_clientMenuHub.sqf";};
+			class clientMenuInsignia {file = "code\functions\fn_clientMenuInsignia.sqf";};
+			class clientMenuLeaderboard {file = "code\functions\fn_clientMenuLeaderboard.sqf";};
+			class clientMenuMain {file = "code\functions\fn_clientMenuMain.sqf";};
+			class clientMenuOptions {file = "code\functions\fn_clientMenuOptions.sqf";};
+			class clientMenuRadio {file = "code\functions\fn_clientMenuRadio.sqf";};
+			class clientMenuRSS {file = "code\functions\fn_clientMenuRSS.sqf";};
+			class clientMenuStaff {file = "code\functions\fn_clientMenuStaff.sqf";};
+			class clientMenuSupporters {file = "code\functions\fn_clientMenuSupporters.sqf";};
+			class clientMenuUTexture {file = "code\functions\fn_clientMenuUTexture.sqf";};
+			class clientMenuVTexture {file = "code\functions\fn_clientMenuVTexture.sqf";};
+			class clientMFindHealer {file = "code\functions\fn_clientMFindHealer.sqf";};
+			class clientMissionStatus {file = "code\functions\fn_clientMissionStatus.sqf";};
+			class clientProgressVisualization {file = "code\functions\fn_clientProgressVisualization.sqf";};
+			class clientProjectileManager {file = "code\functions\fn_clientProjectileManager.sqf";};
+			class clientRadio {file = "code\functions\fn_clientRadio.sqf";};
+			class clientRepackMagazines {file = "code\functions\fn_clientRepackMagazines.sqf";};
+			class clientRequestMedevac {file = "code\functions\fn_clientRequestMedevac.sqf";};
+			class clientServiceVehicle {file = "code\functions\fn_clientServiceVehicle.sqf";};
+			class clientSetUnitInsignia {file = "code\functions\fn_clientSetUnitInsignia.sqf";};
+			class clientSimulationManager {file = "code\functions\fn_clientSimulationManager.sqf";};
+			class clientVehicleEventDammaged {file = "code\functions\fn_clientVehicleEventDammaged.sqf";};
+			class clientVehicleEventDeleted {file = "code\functions\fn_clientVehicleEventDeleted.sqf";};
+			class clientVehicleEventEngine {file = "code\functions\fn_clientVehicleEventEngine.sqf";};
+			class clientVehicleEventEpeContactStart {file = "code\functions\fn_clientVehicleEventEpeContactStart.sqf";};
+			class clientVehicleEventFired {file = "code\functions\fn_clientVehicleEventFired.sqf";};
+			class clientVehicleEventFuel {file = "code\functions\fn_clientVehicleEventFuel.sqf";};
+			class clientVehicleEventGear {file = "code\functions\fn_clientVehicleEventGear.sqf";};
+			class clientVehicleEventHandleDamage {file = "code\functions\fn_clientVehicleEventHandleDamage.sqf";};
+			class clientVehicleEventHandlers {file = "code\functions\fn_clientVehicleEventHandlers.sqf";};
+			class clientVehicleEventHit {file = "code\functions\fn_clientVehicleEventHit.sqf";};
+			class clientVehicleEventIncomingMissile {file = "code\functions\fn_clientVehicleEventIncomingMissile.sqf";};
+			class clientVehicleEventKilled {file = "code\functions\fn_clientVehicleEventKilled.sqf";};
+			class clientVehicleEventLocal {file = "code\functions\fn_clientVehicleEventLocal.sqf";};
+			class clientVehicleEventRopeAttach {file = "code\functions\fn_clientVehicleEventRopeAttach.sqf";};
+			class clientVehicleEventRopeBreak {file = "code\functions\fn_clientVehicleEventRopeBreak.sqf";};
+			class clientVehicleEventTurnIn {file = "code\functions\fn_clientVehicleEventTurnIn.sqf";};
+			class clientVehicleEventTurnOut {file = "code\functions\fn_clientVehicleEventTurnOut.sqf";};
+			class clientVAS2VA {file = "code\functions\fn_clientVAS2VA.sqf";};
+			class clientViewOptions {file = "code\functions\fn_clientViewOptions.sqf";};
+			class clientWeatherSync {file = "code\functions\fn_clientWeatherSync.sqf";};
+			class commonMultiplyMatrix {file = "code\functions\fn_commonMultiplyMatrix.sqf";};
+			class conditionTowAttach {file = "code\functions\fn_conditionTowAttach.sqf";};
+			class conditionTowDetach {file = "code\functions\fn_conditionTowDetach.sqf";};
+			class conditionTowLoadCargo {file = "code\functions\fn_conditionTowLoadCargo.sqf";};
+			class conditionTurretActionLockL {file = "code\functions\fn_conditionTurretActionLockL.sqf";};
+			class conditionTurretActionLockR {file = "code\functions\fn_conditionTurretActionLockR.sqf";};
+			class conditionTurretActionUnlockL {file = "code\functions\fn_conditionTurretActionUnlockL.sqf";};
+			class conditionTurretActionUnlockR {file = "code\functions\fn_conditionTurretActionUnlockR.sqf";};
+			class config {file = "code\functions\fn_config.sqf";};
+			class core {file = "code\functions\fn_core.sqf";};
+			class createAAVehicle {file = "code\functions\fn_createAAVehicle.sqf";};
+			class createEntityComposition {file = "code\functions\fn_createEntityComposition.sqf";};
+			class createHQComposition {file = "code\functions\fn_createHQComposition.sqf";};
+			class createMinefield {file = "code\functions\fn_createMinefield.sqf";};
+			class createWell {file = "code\functions\fn_createWell.sqf";};
+			class curatorFunctions {file = "code\functions\fn_curatorFunctions.sqf";};
+			class curatorSync {file = "code\functions\fn_curatorSync.sqf";};
+			class customBuildingPositions {file = "code\functions\fn_customBuildingPositions.sqf";};
+			class customInventory {file = "code\functions\fn_customInventory.sqf";};
+			class deltaVD {file = "code\functions\fn_deltaVD.sqf";};
+			class destroyer {file = "code\functions\fn_destroyer.sqf";};
+			class downgradeVehicleWeapons {file = "code\functions\fn_downgradeVehicleWeapons.sqf";};
+			class dynamicTasks {file = "code\functions\fn_dynamicTasks.sqf";};
+			class easterEggs {file = "code\functions\fn_easterEggs.sqf";};
+			class enemyCAS {file = "code\functions\fn_enemyCAS.sqf";};
+			class enemyDetected {file = "code\functions\fn_enemyDetected.sqf";};
+			class enemySides {file = "code\functions\fn_enemySides.sqf";};
+			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
+			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
+			class eventEachFrame {file = "code\functions\fn_eventEachFrame.sqf";};
+			class eventEachFrame2 {file = "code\functions\fn_eventEachFrame2.sqf";};
+			class eventEntityKilled {file = "code\functions\fn_eventEntityKilled.sqf";};
+			class eventEntityRespawned {file = "code\functions\fn_eventEntityRespawned.sqf";};
+			class eventHandleDisconnect {file = "code\functions\fn_eventHandleDisconnect.sqf";};
+			class eventMissionEnded {file = "code\functions\fn_eventMissionEnded.sqf";};
+			class eventOnPlayerConnected {file = "code\functions\fn_eventOnPlayerConnected.sqf";};
+			class eventOnPlayerDisconnected {file = "code\functions\fn_eventOnPlayerDisconnected.sqf";};
+			class eventRTKilled {file = "code\functions\fn_eventRTKilled.sqf";};
+			class feedback {file = "code\functions\fn_feedback.sqf";};
+			class feedbackBloodEffect {file = "code\functions\fn_feedbackBloodEffect.sqf";};
+			class feedbackDamageChanged {file = "code\functions\fn_feedbackDamageChanged.sqf";};
+			class feedbackDamagePulsing {file = "code\functions\fn_feedbackDamagePulsing.sqf";};
+			class feedbackDirtEffect {file = "code\functions\fn_feedbackDirtEffect.sqf";};
+			class feedbackFatigue {file = "code\functions\fn_feedbackFatigue.sqf";};
+			class feedbackFlamesEffect {file = "code\functions\fn_feedbackFlamesEffect.sqf";};
+			class feedbackHealing {file = "code\functions\fn_feedbackHealing.sqf";};
+			class feedbackRadialRed {file = "code\functions\fn_feedbackRadialRed.sqf";};
+			class feedbackRadialRedOut {file = "code\functions\fn_feedbackRadialRedOut.sqf";};
+			class feedbackSuddenDeath {file = "code\functions\fn_feedbackSuddenDeath.sqf";};
+			class feedbackSuffocating {file = "code\functions\fn_feedbackSuffocating.sqf";};
+			class feedbackSuffocatingOut {file = "code\functions\fn_feedbackSuffocatingOut.sqf";};
+			class findOverwatchPos {file = "code\functions\fn_findOverwatchPos.sqf";};
+			class findRandomPos {file = "code\functions\fn_findRandomPos.sqf";};
+			class findSafePos {file = "code\functions\fn_findSafePos.sqf";};
+			class fobAssets {file = "code\functions\fn_fobAssets.sqf";};
+			class fobEnable {file = "code\functions\fn_fobEnable.sqf";};
+			class fobEnemyAssault {file = "code\functions\fn_fobEnemyAssault.sqf";};
+			class fobPrepare {file = "code\functions\fn_fobPrepare.sqf";};
+			class garrisonUnits {file = "code\functions\fn_garrisonUnits.sqf";};
+			class gearRestrictions {file = "code\functions\fn_gearRestrictions.sqf";};
+			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
+			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
+			class getClientFromDPID {file = "code\functions\fn_getClientFromDPID.sqf";};
+			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
+			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
+			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
+			class getDoor {file = "code\functions\fn_getDoor.sqf";};
+			class getDoorAnimations {file = "code\functions\fn_getDoorAnimations.sqf";};
+			class getKnownEnemies {file = "code\functions\fn_getKnownEnemies.sqf";};
+			class getNearbyIncapacitated {file = "code\functions\fn_getNearbyIncapacitated.sqf";};
+			class getNearestBuilding {file = "code\functions\fn_getNearestBuilding.sqf";};
+			class getSolarHorizon {file = "code\functions\fn_getSolarHorizon.sqf";};
+			class getWeekday {file = "code\functions\fn_getWeekday.sqf";};
+			class geomPolygonCentroid {file = "code\functions\fn_geomPolygonCentroid.sqf";};
+			class gpsJammer {file = "code\functions\fn_gpsJammer.sqf";};
+			class grid {file = "code\functions\fn_grid.sqf";};
+			class gridBrief {file = "code\functions\fn_gridBrief.sqf";};
+			class gridDefend {file = "code\functions\fn_gridDefend.sqf";};
+			class gridEnemy {file = "code\functions\fn_gridEnemy.sqf";};
+			class gridObjectives {file = "code\functions\fn_gridObjectives.sqf";};
+			class gridPrepare {file = "code\functions\fn_gridPrepare.sqf";};
+			class gridSpawnAttack {file = "code\functions\fn_gridSpawnAttack.sqf";};
+			class gridSpawnPatrol {file = "code\functions\fn_gridSpawnPatrol.sqf";};
+			class gridToPos {file = "code\functions\fn_gridToPos.sqf";};
+			class groupIndicator {file = "code\functions\fn_groupIndicator.sqf";};
+			class hcCore {file = "code\functions\fn_hcCore.sqf";};
+			class hCommMenu {file = "code\functions\fn_hCommMenu.sqf";};
+			class highCommand {file = "code\functions\fn_highCommand.sqf";};
+			class hint {file = "code\functions\fn_hint.sqf";};
+			class icons {file = "code\functions\fn_icons.sqf";};
+			class incapacitated {file = "code\functions\fn_incapacitated.sqf";};
+			class inHouse {file = "code\functions\fn_inHouse.sqf";};
+			class init {file = "code\functions\fn_init.sqf";preInit = 1;};
+			class initClientLocal {file = "code\functions\fn_initClientLocal.sqf";preInit = 1;};
+			class initCommon {file = "code\functions\fn_initCommon.sqf";preInit = 1;};
+			class initCurator {file = "code\functions\fn_initCurator.sqf";};
+			class initPlayerLocal {file = "code\functions\fn_initPlayerLocal.sqf";};
+			class initPlayerServer {file = "code\functions\fn_initPlayerServer.sqf";};
+			class initTrait {file = "code\functions\fn_initTrait.sqf";};
+			class inString {file = "code\functions\fn_inString.sqf";};
+			class isBoundingBoxIntersected {file = "code\functions\fn_isBoundingBoxIntersected.sqf";};
+			class isNearFieldHospital {file = "code\functions\fn_isNearFieldHospital.sqf";};
+			class isNearRepairDepot {file = "code\functions\fn_isNearRepairDepot.sqf";};
+			class isPosVisible {file = "code\functions\fn_isPosVisible.sqf";};
+			class isValidCargoV {file = "code\functions\fn_isValidCargoV.sqf";};
+			class leaderboardAddToWhitelist {file = "code\functions\fn_leaderboardAddToWhitelist.sqf";};
+			class listRemoteTargets {file = "code\functions\fn_listRemoteTargets.sqf";};
+			class logEvent {file = "code\functions\fn_logEvent.sqf";};
+			class mapGetNearestWaypoint {file = "code\functions\fn_mapGetNearestWaypoint.sqf";};
+			class missionGeorgetown {file = "code\functions\fn_missionGeorgetown.sqf";};
+			class missionKavala {file = "code\functions\fn_missionKavala.sqf";};
+			class monthDays {file = "code\functions\fn_monthDays.sqf";};
+			class moveInCargoMedical {file = "code\functions\fn_moveInCargoMedical.sqf";};
+			class msgToStaff {file = "code\functions\fn_msgToStaff.sqf";};
+			class nearestRoad {file = "code\functions\fn_nearestRoad.sqf";};
+			class p2pMessage {file = "code\functions\fn_p2pMessage.sqf";};
+			class paraDrop {file = "code\functions\fn_paraDrop.sqf";};
+			class patrolNearbyBuilding {file = "code\functions\fn_patrolNearbyBuilding.sqf";};
+			class pulsate {file = "code\functions\fn_pulsate.sqf";};
+			class Q51 {file = "code\functions\fn_Q51.sqf";};
+			class rcAIRevive {file = "code\functions\fn_rcAIRevive.sqf";};
+			class registerUnit {file = "code\functions\fn_registerUnit.sqf";};
+			class registerVehicle {file = "code\functions\fn_registerVehicle.sqf";};
+			class remoteExec {file = "code\functions\fn_remoteExec.sqf";};
+			class remoteExecCmd {file = "code\functions\fn_remoteExecCmd.sqf";};
+			class removeWeapon {file = "code\functions\fn_removeWeapon.sqf";};
+			class replaceWithVehicle {file = "code\functions\fn_replaceWithVehicle.sqf";};
+			class respawnOPFOR {file = "code\functions\fn_respawnOPFOR.sqf";};
+			class respawnPilot {file = "code\functions\fn_respawnPilot.sqf";};
+			class returnGroupComposition {file = "code\functions\fn_returnGroupComposition.sqf";};
+			class roles {file = "code\functions\fn_roles.sqf";};
+			class sc {file = "code\functions\fn_sc.sqf";};
+			class scBrief {file = "code\functions\fn_scBrief.sqf";};
+			class scEnemy {file = "code\functions\fn_scEnemy.sqf";};
+			class scEvaluate {file = "code\functions\fn_scEvaluate.sqf";};
+			class scFindPosition {file = "code\functions\fn_scFindPosition.sqf";};
+			class scGenerateAssets {file = "code\functions\fn_scGenerateAssets.sqf";};
+			class scGeneratePositions {file = "code\functions\fn_scGeneratePositions.sqf";};
+			class scGetNearestSector {file = "code\functions\fn_scGetNearestSector.sqf";};
+			class scGetSectorTerrainData {file = "code\functions\fn_scGetSectorTerrainData.sqf";};
+			class scPrepare {file = "code\functions\fn_scPrepare.sqf";};
+			class scScoreProgress {file = "code\functions\fn_scScoreProgress.sqf";};
+			class scSpawnGroup {file = "code\functions\fn_scSpawnGroup.sqf";};
+			class scSpawnHeli {file = "code\functions\fn_scSpawnHeli.sqf";};
+			class scSpawnLandVehicle {file = "code\functions\fn_scSpawnLandVehicle.sqf";};
+			class scSpawnUAV {file = "code\functions\fn_scSpawnUAV.sqf";};
+			class scSubObjective {file = "code\functions\fn_scSubObjective.sqf";};
+			class searchNearbyBuilding {file = "code\functions\fn_searchNearbyBuilding.sqf";};
+			class secondsToString {file = "code\functions\fn_secondsToString.sqf";};
+			class sectorScan {file = "code\functions\fn_sectorScan.sqf";};
+			class serverDetector {file = "code\functions\fn_serverDetector.sqf";};
+			class serverObjectsMapper {file = "code\functions\fn_serverObjectsMapper.sqf";};
+			class serverObjectsRecycler {file = "code\functions\fn_serverObjectsRecycler.sqf";};
+			class serverSetAISkill {file = "code\functions\fn_serverSetAISkill.sqf";};
+			class serverTracers {file = "code\functions\fn_serverTracers.sqf";};
+			class serverUnitConfigure {file = "code\functions\fn_serverUnitConfigure.sqf";};
+			class setCollectible {file = "code\functions\fn_setCollectible.sqf";};
+			class setCruiseControl {file = "code\functions\fn_setCruiseControl.sqf";};
+			class setFlag {file = "code\functions\fn_setFlag.sqf";};
+			class setSimpleObject {file = "code\functions\fn_setSimpleObject.sqf";};
+			//class setUnitRole {file = "code\functions\fn_setUnitRole.sqf";};
+			class showNotification {file = "code\functions\fn_showNotification.sqf";};
+			class showNotification_process {file = "code\functions\fn_showNotification_process.sqf";};
+			class sideID {file = "code\functions\fn_sideID.sqf";};
+			class signalStrength {file = "code\functions\fn_signalStrength.sqf";};
+			class simpleObjectAdjust {file = "code\functions\fn_simpleObjectAdjust.sqf";};
+			class simpleObjectCreate {file = "code\functions\fn_simpleObjectCreate.sqf";};
+			class simpleObjectData {file = "code\functions\fn_simpleObjectData.sqf";};
+			class simpleObjectReplaceWith {file = "code\functions\fn_simpleObjectReplaceWith.sqf";};
+			class slingData {file = "code\functions\fn_slingData.sqf";};
+			class slingRope {file = "code\functions\fn_slingRope.sqf";};
+			class smDebrief {file = "code\functions\fn_smDebrief.sqf";};
+			class smDelete {file = "code\functions\fn_smDelete.sqf";};
+			class smEnemyDivers {file = "code\functions\fn_smEnemyDivers.sqf";};
+			class smEnemyEast {file = "code\functions\fn_smEnemyEast.sqf";};
+			class smEnemyEastIntel {file = "code\functions\fn_smEnemyEastIntel.sqf";};
+			class smEnemyGuer {file = "code\functions\fn_smEnemyGuer.sqf";};
+			class smEnemyInd {file = "code\functions\fn_smEnemyInd.sqf";};
+			class smIDAP {file = "code\functions\fn_smIDAP.sqf";};
+			class spawnAmbientCivilians {file = "code\functions\fn_spawnAmbientCivilians.sqf";};
+			class spawnGroup {file = "code\functions\fn_spawnGroup.sqf";};
+			class spawnSupport {file = "code\functions\fn_spawnSupport.sqf";};
+			class spawnViperTeam {file = "code\functions\fn_spawnViperTeam.sqf";};
+			class stalk {file = "code\functions\fn_stalk.sqf";};
+			class taskAttack {file = "code\functions\fn_taskAttack.sqf";};
+			class taskMove {file = "code\functions\fn_taskMove.sqf";};
+			class taskPatrol {file = "code\functions\fn_taskPatrol.sqf";};
+			class taskPatrolVehicle {file = "code\functions\fn_taskPatrolVehicle.sqf";};
+			class taskSetCustomData {file = "code\functions\fn_taskSetCustomData.sqf";};
+			class taskSetProgress {file = "code\functions\fn_taskSetProgress.sqf";};
+			class taskSetSingleWaypoint {file = "code\functions\fn_taskSetSingleWaypoint.sqf";};
+			class taskSetTimer {file = "code\functions\fn_taskSetTimer.sqf";};
+			class terrainGradAngle {file = "code\functions\fn_terrainGradAngle.sqf";};
+			class turret {file = "code\functions\fn_turret.sqf";};
+			class turretActionCancel {file = "code\functions\fn_turretActionCancel.sqf";};
+			class turretActions {file = "code\functions\fn_turretActions.sqf";};
+			class turretReset {file = "code\functions\fn_turretReset.sqf";};
+			class uavOperator {file = "code\functions\fn_uavOperator2.sqf";};
+			class unitSetup {file = "code\functions\fn_unitSetup.sqf";};
+			class utilityLights {file = "code\functions\fn_utilityLights.sqf";};
+			class vehicleAPSParams {file = "code\functions\fn_vehicleAPSParams.sqf";};
+			class vehicleLoadouts {file = "code\functions\fn_vehicleLoadouts.sqf";};
+			class vEventControlsShifted {file = "code\functions\fn_vEventControlsShifted.sqf";};
+			class vEventRopeAttach {file = "code\functions\fn_vEventRopeAttach.sqf";};
+			class vEventRopeBreak {file = "code\functions\fn_vEventRopeBreak.sqf";};
+			class vHandleDamage {file = "code\functions\fn_vHandleDamage.sqf";};
+			class vKilled {file = "code\functions\fn_vKilled.sqf";};
+			class vKilled2 {file = "code\functions\fn_vKilled2.sqf";};
+			class vRandom {file = "code\functions\fn_vRandom.sqf";};
+			class vSetup {file = "code\functions\fn_vSetup.sqf";};
+			class vSetup2 {file = "code\functions\fn_vSetup2.sqf";};
+			class vTow {file = "code\functions\fn_vTow.sqf";};
+			class vTowable {file = "code\functions\fn_vTowable.sqf";};
+			class vTowAttachGround {file = "code\functions\fn_vTowAttachGround.sqf";};
+			class vTowRelease {file = "code\functions\fn_vTowRelease.sqf";};
+			class vUntowable {file = "code\functions\fn_vUntowable.sqf";};
+			class waterInRadius {file = "code\functions\fn_waterInRadius.sqf";};
+			class waterIntersect {file = "code\functions\fn_waterIntersect.sqf";};
+			class weatherConfig {file = "code\functions\fn_weatherConfig.sqf";};
+			class wellHandleDamage {file = "code\functions\fn_wellHandleDamage.sqf";};
+			class windCalculation {file = "code\functions\fn_windCalculation.sqf";};
+			class SMEscortVehicle {file = "code\functions\fn_SMescortVehicle.sqf";};
+			class SMHQcoast {file = "code\functions\fn_SMHQcoast.sqf";};
+			class SMHQfia {file = "code\functions\fn_SMHQfia.sqf";};
+			class SMHQind {file = "code\functions\fn_SMHQind.sqf";};
+			class SMHQresearch {file = "code\functions\fn_SMHQresearch.sqf";};
+			class SMPriorityAA {file = "code\functions\fn_SMPriorityAA.sqf";};
+			class SMPriorityARTY {file = "code\functions\fn_SMPriorityARTY.sqf";};
+			class SMRescuePOW {file = "code\functions\fn_SMrescuePOW.sqf";};
+			class SMsecureChopper {file = "code\functions\fn_SMsecureChopper.sqf";};
+			class SMsecureIntelUAV {file = "code\functions\fn_SMsecureIntelUAV.sqf";};
+			class SMsecureIntelUnit {file = "code\functions\fn_SMsecureIntelUnit.sqf";};
+			class SMsecureIntelVehicle {file = "code\functions\fn_SMsecureIntelVehicle.sqf";};
+			class SMsecureRadar {file = "code\functions\fn_SMsecureRadar.sqf";};
+			class SMsecureUrban {file = "code\functions\fn_SMsecureUrban.sqf";};
+			class SMidapRecover {file = "code\functions\fn_SMidapRecover.sqf";};
+			class SMregenerator {file = "code\functions\fn_SMregenerator.sqf";};
+		};
+	};
+};
+class CfgSounds {
+	class QS_audio_notification {
+        name="Notification Apex";
+        sound[]={"media\audio\QS_notification.ogg",1,1};
+        titles[] = {};	
+	};
+	class QS_audio_notificationClose {
+        name="Notification Apex";
+        sound[]={"media\audio\QS_notificationClose.ogg",1,1};
+        titles[] = {};	
+	};
+	class QS_audio_notification_2 {
+        name="Notification Apex 2";
+        sound[]={"media\audio\QS_notification2.ogg",1,1};
+        titles[] = {};	
+	};
+	class QS_audio_notification_2Close {
+        name="Notification Apex 2";
+        sound[]={"media\audio\QS_notificationClose2.ogg",1,1};
+        titles[] = {};	
+	};
+	class Intro {
+        name="Intro";
+        sound[]={"\media\audio\intro.ogg",0.9,1};
+        titles[] = {};
+    };
+	class Intro2 {
+        name="Intro2";
+        sound[]={"\media\audio\intro2.ogg",0.9,1};
+        titles[] = {};
+    };
+	class Intro3 {
+        name="Intro3";
+        sound[]={"\media\audio\intro3.ogg",0.9,1};
+        titles[] = {};
+    };
+	class Intro4 {
+        name="Intro4";
+        sound[]={"\media\audio\intro4.ogg",0.9,1};
+        titles[] = {};
+    };
+	class Intro5 {
+        name="Intro5";
+        sound[]={"\media\audio\intro5.ogg",0.9,1};
+        titles[] = {};
+    };
+	class Intro6 {
+        name="Intro6";
+        sound[]={"\media\audio\intro6.ogg",0.9,1};
+        titles[] = {};
+    };
+	class QS_SC_outro_win {
+		name="QS_SC_outro_win";
+		sound[]={"media\audio\QS_sc_outro_usa.ogg",0.9,1};
+		titles[] = {};
+	};
+	class QS_SC_outro_lose {
+		name="QS_SC_outro_lose";
+		sound[]={"media\audio\QS_sc_outro_china.ogg",0.9,1};
+		titles[] = {};
+	};
+	class TheEnd {
+		name="TheEnd";
+		sound[] = {"media\audio\end.ogg",0.9,1};
+		titles[] = {};
+	};
+	class Bells {
+		name="Bells";
+		sound[] = {"media\audio\bells.ogg",0.9,1};
+		titles[] = {};
+	};
+    class missile_warning_1 {
+        name = "Missile Warning";
+		sound[] = {"media\audio\locking_2.wss",0.9,1};
+        titles[] = {};
+    };
+    class activate_mine_1 {
+        name = "Activate Mine";
+		sound[] = {"media\audio\activate_mine.wss",0.9,1};
+        titles[] = {};
+    };
+	class QS_Siren_L {
+		name = "Siren_Long";
+		sound[] = {"media\audio\Siren_Long.ogg",1.0,1};
+		titles[] = {};
+	};
+	class QS_radio_in_0 {
+		name = "Radio_In_1";
+		sound[] = {"media\audio\in2a.ogg",1.0,1};
+		titles[] = {};	
+	};
+	class QS_radio_in_1 {
+		name = "Radio_In_2";
+		sound[] = {"media\audio\in2b.ogg",1.0,1};
+		titles[] = {};	
+	};
+	class QS_radio_in_2 {
+		name = "Radio_In_3";
+		sound[] = {"media\audio\in2c.ogg",1.0,1};
+		titles[] = {};	
+	};
+	class QS_radio_out_0 {
+		name = "Radio_Out_1";
+		sound[] = {"media\audio\out2a.ogg",1.0,1};
+		titles[] = {};	
+	};
+	class QS_radio_out_1 {
+		name = "Radio_Out_2";
+		sound[] = {"media\audio\out2b.ogg",1.0,1};
+		titles[] = {};	
+	};
+	class QS_radio_out_2 {
+		name = "Radio_Out_3";
+		sound[] = {"media\audio\out2b.ogg",1.0,1};
+		titles[] = {};	
+	};
+	class QS_restart {
+		name = "Restart_Indicator";
+		sound[] = {"media\audio\mockingjay.ogg",1.0,1};
+		titles[] = {};
+	};
+};
+class CfgSFX
+{
+	class PlowDown
+	{
+		sound0[] = {"@A3\Sounds_F\vehicles\armor\bobcat\bobcat_plow_down_01",10,1,75,1,15,20,25};
+		sounds[] = {sound0};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+	class PlowUp
+	{
+		sound0[] = {"@A3\Sounds_F\vehicles\armor\bobcat\bobcat_plow_up_01",10,1,75,1,15,20,25};
+		sounds[] = {sound0};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+	/*/
+	class QS_DeviceAssembled_SFX
+	{
+		sound0[] = {"@A3\Sounds_F_EPC\Device\device_assembled_loop",10,1,75,0,26,26,26};
+		sounds[] = {sound0};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+	class QS_DeviceDisassembled_SFX
+	{
+		sound0[] = {"@A3\Sounds_F_EPC\Device\device_disassembled_loop",10,1,75,0,26,26,26};
+		sounds[] = {sound0};
+		empty[] = {"", 0, 0, 0, 0, 0, 0, 0};
+	};
+	/*/
+};
+class CfgVehicles
+{
+	class SoundPlowDown
+	{
+		sound = "PlowDown";
+	};
+	class SoundPlowUp
+	{
+		sound = "PlowUp";
+	};
+	/*/
+	class QS_deviceAssembled
+	{
+		sound = "QS_DeviceAssembled_SFX";
+	};
+	class QS_deviceDisassembled
+	{
+		sound = "QS_DeviceDisassembled_SFX";
+	};
+	/*/
+};
+class CfgUnitInsignia {
+	class A3CG {
+		displayName = "Combat Group"; 														/*/ Name displayed in Arsenal/*/
+		author = "Quiksilver"; 																/*/ Author displayed in Arsenal/*/
+		texture = "media\images\insignia\comm_patch.paa";	 										/*/ Image path/*/
+		textureVehicle = "media\images\insignia\comm_patch.paa"; 									/*/ Does nothing currently, reserved for future use/*/
+	};
+};
+class CfgCarrier {
+	class LaunchSettings {
+		duration = 6;
+		distance = 15;
+		condShow = "";
+		condProgres = "";		//----- yes, one S in Progres...
+		codeEnd = "['TAKEOFF_END'] call (missionNamespace getVariable 'QS_fnc_carrier');";
+		codeStart = "['TAKEOFF_START'] call (missionNamespace getVariable 'QS_fnc_carrier');";
+	};
+};
+/*/
+class CfgWorlds {
+	class Any // or specific world name
+	{
+		author = "Quiksilver";
+		description = "Invade & Annex";
+		pictureMap = "media\images\loadScreens\loading_1.paa";
+		pictureShot = "media\images\loadScreens\loading_2.paa";
+		loadingTexts[] = {"text1", "text2", "text3"};
+	};
+};
+/*/
+#define CT_STATIC           0
+#define CT_BUTTON           1
+#define CT_EDIT             2
+#define CT_SLIDER           3
+#define CT_COMBO            4
+#define CT_LISTBOX          5
+#define CT_TOOLBOX          6
+#define CT_CHECKBOXES       7
+#define CT_PROGRESS         8
+#define CT_HTML             9
+#define CT_STATIC_SKEW      10
+#define CT_ACTIVETEXT       11
+#define CT_TREE             12
+#define CT_STRUCTURED_TEXT  13
+#define CT_CONTEXT_MENU     14
+#define CT_CONTROLS_GROUP   15
+#define CT_SHORTCUTBUTTON   16
+#define CT_XKEYDESC         40
+#define CT_XBUTTON          41
+#define CT_XLISTBOX         42
+#define CT_XSLIDER          43
+#define CT_XCOMBO           44
+#define CT_ANIMATED_TEXTURE 45
+#define CT_OBJECT           80
+#define CT_OBJECT_ZOOM      81
+#define CT_OBJECT_CONTAINER 82
+#define CT_OBJECT_CONT_ANIM 83
+#define CT_LINEBREAK        98
+#define CT_USER             99
+#define CT_MAP              100
+#define CT_MAP_MAIN         101
+#define CT_LISTNBOX         102
+
+#define ST_POS            0x0F
+#define ST_HPOS           0x03
+#define ST_VPOS           0x0C
+#define ST_LEFT           0x00
+#define ST_RIGHT          0x01
+#define ST_CENTER         0x02
+#define ST_DOWN           0x04
+#define ST_UP             0x08
+#define ST_VCENTER        0x0C
+#define ST_GROUP_BOX       96
+#define ST_GROUP_BOX2      112
+#define ST_ROUNDED_CORNER  ST_GROUP_BOX + ST_CENTER
+#define ST_ROUNDED_CORNER2 ST_GROUP_BOX2 + ST_CENTER
+
+#define ST_TYPE           0xF0
+#define ST_SINGLE         0x00
+#define ST_MULTI          0x10
+#define ST_TITLE_BAR      0x20
+#define ST_PICTURE        0x30
+#define ST_FRAME          0x40
+#define ST_BACKGROUND     0x50
+#define ST_HUD_BACKGROUND 0x80
+#define ST_TILE_PICTURE   0x90
+#define ST_WITH_RECT      0xA0
+#define ST_LINE           0xB0
+
+#define ST_SHADOW         0x100
+#define ST_NO_RECT        0x200
+#define ST_KEEP_ASPECT_RATIO  0x800
+
+#define ST_TITLE          ST_TITLE_BAR + ST_CENTER
+
+#define SL_DIR            0x400
+#define SL_VERT           0
+#define SL_HORZ           0x400
+
+#define SL_TEXTURES       0x10
+
+#define ST_VERTICAL       0x01
+#define ST_HORIZONTAL     0
+
+#define LB_TEXTURES       0x10
+#define LB_MULTI          0x20
+
+#define TR_SHOWROOT       1
+#define TR_AUTOCOLLAPSE   2
+
+#define MB_BUTTON_OK      1
+#define MB_BUTTON_CANCEL  2
+#define MB_BUTTON_USER    4
+
+#define GUI_GRID_WAbs			((safezoneW / safezoneH) min 1.2)
+#define GUI_GRID_HAbs			(GUI_GRID_WAbs / 1.2)
+#define GUI_GRID_W			(GUI_GRID_WAbs / 40)
+#define GUI_GRID_H			(GUI_GRID_HAbs / 25)
+#define GUI_GRID_X			(safezoneX)
+#define GUI_GRID_Y			(safezoneY + safezoneH - GUI_GRID_HAbs)
+
+// Default text sizes
+#define GUI_TEXT_SIZE_SMALL		(GUI_GRID_H * 0.8)
+#define GUI_TEXT_SIZE_MEDIUM		(GUI_GRID_H * 1)
+#define GUI_TEXT_SIZE_LARGE		(GUI_GRID_H * 1.2)
+
+class QS_RD_dialog_RscCombo {
+	idc = -1;
+	type = 4;
+	style = 1;
+	x = 0;
+	y = 0;
+	w = 0.3;
+	h = 0.035;
+	colorSelect[] = {0.023529, 0, 0.0313725, 1};
+	colorText[] = {0.023529, 0, 0.0313725, 1};
+	colorBackground[] = {0.95, 0.95, 0.95, 1};
+	colorSelectBackground[] = {0.543, 0.5742, 0.4102, 1.0};
+	colorScrollbar[] = {0.023529, 0, 0.0313725, 1};
+	arrowEmpty = "\ca\ui\data\ui_arrow_combo_ca.paa";
+	arrowFull = "\ca\ui\data\ui_arrow_combo_active_ca.paa";
+	wholeHeight = 0.45;
+	color[] = {0, 0, 0, 0.6};
+	colorActive[] = {0, 0, 0, 1};
+	colorDisabled[] = {0, 0, 0, 0.3};
+	font = "RobotoCondensed";
+	sizeEx = 0.031;
+	soundSelect[] = {"\ca\ui\data\sound\new1", 0.09, 1};
+	soundExpand[] = {"\ca\ui\data\sound\new1", 0.09, 1};
+	soundCollapse[] = {"\ca\ui\data\sound\new1", 0.09, 1};
+	maxHistoryDelay = 1.0;
+	
+	class ScrollBar {
+		color[] = {1, 1, 1, 0.6};
+		colorActive[] = {1, 1, 1, 1};
+		colorDisabled[] = {1, 1, 1, 0.3};
+		thumb = "";
+		arrowFull = "\ca\ui\data\ui_arrow_top_active_ca.paa";
+		arrowEmpty = "\ca\ui\data\ui_arrow_top_ca.paa";
+		border = "\ca\ui\data\ui_border_scroll_ca.paa";
+	};
+	class ComboScrollBar {
+		color[] = {1, 1, 1, 0.6};
+		colorActive[] = {1, 1, 1, 1};
+		colorDisabled[] = {1, 1, 1, 0.3};
+		thumb = "";
+		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+	};
+	class VScrollbar {
+		color[] = {1, 1, 1, 0.6};
+		width = 0.021;
+		autoScrollSpeed = -1;
+		autoScrollDelay = 5;
+		autoScrollRewind = 0;
+		shadow = 0;
+	};
+	
+	class HScrollbar {
+		color[] = {1, 1, 1, 0.6};
+		height = 0.028;
+		shadow = 0;
+	};
+};
+
+class QS_RD_dialog_RscCombo_2
+{
+    deletable = 0;
+    fade = 0;
+    access = 0;
+    type = CT_COMBO;
+	style = ST_LEFT;
+    colorSelect[] = {0, 0, 0, 1};
+    colorText[] = {1, 1, 1, 1};
+    colorBackground[] = {0, 0, 0, 0.5};
+    colorScrollbar[] = {1, 0, 0, 1};
+    colorDisabled[] = {1, 1, 1, 0.25};
+    colorPicture[] = {1, 1, 1, 1};
+    colorPictureSelected[] = {1, 1, 1, 1};
+    colorPictureDisabled[] = {1, 1, 1, 0.25};
+    colorPictureRight[] = {1, 1, 1, 1};
+    colorPictureRightSelected[] = {1, 1, 1, 1};
+    colorPictureRightDisabled[] = {1, 1, 1, 0.25};
+    colorTextRight[] = {1, 1, 1, 1};
+    colorSelectRight[] = {0, 0, 0, 1};
+    colorSelect2Right[] = {0, 0, 0, 1};
+    tooltipColorText[] = {1, 1, 1, 1};
+    tooltipColorBox[] = {1, 1, 1, 1};
+    tooltipColorShade[] = {0, 0, 0, 0.65};
+    soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
+    soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand", 0.1, 1};
+    soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse", 0.1, 1};
+    maxHistoryDelay = 1;
+	class ScrollBar {
+		color[] = {1, 1, 1, 0.6};
+		colorActive[] = {1, 1, 1, 1};
+		colorDisabled[] = {1, 1, 1, 0.3};
+		thumb = "";
+		arrowFull = "\ca\ui\data\ui_arrow_top_active_ca.paa";
+		arrowEmpty = "\ca\ui\data\ui_arrow_top_ca.paa";
+		border = "\ca\ui\data\ui_border_scroll_ca.paa";
+	};
+    class ComboScrollBar: ScrollBar {
+        color[] = {1, 1, 1, 1};
+    };
+	class VScrollbar {
+		color[] = {1, 1, 1, 0.6};
+		width = 0.021;
+		autoScrollSpeed = -1;
+		autoScrollDelay = 5;
+		autoScrollRewind = 0;
+		shadow = 0;
+	};
+    colorSelectBackground[] = {1, 1, 1, 0.7};
+    colorActive[] = {1, 0, 0, 1};
+    font = "RobotoCondensed";
+    sizeEx = 0.02;
+    shadow = 0;
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
+    arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+    arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+    wholeHeight = 0.05;
+	rowHeight = 0.04;
+};
+
+class QS_RD_dialog_RscControlsGroup {
+	type = 15;
+	idc = -1;
+	x = 0;
+	y = 0;
+	w = safeZoneW;
+	h = safeZoneH;
+	shadow = 0;
+	style = 16;
+	
+	class VScrollbar {
+		color[] = {1, 1, 1, 0.6};
+		width = 0.021;
+		autoScrollSpeed = -1;
+		autoScrollDelay = 5;
+		autoScrollRewind = 0;
+		shadow = 0;
+	};
+	
+	class HScrollbar {
+		color[] = {1, 1, 1, 0.6};
+		height = 0.028;
+		shadow = 0;
+	};
+	
+	class ScrollBar {
+		color[] = {1, 1, 1, 0.6};
+		colorActive[] = {1, 1, 1, 1};
+		colorDisabled[] = {1, 1, 1, 0.3};
+		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+	};
+	
+	class ComboScrollBar {
+		color[] = {1, 1, 1, 0.6};
+		colorActive[] = {1, 1, 1, 1};
+		colorDisabled[] = {1, 1, 1, 0.3};
+		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+	};
+	
+	class Controls {};
+};
+class RscProgress
+{
+	deletable = 0;
+	fade = 0;
+	//access = 0;
+	type = CT_PROGRESS;
+	style = ST_HORIZONTAL;
+	colorFrame[] = {0,0,0,0};
+	colorBar[] =
+	{
+		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"
+	};
+	x = 0.344;
+	y = 0.619;
+	w = 0.313726;
+	h = 0.0261438;
+	shadow = 2;
+	texture = "#(argb,8,8,3)color(1,1,1,1)";
+};
+class QS_RD_dialog_RscText {
+	x = 0;
+	y = 0;
+	h = 0.037;
+	w = 0.3;
+	type = 0;
+	style = 2;
+	shadow = 0;
+	colorShadow[] = {0, 0, 0, 0.5};
+	colorDisabled[] = {1,1,1,0.25};
+	font = "RobotoCondensed";
+	SizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	text = "";
+	colorText[] = {0,1,1,1};
+	colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"};
+	linespacing = 1;
+	class Attributes {
+		align = "left";
+	};
+};
+class QS_RD_dialog_RscEdit {
+	type = 2;
+	//access = 0;
+	style = 16;
+	font = "RobotoCondensed";
+	shadow = 0;
+	autocomplete = "scripting";
+	canModify = 1;
+	colorBackground[] = {0,0,0,0};
+	colorDisabled[] = {1,1,1,0.25};
+	colorSelection[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",1};
+	colorText[] = {0.95,0.95,0.95,1};
+	deletable = 0;
+	fade = 0;
+	sizeEx = 1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+	x = 0;
+	y = 0;
+	h = 0;
+	w = 0;
+};
+
+class QS_RD_dialog_RscPicture {
+    //access = 0;
+    idc = -1;
+    type = CT_STATIC;
+    style = ST_PICTURE;
+    colorBackground[] = {0,0,0,0};
+    colorText[] = {1,1,1,0.8};
+    font = "RobotoCondensed";
+    sizeEx = 0;
+    lineSpacing = 0;
+    text = "";
+    fixedWidth = 0;
+    shadow = 0;
+    x = 0;
+    y = 0;
+    w = 0.2;
+    h = 0.15;
+};
+class QS_RD_dialog_RscPictureKeepAspect: QS_RD_dialog_RscPicture {
+	style = ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
+};
+class QS_RD_dialog_RscButton {
+	//access = 0;
+    type = CT_BUTTON;
+    text = "";
+   	style = 2;
+	x = 0;
+	y = 0;
+	w = 0.095589;
+	h = 0.039216;
+	shadow = 0;
+	font = "RobotoCondensed";
+	sizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	//colorText[] = {1,1,1,1};
+	colorText[] = {0,0,0,1};
+	colorDisabled[] = {0.4,0.4,0.4,1};
+	colorBackground[] = {0,0,0,0.7};
+	colorBackgroundActive[] = {0.5,0.5,0.5,0.7};
+	colorBackgroundDisabled[] = {0,0,0,0.7};
+	offsetX = 0.003;
+	offsetY = 0.003;
+	offsetPressedX = 0.002;
+	offsetPressedY = 0.002;
+	colorFocused[] = {0,0,0,1};
+	colorShadow[] = {0,0,0,1};
+	colorBorder[] = {0,0,0,1};
+	borderSize = 0.0;
+	soundEnter[] = {"\A3\ui_f\data\Sound\RscButtonMenu\soundEnter", 0.09, 1};
+	soundPush[] = {"\A3\ui_f\data\Sound\RscButtonMenu\soundPush", 0.0, 0};
+	soundClick[] = {"\A3\ui_f\data\Sound\RscButtonMenu\soundClick", 0.07, 1};
+	soundEscape[] = {"\A3\ui_f\data\Sound\RscButtonMenu\soundEscape", 0.09, 1};
+};
+class QS_RD_dialog_RscShortcutButton {
+	//access = 0;
+    type = CT_SHORTCUTBUTTON;
+	idc = -1;
+	style = 48;
+	default = 0;
+	shadow = 1;
+	w = 0.183825;
+	h = "(		(		((safezoneW / safezoneH) min 1.2) / 1.2) / 20)";
+	color[] = {1,1,1,1};
+	color2[] = {0.95,0.95,0.95,1};
+	colorDisabled[] = {1,1,1,0.25};
+	colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",1};
+	colorBackground2[] = {1,1,1,1};
+	colorBackgroundFocused[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",1};
+	colorFocused[] = {1,1,1,1};
+	animTextureDefault = "\A3\ui_f\data\GUI\RscCommon\RscShortcutButton\normal_ca.paa";
+	animTextureNormal = "\A3\ui_f\data\GUI\RscCommon\RscShortcutButton\normal_ca.paa";
+	animTextureDisabled = "\A3\ui_f\data\GUI\RscCommon\RscShortcutButton\normal_ca.paa";
+	animTextureOver = "\A3\ui_f\data\GUI\RscCommon\RscShortcutButton\over_ca.paa";
+	animTextureFocused = "\A3\ui_f\data\GUI\RscCommon\RscShortcutButton\focus_ca.paa";
+	animTexturePressed = "\A3\ui_f\data\GUI\RscCommon\RscShortcutButton\down_ca.paa";
+	periodFocus = 1.2;
+	periodOver = 0.8;
+	class HitZone {
+		left = 0.0;
+		top = 0.0;
+		right = 0.0;
+		bottom = 0.0;
+	};
+	class ShortcutPos{
+		left = 0;
+		top = "(			(		(		((safezoneW / safezoneH) min 1.2) / 1.2) / 20) - 		(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)) / 2";
+		w = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1) * (3/4)";
+		h = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	};
+	class TextPos{
+		left = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1) * (3/4)";
+		top = "(			(		(		((safezoneW / safezoneH) min 1.2) / 1.2) / 20) - 		(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)) / 2";
+		right = 0.005;
+		bottom = 0.0;
+	};
+	period = 0.4;
+	font = "RobotoCondensed";
+	size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	sizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	text = "";
+	soundEnter[] = {"\A3\ui_f\data\sound\onover",0.09,1};
+	soundPush[] = {"\A3\ui_f\data\sound\new1",0.0,0};
+	soundClick[] = {"\A3\ui_f\data\sound\onclick",0.07,1};
+	soundEscape[] = {"\A3\ui_f\data\sound\onescape",0.09,1};
+	action = "";
+	class Attributes {
+		font = "RobotoCondensed";
+		color = "#E5E5E5";
+		align = "left";
+		shadow = "true";
+	};
+	class AttributesImage {
+		font = "RobotoCondensed";
+		color = "#E5E5E5";
+		align = "left";
+	};
+	textureNoShortcut = "#(argb,8,8,3)color(0,0,0,0)";
+};
+class QS_RD_dialog_RscButtonInvisible {
+    //access = 0;
+    type = 1;
+    text = "";
+    colorText[] = {0,0,0,0};
+    colorDisabled[] = {0,0,0,0};
+    colorBackground[] = {0,0,0,0};
+    colorBackgroundDisabled[] = {0,0,0,0};
+    colorBackgroundActive[] = {0,0,0,0};
+    colorFocused[] = {0,0,0,0};
+    colorShadow[] = {0,0,0,0};
+    colorBorder[] = {0,0,0,0};
+    soundEnter[] = {"",0.09,1};
+    soundPush[] = {"",0.09,1};
+    soundClick[] = {"",0.07,1};
+    soundEscape[] = {"",0.09,1};
+    style = 2;
+    x = 0;
+    y = 0;
+    w = 0.095589;
+    h = 0.039216;
+    shadow = 2;
+    font = "RobotoCondensed";
+    sizeEx = 0.03921;
+    offsetX = 0.003;
+    offsetY = 0.003;
+    offsetPressedX = 0.002;
+    offsetPressedY = 0.002;
+    borderSize = 0;
+};
+class QS_RD_dialog_RscFrame {
+    type = CT_STATIC;
+    idc = -1;
+    style = ST_FRAME;
+    shadow = 2;
+    colorBackground[] = {1,1,1,1};
+	colorBorder[] = {1,1,1,1};
+    colorText[] = {1,1,1,0.9};
+    font = "RobotoCondensed";
+    sizeEx = 0.03;
+    text = "";
+};
+class QS_RD_dialog_Box {
+    type = CT_STATIC;
+    idc = -1;
+    style = ST_CENTER;
+    shadow = 0;
+    colorBackground[] = {0,0,0,0.5};
+	colorBorder[] = {1,1,1,1};
+    colorText[] = {1,1,1,0.5};
+    font = "RobotoCondensed";
+    sizeEx = 0.03;
+    text = "";
+};
+class QS_RD_dialog_Box_2: QS_RD_dialog_Box {
+    type = CT_STATIC;
+    idc = -1;
+    style = ST_CENTER;
+    shadow = 0;
+    colorBackground[] = {0,0,0,0.5};
+	colorBorder[] = {1,1,1,1};
+    colorText[] = {1,1,1,0.5};
+    font = "RobotoCondensed";
+    sizeEx = 0.03;
+    text = "";
+	x = 0;
+	y = 0;
+	w = 0;
+	h = 0;
+};
+
+class QS_RD_XSlider {
+	style = 1024;
+	type = 43;
+	shadow = 1;
+	x = 0;
+	y = 0;
+	h = 0.029412;
+	w = 0.400000;
+	color[] = {1, 1, 1, 0.7};
+	colorActive[] = {1, 1, 1, 1};
+	colorDisabled[] = {1, 1, 1, 0.500000};
+	arrowEmpty = "\A3\ui_f\data\gui\cfg\slider\arrowEmpty_ca.paa";
+	arrowFull = "\A3\ui_f\data\gui\cfg\slider\arrowFull_ca.paa";
+	border = "\A3\ui_f\data\gui\cfg\slider\border_ca.paa";
+	thumb = "\A3\ui_f\data\gui\cfg\slider\thumb_ca.paa";
+};
+class QS_RD_Progress {
+	type = 8;
+	style = 0;
+	colorFrame[] = {0,0,0,1};
+	colorBar[] = {1,1,1,1};
+	texture = "#(argb,8,8,3)color(1,1,1,1)";
+	w = 1;
+	h = 0.03;
+};
+class QS_RD_RscStructuredText {
+	type = 13;
+	style = 2;
+	x = 0;
+	y = 0;
+	h = 0.037;
+	w = 0.3;
+	shadow = 0;
+	colorShadow[] = {0, 0, 0, 0.5};
+	colorDisabled[] = {1,1,1,0.25};
+	font = "RobotoCondensed";
+	SizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	text = "";
+	colorText[] = {0,1,1,1};
+	colorBackground[] = { 0, 0, 0, 0 };	
+	linespacing = 1;
+};
+
+class QS_RD_RscCheckbox {
+	//access = 0;
+	idc = -1;
+	type = 77;
+	style = ST_LEFT + ST_MULTI;
+	default = 0;
+	blinkingPeriod = 0;
+	x = 0;
+	y = 0;
+	w = 1 * GUI_GRID_CENTER_W;
+	h = 1 * GUI_GRID_CENTER_H;
+	color[] = { 1, 1, 1, 0.7 };
+	colorFocused[] = { 1, 1, 1, 1 };
+	colorHover[] = { 1, 1, 1, 1 };
+	colorPressed[] = { 1, 1, 1, 1 };
+	colorDisabled[] = { 1, 1, 1, 0.2 };
+	colorBackground[] = { 0, 0, 0, 0 };
+	colorBackgroundFocused[] = { 0, 0, 0, 0 };
+	colorBackgroundHover[] = { 0, 0, 0, 0 };
+	colorBackgroundPressed[] = { 0, 0, 0, 0 };
+	colorBackgroundDisabled[] = { 0, 0, 0, 0 };
+	textureChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	textureFocusedChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureFocusedUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	textureHoverChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureHoverUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	texturePressedChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	texturePressedUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	textureDisabledChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureDisabledUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	tooltip = "";
+	tooltipColorShade[] = { 0, 0, 0, 1 };
+	tooltipColorText[] = { 1, 1, 1, 1 };
+	tooltipColorBox[] = { 1, 1, 1, 1 };
+	soundClick[] = { "\A3\ui_f\data\sound\RscButton\soundClick", 0.09, 1 };
+	soundEnter[] = { "\A3\ui_f\data\sound\RscButton\soundEnter", 0.09, 1 };
+	soundPush[] = { "\A3\ui_f\data\sound\RscButton\soundPush", 0.09, 1 };
+	soundEscape[] = { "\A3\ui_f\data\sound\RscButton\soundEscape", 0.09, 1 };
+
+};
+
+class QS_RD_dialog_ScrollBar {
+	color[] = {1,1,1,0.6};
+	colorActive[] = {1,1,1,1};
+	colorDisabled[] = {1,1,1,0.3};
+	thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+	arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+	arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+	border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+	shadow = 0;
+	scrollSpeed = 0.06;
+	width = 0;
+	height = 0;
+	autoScrollEnabled = 0;
+	autoScrollSpeed = -1;
+	autoScrollDelay = 5;
+	autoScrollRewind = 0;
+};
+
+class QS_RD_dialog_RscListBox {
+	style = 16;
+	idc = -1;
+	type = 5;
+	w = 0.275;
+	h = 0.04;
+	font = "RobotoCondensed";
+	color[] = {0.7, 0.7, 0.7, 1};
+	colorActive[] = {0,0,0,1};
+	colorDisabled[] = {0,0,0,0.3};
+	colorSelect[] = {1, 1, 1, 1};
+	colorText[] = {1, 1, 1, 1};
+	colorBackground[] = {0.28,0.28,0.28,0.28};
+	colorSelect2[] = {1, 1, 1, 1};
+	colorSelectBackground[] = {0.95, 0.95, 0.95, 0.5};
+	colorSelectBackground2[] = {1, 1, 1, 0.5};
+	colorScrollbar[] = {0.2, 0.2, 0.2, 1};
+	colorPicture[] = {1,1,1,1};
+	colorPictureSelected[] = {1,1,1,1};
+	colorPictureDisabled[] = {1,1,1,1};
+	arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+	arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+	wholeHeight = 0.45;
+	rowHeight = 0.04;
+	sizeEx = 0.023;
+	soundSelect[] = {"",0.1,1};
+	soundExpand[] = {"",0.1,1};
+	soundCollapse[] = {"",0.1,1};
+	maxHistoryDelay = 1;
+	autoScrollSpeed = -1;
+	autoScrollDelay = 5;
+	autoScrollRewind = 0;
+	class ListScrollBar: QS_RD_dialog_ScrollBar {
+		color[] = {1,1,1,1};
+		autoScrollEnabled = 1;
+	};
+};
+class QS_RD_dialog_RscListNBox {
+	//access = 0;
+	type = CT_LISTNBOX;			// 102; 
+	style = ST_MULTI;
+	w = 0.4;   
+	h = 0.4; 
+	font = "RobotoCondensed"; 
+	sizeEx = 0.04; 
+
+	autoScrollSpeed = -1; 
+	autoScrollDelay = 5; 
+	autoScrollRewind = 0; 
+	arrowEmpty = "#(argb,8,8,3)color(1,1,1,1)"; 
+	arrowFull = "#(argb,8,8,3)color(1,1,1,1)"; 
+	columns[] = {0.3, 0.6, 0.7}; 
+
+	color[] = {0.7, 0.7, 0.7, 1};
+	colorSelect[] = {1, 1, 1, 1};
+	colorText[] = {1, 1, 1, 1};
+	colorBackground[] = {0.28,0.28,0.28,0.28};
+	colorSelect2[] = {1, 1, 1, 1};
+	colorSelectBackground[] = {0.95, 0.95, 0.95, 0.5};
+	colorSelectBackground2[] = {1, 1, 1, 0.5};
+	colorScrollbar[] = {0.2, 0.2, 0.2, 1};
+	colorPicture[] = {1,1,1,1};
+	colorPictureSelected[] = {1,1,1,1};
+	colorPictureDisabled[] = {1,1,1,1};
+	colorActive[] = {0,0,0,1};
+	colorDisabled[] = {0,0,0,0.3};
+	drawSideArrows = 0; 
+	idcLeft = -1; 
+	idcRight = -1; 
+	maxHistoryDelay = 1; 
+	rowHeight = 0; 
+	soundSelect[] = {"", 0.1, 1}; 
+	period = 1; 
+	shadow = 2; 
+	class ScrollBar {
+		arrowEmpty = "#(argb,8,8,3)color(1,1,1,1)";
+		arrowFull = "#(argb,8,8,3)color(1,1,1,1)";
+		border = "#(argb,8,8,3)color(1,1,1,1)";
+		color[] = {1,1,1,1};
+		colorActive[] = {1,1,1,1};
+		colorDisabled[] = {1,1,1,0.3};
+		thumb = "#(argb,8,8,3)color(1,1,1,1)";
+	};
+	class ListScrollBar: QS_RD_dialog_ScrollBar {
+		color[] = {1,1,1,1};
+		autoScrollEnabled = 1;
+	};
+};
+/*
+class dialog {
+  class controls {
+    class MyLbox:RscListNBox {
+        x=y=wherever;
+        canDrag=true;
+        rows=10;
+        lineSpacing = 1.3;
+    };
+  };
+};
+*/
+/*
+#define CT_MAP              100
+#define CT_MAP_MAIN         101
+*/
+class QS_RD_dialog_RscMapControl {
+	type = CT_MAP;
+	style = ST_PICTURE;
+	idc = 51;
+	colorBackground[] = {0.969, 0.957, 0.949, 1};
+	colorOutside[] = {0, 0, 0, 1};
+	colorText[] = {0, 0, 0, 1};
+	font = "TahomaB";
+	sizeEx = 0.04;
+	colorSea[] = {0.467, 0.631, 0.851, 0.5};
+	colorForest[] = {0.624, 0.78, 0.388, 0.5};
+	colorRocks[] = {0, 0, 0, 0.3};
+	colorCountlines[] = {0.572, 0.354, 0.188, 0.25};
+	colorMainCountlines[] = {0.572, 0.354, 0.188, 0.5};
+	colorCountlinesWater[] = {0.491, 0.577, 0.702, 0.3};
+	colorMainCountlinesWater[] = {0.491, 0.577, 0.702, 0.6};
+	colorForestBorder[] = {0, 0, 0, 0};
+	colorRocksBorder[] = {0, 0, 0, 0};
+	colorPowerLines[] = {0.1, 0.1, 0.1, 1};
+	colorRailWay[] = {0.8, 0.2, 0, 1};
+	colorNames[] = {0.1, 0.1, 0.1, 0.9};
+	colorInactive[] = {1, 1, 1, 0.5};
+	colorLevels[] = {0.286, 0.177, 0.094, 0.5};
+	colorTracks[] = {0.84, 0.76, 0.65, 0.15};
+	colorRoads[] = {0.7, 0.7, 0.7, 1};
+	colorMainRoads[] = {0.9, 0.5, 0.3, 1};
+	colorTracksFill[] = {0.84, 0.76, 0.65, 1};
+	colorRoadsFill[] = {1, 1, 1, 1};
+	colorMainRoadsFill[] = {1, 0.6, 0.4, 1};
+	colorGrid[] = {0.1, 0.1, 0.1, 0.6};
+	colorGridMap[] = {0.1, 0.1, 0.1, 0.6};
+	stickX[] = {0.2, {"Gamma", 1, 1.5}};
+	stickY[] = {0.2, {"Gamma", 1, 1.5}};
+	moveOnEdges = 1;
+	x = 0;
+	y = 0;
+	w = 1;
+	h = 1;
+	shadow = 0;
+	ptsPerSquareSea = 5;
+	ptsPerSquareTxt = 20;
+	ptsPerSquareCLn = 10;
+	ptsPerSquareExp = 10;
+	ptsPerSquareCost = 10;
+	ptsPerSquareFor = 9;
+	ptsPerSquareForEdge = 9;
+	ptsPerSquareRoad = 6;
+	ptsPerSquareObj = 9;
+	showCountourInterval = 0;
+	scaleMin = 0.001;
+	scaleMax = 1;
+	scaleDefault = 0.16;
+	maxSatelliteAlpha = 0.85;
+	alphaFadeStartScale = 2;
+	alphaFadeEndScale = 2;
+	fontLabel = "RobotoCondensed";
+	sizeExLabel = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	fontGrid = "TahomaB";
+	sizeExGrid = 0.02;
+	fontUnits = "TahomaB";
+	sizeExUnits = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	fontNames = "EtelkaNarrowMediumPro";
+	sizeExNames = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8) * 2";
+	fontInfo = "RobotoCondensed";
+	sizeExInfo = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	fontLevel = "TahomaB";
+	sizeExLevel = 0.02;
+	text = "#(argb,8,8,3)color(1,1,1,1)";
+	widthRailWay = 4;
+
+	class Legend {
+		colorBackground[] = {1, 1, 1, 0.5};
+		color[] = {0, 0, 0, 1};
+		x = "SafeZoneX + (((safezoneW / safezoneH) min 1.2) / 40)";
+		y = "SafeZoneY + safezoneH - 4.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+		w = "10 * (((safezoneW / safezoneH) min 1.2) / 40)";
+		h = "3.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+		font = "RobotoCondensed";
+		sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	};
+	class ActiveMarker {
+		color[] = {0.3, 0.1, 0.9, 1};
+		size = 50;
+	};
+	class Command {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\waypoint_ca.paa";
+		size = 18;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+	};
+	class Task {
+		colorCreated[] = {1, 1, 1, 1};
+		colorCanceled[] = {0.7, 0.7, 0.7, 1};
+		colorDone[] = {0.7, 1, 0.3, 1};
+		colorFailed[] = {1, 0.3, 0.2, 1};
+		color[] = {"(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0])", "(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1])", "(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1])", "(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])"};
+		icon = "\A3\ui_f\data\map\mapcontrol\taskIcon_CA.paa";
+		iconCreated = "\A3\ui_f\data\map\mapcontrol\taskIconCreated_CA.paa";
+		iconCanceled = "\A3\ui_f\data\map\mapcontrol\taskIconCanceled_CA.paa";
+		iconDone = "\A3\ui_f\data\map\mapcontrol\taskIconDone_CA.paa";
+		iconFailed = "\A3\ui_f\data\map\mapcontrol\taskIconFailed_CA.paa";
+		size = 27;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+	};
+	class CustomMark {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\custommark_ca.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+	};
+	class Tree {
+		color[] = {0.45, 0.64, 0.33, 0.4};
+		icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+		size = 12;
+		importance = "0.9 * 16 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class SmallTree {
+		color[] = {0.45, 0.64, 0.33, 0.4};
+		icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+		size = 12;
+		importance = "0.6 * 12 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Bush {
+		color[] = {0.45, 0.64, 0.33, 0.4};
+		icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+		size = "14/2";
+		importance = "0.2 * 14 * 0.05 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Church {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\church_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Chapel {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\Chapel_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Cross {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\Cross_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Rock {
+		color[] = {0.1, 0.1, 0.1, 0.8};
+		icon = "\A3\ui_f\data\map\mapcontrol\rock_ca.paa";
+		size = 12;
+		importance = "0.5 * 12 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Bunker {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\bunker_ca.paa";
+		size = 14;
+		importance = "1.5 * 14 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Fortress {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\bunker_ca.paa";
+		size = 16;
+		importance = "2 * 16 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Fountain {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\fountain_ca.paa";
+		size = 11;
+		importance = "1 * 12 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class ViewTower {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\viewtower_ca.paa";
+		size = 16;
+		importance = "2.5 * 16 * 0.05";
+		coefMin = 0.5;
+		coefMax = 4;
+	};
+	class Lighthouse {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\lighthouse_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Quay {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\quay_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Fuelstation {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\fuelstation_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Hospital {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\hospital_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class BusStop {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\busstop_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Transmitter {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\transmitter_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Stack {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\stack_ca.paa";
+		size = 20;
+		importance = "2 * 16 * 0.05";
+		coefMin = 0.9;
+		coefMax = 4;
+	};
+	class Ruin {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\ruin_ca.paa";
+		size = 16;
+		importance = "1.2 * 16 * 0.05";
+		coefMin = 1;
+		coefMax = 4;
+	};
+	class Tourism {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\tourism_ca.paa";
+		size = 16;
+		importance = "1 * 16 * 0.05";
+		coefMin = 0.7;
+		coefMax = 4;
+	};
+	class Watertower {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\watertower_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Waypoint {
+		color[] = {0, 0, 0, 1};
+		size = 24;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+		icon = "\A3\ui_f\data\map\mapcontrol\waypoint_ca.paa";
+	};
+	class WaypointCompleted {
+		color[] = {0, 0, 0, 1};
+		size = 24;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+		icon = "\A3\ui_f\data\map\mapcontrol\waypointCompleted_ca.paa";
+	};
+	class power {
+		icon = "\A3\ui_f\data\map\mapcontrol\power_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class powersolar {
+		icon = "\A3\ui_f\data\map\mapcontrol\powersolar_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class powerwave {
+		icon = "\A3\ui_f\data\map\mapcontrol\powerwave_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class powerwind {
+		icon = "\A3\ui_f\data\map\mapcontrol\powerwind_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class Shipwreck {
+		icon = "\A3\ui_f\data\map\mapcontrol\Shipwreck_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {0, 0, 0, 1};
+	};
+};
+class QS_RD_dialog_RscMapControl2 {
+	type = CT_MAP;
+	style = ST_PICTURE;
+	idc = 51;
+	colorBackground[] = {0.969, 0.957, 0.949, 1};
+	colorOutside[] = {0, 0, 0, 1};
+	colorText[] = {0, 0, 0, 1};
+	font = "TahomaB";
+	sizeEx = 0.04;
+	colorSea[] = {0.467, 0.631, 0.851, 0.5};
+	colorForest[] = {0.624, 0.78, 0.388, 0.5};
+	colorRocks[] = {0, 0, 0, 0.3};
+	colorCountlines[] = {0.572, 0.354, 0.188, 0.25};
+	colorMainCountlines[] = {0.572, 0.354, 0.188, 0.5};
+	colorCountlinesWater[] = {0.491, 0.577, 0.702, 0.3};
+	colorMainCountlinesWater[] = {0.491, 0.577, 0.702, 0.6};
+	colorForestBorder[] = {0, 0, 0, 0};
+	colorRocksBorder[] = {0, 0, 0, 0};
+	colorPowerLines[] = {0.1, 0.1, 0.1, 1};
+	colorRailWay[] = {0.8, 0.2, 0, 1};
+	colorNames[] = {0.1, 0.1, 0.1, 0.9};
+	colorInactive[] = {1, 1, 1, 0.5};
+	colorLevels[] = {0.286, 0.177, 0.094, 0.5};
+	colorTracks[] = {0.84, 0.76, 0.65, 0.15};
+	colorRoads[] = {0.7, 0.7, 0.7, 1};
+	colorMainRoads[] = {0.9, 0.5, 0.3, 1};
+	colorTracksFill[] = {0.84, 0.76, 0.65, 1};
+	colorRoadsFill[] = {1, 1, 1, 1};
+	colorMainRoadsFill[] = {1, 0.6, 0.4, 1};
+	colorGrid[] = {0.1, 0.1, 0.1, 0.6};
+	colorGridMap[] = {0.1, 0.1, 0.1, 0.6};
+	stickX[] = {0.2, {"Gamma", 1, 1.5}};
+	stickY[] = {0.2, {"Gamma", 1, 1.5}};
+	moveOnEdges = 1;
+	x = 0;
+	y = 0;
+	w = 1;
+	h = 1;
+	shadow = 0;
+	ptsPerSquareSea = 5;
+	ptsPerSquareTxt = 20;
+	ptsPerSquareCLn = 10;
+	ptsPerSquareExp = 10;
+	ptsPerSquareCost = 10;
+	ptsPerSquareFor = 9;
+	ptsPerSquareForEdge = 9;
+	ptsPerSquareRoad = 6;
+	ptsPerSquareObj = 9;
+	showCountourInterval = 0;
+	scaleMin = 0.001;
+	scaleMax = 1;
+	scaleDefault = 0.16;
+	maxSatelliteAlpha = 0.85;
+	alphaFadeStartScale = 2;
+	alphaFadeEndScale = 2;
+	fontLabel = "RobotoCondensed";
+	sizeExLabel = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	fontGrid = "TahomaB";
+	sizeExGrid = 0.02;
+	fontUnits = "TahomaB";
+	sizeExUnits = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	fontNames = "EtelkaNarrowMediumPro";
+	sizeExNames = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8) * 2";
+	fontInfo = "RobotoCondensed";
+	sizeExInfo = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	fontLevel = "TahomaB";
+	sizeExLevel = 0.02;
+	text = "#(argb,8,8,3)color(1,1,1,1)";
+
+	class Legend {
+		colorBackground[] = {1, 1, 1, 0.5};
+		color[] = {0, 0, 0, 1};
+		x = "SafeZoneX + (((safezoneW / safezoneH) min 1.2) / 40)";
+		y = "SafeZoneY + safezoneH - 4.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+		w = "10 * (((safezoneW / safezoneH) min 1.2) / 40)";
+		h = "3.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+		font = "RobotoCondensed";
+		sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+	};
+	class ActiveMarker {
+		color[] = {0.3, 0.1, 0.9, 1};
+		size = 50;
+	};
+	class Command {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\waypoint_ca.paa";
+		size = 18;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+	};
+	class Task {
+		colorCreated[] = {1, 1, 1, 1};
+		colorCanceled[] = {0.7, 0.7, 0.7, 1};
+		colorDone[] = {0.7, 1, 0.3, 1};
+		colorFailed[] = {1, 0.3, 0.2, 1};
+		color[] = {"(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0])", "(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1])", "(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1])", "(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])"};
+		icon = "\A3\ui_f\data\map\mapcontrol\taskIcon_CA.paa";
+		iconCreated = "\A3\ui_f\data\map\mapcontrol\taskIconCreated_CA.paa";
+		iconCanceled = "\A3\ui_f\data\map\mapcontrol\taskIconCanceled_CA.paa";
+		iconDone = "\A3\ui_f\data\map\mapcontrol\taskIconDone_CA.paa";
+		iconFailed = "\A3\ui_f\data\map\mapcontrol\taskIconFailed_CA.paa";
+		size = 27;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+	};
+	class CustomMark {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\custommark_ca.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+	};
+	class Tree {
+		color[] = {0.45, 0.64, 0.33, 0.4};
+		icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+		size = 12;
+		importance = "0.9 * 16 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class SmallTree {
+		color[] = {0.45, 0.64, 0.33, 0.4};
+		icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+		size = 12;
+		importance = "0.6 * 12 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Bush {
+		color[] = {0.45, 0.64, 0.33, 0.4};
+		icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+		size = "14/2";
+		importance = "0.2 * 14 * 0.05 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Church {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\church_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Chapel {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\Chapel_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Cross {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\Cross_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Rock {
+		color[] = {0.1, 0.1, 0.1, 0.8};
+		icon = "\A3\ui_f\data\map\mapcontrol\rock_ca.paa";
+		size = 12;
+		importance = "0.5 * 12 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Bunker {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\bunker_ca.paa";
+		size = 14;
+		importance = "1.5 * 14 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Fortress {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\bunker_ca.paa";
+		size = 16;
+		importance = "2 * 16 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class Fountain {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\fountain_ca.paa";
+		size = 11;
+		importance = "1 * 12 * 0.05";
+		coefMin = 0.25;
+		coefMax = 4;
+	};
+	class ViewTower {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\viewtower_ca.paa";
+		size = 16;
+		importance = "2.5 * 16 * 0.05";
+		coefMin = 0.5;
+		coefMax = 4;
+	};
+	class Lighthouse {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\lighthouse_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Quay {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\quay_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Fuelstation {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\fuelstation_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Hospital {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\hospital_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class BusStop {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\busstop_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Transmitter {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\transmitter_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Stack {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\stack_ca.paa";
+		size = 20;
+		importance = "2 * 16 * 0.05";
+		coefMin = 0.9;
+		coefMax = 4;
+	};
+	class Ruin {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\ruin_ca.paa";
+		size = 16;
+		importance = "1.2 * 16 * 0.05";
+		coefMin = 1;
+		coefMax = 4;
+	};
+	class Tourism {
+		color[] = {0, 0, 0, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\tourism_ca.paa";
+		size = 16;
+		importance = "1 * 16 * 0.05";
+		coefMin = 0.7;
+		coefMax = 4;
+	};
+	class Watertower {
+		color[] = {1, 1, 1, 1};
+		icon = "\A3\ui_f\data\map\mapcontrol\watertower_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+	};
+	class Waypoint {
+		color[] = {0, 0, 0, 1};
+		size = 24;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+		icon = "\A3\ui_f\data\map\mapcontrol\waypoint_ca.paa";
+	};
+	class WaypointCompleted {
+		color[] = {0, 0, 0, 1};
+		size = 24;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+		icon = "\A3\ui_f\data\map\mapcontrol\waypointCompleted_ca.paa";
+	};
+	class power {
+		icon = "\A3\ui_f\data\map\mapcontrol\power_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class powersolar {
+		icon = "\A3\ui_f\data\map\mapcontrol\powersolar_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class powerwave {
+		icon = "\A3\ui_f\data\map\mapcontrol\powerwave_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class powerwind {
+		icon = "\A3\ui_f\data\map\mapcontrol\powerwind_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {1, 1, 1, 1};
+	};
+	class Shipwreck {
+		icon = "\A3\ui_f\data\map\mapcontrol\Shipwreck_CA.paa";
+		size = 24;
+		importance = 1;
+		coefMin = 0.85;
+		coefMax = 1;
+		color[] = {0, 0, 0, 1};
+	};
+};
+class QS_client_dialog_menu_roles {
+	idd = 42000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "uiNamespace setVariable ['QS_client_dialog_menu_roles',_this select 0]; 0 spawn (missionNamespace getVariable 'QS_fnc_clientMenuRSS');";
+	onUnload = "uiNamespace setVariable ['QS_client_dialog_menu_roles',displayNull];";
+};
+class QS_RD_client_dialog_menu_main {
+	idd = 2000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+	class controls {
+		class QS_RD_client_dialog_menu_main_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_main_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_main_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1000;
+			text = "Player Menu";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.0955624 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_main_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1200;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.479294 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.030 * safezoneW;
+			h = 0.050 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_main_text_3: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1002;
+			x = 0.375000 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.14 * safezoneW;
+			h = 0.025 * safezoneH;
+			sizeEx = 0.028;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			text = "";
+			tooltip = "Score, Rating, Health, Equipment";
+		};
+		class QS_RD_client_dialog_menu_main_text_2: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1001;
+			x = 0.375000 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.14 * safezoneW;
+			h = 0.025 * safezoneH;
+			sizeEx = 0.028;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			tooltip = "FPS, Time to server restart (estimated)";
+		};
+		
+		class QS_RD_client_dialog_menu_main_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1600;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.645 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B1',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+		};
+		class QS_RD_client_dialog_menu_main_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1601;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.69 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B2',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_main_button_3: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1602;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.735 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			tooltip = "";
+			onButtonClick = "['B3',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+		};
+		class QS_RD_client_dialog_menu_main_button_4: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1603;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.78 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			onButtonClick = "['B4',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			tooltip = "";
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_main_button_5: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1605;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.825 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['B5',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_main_button_6: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1604;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['B6',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_viewSettings {
+	idd = 3000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',-1] spawn (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+	onUnload = "['onUnload',-1,-1] spawn (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+	class controls {
+		class QS_RD_client_dialog_menu_view_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_view_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_view_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Visibility";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.0955624 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_view_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1803;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.479294 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.030 * safezoneW;
+			h = 0.050 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_view_text_10: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1001;
+			x = 0.375000 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.14 * safezoneW;
+			h = 0.025 * safezoneH;
+			sizeEx = 0.028;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			tooltip = "Health, Equipment load (kg), FPS";
+		};
+		class QS_RD_client_dialog_menu_view_button_1: QS_RD_dialog_RscButtonInvisible {
+			moving = 1;
+			idc = 1804;
+			text = "";
+			x = 0.385 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+			onButtonClick = "['onButtonClick',0] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "Visibility on foot";
+		};
+		class QS_RD_client_dialog_menu_view_picture_2: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1805;
+			text = "A3\ui_f\data\igui\cfg\mptable\infantry_ca.paa";
+			x = 0.385 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_view_text_2: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1806;
+			text = "Overall";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.655 * safezoneH + safezoneY;
+			w = 0.05 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.0275;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_view_xslider_1 : QS_RD_XSlider {
+			moving = 1;
+			idc = 1807;
+			text = "";
+			onSliderPosChanged = "['onSliderPosChange',0,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.68 * safezoneH + safezoneY;
+			w = 0.09 * safezoneW;
+			h = 0.0180039 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_view_text_3 : QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1808;
+			text = "12000";
+			tooltip = "";
+			x = 0.475 * safezoneW + safezoneX;
+			y = 0.68 * safezoneH + safezoneY;
+			w = 0.032 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_view_button_2: QS_RD_dialog_RscButtonInvisible {
+			moving = 1;
+			idc = 1809;
+			text = "";
+			x = 0.415 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+			onButtonClick = "['onButtonClick',1] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "Visibility in land vehicle or boat";
+		};
+		class QS_RD_client_dialog_menu_view_picture_3: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1810;
+			text = "A3\soft_f\MRAP_01\data\UI\map_mrap_01_ca.paa";
+			x = 0.415 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_view_text_4: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1811;
+			text = "Object";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.705 * safezoneH + safezoneY;
+			w = 0.05 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.0275;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_view_xslider_2 : QS_RD_XSlider {
+			moving = 1;
+			idc = 1812;
+			text = "";
+			onSliderPosChanged = "['onSliderPosChange',1,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.73 * safezoneH + safezoneY;
+			w = 0.09 * safezoneW;
+			h = 0.0180039 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_view_text_5 : QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1813;
+			text = "12000";
+			tooltip = "";
+			x = 0.475 * safezoneW + safezoneX;
+			y = 0.73 * safezoneH + safezoneY;
+			w = 0.032 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_view_button_3: QS_RD_dialog_RscButtonInvisible {
+			moving = 1;
+			idc = 1814;
+			text = "";
+			x = 0.445 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+			onButtonClick = "['onButtonClick',2] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "Visibility in helicopter";
+		};
+		class QS_RD_client_dialog_menu_view_picture_4: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1815;
+			text = "A3\air_f_beta\heli_transport_01\data\UI\map_heli_transport_01_base_ca.paa";
+			x = 0.445 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_view_text_6: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1816;
+			text = "Shadow";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.755 * safezoneH + safezoneY;
+			w = 0.05 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.0275;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_view_xslider_3 : QS_RD_XSlider {
+			moving = 1;
+			idc = 1817;
+			text = "";
+			onSliderPosChanged = "['onSliderPosChange',2,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.78 * safezoneH + safezoneY;
+			w = 0.09 * safezoneW;
+			h = 0.0180039 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_view_text_7 : QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1818;
+			text = "12000";
+			tooltip = "";
+			x = 0.475 * safezoneW + safezoneX;
+			y = 0.78 * safezoneH + safezoneY;
+			w = 0.032 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_view_button_4: QS_RD_dialog_RscButtonInvisible {
+			moving = 1;
+			idc = 1819;
+			text = "";
+			x = 0.475 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+			onButtonClick = "['onButtonClick',3] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "Visibility in plane";
+		};
+		class QS_RD_client_dialog_menu_view_picture_5: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1820;
+			text = "A3\Air_F_Jets\Plane_Fighter_01\Data\UI\Fighter01_icon_ca.paa";
+			x = 0.475 * safezoneW + safezoneX;
+			y = 0.61 * safezoneH + safezoneY;
+			w = 0.0238906 * safezoneW;
+			h = 0.0410023 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_view_text_8: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1821;
+			text = "Grass";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.805 * safezoneH + safezoneY;
+			w = 0.05 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.0275;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+			tooltip = "Terrain resolution. Lower = more detail. Higher = less detail.";
+		};
+		class QS_RD_client_dialog_menu_view_xslider_4 : QS_RD_XSlider {
+			moving = 1;
+			idc = 1822;
+			text = "";
+			onSliderPosChanged = "['onSliderPosChange',3,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			tooltip = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.83 * safezoneH + safezoneY;
+			w = 0.09 * safezoneW;
+			h = 0.0180039 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_view_text_9 : QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1823;
+			text = "12000";
+			tooltip = "";
+			x = 0.475 * safezoneW + safezoneX;
+			y = 0.83 * safezoneH + safezoneY;
+			w = 0.032 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_view_button_5: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1824;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Unload'] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+	};
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class QS_RD_client_dialog_menu_options {
+	idd = 4000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+	class controls {
+		/*/ ===== BACKUP
+		class QS_RD_client_dialog_menu_options_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_options_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		/*/
+		
+		class QS_RD_client_dialog_menu_options_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.60 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_options_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.60 * safezoneH;
+		};
+		
+		class QS_RD_client_dialog_menu_options_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Options";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.0955624 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_options_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1803;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.479294 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.030 * safezoneW;
+			h = 0.050 * safezoneH;
+			shadow = 0;
+		};
+		
+		class QS_RD_client_dialog_menu_options_text_2: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1804;
+			text = "Stamina";
+			tooltip = "ArmA 3 Stamina";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.59 * safezoneH + safezoneY;
+			w = 0.045 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		
+		class QS_RD_client_dialog_menu_options_checkbox_1 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1805;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.585 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Click to toggle Stamina";
+			onCheckedChanged = "['StaminaCheckbox',_this select 0,_this select 1] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+		class QS_RD_client_dialog_menu_options_text_3: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1806;
+			text = "Weapon Sway";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.63 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+			tooltip = "Aim Coefficient";
+		};
+		class QS_RD_client_dialog_menu_options_xslider_1 : QS_RD_XSlider {
+			moving = 1;
+			idc = 1807;
+			text = "";
+			onSliderPosChanged = "['AimCoefSlider',(_this select 0),(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.655 * safezoneH + safezoneY;
+			w = 0.09 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			tooltip = "0.1 - 1.1 (vanilla default 1, server default 0.1)";
+		};
+		class QS_RD_client_dialog_menu_options_text_4 : QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1808;
+			text = "1";
+			tooltip = "";
+			x = 0.475 * safezoneW + safezoneX;
+			y = 0.655 * safezoneH + safezoneY;
+			w = 0.032 * safezoneW;
+			h = 0.0180039 * safezoneH;
+			//sizeEx = 0.02175;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_options_text_5: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1809;
+			text = "First-Person";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.695 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+			tooltip = "Lock to first-person. Can only change once per 20 minutes or by re-connect.";
+		};
+		class QS_RD_client_dialog_menu_options_checkbox_2 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1810;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.69 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle First-Person Lock";
+			onCheckedChanged = "['1PVCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+		/*/ ===== BACKUP
+		class QS_RD_client_dialog_menu_options_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		/*/
+		class QS_RD_client_dialog_menu_options_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 1.075 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_options_text_6: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1812;
+			text = "Squad Radar";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.735 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_options_checkbox_3 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1813;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.73 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle on/off QuackTac Fireteam HUD";
+			onCheckedChanged = "['QHUDCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+		class QS_RD_client_dialog_menu_options_text_7: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1814;
+			text = "Ambient Life";
+			tooltip = "Ambient Life (snakes, fish, rabbits) use some CPU calculations. Disabling will slightly raise FPS.";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.78 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_options_checkbox_4 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1815;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.775 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle Ambient Life (fish, snakes, rabbits)";
+			onCheckedChanged = "['AmbientCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+		class QS_RD_client_dialog_menu_options_text_8: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1816;
+			text = "Dynamic Simulation";
+			tooltip = "Experimental (Use at own risk!). Reduces CPU calculations from distant and non-visible entities. Enabling may raise FPS in some situations. Not available for pilots.";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.825 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_options_checkbox_5 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1817;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.82 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle Dynamic Simulation";
+			onCheckedChanged = "['DynSimCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+		
+		
+		class QS_RD_client_dialog_menu_options_text_9: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1820;
+			text = "3D Group Hexagons";
+			tooltip = "Toggle 3D Group Hexagons";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_options_checkbox_6 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1818;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.865 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle 3D Group Hexagons";
+			onCheckedChanged = "['Toggle3DGroupHex',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+		
+		
+		
+		class QS_RD_client_dialog_menu_options_text_10: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1821;
+			text = "Hide System Messages";
+			tooltip = "Hides unnecessary extended system messages from chat, such as multiple lines for Connecting player, modified data, BattlEye steam ticket checks, etc.";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.915 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};		
+		class QS_RD_client_dialog_menu_options_checkbox_7 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1819;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.91 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle Extended System Chat";
+			onCheckedChanged = "['ToggleSystemChatSpam',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+	};
+};
+class QS_RD_client_dialog_menu_supporters {
+	idd = 5000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+	class controls {
+		class QS_RD_client_dialog_menu_supporters_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_supporters_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_supporters_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Area 51";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.0955624 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_supporters_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1803;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.479294 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.030 * safezoneW;
+			h = 0.050 * safezoneH;
+			shadow = 0;
+		};
+		
+		class QS_RD_client_dialog_menu_supporters_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1804;
+			text = "- - -";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B1',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+		};
+		class QS_RD_client_dialog_menu_supporters_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1805;
+			text = "Insignia";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.625 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B2',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			tooltip = "Shoulder patches";
+		};
+		class QS_RD_client_dialog_menu_supporters_button_3: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1806;
+			text = "Uniform Textures";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.67 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B3',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			tooltip = "Custom uniform textures";
+		};
+		class QS_RD_client_dialog_menu_supporters_button_4: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1807;
+			text = "Vehicle Textures";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.715 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B4',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			tooltip = "Custom vehicle textures";
+		};
+		class QS_RD_client_dialog_menu_supporters_button_5: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1808;
+			text = "- - -";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.76 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B5',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_supporters_button_6: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1809;
+			text = "Change Log";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.805 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B6',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			tooltip = "Latest updates";
+		};
+		class QS_RD_client_dialog_menu_supporters_button_7: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_vtexture {
+	idd = 7000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+	class controls {
+		class QS_RD_client_dialog_menu_vtexture_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_vtexture_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_vtexture_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Vehicle";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_vtexture_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "Select";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Select',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_vtexture_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.22 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_insignia {
+	idd = 9000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+	class controls {
+		class QS_RD_client_dialog_menu_insignia_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_insignia_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_insignia_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Insignia";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_insignia_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "Select";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Select',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_insignia_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.22 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_utexture {
+	idd = 10000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+	class controls {
+		class QS_RD_client_dialog_menu_utexture_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_utexture_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_utexture_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Uniform";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_utexture_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "Select";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Select',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_utexture_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.22 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+	};
+};
+
+/*/ 
+The below dialog contains EULA License-relevant code, please be aware prior to editing. 
+Essentially, dont tamper with lines related to developer patreon link (idc = 1811)
+The license stipulates this dialog and link to developer patreon must be accessible to players ingame as normal (as it is in official build).
+/*/
+
+class QS_RD_client_dialog_menu_hub {
+	idd = 11000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+	class controls {
+		class QS_RD_client_dialog_menu_hub_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_hub_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_hub_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Comm-Link";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.0955624 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_hub_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1803;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.479294 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.030 * safezoneW;
+			h = 0.050 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_hub_text_2: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1804;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			size = 0.03;
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "center";
+				valign = "middle";
+			};
+		};
+		class QS_RD_client_dialog_menu_hub_text_3: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1805;
+			text = "";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.60125 * safezoneH + safezoneY; //y = 0.605 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			size = 0.03;
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "center";
+				valign = "middle";
+			};
+		};
+		class QS_RD_client_dialog_menu_hub_button_3: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1806;
+			text = "- - -";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.67 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B3',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_hub_button_4: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1807;
+			text = "- - -";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.715 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B4',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_hub_button_5: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1808;
+			text = "- - -";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.76 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B5',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_hub_button_6: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1809;
+			text = "Community Donation";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.6225 * safezoneH + safezoneY; //y = 0.63 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			size = 0.03;
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "center";
+				valign = "middle";
+			};
+		};
+		class QS_RD_client_dialog_menu_hub_button_7: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "Back";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_hub_button_8: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1811;
+			text = "Donate to Quiksilver";
+			tooltip = "Donate to the Apex Framework designer (Patreon)";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.82 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			size = 0.03;
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "center";
+				valign = "middle";
+			};
+		};
+		class QS_RD_client_dialog_menu_hub_button_9: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1812;
+			text = "Website";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.64375 * safezoneH + safezoneY; //y = 0.63 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			size = 0.03;
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "center";
+				valign = "middle";
+			};
+		};
+	};
+};
+
+/*/ The above dialog contains EULA License-relevant code, please be aware prior to editing. Essentially, dont tamper with lines (or visibility/interaction ingame) related to developer donation link (idc = 1811)/*/
+
+class QS_RD_client_dialog_menu_context {
+	idd = 12000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+	class controls {
+		class QS_RD_client_dialog_menu_context_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_context_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_context_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Context Menu";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.0955624 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_context_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1803;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.479294 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.030 * safezoneW;
+			h = 0.050 * safezoneH;
+			shadow = 0;
+		};
+		
+		class QS_RD_client_dialog_menu_context_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1804;
+			text = "---";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B1',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+		};
+		class QS_RD_client_dialog_menu_context_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1805;
+			text = "---";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.625 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B2',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_context_button_3: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1806;
+			text = "---";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.67 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B3',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_context_button_4: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1807;
+			text = "---";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.715 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B4',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_context_button_5: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1808;
+			text = "---";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.76 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B5',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_context_button_6: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1809;
+			text = "---";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.805 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B6',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_context_button_7: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "Close";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Close',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_entry {
+	idd = 13000;
+	movingEnabled = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
+	class controls {
+		class QS_RD_client_dialog_menu_entry_frame_1: QS_RD_dialog_RscFrame {
+			idc = 1800;
+			x = 0.25 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.5 * safezoneW;
+			h = 0.70 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.9};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_entry_box_1: QS_RD_dialog_Box {
+			idc = 1801;
+			x = 0.25 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.5 * safezoneW;
+			h = 0.70 * safezoneH;
+			colorBackground[] = {0,0,0,0.9};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_entry_text_1: QS_RD_dialog_RscText {
+			idc = 1802;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.16 * safezoneH + safezoneY;
+			w = 0.43 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_entry_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			idc = 1803;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.6875 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.06 * safezoneW;
+			h = 0.115 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_entry_button_1: QS_RD_dialog_RscButton {
+			idc = 1804;
+			text = "Continue";
+			x = 0.65 * safezoneW + safezoneX;
+			y = 0.855 * safezoneH + safezoneY;
+			w = 0.10 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B1',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_hub_text_2: QS_RD_RscStructuredText {
+			idc = 1806;
+			text = "";
+			x = 0.26 * safezoneW + safezoneX;
+			y = 0.23 * safezoneH + safezoneY;
+			w = 0.425 * safezoneW;
+			h = 0.60 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			size = 0.03;
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_leaderboard {
+	idd = 14000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+	class controls {
+		class QS_RD_client_dialog_menu_leaderboard_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.20 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.7 * safezoneW;
+			h = 0.70 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.9};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.20 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.7 * safezoneW;
+			h = 0.70 * safezoneH;
+			colorBackground[] = {0,0,0,0.9};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "";
+			x = 0.202 * safezoneW + safezoneX;
+			y = 0.155 * safezoneH + safezoneY;
+			w = 0.63 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_entry_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1803;
+			text = "media\images\insignia\comm_patch.paa";
+			x = 0.8275 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.075 * safezoneW;
+			h = 0.15 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_leaderboard_text_2: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1804;
+			text = "";
+			x = 0.205 * safezoneW + safezoneX;
+			y = 0.21 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1805;
+			x = 0.205 * safezoneW + safezoneX;
+			y = 0.26 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.525 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1806;
+			text = "";
+			x = 0.205 * safezoneW + safezoneX;
+			y = 0.79 * safezoneH + safezoneY;
+			w = 0.10 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B1',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_leaderboard_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1807;
+			text = "";
+			x = 0.7985 * safezoneW + safezoneX;
+			y = 0.855 * safezoneH + safezoneY;
+			w = 0.10 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['B2',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+			tooltip = "";
+		};
+		class listNboxA : QS_RD_dialog_RscListNBox {
+			moving = 1;
+			idc = 1808;
+			x = 0.31 * safezoneW + safezoneX;
+			y = 0.26 * safezoneH + safezoneY;
+			w = 0.55 * safezoneW;
+			h = 0.525 * safezoneH;
+			sizeEx = 0.03;
+			rowHeight = 1.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			colorBackground[] = {0,0,0,0.5};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_text_3: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1809;
+			text = "";
+			x = 0.315 * safezoneW + safezoneX;
+			y = 0.21 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_text_4: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1810;
+			text = "";
+			x = 0.43 * safezoneW + safezoneX;
+			y = 0.21 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_text_5: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1811;
+			text = "";
+			x = 0.595 * safezoneW + safezoneX;
+			y = 0.21 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_text_6: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1812;
+			text = "";
+			x = 0.725 * safezoneW + safezoneX;
+			y = 0.21 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_leaderboard_text_7: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1813;
+			text = "";
+			x = 0.815 * safezoneW + safezoneX;
+			y = 0.81 * safezoneH + safezoneY;
+			w = 0.07 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.025;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_console {
+	idd = 15000;
+	movingEnabled = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
+	class controls {
+		class QS_RD_client_dialog_menu_console_text_1: QS_RD_dialog_RscText {
+			idc = 1001;
+			text = "";
+			moving = 1;
+			x = 0 * 			(			((safezoneW / safezoneH) min 1.2) / 40);
+			y = 0 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			w = 22 * 			(			((safezoneW / safezoneH) min 1.2) / 40);
+			h = 1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			sizeEx = (			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1);
+			shadow = 0;
+			linespacing = 1;
+			deletable = 0;
+			fade = 0;
+			fixedWidth = 0;
+			colorText[] = {0.95,0.95,0.95,1};
+			colorShadow[] = {0,0,0,0.5};
+			colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])","(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"};
+			align = "left";
+		};
+		class QS_RD_client_dialog_menu_console_text_2: QS_RD_dialog_RscText {
+			idc = 1002;
+			text = "";
+			moving = 1;
+			x = 0 * 			(			((safezoneW / safezoneH) min 1.2) / 40);
+			y = 1.1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			w = 22 * 			(			((safezoneW / safezoneH) min 1.2) / 40);
+			h = 12 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);			
+			sizeEx = (			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1);
+			shadow = 1;
+			linespacing = 1;
+			deletable = 0;
+			fade = 0;
+			fixedWidth = 0;
+			colorText[] = {1,1,1,1};
+			colorShadow[] = {0,0,0,0.5};
+			colorBackground[] = {0,0,0,0.7};
+		};
+		class QS_RD_client_dialog_menu_console_text_3: QS_RD_dialog_RscText {
+			idc = 1003;
+			text = "";
+			moving = 1;
+			x = 0.2 * 			(			((safezoneW / safezoneH) min 1.2) / 40);
+			y = 1.1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			w = 22 * 			(			((safezoneW / safezoneH) min 1.2) / 40);
+			h = 0.5 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);			
+			sizeEx = 0.8 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25);
+			shadow = 1;
+			linespacing = 1;
+			deletable = 0;
+			fade = 0;
+			fixedWidth = 0;
+			colorText[] = {1,1,1,1};
+			colorShadow[] = {0,0,0,0.5};
+			colorBackground[] = {0,0,0,0};
+			align = "left";
+		};
+		class QS_RD_client_dialog_menu_console_edit_1: QS_RD_dialog_RscEdit {
+			idc = 1004;
+			moving = 1;
+			//access = 0;
+			autocomplete = "scripting";
+			text = "";
+			canModify = 1;
+			colorBackground[] = {0,0,0,0};
+			colorDisabled[] = {1,1,1,0.25};
+			colorSelection[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",1};
+			colorText[] = {0.95,0.95,0.95,1};
+			deletable = 0;
+			fade = 0;
+			size = 0.3;
+			sizeEx = "0.8 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			style = 16;
+			h = "11 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "21 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			x = "0.5 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "1.7 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+		};
+		class QS_RD_client_dialog_menu_console_button_1: QS_RD_dialog_RscButton {
+			idc = 1005;
+			moving = 1;
+			text = "";
+			x = "1.1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "13.2 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "6.9 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeExSecondary = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_console_button_2: QS_RD_dialog_RscButton {
+			idc = 1006;
+			moving = 1;
+			text = "";
+			x = "8.1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "13.2 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "6.9 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeExSecondary = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_console_button_3: QS_RD_dialog_RscButton {
+			idc = 1007;
+			moving = 1;
+			text = "";
+			x = "15.1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "13.2 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "6.9 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeExSecondary = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			shadow = 0;
+			style = "0x02 + 0xC0";
+			colorText[] = {1,1,1,1};
+			onButtonClick = "";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_console_button_4: QS_RD_dialog_RscButton {
+			idc = 1008;
+			moving = 1;
+			text = "";
+			x = "1.1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "14.4 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "6.9 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeExSecondary = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_console_button_5: QS_RD_dialog_RscButton {
+			idc = 1009;
+			moving = 1;
+			text = "";
+			x = "8.1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "14.4 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "6.9 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			sizeExSecondary = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "";
+			tooltip = "";
+		};
+		class QS_RD_client_dialog_menu_console_text_4: QS_RD_dialog_RscText {
+			idc = 1010;
+			text = "";
+			moving = 1;
+			x = "0 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "13.2 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";	
+			sizeEx = (			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1);
+			shadow = 1;
+			linespacing = 1;
+			deletable = 0;
+			fade = 0;
+			fixedWidth = 0;
+			colorText[] = {1,1,1,1};
+			colorShadow[] = {0,0,0,0.5};
+			colorBackground[] = {0,0,0,0.7};
+		};
+		class QS_RD_client_dialog_menu_console_checkbox_1 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1011;
+			x = "0 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			y = "13.2 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			w = "1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			tooltip = "";
+			onCheckedChanged = "['RxCheckbox',_this select 0,_this select 1] call (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
+		};
+	};
+};
+class QS_RD_client_dialog_menu_radio {
+	idd = 17000;
+	movingEnabled = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+	class controls {
+		class QS_RD_client_dialog_menu_radio_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.25 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.5 * safezoneW;
+			h = 0.70 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.9};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_radio_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.25 * safezoneW + safezoneX;
+			y = 0.15 * safezoneH + safezoneY;
+			w = 0.5 * safezoneW;
+			h = 0.70 * safezoneH;
+			colorBackground[] = {0,0,0,0.9};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_radio_text_1: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1802;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.16 * safezoneH + safezoneY;
+			w = 0.43 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.05;
+			size = 0.04;
+			shadow = 0;
+			colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"};
+			colorText[] = {1,1,1,1};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_picture_1: QS_RD_dialog_RscPictureKeepAspect {
+			moving = 1;
+			idc = 1803;
+			text = "\A3\Weapons_F\Data\UI\gear_item_radio_ca.paa";
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.1475 * safezoneH + safezoneY;
+			w = 0.075 * safezoneW;
+			h = 0.15 * safezoneH;
+			shadow = 0;
+		};
+		class QS_RD_client_dialog_menu_radio_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1804;
+			text = "";
+			x = 0.65 * safezoneW + safezoneX;
+			y = 0.855 * safezoneH + safezoneY;
+			w = 0.10 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			onButtonClick = "['Close',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			tooltip = "";
+		};
+
+		
+		
+		/*/ CHANNELS HEADER ------------------------------------------------------------------------------ /*/
+		class QS_RD_client_dialog_menu_radio_text_2: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1805;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.225 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.035;
+			size = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		
+		
+		/*/ STATUS HEADER ------------------------------------------------------------------------------ /*/
+		class QS_RD_client_dialog_menu_radio_text_3: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1806;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.225 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.035;
+			size = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		
+		
+		/*/ SUBSCRIBE HEADER ------------------------------------------------------------------------------ /*/
+		class QS_RD_client_dialog_menu_radio_text_4: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1807;
+			text = "";
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.225 * safezoneH + safezoneY;
+			w = 0.1 * safezoneW;
+			h = 0.05 * safezoneH;
+			sizeEx = 0.035;
+			size = 0.035;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		
+		
+		/*/ CHANNELS ------------------------------------------------------------------------------ /*/
+		/*/ GENERAL /*/
+		class QS_RD_client_dialog_menu_radio_text_5: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1808;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.275 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_13: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1816;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.275 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_1 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1827;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.275 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_1',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/ AIRCRAFT /*/
+		class QS_RD_client_dialog_menu_radio_text_6: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1809;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.325 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_14: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1817;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.325 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_2 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1828;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.325 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_2',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/AO/*/
+		class QS_RD_client_dialog_menu_radio_text_7: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1810;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.375 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_15: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1818;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.375 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_3 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1829;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.375 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_3',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_11 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1837;
+			x = 0.605 * safezoneW + safezoneX;
+			y = 0.375 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			text = "";
+			onCheckedChanged = "['Check_11',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/Side/*/
+		class QS_RD_client_dialog_menu_radio_text_8: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1811;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.425 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_16: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1819;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.425 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_4 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1830;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.425 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_4',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_12 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1838;
+			x = 0.605 * safezoneW + safezoneX;
+			y = 0.425 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			text = "";
+			onCheckedChanged = "['Check_12',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/Platoon A/*/
+		class QS_RD_client_dialog_menu_radio_text_9: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1812;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.475 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_17: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1820;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.475 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_5 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1831;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.475 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_5',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/Platoon B/*/
+		class QS_RD_client_dialog_menu_radio_text_10: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1813;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_18: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1821;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_6 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1832;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_6',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/Platoon C/*/
+		class QS_RD_client_dialog_menu_radio_text_11: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1814;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.575 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_19: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1841;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.575 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_7 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1833;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.575 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_7',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/Off-Duty/*/
+		class QS_RD_client_dialog_menu_radio_text_12: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1815;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.625 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_20: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1822;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.625 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_8 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1834;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.625 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_8',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/--- 1 ---/*/
+		class QS_RD_client_dialog_menu_radio_text_21: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1823;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.675 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_22: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1824;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.675 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_9 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1835;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.675 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_9',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+		/*/--- 2 ---/*/
+		class QS_RD_client_dialog_menu_radio_text_23: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1825;
+			text = "";
+			x = 0.255 * safezoneW + safezoneX;
+			y = 0.725 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_text_24: QS_RD_RscStructuredText {
+			moving = 1;
+			idc = 1826;
+			text = "";
+			x = 0.405 * safezoneW + safezoneX;
+			y = 0.725 * safezoneH + safezoneY;
+			w = 0.15 * safezoneW;
+			h = 0.04 * safezoneH;
+			sizeEx = 0.03;
+			size = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};
+		class QS_RD_client_dialog_menu_radio_checkbox_10 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1836;
+			x = 0.555 * safezoneW + safezoneX;
+			y = 0.725 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "";
+			onCheckedChanged = "['Check_10',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+		};
+	};
+};
+class RscTitles {
+	class QS_RD_dialog_crewIndicator {
+		idd = 6000;
+		duration = 9999999999;
+		fadeIn = 0.2;
+		fadeOut = 0.2;
+		name = "QS_RD_client_dialog_crewIndicator";
+		onLoad = "uiNamespace setVariable ['QS_RD_client_dialog_crewIndicator',_this select 0]";
+		onUnload = "uiNamespace setVariable ['QS_RD_client_dialog_crewIndicator',nil]";
+		class controlsBackground {
+			class QS_RD_client_dialog_crewIndicator_1: QS_RD_RscStructuredText {		
+				idc = 1001;
+				size = 0.040;
+				x = 0.005 * safezoneW + safezoneX;
+				y = 0.25 * safezoneH + safezoneY;
+				w = 0.3 * safezoneW;
+				h = 0.75 * safezoneH;
+				colorText[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])","(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])","(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])","(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
+				lineSpacing = 2;
+				colorBackground[] = {0,0,0,0};
+				text = "";
+				font = "RobotoCondensed";
+				shadow = 1;
+				class Attributes {
+					align = "left";
+				};
+			};
+
+		};
+	};
+	class QS_RD_dialog_hud {
+		idd = 16000;
+		duration = 9999999999;
+		fadeIn = 0.2;
+		fadeOut = 0.2;
+		name = "QS_RD_client_dialog_hud";
+		onLoad = "uiNamespace setVariable ['QS_RD_client_dialog_hud',_this select 0]";
+		onUnload = "uiNamespace setVariable ['QS_RD_client_dialog_hud',nil]";
+		class controlsBackground {
+			class QS_RD_client_dialog_hud_1: QS_RD_dialog_RscMapControl {
+				idc = 1001;
+				size = 0.040;
+				x = 0.677 * safezoneW + safezoneX;
+				y = 0.83 * safezoneH + safezoneY; //y = 0.78 * safezoneH + safezoneY;
+				w = 0.09 * safezoneW;	//w = 0.12 * safezoneW;
+				h = 0.165 * safezoneH;	//h = 0.22 * safezoneH;
+				colorText[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])","(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])","(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])","(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
+				lineSpacing = 2;
+				colorBackground[] = {0,0,0,0};
+				text = "";
+				font = "RobotoCondensed";
+				shadow = 1;
+				colorSea[] = {0,0,0,0};
+				colorLevels[] = {0,0,0,0};
+				colorGrid[] = {0,0,0,0};
+				colorGridMap[] = {0,0,0,0};
+				colorCountlines[] = {0,0,0,0};
+				colorCountlinesWater[] = {0,0,0,0};
+				colorMainCountlinesWater[] = {0,0,0,0};
+				class Attributes {
+					align = "left";
+				};
+			};
+			class QS_RD_client_dialog_hud_2: QS_RD_dialog_RscPictureKeepAspect {
+				idc = 1002;
+				size = 0.040;
+				x = 0.68 * safezoneW + safezoneX;
+				y = 0.83 * safezoneH + safezoneY; //y = 0.78 * safezoneH + safezoneY;
+				w = 0.09 * safezoneW;	//w = 0.12 * safezoneW;
+				h = 0.165 * safezoneH;	//h = 0.22 * safezoneH;
+				colorText[] = {0.5,0.5,0.5,1};
+				colorBackground[] = {0,0,0,0};
+				text = "media\images\icons\SquadBack.paa";
+				font = "RobotoCondensed";
+				shadow = 0;
+				class Attributes {
+					align = "left";
+				};
+			};			
+			class QS_RD_client_dialog_hud_3: QS_RD_dialog_RscPictureKeepAspect {
+				idc = 1003;
+				size = 0.040;
+				x = 0.68 * safezoneW + safezoneX;
+				y = 0.83 * safezoneH + safezoneY; //y = 0.78 * safezoneH + safezoneY;
+				w = 0.09 * safezoneW;	//w = 0.12 * safezoneW;
+				h = 0.165 * safezoneH;	//h = 0.22 * safezoneH;
+				colorText[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])","(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])","(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])","(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
+				colorBackground[] = {0,0,0,0};
+				text = "media\images\icons\SquadRadarBackgroundTexture_ca.paa";
+				font = "RobotoCondensed";
+				shadow = 0;
+				class Attributes {
+					align = "left";
+				};
+			};
+		};
+	};
+	class QS_radio {
+		idd = 29000;
+		onLoad = "uiNamespace setVariable ['QS_UI_radio_display',_this];";
+		onUnload = "uiNamespace setVariable ['QS_UI_radio_display',nil];";
+		duration = 9999999999;
+		fadeIn = 0.01;
+		fadeOut = 0.01;
+		class Objects {
+			class Radio {
+				idc = 101;
+				onLoad = "(_this select 0) ctrlSetModelScale 1.5; (_this select 0) ctrlSetPosition [0.25 * safezoneW + safezoneX,0.35,2 * safezoneH + safezoneY]; (_this select 0) ctrlSetModelDirAndUp [[0,-1,0],[0,0,-1]];(_this select 0) ctrlSetModelScale (1 * 0.675 * (SafeZoneW Min SafeZoneH)); (_this select 0) ctrlCommit 0; (_this select 0) ctrlSetPosition [0.25 * safezoneW + safezoneX,0.35,0.75 * safezoneH + safezoneY]; (_this select 0) ctrlCommit 1;";				
+				type = 81;
+				model = "\a3\Weapons_F\Ammo\mag_radio.p3d";
+				scale = "(1 * 0.675 * (SafeZoneW Min SafeZoneH))";
+				direction[] = {0,-1,0};
+				up[] = {0,0,-1}; 
+				inBack = 1;
+				x = 0.677 * safezoneW + safezoneX;
+				y = 0.78 * safezoneH + safezoneY;
+				z = 0.35;
+				xBack = 0.677 * safezoneW + safezoneX;
+				yBack = 0.78 * safezoneH + safezoneY;
+				zBack = 0.35;
+				enableZoom = 0;
+				zoomDuration = 0.001;
+			};
+		};
+	};
+	class QS_HComm_LiveFeed {
+		idd = 30000;
+		onLoad = "[_this,1] call (missionNamespace getVariable ['QS_fnc_HCommLFSetPosition',{}]);";
+		onUnload = "[_this,0] call (missionNamespace getVariable ['QS_fnc_HCommLFSetPosition',{}]);";
+		duration = 9999999999;
+		fadeIn = 0.2;
+		fadeOut = 0.2;
+		name = "QS_HComm_LiveFeed";
+		movingEnable = 1;
+		class controls {
+			class CameraPictureSingleView: QS_RD_dialog_RscPicture {
+				idc = 102;
+				moving = 1;
+				h = "(profilenamespace getvariable [""IGUI_GRID_CUSTOMINFORIGHT_H"",		(10 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25))]) - 1.25 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				w = "(profilenamespace getvariable [""IGUI_GRID_CUSTOMINFORIGHT_W"",		(10 * 			(			((safezoneW / safezoneH) min 1.2) / 40))]) - 0.25 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";			
+				x = "0.125 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "1.125 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				text = "#(argb,512,512,1)r2t(QS_HComm_LiveFeed_r2t,1.25)";
+				colorBackground[] = {0,0,0,0};
+				colorText[] = {1,1,1,1};
+				font = "RobotoCondensed";
+			};
+			class Title: QS_RD_dialog_RscText {
+				idc = 103;
+				moving = 1;
+				h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				w = "(profilenamespace getvariable [""IGUI_GRID_CUSTOMINFORIGHT_W"",		(10 * 			(			((safezoneW / safezoneH) min 1.2) / 40))])";
+				x = "0 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "0 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				sizeEx = "0.8 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				text = "";
+				colorBackground[] = {0,0,0,0};
+				colorText[] = {1,1,1,1};
+				font = "RobotoCondensed";
+				class Attributes {
+					align = "left";
+				};
+			};
+		};
+	};
+	class Default {
+		idd = -1;
+		fadein = 0;
+		fadeout = 0;
+		duration = 0;
+	};
+	class QS_hud_hint {
+		idd = 33000;
+		onLoad = "uiNamespace setVariable ['QS_hint_display_1',(_this select 0)];";
+		onUnload = "";
+		deletable = 0;
+		fade = 0;
+		fadein = 0.1;
+		fadeout = 0.1;
+		duration = 30;
+		h = "5 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+		shadow = 0;
+		style = 16;
+		type = 15;
+		w = "(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40))";
+		x = "0 * 					(			((safezoneW / safezoneH) min 1.2) / 40) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_X"",		((safezoneX + safezoneW) - 		(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40)) - 1 * 			(			((safezoneW / safezoneH) min 1.2) / 40))])";
+		y = "0 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_Y"",		(safezoneY + 6 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])";
+		class controls {
+			class QS_hint_1: QS_RD_RscStructuredText {
+				idc = 101;
+				onLoad = "uiNamespace setVariable ['QS_hint_display_2',(_this select 0)];";
+				onUnload = "";
+				colorBackground[] = {"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])","(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])","(profilenamespace getvariable ['IGUI_BCG_RGB_B',1])",0.7};
+				colorText[] = {1,1,1,1};
+				deletable = 0;
+				linespacing = 1;
+				fixedWidth = 0;
+				fade = 0;
+				h = "5 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";//h = "4 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				shadow = 1;
+				size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+				style = 0;
+				text = "";
+				type = 13;
+				w = "(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40))";//w = "(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40))";
+				x = "0 * 					(			((safezoneW / safezoneH) min 1.2) / 40) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_X"",		((safezoneX + safezoneW) - 		(12 * 			(			((safezoneW / safezoneH) min 1.2) / 40)) - 1 * 			(			((safezoneW / safezoneH) min 1.2) / 40))])";//x = "0 * 					(			((safezoneW / safezoneH) min 1.2) / 40)";
+				y = "0 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + 		(profilenamespace getvariable [""IGUI_GRID_HINT_Y"",		(safezoneY + 6 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25))])";//y = "1 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+				class Attributes {
+					align = "center";
+					color = "#ffffff";
+					colorLink = "#D09B43";
+					font = "RobotoCondensed";
+					shadow = 1;
+				};
+			};
+		};
+	};
+};
+dev = "Quiksilver";

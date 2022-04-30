@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	20/10/2020 A3 2.00 by Quiksilver
+	30/04/2022 A3 2.08 by Quiksilver
 	
 Description:
 
@@ -29,13 +29,14 @@ Goo.gl alternatives:
 	
 Notes for editing below:
 
+	- Remember to change your ServerCommandPassword here, and match it to the password in your server.cfg file:   _serverCommandPassword = "'ShVQArtpGdc5aDQq'";
 	- Be aware of the quotation marks " and ', they need to be what they are. Notice in links there are two sets of quotations:   "'https://goo.gl/7Xajd9'"     and for servercommandpassword:   _serverCommandPassword = "'ShVQArtpGdc5aDQq'";
 	- Improving this file will likely be an ongoing task. save and backup your copy before downloading a new one. be careful with pasting info from one to the other, as data types may change.
 _______________________________________________________/*/
 
 //===================================================== COMMUNITY / SERVER
 
-_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';					// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
+_teamspeak_server = 'Discord: ';					// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
 																					// These options can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
 _website_url = 
 [
@@ -62,13 +63,13 @@ _staffNames = 'Miller (admin), Kerry (moderator), Stavrou (moderator), Orestes (
 //===================================================== GAMEPLAY
 
 _baseLayout = 0;										// Base layout.	0 - Integrated base. 1 - Custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
-_closeAirSupport = 3;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
+_closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
 _arsenal = 1;											// Arsenal.		0 - Unrestricted (scripted). 1 - Use Whitelist (scripted). 2 - Use Blacklist (scripted). 3 - Vanilla arsenal (unscripted).	(Recommended = 1).			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured.    #3 will disable scripted gear restrictions.
 _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles with default layout.
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 _enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
-_commander = 2;											// Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel.
+_commander = 0;											// Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel.
 _artillery = 1;											// Base artillery.	0 - Disabled. 1 - Enabled. 	If enabled, a self-propelled artillery asset is available for use. Does not affect Mk.6 mortars access. Does not affect naval artillery.
 _artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1). Note: Applies to mortars as well.
 _mapContentEnemy = 1;									// Enemy Map Indicators. 	0 - Disabled. 1 - Enabled. Recommended = 1.	    Controls whether enemies known to the player are visible on the map.
@@ -77,12 +78,11 @@ _playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (
 _ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
 _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
-_vehicle_active_protection_ext = 0;						// Extension to Vehicle Active Protection System. Improves handling of projectiles fired at player-vehicles, but comes at a server CPU cost (only during missile flight).
 
 //===================================================== SYSTEM
 
 _role_selection_menu_button = 0;						// Role Selection Menu Button. 	Enables a button in the Escape Menu to access the Role Selection Menu.	0 - Disabled. 1 - Enabled. Default - 0.		Use this option to allow any player to change their role from any map location. If this value is 0, the only way to access the menu after login is via Arsenal crates user action. Recommend 0 for standard gamemodes to avoid exploitation.
-_restart_hours = [0,12,18];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_restart_hours = [0,10,16];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
 _dynamic_simulation = 1;								// Dynamic Simulation. 	0 - Disabled. 1 - Enabled. 	Raises FPS and performance slightly. Server freezes entities which are far away from all players.    Info: https://community.bistudio.com/wiki/Arma_3_Dynamic_Simulation
 
 //===================================================== MAIN MISSION TYPE
@@ -103,13 +103,13 @@ _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Defaul
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
 _aircraft_carrier_enabled = 0;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
-_aircraft_carrier_vehicles = 1;								// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
-_aircraft_carrier_respawning = 1;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
+_aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. -2  Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
+_aircraft_carrier_respawning = 0;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
 // Destroyer
 _destroyer_enabled = 0;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
-_destroyer_vehicles = 1;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
+_destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
 _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
-_destroyer_artillery = 0;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
+_destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
 _destroyer_flag = 'a3\data_f\flags\flag_us_co.paa';			// Texture applied to Destroyer flag. Default:  'a3\data_f\flags\flag_us_co.paa'
 _destroyer_name = 'a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa';		// Name presented on stern of ship. Comes with 7 defaults, just change ..._tag_01_co... to _tag_02_co... etc, from 01 to 07, 00 is blank. You can also set as a custom texture/name/logo.
 _destroyer_numbers = [6,6,6];								// Numbers shown on the ship hull.
@@ -134,7 +134,7 @@ _anticheat = 1;											// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable i
 // Cosmetics system (uniform + vehicle + shoulder patches). 	
 // Controls access to [Area 51] vehicle/uniform/insignia texture system.
 
-_monetizeCosmetics = 0;									// 0 - Disabled (None have access). 1 - Enabled (Only whitelisted "S3" have access). 2 - All have access.
+_monetizeCosmetics = 1;									// 0 - Disabled (None have access). 1 - Enabled (Only whitelisted "S3" have access). 2 - All have access.
 
 // Link for direct donations toward your server/community + whitelisting + cosmetics,etc. Replace this with your own, or leave blank.
 // This option can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
@@ -156,10 +156,8 @@ _monetizeURL = [
 
 //================== DO NOT EDIT BELOW =================== INTERPRETING MISSION PARAMETERS
 
-if (_arsenal isEqualTo 3) then {
-
-};
-if (!(_restart_hours isEqualTo [])) then {
+if (_arsenal isEqualTo 3) then {};
+if (_restart_hours isNotEqualTo []) then {
 	_restart_hours sort TRUE;
 };
 if (_aircraft_carrier_enabled > 0) then {

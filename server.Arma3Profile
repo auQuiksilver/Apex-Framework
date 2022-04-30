@@ -24,11 +24,11 @@ class DifficultyPresets
 			squadRadar=2;
 			staminaBar=2;
 			stanceIndicator=2;
-			tacticalPing=0;
+			tacticalPing=1;
 			thirdPersonView=1;
 			visionAid=0;
 			vonID=1;
-			waypoints=2;
+			waypoints=0;
 			weaponCrosshair=2;
 			weaponInfo=2;
 		};
