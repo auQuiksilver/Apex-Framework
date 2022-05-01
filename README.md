@@ -14,6 +14,8 @@ Apex Framework step-by-step setup guide:
 * Setup time: 60 minutes (longer for inexperienced admins).
 * Server must be a Dedicated server. Not configured for local client hosting.
 * Server must be running Windows x64, or Linux.
+
+Video Setup Guide - https://www.youtube.com/watch?v=FCj2qyThCH0
 _______________
 
 0. Download the "Apex_framework_120_allFiles.zip" file.    (please note some mission files need to be downloaded separately due to 100MB github file size limit).
