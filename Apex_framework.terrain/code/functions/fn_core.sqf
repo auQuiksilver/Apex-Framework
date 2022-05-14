@@ -373,7 +373,11 @@ private _HVT_fn_isStealthy = {
 	private _c = FALSE;	
 	if (
 		(
-			(((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) && (((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)) || (!isEngineOn _vehicle)
+			(
+				((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) && 
+				(((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)
+			) || 
+			{(!isEngineOn _vehicle)}
 		) &&
 		{(!isVehicleRadarOn _vehicle)} &&
 		{(!isLaserOn _vehicle)} &&

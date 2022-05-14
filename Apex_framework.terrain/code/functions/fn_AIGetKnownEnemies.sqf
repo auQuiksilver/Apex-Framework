@@ -474,7 +474,7 @@ if (_type isEqualTo 13) exitWith {
 					(((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)
 				) || 
 				{(!isEngineOn _vehicle)}
-			) ||
+			) &&
 			{(!isVehicleRadarOn _vehicle)} &&
 			{(!isLaserOn _vehicle)} &&
 			{(!isOnRoad _vehicle)} &&

@@ -45,15 +45,25 @@ if (_type isEqualTo 0) exitWith {
 	};
 	_fn_isStealthy = {
 		params ['_vehicle'];
-		private _c = FALSE;
-		if (((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) || (!isEngineOn _vehicle)) then {
-			if (!isOnRoad _vehicle) then {
-				if (!((toLower (surfaceType (getPosWorld _vehicle))) in ['#gdtasphalt'])) then {
-					if ((((getPosATL _vehicle) getEnvSoundController 'houses') isEqualTo 0) || {(((getPosATL _vehicle) getEnvSoundController 'forest') isEqualTo 1)}) then {
-						_c = TRUE;
-					};
-				};
-			};
+		private _c = FALSE;	
+		if (
+			(
+				(
+					((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) && 
+					(((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)
+				) || 
+				{(!isEngineOn _vehicle)}
+			) &&
+			{(!isVehicleRadarOn _vehicle)} &&
+			{(!isLaserOn _vehicle)} &&
+			{(!isOnRoad _vehicle)} &&
+			{(!((toLower (surfaceType (getPosWorld _vehicle))) in ['#gdtasphalt']))} &&
+			{(
+				(((getPosATL _vehicle) getEnvSoundController 'houses') isEqualTo 0) || 
+				{(((getPosATL _vehicle) getEnvSoundController 'forest') isEqualTo 1)}
+			)}
+		) then {
+			_c = TRUE;
 		};
 		_c;
 	};
