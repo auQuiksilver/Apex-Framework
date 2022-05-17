@@ -4536,7 +4536,7 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 						if (!isNil {_unit getVariable 'QS_unit_isRecruited'}) then {
-							if (((group _unit) findIf {(isPlayer _x)}) isEqualTo -1) then {
+							if (((units (group _unit)) findIf {(isPlayer _x)}) isEqualTo -1) then {
 								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								if (!isNull (objectParent _unit)) then {
 									if ((objectParent _unit) isKindOf 'AllVehicles') then {
