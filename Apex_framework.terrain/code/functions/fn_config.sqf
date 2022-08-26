@@ -6,7 +6,7 @@ Author:
 	
 Last modified: 
 
-	8/06/2022 A3 2.10 by Quiksilver
+	27/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -14,7 +14,7 @@ Description:
 ____________________________________________________/*/
 
 _missionProductVersion = '1.3.0';
-_missionProductStatus = 'Dev';
+_missionProductStatus = 'Stable';
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
