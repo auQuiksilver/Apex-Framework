@@ -13,9 +13,9 @@ Description:
 	Client Context Menu
 __________________________________________________________*/
 disableSerialization;
-_type = _this select 0;
+_type = _this # 0;
 if (_type isEqualTo 'onLoad') then {
-	_display = _this select 1;
+	_display = _this # 1;
 
 };
 if (_type isEqualTo 'onUnload') then {

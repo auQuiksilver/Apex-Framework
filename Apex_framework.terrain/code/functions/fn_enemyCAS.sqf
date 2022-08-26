@@ -54,7 +54,7 @@ _allJetTypes = [
 	'i_plane_fighter_04_f',
 	'i_plane_fighter_04_cluster_f'
 ];
-_playerJetCount = count (allPlayers select {((toLower (typeOf (vehicle _x))) in _allJetTypes)});
+_playerJetCount = count (allPlayers select {((toLowerANSI (typeOf (vehicle _x))) in _allJetTypes)});
 if (((count allPlayers) < 10) && (_playerJetCount isEqualTo 0)) exitWith {};
 _jetSelect = selectRandomWeighted [
 	'O_Plane_CAS_02_dynamicLoadout_F',0.3,
@@ -77,41 +77,12 @@ _grp = missionNamespace getVariable 'QS_enemyCasGroup';
 _jetPilot = (missionNamespace getVariable 'QS_enemyCasGroup') createUnit ['o_fighter_pilot_f',[-100,-100,0],[],0,'NONE'];
 _jetPilot setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 _jetPilot enableDynamicSimulation FALSE;
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _jetActual = createVehicle [_jetSelect,_spawnPos,[],0,'FLY'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-/*/
-_jetActual setPosASL [
-	((getPosASL _jetActual) select 0),
-	((getPosASL _jetActual) select 1),
-	(((getPosASL _jetActual) select 2) + 1000)
-];/*/
-//_jetActual setVectorUp [0,0,1];
-/*/
-_jetActual spawn {
-	_jetActual = _this;
-	for '_x' from 0 to 49 step 1 do {
-		_jetActual setVelocity [
-			((velocity _jetActual) select 0),
-			((velocity _jetActual) select 1),
-			((((velocity _jetActual) select 2) max 0) + 5)
-		];
-		uiSleep 0.05;
-	};
-};/*/
 _jetActual engineOn TRUE;
 _jetActual setAirplaneThrottle 1;
-_jetActual allowCrewInImmobile TRUE;
-if (!((toLower (typeOf _jetActual)) in ['c_plane_civil_01_racing_f','c_plane_civil_01_racing_f'])) then {
-	if ((toLower (typeOf _jetActual)) in ['o_plane_fighter_02_f','o_plane_fighter_02_stealth_f','o_plane_fighter_02_cluster_f']) then {
+_jetActual allowCrewInImmobile [TRUE,TRUE];
+if (!((toLowerANSI (typeOf _jetActual)) in ['c_plane_civil_01_racing_f','c_plane_civil_01_racing_f'])) then {
+	if ((toLowerANSI (typeOf _jetActual)) in ['o_plane_fighter_02_f','o_plane_fighter_02_stealth_f','o_plane_fighter_02_cluster_f']) then {
 		_jetActual setVariable ['QS_AI_PLANE_flyInHeight',(selectRandom [2,3]),FALSE];
 	} else {
 		_jetActual setVariable ['QS_AI_PLANE_flyInHeight',(selectRandom [1,2]),FALSE];
@@ -125,7 +96,7 @@ if (!((toLower (typeOf _jetActual)) in ['c_plane_civil_01_racing_f','c_plane_civ
 				if (!(_vehicle getVariable ['QS_AI_PLANE_fireMission',FALSE])) then {
 					if (!isNull _causedBy) then {
 						if (_causedBy isKindOf 'Plane') then {
-							_altATL = (getPosATL _vehicle) select 2;
+							_altATL = (getPosATL _vehicle) # 2;
 							_vehicle flyInHeight (_altATL + (100 - (random 200)));
 						};
 					};
@@ -147,7 +118,7 @@ if (_jetActual isKindOf 'I_Plane_Fighter_03_Cluster_F') then {
 		_jetActual setObjectTextureGlobal [_forEachIndex,_x]; 
 	} forEach (getArray (configFile >> 'CfgVehicles' >> _jetSelect >> 'TextureSources' >> 'Hex' >> 'textures'));
 };
-if ((toLower(typeOf _jetActual)) in ['c_plane_civil_01_racing_f']) then {
+if ((toLowerANSI(typeOf _jetActual)) in ['c_plane_civil_01_racing_f']) then {
 	[_jetActual] call (missionNamespace getVariable 'QS_fnc_Q51');
 };
 _jetActual lock 2;
@@ -204,12 +175,12 @@ _jetPilot addEventHandler [
 	[
 		'IncomingMissile',
 		{
-			params ['_vehicle','_ammo','_firer','_instigator'];
+			params ['_vehicle','','',''];
 			if (!isNull (driver _vehicle)) then {
 				if (alive (driver _vehicle)) then {
 					(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
 					if (!(_vehicle getVariable ['QS_AI_PLANE_fireMission',FALSE])) then {
-						_altATL = (getPosATL _vehicle) select 2;
+						_altATL = (getPosATL _vehicle) # 2;
 						_vehicle flyInHeight (_altATL + (50 - (random 100)));
 					};
 					(driver _vehicle) spawn {
@@ -233,7 +204,8 @@ _jetPilot enableFatigue FALSE;
 _grp addVehicle _jetActual;
 removeAllWeapons _jetPilot;
 removeAllItems _jetPilot;
-(missionNamespace getVariable 'QS_AI_supportProviders_CASPLANE') pushBack _jetPilot;
+missionNamespace setVariable ['QS_AI_supportProviders_CASPLANE',((missionNamespace getVariable 'QS_AI_supportProviders_CASPLANE') + [_jetPilot]),QS_system_AI_owners];
+missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') + [_jetPilot]),QS_system_AI_owners];
 if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 	_jetActual setVehicleReceiveRemoteTargets (missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]);
 	_jetActual setVehicleReportRemoteTargets (missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]);
@@ -242,22 +214,25 @@ if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 };
 _jetPilot setVariable ['BIS_noCoreConversations',TRUE,FALSE];
 _jetActual setVariable ['QS_enemyCAS_position',(getPosWorld _jetActual),FALSE];
-_jetActual setVariable ['QS_enemyCAS_nextRearmTime',(diag_tickTime + 300),FALSE];
+_jetActual setVariable ['QS_enemyCAS_nextRearmTime',(serverTime + 300),FALSE];
 _jetActual setVariable ['QS_enemyQS_casJetPilot',_jetPilot,FALSE];
 _jetActual setVariable ['QS_enemyQS_casJetMaxSpeed',(getNumber (configFile >> 'CfgVehicles' >> (typeOf _jetActual) >> 'maxSpeed')),FALSE];
+_grp setGroupIdGlobal ['Combat Air Patrol'];
+_grp addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventEnemyDetected2')}];
 _grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 _grp setVariable ['QS_AI_GRP_CONFIG',['AIR_PATROL_CAS','',_jetActual],FALSE];
-_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-_grp setVariable ['QS_AI_GRP_TASK',['CAP',(missionNamespace getVariable ['QS_AOpos',[(worldSize / 2),(worldSize / 2),500]]),diag_tickTime,-1],FALSE];
+_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+_grp setVariable ['QS_AI_GRP_TASK',['CAP',(missionNamespace getVariable ['QS_AOpos',[(worldSize / 2),(worldSize / 2),500]]),serverTime,-1],FALSE];
 if (_new) then {_jetPilot setRank 'COLONEL';} else {_jetPilot setRank 'MAJOR';};
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _grp move (missionNamespace getVariable ['QS_AOpos',[(worldSize / 2),(worldSize / 2),500]]);
 _grp enableAttack TRUE;
 _grp setCombatMode 'RED';
+_grp setCombatBehaviour 'COMBAT';
 _grp setBehaviourStrong 'COMBAT';
 _grp setSpeedMode 'FULL';
 [9,EAST,_grp,(leader _grp),_jetActual] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-if (!((toLower _jetSelect) in ['o_plane_fighter_02_stealth_f'])) then {
+if (!((toLowerANSI _jetSelect) in ['o_plane_fighter_02_stealth_f'])) then {
 	if (!(missionNamespace getVariable ['QS_defendActive',FALSE])) then {
 		['EnemyJet',['Enemy plane inbound!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	};

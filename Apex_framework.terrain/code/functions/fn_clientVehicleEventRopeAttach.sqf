@@ -12,7 +12,7 @@ Description:
 
 	Event Rope Attach
 __________________________________________________________*/
-if (!(local (_this select 0))) exitWith {};
+if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_rope','_attachedObject'];
 if (!simulationEnabled _attachedObject) then {
 	_attachedObject enableSimulation TRUE;
@@ -32,11 +32,11 @@ if ((count (ropes _vehicle)) isEqualTo _count) then {
 					_displayName = getText (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'displayName');
 				};
 				if (!(isStreamFriendlyUIEnabled)) then {
-					if ((profileNamespace getVariable ['QS_client_profile_slingToken',0]) < 5) then {
+					if ((missionProfileNamespace getVariable ['QS_client_profile_slingToken',0]) < 5) then {
 						if (!(uiNamespace getVariable ['QS_slingToken_session',FALSE])) then {
 							uiNamespace setVariable ['QS_slingToken_session',TRUE];
-							profileNamespace setVariable ['QS_client_profile_slingToken',((profileNamespace getVariable ['QS_client_profile_slingToken',0]) + 1)];
-							saveProfileNamespace;
+							missionProfileNamespace setVariable ['QS_client_profile_slingToken',((missionProfileNamespace getVariable ['QS_client_profile_slingToken',0]) + 1)];
+							saveMissionProfileNamespace;
 						};
 						_text = format ['Sling Loading a(n) %1. Use [Page Up] and [Page Down] to raise and lower the sling load. Alternate controls: [Ctrl] or [Alt] + %2. Custom controls: "Use Action 17" and "Use Action 18".',_displayName,(actionKeysNames ['HeliRopeAction',1])];
 						50 cutText [_text,'PLAIN DOWN',1];

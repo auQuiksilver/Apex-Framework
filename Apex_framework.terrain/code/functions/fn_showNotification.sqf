@@ -42,10 +42,10 @@ _cfgTemplate params [
 _data = [_title,_iconPicture,_iconText,_description,_color,_colorIconPicture,_colorIconText,_duration,_priority,_args,_sound,_soundClose,_soundRadio,_iconSize];
 _queue = missionNamespace getVariable ['BIS_fnc_showNotification_queue',[]];
 _queue resize (_priority max (count _queue));
-if (isNil {_queue select _priority}) then {
+if (isNil {_queue # _priority}) then {
 	_queue set [_priority,[]];
 };
-_queuePriority = _queue select _priority;
+_queuePriority = _queue # _priority;
 _queuePriority pushBack _data;
 missionNamespace setVariable ['BIS_fnc_showNotification_queue',_queue,FALSE];
 ['BIS_fnc_showNotification_counter',+1] call (missionNamespace getVariable 'BIS_fnc_counter');

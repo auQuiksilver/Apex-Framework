@@ -14,11 +14,17 @@ Description:
 __________________________________________________*/
 
 diag_log (format ['***** onPlayerConnected ***** %1 *****',_this]);
-if (((_this select 1) select [0,2]) isEqualTo 'HC') exitWith {
-	(missionNamespace getVariable ['QS_headlessClients',[]]) pushBackUnique (_this select 4);
+if (((_this # 1) select [0,2]) isEqualTo 'HC') exitWith {
+	(missionNamespace getVariable ['QS_headlessClients',[]]) pushBackUnique (_this # 4);
 	//comment 'Init headless client';
 	if (!(missionNamespace getVariable 'QS_HC_Active')) then {
 		missionNamespace setVariable ['QS_HC_Active',TRUE,TRUE];
+	};
+	if (!getCalculatePlayerVisibilityByFriendly) then {
+		calculatePlayerVisibilityByFriendly TRUE;
+	};
+	if (getRemoteSensorsDisabled) then {
+		disableRemoteSensors FALSE;
 	};
 	'A headless client has connected' remoteExec ['systemChat',-2,FALSE];
 	diag_log (format ['***** SERVER ***** HC Registered ***** %1 * %2 *****',(missionNamespace getVariable 'QS_headlessClients'),(missionNamespace getVariable 'QS_HC_Active')]);

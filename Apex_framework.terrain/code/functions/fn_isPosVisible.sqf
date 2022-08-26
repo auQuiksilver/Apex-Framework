@@ -17,11 +17,13 @@ params ['_position','_radius','_units','_sides','_tolerance','_returnType'];
 scopeName 'main';
 private _return = 0;
 private _visibility = 0;
-_position set [2,((_position # 2) + 0.5)];
+private _eyePos = [0,0,0];
+_position = _position vectorAdd [0,0,0.5];
 {
+	_eyePos = (eyePos _x) vectorAdd [0,0,0.5];
 	if ((side _x) in _sides) then {
 		if ((_x distance2D _position) <= _radius) then {
-			_visibility = ([_x,'VIEW',objNull] checkVisibility [(getPosASL _x),_position]) + ([_x,'GEOM',objNull] checkVisibility [(getPosASL _x),_position]);
+			_visibility = ([_x,'VIEW'] checkVisibility [_eyePos,_position]) max ([_x,'GEOM'] checkVisibility [_eyePos,_position]);
 			if (_visibility > _tolerance) then {
 				_return = _return + _visibility;
 				breakTo 'main';

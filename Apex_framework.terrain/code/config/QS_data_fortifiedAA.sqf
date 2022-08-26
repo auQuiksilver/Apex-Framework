@@ -17,7 +17,7 @@ if (worldName in ['Tanoa','Lingor3','Enoch']) exitWith {
 	if ((random 1) > 0.333) then [
 		{
 			[
-				[(selectRandomWeighted ['o_t_apc_tracked_02_aa_ghex_f',0.75,'b_t_apc_tracked_01_aa_f',0.25]),[-5.34766,0.143311,0.016685],270.378,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
+				["o_t_apc_tracked_02_aa_ghex_f",[-5.34766,0.143311,0.016685],270.378,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
 				["Land_BagFence_01_long_green_F",[4.104,0.0585938,2.01259],89.7138,[],FALSE,FALSE,TRUE,{}], 
 				["Land_BagFence_01_long_green_F",[0.0810547,-4.68604,1.9154],0,[],FALSE,FALSE,TRUE,{}], 
 				["Land_BagFence_01_long_green_F",[4.0498,2.4082,2.01259],269.377,[],FALSE,FALSE,TRUE,{}], 
@@ -45,7 +45,7 @@ if (worldName in ['Tanoa','Lingor3','Enoch']) exitWith {
 		},
 		{
 			[
-				[(selectRandomWeighted ['o_t_apc_tracked_02_aa_ghex_f',0.75,'b_t_apc_tracked_01_aa_f',0.25]),[2.54688,-0.0488281,-0.0447016],270.525,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
+				["o_t_apc_tracked_02_aa_ghex_f",[2.54688,-0.0488281,-0.0447016],270.525,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
 				["Land_HBarrier_01_line_3_green_F",[-4.61914,0.139893,1.17173],268.138,[],FALSE,FALSE,TRUE,{}], 
 				["Land_HBarrier_01_line_5_green_F",[-1.78027,-4.44263,1.68432],219.983,[],FALSE,FALSE,TRUE,{}], 
 				["Land_Rampart_F",[-5.24414,0.261719,0],0.579887,[],FALSE,FALSE,TRUE,{}], 
@@ -70,7 +70,7 @@ if (worldName in ['Tanoa','Lingor3','Enoch']) exitWith {
 if ((random 1) > 0.333) then [
 	{
 		[
-			[(selectRandomWeighted ['o_apc_tracked_02_aa_f',0.75,'b_apc_tracked_01_aa_f',0.25]),[-5.34766,0.00170898,0.0160155],269.875,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
+			["o_apc_tracked_02_aa_f",[-5.34766,0.00170898,0.0160155],269.875,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
 			["Land_BagFence_Long_F",[4.40967,0.370361,1.97424],90.3031,[],FALSE,FALSE,TRUE,{}], 
 			["Land_BagFence_Long_F",[-0.148926,-4.56372,1.97631],359.525,[],FALSE,FALSE,TRUE,{}], 
 			["Land_HBarrier_Big_F",[4.13379,-2.6626,0],90.7398,[],FALSE,FALSE,TRUE,{}], 
@@ -98,7 +98,7 @@ if ((random 1) > 0.333) then [
 	},
 	{
 		[
-			[(selectRandomWeighted ['o_apc_tracked_02_aa_f',0.75,'b_apc_tracked_01_aa_f',0.25]),[-5.34375,0.18335,0.0162873],271.02,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
+			["o_apc_tracked_02_aa_f",[-5.34375,0.18335,0.0162873],271.02,[],FALSE,FALSE,FALSE,(missionNamespace getVariable 'QS_fnc_createAAVehicle')], 
 			["Land_HBarrier_5_F",[3.14111,1.80811,1.68038],60.7709,[],FALSE,FALSE,TRUE,{}], 
 			["Land_HBarrier_5_F",[3.39551,-2.41772,1.48671],111.429,[],FALSE,FALSE,TRUE,{}], 
 			["Land_Rampart_F",[4.46582,-0.60083,0],2.39138,[],FALSE,FALSE,TRUE,{}], 

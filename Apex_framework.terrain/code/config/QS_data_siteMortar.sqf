@@ -16,14 +16,14 @@ __________________________________________________________________________/*/
 if (worldName isEqualTo 'Tanoa') exitWith {
 	[
 		["O_G_Mortar_01_F",[-0.165039,0.672363,-0.0384655],360,[],true,true,false,{
-			_mortar = _this select 0;
+			_mortar = _this # 0;
 			_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_mortar enableDynamicSimulation FALSE;
 			_mortar addEventHandler [
 				'GetOut',
 				{
-					(_this select 0) setDamage [1,TRUE];
-					(_this select 2) setDamage [1,TRUE];
+					(_this # 0) setDamage [1,TRUE];
+					(_this # 2) setDamage [1,TRUE];
 				}
 			];
 			_mortar;
@@ -41,14 +41,14 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 };
 [
 	["O_G_Mortar_01_F",[-0.399414,0.508301,-0.038465],360,[],true,true,false,{
-		_mortar = _this select 0;
+		_mortar = _this # 0;
 		_mortar setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_mortar enableDynamicSimulation FALSE;
 		_mortar addEventHandler [
 			'GetOut',
 			{
-				(_this select 0) setDamage [1,TRUE];
-				(_this select 2) setDamage [1,TRUE];
+				(_this # 0) setDamage [1,TRUE];
+				(_this # 2) setDamage [1,TRUE];
 			}
 		];
 		_mortar;

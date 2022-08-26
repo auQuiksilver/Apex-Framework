@@ -33,10 +33,10 @@ if (_type isEqualTo 1) then {
 	if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 		private ['_QS_virtualSectors_scoreSides','_scoreEast','_scoreToRemove'];
 		_QS_virtualSectors_scoreSides = missionNamespace getVariable ['QS_virtualSectors_scoreSides',[0,0,0,0,0]];
-		_scoreEast = _QS_virtualSectors_scoreSides select 0;
+		_scoreEast = _QS_virtualSectors_scoreSides # 0;
 		if (_scoreEast > ((missionNamespace getVariable ['QS_virtualSectors_scoreWin',300]) * 0.1)) then {
 			_scoreToRemove = (missionNamespace getVariable ['QS_virtualSectors_scoreWin',300]) * (missionNamespace getVariable ['QS_virtualSectors_bonusCoef_sideTask',0.1]);
-			_QS_virtualSectors_scoreSides set [0,((_QS_virtualSectors_scoreSides select 0) - _scoreToRemove)];
+			_QS_virtualSectors_scoreSides set [0,((_QS_virtualSectors_scoreSides # 0) - _scoreToRemove)];
 			missionNamespace setVariable ['QS_virtualSectors_scoreSides',_QS_virtualSectors_scoreSides,FALSE];
 		};
 	};
@@ -106,11 +106,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'B_Heli_Light_01_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh addWeaponTurret ['CMFlareLauncher', [-1]];
@@ -124,11 +119,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'B_Heli_Attack_01_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -139,11 +129,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'O_Heli_Attack_02_black_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -154,11 +139,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = selectRandom ['O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F'];
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -169,11 +149,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f'] select (worldName in ['Tanoa','Enoch']);
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -184,11 +159,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'B_Heli_Light_01_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh addWeaponTurret ['CMFlareLauncher',[-1]];
@@ -206,11 +176,6 @@ if (_type isEqualTo 1) then {
 		};
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -221,11 +186,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'I_MRAP_03_gmg_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -236,11 +196,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'I_MBT_03_cannon_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -255,11 +210,6 @@ if (_type isEqualTo 1) then {
 		};
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -270,11 +220,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'I_APC_Wheeled_03_cannon_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -289,11 +234,6 @@ if (_type isEqualTo 1) then {
 		};
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -304,11 +244,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'B_APC_Tracked_01_AA_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -318,19 +253,9 @@ if (_type isEqualTo 1) then {
 		//comment 'Truck with mortar and stronger wheels';
 		_rewardType = 'B_G_Van_01_transport_F';
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_mortar = createVehicle ['B_G_Mortar_01_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_mortar attachTo [_rewardVeh,[0,-2.5,0.1]];
@@ -346,7 +271,7 @@ if (_type isEqualTo 1) then {
 							if (local _unit) then {
 								_unit moveInCargo (attachedTo _vehicle);
 							} else {
-								[[_unit,(attachedTo _vehicle)],{(_this select 0) moveInCargo (_this select 1);}] remoteExec ['call',_unit,FALSE];
+								[[_unit,(attachedTo _vehicle)],{(_this # 0) moveInCargo (_this # 1);}] remoteExec ['call',_unit,FALSE];
 							};
 						} else {
 							_unit setPosASL ((attachedTo _vehicle) modelToWorldWorld ((attachedTo _vehicle) selectionPosition 'pos cargo'));
@@ -401,18 +326,8 @@ if (_type isEqualTo 1) then {
 		//comment 'HEMTT with Static weapons and increased armor';
 		_rewardType = ['B_Truck_01_transport_F','B_T_Truck_01_transport_F'] select (worldName in ['Tanoa','Enoch']);
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_rewardVeh setDir (random 360);
 		_static1 = createVehicle ['B_GMG_01_A_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_static1 attachTo [_rewardVeh,[0.5,3.75,1.6]];
 		_static1 enableWeaponDisassembly FALSE;
 		_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
@@ -424,17 +339,7 @@ if (_type isEqualTo 1) then {
 		{
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 		} forEach (crew _static1);
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _static1))),
-			FALSE
-		];
 		_static2 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_static2 attachTo [_rewardVeh,[0.2,-0.9,1.125]];
 		_static2 enableWeaponDisassembly FALSE;
 		_static2 setVariable ['QS_cleanup_protected',TRUE,TRUE];
@@ -451,7 +356,7 @@ if (_type isEqualTo 1) then {
 							if (local _unit) then {
 								_unit moveInCargo (attachedTo _vehicle);
 							} else {
-								[[_unit,(attachedTo _vehicle)],{(_this select 0) moveInCargo (_this select 1);}] remoteExec ['call',_unit,FALSE];
+								[[_unit,(attachedTo _vehicle)],{(_this # 0) moveInCargo (_this # 1);}] remoteExec ['call',_unit,FALSE];
 							};
 						} else {
 							_unit setPosASL ((attachedTo _vehicle) modelToWorldWorld ((attachedTo _vehicle) selectionPosition 'pos cargo'));
@@ -461,11 +366,6 @@ if (_type isEqualTo 1) then {
 			}
 		];
 		_static3 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_static3 attachTo [_rewardVeh,[0.2,-4,1.125]];
 		_static3 enableWeaponDisassembly FALSE;
 		_static3 setVariable ['QS_cleanup_protected',TRUE,TRUE];
@@ -482,7 +382,7 @@ if (_type isEqualTo 1) then {
 							if (local _unit) then {
 								_unit moveInCargo (attachedTo _vehicle);
 							} else {
-								[[_unit,(attachedTo _vehicle)],{(_this select 0) moveInCargo (_this select 1);}] remoteExec ['call',_unit,FALSE];
+								[[_unit,(attachedTo _vehicle)],{(_this # 0) moveInCargo (_this # 1);}] remoteExec ['call',_unit,FALSE];
 							};
 						} else {
 							_unit setPosASL ((attachedTo _vehicle) modelToWorldWorld ((attachedTo _vehicle) selectionPosition 'pos cargo'));
@@ -524,7 +424,7 @@ if (_type isEqualTo 1) then {
 					];
 					deleteVehicle _x;
 				} count ((_killed getVariable ['QS_attachedObjects',[]]) + _attachedObjects);
-				if (!((attachedObjects _killed) isEqualTo [])) then {
+				if ((attachedObjects _killed) isNotEqualTo []) then {
 					{
 						missionNamespace setVariable [
 							'QS_analytics_entities_deleted',
@@ -546,21 +446,16 @@ if (_type isEqualTo 1) then {
 		};
 		_position = getPosASL _rewardVeh;
 		{
-			private _model = getText (configFile >> 'CfgVehicles' >> (_x select 0) >> 'model');
+			private _model = getText (configFile >> 'CfgVehicles' >> (_x # 0) >> 'model');
 			if ((_model select [0,1]) isEqualTo '\') then {
 				_model = _model select [1];
 			};
-			if (!((_model select [((count _model) - 4),4]) isEqualTo '.p3d')) then {
+			if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 				_model = _model + '.p3d';
 			};
 			_obj = createSimpleObject [_model,_position];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
-			_obj attachTo [_rewardVeh,(_x select 1)];
-			_obj setDir (_x select 2);
+			_obj attachTo [_rewardVeh,(_x # 1)];
+			_obj setDir (_x # 2);
 			_rewardVeh setVariable [
 				'QS_attachedObjects',
 				((_rewardVeh getVariable 'QS_attachedObjects') + [_obj]),
@@ -594,19 +489,9 @@ if (_type isEqualTo 1) then {
 		};
 		_rewardPosition = selectRandom _shipRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_mortar = createVehicle ['B_Mortar_01_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_mortar attachTo [_rewardVeh,[0,0,-0.3]];
@@ -622,7 +507,7 @@ if (_type isEqualTo 1) then {
 							if (local _unit) then {
 								_unit moveInCargo (attachedTo _vehicle);
 							} else {
-								[[_unit,(attachedTo _vehicle)],{(_this select 0) moveInCargo (_this select 1);}] remoteExec ['call',_unit,FALSE];
+								[[_unit,(attachedTo _vehicle)],{(_this # 0) moveInCargo (_this # 1);}] remoteExec ['call',_unit,FALSE];
 							};
 						} else {
 							_unit setPosASL ((attachedTo _vehicle) modelToWorldWorld ((attachedTo _vehicle) selectionPosition 'pos cargo'));
@@ -674,21 +559,11 @@ if (_type isEqualTo 1) then {
 				_rewardType = 'B_G_Quadbike_01_F';
 			};
 			private _rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 			_rewardVeh setDir (random 360);
 			_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 			_rewardVeh lockCargo TRUE;
 			private _static1 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			_static1 attachTo [_rewardVeh,[0.17,-0.4,1.1]];
 			_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 			_static1 enableWeaponDisassembly FALSE;
@@ -732,11 +607,6 @@ if (_type isEqualTo 1) then {
 		//comment 'SUV with autoturret and stronger wheels and paint job and lower center of gravity';
 		_rewardType = 'C_SUV_01_F';
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -746,11 +616,6 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_vehicle_missilewarning',TRUE,TRUE];
 		_rewardVeh setObjectTextureGlobal [0,'a3\soft_f_gamma\suv_01\data\suv_01_ext_02_co.paa'];
 		_static = createVehicle ['B_Static_Designator_01_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_static setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static setVariable ['QS_uav_protected',TRUE,FALSE];
 		_static enableWeaponDisassembly FALSE;
@@ -761,17 +626,7 @@ if (_type isEqualTo 1) then {
 		{
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 		} forEach (crew _static);
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _static))),
-			FALSE
-		];
 		_static1 = createVehicle ['B_HMG_01_A_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_static1 attachTo [_rewardVeh,[0.1,-0.8,1.45]];
 		_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static1 setVariable ['QS_uav_protected',TRUE,FALSE];
@@ -782,11 +637,6 @@ if (_type isEqualTo 1) then {
 		{
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 		} forEach (crew _static1);
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _static1))),
-			FALSE
-		];
 		{_x setSkill 1;} forEach (crew _static1);
 		_rewardVeh setVariable ['QS_attachedObjects',[_static,_static1],FALSE];
 		_rewardText = 'a(n) Recon Utility Vehicle (Armed)';
@@ -824,11 +674,6 @@ if (_type isEqualTo 1) then {
 	if (_reward isEqualTo 18) then {
 		//comment 'Qilin (Armed)';
 		_rewardVeh = createVehicle ['O_T_LSV_02_armed_black_F',_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
@@ -839,11 +684,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'O_T_VTOL_02_infantry_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		{
 			_rewardVeh setObjectTextureGlobal _x;
@@ -862,11 +702,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'B_T_VTOL_01_armed_blue_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -877,11 +712,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'I_C_Offroad_02_unarmed_olive_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh animateSource ['hideSeatsRear',1];
@@ -889,11 +719,6 @@ if (_type isEqualTo 1) then {
 		_rewardVeh lockCargo [1,TRUE];
 		_rewardVeh lockCargo [2,TRUE];
 		_static1 = createVehicle [(selectRandom ['B_static_AA_F','B_static_AT_F','B_static_AT_F']),[(random 10),(random 10),(random 10)],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_static1 attachTo [_rewardVeh,[0,-0.7,0.175]];
 		_static1 setDir 180;
 		_static1 allowDamage FALSE;
@@ -929,7 +754,7 @@ if (_type isEqualTo 1) then {
 					];
 					deleteVehicle _x;
 				} count ((_killed getVariable ['QS_attachedObjects',[]]) + _attachedObjects);
-				if (!((attachedObjects _killed) isEqualTo [])) then {
+				if ((attachedObjects _killed) isNotEqualTo []) then {
 					{
 						missionNamespace setVariable [
 							'QS_analytics_entities_deleted',
@@ -949,11 +774,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = selectRandom ['i_c_plane_civil_01_f','i_c_plane_civil_01_f'];
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -968,10 +788,10 @@ if (_type isEqualTo 1) then {
 			'B_AAA_System_01_F',0.333
 		];
 		_rewardText = 'HEMTT (AA)';
-		if ((toLower _rewardType) isEqualTo 'b_sam_system_01_f') then {
+		if ((toLowerANSI _rewardType) isEqualTo 'b_sam_system_01_f') then {
 			_rewardText = 'HEMTT (Mk49 Spartan)';
 		} else {
-			if ((toLower _rewardType) isEqualTo 'b_aaa_system_01_f') then {
+			if ((toLowerANSI _rewardType) isEqualTo 'b_aaa_system_01_f') then {
 				_rewardText = 'HEMTT (Praetorian 1C)';
 			};
 		};
@@ -979,11 +799,11 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		_rewardVeh setVariable ['QS_RD_vehicleRespawnable',FALSE,TRUE];
 		private _attachPoint = [0,0,0];
-		if ((toLower _rewardType) isEqualTo 'b_sam_system_01_f') then {
+		if ((toLowerANSI _rewardType) isEqualTo 'b_sam_system_01_f') then {
 			_attachPoint = [0,-3.2,1.4];
 			_rewardVeh setVariable ['QS_ST_customDN','HEMTT (Spartan)',TRUE];
 		};
-		if ((toLower _rewardType) isEqualTo 'b_aaa_system_01_f') then {
+		if ((toLowerANSI _rewardType) isEqualTo 'b_aaa_system_01_f') then {
 			_attachPoint = [0,-2.9,2.15];
 			_rewardVeh setVariable ['QS_ST_customDN','HEMTT (Praetorian)',TRUE];
 		};
@@ -1002,7 +822,7 @@ if (_type isEqualTo 1) then {
 			{
 				params ['_killed','','',''];
 				if (local _killed) then {
-					if (!((attachedObjects _killed) isEqualTo [])) then {
+					if ((attachedObjects _killed) isNotEqualTo []) then {
 						{
 							if (unitIsUav _x) then {
 								_x setDamage [1,TRUE];
@@ -1029,7 +849,7 @@ if (_type isEqualTo 1) then {
 			'Deleted',
 			{
 				params ['_vehicle'];
-				if (!((attachedObjects _vehicle) isEqualTo [])) then {
+				if ((attachedObjects _vehicle) isNotEqualTo []) then {
 					{
 						detach _x;
 						deleteVehicle _x;
@@ -1048,22 +868,12 @@ if (_type isEqualTo 1) then {
 		{
 			_x setSkill 0.333;
 		} forEach (crew _static);
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 3),
-			FALSE
-		];
 	};
 	if (_reward isEqualTo 24) then {
 		//comment 'AH-9 Pawnee X';
 		_rewardType = 'B_Heli_Light_01_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -1076,11 +886,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'I_Heli_light_03_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -1093,11 +898,6 @@ if (_type isEqualTo 1) then {
 		_rewardType = 'O_Heli_Light_02_dynamicLoadout_F';
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
@@ -1111,18 +911,13 @@ if (_type isEqualTo 1) then {
 			['O_Heli_Attack_02_dynamicLoadout_black_F','a(n) Mi-48 Kajman X'],
 			['B_Heli_Attack_01_dynamicLoadout_F','a(n) AH-99 Blackfoot X']
 		];
-		_rewardType = _rewardData select 0;
+		_rewardType = _rewardData # 0;
 		_rewardPosition = selectRandom _landRewardLocations;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = _rewardData select 1;
+		_rewardText = _rewardData # 1;
 		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN',(format ['%1 X',(getText (configFile >> 'CfgVehicles' >> _rewardType >> 'displayName'))]),TRUE];
 	};
@@ -1131,19 +926,9 @@ if (_type isEqualTo 1) then {
 		//comment 'Shitty technical';
 		_rewardType = 'B_G_Van_01_transport_F';
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_mortar = createVehicle ['B_GMG_01_high_F',[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_mortar attachTo [_rewardVeh,[-0.15,-1.5,1]];
@@ -1200,11 +985,6 @@ if (_type isEqualTo 1) then {
 			'I_LT_01_AA_F',1
 		];
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
@@ -1214,11 +994,6 @@ if (_type isEqualTo 1) then {
 		//comment 'Angara';
 		_rewardType = ['O_MBT_04_cannon_F','O_T_MBT_04_cannon_F'] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
@@ -1232,11 +1007,6 @@ if (_type isEqualTo 1) then {
 		] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		_rewardType = selectRandomWeighted _rewardTypes;
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');

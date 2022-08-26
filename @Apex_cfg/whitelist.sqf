@@ -21,6 +21,8 @@ Comment:
 	They DO all have to be in the 'ALL' list though.
 	
 			'76561198084065754'
+			
+			profileNamespace setVariable ['QS_whitelists_toInform',['76561198084065754']];
 __________________________________________________________________________/*/
 
 _type = param [0,''];
@@ -28,7 +30,7 @@ private _return = [];
 //================================================== WHITELISTED ROLES + SKINS ACCESS
 if (_type isEqualTo 'S3') then {
 	/*/ 
-	These IDs will have access to Whitelisted roles in the Lobby, and access to vehicle skins, uniform skins and custom shoulder patches. 
+	These IDs will have access to Whitelisted roles in Role Selection, and access to vehicle skins, uniform skins and custom shoulder patches. 
 	Does NOT include CAS role (a separate whitelist below). 
 	/*/
 	_return = [

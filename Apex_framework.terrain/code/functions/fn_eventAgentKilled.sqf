@@ -18,7 +18,7 @@ private _text = '';
 if (!isNull _instigator) then {
 	if (isPlayer _instigator) then {
 		if (!isNil {_killed getVariable 'QS_surrender_captor'}) then {
-			_captor = (_killed getVariable 'QS_surrender_captor') select 0;
+			_captor = (_killed getVariable 'QS_surrender_captor') # 0;
 			if (!(_captor == (name _instigator))) then {
 				_text = format ['%1 has killed %2s prisoner!',(name _instigator),_captor];
 				['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];

@@ -23,7 +23,7 @@ params ['_case','_state','_data'];
 private _return = -1;
 if (_state isEqualTo 0) then {
 	//comment 'Clean up mission';
-	_vehicle = _data select 0;
+	_vehicle = _data # 0;
 	if (!isNull _vehicle) then {
 		/*/
 		missionNamespace setVariable [
@@ -59,7 +59,7 @@ if (_state isEqualTo 1) then {
 						if ((!(_testVehicle isKindOf 'StaticWeapon')) && (!(_testVehicle isKindOf 'Air'))) then {
 							if (alive _testVehicle) then {
 								if (canMove _testVehicle) then {
-									if (!(((crew _testVehicle) findIf {(alive _x)}) isEqualTo -1)) then {
+									if (((crew _testVehicle) findIf {(alive _x)}) isNotEqualTo -1) then {
 										if ((side (effectiveCommander _testVehicle)) in [EAST,RESISTANCE]) then {
 											_vehicle = _x;
 										};
@@ -113,7 +113,7 @@ if (_state isEqualTo 1) then {
 };
 if (_state isEqualTo 2) then {
 	//comment 'Check mission state';
-	_vehicle = _data select 0;
+	_vehicle = _data # 0;
 	if ((!alive _vehicle) || {(isNull _vehicle)}) exitWith {
 		//comment 'Mission success';
 		['ST_DESTROY_VEHICLE',['Destroy','Enemy vehicle destroyed']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
@@ -121,10 +121,10 @@ if (_state isEqualTo 2) then {
 		if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 			private ['_QS_virtualSectors_scoreSides','_scoreEast','_scoreToRemove'];
 			_QS_virtualSectors_scoreSides = missionNamespace getVariable ['QS_virtualSectors_scoreSides',[0,0,0,0,0]];
-			_scoreEast = _QS_virtualSectors_scoreSides select 0;
+			_scoreEast = _QS_virtualSectors_scoreSides # 0;
 			if (_scoreEast > ((missionNamespace getVariable ['QS_virtualSectors_scoreWin',300]) * 0.1)) then {
 				_scoreToRemove = (missionNamespace getVariable ['QS_virtualSectors_scoreWin',300]) * (missionNamespace getVariable ['QS_virtualSectors_bonusCoef_smallTask',0.05]);
-				_QS_virtualSectors_scoreSides set [0,((_QS_virtualSectors_scoreSides select 0) - _scoreToRemove)];
+				_QS_virtualSectors_scoreSides set [0,((_QS_virtualSectors_scoreSides # 0) - _scoreToRemove)];
 				missionNamespace setVariable ['QS_virtualSectors_scoreSides',_QS_virtualSectors_scoreSides,FALSE];
 			};
 		};

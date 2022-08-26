@@ -6,22 +6,18 @@ Author:
 	
 Last Modified:
 
-	21/10/2017 A3 1.76 by Quiksilver
+	25/05/2022 A3 2.08 by Quiksilver
 	
 Description:
 
 	Variant of "search nearby building"
-	
-Tweaks:
-
-	[(group cursorObject),[],240,150,FALSE] spawn QS_fnc_patrolNearbyBuilding;
 _______________________________________________________________*/
 
 params [
 	['_grp',grpNull],
 	['_array',[]],
 	['_timeout',300],
-	['_radius',100],
+	['_radius',300],
 	['_regroup',FALSE]
 ];
 private _leader = leader _grp;
@@ -40,7 +36,7 @@ private _buildingExit = 0;
 private _index = 0;
 for '_x' from 0 to 12 step 1 do {
 	_buildingExit = _building buildingExit _index;
-	if (!(_buildingExit isEqualTo [0,0,0])) then {
+	if (_buildingExit isNotEqualTo [0,0,0]) then {
 		_buildingExits pushBack _buildingExit;
 	};
 	_index = _index + 1;
@@ -48,13 +44,13 @@ for '_x' from 0 to 12 step 1 do {
 
 private _buildingPositions = _building buildingPos -1;
 _buildingPositions = [_building,_buildingPositions] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
-if (!(_buildingPositions isEqualTo [])) then {
-	_buildingPositions = _buildingPositions apply { [(_x select 0),(_x select 1),((_x select 2) + 1.25)] };
+if (_buildingPositions isNotEqualTo []) then {
+	_buildingPositions = _buildingPositions apply { _x vectorAdd [0,0,1.5]; };
 };
 doStop _leader;
 _leader commandMove (selectRandom _buildingExits);
 {
-	if (!(_x isEqualTo _leader)) then {
+	if (_x isNotEqualTo _leader) then {
 		_x commandMove (selectRandom _buildingPositions);
 	};
 } forEach (units _grp);
@@ -69,7 +65,7 @@ for '_x' from 0 to 1 step 0 do {
 	{
 		_unit = _x;
 		if (alive _unit) then {
-			if ((({(alive _x)} count (units (group _x))) > 1) && (!(_unit isEqualTo (leader (group _unit))))) then {
+			if ((({(alive _x)} count (units (group _x))) > 1) && (_unit isNotEqualTo (leader (group _unit)))) then {
 				_aliveUnits pushBack _unit;
 			} else {
 				if (({(alive _x)} count (units (group _unit))) < 2) then {
@@ -97,17 +93,16 @@ for '_x' from 0 to 1 step 0 do {
 	sleep 10;
 };
 _grp setVariable ['QS_AI_GRP_SCRIPT',scriptNull,FALSE];
-_grp setVariable ['QS_AI_GRP_TASK',[((_grp getVariable 'QS_AI_GRP_TASK') select 0),((_grp getVariable 'QS_AI_GRP_TASK') select 1),diag_tickTime,-1],FALSE];
+_grp setVariable ['QS_AI_GRP_TASK',[((_grp getVariable 'QS_AI_GRP_TASK') # 0),((_grp getVariable 'QS_AI_GRP_TASK') # 1),serverTime,-1],FALSE];
 if (_regroup) then {
-	if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
+	if (((units _grp) findIf {(alive _x)}) isNotEqualTo -1) then {
 		_leader = leader _grp;
 		_position = getPosATL _leader;
 		{
 			if (alive _x) then {
-				resetSubgroupDirection _x;
 				doStop _x;
-				_x doMove [((_position select 0) + (5 - (random 10))),((_position select 1) + (5 - (random 10))),(_position select 2)];
-				_x commandFollow _leader;
+				_x doMove [((_position # 0) + (5 - (random 10))),((_position # 1) + (5 - (random 10))),(_position # 2)];
+				_x doFollow _leader;
 			};
 		} forEach (units _grp);
 		_grp move _startingPosition;

@@ -140,13 +140,13 @@ if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 			};
 		};
 		if (!isNull (missionNamespace getVariable ['QS_cas_laptop',objNull])) then {
-			if (!((actionIDs (missionNamespace getVariable 'QS_cas_laptop')) isEqualTo [])) then {
+			if ((actionIDs (missionNamespace getVariable 'QS_cas_laptop')) isNotEqualTo []) then {
 				_co = missionNamespace getVariable 'QS_cas_laptop';
 				removeAllActions _co;
 			};
 		};
 		if (!isNull (missionNamespace getVariable ['QS_carrier_casLaptop',objNull])) then {
-			if (!((actionIDs (missionNamespace getVariable 'QS_carrier_casLaptop')) isEqualTo [])) then {
+			if ((actionIDs (missionNamespace getVariable 'QS_carrier_casLaptop')) isNotEqualTo []) then {
 				_co = missionNamespace getVariable 'QS_carrier_casLaptop';
 				removeAllActions _co;
 			};

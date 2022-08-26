@@ -76,10 +76,10 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	private _pilot = missionNamespace getVariable ['QS_fighterPilot',objNull];
 	_uid = getPlayerUID _pilot;
 	if (_uid isEqualTo '') exitWith {_exit = TRUE;};
-	private _airIndex = ((missionNamespace getVariable 'QS_CAS_jetAllowance') findIf {((_x select 0) isEqualTo _uid)});
+	private _airIndex = ((missionNamespace getVariable 'QS_CAS_jetAllowance') findIf {((_x # 0) isEqualTo _uid)});
 	if (_airIndex isEqualTo -1) exitWith {_exit = TRUE;};
-	diag_log format ['***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****',(name _pilot),((missionNamespace getVariable 'QS_CAS_jetAllowance') select _airIndex)];
-	private _aircraftPool = ((missionNamespace getVariable 'QS_CAS_jetAllowance') select _airIndex) select 1;
+	diag_log format ['***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****',(name _pilot),((missionNamespace getVariable 'QS_CAS_jetAllowance') # _airIndex)];
+	private _aircraftPool = ((missionNamespace getVariable 'QS_CAS_jetAllowance') # _airIndex) # 1;
 	if (_aircraftPool >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) exitWith {
 		if (isPlayer _pilot) then {
 			if (_pilot getUnitTrait 'QS_trait_fighterPilot') then {
@@ -96,7 +96,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	if (!(missionNamespace getVariable ['QS_casJet_destroyedAtBase',FALSE])) then {
 		_aircraftPool = _aircraftPool + 1;
 	};	
-	if (!((missionNamespace getVariable ['QS_casJet_destroyedAtBase_type','']) isEqualTo '')) then {
+	if ((missionNamespace getVariable ['QS_casJet_destroyedAtBase_type','']) isNotEqualTo '') then {
 		_typeOverride = missionNamespace getVariable ['QS_casJet_destroyedAtBase_type',''];
 		missionNamespace setVariable ['QS_casJet_destroyedAtBase_type','',FALSE];
 	};
@@ -173,14 +173,40 @@ if (_missionConfig_CAS isEqualTo 3) then {
 		'I_Plane_Fighter_04_F',1,
 		'i_c_plane_civil_01_f',0
 	];
-	_pilotLeaderboards = (missionNamespace getVariable ['QS_leaderboards',[[],[],[]]]) select 1;
-	_pilotLeaderboards select {((_x select 0) >= 10)};
+	
+	if (QS_leaderboards3 isNotEqualTo []) then {
+		private _key = '';
+		private _val = -1;
+		private _val2 = -1;
+		private _element1 = 0;
+		private _element2 = 0;
+		{
+			_key = _x;
+			_val = _y;
+			_val2 = QS_leaderboards3 getOrDefault [_key,-1,FALSE];
+			if (_val2 isNotEqualTo -1) then {
+				_element1 = _val # _leaderboardID;
+				_element2 = _val2 # _leaderboardID;
+				_val set [_leaderboardID,_element1 + _element2];
+				QS_leaderboards2 set [_key,_val];
+			};
+		} forEach QS_leaderboards2;
+	};
+	private _pilotLeaderboards = QS_leaderboards2 toArray FALSE;
+	_pilotLeaderboards = _pilotLeaderboards apply {
+		[
+			(_x # 1) # 1,			// getting transport pilot list
+			(_x # 0),
+			(_x # 1) # 0
+		]
+	};
+	_pilotLeaderboards = _pilotLeaderboards select {((_x # 0) >= 10)};
 	_pilotLeaderboards sort FALSE;
 	_countLeaderboard = count _pilotLeaderboards;
-	_pilotLeaderboardIndex = (_pilotLeaderboards findIf {((_x select 1) isEqualTo _uid)});
-	if (!(_pilotLeaderboardIndex isEqualTo -1)) then {
+	_pilotLeaderboardIndex = (_pilotLeaderboards findIf {((_x # 1) isEqualTo _uid)});
+	if (_pilotLeaderboardIndex isNotEqualTo -1) then {
 		_pilotTransportRank = _pilotLeaderboardIndex + 1;
-		_pilotScore = (_pilotLeaderboards select _pilotLeaderboardIndex) select 0;
+		_pilotScore = (_pilotLeaderboards # _pilotLeaderboardIndex) # 0;
 		_pilotRankCoef = 1 - (_pilotTransportRank / _countLeaderboard);
 		if (_pilotScore >= 10) then {
 			if (_pilotRankCoef > 0.5) then {
@@ -205,7 +231,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 };
 if (_exit) exitWith {};
 _newCasType = selectRandomWeighted _pool;
-if (!(_typeOverride isEqualTo '')) then {
+if (_typeOverride isNotEqualTo '') then {
 	_newCasType = _typeOverride;
 };
 if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0) then {
@@ -245,7 +271,6 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 		(createVehicle [_newCasType,[-500,-500,100],[],0,'CAN_COLLIDE']),
 		TRUE
 	];
-	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 	private _casJet = missionNamespace getVariable 'QS_casJet';
 	_casJet setDir _dir;
 	if (_isCarrier) then {
@@ -269,7 +294,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 		{
 			params ['_jet','_killer','_instigator','_useEffects'];
 			private _text = '';
-			if (((getPosATL _jet) select 2) > 20) then {
+			if (((getPosATL _jet) # 2) > 20) then {
 				_text = 'Our CAS has been shot down!';
 			} else {
 				_text = 'Our CAS has been destroyed!';
@@ -306,15 +331,15 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 	_casJet addEventHandler [
 		'GetIn',
 		{
-			(_this select 0) removeEventHandler ['GetIn',_thisEventHandler];
-			if (!simulationEnabled (_this select 0)) then {
-				(_this select 0) enableSimulationGlobal TRUE;
+			(_this # 0) removeEventHandler ['GetIn',_thisEventHandler];
+			if (!simulationEnabled (_this # 0)) then {
+				(_this # 0) enableSimulationGlobal TRUE;
 			};
-			(_this select 0) allowDamage TRUE;
+			(_this # 0) allowDamage TRUE;
 		}
 	];
 	['setFeatureType',_casJet,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_casJet];
-	if ((toLower (typeOf _casJet)) in ['c_plane_civil_01_racing_f','c_plane_civil_01_f','i_c_plane_civil_01_f']) then {
+	if ((toLowerANSI (typeOf _casJet)) in ['c_plane_civil_01_racing_f','c_plane_civil_01_f','i_c_plane_civil_01_f']) then {
 		[_casJet] call (missionNamespace getVariable 'QS_fnc_Q51');
 	};
 	if (_casJet isKindOf 'I_Plane_Fighter_03_dynamicLoadout_F') then {
@@ -326,7 +351,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 	if (_casJet isKindOf 'O_Plane_CAS_02_dynamicLoadout_F') then {
 		_casJet removeWeapon 'Missile_AGM_01_Plane_CAS_02_F';
 	};
-	if ((toLower _newCasType) in ['o_plane_fighter_02_f','o_plane_fighter_02_stealth_f']) then {
+	if ((toLowerANSI _newCasType) in ['o_plane_fighter_02_f','o_plane_fighter_02_stealth_f']) then {
 		{
 			_casJet setObjectTextureGlobal _x;
 		} forEach [
@@ -338,7 +363,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 			[5,"a3\air_f_jets\plane_fighter_02\data\Numbers\Fighter_02_number_01_co.paa"]
 		];
 	};
-	if ((toLower _newCasType) in ['i_plane_fighter_04_f']) then {
+	if ((toLowerANSI _newCasType) in ['i_plane_fighter_04_f']) then {
 		{
 			_casJet setObjectTextureGlobal _x;
 		} forEach [

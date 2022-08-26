@@ -28,7 +28,7 @@ if (!isDedicated) exitWith {0};
 _this spawn {
 	waitUntil {
 		uiSleep (random [0.1,0.125,0.15]);
-		(!((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isEqualTo -1))
+		((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isNotEqualTo -1)
 	};
 	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) exitWith {};
 	if ((missionNamespace getVariable ['QS_missionConfig_recruitableAI',1]) isEqualTo 0) exitWith {};

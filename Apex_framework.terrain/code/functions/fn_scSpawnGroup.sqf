@@ -63,7 +63,7 @@ if (_sectorData isEqualType []) exitWith {
 		_position = ['RADIUS',_centerPos,_aoSize,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if ((_position distance2D _centerPos) < 1500) then {
 			if ((_players inAreaArray [_position,250,250,0,FALSE]) isEqualTo []) then {
-				if ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+				if ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
 					if (!([_position,_centerPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 						if (([(AGLToASL _position),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
 							_positionFound = TRUE;
@@ -92,6 +92,7 @@ if (_sectorData isEqualType []) exitWith {
 								_heliInsert = TRUE;
 								_infantryGroupType = selectRandomWeighted ['OIA_InfSquad',0.5,'OIA_InfAssault',0.5];
 								_grp = [_position,(random 360),EAST,_infantryGroupType,FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
+								_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 								[
 									_centerPos,
 									EAST,
@@ -145,8 +146,8 @@ if (_sectorData isEqualType []) exitWith {
 		if (!(_heliInsert)) then {
 			_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
 		};
-		_x disableAI 'AUTOCOMBAT';
-		_x disableAI 'COVER';
+		_x enableAIFeature ['AUTOCOMBAT',FALSE];
+		_x enableAIFeature ['COVER',FALSE];
 		_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
 	} forEach (units _grp);
@@ -155,10 +156,11 @@ if (_sectorData isEqualType []) exitWith {
 	_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 	_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 	_grp setVariable ['QS_AI_GRP_DATA',[_centerPos,_areaOrRadiusConvert,_areaOrRadiusInterrupt,_locationData],FALSE];
-	_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_centerPos,diag_tickTime,-1],FALSE];
+	_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_centerPos,serverTime,-1],FALSE];
+	_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	comment 'Initial movement so they move from spawn';
 	if (!(_heliInsert)) then {
-		_grp move [((_centerPos select 0) + (50 - (random 100))),((_centerPos select 1) + (50 - (random 100))),(_centerPos select 2)];
+		_grp move [((_centerPos # 0) + (50 - (random 100))),((_centerPos # 1) + (50 - (random 100))),(_centerPos # 2)];
 	};
 	comment 'return';
 	_grp;
@@ -172,17 +174,17 @@ if (_sectorData isEqualType 0) exitWith {
 		private _radius = -1;
 		private _sector = [];
 		{
-			if (EAST in (_x select 10)) then {
+			if (EAST in (_x # 10)) then {
 				_getOwnedSectors pushBack _x;
 			};
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_data');
 		if (_getOwnedSectors isEqualTo []) then {
 			_centerPos = missionNamespace getVariable ['QS_virtualSectors_centroid',(markerPos 'QS_marker_aoMarker')];
-			_radius = ((markerSize 'QS_marker_aoCircle') select 0) * 1.25;
+			_radius = ((markerSize 'QS_marker_aoCircle') # 0) * 1.25;
 		} else {
 			_sector = selectRandom _getOwnedSectors;
-			_centerPos = _sector select 7;
-			_radius = (_sector select 9) * 2;
+			_centerPos = _sector # 7;
+			_radius = (_sector # 9) * 2;
 		};
 		private _position = [0,0,0];
 		private _positionFound = FALSE;
@@ -240,9 +242,9 @@ if (_sectorData isEqualType 0) exitWith {
 		_grp = [_position,_direction,_side,_infantryGroupType,FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 		{
 			_x setAnimSpeedCoef 1.1;
-			_x disableAI 'AUTOCOMBAT';
-			_x disableAI 'COVER';
-			_x disableAI 'SUPPRESSION';
+			_x enableAIFeature ['AUTOCOMBAT',FALSE];
+			_x enableAIFeature ['COVER',FALSE];
+			_x enableAIFeature ['SUPPRESSION',FALSE];
 			_x forceSpeed 24;
 			_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
@@ -253,7 +255,8 @@ if (_sectorData isEqualType 0) exitWith {
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 		_grp setVariable ['QS_AI_GRP_DATA',[],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['ATTACK',[0,0,0],diag_tickTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_TASK',['ATTACK',[0,0,0],serverTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		comment 'Initial movement so they move from spawn';
 		_grp setSpeedMode 'FULL';
 		_grp setBehaviour 'AWARE';
@@ -262,15 +265,15 @@ if (_sectorData isEqualType 0) exitWith {
 		private _movePos = [];
 		{
 			_movePos = [_x,(position (leader _grp)),(side _grp)] call (missionNamespace getVariable 'QS_fnc_scGetNearestSector');
-			if (!(_movePos isEqualTo [])) exitWith {};
+			if (_movePos isNotEqualTo []) exitWith {};
 		} forEach [2,3];
 		if (_movePos isEqualTo []) then {
 			_movePos = [1,(position (leader _grp)),WEST] call (missionNamespace getVariable 'QS_fnc_scGetNearestSector');
 		};
-		if (!(_movePos isEqualTo [])) then {
-			_grp move [((_movePos select 0) + (25 - (random 50))),((_movePos select 1) + (25 - (random 50))),(_movePos select 2)];
+		if (_movePos isNotEqualTo []) then {
+			_grp move [((_movePos # 0) + (25 - (random 50))),((_movePos # 1) + (25 - (random 50))),(_movePos # 2)];
 		} else {
-			_grp move [((_centerPos select 0) + (50 - (random 100))),((_centerPos select 1) + (50 - (random 100))),(_centerPos select 2)];
+			_grp move [((_centerPos # 0) + (50 - (random 100))),((_centerPos # 1) + (50 - (random 100))),(_centerPos # 2)];
 		};
 	};
 	if (_sectorData isEqualTo -2) then {
@@ -292,7 +295,7 @@ if (_sectorData isEqualType 0) exitWith {
 			_randomPos = ['RADIUS',_centerPos,_centerRadius,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((_randomPos distance2D _centerPos) < 1500) then {
 				if ((_players inAreaArray [_randomPos,250,250,0,FALSE]) isEqualTo []) then {	
-					if ((((_randomPos select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+					if ((((_randomPos select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
 						if (!([_randomPos,_centerPos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
 							if (([(AGLToASL _randomPos),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
 								_positionFound = TRUE;
@@ -340,8 +343,8 @@ if (_sectorData isEqualType 0) exitWith {
 			[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 			_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
 			_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
-			_x disableAI 'AUTOCOMBAT';
-			_x disableAI 'COVER';
+			_x enableAIFeature ['AUTOCOMBAT',FALSE];
+			_x enableAIFeature ['COVER',FALSE];
 			_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		} forEach (units _grp);
 		comment 'Radial positions';
@@ -360,11 +363,11 @@ if (_sectorData isEqualType 0) exitWith {
 				_radialPatrolPositions pushBack _patrolPosition;
 			};
 		};
-		if (!(_radialPatrolPositions isEqualTo [])) then {
+		if (_radialPatrolPositions isNotEqualTo []) then {
 			_radialPatrolPositions = _radialPatrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 			comment 'Initial movement';
-			_grp move (_radialPatrolPositions select 0);
-			_grp setFormDir (_randomPos getDir (_radialPatrolPositions select 0));
+			_grp move (_radialPatrolPositions # 0);
+			_grp setFormDir (_randomPos getDir (_radialPatrolPositions # 0));
 		};
 		_grp setSpeedMode 'NORMAL';
 		_grp setBehaviour 'AWARE';
@@ -373,8 +376,9 @@ if (_sectorData isEqualType 0) exitWith {
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_PATROL_RADIAL',(count (units _grp))],FALSE];
 		_grp setVariable ['QS_AI_GRP_DATA',[],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,diag_tickTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,serverTime,-1],FALSE];
 		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	};
 	if (_sectorData isEqualTo -3) then {
 		comment 'Spawn infantry assault squads';
@@ -386,7 +390,7 @@ if (_sectorData isEqualType 0) exitWith {
 		_side = EAST;
 		private _grp = grpNull;
 		comment 'GET TARGETED SECTOR';
-		_attackPosition = _this select 2;
+		_attackPosition = _this # 2;
 		comment 'CALCULATE FORCE REQUIREMENTS';
 		private _quantity = 24; comment 'Placeholder, also check player count';
 		private _position = [0,0,0];
@@ -452,10 +456,10 @@ if (_sectorData isEqualType 0) exitWith {
 				_x allowDamage FALSE;
 				_x enableSimulation FALSE;
 				_x setAnimSpeedCoef 1.1;
-				_x disableAI 'AUTOCOMBAT';
-				_x disableAI 'COVER';
-				_x disableAI 'SUPPRESSION';
-				_x disableAI 'ANIM';
+				_x enableAIFeature ['AUTOCOMBAT',FALSE];
+				_x enableAIFeature ['COVER',FALSE];
+				_x enableAIFeature ['SUPPRESSION',FALSE];
+				_x enableAIFeature ['ANIM',FALSE];
 				_x forceSpeed 24;
 				_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
@@ -465,14 +469,16 @@ if (_sectorData isEqualType 0) exitWith {
 			(units _grp) joinSilent _assaultGrp;
 		};
 		comment 'Propagate animation to get prone';
-		[(units _assaultGrp),{{_x switchMove 'amovppnemstpsraswrfldnon';} forEach _this;}] remoteExec ['spawn',(_players select {((_x distance2D _position) < 1000)}),FALSE];
+		_assaultGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+		[(units _assaultGrp),{{_x switchMove 'amovppnemstpsraswrfldnon';} forEach _this;}] remoteExec ['spawn',(_players inAreaArray [_position,1000,1000,0,FALSE]),FALSE];
 		comment 'Small delay then put units where they belong';
+		_assaultGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		[_assaultGrp,_direction] spawn {
 			params ['_assaultGrp','_direction'];
 			uiSleep 2;
 			{
 				_x setUnitPos 'UP';
-				_x enableAI 'ANIM';
+				_x enableAIFeature ['ANIM',TRUE];
 				_x setVehiclePosition [_position,[],15,'NONE'];
 				uiSleep 0.01;
 				_x call (missionNamespace getVariable 'QS_fnc_unitSetup');

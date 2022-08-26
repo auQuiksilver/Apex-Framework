@@ -68,8 +68,8 @@ if (_hitpart isNotEqualTo '') then {
 		_colorRGB = [0.3,0.0,0.0];
 		if (isNil {BIS_pp_burnDamage}) then {BIS_pp_burnDamage = [_damage,(diag_tickTime - 30)]};
 		_time = diag_tickTime;
-		if ((_time - (BIS_pp_burnDamage select 1)) < 1.15) then {
-			_partDamage = _damage - (BIS_pp_burnDamage select 0);
+		if ((_time - (BIS_pp_burnDamage # 1)) < 1.15) then {
+			_partDamage = _damage - (BIS_pp_burnDamage # 0);
 			_delayFade = 1.05 - _partDamage;
 			_sizeCoef = 0.55;
 			_offsetX = 0;

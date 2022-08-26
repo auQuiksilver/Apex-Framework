@@ -17,10 +17,10 @@ params ['_remoteTargets','_type'];
 if (_remoteTargets isEqualTo []) exitWith {[]};
 private _return = [];
 {
-	if (alive (effectiveCommander (_x select 0))) then {
-		if ((side (effectiveCommander (_x select 0))) in [EAST,RESISTANCE]) then {
-			if ((_x select 0) getVariable ['QS_remoteTarget_reported',FALSE]) then {
-				_return pushBack (_x select 0);
+	if (alive (effectiveCommander (_x # 0))) then {
+		if ((side (effectiveCommander (_x # 0))) in [EAST,RESISTANCE]) then {
+			if ((_x # 0) getVariable ['QS_remoteTarget_reported',FALSE]) then {
+				_return pushBack (_x # 0);
 			};
 		};
 	};

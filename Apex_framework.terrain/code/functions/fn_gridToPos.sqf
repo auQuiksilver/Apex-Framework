@@ -44,9 +44,9 @@ _replaceAfter = [-1,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 private _posGridX = _posGrid select [_iX,_formatXcount];
 private _posGridY = _posGrid select [_iY + _formatXcount - 1,_formatYcount];
 _fnc_lettersToNumbers = {
-	_array = toarray tolower (_this select 0);
-	_count = _this select 1;
-	_step = _this select 2;
+	_array = toarray toLowerANSI (_this # 0);
+	_count = _this # 1;
+	_step = _this # 2;
 	_result = 0;
 	{
 		_result = _result + (_replaceAfter select ((_replaceBefore find _x) max 0)) * _step * 0.1 * 10^(_count - _foreachindex);

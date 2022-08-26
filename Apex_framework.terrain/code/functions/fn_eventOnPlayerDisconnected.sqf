@@ -20,16 +20,22 @@ Description:
 __________________________________________________*/
 
 diag_log format ['***** onPlayerDisconnected ***** %1 *****',_this];
-if (((_this select 1) select [0,2]) isEqualTo 'HC') then {
-	(missionNamespace getVariable 'QS_headlessClients') deleteAt ((missionNamespace getVariable 'QS_headlessClients') find (_this select 4));
+if (((_this # 1) select [0,2]) isEqualTo 'HC') then {
+	(missionNamespace getVariable 'QS_headlessClients') deleteAt ((missionNamespace getVariable 'QS_headlessClients') find (_this # 4));
 	//comment 'De-init headless client';
 	if ((missionNamespace getVariable ['QS_headlessClients',[]]) isEqualTo []) then {
 		if (missionNamespace getVariable 'QS_HC_Active') then {
 			missionNamespace setVariable ['QS_HC_Active',FALSE,TRUE];
 		};
+		if (getCalculatePlayerVisibilityByFriendly) then {
+			calculatePlayerVisibilityByFriendly FALSE;
+		};
+		if (!getRemoteSensorsDisabled) then {
+			disableRemoteSensors TRUE;
+		};
 	};
 	if (allPlayers isNotEqualTo []) then {
-		'A headless client has disconnected, please stand by.' remoteExec ['systemChat',-2,FALSE];
+		'A headless client has disconnected' remoteExec ['systemChat',-2,FALSE];
 	};
-	diag_log (format ['Headless Client %1 ( %2 ) disconnected',(_this select 4),(_this select 1)]);
+	diag_log (format ['Headless Client %1 ( %2 ) disconnected',(_this # 4),(_this # 1)]);
 };

@@ -13,7 +13,7 @@ Description:
 	Disable user input for a set amount of time, spawn dont call
 __________________________________________________________*/
 
-_duration = _this select 0;
+_duration = _this # 0;
 if (isDedicated) exitWith {};
 if (!(_duration isEqualType 0)) exitWith {};
 if (_duration > 15) exitWith {};

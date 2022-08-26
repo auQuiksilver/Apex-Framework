@@ -132,7 +132,7 @@ if (_isAircraft && _isPilot && _isClose) then {
 	];
 	{
 		if (
-			((toLower (typeOf _x)) in _exclusions) || 
+			((toLowerANSI (typeOf _x)) in _exclusions) || 
 			{(['runway',((getModelInfo _x) # 1),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))} ||
 			{(['helipad',((getModelInfo _x) # 1),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}
 		) exitWith {
@@ -210,7 +210,7 @@ if (!_reportEnabled) exitWith {
 		TRUE,
 		TRUE
 	];
-	player setUserActionText [QS_sub_actions02,((player actionParams QS_sub_actions02) select 0),(format ["<t size='3'>%1</t>",((player actionParams QS_sub_actions02) select 0)])];
+	player setUserActionText [QS_sub_actions02,((player actionParams QS_sub_actions02) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_sub_actions02) # 0)])];
 	QS_sub_actions pushBack QS_sub_actions02;
 	0 spawn {
 		private _ti = diag_tickTime + 30;

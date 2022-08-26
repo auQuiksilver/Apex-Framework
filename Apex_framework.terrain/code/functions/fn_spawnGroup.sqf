@@ -26,7 +26,7 @@ if (
 ) exitWith {};
 private _unit = objNull;
 if (_type isEqualType []) then {
-	if (!((_type findIf {(_x isEqualType 0)}) isEqualTo -1)) then {
+	if ((_type findIf {(_x isEqualType 0)}) isNotEqualTo -1) then {
 		_type = selectRandomWeighted _type;
 	} else {
 		_type = selectRandom _type;
@@ -43,40 +43,38 @@ if (isNull _grp) then {
 };
 for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 	if (_useRecycler) then {
-		_unit = [2,2,((_groupComposition select _i) select 0)] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
+		_unit = [2,2,((_groupComposition # _i) # 0)] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 		if (isNull _unit) then {
-			_unit = _grp createUnit [((_groupComposition select _i) select 0),[-1015,-1015,0],[],15,'NONE'];
-			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
+			_unit = _grp createUnit [((_groupComposition # _i) # 0),[-1015,-1015,0],[],15,'NONE'];
 		} else {
 			// wake up unit
 			missionNamespace setVariable ['QS_analytics_entities_recycled',((missionNamespace getVariable ['QS_analytics_entities_recycled',0]) + 1),FALSE];
 			{
 				_unit setVariable [_x,nil,TRUE];
 			} forEach (allVariables _unit);
+			[_unit] joinSilent _grp;
 			_unit setVariable ['QS_curator_disableEditability',FALSE,FALSE];
 			_unit setVariable ['QS_dynSim_ignore',FALSE,FALSE];
 			_unit hideObjectGlobal FALSE;
 			_unit enableSimulationGlobal TRUE;
 			_unit allowDamage TRUE;
-			_unit enableAI 'ALL';
-			[_unit] joinSilent _grp;
-			_unit setUnitLoadout [(getUnitLoadout ((_groupComposition select _i) select 0)),TRUE];
+			_unit enableAIFeature ['ALL',TRUE];
+			_unit setUnitLoadout [(getUnitLoadout ((_groupComposition # _i) # 0)),TRUE];
 			if ((damage _unit) > 0) then {
 				_unit setDamage [0,FALSE];
 			};
 		};
 	} else {
-		_unit = _grp createUnit [((_groupComposition select _i) select 0),[-1015,-1015,0],[],15,'NONE'];
-		missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
+		_unit = _grp createUnit [((_groupComposition # _i) # 0),[-1015,-1015,0],[],15,'NONE'];
 	};
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-	if (!((rank _unit) isEqualTo ((_groupComposition select _i) select 1))) then {
-		_unit setRank ((_groupComposition select _i) select 1);
+	if ((rank _unit) isNotEqualTo ((_groupComposition # _i) # 1)) then {
+		_unit setRank ((_groupComposition # _i) # 1);
 	};
 	if (_isProne) then {
 		_unit switchMove 'amovppnemstpsraswrfldnon';
 	};
-	if (!((side (group _unit)) isEqualTo _side)) then {
+	if ((side (group _unit)) isNotEqualTo _side) then {
 		[_unit] joinSilent _grp;
 	};
 	_unit setDir _dir;

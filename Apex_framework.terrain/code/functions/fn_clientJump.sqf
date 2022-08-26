@@ -20,7 +20,7 @@ if (((vectorMagnitude (velocity player)) * 3.6) > 4) then {
 			if (isTouchingGround player) then {
 				if ((stance player) isEqualTo 'STAND') then {
 					if (!((animationState player) in ['aovrpercmrunsraswrfldf'])) then {
-						if (!((currentWeapon player) isEqualTo '')) then {
+						if ((currentWeapon player) isNotEqualTo '') then {
 							player setVariable ['QS_jumpCooldown',(diag_tickTime + 0.5),FALSE];
 							_height = (6 - ((load player) * 10)) min 4.5;
 							_vel = velocity player;
@@ -30,7 +30,7 @@ if (((vectorMagnitude (velocity player)) * 3.6) > 4) then {
 							private _allPlayers = allPlayers inAreaArray [(getPosATL player),100,100,0,FALSE];
 							_allPlayers = _allPlayers - [player];
 							player switchMove 'AovrPercMrunSrasWrflDf';
-							if (!(_allPlayers isEqualTo [])) then {
+							if (_allPlayers isNotEqualTo []) then {
 								if (isNil {uiNamespace getVariable 'QS_client_jumpAnimPropagation'}) then {
 									uiNamespace setVariable ['QS_client_jumpAnimPropagation',[]];
 								};

@@ -10,9 +10,9 @@ Description:
 
 Parameter(s):
 
-	_this select 0: group (Group)
-	_this select 1: attack position (Array)
-	_this select 2: attack movements enabled
+	_this # 0: group (Group)
+	_this # 1: attack position (Array)
+	_this # 2: attack movements enabled
 
 Returns:
 

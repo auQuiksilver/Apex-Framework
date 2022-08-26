@@ -25,11 +25,6 @@ _letters = ['A','B','C'];
 _letter = format ['%1',(_letters select (count (missionNamespace getVariable 'QS_virtualSectors_data')))];
 comment 'Flag';
 _flag = createVehicle ['FlagPole_F',[-1000,-1000,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _flag setPos _sectorPosition;
 [
 	_flag,
@@ -45,14 +40,9 @@ _sectorAreaObjects = (missionNamespace getVariable 'QS_virtualSectors_sectorObje
 {
 	_x hideObjectGlobal TRUE;
 	_x setPos _sectorPosition;
-} forEach (_sectorAreaObjects select 0);
+} forEach (_sectorAreaObjects # 0);
 comment 'Locations';
 _location = createLocation ['Name',[-1000,-1000,0],_radius,_radius];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _location setText _letter;
 _location setName _letter;
 _location setSide EAST;
@@ -68,7 +58,7 @@ missionNamespace setVariable [
 comment 'Composition';
 _composition = call (selectRandom (missionNamespace getVariable 'QS_sc_compositions_hq'));
 _objectData = [_sectorPosition,(random 360),_composition,TRUE] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
-if ((([(_sectorPosition select 0),(_sectorPosition select 1)] nearObjects ['House',(_radius * 0.5)]) select {(!((_x buildingPos -1) isEqualTo []))}) isEqualTo []) then {
+if ((([(_sectorPosition # 0),(_sectorPosition # 1)] nearObjects ['House',(_radius * 0.5)]) select {((_x buildingPos -1) isNotEqualTo [])}) isEqualTo []) then {
 	comment 'No buildings nearby, lets spawn some and add them to objectData array';
 	private _buildingSpawnPositions = [[0,0,0]];
 	private _spawnPosition = [0,0,0];
@@ -97,7 +87,7 @@ if ((([(_sectorPosition select 0),(_sectorPosition select 1)] nearObjects ['Hous
 			_spawnPosition = [_sectorPosition,12,50,8,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 			if ((_spawnPosition distance2D _sectorPosition) < 100) then {
 				if ((_buildingSpawnPositions findIf {((_spawnPosition distance2D _x) < 20)}) isEqualTo -1) then {
-					if ((([_spawnPosition select 0,_spawnPosition select 1] nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+					if ((([_spawnPosition # 0,_spawnPosition # 1] nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
 						_buildingType = selectRandom _buildingPool;
 						_building = createVehicle [_buildingType,_spawnPosition,[],0,'NONE'];
 						_building setDir (random 360);
@@ -161,7 +151,7 @@ _taskData pushBack ([
 		_title,
 		_letter
 	],
-	[(_sectorPosition select 0),(_sectorPosition select 1),((_sectorPosition select 2) + 8)],
+	[(_sectorPosition # 0),(_sectorPosition # 1),((_sectorPosition # 2) + 8)],
 	'CREATED',
 	5,
 	FALSE,

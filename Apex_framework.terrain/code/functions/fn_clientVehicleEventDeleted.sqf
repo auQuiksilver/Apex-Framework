@@ -12,9 +12,9 @@ Description:
 
 	Client Vehicle Deleted Event
 __________________________________________________________*/
-if (!(local (_this select 0))) exitWith {};
+if (!(local (_this # 0))) exitWith {};
 params ['_vehicle'];
-if (!((attachedObjects _vehicle) isEqualTo [])) then {
+if ((attachedObjects _vehicle) isNotEqualTo []) then {
 	{
 		if (!isNull _x) then {
 			detach _x;

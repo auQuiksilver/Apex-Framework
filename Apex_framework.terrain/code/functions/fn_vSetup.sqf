@@ -15,7 +15,7 @@ _____________________________________________________/*/
 
 params ['_u',['_z',FALSE]];
 _t = typeOf _u;
-_t2 = toLower _t;
+_t2 = toLowerANSI _t;
 _isSimpleObject = isSimpleObject _u;
 _u setVariable ['QS_vehicle',TRUE,(!isDedicated)];
 
@@ -460,7 +460,7 @@ if (!(_isSimpleObject)) then {
 		if (_t2 in ['land_pod_heli_transport_04_repair_black_f','land_pod_heli_transport_04_repair_f']) then {
 			_newmass = 7000;
 		};
-		if (!(_newMass isEqualTo -1)) then {
+		if (_newMass isNotEqualTo -1) then {
 			if (local _u) then {
 				_u setMass _newMass;
 			} else {
@@ -492,7 +492,7 @@ if (!(_isSimpleObject)) then {
 			'Deleted',
 			{
 				params ['_vehicle'];
-				if (!((attachedObjects _vehicle) isEqualTo [])) then {
+				if ((attachedObjects _vehicle) isNotEqualTo []) then {
 					{
 						detach _x;
 						if (!isPlayer _x) then {
@@ -507,7 +507,7 @@ if (!(_isSimpleObject)) then {
 			'Killed',
 			{
 				params ['_vehicle'];
-				if (!((attachedObjects _vehicle) isEqualTo [])) then {
+				if ((attachedObjects _vehicle) isNotEqualTo []) then {
 					{
 						detach _x;
 						if (!isPlayer _x) then {
@@ -535,15 +535,19 @@ if (!(_isSimpleObject)) then {
 		_u setRepairCargo 1;
 	};
 	if (_u isKindOf 'Helicopter') then {
-		if (isDedicated) then {
-			if (simulationEnabled _u) then {
-				_u enableSimulationGlobal FALSE;
-				_u setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
-				_u lock 2;
-				_u lockInventory TRUE;
+		if (
+			isDedicated &&
+			{(simulationEnabled _u)} &&
+			{(isTouchingGround _u)} &&
+			{((crew _u) isEqualTo [])}
+		) then {
+			_u spawn {
+				sleep 2;
+				_this enableSimulationGlobal FALSE;
+				_this setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
+				_this lock 2;
 			};
 		};
-	
 		_u setVariable ['QS_heli_spawnPosition',(position _u),FALSE];
 		if (_t2 in ['b_t_uav_03_f']) then {
 			clearItemCargoGlobal _u;
@@ -662,8 +666,8 @@ if (!(_isSimpleObject)) then {
 					'Killed',
 					{
 						params ['_killed','_killer'];
-						if (!((getVehicleCargo _killed) isEqualTo [])) then {
-							(_this select 0) setVehicleCargo objNull;
+						if ((getVehicleCargo _killed) isNotEqualTo []) then {
+							(_this # 0) setVehicleCargo objNull;
 						};
 					}
 				];
@@ -697,7 +701,7 @@ if (!(_isSimpleObject)) then {
 		'Deleted',
 		{
 			params ['_vehicle'];
-			if (!((attachedObjects _vehicle) isEqualTo [])) then {
+			if ((attachedObjects _vehicle) isNotEqualTo []) then {
 				{
 					missionNamespace setVariable [
 						'QS_analytics_entities_deleted',
@@ -709,7 +713,7 @@ if (!(_isSimpleObject)) then {
 				} count (attachedObjects _vehicle);
 			};
 			if (_vehicle isKindOf 'Plane') then {
-				if (!((getVehicleCargo _vehicle) isEqualTo [])) then {
+				if ((getVehicleCargo _vehicle) isNotEqualTo []) then {
 					_vehicle setVehicleCargo objNull;
 				};
 			};

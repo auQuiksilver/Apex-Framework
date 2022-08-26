@@ -27,7 +27,7 @@ if (_type isEqualTo '') then {
 	_type = ['LAND','SHIP'] select (_vehicle isKindOf 'Ship');
 };
 if (_type isEqualTo 'LAND') exitWith {
-	if (((vectorUp _vehicle) select 2) < 0.1) then {
+	if (((vectorUp _vehicle) # 2) < 0.1) then {
 		if (_vehicle isKindOf 'LandVehicle') then {
 			private _toggleSimulation = FALSE;
 			if (!simulationEnabled _vehicle) then {
@@ -52,15 +52,15 @@ if (_type isEqualTo 'LAND') exitWith {
 		if ((_vehicle getVariable ['QS_AI_V_stuckCheck',[]]) isEqualTo []) then {
 			_vehicle setVariable ['QS_AI_V_stuckCheck',[diag_tickTime,(getPosATL _vehicle),-1],FALSE];
 		} else {
-			if (diag_tickTime > ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 0)) then {
-				if ((_vehicle distance2D ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 1)) < 5) then {
-					if (((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) > 2) then {
+			if (diag_tickTime > ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 0)) then {
+				if ((_vehicle distance2D ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 1)) < 5) then {
+					if (((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 2) > 2) then {
 						if ((allPlayers inAreaArray [(getPosATL _vehicle),300,300,0,FALSE]) isEqualTo []) then {
 							_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosATL _vehicle),-1],FALSE];
-							_nearestRoad = [((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 1),125] call (missionNamespace getVariable 'QS_fnc_nearestRoad');
+							_nearestRoad = [((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 1),125] call (missionNamespace getVariable 'QS_fnc_nearestRoad');
 							if (!isNull _nearestRoad) then {
 								_vehicle setVehiclePosition [_nearestRoad,[],0,'NONE'];
-								_vehicle setDir (_nearestRoad getDir ((roadsConnectedTo _nearestRoad) select 0));
+								_vehicle setDir (_nearestRoad getDir ((roadsConnectedTo _nearestRoad) # 0));
 								if ((fuel _vehicle) isEqualTo 0) then {
 									_vehicle setFuel 1;
 								};
@@ -72,10 +72,10 @@ if (_type isEqualTo 'LAND') exitWith {
 							(units _grp) orderGetIn TRUE;
 						};
 					} else {
-						_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosATL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) + 1) min 3)],FALSE];
+						_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosATL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 2) + 1) min 3)],FALSE];
 					};
 				} else {
-					_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosATL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) - 1) max -1)],FALSE];
+					_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosATL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 2) - 1) max -1)],FALSE];
 				};
 			};
 		};
@@ -86,14 +86,14 @@ if (_type isEqualTo 'SHIP') exitWith {
 		if ((_vehicle getVariable ['QS_AI_V_stuckCheck',[]]) isEqualTo []) then {
 			_vehicle setVariable ['QS_AI_V_stuckCheck',[diag_tickTime,(getPosASL _vehicle),-1],FALSE];
 		} else {
-			if (diag_tickTime > ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 0)) then {
-				if ((_vehicle distance2D ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 1)) < 5) then {
-					if (((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) > 2) then {
+			if (diag_tickTime > ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 0)) then {
+				if ((_vehicle distance2D ((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 1)) < 5) then {
+					if (((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 2) > 2) then {
 						if ((allPlayers inAreaArray [(getPosASL _vehicle),300,300,0,FALSE]) isEqualTo []) then {
 							_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosASL _vehicle),-1],FALSE];
 							if (!alive (driver _vehicle)) then {
 								if (((units _grp) findIf {(alive _x)}) isNotEqualTo -1) then {
-									(((units _grp) select {(alive _x)}) select 0) action ['moveToDriver',_vehicle];
+									(((units _grp) select {(alive _x)}) # 0) action ['moveToDriver',_vehicle];
 								};
 							};
 							_vehicle spawn {
@@ -105,10 +105,10 @@ if (_type isEqualTo 'SHIP') exitWith {
 							};
 						};
 					} else {
-						_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosASL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) + 1) min 3)],FALSE];
+						_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosASL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 2) + 1) min 3)],FALSE];
 					};
 				} else {
-					_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosASL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) select 2) - 1) max -1)],FALSE];
+					_vehicle setVariable ['QS_AI_V_stuckCheck',[(diag_tickTime + 30),(getPosASL _vehicle),((((_vehicle getVariable ['QS_AI_V_stuckCheck',[-1,[0,0,0],-1]]) # 2) - 1) max -1)],FALSE];
 				};
 			};
 		};

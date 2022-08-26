@@ -16,7 +16,7 @@ Description:
 ____________________________________________________________________________/*/
 
 private ['_pos','_boxArray','_box','_boxSelect','_spawnedBoxArray','_magazineCargo','_index'];
-_pos = _this select 0;
+_pos = _this # 0;
 _spawnedBoxArray = [];
 _boxArray = [
 	'Box_East_Ammo_F',
@@ -65,18 +65,13 @@ if (worldName isEqualTo 'Enoch') then {
 for '_x' from 0 to (2 + (round(random 2))) do {
 	_boxSelect = selectRandom _boxArray;
 	_spawnPos = _pos findEmptyPosition [0,40,_boxSelect];
-	if (!(_spawnPos isEqualTo [])) then {
-		_box = createVehicle [_boxSelect,[(_spawnPos select 0),(_spawnPos select 1),((_spawnPos select 2)+0.5)],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
+	if (_spawnPos isNotEqualTo []) then {
+		_box = createVehicle [_boxSelect,[(_spawnPos # 0),(_spawnPos # 1),((_spawnPos # 2)+0.5)],[],0,'NONE'];
 		_box setDir (random 360);
 		if ((random 1) > 0.666) then {
 			[_box,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 		};
-		if (!((toLower _boxSelect) in ['o_supplycrate_f','o_cargonet_01_ammo_f','box_east_ammoveh_f','i_e_cargonet_01_ammo_f'])) then {
+		if (!((toLowerANSI _boxSelect) in ['o_supplycrate_f','o_cargonet_01_ammo_f','box_east_ammoveh_f','i_e_cargonet_01_ammo_f'])) then {
 			_box setVariable ['QS_RD_draggable',TRUE,TRUE];
 		};
 		0 = _spawnedBoxArray pushBack _box;
@@ -84,9 +79,9 @@ for '_x' from 0 to (2 + (round(random 2))) do {
 		_magazineCargo = getMagazineCargo _box;
 		clearMagazineCargoGlobal _box;
 		_index = 0;
-		for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-			if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-				_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+		for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+			if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+				_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 			};
 			_index = _index + 1;
 		};
@@ -98,7 +93,7 @@ for '_x' from 0 to (2 + (round(random 2))) do {
 				((missionNamespace getVariable 'QS_analytics_entities_killed') + 1),
 				FALSE
 			];
-			deleteVehicle (_this select 0);
+			deleteVehicle (_this # 0);
 			}
 		];
 		_box addEventHandler [

@@ -59,26 +59,16 @@ while {!_accepted} do {
 
 missionNamespace setVariable [
 	'QS_sideObj',
-	(createVehicle ['Land_Cargo_HQ_V2_F',[(_flatPos select 0),(_flatPos select 1),0],[],0,'NONE']),
+	(createVehicle ['Land_Cargo_HQ_V2_F',[(_flatPos # 0),(_flatPos # 1),0],[],0,'NONE']),
 	FALSE
 ];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-(missionNamespace getVariable 'QS_sideObj') setPosWorld [((getPosWorld (missionNamespace getVariable 'QS_sideObj')) select 0), ((getPosWorld (missionNamespace getVariable 'QS_sideObj')) select 1),((getPosWorld (missionNamespace getVariable 'QS_sideObj')) select 2)];
+(missionNamespace getVariable 'QS_sideObj') setPosWorld [((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 0), ((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 1),((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 2)];
 (missionNamespace getVariable 'QS_sideObj') setVectorUp [0,0,1];
 
 _objectTypes = ['Land_CargoBox_V1_F','CargoNet_01_barrels_F'];
 _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-_object setPosWorld [((getPosWorld (missionNamespace getVariable 'QS_sideObj')) select 0),((getPosWorld (missionNamespace getVariable 'QS_sideObj')) select 1),(((getPosWorld (missionNamespace getVariable 'QS_sideObj')) select 2) + 2)];
+_object setPosWorld [((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 0),((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 1),(((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 2) + 2)];
 _object enableRopeAttach FALSE;
 _object enableSimulationGlobal TRUE;
 
@@ -87,17 +77,12 @@ for '_x' from 0 to 2 step 1 do {
 	_object setVariable ['QS_isExplosion',TRUE,TRUE];
 };
 
-_tower1Pos = [_flatPos select 0,_flatPos select 1,0] getPos [50,0];
-_tower2Pos = [_flatPos select 0,_flatPos select 1,0] getPos [50,120];
-_tower3Pos = [_flatPos select 0,_flatPos select 1,0] getPos [50,240];
-_tower1 = createVehicle ['Land_Cargo_Patrol_V2_F',[_tower1Pos select 0,_tower1Pos select 1,0],[],0,'NONE'];
-_tower2 = createVehicle ['Land_Cargo_Patrol_V2_F',[_tower2Pos select 0,_tower2Pos select 1,0],[],0,'NONE'];
-_tower3 = createVehicle ['Land_Cargo_Patrol_V2_F',[_tower3Pos select 0,_tower3Pos select 1,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 3),
-	FALSE
-];
+_tower1Pos = [_flatPos # 0,_flatPos # 1,0] getPos [50,0];
+_tower2Pos = [_flatPos # 0,_flatPos # 1,0] getPos [50,120];
+_tower3Pos = [_flatPos # 0,_flatPos # 1,0] getPos [50,240];
+_tower1 = createVehicle ['Land_Cargo_Patrol_V2_F',[_tower1Pos # 0,_tower1Pos # 1,0],[],0,'NONE'];
+_tower2 = createVehicle ['Land_Cargo_Patrol_V2_F',[_tower2Pos # 0,_tower2Pos # 1,0],[],0,'NONE'];
+_tower3 = createVehicle ['Land_Cargo_Patrol_V2_F',[_tower3Pos # 0,_tower3Pos # 1,0],[],0,'NONE'];
 _tower1 setDir 180;
 _tower2 setDir 300;
 _tower3 setDir 60;
@@ -109,9 +94,9 @@ _enemiesArray = [(missionNamespace getVariable 'QS_sideObj')] call (missionNames
 
 /*/-------------------- SPAWN BRIEFING/*/
 
-_fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 300) + (random 600),0];
+_fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
 {
-	_x setMarkerPos _fuzzyPos;
+	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 'QS_marker_sideMarker' setMarkerText (format ['%1Secure Insurgency Supply',(toString [32,32,32])]);
@@ -149,7 +134,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (!alive (missionNamespace getVariable 'QS_sideObj')) exitWith {
 	
 		{
-			_x setMarkerPos [-5000,-5000,0];
+			_x setMarkerPosLocal [-5000,-5000,0];
 			_x setMarkerAlpha 0;
 		} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 		
@@ -197,11 +182,6 @@ for '_x' from 0 to 1 step 0 do {
 	
 		uiSleep 14;											/*/ ghetto bomb timer/*/
 		'Bo_Mk82' createVehicle (getPos _object); 			/*/ default "Bo_Mk82"/*/
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		uiSleep 0.1;
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',

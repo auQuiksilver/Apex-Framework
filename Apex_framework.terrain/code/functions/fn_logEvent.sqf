@@ -29,7 +29,7 @@ diag_log format [
 ];
 diag_log '*******************************';
 
-private _eventLog = profileNamespace getVariable ['QS_robocop_log_1',[]];
+private _eventLog = missionProfileNamespace getVariable ['QS_robocop_log_1',[]];
 if ((count _eventLog) >= 100) then {
 	_eventLog deleteAt 0;
 };
@@ -42,8 +42,8 @@ _eventLog pushBack [
 	_array # 6,
 	_array # 7
 ];
-profileNamespace setVariable ['QS_robocop_log_1',_eventLog];
-saveProfileNamespace;
+missionProfileNamespace setVariable ['QS_robocop_log_1',_eventLog];
+saveMissionProfileNamespace;
 _QS_UID = ['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist');
 if ((_array # 5) in _QS_UID) exitWith {};
 private _message = parseText format ['ROBOCOP believes %1 has hacked the server.<br/><br/> Detected: %2',(str (_array # 2)),(str (_array # 7))];
@@ -61,7 +61,7 @@ if ((_array # 6) > 1) then {
 		['systemChat',_message] remoteExec ['QS_fnc_remoteExecCmd',_arrayToSend,FALSE];
 	};
 } else {	
-	if ((!(['RscUnitInfoAirRTDFullDigital',(_array # 7),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) && (!(['game thread',(_array select 7),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))) then {
+	if ((!(['RscUnitInfoAirRTDFullDigital',(_array # 7),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) && (!(['game thread',(_array # 7),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))) then {
 		private _arrayToSend = [];
 		{
 			_unit = _x;

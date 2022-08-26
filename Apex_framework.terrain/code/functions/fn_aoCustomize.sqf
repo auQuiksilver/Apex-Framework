@@ -14,7 +14,7 @@ Description:
 	
 private _array = [];
 {
-	_array pushBack [(typeOf _x),((getModelInfo _x) select 1),(getPosWorld _x),[(vectorDir _x),(vectorUp _x)],0,0,2,[],{}];
+	_array pushBack [(typeOf _x),((getModelInfo _x) # 1),(getPosWorld _x),[(vectorDir _x),(vectorUp _x)],0,0,2,[],{}];
 } forEach (get3DENSelected 'object');
 copyToClipboard str _array;
 
@@ -27,7 +27,7 @@ _array = [];
 copyToClipboard str _array;
 ____________________________________________________________________________*/
 
-_aoName = toLower (_this # 0);
+_aoName = toLowerANSI (_this # 0);
 private _entities = [];
 if (worldName isEqualTo 'Altis') then {
 	if (_aoName isEqualTo 'oreokastro') then {

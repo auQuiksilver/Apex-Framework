@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	26/03/2018 A3 1.82 by Quiksilver
+	12/06/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -19,7 +19,6 @@ ____________________________________________________________________________*/
 
 params ['_pos'];
 private ['_return','_position','_boat','_grp','_count','_boatTypes'];
-private _isHCActive = missionNamespace getVariable ['QS_HC_Active',FALSE];
 _return = [];
 _boatTypes = [['O_Boat_Armed_01_hmg_F'],['O_T_Boat_Armed_01_hmg_F']] select (worldName in ['Tanoa','Lingor3']);
 _boat = objNull;
@@ -30,13 +29,8 @@ for '_i' from 0 to 1 step 1 do {
 		if ((getTerrainHeightASL _position) < -5) then {
 			_position set [2,0];
 			_boat = createVehicle [(selectRandom _boatTypes),_position,[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			_boat setDir (random 360);
-			_boat allowCrewInImmobile TRUE;
+			_boat allowCrewInImmobile [TRUE,TRUE];
 			_boat enableRopeAttach FALSE;
 			_boat enableVehicleCargo FALSE;
 			clearMagazineCargoGlobal _boat;
@@ -51,17 +45,12 @@ for '_i' from 0 to 1 step 1 do {
 				};
 			};
 			_grp = createVehicleCrew _boat;
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _boat))),
-				FALSE
-			];
 			_return pushBack _boat;
 			_boat lock 3;
 			_boat addEventHandler [
 				'Killed',
 				{
-					if ((count (crew (_this select 0))) > 0) then {
+					if ((count (crew (_this # 0))) > 0) then {
 						{
 							missionNamespace setVariable [
 								'QS_analytics_entities_deleted',
@@ -69,7 +58,7 @@ for '_i' from 0 to 1 step 1 do {
 								FALSE
 							];
 							deleteVehicle _x;
-						} count (crew (_this select 0));
+						} count (crew (_this # 0));
 					};
 				}
 			];
@@ -92,14 +81,12 @@ for '_i' from 0 to 1 step 1 do {
 				};
 				_virtualPatrol pushBack _patrolPosition;
 			};
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_CONFIG',['BOAT_PATROL','',(count (units _grp)),_boat],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_TASK',['BOAT_PATROL',_virtualPatrol,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			if (_isHCActive) then {
-				_grp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			};
+			_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['BOAT_PATROL','',(count (units _grp)),_boat],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_TASK',['BOAT_PATROL',_virtualPatrol,serverTime,-1],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			_boat addEventHandler [
 				'GetOut',
 				{

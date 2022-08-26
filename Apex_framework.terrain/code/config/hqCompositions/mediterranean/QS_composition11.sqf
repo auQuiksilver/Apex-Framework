@@ -11,8 +11,8 @@ Using orientation of objects: no
 	["Land_Cargo20_military_green_F",[5.34961,9.07422,3.33786e-006],284.468,[],false,true,false,{}], 
 	["Land_Cargo_House_V3_F",[-1.83203,-11.8164,0],192.406,[],false,true,false,{}], 
 	["Flag_White_F",[-5.25391,-11.5547,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_HBarrier_1_F",[-4.33008,11.8262,0],335.753,[],false,true,true,{}], 
 	["Land_PaperBox_closed_F",[-11.8203,5.05859,0],99.353,[],false,false,true,{}], 

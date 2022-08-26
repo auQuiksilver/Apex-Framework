@@ -14,8 +14,8 @@ Description:
 ___________________________________________/*/
 
 params [['_vehicle',objNull],['_slingLoad',objNull]];
-private _vehicleType = toLower (typeOf _vehicle);
-private _slingType = toLower (typeOf _slingLoad);
+private _vehicleType = toLowerANSI (typeOf _vehicle);
+private _slingType = toLowerANSI (typeOf _slingLoad);
 private _return = [_vehicleType,_slingType,FALSE,[0,0,0],5,25,2,4];
 if (_vehicle isKindOf 'heli_transport_04_base_f') then {
 	_return = [_vehicleType,_slingType,FALSE,[0,0,0],5,50,3,6];

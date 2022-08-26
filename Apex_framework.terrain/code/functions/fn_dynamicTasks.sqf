@@ -17,9 +17,9 @@ params ['_case','_type','_params','_isRx'];
 private _array = [];
 if (_case isEqualTo 1) then {
 	if (_type isEqualTo 'DESTROY') then {
-		_entity = _params select 0;
-		_taskAuthor = _params select 1;
-		_taskAuthorClass = _params select 2;
+		_entity = _params # 0;
+		_taskAuthor = _params # 1;
+		_taskAuthorClass = _params # 2;
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		private _description = format ['Destroy a(n) %1.',(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName'))];
 		if (_isRx) then {
@@ -78,8 +78,8 @@ if (_case isEqualTo 1) then {
 		(missionNamespace getVariable 'QS_module_dynamicTasks_add') pushBack _array;
 	};
 	if (_type isEqualTo 'MEDEVAC') then {
-		_entity = _params select 0;
-		_entityName = _params select 1;
+		_entity = _params # 0;
+		_entityName = _params # 1;
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		(missionNamespace getVariable ['QS_dynTask_medevac_array',[]]) pushBack _entity;
 		[_entityName,{50 cutText [(format ['%1 has requested Medevac',_this]),'PLAIN DOWN',0.5];}] remoteExec ['call',(allPlayers select {(_x getUnitTrait 'QS_trait_pilot')}),FALSE];
@@ -118,7 +118,7 @@ if (_case isEqualTo 1) then {
 						params ['_entity','_medevacBase'];
 						private _c = FALSE;
 						if (alive _entity) then {
-							if (!((lifeState _entity) isEqualTo 'INCAPACITATED')) then {
+							if ((lifeState _entity) isNotEqualTo 'INCAPACITATED') then {
 								if ((_entity distance2D _medevacBase) < 50) then {
 									if (isNull (objectParent _entity)) then {
 										if (isNull (attachedTo _entity)) then {
@@ -150,7 +150,7 @@ if (_case isEqualTo 1) then {
 		(missionNamespace getVariable 'QS_module_dynamicTasks_add') pushBack _array;
 	};
 	if (_type isEqualTo 'PRISONER') then {
-		_entity = _params select 0;
+		_entity = _params # 0;
 		_entity setTaskMarkerOffset [0,-10,1];
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		private _description = 'Ground forces have arrested a unit, get him back to base for interrogation. Locate the fenced area at base (map marker GITMO) and release him there to complete the mission.';
@@ -218,8 +218,8 @@ if (_case isEqualTo 1) then {
 		(missionNamespace getVariable 'QS_module_dynamicTasks_add') pushBack _array;
 	};
 	if (_type isEqualTo 'EVAC_PILOT') then {
-		_entity = _params select 0;
-		_entityName = _params select 1;
+		_entity = _params # 0;
+		_entityName = _params # 1;
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		private _description = format ['A pilot ( %1 ) has been separated from his aircraft and needs a ride back to base. When he is within 500m of base the mission will be completed.',_entityName];
 		_array = [
@@ -283,8 +283,8 @@ if (_case isEqualTo 1) then {
 		(missionNamespace getVariable 'QS_module_dynamicTasks_add') pushBack _array;		
 	};
 	if (_type isEqualTo 'FIRE_SUPPORT') then {
-		_entity = _params select 0;
-		_taskAuthorName = _params select 1;
+		_entity = _params # 0;
+		_taskAuthorName = _params # 1;
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		_timeout = diag_tickTime + 900;
 		private _description = format ['%1 has requested CAS/Artillery on a(n) %2. This task will expire in 15 minutes.',_taskAuthorName,(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName'))];

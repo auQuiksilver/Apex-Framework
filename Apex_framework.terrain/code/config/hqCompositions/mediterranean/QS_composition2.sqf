@@ -22,8 +22,8 @@ Using orientation of objects: no
 	["Land_Cargo_Patrol_V3_F",[1.72266,-21.9609,0],346.315,[],false,true,false,{}], 
 	["Land_HBarrier_5_F",[-15.2891,17.0234,0],74.3916,[],false,false,true,{}], 
 	["Flag_White_F",[15.5684,13.4648,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_Cargo_House_V3_F",[13.8867,16.9141,0],74.3916,[],false,true,false,{}], 
 	["Land_HBarrierBig_F",[-21.3789,-0.226563,0],74.3916,[],false,false,true,{}], 

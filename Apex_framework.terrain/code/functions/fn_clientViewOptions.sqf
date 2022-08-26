@@ -23,7 +23,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	if ((cameraOn isKindOf 'Man') || {(isNull cameraOn)}) exitWith {
 		['onButtonClick',0] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,1]],
 			[1810,[1,1,1,0.333]],
@@ -34,7 +34,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	if ((cameraOn isKindOf 'LandVehicle') || {(cameraOn isKindOf 'Ship')}) exitWith {
 		['onButtonClick',1] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,0.333]],
 			[1810,[1,1,1,1]],
@@ -45,7 +45,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	if (cameraOn isKindOf 'Helicopter') exitWith {
 		['onButtonClick',2] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,0.333]],
 			[1810,[1,1,1,0.333]],
@@ -56,7 +56,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	if (cameraOn isKindOf 'Plane') exitWith {
 		['onButtonClick',3] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,0.333]],
 			[1810,[1,1,1,0.333]],
@@ -70,7 +70,7 @@ if (_type isEqualTo 'onButtonClick') exitWith {
 	_display = findDisplay 3000;
 	if (_mode isEqualTo 0) then {
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,1]],
 			[1810,[1,1,1,0.333]],
@@ -80,7 +80,7 @@ if (_type isEqualTo 'onButtonClick') exitWith {
 	};
 	if (_mode isEqualTo 1) then {
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,0.333]],
 			[1810,[1,1,1,1]],
@@ -90,7 +90,7 @@ if (_type isEqualTo 'onButtonClick') exitWith {
 	};
 	if (_mode isEqualTo 2) then {
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,0.333]],
 			[1810,[1,1,1,0.333]],
@@ -100,7 +100,7 @@ if (_type isEqualTo 'onButtonClick') exitWith {
 	};
 	if (_mode isEqualTo 3) then {
 		{
-			(_display displayCtrl (_x select 0)) ctrlSetTextColor (_x select 1);
+			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
 		} forEach [
 			[1805,[1,1,1,0.333]],
 			[1810,[1,1,1,0.333]],
@@ -119,10 +119,10 @@ if (_type isEqualTo 'onButtonClick') exitWith {
 		]
 	];
 	player setVariable ['QS_RD_client_viewSettings_currentMode',_mode,FALSE];
-	_QS_client_viewSettings_overall = (_QS_client_viewSettings select 0) select _mode;
-	_QS_client_viewSettings_object = (_QS_client_viewSettings select 1) select _mode;
-	_QS_client_viewSettings_shadow = (_QS_client_viewSettings select 2) select _mode;
-	_QS_client_viewSettings_terrain = (_QS_client_viewSettings select 3) select _mode;
+	_QS_client_viewSettings_overall = (_QS_client_viewSettings # 0) # _mode;
+	_QS_client_viewSettings_object = (_QS_client_viewSettings # 1) # _mode;
+	_QS_client_viewSettings_shadow = (_QS_client_viewSettings # 2) # _mode;
+	_QS_client_viewSettings_terrain = (_QS_client_viewSettings # 3) # _mode;
 	ctrlSetText [1808,format['%1',_QS_client_viewSettings_overall]];
 	ctrlSetText [1813,format['%1',_QS_client_viewSettings_object]];
 	ctrlSetText [1818,format['%1',_QS_client_viewSettings_shadow]];
@@ -157,14 +157,14 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 				[
 					[
 						(round (_value - _value % 100)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -178,15 +178,15 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 0),
 						(round (_value - _value % 100)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -200,15 +200,15 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 1),
 						(round (_value - _value % 100)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -222,15 +222,15 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0) select 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0) # 2),
 						(round (_value - _value % 100))
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -247,16 +247,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
 					[
 						(round (_value - _value % 100)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -269,16 +269,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 0),
 						(round (_value - _value % 100)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -291,16 +291,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 1),
 						(round (_value - _value % 100)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -313,16 +313,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1) select 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1) # 2),
 						(round (_value - _value % 100))
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -339,16 +339,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
 					[
 						(round (_value - _value % 10)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -361,16 +361,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 0),
 						(round (_value - _value % 10)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -383,16 +383,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 1),
 						(round (_value - _value % 10)),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -405,16 +405,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2) select 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2) # 2),
 						(round (_value - _value % 10))
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -431,16 +431,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
 					[
 						(round _value),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -453,16 +453,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 0),
 						(round _value),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 2),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -475,16 +475,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 1),
 						(round _value),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 3)
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 3)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -497,16 +497,16 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 			player setVariable [
 				(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),
 				[
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 0),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 1),
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 2),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 0),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 1),
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 2),
 					[
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 0),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 1),
-						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 3) select 2),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 0),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 1),
+						(((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 3) # 2),
 						(round _value)
 					],
-					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) select 4)
+					((player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName])) # 4)
 				],
 				FALSE
 			];
@@ -523,11 +523,11 @@ if (_type isEqualTo 'Unload') exitWith {
 		};
 		createDialog 'QS_RD_client_dialog_menu_main';
 	};
-	profileNamespace setVariable [(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),(player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName]))];
-	saveProfileNamespace;
+	missionProfileNamespace setVariable [(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),(player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName]))];
+	saveMissionProfileNamespace;
 };
 if (_type isEqualTo 'onUnload') exitWith {
 	uiNamespace setVariable ['QS_ui_mousePosition',getMousePosition];
-	profileNamespace setVariable [(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),(player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName]))];
-	saveProfileNamespace;
+	missionProfileNamespace setVariable [(format ['QS_RD_client_viewSettings_%1',_QS_worldName]),(player getVariable (format ['QS_RD_client_viewSettings_%1',_QS_worldName]))];
+	saveMissionProfileNamespace;
 };

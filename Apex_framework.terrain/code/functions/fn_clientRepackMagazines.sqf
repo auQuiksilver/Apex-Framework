@@ -61,7 +61,7 @@ private _magazineAmmoCapacity = 0;
 	_magazineAmmoCapacity = getNumber (configFile >> 'CfgMagazines' >> _magazineClass >> 'count');
 	if (_magazineAmmoCapacity > 3) then {
 		_magazineTypes pushBackUnique _magazineClass;
-		if (!(_data2 isEqualTo [])) then {
+		if (_data2 isNotEqualTo []) then {
 			_i = _data2 findIf {((_x # 0) isEqualTo _magazineClass)};
 			if (_i isEqualTo -1) then {
 				_data2 pushBack [_magazineClass,_magazineAmmoCapacity,[_magazineAmmoCount]];
@@ -108,14 +108,14 @@ private _currentMagIndex = 0;
 		};
 	};
 } forEach _data2;
-if (!((primaryWeapon _unit) isEqualTo '')) then {
+if ((primaryWeapon _unit) isNotEqualTo '') then {
 	_unit removePrimaryWeaponItem ((primaryWeaponMagazine _unit) # 0);
 };
-if (!((handgunWeapon _unit) isEqualTo '')) then {
+if ((handgunWeapon _unit) isNotEqualTo '') then {
 	_unit removeHandgunItem ((handgunMagazine _unit) # 0);
 };
 _currentMagazines = magazines _unit;
-if (!(_currentMagazines isEqualTo [])) then {
+if (_currentMagazines isNotEqualTo []) then {
 	{
 		if (_x in _magazineTypes) then {
 			_unit removeMagazine _x;

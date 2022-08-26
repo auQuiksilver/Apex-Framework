@@ -16,7 +16,7 @@ __________________________________________________*/
 _vehicle = param [0,objNull];
 if (
 	(isNull _vehicle) ||
-	(!((toLower (typeOf _vehicle)) in ['c_plane_civil_01_racing_f','c_plane_civil_01_f','i_c_plane_civil_01_f'])) ||
+	(!((toLowerANSI (typeOf _vehicle)) in ['c_plane_civil_01_racing_f','c_plane_civil_01_f','i_c_plane_civil_01_f'])) ||
 	(!alive _vehicle) ||
 	(!local _vehicle)
 ) exitWith {};
@@ -52,9 +52,9 @@ if (isDedicated) then {
 	_vehicle addEventHandler [
 		'HandleDamage',
 		{
-			if (!(local (_this select 0))) exitWith {};
+			if (!(local (_this # 0))) exitWith {};
 			params ['_vehicle','_selection','_damage','_source','_ammo','_hitPartIndex','_instigator'];
-			if (!(_selection isEqualTo '?')) then {
+			if (_selection isNotEqualTo '?') then {
 				_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
 				if (!isNull _source) then {
 					_scale = 0.25;

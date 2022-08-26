@@ -6,18 +6,29 @@ Author:
 	
 Last Modified:
 
-	20/04/2022 A3 2.08 by Quiksilver
+	19/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Fired Man Event
-	
-	params ['_unit','_weapon','_muzzle','_mode','_ammo','_magazine','_projectile','_vehicle'];
 _______________________________________________________/*/
 
 params ['_unit','_weapon','_muzzle','','_ammo','_magazine','_projectile','_vehicle'];
-if (!((lifeState _unit) in ['HEALTHY','INJURED'])) exitWith {
+if (
+	(captive _unit) ||
+	{(!isDamageAllowed _unit)} ||
+	{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
+	{(isObjectHidden _unit)}
+) exitWith {
 	deleteVehicle _projectile;
+};
+missionNamespace setVariable ['QS_suppressed_effectFired',diag_tickTime + 30,FALSE];
+if ((toLowerANSI _magazine) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+	if ((toLowerANSI _magazine) in ['8rnd_82mm_mo_shells']) then {
+		_projectile addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+	} else {
+		_projectile addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+	};
 };
 if (_weapon isEqualTo 'Throw') then {
 	if ((_unit distance2D (markerPos 'QS_marker_base_marker')) < 500) then {
@@ -46,7 +57,10 @@ if (_weapon isEqualTo 'Throw') then {
 			if (_magazine in [
 				'SmokeShell','SmokeShellBlue','SmokeShellGreen','SmokeShellOrange','SmokeShellPurple','SmokeShellRed','SmokeShellYellow'
 			]) then {
-				if (((_unit distance2D (missionNamespace getVariable 'QS_HQpos')) < 50) || (((missionNamespace getVariable ['QS_virtualSectors_positions',[[0,0,0]]]) findIf {((_unit distance2D _x) < 50)}) isNotEqualTo -1)) then {
+				if (
+					((_unit distance2D (missionNamespace getVariable 'QS_HQpos')) < 50) || 
+					(((missionNamespace getVariable ['QS_virtualSectors_positions',[[0,0,0]]]) findIf {((_unit distance2D _x) < 50)}) isNotEqualTo -1)
+				) then {
 					if (!isNil {_unit getVariable 'QS_client_hqLastSmoke'}) then {
 						if (time < ((_unit getVariable 'QS_client_hqLastSmoke') + 20)) then {
 							0 = [_projectile] spawn {
@@ -112,15 +126,62 @@ if (_weapon isEqualTo 'Throw') then {
 			};
 		};
 	} else {
-		if (_weapon isEqualTo 'SmokeLauncher') then {
-			if ((random 1) > (damage _vehicle)) then {
-				if ((missionNamespace getVariable ['QS_vehicle_incomingMissiles',[]]) isNotEqualTo []) then {
-					{
-						if (['SMOKE_BLINDSPOT',_vehicle,(_x # 0)] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams')) then {
-							['setMissileTarget',_x # 0,objNull] remoteExec ['QS_fnc_remoteExecCmd',_x # 1,FALSE];
-						};
-					} forEach (missionNamespace getVariable ['QS_vehicle_incomingMissiles',[]]);
+		_projectile addEventHandler ['HitPart',{call (missionNamespace getVariable 'QS_fnc_clientProjectileEventHitPart')}];
+		if (isNull (objectParent _unit)) then {
+			if (_weapon in [primaryweapon _unit,handgunweapon _unit]) then {
+				_projectile setVariable ['QS_projectile_accuracy',TRUE];
+				if ((toLowerANSI _weapon) in [	// Sniper rifles
+					'srifle_gm6_ghex_f','srifle_gm6_f','srifle_gm6_camo_f','srifle_lrr_f','srifle_lrr_camo_f','srifle_lrr_tna_f',
+					'srifle_gm6_lrps_f','srifle_gm6_sos_f','srifle_gm6_camo_lrps_f','srifle_gm6_camo_sos_f',
+					'srifle_lrr_camo_lrps_f','srifle_lrr_camo_sos_f','srifle_lrr_tna_lrps_f','srifle_gm6_ghex_lrps_f','srifle_lrr_lrps_f','srifle_lrr_sos_f'
+				]) then {
+					player setVariable ['QS_client_shots_sniper',(player getVariable 'QS_client_shots_sniper') + 1,FALSE];
+					_projectile setVariable ['QS_projectile_sniper',TRUE];
+				} else {
+					player setVariable ['QS_client_shots',(player getVariable 'QS_client_shots') + 1,FALSE];
 				};
+			};
+		};
+		if (_weapon isEqualTo 'SmokeLauncher') then {
+			if (
+				((random 1) > (damage _vehicle)) && 
+				((random 1) > 0.05)
+			) then {
+				if ((missionNamespace getVariable ['QS_vehicle_incomingMissiles',[]]) isNotEqualTo []) then {
+					private _incomingMissiles = (missionNamespace getVariable ['QS_vehicle_incomingMissiles',[]]) select { (['SMOKE_BLINDSPOT',_vehicle,_x # 0] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams')) };
+					if (_incomingMissiles isNotEqualTo []) then {
+						_incomingMissilesObjects = _incomingMissiles apply { _x # 0 };
+						_incomingMissilesSenders = _incomingMissiles apply { _x # 1 };
+						if (((_vehicle nearEntities 40) select {((getAmmoCargo _x) > 0)}) isEqualTo []) then {
+							['setMissileTarget',_incomingMissilesObjects,objNull] remoteExecCall ['QS_fnc_remoteExecCmd',_incomingMissilesSenders,FALSE];
+						};
+					};
+				};
+				/*/ //Not sure if we need this bit
+				if (
+					((attachedObjects _vehicle) isNotEqualTo []) &&
+					((getAmmoCargo _vehicle) <= 0) &&
+					(((_vehicle nearEntities 40) select {((getAmmoCargo _x) > 0)}) isEqualTo [])
+				) then {
+					private _laserTarget = objNull;
+					{
+						if (_x isKindOf 'LaserTarget') exitWith {
+							_laserTarget = _x;
+							detach _laserTarget;
+							[_vehicle,_laserTarget] spawn {
+								params ['_vehicle','_laserTarget'];
+								sleep 60;
+								if (
+									(!isNull _laserTarget) && 
+									{(alive _vehicle)}
+								) then {
+									_laserTarget attachTo [_vehicle,_vehicle worldToModel (_vehicle getRelPos [(40 * (sqrt (random 1))),(random 360)])];
+								};
+							};
+						}
+					} forEach (attachedObjects _vehicle);
+				};
+				/*/
 			};
 		};
 		if ((_unit getVariable ['QS_tto',0]) > 0) then {
@@ -143,8 +204,8 @@ if (_weapon isEqualTo 'Throw') then {
 				['HANDLE',['AT',_projectile,_unit,_vehicle,getPosATL (vehicle _unit),FALSE]] call (missionNamespace getVariable 'QS_fnc_clientProjectileManager');
 			};
 			private _cursorTarget = cursorTarget;
-			if ((toLower _weapon) in ['mortar_82mm','mortar_155mm_amos','rockets_230mm_gat']) then {
-				if ((toLower _ammo) in ['sh_82mm_amos','sh_155mm_amos','sh_155mm_amos_guided','r_230mm_he']) then {
+			if ((toLowerANSI _weapon) in ['mortar_82mm','mortar_155mm_amos','rockets_230mm_gat']) then {
+				if ((toLowerANSI _ammo) in ['sh_82mm_amos','sh_155mm_amos','sh_155mm_amos_guided','r_230mm_he']) then {
 					if (worldName in ['Altis','Tanoa']) then {
 						if (missionNamespace getVariable 'QS_customAO_GT_active') then {
 							_projectile spawn {
@@ -161,12 +222,12 @@ if (_weapon isEqualTo 'Throw') then {
 							};
 						};
 					};
-					missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),((toLower _weapon) isEqualTo 'rockets_230mm_gat')];
-					missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),((toLower _weapon) isEqualTo 'rockets_230mm_gat')];
+					missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),((toLowerANSI _weapon) isEqualTo 'rockets_230mm_gat')];
+					missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),((toLowerANSI _weapon) isEqualTo 'rockets_230mm_gat')];
 				};
 			};
 			if (!isNull (objectParent _unit)) then {
-				if ((toLower _ammo) in [
+				if ((toLowerANSI _ammo) in [
 					'bomb_03_f','bomb_04_f','bo_gbu12_lgb','bo_gbu12_lgb_mi10','bo_air_lgb','bo_air_lgb_hidden','bo_mk82','bo_mk82_mi08'
 				]) then {
 					missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];

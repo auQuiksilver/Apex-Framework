@@ -6,18 +6,16 @@ Author:
 	
 Last Modified:
 
-	21/06/2020 A3 1.98 by Quiksilver
+	24/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Event Incoming Missile
 __________________________________________________________*/
 
-params ['_vehicle','_ammo','_shooter','_instigator'];
-private _projectile = nearestObject [_shooter,_ammo];
+params ['_vehicle','_ammo','_shooter','_instigator','_projectile'];
 if (!isNull _projectile) then {
-
-	if (!(_projectile in (missionNamespace getVariable ['QS_vehicle_incomingMissiles',[]]))) then {
+	if (((missionNamespace getVariable 'QS_vehicle_incomingMissiles') findIf {(_projectile isEqualTo (_x # 0))}) isEqualTo -1) then {
 		missionNamespace setVariable ['QS_vehicle_incomingMissiles',((missionNamespace getVariable 'QS_vehicle_incomingMissiles') select {(!isNull (_x # 0))}),FALSE];
 		missionNamespace setVariable ['QS_vehicle_incomingMissiles',((missionNamespace getVariable 'QS_vehicle_incomingMissiles') + [[_projectile,_shooter]]),FALSE];
 	};
@@ -52,15 +50,24 @@ if (_cfgRadar isEqualTo -2) then {
 	_cfgRadar = getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'radarType');
 	_vehicle setVariable ['QS_vehicle_radarType',_cfgRadar,FALSE];
 };
-if (!isNil {player getVariable 'QS_incomingMissile_active'}) exitWith {};
-player setVariable ['QS_incomingMissile_active',TRUE,FALSE];
-if (!((_vehicle isKindOf 'Air') && (player isEqualTo (driver _vehicle)) && (!((toLower (typeOf _vehicle)) in ['i_c_plane_civil_01_f','c_plane_civil_01_racing_f','c_plane_civil_01_f'])))) then {
-	playSound ['missile_warning_1',FALSE];
+if (diag_tickTime < (player getVariable ['QS_incomingMissile_active',-1])) exitWith {};
+player setVariable ['QS_incomingMissile_active',diag_tickTime + 3,FALSE];
+if (!(
+	(_vehicle isKindOf 'Air') && 
+	(player isEqualTo (driver _vehicle)) && 
+	(!((toLowerANSI (typeOf _vehicle)) in ['i_c_plane_civil_01_f','c_plane_civil_01_racing_f','c_plane_civil_01_f']))
+)) then {
+	playSoundUI ['missile_warning_1',radioVolume max 0.1,1,false];
 };
 if (_vehicle isKindOf 'LandVehicle') then {
 	_soundPath = [(str missionConfigFile), 0, -15] call (missionNamespace getVariable 'BIS_fnc_trimString');
 	_soundToPlay = _soundPath + "media\audio\locking_2.wss";
 	playSound3D [_soundToPlay, _vehicle, FALSE, getPosASL _vehicle, 10, 1, 50];
+};
+if (_vehicle isKindOf 'Air') then {
+	if (player getVariable ['QS_RD_earplugs',FALSE]) then {
+		playSoundUI ['missile_warning_1',radioVolume max 0.1,1,false];
+	};
 };
 private _relDir = _vehicle getRelDir _shooter;
 private _relDirText = '';
@@ -96,7 +103,3 @@ if ((_relDir > 337.5) || {(_relDir <= 22.5)}) then {
 	};
 };
 50 cutText [(format ['Incoming missile! Bearing %1 %2',(round (_vehicle getDir _shooter)),_relDirText]),'PLAIN',0.5];
-0 spawn {
-	uiSleep 2;
-	player setVariable ['QS_incomingMissile_active',nil,FALSE];
-};

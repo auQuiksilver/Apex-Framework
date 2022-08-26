@@ -10,8 +10,8 @@ Using orientation of objects: no
 [
 	["Land_LampShabby_F",[-2.45947,3.59277,0],208.084,[],false,true,false,{}], 
 	["Flag_White_F",[-3.79004,2.22559,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_HBarrier_01_line_5_green_F",[-1.93506,6.63037,0],79.624,[],false,false,TRUE,{}], 
 	["Land_HBarrier_01_wall_corridor_green_F",[-1.31543,-8.76807,0],257.258,[],false,false,TRUE,{}], 

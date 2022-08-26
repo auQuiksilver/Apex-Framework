@@ -47,9 +47,9 @@ _exit = FALSE;
 			if (local _unit) then {
 				unassignVehicle _unit;
 				moveOut _unit;
-				_unit disableAI 'MOVE';
-				_unit disableAI 'FSM';
-				_unit disableAI 'PATH';
+				_unit enableAIFeature ['MOVE',FALSE];
+				_unit enableAIFeature ['FSM',FALSE];
+				_unit enableAIFeature ['PATH',FALSE];
 			} else {
 				0 = [90,_unit,1] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 			};

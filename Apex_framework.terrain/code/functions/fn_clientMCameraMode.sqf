@@ -18,8 +18,8 @@ private ['_t','_c','_dt','_g','_gn','_position'];
 /*/======================================= CONFIG/*/
 
 disableSerialization; 
-_t = _this select 0;
-_c = _this select 1;
+_t = _this # 0;
+_c = _this # 1;
 
 /*/======================================= DESTROY THE CAMERA/*/
 

@@ -13,7 +13,7 @@ Description:
 	-
 _____________________________________________________________*/
 
-_intel = _this select 0;
+_intel = _this # 0;
 player playMoveNow 'AinvPercMstpSrasWrflDnon_Putdown_AmovPercMstpSrasWrflDnon';
 for '_x' from 0 to 2 step 1 do {
 	_intel setVariable ['QS_RD_mission_KISS_stage_1',FALSE,TRUE];

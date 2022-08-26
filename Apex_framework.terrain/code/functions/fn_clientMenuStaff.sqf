@@ -17,7 +17,7 @@ private [
 	'_type','_uid','_moderators','_admins','_developers','_allUIDs','_moderatorsActions','_adminsActions',
 	'_developersActions','_validActions','_text','_pilots','_cursorTarget','_type2','_staffID'
 ];
-_type = _this select 0;
+_type = _this # 0;
 _type2 = _type;
 _uid = getPlayerUID player;
 if (isNil '_uid') exitWith {};
@@ -95,10 +95,10 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 			} count _mediaActions;
 		};
 	};
-	if (!(_validActions isEqualTo [])) then {
+	if (_validActions isNotEqualTo []) then {
 		{
 			_actionIDs = QS_staff_currentActions pushBack (player addAction _x);
-			player setUserActionText [(QS_staff_currentActions select _actionIDs),((player actionParams (QS_staff_currentActions select _actionIDs)) select 0),(format ["<t size='3'>%1</t>",((player actionParams (QS_staff_currentActions select _actionIDs)) select 0)])];
+			player setUserActionText [(QS_staff_currentActions # _actionIDs),((player actionParams (QS_staff_currentActions # _actionIDs)) # 0),(format ["<t size='3'>%1</t>",((player actionParams (QS_staff_currentActions # _actionIDs)) # 0)])];
 		} forEach _validActions;
 	};
 };
@@ -127,7 +127,7 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'Curator')) exitWith {
 	};
 };
 if ((count _this) > 2) then {
-	_type2 = _this select 3;
+	_type2 = _this # 3;
 };
 if (_type2 isEqualType 0) exitWith {
 	if (_type2 isEqualTo 0) then {};
@@ -222,7 +222,7 @@ if (_type2 isEqualType 0) exitWith {
 		};
 		if (!(_cursorTarget isKindOf 'Air')) then {
 			_posTarget = getPosWorld cursorTarget;
-			_cursorTarget setPosWorld [(_posTarget select 0),(_posTarget select 1),((_posTarget select 2) + 0.3)];
+			_cursorTarget setPosWorld [(_posTarget # 0),(_posTarget # 1),((_posTarget # 2) + 0.3)];
 			_cursorTarget setVectorUp (surfaceNormal (getPosWorld _cursorTarget));
 		};
 		_type2 = getText (configFile >> 'CfgVehicles' >> (typeOf _cursorTarget) >> 'displayName');
@@ -373,11 +373,11 @@ if (_type2 isEqualType 0) exitWith {
 						'
 							with uiNamespace do {
 								_this call {
-									_display = _this select 0;
-									_key = _this select 1;
-									_shift = _this select 2;
-									_ctrl = _this select 3;
-									_alt = _this select 4;
+									_display = _this # 0;
+									_key = _this # 1;
+									_shift = _this # 2;
+									_ctrl = _this # 3;
+									_alt = _this # 4;
 									private _return = false;
 
 									BIS_fnc_camera_keys set [_key,true];
@@ -391,7 +391,7 @@ if (_type2 isEqualType 0) exitWith {
 												_camParams
 											];
 											profilenamespace setvariable ["BIS_fnc_camera_positions",_positions];
-											saveprofilenamespace;	
+											saveMissionProfileNamespace;	
 
 											_display call BIS_fnc_camera_showPositions;
 										} else {
@@ -420,16 +420,16 @@ if (_type2 isEqualType 0) exitWith {
 
 									switch (true) do {
 
-										case (_key == DIK_1): {1 call _camSave;};
-										case (_key == DIK_2): {2 call _camSave;};
-										case (_key == DIK_3): {3 call _camSave;};
-										case (_key == DIK_4): {4 call _camSave;};
-										case (_key == DIK_5): {5 call _camSave;};
-										case (_key == DIK_6): {6 call _camSave;};
-										case (_key == DIK_7): {7 call _camSave;};
-										case (_key == DIK_8): {8 call _camSave;};
-										case (_key == DIK_9): {9 call _camSave;};
-										case (_key == DIK_0): {0 call _camSave;};
+										case (_key isEqualTo DIK_1): {1 call _camSave;};
+										case (_key isEqualTo DIK_2): {2 call _camSave;};
+										case (_key isEqualTo DIK_3): {3 call _camSave;};
+										case (_key isEqualTo DIK_4): {4 call _camSave;};
+										case (_key isEqualTo DIK_5): {5 call _camSave;};
+										case (_key isEqualTo DIK_6): {6 call _camSave;};
+										case (_key isEqualTo DIK_7): {7 call _camSave;};
+										case (_key isEqualTo DIK_8): {8 call _camSave;};
+										case (_key isEqualTo DIK_9): {9 call _camSave;};
+										case (_key isEqualTo DIK_0): {0 call _camSave;};
 
 										case (_key in actionkeys "cameraReset"): {
 											BIS_fnc_camera_pitchbank = [0,0];
@@ -533,7 +533,7 @@ if (_type2 isEqualType 0) exitWith {
 											_return = true;
 											_this spawn {
 												disableserialization;
-												_display = _this select 0;
+												_display = _this # 0;
 												_message = [
 													localize "STR_A3_RscDisplayCamera_Exit",
 													localize "STR_A3_RscDisplayCamera_Header",

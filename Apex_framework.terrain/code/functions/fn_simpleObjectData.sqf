@@ -75,20 +75,20 @@ if (_input isEqualType objNull) then
 {
 	//get class and model
 	_class = typeOf _input;
-	_model = (getModelInfo _input) select 1;
+	_model = (getModelInfo _input) # 1;
 
 	//read config to get reversed state; doesn't work for simple object as they do not have config class
 	if (_class != "" && {isNumber(configfile >> "CfgVehicles" >> _class >> "reversed")}) then {_reversed = getNumber(configfile >> "CfgVehicles" >> _class >> "reversed")};
 
 	//calculate vertical offset fix
-	_verticalOffset = ROUND_DECIMALS(((getPosWorld _input) select 2) - ((getPosASL _input) select 2) - ((getPosATL _input) select 2), 0.001);
+	_verticalOffset = ROUND_DECIMALS(((getPosWorld _input) # 2) - ((getPosASL _input) # 2) - ((getPosATL _input) # 2), 0.001);
 
 	//get vertical turret animations
 	private _turrets = if (_class != "") then {_class call bis_fnc_getTurrets} else {[]};
 
 	//adjust animations on turrets to fix the turret elevation
 	{
-		private _anim = toLower _x;
+		private _anim = toLowerANSI _x;
 		private _animState = ROUND_DECIMALS(_input animationPhase _anim, 0.01);
 
 		//exclude animation with 'proxy' source
@@ -115,7 +115,7 @@ if (_input isEqualType objNull) then
 		private _muzzle = "";
 
 		{
-			_muzzle = toLower getText(_x >> "selectionFireAnim");
+			_muzzle = toLowerANSI getText(_x >> "selectionFireAnim");
 			if (_muzzle != "") then {_selectionsToHide pushBackUnique _muzzle;};
 		}
 		forEach _turrets;
@@ -128,7 +128,7 @@ if (_input isEqualType objNull) then
 		{
 			for "_i" from 0 to (_reflectorsCount - 1) do
 			{
-				private _selection = toLower getText ((_reflectors select _i) >> "selection");
+				private _selection = toLowerANSI getText ((_reflectors select _i) >> "selection");
 				if (_selection != "") then {_selectionsToHide pushBackUnique _selection};
 			};
 		};
@@ -139,7 +139,7 @@ if (_input isEqualType objNull) then
 
 			if (!isNull _rotors) then
 			{
-				private _selection = toLower getText _rotors;
+				private _selection = toLowerANSI getText _rotors;
 				if (_selection != "") then {_selectionsToHide pushBackUnique _selection};
 			};
 		}

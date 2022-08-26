@@ -10,27 +10,23 @@ Last modified:
 Description:
 
 	Delete enemies.
-	
 ___________________________________________*/
 
 {
-	sleep 1;
     if (_x isEqualType grpNull) then {
         {
-            if (vehicle _x != _x) then {
+			if ((vehicle _x) isNotEqualTo _x) then {
                 deleteVehicle (vehicle _x);
             };
             deleteVehicle _x;
         } forEach (units _x);
     } else {
-        if (vehicle _x != _x) then {
+        if ((vehicle _x) isNotEqualTo _x) then {
             deleteVehicle (vehicle _x);
         };
-        if !(_x isKindOf "Man") then {
-            {
-                deleteVehicle _x;
-            } forEach (crew _x)
+        if !(_x isKindOf 'Man') then {
+			deleteVehicleCrew _x;
         };
         deleteVehicle _x;
     };
-} forEach (_this select 0);
+} forEach (_this # 0);

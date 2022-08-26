@@ -30,7 +30,7 @@ _onCancelled = {
 	if (!alive player) then {_c = TRUE;};
 	if ((player distance2D _position) > 5.1) then {_c = TRUE;};
 	if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_c = TRUE;};
-	if ((!(_entity isEqualTo cursorObject)) && (!(_entity isEqualTo cursorTarget))) then {_c = TRUE;};
+	if ((_entity isNotEqualTo cursorObject) && (_entity isNotEqualTo cursorTarget)) then {_c = TRUE;};
 	if (!isNull (objectParent player)) then {_c = TRUE;};
 	if (_entity getVariable ['QS_entity_examined',FALSE]) then {_c = TRUE;};
 	if (_c) then {

@@ -6,29 +6,43 @@ Author:
 	
 Last modified:
 
-	23/04/2019 A3 1.90 by Quiksilver
+	20/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Enemy reinforce AO
+	
+Notes:
+
+	- Attempt urban spawn
+	- Attempt helicopter insert
+	- Attempt HQ spawn
+	- Default spawn
+	
+Returns:
+
+	- Array of entities (units)
 __________________________________________________/*/
 
 params ['_pos'];
-private [
-	'_base','_foundSpawnPos','_spawnPosDefault','_reinforceGroup','_infTypes','_infType',
-	'_destination','_count','_wp','_playerSelected','_arr','_playerPos','_ticker','_attackPos','_QS_array',
-	'_minDist','_maxDist','_fn_blacklist','_hqPos','_buildings','_arrayPositions','_building','_buildingPositions',
-	'_attackType','_attackPosition'
-];
-_QS_array = [];
-_hqPos = (missionNamespace getVariable 'QS_HQpos');
+private _allPlayers = allPlayers;
+private _unitsEast = units EAST;
+private _QS_array = [];
+private _hqPos = (missionNamespace getVariable 'QS_HQpos');
+private _minDist = 300;
+private _maxDist = 800;
+private _fn_blacklist = {TRUE};
+private _spawnPosDefault = [worldSize,worldSize,0];
+private _reinforceGroup = grpNull;
+private _infTypes = [];
+private _buildingPositions = [];
 if (worldName isEqualTo 'Tanoa') then {
 	_minDist = 250;
 	_maxDist = 750;
 	_fn_blacklist = {
 		private _c = TRUE;
 		{
-			if ((_this distance2D (_x select 0)) < (_x select 1)) exitWith {
+			if ((_this distance2D (_x # 0)) < (_x # 1)) exitWith {
 				_c = FALSE;
 			};
 		} count [
@@ -40,106 +54,149 @@ if (worldName isEqualTo 'Tanoa') then {
 		];
 		_c;
 	};
-} else {
-	_minDist = 300;
-	_maxDist = 800;
-	_fn_blacklist = {TRUE};
 };
 
-/*/================================================ FIND POSITION/*/
+/*/================================================ URBAN INSERT/*/
 
-_worldName = worldName;
-_base = markerPos 'QS_marker_base_marker';
-_foundSpawnPos = FALSE;
-for '_x' from 0 to 1 step 0 do {
-	_spawnPosDefault = [_pos,_minDist,_maxDist,2,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if (_spawnPosDefault isNotEqualTo []) then {
-		if ((allPlayers inAreaArray [_spawnPosDefault,300,300,0,FALSE]) isEqualTo []) then {
-			if ((_spawnPosDefault distance2D _base) > 1200) then {
-				if (_spawnPosDefault call _fn_blacklist) then {
-					if (!([_spawnPosDefault,_pos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
-						_foundSpawnPos = TRUE;
-					};
-				};
-			};
-		};
-	};
-	if (_foundSpawnPos) exitWith {};
+private _urbanUnits = [];
+private _validData = [];
+if (
+	((missionNamespace getVariable ['QS_missionConfig_aoUrbanSpawning',1]) isEqualTo 1) &&
+	{(missionNamespace getVariable ['QS_ao_urbanSpawn',FALSE])} &&
+	{((random 1) > 0.666)} &&
+	{
+		_validData = ((missionNamespace getVariable 'QS_ao_urbanSpawn_data') select {
+			(alive (_x # 0)) && 
+			{(alive (_x # 1))} &&
+			{((_allPlayers inAreaArray [(getPosATL (_x # 0)),75,75,0,FALSE]) isEqualTo [])} &&
+			{((count (_unitsEast inAreaArray [(getPosATL (_x # 0)),25,25,0,FALSE])) <= 8)}
+		});
+		(_validData isNotEqualTo [])
+	}
+) then {
+	diag_log '***** DEBUG ***** AO REINFORCE ***** 0 *****';
+	_urbanUnits = ['REINFORCE',_validData,_allPlayers] call (missionNamespace getVariable 'QS_fnc_aoUrbanSpawn');
+};
+if (_urbanUnits isNotEqualTo []) exitWith {
+	diag_log '***** DEBUG ***** AO REINFORCE ***** 7 *****';
+	_QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';
+	{
+		_QS_array pushBack _x;
+	} forEach _urbanUnits;
+	missionNamespace setVariable ['QS_enemyGroundReinforceArray',_QS_array,FALSE];
+	_urbanUnits;
 };
 
-/*/================================================ MANAGE UNITS/*/
+/*/================================================ HQ INSERT/*/
+
+private _spawnedAtHQ = FALSE;
+/*
+	- If commander alive
+	- If no players close
+	- If not too many enemies close (if >24 in HQ area then dont spawn here)
+*/
+private _hqUnits = [];
+_hqEnemies = _unitsEast inAreaArray [(missionNamespace getVariable 'QS_hqPos'),50,50,0,FALSE];
+if (
+	((random 1) > 0.666) &&
+	{((count _hqEnemies) > 1)} &&
+	{((count _hqEnemies) <= 12)} &&
+	{((_allPlayers inAreaArray [(missionNamespace getVariable 'QS_hqPos'),200,200,0,FALSE]) isEqualTo [])}
+) then {
+	_hqUnits = ['HQ',_allPlayers] call (missionNamespace getVariable 'QS_fnc_aoUrbanSpawn');
+};
+if (_hqUnits isNotEqualTo []) exitWith {
+	_QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';
+	{
+		_QS_array pushBack _x;
+	} forEach _hqUnits;
+	missionNamespace setVariable ['QS_enemyGroundReinforceArray',_QS_array,FALSE];
+	_hqUnits;
+};
+
+/*/================================================ HELI INSERT/*/
 
 private _heliInsert = FALSE;
-if (diag_fps > 14) then {
-	if (allPlayers isNotEqualTo []) then {
-		if ((random 1) > 0.6) then {
-			if (missionNamespace getVariable ['QS_AI_insertHeli_enabled',FALSE]) then {
-				if (({(alive _x)} count (missionNamespace getVariable ['QS_AI_insertHeli_helis',[]])) < (missionNamespace getVariable ['QS_AI_insertHeli_maxHelis',3])) then {
-					if (diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',480]))) then {
-						if ((missionNamespace getVariable ['QS_AI_insertHeli_spawnedAO',0]) < (missionNamespace getVariable ['QS_AI_insertHeli_maxAO',3])) then {
-							if (([4,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2) then {
-								if (([3,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2) then {
-									missionNamespace setVariable ['QS_AI_insertHeli_spawnedAO',((missionNamespace getVariable 'QS_AI_insertHeli_spawnedAO') + 1),FALSE];
-									missionNamespace setVariable ['QS_AI_insertHeli_lastEvent',diag_tickTime,FALSE];
-									_heliInsert = TRUE;
-									_infTypes = [['OIA_InfSquad','OIA_InfAssault'],['OIA_InfSquad','OIA_InfAssault']] select (_worldName isEqualTo 'Altis');
-									_infType = selectRandom _infTypes;
-									_reinforceGroup = [_spawnPosDefault,(random 360),EAST,_infType,FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-									_reinforceGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
-									[
-										_hqPos,
-										EAST,
-										(['O_Heli_Transport_04_covered_F','O_Heli_Transport_04_covered_black_F'] select (_worldName isEqualTo 'Tanoa')),
-										0.75,
-										[],
-										(((random 1) > 0.85) && ((count allPlayers) > 10)),
-										(['O_Heli_Attack_02_dynamicLoadout_F','O_Heli_Attack_02_dynamicLoadout_black_F'] select (_worldName isEqualTo 'Tanoa')),
-										(units _reinforceGroup),
-										FALSE
-									] spawn (missionNamespace getVariable 'QS_fnc_AIXHeliInsert');
-								};
-							};
-						};
-					};
-				};
-			};
-		};
-	};
+if (
+	(diag_fps > 14) &&
+	{((random 1) > 0.666)} &&
+	{(_allPlayers isNotEqualTo [])} &&
+	{(missionNamespace getVariable ['QS_AI_insertHeli_enabled',FALSE])} &&
+	{(({(alive _x)} count (missionNamespace getVariable ['QS_AI_insertHeli_helis',[]])) < (missionNamespace getVariable ['QS_AI_insertHeli_maxHelis',3]))} &&
+	{(diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',480])))} &&
+	{((missionNamespace getVariable ['QS_AI_insertHeli_spawnedAO',0]) < (missionNamespace getVariable ['QS_AI_insertHeli_maxAO',3]))} &&
+	{(([4,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2)} &&
+	{(([3,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2)}
+) exitWith {
+	missionNamespace setVariable ['QS_AI_insertHeli_spawnedAO',((missionNamespace getVariable 'QS_AI_insertHeli_spawnedAO') + 1),FALSE];
+	missionNamespace setVariable ['QS_AI_insertHeli_lastEvent',diag_tickTime,FALSE];
+	_heliInsert = TRUE;
+	[
+		_hqPos,
+		EAST,
+		(['O_Heli_Transport_04_covered_F','O_Heli_Transport_04_covered_black_F'] select (_worldName isEqualTo 'Tanoa')),
+		0.75,
+		[],
+		(((random 1) > 0.85) && ((count _allPlayers) > 10)),
+		(['O_Heli_Attack_02_dynamicLoadout_F','O_Heli_Attack_02_dynamicLoadout_black_F'] select (_worldName isEqualTo 'Tanoa')),
+		[],
+		FALSE
+	] spawn (missionNamespace getVariable 'QS_fnc_AIXHeliInsert');
+	[]
 };
+
+/*/================================================ CONVENTIONAL INSERT/*/
+
+/*/==================== FIND POSITION/*/
+
+_worldName = worldName;
+private _base = markerPos 'QS_marker_base_marker';
+for '_x' from 0 to 1 step 999 do {
+	_spawnPosDefault = [_pos,_minDist,_maxDist,2,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
+	if (
+		(_spawnPosDefault isNotEqualTo []) &&
+		((_allPlayers inAreaArray [_spawnPosDefault,300,300,0,FALSE]) isEqualTo []) &&
+		((_spawnPosDefault distance2D _base) > 1200) &&
+		(_spawnPosDefault call _fn_blacklist) &&
+		(!([_spawnPosDefault,_pos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))
+	) exitWith {};
+};
+
 if (!(_heliInsert)) then {
 	_infTypes = [
 		[
-			'OIA_InfSquad',1,
-			'OIA_InfTeam',1,
+			'OIA_InfSquad',2,
+			'OIA_InfTeam',2,
 			'OI_reconPatrol',1,
-			'OIA_InfAssault',1,
+			'OIA_InfAssault',2,
 			'OG_InfSquad',1,
 			'OG_InfAssaultTeam',1,
-			'OIA_ARTeam',1,
-			'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 3),
+			'OIA_ARTeam',2,
+			'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
 			'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-			'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 3)
+			'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 		],
 		[
-			'OIA_InfSquad',1,
-			'OIA_InfTeam',1,
+			'OIA_InfSquad',2,
+			'OIA_InfTeam',2,
 			'OI_reconPatrol',1,
-			'OIA_InfAssault',1,
+			'OIA_InfAssault',2,
 			'OG_InfSquad',1,
 			'OG_InfAssaultTeam',1,
-			'OIA_ARTeam',1,
-			'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 3),
+			'OIA_ARTeam',2,
+			'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
 			'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-			'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 3)
+			'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 		]
 	] select (_worldName isEqualTo 'Altis');
 	_reinforceGroup = [_spawnPosDefault,(random 360),EAST,(selectRandomWeighted _infTypes),FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 };
 _reinforceGroup setSpeedMode 'FULL';
-_reinforceGroup setBehaviourStrong 'AWARE';
-_buildings = nearestObjects [_hqPos,['Building','House'],50,TRUE];
-_buildings = _buildings + ((allSimpleObjects []) select {((_x distance2D _hqPos) <= 50)});
-_arrayPositions = [];
+_reinforceGroup setBehaviour 'AWARE';
+private _buildings = nearestObjects [_hqPos,['Building','House'],50,TRUE] select {!isObjectHidden _x};
+private _building = objNull;
+_buildings = _buildings + ((allSimpleObjects []) inAreaArray [_hqPos,50,50,0,FALSE]);
+private _arrayPositions = [];
 _buildings = _buildings call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 {
 	_building = _x;
@@ -151,19 +208,18 @@ _buildings = _buildings call (missionNamespace getVariable 'QS_fnc_arrayShuffle'
 		} forEach _buildingPositions;
 	};
 } forEach _buildings;
-_attackPosition = _hqPos;
-_attackType = 'ATTACK_2';	// 'ATTACK'
+private _attackPosition = _hqPos;
+private _attackType = 'ATTACK_2';	// 'ATTACK'
 if (_arrayPositions isNotEqualTo []) then {
-	_arrayPositions = _arrayPositions apply {[(_x select 0),(_x select 1),((_x select 2) + 1)]};
-	_attackPosition = _arrayPositions;
+	_attackPosition = (selectRandom _arrayPositions) vectorAdd [0,0,1];
 	_attackType = 'ATTACK_2';
 };
-if ((random 1) > 0.5) then {
-	_reinforceGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_reinforceGroup setVariable ['QS_AI_GRP_TASK',[_attackType,_attackPosition,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_reinforceGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_reinforceGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
+if ((random 1) > 0.75) then {
+	_reinforceGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+	_reinforceGroup setVariable ['QS_AI_GRP_TASK',[_attackType,_attackPosition,serverTime,-1],QS_system_AI_owners];
+	_reinforceGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],QS_system_AI_owners];
+	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+	_reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 } else {
 	private _radialIncrement = 45;
 	private _radialStart = round (random 360);
@@ -184,27 +240,26 @@ if ((random 1) > 0.5) then {
 		_radialPatrolPositions = _radialPatrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		//comment 'Initial movement';
 		if (!(_heliInsert)) then {
-			_reinforceGroup move (_radialPatrolPositions select 0);
-			_reinforceGroup setFormDir (_spawnPosDefault getDir (_radialPatrolPositions select 0));
+			_reinforceGroup move (_radialPatrolPositions # 0);
+			_reinforceGroup setFormDir (_spawnPosDefault getDir (_radialPatrolPositions # 0));
 		};
 	};
 	_reinforceGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[],FALSE];
-	_reinforceGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,diag_tickTime,-1],FALSE];
+	_reinforceGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,serverTime,-1],FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP',TRUE,FALSE];
-	_reinforceGroup setVariable ['QS_GRP_HC',TRUE,FALSE];
+	_reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 };
 [(units _reinforceGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';
 {
-	0 = _QS_array pushBack _x;
+	_QS_array pushBack _x;
 	_x enableStamina FALSE;
 	_x enableFatigue FALSE;
-	_x disableAI 'AUTOCOMBAT';
+	//_x enableAIFeature ['AUTOCOMBAT',FALSE];
 	if ((random 1) > 0.5) then {
-		_x disableAI 'COVER';
-		_x disableAI 'SUPPRESSION';
+		_x enableAIFeature ['COVER',FALSE];
 	};
 	if (!(_heliInsert)) then {
 		_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
@@ -215,9 +270,5 @@ if (!(_heliInsert)) then {
 	_reinforceGroup move _hqPos;
 };
 missionNamespace setVariable ['QS_enemyGroundReinforceArray',_QS_array,FALSE];
-if ((random 1) > 0.5) then {
-	_reinforceGroup enableAttack TRUE;
-} else {
-	_reinforceGroup enableAttack FALSE;
-};
+_reinforceGroup enableAttack TRUE;
 (units _reinforceGroup);

@@ -16,6 +16,7 @@ ____________________________________________________________________________/*/
 ['GRID_IG_UPDATE',['Defend','Defend HQ']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 missionNamespace setVariable ['QS_grid_defend_active',TRUE,TRUE];
 missionNamespace setVariable ['QS_grid_defend_AIinit',TRUE,TRUE];
+missionNamespace setVariable ['QS_system_restartEnabled',FALSE,FALSE];
 _playersCount = count allPlayers;
 _worldName = worldName;
 _worldSize = worldSize;
@@ -49,7 +50,7 @@ _taskType = 'defend';
 		'Defend HQ',
 		''
 	],
-	[(_centerPos select 0),(_centerPos select 1),10],
+	[(_centerPos # 0),(_centerPos # 1),10],
 	'CREATED',
 	5,
 	FALSE,
@@ -68,7 +69,7 @@ for '_x' from 0 to 1 step 0 do {
 		_radiusCheckDelay = _serverTime + _radiusDelay;
 		_allUnits = allUnits;
 		_nearUnits = (_centerPos nearEntities ['CAManBase',_nearUnitsRadius]) select {((lifeState _x) in ['HEALTHY','INJURED'])};
-		if (!(_nearUnits isEqualTo [])) then {
+		if (_nearUnits isNotEqualTo []) then {
 			_enemiesInRadius = _nearUnits select {((side (group _x)) in _enemySides)};
 			_friendsInRadius = _nearUnits select {((side (group _x)) in _friendSides)};
 			if ((count _enemiesInRadius) > _enemyInRadiusThreshold) then {
@@ -96,4 +97,5 @@ for '_x' from 0 to 1 step 0 do {
 };
 [_taskID] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 missionNamespace setVariable ['QS_grid_defend_AIdeInit',TRUE,TRUE];
+missionNamespace setVariable ['QS_system_restartEnabled',TRUE,FALSE];
 missionNamespace setVariable ['QS_grid_defend_active',FALSE,TRUE];

@@ -20,5 +20,5 @@ To Do:
 	Use this event for vehicle service.
 __________________________________________________________*/
 
-if (!(local (_this select 0))) exitWith {};
+if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_engineState'];

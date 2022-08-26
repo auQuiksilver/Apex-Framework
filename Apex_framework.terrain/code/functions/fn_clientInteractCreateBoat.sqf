@@ -28,7 +28,7 @@ if (_exit) exitWith {
 };
 player removeItem 'ToolKit';
 private _boatType = ['B_Lifeboat','B_T_Lifeboat'] select (worldName isEqualTo 'Tanoa');
-if ((!underwater player) && (((eyePos player) select 2) > 0.25)) then {
+if ((!underwater player) && (((eyePos player) # 2) > 0.25)) then {
 	_boatType = ['B_Boat_Transport_01_F','B_T_Boat_Transport_01_F'] select (worldName isEqualTo 'Tanoa');
 };
 private _position = player modelToWorld [0,15,0];

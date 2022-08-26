@@ -6,22 +6,31 @@ Author:
 	
 Last modified:
 
-	12/02/2018 A3 1.88 by Quiksilver
+	31/05/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	AI
+	
+Notes:
+
+	For headless client,
+	support providers need to remain on server
+	fire support scripts var needs to be public
+	
 __________________________________________________/*/
 
 scriptName 'QS AI';
 if ((hasInterface) && (!isDedicated)) exitWith {};
 private _isDedicated = isDedicated;
-private _isHC = !isServer && !hasInterface;
+private _isHC = !isDedicated && !hasInterface;
 if (_isHC) then {
-	waitUntil {
-		uiSleep 1;
-		(missionNamespace getVariable ['QS_mission_init',FALSE])
-	};
+	player setPosASL [
+		worldSize + (random 2000),
+		worldSize - (random 2000),
+		10
+	];
+	waitUntil {(missionNamespace getVariable ['QS_mission_init',FALSE])};
 };
 private _QS_uiTime = diag_tickTime;
 private _QS_time = time;
@@ -33,10 +42,17 @@ _true = TRUE;
 _false = FALSE;
 _endl = endl;
 _isTropical = _worldName in ['Tanoa','Lingor3'];
-private _QS_unitCap = [125,110] select (_worldName isEqualTo 'Tanoa');
+private _QS_unitCap = [140,120] select (_worldName isEqualTo 'Tanoa');
 private _array = [];
 private _QS_unit = objNull;
 private _QS_grp = grpNull;
+
+private _QS_allAgents = [];
+
+private _scriptEvalGrp = scriptNull;
+private _scriptEvalUnit = scriptNull;
+private _scriptEvalAgent = scriptNull;
+
 private _movePos = [0,0,0];
 private _basePosition = markerPos 'QS_marker_base_marker';
 _east = EAST;
@@ -56,12 +72,6 @@ private _QS_allGroups = allGroups;
 private _QS_allGroupsCount = count _QS_allGroups;
 private _QS_allUnits = allUnits;
 private _QS_allUnitsCount = count _QS_allUnits;
-// Headless client
-
-
-
-
-
 //comment 'Dynamic skill';
 private _QS_module_dynamicSkill = _false;
 private _QS_module_dynamicSkill_delay = 300;
@@ -93,7 +103,7 @@ private _QS_module_agentBehaviors_checkDelay = _QS_uiTime + _QS_module_agentBeha
 private _QS_module_agentBehaviors_localAgents = [];
 private _QS_module_agentBehaviors_agent = objNull;
 //comment 'Virtual sectors logic';
-private _QS_module_virtualSectors = (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'SC';
+private _QS_module_virtualSectors = _isDedicated && (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'SC';
 private _QS_module_virtualSectors_delay = 15;	/*/this value influences difficulty substantially/*/
 private _QS_module_virtualSectors_checkDelay = _QS_uiTime + _QS_module_virtualSectors_delay;
 private _QS_module_virtualSectors_data = missionNamespace getVariable ['QS_virtualSectors_data',[]];
@@ -245,10 +255,12 @@ private _QS_module_virtualSectors_attackerDelay = 30;
 private _QS_module_virtualSectors_attackerCheckDelay = _QS_uiTime + _QS_module_virtualSectors_attackerDelay;
 
 //comment 'Classic AO logic';
-private _QS_module_classic = (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'CLASSIC';
+private _QS_module_classic = _isDedicated && (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'CLASSIC';
 private _QS_module_classic_delay = 10;
 private _QS_module_classic_checkDelay = _QS_uiTime + _QS_module_classic_delay;
 private _QS_module_classic_spawnedGrp = [];
+private _QS_module_classic_scriptAOUrbanSpawn = scriptNull;
+private _QS_module_classic_aoUrbanSpawning = (missionNamespace getVariable ['QS_missionConfig_aoUrbanSpawning',1]) isEqualTo 1;
 private _QS_module_classic_scriptCreateEnemy = scriptNull;
 private _QS_module_classic_enemy_0 = [];
 private _QS_module_classic_aoPos = [0,0,0];
@@ -275,15 +287,15 @@ private _QS_module_classic_infReinforce_delay = 20;
 private _QS_module_classic_infReinforce_checkDelay = _QS_uiTime + _QS_module_classic_infReinforce_delay;
 private _QS_module_classic_infReinforce_playerThreshold = 15;
 private _QS_module_classic_infReinforce_cap = 0;
-private _QS_module_classic_infReinforce_cap_0 = 18;
-private _QS_module_classic_infReinforce_cap_1 = 28;
-private _QS_module_classic_infReinforce_cap_2 = 36;
-private _QS_module_classic_infReinforce_cap_3 = 44;
-private _QS_module_classic_infReinforce_cap_4 = 54;
+private _QS_module_classic_infReinforce_cap_0 = 24;
+private _QS_module_classic_infReinforce_cap_1 = 34;
+private _QS_module_classic_infReinforce_cap_2 = 42;
+private _QS_module_classic_infReinforce_cap_3 = 50;
+private _QS_module_classic_infReinforce_cap_4 = 60;
 private _QS_module_classic_infReinforce_spawned = 0;
 private _QS_module_classic_infReinforce_limit = 60;
 private _QS_module_classic_infReinforce_limitReal = 0;
-private _QS_module_classic_infReinforce_AIThreshold = 75;
+private _QS_module_classic_infReinforce_AIThreshold = 85;
 private _QS_module_classic_infReinforce_array = [];
 //comment 'classic ao veh reinforcements';
 private _QS_module_classic_vehReinforce = _true;
@@ -369,7 +381,7 @@ private _QS_module_civilian_houseCoef = 2;
 private _QS_module_civilian_houseCount = 0;
 //comment 'Manage ambient hostility';
 
-private _QS_module_ambientHostility = _true && ((missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) in ['CLASSIC','SC']);
+private _QS_module_ambientHostility = _isDedicated && ((missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) in ['CLASSIC','SC']);
 private _QS_module_ambientHostility_delay = 30;
 private _QS_module_ambientHostility_checkDelay = _QS_uiTime + _QS_module_ambientHostility_delay;
 private _QS_module_ambientHostility_cooldown = -1;
@@ -382,8 +394,12 @@ private _QS_module_ambientHostility_entities = [];
 private _QS_module_ambientHostility_validTargets = [];
 private _QS_module_ambientHostility_nearbyCount = -1;
 
+//Ambient non-combatants
+private _QS_ambientCivilians = missionNamespace getVariable ['QS_missionConfig_AmbCiv',1] isNotEqualTo 0;
+private _QS_ambientAnimals = missionNamespace getVariable ['QS_missionConfig_AmbAnim',1] isNotEqualTo 0;
+
 //comment 'Manage enemy jets';
-private _QS_module_enemyCAS = (missionNamespace getVariable ['QS_missionConfig_enemyCAS',1]) isEqualTo 1;
+private _QS_module_enemyCAS = _isDedicated && (missionNamespace getVariable ['QS_missionConfig_enemyCAS',1]) isEqualTo 1;
 private _QS_module_enemyCAS_delay = 15;
 private _QS_module_enemyCAS_checkDelay = _QS_uiTime + _QS_module_enemyCAS_delay;
 private _QS_module_enemyCAS_spawnDelay = 600;
@@ -416,12 +432,12 @@ private _QS_module_enemyCas_allJetTypes = [
 	'i_plane_fighter_04_cluster_f'
 ];
 //comment 'Manage support providers';
-private _QS_module_supportProvision = _true;
-private _QS_module_supportProvision_delay = 60;
+private _QS_module_supportProvision = _true && _isDedicated;
+private _QS_module_supportProvision_delay = 30;
 private _QS_module_supportProvision_checkDelay = _QS_uiTime + _QS_module_supportProvision_delay;
 
 //comment 'Manage custom scripts';
-private _QS_module_scripts = _true;
+private _QS_module_scripts = _true && _isDedicated;
 private _QS_module_scripts_delay = 15;
 private _QS_module_scripts_checkDelay = _QS_uiTime + _QS_module_scripts_delay;
 private _QS_module_tracers = _true;
@@ -429,9 +445,203 @@ private _QS_module_tracers_delay = 600;
 private _QS_module_tracers_checkDelay = _QS_uiTime + _QS_module_tracers_delay;
 private _QS_module_tracers_checkOverride = _false;
 
+//===== Get list of MG weapons for AI system
+private _cfgWeapons = ("(isclass _x) && ((getnumber (_x >> 'scope')) isEqualTo 2) && ((getText (_x >> 'cursor')) isEqualTo 'mg') && (((getnumber (_x >> 'type')) < 5) || ((getnumber (_x >> 'type')) isEqualTo 4096))") configClasses (configFile >> 'cfgWeapons');
+_cfgWeapons = _cfgWeapons apply { toLowerANSI (configName _x) };
+_cfgWeapons = _cfgWeapons arrayIntersect _cfgWeapons;
+missionNamespace setVariable ['QS_AI_weapons_MG',_cfgWeapons,FALSE];
+//===== Get list of GL weapons
+_cfgWeapons = ("(isclass _x) && ((getnumber (_x >> 'scope')) isEqualTo 2) && (((getnumber (_x >> 'type')) < 5) || ((getnumber (_x >> 'type')) isEqualTo 4096))") configClasses (configFile >> 'cfgWeapons');
+_cfgWeapons = _cfgWeapons apply { toLowerANSI (configName _x) };
+_cfgWeapons = (_cfgWeapons arrayIntersect _cfgWeapons) select {['_GL_',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')};
+missionNamespace setVariable ['QS_AI_weapons_GL',_cfgWeapons,FALSE];
+
+//===== AI stuff
+{
+	missionNamespace setVariable _x;
+} forEach [
+	['QS_AI_managed_smoke_interval',0,FALSE],
+	['QS_AI_managed_smoke_max',10,FALSE],
+	['QS_AI_managed_smoke',[],FALSE],
+	['QS_AI_managed_frags_interval',0,FALSE],
+	['QS_AI_managed_frags_max',20,FALSE],
+	['QS_AI_managed_frags',[],FALSE],
+	['QS_AI_managed_suppressions',[],FALSE]
+];
 
 //comment 'Targets Knowledge script';
 missionNamespace setVariable ['QS_AI_script_targetsKnowledge',([0,_east] spawn (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')),_false];
+
+// Headless client
+private _QS_module_hc = TRUE;
+private _QS_module_hc_delay = 30;
+private _QS_module_hc_checkDelay = time + _QS_module_hc_delay;
+private _QS_module_hc_clientID = -1;
+private _QS_module_hc_active = FALSE;
+private _QS_module_hc_managedSides = [EAST,WEST,RESISTANCE,CIVILIAN];
+private _QS_module_hc_grp = grpNull;
+private _QS_module_hc_entity = objNull;
+private _QS_module_hc_maxLoad = 80;
+private _QS_module_hc_maxAgents = 20;
+(missionNamespace getVariable ['QS_missionConfig_hcMaxLoad',[80,60,40,25]]) params [
+	'_QS_module_hc_maxLoad_1','_QS_module_hc_maxLoad_2','_QS_module_hc_maxLoad_3','_QS_module_hc_maxLoad_4'
+];
+(missionNamespace getVariable ['QS_missionConfig_hcMaxAgents',[20,15,10,5]]) params [
+	'_QS_module_hc_maxAgents_1','_QS_module_hc_maxAgents_2','_QS_module_hc_maxAgents_3','_QS_module_hc_maxAgents_4'
+];
+missionNamespace setVariable ['QS_module_hc_maxLoad',_QS_module_hc_maxLoad,TRUE];
+missionNamespace setVariable ['QS_module_hc_maxAgents',_QS_module_hc_maxAgents,TRUE];
+private _QS_module_hc_units = [];
+private _QS_module_hc_ID = 0;
+private _QS_module_hc_scriptTransfer = scriptNull;
+private _QS_module_hc_groups_s0 = [];
+private _QS_module_hc_groups_s1 = [];
+private _QS_module_hc_groups_s2 = [];
+private _QS_module_hc_groups_s3 = [];
+private _QS_module_hc_count = 0;
+
+private _QS_module_hc_agents_s0 = [];
+private _QS_module_hc_agents_s1 = [];
+private _QS_module_hc_agents_s2 = [];
+private _QS_module_hc_agents_s3 = [];
+
+private _QS_module_hc_agents = [];
+
+private _QS_module_hc_log_delay = 60;
+private _QS_module_hc_log_checkDelay = time + _QS_module_hc_delay;
+
+private _clientOwner = clientOwner;
+private _setNewOwner = FALSE;
+private _exit = FALSE;
+
+private _grp = grpNull;
+private _unit = objNull;
+private _grpData = [];
+private _unitData = [];
+private _unitsData = [];
+private _unitSkills = [];
+private _unitAIFeatures = [];
+
+if (_isHC) then {
+	disableRemoteSensors FALSE;
+	calculatePlayerVisibilityByFriendly TRUE;
+	// SYNC existing group vars to HC
+	[98] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+};
+_groupEventLocalHC = {
+	params ['_grp','_isLocal'];
+	if (_isLocal) then {
+		_grp removeEventHandler [_thisEvent,_thisEventHandler];
+		_grp setVariable ['QS_AI_GRP_SETUP',FALSE,FALSE];
+		_grp setVariable ['QS_AI_GRP_HC',[4,clientOwner],QS_system_AI_owners];
+		private _data = [];
+		private _unit = objNull;
+		private _unitData = [];
+		private _unitSkills = [];
+		private _unitAI = [];
+		{
+			_data = _x;
+			if (_forEachIndex isEqualTo 0) then {
+				_grp setBehaviour (['CARELESS','SAFE','AWARE','COMBAT','STEALTH','AWARE'] # _data);
+			};
+			if (_forEachIndex isEqualTo 1) then {
+				_grp setCombatMode (['BLUE','GREEN','WHITE','YELLOW','RED'] # _data);
+			};
+			if (_forEachIndex isEqualTo 2) then {
+				_grp enableAttack (_data isEqualTo 1);
+			};
+			if (_forEachIndex isEqualTo 3) then {
+				{
+					_unitData = _x;
+					_unitData params ['_unit','_unitSkill','_unitSkills','_unitAI','_unitPos','_unitAnimCoef','_unitStamina'];
+					if (alive _unit) then {
+						_unit setVariable ['QS_AI_UNIT',FALSE,FALSE];
+						_unit setSkill _unitSkill;
+						{
+							_unit setSkill [QS_data_AISkills # _forEachIndex,_x];
+						} forEach _unitSkills;
+						{
+							_unit enableAIFeature [QS_data_AIFeatures # _forEachIndex,_x isEqualTo 1];
+						} forEach _unitAI;
+						if (_unitPos isNotEqualTo -1) then {
+							_unit setUnitPos (['Down','Up','Middle','Auto'] # _unitPos);
+						};
+						_unit setAnimSpeedCoef _unitAnimCoef;
+						_unit enableStamina (_unitStamina isEqualTo 1);
+						_unit enableFatigue (_unitStamina isEqualTo 1);
+					};
+				} forEach _data;
+			};
+		} forEach (_grp getVariable ['QS_AI_GRP_HC_data',[]]);
+		_grp allowFleeing 0;
+		_grp spawn {
+			sleep 3;
+			{
+				if (alive _x) then {
+					_x setUnitLoadout (getUnitLoadout _x);
+				};
+			} forEach (units _this);
+		};
+	};
+};
+_agentEventLocalHC = {
+	params ['_agent','_isLocal'];
+	if (_isLocal) then {
+		_agent removeEventHandler [_thisEvent,_thisEventHandler];
+		_agent setVariable ['QS_AI_ENTITY_HC',[4,clientOwner],QS_system_AI_owners];
+	};
+};
+_groupEventLocalServer = {
+	params ['_grp','_isLocal'];
+	if (_isLocal) then {
+		{
+			_x setVariable ['QS_AI_UNIT',FALSE,FALSE];
+		} forEach (units _grp);
+		_grp setVariable ['QS_AI_GRP_SETUP',FALSE,FALSE];
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+	};
+};
+_agentEventLocalServer = {
+	params ['_agent','_isLocal'];
+	if (_isLocal) then {
+		_agent setVariable ['QS_AI_ENTITY_HC',[0,-1],QS_system_AI_owners];
+	};
+};
+QS_data_AISkills = [
+	'general',
+	'courage',
+	'aimingAccuracy',
+	'aimingShake',
+	'aimingSpeed',
+	'commanding',
+	'endurance',
+	'spotDistance',
+	'spotTime',
+	'reloadSpeed'
+];
+QS_data_AIFeatures = [
+	//'ALL',
+	'AIMINGERROR',
+	'ANIM',
+	'AUTOCOMBAT',
+	'AUTOTARGET',
+	'CHECKVISIBLE',
+	'COVER',
+	'FSM',
+	'LIGHTS',
+	'MINEDETECTION',
+	'MOVE',
+	'NVG',
+	'PATH',
+	'RADIOPROTOCOL',
+	'SUPPRESSION',
+	'TARGET',
+	'TEAMSWITCH',
+	'WEAPONAIM'
+];
+private _text = '';
+private _QS_serverTime = serverTime;
+
 //comment 'Preload Functions';
 _fn_aoGetTerrainData = missionNamespace getVariable 'QS_fnc_aoGetTerrainData';
 _fn_serverDetector = missionNamespace getVariable 'QS_fnc_serverDetector';
@@ -459,23 +669,16 @@ _fn_spawnViperTeam = missionNamespace getVariable 'QS_fnc_spawnViperTeam';
 _fn_serverObjectsRecycler = missionNamespace getVariable 'QS_fnc_serverObjectsRecycler';
 _fn_aiGetKnownEnemies = missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies';
 _fn_ambientHostility = missionNamespace getVariable 'QS_fnc_ambientHostility';
-
-// Headless client
-private _QS_module_hc = FALSE;
-private _QS_module_hc_delay = 30;
-private _QS_module_hc_checkDelay = time + _QS_module_hc_delay;
-private _QS_module_hc_clientID = -1;
-private _QS_module_hc_active = FALSE;
-private _QS_module_hc_managedSides = [EAST,WEST,RESISTANCE,CIVILIAN];
-private _QS_module_hc_grp = grpNull;
-private _QS_module_hc_entity = objNull;
-private _text = '';
+_fn_aiOwners = missionNamespace getVariable 'QS_fnc_AIOwners';
+_fn_waterInRadius = missionNamespace getVariable 'QS_fnc_waterInRadius';
+_fn_aoUrbanSpawn = missionNamespace getVariable 'QS_fnc_aoUrbanSpawn';
 
 //comment 'Loop';
 for '_x' from 0 to 1 step 0 do {
 	uiSleep (random [2.5,3,3.5]);
 	_QS_uiTime = diag_tickTime;
 	_QS_time = time;
+	_QS_serverTime = serverTime;
 	/*/Module get general data/*/
 	if (_QS_uiTime > _QS_updateGeneralInfoCheckDelay) then {
 		_QS_diag_fps = round diag_fps;
@@ -491,49 +694,216 @@ for '_x' from 0 to 1 step 0 do {
 		_QS_module_unitBehaviors_localUnits = _QS_allUnits select {(local _x)};
 		_QS_module_agentBehaviors_localAgents = _QS_allAgents select {(local _x)};
 		_QS_updateGeneralInfoCheckDelay = _QS_uiTime + _QS_updateGeneralInfoDelay;
-	};
-	
-	if (_QS_module_hc) then {
-		if (missionNamespace getVariable ['QS_HC_Active',_false]) then {
-			if (_isDedicated) then {
-				_QS_headlessClients = missionNamespace getVariable ['QS_headlessClients',[]];
-				if (_QS_headlessClients isNotEqualTo []) then {
-					_QS_hc_id = (missionNamespace getVariable ['QS_headlessClients',[]]) # 0;
-					{
-						_QS_module_hc_grp = _x;
-						if (local _QS_module_hc_grp) then {
-							if (_QS_module_hc_grp getVariable ['QS_GRP_HC',_false]) then {
-								{
-									_QS_module_hc_grp setVariable [_x,(_QS_module_hc_grp getVariable _x),_QS_hc_id];
-								} forEach (allVariables _QS_module_hc_grp);
-								_text = format ['Change of group owner %1 * %2',_QS_module_hc_grp,(['false','true'] select (_QS_module_hc_grp setGroupOwner _QS_hc_id))];
-								diag_log _text;
-								_text remoteExec ['systemChat',-2];
-							};
-						};
-						uiSleep 0.05;
-					} forEach _QS_module_groupBehaviors_localGroups;
-					{
-						_QS_module_hc_entity = _x;
-						if (local _x) then {
-							if (_QS_module_hc_entity getVariable ['QS_ENTITY_HC',_false]) then {
-								{
-									_QS_module_hc_entity setVariable [_x,(_QS_module_hc_entity getVariable _x),_QS_hc_id];
-								} forEach (allVariables _QS_module_hc_entity);
-								_text = format ['Change of entity owner %1 * %2',_QS_module_hc_entity,(['false','true'] select (_QS_module_hc_entity setOwner _QS_hc_id))];
-								diag_log _text;
-								_text remoteExec ['systemChat',-2];
-							};
-						};
-					} forEach _QS_module_agentBehaviors_localAgents;
-				};
-				diag_log (format ['AI Report (Server): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
-			} else {
-				diag_log (format ['AI Report (Headless Client): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
-			};
+		if (_isDedicated && (missionNamespace getVariable ['QS_HC_Active',_false])) then {
+			missionNamespace setVariable ['QS_system_AI_owners',call _fn_aiOwners,call _fn_aiOwners];
 		};
 	};
+	//======================= Headless Client
 	
+	if (
+		_QS_module_hc &&
+		{(missionNamespace getVariable ['QS_HC_Active',_false])}
+	) then {
+		if (_isDedicated) then {
+			// SERVER
+			_QS_headlessClients = missionNamespace getVariable ['QS_headlessClients',[]];
+			if (_QS_headlessClients isNotEqualTo []) then {
+				//===== Distribution re-calc
+				_QS_module_hc_count = count _QS_headlessClients;
+				if (_QS_module_hc_count isEqualTo 1) then {
+					if (QS_module_hc_maxLoad isNotEqualTo _QS_module_hc_maxLoad_1) then {
+						QS_module_hc_maxLoad = _QS_module_hc_maxLoad_1;
+					};
+					if (QS_module_hc_maxAgents isNotEqualTo _QS_module_hc_maxAgents_1) then {
+						QS_module_hc_maxAgents = _QS_module_hc_maxAgents_1;
+					};
+				} else {
+					if (_QS_module_hc_count isEqualTo 2) then {
+						if (QS_module_hc_maxLoad isNotEqualTo _QS_module_hc_maxLoad_2) then {
+							QS_module_hc_maxLoad = _QS_module_hc_maxLoad_2;
+						};
+						if (QS_module_hc_maxAgents isNotEqualTo _QS_module_hc_maxAgents_2) then {
+							QS_module_hc_maxAgents = _QS_module_hc_maxAgents_2;
+						};
+					};
+					if (_QS_module_hc_count isEqualTo 3) then {
+						if (QS_module_hc_maxLoad isNotEqualTo _QS_module_hc_maxLoad_3) then {
+							QS_module_hc_maxLoad = _QS_module_hc_maxLoad_3;
+						};
+						if (QS_module_hc_maxAgents isNotEqualTo _QS_module_hc_maxAgents_3) then {
+							QS_module_hc_maxAgents = _QS_module_hc_maxAgents_3;
+						};
+					};
+					if (_QS_module_hc_count >= 4) then {
+						if (QS_module_hc_maxLoad isNotEqualTo _QS_module_hc_maxLoad_4) then {
+							QS_module_hc_maxLoad = _QS_module_hc_maxLoad_4;
+						};
+						if (QS_module_hc_maxAgents isNotEqualTo _QS_module_hc_maxAgents_4) then {
+							QS_module_hc_maxAgents = _QS_module_hc_maxAgents_4;
+						};
+					};
+					//===== HC Prioritization
+					_QS_headlessClients = _QS_headlessClients apply {
+						_QS_module_hc_ID = _x; 
+						[
+							count (_QS_allUnits select {(owner _x) isEqualTo _QS_module_hc_ID}),
+							_QS_module_hc_ID
+						]
+					};
+					_QS_headlessClients sort _true;
+					_QS_headlessClients = _QS_headlessClients apply { _x # 1 };
+				};
+				{
+					_exit = _false;
+					_QS_module_hc_ID = _x;
+					
+					// Grouped Units
+					_QS_module_hc_units = _QS_allUnits select {(owner _x) isEqualTo _QS_module_hc_ID};
+					if ((count _QS_module_hc_units) < QS_module_hc_maxLoad) then {
+						//======================= STEP 2 - 3
+						_QS_module_hc_groups_s2 = _QS_module_groupBehaviors_localGroups select {
+							(((_x getVariable ['QS_AI_GRP_HC',[-1,2]]) # 0) isEqualTo 2) &&
+							(((_x getVariable ['QS_AI_GRP_HC',[-1,2]]) # 1) isEqualTo _QS_module_hc_ID)
+						};
+						if (_QS_module_hc_groups_s2 isNotEqualTo []) then {
+							_exit = _true;
+							_grp = selectRandom _QS_module_hc_groups_s2;
+							_grp setVariable ['QS_AI_GRP_HC',[3,_QS_module_hc_ID],[2,_QS_module_hc_ID]];
+							{
+								_x removeAllEventHandlers 'FiredMan';
+								_x removeAllEventHandlers 'Hit';
+								_x removeAllEventHandlers 'Suppressed';
+							} forEach (units _grp);
+							{
+								_grp removeAllEventHandlers _x;
+							} forEach ['CombatModeChanged','CommandChanged','FormationChanged','SpeedModeChanged','EnableAttackChanged','LeaderChanged','GroupIdChanged','KnowsAboutChanged','WaypointComplete','Fleeing','EnemyDetected'];
+							_grp addEventHandler ['Local',_groupEventLocalServer];
+							if (!(_grp setGroupOwner _QS_module_hc_ID)) then {
+								//===== Ownership transfer failed, reset to beginning of process
+								_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+							};
+						};
+						if (_exit) exitWith {};
+
+						//======================= STEP 0 - 1
+						_QS_module_hc_groups_s0 = _QS_module_groupBehaviors_localGroups select {
+							(((_x getVariable ['QS_AI_GRP_HC',[-1,2]]) # 0) isEqualTo 0)
+							
+							
+							// check alive/count state incase group has been killed off
+						};
+						if (_QS_module_hc_groups_s0 isNotEqualTo []) then {
+							_exit = _true;
+							_grp = selectRandom _QS_module_hc_groups_s0;
+							// Build group/unit data for network sync, convert string to number for network traffic reduction
+							_grpData = [
+								(['CARELESS','SAFE','AWARE','COMBAT','STEALTH','ERROR'] find (behaviour (leader _grp))),
+								['BLUE','GREEN','WHITE','YELLOW','RED'] find (combatMode _grp),
+								[0,1] select (attackEnabled _grp)
+							];
+							_unitsData = [];
+							{
+								_unit = _x;
+								_unitData = [];
+								_unitSkills = [];
+								_unitAIFeatures = [];
+								_unitData pushBack _unit;
+								_unitData pushBack (skill _unit);
+								{
+									_unitSkills pushBack (_unit skillFinal _x);
+								} forEach QS_data_AISkills;
+								_unitData pushBack _unitSkills;
+								{
+									_unitAIFeatures pushBack ([0,1] select (_unit checkAIFeature _x));
+								} forEach QS_data_AIFeatures;
+								_unitData pushBack _unitAIFeatures;
+								_unitData pushBack (['Down','Up','Middle','Auto'] find (unitPos _unit));
+								_unitData pushBack (getAnimSpeedCoef _unit);
+								_unitData pushBack ([0,1] select (isStaminaEnabled _unit));
+								_unitsData pushBack _unitData;
+							} forEach (units _grp);
+							_grpData pushBack _unitsData;
+							{
+								_grp setVariable [_x,_grp getVariable _x,[2,_QS_module_hc_ID]];
+							} forEach (allVariables _grp);
+							_grp setVariable ['QS_AI_GRP_HC_data',_grpData,[2,_QS_module_hc_ID]];
+							_grp setVariable ['QS_AI_GRP_HC',[1,_QS_module_hc_ID],[2,_QS_module_hc_ID]];
+						};
+						if (_exit) exitWith {};
+					};
+					//===== Agents
+					_QS_module_hc_agents = _QS_allAgents select { (owner _x) isEqualTo _QS_module_hc_ID };
+					if ((count _QS_module_hc_agents) < QS_module_hc_maxAgents) then {
+						//======================= STEP 2 - 3
+						_QS_module_hc_agents_s2 = _QS_module_agentBehaviors_localAgents select {
+							(alive _x) &&
+							{(((_x getVariable ['QS_AI_ENTITY_HC',[-1,2]]) # 0) isEqualTo 2)} &&
+							{(((_x getVariable ['QS_AI_ENTITY_HC',[-1,2]]) # 1) isEqualTo _QS_module_hc_ID)}
+						};
+						if (_QS_module_hc_agents_s2 isNotEqualTo []) then {
+							_exit = _true;
+							_QS_module_agentBehaviors_agent = selectRandom _QS_module_hc_agents_s2;
+							_QS_module_agentBehaviors_agent setVariable ['QS_AI_ENTITY_HC',[3,_QS_module_hc_ID],[2,_QS_module_hc_ID]];
+							_QS_module_agentBehaviors_agent addEventHandler ['Local',_agentEventLocalServer];
+							if (!(_QS_module_agentBehaviors_agent setOwner _QS_module_hc_ID)) then {
+								//===== Ownership transfer failed, reset to beginning of process
+								_QS_module_agentBehaviors_agent setVariable ['QS_AI_ENTITY_HC',[0,-1],QS_system_AI_owners];
+							};
+						};
+						if (_exit) exitWith {};
+
+						//======================= STEP 0 - 1
+						_QS_module_hc_agents_s0 = _QS_module_agentBehaviors_localAgents select {
+							(((_x getVariable ['QS_AI_ENTITY_HC',[-1,2]]) # 0) isEqualTo 0)
+						};
+						if (_QS_module_hc_agents_s0 isNotEqualTo []) then {
+							_exit = _true;
+							_QS_module_agentBehaviors_agent = selectRandom _QS_module_hc_agents_s0;
+							{
+								_QS_module_agentBehaviors_agent setVariable [_x,_QS_module_agentBehaviors_agent getVariable _x,[2,_QS_module_hc_ID]];
+							} forEach (allVariables _QS_module_agentBehaviors_agent);
+							_QS_module_agentBehaviors_agent setVariable ['BIS_fnc_animalBehaviour_disable',_true,[2,_QS_module_hc_ID]];
+							_QS_module_agentBehaviors_agent setVariable ['QS_AI_ENTITY_HC',[1,_QS_module_hc_ID],[2,_QS_module_hc_ID]];
+						};	
+					};
+				} forEach _QS_headlessClients;
+			};
+			if (_QS_time > _QS_module_hc_log_checkDelay) then {
+				diag_log (format ['HC AI Report (Server): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+				{
+					diag_log format ['Headless Client Info: %1',getUserInfo (getPlayerID _x)];
+				} forEach (entities 'HeadlessClient_F');
+				_QS_module_hc_log_checkDelay = _QS_time + _QS_module_hc_log_delay;
+			};
+		} else {
+			// HC
+			//======================= STEP 1 - 2
+			_QS_module_hc_groups_s1 = _QS_allGroups select {
+				(((_x getVariable ['QS_AI_GRP_HC',[-1,2]]) # 0) isEqualTo 1) &&
+				{(((_x getVariable ['QS_AI_GRP_HC',[-1,-1]]) # 1) isEqualTo _clientOwner)}
+			};
+			if (_QS_module_hc_groups_s1 isNotEqualTo []) then {
+				_grp = selectRandom _QS_module_hc_groups_s1;
+				
+				if (isNil {_grp getVariable 'QS_AI_GRP_HC_data'}) exitWith {
+					_grp setVariable ['QS_AI_GRP_HC',[0,_clientOwner],[2,_clientOwner]];
+				};
+				_grp addEventHandler ['Local',_groupEventLocalHC];
+				_grp setVariable ['QS_AI_GRP_HC',[2,_clientOwner],[2,_clientOwner]];
+			};
+			
+			_QS_module_hc_agents_s1 = _QS_allAgents select {
+				(((_x getVariable ['QS_AI_ENTITY_HC',[-1,2]]) # 0) isEqualTo 1) &&
+				{(((_x getVariable ['QS_AI_ENTITY_HC',[-1,-1]]) # 1) isEqualTo _clientOwner)}
+			};
+			if (_QS_module_hc_agents_s1 isNotEqualTo []) then {
+				_QS_module_agentBehaviors_agent = selectRandom _QS_module_hc_agents_s1;
+				_QS_module_agentBehaviors_agent addEventHandler ['Local',_agentEventLocalHC];
+				_QS_module_agentBehaviors_agent setVariable ['QS_AI_ENTITY_HC',[2,_clientOwner],[2,_clientOwner]];
+			};
+			diag_log (format ['HC AI Report (Headless Client): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+		};
+	};
 	if (_QS_module_dynamicSkill) then {
 		if (_QS_uiTime > _QS_module_dynamicSkill_checkDelay) then {
 			/*/pulled from release build/*/
@@ -545,8 +915,8 @@ for '_x' from 0 to 1 step 0 do {
 			{
 				_QS_module_groupBehaviors_group = _x;
 				if (_QS_module_groupBehaviors_group getVariable ['QS_AI_GRP',_false]) then {
-					[_QS_module_groupBehaviors_group,_QS_uiTime,_QS_diag_fps] call _fn_AIHandleGroup;
-					uiSleep 0.02;
+					_scriptEvalGrp = [_QS_module_groupBehaviors_group,_QS_serverTime,_QS_diag_fps] spawn _fn_AIHandleGroup;
+					waitUntil {scriptDone _scriptEvalGrp};
 				};
 			} forEach _QS_module_groupBehaviors_localGroups;
 			_QS_module_groupBehaviors_checkDelay = diag_tickTime + _QS_module_groupBehaviors_delay;
@@ -558,10 +928,10 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_unitBehaviors_unit = _x;
 				if (_QS_module_unitBehaviors_unit getVariable ['QS_AI_UNIT_enabled',_false]) then {
 					if (((random 1) > 0.333) || {(_QS_module_unitBehaviors_unit isEqualTo (leader (group _QS_module_unitBehaviors_unit)))}) then {
-						[_QS_module_unitBehaviors_unit,_QS_uiTime,_QS_diag_fps] call _fn_AIHandleUnit;
+						_scriptEvalUnit = [_QS_module_unitBehaviors_unit,_QS_serverTime,_QS_diag_fps] spawn _fn_AIHandleUnit;
+						waitUntil {scriptDone _scriptEvalUnit};
 					};
 				};
-				uiSleep 0.015;
 			} forEach _QS_module_unitBehaviors_localUnits;
 			_QS_module_unitBehaviors_checkDelay = diag_tickTime + _QS_module_unitBehaviors_delay;
 		};
@@ -572,12 +942,12 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_agentBehaviors_agent = _x;
 				if (_QS_module_agentBehaviors_agent getVariable ['QS_AI_ENTITY',_false]) then {
 					if (((random 1) > 0.75) || {(_QS_module_agentBehaviors_agent isKindOf 'CAManBase')}) then {
-						[_QS_module_agentBehaviors_agent,_QS_uiTime,_QS_diag_fps] call _fn_AIHandleAgent;
-						uiSleep 0.01;
+						_scriptEvalAgent = [_QS_module_agentBehaviors_agent,_QS_serverTime,_QS_diag_fps] spawn _fn_AIHandleAgent;
+						waitUntil {scriptDone _scriptEvalAgent};
 					};
 				};
 			} forEach _QS_module_agentBehaviors_localAgents;
-			_QS_module_agentBehaviors_checkDelay = _QS_uiTime + _QS_module_agentBehaviors_delay;
+			_QS_module_agentBehaviors_checkDelay = diag_tickTime + _QS_module_agentBehaviors_delay;
 		};
 	};	
 	/*/Module virtual sectors/*/
@@ -592,10 +962,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_module_virtualSectors_vehiclesEnabled = _true;
 				};
 				_QS_module_virtualSectors_scriptCreateEnemy = [_QS_module_virtualSectors_vehiclesEnabled] spawn _fn_scEnemy;
-				waitUntil {
-					uiSleep 0.1;
-					(scriptDone _QS_module_virtualSectors_scriptCreateEnemy)
-				};
+				waitUntil {scriptDone _QS_module_virtualSectors_scriptCreateEnemy};
 				uiSleep 0.1;
 				_QS_module_virtualSectors_enemy_0 = missionNamespace getVariable 'QS_virtualSectors_enemy_0';
 				_QS_module_virtualSectors_enemy_1 = missionNamespace getVariable 'QS_virtualSectors_enemy_1';
@@ -697,11 +1064,13 @@ for '_x' from 0 to 1 step 0 do {
 											_QS_unit forgetTarget _x;
 										} forEach (_QS_unit targets [_true,0]);
 										{
-											_QS_unit disableAI _x;
+											_QS_unit enableAIFeature [_x # 0,_x # 1];
 										} forEach [
-											'AUTOCOMBAT','COVER','SUPPRESSION'
+											//['AUTOCOMBAT',_false],
+											['COVER',_false],
+											['SUPPRESSION',_false],
+											['PATH',_true]
 										];
-										_QS_unit enableAI 'PATH';
 										_QS_unit forceSpeed 24;
 										_QS_unit setAnimSpeedCoef 1.15;
 										_QS_unit enableStamina _false;
@@ -721,7 +1090,7 @@ for '_x' from 0 to 1 step 0 do {
 											],
 											_false
 										];
-										_QS_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_movePos,_QS_uiTime,-1],_false];
+										_QS_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_movePos,_QS_serverTime,-1],_false];
 									};
 								};
 							} forEach _QS_module_virtualSectors_patrolsInf;
@@ -746,7 +1115,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (missionNamespace getVariable 'QS_virtualSectors_sub_2_active') then {
 						if (_QS_uiTime > _QS_module_virtualSectors_patrolsVeh_checkDelay) then {
 							_QS_module_virtualSectors_patrolsVeh = _QS_module_virtualSectors_patrolsVeh select {(alive _x)};
-							if (({((_x isKindOf 'LandVehicle') && (!(_x isKindOf 'Static')))} count _QS_module_virtualSectors_patrolsVeh) < 2) then {
+							if (({((_x isKindOf 'LandVehicle') && (!(_x isKindOf 'StaticWeapon')))} count _QS_module_virtualSectors_patrolsVeh) < 2) then {
 								if ((count _QS_module_unitBehaviors_localUnits) < _QS_unitCap) then {
 									_QS_module_virtualSectors_spawnedGrp = [0] call _fn_scSpawnLandVehicle;
 									if (_QS_module_virtualSectors_spawnedGrp isNotEqualTo []) then {
@@ -1051,6 +1420,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
+	
 	/*/Module classic AOs/*/
 	if (_QS_module_classic) then {
 		if (_QS_uiTime > _QS_module_classic_checkDelay) then {
@@ -1060,13 +1430,24 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_classic_aoSize = missionNamespace getVariable 'QS_aoSize';
 				_QS_module_classic_aoData = missionNamespace getVariable 'QS_classic_AOData';
 				_QS_module_classic_hqPos = missionNamespace getVariable 'QS_hqPos';
-				_QS_module_classic_terrainData = [1,_QS_module_classic_aoPos,_QS_module_classic_aoSize,_QS_module_classic_aoData] call _fn_aoGetTerrainData;
-				_QS_module_classic_scriptCreateEnemy = [_QS_module_classic_aoPos,_false,_QS_module_classic_aoData,_QS_module_classic_terrainData] spawn _fn_aoEnemy;
+				_QS_module_classic_terrainData = [1,_QS_module_classic_aoPos,_QS_module_classic_aoSize,_QS_module_classic_aoData,_true] spawn _fn_aoGetTerrainData;
 				waitUntil {
-					uiSleep 0.1;
+					(scriptDone _QS_module_classic_terrainData)
+				};
+				_QS_module_classic_scriptCreateEnemy = [_QS_module_classic_aoPos,_false,_QS_module_classic_aoData] spawn _fn_aoEnemy;
+				waitUntil {
 					(scriptDone _QS_module_classic_scriptCreateEnemy)
 				};
-				uiSleep 0.1;
+				if (
+					_QS_module_classic_aoUrbanSpawning &&
+					(missionNamespace getVariable ['QS_ao_urbanSpawn',_false])
+				) then {
+					_QS_module_classic_scriptAOUrbanSpawn = ['INIT'] spawn _fn_aoUrbanSpawn;
+					waitUntil {
+						(scriptDone _QS_module_classic_scriptAOUrbanSpawn)
+					};
+				};
+				uiSleep 0.25;
 				_QS_module_classic_enemy_0 = missionNamespace getVariable ['QS_classic_AI_enemy_0',[]];
 				missionNamespace setVariable ['QS_classic_AI_enemy_0',[],_false];
 				_QS_module_classic_infReinforce_enabled = (_QS_module_classic_aoData # 8) isEqualTo 1;
@@ -1076,7 +1457,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_classic_vehReinforce_spawned = 0;
 				_QS_module_classic_efb_checkDelay = _QS_uiTime + 600;
 				_QS_module_classic_infReinforce_array = [];
-				_QS_module_classic_vehReinforce_array = _QS_module_classic_enemy_0 select {((_x isKindOf 'LandVehicle') && (!(_x isKindOf 'Static')))};
+				_QS_module_classic_vehReinforce_array = _QS_module_classic_enemy_0 select {((_x isKindOf 'LandVehicle') && (!(_x isKindOf 'StaticWeapon')))};
 				_QS_module_classic_patrolsHeli = [];
 				_QS_module_classic_uavs = [];
 				_QS_module_tracers_checkOverride = _true;
@@ -1106,13 +1487,14 @@ for '_x' from 0 to 1 step 0 do {
 									};
 									_QS_module_classic_infReinforce_array = _QS_module_classic_infReinforce_array select {(alive _x)};
 									if ((count _QS_module_classic_infReinforce_array) < _QS_module_classic_infReinforce_limitReal) then {
-										if (([_QS_module_classic_aoPos,_QS_module_classic_aoSize,_enemySides,_QS_allUnits,1] call _fn_serverDetector) < _QS_module_classic_infReinforce_AIThreshold) then {
+										if ((count (((units _east) + (units _resistance)) inAreaArray [_QS_module_classic_aoPos,_QS_module_classic_aoSize,_QS_module_classic_aoSize,0,FALSE,-1])) < _QS_module_classic_infReinforce_AIThreshold) then {
 											_QS_module_classic_spawnedEntities = [_QS_module_classic_aoPos] call _fn_aoEnemyReinforce;
 											{
 												_QS_module_classic_infReinforce_array pushBack _x;
 											} forEach _QS_module_classic_spawnedEntities;
 											if (!alive (missionNamespace getVariable ['QS_radioTower',objNull])) then {
-												_QS_module_classic_infReinforce_spawned = _QS_module_classic_infReinforce_spawned + 4;
+												_QS_module_classic_infReinforce_spawned = _QS_module_classic_infReinforce_spawned + 4;			// 4 seems to be a good fit
+												//_QS_module_classic_infReinforce_spawned = _QS_module_classic_infReinforce_spawned + (count _QS_module_classic_infReinforce_array);
 											};
 										};
 									};
@@ -1139,8 +1521,8 @@ for '_x' from 0 to 1 step 0 do {
 										_QS_module_classic_vehReinforce_limitReal = _QS_module_classic_vehReinforce_limit;
 									};
 									_QS_module_classic_vehReinforce_array = _QS_module_classic_vehReinforce_array select {(alive _x)};
-									if (({((_x isKindOf 'LandVehicle') && (!(_x isKindOf 'Static')))} count _QS_module_classic_vehReinforce_array) < _QS_module_classic_vehReinforce_limitReal) then {
-										if (([_QS_module_classic_aoPos,_QS_module_classic_aoSize,_enemySides,_QS_allUnits,1] call _fn_serverDetector) < _QS_module_classic_vehReinforce_AIThreshold) then {
+									if (({((_x isKindOf 'LandVehicle') && (!(_x isKindOf 'StaticWeapon')))} count _QS_module_classic_vehReinforce_array) < _QS_module_classic_vehReinforce_limitReal) then {
+										if ((count (((units _east) + (units _resistance)) inAreaArray [_QS_module_classic_aoPos,_QS_module_classic_aoSize,_QS_module_classic_aoSize,0,FALSE,-1])) < _QS_module_classic_vehReinforce_AIThreshold) then {	
 											_QS_module_classic_spawnedEntities = [_QS_module_classic_aoPos] call _fn_aoEnemyReinforceVehicles;
 											{
 												_QS_module_classic_vehReinforce_array pushBack _x;
@@ -1178,20 +1560,18 @@ for '_x' from 0 to 1 step 0 do {
 					};
 					//comment 'Manage UAV patrol';
 					if (_QS_module_classic_uavEnabled) then {
-						//comment "if (missionNamespace getVariable 'QS_classic_sub_1_active') then {";
-							if (_QS_uiTime > _QS_module_classic_uav_checkDelay) then {
-								_QS_module_classic_uavs = _QS_module_classic_uavs select {(alive _x)};
-								if ((_QS_module_classic_uavs findIf {(unitIsUav _x)}) isEqualTo -1) then {
-									_QS_module_classic_spawnedGrp = [] call _fn_scSpawnUAV;
-									if (_QS_module_classic_spawnedGrp isNotEqualTo []) then {
-										{
-											_QS_module_classic_uavs pushBack _x;
-										} forEach _QS_module_classic_spawnedGrp;
-									};
+						if (_QS_uiTime > _QS_module_classic_uav_checkDelay) then {
+							_QS_module_classic_uavs = _QS_module_classic_uavs select {(alive _x)};
+							if ((_QS_module_classic_uavs findIf {(unitIsUav _x)}) isEqualTo -1) then {
+								_QS_module_classic_spawnedGrp = [] call _fn_scSpawnUAV;
+								if (_QS_module_classic_spawnedGrp isNotEqualTo []) then {
+									{
+										_QS_module_classic_uavs pushBack _x;
+									} forEach _QS_module_classic_spawnedGrp;
 								};
-								_QS_module_classic_uav_checkDelay = diag_tickTime + _QS_module_classic_uav_delay;
 							};
-						//comment "};";
+							_QS_module_classic_uav_checkDelay = diag_tickTime + _QS_module_classic_uav_delay;
+						};
 					};
 					if (_QS_module_viperTeam) then {
 						if (_QS_uiTime > _QS_module_viperTeam_checkDelay) then {
@@ -1222,7 +1602,7 @@ for '_x' from 0 to 1 step 0 do {
 				//comment 'Enemy fallback';
 				if (_QS_uiTime > _QS_module_classic_efb_checkDelay) then {
 					if (!(_QS_module_classic_efb)) then {
-						if (([_QS_module_classic_aoPos,_QS_module_classic_aoSize,[_east],_QS_allUnits,1] call _fn_serverDetector) < _QS_module_classic_efb_threshold) then {
+						if ((count ((units _east) inAreaArray [_QS_module_classic_aoPos,_QS_module_classic_aoSize,_QS_module_classic_aoSize,0,FALSE,-1])) < _QS_module_classic_efb_threshold) then {
 							_QS_module_classic_efb = _true;
 							{
 								_QS_module_classic_efb_group = _x;
@@ -1232,24 +1612,25 @@ for '_x' from 0 to 1 step 0 do {
 											if (!((vehicle (leader _QS_module_classic_efb_group)) isKindOf 'Air')) then {
 												if (isNull (objectParent (leader _QS_module_classic_efb_group))) then {
 													{
-														if ((random 1) > 0.5) then {
-															_x enableAI 'PATH';
+														//if ((random 1) > 0.5) then {
+														if (_unit checkAIFeature 'MINEDETECTION') then {
+															_x enableAIFeature ['PATH',TRUE];
 														};
 													} forEach (units _QS_module_classic_efb_group);
 													_QS_module_classic_efb_group setSpeedMode 'FULL';
-													_QS_module_classic_efb_group setBehaviourStrong 'AWARE';
+													_QS_module_classic_efb_group setBehaviour 'AWARE';
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _QS_module_classic_efb_group))],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_DATA',[],_false];
-													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_TASK',['PATROL',[_QS_module_classic_hqPos,(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)])],diag_tickTime,-1],_false];
+													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_TASK',['PATROL',[_QS_module_classic_hqPos,(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)])],serverTime,-1],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_PATROLINDEX',0,_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP',_true,_false];
 												};
 												if (((objectParent (leader _QS_module_classic_efb_group)) isKindOf 'LandVehicle') && (!((objectParent (leader _QS_module_classic_efb_group)) isKindOf 'StaticWeapon'))) then {
 													_QS_module_classic_efb_group setSpeedMode 'FULL';
-													_QS_module_classic_efb_group setBehaviourStrong 'AWARE';
+													_QS_module_classic_efb_group setBehaviour 'AWARE';
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _QS_module_classic_efb_group)),(objectParent (leader _QS_module_classic_efb_group))],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_DATA',[],_false];
-													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_TASK',['PATROL',[(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)])],diag_tickTime,-1],_false];
+													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_TASK',['PATROL',[(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)]),(_QS_module_classic_hqPos getPos [(50 + (random 50)),(random 360)])],serverTime,-1],_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP_PATROLINDEX',0,_false];
 													_QS_module_classic_efb_group setVariable ['QS_AI_GRP',_true,_false];													
 												};
@@ -1562,7 +1943,7 @@ for '_x' from 0 to 1 step 0 do {
 						_QS_module_civilian_count = _QS_module_civilian_count_6;
 					};
 					if (_QS_module_civilian_count > 0) then {
-						if ((missionNamespace getVariable ['QS_missionConfig_AmbCiv',1]) isNotEqualTo 0) then {
+						if (_QS_ambientCivilians) then {
 							missionNamespace setVariable [
 								'QS_primaryObjective_civilians',
 								([_QS_module_grid_aoPos,_QS_module_grid_aoSize,'FOOT',_QS_module_civilian_count,_false,_true] call _fn_spawnAmbientCivilians),
@@ -1571,12 +1952,15 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 				};
-				for '_x' from 0 to 2 step 1 do {
-					_QS_module_animalSpawnPosition = ['RADIUS',_QS_module_grid_aoPos,(_QS_module_grid_aoSize * 1.25),'LAND',[],_false,[],[],_false] call _fn_findRandomPos;
-					if ((_QS_module_animalSpawnPosition distance2D _QS_module_grid_aoPos) < (_QS_module_grid_aoSize * 1.5)) then {
-						if ((missionNamespace getVariable ['QS_missionConfig_AmbAnim',1]) isNotEqualTo 0) then {
-							[_QS_module_animalSpawnPosition,(selectRandomWeighted ['SHEEP',0.3,'GOAT',0.2,'HEN',0.1]),(round (3 + (random 3)))] call _fn_aoAnimals;
+				if (_QS_ambientAnimals) then {
+					for '_x' from 0 to 2 step 1 do {
+						_QS_module_animalSpawnPosition = ['RADIUS',_QS_module_grid_aoPos,(_QS_module_grid_aoSize * 1.25),'LAND',[],_false,[[0,0,0],150,'2*meadow + hills + forest + trees',30,10],[],_false] call _fn_findRandomPos;
+						if (!([_QS_module_animalSpawnPosition,50,6] call _fn_waterInRadius)) then {
+							if ((_QS_module_animalSpawnPosition distance2D _QS_module_grid_aoPos) < (_QS_module_grid_aoSize * 1.5)) then {
+								[_QS_module_animalSpawnPosition,(selectRandomWeighted ['SHEEP',0.4,'GOAT',0.3,'HEN',0.1]),(round (3 + (random 3)))] call _fn_aoAnimals;
+							};
 						};
+						
 					};
 				};
 				_QS_module_tracers_checkOverride = _true;
@@ -1673,7 +2057,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_ambientHostility_entities = _QS_module_ambientHostility_entities select {(alive _x)};
 				if (_QS_module_ambientHostility_entities isEqualTo []) then {
 					_QS_module_ambientHostility_inProgress = _false;
-					_QS_module_ambientHostility_cooldown = _QS_uiTime + (random 600);
+					_QS_module_ambientHostility_cooldown = _QS_uiTime + (random 360);
 				} else {
 					{
 						if ((_x distance2D _basePosition) < 1000) then {
@@ -1683,7 +2067,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				if (_QS_uiTime > _QS_module_ambientHostility_duration) then {
 					{
-						if (([(getPosATL _x),1000,_friendlySides,_QS_allUnits,0] call _fn_serverDetector) isEqualTo []) then {
+						if (((units _west) inAreaArray [(getPosATL _x),800,800,0,FALSE,-1]) isEqualTo []) then {
 							if (_x isKindOf 'CAManBase') then {
 								if (!isNull (objectParent _x)) then {
 									if ((objectParent _x) isKindOf 'AllVehicles') then {
@@ -1703,14 +2087,14 @@ for '_x' from 0 to 1 step 0 do {
 			} else {
 				if (_QS_diag_fps > 10) then {
 					if (_QS_uiTime > _QS_module_ambientHostility_cooldown) then {
-						_QS_module_ambientHostility_validTargets = _QS_allUnits select { ((side (group _x)) isEqualTo _west) };
+						_QS_module_ambientHostility_validTargets = units _west;
 						if (_QS_module_ambientHostility_validTargets isNotEqualTo []) then {
 							_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((_x distance2D _basePosition) > 1500) && ((_x distance2D (missionNamespace getVariable 'QS_aoPos')) > 800) && ((lifeState _x) in ['HEALTHY','INJURED']) };
 							if (_QS_module_ambientHostility_validTargets isNotEqualTo []) then {
 								_QS_module_ambientHostility_validTargets = _QS_module_ambientHostility_validTargets select { ((((vehicle _x) isKindOf 'LandVehicle') || {((vehicle _x) isKindOf 'CAManBase')}) && (isTouchingGround (vehicle _x))) };
 								if (_QS_module_ambientHostility_validTargets isNotEqualTo []) then {
 									_QS_module_ambientHostility_graceTime = _QS_uiTime + 60;
-									_QS_module_ambientHostility_duration = _QS_uiTime + (random [480,600,720]);
+									_QS_module_ambientHostility_duration = _QS_uiTime + (random [360,480,600]);
 									_QS_module_ambientHostility_target = selectRandom _QS_module_ambientHostility_validTargets;
 									_QS_module_ambientHostility_position = getPosATL _QS_module_ambientHostility_target;
 									_QS_module_ambientHostility_nearbyCount = count (_QS_module_ambientHostility_validTargets inAreaArray [_QS_module_ambientHostility_position,100,100,0,_false,-1]);
@@ -1758,7 +2142,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (!(missionNamespace getVariable 'QS_casSuspend')) then {
 				missionNamespace setVariable ['QS_enemyCasArray2',((missionNamespace getVariable 'QS_enemyCasArray2') select {(alive _x)}),_false];
 				_QS_module_enemyCas_array = missionNamespace getVariable ['QS_enemyCasArray2',[]];
-				_playerJetCount = count (_QS_allPlayers select {((toLower (typeOf (vehicle _x))) in _QS_module_enemyCas_allJetTypes)});
+				_playerJetCount = count (_QS_allPlayers select {((toLowerANSI (typeOf (vehicle _x))) in _QS_module_enemyCas_allJetTypes)});
 				if (_QS_allPlayersCount > 10) then {
 					if (_QS_allPlayersCount > 25) then {
 						_QS_module_enemyCas_limit = _QS_module_enemyCas_limitHigh;
@@ -1810,32 +2194,37 @@ for '_x' from 0 to 1 step 0 do {
 									};
 								};
 							};
-							if (!isNil {_QS_module_enemyCas_plane getVariable 'QS_enemyCAS_nextRearmTime'}) then {
-								if (_QS_uiTime > (_QS_module_enemyCas_plane getVariable 'QS_enemyCAS_nextRearmTime')) then {
-									_QS_module_enemyCas_plane setVehicleAmmo 1;
-									_QS_module_enemyCas_plane setVariable ['QS_enemyCAS_nextRearmTime',(_QS_uiTime + 300),_false];
-									if (!isNil {_QS_module_enemyCas_plane getVariable 'QS_enemyCAS_position'}) then {
-										if (((getPosWorld _QS_module_enemyCas_plane) distance2D (_QS_module_enemyCas_plane getVariable 'QS_enemyCAS_position')) < 25) then {
-											_QS_module_enemyCas_plane setDamage [1,_false];
-										} else {
-											_QS_module_enemyCas_plane setVariable ['QS_enemyCAS_position',(getPosWorld _QS_module_enemyCas_plane),_false];
-										};
-									};
-								};	
+							if (_QS_serverTime > (_QS_module_enemyCas_plane getVariable ['QS_enemyCAS_nextRearmTime',-1])) then {
+								_QS_module_enemyCas_plane setVehicleAmmo 1;
+								_QS_module_enemyCas_plane setVariable ['QS_enemyCAS_nextRearmTime',(_QS_serverTime + 300),_false];
+								if (((getPosWorld _QS_module_enemyCas_plane) distance2D (_QS_module_enemyCas_plane getVariable ['QS_enemyCAS_position',[0,0,0]])) < 25) then {
+									_QS_module_enemyCas_plane setDamage [1,_false];
+								} else {
+									_QS_module_enemyCas_plane setVariable ['QS_enemyCAS_position',(getPosWorld _QS_module_enemyCas_plane),_false];
+								};
 							};
 							if (alive _QS_module_enemyCas_plane) then {
-								if (!isNull (driver _QS_module_enemyCas_plane)) then {
+								if (alive (currentPilot _QS_module_enemyCas_plane)) then {
 									if (_QS_allPlayers isNotEqualTo []) then {
 										{
 											if ((vehicle _x) isKindOf 'Plane') then {
-												if (_x isEqualTo (driver (vehicle _x))) then {
-													(group (driver _QS_module_enemyCas_plane)) reveal [(vehicle _x),4];
-													if (isNull (getAttackTarget (driver _QS_module_enemyCas_plane))) then {
-														(driver _QS_module_enemyCas_plane) doTarget (vehicle _x);
+												if (_x isEqualTo (currentPilot (vehicle _x))) then {
+													(group (currentPilot _QS_module_enemyCas_plane)) reveal [(vehicle _x),4];
+													(currentPilot _QS_module_enemyCas_plane) reveal [vehicle _x,4];
+													if (isNull (getAttackTarget (currentPilot _QS_module_enemyCas_plane))) then {
+														(currentPilot _QS_module_enemyCas_plane) doTarget (vehicle _x);
 													};
 												};
 											};
-										} count _QS_allPlayers;
+										} forEach _QS_allPlayers;
+									};
+									if ((missionNamespace getVariable ['QS_AI_laserTargets',[]]) isNotEqualTo []) then {
+										{
+											if (!isNull _x) then {
+												(group (currentPilot _QS_module_enemyCas_plane)) reveal [_x,4];
+												(currentPilot _QS_module_enemyCas_plane) reveal [_x,4];
+											};
+										} forEach (missionNamespace getVariable ['QS_AI_laserTargets',[]]);
 									};
 								};
 							};
@@ -1856,61 +2245,69 @@ for '_x' from 0 to 1 step 0 do {
 	/*/Module support provision/*/
 	if (_QS_module_supportProvision) then {
 		if (_QS_uiTime > _QS_module_supportProvision_checkDelay) then {
+			{
+				missionNamespace setVariable _x;
+				uiSleep 0.1;
+			} forEach [
+				['QS_AI_insertHeli_helis',((missionNamespace getVariable 'QS_AI_insertHeli_helis') select {(!alive _x)}),QS_system_AI_owners],
+				['QS_AI_vehicles',((missionNamespace getVariable 'QS_AI_vehicles') select {(alive _x)}),QS_system_AI_owners],
+				['QS_AI_targetsIntel',((missionNamespace getVariable 'QS_AI_targetsIntel') select {((alive (_x # 0)) && (_QS_serverTime < ((_x # 1) + 300)))}),QS_system_AI_owners],
+				['QS_AI_laserTargets',((missionNamespace getVariable 'QS_AI_laserTargets') select {(!isNull _x)}),QS_system_AI_owners]
+			];
 			if ((missionNamespace getVariable 'QS_AI_supportProviders_MTR') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') select {((alive _x) && ((vehicle _x) isKindOf 'StaticWeapon'))}),_false];
+				missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') select {((alive _x) && ((vehicle _x) isKindOf 'StaticWeapon'))}),QS_system_AI_owners];
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_supportProviders_ARTY') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_supportProviders_ARTY',((missionNamespace getVariable 'QS_AI_supportProviders_ARTY') select {((alive _x) && ((vehicle _x) isKindOf 'LandVehicle'))}),_false];
+				missionNamespace setVariable ['QS_AI_supportProviders_ARTY',((missionNamespace getVariable 'QS_AI_supportProviders_ARTY') select {((alive _x) && ((vehicle _x) isKindOf 'LandVehicle'))}),QS_system_AI_owners];
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_supportProviders_CASHELI') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_supportProviders_CASHELI',((missionNamespace getVariable 'QS_AI_supportProviders_CASHELI') select {((alive _x) && ((vehicle _x) isKindOf 'Helicopter'))}),_false];			
+				missionNamespace setVariable ['QS_AI_supportProviders_CASHELI',((missionNamespace getVariable 'QS_AI_supportProviders_CASHELI') select {((alive _x) && ((vehicle _x) isKindOf 'Helicopter'))}),QS_system_AI_owners];			
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_supportProviders_CASPLANE') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_supportProviders_CASPLANE',((missionNamespace getVariable 'QS_AI_supportProviders_CASPLANE') select {((alive _x) && ((vehicle _x) isKindOf 'Plane') && (canMove (vehicle _x)))}),_false];			
+				missionNamespace setVariable ['QS_AI_supportProviders_CASPLANE',((missionNamespace getVariable 'QS_AI_supportProviders_CASPLANE') select {((alive _x) && ((vehicle _x) isKindOf 'Plane') && (canMove (vehicle _x)))}),QS_system_AI_owners];			
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_supportProviders_CASUAV') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_supportProviders_CASUAV',((missionNamespace getVariable 'QS_AI_supportProviders_CASUAV') select {((alive _x) && (unitIsUav (vehicle _x)) && (canMove (vehicle _x)))}),_false];			
+				missionNamespace setVariable ['QS_AI_supportProviders_CASUAV',((missionNamespace getVariable 'QS_AI_supportProviders_CASUAV') select {((alive _x) && (unitIsUav (vehicle _x)) && (canMove (vehicle _x)))}),QS_system_AI_owners];			
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') select {(alive _x)}),_false];
+				missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') select {(alive _x)}),QS_system_AI_owners];
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable ['QS_AI_fireMissions',[]]) isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') select {(_QS_uiTime < (_x # 2))}),_false];
+				missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') select {(_QS_serverTime < (_x # 2))}),QS_system_AI_owners];
 			};
 			_QS_module_supportProvision_checkDelay = diag_tickTime + _QS_module_supportProvision_delay;
 		};
 	};
 	if (_QS_module_scripts) then {
 		if (_QS_uiTime > _QS_module_scripts_checkDelay) then {
-			missionNamespace setVariable ['QS_AI_insertHeli_helis',((missionNamespace getVariable 'QS_AI_insertHeli_helis') select {(!isNull _x)}),_false];
-			missionNamespace setVariable ['QS_AI_vehicles',((missionNamespace getVariable 'QS_AI_vehicles') select {(alive _x)}),_false];
 			if ((missionNamespace getVariable 'QS_AI_scripts_Assault') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') select {(!isNull _x)}),_false];
+				missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') select { _QS_serverTime < _x }),QS_system_AI_owners];
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_scripts_fireMissions') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') select {(!isNull _x)}),_false];
+				missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') select { _QS_serverTime < _x }),QS_system_AI_owners];
 			};
 			uiSleep 0.1;			
 			if ((missionNamespace getVariable 'QS_AI_scripts_moveToBldg') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_scripts_moveToBldg',((missionNamespace getVariable 'QS_AI_scripts_moveToBldg') select {(!isNull _x)}),_false];
+				missionNamespace setVariable ['QS_AI_scripts_moveToBldg',((missionNamespace getVariable 'QS_AI_scripts_moveToBldg') select { _QS_serverTime < _x }),QS_system_AI_owners];
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_scripts_support') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_scripts_support',((missionNamespace getVariable 'QS_AI_scripts_support') select {(!isNull _x)}),_false];
+				missionNamespace setVariable ['QS_AI_scripts_support',((missionNamespace getVariable 'QS_AI_scripts_support') select { _QS_serverTime < _x }),QS_system_AI_owners];
 			};
 			uiSleep 0.1;
 			if ((missionNamespace getVariable 'QS_AI_unitsGestureReady') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_AI_unitsGestureReady',((missionNamespace getVariable 'QS_AI_unitsGestureReady') select {((alive _x) && (_x getVariable ['QS_AI_UNIT_gestureEvent',_false]))}),_false];
+				missionNamespace setVariable ['QS_AI_unitsGestureReady',((missionNamespace getVariable 'QS_AI_unitsGestureReady') select {((alive _x) && (_x getVariable ['QS_AI_UNIT_gestureEvent',_false]))}),QS_system_AI_owners];
 			};
 			if (_QS_diag_fps > 10) then {
-				[11,_east] call _fn_aiGetKnownEnemies;
+				[11,_east,_true] spawn _fn_aiGetKnownEnemies;
+				uiSleep 0.1;
 			};
 			if (_QS_module_tracers) then {
 				if ((_QS_uiTime > _QS_module_tracers_checkDelay) || {(_QS_module_tracers_checkOverride)}) then {

@@ -62,7 +62,7 @@ _compositionData = [
 ];
 _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 {
-	if ((toLower (typeOf _x)) in ['land_device_assembled_f']) exitWith {
+	if ((toLowerANSI (typeOf _x)) in ['land_device_assembled_f']) exitWith {
 		missionNamespace setVariable ['QS_AI_regenerator',_x,FALSE];
 		_regenerator = _x;
 	};
@@ -85,7 +85,7 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 		'Killed',
 		{
 			params ['_killed','_killer','_instigator','_usedEffects'];
-			if (!((attachedObjects _killed) isEqualTo [])) then {
+			if ((attachedObjects _killed) isNotEqualTo []) then {
 				{
 					deleteVehicle _x;
 				} forEach (attachedObjects _killed);
@@ -96,7 +96,7 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 		'Deleted',
 		{
 			params ['_entity'];
-			if (!((attachedObjects _entity) isEqualTo [])) then {
+			if ((attachedObjects _entity) isNotEqualTo []) then {
 				{
 					deleteVehicle _x;
 				} forEach (attachedObjects _entity);
@@ -151,7 +151,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		_tank = createVehicle [(selectRandomWeighted _tankTypes),_grpSpawnPos,[],0,'NONE'];
 		_tank setDir (random 360);
 		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
-		_tank allowCrewInImmobile TRUE;
+		_tank allowCrewInImmobile [TRUE,TRUE];
 		_tank enableVehicleCargo FALSE;
 		_tank enableRopeAttach FALSE;
 		_tank lock 3;
@@ -162,11 +162,11 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _tank;
 		createVehicleCrew _tank;
 		(crew _tank) joinSilent _grp;
-		[_grp,_spawnPosition,400,(_terrainData select 1),TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
-		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_tank],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
+		[_grp,_spawnPosition,400,(_terrainData # 1),TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
+		_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_tank],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		_all pushBack _tank;
 		{
 			_x setUnitTrait ['engineer',TRUE,FALSE];
@@ -183,7 +183,7 @@ if ((random 1) > 0.5) then {
 		_tank = createVehicle ['I_LT_01_scout_F',_grpSpawnPos,[],0,'NONE'];
 		_tank setDir (random 360);
 		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
-		_tank allowCrewInImmobile TRUE;
+		_tank allowCrewInImmobile [TRUE,TRUE];
 		_tank enableVehicleCargo FALSE;
 		_tank enableRopeAttach FALSE;
 		_tank lock 3;
@@ -212,7 +212,7 @@ if ((random 1) > 0.5) then {
 		};
 	};
 };
-_fuzzyPos = [((_spawnPosition select 0) - 500) + (random 1000),((_spawnPosition select 1) - 500) + (random 1000),0];
+_fuzzyPos = [((_spawnPosition # 0) - 500) + (random 1000),((_spawnPosition # 1) - 500) + (random 1000),0];
 'QS_marker_sideCircle' setMarkerSize [500,500];
 {
 	_x setMarkerPosLocal _fuzzyPos;
@@ -242,7 +242,7 @@ private _respawnCheckDelay = _time + _respawnDelay;
 private _regeneratorDelay = 5;
 private _regeneratorCheckDelay = _time + _regeneratorDelay;
 private _posFound = FALSE;
-private _forestPositions = (_terrainData select 8) select {((_x distance2D _spawnPosition) < 300)};
+private _forestPositions = (_terrainData # 8) inAreaArray [_spawnPosition,300,300,0,FALSE];
 _enoughPositions = (count _forestPositions) > 10;
 private _arrayToSend = [];
 private _signalPulseCheckDelay = 15;
@@ -291,7 +291,7 @@ for '_x' from 0 to 1 step 0 do {
 						} forEach (magazines _unit);
 						[_unit,'MMG_01_hex_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 						_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
-						_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime - 1),FALSE];
+						_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',-1,FALSE];
 						{
 							_unit addPrimaryWeaponItem _x;
 						} forEach [
@@ -310,34 +310,34 @@ for '_x' from 0 to 1 step 0 do {
 					_enemies pushBack _unit;
 				};
 				[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-				_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+				_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 				if ((random 1) > 0.333) then {
 					if (!(_enoughPositions)) then {
 						[_grp,_spawnPosition,50,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 					} else {
 						_forestPositions = _forestPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-						_grp setVariable ['QS_AI_GRP_TASK',['PATROL',(_forestPositions select [0,4]),diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+						_grp setVariable ['QS_AI_GRP_TASK',['PATROL',(_forestPositions select [0,4]),serverTime,-1],QS_system_AI_owners];
 					};
-					_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+					_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],QS_system_AI_owners];
 				} else {
-					_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_spawnPosition,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-					_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+					_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_spawnPosition,serverTime,-1],QS_system_AI_owners];
+					_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],QS_system_AI_owners];
 				};
-				_grp setVariable ['QS_AI_GRP_DATA',[_spawnPosition],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				_grp setVariable ['QS_GRP_HC',TRUE,FALSE];
+				_grp setVariable ['QS_AI_GRP_DATA',[_spawnPosition],QS_system_AI_owners];
+				_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			};
 		};
 		_respawnCheckDelay = _time + _respawnDelay;
 	};
 	if (_time > _signalPulseCheckDelay) then {
 		_arrayToSend = [];
-		if (!(_allPlayers isEqualTo [])) then {
+		if (_allPlayers isNotEqualTo []) then {
 			{
 				if ((_x distance2D _spawnPosition) < 600) then {
 					_arrayToSend pushBack _x;
 				};
 			} forEach _allPlayers;
-			if (!(_arrayToSend isEqualTo [])) then {
+			if (_arrayToSend isNotEqualTo []) then {
 				[1,_spawnPosition,500] remoteExec ['QS_fnc_signalStrength',_arrayToSend,FALSE];
 			};
 		};
@@ -347,22 +347,20 @@ for '_x' from 0 to 1 step 0 do {
 		{
 			if (local _x) then {
 				if (simulationEnabled _x) then {
-					if ((side (group _x)) isEqualTo _east) then {
-						if ((damage _x) > 0) then {
-							_unit = _x;
-							if (!((getAllHitPointsDamage _unit) isEqualTo [])) then {
-								{
-									if (_x > 0) then {
-										_unit setHitIndex [_forEachIndex,(_x * 0.5),FALSE];
-									};
-								} forEach ((getAllHitPointsDamage _unit) select 2);
-							};
+					if ((damage _x) > 0) then {
+						_unit = _x;
+						if ((getAllHitPointsDamage _unit) isNotEqualTo []) then {
+							{
+								if (_x > 0) then {
+									_unit setHitIndex [_forEachIndex,(_x * 0.5),FALSE];
+								};
+							} forEach ((getAllHitPointsDamage _unit) # 2);
 						};
 					};
 				};
 			};
 			uiSleep 0.01;
-		} forEach allUnits;
+		} forEach (units EAST);
 		_regeneratorCheckDelay = _time + _regeneratorDelay;
 	};
 	uiSleep 3;

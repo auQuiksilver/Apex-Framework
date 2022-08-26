@@ -18,4 +18,4 @@ Wiki:
 	https://community.bistudio.com/wiki/commandingMenu
 __________________________________________________*/
 
-_case = _this select 0;
+_case = _this # 0;

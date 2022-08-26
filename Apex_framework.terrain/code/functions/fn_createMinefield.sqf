@@ -41,11 +41,6 @@ while {((count _mines) < _quantity)} do {
 	_position = _centerPos getPos [(_innerRadius + (random _outerRadius)),(random 360)];
 	if (!surfaceIsWater _position) then {
 		_mine = createMine [(selectRandomWeighted _types),_position,[],1];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_mines pushBack _mine;
 		//_mine enableDynamicSimulation TRUE;
 		_mine setVectorUp (surfaceNormal (getPosWorld _mine));
@@ -64,7 +59,7 @@ if (_isMarked) then {
 	if ((_model select [0,1]) isEqualTo '\') then {
 		_model = _model select [1];
 	};
-	if (!((_model select [((count _model) - 4),4]) isEqualTo '.p3d')) then {
+	if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 		_model = _model + '.p3d';
 	};
 	private _pos = [0,0,0];
@@ -75,14 +70,13 @@ if (_isMarked) then {
 		if ((_model select [0,1]) isEqualTo '\') then {
 			_model = _model select [1];
 		};
-		if (!((_model select [((count _model) - 4),4]) isEqualTo '.p3d')) then {
+		if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 			_model = _model + '.p3d';
 		};
 		_pos set [2,0];
 		_pos set [2,(getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset'))];
 		_pos = ATLToASL _pos;
 		_sign = createSimpleObject [_model,_pos];
-		missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 		_sign setDir ((_centerPos getDir _pos) - 180);
 		if ((random 1) > 0.666) then {
 			_sign setVectorUp (surfaceNormal _pos);

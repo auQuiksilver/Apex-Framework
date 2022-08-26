@@ -13,11 +13,11 @@ Using orientation of objects: no
 	["Land_PaperBox_closed_F",[-0.559082,2.93701,0],0,[],false,false,TRUE,{}], 
 	["Land_Cargo_House_V4_F",[3.47168,-6.29199,0],168.238,[],false,true,false,{}], 
 	["Flag_White_F",[-0.380859,-5.48193,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
-	["Land_ClothesLine_01_full_F",[-1.56445,6.78711,0],74.5525,[],false,true,TRUE,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
-	["Land_ClothesLine_01_F",[-6.89893,-1.09033,0],166.691,[],false,true,TRUE,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_ClothesLine_01_full_F",[-1.56445,6.78711,0],74.5525,[],false,true,TRUE,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
+	["Land_ClothesLine_01_F",[-6.89893,-1.09033,0],166.691,[],false,true,TRUE,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_Cargo_House_V4_F",[-2.66895,-7.61914,0],167.427,[],false,true,false,{}], 
 	["Land_LampShabby_F",[6.82959,-4.98975,0],315.964,[],false,true,false,{}], 
 	["Land_LampShabby_F",[-6.37061,-7.40918,0],26.8405,[],false,true,false,{}], 
@@ -31,7 +31,7 @@ Using orientation of objects: no
 	["Land_House_Native_02_F",[9.45166,13.9292,0],169.937,[],false,false,false,{}], 
 	["Land_House_Native_01_F",[-7.22559,15.2979,0],77.0321,[],false,false,false,{}], 
 	["Land_House_Native_01_F",[-17.4043,-0.184082,0],167.63,[],false,false,false,{}], 
-	["Land_ClothesLine_01_short_F",[15.6519,-9.2002,0],95.5389,[],false,true,TRUE,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_ClothesLine_01_short_F",[15.6519,-9.2002,0],95.5389,[],false,true,TRUE,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_House_Native_01_F",[18.3892,-0.665527,0],259.215,[],false,false,false,{}], 
 	["Land_Mil_WallBig_4m_F",[-1.40332,20.0654,-0.0119424],166.045,[],false,true,TRUE,{}], 
 	["Land_Mil_WallBig_4m_F",[-18.9399,-7.98682,-0.0119424],79.0255,[],false,true,TRUE,{}], 

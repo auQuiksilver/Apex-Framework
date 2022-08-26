@@ -23,5 +23,5 @@ _K = (_y2 * 10) + _y3;
 if (_m < 3) then {_m = _m + 12};
 _hgreg = (_q + floor ( ((_m + 1) * 26) / 10 ) + _K + floor (_K / 4) + floor (_J / 4) - (2 * _J)) mod 7;
 _dayNames = ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'];
-if (_type isEqualTo 'SHORT') exitWith {((_dayNames select _hgreg) select [0,3])};
-(_dayNames select _hgreg);
+if (_type isEqualTo 'SHORT') exitWith {((_dayNames # _hgreg) select [0,3])};
+(_dayNames # _hgreg);

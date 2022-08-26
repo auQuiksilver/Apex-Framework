@@ -13,6 +13,7 @@ Description:
 	Handle Agents (Civilians, Animals)
 ________________________________________/*/
 
+scriptName 'QS_fnc_AIHandleAgent';
 params ['_entity','_uiTime','_fps'];
 if (
 	(!(alive _entity)) ||
@@ -25,7 +26,7 @@ if (!(_entity getVariable ['QS_AI_ENTITY_setup',FALSE])) then {
 	_entity setVariable ['QS_AI_ENTITY_rv',[(random 1),(random 1),(random 1)],FALSE];
 };
 _side = side _entity;
-_type = toLower (typeOf _entity);
+_type = toLowerANSI (typeOf _entity);
 _position = position _entity;
 if (_entity isKindOf 'CAManBase') exitWith {
 	//comment 'Humans';
@@ -39,7 +40,7 @@ if (_entity isKindOf 'CAManBase') exitWith {
 					};
 					_entity forceSpeed -1;
 					_entity setVariable ['QS_AI_ENTITY_PANIC',TRUE,FALSE];
-					_entity setVariable ['QS_AI_ENTITY_PANIC_DELAY',(_uiTime - 1),FALSE];
+					_entity setVariable ['QS_AI_ENTITY_PANIC_DELAY',(_uiTime + (random 30)),FALSE];
 					private _events = [];
 					{
 						_events pushBack [(_x # 0),(_entity addEventHandler _x)];
@@ -94,7 +95,7 @@ if (_entity isKindOf 'CAManBase') exitWith {
 				};
 			};
 		};
-		_entity setVariable ['QS_AI_ENTITY_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (random [10,20,40])),-1],FALSE];
+		_entity setVariable ['QS_AI_ENTITY_TASK',[_currentTask_type,_currentTask_position,(serverTime + (random [10,20,40])),-1],FALSE];
 	};
 };
 _terrainHeight = getTerrainHeightASL _position;
@@ -128,9 +129,9 @@ if (_type in ['sheep_random_f']) exitWith {
 			_entity setDir (_entity getDir _movePosition);
 			_entity setVariable ['QS_AI_ENTITY_TASK',[_taskType,_taskPosition,_taskRadius,(_uiTime + (random [2,9,25]))],FALSE];
 		};
-		if (_terrainHeight < -1) then {
-			deleteVehicle _entity;
-		};
+	};
+	if (_terrainHeight < -1) then {
+		deleteVehicle _entity;
 	};
 };
 if (_type in ['goat_random_f']) exitWith {
@@ -147,9 +148,9 @@ if (_type in ['goat_random_f']) exitWith {
 			_entity setDir (_entity getDir _movePosition);
 			_entity setVariable ['QS_AI_ENTITY_TASK',[_taskType,_taskPosition,_taskRadius,(_uiTime + (random [2,9,25]))],FALSE];
 		};
-		if (_terrainHeight < -1) then {
-			deleteVehicle _entity;
-		};
+	};
+	if (_terrainHeight < -1) then {
+		deleteVehicle _entity;
 	};
 };
 if (_type in ['hen_random_f','cock_random_f','cock_white_f']) exitWith {
@@ -166,9 +167,9 @@ if (_type in ['hen_random_f','cock_random_f','cock_white_f']) exitWith {
 			_entity setDir (_entity getDir _movePosition);
 			_entity setVariable ['QS_AI_ENTITY_TASK',[_taskType,_taskPosition,_taskRadius,(_uiTime + (random [2,9,25]))],FALSE];
 		};
-		if (_terrainHeight < -1) then {
-			deleteVehicle _entity;
-		};
+	};
+	if (_terrainHeight < -1) then {
+		deleteVehicle _entity;
 	};
 };
 if (_type in ['rabbit_f']) exitWith {
@@ -180,9 +181,9 @@ if (_type in ['rabbit_f']) exitWith {
 			_entity setDir (_entity getDir _movePosition);
 			_entity setVariable ['QS_AI_ENTITY_TASK',[_taskType,_taskPosition,_taskRadius,(_uiTime + (random [2,9,25]))],FALSE];
 		};
-		if (_terrainHeight < -1) then {
-			deleteVehicle _entity;
-		};
+	};
+	if (_terrainHeight < -1) then {
+		deleteVehicle _entity;
 	};
 };
 if (_type in ['snake_random_f']) exitWith {
@@ -194,8 +195,8 @@ if (_type in ['snake_random_f']) exitWith {
 			_entity setDir (_entity getDir _movePosition);
 			_entity setVariable ['QS_AI_ENTITY_TASK',[_taskType,_taskPosition,_taskRadius,(_uiTime + (random [2,9,25]))],FALSE];
 		};
-		if (_terrainHeight < -1) then {
-			deleteVehicle _entity;
-		};
+	};
+	if (_terrainHeight < -1) then {
+		deleteVehicle _entity;
 	};
 };

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/04/2018 A3 1.82 by Quiksilver
+	8/07/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -25,18 +25,18 @@ if (_type isEqualTo 'REPAIR') then {
 		_vTypes = [
 			[
 				'o_truck_03_repair_f',0.666,
-				'b_apc_tracked_01_crv_f',0.333
+				'o_truck_03_repair_f',0.666//'b_apc_tracked_01_crv_f',0.333
 			],
 			[
 				'o_t_truck_03_repair_ghex_f',0.666,
-				'b_t_apc_tracked_01_crv_f',0.333
+				'o_t_truck_03_repair_ghex_f',0.666//'b_t_apc_tracked_01_crv_f',0.333
 			]
 		] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		_roads = _roads call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		_roadIndex = _roads findIf {(((_x select [0,2]) nearEntities ['AllVehicles',8]) isEqualTo [])};
 		if (_roadIndex isEqualTo -1) exitWith {};
 		_grp = createGroup [EAST,TRUE];
-		_roadPosition = _roads select _roadIndex;
+		_roadPosition = _roads # _roadIndex;
 		_vehicle = createVehicle [(selectRandomWeighted _vTypes),_roadPosition,[],0,'NONE'];
 		_vehicle setDir (random 360);
 		_vehicle lock 3;
@@ -48,7 +48,7 @@ if (_type isEqualTo 'REPAIR') then {
 		clearBackpackCargoGlobal _vehicle;
 		_vehicle enableRopeAttach FALSE;
 		_vehicle enableVehicleCargo FALSE;
-		_vehicle allowCrewInImmobile TRUE;
+		_vehicle allowCrewInImmobile [TRUE,TRUE];
 		/*/_vehicle forceFollowRoad TRUE;/*/
 		_vehicle setConvoySeparation 50;
 		_vehicle setUnloadInCombat [FALSE,FALSE];
@@ -59,9 +59,9 @@ if (_type isEqualTo 'REPAIR') then {
 		createVehicleCrew _vehicle;
 		(crew _vehicle) joinSilent _grp;
 		[_grp,(getPosATL _vehicle),-1,_roads,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
-		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','SERVICES',(count (units _grp)),_vehicle],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','SERVICES',(count (units _grp)),_vehicle],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
 		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		{
 			_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -86,7 +86,7 @@ if (_type isEqualTo 'MEDICAL') then {
 		_roadIndex = _roads findIf {(((_x select [0,2]) nearEntities ['AllVehicles',8]) isEqualTo [])};
 		if (_roadIndex isEqualTo -1) exitWith {};
 		_grp = createGroup [EAST,TRUE];
-		_roadPosition = _roads select _roadIndex;
+		_roadPosition = _roads # _roadIndex;
 		_vehicle = createVehicle [_vTypes,_roadPosition,[],0,'NONE'];
 		_vehicle setDir (random 360);
 		_vehicle lock 3;
@@ -98,7 +98,7 @@ if (_type isEqualTo 'MEDICAL') then {
 		clearBackpackCargoGlobal _vehicle;
 		_vehicle enableRopeAttach FALSE;
 		_vehicle enableVehicleCargo FALSE;
-		_vehicle allowCrewInImmobile TRUE;
+		_vehicle allowCrewInImmobile [TRUE,TRUE];
 		/*/_vehicle forceFollowRoad TRUE;/*/
 		_vehicle setConvoySeparation 50;
 		_vehicle setUnloadInCombat [FALSE,FALSE];
@@ -109,9 +109,9 @@ if (_type isEqualTo 'MEDICAL') then {
 		createVehicleCrew _vehicle;
 		(crew _vehicle) joinSilent _grp;
 		[_grp,(getPosATL _vehicle),-1,_roads,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
-		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','SERVICES',(count (units _grp)),_vehicle],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','SERVICES',(count (units _grp)),_vehicle],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
 		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		{
 			_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -119,7 +119,6 @@ if (_type isEqualTo 'MEDICAL') then {
 		} forEach (crew _vehicle);
 	} else {
 		_vTypes = 'land_pod_heli_transport_04_medevac_f';
-		
 	};
 };
 _return;

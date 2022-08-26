@@ -46,9 +46,9 @@ if (!isNull _objectParent) then {
 			private _vel = velocity _objectParent;
 			_unit setDir (random 360);
 			_unit setVelocity [
-				(_vel select 0) + ((sin (_objectParent getDir _unit)) * (3 + random 12)),
-				(_vel select 1) + ((cos (_objectParent getDir _unit)) * (3 + random 12)),
-				(((_vel select 2) + 1) + (random 10))
+				(_vel # 0) + ((sin (_objectParent getDir _unit)) * (3 + random 12)),
+				(_vel # 1) + ((cos (_objectParent getDir _unit)) * (3 + random 12)),
+				(((_vel # 2) + 1) + (random 10))
 			];
 			uiSleep 0.25;
 		} else {
@@ -155,7 +155,7 @@ if (!isNull _instigator) then {
 	if (_instigator isEqualTo _unit) then {
 		_incapacitatedText = format ['%1 was incapacitated',_profileName];
 	} else {
-		if ((_instigator getUnitTrait 'QS_trait_sniper') || ((toLower (typeOf _instigator)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f'])) then {
+		if ((_instigator getUnitTrait 'QS_trait_sniper') || ((toLowerANSI (typeOf _instigator)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f'])) then {
 			_nameKiller = name _instigator;
 			_incapacitatedText = format ['%1 %2',_profileName,(selectRandom [(format ['was rekt by an enemy sniper ( %1 )',_nameKiller]),(format ['was incapacitated by an enemy sniper ( %1 )',_nameKiller]),(format ['got sniped ( %1 )',_nameKiller]),(format ['was blown away by an enemy sniper ( %1 )',_nameKiller])])];
 		} else {
@@ -172,6 +172,16 @@ if (!isNull _instigator) then {
 			} else {
 				_incapacitatedText = format ['%1 was incapacitated',_profileName];
 			};
+		};
+		if (_instigator isEqualTo (missionNamespace getVariable ['QS_csatCommander',objNull])) then {
+			_options = [
+				'%1 was blown away by the enemy Commander',
+				'Enemy Commander took out %1',
+				'%1 was rekt by the enemy Commander',
+				'%1 was laid out by the enemy Commander',
+				'Enemy Commander killed %1'
+			];
+			_incapacitatedText = format [selectRandom _options,_profileName];
 		};
 	};
 } else {
@@ -397,7 +407,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (isNull _attachedTo) then {
 						_nearMedicalBoxes = (_unit nearEntities [_medicalBoxTypes,_medicalBoxRadius]) select {((!(_x getVariable ['QS_medbox_disableRevive',FALSE])) && (alive _x) && (isNull (attachedTo _x)))};
 						if (_nearMedicalBoxes isNotEqualTo []) then {
-							_medicalBox = _nearMedicalBoxes select 0;
+							_medicalBox = _nearMedicalBoxes # 0;
 							if ((vectorMagnitude (velocity _medicalBox)) < 1) then {
 								if ((!(unitIsUav _medicalBox)) || {((unitIsUav _medicalBox) && (isUavConnected _medicalBox))}) then {
 									deleteVehicle _medicalBox;
@@ -449,9 +459,9 @@ for '_x' from 0 to 1 step 0 do {
 			private _vel = velocity _objectParent;
 			_unit setDir (random 360);
 			_unit setVelocity [
-				(_vel select 0) + ((sin (_objectParent getDir _unit)) * (3 + random 12)), 
-				(_vel select 1) + ((cos (_objectParent getDir _unit)) * (3 + random 12)), 
-				(((_vel select 2) + 1) + (random 9))
+				(_vel # 0) + ((sin (_objectParent getDir _unit)) * (3 + random 12)), 
+				(_vel # 1) + ((cos (_objectParent getDir _unit)) * (3 + random 12)), 
+				(((_vel # 2) + 1) + (random 9))
 			];
 			uiSleep 0.25;
 			_unit setUnconscious TRUE;

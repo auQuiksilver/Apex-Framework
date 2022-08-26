@@ -41,22 +41,22 @@ if ((_adv) && (_text isEqualType '')) then {
 	if (_keyColor isEqualTo -1) then {
 		_keyColor = ['GUI','BCG_RGB'] call (missionNamespace getVariable 'BIS_fnc_displayColorGet');
 		_keyColor resize 3;
-		_keyColor = _keyColor vectorMultiply (1 / ((_keyColor select 0) max (_keyColor select 1) max (_keyColor select 2)));
+		_keyColor = _keyColor vectorMultiply (1 / ((_keyColor # 0) max (_keyColor # 1) max (_keyColor # 2)));
 		_keyColor = (_keyColor + [1]) call (missionNamespace getVariable 'BIS_fnc_colorRGBtoHTML');
 		uiNamespace setVariable ['QS_hint_recallKeyColor',_keyColor];
 	};
 	_helpArray = actionKeysNamesArray 'help';
 	private _keyString = if (_helpArray isNotEqualTo []) then {
-		format ["[<t color = '%1'>%2</t>]",_keyColor,_helpArray select 0];
+		format ["[<t color = '%1'>%2</t>]",_keyColor,_helpArray # 0];
 	} else {
-		format ["[<t color = '#FF0000'>%1</t>]",(toUpper (localize 'STR_A3_Hints_unmapped'))];
+		format ["[<t color = '#FF0000'>%1</t>]",(toUpperANSI (localize 'STR_A3_Hints_unmapped'))];
 	};
 	_partString = format [(localize 'STR_A3_Hints_recall'),_keyString];
 	_endPartString = format ["%4<br/><br/><t align='left' size='%2' color='%3'>%1</t>",_partString,_textSizeSmall,_shadowColor,_invChar02];
 	private _advHint = '';
 	if (_advTitle isNotEqualTo '') then {
 		if (_advTitle isEqualType '') then {
-			_advHint = format ["<t size = '1.25' align='left' font='RobotoCondensedBold'>%1</t><br/><br/>",(toUpper _advTitle)];
+			_advHint = format ["<t size = '1.25' align='left' font='RobotoCondensedBold'>%1</t><br/><br/>",(toUpperANSI _advTitle)];
 		};
 	};
 	_advHint = _advHint + _text;

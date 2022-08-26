@@ -42,7 +42,7 @@ _flatPos = [0,0,0];
 _accepted = false;
 while {!_accepted} do {
 	_flatPos = ['WORLD',-1,-1,'LAND',[10,0,0.2,10,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if (!((([(_flatPos select 0),(_flatPos select 1)] nearRoads 50) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo [])) then {
+	if ((([(_flatPos # 0),(_flatPos # 1)] nearRoads 50) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isNotEqualTo []) then {
 		if ((_flatPos distance2D (markerPos 'QS_marker_base_marker')) > 1700) then {
 			if ((_flatPos distance2D (missionNamespace getVariable 'QS_AOpos')) > 1500) then {
 				if ((_flatPos distance2D (markerPos 'QS_marker_Almyra_blacklist_area')) > 2000) then {
@@ -73,11 +73,6 @@ _flatPos3 = _flatPos getPos [15,(random 360)];
 		
 _objVehType = selectRandom _objVehTypes;
 _obj1 = createVehicle [_objVehType,_flatPos1,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _obj1 setDir (random 360);
 _obj1 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj1 enableRopeAttach FALSE;
@@ -85,11 +80,6 @@ _obj1 enableVehicleCargo FALSE;
 _obj1 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _aGroup = createGroup [EAST,TRUE];
 _objUnit1 = _aGroup createUnit [(selectRandom _objUnitTypes),_flatPos1,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _objUnit1 assignAsDriver _obj1;
 _objUnit1 moveInDriver _obj1;
 	
@@ -97,11 +87,6 @@ _objUnit1 moveInDriver _obj1;
 		
 _objVehType = selectRandom _objVehTypes;
 _obj2 = createVehicle [_objVehType,_flatPos2,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _obj2 setDir (random 360);
 _obj2 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj2 enableRopeAttach FALSE;
@@ -109,11 +94,6 @@ _obj2 enableVehicleCargo FALSE;
 _obj2 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _bGroup = createGroup [EAST,TRUE];
 _objUnit2 = _bGroup createUnit [(selectRandom _objUnitTypes),_flatPos1,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _objUnit2 assignAsDriver _obj2;
 _objUnit2 moveInDriver _obj2;
 	
@@ -121,11 +101,6 @@ _objUnit2 moveInDriver _obj2;
 		
 _objVehType = selectRandom _objVehTypes;
 _obj3 = createVehicle [_objVehType,_flatPos3,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _obj3 setDir (random 360);
 _obj3 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj3 enableRopeAttach FALSE;
@@ -133,11 +108,6 @@ _obj3 enableVehicleCargo FALSE;
 _obj3 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _cGroup = createGroup [EAST,TRUE];
 _objUnit3 = _cGroup createUnit [(selectRandom _objUnitTypes),_flatPos2,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _objUnit3 assignAsDriver _obj3;
 _objUnit3 moveInDriver _obj3;
 {_x lock 3;} forEach [_obj1,_obj2,_obj3];
@@ -173,8 +143,8 @@ _intelObj addEventHandler [
 	"Killed",
 	{
 		private ["_object","_killer","_name",'_objType','_killerType','_killerDisplayName','_objDisplayName'];
-		_object = _this select 0;
-		_killer = _this select 1;
+		_object = _this # 0;
+		_killer = _this # 1;
 		_objType = typeOf _object;
 		if (isPlayer _killer) then {
 			_killerType = typeOf (vehicle _killer);
@@ -203,7 +173,7 @@ _enemiesArray = [_flatPos1] call (missionNamespace getVariable 'QS_fnc_smEnemyEa
 	
 /*/-------------------------------------------------------------------------- BRIEFING/*/
 
-_fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 300) + (random 600),0];
+_fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
@@ -311,7 +281,7 @@ for '_x' from 0 to 1 step 0 do {
 			_heEscaped = TRUE;
 			_gettingAway = FALSE;
 		};
-		if (([_currentIntelPos,1500,[WEST],(allPlayers + allUnitsUav),0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
+		if ((((units WEST) inAreaArray [_currentIntelPos,1500,1500,0,FALSE,-1])) isEqualTo []) then {
 			_heEscaped = TRUE;
 			_gettingAway = FALSE;
 		};
@@ -322,7 +292,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	
 	if (!(_intelObj inArea 'QS_marker_sideCircle')) then {
-		_fuzzyPos = [(((position _intelObj) select 0) - 300) + (random 600),(((position _intelObj) select 1) - 300) + (random 600),0];
+		_fuzzyPos = [(((position _intelObj) # 0) - 300) + (random 600),(((position _intelObj) # 1) - 300) + (random 600),0];
 		{
 			_x setMarkerPosLocal _fuzzyPos;
 			_x setMarkerAlpha 1;

@@ -60,11 +60,6 @@ for '_x' from 0 to 3 step 1 do {
 	};
 	_spawnPos set [2,0];
 	_easterEgg = createSimpleObject [_vtype,(ATLToASL _spawnPos)];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	_easterEgg setDir (random 360);
 	_easterEgg setVectorUp (surfaceNormal _spawnPos);
 	for '_x' from 0 to 2 step 1 do {

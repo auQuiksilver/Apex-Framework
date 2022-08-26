@@ -96,21 +96,11 @@ private _superSimple = _class == "" || {_forceSuperSimple};
 private _object = if (_superSimple) then
 {
 	//World coords are used
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	createSimpleObject [_p3d,_pos];
 }
 else
 {
 	//ASL coords are used; fixed later by ASL to World offset
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	createSimpleObject [_class,_pos];
 };
 

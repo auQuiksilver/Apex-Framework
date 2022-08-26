@@ -15,12 +15,12 @@ Description:
 
 Parameter(s):
 
-	_this select 0: the target position (ASL)
-	_this select 1: maximum distance from target in meters (optional)
-	_this select 2: minimum distance from target in meters (optional)
-	_this select 3: minimum height in relation to target in meters (optional)
-	_this select 4: check visibility
-	_this select 5: return array of positions instead of single position
+	_this # 0: the target position (ASL)
+	_this # 1: maximum distance from target in meters (optional)
+	_this # 2: minimum distance from target in meters (optional)
+	_this # 3: minimum height in relation to target in meters (optional)
+	_this # 4: check visibility
+	_this # 5: return array of positions instead of single position
 	
 Returns:
 
@@ -38,7 +38,7 @@ params [
 	['_returnList',-1]
 ];
 scopeName 'main';
-_targetPos set [2,((_targetPos select 2) + 1)];
+_targetPos set [2,((_targetPos # 2) + 1)];
 private _minheight = _minheight + (getTerrainHeightASL _targetPos);
 private _selectedPositions = [];
 private _result = [];

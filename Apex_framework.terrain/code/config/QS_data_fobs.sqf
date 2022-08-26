@@ -36,15 +36,12 @@ if (_worldName isEqualTo 'Altis') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -182,15 +179,12 @@ if (_worldName isEqualTo 'Altis') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -313,15 +307,12 @@ if (_worldName isEqualTo 'Altis') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -447,15 +438,12 @@ if (_worldName isEqualTo 'Altis') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -588,15 +576,12 @@ if (_worldName isEqualTo 'Altis') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -734,15 +719,12 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -880,15 +862,12 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -995,15 +974,12 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -1110,15 +1086,12 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -1230,15 +1203,12 @@ if (_worldName isEqualTo 'Malden') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -1332,15 +1302,12 @@ if (_worldName isEqualTo 'Malden') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[-0.6,0,-1]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[0.7,0,0]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -1444,15 +1411,12 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[4.5,1,-1.55]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[-2.2,2.5,-0.7]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -1570,15 +1534,12 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[4.5,1,-1.55]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[-2.2,2.5,-0.7]];
 						_crate setDir 90;
 						sleep 0.1;
@@ -1693,15 +1654,12 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 						_building = _this # 0;
 						_building enableSimulationGlobal TRUE;
 						_dataTerminal = createSimpleObject ['Land_DataTerminal_01_F',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_dataTerminal attachTo [_building,[4.5,1,-1.55]];
 						_dataTerminal setDir 90;
 						sleep 0.1;
 						detach _dataTerminal;
 						missionNamespace setVariable ['QS_module_fob_dataTerminal',_dataTerminal,TRUE];
-						
 						_crate = createSimpleObject ['a3\weapons_f\ammoboxes\supplydrop.p3d',(getPosWorld _building)];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_crate attachTo [_building,[-2.2,2.5,-0.7]];
 						_crate setDir 90;
 						sleep 0.1;

@@ -26,7 +26,6 @@ waitUntil {
 	uiSleep 0.1;
 	((!isNull _client) || {(diag_tickTime > _t)})
 };
-missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 if (allCurators isNotEqualTo []) then {
 	{
 		if (!isNull (getAssignedCuratorUnit _x)) then {
@@ -35,22 +34,14 @@ if (allCurators isNotEqualTo []) then {
 	} count allCurators;
 };
 if (isNull _client) exitWith {};
-_ii = (missionNamespace getVariable 'QS_roboCop') findIf {((_x # 0) isEqualTo _uid)};
-private _val = 0;
-private _a = [_uid,_val];
-if (_ii isEqualTo -1) then {
-	_a = [_uid,_val];
-	(missionNamespace getVariable 'QS_roboCop') pushBack _a;
-} else {
-	_a = (missionNamespace getVariable 'QS_roboCop') # _ii;
-	_val = _a # 1;
-	(missionNamespace getVariable 'QS_roboCop') set [_ii,_a];
-};
+//===== ROBOCOP
+_val = QS_robocop getOrDefault [_uid,0,TRUE];
 if (_val > 5) exitWith {
 	FALSE remoteExecCall ['disableUserInput',_cid,FALSE];
 	uiSleep 0.1;
 	([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',_cid]);
 };
+//===== Supporter Level
 private _sLevel = 0;
 if (_uid in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	_sLevel = 2;
@@ -75,12 +66,19 @@ if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 3) then 
 _loginVal = 998;
 _client setVariable ['QS_5551212',_loginVal,FALSE];
 _client setVariable ['QS_ClientSupporterLevel',_sLevel,FALSE];
+private _notifyWhitelist = _uid in (missionProfileNamespace getVariable ['QS_whitelists_toInform',[]]);
+if (_notifyWhitelist) then {
+	(missionProfileNamespace getVariable 'QS_whitelists_toInform') deleteAt ((missionProfileNamespace getVariable ['QS_whitelists_toInform',[]]) find _uid);
+};
 [
-	[[_uid,_cid,_val,_jip],_sLevel,_loginVal],
+	[[_uid,_cid,_val,_jip],_sLevel,_loginVal,_notifyWhitelist],
 	{
 		missionNamespace setVariable ['QS_atClientMisc',(_this # 0),FALSE];
 		player setVariable ['QS_ClientSupporterLevel',(_this # 1),FALSE];
 		player setVariable ['QS_5551212',(_this # 2),FALSE];
 		0 spawn (missionNamespace getVariable 'QS_fnc_initPlayerLocal');
+		if (_this # 3) then {
+			0 spawn (missionNamespace getVariable 'QS_fnc_leaderboardNotifyWhitelist');
+		};
 	}
 ] remoteExec ['call',_cid,FALSE];

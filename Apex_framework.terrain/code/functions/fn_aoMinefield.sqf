@@ -33,11 +33,6 @@ for '_x' from 0 to (round (29 + (random 19))) step 1 do {
 	_mineType = selectRandom _mineTypes;
 	_minePos = _centralPos getPos [(_distance2 * (sqrt (random 1))),(random 360)];
     _mine = createMine [_mineType,_minePos,[],0];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	//_mine enableDynamicSimulation TRUE;
 	_mine setVectorUp (surfaceNormal (getPosWorld _mine));
 	{
@@ -56,7 +51,7 @@ _model = getText (_configClass >> 'model');
 if ((_model select [0,1]) isEqualTo '\') then {
 	_model = _model select [1];
 };
-if (!((_model select [((count _model) - 4),4]) isEqualTo '.p3d')) then {
+if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 	_model = _model + '.p3d';
 };
 for '_c' from 0 to _barriers step 1 do {
@@ -65,11 +60,6 @@ for '_c' from 0 to _barriers step 1 do {
 	_pos set [2,(getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset'))];
 	_pos = ATLToASL _pos;
 	_sign = createSimpleObject [_model,_pos];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
     _sign setDir _dir;
 	_sign setVectorUp (surfaceNormal _pos);
     _dir = _dir + _angle;

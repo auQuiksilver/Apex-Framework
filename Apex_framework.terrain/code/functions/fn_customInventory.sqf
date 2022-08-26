@@ -466,7 +466,7 @@ _allMagazines = [
 ];
 if (_type isEqualTo 0) then {
 	//comment 'Randomize';
-	_entityType = toLower (typeOf _entity);
+	_entityType = toLowerANSI (typeOf _entity);
 	private _weaponType = '';
 	private _magazineType = '';
 	private _backpackType = '';
@@ -494,8 +494,8 @@ if (_type isEqualTo 0) then {
 		_magazinesToAdd = [];
 		for '_x' from 0 to (_qtyMagazines - 1) step 1 do {
 			_magazineType = selectRandom _allMagazines;
-			_magazineTypesToAdd pushBackUnique (toLower _magazineType);
-			_magazinesToAdd pushBack (toLower _magazineType);
+			_magazineTypesToAdd pushBackUnique (toLowerANSI _magazineType);
+			_magazinesToAdd pushBack (toLowerANSI _magazineType);
 		};
 		{
 			_magazineTypeUnique = _x;
@@ -510,8 +510,8 @@ if (_type isEqualTo 0) then {
 		_weaponsToAdd = [];
 		for '_x' from 0 to (_qtyWeapons - 1) step 1 do {
 			_weaponType = selectRandom _allWeapons;
-			_weaponTypesToAdd pushBackUnique (toLower _weaponType);
-			_weaponsToAdd pushBack (toLower _weaponType);
+			_weaponTypesToAdd pushBackUnique (toLowerANSI _weaponType);
+			_weaponsToAdd pushBack (toLowerANSI _weaponType);
 		};		
 		{
 			_weaponTypeUnique = _x;
@@ -520,7 +520,7 @@ if (_type isEqualTo 0) then {
 };
 if (_type isEqualTo 1) then {
 	//comment 'Preset';
-	_entityType = toLower (typeOf _entity);
+	_entityType = toLowerANSI (typeOf _entity);
 	private _weaponType = '';
 	private _magazineType = '';
 	private _backpackType = '';
@@ -581,8 +581,8 @@ if (_type isEqualTo 1) then {
 				'20Rnd_762x51_Mag',0.2,
 				'NLAW_F',0.1
 			];
-			_magazineTypesToAdd pushBackUnique (toLower _magazineType);
-			_magazinesToAdd pushBack (toLower _magazineType);
+			_magazineTypesToAdd pushBackUnique (toLowerANSI _magazineType);
+			_magazinesToAdd pushBack (toLowerANSI _magazineType);
 		};
 		{
 			_magazineTypeUnique = _x;
@@ -596,8 +596,8 @@ if (_type isEqualTo 1) then {
 				'srifle_DMR_06_olive_F',0.2,
 				'launch_nlaw_f',0.2
 			];
-			_weaponTypesToAdd pushBackUnique (toLower _weaponType);
-			_weaponsToAdd pushBack (toLower _weaponType);
+			_weaponTypesToAdd pushBackUnique (toLowerANSI _weaponType);
+			_weaponsToAdd pushBack (toLowerANSI _weaponType);
 		};
 		{
 			_weaponTypeUnique = _x;
@@ -611,8 +611,8 @@ if (_type isEqualTo 1) then {
 				'B_FieldPack_oli',0.25,
 				'B_Bergen_rgr',0.25
 			];
-			_backpackTypesToAdd pushBackUnique (toLower _backpackType);
-			_backpacksToAdd pushBack (toLower _backpackType);
+			_backpackTypesToAdd pushBackUnique (toLowerANSI _backpackType);
+			_backpacksToAdd pushBack (toLowerANSI _backpackType);
 		};
 		{
 			_backpackTypeUnique = _x;
@@ -625,8 +625,8 @@ if (_type isEqualTo 1) then {
 		_magazinesToAdd = [];
 		for '_x' from 0 to (_qtyMagazines - 1) step 1 do {
 			_magazineType = selectRandom _allMagazines;
-			_magazineTypesToAdd pushBackUnique (toLower _magazineType);
-			_magazinesToAdd pushBack (toLower _magazineType);
+			_magazineTypesToAdd pushBackUnique (toLowerANSI _magazineType);
+			_magazinesToAdd pushBack (toLowerANSI _magazineType);
 		};
 		{
 			_magazineTypeUnique = _x;
@@ -641,8 +641,8 @@ if (_type isEqualTo 1) then {
 		_weaponsToAdd = [];
 		for '_x' from 0 to (_qtyWeapons - 1) step 1 do {
 			_weaponType = selectRandom _allWeapons;
-			_weaponTypesToAdd pushBackUnique (toLower _weaponType);
-			_weaponsToAdd pushBack (toLower _weaponType);
+			_weaponTypesToAdd pushBackUnique (toLowerANSI _weaponType);
+			_weaponsToAdd pushBack (toLowerANSI _weaponType);
 		};		
 		{
 			_weaponTypeUnique = _x;

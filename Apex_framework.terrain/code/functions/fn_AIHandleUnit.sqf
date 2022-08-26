@@ -6,13 +6,14 @@ Author:
 
 Last Modified:
 
-	11/08/2019 A3 1.94 by Quiksilver
+	1/06/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Handle Unit AI
 _______________________________________________________/*/
 
+scriptName 'QS_fnc_AIHandleUnit';
 params ['_unit','_uiTime','_fps'];
 if (
 	(!(alive _unit)) ||
@@ -32,10 +33,10 @@ if (
 		};
 	};
 };
+_objectParent = objectParent _unit;
 if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	_unit setVariable ['QS_AI_UNIT',TRUE,FALSE];
 	_unit setVariable ['QS_AI_UNIT_rv',[(random 1),(random 1),(random 1)],FALSE];
-	_unit setVariable ['QS_AI_UNIT_delayedInstructions',[],FALSE];
 	if (isNil {_unit getVariable 'QS_AI_UNIT_nextSelfRearm'}) then {
 		_unit setVariable ['QS_AI_UNIT_nextSelfRearm',(_uiTime + (random [180,300,420])),FALSE];
 	};
@@ -43,17 +44,27 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfHeal',_uiTime,FALSE];
 	};
 	if (isNil {_unit getVariable 'QS_AI_UNIT_isMG'}) then {
-		if (((getText (configFile >> 'CfgWeapons' >> (primaryWeapon _unit) >> 'cursor')) isEqualTo 'mg') || {((toLower (typeOf _unit)) in ['o_t_soldier_ar_f'])} || {((!isNull (objectParent _unit)) && (_unit isEqualTo (gunner (objectParent _unit))))}) then {
-			if ((isNull (objectParent _unit)) || ((!isNull (objectParent _unit)) && {(!( ['_aa_',(typeOf (objectParent _unit)),FALSE] call (missionNamespace getVariable 'QS_fnc_inString') ))})) then {
+		if (
+			((toLowerANSI (primaryWeapon _unit)) in (missionNamespace getVariable ['QS_AI_weapons_MG',[]])) ||
+			{((!isNull _objectParent) && {(_unit isEqualTo (gunner _objectParent))})}
+		) then {
+			if ((isNull _objectParent) || {(!(['_aa_',(typeOf _objectParent),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))}) then {
+				_grpMGs = (group _unit) getVariable ['QS_AI_GRP_MGs',[]];
+				_grpMGs pushBack _unit;
+				(group _unit) setVariable ['QS_AI_GRP_MGs',_grpMGs,FALSE];
 				_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
+			} else {
+				_unit setVariable ['QS_AI_UNIT_isMG',FALSE,FALSE];
 			};
 		} else {
 			_unit setVariable ['QS_AI_UNIT_isMG',FALSE,FALSE];
 		};
-		if (_unit getVariable 'QS_AI_UNIT_isMG') then {
-			if (isNil {_unit getVariable 'QS_AI_UNIT_lastSuppressiveFire'}) then {
-				_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(_uiTime - 1),FALSE];
-			};
+	};
+	if (isNil {_unit getVariable 'QS_AI_UNIT_isGL'}) then {
+		if ((toLowerANSI (primaryWeapon _unit)) in (missionNamespace getVariable ['QS_AI_weapons_GL',[]])) then {
+			_unit setVariable ['QS_AI_UNIT_isGL',TRUE,FALSE];
+		} else {
+			_unit setVariable ['QS_AI_UNIT_isGL',FALSE,FALSE];
 		};
 	};
 	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSmoke'}) then {
@@ -78,22 +89,19 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 			_unit setVariable ['QS_AI_UNIT_assignedVehicle',(assignedVehicle _unit),FALSE];
 		};
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_tankGunner'}) then {
-		if ((objectParent _unit) isKindOf 'Tank') then {
-			if (_unit isEqualTo (gunner (objectParent _unit))) then {
-				_vehicle_weapons = (weapons (objectParent _unit)) apply {(toLower _x)};
-				_whitelisted_weapons = ['cannon_125mm_advanced','cannon_125mm','cannon_120mm_long','cannon_20mm','cannon_120mm','autocannon_30mm','autocannon_30mm_ctws'];		// Lowercase
-				if ((_vehicle_weapons findIf {(_x in _whitelisted_weapons)}) isNotEqualTo -1) then {
-					_unit setVariable ['QS_AI_UNIT_tankGunner',TRUE,FALSE];
-					_unit setVariable ['QS_AI_UNIT_gunnerMuzzle',(_whitelisted_weapons select {(_x in _vehicle_weapons)}),FALSE];
-				} else {
-					_unit setVariable ['QS_AI_UNIT_tankGunner',FALSE,FALSE];
-				};
-			} else {
-				_unit setVariable ['QS_AI_UNIT_tankGunner',FALSE,FALSE];
-			};
+	if (isNil {_unit getVariable 'QS_AI_UNIT_vGunner'}) then {
+		if (
+			(!isNull _objectParent) &&
+			{(!(_objectParent isKindOf 'Air'))} &&
+			{(!(_objectParent isKindOf 'StaticMortar'))} &&
+			{(!(unitIsUAV _objectParent))} &&
+			{(((weaponState [_objectParent,_objectParent unitTurret _unit]) # 4) > 5)}
+		) then {
+			_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
+			_unit setVariable ['QS_AI_UNIT_vGunner',TRUE,FALSE];
 		} else {
-			_unit setVariable ['QS_AI_UNIT_tankGunner',FALSE,FALSE];
+			_unit setVariable ['QS_AI_UNIT_isMG',FALSE,FALSE];
+			_unit setVariable ['QS_AI_UNIT_vGunner',FALSE,FALSE];
 		};
 	};
 };
@@ -116,134 +124,194 @@ if (_isLeader) then {
 	};
 };
 _attackTarget = getAttackTarget _unit;
-_objectParent = objectParent _unit;
+if (!alive _attackTarget) then {
+	if (_fps > 15) then {
+		if ((random 1) > 0) then {
+			_attackTarget = [_unit,300,TRUE] call (missionNamespace getVariable 'QS_fnc_AIGetAttackTarget');
+		};
+	};
+};
+if (alive _attackTarget) then {
+	_unit setVariable ['QS_AI_UNIT_attackTarget',_attackTarget,FALSE];
+};
 _suppression = getSuppression _unit;
 _unitReady = unitReady _unit;
 _unitBehaviour = behaviour _unit;
 _unitMorale = morale _unit;
+_unitDamage = damage _unit;
 _formationPos = formationPosition _unit;
 _expectedDestination = expectedDestination _unit;
+_currentCommand = currentCommand _unit;
+_aiPath = _unit checkAIFeature 'PATH';
+if (
+	!scriptDone (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])
+) exitWith {};
+//=========== DELAYED INSTRUCTIONS
+if ((_unit getVariable ['QS_AI_UNIT_delayedInstructions',[]]) isNotEqualTo []) then {
+	_delayedInstructions = _unit getVariable ['QS_AI_UNIT_delayedInstructions',[-1,-1]];
+	if (_uiTime > (_delayedInstructions # 0)) then {
+		[_unit,(_delayedInstructions # 1)] call (missionNamespace getVariable 'QS_fnc_AIXDelayedInstruction');
+	};
+};
 if (isNull _objectParent) then {
-	_unitPos = unitPos _unit;
-	if ((_suppression >= 0.2) || {(_unitMorale < 0)}) then {
-		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastStanceAdjust',-1])) then {
-			_unit setVariable ['QS_AI_UNIT_lastStanceAdjust',(_uiTime + (random [20,40,60])),FALSE];
-			if (_unitPos isNotEqualTo 'MIDDLE') then {
-				_unit setUnitPosWeak 'MIDDLE';
-			};
-		};
-		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSmoke',-1])) then {
-			_unit setVariable ['QS_AI_UNIT_lastSmoke',(_uiTime + (random [30,60,90])),FALSE];
-			if (alive _attackTarget) then {
-				if ((random 1) > 0.85) then {
-					[_unit,_attackTarget,'SMOKE',((random 1) > 0.5)] call (missionNamespace getVariable 'QS_fnc_AIXThrow');
+
+	//=============================== STANCE ADJUST
+	if (!(_unit getVariable ['QS_AI_UNIT_disableStanceAdjust',FALSE])) then {
+		_unitPos = unitPos _unit;
+		if (
+			(_unitBehaviour isEqualTo 'COMBAT') &&
+			{((_suppression > 0) || (_unitDamage > 0.1))}
+		) then {
+			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastStanceAdjust',-1])) then {
+				_unit setVariable ['QS_AI_UNIT_lastStanceAdjust',(_uiTime + (random [15,30,45])),FALSE];
+				if (_unitPos isEqualTo 'UP') then {
+					_unit setUnitPos 'MIDDLE';
 				};
 			};
-		};
-	} else {
-		if (_unitPos isEqualTo 'DOWN') then {
-			_unit setUnitPos 'AUTO';
+		} else {
+			if (_unitPos isEqualTo 'DOWN') then {
+				_unit setUnitPos 'AUTO';
+			};
 		};
 	};
+	//================================ SELF HEAL
 	if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSelfHeal',-1])) then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfHeal',(_uiTime + (random [30,60,90])),FALSE];
 		if (((damage _unit) isNotEqualTo 0) || {((((getAllHitPointsDamage _unit) # 2) findIf {(_x isNotEqualTo 0)}) isNotEqualTo -1)}) then {
 			if (isNull _objectParent) then {
-				_weaponLowered = weaponLowered _unit;
-				if ((isNull (getAttackTarget _unit)) || {(_unitReady)} || {(_weaponLowered)}) then {
+				if ((isNull _attackTarget) || {(_unitReady)} || {(weaponLowered _unit)}) then {
 					_unit action ['HealSoldierSelf',_unit];
 					_unit setDamage [0,FALSE];
 				};
 			};
 		};
 	};
-	if (alive _attackTarget) then {
-		private _fragAttempted = FALSE;
-		if (((_unit distance2D _attackTarget) < 60) && ((_unit distance2D _attackTarget) > 15)) then {
-			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastFrag',-1])) then {
-				_unit setVariable ['QS_AI_UNIT_lastFrag',(_uiTime + (random [15,45,65])),FALSE];
-				if ((random 1) > 0.85) then {
+	//================================ THROWABLES
+	if (_aiPath) then {
+		if (alive _attackTarget) then {
+			if (
+				((random 1) > 0.75) &&
+				{(_unitBehaviour isNotEqualTo 'STEALTH')} &&
+				{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSmoke',-1]))} &&
+				{(((alive _attackTarget) && ((_unit distance2D _attackTarget) < 100)) || {(_suppression > 0)})}
+			) then {
+				QS_AI_managed_smoke = QS_AI_managed_smoke select {(serverTime < _x)};
+				if ((count QS_AI_managed_smoke) < QS_AI_managed_smoke_max) then {
+					QS_AI_managed_smoke pushBack (serverTime + 45);
+					_unit setVariable ['QS_AI_UNIT_lastSmoke',(_uiTime + (random [15,30,45])),FALSE];
+					[_unit,_attackTarget,'SMOKE',TRUE] call (missionNamespace getVariable 'QS_fnc_AIXThrow');
+				};
+			};
+			private _fragAttempted = FALSE;
+			if (
+				((random 1) > 0.75) &&
+				{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastFrag',-1]))} &&
+				{((_unit distance2D _attackTarget) < 65)}
+			) then {
+				QS_AI_managed_frags = QS_AI_managed_frags select {(serverTime < _x)};
+				if ((count QS_AI_managed_frags) < QS_AI_managed_frags_max) then {
+					QS_AI_managed_frags pushBack (serverTime + 15);
 					_fragAttempted = TRUE;
+					_unit setVariable ['QS_AI_UNIT_lastFrag',(_uiTime + (random [15,45,65])),FALSE];
 					[_unit,_attackTarget,'FRAG',TRUE] call (missionNamespace getVariable 'QS_fnc_AIXThrow');
 				};
 			};
 		};
-		if (!(_fragAttempted)) then {
-			if (((_unit getVariable ['QS_AI_UNIT_rv',[-1,-1,-1]]) # 0) > 0.5) then {
-				if (!(_unit getVariable ['QS_unitGarrisoned',FALSE])) then {
-					if ((_unit distance2D _attackTarget) < 30) then {
-						_unit doMove [(((_unit targetKnowledge _attackTarget) # 6) # 0),(((_unit targetKnowledge _attackTarget) # 6) # 1),(((getPosATL _attackTarget) # 2) + 1)];
+	};
+	
+	//================================== VEHICLE DEMOLITION
+	
+	if (_fps > 10) then {
+		if (_aiPath) then {
+			if ((random 1) > 0.75) then {
+				if (_uiTime > (_unit getVariable ['QS_AI_UNIT_LastGesture',-1])) then {
+					_unit setVariable ['QS_AI_UNIT_LastGesture',(_uiTime + (random ([[5,10,15],[20,40,60]] select (_unitMorale < 0)))),FALSE];
+					if ((count (missionNamespace getVariable 'QS_AI_unitsGestureReady')) < ([5,10] select (_fps > 15))) then {
+						_unit setVariable ['QS_AI_UNIT_gestureEvent',TRUE,FALSE];
+						_unit addEventHandler ['Hit',{call (missionNamespace getVariable 'QS_fnc_AIXHitEvade')}];
+						(missionNamespace getVariable 'QS_AI_unitsGestureReady') pushBack _unit;
 					};
 				};
 			};
-		};
-	};
-	if (_fps > 10) then {
-		if ((random 1) > 0.9) then {
-			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_LastGesture',-1])) then {
-				_unit setVariable ['QS_AI_UNIT_LastGesture',(_uiTime + (random ([[5,10,15],[20,40,60]] select (_unitMorale < 0)))),FALSE];
-				if ((count (missionNamespace getVariable 'QS_AI_unitsGestureReady')) < ([5,10] select (_fps > 15))) then {
-					_unit setVariable ['QS_AI_UNIT_gestureEvent',TRUE,FALSE];
-					_unit addEventHandler ['Hit',{call (missionNamespace getVariable 'QS_fnc_AIXHitEvade')}];
-					(missionNamespace getVariable 'QS_AI_unitsGestureReady') pushBack _unit;
-				};
-			};
-		};
-	};
-	if (_fps > 10) then {
-		if (_unit getUnitTrait 'explosiveSpecialist') then {
-			if ((random 1) > 0) then {
-				if (!(_unit getVariable ['QS_AI_JOB',FALSE])) then {
-					if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastExpEval',-1])) then {
-						_unit setVariable ['QS_AI_UNIT_lastExpEval',(diag_tickTime + (random [30,45,60])),FALSE];
-						if ((count (missionNamespace getVariable 'QS_AI_scripts_Assault')) < 3) then {
-							private _targetFound = FALSE;
-							_assignedTarget = assignedTarget _unit;
-							if (alive _assignedTarget) then {
-								_assignedTargetVehicle = vehicle _assignedTarget;
-								if (_assignedTargetVehicle isKindOf 'AllVehicles') then {
-									if (!(_assignedTargetVehicle isKindOf 'CAManBase')) then {
-										if (isTouchingGround _assignedTargetVehicle) then {
-											if ((_unit distance2D _assignedTargetVehicle) < 150) then {
-												_targetFound = TRUE;
-												_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
-												(missionNamespace getVariable 'QS_AI_scripts_Assault') pushBack ([_unit,_assignedTargetVehicle,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine'));
+			if ((_unit getUnitTrait 'explosiveSpecialist') || {(_unit getUnitTrait 'engineer')}) then {
+				if ((random 1) > 0) then {
+					if (!(_unit getVariable ['QS_AI_JOB',FALSE])) then {
+						if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastExpEval',-1])) then {
+							_unit setVariable ['QS_AI_UNIT_lastExpEval',(serverTime + (random [30,45,60])),FALSE];
+							if ((count (missionNamespace getVariable 'QS_AI_scripts_Assault')) < 3) then {
+								private _targetFound = FALSE;
+								_assignedTarget = assignedTarget _unit;
+								if (alive _assignedTarget) then {
+									_assignedTargetVehicle = vehicle _assignedTarget;
+									if (_assignedTargetVehicle isKindOf 'AllVehicles') then {
+										if (!(_assignedTargetVehicle isKindOf 'CAManBase')) then {
+											if (isTouchingGround _assignedTargetVehicle) then {
+												if ((_unit distance2D _assignedTargetVehicle) < 150) then {
+													_targetFound = TRUE;
+													_QS_script = [_unit,_assignedTargetVehicle,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine');
+													_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
+													_unit setVariable ['QS_AI_UNIT_script',_QS_script,FALSE];
+													missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') + [serverTime + 300]),QS_system_AI_owners];
+												};
 											};
 										};
 									};
-								};
-							};
-							if (!(_targetFound)) then {
-								if ((_grp getVariable ['QS_AI_GRP_nearTargets',[]]) isNotEqualTo []) then {
-									_targets = (_grp getVariable 'QS_AI_GRP_nearTargets') # 0;
-									private _targetFound = FALSE;
-									if (_targets isNotEqualTo []) then {
+								} else {
+									_unitPos = getPosATL _unit;
+									_nearVehicles = [6,EAST,_unitPos,350] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+									if (_nearVehicles isNotEqualTo []) then {
+										private _nearVPos = 99999;
+										private _nearV = objNull;
 										{
-											if (alive _x) then {
-												if (_x isKindOf 'AllVehicles') then {
-													if (!(_x isKindOf 'CAManBase')) then {
-														if (isTouchingGround _x) then {
-															if ((_x distance2D _unit) < 150) then {
-																_targetFound = TRUE;
-																_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
-																(missionNamespace getVariable 'QS_AI_scripts_Assault') pushBack ([_unit,_x,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine'));
+											if ((_x distance2D _unitPos) < _nearVPos) then {
+												_nearVPos = _x distance2D _unitPos;
+												_nearV = _x;
+											};
+										} forEach _nearVehicles;
+										_unit doTarget _nearV;
+										_targetFound = TRUE;
+										_QS_script = [_unit,_nearV,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine');
+										_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
+										_unit setVariable ['QS_AI_UNIT_script',_QS_script,FALSE];
+										missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') + [serverTime + 300]),QS_system_AI_owners];
+									};
+								};
+								if (!(_targetFound)) then {
+									if ((_grp getVariable ['QS_AI_GRP_nearTargets',[]]) isNotEqualTo []) then {
+										_targets = (_grp getVariable 'QS_AI_GRP_nearTargets') # 0;
+										private _targetFound = FALSE;
+										if (_targets isNotEqualTo []) then {
+											{
+												if (alive _x) then {
+													if (_x isKindOf 'AllVehicles') then {
+														if (!(_x isKindOf 'CAManBase')) then {
+															if (isTouchingGround _x) then {
+																if ((_x distance2D _unit) < 150) then {
+																	_targetFound = TRUE;
+																	_QS_script = [_unit,_x,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine');
+																	_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
+																	_unit setVariable ['QS_AI_UNIT_script',_QS_script,FALSE];
+																	missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') + [serverTime + 300]),QS_system_AI_owners];
+																};
 															};
 														};
 													};
 												};
-											};
-											if (_targetFound) exitWith {};
-										} forEach _targets;
+												if (_targetFound) exitWith {};
+											} forEach _targets;
+										};
 									};
 								};
-							};
-							if (!(_targetFound)) then {
-								_targets = [6,EAST,(getPosATL _unit),(150 + (random 100))] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-								if (_targets isNotEqualTo []) then {
-									_targetFound = TRUE;
-									_target = selectRandom _targets;
-									_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
-									(missionNamespace getVariable 'QS_AI_scripts_Assault') pushBack ([_unit,_target,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine'));
+								if (!(_targetFound)) then {
+									_targets = [6,EAST,(getPosATL _unit),(150 + (random 100))] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+									if (_targets isNotEqualTo []) then {
+										_targetFound = TRUE;
+										_target = selectRandom _targets;
+										_QS_script = [_unit,_target,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine');
+										_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
+										_unit setVariable ['QS_AI_UNIT_script',_QS_script,FALSE];
+										missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') + [serverTime + 300]),QS_system_AI_owners];
+									};
 								};
 							};
 						};
@@ -251,196 +319,197 @@ if (isNull _objectParent) then {
 				};
 			};
 		};
-	};	
-	if (_unit getUnitTrait 'engineer') then {
-		if ((count (missionNamespace getVariable 'QS_AI_scripts_support')) < 1) then {
-			if (isNil {_grp getVariable 'QS_AI_engineer_vehicles'}) then {
-				_grp setVariable ['QS_AI_engineer_vehicles',[],FALSE];
-			};
-			_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') select {(alive _x)}),FALSE];
-			if ((count (_grp getVariable ['QS_AI_engineer_vehicles',[]])) < 2) then {
-				private _vehicle = objNull;
-				private _QS_script = scriptNull;
-				{
-					_vehicle = _x;
-					if (alive _vehicle) then {
-						if (_vehicle isNotEqualTo (_unit getVariable ['QS_AI_UNIT_assignedVehicle',objNull])) then {
-							if (!(_vehicle in (_grp getVariable ['QS_AI_engineer_vehicles',[]]))) then {
-								if (!canMove _vehicle) then {
-									if ((_vehicle distance2D _unit) < 500) then {
-										_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') + [_vehicle]),FALSE];
-										_grp addVehicle _vehicle;
-										_QS_script = [_unit,_vehicle,300,7,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXRepairVehicle');
-										(missionNamespace getVariable 'QS_AI_scripts_support') pushBack _QS_script;
+	};
+	//================================== Vehicle Repair
+	if (_aiPath) then {
+		if (_unit getUnitTrait 'engineer') then {
+			if ((count (missionNamespace getVariable 'QS_AI_scripts_support')) < 2) then {
+				if (isNil {_grp getVariable 'QS_AI_engineer_vehicles'}) then {
+					_grp setVariable ['QS_AI_engineer_vehicles',[],FALSE];
+				};
+				_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') select {(alive _x)}),FALSE];
+				if ((count (_grp getVariable ['QS_AI_engineer_vehicles',[]])) < 2) then {
+					private _vehicle = objNull;
+					private _QS_script = scriptNull;
+					{
+						_vehicle = _x;
+						if (alive _vehicle) then {
+							if (_vehicle isNotEqualTo (_unit getVariable ['QS_AI_UNIT_assignedVehicle',objNull])) then {
+								if (!(_vehicle in (_grp getVariable ['QS_AI_engineer_vehicles',[]]))) then {
+									if (!canMove _vehicle) then {
+										if ((_vehicle distance2D _unit) < 500) then {
+											_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') + [_vehicle]),FALSE];
+											_grp addVehicle _vehicle;
+											_QS_script = [_unit,_vehicle,300,7,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXRepairVehicle');
+											_unit setVariable ['QS_AI_UNIT_script',_QS_script,FALSE];
+											missionNamespace setVariable ['QS_AI_scripts_support',((missionNamespace getVariable 'QS_AI_scripts_support') + [serverTime + 300]),QS_system_AI_owners];
+										};
 									};
-								};
-							} else {
-								if (canMove _vehicle) then {
-									_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') - [_vehicle]),FALSE];
-									if ((alive (_unit getVariable ['QS_AI_UNIT_assignedVehicle',objNull])) || {(!('VEHICLE' in (_grp getVariable ['QS_AI_GRP_CONFIG',[]])))}) then {
-										_grp leaveVehicle _vehicle;
+								} else {
+									if (canMove _vehicle) then {
+										_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') - [_vehicle]),FALSE];
+										if ((alive (_unit getVariable ['QS_AI_UNIT_assignedVehicle',objNull])) || {(!('VEHICLE' in (_grp getVariable ['QS_AI_GRP_CONFIG',[]])))}) then {
+											_grp leaveVehicle _vehicle;
+										};
 									};
 								};
 							};
 						};
-					};
-				} forEach (missionNamespace getVariable 'QS_AI_vehicles');
-			} else {
-				_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') select {(!canMove _x)}),FALSE];
+					} forEach (missionNamespace getVariable 'QS_AI_vehicles');
+				} else {
+					_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') select {(!canMove _x)}),FALSE];
+				};
 			};
 		};
 	};
 };
-if (_fps > 9) then {
-	if (_unit getVariable ['QS_AI_UNIT_isMG',FALSE]) then {
-		if ((random 1) > 0.666) then {
-			if (_unitBehaviour in ['AWARE','COMBAT']) then {
-				private _isSuppressing = FALSE;
-				if (alive _attackTarget) then {
-					private _attackTarget = vehicle _attackTarget;
-					if (!(_attackTarget isKindOf 'Air')) then {
-						if ((_attackTarget distance2D _unit) < 1000) then {
-							if (([_unit,'FIRE',_attackTarget] checkVisibility [(eyePos _unit),(aimPos _attackTarget)]) > 0) then {
-								_unit removeAllEventHandlers 'FiredMan';
-								_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
-								_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [10,15,20])),FALSE];
-								_unit doWatch _attackTarget;
-								_unit doTarget _attackTarget;
-								[_unit,_attackTarget] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (aimPos (_this # 1));};
-								_isSuppressing = TRUE;
-							} else {
-								_unit suppressFor (random [10,15,20]);
-							};
-						} else {
-							_unit suppressFor (random [10,15,20]);
-						};
-					} else {
-						_unit suppressFor (random [10,15,20]);
-					};
-				} else {
-					_unit suppressFor (random [10,15,20]);
-				};
-				if (!(_isSuppressing)) then {
-					_hostileBuildings = missionNamespace getVariable ['QS_AI_hostileBuildings',[]];
-					if (_hostileBuildings isNotEqualTo []) then {
-						private _hostileBuilding = objNull;
-						{
-							if (((_objectParent distance2D _x) < ([300,600] select ((_objectParent isKindOf 'Tank') || {(_objectParent isKindOf 'Wheeled_APC_F')}))) && {(([_objectParent,'FIRE',_x] checkVisibility [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _x)]) > 0.1)}) exitWith {
-								_hostileBuilding = _x;
-							};
-						} forEach _hostileBuildings;
-						if (!isNull _hostileBuilding) then {
-							_unit doWatch _hostileBuilding;
-							if ((random 1) > 0.5) then {
-								private _aimPos = aimPos _hostileBuilding;
-								_intersections = lineIntersectsSurfaces [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _hostileBuilding),_objectParent,objNull,TRUE,-1,'VIEW','FIRE',TRUE];
-								if (_intersections isNotEqualTo []) then {
-									{
-										if ((_x # 3) isEqualTo _hostileBuilding) exitWith {
-											_aimPos = _x # 0;
-										};
-									} forEach _intersections;
-									[_unit,_aimPos] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (_this # 1);};
-								};
-							} else {
-								[_unit,_hostileBuilding] spawn {uiSleep 1; (_this # 0) doSuppressiveFire (aimPos (_this # 1));};
-							};
-							_unit removeAllEventHandlers 'FiredMan';
-							_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
-							_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [10,15,20])),FALSE];
-						};
-					};
-				};
+//======================================================================= SUPPRESSIVE FIRE (UNIT)
+if (_fps > 10) then {
+	private _isSuppressing = _currentCommand isEqualTo 'Suppress';
+	if (
+		(!_isSuppressing) &&
+		{(isNull _objectParent)} &&
+		{((random 1) > 0.666)} &&
+		{(_unit getVariable ['QS_AI_UNIT_isMG',FALSE])} &&
+		{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1]))} &&
+		{(_unitBehaviour in ['AWARE','COMBAT'])}
+	) then {
+		if (alive _attackTarget) then {
+			private _attackTarget = vehicle _attackTarget;
+			if (([_unit,'FIRE',_attackTarget] checkVisibility [(eyePos _unit),(aimPos _attackTarget)]) > 0) then {
+				_isSuppressing = TRUE;
+				[_unit,_attackTarget,1,TRUE,TRUE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+			} else {
+				_isSuppressing = TRUE;
+				[
+					_unit,
+					((_unit targetKnowledge _attackTarget) # 6),
+					1,
+					FALSE,
+					FALSE,
+					FALSE,
+					-1
+				] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 			};
+			if (((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isNotEqualTo 0) then {
+				_unit removeAllEventHandlers 'FiredMan';
+			};
+			_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(serverTime + (random [10,15,20])),FALSE];
 		};
-		if (!(_unit getVariable ['QS_AI_UNIT_sfEvent',FALSE])) then {
-			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1])) then {
-				_unit setVariable ['QS_AI_UNIT_sfEvent',TRUE,FALSE];
-				_unit addEventHandler ['FiredMan',{call (missionNamespace getVariable 'QS_fnc_AIXSuppressiveFire')}];
+		_hostileBuildings = missionNamespace getVariable ['QS_AI_hostileBuildings',[]];
+		if (_hostileBuildings isNotEqualTo []) then {
+			private _hostileBuilding = objNull;
+			{
+				if (([_objectParent,'VIEW',_x] checkVisibility [(eyePos _objectParent),(aimPos _x)]) > 0.1) exitWith {
+					_hostileBuilding = _x;
+				};
+			} forEach _hostileBuildings;
+			if (!isNull _hostileBuilding) then {
+				_isSuppressing = TRUE;
+				if (((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isNotEqualTo 0) then {
+					_unit removeAllEventHandlers 'FiredMan';
+				};
+				_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(serverTime + (random [10,15,20])),FALSE];
+				[_unit,_hostileBuilding,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 			};
 		};
 	};
-	if (_unit getVariable ['QS_AI_UNIT_tankGunner',FALSE]) then {
+	
+	//======================================= SUPPRESSIVE FIRE (VEHICLE)
+	if (
+		(alive _objectParent) &&
+		{(!(_isSuppressing))} &&
+		{(!(_objectParent isKindOf 'Air'))} &&
+		{(!(_objectParent isKindOf 'StaticMortar'))} &&
+		{(!(_objectParent isKindOf 'O_APC_Tracked_02_AA_F'))} &&
+		{(!(_objectParent isKindOf 'O_T_APC_Tracked_02_AA_ghex_F'))} &&
+		{(_unit getVariable ['QS_AI_UNIT_vGunner',FALSE])} &&
+		{(!(_unit getVariable ['QS_AI_disableSuppFire',FALSE]))}
+	) then {
 		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1])) then {
 			if ((random 1) > 0.666) then {
 				if (_unitBehaviour in ['AWARE','COMBAT']) then {
-					_hostileBuildings = missionNamespace getVariable ['QS_AI_hostileBuildings',[]];
-					if (_hostileBuildings isNotEqualTo []) then {
-						private _hostileBuilding = objNull;
-						{
-							if (((_objectParent distance2D _x) < 600) && {(([_objectParent,'FIRE',_x] checkVisibility [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _x)]) > 0.1)}) exitWith {
-								_hostileBuilding = _x;
-							};
-						} forEach _hostileBuildings;
-						if (!isNull _hostileBuilding) then {
-							_unit doWatch _hostileBuilding;
-							_unit doTarget _hostileBuilding;
-							private _aimPos = aimPos _hostileBuilding;
-							_intersections = lineIntersectsSurfaces [(_objectParent modelToWorldWorld [0,0,1]),(aimPos _hostileBuilding),_objectParent,objNull,TRUE,-1,'VIEW','FIRE',TRUE];
-							if (_intersections isNotEqualTo []) then {
-								{
-									if ((_x # 3) isEqualTo _hostileBuilding) exitWith {
-										_aimPos = _x # 0;
-									};
-								} forEach _intersections;
-								[_unit,_aimPos] spawn {
-									params ['_unit','_aimPos'];
-									uiSleep 3; 
-									_unit doSuppressiveFire _aimPos;
+					
+					//=================================== Suppress target
+					if (alive _attackTarget) then {
+						private _attackTarget = vehicle _attackTarget;
+						if (!(_attackTarget isKindOf 'Air')) then {
+							if ((_attackTarget distance2D _unit) < 500) then {
+								if (((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isNotEqualTo 0) then {
+									_unit removeAllEventHandlers 'FiredMan';
+								};
+								_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(serverTime + (random [10,15,20])),FALSE];
+								if (([_unit,'FIRE',_attackTarget] checkVisibility [(eyePos _unit),(aimPos _attackTarget)]) > 0) then {
+									_isSuppressing = TRUE;
+									[_unit,_attackTarget,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+								} else {
+									_isSuppressing = TRUE;
+									[_unit,((_unit targetKnowledge _attackTarget) # 6),selectRandomWeighted [1,0.5,2,0.5],FALSE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 								};
 							};
-							_unit setVariable ['QS_AI_UNIT_sfEvent',FALSE,FALSE];
-							_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime + (random [30,60,90])),FALSE];
 						};
+					};
+
+					//==================================== Suppress Building
+					if (!(_isSuppressing)) then {
+						_hostileBuildings = missionNamespace getVariable ['QS_AI_hostileBuildings',[]];
+						if (_hostileBuildings isNotEqualTo []) then {
+							private _hostileBuilding = objNull;
+							{
+								if ((_objectParent distance2D _x) < 500) then {
+									_hostileBuilding = _x;
+								};
+							} forEach _hostileBuildings;
+							if (!isNull _hostileBuilding) then {
+								if (!(terrainIntersectASL [eyePos _objectParent,aimPos _hostileBuilding])) then {
+									_isSuppressing = TRUE;
+									if (((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isNotEqualTo 0) then {
+										_unit removeAllEventHandlers 'FiredMan';
+									};
+									_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(serverTime + (random [30,60,90])),FALSE];
+									[_unit,_hostileBuilding,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+								};
+							};
+						};
+					};
+					private _targets = _unit targets [TRUE, 1000];
+					if (
+						(!(_isSuppressing)) &&
+						{((random 1) > 0.666)} &&
+						{(_targets isNotEqualTo [])}
+					) then {
+						[_unit,selectRandom _targets,selectRandomWeighted [1,0.5,2,0.5],FALSE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 					};
 				};
 			};
 		};
 	};
-};
-if (_grp getVariable ['BLDG_GARRISON',FALSE]) then {
-	if (!isNull (_unit findNearestEnemy _unit)) then {
-		if (((_unit findNearestEnemy _unit) distance2D _unit) < 15) then {
-			if (isNil {_unit getVariable 'QS_unit_hitEvent'}) then {
-				_unit addEventHandler [
-					'Hit',
-					{
-						_unit = _this # 0;
-						_unit removeEventHandler ['Hit',_thisEventHandler];
-						_enemy = _unit findNearestEnemy _unit;
-						_unit setVariable ['QS_unit_hitEvent',nil,FALSE];
-						if ((_enemy distance2D _unit) < 15) then {
-							_unit enableAI 'PATH';
-						};
-					}
-				];
-			};
-		};
-	};
-};
-if ((_unit getVariable ['QS_AI_UNIT_delayedInstructions',[]]) isNotEqualTo []) then {
-	_delayedInstructions = _unit getVariable ['QS_AI_UNIT_delayedInstructions',[]];
-	_delayedInstructions sort TRUE;
-	if (diag_tickTime > ((_delayedInstructions # 0) # 1)) then {
-		_currentInstruction = (_unit getVariable ['QS_AI_UNIT_delayedInstructions',[]]) deleteAt 0;
-		(_currentInstruction # 2) call (_currentInstruction # 3);
+	if (
+		(!(_isSuppressing)) &&
+		{(_unitBehaviour isNotEqualTo 'STEALTH')} &&
+		{(((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isEqualTo 0)} &&
+		{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1]))}
+	) then {
+		_unit addEventHandler ['FiredMan',{call (missionNamespace getVariable 'QS_fnc_AIXSuppressiveFire')}];	
 	};
 };
 if (isNull _objectParent) then {
+	// SELF RE-ARM
 	if (_uiTime > (_unit getVariable ['QS_AI_UNIT_nextSelfRearm',0])) then {
+		_unit setVariable ['QS_AI_UNIT_nextSelfRearm',(_uiTime + (random [240,300,360])),FALSE];
 		if ((primaryWeapon _unit) isNotEqualTo '') then {
 			if ((_unit ammo (primaryWeapon _unit)) isEqualTo 0) then {
-					private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLower ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
+					private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLowerANSI ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
 					private _cfgMagazines = [];
 					if (_magIndex isEqualTo -1) then {
-						_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLower _x};
-						(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLower ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
+						_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLowerANSI _x};
+						(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLowerANSI ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
 					} else {
 						_cfgMagazines = ((missionNamespace getVariable 'QS_AI_weaponMagazines') # _magIndex) # 1;
 					};
 					if (_cfgMagazines isNotEqualTo []) then {
-						_cfgMagazines = _cfgMagazines apply {(toLower _x)};
-						private _magazines = (magazines _unit) select {((toLower _x) in _cfgMagazines)};
+						_cfgMagazines = _cfgMagazines apply {(toLowerANSI _x)};
+						private _magazines = (magazines _unit) select {((toLowerANSI _x) in _cfgMagazines)};
 						if (_magazines isEqualTo []) then {
 							for '_i' from 0 to 5 step 1 do {
 								_unit addMagazine (_cfgMagazines # 0);
@@ -453,17 +522,17 @@ if (isNull _objectParent) then {
 		};
 		if ((secondaryWeapon _unit) isNotEqualTo '') then {
 			if ((_unit ammo (secondaryWeapon _unit)) isEqualTo 0) then {
-				private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLower ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
+				private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLowerANSI ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
 				private _cfgMagazines = [];
 				if (_magIndex isEqualTo -1) then {
-					_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLower _x};
-					(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLower ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
+					_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLowerANSI _x};
+					(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLowerANSI ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
 				} else {
 					_cfgMagazines = ((missionNamespace getVariable 'QS_AI_weaponMagazines') # _magIndex) # 1;
 				};
 				if (_cfgMagazines isNotEqualTo []) then {
-					_cfgMagazines = _cfgMagazines apply {(toLower _x)};
-					private _magazines = (magazines _unit) select {((toLower _x) in _cfgMagazines)};
+					_cfgMagazines = _cfgMagazines apply {(toLowerANSI _x)};
+					private _magazines = (magazines _unit) select {((toLowerANSI _x) in _cfgMagazines)};
 					if (_magazines isEqualTo []) then {
 						for '_i' from 0 to 2 step 1 do {
 							_unit addMagazine (_cfgMagazines # 0);
@@ -474,29 +543,56 @@ if (isNull _objectParent) then {
 				};
 			};
 		};
-		_unit setVariable ['QS_AI_UNIT_nextSelfRearm',(_uiTime + (random [120,200,280])),FALSE];
+	};
+};
+if (
+	(_fps >= 15) &&
+	{((random 1) > 0.666)} &&
+	{(isNull _objectParent)} &&
+	{(!_isLeader)} &&
+	{(_aiPath)} &&
+	{(_currentCommand in ['ATTACK','ATTACKFIRE'])} &&
+	{((alive _attackTarget) && {((_unit distance2D _attackTarget) < 50)})}
+) then {
+	_inHouse = [_attackTarget,getPosWorld _attackTarget] call (missionNamespace getVariable 'QS_fnc_inHouse');
+	private _buildingPositions = (_inHouse # 1) buildingPos -1;
+	if (
+		(_inHouse # 0) &&
+		{(_buildingPositions isNotEqualTo [])}
+	) then {
+		doStop _unit;
+		private _dist = 100;
+		private _buildingPos = selectRandom _buildingPositions;
+		{
+			if ((_attackTarget distance _x) < _dist) then {
+				_buildingPos = _x;
+				_dist = _attackTarget distance _x;
+			};
+		} forEach _buildingPositions;
+		if (_dist < 100) then {
+			_unit doMove _buildingPos;
+		};
 	};
 };
 if (_isLeader) then {
-	if (isNull _objectParent) then {
-		if ((stance _unit) isNotEqualTo 'PRONE') then {
-			if (!(_unit getVariable ['QS_AI_UNIT_regroup_disable',FALSE])) then {
-				if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastRegroup',-1])) then {
-					_unit setVariable ['QS_AI_UNIT_lastRegroup',(_uiTime + (random [30,60,90])),FALSE];
-					if (({(alive _x)} count (units _grp)) isEqualTo 1) then {
-						[_unit,300] call (missionNamespace getVariable 'QS_fnc_AIFindNearestRegroup');
-					};
-				};
-			};
+	if (
+		_aiPath &&
+		{(isNull _objectParent)} &&
+		{((stance _unit) isNotEqualTo 'PRONE')} &&
+		{(!(_unit getVariable ['QS_AI_UNIT_regroup_disable',FALSE]))} &&
+		{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastRegroup',-1]))}
+	) then {
+		_unit setVariable ['QS_AI_UNIT_lastRegroup',(_uiTime + (random [30,60,90])),FALSE];
+		if (({(alive _x)} count (units _grp)) isEqualTo 1) then {
+			[_unit,300] call (missionNamespace getVariable 'QS_fnc_AIFindNearestRegroup');
 		};
 	};
 	if ((combatMode _grp) in ['YELLOW','RED']) then {
 		if ('ItemRadio' in (assignedItems _unit)) then {
 			if (_uiTime > (_unit getVariable 'QS_AI_UNIT_lastSupportRequest')) then {
-				_unit setVariable ['QS_AI_UNIT_lastSupportRequest',(diag_tickTime + (120 + (random 120))),FALSE];
-				private _target = objNull;
-				_target = getAttackTarget _unit;
-				if (isNull _target) then {
+				_unit setVariable ['QS_AI_UNIT_lastSupportRequest',(serverTime + (120 + (random 120))),FALSE];
+				private _target = _attackTarget;
+				if (!alive _target) then {
 					_allTargets = _unit targets [TRUE,600];
 					if (_allTargets isNotEqualTo []) then {
 						_time = time;
@@ -520,7 +616,10 @@ if (_isLeader) then {
 						};
 					};
 				};
-				if (!isNull _target) then {
+				if (
+					(alive _target) && 
+					(isTouchingGround _target)
+				) then {
 					if ((count (missionNamespace getVariable 'QS_AI_scripts_fireMissions')) <= 3) then {
 						private _exit = FALSE;
 						private _supportProviders = [];
@@ -546,14 +645,12 @@ if (_isLeader) then {
 																};
 															};
 															_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
-															_smokePos set [2,0.25];
-															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
-															_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
+															_smokeShell = createVehicle ['SmokeShellRed',_smokePos,[],0,'NONE'];
+															_smokeShell setPosWorld ((getPosWorld _smokeShell) vectorAdd [0,0,(75 + (random 50))]);
 															(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
-															missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 															_targetPos = ((_unit targetKnowledge _target) # 6) getPos [(random 25),(random 360)];
 															_targetPos set [2,0];
-															_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) # 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
+															_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) # 0),(round (2 + (random 2))),(serverTime + 180)],QS_system_AI_owners];
 															_exit = TRUE;
 														};
 													};
@@ -584,14 +681,12 @@ if (_isLeader) then {
 																};
 															};
 															_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
-															_smokePos set [2,0.25];
-															_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
-															_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
+															_smokeShell = createVehicle ['SmokeShellRed',_smokePos,[],0,'NONE'];
+															_smokeShell setPosWorld ((getPosWorld _smokeShell) vectorAdd [0,0,(75 + (random 50))]);
 															(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
-															missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 															_targetPos = ((_unit targetKnowledge _target) # 6) getPos [(random 25),(random 360)];
 															_targetPos set [2,0];
-															_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) # 0),(round (2 + (random 2))),(diag_tickTime + 180)],FALSE];
+															_supportGroup setVariable ['QS_AI_GRP_fireMission',[_targetPos,((magazines (vehicle _supportProvider)) # 0),(round (2 + (random 2))),(serverTime + 180)],QS_system_AI_owners];
 															_exit = TRUE;
 														};
 													};
@@ -616,19 +711,17 @@ if (_isLeader) then {
 												if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 													_unit playActionNow 'HandSignalRadio';
 													_exit = TRUE;
-													_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(diag_tickTime + 240)],FALSE];
+													_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(serverTime + 240)],QS_system_AI_owners];
 													_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
-													_smokePos set [2,0.25];
-													_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
-													_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
+													_smokeShell = createVehicle ['SmokeShellRed',_smokePos,[],0,'NONE'];
+													_smokeShell setPosWorld ((getPosWorld _smokeShell) vectorAdd [0,0,(75 + (random 50))]);
 													(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
-													_handle = [1,_supportProvider,_supportGroup,_target,(position _target),_smokePos,(diag_tickTime + 180)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
-													(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
-													missionNamespace setVariable [
-														'QS_analytics_entities_created',
-														((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-														FALSE
-													];
+													if (isDedicated) then {
+														_handle = [1,_supportProvider,_supportGroup,_target,(position _target),_smokePos,(serverTime + 240)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
+														missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') + [serverTime + 240]),QS_system_AI_owners];
+													} else {
+														[99,[1,_supportProvider,_supportGroup,_target,(position _target),_smokePos,(serverTime + 240)],(serverTime + 240)] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+													};
 												};
 											};
 										};
@@ -650,23 +743,19 @@ if (_isLeader) then {
 											if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 												_unit playActionNow 'HandSignalRadio';
 												_exit = TRUE;
-												_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(diag_tickTime + 180)],FALSE];
+												_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(serverTime + 180)],QS_system_AI_owners];
 												_laserPos = (_unit targetKnowledge _target) # 6;
 												_laserPos set [2,1];
-												_handle = [2,_supportProvider,_supportGroup,_target,(position _target),(diag_tickTime + 120)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
-												(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
-												if ((random 1) > 0.666) then {
-													_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
-													_smokePos set [2,0.25];
-													_smokeShell = createVehicle ['SmokeShellRed',[_smokePos # 0,_smokePos # 1,25],[],0,'NONE'];
-													_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
-													(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
+												_smokePos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
+												_smokeShell = createVehicle ['SmokeShellRed',_smokePos,[],0,'NONE'];
+												_smokeShell setPosWorld ((getPosWorld _smokeShell) vectorAdd [0,0,(75 + (random 50))]);
+												(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 120)];
+												if (isDedicated) then {
+													_handle = [2,_supportProvider,_supportGroup,_target,(position _target),(serverTime + 120)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
+													missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') + [serverTime + 120]),QS_system_AI_owners];
+												} else {
+													[99,[2,_supportProvider,_supportGroup,_target,(position _target),(serverTime + 120)],(serverTime + 120)] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 												};
-												missionNamespace setVariable [
-													'QS_analytics_entities_created',
-													((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-													FALSE
-												];
 											};
 										};
 									};
@@ -687,22 +776,25 @@ if (_isLeader) then {
 											if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 												_unit playActionNow 'HandSignalRadio';
 												_exit = TRUE;
-												_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(diag_tickTime + 180)],FALSE];
-												_laserPos = (_unit targetKnowledge _target) # 6;
+												_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(serverTime + 180)],QS_system_AI_owners];
+												_laserPos = ((_unit targetKnowledge _target) # 6) getPos [(random 10),(random 360)];
 												_laserPos set [2,1];
-												_handle = [3,_supportProvider,_supportGroup,_target,(position _target),(diag_tickTime + 180)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
-												(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
-												missionNamespace setVariable [
-													'QS_analytics_entities_created',
-													((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-													FALSE
-												];
+												_smokeShell = createVehicle ['SmokeShellRed',_laserPos,[],0,'NONE'];
+												_smokeShell setPosWorld ((getPosWorld _smokeShell) vectorAdd [0,0,(75 + (random 50))]);
+												_handle = [3,_supportProvider,_supportGroup,_target,(position _target),(serverTime + 120)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
+												missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') + [serverTime + 120]),QS_system_AI_owners];
+												if (isDedicated) then {
+													_handle = [3,_supportProvider,_supportGroup,_target,(position _target),(serverTime + 120)] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
+													missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') + [serverTime + 120]),QS_system_AI_owners];
+												} else {
+													[99,[3,_supportProvider,_supportGroup,_target,(position _target),(serverTime + 120)],(serverTime + 120)] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+												};
 											};
 										};
 									};
 								};
 								if (_exit) exitWith {};
-							} forEach _supportProviders;							
+							} forEach _supportProviders;
 						};
 						if (_exit) exitWith {};
 					};

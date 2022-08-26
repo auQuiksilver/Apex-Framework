@@ -14,7 +14,7 @@ Description:
 _____________________________________________/*/
 
 params ['_type'];
-private _typeL = toLower _type;
+private _typeL = toLowerANSI _type;
 _isTropical = worldName in ['Tanoa','Lingor3'];
 //----- MBTs
 _mbts = [

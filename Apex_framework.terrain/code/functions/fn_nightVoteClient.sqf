@@ -31,7 +31,7 @@ QS_voteAction_1 = player addAction [
 	'',
 	'true'
 ];
-player setUserActionText [QS_voteAction_1,((player actionParams QS_voteAction_1) select 0),(format ["<t size='3'>%1</t>",((player actionParams QS_voteAction_1) select 0)])];
+player setUserActionText [QS_voteAction_1,((player actionParams QS_voteAction_1) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_voteAction_1) # 0)])];
 QS_voteAction_2 = player addAction [
 	'Vote Against Nighttime!',
 	{
@@ -48,7 +48,7 @@ QS_voteAction_2 = player addAction [
 	'',
 	'true'
 ];
-player setUserActionText [QS_voteAction_2,((player actionParams QS_voteAction_2) select 0),(format ["<t size='3'>%1</t>",((player actionParams QS_voteAction_2) select 0)])];
+player setUserActionText [QS_voteAction_2,((player actionParams QS_voteAction_2) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_voteAction_2) # 0)])];
 hint 'Vote for/against night ops on your scroll wheel now! Voting open for 15 seconds!';
 systemChat 'Vote for/against night ops on your scroll wheel now! Voting open for 15 seconds!';
 ['TaskAssigned',['','Mouse Scroll to Vote for Night']] call (missionNamespace getVariable 'QS_fnc_showNotification');

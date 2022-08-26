@@ -68,12 +68,7 @@ if (worldName isEqualTo 'Tanoa') then {
 _objDir = random 360;/*/_sideObj/*/
 missionNamespace setVariable [
 	'QS_sideObj',
-	(createVehicle [_houseType,[_flatPos select 0,_flatPos select 1,0],[],0,'NONE']),
-	FALSE
-];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
+	(createVehicle [_houseType,[_flatPos # 0,_flatPos # 1,0],[],0,'NONE']),
 	FALSE
 ];
 _sideObj = missionNamespace getVariable 'QS_sideObj';
@@ -82,13 +77,8 @@ _sideObj setDir _objDir;
 _objectTypes = ['Box_IND_WpsLaunch_F','Box_IND_WpsLaunch_F'];
 _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _object allowDamage FALSE;
-_object setPosWorld [((getPosWorld _sideObj) select 0), ((getPosWorld _sideObj) select 1),(((getPosWorld _sideObj) select 2) + 1)];
+_object setPosWorld [((getPosWorld _sideObj) # 0), ((getPosWorld _sideObj) # 1),(((getPosWorld _sideObj) # 2) + 1)];
 _object enableRopeAttach FALSE;
 _object setVariable ['QS_interaction_disabled',TRUE,TRUE];
 _object enableSimulationGlobal TRUE;
@@ -98,11 +88,6 @@ for '_x' from 0 to 2 step 1 do {
 };
 _truck1 = createVehicle ['I_Truck_02_ammo_F',_flatPos1,[],0,'NONE'];
 _truck2 = createVehicle ['I_Truck_02_ammo_F',_flatPos2,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 2),
-	FALSE
-];
 {_x setDir (random 360);_x lock 3;} forEach [_truck1,_truck2];
 
 /*/-------------------- SPAWN FORCE PROTECTION/*/
@@ -111,7 +96,7 @@ _enemiesArray = [_sideObj] call (missionNamespace getVariable 'QS_fnc_SMenemyIND
 
 /*/------------------- SPAWN BRIEFING/*/
 
-_fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 300) + (random 600),0];
+_fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
 {
 	_x setMarkerPos _fuzzyPos;
 	_x setMarkerAlpha 1;
@@ -184,11 +169,6 @@ for '_x' from 0 to 1 step 0 do {
 		['sideChat',[WEST,'HQ'],_c4Message] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		uiSleep 14;											
 		'Bo_Mk82' createVehicle (getPos _object);
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		uiSleep 0.1;
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',
@@ -199,7 +179,7 @@ for '_x' from 0 to 1 step 0 do {
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
 		[1,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
-			_x setMarkerPos [-5000,-5000,0];
+			_x setMarkerPosLocal [-5000,-5000,0];
 			_x setMarkerAlpha 0;
 		} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 		sleep 120;

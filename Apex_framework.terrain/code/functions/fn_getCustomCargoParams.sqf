@@ -16,8 +16,8 @@ Notes:
 
 	QS_array = [];
 	{
-		QS_array pushBack (toLower (typeOf _x));
-	} forEAch (curatorSelected select 0);
+		QS_array pushBack (toLowerANSI (typeOf _x));
+	} forEAch (curatorSelected # 0);
 	copyToClipboard str QS_array;
 	if ([0,object,objnull] call QS_fnc_getCustomCargoParams)
 	
@@ -34,7 +34,7 @@ params [
 if (_type isEqualTo 0) exitWith {
 	//comment 'Loadable object types';
 	private _return = FALSE;
-	_childType = toLower (typeOf _child);
+	_childType = toLowerANSI (typeOf _child);
 	_loadableObjects = [
 		'box_ind_ammo_f',
 		'box_t_east_ammo_f',
@@ -257,7 +257,7 @@ if (_type isEqualTo 3) exitWith {
 if (_type isEqualTo 4) exitWith {
 	//comment 'carry-ability';
 	private _return = TRUE;
-	_childType = toLower (typeOf _child);
+	_childType = toLowerANSI (typeOf _child);
 	_nonCarryable = [
 		'land_portablegenerator_01_f','land_plasticcase_01_large_gray_f','land_plasticcase_01_large_f','land_plasticcase_01_large_idap_f','box_aaf_equip_f',
 		'box_csat_equip_f','box_idap_equip_f','box_nato_equip_f','box_nato_uniforms_f','box_idap_uniforms_f','box_csat_uniforms_f','box_aaf_uniforms_f','box_gen_equip_f',

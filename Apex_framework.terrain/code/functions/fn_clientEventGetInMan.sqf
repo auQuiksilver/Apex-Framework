@@ -20,11 +20,6 @@ if (!simulationEnabled _vehicle) then {
 player setVariable ['QS_RD_crewIndicator_show',TRUE,FALSE];
 if (_vehicle isKindOf 'Air') then {
 	if ((getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'transportSoldier')) isNotEqualTo 0) then {
-		if (!(_position in ['driver','gunner'])) then {
-			if ((backpack _unit) isNotEqualTo '') then {
-				player setVariable ['QS_backpack_data',[(backpack player),(backpackItems player),(backpackMagazines player)],FALSE];
-			};
-		};
 		if (player getUnitTrait 'QS_trait_pilot') then {
 			if (_position isEqualTo 'driver') then {
 				player setVariable ['QS_pilot_vehicleInfo',[_vehicle,['driver']],TRUE];
@@ -90,7 +85,7 @@ if (_vehicle isKindOf 'StaticMortar') then {
 		} forEach _nearEntities;
 	};
 };
-if ((toLower (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracked_01_crv_f']) then {
+if ((toLowerANSI (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracked_01_crv_f']) then {
 	missionNamespace setVariable [
 		'QS_action_plow',
 		(
@@ -136,11 +131,11 @@ if ((toLower (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracked_01
 					(call {
 						_c = FALSE;
 						_v = vehicle player;
-						if ((toLower (typeOf _v)) in ["b_t_apc_tracked_01_crv_f","b_apc_tracked_01_crv_f"]) then {
+						if ((toLowerANSI (typeOf _v)) in ["b_t_apc_tracked_01_crv_f","b_apc_tracked_01_crv_f"]) then {
 							if (player isEqualTo (driver _v)) then {
 								_animPhase = _v animationSourcePhase "MovePlow";
 								if (_animPhase in [0,1]) then {
-									if (((player actionParams QS_action_plow) select 0) isEqualTo "Lower plow") then {
+									if (((player actionParams QS_action_plow) # 0) isEqualTo "Lower plow") then {
 										if (_animPhase isEqualTo 1) then {
 											player setUserActionText [QS_action_plow,"Raise plow","<t size=""3"">Raise plow</t>"];
 										};
@@ -165,6 +160,6 @@ if ((toLower (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracked_01
 		),
 		FALSE
 	];
-	player setUserActionText [(missionNamespace getVariable 'QS_action_plow'),((player actionParams (missionNamespace getVariable 'QS_action_plow')) select 0),(format ["<t size='3'>%1</t>",((player actionParams (missionNamespace getVariable 'QS_action_plow')) select 0)])];
+	player setUserActionText [(missionNamespace getVariable 'QS_action_plow'),((player actionParams (missionNamespace getVariable 'QS_action_plow')) # 0),(format ["<t size='3'>%1</t>",((player actionParams (missionNamespace getVariable 'QS_action_plow')) # 0)])];
 };
 (group _unit) addVehicle _vehicle;

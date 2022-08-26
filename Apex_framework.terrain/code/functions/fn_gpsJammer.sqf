@@ -30,13 +30,13 @@ if (_type isEqualTo 0) exitWith {
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
-	params ['','_id','_spawnPosition','_effectPosition','_radius',['_createTask',TRUE]];
+	params ['','_id','_spawnPosition','_effectPosition','_radius',['_createTask',TRUE],['_drawBlackCircle',TRUE]];
 	if (isNil {missionNamespace getVariable 'QS_mission_gpsJammers'}) then {
 		missionNamespace setVariable ['QS_mission_gpsJammers',[],TRUE];
 	};
 	private _jammer = objNull;
 	if (((missionNamespace getVariable ['QS_mission_gpsJammers',[]]) findIf {((_x # 0) isEqualTo _id)}) isEqualTo -1) then {
-		_jammerType = ['land_pod_heli_transport_04_box_f','land_pod_heli_transport_04_box_black_f'] select (worldName in ['Tanoa','Lingor3']);
+		_jammerType = ['O_Truck_03_repair_F','O_T_Truck_03_repair_ghex_F'] select (worldName in ['Tanoa','Enoch']);
 		_jammer = createVehicle [_jammerType,[-500,-500,0],[],30,'NONE'];
 		_jammer allowDamage FALSE;
 		_jammer spawn {uiSleep 3;_this allowDamage TRUE;};
@@ -66,16 +66,14 @@ if (_type isEqualTo 1) exitWith {
 		_jammer enableSimulation TRUE;
 		private _assocObjects = [];
 		private _pole = objNull;
-		//_soundSource = createSoundSource ['QS_deviceAssembled',(_jammer modelToWorld [0,0,0]),[],0];
-		//_soundSource attachTo [_jammer,[0,0,0]];
 		{
-			_pole = createSimpleObject [(_x select 0),[-100,-100,0]];
-			_pole attachTo [_jammer,(_x select 1)];
-			_pole setDir (_x select 2);
+			_pole = createSimpleObject [(_x # 0),[-100,-100,0]];
+			_pole attachTo [_jammer,(_x # 1)];
+			//_pole setDir (_x # 2);
 			_assocObjects pushBack _pole;
 		} forEach [
-			['a3\structures_f\ind\transmitter_tower\ttowersmall_1_f.p3d',[0.85,0.1,-2],0],
-			['a3\structures_f\ind\transmitter_tower\ttowersmall_1_f.p3d',[-0.85,2.3,-2],180]
+			['a3\props_f_enoch\military\equipment\omnidirectionalantenna_01_f.p3d',[0.5,-0.66,2.7],0],
+			['a3\props_f_enoch\military\equipment\omnidirectionalantenna_01_f.p3d',[-0.5,-3.04,2.7],0]
 		];
 		_jammer setVelocity [0,0,0];
 		{
@@ -139,7 +137,7 @@ if (_type isEqualTo 1) exitWith {
 				{
 					params ['_vehicle','','_damage','','','_hitPartIndex','',''];
 					_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
-					_damage = _oldDamage + (_damage - _oldDamage) * 0.333;
+					_damage = _oldDamage + (_damage - _oldDamage) * 0.25;
 					_damage;
 				}
 			]
@@ -149,11 +147,11 @@ if (_type isEqualTo 1) exitWith {
 				_id,
 				TRUE,
 				[
-					'The enemy has deployed a GPS jammer. Locate and destroy it!',
+					'The enemy has deployed a mobile GPS jammer. Locate and destroy it!',
 					'GPS Jammer',
 					'GPS Jammer'
 				],
-				_effectPosition,
+				(_spawnPosition getPos [150 * (sqrt (random 1)),random 360]),
 				'CREATED',
 				5,
 				FALSE,
@@ -162,7 +160,7 @@ if (_type isEqualTo 1) exitWith {
 				TRUE
 			] call (missionNamespace getVariable 'BIS_fnc_setTask');
 		};
-		(missionNamespace getVariable ['QS_mission_gpsJammers',[]]) pushBack [_id,_spawnPosition,_effectPosition,_radius,_jammer,_assocObjects];
+		(missionNamespace getVariable ['QS_mission_gpsJammers',[]]) pushBack [_id,_spawnPosition,_effectPosition,_radius,_jammer,_assocObjects,_drawBlackCircle];
 		missionNamespace setVariable ['QS_mission_gpsJammers',(missionNamespace getVariable ['QS_mission_gpsJammers',[]]),TRUE];
 	};
 	_jammer;
@@ -203,7 +201,7 @@ if (_type isEqualTo 3) exitWith {
 			_return = _entity distance2D _spawnPosition;
 			if (_signalStrength) then {
 				//if ('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
-					[1,_spawnPosition,_radius,TRUE] call (missionNamespace getVariable 'QS_fnc_signalStrength');
+					//[1,_spawnPosition,_radius,TRUE] call (missionNamespace getVariable 'QS_fnc_signalStrength');			// Temporarily disabled till better solution is found
 				//};
 			};
 		};

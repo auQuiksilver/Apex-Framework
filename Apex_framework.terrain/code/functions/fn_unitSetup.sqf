@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	25/04/2022 A3 2.08 by Quiksilver
+	22/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,7 +14,7 @@ Description:
 ______________________________________________________/*/
 
 _unit = _this;
-_unitType = toLower (typeOf _unit);
+_unitType = toLowerANSI (typeOf _unit);
 private _weapons = [];
 private _optics = [];
 private _backpacks = [];
@@ -70,11 +70,11 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 	]) then {
 		_weaponHandled = TRUE;
 		_weapons = [
-			'lmg_03_f',0.1,
-			(selectRandom ['lmg_mk200_f','lmg_mk200_black_f']),0.1,
+			'lmg_03_f',0.25,
+			'lmg_mk200_f',0.125,
+			'lmg_mk200_black_f',0.125,
 			'lmg_zafir_f',0.25,
-			'arifle_rpk12_f',0.25,
-			'mmg_01_hex_f',0.125
+			'mmg_01_hex_f',0.1
 		];
 		_backpacks = [
 			'b_fieldpack_cbr',
@@ -88,9 +88,9 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		if (worldName in ['Tanoa']) then {
 			_weapons = [
 				'lmg_03_f',0.25,
-				(selectRandom ['lmg_mk200_f','lmg_mk200_black_f']),0.25,
-				'lmg_zafir_f',0.1,
-				'arifle_rpk12_f',0.125,
+				'lmg_mk200_f',0.125,
+				'lmg_mk200_black_f',0.125,
+				'lmg_zafir_f',0.25,
 				'mmg_01_hex_f',0.05
 			];
 			_backpacks = [
@@ -108,11 +108,11 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		};
 		if (worldName in ['Enoch']) then {
 			_weapons = [
-				'lmg_03_f',0.1,
-				(selectRandom ['lmg_mk200_f','lmg_mk200_black_f']),0.1,
+				'lmg_03_f',0.25,
+				'lmg_mk200_f',0.125,
+				'lmg_mk200_black_f',0.125,
 				'lmg_zafir_f',0.25,
-				'arifle_rpk12_f',0.25,
-				'mmg_01_hex_f',0.125
+				'mmg_01_hex_f',0.1
 			];
 			_backpacks = [
 				'b_fieldpack_taiga_f',
@@ -130,15 +130,12 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		if ((backpack _unit) isEqualTo '') then {
 			_unit addBackpack (selectRandom _backpacks);
 		};
-		[_unit,(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_removeWeapon');
+		_unit removeWeapon (handgunWeapon _unit);
+		_unit removeWeapon (primaryWeapon _unit);
+		{
+			_unit removeMagazine _x;
+		} forEach (magazines _unit);
 		[_unit,(selectRandomWeighted _weapons),5] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-		if ((toLower (primaryWeapon _unit)) in ['mmg_01_hex_f']) then {
-			[_unit,(handgunWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_removeWeapon');
-		} else {
-			if ((handgunWeapon _unit) isNotEqualTo '') then {
-				[_unit,(handgunWeapon _unit),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-			};
-		};
 		_unit addPrimaryWeaponItem (selectRandom ['optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps','optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f']);
 	};
 	// grenade launcher
@@ -209,7 +206,7 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 			];
 		};
 		{
-			if (!((toLower _x) in ['1rnd_he_grenade_shell'])) then {
+			if (!((toLowerANSI _x) in ['1rnd_he_grenade_shell'])) then {
 				_unit removeMagazine _x;
 			};
 		} forEach (magazines _unit);
@@ -388,6 +385,72 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		};
 		_unit addHeadgear (selectRandomWeighted _headgear);
 	};
+	if (_unitType in [
+		'o_recon_exp_f','o_recon_jtac_f','o_recon_m_f','o_recon_medic_f','o_pathfinder_f','o_recon_f','o_recon_lat_f','o_recon_tl_f',
+		'o_t_recon_exp_f','o_t_recon_jtac_f','o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f'
+	]) then {
+		_unit setUnitTrait ['audibleCoef',0.5];
+		_unit addHeadgear 'h_helmetspeco_blk';
+	};
+	if (_unitType in [
+		'o_v_soldier_exp_hex_f',
+		'o_v_soldier_jtac_hex_f',
+		'o_v_soldier_m_hex_f',
+		'o_v_soldier_hex_f',
+		'o_v_soldier_medic_hex_f',
+		'o_v_soldier_lat_hex_f',
+		'o_v_soldier_tl_hex_f',
+		'o_v_soldier_exp_ghex_f',
+		'o_v_soldier_jtac_ghex_f',
+		'o_v_soldier_m_ghex_f',
+		'o_v_soldier_ghex_f',
+		'o_v_soldier_medic_ghex_f',
+		'o_v_soldier_lat_ghex_f',
+		'o_v_soldier_tl_ghex_f'
+	]) then {
+		_unit setUnitTrait ['audibleCoef',0.5];
+	};
+} else {
+	if ((side _unit) in [WEST]) then {
+		if (_unitType in [
+			'b_soldier_ar_f','b_patrol_soldier_ar_f','b_patrol_heavygunner_f','b_patrol_soldier_mg_f','b_t_soldier_ar_f','b_w_soldier_ar_f'
+		]) then {
+			_weapons = [
+				'lmg_03_f',0.3,
+				'lmg_mk200_f',0.3,
+				'lmg_mk200_black_f',0.3,
+				'lmg_zafir_f',0,
+				'mmg_01_hex_f',0,
+				'mmg_02_black_f',0.1
+			];
+			if ((backpack _unit) isEqualTo '') then {
+				_unit addBackpack 'b_kitbag_rgr';
+			};
+			_unit removeWeapon (handgunWeapon _unit);
+			_unit removeWeapon (primaryWeapon _unit);
+			{
+				_unit removeMagazine _x;
+			} forEach (magazines _unit);
+			[_unit,(selectRandomWeighted _weapons),8] call (missionNamespace getVariable 'QS_fnc_addWeapon');
+			_unit addPrimaryWeaponItem (selectRandom ['optic_ams','optic_ams_khk','optic_ams_snd','optic_dms','optic_dms_ghex_f','optic_dms_weathered_f','optic_khs_blk','optic_khs_hex','optic_khs_old','optic_khs_tan','optic_lrps','optic_lrps_ghex_f','optic_lrps_tna_f','optic_sos','optic_sos_khk_f']);
+		};
+	};
+};
+if (_unitType in [
+	'b_g_soldier_unarmed_f',
+	'b_soldier_unarmed_f',
+	'b_t_soldier_unarmed_f',
+	'b_w_soldier_unarmed_f',
+	'o_soldier_unarmed_f',
+	'o_soldieru_unarmed_f',
+	'o_t_soldier_unarmed_f',
+	'o_g_soldier_unarmed_f',
+	'i_soldier_unarmed_f',
+	'i_g_soldier_unarmed_f',
+	'i_e_soldier_unarmed_f',
+	'i_c_soldier_base_unarmed_f'
+]) then {
+	removeAllWeapons _unit;
 };
 // Remove proxies
 if ('acc_pointer_IR' in (primaryWeaponItems _unit)) then {
@@ -422,7 +485,7 @@ private _container = [];
 		if (!isNil '_container') then {
 			if (_container isNotEqualTo []) then {
 				{
-					if ((toLower _x) in [
+					if ((toLowerANSI _x) in [
 						'chemlight_blue','chemlight_green','chemlight_red','chemlight_yellow'
 					]) then {
 						_toRemove pushBack _x;
@@ -443,18 +506,17 @@ if (_toRemove isNotEqualTo []) then {
 		_unit removeItem _x;
 	} forEach _toRemove;
 };
+_unit enableAIFeature ['AUTOCOMBAT',TRUE];
 _unit enableFatigue FALSE;
 _unit enableStamina FALSE;
 _unit selectWeapon (primaryWeapon _unit);
 if (!(missionNamespace getVariable ['QS_defendActive',FALSE])) then {
 	[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 };
-if (missionNamespace getVariable ['QS_HC_Active',FALSE]) then {
-	_unit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-} else {
-	_unit setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
-};
+if ((!isDedicated) && hasInterface ) exitWith {_unit};
+_unit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 if (!((vehicle _unit) isKindOf 'Man')) then {
 	_unit setSpeaker 'NoVoice';
+	_unit enableAIFeature ['RADIOPROTOCOL',FALSE];
 };
 _unit;

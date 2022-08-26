@@ -6,18 +6,14 @@ Author:
 	
 Last modified:
 
-	26/10/2016 A3 1.64 by Quiksilver
+	2/07/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	[41,[0,_uid,_causedBy,_nameCausedBy,player,_val,TRUE]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 __________________________________________________*/
 
-private [
-	'_i','_a','_clientVal','_clientArray',
-	'_nameCausedBy','_inWatchList','_watchList',
-	'_unit','_QS_UID','_message','_staffID','_i'
-];
+private ['_i','_a','_clientVal','_clientArray','_nameCausedBy','_watchList','_unit','_QS_UID','_message'];
 _array = _this # 1;
 _array params [
 	'_type',
@@ -40,8 +36,9 @@ private _nameReporter = name _reporter;
 private _uidReporter = getPlayerUID _reporter;
 private _posReporter = getPosWorld _reporter;
 private _posCausedBy = getPosWorld _causedBy;
+if (_posReporter isEqualTo _posCausedBy) exitWith {/*/ Filters out error when player is reported by himself on connection /*/};
 if (_type isEqualTo 1) then {
-	private _eventLog = profileNamespace getVariable ['QS_robocop_log_2',[]];
+	private _eventLog = missionProfileNamespace getVariable ['QS_robocop_log_2',[]];
 	if ((count _eventLog) >= 100) then {
 		_eventLog deleteAt 0;
 	};
@@ -53,26 +50,19 @@ if (_type isEqualTo 1) then {
 		_array # 5,
 		_array # 6
 	];
-	profileNamespace setVariable ['QS_robocop_log_2',_eventLog];
-	saveProfileNamespace;
-
-	_i = ((missionNamespace getVariable 'QS_roboCop') findIf {((_x # 0) isEqualTo _uid)});
+	missionProfileNamespace setVariable ['QS_robocop_log_2',_eventLog];
+	saveMissionProfileNamespace;
+	private _clientVal = QS_robocop getOrDefault [_uid,-1];
 	diag_log format ['***** fn_atServer ***** UID to robocop: %1 *****',_uid];
-	if (_i isEqualTo -1) then {
-		_a = [_uid,_val];
-		0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;		
+	if (_clientVal isEqualTo -1) then {
+		QS_robocop set [_uid,_val];	
 		[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 	} else {
-		_clientArray = (missionNamespace getVariable 'QS_roboCop') # _i;
-		_clientVal = _clientArray # 1;
-		_watchList = profileNamespace getVariable 'QS_robocop_watchlist';
+		_watchList = missionProfileNamespace getVariable 'QS_robocop_watchlist';
 		if (_clientVal > 3) then {
 			if (!(_uid in _watchList)) then {
-				profileNamespace setVariable [
-					'QS_robocop_watchlist',
-					((profileNamespace getVariable 'QS_robocop_watchlist') + [_uid])
-				];
-				saveProfileNamespace;
+				missionProfileNamespace setVariable ['QS_robocop_watchlist',((missionProfileNamespace getVariable 'QS_robocop_watchlist') + [_uid])];
+				saveMissionProfileNamespace;
 			};
 		};
 		if (_uid in _watchList) then {
@@ -80,8 +70,7 @@ if (_type isEqualTo 1) then {
 		};
 		_val = _val + _clientVal;
 		diag_log format ['************************ ADMIN ***** %1 ***** %2 has been threat-adjusted to %3 *****',time,_nameCausedBy,_val];
-		_a = [_uid,_val];
-		(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
+		QS_robocop set [_uid,_val];
 		[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 	};
 	_message = format ['ROBOCOP: %1 has been reported',_nameCausedBy];

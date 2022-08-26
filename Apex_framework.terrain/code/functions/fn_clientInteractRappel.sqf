@@ -13,7 +13,7 @@ Description:
 	Rappel Interactions
 _____________________________________________________________*/
 
-_type = _this select 3;
+_type = _this # 3;
 if (_type isEqualTo 1) then {
 	[player,(vehicle player)] call (missionNamespace getVariable 'AR_Rappel_From_Heli_Action');
 } else {

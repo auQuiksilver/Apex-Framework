@@ -15,28 +15,28 @@ ____________________________________________________________________________*/
 
 params ['_boxFrom','_boxTo','_deleteBoxFrom'];
 _weapons = getWeaponCargo _boxFrom;
-if (!((_weapons select 0) isEqualTo [])) then {
+if ((_weapons # 0) isNotEqualTo []) then {
 	{
-		_boxTo addWeaponCargoGlobal [_x,((_weapons select 1) select _forEachIndex)];
-	} forEach (_weapons select 0);
+		_boxTo addWeaponCargoGlobal [_x,((_weapons # 1) # _forEachIndex)];
+	} forEach (_weapons # 0);
 };
 _items = getItemCargo _boxFrom;
-if (!((_items select 0) isEqualTo [])) then {
+if ((_items # 0) isNotEqualTo []) then {
 	{
-		_boxTo addItemCargoGlobal [_x,((_items select 1) select _forEachIndex)];
-	} forEach (_items select 0);
+		_boxTo addItemCargoGlobal [_x,((_items # 1) # _forEachIndex)];
+	} forEach (_items # 0);
 };
 _magazines = getMagazineCargo _boxFrom;
-if (!((_magazines select 0) isEqualTo [])) then {
+if ((_magazines # 0) isNotEqualTo []) then {
 	{
-		_boxTo addMagazineCargoGlobal [_x,((_magazines select 1) select _forEachIndex)];
-	} forEach (_magazines select 0);
+		_boxTo addMagazineCargoGlobal [_x,((_magazines # 1) # _forEachIndex)];
+	} forEach (_magazines # 0);
 };
 _backpacks = getBackpackCargo _boxFrom;
-if (!((_backpacks select 0) isEqualTo [])) then {
+if ((_backpacks # 0) isNotEqualTo []) then {
 	{
-		_boxTo addBackpackCargoGlobal [_x,((_backpacks select 1) select _forEachIndex)];
-	} forEach (_backpacks select 0);
+		_boxTo addBackpackCargoGlobal [_x,((_backpacks # 1) # _forEachIndex)];
+	} forEach (_backpacks # 0);
 };
 if (_deleteBoxFrom) then {
 	missionNamespace setVariable [

@@ -58,7 +58,7 @@ for '_x' from 0 to 1 step 0 do {
 	if ((_spawnPosition distance2D _basepos) > 2000) then {
 		if ((_spawnPosition distance2D _fobpos) > 250) then {
 			if ((_spawnPosition distance2D (missionNamespace getVariable 'QS_AOpos')) > 500) then {
-				if (((((_spawnPosition select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) && (!((toLower(surfaceType _spawnPosition)) in ['#gdtasphalt'])) && (!([_spawnPosition,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) then {
+				if (((((_spawnPosition select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) && (!((toLowerANSI(surfaceType _spawnPosition)) in ['#gdtasphalt'])) && (!([_spawnPosition,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) then {
 					_accepted = TRUE;
 				};
 			};
@@ -70,8 +70,8 @@ private _watchPosition = _spawnPosition vectorAdd [0,0,1000];
 //comment 'Generate composition and assets';
 private _compositionData = [
 	[
-		["o_sam_system_04_f",[0.230469,-6.17627,0.0173378],179.236,[],TRUE,TRUE,FALSE,{(_this select 0)}], 			// o_sam_system_04_f   O_APC_Tracked_02_AA_F
-		["o_sam_system_04_f",[-0.212402,9.61426,0.0157723],359.523,[],TRUE,TRUE,FALSE,{(_this select 0)}], 			//	o_sam_system_04_f   O_APC_Tracked_02_AA_F
+		["O_APC_Tracked_02_AA_F",[0.230469,-6.17627,0.0173378],179.236,[],TRUE,TRUE,FALSE,{(_this # 0)}], 			// o_sam_system_04_f   O_APC_Tracked_02_AA_F
+		["O_APC_Tracked_02_AA_F",[-0.212402,9.61426,0.0157723],359.523,[],TRUE,TRUE,FALSE,{(_this # 0)}], 			//	o_sam_system_04_f   O_APC_Tracked_02_AA_F
 		["Land_HBarrier_5_F",[-0.302979,1.63086,1.72132],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_Big_F",[-0.20874,1.77246,0],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_Big_F",[5.12134,-1.37109,0],271.094,[],FALSE,FALSE,TRUE,{}], 
@@ -98,8 +98,8 @@ private _compositionData = [
 		["Land_HBarrierWall_corner_F",[11.0156,14.7471,0],0,[],FALSE,FALSE,TRUE,{}]
 	],
 	[
-		["o_sam_system_04_f",[-0.0292969,-6.354,0.0168018],178.855,[],TRUE,TRUE,FALSE,{(_this select 0)}], 		// o_sam_system_04_f    O_T_APC_Tracked_02_AA_ghex_F
-		["o_sam_system_04_f",[-0.321777,8.54443,0.0163908],359.998,[],TRUE,TRUE,FALSE,{(_this select 0)}], 		// o_sam_system_04_f   O_T_APC_Tracked_02_AA_ghex_F
+		["O_T_APC_Tracked_02_AA_ghex_F",[-0.0292969,-6.354,0.0168018],178.855,[],TRUE,TRUE,FALSE,{(_this # 0)}], 		// o_sam_system_04_f    O_T_APC_Tracked_02_AA_ghex_F
+		["O_T_APC_Tracked_02_AA_ghex_F",[-0.321777,8.54443,0.0163908],359.998,[],TRUE,TRUE,FALSE,{(_this # 0)}], 		// o_sam_system_04_f   O_T_APC_Tracked_02_AA_ghex_F
 		["Land_HBarrier_01_big_4_green_F",[-0.081543,1.03174,0],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[-0.195801,1.05566,1.74458],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[5.23779,0.97168,1.69463],90,[],FALSE,FALSE,TRUE,{}], 
@@ -131,7 +131,7 @@ _compositionData = nil;
 //comment 'Configure assets';
 {
 	if (!(isSimpleObject _x)) then {
-		if ((toLower (typeOf _x)) in _aaTypes) then {
+		if ((toLowerANSI (typeOf _x)) in _aaTypes) then {
 			_aaHulls pushBack _x;
 		};
 	};
@@ -147,7 +147,7 @@ _compositionData = nil;
 		if (unitIsUav _aaHull) then {
 			_aaHull setVariable ['QS_uav_protected',TRUE,FALSE];
 		};
-		if ((toLower (typeOf _aaHull)) in ['o_sam_system_04_f','o_radar_system_02_f']) then {
+		if ((toLowerANSI (typeOf _aaHull)) in ['o_sam_system_04_f','o_radar_system_02_f']) then {
 			{
 				_aaHull setObjectTextureGlobal [_forEachIndex,_x];
 			} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _aaHull) >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
@@ -166,7 +166,7 @@ _compositionData = nil;
 		clearMagazineCargoGlobal _aaHull;
 		_aaHull setVariable ['QS_client_canAttachExp',TRUE,TRUE];
 		_aaHull setVariable ['QS_RD_noRepair',TRUE,TRUE];
-		if ((toLower (typeOf _aaHull)) in ['o_sam_system_04_f','o_radar_system_02_f']) then {
+		if ((toLowerANSI (typeOf _aaHull)) in ['o_sam_system_04_f','o_radar_system_02_f']) then {
 			_aaHull addEventHandler [
 				'HandleDamage',
 				{
@@ -191,7 +191,7 @@ _compositionData = nil;
 			'Deleted',
 			{
 				params ['_entity'];
-				if (!( (attachedObjects _entity) isEqualTo [])) then {
+				if ((attachedObjects _entity) isNotEqualTo []) then {
 					{
 						deleteVehicle _x;
 					} forEach (attachedObjects _entity);
@@ -202,7 +202,7 @@ _compositionData = nil;
 			'Killed',
 			{
 				params ['_killed','_killer','_instigator',''];
-				if (!((attachedObjects _killed) isEqualTo [])) then {
+				if ((attachedObjects _killed) isNotEqualTo []) then {
 					{
 						detach _x;
 						deleteVehicle _x;
@@ -220,13 +220,12 @@ _compositionData = nil;
 				};
 			}
 		];
-		createVehicleCrew _aaHull;
-		(crew _aaHull) joinSilent (createGroup [EAST,TRUE]);
+		_aaGroup = createVehicleCrew _aaHull;
 		{
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 		} forEach (crew _aaHull);
 		//_aaHull doWatch _watchPosition;
-		_aaTurrets pushBack [_aaHull,(gunner _aaHull),(group (gunner _aaHull)),(typeOf _aaHull),((weapons _aaHull) select ([0,1] select (_aaHull isKindOf 'Tank'))),0,0,0];
+		_aaTurrets pushBack [_aaHull,(gunner _aaHull),_aaGroup,(typeOf _aaHull),((weapons _aaHull) select ([0,1] select (_aaHull isKindOf 'Tank'))),0,0,0];
 	};
 } forEach _aaHulls;
 //comment 'Generate force protection';
@@ -235,9 +234,9 @@ _compositionData = nil;
 	if (!isNull (group _x)) then {
 		(group _x) addVehicle (selectRandom _aaHulls);
 	};
-} forEach ([(_composition select 0)] call (missionNamespace getVariable 'QS_fnc_smEnemyEast'));
+} forEach ([(_composition # 0)] call (missionNamespace getVariable 'QS_fnc_smEnemyEast'));
 //comment 'Brief players';
-_fuzzyPos = [((_spawnPosition select 0) - 300) + (random 600),((_spawnPosition select 1) - 300) + (random 600),0];
+_fuzzyPos = [((_spawnPosition # 0) - 300) + (random 600),((_spawnPosition # 1) - 300) + (random 600),0];
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
@@ -285,15 +284,15 @@ for '_x' from 0 to 1 step 0 do {
 			if (surfaceIsWater _aircraftPosition) then {
 				_aircraftPosition = ATLToASL _aircraftPosition;
 			};
-			(((_x distance2D _spawnPosition) < _targetingRange_max) && ((_aircraftPosition select 2) > _targetingAltitudeMin))
+			(((_x distance2D _spawnPosition) < _targetingRange_max) && ((_aircraftPosition # 2) > _targetingAltitudeMin))
 		};
 		_targetListEnemy = [];
-		if (!(_allAircraft isEqualTo [])) then {
+		if (_allAircraft isNotEqualTo []) then {
 			{
 				_targetCandidate = _x;
 				if ((side _targetCandidate) isEqualTo WEST) then {
-					if (!(((crew _targetCandidate) findIf {(alive _x)}) isEqualTo -1)) then {
-						_targetType = toLower (typeOf _targetCandidate);
+					if (((crew _targetCandidate) findIf {(alive _x)}) isNotEqualTo -1) then {
+						_targetType = toLowerANSI (typeOf _targetCandidate);
 						if (_targetCandidate isKindOf 'Plane') then {
 							if ((_targetType in _stealthAircraft) && (!(isVehicleRadarOn _targetCandidate)) && (!(isLaserOn _targetCandidate))) then {
 								if ((_targetCandidate distance2D _spawnPosition) < (_targetingRange_max * _targetingRange_stealthCoef)) then {
@@ -339,7 +338,7 @@ for '_x' from 0 to 1 step 0 do {
 			];
 			if (alive _aaTurret) then {
 				if ((_aaTurret ammo _aaTurretWeapon) > 0) then {
-					if (!(_targetListEnemy isEqualTo [])) then {
+					if (_targetListEnemy isNotEqualTo []) then {
 						_targetCandidate = selectRandom _targetListEnemy;
 						_aaGunner reveal [_targetCandidate,4];
 						_aaTurret doTarget _targetCandidate;

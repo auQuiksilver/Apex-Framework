@@ -42,4 +42,4 @@ _towableCargoObjects = [
 	'land_cargo10_idap_f','land_cargo20_idap_f','land_paperbox_01_small_stacked_f','land_waterbottle_01_stack_f',
 	'land_destroyer_01_boat_rack_01_f'
 ];
-(!((((_findPos nearEntities [_towableCargoObjects,(2 * _vehicleHalfLength)]) + (nearestObjects [_findPos,_towableCargoObjects,(2 * _vehicleHalfLength),TRUE])) select {((alive _x) && (!(_x isEqualTo _vehicle)))}) isEqualTo []));
+((((_findPos nearEntities [_towableCargoObjects,(2 * _vehicleHalfLength)]) + (nearestObjects [_findPos,_towableCargoObjects,(2 * _vehicleHalfLength),TRUE])) select {((alive _x) && (_x isNotEqualTo _vehicle))}) isNotEqualTo []);

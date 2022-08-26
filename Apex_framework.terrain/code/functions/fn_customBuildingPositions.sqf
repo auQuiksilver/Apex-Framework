@@ -24,8 +24,8 @@ Notes:
 ___________________________________________________/*/
 
 params ['_building','_buildingPositions'];
-_type = toLower (typeOf _building);
-_model = toLower ((getModelInfo _building) # 1);
+_type = toLowerANSI (typeOf _building);
+_model = toLowerANSI ((getModelInfo _building) # 1);
 if (isNil '_model') exitWith {
 	[]
 };

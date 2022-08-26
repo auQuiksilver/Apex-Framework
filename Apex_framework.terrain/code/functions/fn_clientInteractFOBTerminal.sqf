@@ -13,7 +13,7 @@ Description:
 	-
 __________________________________________________________________________*/
 
-_type = _this select 3;
+_type = _this # 3;
 if (_type isEqualTo 1) exitWith {
 	private ['_text','_respawnEnabled','_respawnTickets','_vehicleRespawnEnabled','_vehicleRepairService','_vehicleAmmoService','_radarServices','_vehicleFuelService','_personalRespawn'];
 	_text = format [
@@ -69,7 +69,8 @@ if (_type isEqualTo 1) exitWith {
 	player selectDiarySubject 'fobs';
 };
 if (_type isEqualTo 2) exitWith {
-	if (([(getPosATL player),100,([player] call (missionNamespace getVariable 'QS_fnc_enemySides')),allUnits,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo 0) then {
+	//if (([(getPosATL player),100,([player] call (missionNamespace getVariable 'QS_fnc_enemySides')),allUnits,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo 0) then {
+	if (((((units EAST) + (units RESISTANCE)) inAreaArray [(getPosATL player),100,100,0,FALSE,-1])) isEqualTo []) then {
 		playSound ['AddItemOK',FALSE];
 		[50,[(player getVariable ['QS_unit_side',WEST]),profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	} else {

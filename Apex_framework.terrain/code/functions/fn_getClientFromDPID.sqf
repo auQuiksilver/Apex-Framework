@@ -17,7 +17,7 @@ private _client = objNull;
 {
 	if (!isNil {_x getVariable 'QS_directPlayID'}) then {
 		if ((_x getVariable 'QS_directPlayID') isEqualType 0) then {
-			if ((_x getVariable 'QS_directPlayID') isEqualTo (_this select 0)) then {
+			if ((_x getVariable 'QS_directPlayID') isEqualTo (_this # 0)) then {
 				_client = _x;
 			};
 		};

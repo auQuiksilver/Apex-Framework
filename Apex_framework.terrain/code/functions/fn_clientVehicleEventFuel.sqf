@@ -16,5 +16,5 @@ Description:
 	fuelState: Boolean - 0 when no fuel, 1 when the fuel tank is full
 __________________________________________________________*/
 
-if (!(local (_this select 0))) exitWith {};
+if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_fuelState'];

@@ -19,12 +19,12 @@ private [
 	'_returnType','_sunrise','_sunset','_sunriseInDaytime','_sunsetInDaytime'
 ];
 
-_date = _this select 0;
-_year = _date select 0;
-_month = _date select 1;
-_day = _date select 2;
+_date = _this # 0;
+_year = _date # 0;
+_month = _date # 1;
+_day = _date # 2;
 _returnType = 0;
-if ((count _this) > 1) then {_returnType = _this select 1;};
+if ((count _this) > 1) then {_returnType = _this # 1;};
 
 _zenith = 90; 
 _latitude = getNumber (configFile >> 'CfgWorlds' >> worldName >> 'latitude') * -1;
@@ -83,10 +83,10 @@ if (_returnType isEqualTo 0) exitWith {
 	_times;
 };
 if (_returnType isEqualTo 1) exitWith {
-	_sunrise = _times select 0;
-	_sunriseInDaytime = (_sunrise select 0) + ((_sunrise select 1) / 60);
-	_sunset = _times select 1;
-	_sunsetInDaytime = (_sunset select 0) + ((_sunset select 1) / 60);
+	_sunrise = _times # 0;
+	_sunriseInDaytime = (_sunrise # 0) + ((_sunrise # 1) / 60);
+	_sunset = _times # 1;
+	_sunsetInDaytime = (_sunset # 0) + ((_sunset # 1) / 60);
 	_times = [_sunriseInDaytime,_sunsetInDaytime];
 	_times;
 };

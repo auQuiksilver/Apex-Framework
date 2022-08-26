@@ -49,7 +49,7 @@ if (!isDedicated) exitWith {0};
 _this spawn {
 	waitUntil {
 		uiSleep (0.1 + (random 0.1));
-		(!((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isEqualTo -1))
+		((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isNotEqualTo -1)
 	};
 	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) exitWith {};
 	params [
@@ -77,7 +77,7 @@ _this spawn {
 		};
 		(missionNamespace getVariable 'QS_uav_Monitor') pushBack [
 			objNull,
-			(toLower _vehicleType),
+			(toLowerANSI _vehicleType),
 			(getPosASL _vehicle),
 			(getDir _vehicle),
 			[(vectorDir _vehicle),(vectorUp _vehicle)],

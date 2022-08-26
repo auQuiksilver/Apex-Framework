@@ -6,11 +6,11 @@ Author:
 	
 Last Modified:
 
-	19/10/2020 A3 2.00 by Quiksilver
+	26/10/2022 A3 2.10 by Quiksilver
 
 Description:
 
-	
-__________________________________________________________*/
+	Anticheat A3 version compatibility
+______________________________*/
 
-208;
+210;

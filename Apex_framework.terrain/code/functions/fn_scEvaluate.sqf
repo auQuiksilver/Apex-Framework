@@ -20,7 +20,7 @@ if (_type isEqualTo 1) exitWith {
 	private _return = TRUE;
 	comment 'If all are owned by WEST';
 	{
-		if (!((_x select 10) isEqualTo [WEST])) then {
+		if ((_x # 10) isNotEqualTo [WEST]) then {
 			_return = FALSE;
 		};
 	} count (missionNamespace getVariable 'QS_virtualSectors_data');

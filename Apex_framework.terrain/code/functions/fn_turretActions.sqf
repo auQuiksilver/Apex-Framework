@@ -16,10 +16,10 @@ Description:
 _______________________________________________*/
 
 private ["_array","_v","_turret","_lock"];
-_array = _this select 3;
-_v = _array select 0;
-_turret = _array select 1;
-_lock = _array select 2;
+_array = _this # 3;
+_v = _array # 0;
+_turret = _array # 1;
+_lock = _array # 2;
 {
 	player removeAction _x;
 } count QS_turretActions;

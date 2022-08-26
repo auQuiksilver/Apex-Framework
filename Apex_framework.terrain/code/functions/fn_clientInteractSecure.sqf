@@ -13,7 +13,7 @@ Description:
 	Action Secure
 __________________________________________________/*/
 
-(_this select 3) params [
+(_this # 3) params [
 	'_cursorTarget',
 	'_cursorObject'
 ];

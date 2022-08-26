@@ -66,13 +66,8 @@ _vehPos = [_flatPos,15,30,10,0,0.5,0] call (missionNamespace getVariable 'QS_fnc
 	
 /*/-------------------- SPAWN OBJECTIVE BUILDING/*/
 
-QS_sideObj = createVehicle ['Land_Research_HQ_F',[_flatPos select 0,_flatPos select 1,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-QS_sideObj setPosWorld [((getPosWorld QS_sideObj) select 0), ((getPosWorld QS_sideObj) select 1), ((getPosWorld QS_sideObj) select 2)];
+QS_sideObj = createVehicle ['Land_Research_HQ_F',[_flatPos # 0,_flatPos # 1,0],[],0,'NONE'];
+QS_sideObj setPosWorld [((getPosWorld QS_sideObj) # 0), ((getPosWorld QS_sideObj) # 1), ((getPosWorld QS_sideObj) # 2)];
 QS_sideObj setVectorUp [0,0,1];
 _veh = createVehicle [_vehType,_vehPos,[],0,'NONE'];
 _veh lock 3;
@@ -80,22 +75,12 @@ _veh lock 3;
 /*/---------- SPAWN (okay, tp) TABLE, AND LAPTOP ON IT./*/
 
 _researchTable = createVehicle ['Land_CampingTable_small_F',[0,0,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-_researchTable setPosWorld [((getPosWorld QS_sideObj) select 0), ((getPosWorld QS_sideObj) select 1), ((getPosWorld QS_sideObj) select 2)];
+_researchTable setPosWorld [((getPosWorld QS_sideObj) # 0), ((getPosWorld QS_sideObj) # 1), ((getPosWorld QS_sideObj) # 2)];
 _dummyTypes = ['Box_East_AmmoOrd_F','Box_IND_AmmoOrd_F'];
 _dummyType = selectRandom _dummyTypes;
 _objectTypes = ['Land_Laptop_03_black_F','Land_Laptop_device_F'];
 _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _object enableSimulationGlobal TRUE;
 _researchTable attachTo [QS_sideObj,[0,0,-2.875]];
 _object attachTo [QS_sideObj,[0,0,-2.3]];
@@ -110,9 +95,9 @@ _enemiesArray = [QS_sideObj] call (missionNamespace getVariable 'QS_fnc_smEnemyE
 
 /*/-------------------- BRIEF/*/
 
-_fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 300) + (random 600),0];
+_fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
 {
-	_x setMarkerPos _fuzzyPos;
+	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 'QS_marker_sideMarker' setMarkerText (format ['%1Seize Research Data',(toString [32,32,32])]);
@@ -151,7 +136,7 @@ for '_x' from 0 to 1 step 0 do {
 		['sideChat',[WEST,'HQ'],'Objective destroyed, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
-			_x setMarkerPos [-5000,-5000,0];
+			_x setMarkerPosLocal [-5000,-5000,0];
 			_x setMarkerAlpha 0;
 		} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
@@ -190,13 +175,8 @@ for '_x' from 0 to 1 step 0 do {
 		/*/-------------------- BOOM!/*/
 		
 		_dummy = createVehicle [_dummyType,[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_dummy allowDamage FALSE;
-		_dummy setPosWorld [((getPosWorld QS_sideObj) select 0), ((getPosWorld QS_sideObj) select 1), (((getPosWorld QS_sideObj) select 2) + 2)];
+		_dummy setPosWorld [((getPosWorld QS_sideObj) # 0), ((getPosWorld QS_sideObj) # 1), (((getPosWorld QS_sideObj) # 2) + 2)];
 		uiSleep 0.1;
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',
@@ -207,11 +187,6 @@ for '_x' from 0 to 1 step 0 do {
 		deleteVehicle _object;
 		uiSleep 14;											/*/ ghetto bomb timer/*/
 		'Bo_Mk82' createVehicle (getPos _dummy); 				/*/default "Bo_Mk82"/*/
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		{
 			missionNamespace setVariable [
 				'QS_analytics_entities_deleted',
@@ -227,7 +202,7 @@ for '_x' from 0 to 1 step 0 do {
 
 		[1,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
-			_x setMarkerPos [-5000,-5000,0];
+			_x setMarkerPosLocal [-5000,-5000,0];
 			_x setMarkerAlpha 0;
 		} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];

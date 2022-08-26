@@ -3,8 +3,8 @@
 	["Land_HBarrier_3_F",[-10.4844,-0.195313,0],349.251,[],false,true,true,{}], 
 	["Land_HBarrier_3_F",[8.67773,-3.53711,0],302.323,[],false,false,true,{}], 
 	["Flag_White_F",[-9.78906,-1.36328,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_Cargo_HQ_V2_F",[-5.41016,-9.05273,0],120.719,[],false,true,false,{}], 
 	["Land_HBarrier_3_F",[9.66992,-5.875,0],213.807,[],false,false,true,{}], 

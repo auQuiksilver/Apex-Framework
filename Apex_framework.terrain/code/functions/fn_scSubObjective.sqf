@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	11/09/2017 A3 1.70 by Quiksilver
+	10/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -32,7 +32,6 @@ params ['_type','_subType','_data'];
 private _return = [];
 if (_type isEqualTo 0) exitWith {
 	diag_log '***** SC SUB OBJ ***** DELETE *****';
-	comment 'Delete';
 	if (_subType isEqualTo 'INTEL') then {
 	
 	};
@@ -55,6 +54,7 @@ if (_type isEqualTo 1) exitWith {
 	_basePosition = markerPos 'QS_marker_base_marker';
 	_fobPosition = markerPos 'QS_marker_module_fob';
 	_centerPos = missionNamespace getVariable 'QS_AOpos';
+	_hqPos = markerPos 'QS_marker_hqMarker';
 	private _centerRadius = (missionNamespace getVariable 'QS_aoSize') * 0.75;
 	private _positionFound = FALSE;
 	private _position = [0,0,0];
@@ -62,65 +62,83 @@ if (_type isEqualTo 1) exitWith {
 	_timeToFind = diag_tickTime + 10;
 	private _attempts = 0;
 	private _totalAttempts = 0;
-	comment 'Create';
+
 	if (_subType isEqualTo 'INTEL') then {
-		comment 'Datalink';
-		comment 'Find position';
-		_attempts = 0;
-		_totalAttempts = 0;
-		for '_x' from 0 to 1 step 0 do {
-			if (diag_tickTime > _timeToFind) exitWith {};
-			if (_positionFound) exitWith {};
-			_position = [
-				'RADIUS',
-				_centerPos,
-				_centerRadius,
-				'LAND',
-				[1,0,-1,-1,0,FALSE,objNull],
-				FALSE,
-				[_centerPos,300,'(1 + forest) * (1 - houses)',15,3],
-				[],
-				TRUE
-			] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-			if ((_position distance2D _basePosition) > 1000) then {
-				if ((_position distance2D _fobPosition) > 150) then {
-					if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 200)}) isEqualTo -1) then {
-						if ((getTerrainHeightASL _position) > 2) then {
-							if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 6) then {
-								if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -6) then {
-									if ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
-										if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-											if ((nearestObjects [_position,['House','Building'],7,FALSE]) isEqualTo []) then {
-												if ((nearestTerrainObjects [
-													_position,
-													[
-														"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
-														"FENCE","WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
-														"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
-													],
-													10,
-													FALSE,
-													TRUE
-												]) isEqualTo []) then {
-													_positionFound = TRUE;
-												};
-											};
-										};
-									};
-								};
-							};
+
+		private _usedSettlementPosition = FALSE;
+		private _building = objNull;
+		private _dir = 0;
+		if ((random 1) > 0.5) then {
+			if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
+				if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 1) then {
+					_buildingTypes = (call (missionNamespace getVariable 'QS_data_smallBuildingTypes')) select {(sizeOf _x) >= 15};
+					_buildingList = (nearestObjects [_centerPos,_buildingTypes,_centerRadius,TRUE]) select {!isObjectHidden _x};
+					if (_buildingList isNotEqualTo []) then {
+						_position = [0,0,0];
+						for '_i' from 0 to 9 step 1 do {
+							_building = selectRandom _buildingList;
+							_position = getPos _building;
+							if (
+								((_position distance2D _hqPos) > 50) && 
+								(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,50,50,0,FALSE]) isEqualTo [])
+							) exitWith {};
 						};
+						_usedSettlementPosition = TRUE;
+						_positionFound = TRUE;
+						_dir = getDir _building;
+						_building allowDamage FALSE;
+						_building hideObjectGlobal TRUE;
 					};
 				};
 			};
-			if (_attempts > 100) then {
-				_centerRadius = _centerRadius + 3;
-				_attempts = 0;
-			};
-			_attempts = _attempts + 1;
-			_totalAttempts = _totalAttempts + 1;
 		};
-		comment 'Spawn composition';
+		if (!_positionFound) then {
+			for '_x' from 0 to 1 step 0 do {
+				if (diag_tickTime > _timeToFind) exitWith {};
+				if (_positionFound) exitWith {};
+				_position = [
+					'RADIUS',
+					_centerPos,
+					_centerRadius,
+					'LAND',
+					[1,0,-1,-1,0,FALSE,objNull],
+					FALSE,
+					[_centerPos,300,'(1 + forest) * (1 - houses)',15,3],
+					[],
+					TRUE
+				] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+				if (
+					((_position distance2D _basePosition) > 1000) &&
+					{((_position distance2D _fobPosition) > 150)} &&
+					{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,150,150,0,FALSE]) isEqualTo [])} &&
+					{((getTerrainHeightASL _position) > 2)} &&
+					{(([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 6)} &&
+					{(([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -6)} &&
+					{((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} &&
+					{(!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))} &&
+					{((nearestObjects [_position,['House','Building'],7,FALSE]) isEqualTo [])} &&
+					{((nearestTerrainObjects [
+						_position,
+						[
+							"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
+							"FENCE","WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
+							"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
+						],
+						10,
+						FALSE,
+						TRUE
+					]) isEqualTo [])}
+				) then {
+					_positionFound = TRUE;
+				};
+				if (_attempts > 100) then {
+					_centerRadius = _centerRadius + 3;
+					_attempts = 0;
+				};
+				_attempts = _attempts + 1;
+				_totalAttempts = _totalAttempts + 1;
+			};
+		};
 		if (_positionFound) then {
 			private _composition = [];
 			_data = [
@@ -136,7 +154,6 @@ if (_type isEqualTo 1) exitWith {
 					};
 				}]
 			];
-			
 			_houseType = [
 				'Land_Cargo_House_V3_F',
 				'Land_Cargo_House_V4_F'
@@ -144,14 +161,18 @@ if (_type isEqualTo 1) exitWith {
 			_position set [2,0];
 			_house = createVehicle [_houseType,_position,[],0,'CAN_COLLIDE'];
 			_house allowDamage FALSE;
+			_house setDir ([random 360,_dir] select _usedSettlementPosition);
 			_composition pushBack _house;
-			_house setDir (random 360);
-			{	
-				if ((_x distance2D _position) < 8) then {
-					0 = (missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _x;
-					_x hideObjectGlobal TRUE;
-				};
-			} forEach (nearestTerrainObjects [_house,[],20,FALSE,TRUE]);
+			if (_usedSettlementPosition) then {
+				(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _building;
+			} else {
+				{
+					if ((_x distance2D _position) < 8) then {
+						(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _x;
+						_x hideObjectGlobal TRUE;
+					};
+				} forEach (nearestTerrainObjects [_house,[],20,FALSE,TRUE]);
+			};
 			missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
 			private _configClass = configNull;
 			private _model = '';
@@ -167,14 +188,14 @@ if (_type isEqualTo 1) exitWith {
 				if ((_model select [0,1]) isEqualTo '\') then {
 					_model = _model select [1];
 				};
-				if (!((_model select [((count _model) - 4),4]) isEqualTo '.p3d')) then {
+				if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 					_model = _model + '.p3d';
 				};
 				_object = createSimpleObject [_model,_position];
 				_object attachTo [_house,_attachPoint];
 				_object setDir _dir;
 				_composition pushBack _object;
-				if (!(_code isEqualTo {})) then {
+				if (_code isNotEqualTo {}) then {
 					_object call _code;
 				};
 			} forEach _data;
@@ -183,7 +204,6 @@ if (_type isEqualTo 1) exitWith {
 			_terminal attachTo [_house,[0.75,2.8,0.65]];
 			_composition pushBack _terminal;
 			/*/
-			comment 'Force protection';
 			_grpTypes = [
 				'OIA_InfSentry',
 				'OIA_InfSentry',
@@ -196,7 +216,7 @@ if (_type isEqualTo 1) exitWith {
 				_x allowDamage FALSE;
 				_x setUnitPosWeak (selectRandom ['UP','MIDDLE','UP']);
 				_x setVariable ['QS_hidden',TRUE,TRUE];
-				0 = _composition pushBack _x;
+				_composition pushBack _x;
 			} forEach (units _grp);
 			(units _grp) spawn {
 				uiSleep 5;
@@ -204,14 +224,15 @@ if (_type isEqualTo 1) exitWith {
 					_x allowDamage TRUE;
 				} forEach _this;
 			};
-			[_position,25,(units _grp),['House','Building']] spawn (missionNamespace getVariable 'QS_fnc_garrisonUnits');
+			[_position,10,(units _grp),['House','Building']] spawn (missionNamespace getVariable 'QS_fnc_garrisonUnits');
 			if ((random 1) > 0.666) then {
 				_grp = [(_position getPos [(random 30),(random 360)]),(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 				[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 				_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 				_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 				_grp setVariable ['QS_AI_GRP_DATA',[_position,50,50,[]],FALSE];
-				_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,diag_tickTime,-1],FALSE];
+				_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,serverTime,-1],FALSE];
+				_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 				{
 					_x setUnitPosWeak (selectRandom ['UP','MIDDLE','UP']);
 					0 = _composition pushBack _x;
@@ -223,7 +244,7 @@ if (_type isEqualTo 1) exitWith {
 					detach _x;
 				} forEach (attachedObjects _this);
 			};
-			_uncertaintyPos = [((_position select 0) + (100 - (random 200))),((_position select 1) + (100 - (random 200))),0];
+			_uncertaintyPos = [((_position # 0) + (100 - (random 200))),((_position # 1) + (100 - (random 200))),0];
 			_marker1 = createMarker ['QS_marker_virtualSectors_sub_0',[-1000,-1000,0]];
 			_marker1 setMarkerAlphaLocal 0;
 			_marker1 setMarkerShapeLocal 'ICON';
@@ -231,7 +252,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker1 setMarkerColorLocal 'ColorOPFOR';
 			_marker1 setMarkerTextLocal (format ['%1Datalink',(toString [32,32,32])]);
 			_marker1 setMarkerSizeLocal [0.5,0.5];
-			_marker1 setMarkerPos _uncertaintyPos;
+			_marker1 setMarkerPosLocal _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') pushBack _marker1;
 			_marker2 = createMarker ['QS_marker_virtualSectors_sub_00',[-1000,-1000,0]];
 			_marker2 setMarkerAlphaLocal 0;
@@ -240,7 +261,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker2 setMarkerColorLocal 'ColorOPFOR';
 			_marker2 setMarkerTextLocal (toString [32,32,32]);
 			_marker2 setMarkerSizeLocal [100,100];
-			_marker2 setMarkerPos _uncertaintyPos;
+			_marker2 setMarkerPosLocal _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') pushBack _marker2;
 			_description = 'Locate and secure the enemy datalink.<br/><br/>The enemy datalink allows the enemy to more easily communicate and share information on our troop movements, strength and force disposition. With this data they can adapt and better counter our attacks.<br/><br/> This datalink also allows them to call in UAV recon support. Securing the datalink will deny the enemy these benefits.';
 			_title = 'Secure Datalink';
@@ -267,11 +288,9 @@ if (_type isEqualTo 1) exitWith {
 		};	
 	};
 	if (_subType isEqualTo 'VEHICLE') then {
-		comment 'Radio Tower';
-		comment 'Find position';
 		private _attempts = 0;
 		private _totalAttempts = 0;
-		for '_x' from 0 to 1 step 0 do {
+		for '_x' from 0 to 999 step 1 do {
 			if (diag_tickTime > _timeToFind) exitWith {};
 			if (_positionFound) exitWith {};
 			_position = [
@@ -285,36 +304,29 @@ if (_type isEqualTo 1) exitWith {
 				[],
 				TRUE
 			] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-			if ((_position distance2D _basePosition) > 1000) then {
-				if ((_position distance2D _fobPosition) > 150) then {
-					if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 200)}) isEqualTo -1) then {
-						if ((getTerrainHeightASL _position) > 2) then {
-							if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 8) then {
-								if (([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -8) then {
-									if ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
-										if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-											if ((nearestObjects [_position,['House','Building'],10,FALSE]) isEqualTo []) then {
-												if ((nearestTerrainObjects [
-													_position,
-													[
-														"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
-														"WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
-														"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
-													],
-													10,
-													FALSE,
-													TRUE
-												]) isEqualTo []) then {
-													_positionFound = TRUE;
-												};
-											};
-										};
-									};
-								};
-							};
-						};
-					};
-				};
+			if (
+				((_position distance2D _basePosition) > 1000) &&
+				{((_position distance2D _fobPosition) > 150)} &&
+				{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,200,200,0,FALSE]) isEqualTo [])} &&
+				{((getTerrainHeightASL _position) > 2)} &&
+				{(([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 8)} &&
+				{(([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -8)} &&
+				{((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} &&
+				{(!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))} &&
+				{((nearestObjects [_position,['House','Building'],10,FALSE]) isEqualTo [])} &&
+				{((nearestTerrainObjects [
+					_position,
+					[
+						"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
+						"FENCE","WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
+						"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
+					],
+					10,
+					FALSE,
+					TRUE
+				]) isEqualTo [])}
+			) then {
+				_positionFound = TRUE;
 			};
 			if (_attempts > 100) then {
 				_centerRadius = _centerRadius + 10;
@@ -323,7 +335,6 @@ if (_type isEqualTo 1) exitWith {
 			_attempts = _attempts + 1;
 			_totalAttempts = _totalAttempts + 1;
 		};
-		comment 'Spawn composition';
 		if (_positionFound) then {
 			missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
 			{	
@@ -363,13 +374,14 @@ if (_type isEqualTo 1) exitWith {
 					_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 					_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 					_grp setVariable ['QS_AI_GRP_DATA',[_position,50,50,[]],FALSE];
-					_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,diag_tickTime,-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,serverTime,-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 					{
 						0 = _composition pushBack _x;
 					} forEach (units _grp);
 				};
 			};
-			_uncertaintyPos = [((_position select 0) + (100 - (random 200))),((_position select 1) + (100 - (random 200))),0];
+			_uncertaintyPos = [((_position # 0) + (100 - (random 200))),((_position # 1) + (100 - (random 200))),0];
 			_marker1 = createMarker ['QS_marker_virtualSectors_sub_1',[-1000,-1000,0]];
 			_marker1 setMarkerAlphaLocal 0;
 			_marker1 setMarkerShapeLocal 'ICON';
@@ -413,11 +425,9 @@ if (_type isEqualTo 1) exitWith {
 		};
 	};
 	if (_subType isEqualTo 'GEAR') then {
-		comment 'Supply Depot';
-		comment 'Find position';
 		private _attempts = 0;
 		private _totalAttempts = 0;
-		for '_x' from 0 to 1 step 0 do {
+		for '_x' from 0 to 999 step 1 do {
 			if (diag_tickTime > _timeToFind) exitWith {};
 			if (_positionFound) exitWith {};
 			_position = [
@@ -431,36 +441,29 @@ if (_type isEqualTo 1) exitWith {
 				[],
 				TRUE
 			] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-			if ((_position distance2D _basePosition) > 1000) then {
-				if ((_position distance2D _fobPosition) > 150) then {
-					if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_position distance2D _x) < 200)}) isEqualTo -1) then {
-						if ((getTerrainHeightASL _position) > 2) then {
-							if (([_position,15] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 7) then {
-								if (([_position,15] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -7) then {
-									if ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
-										if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-											if ((nearestObjects [_position,['House','Building'],18,FALSE]) isEqualTo []) then {
-												if ((nearestTerrainObjects [
-													_position,
-													[
-														"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
-														"FENCE","WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
-														"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
-													],
-													7,
-													FALSE,
-													TRUE
-												]) isEqualTo []) then {
-													_positionFound = TRUE;
-												};
-											};
-										};
-									};
-								};
-							};
-						};
-					};
-				};
+			if (
+				((_position distance2D _basePosition) > 1000) &&
+				{((_position distance2D _fobPosition) > 150)} &&
+				{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,150,150,0,FALSE]) isEqualTo [])} &&
+				{((getTerrainHeightASL _position) > 2)} &&
+				{(([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 7)} &&
+				{(([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -7)} &&
+				{((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} &&
+				{(!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))} &&
+				{((nearestObjects [_position,['House','Building'],18,FALSE]) isEqualTo [])} &&
+				{((nearestTerrainObjects [
+					_position,
+					[
+						"BUILDING","HOUSE","CHURCH","CHAPEL","CROSS","ROCK","BUNKER","FORTRESS","FOUNTAIN","VIEW-TOWER","LIGHTHOUSE","QUAY","FUELSTATION","HOSPITAL",
+						"FENCE","WALL","BUSSTOP","TRANSMITTER","STACK","RUIN","WATERTOWER",
+						"ROCKS","POWER LINES","RAILWAY","POWERSOLAR","POWERWAVE","POWERWIND","SHIPWRECK"
+					],
+					7,
+					FALSE,
+					TRUE
+				]) isEqualTo [])}
+			) then {
+				_positionFound = TRUE;
 			};
 			if (_attempts > 100) then {
 				_centerRadius = _centerRadius + 3;
@@ -468,8 +471,7 @@ if (_type isEqualTo 1) exitWith {
 			};
 			_attempts = _attempts + 1;
 			_totalAttempts = _totalAttempts + 1;
-		};		
-		comment 'Spawn composition';
+		};
 		if (_positionFound) then {
 			missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
 			_compositionData = selectRandom (missionNamespace getVariable 'QS_sc_compositions_sd');
@@ -480,7 +482,6 @@ if (_type isEqualTo 1) exitWith {
 				};
 			} forEach _composition;
 			(missionNamespace getVariable 'QS_AI_regroupPositions') pushBack ['QS_ao_SD',[EAST,RESISTANCE],_position];
-			comment 'Force protection';
 			_grpTypes = [
 				'OIA_InfTeam_AA',
 				'OIA_InfTeam_AT'
@@ -504,12 +505,13 @@ if (_type isEqualTo 1) exitWith {
 				_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 				_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 				_grp setVariable ['QS_AI_GRP_DATA',[_position,50,50,[]],FALSE];
-				_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,diag_tickTime,-1],FALSE];
+				_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,serverTime,-1],FALSE];
+				_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 				{
 					0 = _composition pushBack _x;
 				} forEach (units _grp);
 			};
-			_uncertaintyPos = [((_position select 0) + (100 - (random 200))),((_position select 1) + (100 - (random 200))),0];
+			_uncertaintyPos = [((_position # 0) + (100 - (random 200))),((_position # 1) + (100 - (random 200))),0];
 			_marker1 = createMarker ['QS_marker_virtualSectors_sub_2',[-1000,-1000,0]];
 			_marker1 setMarkerAlphaLocal 0;
 			_marker1 setMarkerShapeLocal 'ICON';
@@ -554,19 +556,18 @@ if (_type isEqualTo 1) exitWith {
 		};
 	};
 	if (_subType isEqualTo 'SUPPORT') then {
-		comment 'Vehicle support base';
-		
-		
+
 		
 	};
 	if (_subType isEqualTo 'JAMMER') then {
 		private _position = [0,0,0];
 		for '_x' from 0 to 9 step 1 do {
 			_position = ['RADIUS',_centerPos,(_centerRadius * 0.666),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-			if (((_position distance2D _basePosition) > 500) && ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) && (!([_position,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) exitWith {};
+			if (((_position distance2D _basePosition) > 500) && ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) && (!([_position,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) exitWith {};
 		};
-		_roughPos = [((_position select 0) - 140) + (random 280),((_position select 1) - 140) + (random 280),0];
-		_jammer = [1,'QS_ao_jammer_1',_position,_roughPos,(ceil (random [150,200,300]))] call (missionNamespace getVariable 'QS_fnc_gpsJammer');
+		//_roughPos = [((_position # 0) - 140) + (random 280),((_position # 1) - 140) + (random 280),0];
+		_drawBlackCircle = FALSE;
+		_jammer = [1,'QS_ao_jammer_1',_position,QS_aoPos,QS_aoSize,TRUE,_drawBlackCircle] call (missionNamespace getVariable 'QS_fnc_gpsJammer');
 		if (alive _jammer) then {
 			_composition = [_jammer];
 			_return = [2,_subType,[_position,{},_composition]];
@@ -575,7 +576,6 @@ if (_type isEqualTo 1) exitWith {
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
-	comment 'Evaluate';
 	diag_log '***** SC SUB OBJ ***** EVALUATE *****';
 	_return = _this;
 	if (_subType isEqualTo 'INTEL') then {

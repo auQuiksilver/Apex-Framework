@@ -26,7 +26,7 @@ if (_position in ['cargo','gunner','commander']) then {
 						_val = 1;
 						_driver setVariable ['QS_IA_PP_loadedAtMission',(_loadedAtMission select {((alive _x) && (_x isNotEqualTo _unit))}),(!isDedicated)];
 						if (!isNil {_driver getVariable 'QS_PP_difficultyEnabledRTD'}) then {
-							if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') select 0) then {
+							if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') # 0) then {
 								_val = _val * 1.5;
 							};
 						};
@@ -40,7 +40,7 @@ if (_position in ['cargo','gunner','commander']) then {
 							if (_unit in _loadedInField) then {
 								_val = 0.5;
 								if (!isNil {_driver getVariable 'QS_PP_difficultyEnabledRTD'}) then {
-									if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') select 0) then {
+									if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') # 0) then {
 										_val = _val * 1.5;
 									};
 								};
@@ -55,7 +55,7 @@ if (_position in ['cargo','gunner','commander']) then {
 						if (_unit in _loadedAtBase) then {
 							_val = 1;
 							if (!isNil {_driver getVariable 'QS_PP_difficultyEnabledRTD'}) then {
-								if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') select 0) then {
+								if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') # 0) then {
 									_val = _val * 1.5;
 								};
 							};
@@ -66,7 +66,7 @@ if (_position in ['cargo','gunner','commander']) then {
 							if (_unit in _loadedInField) then {
 								_val = 0.5;
 								if (!isNil {_driver getVariable 'QS_PP_difficultyEnabledRTD'}) then {
-									if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') select 0) then {
+									if ((_driver getVariable 'QS_PP_difficultyEnabledRTD') # 0) then {
 										_val = _val * 1.5;
 									};
 								};

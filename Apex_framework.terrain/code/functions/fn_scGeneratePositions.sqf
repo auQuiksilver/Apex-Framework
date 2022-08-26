@@ -97,7 +97,7 @@ if (_module_fob_enabled) then {
 			_nearestLocations = nearestLocations [_referencePosition,['NameVillage','NameCity','NameCityCapital'],_requireNearSettlementRadius];
 		};
 		if (
-			(((_requireNearSettlement) && (!(_nearestLocations isEqualTo []))) || (!(_requireNearSettlement))) && 
+			(((_requireNearSettlement) && (_nearestLocations isNotEqualTo [])) || (!(_requireNearSettlement))) && 
 			(_referencePosition inPolygon _scAreaPolygon) && 
 			((_referencePosition distance2D (missionNamespace getVariable 'QS_virtualSectors_lastReferencePosition')) >= _minDistFromLastRefPos) && 
 			((_referencePosition distance2D (markerPos 'QS_marker_base_marker')) > 1200) && 
@@ -122,7 +122,7 @@ if (_module_fob_enabled) then {
 			_nearestLocations = nearestLocations [_referencePosition,['NameVillage','NameCity','NameCityCapital'],_requireNearSettlementRadius];
 		};
 		if (
-			(((_requireNearSettlement) && (!(_nearestLocations isEqualTo []))) || (!(_requireNearSettlement))) && 
+			(((_requireNearSettlement) && (_nearestLocations isNotEqualTo [])) || (!(_requireNearSettlement))) && 
 			((_referencePosition distance2D (missionNamespace getVariable 'QS_virtualSectors_lastReferencePosition')) >= _minDistFromLastRefPos) && 
 			(((missionNamespace getVariable 'QS_virtualSectors_regionUsedRefPositions') findIf {((_referencePosition distance2D _x) < 1500)}) isEqualTo -1) && 
 			((_referencePosition distance2D (markerPos 'QS_marker_base_marker')) > 1200) && 
@@ -149,13 +149,13 @@ diag_log format ['***** SC * Generating positions * 0.5 * Reference Position: %1
 for '_x' from 0 to 1 step 0 do {
 	_attempts = _attempts + 1;
 	_foundPositionData = _referencePosition call (missionNamespace getVariable 'QS_fnc_scFindPosition');
-	_position = _foundPositionData select 0;
-	_foundPositionType = _foundPositionData select 1;
+	_position = _foundPositionData # 0;
+	_foundPositionType = _foundPositionData # 1;
 	if ((!(_module_fob_enabled)) || {((_module_fob_enabled) && ((_position distance2D _fobMarkerPos) >= _minDistFromFOB))}) then {
-		if (((missionNamespace getVariable 'QS_virtualSectors_positions') findIf {((_position distance2D _x) < (_minDistBetweenSectors max 200))}) isEqualTo -1) then {
-			if (((missionNamespace getVariable 'QS_virtualSectors_regionUsedPositions') findIf {((_position distance2D _x) < (_minDistFromUsedPositions max 50))}) isEqualTo -1) then {
-				if (((missionNamespace getVariable 'QS_virtualSectors_positions') isEqualTo []) || ((!((missionNamespace getVariable 'QS_virtualSectors_positions') isEqualTo [])) && (((missionNamespace getVariable 'QS_virtualSectors_positions') findIf {([_position,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))}) isEqualTo -1))) then {
-					if ((!(surfaceIsWater _position)) && (!(_position isEqualTo [0,0,0]))) then {
+		if (((missionNamespace getVariable 'QS_virtualSectors_positions') inAreaArray [_position,(_minDistBetweenSectors max 200),(_minDistBetweenSectors max 200),0,FALSE]) isEqualTo []) then {
+			if (((missionNamespace getVariable 'QS_virtualSectors_regionUsedPositions') inAreaArray [_position,(_minDistFromUsedPositions max 50),(_minDistFromUsedPositions max 50),0,FALSE]) isEqualTo []) then {
+				if (((missionNamespace getVariable 'QS_virtualSectors_positions') isEqualTo []) || (((missionNamespace getVariable 'QS_virtualSectors_positions') isNotEqualTo []) && (((missionNamespace getVariable 'QS_virtualSectors_positions') findIf {([_position,_x,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))}) isEqualTo -1))) then {
+					if ((!(surfaceIsWater _position)) && (_position isNotEqualTo [0,0,0])) then {
 						(missionNamespace getVariable 'QS_virtualSectors_positions') pushBack _position;
 						missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
 					};
@@ -168,7 +168,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if ((count (missionNamespace getVariable 'QS_virtualSectors_positions')) isEqualTo _numberOfSectors) exitWith {
 		_centroid = (missionNamespace getVariable 'QS_virtualSectors_positions') call (missionNamespace getVariable 'QS_fnc_geomPolygonCentroid');
-		/*/_centroid = (((missionNamespace getVariable 'QS_virtualSectors_positions') select 0) vectorAdd ((missionNamespace getVariable 'QS_virtualSectors_positions') select 1) vectorAdd ((missionNamespace getVariable 'QS_virtualSectors_positions') select 2)) vectorMultiply (1/3);/*/
+		/*/_centroid = (((missionNamespace getVariable 'QS_virtualSectors_positions') # 0) vectorAdd ((missionNamespace getVariable 'QS_virtualSectors_positions') # 1) vectorAdd ((missionNamespace getVariable 'QS_virtualSectors_positions') # 2)) vectorMultiply (1/3);/*/
 		missionNamespace setVariable ['QS_virtualSectors_centroid',_centroid,FALSE];
 		missionNamespace setVariable ['QS_virtualSectors_lastReferenceCentroid',_centroid,FALSE];
 		{
@@ -177,26 +177,26 @@ for '_x' from 0 to 1 step 0 do {
 			'QS_marker_aoMarker',
 			'QS_marker_aoCircle'
 		];
-		_dirAB = ((missionNamespace getVariable 'QS_virtualSectors_positions') select 0) getDir ((missionNamespace getVariable 'QS_virtualSectors_positions') select 1);
-		_distAB = (((missionNamespace getVariable 'QS_virtualSectors_positions') select 0) distance2D ((missionNamespace getVariable 'QS_virtualSectors_positions') select 1)) / 2;
-		_midpointAB = ((missionNamespace getVariable 'QS_virtualSectors_positions') select 0) getPos [_distAB,_dirAB];
-		_dirAC = ((missionNamespace getVariable 'QS_virtualSectors_positions') select 0) getDir ((missionNamespace getVariable 'QS_virtualSectors_positions') select 2);
-		_distAC = (((missionNamespace getVariable 'QS_virtualSectors_positions') select 0) distance2D ((missionNamespace getVariable 'QS_virtualSectors_positions') select 2)) / 2;
-		_midpointAC = ((missionNamespace getVariable 'QS_virtualSectors_positions') select 0) getPos [_distAC,_dirAC];
-		_dirBC = ((missionNamespace getVariable 'QS_virtualSectors_positions') select 1) getDir ((missionNamespace getVariable 'QS_virtualSectors_positions') select 2);
-		_distBC = (((missionNamespace getVariable 'QS_virtualSectors_positions') select 1) distance2D ((missionNamespace getVariable 'QS_virtualSectors_positions') select 2)) / 2;
-		_midpointBC = ((missionNamespace getVariable 'QS_virtualSectors_positions') select 1) getPos [_distBC,_dirBC];
+		_dirAB = ((missionNamespace getVariable 'QS_virtualSectors_positions') # 0) getDir ((missionNamespace getVariable 'QS_virtualSectors_positions') # 1);
+		_distAB = (((missionNamespace getVariable 'QS_virtualSectors_positions') # 0) distance2D ((missionNamespace getVariable 'QS_virtualSectors_positions') # 1)) / 2;
+		_midpointAB = ((missionNamespace getVariable 'QS_virtualSectors_positions') # 0) getPos [_distAB,_dirAB];
+		_dirAC = ((missionNamespace getVariable 'QS_virtualSectors_positions') # 0) getDir ((missionNamespace getVariable 'QS_virtualSectors_positions') # 2);
+		_distAC = (((missionNamespace getVariable 'QS_virtualSectors_positions') # 0) distance2D ((missionNamespace getVariable 'QS_virtualSectors_positions') # 2)) / 2;
+		_midpointAC = ((missionNamespace getVariable 'QS_virtualSectors_positions') # 0) getPos [_distAC,_dirAC];
+		_dirBC = ((missionNamespace getVariable 'QS_virtualSectors_positions') # 1) getDir ((missionNamespace getVariable 'QS_virtualSectors_positions') # 2);
+		_distBC = (((missionNamespace getVariable 'QS_virtualSectors_positions') # 1) distance2D ((missionNamespace getVariable 'QS_virtualSectors_positions') # 2)) / 2;
+		_midpointBC = ((missionNamespace getVariable 'QS_virtualSectors_positions') # 1) getPos [_distBC,_dirBC];
 		missionNamespace setVariable ['QS_virtualSectors_midpoints',[_midpointAB,_midpointAC,_midpointBC],FALSE];
 		missionNamespace setVariable ['QS_AOpos',_centroid,FALSE];
 		(missionNamespace getVariable 'QS_virtualSectors_regionUsedCentroids') pushBack _centroid;
 		(missionNamespace getVariable 'QS_virtualSectors_regionUsedRefPositions') pushBack _referencePosition;
-		while {(!((count((missionNamespace getVariable 'QS_virtualSectors_positions') inAreaArray [_centroid,_aoSize,_aoSize,0,FALSE,-1])) isEqualTo _numberOfSectors))} do {
+		while {((count((missionNamespace getVariable 'QS_virtualSectors_positions') inAreaArray [_centroid,_aoSize,_aoSize,0,FALSE,-1])) isNotEqualTo _numberOfSectors)} do {
 			_aoSize = _aoSize + 10;
 		};
 		_aoSize = _aoSize + 100;
 		missionNamespace setVariable ['QS_aoSize',_aoSize,FALSE];
 		'QS_marker_aoCircle' setMarkerSize [_aoSize,_aoSize];
-		if (!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)) then {
+		if ((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0) then {
 			[objNull,_centroid] remoteExec ['QS_fnc_respawnOPFOR',[EAST,RESISTANCE],FALSE];
 		};
 	};

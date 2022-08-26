@@ -6,13 +6,13 @@ Author:
 	
 Last modified:
 
-	8/10/2017 A3 1.76 by Quiksilver
+	22/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	AI Vehicle Patrol
 	
-	[_grp,_flatPos,400,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
+	[_AOvehGroup,_randomPos,_aoSize,_roadPositionsValid,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 __________________________________________________/*/
 
 params [
@@ -25,11 +25,11 @@ params [
 _vehiclePos = getPosATL (vehicle (leader _grp));
 private _nearRoadsPositions = [];
 if (_nearRoads isEqualTo []) then {
-	_nearRoadsPositions = (((_vCenterPos select [0,2]) nearRoads _patrolRadius) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) apply {(getPosATL _x)};
+	_nearRoadsPositions = (((_vCenterPos select [0,2]) nearRoads _patrolRadius) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) apply {(getPosATL _x)};
 } else {
 	_nearRoadsPositions = _nearRoads apply {if (_x isEqualType objNull) then {(getPosATL _x)} else {_x};};
 };
-if (!(_nearRoadsPositions isEqualTo [])) then {
+if (_nearRoadsPositions isNotEqualTo []) then {
 	_nearRoadsPositions = _nearRoadsPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 private _waypointPositions = [_vehiclePos];
@@ -37,10 +37,10 @@ private _waypointPosition = nil;
 _checkDist = {
 	_c = TRUE;
 	{
-		if (((_this select 0) distance2D _x) <= (_this select 2)) then {
+		if (((_this # 0) distance2D _x) <= (_this # 2)) then {
 			_c = FALSE;
 		};
-	} forEach (_this select 1);
+	} forEach (_this # 1);
 	_c;
 };
 _grpWPFormations = selectRandom ['COLUMN'];
@@ -49,9 +49,9 @@ _grpWPType = 'MOVE';
 _grpWPCombatMode = selectRandom ['WHITE','YELLOW','RED'];
 _behaviours = ['SAFE','AWARE','COMBAT'];
 private _grpBehaviour = 'SAFE';
-if (!(_nearRoadsPositions isEqualTo [])) then {
-	for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
-		_waypointPosition = (_nearRoadsPositions select { ([_x,_waypointPositions,75] call _checkDist) }) select 0;
+if (_nearRoadsPositions isNotEqualTo []) then {
+	for '_x' from 0 to (2 + (selectRandom [1,2])) step 1 do {
+		_waypointPosition = (_nearRoadsPositions select { ([_x,_waypointPositions,75] call _checkDist) }) # 0;
 		if (!isNil '_waypointPosition') then {
 			_waypointPositions pushBack _waypointPosition;
 		} else {
@@ -61,8 +61,8 @@ if (!(_nearRoadsPositions isEqualTo [])) then {
 };
 if ((count _waypointPositions) > 1) exitWith {
 	if (_new) then {
-		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,-1,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,-1,-1],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
 	} else {
 		{
 			if ((random 1) > 0.2) then {
@@ -72,7 +72,7 @@ if ((count _waypointPositions) > 1) exitWith {
 			};
 			[
 				_grp,
-				[(_x select 0),(_x select 1),((_x select 2) + 1)],
+				[(_x # 0),(_x # 1),((_x # 2) + 1)],
 				0,
 				_grpWPType,
 				_grpBehaviour,
@@ -93,7 +93,7 @@ if ((count _waypointPositions) > 1) exitWith {
 		} forEach _waypointPositions;
 		[
 			_grp,
-			[(_vehiclePos select 0),(_vehiclePos select 1),1],
+			[(_vehiclePos # 0),(_vehiclePos # 1),1],
 			0,
 			'CYCLE',
 			'UNCHANGED',
@@ -118,7 +118,7 @@ if (_new) then {
 	private _prevPos = _vehiclePos;
 	private _newPos = [0,0,0];
 	private _exit = FALSE;
-	for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
+	for '_x' from 0 to (2 + (selectRandom [1,2])) step 1 do {
 		_exit = FALSE;
 		for '_x' from 0 to 49 step 1 do {
 			_newPos = [_prevPos,50,300,0.1,0,0.75,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
@@ -132,7 +132,7 @@ if (_new) then {
 		};
 		_waypointPositions pushBack _newPos;
 	};
-	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,-1,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_waypointPositions,-1,-1],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
 };
 FALSE;

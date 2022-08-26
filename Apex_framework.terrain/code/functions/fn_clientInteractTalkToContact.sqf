@@ -13,7 +13,7 @@ Description:
 	-
 _____________________________________________________________*/
 
-_contact = _this select 0;
+_contact = _this # 0;
 player playActionNow 'GestureHi';
 for '_x' from 0 to 2 step 1 do {
 	_contact setVariable ['QS_RD_mission_KISS_stage_2',FALSE,TRUE];

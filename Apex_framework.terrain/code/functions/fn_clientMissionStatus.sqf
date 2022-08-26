@@ -337,18 +337,18 @@ _QS_ctrl10_font = 'RobotoCondensed';
 _QS_ctrl10 ctrlSetFont _QS_ctrl10_font;
 _QS_ctrl10 ctrlSetText _QS_ctrl_text10;
 private _QS_sectorHintShown = TRUE;
-if (isNil {profileNamespace getVariable 'QS_ui_missionstatus_token'}) then {
-	profileNamespace getVariable ['QS_ui_missionstatus_token',0];
+if (isNil {missionProfileNamespace getVariable 'QS_ui_missionstatus_token'}) then {
+	missionProfileNamespace setVariable ['QS_ui_missionstatus_token',0];
 };
-if (!((profileNamespace getVariable 'QS_ui_missionstatus_token') isEqualType 0)) then {
-	profileNamespace getVariable ['QS_ui_missionstatus_token',0];
+if (!((missionProfileNamespace getVariable 'QS_ui_missionstatus_token') isEqualType 0)) then {
+	missionProfileNamespace setVariable ['QS_ui_missionstatus_token',0];
 };
-profileNamespace setVariable [
+missionProfileNamespace setVariable [
 	'QS_ui_missionstatus_token',
-	((profileNamespace getVariable ['QS_ui_missionstatus_token',0]) + 1)
+	((missionProfileNamespace getVariable ['QS_ui_missionstatus_token',0]) + 1)
 ];
-saveProfileNamespace;
-if ((profileNamespace getVariable 'QS_ui_missionstatus_token') > 40) then {
+saveMissionProfileNamespace;
+if ((missionProfileNamespace getVariable 'QS_ui_missionstatus_token') > 40) then {
 	_QS_ctrl10_alpha = 0;
 	_QS_sectorHintShown = FALSE;
 };
@@ -917,7 +917,7 @@ private _isStreamFriendly = isStreamFriendlyUIEnabled;
 private _objectParent = objNull;
 _true = TRUE;
 _false = FALSE;
-//_productVersionCtrl ctrlShow TRUE;
+_productVersionCtrl ctrlShow TRUE;
 
 for '_x' from 0 to 1 step 0 do {
 	_isStreamFriendly = isStreamFriendlyUIEnabled;

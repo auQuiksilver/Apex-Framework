@@ -29,8 +29,8 @@ if (_parent isEqualType objNull) then {
 if (_child isEqualType objNull) then {
 	_child = typeOf _child;
 };
-_parent = toLower _parent;
-_child = toLower _child;
+_parent = toLowerANSI _parent;
+_child = toLowerANSI _child;
 if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
 	if (_child in ['b_slingload_01_repair_f','b_slingload_01_medevac_f','b_slingload_01_fuel_f','b_slingload_01_ammo_f','b_slingload_01_cargo_f']) then {
 		if (_detachAttach) then {

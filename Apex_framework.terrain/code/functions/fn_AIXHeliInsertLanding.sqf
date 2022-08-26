@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	19/01/2018 A3 1.80 by Quiksilver
+	7/07/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -17,6 +17,7 @@ params ['_groupLeader'];
 _v = vehicle _groupLeader;
 _g = group _groupLeader;
 _v land 'GET OUT';
+_v flyInHeight 0.1;
 if ((random 1) > 0.333) then {
 	[_v] spawn {
 		params ['_v'];
@@ -26,7 +27,7 @@ if ((random 1) > 0.333) then {
 		if ((_v distance2D _vPos) < 250) then {
 			private _increment = 0;
 			for '_x' from 0 to 7 step 1 do {
-				_position = _vPos getPos [(15 + (random [0,2.5,5])),_increment];
+				_position = _vPos getPos [(25 + (random [0,2.5,5])),_increment];
 				_increment = _increment + 45;
 				_smoke = createVehicle ['SmokeShellArty',_position,[],0,'CAN_COLLIDE'];
 				_smoke setVehiclePosition [(AGLToASL _position),[],3,'CAN_COLLIDE'];
@@ -38,48 +39,162 @@ if ((random 1) > 0.333) then {
 _timeout = diag_tickTime + 60;
 waitUntil {
 	uiSleep 0.25;
-	((isTouchingGround _v) || {(!alive _v)} || {(!canMove _v)} || {(diag_tickTime > _timeout)})
+	(
+		(isTouchingGround _v) ||
+		{(((getPosATL _v) # 2) < 2.5)} ||
+		{(!alive _v)} || 
+		{(!canMove _v)} || 
+		{(diag_tickTime > _timeout)}
+	)
 };
 _v removeAllEventHandlers 'GetOut';
-private _grp = grpNull;
-{
-	if (_x getVariable ['QS_AI_HELICARGO',FALSE]) then {
-		_x leaveVehicle _v;
-		moveOut _x;
-		_grp = group _x;
+private _spawnUnits = alive _v && ((((getPosATL _v) # 2) < 10) || (isTouchingGround _v));
+_side = EAST;
+if (_spawnUnits) then {
+	private _unitTypes = [
+		'o_soldier_f',1,
+		'o_soldier_ar_f',3,
+		'o_soldier_gl_f',2,
+		'o_soldier_lite_f',2,
+		'o_sharpshooter_f',1,
+		'o_soldier_m_f',1,
+		'o_soldier_lat_f',1,
+		'o_medic_f',1
+	];
+	if (_side isEqualTo EAST) then {
+		_unitTypes = [
+			[
+				'o_soldier_f',1,
+				'o_soldier_ar_f',3,
+				'o_soldier_gl_f',3,
+				'o_soldier_lite_f',1,
+				'o_sharpshooter_f',1,
+				'o_soldier_m_f',2,
+				'o_soldier_lat_f',3,
+				'o_medic_f',1
+			],
+			[
+				'o_t_soldier_ar_f',2,
+				'o_t_soldier_gl_f',2,
+				'o_t_soldier_m_f',1,
+				'o_t_soldier_f',2,
+				'o_t_soldier_lat_f',1,
+				'o_t_medic_f',1
+			]
+		] select (worldName in ['Tanoa','Enoch']);
 	};
-} forEach (crew _v);
-_grp setSpeedMode 'FULL';
-_grp move (_v getVariable ['QS_heli_centerPosition',[0,0,0]]);
-{
-	_x setUnitPosWeak 'MIDDLE';
-	doStop _x;
-	_x doMove (_v getVariable ['QS_heli_centerPosition',[0,0,0]]);
-} forEach (units _grp);
+	if (_side isEqualTo WEST) then {
+		_unitTypes = [
+			['b_soldier_f',1],
+			['b_t_soldier_f',1]
+		] select (worldName in ['Tanoa','Enoch']);
+	};
+	if (_side isEqualTo RESISTANCE) then {
+		_unitTypes = ['i_soldier_f',1];
+	};
+	private _unit = objNull;
+	private _units = [];
+	_infantryGroup = createGroup [_side,TRUE];
+	_emptyPositions = _v emptyPositions 'Cargo';
+	for '_x' from 0 to ((round (_emptyPositions * (selectRandom [0.35,0.5,0.75]))) - 1) step 1 do {
+		_unitType = selectRandomWeighted _unitTypes;
+		_unit = _infantryGroup createUnit [_unitType,[-100,-100,0],[],0,'NONE'];
+		_unit setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+		_infantryGroup setBehaviour 'COMBAT';
+		_infantryGroup setCombatMode 'RED';
+		_infantryGroup addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventEnemyDetected')}];
+		_unit enableDynamicSimulation TRUE;
+		_unit enableStamina FALSE;
+		_unit enableFatigue FALSE;
+		_unit setSkill 1;
+		_unit setUnitPos (selectRandomWeighted ['DOWN',1,'MIDDLE',0.5]);
+		_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+		if ((random 1) > 0.333) then {
+			_unit enableAIFeature ['PATH',FALSE];
+		};
+		_units pushBack _unit;
+		_unit setVehiclePosition [(getPosWorld _v),[],15,'NONE'];
+	};
+	//comment 'Radial positions';
+	_position = missionNamespace getVariable ['QS_hqPos',(missionNamespace getVariable 'QS_aoPos')];
+	_infantryGroup enableAttack TRUE;
+	[(units _infantryGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+	private _radialIncrement = 45;
+	private _radialStart = round (random 360);
+	_radialOffset = 200;
+	private _radialPatrolPositions = [];
+	private _patrolPosition = _position getPos [_radialOffset,_radialStart];
+	if (!surfaceIsWater _patrolPosition) then {
+		_radialPatrolPositions pushBack _patrolPosition;
+	};
+	for '_x' from 0 to 6 step 1 do {
+		_radialStart = _radialStart + _radialIncrement;
+		_patrolPosition = _position getPos [_radialOffset,_radialStart];
+		if (!surfaceIsWater _patrolPosition) then {
+			_radialPatrolPositions pushBack _patrolPosition;
+		};
+	};
+	if (_radialPatrolPositions isNotEqualTo []) then {
+		_radialPatrolPositions = _radialPatrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+	};
+	_infantryGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+	_infantryGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _infantryGroup))],QS_system_AI_owners];
+	_infantryGroup setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+	_infantryGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,serverTime,-1],QS_system_AI_owners];
+	_infantryGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+	private _QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';
+	{
+		_QS_array pushBack _x;
+	} forEach (units _infantryGroup);
+	missionNamespace setVariable ['QS_enemyGroundReinforceArray',_QS_array,FALSE];
+	[_units,getPosWorld _v,_infantryGroup] spawn {
+		params ['_units','_position','_group'];
+		uiSleep 2;
+		{
+			if ((_x distance2D _position) > 100) then {
+				deleteVehicle _x;
+			};
+		} forEach _units;
+		uiSleep 7;
+		{
+			if (alive _x) then {
+				_x enableAIFeature ['PATH',TRUE];
+				_x setUnitPos 'AUTO';
+			};
+		} forEach _units;
+		_units doFollow (leader _group);
+	};
+};
 _helipad = _v getVariable ['QS_assignedHelipad',objNull];
 if (!isNull _helipad) then {
 	deleteVehicle _helipad;
 };
 _v land 'NONE';
+_v flyInHeight 50;
+sleep 0.5;
 _wp = _g addWaypoint [(_v getVariable ['QS_heli_spawnPosition',[0,0,50]]),0];
 _wp setWaypointType 'MOVE';
 _wp setWaypointSpeed 'FULL';
 _wp setWaypointBehaviour 'CARELESS';
 _wp setWaypointCombatMode 'BLUE';
 _wp setWaypointCompletionRadius 150;
-_wp setWaypointStatements [
-	'TRUE',
-	"
-		if (!(local this)) exitWith {};
-		_v = vehicle this;
-		{
-			deleteVehicle _x;
-		} count (crew (vehicle this));							
+_g addEventHandler [
+	'WaypointComplete',
+	{
+		params ['_group','_waypointIndex'];
+		_group removeEventHandler [_thisEvent,_thisEventHandler];
+		_leader = leader _group;
+		_v = vehicle _leader;
+		deleteVehicleCrew _v;
 		if (!isNull (_v getVariable 'QS_assignedHelipad')) then {
 			deleteVehicle (_v getVariable 'QS_assignedHelipad');
 		};
-		deleteVehicle _v;
-	"
+		if ((allPlayers inAreaArray [getPosATL _v,500,500,0,FALSE]) isEqualTo []) then {
+			deleteVehicle _v;
+		} else {
+			_v setDamage [1,TRUE];
+		};
+	}
 ];
 if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 	_supportHeli = _v getVariable 'QS_heliInsert_supportHeli';
@@ -99,7 +214,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 				private _unit = objNull;
 				{
 					_unit = _x;
-					_unit disableAI 'AUTOCOMBAT';
+					_unit enableAIFeature ['AUTOCOMBAT',FALSE];
 					{
 						_unit forgetTarget _x;
 					} forEach (_unit targets [TRUE]);
@@ -110,16 +225,20 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 				_waypoint setWaypointType 'MOVE';
 				_waypoint setWaypointCompletionRadius 150;
 				_waypoint setWaypointForceBehaviour TRUE;
-				_waypoint setWaypointStatements [
-					"TRUE",
-					"
-						if (!(local this)) exitWith {};
-						_v = vehicle this;
-						{
-							deleteVehicle _x;
-						} count (crew (vehicle this));
-						deleteVehicle _v;
-					"
+				_supportGroup addEventHandler [
+					'WaypointComplete',
+					{
+						params ['_group','_waypointIndex'];
+						_group removeEventHandler [_thisEvent,_thisEventHandler];
+						_leader = leader _group;
+						_v = vehicle _leader;
+						deleteVehicleCrew _v;
+						if ((allPlayers inAreaArray [getPosATL _v,500,500,0,FALSE]) isEqualTo []) then {
+							deleteVehicle _v;
+						} else {
+							_v setDamage [1,TRUE];
+						};
+					}
 				];
 			};
 		};

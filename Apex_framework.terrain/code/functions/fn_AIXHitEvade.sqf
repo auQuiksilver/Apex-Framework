@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	21/07/2018 A3 1.84 by Quiksilver
+	10/05/2022 A3 2.08 by Quiksilver
 	
 Description:
 
@@ -14,7 +14,7 @@ Description:
 __________________________________________________/*/
 params ['_u','_s','',''];
 if (local _u) then {
-	if ((random 1) > 0.5) then {
+	if (((random 1) > 0.5) && (_u checkAIFeature 'PATH')) then {
 		if (_s isEqualType objNull) then {
 			if (alive _s) then {
 				if (isPlayer _s) then {
@@ -24,7 +24,7 @@ if (local _u) then {
 							_u playAction (selectRandom ['TactLB','TactRB','TactL','TactR','TactLF','TactRf']);
 						} else {
 							if ((stance _u) isEqualTo 'STAND') then {
-								_u setUnitPosWeak 'DOWN';
+								_u setUnitPos 'DOWN';
 							};
 						};
 					};
@@ -32,10 +32,10 @@ if (local _u) then {
 			};
 		};
 	} else {
-		if ((random 1) > 0.9) then {
-			if (diag_tickTime > (_u getVariable ['QS_AI_UNIT_lastSmoke',-1])) then {
-				_u setVariable ['QS_AI_UNIT_lastSmoke',(diag_tickTime + (random [15,30,45])),FALSE];
-				[_u,(_u findNearestEnemy _u),'SMOKE',((random 1) > 0.5)] call (missionNamespace getVariable 'QS_fnc_AIXThrow');
+		if ((random 1) > 0.5) then {
+			if (serverTime > (_u getVariable ['QS_AI_UNIT_lastSmoke',-1])) then {
+				_u setVariable ['QS_AI_UNIT_lastSmoke',(serverTime + (random [15,30,45])),FALSE];
+				[_u,_s,'SMOKE',FALSE] call (missionNamespace getVariable 'QS_fnc_AIXThrow');
 			};
 		};
 	};

@@ -35,7 +35,7 @@ _priorityTargets = [];
 {
 	
 	if (!isSimpleObject _x) then {
-		if ((toLower (typeOf _x)) in [
+		if ((toLowerANSI (typeOf _x)) in [
 			'o_mbt_02_arty_f','o_t_mbt_02_arty_ghex_f','i_truck_02_mrl_f'
 		]) then {
 			[0,_x,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
@@ -69,7 +69,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		_tank = createVehicle [(selectRandomWeighted _tankTypes),_grpSpawnPos,[],0,'NONE'];
 		_tank setDir (random 360);
 		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
-		_tank allowCrewInImmobile TRUE;
+		_tank allowCrewInImmobile [TRUE,TRUE];
 		_tank enableVehicleCargo FALSE;
 		_tank enableRopeAttach FALSE;
 		_tank lock 3;
@@ -80,9 +80,9 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _tank;
 		_grp = createVehicleCrew _tank;
 		[_grp,_flatPos,400,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
-		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_tank],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_tank],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
 		_enemiesArray pushBack _tank;
 		{
 			_x setUnitTrait ['engineer',TRUE,FALSE];
@@ -92,7 +92,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		_tanks pushBack _tank;
 	};
 };
-_fuzzyPos = [((_flatPos select 0) - 300) + (random 600),((_flatPos select 1) - 300) + (random 600),0];
+_fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;

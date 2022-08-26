@@ -14,7 +14,7 @@ Description:
 ______________________________________________/*/
 
 params [['_case',0],['_vehicle',objNull],['_side',EAST],['_chance',0.5]];
-_type = toLower (typeOf _vehicle);
+_type = toLowerANSI (typeOf _vehicle);
 _cheetah = ['b_apc_tracked_01_aa_f','b_t_apc_tracked_01_aa_f'];
 _bobcat = ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f'];
 _panther = ['b_apc_tracked_01_rcws_f','b_t_apc_tracked_01_rcws_f'];
@@ -218,6 +218,25 @@ if (_case isEqualTo 0) then {
 				_vehicle animateSource ['showcamonetcannon',1,1];
 			};
 		};
+		if (
+			((random 1) < 0.5) ||
+			{((count allPlayers) < 15)}
+		) then {
+			_vehicle removeWeaponTurret ['HMG_NSVT',[0,0]];
+			{
+				_vehicle addWeaponTurret _x;
+			} forEach [
+				['M134_minigun',[0,0]]
+			];
+			{
+				_vehicle addMagazineTurret _x;
+			} forEach [
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]]
+			];
+		};
 		breakTo 'main';
 	};
 	if (_type in _angara) then {
@@ -231,6 +250,25 @@ if (_case isEqualTo 0) then {
 			if ((random 1) > 0.333) then {
 				_vehicle animateSource ['showcamonetcannon',1,1];
 			};
+		};
+		if (
+			((random 1) < 0.5) ||
+			{((count allPlayers) < 15)}
+		) then {
+			_vehicle removeWeaponTurret ['HMG_127_APC',[0,0]];
+			{
+				_vehicle addWeaponTurret _x;
+			} forEach [
+				['M134_minigun',[0,0]]
+			];
+			{
+				_vehicle addMagazineTurret _x;
+			} forEach [
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]]
+			];
 		};
 		breakTo 'main';
 	};
@@ -281,6 +319,25 @@ if (_case isEqualTo 0) then {
 				['showcamonetturret',1,1],
 				['showcamonetcannon',1,1],
 				['showcamonetcannon1',1,1]
+			];
+		};
+		if (
+			((random 1) < 0.5) ||
+			{((count allPlayers) < 15)}
+		) then {
+			_vehicle removeWeaponTurret ['HMG_127_APC',[0,0]];
+			{
+				_vehicle addWeaponTurret _x;
+			} forEach [
+				['M134_minigun',[0,0]]
+			];
+			{
+				_vehicle addMagazineTurret _x;
+			} forEach [
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]],
+				['5000Rnd_762x51_Yellow_Belt',[0,0]]
 			];
 		};
 		breakTo 'main';

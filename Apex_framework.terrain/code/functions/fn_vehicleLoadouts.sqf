@@ -19,7 +19,7 @@ if (_type isEqualTo 0) exitWith {
 
 };
 if (_type isEqualTo 1) exitWith {
-	_vehicleType = toLower (typeOf _vehicle);
+	_vehicleType = toLowerANSI (typeOf _vehicle);
 	_preparePylons = {
 		{ 
 			_this removeWeaponGlobal (getText (configFile >> 'CfgMagazines' >> _x >> 'pylonWeapon'));
@@ -247,11 +247,11 @@ if (_type isEqualTo 1) exitWith {
 		];
 	};
 	{
-		if ((toLower _x) in ['laserdesignator_pilotcamera']) then {
+		if ((toLowerANSI _x) in ['laserdesignator_pilotcamera']) then {
 			_vehicle removeWeapon 'Laserdesignator_pilotCamera';
 		};
 		/*/ removes UAV laser
-		if ((toLower _x) in ['laserdesignator_mounted']) then {
+		if ((toLowerANSI _x) in ['laserdesignator_mounted']) then {
 			_vehicle removeWeapon 'Laserdesignator_mounted';
 		};
 		/*/
@@ -264,4 +264,12 @@ if (_type isEqualTo 2) exitWith {
 	{
 		_vehicle setPylonLoadout [(_forEachIndex + 1),(selectRandom _x),TRUE];
 	} forEach ([0,_vehicle,0] call (missionNamespace getVariable 'QS_fnc_getCompatiblePylonMags'));
+};
+if (_type isEqualTo 3) exitWith {
+	{ 
+		_vehicle removeWeaponGlobal (getText (configFile >> 'CfgMagazines' >> _x >> 'pylonWeapon'));
+	} forEach (getPylonMagazines _vehicle);
+	{
+		_vehicle setPylonLoadout [(_forEachIndex + 1),'PylonRack_19Rnd_Rocket_Skyfire',TRUE];
+	} forEach (_vehicle getCompatiblePylonMagazines 0);
 };

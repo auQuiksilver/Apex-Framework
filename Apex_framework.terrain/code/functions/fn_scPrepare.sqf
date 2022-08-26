@@ -41,7 +41,7 @@ private _communications = [];
 missionNamespace setVariable ['QS_virtualSectors_locations',[],FALSE];
 for '_x' from 0 to (_numberOfSectors - 1) step 1 do {
 	comment 'Generate sector assets';
-	_sectorPosition = _sectorPositions select _x;
+	_sectorPosition = _sectorPositions # _x;
 	missionNamespace setVariable [
 		'QS_virtualSectors_regionUsedPositions',
 		((missionNamespace getVariable 'QS_virtualSectors_regionUsedPositions') + [_sectorPosition]),
@@ -115,7 +115,7 @@ diag_log '***** SC INIT * 4 *****';
 comment 'Create AO Mortar Pit';
 if (((count allPlayers) > 20) || {((random 1) > 0.75)}) then {
 	private _mortarPit = [(missionNamespace getVariable 'QS_AOpos')] call (missionNamespace getVariable 'QS_fnc_aoMortarPit');
-	if (!(_mortarPit isEqualTo [])) then {
+	if (_mortarPit isNotEqualTo []) then {
 		{
 			if (_x isEqualType objNull) then {
 				(missionNamespace getVariable 'QS_virtualSectors_entities') pushBack _x;
@@ -140,7 +140,7 @@ if (((count allPlayers) > 20) || {((random 1) > 0.75)}) then {
 	};
 	for '_x' from 1 to _aaCount step 1 do {
 		_aaArray = [(missionNamespace getVariable 'QS_AOpos'),(selectRandom _aaTypes)] call (missionNamespace getVariable 'QS_fnc_aoFortifiedAA');
-		if (!(_aaArray isEqualTo [])) then {
+		if (_aaArray isNotEqualTo []) then {
 			{
 				(missionNamespace getVariable 'QS_virtualSectors_entities') pushBack _x;
 			} forEach _aaArray;
@@ -157,22 +157,25 @@ if ((random 1) > 0.5) then {
 };
 {
 	_subObj = _x call (missionNamespace getVariable 'QS_fnc_scSubObjective');
-	if (!(_subObj isEqualTo [])) then {
+	if (_subObj isNotEqualTo []) then {
 		(missionNamespace getVariable 'QS_virtualSectors_subObjectives') pushBack _subObj;
 	};
 } forEach _subObjectives;
 comment 'Illumination';
-if (!(sunOrMoon isEqualTo 1)) then {
-	[0,(missionNamespace getVariable 'QS_AOpos'),300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
-	[1,(missionNamespace getVariable 'QS_AOpos'),300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+if (sunOrMoon isNotEqualTo 1) then {
+	0 spawn {
+		[0,(missionNamespace getVariable 'QS_AOpos'),400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+		sleep 3;
+		[1,(missionNamespace getVariable 'QS_AOpos'),400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+	};
 };
 comment 'Random vehicles';
 [] call (missionNamespace getVariable 'QS_fnc_aoRandomVehicles');
 comment 'Civilians';
 _nearestLocations = nearestLocations [(missionNamespace getVariable 'QS_AOpos'),['NameVillage','NameCity','NameCityCapital'],((missionNamespace getVariable 'QS_aoSize') * 1.1)];
-if (!(_nearestLocations isEqualTo [])) then {
-	_nearestLocation = _nearestLocations select 0;
-	if (!((missionNamespace getVariable ['QS_missionConfig_AmbCiv',1]) isEqualTo 0)) then {
+if (_nearestLocations isNotEqualTo []) then {
+	_nearestLocation = _nearestLocations # 0;
+	if ((missionNamespace getVariable ['QS_missionConfig_AmbCiv',1]) isNotEqualTo 0) then {
 		missionNamespace setVariable [
 			'QS_primaryObjective_civilians',
 			([(locationPosition _nearestLocation),250,'FOOT',10,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians')),
@@ -181,7 +184,7 @@ if (!(_nearestLocations isEqualTo [])) then {
 	};
 };
 comment 'Animals';
-if (!((missionNamespace getVariable ['QS_missionConfig_AmbAnim',1]) isEqualTo 0)) then {
+if ((missionNamespace getVariable ['QS_missionConfig_AmbAnim',1]) isNotEqualTo 0) then {
 	for '_x' from 0 to 2 step 1 do {
 		[
 			(['RADIUS',(missionNamespace getVariable 'QS_AOpos'),((missionNamespace getVariable 'QS_aoSize') * 1.1),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos')),
@@ -198,11 +201,6 @@ if ((random 1) > 0.5) then {
 		FALSE
 	];
 };
-
-comment 'Send AO init msg to headless client';
-if (missionNamespace getVariable ['QS_HC_Active',FALSE]) then {
-
-}; 
 comment 'Briefing';
 [1,_communications] call (missionNamespace getVariable 'QS_fnc_scBrief');
 comment 'Finish prepare';

@@ -14,7 +14,7 @@ Description:
 ________________________________________________*/
 
 private ['_unit','_unitType','_grp'];
-_unit = _this select 0;
+_unit = _this # 0;
 _unitType = typeOf _unit;
 _grp = group _unit;
 _grp setBehaviour 'CARELESS';
@@ -22,12 +22,10 @@ _grp setBehaviour 'CARELESS';
 _unit enableStamina FALSE;
 _unit addEventHandler ['HandleScore',{FALSE}];
 _grp setVariable ['QS_HComm_grp',FALSE,TRUE];
-_grp setVariable ['QS_GRP_HC',FALSE,FALSE];
 _unit setVariable ['QS_RD_interactable',TRUE,TRUE];
 _unit setVariable ['QS_RD_recruitable',TRUE,TRUE];
 _unit setVariable ['QS_RD_recruited',FALSE,TRUE];
 _unit setVariable ['QS_RD_dismissable',TRUE,TRUE];
-_unit setVariable ['QS_GRP_HC',FALSE,FALSE];
 _unit addPrimaryWeaponItem (selectRandom ['optic_erco_blk_f','optic_dms']);
 if (_unit getUnitTrait 'medic') then {
 	
@@ -36,8 +34,8 @@ if (_unit getUnitTrait 'engineer') then {
 
 };
 {
-	_unit disableAI _x;
-} count [
+	_unit enableAIFeature [_x,FALSE];
+} forEach [
 	'FSM',
 	'TEAMSWITCH',
 	'AIMINGERROR',
@@ -46,7 +44,7 @@ if (_unit getUnitTrait 'engineer') then {
 	'AUTOTARGET',
 	'MOVE'
 ];
-_unit addRating (0 - (rating player));
+_unit addRating (0 - (rating _unit));
 _unit addEventHandler [
 	'Killed',
 	{

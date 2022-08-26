@@ -16,8 +16,8 @@ Using orientation of objects: no
 	["Land_d_Addon_02_V1_F",[-2.57031,-14.6504,0],178.215,[],false,false,false,{}], 
 	["Land_Cargo_House_V3_F",[-13.207,-4.71875,0],268.558,[],false,true,false,{}], 
 	["Flag_White_F",[-13.543,-1.34375,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_BagFence_Short_F",[14.9355,-0.951172,-0.000999928],101,[],false,false,true,{}], 
 	["Land_Unfinished_Building_02_F",[-12.2227,9.34766,0],0,[],false,false,false,{}], 

@@ -28,13 +28,13 @@ _false = FALSE;
 {
 	missionNamespace setVariable _x;
 } forEach [
-	['QS_client_dynSim',(profileNamespace getVariable ['QS_client_dynSim',_false]),_false],
-	['QS_client_dynSim_dist_unit',(profileNamespace getVariable ['QS_client_dynSim_dist_unit',1000]),_false],
-	['QS_client_dynSim_dist_vehicle',(profileNamespace getVariable ['QS_client_dynSim_dist_vehicle',1000]),_false],
-	['QS_client_dynSim_dist_vehicleEmpty',(profileNamespace getVariable ['QS_client_dynSim_dist_vehicleEmpty',300]),_false],
-	['QS_client_dynSim_dist_prop',(profileNamespace getVariable ['QS_client_dynSim_dist_prop',150]),_false],
-	['QS_client_dynSim_coef_moving',(profileNamespace getVariable ['QS_client_dynSim_coef_moving',1.25]),_false],
-	['QS_client_dynSim_coef_terrainIntersect',(profileNamespace getVariable ['QS_client_dynSim_coef_terrainIntersect',0.75]),_false],
+	['QS_client_dynSim',(missionProfileNamespace getVariable ['QS_client_dynSim',_false]),_false],
+	['QS_client_dynSim_dist_unit',(missionProfileNamespace getVariable ['QS_client_dynSim_dist_unit',1000]),_false],
+	['QS_client_dynSim_dist_vehicle',(missionProfileNamespace getVariable ['QS_client_dynSim_dist_vehicle',1000]),_false],
+	['QS_client_dynSim_dist_vehicleEmpty',(missionProfileNamespace getVariable ['QS_client_dynSim_dist_vehicleEmpty',300]),_false],
+	['QS_client_dynSim_dist_prop',(missionProfileNamespace getVariable ['QS_client_dynSim_dist_prop',150]),_false],
+	['QS_client_dynSim_coef_moving',(missionProfileNamespace getVariable ['QS_client_dynSim_coef_moving',1.25]),_false],
+	['QS_client_dynSim_coef_terrainIntersect',(missionProfileNamespace getVariable ['QS_client_dynSim_coef_terrainIntersect',0.75]),_false],
 	['QS_client_dynSim_hideEntity',_true,_false],
 	['QS_client_dynSim_hideEntity_dist',1000,_false]
 ];
@@ -46,7 +46,7 @@ private _cameraView = cameraView;
 private _entity = objNull;
 private _entityObjectParent = objNull;
 private _isChild = _false;
-private _entitiesParams = [['LandVehicle','Air','Ship','Static','Reammobox_F'],[],_true,_false];
+private _entitiesParams = [['LandVehicle','Air','Ship','StaticWeapon','Reammobox_F'],[],_true,_false];
 private _entities = entities _entitiesParams;
 private _disable_distance = 1000;
 private _disable_distance_unit = (missionNamespace getVariable ['QS_client_dynSim_dist_unit',1250]) max 1000;
@@ -168,7 +168,11 @@ for '_i' from 0 to 1 step 0 do {
 	_tickTime = diag_tickTime;
 	_objectParent = objectParent player;
 	if (_isActive) then {
-		if ((_objectParent isKindOf 'Air') || {(((getPosASL player) # 2) > _maxAltASL)} || {(!(isNull curatorCamera))}) then {
+		if (
+			(_objectParent isKindOf 'Air') || 
+			{(((getPosASL player) # 2) > _maxAltASL)} || 
+			{(!(isNull curatorCamera))}
+		) then {
 			_isActive = _false;
 			_entities = (entities _entitiesParams) + (allMissionObjects 'WeaponHolder');
 			{
@@ -193,7 +197,11 @@ for '_i' from 0 to 1 step 0 do {
 				uiSleep 0.01;
 			} forEach _entities;
 		} else {
-			if ((_tickTime > _runCheckDelay) || {(((positionCameraToWorld [0,0,0]) distance2D _positionCamera) > _runMoveDist)} || {(player getVariable ['QS_client_playerViewChanged',_false])}) then {
+			if (
+				(_tickTime > _runCheckDelay) || 
+				{(((positionCameraToWorld [0,0,0]) distance2D _positionCamera) > _runMoveDist)} || 
+				{(player getVariable ['QS_client_playerViewChanged',_false])}
+			) then {
 				if (player getVariable ['QS_client_playerViewChanged',_false]) then {
 					player setVariable ['QS_client_playerViewChanged',_false,_false];
 				};
@@ -310,7 +318,11 @@ for '_i' from 0 to 1 step 0 do {
 			};
 		};
 	} else {
-		if ((!(_objectParent isKindOf 'Air')) && (((getPosASL player) # 2) <= _maxAltASL) && (isNull curatorCamera)) then {
+		if (
+			(!(_objectParent isKindOf 'Air')) && 
+			{(((getPosASL player) # 2) <= _maxAltASL)} && 
+			{(isNull curatorCamera)}
+		) then {
 			_isActive = _true;
 		};
 	};

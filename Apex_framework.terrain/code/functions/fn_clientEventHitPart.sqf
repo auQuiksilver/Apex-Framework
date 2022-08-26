@@ -25,4 +25,4 @@ surface: String - Surface type struck.
 direct: Boolean - true if object was directly hit, false if it was hit by indirect/splash damage.
 ___________________________________________________________________*/
 
-params ['_target','_shooter','_bullet','_position','_velocity','_selection','_ammo','_direction','_radius','_surface','_direct'];
+//params ['_target','_shooter','_bullet','_position','_velocity','_selection','_ammo','_direction','_radius','_surface','_direct'];

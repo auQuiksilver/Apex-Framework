@@ -6,13 +6,14 @@ Author:
 
 Last Modified:
 
-	8/05/2019 A3 1.92 by Quiksilver
+	22/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Handle Group AI
 _______________________________________________________/*/
 
+scriptName 'QS_fnc_AIHandleGroup';
 params ['_grp','_uiTime','_fps'];
 private _grpLeader = leader _grp;
 if (!(simulationEnabled _grpLeader)) exitWith {};
@@ -30,7 +31,8 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 	};
 	if (!isNull (objectParent _grpLeader)) then {
 		{
-			_x disableAI 'COVER';
+			_x enableAIFeature ['COVER',FALSE];
+			_x enableAIFeature ['AUTOCOMBAT',FALSE];
 		} forEach (units _grp);
 		if (((objectParent _grpLeader) isKindOf 'LandVehicle') || {((objectParent _grpLeader) isKindOf 'Ship')} || {((objectParent _grpLeader) isKindOf 'Helicopter')} || {(unitIsUav (objectParent _grpLeader))}) then {
 			if (!(_grp getVariable ['QS_AI_GRP_canNearTargets',FALSE])) then {
@@ -49,8 +51,8 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 	} else {
 		if ((random 1) > 0.75) then {
 			{
-				_x disableAI 'COVER';
-				_x disableAI 'AUTOCOMBAT';
+				_x enableAIFeature ['COVER',FALSE];
+				//_x enableAIFeature ['AUTOCOMBAT',FALSE];
 			} forEach (units _grp);
 		};
 	};
@@ -70,9 +72,9 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 };
 private _grpLeaderLifestate = lifeState _grpLeader;
 if (!(_grpLeaderLifestate in ['HEALTHY','INJURED'])) then {
-	private _grpUnits = (units _grp) select {((alive _x) && ((lifeState _x) in ['HEALTHY','INJURED']))};
+	private _grpUnits = (units _grp) select {((lifeState _x) in ['HEALTHY','INJURED'])};
 	if (_grpUnits isNotEqualTo []) then {
-		_grpUnits = _grpUnits apply {[rankId _x,_x]};
+		_grpUnits = _grpUnits apply { [rankId _x,_x] };
 		_grpUnits sort FALSE;
 		_grp selectLeader ((_grpUnits # 0) # 1);
 		_grpLeader = leader _grp;
@@ -80,6 +82,14 @@ if (!(_grpLeaderLifestate in ['HEALTHY','INJURED'])) then {
 	};
 };
 _grpAttackTarget = getAttackTarget _grpLeader;
+if (!alive _grpAttackTarget) then {
+	if (_fps > 15) then {
+		if ((random 1) > 0.5) then {
+			_grpAttackTarget = [_grpLeader,500,TRUE] call (missionNamespace getVariable 'QS_fnc_AIGetAttackTarget');
+		};
+	};
+};
+_grp setVariable ['QS_AI_GRP_attackTarget',_grpAttackTarget,FALSE];
 _grpLeaderPosition = getPosATL _grpLeader;
 _grpObjectParent = objectParent _grpLeader;
 _grpMorale = morale _grpLeader;
@@ -89,28 +99,104 @@ _grpSpeedMode = speedMode _grp;
 _grpCombatMode = combatMode _grp;
 _grpFormation = formation _grp;
 _grpDestination = expectedDestination _grpLeader;
+_grpPath = _grpLeader checkAIFeature 'PATH';
 private _grpIsReady = (((unitReady _grpLeader) && (isNull _grpObjectParent)) || {((_grpDestination # 1) isEqualTo 'DoNotPlan')});
 private _movePos = _grpLeaderPosition;
+_currentCommand = currentCommand _grpLeader;
 _currentConfig = _grp getVariable 'QS_AI_GRP_CONFIG';
 _currentConfig params ['_currentConfig_major','_currentConfig_minor','_currentConfig_grpSize',['_currentConfig_vehicle',objNull]];
 _currentData = _grp getVariable 'QS_AI_GRP_DATA';
 _currentTask = _grp getVariable 'QS_AI_GRP_TASK';
 _currentTask params ['_currentTask_type','_currentTask_position','_currentTask_timeout'];
+private _grpNearTargets = [];
+if (_grp getVariable ['QS_AI_GRP_canNearTargets',TRUE]) then {
+	if (_uiTime > (_grp getVariable ['QS_AI_GRP_lastNearTargets',-1])) then {
+		if (alive _grpLeader) then {
+			if (_grpLeaderLifestate in ['HEALTHY','INJURED']) then {
+				if (_fps > 12) then {
+					if (isNull _grpObjectParent) then {
+						_grpNearTargets = [7,EAST,_grp,_grpLeader,_grpObjectParent,300] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+					} else {
+						if (((_grpObjectParent isKindOf 'LandVehicle') && (!(_grpObjectParent isKindOf 'StaticWeapon'))) || {(_grpObjectParent isKindOf 'Ship')}) then {
+							_grpNearTargets = [8,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+						} else {
+							if (_grpObjectParent isKindOf 'Air') then {
+								_grpNearTargets = [9,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+							};
+						};
+					};
+					if ((random 1) > 0.666) then {
+						_targets = _grpLeader targets [TRUE,600];
+						_grp setVariable ['QS_AI_GRP_nearTargets',[_targets,(count _targets)],FALSE];
+					};
+				};
+			};
+		};
+		_grp setVariable ['QS_AI_GRP_lastNearTargets',(_uiTime + (60 + (random 60))),FALSE];
+	};
+};
+if ((_grpLeader getUnitTrait 'audibleCoef') isEqualTo 0.5) then {
+	if (_uiTime > (_grp getVariable ['QS_GRP_targetsIntel_cooldown',-1])) then {
+		_grp setVariable ['QS_GRP_targetsIntel_cooldown',_uiTime + 60,FALSE];
+		if ((missionNamespace getVariable 'QS_AI_targetsIntel') isNotEqualTo []) then {
+			_intelTargets = (missionNamespace getVariable 'QS_AI_targetsIntel') select {
+				((lifeState (_x # 0)) in ['HEALTHY','INJURED']) && 
+				{(((_x # 2) distance _grpLeader) < 300)} &&
+				{
+					((_uiTime - (_x # 1)) < 60) && 
+					(
+						(((_x # 0) distance (_x # 2)) < 50) || 
+						((_x # 3) > 3)
+					)
+				}
+			};
+			if (_intelTargets isNotEqualTo []) then {
+				private _intelTargetObject = objNull;
+				private _intelTargetKA = 0;
+				{
+					_intelTargetObject = _x # 0;
+					_intelTargetKA = _x # 3;
+					_grp reveal [_intelTargetObject,_intelTargetKA];
+					{
+						_x reveal [_intelTargetObject,_intelTargetKA];
+					} forEach (units _grp);
+				} forEach _intelTargets;
+			};
+		};
+	};
+};
+if (_grpNearTargets isNotEqualTo []) then {
+	if (_grpBehaviour isEqualTo 'SAFE') then {
+		_grp setBehaviour 'AWARE';
+	};
+};
 if (isNull _grpObjectParent) then {
 	if (_uiTime > (_grp getVariable 'QS_AI_GRP_lastEnvSoundCtrl')) then {
 		_grp setVariable ['QS_AI_GRP_lastEnvSoundCtrl',(_uiTime + (30 + (random 30))),FALSE];
 		_grp setVariable ['QS_AI_GRP_allEnvSoundControllers',(getAllEnvSoundControllers _grpLeaderPosition),FALSE];
 	};
+	if (_uiTime > (_grp getVariable ['QS_AI_GRP_EH_ED_cooldown',-1])) then {
+		if (((_grp getEventHandlerInfo ['EnemyDetected',0]) # 2) isEqualTo 0) then {
+			_grp addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventEnemyDetected')}];
+		};
+	};
+	if (_grpPath) then {
+		if (_uiTime > (_grp getVariable ['QS_AI_GRP_EH_CMC_cooldown',-1])) then {
+			if (((_grp getEventHandlerInfo ['CombatModeChanged',0]) # 2) isEqualTo 0) then {
+				_grp addEventHandler ['CombatModeChanged',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventCombatModeChanged')}];
+			};
+		};
+	};
 	_envSoundControllers = _grp getVariable ['QS_AI_GRP_allEnvSoundControllers',[]];
 	if (_envSoundControllers isNotEqualTo []) then {
 		if (((_envSoundControllers # 7) # 1) > 0.3) then {
-			if (_grpBehaviour isNotEqualTo 'COMBAT') then {
+			if (_grpBehaviour in ['SAFE','CARELESS']) then {
 				if (!(_grpFormation in ['COLUMN','STAG COLUMN'])) then {
 					_grp setFormation (selectRandom ['COLUMN','STAG COLUMN']);
 				};
 			} else {
-				if (!(_grpFormation in ['WEDGE','LINE','VEE'])) then {
-					_grp setFormation (selectRandom ['WEDGE']);
+				if (!(_grpFormation in ['WEDGE','LINE'])) then {
+					_grp setFormation (selectRandomWeighted ['LINE',2,'WEDGE',1]);
 				};
 			};
 		} else {
@@ -129,7 +215,7 @@ if (isNull _grpObjectParent) then {
 				};
 			} else {
 				if (!(_grpFormation in ['WEDGE','LINE'])) then {
-					_grp setFormation (selectRandomWeighted ['WEDGE',0.75,'LINE',0.25]);
+					_grp setFormation (selectRandomWeighted ['WEDGE',1,'LINE',1]);
 				};
 			};
 		};
@@ -159,32 +245,6 @@ if (!isNull _currentConfig_vehicle) then {
 		};
 	};
 };
-if (_grp getVariable ['QS_AI_GRP_canNearTargets',TRUE]) then {
-	if (_uiTime > (_grp getVariable ['QS_AI_GRP_lastNearTargets',-1])) then {
-		if (alive _grpLeader) then {
-			if (_grpLeaderLifestate in ['HEALTHY','INJURED']) then {
-				if (_fps > 12) then {
-					if (isNull _grpObjectParent) then {
-						[7,EAST,_grp,_grpLeader,_grpObjectParent,250] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-					} else {
-						if (((_grpObjectParent isKindOf 'LandVehicle') && (!(_grpObjectParent isKindOf 'Static'))) || {(_grpObjectParent isKindOf 'Ship')}) then {
-							[8,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-						} else {
-							if (_grpObjectParent isKindOf 'Air') then {
-								[9,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-							};
-						};
-					};
-					if ((random 1) > 0.666) then {
-						_targets = _grpLeader targets [TRUE,600];
-						_grp setVariable ['QS_AI_GRP_nearTargets',[_targets,(count _targets)],FALSE];
-					};
-				};
-			};
-		};
-		_grp setVariable ['QS_AI_GRP_lastNearTargets',(_uiTime + (60 + (random 60))),FALSE];
-	};
-};
 if (_grp getVariable ['QS_AI_GRP_regrouping',FALSE]) exitWith {
 	if (({(alive _x)} count (units _grp)) > 1) then {
 		_grp setVariable ['QS_AI_GRP_regrouping',FALSE,FALSE];
@@ -195,7 +255,102 @@ if (_grp getVariable ['QS_AI_GRP_regrouping',FALSE]) exitWith {
 		};
 	};
 };
-if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY','INJURED']) && _grpIsReady)})  then {
+if (
+	!scriptDone (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])
+) exitWith {};
+if (
+	(_uiTime > _currentTask_timeout) || 
+	{(((lifeState _grpLeader) in ['HEALTHY','INJURED']) && _grpIsReady)}
+)  then {
+	if (_currentConfig_major isEqualTo 'COMMAND') then {
+		if (_currentConfig_minor isEqualTo 'CLASSIC') then {
+			// Commander support request
+			if (_uiTime > (_grp getVariable ['QS_AI_cmd_suppReq_cool',-1])) then {
+				_grp setVariable ['QS_AI_cmd_suppReq_cool',_uiTime + (5 + (random 5)),QS_system_AI_owners];
+				private _targetPosition = [0,0,0];
+				if ((missionNamespace getVariable ['QS_AI_targetsIntel',[]]) isNotEqualTo []) then {
+					private _sortByRating = (random 1) > 0.5;
+					private _targetsIntelList = missionNamespace getVariable ['QS_AI_targetsIntel',[]];
+					private _targetsIntel = [];
+					private _basePos = markerPos 'QS_marker_base_marker';
+					private _aoPos = missionNamespace getVariable 'QS_aoPos';
+					private _aoSize = (missionNamespace getVariable 'QS_aoSize') * 0.9;
+					private _hqPos = missionNamespace getVariable 'QS_hqPos';
+					private _sidePos = markerPos 'QS_marker_sideMarker';
+					private _targetList = [];
+					private _ratedTargetList = [];
+					private _rating = 0;
+					missionNamespace setVariable ['QS_AI_cmdr_recentSuppPositions',((missionNamespace getVariable ['QS_AI_cmdr_recentSuppPositions',[]]) select { _uiTime < (_x # 1) }),FALSE];
+					private _recentTargetPositions = (missionNamespace getVariable ['QS_AI_cmdr_recentSuppPositions',[]]) apply { _x # 0 };
+					{
+						_targetsIntel = _x;
+						_targetsIntel params ['_targetsIntel_target','_targetsIntel_spotTime','_targetsIntel_position','_targetsIntel_knowsabout','','_targetsIntel_grounded','_targetsIntel_rating'];
+						if (
+							(alive _targetsIntel_target) &&
+							{((_uiTime - _targetsIntel_spotTime) < 120)} &&
+							{(_targetsIntel_knowsabout > 3)} &&
+							{(_targetsIntel_grounded)} &&
+							{(!([_targetsIntel_target] call (missionNamespace getVariable 'QS_fnc_getVehicleStealth')))} &&
+							{(!surfaceIsWater _targetsIntel_position)} &&
+							{((_recentTargetPositions inAreaArray [_targetsIntel_position,100,100,0,FALSE]) isEqualTo [])} &&
+							{((_targetsIntel_position distance2D _basePos) > 1000)} &&
+							{((_targetsIntel_position distance2D _aoPos) > _aoSize)} &&
+							{((_targetsIntel_position distance2D _sidePos) > 600)}
+						) then {
+							if (_sortByRating) then {
+								_ratedTargetList pushBack [_targetsIntel_rating,_targetsIntel_position];
+							} else {
+								_targetList pushBack _targetsIntel_position;
+							};
+						};
+					} forEach _targetsIntelList;
+					if (_sortByRating) then {
+						if (_ratedTargetList isNotEqualTo []) then {
+							_ratedTargetList sort FALSE;
+							_ratedTargetList = _ratedTargetList select [0,3];
+							_ratedTargetList = _ratedTargetList apply { _x # 1 };
+							_targetPosition = selectRandom _ratedTargetList;
+							
+						};
+					} else {
+						if (_targetList isNotEqualTo []) then {
+							_targetPosition = selectRandom _targetList;
+						};
+					};
+				};
+				if (_targetPosition isNotEqualTo [0,0,0]) then {
+					private _exit = FALSE;
+					private _supportProvider = objNull;
+					private _supportGroup = grpNull;
+					if ((missionNamespace getVariable 'QS_AI_supportProviders_MTR') isNotEqualTo []) then {
+						private _supportProviders = missionNamespace getVariable 'QS_AI_supportProviders_MTR';
+						{
+							_supportProvider = _x;
+							if (
+								(alive _supportProvider) &&
+								((vehicle _supportProvider) isKindOf 'StaticMortar')
+							) then {
+								_supportGroup = group _supportProvider;
+								if (
+									((_supportGroup getVariable 'QS_AI_GRP_DATA') # 0) &&
+									(isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) &&
+									(isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) &&
+									(_targetPosition inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)])
+								) then {
+									(missionNamespace getVariable ['QS_AI_cmdr_recentSuppPositions',[]]) pushBack [_targetPosition,serverTime + (60 + (random 300))];
+									(format ['Enemy commander has ordered a strike on %1',mapGridPosition _targetPosition]) remoteExec ['systemChat',-2];
+									_supportGroup setVariable ['QS_AI_GRP_fireMission',[(_targetPosition getPos [random 50,random 360]),((magazines (vehicle _supportProvider)) # 0),(round (4 + (random 4))),(serverTime + 90)],QS_system_AI_owners];
+									_exit = TRUE;
+								};
+							};
+							if (_exit) exitWith {};
+						} forEach _supportProviders;
+					};
+				};
+			};
+		};
+	};
+
 	if (_currentConfig_major isEqualTo 'SC') then {
 		if (_currentTask_type isEqualTo 'ATTACK') then {
 			private _position = _grpLeaderPosition;
@@ -274,10 +429,9 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 								if (_buildingPositions isNotEqualTo []) then {
 									_movePos = selectRandom _buildingPositions;
 									_movePos set [2,((_movePos # 2) + 1)];
-									{
-										doStop _x;
-										_x doMove _movePos;
-									} forEach (units _grp);
+									doStop (units _grp);
+									if (canSuspend) then {sleep 0.1;};
+									(units _grp) doMove _movePos;
 								} else {
 									_movePos = _currentTask_position getPos [(125 * (sqrt (random 1))),(random 360)];
 									if (surfaceIsWater _movePos) then {
@@ -337,26 +491,6 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 				};
 				if (!surfaceIsWater _movePos) then {
 					private _defaultMove = TRUE;
-					if (_fps > 10) then {
-						if (!(_grp getVariable ['QS_AI_GRP_disableBldgPtl',FALSE])) then {
-							if (_uiTime > (_grp getVariable ['QS_AI_GRP_evalNearbyBuilding',0])) then {
-								_grp setVariable ['QS_AI_GRP_evalNearbyBuilding',(_uiTime + (random [300,600,900])),FALSE];
-								if ((random 1) > 0.75) then {
-									if ((count (missionNamespace getVariable ['QS_AI_scripts_moveToBldg',[]])) < 3) then {
-										if (isNull (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])) then {
-											_QS_script = [_grp,[],180,200,TRUE] spawn (missionNamespace getVariable 'QS_fnc_patrolNearbyBuilding');
-											(missionNamespace getVariable 'QS_AI_scripts_moveToBldg') pushBack _QS_script;
-											_grp setVariable ['QS_AI_GRP_SCRIPT',_QS_script,FALSE];
-											_defaultMove = FALSE;
-										};
-									};
-								};
-							};
-						};
-					};
-					if (!isNull (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])) then {
-						_defaultMove = FALSE;
-					};
 					if (_defaultMove) then {
 						_grp setFormDir (_grpLeaderPosition getDir _movePos);
 						_grp move _movePos;
@@ -367,16 +501,9 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 		};
 		if (_currentTask_type isEqualTo 'ASSAULT') then {
 			if (_uiTime > _currentTask_timeout) then {
-				private _unit = objNull;
-				{
-					if ((random 1) > 0.5) then {
-						{
-							_unit forgetTarget _x;
-						} forEach (_unit targets [TRUE,0]);
-					};
-					doStop _unit;
-					_unit doMove _movePos;
-				} forEach (units _grp);
+				doStop (units _grp);
+				if (canSuspend) then {sleep 0.1;};
+				(units _grp) doMove _movePos;
 				_grp setFormDir (_grpLeader getDir _movePos);
 				_grp setVariable ['QS_AI_GRP_TASK',['ASSAULT',_movePos,(_uiTime + 15)],FALSE];
 			};
@@ -389,28 +516,8 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 					};
 					_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 					_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (300 + (random 300))),-1],FALSE];					
+					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (300 + (random 300))),-1],FALSE];					
 					private _defaultMove = TRUE;
-					if (_fps > 10) then {
-						if (!(_grp getVariable ['QS_AI_GRP_disableBldgPtl',FALSE])) then {
-							if (_uiTime > (_grp getVariable ['QS_AI_GRP_evalNearbyBuilding',0])) then {
-								_grp setVariable ['QS_AI_GRP_evalNearbyBuilding',(_uiTime + (random [300,600,900])),FALSE];
-								if ((random 1) > 0.75) then {
-									if ((count (missionNamespace getVariable ['QS_AI_scripts_moveToBldg',[]])) < 3) then {
-										if (isNull (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])) then {
-											_QS_script = [_grp,[],180,200,TRUE] spawn (missionNamespace getVariable 'QS_fnc_patrolNearbyBuilding');
-											(missionNamespace getVariable 'QS_AI_scripts_moveToBldg') pushBack _QS_script;
-											_grp setVariable ['QS_AI_GRP_SCRIPT',_QS_script,FALSE];
-											_defaultMove = FALSE;
-										};
-									};
-								};
-							};
-						};
-					};
-					if (!isNull (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])) then {
-						_defaultMove = FALSE;
-					};
 					if (_defaultMove) then {
 						_grp move _movePos;
 						_grp setFormDir (_grpLeader getDir _movePos);
@@ -427,7 +534,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						};
 						_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 						_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (90 + (random 90))),-1],FALSE];
+						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (90 + (random 90))),-1],FALSE];
 						_movePos set [2,1];
 						if (alive (driver _currentConfig_vehicle)) then {
 							if (((vectorMagnitude (velocity _currentConfig_vehicle)) * 3.6) < 2) then {
@@ -449,7 +556,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 				if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
 					_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 					if (_uiTime > (_fireMission # 1)) then {
-						_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+						_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 					};
 				} else {
 					if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
@@ -458,7 +565,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						};
 						_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 						_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (30 + (random 30))),-1],FALSE];
+						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (30 + (random 30))),-1],FALSE];
 						(vehicle _grpLeader) land 'NONE';
 						if ((random 1) > 0.333) then {
 							_movePos set [2,50];
@@ -489,13 +596,29 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 			};
 		};
 	};
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	if (_currentConfig_major isEqualTo 'AO') then {
 		if (_currentConfig_minor isEqualTo 'AIR_PATROL_HELI') then {
 			if (_currentTask_type isEqualTo 'PATROL_AIR') then {
 				if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
 					_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 					if (_uiTime > (_fireMission # 1)) then {
-						_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+						_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 					};
 				} else {
 					if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
@@ -504,7 +627,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						};
 						_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 						_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (30 + (random 30))),-1],FALSE];
+						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (30 + (random 30))),-1],FALSE];
 						(vehicle _grpLeader) land 'NONE';
 						if ((random 1) > 0.333) then {
 							_movePos set [2,50];
@@ -530,6 +653,9 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 			};
 		};
 		if (_currentConfig_minor isEqualTo 'UAV_PATROL_RADIAL') then {
+			if (alive _grpObjectParent) then {
+				_grpObjectParent setFuel 1;
+			};
 			if (_currentTask_type isEqualTo 'PATROL') then {
 				if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
 					if ((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) >= ((count _currentTask_position) - 1)) then {
@@ -537,7 +663,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 					};
 					_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 					_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (180 + (random 180))),-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (180 + (random 180))),-1],FALSE];
 					if (!isNull (_grpLeader findNearestEnemy _grpLeader)) then {
 						if (alive (gunner _grpObjectParent)) then {
 							(gunner _grpObjectParent) doWatch (_grpLeader findNearestEnemy _grpLeader);
@@ -562,7 +688,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 					if ((_grp getVariable 'QS_AI_GRP_DATA') # 0) then {
 						if (!isNil {_grp getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
 							if (_uiTime > (_grp getVariable 'QS_AI_GRP_MTR_cooldown')) then {
-								_grp setVariable ['QS_AI_GRP_MTR_cooldown',nil,FALSE];
+								_grp setVariable ['QS_AI_GRP_MTR_cooldown',nil,QS_system_AI_owners];
 							};
 						} else {
 							if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
@@ -571,7 +697,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 								_allPlayerCount = count allPlayers;
 								private _cooldown = 0;
 								if (_allPlayerCount < 20) then {
-									_cooldown = 480 + (random 480);
+									_cooldown = 360 + (random 360);
 								};
 								if (_allPlayerCount >= 20) then {
 									_cooldown = 120 + (random 120);
@@ -580,12 +706,16 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 									_cooldown = 60 + (random 60);
 								};
 								if (_firePosition inRangeOfArtillery [[_grpLeader],_fireShells]) then {
-									_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(_uiTime + _cooldown)],FALSE];								
-									_handle = [0,_grpLeader,_firePosition,_fireShells,_fireRounds] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
-									(missionNamespace getVariable 'QS_AI_scripts_fireMissions') pushBack _handle;
+									_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(_uiTime + _cooldown)],FALSE];
+									if (isDedicated) then {
+										[0,_grpLeader,_firePosition,_fireShells,_fireRounds] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
+										missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') + [serverTime + 60]),QS_system_AI_owners];
+									} else {
+										[99,[0,_grpLeader,_firePosition,_fireShells,_fireRounds],(serverTime + 60)] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+									};
 								};
-								_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
-								_grp setVariable ['QS_AI_GRP_MTR_cooldown',(diag_tickTime + _cooldown),FALSE];
+								_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
+								_grp setVariable ['QS_AI_GRP_MTR_cooldown',(serverTime + _cooldown),QS_system_AI_owners];
 							};
 						};
 					};
@@ -611,8 +741,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 							_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 							_smokeShell setPosATL [((getPosWorld _smokeShell) # 0),((getPosWorld _smokeShell) # 1),50];
 							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 60)];
-							missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
-							(missionNamespace getVariable ['QS_AI_fireMissions',[]]) pushBack [_firePosition,50,(diag_tickTime + 45)];
+							missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') + [_firePosition,50,(serverTime + 45)]),QS_system_AI_owners];
 							[0,_grpLeader,_firePosition,((magazines (_currentConfig # 2)) # 0),(round (2 + (random 6)))] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 						};
 					};
@@ -624,7 +753,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 				if ((_grp getVariable ['QS_AI_GRP_services',[]]) isEqualTo []) then {
 					_grp setVariable ['QS_AI_GRP_services',[((getRepairCargo _currentConfig_vehicle) > 0),((getFuelCargo _currentConfig_vehicle) > 0),((getAmmoCargo _currentConfig_vehicle) > 0)],FALSE];
 				};
-				_nearEntities = (_currentConfig_vehicle nearEntities [['LandVehicle','Air'],30]) select {(_x isNotEqualTo _currentConfig_vehicle)};
+				_nearEntities = (_currentConfig_vehicle nearEntities [['LandVehicle','Air'],50]) - [_currentConfig_vehicle];
 				if (_nearEntities isNotEqualTo []) then {
 					private _v = objNull;
 					{
@@ -654,23 +783,25 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						};
 					} forEach _nearEntities;
 				};
-				if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
-					if ((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) >= ((count _currentTask_position) - 1)) then {
-						_grp setVariable ['QS_AI_GRP_PATROLINDEX',-1,FALSE];
-					};
-					_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
-					_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (60 + (random 60))),-1],FALSE];
-					_movePos set [2,1];
-					if (alive (driver _currentConfig_vehicle)) then {
-						if (((vectorMagnitude (velocity _currentConfig_vehicle)) * 3.6) < 2) then {
-							doStop (driver _currentConfig_vehicle);
-							if ((driver _currentConfig_vehicle) isEqualTo _grpLeader) then {
-								(driver _currentConfig_vehicle) commandMove _movePos;
-							} else {
-								(driver _currentConfig_vehicle) doMove _movePos;
+				if (_currentCommand isNotEqualTo 'SUPPORT') then {
+					if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
+						if ((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) >= ((count _currentTask_position) - 1)) then {
+							_grp setVariable ['QS_AI_GRP_PATROLINDEX',-1,FALSE];
+						};
+						_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
+						_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
+						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (60 + (random 60))),-1],FALSE];
+						_movePos set [2,1];
+						if (alive (driver _currentConfig_vehicle)) then {
+							if (((vectorMagnitude (velocity _currentConfig_vehicle)) * 3.6) < 2) then {
+								doStop (driver _currentConfig_vehicle);
+								if ((driver _currentConfig_vehicle) isEqualTo _grpLeader) then {
+									(driver _currentConfig_vehicle) commandMove _movePos;
+								} else {
+									(driver _currentConfig_vehicle) doMove _movePos;
+								};
+								_grp setFormDir (_currentConfig_vehicle getDir _movePos);
 							};
-							_grp setFormDir (_currentConfig_vehicle getDir _movePos);
 						};
 					};
 				};
@@ -682,11 +813,11 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 			if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
 				_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 				if (_uiTime > (_fireMission # 1)) then {
-					_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+					_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 				};
 			} else {
 				if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
-					_grp setVariable ['QS_AI_GRP_TASK',['',[],(diag_tickTime + (60 + (random 60))),-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',['',[],(serverTime + (60 + (random 60))),-1],FALSE];
 					if ((random 1) > 0.5) then {
 						_movePos = (missionNamespace getVariable 'QS_AOpos') getPos [(random 600),(random 360)];
 					} else {
@@ -712,11 +843,11 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 			if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
 				_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 				if (_uiTime > (_fireMission # 1)) then {
-					_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+					_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 				};
 			} else {
 				if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
-					_grp setVariable ['QS_AI_GRP_TASK',['',[],(diag_tickTime + (60 + (random 60))),-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',['',[],(serverTime + (60 + (random 60))),-1],FALSE];
 					if ((random 1) > 0.5) then {
 						_movePos = (missionNamespace getVariable 'QS_AOpos') getPos [(random 600),(random 360)];
 					} else {
@@ -741,20 +872,23 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 		};
 	};
 	if (_currentConfig_major isEqualTo 'AIR_PATROL_UAV') then {
+		if (alive _grpObjectParent) then {
+			_grpObjectParent setFuel 1;
+		};
 		if (alive _grpLeader) then {
 			if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
 				_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 				if (_uiTime > (_fireMission # 1)) then {
-					_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+					_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 					_grp setCombatMode 'RED';
-					_grp setBehaviourStrong 'AWARE';
+					_grp setBehaviour 'AWARE';
 					if (!(attackEnabled _grp)) then {
 						_grp enableAttack TRUE;
 					};
 				};
 			} else {
 				if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
-					_grp setVariable ['QS_AI_GRP_TASK',['',[],(diag_tickTime + (60 + (random 60))),-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',['',[],(serverTime + (60 + (random 60))),-1],FALSE];
 					if ((random 1) > 0.5) then {
 						_movePos = (missionNamespace getVariable 'QS_AOpos') getPos [(random 600),(random 360)];
 					} else {
@@ -784,7 +918,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 					};
 					_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 					_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (60 + (random 60))),-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (60 + (random 60))),-1],FALSE];
 					_grp move _movePos;
 					_grp setFormDir (_grpLeader getDir _movePos);
 				};
@@ -794,61 +928,79 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 	if (_currentConfig_major isEqualTo 'GENERAL') then {
 		if (_currentConfig_minor isEqualTo 'INF_VIPER') then {
 			if (_currentTask_type isEqualTo 'HUNT') then {
-				[7,EAST,_grp,_grpLeader,_grpObjectParent,400] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-				_targets = _grpLeader targets [TRUE,400];
-				if (_targets isEqualTo []) then {
-					if ( ((_grp getVariable ['QS_AI_GRP_DATA',[[0,0,0]]]) # 0) isNotEqualTo [0,0,0] ) then {
-						_movePos = (_grp getVariable ['QS_AI_GRP_DATA',[[0,0,0]]]) # 0;
-						if ((_grpLeader distance2D _movePos) > 30) then {
-							_grp move _movePos;
-							_grp setFormDir (_grpLeader getDir _movePos);
-						} else {
-							if (attackEnabled _grp) then {
-								_grp enableAttack FALSE;
-							};
-							{
-								if ((_x distance2D _movePos) < 30) then {
-									if ((unitPos _x) in ['UP','AUTO']) then {
-										_x setUnitPos (selectRandomWeighted ['DOWN',0.5,'MIDDLE',0.5]);
-									};
-								};
-							} forEach (units _grp);
-							if (_grpBehaviour isNotEqualTo 'STEALTH') then {
-								_grp setBehaviourStrong 'STEALTH';
-							};
-						};
-					};
-				} else {
-					_targets = _targets select {(((vehicle _x) isKindOf 'CAManBase') && (isTouchingGround (vehicle _x)))};
-					private _rating = -9999;
-					private _target = objNull;
-					{
-						if ((rating _x) > _rating) then {
-							_target = _x;
-							_rating = rating _x;
-						};
-					} count _targets;
-					if (!isNull _target) then {
-						if (!(attackEnabled _grp)) then {
-							_grp enableAttack TRUE;
-						};
-						if ((_grp knowsAbout _target) < 2) then {
-							_grp reveal [_target,4];
-						};
-						_grp move (getPosATL _target);
-						_grp setFormDir (_grpLeader getDir _target);
+				private _defaultMove = TRUE;
+				if (_grpPath) then {
+					private _targetBuilding = objNull;
+					if ((missionNamespace getVariable ['QS_AI_hostileBuildings',[]]) isNotEqualTo []) then {
 						{
-							if ((unitPos _x) in ['DOWN','MIDDLE']) then {
-								_x setUnitPos 'AUTO';
+							if ((_grpLeader distance2D _x) < 500) exitWith {
+								_targetBuilding = _x;
 							};
-							_x setUnitPosWeak 'MIDDLE';
-						} forEach (units _grp);
-						if (_grpBehaviour isNotEqualTo 'STEALTH') then {
-							_grp setBehaviourStrong 'STEALTH';
+						} forEach (missionNamespace getVariable ['QS_AI_hostileBuildings',[]]);
+						if (!isNull _targetBuilding) then {
+							_QS_script = [_grp,[_targetBuilding,(count (_targetBuilding buildingPos -1))],240] spawn (missionNamespace getVariable 'QS_fnc_searchNearbyBuilding');
+							missionNamespace setVariable ['QS_AI_scripts_moveToBldg',((missionNamespace getVariable 'QS_AI_scripts_moveToBldg') + [serverTime + 240]),QS_system_AI_owners];
+							_grp setVariable ['QS_AI_GRP_SCRIPT',_QS_script,QS_system_AI_owners];
+							_defaultMove = FALSE;
 						};
 					};
 				};
-				_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (90 + (random 90))),-1],FALSE];
+				if (_defaultMove) then {
+					[7,EAST,_grp,_grpLeader,_grpObjectParent,400] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+					_targets = _grpLeader targets [TRUE,400];
+					if (_targets isEqualTo []) then {
+						if ( ((_grp getVariable ['QS_AI_GRP_DATA',[[0,0,0]]]) # 0) isNotEqualTo [0,0,0] ) then {
+							_movePos = (_grp getVariable ['QS_AI_GRP_DATA',[[0,0,0]]]) # 0;
+							if ((_grpLeader distance2D _movePos) > 30) then {
+								_grp move _movePos;
+								_grp setFormDir (_grpLeader getDir _movePos);
+							} else {
+								if (attackEnabled _grp) then {
+									_grp enableAttack FALSE;
+								};
+								{
+									if ((_x distance2D _movePos) < 30) then {
+										if ((unitPos _x) in ['UP','AUTO']) then {
+											_x setUnitPos (selectRandomWeighted ['DOWN',0.5,'MIDDLE',0.5]);
+										};
+									};
+								} forEach (units _grp);
+								if (_grpBehaviour isNotEqualTo 'STEALTH') then {
+									_grp setBehaviour 'STEALTH';
+								};
+							};
+						};
+					} else {
+						_targets = _targets select {(((vehicle _x) isKindOf 'CAManBase') && (isTouchingGround (vehicle _x)))};
+						private _rating = -9999;
+						private _target = objNull;
+						{
+							if ((rating _x) > _rating) then {
+								_target = _x;
+								_rating = rating _x;
+							};
+						} count _targets;
+						if (!isNull _target) then {
+							if (!(attackEnabled _grp)) then {
+								_grp enableAttack TRUE;
+							};
+							if ((_grp knowsAbout _target) < 2) then {
+								_grp reveal [_target,4];
+							};
+							_grp move (getPosATL _target);
+							_grp setFormDir (_grpLeader getDir _target);
+							{
+								if ((unitPos _x) in ['DOWN','MIDDLE']) then {
+									_x setUnitPos 'AUTO';
+								};
+							} forEach (units _grp);
+							if (_grpBehaviour isNotEqualTo 'STEALTH') then {
+								_grp setBehaviour 'STEALTH';
+							};
+						};
+					};
+					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (90 + (random 90))),-1],FALSE];
+				};
 			};
 		};
 		if (_currentConfig_minor isEqualTo 'INFANTRY') then {
@@ -860,40 +1012,30 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 					};
 				};
 			};
+
 			if (_currentTask_type isEqualTo 'PATROL') then {
-				if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
-					if ((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) >= ((count _currentTask_position) - 1)) then {
+				_patrolIndex = _grp getVariable ['QS_AI_GRP_PATROLINDEX',0];
+				_patrolPos = _currentTask_position # _patrolIndex;
+				if (
+					(_grpIsReady && ((_grpLeader distance2D _patrolPos) < 50)) || 
+					{(_uiTime > _currentTask_timeout)}
+				) then {
+					if (_patrolIndex >= ((count _currentTask_position) - 1)) then {
 						_grp setVariable ['QS_AI_GRP_PATROLINDEX',-1,FALSE];
 					};
 					_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 					_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (180 + (random 180))),-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (180 + (random 180))),-1],FALSE];
 					if (isNull _grpObjectParent) then {
-						private _defaultMove = TRUE;
-						if (_fps > 10) then {
-							if (!(_grp getVariable ['QS_AI_GRP_disableBldgPtl',FALSE])) then {
-								if (_uiTime > (_grp getVariable ['QS_AI_GRP_evalNearbyBuilding',0])) then {
-									_grp setVariable ['QS_AI_GRP_evalNearbyBuilding',(_uiTime + (random [300,600,900])),FALSE];
-									if ((random 1) > 0.75) then {
-										if ((count (missionNamespace getVariable ['QS_AI_scripts_moveToBldg',[]])) < 3) then {
-											if (isNull (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])) then {
-												_QS_script = [_grp,[],180,200,TRUE] spawn (missionNamespace getVariable 'QS_fnc_patrolNearbyBuilding');
-												(missionNamespace getVariable 'QS_AI_scripts_moveToBldg') pushBack _QS_script;
-												_grp setVariable ['QS_AI_GRP_SCRIPT',_QS_script,FALSE];
-												_defaultMove = FALSE;
-											};
-										};
-									};
-								};
+						_grp move _movePos;
+						_grp setFormDir (_grpLeader getDir _movePos);
+						
+						// DEBUG
+						{
+							if ((_x distance2D _grpLeader) > 100) then {
+								_x doFollow _grpLeader;
 							};
-						};
-						if (!isNull (_grp getVariable ['QS_AI_GRP_SCRIPT',scriptNull])) then {
-							_defaultMove = FALSE;
-						};
-						if (_defaultMove) then {
-							_grp move _movePos;
-							_grp setFormDir (_grpLeader getDir _movePos);
-						};
+						} forEach (units _grp);
 					} else {
 						if (alive (driver _grpObjectParent)) then {
 							doStop (driver _grpObjectParent);
@@ -905,8 +1047,21 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 							_grp setFormDir (_grpLeader getDir _movePos);
 						};
 					};
+				} else {
+					if (
+						(isNull _grpObjectParent) &&
+						{((_grpLeader distance2D _patrolPos) >= 50)} &&
+						{(((vectorMagnitude (velocity _grpLeader)) * 3.6) < 1)}
+					) then {
+						_grp move _patrolPos;
+						_grp setFormDir (_grpLeader getDir _patrolPos);
+					};
 				};
 			};
+			
+			
+			
+			
 			if (_currentTask_type isEqualTo 'ASSAULT') then {
 			
 			};
@@ -937,7 +1092,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 								_nearestEnemy = _grpUnit findNearestEnemy _grpUnit;
 								if (alive _nearestEnemy) then {
 									if ((_nearestEnemy distance2D _movePos) < 50) then {
-										_grpUnit doMove (getPosATL _nearestEnemy);
+										_grpUnit doMove ((getPosATL _nearestEnemy) vectorAdd [0,0,1]);
 									} else {
 										_grpUnit doMove _unitMovePos;
 									};
@@ -953,9 +1108,37 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 				};
 			};
 			if (_currentTask_type isEqualTo 'DEFEND') then {
-			
+				/* WIP */
+			};
+			if (_currentTask_type isEqualTo 'GUARD') then {
+				/* WIP */
+				_currentData params ['','',['_radius',50],['_location','']];
+				if (attackEnabled _grp) then {
+					_grp enableAttack FALSE;
+				};
+				{
+					if (_x checkAIFeature 'PATH') then {
+						if ((_x distance2D _currentTask_position) > _radius) then {
+							doStop _x;
+							if (
+								((random 1) > 0.5) &&
+								{(_location isEqualTo 'HQ')} &&
+								{((missionNamespace getVariable ['QS_classic_terrainData',[ [],[],[],[],[],[],[],[],[],[] ] ]) # 9) isNotEqualTo []}
+							) then {
+								_x doMove (selectRandom ((missionNamespace getVariable ['QS_classic_terrainData',[ [],[],[],[],[],[],[],[],[],[] ]]) # 9));
+							} else {
+								_x doMove (_currentTask_position getPos [_radius * (sqrt (random 1)),random 360]);
+							};
+						} else {
+							if ((random 1) > 0.75) then {
+								_x doMove (_currentTask_position getPos [_radius * (sqrt (random 1)),random 360]);
+							};
+						};
+					};
+				} forEach (units _grp);
 			};
 			if (_currentTask_type isEqualTo 'BLDG_GARRISON') then {
+				/* WIP */
 
 			};
 		};
@@ -967,7 +1150,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 					};
 					_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 					_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (180 + (random 180))),-1],FALSE];
+					_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (180 + (random 180))),-1],FALSE];
 					_movePos set [2,(_grpLeader getVariable ['QS_AI_UNIT_swimDepth',(_movePos # 2)])];
 					_grp move _movePos;
 					_grp setFormDir (_grpLeader getDir _movePos);
@@ -983,16 +1166,13 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						};
 						_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 						_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (90 + (random 90))),-1],FALSE];
+						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (90 + (random 90))),-1],FALSE];
 						_movePos set [2,1];
 						if (alive (driver _currentConfig_vehicle)) then {
 							if (((vectorMagnitude (velocity _currentConfig_vehicle)) * 3.6) < 2) then {
 								doStop (driver _currentConfig_vehicle);
-								if ((driver _currentConfig_vehicle) isEqualTo _grpLeader) then {
-									(driver _currentConfig_vehicle) commandMove _movePos;
-								} else {
-									(driver _currentConfig_vehicle) doMove _movePos;
-								};
+								if (canSuspend) then {sleep 0.1;};
+								(driver _currentConfig_vehicle) doMove _movePos;
 								_grp setFormDir (_currentConfig_vehicle getDir _movePos);
 							};
 						};
@@ -1020,7 +1200,7 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 				if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
 					_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 					if (_uiTime > (_fireMission # 1)) then {
-						_grp setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+						_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 					};
 				} else {
 					if ((unitReady _grpLeader) || {(_uiTime > _currentTask_timeout)}) then {
@@ -1029,16 +1209,18 @@ if ((_uiTime > _currentTask_timeout) || {(((lifeState _grpLeader) in ['HEALTHY',
 						};
 						_grp setVariable ['QS_AI_GRP_PATROLINDEX',((_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]) + 1),FALSE];
 						_movePos = _currentTask_position # (_grp getVariable ['QS_AI_GRP_PATROLINDEX',0]);
-						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(diag_tickTime + (30 + (random 30))),-1],FALSE];
+						_grp setVariable ['QS_AI_GRP_TASK',[_currentTask_type,_currentTask_position,(serverTime + (30 + (random 30))),-1],FALSE];
 						_currentConfig_vehicle land 'NONE';
 						if ((random 1) > 0.333) then {
 							_movePos set [2,50];
 							doStop (driver _currentConfig_vehicle);
+							if (canSuspend) then {sleep 0.1;};
 							(driver _currentConfig_vehicle) doMove _movePos;
 						} else {
 							_movePos = (missionNamespace getVariable 'QS_AOpos') getPos [(random 1000),(random 360)];
 							_movePos set [2,50];
 							doStop (driver _currentConfig_vehicle);
+							if (canSuspend) then {sleep 0.1;};
 							(driver _currentConfig_vehicle) doMove _movePos;
 						};
 						_grp setFormDir (_currentConfig_vehicle getDir _movePos);

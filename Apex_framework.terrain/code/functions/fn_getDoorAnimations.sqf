@@ -46,7 +46,7 @@ _index = [
 	"hatch_4",
 	"hatch_5",
 	"hatch_6"
-] find (toLower _door);
+] find (toLowerANSI _door);
 if (_index isEqualTo -1) exitWith {[[],""]};
 _animations = [
 	["Door_1_sound_source","Door_1_noSound_source"],
@@ -79,7 +79,7 @@ _animations = [
 	["Hatch_4_sound_source","Hatch_4_noSound_source"],
 	["Hatch_5_sound_source","Hatch_5_noSound_source"],
 	["Hatch_6_sound_source","Hatch_6_noSound_source"]
-] select _index;
+] # _index;
 _lockedVariable = [
 	["BIS_Disabled_Door_1",  "Door_Handle_1_rot_1",  "Door_Locked_1_rot"],
 	["BIS_Disabled_Door_2",  "Door_Handle_2_rot_1",  "Door_Locked_2_rot"],
@@ -109,5 +109,5 @@ _lockedVariable = [
 	["", ""],
 	["", ""],
 	["", ""]
-] select _index;
+] # _index;
 [_animations, _lockedVariable];

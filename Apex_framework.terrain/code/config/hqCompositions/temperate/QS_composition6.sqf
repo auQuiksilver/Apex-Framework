@@ -11,8 +11,8 @@ Using orientation of objects: no
 	["Land_BagFence_01_long_green_F",[0.254395,-1.88428,-0.0010159],256.608,[],false,false,TRUE,{}], 
 	["Land_BagFence_01_long_green_F",[-0.118652,-4.27393,-0.000999928],255.789,[],false,false,TRUE,{}], 
 	["Flag_White_F",[0.140137,-3.27197,-6.4373e-005],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_BagFence_01_long_green_F",[-2.19727,4.64209,-0.00103068],256.608,[],false,false,TRUE,{}], 
 	["Land_LampShabby_F",[0.341309,-3.83887,-1.00136e-005],0,[],false,true,false,{}], 
@@ -35,7 +35,7 @@ Using orientation of objects: no
 	["Land_HBarrier_01_line_1_green_F",[8.63867,7.54688,0],80.16,[],false,false,TRUE,{}], 
 	["Land_BagFence_01_long_green_F",[-6.99219,-9.56592,-0.000999928],166.877,[],false,false,TRUE,{}], 
 	["Land_HBarrier_01_big_4_green_F",[11.5229,-4.8877,0],77.409,[],false,false,TRUE,{}], 
-	["Land_TTowerSmall_1_F",[-11.4453,3.41895,-1.38283e-005],0,[],false,true,TRUE,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_TTowerSmall_1_F",[-11.4453,3.41895,-1.38283e-005],0,[],false,true,TRUE,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_BagFence_01_long_green_F",[-12.9277,2.23877,-0.000999928],167.698,[],false,false,TRUE,{}], 
 	["Land_BagFence_01_short_green_F",[-13.3169,-4.50684,-0.000999928],257.008,[],false,false,TRUE,{}], 
 	["Land_BagFence_01_long_green_F",[-9.87598,-10.1729,-0.000999928],166.877,[],false,false,TRUE,{}], 

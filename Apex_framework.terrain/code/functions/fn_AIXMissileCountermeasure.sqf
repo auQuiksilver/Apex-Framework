@@ -13,13 +13,12 @@ Description:
 	Extra missile countermeasures for AI
 _________________________________________________/*/
 
-params ['_vehicle','_ammo','_shooter','_instigator'];
+params ['_vehicle','_ammo','_shooter','_instigator','_projectile'];
 if (alive (effectiveCommander _vehicle)) then {
 	if (_vehicle isKindOf 'Air') then {
 		if (isNull (objectParent _instigator)) then {
 			if ((_vehicle distance _shooter) > 500) then {
 				if (!((vehicle _shooter) isKindOf 'Man')) then {
-					private _projectile = nearestObject [_shooter,_ammo];
 					if (!isNull _projectile) then {
 						(group (effectiveCommander _vehicle)) reveal [_shooter,4];
 						(group (effectiveCommander _vehicle)) reveal [vehicle _shooter,4];

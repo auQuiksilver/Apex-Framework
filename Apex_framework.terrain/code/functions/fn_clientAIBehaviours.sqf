@@ -31,7 +31,10 @@ for '_x' from 0 to 1 step 0 do {
 	) exitWith {};
 	{
 		if (!isPlayer _x) then {
-			if (local _x) then {
+			if (
+				(local _x) && 
+				{(_x checkAIFeature 'PATH')}
+			) then {
 				_entity = _x;
 				_entitySide = side (group _entity);
 				if ((lifeState _entity) in ['HEALTHY','INJURED']) then {
@@ -81,14 +84,14 @@ for '_x' from 0 to 1 step 0 do {
 																((alive (_unit getVariable ['QS_AI_JOB_PROVIDER',objNull])) && {(((_unit getVariable ['QS_AI_JOB_PROVIDER',objNull]) distance _unit) > 15)})
 															) then {
 																_job = TRUE;
-																_entity disableAI 'AUTOCOMBAT';
-																_entity disableAI 'TARGET';
-																_entity disableAI 'SUPPRESSION';
+																_entity enableAIFeature ['AUTOCOMBAT',FALSE];
+																_entity enableAIFeature ['TARGET',FALSE];
+																_entity enableAIFeature ['SUPPRESSION',FALSE];
 																_entity addEventHandler [
 																	'Hit',
 																	{
-																		(_this # 0) enableAI 'TARGET';
-																		(_this # 0) enableAI 'SUPPRESSION';
+																		(_this # 0) enableAIFeature ['TARGET',TRUE];
+																		(_this # 0) enableAIFeature ['SUPPRESSION',TRUE];
 																		(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
 																	}
 																];
@@ -154,7 +157,12 @@ for '_x' from 0 to 1 step 0 do {
 										if ((_entity distance _jobTarget) < 50) then {
 											if (!isNull (objectParent _entity)) then {
 												if (((vectorMagnitude (velocity (objectParent _entity))) * 3.6) < 2) then {
-													moveOut _entity;
+													if (
+														((assignedVehicleRole _entity) isNotEqualTo []) && 
+														{(((assignedVehicleRole _entity) # 0) isEqualTo 'cargo')}
+													) then {
+														moveOut _entity;
+													};
 												};
 											};
 										};
@@ -163,6 +171,7 @@ for '_x' from 0 to 1 step 0 do {
 												_entity action ['HealSoldierSelf',_entity];
 											} else {
 												doStop _entity;
+												uiSleep 0.1;
 												_entity doMove (getPosATL _jobTarget);
 											};
 										} else {
@@ -203,8 +212,8 @@ for '_x' from 0 to 1 step 0 do {
 													_entity setVariable ['QS_AI_JOB_DATA',[],FALSE];
 													_jobTarget setVariable ['QS_AI_JOB_PROVIDER',objNull,FALSE];
 												};
-												_entity disableAI 'AUTOCOMBAT';
-												_entity enableAI 'TARGET';
+												_entity enableAIFeature ['AUTOCOMBAT',FALSE];
+												_entity enableAIFeature ['TARGET',TRUE];
 												_jobData set [3,_jobScript];
 											};
 										};

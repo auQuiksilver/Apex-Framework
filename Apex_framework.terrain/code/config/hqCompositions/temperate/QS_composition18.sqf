@@ -9,8 +9,8 @@ Using orientation of objects: no
 
 [
 	["Flag_White_F",[-0.311035,1.50244,-1.33514e-005],90.9349,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_Cargo_House_V4_F",[2.37256,-1.40527,1.28746e-005],76.2637,[],false,true,false,{}], 
 	["Land_PillboxWall_01_6m_F",[2.98438,2.5249,-2.38419e-007],354.748,[],false,FALSE,TRUE,{}],
@@ -57,7 +57,7 @@ Using orientation of objects: no
 	["Land_PaperBox_closed_F",[18.3247,-0.276367,0],247.748,[],false,false,TRUE,{}], 
 	["Land_PillboxWall_01_6m_F",[5.28174,17.8765,0],356.191,[],false,false,TRUE,{}], 
 	["Land_PillboxWall_01_6m_F",[10.7539,-15.3159,0],155.908,[],false,false,TRUE,{}], 
-	["Land_PillboxBunker_01_rectangle_F",[18.3667,2.62793,-0.0004704],68.1949,[],false,TRUE,false,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_PillboxBunker_01_rectangle_F",[18.3667,2.62793,-0.0004704],68.1949,[],false,TRUE,false,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_BagFence_01_end_green_F",[16.231,10.1313,-0.00200009],64.103,[],false,false,TRUE,{}], 
 	["Land_BagFence_01_end_green_F",[13.7432,-13.7656,-0.00200009],335.536,[],false,false,TRUE,{}], 
 	["Land_PillboxWall_01_6m_F",[14.7539,12.9209,0],60.7379,[],false,false,TRUE,{}], 

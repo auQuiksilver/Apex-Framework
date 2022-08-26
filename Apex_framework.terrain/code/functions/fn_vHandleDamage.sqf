@@ -14,7 +14,7 @@ Description:
 ___________________________________________________*/
 
 params ['_vehicle','_selection','_damage','_source','_ammo','_hitPartIndex'];
-if (!(_selection isEqualTo '?')) then {
+if (_selection isNotEqualTo '?') then {
 	if (_selection isEqualTo '') then { 
 		_oldDamage = damage _vehicle; 
 	} else { 

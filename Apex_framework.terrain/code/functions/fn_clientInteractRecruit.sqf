@@ -41,7 +41,7 @@ _text = format ['Recruited %1 ( %2 )',(name _t),(getText (configFile >> 'CfgVehi
 _t enableStamina FALSE;
 _t setAnimSpeedCoef 1.1;
 {
-	_t enableAI _x;
+	_t enableAIFeature [_x,TRUE];
 } count [
 	'FSM',
 	'TEAMSWITCH',
@@ -52,8 +52,8 @@ _t setAnimSpeedCoef 1.1;
 	'MOVE',
 	'CHECKVISIBLE'
 ];
-_t disableAI 'AUTOCOMBAT';
-_t disableAI 'COVER';
+_t enableAIFeature ['AUTOCOMBAT',FALSE];
+_t enableAIFeature ['COVER',FALSE];
 {
 	if (['heli',(typeOf _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 		_x setSkill 0.1;
@@ -72,10 +72,10 @@ for '_x' from 0 to 1 step 1 do {
 _t addEventHandler [
 	'FiredMan',
 	{
-		if (alive (getAttackTarget (_this select 0))) then {
-			_assignedTarget = getAttackTarget (_this select 0);
+		if (alive (getAttackTarget (_this # 0))) then {
+			_assignedTarget = getAttackTarget (_this # 0);
 			if ((isPlayer _assignedTarget) || {(isPlayer (effectiveCommander _assignedTarget))}) then {
-				deleteVehicle (_this select 6);
+				deleteVehicle (_this # 6);
 			};
 		};
 	}

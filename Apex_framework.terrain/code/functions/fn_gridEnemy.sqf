@@ -34,7 +34,6 @@ _terrainData params [
 _isDedicated = isDedicated;
 _worldName = worldName;
 _worldSize = worldSize;
-private _isHCActive = missionNamespace getVariable ['QS_HC_Active',FALSE];
 private _basePosition = markerPos 'QS_marker_base_marker';
 private _baseRadius = 500;
 private _fobPosition = markerPos 'QS_marker_module_fob';
@@ -171,7 +170,7 @@ if (_buildingPositions isEqualTo []) then {
 		} forEach (_house buildingPos -1);
 	} forEach (nearestObjects [_aoPos,['House'],_aoSize,TRUE]); 
 };
-if (!(_buildingPositions isEqualTo [])) then {
+if (_buildingPositions isNotEqualTo []) then {
 	_enemyGrp = createGroup [EAST,TRUE];
 	for '_x' from 0 to (_enemiesInBuildingsCount - 1) step 1 do {
 		_enemyUnitType = selectRandomWeighted _unitTypes;
@@ -180,11 +179,10 @@ if (!(_buildingPositions isEqualTo [])) then {
 		_buildingPositions set [_buildingPositionIndex,FALSE];
 		_buildingPositions deleteAt _buildingPositionIndex;
 		_enemyUnit = _enemyGrp createUnit [_enemyUnitType,[-300,-300,50],[],50,'NONE'];
-		_enemyUnit disableAI 'PATH';
-		_enemyUnit disableAI 'COVER';
-		_enemyUnit disableAI 'AUTOCOMBAT';
-		_enemyUnit disableAI 'TARGET';
-		_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		{
+			_enemyUnit enableAIFeature [_x,FALSE];
+		} forEach ['PATH','COVER','AUTOCOMBAT'];
+		_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 		_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		_enemyUnit setUnitPosWeak (selectRandomWeighted ['UP',0.666,'MIDDLE',0.333]);
 		_buildingEnemies pushBack _enemyUnit;
@@ -196,7 +194,7 @@ if (!(_buildingPositions isEqualTo [])) then {
 					_unit removeEventHandler ['Hit',_thisEventHandler];
 					if (!isNull (_unit findNearestEnemy _unit)) then {
 						if (((_unit findNearestEnemy _unit) distance2D _unit) < 50) then {
-							_unit enableAI 'PATH';
+							_unit enableAIFeature ['PATH',TRUE];
 						};
 					};
 				}
@@ -213,14 +211,12 @@ if (!(_buildingPositions isEqualTo [])) then {
 	_enemyGrp enableAttack FALSE;
 	_enemyGrp setCombatMode 'RED';
 	[(units _enemyGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_enemyGrp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_enemyGrp setVariable ['QS_AI_GRP_TASK',['BLDG_GARRISON',[],diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_enemyGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	if (_isHCActive) then {
-		_enemyGrp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	};
+	_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],QS_system_AI_owners];
+	_enemyGrp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+	_enemyGrp setVariable ['QS_AI_GRP_TASK',['BLDG_GARRISON',[],serverTime,-1],QS_system_AI_owners];
+	_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+	_enemyGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+	_enemyGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 };
 /*/================================================================================================== Inter-building patrols/*/
 private _buildingPatrolEnemies = [];
@@ -249,26 +245,27 @@ if (_interBuildingPatrols > 0) then {
 		_buildingPositions = _nearBuildingPositions;
 		_buildingPositions = _buildingPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 	};
-	_buildingPositions = _buildingPositions apply { [_x select 0,_x select 1,((_x select 2) + 1)] };
+	_buildingPositions = _buildingPositions apply { [_x # 0,_x # 1,((_x # 2) + 1)] };
 	for '_h' from 0 to _interBuildingPatrols step 1 do {
 		_usedBuildingPositions = [];
 		_filteredBuildingPositions = [];
 		for '_i' from 0 to 2 step 1 do {
 			_filteredBuildingPositions = _buildingPositions select {([_x,_usedBuildingPositions,_positionsMinRadius] call _checkPosition)};
-			if (!(_filteredBuildingPositions isEqualTo [])) then {
+			if (_filteredBuildingPositions isNotEqualTo []) then {
 				_usedBuildingPositions pushBack (selectRandom _filteredBuildingPositions);
 			};
 		};
-		if (!(_usedBuildingPositions isEqualTo [])) then {
+		if (_usedBuildingPositions isNotEqualTo []) then {
 			_spawnPosition = selectRandom _usedBuildingPositions;
 			_enemyGrp = createGroup [EAST,TRUE];
 			for '_j' from 0 to (_enemyTeamSize - 1) step 1 do {
 				_enemyUnitType = selectRandomWeighted _unitTypes;
 				_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPosition,[],25,'NONE'];
 				_enemyUnit setVehiclePosition [(getPosWorld _enemyUnit),[],10,'NONE'];
-				_enemyUnit disableAI 'COVER';
-				_enemyUnit disableAI 'AUTOCOMBAT';
-				_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+				{
+					_enemyUnit enableAIFeature [_x,FALSE];
+				} forEach ['COVER','AUTOCOMBAT'];
+				_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 				_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				[_enemyUnit] joinSilent _enemyGrp;
 				_buildingPatrolEnemies pushBack _enemyUnit;
@@ -277,14 +274,12 @@ if (_interBuildingPatrols > 0) then {
 			_enemyGrp setCombatMode 'RED';
 			_enemyGrp setBehaviour 'SAFE';
 			[(units _enemyGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-			_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_usedBuildingPositions,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			if (_isHCActive) then {
-				_enemyGrp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			};
+			_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_usedBuildingPositions,serverTime,-1],QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		};
 	};
 };
@@ -328,13 +323,14 @@ if (_areaPatrols > 0) then {
 			_enemyGrp = createGroup [EAST,TRUE];
 			for '_j' from 0 to (_enemyTeamSize - 1) step 1 do {
 				_enemyUnitType = selectRandomWeighted _unitTypes;
-				_enemyUnit = _enemyGrp createUnit [_enemyUnitType,(_patrolRoute select 0),[],25,'NONE'];
+				_enemyUnit = _enemyGrp createUnit [_enemyUnitType,(_patrolRoute # 0),[],25,'NONE'];
 				_enemyUnit setVehiclePosition [(getPosASL _enemyUnit),[],10,'NONE'];
-				_enemyUnit disableAI 'COVER';
-				_enemyUnit disableAI 'AUTOCOMBAT';
-				_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+				{
+					_enemyUnit enableAIFeature [_x,FALSE];
+				} forEach ['COVER','AUTOCOMBAT'];
+				_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 				_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				if ((toLower _enemyUnitType) in ['o_g_soldier_f','o_g_soldier_lite_f','i_c_soldier_bandit_6_f','i_c_soldier_para_1_f']) then {
+				if ((toLowerANSI _enemyUnitType) in ['o_g_soldier_f','o_g_soldier_lite_f','i_c_soldier_bandit_6_f','i_c_soldier_para_1_f']) then {
 					if ((random 1) > 0.5) then {
 						_enemyUnit addBackpack (['b_bergen_hex_f','b_carryall_ghex_f'] select (_worldName isEqualTo 'Tanoa'));
 						[_enemyUnit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (_worldName isEqualTo 'Tanoa')),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
@@ -347,14 +343,12 @@ if (_areaPatrols > 0) then {
 			_enemyGrp setCombatMode 'RED';
 			_enemyGrp setBehaviour 'SAFE';
 			[(units _enemyGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-			_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_enemyGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			if (_isHCActive) then {
-				_enemyGrp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			};
+			_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_enemyGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		};
 	};
 };
@@ -406,19 +400,19 @@ if (_armedVehicleCount > 0) then {
 			};
 			if ((count _patrolRoute) > 1) then {
 				_enemyGrp = createGroup [EAST,TRUE];
-				_spawnPos = _patrolRoute select 0;
+				_spawnPos = _patrolRoute # 0;
 				if (!isNull (roadAt _spawnPos)) then {
-					_spawnDirection = _spawnPos getDir ((roadsConnectedTo (roadAt _spawnPos)) select 0);
+					_spawnDirection = _spawnPos getDir ((roadsConnectedTo (roadAt _spawnPos)) # 0);
 				};
-				_vehicle = createVehicle [(selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),[_spawnPos select 0,_spawnPos select 1,((_spawnPos select 2) + 5)],[],0,'NONE'];
-				if (!(_spawnDirection isEqualTo 0)) then {
+				_vehicle = createVehicle [(selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),[_spawnPos # 0,_spawnPos # 1,((_spawnPos # 2) + 5)],[],0,'NONE'];
+				if (_spawnDirection isNotEqualTo 0) then {
 					_vehicle setDir _spawnDirection;
 				};
 				_vehicle setVectorUp (surfaceNormal _spawnPos);
 				_vehicle setVehiclePosition [_spawnPos,[],0,'CAN_COLLIDE'];
 				_vehicle lock 3;
 				(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
-				_vehicle allowCrewInImmobile TRUE;
+				_vehicle allowCrewInImmobile [TRUE,TRUE];
 				_vehicle setUnloadInCombat [TRUE,FALSE];
 				_vehicle enableVehicleCargo FALSE;
 				_vehicle enableRopeAttach FALSE;
@@ -432,21 +426,22 @@ if (_armedVehicleCount > 0) then {
 				for '_j' from 0 to (((count (fullCrew [_vehicle,'',TRUE])) - 1) min 3) step 1 do {
 					_enemyUnitType = selectRandomWeighted _unitTypes;
 					_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPos,[],25,'NONE'];
-					_enemyUnit disableAI 'AUTOCOMBAT';
-					_enemyUnit disableAI 'COVER';
+					{
+						_enemyUnit enableAIFeature [_x,FALSE];
+					} forEach ['COVER','AUTOCOMBAT'];
 					if (_j isEqualTo 0) then {
 						_enemyUnit assignAsDriver _vehicle;
 						_enemyUnit moveInDriver _vehicle;
 					} else {
 						_enemyUnit moveInAny _vehicle;
 					};
-					_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+					_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 					_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 					[_enemyUnit] joinSilent _enemyGrp;
 					_armedVehiclePatrolEnemies pushBack _enemyUnit;
 				};
 				
-				if ((toLower (typeOf _vehicle)) in ['i_c_van_01_transport_f','o_g_van_01_transport_f']) then {
+				if ((toLowerANSI (typeOf _vehicle)) in ['i_c_van_01_transport_f','o_g_van_01_transport_f']) then {
 					_vehicle addEventHandler [
 						'Deleted',
 						{
@@ -471,9 +466,9 @@ if (_armedVehicleCount > 0) then {
 					];
 					_static = createVehicle [(selectRandom _staticTypes),[-200,-200,50],[],25,'NONE'];
 					_static lock 3;
-					_static allowCrewInImmobile TRUE;
+					_static allowCrewInImmobile [TRUE,TRUE];
 					_static enableVehicleCargo FALSE;
-					_static setVariable ['QS_curator_disableEditability',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+					_static setVariable ['QS_curator_disableEditability',TRUE,QS_system_AI_owners];
 					_static enableRopeAttach FALSE;
 					if ((random 1) > 0.5) then {
 						[_static] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
@@ -481,8 +476,9 @@ if (_armedVehicleCount > 0) then {
 					_static attachTo [_vehicle,[0,-2,1]];
 					_enemyUnitType = selectRandomWeighted _unitTypes;
 					_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPos,[],25,'NONE'];
-					_enemyUnit disableAI 'AUTOCOMBAT';
-					_enemyUnit disableAI 'COVER';
+					{
+						_enemyUnit enableAIFeature [_x,FALSE];
+					} forEach ['COVER','AUTOCOMBAT'];
 					_enemyUnit moveInGunner _static;
 					_enemyGrp addVehicle _static;
 					_armedVehiclePatrolEnemies pushBack _enemyUnit;
@@ -492,14 +488,12 @@ if (_armedVehicleCount > 0) then {
 				_enemyGrp setCombatMode 'RED';
 				_enemyGrp setBehaviour 'SAFE';
 				[(units _enemyGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-				_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _enemyGrp)),_vehicle],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				_enemyGrp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				_enemyGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				if (_isHCActive) then {
-					_enemyGrp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-				};
+				_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _enemyGrp)),_vehicle],QS_system_AI_owners];
+				_enemyGrp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+				_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
+				_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+				_enemyGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+				_enemyGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			};
 		};
 	};
@@ -515,13 +509,13 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 	{	
 		_building = _x;
 		_buildingPositions = [_building,(_building buildingPos -1)] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
-		if (!(_buildingPositions isEqualTo [])) then {
+		if (_buildingPositions isNotEqualTo []) then {
 			{
 				_hqBuildingPositions pushBack _x;
 			} forEach _buildingPositions;
 		};
 	} forEach _composition;
-	if (!(_hqBuildingPositions isEqualTo [])) then {
+	if (_hqBuildingPositions isNotEqualTo []) then {
 		_enemyGrp = createGroup [EAST,TRUE];
 		for '_k' from 0 to (_hqGuardsMax - 1) step 1 do {
 			_hqBuildingPosition = selectRandom _hqBuildingPositions;
@@ -530,9 +524,9 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 			_hqBuildingPositions deleteAt _hqBuildingPositionIndex;
 			_enemyUnitType = selectRandomWeighted _unitTypes;
 			_enemyUnit = _enemyGrp createUnit [_enemyUnitType,[-300,-300,50],[],25,'NONE'];
-			_enemyUnit disableAI 'PATH';
-			_enemyUnit disableAI 'COVER';
-			_enemyUnit disableAI 'AUTOCOMBAT';
+			{
+				_enemyUnit enableAIFeature [_x,FALSE];
+			} forEach ['COVER','AUTOCOMBAT','PATH'];
 			if ((random 1) > 0.666) then {
 				_enemyUnit addEventHandler [
 					'Hit',
@@ -541,13 +535,13 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 						_unit removeEventHandler ['Hit',_thisEventHandler];
 						if (!isNull (_unit findNearestEnemy _unit)) then {
 							if (((_unit findNearestEnemy _unit) distance2D _unit) < 50) then {
-								_unit enableAI 'PATH';
+								_unit enableAIFeature ['PATH',TRUE];
 							};
 						};
 					}
 				];
 			};
-			_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 			_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_enemyUnit setUnitPosWeak (selectRandom ['UP','UP','MIDDLE']);
 			_hqGuards pushBack _enemyUnit;
@@ -560,7 +554,7 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 						_unit removeEventHandler ['Hit',_thisEventHandler];
 						if (alive (_unit findNearestEnemy _unit)) then {
 							if (((_unit findNearestEnemy _unit) distance2D _unit) < 100) then {
-								_unit enableAI 'PATH';
+								_unit enableAIFeature ['PATH',TRUE];
 							};
 						};
 					}
@@ -573,21 +567,19 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 		_enemyGrp enableAttack FALSE;
 		_enemyGrp setCombatMode 'RED';
 		[(units _enemyGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-		_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP_TASK',['BLDG_GARRISON',[],diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		if (_isHCActive) then {
-			_enemyGrp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		};
+		_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_TASK',['BLDG_GARRISON',[],serverTime,-1],QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	};
 	{
 		if (_x isEqualTo (leader (group _x))) then {
 			_enemyGrp = group _x;
-			_patrolRoute = (_enemyGrp getVariable 'QS_AI_GRP_TASK') select 1;
+			_patrolRoute = (_enemyGrp getVariable 'QS_AI_GRP_TASK') # 1;
 			_patrolRoute pushBack (missionNamespace getVariable 'QS_grid_IGposition');
-			_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
 		};
 	} forEach _areaPatrolEnemies;
 };
@@ -598,4 +590,4 @@ _gridEnemy = [
 	_armedVehiclePatrolEnemies,
 	_hqGuards
 ];
-missionNamespace setVariable ['QS_grid_AI_enemy_1',_gridEnemy,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+missionNamespace setVariable ['QS_grid_AI_enemy_1',_gridEnemy,QS_system_AI_owners];

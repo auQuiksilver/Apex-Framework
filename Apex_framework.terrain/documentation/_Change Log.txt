@@ -1,10 +1,79 @@
 Official Change Log
 
+1.3.0
+
+- [ADDED] Headless Client.
+- [ADDED] AI Behaviour Overhaul (Patrols, suppressive fire, frag & smoke use, etc).
+- [ADDED] Accuracy Leaderboard (both sniper and regular).
+- [ADDED] (Classic Mode) Enemy can respawn in towns.
+- [ADDED] (Server Option) Hit marker audio cue when you hit an enemy with an appropriate weapon.
+- [ADDED] Friendly-fire indicator when you hit a friendly.
+- [ADDED] Destroyer (Ship) functional helicopter hangar (roll helicopters in/out of hangar).
+- [ADDED] Player parachute deployment.
+- [ADDED] Player Suppression Effects (when being shot from unseen direction), including optional toggle.
+- [ADDED] Illumination Flares.
+- [ADDED] Craters (Artillery & Mortar).
+- [ADDED] (Server Option) Group waypoint. Subordinates can see their group leaders [Shift]+[Click] waypoint on the map.
+- [ADDED] Zeus can create a scripted mission. (See notes below).
+- [TWEAKED] General scripting optimisations (significant).
+- [TWEAKED] Leaderboard data structure & network overhaul (significant optimisation).
+- [TWEAKED] (Classic Mode) Objectives can now spawn in towns.
+- [TWEAKED] Enemy helicopter reinforcements now slightly more survivable.
+- [TWEAKED] Enemy killed in "CAR"/"AIR"/"PARACHUTE" class vehicles will no longer be deleted, instead they will fall out of the vehicle.
+- [TWEAKED] Enemy have fewer .50 Cal HMG assets at lower player count (replaced with 7.62mm).
+- [TWEAKED] Overhauled Zeus AI suppressive fire (Numpad 6).
+- [TWEAKED] Enemy CAS bombs can now be detected by nearby friendly radar-equipped assets (and automatically warn ground elements).
+- [TWEAKED] Smoke countermeasures more effective against enemy CAS bombs.
+- [TWEAKED] Vehicles which can re-arm other vehicles, now attract more enemy attention.
+- [TWEAKED] (Classic and Sector Control Modes) GPS Jammer now affects whole AO.
+- [TWEAKED] Replaced enemy priority anti-air battery targets with Tigris.
+- [TWEAKED] If "dynamic restart" parameter is used, server will not restart during Defend missions (Classic & Insurgency).
+- [TWEAKED] Added realistic AAA defense props to Destroyer ship.
+- [TWEAKED] Added AI-compatible helipad to Destroyer ship to facilitate AI helicopter landings.
+- [TWEAKED] Enemy have fewer advanced AT missile specialists in AO.
+- [TWEAKED] Server will inform player when they have been added to whitelist for leaderboards performance.
+- [TWEAKED] Removed scripted Medevac AO task (players can still call for medevac).
+- [TWEAKED] Added FPS indicator for Zeus spawning when server FPS is low.
+- [TWEAKED] Terrain radio towers removed at mission start when gamemode has radio towers as objectives.
+- [TWEAKED] HMG towers now use CSAT gunners instead of LDF.
+- [TWEAKED] Added a few props to Kavala mission.
+- [TWEAKED] (Classic) Enemy Commander now able to call in Fire Support (even outside the AO) on receiving intel.
+- [TWEAKED] (Classic) Enemy Commander "beret collector" leaderboard. Take his hat!
+- [TWEAKED] (Classic) Enemy Commander has a little extra health.
+- [TWEAKED] Enemy recon units get their black helmets back.
+- [TWEAKED] Players are now able to access the upper deck on the USS Liberty Destroyer (Ship).
+- [TWEAKED] Vehicles which carry Vehicle-Ammo will have a harder time remaining stealthy.
+- [TWEAKED] Framework now uses new dedicated .vars file for saving persistent mission data.
+- [TWEAKED] Player-created landmines should not despawn.
+- [TWEAKED] Fuel consumption module.
+- [TWEAKED] Zeus can now give waypoints to non-local groups (limited functionality for network reasons).
+- [TWEAKED] (Classic) Added statistics data for AOs: average duration + average player count by AO location.
+- [TWEAKED] Added some new national flag Insignia patches to Area-51.
+- [FIXED] Weekly leaderboard was not correctly adding top performers to weekly whitelist.
+- [FIXED] Random vehicles in AO could spawn inside other mission-placed compositions.
+- [FIXED] Player respawning on a Ship could fall below geometry into water (can still occur occasionally).
+- [FIXED] Animals were gathering on beaches instead of further inland.
+- [FIXED] Enemy were not throwing smokes/frags when they should have been (still WIP).
+- [FIXED] Enemy Viper teams could spawn under rocks.
+- [FIXED] Player could be reported for friendly-fire by Robocop on server connection.
+- [FIXED] 'Help IDAP' side mission could glitch out and medical supplies end up underwater and unretrievable.
+- [FIXED] Server FPS marker was disappearing for admins.
+- [FIXED] Some objectives could spawn on top of each other
+- [FIXED] Player could fire a weapon while captive/invincible/incapacitated.
+- [FIXED] Night illumination fires should no longer despawn before AO+Defend is complete
+- [KNOWN BUG] Enemy helicopter can stop moving when given a fire mission.
+- [KNOWN BUG] AI medics jump out to revive nearby players even when in Crew seats.
+
+	Notes: 
+
+		- 4+ headless clients are supported. They must be on same local network as Server to achieve improved session performance.
+		- New AO statistics available with: (missionProfileNamespace getvariable 'QS_statistics_classic_aoDuration'). You will be able to see which AOs are too easy/hard and adjust accordingly (dynamic AI skill).
+		- Commander only currently able to call in Mortars for Fire Support. Future plans for many exotic types of fire support.
+		- I removed the enemy patrols starting in "safe" mode, now they start in "aware" mode.
+		- Enemies respawning in towns can only do so in buildings already occupied by enemy.
+		- Zeus can create a scripted Capture task. Simply spawn a "Fugitive" class civilian and remote control him. Spawn him in "Gitmo" prison for orange jump suit. There are plans for future script-assist Zeus missions.
+
 1.2.0 (30/04/2022 A3 2.08)
-
-Overview: 
-
-First update after some time away. Areas of focus are key bug fixes, script optimisations, and gameplay ergonomics tweaks.
 
 - [ADDED] (Options Menu) Option to hide 3D group hexagons.
 - [ADDED] (Options Menu) Option to hide extended system chat messages (battleye chat spam).
@@ -89,7 +158,6 @@ First update after some time away. Areas of focus are key bug fixes, script opti
 - [FIXED] AI units have ammo for incorrect gun (leaving limited space for ammo for correct gun).
 - [FIXED] Missions spawning outside map area (Livonia)
 - [FIXED] Script error in Sector Control mode, causing some AI to become invincible.
-
 
 1.1.7 "Contact" (23/07/2019 A3 1.94)
 

@@ -24,7 +24,7 @@ if (_t getVariable ['QS_unit_needsStabilise',FALSE]) exitWith {
 	50 cutText ['Unit needs to be stabilised','PLAIN',0.3];
 };
 if (_t isKindOf 'CAManBase') then {
-	if (!((currentWeapon player) isEqualTo '')) then {
+	if ((currentWeapon player) isNotEqualTo '') then {
 		_onProgress = {
 			FALSE
 		};
@@ -35,9 +35,9 @@ if (_t isKindOf 'CAManBase') then {
 			if (!alive _unit) then {_c = TRUE;};
 			if ((player distance2D _position) > 4) then {_c = TRUE;};
 			if (!isNull (attachedTo _unit)) then {_c = TRUE};
-			if (!((lifeState _unit) isEqualTo 'INCAPACITATED')) then {_c = TRUE;};
+			if ((lifeState _unit) isNotEqualTo 'INCAPACITATED') then {_c = TRUE;};
 			if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_c = TRUE;};
-			if ((!(_unit isEqualTo cursorObject)) && (!(_unit isEqualTo cursorTarget))) then {_c = TRUE;};
+			if ((_unit isNotEqualTo cursorObject) && (_unit isNotEqualTo cursorTarget)) then {_c = TRUE;};
 			if (!isNull (objectParent player)) then {_c = TRUE;};
 			if (!isNull (objectParent _unit)) then {_c = TRUE;};
 			_c;
@@ -69,7 +69,7 @@ if (_t isKindOf 'CAManBase') then {
 	if ([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) then {
 		if ([4,_t,(vehicle player)] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) then {
 			if ((stance player) isEqualTo 'STAND') then {
-				if (!((currentWeapon player) isEqualTo '')) then {
+				if ((currentWeapon player) isNotEqualTo '') then {
 					player setVariable ['QS_RD_holsteredWeapon',(currentWeapon player),FALSE];
 					player action ['SwitchWeapon',player,player,100];
 					uiSleep 0.1;
@@ -85,18 +85,18 @@ if (_t isKindOf 'CAManBase') then {
 					if ((player distance2D _position) > 4) then {_c = TRUE;};
 					if (!isNull (attachedTo _entity)) then {_c = TRUE};
 					if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_c = TRUE;};
-					if ((!(_entity isEqualTo cursorObject)) && (!(_entity isEqualTo cursorTarget))) then {_c = TRUE;};
+					if ((_entity isNotEqualTo cursorObject) && (_entity isNotEqualTo cursorTarget)) then {_c = TRUE;};
 					if (!isNull (objectParent player)) then {_c = TRUE;};
 					if (!isNull (objectParent _entity)) then {_c = TRUE;};
-					if (!((stance player) isEqualTo 'STAND')) then {_c = TRUE;};
-					if (!((currentWeapon player) isEqualTo '')) then {_c = TRUE;};
+					if ((stance player) isNotEqualTo 'STAND') then {_c = TRUE;};
+					if ((currentWeapon player) isNotEqualTo '') then {_c = TRUE;};
 					_c;
 				};
 				_onCompleted = {
 					params ['_entity'];
 					player forceWalk TRUE;
 					_entity attachTo [player,[0,0.5,1.1]];
-					if ((toLower (typeOf _entity)) in [
+					if ((toLowerANSI (typeOf _entity)) in [
 						"land_plasticcase_01_medium_gray_f",
 						"land_plasticcase_01_medium_idap_f",
 						"land_plasticcase_01_small_gray_f",
@@ -119,8 +119,8 @@ if (_t isKindOf 'CAManBase') then {
 						private _exit = FALSE;
 						for '_x' from 0 to 1 step 0 do {
 							if (!(_entity in (attachedObjects player))) exitWith {};
-							if (!((stance player) isEqualTo 'STAND')) then {_exit = TRUE;};
-							if (!((currentWeapon player) isEqualTo '')) then {_exit = TRUE;};
+							if ((stance player) isNotEqualTo 'STAND') then {_exit = TRUE;};
+							if ((currentWeapon player) isNotEqualTo '') then {_exit = TRUE;};
 							if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_exit = TRUE;};
 							if (_exit) exitWith {
 								50 cutText ['Released','PLAIN DOWN',0.3];
@@ -128,10 +128,10 @@ if (_t isKindOf 'CAManBase') then {
 								player forceWalk FALSE;
 								if (_entity call (missionNamespace getVariable 'QS_fnc_isBoundingBoxIntersected')) then {
 									_position = (position player) findEmptyPosition [0,10,(typeOf _entity)];
-									if (!(_position isEqualTo [])) then {
+									if (_position isNotEqualTo []) then {
 										_entity setVectorUp (surfaceNormal _position);
 										_entity setPos _position; /*/maybe setvehicleposition?/*/
-										_entity allowDamage (_entity getVariable ['QS_isDamageAllowed',TRUE]);
+										_entity allowDamage FALSE;
 										50 cutText ['Released','PLAIN DOWN',0.3];
 									};
 								};

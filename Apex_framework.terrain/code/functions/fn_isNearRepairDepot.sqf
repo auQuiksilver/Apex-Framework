@@ -47,7 +47,7 @@ if (_list isNotEqualTo []) then {
 		if ((_cameraOn distance2D _x) < _radius) then {
 			if (!isNull _x) then {
 				if (isSimpleObject _x) then {
-					if ((toLower ((getModelInfo _x) # 1)) in [
+					if ((toLowerANSI ((getModelInfo _x) # 1)) in [
 						'a3\structures_f_tank\military\repairdepot\repairdepot_01_civ_f.p3d',
 						'a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d',
 						'a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d'

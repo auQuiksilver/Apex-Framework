@@ -15,19 +15,19 @@ __________________________________________________________*/
 
 disableSerialization;
 private ['_supporterLevel','_list','_type','_supporterAccess','_displayName','_texture','_index','_display','_toolTip','_author'];
-_type = _this select 0;
-_display = _this select 1;
+_type = _this # 0;
+_display = _this # 1;
 
 _supporterLevel = [] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel');
 _list = [] call (missionNamespace getVariable 'QS_Insignia');
 
 if (_type isEqualTo 'onLoad') then {
 	{
-		_supporterAccess = _x select 0;
-		_displayName = _x select 1;
-		_texture = _x select 2;
-		_toolTip = _x select 3;
-		_author = _x select 4;
+		_supporterAccess = _x # 0;
+		_displayName = _x # 1;
+		_texture = _x # 2;
+		_toolTip = _x # 3;
+		_author = _x # 4;
 		lbAdd [1804,_displayName];
 		lbSetPicture [1804,_forEachIndex,_texture];
 		lbSetTooltip [1804,_forEachIndex,_toolTip];
@@ -43,14 +43,14 @@ private _text = '';
 if (_type isEqualTo 'Select') then {
 	_index = lbCurSel 1804;
 	if (!(_index isEqualTo -1)) then {
-		_supporterAccess = (_list select _index) select 0;
-		_displayName = (_list select _index) select 1;
-		_texture = (_list select _index) select 2;
+		_supporterAccess = (_list # _index) # 0;
+		_displayName = (_list # _index) # 1;
+		_texture = (_list # _index) # 2;
 		if (_supporterAccess <= _supporterLevel) then {
 			[_texture] call (missionNamespace getVariable 'QS_fnc_clientSetUnitInsignia');
 			player setVariable ['QS_ClientUnitInsignia2',_texture,FALSE];
-			profileNamespace setVariable ['QS_ClientUnitInsignia2',_texture];
-			saveProfileNamespace;
+			missionProfileNamespace setVariable ['QS_ClientUnitInsignia2',_texture];
+			saveMissionProfileNamespace;
 			_text = format ['Insignia Set: %1',_displayName];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],(serverTime + 10)];
 		} else {

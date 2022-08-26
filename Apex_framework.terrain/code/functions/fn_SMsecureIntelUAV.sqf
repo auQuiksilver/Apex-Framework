@@ -13,8 +13,8 @@ Description:
 	Secure Intel from a crashed UAV
 	
 To do:
-
-	Don't spawn the UAV until players are < 100m, to hide from magic map
+	
+	Check for "swimInDepth" issues when transferring to Headless Client
 ___________________________________________________________*/
 
 scriptName 'Side Mission - Secure Intel UAV';
@@ -33,19 +33,19 @@ _index = 0;
 _QS_fnc_radPos = {
 	private['_pos','_exit','_posX','_posY'];
 	params ['_center','_radius','_angle','_isWater'];
-	_center = _this select 0;
-	_radius = _this select 1;
-	_angle = _this select 2;
-	_isWater = _this select 3;
+	_center = _this # 0;
+	_radius = _this # 1;
+	_angle = _this # 2;
+	_isWater = _this # 3;
 	_exit = FALSE;
 	for '_x' from 0 to 1 step 0 do {
 		_posX = (_radius * (sin _angle));
 		_posY = (_radius * (cos _angle));
-		_pos = [_posX + (_center select 0),_posY + (_center select 1),0];
+		_pos = [_posX + (_center # 0),_posY + (_center # 1),0];
 		if (_isWater) then {
-			if (surfaceIsWater [_pos select 0,_pos select 1]) then {_exit = true} else {_radius = _radius - 1};
+			if (surfaceIsWater [_pos # 0,_pos # 1]) then {_exit = true} else {_radius = _radius - 1};
 		} else {
-			if (!surfaceIsWater [_pos select 0,_pos select 1]) then {_exit = true} else {_radius = _radius - 1};
+			if (!surfaceIsWater [_pos # 0,_pos # 1]) then {_exit = true} else {_radius = _radius - 1};
 		};
 		if (_radius isEqualTo 0) then {_pos = _center;_exit = true};
 		if (_exit) exitWith {};
@@ -55,8 +55,8 @@ _QS_fnc_radPos = {
 for '_x' from 0 to 1 step 0 do {
 	_testPos = [_inset + (random _max),_inset + (random _max),0];
 	if (surfaceIsWater _testPos) then {
-		if (((ASLToATL _testPos) select 2) < 75) then {
-			if (((ASLToATL _testPos) select 2) > 13) then {
+		if (((ASLToATL _testPos) # 2) < 75) then {
+			if (((ASLToATL _testPos) # 2) > 13) then {
 				if (((missionNamespace getVariable 'QS_uavMission_usedPositions') findIf {((_testPos distance2D _x) < 300)}) isEqualTo -1) then {
 					if (missionNamespace getVariable 'QS_module_fob_enabled') then {
 						if ((_testPos distance (markerPos 'QS_marker_module_fob')) > 1000) then {
@@ -69,7 +69,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
-	if (!(_safePos isEqualTo [])) exitWith {};
+	if (_safePos isNotEqualTo []) exitWith {};
 	sleep 0.1;
 };
 missionNamespace setVariable [
@@ -77,14 +77,9 @@ missionNamespace setVariable [
 	((missionNamespace getVariable 'QS_uavMission_usedPositions') + [_safePos]),
 	FALSE
 ];
-_safePosATL = [(_safePos select 0),(_safePos select 1),(getTerrainHeightASL _safePos)];
+_safePosATL = [(_safePos # 0),(_safePos # 1),(getTerrainHeightASL _safePos)];
 _uavTypes = ['O_T_UAV_04_CAS_F','O_UAV_02_F','O_T_UAV_04_CAS_F'];
 _uav = createVehicle [(selectRandom _uavTypes),[0,0,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _uav setVariable ['QS_uav_protected',TRUE,TRUE];
 _uav setVariable ['QS_hidden',TRUE,TRUE];
 _uav setDamage 0.75;
@@ -93,7 +88,7 @@ _uav enableRopeAttach FALSE;
 _uav enableVehicleCargo FALSE;
 _uav setFuel 0;
 _uav setVehicleAmmo 0;
-(allUnits select 0) action ['LandGearUp',_uav];
+(allUnits # 0) action ['LandGearUp',_uav];
 _uav setPosASL _safePos;
 for '_x' from 0 to 2 step 1 do {
 	_uav setVariable ['QS_secureable',TRUE,TRUE];
@@ -106,7 +101,7 @@ _enemiesCheckDelay = time + 30;
 _signalPulseCheckDelay = time + 20;
 _endTimeBroadcastDelay = time + 30;
 _foundPos = FALSE;
-_fuzzyPos = [((_safePos select 0) - 300) + (random 600),((_safePos select 1) - 300) + (random 600),0];
+_fuzzyPos = [((_safePos # 0) - 300) + (random 600),((_safePos # 1) - 300) + (random 600),0];
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
@@ -189,7 +184,7 @@ for '_x' from 0 to 1 step 0 do {
 				0 = _arrayToSend pushBack (owner _x);
 			};
 		} count allPlayers;
-		if (!(_arrayToSend isEqualTo [])) then {
+		if (_arrayToSend isNotEqualTo []) then {
 			[0,_safePosATL,300] remoteExec ['QS_fnc_signalStrength',_arrayToSend,FALSE];
 		};
 		_signalPulseCheckDelay = time + 15;
@@ -201,14 +196,10 @@ for '_x' from 0 to 1 step 0 do {
 			for '_x' from 0 to 1 step 1 do {
 				_diverType = selectRandom _diverTypes;
 				_unit = _grp createUnit [_diverType,(getPosWorld _uav),[],0,'NONE'];
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
 				0 = _enemiesArray pushBack _unit;
 				_unit swimInDepth (getTerrainHeightASL _safePos);
 				_unit enableStamina FALSE;
+				_unit setVariable ['QS_hidden',TRUE,TRUE];
 				{
 					if (_x in ['HandGrenade','MiniGrenade']) then {
 						_unit removeMagazine _x;
@@ -216,6 +207,7 @@ for '_x' from 0 to 1 step 0 do {
 				} forEach (magazines _unit);
 			};
 			_grp setFormDir (random 360);
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		};
 	};
@@ -235,12 +227,8 @@ for '_x' from 0 to 1 step 0 do {
 			for '_x' from 0 to 1 step 1 do {
 				_diverType = selectRandom _diverTypes;
 				_unit = _grp createUnit [_diverType,_checkPos,[],0,'FORM'];
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
 				_unit enableStamina FALSE;
+				_unit setVariable ['QS_hidden',TRUE,TRUE];
 				0 = _enemiesArray pushBack _unit;
 				_unit swimInDepth (getTerrainHeightASL _safePos);
 				{
@@ -252,14 +240,15 @@ for '_x' from 0 to 1 step 0 do {
 			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');	
 			for '_x' from 0 to 2 step 1 do {
 				_relPos = [_safePos,(100 + (random 200)),(random 360),TRUE] call _QS_fnc_radPos;
-				_patrolRoute pushBack [_relPos select 0,_relPos select 1,(getTerrainHeightASL (getPosWorld ((units _grp) select 0)))];
+				_patrolRoute pushBack [_relPos # 0,_relPos # 1,(getTerrainHeightASL (getPosWorld ((units _grp) # 0)))];
 			};
-			_patrolRoute pushBack [((getPosWorld _unit) select 0),((getPosWorld _unit) select 1),(getTerrainHeightASL (getPosWorld ((units _grp) select 0)))];
-			_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_patrolRoute pushBack [((getPosWorld _unit) # 0),((getPosWorld _unit) # 1),(getTerrainHeightASL (getPosWorld ((units _grp) # 0)))];
+			_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		};
 		_enemiesCheckDelay = time + 30;
 	};

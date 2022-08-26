@@ -13,11 +13,11 @@ Description:
 	-
 _____________________________________________________________*/
 
-(_this select 3) params [
+(_this # 3) params [
 	'_vehicle',
 	'_value'
 ];
-_vt = toLower (typeOf _vehicle);
+_vt = toLowerANSI (typeOf _vehicle);
 _animateDoor = [
 	'b_heli_transport_01_f','b_heli_transport_01_camo_f','o_heli_attack_02_f','o_heli_attack_02_black_f',
 	'b_heli_transport_03_f','b_heli_transport_03_unarmed_f','b_heli_transport_03_unarmed_green_f','i_heli_transport_02_f','c_idap_heli_transport_02_f',

@@ -21,16 +21,11 @@ if (_type isEqualTo 0) then {
 	_logicGrp = createGroup [sideLogic,TRUE];
 	_logicGrp setVariable ['isCuratorModuleGroup',TRUE,TRUE];
 	_module = _logicGrp createUnit ['ModuleCurator_F',[-1000,-1000,0],[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	_module setSkill 0;
 	_module allowDamage FALSE;
 	_module enableStamina FALSE;
 	_module enableFatigue FALSE;
-	_module disableAI 'ALL';
+	_module enableAIFeature ['ALL',FALSE];
 	_module addCuratorPoints 1;
 	_module setVehicleVarName (format ['%1',(name _client)]);
 	{
@@ -148,16 +143,17 @@ if (_type isEqualTo 1) then {
 			['curatorObjectPlaced',{call (missionNamespace getVariable 'BIS_fnc_curatorObjectPlaced');}],
 			['curatorObjectEdited',{call (missionNamespace getVariable 'BIS_fnc_curatorObjectEdited');}],
 			['curatorWaypointPlaced',{call (missionNamespace getVariable 'BIS_fnc_curatorWaypointPlaced');}],
-			['curatorObjectDoubleClicked',{(_this select 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
-			['curatorGroupDoubleClicked',{(_this select 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
-			['curatorWaypointDoubleClicked',{(_this select 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
-			['curatorMarkerDoubleClicked',{(_this select 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
-			['curatorGroupPlaced',(missionNamespace getVariable 'QS_fnc_clientEventCuratorGroupPlaced')],
-			['curatorMarkerPlaced',(missionNamespace getVariable 'QS_fnc_clientEventCuratorMarkerPlaced')],
-			['curatorObjectPlaced',(missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectPlaced')],
-			['curatorObjectRegistered',(missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectRegistered')],
-			['curatorObjectDeleted',(missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectDeleted')],
-			['curatorWaypointPlaced',(missionNamespace getVariable 'QS_fnc_clientEventCuratorWaypointPlaced')]
+			['curatorObjectDoubleClicked',{(_this # 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
+			['curatorGroupDoubleClicked',{(_this # 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
+			['curatorWaypointDoubleClicked',{(_this # 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
+			['curatorMarkerDoubleClicked',{(_this # 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
+			['curatorGroupPlaced',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorGroupPlaced')}],
+			['curatorMarkerPlaced',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorMarkerPlaced')}],
+			['curatorObjectPlaced',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectPlaced')}],
+			['curatorObjectRegistered',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectRegistered')}],
+			['curatorObjectDeleted',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectDeleted')}],
+			['curatorWaypointEdited',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorWaypointEdited')}],
+			['curatorWaypointPlaced',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorWaypointPlaced')}]
 		];
 		[_module,[-1,-2,0]] call (missionNamespace getVariable 'BIS_fnc_setCuratorVisionModes');	
 		{
@@ -166,7 +162,7 @@ if (_type isEqualTo 1) then {
 			['QS_curator_modules',[],TRUE],
 			['QS_curator_markers',[],TRUE]
 		];
-		_module disableAI 'ALL';
+		_module enableAIFeature ['ALL',FALSE];
 		private _actionID = -1;
 		if (!isNil {missionNamespace getVariable 'QS_airdefense_laptop'}) then {
 			if (!isNull (missionNamespace getVariable 'QS_airdefense_laptop')) then {
@@ -203,14 +199,14 @@ if (_type isEqualTo 1) then {
 					5,
 					FALSE
 				];
-				_laptop setUserActionText [_actionID,((_laptop actionParams _actionID) select 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID) select 0)])];
+				_laptop setUserActionText [_actionID,((_laptop actionParams _actionID) # 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID) # 0)])];
 				_actionID2 = _laptop addAction [
 					'Suspend primary missions',
 					{
 						params ['_actionTarget','','_actionID',''];
 						private ['_result'];
 						
-						if (!((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'NONE')) then {
+						if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isNotEqualTo 'NONE') then {
 							if (!(missionNamespace getVariable ['QS_customAO_GT_active',FALSE])) then {
 								if (!(missionNamespace getVariable 'QS_aoSuspended')) then {
 									_result = ['Suspend primary missions','Primary missions','Suspend','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
@@ -248,13 +244,13 @@ if (_type isEqualTo 1) then {
 					5,
 					FALSE
 				];
-				_laptop setUserActionText [_actionID2,((_laptop actionParams _actionID2) select 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID2) select 0)])];
+				_laptop setUserActionText [_actionID2,((_laptop actionParams _actionID2) # 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID2) # 0)])];
 				_actionID3 = _laptop addAction [
 					'Cycle primary mission',
 					{
 						params ['_actionTarget','','_actionID',''];
 						private ['_result'];
-						if (!((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'NONE')) then {
+						if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isNotEqualTo 'NONE') then {
 							if (!(missionNamespace getVariable ['QS_customAO_GT_active',FALSE])) then {
 								if (diag_tickTime < (player getVariable ['QS_client_aoCycleCooldown',-1])) exitWith {
 									50 cutText [(format ['Too soon, please wait %1s',(round((player getVariable ['QS_client_aoCycleCooldown',-1]) - diag_tickTime))]),'PLAIN',0.5];
@@ -288,12 +284,16 @@ if (_type isEqualTo 1) then {
 					5,
 					FALSE
 				];
-				_laptop setUserActionText [_actionID3,((_laptop actionParams _actionID3) select 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID3) select 0)])];
+				_laptop setUserActionText [_actionID3,((_laptop actionParams _actionID3) # 0),(format ["<t size='3'>%1</t>",((_laptop actionParams _actionID3) # 0)])];
 			};
 		};
 		calculatePlayerVisibilityByFriendly TRUE;
-		player enableAI 'ALL';
+		player enableAIFeature ['ALL',TRUE];
 		disableRemoteSensors FALSE;
+		
+		//===== Zeus script to handle some stuff
+		
+		private _cameraOn = objNull;
 		private _entity = objNull;
 		private _nearUnits = [];
 		private _nearUnitsIncapacitated = [];
@@ -308,7 +308,7 @@ if (_type isEqualTo 1) then {
 		private _prioritise = [];
 		private _job = FALSE;
 		for '_z' from 0 to 1 step 0 do {
-			uiSleep 2.5;
+			uiSleep 1;
 			_time = diag_tickTime;
 			{
 				if (!isPlayer _x) then {
@@ -371,14 +371,14 @@ if (_type isEqualTo 1) then {
 																		((alive (_unit getVariable ['QS_AI_JOB_PROVIDER',objNull])) && {(((_unit getVariable ['QS_AI_JOB_PROVIDER',objNull]) distance _unit) > 15)})
 																	) then {
 																		_job = TRUE;
-																		_entity disableAI 'AUTOCOMBAT';
-																		_entity disableAI 'TARGET';
-																		_entity disableAI 'SUPPRESSION';
+																		_entity enableAIFeature ['AUTOCOMBAT',FALSE];
+																		_entity enableAIFeature ['TARGET',FALSE];
+																		_entity enableAIFeature ['SUPPRESSION',FALSE];
 																		_entity addEventHandler [
 																			'Hit',
 																			{
-																				(_this # 0) enableAI 'TARGET';
-																				(_this # 0) enableAI 'SUPPRESSION';
+																				(_this # 0) enableAIFeature ['TARGET',TRUE];
+																				(_this # 0) enableAIFeature ['SUPPRESSION',TRUE];
 																				(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
 																			}
 																		];
@@ -444,7 +444,12 @@ if (_type isEqualTo 1) then {
 												if ((_entity distance _jobTarget) < 50) then {
 													if (!isNull (objectParent _entity)) then {
 														if (((vectorMagnitude (velocity (objectParent _entity))) * 3.6) < 2) then {
-															moveOut _entity;
+															if (
+																((assignedVehicleRole _entity) isNotEqualTo []) && 
+																{(((assignedVehicleRole _entity) # 0) isEqualTo 'cargo')}
+															) then {
+																moveOut _entity;
+															};
 														};
 													};
 												};
@@ -455,6 +460,7 @@ if (_type isEqualTo 1) then {
 														};
 													} else {
 														doStop _entity;
+														uiSleep 0.1;
 														_entity doMove (getPosATL _jobTarget);
 													};
 												} else {
@@ -495,8 +501,8 @@ if (_type isEqualTo 1) then {
 															_entity setVariable ['QS_AI_JOB_DATA',[],FALSE];
 															_jobTarget setVariable ['QS_AI_JOB_PROVIDER',objNull,FALSE];
 														};
-														_entity disableAI 'AUTOCOMBAT';
-														_entity enableAI 'TARGET';
+														_entity enableAIFeature ['AUTOCOMBAT',FALSE];
+														_entity enableAIFeature ['TARGET',TRUE];
 														_jobData set [3,_jobScript];
 													};
 												};
@@ -515,6 +521,31 @@ if (_type isEqualTo 1) then {
 					};
 				};
 			} forEach allUnits;
+			if ((inputAction 'User14') > 0) then {
+				_cameraOn = cameraOn;
+				if (
+					(alive _cameraOn) &&
+					{(local _cameraOn)} &&
+					{(!unitIsUAV _cameraOn)} &&
+					{(
+						(_cameraOn isKindOf 'Plane') ||
+						(_cameraOn isKindOf 'Helicopter') ||
+						(_cameraOn isKindOf 'LandVehicle') ||
+						(_cameraOn isKindOf 'Ship')
+					)}
+				) then {
+					{
+						if (
+							(alive _x) &&
+							{(!(isPlayer _x))} &&
+							{(!(_x isEqualTo (currentPilot _cameraOn)))}
+						) then {
+							moveOut _x;
+						};
+					} forEach (crew _cameraOn);
+					uiSleep 1;
+				};
+			};
 		};
 	};
 };

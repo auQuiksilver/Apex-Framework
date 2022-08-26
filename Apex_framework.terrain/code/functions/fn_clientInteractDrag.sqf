@@ -19,7 +19,7 @@ if (
 	(!isNull (attachedTo _t)) ||
 	(!isNull (objectParent _t)) ||
 	((!(_t isKindOf 'Man')) && (!([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) && (!(_t getVariable ['QS_RD_draggable',FALSE]))) ||
-	((_t isKindOf 'StaticWeapon') && (!(((crew _t) findIf {(alive _x)}) isEqualTo -1)))
+	((_t isKindOf 'StaticWeapon') && (((crew _t) findIf {(alive _x)}) isNotEqualTo -1))
 ) exitWith {};
 if (_t getVariable ['QS_interaction_disabled',FALSE]) exitWith {
 	50 cutText ['Interaction disabled on this object','PLAIN',0.3];
@@ -47,7 +47,7 @@ if (!local _t) then {
 	[66,TRUE,_t,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 _pos = ((getPosATL player) vectorAdd ((vectorDir player) vectorMultiply 1.5));
-_pos set [2,((_pos select 2) + 0.2)];
+_pos set [2,((_pos # 2) + 0.2)];
 _t setPosATL _pos;
 [_t,player,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
 player playActionNow 'grabDrag';

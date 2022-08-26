@@ -117,6 +117,7 @@ ___________________________________________/*/
 	(localize 'STR_A3_action_useCatapult'),
 	'Initiate Launch Sequence',
 	'Launch',
+	'Retract',
 	'Stabilise',
 	'Inspect',
 	'Self destruct',
@@ -135,5 +136,7 @@ ___________________________________________/*/
 	(if (isLocalized 'STR_A3_action_Recover_Boat') then {localize 'STR_A3_action_Recover_Boat'} else {'Recover boat'}),
 	'Role Selection',
 	'Set Cruise Control',
-	'Take controls'
+	'Take controls',
+	'Open Parachute',
+	'Take beret'
 ]

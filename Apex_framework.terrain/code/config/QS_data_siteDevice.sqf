@@ -24,13 +24,13 @@ __________________________________________________________________________*/
 	["Land_Mil_WallBig_4m_F",[2.28101,6.12842,-0.0119424],179.202,[],false,true,true,{}], 
 	["Land_Mil_WallBig_4m_F",[1.28442,-6.35986,-0.0119424],269.976,[],false,true,true,{}], 
 	["Land_Device_disassembled_F",[-3.46094,-6.25244,0],89.6436,[],false,true,false,{
-		missionNamespace setVariable ['QS_module_upload_device',(_this select 0),TRUE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_module_upload_device',(_this # 0),TRUE];
+		(_this # 0);
 	}], 
 	["Land_Mil_WallBig_4m_F",[7.45142,1.54541,-0.0119424],269.976,[],false,true,true,{}], 
 	["Flag_White_F",[0.0505371,-7.56104,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_module_upload_flag',(_this select 0),TRUE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_module_upload_flag',(_this # 0),TRUE];
+		(_this # 0);
 	}], 
 	["Land_Mil_WallBig_4m_F",[-7.73364,-0.162109,-0.0119424],89.911,[],false,true,true,{}], 
 	["Land_PaperBox_closed_F",[5.79419,4.40186,0],130.722,[],false,true,true,{}], 

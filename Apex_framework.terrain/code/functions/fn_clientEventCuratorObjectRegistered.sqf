@@ -17,7 +17,7 @@ params ['_module','_input'];
 [_module,_input] spawn {
 	scriptName 'QS EventCuratorObjectRegistered';
 	waitUntil {(!isNull (findDisplay 312))};
-	if (!(commandingMenu isEqualTo '')) then {
+	if (commandingMenu isNotEqualTo '') then {
 		showCommandingMenu '';
 	};
 	(findDisplay 312) displayAddEventHandler ['KeyDown',{call (missionNamespace getVariable ['QS_fnc_clientEventCuratorKeyDown',{}]);}];
@@ -30,9 +30,9 @@ params ['_module','_input'];
 				{
 					curatorCamera camCommand _x;
 				} forEach [
-				'maxPitch 89',
-				'minPitch -89',
-				'ceilingHeight 10000'			
+					'maxPitch 89',
+					'minPitch -89',
+					'ceilingHeight 10000'
 				];
 			};
 		} else {

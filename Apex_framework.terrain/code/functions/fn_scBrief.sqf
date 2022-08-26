@@ -74,32 +74,32 @@ if (_type isEqualTo 1) exitWith {
 		'QS_marker_aoCircle',
 		'QS_marker_aoMarker'
 	];
-	if (!((missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') isNotEqualTo []) then {
 		{
 			_x setMarkerColor 'ColorOPFOR';
 			_x setMarkerAlpha 0.5;
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_sub_1_markers');
 	};
-	if (!((missionNamespace getVariable 'QS_virtualSectors_sub_2_markers') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_virtualSectors_sub_2_markers') isNotEqualTo []) then {
 		{
 			_x setMarkerColor 'ColorOPFOR';
 			_x setMarkerAlpha 0.5;
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_sub_2_markers');
 	};
-	if (!((missionNamespace getVariable 'QS_virtualSectors_sub_3_markers') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_virtualSectors_sub_3_markers') isNotEqualTo []) then {
 		{
 			_x setMarkerColor 'ColorOPFOR';
 			_x setMarkerAlpha 0.5;
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_sub_3_markers');
 	};
-	if (!((missionNamespace getVariable 'QS_ao_aaMarkers') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_ao_aaMarkers') isNotEqualTo []) then {
 		{
 			if (_x in allMapMarkers) then {
 				_x setMarkerAlpha 0.5;
 			};
 		} forEach (missionNamespace getVariable 'QS_ao_aaMarkers');
 	};
-	if (!((missionNamespace getVariable 'QS_virtualSectors_siteMarkers') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_virtualSectors_siteMarkers') isNotEqualTo []) then {
 		{
 			_x setMarkerAlpha 0.5;
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_siteMarkers');

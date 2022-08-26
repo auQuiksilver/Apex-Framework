@@ -25,8 +25,8 @@ _weapons = [];
 		_weaponClass = _x;
 		_weaponData = _weaponClass call bis_fnc_itemType;
 		if ((count _weaponData) isEqualTo 2) then {
-			_weaponGroup = _weaponData select 0;
-			_weaponType  = _weaponData select 1;
+			_weaponGroup = _weaponData # 0;
+			_weaponType  = _weaponData # 1;
 
 			if (_weaponGroup == "VehicleWeapon" && {_weaponType in ["MachineGun","RocketLauncher","GrenadeLauncher"]}) then {
 				_weapons pushBack _weaponClass;

@@ -38,11 +38,11 @@ _minFast = _min + 5;
 _maxFast = _max - 5;
 private _ropeLength = 0;
 if (_type isEqualTo 'UP') then {
-	if (!((ropes _vehicle) isEqualTo [])) then {
+	if ((ropes _vehicle) isNotEqualTo []) then {
 		if (!isNull _slingLoad) then {
 			if (!(_slingLoad in (attachedObjects _vehicle))) then {
 				private _attached = FALSE;
-				_loadIntersected = !((lineIntersectsSurfaces [(getPosASL _slingLoad),((getPosASL _slingLoad) vectorAdd [0,0,5]),_slingLoad,objNull,TRUE,1,'GEOM','GEOM',TRUE]) isEqualTo []);
+				_loadIntersected = (lineIntersectsSurfaces [(getPosASL _slingLoad),((getPosASL _slingLoad) vectorAdd [0,0,5]),_slingLoad,objNull,TRUE,1,'GEOM','GEOM',TRUE]) isNotEqualTo [];
 				{
 					_ropeLength = ropeLength _x;
 					if (_ropeLength > _min) then {
@@ -69,11 +69,11 @@ if (_type isEqualTo 'UP') then {
 	};
 };
 if (_type isEqualTo 'DOWN') then {
-	if (!((ropes _vehicle) isEqualTo [])) then {
+	if ((ropes _vehicle) isNotEqualTo []) then {
 		if (!isNull _slingLoad) then {
 			if (!(_slingLoad in (attachedObjects _vehicle))) then {
 				_isTouchingGround = isTouchingGround _vehicle;
-				_loadIntersected = !((lineIntersectsSurfaces [(getPosASL _slingLoad),((getPosASL _slingLoad) vectorAdd [0,0,-5]),_slingLoad,objNull,TRUE,1,'GEOM','GEOM',TRUE]) isEqualTo []);
+				_loadIntersected = (lineIntersectsSurfaces [(getPosASL _slingLoad),((getPosASL _slingLoad) vectorAdd [0,0,-5]),_slingLoad,objNull,TRUE,1,'GEOM','GEOM',TRUE]) isNotEqualTo [];
 				{
 					_ropeLength = ropeLength _x;
 					if (_ropeLength < ([_max,10] select _isTouchingGround)) then {
@@ -83,7 +83,7 @@ if (_type isEqualTo 'DOWN') then {
 				} forEach (ropes _vehicle);
 			} else {
 				// Check bounding box intersection here for obstructions
-				_attachCoordinates set [2,((_attachCoordinates select 2) - ([1,0.1] select (isTouchingGround _vehicle)))];
+				_attachCoordinates set [2,((_attachCoordinates # 2) - ([1,0.1] select (isTouchingGround _vehicle)))];
 				_slingLoad attachTo [_vehicle,_attachCoordinates];
 				[_vehicle,_slingLoad,_slingData] spawn {
 					params ['_vehicle','_slingLoad','_slingData'];
@@ -96,7 +96,7 @@ if (_type isEqualTo 'DOWN') then {
 					uiSleep 0.2;
 					_vehicle enableCollisionWith _slingLoad;
 					_slingLoad enableCollisionWith _vehicle;
-					if (!((ropes _vehicle) isEqualTo [])) then {
+					if ((ropes _vehicle) isNotEqualTo []) then {
 						{
 							ropeUnwind [_x,5,(_min + 0.1),FALSE];
 						} forEach (ropes _vehicle);
@@ -178,15 +178,15 @@ if ('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
 							1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)
 						]
 					] select ('SlingLoadDisplay' in (infoPanel 'right'));
-					if (!( (ctrlPosition ((findDisplay 46) displayCtrl 31080)) isEqualTo _ctrlPosition)) then {
+					if ((ctrlPosition ((findDisplay 46) displayCtrl 31080)) isNotEqualTo _ctrlPosition) then {
 						((findDisplay 46) displayCtrl 31080) ctrlSetPosition _ctrlPosition;
 						((findDisplay 46) displayCtrl 31080) ctrlCommit 0;
 					};
-					if (!( (ctrlPosition ((findDisplay 46) displayCtrl 31081)) isEqualTo _ctrlPosition)) then {
+					if ((ctrlPosition ((findDisplay 46) displayCtrl 31081)) isNotEqualTo _ctrlPosition) then {
 						((findDisplay 46) displayCtrl 31081) ctrlSetPosition _ctrlPosition;
 						((findDisplay 46) displayCtrl 31081) ctrlCommit 0;
 					};
-					if (!( (ctrlPosition ((findDisplay 46) displayCtrl 31082)) isEqualTo _ctrlPosition)) then {
+					if ((ctrlPosition ((findDisplay 46) displayCtrl 31082)) isNotEqualTo _ctrlPosition) then {
 						((findDisplay 46) displayCtrl 31082) ctrlSetPosition _ctrlPosition;
 						((findDisplay 46) displayCtrl 31082) ctrlCommit 0;
 					};
@@ -212,13 +212,13 @@ if ('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
 				1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)
 			]
 		] select ('SlingLoadDisplay' in (infoPanel 'right'));
-		if (!( (ctrlPosition ((findDisplay 46) displayCtrl 31080)) isEqualTo _ctrlPosition)) then {
+		if ( (ctrlPosition ((findDisplay 46) displayCtrl 31080)) isNotEqualTo _ctrlPosition) then {
 			((findDisplay 46) displayCtrl 31080) ctrlSetPosition _ctrlPosition;
 		};
-		if (!( (ctrlPosition ((findDisplay 46) displayCtrl 31081)) isEqualTo _ctrlPosition)) then {
+		if ( (ctrlPosition ((findDisplay 46) displayCtrl 31081)) isNotEqualTo _ctrlPosition) then {
 			((findDisplay 46) displayCtrl 31081) ctrlSetPosition _ctrlPosition;
 		};
-		if (!( (ctrlPosition ((findDisplay 46) displayCtrl 31082)) isEqualTo _ctrlPosition)) then {
+		if ( (ctrlPosition ((findDisplay 46) displayCtrl 31082)) isNotEqualTo _ctrlPosition) then {
 			((findDisplay 46) displayCtrl 31082) ctrlSetPosition _ctrlPosition;
 		};
 		if (!(ctrlShown ((findDisplay 46) displayCtrl 31080))) then {

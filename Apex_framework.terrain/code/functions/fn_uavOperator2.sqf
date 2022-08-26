@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	4/06/2019 A3 1.94 by Quiksilver
+	7/07/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -34,15 +34,15 @@ _isOwnedJets = 601670 in (getDLCs 1);
 _worldName = worldName;
 _worldSize = worldSize;
 createCenter WEST;
-private _carrierEnabled = (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0));
+private _carrierEnabled = ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0);
 private _uavData = missionNamespace getVariable ['QS_uav_Monitor',[]];
 private _uavLoiterPosition = [0,0,0];
 private _uavRespawnDelay = uiNamespace getVariable ['QS_uavRespawnDelay',-1];
 private _cfgVehicles = configFile >> 'CfgVehicles';
-if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 0)) then {
-	if (!((missionNamespace getVariable ['QS_missionConfig_destroyerArtillery',0]) isEqualTo 0)) then {
+if ((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isNotEqualTo 0) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_destroyerArtillery',0]) isNotEqualTo 0) then {
 		_turrets = (missionNamespace getVariable 'QS_destroyerObject') getVariable ['QS_destroyer_turrets',[]];
-		if (!(_turrets isEqualTo [])) then {
+		if (_turrets isNotEqualTo []) then {
 			private _turret = objNull;
 			{
 				_turret = _x;
@@ -52,6 +52,15 @@ if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isE
 					'Fired',
 					{
 						params ['','','','','','','_projectile',''];
+						if (!isNull (_this # 6)) then {
+							if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg','magazine_shipcannon_120mm_he_shells_x32','magazine_shipcannon_120mm_he_guided_shells_x2','magazine_shipcannon_120mm_he_lg_shells_x2','magazine_missiles_cruise_01_x18']) then {
+								if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+									(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+								} else {
+									(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+								};
+							};
+						};
 						missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
 						missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),TRUE];
 					}
@@ -66,6 +75,15 @@ if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isE
 								'Fired',
 								{
 									params ['','','','','','','_projectile',''];
+									if (!isNull (_this # 6)) then {
+										if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg','magazine_shipcannon_120mm_he_shells_x32','magazine_shipcannon_120mm_he_guided_shells_x2','magazine_shipcannon_120mm_he_lg_shells_x2','magazine_missiles_cruise_01_x18']) then {
+											if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+												(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+											} else {
+												(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+											};
+										};
+									};
 									missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
 									missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),TRUE];
 								}
@@ -115,9 +133,9 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		];
 	};
 };
-if ( (!((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0)) && {(_uavData isEqualTo [])}) exitWith {};
+if (((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isNotEqualTo 0) && {(_uavData isEqualTo [])}) exitWith {};
 if (_carrierEnabled) then {
-	_uavLoiterPosition = [(((getPosWorld (missionNamespace getVariable 'QS_carrierObject')) select 0) + 300),(((getPosWorld (missionNamespace getVariable 'QS_carrierObject')) select 1) + 300),500];
+	_uavLoiterPosition = [(((getPosWorld (missionNamespace getVariable 'QS_carrierObject')) # 0) + 300),(((getPosWorld (missionNamespace getVariable 'QS_carrierObject')) # 1) + 300),500];
 	// Remove excess Falcon drones when Aircraft Carrier is enabled (only 1 can spawn without more config work).
 	private _heliDroneCount = 0;
 	{
@@ -144,7 +162,7 @@ if (_carrierEnabled) then {
 };
 // If player doesnt own Apex DLC, filter out Apex UAVs
 if (!(_isOwnedApex)) then {
-	_uavData = _uavData select {(!((_x select 1) in ['b_t_uav_03_dynamicloadout_f','b_t_uav_03_f']))};
+	_uavData = _uavData select {(!((_x # 1) in ['b_t_uav_03_dynamicloadout_f','b_t_uav_03_f']))};
 	{
 		_x params [
 			'_uavEntity',
@@ -207,7 +225,7 @@ _uavInitCodeGeneric = {
 	_grp = createVehicleCrew _uavEntity;
 	_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 	{
-		_x disableAI 'LIGHTS';
+		_x enableAIFeature ['LIGHTS',FALSE];
 	} forEach (units _grp);
 	_uavEntity setPilotLight FALSE;
 	_uavEntity setCollisionLight FALSE;
@@ -228,9 +246,9 @@ _uavInitCodeGeneric = {
 			_uavEntity = _this;
 			for '_x' from 0 to 49 step 1 do {
 				_uavEntity setVelocity [
-					((velocity _uavEntity) select 0),
-					((velocity _uavEntity) select 1),
-					((((velocity _uavEntity) select 2) max 0) + 5)
+					((velocity _uavEntity) # 0),
+					((velocity _uavEntity) # 1),
+					((((velocity _uavEntity) # 2) max 0) + 5)
 				];
 				uiSleep 0.05;
 			};
@@ -243,7 +261,7 @@ _uavInitCodeGeneric = {
 			'Fired',
 			{
 				params ['','','','','_ammo','','_projectile',''];
-				if ((toLower _ammo) in [
+				if ((toLowerANSI _ammo) in [
 					'bomb_03_f','bomb_04_f','bo_gbu12_lgb','bo_gbu12_lgb_mi10','bo_air_lgb','bo_air_lgb_hidden','bo_mk82','bo_mk82_mi08'
 				]) then {
 					missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
@@ -252,7 +270,7 @@ _uavInitCodeGeneric = {
 			}
 		];
 	};
-	if ((toLower (typeOf _uavEntity)) in ['b_t_uav_03_dynamicloadout_f','b_t_uav_03_f']) then {
+	if ((toLowerANSI (typeOf _uavEntity)) in ['b_t_uav_03_dynamicloadout_f','b_t_uav_03_f']) then {
 		_uavEntity setVelocity [0,0,0];
 		_uavEntity spawn {
 			for '_x' from 0 to 9 step 1 do {
@@ -296,7 +314,7 @@ _uavInitCodeGeneric = {
 			'Deleted',
 			{
 				params ['_entity'];
-				if (!((attachedObjects _entity) isEqualTo [])) then {
+				if ((attachedObjects _entity) isNotEqualTo []) then {
 					{
 						if (isSimpleObject _x) then {
 							deleteVehicle _x;
@@ -309,7 +327,7 @@ _uavInitCodeGeneric = {
 			'Killed',
 			{
 				params ['_entity'];
-				if (!((attachedObjects _entity) isEqualTo [])) then {
+				if ((attachedObjects _entity) isNotEqualTo []) then {
 					{
 						detach _x;
 						if (!isPlayer _x) then {
@@ -353,11 +371,11 @@ _fn_isPosSafe = {
 	params ['_position','_radius'];
 	private _return = TRUE;
 	_list1 = (_position select [0,2]) nearEntities ['All',_radius];
-	if (!(_list1 isEqualTo [])) exitWith {FALSE};
+	if (_list1 isNotEqualTo []) exitWith {FALSE};
 	{
 		if (!isNull _x) then {
 			if (isSimpleObject _x) then {
-				if (!(['helipad',((getModelInfo _x) select 1),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+				if (!(['helipad',((getModelInfo _x) # 1),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
 					_return = FALSE;
 				};
 			};
@@ -368,9 +386,26 @@ _fn_isPosSafe = {
 _fn_findSafePos = missionNamespace getVariable 'QS_fnc_findSafePos';
 private _grp = grpNull;
 private _safePos = [0,0,0];
+private _inNavalArtillery = FALSE;
+private _artilleryEngineEnabled = FALSE;
+private _artilleryEngineRestricted = missionNamespace getVariable ['QS_missionConfig_artyEngine',0] in [0,1];
 for '_i' from 0 to 1 step 0 do {
-	uiSleep 3;
+	uiSleep 1.5;
 	_uiTime = diag_tickTime;
+	if (_artilleryEngineRestricted) then {
+		_inNavalArtillery = ((cameraOn isKindOf 'B_Ship_Gun_01_F') || {(cameraOn isKindOf 'B_Ship_MRLS_01_F')});
+		if (_inNavalArtillery) then {
+			if (!_artilleryEngineEnabled) then {
+				_artilleryEngineEnabled = TRUE;
+				enableEngineArtillery _artilleryEngineEnabled;
+			};
+		} else {
+			if (_artilleryEngineEnabled) then {
+				_artilleryEngineEnabled = FALSE;
+				enableEngineArtillery _artilleryEngineEnabled;
+			};
+		};
+	};
 	if ((player distance2D (markerPos 'QS_marker_module_fob')) < 300) then {
 		if (!(_ugvRespawnFOB)) then {
 			_ugvRespawnFOB = TRUE;
@@ -405,7 +440,7 @@ for '_i' from 0 to 1 step 0 do {
 				if (_uiTime > _uavCanRespawnAfter) then {
 					if ([_uavSpawnPosition,4] call _fn_isPosSafe) then {
 						if (!isNull _uavEntity) then {
-							if (!((attachedObjects _uavEntity) isEqualTo [])) then {
+							if ((attachedObjects _uavEntity) isNotEqualTo []) then {
 								{
 									deleteVehicle _x;
 								} count (attachedObjects _uavEntity);
@@ -433,7 +468,7 @@ for '_i' from 0 to 1 step 0 do {
 							};
 						};
 						_uavEntity call _uavInitCodeGeneric;
-						if (!(_uavInitCode isEqualTo {})) then {
+						if (_uavInitCode isNotEqualTo {}) then {
 							_uavEntity call _uavInitCode;
 						};
 						_uavData set [_forEachIndex,[_uavEntity,_uavType,_uavSpawnPosition,_uavSpawnDirection,_uavSpawnVectors,_uavInitCode,FALSE,_uavCanRespawnAfter]];
@@ -442,11 +477,11 @@ for '_i' from 0 to 1 step 0 do {
 			};
 		} else {
 			if ((_uavEntity isKindOf 'ugv_01_base_f') && (!(_uavEntity isKindOf 'ugv_01_rcws_base_f'))) then {
-				if (!((rating _uavEntity) isEqualTo 0)) then {
+				if ((rating _uavEntity) isNotEqualTo 0) then {
 					_uavEntity addRating (0 - (rating _uavEntity));
 				};
 				{
-					if (!((rating _x) isEqualTo 0)) then {
+					if ((rating _x) isNotEqualTo 0) then {
 						_x addRating (0 - (rating _x));
 					};
 				} forEach (crew _uavEntity);
@@ -460,21 +495,21 @@ for '_i' from 0 to 1 step 0 do {
 	{
 		if (local _x) then {
 			_uavEntity = _x;
-			_uavEntity enableAI 'TEAMSWITCH';
+			_uavEntity enableAIFeature ['TEAMSWITCH',TRUE];
 			if ((!isNull (attachedTo _uavEntity)) || {(!isNull (isVehicleCargo _uavEntity))} || {(!isNull (ropeAttachedTo _uavEntity))}) then {
 				if (!(_uavEntity getVariable ['QS_uav_disabledAI',FALSE])) then {
 					_uavEntity setVariable ['QS_uav_disabledAI',TRUE,FALSE];
-					_uavEntity disableAI 'ALL';
+					_uavEntity enableAIFeature ['ALL',FALSE];
 					{
-						_x disableAI 'ALL';
+						_x enableAIFeature ['ALL',FALSE];
 					} forEach (crew _uavEntity);
 				};
 			} else {
 				if (_uavEntity getVariable ['QS_uav_disabledAI',FALSE]) then {
 					_uavEntity setVariable ['QS_uav_disabledAI',FALSE,FALSE];
-					_uavEntity enableAI 'ALL';
+					_uavEntity enableAIFeature ['ALL',TRUE];
 					{
-						_x enableAI 'ALL';
+						_x enableAIFeature ['ALL',TRUE];
 					} forEach (crew _uavEntity);
 				};
 			};
@@ -498,11 +533,9 @@ for '_i' from 0 to 1 step 0 do {
 			if (local _x) then {
 				_uavEntity = _x;
 				if (!(_uavEntity getVariable ['QS_uav_protected',FALSE])) then {
-					if (!((crew _uavEntity) isEqualTo [])) then {
+					if ((crew _uavEntity) isNotEqualTo []) then {
 						_grp = group (effectiveCommander _uavEntity);
-						{
-							_uavEntity deleteVehicleCrew _x;
-						} forEach (crew _uavEntity);
+						deleteVehicleCrew _uavEntity;
 						deleteGroup _grp;
 					};
 					deleteVehicle _uavEntity;

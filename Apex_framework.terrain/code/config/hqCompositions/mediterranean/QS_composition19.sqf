@@ -6,8 +6,8 @@ Anchor position: [7079.52, 7416.32]
 Area size: 100
 Using orientation of objects: no
 
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);	
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);	
 */
 
 /*
@@ -21,8 +21,8 @@ Using orientation of objects: no
 
 [
 	["Flag_White_F",[-0.668945,-0.549316,0.0282135],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);	
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);	
 	}], 
 	["Land_BagBunker_01_large_green_F",[-0.30542,-0.649414,0.0072403],145.679,[],false,true,false,{}], 
 	["Land_PaperBox_closed_F",[10.7848,-1.95752,-0.00383186],130.345,[],false,true,true,{}], 
@@ -46,8 +46,8 @@ Using orientation of objects: no
 	["Land_BagFence_01_round_green_F",[19.2064,8.27539,-0.0620441],187.65,[],false,true,true,{}], 
 	["Land_Cargo_House_V2_F",[-20.6283,-7.57617,0],269.566,[],false,true,false,{}], 
 	["Land_PillboxWall_01_3m_round_F",[11.5734,17.4307,-0.997055],211.555,[],false,true,true,{}], 
-	["Land_PillboxBunker_01_big_F",[6.63184,23.6147,0.340269],23.1875,[],false,true,false,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
-	["Land_PillboxBunker_01_rectangle_F",[-23.1396,1.70752,0.0327911],0,[],false,true,false,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_PillboxBunker_01_big_F",[6.63184,23.6147,0.340269],23.1875,[],false,true,false,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
+	["Land_PillboxBunker_01_rectangle_F",[-23.1396,1.70752,0.0327911],0,[],false,true,false,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_PillboxWall_01_6m_F",[21.084,-3.57617,-0.994582],270.086,[],false,true,true,{}], 
 	["Land_PillboxWall_01_6m_round_F",[3.10046,-21.5269,-1.00132],0,[],false,true,true,{}], 
 	["Land_BagFence_01_round_green_F",[21.829,1.36279,0.0983868],302.383,[],false,true,true,{}], 
@@ -57,10 +57,10 @@ Using orientation of objects: no
 	["Land_BagFence_01_long_green_F",[-17.0911,14.4546,-0.00363731],309.208,[],false,true,true,{}], 
 	["Land_HBarrier_01_wall_corridor_green_F",[7.86023,-21.0034,0.002285],85.4831,[],false,true,true,{}], 
 	["Land_PillboxWall_01_6m_round_F",[14.655,-17.4092,-0.995626],329.855,[],false,true,true,{}], 
-	["Land_PillboxBunker_01_big_F",[23.2258,-12.4932,-0.100103],112.51,[],false,true,false,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_PillboxBunker_01_big_F",[23.2258,-12.4932,-0.100103],112.51,[],false,true,false,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_BagBunker_01_small_green_F",[-20.1782,12.8979,-0.00223923],126.779,[],false,true,false,{}], 
 	["Land_BagFence_01_long_green_F",[-22.4312,6.72998,-0.0110626],93.2553,[],false,true,true,{}], 
-	["Land_PillboxBunker_01_big_F",[-12.2633,-24.1138,0.137524],202.365,[],false,true,false,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_PillboxBunker_01_big_F",[-12.2633,-24.1138,0.137524],202.365,[],false,true,false,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_BagFence_01_short_green_F",[-22.3358,8.94141,-0.055521],104.07,[],false,true,true,{}], 
 	["Land_PillboxWall_01_6m_round_F",[-17.8788,-16.3945,-0.000144958],206.173,[],false,true,true,{}], 
 	["Land_BagFence_01_short_green_F",[-21.7026,10.6118,0.000875473],117.844,[],false,true,true,{}], 

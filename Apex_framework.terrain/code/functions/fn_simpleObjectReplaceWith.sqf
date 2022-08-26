@@ -60,7 +60,7 @@ if (_class == "") exitWith {["[x] Cannot retrieve classname!"] call bis_fnc_erro
 private _data = [_template] call QS_fnc_simpleObjectData;
 
 //get world position, dir and vector up
-//private _pos = getPosASL _template; _pos set [2, (_pos select 2) - (_data select 3)];
+//private _pos = getPosASL _template; _pos set [2, (_pos # 2) - (_data # 3)];
 private _pos = getPosWorld _template;
 private _dir = getDir _template;
 private _vectorUp = vectorUp _template;

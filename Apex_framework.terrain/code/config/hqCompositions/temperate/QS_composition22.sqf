@@ -10,8 +10,8 @@ Using orientation of objects: no
 [
 	["Land_CombineHarvester_01_wreck_F",[-3.12939,0.575684,0],323.558,[],false,FALSE,TRUE,{}],
 	["Flag_White_F",[5.79053,-6.39551,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_Cargo_House_V4_F",[7.89844,-7.52246,0],78.8866,[],false,true,false,{}], 
 	["Land_Mil_WallBig_Corner_F",[11.1777,2.51416,0],212.679,[],false,FALSE,TRUE,{}],
@@ -30,7 +30,7 @@ Using orientation of objects: no
 	["Land_Mil_WallBig_Corner_F",[9.13916,11.8975,0],165.08,[],false,FALSE,TRUE,{}],
 	["Land_Mil_WallBig_4m_F",[12.6519,-6.9502,-0.0119424],257.739,[],false,FALSE,TRUE,{}],
 	["Land_Mil_WallBig_Corner_F",[-13.7539,6.61768,0],74.6096,[],false,FALSE,TRUE,{}],
-	["Land_TTowerSmall_1_F",[12.0146,-8.25879,0],0,[],false,FALSE,TRUE,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}],
+	["Land_TTowerSmall_1_F",[12.0146,-8.25879,0],0,[],false,FALSE,TRUE,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}],
 	["Land_Mil_WallBig_4m_F",[10.0962,-11.0767,-0.0119424],348.926,[],false,FALSE,TRUE,{}],
 	["Land_HBarrier_01_wall_6_green_F",[4.63574,15.0938,0],350.195,[],false,FALSE,TRUE,{}],
 	["Land_HBarrier_01_tower_green_F",[-14.3442,-4.78174,0],345.07,[],false,FALSE,TRUE,{}],

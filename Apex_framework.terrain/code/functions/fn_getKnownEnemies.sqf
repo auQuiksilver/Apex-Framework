@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	7/04/2018 A3 1.82 by Quiksilver
+	25/05/2022 A3 2.08 by Quiksilver
 	
 Description:
 
@@ -66,10 +66,10 @@ if (_type isEqualTo 0) exitWith {
 										'',
 										'_targetPosition'
 									];
-									_targetType = toLower (typeOf _target);
+									_targetType = toLowerANSI (typeOf _target);
 									if ((!(_targetType in _hiddenTypes)) || {(_showStealth)}) then {
 										if (_knownByGroup) then {
-											_color = _sideColors select (_sides find _targetSide);
+											_color = _sideColors # (_sides find _targetSide);
 											_color set [3,(0 max (((group _player) knowsAbout _target) / 4) min 4)];
 											_is = [_target,1,_QS_ST_X] call _fn_is;
 											if ((_gpsJammers isEqualTo []) || {((_gpsJammers isNotEqualTo []) && {(!([0,_targetPosition] call _fn_jammer))})}) then {
@@ -91,13 +91,13 @@ if (_type isEqualTo 0) exitWith {
 											'',
 											'_targetPosition'
 										];
-										_targetType = toLower (typeOf _target);
+										_targetType = toLowerANSI (typeOf _target);
 										if ((!(_targetType in _hiddenTypes)) || {(_showStealth)} || {(_isRemoteTarget)}) then {
 											if ((_knownByGroup) || {(_isRemoteTarget)}) then {
 												if (!(underwater _target)) then {
 													if (_isRemoteTarget) then {
 														if (((_target distance2D _cameraOn) < 600) && (!(_cameraOn isKindOf 'Air'))) then {
-															_color = _sideColors select (_sides find (side _target));
+															_color = _sideColors # (_sides find (side _target));
 															_icon = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_targetType]),''];
 															if (_icon isEqualTo '') then {
 																_icon = getText (configFile >> 'CfgVehicles' >> _targetType >> 'icon');
@@ -108,7 +108,7 @@ if (_type isEqualTo 0) exitWith {
 															_targetPosition = getPosWorldVisual _target;
 														};
 													} else {
-														_color = _sideColors select (_sides find _targetSide);
+														_color = _sideColors # (_sides find _targetSide);
 														_icon = [
 															'a3\ui_f\data\igui\RscCustomInfo\Sensors\Targets\EnemyGround_ca.paa',
 															'a3\ui_f\data\igui\RscCustomInfo\Sensors\Targets\EnemyAir_ca.paa'
@@ -168,13 +168,14 @@ if (_type isEqualTo 1) exitWith {
 	private _targetSide = EAST;
 	private _unit = objNull;
 	private _icon = '';
-	_allPlayers = (allUnits select {((side (group _x)) isEqualTo WEST)}) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+	_allPlayers = (units WEST) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+	//_allPlayers = (units WEST) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 	private _targetPosition = [0,0,0];
 	private _targetKnowledge = [];
-	if (((_player distance2D (markerPos 'QS_marker_base_marker')) < 500) || {((_player distance2D (markerPos 'QS_marker_module_fob')) < 150)} || {(((listVehicleSensors (vehicle _player)) isNotEqualTo []) && ( ((listVehicleSensors (vehicle _player)) findIf {((toLower (_x select 0)) isEqualTo 'activeradarsensorcomponent')}) isNotEqualTo -1) && (isVehicleRadarOn (vehicle _player)))}) then {
+	if (((_player distance2D (markerPos 'QS_marker_base_marker')) < 500) || {((_player distance2D (markerPos 'QS_marker_module_fob')) < 150)} || {(((listVehicleSensors (vehicle _player)) isNotEqualTo []) && ( ((listVehicleSensors (vehicle _player)) findIf {((toLowerANSI (_x # 0)) isEqualTo 'activeradarsensorcomponent')}) isNotEqualTo -1) && (isVehicleRadarOn (vehicle _player)))}) then {
 		{
 			if (alive _x) then {
-				if ((side (group _x)) in _enemySides) then {
+				//if ((side (group _x)) in _enemySides) then {
 					_unit = _x;
 					_target = vehicle _unit;
 					if (((_playerSide knowsAbout _target) > 0) || {(_target in _remoteTargets)}) then {
@@ -182,18 +183,18 @@ if (_type isEqualTo 1) exitWith {
 							if (simulationEnabled _target) then {
 								if (!(_target getVariable ['QS_hidden',FALSE])) then {
 									_targetSide = side (group _unit);
-									_targetType = toLower (typeOf _target);
+									_targetType = toLowerANSI (typeOf _target);
 									_isRemoteTarget = _target in _remoteTargets;
 									if ((!(_targetType in _hiddenTypes)) || {(_showStealth)} || {(_isRemoteTarget)}) then {
 										if (!(underwater _target)) then {
 											if (_target isKindOf 'CAManBase') then {
-												_color = _sideColors select (_sides find _targetSide);
+												_color = _sideColors # (_sides find _targetSide);
 												_color set [3,(0 max ((_playerSide knowsAbout _target) / 4) min 4)];
-												_targetPosition = (_player targetKnowledge _target) select 6;
+												_targetPosition = (_player targetKnowledge _target) # 6;
 												if (_targetPosition isEqualTo [0,0,0]) then {
 													{
-														if ((((_x targetKnowledge _target) select 6) isNotEqualTo [0,0,0]) && (((_x targetKnowledge _target) select 5) < 100)) exitWith {
-															_targetPosition = (_x targetKnowledge _target) select 6;
+														if ((((_x targetKnowledge _target) # 6) isNotEqualTo [0,0,0]) && (((_x targetKnowledge _target) # 5) < 100)) exitWith {
+															_targetPosition = (_x targetKnowledge _target) # 6;
 														};
 													} forEach _allPlayers;
 												};
@@ -206,20 +207,20 @@ if (_type isEqualTo 1) exitWith {
 													'a3\ui_f\data\igui\RscCustomInfo\Sensors\Targets\EnemyGround_ca.paa',
 													'a3\ui_f\data\igui\RscCustomInfo\Sensors\Targets\EnemyAir_ca.paa'
 												] select (_target isKindOf 'Air');
-												_color = _sideColors select (_sides find _targetSide);
+												_color = _sideColors # (_sides find _targetSide);
 												_color set [3,(0 max ((_playerSide knowsAbout _target) / 4) min 4)];
 												_dir = 0;
-												_targetPosition = (_player targetKnowledge _target) select 6;
+												_targetPosition = (_player targetKnowledge _target) # 6;
 												if (_targetPosition isEqualTo [0,0,0]) then {
 													{
-														if ((((_x targetKnowledge _target) select 6) isNotEqualTo [0,0,0]) && (((_x targetKnowledge _target) select 5) < 100)) exitWith {
-															_targetPosition = (_x targetKnowledge _target) select 6;
+														if ((((_x targetKnowledge _target) # 6) isNotEqualTo [0,0,0]) && (((_x targetKnowledge _target) # 5) < 100)) exitWith {
+															_targetPosition = (_x targetKnowledge _target) # 6;
 														};
 													} forEach _allPlayers;
 												};
 												if (_isRemoteTarget) then {
 													if (((_target distance2D _cameraOn) < 600) && (!(_cameraOn isKindOf 'Air'))) then {
-														_color = _sideColors select (_sides find (side _unit));
+														_color = _sideColors # (_sides find (side _unit));
 														_icon = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_targetType]),''];
 														if (_icon isEqualTo '') then {
 															_icon = getText (configFile >> 'CfgVehicles' >> _targetType >> 'icon');
@@ -240,9 +241,9 @@ if (_type isEqualTo 1) exitWith {
 							};
 						};
 					};
-				};
+				//};
 			};
-		} forEach allUnits;
+		} forEach ((units EAST) + (units RESISTANCE));
 	};
 	_array;
 };

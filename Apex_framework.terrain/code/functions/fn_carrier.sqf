@@ -15,7 +15,7 @@ ______________________________________/*/
 
 params ['_type'];
 if (_type isEqualTo 'INPOLYGON_FOOT') exitWith {
-	_entity = _this select 1;
+	_entity = _this # 1;
 	private _c = FALSE;
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0) then {
 		if (!isNull (missionNamespace getVariable ['QS_carrierObject',objNull])) then {
@@ -30,7 +30,7 @@ if (_type isEqualTo 'INPOLYGON_FOOT') exitWith {
 	_c;
 };
 if (_type isEqualTo 'INPOLYGON') exitWith {
-	_entity = _this select 1;
+	_entity = _this # 1;
 	private _c = FALSE;
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0) then {
 		if (!isNull (missionNamespace getVariable ['QS_carrierObject',objNull])) then {
@@ -59,8 +59,8 @@ if (_type isEqualTo 'MOVE') exitWith {
 	if (isDedicated) then {
 		private ['_position','_direction'];
 		if ((count _this) > 1) then {
-			_position = (_this select 1) select 0;
-			_direction = (_this select 1) select 1;
+			_position = (_this # 1) # 0;
+			_direction = (_this # 1) # 1;
 		} else {
 			_position = markerPos 'QS_marker_carrier_1';
 			_direction = markerDir 'QS_marker_carrier_1';
@@ -136,12 +136,12 @@ if (_type isEqualTo 'INIT') exitWith {
 				_marker setMarkerPos _pos;
 				_marker setMarkerDir _dir;
 			};
-			_marker setMarkerTypeLocal (_markerData select 2);
-			_marker setMarkerShapeLocal (_markerData select 3);
-			_marker setMarkerColorLocal (_markerData select 5);
-			_marker setMarkerSizeLocal (_markerData select 6);
-			_marker setMarkerAlphaLocal (_markerData select 7);
-			_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData select 10)]);
+			_marker setMarkerTypeLocal (_markerData # 2);
+			_marker setMarkerShapeLocal (_markerData # 3);
+			_marker setMarkerColorLocal (_markerData # 5);
+			_marker setMarkerSizeLocal (_markerData # 6);
+			_marker setMarkerAlphaLocal (_markerData # 7);
+			_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData # 10)]);
 			_carrier = createVehicle ['Land_Carrier_01_base_F',_pos,[],0,'CAN_COLLIDE'];
 			_carrier setPosWorld _pos;
 			_carrier setDir _dir;
@@ -173,7 +173,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			];
 			_carrier setVariable ['bis_carrierParts',(_carrier getVariable ['bis_carrierParts',[]]),TRUE];
 			{
-				if ((toLower (typeOf (_x # 0))) in ['land_carrier_01_island_01_f','land_carrier_01_island_02_f','land_carrier_01_island_03_f']) then {
+				if ((toLowerANSI (typeOf (_x # 0))) in ['land_carrier_01_island_01_f','land_carrier_01_island_02_f','land_carrier_01_island_03_f']) then {
 					for '_i' from 1 to 4 step 1 do {
 						(_x # 0) animateSource [(format ['Door_%1_source',_i]),1];
 					};
@@ -193,7 +193,7 @@ if (_type isEqualTo 'PROPS') exitWith {
 	private _modelPos = [0,0,0];
 	private _modelPosZ = -1;
 	{
-		_configClass = configFile >> 'CfgVehicles' >> (_x select 0);
+		_configClass = configFile >> 'CfgVehicles' >> (_x # 0);
 		_model = getText (_configClass >> 'model');
 		if ((_model select [0,1]) isEqualTo '\') then {
 			_model = _model select [1];
@@ -201,11 +201,11 @@ if (_type isEqualTo 'PROPS') exitWith {
 		if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 			_model = _model + '.p3d';
 		};
-		_modelPos = (missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x select 1);
-		_modelPosZ = _modelPos select 2;
+		_modelPos = (missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x # 1);
+		_modelPosZ = _modelPos # 2;
 		_modelPos set [2,(_modelPosZ + (getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset')))];
 		_prop = createSimpleObject [_model,_modelPos];
-		_prop setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x select 2));
+		_prop setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x # 2));
 		_props pushBack _prop;
 	} forEach [
 		['B_supplyCrate_F',[-22.603,107.664,23.5],-89.5743],	//--- Arsenal
@@ -225,20 +225,20 @@ if (_type isEqualTo 'PROPS') exitWith {
 		} forEach [
 			['Land_CampingTable_small_F',[-32.2679,93.8193,23.9735],0,{}],
 			['Land_Laptop_03_black_F',[-32.265,93.834,24.538],31.794,{
-				missionNamespace setVariable ['QS_carrier_casLaptop',(_this select 0),TRUE];
+				missionNamespace setVariable ['QS_carrier_casLaptop',(_this # 0),TRUE];
 			}]
 		];
 	};
 	{
-		_prop = createVehicle [(_x select 0),[-100,-100,0],[],5,'NONE'];
-		if ((_x select 0) in ['Land_CampingTable_small_F','Land_Laptop_03_black_F']) then {
+		_prop = createVehicle [(_x # 0),[-100,-100,0],[],5,'NONE'];
+		if ((_x # 0) in ['Land_CampingTable_small_F','Land_Laptop_03_black_F']) then {
 			_prop enableSimulationGlobal FALSE;
 		};
-		_prop setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x select 1));
-		_prop setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x select 2));
+		_prop setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x # 1));
+		_prop setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x # 2));
 		_props pushBack _prop;
-		if ((_x select 3) isNotEqualTo {}) then {
-			[_prop] call (_x select 3);
+		if ((_x # 3) isNotEqualTo {}) then {
+			[_prop] call (_x # 3);
 		};
 	} forEach _moreProps;
 	(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_props',_props,FALSE];
@@ -258,13 +258,13 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 		private _turrets = [];
 		private _turretGrp = createGroup [WEST,TRUE];
 		{
-			_turret = createVehicle [(_x select 0),[-1000,-1000,500],[],100,'NONE'];
+			_turret = createVehicle [(_x # 0),[-1000,-1000,500],[],100,'NONE'];
 			_turret allowDamage FALSE;
 			_turret enableSimulation FALSE;
 			_turret enableVehicleCargo FALSE;
 			_turret enableRopeAttach FALSE;
-			_turret setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x select 2));
-			_turret setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x select 1));
+			_turret setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x # 2));
+			_turret setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x # 1));
 			_turret setVelocity [0,0,0];
 			[_turret,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
 			_turret enableSimulation TRUE;
@@ -279,13 +279,11 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 				'Deleted',
 				{
 					params ['_entity'];
-					{
-						_x setDamage [1,FALSE];
-						deleteVehicle _x;
-					} forEach (crew _entity);
+					deleteVehicleCrew _entity;
 				}
 			];
 			createVehicleCrew _turret;
+			(crew _turret) joinSilent _turretGrp;
 			_turrets pushBack _turret;
 			{
 				_x setVariable ['QS_curator_disableEditability',TRUE,FALSE];
@@ -301,6 +299,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 			['B_AAA_System_01_F',[-16.7842,188.944,13.7356],-0.132763],
 			['B_SAM_System_02_F',[30.3721,174.906,21.578],-89.5648]
 		];
+		_turretGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_turrets',_turrets,FALSE];
 		'QS_marker_carrier_1' setMarkerText (format ['%1 (Armed)',(markerText 'QS_marker_carrier_1')]);
 	};
@@ -314,13 +313,13 @@ if (_type isEqualTo 'DEFENSE_SERVICE') exitWith {
 	};
 };
 if (_type isEqualTo 'HOSPITAL') then {
-	_subType = _this select 1;
+	_subType = _this # 1;
 	if (_subType isEqualTo 'ADD') then {
 		(missionNamespace getVariable 'QS_positions_fieldHospitals') pushBack ['CARRIER',((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-30.5,109.6,23.9]),15];
 		missionNamespace setVariable ['QS_positions_fieldHospitals',(missionNamespace getVariable 'QS_positions_fieldHospitals'),TRUE];
 	};
 	if (_subType isEqualTo 'REMOVE') then {
-		_arrayIndex = ((missionNamespace getVariable 'QS_positions_fieldHospitals') findIf {((_x select 0) isEqualTo 'CARRIER')});
+		_arrayIndex = ((missionNamespace getVariable 'QS_positions_fieldHospitals') findIf {((_x # 0) isEqualTo 'CARRIER')});
 		if (_arrayIndex isNotEqualTo -1) then {
 			(missionNamespace getVariable 'QS_positions_fieldHospitals') set [_arrayIndex,FALSE];
 			(missionNamespace getVariable 'QS_positions_fieldHospitals') deleteAt _arrayIndex;
@@ -341,8 +340,8 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 			_this addEventHandler [
 				'GetIn',
 				{
-					(_this select 0) removeEventHandler ['GetIn',_thisEventHandler];
-					(_this select 0) enableSimulationGlobal TRUE;
+					(_this # 0) removeEventHandler ['GetIn',_thisEventHandler];
+					(_this # 0) enableSimulationGlobal TRUE;
 				}
 			];
 		},
@@ -403,16 +402,52 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 if (_type isEqualTo 'RESPAWN_PLAYER') exitWith {
 	if (!isDedicated) then {
 		if (hasInterface) then {
-			_positions = [
-				[-26.5791,113.625,23.6446],[-29.3418,114.208,23.6797],[-31.8965,113.567,23.3593],[-31.9878,111.41,23.7361],[-30.1235,109.859,23.7606],
-				[-28.0728,109.664,23.623],[-25.6973,110.073,23.5785],[-25.8208,112.113,23.5784],[-27.6646,112.978,23.6444],[-29.8735,112.596,23.5414],
-				[-29.6924,111.376,23.7495],[-28.022,111.307,23.6492]
-			] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
-			_position = selectRandom _positions;
-			_position spawn {
-				preloadCamera _this;
-				uiSleep 0.5;
-				player setPosWorld _this;
+			private _inArea = ['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_carrier');
+			if (
+				(!_inArea) ||
+				(_inArea && (((getPosASL player) # 2) < 3))
+			) then {
+				_base = markerPos 'QS_marker_base_marker';
+				if ((player distance2D _base) > 1000) then {
+					_positions = [
+						[-26.5791,113.625,23.6446],[-29.3418,114.208,23.6797],[-31.8965,113.567,23.3593],[-31.9878,111.41,23.7361],[-30.1235,109.859,23.7606],
+						[-28.0728,109.664,23.623],[-25.6973,110.073,23.5785],[-25.8208,112.113,23.5784],[-27.6646,112.978,23.6444],[-29.8735,112.596,23.5414],
+						[-29.6924,111.376,23.7495],[-28.022,111.307,23.6492]
+					] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
+					_position = selectRandom _positions;
+					_position spawn {
+						preloadCamera _this;
+						uiSleep 0.5;
+						player setPosWorld _this;
+						uiSleep 5;
+						if (surfaceIsWater (getPosASL player)) then {
+							if (((getPosASL player) # 2) < 3) then {
+								player setPosWorld _this;
+							};
+						};
+					};
+				} else {
+					_result = ['Go to aircraft carrier','Aircraft Carrier','Go','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
+					if (_result) then {
+						_positions = [
+							[-26.5791,113.625,23.6446],[-29.3418,114.208,23.6797],[-31.8965,113.567,23.3593],[-31.9878,111.41,23.7361],[-30.1235,109.859,23.7606],
+							[-28.0728,109.664,23.623],[-25.6973,110.073,23.5785],[-25.8208,112.113,23.5784],[-27.6646,112.978,23.6444],[-29.8735,112.596,23.5414],
+							[-29.6924,111.376,23.7495],[-28.022,111.307,23.6492]
+						] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
+						_position = selectRandom _positions;
+						_position spawn {
+							preloadCamera _this;
+							uiSleep 0.5;
+							player setPosWorld _this;
+							uiSleep 5;
+							if (surfaceIsWater (getPosASL player)) then {
+								if (((getPosASL player) # 2) < 3) then {
+									player setPosWorld _this;
+								};
+							};
+						};
+					};
+				};
 			};
 		};
 	};

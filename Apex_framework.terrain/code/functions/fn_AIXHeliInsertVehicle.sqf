@@ -6,11 +6,13 @@ Author:
 	
 Last modified:
 
-	31/10/2017 A3 1.76 by Quiksilver
+	23/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Insert Vehicle via Heli drop
+	
+	[QS_hqPos,QS_test_vehicle,'O_Heli_Transport_04_F',EAST] spawn QS_fnc_AIXHeliInsertVehicle;
 __________________________________________________/*/
 
 params [
@@ -90,7 +92,7 @@ _heliGroup deleteGroupWhenEmpty TRUE;
 {
 	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 	_x enableDynamicSimulation FALSE;
-	0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'DELAYED_DISCREET',(time + 600)];
+	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'DELAYED_DISCREET',(time + 600)];
 } forEach (units _heliGroup);
 _heli setVariable ['QS_heli_mapEdgePosition',_mapEdgePosition,FALSE];
 _heli setVariable ['QS_heli_spawnPosition',_spawnPosition,FALSE];
@@ -113,11 +115,25 @@ if (isNull (getSlingLoad _heli)) then {
 	};
 };
 if (isNull (getSlingLoad _heli)) exitWith {
-	{
-		deleteVehicle _x;
-	} forEach (crew _heli);
+	deleteVehicleCrew _heli;
 	deleteVehicle _heli;
 };
+_heli addEventHandler [
+	'HandleDamage',
+	{
+		params ['_vehicle','_selectionName','_damage','','','','',''];
+		private _scale = 0.2;
+		_oldDamage = [(_vehicle getHit _selectionName),(damage _vehicle)] select (_selectionName isEqualTo '');
+		if (_selectionName isEqualTo '?') then {
+			_scale = 0.2;
+		};
+		if ((_vehicle getHit 'tail_rotor_hit') > 0) then {
+			_vehicle setHit ['tail_rotor_hit',0,TRUE];
+		};
+		_damage = ((_damage - _oldDamage) * _scale) + _oldDamage;
+		_damage;
+	}
+];
 _heli addEventHandler [
 	'RopeBreak',
 	{
@@ -132,16 +148,14 @@ _heli addEventHandler [
 				_wp = _heliGroup addWaypoint [(_vehicle getVariable ['QS_heli_mapEdgePosition',[0,0,100]]),0];
 				_wp setWaypointType 'MOVE';
 				_wp setWaypointSpeed 'FULL';
-				_wp setWaypointStatements [
-					'TRUE',
-					'
-						if (!(local this)) exitWith {};
-						_v = vehicle this;
-						{
-							deleteVehicle _x;
-						} count (crew (vehicle this));
-						deleteVehicle _v;
-					'
+				_heliGroup addEventHandler [
+					'WaypointComplete',
+					{
+						params ['_group','_wpIndex'];
+						_vehicle = vehicle (leader _group);
+						deleteVehicleCrew _vehicle;
+						deleteVehicle _vehicle;	
+					}
 				];
 			};
 		};
@@ -151,9 +165,9 @@ _heli addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')
 _heli addEventHandler [
 	'IncomingMissile',
 	{
-		params ['_vehicle','_ammo','_shooter','_instigator'];
-		private _projectile = nearestObject [_shooter,_ammo];
+		params ['_vehicle','_ammo','_shooter','_instigator','_projectile'];
 		if (alive (driver _vehicle)) then {
+			_vehicle setVehicleAmmo 1;
 			(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
 			[driver _vehicle,_shooter,_projectile] spawn {
 				params ['_pilot','_shooter','_projectile'];

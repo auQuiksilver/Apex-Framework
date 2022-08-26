@@ -28,7 +28,7 @@ private _hasUnloaded = FALSE;
 			if (([0,_cargo,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) && ((stance player) isEqualTo 'STAND') && ([4,_cargo,player] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) then {
 				_hasUnloaded = TRUE;
 				player forceWalk TRUE;
-				if (!((currentWeapon player) isEqualTo '')) then {
+				if ((currentWeapon player) isNotEqualTo '') then {
 					player setVariable ['QS_RD_holsteredWeapon',(currentWeapon player),FALSE];
 					player action ['SwitchWeapon',player,player,100];
 				};
@@ -37,7 +37,7 @@ private _hasUnloaded = FALSE;
 					[71,_cargo,FALSE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 				};
 				_cargo attachTo [player,[0,0.5,1.1]];
-				if ((toLower (typeOf _cargo)) in [
+				if ((toLowerANSI (typeOf _cargo)) in [
 					"land_plasticcase_01_medium_gray_f",
 					"land_plasticcase_01_medium_idap_f",
 					"land_plasticcase_01_small_gray_f",
@@ -59,8 +59,8 @@ private _hasUnloaded = FALSE;
 					private _exit = FALSE;
 					for '_x' from 0 to 1 step 0 do {
 						if (!(_entity in (attachedObjects player))) exitWith {};
-						if (!((stance player) isEqualTo 'STAND')) then {_exit = TRUE;};
-						if (!((currentWeapon player) isEqualTo '')) then {_exit = TRUE;};
+						if ((stance player) isNotEqualTo 'STAND') then {_exit = TRUE;};
+						if ((currentWeapon player) isNotEqualTo '') then {_exit = TRUE;};
 						if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_exit = TRUE;};
 						if (_exit) exitWith {
 							50 cutText ['Released','PLAIN DOWN',0.3];
@@ -68,10 +68,10 @@ private _hasUnloaded = FALSE;
 							player forceWalk FALSE;
 							if (_entity call (missionNamespace getVariable 'QS_fnc_isBoundingBoxIntersected')) then {
 								_position = (position player) findEmptyPosition [0,10,(typeOf _entity)];
-								if (!(_position isEqualTo [])) then {
+								if (_position isNotEqualTo []) then {
 									_entity setVectorUp (surfaceNormal _position);
 									_entity setPos _position; /*/maybe setvehicleposition?/*/
-									_entity allowDamage (_entity getVariable ['QS_isDamageAllowed',TRUE]);
+									_entity allowDamage FALSE;
 									50 cutText ['Released','PLAIN DOWN',0.3];
 								};
 							};
@@ -89,7 +89,7 @@ private _hasUnloaded = FALSE;
 				50 cutText [(format ['Carrying a(n) %1',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))])]),'PLAIN DOWN',0.3];
 			} else {
 				_position = (position player) findEmptyPosition [0,10,(typeOf _cargo)];
-				if (!(_position isEqualTo [])) then {
+				if (_position isNotEqualTo []) then {
 					_hasUnloaded = TRUE;
 					playSound 'Click';
 					if (isObjectHidden _cargo) then {
@@ -98,20 +98,20 @@ private _hasUnloaded = FALSE;
 					detach _cargo;				
 					_cargo setVectorUp (surfaceNormal _position);
 					_cargo setPos _position; //comment 'maybe setvehicleposition?';
-					_cargo allowDamage (_cargo getVariable ['QS_isDamageAllowed',TRUE]);
+					_cargo allowDamage FALSE;
 					player setVariable ['QS_tempDrawObject',[_cargo,(diag_tickTime + 15)],FALSE];
 					addMissionEventHandler [
 						'Draw3D',
 						{
-							_object = (player getVariable 'QS_tempDrawObject') select 0;
-							_endTime = (player getVariable 'QS_tempDrawObject') select 1;
+							_object = (player getVariable 'QS_tempDrawObject') # 0;
+							_endTime = (player getVariable 'QS_tempDrawObject') # 1;
 							if (!alive _object) exitWith {
 								removeMissionEventHandler ['Draw3D',_thisEventHandler];
 							};
 							_position = position _object;
 							_screenPosition = worldToScreen _position;
-							if (!(_screenPosition isEqualTo [])) then {
-								if (((_screenPosition select 0) < 1) && ((_screenPosition select 0) > 0) && ((_screenPosition select 1) < 1) && ((_screenPosition select 1) > 0)) then {
+							if (_screenPosition isNotEqualTo []) then {
+								if (((_screenPosition # 0) < 1) && ((_screenPosition # 0) > 0) && ((_screenPosition # 1) < 1) && ((_screenPosition # 1) > 0)) then {
 									removeMissionEventHandler ['Draw3D',_thisEventHandler];
 								};
 							};

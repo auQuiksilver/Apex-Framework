@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/05/2019 A3 1.94 by Quiksilver
+	6/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -17,10 +17,11 @@ private _environment = 'mediterranean';
 if (worldName in ['Tanoa','Lingor3']) then {
 	_environment = 'tropic';
 };
-if (worldName in ['Enoch','gm_weferlingen_summer','gm_weferlingen_winter']) then {
+if (worldName in ['Enoch']) then {
 	_environment = 'temperate';
 };
 rscmissionstatus_buttonclick = compileFinal 'TRUE';
+uiNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal 'TRUE'];
 bis_fnc_missiontaskslocal = compileFinal 'TRUE';
 bis_fnc_missionconversationslocal = compileFinal 'TRUE';
 private _code = {};
@@ -84,5 +85,10 @@ private _code = {};
 	['QS_data_forestCamp','code\config\QS_data_forestCamp.sqf'],
 	['QS_data_mortarPit','code\config\QS_data_mortarPit.sqf'],
 	['QS_data_artyPit','code\config\QS_data_artyPit.sqf'],
+	['QS_data_destroyerBuildingPositions','code\config\QS_data_destroyerBuildingPositions.sqf'],
+	['QS_data_sniperRifles','code\config\QS_data_sniperRifles.sqf'],
+	['QS_data_smallBuildingTypes','code\config\QS_data_smallBuildingTypes.sqf'],
+	['QS_data_siteHP1','code\config\QS_data_siteHP1.sqf'],
+	['QS_data_siteDatalink1','code\config\QS_data_siteDatalink1.sqf'],
 	['BIS_HC_path_menu','code\functions\fn_menuHCPath.sqf']
 ];

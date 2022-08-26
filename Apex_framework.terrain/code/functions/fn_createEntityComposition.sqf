@@ -29,7 +29,7 @@ private _return = [];
 		'_args',
 		'_code'
 	];
-	if (!(_simpleObject isEqualTo 0)) then {
+	if (_simpleObject isNotEqualTo 0) then {
 		_entity = createSimpleObject [([_type,_model] select (_simpleObject isEqualTo 2)),[-500,-500,0]];
 		_entity setVectorDirAndUp _vectorDirAndUp;
 		_entity setPosWorld _pos;
@@ -57,7 +57,6 @@ private _return = [];
 		_entity setVectorDirAndUp _vectorDirAndUp;
 	};
 	if (!isNull _entity) then {
-		missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 		[_entity] call _code;
 	};
 	_return pushBack _entity;

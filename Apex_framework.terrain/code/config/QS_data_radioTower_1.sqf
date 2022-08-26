@@ -1,6 +1,6 @@
 [
 	["Land_TTowerBig_2_F",[0,0,0],0,[],TRUE,TRUE,FALSE,{
-		_tower = _this select 0;
+		_tower = _this # 0;
 		missionNamespace setVariable ['QS_virtualSectors_sub_2_obj',_tower,TRUE];
 		missionNamespace setVariable ['QS_radioTower',_tower,FALSE];
 		missionNamespace setVariable ['QS_radioTower_pos',(getPos _tower),FALSE];
@@ -48,10 +48,10 @@
 				if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 					private ['_QS_virtualSectors_scoreSides','_scoreEast','_scoreToRemove'];
 					_QS_virtualSectors_scoreSides = missionNamespace getVariable ['QS_virtualSectors_scoreSides',[0,0,0,0,0]];
-					_scoreEast = _QS_virtualSectors_scoreSides select 0;
+					_scoreEast = _QS_virtualSectors_scoreSides # 0;
 					if (_scoreEast > ((missionNamespace getVariable ['QS_virtualSectors_scoreWin',300]) * 0.1)) then {
 						_scoreToRemove = (missionNamespace getVariable ['QS_virtualSectors_scoreWin',300]) * (missionNamespace getVariable ['QS_virtualSectors_bonusCoef_subTask',0.05]);
-						_QS_virtualSectors_scoreSides set [0,((_QS_virtualSectors_scoreSides select 0) - _scoreToRemove)];
+						_QS_virtualSectors_scoreSides set [0,((_QS_virtualSectors_scoreSides # 0) - _scoreToRemove)];
 						missionNamespace setVariable ['QS_virtualSectors_scoreSides',_QS_virtualSectors_scoreSides,FALSE];
 					};
 				};

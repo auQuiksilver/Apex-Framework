@@ -20,7 +20,7 @@ ____________________________________________________________________________/*/
 
 params ['_vehicle',['_forced',FALSE]];
 if (((random 1) < ([0.666,0.333] select (worldName in ['Tanoa','Lingor3']))) && (!(_forced))) exitWith {};
-_type = toLower (typeOf _vehicle);
+_type = toLowerANSI (typeOf _vehicle);
 //comment 'Slammer UP';
 if (_type in [
 	'b_mbt_01_tusk_f',

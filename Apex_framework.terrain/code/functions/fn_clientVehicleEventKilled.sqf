@@ -15,16 +15,7 @@ __________________________________________________________*/
 
 params ['_vehicle','_killer','_instigator','_useEffects'];
 if (!local _vehicle) exitWith {};
-/*/
-if (!((attachedObjects _vehicle) isEqualTo [])) then {
-	{
-		if ((isSimpleObject _x) || (_x isKindOf 'StaticWeapon')) then {
-			deleteVehicle _x;
-		};
-	} count (attachedObjects _vehicle);
-};
-/*/
-if (!((attachedObjects _vehicle) isEqualTo [])) then {
+if ((attachedObjects _vehicle) isNotEqualTo []) then {
 	{
 		if (!isNull _x) then {
 			detach _x;

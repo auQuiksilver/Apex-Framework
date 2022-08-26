@@ -34,29 +34,24 @@ if (_type isEqualTo 0) exitWith {
 			[_grp,_position,(25 + (random 100)),TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 			{
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
 				[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 				_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];
 				0 = _return pushBack _x;
 			} count (units _grp);
-			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		};
 		if ((random 1) > 0) then {
 			_spawnPosition = ['RADIUS',_position,150,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			_v = createVehicle [(selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),_spawnPosition,[],0,'NONE'];
-			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 			_v lock 3;
 			_return pushBack _v;
 			_v addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 			_v addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 			[0,_v,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
-			_v allowCrewInImmobile TRUE;
+			_v allowCrewInImmobile [TRUE,TRUE];
 			_v enableRopeAttach FALSE;
 			_v enableVehicleCargo FALSE;
 			_v setUnloadInCombat [TRUE,FALSE];
@@ -64,56 +59,46 @@ if (_type isEqualTo 0) exitWith {
 			_grp = createVehicleCrew _v;
 			if (!((side _grp) in [EAST,RESISTANCE])) then {
 				_grp = createGroup [EAST,TRUE];
-				{
-					[_x] joinSilent _grp;
-				} forEach (crew _v);
+				(crew _v) joinSilent _grp;
 			};
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _v))),
-				FALSE
-			];
 			_grp addVehicle _v;
 			[_grp,_position,350,[],TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
-			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_v],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_v],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			{
-				_x disableAI 'AUTOCOMBAT';
-				_x disableAI 'COVER';
+				_x enableAIFeature ['AUTOCOMBAT',FALSE];
+				_x enableAIFeature ['COVER',FALSE];
 				0 = _return pushBack _x;
 			} forEach (units _grp);
 		};
 	};
 	if (_subType isEqualTo 1) then {
 		comment 'Refill';
-		_spawnPosition = _this select 3;
+		_spawnPosition = _this # 3;
 		_grp = [_spawnPosition,(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 		[_grp,_position,(75 + (random 75)),TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
-			_x disableAI 'AUTOCOMBAT';
-			_x disableAI 'COVER';
+			_x enableAIFeature ['AUTOCOMBAT',FALSE];
+			_x enableAIFeature ['COVER',FALSE];
 			[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 			_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];
 			0 = _return pushBack _x;
 		} count (units _grp);
-		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	};
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
 	/*/_spawnArray = [_housePosition,1,0,_house,_houseBuildingPositions] call _fn_smIDAP;/*/
 	/*/params ['_position','_type','_subType'];/*/
-	_house = _this select 3;
-	_houseBuildingPositions = _this select 4;
+	_house = _this # 3;
+	_houseBuildingPositions = _this # 4;
 	_housePosition = position _house;
 	comment 'Building + Patrol + Sentry';
 	private _unit = objNull;
@@ -164,25 +149,21 @@ if (_type isEqualTo 1) exitWith {
 			_houseBuildingPositionIndex = _houseBuildingPositions find _houseBuildingPosition;
 			_houseBuildingPositions set [_houseBuildingPositionIndex,FALSE];
 			_houseBuildingPositions deleteAt _houseBuildingPositionIndex;
-			_unit disableAI 'PATH';
+			_unit enableAIFeature ['PATH',FALSE];
 			_unit setUnitPosWeak (selectRandom ['UP','UP','MIDDLE']);
 			_unit setPos _houseBuildingPosition;
 			if ((random 1) > 0.5) then {
 				_unit addEventHandler [
 					'Hit',
 					{
-						(_this select 0) removeEventHandler ['Hit',_thisEventHandler];
-						(_this select 0) enableAI 'PATH';
+						(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
+						(_this # 0) enableAIFeature ['PATH',TRUE];
 					}
 				];
 			};
 			_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+			_houseGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			_return pushBack _unit;
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			if (_houseBuildingPositions isEqualTo []) exitWith {};
 			if (_x >= _maxCount) exitWith {};
 		};
@@ -193,45 +174,37 @@ if (_type isEqualTo 1) exitWith {
 			[_grp,_housePosition,(25 + (random 100)),TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 			{
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
 				[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 				_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];
-				_x disableAI 'AUTOCOMBAT';
-				_x disableAI 'COVER';
+				_x enableAIFeature ['AUTOCOMBAT',FALSE];
+				_x enableAIFeature ['COVER',FALSE];
 				0 = _return pushBack _x;
 			} count (units _grp);
-			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		};
 	};
 	if (_subType isEqualTo 1) then {
-		_spawnPosition = _this select 5;
+		_spawnPosition = _this # 5;
 		comment 'Refill';
 		_grp = [_spawnPosition,(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_houseBuildingPositions,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_houseBuildingPositions,serverTime,-1],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
 		_grp move (selectRandom _houseBuildingPositions);
 		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
-			_x disableAI 'AUTOCOMBAT';
-			_x disableAI 'COVER';
+			_x enableAIFeature ['AUTOCOMBAT',FALSE];
+			_x enableAIFeature ['COVER',FALSE];
 			[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 			_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];
 			0 = _return pushBack _x;
 		} count (units _grp);
-		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];	
+		_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	};
 	_return;
 };

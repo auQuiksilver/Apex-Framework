@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	30/04/2022 A3 2.08 by Quiksilver
+	26/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -23,11 +23,13 @@ overviewTextLocked = "";
 onLoadIntro = "";													/*/ Displays a message while the intro is loading./*/
 onLoadIntroTime = 0;												/*/ Time and date displayed while the intro loads. 1 visible, 0 hidden./*/
 onLoadMissionTime = 0;												/*/ Time and date displayed while the mission loads. 1 visible, 0 hidden./*/
+missionGroup = "ApexFramework";										/*/ Required for missionProfileNamespace compatibility between updates./*/
 class Header {
 	gameType = COOP;												/*/ Unknown, COOP, DM, TDM, CTF, SC, CTI, RPG, Sandbox, Seize, Defend./*/
 	minPlayers = 1;													/*/ Min # of players the MISSION supports/*/
 	maxPlayers = 81;												/*/ Max # of players the MISSION supports, not server slots. Make sure # is greater than server slots./*/
 };
+skipLobby = 0;											// Player skips lobby on join. An attractive idea, however many players report "Stuck on receieving data" when this is enabled due to bugged lobby slots. So we leave this off for stability.
 disabledAI = 1;											/*/ No AI in playable units/*/
 aiKills = 0; 											/*/ disable scorelist for AI players/*/
 enableItemsDropping = 0; 								/*/ disabled with 0/*/
@@ -51,8 +53,8 @@ disableGateRandomization = 1;
 class CfgUnitTemplates {};
 class CfgVehicleTemplates {};
 arsenalRestrictedItems[] = {};
-overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom handling. Default: not set
-unsafeCVL=1;					// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
+overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom handling.
+unsafeCVL=1;											// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
 class CfgDisabledCommands {
     class CREATEUNIT
     {
@@ -70,7 +72,7 @@ class CfgDisabledCommands {
     };
 	
 	
-	/*/
+	/*/ Zeus map markers
     class SETMARKERTEXT
     {
         class SYNTAX1
@@ -199,6 +201,8 @@ class CfgDisabledCommands {
 class CfgRemoteExec {
 	class Commands {
 		mode = 1;
+		class lock {};			// zeus
+		class setFuel {};		// zeus
 	};
 	class Functions {
 		mode = 1;
@@ -241,97 +245,28 @@ reviveDelay = 6;
 reviveForceRespawnDelay = 3;
 reviveBleedOutDelay = 120;
 debriefing = 1;
-class CfgDebriefing {
-	class QS_RD_end_1 {
-		title = "Role whitelisted";
-		description = "You have joined a whitelisted role, please re-assign. If you would like to be on the whitelist, please speak to staff.";
-		picture = "media\images\insignia\comm_patch.paa";
-	};
-	class QS_RD_end_2 {
-		title = "Imperfect connection";
-		description = "Your connection was imperfect, please re-connect. This measure reduces the prevalence of bugs and glitches caused by de-sync/packet loss during initialization. Thank you for your patience.";
-		picture = "media\images\insignia\comm_patch.paa";
-	};
-	class QS_RD_end_3 {
-		title = "Blacklisted";
-		description = "You have been temporarily blacklisted from this role, please re-assign.";
-		picture = "media\images\insignia\comm_patch.paa";
-	};
-	class QS_RD_end_4 {
-		title = "Reserved Profile Name";
-		description = "Your profile name is reserved for a staff member or supporter on this server, please use a different profile name!";
-		picture = "media\images\insignia\comm_patch.paa";
-	};
-	class QS_RD_end_5 {
-		title = "Invalid Profile Name";
-		description = "Your profile name has been rejected by this server. Please use a different profile name.";
-		picture = "media\images\insignia\comm_patch.paa";
-	};
-	class QS_RD_end_6 {
-		title = "Fighter Pilot Whitelist";
-		description = "You are not whitelisted as a Fighter Pilot.";
-		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
-	};
-	class QS_RD_end_7 {
-		title = "Depleted Assets";
-		description = "You have depleted your pool of aircraft (3), it will refresh after server restart!";
-		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
-	};
-	class QS_RD_end_8 {
-		title = "Role Disabled";
-		description = "This role is currently disabled!";
-		picture = "media\images\insignia\comm_patch.paa";
-	};
-	class QS_RD_end_9 {
-		title = "Insufficient Transport Score";
-		description = "You have insufficient Transport Score as a helipilot, please fly transport!";
-		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
-	};
-	class QS_RD_end_10 {
-		title = "Insufficient Playtime";
-		description = "You must play on the server more prior to using the Pilot roles";
-		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
-	};
-};
-class CfgLeaflets {
-	class East {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
-		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
-		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
-	};
-	class West {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
-		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
-		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
-	};
-	class Guer {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
-		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
-		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
-	};
-	class Civ {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
-		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
-		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
-	};
-};
 class CfgFunctions {
 	class QS {
 		class apex_framework {
 			class addWeapon {file = "code\functions\fn_addWeapon.sqf";};
 			class ahScanString {file = "code\functions\fn_ahScanString.sqf";};
 			class AI {file = "code\functions\fn_AI.sqf";};
-			class AIdisableCollision {file = "code\functions\fn_AIdisableCollision.sqf";};
+			class AIDoSuppressiveFire {file = "code\functions\fn_AIDoSuppressiveFire.sqf";};
+			class AIEnableFeature {file = "code\functions\fn_AIEnableFeature.sqf";};
 			class AIFindNearestRegroup {file = "code\functions\fn_AIFindNearestRegroup.sqf";};
 			class AIFireMission {file = "code\functions\fn_AIFireMission.sqf";};
 			class AIGetAttackTarget {file = "code\functions\fn_AIGetAttackTarget.sqf";};
 			class AIGetKnownEnemies {file = "code\functions\fn_AIGetKnownEnemies.sqf";};
+			class AIGroupEventCombatModeChanged {file = "code\functions\fn_AIGroupEventCombatModeChanged.sqf";};
+			class AIGroupEventEnemyDetected {file = "code\functions\fn_AIGroupEventEnemyDetected.sqf";};
+			class AIGroupEventEnemyDetected2 {file = "code\functions\fn_AIGroupEventEnemyDetected2.sqf";};
 			class AIHandleAgent {file = "code\functions\fn_AIHandleAgent.sqf";};
 			class AIHandleGroup {file = "code\functions\fn_AIHandleGroup.sqf";};
 			class AIHandleUnit {file = "code\functions\fn_AIHandleUnit.sqf";};
 			class AIOwners {file = "code\functions\fn_AIOwners.sqf";};
 			class airbaseDefense {file = "code\functions\fn_airbaseDefense.sqf";};
 			class AIXCivPanic {file = "code\functions\fn_AIXCivPanic.sqf";};
+			class AIXDelayedInstruction {file = "code\functions\fn_AIXDelayedInstruction.sqf";};
 			class AIXDismountDisabled {file = "code\functions\fn_AIXDismountDisabled.sqf";};
 			class AIXHeliInsert {file = "code\functions\fn_AIXHeliInsert.sqf";};
 			class AIXHeliInsertLanding {file = "code\functions\fn_AIXHeliInsertLanding.sqf";};
@@ -373,6 +308,7 @@ class CfgFunctions {
 			class aoTaskIG {file = "code\functions\fn_aoTaskIG.sqf";};
 			class aoTaskKill {file = "code\functions\fn_aoTaskKill.sqf";};
 			class aoTaskMedevac {file = "code\functions\fn_aoTaskMedevac.sqf";};
+			class aoUrbanSpawn {file = "code\functions\fn_aoUrbanSpawn.sqf";};
 			class areaGradient {file = "code\functions\fn_areaGradient.sqf";};
 			class arrayGetIndex {file = "code\functions\fn_arrayGetIndex.sqf";};
 			class arrayShuffle {file = "code\functions\fn_arrayShuffle.sqf";};
@@ -402,6 +338,7 @@ class CfgFunctions {
 			class clientEventAnimStateChanged {file = "code\functions\fn_clientEventAnimStateChanged.sqf";};
 			class clientEventArsenalClosed {file = "code\functions\fn_clientEventArsenalClosed.sqf";};
 			class clientEventArsenalOpened {file = "code\functions\fn_clientEventArsenalOpened.sqf";};
+			class clientEventArsenalPreOpen {file = "code\functions\fn_clientEventArsenalPreOpen.sqf";};
 			class clientEventCuratorGroupPlaced {file = "code\functions\fn_clientEventCuratorGroupPlaced.sqf";};
 			class clientEventCuratorKeyDown {file = "code\functions\fn_clientEventCuratorKeyDown.sqf";};
 			class clientEventCuratorMarkerPlaced {file = "code\functions\fn_clientEventCuratorMarkerPlaced.sqf";};
@@ -437,6 +374,8 @@ class CfgFunctions {
 			class clientEventOnFlare {file = "code\functions\fn_clientEventOnFlare.sqf";};
 			class clientEventOnGameInterrupt {file = "code\functions\fn_clientEventOnGameInterrupt.sqf";};
 			class clientEventOnMiniMap {file = "code\functions\fn_clientEventOnMiniMap.sqf";};
+			class clientEventOpticsModeChanged {file = "code\functions\fn_clientEventOpticsModeChanged.sqf";};
+			class clientEventOpticsSwitch {file = "code\functions\fn_clientEventOpticsSwitch.sqf";};
 			class clientEventPlayerViewChanged {file = "code\functions\fn_clientEventPlayerViewChanged.sqf";};
 			class clientEventPostReset {file = "code\functions\fn_clientEventPostReset.sqf";};
 			class clientEventReloaded {file = "code\functions\fn_clientEventReloaded.sqf";};
@@ -452,7 +391,6 @@ class CfgFunctions {
 			class clientEventWeaponDisassembled {file = "code\functions\fn_clientEventWeaponDisassembled.sqf";};
 			class clientExamineResult {file = "code\functions\fn_clientExamineResult.sqf";};
 			class clientGetDoorPhase {file = "code\functions\fn_clientGetDoorPhase.sqf";};
-			class clientGetLBRank {file = "code\functions\fn_clientGetLBRank.sqf";};
 			class clientGetSupporterLevel {file = "code\functions\fn_clientGetSupporterLevel.sqf";};
 			class clientHeartbeat {file = "code\functions\fn_clientHeartbeat.sqf";};
 			class clientHintPresets {file = "code\functions\fn_clientHintPresets.sqf";};
@@ -463,6 +401,7 @@ class CfgFunctions {
 			class clientInteractActivateVehicle {file = "code\functions\fn_clientInteractActivateVehicle.sqf";};
 			class clientInteractAlert {file = "code\functions\fn_clientInteractAlert.sqf";};
 			class clientInteractArsenal {file = "code\functions\fn_clientInteractArsenal.sqf";};
+			class clientInteractBeret {file = "code\functions\fn_clientInteractBeret.sqf";};
 			class clientInteractCamoNet {file = "code\functions\fn_clientInteractCamoNet.sqf";};
 			class clientInteractCarrierLaunch {file = "code\functions\fn_clientInteractCarrierLaunch.sqf";};
 			class clientInteractCarry {file = "code\functions\fn_clientInteractCarry.sqf";};
@@ -470,11 +409,11 @@ class CfgFunctions {
 			class clientInteractClearInventory {file = "code\functions\fn_clientInteractClearInventory.sqf";};
 			class clientInteractCreateBoat {file = "code\functions\fn_clientInteractCreateBoat.sqf";};
 			class clientInteractCustomizeInventory {file = "code\functions\fn_clientInteractCustomizeInventory.sqf";};
+			class clientInteractDestroyerHeliLaunch {file = "code\functions\fn_clientInteractDestroyerHeliLaunch.sqf";};
 			class clientInteractDismiss {file = "code\functions\fn_clientInteractDismiss.sqf";};
 			class clientInteractDoor {file = "code\functions\fn_clientInteractDoor.sqf";};
 			class clientInteractDownloadIntel {file = "code\functions\fn_clientInteractDownloadIntel.sqf";};
 			class clientInteractDrag {file = "code\functions\fn_clientInteractDrag.sqf";};
-			class clientInteractEar {file = "code\functions\fn_clientInteractEar.sqf";};
 			class clientInteractEscort {file = "code\functions\fn_clientInteractEscort.sqf";};
 			class clientInteractExamine {file = "code\functions\fn_clientInteractExamine.sqf";};
 			class clientInteractFOBTerminal {file = "code\functions\fn_clientInteractFOBTerminal.sqf";};
@@ -484,6 +423,7 @@ class CfgFunctions {
 			class clientInteractLoad {file = "code\functions\fn_clientInteractLoad.sqf";};
 			class clientInteractLoadCargo {file = "code\functions\fn_clientInteractLoadCargo.sqf";};
 			class clientInteractMedStation {file = "code\functions\fn_clientInteractMedStation.sqf";};
+			class clientInteractOpenParachute {file = "code\functions\fn_clientInteractOpenParachute.sqf";};
 			class clientInteractPush {file = "code\functions\fn_clientInteractPush.sqf";};
 			class clientInteractRappel {file = "code\functions\fn_clientInteractRappel.sqf";};
 			class clientInteractRecoverBoat {file = "code\functions\fn_clientInteractRecoverBoat.sqf";};
@@ -534,6 +474,7 @@ class CfgFunctions {
 			class clientMFindHealer {file = "code\functions\fn_clientMFindHealer.sqf";};
 			class clientMissionStatus {file = "code\functions\fn_clientMissionStatus.sqf";};
 			class clientProgressVisualization {file = "code\functions\fn_clientProgressVisualization.sqf";};
+			class clientProjectileEventHitPart {file = "code\functions\fn_clientProjectileEventHitPart.sqf";};
 			class clientProjectileManager {file = "code\functions\fn_clientProjectileManager.sqf";};
 			class clientRadio {file = "code\functions\fn_clientRadio.sqf";};
 			class clientRepackMagazines {file = "code\functions\fn_clientRepackMagazines.sqf";};
@@ -541,6 +482,8 @@ class CfgFunctions {
 			class clientServiceVehicle {file = "code\functions\fn_clientServiceVehicle.sqf";};
 			class clientSetUnitInsignia {file = "code\functions\fn_clientSetUnitInsignia.sqf";};
 			class clientSimulationManager {file = "code\functions\fn_clientSimulationManager.sqf";};
+			class clientVehicleEventCargoLoaded {file = "code\functions\fn_clientVehicleEventCargoLoaded.sqf";};
+			class clientVehicleEventCargoUnloaded {file = "code\functions\fn_clientVehicleEventCargoUnloaded.sqf";};
 			class clientVehicleEventDammaged {file = "code\functions\fn_clientVehicleEventDammaged.sqf";};
 			class clientVehicleEventDeleted {file = "code\functions\fn_clientVehicleEventDeleted.sqf";};
 			class clientVehicleEventEngine {file = "code\functions\fn_clientVehicleEventEngine.sqf";};
@@ -558,7 +501,6 @@ class CfgFunctions {
 			class clientVehicleEventRopeBreak {file = "code\functions\fn_clientVehicleEventRopeBreak.sqf";};
 			class clientVehicleEventTurnIn {file = "code\functions\fn_clientVehicleEventTurnIn.sqf";};
 			class clientVehicleEventTurnOut {file = "code\functions\fn_clientVehicleEventTurnOut.sqf";};
-			class clientVAS2VA {file = "code\functions\fn_clientVAS2VA.sqf";};
 			class clientViewOptions {file = "code\functions\fn_clientViewOptions.sqf";};
 			class clientWeatherSync {file = "code\functions\fn_clientWeatherSync.sqf";};
 			class commonMultiplyMatrix {file = "code\functions\fn_commonMultiplyMatrix.sqf";};
@@ -571,9 +513,9 @@ class CfgFunctions {
 			class conditionTurretActionUnlockR {file = "code\functions\fn_conditionTurretActionUnlockR.sqf";};
 			class config {file = "code\functions\fn_config.sqf";};
 			class core {file = "code\functions\fn_core.sqf";};
+			class craterEffect {file = "code\functions\fn_craterEffect.sqf";};
 			class createAAVehicle {file = "code\functions\fn_createAAVehicle.sqf";};
 			class createEntityComposition {file = "code\functions\fn_createEntityComposition.sqf";};
-			class createHQComposition {file = "code\functions\fn_createHQComposition.sqf";};
 			class createMinefield {file = "code\functions\fn_createMinefield.sqf";};
 			class createWell {file = "code\functions\fn_createWell.sqf";};
 			class curatorFunctions {file = "code\functions\fn_curatorFunctions.sqf";};
@@ -590,8 +532,10 @@ class CfgFunctions {
 			class enemySides {file = "code\functions\fn_enemySides.sqf";};
 			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
+			class eventBuildingChanged {file = "code\functions\fn_eventBuildingChanged.sqf";}; 
 			class eventEachFrame {file = "code\functions\fn_eventEachFrame.sqf";};
 			class eventEachFrame2 {file = "code\functions\fn_eventEachFrame2.sqf";};
+			class eventEntityCreated {file = "code\functions\fn_eventEntityCreated.sqf";};
 			class eventEntityKilled {file = "code\functions\fn_eventEntityKilled.sqf";};
 			class eventEntityRespawned {file = "code\functions\fn_eventEntityRespawned.sqf";};
 			class eventHandleDisconnect {file = "code\functions\fn_eventHandleDisconnect.sqf";};
@@ -633,6 +577,7 @@ class CfgFunctions {
 			class getNearbyIncapacitated {file = "code\functions\fn_getNearbyIncapacitated.sqf";};
 			class getNearestBuilding {file = "code\functions\fn_getNearestBuilding.sqf";};
 			class getSolarHorizon {file = "code\functions\fn_getSolarHorizon.sqf";};
+			class getVehicleStealth {file = "code\functions\fn_getVehicleStealth.sqf";};
 			class getWeekday {file = "code\functions\fn_getWeekday.sqf";};
 			class geomPolygonCentroid {file = "code\functions\fn_geomPolygonCentroid.sqf";};
 			class gpsJammer {file = "code\functions\fn_gpsJammer.sqf";};
@@ -667,6 +612,7 @@ class CfgFunctions {
 			class isPosVisible {file = "code\functions\fn_isPosVisible.sqf";};
 			class isValidCargoV {file = "code\functions\fn_isValidCargoV.sqf";};
 			class leaderboardAddToWhitelist {file = "code\functions\fn_leaderboardAddToWhitelist.sqf";};
+			class leaderboardNotifyWhitelist {file = "code\functions\fn_leaderboardNotifyWhitelist.sqf";};
 			class listRemoteTargets {file = "code\functions\fn_listRemoteTargets.sqf";};
 			class logEvent {file = "code\functions\fn_logEvent.sqf";};
 			class mapGetNearestWaypoint {file = "code\functions\fn_mapGetNearestWaypoint.sqf";};
@@ -721,7 +667,6 @@ class CfgFunctions {
 			class setCruiseControl {file = "code\functions\fn_setCruiseControl.sqf";};
 			class setFlag {file = "code\functions\fn_setFlag.sqf";};
 			class setSimpleObject {file = "code\functions\fn_setSimpleObject.sqf";};
-			//class setUnitRole {file = "code\functions\fn_setUnitRole.sqf";};
 			class showNotification {file = "code\functions\fn_showNotification.sqf";};
 			class showNotification_process {file = "code\functions\fn_showNotification_process.sqf";};
 			class sideID {file = "code\functions\fn_sideID.sqf";};
@@ -798,7 +743,82 @@ class CfgFunctions {
 			class SMsecureUrban {file = "code\functions\fn_SMsecureUrban.sqf";};
 			class SMidapRecover {file = "code\functions\fn_SMidapRecover.sqf";};
 			class SMregenerator {file = "code\functions\fn_SMregenerator.sqf";};
+			class zeusMission {file = "code\functions\fn_zeusMission.sqf";};
 		};
+	};
+};
+class CfgDebriefing {
+	class QS_RD_end_1 {
+		title = "Role whitelisted";
+		description = "You have joined a whitelisted role, please re-assign. If you would like to be on the whitelist, please speak to staff.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_2 {
+		title = "Imperfect connection";
+		description = "Your connection was imperfect, please re-connect. This measure reduces the prevalence of bugs and glitches caused by de-sync/packet loss during initialization. Thank you for your patience.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_3 {
+		title = "Blacklisted";
+		description = "You have been temporarily blacklisted from this role, please re-assign.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_4 {
+		title = "Reserved Profile Name";
+		description = "Your profile name is reserved for a staff member or supporter on this server, please use a different profile name!";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_5 {
+		title = "Invalid Profile Name";
+		description = "Your profile name has been rejected by this server. Please use a different profile name.";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_6 {
+		title = "Fighter Pilot Whitelist";
+		description = "You are not whitelisted as a Fighter Pilot.";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
+	};
+	class QS_RD_end_7 {
+		title = "Depleted Assets";
+		description = "You have depleted your pool of aircraft (3), it will refresh after server restart!";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
+	};
+	class QS_RD_end_8 {
+		title = "Role Disabled";
+		description = "This role is currently disabled!";
+		picture = "media\images\insignia\comm_patch.paa";
+	};
+	class QS_RD_end_9 {
+		title = "Insufficient Transport Score";
+		description = "You have insufficient Transport Score as a helipilot, please fly transport!";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
+	};
+	class QS_RD_end_10 {
+		title = "Insufficient Playtime";
+		description = "You must play on the server more prior to using the Pilot roles";
+		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
+	};
+};
+class CfgLeaflets {
+	class East {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
+	};
+	class West {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
+	};
+	class Guer {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
+	};
+	class Civ {
+		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
+		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
 };
 class CfgSounds {
@@ -882,6 +902,11 @@ class CfgSounds {
 		sound[] = {"media\audio\activate_mine.wss",0.9,1};
         titles[] = {};
     };
+	class hit_marker_2 {
+		name = "Hit Marker 1";
+		sound[] = {"media\audio\hitmarker_2.wss",0.9,1};
+		titles[] = {};
+	};
 	class QS_Siren_L {
 		name = "Siren_Long";
 		sound[] = {"media\audio\Siren_Long.ogg",1.0,1};
@@ -2412,15 +2437,15 @@ class QS_client_dialog_menu_roles {
 	idd = 42000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "uiNamespace setVariable ['QS_client_dialog_menu_roles',_this select 0]; 0 spawn (missionNamespace getVariable 'QS_fnc_clientMenuRSS');";
+	onLoad = "uiNamespace setVariable ['QS_client_dialog_menu_roles',_this # 0]; 0 spawn (missionNamespace getVariable 'QS_fnc_clientMenuRSS');";
 	onUnload = "uiNamespace setVariable ['QS_client_dialog_menu_roles',displayNull];";
 };
 class QS_RD_client_dialog_menu_main {
 	idd = 2000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
 	class controls {
 		class QS_RD_client_dialog_menu_main_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -2500,7 +2525,7 @@ class QS_RD_client_dialog_menu_main {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B1',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			onButtonClick = "['B1',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
 		};
 		class QS_RD_client_dialog_menu_main_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
@@ -2513,7 +2538,7 @@ class QS_RD_client_dialog_menu_main {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B2',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			onButtonClick = "['B2',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_main_button_3: QS_RD_dialog_RscButton {
@@ -2528,7 +2553,7 @@ class QS_RD_client_dialog_menu_main {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			tooltip = "";
-			onButtonClick = "['B3',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			onButtonClick = "['B3',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
 		};
 		class QS_RD_client_dialog_menu_main_button_4: QS_RD_dialog_RscButton {
 			moving = 1;
@@ -2540,7 +2565,7 @@ class QS_RD_client_dialog_menu_main {
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
 			shadow = 0;
-			onButtonClick = "['B4',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			onButtonClick = "['B4',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
 			tooltip = "";
 			colorText[] = {1,1,1,1};
 		};
@@ -2553,7 +2578,7 @@ class QS_RD_client_dialog_menu_main {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['B5',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			onButtonClick = "['B5',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -2566,7 +2591,7 @@ class QS_RD_client_dialog_menu_main {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['B6',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
+			onButtonClick = "['B6',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuMain');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -2677,7 +2702,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			moving = 1;
 			idc = 1807;
 			text = "";
-			onSliderPosChanged = "['onSliderPosChange',0,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			onSliderPosChanged = "['onSliderPosChange',0,(_this # 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
 			tooltip = "";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.68 * safezoneH + safezoneY;
@@ -2749,7 +2774,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			moving = 1;
 			idc = 1812;
 			text = "";
-			onSliderPosChanged = "['onSliderPosChange',1,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			onSliderPosChanged = "['onSliderPosChange',1,(_this # 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
 			tooltip = "";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.73 * safezoneH + safezoneY;
@@ -2821,7 +2846,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			moving = 1;
 			idc = 1817;
 			text = "";
-			onSliderPosChanged = "['onSliderPosChange',2,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			onSliderPosChanged = "['onSliderPosChange',2,(_this # 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
 			tooltip = "";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.78 * safezoneH + safezoneY;
@@ -2894,7 +2919,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			moving = 1;
 			idc = 1822;
 			text = "";
-			onSliderPosChanged = "['onSliderPosChange',3,(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
+			onSliderPosChanged = "['onSliderPosChange',3,(_this # 1)] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
 			tooltip = "";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.83 * safezoneH + safezoneY;
@@ -2936,54 +2961,12 @@ class QS_RD_client_dialog_menu_viewSettings {
 		};
 	};
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class QS_RD_client_dialog_menu_options {
 	idd = 4000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 	class controls {
 		/*/ ===== BACKUP
 		class QS_RD_client_dialog_menu_options_frame_1: QS_RD_dialog_RscFrame {
@@ -3078,8 +3061,8 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.585 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Click to toggle Stamina";
-			onCheckedChanged = "['StaminaCheckbox',_this select 0,_this select 1] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			tooltip = "Toggle Stamina";
+			onCheckedChanged = "['StaminaCheckbox',_this # 0,_this # 1] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		class QS_RD_client_dialog_menu_options_text_3: QS_RD_dialog_RscText {
 			moving = 1;
@@ -3105,7 +3088,7 @@ class QS_RD_client_dialog_menu_options {
 			moving = 1;
 			idc = 1807;
 			text = "";
-			onSliderPosChanged = "['AimCoefSlider',(_this select 0),(_this select 1)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onSliderPosChanged = "['AimCoefSlider',(_this # 0),(_this # 1)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.655 * safezoneH + safezoneY;
 			w = 0.09 * safezoneW;
@@ -3161,7 +3144,7 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "Toggle First-Person Lock";
-			onCheckedChanged = "['1PVCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onCheckedChanged = "['1PVCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		/*/ ===== BACKUP
 		class QS_RD_client_dialog_menu_options_button_1: QS_RD_dialog_RscButton {
@@ -3173,7 +3156,7 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3187,7 +3170,7 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3218,7 +3201,7 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "Toggle on/off QuackTac Fireteam HUD";
-			onCheckedChanged = "['QHUDCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onCheckedChanged = "['QHUDCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		class QS_RD_client_dialog_menu_options_text_7: QS_RD_dialog_RscText {
 			moving = 1;
@@ -3248,7 +3231,7 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "Toggle Ambient Life (fish, snakes, rabbits)";
-			onCheckedChanged = "['AmbientCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onCheckedChanged = "['AmbientCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		class QS_RD_client_dialog_menu_options_text_8: QS_RD_dialog_RscText {
 			moving = 1;
@@ -3278,7 +3261,7 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "Toggle Dynamic Simulation";
-			onCheckedChanged = "['DynSimCheckbox',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onCheckedChanged = "['DynSimCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		
 		
@@ -3314,7 +3297,7 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "Toggle 3D Group Hexagons";
-			onCheckedChanged = "['Toggle3DGroupHex',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onCheckedChanged = "['Toggle3DGroupHex',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		
 		
@@ -3351,7 +3334,77 @@ class QS_RD_client_dialog_menu_options {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "Toggle Extended System Chat";
-			onCheckedChanged = "['ToggleSystemChatSpam',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+			onCheckedChanged = "['ToggleSystemChatSpam',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+
+		class QS_RD_client_dialog_menu_options_text_11: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1822;
+			text = "Suppression Effects";
+			tooltip = "Toggles on/off Suppression Effects";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.96 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};		
+		class QS_RD_client_dialog_menu_options_checkbox_8 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1823;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 0.955 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle Suppression Effects";
+			onCheckedChanged = "['ToggleSuppression',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
+		};
+		
+		class QS_RD_client_dialog_menu_options_text_12: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1824;
+			text = "Hit Markers";
+			tooltip = "Toggles on/off Hit Marker audio effects";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 1.005 * safezoneH + safezoneY;
+			w = 0.08 * safezoneW;
+			h = 0.02 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorDisabled[] = {0,0,0,0};
+			colorBackground[] = {0,0,0,0};
+			colorBackgroundDisabled[] = {0,0,0,0};
+			colorBackgroundActive[] = {0,0,0,0};
+			colorFocused[] = {0,0,0,0};
+			colorShadow[] = {0,0,0,0};
+			colorBorder[] = {0,0,0,0};
+			class Attributes {
+				font = "RobotoCondensed";
+				align = "left";
+			};
+		};		
+		class QS_RD_client_dialog_menu_options_checkbox_9 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1825;
+			x = 0.475 * safezoneH + safezoneY; 
+			y = 1 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "Toggle Hit Marker Audio";
+			onCheckedChanged = "['ToggleHitMarker',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 	};
 };
@@ -3359,8 +3412,8 @@ class QS_RD_client_dialog_menu_supporters {
 	idd = 5000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 	class controls {
 		class QS_RD_client_dialog_menu_supporters_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -3415,7 +3468,7 @@ class QS_RD_client_dialog_menu_supporters {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B1',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			onButtonClick = "['B1',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
@@ -3428,7 +3481,7 @@ class QS_RD_client_dialog_menu_supporters {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B2',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			onButtonClick = "['B2',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 			tooltip = "Shoulder patches";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_3: QS_RD_dialog_RscButton {
@@ -3442,7 +3495,7 @@ class QS_RD_client_dialog_menu_supporters {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B3',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			onButtonClick = "['B3',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 			tooltip = "Custom uniform textures";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_4: QS_RD_dialog_RscButton {
@@ -3456,7 +3509,7 @@ class QS_RD_client_dialog_menu_supporters {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B4',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			onButtonClick = "['B4',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 			tooltip = "Custom vehicle textures";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_5: QS_RD_dialog_RscButton {
@@ -3470,7 +3523,7 @@ class QS_RD_client_dialog_menu_supporters {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B5',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			onButtonClick = "['B5',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_6: QS_RD_dialog_RscButton {
@@ -3484,7 +3537,7 @@ class QS_RD_client_dialog_menu_supporters {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B6',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			onButtonClick = "['B6',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 			tooltip = "Latest updates";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_7: QS_RD_dialog_RscButton {
@@ -3496,7 +3549,7 @@ class QS_RD_client_dialog_menu_supporters {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3506,8 +3559,8 @@ class QS_RD_client_dialog_menu_vtexture {
 	idd = 7000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
 	class controls {
 		class QS_RD_client_dialog_menu_vtexture_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -3549,7 +3602,7 @@ class QS_RD_client_dialog_menu_vtexture {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Select',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+			onButtonClick = "['Select',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3562,7 +3615,7 @@ class QS_RD_client_dialog_menu_vtexture {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuVTexture');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3582,8 +3635,8 @@ class QS_RD_client_dialog_menu_insignia {
 	idd = 9000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
 	class controls {
 		class QS_RD_client_dialog_menu_insignia_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -3625,7 +3678,7 @@ class QS_RD_client_dialog_menu_insignia {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Select',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+			onButtonClick = "['Select',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3638,7 +3691,7 @@ class QS_RD_client_dialog_menu_insignia {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuInsignia');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3658,8 +3711,8 @@ class QS_RD_client_dialog_menu_utexture {
 	idd = 10000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
 	class controls {
 		class QS_RD_client_dialog_menu_utexture_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -3701,7 +3754,7 @@ class QS_RD_client_dialog_menu_utexture {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Select',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+			onButtonClick = "['Select',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3714,7 +3767,7 @@ class QS_RD_client_dialog_menu_utexture {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuUTexture');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3741,8 +3794,8 @@ class QS_RD_client_dialog_menu_hub {
 	idd = 11000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
 	class controls {
 		class QS_RD_client_dialog_menu_hub_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -3832,7 +3885,7 @@ class QS_RD_client_dialog_menu_hub {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B3',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			onButtonClick = "['B3',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_hub_button_4: QS_RD_dialog_RscButton {
@@ -3846,7 +3899,7 @@ class QS_RD_client_dialog_menu_hub {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B4',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			onButtonClick = "['B4',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_hub_button_5: QS_RD_dialog_RscButton {
@@ -3860,7 +3913,7 @@ class QS_RD_client_dialog_menu_hub {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B5',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			onButtonClick = "['B5',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_hub_button_6: QS_RD_RscStructuredText {
@@ -3890,7 +3943,7 @@ class QS_RD_client_dialog_menu_hub {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Back',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuHub');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -3940,8 +3993,8 @@ class QS_RD_client_dialog_menu_context {
 	idd = 12000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 	class controls {
 		class QS_RD_client_dialog_menu_context_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -3996,7 +4049,7 @@ class QS_RD_client_dialog_menu_context {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B1',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			onButtonClick = "['B1',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 		};
 		class QS_RD_client_dialog_menu_context_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
@@ -4009,7 +4062,7 @@ class QS_RD_client_dialog_menu_context {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B2',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			onButtonClick = "['B2',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_context_button_3: QS_RD_dialog_RscButton {
@@ -4023,7 +4076,7 @@ class QS_RD_client_dialog_menu_context {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B3',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			onButtonClick = "['B3',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_context_button_4: QS_RD_dialog_RscButton {
@@ -4037,7 +4090,7 @@ class QS_RD_client_dialog_menu_context {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B4',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			onButtonClick = "['B4',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_context_button_5: QS_RD_dialog_RscButton {
@@ -4051,7 +4104,7 @@ class QS_RD_client_dialog_menu_context {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B5',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			onButtonClick = "['B5',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_context_button_6: QS_RD_dialog_RscButton {
@@ -4065,7 +4118,7 @@ class QS_RD_client_dialog_menu_context {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B6',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			onButtonClick = "['B6',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_context_button_7: QS_RD_dialog_RscButton {
@@ -4077,7 +4130,7 @@ class QS_RD_client_dialog_menu_context {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Close',(_this select 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
+			onButtonClick = "['Close',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuContext');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
@@ -4087,8 +4140,8 @@ class QS_RD_client_dialog_menu_entry {
 	idd = 13000;
 	movingEnabled = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
 	class controls {
 		class QS_RD_client_dialog_menu_entry_frame_1: QS_RD_dialog_RscFrame {
 			idc = 1800;
@@ -4122,7 +4175,7 @@ class QS_RD_client_dialog_menu_entry {
 		};
 		class QS_RD_client_dialog_menu_entry_picture_1: QS_RD_dialog_RscPictureKeepAspect {
 			idc = 1803;
-			text = "media\images\insignia\comm_patch.paa";
+			text = "a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
 			x = 0.6875 * safezoneW + safezoneX;
 			y = 0.15 * safezoneH + safezoneY;
 			w = 0.06 * safezoneW;
@@ -4139,7 +4192,7 @@ class QS_RD_client_dialog_menu_entry {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B1',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
+			onButtonClick = "['B1',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuEntry');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_hub_text_2: QS_RD_RscStructuredText {
@@ -4164,8 +4217,8 @@ class QS_RD_client_dialog_menu_leaderboard {
 	idd = 14000;
 	movingEnable = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
 	class controls {
 		class QS_RD_client_dialog_menu_leaderboard_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -4248,7 +4301,7 @@ class QS_RD_client_dialog_menu_leaderboard {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B1',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+			onButtonClick = "['B1',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
 			tooltip = "";
 		};
 		class QS_RD_client_dialog_menu_leaderboard_button_2: QS_RD_dialog_RscButton {
@@ -4262,7 +4315,7 @@ class QS_RD_client_dialog_menu_leaderboard {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['B2',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
+			onButtonClick = "['B2',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLeaderboard');";
 			tooltip = "";
 		};
 		class listNboxA : QS_RD_dialog_RscListNBox {
@@ -4347,8 +4400,8 @@ class QS_RD_client_dialog_menu_console {
 	idd = 15000;
 	movingEnabled = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
 	class controls {
 		class QS_RD_client_dialog_menu_console_text_1: QS_RD_dialog_RscText {
 			idc = 1001;
@@ -4534,7 +4587,7 @@ class QS_RD_client_dialog_menu_console {
 			w = "1 * 			(			((safezoneW / safezoneH) min 1.2) / 40)";
 			h = "1 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 			tooltip = "";
-			onCheckedChanged = "['RxCheckbox',_this select 0,_this select 1] call (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
+			onCheckedChanged = "['RxCheckbox',_this # 0,_this # 1] call (missionNamespace getVariable 'QS_fnc_clientMenuConsole');";
 		};
 	};
 };
@@ -4542,8 +4595,8 @@ class QS_RD_client_dialog_menu_radio {
 	idd = 17000;
 	movingEnabled = 1;
 	enableSimulation = 1;
-	onLoad = "['onLoad',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
-	onUnload = "['onUnload',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 	class controls {
 		class QS_RD_client_dialog_menu_radio_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
@@ -4605,7 +4658,7 @@ class QS_RD_client_dialog_menu_radio {
 			sizeEx = 0.03;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			onButtonClick = "['Close',(_this select 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onButtonClick = "['Close',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 			tooltip = "";
 		};
 
@@ -4720,7 +4773,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_1',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_1',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/ AIRCRAFT /*/
 		class QS_RD_client_dialog_menu_radio_text_6: QS_RD_RscStructuredText {
@@ -4767,7 +4820,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_2',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_2',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/AO/*/
 		class QS_RD_client_dialog_menu_radio_text_7: QS_RD_RscStructuredText {
@@ -4814,7 +4867,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_3',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_3',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		class QS_RD_client_dialog_menu_radio_checkbox_11 : QS_RD_RscCheckbox {
 			moving = 1;
@@ -4824,7 +4877,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			text = "";
-			onCheckedChanged = "['Check_11',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_11',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/Side/*/
 		class QS_RD_client_dialog_menu_radio_text_8: QS_RD_RscStructuredText {
@@ -4871,7 +4924,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_4',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_4',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		class QS_RD_client_dialog_menu_radio_checkbox_12 : QS_RD_RscCheckbox {
 			moving = 1;
@@ -4881,7 +4934,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			text = "";
-			onCheckedChanged = "['Check_12',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_12',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/Platoon A/*/
 		class QS_RD_client_dialog_menu_radio_text_9: QS_RD_RscStructuredText {
@@ -4928,7 +4981,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_5',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_5',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/Platoon B/*/
 		class QS_RD_client_dialog_menu_radio_text_10: QS_RD_RscStructuredText {
@@ -4975,7 +5028,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_6',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_6',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/Platoon C/*/
 		class QS_RD_client_dialog_menu_radio_text_11: QS_RD_RscStructuredText {
@@ -5022,7 +5075,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_7',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_7',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/Off-Duty/*/
 		class QS_RD_client_dialog_menu_radio_text_12: QS_RD_RscStructuredText {
@@ -5069,7 +5122,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_8',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_8',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/--- 1 ---/*/
 		class QS_RD_client_dialog_menu_radio_text_21: QS_RD_RscStructuredText {
@@ -5116,7 +5169,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_9',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_9',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 		/*/--- 2 ---/*/
 		class QS_RD_client_dialog_menu_radio_text_23: QS_RD_RscStructuredText {
@@ -5163,7 +5216,7 @@ class QS_RD_client_dialog_menu_radio {
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
 			tooltip = "";
-			onCheckedChanged = "['Check_10',(_this select 0),(_this select 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
+			onCheckedChanged = "['Check_10',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuRadio');";
 		};
 	};
 };
@@ -5174,7 +5227,7 @@ class RscTitles {
 		fadeIn = 0.2;
 		fadeOut = 0.2;
 		name = "QS_RD_client_dialog_crewIndicator";
-		onLoad = "uiNamespace setVariable ['QS_RD_client_dialog_crewIndicator',_this select 0]";
+		onLoad = "uiNamespace setVariable ['QS_RD_client_dialog_crewIndicator',_this # 0]";
 		onUnload = "uiNamespace setVariable ['QS_RD_client_dialog_crewIndicator',nil]";
 		class controlsBackground {
 			class QS_RD_client_dialog_crewIndicator_1: QS_RD_RscStructuredText {		
@@ -5203,7 +5256,7 @@ class RscTitles {
 		fadeIn = 0.2;
 		fadeOut = 0.2;
 		name = "QS_RD_client_dialog_hud";
-		onLoad = "uiNamespace setVariable ['QS_RD_client_dialog_hud',_this select 0]";
+		onLoad = "uiNamespace setVariable ['QS_RD_client_dialog_hud',_this # 0]";
 		onUnload = "uiNamespace setVariable ['QS_RD_client_dialog_hud',nil]";
 		class controlsBackground {
 			class QS_RD_client_dialog_hud_1: QS_RD_dialog_RscMapControl {
@@ -5274,7 +5327,7 @@ class RscTitles {
 		class Objects {
 			class Radio {
 				idc = 101;
-				onLoad = "(_this select 0) ctrlSetModelScale 1.5; (_this select 0) ctrlSetPosition [0.25 * safezoneW + safezoneX,0.35,2 * safezoneH + safezoneY]; (_this select 0) ctrlSetModelDirAndUp [[0,-1,0],[0,0,-1]];(_this select 0) ctrlSetModelScale (1 * 0.675 * (SafeZoneW Min SafeZoneH)); (_this select 0) ctrlCommit 0; (_this select 0) ctrlSetPosition [0.25 * safezoneW + safezoneX,0.35,0.75 * safezoneH + safezoneY]; (_this select 0) ctrlCommit 1;";				
+				onLoad = "(_this # 0) ctrlSetModelScale 1.5; (_this # 0) ctrlSetPosition [0.25 * safezoneW + safezoneX,0.35,2 * safezoneH + safezoneY]; (_this # 0) ctrlSetModelDirAndUp [[0,-1,0],[0,0,-1]];(_this # 0) ctrlSetModelScale (1 * 0.675 * (SafeZoneW Min SafeZoneH)); (_this # 0) ctrlCommit 0; (_this # 0) ctrlSetPosition [0.25 * safezoneW + safezoneX,0.35,0.75 * safezoneH + safezoneY]; (_this # 0) ctrlCommit 1;";				
 				type = 81;
 				model = "\a3\Weapons_F\Ammo\mag_radio.p3d";
 				scale = "(1 * 0.675 * (SafeZoneW Min SafeZoneH))";
@@ -5340,7 +5393,7 @@ class RscTitles {
 	};
 	class QS_hud_hint {
 		idd = 33000;
-		onLoad = "uiNamespace setVariable ['QS_hint_display_1',(_this select 0)];";
+		onLoad = "uiNamespace setVariable ['QS_hint_display_1',(_this # 0)];";
 		onUnload = "";
 		deletable = 0;
 		fade = 0;
@@ -5357,7 +5410,7 @@ class RscTitles {
 		class controls {
 			class QS_hint_1: QS_RD_RscStructuredText {
 				idc = 101;
-				onLoad = "uiNamespace setVariable ['QS_hint_display_2',(_this select 0)];";
+				onLoad = "uiNamespace setVariable ['QS_hint_display_2',(_this # 0)];";
 				onUnload = "";
 				colorBackground[] = {"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])","(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])","(profilenamespace getvariable ['IGUI_BCG_RGB_B',1])",0.7};
 				colorText[] = {1,1,1,1};

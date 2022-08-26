@@ -21,4 +21,4 @@ getCursorObjectParams params [
 if (isNull _cursorObject) exitWith {[objNull,'']};
 if (_cursorObjectNamedSel isEqualTo []) exitWith {[objNull,'']};
 if (_cursorObjectDist > 2.25) exitWith {[objNull,'']};
-[_cursorObject,(_cursorObjectNamedSel select 0)];
+[_cursorObject,(_cursorObjectNamedSel # 0)];

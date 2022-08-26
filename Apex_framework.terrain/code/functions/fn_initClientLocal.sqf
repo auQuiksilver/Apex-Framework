@@ -75,7 +75,7 @@ if (!((uiNamespace getVariable ['BIS_shownChat',TRUE]) isEqualType TRUE)) exitWi
 			endMission 'QS_RD_end_2';
 		};
 		if (_hasInterface) then {
-			if (!((getOxygenRemaining player) isEqualTo 1)) then {
+			if ((getOxygenRemaining player) isNotEqualTo 1) then {
 				player setOxygenRemaining 1;
 			};
 		};

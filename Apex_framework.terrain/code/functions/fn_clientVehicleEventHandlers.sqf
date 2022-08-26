@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	15/11/2018 A3 1.84 by Quiksilver
+	22/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -17,7 +17,7 @@ params ['_type','_vehicle'];
 if (_type isEqualTo 0) then {
 	//comment 'Remove Events';
 	if (!isNil {_vehicle getVariable 'QS_client_vehicleEventHandlers'}) then {
-		if (!((_vehicle getVariable 'QS_client_vehicleEventHandlers') isEqualTo [])) then {
+		if ((_vehicle getVariable 'QS_client_vehicleEventHandlers') isNotEqualTo []) then {
 			{
 				_vehicle removeEventHandler _x;
 			} forEach (_vehicle getVariable 'QS_client_vehicleEventHandlers');
@@ -30,7 +30,7 @@ if (_type isEqualTo 1) then {
 	if (isNil {_vehicle getVariable 'QS_client_vehicleEventHandlers'}) then {
 		private _vehicleEventHandlers = [];
 		{
-			_vehicleEventHandlers pushBack [(_x select 0),(_vehicle addEventHandler _x)];
+			_vehicleEventHandlers pushBack [(_x # 0),(_vehicle addEventHandler _x)];
 		} forEach [
 			['Local',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventLocal')}],
 			['Killed',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventKilled')}],
@@ -42,17 +42,19 @@ if (_type isEqualTo 1) then {
 			['Engine',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventEngine')}],
 			['Fuel',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventFuel')}],
 			['Deleted',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventDeleted')}],
-			['Dammaged',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventDammaged')}]
+			['Dammaged',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventDammaged')}],
+			['CargoLoaded',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventCargoLoaded')}],
+			['CargoUnloaded',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventCargoUnloaded')}]
 		];
 		if (_vehicle isKindOf 'Air') then {
 			{
-				_vehicleEventHandlers pushBack [(_x select 0),(_vehicle addEventHandler _x)];
+				_vehicleEventHandlers pushBack [(_x # 0),(_vehicle addEventHandler _x)];
 			} forEach [
 				['Gear',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventGear')}]
 			];
 			if (_vehicle isKindOf 'Helicopter') then {
 				{
-					_vehicleEventHandlers pushBack [(_x select 0),(_vehicle addEventHandler _x)];
+					_vehicleEventHandlers pushBack [(_x # 0),(_vehicle addEventHandler _x)];
 				} forEach [
 					['RopeAttach',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventRopeAttach')}],
 					['RopeBreak',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventRopeBreak')}]

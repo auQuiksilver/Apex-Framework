@@ -6,23 +6,19 @@ Author:
 
 Last modified: 
 
-	9/06/2016 A3 1.61 by Quiksilver
+	11/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	De-brief players and clear AO
 ______________________________________________*/
 
-_type = _this select 0;
-_ao = _this select 1;
-_QS_AOpos = _this select 2;
-
+params ['_type','_ao','_QS_AOpos'];
 diag_log str _ao;
-
 if (_type isEqualTo 'BRIEF') then {
 	missionNamespace setVariable ['QS_enemiesCaptured_AO',0,FALSE];
 	{
-		_x setMarkerPos _QS_AOpos;
+		_x setMarkerPosLocal _QS_AOpos;
 	} forEach [
 		'QS_marker_aoCircle',
 		'QS_marker_aoMarker'
@@ -30,7 +26,7 @@ if (_type isEqualTo 'BRIEF') then {
 	if ((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0) then {
 		[objNull,_QS_AOpos] remoteExec ['QS_fnc_respawnOPFOR',[EAST,RESISTANCE],FALSE];
 	};
-	'QS_marker_aoMarker' setMarkerText (format ['%1Take %2',(toString [32,32,32]),_ao]);
+	'QS_marker_aoMarker' setMarkerTextLocal (format ['%1Take %2',(toString [32,32,32]),_ao]);
 	_targetStartText = parseText format [
 		"<t align='center' size='2.2'>New Target</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/>We did a good job with the last target, lads. I want to see the same again. Get yourselves over to %1 and take 'em all down!<br/><br/>Remember to take down that radio tower to stop the enemy from calling in CAS.",
 		_ao
@@ -132,7 +128,7 @@ if (_type isEqualTo 'BRIEF') then {
 };
 if (_type isEqualTo 'DEBRIEF') then {
 	['QS_IA_TASK_AO_0'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-	_targetCompleteText = parseText format ["<t align='center' size='2.2'>Target Taken</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/><t align='left'>Fantastic job taking %1, boys!<br/><br/>Enemies imprisoned: %2</t>",(_ao select 0),(missionNamespace getVariable 'QS_enemiesCaptured_AO')];
+	_targetCompleteText = parseText format ["<t align='center' size='2.2'>Target Taken</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/><t align='left'>Fantastic job taking %1, boys!<br/><br/>Enemies imprisoned: %2</t>",(_ao # 0),(missionNamespace getVariable 'QS_enemiesCaptured_AO')];
 	//['hint',_targetCompleteText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	missionNamespace setVariable ['QS_evacPosition_1',_QS_AOpos,TRUE];
 	{
@@ -166,5 +162,5 @@ if (_type isEqualTo 'DEBRIEF') then {
 			_x setMarkerAlpha 0;
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_sub_3_markers');
 	};
-	['CompletedMain',[(_ao select 0)]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+	['CompletedMain',[(_ao # 0)]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };

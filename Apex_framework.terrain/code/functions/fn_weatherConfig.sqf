@@ -31,20 +31,20 @@ private [
 ];
 _QS_array = [];
 _QS_solarHorizons = date call (missionNamespace getVariable 'BIS_fnc_sunriseSunsetTime');
-_QS_sunriseTimeToday = _QS_solarHorizons select 0;
-_QS_sunsetTimeToday = _QS_solarHorizons select 1;
+_QS_sunriseTimeToday = _QS_solarHorizons # 0;
+_QS_sunsetTimeToday = _QS_solarHorizons # 1;
 _QS_hoursLeft24hr = 24 - _QS_hour;
 _QS_monthDays = [_QS_year,_QS_month] call (missionNamespace getVariable 'QS_fnc_monthDays');
 _QS_weatherData = [] call (missionNamespace getVariable 'QS_RSC_weatherData');
 if (_QS_type isEqualTo 'WIND') then {
-	_QS_windSpeedMonthly = _QS_weatherData select 5;
-	_QS_windSpeedAvg = _QS_windSpeedMonthly select _QS_month;
+	_QS_windSpeedMonthly = _QS_weatherData # 5;
+	_QS_windSpeedAvg = _QS_windSpeedMonthly # _QS_month;
 	_QS_windDirAvgMonthly = 205;
 	if (worldName in ['Altis','Stratis','Malden']) then {
 		_QS_windDirAvgMonthly = 205;
 	};
 	if (worldName isEqualTo 'Tanoa') then {
-		_QS_windDirAvgMonthly = [0,90,50,70,(random [45,80,130]),120,120,120,120,123,120,100,90] select (date select 1);
+		_QS_windDirAvgMonthly = [0,90,50,70,(random [45,80,130]),120,120,120,120,123,120,100,90] select (date # 1);
 	};
 	if ((random 1) > 0.25) then {
 		_QS_windDirVariabilityRange = 5;
@@ -63,7 +63,7 @@ if (_QS_type isEqualTo 'WIND') then {
 		_QS_windSpeedAvgRounded = round (_QS_nextWindSpeed * (10 ^ 2)) / (10 ^ 2);
 		
 		_QS_windArray = ['SET',_QS_nextWindDirRounded,_QS_windSpeedAvgRounded] call (missionNamespace getVariable 'QS_fnc_windCalculation');
-		0 = _QS_array pushBack [_QS_windArray select 0,_QS_windArray select 1,TRUE];
+		0 = _QS_array pushBack [_QS_windArray # 0,_QS_windArray # 1,TRUE];
 		//diag_log str _QS_windArray;
 	};
 };
@@ -72,49 +72,49 @@ if (_QS_type isEqualTo 'OVERCAST') then {
 	_QS_isOvercast = FALSE;
 	_QS_willRainToday = FALSE;
 	_QS_array = [[],_QS_willRainToday];
-	_QS_overcastDaysMonthly = _QS_weatherData select 0;
-	_QS_dailySunshineHoursMonthly = _QS_weatherData select 1;
-	_QS_overcastRangesMonthly = _QS_weatherData select 2;
-	_QS_dailySunshineHours = _QS_dailySunshineHoursMonthly select _QS_month;
-	_QS_overcastChance = (_QS_overcastRangesMonthly select _QS_month) select 0;
-	_QS_rainChance = (_QS_overcastRangesMonthly select _QS_month) select 3;
+	_QS_overcastDaysMonthly = _QS_weatherData # 0;
+	_QS_dailySunshineHoursMonthly = _QS_weatherData # 1;
+	_QS_overcastRangesMonthly = _QS_weatherData # 2;
+	_QS_dailySunshineHours = _QS_dailySunshineHoursMonthly # _QS_month;
+	_QS_overcastChance = (_QS_overcastRangesMonthly # _QS_month) # 0;
+	_QS_rainChance = (_QS_overcastRangesMonthly # _QS_month) # 3;
 	if ((random 1) > _QS_overcastChance) then {
 		_QS_isOvercast = TRUE;
-		_QS_overcastRangesToday = (_QS_overcastRangesMonthly select _QS_month) select 1;
+		_QS_overcastRangesToday = (_QS_overcastRangesMonthly # _QS_month) # 1;
 		if ((random 1) > _QS_rainChance) then {
 			_QS_willRainToday = TRUE;
 			_QS_array set [1,_QS_willRainToday];
 		};
 	} else {
-		_QS_overcastRangesToday = (_QS_overcastRangesMonthly select _QS_month) select 2;
+		_QS_overcastRangesToday = (_QS_overcastRangesMonthly # _QS_month) # 2;
 	};
-	_QS_overcastRangeToday_lower = _QS_overcastRangesToday select 0;
-	_QS_overcastRangeToday_mean = _QS_overcastRangesToday select 1;
-	_QS_overcastRangeToday_upper = _QS_overcastRangesToday select 2;
+	_QS_overcastRangeToday_lower = _QS_overcastRangesToday # 0;
+	_QS_overcastRangeToday_mean = _QS_overcastRangesToday # 1;
+	_QS_overcastRangeToday_upper = _QS_overcastRangesToday # 2;
 	_QS_overcast = _QS_overcastRangeToday_lower + (random 0.24);
 	for '_x' from 0 to (_QS_hoursLeft24hr - 1) step 1 do {
 		_QS_overcast = _QS_overcastRangeToday_lower + (random 0.24);
 		_QS_overcastRounded = round (_QS_overcast * (10 ^ 2)) / (10 ^ 2);
-		0 = (_QS_array select 0) pushBack _QS_overcastRounded;
+		0 = (_QS_array # 0) pushBack _QS_overcastRounded;
 	};
 	if (_QS_isOvercast) then {
-		_QS_sunshineOvercastRange = (_QS_overcastRangesMonthly select _QS_month) select 2;
-		_QS_sunshineOvercastRange_lower = ((_QS_overcastRangesMonthly select _QS_month) select 2) select 0;
+		_QS_sunshineOvercastRange = (_QS_overcastRangesMonthly # _QS_month) # 2;
+		_QS_sunshineOvercastRange_lower = ((_QS_overcastRangesMonthly # _QS_month) # 2) # 0;
 		//diag_log format ['***** DEBUG ***** weather config * Overcast ***** Sunshine hours: %1 *****',_QS_dailySunshineHours];
-		if ((count (_QS_array select 0)) > 6) then {
-			if ((count (_QS_array select 0)) > 12) then {
+		if ((count (_QS_array # 0)) > 6) then {
+			if ((count (_QS_array # 0)) > 12) then {
 				for '_x' from 0 to (_QS_dailySunshineHours * 2) step 1 do {
-					_QS_randomHour = selectRandom (_QS_array select 0);
+					_QS_randomHour = selectRandom (_QS_array # 0);
 					_QS_sunshineOvercast = _QS_sunshineOvercastRange_lower + (random 0.24);
 					_QS_sunshineOvercastRounded = round (_QS_sunshineOvercast * (10 ^ 2)) / (10 ^ 2);
-					(_QS_array select 0) set [_QS_randomHour,_QS_sunshineOvercastRounded];
+					(_QS_array # 0) set [_QS_randomHour,_QS_sunshineOvercastRounded];
 				};
 			} else {
 				for '_x' from 0 to _QS_dailySunshineHours step 1 do {
-					_QS_randomHour = selectRandom (_QS_array select 0);
+					_QS_randomHour = selectRandom (_QS_array # 0);
 					_QS_sunshineOvercast = _QS_sunshineOvercastRange_lower + (random 0.24);
 					_QS_sunshineOvercastRounded = round (_QS_sunshineOvercast * (10 ^ 2)) / (10 ^ 2);
-					(_QS_array select 0) set [_QS_randomHour,_QS_sunshineOvercastRounded];
+					(_QS_array # 0) set [_QS_randomHour,_QS_sunshineOvercastRounded];
 				};			
 			};
 		};
@@ -123,8 +123,8 @@ if (_QS_type isEqualTo 'OVERCAST') then {
 };
 
 if (_QS_type isEqualTo 'RAIN') then {
-	_QS_rainChangeTime = _this select 4;
-	_QS_currentOvercast = _this select 5;
+	_QS_rainChangeTime = _this # 4;
+	_QS_currentOvercast = _this # 5;
 	if (worldName isEqualTo 'Tanoa') then {
 		//comment 'Tanoa rain sim';
 		if ((random 1) > 0.333) then {
@@ -253,14 +253,14 @@ if (_QS_type isEqualTo 'RAIN') then {
 };
 
 if (_QS_type isEqualTo 'FOG') then {
-	_QS_overcastArray = _this select 4;
-	_QS_fogData_monthly = _QS_weatherData select 7;
-	_QS_fogThisMonth = _QS_fogData_monthly select _QS_month;
+	_QS_overcastArray = _this # 4;
+	_QS_fogData_monthly = _QS_weatherData # 7;
+	_QS_fogThisMonth = _QS_fogData_monthly # _QS_month;
 	_QS_colderMonths = [1,2,3,10,11,12];
 	_QS_warmerMonths = [4,5,6,7,8,9];
-	_QS_fogValueAvg = _QS_fogThisMonth select 0;
-	_QS_fogDecayAvg = _QS_fogThisMonth select 1;
-	_QS_fogBaseAvg = _QS_fogThisMonth select 2;
+	_QS_fogValueAvg = _QS_fogThisMonth # 0;
+	_QS_fogDecayAvg = _QS_fogThisMonth # 1;
+	_QS_fogBaseAvg = _QS_fogThisMonth # 2;
 	_QS_fogValue = 0;
 	_QS_fogDecay = 0;
 	_QS_fogBase = 0;
@@ -331,11 +331,11 @@ if (_QS_type isEqualTo 'FOG') then {
 };
 
 if (_QS_type isEqualTo 'WAVES') then {
-	_QS_currentWind = _this select 4;
+	_QS_currentWind = _this # 4;
 	_QS_wavesArray = ['GET',_QS_currentWind] call (missionNamespace getVariable 'QS_fnc_windCalculation');
 	_QS_newWavesValue = 0;
 	_QS_newWavesChangeTime = 30;
-	_QS_windSpeed = _QS_wavesArray select 1;
+	_QS_windSpeed = _QS_wavesArray # 1;
 	if (_QS_windSpeed > 1) then {
 		if (_QS_windSpeed > 2) then {
 			if (_QS_windSpeed > 3) then {
@@ -380,7 +380,7 @@ if (_QS_type isEqualTo 'WAVES') then {
 	_QS_array = [_QS_newWavesChangeTime,_QS_newWavesValue];
 };
 if (_QS_type isEqualTo 'LIGHTNINGS') then {
-	_QS_currentOvercast = _this select 4;
+	_QS_currentOvercast = _this # 4;
 	_QS_lightningsChangeTime = 60;
 	if (_QS_currentOvercast > 0.5) then {
 		if (_QS_currentOvercast > 0.6) then {
@@ -418,7 +418,7 @@ if (_QS_type isEqualTo 'LIGHTNINGS') then {
 	_QS_array = [_QS_lightningsChangeTime,_QS_newLightnings];
 };
 if (_QS_type isEqualTo 'RAINBOW') then {
-	_QS_currentRain = _this select 4;
+	_QS_currentRain = _this # 4;
 	_QS_rainbowChangeTime = 60;
 	_QS_newRainbowValue = 0;
 	if (_QS_currentRain > 0.1) then {
@@ -461,9 +461,9 @@ if (_QS_type isEqualTo 'RAINBOW') then {
 	_QS_array = [_QS_rainbowChangeTime,_QS_newRainbowValue];
 };
 if (_QS_type isEqualTo 'GUSTS') then {
-	_QS_currentWind = _this select 4;
+	_QS_currentWind = _this # 4;
 	_QS_windArray = ['GET',_QS_currentWind] call (missionNamespace getVariable 'QS_fnc_windCalculation');
-	_QS_windSpeed = _QS_windArray select 1;
+	_QS_windSpeed = _QS_windArray # 1;
 	_QS_gustsChangeTime = 30;
 	if (_QS_windSpeed > 1) then {
 		if (_QS_windSpeed > 2) then {

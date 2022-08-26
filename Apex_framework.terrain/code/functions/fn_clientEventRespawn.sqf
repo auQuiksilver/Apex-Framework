@@ -50,14 +50,14 @@ disableRemoteSensors TRUE;
 if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 1) then {
 	player enableStamina TRUE;
 } else {
-	player enableStamina ((player getVariable 'QS_stamina') select 0);
+	player enableStamina ((player getVariable 'QS_stamina') # 0);
 };
-player setCustomAimCoef ((player getVariable 'QS_stamina') select 1);
+player setCustomAimCoef ((player getVariable 'QS_stamina') # 1);
 player disableConversation TRUE;
 showSubtitles FALSE;
 enableRadio TRUE;
 {
-	(_x select 0) enableChannel (_x select 1);
+	(_x # 0) enableChannel (_x # 1);
 } count [
 	[0,[FALSE,FALSE]],
 	[1,[TRUE,FALSE]],
@@ -84,28 +84,23 @@ if (player getUnitTrait 'uavhacker') then {
 		};
 	};
 };
-if (!((toLower (speaker player)) isEqualTo 'novoice')) then {
+if ((toLowerANSI (speaker player)) isNotEqualTo 'novoice') then {
 	player setSpeaker 'NoVoice';
 };
 player addRating (0 - (rating player));
 if (!((getPlayerUID player) in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist')))) then {
 	{
-		player disableAI _x;
+		player enableAIFeature [_x,FALSE];
 	} forEach [
 		'TEAMSWITCH',
 		'FSM',
 		'AIMINGERROR',
-		'SUPPRESSION',
 		'COVER',
 		'AUTOCOMBAT'
 	];
 };
-
-{
-	player enableAI _x;
-} forEach [
-	'MOVE'
-];
+player setUnitFreefallHeight 50;
+player enableAIFeature ['MOVE',TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) in [0,1]) then {
 	enableEngineArtillery FALSE;
 };
@@ -115,20 +110,20 @@ if (player getUnitTrait 'QS_trait_HQ') then {
 if (currentChannel > 5) then {
 	setCurrentChannel 5;
 };
-if (!((player getVariable 'QS_ClientUnitInsignia2') isEqualTo '')) then {
+if ((player getVariable 'QS_ClientUnitInsignia2') isNotEqualTo '') then {
 	[(player getVariable 'QS_ClientUnitInsignia2')] call (missionNamespace getVariable 'QS_fnc_clientSetUnitInsignia');
 };
 if (!((player getVariable ['QS_tto',0]) < 1.5)) then {
 	player disableTIEquipment TRUE;
 };
 if (!isNull _oldUnit) then {
-	if (!((getAllOwnedMines _oldUnit) isEqualTo [])) then {
+	if ((getAllOwnedMines _oldUnit) isNotEqualTo []) then {
 		{
 			player addOwnedMine _x;
 		} count (getAllOwnedMines _oldUnit);
 	};
 };
-if (!((missionNamespace getVariable 'QS_client_action_carrierLaunchCancel') isEqualTo [])) then {
+if ((missionNamespace getVariable 'QS_client_action_carrierLaunchCancel') isNotEqualTo []) then {
 	(missionNamespace getVariable 'QS_client_action_carrierLaunchCancel') params [
 		'_actionVehicle',
 		'_actionAction'
@@ -141,14 +136,14 @@ if (!((missionNamespace getVariable 'QS_client_action_carrierLaunchCancel') isEq
 if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0) then {
 	0 spawn {
 		uiSleep 1;
-		if (!((player getVariable 'QS_ClientUTexture2') isEqualTo '')) then {
-			if (!((player getVariable 'QS_ClientUTexture2_Uniforms2') isEqualTo [])) then {
+		if ((player getVariable 'QS_ClientUTexture2') isNotEqualTo '') then {
+			if ((player getVariable 'QS_ClientUTexture2_Uniforms2') isNotEqualTo []) then {
 				if ((uniform player) in (player getVariable 'QS_ClientUTexture2_Uniforms2')) then {
 					player setObjectTextureGlobal [0,(player getVariable 'QS_ClientUTexture2')];
-					if (!((vest player) isEqualTo '')) then {
+					if ((vest player) isNotEqualTo '') then {
 					
 					};
-					if (!((backpack player) isEqualTo '')) then {
+					if ((backpack player) isNotEqualTo '') then {
 					
 					};
 				};
@@ -160,13 +155,13 @@ if (!isNull _oldUnit) then {
 	if (((_oldUnit distance2D (markerPos 'QS_marker_base_marker')) < 1000) || {((_oldUnit distance2D (markerPos 'QS_marker_carrier_1')) < 1000)}) then {
 		deleteVehicle _oldUnit;
 	} else {
-		if (!((getMissionConfigValue ['corpseManagerMode',0]) isEqualTo 0)) then {
+		if ((getMissionConfigValue ['corpseManagerMode',0]) isNotEqualTo 0) then {
 			addToRemainsCollector [_oldUnit];
 		};
 	};
 };
 private _itemToRemove = '';
-if (!((backpack player) isEqualTo '')) then {
+if ((backpack player) isNotEqualTo '') then {
 	_maxLoadBackpack = 1;
 	if ((loadBackpack player) > _maxLoadBackpack) then {
 		while {((loadBackpack player) > _maxLoadBackpack)} do {
@@ -177,7 +172,7 @@ if (!((backpack player) isEqualTo '')) then {
 		};
 	};
 };
-if (!((vest player) isEqualTo '')) then {
+if ((vest player) isNotEqualTo '') then {
 	_maxLoadVest = 1;
 	if ((loadVest player) > _maxLoadVest) then {
 		while {((loadVest player) > _maxLoadVest)} do {
@@ -186,7 +181,7 @@ if (!((vest player) isEqualTo '')) then {
 		};
 	};
 };
-if (!((uniform player) isEqualTo '')) then {
+if ((uniform player) isNotEqualTo '') then {
 	_maxLoadUniform = 1;
 	if ((loadUniform player) > _maxLoadUniform) then {
 		while {((loadUniform player) > _maxLoadUniform)} do {
@@ -197,7 +192,7 @@ if (!((uniform player) isEqualTo '')) then {
 };
 // EAST respawn
 if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo EAST) exitWith {
-	if (!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0) then {
 		if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) then {
 			setPlayerRespawnTime 15;
 			['SET_DEFAULT_LOADOUT',(_newUnit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
@@ -214,7 +209,7 @@ if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo EAST) exitWith {
 };
 // RESISTANCE respawn
 if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo RESISTANCE) exitWith {
-	if (!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0) then {
 		if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) then {
 			setPlayerRespawnTime 15;
 			['SET_DEFAULT_LOADOUT',(_newUnit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
@@ -231,7 +226,7 @@ if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo RESISTANCE) exitWith 
 };
 // CIVILIAN respawn
 if ((_newUnit getVariable ['QS_unit_side',WEST]) isEqualTo CIVILIAN) exitWith {
-	if (!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0) then {
 		0 spawn {
 			preloadCamera (markerPos 'respawn_civilian');
 			uiSleep 0.25;
@@ -248,10 +243,10 @@ setPlayerRespawnTime 5;
 [29,(missionNamespace getVariable 'QS_module_fob_side')] call (missionNamespace getVariable 'QS_fnc_remoteExec');
 private _position = AGLToASL (markerPos 'QS_marker_base_marker');
 if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
-	if ((!((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2)) && (!((missionNamespace getVariable ['QS_missionConfig_destroyerRespawn',0]) isEqualTo 1))) then {
+	if (((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isNotEqualTo 2) && ((missionNamespace getVariable ['QS_missionConfig_destroyerRespawn',0]) isNotEqualTo 1)) then {
 		if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 			if (worldName isEqualTo 'Altis') then {
-				_position = [((_position select 0) + 12 - (random 24)),((_position select 1) + 12 - (random 24)),(_position select 2)];
+				_position = [((_position # 0) + 12 - (random 24)),((_position # 1) + 12 - (random 24)),(_position # 2)];
 			};
 			if (worldName isEqualTo 'Tanoa') then {
 			
@@ -262,7 +257,7 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 				player setDir (_position getDir (([8133.47,10123,-0.147434] nearestObject 'Land_MilOffices_V1_F') buildingExit 0));
 			};
 			if (worldName isEqualTo 'Enoch') then {
-				_position = [((_position select 0) + 12 - (random 24)),((_position select 1) + 12 - (random 24)),(_position select 2)];
+				_position = [((_position # 0) + 12 - (random 24)),((_position # 1) + 12 - (random 24)),(_position # 2)];
 			};
 		};
 		preloadCamera _position;
@@ -278,7 +273,7 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 } else {
 	if ((player getVariable 'QS_revive_respawnType') isEqualTo 'FOB') then {
 		player switchMove '';
-		_position = selectRandom ([(missionNamespace getVariable 'QS_module_fob_HQ'),(((missionNamespace getVariable 'QS_module_fob_HQ') buildingPos -1) select {(!(_x isEqualTo [0,0,0]))})] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions'));
+		_position = selectRandom ([(missionNamespace getVariable 'QS_module_fob_HQ'),(((missionNamespace getVariable 'QS_module_fob_HQ') buildingPos -1) select {(_x isNotEqualTo [0,0,0])})] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions'));
 		preloadCamera _position;
 		_position spawn {
 			uiSleep 0.1;

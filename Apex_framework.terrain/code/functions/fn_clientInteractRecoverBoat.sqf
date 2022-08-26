@@ -15,8 +15,8 @@ ____________________________________________/*/
 
 _vehicle = vehicle player;
 _nearRacks = (nearestObjects [_vehicle,['land_destroyer_01_boat_rack_01_f'],20,TRUE]) select {((getVehicleCargo _x) isEqualTo [])};
-if (!(_nearRacks isEqualTo [])) then {
-	_rack = _nearRacks select 0;
+if (_nearRacks isNotEqualTo []) then {
+	_rack = _nearRacks # 0;
 	_rack setVehicleCargo _vehicle;
 	_vehicle setDamage [0,FALSE];
 	playSound3D ['A3\Sounds_F\sfx\ui\vehicles\vehicle_repair.wss',_rack,FALSE,(getPosASL _rack),2,1,25];

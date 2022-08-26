@@ -17,7 +17,7 @@ private ['_anim','_cursorTarget','_object'];
 private _released = FALSE;
 private _unit = objNull;
 _cursorTarget = cursorTarget;
-if (!((attachedObjects player) isEqualTo [])) then {
+if ((attachedObjects player) isNotEqualTo []) then {
 	{
 		if (!isNull _x) then {
 			if (_x isKindOf 'Man') then {
@@ -100,11 +100,11 @@ if (!((attachedObjects player) isEqualTo [])) then {
 						_unit setVariable ['QS_RD_interacting',FALSE,TRUE];
 						player setVariable ['QS_RD_interacting',FALSE,TRUE];
 					};
-					if (!(_unit isEqualTo (missionNamespace getVariable 'QS_sideMission_POW'))) then {
+					if (_unit isNotEqualTo (missionNamespace getVariable 'QS_sideMission_POW')) then {
 						if ((player distance2D (missionNamespace getVariable ['QS_prisonPos',(markerPos 'QS_marker_gitmo')])) < 20) then {
 							50 cutText ['Imprisoned!','PLAIN DOWN',0.3];
 							_prisonPos = missionNamespace getVariable ['QS_prisonPos',[0,0,0]];
-							_unit setPos [((_prisonPos select 0) + 2 - (random 4)),((_prisonPos select 1) + 2 - (random 4)),0];
+							_unit setPos [((_prisonPos # 0) + 2 - (random 4)),((_prisonPos # 1) + 2 - (random 4)),0];
 							_unit forceAddUniform 'U_C_WorkerCoveralls';
 							_unit setVariable ['QS_RD_escortable',FALSE,TRUE];
 							if (local _unit) then {
@@ -116,8 +116,8 @@ if (!((attachedObjects player) isEqualTo [])) then {
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							_puid1 = getPlayerUID player;
 							_pname1 = profileName;
-							_puid2 = (_unit getVariable 'QS_captor') select 0;
-							_pname2 = (_unit getVariable 'QS_captor') select 1;
+							_puid2 = (_unit getVariable 'QS_captor') # 0;
+							_pname2 = (_unit getVariable 'QS_captor') # 1;
 							missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') + [_unit]),TRUE];
 							[92,_unit,EAST,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];							
 							[60,[['PRISONER',_puid1,_pname1,1],['PRISONER',_puid2,_pname2,1],[player,1]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -139,7 +139,7 @@ if (!((attachedObjects player) isEqualTo [])) then {
 						detach _object;
 						player playAction 'released';
 						_object setPosWorld _position;
-						if ((_positionATL select 2) < 1.75) then {
+						if ((_positionATL # 2) < 1.75) then {
 							_object setVectorUp (surfaceNormal _position);
 						} else {
 							_object setVectorUp [0,0,1];
@@ -160,7 +160,7 @@ if (!((attachedObjects player) isEqualTo [])) then {
 						uiSleep 0.1;
 						{
 							_object setHitIndex [_forEachIndex,_x];
-						} forEach (_hitPointsDamages select 2);
+						} forEach (_hitPointsDamages # 2);
 						uiSleep 0.1;
 						if (!(_isDamageAllowed)) then {
 							_object allowDamage FALSE;

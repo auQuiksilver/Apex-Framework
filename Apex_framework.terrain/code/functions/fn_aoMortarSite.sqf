@@ -21,11 +21,11 @@ private _allPlayers = allPlayers;
 private _positionFound = FALSE;
 for '_x' from 0 to 19 step 1 do {
 	_spawnPos = ['RADIUS',_aoPos,(_aoSize * _multiplier),'LAND',[8,0,0.1,5,0,FALSE,objNull],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if (((missionNamespace getVariable 'QS_registeredPositions') findIf {((_spawnPos distance2D _x) < 100)}) isEqualTo -1) then {
-		if ((((_spawnPos select [0,2]) nearRoads 15) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
-			if (!((toLower(surfaceType _spawnPos)) in ['#gdtasphalt'])) then {
+	if (((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_spawnPos,100,100,0,FALSE]) isEqualTo []) then {
+		if ((((_spawnPos select [0,2]) nearRoads 15) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
+			if (!((toLowerANSI(surfaceType _spawnPos)) in ['#gdtasphalt'])) then {
 				if (!([_spawnPos,20,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-					if ((_allPlayers findIf {((_x distance2D _spawnPos) < 300)}) isEqualTo -1) then {
+					if ((_allPlayers inAreaArray [_spawnPos,300,300,0,FALSE]) isEqualTo []) then {
 						if (([_spawnPos,6] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 5) then {
 							_positionFound = TRUE;
 						};
@@ -68,8 +68,8 @@ _gunner addEventHandler [
 _gunner addEventHandler [
 	'GetOutMan',
 	{
-		(_this select 0) setDamage [1,TRUE];
-		(_this select 2) setDamage [1,TRUE];
+		(_this # 0) setDamage [1,TRUE];
+		(_this # 2) setDamage [1,TRUE];
 	}
 ];
 _mortar addEventHandler [
@@ -88,10 +88,17 @@ _gunner call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _gunner addEventHandler [
 	'FiredMan',
 	{
+		if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+			if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+				(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+			} else {
+				(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+			};
+		};
 		if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
 			missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 		};
-		(vehicle (_this select 0)) setVehicleAmmo 1;
+		(vehicle (_this # 0)) setVehicleAmmo 1;
 		if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
 		missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 		['sideChat',[WEST,'HQ'],'Enemy mortars are firing!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
@@ -108,7 +115,7 @@ _gunner addEventHandler [
 ];
 _gunner setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _gunner enableDynamicSimulation FALSE;
-(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack _gunner;
+missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') + [_gunner]),QS_system_AI_owners];
 _mortar lock 3;
 _mortar enableWeaponDisassembly FALSE;
 _mortar setVariable ['QS_hidden',TRUE,TRUE];
@@ -116,22 +123,23 @@ _gunner setVariable ['QS_hidden',TRUE,TRUE];
 [_gunner] joinSilent _gunnerGrp;
 _gunnerGrp addVehicle _mortar;
 _gunnerGrp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-_gunnerGrp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-_gunnerGrp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+_gunnerGrp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+_gunnerGrp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',serverTime,-1],FALSE];
 _gunnerGrp setVariable ['QS_AI_GRP',TRUE,FALSE];
 _composition pushBack _gunner;
 _patrolGrp = [_spawnPos,(random 360),EAST,(selectRandom ['OG_ReconSentry','OG_SniperTeam_M']),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 [(units _patrolGrp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+_patrolGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 {
 	_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_x setVehiclePosition [(getPosWorld _x),[],10,'NONE'];
 	_composition pushBack _x;
 } forEach (units _patrolGrp);
-_patrolGrp setVariable ['QS_AI_GRP_TASK',['DEFEND',_spawnPos,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_patrolGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_patrolGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _patrolGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_patrolGrp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_patrolGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_patrolGrp setVariable ['QS_AI_GRP_TASK',['DEFEND',_spawnPos,serverTime,-1],QS_system_AI_owners];
+_patrolGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+_patrolGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _patrolGrp))],QS_system_AI_owners];
+_patrolGrp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+_patrolGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 _truckPos = [_spawnPos,10,25,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 if ((_truckPos distance2D _spawnPos) < 30) then {
 	_truckPos set [2,0];
@@ -153,10 +161,10 @@ if ((_truckPos distance2D _spawnPos) < 30) then {
 		_this addEventHandler [
 			'HandleDamage',
 			{
-				(_this select 0) removeEventHandler ['HandleDamage',_thisEventHandler];
-				(_this select 0) enableSimulationGlobal TRUE;
-				(_this select 0) setVariable ['QS_dynSim_ignore',FALSE,FALSE];
-				(_this select 0) enableDynamicSimulation TRUE;
+				(_this # 0) removeEventHandler ['HandleDamage',_thisEventHandler];
+				(_this # 0) enableSimulationGlobal TRUE;
+				(_this # 0) setVariable ['QS_dynSim_ignore',FALSE,FALSE];
+				(_this # 0) enableDynamicSimulation TRUE;
 			}
 		];
 		_this enableSimulationGlobal FALSE;
@@ -164,8 +172,8 @@ if ((_truckPos distance2D _spawnPos) < 30) then {
 	_composition pushBack _truck;
 };
 _uncertainPos = [
-	((_spawnPos select 0) + 100 - (random 200)),
-	((_spawnPos select 1) + 100 - (random 200)),
+	((_spawnPos # 0) + 100 - (random 200)),
+	((_spawnPos # 1) + 100 - (random 200)),
 	0
 ];
 ['GRID_UPDATE',['Area Of Operations','Enemy mortar online']] remoteExec ['QS_fnc_showNotification',-2,FALSE];

@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	30/04/2022 A3 2.08 by Quiksilver
+	26/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -63,7 +63,7 @@ _staffNames = 'Miller (admin), Kerry (moderator), Stavrou (moderator), Orestes (
 //===================================================== GAMEPLAY
 
 _baseLayout = 0;										// Base layout.	0 - Integrated base. 1 - Custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
-_closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
+_closeAirSupport = 3;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
 _arsenal = 1;											// Arsenal.		0 - Unrestricted (scripted). 1 - Use Whitelist (scripted). 2 - Use Blacklist (scripted). 3 - Vanilla arsenal (unscripted).	(Recommended = 1).			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured.    #3 will disable scripted gear restrictions.
 _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles with default layout.
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
@@ -78,12 +78,30 @@ _playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (
 _ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
 _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
+_hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
+_craters = 12;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
+_groupLocking = 0;										// Group Lock-ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create.
+_groupWaypoint = 1;										// Group Map Waypoint. 0 - Disabled. 1 - Enabled (default).		Can players see their group leaders [Shift+Click] dot on the map.
+_enemyUrbanSpawning = 1;								// (BETA) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
 
 //===================================================== SYSTEM
 
 _role_selection_menu_button = 0;						// Role Selection Menu Button. 	Enables a button in the Escape Menu to access the Role Selection Menu.	0 - Disabled. 1 - Enabled. Default - 0.		Use this option to allow any player to change their role from any map location. If this value is 0, the only way to access the menu after login is via Arsenal crates user action. Recommend 0 for standard gamemodes to avoid exploitation.
 _restart_hours = [0,10,16];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_restart_dynamic = 1;									// Dynamic Server Restarts. 0 - Disabled. 1 - Enabled. If enabled, Server will wait for mission conditions to be met before restarting. This option is currently only used for Defend missions.
 _dynamic_simulation = 1;								// Dynamic Simulation. 	0 - Disabled. 1 - Enabled. 	Raises FPS and performance slightly. Server freezes entities which are far away from all players.    Info: https://community.bistudio.com/wiki/Arma_3_Dynamic_Simulation
+
+//===================================================== HEADLESS CLIENT
+
+_hc_maxLoad_1 = 80;										// Quantity of AI units to distribute to the Headless Client when only 1 headless client is connected.
+_hc_maxLoad_2 = 60;										// Quantity of AI units to distribute to each Headless Client when 2 headless clients are connected.
+_hc_maxLoad_3 = 40;										// Quantity of AI units to distribute to each Headless Client when 3 headless clients are connected.
+_hc_maxLoad_4 = 25;										// Quantity of AI units to distribute to each Headless Client when 4 or more headless clients are connected.
+
+_hc_maxAgents_1 = 20;									// Quantity of AI agents (Civilians & Animals) to distribute to the Headless Client when only 1 headless client is connected.
+_hc_maxAgents_2 = 15;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 2 headless clients are connected.
+_hc_maxAgents_3 = 10;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 3 headless clients are connected.
+_hc_maxAgents_4 = 5;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 4 or more headless clients are connected.
 
 //===================================================== MAIN MISSION TYPE
 
@@ -112,8 +130,8 @@ _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All player
 _destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
 _destroyer_flag = 'a3\data_f\flags\flag_us_co.paa';			// Texture applied to Destroyer flag. Default:  'a3\data_f\flags\flag_us_co.paa'
 _destroyer_name = 'a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa';		// Name presented on stern of ship. Comes with 7 defaults, just change ..._tag_01_co... to _tag_02_co... etc, from 01 to 07, 00 is blank. You can also set as a custom texture/name/logo.
-_destroyer_numbers = [6,6,6];								// Numbers shown on the ship hull.
-_destroyer_hangar = 1;										// Hangar Door initial state. 0 - Hangar doors start closed. 1 - Hangar doors start opened.
+_destroyer_numbers = [4,2,0];								// Numbers shown on the ship hull.
+_destroyer_hangar = 0;										// Hangar Door initial state. 0 - Hangar doors start closed. 1 - Hangar doors start opened.
 //===================================================== TEXTURES
 
 _community_logo = '';
@@ -126,7 +144,7 @@ _infostand_2 = ['media\images\billboards\billboard6.jpg','media\images\billboard
 
 //===================================================== SECURITY
 
-_serverCommandPassword = "'ShVQArtpGdc5aDQq'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
+_serverCommandPassword = "'abc123'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
 _anticheat = 1;											// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
 
 //===================================================== MONETIZATION
@@ -160,14 +178,13 @@ if (_arsenal isEqualTo 3) then {};
 if (_restart_hours isNotEqualTo []) then {
 	_restart_hours sort TRUE;
 };
-if (_aircraft_carrier_enabled > 0) then {
-	if (_aircraft_carrier_respawning > 1) then {
-		if (_destroyer_enabled > 0) then {
-			if (_destroyer_respawning > 0) then {
-				private _destroyer_respawning = 0;
-			};
-		};
-	};
+if (
+	(_aircraft_carrier_enabled > 0) &&
+	{(_aircraft_carrier_respawning > 1)} &&
+	{(_destroyer_enabled > 0)} &&
+	{(_destroyer_respawning > 0)}
+) then {
+	private _destroyer_respawning = 0;
 };
 {
 	missionNamespace setVariable _x;
@@ -189,9 +206,17 @@ if (_aircraft_carrier_enabled > 0) then {
 	['QS_missionConfig_AmbCiv',_ambient_civilians,FALSE],
 	['QS_missionConfig_AmbAnim',_ambient_animals,FALSE],
 	['QS_missionConfig_APS',_vehicle_active_protection,TRUE],
+	['QS_missionConfig_hitMarker',_hitMarker_audio,TRUE],
+	['QS_missionConfig_craterEffects',_craters,TRUE],
+	['QS_missionConfig_groupLocking',_groupLocking > 0,TRUE],
+	['QS_missionConfig_groupWaypoint',_groupWaypoint > 0,TRUE],
+	['QS_missionConfig_aoUrbanSpawning',_enemyUrbanSpawning,FALSE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
+	['QS_missionConfig_restartDynamic',_restart_dynamic,FALSE],
 	['QS_missionConfig_dynSim',_dynamic_simulation,FALSE],
+	['QS_missionConfig_hcMaxLoad',[_hc_maxLoad_1,_hc_maxLoad_2,_hc_maxLoad_3,_hc_maxLoad_4],TRUE],
+	['QS_missionConfig_hcMaxAgents',[_hc_maxAgents_1,_hc_maxAgents_2,_hc_maxAgents_3,_hc_maxAgents_4],TRUE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
 	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
 	['QS_missionConfig_arty',_artillery,FALSE],

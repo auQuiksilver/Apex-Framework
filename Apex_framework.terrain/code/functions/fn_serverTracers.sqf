@@ -30,7 +30,7 @@ private _QS_primaryWeaponMag = '';
 				if (_QS_unit_side in [EAST,WEST,RESISTANCE]) then {
 					_QS_magazinesUnit = magazines _QS_newUnit;
 					{
-						_QS_testMag = _QS_magazinesUnit select _forEachIndex;
+						_QS_testMag = _QS_magazinesUnit # _forEachIndex;
 						if (_QS_testMag isEqualTo '30Rnd_65x39_caseless_mag') then {
 							_QS_newUnit removeMagazine _QS_testMag;
 							_QS_newUnit addMagazine '30Rnd_65x39_caseless_mag_Tracer';
@@ -120,8 +120,8 @@ private _QS_primaryWeaponMag = '';
 							};
 						};						
 					} forEach _QS_magazinesUnit;	
-					if (!((primaryWeaponMagazine _QS_newUnit) isEqualTo [])) then {
-						_QS_primaryWeaponMag = (primaryWeaponMagazine _QS_newUnit) select 0;
+					if ((primaryWeaponMagazine _QS_newUnit) isNotEqualTo []) then {
+						_QS_primaryWeaponMag = (primaryWeaponMagazine _QS_newUnit) # 0;
 						if (_QS_primaryWeaponMag isEqualTo '30Rnd_65x39_caseless_mag') then {
 							_QS_newUnit removePrimaryWeaponItem _QS_primaryWeaponMag;
 							_QS_newUnit addPrimaryWeaponItem '30Rnd_65x39_caseless_mag_Tracer';

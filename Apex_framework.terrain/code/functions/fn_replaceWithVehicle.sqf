@@ -27,7 +27,6 @@ if (!isNull _prop) then {
 			];
 			deleteVehicle _prop;
 			_v = createVehicle [_type,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
-			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 			_v setVectorDirAndUp _vectorDirAndUp;
 			_v setPosATL _position;
 			_v setVariable ['QS_vehicle_delayedDelete',(diag_tickTime + 600),FALSE];
@@ -53,7 +52,7 @@ if (!isNull _prop) then {
 			_i = (missionNamespace getVariable 'QS_v_Monitor') findIf {
 				((!(_x isEqualType TRUE)) && {((_x # 0) isEqualTo _prop)})
 			};
-			if (!(_i isEqualTo -1)) then {
+			if (_i isNotEqualTo -1) then {
 				_array = (missionNamespace getVariable 'QS_v_Monitor') # _i;
 				_array params [
 					'_v',
@@ -76,7 +75,6 @@ if (!isNull _prop) then {
 				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _prop;
 				_v = createVehicle [_t,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
-				missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 				_v setDir _dir;
 				if (_isCarrierVehicle isEqualTo 0) then {
 					_v setVectorUp (surfaceNormal _vpos);
@@ -86,7 +84,7 @@ if (!isNull _prop) then {
 						_v setPosWorld _vpos;
 					};
 				};
-				if (!((str _configCode) isEqualTo '{}')) then {
+				if ((str _configCode) isNotEqualTo '{}') then {
 					_v call _configCode;
 				};
 				[_v] call (missionNamespace getVariable 'QS_fnc_vSetup');

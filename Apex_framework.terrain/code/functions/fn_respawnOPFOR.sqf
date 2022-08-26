@@ -18,7 +18,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CL
 	private _positionFound = FALSE;
 	if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) isEqualTo 'CLASSIC') then {
 		if (
-			((toLower (markerColor 'QS_marker_hqMarker')) isEqualTo 'coloropfor') &&
+			((toLowerANSI (markerColor 'QS_marker_hqMarker')) isEqualTo 'coloropfor') &&
 			{(([(missionNamespace getVariable 'QS_hqPos'),300,[WEST],(allUnits + allUnitsUav),0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo [])}
 		) then {
 			private _hqBuildingPositions = [];
@@ -29,14 +29,14 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CL
 				_building = _x;
 				_buildingPositions = _building buildingPos -1;
 				_buildingPositions = [_building,_buildingPositions] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
-				if (!(_buildingPositions isEqualTo [])) then {
+				if (_buildingPositions isNotEqualTo []) then {
 					{
 						_hqBuildingPosition = _x;
 						0 = _hqBuildingPositions pushBack _hqBuildingPosition;
 					} forEach _buildingPositions;
 				};
 			} forEach (nearestObjects [(missionNamespace getVariable 'QS_hqPos'),['House','Building'],50,TRUE]);
-			if (!(_hqBuildingPositions isEqualTo [])) then {
+			if (_hqBuildingPositions isNotEqualTo []) then {
 				_positionFound = TRUE;
 				_hqBuildingPositions = _hqBuildingPositions apply {[(_x # 0),(_x # 1),((_x # 2) + 0.5)]};
 				_spawnPosition = selectRandom _hqBuildingPositions;
@@ -78,7 +78,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CL
 		private _spawnPosDefault = missionNamespace getVariable ['QS_aoPos',(markerPos 'respawn_east')];
 		for '_x' from 0 to 999 step 0 do {
 			_spawnPosDefault = [_pos,0,_maxDist,2,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-			if (!(_spawnPosDefault isEqualTo [])) then {
+			if (_spawnPosDefault isNotEqualTo []) then {
 				if ((_allPlayers inAreaArray [_spawnPosDefault,400,400,0,FALSE]) isEqualTo []) then {
 					if ((_spawnPosDefault distance2D _base) > 1200) then {
 						if (_spawnPosDefault call _fn_blacklist) then {

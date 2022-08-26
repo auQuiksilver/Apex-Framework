@@ -13,8 +13,8 @@ Using orientation of objects: no
 	["Land_BagFence_01_long_green_F",[-1.87646,1.53418,-0.000999928],170.471,[],false,false,TRUE,{}], 
 	["Land_BagFence_01_long_green_F",[-3.40381,2.65283,-0.000999928],260.516,[],false,false,TRUE,{}], 
 	["Flag_White_F",[-1.14453,1.03174,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_BagFence_01_long_green_F",[7.14404,3.12354,-0.000999928],350.478,[],false,false,TRUE,{}], 
 	["Land_Cargo_HQ_V4_F",[-0.0473633,7.53467,0],261.217,[],false,true,false,{}], 

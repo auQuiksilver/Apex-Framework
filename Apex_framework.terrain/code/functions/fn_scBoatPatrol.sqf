@@ -36,13 +36,8 @@ for '_i' from 0 to 1 step 1 do {
 		if ((getTerrainHeightASL _position) < -5) then {
 			_position set [2,0];
 			_boat = createVehicle [(selectRandom _boatTypes),_position,[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			_boat setDir (random 360);
-			_boat allowCrewInImmobile TRUE;
+			_boat allowCrewInImmobile [TRUE,TRUE];
 			_boat enableRopeAttach FALSE;
 			_boat enableVehicleCargo FALSE;
 			clearMagazineCargoGlobal _boat;
@@ -50,26 +45,12 @@ for '_i' from 0 to 1 step 1 do {
 			clearItemCargoGlobal _boat;
 			clearBackpackCargoGlobal _boat;
 			_grp = createVehicleCrew _boat;
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _boat))),
-				FALSE
-			];
 			_return pushBack _boat;
 			_boat lock 3;
 			_boat addEventHandler [
 				'Killed',
 				{
-					if ((count (crew (_this select 0))) > 0) then {
-						{
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								FALSE
-							];
-							deleteVehicle _x;
-						} count (crew (_this select 0));
-					};
+					deleteVehicleCrew (_this # 0);
 				}
 			];
 			_boat addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];

@@ -13,7 +13,7 @@ Description:
 	Condition for add-Action
 __________________________________________________________________*/
 
-_v = _this select 0;
+_v = _this # 0;
 private _c = FALSE;
 if (_v isKindOf 'LandVehicle') then {
 	if (((vectorMagnitude (velocity _v)) * 3.6) < 1) then {

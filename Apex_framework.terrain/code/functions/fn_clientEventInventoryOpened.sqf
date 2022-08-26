@@ -44,8 +44,8 @@ private _isBackpack = getNumber (configFile >> 'CfgVehicles' >> (typeOf _invento
 	private _QS_ctrlCreateArray = ['RscPicture',12345];
 	_myPicture = _display ctrlCreate _QS_ctrlCreateArray;
 	_myPicture ctrlSetPosition [
-		(((ctrlPosition ((findDisplay 602) displayCtrl 6191)) select 0) + ((ctrlPosition ((findDisplay 602) displayCtrl 6191)) select 2)),
-		((ctrlPosition ((findDisplay 602) displayCtrl 6191)) select 1)
+		(((ctrlPosition ((findDisplay 602) displayCtrl 6191)) # 0) + ((ctrlPosition ((findDisplay 602) displayCtrl 6191)) # 2)),
+		((ctrlPosition ((findDisplay 602) displayCtrl 6191)) # 1)
 	];
 	_myPicture ctrlShow TRUE;
 	_myPicture ctrlSetScale 0.175;
@@ -123,7 +123,7 @@ private _isBackpack = getNumber (configFile >> 'CfgVehicles' >> (typeOf _invento
 if (!isNil {_inventory getVariable 'QS_arsenal_object'}) then {
 	if (_inventory getVariable 'QS_arsenal_object') then {
 		if (!(_inventory isKindOf 'LandVehicle')) then {
-			if (!(_inventory isEqualTo _unit)) then {
+			if (_inventory isNotEqualTo _unit) then {
 				['Open',TRUE] call (missionNamespace getVariable 'BIS_fnc_arsenal');
 				if (isNil {player getVariable 'QS_arsenalAmmoPrompt'}) then {
 					player setVariable ['QS_arsenalAmmoPrompt',TRUE,FALSE];
@@ -152,5 +152,8 @@ if (_isBackpack isEqualTo 1) then {
 			};
 		};
 	};
+};
+if (_inventory isEqualTo (missionNamespace getVariable ['QS_csatCommander',objNull])) then {
+	_inventory call (missionNamespace getVariable 'QS_fnc_clientInteractBeret');
 };
 _c;

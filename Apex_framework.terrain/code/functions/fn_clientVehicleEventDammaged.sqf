@@ -12,5 +12,5 @@ Description:
 
 	Client Vehicle Dammaged Event
 _______________________________________________/*/
-if (!(local (_this select 0))) exitWith {};
+if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_selection','_damage','_hitIndex','_hitPoint','_shooter','_projectile'];

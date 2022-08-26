@@ -15,27 +15,22 @@ __________________________________________________*/
 
 scriptName 'QS Paradrop';
 private ['_v','_openHeight','_t','_p','_ugvTypes'];
-_v = _this select 0;
-_openHeight = _this select 1;
+_v = _this # 0;
+_openHeight = _this # 1;
 _ugvTypes = ['O_UGV_01_rcws_F','I_UGV_01_rcws_F'];
 _t = time + 120;
 waitUntil {
 	sleep 0.25;
 	(!alive _v) ||
 	(isNull _v) ||
-	(((getPosATL _v) select 2) < _openHeight)
+	(((getPosATL _v) # 2) < _openHeight)
 };
 _p = createVehicle ['O_Parachute_02_F',(getPosATL _v),[],0,'FLY'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _v attachTo [_p,[0,1.25,1.5]];
 waitUntil {
 	sleep 0.25;
 	(isTouchingGround _v) ||
-	(((getPos _v) select 2) < 2) ||
+	(((getPos _v) # 2) < 2) ||
 	(!alive _v) ||
 	(isNull _v) ||
 	(time > _t)
@@ -57,7 +52,7 @@ if ((!((typeOf _v) in _ugvTypes))) then {
 	};
 };
 [_p] spawn {
-	_p = _this select 0;
+	_p = _this # 0;
 	sleep 5;
 	if (!isNull _p) then {
 		missionNamespace setVariable [

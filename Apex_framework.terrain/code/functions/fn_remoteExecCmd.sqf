@@ -105,10 +105,13 @@ if (_type isEqualTo 'setMass') exitWith {
 	_1 setMass _2;
 };
 if (_type isEqualTo 'disableAI') exitWith {
-	_1 disableAI _2;
+	_1 enableAIFeature [_2,FALSE];
 };
 if (_type isEqualto 'enableAI') exitWith {
-	_1 enableAI _2;
+	_1 enableAIFeature [_2,TRUE];
+};
+if (_type isEqualto 'enableAIFeature') exitWith {
+	_1 enableAIFeature _2;
 };
 if (_type isEqualTo 'setVelocity') exitWith {
 	_1 setVelocity _2;
@@ -146,23 +149,27 @@ if (_type isEqualTo 'confirmSensorTarget') exitWith {
 if (_type isEqualTo 'doSuppressiveFire') exitWith {
 	if (_1 isEqualType []) then {
 		{
-			_x doSuppressiveFire (aimPos _2);
+			_x doSuppressiveFire _2;
 		} forEach _1;
 	} else {
-		_1 doSuppressiveFire (aimPos _2);
+		_1 doSuppressiveFire _2;
 	};
 };
 if (_type isEqualTo 'commandSuppressiveFire') exitWith {
 	if (_1 isEqualType []) then {
 		{
-			_x commandSuppressiveFire (aimPos _2);
+			_x commandSuppressiveFire _2;
 		} forEach _1;
 	} else {
-		_1 commandSuppressiveFire (aimPos _2);
+		_1 commandSuppressiveFire _2;
 	};
 };
 if (_type isEqualTo 'deleteVehicleCrew') exitWith {
-	_1 deleteVehicleCrew _2;
+	if (_1 isEqualTo _2) then {
+		deleteVehicleCrew _1;
+	} else {
+		_1 deleteVehicleCrew _2;
+	};
 };
 if (_type isEqualTo 'setMissileTarget') exitWith {
 	if (_1 isEqualType []) then {

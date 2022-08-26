@@ -20,7 +20,7 @@ diag_log format ['***** DEBUG ***** GRID AO PREPARING * %1 *****',_this];
 missionNamespace setVariable ['QS_grid_aoCentroid',(_aoPolygon call (missionNamespace getVariable 'QS_fnc_geomPolygonCentroid')),TRUE];
 missionNamespace setVariable ['QS_aoPos',(missionNamespace getVariable ['QS_grid_aoCentroid',[0,0,0]]),TRUE];
 missionNamespace setVariable ['QS_grid_aoProps',[],FALSE];
-missionNamespace setVariable ['QS_grid_aoData',_this,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+missionNamespace setVariable ['QS_grid_aoData',_this,QS_system_AI_owners];
 _aoPos = missionNamespace getVariable 'QS_aoPos';
 private _aoSize = 0;
 private _centroid = missionNamespace getVariable ['QS_grid_aoCentroid',[0,0,0]];
@@ -53,20 +53,23 @@ if (_playersCount > 3) then {
 };
 {
 	_gridObjective = _x call (missionNamespace getVariable 'QS_fnc_gridObjectives');
-	if (!(_gridObjective isEqualTo [])) then {
-		_usedObjectives pushBack (_x select 0);
+	if (_gridObjective isNotEqualTo []) then {
+		_usedObjectives pushBack (_x # 0);
 		_gridObjectives pushBack _gridObjective;
 	};
 } forEach _currentObjectives;
 missionNamespace setVariable ['QS_grid_objectivesData',_gridObjectives,FALSE];
 //comment 'Illumination';
-if (!(sunOrMoon isEqualTo 1)) then {
-	[0,_aoPos,300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
-	[1,_aoPos,300,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+if (sunOrMoon isNotEqualTo 1) then {
+	_aoPos spawn {
+		[0,_this,400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+		sleep 3;
+		[1,_this,400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
+	};
 };
 //comment 'Civ vehicles';
-if (!isNil {_terrainData select 1}) then {
-	if ((count (_terrainData select 1)) > 15) then {
+if (!isNil {_terrainData # 1}) then {
+	if ((count (_terrainData # 1)) > 15) then {
 		[] call (missionNamespace getVariable 'QS_fnc_aoRandomVehicles');
 	};
 };

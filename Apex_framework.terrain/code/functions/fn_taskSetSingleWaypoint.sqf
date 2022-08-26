@@ -36,22 +36,22 @@ params [
 	'_wpForceBehaviour'
 ];
 _newWP = _grp addWaypoint [_wpCenter,_wpRadius];
-if (!(_wpType isEqualTo '')) then {
+if (_wpType isNotEqualTo '') then {
 	_newWP setWaypointType _wpType;
 };
-if (!(_wpBehaviour isEqualTo '')) then {
+if (_wpBehaviour isNotEqualTo '') then {
 	_newWP setWaypointBehaviour _wpBehaviour;
 };
-if (!(_wpCombatMode isEqualTo '')) then {
+if (_wpCombatMode isNotEqualTo '') then {
 	_newWP setWaypointCombatMode _wpCombatMode;
 };
-if (!(_wpFormation isEqualTo '')) then {
+if (_wpFormation isNotEqualTo '') then {
 	_newWP setWaypointFormation _wpFormation;
 };
-if (!(_wpSpeed isEqualTo '')) then {
+if (_wpSpeed isNotEqualTo '') then {
 	_newWP setWaypointSpeed _wpSpeed;
 };
-if (!(_wpCompletionRadius isEqualTo -1)) then {
+if (_wpCompletionRadius isNotEqualTo -1) then {
 	_newWP setWaypointCompletionRadius _wpCompletionRadius;
 };
 if (!isNull _wpAttachedEntity) then {
@@ -61,19 +61,19 @@ if (!isNull _wpAttachedEntity) then {
 		_newWP waypointAttachObject _wpAttachedEntity;
 	};
 };
-if (!(_wpTimeout isEqualTo [])) then {
+if (_wpTimeout isNotEqualTo []) then {
 	_newWP setWaypointTimeout _wpTimeout;
 };
-if (!(_wpStatements isEqualTo [])) then {
+if (_wpStatements isNotEqualTo []) then {
 	_newWP setWaypointStatements _wpStatements;
 };
-if (!(_wpScript isEqualTo '')) then {
+if (_wpScript isNotEqualTo '') then {
 	_newWP setWaypointScript _wpScript;
 };
-if (!(_wpName isEqualTo '')) then {
+if (_wpName isNotEqualTo '') then {
 	_newWP setWaypointName _wpName;
 };
-if (!(_wpDescription isEqualTo '')) then {
+if (_wpDescription isNotEqualTo '') then {
 	_newWP setWaypointDescription _wpDescription;
 };
 if (!isNil '_wpVisible') then {

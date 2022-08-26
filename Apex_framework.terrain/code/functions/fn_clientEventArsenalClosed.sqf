@@ -78,7 +78,7 @@ if ((uniform player) isNotEqualTo '') then {
 _QS_playerRole = player getVariable ['QS_unit_role','rifleman'];
 _QS_loadout = getUnitLoadout player;
 missionNamespace setVariable ['QS_revive_arsenalInventory',_QS_loadout,FALSE];
-private _QS_savedLoadouts = profileNamespace getVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),[]];
+private _QS_savedLoadouts = missionProfileNamespace getVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),[]];
 _QS_loadoutIndex = (_QS_savedLoadouts findIf {((_x # 0) isEqualTo _QS_playerRole)});
 _a = [_QS_playerRole,_QS_loadout];
 if (_QS_loadoutIndex isEqualTo -1) then {
@@ -86,8 +86,8 @@ if (_QS_loadoutIndex isEqualTo -1) then {
 } else {
 	_QS_savedLoadouts set [_QS_loadoutIndex,_a];
 };
-profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),_QS_savedLoadouts];
-saveProfileNamespace;
+missionProfileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa']))]),_QS_savedLoadouts];
+saveMissionProfileNamespace;
 if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {
 	missionNamespace setVariable ['QS_client_triggerGearCheck',TRUE,FALSE];
 };

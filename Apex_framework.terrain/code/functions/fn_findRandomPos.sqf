@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	11/08/2019 A3 1.94 by Quiksilver
+	22/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -47,7 +47,7 @@ _landPos = _whitelist isNotEqualTo 'WATER';
 _worldName = worldName;
 if (_isFlatEmpty isEqualTo []) then {
 	if (_landPos) then {
-		if (_worldName in ['Tanoa','Cam_Lao_Nam']) then {
+		if (_worldName in ['Tanoa','Enoch']) then {
 			_isFlatEmpty = [1,0,0.5,5,0,FALSE,objNull];
 		} else {
 			_isFlatEmpty = [5,0,0.25,5,0,FALSE,objNull];
@@ -62,6 +62,14 @@ if (_bestPlacesEnabled) then {
 	_selectBestPlaces = _selectBestPlaces select [1,4];
 };
 _emptyPositionEnabled = _findEmptyPosition isNotEqualTo [];
+if (_emptyPositionEnabled) then {
+	if (
+		(_type isEqualTo 'RADIUS') &&
+		{(_radius < 1500)}
+	) then {
+		_centerPos findEmptyPositionReady [0,_radius];
+	};
+};
 private _fn_blacklist = {TRUE};
 if (_blacklistEnabled) then {
 	if (_worldName isEqualTo 'Altis') then {
@@ -149,22 +157,22 @@ if (_type isEqualTo 'WORLD') then {
 								};
 								_testPos set [2,0];
 								_return = _testPos;
-								if (_emptyPositionEnabled) then {
-									if (_return isNotEqualTo []) then {
-										if ((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo []) then {
-											_return = _testPos findEmptyPosition _findEmptyPosition;
-										};
-									};
+								if (
+									(_emptyPositionEnabled) &&
+									{(_return isNotEqualTo [])} &&
+									{((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo [])}
+								) then {
+									_return = _testPos findEmptyPosition _findEmptyPosition;
 								};
 							};
 						} else {
 							_return = _testPos isFlatEmpty _isFlatEmpty;
-							if (_emptyPositionEnabled) then {
-								if (_return isNotEqualTo []) then {
-									if ((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo []) then {
-										_return = _testPos findEmptyPosition _findEmptyPosition;
-									};
-								};
+							if (
+								(_emptyPositionEnabled) &&
+								{(_return isNotEqualTo [])} &&
+								{((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo [])}
+							) then {
+								_return = _testPos findEmptyPosition _findEmptyPosition;
 							};
 						};
 					};		
@@ -209,7 +217,10 @@ if (_type isEqualTo 'WORLD') then {
 			};
 			_testPos = _centerPos getPos [(_radius * (sqrt (random 1))),(random 360)];
 			if (_testPos inArea (missionNamespace getVariable 'QS_terrain_worldArea')) then {
-				if ((!(_blacklistEnabled)) || {((_blacklistEnabled) && (_testPos call _fn_blacklist))}) then {
+				if (
+					(!(_blacklistEnabled)) || 
+					{((_blacklistEnabled) && (_testPos call _fn_blacklist))}
+				) then {
 					if (_landPos) then {
 						if (!(surfaceIsWater _testPos)) then {
 							if (_bestPlacesEnabled) then {
@@ -222,22 +233,22 @@ if (_type isEqualTo 'WORLD') then {
 									};
 									_testPos set [2,0];
 									_return = _testPos;
-									if (_emptyPositionEnabled) then {
-										if (_return isNotEqualTo []) then {
-											if ((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo []) then {
-												_return = _testPos findEmptyPosition _findEmptyPosition;
-											};
-										};
+									if (
+										(_emptyPositionEnabled) &&
+										{(_return isNotEqualTo [])} &&
+										{((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo [])}
+									) then {
+										_return = _testPos findEmptyPosition _findEmptyPosition;
 									};
 								};
 							} else {
 								_return = _testPos isFlatEmpty _isFlatEmpty;
-								if (_emptyPositionEnabled) then {
-									if (_return isNotEqualTo []) then {
-										if ((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo []) then {
-											_return = _testPos findEmptyPosition _findEmptyPosition;
-										};
-									};
+								if (
+									(_emptyPositionEnabled) &&
+									{(_return isNotEqualTo [])} &&
+									{((nearestTerrainObjects [_testPos,_bto,(_isFlatEmpty # 0),_false,_true]) isEqualTo [])}
+								) then {
+									_return = _testPos findEmptyPosition _findEmptyPosition;
 								};
 							};
 						};

@@ -21,4 +21,4 @@ mode: String - Current mode of the fired weapon
 ammo: String - Ammo used
 ___________________________________________________________________*/
 
-params ['_unit','_firer','_distance','_weapon','_muzzle','_mode','_ammo','_gunner'];
+//params ['_unit','_firer','_distance','_weapon','_muzzle','_mode','_ammo','_gunner'];

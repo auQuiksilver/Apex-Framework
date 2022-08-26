@@ -18,11 +18,11 @@ private _c = FALSE;
 if (_type isEqualTo 0) exitWith {
 	_unit = param [1,objNull];
 	if (alive _unit) then {
-		if (!((missionNamespace getVariable ['QS_positions_fieldHospitals',[]]) isEqualTo [])) then {
+		if ((missionNamespace getVariable ['QS_positions_fieldHospitals',[]]) isNotEqualTo []) then {
 			_fieldHospitals = missionNamespace getVariable ['QS_positions_fieldHospitals',[]];
 			{
 				if (_x isEqualType []) then {
-					if ((_unit distance2D (_x select 1)) < (_x select 2)) exitWith {
+					if ((_unit distance2D (_x # 1)) < (_x # 2)) exitWith {
 						_c = TRUE;
 					};
 				};

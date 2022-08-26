@@ -17,14 +17,14 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 	[
 		["Land_Cargo10_military_green_F",[1.49487,6.91235,2.86102e-006],287.207,[],false,true,true,{}], 
 		["Land_Cargo_House_V4_F",[-8.09814,-1.7793,0],285.593,[],false,true,false,{
-			missionNamespace setVariable ['QS_sm_radarHouse',(_this select 0),FALSE];
-			(_this select 0)
+			missionNamespace setVariable ['QS_sm_radarHouse',(_this # 0),FALSE];
+			(_this # 0)
 		}], 
 		["Land_Cargo_House_V4_F",[7.70508,3.71729,0],17.8366,[],false,true,false,{}], 
 		["Land_HBarrier_01_big_4_green_F",[-4.7019,-7.89575,0],196.773,[],false,true,true,{}], 
 		["Land_Radar_Small_F",[-4.33276,8.04517,0],224.077,[],false,true,false,{
-			missionNamespace setVariable ['QS_sideObj',(_this select 0),FALSE];
-			(_this select 0)
+			missionNamespace setVariable ['QS_sideObj',(_this # 0),FALSE];
+			(_this # 0)
 		}], 
 		["Land_HBarrier_01_big_4_green_F",[2.52881,10.7148,0],196.502,[],false,true,true,{}], 
 		["Land_Cargo10_sand_F",[5.8811,-9.29346,2.38419e-006],17.9784,[],false,true,true,{}], 
@@ -52,8 +52,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 	["Land_Cargo10_grey_F",[-3.37891,6.25977,9.53674e-007],220.676,[],false,true,true,{}], 
 	["Land_Cargo_House_V3_F",[6.91797,-4.67969,0],132.945,[],false,true,false,{}], 
 	["Land_Cargo_House_V3_F",[-7.91016,-2.20313,0],223.6,[],false,true,false,{
-		missionNamespace setVariable ['QS_sm_radarHouse',(_this select 0),FALSE];
-		(_this select 0)
+		missionNamespace setVariable ['QS_sm_radarHouse',(_this # 0),FALSE];
+		(_this # 0)
 	}], 
 	["Land_TBox_F",[-3.80273,-6.49023,0.00195503],132.626,[],false,true,true,{}], 
 	["Land_HBarrierBig_F",[8.43359,0.46875,8.39233e-005],43.8569,[],false,false,true,{}], 
@@ -62,8 +62,8 @@ if (worldName isEqualTo 'Tanoa') exitWith {
 	["Land_Mil_WiredFence_F",[-3.11133,8.85547,0.0267258],131.363,[],false,false,true,{}], 
 	["Land_HBarrierBig_F",[8.375,5.23047,0.00273895],133.746,[],false,false,true,{}], 
 	["Land_Radar_Small_F",[-0.0625,-10.8438,-0.0157871],67.5299,[],false,true,false,{
-		missionNamespace setVariable ['QS_sideObj',(_this select 0),FALSE];
-		(_this select 0)
+		missionNamespace setVariable ['QS_sideObj',(_this # 0),FALSE];
+		(_this # 0)
 	}], 
 	["Land_WaterTank_F",[0.111328,10.4355,9.15527e-005],40.6538,[],false,false,true,{}], 
 	["Land_CampingTable_small_F",[8.58203,-6.375,-0.0250015],313.208,[],false,false,true,{}], 

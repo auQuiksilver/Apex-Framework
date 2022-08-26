@@ -13,7 +13,7 @@ Description:
 	Sit Down / Stand Up
 _____________________________________/*/
 
-_type = _this select 3;
+_type = _this # 3;
 _chairTypes = [
 	'land_campingchair_v1_f',
 	'land_campingchair_v2_f',
@@ -46,7 +46,7 @@ if (_type isEqualTo 0) then {
 	};
 	_posInFront = player modelToWorldWorld [0,0.5,0];
 	player setPosWorld _posInFront;
-	if (!((stance player) isEqualTo 'STAND')) then {
+	if ((stance player) isNotEqualTo 'STAND') then {
 		['switchMove',player,(player getVariable ['QS_seated_oldAnimState',''])] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 	};
 	if (!isNil {player getVariable 'QS_interact_actionStand'}) then {
@@ -58,18 +58,18 @@ if (_type isEqualTo 0) then {
 if (_type isEqualTo 1) then {
 	_object = cursorObject;
 	if ((player distance2D _object) > 2.5) exitWith {};
-	if ((!((toLower (typeOf _object)) in _chairTypes)) && {(!((toLower ((getModelInfo _object) select 0)) in _chairModels))}) exitWith {};
-	if (!((attachedObjects _object) isEqualTo [])) exitWith {};
+	if ((!((toLowerANSI (typeOf _object)) in _chairTypes)) && {(!((toLowerANSI ((getModelInfo _object) # 0)) in _chairModels))}) exitWith {};
+	if ((attachedObjects _object) isNotEqualTo []) exitWith {};
 	if (!isNull (attachedTo _object)) exitWith {};
-	if (!((stance player) isEqualTo 'STAND')) exitWith {};
+	if ((stance player) isNotEqualTo 'STAND') exitWith {};
 	private _chairTaken = FALSE;
-	if (!((((getPosATL _object) nearEntities ['Man',0.75]) select {(!(_x isEqualTo player))}) isEqualTo [])) then {
+	if ((((getPosATL _object) nearEntities ['Man',0.75]) select {(_x isNotEqualTo player)}) isNotEqualTo []) then {
 			_chairTaken = TRUE;
 	};
 	if (_chairTaken) exitWith {
 		50 cutText ['Someone is too close to this chair!','PLAIN DOWN'];
 	};
-	if ((toLower (animationState player)) in _sittingAnimations) exitWith {50 cutText ['Already seated!','PLAIN DOWN'];};
+	if ((toLowerANSI (animationState player)) in _sittingAnimations) exitWith {50 cutText ['Already seated!','PLAIN DOWN'];};
 	
 	if (local _object) then {
 		_object setVectorUp [0,0,1];
@@ -87,7 +87,7 @@ if (_type isEqualTo 1) then {
 		player switchMove _sittingAnimation;
 	};
 	private _attachY = -0.1;
-	if (((toLower (typeOf _object)) in ['land_armchair_01_f']) || {((toLower ((getModelInfo _object) select 0)) in ['armchair_01_f.p3d'])}) then {
+	if (((toLowerANSI (typeOf _object)) in ['land_armchair_01_f']) || {((toLowerANSI ((getModelInfo _object) # 0)) in ['armchair_01_f.p3d'])}) then {
 		_attachY = 0;
 	};
 	player attachTo [_object,[0,_attachY,0]];
@@ -96,32 +96,32 @@ if (_type isEqualTo 1) then {
 		(player addAction ['Stand',(missionNamespace getVariable 'QS_fnc_clientInteractSit'),0,49,FALSE,TRUE,'','TRUE',-1,FALSE]),
 		FALSE
 	];
-	player setUserActionText [(player getVariable 'QS_interact_actionStand'),((player actionParams (player getVariable 'QS_interact_actionStand')) select 0),(format ["<t size='3'>%1</t>",((player actionParams (player getVariable 'QS_interact_actionStand')) select 0)])];
+	player setUserActionText [(player getVariable 'QS_interact_actionStand'),((player actionParams (player getVariable 'QS_interact_actionStand')) # 0),(format ["<t size='3'>%1</t>",((player actionParams (player getVariable 'QS_interact_actionStand')) # 0)])];
 	[_object] spawn {
 		scriptName 'Seated thread';
-		_object = _this select 0;
+		_object = _this # 0;
 		detach player;
 		private _sitDirectionOffset = 180;
-		if (((toLower (typeOf _object)) in ['land_armchair_01_f']) || {((toLower ((getModelInfo _object) select 0)) in ['armchair_01_f.p3d'])}) then {
+		if (((toLowerANSI (typeOf _object)) in ['land_armchair_01_f']) || {((toLowerANSI ((getModelInfo _object) # 0)) in ['armchair_01_f.p3d'])}) then {
 			_sitDirectionOffset = 0;
 		};
 		player setDir ((getDir _object) - _sitDirectionOffset);
 		uiSleep 0.05;
-		if (((toLower (typeOf _object)) in ['land_rattanchair_01_f','land_armchair_01_f']) || {((toLower ((getModelInfo _object) select 0)) in ['rattanchair_01_f.p3d','armchair_01_f.p3d'])}) then {
+		if (((toLowerANSI (typeOf _object)) in ['land_rattanchair_01_f','land_armchair_01_f']) || {((toLowerANSI ((getModelInfo _object) # 0)) in ['rattanchair_01_f.p3d','armchair_01_f.p3d'])}) then {
 			private _playerPos = getPosWorld player;
-			_playerPos set [2,((_playerPos select 2) - 1)];
+			_playerPos set [2,((_playerPos # 2) - 1)];
 			player setPosWorld _playerPos;
 		};
 		uiSleep 0.05;
 		_animationState = animationState player;
 		for '_x' from 0 to 1 step 0 do {
-			if (!((animationState player) isEqualTo _animationState)) exitWith {player setVariable ['QS_seated_oldAnimState',nil,FALSE];};
+			if ((animationState player) isNotEqualTo _animationState) exitWith {player setVariable ['QS_seated_oldAnimState',nil,FALSE];};
 			if ((player distance2D _object) > 1) exitWith {
 				if ((animationState player) isEqualTo _animationState) then {
 					[nil,nil,nil,0] call (missionNamespace getVariable 'QS_fnc_clientInteractSit');
 				};
 			};
-			if (((vectorUp _object) select 2) < 0.5) exitWith {
+			if (((vectorUp _object) # 2) < 0.5) exitWith {
 				if ((animationState player) isEqualTo _animationState) then {
 					[nil,nil,nil,0] call (missionNamespace getVariable 'QS_fnc_clientInteractSit');
 				};

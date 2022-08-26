@@ -67,7 +67,6 @@ if ((_spawnPos distance2D _aoPos) < (_aoSize * 1.1)) then {
 	private _mine = objNull;
 	for '_x' from 0 to (_quantity - 1) step 1 do {
 		_mine = createMine [(selectRandomWeighted _mineTypesWeighted),_spawnPos,[],_aoSize];
-		missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 		if (surfaceIsWater (getPosWorld _mine)) then {
 			deleteVehicle _mine;
 		} else {

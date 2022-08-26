@@ -17,7 +17,7 @@ private [
 	'_puid','_validated','_blacklistedString',
 	'_reservedClients','_nameArray','_reservedName','_reservedUID'
 ];
-_puid = _this select 0;
+_puid = _this # 0;
 _validated = TRUE;
 _blacklistedString = [
 	'Fuck','Shit','Cunt','Bitch','Nigger','Prick','Fag','Phag',
@@ -52,9 +52,9 @@ _reservedClients = [
 	['QuicksiIver','76561198084065754']
 ];
 {
-	_nameArray = _reservedClients select _forEachIndex;
-	_reservedName = _nameArray select 0;
-	_reservedUID = _nameArray select 1;
+	_nameArray = _reservedClients # _forEachIndex;
+	_reservedName = _nameArray # 0;
+	_reservedUID = _nameArray # 1;
 	if (profileName == _reservedName) then {
 		if (_puid isNotEqualTo _reservedUID) exitWith {
 			if (userInputDisabled) then {

@@ -91,16 +91,16 @@ if (_type isEqualTo 0) exitWith {
 	private _configClass = configNull;
 	private _model = '';
 	private _quantity = 0;
-	if (!(_simpleObjectData isEqualTo [])) then {
+	if (_simpleObjectData isNotEqualTo []) then {
 		{
-			_type = _x select 0;
-			_quantity = _x select 1;
+			_type = _x # 0;
+			_quantity = _x # 1;
 			_configClass = configFile >> 'CfgVehicles' >> _type;
 			_model = getText (_configClass >> 'model');
 			if ((_model select [0,1]) isEqualTo '\') then {
 				_model = _model select [1];
 			};
-			if (!((_model select [((count _model) - 4),4]) isEqualTo '.p3d')) then {
+			if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 				_model = _model + '.p3d';
 			};
 			for '_x' from 0 to (_quantity - 1) step 1 do {
@@ -109,17 +109,17 @@ if (_type isEqualTo 0) exitWith {
 			};
 		} forEach _simpleObjectData;
 	};
-	if (!(_normalObjectData isEqualTo [])) then {
+	if (_normalObjectData isNotEqualTo []) then {
 		{
-			_type = _x select 0;
-			_quantity = _x select 1;
+			_type = _x # 0;
+			_quantity = _x # 1;
 			for '_x' from 0 to (_quantity - 1) step 1 do {
 				_object = createVehicle [_type,[-1100,-1100,0],[],0,'CAN_COLLIDE'];
 				_normalObjects pushBack _object;
 			};
 		} forEach _normalObjectData;
 	};
-	if (!(_unitsData isEqualTo [])) then {
+	if (_unitsData isNotEqualTo []) then {
 		if (missionNamespace getVariable ['QS_recycler_units',FALSE]) then {
 			_nullGrp = createGroup [CIVILIAN,FALSE];
 			_nullGrp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
@@ -127,15 +127,15 @@ if (_type isEqualTo 0) exitWith {
 			missionNamespace setVariable ['QS_recycler_nullGrp',_nullGrp,FALSE];
 			private _unit = objNull;
 			{
-				_type = _x select 0;
-				_quantity = _x select 1;
+				_type = _x # 0;
+				_quantity = _x # 1;
 				for '_x' from 0 to (_quantity - 1) step 1 do {
 					_unit = _nullGrp createUnit [_type,[-1100,-1100,0],[],0,'CAN_COLLIDE'];
 					_unit allowDamage FALSE;
 					_unit enableDynamicSimulation FALSE;
 					_unit hideObjectGlobal TRUE;
 					_unit enableSimulationGlobal FALSE;
-					_unit disableAI 'ALL';
+					_unit enableAIFeature ['ALL',FALSE];
 					_unit setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 					_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 					[_unit] joinSilent _nullGrp;
@@ -148,7 +148,7 @@ if (_type isEqualTo 0) exitWith {
 };
 if (_type isEqualTo 1) exitWith {
 	_return = FALSE;
-	_object = _this select 2;
+	_object = _this # 2;
 	// Put object into recycler
 	if (!isNull _object) then {
 		if (!(isSimpleObject _object)) then {
@@ -156,8 +156,8 @@ if (_type isEqualTo 1) exitWith {
 				if (missionNamespace getVariable ['QS_recycler_units',FALSE]) then {
 					if (local _object) then {
 						// if the unit is the right type and there is room in the recycler
-						if (({(alive _x)} count ((missionNamespace getVariable 'QS_recycler_objects') select 2)) < (missionNamespace getVariable ['QS_recycler_unitCount',10])) then {
-							if ((toLower (typeOf _object)) in (missionNamespace getVariable ['QS_recycler_unitTypes',[]])) then {
+						if (({(alive _x)} count ((missionNamespace getVariable 'QS_recycler_objects') # 2)) < (missionNamespace getVariable ['QS_recycler_unitCount',10])) then {
+							if ((toLowerANSI (typeOf _object)) in (missionNamespace getVariable ['QS_recycler_unitTypes',[]])) then {
 								_return = TRUE;
 								private _grp = missionNamespace getVariable ['QS_recycler_nullGrp',grpNull];
 								if (isNull _grp) then {
@@ -181,15 +181,15 @@ if (_type isEqualTo 1) exitWith {
 								_object hideObjectGlobal TRUE;
 								_object enableSimulationGlobal FALSE;
 								_object enableDynamicSimulation FALSE;
-								_object disableAI 'ALL';
+								_object enableAIFeature ['ALL',FALSE];
 								[_object] joinSilent _grp;
 								if ((damage _object) > 0) then {
 									_object setDamage [0,FALSE];
 								};
-								_recycledUnits = (missionNamespace getVariable 'QS_recycler_objects') select 2;
+								_recycledUnits = (missionNamespace getVariable 'QS_recycler_objects') # 2;
 								_recycledUnits pushBack _object;
 								(missionNamespace getVariable 'QS_recycler_objects') set [2,_recycledUnits];
-								if (!(allCurators isEqualTo [])) then {
+								if (allCurators isNotEqualTo []) then {
 									{
 										_x removeCuratorEditableObjects [[_object],TRUE];
 									} forEach allCurators;
@@ -199,13 +199,13 @@ if (_type isEqualTo 1) exitWith {
 					};
 				};
 			} else {
-				if (_object in ((missionNamespace getVariable 'QS_recycler_objects') select 0)) then {
+				if (_object in ((missionNamespace getVariable 'QS_recycler_objects') # 0)) then {
 					_return = TRUE;
 					_object setPos (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
 				};
 			};
 		} else {
-			if (_object in ((missionNamespace getVariable 'QS_recycler_objects') select 1)) then {
+			if (_object in ((missionNamespace getVariable 'QS_recycler_objects') # 1)) then {
 				_return = TRUE;
 				_object setPos (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
 			};
@@ -215,8 +215,8 @@ if (_type isEqualTo 1) exitWith {
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
-	private _class = _this select 2;
-	_class = toLower _class;
+	private _class = _this # 2;
+	_class = toLowerANSI _class;
 	_position = missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]];
 	private _exit = FALSE;
 	// Get object from recycler
@@ -286,14 +286,14 @@ if (_type isEqualTo 2) exitWith {
 	];
 	if (_type2 isEqualTo 0) then {
 		// Normal objects
-		_validNormalObjects = _validObjects select _type2;
+		_validNormalObjects = _validObjects # _type2;
 		if (_class in _validNormalObjects) then {
 			// Request is valid, search recycler for available prop
-			_props = (missionNamespace getVariable 'QS_recycler_objects') select _type2;
-			if (!(_props isEqualTo [])) then {
+			_props = (missionNamespace getVariable 'QS_recycler_objects') # _type2;
+			if (_props isNotEqualTo []) then {
 				{
 					if (!isNull _x) then {
-						if ((toLower (typeOf _x)) isEqualTo _class) then {
+						if ((toLowerANSI (typeOf _x)) isEqualTo _class) then {
 							if ((_x distance2D _position) < 50) then {
 								// Prop is available
 								_return = _x;
@@ -308,14 +308,14 @@ if (_type isEqualTo 2) exitWith {
 	};	
 	if (_type2 isEqualTo 1) then {
 		// Simple objects
-		_validSimpleObjects = _validObjects select _type2;
+		_validSimpleObjects = _validObjects # _type2;
 		if (_class in _validSimpleObjects) then {
 			// Request is valid, search recycler for available prop
-			_props = (missionNamespace getVariable 'QS_recycler_objects') select _type2;
-			if (!(_props isEqualTo [])) then {
+			_props = (missionNamespace getVariable 'QS_recycler_objects') # _type2;
+			if (_props isNotEqualTo []) then {
 				{
 					if (!isNull _x) then {
-						if ((toLower ((getModelInfo _x) select 1)) isEqualTo _class) then {
+						if ((toLowerANSI ((getModelInfo _x) # 1)) isEqualTo _class) then {
 							if ((_x distance2D _position) < 50) then {
 								// Prop is available
 								_return = _x;
@@ -330,10 +330,10 @@ if (_type isEqualTo 2) exitWith {
 	};
 	if (_type2 isEqualTo 2) then {
 		// AI
-		_validUnits = _validObjects select _type2;
+		_validUnits = _validObjects # _type2;
 		if (_class in _validUnits) then {
-			_props = (missionNamespace getVariable 'QS_recycler_objects') select _type2;
-			if (!(_props isEqualTo [])) then {
+			_props = (missionNamespace getVariable 'QS_recycler_objects') # _type2;
+			if (_props isNotEqualTo []) then {
 				{
 					if (alive _x) then {
 						if ((_x distance2D _position) < 50) then {

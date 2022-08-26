@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	3/03/2018 A3 1.80 by Quiksilver
+	23/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -35,10 +35,8 @@ _unitTypes = [
 	]
 ] select (worldName in ['Tanoa','Enoch']);
 if (_type in ['CLASSIC','SC']) exitWith {
-	comment 'Position';
 	private _centerPos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
 	private _aoSize = missionNamespace getVariable ['QS_aoSize',[0,0,0]];
-	private _positionFound = FALSE;
 	private _iterations = 0;
 	private _checkVisibleDistance = 500;
 	private _players = allPlayers;
@@ -46,21 +44,18 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	private _position1 = [0,0,0];
 	for '_x' from 0 to 1 step 0 do {
 		_position1 = ['RADIUS',_centerPos,_aoSize,'LAND',[1.5,0,0.5,3,0,FALSE,objNull],TRUE,[_centerPos,300,'(1 + forest) * (1 - houses)',15,3],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		if ((_position1 distance2D _centerPos) < 1500) then {
-			if ((_players inAreaArray [_position1,250,250,0,FALSE]) isEqualTo []) then {
-				if ((((_position1 select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
-					if (([(AGLToASL _position1),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
-						_positionFound = TRUE;
-					};
-				};
-			};
-		};
-		if (_positionFound) exitWith {};
-		if (_iterations > 300) exitWith {};
+		if (
+			(
+				((_position1 distance2D _centerPos) < 1500) &&
+				{((_players inAreaArray [_position1,250,250,0,FALSE]) isEqualTo [])} &&
+				{((((_position1 select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} &&
+				{(([(AGLToASL _position1),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1)}
+			) || 
+			{(_iterations > 300)}
+		) exitWith {};
 		_iterations = _iterations + 1;
 	};
 	if (_iterations > 300) exitWith {};
-	comment 'Spawn units';
 	private _unit = objNull;
 	private _grp = _viperGroup;
 	if (isNull _grp) then {
@@ -69,15 +64,18 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	for '_x' from 0 to ((_total - _quantity) - 1) step 1 do {
 		_unit = _grp createUnit [(selectRandomWeighted _unitTypes),_position1,[],0,'NONE'];
 		_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+		_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
 		_unit setAnimSpeedCoef 1.15;
-		_unit setCustomAimCoef 0.75;
-		_unit setUnitRecoilCoefficient 0.75;
+		_unit setCustomAimCoef 0.5;
+		_unit setUnitRecoilCoefficient 0.5;
 		_unit setUnitTrait ['camouflageCoef',0.5,FALSE];
 		_unit setUnitTrait ['audibleCoef',0.5,FALSE];
+		_unit enableAIFeature ['AIMINGERROR',FALSE];
+		_unit enableAIFeature ['SUPPRESSION',FALSE];
 		_unit setVariable ['QS_tracersAdded',TRUE,FALSE];
 		if ((random 1) > 0.5) then {
 			_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
-			_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(diag_tickTime - 1),FALSE];
+			_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',-1,FALSE];
 		};
 		_unit addEventHandler [
 			'Hit',
@@ -102,16 +100,17 @@ if (_type in ['CLASSIC','SC']) exitWith {
 			}
 		];
 		_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
-		_unit setUnitPosWeak 'AUTO';
+		_unit setUnitPos 'AUTO';
 	};
-	comment 'Configure units';
 	_grp setBehaviour 'AWARE';
 	_grp setCombatMode 'YELLOW';
 	[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_position1,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_DATA',[_position1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_grp setGroupIdGlobal ['Viper Team'];
+	_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_position1,serverTime,-1],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_DATA',[_position1],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	(units _grp);
 };
 if (_type isEqualTo 'GRID') exitWith {

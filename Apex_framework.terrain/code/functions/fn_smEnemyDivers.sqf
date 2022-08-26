@@ -17,7 +17,7 @@ private [
 	'_pos','_terrainHeightASL','_AboatTypes','_AboatType','_boatTypes','_boatType','_AboatsCount','_boatsCount','_enemiesArray','_relPos','_boat',
 	'_grp','_diverTypes','_diverType','_unit','_terrainHeightASLActual','_wp','_QS_fnc_radPos','_subTypes','_subType','_foundPos','_grpUnit','_trawler'
 ];
-_pos = _this select 0;
+_pos = _this # 0;
 _enemiesArray = [];
 _terrainHeightASL = getTerrainHeightASL _pos;
 _AboatTypes = ['O_Boat_Armed_01_hmg_F','I_Boat_Armed_01_minigun_F'];
@@ -29,19 +29,19 @@ _boat = objNull;
 _QS_fnc_radPos = {
 	private['_pos','_exit','_posX','_posY'];
 	params ['_center','_radius','_angle','_isWater'];
-	_center = _this select 0;
-	_radius = _this select 1;
-	_angle = _this select 2;
-	_isWater = _this select 3;
+	_center = _this # 0;
+	_radius = _this # 1;
+	_angle = _this # 2;
+	_isWater = _this # 3;
 	_exit = FALSE;
 	for '_x' from 0 to 1 step 0 do {
 		_posX = (_radius * (sin _angle));
 		_posY = (_radius * (cos _angle));
-		_pos = [_posX + (_center select 0),_posY + (_center select 1),0];
+		_pos = [_posX + (_center # 0),_posY + (_center # 1),0];
 		if (_isWater) then {
-			if (surfaceIsWater [_pos select 0,_pos select 1]) then {_exit = true} else {_radius = _radius - 1};
+			if (surfaceIsWater [_pos # 0,_pos # 1]) then {_exit = true} else {_radius = _radius - 1};
 		} else {
-			if (!surfaceIsWater [_pos select 0,_pos select 1]) then {_exit = true} else {_radius = _radius - 1};
+			if (!surfaceIsWater [_pos # 0,_pos # 1]) then {_exit = true} else {_radius = _radius - 1};
 		};
 		if (_radius isEqualTo 0) then {_pos = _center;_exit = true};
 		if (_exit) exitWith {};
@@ -53,20 +53,10 @@ for '_x' from 0 to (_AboatsCount - 1) step 1 do {
 	_relPos = _pos getPos [(random 300),(random 360)];
 	_relPos set [2,0];
 	_boat = createVehicle [_AboatType,_relPos,[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	_boat lock 2;
 	0 = _enemiesArray pushBack _boat;
 	_boat setDir (random 360);
 	_grp = createVehicleCrew _boat;
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _boat))),
-		FALSE
-	];
 	{
 		_grpUnit = _x;
 		_grpUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -87,11 +77,6 @@ for '_x' from 0 to (_AboatsCount - 1) step 1 do {
 
 _relPos = [_pos,(200 + (random 400)),(random 360),TRUE] call _QS_fnc_radPos;
 _trawler = createVehicle ['C_Boat_Civil_04_F',[0,0,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _trawler setDir (random 360);
 _trawler setPos _relPos;
 _trawler allowDamage FALSE;
@@ -99,34 +84,24 @@ _trawler allowDamage FALSE;
 private _patrolRoute = [];
 for '_x' from 0 to 2 step 1 do {
 	_relPos = [_pos,(100 + (random 200)),(random 360),TRUE] call _QS_fnc_radPos;
-	_patrolRoute pushBack [_relPos select 0,_relPos select 1,0];
+	_patrolRoute pushBack [_relPos # 0,_relPos # 1,0];
 };
-_unit = (units _grp) select 0;
+_unit = (units _grp) # 0;
 
-_patrolRoute pushBack [((getPos _unit) select 0),((getPos _unit) select 1),0];
-_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_patrolRoute pushBack [((getPos _unit) # 0),((getPos _unit) # 1),0];
+_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 
 
 _boatType = selectRandom _boatTypes;
-_boat = createVehicle [_boatType,[_pos select 0,_pos select 1,0],[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
+_boat = createVehicle [_boatType,[_pos # 0,_pos # 1,0],[],0,'NONE'];
 _boat lock 2;
 0 = _enemiesArray pushBack _boat;
 _boat setDir (random 360);
 _grp = createVehicleCrew _boat;
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _boat))),
-	FALSE
-];
 {
 	_grpUnit = _x;
 	_grpUnit forceAddUniform 'U_O_Wetsuit';
@@ -144,17 +119,17 @@ missionNamespace setVariable [
 _patrolRoute = [];
 for '_x' from 0 to 2 step 1 do {
 	_relPos = [_pos,(100 + (random 200)),(random 360),TRUE] call _QS_fnc_radPos;
-	_patrolRoute pushBack [_relPos select 0,_relPos select 1,0];
+	_patrolRoute pushBack [_relPos # 0,_relPos # 1,0];
 };
-_unit = (units _grp) select 0;
+_unit = (units _grp) # 0;
 
-_patrolRoute pushBack [((getPos _unit) select 0),((getPos _unit) select 1),0];
+_patrolRoute pushBack [((getPos _unit) # 0),((getPos _unit) # 1),0];
 
-_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 
 [(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 
@@ -166,20 +141,10 @@ while {!_foundPos} do {
 };
 _subType = selectRandom _subTypes;
 _sub = createVehicle [_subType,_relPos,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _sub lock 3;
-_sub allowCrewInImmobile TRUE;
+_sub allowCrewInImmobile [TRUE,TRUE];
 0 = _enemiesArray pushBack _sub;
 _grp = createVehicleCrew _sub;
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _sub))),
-	FALSE
-];
 _sub swimInDepth -2.5;
 {
 	_grpUnit = _x;
@@ -195,19 +160,19 @@ _sub swimInDepth -2.5;
 _patrolRoute = [];
 for '_x' from 0 to 2 step 1 do {
 	_relPos = [_pos,(100 + (random 200)),(random 360),TRUE] call _QS_fnc_radPos;
-	_patrolRoute pushBack [_relPos select 0,_relPos select 1,-3];
+	_patrolRoute pushBack [_relPos # 0,_relPos # 1,-3];
 };
-_patrolRoute pushBack [((getPos _unit) select 0),((getPos _unit) select 1),-3];
-_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+_patrolRoute pushBack [((getPos _unit) # 0),((getPos _unit) # 1),-3];
+_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 [(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 private _swimDepth = 0;
 for '_x' from 0 to (14 + (round (random 4))) step 1 do {
 	_terrainHeightASLActual = _terrainHeightASL / (random 3);
-	_relPos = [_pos select 0,_pos select 1,_terrainHeightASLActual] getPos [(random 360),(random 360)];
+	_relPos = [_pos # 0,_pos # 1,_terrainHeightASLActual] getPos [(random 360),(random 360)];
 	_grp = [_relPos,(random 360),RESISTANCE,'HAF_DiverSentry',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 	[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	{
@@ -216,8 +181,8 @@ for '_x' from 0 to (14 + (round (random 4))) step 1 do {
 		_grpUnit swimInDepth _swimDepth;
 		0 = _enemiesArray pushBack _grpUnit;
 		_grpUnit setSkill ['aimingAccuracy',(random [0.05,0.1,0.15])];
-		_grpUnit setVariable ['QS_AI_UNIT_aimingAccuracy',(_grpUnit skillFinal 'aimingAccuracy'),(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_grpUnit setVariable ['QS_AI_UNIT_swimDepth',_swimDepth,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+		_grpUnit setVariable ['QS_AI_UNIT_aimingAccuracy',(_grpUnit skillFinal 'aimingAccuracy'),QS_system_AI_owners];
+		_grpUnit setVariable ['QS_AI_UNIT_swimDepth',_swimDepth,QS_system_AI_owners];
 		{
 			if (_x in ['HandGrenade','MiniGrenade']) then {
 				_grpUnit removeMagazine _x;
@@ -227,23 +192,14 @@ for '_x' from 0 to (14 + (round (random 4))) step 1 do {
 	_patrolRoute = [];
 	for '_x' from 0 to 3 step 1 do {
 		_relPos = [_pos,(100 + (random 200)),(random 360),TRUE] call _QS_fnc_radPos;
-		_patrolRoute pushBack [_relPos select 0,_relPos select 1,(((units _grp) select 0) getVariable ['QS_AI_UNIT_swimDepth',-5])];
+		_patrolRoute pushBack [_relPos # 0,_relPos # 1,(((units _grp) # 0) getVariable ['QS_AI_UNIT_swimDepth',-5])];
 	};
-	_patrolRoute pushBack [((getPos _unit) select 0),((getPos _unit) select 1),(getTerrainHeightASL (getPos ((units _grp) select 0)))];
-	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-};
-if (missionNamespace getVariable ['QS_HC_Active',FALSE]) then {
-	{
-		if (_x isKindOf 'Man') then {
-			_grp = group _x;
-			if (isNil {_grp getVariable 'QS_grp_HC'}) then {
-				_grp setVariable ['QS_grp_HC',TRUE,FALSE];
-			};
-		};
-	} forEach _enemiesArray;
+	_patrolRoute pushBack [((getPos _unit) # 0),((getPos _unit) # 1),(getTerrainHeightASL (getPos ((units _grp) # 0)))];
+	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 };
 _enemiesArray;

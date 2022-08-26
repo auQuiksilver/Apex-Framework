@@ -13,7 +13,7 @@ Description:
 	-
 _____________________________________________________________*/
 private _c = FALSE;
-_vehicle = _this select 0;
+_vehicle = _this # 0;
 _attachedObjects = attachedObjects _vehicle;
 private _towedVehicle = objNull;
 if (alive _vehicle) then {

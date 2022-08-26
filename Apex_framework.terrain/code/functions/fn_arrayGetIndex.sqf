@@ -14,4 +14,4 @@ Description:
 ________________________________________________________________/*/
 
 params ['_a','_v','_i'];
-(_a findIf {((_x select _i) isEqualTo _v)});
+(_a findIf {((_x # _i) isEqualTo _v)});

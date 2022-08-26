@@ -21,7 +21,7 @@ if (
 	(!isNull (attachedTo _obj))
 ) exitWith {};
 private _exit = FALSE;
-if (!((attachedObjects _obj) isEqualTo [])) then {
+if ((attachedObjects _obj) isNotEqualTo []) then {
 	{
 		if (_x isKindOf 'Man') then {
 			_exit = TRUE;
@@ -34,9 +34,13 @@ _obj setVariable ['QS_RD_storedAnim',(animationState _obj),TRUE];
 _obj setVariable ['QS_RD_interacting',TRUE,TRUE];
 _obj setVariable ['QS_RD_escorted',TRUE,TRUE];
 _obj attachTo [player,[0.1,-1.1,0]];
-_obj disableAI 'MOVE';
-_obj disableAI 'FSM';
-_obj disableAI 'TEAMSWITCH';
+{
+	_obj enableAIFeature [_x,FALSE];
+} forEach [
+	'MOVE',
+	'FSM',
+	'TEAMSWITCH'
+];
 _obj allowDamage TRUE;
 _obj setCaptive FALSE;
 50 cutText ['Escorting','PLAIN DOWN',0.3];

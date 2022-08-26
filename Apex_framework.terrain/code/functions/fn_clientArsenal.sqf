@@ -21,7 +21,11 @@ if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) e
 	{
 		_index = _foreachindex;
 		{
-			if (getnumber (_x >> 'disabled') isEqualTo 0 && gettext (_x >> 'head') != '' && configname _x != 'Default') then {
+			if (
+				((getnumber (_x >> 'disabled')) isEqualTo 0) && 
+				{((gettext (_x >> 'head')) isNotEqualTo '')} && 
+				{((configname _x) != 'Default')}
+			) then {
 				_data pushBack [_x,_index];
 			};
 		} foreach ('isclass _x' configclasses _x);
@@ -233,7 +237,7 @@ if ((_isBlacklisted) || {((missionNamespace getVariable ['QS_missionConfig_Arsen
 			_weaponType = (_className call (missionNamespace getVariable 'BIS_fnc_itemType'));
 			_weaponTypeCategory = _weaponType # 0;
 			if (_weaponTypeCategory != 'VehicleWeapon') then {
-				if (!( (toLower _className) in _QS_restrictedItems)) then {
+				if (!( (toLowerANSI _className) in _QS_restrictedItems)) then {
 					_cfgItems pushBackUnique _className;
 				};
 			};
@@ -246,7 +250,7 @@ if ((_isBlacklisted) || {((missionNamespace getVariable ['QS_missionConfig_Arsen
 	if (!(_internalRestrictions)) then {
 		_QS_restrictedWeapons = [];
 	};
-	_cfgWeapons = _cfgWeapons select {(!((toLower _x) in _QS_restrictedWeapons))};
+	_cfgWeapons = _cfgWeapons select {(!((toLowerANSI _x) in _QS_restrictedWeapons))};
 	private _weaponClass = '';
 	private _mag = '';
 	private _cfgMag = configNull;
@@ -260,7 +264,7 @@ if ((_isBlacklisted) || {((missionNamespace getVariable ['QS_missionConfig_Arsen
 	{
 		_weaponClass = _x;
 		_weapon = configFile >> 'CfgWeapons' >> _weaponClass;
-		if ((toLower _weaponClass) in ['throw','put']) then {
+		if ((toLowerANSI _weaponClass) in ['throw','put']) then {
 			_muzzles = getArray (_weapon >> 'muzzles');
 			{
 				_muzzle = _x;
@@ -277,7 +281,7 @@ if ((_isBlacklisted) || {((missionNamespace getVariable ['QS_missionConfig_Arsen
 			{
 				_mag = _x;
 				if (!(_x in _cfgMagazines)) then {
-					if (!((toLower _x) in _QS_restrictedMagazines)) then {
+					if (!((toLowerANSI _x) in _QS_restrictedMagazines)) then {
 						_cfgMagazines pushBackUnique _x;
 					};
 				};
@@ -291,7 +295,7 @@ if ((_isBlacklisted) || {((missionNamespace getVariable ['QS_missionConfig_Arsen
 	if (!(_internalRestrictions)) then {
 		_QS_restrictedBackpacks = [];
 	};
-	_cfgBackpacks = _cfgBackpacks select {(!((toLower _x) in _QS_restrictedBackpacks))};
+	_cfgBackpacks = _cfgBackpacks select {(!((toLowerANSI _x) in _QS_restrictedBackpacks))};
 	player setVariable ['bis_addVirtualWeaponCargo_cargo',[_cfgItems,_cfgWeapons,_cfgMagazines,_cfgBackpacks],FALSE];	
 };
 _data = [(player getVariable ['QS_unit_side',WEST]),(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_data_arsenal');
@@ -313,8 +317,8 @@ if (_goggles isNotEqualTo []) then {
 		_className = _binGoggles select _i;
 		if (isClass _className) then {
 			_goggleClassname = configName _className;
-			if ((toLower _goggleClassname) in _goggles) then {
-				_goggles set [(_goggles find (toLower _goggleClassname)),_goggleClassname];
+			if ((toLowerANSI _goggleClassname) in _goggles) then {
+				_goggles set [(_goggles find (toLowerANSI _goggleClassname)),_goggleClassname];
 			};
 		};
 	};
@@ -330,7 +334,7 @@ if (_isBlacklisted) exitWith {
 	private _foundIndex = -1;
 	{
 		_class = _x;
-		_foundIndex = _cargoItems findIf {((toLower _x) isEqualTo (toLower _class))};
+		_foundIndex = _cargoItems findIf {((toLowerANSI _x) isEqualTo (toLowerANSI _class))};
 		if (_foundIndex isNotEqualTo -1) then {
 			_cargoItems deleteAt _foundIndex;
 		};
@@ -338,7 +342,7 @@ if (_isBlacklisted) exitWith {
 	if (_weapons isNotEqualTo []) then {
 		{
 			_class = configname (configfile >> 'cfgweapons' >> _x);
-			_foundIndex = _cargoWeapons findIf {((toLower _x) isEqualTo (toLower _class))};
+			_foundIndex = _cargoWeapons findIf {((toLowerANSI _x) isEqualTo (toLowerANSI _class))};
 			if (_foundIndex isNotEqualTo -1) then {
 				_cargoWeapons deleteAt _foundIndex;
 			};
@@ -347,7 +351,7 @@ if (_isBlacklisted) exitWith {
 	if (_magazines isNotEqualTo []) then {
 		{
 			_class = configname (configfile >> 'cfgweapons' >> _x);
-			_foundIndex = _cargoMagazines findIf {((toLower _x) isEqualTo (toLower _class))};
+			_foundIndex = _cargoMagazines findIf {((toLowerANSI _x) isEqualTo (toLowerANSI _class))};
 			if (_foundIndex isNotEqualTo -1) then {
 				_cargoMagazines deleteAt _foundIndex;
 			};
@@ -356,7 +360,7 @@ if (_isBlacklisted) exitWith {
 	if (_backpacks isNotEqualTo []) then {
 		{
 			_class = _x;
-			_foundIndex = _cargoBackpacks findIf {((toLower _x) isEqualTo (toLower _class))};
+			_foundIndex = _cargoBackpacks findIf {((toLowerANSI _x) isEqualTo (toLowerANSI _class))};
 			if (_foundIndex isNotEqualTo -1) then {
 				_cargoBackpacks deleteAt _foundIndex;
 			};
@@ -369,8 +373,8 @@ if (_isBlacklisted) exitWith {
 		[player,(_x # 1),FALSE,FALSE] call (missionNamespace getVariable (_x # 0));
 	};
 } forEach [
-	[(format ['BIS_fnc_%1VirtualItemCargo',(['add','remove'] select _isBlacklisted)]),(_items select {(!( (toLower _x) in _QS_restrictedItems))})],
-	[(format ['BIS_fnc_%1VirtualMagazineCargo',(['add','remove'] select _isBlacklisted)]),(_magazines select {(!( (toLower _x) in _QS_restrictedMagazines))})],
-	[(format ['BIS_fnc_%1VirtualBackpackCargo',(['add','remove'] select _isBlacklisted)]),(_backpacks select {(!( (toLower _x) in _QS_restrictedBackpacks))})],
-	[(format ['BIS_fnc_%1VirtualWeaponCargo',(['add','remove'] select _isBlacklisted)]),(_weapons select {(!( (toLower _x) in _QS_restrictedWeapons))})]
+	[(format ['BIS_fnc_%1VirtualItemCargo',(['add','remove'] select _isBlacklisted)]),(_items select {(!( (toLowerANSI _x) in _QS_restrictedItems))})],
+	[(format ['BIS_fnc_%1VirtualMagazineCargo',(['add','remove'] select _isBlacklisted)]),(_magazines select {(!( (toLowerANSI _x) in _QS_restrictedMagazines))})],
+	[(format ['BIS_fnc_%1VirtualBackpackCargo',(['add','remove'] select _isBlacklisted)]),(_backpacks select {(!( (toLowerANSI _x) in _QS_restrictedBackpacks))})],
+	[(format ['BIS_fnc_%1VirtualWeaponCargo',(['add','remove'] select _isBlacklisted)]),(_weapons select {(!( (toLowerANSI _x) in _QS_restrictedWeapons))})]
 ];

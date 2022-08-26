@@ -10,8 +10,8 @@ Description:
 
 Parameter(s):
 
-	_this select 0: group (Group)
-	_this select 1: move position (Array)
+	_this # 0: group (Group)
+	_this # 1: move position (Array)
 
 Returns:
 

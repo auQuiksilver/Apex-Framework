@@ -13,12 +13,12 @@ Description:
 	Client Menu Radio
 __________________________________________________________*/
 disableSerialization;
-_type = _this select 0;
+_type = _this # 0;
 if (_type isEqualTo 'onLoad') then {
-	_display = _this select 1;
+	_display = _this # 1;
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	{
-		(_x select 0) ctrlSetText (_x select 1);
+		(_x # 0) ctrlSetText (_x # 1);
 	} forEach [
 		[(_display displayCtrl 1802),'Radio Management'],
 		[(_display displayCtrl 1804),'Close'],
@@ -49,8 +49,8 @@ if (_type isEqualTo 'onLoad') then {
 	(_display displayCtrl 1810) ctrlSetText 'Primary AO';
 	(_display displayCtrl 1810) ctrlSetTooltip 'Main AO channel';
 	(_display displayCtrl 1818) ctrlSetText (if (3 in (missionNamespace getVariable 'QS_radioChannels')) then [{'Active'},{'Inactive'}]);
-	(_display displayCtrl 1829) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 0); /*/(3 in (missionNamespace getVariable 'QS_client_radioChannels'));/*/
-	(_display displayCtrl 1837) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 0);
+	(_display displayCtrl 1829) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 0); /*/(3 in (missionNamespace getVariable 'QS_client_radioChannels'));/*/
+	(_display displayCtrl 1837) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 0);
 	(_display displayCtrl 1829) ctrlSetTooltip '';
 	(_display displayCtrl 1837) ctrlSetTooltip '';
 	(_display displayCtrl 1837) ctrlEnable FALSE;
@@ -59,8 +59,8 @@ if (_type isEqualTo 'onLoad') then {
 	(_display displayCtrl 1811) ctrlSetText 'Secondary AO';
 	(_display displayCtrl 1811) ctrlSetTooltip 'Side Mission channel';
 	(_display displayCtrl 1819) ctrlSetText (if (4 in (missionNamespace getVariable 'QS_radioChannels')) then [{'Active'},{'Inactive'}]);
-	(_display displayCtrl 1830) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 1); /*/(4 in (missionNamespace getVariable 'QS_client_radioChannels'));/*/
-	(_display displayCtrl 1838) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 1);
+	(_display displayCtrl 1830) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 1); /*/(4 in (missionNamespace getVariable 'QS_client_radioChannels'));/*/
+	(_display displayCtrl 1838) cbSetChecked ((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 1);
 	(_display displayCtrl 1830) ctrlSetTooltip '';
 	(_display displayCtrl 1838) ctrlSetTooltip '';
 	(_display displayCtrl 1838) ctrlEnable FALSE;
@@ -132,8 +132,8 @@ if (_type in [
 	'Check_1','Check_2','Check_3','Check_4','Check_5','Check_6',
 	'Check_7','Check_8','Check_9','Check_10','Check_11','Check_12'
 ]) then {
-	_ctrl = _this select 1;
-	_state = _this select 2;
+	_ctrl = _this # 1;
+	_state = _this # 2;
 	_display = ctrlParent _ctrl;
 	/*/6 - SIDE/*/
 	if (_type isEqualTo 'Check_1') then {
@@ -174,51 +174,51 @@ if (_type in [
 				'QS_client_radioChannels_dynamic',
 				[
 					TRUE,
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 1)
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 1)
 				],
 				FALSE
 			];
-			profileNamespace setVariable [
+			missionProfileNamespace setVariable [
 				'QS_client_radioChannels_profile',
 				[
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
 					TRUE,
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 				]
 			];
-			saveProfileNamespace;
+			saveMissionProfileNamespace;
 		} else {
 			missionNamespace setVariable [
 				'QS_client_radioChannels_dynamic',
 				[
 					FALSE,
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 1)
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 1)
 				],
 				FALSE
 			];
-			profileNamespace setVariable [
+			missionProfileNamespace setVariable [
 				'QS_client_radioChannels_profile',
 				[
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
 					FALSE,
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 				]
 			];
-			saveProfileNamespace;
+			saveMissionProfileNamespace;
 		};
 	};
 	/*/9 - SM/*/
@@ -227,52 +227,52 @@ if (_type in [
 			missionNamespace setVariable [
 				'QS_client_radioChannels_dynamic',
 				[
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 0),
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 0),
 					TRUE
 				],
 				FALSE
 			];
-			profileNamespace setVariable [
+			missionProfileNamespace setVariable [
 				'QS_client_radioChannels_profile',
 				[
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
 					TRUE,
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 				]
 			];
-			saveProfileNamespace;
+			saveMissionProfileNamespace;
 		} else {
 			missionNamespace setVariable [
 				'QS_client_radioChannels_dynamic',
 				[
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 0),
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 0),
 					FALSE
 				],
 				FALSE
 			];
-			profileNamespace setVariable [
+			missionProfileNamespace setVariable [
 				'QS_client_radioChannels_profile',
 				[
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
 					FALSE,
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-					((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+					((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 				]
 			];
-			saveProfileNamespace;
+			saveMissionProfileNamespace;
 		};
 	};
 	/*/10 - PLATOON A/*/
@@ -285,44 +285,44 @@ if (_type in [
 					[0,7] call (missionNamespace getVariable 'QS_fnc_clientRadio');
 					(_display displayCtrl 1832) cbSetChecked (6 in (missionNamespace getVariable 'QS_client_radioChannels'));
 					(_display displayCtrl 1833) cbSetChecked (7 in (missionNamespace getVariable 'QS_client_radioChannels'));		
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
 							TRUE,
 							FALSE,
 							FALSE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};
 		} else {
 			if (5 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (5 in (missionNamespace getVariable 'QS_client_radioChannels')) then {
 					[0,5] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
 							FALSE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		};	
@@ -337,44 +337,44 @@ if (_type in [
 					[0,7] call (missionNamespace getVariable 'QS_fnc_clientRadio');
 					(_display displayCtrl 1831) cbSetChecked (5 in (missionNamespace getVariable 'QS_client_radioChannels'));
 					(_display displayCtrl 1833) cbSetChecked (7 in (missionNamespace getVariable 'QS_client_radioChannels'));
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
 							FALSE,
 							TRUE,
 							FALSE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		} else {
 			if (6 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (6 in (missionNamespace getVariable 'QS_client_radioChannels')) then {
 					[0,6] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
 							FALSE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		};	
@@ -389,44 +389,44 @@ if (_type in [
 					[0,6] call (missionNamespace getVariable 'QS_fnc_clientRadio');
 					(_display displayCtrl 1831) cbSetChecked (5 in (missionNamespace getVariable 'QS_client_radioChannels'));
 					(_display displayCtrl 1832) cbSetChecked (6 in (missionNamespace getVariable 'QS_client_radioChannels'));
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
 							FALSE,
 							FALSE,
 							TRUE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		} else {
 			if (7 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (7 in (missionNamespace getVariable 'QS_client_radioChannels')) then {
 					[0,7] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
 							FALSE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		};	
@@ -437,44 +437,44 @@ if (_type in [
 			if (8 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (!(8 in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 					[1,8] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
 							TRUE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};			
 		} else {
 			if (8 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (8 in (missionNamespace getVariable 'QS_client_radioChannels')) then {
 					[0,8] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
 							FALSE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		};
@@ -485,44 +485,44 @@ if (_type in [
 			if (9 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (!(9 in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 					[1,9] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
 							TRUE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		} else {
 			if (9 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (9 in (missionNamespace getVariable 'QS_client_radioChannels')) then {
 					[0,9] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
 							FALSE,
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 9)
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 9)
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		};	
@@ -533,44 +533,44 @@ if (_type in [
 			if (10 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (!(10 in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 					[1,10] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
 							TRUE
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		} else {
 			if (10 in (missionNamespace getVariable 'QS_radioChannels')) then {
 				if (10 in (missionNamespace getVariable 'QS_client_radioChannels')) then {
 					[0,10] call (missionNamespace getVariable 'QS_fnc_clientRadio');
-					profileNamespace setVariable [
+					missionProfileNamespace setVariable [
 						'QS_client_radioChannels_profile',
 						[
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 0),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 1),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 2),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 3),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 4),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 5),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 6),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 7),
-							((profileNamespace getVariable 'QS_client_radioChannels_profile') select 8),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 0),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 1),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 2),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 3),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 4),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 5),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 6),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 7),
+							((missionProfileNamespace getVariable 'QS_client_radioChannels_profile') # 8),
 							FALSE
 						]
 					];
-					saveProfileNamespace;
+					saveMissionProfileNamespace;
 				};
 			};		
 		};	
@@ -582,7 +582,7 @@ if (_type in [
 				'QS_client_radioChannels_dynamic',
 				[
 					TRUE,
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 1)
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 1)
 				],
 				FALSE
 			];
@@ -591,7 +591,7 @@ if (_type in [
 				'QS_client_radioChannels_dynamic',
 				[
 					FALSE,
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 1)
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 1)
 				],
 				FALSE
 			];		
@@ -603,7 +603,7 @@ if (_type in [
 			missionNamespace setVariable [
 				'QS_client_radioChannels_dynamic',
 				[
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 0),
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 0),
 					TRUE
 				],
 				FALSE
@@ -612,7 +612,7 @@ if (_type in [
 			missionNamespace setVariable [
 				'QS_client_radioChannels_dynamic',
 				[
-					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') select 0),
+					((missionNamespace getVariable 'QS_client_radioChannels_dynamic') # 0),
 					FALSE
 				],
 				FALSE

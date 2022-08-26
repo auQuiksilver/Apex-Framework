@@ -10,9 +10,9 @@ Description:
 	
 Parameter(s): 	
 	
-	_this select 0: <string> string to be found 	
-	_this select 1: <string> string to search from 	
-	_this select 2 (Optional): <boolean> search is case sensitive (default: false) 	 	
+	_this # 0: <string> string to be found 	
+	_this # 1: <string> string to search from 	
+	_this # 2 (Optional): <boolean> search is case sensitive (default: false) 	 	
 	
 Returns: 	
 
@@ -25,4 +25,4 @@ How to use:
 */  
 params ['_find','_string',['_matchcase',FALSE]]; 
 if (_matchcase) exitWith {((_string find _find) > -1)}; 
-(((toLower _string) find (toLower _find)) > -1)
+(((toLowerANSI _string) find (toLowerANSI _find)) > -1)

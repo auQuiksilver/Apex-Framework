@@ -13,8 +13,8 @@ Description:
 	Enable FOB
 ___________________________________________________*/
 
-_side = _this select 0;
-_activatorName = _this select 1;
+_side = _this # 0;
+_activatorName = _this # 1;
 private _color = 'ColorUnknown';
 if (_side isEqualTo EAST) then {
 	_color = 'ColorOPFOR';
@@ -44,7 +44,7 @@ if (_side isEqualTo sideUnknown) then {
 	{
 		if ((vehicle player) isKindOf 'Air') then {
 			if (player in [(driver (vehicle player)),(gunner (vehicle player))]) then {
-				player enableAI 'CHECKVISIBLE';
+				player enableAIFeature ['CHECKVISIBLE',TRUE];
 			};
 		};
 	}

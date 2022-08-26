@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/03/2017 A3 1.68 by Quiksilver
+	22/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -15,12 +15,21 @@ __________________________________________________*/
 
 params ['_module','_group'];
 {
-	_x disableAI 'AUTOCOMBAT';
-	_x disableAI 'COVER';
-} count (units _group);
+	_x enableAIFeature ['AUTOCOMBAT',FALSE];
+	//_x enableAIFeature ['COVER',FALSE];
+} forEach (units _group);
 _group setSpeedMode 'FULL';
 _group setBehaviourStrong 'AWARE';
 _group deleteGroupWhenEmpty TRUE;
+_group addEventHandler [
+	'WaypointComplete',
+	{
+		params ['_group','_waypointIndex'];
+		if ((waypointPosition [_group,_waypointIndex + 1]) isNotEqualTo [0,0,0]) then {
+			_group setFormDir (waypointPosition [_group,_waypointIndex + 1]);
+		};
+	}
+];
 if (!isNull (objectParent (leader _group))) then {
 	if ((objectParent (leader _group)) isKindOf 'LandVehicle') then {
 		_group setFormation 'COLUMN';

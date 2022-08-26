@@ -59,7 +59,7 @@ for '_x' from 0 to 1 step 0 do {
 			if ((getTerrainHeightASL _position) > 1) then {
 				if (([_position,16] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 7) then {
 					if (([_position,16] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -7) then {
-						if ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) isEqualTo []) then {
+						if ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
 							if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
 								if ((nearestObjects [_position,_objectsExclusion,12,FALSE]) isEqualTo []) then {
 									if ((nearestTerrainObjects [

@@ -18,7 +18,7 @@ params ['_type','_pos','_is3D','_arraySelected','_add'];
 if (_this isEqualType '') then {
 	private _QS_hcSelected = hcSelected player;
 	//systemChat str _QS_hcSelected;
-	if (!( _QS_hcSelected isEqualTo [] )) then {
+	if ( _QS_hcSelected isNotEqualTo [] ) then {
 		//comment 'Main HC commanding menu stuff here';
 		private _undefined = FALSE;
 		_text = 'Command issued';
@@ -106,10 +106,10 @@ if (_this isEqualType '') then {
 	{
 		_grp = _x;
 		if (!(_add)) then {
-			if (!((waypoints _grp) isEqualTo [])) then {
+			if ((waypoints _grp) isNotEqualTo []) then {
 				for '_x' from 0 to ((count (waypoints _grp)) - 1) step 1 do {
 					if ((waypoints _grp) isEqualTo []) exitWith {};
-					deleteWaypoint ((waypoints _grp) select 0);
+					deleteWaypoint ((waypoints _grp) # 0);
 				};
 			};
 		};
@@ -120,9 +120,9 @@ if (_this isEqualType '') then {
 				_incrementX = _arrayElement % _increment;
 				_incrementY = floor (_arrayElement / _increment);
 				_waypointPosition = [
-					((_pos select 0) + (_incrementX * _increment)),
-					((_pos select 1) - (_incrementY * _increment)),
-					(_pos select 2)
+					((_pos # 0) + (_incrementX * _increment)),
+					((_pos # 1) - (_incrementY * _increment)),
+					(_pos # 2)
 				];
 				_wp = _grp addWaypoint [_waypointPosition,0];
 				_wp setWaypointCompletionRadius 30;

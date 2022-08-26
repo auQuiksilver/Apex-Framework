@@ -10,8 +10,8 @@ Using orientation of objects: no
 [
 	["Land_LampShabby_F",[4.25049,1.22852,0],302.722,[],false,true,false,{}], 
 	["FlagPole_F",[-1.38037,-4.74463,0],180.599,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_PaperBox_closed_F",[-6.81104,-4.27832,0],206.561,[],false,FALSE,TRUE,{}], 
 	["Land_Cargo20_military_green_F",[-6.33936,5.77002,0.0239997],75.3182,[],false,FALSE,TRUE,{}], 

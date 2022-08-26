@@ -35,7 +35,7 @@ if (!isNull _newEntity) then {
 					scriptName 'EventEntityRespawned * Reassigning Curator';
 					_module = getAssignedCuratorLogic _oldEntity;
 					if (isNull _module) then {
-						_module = (allCurators select {(owner _x) isEqualTo (owner _newEntity)}) select 0;
+						_module = (allCurators select {(owner _x) isEqualTo (owner _newEntity)}) # 0;
 					};
 					if (!isNull _module) then {
 						waitUntil {

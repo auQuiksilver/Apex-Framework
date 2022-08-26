@@ -23,16 +23,16 @@ _layers = [
 _layerID = 0;
 while {((count _queue) > 0)} do {
 	_queueID = (count _queue) - 1;
-	_queuePriority = _queue select _queueID;
+	_queuePriority = _queue # _queueID;
 	if (!(isNil {_queuePriority})) then {
 		if ((count _queuePriority) > 0) then {
 			_dataID = count _queuePriority - 1;
-			_data = +(_queuePriority select _dataID);
+			_data = +(_queuePriority # _dataID);
 			if (((count _data) > 0) && ((alive player) || (isMultiplayer))) then {
-				_duration = _data select 7;
+				_duration = _data # 7;
 				missionNamespace setVariable ['RscNotification_data',_data,FALSE];
 				if (!isStreamFriendlyUIEnabled) then {
-					(_layers select _layerID) cutRsc ['RscNotification','PLAIN'];
+					(_layers # _layerID) cutRsc ['RscNotification','PLAIN'];
 				};
 				_layerID = (_layerID + 1) % 2;
 				['BIS_fnc_showNotification_counter',-1] call (missionNamespace getVariable 'BIS_fnc_counter');

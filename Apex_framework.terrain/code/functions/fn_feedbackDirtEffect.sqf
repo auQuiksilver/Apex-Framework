@@ -6,8 +6,8 @@
 	Dirt (texture) postprocess.
 
 	Parameter(s):
-	_this select 0: Object - Unit who gets the damage.
-	_this select 1: Number - Damage given unit by explosion.
+	_this # 0: Object - Unit who gets the damage.
+	_this # 1: Number - Damage given unit by explosion.
 	
 	Returned value:
 	None.

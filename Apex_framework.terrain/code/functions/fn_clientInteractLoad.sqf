@@ -20,7 +20,7 @@ _attachedObjects = attachedObjects player;
 private _isViV = FALSE;
 private _obj = objNull;
 private _capacity = [];
-if (!(_attachedObjects isEqualTo [])) then {
+if (_attachedObjects isNotEqualTo []) then {
 	{
 		_obj = _x;
 		if (_obj isKindOf 'Man') then {
@@ -74,12 +74,12 @@ if (!(_attachedObjects isEqualTo [])) then {
 							'%1 loaded into %2<br/><br/><t color="%5">Cargo capacity: %3 / %4</t>',
 							(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),
 							_dn,
-							(_capacity select 0),
-							(_capacity select 1),
-							(["#ffffff","#ff0000"] select ((_capacity select 0) isEqualTo (_capacity select 1)))
+							(_capacity # 0),
+							(_capacity # 1),
+							(["#ffffff","#ff0000"] select ((_capacity # 0) isEqualTo (_capacity # 1)))
 						]),
 						'PLAIN DOWN',
-						([0.4,0.8] select ((_capacity select 0) isEqualTo (_capacity select 1))),
+						([0.4,0.8] select ((_capacity # 0) isEqualTo (_capacity # 1))),
 						FALSE,
 						TRUE
 					];

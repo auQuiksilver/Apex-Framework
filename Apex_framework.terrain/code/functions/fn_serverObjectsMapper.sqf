@@ -77,17 +77,15 @@ private _newPosZ = 0;
 			_newObj = [2,1,_model] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 			if (isNull _newObj) then {
 				_newObj = createSimpleObject [_model,_newPos];
-				missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 			} else {
 				missionNamespace setVariable ['QS_analytics_entities_recycled',((missionNamespace getVariable ['QS_analytics_entities_recycled',0]) + 1),FALSE];
 				_newObj setPosWorld _newPos;
 			};
 		} else {
 			_newObj = createSimpleObject [_model,_newPos];
-			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 		};
 		_newObj setDir (_azi + _azimuth);
-		if ((toLower (getText (_configClass >> 'vehicleClass'))) in ['fortifications','ruins','car','armored','air','ship','support']) then {
+		if ((toLowerANSI (getText (_configClass >> 'vehicleClass'))) in ['fortifications','ruins','car','armored','air','ship','support']) then {
 			_newObj setVectorUp (surfaceNormal _newPos);
 		};
 	} else {
@@ -96,13 +94,11 @@ private _newPosZ = 0;
 			_newObj = [2,0,_type] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 			if (isNull _newObj) then {
 				_newObj = createVehicle [_type,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'CAN_COLLIDE'];
-				missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 			} else {
 				missionNamespace setVariable ['QS_analytics_entities_recycled',((missionNamespace getVariable ['QS_analytics_entities_recycled',0]) + 1),FALSE];
 			};
 		} else {
 			_newObj = createVehicle [_type,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'CAN_COLLIDE'];
-			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 		};
 		_newObj setDir (_azi + _azimuth);
 		_newObj setPos _newPos;

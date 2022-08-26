@@ -30,14 +30,37 @@ if (_killed isKindOf 'Man') then {
 		if (!isNull (objectParent _killed)) then {
 			if ((objectParent _killed) isKindOf 'AllVehicles') then {
 				if (local (objectParent _killed)) then {
-					(objectParent _killed) deleteVehicleCrew _killed;
+					if (
+						(
+							((objectParent _killed) isKindOf 'Car') || 
+							((objectParent _killed) isKindOf 'StaticWeapon') || 
+							((objectParent _killed) isKindOf 'Helicopter') || 
+							((objectParent _killed) isKindOf 'Plane') || 
+							((objectParent _killed) isKindOf 'ParachuteBase')
+						) &&
+						(!surfaceIsWater (getPosWorld (objectParent _killed)))
+					) then {
+						moveOut _killed;
+					} else {
+						(objectParent _killed) deleteVehicleCrew _killed;
+					};
 				} else {
 					if (isPlayer _killed) then {
 						if ((owner _killed) isNotEqualTo (owner (objectParent _killed))) then {
 							[(objectParent _killed),_killed] remoteExec ['deleteVehicleCrew',(objectParent _killed),FALSE];
 						};
 					} else {
-						[(objectParent _killed),_killed] remoteExec ['deleteVehicleCrew',(objectParent _killed),FALSE];
+						if (
+							(
+								((objectParent _killed) isKindOf 'Car') || 
+								((objectParent _killed) isKindOf 'StaticWeapon')
+							) &&
+							(!surfaceIsWater (getPosWorld (objectParent _killed)))
+						) then {
+							moveOut _killed;
+						} else {
+							(objectParent _killed) deleteVehicleCrew _killed;
+						};
 					};
 				};
 			};
@@ -51,9 +74,9 @@ if (_killed isKindOf 'Man') then {
 						_grpUnits = _grpUnits apply {[rankId _x,_x]};
 						_grpUnits sort FALSE;
 						if (local _grp) then {
-							_grp selectLeader ((_grpUnits select 0) select 1);
+							_grp selectLeader ((_grpUnits # 0) # 1);
 						} else {
-							[_grp,((_grpUnits select 0) select 1)] remoteExec ['selectLeader',(groupOwner _grp),FALSE];
+							[_grp,((_grpUnits # 0) # 1)] remoteExec ['selectLeader',(groupOwner _grp),FALSE];
 						};
 					};
 				};
@@ -87,7 +110,7 @@ if (isPlayer _killed) then {
 				} count (allVariables _killed);
 			};
 		};
-		if (((toLower (typeOf _killed)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f']) || {(_killed getUnitTrait 'QS_trait_sniper')}) then {
+		if (((toLowerANSI (typeOf _killed)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f']) || {(_killed getUnitTrait 'QS_trait_sniper')}) then {
 			if (!isNull _killer) then {
 				if (isPlayer _killer) then {
 					if (!((vehicle _killer) isKindOf 'Air')) then {

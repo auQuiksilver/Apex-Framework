@@ -20,19 +20,10 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		["Land_BagFence_01_round_green_F",[-2.33203,0.675293,-0.0026021],14.8742,[],false,false,TRUE,{}], 
 		["Land_BagFence_01_round_green_F",[-1.79004,-1.65137,-0.0026021],190.105,[],false,false,TRUE,{}], 
 		["I_G_Mortar_01_F",[-1.45361,2.0835,-0.0753462],0,[],false,TRUE,false,{
-			_mortar = _this select 0;
+			_mortar = _this # 0;
 			_grp = createVehicleCrew _mortar;
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			{
-				missionNamespace setVariable [
-					'QS_HC_AO_enemyArray',
-					((missionNamespace getVariable 'QS_HC_AO_enemyArray') + [_x]),
-					FALSE
-				];
+				missionNamespace setVariable ['QS_HC_AO_enemyArray',((missionNamespace getVariable 'QS_HC_AO_enemyArray') + [_x]),FALSE];
 			} forEach [
 				_mortar,
 				(effectiveCommander _mortar)
@@ -59,7 +50,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			_mortar addEventHandler [
 				'Killed',
 				{
-					_mortar = _this select 0;
+					_mortar = _this # 0;
 					if (!isNull (gunner _mortar)) then {
 						(gunner _mortar) setDamage 1;
 					};
@@ -76,6 +67,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			(gunner _mortar) addEventHandler [
 				'FiredMan',
 				{
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+						if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+							(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						} else {
+							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						};
+					};
 					if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
 						missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 					};
@@ -87,7 +85,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			(gunner _mortar) addEventHandler [
 				'GetOutMan',
 				{
-					(_this select 0) removeAllEventHandlers 'FiredMan';
+					(_this # 0) removeAllEventHandlers 'FiredMan';
 				}
 			];
 			(gunner _mortar) addEventHandler [
@@ -99,26 +97,21 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 					};
 				}
 			];
-			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
+			missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') + [gunner _mortar]),QS_system_AI_owners];
 			_grp deleteGroupWhenEmpty TRUE;
 			_grp enableDynamicSimulation FALSE;
 			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_grp addVehicle _mortar;
 			_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 			_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];	
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',serverTime,-1],FALSE];	
 			_mortar;
 		}], 
 		["Land_BagFence_01_round_green_F",[2.76563,0.580566,-0.0026021],190.105,[],false,false,TRUE,{}], 
 		["I_G_Mortar_01_F",[2.96875,-1.1333,-0.0753462],0,[],false,TRUE,false,{
-			_mortar = _this select 0;
+			_mortar = _this # 0;
 			_grp = createVehicleCrew _mortar;
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			{
 				missionNamespace setVariable [
 					'QS_HC_AO_enemyArray',
@@ -151,7 +144,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			_mortar addEventHandler [
 				'Killed',
 				{
-					_mortar = _this select 0;
+					_mortar = _this # 0;
 					if (!isNull (gunner _mortar)) then {
 						(gunner _mortar) setDamage 1;
 					};
@@ -168,6 +161,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			(gunner _mortar) addEventHandler [
 				'FiredMan',
 				{
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+						if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+							(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						} else {
+							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						};
+					};
 					if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
 						missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 					};
@@ -185,26 +185,21 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 					};
 				}
 			];
-			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
+			missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') + [gunner _mortar]),QS_system_AI_owners];
 			_grp deleteGroupWhenEmpty TRUE;
 			_grp enableDynamicSimulation FALSE;
 			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_grp addVehicle _mortar;
 			_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 			_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',serverTime,-1],FALSE];
 			_mortar;
 		}], 
 		["Land_BagFence_01_round_green_F",[2.02832,-2.75488,-0.0026021],14.8742,[],false,false,TRUE,{}], 
 		["I_G_Mortar_01_F",[-1.67529,-3.41846,-0.0753462],0,[],false,TRUE,false,{
-			_mortar = _this select 0;
+			_mortar = _this # 0;
 			_grp = createVehicleCrew _mortar;
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			{
 				missionNamespace setVariable [
 					'QS_HC_AO_enemyArray',
@@ -237,7 +232,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			_mortar addEventHandler [
 				'Killed',
 				{
-					_mortar = _this select 0;
+					_mortar = _this # 0;
 					if (!isNull (gunner _mortar)) then {
 						(gunner _mortar) setDamage 1;
 					};
@@ -254,6 +249,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 			(gunner _mortar) addEventHandler [
 				'FiredMan',
 				{
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+						if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+							(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						} else {
+							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						};
+					};
 					if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
 						missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 					};
@@ -271,15 +273,15 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 					};
 				}
 			];
-			(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
+			missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') + [gunner _mortar]),QS_system_AI_owners];
 			_grp deleteGroupWhenEmpty TRUE;
 			_grp enableDynamicSimulation FALSE;
 			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 			_grp addVehicle _mortar;
 			_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 			_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+			_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',serverTime,-1],FALSE];
 			_mortar;
 		}], 
 		["Land_BagFence_01_round_green_F",[-0.445313,-3.85547,-0.0026021],285.207,[],false,false,TRUE,{}], 
@@ -322,13 +324,8 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 };
 [
 	["I_G_Mortar_01_F",[3.13574,1.62061,0.036881],360,[],false,true,false,{
-		_mortar = _this select 0;
+		_mortar = _this # 0;
 		_grp = createVehicleCrew _mortar;
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		{
 			missionNamespace setVariable [
 				'QS_HC_AO_enemyArray',
@@ -361,7 +358,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		_mortar addEventHandler [
 			'Killed',
 			{
-				_mortar = _this select 0;
+				_mortar = _this # 0;
 				if (!isNull (gunner _mortar)) then {
 					(gunner _mortar) setDamage 1;
 				};
@@ -378,6 +375,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		(gunner _mortar) addEventHandler [
 			'FiredMan',
 			{
+				if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+						(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					} else {
+						(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					};
+				};
 				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
 					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 				};
@@ -395,25 +399,20 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				};
 			}
 		];
-		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
+		missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') + [gunner _mortar]),QS_system_AI_owners];
 		_grp deleteGroupWhenEmpty TRUE;
 		_grp enableDynamicSimulation FALSE;
 		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_grp addVehicle _mortar;
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',serverTime,-1],FALSE];
 		_mortar;
 	}], 
 	["I_G_Mortar_01_F",[0.695801,-3.58252,0.0368857],360,[],false,true,false,{
-		_mortar = _this select 0;
+		_mortar = _this # 0;
 		_grp = createVehicleCrew _mortar;
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		{
 			missionNamespace setVariable [
 				'QS_HC_AO_enemyArray',
@@ -446,7 +445,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		_mortar addEventHandler [
 			'Killed',
 			{
-				_mortar = _this select 0;
+				_mortar = _this # 0;
 				if (!isNull (gunner _mortar)) then {
 					(gunner _mortar) setDamage 1;
 				};
@@ -463,6 +462,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		(gunner _mortar) addEventHandler [
 			'FiredMan',
 			{
+				if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+						(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					} else {
+						(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					};
+				};
 				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
 					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 				};
@@ -480,25 +486,20 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				};
 			}
 		];
-		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
+		missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') + [gunner _mortar]),QS_system_AI_owners];
 		_grp deleteGroupWhenEmpty TRUE;
 		_grp enableDynamicSimulation FALSE;
 		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_grp addVehicle _mortar;
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',serverTime,-1],FALSE];
 		_mortar;
 	}], 
 	["I_G_Mortar_01_F",[-3.28564,1.77783,0.0368829],360,[],false,true,false,{
-		_mortar = _this select 0;
+		_mortar = _this # 0;
 		_grp = createVehicleCrew _mortar;
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		{
 			missionNamespace setVariable [
 				'QS_HC_AO_enemyArray',
@@ -531,7 +532,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		_mortar addEventHandler [
 			'Killed',
 			{
-				_mortar = _this select 0;
+				_mortar = _this # 0;
 				if (!isNull (gunner _mortar)) then {
 					(gunner _mortar) setDamage 1;
 				};
@@ -548,6 +549,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 		(gunner _mortar) addEventHandler [
 			'FiredMan',
 			{
+				if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+						(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					} else {
+						(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					};
+				};
 				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
 					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 				};
@@ -565,15 +573,15 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				};
 			}
 		];
-		(missionNamespace getVariable 'QS_AI_supportProviders_MTR') pushBack (gunner _mortar);
+		missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') + [gunner _mortar]),QS_system_AI_owners];
 		_grp deleteGroupWhenEmpty TRUE;
 		_grp enableDynamicSimulation FALSE;
 		_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 		_grp addVehicle _mortar;
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','MORTAR',_mortar],FALSE];
-		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',diag_tickTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+		_grp setVariable ['QS_AI_GRP_TASK',['SUPPORT','MORTAR',serverTime,-1],FALSE];
 		_mortar;
 	}], 
 	["Land_BagFence_Round_F",[1.52246,-2.35498,0],221.198,[],false,false,true,{}], 

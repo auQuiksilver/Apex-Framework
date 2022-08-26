@@ -13,7 +13,7 @@ Description:
 	Client Core
 __________________________________________________________*/
 
-_type = _this select 0;
+_type = _this # 0;
 playSound 'ClickSoft';
 if (_type isEqualTo -1) then {
 	closeDialog 0;

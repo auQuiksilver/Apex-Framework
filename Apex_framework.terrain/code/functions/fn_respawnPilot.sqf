@@ -15,7 +15,7 @@ Description:
 __________________________________________________/*/
 
 _worldName = worldName;
-_typeL = toLower (typeOf player);
+_typeL = toLowerANSI (typeOf player);
 if ((player getUnitTrait 'QS_trait_fighterPilot') || (_typeL in ['b_fighter_pilot_f'])) exitWith {
 	if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
 		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
@@ -39,7 +39,7 @@ if ((player getUnitTrait 'QS_trait_fighterPilot') || (_typeL in ['b_fighter_pilo
 			};
 		} else {
 			player setDir (random 360);
-			player setPosATL [((markerPos 'QS_marker_respawn_jetpilot') select 0),((markerPos 'QS_marker_respawn_jetpilot') select 1), 0];	/*/ Edit the 0 here to change elevation /*/
+			player setPosATL [((markerPos 'QS_marker_respawn_jetpilot') # 0),((markerPos 'QS_marker_respawn_jetpilot') # 1), 0];	/*/ Edit the 0 here to change elevation /*/
 		};
 	};
 };
@@ -72,7 +72,7 @@ if ((player getUnitTrait 'QS_trait_pilot') || (_typeL in ['b_pilot_f','b_helipil
 			};
 		} else {
 			player setDir (random 360);
-			player setPosATL [((markerPos 'QS_marker_respawn_helipilot') select 0),((markerPos 'QS_marker_respawn_helipilot') select 1), 0];	/*/ Edit the 0 here to change elevation /*/
+			player setPosATL [((markerPos 'QS_marker_respawn_helipilot') # 0),((markerPos 'QS_marker_respawn_helipilot') # 1), 0];	/*/ Edit the 0 here to change elevation /*/
 		};
 	};
 };
@@ -99,7 +99,7 @@ if ((player getUnitTrait 'uavhacker') || (_typeL in ['b_soldier_uav_f','b_t_sold
 			};
 		} else {
 			player setDir (random 360);
-			player setPosATL [((markerPos 'QS_marker_respawn_uavoperator') select 0),((markerPos 'QS_marker_respawn_uavoperator') select 1), 0];	/*/ Edit the 0 here to change elevation /*/
+			player setPosATL [((markerPos 'QS_marker_respawn_uavoperator') # 0),((markerPos 'QS_marker_respawn_uavoperator') # 1), 0];	/*/ Edit the 0 here to change elevation /*/
 		};
 	};
 };

@@ -1,12 +1,12 @@
 /*/
-File: fn_carrier.sqf
+File: fn_destroyer.sqf
 Author:
 	
 	Quiksilver
 	
 Last Modified:
 
-	17/08/2018 A3 1.82 by Quiksilver
+	8/07/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -15,12 +15,12 @@ ______________________________________/*/
 
 params ['_type'];
 if (_type isEqualTo 'INPOLYGON_FOOT') exitWith {
-	_entity = _this select 1;
+	_entity = _this # 1;
 	private _c = FALSE;
-	if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 0)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isNotEqualTo 0) then {
 		if (!isNull (missionNamespace getVariable ['QS_destroyerObject',objNull])) then {
 			if (isNull (objectParent _entity)) then {
-				_worldPolygon = [[-11.4966,65.7358,9.01379],[11.1533,66.0415,8.76432],[11.0654,90.0938,8.74652],[-10.9414,90.1621,8.84945]] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
+				_worldPolygon = [[13.0117,92.106,8.71204],[-13.0034,92.1133,8.74377],[-15.9448,42.8906,8.58817],[-14.6387,-16.2246,8.67601],[-9.54688,-67.8555,8.99917],[-0.864258,-110.585,13.127],[1.05225,-110.629,12.7627],[9.64355,-65.5073,12.7884],[12.6826,-37.0854,12.8368],[15.8574,6.70361,8.00518],[14.5059,69.4863,8.44093]] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
 				if ((getPosWorld _entity) inPolygon _worldPolygon) then {
 					_c = TRUE;
 				};
@@ -30,11 +30,11 @@ if (_type isEqualTo 'INPOLYGON_FOOT') exitWith {
 	_c;
 };
 if (_type isEqualTo 'INPOLYGON') exitWith {
-	_entity = _this select 1;
+	_entity = _this # 1;
 	private _c = FALSE;
-	if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 0)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isNotEqualTo 0) then {
 		if (!isNull (missionNamespace getVariable ['QS_destroyerObject',objNull])) then {
-			_worldPolygon = [[-11.4966,65.7358,9.01379],[11.1533,66.0415,8.76432],[11.0654,90.0938,8.74652],[-10.9414,90.1621,8.84945]] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
+			_worldPolygon = [[13.0117,92.106,8.71204],[-13.0034,92.1133,8.74377],[-15.9448,42.8906,8.58817],[-14.6387,-16.2246,8.67601],[-9.54688,-67.8555,8.99917],[-0.864258,-110.585,13.127],[1.05225,-110.629,12.7627],[9.64355,-65.5073,12.7884],[12.6826,-37.0854,12.8368],[15.8574,6.70361,8.00518],[14.5059,69.4863,8.44093]] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
 			if ((getPosWorld _entity) inPolygon _worldPolygon) then {
 				_c = TRUE;
 			};
@@ -94,12 +94,12 @@ if (_type isEqualTo 'INIT') exitWith {
 			_marker setMarkerPos _pos;
 			_marker setMarkerDir _dir;
 		};
-		_marker setMarkerTypeLocal (_markerData select 2);
-		_marker setMarkerShapeLocal (_markerData select 3);
-		_marker setMarkerColorLocal (_markerData select 5);
-		_marker setMarkerSizeLocal (_markerData select 6);
-		_marker setMarkerAlphaLocal (_markerData select 7);
-		_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData select 10)]);
+		_marker setMarkerTypeLocal (_markerData # 2);
+		_marker setMarkerShapeLocal (_markerData # 3);
+		_marker setMarkerColorLocal (_markerData # 5);
+		_marker setMarkerSizeLocal (_markerData # 6);
+		_marker setMarkerAlphaLocal (_markerData # 7);
+		_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData # 10)]);
 		_carrier = createVehicle ['Land_Destroyer_01_base_F',(AGLToASL _pos),[],0,'CAN_COLLIDE'];
 		_carrier setPosWorld _pos;
 		_carrier setDir _dir;
@@ -110,18 +110,18 @@ if (_type isEqualTo 'INIT') exitWith {
 			'Deleted',
 			{
 				params ['_entity'];
-				if (!((_entity getVariable ['bis_carrierParts',[]]) isEqualTo [])) then {
+				if ((_entity getVariable ['bis_carrierParts',[]]) isNotEqualTo []) then {
 					{
 						deleteVehicle _x;
 					} forEach (_entity getVariable ['bis_carrierParts',[]]);
 				};
-				if (!((_entity getVariable ['QS_destroyer_turrets',[]]) isEqualTo [])) then {
+				if ((_entity getVariable ['QS_destroyer_turrets',[]]) isNotEqualTo []) then {
 					{
 						_x setDamage [1,FALSE];
 						deleteVehicle _x;
 					} forEach (_entity getVariable ['QS_destroyer_turrets',[]]);
 				};
-				if (!((_entity getVariable ['QS_carrier_props',[]]) isEqualTo [])) then {
+				if ((_entity getVariable ['QS_carrier_props',[]]) isNotEqualTo []) then {
 					{
 						deleteVehicle _x;
 					} forEach (_entity getVariable ['QS_carrier_props',[]]);
@@ -131,27 +131,33 @@ if (_type isEqualTo 'INIT') exitWith {
 		];
 		_carrier setVariable ['bis_carrierParts',(_carrier getVariable ['bis_carrierParts',[]]),TRUE];
 		{
-			if ((toLower (typeOf (_x select 0))) in ['land_destroyer_01_interior_01_f','land_destroyer_01_interior_02_f','land_destroyer_01_interior_03_f','land_destroyer_01_interior_04_f']) then {
+			if ((toLowerANSI (typeOf (_x # 0))) in ['land_destroyer_01_interior_01_f','land_destroyer_01_interior_02_f','land_destroyer_01_interior_03_f','land_destroyer_01_interior_04_f']) then {
 				for '_i' from 1 to 4 step 1 do {
-					(_x select 0) animateSource [(format ['Door_%1_source',_i]),1];
+					(_x # 0) animateSource [(format ['Door_%1_source',_i]),1];
 				};
 			};
-			if ((toLower (typeOf (_x select 0))) in ['land_destroyer_01_hull_04_f']) then {
+			if ((toLowerANSI (typeOf (_x # 0))) isEqualTo 'land_destroyer_01_interior_04_f') then {
+				(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_destroyer_hangarInterior',_x # 0,TRUE];
+				missionNamespace setVariable ['QS_destroyer_hangarInterior',_x # 0,TRUE];
+			};
+			if ((toLowerANSI (typeOf (_x # 0))) in ['land_destroyer_01_hull_04_f']) then {
+				(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_destroyer_hangarDoorPart',_x # 0,TRUE];
+				missionNamespace setVariable ['QS_destroyer_hangarDoorPart',_x # 0,TRUE];
 				if ((missionNamespace getVariable ['QS_missionConfig_destroyerHangar',0]) isEqualTo 1) then {
-					(_x select 0) spawn {
+					(_x # 0) spawn {
 						sleep 1;
 						[_this,1,FALSE] spawn (missionNamespace getVariable 'BIS_fnc_destroyer01AnimateHangarDoors');
 					};
 				};
 			};
-			if ((toLower (typeOf (_x select 0))) in ['shipflag_us_f']) then {
-				(_x select 0) spawn {
+			if ((toLowerANSI (typeOf (_x # 0))) in ['shipflag_us_f']) then {
+				(_x # 0) spawn {
 					sleep 1;
 					_this setFlagTexture (missionNamespace getVariable ['QS_missionConfig_destroyerFlag','a3\data_f\flags\flag_us_co.paa']);
 				};
 			};
-			if ((toLower (typeOf (_x select 0))) in ['land_destroyer_01_hull_05_f']) then {
-				(_x select 0) spawn {
+			if ((toLowerANSI (typeOf (_x # 0))) in ['land_destroyer_01_hull_05_f']) then {
+				(_x # 0) spawn {
 					sleep 1;
 					_this setObjectTextureGlobal [0,(missionNamespace getVariable ['QS_missionConfig_destroyerName','a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa'])];
 				};
@@ -173,15 +179,15 @@ if (_type isEqualTo 'INIT') exitWith {
 		detach _logic;
 		private _prop = objNull;
 		{
-			_prop = createVehicle [(_x select 0),[-100,-100,0],[],5,'NONE'];
-			_prop setPosWorld (_carrier modelToWorldWorld (_x select 1));
-			_prop setDir ((getDir _carrier) - (_x select 2));
+			_prop = createVehicle [(_x # 0),[-100,-100,0],[],5,'NONE'];
+			_prop setPosWorld (_carrier modelToWorldWorld (_x # 1));
+			_prop setDir ((getDir _carrier) - (_x # 2));
 			_prop allowDamage FALSE;
-			if ((toLower (_x select 0)) in ['land_destroyer_01_boat_rack_01_f']) then {
+			if ((toLowerANSI (_x # 0)) in ['land_destroyer_01_boat_rack_01_f']) then {
 				[_prop,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
 			};
-			if (!((_x select 3) isEqualTo {})) then {
-				_prop call (_x select 3);
+			if ((_x # 3) isNotEqualTo {}) then {
+				_prop call (_x # 3);
 			};
 		} forEach [
 			['land_destroyer_01_boat_rack_01_f',[11.5142,14.25,6.8],180,{}],
@@ -210,17 +216,23 @@ if (_type isEqualTo 'PROPS') exitWith {
 		["Land_TripodScreen_01_large_F",[-2.0249,-34.5439,20.15],-154.386],
 		["Land_Document_01_F",[3.59912,-39.0073,20.2969],-213.203],
 		["Land_Orange_01_F",[2.58496,-39.1123,20.1],0],
-		["Land_Laptop_03_black_F",[-0.0141602,-39.6001,20.4],-359.864],
+		["Land_Laptop_03_black_F",[-0.0141602,-39.6001,20.4],180],
 		["Land_Orange_01_F",[-8.04883,-42.8735,10.446],0],
 		["Land_Orange_01_F",[1.9751,-106.195,12.8429],0],
-		["Land_FirstAidKit_01_closed_F",[3.4209,31.041,9],-169.561]
+		["Land_FirstAidKit_01_closed_F",[3.4209,31.041,9],-169.561],
+		["B_AAA_System_01_F",[-0.0136719,-47.8584,17.5221],0],						// Have these set as static props since they engage targets all over the map, rather than acting as self-defense
+		["B_AAA_System_01_F",[0.00292969,36.0059,21.7332],180],						// Have these set as static props since they engage targets all over the map, rather than acting as self-defense
+		["Land_Obstacle_Ramp_F",[-9.68555,57.5078,15.8],180],
+		["Land_Obstacle_Ramp_F",[9.61328,57.4766,15.8],180]
 	];
 	if ((missionNamespace getVariable ['QS_missionConfig_destroyerArtillery',0]) isEqualTo 0) then {
 		_propList pushBack ['B_Ship_MRLS_01_F',[0,-62.2275,11.95],180];
 		_propList pushBack ['B_Ship_Gun_01_F',[0,-79.1348,14.7424],0];
 	};
-	if (!((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 2)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isNotEqualTo 2) then {
 		_propList pushBack ['B_SAM_System_01_F',[0,50.6851,17.2588],0];
+		_propList pushBack ['B_AAA_System_01_F',[-0.0136719,-47.8584,17.5221],0];
+		_propList pushBack ['B_AAA_System_01_F',[0.00292969,36.0059,21.7332],180];
 	};
 	private _configClass = configNull;
 	private _model = '';
@@ -229,21 +241,28 @@ if (_type isEqualTo 'PROPS') exitWith {
 	private _modelPos = [0,0,0];
 	private _modelPosZ = -1;
 	{
-		_configClass = configFile >> 'CfgVehicles' >> (_x select 0);
+		_configClass = configFile >> 'CfgVehicles' >> (_x # 0);
 		_model = getText (_configClass >> 'model');
 		if ((_model select [0,1]) isEqualTo '\') then {
 			_model = _model select [1];
 		};
-		if (!((_model select [((count _model) - 4),4]) isEqualTo '.p3d')) then {
+		if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
 			_model = _model + '.p3d';
 		};
-		_modelPos = (missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld (_x select 1);
-		_modelPosZ = _modelPos select 2;
+		_modelPos = (missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld (_x # 1);
+		_modelPosZ = _modelPos # 2;
 		//_modelPos set [2,(_modelPosZ + (getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset')))];
 		_prop = createSimpleObject [_model,_modelPos];
-		_prop setDir ((getDir (missionNamespace getVariable 'QS_destroyerObject')) - (_x select 2));
+		_prop setDir ((getDir (missionNamespace getVariable 'QS_destroyerObject')) - (_x # 2));
 		_props pushBack _prop;
 	} forEach _propList;
+	_prop = createVehicle ['Land_HelipadEmpty_F',[0,0,0]];
+	_prop setPosWorld ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0.267822,78.0273,8.81878]);
+	_props pushBack _prop;
+	_prop = createVehicle ['Land_PierLadder_F',[0,0,0]];
+	_prop setPosWorld ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [-8.90497,42.2529,13.3823]);
+	_prop setDir ((getDir (missionNamespace getVariable 'QS_destroyerObject')) + 267.865);
+	_props pushBack _prop;
 	(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_carrier_props',_props,FALSE];
 };
 if (_type isEqualTo 'DEFENSE') exitWith {
@@ -251,24 +270,26 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 		private _turretList = [];
 		if ((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isEqualTo 2) then {
 			_turretList pushBack ['B_SAM_System_01_F',[0,50.6851,17.2588],0];
+			//_propList pushBack ["B_AAA_System_01_F",[-0.0136719,-47.8584,17.5221],0];					// Have these set as static props since they engage targets all over the map, rather than acting as self-defense
+			//_propList pushBack ["B_AAA_System_01_F",[0.00292969,36.0059,21.7332],180];				// Have these set as static props since they engage targets all over the map, rather than acting as self-defense
 		};
 		if ((missionNamespace getVariable ['QS_missionConfig_destroyerArtillery',0]) isEqualTo 1) then {
 			_turretList pushBack ['B_Ship_Gun_01_F',[0,-79.1348,14.7424],180];
 			_turretList pushBack ['B_Ship_MRLS_01_F',[-0.0473633,-62.2275,12],0];
 		};
-		if (!(_turretList isEqualTo [])) then {
+		if (_turretList isNotEqualTo []) then {
 			_logic = (missionNamespace getVariable 'QS_destroyerObject') getVariable 'QS_carrier_defenseLogic';
 			private _turret = objNull;
 			private _turrets = [];
 			private _turretGrp = createGroup [WEST,TRUE];
 			{
-				_turret = createVehicle [(_x select 0),[-1000,-1000,500],[],100,'NONE'];
+				_turret = createVehicle [(_x # 0),[-1000,-1000,500],[],100,'NONE'];
 				_turret allowDamage FALSE;
 				_turret enableSimulation FALSE;
 				_turret enableVehicleCargo FALSE;
 				_turret enableRopeAttach FALSE;
-				_turret setDir ((getDir (missionNamespace getVariable 'QS_destroyerObject')) - (_x select 2));
-				_turret setPosWorld ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld (_x select 1));
+				_turret setDir ((getDir (missionNamespace getVariable 'QS_destroyerObject')) - (_x # 2));
+				_turret setPosWorld ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld (_x # 1));
 				_turret setVelocity [0,0,0];
 				[_turret,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
 				_turret enableSimulation TRUE;
@@ -282,13 +303,11 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					'Deleted',
 					{
 						params ['_entity'];
-						{
-							_x setDamage [1,FALSE];
-							deleteVehicle _x;
-						} forEach (crew _entity);
+						deleteVehicleCrew _entity;
 					}
 				];
 				createVehicleCrew _turret;
+				(crew _turret) joinSilent _turretGrp;
 				_turrets pushBack _turret;
 				{
 					_x setVariable ['QS_curator_disableEditability',TRUE,FALSE];
@@ -296,7 +315,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					_x allowDamage FALSE;
 					_x setSkill 0;
 				} forEach (crew _turret);
-				if ((toLower (_x select 0)) in ['b_sam_system_01_f','b_sam_system_02_f']) then {
+				if ((toLowerANSI (_x # 0)) in ['b_sam_system_01_f','b_sam_system_02_f']) then {
 					_turret setVehicleReceiveRemoteTargets TRUE;
 					_turret setVehicleRadar 1;
 					_turret addEventHandler [
@@ -309,7 +328,30 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 						}
 					];
 				};
-				if ((toLower (_x select 0)) in ['b_ship_mrls_01_f']) then {
+				if ((toLowerANSI (_x # 0)) in ['b_ship_mrls_01_f']) then {
+					{
+						(gunner _turret) enableAIFeature _x;
+					} forEach [
+						['PATH',FALSE],
+						['COVER',FALSE],
+						['AUTOCOMBAT',FALSE],
+						['TARGET',FALSE],
+						['AUTOTARGET',FALSE]
+					];
+					_turret addEventHandler [
+						'Fired',
+						{
+							if (!isNull (_this # 6)) then {
+								if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg','magazine_shipcannon_120mm_he_shells_x32','magazine_shipcannon_120mm_he_guided_shells_x2','magazine_shipcannon_120mm_he_lg_shells_x2','magazine_missiles_cruise_01_x18']) then {
+									if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+										(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+									} else {
+										(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+									};
+								};
+							};
+						}
+					];
 					_turret setVehicleReceiveRemoteTargets TRUE;
 					{
 						_turret removeMagazineTurret [_x,[0]];
@@ -344,7 +386,30 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					];
 					/*/
 				};
-				if ((toLower (_x select 0)) in ['b_ship_gun_01_f']) then {
+				if ((toLowerANSI (_x # 0)) in ['b_ship_gun_01_f']) then {
+					{
+						(gunner _turret) enableAIFeature _x;
+					} forEach [
+						['PATH',FALSE],
+						['COVER',FALSE],
+						['AUTOCOMBAT',FALSE],
+						['TARGET',FALSE],
+						['AUTOTARGET',FALSE]
+					];
+					_turret addEventHandler [
+						'Fired',
+						{
+							if (!isNull (_this # 6)) then {
+								if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg','magazine_shipcannon_120mm_he_shells_x32','magazine_shipcannon_120mm_he_guided_shells_x2','magazine_shipcannon_120mm_he_lg_shells_x2','magazine_missiles_cruise_01_x18']) then {
+									if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+										(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+									} else {
+										(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+									};
+								};
+							};
+						}
+					];
 					{
 						_turret removeMagazineTurret [_x,[0]];
 					} forEach [
@@ -356,13 +421,14 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					];
 				};
 			} forEach _turretList;
+			_turretGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_destroyer_turrets',_turrets,TRUE];
 			'QS_marker_destroyer_1' setMarkerText (format ['%1 (Armed)',(markerText 'QS_marker_destroyer_1')]);
 		};
 	};
 };
 if (_type isEqualTo 'DEFENSE_SERVICE') exitWith {
-	if (!(((missionNamespace getVariable 'QS_destroyerObject') getVariable ['QS_destroyer_turrets',[]]) isEqualTo [])) then {
+	if (((missionNamespace getVariable 'QS_destroyerObject') getVariable ['QS_destroyer_turrets',[]]) isNotEqualTo []) then {
 		{
 			_x setDamage [0,FALSE];
 			_x setVehicleAmmo 1;
@@ -370,14 +436,14 @@ if (_type isEqualTo 'DEFENSE_SERVICE') exitWith {
 	};
 };
 if (_type isEqualTo 'HOSPITAL') then {
-	_subType = _this select 1;
+	_subType = _this # 1;
 	if (_subType isEqualTo 'ADD') then {
 		(missionNamespace getVariable 'QS_positions_fieldHospitals') pushBack ['DESTROYER',((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [-0.0966797,47.3291,8.80774]),25];
 		missionNamespace setVariable ['QS_positions_fieldHospitals',(missionNamespace getVariable 'QS_positions_fieldHospitals'),TRUE];
 	};
 	if (_subType isEqualTo 'REMOVE') then {
-		_arrayIndex = ((missionNamespace getVariable 'QS_positions_fieldHospitals') findIf {((_x select 0) isEqualTo 'DESTROYER')});
-		if (!(_arrayIndex isEqualTo -1)) then {
+		_arrayIndex = ((missionNamespace getVariable 'QS_positions_fieldHospitals') findIf {((_x # 0) isEqualTo 'DESTROYER')});
+		if (_arrayIndex isNotEqualTo -1) then {
 			(missionNamespace getVariable 'QS_positions_fieldHospitals') set [_arrayIndex,FALSE];
 			(missionNamespace getVariable 'QS_positions_fieldHospitals') deleteAt _arrayIndex;
 			missionNamespace setVariable ['QS_positions_fieldHospitals',(missionNamespace getVariable 'QS_positions_fieldHospitals'),TRUE];
@@ -394,8 +460,8 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 					sleep 0.1;
 					_this setVelocity [0,0,0];
 					_boatRacks = nearestObjects [_this,['land_destroyer_01_boat_rack_01_f'],25,TRUE];
-					if (!(_boatRacks isEqualTo [])) then {
-						_boatRack = _boatRacks select 0;
+					if (_boatRacks isNotEqualTo []) then {
+						_boatRack = _boatRacks # 0;
 						if ((getVehicleCargo _boatRack) isEqualTo []) then {
 							_this setDir (getDir _boatRack);
 							_boatRack setVehicleCargo _this;
@@ -421,8 +487,8 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 					sleep 0.1;
 					_this setVelocity [0,0,0];
 					_boatRacks = nearestObjects [_this,['land_destroyer_01_boat_rack_01_f'],25,TRUE];
-					if (!(_boatRacks isEqualTo [])) then {
-						_boatRack = _boatRacks select 0;
+					if (_boatRacks isNotEqualTo []) then {
+						_boatRack = _boatRacks # 0;
 						if ((getVehicleCargo _boatRack) isEqualTo []) then {
 							_this setDir (getDir _boatRack);
 							_boatRack setVehicleCargo _this;
@@ -450,6 +516,7 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 		} forEach [
 			// Heli 1
 			[objNull,30,false,{
+				(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_destroyer_hangarHeli',_this,TRUE];		// TODO: Set to FALSE on build release if not needed true
 				_this setVelocity [0,0,0];
 				_this spawn {
 					sleep 2;
@@ -462,13 +529,14 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 						}
 					];
 					_this enableSimulationGlobal FALSE;
+					_this lock 2;
 				};
 			},
 			'b_heli_transport_01_f',
-			((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0.144043,77.332,10.9379]),((getDir (missionNamespace getVariable 'QS_destroyerObject')) - -179.518),false,0,-1,250,250,-1,5,FALSE,1]
+			((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0.074707,42.9854,10.9379]),((getDir (missionNamespace getVariable 'QS_destroyerObject')) - -180),false,0,-1,250,250,-1,5,FALSE,1]
 		];
 	};
-	if (!(_list isEqualTo [])) then {
+	if (_list isNotEqualTo []) then {
 		{
 			(missionNamespace getVariable 'QS_v_Monitor') pushBack _x;
 		} forEach _list;
@@ -477,11 +545,49 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 if (_type isEqualTo 'RESPAWN_PLAYER') exitWith {
 	if (!isDedicated) then {
 		if (hasInterface) then {
-			_positions = [
-				[1.6084,14.7378,7.26747],[1.61328,11.1191,7.26953],[-0.90918,13.2896,7.27783],[-1.10303,16.2041,7.27946],[-0.109375,18.124,7.27023],[1.21338,18.9902,7.26167],[1.10254,16.9429,7.27243]
-			] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
-			_position = selectRandom _positions;
-			player setPosWorld _position;
+			private _inArea = ['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_destroyer');
+			if (
+				(!_inArea) ||
+				(_inArea && (((getPosASL player) # 2) < 3))
+			) then {
+				_base = markerPos 'QS_marker_base_marker';
+				if ((player distance2D _base) > 1000) then {
+					_positions = [
+						[1.6084,14.7378,7.26747],[1.61328,11.1191,7.26953],[-0.90918,13.2896,7.27783],[-1.10303,16.2041,7.27946],[-0.109375,18.124,7.27023],[1.21338,18.9902,7.26167],[1.10254,16.9429,7.27243]
+					] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
+					_position = selectRandom _positions;
+					_position spawn {
+						preloadCamera _this;
+						uiSleep 0.5;
+						player setPosWorld _this;
+						uiSleep 5;
+						if (surfaceIsWater (getPosASL player)) then {
+							if (((getPosASL player) # 2) < 3) then {
+								player setPosWorld _this;
+							};
+						};
+					};
+				} else {
+					_result = ['Go to Destroyer ship','Destroyer','Go','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
+					if (_result) then {
+						_positions = [
+							[1.6084,14.7378,7.26747],[1.61328,11.1191,7.26953],[-0.90918,13.2896,7.27783],[-1.10303,16.2041,7.27946],[-0.109375,18.124,7.27023],[1.21338,18.9902,7.26167],[1.10254,16.9429,7.27243]
+						] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
+						_position = selectRandom _positions;
+						_position spawn {
+							preloadCamera _this;
+							uiSleep 0.5;
+							player setPosWorld _this;
+							uiSleep 5;
+							if (surfaceIsWater (getPosASL player)) then {
+								if (((getPosASL player) # 2) < 3) then {
+									player setPosWorld _this;
+								};
+							};
+						};
+					};
+				};
+			};
 		};
 	};
 };

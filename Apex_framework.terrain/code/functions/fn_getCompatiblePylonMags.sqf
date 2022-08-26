@@ -41,7 +41,7 @@ if (_type isEqualTo 0) exitWith {
 	private _isHeli = _vehicle isKindOf 'Helicopter';
 	{
 		_pylonMagazines = _x;
-		_pylonMagazines = _pylonMagazines select {((!((toLower _x) in _airToGroundMissiles)) && (!(['cluster',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))))};
+		_pylonMagazines = _pylonMagazines select {((!((toLowerANSI _x) in _airToGroundMissiles)) && (!(['cluster',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))))};
 		if (_isHeli) then {
 			_pylonMagazines = _pylonMagazines select {(!(['aa',(getText (configFile >> 'CfgMagazines' >> _x >> 'ammo')),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))};
 		};

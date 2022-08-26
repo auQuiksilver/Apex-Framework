@@ -6,12 +6,12 @@ Author:
 	
 Last modified:
 
-	18/04/2018 A3 1.82 by Quiksilver
+	4/06/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Weapon Assembled Event
-___________________________________________________________________/*/
+___________________________________________________/*/
 
 params ['_player','_weapon'];
 [_player,_weapon] spawn {
@@ -35,12 +35,12 @@ params ['_player','_weapon'];
 					private _array = [];
 					private _mortarMagsToRemove = 1;
 					{
-						_magazineType = _x select 0;
-						_turret = _x select 1;
-						if ((toLower _magazineType) in ['8rnd_82mm_mo_flare_white','8rnd_82mm_mo_smoke_white']) then {
+						_magazineType = _x # 0;
+						_turret = _x # 1;
+						if ((toLowerANSI _magazineType) in ['8rnd_82mm_mo_smoke_white']) then {
 							_array pushBack [_magazineType,_turret];
 						} else {
-							if ((toLower _magazineType) in ['8rnd_82mm_mo_shells']) then {
+							if ((toLowerANSI _magazineType) in ['8rnd_82mm_mo_shells']) then {
 								if (_mortarMagsToRemove > 0) then {
 									_mortarMagsToRemove = _mortarMagsToRemove - 1;
 									_array pushBack [_magazineType,_turret];
@@ -48,7 +48,7 @@ params ['_player','_weapon'];
 							};
 						};
 					} forEach (magazinesAllTurrets _weapon);
-					if (!(_array isEqualTo [])) then {
+					if (_array isNotEqualTo []) then {
 						{
 							_weapon removeMagazineTurret _x;
 						} forEach _array;
@@ -63,7 +63,7 @@ params ['_player','_weapon'];
 					_weapon setVehicleReceiveRemoteTargets FALSE;
 					_weapon spawn {
 						uiSleep 1;
-						if (!((crew _this) isEqualTo [])) then {
+						if ((crew _this) isNotEqualTo []) then {
 							(group (driver _this)) setVariable ['QS_HComm_grp',FALSE,TRUE];
 						};
 					};

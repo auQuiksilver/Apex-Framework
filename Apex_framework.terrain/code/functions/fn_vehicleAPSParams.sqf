@@ -32,16 +32,20 @@ if ((_this # 0) isEqualType '') exitWith {
 	};
 	if (_type isEqualTo 'SMOKE_BLINDSPOT') then {
 		params ['','','_projectile'];
-		if ((['mbt_01_base_f','mbt_02_base_f','mbt_04_base_f','afv_wheeled_01_base_f'] findIf {(_vehicle isKindOf _x)}) isNotEqualTo -1) then {
-			_weaponDir = _vehicle weaponDirection ((weapons _vehicle) # 0);
-			_deltaDir = (_projectile getDir _vehicle) - ((_weaponDir # 0) atan2 (_weaponDir # 1));
-			if ((_deltaDir < 20) && (_deltaDir > -20)) then {
-				_return = FALSE;
-			};
+		if (isNull _projectile) then {
+			_return = FALSE;
 		} else {
-			if (((_vehicle getRelDir _projectile) > 160) && ((_vehicle getRelDir _projectile) < 200)) then {
-				if (!(_vehicle isKindOf 'mbt_03_base_f')) then {													// Kuma (MBT_03) has 360 degree smoke field
+			if ((['mbt_01_base_f','mbt_02_base_f','mbt_04_base_f','afv_wheeled_01_base_f'] findIf {(_vehicle isKindOf _x)}) isNotEqualTo -1) then {
+				_weaponDir = _vehicle weaponDirection ((weapons _vehicle) # 0);
+				_deltaDir = (_projectile getDir _vehicle) - ((_weaponDir # 0) atan2 (_weaponDir # 1));
+				if ((_deltaDir < 20) && (_deltaDir > -20)) then {
 					_return = FALSE;
+				};
+			} else {
+				if (((_vehicle getRelDir _projectile) > 160) && ((_vehicle getRelDir _projectile) < 200)) then {
+					if (!(_vehicle isKindOf 'mbt_03_base_f')) then {													// Kuma (MBT_03) has 360 degree smoke field
+						_return = FALSE;
+					};
 				};
 			};
 		};

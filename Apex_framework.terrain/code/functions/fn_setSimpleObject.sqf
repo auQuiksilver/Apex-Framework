@@ -25,7 +25,7 @@ if (_alternate) then {
 _vectorDirUp = [(vectorDir _oldObj),(vectorUp _oldObj)];
 _modelInfo = getModelInfo _oldObj;
 if (_modelInfo isEqualTo []) exitWith {diag_log format ['***** DEBUG ***** fn_setSimpleObject ***** No model info for %1 *****',(typeOf _oldObj)];_oldObj};
-private _model = _modelInfo select 1;
+private _model = _modelInfo # 1;
 if (_alternate) then {
 	_model = typeOf _oldObj;
 };
@@ -36,10 +36,5 @@ missionNamespace setVariable [
 ];
 deleteVehicle _oldObj;
 _obj = createSimpleObject [_model,_position];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _obj setVectorDirAndUp _vectorDirUp;
 _obj;

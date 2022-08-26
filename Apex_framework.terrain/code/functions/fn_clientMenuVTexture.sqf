@@ -27,22 +27,22 @@ if (_type isEqualTo 'onLoad') then {
 	_v = vehicle player;
 	_idc = 1804;
 	{
-		_supporterAccess = _x select 0;
-		_displayName = _x select 1;
-		_textureSample = ((_x select 2) select 0) select 1;
-		_toolTip = _x select 3;
-		_vehicleTypes = _x select 4;
-		_author = _x select 5;
+		_supporterAccess = _x # 0;
+		_displayName = _x # 1;
+		_textureSample = ((_x # 2) # 0) # 1;
+		_toolTip = _x # 3;
+		_vehicleTypes = _x # 4;
+		_author = _x # 5;
 		lbAdd [_idc,_displayName];
 		lbSetPicture [_idc,_forEachIndex,_textureSample];
 		lbSetTooltip [_idc,_forEachIndex,_toolTip];
-		lbSetPictureRight [_idc,_forEachIndex,(getText (configFile >> 'CfgVehicles' >> (_vehicleTypes select 0) >> 'icon'))];
+		lbSetPictureRight [_idc,_forEachIndex,(getText (configFile >> 'CfgVehicles' >> (_vehicleTypes # 0) >> 'icon'))];
 		if (_supporterAccess > _supporterLevel) then {
 			lbSetColor [_idc,_forEachIndex,[0.5,0.5,0.5,0.5]];
 			lbSetPictureColor [_idc,_forEachIndex,[0.5,0.5,0.5,0.5]];
 			lbSetPictureColorSelected [_idc,_forEachIndex,[0.5,0.5,0.5,0.5]];
 		};
-		if (!(_forEachIndex isEqualTo 0)) then {
+		if (_forEachIndex isNotEqualTo 0) then {
 			if (!((typeOf _v) in _vehicleTypes)) then {
 				lbSetColor [_idc,_forEachIndex,[0.5,0.5,0.5,0.5]];
 				lbSetPictureColor [_idc,_forEachIndex,[0.5,0.5,0.5,0.5]];
@@ -56,17 +56,17 @@ private _text = '';
 if (_type isEqualTo 'Select') then {
 	_v = vehicle player;
 	_index = lbCurSel 1804;
-	if (!(_index isEqualTo -1)) then {
-		_supporterAccess = (_list select _index) select 0;
-		_displayName = (_list select _index) select 1;
-		_textures = (_list select _index) select 2;
-		_toolTip = (_list select _index) select 3;
-		_vehicleTypes = (_list select _index) select 4;
-		_author = (_list select _index) select 5;
+	if (_index isNotEqualTo -1) then {
+		_supporterAccess = (_list # _index) # 0;
+		_displayName = (_list # _index) # 1;
+		_textures = (_list # _index) # 2;
+		_toolTip = (_list # _index) # 3;
+		_vehicleTypes = (_list # _index) # 4;
+		_author = (_list # _index) # 5;
 		if (_index isEqualTo 0) then {
 			if (!isNil {player getVariable 'QS_ClientVTexture'}) then {
-				if (!isNull ((player getVariable 'QS_ClientVTexture') select 0)) then {
-					_v = (player getVariable 'QS_ClientVTexture') select 0;
+				if (!isNull ((player getVariable 'QS_ClientVTexture') # 0)) then {
+					_v = (player getVariable 'QS_ClientVTexture') # 0;
 					if ((typeOf _v) in ['I_MRAP_03_F','I_MRAP_03_hmg_F','I_MRAP_03_gmg_F']) then {
 						_v setObjectTextureGlobal [0,'\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa'];
 						_v setObjectTextureGlobal [1,'\A3\data_f\vehicles\turret_co.paa'];
@@ -84,7 +84,7 @@ if (_type isEqualTo 'Select') then {
 			if (_supporterAccess <= _supporterLevel) then {
 				if ((typeOf _v) in _vehicleTypes) then {
 					if (player isEqualTo (effectiveCommander _v)) then {
-						if ((isNull ((player getVariable 'QS_ClientVTexture') select 0)) || {(_v isEqualTo ((player getVariable 'QS_ClientVTexture') select 0))} || {(!alive ((player getVariable 'QS_ClientVTexture') select 0))}) then {
+						if ((isNull ((player getVariable 'QS_ClientVTexture') # 0)) || {(_v isEqualTo ((player getVariable 'QS_ClientVTexture') # 0))} || {(!alive ((player getVariable 'QS_ClientVTexture') # 0))}) then {
 							_nearSite = FALSE;
 							if ((player distance (markerPos 'QS_marker_base_marker')) < 500) then {
 								_nearSite = TRUE;
@@ -97,7 +97,7 @@ if (_type isEqualTo 'Select') then {
 							} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
 							/*/
 							if (_nearSite) then {
-								if (time > ((player getVariable 'QS_ClientVTexture') select 3)) then {
+								if (time > ((player getVariable 'QS_ClientVTexture') # 3)) then {
 									{
 										_v setObjectTextureGlobal _x;
 									} forEach _textures;
@@ -112,7 +112,7 @@ if (_type isEqualTo 'Select') then {
 								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,'You must be at base to re-skin your vehicle!',[],-1,TRUE,'Vehicle Skin',FALSE];
 							};
 						} else {
-							_text = format ['You already have a textured vehicle. A(n) %1 at grid %2.',(getText (configFile >> 'CfgVehicles' >> (typeOf ((player getVariable 'QS_ClientVTexture') select 0)) >> 'displayName')),(mapGridPosition (getPosWorld ((player getVariable 'QS_ClientVTexture') select 0)))];
+							_text = format ['You already have a textured vehicle. A(n) %1 at grid %2.',(getText (configFile >> 'CfgVehicles' >> (typeOf ((player getVariable 'QS_ClientVTexture') # 0)) >> 'displayName')),(mapGridPosition (getPosWorld ((player getVariable 'QS_ClientVTexture') # 0)))];
 							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1,TRUE,'Vehicle Skin',FALSE];
 						};
 					} else {

@@ -15,7 +15,7 @@ Description:
 	defaultNotification
 __________________________________________________________________________/*/
 
-_case = _this select 0;
+_case = _this # 0;
 _return = [];
 if (_case isEqualType '') then {
 	if (_case isEqualTo 'Default') then {

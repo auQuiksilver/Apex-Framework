@@ -477,8 +477,8 @@ _QS_locationsUrban = _QS_locationsUrban call (missionNamespace getVariable 'QS_f
 
 for '_x' from 0 to 49 step 1 do {
 	_QS_locationSelect = selectRandom _QS_locationsUrban;
-	_QS_locationCenterPos = _QS_locationSelect select 0;
-	_QS_locationCenterName = _QS_locationSelect select 1;
+	_QS_locationCenterPos = _QS_locationSelect # 0;
+	_QS_locationCenterName = _QS_locationSelect # 1;
 	if ((_QS_locationCenterPos distance (markerPos 'QS_marker_aoMarker')) > 3000) exitWith {};
 	sleep 0.5;
 };
@@ -489,7 +489,7 @@ _QS_buildingList_pre = (nearestObjects [_QS_locationCenterPos,_QS_approvedBuildi
 _QS_buildingList = [];
 {
 	_QS_buildingPositions = _x buildingPos -1;
-	if (!(_QS_buildingPositions isEqualTo [])) then {
+	if (_QS_buildingPositions isNotEqualTo []) then {
 		0 = _QS_buildingList pushBack _x;
 		{
 			0 = _QS_allBuildingPositions pushBack _x;
@@ -506,7 +506,6 @@ for '_x' from 0 to 2 step 1 do {
 	_QS_buildingList set [_index,FALSE];
 	_QS_buildingList deleteAt _index;
 };
-
 _index = 1;
 {
 	_QS_building = _x;
@@ -516,18 +515,11 @@ _index = 1;
 		_QS_obj1BP = selectRandom _QS_buildingPositions1;
 		_QS_objectType = selectRandom  _QS_objectTypes;
 		_QS_object1 = createVehicle [_QS_objectType,[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_QS_object1 allowDamage FALSE;
 		_QS_object1 enableRopeAttach FALSE;
 		_QS_object1 enableVehicleCargo FALSE;
 		_QS_object1 setPosATL _QS_obj1BP;
 		_QS_object1 setVariable ['QS_interaction_disabled',TRUE,TRUE];
-		
-		/*/_QS_object1 setPosATL [((getPosATL _QS_building) select 0),((getPosATL _QS_building) select 1),1];/*/
 		_QS_object1 enableSimulationGlobal TRUE;
 		for '_x' from 0 to 2 step 1 do {
 			_QS_object1 setVariable ['QS_secureable',TRUE,TRUE];
@@ -535,21 +527,17 @@ _index = 1;
 		0 = _QS_objectArray pushBack _QS_object1;
 		0 = _QS_allArray pushBack _QS_object1;
 		_QS_eastGrp = createGroup [EAST,TRUE];
+		_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		for '_x' from 0 to (_QS_inBuildingCount - 1) step 1 do {
 			_QS_unitType = selectRandom _QS_urbanEnemyUnits;
 			_QS_unit = _QS_eastGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_QS_spawnPos = selectRandom _QS_buildingPositions1;
 			_QS_unit setPos _QS_spawnPos;
 			_QS_unit enableStamina FALSE;
 			0 = _QS_allArray pushBack _QS_unit;
 			0 = _QS_enemyArray pushBack _QS_unit;
-			_QS_unit disableAI 'PATH';
+			_QS_unit enableAIFeature ['PATH',FALSE];
 			if ((random 1) > 0.25) then {
 				_QS_unit setUnitPos 'UP';
 			} else {
@@ -562,6 +550,7 @@ _index = 1;
 			0 = _QS_allArray pushBack _x;
 			0 = _QS_enemyArray pushBack _x;		
 		} count (units _grp);
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		[_grp,_safePos,50] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 	};
@@ -570,17 +559,12 @@ _index = 1;
 		_QS_obj2BP = selectRandom _QS_buildingPositions2;
 		_QS_objectType = selectRandom _QS_objectTypes;
 		_QS_object2 = createVehicle [_QS_objectType,[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_QS_object2 allowDamage FALSE;
 		_QS_object2 enableRopeAttach FALSE;
 		_QS_object2 enableVehicleCargo FALSE;
 		_QS_object2 setPosATL _QS_obj2BP;
 		_QS_object2 setVariable ['QS_interaction_disabled',TRUE,TRUE];
-		/*/_QS_object2 setPosATL [((getPosATL _QS_building) select 0),((getPosATL _QS_building) select 1),1];/*/
+		/*/_QS_object2 setPosATL [((getPosATL _QS_building) # 0),((getPosATL _QS_building) # 1),1];/*/
 		_QS_object2 enableSimulationGlobal TRUE;
 		for '_x' from 0 to 2 step 1 do {
 			_QS_object2 setVariable ['QS_secureable',TRUE,TRUE];
@@ -588,22 +572,17 @@ _index = 1;
 		0 = _QS_objectArray pushBack _QS_object2;
 		0 = _QS_allArray pushBack _QS_object2;
 		_QS_eastGrp = createGroup [EAST,TRUE];
+		_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		for '_x' from 0 to (_QS_inBuildingCount - 1) step 1 do {
 			_QS_unitType = selectRandom _QS_urbanEnemyUnits;
 			_QS_unit = _QS_eastGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_QS_spawnPos = selectRandom _QS_buildingPositions2;
 			_QS_unit setPos _QS_spawnPos;
 			_QS_unit enableStamina FALSE;
 			0 = _QS_allArray pushBack _QS_unit;
 			0 = _QS_enemyArray pushBack _QS_unit;
-			
-			_QS_unit disableAI 'PATH';
+			_QS_unit enableAIFeature ['PATH',FALSE];
 			if ((random 1) > 0.25) then {
 				_QS_unit setUnitPos 'UP';
 			} else {
@@ -616,6 +595,7 @@ _index = 1;
 			0 = _QS_allArray pushBack _x;
 			0 = _QS_enemyArray pushBack _x;		
 		} count (units _grp);
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		[_grp,_safePos,50] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 	};
@@ -624,17 +604,12 @@ _index = 1;
 		_QS_obj3BP = selectRandom _QS_buildingPositions3;
 		_QS_objectType = selectRandom _QS_objectTypes;
 		_QS_object3 = createVehicle [_QS_objectType,[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_QS_object3 allowDamage FALSE;
 		_QS_object3 enableRopeAttach FALSE;
 		_QS_object3 enableVehicleCargo FALSE;
 		_QS_object3 setPosATL _QS_obj3BP;
 		_QS_object3 setVariable ['QS_interaction_disabled',TRUE,TRUE];
-		/*/_QS_object3 setPosATL [((getPosATL _QS_building) select 0),((getPosATL _QS_building) select 1),1];/*/
+		/*/_QS_object3 setPosATL [((getPosATL _QS_building) # 0),((getPosATL _QS_building) # 1),1];/*/
 		_QS_object3 enableSimulationGlobal TRUE;
 		for '_x' from 0 to 2 step 1 do {
 			_QS_object3 setVariable ['QS_secureable',TRUE,TRUE];
@@ -642,14 +617,10 @@ _index = 1;
 		0 = _QS_objectArray pushBack _QS_object3;
 		0 = _QS_allArray pushBack _QS_object3;
 		_QS_eastGrp = createGroup [EAST,TRUE];
+		_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		for '_x' from 0 to (_QS_inBuildingCount - 1) step 1 do {
 			_QS_unitType = selectRandom _QS_urbanEnemyUnits;
 			_QS_unit = _QS_eastGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
-			missionNamespace setVariable [
-				'QS_analytics_entities_created',
-				((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-				FALSE
-			];
 			_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_QS_spawnPos = selectRandom _QS_buildingPositions3;
 			_QS_unit setPos _QS_spawnPos;
@@ -657,7 +628,7 @@ _index = 1;
 			0 = _QS_allArray pushBack _QS_unit;
 			0 = _QS_enemyArray pushBack _QS_unit;
 			if ((random 1) > 0.2) then {
-				_QS_unit disableAI 'PATH';
+				_QS_unit enableAIFeature ['PATH',FALSE];
 			};
 			if ((random 1) > 0.25) then {
 				_QS_unit setUnitPos 'UP';
@@ -671,6 +642,7 @@ _index = 1;
 			0 = _QS_allArray pushBack _x;
 			0 = _QS_enemyArray pushBack _x;		
 		} count (units _grp);
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		[_grp,_safePos,50] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 	};
@@ -678,14 +650,10 @@ _index = 1;
 } count _QS_targetBuildings;
 
 _QS_garrisonGrp = createGroup [EAST,TRUE];
+_QS_garrisonGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 for '_x' from 0 to (_QS_garrisonCount - 1) do {
 	_QS_unitType = selectRandom _QS_urbanEnemyUnits;
 	_QS_unit = _QS_garrisonGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_QS_unit enableStamina FALSE;
 	_QS_buildingPos = selectRandom _QS_allBuildingPositions;
@@ -695,7 +663,7 @@ for '_x' from 0 to (_QS_garrisonCount - 1) do {
 	} else {
 		_QS_unit setUnitPosWeak 'MIDDLE';
 	};
-	_QS_unit disableAI 'PATH';
+	_QS_unit enableAIFeature ['PATH',FALSE];
 	0 = _QS_allArray pushBack _QS_unit;
 	0 = _QS_enemyArray pushBack _QS_unit;
 };
@@ -710,32 +678,28 @@ for '_x' from 0 to (_QS_patrolCount - 1) step 1 do {
 	for '_x' from 0 to 1 step 1 do {
 		_QS_unitType = selectRandom _QS_urbanEnemyUnits;
 		_QS_unit = _QS_patrolGroup createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		_QS_unit enableStamina FALSE;
 		_QS_unit setPos _wp1Pos;
 		0 = _QS_allArray pushBack _QS_unit;
 		0 = _QS_enemyArray pushBack _QS_unit;
 	};
-	_QS_patrolGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_QS_route,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_QS_patrolGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_QS_patrolGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _QS_patrolGroup))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_QS_patrolGroup setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_QS_patrolGroup setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_QS_patrolGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_QS_route,serverTime,-1],QS_system_AI_owners];
+	_QS_patrolGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+	_QS_patrolGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _QS_patrolGroup))],QS_system_AI_owners];
+	_QS_patrolGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+	_QS_patrolGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+	_QS_patrolGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 };
 _nearestLocations = nearestLocations [_QS_locationCenterPos,['NameVillage','NameCity','NameCityCapital'],300];
-if (!(_nearestLocations isEqualTo [])) then {
-	_nearestLocation = _nearestLocations select 0;
+if (_nearestLocations isNotEqualTo []) then {
+	_nearestLocation = _nearestLocations # 0;
 	_civilians = [_QS_locationCenterPos,300,'FOOT',(round (10 + (random 10))),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians');
 	{
 		_QS_allArray pushBack _x;
 	} forEach _civilians;
 };
-_QS_roadArrayRsc = ((_QS_locationCenterPos nearRoads 300) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))}) apply { [_x,(position _x)] };
+_QS_roadArrayRsc = ((_QS_locationCenterPos nearRoads 300) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) apply { [_x,(position _x)] };
 if ((count _QS_roadArrayRsc) > 8) then {
 	private _QS_tempRoadData = [];
 	private _QS_tempRoadObj = objNull;
@@ -751,19 +715,14 @@ if ((count _QS_roadArrayRsc) > 8) then {
 		if (_QS_tempRoadObj isEqualType objNull) then {
 			if (!isNull _QS_tempRoadObj) then {
 				_QS_roadConnectedTo = roadsConnectedTo _QS_tempRoadObj;
-				if (!(_QS_roadConnectedTo isEqualTo [])) then {
-					_QS_connectedRoad = _QS_roadConnectedTo select 0;
+				if (_QS_roadConnectedTo isNotEqualTo []) then {
+					_QS_connectedRoad = _QS_roadConnectedTo # 0;
 					_QS_roadDir = _QS_tempRoadPos getDir _QS_connectedRoad;
 				};
 			};
 		};
 		_QS_vType = selectRandom _QS_civVehicleArrayRsc;
 		_QS_v = createSimpleObject [_QS_vType,[(random -20),(random -20),2000]];
-		missionNamespace setVariable [
-			'QS_analytics_entities_created',
-			((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-			FALSE
-		];
 		_QS_v setDir _QS_roadDir;
 		_QS_v setVectorUp (surfaceNormal _QS_tempRoadPos);
 		_QS_v setPosASL (AGLToASL _QS_tempRoadPos);
@@ -774,22 +733,22 @@ if ((count _QS_roadArrayRsc) > 8) then {
 _markerStoragePos = [0,0,0];
 _markers = [];
 {
-	createMarker [(_x select 0),(_x select 1)];
-	(_x select 0) setMarkerTypeLocal (_x select 2);
-	(_x select 0) setMarkerShapeLocal (_x select 3);
-	if (!((_x select 3) isEqualTo 'Icon')) then {
-		(_x select 0) setMarkerBrushLocal (_x select 4);
+	createMarker [(_x # 0),(_x # 1)];
+	(_x # 0) setMarkerTypeLocal (_x # 2);
+	(_x # 0) setMarkerShapeLocal (_x # 3);
+	if ((_x # 3) isNotEqualTo 'Icon') then {
+		(_x # 0) setMarkerBrushLocal (_x # 4);
 	};
-	(_x select 0) setMarkerColorLocal (_x select 5);
-	(_x select 0) setMarkerSizeLocal (_x select 6);
-	(_x select 0) setMarkerAlphaLocal (_x select 7);
-	(_x select 0) setMarkerPosLocal (_x select 8);
-	(_x select 0) setMarkerText (format ['%1%2',(toString [32,32,32]),(_x select 9)]);
-	0 = _markers pushBack (_x select 0);
+	(_x # 0) setMarkerColorLocal (_x # 5);
+	(_x # 0) setMarkerSizeLocal (_x # 6);
+	(_x # 0) setMarkerAlphaLocal (_x # 7);
+	(_x # 0) setMarkerPosLocal (_x # 8);
+	(_x # 0) setMarkerText (format ['%1%2',(toString [32,32,32]),(_x # 9)]);
+	0 = _markers pushBack (_x # 0);
 } forEach [
-	['QS_marker_sideMission_urban_mkr1',_markerStoragePos,'mil_dot','Ellipse','SolidBorder','ColorOPFOR',[30,30],0.5,[(((getPosWorld(_QS_objectArray select 0)) select 0) + (15 - (random 30))),(((getPosWorld(_QS_objectArray select 0)) select 1) + (12.5 - (random 25))),0],'   '],
-	['QS_marker_sideMission_urban_mkr2',_markerStoragePos,'mil_dot','Ellipse','SolidBorder','ColorOPFOR',[30,30],0.5,[(((getPosWorld(_QS_objectArray select 1)) select 0) + (15 - (random 30))),(((getPosWorld(_QS_objectArray select 1)) select 1) + (12.5 - (random 25))),0],'   '],
-	['QS_marker_sideMission_urban_mkr3',_markerStoragePos,'mil_dot','Ellipse','SolidBorder','ColorOPFOR',[30,30],0.5,[(((getPosWorld(_QS_objectArray select 2)) select 0) + (15 - (random 30))),(((getPosWorld(_QS_objectArray select 2)) select 1) + (12.5 - (random 25))),0],'   ']
+	['QS_marker_sideMission_urban_mkr1',_markerStoragePos,'mil_dot','Ellipse','SolidBorder','ColorOPFOR',[30,30],0.5,[(((getPosWorld(_QS_objectArray # 0)) # 0) + (15 - (random 30))),(((getPosWorld(_QS_objectArray # 0)) # 1) + (12.5 - (random 25))),0],'   '],
+	['QS_marker_sideMission_urban_mkr2',_markerStoragePos,'mil_dot','Ellipse','SolidBorder','ColorOPFOR',[30,30],0.5,[(((getPosWorld(_QS_objectArray # 1)) # 0) + (15 - (random 30))),(((getPosWorld(_QS_objectArray # 1)) # 1) + (12.5 - (random 25))),0],'   '],
+	['QS_marker_sideMission_urban_mkr3',_markerStoragePos,'mil_dot','Ellipse','SolidBorder','ColorOPFOR',[30,30],0.5,[(((getPosWorld(_QS_objectArray # 2)) # 0) + (15 - (random 30))),(((getPosWorld(_QS_objectArray # 2)) # 1) + (12.5 - (random 25))),0],'   ']
 ];
 _QS_missionSuccess = FALSE;
 _QS_missionFailed = FALSE;
@@ -938,7 +897,7 @@ for '_x' from 0 to 1 step 0 do {
 					_box1_secured = TRUE;
 					_QS_object1 hideObjectGlobal TRUE;
 					_QS_object1 setPos [-5000,-5000,0];
-					(_markers select 0) setMarkerAlpha 0;
+					(_markers # 0) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
 					['ST_URBAN',['Side Mission Update',(format ['%1 / 3 intel secured',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
@@ -952,7 +911,7 @@ for '_x' from 0 to 1 step 0 do {
 					_box2_secured = TRUE;
 					_QS_object2 hideObjectGlobal TRUE;
 					_QS_object2 setPos [-5000,-5000,0];
-					(_markers select 1) setMarkerAlpha 0;
+					(_markers # 1) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
 					['ST_URBAN',['Side Mission Update',(format ['%1 / 3 intel secured',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
@@ -966,7 +925,7 @@ for '_x' from 0 to 1 step 0 do {
 					_box3_secured = TRUE;
 					_QS_object3 hideObjectGlobal TRUE;
 					_QS_object3 setPos [-5000,-5000,0];
-					(_markers select 2) setMarkerAlpha 0;
+					(_markers # 2) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
 					['ST_URBAN',['Side Mission Update',(format ['%1 / 3 intel secured',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
@@ -1003,6 +962,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_attackPos = selectRandom [_QS_locationCenterPos,_QS_obj1BP,_QS_obj2BP,_QS_obj3BP];
 				[_QS_qrfGroup,_QS_attackPos,TRUE] call (missionNamespace getVariable 'QS_fnc_taskAttack');
 				_QS_qrfGroup setSpeedMode 'FULL';
+				_QS_qrfGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 				[(units _QS_qrfGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 				{0 = _QS_enemyArray pushBack _x;} count (units _QS_qrfGroup);
 			};
@@ -1030,11 +990,6 @@ for '_x' from 0 to 1 step 0 do {
 						if (!(_x getVariable 'QS_secured')) then {
 							_x setDamage 1;
 							'M_AT' createVehicle (getPos _x);
-							missionNamespace setVariable [
-								'QS_analytics_entities_created',
-								((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-								FALSE
-							];
 						};
 					};
 				} forEach _QS_objectArray;
@@ -1051,14 +1006,10 @@ for '_x' from 0 to 1 step 0 do {
 				if (([_QS_spawnPos,250,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) exitWith {};
 			};
 			_QS_eastGrp = createGroup [EAST,TRUE];
+			_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			for '_x' from 0 to 3 step 1 do {
 				_QS_unitType = selectRandom _QS_urbanEnemyUnits;
 				_QS_unit = _QS_eastGrp createUnit [_QS_unitType,_QS_spawnPos,[],0,'FORM'];
-				missionNamespace setVariable [
-					'QS_analytics_entities_created',
-					((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-					FALSE
-				];
 				_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				0 = _QS_allArray pushBack _QS_unit;
 				0 = _QS_enemyArray pushBack _QS_unit;		

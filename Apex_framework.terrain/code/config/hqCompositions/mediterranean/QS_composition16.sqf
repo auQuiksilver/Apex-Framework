@@ -14,8 +14,8 @@ Using orientation of objects: no
 	["PortableHelipadLight_01_red_F",[-5.5293,8.72461,0],359.998,[],false,true,false,{}], 
 	["PortableHelipadLight_01_red_F",[-11.0059,0.289063,0],359.985,[],false,true,false,{}], 
 	["Flag_White_F",[8.92969,8.44141,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_BagFence_Long_F",[3.26172,-12.2188,-0.185999],6.83019e-006,[],false,false,true,{}], 
 	["Land_HBarrier_1_F",[-11.9316,-7.32813,0],300,[],false,false,true,{}], 

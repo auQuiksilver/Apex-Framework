@@ -23,20 +23,20 @@ if (_type isEqualTo 'onLoad') exitWith {
 	
 	/*/======================= EDIT BELOW =======================/*/ 
 	_ctrlB1 = _display displayCtrl 1804;
-	_ctrlB1 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) select 0),((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) select 1)]));
-	_ctrlB1 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) select 2);
-	_ctrlB1 ctrlEnable TRUE;	//(!(((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) select 0) isEqualTo ''));	
+	_ctrlB1 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) # 0),((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) # 1)]));
+	_ctrlB1 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) # 2);
+	_ctrlB1 ctrlEnable TRUE;	//(((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) # 0) isNotEqualTo '');	
 	_ctrlB2 = _display displayCtrl 1805;
-	_ctrlB2 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commDS',{}])) select 0),((call (missionNamespace getVariable ['QS_missionConfig_commDS',{}])) select 1)]));
-	_ctrlB2 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_commDS',{}])) select 2);
+	_ctrlB2 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commDS',{}])) # 0),((call (missionNamespace getVariable ['QS_missionConfig_commDS',{}])) # 1)]));
+	_ctrlB2 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_commDS',{}])) # 2);
 	_ctrlB2 ctrlEnable TRUE;
 	_ctrlB3 = _display displayCtrl 1809;
-	_ctrlB3 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) select 0),((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) select 1)]));
-	_ctrlB3 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) select 2);
+	_ctrlB3 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) # 0),((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) # 1)]));
+	_ctrlB3 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_commA3U',{}])) # 2);
 	_ctrlB3 ctrlEnable TRUE;
 	_ctrlB4 = _display displayCtrl 1812;
-	_ctrlB4 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 0),((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 1)]));
-	_ctrlB4 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) select 2);
+	_ctrlB4 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) # 0),((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) # 1)]));
+	_ctrlB4 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) # 2);
 	_ctrlB4 ctrlEnable TRUE;	
 	/*/======================= EDIT ABOVE =======================/*/ 
 	

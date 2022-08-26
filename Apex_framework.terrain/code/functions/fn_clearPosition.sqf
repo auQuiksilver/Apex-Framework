@@ -31,13 +31,13 @@ private [
 } count allDead;
 _obstructions = ['Air','LandVehicle','StaticWeapon','Ship'];
 _obstructionsArray = _pos nearEntities [_obstructions,_rad];
-if (!(_obstructionsArray isEqualTo [])) then {
+if (_obstructionsArray isNotEqualTo []) then {
 	{
 		_emptyPosition = _pos findEmptyPosition [_minDist,_maxDist,'O_APC_Tracked_02_AA_F'];
 		if (_emptyPosition isEqualTo []) then {
 			for '_x' from 0 to 49 step 1 do {
 				_emptyPosition = _pos findEmptyPosition [_minDist,_maxDist,'O_APC_Tracked_02_AA_F'];
-				if (!(_emptyPosition isEqualTo [])) exitWith {};
+				if (_emptyPosition isNotEqualTo []) exitWith {};
 			};
 		};
 		_x setPos _emptyPosition;

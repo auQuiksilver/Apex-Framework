@@ -31,7 +31,7 @@ _t = cursorTarget;
 if (
 	(!(_t isKindOf 'Man')) ||
 	{(!alive _t)} ||
-	{(!((lifeState _t) isEqualTo 'INCAPACITATED'))} ||
+	{((lifeState _t) isNotEqualTo 'INCAPACITATED')} ||
 	{(!isNull (attachedTo _t))} ||
 	{(!isNull (objectParent _cameraOn))}
 ) exitWith {};
@@ -112,7 +112,7 @@ if (_stance isEqualTo 'PRONE') then {
 		'Cancel',
 		{
 			_cameraOn = cameraOn;
-			_cameraOn removeAction (_this select 2);
+			_cameraOn removeAction (_this # 2);
 			_cameraOn setVariable ['QS_client_animCancel',TRUE,FALSE];
 			_cameraOn switchMove (_cameraOn getVariable ['QS_client_currentAnim','']);
 			['switchMove',_cameraOn,(_cameraOn getVariable ['QS_client_currentAnim',''])] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
@@ -127,7 +127,7 @@ if (_stance isEqualTo 'PRONE') then {
 		FALSE,
 		''
 	];
-	_cameraOn setUserActionText [_action_cancel,((_cameraOn actionParams _action_cancel) select 0),(format ["<t size='3'>%1</t>",((_cameraOn actionParams _action_cancel) select 0)])];
+	_cameraOn setUserActionText [_action_cancel,((_cameraOn actionParams _action_cancel) # 0),(format ["<t size='3'>%1</t>",((_cameraOn actionParams _action_cancel) # 0)])];
 };
 _cameraOn setVariable ['QS_animDone',FALSE,FALSE];
 waitUntil {
@@ -144,7 +144,7 @@ if (_stance isEqualTo 'PRONE') then {
 		uiSleep 0.1;
 		(diag_tickTime > _time2)
 	};
-	if ((!((lifeState _t) isEqualTo 'INCAPACITATED')) || {(!(isNull (attachedTo _t)))} || {(!((lifeState _cameraOn) in ['HEALTHY','INJURED']))} || {(_cameraOn getVariable 'QS_client_animCancel')}) exitWith {
+	if (((lifeState _t) isNotEqualTo 'INCAPACITATED') || {(!(isNull (attachedTo _t)))} || {(!((lifeState _cameraOn) in ['HEALTHY','INJURED']))} || {(_cameraOn getVariable 'QS_client_animCancel')}) exitWith {
 		_exit = TRUE;
 	};
 	_cameraOn playMoveNow _animation;
@@ -177,7 +177,7 @@ waitUntil {
 if (!(_cameraOn getVariable ['QS_client_animCancel',FALSE])) then {
 	if (alive _cameraOn) then {
 		if (alive _t) then {
-			if (!((lifeState _cameraOn) isEqualTo 'INCAPACITATED')) then {
+			if ((lifeState _cameraOn) isNotEqualTo 'INCAPACITATED') then {
 				if ((lifeState _t) isEqualTo 'INCAPACITATED') then {
 					if (isNull (attachedTo _t)) then {
 						if ((lifeState _t) isEqualTo 'INCAPACITATED') then {

@@ -13,8 +13,10 @@ Description:
 	-
 __________________________________________________*/
 
-if (isDedicated) exitWith {};
-if (time < 60) exitWith {};
+if (
+	isDedicated ||
+	(time < 60)
+) exitWith {};
 _array = _this # 3;
 _array params [
 	'_type',

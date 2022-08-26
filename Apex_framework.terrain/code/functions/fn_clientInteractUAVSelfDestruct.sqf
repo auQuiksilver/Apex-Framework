@@ -15,7 +15,7 @@ __________________________________________________________________________/*/
 
 _cameraOn = cameraOn;
 if (!(unitIsUAV _cameraOn)) exitWith {};
-if (!(((crew _cameraOn) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)) exitWith {
+if (((crew _cameraOn) findIf {((alive _x) && (isPlayer _x))}) isNotEqualTo -1) exitWith {
 	50 cutText ['Other players are in this vehicle','PLAIN DOWN',0.333];
 };
 private _result = [(format ['Are you sure you want to destroy this %1',(getText (configFile >> 'CfgVehicles' >> (typeOf _cameraOn) >> 'displayName'))]),'Warning','Destroy','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage'); 

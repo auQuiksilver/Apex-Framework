@@ -12,14 +12,14 @@ Using orientation of objects: no
 	_01_round_green_F",[1.49805,1.18994,-0.00130129],282.006,[],false,false,TRUE,{}], 
 	["Land_Cargo_HQ_V4_F",[-6.92285,5.25049,0],252.006,[],false,TRUE,false,{}], 
 	["Flag_White_F",[-7.27588,-1.09619,-2.09808e-005],252.006,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_BagFence_01_round_green_F",[-7.93799,-2.09766,-0.00130129],27.006,[],false,false,TRUE,{}], 
 	["Land_Cargo_House_V4_F",[3.20508,-10.729,0],161.32,[],false,TRUE,false,{}], 
 	["Land_IRMaskingCover_02_F",[9.1123,-6.2876,0],72.4201,[],false,false,TRUE,{}], 
 	["Land_Sign_WarningMilitaryArea_F",[7.87744,11.5576,0],244.727,[],false,false,TRUE,{}], 
-	["Land_PierLadder_F",[-5.75537,13.5718,1.66959],252.006,[],false,TRUE,false,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+	["Land_PierLadder_F",[-5.75537,13.5718,1.66959],252.006,[],false,TRUE,false,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 	["Land_Cargo10_military_green_F",[1.06738,14.9961,4.76837e-006],192.005,[],false,TRUE,false,{}], 
 	["Land_Mil_WallBig_4m_F",[6.48096,-14.5171,-0.0119424],340.905,[],false,false,TRUE,{}], 
 	["Land_Mil_WallBig_4m_F",[2.87158,-15.7549,-0.0119424],340.905,[],false,false,TRUE,{}], 

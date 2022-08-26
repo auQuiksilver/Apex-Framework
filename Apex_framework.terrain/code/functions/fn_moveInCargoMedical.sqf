@@ -14,7 +14,7 @@ Description:
 __________________________________________________________/*/
 
 params ['_unit','_vehicle'];
-_vehicleType = toLower (typeOf _vehicle);
+_vehicleType = toLowerANSI (typeOf _vehicle);
 private _medicalCargoIndex = [-1];
 private _moveInCargoIndex = -1;
 if (_vehicleType in [

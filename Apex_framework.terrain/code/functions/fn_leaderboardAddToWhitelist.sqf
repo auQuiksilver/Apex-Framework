@@ -6,49 +6,74 @@ Author:
 	
 Last Modified:
 
-	21/02/2016 A3 1.56 by Quiksilver
+	18/07/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Add top of leaderboard to respective whitelists
 ____________________________________________________________*/
 
-private [
-	'_leaderboardData','_leaderboardIndex','_leaderboard','_rankIndex','_leaderboardWLIndexes','_wl_helipilot','_wl_cls','_puid','_pname','_topX'
-];
-_leaderboardData = _this # 0;
-_topX = 3;
-_leaderboardIndex = 1;
-_leaderboardWLIndexes = [1,2];
-profileNamespace setVariable ['QS_whitelist_lb_helipilot',[]];
-profileNamespace setVariable ['QS_whitelist_lb_cls',[]];
-saveProfileNamespace;
-_wl_helipilot = [];
-_wl_cls = [];
-for '_x' from 0 to ((count _leaderboardData) - 1) step 1 do {
-	_leaderboard = _leaderboardData # _leaderboardIndex;
-	if (_leaderboardIndex in _leaderboardWLIndexes) then {
-		if (_leaderboard isNotEqualTo []) then {
-			_leaderboard sort FALSE;
-			_rankIndex = 0;
-			for '_x' from 0 to (_topX - 1) step 1 do {
-				_rankElement = _leaderboard # _rankIndex;
-				_puid = _rankElement # 1;
-				_pname = _rankElement # 2;
-				diag_log format ['***** LEADERBOARD ***** Adding %1 (%2) to whitelist *****',_pname,_puid];
-				if (_leaderboardIndex isEqualTo 1) then {
-					0 = _wl_helipilot pushBack _puid;
-				};
-				if (_leaderboardIndex isEqualTo 2) then {
-					0 = _wl_cls pushBack _puid;
-				};
-				_rankIndex = _rankIndex + 1;
-			};
-		};
-	};
-	_leaderboardIndex = _leaderboardIndex + 1;
+private _leaderboardData = _this toArray FALSE;
+private _topX = 3;
+private _leaderboardDataPilot = _leaderboardData apply {
+	[
+		(_x # 1) # 1,							// LB value for Transport Pilot leaderboard
+		(_x # 0),								// UID
+		(_x # 1) # 0							// Name
+	]
 };
-profileNamespace setVariable ['QS_whitelist_lb_helipilot',_wl_helipilot];
-profileNamespace setVariable ['QS_whitelist_lb_cls',_wl_cls];
-saveProfileNamespace;
+_leaderboardDataPilot sort FALSE;
+_leaderboardDataPilot = _leaderboardDataPilot select {(_x # 0) > 0};
+_leaderboardDataPilot select [0,_topX];
+private _allArray = [];
+private _array = [];
+if (_leaderboardDataPilot isNotEqualTo []) then {
+	{
+		diag_log format ['***** LEADERBOARD ***** Adding %1 (%2) to Transport Pilot whitelist *****',(_x # 2),(_x # 1)];
+		_array pushBack (_x # 1);
+		_allArray pushBack (_x # 1);
+	} forEach _leaderboardDataPilot;
+	missionProfileNamespace setVariable ['QS_whitelist_lb_helipilot',_array];
+};
+private _leaderboardDataMedic = _leaderboardData apply {
+	[
+		(_x # 1) # 2,							// LB value for Medic leaderboard
+		(_x # 0),								// UID
+		(_x # 1) # 0							// Name
+	]
+};
+_leaderboardDataMedic sort FALSE;
+_leaderboardDataMedic = _leaderboardDataMedic select {(_x # 0) > 0};
+_leaderboardDataMedic select [0,_topX];
+_array = [];
+if (_leaderboardDataMedic isNotEqualTo []) then {
+	{
+		diag_log format ['***** LEADERBOARD ***** Adding %1 (%2) to Medic whitelist *****',(_x # 2),(_x # 1)];
+		_array pushBack (_x # 1);
+		_allArray pushBack (_x # 1);
+	} forEach _leaderboardDataMedic;
+	missionProfileNamespace setVariable ['QS_whitelist_lb_cls',_array];
+};
+private _leaderboardDataSniper = _leaderboardData apply {
+	[
+		(((_x # 1) # 8) # 0) / (((_x # 1) # 8) # 1),							// LB value for Sniper leaderboard
+		(_x # 0),																// UID
+		(_x # 1) # 0,															// Name
+		(((_x # 1) # 8) # 1)
+	]
+};
+_leaderboardDataSniper sort FALSE;
+_leaderboardDataSniper = _leaderboardDataSniper select {(_x # 3) >= 100};
+_leaderboardDataSniper select [0,_topX];
+_array = [];
+if (_leaderboardDataSniper isNotEqualTo []) then {
+	{
+		diag_log format ['***** LEADERBOARD ***** Adding %1 (%2) to Sniper whitelist *****',(_x # 2),(_x # 1)];
+		_array pushBack (_x # 1);
+		_allArray pushBack (_x # 1);
+	} forEach _leaderboardDataSniper;
+	missionProfileNamespace setVariable ['QS_whitelist_lb_sniper',_array];
+};
+missionProfileNamespace setVariable ['QS_whitelists_toInform',_allArray];
+saveMissionProfileNamespace;
 TRUE;

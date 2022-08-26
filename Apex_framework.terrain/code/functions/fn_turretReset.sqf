@@ -17,9 +17,9 @@ _______________________________________________*/
 
 private ["_v","_turret","_lock"];
 missionNamespace setVariable ['QS_turretControl',FALSE,FALSE];
-_v = _this select 0;
-_turret = _this select 1;
-_lock = _this select 2;
+_v = _this # 0;
+_turret = _this # 1;
+_lock = _this # 2;
 {
 	player removeAction _x;
 } count QS_turretActions;

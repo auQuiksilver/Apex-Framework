@@ -6,12 +6,13 @@ Author:
 	
 Last modified:
 
-	18/09/2018 A3 1.84 by Quiksilver
+	28/06/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	AI Fire Mission
 __________________________________________________/*/
+
 params ['_type'];
 if (_type isEqualTo 0) exitWith {
 	scriptName 'QS AI FIRE MISSION - ARTY';
@@ -29,7 +30,7 @@ if (_type isEqualTo 0) exitWith {
 	};
 	private _radius = 90;
 	private _firstShell = TRUE;
-	_grpLeader doWatch [(_firePosition select 0),(_firePosition select 1),(1000 + (random 1000))];
+	_grpLeader doWatch [(_firePosition # 0),(_firePosition # 1),(1000 + (random 1000))];
 	uiSleep (3 + (random 5));
 	if (_vehicle isKindOf 'StaticMortar') then {
 		for '_x' from 0 to (_fireRounds - 1) step 1 do {
@@ -44,7 +45,7 @@ if (_type isEqualTo 0) exitWith {
 		};
 	} else {
 		_grpLeader doArtilleryFire [(_firePosition getPos [(15 * (sqrt (random 1))),(random 360)]),_fireShells,_fireRounds];
-		_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(diag_tickTime + 45)],FALSE];
+		_grp setVariable ['QS_AI_GRP_DATA',[FALSE,(serverTime + 45)],FALSE];
 	};
 };
 if (_type isEqualTo 1) exitWith {
@@ -57,14 +58,21 @@ if (_type isEqualTo 1) exitWith {
 	_targetAssistant hideObject TRUE;
 	detach _targetAssistant;
 	_laserTarget = createVehicle ['LaserTargetE',_targetPosition,[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 2),
-		FALSE
-	];
 	_laserTarget attachTo [_targetAssistant,[0,0,0.5]];
 	_laserTarget allowDamage FALSE;
+	(missionNamespace getVariable 'QS_AI_laserTargets') pushBack _laserTarget;
 	_laserTarget confirmSensorTarget [EAST,TRUE];
+	if (((_laserTarget getEventHandlerInfo ['IncomingMissile',0]) # 2) isEqualTo 0) then {
+		_laserTarget addEventHandler [
+			'IncomingMissile',
+			{
+				params ['_target','_ammo','_vehicle','_instigator','_missile'];
+				if (_ammo isKindOf 'BombCore') then {
+					[103,_target,_ammo,_vehicle,_missile] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
+				};
+			}
+		];
+	};
 	private _unit = objNull;
 	{
 		_unit = _x;
@@ -104,12 +112,16 @@ if (_type isEqualTo 1) exitWith {
 			{(_exit)}
 		) exitWith {};
 		if (_time > _moveDelay) then {
-			if ((_selectedTarget isKindOf 'Man') || {(_selectedTarget isKindOf 'LandVehicle')})  then {
-				_supportGroup move [((position _selectedTarget) select 0),((position _selectedTarget) select 1),50];
-			} else {
-				_supportGroup move [(_targetPosition select 0),(_targetPosition select 1),50];
+			if (((vectorMagnitude (velocity _vehicle)) * 3.6) < 10) then {
+				{
+					_supportGroup forgetTarget _x;
+					_supportProvider forgetTarget _x;
+				} forEach (_supportProvider targets []);
+				_relPos = _vehicle getRelPos [(500 + (random 500)),0];
+				_relPos set [2,100];
+				_supportGroup move _relPos;
 			};
-			_moveDelay = _time + 20;
+			_moveDelay = time + 5;
 		};
 		if ((_time > _watchDelay) || {(isNull _selectedTarget)}) then {
 			_nearTargets = _supportProvider targets [TRUE,75,[],0,_targetPosition];
@@ -119,29 +131,33 @@ if (_type isEqualTo 1) exitWith {
 				_selectedTarget = selectRandom _nearTargets;
 			};
 			if ((behaviour _supportProvider) isNotEqualTo 'COMBAT') then {
-				_supportGroup setBehaviourStrong 'COMBAT';
+				_supportGroup setBehaviour 'COMBAT';
 			};
-			{
-				_x reveal [_selectedTarget,3.9];
-				_x doWatch (position _selectedTarget);
-				_x commandTarget _selectedTarget;
-			} forEach (units _supportGroup);
-			_supportGroup reveal [_selectedTarget,3.9];
-			_supportProvider commandTarget _selectedTarget;
-			_watchDelay = time + 20;
+			if (alive _selectedTarget) then {
+				{
+					_x reveal [_selectedTarget,3.9];
+					_x doWatch (position _selectedTarget);
+					_x doTarget _selectedTarget;
+				} forEach (units _supportGroup);
+				_supportGroup reveal [_selectedTarget,3.9];
+				_supportProvider commandTarget _selectedTarget;
+			};
+			_watchDelay = time + 15;
 		};
 		if (_time > _fireDelay) then {
-			if (((_vehicle aimedAtTarget [_selectedTarget]) isEqualTo 1) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _selectedTarget)]))) then {
+			if (((_vehicle aimedAtTarget [_selectedTarget]) > 0.5) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _selectedTarget)]))) then {
 				//comment 'Fire';
 				_supportProvider doSuppressiveFire (aimPos _selectedTarget);
 				_fireDuration = time + 5;
 				_vehicle setVehicleAmmo 1;
 				for '_x' from 0 to 1 step 0 do {
-					if (!alive _supportProvider) exitWith {};
-					if (!alive _vehicle) exitWith {};
-					if (!canFire _vehicle) exitWith {};
-					if ((_vehicle aimedAtTarget [_selectedTarget]) isNotEqualTo 1) exitWith {};
-					if (time > _fireDuration) exitWith {};
+					if (
+						(!alive _supportProvider) ||
+						{(!alive _vehicle)} ||
+						{(!canFire _vehicle)} ||
+						{((_vehicle aimedAtTarget [_selectedTarget]) < 0.5)} ||
+						{(time > _fireDuration)}
+					) exitWith {};
 					_vehicle fireAtTarget [_selectedTarget,(currentWeapon _vehicle)];
 					sleep (0.5 - ((_vehicle aimedAtTarget [_selectedTarget]) / 2.25));
 				};
@@ -152,11 +168,7 @@ if (_type isEqualTo 1) exitWith {
 	};
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _targetAssistant) then {
 		deleteVehicle _targetAssistant;
@@ -167,7 +179,7 @@ if (_type isEqualTo 1) exitWith {
 		];
 	};
 	if (!isNull _supportGroup) then {
-		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 	};
 	if ((alive _vehicle) && (canMove _vehicle)) then {
 		_relPos = _vehicle getRelPos [(500 + (random 500)),(random 360)];
@@ -188,14 +200,21 @@ if (_type isEqualTo 2) exitWith {
 	_targetAssistant hideObject TRUE;
 	detach _targetAssistant;
 	_laserTarget = createVehicle ['LaserTargetE',_targetPosition,[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 2),
-		FALSE
-	];
 	_laserTarget attachTo [_targetAssistant,[0,0,0.5]];
 	_laserTarget allowDamage FALSE;
+	(missionNamespace getVariable 'QS_AI_laserTargets') pushBack _laserTarget;
 	_laserTarget confirmSensorTarget [EAST,TRUE];
+	if (((_laserTarget getEventHandlerInfo ['IncomingMissile',0]) # 2) isEqualTo 0) then {
+		_laserTarget addEventHandler [
+			'IncomingMissile',
+			{
+				params ['_target','_ammo','_vehicle','_instigator','_missile'];
+				if (_ammo isKindOf 'BombCore') then {
+					[103,_target,_ammo,_vehicle,_missile] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
+				};
+			}
+		];
+	};
 	_supportGroup reveal [_laserTarget,3.9];
 	_supportProvider doWatch _laserTarget;
 	_supportProvider commandTarget _laserTarget;
@@ -221,13 +240,13 @@ if (_type isEqualTo 2) exitWith {
 			{(!alive _vehicle)} ||
 			{(isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'})} ||
 			{(_exit)} ||
-			{(diag_tickTime > _duration)} ||
+			{(serverTime > _duration)} ||
 			{(isNull _laserTarget)}
 		) exitWith {};
 		if (_time > _targetDelay) then {
 			_vehicle setVehicleAmmo 1;
 			if ((behaviour _supportProvider) isNotEqualTo 'COMBAT') then {
-				_supportGroup setBehaviourStrong 'COMBAT';
+				_supportGroup setBehaviour 'COMBAT';
 			};
 			{
 				_unit = _x;
@@ -242,15 +261,14 @@ if (_type isEqualTo 2) exitWith {
 			_supportProvider commandTarget _laserTarget;
 			_targetDelay = _time + 30;
 		};
-		
 		if (_time > _fireDelay) then {
-			if (((_vehicle aimedAtTarget [_laserTarget]) isEqualTo 1) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _laserTarget)]))) then {
+			if (((_vehicle aimedAtTarget [_laserTarget]) > 0.5) && (!(terrainIntersect [(getPosATL _vehicle),(getPosATL _laserTarget)]))) then {
 				//comment 'Fire';
 				_firedEvent = _vehicle addEventHandler [
 					'Fired',
 					{
 						params ['','','','','_ammo','','_projectile',''];
-						if ((toLower _ammo) in [
+						if ((toLowerANSI _ammo) in [
 							'bomb_03_f','bomb_04_f','bo_gbu12_lgb','bo_gbu12_lgb_mi10','bo_air_lgb','bo_air_lgb_hidden','bo_mk82','bo_mk82_mi08'
 						]) then {
 							missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
@@ -266,7 +284,7 @@ if (_type isEqualTo 2) exitWith {
 						(!alive _supportProvider) ||
 						{(!alive _vehicle)} ||
 						{(!canFire _vehicle)} ||
-						{((_vehicle aimedAtTarget [_laserTarget]) isNotEqualTo 1)} ||
+						{((_vehicle aimedAtTarget [_laserTarget]) < 0.5)} ||
 						{(time > _fireDuration)}
 					) exitWith {};
 					_vehicle fireAtTarget [_laserTarget,(currentWeapon _vehicle)];
@@ -289,22 +307,14 @@ if (_type isEqualTo 2) exitWith {
 	_vehicle setVariable ['QS_AI_PLANE_fireMission',FALSE,FALSE];
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _targetAssistant) then {
 		deleteVehicle _targetAssistant;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _supportGroup) then {
-		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 	};
 	_supportProvider commandWatch objNull;
 	if ((alive _vehicle) && (canMove _vehicle)) then {
@@ -325,7 +335,19 @@ if (_type isEqualTo 3) exitWith {
 	_laserTarget = createVehicle ['LaserTargetE',_targetPosition,[],0,'NONE'];
 	_laserTarget attachTo [_targetAssistant,[0,0,0.5]];
 	_laserTarget allowDamage FALSE;
+	(missionNamespace getVariable 'QS_AI_laserTargets') pushBack _laserTarget;
 	_laserTarget confirmSensorTarget [EAST,TRUE];
+	if (((_laserTarget getEventHandlerInfo ['IncomingMissile',0]) # 2) isEqualTo 0) then {
+		_laserTarget addEventHandler [
+			'IncomingMissile',
+			{
+				params ['_target','_ammo','_vehicle','_instigator','_missile'];
+				if (_ammo isKindOf 'BombCore') then {
+					[103,_target,_ammo,_vehicle,_missile] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
+				};
+			}
+		];
+	};
 	_vehicle flyInHeight (100 + (random 100));
 	_supportGroup reveal [_laserTarget,4];
 	if (!isNull (gunner _vehicle)) then {
@@ -335,7 +357,7 @@ if (_type isEqualTo 3) exitWith {
 	_supportProvider commandTarget _laserTarget;
 	_attackEnabled = attackEnabled _supportGroup;
 	_supportGroup enableAttack TRUE;
-	_supportGroup move [((getPosATL _laserTarget) select 0),((getPosATL _laserTarget) select 1),300];
+	_supportGroup move [((getPosATL _laserTarget) # 0),((getPosATL _laserTarget) # 1),300];
 	private _unit = objNull;
 	{
 		_unit = _x;
@@ -349,7 +371,7 @@ if (_type isEqualTo 3) exitWith {
 	private _exit = FALSE;
 	_vehicle setVehicleAmmo 1;
 	_supportGroup setCombatMode 'RED';
-	_supportGroup setBehaviourStrong 'COMBAT';
+	_supportGroup setBehaviour 'COMBAT';
 	for '_x' from 0 to 1 step 0 do {
 		_time = time;
 		if (
@@ -357,11 +379,11 @@ if (_type isEqualTo 3) exitWith {
 			{(!alive _vehicle)} ||
 			{(isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'})} ||
 			{(_exit)} ||
-			{(diag_tickTime > _duration)}
+			{(serverTime > _duration)}
 		) exitWith {};
 		if (_time > _targetDelay) then {
 			if ((behaviour _supportProvider) isNotEqualTo 'COMBAT') then {
-				_supportGroup setBehaviourStrong 'COMBAT';
+				_supportGroup setBehaviour 'COMBAT';
 			};
 			if ((combatMode _supportGroup) isNotEqualTo 'RED') then {
 				_supportGroup setCombatMode 'RED';
@@ -389,23 +411,15 @@ if (_type isEqualTo 3) exitWith {
 	_vehicle setVehicleAmmo 1;
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _targetAssistant) then {
 		deleteVehicle _targetAssistant;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
+		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _supportGroup) then {
 		_supportGroup enableAttack _attackEnabled;
-		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,FALSE];
+		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
 	};
 	_vehicle flyInHeightASL [500,(300 + (random 100)),(500 + (random 500))];
 	_supportProvider commandWatch objNull;

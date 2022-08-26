@@ -19,13 +19,12 @@ _worldName = worldName;
 _worldSize = worldSize;
 _basePosition = markerPos 'QS_marker_base_marker';
 _fobPosition = markerPos 'QS_marker_module_fob';
-private _isHCActive = missionNamespace getVariable ['QS_HC_Active',FALSE];
 private _fn_blacklist = {TRUE};
 if (_worldName isEqualTo 'Tanoa') then {
 	_fn_blacklist = {
 		private _c = TRUE;
 		{
-			if ((_this distance2D (_x select 0)) < (_x select 1)) exitWith {
+			if ((_this distance2D (_x # 0)) < (_x # 1)) exitWith {
 				_c = FALSE;
 			};
 		} count [
@@ -89,7 +88,7 @@ if (_type isEqualTo 0) exitWith {
 		} else {
 			_spawnPos = [_igPos,250,500,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 		};
-		if (!(_spawnPos isEqualTo [])) then {
+		if (_spawnPos isNotEqualTo []) then {
 			if ((_allPlayers inAreaArray [_spawnPos,300,300,0,FALSE]) isEqualTo []) then {
 				if ((_spawnPos distance2D _igPos) < 1001) then {
 					if (_spawnPos call _fn_blacklist) then {
@@ -108,14 +107,14 @@ if (_type isEqualTo 0) exitWith {
 		{	
 			_building = _x;
 			_buildingPositions = [_building,(_building buildingPos -1)] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
-			if (!(_buildingPositions isEqualTo [])) then {
+			if (_buildingPositions isNotEqualTo []) then {
 				{
 					_moveData pushBack _x;
 				} forEach _buildingPositions;
 			};
 		} forEach _composition;
-		if (!(_moveData isEqualTo [])) then {
-			_moveData = _moveData apply {[(_x select 0),(_x select 1),((_x select 2) + 1)]};
+		if (_moveData isNotEqualTo []) then {
+			_moveData = _moveData apply {[(_x # 0),(_x # 1),((_x # 2) + 1)]};
 			_moveType = 'ATTACK_2';
 		} else {
 			_moveData = _igPos;
@@ -126,12 +125,13 @@ if (_type isEqualTo 0) exitWith {
 			_enemyUnitType = selectRandomWeighted _unitTypes;
 			_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPos,[],10,'NONE'];
 			_enemyUnit setVehiclePosition [(getPosWorld _enemyUnit),[],10,'NONE'];
-			_enemyUnit disableAI 'COVER';
-			_enemyUnit disableAI 'AUTOCOMBAT';
+			{
+				_enemyUnit enableAIFeature [_x,FALSE];
+			} forEach ['COVER','AUTOCOMBAT'];
 			_enemyUnit setAnimSpeedCoef _grpSpeedCoef;
 			_enemyUnit enableStamina FALSE;
 			_enemyUnit enableFatigue FALSE;
-			_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_enemyUnit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 			_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			[_enemyUnit] joinSilent _enemyGrp;
 			_enemyUnits pushBack _enemyUnit;
@@ -142,14 +142,12 @@ if (_type isEqualTo 0) exitWith {
 		_enemyGrp setBehaviour 'AWARE';
 		_enemyGrp setSpeedMode 'FULL';
 		[(units _enemyGrp),(selectRandomWeighted [1,0.5,2,0.5])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-		_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP_DATA',[],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP_TASK',[_moveType,_moveData,diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		_enemyGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		if (_isHCActive) then {
-			_enemyGrp setVariable ['QS_grp_HC',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-		};	
+		_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_TASK',[_moveType,_moveData,serverTime,-1],QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_enemyGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		_enemyGrp move _igPos;
 	};
 	_enemyUnits;

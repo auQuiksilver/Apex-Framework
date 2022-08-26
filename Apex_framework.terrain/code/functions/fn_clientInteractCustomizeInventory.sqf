@@ -23,7 +23,7 @@ uiNamespace setVariable ['RscAttributeInventory_list',nil];
 createDialog 'RscDisplayAttributesInventory';
 if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 [_cursorObject] spawn {
-	_entity = _this select 0;
+	_entity = _this # 0;
 	50 cutText ['Please wait ...','PLAIN',1];
 	[5] spawn (missionNamespace getVariable 'QS_fnc_clientDisableUserInput');
 	waitUntil {
@@ -55,15 +55,15 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 	
 	];
 	{
-		_addon = tolower _x;
+		_addon = toLowerANSI _x;
 		_addonList = [[],[],[],[],[],[],[],[],[],[],[],[]];
 		_addonID = _weaponAddons find _addon;
 		if (_addonID < 0) then {
 			{
-				_weapon = tolower _x;
+				_weapon = toLowerANSI _x;
 				_weaponType = (_weapon call bis_fnc_itemType);
-				_weaponTypeCategory = _weaponType select 0;
-				_weaponTypeSpecific = _weaponType select 1;
+				_weaponTypeCategory = _weaponType # 0;
+				_weaponTypeSpecific = _weaponType # 1;
 				_weaponTypeID = -1;
 				{
 					if (_weaponTypeSpecific in _x) exitwith {_weaponTypeID = _foreachindex;};
@@ -71,7 +71,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 				if (_weaponTypeCategory != "VehicleWeapon" && _weaponTypeID >= 0) then {
 					_weaponCfg = configfile >> "cfgweapons" >> _weapon;
 					_weaponPublic = getnumber (_weaponCfg >> "scope") isEqualTo 2;
-					_addonListType = _addonList select _weaponTypeID;
+					_addonListType = _addonList # _weaponTypeID;
 					if (_weaponPublic) then {
 						_displayName = gettext (_weaponCfg >> "displayName");
 						_picture = gettext (_weaponCfg >> "picture");
@@ -91,7 +91,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 					};
 					if (_weaponPublic || _weapon in ["throw","put"]) then {
 						{
-							_muzzle = if (_x == "this") then {_weaponCfg} else {_weaponCfg >> _x};
+							_muzzle = if (_x isEqualTo "this") then {_weaponCfg} else {_weaponCfg >> _x};
 							_magazinesList = getArray (_muzzle >> "magazines");
 							// Add magazines from magazine wells
 							{
@@ -100,8 +100,8 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 								} foreach  configProperties [configFile >> "CfgMagazineWells" >> _x, "isArray _x"];
 							} foreach getArray (_muzzle >> "magazineWell");
 							{
-								_mag = tolower _x;
-								if ((_addonListType findIf {((_x select 2) == _mag)}) isEqualTo -1) then {
+								_mag = toLowerANSI _x;
+								if ((_addonListType findIf {((_x # 2) == _mag)}) isEqualTo -1) then {
 									_magCfg = configfile >> "cfgmagazines" >> _mag;
 									if (getnumber (_magCfg >> "scope") isEqualTo 2) then {
 										_displayName = gettext (_magCfg >> "displayName");
@@ -116,9 +116,9 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 				};
 			} foreach getarray (configfile >> "cfgpatches" >> _x >> "weapons");
 			{
-				_weapon = tolower _x;
+				_weapon = toLowerANSI _x;
 				_weaponType = _weapon call bis_fnc_itemType;
-				_weaponTypeSpecific = _weaponType select 1;
+				_weaponTypeSpecific = _weaponType # 1;
 				_weaponTypeID = -1;
 				{
 					if (_weaponTypeSpecific in _x) exitwith {_weaponTypeID = _foreachindex;};
@@ -128,7 +128,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 					if (getnumber (_weaponCfg >> "scope") isEqualTo 2) then {
 						_displayName = gettext (_weaponCfg >> "displayName");
 						_picture = gettext (_weaponCfg >> "picture");
-						_addonListType = _addonList select _weaponTypeID;
+						_addonListType = _addonList # _weaponTypeID;
 						_addonListType pushback [_displayName,_displayName,_weapon,_picture,3,false];
 					};
 				};
@@ -139,7 +139,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 			_addonList = _weaponAddons select (_addonID + 1);
 		};
 		{
-			_current = _list select _foreachindex;
+			_current = _list # _forEachIndex;
 			_list set [_foreachindex,_current + (_x - _current)];
 		} foreach _addonList;
 	} foreach activatedAddons;
@@ -158,21 +158,21 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 		_entity call (missionNamespace getVariable 'BIS_fnc_getVirtualBackpackCargo')
 	];
 	{
-		_xCargo = _cargo select _foreachindex;
+		_xCargo = _cargo # _forEachIndex;
 		{
-			_index = (_xCargo select 0) find _x;
+			_index = (_xCargo # 0) find _x;
 			if (_index < 0) then {
-				(_xCargo select 0) set [count (_xCargo select 0),_x];
-				(_xCargo select 1) set [count (_xCargo select 1),-1];
+				(_xCargo # 0) set [count (_xCargo # 0),_x];
+				(_xCargo # 1) set [count (_xCargo # 1),-1];
 			} else {
-				(_xCargo select 1) set [_index,-1];
+				(_xCargo # 1) set [_index,-1];
 			};
 		} foreach _x;
 	} foreach _virtualCargo;
 	RscAttributeInventory_cargo = [[],[]];
 	{
-		RscAttributeInventory_cargo set [0,(RscAttributeInventory_cargo select 0) + (_x select 0)];
-		RscAttributeInventory_cargo set [1,(RscAttributeInventory_cargo select 1) + (_x select 1)];
+		RscAttributeInventory_cargo set [0,(RscAttributeInventory_cargo # 0) + (_x # 0)];
+		RscAttributeInventory_cargo set [1,(RscAttributeInventory_cargo # 1) + (_x # 1)];
 	} foreach _cargo;
 	RscAttributeInventory_selected = 0;
 	playSound ['Click',FALSE];
@@ -207,7 +207,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 				_index = 0;
 				for '_x' from 0 to ((count _backpackCargo) - 1) step 1 do {
 					if (_index >= _cfgTransportMaxBackpacks) exitWith {};
-					_entity addBackpackCargoGlobal [(_backpackCargo select _index),1];
+					_entity addBackpackCargoGlobal [(_backpackCargo # _index),1];
 					_index = _index + 1;
 				};
 			};
@@ -218,7 +218,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 				_index = 0;
 				for '_x' from 0 to ((count _magazineCargo) - 1) step 1 do {
 					if (_index >= _cfgTransportMaxMagazines) exitWith {};
-					_entity addMagazineCargoGlobal [(_magazineCargo select _index),1];
+					_entity addMagazineCargoGlobal [(_magazineCargo # _index),1];
 					_index = _index + 1;
 				};
 			};
@@ -229,7 +229,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 				_index = 0;
 				for '_x' from 0 to ((count _weaponCargo) - 1) step 1 do {
 					if (_index >= _cfgTransportMaxWeapons) exitWith {};
-					_entity addWeaponCargoGlobal [(_weaponCargo select _index),1];
+					_entity addWeaponCargoGlobal [(_weaponCargo # _index),1];
 					_index = _index + 1;
 				};
 			};

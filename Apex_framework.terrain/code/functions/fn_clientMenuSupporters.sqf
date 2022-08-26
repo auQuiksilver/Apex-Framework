@@ -16,12 +16,12 @@ __________________________________________________________*/
 disableSerialization;
 private ['_type','_display'];
 
-_type = _this select 0;
+_type = _this # 0;
 
 if (_type isEqualTo 'onLoad') exitWith {
 	(findDisplay 2000) closeDisplay 1;
 	(findDisplay 3000) closeDisplay 1;
-	_display = _this select 1;
+	_display = _this # 1;
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	(_display displayCtrl 1804) ctrlEnable FALSE;
 	(_display displayCtrl 1807) ctrlEnable TRUE;

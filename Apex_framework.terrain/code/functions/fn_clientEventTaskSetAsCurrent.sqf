@@ -20,7 +20,7 @@ ___________________________________________________________________*/
 
 params ['_unit','_task'];
 {
-	if (!(_x isEqualTo _task)) then {
+	if (_x isNotEqualTo _task) then {
 		if (taskAlwaysVisible _x) then {
 			_x setSimpleTaskAlwaysVisible FALSE;
 		};

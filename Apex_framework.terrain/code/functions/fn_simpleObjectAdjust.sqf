@@ -64,15 +64,15 @@ private _textures 	 = _data param [7, [], [[]]];
 
 //animate
 {
-	//["[ ] anim: %1 | state: %2",_x select 0, _x select 1] call bis_fnc_logFormat; sleep 1;
+	//["[ ] anim: %1 | state: %2",_x # 0, _x # 1] call bis_fnc_logFormat; sleep 1;
 
-	_object animate [_x select 0, _x select 1, true];
+	_object animate [_x # 0, _x # 1, true];
 }
 forEach _animate;
 
 //adjust vertical placement
 private _pos = getPosWorld _object;
-private _posVert = _pos select 2;
+private _posVert = _pos # 2;
 
 if (_class != "") then
 {
@@ -97,11 +97,11 @@ forEach _textures;
 //flip simple object if necessary
 private _vectorDir = vectorDirVisual _object;
 
-if (_reversed == 1) then
+if (_reversed isEqualTo 1) then
 {
-	_object setVectorDir [-(_vectorDir select 0),-(_vectorDir select 1),-(_vectorDir select 2)];
+	_object setVectorDir [-(_vectorDir # 0),-(_vectorDir # 1),-(_vectorDir # 2)];
 }
 else
 {
-	_object setVectorDir [(_vectorDir select 0),(_vectorDir select 1),(_vectorDir select 2)];
+	_object setVectorDir [(_vectorDir # 0),(_vectorDir # 1),(_vectorDir # 2)];
 };

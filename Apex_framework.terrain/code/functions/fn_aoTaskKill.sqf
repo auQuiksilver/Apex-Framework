@@ -53,14 +53,14 @@ _enemyUnit spawn {
 	uiSleep 5;
 	_this allowDamage TRUE;
 };
-_enemyGrp enableAttack TRUE;
+_enemyGrp enableAttack FALSE;
 _enemyUnit setAnimSpeedCoef 1.15;
 _enemyUnit enableFatigue FALSE;
 _enemyUnit enableStamina FALSE;
 _enemyUnit addEventHandler [
 	'FiredMan',
 	{
-		(_this select 0) setVehicleAmmo 1;
+		(_this # 0) setVehicleAmmo 1;
 	}
 ];
 private _primaryWeapon = '';
@@ -100,13 +100,13 @@ for '_x' from 0 to 2 step 1 do {
 		_radialPatrolPositions pushBack _patrolPosition;
 	};
 };
-_enemyGrp setBehaviourStrong 'AWARE';
+_enemyGrp setBehaviour 'AWARE';
 _enemyGrp setCombatMode 'RED';
 if ((random 1) > 0.333) then {
 	_enemyGrp setVariable ['QS_AI_GRP',TRUE,FALSE];
 	_enemyGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _enemyGrp))],FALSE];
 	_enemyGrp setVariable ['QS_AI_GRP_DATA',[],FALSE];
-	_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,diag_tickTime,-1],FALSE];
+	_enemyGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,serverTime,-1],FALSE];
 	_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 };
 _taskPosition = _testPosition getPos [(50 + (random 100)),(random 360)];

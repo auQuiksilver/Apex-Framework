@@ -14,7 +14,7 @@ Description:
 ___________________________________________________/*/
 
 private ['_defensePos','_airdefenseGroup','_defender','_nearAir','_duration','_cooldown','_relPos','_defenderType','_gunner'];
-_nearAir = _this select 0;
+_nearAir = _this # 0;
 _duration = time + 300;	// online for x seconds
 _cooldown = time + 900;	// unavailable for x seconds
 _defensePos = markerPos 'QS_marker_airbaseDefense';
@@ -30,7 +30,7 @@ _defenderType = selectRandomWeighted [
 /*/
 _defender = createVehicle [_defenderType,[-500,-500,50],[],0,'NONE'];
 _defender allowDamage FALSE;
-_defender allowCrewInImmobile TRUE;
+_defender allowCrewInImmobile [TRUE,TRUE];
 _defender enableVehicleCargo FALSE;
 _defender enableRopeAttach FALSE;
 _worldName = worldName;
@@ -45,7 +45,7 @@ _defender setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 _defender setVariable ['QS_inventory_disabled',TRUE,TRUE];
 _defender setVehicleReportRemoteTargets FALSE;
 _defender setVehicleReceiveRemoteTargets FALSE;
-if ((toLower _defenderType) in ['b_sam_system_01_f','b_sam_system_02_f','b_sam_system_03_f']) then {
+if ((toLowerANSI _defenderType) in ['b_sam_system_01_f','b_sam_system_02_f','b_sam_system_03_f']) then {
 	_defender addEventHandler [
 		'Fired',
 		{
@@ -72,21 +72,16 @@ _gunner setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 _defender setVariable ['QS_hidden',TRUE,TRUE];
 _gunner setVariable ['QS_hidden',TRUE,TRUE];
 _airdefenseGroup deleteGroupWhenEmpty TRUE;
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 2),
-	FALSE
-];
 _gunner addRating (0 - (rating _gunner));
 _gunner allowDamage FALSE;
 [[_gunner],1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _gunner setSkill ['aimingAccuracy',0.075];
 _airdefenseGroup setFormDir 135;
 _relPos = markerPos 'QS_marker_aoMarker';
-_gunner doWatch [(_relPos select 0),(_relPos select 1),((_relPos select 2) + 2000)];
-_airdefenseGroup setBehaviourStrong 'AWARE';
+_gunner doWatch [(_relPos # 0),(_relPos # 1),((_relPos # 2) + 2000)];
+_airdefenseGroup setBehaviour 'AWARE';
 _airdefenseGroup setCombatMode 'RED';
-[[_defender],{player disableUAVConnectability [(_this select 0),TRUE];}] remoteExec ['call',-2,_defender];
+[[_defender],{player disableUAVConnectability [(_this # 0),TRUE];}] remoteExec ['call',-2,_defender];
 if (_nearAir isNotEqualTo []) then {
 	{
 		_airdefenseGroup reveal [_x,4];

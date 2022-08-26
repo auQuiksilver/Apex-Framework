@@ -446,7 +446,7 @@ _QS_ctrl_23 ctrlSetTextColor [1,1,1,1];
 _QS_ctrl_23 ctrlSetBackgroundColor [0,0,0,1];
 _QS_ctrl_23 ctrlCommit 0;
 _controls pushBack _QS_ctrl_23;
-_QS_buttonAction = "['REQUEST_ROLE',(getPlayerUID player),((uiNamespace getVariable ['QS_client_roles_menu_selectedRole',[]]) select 1),((uiNamespace getVariable ['QS_client_roles_menu_selectedRole',[]]) select 0),player,clientOwner] call (missionNamespace getVariable 'QS_fnc_roles')";
+_QS_buttonAction = "['REQUEST_ROLE',(getPlayerUID player),((uiNamespace getVariable ['QS_client_roles_menu_selectedRole',[]]) # 1),((uiNamespace getVariable ['QS_client_roles_menu_selectedRole',[]]) # 0),player,clientOwner] call (missionNamespace getVariable 'QS_fnc_roles')";
 _QS_ctrl_23 buttonSetAction _QS_buttonAction;
 _QS_ctrlCreateArray = ['RscFrame',116];
 _QS_ctrl_24 = _display ctrlCreate _QS_ctrlCreateArray;

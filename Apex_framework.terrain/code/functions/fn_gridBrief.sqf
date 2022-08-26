@@ -53,13 +53,13 @@ if (_type isEqualTo 1) exitWith {
 		'QS_marker_aoMarker',
 		'QS_marker_aoCircle'
 	];
-	if (!((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isEqualTo 0)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0) then {
 		[objNull,_centroid] remoteExec ['QS_fnc_respawnOPFOR',[EAST,RESISTANCE],FALSE];
 	};
 	_centroidOffset = [
-		((_centroid select 0) + 1000),
-		((_centroid select 1) + 300),
-		(_centroid select 2)
+		((_centroid # 0) + 1000),
+		((_centroid # 1) + 300),
+		(_centroid # 2)
 	];	
 	'QS_marker_grid_civState' setMarkerTextLocal (format ['%1No civilian casualties',(toString [32,32,32])]);
 	'QS_marker_grid_civState' setMarkerColorLocal 'ColorCIVILIAN';

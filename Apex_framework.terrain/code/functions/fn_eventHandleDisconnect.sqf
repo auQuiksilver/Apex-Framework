@@ -47,10 +47,8 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						scriptName 'QS Script RTB';
 						sleep 0.5;
 						params ['_vehicle','_name'];
-						private ['_grp','_unit','_wp','_posToGo','_helipad'];
-						_grp = createGroup [WEST,TRUE];
+						private _grp = createGroup [WEST,TRUE];
 						private _unit = _grp createUnit [(if (_vehicle isKindOf 'Helicopter') then [{'B_helipilot_F'},{'B_pilot_F'}]),[6946,7450,0],[],0,'NONE'];
-						missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 						_unit setUnitTrait ['QS_trait_pilot',TRUE,TRUE];
 						removeAllWeapons _unit;
 						removeAllItems _unit;
@@ -124,7 +122,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							}
 						];
 						{
-							_unit disableAI _x;
+							_unit enableAIFeature [_x,FALSE];
 						} forEach [
 							'AUTOCOMBAT',
 							'TARGET',
@@ -133,15 +131,13 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						];
 						_unit setSkill 0;
 						private _baseID = 0;
+						private _posToGo = _vehicle getVariable ['QS_heli_spawnPosition',(markerPos 'QS_marker_base_marker')];
 						if (worldName isEqualTo 'Tanoa') then {
 							_posToGo = _vehicle getVariable ['QS_heli_spawnPosition',[6946,7450,0]];
 							_baseID = 0;
-						} else {
-							_posToGo = _vehicle getVariable ['QS_heli_spawnPosition',(markerPos 'QS_marker_base_marker')];
-							_baseID = 0;
 						};
 						if (_vehicle isKindOf 'Helicopter') then {
-							_wp = _grp addWaypoint [_posToGo,30];
+							private _wp = _grp addWaypoint [_posToGo,30];
 							_wp setWaypointType 'GETOUT';
 							_wp setWaypointBehaviour 'CARELESS';
 							_wp setWaypointSpeed 'FULL';
@@ -149,15 +145,14 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							_wp setWaypointPosition [_posToGo,0];
 							_wp setWaypointStatements ['TRUE','if (local this) then {(vehicle this) land "get out";if (!isNull ((vehicle this) getVariable ["QS_heli_landingPad",objNull])) then {(vehicle this) landAt ((vehicle this) getVariable "QS_heli_landingPad");} else {};};'];
 							_vehicle forceSpeed (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'maxSpeed'));
-							_helipad = 'Land_HelipadEmpty_F' createVehicleLocal _posToGo;
+							private _helipad = 'Land_HelipadEmpty_F' createVehicleLocal _posToGo;
 							_vehicle setVariable ['QS_heli_landingPad',_helipad,FALSE];
-							missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
 							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_helipad,'DELAYED_FORCED',(time + 600)];
 						} else {
 							if (_vehicle isKindOf 'Plane') then {
 								_vehicle assignToAirport _baseID;
 								_vehicle landAt _baseID;
-								_wp = _grp addWaypoint [_posToGo,30];
+								private _wp = _grp addWaypoint [_posToGo,30];
 								_wp setWaypointType 'GETOUT';
 								_wp setWaypointBehaviour 'CARELESS';
 								_wp setWaypointSpeed 'FULL';
@@ -229,7 +224,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 };
 if (!isNil {_object getVariable 'QS_ClientVTexture'}) then {
 	private _clientVTexture = _object getVariable 'QS_ClientVTexture';
-	private _v = _clientVTexture select 0;
+	private _v = _clientVTexture # 0;
 	if (!isNull _v) then {
 		if (alive _v) then {
 			if ((typeOf _v) in ['I_MRAP_03_F','I_MRAP_03_hmg_F','I_MRAP_03_gmg_F']) then {
@@ -248,7 +243,7 @@ if (!isNil {_object getVariable 'QS_ClientVTexture'}) then {
 diag_log (format ['***** PLAYER DISCONNECT: ***** %1 ***** %2 * %3 ****',time,_uid,_name]);
 if (_uid in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	[_object] spawn {
-		_object = _this select 0;
+		_object = _this # 0;
 		_module = getAssignedCuratorLogic _object;
 		if (!isNull _module) then {
 			_grp = group _module;

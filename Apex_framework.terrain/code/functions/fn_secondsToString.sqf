@@ -5,8 +5,8 @@
 	Convert seconds to formatted string.
 	
 	Parameter(s):
-	_this select 0: <scalar> time in seconds
-	_this select 1 (Optional): <string> format
+	_this # 0: <scalar> time in seconds
+	_this # 1 (Optional): <string> format
 		"HH"			- Hours
 		"HH:MM"			- Hours:Minutes
 		"HH:MM:SS"		- Hours:Minutes:Seconds (Default)
@@ -15,7 +15,7 @@
 		"MM:SS"			- Minutes:Seconds
 		"MM:SS.MS"		- Minutes:Seconds:Milliseconds
 		"SS.MS"			- Seconds:Milliseconds
-	_this select 2 (Optional): <boolean> return as Array (default: false)
+	_this # 2 (Optional): <boolean> return as Array (default: false)
 	
 	Returns:
 	String or Array of Strings

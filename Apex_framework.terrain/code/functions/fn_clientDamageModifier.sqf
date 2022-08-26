@@ -35,6 +35,9 @@ if (isNull (objectParent _unit)) then {
 							_return = 0.05;
 						};
 					};
+					if (_source getVariable ['QS_AI_ignoreDamageReduction',FALSE]) then {
+						_return = 1;
+					};
 				};
 			};
 		};

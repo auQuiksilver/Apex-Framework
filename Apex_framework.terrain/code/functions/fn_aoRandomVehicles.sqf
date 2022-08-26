@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	2/10/2017 A3 1.76 by Quiksilver
+	20/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -19,28 +19,32 @@ private _spawnPosition = [0,0,0];
 private _vehicle = objNull;
 private _vehicleType = '';
 private _vehicleTypesWeighted = [
-	'C_Hatchback_01_F',0.1,
-	'C_Offroad_02_unarmed_F',0.5,
+	//'C_Hatchback_01_F',0.1,
+	//'C_Offroad_02_unarmed_F',0.5,
 	//'C_Offroad_01_F',0.3,			// bugged by Bohemia, spawns floating above ground. we could do a workaround but, meh ... Re-enable once they fix it
-	'C_SUV_01_F',0.1,
-	'C_Van_01_transport_F',0.3,
-	'C_Van_02_transport_F',0.3,
+	//'C_SUV_01_F',0.1,
+	//'C_Van_01_transport_F',0.3,
+	//'C_Van_02_transport_F',0.3,
 	'C_Truck_02_transport_F',0.2,
 	'C_Truck_02_covered_F',0.2,
-	'B_G_Offroad_01_armed_F',0.4,
+	'B_G_Offroad_01_armed_F',0.5,
 	'B_G_Offroad_01_F',0.3,
 	'B_G_Van_02_transport_F',0.3,
 	//'B_G_Offroad_01_AT_F',0.3,		// bugged by Bohemia, spawns floating above ground. we could do a workaround but, meh ... Re-enable once they fix it
-	'I_C_Offroad_02_LMG_F',0.3,
-	'I_C_Offroad_02_AT_F',0.3
+	'I_C_Offroad_02_LMG_F',0.5,
+	'I_C_Offroad_02_AT_F',0.5
 ];
-for '_x' from 0 to 2 step 1 do {
-	_spawnPosition = ['RADIUS',_centerPos,_centerRadius,'LAND',[],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if ((_spawnPosition distance2D _centerPos) <= _centerRadius) then {
+private _max = 3;
+private _count = 0;
+_registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[[0,0,0]]];
+for '_i' from 0 to 14 step 1 do {
+	_vehicleType = selectRandomWeighted _vehicleTypesWeighted;
+	_spawnPosition = ['RADIUS',_centerPos,_centerRadius,'LAND',[],TRUE,[],[0,30,_vehicleType],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+	if ((_registeredPositions inAreaArray [_spawnPosition,30,30,0,FALSE]) isEqualTo []) then {
 		if (((_spawnPosition select [0,2]) nearRoads 15) isEqualTo []) then {
+			_count = _count + 1;
 			_spawnPosition set [2,0];
-			_vehicle = createSimpleObject [(selectRandomWeighted _vehicleTypesWeighted),(ATLToASL _spawnPosition)];
-			missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 1),FALSE];
+			_vehicle = createSimpleObject [_vehicleType,ATLToASL _spawnPosition];
 			_vehicle setDir (random 360);
 			_vehicle setVectorUp (surfaceNormal _spawnPosition);
 			_vehicle setVariable ['QS_vehicle_prop',TRUE,TRUE];
@@ -48,4 +52,5 @@ for '_x' from 0 to 2 step 1 do {
 			(missionNamespace getVariable 'QS_ao_civVehicles') pushBack _vehicle;
 		};
 	};
+	if (_count >= _max) exitWith {};
 };

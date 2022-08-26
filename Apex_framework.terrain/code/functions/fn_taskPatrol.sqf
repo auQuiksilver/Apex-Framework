@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/10/2017 A3 1.76 by Quiksilver
+	22/08/2022 A3 1.76 by Quiksilver
 	
 Description:
 
@@ -14,38 +14,39 @@ Description:
 __________________________________________________/*/
 
 params ['_grp','_pos','_maxDist',['_QS_new',FALSE]];
-private [
-	'_grpBehaviour','_grpWPFormations','_grpWPSpeed','_grpWPType','_grpWPCombatMode','_prevPos','_wp','_newPos','_n',
-	'_combatModes','_foundPos','_behaviours','_patrolRoute','_QS_new','_grpVehicle','_isWaterPatrol','_exit','_waterMode'
-];
-_isWaterPatrol = FALSE;
-_waterMode = 0;
-_grpVehicle = objectParent (leader _grp);
+private _isWaterPatrol = FALSE;
+private _waterMode = 0;
+private _grpVehicle = objectParent (leader _grp);
 if (!isNil '_grpvehicle') then {
 	if (_grpVehicle isKindOf 'Ship') then {
 		_isWaterPatrol = TRUE;
 		_waterMode = 2;
 	} else {
-		if (['wet',(uniform ((units _grp) select 0)),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
+		if (['wet',(uniform ((units _grp) # 0)),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 			_isWaterPatrol = TRUE;
 			_waterMode = 2;
 		};
 	};
 };
-_grp setBehaviour 'SAFE';
-_grp enableAttack TRUE;
+//_grp enableAttack TRUE;
 {
 	_x enableStamina FALSE;
 	_x enableFatigue FALSE;
 } count (units _grp);
-_prevPos = _pos;
+private _prevPos = _pos;
 if (!(_prevPos isEqualType [])) exitWith {diag_log '***** DEBUG ***** fn_taskPatrol ***** pos is not a valid type *****';};
 if (!((count _prevPos) >= 2)) exitWith {diag_log '***** DEBUG ***** fn_taskPatrol ***** pos does not have enough values *****';};
-_combatModes = ['WHITE','YELLOW','RED'];
-_behaviours = ['SAFE','AWARE','COMBAT'];
-_patrolRoute = [_pos];
-_exit = FALSE;
-for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
+private _combatModes = ['WHITE','YELLOW','RED'];
+private _behaviours = ['SAFE','AWARE','COMBAT'];
+private _grpBehaviour = 'SAFE';
+private _patrolRoute = [_pos];
+private _exit = FALSE;
+private _grpWPFormations = selectRandom (['STAG COLUMN','WEDGE','ECH LEFT','ECH RIGHT','VEE','LINE','FILE','DIAMOND']);
+private _grpWPSpeed = 'LIMITED';
+private _grpWPType = 'MOVE';
+private _grpWPCombatMode = selectRandom _combatModes;
+private _newPos = _pos;
+for '_x' from 0 to (2 + (selectRandom [1,2])) step 1 do {
 	for '_x' from 0 to 99 step 1 do {
 		_newPos = [_prevPos,50,_maxDist,0.1,_waterMode,0.75,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 		if ((_newPos distance2D _prevPos) < (_maxDist + 100)) then {
@@ -65,7 +66,7 @@ for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
 	};
 	_prevPos = _newPos;
 	if (_QS_new) then {
-		_newPos set [2,((_newPos select 2) + 1)];
+		_newPos set [2,((_newPos # 2) + 1)];
 		_patrolRoute pushBack _newPos;
 	} else {
 		if ((random 1) > 0.2) then {
@@ -80,7 +81,7 @@ for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
 		if (surfaceIsWater _newPos) then {
 		
 		} else {
-			_newPos set [2,((_newPos select 2) + 1)];
+			_newPos set [2,((_newPos # 2) + 1)];
 		};
 		[
 			_grp,
@@ -105,13 +106,13 @@ for '_x' from 0 to (2 + (floor (random 2))) step 1 do {
 	};
 };
 if (_QS_new) then {
-	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,-1,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,-1,-1],QS_system_AI_owners];
+	_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
 } else {
 	if (surfaceIsWater _pos) then {
 
 	} else {
-		_pos set [2,((_pos select 2) + 1.5)];
+		_pos set [2,((_pos # 2) + 1.5)];
 	};
 	[
 		_grp,

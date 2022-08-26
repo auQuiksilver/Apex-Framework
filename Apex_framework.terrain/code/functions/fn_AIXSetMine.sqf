@@ -30,12 +30,12 @@ params [
 private _magazineDetail = '';
 if (_addMagazine) then {
 	if (['explosive charge',_mineType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-		if (((magazines _unit) findIf {((toLower _x) isEqualTo 'democharge_remote_mag')}) isEqualTo -1) then {
+		if (((magazines _unit) findIf {((toLowerANSI _x) isEqualTo 'democharge_remote_mag')}) isEqualTo -1) then {
 			_unit addMagazine 'DemoCharge_Remote_Mag';
 		};
 	};
 	if (['satchel',_mineType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-		if (((magazines _unit) findIf {((toLower _x) isEqualTo 'satchelcharge_remote_mag')}) isEqualTo -1) then {
+		if (((magazines _unit) findIf {((toLowerANSI _x) isEqualTo 'satchelcharge_remote_mag')}) isEqualTo -1) then {
 			_unit addMagazine 'SatchelCharge_Remote_Mag';
 		};
 	};
@@ -49,8 +49,8 @@ _magazinesDetail = magazinesDetail _unit;
 if (_magazineDetail isEqualTo '') exitWith {};
 _magazineDetailArray = _magazineDetail splitString '[]/:';
 reverse _magazineDetailArray;
-_mineCreator = parseNumber (_magazineDetailArray select 0);
-_mineID = parseNumber (_magazineDetailArray select 1);
+_mineCreator = parseNumber (_magazineDetailArray # 0);
+_mineID = parseNumber (_magazineDetailArray # 1);
 private _time = diag_tickTime;
 _timeout = diag_tickTime + _duration;
 _moveDelay = 15;
@@ -67,7 +67,7 @@ private _minePosition = if (_isTargetObject) then {(getPosATL _target)} else {_t
 _unit allowFleeing 0;
 _unit setUnitPos 'MIDDLE';
 {
-	_unit disableAI _x;
+	_unit enableAIFeature [_x,FALSE];
 } forEach [
 	'AUTOCOMBAT',
 	'COVER',
@@ -165,7 +165,7 @@ if (_exit) then {
 	};
 };
 {
-	_unit enableAI _x;
+	_unit enableAIFeature [_x,TRUE];
 } forEach [
 	'TARGET',
 	'AUTOTARGET',

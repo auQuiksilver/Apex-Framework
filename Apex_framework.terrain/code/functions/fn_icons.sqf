@@ -1038,6 +1038,22 @@ _QS_fnc_iconDrawMap = {
 			};
 		};
 	};
+	_grpWPPos = _grp getVariable ['QS_GRP_waypoint',[]];
+	if (_grpWPPos isNotEqualTo []) then {
+		_m drawIcon [
+			'A3\3DEN\Data\CfgWaypoints\Move_ca.paa',
+			[1,1,1,0.6],
+			_grpWPPos,
+			([24,1] select (_player isEqualTo _grpLeader)),
+			([24,1] select (_player isEqualTo _grpLeader)),
+			0,
+			groupId _grp,
+			2,
+			0.04,
+			'RobotoCondensed',
+			'right'
+		];
+	};
 	if (_player isEqualTo _grpLeader) then {
 		if ((groupSelectedUnits _player) isNotEqualTo []) then {
 			{
@@ -1110,12 +1126,14 @@ _QS_fnc_iconDrawMap = {
 			};
 		} forEach (missionNamespace getVariable 'QS_client_customDraw2D');
 	};
-	if (!(_gpsJammers isEqualTo [])) then {
+	if (_gpsJammers isNotEqualTo []) then {
 		{
-			_m drawEllipse [(_x # 2),(_x # 3),(_x # 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+			if (_x # 6) then {
+				_m drawEllipse [(_x # 2),(_x # 3),(_x # 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+			};
 		} forEach _gpsJammers;
 		{
-			_m drawIcon ['iconMan',[1,1,1,1],(_x # 2),0,0,0,'   GPS Jammer',2,0.04,'TahomaB','right'];
+			_m drawIcon ['iconMan',[1,1,1,1],(_x # 2),0,0,0,'GPS Jammer   ',2,0.04,'TahomaB','left'];
 		} forEach _gpsJammers;
 	};
 };
@@ -1191,7 +1209,9 @@ _QS_fnc_iconDrawGPS = {
 	};
 	if (_gpsJammers isNotEqualTo []) then {
 		{
-			_m drawEllipse [(_x # 2),(_x # 3),(_x # 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+			if (_x # 6) then {
+				_m drawEllipse [(_x # 2),(_x # 3),(_x # 3),0,[0.1,0.1,0.1,1],'#(rgb,8,8,3)color(0.6,0.6,0.6,1)'];
+			};
 		} forEach _gpsJammers;
 	};
 };
@@ -1278,7 +1298,7 @@ _QS_fnc_groupIconType = {
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];
 		_iconType;
 	};
-	if (_vehicleClass isEqualTo 'Static') exitWith {
+	if (_vehicleClass isEqualTo 'StaticWeapon') exitWith {
 		if (['mortar',_grpVehicle_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 			_iconType = _iconTypes # 10; 
 		} else {

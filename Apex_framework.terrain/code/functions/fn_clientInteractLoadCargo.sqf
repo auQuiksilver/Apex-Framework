@@ -13,7 +13,7 @@ Description:
 	Load Vehicle Transport Cargo
 _____________________________________________________________/*/
 
-(_this select 3) params ['_child','_parent'];
+(_this # 3) params ['_child','_parent'];
 if (
 	(!alive _parent) ||
 	{(!alive _child)}

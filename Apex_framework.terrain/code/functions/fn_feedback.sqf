@@ -34,7 +34,7 @@ BIS_EnginePPReset = false;
 ["HealthPP_fire"] call bis_fnc_rscLayer;
 ["HealthPP_black"] call bis_fnc_rscLayer;
 
-BIS_pulsingFreq = getnumber (configfile >> "cfgfirstaid" >> "pulsationSoundInterval");
+BIS_pulsingFreq = getNumber (configfile >> "cfgfirstaid" >> "pulsationSoundInterval");
 
 BIS_helper = 0.5;
 BIS_applyPP1 = true;
@@ -106,6 +106,17 @@ BIS_fnc_feedback_fatigueCC = ppEffectCreate ["ColorCorrections", 1615];
 BIS_fnc_feedback_fatigueRadialBlur = ppEffectCreate ["RadialBlur", 275];
 BIS_fnc_feedback_fatigueBlur = ppEffectCreate ["DynamicBlur", 175];
 
+BIS_suppressCC = ppEffectCreate ["colorCorrections", 1500];
+BIS_suppressCC ppEffectAdjust [1, 1, 0, [0, 0, 0, 0], [1, 1, 1, 1], [1, 1, 1, 0]];
+BIS_suppressCC ppEffectEnable TRUE;
+BIS_suppressCC ppEffectCommit 0;
+
+BIS_suppressImpactBlur = ppEffectCreate ["RadialBlur", 1010];
+BIS_suppressImpactBlur ppEffectAdjust [0, 0, 0, 0];
+BIS_suppressImpactBlur ppEffectCommit 0;
+BIS_suppressImpactBlur ppEffectEnable TRUE;
+BIS_suppressLastShotTime = diag_tickTime;
+
 private _QS_player = player;
 private _QS_lifeState = lifeState player;
 _fn_feedbackDamageChanged = missionNamespace getVariable 'QS_fnc_feedbackDamageChanged';
@@ -166,7 +177,7 @@ for '_z' from 0 to 1 step 0 do {
 	) then {
 		BIS_oldOxygen = getOxygenRemaining player;
 		BIS_applyPP5 = FALSE;
-		0 spawn _fn_feedbackSuffocating;	
+		0 spawn _fn_feedbackSuffocating;
 	};
 	
 	//----- Fatigue

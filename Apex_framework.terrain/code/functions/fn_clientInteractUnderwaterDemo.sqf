@@ -22,8 +22,8 @@ _cursorIntersections = lineIntersectsSurfaces [
 	1, 
 	'GEOM'
 ];
-if (!(_cursorIntersections isEqualTo [])) then {
-	_firstCursorIntersection = _cursorIntersections select 0;
+if (_cursorIntersections isNotEqualTo []) then {
+	_firstCursorIntersection = _cursorIntersections # 0;
 	_firstCursorIntersection params [
 		'_intersectPosASL',
 		'_surfaceNormal',

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	6/12/2017 A3 1.78 by Quiksilver
+	26/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -179,6 +179,20 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
+		'Vasily Zaytsev Memorial',
+		'Sniper accuracy.<br/><br/>Calculates hits and shots taken with a match-grade sniper rifle (Lynx and LRR).<br/><br/>Top 3 performers are added to a Sniper whitelist role at the end of the week, to last for the duration of the following week.'
+	]
+];
+player createDiaryRecord [
+	'QS_diary_leaderboards',
+	[
+		'Hot Shots',
+		'Track your accuracy!.<br/><br/>Calculates hits and shots taken with your primary weapon.<br/><br/>(Excludes: Launchers, pistols, vehicle weapons, and sniper rifles)'
+	]
+];
+player createDiaryRecord [
+	'QS_diary_leaderboards',
+	[
 		'Gitmo',
 		'Earn points by imprisoning enemies in "Gitmo".<br/><br/>Multipliers: n/a<br/><br/>Gitmo is marked on your map at base. See "Gitmo" diary tab for further details.'
 	]
@@ -200,8 +214,8 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Ear Slicers',
-		'Earn points by collecting human trophies (ears) from dead enemies.<br/><br/>Multipliers: n/a'
+		'Scalpers',
+		'Collect the Berets (hats) of enemy Commanders.<br/><br/>Multipliers: 1 for Black beret, 3 for Red beret'
 	]
 ];
 player createDiaryRecord [
@@ -222,7 +236,7 @@ player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
 		'General Info',
-		format ['<t size="2">Version 1.0</t><br/><br/>Leaderboards are reset each Monday at 00:01h.<br/><br/>Please report bugs and weird shit on the forums or to Quiksilver on TS.<br/><br/>To maintain performance and FPS, the leaderboards are synchronized every 5-10 minutes instead of continuously, and saved to database every 10-15 minutes. For this reason, points accumulated just prior to server restart may not be saved (*sadface*). Since it is new, we are experimenting with the best and most performance-friendly methods.<br/><br/>Thanks for your patience, %1!',profileName]
+		format ['<t size="2">Version 1.0</t><br/><br/>Leaderboards are reset each Monday at 00:01h.<br/><br/>To maintain performance and FPS, the leaderboards are not synchronized frequently, and only saved to database every 5-10 minutes. For this reason, points accumulated just prior to a server crash may not be saved (*sadface*).<br/><br/>Thanks for your patience, %1!',profileName]
 	]
 ];
 
@@ -244,6 +258,7 @@ player createDiaryRecord [
 		<br/>Gestures - [Ctrl]+[Numpad x]
 		<br/>Tactical Ping - %1
 		<br/>Open and close doors - [Space]
+		<br/>Raise and Lower sling ropes - [Page [Up/Down]]
 		',(actionKeysNames 'TacticalPing'),(actionKeysNames 'ReloadMagazine'),(actionKeysNames 'Diary'),(actionKeysNames 'Help'),(actionKeysNames 'GetOver'),(actionKeysNames 'Teamswitch')])
 	]
 ];

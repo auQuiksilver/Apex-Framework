@@ -19,8 +19,8 @@ if (!isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
 	uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',nil];
 };
 if (_key in (actionKeys 'TeamSwitch')) then {
-	if (!(_this select 2)) then {
-		if (!(_this select 3)) then {
+	if (!(_this # 2)) then {
+		if (!(_this # 3)) then {
 			if (isNil {uiNamespace getVariable 'BIS_dynamicGroups_ignoreInterfaceOpening'}) then {
 				if ((isNull (findDisplay 60490)) && {missionNamespace getVariable ['BIS_dynamicGroups_allowInterface',TRUE]}) then {
 					([] call (missionNamespace getVariable 'BIS_fnc_displayMission')) createDisplay 'RscDisplayDynamicGroups';

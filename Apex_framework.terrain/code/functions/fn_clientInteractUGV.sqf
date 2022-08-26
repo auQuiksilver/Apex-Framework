@@ -30,20 +30,20 @@ private _return = -1;
 if (_type isEqualTo 0) exitWith {
 	//comment 'Is eligible stomper for medical loading, return type BOOL';
 	_return = FALSE;
-	_return = (!(((attachedObjects _vehicle) select {
+	_return = (((attachedObjects _vehicle) select {
 		(
-			((!(isSimpleObject _x)) && ((toLower (typeOf _x)) in ['land_stretcher_01_f','land_stretcher_01_olive_f','land_stretcher_01_sand_f']) && (!(isObjectHidden _x))) ||
-			((isSimpleObject _x) && (((getModelInfo _x) select 1) isEqualTo 'a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d') && (!(isObjectHidden _x)))
+			((!(isSimpleObject _x)) && ((toLowerANSI (typeOf _x)) in ['land_stretcher_01_f','land_stretcher_01_olive_f','land_stretcher_01_sand_f']) && (!(isObjectHidden _x))) ||
+			((isSimpleObject _x) && (((getModelInfo _x) # 1) isEqualTo 'a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d') && (!(isObjectHidden _x)))
 		)
-	}) isEqualTo []));
+	}) isNotEqualTo []);
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
 	//comment 'Get available space, return type SCALAR';
 	_nStretchers = count ((attachedObjects _vehicle) select {
 		(
-			((!(isSimpleObject _x)) && ((toLower (typeOf _x)) in ['land_stretcher_01_f','land_stretcher_01_olive_f','land_stretcher_01_sand_f'])) ||
-			((isSimpleObject _x) && (((getModelInfo _x) select 1) isEqualTo 'a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d'))
+			((!(isSimpleObject _x)) && ((toLowerANSI (typeOf _x)) in ['land_stretcher_01_f','land_stretcher_01_olive_f','land_stretcher_01_sand_f'])) ||
+			((isSimpleObject _x) && (((getModelInfo _x) # 1) isEqualTo 'a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d'))
 		)
 	});
 	_nBodies = count ((attachedObjects _vehicle) select {
@@ -61,7 +61,7 @@ if (_type isEqualTo 2) exitWith {
 		_body setVariable ['QS_RD_loaded',TRUE,TRUE];
 		detach _body;
 		if (!isPlayer _body) then {
-			['disableAI',_body,'ANIM'] remoteExecCall ['QS_fnc_remoteExecCmd',_body];
+			['enableAIFeature',_body,['ANIM',FALSE]] remoteExecCall ['QS_fnc_remoteExecCmd',_body];
 		};
 		_body attachTo [_vehicle,_cargoPosition];
 		['switchMove',_body,'unconsciousrevivedefault_a'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
@@ -85,15 +85,15 @@ if (_type isEqualTo 3) exitWith {
 };
 if (_type isEqualTo 4) exitWith {
 	_list = ((_vehicle getRelPos [3,0]) nearEntities ['CAManBase',3]) select {(((lifeState _x) isEqualTo 'INCAPACITATED') && (isNull (attachedTo _x)) && (isNull (objectParent _x)))};
-	if (!(_list isEqualTo [])) then {
-		_unit = _list select 0;
+	if (_list isNotEqualTo []) then {
+		_unit = _list # 0;
 		[_vehicle,2,_unit] call (missionNamespace getVariable 'QS_fnc_clientInteractUGV');
 	};
 };
 if (_type isEqualTo 5) exitWith {
 	_list = (attachedObjects _vehicle) select {(_x isKindOf 'CAManBase')};
-	if (!(_list isEqualTo [])) then {
-		[_vehicle,3,(_list select 0)] call (missionNamespace getVariable 'QS_fnc_clientInteractUGV');
+	if (_list isNotEqualTo []) then {
+		[_vehicle,3,(_list # 0)] call (missionNamespace getVariable 'QS_fnc_clientInteractUGV');
 	};
 };
 _return;

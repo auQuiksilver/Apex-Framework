@@ -14,8 +14,8 @@ Description:
 ___________________________________________________________________/*/
 
 params ['_vehicle'];
-_vehicleType = toLower (typeOf _vehicle);
-_vehicle allowCrewInImmobile TRUE;
+_vehicleType = toLowerANSI (typeOf _vehicle);
+_vehicle allowCrewInImmobile [TRUE,TRUE];
 _vehicle lock 2;
 _vehicle lockDriver TRUE;
 _vehicle allowDamage FALSE;
@@ -26,7 +26,8 @@ _vehicle spawn {uiSleep 3;_this enableSimulationGlobal TRUE;uiSleep 3;_this allo
 	['QS_disableRefuel',TRUE,FALSE],
 	['QS_vehicle_markers',[],FALSE],
 	['QS_hidden',TRUE,TRUE],
-	['QS_reportTarget_disable',TRUE,TRUE]
+	['QS_reportTarget_disable',TRUE,TRUE],
+	['QS_AI_disableSuppFire',TRUE,FALSE]
 ];
 _vehicle setVehicleReceiveRemoteTargets TRUE;
 _vehicle setVehicleReportRemoteTargets TRUE;
@@ -39,14 +40,12 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 		'Killed',
 		{
 			params ['_killed','_killer','_instigator','_useEffects'];
-			if (!((_killed getVariable ['QS_vehicle_markers',[]]) isEqualTo [])) then {
+			if ((_killed getVariable ['QS_vehicle_markers',[]]) isNotEqualTo []) then {
 				{
 					_x setMarkerAlpha 0;
 				} count (_killed getVariable 'QS_vehicle_markers');
 			};
-			{
-				_x setDamage [1,FALSE];
-			} forEach (crew _killed);
+			deleteVehicleCrew _killed;
 			if (!isNil {_killed getVariable 'QS_vehicleCrew'}) then {
 				{
 					if (!isNull _x) then {
@@ -79,16 +78,16 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 		'Fired',
 		{
 			if ((random 1) > 0.95) then {
-				(_this select 0) setVehicleAmmo 1;
+				(_this # 0) setVehicleAmmo 1;
 			};
 		}
 	],
 	[
 		'GetOut',
 		{
-			(_this select 2) setDamage 1;
-			if (((crew (_this select 0)) findIf {(alive _x)}) isEqualTo -1) then {
-				(_this select 0) setDamage 1;
+			(_this # 2) setDamage 1;
+			if (((crew (_this # 0)) findIf {(alive _x)}) isEqualTo -1) then {
+				(_this # 0) setDamage 1;
 			};
 		}
 	],
@@ -96,18 +95,11 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 		'Deleted',
 		{
 			params ['_entity'];
-			if (!((crew _entity) isEqualTo [])) then {
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (crew _entity);
+			if ((crew _entity) isNotEqualTo []) then {
+				deleteVehicleCrew _entity;
 			};
 			_vehicleMarkers = _vehicle getVariable ['QS_vehicle_markers',[]];
-			if (!(_vehicleMarkers isEqualTo [])) then {
+			if (_vehicleMarkers isNotEqualTo []) then {
 				{
 					deleteMarker _x;
 				} forEach _vehicleMarkers;
@@ -116,11 +108,6 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 	]
 ];
 createVehicleCrew _vehicle;
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + (count (crew _vehicle))),
-	FALSE
-];
 clearMagazineCargoGlobal _vehicle;
 clearWeaponCargoGlobal _vehicle;
 clearItemCargoGlobal _vehicle;
@@ -142,8 +129,11 @@ private _grp = createGroup [EAST,TRUE];
 	_x setVariable ['QS_hidden',TRUE,TRUE];
 	[_x] join (missionNamespace getVariable 'QS_AI_GRP_AO_AA');
 	_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
+	_x setVariable ['QS_AI_disableSuppFire',TRUE,FALSE];
 } forEach (units _grp);
+_grp setVariable ['QS_AI_disableSuppFire',TRUE,FALSE];
 _grp addVehicle _vehicle;
+_grp enableAttack FALSE;
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _vehicle setVariable ['QS_vehicleCrew',[(gunner _vehicle),(commander _vehicle)],FALSE];
 if ((random 1) > 0.666) then {
@@ -151,8 +141,8 @@ if ((random 1) > 0.666) then {
 	_vehicle addEventHandler [
 		'Fired',
 		{
-			if (((_this select 0) ammo 'missiles_titan_AA') isEqualTo 0) then {
-				(_this select 0) setVehicleAmmo 1;
+			if (((_this # 0) ammo 'missiles_titan_AA') isEqualTo 0) then {
+				(_this # 0) setVehicleAmmo 1;
 			};
 		}
 	];
@@ -161,28 +151,28 @@ _baseMarker = markerPos 'QS_marker_base_marker';
 {
 	_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
 	_x allowDamage FALSE;
-	_x addEventHandler ['GetOutMan',{(_this select 0) setDamage 1;}];
+	_x addEventHandler ['GetOutMan',{(_this # 0) setDamage 1;}];
 } forEach (crew _vehicle);
 if (alive _vehicle) then {
 	_position = getPosWorld _vehicle;
-	_roughPos = [((_position select 0) - 90) + (random 180),((_position select 1) - 90) + (random 180),0];
+	_roughPos = [((_position # 0) - 90) + (random 180),((_position # 1) - 90) + (random 180),0];
 	_aoAAMarkers = missionNamespace getVariable ['QS_ao_aaMarkers',[]];
 	_vehicleMarkers = _vehicle getVariable ['QS_vehicle_markers',[]];
 	private _markerID = '';
 	{
 		_markerID = format ['QS_marker_aoAA_%1',(count _aoAAMarkers)];
-		createMarker [_markerID,(_x select 1)];
-		_markerID setMarkerTypeLocal (_x select 2);
-		_markerID setMarkerShapeLocal (_x select 3);
-		if (!((_x select 3) isEqualTo 'Icon')) then {
-			_markerID setMarkerBrushLocal (_x select 4);
+		createMarker [_markerID,(_x # 1)];
+		_markerID setMarkerTypeLocal (_x # 2);
+		_markerID setMarkerShapeLocal (_x # 3);
+		if ((_x # 3) isNotEqualTo 'Icon') then {
+			_markerID setMarkerBrushLocal (_x # 4);
 		};
-		_markerID setMarkerColorLocal (_x select 5);
-		_markerID setMarkerSizeLocal (_x select 6);
-		_markerID setMarkerAlphaLocal (_x select 7);
-		_markerID setMarkerPosLocal (_x select 8);
-		_markerID setMarkerDirLocal (_x select 9);
-		_markerID setMarkerText (format ['%1%2',(toString [32,32,32]),(_x select 10)]);
+		_markerID setMarkerColorLocal (_x # 5);
+		_markerID setMarkerSizeLocal (_x # 6);
+		_markerID setMarkerAlphaLocal (_x # 7);
+		_markerID setMarkerPosLocal (_x # 8);
+		_markerID setMarkerDirLocal (_x # 9);
+		_markerID setMarkerText (format ['%1%2',(toString [32,32,32]),(_x # 10)]);
 		0 = _aoAAMarkers pushBack _markerID;
 		0 = _vehicleMarkers pushBack _markerID;
 		0 = (missionNamespace getVariable 'QS_virtualSectors_siteMarkers') pushBack _markerID;
@@ -209,7 +199,8 @@ if (alive _vehicle) then {
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 		_grp setVariable ['QS_AI_GRP_DATA',[_position,30,30,[]],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,diag_tickTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,serverTime,-1],FALSE];
+		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	};	
 };
 _vehicle;

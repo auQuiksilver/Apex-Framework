@@ -56,7 +56,7 @@ QS_HComm_testEvent_3 = addMissionEventHandler [
 						params ['_is3D','_group','_wpID','_mb','_posX','_posY','_shift','_ctrl','_alt'];
 						showCommandingMenu '';
 						uiSleep 0.1;
-						missionNamespace setVariable ['QS_HComm_camera_target',((units _group) select 0),FALSE];
+						missionNamespace setVariable ['QS_HComm_camera_target',((units _group) # 0),FALSE];
 						missionNamespace setVariable ['QS_HComm_camera_group',_group,FALSE];
 						player hcSelectGroup [_group];
 						showCommandingMenu (['RscHCGroupRootMenu','RscHCMainMenu'] select (_mb isEqualTo 1));
@@ -209,11 +209,11 @@ QS_hc_mapTest_3 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 							_nearestWaypoint spawn {
 								showCommandingMenu '';
 								uiSleep 0.1;
-								player hcSelectGroup [(_this select 0)];
+								player hcSelectGroup [(_this # 0)];
 								showCommandingMenu 'RscHCWPRootMenu';
 							};
 					} else {
-						_group = _nearestWaypoint select 0;
+						_group = _nearestWaypoint # 0;
 						['deleteWaypoint',_nearestWaypoint] remoteExec ['QS_fnc_remoteExecCmd',(leader _group),FALSE];
 					};
 				};
@@ -228,16 +228,16 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 	_grpscript = [_QS_ST_X] spawn {
 		scriptName 'Soldier Tracker (Group Icons) by Quiksilver';
 		params ['_QS_ST_X'];
-		_showMapUnitIcons = _QS_ST_X select 0;
+		_showMapUnitIcons = _QS_ST_X # 0;
 		_dynamicDiplomacy = TRUE;
-		_showFriendlySides = _QS_ST_X select 57;
-		private _playerFaction = _QS_ST_X select 3;
-		_showAIGroups = _QS_ST_X select 30;
-		_configGroupIcon = _QS_ST_X select 53;
-		_showCivilianGroups = _QS_ST_X select 59;
-		_groupIconsVisibleMap = _QS_ST_X select 31;
-		_showOwnGroup = _QS_ST_X select 76;
-		_gpsRequired = _QS_ST_X select 85;
+		_showFriendlySides = _QS_ST_X # 57;
+		private _playerFaction = _QS_ST_X # 3;
+		_showAIGroups = _QS_ST_X # 30;
+		_configGroupIcon = _QS_ST_X # 53;
+		_showCivilianGroups = _QS_ST_X # 59;
+		_groupIconsVisibleMap = _QS_ST_X # 31;
+		_showOwnGroup = _QS_ST_X # 76;
+		_gpsRequired = _QS_ST_X # 85;
 		private _sidesFriendly = [];
 		private _grp = grpNull;
 		private _sides = [EAST,WEST,RESISTANCE,CIVILIAN];
@@ -258,9 +258,9 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 			_sidesFriendly = _sides;
 		};
 		private _as = [];
-		_as pushBack (_sides select _playerFaction);
+		_as pushBack (_sides # _playerFaction);
 		{
-			0 = _as pushBack (_sides select _x);
+			0 = _as pushBack (_sides # _x);
 		} count _showFriendlySides;
 		for '_x' from 0 to 1 step 0 do {
 			if (_dynamicDiplomacy) then {
@@ -276,9 +276,9 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 			};
 			if (diag_tickTime > _groupUpdateDelay) then {
 				{
-					if ((_showOwnGroup) || {((!(_showOwnGroup)) && (!(_x isEqualTo (group player))))} || {(!(_showMapUnitIcons))}) then {
+					if ((_showOwnGroup) || {((!(_showOwnGroup)) && (_x isNotEqualTo (group player)))} || {(!(_showMapUnitIcons))}) then {
 						_grp = _x;
-						if (!(((units _grp) findIf {(alive _x)}) isEqualTo -1)) then {
+						if (((units _grp) findIf {(alive _x)}) isNotEqualTo -1) then {
 							if ((side _grp) in _as) then {
 								_grpLeader = leader _grp;
 								if (_showAIGroups) then {
@@ -348,20 +348,20 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 			};
 			if ((visibleMap) || {(!isNull ((findDisplay 160) displayCtrl 51))} || {(!isNull ((findDisplay -1) displayCtrl 500))}) then {
 				if ((ctrlMapScale ((findDisplay 12) displayCtrl 51)) isEqualTo 1) then {
-					if (groupIconsVisible select 0) then {
-						setGroupIconsVisible [FALSE,(groupIconsVisible select 1)];
+					if (groupIconsVisible # 0) then {
+						setGroupIconsVisible [FALSE,(groupIconsVisible # 1)];
 					};
 				} else {
 					if (_groupIconsVisibleMap) then {
-						if (!(groupIconsVisible select 0)) then {
-							setGroupIconsVisible [TRUE,(groupIconsVisible select 1)];
+						if (!(groupIconsVisible # 0)) then {
+							setGroupIconsVisible [TRUE,(groupIconsVisible # 1)];
 						};
 					};
 				};
 			} else {
 				if (_groupIconsVisibleMap) then {
-					if (groupIconsVisible select 0) then {
-						setGroupIconsVisible [FALSE,(groupIconsVisible select 1)];
+					if (groupIconsVisible # 0) then {
+						setGroupIconsVisible [FALSE,(groupIconsVisible # 1)];
 					};
 				};
 			};
@@ -401,14 +401,14 @@ for '_x' from 0 to 1 step 0 do {
 				if (((units _grp) findIf {(alive _x)}) isEqualTo -1) then {
 					player hcRemoveGroup _grp;
 				} else {
-					if ((toLower (groupID _grp)) isNotEqualTo (toLower ((player hcGroupParams _grp) select 0))) then {
+					if ((toLowerANSI (groupID _grp)) isNotEqualTo (toLowerANSI ((player hcGroupParams _grp) # 0))) then {
 						if (!(_grp getVariable ['QS_HComm_grp',FALSE])) then {
 							_grp setVariable ['QS_HComm_grp',TRUE,TRUE];
 						};
-						player hcSetGroup [_grp,(groupID _grp),((player hcGroupParams _grp) select 1)];
+						player hcSetGroup [_grp,(groupID _grp),((player hcGroupParams _grp) # 1)];
 					};
 					if (_grp isEqualTo (group player)) then {
-						if (((player hcGroupParams _grp) select 1) isNotEqualTo 'teammain') then {
+						if (((player hcGroupParams _grp) # 1) isNotEqualTo 'teammain') then {
 							if (!(_grp getVariable ['QS_HComm_grp',FALSE])) then {
 								_grp setVariable ['QS_HComm_grp',TRUE,TRUE];
 							};
@@ -457,7 +457,7 @@ for '_x' from 0 to 1 step 0 do {
 			removeMissionEventHandler _x;
 		} forEach _missionEvents;
 		{
-			((findDisplay (_x select 0)) displayCtrl (_x select 1)) ctrlRemoveEventHandler [_x select 2,_x select 3];
+			((findDisplay (_x # 0)) displayCtrl (_x # 1)) ctrlRemoveEventHandler [_x # 2,_x # 3];
 		} forEach _controlEvents;
 		{
 			if (_x getVariable ['QS_HComm_grp',FALSE]) then {

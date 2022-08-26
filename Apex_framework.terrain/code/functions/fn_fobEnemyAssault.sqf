@@ -26,12 +26,12 @@ _QS_array = [];
 
 /*/================================================ FIND POSITION/*/
 
-_pos = _this select 0;
+_pos = _this # 0;
 _base = markerPos 'QS_marker_base_marker';
 _foundSpawnPos = FALSE;
 while {!_foundSpawnPos} do {
 	_spawnPosDefault = [_pos,500,850,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if (!(_spawnPosDefault isEqualTo [])) then {
+	if (_spawnPosDefault isNotEqualTo []) then {
 		if ((allPlayers inAreaArray [_spawnPosDefault,350,350,0,FALSE]) isEqualTo []) then {
 			if ((_spawnPosDefault distance2D _base) > 1200) then {
 				_foundSpawnPos = TRUE;
@@ -50,7 +50,7 @@ _infTypes = [
 ];
 _infType = selectRandomWeighted _infTypes;
 _reinforceGroup = [_spawnPosDefault,(random 360),EAST,_infType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-
+_reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 /*/================================================ MANAGE UNITS/*/
 
 _attackPos = [];
@@ -70,7 +70,7 @@ if ((random 1) > 0.3) then {
 	} else {
 		_playerSelected = objNull;
 		_arr = [(missionNamespace getVariable 'QS_module_fob_centerPosition'),600,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector');
-		if (!(_arr isEqualTo [])) then {
+		if (_arr isNotEqualTo []) then {
 			_arr = _arr call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 			{
 				if (alive _x) then {
@@ -115,11 +115,12 @@ _QS_array = missionNamespace getVariable 'QS_module_fob_assaultArray';
 	0 = _QS_array pushBack _x;
 	_x enableStamina FALSE;
 	_x enableFatigue FALSE;
-	_x disableAI 'AUTOCOMBAT';
+	_x enableAIFeature ['AUTOCOMBAT',FALSE];
+	_x enableAIFeature ['COVER',FALSE];
 	_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 } count (units _reinforceGroup);
 missionNamespace setVariable ['QS_module_fob_assaultArray',_QS_array,TRUE];
-_reinforceGroup enableAttack FALSE;
+_reinforceGroup enableAttack TRUE;
 _reinforceGroup lockWP TRUE;
 _reinforceGroup setVariable ['QS_AI_Groups',['QS_ATTACK',_attackPos],FALSE];
 _count = count (units _reinforceGroup);

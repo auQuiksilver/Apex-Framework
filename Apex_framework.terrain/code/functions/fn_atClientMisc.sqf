@@ -13,7 +13,7 @@ Description:
 	-
 __________________________________________________/*/
 
-_array = _this select 1;
+_array = _this # 1;
 _array params ['_uid','_cid','_val','_jip'];
 if (isDedicated) exitWith {
 	diag_log '***** ERROR ***** QS919 SERVER *****';

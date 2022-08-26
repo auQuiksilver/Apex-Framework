@@ -55,13 +55,13 @@ if (_type isEqualTo 0) exitWith {
 	private _sectorsData = [];
 	private _sectorPositions = [];
 	private _sectorPosition = [];
-	if (!((missionNamespace getVariable _var) isEqualTo [])) then {
+	if ((missionNamespace getVariable _var) isNotEqualTo []) then {
 		_sectorsData = missionNamespace getVariable [_var,[]];
-		if (!(_sectorsData isEqualTo [])) then {
+		if (_sectorsData isNotEqualTo []) then {
 			{
-				_sectorPositions pushBack (_x select 7);
+				_sectorPositions pushBack (_x # 7);
 			} forEach _sectorsData;
-			_sectorPosition = _sectorPositions select 0;
+			_sectorPosition = _sectorPositions # 0;
 			if ((count _sectorPositions) > 1) then {
 				private _dist = _position distance2D _sectorPosition;
 				{
@@ -77,26 +77,26 @@ if (_type isEqualTo 0) exitWith {
 };
 if (_type isEqualTo 1) exitWith {
 	comment 'Get nearest sector by side';
-	_side = _this select 2;
+	_side = _this # 2;
 	private _sectorsData = [];
 	private _sectorsSide = [];
 	private _sectorPositions = [];
 	private _sectorPosition = [];
-	if (!((missionNamespace getVariable 'QS_virtualSectors_data') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_virtualSectors_data') isNotEqualTo []) then {
 		_sectorsData = missionNamespace getVariable ['QS_virtualSectors_data',[]];
-		if (!(_sectorsData isEqualTo [])) then {
+		if (_sectorsData isNotEqualTo []) then {
 			{
-				if (_side in (_x select 10)) then {
+				if (_side in (_x # 10)) then {
 					_sectorsSide pushBack _x;
 				};
 			} forEach _sectorsData;
 		};
 	};
-	if (!(_sectorsSide isEqualTo [])) then {
+	if (_sectorsSide isNotEqualTo []) then {
 		{
-			_sectorPositions pushBack (_x select 7);
+			_sectorPositions pushBack (_x # 7);
 		} forEach _sectorsSide;
-		_sectorPosition = _sectorPositions select 0;
+		_sectorPosition = _sectorPositions # 0;
 		if ((count _sectorPositions) > 1) then {
 			private _dist = _position distance2D _sectorPosition;
 			{
@@ -111,28 +111,28 @@ if (_type isEqualTo 1) exitWith {
 };
 if (_type isEqualTo 2) exitWith {
 	comment 'Get nearest LOSING sector';
-	_side = _this select 2;
+	_side = _this # 2;
 	private _sectorsData = [];
 	private _sectorsLosing = [];
 	private _sectorPosition = [];
 	private _sectorPositions = [];
-	if (!((missionNamespace getVariable 'QS_virtualSectors_data') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_virtualSectors_data') isNotEqualTo []) then {
 		_sectorsData = missionNamespace getVariable ['QS_virtualSectors_data',[]];
-		if (!(_sectorsData isEqualTo [])) then {
+		if (_sectorsData isNotEqualTo []) then {
 			{
-				if (_side in (_x select 10)) then {
-					if ((_x select 14) > (_x select 13)) then {
+				if (_side in (_x # 10)) then {
+					if ((_x # 14) > (_x # 13)) then {
 						_sectorsLosing pushBack _x;
 					};
 				};
 			} forEach _sectorsData;
 		};
 	};
-	if (!(_sectorsLosing isEqualTo [])) then {
+	if (_sectorsLosing isNotEqualTo []) then {
 		{
-			_sectorPositions pushBack (_x select 7);
+			_sectorPositions pushBack (_x # 7);
 		} forEach _sectorsLosing;
-		_sectorPosition = _sectorPositions select 0;
+		_sectorPosition = _sectorPositions # 0;
 		if ((count _sectorPositions) > 1) then {
 			private _dist = _position distance2D _sectorPosition;
 			{
@@ -147,28 +147,28 @@ if (_type isEqualTo 2) exitWith {
 };
 if (_type isEqualTo 3) exitWith {
 	comment 'Get nearest TAKING sector';
-	_side = _this select 2;
+	_side = _this # 2;
 	private _sectorsData = [];
 	private _sectorsTaking = [];
 	private _sectorPosition = [];
 	private _sectorPositions = [];
-	if (!((missionNamespace getVariable 'QS_virtualSectors_data') isEqualTo [])) then {
+	if ((missionNamespace getVariable 'QS_virtualSectors_data') isNotEqualTo []) then {
 		_sectorsData = missionNamespace getVariable ['QS_virtualSectors_data',[]];
-		if (!(_sectorsData isEqualTo [])) then {
+		if (_sectorsData isNotEqualTo []) then {
 			{
-				if (_side in (_x select 11)) then {
-					if ((_x select 14) > (_x select 13)) then {
+				if (_side in (_x # 11)) then {
+					if ((_x # 14) > (_x # 13)) then {
 						_sectorsTaking pushBack _x;
 					};
 				};
 			} forEach _sectorsData;
 		};
 	};
-	if (!(_sectorsTaking isEqualTo [])) then {
+	if (_sectorsTaking isNotEqualTo []) then {
 		{
-			_sectorPositions pushBack (_x select 7);
+			_sectorPositions pushBack (_x # 7);
 		} forEach _sectorsTaking;
-		_sectorPosition = _sectorPositions select 0;
+		_sectorPosition = _sectorPositions # 0;
 		if ((count _sectorPositions) > 1) then {
 			private _dist = _position distance2D _sectorPosition;
 			{

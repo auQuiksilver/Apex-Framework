@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	10/10/2018 A3 1.84 by Quiksilver
+	12/07/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -20,7 +20,7 @@ private [
 if (!isNull _killer) then {
 	_vKiller = vehicle _killer;
 	if (isPlayer _killer) then {
-		if (!((vehicle _killer) isEqualTo _killed)) then {
+		if ((vehicle _killer) isNotEqualTo _killed) then {
 			if ((_killed distance (markerPos 'QS_marker_base_marker')) < 600) then {
 				_vTypeName = getText (configFile >> 'CfgVehicles' >> (typeOf _killed) >> 'displayName');
 				_kTypeName = getText (configFile >> 'CfgVehicles' >> (typeOf _killer) >> 'displayName');
@@ -36,39 +36,18 @@ if (!isNull _killer) then {
 									_n = name _x;
 									_uid = getPlayerUID _x;
 									_cid = owner _x;
-									_val = 1;
-									_i = (missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)};
-									if (_i isEqualTo -1) then {
-										_a = [_uid,_val];
-										0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;
-										[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];		
-									} else {
-										_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
-										_clientVal = _clientArray select 1;
-										_val = _val + _clientVal;
-										_a = [_uid,_val];
-										(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
-										[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
-									};
+									_clientVal = QS_robocop get _uid;
+									QS_robocop set [_uid,_clientVal + 1];
+									[nil,[_uid,_cid,_clientVal + 1,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 								};
 							} else {
 								_n = name _x;
 								_uid = getPlayerUID _x;
 								_cid = owner _x;
 								_val = 1;
-								_i = (missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)};
-								if (_i isEqualTo -1) then {
-									_a = [_uid,_val];
-									0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;
-									[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
-								} else {
-									_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
-									_clientVal = _clientArray select 1;
-									_val = _val + _clientVal;
-									_a = [_uid,_val];
-									(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
-									[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
-								};
+								_clientVal = QS_robocop get _uid;
+								QS_robocop set [_uid,_clientVal + 1];
+								[nil,[_uid,_cid,_clientVal + 1,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 							};
 						};
 						_killedPos = getPosWorld _killed;
@@ -79,20 +58,9 @@ if (!isNull _killer) then {
 					_n = name _killer;
 					_uid = getPlayerUID _killer;
 					_cid = owner _killer;
-					_val = 1;
-					_i = (missionNamespace getVariable 'QS_roboCop') findIf {((_x select 0) isEqualTo _uid)};
-					if (_i isEqualTo -1) then {
-						_a = [_uid,_val];
-						0 = (missionNamespace getVariable 'QS_roboCop') pushBack _a;
-						[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
-					} else {
-						_clientArray = (missionNamespace getVariable 'QS_roboCop') select _i;
-						_clientVal = _clientArray select 1;
-						_val = _val + _clientVal;
-						_a = [_uid,_val];
-						(missionNamespace getVariable 'QS_roboCop') set [_i,_a];
-						[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
-					};
+					_clientVal = QS_robocop get _uid;
+					QS_robocop set [_uid,_clientVal + 1];
+					[nil,[_uid,_cid,_clientVal + 1,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 					diag_log format ['************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************',time,_vTypeName,_n,_kTypeName,_killerPos,_vTypeName,_killedPos];
 				};
 			};

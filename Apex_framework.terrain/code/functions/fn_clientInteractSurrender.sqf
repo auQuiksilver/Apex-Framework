@@ -19,7 +19,7 @@ if (
 	{(!isNull (objectParent _t))} ||
 	{(captive _t)} ||
 	{(!(_t getVariable ['QS_surrenderable',FALSE]))} ||
-	{(!((lineIntersectsSurfaces [(eyePos player),(aimPos _t),player,_t,TRUE,-1,'GEOM','VIEW',TRUE]) isEqualTo []))} ||
+	{((lineIntersectsSurfaces [(eyePos player),(aimPos _t),player,_t,TRUE,-1,'GEOM','VIEW',TRUE]) isNotEqualTo [])} ||
 	{(uiNamespace getVariable ['QS_client_progressVisualization_active',FALSE])}
 ) exitWith {};
 playSound 'click';
@@ -43,7 +43,7 @@ _onCancelled = {
 	if (weaponLowered player) then {_c = TRUE;};
 	if (!((stance player) in ['STAND','CROUCH'])) then {_c = TRUE;};
 	if (!(_entity getVariable ['QS_surrenderable',FALSE])) then {_c = TRUE;};
-	if (!((lineIntersectsSurfaces [(eyePos player),(aimPos _entity),player,_entity,TRUE,-1,'GEOM','VIEW',TRUE]) isEqualTo [])) then {_c = TRUE;};
+	if ((lineIntersectsSurfaces [(eyePos player),(aimPos _entity),player,_entity,TRUE,-1,'GEOM','VIEW',TRUE]) isNotEqualTo []) then {_c = TRUE;};
 	if (_c) then {
 		playSound 'click';
 	};
@@ -59,7 +59,9 @@ _onCompleted = {
 		missionNamespace setVariable ['HE_SURRENDERS',TRUE,TRUE];
 	};
 	playSound 'click';
+	private _isCmdr = FALSE;
 	if (_entity isEqualTo (missionNamespace getVariable 'QS_csatCommander')) then {
+		_isCmdr = TRUE;
 		[58,[profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 	if (_entity isEqualTo (missionNamespace getVariable 'QS_arrest_target')) then {
@@ -69,9 +71,9 @@ _onCompleted = {
 		};
 	};
 	if (local _entity) then {
-		[21,_entity,(getPlayerUID player),profileName] call (missionNamespace getVariable 'QS_fnc_remoteExec');
+		[21,_entity,(getPlayerUID player),profileName,_isCmdr] call (missionNamespace getVariable 'QS_fnc_remoteExec');
 	} else {
-		[21,_entity,(getPlayerUID player),profileName] remoteExecCall ['QS_fnc_remoteExec',_entity,FALSE];
+		[21,_entity,(getPlayerUID player),profileName,_isCmdr] remoteExecCall ['QS_fnc_remoteExec',_entity,FALSE];
 	};
 	{
 		_entity setVariable _x;

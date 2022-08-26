@@ -20,14 +20,15 @@ params [
 	['_setRadius',7],
 	['_repairFull',FALSE]
 ];
+if ((currentCommand _unit) isEqualTo 'SUPPORT') exitWith {};
 {
-	_unit disableAI _x;
+	_unit enableAIFeature _x;
 } forEach [
-	'AUTOCOMBAT',
-	'COVER',
-	'AUTOTARGET',
-	'TARGET',
-	'WEAPONAIM'
+	['AUTOCOMBAT',FALSE],
+	['COVER',FALSE],
+	['AUTOTARGET',FALSE],
+	['TARGET',FALSE],
+	['WEAPONAIM',FALSE]
 ];
 private _time = diag_tickTime;
 _timeout = _time + _duration;
@@ -44,6 +45,7 @@ for '_x' from 0 to 1 step 0 do {
 	if ((_unit distance2D _target) > _setRadius) then {
 		if (_time > _moveCheckDelay) then {
 			doStop _unit;
+			uiSleep 0.1;
 			_unit doMove (getPosATL _target);
 			_moveCheckDelay = _time + _moveDelay;
 		};
@@ -77,7 +79,7 @@ for '_x' from 0 to 1 step 0 do {
 };
 if (!alive _unit) exitWith {};
 {
-	_unit enableAI _x;
+	_unit enableAIFeature [_x,TRUE];
 } forEach [
 	'AUTOCOMBAT',
 	'COVER',

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	14/04/2018 A3 1.82 by Quiksilver
+	26/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -43,30 +43,7 @@ if (_type isEqualTo 0) exitWith {
 			};
 		};
 	};
-	_fn_isStealthy = {
-		params ['_vehicle'];
-		private _c = FALSE;	
-		if (
-			(
-				(
-					((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) && 
-					(((vectorMagnitude (velocity _vehicle)) * 3.6) < 30)
-				) || 
-				{(!isEngineOn _vehicle)}
-			) &&
-			{(!isVehicleRadarOn _vehicle)} &&
-			{(!isLaserOn _vehicle)} &&
-			{(!isOnRoad _vehicle)} &&
-			{(!((toLower (surfaceType (getPosWorld _vehicle))) in ['#gdtasphalt']))} &&
-			{(
-				(((getPosATL _vehicle) getEnvSoundController 'houses') isEqualTo 0) || 
-				{(((getPosATL _vehicle) getEnvSoundController 'forest') isEqualTo 1)}
-			)}
-		) then {
-			_c = TRUE;
-		};
-		_c;
-	};
+	_fn_isStealthy = missionNamespace getVariable 'QS_fnc_getVehicleStealth';
 	if (_isVehicle) then {
 		if (_threat in [3,4]) then {
 			if ([_targetVehicle] call _fn_isStealthy) then {
@@ -124,18 +101,13 @@ if (_type isEqualTo 0) exitWith {
 	_checkVisibleDistance = 300;
 	for '_x' from 0 to 49 step 1 do {
 		_spawnPosition = ['RADIUS',_targetPosition,_maxDist,'LAND',[3,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		if (((_spawnPosition distance2D _targetPosition) > _minDist) && ((_spawnPosition distance2D _targetPosition) < _maxDist)) then {
-			if ((_players inAreaArray [_spawnPosition,300,300,0,FALSE]) isEqualTo []) then {
-				if (!([_spawnPosition,_targetPosition,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect'))) then {
-					if (([(AGLToASL _spawnPosition),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1) then {
-						if ((_blacklistedPositions findIf {((_spawnPosition distance2D (_x select 0)) < (_x select 1))}) isEqualTo -1) then {
-							_positionFound = TRUE;
-						};
-					};
-				};
-			};
-		};
-		if (_positionFound) exitWith {};
+		if (
+			(((_spawnPosition distance2D _targetPosition) > _minDist) && ((_spawnPosition distance2D _targetPosition) < _maxDist)) &&
+			{((_players inAreaArray [_spawnPosition,300,300,0,FALSE]) isEqualTo [])} &&
+			{(!([_spawnPosition,_targetPosition,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} &&
+			{(([(AGLToASL _spawnPosition),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1)} &&
+			{((_blacklistedPositions findIf {((_spawnPosition distance2D (_x # 0)) < (_x # 1))}) isEqualTo -1)}
+		) exitWith {_positionFound = TRUE;};
 	};
 	if (!(_positionFound)) exitWith {_return};
 	private _vehicle = objNull;
@@ -151,9 +123,7 @@ if (_type isEqualTo 0) exitWith {
 			_grp = createVehicleCrew _vehicle;
 			if (!((side _grp) in [EAST,RESISTANCE])) then {
 				_grp = createGroup [EAST,TRUE];
-				{
-					[_x] joinSilent _grp;
-				} forEach (crew _vehicle);
+				(crew _vehicle) joinSilent _grp;
 			};
 			(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
 			clearMagazineCargoGlobal _vehicle;
@@ -162,11 +132,11 @@ if (_type isEqualTo 0) exitWith {
 			clearBackpackCargoGlobal _vehicle;
 			_vehicle enableRopeAttach FALSE;
 			_vehicle enableVehicleCargo FALSE;
-			_vehicle allowCrewInImmobile TRUE;
+			_vehicle allowCrewInImmobile [TRUE,TRUE];
 			_vehicle setVehicleTIPars [1,1,1];
 			_vehicle lock 3;
 			_return pushBack _vehicle;
-			if ((count allPlayers) < 30) then {
+			if ((count allPlayers) < 20) then {
 				[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 			} else {
 				if ((random 1) > 0.666) then {
@@ -177,11 +147,25 @@ if (_type isEqualTo 0) exitWith {
 			_vehicle addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 			_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 			_grp addVehicle _vehicle;
-			[_grp,_targetPosition,300,((_targetPosition select [0,2]) nearRoads 300),TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
+			private _patrolPositions = [];
+			private _relevantRoads = ((_targetPosition select [0,2]) nearRoads 300) apply {if (_x isEqualType objNull) then {(getPosATL _x)} else {_x};};
+			if (_relevantRoads isNotEqualTo []) then {
+				_relevantRoads = _relevantRoads call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+				_relevantRoads = _relevantRoads select [0,3];
+				_patrolPositions = _relevantRoads;
+			};
+			for '_x' from 0 to 2 step 1 do {
+				_patrolPositions pushBack (_targetPosition getPos [(100 + (random 200)),random 360]);
+			};
+			_patrolPositions = _patrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_vehicle],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_grp setBehaviourStrong 'AWARE';
+			_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolPositions,-1,-1],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _grp)),_vehicle],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,-1],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			{
 				_return pushBack _x;
 				_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -196,9 +180,9 @@ if (_type isEqualTo 0) exitWith {
 				_unit = _grp createUnit [_unitType,_spawnPosition,[],15,'NONE'];
 				_unit setDir (random 360);
 				_unit setVehiclePosition [(getPosWorld _unit),[],10,'NONE'];
-				_unit setVariable ['QS_AI_UNIT_enabled',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+				_unit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 				_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				if ((toLower _unitType) in ['o_g_soldier_f','o_g_soldier_lite_f','i_c_soldier_bandit_6_f','i_c_soldier_para_1_f']) then {
+				if ((toLowerANSI _unitType) in ['o_g_soldier_f','o_g_soldier_lite_f','i_c_soldier_bandit_6_f','i_c_soldier_para_1_f']) then {
 					if ((random 1) > 0.5) then {
 						_unit addBackpack (['b_bergen_hex_f','b_carryall_ghex_f'] select (worldName in ['Tanoa','Lingor3']));
 						[_unit,(['launch_o_titan_f','launch_o_titan_ghex_f'] select (worldName in ['Tanoa','Lingor3'])),4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
@@ -209,9 +193,10 @@ if (_type isEqualTo 0) exitWith {
 			[_grp,_targetPosition,125,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 			_grp setFormDir (_unit getDir _targetPosition);
 			[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-			_grp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+			_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _grp))],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_DATA',[TRUE,-1],QS_system_AI_owners];
+			_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			if (_knowsAbout > 2.75) then {
 				_grp reveal [_targetVehicle,_knowsAbout];
 				{

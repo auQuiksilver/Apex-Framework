@@ -147,7 +147,7 @@ for '_x' from 0 to 1 step 0 do {
 	_testPos = _centerPos getPos [(_distanceFixed + (random _distanceRandom)),_incrementDir];
 	_incrementDir = _incrementDir + _increment;
 	_nearBuildings = nearestObjects [_testPos,_houseTypes,_nearObjectsRadius,TRUE];
-	if (!(_nearBuildings isEqualTo [])) then {
+	if (_nearBuildings isNotEqualTo []) then {
 		_nearBuilding = selectRandom _nearBuildings;
 		_nearBuildingPosition = getPosATL _nearBuilding;
 		if (([_nearBuildingPosition,300,[WEST],_allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
@@ -164,7 +164,7 @@ missionNamespace setVariable ['QS_grid_IG_taskActive',TRUE,FALSE];
 _nearBuilding allowDamage FALSE;
 private _buildingPositions = _nearBuilding buildingPos -1;
 _buildingPosition = selectRandom _buildingPositions;
-_buildingPositions = _buildingPositions apply { [(_x select 0),(_x select 1),((_x select 2) + 1)] };
+_buildingPositions = _buildingPositions apply { [(_x # 0),(_x # 1),((_x # 2) + 1)] };
 private _unitTypes = [
 	['O_G_Soldier_SL_F'],
 	['I_C_Soldier_Para_1_F']
@@ -179,7 +179,7 @@ _objUnit removeWeapon (primaryWeapon _objUnit);
 uiSleep 0.1;
 [_objUnit,(selectRandom ['hgun_Pistol_heavy_01_F','hgun_ACPC2_F','hgun_Pistol_01_F','hgun_Rook40_F','hgun_Pistol_heavy_02_F']),5] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 _objUnit setUnitPos 'UP';
-_objUnit disableAI 'PATH';
+_objUnit enableAIFeature ['PATH',FALSE];
 _objUnit forceAddUniform 'U_C_ConstructionCoverall_Blue_F';
 _objUnit addVest 'V_Safety_yellow_F';
 _objUnit addBackpack 'B_LegStrapBag_black_repair_F';
@@ -204,25 +204,26 @@ _damageEvent = {
 	};
 	(_damage min 0.89);
 };
+_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 _grp setFormDir (_buildingPosition getDir (_nearBuilding buildingExit 0));
 _objUnit spawn {
 	uiSleep 2;
-	_this disableAI 'PATH';
+	_this enableAIFeature ['PATH',FALSE];
 };
 _objUnit addEventHandler ['HandleDamage',_damageEvent];
 _objUnit addEventHandler [
 	'FiredMan',
 	{
-		(_this select 0) removeEventHandler ['FiredMan',_thisEventHandler];
-		(_this select 0) enableAI 'PATH';
-		(_this select 0) allowFleeing 1;
-		(_this select 0) setSkill ['courage',0];
+		(_this # 0) removeEventHandler ['FiredMan',_thisEventHandler];
+		(_this # 0) enableAIFeature ['PATH',TRUE];
+		(_this # 0) allowFleeing 1;
+		(_this # 0) setSkill ['courage',0];
 	}
 ];
 _objUnit addEventHandler [
 	'Killed',
 	{
-		(_this select 0) setVariable ['QS_dead_prop',TRUE,TRUE];
+		(_this # 0) setVariable ['QS_dead_prop',TRUE,TRUE];
 	}
 ];
 _objUnit allowDamage TRUE;
@@ -289,11 +290,12 @@ if ((random 1) > 0) then {
 	};
 	_sentryGrp setSpeedMode 'LIMITED';
 	_sentryGrp setBehaviour 'CARELESS';
-	_sentryGrp setVariable ['QS_AI_GRP_TASK',['PATROL',[(position (leader _sentryGrp)),(selectRandom _buildingPositions)],diag_tickTime,-1],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_sentryGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_sentryGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _sentryGrp))],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_sentryGrp setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
-	_sentryGrp setVariable ['QS_AI_GRP',TRUE,(call (missionNamespace getVariable 'QS_fnc_AIOwners'))];
+	_sentryGrp setVariable ['QS_AI_GRP_TASK',['PATROL',[(position (leader _sentryGrp)),(selectRandom _buildingPositions)],serverTime,-1],QS_system_AI_owners];
+	_sentryGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+	_sentryGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _sentryGrp))],QS_system_AI_owners];
+	_sentryGrp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+	_sentryGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+	_sentryGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 };
 private _enemyDetected = FALSE;
 private _serverTime = serverTime;
@@ -335,7 +337,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_objUnit getVariable ['QS_secured',FALSE]) then {
 			_taskSucceeded = TRUE;
 		} else {
-			if ((!((_objUnit targets [TRUE,_targetsRadius]) isEqualTo [])) || (!(((units _sentryGrp) findIf {((alive _x) && (!((_x targets [TRUE,_targetsRadius]) isEqualTo [])))}) isEqualTo -1))) then {
+			if (((_objUnit targets [TRUE,_targetsRadius]) isNotEqualTo []) || (((units _sentryGrp) findIf {((alive _x) && ((_x targets [TRUE,_targetsRadius]) isNotEqualTo []))}) isNotEqualTo -1)) then {
 				['GRID_IG_UPDATE',['Side Task','Enemy has detected our presence']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				_enemyDetected = TRUE;
 				_sentryGrp setSpeedMode 'FULL';

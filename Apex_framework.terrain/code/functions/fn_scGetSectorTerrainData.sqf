@@ -52,16 +52,16 @@ _sectorData params [
 	'_conversionRate',
 	'_isBeingInterrupted'
 ];
-_location = _locationData select 0;
+_location = _locationData # 0;
 if (isNull _location) exitWith {};
 _location setVariable ['QS_virtualSectors_terrainData',[]];
 comment 'Roads';
-_nearRoads = ((_centerPos select [0,2]) nearRoads _areaOrRadiusInterrupt) select {((_x isEqualType objNull) && (!((roadsConnectedTo _x) isEqualTo [])))};
+_nearRoads = ((_centerPos select [0,2]) nearRoads _areaOrRadiusInterrupt) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))};
 comment 'Intersections';
 _nearRoadsIntersections = (_nearRoads select {(_x isEqualType objNull)}) select {((count (roadsConnectedTo _x)) in [1,3])};
 comment 'Buildings with positions';
-private _nearHouses = (nearestObjects [_centerPos,['House','Building'],_areaOrRadiusInterrupt,TRUE]) select {(!((_x buildingPos -1) isEqualTo []))};
-_nearHouses = _nearHouses + ((allSimpleObjects []) select {((_x distance2D _centerPos) <= _areaOrRadiusInterrupt)});
+private _nearHouses = (nearestObjects [_centerPos,['House','Building'],_areaOrRadiusInterrupt,TRUE]) select {((_x buildingPos -1) isNotEqualTo [])};
+_nearHouses = _nearHouses + ((allSimpleObjects []) inAreaArray [_centerPos,_areaOrRadiusInterrupt,_areaOrRadiusInterrupt,0,FALSE]);
 comment 'Building Positions';
 private _buildingPositions = [];
 private _nearBuildingPositions = [];
@@ -70,14 +70,14 @@ private _house = objNull;
 	_house = _x;
 	_buildingPositions = _house buildingPos -1;
 	_buildingPositions = [_house,_buildingPositions] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
-	if (!(_buildingPositions isEqualTo [])) then {
+	if (_buildingPositions isNotEqualTo []) then {
 		{
 			0 = _nearBuildingPositions pushBack _x;
 		} forEach _buildingPositions;
 	};
 } forEach _nearHouses;
-if (!(_nearBuildingPositions isEqualTo [])) then {
-	_nearBuildingPositions = _nearBuildingPositions apply {[(_x select 0),(_x select 1),((_x select 2) + 1)]};
+if (_nearBuildingPositions isNotEqualTo []) then {
+	_nearBuildingPositions = _nearBuildingPositions apply {[(_x # 0),(_x # 1),((_x # 2) + 1)]};
 };
 comment 'Overwatch';
 private _position = [0,0,0];

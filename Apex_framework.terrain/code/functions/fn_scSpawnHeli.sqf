@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/07/2019 A3 1.94 by Quiksilver
+	7/06/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -81,17 +81,12 @@ if (_playerCount > 20) then {
 	};
 };
 _air = createVehicle [_airType,[(_randomPos # 0),(_randomPos # 1),1000],[],0,'FLY'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
-[_air,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
+[_air,(selectRandomWeighted [2,0.5,3,0.5]),[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 _air engineOn TRUE;
 _air addEventHandler [
 	'GetOut',
 	{
-		(_this select 2) setDamage 1;
+		(_this # 2) setDamage 1;
 	}
 ];
 _air addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
@@ -101,57 +96,40 @@ clearMagazineCargoGlobal _air;
 clearWeaponCargoGlobal _air;
 clearItemCargoGlobal _air;
 clearBackpackCargoGlobal _air;
-_air setPos [(_randomPos select 0),(_randomPos select 1),300];
+_air setPos [(_randomPos # 0),(_randomPos # 1),300];
 _air enableRopeAttach FALSE;
 ['setFeatureType',_air,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_air];
-_air spawn {
-	for '_x' from 0 to 149 step 1 do {
-		_this setVelocity [0,0,0];
-		uiSleep 0.1;
-	};
-};
-_grp addVehicle _air;
 _unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
-missionNamespace setVariable [
-	'QS_analytics_entities_created',
-	((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-	FALSE
-];
 _unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _unit assignAsDriver _air;
 _unit moveInDriver _air;
 removeAllWeapons _unit;
 if (!((typeOf _air) in ['O_Heli_Light_02_v2_F','O_Heli_Light_02_dynamicLoadout_F'])) then {
 	_unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
-	missionNamespace setVariable [
-		'QS_analytics_entities_created',
-		((missionNamespace getVariable 'QS_analytics_entities_created') + 1),
-		FALSE
-	];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsTurret [_air,[0]];
 	_unit moveInTurret [_air,[0]];
 };
-if ((toLower _airType) in ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f']) then {
+_air setVehiclePosition [(getPosWorld _air),[],0,'FLY'];
+if ((toLowerANSI _airType) in ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f']) then {
 	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName in ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
 	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit addPrimaryWeaponItem 'optic_lrps';
 	_unit moveInCargo [_air,0];
 	_unit selectWeapon (primaryWeapon _unit);
-	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName isEqualTo ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
+	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName in ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
 	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit addPrimaryWeaponItem 'optic_lrps';
 	_unit moveInCargo [_air,1];
 	_unit selectWeapon (primaryWeapon _unit);
-	if (!(sunOrMoon isEqualTo 1)) then {
+	if (sunOrMoon isNotEqualTo 1) then {
 		(_air turretUnit [0]) action ['SearchlightOn',_air];
 	};
-	missionNamespace setVariable ['QS_analytics_entities_created',((missionNamespace getVariable 'QS_analytics_entities_created') + 2),FALSE];
 } else {
 	{
-		_x disableAI 'LIGHTS';
+		_x enableAIFeature ['LIGHTS',FALSE];
 	} forEach (crew _air);
 	_air setCollisionLight FALSE;
 };
@@ -167,12 +145,14 @@ _air enableDynamicSimulation FALSE;
 _grp setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _grp enableDynamicSimulation FALSE;
 _grp addVehicle _air;
+_grp setGroupIdGlobal ['Close Air Support (Heli)'];
+_grp addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventEnemyDetected2')}];
 {
 	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 	_x enableDynamicSimulation FALSE;
 } forEach (units _grp);
-(missionNamespace getVariable 'QS_AI_supportProviders_CASHELI') pushBack (effectiveCommander _air);
-(missionNamespace getVariable 'QS_AI_supportProviders_INTEL') pushBack (effectiveCommander _air);
+missionNamespace setVariable ['QS_AI_supportProviders_CASHELI',((missionNamespace getVariable 'QS_AI_supportProviders_CASHELI') + [effectiveCommander _air]),QS_system_AI_owners];
+missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') + [effectiveCommander _air]),QS_system_AI_owners];
 {
 	_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
 	_x setVehicleReceiveRemoteTargets TRUE;
@@ -191,7 +171,7 @@ for '_x' from 0 to 3 step 1 do {
 _grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 _grp setVariable ['QS_AI_GRP_CONFIG',['AO','AIR_PATROL_HELI',(count (units _grp)),_air],FALSE];
 _grp setVariable ['QS_AI_GRP_DATA',[],FALSE];
-_grp setVariable ['QS_AI_GRP_TASK',['PATROL_AIR',_radialPatrolPositions,diag_tickTime,-1],FALSE];
+_grp setVariable ['QS_AI_GRP_TASK',['PATROL_AIR',_radialPatrolPositions,serverTime,-1],FALSE];
 _grp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
-_grp move (_radialPatrolPositions select 0);
+_grp move (_radialPatrolPositions # 0);
 _arrayHelicopters;

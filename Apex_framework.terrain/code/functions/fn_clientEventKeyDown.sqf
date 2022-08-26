@@ -230,7 +230,7 @@ if (_ctrl) then {
 								if ((count (units (group player))) > 1) then {
 									if (player isEqualTo (leader (group player))) then {
 										if (_order isNotEqualTo '') then {
-											_arrayToSend = (units (group player)) select {(((_x distance player) < 45) && (alive _x) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x))};
+											_arrayToSend = (units (group player)) select {(((_x distance player) < 45) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x))};
 											if (_arrayToSend isNotEqualTo []) then {
 												[63,[5,[(format ['%1 (Group leader) - %2',profileName,_order]),'PLAIN DOWN',0.333]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
 											};

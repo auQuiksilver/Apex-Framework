@@ -28,14 +28,14 @@ _arr = selectRandom [
 		["Land_BagFence_01_long_green_F",[-1.72949,6.74902,-0.122396],151.116,[],false,true,true,{}], 
 		["Box_IED_Exp_F",[6.60242,-2.64941,7.43866e-005],248.768,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};
@@ -44,14 +44,14 @@ _arr = selectRandom [
 		["Land_BagFence_01_long_green_F",[5.28918,-5.04541,0.0291109],330.025,[],false,true,true,{}], 
 		["Box_Syndicate_Wps_F",[7.10132,-1.83691,3.52859e-005],0.000278935,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};
@@ -65,14 +65,14 @@ _arr = selectRandom [
 		["Land_BagFence_01_long_green_F",[-6.9635,3.19385,-0.0692377],144.333,[],false,true,true,{}], 
 		["Box_Syndicate_Ammo_F",[7.47241,-2.76709,8.29697e-005],360,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};
@@ -96,14 +96,14 @@ _arr = selectRandom [
 		["Land_CampingTable_small_F",[3.8877,-0.209473,-0.13347],0,[],false,false,TRUE,{}], 
 		["Box_Syndicate_Wps_F",[3.8916,-0.20752,-9.53674e-007],0,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};
@@ -111,17 +111,17 @@ _arr = selectRandom [
 		}], 
 		["Land_TentDome_F",[-2.41504,3.80762,0],239.998,[],false,false,TRUE,{}], 
 		["Land_TentDome_F",[3.98145,2.76904,0],331.559,[],false,false,TRUE,{}], 
-		["Land_ClothesLine_01_full_F",[-4.77539,0.646973,0],278.003,[],false,false,TRUE,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+		["Land_ClothesLine_01_full_F",[-4.77539,0.646973,0],278.003,[],false,false,TRUE,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 		["Box_Syndicate_WpsLaunch_F",[-4.74512,-1.16406,-1.83582e-005],281.423,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};
@@ -129,14 +129,14 @@ _arr = selectRandom [
 		}], 
 		["Box_Syndicate_Ammo_F",[-2.07861,-4.46387,3.09944e-006],0,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};
@@ -145,21 +145,21 @@ _arr = selectRandom [
 		["Land_CampingChair_V2_F",[4.91016,1.17529,0],47.3084,[],false,false,TRUE,{}], 
 		["Box_GEN_Equip_F",[-0.699707,5.01465,-1.66893e-006],275.153,[],false,TRUE,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};
 			_box;
 		}], 
 		["Land_FirePlace_F",[2.72607,-4.42432,-6.81877e-005],0,[],false,TRUE,false,{}], 
-		["Land_ClothesLine_01_short_F",[5.19287,-1.479,0],99.415,[],false,false,TRUE,{(_this select 0) setVectorUp [0,0,1];(_this select 0);}], 
+		["Land_ClothesLine_01_short_F",[5.19287,-1.479,0],99.415,[],false,false,TRUE,{(_this # 0) setVectorUp [0,0,1];(_this # 0);}], 
 		["Land_BagFence_01_long_green_F",[-5.4458,-1.48682,-0.000999928],276.775,[],false,false,TRUE,{}], 
 		["Land_BagFence_01_short_green_F",[5.76416,-0.745117,-0.000999928],96.6688,[],false,false,TRUE,{}], 
 		["Land_BagFence_01_long_green_F",[-2.80615,-5.19238,-0.000999928],5.91454,[],false,false,TRUE,{}], 
@@ -170,14 +170,14 @@ _arr = selectRandom [
 		["Land_BagFence_01_long_green_F",[3.65332,5.18799,-0.000999928],188.345,[],false,false,TRUE,{}], 
 		["Box_IED_Exp_F",[5.03174,3.93555,-1.26362e-005],296.601,[],false,true,false,{
 			private ['_box','_magazineCargo','_index'];
-			_box = _this select 0;
+			_box = _this # 0;
 			//comment 'Clear smoke grenades as anti-troll measure.';
 			_magazineCargo = getMagazineCargo _box;
 			clearMagazineCargoGlobal _box;
 			_index = 0;
-			for '_x' from 0 to ((count (_magazineCargo select 0)) - 1) step 1 do {
-				if (!(['SmokeShell',((_magazineCargo select 0) select _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-					_box addMagazineCargoGlobal [((_magazineCargo select 0) select _index),((_magazineCargo select 1) select _index)];
+			for '_x' from 0 to ((count (_magazineCargo # 0)) - 1) step 1 do {
+				if (!(['SmokeShell',((_magazineCargo # 0) # _index),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
+					_box addMagazineCargoGlobal [((_magazineCargo # 0) # _index),((_magazineCargo # 1) # _index)];
 				};
 				_index = _index + 1;
 			};

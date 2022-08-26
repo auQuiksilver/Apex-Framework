@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	11/08/2019 A3 1.94 by Quiksilver
+	20/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,18 +14,18 @@ Description:
 
 Parameter(s):
 	
-	_this select 0: center position (Array)
+	_this # 0: center position (Array)
 						Note: passing [] (empty Array), the world's safePositionAnchor entry will be used.
-	_this select 1: minimum distance from the center position (Number)
-	_this select 2: maximum distance from the center position (Number)
+	_this # 1: minimum distance from the center position (Number)
+	_this # 2: maximum distance from the center position (Number)
 						Note: passing -1, the world's safePositionRadius entry will be used.
-	_this select 3: minimum distance from the nearest object (Number)
-	_this select 4: water mode (Number)
+	_this # 3: minimum distance from the nearest object (Number)
+	_this # 4: water mode (Number)
 						0: cannot be in water
 						1: can either be in water or not
 						2: must be in water
-	_this select 5: maximum terrain gradient (average altitude difference in meters - Number)
-	_this select 6: shore mode (Number):
+	_this # 5: maximum terrain gradient (average altitude difference in meters - Number)
+	_this # 6: shore mode (Number):
 						0: does not have to be at a shore
 						1: must be at a shore
 	
@@ -59,6 +59,7 @@ if (_maxDist isEqualTo -1) then {
 		missionNamespace setVariable ['QS_safePositionRadius',_maxDist,TRUE];
 	};
 };
+private _distDiff = _maxDist - _minDist;
 private _newPos = [];
 private _defaultPos = [];
 private _testPos = [-1000,-1000,0];
@@ -78,24 +79,20 @@ _bto = [
 	'powersolar','powerwave','powerwind','shipwreck'
 ];
 for '_x' from 0 to 999 step 1 do {
-	_newX = _posX + (_maxDist - (random (_maxDist * 2)));
-	_newY = _posY + (_maxDist - (random (_maxDist * 2)));
-	_testPos = [_newX,_newY,_posZ];
+	_testPos = _pos getPos [_minDist + (_distDiff * (sqrt (random 1))),(random 360)];
 	if (_testPos inArea (missionNamespace getVariable 'QS_terrain_worldArea')) then {
-		if ((_pos distance2D _testPos) >= _minDist) then {
-			if (_isTropics) then {
-				if ((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 2),_waterMode,_shoreMode,objNull]) isNotEqualTo []) then {
-					if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
-						_newPos = _testPos;
-						breakTo 'main';
-					};
+		if (_isTropics) then {
+			if ((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 2),_waterMode,_shoreMode,objNull]) isNotEqualTo []) then {
+				if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
+					_newPos = _testPos;
+					breakTo 'main';
 				};
-			} else {
-				if ((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 3),_waterMode,_shoreMode,objNull]) isNotEqualTo []) then {
-					if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
-						_newPos = _testPos;
-						breakTo 'main';
-					};
+			};
+		} else {
+			if ((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 3),_waterMode,_shoreMode,objNull]) isNotEqualTo []) then {
+				if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
+					_newPos = _testPos;
+					breakTo 'main';
 				};
 			};
 		};

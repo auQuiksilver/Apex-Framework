@@ -21,7 +21,7 @@ __________________________________________________________________________/*/
 private _return = [ [[0,0,1],[1,0,1],[1,1,1],[0,1,1]] ];	// Do not edit this line
 
 // EDIT BELOW
-if (!((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0)) exitWith {
+if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isNotEqualTo 0) exitWith {
 	if (worldName isEqualTo 'Altis') then {
 		// CUSTOM Vehicle Restricted area for ALTIS
 		_return = [

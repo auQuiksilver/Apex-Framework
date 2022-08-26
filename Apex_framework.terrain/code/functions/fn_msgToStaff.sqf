@@ -17,10 +17,10 @@ if (!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_f
 private [
 	'_array','_element1','_element2','_element3','_element4','_object'
 ];
-_array = _this select 1;
-_message = _array select 0;
-_object = _array select 1;
-_type = _array select 2;
+_array = _this # 1;
+_message = _array # 0;
+_object = _array # 1;
+_type = _array # 2;
 systemChat str _message;
 [str _message] call (missionNamespace getVariable 'QS_fnc_hint');
 if (isNull _object) exitWith {};
@@ -34,7 +34,7 @@ if (_type isEqualTo 1) then {
 		[_object,'KICK'],
 		99
 	];
-	player setUserActionText [QS_kiddieAction2,((player actionParams QS_kiddieAction2) select 0),(format ["<t size='3'>%1</t>",((player actionParams QS_kiddieAction2) select 0)])];
+	player setUserActionText [QS_kiddieAction2,((player actionParams QS_kiddieAction2) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_kiddieAction2) # 0)])];
 	QS_kiddieAction3 = player addAction [
 		'(ROBOCOP) Manual enforcement (do nothing)',
 		{
@@ -45,7 +45,7 @@ if (_type isEqualTo 1) then {
 		[],
 		98
 	];
-	player setUserActionText [QS_kiddieAction3,((player actionParams QS_kiddieAction3) select 0),(format ["<t size='3'>%1</t>",((player actionParams QS_kiddieAction3) select 0)])];
+	player setUserActionText [QS_kiddieAction3,((player actionParams QS_kiddieAction3) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_kiddieAction3) # 0)])];
 	/*/0 = QS_kiddieActions pushBack QS_kiddieAction1;/*/
 	0 = QS_kiddieActions pushBack QS_kiddieAction2;
 	0 = QS_kiddieActions pushBack QS_kiddieAction3;

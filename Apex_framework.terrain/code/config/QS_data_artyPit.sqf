@@ -40,7 +40,7 @@ __________________________________________________________________________/*/
 	["Land_HBarrier_01_wall_6_green_F",[-14.3359,-5.28174,0],265.262,[],false,false,true,{}], 
 	["Land_HBarrier_01_wall_6_green_F",[-11.6533,-12.0586,0],234.447,[],false,false,true,{}], 
 	[(["O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F"] select (worldName in ['Tanoa','Lingor3','Enoch'])),[4.01807,-1.67236,-0.0691381],353.719,[],true,true,false,{
-		_arty = _this select 0;
+		_arty = _this # 0;
 		(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _arty;
 		_arty setVariable ['QS_hidden',TRUE,TRUE];
 		_arty addEventHandler [
@@ -54,11 +54,9 @@ __________________________________________________________________________/*/
 		];
 		_arty enableDynamicSimulation FALSE;
 		_arty setVariable ['QS_dynSim_ignore',TRUE,FALSE];
-		_arty addEventHandler ['GetOut',{(_this select 2) setDamage [1,TRUE];}];
+		_arty addEventHandler ['GetOut',{(_this # 2) setDamage [1,TRUE];}];
 		_arty addEventHandler ['Deleted',{
-			{
-				_x setDamage [1,TRUE];
-			} forEach (crew (_this select 0));
+			deleteVehicleCrew (_this # 0);
 		}];
 		_group1 = createVehicleCrew _arty;
 		_group1 deleteGroupWhenEmpty TRUE;
@@ -69,24 +67,32 @@ __________________________________________________________________________/*/
 		_group1 selectLeader (gunner _arty);
 		[(units _group1),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		_group1 setBehaviour 'COMBAT';
-		_group1 setCombatMode 'RED';	
+		_group1 setCombatMode 'RED';
 		_group1 allowFleeing 0;
-		(missionNamespace getVariable 'QS_AI_supportProviders_ARTY') pushBack (gunner _arty);
+		missionNamespace setVariable ['QS_AI_supportProviders_ARTY',((missionNamespace getVariable 'QS_AI_supportProviders_ARTY') + [gunner _arty]),QS_system_AI_owners];
 		_group1 setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_group1 setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','ARTILLERY',_arty],FALSE];
-		_group1 setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-		_group1 setVariable ['QS_AI_GRP_TASK',['SUPPORT','ARTILLERY',diag_tickTime,-1],FALSE];
+		_group1 setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+		_group1 setVariable ['QS_AI_GRP_TASK',['SUPPORT','ARTILLERY',serverTime,-1],FALSE];
 		_arty lock 2;
 		_group1 addVehicle _arty;
 		(gunner _arty) addEventHandler [
 			'FiredMan',
 			{
+				if (!isNull (_this # 6)) then {
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg','magazine_shipcannon_120mm_he_shells_x32','magazine_shipcannon_120mm_he_guided_shells_x2','magazine_shipcannon_120mm_he_lg_shells_x2','magazine_missiles_cruise_01_x18']) then {
+						if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+							(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						} else {
+							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						};
+					};
+				};
 				if (isNil {missionNamespace getVariable 'QS_enemy_artyFireMessage'}) then {
 					missionNamespace setVariable ['QS_enemy_artyFireMessage',diag_tickTime,FALSE];
 				};
 				if ((missionNamespace getVariable 'QS_enemy_artyFireMessage') > (diag_tickTime - 300)) exitWith {};
 				missionNamespace setVariable ['QS_enemy_artyFireMessage',diag_tickTime,FALSE];
-				
 				_firingMessages = [
 					"Thermal scans are picking up those enemy Artillery firing! Heads down!",
 					"Enemy Artillery rounds incoming! Advise you seek cover immediately.",
@@ -110,7 +116,7 @@ __________________________________________________________________________/*/
 		_arty;
 	}], 
 	[(["O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F"] select (worldName in ['Tanoa','Lingor3','Enoch'])),[-6.7666,-2.89453,-0.0691385],353.719,[],true,true,false,{
-		_arty = _this select 0;
+		_arty = _this # 0;
 		(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _arty;
 		_arty setVariable ['QS_hidden',TRUE,TRUE];
 		_arty addEventHandler [
@@ -124,11 +130,9 @@ __________________________________________________________________________/*/
 		];
 		_arty enableDynamicSimulation FALSE;
 		_arty setVariable ['QS_dynSim_ignore',TRUE,FALSE];
-		_arty addEventHandler ['GetOut',{(_this select 2) setDamage [1,TRUE];}];
+		_arty addEventHandler ['GetOut',{(_this # 2) setDamage [1,TRUE];}];
 		_arty addEventHandler ['Deleted',{
-			{
-				_x setDamage [1,TRUE];
-			} forEach (crew (_this select 0));
+			deleteVehicleCrew (_this # 0);
 		}];
 		_group1 = createVehicleCrew _arty;
 		_group1 deleteGroupWhenEmpty TRUE;
@@ -138,18 +142,27 @@ __________________________________________________________________________/*/
 		_group1 selectLeader (gunner _arty);
 		[(units _group1),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		_group1 setBehaviour 'COMBAT';
-		_group1 setCombatMode 'RED';	
+		_group1 setCombatMode 'RED';
 		_group1 allowFleeing 0;
-		(missionNamespace getVariable 'QS_AI_supportProviders_ARTY') pushBack (gunner _arty);
+		missionNamespace setVariable ['QS_AI_supportProviders_ARTY',((missionNamespace getVariable 'QS_AI_supportProviders_ARTY') + [gunner _arty]),QS_system_AI_owners];
 		_group1 setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_group1 setVariable ['QS_AI_GRP_CONFIG',['SUPPORT','ARTILLERY',_arty],FALSE];
-		_group1 setVariable ['QS_AI_GRP_DATA',[TRUE,diag_tickTime],FALSE];
-		_group1 setVariable ['QS_AI_GRP_TASK',['SUPPORT','ARTILLERY',diag_tickTime,-1],FALSE];
+		_group1 setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],FALSE];
+		_group1 setVariable ['QS_AI_GRP_TASK',['SUPPORT','ARTILLERY',serverTime,-1],FALSE];
 		_arty lock 2;
 		_group1 addVehicle _arty;
 		(gunner _arty) addEventHandler [
 			'FiredMan',
 			{
+				if (!isNull (_this # 6)) then {
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg','magazine_shipcannon_120mm_he_shells_x32','magazine_shipcannon_120mm_he_guided_shells_x2','magazine_shipcannon_120mm_he_lg_shells_x2','magazine_missiles_cruise_01_x18']) then {
+						if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+							(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						} else {
+							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+						};
+					};
+				};
 				if (isNil {missionNamespace getVariable 'QS_enemy_artyFireMessage'}) then {
 					missionNamespace setVariable ['QS_enemy_artyFireMessage',diag_tickTime,FALSE];
 				};

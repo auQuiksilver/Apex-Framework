@@ -6,14 +6,14 @@ Author:
 	
 Last modified:
 
-	27/04/2017 A3 1.68 by Quiksilver
+	27/05/2022 A3 2.08 by Quiksilver
 	
 Description:
 
 	Explosion Event
 ___________________________________________________________________*/
 
-params ['_unit','_damage'];
+params ['_unit','_damage','_source'];
 _this call (missionNamespace getVariable 'QS_fnc_feedbackDirtEffect');
 _strength = (0 max _damage) * 30;
 if (

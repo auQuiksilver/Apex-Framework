@@ -9,8 +9,8 @@ Using orientation of objects: no
 
 [
 	["Flag_White_F",[3.64063,-6.97461,0],0,[],false,true,false,{
-		missionNamespace setVariable ['QS_AO_HQ_flag',(_this select 0),FALSE];
-		(_this select 0);
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
 	}], 
 	["Land_HBarrier_3_F",[-9.05469,4.06641,0],90.0869,[],false,true,true,{}], 
 	["Land_BagFence_Long_F",[4.54688,-8.54492,-0.000999928],223.649,[],false,true,true,{}], 

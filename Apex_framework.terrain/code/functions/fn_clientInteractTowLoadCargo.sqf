@@ -15,7 +15,7 @@ _____________________________________________________________/*/
 
 private _vehicle = vehicle player;
 if (unitIsUav cameraOn) then {
-	if ((toLower (typeOf cameraOn)) in [
+	if ((toLowerANSI (typeOf cameraOn)) in [
 		'b_ugv_01_f',
 		'b_t_ugv_01_olive_f',
 		'o_ugv_01_f',
@@ -32,7 +32,7 @@ _attachedObjects = attachedObjects _vehicle;
 private _towedVehicle = objNull;
 private _vTransport = objNull;
 if (alive _vehicle) then {
-	if (!(_attachedObjects isEqualTo [])) then {
+	if (_attachedObjects isNotEqualTo []) then {
 		{
 			if (_x getVariable ['QS_ropeAttached',FALSE]) then {
 				if ((_x isKindOf 'Reammobox_F') || {(_x isKindOf 'AllVehicles')}) then {
@@ -46,7 +46,7 @@ if (alive _vehicle) then {
 private _array = [];
 if (!isNull _towedVehicle) then {
 	_nearViVTransports = (getPosATL _towedVehicle) nearEntities [['Air','LandVehicle','Ship'],20];
-	if (!(_nearViVTransports isEqualTo [])) then {
+	if (_nearViVTransports isNotEqualTo []) then {
 		{
 			if ((!isNil {_x getVariable 'QS_ViV_v'}) || {(isClass (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'vehicleTransport' >> 'Carrier'))}) exitWith {
 				if (vehicleCargoEnabled _x) then {
@@ -68,10 +68,10 @@ if ((!alive _parent) || {(!alive _child)}) exitWith {
 if (!(vehicleCargoEnabled _child)) then {
 	_child enableVehicleCargo TRUE;
 };
-if (!((_parent canVehicleCargo _child) isEqualTo [TRUE,TRUE])) exitWith {
+if ((_parent canVehicleCargo _child) isNotEqualTo [TRUE,TRUE]) exitWith {
 	_outcome = _parent canVehicleCargo _child;
 	//[Possible to load cargo inside vehicle, possible to load cargo into empty vehicle]
-	if (!(_outcome select 1)) then {
+	if (!(_outcome # 1)) then {
 		50 cutText [(format ['%1 cannot be loaded into %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _child) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf _parent) >> 'displayName'))]),'PLAIN',0.5];
 	} else {
 		50 cutText ['Please unload other cargo to load this cargo','PLAIN',0.5];

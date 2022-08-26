@@ -6,11 +6,19 @@ Author:
 	
 Last modified:
 
-	7/10/2018 A3 1.84 by Quiksilver
+	10/06/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Headless Client Core Script
+	
+Notes:
+
+	0 - Server - Group is available for HC (setvariable 0)
+	1 - HC - HC requests Group transfer (setvariable 1)
+	2 - Server - Server accepts request, sends relevant data/states (setvariable 2)
+	3 - HC - HC receives states, indicates transfer readiness (setvariable 3)
+	4 - Server - Transfer group (setvariable 4)
 __________________________________________________*/
 
 if (hasInterface) exitWith {};
@@ -32,7 +40,7 @@ private _QS_module_dynSim = TRUE;
 private _QS_module_dynSim_delay = 30;
 private _QS_module_dynSim_checkDelay = _timeNow + _QS_module_dynSim_delay;
 {
-	(_x select 0) setDynamicSimulationDistance (_x select 1);
+	(_x # 0) setDynamicSimulationDistance (_x # 1);
 } forEach [
 	['GROUP',([1250,1000] select (_QS_worldName isEqualTo 'Tanoa'))],
 	['VEHICLE',([1000,750] select (_QS_worldName isEqualTo 'Tanoa'))],
@@ -48,16 +56,35 @@ private _cleanGroups_checkDelay = _timeNow + _cleanGroups_delay;
 private _fpsCheckDelay = 0;
 private _fps = 50;
 
+private _updateGroups = TRUE;
+private _updateGroups_delay = 5;
+private _updateGroups_checkDelay = _tickTimeNow + _updateGroups_delay;
+
+private _HC_localUnitsCount = 0;
+
+private _localUnits = [];
+private _remoteGroup = grpNull;
+private _remoteGroups = [];
+
+private _exit = FALSE;
+private _clientOwner = clientOwner;
+
+QS_garbageCollector = [];
+
 for '_x' from 0 to 1 step 0 do {
 	_timeNow = time;
 	_tickTimeNow = diag_tickTime;
 	/*/Report/*/
 	if (_tickTimeNow > _fpsCheckDelay) then {
 		_fps = round diag_fps;
-		diag_log format ['Headless Client FPS: %1 * Time: %2 * Active Scripts: %3 * Active SQF Scripts: %4 *',_fps,(round _tickTimeNow),diag_activeScripts,diag_activeSQFScripts];
+		diag_log format ['Headless Client FPS: %1 * Frame-Time: %2 * Active Scripts: %3 * Active SQF Scripts: %4 *',_fps,diag_deltaTime,diag_activeScripts,diag_activeSQFScripts];
 		_fpsCheckDelay = _tickTimeNow + 15;
 	};
+	
 	/*/Groups cleaner/*/
+	if (QS_garbageCollector isNotEqualTo []) then {
+		QS_garbageCollector = [];
+	};
 	if (_cleanGroups) then {
 		if (_tickTimeNow > _cleanGroups_checkDelay) then {
 			{
@@ -66,7 +93,7 @@ for '_x' from 0 to 1 step 0 do {
 						deleteGroup _x;
 					};
 				};
-			} count allGroups;
+			} forEach allGroups;
 			_cleanGroups_checkDelay = _tickTimeNow + _cleanGroups_delay;
 		};
 	};
@@ -84,7 +111,7 @@ for '_x' from 0 to 1 step 0 do {
 										if (!(dynamicSimulationEnabled _x)) then {
 											if (((_x distance2D [0,0,0]) > 1000) && ((_x distance2D _baseMarker) > 750)) then {
 												if ((!((vehicle _x) isKindOf 'Air')) && (!(_x isKindOf 'Air'))) then {
-													if (!((typeOf _x) isEqualTo 'test_EmptyObjectForFireBig')) then {
+													if ((typeOf _x) isNotEqualTo 'test_EmptyObjectForFireBig') then {
 														if (!(_x getVariable ['QS_dynSim_ignore',FALSE])) then {
 															_x enableDynamicSimulation TRUE;
 														};

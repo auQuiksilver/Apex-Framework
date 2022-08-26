@@ -20,12 +20,12 @@ private _getDoorAnimations = [_house, _door] call (missionNamespace getVariable 
 _getDoorAnimations params ['_animations','_lockedVariable'];
 if (_animations isEqualTo []) exitWith {FALSE};
 playSound 'Click';
-if ((toLower (_animations select 0)) in ['door_1a_rot','door_1b_rot']) then {
-	if (((_house animationPhase (format ['%1',(_animations select 0)])) <= 0) && {((_house getVariable [_lockedVariable select 0, 0]) isEqualTo 1)}) exitWith {
+if ((toLowerANSI (_animations # 0)) in ['door_1a_rot','door_1b_rot']) then {
+	if (((_house animationPhase (format ['%1',(_animations # 0)])) <= 0) && {((_house getVariable [_lockedVariable # 0, 0]) isEqualTo 1)}) exitWith {
 		_lockedVariable set [0,_house];
 		_lockedVariable call (missionNamespace getVariable 'BIS_fnc_LockedDoorOpen');
 	};
-	if ((_house animationPhase (_animations select 0)) < 0.5) then {
+	if ((_house animationPhase (_animations # 0)) < 0.5) then {
 		{
 			_house animate [(format ['%1',_x]),1,1]; 
 		} forEach _animations;
@@ -35,11 +35,11 @@ if ((toLower (_animations select 0)) in ['door_1a_rot','door_1b_rot']) then {
 		} forEach _animations;		
 	};
 } else {
-	if (((_house animationSourcePhase (_animations select 0)) <= 0) && {((_house getVariable [_lockedVariable select 0, 0]) isEqualTo 1)}) exitWith {
+	if (((_house animationSourcePhase (_animations # 0)) <= 0) && {((_house getVariable [_lockedVariable # 0, 0]) isEqualTo 1)}) exitWith {
 		_lockedVariable set [0,_house];
 		_lockedVariable call (missionNamespace getVariable 'BIS_fnc_LockedDoorOpen');
 	};
-	if ((_house animationSourcePhase (_animations select 0)) < 0.5) then {
+	if ((_house animationSourcePhase (_animations # 0)) < 0.5) then {
 		{
 			_house animateSource [_x,1,1]; 
 		} forEach _animations;

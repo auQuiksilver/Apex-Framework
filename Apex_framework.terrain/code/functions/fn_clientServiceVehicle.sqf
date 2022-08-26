@@ -168,7 +168,7 @@ if ((_baseService) || (_isDepot)) then {
 			} forEach (attachedObjects _v);
 		};
 		if (player getUnitTrait 'QS_trait_fighterPilot') then {
-			if ((toLower (typeOf _v)) in [
+			if ((toLowerANSI (typeOf _v)) in [
 				'b_plane_cas_01_dynamicloadout_f',
 				'b_plane_fighter_01_f',
 				'b_plane_fighter_01_stealth_f',

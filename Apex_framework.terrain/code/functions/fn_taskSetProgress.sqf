@@ -21,9 +21,9 @@ params ['_taskID','_enable','_progress'];
 if (isNil {missionNamespace getVariable 'QS_mission_tasks'}) then {
 	missionNamespace setVariable ['QS_mission_tasks',[],FALSE];
 };
-_taskIndex = (missionNamespace getVariable 'QS_mission_tasks') findIf {((_x select 0) isEqualTo _taskID)};
-if (!(_taskIndex isEqualTo -1)) then {
-	_taskData = (missionNamespace getVariable 'QS_mission_tasks') select _taskIndex;
+_taskIndex = (missionNamespace getVariable 'QS_mission_tasks') findIf {((_x # 0) isEqualTo _taskID)};
+if (_taskIndex isNotEqualTo -1) then {
+	_taskData = (missionNamespace getVariable 'QS_mission_tasks') # _taskIndex;
 	_taskData set [3,[_enable,_progress]];
 	(missionNamespace getVariable 'QS_mission_tasks') set [_taskIndex,_taskData];
 	missionNamespace setVariable ['QS_mission_tasks',(missionNamespace getVariable 'QS_mission_tasks'),TRUE];

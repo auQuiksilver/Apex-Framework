@@ -65,7 +65,7 @@ if (_type isEqualTo 'PROPAGATE') exitWith {
 	} forEach (missionNamespace getVariable 'QS_unit_roles');
 	if (_propagate) then {
 		missionNamespace setVariable ['QS_RSS_public',(missionNamespace getVariable 'QS_RSS_public'),TRUE];
-		missionNamespace setVariable ['QS_RSS_refreshUI',TRUE,TRUE];
+		missionNamespace setVariable ['QS_RSS_refreshUI',TRUE,-2];
 	};
 };
 if (_type isEqualTo 'GET_ROLE_COUNT') exitWith {
@@ -175,22 +175,6 @@ if (_type isEqualTo 'GET_ROLE_DISPLAYNAME2') exitWith {
 	};
 	private _exit = FALSE;
 	private _roles_side = [];
-	/*/
-	{
-		_roles_side = _x;
-		if (_roles_side isNotEqualTo []) then {
-			{
-				_role2 = _x # 0;
-				if (_role isEqualTo _role2) then {
-					_exit = TRUE;
-					_role_whitelisted = (_x # 5) > 0;
-				};
-				if (_exit) exitWith {};
-			} forEach _roles_side;
-		};
-		if (_exit) exitWith {};
-	} forEach (missionNamespace getVariable 'QS_roles_data');
-	/*/
 	if (['_WL',_role,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 		_return = '[Whitelisted] ' + _return;
 	};
@@ -299,28 +283,18 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 	private _roles_side = [];
 	private _role_data = [];
 	private _whitelisted = _uid in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
-	private _roleCount = [0,0];
-	private _whitelist_value = 0;
-	/*/
-	{
-		_roles_side = _x;
-		if (_roles_side isNotEqualTo []) then {
-			{
-				_role2 = _x # 0;
-				if ((_x # 1) isEqualTo _side) then {
-					if (_role isEqualTo _role2) then {
-						_exit = TRUE;
-						_whitelist_value = _x # 5;
-						_role_whitelisted = _whitelist_value > 0;
-					};
-				};
-				if (_exit) exitWith {};
-			} forEach _roles_side;
+	if (!(_whitelisted)) then {
+		if ((toLowerANSI _role) isEqualTo 'pilot_heli_wl') then {
+			_whitelisted = _uid in (call (missionNamespace getVariable ['QS_pilot_whitelist',{[]}]));
 		};
-		if (_exit) exitWith {};
-	} forEach (missionNamespace getVariable 'QS_roles_data');
-	/*/
-	
+		if ((toLowerANSI _role) isEqualTo 'sniper_wl') then {
+			_whitelisted = _uid in (call (missionNamespace getVariable ['QS_sniper_whitelist',{[]}]));
+		};
+		if ((toLowerANSI _role) isEqualTo 'medic_wl') then {
+			_whitelisted = _uid in (call (missionNamespace getVariable ['QS_cls_whitelist',{[]}]));
+		};
+	};
+	private _roleCount = [0,0];
 	if (diag_tickTime >= (uiNamespace getVariable ['QS_RSS_requestCooldown',-1])) then {
 		uiNamespace setVariable ['QS_RSS_requestCooldown',(diag_tickTime + 3)];
 		private _allowRequest = TRUE;
@@ -367,15 +341,10 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 			};
 		};
 		if (!(_isCAS)) then {
-		
 			// Whitelisting
 			if ((['_WL',_role,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) && (!(_whitelisted))) then {
-				//_roleCount = ['GET_ROLE_COUNT',_role,_side,FALSE] call (missionNamespace getVariable 'QS_fnc_roles');
-				//_roleCount set [1,((_roleCount # 1) - _whitelist_value)];
-				//if ((_roleCount # 0) >= (_roleCount # 1)) then {
-					_allowRequest = FALSE;
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Whitelisted slot<br/><br/>(talk to admins to get whitelisted!)',[],-1,TRUE,'Role Selection',FALSE];
-				//};
+				_allowRequest = FALSE;
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Whitelisted slot<br/><br/>(talk to admins to get whitelisted!)',[],-1,TRUE,'Role Selection',FALSE];
 			};
 		};
 		if (_allowRequest) then {
@@ -457,7 +426,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 	_roles_side set [_role_data_index,[_role_data,_role_units,_role_queue]];
 	(missionNamespace getVariable 'QS_unit_roles') set [_side_ID,_roles_side];
 	['PROPAGATE'] call (missionNamespace getVariable 'QS_fnc_roles');
-	missionNamespace setVariable ['QS_RSS_refreshUI',TRUE,TRUE];
+	missionNamespace setVariable ['QS_RSS_refreshUI',TRUE,-2];
 	if ((side (group _unit)) isNotEqualTo _side) then {
 		if ((count (allGroups select {((side _x) isEqualTo _side)})) >= 100) then {
 			{
@@ -489,7 +458,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 };
 if (_type isEqualTo 'INIT_ROLE') exitWith {
 	params ['','_role'];
-	playSound 'orange_choice_select';
+	//playSound 'orange_choice_select';
 	player setVariable ['QS_unit_role',_role,FALSE];
 	private _traitsData = [
 		[['medic',FALSE,FALSE]],
@@ -836,7 +805,7 @@ if (_type isEqualTo 'SET_DEFAULT_LOADOUT') exitWith {
 	if (_save) then {
 		_QS_playerRole = player getVariable ['QS_unit_role','rifleman'];
 		missionNamespace setVariable ['QS_revive_arsenalInventory',(getUnitLoadout player),FALSE];
-		private _QS_savedLoadouts = profileNamespace getVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
+		private _QS_savedLoadouts = missionProfileNamespace getVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
 		_QS_loadoutIndex = (_QS_savedLoadouts findIf {((_x # 0) isEqualTo _QS_playerRole)});
 		_a = [_QS_playerRole,(getUnitLoadout player)];
 		if (_QS_loadoutIndex isEqualTo -1) then {
@@ -844,30 +813,30 @@ if (_type isEqualTo 'SET_DEFAULT_LOADOUT') exitWith {
 		} else {
 			_QS_savedLoadouts set [_QS_loadoutIndex,_a];
 		};
-		profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),_QS_savedLoadouts];
-		saveProfileNamespace;
+		missionProfileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),_QS_savedLoadouts];
+		saveMissionProfileNamespace;
 	};
 };
 if (_type isEqualTo 'SET_SAVED_LOADOUT') exitWith {
 	params ['',['_role','rifleman']];
 	private _customLoadout = FALSE;
 	if ((((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) && ((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST)) || {(!((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']))}) then {
-		if (!isNil {profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])}) then {
-			if ((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isEqualType []) then {
-				if ((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isNotEqualTo []) then {
-					_QS_loadoutIndex = (profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) findIf {((_x # 0) isEqualTo _role)};
+		if (!isNil {missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])}) then {
+			if ((missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isEqualType []) then {
+				if ((missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isNotEqualTo []) then {
+					_QS_loadoutIndex = (missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) findIf {((_x # 0) isEqualTo _role)};
 					if (_QS_loadoutIndex isNotEqualTo -1) then {
-						player setUnitLoadout [(((profileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) # _QS_loadoutIndex) # 1),TRUE];
+						player setUnitLoadout [(((missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) # _QS_loadoutIndex) # 1),TRUE];
 						_customLoadout = TRUE;
 					};
 				};
 			} else {
-				profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
-				saveProfileNamespace;
+				missionProfileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
+				saveMissionProfileNamespace;
 			};
 		} else {
-			profileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
-			saveProfileNamespace;
+			missionProfileNamespace setVariable [(format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]),[]];
+			saveMissionProfileNamespace;
 		};
 	};
 	if (!(_customLoadout)) then {

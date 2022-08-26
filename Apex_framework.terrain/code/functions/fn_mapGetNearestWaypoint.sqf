@@ -26,7 +26,7 @@ _playerSide = player getVariable ['QS_unit_side',WEST];
 	if (!isNull _x) then {
 		if ((side _x) isEqualTo _playerSide) then {
 			_grp = _x;
-			if (!((waypoints _grp) isEqualTo [])) then {
+			if ((waypoints _grp) isNotEqualTo []) then {
 				{
 					if (((waypointPosition [_grp,_forEachIndex]) distance2D _mousePosition) <= _radius) then {
 						_waypointsInRadius pushBack _x;
@@ -36,7 +36,7 @@ _playerSide = player getVariable ['QS_unit_side',WEST];
 		};
 	};
 } forEach allGroups;
-if (!(_waypointsInRadius isEqualTo [])) then {
+if (_waypointsInRadius isNotEqualTo []) then {
 	{
 		_dist = (waypointPosition _x) distance2D _mousePosition;
 		if (_dist < _max) then {

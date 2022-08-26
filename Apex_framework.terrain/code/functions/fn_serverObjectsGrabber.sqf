@@ -7,7 +7,7 @@ _QS_fnc_serverObjectsGrabber = {
 	_outputText = '/*' + _br + 'Grab data:' + _br;
 	_outputText = _outputText + 'Mission: ' + (if (missionName isEqualTo '') then {'Unnamed'} else {missionName}) + _br;
 	_outputText = _outputText + 'World: ' + worldName + _br;
-	_outputText = _outputText + 'Anchor position: [' + (str (_anchorPos select 0)) + ', ' + (str (_anchorPos select 1)) + ']' + _br;
+	_outputText = _outputText + 'Anchor position: [' + (str (_anchorPos # 0)) + ', ' + (str (_anchorPos # 1)) + ']' + _br;
 	_outputText = _outputText + 'Area size: ' + (str _anchorDim) + _br;
 	_outputText = _outputText + 'Using orientation of objects: ' + (if (_grabOrientation) then {'yes'} else {'no'}) + _br + '*/' + _br + _br;
 	_outputText = _outputText + '[' + _br;
@@ -26,9 +26,9 @@ _QS_fnc_serverObjectsGrabber = {
 	{
 		_type = typeOf _x;
 		_objPos = getPosATL _x; //_objPos = position _x;
-		_dX = (_objPos select 0) - (_anchorPos select 0);
-		_dY = (_objPos select 1) - (_anchorPos select 1);
-		_z = _objPos select 2;
+		_dX = (_objPos # 0) - (_anchorPos # 0);
+		_dY = (_objPos # 1) - (_anchorPos # 1);
+		_z = _objPos # 2;
 		_azimuth = getDir _x;
 		if (_grabOrientation) then {
 			_orientation = _x call (missionNamespace getVariable 'BIS_fnc_getPitchBank');

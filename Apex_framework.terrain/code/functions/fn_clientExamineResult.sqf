@@ -6,12 +6,12 @@ Author:
 
 Last Modified:
 
-	25/11/2017 A3 1.78 by Quiksilver
+	22/07/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Client Examine Result
-____________________________________________________________________________/*/
+_______________________________________________/*/
 
 params ['_entity','_result'];
 if (_result isEqualTo -1) exitWith {
@@ -44,4 +44,8 @@ if (_result isEqualTo 5) exitWith {
 	50 cutText ['Side task found','PLAIN',0.5];
 	playSound ['Orange_Access_FM',FALSE];
 	[82,_entity,player,(groupID (group player)),profileName,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+};
+if (_result isEqualTo 6) exitWith {
+	50 cutText ['You can hear voices from down below ...','PLAIN',0.5];
+	playSound ['Click',FALSE];
 };

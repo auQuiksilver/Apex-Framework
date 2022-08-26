@@ -13,11 +13,11 @@ Description:
 	Curator KeyDown Event
 __________________________________________________*/
 
-_key = _this select 1;
+_key = _this # 1;
 private _c = FALSE;
 player setVariable ['QS_client_afkTimeout',time,FALSE];
 if (_key isEqualTo 61) then {
-	if (_this select 2) then {
+	if (_this # 2) then {
 		if (alive player) then {
 			if ((lifeState player) isNotEqualTo 'INCAPACITATED') then {
 				['Curator'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');

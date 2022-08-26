@@ -25,22 +25,22 @@ ____________________________________________________________________________/*/
 params ['_type'];
 if (_type isEqualTo 'RESET') exitWith {
 	diag_log format ['***** GRID RESETTING - %1 *****',worldName];
-	profileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
-	saveProfileNamespace;
+	missionProfileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
+	saveMissionProfileNamespace;
 };
 if (_type isEqualTo 'SAVE') exitWith {
 	diag_log '***** GRID SAVING *****';
-	profileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),(missionNamespace getVariable ['QS_grid_data',[]])];
-	saveProfileNamespace;
+	missionProfileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),(missionNamespace getVariable ['QS_grid_data',[]])];
+	saveMissionProfileNamespace;
 };
 if (_type isEqualTo 'AO_FINDNEAR_RANDOM') exitWith {
 	params ['','_regionIndex3','_referencePosition','_radius'];
-	_region_ao_data = (QS_GRID_DATA select _regionIndex3) select 1;
+	_region_ao_data = (QS_GRID_DATA # _regionIndex3) # 1;
 	private _ao_polygon_centroid1 = [0,0,0];
 	private _tempData = [];
 	{
-		if ((_x select 0) isEqualTo 0) then {
-			_ao_polygon_centroid1 = (_x select 2) call (missionNamespace getVariable 'QS_fnc_geomPolygonCentroid');
+		if ((_x # 0) isEqualTo 0) then {
+			_ao_polygon_centroid1 = (_x # 2) call (missionNamespace getVariable 'QS_fnc_geomPolygonCentroid');
 			_tempData pushBack [_forEachIndex,_ao_polygon_centroid1];
 		};
 	} forEach _region_ao_data;
@@ -48,30 +48,30 @@ if (_type isEqualTo 'AO_FINDNEAR_RANDOM') exitWith {
 	private _nearAOData = [];
 	private _nearAOIndex = -1;
 	{
-		if (((_x select 1) distance2D _referencePosition) < _radius) then {
-			_nearAOs pushBack (_x select 0);
+		if (((_x # 1) distance2D _referencePosition) < _radius) then {
+			_nearAOs pushBack (_x # 0);
 		};
 	} forEach _tempData;
-	if (!(_nearAOs isEqualTo [])) then {
+	if (_nearAOs isNotEqualTo []) then {
 		_nearAOIndex = selectRandom _nearAOs;
 	} else {
-		if (!(_tempData isEqualTo [])) then {
-			_nearAOIndex = (selectRandom _tempData) select 0;
+		if (_tempData isNotEqualTo []) then {
+			_nearAOIndex = (selectRandom _tempData) # 0;
 		};
 	};
 	_nearAOIndex;
 };
 if (_type isEqualTo 'REGION_SETSTATE') exitWith {
 	params ['','_regionIndex','_newState'];
-	_region_data1 = QS_GRID_DATA select _regionIndex;
-	_region_ao_data1 = _region_data1 select 1;
+	_region_data1 = QS_GRID_DATA # _regionIndex;
+	_region_ao_data1 = _region_data1 # 1;
 	private _ao_markers = [];
 	private _markerColors = [
 		'ColorBLACK','ColorOPFOR','ColorWEST','ColorUNKNOWN'
 	];
 	private _markerAlphas = [0,0.75,0.75,0.75];
-	_markerAlpha = _markerAlphas select _newState;
-	_markerColor = _markerColors select _newState;
+	_markerAlpha = _markerAlphas # _newState;
+	_markerColor = _markerColors # _newState;
 	//comment 'Set main data';
 	_region_data1 set [2,_newState];
 	QS_GRID_DATA set [_regionIndex,_region_data1];
@@ -79,7 +79,7 @@ if (_type isEqualTo 'REGION_SETSTATE') exitWith {
 if (_type isEqualTo 'REGION_GETAVAILABLE') exitWith {
 	private _availableRegions = [];
 	{
-		if ((_x select 2) isEqualTo 0) then {
+		if ((_x # 2) isEqualTo 0) then {
 			_availableRegions pushBack _forEachIndex;
 		};
 	} forEach QS_GRID_DATA;
@@ -89,14 +89,14 @@ if (_type isEqualTo 'REGION_GETAVAILABLE') exitWith {
 if (_type isEqualTo 'REGION_GETAVAILABLEAOS') exitWith {
 	params ['','_regionIndex'];
 	private _availableAOs = [];
-	if (!(_regionIndex isEqualTo -1)) then {
-		_region_data1 = QS_GRID_DATA select _regionIndex;
-		_region_ao_data1 = _region_data1 select 1;
+	if (_regionIndex isNotEqualTo -1) then {
+		_region_data1 = QS_GRID_DATA # _regionIndex;
+		_region_ao_data1 = _region_data1 # 1;
 		private _aoState = -1;
 		private _availableAOs = [];
-		if (!(_regionIndex isEqualTo -1)) then {
+		if (_regionIndex isNotEqualTo -1) then {
 			{
-				_aoState = _x select 0;
+				_aoState = _x # 0;
 				if (_aoState isEqualTo 0) then {
 					_availableAOs pushBack _forEachIndex;
 				};
@@ -108,8 +108,8 @@ if (_type isEqualTo 'REGION_GETAVAILABLEAOS') exitWith {
 if (_type isEqualTo 'REGION_GETACTIVE') exitWith {
 	private _activeRegion = -1;
 	{
-		if ((_x select 2) isEqualTo 1) exitWith {
-			_activeRegion = (_x select 0);
+		if ((_x # 2) isEqualTo 1) exitWith {
+			_activeRegion = (_x # 0);
 		};
 	} forEach QS_GRID_DATA;
 	_activeRegion;
@@ -117,11 +117,11 @@ if (_type isEqualTo 'REGION_GETACTIVE') exitWith {
 if (_type isEqualTo 'AO_GETACTIVE') exitWith {
 	params ['','_regionIndex'];
 	private _activeAO = -1;
-	if (!(_regionIndex isEqualTo -1)) then {
-		_region_data1 = QS_GRID_DATA select _regionIndex;
-		_region_ao_data1 = _region_data1 select 1;
+	if (_regionIndex isNotEqualTo -1) then {
+		_region_data1 = QS_GRID_DATA # _regionIndex;
+		_region_ao_data1 = _region_data1 # 1;
 		{
-			if ((_x select 0) isEqualTo 1) exitWith {
+			if ((_x # 0) isEqualTo 1) exitWith {
 				_activeAO = _forEachIndex;
 			};
 		} forEach _region_ao_data1;
@@ -130,8 +130,8 @@ if (_type isEqualTo 'AO_GETACTIVE') exitWith {
 };
 if (_type isEqualTo 'AO_GETDATA') exitWith {
 	params ['','_regionIndex','_aoIndex'];
-	_region_data1 = QS_GRID_DATA select _regionIndex;
-	_region_ao_data1 = _region_data1 select 1;
+	_region_data1 = QS_GRID_DATA # _regionIndex;
+	_region_ao_data1 = _region_data1 # 1;
 	private _ao_data = [];
 	{
 		if (_forEachIndex isEqualTo _aoIndex) exitWith {
@@ -142,15 +142,15 @@ if (_type isEqualTo 'AO_GETDATA') exitWith {
 };
 if (_type isEqualTo 'AO_SETSTATE') exitWith {
 	params ['','_regionIndex','_aoIndex','_newState'];
-	_region_data1 = QS_GRID_DATA select _regionIndex;
-	_region_ao_data1 = _region_data1 select 1;
+	_region_data1 = QS_GRID_DATA # _regionIndex;
+	_region_ao_data1 = _region_data1 # 1;
 	private _ao_data = [];
 	private _markerColors = [
 		'ColorBLACK','ColorOPFOR','ColorWEST','ColorUNKNOWN'
 	];
 	_markerAlphas = [0,0.75,0.75,0.75];
-	_markerColor = _markerColors select _newState;
-	_markerAlpha = _markerAlphas select _newState;
+	_markerColor = _markerColors # _newState;
+	_markerAlpha = _markerAlphas # _newState;
 	{
 		if (_forEachIndex isEqualTo _aoIndex) then {
 			_ao_data = _x;
@@ -158,7 +158,7 @@ if (_type isEqualTo 'AO_SETSTATE') exitWith {
 			{
 				_x setMarkerColor _markerColor;
 				//_x setMarkerAlpha _markerAlpha;
-			} forEach (_ao_data select 3);
+			} forEach (_ao_data # 3);
 			_region_ao_data1 set [_forEachIndex,_ao_data];
 		};
 	} forEach _region_ao_data1;
@@ -178,11 +178,11 @@ if (_type isEqualTo 'EVALUATE_AO') exitWith {
 if (_type isEqualTo 'EVALUATE_REGION') exitWith {
 	params ['','_regionIndex','_threshold'];
 	private _remainingAOs = 0;
-	if (!(_regionIndex isEqualTo -1)) then {
-		_region_data1 = QS_GRID_DATA select _regionIndex;
-		_region_ao_data1 = _region_data1 select 1;
+	if (_regionIndex isNotEqualTo -1) then {
+		_region_data1 = QS_GRID_DATA # _regionIndex;
+		_region_ao_data1 = _region_data1 # 1;
 		{
-			if ((_x select 0) isEqualTo 0) then {
+			if ((_x # 0) isEqualTo 0) then {
 				_remainingAOs = _remainingAOs + 1;
 			};
 		} forEach _region_ao_data1;
@@ -198,7 +198,7 @@ if (_type isEqualTo 'INIT') exitWith {
 	
 	diag_log format ['Grid initializing START - %1',diag_tickTime];
 	
-	private _grid_data_persistent = profileNamespace getVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
+	private _grid_data_persistent = missionProfileNamespace getVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
 	if (_grid_data_persistent isEqualTo []) then {
 		_grid_data_persistent = call (compileScript ['code\config\QS_data_grid.sqf']); 
 	};
@@ -209,12 +209,12 @@ if (_type isEqualTo 'INIT') exitWith {
 	private _aoPolygon = [];
 	private _aoState = -1;
 	{
-		_regionAOs = _x select 1;
-		_regionState = _x select 2;
+		_regionAOs = _x # 1;
+		_regionState = _x # 2;
 		{
 			_aoData = _x;
-			_aoState = _aoData select 0;
-			_aoPolygon = _aoData select 2;
+			_aoState = _aoData # 0;
+			_aoPolygon = _aoData # 2;
 			_tempData pushBack [_aoPolygon,_aoState,_regionState];
 		} forEach _regionAOs;
 	} forEach _grid_data_persistent;
@@ -223,14 +223,14 @@ if (_type isEqualTo 'INIT') exitWith {
 		params ['_position','_tempData'];
 		private _c = [FALSE,0];
 		{
-			if (_position inPolygon (_x select 0)) exitWith {
-				_c = [TRUE,(_x select 1)];
+			if (_position inPolygon (_x # 0)) exitWith {
+				_c = [TRUE,(_x # 1)];
 			};
 		} forEach _tempData;
 		_c;
 	};
 	_posi = {
-		[(floor((_this select 0)*0.01))*100+50, (floor((_this select 1)*0.01))*100+50]
+		[(floor((_this # 0)*0.01))*100+50, (floor((_this # 1)*0.01))*100+50]
 	};
 	_generate = {
 		params ['_start','_offset','_size','_res','_alpha','_tempData','_inPolygons'];
@@ -242,42 +242,42 @@ if (_type isEqualTo 'INIT') exitWith {
 		];
 		private _markerAlphas = [0,0,0.5,0.5];	// [0,0.75,0.5,0.5];
 		_ind = -1;  
-		_start = _start apply {_ind = _ind + 1; _x + (_offset select _ind)};
+		_start = _start apply {_ind = _ind + 1; _x + (_offset # _ind)};
 		_start params ['_sx','_sz'];
-		for '_i' from 0 to (round((_size select 0)/_res)) step 1 do {
+		for '_i' from 0 to (round((_size # 0)/_res)) step 1 do {
 			_pi = [_sx + _res * _i, _sz, 0];
-			_str = format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pi))];/*/_str = format ['QS_grid_marker_%1',(_pi select 0),(_pi select 1)];/*/
+			_str = format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pi))];/*/_str = format ['QS_grid_marker_%1',(_pi # 0),(_pi # 1)];/*/
 			if (!(_str in allMapMarkers)) then {
 				if (!surfaceIsWater _pi) then {
 					_markerInfo = [_pi,_tempData] call _inPolygons;
-					if (_markerInfo select 0) then {
+					if (_markerInfo # 0) then {
 						_mkr = createMarker [_str,_creationPos];
 						_mkr setMarkerTextLocal (toString [32,32,32]);
 						_mkr setMarkerShapeLocal 'Rectangle';
 						_mkr setMarkerBrushLocal 'SolidBorder';
 						_mkr setMarkerSizeLocal [(_res*0.5),(_res*0.5)];
-						_mkr setMarkerColorLocal (_markerColors select (_markerInfo select 1));
-						_mkr setMarkerAlphaLocal (_markerAlphas select (_markerInfo select 1));
+						_mkr setMarkerColorLocal (_markerColors select (_markerInfo # 1));
+						_mkr setMarkerAlphaLocal (_markerAlphas select (_markerInfo # 1));
 						_mkr setMarkerPos _pi;
 						_markers pushBack _mkr;
 					};
 				};
 			};
 			_pi params ['_px','_pz'];
-			for '_e' from 1 to (round((_size select 1)/_res)) step 1 do {
+			for '_e' from 1 to (round((_size # 1)/_res)) step 1 do {
 				_pe = [_px, _pz + _res * _e, 0];
-				_str = format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pe))];/*/_str = format ['QS_grid_marker_%1',(_pe select 0),(_pe select 1)];/*/
+				_str = format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pe))];/*/_str = format ['QS_grid_marker_%1',(_pe # 0),(_pe # 1)];/*/
 				if (!(_str in allMapMarkers)) then {
 					if (!surfaceIsWater _pe) then {
 						_markerInfo = [_pe,_tempData] call _inPolygons;
-						if (_markerInfo select 0) then {
+						if (_markerInfo # 0) then {
 							_mkr = createMarker [_str,_creationPos];
 							_mkr setMarkerText (toString [32,32,32]);
 							_mkr setMarkerShape 'Rectangle';
 							_mkr setMarkerBrush 'SolidBorder';
 							_mkr setMarkerSize [_res*0.5,_res*0.5];
-							_mkr setMarkerColor (_markerColors select (_markerInfo select 1));
-							_mkr setMarkerAlpha (_markerAlphas select (_markerInfo select 1));
+							_mkr setMarkerColor (_markerColors select (_markerInfo # 1));
+							_mkr setMarkerAlpha (_markerAlphas select (_markerInfo # 1));
 							_mkr setMarkerPos _pe;
 							_markers pushBack _mkr;
 						};
@@ -333,8 +333,8 @@ if (_type isEqualTo 'INIT') exitWith {
 			];
 			_ao_markers = [];
 			{
-				if ((_x select 1) inPolygon _ao_polygon) then {
-					_ao_markers pushBack (_x select 0);
+				if ((_x # 1) inPolygon _ao_polygon) then {
+					_ao_markers pushBack (_x # 0);
 				};
 			} forEach _markersData;
 			_ao_data set [3,_ao_markers];
@@ -359,19 +359,19 @@ if (_type isEqualTo 'INIT') exitWith {
 		['QS_marker_grid_mtrCircle',[-1000,-1000,0],'Empty','Ellipse','Border','ColorOPFOR',[100,100],0,[-1000,-1000,0],0,'']
 	];
 	{
-		createMarker [(_x select 0),(_x select 1)];
-		(_x select 0) setMarkerType (_x select 2);
-		(_x select 0) setMarkerShape (_x select 3);
-		if (!((_x select 3) isEqualTo 'Icon')) then {
-			(_x select 0) setMarkerBrush (_x select 4);
+		createMarker [(_x # 0),(_x # 1)];
+		(_x # 0) setMarkerType (_x # 2);
+		(_x # 0) setMarkerShape (_x # 3);
+		if ((_x # 3) isNotEqualTo 'Icon') then {
+			(_x # 0) setMarkerBrush (_x # 4);
 		};
-		(_x select 0) setMarkerColor (_x select 5);
-		(_x select 0) setMarkerSize (_x select 6);
-		(_x select 0) setMarkerAlpha (_x select 7);
-		(_x select 0) setMarkerPos (_x select 8);
-		(_x select 0) setMarkerDir (_x select 9);
-		(_x select 0) setMarkerText (format ['%1%2',(toString [32,32,32]),(_x select 10)]);
-		_markers pushBack (_x select 0);
+		(_x # 0) setMarkerColor (_x # 5);
+		(_x # 0) setMarkerSize (_x # 6);
+		(_x # 0) setMarkerAlpha (_x # 7);
+		(_x # 0) setMarkerPos (_x # 8);
+		(_x # 0) setMarkerDir (_x # 9);
+		(_x # 0) setMarkerText (format ['%1%2',(toString [32,32,32]),(_x # 10)]);
+		_markers pushBack (_x # 0);
 	} forEach _missionMarkerData;
 	diag_log format ['Grid initializing END - %1',diag_tickTime];
 	missionNamespace setVariable ['QS_grid_initialized',TRUE,FALSE];
@@ -435,14 +435,14 @@ if (_type isEqualTo 'MANAGE') then {
 			_generalInfoCheckDelay = _uiTime + _generalInfoDelay;
 			_allUnits = allUnits;
 			_allPlayers = allPlayers;
-			_allEnemies = (_allUnits select {(((side _x) in _enemySides) && ((lifeState _x) in ['HEALTHY','INJURED']))}) unitsBelowHeight _markerZ;
-			_allFriends = (_allUnits select {(((side _x) in _friendSides) && ((lifeState _x) in ['HEALTHY','INJURED']))}) unitsBelowHeight _markerZ;
+			_allEnemies = (((units EAST) + (units RESISTANCE)) select {((lifeState _x) in ['HEALTHY','INJURED'])}) unitsBelowHeight _markerZ;
+			_allFriends = ((units WEST) select {((lifeState _x) in ['HEALTHY','INJURED'])}) unitsBelowHeight _markerZ;
 		};
 		if (missionNamespace getVariable ['QS_grid_active',_false]) then {
 			if (_uiTime > _objectiveEvalGraceTime) then {
-				if (!((missionNamespace getVariable ['QS_grid_objectivesData',[]]) isEqualTo [])) then {
+				if ((missionNamespace getVariable ['QS_grid_objectivesData',[]]) isNotEqualTo []) then {
 					_objectivesData = missionNamespace getVariable ['QS_grid_objectivesData',[]];
-					if (!(_objectivesData isEqualTo [])) then {
+					if (_objectivesData isNotEqualTo []) then {
 						_objectivesData_update = _false;
 						_objectivesRequiredComplete = _true;
 						{
@@ -458,7 +458,7 @@ if (_type isEqualTo 'MANAGE') then {
 							];
 							if (_objectiveState isEqualTo 0) then {
 								_objectiveReturn = _objectiveArguments call _objectiveCode;
-								if (!(_objectiveReturn isEqualTo _objectiveState)) then {
+								if (_objectiveReturn isNotEqualTo _objectiveState) then {
 									_objectivesData_update = _true;
 									_objectiveData set [1,_objectiveReturn];
 									_objectivesData set [_forEachIndex,_objectiveData];
@@ -487,7 +487,7 @@ if (_type isEqualTo 'MANAGE') then {
 								if (!(missionNamespace getVariable ['QS_grid_AI_triggerDeinit',_false])) then {
 									missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_true,_true];
 								};
-								if (!((missionNamespace getVariable ['QS_grid_intelEntities',[]]) isEqualTo [])) then {
+								if ((missionNamespace getVariable ['QS_grid_intelEntities',[]]) isNotEqualTo []) then {
 									{
 										deleteVehicle _x;
 									} forEach (missionNamespace getVariable ['QS_grid_intelEntities',[]]);
@@ -509,7 +509,7 @@ if (_type isEqualTo 'MANAGE') then {
 								};
 								missionNamespace setVariable ['QS_grid_AIRspTotal',0,_false];
 								missionNamespace setVariable ['QS_grid_AIRspDestroyed',0,_false];
-								if (!((missionNamespace getVariable ['QS_ao_UXOs',[]]) isEqualTo [])) then {
+								if ((missionNamespace getVariable ['QS_ao_UXOs',[]]) isNotEqualTo []) then {
 									{
 										deleteVehicle _x;
 									} forEach (missionNamespace getVariable ['QS_ao_UXOs',[]]);
@@ -533,8 +533,8 @@ if (_type isEqualTo 'MANAGE') then {
 			//comment 'Handle grid markers';
 			if (_uiTime > _markerUpdateCheckDelay) then {
 				_markerUpdateCheckDelay = _uiTime + _markerUpdateDelay;
-				if (!(_aoData isEqualTo [])) then {
-					if (!(_aoGridMarkerData isEqualTo [])) then {
+				if (_aoData isNotEqualTo []) then {
+					if (_aoGridMarkerData isNotEqualTo []) then {
 						missionNamespace setVariable ['QS_grid_evalMarkers',_true,_false];
 						{
 							_markerData = _x;
@@ -545,7 +545,7 @@ if (_type isEqualTo 'MANAGE') then {
 							];
 							_markerColor = markerColor _marker;
 							if (_markerColor isEqualTo 'ColorOPFOR') then {
-								if (!((_allFriends inAreaArray _marker) isEqualTo [])) then {
+								if ((_allFriends inAreaArray _marker) isNotEqualTo []) then {
 									if ((_allEnemies inAreaArray _marker) isEqualTo []) then {
 										_marker setMarkerColor 'ColorGREEN';
 									};
@@ -553,13 +553,13 @@ if (_type isEqualTo 'MANAGE') then {
 							} else {
 								if (_markerColor isEqualTo 'ColorGREEN') then {
 									//comment 'Evaluate for red conditions';
-									if (!((_allEnemies inAreaArray _marker) isEqualTo [])) then {
+									if ((_allEnemies inAreaArray _marker) isNotEqualTo []) then {
 										_marker setMarkerColor 'ColorOPFOR';
 									};
 								} else {
 									if (_markerColor isEqualTo 'ColorRED') then {
 										if ((_allEnemies inAreaArray _marker) isEqualTo []) then {
-											if (!((_allFriends inAreaArray _marker) isEqualTo [])) then {
+											if ((_allFriends inAreaArray _marker) isNotEqualTo []) then {
 												_marker setMarkerColor 'ColorGREEN';
 											};
 										};
@@ -577,9 +577,9 @@ if (_type isEqualTo 'MANAGE') then {
 					};
 				};
 			};
-			if (!((missionNamespace getVariable ['QS_grid_intelHouses',[]]) isEqualTo [])) then {
+			if ((missionNamespace getVariable ['QS_grid_intelHouses',[]]) isNotEqualTo []) then {
 				_intelHouses = missionNamespace getVariable ['QS_grid_intelHouses',[]];
-				if (!(_intelHouses isEqualTo [])) then {
+				if (_intelHouses isNotEqualTo []) then {
 					{
 						_intelHousesData = _x;
 						_intelHousesData params [
@@ -587,7 +587,7 @@ if (_type isEqualTo 'MANAGE') then {
 							['_intelItems',[]]
 						];
 						if (!(alive _intelHouse)) then {
-							if (!(_intelItems isEqualTo [])) then {
+							if (_intelItems isNotEqualTo []) then {
 								{
 									if (!(isNull _x)) then {
 										if (!(isObjectHidden _x)) then {
@@ -608,7 +608,7 @@ if (_type isEqualTo 'MANAGE') then {
 			//comment 'Grid init?';
 			_objectiveEvalGraceTime = diag_tickTime + 60;
 			_aoData = missionNamespace getVariable ['QS_grid_aoData',[]];
-			if (!(_aoData isEqualTo [])) then {
+			if (_aoData isNotEqualTo []) then {
 				_aoData params [
 					'',
 					'',
