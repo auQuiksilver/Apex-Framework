@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	28/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -43,7 +43,12 @@ _isTank = _target isKindOf 'Tank';
 _isAir = (_target isKindOf 'Air') && (!isTouchingGround _target);
 private _unit = objNull;
 private _doingSomething = FALSE;
-_grp setFormDir ((leader _grp) getDir _target);
+if (
+	((behaviour (leader _grp)) in ['SAFE','AWARE']) ||
+	((random 1) > 0.5)
+) then {
+	_grp setFormDir ((leader _grp) getDir _target);
+};
 if ((random 1) > 0.5) then {
 	_grp setFormation 'LINE';
 };
@@ -62,24 +67,24 @@ if ((random 1) > 0.5) then {
 		) then {
 			// SUPPRESS
 			if (
-				((random 1) > 0) &&
+				((random 1) > 0.5) &&
 				{(!_isTank)} &&
-				{(!_isAir)}
+				{(!_isAir)} &&
+				{((currentCommand _unit) isNotEqualTo 'Suppress')} &&
+				{(([_unit,'VIEW',_target] checkVisibility [eyePos _unit,aimPos _target]) > 0)}
 			) then {
-				if ((currentCommand _unit) isNotEqualTo 'Suppress') then {
-					if (([_unit,'VIEW',_target] checkVisibility [eyePos _unit,aimPos _target]) > 0) then {
-						_doingSomething = TRUE;
-						[_unit,_target,1,TRUE,TRUE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
-					};
-				};
+				_doingSomething = TRUE;
+				[_unit,_target,1,TRUE,TRUE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 			};
 		};
-		if ((!(_doingSomething)) && ((random 1) > 0)) then {
+		if (
+			(!(_doingSomething)) && 
+			((random 1) > 0.666)
+		) then {
 			if ((random 1) > 0.5) then {
 				// SMOKE
 				if (
-					((random 1) > 0.666) &&
-					{(serverTime > (_unit getVariable ['QS_AI_UNIT_lastSmoke',-1]))} &&
+					(serverTime > (_unit getVariable ['QS_AI_UNIT_lastSmoke',-1])) &&
 					{(((_unit distance2D _target) < 300) || {((getSuppression _unit) > 0)})}
 				) then {
 					QS_AI_managed_smoke = QS_AI_managed_smoke select {(serverTime < _x)};
@@ -92,8 +97,7 @@ if ((random 1) > 0.5) then {
 			} else {
 				// FRAG
 				if (
-					((random 1) > 0.666) &&
-					{(serverTime > (_unit getVariable ['QS_AI_UNIT_lastFrag',-1]))} &&
+					(serverTime > (_unit getVariable ['QS_AI_UNIT_lastFrag',-1])) &&
 					{((_unit distance2D _target) < 65)}
 				) then {
 					QS_AI_managed_frags = QS_AI_managed_frags select {(serverTime < _x)};

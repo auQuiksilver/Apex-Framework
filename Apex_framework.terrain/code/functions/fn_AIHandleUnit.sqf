@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	1/06/2022 A3 2.10 by Quiksilver
+	28/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -126,7 +126,7 @@ if (_isLeader) then {
 _attackTarget = getAttackTarget _unit;
 if (!alive _attackTarget) then {
 	if (_fps > 15) then {
-		if ((random 1) > 0) then {
+		if ((random 1) > 0.5) then {
 			_attackTarget = [_unit,300,TRUE] call (missionNamespace getVariable 'QS_fnc_AIGetAttackTarget');
 		};
 	};
@@ -234,7 +234,7 @@ if (isNull _objectParent) then {
 				};
 			};
 			if ((_unit getUnitTrait 'explosiveSpecialist') || {(_unit getUnitTrait 'engineer')}) then {
-				if ((random 1) > 0) then {
+				if ((random 1) > 0.5) then {
 					if (!(_unit getVariable ['QS_AI_JOB',FALSE])) then {
 						if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastExpEval',-1])) then {
 							_unit setVariable ['QS_AI_UNIT_lastExpEval',(serverTime + (random [30,45,60])),FALSE];
@@ -377,10 +377,8 @@ if (_fps > 10) then {
 		if (alive _attackTarget) then {
 			private _attackTarget = vehicle _attackTarget;
 			if (([_unit,'FIRE',_attackTarget] checkVisibility [(eyePos _unit),(aimPos _attackTarget)]) > 0) then {
-				_isSuppressing = TRUE;
 				[_unit,_attackTarget,1,TRUE,TRUE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 			} else {
-				_isSuppressing = TRUE;
 				[
 					_unit,
 					((_unit targetKnowledge _attackTarget) # 6),
@@ -391,6 +389,7 @@ if (_fps > 10) then {
 					-1
 				] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 			};
+			_isSuppressing = TRUE;
 			if (((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isNotEqualTo 0) then {
 				_unit removeAllEventHandlers 'FiredMan';
 			};
@@ -405,11 +404,11 @@ if (_fps > 10) then {
 				};
 			} forEach _hostileBuildings;
 			if (!isNull _hostileBuilding) then {
-				_isSuppressing = TRUE;
 				if (((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isNotEqualTo 0) then {
 					_unit removeAllEventHandlers 'FiredMan';
 				};
 				_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(serverTime + (random [10,15,20])),FALSE];
+				_isSuppressing = TRUE;
 				[_unit,_hostileBuilding,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 			};
 		};
@@ -462,11 +461,11 @@ if (_fps > 10) then {
 							} forEach _hostileBuildings;
 							if (!isNull _hostileBuilding) then {
 								if (!(terrainIntersectASL [eyePos _objectParent,aimPos _hostileBuilding])) then {
-									_isSuppressing = TRUE;
 									if (((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isNotEqualTo 0) then {
 										_unit removeAllEventHandlers 'FiredMan';
 									};
 									_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(serverTime + (random [30,60,90])),FALSE];
+									_isSuppressing = TRUE;
 									[_unit,_hostileBuilding,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 								};
 							};
@@ -478,6 +477,7 @@ if (_fps > 10) then {
 						{((random 1) > 0.666)} &&
 						{(_targets isNotEqualTo [])}
 					) then {
+						_isSuppressing = TRUE;
 						[_unit,selectRandom _targets,selectRandomWeighted [1,0.5,2,0.5],FALSE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 					};
 				};
@@ -486,7 +486,9 @@ if (_fps > 10) then {
 	};
 	if (
 		(!(_isSuppressing)) &&
+		{((random 1) > 0.666)} &&
 		{(_unitBehaviour isNotEqualTo 'STEALTH')} &&
+		{(_unit getVariable ['QS_AI_UNIT_isMG',FALSE])} &&
 		{(((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isEqualTo 0)} &&
 		{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1]))}
 	) then {
