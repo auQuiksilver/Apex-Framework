@@ -135,7 +135,7 @@ private _actOfGod_delay = -1;
 if (_randomN > 0.5) then {
 	if (_randomN < _chance) then {
 		_actOfGod = TRUE;
-		_actOfGod_delay = _tickTimeNow + 25 + (random 25);
+		_actOfGod_delay = _tickTimeNow + 35 + (random 35);
 	};
 };
 _sounds = [
