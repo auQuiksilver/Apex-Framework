@@ -1075,7 +1075,7 @@ if (
 					_grp enableAttack TRUE;
 				};
 				if (_grpIsReady || {(_uiTime > _currentTask_timeout)}) then {
-					_movePos = selectRandom _currentTask_position;
+					_movePos = _currentTask_position;
 					if ((_grpLeader distance2D _movePos) > 50) then {
 						_grp move _movePos;
 						_grp setFormDir (_grpLeader getDir _movePos);
@@ -1086,7 +1086,7 @@ if (
 						private _enemyPos = [0,0,0];
 						{
 							_grpUnit = _x;
-							_unitMovePos = selectRandom _currentTask_position;
+							_unitMovePos = _currentTask_position;
 							_unitMovePos set [2,((_unitMovePos # 2) + 1.5)];
 							if ((random 1) > 0.5) then {
 								_nearestEnemy = _grpUnit findNearestEnemy _grpUnit;
