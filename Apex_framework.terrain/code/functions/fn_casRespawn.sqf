@@ -289,32 +289,23 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 	_casJet setVehicleReceiveRemoteTargets (!(missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]));
 	_casJet setVehicleReportOwnPosition (!(missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]));
 	[_casJet,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
-	_casJet addMPEventHandler [
-		'MPKilled',
+	_casJet addEventHandler [
+		'Killed',
 		{
-			params ['_jet','_killer','_instigator','_useEffects'];
-			private _text = '';
-			if (((getPosATL _jet) # 2) > 20) then {
-				_text = 'Our CAS has been shot down!';
+			params ['_jet'];
+			_text = ['Our CAS has been destroyed!','Our CAS has been shot down!'] select (((getPosATL _jet) # 2) > 20);
+			[[WEST,'AirBase'],_text] remoteExec ['sideChat',-2,FALSE];
+			if ((_jet distance2D (markerPos 'QS_marker_base_marker')) < 600) then {
+				missionNamespace setVariable ['QS_casJet_destroyedAtBase',TRUE,FALSE];
+				missionNamespace setVariable ['QS_casJet_destroyedAtBase_type',(typeOf _jet),FALSE];
 			} else {
-				_text = 'Our CAS has been destroyed!';
-			};
-			if (!isDedicated) then {
-				[WEST,'AirBase'] sideChat _text;
-			};
-			if (isDedicated) then {
-				if ((_jet distance2D (markerPos 'QS_marker_base_marker')) < 600) then {
-					missionNamespace setVariable ['QS_casJet_destroyedAtBase',TRUE,FALSE];
-					missionNamespace setVariable ['QS_casJet_destroyedAtBase_type',(typeOf _jet),FALSE];
-				} else {
-					if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 3) then {
-						if ((missionNamespace getVariable ['QS_CAS_jetAllowance_current',0]) >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) then {
-							missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',TRUE,FALSE];
-						};
+				if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 3) then {
+					if ((missionNamespace getVariable ['QS_CAS_jetAllowance_current',0]) >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) then {
+						missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',TRUE,FALSE];
 					};
 				};
-				(missionNamespace getVariable 'QS_garbageCollector') pushBack [_jet,'NOW_DISCREET',0];
 			};
+			(missionNamespace getVariable 'QS_garbageCollector') pushBack [_jet,'NOW_DISCREET',0];
 		}
 	];
 	_casJet addEventHandler [
