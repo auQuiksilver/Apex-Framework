@@ -1,6 +1,16 @@
 Official Change Log
 
-1.3.0
+1.3.1 (WIP - Changes in progress)
+
+- [FIXED] Occasionally unable to Release when dragging soldiers.
+- [FIXED] CAS jet could blow up on spawn for players when using Transport Points -based CAS system.
+- [FIXED] Script error when adding Sniper to weekly whitelist
+- [FIXED] Removed debug variables that slipped into stable build. "QS_fnc_AIHandleUnit" , "QS_fnc_AIGroupEventEnemyDetected"
+- [FIXED] "QS_fnc_AIHandleGroup" Script error line 1079
+- [FIXED] "QS_fnc_AIHandleUnit" Too many units were attempting suppressive fire in combat (affects performance & FPS)
+- [REMOVED] Some unused files in "code\functions"
+
+1.3.0 (27/08/2022 A3 2.10)
 
 - [ADDED] Headless Client.
 - [ADDED] AI Behaviour Overhaul (Patrols, suppressive fire, frag & smoke use, etc).
