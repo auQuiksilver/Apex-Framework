@@ -6,15 +6,15 @@ Author:
 	
 Last modified: 
 
-	27/08/2022 A3 2.10 by Quiksilver
+	29/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = '1.3.0';
-_missionProductStatus = 'Stable';
+_missionProductVersion = getMissionConfigValue ['missionProductVersion',0];
+_missionProductStatus = getMissionConfigValue ['missionProductStatus',0];
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
