@@ -25,12 +25,14 @@ private _unitTypes = [
 if (_type isEqualTo 'INIT') exitWith {
 	private _pos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
 	private _aoSize = missionNamespace getVariable ['QS_aoSize',500];
+	private _hqPos = missionNamespace getVariable ['QS_hqPos',_pos];
 	private _registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
 	private _buildingData = (nearestObjects [_pos,['House'],_aoSize * 0.75,TRUE]) select {
 		(alive _x) &&
 		{((count (_x buildingPos -1)) > 4)} && 
 		{(!isObjectHidden _x)} &&
-		{((_registeredPositions inAreaArray [getPosATL _x,50,50,0,FALSE]) isEqualTo [])}
+		{((_registeredPositions inAreaArray [getPosATL _x,50,50,0,FALSE]) isEqualTo [])} &&
+		{((_x distance2D _hqPos) > 50)}
 	};
 	if ((count _buildingData) >= 8) then {
 		_buildingData = _buildingData call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
