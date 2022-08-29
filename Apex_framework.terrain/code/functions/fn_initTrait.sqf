@@ -132,6 +132,7 @@ if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 		if (!(_role in ['pilot','pilot_heli','pilot_plane','uav','pilot_cas','commander','jtac','pilot_heli_WL','jtac_WL'])) then {
 			[0,2] call (missionNamespace getVariable 'QS_fnc_clientRadio');
 		};
+		missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',FALSE,2];
 		if (alive (missionNamespace getVariable ['QS_casJet',objNull])) then {
 			(missionNamespace getVariable 'QS_casJet') setDamage [1,FALSE];
 			(missionNamespace getVariable 'QS_casJet') spawn {
