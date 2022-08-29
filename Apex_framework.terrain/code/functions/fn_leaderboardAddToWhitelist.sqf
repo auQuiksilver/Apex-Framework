@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	18/07/2022 A3 2.10 by Quiksilver
+	29/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -54,16 +54,18 @@ if (_leaderboardDataMedic isNotEqualTo []) then {
 	} forEach _leaderboardDataMedic;
 	missionProfileNamespace setVariable ['QS_whitelist_lb_cls',_array];
 };
+private _divisor = 0;
 private _leaderboardDataSniper = _leaderboardData apply {
+	_divisor = (((_x # 1) # 8) # 1) max 1;
 	[
-		(((_x # 1) # 8) # 0) / (((_x # 1) # 8) # 1),							// LB value for Sniper leaderboard
+		(((_x # 1) # 8) # 0) / _divisor,										// LB value for Sniper leaderboard
 		(_x # 0),																// UID
 		(_x # 1) # 0,															// Name
-		(((_x # 1) # 8) # 1)
+		_divisor																// Shots taken
 	]
 };
 _leaderboardDataSniper sort FALSE;
-_leaderboardDataSniper = _leaderboardDataSniper select {(_x # 3) >= 100};
+_leaderboardDataSniper = _leaderboardDataSniper select {(_x # 3) >= 50};		// Require >= 50 shots to qualify
 _leaderboardDataSniper select [0,_topX];
 _array = [];
 if (_leaderboardDataSniper isNotEqualTo []) then {
