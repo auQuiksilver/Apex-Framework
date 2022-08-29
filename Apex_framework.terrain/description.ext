@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	26/08/2022 A3 2.10 by Quiksilver
+	29/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -24,6 +24,8 @@ onLoadIntro = "";													/*/ Displays a message while the intro is loading.
 onLoadIntroTime = 0;												/*/ Time and date displayed while the intro loads. 1 visible, 0 hidden./*/
 onLoadMissionTime = 0;												/*/ Time and date displayed while the mission loads. 1 visible, 0 hidden./*/
 missionGroup = "ApexFramework";										/*/ Required for missionProfileNamespace compatibility between updates./*/
+missionProductVersion = "1.3.1";
+missionProductStatus = "Dev";										// "Stable" // "Dev"
 class Header {
 	gameType = COOP;												/*/ Unknown, COOP, DM, TDM, CTF, SC, CTI, RPG, Sandbox, Seize, Defend./*/
 	minPlayers = 1;													/*/ Min # of players the MISSION supports/*/
@@ -310,7 +312,6 @@ class CfgFunctions {
 			class aoTaskMedevac {file = "code\functions\fn_aoTaskMedevac.sqf";};
 			class aoUrbanSpawn {file = "code\functions\fn_aoUrbanSpawn.sqf";};
 			class areaGradient {file = "code\functions\fn_areaGradient.sqf";};
-			class arrayGetIndex {file = "code\functions\fn_arrayGetIndex.sqf";};
 			class arrayShuffle {file = "code\functions\fn_arrayShuffle.sqf";};
 			class artillery {file = "code\functions\fn_artillery.sqf";};
 			class atAdjust {file = "code\functions\fn_atAdjust.sqf";};
@@ -345,6 +346,7 @@ class CfgFunctions {
 			class clientEventCuratorObjectDeleted {file = "code\functions\fn_clientEventCuratorObjectDeleted.sqf";};
 			class clientEventCuratorObjectPlaced {file = "code\functions\fn_clientEventCuratorObjectPlaced.sqf";};
 			class clientEventCuratorObjectRegistered {file = "code\functions\fn_clientEventCuratorObjectRegistered.sqf";};
+			class clientEventCuratorWaypointEdited {file = "code\functions\fn_clientEventCuratorWaypointEdited.sqf";};
 			class clientEventCuratorWaypointPlaced {file = "code\functions\fn_clientEventCuratorWaypointPlaced.sqf";};
 			class clientEventDraw3D {file = "code\functions\fn_clientEventDraw3D.sqf";};
 			class clientEventEachFrame {file = "code\functions\fn_clientEventEachFrame.sqf";};
@@ -378,6 +380,7 @@ class CfgFunctions {
 			class clientEventOpticsSwitch {file = "code\functions\fn_clientEventOpticsSwitch.sqf";};
 			class clientEventPlayerViewChanged {file = "code\functions\fn_clientEventPlayerViewChanged.sqf";};
 			class clientEventPostReset {file = "code\functions\fn_clientEventPostReset.sqf";};
+			class clientEventPut {file = "code\functions\fn_clientEventPut.sqf";};
 			class clientEventReloaded {file = "code\functions\fn_clientEventReloaded.sqf";};
 			class clientEventRespawn {file = "code\functions\fn_clientEventRespawn.sqf";};
 			class clientEventSeatSwitched {file = "code\functions\fn_clientEventSeatSwitched.sqf";};
@@ -399,20 +402,17 @@ class CfgFunctions {
 			class clientInGameUIPrevAction {file = "code\functions\fn_clientInGameUIPrevAction.sqf";};
 			class clientInGameUINextAction {file = "code\functions\fn_clientInGameUINextAction.sqf";};
 			class clientInteractActivateVehicle {file = "code\functions\fn_clientInteractActivateVehicle.sqf";};
-			class clientInteractAlert {file = "code\functions\fn_clientInteractAlert.sqf";};
 			class clientInteractArsenal {file = "code\functions\fn_clientInteractArsenal.sqf";};
 			class clientInteractBeret {file = "code\functions\fn_clientInteractBeret.sqf";};
 			class clientInteractCamoNet {file = "code\functions\fn_clientInteractCamoNet.sqf";};
 			class clientInteractCarrierLaunch {file = "code\functions\fn_clientInteractCarrierLaunch.sqf";};
 			class clientInteractCarry {file = "code\functions\fn_clientInteractCarry.sqf";};
 			class clientInteractCivilian {file = "code\functions\fn_clientInteractCivilian.sqf";};
-			class clientInteractClearInventory {file = "code\functions\fn_clientInteractClearInventory.sqf";};
 			class clientInteractCreateBoat {file = "code\functions\fn_clientInteractCreateBoat.sqf";};
 			class clientInteractCustomizeInventory {file = "code\functions\fn_clientInteractCustomizeInventory.sqf";};
 			class clientInteractDestroyerHeliLaunch {file = "code\functions\fn_clientInteractDestroyerHeliLaunch.sqf";};
 			class clientInteractDismiss {file = "code\functions\fn_clientInteractDismiss.sqf";};
 			class clientInteractDoor {file = "code\functions\fn_clientInteractDoor.sqf";};
-			class clientInteractDownloadIntel {file = "code\functions\fn_clientInteractDownloadIntel.sqf";};
 			class clientInteractDrag {file = "code\functions\fn_clientInteractDrag.sqf";};
 			class clientInteractEscort {file = "code\functions\fn_clientInteractEscort.sqf";};
 			class clientInteractExamine {file = "code\functions\fn_clientInteractExamine.sqf";};
@@ -439,21 +439,19 @@ class CfgFunctions {
 			class clientInteractSlatArmor {file = "code\functions\fn_clientInteractSlatArmor.sqf";};
 			class clientInteractStabilise {file = "code\functions\fn_clientInteractStabilise.sqf";};
 			class clientInteractSurrender {file = "code\functions\fn_clientInteractSurrender.sqf";};
-			class clientInteractTalkToContact {file = "code\functions\fn_clientInteractTalkToContact.sqf";};
 			class clientInteractTooth {file = "code\functions\fn_clientInteractTooth.sqf";};
 			class clientInteractTowLoadCargo {file = "code\functions\fn_clientInteractTowLoadCargo.sqf";};
 			class clientInteractTurretControl {file = "code\functions\fn_clientInteractTurretControl.sqf";};
-			class clientInteractUnderwaterDemo {file = "code\functions\fn_clientInteractUnderwaterDemo.sqf";};
-			class clientInteractUnflipVehicle {file = "code\functions\fn_clientInteractUnflipVehicle.sqf";};
 			class clientInteractUAVSelfDestruct {file = "code\functions\fn_clientInteractUAVSelfDestruct.sqf";};
 			class clientInteractUGV {file = "code\functions\fn_clientInteractUGV.sqf";};
+			class clientInteractUnderwaterDemo {file = "code\functions\fn_clientInteractUnderwaterDemo.sqf";};
+			class clientInteractUnflipVehicle {file = "code\functions\fn_clientInteractUnflipVehicle.sqf";};
 			class clientInteractUnload {file = "code\functions\fn_clientInteractUnload.sqf";};
 			class clientInteractUnloadCargo {file = "code\functions\fn_clientInteractUnloadCargo.sqf";};
 			class clientInteractUtilityOffroad {file = "code\functions\fn_clientInteractUtilityOffroad.sqf";};
 			class clientInteractVehicleDoors {file = "code\functions\fn_clientInteractVehicleDoors.sqf";};
 			class clientInteractWeaponSafety {file = "code\functions\fn_clientInteractWeaponSafety.sqf";};
 			class clientJump {file = "code\functions\fn_clientJump.sqf";};
-			class clientMCameraMode {file = "code\functions\fn_clientMCameraMode.sqf";};
 			class clientMemArrays {file = "code\functions\fn_clientMemArrays.sqf";};
 			class clientMenu {file = "code\functions\fn_clientMenu.sqf";};
 			class clientMenu2 {file = "code\functions\fn_clientMenu2.sqf";};
@@ -530,7 +528,6 @@ class CfgFunctions {
 			class enemyCAS {file = "code\functions\fn_enemyCAS.sqf";};
 			class enemyDetected {file = "code\functions\fn_enemyDetected.sqf";};
 			class enemySides {file = "code\functions\fn_enemySides.sqf";};
-			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
 			class eventBuildingChanged {file = "code\functions\fn_eventBuildingChanged.sqf";}; 
 			class eventEachFrame {file = "code\functions\fn_eventEachFrame.sqf";};
@@ -543,6 +540,7 @@ class CfgFunctions {
 			class eventOnPlayerConnected {file = "code\functions\fn_eventOnPlayerConnected.sqf";};
 			class eventOnPlayerDisconnected {file = "code\functions\fn_eventOnPlayerDisconnected.sqf";};
 			class eventRTKilled {file = "code\functions\fn_eventRTKilled.sqf";};
+			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class feedback {file = "code\functions\fn_feedback.sqf";};
 			class feedbackBloodEffect {file = "code\functions\fn_feedbackBloodEffect.sqf";};
 			class feedbackDamageChanged {file = "code\functions\fn_feedbackDamageChanged.sqf";};
@@ -565,9 +563,9 @@ class CfgFunctions {
 			class fobPrepare {file = "code\functions\fn_fobPrepare.sqf";};
 			class garrisonUnits {file = "code\functions\fn_garrisonUnits.sqf";};
 			class gearRestrictions {file = "code\functions\fn_gearRestrictions.sqf";};
+			class geomPolygonCentroid {file = "code\functions\fn_geomPolygonCentroid.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
-			class getClientFromDPID {file = "code\functions\fn_getClientFromDPID.sqf";};
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
@@ -579,7 +577,6 @@ class CfgFunctions {
 			class getSolarHorizon {file = "code\functions\fn_getSolarHorizon.sqf";};
 			class getVehicleStealth {file = "code\functions\fn_getVehicleStealth.sqf";};
 			class getWeekday {file = "code\functions\fn_getWeekday.sqf";};
-			class geomPolygonCentroid {file = "code\functions\fn_geomPolygonCentroid.sqf";};
 			class gpsJammer {file = "code\functions\fn_gpsJammer.sqf";};
 			class grid {file = "code\functions\fn_grid.sqf";};
 			class gridBrief {file = "code\functions\fn_gridBrief.sqf";};
