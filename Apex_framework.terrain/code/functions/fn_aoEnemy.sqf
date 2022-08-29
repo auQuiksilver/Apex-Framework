@@ -272,7 +272,6 @@ _towerGrp = createGroup [EAST,TRUE];
 		};
 		_grp = createVehicleCrew _object;
 		(units _grp) joinSilent _towerGrp;
-		(gunner _object) setVariable ['QS_AI_UNIT_vGunner',TRUE,QS_system_AI_owners];
 		(gunner _object) setVariable ['QS_AI_UNIT_isMG',TRUE,QS_system_AI_owners];
 		(gunner _object) setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
 		(gunner _object) addEventHandler [
