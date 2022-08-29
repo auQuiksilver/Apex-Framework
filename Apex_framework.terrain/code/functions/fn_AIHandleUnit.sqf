@@ -48,10 +48,10 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 			((toLowerANSI (primaryWeapon _unit)) in (missionNamespace getVariable ['QS_AI_weapons_MG',[]])) ||
 			{((!isNull _objectParent) && {(_unit isEqualTo (gunner _objectParent))})}
 		) then {
-			if ((isNull _objectParent) || {(!(['_aa_',(typeOf _objectParent),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))}) then {
-				_grpMGs = (group _unit) getVariable ['QS_AI_GRP_MGs',[]];
-				_grpMGs pushBack _unit;
-				(group _unit) setVariable ['QS_AI_GRP_MGs',_grpMGs,FALSE];
+			if (
+				(isNull _objectParent) || 
+				{(!(['_aa_',(typeOf _objectParent),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))}
+			) then {
 				_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
 			} else {
 				_unit setVariable ['QS_AI_UNIT_isMG',FALSE,FALSE];
@@ -87,21 +87,6 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	if (_unit getUnitTrait 'engineer') then {
 		if (isNil {_unit getVariable 'QS_AI_UNIT_assignedVehicle'}) then {
 			_unit setVariable ['QS_AI_UNIT_assignedVehicle',(assignedVehicle _unit),FALSE];
-		};
-	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_vGunner'}) then {
-		if (
-			(!isNull _objectParent) &&
-			{(!(_objectParent isKindOf 'Air'))} &&
-			{(!(_objectParent isKindOf 'StaticMortar'))} &&
-			{(!(unitIsUAV _objectParent))} &&
-			{(((weaponState [_objectParent,_objectParent unitTurret _unit]) # 4) > 5)}
-		) then {
-			_unit setVariable ['QS_AI_UNIT_isMG',TRUE,FALSE];
-			_unit setVariable ['QS_AI_UNIT_vGunner',TRUE,FALSE];
-		} else {
-			_unit setVariable ['QS_AI_UNIT_isMG',FALSE,FALSE];
-			_unit setVariable ['QS_AI_UNIT_vGunner',FALSE,FALSE];
 		};
 	};
 };
@@ -422,7 +407,6 @@ if (_fps > 10) then {
 		{(!(_objectParent isKindOf 'StaticMortar'))} &&
 		{(!(_objectParent isKindOf 'O_APC_Tracked_02_AA_F'))} &&
 		{(!(_objectParent isKindOf 'O_T_APC_Tracked_02_AA_ghex_F'))} &&
-		{(_unit getVariable ['QS_AI_UNIT_vGunner',FALSE])} &&
 		{(!(_unit getVariable ['QS_AI_disableSuppFire',FALSE]))}
 	) then {
 		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1])) then {
