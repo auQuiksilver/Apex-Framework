@@ -2829,26 +2829,24 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
-	
+
 	/*/===== CAS module/*/
 
 	if (_QS_module_cas_respawn) then {
 		if (_timeNow > _QS_module_cas_respawn_checkDelay) then {
 			if (missionNamespace getVariable ['QS_CAS_jetAllowance_gameover',_false]) then {
-				if (!isNull (missionNamespace getVariable ['QS_fighterPilot',objNull])) then {
-					if (alive (missionNamespace getVariable 'QS_fighterPilot')) then {
-						_casUID = getPlayerUID (missionNamespace getVariable 'QS_fighterPilot');
-						if (_casUID isNotEqualTo '') then {
-							_casPilot = missionNamespace getVariable ['QS_fighterPilot',objNull];
-							if (isPlayer _casPilot) then {
-								if (_casPilot getUnitTrait 'QS_trait_fighterPilot') then {
-									missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',_false,_false];
-									['HANDLE',['HANDLE_REQUEST_ROLE','',(_casPilot getVariable ['QS_unit_side',WEST]),'rifleman',_casPilot]] call (missionNamespace getVariable 'QS_fnc_roles');
-									_casPilot spawn {
-										moveOut _this;
-										uiSleep 0.5;
-										remoteExec ['QS_fnc_clientEventRespawn',_this,FALSE];
-									};
+				if (alive (missionNamespace getVariable ['QS_fighterPilot',objNull])) then {
+					_casUID = getPlayerUID (missionNamespace getVariable 'QS_fighterPilot');
+					if (_casUID isNotEqualTo '') then {
+						_casPilot = missionNamespace getVariable ['QS_fighterPilot',objNull];
+						if (isPlayer _casPilot) then {
+							if (_casPilot getUnitTrait 'QS_trait_fighterPilot') then {
+								missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',_false,_false];
+								['HANDLE',['HANDLE_REQUEST_ROLE','',(_casPilot getVariable ['QS_unit_side',WEST]),'rifleman',_casPilot]] call (missionNamespace getVariable 'QS_fnc_roles');
+								_casPilot spawn {
+									moveOut _this;
+									uiSleep 0.5;
+									remoteExec ['QS_fnc_clientEventRespawn',_this,FALSE];
 								};
 							};
 						};
@@ -2857,7 +2855,12 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			_casJetObj = missionNamespace getVariable ['QS_casJet',objNull];
 			if (alive _casJetObj) then {
-				if ((!(canMove _casJetObj)) && {((fuel _casJetObj) isEqualTo 0)} && {(((getPosATL _casJetObj) # 2) < 10)} && {((crew _casJetObj) isEqualTo [])}) then {
+				if (
+					(!(canMove _casJetObj)) && 
+					{((fuel _casJetObj) isEqualTo 0)} && 
+					{(((getPosATL _casJetObj) # 2) < 10)} && 
+					{((crew _casJetObj) isEqualTo [])}
+				) then {
 					_casJetObj setDamage [1,_false];
 					deleteVehicle _casJetObj;
 					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
