@@ -22,7 +22,7 @@ if (((animationState player) in [
 	'ainvpknlmstpslaywrfldnon_medicother','ainvppnemstpslaywrfldnon_medicother','ainvppnemstpslaywnondnon_medicother','ainvpknlmstpslaywnondnon_medicother',
 	'ainvpknlmstpslaywnondnon_medic','ainvpknlmstpslaywrfldnon_medic','ainvpknlmstpslaywpstdnon_medic','ainvppnemstpslaywnondnon_medic','ainvppnemstpslaywrfldnon_medic',
 	'ainvppnemstpslaywpstdnon_medic'
-]) && (!((toLowerANSI _QS_actionText) in ['cancel']))) exitWith {
+]) && (!((toLowerANSI _QS_actionText) in ['cancel','release']))) exitWith {
 	50 cutText ['Busy','PLAIN DOWN',0.333];
 	_QS_c = TRUE;
 	_QS_c;
