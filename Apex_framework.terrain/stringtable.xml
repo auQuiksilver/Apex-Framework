@@ -6,29 +6,401 @@ Author:
 
 Last Modified:
 
-	3/01/2018 A3 1.80 by Quiksilver
+	1/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Stringtable.xml
+	
+	Categories:
+		
+		- User Actions
+		
+			"STR_QS_Interact_001"
+			
+		- Hints
+		
+			"STR_QS_Hint_001"
+		
+		- Notifications
+		
+			"STR_QS_Notif_001"
+		
+		- GUI/dialogs
+		
+			"STR_QS_Dialog_001"
+		
+		- cutText / pop-ups
+		
+			"STR_QS_Text_001"
+	
+		- Diary
+		
+			"STR_QS_Diary_001"
+	
+		- Utility 
+	
+	
 _____________________________________________________________>
 
 <?xml version="1.0" encoding="utf-8"?>
 <Project name="Apex Framework">
-	<Key ID="STR_QS_Interact_Drag">
+	<Key ID="STR_QS_Interact_001">
 		<Original>Drag</Original>
-		<German>Ziehen</German>
-		<French>Drag</French>
-		<Chinese>拖累</Chinese>
-		<Czech>Drag</Czech>
-		<Russian>бремя</Russian>
 	</Key>
-	<Key ID="STR_QS_Interact_Carry">
+	<Key ID="STR_QS_Interact_002">
 		<Original>Carry</Original>
-		<German>Tragen</German>
-		<French>Carry</French>
-		<Chinese>进</Chinese>
-		<Czech>Nést</Czech>
-		<Russian>нести</Russian>
+	</Key>
+	<Key ID="STR_QS_Interact_003">
+		<Original>Escort</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_004">
+		<Original>Load</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_005">
+		<Original>Unload</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_006">
+		<Original>Question civilian</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_007">
+		<Original>Command Follow</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_008">
+		<Original>Command Recruit</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_009">
+		<Original>Command Dismiss</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_010">
+		<Original>Release</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_011">
+		<Original>Respawn vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_012">
+		<Original>Open cargo doors</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_013">
+		<Original>Close cargo doors</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_014">
+		<Original>Service</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_015">
+		<Original>Unflip</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_016">
+		<Original>Revive</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_017">
+		<Original>Stabilise</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_018">
+		<Original>Role Selection</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_019">
+		<Original>Beacons On</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_020">
+		<Original>Beacons Off</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_021">
+		<Original>Tow</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_022">
+		<Original>Command Surrender</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_023">
+		<Original>Rescue</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_024">
+		<Original>Secure</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_025">
+		<Original>Examine</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_026">
+		<Original>Turret safety</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_027">
+		<Original>Collect gold tooth</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_028">
+		<Original>Take beret</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_029">
+		<Original>Join group</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_030">
+		<Original>FOB Status</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_031">
+		<Original>Activate FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_032">
+		<Original>Enable FOB Respawn</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_033">
+		<Original>Edit Inventory</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_034">
+		<Original>Push</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_035">
+		<Original>Inflate boat</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_036">
+		<Original>Sit</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_037">
+		<Original>Load cargo</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_038">
+		<Original>Unload cargo</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_039">
+		<Original>Activate vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_040">
+		<Original>Treat (Medical Station)</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_041">
+		<Original>Report target</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_042">
+		<Original>Put Explosive Charge</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_043">
+		<Original>Set Cruise Control</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_044">
+		<Original>Open Parachute</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_045">
+		<Original>Self destruct</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_046">
+		<Original>Initiate Launch Sequence</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_047">
+		<Original>Launch</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_048">
+		<Original>Retract</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_049">
+		<Original>Deploy camo net</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_050">
+		<Original>Remove camo net</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_051">
+		<Original>Mount slat armor</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_052">
+		<Original>Remove slat armor</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_053">
+		<Original>Fastrope</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_054">
+		<Original>Fastrope AI units</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_055">
+		<Original>Detach fastrope</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_056">
+		<Original>Disable fastrope</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_057">
+		<Original>Enable fastrope</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_058">
+		<Original>Deploy sandbags</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_059">
+		<Original>Pick up</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_060">
+		<Original>Confirm target</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_061">
+		<Original>Lower plow</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_062">
+		<Original>Raise plow</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_063">
+		<Original>Do not report</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_064">
+		<Original>Report</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_065">
+		<Original>Cancel</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_066">
+		<Original>Stand</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_067">
+		<Original>Unlock turret (Left)</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_068">
+		<Original>Unlock turret (Right)</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_069">
+		<Original>Lock turret (Left)</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_070">
+		<Original>Lock turret (Right)</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_071">
+		<Original>Cancel turret actions</Original>
+	</Key>
+	
+	
+	
+	<Key ID="STR_QS_Interact_072">
+		<Original>0 - Close Menu</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_073">
+		<Original>1 - (Target) Delete</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_074">
+		<Original>2 - Spectate</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_075">
+		<Original>3 - Invincibility</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_076">
+		<Original>4 - Show Pilots</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_077">
+		<Original>5 - (Target) Repair</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_078">
+		<Original>6 - (Target) Pardon</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_079">
+		<Original>7 - (Target) Punish</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_080">
+		<Original>8 - No function assigned</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_081">
+		<Original>9 - No function assigned</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_082">
+		<Original>10 - (Target) Revive</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_083">
+		<Original>11 - Map Teleport</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_084">
+		<Original>12 - (Clean) Base</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_085">
+		<Original>13 - (Clean) Map</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_086">
+		<Original>14 - Splendid Cam</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_087">
+		<Original>15 - Dev Terminal</Original>
+	</Key>
+	
+	
+	
+	
+	<Key ID="STR_QS_Interact_088">
+		<Original>Suspend side missions</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_089">
+		<Original>Suspend primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_090">
+		<Original>Cycle primary mission</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_091">
+		<Original>Spawn plane</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_092">
+		<Original>Kick</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_093">
+		<Original>Manual enforcement (do nothing)</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_094">
+		<Original>Take controls</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_095">
+		<Original>Turn on live feed</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_096">
+		<Original>Turn off live feed</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_097">
+		<Original>Activate air defense</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_098">
+		<Original>Pick up intel</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_099">
+		<Original>Drop intel</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_100">
+		<Original>Upload intel</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_101">
+		<Original>Activate device</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_102">
+		<Original>About Us</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_103">
+		<Original>Take Intel</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_104">
+		<Original>Resume side missions</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_105">
+		<Original>Resume primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_106">
+		<Original>Weapons safe on base</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_107">
+		<Original>Inspect</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_108">
+		<Original>Retract Cargo Ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_109">
+		<Original>Extend Cargo Ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_110">
+		<Original>Shorten Cargo Ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_111">
+		<Original>Release Cargo</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_112">
+		<Original>Deploy Cargo Ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_113">
+		<Original>Attach To Cargo Ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_114">
+		<Original>Drop Cargo Ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Interact_115">
+		<Original>Pickup Cargo Ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_001">
+		<Original>left</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_002">
+		<Original>ROBOCOP</Original>
 	</Key>
 </Project>
