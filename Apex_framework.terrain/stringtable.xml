@@ -2,11 +2,11 @@
 File: stringtable.xml
 Author:
 	
-	Quiksilver
+	Community
 
 Last Modified:
 
-	1/09/2022 A3 2.10 by Quiksilver
+	2/09/2022 A3 2.10 by Community
 	
 Description:
 
@@ -45,6 +45,9 @@ _____________________________________________________________>
 
 <?xml version="1.0" encoding="utf-8"?>
 <Project name="Apex Framework">
+
+	<!----- Scroll Menu-------------------------------------------------------------------------->
+
 	<Key ID="STR_QS_Interact_001">
 		<Original>Drag</Original>
 	</Key>
@@ -397,6 +400,821 @@ _____________________________________________________________>
 	<Key ID="STR_QS_Interact_115">
 		<Original>Pickup Cargo Ropes</Original>
 	</Key>
+	
+	<!----- On-screen Text ----cutText--------------------------------------------------------------------->
+	
+	<Key ID="STR_QS_Text_000">
+		<Original>Busy</Original>
+	</Key>
+	<Key ID="STR_QS_Text_001">
+		<Original>&lt;t color='#ff0000'&gt; This is a speed-restricted area &lt;/t&gt;</Original>
+	</Key>
+	<Key ID="STR_QS_Text_002">
+		<Original>Character limit (140) exceeded</Original>
+	</Key>
+	<Key ID="STR_QS_Text_003">
+		<Original>Radio required</Original>
+	</Key>
+	<Key ID="STR_QS_Text_004">
+		<Original>Vehicles prohibited in this area</Original>
+	</Key>
+	<Key ID="STR_QS_Text_005">
+		<Original>Exiting safezone</Original>
+	</Key>
+	<Key ID="STR_QS_Text_006">
+		<Original>SERVER FPS:</Original>
+	</Key>
+	<Key ID="STR_QS_Text_007">
+		<Original>Object not configured for this scenario</Original>
+	</Key>
+	<Key ID="STR_QS_Text_008">
+		<Original>Armed aircraft disabled in server settings</Original>
+	</Key>
+	<Key ID="STR_QS_Text_009">
+		<Original>Module not configured for this scenario</Original>
+	</Key>
+	<Key ID="STR_QS_Text_010">
+		<Original>Sending waypoint to remote group</Original>
+	</Key>
+	<Key ID="STR_QS_Text_011">
+		<Original>Waypoint sync cooldown (5 seconds)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_012">
+		<Original>GPS Offline</Original>
+	</Key>
+	<Key ID="STR_QS_Text_013">
+		<Original>Grenades disabled at base</Original>
+	</Key>
+	<Key ID="STR_QS_Text_014">
+		<Original>disarmed (friendlies in lethal radius)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_015">
+		<Original>Explosives limit exceeded (7)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_016">
+		<Original>Shell disarmed (firing into restricted area)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_017">
+		<Original>Raising de-mining plow</Original>
+	</Key>
+	<Key ID="STR_QS_Text_018">
+		<Original>Lowering de-mining plow</Original>
+	</Key>
+	<Key ID="STR_QS_Text_019">
+		<Original>Being treated by</Original>
+	</Key>
+	<Key ID="STR_QS_Text_020">
+		<Original>Backpack locked</Original>
+	</Key>
+	<Key ID="STR_QS_Text_021">
+		<Original>Backpack unlocked</Original>
+	</Key>
+	<Key ID="STR_QS_Text_022">
+		<Original>To add ammunition, open the container on the LEFT (uniform,vest,backpack) and add ammunition on the RIGHT</Original>
+	</Key>
+	<Key ID="STR_QS_Text_023">
+		<Original>Inventory disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_024">
+		<Original>3rd Person disabled for OPFOR players</Original>
+	</Key>
+	<Key ID="STR_QS_Text_025">
+		<Original>Incapacitated</Original>
+	</Key>
+	
+	
+	
+	
+	
+	<Key ID="STR_QS_Text_026">
+		<Original>The artillery has depleted its allowed shells, no more can be fired until the AO is completed!</Original>
+	</Key>
+	<Key ID="STR_QS_Text_027">
+		<Original>Acquiring signal, please wait ...</Original>
+	</Key>
+	<Key ID="STR_QS_Text_028">
+		<Original>Enable PiP to view the live feed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_029">
+		<Original>Live feed off</Original>
+	</Key>
+	<Key ID="STR_QS_Text_030">
+		<Original>Air defense on cooldown</Original>
+	</Key>
+	<Key ID="STR_QS_Text_031">
+		<Original>Activating air defense</Original>
+	</Key>
+	<Key ID="STR_QS_Text_032">
+		<Original>Use General channel for general voice communications. Press [Home] >> [Comm-Link] >> [Radio Management] to subscribe</Original>
+	</Key>
+	<Key ID="STR_QS_Text_033">
+		<Original>Lowering view distance</Original>
+	</Key>
+	<Key ID="STR_QS_Text_034">
+		<Original>Restoring view distance</Original>
+	</Key>
+	<Key ID="STR_QS_Text_035">
+		<Original>Only Pilots and UAV Operator can transmit voice on Aircraft channel</Original>
+	</Key>
+	<Key ID="STR_QS_Text_036">
+		<Original>No</Original>
+	</Key>
+	<Key ID="STR_QS_Text_037">
+		<Original>Go (gGroup command)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_038">
+		<Original>Advance (Group command)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_039">
+		<Original>Stop (Group command)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_040">
+		<Original>Ceasefire (Group command)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_041">
+		<Original>Fastrope disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_042">
+		<Original>Fastrope enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_043">
+		<Original>Welcome to</Original>
+	</Key>
+	<Key ID="STR_QS_Text_044">
+		<Original>Cannot teleport while incapacitated</Original>
+	</Key>
+	<Key ID="STR_QS_Text_045">
+		<Original>Must be unencumbered to teleport</Original>
+	</Key>
+	<Key ID="STR_QS_Text_046">
+		<Original>Must be on foot to teleport</Original>
+	</Key>
+	<Key ID="STR_QS_Text_047">
+		<Original>Too close to teleporter</Original>
+	</Key>
+	<Key ID="STR_QS_Text_048">
+		<Original>Respawned at FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Text_049">
+		<Original>Intel located</Original>
+	</Key>
+	<Key ID="STR_QS_Text_050">
+		<Original>No intel found</Original>
+	</Key>
+	<Key ID="STR_QS_Text_051">
+		<Original>Side task found</Original>
+	</Key>
+	<Key ID="STR_QS_Text_052">
+		<Original>Enemy respawn tunnel located (Map)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_053">
+		<Original>You hear voices from down below ...</Original>
+	</Key>
+	<Key ID="STR_QS_Text_054">
+		<Original>Release or Load</Original>
+	</Key>
+	<Key ID="STR_QS_Text_055">
+		<Original>Cannot heal at this time</Original>
+	</Key>
+	<Key ID="STR_QS_Text_056">
+		<Original>Treatment failed (must be revived)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_057">
+		<Original>Cannot be treated</Original>
+	</Key>
+	<Key ID="STR_QS_Text_058">
+		<Original>Cannot repair active enemy vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Text_059">
+		<Original>Cannot repair this vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Text_060">
+		<Original>refueled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_061">
+		<Original>repaired</Original>
+	</Key>
+	<Key ID="STR_QS_Text_062">
+		<Original>rearmed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_063">
+		<Original>Explosives disabled near base</Original>
+	</Key>
+	<Key ID="STR_QS_Text_064">
+		<Original>Only fighter pilots can use this aircraft</Original>
+	</Key>
+	<Key ID="STR_QS_Text_065">
+		<Original>No weapons allowed in this vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Text_066">
+		<Original>Only a(n) Mortar Gunner can use this system</Original>
+	</Key>
+	<Key ID="STR_QS_Text_067">
+		<Original>Weapon assembly disabled near base</Original>
+	</Key>
+	<Key ID="STR_QS_Text_068">
+		<Original>Maximum of 3 assembled weapons at a time (including backpack drones)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_069">
+		<Original>players are too close (30m) to your explosives (Touch-off failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_070">
+		<Original>Cannot do that now</Original>
+	</Key>
+	<Key ID="STR_QS_Text_071">
+		<Original>Cannot do that while moving</Original>
+	</Key>
+	<Key ID="STR_QS_Text_072">
+		<Original>Please bind these actions to keys. [Esc]>>[Configure]>>[Controls]>>[Keyboard]>>[Common]>>[Panels]. Default [ and ] keys</Original>
+	</Key>
+	<Key ID="STR_QS_Text_073">
+		<Original>Unconscious units unloaded</Original>
+	</Key>
+	<Key ID="STR_QS_Text_074">
+		<Original>Must be on foot</Original>
+	</Key>
+	<Key ID="STR_QS_Text_075">
+		<Original>Manual Fire disabled near base</Original>
+	</Key>
+	<Key ID="STR_QS_Text_076">
+		<Original>ROBOCOP: Access denied, please wait until restart or request Pardon from staff</Original>
+	</Key>
+	<Key ID="STR_QS_Text_077">
+		<Original>Only pilots can activate planes and VTOLs</Original>
+	</Key>
+	<Key ID="STR_QS_Text_078">
+		<Original>Armored vehicles not authorized for use at this time (server config)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_079">
+		<Original>Too many vehicle activations (3+ within 5 minutes), try again soon</Original>
+	</Key>
+	<Key ID="STR_QS_Text_080">
+		<Original>Activating</Original>
+	</Key>
+	<Key ID="STR_QS_Text_081">
+		<Original>Beret collected</Original>
+	</Key>
+	<Key ID="STR_QS_Text_082">
+		<Original>Remove slat armor to deploy camo net</Original>
+	</Key>
+	<Key ID="STR_QS_Text_083">
+		<Original>Camo net deployed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_084">
+		<Original>Camo net removed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_085">
+		<Original>Engine must be ON to launch</Original>
+	</Key>
+	<Key ID="STR_QS_Text_086">
+		<Original>Launch cancelled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_087">
+		<Original>Interaction disabled on this object</Original>
+	</Key>
+	<Key ID="STR_QS_Text_088">
+		<Original>Unit must be stabilised</Original>
+	</Key>
+	<Key ID="STR_QS_Text_089">
+		<Original>Carrying</Original>
+	</Key>
+	<Key ID="STR_QS_Text_090">
+		<Original>Need a weapon in hand to start carrying (Animation)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_091">
+		<Original>Carrying a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_092">
+		<Original>Released</Original>
+	</Key>
+	<Key ID="STR_QS_Text_093">
+		<Original>Must be standing</Original>
+	</Key>
+	<Key ID="STR_QS_Text_094">
+		<Original>Object not carryable</Original>
+	</Key>
+	<Key ID="STR_QS_Text_095">
+		<Original>You already have an active boat. Please respawn or destroy it before creating another. Grid</Original>
+	</Key>
+	<Key ID="STR_QS_Text_096">
+		<Original>inflated (toolkit removed)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_097">
+		<Original>Please wait</Original>
+	</Key>
+	<Key ID="STR_QS_Text_098">
+		<Original>Initialisation complete, select tab</Original>
+	</Key>
+	<Key ID="STR_QS_Text_099">
+		<Original>Crate overfilled, removing excess backpacks</Original>
+	</Key>
+	<Key ID="STR_QS_Text_100">
+		<Original>Crate overfilled, removing excess magazines</Original>
+	</Key>
+	<Key ID="STR_QS_Text_101">
+		<Original>Crate overfilled, removing excess weapons</Original>
+	</Key>
+	<Key ID="STR_QS_Text_102">
+		<Original>Obstruction detected</Original>
+	</Key>
+	<Key ID="STR_QS_Text_103">
+		<Original>No suitable helicopter found</Original>
+	</Key>
+	<Key ID="STR_QS_Text_104">
+		<Original>dismissed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_105">
+		<Original>Dragging</Original>
+	</Key>
+	<Key ID="STR_QS_Text_106">
+		<Original>Escorting</Original>
+	</Key>
+	<Key ID="STR_QS_Text_107">
+		<Original>Examined</Original>
+	</Key>
+	<Key ID="STR_QS_Text_108">
+		<Original>FOB activation failed (Enemy within 100m)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_109">
+		<Original>Pilots cannot respawn at FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Text_110">
+		<Original>Respawn beacon activated</Original>
+	</Key>
+	<Key ID="STR_QS_Text_111">
+		<Original>Soon</Original>
+	</Key>
+	<Key ID="STR_QS_Text_112">
+		<Original>Unit joined group</Original>
+	</Key>
+	<Key ID="STR_QS_Text_113">
+		<Original>Joined group</Original>
+	</Key>
+	<Key ID="STR_QS_Text_114">
+		<Original>loaded into</Original>
+	</Key>
+	<Key ID="STR_QS_Text_115">
+		<Original>Cargo capacity:</Original>
+	</Key>
+	<Key ID="STR_QS_Text_116">
+		<Original>Load failed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_117">
+		<Original>Healed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_118">
+		<Original>Commander cannot directly recruit AI</Original>
+	</Key>
+	<Key ID="STR_QS_Text_119">
+		<Original>Recruited</Original>
+	</Key>
+	<Key ID="STR_QS_Text_120">
+		<Original>Cannot release here</Original>
+	</Key>
+	<Key ID="STR_QS_Text_121">
+		<Original>Imprisoned</Original>
+	</Key>
+	<Key ID="STR_QS_Text_122">
+		<Original>Vehicle has cargo inside</Original>
+	</Key>
+	<Key ID="STR_QS_Text_123">
+		<Original>Vehicle has sling load</Original>
+	</Key>
+	<Key ID="STR_QS_Text_124">
+		<Original>Vehicle has ropes attached</Original>
+	</Key>
+	<Key ID="STR_QS_Text_125">
+		<Original>Vehicle is attached</Original>
+	</Key>
+	<Key ID="STR_QS_Text_126">
+		<Original>Respawning vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Text_127">
+		<Original>deflated (toolkit added)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_128">
+		<Original>Cancelled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_129">
+		<Original>cannot be revived (medevac required)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_130">
+		<Original>Revive failed (Medikit and First Aid Kit required)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_131">
+		<Original>Revive failed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_132">
+		<Original>Too far</Original>
+	</Key>
+	<Key ID="STR_QS_Text_133">
+		<Original>Already secured</Original>
+	</Key>
+	<Key ID="STR_QS_Text_134">
+		<Original>Intel locations added to Map</Original>
+	</Key>
+	<Key ID="STR_QS_Text_135">
+		<Original>Intel secured</Original>
+	</Key>
+	<Key ID="STR_QS_Text_136">
+		<Original>Sub-objective secured</Original>
+	</Key>
+	<Key ID="STR_QS_Text_137">
+		<Original>Secured</Original>
+	</Key>
+	<Key ID="STR_QS_Text_138">
+		<Original>Target destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_139">
+		<Original>Invalid target</Original>
+	</Key>
+	<Key ID="STR_QS_Text_140">
+		<Original>Target unoccupied</Original>
+	</Key>
+	<Key ID="STR_QS_Text_141">
+		<Original>Target already confirmed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_142">
+		<Original>Target already reported</Original>
+	</Key>
+	<Key ID="STR_QS_Text_143">
+		<Original>Unable to report this target</Original>
+	</Key>
+	<Key ID="STR_QS_Text_144">
+		<Original>Target reported</Original>
+	</Key>
+	<Key ID="STR_QS_Text_145">
+		<Original>Another person is already at this chair</Original>
+	</Key>
+	<Key ID="STR_QS_Text_146">
+		<Original>Already seated</Original>
+	</Key>
+	<Key ID="STR_QS_Text_147">
+		<Original>Only Engineers and Crewmen can Mount/Remove slat armor</Original>
+	</Key>
+	<Key ID="STR_QS_Text_148">
+		<Original>Engine must be off</Original>
+	</Key>
+	<Key ID="STR_QS_Text_149">
+		<Original>Vehicle must be undamaged to modify slat armor</Original>
+	</Key>
+	<Key ID="STR_QS_Text_150">
+		<Original>Remove camo net to mount slat armor</Original>
+	</Key>
+	<Key ID="STR_QS_Text_151">
+		<Original>Slat armor mounted</Original>
+	</Key>
+	<Key ID="STR_QS_Text_152">
+		<Original>Slat armor removed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_153">
+		<Original>Stabilised</Original>
+	</Key>
+	<Key ID="STR_QS_Text_154">
+		<Original>Captured</Original>
+	</Key>
+	<Key ID="STR_QS_Text_155">
+		<Original>Gold tooth collected</Original>
+	</Key>
+	<Key ID="STR_QS_Text_156">
+		<Original>cannot be loaded into</Original>
+	</Key>
+	<Key ID="STR_QS_Text_157">
+		<Original>Insufficient cargo space</Original>
+	</Key>
+	<Key ID="STR_QS_Text_158">
+		<Original>Other players are in this vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Text_159">
+		<Original>Are you sure you want to destroy this</Original>
+	</Key>
+	<Key ID="STR_QS_Text_160">
+		<Original>Unflip failed (crew in vehicle)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_161">
+		<Original>Help required (Vehicle too heavy for one person)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_162">
+		<Original>Unflipping</Original>
+	</Key>
+	<Key ID="STR_QS_Text_163">
+		<Original>Vehicle is moving</Original>
+	</Key>
+	<Key ID="STR_QS_Text_164">
+		<Original>unloaded</Original>
+	</Key>
+	<Key ID="STR_QS_Text_165">
+		<Original>Unloaded</Original>
+	</Key>
+	<Key ID="STR_QS_Text_166">
+		<Original>No clear position</Original>
+	</Key>
+	<Key ID="STR_QS_Text_167">
+		<Original>Weapons safe on base</Original>
+	</Key>
+	<Key ID="STR_QS_Text_168">
+		<Original>Use [Page Up] / [Page Down] to navigate the group list</Original>
+	</Key>
+	<Key ID="STR_QS_Text_169">
+		<Original>Stamina enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_170">
+		<Original>Stamina disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_171">
+		<Original>1st Person View locked for 20 minutes or by reconnect</Original>
+	</Key>
+	<Key ID="STR_QS_Text_172">
+		<Original>Camera view unlocked</Original>
+	</Key>
+	<Key ID="STR_QS_Text_173">
+		<Original>Ambient Life enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_174">
+		<Original>Ambient Life disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_175">
+		<Original>Dynamic Simulation enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_176">
+		<Original>Dynamic Simulation disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_177">
+		<Original>3D Group Hexagons disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_178">
+		<Original>3D Group Hexagons enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_179">
+		<Original>Extended System Messages hidden</Original>
+	</Key>
+	<Key ID="STR_QS_Text_180">
+		<Original>Extended System Messages shown</Original>
+	</Key>
+	<Key ID="STR_QS_Text_181">
+		<Original>Suppression Effects enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_182">
+		<Original>Suppression Effects disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_183">
+		<Original>Hit Marker audio enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_184">
+		<Original>Hit Marker audio disabled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_185">
+		<Original>FRIENDLY FIRE</Original>
+	</Key>
+	<Key ID="STR_QS_Text_186">
+		<Original>Repacking magazines</Original>
+	</Key>
+	<Key ID="STR_QS_Text_187">
+		<Original>Magazines repacked</Original>
+	</Key>
+	<Key ID="STR_QS_Text_188">
+		<Original>Medevac requested</Original>
+	</Key>
+	<Key ID="STR_QS_Text_189">
+		<Original>Medevac unavailable</Original>
+	</Key>
+	<Key ID="STR_QS_Text_190">
+		<Original>Medevac cancelled</Original>
+	</Key>
+	<Key ID="STR_QS_Text_191">
+		<Original>Vehicle being serviced</Original>
+	</Key>
+	<Key ID="STR_QS_Text_192">
+		<Original>This service area is for Land Vehicles only</Original>
+	</Key>
+	<Key ID="STR_QS_Text_193">
+		<Original>This service area is for Planes/VTOL only</Original>
+	</Key>
+	<Key ID="STR_QS_Text_194">
+		<Original>This area is for Helicopters only</Original>
+	</Key>
+	<Key ID="STR_QS_Text_195">
+		<Original>Service complete</Original>
+	</Key>
+	<Key ID="STR_QS_Text_196">
+		<Original>Even duct tape cannot save this vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Text_197">
+		<Original>Field service must be done on foot</Original>
+	</Key>
+	<Key ID="STR_QS_Text_198">
+		<Original>This area is for Aircraft only</Original>
+	</Key>
+	<Key ID="STR_QS_Text_199">
+		<Original>Your vehicle was a threat to friendly soldiers and has been removed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_200">
+		<Original>Incoming Missile - Bearing</Original>
+	</Key>
+	<Key ID="STR_QS_Text_201">
+		<Original>Sling Loading a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_202">
+		<Original>Sling Loading. Use [Page Up] and [Page Down] to raise and lower the sling load. Alternate controls: [Ctrl] or [Alt] +</Original>
+	</Key>
+	<Key ID="STR_QS_Text_203">
+		<Original>Custom controls: "Use Action 17" and "Use Action 18"</Original>
+	</Key>
+	<Key ID="STR_QS_Text_204">
+		<Original>reset for FOB resupply</Original>
+	</Key>
+	<Key ID="STR_QS_Text_205">
+		<Original>Can only set unconscious units spawned by Zeus</Original>
+	</Key>
+	<Key ID="STR_QS_Text_206">
+		<Original>Cannot set this unit unconscious</Original>
+	</Key>
+	<Key ID="STR_QS_Text_207">
+		<Original>has requested Medevac</Original>
+	</Key>
+	<Key ID="STR_QS_Text_208">
+		<Original>Commander requested a SITREP for</Original>
+	</Key>
+	<Key ID="STR_QS_Text_209">
+		<Original>No suitable vehicle found for GET IN waypoint</Original>
+	</Key>
+	<Key ID="STR_QS_Text_210">
+		<Original>Commander unable to leave the base area</Original>
+	</Key>
+	<Key ID="STR_QS_Text_211">
+		<Original>Revived (field hospital)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_212">
+		<Original>Revived by an act of the gods!</Original>
+	</Key>
+	<Key ID="STR_QS_Text_213">
+		<Original>Initialising</Original>
+	</Key>
+	<Key ID="STR_QS_Text_214">
+		<Original>Side missions suspended</Original>
+	</Key>
+	<Key ID="STR_QS_Text_215">
+		<Original>Side missions resumed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_216">
+		<Original>Primary missions suspended</Original>
+	</Key>
+	<Key ID="STR_QS_Text_217">
+		<Original>Primary missions resumed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_218">
+		<Original>Cannot suspend this mission</Original>
+	</Key>
+	<Key ID="STR_QS_Text_219">
+		<Original>Primary missions disabled (server config)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_220">
+		<Original>Too soon, please wait (seconds)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_221">
+		<Original>Primary mission cycling</Original>
+	</Key>
+	<Key ID="STR_QS_Text_222">
+		<Original>Cancelled cycle attempt</Original>
+	</Key>
+	<Key ID="STR_QS_Text_223">
+		<Original>Primary missions suspended</Original>
+	</Key>
+	<Key ID="STR_QS_Text_224">
+		<Original>Requesting plane</Original>
+	</Key>
+	<Key ID="STR_QS_Text_225">
+		<Original>Too soon since last request (10s cooldown)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_226">
+		<Original>Command issued</Original>
+	</Key>
+	<Key ID="STR_QS_Text_227">
+		<Original>Undefined command</Original>
+	</Key>
+	<Key ID="STR_QS_Text_228">
+		<Original>SITREP requested</Original>
+	</Key>
+	<Key ID="STR_QS_Text_229">
+		<Original>[Commander] Waypoint complete</Original>
+	</Key>
+	<Key ID="STR_QS_Text_230">
+		<Original>Too close (30m)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_231">
+		<Original>Too many waypoints (3 maximum)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_232">
+		<Original>Attention: Your pilot</Original>
+	</Key>
+	<Key ID="STR_QS_Text_233">
+		<Original>has disconnected, an AI pilot is attempting to fly you back to base</Original>
+	</Key>
+	<Key ID="STR_QS_Text_234">
+		<Original>Attention: A pilot</Original>
+	</Key>
+	<Key ID="STR_QS_Text_235">
+		<Original>has disconnected mid-flight with</Original>
+	</Key>
+	<Key ID="STR_QS_Text_236">
+		<Original>passengers onboard at</Original>
+	</Key>
+	<Key ID="STR_QS_Text_237">
+		<Original>An AI pilot is attempting to fly them back to base</Original>
+	</Key>
+	<Key ID="STR_QS_Text_238">
+		<Original>Requesting helicopter controls</Original>
+	</Key>
+	<Key ID="STR_QS_Text_239">
+		<Original>Taking control</Original>
+	</Key>
+	<Key ID="STR_QS_Text_240">
+		<Original>Incoming Bomb</Original>
+	</Key>
+	<Key ID="STR_QS_Text_241">
+		<Original>Cruise Control -</Original>
+	</Key>
+	<Key ID="STR_QS_Text_242">
+		<Original>km/h</Original>
+	</Key>
+	<Key ID="STR_QS_Text_243">
+		<Original>Signal Strength</Original>
+	</Key>
+	<Key ID="STR_QS_Text_244">
+		<Original>No GPS Receiver</Original>
+	</Key>
+	<Key ID="STR_QS_Text_245">
+		<Original>percent</Original>
+	</Key>
+	<Key ID="STR_QS_Text_246">
+		<Original>Detached</Original>
+	</Key>
+	<Key ID="STR_QS_Text_247">
+		<Original>Medical supplies not found</Original>
+	</Key>
+	<Key ID="STR_QS_Text_248">
+		<Original>Medical supplies located</Original>
+	</Key>
+	<Key ID="STR_QS_Text_249">
+		<Original>No towable vehicles found</Original>
+	</Key>
+	<Key ID="STR_QS_Text_250">
+		<Original>cannot be towed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_251">
+		<Original>This vehicle cannot be towed</Original>
+	</Key>
+	<Key ID="STR_QS_Text_252">
+		<Original>is currently occupied (Cannot tow player-occupied vehicles)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_253">
+		<Original>is only towable by a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Text_254">
+		<Original>This vehicle can only tow Static Weapons and Mortars</Original>
+	</Key>
+	<Key ID="STR_QS_Text_255">
+		<Original>Towing</Original>
+	</Key>
+	<Key ID="STR_QS_Text_256">
+		<Original>Hauling</Original>
+	</Key>
+	<Key ID="STR_QS_Text_257">
+		<Original>Mounting</Original>
+	</Key>
+	<Key ID="STR_QS_Text_258">
+		<Original>Your pilot</Original>
+	</Key>
+	<Key ID="STR_QS_Text_259">
+		<Original>has turned on autohover</Original>
+	</Key>
+	<Key ID="STR_QS_Text_260">
+		<Original>Being treated by</Original>
+	</Key>
+	<Key ID="STR_QS_Text_261">
+		<Original>Being repaired by</Original>
+	</Key>
+	<Key ID="STR_QS_Text_262">
+		<Original>Being revived by</Original>
+	</Key>
+	<Key ID="STR_QS_Text_263">
+		<Original>Revived by</Original>
+	</Key>
+	<Key ID="STR_QS_Text_264">
+		<Original>Orders assigned by Commander</Original>
+	</Key>
+	<Key ID="STR_QS_Text_265">
+		<Original>Orders updated by Commander</Original>
+	</Key>
+	<Key ID="STR_QS_Text_266">
+		<Original>Satellite sector scan unavailable for</Original>
+	</Key>
+	<Key ID="STR_QS_Text_267">
+		<Original>minutes</Original>
+	</Key>
+	
+	<!----- Utility text ------------------------------------------------------------------------->
+	
 	<Key ID="STR_QS_Utility_001">
 		<Original>left</Original>
 	</Key>
