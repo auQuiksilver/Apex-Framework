@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	2/09/2022 A3 2.10 by Community
+	5/09/2022 A3 2.10 by Community
 	
 Description:
 
@@ -1213,12 +1213,996 @@ _____________________________________________________________>
 		<Original>minutes</Original>
 	</Key>
 	
+	<!----- Hints ------------------------------------------------------------------------->
+	
+	<Key ID="STR_QS_Hints_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_001">
+		<Original>No incident report filed</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_002">
+		<Original>An incident report has been filed and in-game staff have been notified. Thank you for your assistance.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_003">
+		<Original>You are not in a pilot role</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_004">
+		<Original>Role Restriction</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_005">
+		<Original>You are a pilot. Please play your role or re-assign. There are over 30 players on the server, please respawn if timely evac is not available.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_006">
+		<Original>Mission Control</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_007">
+		<Original>OPFOR players cannot leave the Area of Operations.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_008">
+		<Original>You were hit by</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_009">
+		<Original>likely with a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_010">
+		<Original>controlling a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_011">
+		<Original>pilot of a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_012">
+		<Original>of a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_013">
+		<Original>using a Static</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_014">
+		<Original>In your Action Menu (SCROLL MENU), you have the option to anonymously report the incident. This option is available for</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_015">
+		<Original>Pilot seats are for Pilots only</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_016">
+		<Original>No weapons allowed in this vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_017">
+		<Original>Alert off</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_018">
+		<Original>Alert on</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_019">
+		<Original>This civilian is no longer interested in speaking to your kind.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_020">
+		<Original>This civilian has nothing more to say to your kind.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_021">
+		<Original>You are wasting your breath, this civilian is not listening anymore.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_022">
+		<Original>The civilian has narrowed down the location of the P.O.W. on your map</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_023">
+		<Original>Civilian</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_024">
+		<Original>has improved the accuracy of your mission map marker</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_025">
+		<Original>The civilian can provide no further assistance</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_026">
+		<Original>This civilian does not know anything useful</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_027">
+		<Original>has not spoken in six years, what makes you think he will open up to you?</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_028">
+		<Original>The civilian mutters something quietly and keeps moving</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_029">
+		<Original>This civilians family was killed in a NATO airstrike last week. He will not say anything useful.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_030">
+		<Original>wants nothing to do with NATO and would like you to leave</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_031">
+		<Original>appears to be going to alert the enemy.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_032">
+		<Original>This civilian will happily watch you die</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_033">
+		<Original>Feet stuck? Tap [C] or double-tap [C], or [W]+[S]</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_034">
+		<Original>FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_035">
+		<Original>Status</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_036">
+		<Original>Online</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_037">
+		<Original>Offline</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_038">
+		<Original>Radar Services</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_039">
+		<Original>Respawn</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_040">
+		<Original>Respawn Tickets</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_041">
+		<Original>Vehicle - Respawn</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_042">
+		<Original>Vehicle - Repair</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_043">
+		<Original>Vehicle - Ammo</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_044">
+		<Original>Vehicle - Fuel</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_045">
+		<Original>Personal Respawn Beacon</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_046">
+		<Original>Live feed off</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_047">
+		<Original>Live feed on</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_048">
+		<Original>PiP not enabled</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_049">
+		<Original>Cannot push occupied vehicles</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_050">
+		<Original>No other person nearby. You need another person nearby (10m) in order to push a vehicle this heavy.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_051">
+		<Original>Only Pilots can recruit</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_052">
+		<Original>Pilots and Aircrew cannot recruit</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_053">
+		<Original>Insignia Set:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_054">
+		<Original>Supporter level required:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_055">
+		<Original>Your supporter level:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_056">
+		<Original>Insignia not set</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_057">
+		<Original>Cannot delete players</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_058">
+		<Original>Target is protected against cleanup</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_059">
+		<Original>(staff) has deleted a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_060">
+		<Original>at grid</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_061">
+		<Original>[Shift]+[F2] to Exit spectator mode</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_062">
+		<Original>Invincibility on</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_063">
+		<Original>Invincibility off</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_064">
+		<Original>Repair failed (No valid target selected)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_065">
+		<Original>Invalid target</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_066">
+		<Original>(staff) has repaired a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_067">
+		<Original>No function assigned</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_068">
+		<Original>Cannot revive this target</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_069">
+		<Original>Cleaning in progress</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_070">
+		<Original>Base cleaned. Executing this function too often will increase network desync.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_071">
+		<Original>cleaned. Executing this function too often will increase network de-sync.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_072">
+		<Original>(staff) has executed</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_073">
+		<Original>cleanup</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_074">
+		<Original>Uniform Texture Set:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_075">
+		<Original>You must be at base to re-skin your uniform</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_076">
+		<Original>Uniform Texture Reset</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_077">
+		<Original>Unsupported uniform for selected skin. Please select correct uniform type.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_078">
+		<Original>Supporter level required:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_079">
+		<Original>Your supporter level:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_080">
+		<Original>Uniform Texture not set.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_081">
+		<Original>Vehicle texture reset, you can now texture a different vehicle. You must first reset that vehicle before texturing another!</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_082">
+		<Original>Vehicle Skin</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_083">
+		<Original>Vehicle Texture Set:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_084">
+		<Original>Author:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_085">
+		<Original>Please wait ... Can only set a vehicle texture every 2 seconds</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_086">
+		<Original>You must be at base to re-skin your vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_087">
+		<Original>You already have a textured vehicle. A(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_088">
+		<Original>You must be the vehicle commander/driver/owner.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_089">
+		<Original>Incorrect vehicle type. Vehicle texture not set. You must be inside the desired vehicle, and be the vehicle commander/driver/owner.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_090">
+		<Original>Vehicle Texture not set</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_091">
+		<Original>Entering Capture Area</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_092">
+		<Original>Leaving Capture Area</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_093">
+		<Original>Entering Control Area</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_094">
+		<Original>Leaving Control Area</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_095">
+		<Original>At base, you must be the vehicle commander/driver to commence service</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_096">
+		<Original>Rearm service is not available here yet</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_097">
+		<Original>Repair service is not available here yet</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_098">
+		<Original>Refuel service is not available here yet</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_099">
+		<Original>Engine must be off to service vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_100">
+		<Original>Simulation Manager paused</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_101">
+		<Original>Simulation Manager resumed</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_102">
+		<Original>Dynamic Simulation</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_103">
+		<Original>Please wait a short time (10s) between sync attempts</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_104">
+		<Original>Curator</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_105">
+		<Original>Updating zeus entities</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_106">
+		<Original>No function</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_107">
+		<Original>Units garrisoned</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_108">
+		<Original>Group patrol</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_109">
+		<Original>Group search building</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_110">
+		<Original>Stalking target</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_111">
+		<Original>Stalking failed - No units within 15m of waypoint position</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_112">
+		<Original>Stalking failed - Invalid waypoint position</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_113">
+		<Original>Stalking failed - No waypoints</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_114">
+		<Original>Stalking failed - Group leader is player</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_115">
+		<Original>Stalking failed - Group not local</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_116">
+		<Original>Suppressive Fire</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_117">
+		<Original>has been revived by a divine intervention</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_118">
+		<Original>The gods have smiled upon</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_119">
+		<Original>has been revived by an act of the gods</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_120">
+		<Original>Revived selected unit</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_121">
+		<Original>Player view directions On</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_122">
+		<Original>Player view directions Off</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_123">
+		<Original>Unit set unconscious</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_124">
+		<Original>ejected from the session</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_125">
+		<Original>Suspect is null object, action failed</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_126">
+		<Original>No action taken</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_127">
+		<Original>Mission Failure</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_128">
+		<Original>The enemy dominated us, get ready for the next one!</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_129">
+		<Original>Mission Success</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_130">
+		<Original>We dominated them soldiers, get ready for the next one!</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_131">
+		<Original>is available at grid</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_132">
+		<Original>may not towable at all. Try getting into it first before attempting Tow.</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_133">
+		<Original>Cannot tow</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_134">
+		<Original>Cannot tow at this time</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_135">
+		<Original>This vehicle is not towable</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_136">
+		<Original>is too heavy for the</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_137">
+		<Original>must be unflipped</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_138">
+		<Original>is currently towing</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_139">
+		<Original>is being towed</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_140">
+		<Original>Obstructions detected (Please release elsewhere)</Original>
+	</Key>
+	
+	<!----- Chat ------------------------------------------------------------------------->
+
+	<Key ID="STR_QS_Chat_001">
+		<Original>Thermal scans are picking up those enemy Artillery firing! Heads down!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_002">
+		<Original>Enemy Artillery rounds incoming! Advise you seek cover immediately.</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_003">
+		<Original>OPFOR Artillery rounds incoming! Seek cover immediately!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_004">
+		<Original>The Artillery team's firing, boys! Down on the ground!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_005">
+		<Original>Get that damned Artillery team down, they're firing right now! Seek cover!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_006">
+		<Original>They're zeroing in! Incoming Artillery fire, heads down!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_007">
+		<Original>Enemy mortars firing!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_008">
+		<Original>destroyed the radio tower! Good work soldiers!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_009">
+		<Original>brought down the tower! Great work boys!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_010">
+		<Original>Enemy attack incoming! Seek cover immediately and defend the HQ!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_011">
+		<Original>The enemy managed to mount a counterattack! Hold the HQ at all cost!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_012">
+		<Original>Dig in at the HQ boys, they are coming!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_013">
+		<Original>The attack is almost over!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_014">
+		<Original>Hang on boys, the end is near!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_015">
+		<Original>The enemy is not giving up! Hold on as long as you can, soldiers!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_016">
+		<Original>The enemy is capturing the HQ!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_017">
+		<Original>Well done boys! Secure an LZ and get back to base for rearm!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_018">
+		<Original>Bad luck soldiers!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_019">
+		<Original>killed the Enemy Commander</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_020">
+		<Original>Target destroyed by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_021">
+		<Original>Task failed! HVT killed by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_022">
+		<Original>Bring the HVT back to base and imprison him in Gitmo</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_023">
+		<Original>Wounded soldier killed</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_024">
+		<Original>rearmed</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_025">
+		<Original>Friendly jet respawning</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_026">
+		<Original>Our CAS has been destroyed!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_027">
+		<Original>Our CAS has been shot down!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_028">
+		<Original>Objective killed by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_029">
+		<Original>Close Air Support is available:</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_030">
+		<Original>secured the tracking device in</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_031">
+		<Original>secured an intel tablet in</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_032">
+		<Original>(check map)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_033">
+		<Original>secured the enemy Datalink</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_034">
+		<Original>secured the enemy Supply Depot</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_035">
+		<Original>secured an objective</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_036">
+		<Original>(JTAC) marked a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_037">
+		<Original>for CAS/Artillery Support</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_038">
+		<Original>arrested an HVT</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_039">
+		<Original>The enemy is taking back the HQ</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_040">
+		<Original>Enemy mortars neutralised</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_041">
+		<Original>FOB Respawn Tickets added:</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_042">
+		<Original>total tickets:</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_043">
+		<Original>supported the FOB with a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_044">
+		<Original>Base air defense available</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_045">
+		<Original>has destroyed a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_046">
+		<Original>with a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_047">
+		<Original>FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_048">
+		<Original>activated by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_049">
+		<Original>destroyed a GPS jammer</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_050">
+		<Original>GPS jammer destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_051">
+		<Original>Revive Tickets Remaining</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_052">
+		<Original>We took too long in Georgetown, soldiers. Better luck next time!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_053">
+		<Original>Great work soldiers, get back to base and prepare for your next mission!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_054">
+		<Original>We took too long in Kavala, soldiers. Better luck next time!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_055">
+		<Original>Enemy commander captured by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_056">
+		<Original>Satellite sector scan requested by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_057">
+		<Original>Satellite scan complete</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_058">
+		<Original>signatures detected in grid</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_059">
+		<Original>Side mission - The vehicle has struck a buried landmine!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_060">
+		<Original>Objective destroyed (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_061">
+		<Original>The charge has been set! 15 seconds until detonation.</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_062">
+		<Original>The c4 has been set! 15 seconds until detonation.</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_063">
+		<Original>The charge is set! 15 seconds until detonation.</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_064">
+		<Original>Medical supplies destroyed (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_065">
+		<Original>Medical supplies took too long (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_066">
+		<Original>destroyed an Anti-Air vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_067">
+		<Original>Anti-Air vehicle destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_068">
+		<Original>POW killed by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_069">
+		<Original>Prototype intel lost (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_070">
+		<Original>killed the Intel objective</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_071">
+		<Original>Objective killed (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_072">
+		<Original>The target has spotted us and is escaping with the intel!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_073">
+		<Original>Objective destroyed (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_074">
+		<Original>Objective escaped (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_075">
+		<Original>Intel received. Mission accomplished! We're sending the data up to HQ for analysis.</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_077">
+		<Original>destroyed the Intel vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_078">
+		<Original>Enemy commander has ordered a strike on</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_079">
+		<Original>HQ is 100 percent taken</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_080">
+		<Original>killed a Mk.6 Mortar gunner</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_081">
+		<Original>Robocop has banned</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_082">
+		<Original>Robocop has kicked</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_083">
+		<Original>from the server</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_084">
+		<Original>for disallowed profile name</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_085">
+		<Original>for reserved profile name</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_086">
+		<Original>has been pardoned by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_087">
+		<Original>Zeus Module initialization failed. Please abort and reconnect</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_088">
+		<Original>has murdered a civilian</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_089">
+		<Original>Revived by [AI]</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_090">
+		<Original>You are not a pilot</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_091">
+		<Original>has hacked a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_092">
+		<Original>has put a prisoner into prison</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_093">
+		<Original>has respawned a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_094">
+		<Original>has captured a unit at grid</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_095">
+		<Original>self-destructed a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_096">
+		<Original>(staff) has turned on Invincibility</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_097">
+		<Original>(staff) has turned off Invincibility</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_098">
+		<Original>(staff) has punished</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_099">
+		<Original>with 10 pushups</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_100">
+		<Original>(staff) has revived</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_101">
+		<Original>(staff) has teleported to grid</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_102">
+		<Original>(staff) has cleaned the spawn area</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_103">
+		<Original>requested medevac at grid</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_104">
+		<Original>Bad Weather Alert</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_105">
+		<Original>Weather Service</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_106">
+		<Original>Zeus revives remaining:</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_107">
+		<Original>has killed a prisoner</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_108">
+		<Original>Enemy sniper</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_109">
+		<Original>killed by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_110">
+		<Original>A headless client has connected</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_111">
+		<Original>A headless client has disconnected</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_112">
+		<Original>No longer commander</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_113">
+		<Original>was killed</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_114">
+		<Original>died of unknown causes</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_115">
+		<Original>was incapacitated</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_116">
+		<Original>was rekt by an enemy sniper</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_117">
+		<Original>was incapacitated by an enemy sniper</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_118">
+		<Original>got sniped</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_119">
+		<Original>was blown away by an enemy sniper</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_120">
+		<Original>was incapacitated by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_121">
+		<Original>Friendly fire</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_122">
+		<Original>%1 was blown away by the enemy Commander</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_123">
+		<Original>Enemy Commander took out %1</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_124">
+		<Original>%1 was rekt by the enemy Commander</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_125">
+		<Original>%1 was laid out by the enemy Commander</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_126">
+		<Original>Enemy Commander killed %1</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_127">
+		<Original>bled out</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_128">
+		<Original>drowned</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_129">
+		<Original>was revived with a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_130">
+		<Original>(staff) suspended side missions</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_131">
+		<Original>(staff) resumed side missions</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_132">
+		<Original>(staff) suspended primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_133">
+		<Original>(staff) resumed primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_134">
+		<Original>(staff) cycled primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_135">
+		<Original>ejected from the session</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_136">
+		<Original>Suspect is null object (action failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_137">
+		<Original>ROBOCOP believes</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_138">
+		<Original>has hacked the server</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_139">
+		<Original>Detected:</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_140">
+		<Original>completed its task at grid</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_141">
+		<Original>Civilian was murdered by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_142">
+		<Original>Civilian killed by</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_143">
+		<Original>No action taken</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_144">
+		<Original>ROBOCOP kicked</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_145">
+		<Original>for AFK timeout</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_146">
+		<Original>has inflated a(n)</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_147">
+		<Original>located intel</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_148">
+		<Original>took control of a crashing</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_149">
+		<Original>Pilot disconnect</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_150">
+		<Original>detected an enemy bomb incoming on</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_151">
+		<Original>switched from</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_152">
+		<Original>to</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_153">
+		<Original>has killed an Unarmed Civilian</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_154">
+		<Original>CSAT has killed the POW</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_155">
+		<Original>POW contacted! Bring him back to base before he bleeds out!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_156">
+		<Original>CSAT will destroy the intel in</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_157">
+		<Original>CSAT has destroyed the crates!</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_158">
+		<Original>killed</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_159">
+		<Original>murdered</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_160">
+		<Original>butchered</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_161">
+		<Original>slaughtered</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_162">
+		<Original>reset for FOB resupply</Original>
+	</Key>
+	<Key ID="STR_QS_Chat_163">
+		<Original>destroyed an enemy tunnel entrance</Original>
+	</Key>
+	
+	<!----- Role ------------------------------------------------------------------------->
+
+	<Key ID="STR_QS_Role_000">
+		<Original>Unknown Role</Original>
+	</Key>
+	<Key ID="STR_QS_Role_001">
+		<Original>Role Selection</Original>
+	</Key>
+	<Key ID="STR_QS_Role_002">
+		<Original>Already in selected role</Original>
+	</Key>
+	<Key ID="STR_QS_Role_003">
+		<Original>Maximum number of players in selected role</Original>
+	</Key>
+	<Key ID="STR_QS_Role_004">
+		<Original>Cannot switch faction</Original>
+	</Key>
+	<Key ID="STR_QS_Role_005">
+		<Original>Cannot select role</Original>
+	</Key>
+	<Key ID="STR_QS_Role_006">
+		<Original>Close Air Support roles disabled in mission parameters</Original>
+	</Key>
+	<Key ID="STR_QS_Role_007">
+		<Original>Not in CAS role whitelist (contact admins to get whitelisted)</Original>
+	</Key>
+	<Key ID="STR_QS_Role_008">
+		<Original>CAS jet limit exceeded</Original>
+	</Key>
+	<Key ID="STR_QS_Role_009">
+		<Original>Whitelisted slot</Original>
+	</Key>
+	<Key ID="STR_QS_Role_010">
+		<Original>contact admins to get whitelisted</Original>
+	</Key>
+	<Key ID="STR_QS_Role_011">
+		<Original>Role changed to</Original>
+	</Key>
+	<Key ID="STR_QS_Role_012">
+		<Original>Loadout already applied</Original>
+	</Key>
+	
 	<!----- Utility text ------------------------------------------------------------------------->
 	
+	<Key ID="STR_QS_Utility_000">
+		<Original>TEXT</Original>
+	</Key>
 	<Key ID="STR_QS_Utility_001">
 		<Original>left</Original>
 	</Key>
 	<Key ID="STR_QS_Utility_002">
 		<Original>ROBOCOP</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_003">
+		<Original>seconds</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_004">
+		<Original>Unknown Vehicle Type</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_005">
+		<Original>driver</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_006">
+		<Original>gunner</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_007">
+		<Original>commander</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_008">
+		<Original>turret</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_009">
+		<Original>turret</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_010">
+		<Original>HELP</Original>
 	</Key>
 </Project>
