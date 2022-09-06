@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	5/09/2022 A3 2.10 by Community
+	6/09/2022 A3 2.10 by Community
 	
 Description:
 
@@ -33,6 +33,10 @@ Description:
 		- cutText / pop-ups
 		
 			"STR_QS_Text_001"
+			
+		- Chat (sidechat, systemchat, etc)
+			
+			"STR_QS_Chat_001"
 	
 		- Diary
 		
@@ -2126,6 +2130,462 @@ _____________________________________________________________>
 	</Key>
 	<Key ID="STR_QS_Chat_163">
 		<Original>destroyed an enemy tunnel entrance</Original>
+	</Key>
+	
+	<!----- Role ------------------------------------------------------------------------->
+	
+	<Key ID="STR_QS_Notif_001">
+		<Original>Radio tower destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_002">
+		<Original>Destroy radio tower</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_003">
+		<Original>Defend</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_004">
+		<Original>Defend HQ</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_005">
+		<Original>HQ defense completed!</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_006">
+		<Original>HQ defense failed!</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_007">
+		<Original>Enemy Commander killed!</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_008">
+		<Original>Area of Operations</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_009">
+		<Original>Enemy mortar destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_010">
+		<Original>Enemy mortar online</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_011">
+		<Original>Destroy</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_012">
+		<Original>Destroy enemy vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_013">
+		<Original>Enemy vehicle destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_014">
+		<Original>High Value Target</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_015">
+		<Original>Arrest HVT</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_016">
+		<Original>HVT arrested</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_017">
+		<Original>HVT killed (arrest failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_018">
+		<Original>Side Task</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_019">
+		<Original>IDAP Supplies</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_020">
+		<Original>Side Task Update</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_021">
+		<Original>IDAP Supplies recovered</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_022">
+		<Original>IDAP Medevac complete</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_023">
+		<Original>Side Task Complete</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_024">
+		<Original>Task expired</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_025">
+		<Original>Logistics task succeeded</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_026">
+		<Original>Aid worker task succeeded</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_027">
+		<Original>Logistics task failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_028">
+		<Original>Aid worker task failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_029">
+		<Original>Secure Intel (Guerilla)</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_030">
+		<Original>Enemy has detected our presence</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_031">
+		<Original>Intel secured</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_032">
+		<Original>Side Task Failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_033">
+		<Original>Intel lost</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_034">
+		<Original>Medevac</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_035">
+		<Original>Medevac wounded soldier</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_036">
+		<Original>Medevac failed (soldier bled out)</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_037">
+		<Original>Medevac complete</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_038">
+		<Original>Medevac failed (soldier killed)</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_039">
+		<Original>Beret Collector</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_040">
+		<Original>Corrections</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_041">
+		<Original>Cleaning up</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_042">
+		<Original>Gold digger</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_043">
+		<Original>First Person</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_044">
+		<Original>Server Restarting</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_045">
+		<Original>Server Name: </Original>
+	</Key>
+	<Key ID="STR_QS_Notif_046">
+		<Original>Mortar pit neutralised</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_047">
+		<Original>Secure FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_048">
+		<Original>Vehicle Respawn online</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_049">
+		<Original>Vehicle Service online</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_050">
+		<Original>Ammo Service online</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_051">
+		<Original>AA Site destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_052">
+		<Original>AA Site Destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_053">
+		<Original>Enemy plane down</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_054">
+		<Original>Enemy plane inbound</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_055">
+		<Original>Online</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_056">
+		<Original>FOB Radar Online</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_057">
+		<Original>Objectives complete</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_058">
+		<Original>Complete all objectives</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_059">
+		<Original>Grid conversion complete</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_060">
+		<Original>All enemy respawn tunnels destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_061">
+		<Original>Enemy commander killed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_062">
+		<Original>Enemy headquarters secured</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_063">
+		<Original>Unexploded Ordnance (UXO) cleared</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_064">
+		<Original>Priority Mission</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_065">
+		<Original>Mission failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_066">
+		<Original>Mission completed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_067">
+		<Original>Secure intel</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_068">
+		<Original>Mission Cancelled (max player threshold)</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_069">
+		<Original>Datalink secured</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_070">
+		<Original>Supply Depot secured</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_071">
+		<Original>Objective failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_072">
+		<Original>No civilian casualties</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_073">
+		<Original>Lost</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_074">
+		<Original>Captured</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_075">
+		<Original>Secure all objectives</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_076">
+		<Original>No reward available</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_077">
+		<Original>Your team received</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_078">
+		<Original>Escort Truck</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_079">
+		<Original>Truck destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_080">
+		<Original>Truck mission failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_081">
+		<Original>Side Mission</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_082">
+		<Original>Truck mission completed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_083">
+		<Original>Truck at destination</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_084">
+		<Original>Secure Smuggled Explosives</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_085">
+		<Original>Secure Insurgency Supply</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_086">
+		<Original>Secure Launchers</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_087">
+		<Original>Seize Research Data</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_088">
+		<Original>Recover IDAP aid worker</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_089">
+		<Original>Mission completed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_090">
+		<Original>Mission failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_091">
+		<Original>Side Mission Update</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_092">
+		<Original>Locate medical supplies</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_093">
+		<Original>Medical supplies not found</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_094">
+		<Original>Medical supplies located</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_095">
+		<Original>Stabilise and Medevac aid worker</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_096">
+		<Original>Anti-Air Battery</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_097">
+		<Original>Anti-Air Battery Neutralised</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_098">
+		<Original>Artillery</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_099">
+		<Original>Artillery Neutralised</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_100">
+		<Original>Enemy Regenerator</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_101">
+		<Original>Rescue POW</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_102">
+		<Original>POW Mission Failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_103">
+		<Original>POW Mission Completed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_104">
+		<Original>POW Mission Updated</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_105">
+		<Original>The POW has died</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_106">
+		<Original>The POW has been rescued</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_107">
+		<Original>(POW) The enemy has detected our approach</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_108">
+		<Original>Bring POW back to base before he bleeds out</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_109">
+		<Original>(POW) The civilians are now unhappy</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_110">
+		<Original>Secure Enemy Chopper</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_111">
+		<Original>Secure Intel</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_112">
+		<Original>Secure Radar</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_113">
+		<Original>Secure Weapons Caches</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_114">
+		<Original>The enemy has detected our approach</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_115">
+		<Original>intel secured</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_116">
+		<Original>Respawn tunnel destroyed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_117">
+		<Original>TASK ASSIGNED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_118">
+		<Original>TASK CANCELED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_119">
+		<Original>TASK CREATED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_120">
+		<Original>TASK FAILED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_121">
+		<Original>TASK COMPLETED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_122">
+		<Original>TASK UPDATED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_123">
+		<Original>Take</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_124">
+		<Original>Taken</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_125">
+		<Original>MAIN OBJECTIVE COMPLETE</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_126">
+		<Original>NEW MAIN OBJECTIVE</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_127">
+		<Original>DEFEND MAIN OBJECTIVE</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_128">
+		<Original>Defended</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_129">
+		<Original>MAIN OBJECTIVE DEFENDED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_130">
+		<Original>NEW SUB-OBJECTIVE</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_131">
+		<Original>SUB-OBJECTIVE COMPLETE</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_132">
+		<Original>NEW SIDE MISSION</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_133">
+		<Original>FILE DATA SAVED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_134">
+		<Original>SIDE MISSION COMPLETE</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_135">
+		<Original>NEW PRIORITY TARGET</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_136">
+		<Original>PRIORITY TARGET DOWN</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_137">
+		<Original>ENEMY CAS DESTROYED</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_138">
+		<Original>ENEMY CAS ALERT</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_139">
+		<Original>Side Mission Reward</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_140">
+		<Original>SCORE BONUS</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_141">
+		<Original>AO Side Task</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_142">
+		<Original>AO Side Task Completed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_143">
+		<Original>AO Side Task Failed</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_144">
+		<Original>Commander</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_145">
+		<Original>System</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_146">
+		<Original>Kavala</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_147">
+		<Original>Georgetown</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_148">
+		<Original>Intel collected, mission complete</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_149">
+		<Original>We took too long (mission failed)</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_150">
+		<Original>Close Air Support</Original>
+	</Key>
+	<Key ID="STR_QS_Notif_151">
+		<Original>Forward Operating Base</Original>
 	</Key>
 	
 	<!----- Role ------------------------------------------------------------------------->
