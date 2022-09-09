@@ -6,43 +6,55 @@ Author:
 
 Last Modified:
 
-	6/09/2022 A3 2.10 by Community
+	9/09/2022 A3 2.10 by Community
 	
 Description:
 
 	https://community.bistudio.com/wiki/Stringtable.xml
 	
+Notes:
+	
 	Categories:
 		
 		- User Actions
 		
-			"STR_QS_Interact_001"
+			[X] "STR_QS_Interact_001"
 			
 		- Hints
 		
-			"STR_QS_Hint_001"
+			[X] "STR_QS_Hint_001"
 		
 		- Notifications
 		
-			"STR_QS_Notif_001"
+			[X] "STR_QS_Notif_001"
 		
-		- GUI/dialogs
+		- GUI/Menus/Dialogs
 		
 			"STR_QS_Dialog_001"
 		
 		- cutText / pop-ups
 		
-			"STR_QS_Text_001"
+			[X] "STR_QS_Text_001"
 			
 		- Chat (sidechat, systemchat, etc)
 			
-			"STR_QS_Chat_001"
+			[X] "STR_QS_Chat_001"
 	
 		- Diary
 		
 			"STR_QS_Diary_001"
+			
+		- Map Markers
+		
+			[X] "STR_QS_Marker_001"
+			
+		- Tasks
+		
+			[X] "STR_QS_Task_001"
 	
-		- Utility 
+		- Utility
+			
+			"STR_QS_Utility_001"
 	
 	
 _____________________________________________________________>
@@ -1642,7 +1654,22 @@ _____________________________________________________________>
 	<Key ID="STR_QS_Hints_140">
 		<Original>Obstructions detected (Please release elsewhere)</Original>
 	</Key>
-	
+	<Key ID="STR_QS_Hints_141">
+		<Original>P.O.W. Rescue Mission Statistics:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_142">
+		<Original>Attempts:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_143">
+		<Original>Successful Completions:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_144">
+		<Original>Success Rate:</Original>
+	</Key>
+	<Key ID="STR_QS_Hints_145">
+		<Original>percent</Original>
+	</Key>
+
 	<!----- Chat ------------------------------------------------------------------------->
 
 	<Key ID="STR_QS_Chat_001">
@@ -2587,6 +2614,517 @@ _____________________________________________________________>
 	<Key ID="STR_QS_Notif_151">
 		<Original>Forward Operating Base</Original>
 	</Key>
+
+	<!----- Task ------------------------------------------------------------------------->
+
+	<Key ID="STR_QS_Task_000">
+		<Original>Seize the enemy headquarters to degrade enemy coordination. This objective is completed when the enemy commander dies. He is usually located in the immediate vicinity of the HQ. This objective is not a requirement in order to finish the mission, however may be useful.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_001">
+		<Original>Enemy HQ</Original>
+	</Key>
+	<Key ID="STR_QS_Task_002">
+		<Original>Seize Enemy HQ</Original>
+	</Key>
+	<Key ID="STR_QS_Task_003">
+		<Original>Destroy the radio tower. Destroying the radio tower will degrade enemy communications and prevent them from calling in air support. This objective is not accurately marked. The radio tower is somewhere within the surrounding circle.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_004">
+		<Original>Destroy radiotower</Original>
+	</Key>
+	<Key ID="STR_QS_Task_005">
+		<Original>Clear the marked area of resistance. Once there are under 10 enemies in this area and no more sub-objectives to do, this task will complete. You may have to conduct a number of patrols around the zone to finish them off.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_006">
+		<Original>Target Taken</Original>
+	</Key>
+	<Key ID="STR_QS_Task_007">
+		<Original>Fantastic job taking</Original>
+	</Key>
+	<Key ID="STR_QS_Task_008">
+		<Original>boys</Original>
+	</Key>
+	<Key ID="STR_QS_Task_009">
+		<Original>Enemies imprisoned:</Original>
+	</Key>
+	<Key ID="STR_QS_Task_010">
+		<Original>Defend the HQ boys!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_011">
+		<Original>Defend HQ</Original>
+	</Key>
+	<Key ID="STR_QS_Task_012">
+		<Original>Intel has located an enemy vehicle. Take it out!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_013">
+		<Original>Destroy vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Task_014">
+		<Original>Intel teams have located a High Value Target in the area. Move in and capture him!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_015">
+		<Original>Capture HVT</Original>
+	</Key>
+	<Key ID="STR_QS_Task_016">
+		<Original>IDAP Supplies</Original>
+	</Key>
+	<Key ID="STR_QS_Task_017">
+		<Original>Investigate Scene</Original>
+	</Key>
+	<Key ID="STR_QS_Task_018">
+		<Original>Recover any medical supplies</Original>
+	</Key>
+	<Key ID="STR_QS_Task_019">
+		<Original>Recover any casualties</Original>
+	</Key>
+	<Key ID="STR_QS_Task_020">
+		<Original>Bring to IDAP field hospital before timer runs out.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_021">
+		<Original>An IDAP cargo truck carrying vital medical equipment failed to reach its destination. Get over there and see what you can do.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_022">
+		<Original>It would be helpful to have a vehicle to help carry cargo.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_023">
+		<Original>Intel</Original>
+	</Key>
+	<Key ID="STR_QS_Task_024">
+		<Original>A high-value target carrying sensitive intel has been located.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_025">
+		<Original>Move in, neutralize him and secure the intel.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_026">
+		<Original>This mission must be executed carefully and with speed. If he detects our presence in the area he will attempt to destroy the intel. Also, the intel device he has operates with biometric authorization. If his heart stops, it will self-destruct after a short time.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_027">
+		<Original>Satellite data appears to show he has a security detail with him.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_028">
+		<Original>A recon soldier has been wounded in the AO and requires urgent medevac. Get him back to the Medevac HQ at base to complete the mission. If he dies or bleeds out (about 60 minutes from mission start), the mission is failed. Good luck soldiers!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_029">
+		<Original>Medevac</Original>
+	</Key>
+	<Key ID="STR_QS_Task_030">
+		<Original>The enemy has deployed a mobile GPS jammer. Locate and destroy it!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_031">
+		<Original>GPS Jammer</Original>
+	</Key>
+	<Key ID="STR_QS_Task_032">
+		<Original>Objectives</Original>
+	</Key>
+	<Key ID="STR_QS_Task_033">
+		<Original>(Optional) No civilian casualties.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_034">
+		<Original>(Required) Convert required number of grid squares to green.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_035">
+		<Original>(Required) Destroy enemy respawn tunnel entrances.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_036">
+		<Original>(Optional) Kill or capture the local enemy commander.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_037">
+		<Original>(Optional) Capture and hold the enemy HQ.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_038">
+		<Original>(Optional) Assist IDAP by clearing an Unexploded Ordnance (UXO) field.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_039">
+		<Original>Search buildings and structures in the area for intel to locate the enemy respawn tunnel entrances.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_040">
+		<Original>Tunnel entrances look like small stone well covers, with a sewer grate inside.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_041">
+		<Original>The guerilla forces are mounting a counterattack to retake their HQ. Hold them back at all cost, boys!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_042">
+		<Original>A CSAT armored vehicle carrying sensitive strategic intel was ambushed by a surprise Syndikat offensive in Georgetown. While the intel it was transporting is classified above our clearance, recovery of it has been designated as a priority mission by CENTCOM.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_043">
+		<Original>Locate the CSAT armored vehicle in Georgetown, it will have a tracker we can utilize to locate a number of stolen tablets.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_044">
+		<Original>The city is heavily occupied by Syndikat forces and reports advise they have significant AA capabilities. It is suggested to approach low from the south and move in on foot. Stay with your squad, and remember your urban warfare training.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_045">
+		<Original>1 of 2: Locate CSAT Transport</Original>
+	</Key>
+	<Key ID="STR_QS_Task_046">
+		<Original>Move through the city and secure</Original>
+	</Key>
+	<Key ID="STR_QS_Task_047">
+		<Original>pieces of intel.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_048">
+		<Original>Their locations have been downloaded to your map (marked in yellow).</Original>
+	</Key>
+	<Key ID="STR_QS_Task_049">
+		<Original>2 of 2: Secure Intel</Original>
+	</Key>
+	<Key ID="STR_QS_Task_050">
+		<Original>Control</Original>
+	</Key>
+	<Key ID="STR_QS_Task_051">
+		<Original>How to Capture:</Original>
+	</Key>
+	<Key ID="STR_QS_Task_052">
+		<Original>Occupy the inner area to help capture and hold the zone.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_053">
+		<Original>Enemy within the outer area will slow down or even reverse your progress!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_054">
+		<Original>While it is necessary to hold the inner zone, it is also important to control and keep the enemy out of the larger zone.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_055">
+		<Original>Locate and secure the enemy datalink.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_056">
+		<Original>The enemy datalink allows the enemy to more easily communicate and share information on our troop movements, strength and force disposition. With this data they can adapt and better counter our attacks.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_057">
+		<Original>This datalink also allows them to call in UAV recon support. Securing the datalink will deny the enemy these benefits.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_058">
+		<Original>Secure Datalink</Original>
+	</Key>
+	<Key ID="STR_QS_Task_059">
+		<Original>Datalink</Original>
+	</Key>
+	<Key ID="STR_QS_Task_060">
+		<Original>Destroy the radio tower</Original>
+	</Key>
+	<Key ID="STR_QS_Task_061">
+		<Original>The enemy relies on radio communications to call in helicopter and armored vehicle reinforcements.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_062">
+		<Original>Destroying this target will greatly reduce the enemies ability to call in these force multipliers.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_063">
+		<Original>Destroy Radio Tower</Original>
+	</Key>
+	<Key ID="STR_QS_Task_064">
+		<Original>Radio Tower</Original>
+	</Key>
+	<Key ID="STR_QS_Task_065">
+		<Original>Secure the enemy supply depot.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_066">
+		<Original>The enemy relies on this supply depot to distribute advanced gear to the enemy. This depot allows the enemy to equip with more Anti-Air, Anti-Tank and even call in the dreaded Viper units.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_067">
+		<Original>Securing this depot will greatly reduce the enemies ability to spawn AA teams, AT teams and Viper teams.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_068">
+		<Original>To secure the supply depot, simply use your Scroll Menu on the Taru pod located inside the fortifications.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_069">
+		<Original>Supply Depot</Original>
+	</Key>
+	<Key ID="STR_QS_Task_070">
+		<Original>Escort Truck</Original>
+	</Key>
+	<Key ID="STR_QS_Task_071">
+		<Original>Get the vehicle to its destination near</Original>
+	</Key>
+	<Key ID="STR_QS_Task_072">
+		<Original>marked on map</Original>
+	</Key>
+	<Key ID="STR_QS_Task_073">
+		<Original>It is strongly advised to stay on roads, and not to bring tanks or APCs, as this can disturb buried IEDs. It is suggested to keep moving even during contact, to prevent getting flanked and attacked by more heavily armed insurgents. Good luck, soldier!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_074">
+		<Original>Secure the smuggled explosives! There are smuggled explosives somewhere on the</Original>
+	</Key>
+	<Key ID="STR_QS_Task_075">
+		<Original>coastline in this area. Locate and secure them. Once you have secured the explosives, run away! This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_076">
+		<Original>Secure Smuggled Explosives</Original>
+	</Key>
+	<Key ID="STR_QS_Task_077">
+		<Original>The enemy has been supplying an insurgency on</Original>
+	</Key>
+	<Key ID="STR_QS_Task_078">
+		<Original>get over there and secure their weapons cache. This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_079">
+		<Original>Secure Insurgents Cache</Original>
+	</Key>
+	<Key ID="STR_QS_Task_080">
+		<Original>Intercept the weapons transfer! Enemy supply trucks have stopped in this area to transfer Anti-Air launchers. Intercept and secure them! This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_081">
+		<Original>Secure AA Launchers</Original>
+	</Key>
+	<Key ID="STR_QS_Task_082">
+		<Original>Seize the research data! The enemy is conducting weapons testing research, and has left one of their research stations under-protected. Get over there and download the intel! This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_083">
+		<Original>Seize Research Data</Original>
+	</Key>
+	<Key ID="STR_QS_Task_084">
+		<Original>Help IDAP</Original>
+	</Key>
+	<Key ID="STR_QS_Task_085">
+		<Original>1. Examine scene.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_086">
+		<Original>2. Find the wounded aid worker, and search for clues.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_087">
+		<Original>3. Locate medical supplies.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_088">
+		<Original>4. Bring critical medical supplies to wounded aid worker.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_089">
+		<Original>5. Medevac aid worker to our Medevac HQ at base or another field hospital.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_090">
+		<Original>A local IDAP supply depot has come under attack by insurgents. A nearby civilian reported that one aid worker appeared to be still alive. Your job is to get over there and recover him. Some of the insurgents have already left the scene, taking critical medical supplies with them. You may have to track them down to recover the medical supplies.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_091">
+		<Original>Examine bodies at the scene for clues as to the location of the insurgents.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_092">
+		<Original>This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_093">
+		<Original>The humanitarian worker has been stabilised, get him back to a field hospital to complete our mission!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_094">
+		<Original>The enemy has set up an Anti-Air Battery near our base. This is a priority target, soldiers! It has extremely long range! Get over there and take it out at all cost. While it is active, it is not advised to use air transport. This objective is not accurately marked. While it is re-arming (30 seconds), it will not be able to lock on at long range. Bringing heavy explosives is advised.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_095">
+		<Original>Anti-Air Battery</Original>
+	</Key>
+	<Key ID="STR_QS_Task_096">
+		<Original>The enemy AA Battery is rearming!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_097">
+		<Original>The CSAT AA Battery has finished rearming!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_098">
+		<Original>The enemy has set up an Artillery Battery. Get over there and neutralize it before its too late! This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_099">
+		<Original>Artillery Battery</Original>
+	</Key>
+	<Key ID="STR_QS_Task_100">
+		<Original>The enemy has deployed a high frequency ionic device which activates wound-healing technology in CSAT uniforms. While the device is active, the enemy may be harder to kill.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_101">
+		<Original>Send a team to destroy it!</Original>
+	</Key>
+	<Key ID="STR_QS_Task_102">
+		<Original>Regenerator</Original>
+	</Key>
+	<Key ID="STR_QS_Task_103">
+		<Original>
+			Soldier, to complete this mission your team must rescue a P.O.W. located somewhere in the marked area.
+			Our agent reports he is being tortured for intel and likely will not be in good shape if you get to him.
+			To rescue the P.O.W. and complete the mission, you must bring him to the Medevac HQ (small white building) at base, OR load him into a Medical Vehicle (Ex. HEMTT Medical) WITH a medic inside as well.
+			If he dies, the mission is failed.
+			To locate the precise position of the P.O.W., the locals may be of help.
+			Interactions with the P.O.W. and civilians will be on your Action Menu.
+		</Original>
+	</Key>
+	<Key ID="STR_QS_Task_104">
+		<Original>Rescue POW</Original>
+	</Key>
+	<Key ID="STR_QS_Task_105">
+		<Original>Secure the enemy helicopter! CSAT is experimenting with new radar-defeating technology. Get over there and steal the schematics. It will be located in a nearby building! Once secured, the helicopter will self-destruct, so be sure to clear the area. This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_106">
+		<Original>Secure Chopper</Original>
+	</Key>
+	<Key ID="STR_QS_Task_107">
+		<Original>An enemy UAV has gone down off the coast of</Original>
+	</Key>
+	<Key ID="STR_QS_Task_108">
+		<Original>This is a chance to secure intel on how their UAV systems operate. Get down there and secure the UAVs intel. This mission is underwater, so ensure you have a rebreather and dive goggles! This objective is not accurately marked. A GPS will help to locate the precise position. This mission is time-critical.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_109">
+		<Original>Secure Intel (UAV)</Original>
+	</Key>
+	<Key ID="STR_QS_Task_110">
+		<Original>Sensitive intel is changing hands between high-ranking enemy officers. Get over there and arrest the officer! Once arrested he will turn over the intel. After this you may execute him, but do it quietly. If they detect our presence, they may attempt to escape. This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_111">
+		<Original>Secure Intel (Officer)</Original>
+	</Key>
+	<Key ID="STR_QS_Task_112">
+		<Original>Sensitive intel is changing hands between high-ranking enemy officers. We believe the intel is located inside a vehicle. Search the vehicle inventories to locate the intel. If they detect our presence, they may attempt to escape. This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_113">
+		<Original>Secure Intel (Vehicle)</Original>
+	</Key>
+	<Key ID="STR_QS_Task_114">
+		<Original>We have located an enemy radar installation. It appears to be under-defended, so this is our chance to learn more about enemy Anti-Air capabilities. Get over there and secure the radar intel. It will be located in a building near the dome. Be careful, once tampered with, the radar will self-destruct. This objective is not accurately marked.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_115">
+		<Original>Secure Radar</Original>
+	</Key>
+	<Key ID="STR_QS_Task_116">
+		<Original>The enemy is supplying an insurgency with advanced guidance systems for their anti-air launchers. Get over there and secure the crates! They look like small plastic boxes. There will be 3 crates located in the marked areas, search the nearby buildings to locate.</Original>
+	</Key>
+	<Key ID="STR_QS_Task_117">
+		<Original>Secure Caches</Original>
+	</Key>
+	
+	<!----- Marker text ------------------------------------------------------------------------->
+	
+	<Key ID="STR_QS_Marker_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_001">
+		<Original>Take</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_002">
+		<Original>Defend</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_003">
+		<Original>HQ</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_004">
+		<Original>Armed</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_005">
+		<Original>Server FPS:</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_006">
+		<Original>Active Zeus:</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_007">
+		<Original>FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_008">
+		<Original>Click for status</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_009">
+		<Original>Grids Controlled: 0 / 0</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_010">
+		<Original>Tunnels Destroyed: 0 / 0</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_011">
+		<Original>No Civilian Casualties</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_012">
+		<Original>UXO Field</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_013">
+		<Original>Mortar</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_014">
+		<Original>Grid Squares Converted:</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_015">
+		<Original>Tunnels Destroyed:</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_016">
+		<Original>Cleared</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_017">
+		<Original>Police Department</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_018">
+		<Original>Pharmacy</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_019">
+		<Original>Fish Market</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_020">
+		<Original>Intel Secured:</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_021">
+		<Original>Time Remaining:</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_022">
+		<Original>Teleporter ([Shift]+[Click here] to teleport)</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_023">
+		<Original>Supply Depot</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_024">
+		<Original>Failed</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_025">
+		<Original>Datalink</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_026">
+		<Original>Radio Tower</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_027">
+		<Original>signatures in</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_028">
+		<Original>Side Mission: Truck Destination</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_029">
+		<Original>Escort Truck</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_030">
+		<Original>Secure Smuggled Explosives</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_031">
+		<Original>Secure Insurgency Supply</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_032">
+		<Original>Secure AA Launchers</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_033">
+		<Original>Seize Research Data</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_034">
+		<Original>Help IDAP</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_035">
+		<Original>Side Mission: Aid worker</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_036">
+		<Original>Side Mission: Locate medical supplies</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_037">
+		<Original>Priority Target: Anti-Air Battery</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_038">
+		<Original>Priority Target: Artillery</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_039">
+		<Original>Side Mission: Enemy Regenerator</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_040">
+		<Original>Rescue P.O.W.</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_041">
+		<Original>Secure Chopper</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_042">
+		<Original>Secure Intel (UAV)</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_043">
+		<Original>Secure Intel (Officer)</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_044">
+		<Original>Secure Intel (Vehicle)</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_045">
+		<Original>Secure Radar</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_046">
+		<Original>Secure Caches</Original>
+	</Key>
+	<Key ID="STR_QS_Marker_047">
+		<Original>Capture</Original>
+	</Key>
 	
 	<!----- Role ------------------------------------------------------------------------->
 
@@ -2664,5 +3202,11 @@ _____________________________________________________________>
 	</Key>
 	<Key ID="STR_QS_Utility_010">
 		<Original>HELP</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_011">
+		<Original>Invade</Original>
+	</Key>
+	<Key ID="STR_QS_Utility_012">
+		<Original>Annex</Original>
 	</Key>
 </Project>
