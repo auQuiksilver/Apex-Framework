@@ -3126,6 +3126,423 @@ _____________________________________________________________>
 		<Original>Capture</Original>
 	</Key>
 	
+	<!----- Diary ------------------------------------------------------------------------->
+	
+	<Key ID="STR_QS_Diary_001">
+		<Original>Key Bindings</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_002">
+		<Original>Rules</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_003">
+		<Original>Radio Channels</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_004">
+		<Original>Roles</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_005">
+		<Original>Mods</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_006">
+		<Original>Teamspeak</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_007">
+		<Original>Discord</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_008">
+		<Original>Leaderboards</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_009">
+		<Original>Gitmo</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_010">
+		<Original>FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_011">
+		<Original>Revive</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_012">
+		<Original>Inventory</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_013">
+		<Original>Campaign</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_014">
+		<Original>After the war between NATO and CSAT ended in an uneasy truce, an opportunistic insurgency sponsored by surrounding nations crushed local militias and moved in to fill the power vacuum.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_015">
+		<Original>They have been destabilizing the region and threatening to pull NATO and CSAT back into open conflict on</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_016">
+		<Original>Moving around using an old wartime tunnel network, they have thus far thwarted low-cost attempts to destroy the insurgency with drone warfare.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_017">
+		<Original>In a last ditch effort, NATO has deployed boots on the ground to root out the determined enemy and bring peace to</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_018">
+		<Original>General channel</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_019">
+		<Original>Subscribe to the General channel for Voice communications.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_020">
+		<Original>Transmission of music and other non-voice sounds is not permitted on this channel.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_021">
+		<Original>Verbal abuse is, of course, not tolerated.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_022">
+		<Original>Platoon channels</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_023">
+		<Original>Join a Platoon channel (Alpha, Bravo or Charlie) for inter-squad communications.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_024">
+		<Original>You can only be subscribed to one Platoon channel at a time.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_025">
+		<Original>AO channels</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_026">
+		<Original>If you are subscribed to these channels, you will automatically be added to these channels when within 2km of the Primary AO, and 1km of the Secondary AO (side mission). When you leave this area, you will no longer be able to receive or transmit on it.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_027">
+		<Original>Aircraft channel</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_028">
+		<Original>Pilots and UAV Operator are active on this channel.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_029">
+		<Original>Currently only Pilots and UAV Operator can transmit voice on this channel.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_030">
+		<Original>If you are not Pilot or UAV Operator, you can still listen to this channel, if you are in the Air Traffic Control tower or the TOC (map marker at base).</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_032">
+		<Original>Side channel</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_033">
+		<Original>Voice communication is disabled on Side channel.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_034">
+		<Original>Use General channel to transmit voice to all players on the server.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_035">
+		<Original>Summary</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_036">
+		<Original>A number of custom radio channels are available for use in-game.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_037">
+		<Original>To access: Press [Home] >> [Comm-Link] >> [Radio Management]</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_038">
+		<Original>A Radio inventory item is required to transmit voice communications.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_039">
+		<Original>Transmission of music or other audio is only permitted over Group, Vehicle and Direct channels (when away from base).</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_040">
+		<Original>Spamming and generally annoying other players using Voice communications can lead to administrative action.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_041">
+		<Original>Inventory Editing</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_042">
+		<Original>Near the Crate Area and Inventory markers at base, you are able to easily customize the inventory of vehicles and ammo crates</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_043">
+		<Original>Medical Vehicles</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_044">
+		<Original>Load incapacitated soldiers into a Medical vehicle (HEMTT Medical, Taru Medical Pod, etc) to revive them.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_045">
+		<Original>The vehicle must have sufficient Revive Tickets.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_046">
+		<Original>Reviving a player consumes a Revive Ticket.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_047">
+		<Original>Revive tickets can be replenished at the Base Service markers.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_048">
+		<Original>Revive tickets correspond to number of cargo seats in the vehicle.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_049">
+		<Original>General</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_050">
+		<Original>Forward Operating Bases are scattered around</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_051">
+		<Original>Some services are available from these FOBs, and they are also locations of interest to the enemy.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_052">
+		<Original>Radar Services</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_053">
+		<Original>When the FOB is active and held by your faction, enemy map data and radar data will be available</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_054">
+		<Original>To interact with the FOBs, there is a laptop inside the main building.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_055">
+		<Original>When certain types of vehicles/crates are within a radius of the FOB, they can activate certain services.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_056">
+		<Original>Respawn</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_057">
+		<Original>Respawning is available at FOBs if several conditions are met:</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_058">
+		<Original>The FOB must be online and held by your faction</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_059">
+		<Original>You are NOT a pilot</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_060">
+		<Original>The FOB has more than 0 Respawn Tickets</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_061">
+		<Original>You have not respawned there in the past 3 minutes</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_062">
+		<Original>Vehicle Services</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_063">
+		<Original>Several vehicle services are available at the FOBs for Aircraft and Land Vehicles:</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_064">
+		<Original>- Respawn - Bring a HEMTT Mover or HEMTT Box truck to the FOB to activate Vehicle Respawn Services</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_065">
+		<Original>- Repair - Bring a repair truck or crate to the FOB to activate Repair Services</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_066">
+		<Original>- Fuel - Bring a fuel truck or crate to the FOB to bring Refueling Services online</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_067">
+		<Original>- Ammo - Bring an Ammo truck or crate to the FOB to bring Ammo Services online</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_068">
+		<Original>Respawn Tickets</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_069">
+		<Original>Bring Medical Vehicles and Crates to the FOB to replenish its Revive Tickets</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_070">
+		<Original>Sniper accuracy.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_071">
+		<Original>Calculates hits and shots taken with a match-grade sniper rifle (Lynx and LRR).</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_072">
+		<Original>Top 3 performers are added to a Sniper whitelist role at the end of the week, to last for the duration of the following week.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_073">
+		<Original>Hot Shots</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_074">
+		<Original>Vasily Zaytsev Memorial</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_075">
+		<Original>Weapon accuracy.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_076">
+		<Original>Calculates hits and shots taken with your primary weapon.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_077">
+		<Original>Excludes: Launchers, pistols, vehicle weapons, and sniper rifles.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_078">
+		<Original>Gitmo</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_079">
+		<Original>Earn points by imprisoning enemies in "Gitmo".</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_080">
+		<Original>Multipliers: n/a</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_081">
+		<Original>Gitmo is marked on your map at base.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_082">
+		<Original>Tower Rangers</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_083">
+		<Original>Earn points as an infantryman by destroying the radiotower (pilots not eligible).</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_084">
+		<Original>Gold Diggers</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_085">
+		<Original>Earn points by collecting human trophies (gold teeth) from dead enemies (very rare).</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_086">
+		<Original>Scalpers</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_087">
+		<Original>Collect the Berets (hats) of enemy Commanders.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_088">
+		<Original>Multipliers: 1 for Black beret, 3 for Red beret</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_089">
+		<Original>Revivalists</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_090">
+		<Original>Earn points as a Medic by reviving fallen soldiers.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_091">
+		<Original>Multipliers: Stamina</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_092">
+		<Original>Top 3 medics of the week (ending Sunday 23:59h) added to whitelisted medic slot for following week.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_093">
+		<Original>Transporters</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_094">
+		<Original>Earn points as a Pilot by safely transporting soldiers to and from missions in helicopters.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_095">
+		<Original>Multipliers: Advanced Flight Model</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_096">
+		<Original>Top 3 pilots of the week (ending Sunday 23:59h) added to whitelisted pilot slot for following week.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_097">
+		<Original>Sling loading is not currently supported.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_098">
+		<Original>Vehicle cargo is not currently supported.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_099">
+		<Original>Version 1.0</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_100">
+		<Original>Leaderboards are reset each Monday at 00:01h.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_101">
+		<Original>To maintain performance and FPS, the leaderboards are not synchronized frequently, and only saved to database every 5-10 minutes. For this reason, points accumulated just prior to a server crash may not be saved (*sadface*).</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_102">
+		<Original>Thanks for your patience</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_103">
+		<Original>Key Bindings</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_104">
+		<Original>Player Menu</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_105">
+		<Original>Earplugs</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_106">
+		<Original>Holster Weapon</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_107">
+		<Original>Magazine Repack</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_108">
+		<Original>Jump</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_109">
+		<Original>while running</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_110">
+		<Original>Group Management</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_111">
+		<Original>Tasks</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_112">
+		<Original>Hints</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_113">
+		<Original>Gestures</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_114">
+		<Original>Tactical Ping</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_115">
+		<Original>Raise and Lower sling ropes</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_116">
+		<Original>Admins</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_117">
+		<Original>Menu Open/Close</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_118">
+		<Original>Exit Spectate</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_119">
+		<Original>Zeus</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_120">
+		<Original>Sync Editable Objects</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_121">
+		<Original>(Selected Group) Garrison in Buildings</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_122">
+		<Original>(Selected Group) Patrol Area</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_123">
+		<Original>(Selected Group) Search Building</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_124">
+		<Original>(Selected Group) Stalk Target</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_125">
+		<Original>(Selected Group) Suppressive Fire</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_126">
+		<Original>(Selected Unit) Revive Player</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_127">
+		<Original>(All Players) View Directions</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_128">
+		<Original>(Selected Unit) Set unit Unconscious</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_129">
+		<Original>General</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_130">
+		<Original>Enemy Capture</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_131">
+		<Original>It is possible to capture enemies!</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_132">
+		<Original>To capture an enemy soldier, you must get within 5m and aim at him. You may get a Command Surrender action on your scroll wheel. To receive full reward, bring the captive back to the Gitmo area at base. To incarcerate a prisoner into Gitmo, walk into the pen and Release them.</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_133">
+		<Original>Good hunting!</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_134">
+		<Original>TS3 Server</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_135">
+		<Original>Address:</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_136">
+		<Original>Visitors and guests welcome!</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_137">
+		<Original>Community Editors</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_138">
+		<Original>Your Name Here</Original>
+	</Key>
+	<Key ID="STR_QS_Diary_139">
+		<Original>Developer</Original>
+	</Key>
+	
 	<!----- Role ------------------------------------------------------------------------->
 
 	<Key ID="STR_QS_Role_000">
