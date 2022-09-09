@@ -91,13 +91,13 @@ if (_type isEqualTo 1) exitWith {
 					};
 					if (!isNull _instigator) then {
 						if (isPlayer _instigator) then {
-							_text = format ['%1 ( %2 ) destroyed a GPS jammer!',(name _instigator),(groupID (group _instigator))];
+							_text = format ['%1 ( %2 ) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_049'];
 							[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
 						} else {
-							[[WEST,'BLU'],'GPS jammer destroyed!'] remoteExec ['sideChat',-2,FALSE];
+							[[WEST,'BLU'],localize 'STR_QS_Chat_050'] remoteExec ['sideChat',-2,FALSE];
 						};
 					} else {
-						[[WEST,'BLU'],'GPS jammer destroyed!'] remoteExec ['sideChat',-2,FALSE];
+						[[WEST,'BLU'],localize 'STR_QS_Chat_050'] remoteExec ['sideChat',-2,FALSE];
 					};
 					_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
 					if (_gpsJammers isNotEqualTo []) then {
@@ -147,9 +147,9 @@ if (_type isEqualTo 1) exitWith {
 				_id,
 				TRUE,
 				[
-					'The enemy has deployed a mobile GPS jammer. Locate and destroy it!',
-					'GPS Jammer',
-					'GPS Jammer'
+					localize 'STR_QS_Task_030',
+					localize 'STR_QS_Task_031',
+					localize 'STR_QS_Task_031'
 				],
 				(_spawnPosition getPos [150 * (sqrt (random 1)),random 360]),
 				'CREATED',

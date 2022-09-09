@@ -67,9 +67,9 @@ if (_type isEqualTo 1) then {
 			_chairTaken = TRUE;
 	};
 	if (_chairTaken) exitWith {
-		50 cutText ['Someone is too close to this chair!','PLAIN DOWN'];
+		50 cutText [localize 'STR_QS_Text_145','PLAIN DOWN'];
 	};
-	if ((toLowerANSI (animationState player)) in _sittingAnimations) exitWith {50 cutText ['Already seated!','PLAIN DOWN'];};
+	if ((toLowerANSI (animationState player)) in _sittingAnimations) exitWith {50 cutText [localize 'STR_QS_Text_146','PLAIN DOWN'];};
 	
 	if (local _object) then {
 		_object setVectorUp [0,0,1];
@@ -93,7 +93,7 @@ if (_type isEqualTo 1) then {
 	player attachTo [_object,[0,_attachY,0]];
 	player setVariable [
 		'QS_interact_actionStand',
-		(player addAction ['Stand',(missionNamespace getVariable 'QS_fnc_clientInteractSit'),0,49,FALSE,TRUE,'','TRUE',-1,FALSE]),
+		(player addAction [localize 'STR_QS_Interact_066',(missionNamespace getVariable 'QS_fnc_clientInteractSit'),0,49,FALSE,TRUE,'','TRUE',-1,FALSE]),
 		FALSE
 	];
 	player setUserActionText [(player getVariable 'QS_interact_actionStand'),((player actionParams (player getVariable 'QS_interact_actionStand')) # 0),(format ["<t size='3'>%1</t>",((player actionParams (player getVariable 'QS_interact_actionStand')) # 0)])];

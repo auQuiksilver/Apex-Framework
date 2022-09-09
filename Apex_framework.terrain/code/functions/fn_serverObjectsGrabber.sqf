@@ -42,7 +42,7 @@ _QS_fnc_serverObjectsGrabber = {
 	} forEach _objs;
 	_outputText = _outputText + ']';
 	copyToClipboard _outputText;
-	systemChat 'done';
+	//systemChat 'done';
 	_outputText;
 };
 [(position player),75,FALSE] call _QS_fnc_serverObjectsGrabber;

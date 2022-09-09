@@ -41,13 +41,13 @@ if (_playerCount > 20) then {
 			_airType = selectRandomWeighted [
 				'o_heli_light_02_dynamicloadout_f',1,
 				'i_e_heli_light_03_dynamicloadout_f',1,
-				'o_heli_attack_02_dynamicloadout_f',0.25
+				'o_heli_attack_02_dynamicloadout_f',0.125
 			];
 		} else {
 			_airType = selectRandomWeighted [
 				'o_heli_light_02_dynamicloadout_f',1,
 				'i_heli_light_03_dynamicloadout_f',1,
-				'o_heli_attack_02_dynamicloadout_f',([0,0.75] select (_worldName isEqualTo 'Altis'))
+				'o_heli_attack_02_dynamicloadout_f',([0,0.25] select (_worldName isEqualTo 'Altis'))
 			];
 		};
 	} else {
@@ -80,15 +80,10 @@ if (_playerCount > 20) then {
 		];
 	};
 };
-_air = createVehicle [_airType,[(_randomPos # 0),(_randomPos # 1),1000],[],0,'FLY'];
+_air = createVehicle [_airType,(_randomPos vectorAdd [0,0,1000]),[],0,'FLY'];
 [_air,(selectRandomWeighted [2,0.5,3,0.5]),[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 _air engineOn TRUE;
-_air addEventHandler [
-	'GetOut',
-	{
-		(_this # 2) setDamage 1;
-	}
-];
+_air addEventHandler ['GetOut',{(_this # 2) setDamage 1;}];
 _air addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
 _air addEventHandler ['IncomingMissile',(missionNamespace getVariable 'QS_fnc_AIXMissileCountermeasure')];
 _air setVariable ['QS_dynSim_ignore',TRUE,TRUE];
@@ -96,7 +91,7 @@ clearMagazineCargoGlobal _air;
 clearWeaponCargoGlobal _air;
 clearItemCargoGlobal _air;
 clearBackpackCargoGlobal _air;
-_air setPos [(_randomPos # 0),(_randomPos # 1),300];
+_air setPos (_randomPos vectorAdd [0,0,300]);
 _air enableRopeAttach FALSE;
 ['setFeatureType',_air,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_air];
 _unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
@@ -104,7 +99,7 @@ _unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _unit assignAsDriver _air;
 _unit moveInDriver _air;
 removeAllWeapons _unit;
-if (!((typeOf _air) in ['O_Heli_Light_02_v2_F','O_Heli_Light_02_dynamicLoadout_F'])) then {
+if (!((toLowerANSI _airType) in ['o_heli_light_02_v2_f','o_heli_light_02_dynamicloadout_f'])) then {
 	_unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsTurret [_air,[0]];
@@ -134,7 +129,7 @@ if ((toLowerANSI _airType) in ['i_heli_light_03_dynamicloadout_f','i_e_heli_ligh
 	_air setCollisionLight FALSE;
 };
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-_grp setBehaviour 'AWARE';
+_grp setBehaviourStrong 'AWARE';
 _grp setCombatMode 'RED';
 _grp enableAttack TRUE;
 _air lock 3;
@@ -154,7 +149,7 @@ _grp addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fn
 missionNamespace setVariable ['QS_AI_supportProviders_CASHELI',((missionNamespace getVariable 'QS_AI_supportProviders_CASHELI') + [effectiveCommander _air]),QS_system_AI_owners];
 missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') + [effectiveCommander _air]),QS_system_AI_owners];
 {
-	_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
+	_x enableAIFeature ['RADIOPROTOCOL',FALSE];
 	_x setVehicleReceiveRemoteTargets TRUE;
 	_x setVehicleReportRemoteTargets TRUE;
 	0 = _arrayHelicopters pushBack _x;

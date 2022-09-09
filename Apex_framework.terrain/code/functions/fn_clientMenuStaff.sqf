@@ -40,29 +40,29 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
 	0 spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
 	_moderatorsActions = [
-		['0 - Close Menu',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),2,81,TRUE,TRUE,'','TRUE'],
-		['1 - (Target) Delete',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),3,80,TRUE,TRUE,'','TRUE'],
-		['2 - Spectate',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),4,79,TRUE,TRUE,'','TRUE'],
-		['3 - Invincibility',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),5,78,TRUE,TRUE,'','TRUE'],
-		['4 - Show Pilots',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),6,77,TRUE,TRUE,'','TRUE'],
-		['5 - (Target) Repair',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),7,76,TRUE,TRUE,'','TRUE'],
-		['6 - (Target) Pardon',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),8,75,TRUE,TRUE,'','TRUE'],
-		['7 - (Target) Punish',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),9,75,TRUE,TRUE,'','TRUE'],
-		['8 - No function assigned',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),10,74,TRUE,TRUE,'','TRUE'],
-		['9 - No function assigned',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),11,73,TRUE,TRUE,'','TRUE']
+		[localize 'STR_QS_Interact_072',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),2,81,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_073',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),3,80,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_074',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),4,79,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_075',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),5,78,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_076',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),6,77,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_077',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),7,76,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_078',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),8,75,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_079',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),9,75,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_080',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),10,74,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_081',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),11,73,TRUE,TRUE,'','TRUE']
 	];
 	_adminsActions = [
-		['10 - (Target) Revive',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),12,72,TRUE,TRUE,'','TRUE'],
-		['11 - Map Teleport',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),13,71,TRUE,TRUE,'','TRUE'],
-		['12 - (Clean) Base',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),14,70,TRUE,TRUE,'','TRUE'],
-		['13 - (Clean) Island',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),15,69,TRUE,TRUE,'','TRUE']
+		[localize 'STR_QS_Interact_082',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),12,72,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_083',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),13,71,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_084',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),14,70,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_085',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),15,69,TRUE,TRUE,'','TRUE']
 	];
 	_developersActions = [
-		['14 - Splendid Cam',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),16,68,TRUE,TRUE,'','TRUE'],
-		['15 - Dev Terminal',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),17,67,TRUE,TRUE,'','TRUE']
+		[localize 'STR_QS_Interact_086',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),16,68,TRUE,TRUE,'','TRUE'],
+		[localize 'STR_QS_Interact_087',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),17,67,TRUE,TRUE,'','TRUE']
 	];
 	_mediaActions = [
-		['14 - Splendid Cam',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),16,68,TRUE,TRUE,'','TRUE']
+		[localize 'STR_QS_Interact_086',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),16,68,TRUE,TRUE,'','TRUE']
 	];
 	if (!isNil {missionNamespace getVariable 'QS_staff_currentActions'}) then {
 		if ((count (missionNamespace getVariable 'QS_staff_currentActions')) > 0) then {
@@ -102,30 +102,6 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 		} forEach _validActions;
 	};
 };
-if ((_type2 isEqualType '') && (_type2 isEqualTo 'Curator')) exitWith {
-	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
-	playSound 'Click';
-	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
-	0 spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
-	private ['_curators','_logic'];
-	_curators = ['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist');
-	if (_uid in _curators) then {
-		_logic = getAssignedCuratorLogic player;
-		if (!isNull _logic) then {
-			if (!isNil {player getVariable 'QS_staff_curatorLastUpdate'}) exitWith {
-				if (!isStreamFriendlyUIEnabled) then {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Please wait a short time (10s) between sync attempts...',[],(serverTime + 10),TRUE,'Curator',FALSE];
-				};
-			};
-			player setVariable ['QS_staff_curatorLastUpdate',TRUE,FALSE];
-			0 spawn {uiSleep 10;player setVariable ['QS_staff_curatorLastUpdate',nil,FALSE];};
-			[49,_logic] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			if (!isStreamFriendlyUIEnabled) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Synchronizing editable entities',[],-1,TRUE,'Curator',FALSE];
-			};
-		};
-	};
-};
 if ((count _this) > 2) then {
 	_type2 = _this # 3;
 };
@@ -146,17 +122,17 @@ if (_type2 isEqualType 0) exitWith {
 			if ((!(_cursorTarget isKindOf 'LandVehicle')) && (!(_cursorTarget isKindOf 'Air')) && (!(_cursorTarget isKindOf 'Ship')) && (!(_cursorTarget isKindOf 'StaticWeapon')) && (!(_cursorTarget isKindOf 'Man')) && (!(_cursorTarget isKindOf 'WeaponHolder'))) exitWith {hint 'Invalid target type!';};
 			if ((_cursorTarget isKindOf 'Man') && (isPlayer _cursorTarget) && (alive _cursorTarget)) exitWith {
 				if (!isStreamFriendlyUIEnabled) then {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Cannot delete players!',[],-1];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_057',[],-1];
 				};
 			};
 			if (!isNil {_cursorTarget getVariable 'QS_cleanup_protected'}) exitWith {
 				if (!isStreamFriendlyUIEnabled) then {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Target is protected against cleanup!',[],-1];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_058',[],-1];
 				};
 			};
 			if (isNull _cursorTarget) exitWith {};
 			[17,_cursorTarget] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			_text = format ['%1 (staff) has deleted a(n) %2 at grid %3',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _cursorTarget) >> 'displayName')),(mapGridPosition player)];
+			_text = format ['%1 %4 %2 %5 %3',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _cursorTarget) >> 'displayName')),(mapGridPosition player),localize 'STR_QS_Hints_059',localize 'STR_QS_Hints_060'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
@@ -165,24 +141,24 @@ if (_type2 isEqualType 0) exitWith {
 		player setVariable ['QS_staff_spectating',TRUE,FALSE];
 		createDialog 'RscDisplayEGSpectator';
 		if (!isStreamFriendlyUIEnabled) then {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'[Shift]+[F2] to Exit spectator mode',[],(serverTime + 10)];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_061',[],(serverTime + 10)];
 		};
 	};
 	if (_type2 isEqualTo 5) then {
 		playSound 'ClickSoft';
 		if (isDamageAllowed player) then {
 			player allowDamage FALSE;
-			_text = format ['%1 (staff) has turned on Invincibility',profileName];
+			_text = format ['%1 %2',profileName,localize 'STR_QS_Chat_096'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			if (!isStreamFriendlyUIEnabled) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Invincibility ON',[],-1];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_062',[],-1];
 			};
 		} else {
 			player allowDamage TRUE;
-			_text = format ['%1 (staff) has turned off Invincibility',profileName];
+			_text = format ['%1 %2',profileName,localize 'STR_QS_Chat_097'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			if (!isStreamFriendlyUIEnabled) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Invincibility OFF',[],-1];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_063',[],-1];
 			};
 		};
 	};
@@ -207,11 +183,11 @@ if (_type2 isEqualType 0) exitWith {
 		_cursorTarget = cursorTarget;
 		if (isNull _cursorTarget) exitWith {
 			if (!isStreamFriendlyUIEnabled) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Repair failed, no valid target selected',[],-1];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_064',[],-1];
 			};
 		};
 		if ((!(_cursorTarget isKindOf 'LandVehicle')) && (!(_cursorTarget isKindOf 'Ship')) && (!(_cursorTarget isKindOf 'Air'))) exitWith {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Invalid target',[],-1];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_065',[],-1];
 		};
 		playSound 'ClickSoft';
 		_cursorTarget setDamage 0;
@@ -226,9 +202,9 @@ if (_type2 isEqualType 0) exitWith {
 			_cursorTarget setVectorUp (surfaceNormal (getPosWorld _cursorTarget));
 		};
 		_type2 = getText (configFile >> 'CfgVehicles' >> (typeOf _cursorTarget) >> 'displayName');
-		_text = format ['%1 repaired',_type2];
+		_text = format ['%1 %2',_type2,localize 'STR_QS_Text_061'];
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
-		_text = format ['%1 (staff) has repaired a(n) %2 at grid %3',profileName,_type2,(mapGridPosition player)];
+		_text = format ['%1 %4 %2 %5 %3',profileName,_type2,(mapGridPosition player),localize 'STR_QS_Hints_066',localize 'STR_QS_Hints_060'];
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_type2 isEqualTo 8) then {
@@ -252,27 +228,27 @@ if (_type2 isEqualType 0) exitWith {
 		if (!(isPlayer _cursorTarget)) exitWith {};
 		playSound 'ClickSoft';
 		['playMoveNow',_cursorTarget,'AmovPercMstpSnonWnonDnon_exercisePushup'] remoteExec ['QS_fnc_remoteExecCmd',_cursorTarget,FALSE];	
-		_text = format ['%1 (staff) has punished %2 with 10 pushups.',profileName,(name _cursorTarget)];
+		_text = format ['%1 %3 %2 %4',profileName,(name _cursorTarget),localize 'STR_QS_Chat_098',localize 'STR_QS_Chat_099'];
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_type2 isEqualTo 10) then {
 		/*/No function assigned/*/
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'No function assigned',[],-1,TRUE,'Admin Tools',FALSE];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_067',[],-1,TRUE,'Admin Tools',FALSE];
 	};
 	if (_type2 isEqualTo 11) then {
 		/*/No function assigned/*/
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'No function assigned',[],-1,TRUE,'Admin Tools',FALSE];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_067',[],-1,TRUE,'Admin Tools',FALSE];
 	};
 	if (_type2 isEqualTo 12) then {
 		_cursorTarget = cursorTarget;
 		if (!(_cursorTarget isKindOf 'Man')) exitWith {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Invalid target',[],(serverTime + 10)];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_065',[],(serverTime + 10)];
 		};
 		if (!alive _cursorTarget) exitWith {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Invalid target',[],(serverTime + 10)];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_065',[],(serverTime + 10)];
 		};
 		if (!isNull (attachedTo _cursorTarget)) exitWith {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Cant revive this target currently',[],(serverTime + 10)];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_068',[],(serverTime + 10)];
 		};
 		playSound 'ClickSoft';
 		if (local _cursorTarget) then {
@@ -281,7 +257,7 @@ if (_type2 isEqualType 0) exitWith {
 		} else {
 			[68,_cursorTarget,FALSE,FALSE] remoteExec ['QS_fnc_remoteExec',_cursorTarget,FALSE];
 		};
-		_text = format ['%1 (staff) has revived %2 at grid %3',profileName,(name _cursorTarget),(mapGridPosition _cursorTarget)];
+		_text = format ['%1 %4 %2 %5 %3',profileName,(name _cursorTarget),(mapGridPosition _cursorTarget),localize 'STR_QS_Chat_100',localize 'STR_QS_Hints_060'];
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_type2 isEqualTo 13) then {
@@ -304,7 +280,7 @@ if (_type2 isEqualType 0) exitWith {
 							if (surfaceIsWater _pos) then {};
 							openMap FALSE;
 							missionNamespace setVariable ['QS_mapSelected',TRUE,FALSE];
-							_text = format ['%1 (staff) has teleported to grid %2',profileName,(mapGridPosition _pos)];
+							_text = format ['%1 %3 %2',profileName,(mapGridPosition _pos),localize 'STR_QS_Chat_101'];
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						}
 					]
@@ -324,25 +300,25 @@ if (_type2 isEqualType 0) exitWith {
 		};
 	};
 	if (_type2 isEqualTo 14) then {
-		_result = ['Clean base. Executing this function too often will increase network de-sync.','Base cleanup','Execute','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
+		_result = [localize 'STR_QS_Menu_125',localize 'STR_QS_Menu_126',localize 'STR_QS_Menu_127',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
 		if (_result) then {	
 			playSound 'ClickSoft';
 			[53,[profileName,(getPlayerUID player)]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Cleaning in progress ...',[],(serverTime + 6)];
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,'Base cleaned. Executing this function too often will increase network de-sync.',[],(serverTime + 20)];
-			_text = format ['%1 (staff) has cleaned the spawn area.',profileName];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,localize 'STR_QS_Hints_069',[],(serverTime + 6)];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,localize 'STR_QS_Hints_070',[],(serverTime + 20)];
+			_text = format ['%1 %2',profileName,localize 'STR_QS_Chat_102'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
 	if (_type2 isEqualTo 15) then {
-		_result = [(format ['Clean %1. Executing this function too often will increase network de-sync.',worldName]),(format ['%1 cleanup',worldName]),'Execute','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');	
+		_result = [localize 'STR_QS_Menu_128',(format ['%1 %2',worldName,localize 'STR_QS_Menu_129']),localize 'STR_QS_Menu_127',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');	
 		if (_result) then {	
 			playSound 'ClickSoft';
 			[54] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,'Cleaning in progress ...',[],(serverTime + 6)];
-			_hintText = format ['%1 cleaned. Executing this function too often will increase network de-sync.',worldName];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,localize 'STR_QS_Hints_069',[],(serverTime + 6)];
+			_hintText = format ['%1 %2',worldName,localize 'STR_QS_Hints_071'];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,_hintText,[],(serverTime + 20)];
-			_text = format ['%1 (staff) has initialized %2 cleanup.',profileName,worldName];
+			_text = format ['%1 %3 %2 %4',profileName,worldName,localize 'STR_QS_Hints_072',localize 'STR_QS_Hints_073'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};

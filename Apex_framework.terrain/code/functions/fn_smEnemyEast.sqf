@@ -40,7 +40,7 @@ if (worldName in ['Tanoa','Lingor3']) then {
 };
 _enemiesArray = [];
 if (isNull (_this # 0)) exitWith {};
-_pos = getPos (_this # 0);
+_pos = getPosATL (_this # 0);
 
 /*/---------- INFANTRY RANDOM/*/
 

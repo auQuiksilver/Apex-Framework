@@ -28,7 +28,7 @@ if (worldName isEqualTo 'Tanoa') then {
 };
 _enemiesArray = [];
 _x = 0;
-_pos = getPos (_this # 0);
+_pos = getPosATL (_this # 0);
 
 /*/---------- INFANTRY RANDOM/*/
 

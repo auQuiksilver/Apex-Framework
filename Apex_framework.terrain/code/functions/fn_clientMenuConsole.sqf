@@ -19,51 +19,51 @@ _type = _this # 0;
 if (_type isEqualTo 'onLoad') exitWith {
 	disableSerialization;
 	_display = _this # 1;
-	(_display displayCtrl 1001) ctrlSetText 'Dev Terminal';
-	(_display displayCtrl 1003) ctrlSetText 'Execute';
+	(_display displayCtrl 1001) ctrlSetText (localize 'STR_QS_Menu_014');
+	(_display displayCtrl 1003) ctrlSetText (localize 'STR_QS_Menu_015');
 	/*/Editbox/*/
 	(_display displayCtrl 1004) ctrlSetText (missionProfileNamespace getVariable ['RscDebugConsole_expression','']);
 	
 	/*/B1/*/
 	(_display displayCtrl 1005) ctrlEnable FALSE;
-	(_display displayCtrl 1005) ctrlSetText 'SERVER EXEC';
-	(_display displayCtrl 1005) ctrlSetToolTip 'Remotely execute expression on Server';
+	(_display displayCtrl 1005) ctrlSetText (localize 'STR_QS_Menu_016');
+	(_display displayCtrl 1005) ctrlSetToolTip (localize 'STR_QS_Menu_017');
 	_QS_buttonCtrl = (_display displayCtrl 1005);
 	_QS_buttonAction = '["B1"] call (missionNamespace getVariable "QS_fnc_clientMenuConsole");';
 	_QS_buttonCtrl buttonSetAction _QS_buttonAction;
 	
 	/*/B2/*/
 	(_display displayCtrl 1006) ctrlEnable FALSE;
-	(_display displayCtrl 1006) ctrlSetText 'GLOBAL EXEC';
-	(_display displayCtrl 1006) ctrlSetToolTip 'Remotely execute expression on Server and all Clients';
+	(_display displayCtrl 1006) ctrlSetText (localize 'STR_QS_Menu_018');
+	(_display displayCtrl 1006) ctrlSetToolTip (localize 'STR_QS_Menu_019');
 	_QS_buttonCtrl = (_display displayCtrl 1006);
 	_QS_buttonAction = '["B2"] call (missionNamespace getVariable "QS_fnc_clientMenuConsole");';
 	_QS_buttonCtrl buttonSetAction _QS_buttonAction;
 	
 	/*/B3/*/
-	(_display displayCtrl 1007) ctrlSetText 'LOCAL EXEC';
-	(_display displayCtrl 1007) ctrlSetToolTip 'Execute expression on your machine only';
+	(_display displayCtrl 1007) ctrlSetText (localize 'STR_QS_Menu_020');
+	(_display displayCtrl 1007) ctrlSetToolTip (localize 'STR_QS_Menu_021');
 	_QS_buttonCtrl = (_display displayCtrl 1007);
 	_QS_buttonAction = '["B3"] call (missionNamespace getVariable "QS_fnc_clientMenuConsole");';
 	_QS_buttonCtrl buttonSetAction _QS_buttonAction;
 	
 	/*/B4/*/
-	(_display displayCtrl 1008) ctrlSetText 'FUNCTIONS';
-	(_display displayCtrl 1008) ctrlSetToolTip 'Functions Viewer';
+	(_display displayCtrl 1008) ctrlSetText (localize 'STR_QS_Menu_022');
+	(_display displayCtrl 1008) ctrlSetToolTip (localize 'STR_QS_Menu_023');
 	_QS_buttonCtrl = (_display displayCtrl 1008);
 	_QS_buttonAction = '["B4"] call (missionNamespace getVariable "QS_fnc_clientMenuConsole");';
 	_QS_buttonCtrl buttonSetAction _QS_buttonAction; 
 	
 	/*/B5/*/
-	(_display displayCtrl 1009) ctrlSetText 'CONFIG';
-	(_display displayCtrl 1009) ctrlSetToolTip 'Config Viewer';
+	(_display displayCtrl 1009) ctrlSetText (localize 'STR_QS_Menu_024');
+	(_display displayCtrl 1009) ctrlSetToolTip (localize 'STR_QS_Menu_025');
 	_QS_buttonCtrl = (_display displayCtrl 1009);
 	_QS_buttonAction = '["B5"] call (missionNamespace getVariable "QS_fnc_clientMenuConsole");';
 	_QS_buttonCtrl buttonSetAction _QS_buttonAction;
 	
 	/*/CB1/*/
 	if (!isMultiplayer) then {(_display displayCtrl 1011) ctrlEnable FALSE;};
-	(_display displayCtrl 1011) ctrlSetToolTip 'Remote Execution Safety --- Check to enable Remote Execution';
+	(_display displayCtrl 1011) ctrlSetToolTip (localize 'STR_QS_Menu_026');
 	(_display displayCtrl 1813) cbSetChecked FALSE;
 	
 	ctrlSetFocus (_display displayCtrl 1004);

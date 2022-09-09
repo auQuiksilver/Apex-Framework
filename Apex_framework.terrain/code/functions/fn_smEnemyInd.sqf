@@ -22,7 +22,7 @@ private [
 ];
 _enemiesArray = [];
 _x = 0;
-_pos = getPos QS_sideObj;
+_pos = getPosATL QS_sideObj;
 _infTeams = ["HAF_InfTeam","HAF_InfTeam_AA","HAF_InfTeam_AT","HAF_InfSentry","HAF_InfSquad"];
 _vehTypes = ["I_APC_Wheeled_03_cannon_F","I_APC_tracked_03_cannon_F","I_MBT_03_cannon_F","I_MRAP_03_gmg_F","I_MRAP_03_hmg_F"];
 

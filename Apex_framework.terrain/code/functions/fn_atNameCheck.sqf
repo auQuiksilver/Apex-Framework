@@ -30,11 +30,11 @@ _blacklistedString = [
 		if (userInputDisabled) then {
 			disableUserInput FALSE;
 		};
-		['systemChat',(format ['Robocop kicked %1 for disallowed profile name.',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['systemChat',(format ['%2 %1 %3',profileName,localize 'STR_QS_Chat_082',localize 'STR_QS_Chat_084'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		endMission 'QS_RD_end_5';
 		[ 
-			(format ['Auto-kicked for disallowed profile name string ( %1 ).',_x]),
-			'Robocop',
+			(format ['%2 ( %1 )',_x,localize 'STR_QS_Menu_108']),
+			localize 'STR_QS_Menu_109',
 			TRUE, 
 			FALSE, 
 			(findDisplay 46), 
@@ -60,11 +60,11 @@ _reservedClients = [
 			if (userInputDisabled) then {
 				disableUserInput FALSE;
 			};
-			['systemChat',(format ['Robocop kicked %1 for reserved profile name.',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['systemChat',(format ['%2 %1 %3',profileName,localize 'STR_QS_Chat_082',localize 'STR_QS_Chat_085'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			endMission 'QS_RD_end_5';
 			[ 
-				'Auto-kicked for reserved profile name.',
-				'Robocop',
+				format ['%1 (%2)',localize 'STR_QS_Menu_110',_reservedName],
+				localize 'STR_QS_Menu_109',
 				TRUE, 
 				FALSE, 
 				(findDisplay 46), 

@@ -26,6 +26,6 @@ if (((_this # 1) select [0,2]) isEqualTo 'HC') exitWith {
 	if (getRemoteSensorsDisabled) then {
 		disableRemoteSensors FALSE;
 	};
-	'A headless client has connected' remoteExec ['systemChat',-2,FALSE];
+	(format ['%1',localize 'STR_QS_Chat_110']) remoteExec ['systemChat',-2,FALSE];
 	diag_log (format ['***** SERVER ***** HC Registered ***** %1 * %2 *****',(missionNamespace getVariable 'QS_headlessClients'),(missionNamespace getVariable 'QS_HC_Active')]);
 };

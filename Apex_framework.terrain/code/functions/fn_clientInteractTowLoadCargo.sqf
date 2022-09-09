@@ -63,7 +63,7 @@ if (!isNull _towedVehicle) then {
 if (isNull _vTransport) exitWith {};
 _array params ['_child','_parent'];
 if ((!alive _parent) || {(!alive _child)}) exitWith {
-	50 cutText ['Load failed','PLAIN DOWN',0.5];
+	50 cutText [localize 'STR_QS_Text_116','PLAIN DOWN',0.5];
 };
 if (!(vehicleCargoEnabled _child)) then {
 	_child enableVehicleCargo TRUE;
@@ -72,9 +72,9 @@ if ((_parent canVehicleCargo _child) isNotEqualTo [TRUE,TRUE]) exitWith {
 	_outcome = _parent canVehicleCargo _child;
 	//[Possible to load cargo inside vehicle, possible to load cargo into empty vehicle]
 	if (!(_outcome # 1)) then {
-		50 cutText [(format ['%1 cannot be loaded into %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _child) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf _parent) >> 'displayName'))]),'PLAIN',0.5];
+		50 cutText [(format ['%1 %3 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _child) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf _parent) >> 'displayName')),localize 'STR_QS_Text_156']),'PLAIN',0.5];
 	} else {
-		50 cutText ['Please unload other cargo to load this cargo','PLAIN',0.5];
+		50 cutText [localize 'STR_QS_Text_157','PLAIN',0.5];
 	};
 };
 _child setVariable ['QS_loadCargoIn',_parent,FALSE];

@@ -102,4 +102,4 @@ if ((_relDir > 337.5) || {(_relDir <= 22.5)}) then {
 		};
 	};
 };
-50 cutText [(format ['Incoming missile! Bearing %1 %2',(round (_vehicle getDir _shooter)),_relDirText]),'PLAIN',0.5];
+50 cutText [(format ['%3 %1 %2',(round (_vehicle getDir _shooter)),_relDirText,localize 'STR_QS_Text_200']),'PLAIN',0.5];

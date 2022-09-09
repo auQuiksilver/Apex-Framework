@@ -231,7 +231,7 @@ _uavInitCodeGeneric = {
 	_uavEntity setCollisionLight FALSE;
 	if (_uavEntity isKindOf 'Plane') then {
 		params ['','_loiterPos'];
-		_text = format ['A(n) %1 is available at grid %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _uavEntity) >> 'displayName')),(mapGridPosition _uavEntity),worldName];
+		_text = format ['%1 %3 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _uavEntity) >> 'displayName')),(mapGridPosition _uavEntity),localize 'STR_QS_Hints_131'];
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7,-1,_text,[],-1];
 		_uavEntity setVariable ['QS_ropeAttached',FALSE,TRUE];
 		_uavEntity enableRopeAttach TRUE;

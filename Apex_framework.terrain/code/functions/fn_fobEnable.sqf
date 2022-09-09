@@ -51,8 +51,8 @@ if (_side isEqualTo sideUnknown) then {
 ] remoteExec ['call',-2,FALSE];
 [(missionNamespace getVariable 'QS_module_fob_flag'),_side,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
 /*/'QS_marker_module_fob' setMarkerColor 'ColorINDEPENDENT';/*/
-['sideChat',[WEST,'HQ'],(format ['FOB %1 activated by %2!',(missionNamespace getVariable 'QS_module_fob_displayName'),_activatorName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['FOB_UPDATE',['','Online']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['sideChat',[WEST,'HQ'],(format ['%3 %1 %4 %2!',(missionNamespace getVariable 'QS_module_fob_displayName'),_activatorName,localize 'STR_QS_Chat_047',localize 'STR_QS_Chat_048'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+['FOB_UPDATE',['',localize 'STR_QS_Notif_055']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 0 spawn {
 	sleep 2;
 	{
@@ -64,7 +64,7 @@ if (_side isEqualTo sideUnknown) then {
 		(missionNamespace getVariable 'QS_module_fob_baseDataTerminal')
 	];
 	sleep 3;
-	['FOB_UPDATE',['','Radar Service online']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+	['FOB_UPDATE',['',localize 'STR_QS_Notif_056']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };
 /*/taskfailed for other sides?/*/
 missionNamespace setVariable ['QS_module_fob_side',_side,TRUE];

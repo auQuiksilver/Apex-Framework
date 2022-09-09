@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	12/06/2022 A3 2.10 by Quiksilver
+	9/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -30,7 +30,7 @@ if (
 	{(_checkTerrain && {_targetIsObject} && {terrainIntersectASL [eyePos _unit,aimPos _target]})} ||
 	{(_checkTerrain && {!_targetIsObject} && {terrainIntersectASL [eyePos _unit,_target]})} ||
 	{((_checkVisibility isNotEqualTo -1) && {_targetIsObject} && {(!([_unit,'VIEW',_target] checkVisibility [eyePos _unit,aimPos _target] >= _checkVisibility))})}
-) exitWith {};
+) exitWith {FALSE};
 if (_watch) then {
 	if (_targetIsObject) then {
 		_unit doWatch _target;
@@ -46,6 +46,7 @@ if (isNull (objectParent _unit)) then {
 };
 if (_type isEqualTo 1) exitWith {
 	_unit doSuppressiveFire _target;
+	TRUE;
 };
 if (_type isEqualTo 2) exitWith {
 	_startPos = _unit modelToWorldWorld (_unit selectionPosition 'righthand');
@@ -54,4 +55,6 @@ if (_type isEqualTo 2) exitWith {
 	} else {
 		_unit doSuppressiveFire (_startPos vectorAdd ((vectorNormalized (_target vectorDiff _startPos)) vectorMultiply (25 + (random 40))));
 	};
+	TRUE;
 };
+FALSE;

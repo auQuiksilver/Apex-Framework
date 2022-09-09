@@ -92,7 +92,7 @@ if (_type isEqualTo 'DOWN') then {
 					_slingLoad disableCollisionWith _vehicle;
 					uiSleep 0.1;
 					detach _slingLoad;
-					50 cutText ['Detached','PLAIN DOWN',0.3];
+					50 cutText [localize 'STR_QS_Text_246','PLAIN DOWN',0.3];
 					uiSleep 0.2;
 					_vehicle enableCollisionWith _slingLoad;
 					_slingLoad enableCollisionWith _vehicle;
@@ -156,7 +156,7 @@ if ('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
 			_QS_ctrl_2 = (findDisplay 46) ctrlCreate _QS_ctrlCreateArray;
 			_QS_ctrl_2 ctrlShow FALSE;
 			_controls pushBack _QS_ctrl_2;
-			_QS_ctrl_2 ctrlSetText 'Rope Length';
+			_QS_ctrl_2 ctrlSetText (localize 'STR_QS_Menu_105');
 			_QS_ctrl_2 ctrlSetPosition _ctrlPosition;
 			{
 				_x ctrlCommit 0;
@@ -232,10 +232,10 @@ if ('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
 		};
 		if ((!isNull _slingLoad) && {(_slingLoad in (attachedObjects _vehicle))}) then {
 			((findDisplay 46) displayCtrl 31081) progressSetPosition 0;
-			((findDisplay 46) displayCtrl 31082) ctrlSetText 'Cargo Attached';
+			((findDisplay 46) displayCtrl 31082) ctrlSetText (localize 'STR_QS_Menu_106');
 		} else {
 			((findDisplay 46) displayCtrl 31081) progressSetPosition (_ropeLength / _max);
-			((findDisplay 46) displayCtrl 31082) ctrlSetText (format ['Rope Length: %1 m',(round _ropeLength)]);
+			((findDisplay 46) displayCtrl 31082) ctrlSetText (format ['%2 %1 m',(round _ropeLength),localize 'STR_QS_Menu_107']);
 		};
 		((findDisplay 46) displayCtrl 31080) ctrlCommit 0;
 		((findDisplay 46) displayCtrl 31081) ctrlCommit 0;

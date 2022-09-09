@@ -46,12 +46,12 @@ if (_uid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) th
 				player removeAction _x;
 			} count (missionNamespace getVariable 'QS_kiddieActions');
 			missionNamespace setVariable ['QS_kiddieActions',[],FALSE];
-			systemChat format ['%1 ejected from the session.',(str _n)];
-			_text = format ['%1 ejected from the session.',(str _n)];
+			systemChat format ['%1 %2',(str _n),localize 'STR_QS_Chat_135'];
+			_text = format ['%1 %2',(str _n),localize 'STR_QS_Hints_124'];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,7.5,-1,_text,[],-1];
 		} else {
-			systemChat 'Suspect is null object, action failed';
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,7.5,-1,'Suspect is null object, action failed',[],-1];
+			systemChat (localize 'STR_QS_Chat_136');
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,7.5,-1,localize 'STR_QS_Hints_125',[],-1];
 		};	
 	";
 	missionNamespace setVariable ['QS_fnc_actionEjectSuspect',_code,FALSE];
@@ -388,6 +388,8 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['QS_client_hits_sniper',0,FALSE]
 ];
 /*/===== Remove BI Event Handlers/*/
+
+/*/	This removes some unnecessary BIS stuff, but also breaks some mods
 {
 	player removeAllEventHandlers _x;
 } forEach [
@@ -397,6 +399,9 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	'Explosion',
 	'Respawn'
 ];
+/*/
+
+// Remove BIS Zeus stuff
 if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	player removeMPEventHandler ['MPRespawn',(player getVariable 'BIS_fnc_addCuratorPlayer_handler')];
 };

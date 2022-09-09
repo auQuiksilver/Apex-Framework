@@ -67,7 +67,7 @@ if (
 ) exitWith {
 	_unit setDamage [1,TRUE];
 	if (isPlayer _unit) then {
-		['systemChat',(format ['%1 was killed',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_113'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 };
 if ((secondaryWeapon _unit) isNotEqualTo '') then {
@@ -101,7 +101,7 @@ _unit setUnconscious TRUE;
 private _timeNow = time;
 private _serverTime = serverTime;
 private _tickTimeNow = diag_tickTime;
-private _medicalTimerDelay = 10 * 60;
+private _medicalTimerDelay = getMissionConfigValue ['ReviveBleedOutDelay',600];
 private _medicalStartTime = _tickTimeNow;
 private _medicalTimer = _medicalStartTime + _medicalTimerDelay;
 {
@@ -120,7 +120,7 @@ if (isForcedWalk _unit) then {
 };
 if (!isPlayer _unit) exitWith {};
 if ((lifeState _unit) isNotEqualTo 'INCAPACITATED') exitWith {
-	['systemChat',(format ['%1 died of unknown causes',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_114'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	_unit setDamage [1,TRUE];
 };
 showHUD [FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE];
@@ -150,42 +150,52 @@ _sound = '';
 _medevacBase = markerPos 'QS_marker_medevac_hq';
 private _medevacRequested = FALSE;
 private _revivedAtVehicle = FALSE;
-private _incapacitatedText = format ['%1 was incapacitated',_profileName];
+private _incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
 if (!isNull _instigator) then {
 	if (_instigator isEqualTo _unit) then {
-		_incapacitatedText = format ['%1 was incapacitated',_profileName];
+		_incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
 	} else {
 		if ((_instigator getUnitTrait 'QS_trait_sniper') || ((toLowerANSI (typeOf _instigator)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f'])) then {
 			_nameKiller = name _instigator;
-			_incapacitatedText = format ['%1 %2',_profileName,(selectRandom [(format ['was rekt by an enemy sniper ( %1 )',_nameKiller]),(format ['was incapacitated by an enemy sniper ( %1 )',_nameKiller]),(format ['got sniped ( %1 )',_nameKiller]),(format ['was blown away by an enemy sniper ( %1 )',_nameKiller])])];
+			private _sniperText = selectRandom [
+				localize 'STR_QS_Chat_116',
+				localize 'STR_QS_Chat_117',
+				localize 'STR_QS_Chat_118',
+				localize 'STR_QS_Chat_119'
+			];
+			_incapacitatedText = format [
+				'%1 %2',
+				_profileName,
+				(format ['%1 ( %2 )',_sniperText,_nameKiller])
+			];
 		} else {
 			if (isPlayer _instigator) then {
 				if ((getPlayerUID _instigator) in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-					_incapacitatedText = format ['%1 was incapacitated.',_profileName];
+					_incapacitatedText = format ['%1 %2.',_profileName,localize 'STR_QS_Chat_115'];
 				} else {
 					if ((side _instigator) in [EAST,RESISTANCE]) then {
-						_incapacitatedText = format ['%1 was incapacitated by %2',_profileName,(name _instigator)];
+						_incapacitatedText = format ['%1 %3 %2',_profileName,(name _instigator),localize 'STR_QS_Chat_120'];
 					} else {
-						_incapacitatedText = format ['%1 was incapacitated by %2 (Friendly fire)',_profileName,(name _instigator)];
+						_incapacitatedText = format ['%1 %3 %2 (%4)',_profileName,(name _instigator),localize 'STR_QS_Chat_120',localize 'STR_QS_Chat_121'];
 					};
 				};
 			} else {
-				_incapacitatedText = format ['%1 was incapacitated',_profileName];
+				_incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
 			};
 		};
 		if (_instigator isEqualTo (missionNamespace getVariable ['QS_csatCommander',objNull])) then {
 			_options = [
-				'%1 was blown away by the enemy Commander',
-				'Enemy Commander took out %1',
-				'%1 was rekt by the enemy Commander',
-				'%1 was laid out by the enemy Commander',
-				'Enemy Commander killed %1'
+				localize 'STR_QS_Chat_122',
+				localize 'STR_QS_Chat_123',
+				localize 'STR_QS_Chat_124',
+				localize 'STR_QS_Chat_125',
+				localize 'STR_QS_Chat_126'
 			];
 			_incapacitatedText = format [selectRandom _options,_profileName];
 		};
 	};
 } else {
-	_incapacitatedText = format ['%1 was incapacitated',_profileName];
+	_incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
 };
 ['systemChat',_incapacitatedText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 private _textReviveTickets = '';
@@ -295,7 +305,7 @@ for '_x' from 0 to 1 step 0 do {
 		_exit = TRUE;
 	};
 	if (_tickTimeNow >= _medicalTimer) then {
-		['systemChat',(format ['%1 bled out',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['systemChat',(format ['%1 %2',_profileName,localize 'STR_QS_Chat_127'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		_forceRespawned = TRUE;
 	} else {
 		if (!isNull _objectParent) then {
@@ -327,7 +337,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_tickTimeNow > _ambulanceDelay) then {
 		if (((getPosASL _unit) # 2) < -1.5) then {
-			['systemChat',(format ['%1 drowned',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['systemChat',(format ['%1 %2',_profileName,localize 'STR_QS_Chat_128'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			_forceRespawned = TRUE;
 		};
 	};
@@ -341,7 +351,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (_lifeState isEqualTo 'INCAPACITATED') then {
 						if ([0,_unit] call _fn_isNearFieldHospital) then {
 							if (_tickTimeNow > (_unit getVariable ['QS_client_revivedAtHospital',-1])) then {
-								50 cutText ['Revived at field hospital','PLAIN DOWN',0.5];
+								50 cutText [localize 'STR_QS_Text_211','PLAIN DOWN',0.5];
 								_unit setVariable ['QS_client_revivedAtHospital',(_tickTimeNow + 900),FALSE];
 								_unit setUnconscious FALSE;
 								if (captive _unit) then {
@@ -379,7 +389,7 @@ for '_x' from 0 to 1 step 0 do {
 								};
 								_remainingTickets = (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'transportSoldier')) - 1;
 								_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-								_textReviveTickets = format ['%1 ( %2 ) - Revive Tickets Remaining - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
+								_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
 								['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							} else {
 								if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') isEqualType 0) then {
@@ -396,7 +406,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										_remainingTickets = (_vehicle getVariable 'QS_medicalVehicle_reviveTickets') - 1;
 										_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-										_textReviveTickets = format ['%1 ( %2 ) - Revive Tickets Remaining - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
+										_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
 										['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
 								};
@@ -411,7 +421,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((vectorMagnitude (velocity _medicalBox)) < 1) then {
 								if ((!(unitIsUav _medicalBox)) || {((unitIsUav _medicalBox) && (isUavConnected _medicalBox))}) then {
 									deleteVehicle _medicalBox;
-									_text = format ['%1 was revived with a(n) %2',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _medicalBox) >> 'displayName'))])];
+									_text = format ['%1 %3 %2',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _medicalBox) >> 'displayName'))]),localize 'STR_QS_Chat_129'];
 									['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									_revivedAtVehicle = TRUE;
 									if (_lifeState isEqualTo 'INCAPACITATED') then {
@@ -435,7 +445,7 @@ for '_x' from 0 to 1 step 0 do {
 						if ((_deadVehicles inAreaArray [(getPosATL _unit),5,5,0,FALSE]) isEqualTo []) then {
 							if (!(((getPosASL _unit) # 2) < -1)) then {
 								if ((_unit targets [TRUE,30]) isEqualTo []) then {
-									_text = 'Revived by an act of the gods. Praise the gods!';
+									_text = localize 'STR_QS_Text_212';
 									50 cutText [_text,'PLAIN DOWN',0.5];
 									if (_lifeState isEqualTo 'INCAPACITATED') then {
 										_unit setUnconscious FALSE;
@@ -479,17 +489,17 @@ for '_x' from 0 to 1 step 0 do {
 			{
 				_QS_buttonCtrl = _d49 displayCtrl _x;
 				if (!isNull _QS_buttonCtrl) then {
-					_QS_buttonCtrl ctrlSetText 'Player Menu';
-					_QS_buttonCtrl ctrlSetTooltip 'Invade & Annex player menu';
+					_QS_buttonCtrl ctrlSetText (localize 'STR_QS_Menu_009');
+					_QS_buttonCtrl ctrlSetTooltip (format ['%1 %2 %3 %4',localize 'STR_QS_Utility_011','&',localize 'STR_QS_Utility_012',localize 'STR_QS_Menu_009']);
 					_QS_buttonAction = "[] call QS_fnc_clientMenu2";
 					_QS_buttonCtrl buttonSetAction _QS_buttonAction;
 					_QS_buttonCtrl ctrlCommit 0;
 				};
 			} forEach [16700,2];
 			(_d49 displayCtrl 103) ctrlEnable FALSE;
-			(_d49 displayCtrl 103) ctrlSetText 'Respawn at Base';
+			(_d49 displayCtrl 103) ctrlSetText (localize 'STR_QS_Menu_096');
 			(_d49 displayCtrl 103) ctrlEnable (_tickTimeNow > (_unit getVariable ['QS_respawn_disable',-1]));
-			(_d49 displayCtrl 103) ctrlSetTooltip 'Respawn at the main base.';
+			(_d49 displayCtrl 103) ctrlSetTooltip (localize 'STR_QS_Menu_097');
 			_QS_buttonCtrl = (_d49 displayCtrl 103);
 			_QS_buttonAction = "player setVariable ['QS_revive_respawnType','BASE',FALSE];";
 			_QS_buttonCtrl buttonSetAction _QS_buttonAction;
@@ -498,8 +508,8 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_buttonCtrl = _buttonRespawnFOB;
 			_QS_buttonAction = "player setVariable ['QS_revive_respawnType','FOB',FALSE];";
 			_QS_buttonCtrl buttonSetAction _QS_buttonAction;
-			_buttonRespawnFOB ctrlSetText (format ['Respawn at FOB (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets')]);
-			_buttonRespawnFOB ctrlSetTooltip (format ['Respawn at FOB %1 (%2 tickets remaining).',(missionNamespace getVariable ['QS_module_fob_displayName','']),(missionNamespace getVariable ['QS_module_fob_respawnTickets',0])]);
+			_buttonRespawnFOB ctrlSetText (format ['%2 (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Menu_098']);
+			_buttonRespawnFOB ctrlSetTooltip (format ['%3 %1 (%2 %4).',(missionNamespace getVariable ['QS_module_fob_displayName','']),(missionNamespace getVariable ['QS_module_fob_respawnTickets',0]),localize 'STR_QS_Menu_098',localize 'STR_QS_Menu_099']);
 			_buttonRespawnFOB ctrlEnable FALSE;
 			if (player getVariable ['QS_module_fob_client_respawnEnabled',TRUE]) then {
 				if (missionNamespace getVariable 'QS_module_fob_respawnEnabled') then {
@@ -526,8 +536,8 @@ for '_x' from 0 to 1 step 0 do {
 			//comment 'Configure / Request Medevac option';
 			_QS_buttonMedevac = (_d49 displayCtrl 101);
 			_QS_buttonMedevac ctrlEnable FALSE;
-			_QS_buttonMedevac ctrlSetText 'Request Medevac';
-			_QS_buttonMedevac ctrlSetTooltip 'Disables Revive/Respawn and creates a Medevac mission for others to attempt.';
+			_QS_buttonMedevac ctrlSetText (localize 'STR_QS_Menu_100');
+			_QS_buttonMedevac ctrlSetTooltip (localize 'STR_QS_Menu_101');
 			_QS_buttonMedevac ctrlRemoveAllEventHandlers 'OnButtonClick';
 			_QS_buttonMedevac ctrlRemoveAllEventHandlers 'OnButtonDown';
 			_QS_buttonAction = 'call (missionNamespace getVariable "QS_fnc_clientRequestMedevac")';
@@ -536,10 +546,10 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_buttonMedevac buttonSetAction _QS_buttonAction;
 			_QS_buttonMedevac ctrlCommit 0;
 			(_d49 displayCtrl 122) ctrlEnable TRUE;
-			(_d49 displayCtrl 122) ctrlSetText 'Field Manual';
+			(_d49 displayCtrl 122) ctrlSetText (localize 'STR_QS_Menu_102');
 			(_d49 displayCtrl 104) ctrlEnable FALSE;
-			(_d49 displayCtrl 104) ctrlSetText (['Abort','Exit'] select _roleSelectionSystem);
-			(_d49 displayCtrl 104) ctrlSetTooltip (['Abort to lobby.','Leave server.'] select _roleSelectionSystem);
+			(_d49 displayCtrl 104) ctrlSetText ([localize 'STR_QS_Menu_010',localize 'STR_QS_Menu_011'] select _roleSelectionSystem);
+			(_d49 displayCtrl 104) ctrlSetTooltip ([localize 'STR_QS_Menu_012',localize 'STR_QS_Menu_013'] select _roleSelectionSystem);
 			(_d49 displayCtrl 523) ctrlSetText (format ['%1',_profileName]);
 			(_d49 displayCtrl 109) ctrlSetText (format ['%1',_playerClassDName]);
 		};
@@ -575,17 +585,17 @@ for '_x' from 0 to 1 step 0 do {
 			} else {
 				(_d49 displayCtrl 1010) ctrlEnable FALSE;
 			};
-			(_d49 displayCtrl 1010) ctrlSetText (format ['Respawn at FOB (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets')]);
+			(_d49 displayCtrl 1010) ctrlSetText (format ['%2 (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Menu_098']);
 			(_d49 displayCtrl 1010) ctrlCommit 0;
 			(_d49 displayCtrl 1005) ctrlSetText (format ['%1 - A3 %2',_QS_missionVersion,(format ['%1.%2',(_QS_productVersion # 2),(_QS_productVersion # 3)])]);
 			(_d49 displayCtrl 1005) ctrlCommit 0;
 			_QS_buttonMedevac ctrlEnable ((!(missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE])) && (_tickTimeNow > (_unit getVariable ['QS_client_lastMedevacRequest',-1])) && ((lifeState _unit) isEqualTo 'INCAPACITATED') && (isNull (objectParent _unit)) && (isNull (attachedTo _unit)));
 			if (_tickTimeNow > (_unit getVariable ['QS_respawn_disable',-1])) then {
-				_QS_buttonMedevac ctrlSetText 'Request Medevac';
+				_QS_buttonMedevac ctrlSetText (localize 'STR_QS_Menu_100');
 			} else {
 				_QS_buttonMedevac ctrlSetText ([((_unit getVariable ['QS_respawn_disable',-1]) - _tickTimeNow),'MM:SS'] call _fn_secondsToString);
 			};
-			_QS_buttonMedevac ctrlSetTooltip (['Disables Revive/Respawn and creates a Medevac mission for others to attempt.','Medevac unavailable at this time.'] select ((missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE]) || {(_tickTimeNow < (_unit getVariable ['QS_client_lastMedevacRequest',-1]))}));
+			_QS_buttonMedevac ctrlSetTooltip ([localize 'STR_QS_Menu_103',localize 'STR_QS_Menu_104'] select ((missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE]) || {(_tickTimeNow < (_unit getVariable ['QS_client_lastMedevacRequest',-1]))}));
 			_QS_buttonAction = 'call (missionNamespace getVariable "QS_fnc_clientRequestMedevac");';
 			_QS_buttonCtrl = _QS_buttonMedevac;
 			_QS_buttonCtrl buttonSetAction _QS_buttonAction;

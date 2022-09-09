@@ -347,15 +347,15 @@ if (_type isEqualTo 'INIT') exitWith {
 		missionNamespace setVariable ['QS_grid_script',(['MANAGE'] spawn (missionNamespace getVariable 'QS_fnc_grid')),FALSE];
 	};
 	_missionMarkerData = [
-		['QS_marker_grid_capState',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,'Grids controlled: 0 / 0'],
-		['QS_marker_grid_rspState',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,'Tunnels destroyed: 0 / 0'],
-		['QS_marker_grid_civState',[-1000,-1000,0],'mil_dot','Icon','','ColorCIVILIAN',[0.5,0.5],0,[-1000,-1000,0],0,'No civilian casualties'],
-		['QS_marker_grid_IGmkr',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,'HQ'],
+		['QS_marker_grid_capState',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,localize 'STR_QS_Marker_009'],
+		['QS_marker_grid_rspState',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,localize 'STR_QS_Marker_010'],
+		['QS_marker_grid_civState',[-1000,-1000,0],'mil_dot','Icon','','ColorCIVILIAN',[0.5,0.5],0,[-1000,-1000,0],0,localize 'STR_QS_Marker_011'],
+		['QS_marker_grid_IGmkr',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,localize 'STR_QS_Marker_003'],
 		['QS_marker_grid_IGcircle',[-1000,-1000,0],'Empty','Ellipse','Border','ColorOPFOR',[200,200],0,[-1000,-1000,0],0,''],
 		['QS_marker_grid_IDAPloc',[-1000,-1000,0],'flag_IDAP','Icon','','ColorWHITE',[0.5,0.5],0,[-1000,-1000,0],0,''],
-		['QS_marker_grid_IDAPmkr',[-1000,-1000,0],'mil_dot','Icon','','ColorOrange',[0.5,0.5],0,[-1000,-1000,0],0,'UXO Field'],
+		['QS_marker_grid_IDAPmkr',[-1000,-1000,0],'mil_dot','Icon','','ColorOrange',[0.5,0.5],0,[-1000,-1000,0],0,localize 'STR_QS_Marker_012'],
 		['QS_marker_grid_IDAPcircle',[-1000,-1000,0],'Empty','Ellipse','Border','ColorOrange',[50,50],0,[-1000,-1000,0],0,''],
-		['QS_marker_grid_mtrMkr',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,'Mortar'],
+		['QS_marker_grid_mtrMkr',[-1000,-1000,0],'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,[-1000,-1000,0],0,localize 'STR_QS_Marker_013'],
 		['QS_marker_grid_mtrCircle',[-1000,-1000,0],'Empty','Ellipse','Border','ColorOPFOR',[100,100],0,[-1000,-1000,0],0,'']
 	];
 	{

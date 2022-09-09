@@ -29,18 +29,18 @@ if (_type isEqualTo 1) then {
 		missionNamespace setVariable ['QS_kiddieActions',[],FALSE];
 	};
 	QS_kiddieAction2 = player addAction [
-		format ['(ROBOCOP) Kick %1',(name _object)],
+		format ['(%2) %3 %1',(name _object),localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_092'],
 		(missionNamespace getVariable 'QS_fnc_actionEjectSuspect'),
 		[_object,'KICK'],
 		99
 	];
 	player setUserActionText [QS_kiddieAction2,((player actionParams QS_kiddieAction2) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_kiddieAction2) # 0)])];
 	QS_kiddieAction3 = player addAction [
-		'(ROBOCOP) Manual enforcement (do nothing)',
+		format ['(%1) Manual enforcement (do nothing)',localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_093'],
 		{
 			{player removeAction _x;} count (missionNamespace getVariable 'QS_kiddieActions');
-			systemChat 'No action taken.';
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,5,-1,'No action taken.',[],-1];
+			systemChat (localize 'STR_QS_Chat_143');
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,5,-1,localize 'STR_QS_Hints_126',[],-1];
 		},
 		[],
 		98

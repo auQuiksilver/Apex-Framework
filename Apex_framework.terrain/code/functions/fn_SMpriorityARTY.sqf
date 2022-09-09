@@ -93,18 +93,18 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 	};
 };
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_038']);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } forEach ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Priority Target: Artillery',(toString [32,32,32])]);
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'The enemy has set up an Artillery Battery. Get over there and neutralize it before its too late! This objective is not accurately marked.',
-		'Artillery Battery',
-		'Artillery Battery'
+		localize 'STR_QS_Task_098',
+		localize 'STR_QS_Task_099',
+		localize 'STR_QS_Task_099'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -114,17 +114,13 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	'destroy',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-_briefing = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t size='1.5' color='#b60000'>Artillery</t><br/>____________________<br/>OPFOR forces are setting up an artillery battery to hit you guys damned hard! We've picked up their positions with thermal imaging scans and have marked it on your map.<br/><br/>This is a priority target, boys! They're just setting up now; they'll be firing in about five minutes!";
-['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewPriorityTarget',['Artillery']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewPriorityTarget',[localize 'STR_QS_Notif_098']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
 waitUntil {
 	sleep 5;
 	(((_priorityTargets findIf {((canMove _x) && (alive _x))}) isEqualTo -1) || {(missionNamespace getVariable 'QS_smSuccess')})
 };
-_completeText = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t size='1.5' color='#08b000'>NEUTRALISED</t><br/>____________________<br/>Incredible job, boys! Make sure you jump on those priority targets quickly; they can really cause havoc if they're left to their own devices.<br/><br/>Keep on with the main objective; we'll tell you if anything comes up.";
-['hint',_completeText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['CompletedPriorityTarget',['Artillery Neutralized']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['CompletedPriorityTarget',[localize 'STR_QS_Notif_099']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 {
 	_x setMarkerPosLocal [-5000,-5000,0];
 	_x setMarkerAlpha 0;

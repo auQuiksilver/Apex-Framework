@@ -306,36 +306,36 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 					
 				} else {
 					_allowRequest = FALSE;
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Already in selected role',[],-1,TRUE,'Role Selection',FALSE];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_002',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 				};
 			} else {
 				_allowRequest = FALSE;
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Maximum number of players in selected role',[],-1,TRUE,'Role Selection',FALSE];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_003',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 			};
 		} else {
 			if ((_side isNotEqualTo (player getVariable ['QS_unit_side',WEST])) && (!(missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))) then {
 				_allowRequest = FALSE;
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Cannot switch faction',[],-1,TRUE,'Role Selection',FALSE];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_004',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 			} else {
 				_allowRequest = FALSE;
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Cannot select role',[],-1,TRUE,'Role Selection',FALSE];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_005',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 			};
 		};
 		if (_role in ['pilot_plane','pilot_cas']) then {
 			_isCAS = TRUE;
 			if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 0) then {
 				_allowRequest = FALSE;
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Close Air Support roles disabled in mission parameters.',[],-1,TRUE,'Role Selection',FALSE];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_006',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 			};
 			if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) in [1,3]) then {
 				if (!(_uid in (['CAS'] call (missionNamespace getVariable 'QS_fnc_whitelist')))) then {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Not in CAS role whitelist (talk to admins to get whitelisted!)',[],-1,TRUE,'Role Selection',FALSE];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_007',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 					_allowRequest = FALSE;
 				};
 			};
 			if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 3) then {
 				if ((player getVariable ['QS_client_casAllowance',0]) >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) then {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,(format ['CAS jet limit exceeded ( %1 )',(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])]),[],-1,TRUE,'Role Selection',FALSE];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,(format ['%2 ( %1 )',(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3]),localize 'STR_QS_Role_008']),[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 					_allowRequest = FALSE;
 				};
 			};
@@ -344,7 +344,7 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 			// Whitelisting
 			if ((['_WL',_role,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) && (!(_whitelisted))) then {
 				_allowRequest = FALSE;
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,'Whitelisted slot<br/><br/>(talk to admins to get whitelisted!)',[],-1,TRUE,'Role Selection',FALSE];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,format ['%1<br/><br/>(%2)',localize 'STR_QS_Role_009',localize 'STR_QS_Role_010'],[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 			};
 		};
 		if (_allowRequest) then {
@@ -352,6 +352,10 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 		};
 	};
 };
+
+//['HANDLE',['HANDLE_REQUEST_ROLE','',(_casPilot getVariable ['QS_unit_side',WEST]),'rifleman',_casPilot]] call (missionNamespace getVariable 'QS_fnc_roles');
+
+
 if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 	params [
 		'',
@@ -441,7 +445,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 		};
 		[_unit] joinSilent (createGroup [_side,TRUE]);
 		if (_side isNotEqualTo (_unit getVariable ['QS_unit_side',WEST])) then {
-			_txt = format ['%1 switched from %2 to %3',(name _unit),(_unit getVariable ['QS_unit_side',WEST]),_side];
+			_txt = format ['%1 %4 %2 %5 %3',(name _unit),(_unit getVariable ['QS_unit_side',WEST]),_side,localize 'STR_QS_Chat_151',localize 'STR_QS_Chat_152'];
 			_txt remoteExec ['systemChat',-2,FALSE];
 			remoteExec ['QS_fnc_clientEventRespawn',_unit,FALSE];
 		};
@@ -458,10 +462,11 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 };
 if (_type isEqualTo 'INIT_ROLE') exitWith {
 	params ['','_role'];
-	//playSound 'orange_choice_select';
+	playSoundUI ['AddItemOK',1,0.75,FALSE];
 	player setVariable ['QS_unit_role',_role,FALSE];
+	private _medic = (getMissionConfigValue ['ReviveRequiredTrait',1]) isEqualTo 0;
 	private _traitsData = [
-		[['medic',FALSE,FALSE]],
+		[['medic',_medic,FALSE]],
 		[['uavhacker',FALSE,FALSE]],
 		[['engineer',FALSE,FALSE]],
 		[['explosiveSpecialist',FALSE,FALSE]],
@@ -482,7 +487,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	];
 	if (_role in ['autorifleman','o_autorifleman','autorifleman_WL']) then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -504,7 +509,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role in ['machine_gunner','machine_gunner_WL']) then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -526,7 +531,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role in ['rifleman_lat','rifleman_hat','rifleman_aa','rifleman_missile','rifleman_hat_WL']) then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -570,7 +575,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role isEqualTo 'engineer') then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',TRUE,FALSE]],
 			[['explosiveSpecialist',TRUE,FALSE]],
@@ -592,7 +597,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role in ['sniper','sniper_WL']) then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -614,7 +619,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role in ['jtac','jtac_WL']) then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -636,7 +641,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role isEqualTo 'mortar_gunner') then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',TRUE,FALSE]],
@@ -658,7 +663,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role isEqualTo 'uav') then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',TRUE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -680,7 +685,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role in ['pilot_heli','pilot_heli_WL']) then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -702,7 +707,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role isEqualTo 'pilot_plane') then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -724,7 +729,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	};
 	if (_role isEqualTo 'commander') then {
 		_traitsData = [
-			[['medic',FALSE,FALSE]],
+			[['medic',_medic,FALSE]],
 			[['uavhacker',FALSE,FALSE]],
 			[['engineer',FALSE,FALSE]],
 			[['explosiveSpecialist',FALSE,FALSE]],
@@ -783,7 +788,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	['SET_SAVED_LOADOUT',_role] call (missionNamespace getVariable 'QS_fnc_roles');
 	call (missionNamespace getVariable 'QS_fnc_respawnPilot');
 	uiNamespace setVariable ['QS_client_respawnCooldown',diag_tickTime + 30];
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,(format ['Role changed to %1',(['GET_ROLE_DISPLAYNAME',_role] call (missionNamespace getVariable 'QS_fnc_roles'))]),[],-1,TRUE,'Role Selection',FALSE];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,(format ['%2 %1',(['GET_ROLE_DISPLAYNAME',_role] call (missionNamespace getVariable 'QS_fnc_roles')),localize 'STR_QS_Role_011']),[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 };
 if (_type isEqualTo 'SET_DEFAULT_LOADOUT') exitWith {
 	params ['','_role',['_save',FALSE]];
@@ -793,13 +798,13 @@ if (_type isEqualTo 'SET_DEFAULT_LOADOUT') exitWith {
 		if ((getUnitLoadout player) isNotEqualTo (((missionNamespace getVariable 'QS_roles_defaultLoadouts') # 0) # 1)) then {
 			player setUnitLoadout [(((missionNamespace getVariable 'QS_roles_defaultLoadouts') # 0) # 1),TRUE];
 		} else {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Loadout already applied',[],-1,TRUE,'Role Selection',FALSE];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_012',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 		};
 	} else {
 		if ((getUnitLoadout player) isNotEqualTo (((missionNamespace getVariable 'QS_roles_defaultLoadouts') # _loadout_index) # 1)) then {
 			player setUnitLoadout [(((missionNamespace getVariable 'QS_roles_defaultLoadouts') # _loadout_index) # 1),TRUE];
 		} else {
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Loadout already applied',[],-1,TRUE,'Role Selection',FALSE];
+			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Role_012',[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 		};
 	};
 	if (_save) then {

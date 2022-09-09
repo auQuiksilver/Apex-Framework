@@ -42,7 +42,7 @@ if (_type isEqualTo 1) then {
 	};
 	private _isArmedAirEnabled = missionNamespace getVariable ['QS_armedAirEnabled',FALSE];
 	if ((random 1) < 0.25) exitWith {
-		['Reward',['No reward available']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['Reward',[localize 'STR_QS_Notif_076']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	};
 	_rewardVeh = objNull;
 	if ((count (missionNamespace getVariable 'QS_smReward_array')) > 2) then {
@@ -1022,5 +1022,5 @@ if (_type isEqualTo 1) then {
 	_pic = getText (configfile >> 'CfgVehicles' >> _rewardType >> 'editorPreview');
 	_completeText = parseText format ["<t align='center'><t size='2.2'>Side Mission</t><br/><t size='1.5' color='#08b000'>COMPLETE</t><br/>____________________<br/>Fantastic job, lads! The OPFOR stationed on the island won't last long if you keep that up!<br/><br/>We've given you %1 to help with the fight.<br/> <img size='5' image='%2'/> <br/><br/>You'll find it at base.</t>",_rewardText,_pic];
 	//['hintSilent',_completeText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-	['Reward',[format ['Your team received %1!',_rewardText]]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+	['Reward',[format ['%2 %1!',_rewardText,localize 'STR_QS_Notif_077']]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };

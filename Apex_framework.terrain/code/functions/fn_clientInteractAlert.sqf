@@ -17,11 +17,11 @@ private _onOrOff = missionNamespace getVariable ['QS_RD_missionAlert',FALSE];
 if (_onOrOff) then {
 	missionNamespace setVariable ['QS_RD_missionAlert',FALSE,TRUE];
 	playSound 'clickSoft';
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Alert now OFF',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_017',[],-1];
 	player playAction 'putdown';
 } else {
 	missionNamespace setVariable ['QS_RD_missionAlert',TRUE,TRUE];
 	playSound 'clickSoft';
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Alert now ON',[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_018',[],-1];
 	player playAction 'putdown';
 };

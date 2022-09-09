@@ -1130,11 +1130,30 @@ if (_QS_module_restart) then {
 			['playSound','QS_restart'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		uiSleep 25;
-		_text = 'Server restarting!';
+		_text = localize 'STR_QS_Notif_044';
 		['System',['',_text]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		
+		
+		// Server Restart message
 		{
-			50 cutText ['Server Name - ' + serverName,'PLAIN',3];
+			private _endImage = missionNamespace getVariable ['QS_missionConfig_communityLogo',''];
+			if (_endImage isEqualTo '') then {
+				_endImage = missionNamespace getVariable ['QS_missionConfig_textures_communityFlag','a3\data_f\flags\flag_nato_co.paa'];
+			};
+			51 cutText [
+				(format [
+					"<img size='4' image='%1'/><br/><br/><t size='5'>%2</t><br/><br/>",
+					_endImage,
+					localize 'STR_QS_Utility_000'
+				]),
+				'PLAIN DOWN',
+				5,
+				TRUE,
+				TRUE
+			];
 		} remoteExec ['call',-2,FALSE];
+		
+		
 		missionProfileNamespace setVariable ['QS_leaderboards2',(missionNamespace getVariable 'QS_leaderboards2')];	// Debug leaderboards
 		{
 			_x setVariable ['QS_respawn_disable',-1,TRUE];
@@ -1151,7 +1170,6 @@ if (_QS_module_restart) then {
 		_QS_module_restart = FALSE;
 	};
 };
-diag_log format ['***** Restart schedule * Restart Hour: %1 RealTimeStart: %2 *****',_QS_module_restart_hour,_QS_module_restart_realTimeStart];
 'QS_marker_curators' setMarkerAlpha 0;
 diag_log '***** Saving Profile *****';
 saveMissionProfileNamespace;
@@ -1191,6 +1209,9 @@ _fn_aoMinefield = missionNamespace getVariable 'QS_fnc_aoMinefield';
 _fn_createMinefield = missionNamespace getVariable 'QS_fnc_createMinefield';
 _fn_gpsJammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
 _fn_fobAssets = missionNamespace getVariable 'QS_fnc_fobAssets';
+
+_fpsMarkerText = localize 'STR_QS_Marker_005';
+_zeusMarkerText = localize 'STR_QS_Marker_006';
 
 /*/============================================================================= LOOP/*/
 for '_x' from 0 to 1 step 0 do {
@@ -1235,8 +1256,8 @@ for '_x' from 0 to 1 step 0 do {
 		if (allCurators isNotEqualTo []) then {
 			missionNamespace setVariable ['QS_server_fps',_fps,allCurators apply {owner _x}];
 		};
-		'QS_marker_fpsMarker' setMarkerText (format ['%1Server FPS: %2',_markerCheck,_fps]);
-		'QS_marker_curators' setMarkerText (format ['%1Active Zeus - %2',_markerCheck,allCurators]);
+		'QS_marker_fpsMarker' setMarkerText (format ['%1 %3 %2',_markerCheck,_fps,_fpsMarkerText]);
+		'QS_marker_curators' setMarkerText (format ['%1 %3 %2',_markerCheck,allCurators,_zeusMarkerText]);
 		if (_fps >= 20) then {
 			if ((markerColor 'QS_marker_fpsMarker') isNotEqualTo 'ColorGREEN') then {
 				'QS_marker_fpsMarker' setMarkerColor 'ColorGREEN';
@@ -1802,7 +1823,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((markerColor 'QS_marker_hqMarker') isEqualTo 'ColorWEST') then {
 								if ((((units _west) inAreaArray [(missionNamespace getVariable 'QS_HQpos'),100,100,0,_false,-1])) isEqualTo []) then {
 									if ((count (((units _east) + (units _resistance)) inAreaArray [(missionNamespace getVariable 'QS_HQpos'),50,50,0,_false,-1])) > 1) then {
-										['sideChat',[_west,'BLU'],'CSAT has taken back the HQ!'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+										['sideChat',[_west,'BLU'],localize 'STR_QS_Chat_039'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										[(missionNamespace getVariable 'QS_AO_HQ_flag'),_east,'',_false,objNull,1] call _fn_setFlag;
 										{
 											_x setMarkerColor 'ColorOPFOR';
@@ -1898,8 +1919,8 @@ for '_x' from 0 to 1 step 0 do {
 						};
 						if ((missionNamespace getVariable 'QS_virtualSectors_aoMortars') isNotEqualTo []) then {
 							if (((missionNamespace getVariable 'QS_virtualSectors_aoMortars') select {((alive _x) && (alive (gunner _x)))}) isEqualTo []) then {
-								['sideChat',[_west,'HQ'],'Enemy mortars neutralized!'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
-								['SC_SUB_COMPLETED',['','Mortar pit neutralized']] remoteExec ['QS_fnc_showNotification',-2,_false];
+								['sideChat',[_west,'HQ'],localize 'STR_QS_Chat_040'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+								['SC_SUB_COMPLETED',['',localize 'STR_QS_Notif_046']] remoteExec ['QS_fnc_showNotification',-2,_false];
 								missionNamespace setVariable ['QS_virtualSectors_aoMortars',[],_false];
 								{
 									if (_x in allMapMarkers) then {
@@ -2408,7 +2429,7 @@ for '_x' from 0 to 1 step 0 do {
 					_module_fob_logistics_fuelServices = _false;
 					_module_fob_isFobActive = _true;
 					/*/ Communicate with players /*/
-					['FOB_INIT',['',(format ['Secure FOB %1',(([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 5)])]] remoteExec ['QS_fnc_showNotification',-2,_false];
+					['FOB_INIT',['',(format ['%2 %1',(([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 5),localize 'STR_QS_Notif_047'])]] remoteExec ['QS_fnc_showNotification',-2,_false];
 				};
 			} else {
 				//comment 'RELEVANT FOB IS ALREADY CREATED, MANAGE IT HERE';
@@ -2431,14 +2452,14 @@ for '_x' from 0 to 1 step 0 do {
 											};
 											missionNamespace setVariable ['QS_module_fob_respawnTickets',((missionNamespace getVariable 'QS_module_fob_respawnTickets') + _module_fob_respawn_ticketsAdded),_true];										
 											_x setVariable ['QS_vehicle_isSuppliedFOB',_true,_true];
-											0 = ['sideChat',[_west,'HQ'],(format ['FOB Respawn Tickets added: %1 total tickets: %2',_module_fob_respawn_ticketsAdded,(missionNamespace getVariable 'QS_module_fob_respawnTickets')])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+											0 = ['sideChat',[_west,'HQ'],(format ['%3 %1 %4 %2',_module_fob_respawn_ticketsAdded,(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Chat_041',localize 'STR_QS_Chat_042'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 											if (!isNil {_x getVariable 'QS_transporter'}) then {
 												if (alive ((_x getVariable 'QS_transporter') # 1)) then {
 													0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_x getVariable 'QS_transporter') # 2),((_x getVariable 'QS_transporter') # 0),4];
 												};
 												if (!(_supportMessagePopped)) then {
 													_supportMessagePopped = _true;
-													['sideChat',[_west,'BLU'],(format ['%1 supported the FOB with a(n) %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+													['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 												};
 											};
 										};
@@ -2461,7 +2482,7 @@ for '_x' from 0 to 1 step 0 do {
 										};									
 										missionNamespace setVariable ['QS_module_fob_respawnTickets',((missionNamespace getVariable 'QS_module_fob_respawnTickets') + _module_fob_respawn_ticketsAdded),_true];
 										_x setVariable ['QS_vehicle_isSuppliedFOB',_true,_true];
-										0 = ['sideChat',[_west,'HQ'],(format ['FOB Respawn Tickets added: %1 total tickets: %2',_module_fob_respawn_ticketsAdded,(missionNamespace getVariable 'QS_module_fob_respawnTickets')])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+										0 = ['sideChat',[_west,'HQ'],(format ['%3 %1 %4 %2',_module_fob_respawn_ticketsAdded,(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Chat_041',localize 'STR_QS_Chat_042'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										if (!isNil {_x getVariable 'QS_transporter'}) then {
 											if (alive ((_x getVariable 'QS_transporter') # 1)) then {
 												if ((missionNamespace getVariable 'QS_module_fob_respawnTickets') <= 24) then {
@@ -2470,7 +2491,7 @@ for '_x' from 0 to 1 step 0 do {
 											};
 											if (!(_supportMessagePopped)) then {
 												_supportMessagePopped = _true;
-												['sideChat',[_west,'BLU'],(format ['%1 supported the FOB with a(n) %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+												['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 											};
 										};
 									};
@@ -2489,7 +2510,7 @@ for '_x' from 0 to 1 step 0 do {
 										_vRespawn_checkDelay = -1;
 										['VEHICLES_ADD',_module_fob_activeRegion] call _fn_fobAssets;
 										missionNamespace setVariable ['QS_module_fob_vehicleRespawnEnabled',_module_fob_logistics_vehicleRespawnEnabled,_true];
-										0 = ['FOB_UPDATE',['','Vehicle Respawn online']] remoteExec ['QS_fnc_showNotification',-2,_false];
+										0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_048']] remoteExec ['QS_fnc_showNotification',-2,_false];
 										if (alive ((_x getVariable 'QS_transporter') # 1)) then {
 											0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_x getVariable 'QS_transporter') # 2),((_x getVariable 'QS_transporter') # 0),4];
 										};
@@ -2514,7 +2535,7 @@ for '_x' from 0 to 1 step 0 do {
 										'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
 										'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
 										(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal FALSE;
-										0 = ['FOB_UPDATE',['','Vehicle Service online']] remoteExec ['QS_fnc_showNotification',-2,_false];
+										0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_049']] remoteExec ['QS_fnc_showNotification',-2,_false];
 									};
 								};
 							};
@@ -2539,14 +2560,14 @@ for '_x' from 0 to 1 step 0 do {
 											'QS_marker_veh_fieldservice_01' setMarkerPos (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 4);
 											'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
 											'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
-											0 = ['FOB_UPDATE',['','Rearm Service online']] remoteExec ['QS_fnc_showNotification',-2,_false];
+											0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_050']] remoteExec ['QS_fnc_showNotification',-2,_false];
 											if (!isNil {_x getVariable 'QS_transporter'}) then {
 												if (alive ((_x getVariable 'QS_transporter') # 1)) then {
 													0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_x getVariable 'QS_transporter') # 2),((_x getVariable 'QS_transporter') # 0),4];
 												};
 												if (!(_supportMessagePopped)) then {
 													_supportMessagePopped = _true;
-													['sideChat',[_west,'BLU'],(format ['%1 supported the FOB with a(n) %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+													['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 												};
 											};
 										};
@@ -2564,7 +2585,7 @@ for '_x' from 0 to 1 step 0 do {
 														_vRespawn_checkDelay = -1;
 														['VEHICLES_ADD',_module_fob_activeRegion] call _fn_fobAssets;
 														missionNamespace setVariable ['QS_module_fob_vehicleRespawnEnabled',_module_fob_logistics_vehicleRespawnEnabled,_true];
-														0 = ['FOB_UPDATE',['','Vehicle Respawn online']] remoteExec ['QS_fnc_showNotification',-2,_false];
+														0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_048']] remoteExec ['QS_fnc_showNotification',-2,_false];
 													};
 												};
 											};
@@ -2577,7 +2598,7 @@ for '_x' from 0 to 1 step 0 do {
 											};
 											if (!(_supportMessagePopped)) then {
 												_supportMessagePopped = _true;
-												0 = ['sideChat',[_west,'BLU'],(format ['%1 supported the FOB with a(n) %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+												0 = ['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 											};
 										};
 									};
@@ -2603,7 +2624,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										if (!(_supportMessagePopped)) then {
 											_supportMessagePopped = _true;
-											0 = ['sideChat',[_west,'BLU'],(format ['%1 supported the FOB with a(n) %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+											0 = ['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										};
 									};
 								};
@@ -2625,14 +2646,14 @@ for '_x' from 0 to 1 step 0 do {
 									'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
 									'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
 									(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal FALSE;
-									0 = ['FOB_UPDATE',['','Vehicle Service online']] remoteExec ['QS_fnc_showNotification',-2,_false];
+									0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_049']] remoteExec ['QS_fnc_showNotification',-2,_false];
 									if (!isNil {_x getVariable 'QS_transporter'}) then {
 										if (alive ((_x getVariable 'QS_transporter') # 1)) then {
 											0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_x getVariable 'QS_transporter') # 2),((_x getVariable 'QS_transporter') # 0),4];
 										};
 										if (!(_supportMessagePopped)) then {
 											_supportMessagePopped = _true;
-											['sideChat',[_west,'BLU'],(format ['%1 supported the FOB with a(n) %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+											['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										};
 									};
 								};
@@ -3805,7 +3826,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (!isNil {missionNamespace getVariable 'QS_weather_simulateStorm'}) then {
 					_QS_simulateEvent_storm = _true;
 					missionNamespace setVariable ['QS_weather_simulateStorm',nil,_false];
-					(format ['"Bad weather alert" - %1 Weather Service',_QS_worldName]) remoteExec ['systemChat',-2,_false];
+					(format ['"%2" - %1 %3',_QS_worldName,localize 'STR_QS_Chat_104',localize 'STR_QS_Chat_105']) remoteExec ['systemChat',-2,_false];
 				};
 				if (_QS_simulateWind) then {
 					if (_timeNow > _QS_windUpdate_checkDelay) then {
@@ -4638,7 +4659,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (_timeNow > (_airDefenseArray # 2)) then {
 					_airDefenseAvailable = _true;
 					missionNamespace setVariable ['QS_airbaseDefense',_false,_true];
-					['sideChat',[_west,'AirBase'],'Air defense available'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];	
+					['sideChat',[_west,'AirBase'],localize 'STR_QS_Chat_044'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];	
 				};
 			};
 			_QS_module_airDefense_checkDelay = _timeNow + _QS_module_airDefense_delay;
@@ -5070,7 +5091,7 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_module_restart_checkDelay = _timeNow + _QS_module_restart_delay;
 		};
 	};
-	sleep 5;
+	sleep 3;
 };
 diag_log format ['* %1 ***** QS ***** DEBUG ***** MISSION ENGINE TERMINATED *****',diag_tickTime];
 if (!(_resumeScript)) then {

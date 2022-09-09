@@ -354,7 +354,7 @@ for '_i' from 0 to 1 step 0 do {
 				};
 			};
 		} forEach _entities;
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Simulation manager paused',[],-1,TRUE,'Role Selection',FALSE];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_100',[],-1,TRUE,localize 'STR_QS_Hints_102',FALSE];
 		waitUntil {
 			uiSleep 5;
 			(!(
@@ -365,7 +365,7 @@ for '_i' from 0 to 1 step 0 do {
 				{(player getUnitTrait 'QS_trait_HQ')}
 			))
 		};
-		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Simulation manager resumed',[],-1,TRUE,'Role Selection',FALSE];
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_101',[],-1,TRUE,localize 'STR_QS_Hints_102',FALSE];
 	};
 	if (!(missionNamespace getVariable ['QS_options_dynSim',_false])) exitWith {
 		_entities = (entities _entitiesParams) + (allMissionObjects 'WeaponHolder');

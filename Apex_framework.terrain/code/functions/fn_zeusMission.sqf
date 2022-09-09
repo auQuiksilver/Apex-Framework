@@ -19,7 +19,7 @@ if (_type isEqualTo 'CAPTURE_MAN') exitWith {
 		params ['','_unit','_isMission'];
 		// SERVER - step 3
 		if (_isMission) then {
-			_text = '   Capture';
+			_text = format ['%2 %1',localize 'STR_QS_Marker_047',(toString [32,32,32])];
 			private _radius = 150;
 			_radiusVehicle = 500;
 			_radiusFoot = 250;
@@ -31,6 +31,7 @@ if (_type isEqualTo 'CAPTURE_MAN') exitWith {
 			_marker setMarkerSizeLocal [_radius,_radius];
 			_marker setMarkerTextLocal _text;
 			_marker setMarkerColorLocal 'ColorOPFOR';
+			_marker setMarkerShadowLocal TRUE;
 			_marker setMarkerAlpha 0.75;
 			_marker2 = createMarker ['QS_curatorInterface_captureMan_marker2',[0,0,0]];
 			_marker2 setMarkerShapeLocal 'icon';
@@ -38,6 +39,7 @@ if (_type isEqualTo 'CAPTURE_MAN') exitWith {
 			_marker2 setMarkerSizeLocal [0.5,0.5];
 			_marker2 setMarkerTextLocal _text;
 			_marker2 setMarkerColorLocal 'ColorOPFOR';
+			_marker2 setMarkerShadowLocal TRUE;
 			_marker2 setMarkerAlpha 0.75;
 			while {(alive _unit)} do {
 				if (isNull (objectParent _unit)) then {

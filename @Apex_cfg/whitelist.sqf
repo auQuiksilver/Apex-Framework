@@ -20,9 +20,6 @@ Comment:
 	
 	They DO all have to be in the 'ALL' list though.
 	
-			'76561198084065754'
-			
-			profileNamespace setVariable ['QS_whitelists_toInform',['76561198084065754']];
 __________________________________________________________________________/*/
 
 _type = param [0,''];

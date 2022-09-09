@@ -24,7 +24,7 @@ if (!isNil {player getVariable 'QS_client_createdBoat'}) then {
 	};
 };
 if (_exit) exitWith {
-	50 cutText [(format ['You already have an active boat at grid %1, please respawn or destroy it before creating another.',(mapGridPosition (player getVariable 'QS_client_createdBoat'))]),'PLAIN DOWN'];
+	50 cutText [(format ['%2 %1',(mapGridPosition (player getVariable 'QS_client_createdBoat')),localize 'STR_QS_Text_095']),'PLAIN DOWN'];
 };
 player removeItem 'ToolKit';
 private _boatType = ['B_Lifeboat','B_T_Lifeboat'] select (worldName isEqualTo 'Tanoa');
@@ -34,4 +34,4 @@ if ((!underwater player) && (((eyePos player) # 2) > 0.25)) then {
 private _position = player modelToWorld [0,15,0];
 _position set [2,1];
 [37,profileName,[_boatType,_position,[],0,'NONE'],(getDir player),_position,clientOwner,player] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-50 cutText [(format ['%1 inflated, toolkit removed',(getText (configFile >> 'CfgVehicles' >> _boatType >> 'displayName'))]),'PLAIN DOWN',0.75];
+50 cutText [(format ['%1 %2',(getText (configFile >> 'CfgVehicles' >> _boatType >> 'displayName')),localize 'STR_QS_Text_096']),'PLAIN DOWN',0.75];

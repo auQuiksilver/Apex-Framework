@@ -90,14 +90,14 @@ if ((toLowerANSI (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracke
 		'QS_action_plow',
 		(
 			player addAction [
-				'Lower plow',
+				localize 'STR_QS_Interact_061',
 				{
 					_v = vehicle player;
 					_animPhase = _v animationSourcePhase 'MovePlow';
 					private _soundSource = '';
 					private _timeout = -1;
 					if (_animPhase isEqualTo 1) then {
-						50 cutText ['Raising de-mining plow','PLAIN DOWN',0.25];
+						50 cutText [localize 'STR_QS_Text_017','PLAIN DOWN',0.25];
 						_v animateSource ['MovePlow',0,0.9];
 						_soundSource = createSoundSource ['SoundPlowUp',(_v modelToWorld (_v selectionPosition 'plow')),[],0];
 						_soundSource attachTo [_v,(_v selectionPosition 'plow')];
@@ -109,7 +109,7 @@ if ((toLowerANSI (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracke
 						uiSleep 0.1;
 						deleteVehicle _soundSource;
 					} else {
-						50 cutText ['Lowering de-mining plow','PLAIN DOWN',0.25];
+						50 cutText [localize 'STR_QS_Text_018','PLAIN DOWN',0.25];
 						_v animateSource ['MovePlow',1,0.9];
 						_soundSource = createSoundSource ['SoundPlowDown',(_v modelToWorld (_v selectionPosition 'plow')),[],0];
 						_soundSource attachTo [_v,(_v selectionPosition 'plow')];
@@ -135,13 +135,13 @@ if ((toLowerANSI (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracke
 							if (player isEqualTo (driver _v)) then {
 								_animPhase = _v animationSourcePhase "MovePlow";
 								if (_animPhase in [0,1]) then {
-									if (((player actionParams QS_action_plow) # 0) isEqualTo "Lower plow") then {
+									if (((player actionParams QS_action_plow) # 0) isEqualTo (localize "STR_QS_Interact_061")) then {
 										if (_animPhase isEqualTo 1) then {
-											player setUserActionText [QS_action_plow,"Raise plow","<t size=""3"">Raise plow</t>"];
+											player setUserActionText [QS_action_plow,(localize "STR_QS_Interact_062"),format ["<t size=""3"">%1</t>",(localize "STR_QS_Interact_062")]];
 										};
 									} else {
 										if (_animPhase isEqualTo 0) then {
-											player setUserActionText [QS_action_plow,"Lower plow","<t size=""3"">Lower plow</t>"];
+											player setUserActionText [QS_action_plow,(localize "STR_QS_Interact_061"),format ["<t size=""3"">%1</t>",(localize "STR_QS_Interact_061")]];
 										};
 									};
 									if (((vectorMagnitude (velocity _v)) * 3.6) < 5) then {

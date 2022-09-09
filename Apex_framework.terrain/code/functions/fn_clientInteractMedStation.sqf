@@ -17,5 +17,5 @@ player playActionNow 'Medic';
 0 spawn {
 	uiSleep 4; 
 	player setDamage 0;
-	50 cutText ['Healed','PLAIN DOWN',0.2];
+	50 cutText [localize 'STR_QS_Text_117','PLAIN DOWN',0.2];
 };

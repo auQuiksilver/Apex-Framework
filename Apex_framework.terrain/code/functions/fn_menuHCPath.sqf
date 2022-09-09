@@ -14,16 +14,13 @@ Description:
 ______________________________________________/*/
 
 params ['_type','_pos','_is3D','_arraySelected','_add'];
-//comment "systemChat format ['BIS_HC_path_menu * %1', _this];";
 if (_this isEqualType '') then {
 	private _QS_hcSelected = hcSelected player;
-	//systemChat str _QS_hcSelected;
 	if ( _QS_hcSelected isNotEqualTo [] ) then {
-		//comment 'Main HC commanding menu stuff here';
 		private _undefined = FALSE;
-		_text = 'Command issued';
-		_text1 = 'Undefined command';
-		if (_this isEqualTo 'SITREP') then {50 cutText ['SITREP requested','PLAIN DOWN',0.5,TRUE,FALSE];};
+		_text = localize 'STR_QS_Text_226';
+		_text1 = localize 'STR_QS_Text_227';
+		if (_this isEqualTo 'SITREP') then {50 cutText [localize 'STR_QS_Text_228','PLAIN DOWN',0.5,TRUE,FALSE];};
 		if (_this isEqualTo 'WP_TYPE_MOVE') then {50 cutText [_text,'PLAIN DOWN',0.5,TRUE,FALSE];};
 		if (_this isEqualTo 'WP_TYPE_CYCLE') then {50 cutText [_text,'PLAIN DOWN',0.5,TRUE,FALSE];};
 		if (_this isEqualTo 'WP_TYPE_SAD') then {50 cutText [_text,'PLAIN DOWN',0.5,TRUE,FALSE];};
@@ -134,12 +131,12 @@ if (_this isEqualType '') then {
 							if (local this) then {
 								_leader = leader (group this);
 								if (player isEqualTo _leader) then {
-									50 cutText ["[Commander] Waypoint complete","PLAIN DOWN",0.5,TRUE,FALSE];
+									50 cutText [localize "STR_QS_Text_229","PLAIN DOWN",0.5,TRUE,FALSE];
 								};
 								deleteWaypoint [group this,currentWaypoint (group this)];
 							} else {
 								if (player isEqualTo (missionNamespace getVariable "QS_hc_Commander")) then {
-									_text = format ["%1 ( %2 ) completed its task at grid %3",(groupID (group this)),profileName,(mapGridPosition this)];
+									_text = format ["%1 ( %2 ) %4 %3",(groupID (group this)),profileName,(mapGridPosition this),localize "STR_QS_Chat_140"];
 									systemChat _text;
 								};
 							};
@@ -151,16 +148,16 @@ if (_this isEqualType '') then {
 							[34,['hcTaskCreated',['','New orders']]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
 						};
 						_leader setVariable ['QS_HComm_ordersNotifInterval',(diag_tickTime + 15),FALSE];
-						[63,[5,[(format['Orders assigned by [Commander] %1',profileName]),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
+						[63,[5,[(format['%2 %1',profileName,localize 'STR_QS_Text_264']),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
 					} else {
-						[63,[5,[(format['Orders updated by [Commander] %1',profileName]),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
+						[63,[5,[(format['%2 %1',profileName,localize 'STR_QS_Text_265']),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
 					};
 				};
 			} else {
-				50 cutText ['Too close (30m)','PLAIN DOWN',0.25,TRUE,FALSE];
+				50 cutText [localize 'STR_QS_Text_230','PLAIN DOWN',0.25,TRUE,FALSE];
 			};
 		} else {
-			50 cutText ['Too many waypoints (max 3)','PLAIN DOWN',0.25,TRUE,FALSE];
+			50 cutText [localize 'STR_QS_Text_231','PLAIN DOWN',0.25,TRUE,FALSE];
 		};
 	} forEach _arraySelected;
 };

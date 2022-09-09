@@ -53,7 +53,7 @@ if (!((uiNamespace getVariable ['BIS_shownChat',TRUE]) isEqualType TRUE)) exitWi
 				disableUserInput TRUE;
 			};
 			/*/
-			50 cutText ['Initializing ...','BLACK OUT',0.1,TRUE];
+			50 cutText [localize 'STR_QS_Text_213','BLACK OUT',0.1,TRUE];
 		};
 	};
 	private _count = 1;

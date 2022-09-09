@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	8/04/2018 A3 1.82 by Quiksilver
+	2/09/2022 A3 2.10 by Quiksilver
 
 Description: 
 
@@ -54,22 +54,23 @@ private _pos = [0,0,0];
 private _dir = 0;
 private _typeOverride = '';
 private _aircraftPool = 0;
+private _jetsDLC = missionNamespace getVariable ['QS_cas_JetsDLCEnabled',TRUE];
 if (_missionConfig_CAS isEqualTo 1) then {
 	_pool = [
 		'O_Plane_CAS_02_dynamicLoadout_F',1,
-		'O_Plane_Fighter_02_F',1,
-		'B_Plane_Fighter_01_F',2,
+		'O_Plane_Fighter_02_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_F',([0,2] select _jetsDLC),
 		'B_Plane_CAS_01_dynamicLoadout_F',2,
-		'I_Plane_Fighter_04_F',1
+		'I_Plane_Fighter_04_F',([0,1] select _jetsDLC)
 	];
 };
 if (_missionConfig_CAS isEqualTo 2) then {
 	_pool = [
 		'O_Plane_CAS_02_dynamicLoadout_F',1,
-		'O_Plane_Fighter_02_F',1,
-		'B_Plane_Fighter_01_F',2,
+		'O_Plane_Fighter_02_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_F',([0,2] select _jetsDLC),
 		'B_Plane_CAS_01_dynamicLoadout_F',2,
-		'I_Plane_Fighter_04_F',1
+		'I_Plane_Fighter_04_F',([0,1] select _jetsDLC)
 	];
 };
 if (_missionConfig_CAS isEqualTo 3) then {
@@ -104,7 +105,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	(missionNamespace getVariable 'QS_CAS_jetAllowance') set [_airIndex,[_uid,_aircraftPool]];
 	missionNamespace setVariable ['QS_CAS_jetAllowance_current',_aircraftPool,FALSE];
 	missionNamespace setVariable ['QS_casJet_destroyedAtBase',FALSE,FALSE];
-	['sideChat',[WEST,'AirBase'],(format ['Friendly CAS respawning ( %1 / %2 ) ...',_aircraftPool,(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])])] remoteExec ['QS_fnc_remoteExecCmd',_pilot,FALSE];
+	['sideChat',[WEST,'AirBase'],(format ['%3 ( %1 / %2 ) ...',_aircraftPool,(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3]),localize 'STR_QS_Chat_025'])] remoteExec ['QS_fnc_remoteExecCmd',_pilot,FALSE];
 	private ['_newCasType','_dir','_obstructions','_obstructionArray'];
 	//comment 'Now lets decide what will spawn';
 	private [
@@ -120,57 +121,57 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	};
 	_pool0 = [
 		'O_Plane_CAS_02_dynamicLoadout_F',0,
-		'O_Plane_Fighter_02_F',0,
-		'O_Plane_Fighter_02_Stealth_F',0,
-		'B_Plane_Fighter_01_F',0,
-		'B_Plane_Fighter_01_Stealth_F',0,
+		'O_Plane_Fighter_02_F',([0,0] select _jetsDLC),
+		'O_Plane_Fighter_02_Stealth_F',([0,0] select _jetsDLC),
+		'B_Plane_Fighter_01_F',([0,0] select _jetsDLC),
+		'B_Plane_Fighter_01_Stealth_F',([0,0] select _jetsDLC),
 		'B_Plane_CAS_01_dynamicLoadout_F',0,
 		'I_Plane_Fighter_03_dynamicLoadout_F',1,
-		'I_Plane_Fighter_04_F',0,
+		'I_Plane_Fighter_04_F',([0,0] select _jetsDLC),
 		'i_c_plane_civil_01_f',0
 	];
 	_pool1 = [
 		'O_Plane_CAS_02_dynamicLoadout_F',1,
-		'O_Plane_Fighter_02_F',1,
-		'O_Plane_Fighter_02_Stealth_F',1,
-		'B_Plane_Fighter_01_F',1,
-		'B_Plane_Fighter_01_Stealth_F',1,
+		'O_Plane_Fighter_02_F',([0,1] select _jetsDLC),
+		'O_Plane_Fighter_02_Stealth_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_Stealth_F',([0,1] select _jetsDLC),
 		'B_Plane_CAS_01_dynamicLoadout_F',1,
 		'I_Plane_Fighter_03_dynamicLoadout_F',5,
-		'I_Plane_Fighter_04_F',5,
+		'I_Plane_Fighter_04_F',([0,5] select _jetsDLC),
 		'i_c_plane_civil_01_f',0
 	];
 	_pool2 = [
 		'O_Plane_CAS_02_dynamicLoadout_F',1,
-		'O_Plane_Fighter_02_F',1,
-		'O_Plane_Fighter_02_Stealth_F',1,
-		'B_Plane_Fighter_01_F',1,
-		'B_Plane_Fighter_01_Stealth_F',1,
+		'O_Plane_Fighter_02_F',([0,1] select _jetsDLC),
+		'O_Plane_Fighter_02_Stealth_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_Stealth_F',([0,1] select _jetsDLC),
 		'B_Plane_CAS_01_dynamicLoadout_F',1,
 		'I_Plane_Fighter_03_dynamicLoadout_F',1,
-		'I_Plane_Fighter_04_F',1,
+		'I_Plane_Fighter_04_F',([0,1] select _jetsDLC),
 		'i_c_plane_civil_01_f',0
 	];
 	_pool3 = [
 		'O_Plane_CAS_02_dynamicLoadout_F',3,
-		'O_Plane_Fighter_02_F',3,
-		'O_Plane_Fighter_02_Stealth_F',1,
-		'B_Plane_Fighter_01_F',3,
-		'B_Plane_Fighter_01_Stealth_F',1,
+		'O_Plane_Fighter_02_F',([0,3] select _jetsDLC),
+		'O_Plane_Fighter_02_Stealth_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_F',([0,3] select _jetsDLC),
+		'B_Plane_Fighter_01_Stealth_F',([0,1] select _jetsDLC),
 		'B_Plane_CAS_01_dynamicLoadout_F',3,
 		'I_Plane_Fighter_03_dynamicLoadout_F',0,
-		'I_Plane_Fighter_04_F',2,
+		'I_Plane_Fighter_04_F',([0,2] select _jetsDLC),
 		'i_c_plane_civil_01_f',0
 	];
 	_pool4 = [
 		'O_Plane_CAS_02_dynamicLoadout_F',5,
-		'O_Plane_Fighter_02_F',5,
-		'O_Plane_Fighter_02_Stealth_F',1,
-		'B_Plane_Fighter_01_F',5,
-		'B_Plane_Fighter_01_Stealth_F',1,
+		'O_Plane_Fighter_02_F',([0,5] select _jetsDLC),
+		'O_Plane_Fighter_02_Stealth_F',([0,1] select _jetsDLC),
+		'B_Plane_Fighter_01_F',([0,5] select _jetsDLC),
+		'B_Plane_Fighter_01_Stealth_F',([0,1] select _jetsDLC),
 		'B_Plane_CAS_01_dynamicLoadout_F',5,
 		'I_Plane_Fighter_03_dynamicLoadout_F',0,
-		'I_Plane_Fighter_04_F',1,
+		'I_Plane_Fighter_04_F',([0,1] select _jetsDLC),
 		'i_c_plane_civil_01_f',0
 	];
 	
@@ -293,7 +294,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 		'Killed',
 		{
 			params ['_jet'];
-			_text = ['Our CAS has been destroyed!','Our CAS has been shot down!'] select (((getPosATL _jet) # 2) > 20);
+			_text = [localize 'STR_QS_Chat_026',localize 'STR_QS_Chat_027'] select (((getPosATL _jet) # 2) > 20);
 			[[WEST,'AirBase'],_text] remoteExec ['sideChat',-2,FALSE];
 			if ((_jet distance2D (markerPos 'QS_marker_base_marker')) < 600) then {
 				missionNamespace setVariable ['QS_casJet_destroyedAtBase',TRUE,FALSE];

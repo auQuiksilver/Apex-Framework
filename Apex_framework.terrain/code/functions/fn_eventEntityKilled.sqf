@@ -114,7 +114,7 @@ if (isPlayer _killed) then {
 			if (!isNull _killer) then {
 				if (isPlayer _killer) then {
 					if (!((vehicle _killer) isKindOf 'Air')) then {
-						_text = format ['Enemy sniper ( %1 ) killed by %2!',(name _killed),(name _killer)];
+						_text = format ['%3 ( %1 ) %4 %2!',(name _killed),(name _killer),localize 'STR_QS_Chat_108',localize 'STR_QS_Chat_109'];
 						_text remoteExec ['systemChat',-2,FALSE];
 					};
 				};

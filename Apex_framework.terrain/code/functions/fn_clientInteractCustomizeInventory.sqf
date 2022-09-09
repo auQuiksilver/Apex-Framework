@@ -24,7 +24,7 @@ createDialog 'RscDisplayAttributesInventory';
 if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 [_cursorObject] spawn {
 	_entity = _this # 0;
-	50 cutText ['Please wait ...','PLAIN',1];
+	50 cutText [localize 'STR_QS_Text_097','PLAIN',0.5];
 	[5] spawn (missionNamespace getVariable 'QS_fnc_clientDisableUserInput');
 	waitUntil {
 		uiSleep 1;
@@ -176,7 +176,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 	} foreach _cargo;
 	RscAttributeInventory_selected = 0;
 	playSound ['Click',FALSE];
-	50 cutText ['Initialization complete, select tab above','PLAIN',1];
+	50 cutText [localize 'STR_QS_Text_098','PLAIN',1];
 	titleFadeOut 3;
 	if (userInputDisabled) then {
 		disableUserInput FALSE;
@@ -203,7 +203,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 			_backpackCargo = backpackCargo _entity;
 			if ((count _backpackCargo) > _cfgTransportMaxBackpacks) then {
 				clearBackpackCargoGlobal _entity;
-				50 cutText ['Crate overfilled, removing excess backpacks','PLAIN DOWN',0.25];
+				50 cutText [localize 'STR_QS_Text_099','PLAIN DOWN',0.25];
 				_index = 0;
 				for '_x' from 0 to ((count _backpackCargo) - 1) step 1 do {
 					if (_index >= _cfgTransportMaxBackpacks) exitWith {};
@@ -214,7 +214,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 			_magazineCargo = magazineCargo _entity;
 			if ((count _magazineCargo) > _cfgTransportMaxMagazines) then {
 				clearMagazineCargoGlobal _entity;
-				50 cutText ['Crate overfilled, removing excess magazines','PLAIN DOWN',0.25];
+				50 cutText [localize 'STR_QS_Text_100','PLAIN DOWN',0.25];
 				_index = 0;
 				for '_x' from 0 to ((count _magazineCargo) - 1) step 1 do {
 					if (_index >= _cfgTransportMaxMagazines) exitWith {};
@@ -225,7 +225,7 @@ if (!isNull (getAssignedCuratorLogic player)) exitWith {};
 			_weaponCargo = weaponCargo _entity;
 			if ((count _weaponCargo) > _cfgTransportMaxWeapons) then {
 				clearWeaponCargoGlobal _entity;
-				50 cutText ['Crate overfilled, removing excess weapons','PLAIN DOWN',0.25];
+				50 cutText [localize 'STR_QS_Text_101','PLAIN DOWN',0.25];
 				_index = 0;
 				for '_x' from 0 to ((count _weaponCargo) - 1) step 1 do {
 					if (_index >= _cfgTransportMaxWeapons) exitWith {};

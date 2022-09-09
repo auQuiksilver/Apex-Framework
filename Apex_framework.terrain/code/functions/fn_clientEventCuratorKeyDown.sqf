@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	28/02/2016 A3 1.56 by Quiksilver
+	1/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,24 +14,26 @@ Description:
 __________________________________________________*/
 
 _key = _this # 1;
+_shift = _this # 2;
 private _c = FALSE;
 player setVariable ['QS_client_afkTimeout',time,FALSE];
-if (_key isEqualTo 61) then {
-	if (_this # 2) then {
-		if (alive player) then {
-			if ((lifeState player) isNotEqualTo 'INCAPACITATED') then {
-				['Curator'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
-				_c = TRUE;
-			};
-		};
-	};
-};
-if (_key in [82,79,80,81,75,76,77,71,72,73]) then {
-	if (alive player) then {
-		if ((lifeState player) isNotEqualTo 'INCAPACITATED') then {
-			0 = [_key] call (missionNamespace getVariable 'QS_fnc_curatorFunctions');
+if ((lifeState player) in ['HEALTHY','INJURED']) then {
+	if (_shift) then {
+		// F3
+		if (_key isEqualTo 61) then {
+			[_key] call (missionNamespace getVariable 'QS_fnc_curatorFunctions');
 			_c = TRUE;
 		};
+		// F4
+		if (_key isEqualTo 62) then {
+			[_key] call (missionNamespace getVariable 'QS_fnc_curatorFunctions');
+			_c = TRUE;
+		};
+	};
+	// Numpad
+	if (_key in [82,79,80,81,75,76,77,71,72,73]) then {
+		[_key] call (missionNamespace getVariable 'QS_fnc_curatorFunctions');
+		_c = TRUE;
 	};
 };
 _c;

@@ -26,7 +26,7 @@ if (_type isEqualTo 'BRIEF') then {
 	if ((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0) then {
 		[objNull,_QS_AOpos] remoteExec ['QS_fnc_respawnOPFOR',[EAST,RESISTANCE],FALSE];
 	};
-	'QS_marker_aoMarker' setMarkerTextLocal (format ['%1Take %2',(toString [32,32,32]),_ao]);
+	'QS_marker_aoMarker' setMarkerTextLocal (format ['%1 %3 %2',(toString [32,32,32]),_ao,localize 'STR_QS_Marker_001']);
 	_targetStartText = parseText format [
 		"<t align='center' size='2.2'>New Target</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/>We did a good job with the last target, lads. I want to see the same again. Get yourselves over to %1 and take 'em all down!<br/><br/>Remember to take down that radio tower to stop the enemy from calling in CAS.",
 		_ao
@@ -34,7 +34,7 @@ if (_type isEqualTo 'BRIEF') then {
 	if (!(missionNamespace getVariable 'QS_mainao_firstRun')) then {
 		//['hint',_targetStartText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		['NewMain',[_ao]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		['NewSub',['Destroy radio tower']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['NewSub',[localize 'STR_QS_Notif_002']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	} else {
 		missionNamespace setVariable ['QS_mainao_firstRun',FALSE,FALSE];
 	};
@@ -80,9 +80,9 @@ if (_type isEqualTo 'BRIEF') then {
 			'QS_IA_TASK_AO_2',
 			TRUE,
 			[
-				'Seize the enemy headquarters to degrade enemy coordination. This objective is completed when the enemy commander dies. He is usually located in the immediate vicinity of the HQ. This objective is not a requirement in order to finish the mission, however may be useful.',
-				'Enemy HQ',
-				'Seize Enemy HQ'
+				(localize 'STR_QS_Task_000'),
+				(localize 'STR_QS_Task_001'),
+				(localize 'STR_QS_Task_002')
 			],
 			(markerPos 'QS_marker_hqMarker'),
 			'CREATED',
@@ -96,9 +96,9 @@ if (_type isEqualTo 'BRIEF') then {
 			'QS_IA_TASK_AO_1',
 			TRUE,
 			[
-				'Destroy the radio tower. Destroying the radio tower will degrade enemy communications and prevent them from calling in air support. This objective is not accurately marked. The radio tower is somewhere within the surrounding circle.',
-				'Destroy radiotower',
-				'Destroy radiotower'
+				(localize 'STR_QS_Task_003'),
+				(localize 'STR_QS_Task_004'),
+				(localize 'STR_QS_Task_004')
 			],
 			(markerPos 'QS_marker_radioMarker'),
 			'CREATED',
@@ -112,9 +112,9 @@ if (_type isEqualTo 'BRIEF') then {
 			'QS_IA_TASK_AO_0',
 			TRUE,
 			[
-				'Clear the marked area of resistance. Once there are under 10 enemies in this area and no more sub-objectives to do, this task will complete. You may have to conduct a number of patrols around the zone to finish them off.',
-				(format ['Take %1',_ao]),
-				(format ['Take %1',_ao])
+				(localize 'STR_QS_Task_005'),
+				(format ['%2 %1',_ao,localize 'STR_QS_Notif_123']),
+				(format ['%2 %1',_ao,localize 'STR_QS_Notif_123'])
 			],
 			_QS_AOpos,
 			'ASSIGNED',
@@ -128,8 +128,15 @@ if (_type isEqualTo 'BRIEF') then {
 };
 if (_type isEqualTo 'DEBRIEF') then {
 	['QS_IA_TASK_AO_0'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-	_targetCompleteText = parseText format ["<t align='center' size='2.2'>Target Taken</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/><t align='left'>Fantastic job taking %1, boys!<br/><br/>Enemies imprisoned: %2</t>",(_ao # 0),(missionNamespace getVariable 'QS_enemiesCaptured_AO')];
-	//['hint',_targetCompleteText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	_targetCompleteText = parseText format [
+		"<t align='center' size='2.2'>%3</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/><t align='left'>%4 %1, %5!<br/><br/>%6 %2</t>",
+		(_ao # 0),
+		(missionNamespace getVariable 'QS_enemiesCaptured_AO'),
+		localize 'STR_QS_Task_006',
+		localize 'STR_QS_Task_007',
+		localize 'STR_QS_Task_008',
+		localize 'STR_QS_Task_009'
+	];
 	missionNamespace setVariable ['QS_evacPosition_1',_QS_AOpos,TRUE];
 	{
 		_x setMarkerAlpha 0;

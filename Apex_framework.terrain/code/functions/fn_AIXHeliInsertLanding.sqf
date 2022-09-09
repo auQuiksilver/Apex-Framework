@@ -216,6 +216,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 					_unit = _x;
 					_unit enableAIFeature ['AUTOCOMBAT',FALSE];
 					{
+						_supportGroup forgetTarget _x;
 						_unit forgetTarget _x;
 					} forEach (_unit targets [TRUE]);
 				} forEach (units _supportGroup);

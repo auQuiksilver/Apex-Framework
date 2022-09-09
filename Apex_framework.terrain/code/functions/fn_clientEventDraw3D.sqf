@@ -26,7 +26,7 @@ if ((!((lifeState _player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 
 _cameraOn = cameraOn;
 if ('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
 	if ([0,_cameraOn] call (missionNamespace getVariable 'QS_fnc_gpsJammer')) then {
-		50 cutText ['GPS Offline','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_012','PLAIN DOWN',0.5];
 		openGPS FALSE;
 		openGPS FALSE;
 	};

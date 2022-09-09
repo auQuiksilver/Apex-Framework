@@ -24,9 +24,9 @@ private [
 	'_c4Messages','_researchTable','_dummyTypes','_dummyType','_objectTypes','_objectType'
 ];
 _c4Messages = [
-	"Chopper data secured. The charge has been set! 15 seconds until detonation.",
-	"Heli data secured. The explosives have been set! 15 seconds until detonation.",
-	"Chopper intel secured. The charge is planted! 15 seconds until detonation."
+	localize 'STR_QS_Chat_061',
+	localize 'STR_QS_Chat_062',
+	localize 'STR_QS_Chat_063'
 ];
 _c4Message = selectRandom _c4Messages;
 _chopperTypes = ["O_Heli_Attack_02_dynamicLoadout_black_F","O_Heli_Light_02_unarmed_F","B_Heli_Attack_01_dynamicLoadout_F","C_Heli_Light_01_civil_F","O_Heli_Transport_04_box_F"];
@@ -93,20 +93,18 @@ _enemiesArray = [QS_sideObj] call (missionNamespace getVariable 'QS_fnc_smEnemyE
 /*/-------------------- BRIEF/*/
 
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
-
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_041']);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Secure Chopper',(toString [32,32,32])]);
-
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'Secure the enemy helicopter! CSAT is experimenting with new radar-defeating technology. Get over there and steal the schematics. It will be located in a nearby building! Once secured, the helicopter will self-destruct, so be sure to clear the area. This objective is not accurately marked.',
-		'Secure Chopper',
-		'Secure Chopper'
+		localize 'STR_QS_Task_105',
+		localize 'STR_QS_Task_106',
+		localize 'STR_QS_Task_106'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -116,14 +114,9 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	'download',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-
-_briefing = parseText "<t align='center'><t size='2.2'>New Side Mission</t><br/><t size='1.5' color='#00B2EE'>Secure Enemy Chopper</t><br/>____________________<br/>OPFOR forces have been provided with a new prototype attack chopper and they're keeping it in a hangar somewhere on the island.<br/><br/>We've marked the suspected location on your map; head to the hangar, get the data and destroy the helicopter.</t>";
-//['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewSideMission',['Secure Enemy Chopper']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-
+['NewSideMission',[localize 'STR_QS_Notif_110']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 missionNamespace setVariable ['QS_sideMissionUp',TRUE,TRUE];
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
-
 
 for '_x' from 0 to 1 step 0 do {
 
@@ -131,7 +124,7 @@ for '_x' from 0 to 1 step 0 do {
 		
 		/*/-------------------- DE-BRIEFING/*/
 
-		['sideChat',[WEST,'HQ'],'Prototype intel lost, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_069'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
 			_x setMarkerPosLocal [-5000,-5000,0];
@@ -182,7 +175,7 @@ for '_x' from 0 to 1 step 0 do {
 		];
 		deleteVehicle _object;
 		uiSleep 14;											/*/ ghetto bomb timer/*/
-		'Bo_GBU12_LGB' createVehicle (getPos _dummy); 		/*/ default "Bo_Mk82"/*/
+		'Bo_GBU12_LGB' createVehicle (getPosATL _dummy); 		/*/ default "Bo_Mk82"/*/
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',
 			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),

@@ -67,6 +67,7 @@ if (_trait isEqualTo 'QS_trait_JTAC') then {
 };
 if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 	if (_traitValue) then {
+		missionNamespace setVariable ['QS_cas_JetsDLCEnabled',(601670 in (getDLCs 1)),2];
 		if (!(2 in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 			[1,2] call (missionNamespace getVariable 'QS_fnc_clientRadio');
 		};
@@ -76,15 +77,15 @@ if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 				if (!isNull _casLaptop) then {
 					player setVariable ['QS_cas_lastRequestTime',diag_tickTime,FALSE];
 					_QS_casLaptop_action = _casLaptop addAction [
-						'Spawn plane',
+						localize 'STR_QS_Interact_091',
 						{
 							if (diag_tickTime > (player getVariable ['QS_cas_lastRequestTime',(diag_tickTime - 1)])) then {
 								[74,player] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 								player setVariable ['QS_cas_lastRequestTime',(diag_tickTime + 10),FALSE];
 								player playAction 'PutDown';
-								50 cutText ['Requesting plane ...','PLAIN DOWN',0.25];
+								50 cutText [localize 'STR_QS_Text_224','PLAIN DOWN',0.25];
 							} else {
-								50 cutText ['Too soon since last request (10s cooldown) ...','PLAIN DOWN',0.25];
+								50 cutText [localize 'STR_QS_Text_225','PLAIN DOWN',0.25];
 							};
 						},
 						[],
@@ -97,7 +98,7 @@ if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 						FALSE,
 						''
 					];
-					_casLaptop setUserActionText [_QS_casLaptop_action,'Spawn plane',(format ["<t size='3'>%1</t>",'Spawn plane'])];
+					_casLaptop setUserActionText [_QS_casLaptop_action,localize 'STR_QS_Interact_091',(format ["<t size='3'>%1</t>",localize 'STR_QS_Interact_091'])];
 				};
 			};
 		};
@@ -105,15 +106,15 @@ if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 		if (!isNull _carrierLaptop) then {
 			player setVariable ['QS_cas_lastRequestTime',diag_tickTime,FALSE];
 			_QS_carrierLaptop_action = _carrierLaptop addAction [
-				'Spawn plane',
+				localize 'STR_QS_Interact_091',
 				{
 					if (diag_tickTime > (player getVariable ['QS_cas_lastRequestTime',(diag_tickTime - 1)])) then {
 						[74,player] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 						player setVariable ['QS_cas_lastRequestTime',(diag_tickTime + 10),FALSE];
 						player playAction 'PutDown';
-						50 cutText ['Requesting plane ...','PLAIN DOWN',0.25];
+						50 cutText [localize 'STR_QS_Text_224','PLAIN DOWN',0.25];
 					} else {
-						50 cutText ['Too soon since last request (10s cooldown) ...','PLAIN DOWN',0.25];
+						50 cutText [localize 'STR_QS_Text_225','PLAIN DOWN',0.25];
 					};
 				},
 				[],
@@ -126,7 +127,7 @@ if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 				FALSE,
 				''
 			];
-			_carrierLaptop setUserActionText [_QS_carrierLaptop_action,'Spawn plane',(format ["<t size='3'>%1</t>",'Spawn plane'])];
+			_carrierLaptop setUserActionText [_QS_carrierLaptop_action,localize 'STR_QS_Interact_091',(format ["<t size='3'>%1</t>",localize 'STR_QS_Interact_091'])];
 		};
 	} else {
 		if (!(_role in ['pilot','pilot_heli','pilot_plane','uav','pilot_cas','commander','jtac','pilot_heli_WL','jtac_WL'])) then {

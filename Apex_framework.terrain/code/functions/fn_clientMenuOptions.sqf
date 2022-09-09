@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/4/2022 A3 2.08 by Quiksilver
+	9/09/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -22,7 +22,7 @@ if (_type isEqualTo 'onLoad') then {
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 1) then {
 			ctrlEnable [1805,FALSE];
-			(_display displayCtrl 1805) ctrlSetTooltip 'Stamina forced ON in server configuration, sorry';
+			(_display displayCtrl 1805) ctrlSetTooltip (localize 'STR_QS_Menu_049');
 	};
 	(_display displayCtrl 1805) cbSetChecked (isStaminaEnabled player);
 	sliderSetRange [1807,0.1,1.1];
@@ -40,13 +40,13 @@ if (_type isEqualTo 'onLoad') then {
 		};
 	} else {
 		ctrlEnable [1810,FALSE];
-		(_display displayCtrl 1810) ctrlSetToolTip 'Third Person View disabled by server';
+		(_display displayCtrl 1810) ctrlSetToolTip (localize 'STR_QS_Menu_050');
 	};
 	(_display displayCtrl 1813) cbSetChecked (!isNil {player getVariable 'QS_HUD_3'});
 	(_display displayCtrl 1815) cbSetChecked (environmentEnabled # 0);
 	if ((player getUnitTrait 'uavhacker') || {(player getUnitTrait 'QS_trait_fighterPilot')} || {(player getUnitTrait 'QS_trait_pilot')} || {(player getUnitTrait 'QS_trait_CAS')} ||{(player getUnitTrait 'QS_trait_HQ')}) then {
 		ctrlEnable [1817,FALSE];
-		(_display displayCtrl 1817) ctrlSetTooltip 'Simulation Manager not available for pilots, uav operators and commanders';
+		(_display displayCtrl 1817) ctrlSetTooltip (localize 'STR_QS_Menu_051');
 	} else {
 		ctrlEnable [1817,TRUE];
 	};
@@ -62,7 +62,7 @@ if (_type isEqualTo 'onLoad') then {
 	if ((missionNamespace getVariable ['QS_missionConfig_hitMarker',1]) isEqualTo 0) then {
 		ctrlEnable [1825,FALSE];
 		(_display displayCtrl 1825) cbSetChecked FALSE;
-		(_display displayCtrl 1825) ctrlSetTooltip 'Hit Markers forced OFF in server configuration, sorry';
+		(_display displayCtrl 1825) ctrlSetTooltip (localize 'STR_QS_Menu_052');
 	} else {
 		(_display displayCtrl 1825) cbSetChecked (missionNamespace getVariable ['QS_HUD_toggleHitMarker',(missionProfileNamespace getVariable ['QS_HUD_toggleHitMarker',TRUE])]);
 	};
@@ -77,11 +77,11 @@ if (_type isEqualTo 'StaminaCheckbox') then {
 	_state = _this # 2;
 	if ((_this # 2) isEqualTo 1) then {
 		_state = TRUE;
-		50 cutText ['Stamina enabled','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_169','PLAIN DOWN',0.5];
 	};
 	if ((_this # 2) isEqualTo 0) then {
 		_state = FALSE;
-		50 cutText ['Stamina disabled','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_170','PLAIN DOWN',0.5];
 	};
 	if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 0) then {
 		player enableStamina _state;
@@ -98,16 +98,16 @@ if (_type isEqualTo '1PVCheckbox') then {
 	_state = _this # 2;
 	if ((_this # 2) isEqualTo 1) then {
 		_state = TRUE;
-		50 cutText ['1st Person View locked for 20 minutes or by reconnect','PLAIN DOWN',0.75];
+		50 cutText [localize 'STR_QS_Text_171','PLAIN DOWN',0.75];
 		if (isNil {player getVariable 'QS_1stPersonLock'}) then {
 			player setVariable ['QS_1stPersonLock',TRUE,FALSE];
 			[46,[player,5]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			['ScoreBonus',['1st Person','5']] call (missionNamespace getVariable 'QS_fnc_showNotification');
+			['ScoreBonus',[localize 'STR_QS_Notif_043','5']] call (missionNamespace getVariable 'QS_fnc_showNotification');
 		};
 	};
 	if ((_this # 2) isEqualTo 0) then {
 		_state = FALSE;
-		50 cutText ['Camera view unlocked','PLAIN DOWN',0.75];
+		50 cutText [localize 'STR_QS_Text_172','PLAIN DOWN',0.75];
 	};
 	if (_state) then {
 		ctrlEnable [1810,FALSE];
@@ -130,11 +130,11 @@ if (_type isEqualTo 'AmbientCheckbox') then {
 	if ((_this # 2) isEqualTo 1) then {
 		missionProfileNamespace setVariable ['QS_options_ambientLife',TRUE];
 		enableEnvironment [TRUE,TRUE];
-		50 cutText ['Ambient Life enabled','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_173','PLAIN DOWN',0.5];
 	} else {
 		missionProfileNamespace setVariable ['QS_options_ambientLife',FALSE];
 		enableEnvironment [FALSE,TRUE];
-		50 cutText ['Ambient Life disabled','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_174','PLAIN DOWN',0.5];
 	};
 	saveMissionProfileNamespace;
 };
@@ -156,13 +156,13 @@ if (_type isEqualTo 'DynSimCheckbox') then {
 		if (isNull (missionNamespace getVariable ['QS_dynSim_script',scriptNull])) then {
 			missionProfileNamespace setVariable ['QS_options_dynSim',TRUE];
 			missionNamespace setVariable ['QS_options_dynSim',TRUE,FALSE];
-			50 cutText ['Dynamic Simulation enabled','PLAIN DOWN',0.5];
+			50 cutText [localize 'STR_QS_Text_175','PLAIN DOWN',0.5];
 			missionNamespace setVariable ['QS_dynSim_script',(1 spawn (missionNamespace getVariable 'QS_fnc_clientSimulationManager')),FALSE];
 		};
 	} else {
 		missionProfileNamespace setVariable ['QS_options_dynSim',FALSE];
 		missionNamespace setVariable ['QS_options_dynSim',FALSE,FALSE];
-		50 cutText ['Dynamic Simulation disabled','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_176','PLAIN DOWN',0.5];
 	};
 	saveMissionProfileNamespace;
 };
@@ -172,12 +172,12 @@ if (_type isEqualTo 'Toggle3DGroupHex') then {
 		// Toggled on
 		missionNamespace setVariable ['QS_HUD_show3DHex',TRUE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_show3DHex',TRUE];
-		50 cutText ['3D Group Hexagons - ON','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_178','PLAIN DOWN',0.5];
 	} else {	
 		// Toggled off
 		missionNamespace setVariable ['QS_HUD_show3DHex',FALSE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_show3DHex',FALSE];
-		50 cutText ['3D Group Hexagons - OFF','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_177','PLAIN DOWN',0.5];
 	};
 	saveMissionProfileNamespace;
 };
@@ -187,12 +187,12 @@ if (_type isEqualTo 'ToggleSystemChatSpam') then {
 		// Toggled HIDDEN
 		missionNamespace setVariable ['QS_HUD_toggleChatSpam',TRUE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_toggleChatSpam',TRUE];
-		50 cutText ['Extended System Messages - Hidden','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_179','PLAIN DOWN',0.5];
 	} else {	
 		// Toggled SHOWN
 		missionNamespace setVariable ['QS_HUD_toggleChatSpam',FALSE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_toggleChatSpam',FALSE];
-		50 cutText ['Extended System Messages - Shown','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_180','PLAIN DOWN',0.5];
 	};
 	saveMissionProfileNamespace;
 };
@@ -201,11 +201,11 @@ if (_type isEqualTo 'ToggleSuppression') then {
 	if (_state isEqualTo 1) then {
 		missionNamespace setVariable ['QS_HUD_toggleSuppression',TRUE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_toggleSuppression',TRUE];
-		50 cutText ['Suppression Effects - ON','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_181','PLAIN DOWN',0.5];
 	} else {
 		missionNamespace setVariable ['QS_HUD_toggleSuppression',FALSE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_toggleSuppression',FALSE];
-		50 cutText ['Suppression Effects - OFF','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_182','PLAIN DOWN',0.5];
 	};
 	saveMissionProfileNamespace;
 };
@@ -214,11 +214,11 @@ if (_type isEqualTo 'ToggleHitMarker') then {
 	if (_state isEqualTo 1) then {
 		missionNamespace setVariable ['QS_HUD_toggleHitMarker',TRUE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_toggleHitMarker',TRUE];
-		50 cutText ['Hit Marker Audio Effects - ON','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_183','PLAIN DOWN',0.5];
 	} else {
 		missionNamespace setVariable ['QS_HUD_toggleHitMarker',FALSE,FALSE];
 		missionProfileNamespace setVariable ['QS_HUD_toggleHitMarker',FALSE];
-		50 cutText ['Hit Marker Audio Effects - OFF','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_184','PLAIN DOWN',0.5];
 	};
 	saveMissionProfileNamespace;
 };

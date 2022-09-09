@@ -338,7 +338,7 @@ if (
 									(_targetPosition inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)])
 								) then {
 									(missionNamespace getVariable ['QS_AI_cmdr_recentSuppPositions',[]]) pushBack [_targetPosition,serverTime + (60 + (random 300))];
-									(format ['Enemy commander has ordered a strike on %1',mapGridPosition _targetPosition]) remoteExec ['systemChat',-2];
+									(format ['%2 %1',mapGridPosition _targetPosition,localize 'STR_QS_Chat_078']) remoteExec ['systemChat',-2];
 									_supportGroup setVariable ['QS_AI_GRP_fireMission',[(_targetPosition getPos [random 50,random 360]),((magazines (vehicle _supportProvider)) # 0),(round (4 + (random 4))),(serverTime + 90)],QS_system_AI_owners];
 									_exit = TRUE;
 								};

@@ -397,12 +397,12 @@ _attachmentsThermal = [
 // special inventory items + head-mounted displays like NVG, including thermal
 _assignedItemsAll = [
 	'nvgogglesb_blk_f','nvgogglesb_grn_f','nvgogglesb_gry_f',
-	'','itemmap','itemcompass','itemwatch','itemradio','itemgps',
+	'','itemmap','itemcompass','itemwatch','itemradio','itemgps','chemicaldetector_01_watch_f',
 	'nvgoggles_tna_f','o_nvgoggles_ghex_f','o_nvgoggles_hex_f','o_nvgoggles_urb_f','o_nvgoggles_grn_f','nvgoggles_opfor','nvgoggles','nvgoggles_indep'
 ];
 // same as above but with no thermal
 _assignedItemsBasic = [
-	'','itemmap','itemcompass','itemwatch','itemradio','itemgps',
+	'','itemmap','itemcompass','itemwatch','itemradio','itemgps','chemicaldetector_01_watch_f',
 	'nvgoggles_tna_f','o_nvgoggles_ghex_f','o_nvgoggles_hex_f','o_nvgoggles_urb_f','o_nvgoggles_grn_f','nvgoggles_opfor','nvgoggles','nvgoggles_indep'
 ];
 // uav terminal

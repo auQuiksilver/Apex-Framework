@@ -63,7 +63,7 @@ private _hasUnloaded = FALSE;
 						if ((currentWeapon player) isNotEqualTo '') then {_exit = TRUE;};
 						if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_exit = TRUE;};
 						if (_exit) exitWith {
-							50 cutText ['Released','PLAIN DOWN',0.3];
+							50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 							detach _entity;
 							player forceWalk FALSE;
 							if (_entity call (missionNamespace getVariable 'QS_fnc_isBoundingBoxIntersected')) then {
@@ -72,7 +72,7 @@ private _hasUnloaded = FALSE;
 									_entity setVectorUp (surfaceNormal _position);
 									_entity setPos _position; /*/maybe setvehicleposition?/*/
 									_entity allowDamage FALSE;
-									50 cutText ['Released','PLAIN DOWN',0.3];
+									50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 								};
 							};
 						};
@@ -86,7 +86,7 @@ private _hasUnloaded = FALSE;
 						['setVelocity',_entity,[0,0,-1]] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
 					};
 				};
-				50 cutText [(format ['Carrying a(n) %1',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))])]),'PLAIN DOWN',0.3];
+				50 cutText [(format ['%2 %1',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))]),localize 'STR_QS_Text_091']),'PLAIN DOWN',0.3];
 			} else {
 				_position = (position player) findEmptyPosition [0,10,(typeOf _cargo)];
 				if (_position isNotEqualTo []) then {
@@ -121,9 +121,9 @@ private _hasUnloaded = FALSE;
 							drawIcon3D ['a3\ui_f\data\map\VehicleIcons\iconcrate_ca.paa',[1,1,1,1],(getPosVisual _object),0,0,0,'Cargo',1,0.1,'RobotoCondensed','right',TRUE];
 						}
 					];
-					50 cutText [(format ['Unloaded %1',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))])]),'PLAIN DOWN',0.3];
+					50 cutText [(format ['%2 %1',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))]),localize 'STR_QS_Text_165']),'PLAIN DOWN',0.3];
 				} else {
-					50 cutText ['No clear position to unload.','PLAIN DOWN',0.3];
+					50 cutText [localize 'STR_QS_Text_166','PLAIN DOWN',0.3];
 				};
 			};
 		};

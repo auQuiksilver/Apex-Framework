@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	11/10/2017 A3 1.76 by Quiksilver
+	4/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,12 +14,8 @@ Description:
 __________________________________________________/*/
 
 params ['_parent','_child'];
-private _c = FALSE;
-if (isClass (configFile >> 'CfgVehicles' >> (typeOf _parent) >> 'VehicleTransport' >> 'Carrier')) then {
-	if (vehicleCargoEnabled _parent) then {
-		if ((_parent canVehicleCargo _child) isEqualTo [TRUE,TRUE]) then {
-			_c = TRUE;
-		};
-	};
-};
-_c;
+(
+	(vehicleCargoEnabled _parent) &&
+	{((_parent canVehicleCargo _child) isEqualTo [TRUE,TRUE])} &&
+	{(isClass (configFile >> 'CfgVehicles' >> (typeOf _parent) >> 'VehicleTransport' >> 'Carrier'))}
+);

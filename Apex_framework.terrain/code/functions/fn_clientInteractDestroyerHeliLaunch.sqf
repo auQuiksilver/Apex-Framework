@@ -164,14 +164,14 @@ if (isDedicated) exitWith {
 };
 playSound 'Click';
 if (diag_tickTime < (missionNamespace getVariable ['QS_destroyerHeli_launchCooldown',-1])) exitWith {
-	50 cutText ['Busy','PLAIN DOWN',0.5];
+	50 cutText [localize 'STR_QS_Text_000','PLAIN DOWN',0.5];
 };
 missionNamespace setVariable ['QS_destroyerHeli_launchCooldown',diag_tickTime + 1,FALSE];
 if (missionNamespace getVariable ['QS_destroyer_heliLaunch',FALSE]) exitWith {
-	50 cutText ['Busy','PLAIN DOWN',0.5];
+	50 cutText [localize 'STR_QS_Text_000','PLAIN DOWN',0.5];
 };
 if ((QS_destroyer_hangarDoorPart animationPhase 'Door_Hangar_1_1_open') isNotEqualTo 1) exitWith {
-	50 cutText ['Obstruction detected','PLAIN DOWN',0.5];
+	50 cutText [localize 'STR_QS_Text_102','PLAIN DOWN',0.5];
 };
 private _enabled = !isNull (QS_destroyerObject getVariable ['QS_destroyer_hangarHeli',objNull]);
 if (!_enabled) then {
@@ -192,4 +192,4 @@ if (!_enabled) then {
 if (_enabled) exitWith {
 	[97] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
-50 cutText ['No suitable helicopter found','PLAIN DOWN',0.5];
+50 cutText [localize 'STR_QS_Text_103','PLAIN DOWN',0.5];

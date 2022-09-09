@@ -38,10 +38,10 @@ if ((count (ropes _vehicle)) isEqualTo _count) then {
 							missionProfileNamespace setVariable ['QS_client_profile_slingToken',((missionProfileNamespace getVariable ['QS_client_profile_slingToken',0]) + 1)];
 							saveMissionProfileNamespace;
 						};
-						_text = format ['Sling Loading a(n) %1. Use [Page Up] and [Page Down] to raise and lower the sling load. Alternate controls: [Ctrl] or [Alt] + %2. Custom controls: "Use Action 17" and "Use Action 18".',_displayName,(actionKeysNames ['HeliRopeAction',1])];
+						_text = format ['%3 %2 %1',localize 'STR_QS_Text_203',(actionKeysNames ['HeliRopeAction',1]),localize 'STR_QS_Text_202'];
 						50 cutText [_text,'PLAIN DOWN',1];
 					} else {
-						_text = format ['Sling Loading a(n) %1',_displayName];
+						_text = format ['%2 %1',_displayName,localize 'STR_QS_Text_201'];
 						50 cutText [_text,'PLAIN DOWN',0.5];					
 					};
 				};

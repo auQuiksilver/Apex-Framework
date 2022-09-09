@@ -18,7 +18,7 @@ if (_v isKindOf 'Heli_Transport_04_base_F') then {
 	if (((assignedVehicleRole _u1) # 0) in ['driver','Turret']) then {
 		if (!(_u1 getUnitTrait 'QS_trait_pilot')) then {
 			_v enableCopilot FALSE;
-			systemChat 'You are not a pilot';
+			systemChat (localize 'STR_QS_Chat_090');
 			moveOut _u1;
 		};
 	};

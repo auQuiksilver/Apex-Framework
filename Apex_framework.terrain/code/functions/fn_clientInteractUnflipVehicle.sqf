@@ -18,17 +18,17 @@ _t = cursorTarget;
 _engies = (getPosATL _t) nearEntities [['Man'],10];
 _v = vehicle player;
 if ((!(unitIsUav _t)) && (!(((crew _t) findIf {(alive _x)}) isEqualTo -1))) exitWith {
-	50 cutText ['Crew in vehicle, unflip failed!','PLAIN DOWN',0.5];
+	50 cutText [localize 'STR_QS_Text_160','PLAIN DOWN',0.5];
 };
 if (((count _engies) < 2) && {(!((toLowerANSI (typeOf _v)) in ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f']))}) then {
 	if ((getMass _t) >= 10000) then {
 		_canUnflip = FALSE;
-		50 cutText ['Need another person nearby to unflip this vehicle, or use a(n) CRV-6e Bobcat APC','PLAIN DOWN',1];
+		50 cutText [localize 'STR_QS_Text_161','PLAIN DOWN',1];
 	};
 };
 if (!alive _t) exitWith {};
 if (!(_canUnflip)) exitWith {};
-50 cutText ['Unflipping','PLAIN DOWN',0.3];
+50 cutText [localize 'STR_QS_Text_162','PLAIN DOWN',0.3];
 player allowDamage FALSE;
 if ((_t isKindOf 'LandVehicle') || {(_t isKindOf 'Reammobox_F')} || {(_t isKindOf 'StaticWeapon')}) then {
 	if (isNull (objectParent player)) then {

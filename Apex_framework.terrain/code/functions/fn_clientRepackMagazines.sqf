@@ -35,7 +35,7 @@ if (
 _vehicle = vehicle _unit;
 if ((isPlayer _unit) && (!isNull (objectParent _unit)) && (_unit in [(driver _vehicle),(gunner _vehicle),(commander _vehicle)])) exitWith {};
 if (_unit isEqualTo player) then {
-	50 cutText ['Repacking magazines','PLAIN DOWN',0.3];
+	50 cutText [localize 'STR_QS_Text_186','PLAIN DOWN',0.3];
 };
 _unit setVariable ['QS_unit_repackingMagazines',TRUE,FALSE];
 _canSuspend = canSuspend;
@@ -147,5 +147,5 @@ if (_canSuspend) then {
 	};
 };
 if (_unit isEqualTo player) then {
-	50 cutText ['Magazines repacked','PLAIN DOWN',0.2];
+	50 cutText [localize 'STR_QS_Text_187','PLAIN DOWN',0.2];
 };

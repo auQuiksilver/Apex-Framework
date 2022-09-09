@@ -142,7 +142,16 @@ if (_letter isEqualTo 'B') then {
 if (_letter isEqualTo 'C') then {
 	_title = 'Charlie';
 };
-_description = format ['Control %1 ( %2 ).<br/><br/>How to Capture:<br/><br/>Occupy the inner area to help capture and hold the zone.<br/><br/>Enemy within the outer area will slow down or even reverse your progress!<br/><br/>While it is necessary to hold the inner zone, it is also important to control and keep the enemy out of the larger zone.',_title,_letter];
+_description = format [
+	'%3 %1 ( %2 ).<br/><br/>%4<br/><br/>%5<br/><br/>%6<br/><br/>%7',
+	_title,
+	_letter,
+	localize 'STR_QS_Task_050',
+	localize 'STR_QS_Task_051',
+	localize 'STR_QS_Task_052',
+	localize 'STR_QS_Task_053',
+	localize 'STR_QS_Task_054'
+];
 _taskData pushBack ([
 	(format ['QS_virtualSectors_%1_task',(count (missionNamespace getVariable 'QS_virtualSectors_data'))]),
 	TRUE,

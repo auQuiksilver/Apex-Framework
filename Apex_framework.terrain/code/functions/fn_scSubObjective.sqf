@@ -77,7 +77,7 @@ if (_type isEqualTo 1) exitWith {
 						_position = [0,0,0];
 						for '_i' from 0 to 9 step 1 do {
 							_building = selectRandom _buildingList;
-							_position = getPos _building;
+							_position = getPosATL _building;
 							if (
 								((_position distance2D _hqPos) > 50) && 
 								(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,50,50,0,FALSE]) isEqualTo [])
@@ -250,7 +250,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker1 setMarkerShapeLocal 'ICON';
 			_marker1 setMarkerTypeLocal 'mil_dot';
 			_marker1 setMarkerColorLocal 'ColorOPFOR';
-			_marker1 setMarkerTextLocal (format ['%1Datalink',(toString [32,32,32])]);
+			_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_025']);
 			_marker1 setMarkerSizeLocal [0.5,0.5];
 			_marker1 setMarkerPosLocal _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') pushBack _marker1;
@@ -263,9 +263,14 @@ if (_type isEqualTo 1) exitWith {
 			_marker2 setMarkerSizeLocal [100,100];
 			_marker2 setMarkerPosLocal _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') pushBack _marker2;
-			_description = 'Locate and secure the enemy datalink.<br/><br/>The enemy datalink allows the enemy to more easily communicate and share information on our troop movements, strength and force disposition. With this data they can adapt and better counter our attacks.<br/><br/> This datalink also allows them to call in UAV recon support. Securing the datalink will deny the enemy these benefits.';
-			_title = 'Secure Datalink';
-			_tooltip = 'Datalink';
+			_description = format [
+				'%1<br/><br/>%2<br/><br/>%3',
+				localize 'STR_QS_Task_055',
+				localize 'STR_QS_Task_056',
+				localize 'STR_QS_Task_057'
+			];
+			_title = localize 'STR_QS_Task_058';
+			_tooltip = localize 'STR_QS_Task_059';
 			_icon = 'intel';
 			[
 				'QS_virtualSectors_sub_1_task',
@@ -387,7 +392,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker1 setMarkerShapeLocal 'ICON';
 			_marker1 setMarkerTypeLocal 'mil_dot';
 			_marker1 setMarkerColorLocal 'ColorOPFOR';
-			_marker1 setMarkerTextLocal (format ['%1Radio Tower',(toString [32,32,32])]);
+			_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_026']);
 			_marker1 setMarkerSizeLocal [0.5,0.5];
 			_marker1 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_2_markers') pushBack _marker1;
@@ -400,9 +405,14 @@ if (_type isEqualTo 1) exitWith {
 			_marker2 setMarkerSizeLocal [100,100];
 			_marker2 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_2_markers') pushBack _marker2;
-			_description = 'Destroy the enemy radio tower!<br/><br/>The enemy relies on radio communications to call in helicopter and armored vehicle reinforcements.<br/><br/>Destroying this target will greatly reduce the enemies ability to call in these force multipliers.';
-			_title = 'Destroy Radio Tower';
-			_tooltip = 'Radio Tower';
+			_description = format [
+				'%1<br/><br/>%2<br/><br/>%3',
+				localize 'STR_QS_Task_060',
+				localize 'STR_QS_Task_061',
+				localize 'STR_QS_Task_062'
+			];
+			_title = localize 'STR_QS_Task_063';
+			_tooltip = localize 'STR_QS_Task_064';
 			_icon = 'destroy';
 			[
 				'QS_virtualSectors_sub_2_task',
@@ -517,7 +527,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker1 setMarkerShapeLocal 'ICON';
 			_marker1 setMarkerTypeLocal 'mil_dot';
 			_marker1 setMarkerColorLocal 'ColorOPFOR';
-			_marker1 setMarkerTextLocal (format ['%1Supply Depot',(toString [32,32,32])]);
+			_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_023']);
 			_marker1 setMarkerSizeLocal [0.5,0.5];
 			_marker1 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_3_markers') pushBack _marker1;
@@ -531,9 +541,15 @@ if (_type isEqualTo 1) exitWith {
 			_marker2 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_3_markers') pushBack _marker2;
 			missionNamespace setVariable ['QS_virtualSectors_sd_position',_position,FALSE];
-			_description = 'Secure the enemy supply depot.<br/><br/>The enemy relies on this supply depot to distribute advanced gear to the enemy. This depot allows the enemy to equip with more Anti-Air, Anti-Tank and even call in the dreaded Viper units.<br/><br/>Securing this depot will greatly reduce the enemies ability to spawn AA teams, AT teams and Viper teams.<br/><br/>To secure the supply depot, simply use your Scroll Menu on the Taru pod located inside the fortifications.';
-			_title = 'Enemy Supply Depot';
-			_tooltip = 'Suppy Depot';
+			_description = format [
+				'%1<br/><br/>%2<br/><br/>%3<br/><br/>%4',
+				localize 'STR_QS_Task_065',
+				localize 'STR_QS_Task_066',
+				localize 'STR_QS_Task_067',
+				localize 'STR_QS_Task_068'
+			];
+			_title = localize 'STR_QS_Task_069';
+			_tooltip = localize 'STR_QS_Task_069';
 			_icon = 'rearm';
 			[
 				'QS_virtualSectors_sub_3_task',
@@ -565,7 +581,6 @@ if (_type isEqualTo 1) exitWith {
 			_position = ['RADIUS',_centerPos,(_centerRadius * 0.666),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if (((_position distance2D _basePosition) > 500) && ((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) && (!([_position,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))) exitWith {};
 		};
-		//_roughPos = [((_position # 0) - 140) + (random 280),((_position # 1) - 140) + (random 280),0];
 		_drawBlackCircle = FALSE;
 		_jammer = [1,'QS_ao_jammer_1',_position,QS_aoPos,QS_aoSize,TRUE,_drawBlackCircle] call (missionNamespace getVariable 'QS_fnc_gpsJammer');
 		if (alive _jammer) then {

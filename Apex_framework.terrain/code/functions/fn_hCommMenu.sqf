@@ -31,7 +31,7 @@ if (_type isEqualTo 1) then {
 		if ((!isDedicated) && (hasInterface)) then {
 			if (player isEqualTo (leader _group)) then {
 				playSound 'TacticalPing4';
-				50 cutText [(format ['[Commander] %1 requested a SITREP for %2',_profileName,_groupID]),'PLAIN DOWN',0.5,TRUE,FALSE];
+				50 cutText [(format ['%3 %2',_profileName,_groupID,localize 'STR_QS_Text_208']),'PLAIN DOWN',0.5,TRUE,FALSE];
 			};
 		};
 	};
@@ -61,7 +61,7 @@ if (_type isEqualTo 1) then {
 			};
 		};
 		if (isNull _vehicle) then {
-			50 cutText ['No suitable vehicle found for GET IN waypoint',0.5,TRUE,FALSE];
+			50 cutText [localize 'STR_QS_Text_209','PLAIN DOWN',0.5,TRUE,FALSE];
 		} else {
 			_waypoint waypointAttachVehicle _vehicle;
 		};

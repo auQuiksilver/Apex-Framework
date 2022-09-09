@@ -74,7 +74,7 @@ if (_type isEqualTo 'B5') exitWith {
 
 };
 if (_type isEqualTo 'B6') exitWith {
-	50 cutText ['Soon','PLAIN',0.25];
+	50 cutText [localize 'STR_QS_Text_111','PLAIN',0.25];
 };
 if (_type isEqualTo 'Back') exitWith {
 	closeDialog 2;

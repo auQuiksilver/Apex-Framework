@@ -46,7 +46,7 @@ if (
 private _buildingPositions = [_building,_building buildingPos -1] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions');
 _buildingPositionsCount = count _buildingPositions;
 private _leader = leader _grp;
-private _startPos = getPos _leader;
+private _startPos = getPosATL _leader;
 private _behaviour = behaviour _leader;
 _grp setBehaviour 'AWARE';
 _grp setFormation 'DIAMOND';
@@ -58,6 +58,7 @@ private _unit = objNull;
 {
 	_unit = _x;
 	{
+		_grp forgetTarget _x;
 		_unit forgetTarget _x;
 	} forEach (_unit targets [TRUE,0]);
 	{

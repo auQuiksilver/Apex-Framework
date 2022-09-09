@@ -34,7 +34,7 @@ if (_type isEqualTo 'GRID_MARKERS') exitWith {
 	_requiredCount = (15 + (round (_playersCount / 2))) min ((count _gridMarkers) - 3);
 	'QS_marker_grid_capState' setMarkerColor 'ColorOPFOR';
 	'QS_marker_grid_capState' setMarkerPos _centroidOffset;
-	'QS_marker_grid_capState' setMarkerText (format ['%1Grids converted: 0 / %2',(toString [32,32,32]),_requiredCount]);
+	'QS_marker_grid_capState' setMarkerText (format ['%1 %3 0 / %2',(toString [32,32,32]),_requiredCount,localize 'STR_QS_Marker_014']);
 	_objectiveCode = {
 		params ['_gridMarkers','_gridMarkersCount','_duration'];
 		private _c = 0;
@@ -44,8 +44,8 @@ if (_type isEqualTo 'GRID_MARKERS') exitWith {
 			_requiredCount = round (_requiredCount / 2);
 		};
 		_currentCount = {((markerColor _x) isEqualTo 'ColorGREEN')} count _gridMarkers;
-		if ( (markerText 'QS_marker_grid_capState') isNotEqualTo (format ['   Grids converted: %1 / %2',_currentCount,_requiredCount])) then {
-			'QS_marker_grid_capState' setMarkerText (format ['%1Grids converted: %2 / %3',(toString [32,32,32]),_currentCount,_requiredCount]);
+		if ( (markerText 'QS_marker_grid_capState') isNotEqualTo (format ['%4 %3 %1 / %2',_currentCount,_requiredCount,localize 'STR_QS_Marker_014',(toString [32,32,32])])) then {
+			'QS_marker_grid_capState' setMarkerText (format ['%1 %4 %2 / %3',(toString [32,32,32]),_currentCount,_requiredCount,localize 'STR_QS_Marker_014']);
 		};
 		if (_currentCount >= _requiredCount) then {
 			_c = 1;
@@ -53,7 +53,7 @@ if (_type isEqualTo 'GRID_MARKERS') exitWith {
 		_c;
 	};
 	_objectiveOnCompleted = {
-		['GRID_UPDATE',['Area Of Operations','Grid conversion complete!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['GRID_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_059']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		'QS_marker_grid_capState' setMarkerColor 'ColorGREEN';
 	};
 	_objectiveOnFailed = {
@@ -172,7 +172,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 	];
 	'QS_marker_grid_rspState' setMarkerColor 'ColorOPFOR';
 	'QS_marker_grid_rspState' setMarkerPos _centroidOffset;
-	'QS_marker_grid_rspState' setMarkerText (format ['%1Tunnels destroyed: 0 / %2',(toString [32,32,32]),(missionNamespace getVariable 'QS_grid_AIRspTotal')]);
+	'QS_marker_grid_rspState' setMarkerText (format ['%1 %3 0 / %2',(toString [32,32,32]),(missionNamespace getVariable 'QS_grid_AIRspTotal'),localize 'STR_QS_Marker_015']);
 	if (_entities isNotEqualTo []) then {
 		_objectiveIsRequired = 1;
 		_objectiveArguments = [
@@ -183,8 +183,8 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 			params ['_entities','_entitiesTotal'];
 			private _c = 0;
 			_aliveCount = {(alive _x)} count _entities;
-			if ((toLowerANSI (markerText 'QS_marker_grid_rspState')) isNotEqualTo (toLowerANSI (format ['   Tunnels destroyed: %1 / %2',((_entitiesTotal - _aliveCount) max 0),(missionNamespace getVariable 'QS_grid_AIRspTotal')]))) then {
-				'QS_marker_grid_rspState' setMarkerText (format ['%1Tunnels destroyed: %2 / %3',(toString [32,32,32]),(_entitiesTotal - _aliveCount),(missionNamespace getVariable 'QS_grid_AIRspTotal')]);
+			if ((toLower (markerText 'QS_marker_grid_rspState')) isNotEqualTo (toLower (format ['%4 %3 %1 / %2',((_entitiesTotal - _aliveCount) max 0),(missionNamespace getVariable 'QS_grid_AIRspTotal'),localize 'STR_QS_Marker_015',(toString [32,32,32])]))) then {
+				'QS_marker_grid_rspState' setMarkerText (format ['%1 %4 %2 / %3',(toString [32,32,32]),(_entitiesTotal - _aliveCount),(missionNamespace getVariable 'QS_grid_AIRspTotal'),localize 'STR_QS_Marker_015']);
 			};
 			if (_aliveCount isEqualTo 0) then {
 				_c = 1;
@@ -193,7 +193,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 		};
 		_objectiveOnCompleted = {
 			'QS_marker_grid_rspState' setMarkerColor 'ColorGREEN';
-			['GRID_IG_UPDATE',['Area of Operations','All enemy respawn tunnels destroyed']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['GRID_IG_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_060']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		};
 		_objectiveOnFailed = {};
 		_return = [
@@ -347,10 +347,10 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 				'Killed',
 				{
 					params ['_killed','_killer','_instigator','_usedEffects'];
-					['GRID_UPDATE',['Area Of Operations','Enemy commander killed']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['GRID_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_061']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 					if (!isNull _instigator) then {
 						if (isPlayer _instigator) then {
-							_text = format ['%1 (%2) killed the enemy commander',(name _instigator),(groupID (group _instigator))];
+							_text = format ['%1 (%2) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_019'];
 							_text remoteExec ['systemChat',-2,FALSE];
 						};
 					};
@@ -405,9 +405,9 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 				if ((!alive _igLeader) || {(_igLeader getVariable ['QS_isSurrendered',FALSE])}) then {
 					if (((_spawnPos nearEntities ['CAManBase',_radius]) select {(((side _x) in [EAST,RESISTANCE]) && ((lifeState _x) in ['HEALTHY','INJURED']))}) isEqualTo []) then {
 						if (((_spawnPos nearEntities ['CAManBase',_radius]) select {(((side _x) in [WEST]) && ((lifeState _x) in ['HEALTHY','INJURED']))}) isNotEqualTo []) then {
-							['GRID_UPDATE',['Area Of Operations','Enemy headquarters secured']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+							['GRID_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_062']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 							{
-								_x setMarkerPos (missionNamespace getVariable 'QS_grid_IGposition');
+								_x setMarkerPosLocal (missionNamespace getVariable 'QS_grid_IGposition');
 								_x setMarkerColor 'ColorWEST';
 							} forEach [
 								'QS_marker_grid_IGmkr',
@@ -606,9 +606,9 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 					0
 				];
 				{
-					_x setMarkerColor 'ColorOrange';
-					_x setMarkerPos _uncertaintyPos;
-					_x setMarkerText (format ['%1UXO Field',(toString [32,32,32])]);
+					_x setMarkerColorLocal 'ColorOrange';
+					_x setMarkerPosLocal _uncertaintyPos;
+					_x setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_012']);
 				} forEach [
 					'QS_marker_grid_IDAPmkr',
 					'QS_marker_grid_IDAPcircle'
@@ -629,10 +629,10 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 					_c;
 				};
 				_objectiveOnCompleted = {
-					['GRID_IDAP_UPDATE',['Area Of Operations','Unexploded Ordnance (UXO) cleared']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['GRID_IDAP_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_063']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 					{
-						_x setMarkerColor 'ColorGreen';
-						_x setMarkerText (format ['%1UXO Field (cleared)',(toString [32,32,32])]);
+						_x setMarkerColorLocal 'ColorGreen';
+						_x setMarkerText (format ['%1 %2 (%3)',(toString [32,32,32]),localize 'STR_QS_Marker_012',localize 'STR_QS_Marker_016']);
 					} forEach [
 						'QS_marker_grid_IDAPmkr',
 						'QS_marker_grid_IDAPcircle'
@@ -797,13 +797,12 @@ if (_type isEqualTo 'INTEL') exitWith {
 						
 						if (_j isEqualTo 0) then {
 							_mkr = createMarker [(format ['QS_marker_intel_%1',_buildingPosition]),[-1000,-1000,0]];
-							_mkr setMarkerText (toString [32,32,32]);
-							_mkr setMarkerAlpha 0;
-							_mkr setMarkerAlpha 0;		// yes twice
-							_mkr setMarkerShape 'ELLIPSE';
-							_mkr setMarkerBrush 'Border';
-							_mkr setMarkerSize [50,50];
-							_mkr setMarkerColor 'ColorOPFOR';
+							_mkr setMarkerTextLocal (toString [32,32,32]);
+							_mkr setMarkerAlphaLocal 0;
+							_mkr setMarkerShapeLocal 'ELLIPSE';
+							_mkr setMarkerBrushLocal 'Border';
+							_mkr setMarkerSizeLocal [50,50];
+							_mkr setMarkerColorLocal 'ColorOPFOR';
 							[_mkr,_intelPosition] spawn {
 								params ['_mkr','_intelPosition'];
 								uiSleep 0.5;

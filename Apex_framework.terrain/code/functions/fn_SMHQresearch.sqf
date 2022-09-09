@@ -24,11 +24,10 @@ private [
 	"_dummy","_SMveh","_SMaa","_c4Message","_vehPos",'_vehType','_vehTypes','_dummyTypes','_dummyType','_objectTypes','_objectType',
 	'_c4Messages','_c4Message','_researchTable','_veh'
 ];
-
 _c4Messages = [
-	"Hard drive secured. The charge has been set! 15 seconds until detonation.",
-	"Research secured. The explosives have been set! 15 seconds until detonation.",
-	"Research intel secured. The charge is planted! 15 seconds until detonation."
+	localize 'STR_QS_Chat_061',
+	localize 'STR_QS_Chat_062',
+	localize 'STR_QS_Chat_063'
 ];
 _c4Message = selectRandom _c4Messages;
 if (worldName isEqualTo 'Tanoa') then {
@@ -100,15 +99,15 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Seize Research Data',(toString [32,32,32])]);
+'QS_marker_sideMarker' setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_033']);
 
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'Seize the research data! The enemy is conducting weapons testing research, and has left one of their research stations under-protected. Get over there and download the intel! This objective is not accurately marked.',
-		'Seize Research Data',
-		'Seize Research Data'
+		localize 'STR_QS_Task_082',
+		localize 'STR_QS_Task_083',
+		localize 'STR_QS_Task_083'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -118,10 +117,7 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	'download',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-
-_briefing = parseText "<t align='center'><t size='2.2'>New Side Mission</t><br/><t size='1.5' color='#00B2EE'>Seize Research Data</t><br/>____________________<br/>OPFOR are conducting advanced military research.<br/><br/>Find the data and then torch the place!</t>";
-//['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewSideMission',['Seize Research Data']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewSideMission',[localize 'STR_QS_Notif_087']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 missionNamespace setVariable ['QS_sideMissionUp',TRUE,TRUE];
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
 	
@@ -133,7 +129,7 @@ for '_x' from 0 to 1 step 0 do {
 		
 		/*/-------------------- DE-BRIEFING/*/
 
-		['sideChat',[WEST,'HQ'],'Objective destroyed, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_060'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
 			_x setMarkerPosLocal [-5000,-5000,0];
@@ -186,7 +182,7 @@ for '_x' from 0 to 1 step 0 do {
 		detach _object;
 		deleteVehicle _object;
 		uiSleep 14;											/*/ ghetto bomb timer/*/
-		'Bo_Mk82' createVehicle (getPos _dummy); 				/*/default "Bo_Mk82"/*/
+		'Bo_Mk82' createVehicle (getPosATL _dummy); 				/*/default "Bo_Mk82"/*/
 		{
 			missionNamespace setVariable [
 				'QS_analytics_entities_deleted',

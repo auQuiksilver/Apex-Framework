@@ -88,13 +88,11 @@ if (_type isEqualTo 'INIT') exitWith {
 	_return;
 };
 if (_type isEqualTo 'REINFORCE') exitWith {
-	diag_log '***** DEBUG ***** AO REINFORCE ***** 1 *****';
 	params ['','_validData','_allPlayers'];
 	_usedData = selectRandom _validData;
 	_usedData params ['_building','_unit','_buildingPositions'];
 	_nearbyPlayers = _allPlayers inAreaArray [getPosATL _building,500,500,0,FALSE];
 	if (_nearbyPlayers isNotEqualTo []) then {
-		diag_log '***** DEBUG ***** AO REINFORCE ***** 2 *****';
 		_isPosVisible = {
 			params ['_position','_units','_tolerance','_returnType'];
 			scopeName 'main';
@@ -118,11 +116,9 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 			!([_x,_nearbyPlayers,0.5,TRUE] call _isPosVisible)
 		};
 	};
-	diag_log '***** DEBUG ***** AO REINFORCE ***** 3 *****';
 	private _buildingPosition = [0,0,0];
 	private _urbanUnits = [];
 	if (_buildingPositions isNotEqualTo []) then {
-		diag_log '***** DEBUG ***** AO REINFORCE ***** 4 *****';
 		_buildingPositions = _buildingPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		private _infTypes = [
 			[
@@ -156,7 +152,6 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 		private _newGrp = createGroup [EAST,TRUE];
 		_serverTime = serverTime;
 		private _i = 0;
-		diag_log '***** DEBUG ***** AO REINFORCE ***** 5 *****';
 		for '_i' from 0 to (((count _buildingPositions) - 1) min _maxGrpSize) step 1 do {
 			_buildingPosition = _buildingPositions deleteAt 0;
 			_newUnit = _newGrp createUnit [_groupComposition # _i,[worldSize,worldSize,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
@@ -171,12 +166,11 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 			_newUnit switchMove 'amovppnemstpsraswrfldnon';
 		};
 		// This section makes a few assumptions about available patrol positions
-		private _newPatrolRoute = ((missionNamespace getVariable 'QS_ao_urbanSpawn_bldgs') apply { ((getPos _x) vectorAdd [0,0,1]) }) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+		private _newPatrolRoute = ((missionNamespace getVariable 'QS_ao_urbanSpawn_bldgs') apply { ((getPosATL _x) vectorAdd [0,0,1]) }) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		_newPatrolRoute = _newPatrolRoute select [0,3];
 		_newPatrolRoute pushBack ((selectRandom (missionNamespace getVariable ['QS_registeredPositions',[]])) getPos [30 + (random 30),random 360]);
 		_newPatrolRoute pushBack ((missionNamespace getVariable 'QS_hqPos') getPos [random 50, random 360]);
 		_newPatrolRoute = _newPatrolRoute call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-		diag_log '***** DEBUG ***** AO REINFORCE ***** 6 *****';
 		[(units _newGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		_newGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_newPatrolRoute,_serverTime,-1],QS_system_AI_owners];
 		_newGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];

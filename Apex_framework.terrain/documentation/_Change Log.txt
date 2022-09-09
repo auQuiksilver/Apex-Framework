@@ -1,14 +1,24 @@
 Official Change Log
 
-1.3.1 (WIP - Changes in progress)
+1.3.1 (9/09/2022 A3 2.10)
 
+- [ADDED] Stringtable.xml (WIP)
+- [TWEAKED] Server Restart on-screen indicator now displays community logo/flag
+- [TWEAKED] Revive - System variables can be adjusted from description.ext.
+- [TWEAKED] Revive - First aid kit will only be consumed upon successful revive
+- [TWEAKED] Revive - Unconscious players Medikit (in backpack) can be used, if Medikit is required for revive.
 - [FIXED] Occasionally unable to Release when dragging soldiers.
 - [FIXED] CAS jet could blow up on spawn for players when using Transport Points -based CAS system.
 - [FIXED] Script error when adding Sniper to weekly whitelist
 - [FIXED] Removed debug variables that slipped into stable build. "QS_fnc_AIHandleUnit" , "QS_fnc_AIGroupEventEnemyDetected"
 - [FIXED] "QS_fnc_AIHandleGroup" Script error line 1079
 - [FIXED] "QS_fnc_AIHandleUnit" Too many units were attempting suppressive fire in combat (affects performance & FPS)
+- [FIXED] Enemy jets had duplicate missile countermeasure system.
 - [REMOVED] Some unused files in "code\functions"
+
+	Notes:
+	
+		- Stringtable.xml and language translations are work in progress and should be considered only an initial implementation.
 
 1.3.0 (27/08/2022 A3 2.10)
 

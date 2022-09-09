@@ -185,7 +185,7 @@ if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
 				_randomPos = [0,0,0];
 				for '_i' from 0 to 9 step 1 do {
 					_building = selectRandom _buildingList;
-					_randomPos = getPos _building;
+					_randomPos = getPosATL _building;
 					if (
 						((_randomPos distance2D _QS_HQpos) > 100) && 
 						((_registeredPositions inAreaArray [_randomPos,50,50,0,FALSE]) isEqualTo [])
@@ -369,7 +369,7 @@ if (_playerCount > 15) then {
 };
 private _overwatchGroup = grpNull;
 for '_x' from 0 to _grpCount step 1 do {
-	private _watchPos = selectRandom [(AGLToASL _centerPos),(AGLToASL _QS_HQpos),(AGLToASL (getPos (missionNamespace getVariable 'QS_radioTower')))];
+	private _watchPos = selectRandom [(ATLToASL _centerPos),(ATLToASL _QS_HQpos),(ATLToASL (getPosATL (missionNamespace getVariable 'QS_radioTower')))];
 	
 	for '_z' from 0 to 49 step 1 do {
 		_randomPos = [_watchPos,(_aoSize * 0.8),25,10,[[objNull,'VIEW'],(0.1 max (random 1))]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
@@ -522,9 +522,9 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning Snipers *****';
 diag_log '****************************************************';
 private _sniperGroup = grpNull;
-private _towerPos = getPos (missionNamespace getVariable 'QS_radioTower');
+private _towerPos = getPosATL (missionNamespace getVariable 'QS_radioTower');
 for '_x' from 0 to ([1,2] select (_playerCount > 30)) step 1 do {
-	private _watchPos = selectRandom [(AGLToASL _towerPos),(AGLToASL _QS_HQpos)];
+	private _watchPos = selectRandom [(ATLToASL _towerPos),(AGLToASL _QS_HQpos)];
 	_randomPos = [_watchPos,(_aoSize * 1.25),(_aoSize * 0.5),10,[[objNull,'VIEW'],0.75]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
 	_sniperGroup = [_randomPos,(random 360),EAST,'OI_SniperTeam_2',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 	_sniperGroup setCombatMode 'RED';
@@ -746,11 +746,11 @@ _commander setUnitLoadout (selectRandom _loadouts);
 				'QS_marker_hqMarker',
 				'QS_marker_hqCircle'
 			];
-			['CompletedSub',['CSAT Commander killed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['CompletedSub',[localize 'STR_QS_Notif_007']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			if (!isNull _killer) then {
 				if (isPlayer _killer) then {
 					_name = name _killer;
-					_text = format ['%1 has killed the CSAT Commander',_name];
+					_text = format ['%1 %2',_name,localize 'STR_QS_Chat_019'];
 					['sideChat',[WEST,'HQ'],_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				};
 			};

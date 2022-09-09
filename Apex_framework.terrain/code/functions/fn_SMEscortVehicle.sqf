@@ -320,7 +320,7 @@ _marker0 setMarkerShapeLocal 'Icon';
 _marker0 setMarkerTypeLocal 'mil_dot';
 _marker0 setMarkerColorLocal 'ColorGreen';
 _marker0 setMarkerAlphaLocal 1;
-_marker0 setMarkerTextLocal (format ['%1Side mission: Truck Destination',(toString [32,32,32])]);
+_marker0 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_028']);
 _marker0 setMarkerPos _destination;
 _distanceInFront_fixed = 250;
 _distanceInFront_random = 500;
@@ -343,9 +343,15 @@ _suppressTargets pushBack _suppressTarget;
 	'QS_IA_TASK_SM_ESCORT',
 	TRUE,
 	[
-		(format ['Get the vehicle to its destination near %1 (marked on map). It is strongly advised to stay on roads, and not to bring tanks or APCs, as this can disturb buried IEDs. It is suggested to keep moving even during contact, to prevent getting flanked and attacked by more heavily armed insurgents. Good luck, soldier!',_nearestVillage]),
-		'Side Mission: Escort truck',
-		'Side Mission: Escort truck'
+		(format [
+			'%2 %1 (%3). %4',
+			_nearestVillage,
+			localize 'STR_QS_Task_071',
+			localize 'STR_QS_Task_072',
+			localize 'STR_QS_Task_073'
+		]),
+		localize 'STR_QS_Task_070',
+		localize 'STR_QS_Task_070'
 	],
 	[_vehicle,TRUE],
 	'CREATED',
@@ -355,8 +361,8 @@ _suppressTargets pushBack _suppressTarget;
 	'Truck',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-['NewSideMission',['Escort truck']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-'QS_marker_sideMarker' setMarkerText (format ['%1Escort truck',(toString [32,32,32])]);
+['NewSideMission',[localize 'STR_QS_Notif_078']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+'QS_marker_sideMarker' setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_029']);
 waitUntil {
 	sleep 3;
 	(!alive _vehicle) ||
@@ -366,7 +372,7 @@ if (!alive _vehicle) exitWith {
 	//comment 'Mission fail';
 	deleteMarker _marker0;
 	['QS_IA_TASK_SM_ESCORT'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-	['TaskFailed',['','Truck destroyed!']] remoteExec [_fuctionNotification,-2,FALSE];
+	['TaskFailed',['',localize 'STR_QS_Notif_079']] remoteExec [_fuctionNotification,-2,FALSE];
 	sleep 5;
 	[0,_destination] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 };
@@ -386,7 +392,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((_vehiclePos distance2D _startPosition) > _safezone_radius) then {
 								_timeOffRoad = _timeOffRoad + 1;
 								if (_timeOffRoad > 7) then {
-									['sideChat',[WEST,'BLU'],'Side mission - The vehicle has struck a buried landmine!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+									['sideChat',[WEST,'BLU'],localize 'STR_QS_Chat_059'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									_hasHitLandmine = TRUE;
 								};
 							};
@@ -494,14 +500,11 @@ for '_x' from 0 to 1 step 0 do {
 				_ambushPos_candidates pushBack (getPosATL _randomRoadSegment);
 			};
 		};
-		//comment 'If position finding failed, exit';
 		if (_ambushPos_candidates isEqualTo []) exitWith {};
 		_ambushInProgress = TRUE;
 		_ambushPos = selectRandom _ambushPos_candidates;
 		_distanceToAmbush = _vehiclePos distance2D _ambushPos;
-		//comment 'Prepare force protection';
-		//_nearbyPlayers = [_vehiclePos,500,[WEST],allUnits,1] call (missionNamespace getVariable 'QS_fnc_serverDetector');
-		_nearbyPlayers = (units WEST) inAreaArray [_vehiclePos,500,500,0,FALSE,-1];
+		_nearbyPlayers = count ((units WEST) inAreaArray [_vehiclePos,500,500,0,FALSE,-1]);
 		_intensity = 1;
 		if (_nearbyPlayers > 0) then {
 			_intensity = 1;
@@ -887,13 +890,13 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (!alive _vehicle) exitWith {
 		//comment 'Mission fail';
-		['SM_TRUCK',['Side mission','Truck mission failed!<br/>Truck destroyed']] remoteExec [_fuctionNotification,-2,FALSE];
+		['SM_TRUCK',[localize 'STR_QS_Notif_081',format ['%1<br/>%2',localize 'STR_QS_Notif_080',localize 'STR_QS_Notif_079']]] remoteExec [_fuctionNotification,-2,FALSE];
 		sleep 5;
 		[0,_destination] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 	};
 	if ((_vehicle distance2D _destination) < 50) exitWith {
 		//comment 'Mission success';
-		['SM_TRUCK',['Side mission','Truck mission complete!<br/>Truck at destination']] remoteExec [_fuctionNotification,-2,FALSE];
+		['SM_TRUCK',[localize 'STR_QS_Notif_081',format ['%1<br/>%2',localize 'STR_QS_Notif_082',localize 'STR_QS_Notif_083']]] remoteExec [_fuctionNotification,-2,FALSE];
 		sleep 5;
 		[1,_destination] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 	};

@@ -43,5 +43,5 @@ _obj attachTo [player,[0.1,-1.1,0]];
 ];
 _obj allowDamage TRUE;
 _obj setCaptive FALSE;
-50 cutText ['Escorting','PLAIN DOWN',0.3];
+50 cutText [localize 'STR_QS_Text_106','PLAIN DOWN',0.3];
 TRUE;

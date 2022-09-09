@@ -18,7 +18,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	disableSerialization;
 	params ['','_display'];
 	_title = _display displayCtrl 1802;
-	_title ctrlSetText 'Comm-Link';
+	_title ctrlSetText (localize 'STR_QS_Menu_027');
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	
 	/*/======================= EDIT BELOW =======================/*/ 
@@ -52,9 +52,9 @@ if (_type isEqualTo 'onLoad') exitWith {
 	
 	
 	
-	(_display displayCtrl 1806) ctrlSetText 'Radio Management';
+	(_display displayCtrl 1806) ctrlSetText (localize 'STR_QS_Menu_028');
 	(_display displayCtrl 1806) ctrlEnable TRUE;
-	(_display displayCtrl 1807) ctrlSetText 'Group Management';
+	(_display displayCtrl 1807) ctrlSetText (localize 'STR_QS_Menu_029');
 	(_display displayCtrl 1807) ctrlEnable TRUE;
 	(_display displayCtrl 1808) ctrlEnable FALSE;
 	(_display displayCtrl 1810) ctrlEnable TRUE;
@@ -104,7 +104,7 @@ if (_type isEqualTo 'B4') exitWith {
 			(!dialog)
 		};
 		(findDisplay 46) createDisplay 'RscDisplayDynamicGroups';
-		50 cutText ['Use [Page Up] / [Page Down] to navigate the group list','PLAIN'];
+		50 cutText [localize 'STR_QS_Text_168','PLAIN'];
 	};
 };
 if (_type isEqualTo 'B5') exitWith {

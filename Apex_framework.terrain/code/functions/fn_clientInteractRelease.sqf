@@ -28,7 +28,7 @@ if ((attachedObjects player) isNotEqualTo []) then {
 					0 = ['switchMove',player,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 				};
 				if ((animationState _unit) in ['ainjppnemrunsnonwnondb_grab','ainjppnemrunsnonwnondb_still','acts_injuredlyingrifle02','ainjppnemstpsnonwnondnon']) then {
-					50 cutText ['Released','PLAIN DOWN',0.3];
+					50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 					_released = TRUE;
 					detach _unit;
 					player playAction 'released';
@@ -47,7 +47,7 @@ if ((attachedObjects player) isNotEqualTo []) then {
 						'ainjpfalmstpsnonwrfldnon_carried_up','ainjpfalmstpsnonwnondf_carried_dead','ainjpfalmstpsnonwnondnon_carried_up','ainjpfalmstpsnonwrfldnon_carried_still','ainjppnemstpsnonwnondnon',
 						'ainjpfalmstpsnonwnondnon_carried_still'
 					]) then {
-						50 cutText ['Released','PLAIN DOWN',0.3];
+						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 						_released = TRUE;
 						detach _unit;
 						_anim = ['AinjPfalMstpSnonWrflDnon_carried_down','AinjPfalMstpSnonWnonDnon_carried_down'] select ((primaryWeapon _unit) isEqualTo '');
@@ -58,7 +58,7 @@ if ((attachedObjects player) isNotEqualTo []) then {
 							player setVariable ['QS_RD_interacting',FALSE,TRUE];
 						};
 					} else {
-						50 cutText ['Released','PLAIN DOWN',0.3];
+						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 						_released = TRUE;
 						detach _unit;
 						if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
@@ -83,12 +83,12 @@ if ((attachedObjects player) isNotEqualTo []) then {
 							};
 							_unit setVariable ['QS_aoTask_medevac_unit',FALSE,TRUE];
 							[46,[player,3]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-							['ScoreBonus',['Medevac','3']] call (missionNamespace getVariable 'QS_fnc_showNotification');
+							['ScoreBonus',[localize 'STR_QS_Notif_034','3']] call (missionNamespace getVariable 'QS_fnc_showNotification');
 						};
 					};
 				};
 				if (_unit getVariable ['QS_RD_escorted',FALSE]) then {
-					50 cutText ['Released','PLAIN DOWN',0.3];
+					50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 					_released = TRUE;
 					detach _unit;
 					0 = ['switchMove',_unit,(_unit getVariable ['QS_RD_storedAnim',''])] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
@@ -102,7 +102,7 @@ if ((attachedObjects player) isNotEqualTo []) then {
 					};
 					if (_unit isNotEqualTo (missionNamespace getVariable 'QS_sideMission_POW')) then {
 						if ((player distance2D (missionNamespace getVariable ['QS_prisonPos',(markerPos 'QS_marker_gitmo')])) < 20) then {
-							50 cutText ['Imprisoned!','PLAIN DOWN',0.3];
+							50 cutText [localize 'STR_QS_Text_121','PLAIN DOWN',0.3];
 							_prisonPos = missionNamespace getVariable ['QS_prisonPos',[0,0,0]];
 							_unit setPos [((_prisonPos # 0) + 2 - (random 4)),((_prisonPos # 1) + 2 - (random 4)),0];
 							_unit forceAddUniform 'U_C_WorkerCoveralls';
@@ -112,7 +112,7 @@ if ((attachedObjects player) isNotEqualTo []) then {
 							} else {
 								['setDir',_unit,(random 360)] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
 							};
-							_text = format ['%1 has put a prisoner into Gitmo!',profileName];
+							_text = format ['%1 %2',profileName,localize 'STR_QS_Chat_092'];
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							_puid1 = getPlayerUID player;
 							_pname1 = profileName;
@@ -121,7 +121,7 @@ if ((attachedObjects player) isNotEqualTo []) then {
 							missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') + [_unit]),TRUE];
 							[92,_unit,EAST,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];							
 							[60,[['PRISONER',_puid1,_pname1,1],['PRISONER',_puid2,_pname2,1],[player,1]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-							['ScoreBonus',[(format ['%1 Corrections',worldName]),'1']] call (missionNamespace getVariable 'QS_fnc_showNotification');
+							['ScoreBonus',[(format ['%1 %2',worldName,localize 'STR_QS_Notif_040']),'1']] call (missionNamespace getVariable 'QS_fnc_showNotification');
 						};
 					};
 				};
@@ -165,9 +165,9 @@ if ((attachedObjects player) isNotEqualTo []) then {
 						if (!(_isDamageAllowed)) then {
 							_object allowDamage FALSE;
 						};
-						50 cutText ['Released','PLAIN DOWN',0.3];
+						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 					} else {
-						50 cutText ['Cannot release here (obstructions detected).','PLAIN DOWN',0.5];
+						50 cutText [localize 'STR_QS_Text_120','PLAIN DOWN',0.5];
 					};
 				};
 			};

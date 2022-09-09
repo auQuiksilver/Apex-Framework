@@ -33,7 +33,7 @@ if ((toLowerANSI _magazine) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32r
 if (_weapon isEqualTo 'Throw') then {
 	if ((_unit distance2D (markerPos 'QS_marker_base_marker')) < 500) then {
 		if (!(unitIsUav cameraOn)) then {
-			50 cutText ['Grenades disabled at base','PLAIN DOWN',0.333];
+			50 cutText [localize 'STR_QS_Text_013','PLAIN DOWN',0.333];
 			deleteVehicle _projectile;
 		};
 	} else {
@@ -41,13 +41,13 @@ if (_weapon isEqualTo 'Throw') then {
 			0 = [_projectile] spawn {
 				params ['_projectile'];
 				uiSleep 3.666;
-				private _playersNearby = ([(getPos _projectile),15,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) select {(_x isNotEqualTo player)};
+				private _playersNearby = ([(getPosATL _projectile),15,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) select {(_x isNotEqualTo player)};
 				if (_playersNearby isNotEqualTo []) then {
 					{
 						if ((([objNull,'GEOM'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0) || {(([objNull,'VIEW'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0)}) exitWith {
-							if ((player targets [TRUE,30,[],0,(getPos _projectile)]) isEqualTo []) then {
+							if ((player targets [TRUE,30,[],0,(getPosATL _projectile)]) isEqualTo []) then {
 								deleteVehicle _projectile;
-								50 cutText [(format ['Friendlies in lethal radius, %1 disarmed',(getText (configFile >> 'CfgAmmo' >> (typeOf _projectile) >> 'displayName'))]),'PLAIN DOWN',0.5];
+								50 cutText [(format ['%1 %2',(getText (configFile >> 'CfgAmmo' >> (typeOf _projectile) >> 'displayName')),localize 'STR_QS_Text_014']),'PLAIN DOWN',0.5];
 							};
 						};
 					} count _playersNearby;
@@ -122,7 +122,7 @@ if (_weapon isEqualTo 'Throw') then {
 		if ((getAllOwnedMines _unit) isNotEqualTo []) then {
 			if ((count (getAllOwnedMines _unit)) > 7) then {
 				deleteVehicle ((getAllOwnedMines _unit) # 0);
-				50 cutText ['Explosives limit ( 7 ) exceeded','PLAIN DOWN',0.5];
+				50 cutText [localize 'STR_QS_Text_015','PLAIN DOWN',0.5];
 			};
 		};
 	} else {
@@ -214,7 +214,7 @@ if (_weapon isEqualTo 'Throw') then {
 								waitUntil {
 									uiSleep 0.1;
 									if ((_this distance2D _missionPos) < 750) then {
-										50 cutText ['Firing into restricted area, shell disarmed','PLAIN DOWN',0.25];
+										50 cutText [localize 'STR_QS_Text_016','PLAIN DOWN',0.25];
 										deleteVehicle _this;
 									};
 									((isNull _this) || {((velocity _this) isEqualTo [0,0,0])})

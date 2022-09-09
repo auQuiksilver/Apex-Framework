@@ -23,27 +23,35 @@ __________________________________________________________/*/
 {
 	player createDiarySubject _x;
 } forEach [
-	['QS_diary_hotkeys','Key Bindings'],
-	['QS_diary_rules','Rules'],
-	['QS_diary_radio','Radio Channels'],
-	['QS_diary_roles','Roles'],
-	['QS_diary_mods','Mods'],
-	['QS_diary_teamspeak','Teamspeak'],
-	['QS_diary_leaderboards','Leaderboards'],
-	['QS_diary_gitmo','Gitmo'],
-	['QS_diary_fobs','FOBs'],
-	['QS_diary_revive','Revive'],
-	['QS_diary_inventory','Inventory']
+	['QS_diary_hotkeys',localize 'STR_QS_Diary_001'],
+	['QS_diary_rules',localize 'STR_QS_Diary_002'],
+	['QS_diary_radio',localize 'STR_QS_Diary_003'],
+	['QS_diary_roles',localize 'STR_QS_Diary_004'],
+	['QS_diary_mods',localize 'STR_QS_Diary_005'],
+	['QS_diary_teamspeak',localize 'STR_QS_Diary_006'],
+	['QS_diary_discord',localize 'STR_QS_Diary_007'],
+	['QS_diary_leaderboards',localize 'STR_QS_Diary_008'],
+	['QS_diary_gitmo',localize 'STR_QS_Diary_009'],
+	['QS_diary_fobs',localize 'STR_QS_Diary_010'],
+	['QS_diary_revive',localize 'STR_QS_Diary_011'],
+	['QS_diary_inventory',localize 'STR_QS_Diary_012']
 ];
 
 /*/========== Create Diary Records/*/
 
 if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'GRID') then {
-	_description = format ['After the war between NATO and CSAT ended in an uneasy truce, an opportunistic insurgency sponsored by surrounding nations crushed local militias and moved in to fill the power vacuum.<br/><br/>They have been destabilizing the region and threatening to pull NATO and CSAT back into open conflict on %1.<br/><br/>Moving around using an old wartime tunnel network, they have thus far thwarted low-cost attempts to destroy the insurgency with drone warfare.<br/><br/>In a last ditch effort, NATO has deployed boots on the ground to root out the determined enemy and bring peace to %1.',worldName];
+	_description = format [
+		'%2<br/><br/>%3 %1.<br/><br/>%4<br/><br/>%5 %1.',
+		worldName,
+		localize 'STR_QS_Diary_014',
+		localize 'STR_QS_Diary_015',
+		localize 'STR_QS_Diary_016',
+		localize 'STR_QS_Diary_017'
+	];
 	player createDiaryRecord [
 		'Diary',
 		[
-			(format ['%1 Campaign',worldName]),
+			(format ['%1 %2',worldName,localize 'STR_QS_Diary_013']),
 			_description
 		]
 	];
@@ -54,43 +62,43 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'GRI
 player createDiaryRecord [
 	'QS_diary_radio',
 	[
-		'General channel',
-		'Subscribe to the General channel for Voice communications.<br/><br/>Transmission of music and other non-voice sounds is not permitted on this channel.<br/><br/>Verbal abuse is, of course, not tolerated.'
+		localize 'STR_QS_Diary_018',
+		format ['%1<br/><br/>%2<br/><br/>',localize 'STR_QS_Diary_019',localize 'STR_QS_Diary_020',localize 'STR_QS_Diary_021']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_radio',
 	[
-		'Platoon channels',
-		'Join a Platoon channel (Alpha, Bravo or Charlie) for inter-squad communications.<br/><br/>You can only be subscribed to one Platoon channel at a time.'
+		localize 'STR_QS_Diary_022',
+		format ['%1<br/><br/>%2',localize 'STR_QS_Diary_023',localize 'STR_QS_Diary_024']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_radio',
 	[
-		'AO channels',
-		'If you are subscribed to these channels, you will automatically be added to these channels when within 2km of the Primary AO, and 1km of the Secondary AO (side mission). When you leave this area, you will no longer be able to receive or transmit on it.'
+		localize 'STR_QS_Diary_025',
+		localize 'STR_QS_Diary_026'
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_radio',
 	[
-		'Aircraft channel',
-		'Pilots and UAV Operator are active on this channel.<br/><br/>Currently only Pilots and UAV Operator can transmit voice on this channel.<br/><br/>If you are not Pilot or UAV Operator, you can still listen to this channel, if you are in the Air Traffic Control tower or the TOC (map marker at base).'
+		localize 'STR_QS_Diary_027',
+		format ['%1<br/><br/>%2<br/><br/>%3',localize 'STR_QS_Diary_028',localize 'STR_QS_Diary_029',localize 'STR_QS_Diary_030']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_radio',
 	[
-		'Side channel',
-		'Voice communication is disabled on Side channel<br/><br/>Use General channel to transmit voice to all players on the server.'
+		localize 'STR_QS_Diary_032',
+		format ['%1<br/><br/>%2',localize 'STR_QS_Diary_033',localize 'STR_QS_Diary_034']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_radio',
 	[
-		'Overview',
-		'Beta v0.9<br/><br/>A number of custom radio channels are available for use in-game.<br/><br/>To access: Press [Home] >> [Comm-Link] >> [Radio Management]<br/><br/>A Radio inventory item is required to transmit voice communications.<br/><br/>Transmission of music or other audio is only permitted over Group, Vehicle and Direct channels (when away from base).<br/><br/>Spamming and generally annoying other players using Voice communications can lead to administrative action.'
+		localize 'STR_QS_Diary_035',
+		format ['%1<br/><br/>%2<br/><br/>%3<br/><br/>%4<br/><br/>%5',localize 'STR_QS_Diary_036',localize 'STR_QS_Diary_037',localize 'STR_QS_Diary_038',localize 'STR_QS_Diary_039',localize 'STR_QS_Diary_040']
 	]
 ];
 
@@ -99,8 +107,8 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_inventory',
 	[
-		'Inventory Editing',
-		'Near the Crate Area and Inventory markers at base, you are able to easily customize the inventory of vehicles and ammo crates'
+		localize 'STR_QS_Diary_041',
+		localize 'STR_QS_Diary_042'
 	]
 ];
 
@@ -109,8 +117,8 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_revive',
 	[
-		'Medical Vehicles',
-		'Load incapacitated soldiers into a Medical vehicle (HEMTT Medical, Taru Medical Pod, etc) to revive them.<br/><br/>The vehicle must have sufficient Revive Tickets.<br/>Reviving a player consumes a Revive Ticket.<br/>Revive tickets can be replenished at the Base Service markers.<br/>Revive tickets correspond to number of cargo seats in the vehicle.'
+		localize 'STR_QS_Diary_043',
+		format ['%1<br/><br/>%2<br/>%3<br/>%4<br/>%5',localize 'STR_QS_Diary_044',localize 'STR_QS_Diary_045',localize 'STR_QS_Diary_046',localize 'STR_QS_Diary_047',localize 'STR_QS_Diary_048']
 	]
 ];
 
@@ -119,58 +127,49 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_fobs',
 	[
-		'General',
-		(format ['Forward Operating Bases are scattered around %1.<br/><br/>Some services are available from these FOBs, and they are also locations of interest to the enemy.',worldName])
+		localize 'STR_QS_Diary_049',
+		(format ['%2 %1.<br/><br/>%3',worldName,localize 'STR_QS_Diary_050',localize 'STR_QS_Diary_051'])
 	]
 ];
 
 player createDiaryRecord [
 	'QS_diary_fobs',
 	[
-		'Radar Services',
-		'When the FOB is active and held by your faction, enemy map data and radar data will be available<br/><br/>To interact with the FOBs, there is a laptop inside the main building.<br/><br/>When certain types of vehicles/crates are within a radius of the FOB, they can activate certain services.'
+		localize 'STR_QS_Diary_052',
+		format ['%1<br/><br/>%2<br/><br/>%3',localize 'STR_QS_Diary_053',localize 'STR_QS_Diary_054',localize 'STR_QS_Diary_055']
 	]
 ];
 
 player createDiaryRecord [
 	'QS_diary_fobs',
 	[
-		'Respawning',
-		'Respawning is available at FOBs if several conditions are met:<br/><br/>
-		- The FOB must be online and held by your faction<br/>
-		- You must enable your personal FOB respawn. This can be done at the FOB terminal located inside the FOB HQ building<br/>
-		- You are NOT a pilot<br/>
-		- The FOB has more than 0 Respawn Tickets<br/>
-		- You have not respawned there in the past 3 minutes'
+		localize 'STR_QS_Diary_056',
+		format ['%1<br/><br/>
+		- %2<br/>
+		- %3<br/>
+		- %4<br/>
+		- %5',localize 'STR_QS_Diary_057',localize 'STR_QS_Diary_058',localize 'STR_QS_Diary_059',localize 'STR_QS_Diary_060',localize 'STR_QS_Diary_061']
 	]
 ];
 
 player createDiaryRecord [
 	'QS_diary_fobs',
 	[
-		'Vehicle Services',
-		'Several vehicle services are available at the FOBs for Aircraft and Land Vehicles:<br/><br/>
-		- Respawn - Bring a HEMTT Mover or HEMTT Box truck to the FOB to activate Vehicle Respawn Services<br/>
-		- Repair - Bring a repair truck or crate to the FOB to activate Repair Services<br/>
-		- Fuel - Bring a fuel truck or crate to the FOB to bring Refueling Services online<br/>
-		- Ammo - Bring an Ammo truck or crate to the FOB to bring Ammo Services online<br/>
-		'
+		localize 'STR_QS_Diary_062',
+		format ['%1<br/><br/>
+		%2<br/>
+		%3<br/>
+		%4<br/>
+		%5<br/>
+		',localize 'STR_QS_Diary_063',localize 'STR_QS_Diary_064',localize 'STR_QS_Diary_065',localize 'STR_QS_Diary_066',localize 'STR_QS_Diary_067']
 	]
 ];
 
 player createDiaryRecord [
 	'QS_diary_fobs',
 	[
-		'Respawn Tickets',
-		'Bring Medical Vehicles and Crates to the FOB to replenish its Revive Tickets'
-	]
-];
-
-player createDiaryRecord [
-	'QS_diary_fobs',
-	[
-		'Ammo Crate',
-		'Load Crates at base with gear and Tow or Sling to the FOB to add that gear to the FOB Ammo Crate'
+		localize 'STR_QS_Diary_068',
+		localize 'STR_QS_Diary_069'
 	]
 ];
 
@@ -179,64 +178,71 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Vasily Zaytsev Memorial',
-		'Sniper accuracy.<br/><br/>Calculates hits and shots taken with a match-grade sniper rifle (Lynx and LRR).<br/><br/>Top 3 performers are added to a Sniper whitelist role at the end of the week, to last for the duration of the following week.'
+		localize 'STR_QS_Diary_074',
+		format ['%1<br/><br/>%2<br/><br/>%3',localize 'STR_QS_Diary_070',localize 'STR_QS_Diary_071',localize 'STR_QS_Diary_072']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Hot Shots',
-		'Track your accuracy!.<br/><br/>Calculates hits and shots taken with your primary weapon.<br/><br/>(Excludes: Launchers, pistols, vehicle weapons, and sniper rifles)'
+		localize 'STR_QS_Diary_073',
+		format ['%1<br/><br/>%2<br/><br/>%3',localize 'STR_QS_Diary_075',localize 'STR_QS_Diary_076',localize 'STR_QS_Diary_077']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Gitmo',
-		'Earn points by imprisoning enemies in "Gitmo".<br/><br/>Multipliers: n/a<br/><br/>Gitmo is marked on your map at base. See "Gitmo" diary tab for further details.'
+		localize 'STR_QS_Diary_078',
+		format ['%1<br/><br/>%2<br/><br/>Gitmo is marked on your map at base.',localize 'STR_QS_Diary_079',localize 'STR_QS_Diary_080',localize 'STR_QS_Diary_081']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Tower Rangers',
-		'Earn points as an infantryman by destroying the radiotower (pilots not eligible).<br/><br/>Multipliers: n/a'
+		localize 'STR_QS_Diary_082',
+		format ['%1<br/><br/>%2',localize 'STR_QS_Diary_083',localize 'STR_QS_Diary_080']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Gold Diggers',
-		'Earn points by collecting human trophies (gold teeth) from dead enemies (very rare).<br/><br/>Multipliers: n/a'
+		localize 'STR_QS_Diary_084',
+		format ['%1<br/><br/>%2',localize 'STR_QS_Diary_085',localize 'STR_QS_Diary_080']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Scalpers',
-		'Collect the Berets (hats) of enemy Commanders.<br/><br/>Multipliers: 1 for Black beret, 3 for Red beret'
+		localize 'STR_QS_Diary_086',
+		format ['%1<br/><br/>%2',localize 'STR_QS_Diary_087',localize 'STR_QS_Diary_088']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Revivalists',
-		'Earn points as a Medic by reviving fallen soldiers.<br/><br/>Multipliers: Stamina<br/><br/>Top 3 medics of the week (ending Sunday 23:59h) added to whitelisted medic slot for following week.'
+		localize 'STR_QS_Diary_089',
+		format ['%1<br/><br/>%2<br/><br/>%3',localize 'STR_QS_Diary_090',localize 'STR_QS_Diary_091',localize 'STR_QS_Diary_092']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'Transporters',
-		'Earn points as a Pilot by safely transporting soldiers to and from missions in helicopters.<br/><br/>Multipliers: Advanced Flight Model<br/><br/>Top 3 pilots of the week (ending Sunday 23:59h) added to whitelisted pilot slot for following week.<br/><br/>Sling loading is not currently supported.<br/>Vehicle cargo is not currently supported.'
+		localize 'STR_QS_Diary_093',
+		format ['%1<br/><br/>%2<br/><br/>%3<br/><br/>%4<br/>%5',localize 'STR_QS_Diary_094',localize 'STR_QS_Diary_095',localize 'STR_QS_Diary_096',localize 'STR_QS_Diary_097',localize 'STR_QS_Diary_098']
 	]
 ];
 player createDiaryRecord [
 	'QS_diary_leaderboards',
 	[
-		'General Info',
-		format ['<t size="2">Version 1.0</t><br/><br/>Leaderboards are reset each Monday at 00:01h.<br/><br/>To maintain performance and FPS, the leaderboards are not synchronized frequently, and only saved to database every 5-10 minutes. For this reason, points accumulated just prior to a server crash may not be saved (*sadface*).<br/><br/>Thanks for your patience, %1!',profileName]
+		localize 'STR_QS_Diary_035',
+		format [
+			'<t size="2">%2</t><br/><br/>%3<br/><br/>%4<br/><br/>%5, %1!',
+			profileName,
+			localize 'STR_QS_Diary_099',
+			localize 'STR_QS_Diary_100',
+			localize 'STR_QS_Diary_101',
+			localize 'STR_QS_Diary_102'
+		]
 	]
 ];
 
@@ -245,21 +251,39 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_hotkeys',
 	[
-		'Key Bindings',
+		localize 'STR_QS_Diary_103',
 		(format ['
-		<br/>Player Menu - [Home]
-		<br/>Earplugs - [End]
-		<br/>Holster Weapon - [4]
-		<br/>Magazine Repack - [L.Ctrl]+[%2]
-		<br/>Jump - [%5] while running
-		<br/>Group Manager - [%6]
-		<br/>Tasks - [%3]
-		<br/>Hints - [%4]
-		<br/>Gestures - [Ctrl]+[Numpad x]
-		<br/>Tactical Ping - %1
-		<br/>Open and close doors - [Space]
-		<br/>Raise and Lower sling ropes - [Page [Up/Down]]
-		',(actionKeysNames 'TacticalPing'),(actionKeysNames 'ReloadMagazine'),(actionKeysNames 'Diary'),(actionKeysNames 'Help'),(actionKeysNames 'GetOver'),(actionKeysNames 'Teamswitch')])
+		<br/>%7 - [Home]
+		<br/>%8 - [End]
+		<br/>%9 - [4]
+		<br/>%10 - [L.Ctrl]+[%2]
+		<br/>%11 - [%5] %12
+		<br/>%13 - [%6]
+		<br/>%14 - [%3]
+		<br/>%15 - [%4]
+		<br/>%16 - [Ctrl]+[Numpad x]
+		<br/>%17 - %1
+		<br/>%18 - [Page [Up/Down]]
+		',
+			(actionKeysNames 'TacticalPing'),
+			(actionKeysNames 'ReloadMagazine'),
+			(actionKeysNames 'Diary'),
+			(actionKeysNames 'Help'),
+			(actionKeysNames 'GetOver'),
+			(actionKeysNames 'Teamswitch'),
+			localize 'STR_QS_Diary_104',
+			localize 'STR_QS_Diary_105',
+			localize 'STR_QS_Diary_106',
+			localize 'STR_QS_Diary_107',
+			localize 'STR_QS_Diary_108',
+			localize 'STR_QS_Diary_109',
+			localize 'STR_QS_Diary_110',
+			localize 'STR_QS_Diary_111',
+			localize 'STR_QS_Diary_112',
+			localize 'STR_QS_Diary_113',
+			localize 'STR_QS_Diary_114',
+			localize 'STR_QS_Diary_115'
+		])
 	]
 ];
 
@@ -267,30 +291,39 @@ if ((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc
 	player createDiaryRecord [
 		'QS_diary_hotkeys',
 		[
-			'Staff Bindings',
-			'
-			<br/>Staff Menu Open - [Shift]+[F2]
-			<br/>Staff Menu Close - [Shift]+[F2]
-			<br/>Exit Spectate - [Shift]+[F2]
-			'
+			localize 'STR_QS_Diary_116',
+			format ['
+			<br/>%1 - [Shift]+[F2]
+			<br/>%2 - [Shift]+[F2]
+			',localize 'STR_QS_Diary_117',localize 'STR_QS_Diary_118']
 		]
 	];
 	if ((getPlayerUID player) in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 		player createDiaryRecord [
 			'QS_diary_hotkeys',
 			[
-				'Curator (Zeus) Bindings',
-				'
-				<br/>Sync Editable Objects - [Shift]+[F3]
-				<br/>(Selected Group) Garrison in Buildings - [Numpad 1]
-				<br/>(Selected Group) Patrol Area - [Numpad 2]
-				<br/>(Selected Group) Search Building - [Numpad 3]
-				<br/>(Selected Group) Stalk Target - [Numpad 4]
-				<br/>(Selected Group) Suppressive Fire - [Numpad 6]
-				<br/>(Selected Unit) Revive Player - [Numpad 7]
-				<br/>(All Players) View Directions - [Numpad 8]
-				<br/>(Selected Unit) Set unit Unconscious - [Numpad 9]
-				'
+				localize 'STR_QS_Diary_119',
+				format ['
+				<br/>%1 - [Shift]+[F3]
+				<br/>%2 - [Numpad 1]
+				<br/>%3 - [Numpad 2]
+				<br/>%4 - [Numpad 3]
+				<br/>%5 - [Numpad 4]
+				<br/>%6 - [Numpad 6]
+				<br/>%7 - [Numpad 7]
+				<br/>%8 - [Numpad 8]
+				<br/>%9 - [Numpad 9]
+				',
+				localize 'STR_QS_Diary_120',
+				localize 'STR_QS_Diary_121',
+				localize 'STR_QS_Diary_122',
+				localize 'STR_QS_Diary_123',
+				localize 'STR_QS_Diary_124',
+				localize 'STR_QS_Diary_125',
+				localize 'STR_QS_Diary_126',
+				localize 'STR_QS_Diary_127',
+				localize 'STR_QS_Diary_128'
+				]
 			]
 		];
 	};
@@ -334,7 +367,7 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_rules',
 	[
-		'General',
+		localize 'STR_QS_Diary_129',
 		(missionNamespace getVariable ['QS_missionConfig_splash_serverRules',''])
 	]
 ];
@@ -428,8 +461,13 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_gitmo',
 	[
-		'Enemy Capture',
-		'It is possible to capture enemies!<br/><br/>To capture an enemy soldier, you must get within 5m and aim at him. You may get a Command Surrender action on your scroll wheel. To receive full reward, bring the captive back to the Gitmo area at base. To incarcerate a prisoner into Gitmo, walk up to the Phone Booth with your prisoner, look at the Phone Booth, wait 3-5 seconds and Release your prisoner while looking at the phone booth.<br/><br/>Good hunting!'
+		localize 'STR_QS_Diary_130',
+		format [
+			'%1<br/><br/>%2<br/><br/>%3',
+			localize 'STR_QS_Diary_131',
+			localize 'STR_QS_Diary_132',
+			localize 'STR_QS_Diary_133'
+		]
 	]
 ];
 
@@ -438,12 +476,10 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_teamspeak',
 	[
-		'TS3 Server',
+		localize 'STR_QS_Diary_134',
 		format ['
-		<br/> Address: %1
-		<br/>
-		<br/> Visitors and guests welcome!
-		',(missionNamespace getVariable ['QS_missionConfig_commTS',''])]
+		<br/> %2 %1<br/><br/> %3
+		',(missionNamespace getVariable ['QS_missionConfig_commTS','']),localize 'STR_QS_Diary_135',localize 'STR_QS_Diary_136']
 	]
 ];
 
@@ -455,8 +491,8 @@ player createDiarySubject ['QS_diary_credits','Credits'];				// EULA relevant li
 player createDiaryRecord [
 	'QS_diary_credits',
 	[
-		'Community Editors',
-		'Your Name Here'
+		localize 'STR_QS_Diary_137',
+		localize 'STR_QS_Diary_138'
 	]
 ];
 
@@ -471,7 +507,7 @@ Servers which have made it difficult or impossible for players to access this li
 player createDiaryRecord [
 	'QS_diary_credits',
 	[
-		"Developer",
+		localize 'STR_QS_Diary_139',
 		"<br/><br/><font size='20'>Quiksilver</font><br/><br/>This framework is the product of many thousands of hours of doing battle in notepad++ over a number of years (2013-2017). We sincerely hope you enjoy your experience!<br/><br/>If you would like to show your appreciation but do not know how, you can<br/><br/><executeClose expression=""createDialog 'QS_RD_client_dialog_menu_hub';"">Donate to Quiksilver (Patreon)</executeClose><br/><br/>Stay safe out there, soldier!"
 	]
 ];

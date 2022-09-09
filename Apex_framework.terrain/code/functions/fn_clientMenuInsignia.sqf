@@ -51,10 +51,10 @@ if (_type isEqualTo 'Select') then {
 			player setVariable ['QS_ClientUnitInsignia2',_texture,FALSE];
 			missionProfileNamespace setVariable ['QS_ClientUnitInsignia2',_texture];
 			saveMissionProfileNamespace;
-			_text = format ['Insignia Set: %1',_displayName];
+			_text = format ['%2 %1',_displayName,localize 'STR_QS_Hints_053'];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],(serverTime + 10)];
 		} else {
-			_text = parseText format ['Supporter level required: %1<br/>Your supporter level: %2<br/>Insignia not set.',_supporterAccess,_supporterLevel];
+			_text = parseText format ['%3 %1<br/>%4 %2<br/>%5',_supporterAccess,_supporterLevel,localize 'STR_QS_Hints_054',localize 'STR_QS_Hints_055',localize 'STR_QS_Hints_056'];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],(serverTime + 10)];
 		};
 	};

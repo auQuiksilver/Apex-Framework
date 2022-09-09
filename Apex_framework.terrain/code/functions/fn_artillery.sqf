@@ -115,7 +115,7 @@ if (_type isEqualTo 0) exitWith {
 						{
 							_unit = _x;
 							if (alive _unit) then {
-								[[],{50 cutText ['The artillery has depleted its allowed shells, no more can be fired until the AO is completed!','PLAIN DOWN',1];}] remoteExec ['call',_unit,FALSE];
+								[[],{50 cutText [localize 'STR_QS_Text_026','PLAIN DOWN',1];}] remoteExec ['call',_unit,FALSE];
 							};
 							moveOut _unit;
 						} count (crew (missionNamespace getVariable 'QS_arty'));
@@ -141,7 +141,7 @@ if (_type isEqualTo 1) exitWith {
 			if (alive (missionNamespace getVariable 'QS_arty')) then {
 				['lock',(missionNamespace getVariable 'QS_arty'),FALSE] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 				_dn = getText (configFile >> 'CfgVehicles' >> (typeOf (missionNamespace getVariable 'QS_arty')) >> 'displayName');
-				['sideChat',[WEST,'HQ'],(format ['The %1 has been re-armed!',_dn])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				['sideChat',[WEST,'HQ'],(format ['%1 %2',_dn,localize 'STR_QS_Chat_024'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				if ((missionNamespace getVariable 'QS_arty') isKindOf 'B_MBT_01_arty_F') then {
 					[
 						[(missionNamespace getVariable 'QS_arty')],

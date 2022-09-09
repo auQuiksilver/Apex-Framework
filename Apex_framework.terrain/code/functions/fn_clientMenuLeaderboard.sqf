@@ -35,18 +35,18 @@ if (_type isEqualTo 'onLoad') exitWith {
 		[101,(['',getPlayerUID player] select (isNil {missionNamespace getVariable 'QS_leaderboards4'}))] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
-	(_display displayCtrl 1802) ctrlSetText 'Leaderboards';
+	(_display displayCtrl 1802) ctrlSetText (localize 'STR_QS_Menu_030');
 	(_display displayCtrl 1802) ctrlSetToolTip 'v1.0';
 	(_display displayCtrl 1803) ctrlSetText 'a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa';
-	(_display displayCtrl 1804) ctrlSetText 'Type';
-	(_display displayCtrl 1806) ctrlSetText 'Select';
-	(_display displayCtrl 1806) ctrlSetToolTip 'Refresh';
-	(_display displayCtrl 1807) ctrlSetText 'Back';
-	(_display displayCtrl 1809) ctrlSetText 'Rank';
-	(_display displayCtrl 1810) ctrlSetText 'Player';
-	(_display displayCtrl 1811) ctrlSetText 'Score';
-	(_display displayCtrl 1812) ctrlSetText 'Insignia';
-	(_display displayCtrl 1813) ctrlSetText 'Unsynced';
+	(_display displayCtrl 1804) ctrlSetText (localize 'STR_QS_Menu_031');
+	(_display displayCtrl 1806) ctrlSetText (localize 'STR_QS_Menu_032');
+	(_display displayCtrl 1806) ctrlSetToolTip (localize 'STR_QS_Menu_033');
+	(_display displayCtrl 1807) ctrlSetText (localize 'STR_QS_Menu_034');
+	(_display displayCtrl 1809) ctrlSetText (localize 'STR_QS_Menu_035');
+	(_display displayCtrl 1810) ctrlSetText (localize 'STR_QS_Menu_036');
+	(_display displayCtrl 1811) ctrlSetText (localize 'STR_QS_Menu_037');
+	(_display displayCtrl 1812) ctrlSetText (localize 'STR_QS_Menu_038');
+	(_display displayCtrl 1813) ctrlSetText (localize 'STR_QS_Menu_039');
 	private _displayName = '';
 	private _toolTip = '';
 	{
@@ -60,7 +60,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 		((diag_tickTime > _timeout) || (missionNamespace getVariable ['QS_LB_netSync',FALSE]))
 	};
 	if (missionNamespace getVariable ['QS_LB_netSync',FALSE]) then {
-		(_display displayCtrl 1813) ctrlSetText 'Synced';
+		(_display displayCtrl 1813) ctrlSetText (localize 'STR_QS_Menu_040');
 	};
 	missionNamespace setVariable ['QS_LB_netSync',FALSE,FALSE];
 };
@@ -79,7 +79,7 @@ if (_type isEqualTo 'B1') exitWith {
 			((diag_tickTime > _timeout) || (missionNamespace getVariable ['QS_LB_netSync',FALSE]))
 		};
 		if (missionNamespace getVariable ['QS_LB_netSync',FALSE]) then {
-			(_this displayCtrl 1813) ctrlSetText 'Synced';
+			(_this displayCtrl 1813) ctrlSetText (localize 'STR_QS_Menu_040');
 		};
 	};
 	uiSleep 0.25;
@@ -89,9 +89,9 @@ if (_type isEqualTo 'B1') exitWith {
 		private _leaderboardID = (_list # _index) # 0;
 		lnbClear 1808;
 		if (_leaderboardID in [0]) then {
-			(_display displayCtrl 1809) ctrlSetText 'Player';
-			(_display displayCtrl 1810) ctrlSetText 'Role';
-			(_display displayCtrl 1811) ctrlSetText 'Rating';
+			(_display displayCtrl 1809) ctrlSetText (localize 'STR_QS_Menu_036');
+			(_display displayCtrl 1810) ctrlSetText (localize 'STR_QS_Menu_041');
+			(_display displayCtrl 1811) ctrlSetText (localize 'STR_QS_Menu_042');
 			if ((count allPlayers) > 0) then {
 				lnbSetColumnsPos [1808,[(1 * (safezoneW * 0.03)),(4 * (safezoneW * 0.03)),(7 * (safezoneW * 0.03)),(10 * (safezoneW * 0.03))]];
 				{
@@ -113,10 +113,10 @@ if (_type isEqualTo 'B1') exitWith {
 				} forEach allPlayers;
 			};
 		} else {
-			(_display displayCtrl 1809) ctrlSetText 'Rank';
-			(_display displayCtrl 1810) ctrlSetText 'Player';
-			(_display displayCtrl 1811) ctrlSetText 'Score';
-			(_display displayCtrl 1812) ctrlSetText 'Insignia';
+			(_display displayCtrl 1809) ctrlSetText (localize 'STR_QS_Menu_035');
+			(_display displayCtrl 1810) ctrlSetText (localize 'STR_QS_Menu_036');
+			(_display displayCtrl 1811) ctrlSetText (localize 'STR_QS_Menu_037');
+			(_display displayCtrl 1812) ctrlSetText (localize 'STR_QS_Menu_038');
 			// Debug leaderboards
 			private _tempLBHash = + QS_leaderboards4;
 			if (QS_leaderboards3 isNotEqualTo []) then {

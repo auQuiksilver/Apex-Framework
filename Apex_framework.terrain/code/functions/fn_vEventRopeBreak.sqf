@@ -30,7 +30,7 @@ if (isNull (ropeAttachedTo _attachedObject)) then {
 				if (alive (driver _vehicle)) then {
 					if (isPlayer (driver _vehicle)) then {
 						if (isServer) then {
-							_text = format ['%1 reset for FOB resupply',(getText (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'displayName'))];
+							_text = format ['%1 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'displayName')),localize 'STR_QS_Chat_162'];
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
 						};
 					};

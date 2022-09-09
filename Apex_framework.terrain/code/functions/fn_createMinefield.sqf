@@ -12,7 +12,7 @@ Description:
 
 	Create a minefield
 	
-	_objects = [(getPos QS_radioTower),5,35,25,[],true,false] call QS_fnc_createMinefield;
+	_objects = [(getPosATL QS_radioTower),5,35,25,[],true,false] call QS_fnc_createMinefield;
 ____________________________________________________________________________/*/
 
 params ['_centerPos','_innerRadius','_outerRadius','_quantity','_types','_isMarked','_isBarriers'];

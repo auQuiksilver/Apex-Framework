@@ -13,5 +13,5 @@ Description:
 	Weapon Safety interaction
 _____________________________________________________________*/
 
-50 cutText ['Weapons safe on base','PLAIN',0.2];
+50 cutText [localize 'STR_QS_Text_167','PLAIN',0.2];
 TRUE;

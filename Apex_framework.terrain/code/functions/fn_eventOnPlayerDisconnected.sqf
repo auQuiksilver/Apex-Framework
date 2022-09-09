@@ -35,7 +35,7 @@ if (((_this # 1) select [0,2]) isEqualTo 'HC') then {
 		};
 	};
 	if (allPlayers isNotEqualTo []) then {
-		'A headless client has disconnected' remoteExec ['systemChat',-2,FALSE];
+		(format ['%1',localize 'STR_QS_Chat_111']) remoteExec ['systemChat',-2,FALSE];
 	};
 	diag_log (format ['Headless Client %1 ( %2 ) disconnected',(_this # 4),(_this # 1)]);
 };

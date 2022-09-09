@@ -31,7 +31,7 @@ if (_vehicle isKindOf 'LandVehicle') then {
 						if ((player getVariable 'QS_tto') > 0) then {
 							if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 1000) then {
 								[17,_vehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-								50 cutText ['Your vehicle was a threat to friendly soldiers and has been removed.','PLAIN'];
+								50 cutText [localize 'STR_QS_Text_199','PLAIN'];
 							};
 						};
 					};
@@ -52,7 +52,7 @@ if (_vehicle isKindOf 'LandVehicle') then {
 						if ((player getVariable 'QS_tto') > 0) then {
 							if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 1000) then {
 								deleteVehicle _vehicle;
-								50 cutText ['Your vehicle was a threat to friendly soldiers and has been removed.','PLAIN'];
+								50 cutText [localize 'STR_QS_Text_199','PLAIN'];
 							};
 						};
 					};

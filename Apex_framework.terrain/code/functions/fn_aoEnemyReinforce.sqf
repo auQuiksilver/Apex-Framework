@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/08/2022 A3 2.10 by Quiksilver
+	30/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -28,7 +28,8 @@ params ['_pos'];
 private _allPlayers = allPlayers;
 private _unitsEast = units EAST;
 private _QS_array = [];
-private _hqPos = (missionNamespace getVariable 'QS_HQpos');
+private _aoPos = _pos;
+private _hqPos = missionNamespace getVariable 'QS_HQpos';
 private _minDist = 300;
 private _maxDist = 800;
 private _fn_blacklist = {TRUE};
@@ -74,11 +75,9 @@ if (
 		(_validData isNotEqualTo [])
 	}
 ) then {
-	diag_log '***** DEBUG ***** AO REINFORCE ***** 0 *****';
 	_urbanUnits = ['REINFORCE',_validData,_allPlayers] call (missionNamespace getVariable 'QS_fnc_aoUrbanSpawn');
 };
 if (_urbanUnits isNotEqualTo []) exitWith {
-	diag_log '***** DEBUG ***** AO REINFORCE ***** 7 *****';
 	_QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';
 	{
 		_QS_array pushBack _x;
@@ -90,11 +89,6 @@ if (_urbanUnits isNotEqualTo []) exitWith {
 /*/================================================ HQ INSERT/*/
 
 private _spawnedAtHQ = FALSE;
-/*
-	- If commander alive
-	- If no players close
-	- If not too many enemies close (if >24 in HQ area then dont spawn here)
-*/
 private _hqUnits = [];
 _hqEnemies = _unitsEast inAreaArray [(missionNamespace getVariable 'QS_hqPos'),50,50,0,FALSE];
 if (
@@ -125,8 +119,8 @@ if (
 	{(({(alive _x)} count (missionNamespace getVariable ['QS_AI_insertHeli_helis',[]])) < (missionNamespace getVariable ['QS_AI_insertHeli_maxHelis',3]))} &&
 	{(diag_tickTime > ((missionNamespace getVariable ['QS_AI_insertHeli_lastEvent',-1]) + (missionNamespace getVariable ['QS_AI_insertHeli_cooldown',480])))} &&
 	{((missionNamespace getVariable ['QS_AI_insertHeli_spawnedAO',0]) < (missionNamespace getVariable ['QS_AI_insertHeli_maxAO',3]))} &&
-	{(([4,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2)} &&
-	{(([3,EAST,(missionNamespace getVariable 'QS_aoPos'),2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2)}
+	{(([4,EAST,_aoPos,2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2)} &&
+	{(([3,EAST,_aoPos,2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) < 2)}
 ) exitWith {
 	missionNamespace setVariable ['QS_AI_insertHeli_spawnedAO',((missionNamespace getVariable 'QS_AI_insertHeli_spawnedAO') + 1),FALSE];
 	missionNamespace setVariable ['QS_AI_insertHeli_lastEvent',diag_tickTime,FALSE];

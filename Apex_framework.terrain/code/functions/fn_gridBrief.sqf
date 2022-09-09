@@ -17,7 +17,7 @@ params ['_type','_usedObjectives','_gridMarkers'];
 if (_type isEqualTo 0) exitWith {
 	//comment 'Debrief';
 	['QS_TASK_GRID_0'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-	['GRID_BRIEF',['Area Of Operations','Objectives complete']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+	['GRID_BRIEF',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_057']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	{
 		_x setMarkerAlpha 0;
 	} forEach [
@@ -61,12 +61,12 @@ if (_type isEqualTo 1) exitWith {
 		((_centroid # 1) + 300),
 		(_centroid # 2)
 	];	
-	'QS_marker_grid_civState' setMarkerTextLocal (format ['%1No civilian casualties',(toString [32,32,32])]);
+	'QS_marker_grid_civState' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_011']);
 	'QS_marker_grid_civState' setMarkerColorLocal 'ColorCIVILIAN';
 	'QS_marker_grid_civState' setMarkerPosLocal _centroidOffset;
 	'QS_marker_grid_civState' setMarkerAlpha 0.75;
 	'QS_marker_grid_capState' setMarkerAlpha 0.75;
-	_text = 'Objectives<br/><br/>- (Optional) No civilian casualties.<br/>- (Required) Convert required number of grid squares to green.<br/>- (Required) Destroy enemy respawn tunnel entrances.<br/>';
+	_text = format ['%1<br/><br/>- %2<br/>- %3<br/>- %4<br/>',localize 'STR_QS_Task_032',localize 'STR_QS_Task_033',localize 'STR_QS_Task_034',localize 'STR_QS_Task_035'];
 	{
 		if (_x isEqualTo 'SITE_TUNNEL') then {
 			'QS_marker_grid_rspState' setMarkerAlpha 0.75;
@@ -74,24 +74,24 @@ if (_type isEqualTo 1) exitWith {
 		if (_x isEqualTo 'SITE_IG') then {
 			'QS_marker_grid_IGmkr' setMarkerAlpha 0.75;
 			'QS_marker_grid_IGcircle' setMarkerAlpha 0.75;
-			_text = _text + '- (Optional) Kill or capture the local enemy commander.<br/>';
-			_text = _text + '- (Optional) Capture and hold the enemy HQ.<br/>';
+			_text = _text + (format ['- %1<br/>',localize 'STR_QS_Task_036']);
+			_text = _text + (format ['- %1<br/>',localize 'STR_QS_Task_037']);
 		};
 		if (_x isEqualTo 'SITE_IDAP') then {
 			'QS_marker_grid_IDAPloc' setMarkerAlpha 0.75;
 			'QS_marker_grid_IDAPmkr' setMarkerAlpha 0.75;
 			'QS_marker_grid_IDAPcircle' setMarkerAlpha 0.75;
-			_text = _text + '- (Optional) Assist IDAP by clearing an Unexploded Ordnance (UXO) field.<br/>';
+			_text = _text + (format ['- %1<br/>',localize 'STR_QS_Task_038']);
 		};
 	} forEach _usedObjectives;
-	_text = _text + '<br/><br/>Search buildings and structures in the area for intel to locate the enemy respawn tunnel entrances.<br/><br/>Tunnel entrances look like small stone well covers, with a sewer grate inside.';
+	_text = _text + (format ['<br/><br/>%1<br/><br/>%2',localize 'STR_QS_Task_039',localize 'STR_QS_Task_040']);
 	[
 		'QS_TASK_GRID_0',
 		TRUE,
 		[
 			_text,
-			'Area of Operations',
-			'Area of Operations'
+			localize 'STR_QS_Notif_008',
+			localize 'STR_QS_Notif_008'
 		],
 		_centroid,
 		'CREATED',
@@ -101,7 +101,7 @@ if (_type isEqualTo 1) exitWith {
 		'X',
 		TRUE
 	] call (missionNamespace getVariable 'BIS_fnc_setTask');
-	['GRID_BRIEF',['Area Of Operations','Complete all objectives']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+	['GRID_BRIEF',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_058']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	// yes do it again, the marker network propagation can be ... unstable ...
 	{
 		_x setMarkerAlpha 0.75;

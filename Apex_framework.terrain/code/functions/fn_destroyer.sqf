@@ -423,7 +423,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 			} forEach _turretList;
 			_turretGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_destroyer_turrets',_turrets,TRUE];
-			'QS_marker_destroyer_1' setMarkerText (format ['%1 (Armed)',(markerText 'QS_marker_destroyer_1')]);
+			'QS_marker_destroyer_1' setMarkerText (format ['%1 (%2)',(markerText 'QS_marker_destroyer_1'),localize 'STR_QS_Marker_004']);
 		};
 	};
 };
@@ -568,7 +568,7 @@ if (_type isEqualTo 'RESPAWN_PLAYER') exitWith {
 						};
 					};
 				} else {
-					_result = ['Go to Destroyer ship','Destroyer','Go','Cancel',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
+					_result = [localize 'STR_QS_Menu_136',localize 'STR_QS_Menu_164',localize 'STR_QS_Menu_113',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
 					if (_result) then {
 						_positions = [
 							[1.6084,14.7378,7.26747],[1.61328,11.1191,7.26953],[-0.90918,13.2896,7.27783],[-1.10303,16.2041,7.27946],[-0.109375,18.124,7.27023],[1.21338,18.9902,7.26167],[1.10254,16.9429,7.27243]

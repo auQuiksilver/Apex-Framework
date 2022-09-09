@@ -17,75 +17,77 @@ _type = _this # 3;
 if (_type isEqualTo 1) exitWith {
 	private ['_text','_respawnEnabled','_respawnTickets','_vehicleRespawnEnabled','_vehicleRepairService','_vehicleAmmoService','_radarServices','_vehicleFuelService','_personalRespawn'];
 	_text = format [
-		'<t align="left" size="2">FOB %1<t/><br/><t align="left" size="1.5">Status</t><br/><t align="left" size="1">__________</t><br/>',
-		(missionNamespace getVariable 'QS_module_fob_displayName')
+		'<t align="left" size="2">%2 %1<t/><br/><t align="left" size="1.5">%3</t><br/><t align="left" size="1">__________</t><br/>',
+		(missionNamespace getVariable 'QS_module_fob_displayName'),
+		localize 'STR_QS_Hints_034',
+		localize 'STR_QS_Hints_035'
 	];
 	if ((missionNamespace getVariable 'QS_module_fob_side') isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
-		_radarServices = '<t size="1" align="left">Radar Services</t><t color="#008000" size="1" align="right">Online</t><br/>';
+		_radarServices = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_038',localize 'STR_QS_Hints_036'];
 	} else {
-		_radarServices = '<t size="1" align="left">Radar Services</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
+		_radarServices = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_038',localize 'STR_QS_Hints_037'];
 	};
 	_text = _text + _radarServices;
 	if (missionNamespace getVariable 'QS_module_fob_respawnEnabled') then {
-		_respawnEnabled = '<t size="1" align="left">Respawn</t><t color="#008000" size="1" align="right">Online</t><br/>';
+		_respawnEnabled = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_039',localize 'STR_QS_Hints_036'];
 	} else {
-		_respawnEnabled = '<t size="1" align="left">Respawn</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
+		_respawnEnabled = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_039',localize 'STR_QS_Hints_037'];
 	};
 	_text = _text + _respawnEnabled;
-	_text = _text + (format ['<t size="1" align="left">Respawn Tickets</t><t size="1" align="right">%1</t><br/>',(missionNamespace getVariable 'QS_module_fob_respawnTickets')]);
+	_text = _text + (format ['<t size="1" align="left">%2</t><t size="1" align="right">%1</t><br/>',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Hints_040']);
 	if (missionNamespace getVariable 'QS_module_fob_vehicleRespawnEnabled') then {
-		_vehicleRespawnEnabled = '<t size="1" align="left">Vehicle Services - Respawn</t><t color="#008000" size="1" align="right">Online</t><br/>';
+		_vehicleRespawnEnabled = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_041',localize 'STR_QS_Hints_036'];
 	} else {
-		_vehicleRespawnEnabled = '<t size="1" align="left">Vehicle Services - Respawn</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
+		_vehicleRespawnEnabled = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_041',localize 'STR_QS_Hints_037'];
 	};
 	_text = _text + _vehicleRespawnEnabled;
 	if (missionNamespace getVariable 'QS_module_fob_services_repair') then {
-		_vehicleRepairService = '<t size="1" align="left">Vehicle Services - Repair</t><t color="#008000" size="1" align="right">Online</t><br/>';
+		_vehicleRepairService = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_042',localize 'STR_QS_Hints_036'];
 	} else {
-		_vehicleRepairService = '<t size="1" align="left">Vehicle Services - Repair</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
+		_vehicleRepairService = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_042',localize 'STR_QS_Hints_037'];
 	};
 	_text = _text + _vehicleRepairService;
 	if (missionNamespace getVariable 'QS_module_fob_services_ammo') then {
-		_vehicleAmmoService = '<t size="1" align="left">Vehicle Services - Ammo</t><t color="#008000" size="1" align="right">Online</t><br/>';
+		_vehicleAmmoService = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_043',localize 'STR_QS_Hints_036'];
 	} else {
-		_vehicleAmmoService = '<t size="1" align="left">Vehicle Services - Ammo</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
+		_vehicleAmmoService = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_043',localize 'STR_QS_Hints_037'];
 	};
 	_text = _text + _vehicleAmmoService;
 	if (missionNamespace getVariable 'QS_module_fob_services_fuel') then {
-		_vehicleFuelService = '<t size="1" align="left">Vehicle Services - Fuel</t><t color="#008000" size="1" align="right">Online</t><br/>';
+		_vehicleFuelService = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_044',localize 'STR_QS_Hints_036'];
 	} else {
-		_vehicleFuelService = '<t size="1" align="left">Vehicle Services - Fuel</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
+		_vehicleFuelService = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_044',localize 'STR_QS_Hints_037'];
 	};
 	_text = _text + _vehicleFuelService;
+	/*/
 	if (player getVariable ['QS_module_fob_client_respawnEnabled',TRUE]) then {
-		_personalRespawn = '<br/><t size="1" align="left">Personal FOB Respawn Beacon</t><t color="#008000" size="1" align="right">Online</t><br/>';
+		_personalRespawn = format ['<br/><t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_045',localize 'STR_QS_Hints_036'];
 	} else {
-		_personalRespawn = '<br/><t size="1" align="left">Personal FOB Respawn Beacon</t><t color="#ff0000" size="1" align="right">Offline</t><br/>';
+		_personalRespawn = format ['<br/><t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_045',localize 'STR_QS_Hints_036'];
 	};
 	_text = _text + _personalRespawn;
+	/*/
 	playSound ['AddItemOK',FALSE];
-	//_text = parseText _text;
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,15,-1,_text,[],-1,TRUE,'',TRUE];
 	player selectDiarySubject 'fobs';
 };
 if (_type isEqualTo 2) exitWith {
-	//if (([(getPosATL player),100,([player] call (missionNamespace getVariable 'QS_fnc_enemySides')),allUnits,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo 0) then {
 	if (((((units EAST) + (units RESISTANCE)) inAreaArray [(getPosATL player),100,100,0,FALSE,-1])) isEqualTo []) then {
 		playSound ['AddItemOK',FALSE];
 		[50,[(player getVariable ['QS_unit_side',WEST]),profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	} else {
-		50 cutText ['Enemies are within 100m of you, FOB activation failed!','PLAIN DOWN',1];
+		50 cutText [localize 'STR_QS_Text_108','PLAIN DOWN',1];
 	};
 };
 if (_type isEqualTo 3) exitWith {
 	if ((player getUnitTrait 'uavhacker') || (player getUnitTrait 'QS_trait_pilot') || (player getUnitTrait 'QS_trait_fighterPilot')) then {
-		50 cutText ['Pilots cannot respawn at the FOB!','PLAIN'];
+		50 cutText [localize 'STR_QS_Text_109','PLAIN'];
 	} else {
-		50 cutText ['Personal Respawn Beacon activated','PLAIN'];
+		50 cutText [localize 'STR_QS_Text_110','PLAIN'];
 		playSound ['AddItemOK',FALSE];
 		player setVariable ['QS_module_fob_client_respawnEnabled',TRUE,FALSE];	
 	};
 };
 if (_type isEqualTo 4) exitWith {
-	50 cutText ['Soon','PLAIN'];
+	50 cutText [localize 'STR_QS_Text_111','PLAIN'];
 };

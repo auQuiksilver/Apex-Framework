@@ -94,14 +94,13 @@ __________________________________________________________________________/*/
 				if ((missionNamespace getVariable 'QS_enemy_artyFireMessage') > (diag_tickTime - 300)) exitWith {};
 				missionNamespace setVariable ['QS_enemy_artyFireMessage',diag_tickTime,FALSE];
 				_firingMessages = [
-					"Thermal scans are picking up those enemy Artillery firing! Heads down!",
-					"Enemy Artillery rounds incoming! Advise you seek cover immediately.",
-					"OPFOR Artillery rounds incoming! Seek cover immediately!",
-					"The Artillery team's firing, boys! Down on the ground!",
-					"Get that damned Artillery team down; they're firing right now! Seek cover!",
-					"They're zeroing in! Incoming Artillery fire; heads down!"
+					localize 'STR_QS_Chat_001',
+					localize 'STR_QS_Chat_002',
+					localize 'STR_QS_Chat_003',
+					localize 'STR_QS_Chat_004',
+					localize 'STR_QS_Chat_005',
+					localize 'STR_QS_Chat_006'
 				];
-				
 				['sideChat',[WEST,'HQ'],(selectRandom _firingMessages)] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			}
 		];
@@ -169,14 +168,13 @@ __________________________________________________________________________/*/
 				if ((missionNamespace getVariable 'QS_enemy_artyFireMessage') > (diag_tickTime - 300)) exitWith {};
 				missionNamespace setVariable ['QS_enemy_artyFireMessage',diag_tickTime,FALSE];
 				_firingMessages = [
-					"Thermal scans are picking up those enemy Artillery firing! Heads down!",
-					"Enemy Artillery rounds incoming! Advise you seek cover immediately.",
-					"OPFOR Artillery rounds incoming! Seek cover immediately!",
-					"The Artillery team's firing, boys! Down on the ground!",
-					"Get that damned Artillery team down; they're firing right now! Seek cover!",
-					"They're zeroing in! Incoming Artillery fire; heads down!"
+					localize 'STR_QS_Chat_001',
+					localize 'STR_QS_Chat_002',
+					localize 'STR_QS_Chat_003',
+					localize 'STR_QS_Chat_004',
+					localize 'STR_QS_Chat_005',
+					localize 'STR_QS_Chat_006'
 				];
-				
 				['sideChat',[WEST,'HQ'],(selectRandom _firingMessages)] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			}
 		];

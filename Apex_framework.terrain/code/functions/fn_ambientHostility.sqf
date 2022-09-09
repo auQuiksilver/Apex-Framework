@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/08/2022 A3 2.10 by Quiksilver
+	30/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -26,8 +26,8 @@ if (_type isEqualTo 0) exitWith {
 	_blacklistedPositions = [
 		[_basePosition,1000],
 		[_fobPosition,150],
-		[_aoPosition,600],
-		[_smPosition,300],
+		[_aoPosition,1000],
+		[_smPosition,500],
 		[(markerPos 'QS_marker_Almyra_blacklist_area'),400]
 	];
 	_knowsAbout = EAST knowsAbout _targetVehicle;
@@ -44,14 +44,14 @@ if (_type isEqualTo 0) exitWith {
 		};
 	};
 	_fn_isStealthy = missionNamespace getVariable 'QS_fnc_getVehicleStealth';
-	if (_isVehicle) then {
-		if (_threat in [3,4]) then {
-			if ([_targetVehicle] call _fn_isStealthy) then {
-				if (_knowsAbout < 4) then {
-					_knowsAbout = 1;
-				};
-			};
-		};
+	
+	if (
+		(_isVehicle) &&
+		{(_threat in [3,4])} &&
+		{(_knowsAbout < 4)} &&
+		{([_targetVehicle] call _fn_isStealthy)}
+	) then {
+		_knowsAbout = 1;
 	};
 	_unitTypes = [
 		'O_G_Soldier_A_F',1,
@@ -105,8 +105,8 @@ if (_type isEqualTo 0) exitWith {
 			(((_spawnPosition distance2D _targetPosition) > _minDist) && ((_spawnPosition distance2D _targetPosition) < _maxDist)) &&
 			{((_players inAreaArray [_spawnPosition,300,300,0,FALSE]) isEqualTo [])} &&
 			{(!([_spawnPosition,_targetPosition,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} &&
-			{(([(AGLToASL _spawnPosition),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1)} &&
-			{((_blacklistedPositions findIf {((_spawnPosition distance2D (_x # 0)) < (_x # 1))}) isEqualTo -1)}
+			{((_blacklistedPositions findIf {((_targetPosition distance2D (_x # 0)) < (_x # 1))}) isEqualTo -1)} &&
+			{(([(AGLToASL _spawnPosition),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1)}
 		) exitWith {_positionFound = TRUE;};
 	};
 	if (!(_positionFound)) exitWith {_return};
@@ -202,7 +202,6 @@ if (_type isEqualTo 0) exitWith {
 				{
 					_x reveal [_targetVehicle,_knowsAbout];
 				} forEach (units _grp);
-				//_grp setFormDir (_vehicle getDir _targetPosition);
 				_grp setFormDir ((leader _grp) getDir _targetPosition);
 				_grp move (_targetPosition getPos [(random 50),(random 360)]);
 			};

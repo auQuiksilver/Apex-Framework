@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/08/2022 A3 2.10 by Quiksilver
+	4/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,7 @@ params ['_module','_object'];
 _type = typeOf _object;
 _typeL = toLowerANSI _type;
 if ((missionNamespace getVariable ['QS_server_fps',100]) < 15) then {
-	50 cutText [format ["<t color='#ff0000' size='2'>SERVER FPS: %1</t>",missionNamespace getVariable ['QS_server_fps',100]],'PLAIN DOWN',0.25,TRUE,TRUE];
+	50 cutText [format ["%2 %1",missionNamespace getVariable ['QS_server_fps',100],localize 'STR_QS_Text_006'],'PLAIN DOWN',0.25,TRUE,TRUE];
 };
 if (_object isKindOf 'Man') exitWith {
 	_side = side (group _object);
@@ -36,6 +36,9 @@ if (_object isKindOf 'Man') exitWith {
 				_module setVariable ['QS_zeusMission_execCooldown',diag_tickTime + 3,FALSE];
 				['CAPTURE_MAN',_object] call (missionNamespace getVariable 'QS_fnc_zeusMission');
 			};
+			for '_i' from 0 to 2 step 1 do {
+				_object setVariable ['QS_surrenderable',TRUE,TRUE];
+			};
 			(group _object) setBehaviourStrong 'CARELESS';
 			_object enableAIFeature ['COVER',FALSE];
 			_object addEventHandler [
@@ -44,7 +47,7 @@ if (_object isKindOf 'Man') exitWith {
 					_killer = _this # 1;
 					if (!isNull _killer) then {
 						if (isPlayer _killer) then {
-							_text = format ['Fugitive killed by %1!',(name _killer)];
+							_text = format ['%2 %1!',(name _killer),localize 'STR_QS_Chat_028'];
 							['sideChat',[WEST,'HQ'],_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
 					};
@@ -58,11 +61,10 @@ if (_object isKindOf 'Man') exitWith {
 			if ((_object distance (markerPos 'QS_marker_gitmo')) < 20) then {
 				_object forceAddUniform 'U_C_WorkerCoveralls';
 				removeHeadgear _object;
-				0 = [_object] spawn {
+				[_object] spawn {
 					uiSleep 1; 
 					(_this # 0) setObjectTextureGlobal [0,'#(rgb,8,8,3)color(1,0.1,0,1)'];
 				};
-				_object setVariable ['QS_unit_isPrisoner',TRUE,TRUE];
 			};
 		} else {
 			_object addEventHandler [
@@ -71,7 +73,7 @@ if (_object isKindOf 'Man') exitWith {
 					_killer = _this # 1;
 					if (!isNull _killer) then {
 						if (isPlayer _killer) then {
-							_text = format ['%1 has murdered a civilian!',(name _killer)];
+							_text = format ['%1 %2',(name _killer),localize 'STR_QS_Chat_088'];
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
 					};
@@ -149,7 +151,7 @@ if (_object isKindOf 'Man') exitWith {
 		};
 	};
 	if (_typeL in ['c_soldier_vr_f','b_soldier_vr_f','o_soldier_vr_f','i_soldier_vr_f','b_protagonist_vr_f','o_protagonist_vr_f','i_protagonist_vr_f']) then {
-		50 cutText [(format ['Object %1 not configured for this scenario',(getText (configFile >> 'CfgVehicles' >> _type >> 'displayName'))]),'PLAIN'];
+		50 cutText [(format ['%1 - %2',(getText (configFile >> 'CfgVehicles' >> _type >> 'displayName')),localize 'STR_QS_Text_007']),'PLAIN'];
 		[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 };
@@ -213,7 +215,7 @@ if ((_object isKindOf 'LandVehicle') || {(_object isKindOf 'Air')} || {(_object 
 	if (_object isKindOf 'Helicopter') then {
 		if (_typeL in ['b_heli_light_01_armed_f','b_heli_attack_01_f','o_heli_light_02_f','o_heli_light_02_v2_f','i_heli_light_03_f','o_heli_attack_02_f','o_heli_attack_02_black_f','o_heli_light_02_dynamicloadout_f','o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_black_f','i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f','b_heli_attack_01_dynamicloadout_f','b_heli_light_01_dynamicloadout_f']) then {
 			if (!(missionNamespace getVariable 'QS_armedAirEnabled')) then {
-				50 cutText ['Armed aircraft currently disabled','PLAIN DOWN',1];
+				50 cutText [localize 'STR_QS_Text_008','PLAIN DOWN',1];
 				[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			};
 		};
@@ -242,7 +244,7 @@ if ((_object isKindOf 'LandVehicle') || {(_object isKindOf 'Air')} || {(_object 
 			];
 		};
 		if (!(missionNamespace getVariable 'QS_armedAirEnabled')) then {
-			50 cutText ['Armed aircraft currently disabled','PLAIN DOWN',1];
+			50 cutText [localize 'STR_QS_Text_008','PLAIN DOWN',1];
 			[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		};
 	};
@@ -271,7 +273,7 @@ if (['Module',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')
 	]) then {
 		[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		closeDialog 0;
-		50 cutText [format ['Module %1 not configured for this scenario',(getText (configFile >> 'CfgVehicles' >> _type >> 'displayName'))],'PLAIN'];
+		50 cutText [format ['%1 - %2',(getText (configFile >> 'CfgVehicles' >> _type >> 'displayName')),localize 'STR_QS_Text_009'],'PLAIN'];
 	} else {
 		_module setVariable [
 			'QS_curator_modules',

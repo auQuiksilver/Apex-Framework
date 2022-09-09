@@ -36,18 +36,18 @@ if (missionNamespace getVariable ['QS_customAO_GT_active',FALSE]) then {
 								};
 								player setVehiclePosition [(markerPos 'QS_marker_GT_TP'),[],15,'NONE'];
 								openMap FALSE;
-								50 cutText [(format ['Welcome to %1',(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))]),'PLAIN DOWN',0.5];
+								50 cutText [(format ['%2 %1',(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Text_043']),'PLAIN DOWN',0.5];
 							} else {
-								50 cutText ['Cannot teleport while incapacitated','PLAIN DOWN',0.5];
+								50 cutText [localize 'STR_QS_Text_044','PLAIN DOWN',0.5];
 							};
 						} else {
-							50 cutText ['Must be unencumbered to teleport','PLAIN DOWN',0.5];
+							50 cutText [localize 'STR_QS_Text_045','PLAIN DOWN',0.5];
 						};
 					} else {
-						50 cutText ['Must be on foot to teleport','PLAIN DOWN',0.5];
+						50 cutText [localize 'STR_QS_Text_046','PLAIN DOWN',0.5];
 					};
 				} else {
-					50 cutText ['Too close to teleporter','PLAIN DOWN',0.5];
+					50 cutText [localize 'STR_QS_Text_047','PLAIN DOWN',0.5];
 				};
 			};
 		};

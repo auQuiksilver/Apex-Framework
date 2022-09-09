@@ -42,7 +42,7 @@ if (!isPlayer _healer) then {
 						_unit allowDamage TRUE;
 					};
 					if (isPlayer _unit) then {
-						['systemChat',(format ['Revived by [AI] %1',(name _healer)])] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
+						['systemChat',(format ['%2 %1',(name _healer),localize 'STR_QS_Chat_089'])] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
 					};
 					_healer doWatch objNull;
 				};
@@ -52,7 +52,7 @@ if (!isPlayer _healer) then {
 } else {
 	if (player isNotEqualTo _healer) then {
 		if (player isEqualTo _unit) then {
-			50 cutText [(format ['Being treated by %1',(name _healer)]),'PLAIN DOWN',0.5];
+			50 cutText [(format ['%2 %1',(name _healer),localize 'STR_QS_Text_019']),'PLAIN DOWN',0.5];
 		};
 	};
 };

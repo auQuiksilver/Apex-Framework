@@ -58,12 +58,12 @@ private _checkIntersections = FALSE;
 private _isHauling = FALSE;
 if ((_attachPoint isEqualTo _defaultAttachPoint) || {((count _attachPointReturn) > 2)}) then {
 	_vehicle setVariable ['QS_vehicle_hauling',[FALSE,_towedVehicle],TRUE];
-	50 cutText [format ['Towing %1',_displayName],'PLAIN DOWN',0.5];
+	50 cutText [format ['%2 %1',_displayName,localize 'STR_QS_Text_255'],'PLAIN DOWN',0.5];
 	_checkIntersections = TRUE;
 } else {
 	_isHauling = TRUE;
 	_vehicle setVariable ['QS_vehicle_hauling',[TRUE,_towedVehicle],TRUE];
-	50 cutText [format ['Hauling %1',_displayName],'PLAIN DOWN',0.5];
+	50 cutText [format ['%2 %1',_displayName,localize 'STR_QS_Text_256'],'PLAIN DOWN',0.5];
 };
 if (_towedVehicle isKindOf 'StaticWeapon') then {
 	_towedVehicle enableWeaponDisassembly FALSE;
@@ -79,19 +79,19 @@ if (_isHauling && (_towedVehicle isKindOf 'StaticWeapon') && (!(_towedVehicle is
 		25
 	];
 	[86,_towedVehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-	50 cutText [format ['Mounted %1',_displayName],'PLAIN DOWN',0.5];
+	50 cutText [format ['%2 %1',_displayName,localize 'STR_QS_Text_257'],'PLAIN DOWN',0.5];
 };
 if (_isUAV) then {
 	_vehicle setVariable [
 		'QS_action_towRelease1',
-		(_vehicle addAction ['Release','[cameraOn] call QS_fnc_vTowRelease',[],21,FALSE,TRUE,'','[cameraOn] call QS_fnc_conditionTowDetach']),
+		(_vehicle addAction [localize 'STR_QS_Interact_010','[cameraOn] call QS_fnc_vTowRelease',[],21,FALSE,TRUE,'','[cameraOn] call QS_fnc_conditionTowDetach']),
 		FALSE
 	];
 	_vehicle setUserActionText [(_vehicle getVariable 'QS_action_towRelease1'),((_vehicle actionParams (_vehicle getVariable 'QS_action_towRelease1')) # 0),(format ["<t size='3'>%1</t>",((_vehicle actionParams (_vehicle getVariable 'QS_action_towRelease1')) # 0)])];
 } else {
 	_vehicle setVariable [
 		'QS_action_towRelease2',
-		(player addAction ['Release','[(vehicle player)] call QS_fnc_vTowRelease',[],21,FALSE,TRUE,'','[(vehicle player)] call QS_fnc_conditionTowDetach']),
+		(player addAction [localize 'STR_QS_Interact_010','[(vehicle player)] call QS_fnc_vTowRelease',[],21,FALSE,TRUE,'','[(vehicle player)] call QS_fnc_conditionTowDetach']),
 		FALSE
 	];
 	player setUserActionText [(_vehicle getVariable 'QS_action_towRelease2'),((player actionParams (_vehicle getVariable 'QS_action_towRelease2')) # 0),(format ["<t size='3'>%1</t>",((player actionParams (_vehicle getVariable 'QS_action_towRelease2')) # 0)])];
@@ -112,14 +112,14 @@ _isIntersectingSurfaces = {
 if (_isUAV) then {
 	_vehicle setVariable [
 		'QS_action_towLoadCargo1',
-		(_vehicle addAction ['Load cargo',(missionNamespace getVariable 'QS_fnc_clientInteractTowLoadCargo'),[],20,FALSE,TRUE,'','[cameraOn] call (missionNamespace getVariable "QS_fnc_conditionTowLoadCargo")',-1,FALSE]),
+		(_vehicle addAction [localize 'STR_QS_Interact_037',(missionNamespace getVariable 'QS_fnc_clientInteractTowLoadCargo'),[],20,FALSE,TRUE,'','[cameraOn] call (missionNamespace getVariable "QS_fnc_conditionTowLoadCargo")',-1,FALSE]),
 		FALSE
 	];
 	_vehicle setUserActionText [(_vehicle getVariable 'QS_action_towLoadCargo1'),((_vehicle actionParams (_vehicle getVariable 'QS_action_towLoadCargo1')) # 0),(format ["<t size='3'>%1</t>",((_vehicle actionParams (_vehicle getVariable 'QS_action_towLoadCargo1')) # 0)])];
 } else {
 	_vehicle setVariable [
 		'QS_action_towLoadCargo2',
-		(player addAction ['Load cargo',(missionNamespace getVariable 'QS_fnc_clientInteractTowLoadCargo'),[],20,FALSE,TRUE,'','[(vehicle player)] call (missionNamespace getVariable "QS_fnc_conditionTowLoadCargo")',-1,FALSE]),
+		(player addAction [localize 'STR_QS_Interact_037',(missionNamespace getVariable 'QS_fnc_clientInteractTowLoadCargo'),[],20,FALSE,TRUE,'','[(vehicle player)] call (missionNamespace getVariable "QS_fnc_conditionTowLoadCargo")',-1,FALSE]),
 		FALSE
 	];
 	player setUserActionText [(_vehicle getVariable 'QS_action_towLoadCargo2'),((player actionParams (_vehicle getVariable 'QS_action_towLoadCargo2')) # 0),(format ["<t size='3'>%1</t>",((player actionParams (_vehicle getVariable 'QS_action_towLoadCargo2')) # 0)])];
@@ -222,7 +222,7 @@ if (isNull (attachedTo _towedVehicle)) then {
 	if ((_towedVehicle distance2D (markerPos 'QS_marker_crate_area')) < 500) then {
 		if (!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'}) then {
 			_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
-			systemChat format ['%1 reset for FOB resupply',(getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName'))];
+			systemChat format ['%1 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
 		};
 	};
 };
@@ -230,9 +230,9 @@ if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
 	detach _towedVehicle;
 	private _text = '';
 	if ((_towedVehicle getVariable 'QS_loadCargoIn') setVehicleCargo _towedVehicle) then {
-		_text = format ['%1 loaded into a(n) %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf (_towedVehicle getVariable 'QS_loadCargoIn')) >> 'displayName'))];
+		_text = format ['%1 %3 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf (_towedVehicle getVariable 'QS_loadCargoIn')) >> 'displayName')),localize 'STR_QS_Text_114'];
 	} else {
-		_text = format ['Load failed, %1 into %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf (_towedVehicle getVariable 'QS_loadCargoIn')) >> 'displayName'))];
+		_text = localize 'STR_QS_Text_116';
 	};
 	_towedVehicle setVariable ['QS_loadCargoIn',nil,FALSE];
 	50 cutText [_text,'PLAIN DOWN',0.5];
@@ -250,7 +250,7 @@ _towedVehicle setPosASL (_vehicle modelToWorldWorld _detachPos);
 if (((getPosATL _towedVehicle) # 2) < 5) then {
 	_towedVehicle setVectorUp (surfaceNormal (getPosWorld _towedVehicle));
 };
-50 cutText ['Released','PLAIN DOWN',0.25];
+50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.25];
 uiSleep 0.5;
 _towedVehicle allowDamage TRUE;
 _vehicle allowDamage TRUE;

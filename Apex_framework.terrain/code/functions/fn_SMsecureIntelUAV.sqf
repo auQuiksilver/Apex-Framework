@@ -102,19 +102,23 @@ _signalPulseCheckDelay = time + 20;
 _endTimeBroadcastDelay = time + 30;
 _foundPos = FALSE;
 _fuzzyPos = [((_safePos # 0) - 300) + (random 600),((_safePos # 1) - 300) + (random 600),0];
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_042']);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];	
-'QS_marker_sideMarker' setMarkerText (format ['%1Secure Intel (UAV)',(toString [32,32,32])]);
-
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		(format ['An enemy UAV has gone down off the coast of %1. This is a chance to secure intel on how their UAV systems operate. Get down there and secure the UAVs intel. This mission is underwater, so ensure you have a rebreather and dive goggles! This objective is not accurately marked. A GPS will help to locate the precise position. This mission is time-critical.',worldName]),
-		'Secure Intel (UAV)',
-		'Secure Intel (UAV)'
+		(format [
+			'%2 %1. %3',
+			worldName,
+			localize 'STR_QS_Task_107',
+			localize 'STR_QS_Task_108'
+		]),
+		localize 'STR_QS_Task_109',
+		localize 'STR_QS_Task_109'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -125,10 +129,7 @@ _fuzzyPos = [((_safePos # 0) - 300) + (random 600),((_safePos # 1) - 300) + (ran
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
 ['QS_IA_TASK_SM_0',TRUE,_timeEnd] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
-
-_briefing = parseText format ["<t align='center'><t size='2.2'>New Side Mission</t><br/><t size='1.5' color='#00B2EE'>Secure Intel</t><br/>____________________<br/>An enemy UAV has gone down off the coast of %1.<br/><br/> Signals Intelligence indicates the enemy is on site attempting to find and destroy the UAVs flight recorder. Get over there and secure the intel before they destroy it!<br/> You have about 30 minutes to complete the mission.<br/></t>",worldName];
-['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewSideMission',['Secure Intel']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewSideMission',[localize 'STR_QS_Notif_111']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 
 private _patrolRoute = [];
 

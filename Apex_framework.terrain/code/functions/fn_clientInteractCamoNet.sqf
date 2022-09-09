@@ -47,7 +47,7 @@ if (_armor_vAnims isNotEqualTo []) then {
 	};
 };
 if (_exitArmor) exitWith {
-	50 cutText ['Remove slat armor to deploy camo net','PLAIN DOWN',0.5];
+	50 cutText [localize 'STR_QS_Text_082','PLAIN DOWN',0.5];
 };
 _onCancelled = {
 	params ['_t','_position'];
@@ -98,24 +98,24 @@ _onCompleted = {
 		};
 	};
 	if (_exitArmor) exitWith {
-		50 cutText ['Remove slat armor to deploy camo net','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_082','PLAIN DOWN',0.5];
 	};
 	{
 		_vehicle animateSource [_x,_newPhase,TRUE];
 	} forEach _animationSources;
 	if (_newPhase isEqualTo 1) then {
-		50 cutText ['Camo net deployed','PLAIN DOWN',0.333];
+		50 cutText [localize 'STR_QS_Text_083','PLAIN DOWN',0.333];
 	} else {
-		50 cutText ['Camo net removed','PLAIN DOWN',0.333];
+		50 cutText [localize 'STR_QS_Text_084','PLAIN DOWN',0.333];
 	};
 	missionNamespace setVariable ['QS_repairing_vehicle',FALSE,FALSE];
 };
 missionNamespace setVariable ['QS_repairing_vehicle',TRUE,FALSE];
 private _text = '';
 if (_newPhase isEqualTo 1) then {
-	_text = 'Deploying camo net';
+	_text = localize 'STR_QS_Menu_165';
 } else {
-	_text = 'Removing camo net';
+	_text = localize 'STR_QS_Menu_166';
 };
 private _duration = 5;
 [

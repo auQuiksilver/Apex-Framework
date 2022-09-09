@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/01/2018 A3 1.80 by Quiksilver
+	30/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -159,7 +159,7 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 			[
 				['Belfort',[3034.46,11275.3,0],'QS_fnc_aoCustomize',2,1,0,0,1,1,1],
 				['Tuvanaka',[1846.75,11989.1,0],'QS_fnc_aoCustomize',2,1,0,0,1,1,1],
-				['Oua-Oue',[5724.45,12289.7,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1],
+				['Oua-Oue',[5707.42,12421.8,0],'QS_fnc_aoCustomize',1,1,0,0,1,1,1], 			// Old position: [5724.45,12289.7,0] . New position is closer to town areas
 				['Tuvanaka Airbase',[2135.22,13181.4,0],'QS_fnc_aoCustomize',0,1,0,0,1,1,1],
 				['Camp Remnants',[3842.23,13695.4,0],'QS_fnc_aoCustomize',0,1,0,0,1,1,1],
 				['Galili',[8113.42,11957.1,0],'QS_fnc_aoCustomize',0,1,0,0,1,1,1]

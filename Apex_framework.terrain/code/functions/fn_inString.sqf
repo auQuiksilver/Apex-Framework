@@ -25,4 +25,4 @@ How to use:
 */  
 params ['_find','_string',['_matchcase',FALSE]]; 
 if (_matchcase) exitWith {((_string find _find) > -1)}; 
-(((toLowerANSI _string) find (toLowerANSI _find)) > -1)
+(((toLower _string) find (toLower _find)) > -1)

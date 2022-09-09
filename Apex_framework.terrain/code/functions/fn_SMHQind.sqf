@@ -23,11 +23,10 @@ private [
 	"_SMveh","_SMaa","_tower1","_tower2","_tower3","_flatPos1","_flatPos2",'_objectTypes','_objectType','_c4Messages','_c4Message',
 	'_baseMarker','_almyraMarker','_sideObj','_houseType'
 ];
-
 _c4Messages = [
-	"Weapons transfer secured. The charge has been set! 15 seconds until detonation.",
-	"Launchers secured. The explosives have been set! 15 seconds until detonation.",
-	"Weapons secured. The charge is planted! 15 seconds until detonation."
+	localize 'STR_QS_Chat_061',
+	localize 'STR_QS_Chat_062',
+	localize 'STR_QS_Chat_063'
 ];
 _c4Message = selectRandom _c4Messages;
 
@@ -98,18 +97,18 @@ _enemiesArray = [_sideObj] call (missionNamespace getVariable 'QS_fnc_SMenemyIND
 
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
 {
-	_x setMarkerPos _fuzzyPos;
+	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Secure AA Launchers',(toString [32,32,32])]);
+'QS_marker_sideMarker' setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_032']);
 
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'Intercept the weapons transfer! Enemy supply trucks have stopped in this area to transfer Anti-Air launchers. Intercept and secure them! This objective is not accurately marked.',
-		'Secure AA Launchers',
-		'Secure AA Launchers'
+		localize 'STR_QS_Task_080',
+		localize 'STR_QS_Task_081',
+		localize 'STR_QS_Task_081'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -119,10 +118,7 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	'download',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-
-_briefing = parseText format ["<t align='center'><t size='2.2'>New Side Mission</t><br/><t size='1.5' color='#00B2EE'>Secure Launchers</t><br/>____________________<br/>Rogue AAF are supplying OPFOR with advanced weapons and anti-air launchers.<br/><br/>We've located the transfer location. Get over there quick before they get away, and secure those launchers.</t>"];
-//['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewSideMission',['Secure Launchers']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewSideMission',[localize 'STR_QS_Notif_086']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	
 /*/-------------------- [ CORE LOOPS ] ------------------------ [ CORE LOOPS ]/*/
 
@@ -135,7 +131,7 @@ for '_x' from 0 to 1 step 0 do {
 
 	if (!alive _sideObj) exitWith {
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
-		['sideChat',[WEST,'HQ'],'Objective destroyed, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_060'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
 			_x setMarkerPos [-5000,-5000,0];
@@ -168,7 +164,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (missionNamespace getVariable 'QS_smSuccess') exitWith {
 		['sideChat',[WEST,'HQ'],_c4Message] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		uiSleep 14;											
-		'Bo_Mk82' createVehicle (getPos _object);
+		'Bo_Mk82' createVehicle (getPosATL _object);
 		uiSleep 0.1;
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',

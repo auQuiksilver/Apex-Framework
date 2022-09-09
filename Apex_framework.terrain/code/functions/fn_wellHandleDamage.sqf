@@ -50,11 +50,11 @@ if ((_entity getVariable ['QS_entity_sumDmg',0]) >= (_entity getVariable ['QS_en
 	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smoke,'DELAYED_FORCED',(time + 600)];
 	deleteVehicle _entity;
 	missionNamespace setVariable ['QS_grid_AIRspDestroyed',((missionNamespace getVariable 'QS_grid_AIRspDestroyed') + 1),FALSE];
-	['GRID_IG_UPDATE',['Area of Operations','Respawn tunnel destroyed']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+	['GRID_IG_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_116']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	if (!isNull _instigator) then {
 		if (isPlayer _instigator) then {
 			_instigator addScore 1;
-			_text = format ['%1 (%2) destroyed an enemy tunnel entrance',(name _instigator),(groupID (group _instigator))];
+			_text = format ['%1 (%2) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_163'];
 			_text remoteExec ['systemChat',-2,FALSE];
 		};
 	};

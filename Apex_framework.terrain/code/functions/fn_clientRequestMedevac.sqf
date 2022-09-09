@@ -16,10 +16,10 @@ __________________________________________________________/*/
 closeDialog 2;
 0 spawn {
 	uiSleep 0.05;
-	_textBody = '- Selecting OK will disable your ability to respawn or abort for 10 minutes.<br/>- Medics will be unable to revive you.<br/>- To be revived, other people must bring you to a location equipped with Medevac services before you bleed out.';
-	_textHeader = 'Medevac Mission Reminder (Please read)';
-	_textOk = 'OK';
-	_textCancel = 'CANCEL';
+	_textBody = format ['- %1<br/>- %2<br/>- %3',localize 'STR_QS_Menu_133',localize 'STR_QS_Menu_134',localize 'STR_QS_Menu_135'];
+	_textHeader = localize 'STR_QS_Menu_130';
+	_textOk = localize 'STR_QS_Menu_131';
+	_textCancel = localize 'STR_QS_Menu_114';
 	private _result = [_textBody,_textHeader,_textOk,_textCancel,(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage'); 
 	if (_result) then {
 		if ((!(missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE])) && ((lifeState player) isEqualTo 'INCAPACITATED') && (isNull (objectParent player)) && (isNull (attachedTo player))) then {
@@ -31,13 +31,13 @@ closeDialog 2;
 				['QS_revive_disable',TRUE,TRUE],
 				['QS_respawn_disable',(diag_tickTime + 600),FALSE]
 			];
-			50 cutText ['Medevac requested','PLAIN DOWN',0.5];
-			['systemChat',(format ['%1 requested medevac at grid %2',profileName,(mapGridPosition player)])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			50 cutText [localize 'STR_QS_Text_188','PLAIN DOWN',0.5];
+			['systemChat',(format ['%1 %3 %2',profileName,(mapGridPosition player),localize 'STR_QS_Chat_103'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			[77,'MEDEVAC',[player,profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		} else {
-			50 cutText ['Medevac unavailable','PLAIN DOWN',0.5];
+			50 cutText [localize 'STR_QS_Text_189','PLAIN DOWN',0.5];
 		};
 	} else {
-		50 cutText ['Medevac request cancelled','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_190','PLAIN DOWN',0.5];
 	};
 };

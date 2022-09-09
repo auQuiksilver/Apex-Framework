@@ -476,7 +476,7 @@ if (_fps > 10) then {
 		{(((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isEqualTo 0)} &&
 		{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1]))}
 	) then {
-		_unit addEventHandler ['FiredMan',{call (missionNamespace getVariable 'QS_fnc_AIXSuppressiveFire')}];	
+		_unit addEventHandler ['FiredMan',{call (missionNamespace getVariable 'QS_fnc_AIXSuppressiveFire')}];
 	};
 };
 if (isNull _objectParent) then {

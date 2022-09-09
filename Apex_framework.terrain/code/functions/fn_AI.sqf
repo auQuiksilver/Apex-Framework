@@ -239,14 +239,14 @@ if (_QS_allPlayersCount >= 50) then {
 	_QS_module_virtualSectors_patrolsBoat_thresh = 0;
 	_QS_module_virtualSectors_patrolsSniper_thresh = 1;
 };
-private _QS_module_virtualSectors_patrolsHeli_delay = 360;
+private _QS_module_virtualSectors_patrolsHeli_delay = [360,480] select (worldName in ['Tanoa','Stratis']);		// 360
 private _QS_module_virtualSectors_patrolsHeli_checkDelay = _QS_uiTime + _QS_module_virtualSectors_patrolsHeli_delay;
 private _QS_module_virtualSectors_heliEnabled = _true;
 private _QS_module_virtualSectors_patrolsVeh_delay = 300;
 private _QS_module_virtualSectors_patrolsVeh_checkDelay = _QS_uiTime + _QS_module_virtualSectors_patrolsVeh_delay;
 private _QS_module_virtualSectors_vehiclesEnabled = _true;
 private _QS_module_virtualSectors_uavEnabled = _true;
-private _QS_module_virtualSectors_uav_delay = 30;
+private _QS_module_virtualSectors_uav_delay = [120,240] select (worldName in ['Tanoa','Stratis']);			// 30
 private _QS_module_virtualSectors_uav_checkDelay = _QS_uiTime + _QS_module_virtualSectors_uav_delay;
 private _QS_module_virtualSectors_uavs = [];
 private _QS_module_virtualSectors_defenderDelay = 30;
@@ -272,12 +272,12 @@ private _QS_module_classic_terrainData = [];
 
 //comment 'classic ao uavs';
 private _QS_module_classic_uavEnabled = _true;
-private _QS_module_classic_uav_delay = 30;
+private _QS_module_classic_uav_delay = [120,240] select (worldName in ['Tanoa','Stratis']);
 private _QS_module_classic_uav_checkDelay = _QS_uiTime + _QS_module_classic_uav_delay;
 private _QS_module_classic_uavs = [];
 //comment 'classic ao helis';
 private _QS_module_classic_heliEnabled = _true;
-private _QS_module_classic_patrolsHeli_delay = 60;
+private _QS_module_classic_patrolsHeli_delay = [240,360] select (worldName in ['Tanoa','Stratis']);		//60;		// Enemy Heli respawn delay (down below in the code an extra (random 120) is applied)
 private _QS_module_classic_patrolsHeli_checkDelay = _QS_uiTime + _QS_module_classic_patrolsHeli_delay;
 private _QS_module_classic_patrolsHeli = [];
 //comment 'classic ao reinforcements';
@@ -1062,6 +1062,7 @@ for '_x' from 0 to 1 step 0 do {
 										_QS_unit = _x;
 										{
 											_QS_unit forgetTarget _x;
+											_QS_grp forgetTarget _x;
 										} forEach (_QS_unit targets [_true,0]);
 										{
 											_QS_unit enableAIFeature [_x # 0,_x # 1];

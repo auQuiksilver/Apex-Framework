@@ -25,7 +25,7 @@ private _commanderCanUseWeapons = FALSE;
 _maxDistFromBase = 500;
 _basePos = markerPos 'QS_marker_base_marker';
 if (!(_commanderCanLeaveBase)) then {
-	50 cutText ['Commander is not able to leave the base area','PLAIN',3];
+	50 cutText [localize 'STR_QS_Text_210','PLAIN',1];
 };
 disableRemoteSensors FALSE;
 1 enableChannel [TRUE,TRUE];
@@ -47,7 +47,6 @@ QS_HComm_testEvent_3 = addMissionEventHandler [
 	'GroupIconClick',
 	{
 		params ['_is3D','_group','_wpID','_mb','_posX','_posY','_shift','_ctrl','_alt'];
-		//systemChat format ['GroupIconClick: %1',_this];
 		if (!_is3D) then {
 			if (player getVariable ['QS_HComm_groupIconOver',FALSE]) then {
 				if (diag_tickTime > (player getVariable ['QS_HComm_groupIconClick_delay',-1])) then {
@@ -184,7 +183,6 @@ QS_hc_mapTest_2 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		if (diag_tickTime > (player getVariable ['QS_HComm_mapLastKeyDown',-1])) then {
 			player setVariable ['QS_HComm_mapLastKeyDown',(diag_tickTime + 0.5),FALSE];
 			params ['_map','_key','_shift','_ctrl','_alt'];
-			//systemChat str _this;
 			if (_key isEqualTo 210) then {
 				_nearestWaypoint = [(_map ctrlMapScreenToWorld getMousePosition),(ctrlMapScale _map)] call (missionNamespace getVariable 'QS_fnc_mapGetNearestWaypoint');
 				if (_nearestWaypoint isNotEqualTo [grpNull,-1]) then {
@@ -201,7 +199,6 @@ QS_hc_mapTest_3 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		if (diag_tickTime > (player getVariable ['QS_HComm_mapLastMouseClick',-1])) then {
 			player setVariable ['QS_HComm_mapLastMouseClick',(diag_tickTime + 0.5),FALSE];
 			params ['_map','_button','_coordX','_coordY','_shift','_ctrl','_alt'];
-			//systemChat str _this;
 			_nearestWaypoint = [(_map ctrlMapScreenToWorld getMousePosition),(ctrlMapScale _map)] call (missionNamespace getVariable 'QS_fnc_mapGetNearestWaypoint');
 			if (!(player getVariable ['QS_HComm_groupIconOver',FALSE])) then {
 				if (_nearestWaypoint isNotEqualTo [grpNull,-1]) then {
@@ -401,7 +398,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (((units _grp) findIf {(alive _x)}) isEqualTo -1) then {
 					player hcRemoveGroup _grp;
 				} else {
-					if ((toLowerANSI (groupID _grp)) isNotEqualTo (toLowerANSI ((player hcGroupParams _grp) # 0))) then {
+					if ((toLower (groupID _grp)) isNotEqualTo (toLower ((player hcGroupParams _grp) # 0))) then {
 						if (!(_grp getVariable ['QS_HComm_grp',FALSE])) then {
 							_grp setVariable ['QS_HComm_grp',TRUE,TRUE];
 						};
@@ -452,7 +449,7 @@ for '_x' from 0 to 1 step 0 do {
 	uiSleep 3;
 	if (!(player getUnitTrait 'QS_trait_HQ')) exitWith {
 		// de-init commander stuff
-		systemChat 'no longer commander';
+		systemChat (localize 'STR_QS_Chat_112');
 		{
 			removeMissionEventHandler _x;
 		} forEach _missionEvents;

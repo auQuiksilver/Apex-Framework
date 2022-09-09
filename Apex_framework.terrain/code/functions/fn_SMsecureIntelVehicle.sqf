@@ -151,7 +151,7 @@ _intelObj addEventHandler [
 			_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
 			_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
 			_name = name _killer;
-			['sideChat',[WEST,'BLU'],(format ['%1 has destroyed the Intel vehicle ( %2 )',_name,_objDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'BLU'],(format ['%1 %3 ( %2 )',_name,_objDisplayName,localize 'STR_QS_Chat_077'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	}
 ];
@@ -160,7 +160,7 @@ _intelObj addEventHandler [
 	{
 		params ['_container','_unit'];
 		if (isPlayer _unit) then {
-			['sideChat',[WEST,'BLU'],(format ['%1 secured an objective!',(name _unit)])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'BLU'],(format ['%1 %2',(name _unit),localize 'STR_QS_Chat_035'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			missionNamespace setVariable ['QS_smSuccess',TRUE,FALSE];
 			_container setVariable ['QS_secureable',FALSE,TRUE];
 		};
@@ -174,19 +174,18 @@ _enemiesArray = [_flatPos1] call (missionNamespace getVariable 'QS_fnc_smEnemyEa
 /*/-------------------------------------------------------------------------- BRIEFING/*/
 
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_044']);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];	
-'QS_marker_sideMarker' setMarkerText (format ['%1Secure Intel (Vehicle)',(toString [32,32,32])]);
-
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'Sensitive intel is changing hands between high-ranking enemy officers. We believe the intel is located inside a vehicle. Search the vehicle inventories to locate the intel. If they detect our presence, they may attempt to escape. This objective is not accurately marked.',
-		'Secure Intel (Vehicle)',
-		'Secure Intel (Vehicle)'
+		localize 'STR_QS_Task_112',
+		localize 'STR_QS_Task_113',
+		localize 'STR_QS_Task_113'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -196,10 +195,7 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	'download',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-
-_briefing = parseText "<t align='center'><t size='2.2'>New Side Mission</t><br/><t size='1.5' color='#00B2EE'>Secure Intel</t><br/>____________________<br/>We have reports from locals that sensitive, strategic information is changing hands. This is a target of opportunity!<br/><br/>We've marked the position on your map; head over there and secure the intel. It should be stored on one of the vehicles or on their persons.</t>";
-['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewSideMission',['Secure Intel']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewSideMission',[localize 'STR_QS_Notif_111']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	
 /*/----- Set vars/*/
 
@@ -218,7 +214,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (!alive _intelObj) exitWith {
 		sleep 0.3;
-		['sideChat',[WEST,'HQ'],'Objective destroyed, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_073'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
@@ -249,7 +245,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (([_intelObj,500] call (missionNamespace getVariable 'QS_fnc_enemyDetected')) || {(missionNamespace getVariable 'QS_sm_enemyDetected')}) then {
 			missionNamespace setVariable ['QS_sm_enemyDetected',FALSE,FALSE];
 			sleep 0.3;
-			['sideChat',[WEST,'HQ'],'The target has spotted us and is trying to escape with the intel!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_072'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		
 			/*/--------- WHERE TO / HOW WILL THE OBJECTIVES ESCAPE?/*/
 			
@@ -303,7 +299,7 @@ for '_x' from 0 to 1 step 0 do {
 	/*/------------------------------------------ THE ENEMY ESCAPED [FAIL]/*/
 	
 	if (_heEscaped) exitWith {
-		['sideChat',[WEST,'HQ'],'Objective escaped, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_074'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		sleep 0.3;
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
@@ -334,7 +330,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if (missionNamespace getVariable 'QS_smSuccess') exitWith {
 		sleep 0.3;
-		['sideChat',[WEST,'HQ'],'Intel received. Mission accomplished! We are sending the data up to HQ for analysis.'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_075'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
 		[1,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{

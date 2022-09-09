@@ -22,6 +22,7 @@ if (_wpIndex in [0,1]) then {
 		_targets = _unit targets [TRUE,0];
 		if (_targets isNotEqualTo []) then {
 			{
+				_group forgetTarget _x;
 				_unit forgetTarget _x;
 			} forEach _targets;
 		};
@@ -37,8 +38,8 @@ if (!local _group) then {
 		_wPos = waypointPosition [_group,_wpIndex];
 		_radius = waypointCompletionRadius [_group,_wpIndex];
 		[20,_group,_type,_wPos,_radius,_wpIndex] remoteExec ['QS_fnc_remoteExec',_group,FALSE];
-		50 cutText ['Sending waypoint to remote group','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_010','PLAIN DOWN',0.5];
 	} else {
-		50 cutText ['Waypoint sync cooldown (5 seconds)','PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_011','PLAIN DOWN',0.5];
 	};
 };

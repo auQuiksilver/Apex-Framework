@@ -1,5 +1,5 @@
 /*/
-File: fn_AIAssaultSector.sqf
+File: fn_setCruiseControl.sqf
 Author:
 
 	Quiksilver
@@ -15,9 +15,9 @@ Description:
 Note:
 
 	See if we can change it to "cameraOn"
-_____________________________________________________________________/*/
+_______________________________________/*/
 
 if (isNull (objectParent player)) exitWith {};
 private _speed = round ((vectorMagnitude (velocity (objectParent player))) * 3.6);
 (objectParent player) setCruiseControl [_speed,TRUE];
-50 cutText [(format ['Cruise control - %1 km/h',round _speed]),'PLAIN DOWN',0.5];
+50 cutText [(format ['%2 %1 %3',round _speed,localize 'STR_QS_Text_241',localize 'STR_QS_Text_242']),'PLAIN DOWN',0.5];

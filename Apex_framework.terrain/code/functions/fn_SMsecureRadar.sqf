@@ -29,9 +29,9 @@ missionNamespace setVariable ['QS_sidemission_objectsArray',[],FALSE];
 missionNamespace setVariable ['QS_sideObj',objNull,FALSE];
 _objectsArray = [];
 _c4Messages = [
-	"Radar data secured. The charge has been set! 15 seconds until detonation.",
-	"Radar telemetry secured. The explosives have been set! 15 seconds until detonation.",
-	"Radar intel secured. The charge is planted! 15 seconds until detonation."
+	localize 'STR_QS_Chat_061',
+	localize 'STR_QS_Chat_062',
+	localize 'STR_QS_Chat_063'
 ];
 _c4Message = selectRandom _c4Messages;
 
@@ -89,19 +89,18 @@ _enemiesArray = [(missionNamespace getVariable 'QS_sideObj')] call (missionNames
 /*/------------------- BRIEF/*/
 
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_045']);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Secure Radar',(toString [32,32,32])]);
-
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'We have located an enemy radar installation. It appears to be under-defended, so this is our chance to learn more about enemy Anti-Air capabilities. Get over there and secure the radar intel. It will be located in a building near the dome. Be careful, once tampered with, the radar will self-destruct. This objective is not accurately marked.',
-		'Secure Radar',
-		'Secure Radar'
+		localize 'STR_QS_Task_114',
+		localize 'STR_QS_Task_115',
+		localize 'STR_QS_Task_115'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -111,10 +110,7 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	'download',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-
-_briefing = parseText "<t align='center'><t size='2.2'>New Side Mission</t><br/><t size='1.5' color='#00B2EE'>Secure Radar</t><br/>____________________<br/>OPFOR have captured a small radar on the island to support their aircraft.<br/><br/>We've marked the position on your map; head over there and secure the site. Take the data and destroy it.</t>";
-//['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewSideMission',['Secure Radar']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewSideMission',[localize 'STR_QS_Notif_112']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 missionNamespace setVariable ['QS_sideMissionUp',TRUE,TRUE];
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
 
@@ -124,7 +120,7 @@ for '_x' from 0 to 1 step 0 do {
 		
 		/*/------------------ DE-BRIEFING/*/
 
-		['sideChat',[WEST,'HQ'],'Intel destroyed, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_073'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
 			_x setMarkerPosLocal [-5000,-5000,0];
@@ -166,7 +162,7 @@ for '_x' from 0 to 1 step 0 do {
 		];
 		deleteVehicle _object;
 		uiSleep 12;											/*/ghetto bomb timer/*/
-		'Bo_Mk82' createVehicle (getPos _dummy); 			/*/ default "Bo_Mk82","Bo_GBU12_LGB"/*/
+		'Bo_Mk82' createVehicle (getPosATL _dummy); 			/*/ default "Bo_Mk82","Bo_GBU12_LGB"/*/
 		(missionNamespace getVariable 'QS_sideObj') setDamage 1;
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',

@@ -122,7 +122,6 @@ if ((toLowerANSI(typeOf _jetActual)) in ['c_plane_civil_01_racing_f']) then {
 	[_jetActual] call (missionNamespace getVariable 'QS_fnc_Q51');
 };
 _jetActual lock 2;
-_jetActual addEventHandler ['IncomingMissile',(missionNamespace getVariable 'QS_fnc_AIXMissileCountermeasure')];
 if (!(['cluster',(typeOf _jetActual),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
 	[_jetActual,([1,2] select ((random 1) > 0.666)),[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 } else {
@@ -164,7 +163,7 @@ _jetPilot addEventHandler [
 			params ['_jet','_killer'];
 			_jet removeAllEventHandlers 'Hit';
 			if (!isNull _killer) then {
-				['EnemyJetDown',['Enemy plane is down!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+				['EnemyJetDown',[localize 'STR_QS_Notif_053']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			};
 		}
 	],
@@ -174,26 +173,7 @@ _jetPilot addEventHandler [
 	],
 	[
 		'IncomingMissile',
-		{
-			params ['_vehicle','','',''];
-			if (!isNull (driver _vehicle)) then {
-				if (alive (driver _vehicle)) then {
-					(driver _vehicle) forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					if (!(_vehicle getVariable ['QS_AI_PLANE_fireMission',FALSE])) then {
-						_altATL = (getPosATL _vehicle) # 2;
-						_vehicle flyInHeight (_altATL + (50 - (random 100)));
-					};
-					(driver _vehicle) spawn {
-						scriptName 'QS Incoming Missile Flares';
-						_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-						sleep 1;
-						_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-						sleep 1;
-						_this forceWeaponFire ['CMFlareLauncher','AIBurst'];
-					};
-				};
-			};
-		}
+		{call (missionNamespace getVariable 'QS_fnc_AIXMissileCountermeasure')}
 	]
 ];
 ['setFeatureType',_jetActual,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_jetActual];
@@ -234,7 +214,7 @@ _grp setSpeedMode 'FULL';
 [9,EAST,_grp,(leader _grp),_jetActual] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
 if (!((toLowerANSI _jetSelect) in ['o_plane_fighter_02_stealth_f'])) then {
 	if (!(missionNamespace getVariable ['QS_defendActive',FALSE])) then {
-		['EnemyJet',['Enemy plane inbound!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['EnemyJet',[localize 'STR_QS_Notif_054']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	};
 } else {
 	if ((random 1) > 0.8) then {

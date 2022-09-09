@@ -491,7 +491,7 @@ private _uncertainPosition = [
 	((_idapScenePosition # 1) + 250 - (random 600)),
 	0
 ];
-'QS_marker_sideMarker' setMarkerText (format ['%1Help IDAP',(toString [32,32,32])]);
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_034']);
 {
 	_x setMarkerPosLocal _uncertainPosition;
 	_x setMarkerAlpha 1;
@@ -500,9 +500,19 @@ private _uncertainPosition = [
 	'QS_TASK_SM_IDAP_1',
 	TRUE,
 	[
-		(format ['<br/>1. Examine scene.<br/>2. Find the wounded aid worker, and search for clues.<br/>3. Locate medical supplies.<br/>4. Bring critical medical supplies to wounded aid worker.<br/>5. Medevac aid worker to our Medevac HQ at base or another field hospital.<br/><br/><br/>A local IDAP supply depot has come under attack by insurgents. A nearby civilian reported that one aid worker appeared to be still alive. Your job is to get over there and recover him. Some of the insurgents have already left the scene, taking critical medical supplies with them. You may have to track them down to recover the medical supplies.<br/><br/>Examine bodies at the scene for clues as to the location of the insurgents.<br/><br/>This objective is not accurately marked.']),
-		'Help IDAP',
-		'Help IDAP'
+		(format [
+			'<br/>%1<br/>%2<br/>%3<br/>%4<br/>%5<br/><br/><br/>%6<br/><br/>%7<br/><br/>%8',
+			localize 'STR_QS_Task_085',
+			localize 'STR_QS_Task_086',
+			localize 'STR_QS_Task_087',
+			localize 'STR_QS_Task_088',
+			localize 'STR_QS_Task_089',
+			localize 'STR_QS_Task_090',
+			localize 'STR_QS_Task_091',
+			localize 'STR_QS_Task_092'
+		]),
+		localize 'STR_QS_Task_084',
+		localize 'STR_QS_Task_084'
 	],
 	_uncertainPosition,
 	'CREATED',
@@ -512,7 +522,7 @@ private _uncertainPosition = [
 	'Help',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-['SM_IDAP_BRIEF',['Side Mission','Recover IDAP aid worker']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['SM_IDAP_BRIEF',[localize 'STR_QS_Notif_081',localize 'STR_QS_Notif_088']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 for '_x' from 0 to 1 step 0 do {
 	sleep 3;
 	if (
@@ -621,7 +631,7 @@ private _sounds = [
 private _unitStabilised = FALSE;
 private _aidMarker = '';
 _aidMarker = createMarker [(format ['QS_marker_aid_%1',(str (random 10e3))]),[0,0,0]];
-_aidMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),'Side Mission: Aid worker']);
+_aidMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_035']);
 _aidMarker setMarkerPosLocal (getPosATL _recoverableUnit);
 _aidMarker setMarkerShapeLocal 'ICON';
 _aidMarker setMarkerSizeLocal [0.5,0.5];
@@ -639,12 +649,12 @@ for '_x' from 0 to 1 step 0 do {
 		};
 	};
 	if (_taskState isEqualTo 'SUCCEEDED') exitWith {
-		['SM_IDAP_BRIEF',['Side Mission','Mission succeeded!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['SM_IDAP_BRIEF',[localize 'STR_QS_Notif_081',localize 'STR_QS_Notif_089']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		sleep 5;
 		[1,[0,0,0]] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 	};
 	if (_taskState isEqualTo 'FAILED') exitWith {
-		['SM_IDAP_BRIEF',['Side Mission','Mission failed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['SM_IDAP_BRIEF',[localize 'STR_QS_Notif_081',localize 'STR_QS_Notif_090']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		sleep 5;
 		[0,[0,0,0]] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 	};	
@@ -682,7 +692,7 @@ for '_x' from 0 to 1 step 0 do {
 			missionNamespace setVariable ['QS_sidemission_building',_house,FALSE];
 			_housePosition = position _house;
 			_houseMarker = createMarker [(format ['QS_marker_house_%1',(str (random 10e3))]),[0,0,0]];
-			_houseMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),'Side Mission: Locate medical supplies']);
+			_houseMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_036']);
 			_houseMarker setMarkerAlphaLocal 0;
 			_houseMarker setMarkerPosLocal _housePosition;
 			_houseMarker setMarkerShapeLocal 'ICON';
@@ -691,7 +701,7 @@ for '_x' from 0 to 1 step 0 do {
 			_houseMarker setMarkerTypeLocal 'mil_triangle';
 			_houseMarker setMarkerAlpha 1;
 			
-			['SM_IDAP_UPDATE',['Side Mission Update','Locate medical supplies']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['SM_IDAP_UPDATE',[localize 'STR_QS_Notif_091',localize 'STR_QS_Notif_092']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 
 			_truckPos = [_housePosition,10,25,5,0,0.5,0] call _fn_findSafePos;
 			if ((_truckPos distance2D _housePosition) < 30) then {
@@ -764,10 +774,10 @@ for '_x' from 0 to 1 step 0 do {
 						[
 							[],
 							{
-								50 cutText ['No medical supplies found. Keep searching, soldier!','PLAIN DOWN',0.75];
+								50 cutText [localize 'STR_QS_Text_247','PLAIN DOWN',0.75];
 							}
 						] remoteExec ['call',(allPlayers inAreaArray [_housePosition,300,300,0,FALSE]),FALSE];
-						['SM_IDAP_UPDATE',['Side Mission Update','Medical supplies not found']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+						['SM_IDAP_UPDATE',[localize 'STR_QS_Notif_091',localize 'STR_QS_Notif_093']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 						
 						_findNewLocation = TRUE;
 						_monitorScene = FALSE;
@@ -786,11 +796,11 @@ for '_x' from 0 to 1 step 0 do {
 						
 							if (!(_suppliesFound)) then {
 								_suppliesFound = TRUE;
-								['SM_IDAP_UPDATE',['Side Mission Update','Medical supplies located!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+								['SM_IDAP_UPDATE',[localize 'STR_QS_Notif_091',localize 'STR_QS_Notif_094']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 								[
 									[],
 									{
-										50 cutText ['Medical supplies located!','PLAIN DOWN',0.75];
+										50 cutText [localize 'STR_QS_Text_248','PLAIN DOWN',0.75];
 									}
 								] remoteExec ['call',(allPlayers inAreaArray [_housePosition,300,300,0,FALSE]),FALSE];
 							};
@@ -854,7 +864,7 @@ for '_x' from 0 to 1 step 0 do {
 								_x setMarkerAlpha 0;
 							} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 							['QS_TASK_SM_IDAP_1'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-							['SM_IDAP_UPDATE',['Side Mission Update','Stabilise and Medevac aid worker']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+							['SM_IDAP_UPDATE',[localize 'STR_QS_Notif_091',localize 'STR_QS_Notif_095']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 							_sceneType = 1;
 							deleteMarker _aidMarker;
 							deleteVehicle _crate;
@@ -866,9 +876,9 @@ for '_x' from 0 to 1 step 0 do {
 								_medevacTaskID,
 								TRUE,
 								[
-									'The humanitarian worker has been stabilised, get him back to a field hospital to complete our mission!',
-									'Medevac',
-									'Medevac'
+									localize 'STR_QS_Task_093',
+									localize 'STR_QS_Task_029',
+									localize 'STR_QS_Task_029'
 								],
 								[_recoverableUnit,TRUE],
 								'CREATED',
@@ -981,11 +991,11 @@ for '_x' from 0 to 1 step 0 do {
 			(!alive _crate) ||
 			{((((getPosASL _crate) # 2) < -0.5) && (isNull (attachedTo _crate)))}
 		) then {
-			[[WEST,'BLU'],'Medical supplies destroyed, mission failed!'] remoteExec ['sideChat',-2,FALSE];
+			[[WEST,'BLU'],localize 'STR_QS_Chat_064'] remoteExec ['sideChat',-2,FALSE];
 			_taskState = 'FAILED';
 		};
 		if (serverTime > _timeoutFailsafe) then {
-			[[WEST,'BLU'],'Mission failed, took too long!'] remoteExec ['sideChat',-2,FALSE];
+			[[WEST,'BLU'],localize 'STR_QS_Chat_065'] remoteExec ['sideChat',-2,FALSE];
 			_taskState = 'FAILED';
 		};
 	};

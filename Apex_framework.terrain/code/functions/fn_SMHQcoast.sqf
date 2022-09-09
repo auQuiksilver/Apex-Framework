@@ -139,15 +139,20 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Secure Smuggled Explosives',(toString [32,32,32])]);
+'QS_marker_sideMarker' setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_030']);
 
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		(format ['Secure the smuggled explosives! There are smuggled explosives somewhere on the %1 coastline in this area. Locate and secure them. Once you have secured the explosives, run away! This objective is not accurately marked.',worldName]),
-		'Secure Smuggled Explosives',
-		'Secure Smuggled Explosives'
+		(format [
+			'%2 %1 %3',
+			worldName,
+			localize 'STR_QS_Task_074',
+			localize 'STR_QS_Task_075'
+		]),
+		localize 'STR_QS_Task_076',
+		localize 'STR_QS_Task_076'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -157,16 +162,13 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	'download',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-
 _c4Messages = [
-	'The charge has been set! 15 seconds until detonation.',
-	'The c4 has been set! 15 seconds until detonation.',
-	'The charge is set! 15 seconds until detonation.'
+	localize 'STR_QS_Chat_061',
+	localize 'STR_QS_Chat_062',
+	localize 'STR_QS_Chat_063'
 ];
 _c4Message = selectRandom _c4Messages;
-_briefing = parseText "<t align='center'><t size='2.2'>New Side Mission</t><br/><t size='1.5' color='#00B2EE'>Secure Smuggled Explosives</t><br/>____________________<br/>The OPFOR have been smuggling explosives onto the island and hiding them in a Mobile HQ on the coastline.<br/><br/>We've marked the building on your map; head over there and secure the current shipment. Keep well back when you blow it; there's a lot of stuff in that building.</t>";
-//['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewSideMission',['Secure Smuggled Explosives']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewSideMission',[localize 'STR_QS_Notif_084']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	
 /*/-------------------- [ CORE LOOPS ]----------------------- [CORE LOOPS]/*/
 
@@ -186,7 +188,7 @@ for '_x' from 0 to 1 step 0 do {
 		/*/-------------------- DE-BRIEFING/*/
 
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
-		['sideChat',[WEST,'HQ'],'Objective destroyed, mission FAILED!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_060'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		[0,_flatPos] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		
 		/*/-------------------- DELETE/*/
@@ -225,7 +227,7 @@ for '_x' from 0 to 1 step 0 do {
 		
 		['sideChat',[WEST,'HQ'],_c4Message] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		uiSleep 14;											/*/ghetto bomb timer/*/
-		'Bo_GBU12_LGB' createVehicle (getPos _object); 		/*/ default "Bo_Mk82"/*/
+		'Bo_GBU12_LGB' createVehicle (getPosATL _object); 		/*/ default "Bo_Mk82"/*/
 		uiSleep 0.1;
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',

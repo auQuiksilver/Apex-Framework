@@ -36,7 +36,7 @@ if (
 	{(!isNull (objectParent _cameraOn))}
 ) exitWith {};
 if (isPlayer _t) then {
-	private _text = format ['Being revived by %1',profileName];
+	private _text = format ['%2 %1',profileName,localize 'STR_QS_Text_262'];
 	[63,[5,[_text,'PLAIN',0.5]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 };
 _time = diag_tickTime + 5.5;
@@ -109,7 +109,7 @@ waitUntil {
 if (_stance isEqualTo 'PRONE') then {
 	_cancelEnabled = TRUE;
 	_action_cancel = _cameraOn addAction [
-		'Cancel',
+		localize 'STR_QS_Interact_065',
 		{
 			_cameraOn = cameraOn;
 			_cameraOn removeAction (_this # 2);
@@ -136,7 +136,7 @@ waitUntil {
 };
 if (_cameraOn getVariable 'QS_client_animCancel') exitWith {
 	_cameraOn setVariable ['QS_client_animCancel',FALSE,FALSE];
-	50 cutText ['Cancelled','PLAIN DOWN',0.333];
+	50 cutText [localize 'STR_QS_Text_128','PLAIN DOWN',0.333];
 };
 if (_stance isEqualTo 'PRONE') then {
 	_time2 = diag_tickTime + 0.5;
@@ -162,13 +162,13 @@ if (_stance isEqualTo 'PRONE') then {
 };
 if (_cameraOn getVariable 'QS_client_animCancel') exitWith {
 	_cameraOn setVariable ['QS_client_animCancel',FALSE,FALSE];
-	50 cutText ['Cancelled','PLAIN DOWN',0.333];
+	50 cutText [localize 'STR_QS_Text_128','PLAIN DOWN',0.333];
 };
 if (_cancelEnabled) then {
 	_cameraOn removeAction _action_cancel;
 };
 if (_exit) exitWith {
-	50 cutText ['Revive cancelled','PLAIN DOWN',0.25];
+	50 cutText [localize 'STR_QS_Text_128','PLAIN DOWN',0.25];
 };
 waitUntil {
 	uiSleep 0.1;
@@ -190,14 +190,14 @@ if (!(_cameraOn getVariable ['QS_client_animCancel',FALSE])) then {
 							_t allowDamage TRUE;
 						};
 						if (isPlayer _t) then {
-							_text = format ['Revived by %1',profileName];
+							_text = format ['%2 %1',profileName,localize 'STR_QS_Text_263'];
 							[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 						};
 					} else {
-						50 cutText ['Revive failed, someone else may be interacting with your patient!','PLAIN DOWN',0.3];
+						50 cutText [localize 'STR_QS_Text_131','PLAIN DOWN',0.3];
 					};
 				} else {
-					50 cutText ['Revive failed!','PLAIN DOWN',0.3];
+					50 cutText [localize 'STR_QS_Text_131','PLAIN DOWN',0.3];
 				};
 			};
 		};

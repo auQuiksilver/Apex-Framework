@@ -690,7 +690,7 @@ if (_case < 40) exitWith {
 		if (isDedicated) then {
 			if (_rxID isEqualTo _cid) then {
 				diag_log format ['***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****',time,_profileName];
-				['systemChat',(format ['Robocop kicked %1 for AFK timeout.',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				['systemChat',(format ['%2 %1 %3',_profileName,localize 'STR_QS_Chat_144',localize 'STR_QS_Chat_145'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1 AFK timeout',_cid]);
 			};
 		};
@@ -741,7 +741,7 @@ if (_case < 40) exitWith {
 				_vehicle = createVehicle _array;
 				_vehicle setDir _direction;
 				_vehicle setPos _position;
-				_text = format ['%1 has inflated a(n) %2 at grid %3',_clientPN,(getText (configFile >> 'CfgVehicles' >> (_array # 0) >> 'displayName')),(mapGridPosition _unit)];
+				_text = format ['%1 %4 %2 %5 %3',_clientPN,(getText (configFile >> 'CfgVehicles' >> (_array # 0) >> 'displayName')),(mapGridPosition _unit),localize 'STR_QS_Chat_146',localize 'STR_QS_Hints_060'];
 				['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				if (surfaceIsWater _position) then {
 					_vehicle setPosASL _position;
@@ -1052,7 +1052,7 @@ if (_case < 60) exitWith {
 			_array = _this # 1;
 			_name = _array # 0;
 			{
-				_x setMarkerColor 'ColorWEST'; 
+				_x setMarkerColorLocal 'ColorWEST'; 
 				_x setMarkerPos (missionNamespace getVariable 'QS_HQpos');
 			} forEach [
 				'QS_marker_hqMarker',
@@ -1060,7 +1060,7 @@ if (_case < 60) exitWith {
 			];
 			[(missionNamespace getVariable 'QS_AO_HQ_flag'),WEST,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
 			['QS_IA_TASK_AO_2'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-			['sideChat',[WEST,'HQ'],(format ['Enemy commander captured by %1!',_name])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'HQ'],(format ['%2 %1!',_name,localize 'STR_QS_Chat_055'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
 	/*/===== Remote Add To Remains Collector/*/
@@ -1282,7 +1282,7 @@ if (_case < 80) exitWith {
 			};
 			comment 'Communicate here';
 			['QS_virtualSectors_sub_1_task'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-			['SC_SUB_COMPLETED',['','Datalink secured']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['SC_SUB_COMPLETED',['',localize 'STR_QS_Notif_069']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 				private ['_QS_virtualSectors_scoreSides','_scoreEast','_scoreToRemove'];
 				_QS_virtualSectors_scoreSides = missionNamespace getVariable ['QS_virtualSectors_scoreSides',[0,0,0,0,0]];
@@ -1354,7 +1354,7 @@ if (_case < 80) exitWith {
 				_marker1 setMarkerShapeLocal 'ICON';
 				_marker1 setMarkerTypeLocal 'mil_dot';
 				_marker1 setMarkerColorLocal 'ColorWEST';
-				_marker1 setMarkerTextLocal (format ['%1Supply Depot',(toString [32,32,32])]);
+				_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_023']);
 				_marker1 setMarkerSizeLocal [0.5,0.5];
 				_marker1 setMarkerPosLocal (missionNamespace getVariable ['QS_virtualSectors_sd_position',[-1000,-1000,0]]);
 				_marker1 setMarkerAlpha 1;
@@ -1367,7 +1367,7 @@ if (_case < 80) exitWith {
 			};		
 			comment 'Communicate here';
 			['QS_virtualSectors_sub_3_task'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-			['SC_SUB_COMPLETED',['','Supply Depot secured']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['SC_SUB_COMPLETED',['',localize 'STR_QS_Notif_070']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		};
 	};
 	/*/===== CAS spawner/*/
@@ -1517,7 +1517,7 @@ if (_case < 90) exitWith {
 			if (!(isObjectHidden _entity)) then {
 				_entity hideObjectGlobal TRUE;
 			};
-			_text = format ['%1 (%2) located intel',_profileName,_groupID];
+			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
 			_text remoteExec ['systemChat',-2];
 			if ((_entity getVariable ['QS_intel_marker',-1]) isNotEqualTo -1) then {
 				for '_x' from 0 to 1 step 1 do {
@@ -1531,7 +1531,7 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format ['%1 (%2) located intel',_profileName,_groupID];
+			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
 			_text remoteExec ['systemChat',-2];
 			[(_entity getVariable ['QS_entity_assocPos',(position _entity)]),_clientOwner] spawn (missionNamespace getVariable 'QS_fnc_aoTaskIDAP');
 		};
@@ -1541,7 +1541,7 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format ['%1 (%2) located intel',_profileName,_groupID];
+			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
 			_text remoteExec ['systemChat',-2];
 			[(_entity getVariable ['QS_entity_assocPos',(getPosATL _entity)]),_clientOwner] spawn (missionNamespace getVariable 'QS_fnc_aoTaskIG');
 		};
@@ -1638,14 +1638,14 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format ['%1 (%2) located intel',_profileName,_groupID];
+			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
 			_text remoteExec ['systemChat',-2];
 			[(getPosATL _entity)] spawn (missionNamespace getVariable 'QS_fnc_aoTaskKill');
 		};
 	};
 	if (_case isEqualTo 85) then {
-		['GRID_IDAP_UPDATE',['Area Of Operations','Objective failed<br/>No civilian casualties']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		'QS_marker_grid_civState' setMarkerText (format ['%1No civilian casualties (failed)',(toString [32,32,32])]);
+		['GRID_IDAP_UPDATE',[localize 'STR_QS_Notif_008',format ['%1<br/>%2',localize 'STR_QS_Notif_071',localize 'STR_QS_Notif_072']]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		'QS_marker_grid_civState' setMarkerTextLocal (format ['%1 %2 (%3)',(toString [32,32,32]),localize 'STR_QS_Marker_011',localize 'STR_QS_Marker_024']);
 		'QS_marker_grid_civState' setMarkerColor 'ColorRED';
 	};
 	if (_case isEqualTo 86) then {
@@ -1842,11 +1842,11 @@ if (_case < 100) exitWith {
 				_data params ['_vehicle','_name'];
 				if (_isPassenger) then {
 					// is passenger
-					50 cutText [(format ['Attention: Your pilot ( %1 ) has disconnected, an AI pilot is attempting to fly you back to base, please stand by.',_name]),'PLAIN DOWN',2];
+					50 cutText [(format ['%2 ( %1 ) %3',_name,localize 'STR_QS_Text_232',localize 'STR_QS_Text_233']),'PLAIN DOWN',2];
 					uiSleep 0.5 + (random 1.5);
 					if (!(QS_heli_takeover_action in (actionIDs player))) then {
 						QS_heli_takeover_action = player addAction [
-							'Take controls',
+							localize 'STR_QS_Interact_094',
 							{
 								params ['','','_actionID','_args'];
 								_args params ['_vehicle'];
@@ -1877,16 +1877,16 @@ if (_case < 100) exitWith {
 				} else {
 					// is pilot
 					_data params ['_vehicle','_name','_crewCount','_mapGridPosition'];
-					50 cutText [(format ['Attention: A pilot ( %1 ) has disconnected mid-flight with %2 passengers onboard at %3. An AI pilot is attempting to fly them back to base.',_name,_crewCount,_mapGridPosition]),'PLAIN DOWN',2];
+					50 cutText [(format ['%4 ( %1 ) %5 %2 %6 %3. %7',_name,_crewCount,_mapGridPosition,localize 'STR_QS_Text_234',localize 'STR_QS_Text_235',localize 'STR_QS_Text_236',localize 'STR_QS_Text_237']),'PLAIN DOWN',2];
 					uiSleep 0.5 + (random 1.5);
 					if (!(QS_heli_takeover_action in (actionIDs player))) then {
 						QS_heli_takeover_action = player addAction [
-							'Take controls',
+							localize 'STR_QS_Interact_094',
 							{
 								params ['','','_actionID','_args'];
 								_args params ['_vehicle'];
 								player removeAction _actionID;
-								50 cutText ['Requesting helicopter controls','PLAIN DOWN',0.5];
+								50 cutText [localize 'STR_QS_Text_238','PLAIN DOWN',0.5];
 								if (alive _vehicle) then {
 									if (isNull ((currentPilot _vehicle) getVariable ['BIS_fnc_moduleRemoteControl_owner',objNull])) then {
 										[96,1,player,_vehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -1915,8 +1915,8 @@ if (_case < 100) exitWith {
 				params ['','','_unit','_vehicle'];
 				uiSleep 0.5;
 				_pilot = currentPilot _vehicle;
-				50 cutText ['Taking control','PLAIN DOWN',0.5];
-				['systemChat',format ['%1 took control of a crashing %2 ( Pilot disconnected )',profileName,getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')]] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				50 cutText [localize 'STR_QS_Text_239','PLAIN DOWN',0.5];
+				['systemChat',format ['%1 %3 %2 ( %4 )',profileName,getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName'),localize 'STR_QS_Chat_148',localize 'STR_QS_Chat_149']] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				_pilot addEventHandler [
 					'Killed',
 					{
@@ -1986,7 +1986,6 @@ if (_case < 100) exitWith {
 		} forEach allGroups;
 	};
 	if (_case isEqualTo 99) then {
-		(format ["AI fire mission called - %1 - %2 - %3",isDedicated,_isRx,_rxID]) remoteExec ['systemChat',-2];
 		params ['','_args','_duration'];
 		_args spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 		missionNamespace setVariable ['QS_AI_scripts_fireMissions',((missionNamespace getVariable 'QS_AI_scripts_fireMissions') + [_duration]),QS_system_AI_owners];
@@ -2074,15 +2073,15 @@ if (_case < 110) exitWith {
 				};
 				if (serverTime > (_target getVariable ['QS_target_cooldown',-1])) then {
 					_target setVariable ['QS_target_cooldown',serverTime + 10,FALSE];
-					systemChat (format ['Our %1 has detected an enemy bomb incoming on %2',_vt,mapGridPosition _target]);
+					systemChat (format ['%1 %3 %2',_vt,mapGridPosition _target,localize 'STR_QS_Chat_150']);
 				};
 				if ((player distance _target) <= _warningRange) then {
 					if (isNull (objectParent player)) then {
 						if (player getUnitTrait 'QS_trait_leader') then {
-							50 cutText ['Incoming Bomb','PLAIN',0.5];
+							50 cutText [localize 'STR_QS_Text_240','PLAIN',0.5];
 						};
 					} else {
-						50 cutText ['Incoming Bomb','PLAIN',0.5];
+						50 cutText [localize 'STR_QS_Text_240','PLAIN',0.5];
 					};
 				};
 				if (_target in (attachedObjects (vehicle player))) then {

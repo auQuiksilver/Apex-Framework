@@ -78,8 +78,8 @@ _playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (
 _ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
 _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
-_hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
-_craters = 12;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
+_hitMarker_audio = 0;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
+_craters = 24;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
 _groupLocking = 0;										// Group Lock-ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create.
 _groupWaypoint = 1;										// Group Map Waypoint. 0 - Disabled. 1 - Enabled (default).		Can players see their group leaders [Shift+Click] dot on the map.
 _enemyUrbanSpawning = 1;								// (BETA) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
@@ -116,7 +116,7 @@ _main_mission_type = 'CLASSIC';
 
 //===================================================== SIDE MISSIONS
 
-_sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions.
+_sideMissions = 0;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions.
 
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
@@ -124,7 +124,7 @@ _aircraft_carrier_enabled = 0;								// Presence.			0 - Disabled. 1 - Enabled. 
 _aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. -2  Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
 _aircraft_carrier_respawning = 0;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
 // Destroyer
-_destroyer_enabled = 0;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
+_destroyer_enabled = 1;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
 _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
 _destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.

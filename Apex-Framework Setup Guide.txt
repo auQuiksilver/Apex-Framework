@@ -1,5 +1,4 @@
-Apex Framework
-Apex Framework 1.3.0 (27/08/2022) by Quiksilver ( armacombatgroup@gmail.com )
+Apex Framework 1.3.1 (9/09/2022) by Quiksilver ( armacombatgroup@gmail.com )
 
 Support
 
@@ -34,13 +33,13 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_120.Altis";
+template="Apex_framework_131.Altis";
 
-//template="Apex_framework_120.Tanoa";
+//template="Apex_framework_131.Tanoa";
 
-//template="Apex_framework_120.Malden";
+//template="Apex_framework_131.Malden";
 
-//template="Apex_framework_120.Enoch";
+//template="Apex_framework_131.Enoch";
 
 difficulty="Custom";
 
@@ -50,7 +49,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_120.Altis","Apex_framework_120.Tanoa","Apex_framework_120.Malden","Apex_framework_120.Enoch"};
+missionWhitelist[] = {"Apex_framework_131.Altis","Apex_framework_131.Tanoa","Apex_framework_131.Malden","Apex_framework_131.Enoch"};
 
 6b. Ensure that: forcedDifficulty = "Custom";
 

@@ -124,7 +124,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 									'SC_UPDATE_BAD',
 									[
 										(_taskData # 1),
-										(format ['Lost %1!',(_taskData # 2)])
+										(format ['%2 %1!',(_taskData # 2),localize 'STR_QS_Notif_073'])
 									]
 								] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 								{
@@ -148,7 +148,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 									'SC_UPDATE_GOOD',
 									[
 										(_taskData # 1),
-										(format ['Captured %1!',(_taskData # 2)])
+										(format ['%2 %1!',(_taskData # 2),localize 'STR_QS_Notif_074'])
 									]
 								] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 								{

@@ -111,7 +111,7 @@ if (_type isEqualTo 1) exitWith {
 						_position = [0,0,0];
 						for '_i' from 0 to 9 step 1 do {
 							_building = selectRandom _buildingList;
-							_position = getPos _building;
+							_position = getPosATL _building;
 							if (
 								((_position distance2D _hqPos) > 100) && 
 								(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,25,25,0,FALSE]) isEqualTo [])

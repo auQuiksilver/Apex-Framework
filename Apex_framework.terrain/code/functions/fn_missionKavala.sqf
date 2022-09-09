@@ -642,19 +642,24 @@ comment 'Mission task location';
 	TRUE,
 	[
 		(format ['
-			A CSAT armored vehicle carrying sensitive strategic intel was ambushed by a surprise Guerilla offensive in Kavala. While the intel it was transporting is classified above our clearance, recovery of it has been designated as a priority mission by CENTCOM.<br/><br/>
-		
-			Locate the CSAT armored vehicle in Kavala, it will have a tracker we can utilize to locate a number of stolen tablets.<br/><br/>
+				%2<br/><br/>
 			
-			The city is heavily occupied by Guerilla forces and reports advise they have significant AA capabilities. It is suggested to approach low and move in on foot. Stay with your squad, and remember your urban warfare training.<br/><br/>
-			
-			This objective is not accurately marked.<br/>
-			<img size="3" image="%1"/>
-		',(getText (configfile >> 'CfgVehicles' >> 'O_Truck_03_repair_F' >> 'editorPreview'))]),
-		'1 of 2: Locate CSAT Transport',
-		'1 of 2: Locate CSAT Transport'
+				%3<br/><br/>
+				
+				%4<br/><br/>
+				
+				This objective is not accurately marked.<br/>
+				<img size="3" image="%1"/>
+			',
+			(getText (configfile >> 'CfgVehicles' >> 'O_Truck_03_repair_F' >> 'editorPreview')),
+			localize 'STR_QS_Task_042',
+			localize 'STR_QS_Task_043',
+			localize 'STR_QS_Task_044'
+		]),
+		localize 'STR_QS_Task_045',
+		localize 'STR_QS_Task_045'
 	],
-	[3476.77,13108.7,0],
+	[5762,10367,0],
 	'CREATED',
 	5,
 	FALSE,
@@ -667,7 +672,7 @@ comment 'Mission task location';
 comment 'Intel collection marker location [6315.03,10640.2,0.00127029]';
 private _missionObjectiveMarkers = [];
 _intelStateMarker = createMarker ['QS_marker_GTintelState',[0,0,0]];
-_intelStateMarker setMarkerTextLocal (format ['%1Intel secured: 0',(toString [32,32,32])]);
+_intelStateMarker setMarkerTextLocal (format ['%1 %2 0',(toString [32,32,32]),localize 'STR_QS_Marker_020']);
 _intelStateMarker setMarkerPosLocal [5000,13900,0];
 _intelStateMarker setMarkerShapeLocal 'ICON';
 _intelStateMarker setMarkerSizeLocal [0.5,0.5];
@@ -677,7 +682,7 @@ _intelStateMarker setMarkerAlpha 0;
 _missionObjectiveMarkers pushBack _intelStateMarker;
 
 _timeMarker = createMarker ['QS_marker_GTtimer',[0,0,0]];
-_timeMarker setMarkerTextLocal (format ['%1Time remaining: 00:00',(toString [32,32,32])]);
+_timeMarker setMarkerTextLocal (format ['%1 %2 00:00',(toString [32,32,32]),localize 'STR_QS_Marker_021']);
 _timeMarker setMarkerPosLocal [5000,13500,0];
 _timeMarker setMarkerShapeLocal 'ICON';
 _timeMarker setMarkerSizeLocal [0.5,0.5];
@@ -688,9 +693,9 @@ _missionObjectiveMarkers pushBack _timeMarker;
 
 private _timerText = '';
 
-['CUSTOM_GEORGETOWN',['','Priority Mission']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_064']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 _teleportMarker = createMarker ['QS_marker_GT_TP',[0,0,0]];
-_teleportMarker setMarkerTextLocal (format ['%1Teleporter ([Shift]+[Click here] to teleport)',(toString [32,32,32])]);
+_teleportMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_022']);
 _teleportMarker setMarkerShapeLocal 'ICON';
 _teleportMarker setMarkerSizeLocal [0.5,0.5];
 _teleportMarker setMarkerColorLocal 'COLORYELLOW';
@@ -711,13 +716,13 @@ for '_x' from 0 to 1 step 0 do {
 	_serverTime = serverTime;
 	if (_serverTime > _missionEnd) exitWith {
 		comment 'Mission failure';
-		['CUSTOM_GEORGETOWN',['','Mission failed!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		['sideChat',[WEST,'HQ'],'We took too long in Kavala, soldiers. Better luck next time!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_065']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_054'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_missionStatus isEqualTo 'SUCCESS') exitWith {
 		comment 'Mission success';
-		['CUSTOM_GEORGETOWN',['','Mission success!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		['sideChat',[WEST,'HQ'],'Great work soldiers, get back to base and prepare for your next mission!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_066']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_053'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	
 	if (_timeNow > _updateInfoCheckDelay) then {
@@ -1039,9 +1044,9 @@ for '_x' from 0 to 1 step 0 do {
 							if (isPlayer _instigator) then {
 								private _text = '';
 								if ((random 1) > 0.666) then {
-									_text = format ['Civilian was murdered by %1!',(name _instigator)];
+									_text = format ['%2 %1!',(name _instigator),localize 'STR_QS_Chat_141'];
 								} else {
-									_text = format ['Civilian killed by %1',(name _instigator)];
+									_text = format ['%2 %1',(name _instigator),localize 'STR_QS_Chat_142'];
 								};
 								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};
@@ -1178,16 +1183,22 @@ for '_x' from 0 to 1 step 0 do {
 				TRUE,
 				[
 					(format ['
-						Move through the city and secure %1 pieces of intel.<br/><br/>
-						
-						Their locations have been downloaded to your map (marked in yellow).<br/><br/>
-						
-						<img size="3" image="%2"/>
-					',_captureThreshold,(getText (configfile >> 'CfgVehicles' >> 'Land_Tablet_02_F' >> 'editorPreview'))]),
-					'2 of 2: Secure Intel',
-					'2 of 2: Secure Intel'
+							%3 %1 %4<br/><br/>
+							
+							%5<br/><br/>
+							
+							<img size="3" image="%2"/>
+						',
+						_captureThreshold,
+						(getText (configfile >> 'CfgVehicles' >> 'Land_Tablet_02_F' >> 'editorPreview')),
+						localize 'STR_QS_Task_046',
+						localize 'STR_QS_Task_047',
+						localize 'STR_QS_Task_048'
+					]),
+					localize 'STR_QS_Task_049',
+					localize 'STR_QS_Task_049'
 				],
-				[3476.77,13108.7,0],
+				[5762,10367,0],
 				'CREATED',
 				5,
 				FALSE,
@@ -1205,12 +1216,12 @@ for '_x' from 0 to 1 step 0 do {
 				_x setMarkerAlpha 1;
 			} forEach _intelMarkers;
 			_intelStateMarker setMarkerAlpha 1;
-			['CUSTOM_GEORGETOWN',['',(format ['Secure intel (%1)',_captureThreshold])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['CUSTOM_GEORGETOWN',['',(format ['%2 (%1)',_captureThreshold,localize 'STR_QS_Notif_067'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		};
 	} else {
 		_hiddenTablets = _missionTablets select {(isObjectHidden _x)};
 		_countTablets = count _hiddenTablets;
-		_intelStateMarker setMarkerText (format ['%1Intel secured: %2 / %3',(toString [32,32,32]),_countTablets,_captureThreshold]);
+		_intelStateMarker setMarkerText (format ['%1 %4 %2 / %3',(toString [32,32,32]),_countTablets,_captureThreshold,localize 'STR_QS_Marker_020']);
 		if (_countTablets >= _captureThreshold) then {
 			_missionStatus = 'SUCCESS';
 		};
@@ -1229,9 +1240,9 @@ for '_x' from 0 to 1 step 0 do {
 			} forEach _hiddenTablets;
 		};
 	};
-	_timeMarker setMarkerText (format ['%1Time remaining: %2',(toString [32,32,32]),([((round(_missionEnd - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString'))]);
+	_timeMarker setMarkerText (format ['%1 %3 %2',(toString [32,32,32]),([((round(_missionEnd - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')),localize 'STR_QS_Marker_021']);
 	if ((count allPlayers) > 45) exitWith {
-		['CUSTOM_GEORGETOWN',['','Mission Cancelled (max player threshold)']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_068']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	};
 	uiSleep 3;
 };

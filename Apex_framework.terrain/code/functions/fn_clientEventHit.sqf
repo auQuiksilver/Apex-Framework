@@ -63,7 +63,6 @@ if (isNull _instigator) exitWith {
 	missionNamespace setVariable ['QS_robocop_busy',FALSE,FALSE];
 	uiNamespace setVariable ['QS_robocop_timeout',diag_tickTime + 3];
 };
-private _how = 'weapon';
 private _text = '';
 private _posUnit = getPosATL _unit;
 private _posInstigator = getPosATL _instigator;
@@ -84,16 +83,16 @@ private _reportEnabled = TRUE;
 private _isNearRoad = FALSE;
 private _nearestRoad = objNull;
 private _isClose = (_posUnit distance2D _posInstigator) < 15;
-private _role = _instigator getVariable ['QS_unit_role_displayName','Unknown Role'];
+private _role = _instigator getVariable ['QS_unit_role_displayName',localize 'STR_QS_Role_000'];
 private _vehicleType = typeOf _vehicleCausedBy;
 private _vehicleRoleText = '';
 private _vehicleCausedByType = missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],''];
 if (_vehicleCausedByType isEqualTo '') then {
 	_vehicleCausedByType = getText (configFile >> 'CfgVehicles' >> _vehicleType >> 'displayName');
 };
-_text = format ['You were hit by %1 [%2]',_name1,_role];
+_text = format ['%3 %1 [%2]',_name1,_role,localize 'STR_QS_Hints_008'];
 if (_vehicleCausedBy isKindOf 'Man') then {
-	_text = _text + (format [', likely with a(n) %1',getText (configFile >> 'CfgWeapons' >> (currentWeapon _vehicleCausedBy) >> 'displayName')]);
+	_text = _text + (format [' %2 %1',(getText (configFile >> 'CfgWeapons' >> (currentWeapon _vehicleCausedBy) >> 'displayName')),localize 'STR_QS_Hints_009']);
 };
 if (_isObjectParent) then {
 	if (_objectParent isKindOf 'Air') then {
@@ -110,18 +109,22 @@ if (_isObjectParent) then {
 };
 if (_isUAV) then {
 	_text = format [
-		'You were hit by %1 [%2], controlling a(n) %3.',
+		'%4 %1 [%2], %5 %3.',
 		_name1,
 		_role,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],'<Unknown vehicle type>']
+		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
+		localize 'STR_QS_Hints_008',
+		localize 'STR_QS_Hints_010'
 	];
 };
 if (_isAircraft && _isPilot && _isClose) then {
 	_text = format [
-		'You were hit by %1 [%2], pilot of a(n) %3.',
+		'%4 %1 [%2], %5 %3.',
 		_name1,
 		_role,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],'<Unknown vehicle type>']
+		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
+		localize 'STR_QS_Hints_008',
+		localize 'STR_QS_Hints_011'
 	];
 	_list = nearestObjects [_posUnit,[],50,TRUE];
 	_exclusions = [
@@ -141,23 +144,25 @@ if (_isAircraft && _isPilot && _isClose) then {
 	} forEach _list;
 };
 if (_isVehicle && _isPilot && _isClose) then {
-	_vehicleRoleText = 'driver';
+	_vehicleRoleText = localize 'STR_QS_Utility_005';
 	_nearestRoad = [_posUnit,15,FALSE] call (missionNamespace getVariable 'QS_fnc_nearestRoad');
 	if (!isPlayer (driver _vehicleCausedBy)) then {
 		if (isPlayer (effectiveCommander _vehicleCausedBy)) then {
-			_vehicleRoleText = 'commander';
+			_vehicleRoleText = localize 'STR_QS_Utility_007';
 			_instigator = effectiveCommander _vehicleCausedBy;
 			_uid1 = getPlayerUID _instigator;
 			_name1 = name _instigator;
-			_role = _instigator getVariable ['QS_unit_role_displayName','Unknown Role'];
+			_role = _instigator getVariable ['QS_unit_role_displayName',localize 'STR_QS_Role_000'];
 		};
 	};
 	_text = format [
-		'You were hit by %1 [%2], %3 of a(n) %4.',
+		'%5 %1 [%2], %3 %6 %4.',
 		_name1,
 		_role,
 		_vehicleRoleText,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],'<Unknown vehicle type>']
+		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
+		localize 'STR_QS_Hints_008',
+		localize 'STR_QS_Hints_012'
 	];
 	if (!isNull _nearestRoad) then {
 		if (((getRoadInfo _nearestRoad) # 0) in ['ROAD','MAIN ROAD','TRACK']) then {
@@ -167,13 +172,15 @@ if (_isVehicle && _isPilot && _isClose) then {
 };
 if (_isStatic) then {
 	_text = format [
-		'You were hit by %1 [%2], using a(n) Static %3.',
+		'%4 %1 [%2], %5 %3.',
 		_name1,
 		_role,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],'<Unknown vehicle type>']
+		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
+		localize 'STR_QS_Hints_008',
+		localize 'STR_QS_Hints_013'
 	];
 };
-(missionNamespace getVariable 'QS_managed_hints') pushBack [1,TRUE,10,-1,_text,[],(serverTime + 15),TRUE,'Robocop',TRUE];
+(missionNamespace getVariable 'QS_managed_hints') pushBack [1,TRUE,10,-1,_text,[],(serverTime + 15),TRUE,localize 'STR_QS_Utility_002',TRUE];
 if (!_reportEnabled) exitWith {
 	missionNamespace setVariable ['QS_robocop_busy',FALSE,FALSE];
 	uiNamespace setVariable ['QS_robocop_timeout',diag_tickTime + 3];
@@ -193,7 +200,7 @@ if (!_reportEnabled) exitWith {
 		missionNamespace setVariable ['QS_sub_actions',[],FALSE];
 	};
 	QS_sub_actions01 = player addAction [
-		'(ROBOCOP) Do not report the incident',
+		format ['(%1) %2',localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_063'],
 		(missionNamespace getVariable 'QS_fnc_atReport'),
 		[2,'',objNull,[0,0,0],''],
 		95,
@@ -203,7 +210,7 @@ if (!_reportEnabled) exitWith {
 	player setUserActionText [QS_sub_actions01,((player actionParams QS_sub_actions01) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_sub_actions01) # 0)])];
 	QS_sub_actions pushBack QS_sub_actions01;
 	QS_sub_actions02 = player addAction [
-		format ['(ROBOCOP) Report %1',_name1],
+		format ['(%2) %3 %1',_name1,localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_064'],
 		(missionNamespace getVariable 'QS_fnc_atReport'),
 		[1,_uid1,_causedBy,_posUnit,_name1],
 		94,
@@ -218,7 +225,16 @@ if (!_reportEnabled) exitWith {
 		_image = "media\images\general\robocop.jpg";
 		while {((missionNamespace getVariable 'QS_sub_actions') isNotEqualTo [])} do {
 			_tr = _ti - diag_tickTime;
-			[(format ['<t size="1.1">ROBOCOP<t/><br/><img size="7" image="%2"/><br/><br/>In your Action Menu (SCROLL MENU), you have the option to anonymously report the incident. This option is available for %1 seconds.',(round _tr),_image])] call (missionNamespace getVariable 'QS_fnc_hint');
+			[
+				(format [
+					'<t size="1.1">%3<t/><br/><img size="7" image="%2"/><br/><br/>%4 %1 %5.',
+					(round _tr),
+					_image,
+					localize 'STR_QS_Utility_002',
+					localize 'STR_QS_Hints_014',
+					localize 'STR_QS_Utility_003'
+				])
+			] call (missionNamespace getVariable 'QS_fnc_hint');
 			uiSleep 0.5;
 			if ((missionNamespace getVariable 'QS_sub_actions') isEqualTo []) exitWith {};
 			if (diag_tickTime >= _ti) exitWith {[''] call (missionNamespace getVariable 'QS_fnc_hint');};

@@ -74,10 +74,10 @@ if (_type isEqualTo 'Select') then {
 						/*/
 					};
 					saveMissionProfileNamespace;
-					_text = parseText format ['Uniform Texture Set: %1<br/>by %2',_displayName,_author];
+					_text = parseText format ['%3 %1<br/>by %2',_displayName,_author,localize 'STR_QS_Hints_074'];
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];
 				} else {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'You must be at base to re-skin your uniform!',[],-1];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_075',[],-1];
 				};
 			} else {
 				if (_index isEqualTo 0) then {
@@ -87,13 +87,13 @@ if (_type isEqualTo 'Select') then {
 					missionProfileNamespace setVariable ['QS_ClientUTexture2',''];
 					missionProfileNamespace setVariable ['QS_ClientUTexture2_Uniforms2',[]];
 					saveMissionProfileNamespace;
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,'Uniform Texture Reset',[],-1];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_076',[],-1];
 				} else {
-					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,8,-1,'Unsupported uniform for selected skin. Please select correct uniform type.',[],-1];
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,8,-1,localize 'STR_QS_Hints_077',[],-1];
 				};
 			};
 		} else {
-			_text = parseText format ['Supporter level required: %1<br/>Your supporter level: %2<br/>Uniform Texture not set.',_supporterAccess,_supporterLevel];
+			_text = parseText format ['%3 %1<br/>%4 %2<br/>%5',_supporterAccess,_supporterLevel,localize 'STR_QS_Hints_078',localize 'STR_QS_Hints_079',localize 'STR_QS_Hints_080'];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1];
 		};
 	};

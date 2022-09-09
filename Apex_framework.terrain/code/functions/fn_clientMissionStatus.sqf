@@ -54,7 +54,7 @@ _fn_sectorHint = {
 			};
 			if (!(missionNamespace getVariable 'QS_client_vs_msgEnteredCaptureArea')) then {
 				missionNamespace setVariable ['QS_client_vs_msgEnteredCaptureArea',TRUE,FALSE];
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,'Entering CAPTURE area',[],(serverTime + 15)];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,localize 'STR_QS_Hints_091',[],(serverTime + 15)];
 			};
 			if (missionNamespace getVariable 'QS_client_vs_msgEnteredControlArea') then {
 				missionNamespace setVariable ['QS_client_vs_msgEnteredControlArea',FALSE,FALSE];
@@ -69,11 +69,11 @@ _fn_sectorHint = {
 			};
 			if (!(missionNamespace getVariable 'QS_client_vs_msgEnteredControlArea')) then {
 				missionNamespace setVariable ['QS_client_vs_msgEnteredControlArea',TRUE,FALSE];
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,'Entering CONTROL area',[],(serverTime + 15)];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,localize 'STR_QS_Hints_093',[],(serverTime + 15)];
 			};
 			if (missionNamespace getVariable 'QS_client_vs_msgEnteredCaptureArea') then {
 				missionNamespace setVariable ['QS_client_vs_msgEnteredCaptureArea',FALSE,FALSE];
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,'Leaving CAPTURE area, entering CONTROL area',[],(serverTime + 15)];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,(format ['%1, %2',localize 'STR_QS_Hints_092',localize 'STR_QS_Hints_093']),[],(serverTime + 15)];
 			};
 		};
 	} else {
@@ -86,13 +86,13 @@ _fn_sectorHint = {
 		if (missionNamespace getVariable 'QS_client_vs_msgEnteredCaptureArea') then {
 			missionNamespace setVariable ['QS_client_vs_msgEnteredCaptureArea',FALSE,FALSE];
 			if ((_playerPos distance2D _position) < (_radiusControl * 1.5)) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,'Leaving CAPTURE area',[],(serverTime + 15)];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,localize 'STR_QS_Hints_092',[],(serverTime + 15)];
 			};
 		};
 		if (missionNamespace getVariable 'QS_client_vs_msgEnteredControlArea') then {
 			missionNamespace setVariable ['QS_client_vs_msgEnteredControlArea',FALSE,FALSE];
 			if ((_playerPos distance2D _position) < (_radiusControl * 1.5)) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,'Leaving CONTROL area',[],(serverTime + 15)];
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [1,FALSE,3,-1,localize 'STR_QS_Hints_094',[],(serverTime + 15)];
 			};
 		};
 	};
@@ -593,9 +593,9 @@ _QS_ctrl10 ctrlSetPosition [
 ];
 _QS_ctrl10 ctrlSetScale _QS_ctrl10_scale;
 if (ctrlShown _QS_ctrl0) then {
-	_QS_ctrl_text10 = format ['Press [%1] to hide',_keyText];
+	_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_093'];
 } else {
-	_QS_ctrl_text10 = format ['Press [%1] to show mission status',_keyText];
+	_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_094'];
 };
 _QS_ctrl10 ctrlSetFont _QS_ctrl10_font;
 _QS_ctrl10 ctrlSetText _QS_ctrl_text10;
@@ -785,7 +785,7 @@ _productVersionCtrl ctrlSetPosition [
 ];  
 _productVersionCtrl ctrlSetTextColor [1,1,1,0.075];
 _productVersionCtrl ctrlSetFont 'TahomaB';
-_productVersionCtrl ctrlSetText (missionNamespace getVariable ['QS_system_devBuild_text','Apex Framework 1.2.0 (Beta)']);
+_productVersionCtrl ctrlSetText (missionNamespace getVariable ['QS_system_devBuild_text','Apex Framework 1.3.1 (Stable)']);
 _productVersionCtrl ctrlCommit 0;
 
 private _virtualSectorsData = [];
@@ -849,7 +849,7 @@ _client_uiCtrl_earplugs ctrlSetTextColor [0.8,0.8,0.8,1];
 _client_uiCtrl_earplugs ctrlCommit 0;
 _client_uiCtrl_earplugs = nil;
 
-private _ctrl_aps_1_type = 'APS';
+private _ctrl_aps_1_type = (localize 'STR_QS_Menu_095');
 private _ctrl_aps_count = 0;
 private _ctrl_aps_textSize = 0.8;
 private _ctrl_aps_color_default = [
@@ -1313,9 +1313,9 @@ for '_x' from 0 to 1 step 0 do {
 			_keyText = _key select [1,((count _key) - 2)];
 		};
 		if (ctrlShown _QS_ctrl0) then {
-			_QS_ctrl_text10 = format ['Press [%1] to hide',_keyText];
+			_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_093'];
 		} else {
-			_QS_ctrl_text10 = format ['Press [%1] to show mission status',_keyText];
+			_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_094'];
 		};
 		_QS_ctrl01 ctrlSetTextColor _QS_ctrl01_backgroundColor;
 		{

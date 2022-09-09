@@ -16,7 +16,7 @@ ______________________________________________/*/
 scriptName 'QS - SM - AA';
 //comment 'Get any data we need';
 private _spawnPosition = [0,0,0];
-private _aaTypes = ['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_sam_system_04_f'];
+private _aaTypes = ['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f'];
 private _aaHulls = [];
 private _aaTurrets = [];
 private _aaTurretObjects = [];
@@ -39,8 +39,8 @@ private _entitiesParams = [['Air'],['UAV_01_base_F','UAV_06_base_F','ParachuteBa
 private _rearmInterval = _time + (240 + (random 80));
 private _rearming = FALSE;
 private _rearmDelay = [15,20,30];
-_rearmingText = 'The CSAT AA Battery is rearming!';
-_finishedRearmText = 'The CSAT AA Battery has finished rearming!';
+_rearmingText = localize 'STR_QS_Task_096';
+_finishedRearmText = localize 'STR_QS_Task_097';
 private _turretParams = [];
 private _targetListEnemy = [];
 private _targetType = '';
@@ -210,13 +210,13 @@ _compositionData = nil;
 				};
 				if (!isNull _instigator) then {
 					if (isPlayer _instigator) then {
-						_text = format ['%1 ( %2 ) destroyed an AA tank!',(name _instigator),(groupID (group _instigator))];
+						_text = format ['%1 ( %2 ) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_066'];
 						[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
 					} else {
-						[[WEST,'BLU'],'AA tank destroyed!'] remoteExec ['sideChat',-2,FALSE];
+						[[WEST,'BLU'],localize 'STR_QS_Chat_067'] remoteExec ['sideChat',-2,FALSE];
 					};
 				} else {
-					[[WEST,'BLU'],'AA tank destroyed!'] remoteExec ['sideChat',-2,FALSE];
+					[[WEST,'BLU'],localize 'STR_QS_Chat_067'] remoteExec ['sideChat',-2,FALSE];
 				};
 			}
 		];
@@ -237,18 +237,18 @@ _compositionData = nil;
 } forEach ([(_composition # 0)] call (missionNamespace getVariable 'QS_fnc_smEnemyEast'));
 //comment 'Brief players';
 _fuzzyPos = [((_spawnPosition # 0) - 300) + (random 600),((_spawnPosition # 1) - 300) + (random 600),0];
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_037']);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Priority Target: Anti-Air Battery',(toString [32,32,32])]);
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'The enemy has set up an Anti-Air Battery near our base. This is a priority target, soldiers! It has extremely long range! Get over there and take it out at all cost. While it is active, it is not advised to use air transport. This objective is not accurately marked. While it is re-arming (30 seconds), it will not be able to lock on at long range. Bringing heavy explosives is advised.',
-		'Anti-Air Battery',
-		'Anti-Air Battery'
+		localize 'STR_QS_Task_094',
+		localize 'STR_QS_Task_095',
+		localize 'STR_QS_Task_095'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -258,14 +258,12 @@ _fuzzyPos = [((_spawnPosition # 0) - 300) + (random 600),((_spawnPosition # 1) -
 	'destroy',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-_briefing = parseText "<t align='center' size='2.2'>Priority Target</t><br/><t size='1.5' color='#b60000'>Anti-Air Battery</t><br/>____________________<br/>OPFOR forces are setting up an anti-air battery to hit you guys damned hard! We've picked up their positions with thermal imaging scans and have marked it on your map.<br/><br/>This is a priority target, boys!";
-//['hint',_briefing] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['NewPriorityTarget',['Anti-Air Battery']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewPriorityTarget',[localize 'STR_QS_Notif_096']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 //comment 'Loop';
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
 for '_x' from 0 to 1 step 0 do {
 	if (((_aaHulls findIf {(alive _x)}) isEqualTo -1) || {(missionNamespace getVariable ['QS_smSuccess',FALSE])}) exitWith {
-		['CompletedPriorityTarget',['Anti-Air Battery Neutralized']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['CompletedPriorityTarget',[localize 'STR_QS_Notif_097']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		[1,_spawnPosition] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 		{
 			_x setMarkerAlpha 0;

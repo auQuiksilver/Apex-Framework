@@ -24,5 +24,5 @@ player playActionNow 'gestureHi';
 [_t] joinSilent (group player);
 (group player) setBehaviour 'CARELESS';
 (group player) setCombatMode 'BLUE';
-50 cutText ['The unit is now in your group','PLAIN DOWN',0.5];
+50 cutText [localize 'STR_QS_Text_112','PLAIN DOWN',0.5];
 true;

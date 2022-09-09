@@ -6,15 +6,17 @@ Author:
 
 Last modified:
 
-	29/08/2022 A3 2.10 by Quiksilver
+	9/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-author = "Quiksilver";												/*/ Visible when loading mission/*/
-onLoadName = "Invade & Annex";										/*/ Visible when loading mission/*/
+missionProductVersion = "1.3.1";
+missionProductStatus = "Stable";											// "Stable" // "Dev"
+author = "Quiksilver";																															/*/ Visible when loading mission/*/
+onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
 loadScreen = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
 overviewPicture = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
@@ -24,12 +26,10 @@ onLoadIntro = "";													/*/ Displays a message while the intro is loading.
 onLoadIntroTime = 0;												/*/ Time and date displayed while the intro loads. 1 visible, 0 hidden./*/
 onLoadMissionTime = 0;												/*/ Time and date displayed while the mission loads. 1 visible, 0 hidden./*/
 missionGroup = "ApexFramework";										/*/ Required for missionProfileNamespace compatibility between updates./*/
-missionProductVersion = "1.3.1";
-missionProductStatus = "Dev";										// "Stable" // "Dev"
 class Header {
 	gameType = COOP;												/*/ Unknown, COOP, DM, TDM, CTF, SC, CTI, RPG, Sandbox, Seize, Defend./*/
 	minPlayers = 1;													/*/ Min # of players the MISSION supports/*/
-	maxPlayers = 81;												/*/ Max # of players the MISSION supports, not server slots. Make sure # is greater than server slots./*/
+	maxPlayers = 84;												/*/ Max # of players the MISSION supports, not server slots. Make sure # is greater than server slots./*/
 };
 skipLobby = 0;											// Player skips lobby on join. An attractive idea, however many players report "Stuck on receieving data" when this is enabled due to bugged lobby slots. So we leave this off for stability.
 disabledAI = 1;											/*/ No AI in playable units/*/
@@ -54,9 +54,28 @@ disableRandomization[] = {};
 disableGateRandomization = 1;
 class CfgUnitTemplates {};
 class CfgVehicleTemplates {};
-arsenalRestrictedItems[] = {};
+arsenalRestrictedItems[] = {};							// Used to blacklist undesired Arsenal equipment, which prevents user saved loadout from being loaded if it contains restricted items. // More restrictions in "code\functions\fn_clientArsenal.sqf"
+allowProfileGlasses = 0;								// When set to 0 will stop glasses set in player profile from being added to player's gear.
 overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom handling.
 unsafeCVL=1;											// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
+
+ReviveMode = 0;						// Apex Framework Notes: Keep this as 0.																	//0: disabled, 1: enabled, 2: controlled by player attributes
+ReviveUnconsciousStateMode = 0;		// Apex Framework Notes: Not used																			//0: basic, 1: advanced, 2: realistic
+ReviveRequiredTrait = 1;			// Apex Framework Notes: If set as 0, any role can revive													//0: none, 1: medic trait is required
+ReviveRequiredItems = 2;			// Apex Framework Notes: If set as 0, no items required. If 1, medikit. If 2, medikit + first aid kit.	 	//0: none, 1: medkit, 2: medkit or first aid kit
+ReviveRequiredItemsFakConsumed = 1;	// Apex Framework Notes: If set as 0, First Aid Kit not used on revive. If 1, First Aid Kit consumed.		//0: first aid kit is not consumed upon revive, 1: first aid kit is consumed
+ReviveDelay = 6;					// Apex Framework Notes: Not used (we link to animation speed instead)										//time needed to revive someone (in secs)
+ReviveMedicSpeedMultiplier = 2;		// Apex Framework Notes: Not used																			//speed multiplier for revive performed by medic
+ReviveForceRespawnDelay = 3;		// Apex Framework Notes: Not used																			//time needed to perform force respawn (in secs)
+ReviveBleedOutDelay = 600;			// Apex Framework Notes: General bleedout time. default: 600 seconds (10 minutes)							//unconscious state duration (in secs)
+
+respawn = 3;											/*/ 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird./*/
+respawnDelay = 5;										/*/ Delay prior to respawn/*/
+respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard when killed./*/
+respawnOnStart = 0;
+
+/*/ REMOVE THE BELOW SECTIONS IF YOU ARE HAVING TROUBLE ADDING MODS. NOTE: THIS WILL SEVERELY WEAKEN ANTICHEAT SECURITY /*/
+
 class CfgDisabledCommands {
     class CREATEUNIT
     {
@@ -74,7 +93,7 @@ class CfgDisabledCommands {
     };
 	
 	
-	/*/ Zeus map markers
+	/*/ Zeus map markers.    RE-ENABLE THIS SECTION TO STRENGTHEN ANTICHEAT SECURITY. DISABLED FOR ZEUS MARKER FUNCTIONALITY.
     class SETMARKERTEXT
     {
         class SYNTAX1
@@ -233,19 +252,9 @@ class CfgRemoteExec {
 		class QS_fnc_remoteExecCmd {allowedTargets = 0;};
 	};
 };
-respawn = 3;											/*/ 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird./*/
-respawnDelay = 5;										/*/ Delay prior to respawn/*/
-respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard when killed./*/
-respawnOnStart = 0;
-reviveMode = 0;
-reviveUnconsciousStateMode = 0;
-reviveRequiredTrait = 0;
-reviveRequiredItems = 2;
-reviveRequiredItemsFakConsumed = 1;
-reviveMedicSpeedMultiplier = 2;
-reviveDelay = 6;
-reviveForceRespawnDelay = 3;
-reviveBleedOutDelay = 120;
+
+/*/ REMOVE THE ABOVE SECTIONS IF YOU ARE HAVING TROUBLE ADDING MODS. NOTE: THIS WILL SEVERELY WEAKEN ANTICHEAT SECURITY /*/
+
 debriefing = 1;
 class CfgFunctions {
 	class QS {
@@ -745,54 +754,49 @@ class CfgFunctions {
 	};
 };
 class CfgDebriefing {
-	class QS_RD_end_1 {
-		title = "Role whitelisted";
-		description = "You have joined a whitelisted role, please re-assign. If you would like to be on the whitelist, please speak to staff.";
-		picture = "media\images\insignia\comm_patch.paa";
-	};
 	class QS_RD_end_2 {
-		title = "Imperfect connection";
-		description = "Your connection was imperfect, please re-connect. This measure reduces the prevalence of bugs and glitches caused by de-sync/packet loss during initialization. Thank you for your patience.";
+		title = "$STR_QS_Dialogs_001";
+		description = "$STR_QS_Dialogs_002";
 		picture = "media\images\insignia\comm_patch.paa";
 	};
 	class QS_RD_end_3 {
-		title = "Blacklisted";
-		description = "You have been temporarily blacklisted from this role, please re-assign.";
+		title = "$STR_QS_Dialogs_003";
+		description = "$STR_QS_Dialogs_004";
 		picture = "media\images\insignia\comm_patch.paa";
 	};
 	class QS_RD_end_4 {
-		title = "Reserved Profile Name";
-		description = "Your profile name is reserved for a staff member or supporter on this server, please use a different profile name!";
+		title = "$STR_QS_Dialogs_005";
+		description = "$STR_QS_Dialogs_006";
 		picture = "media\images\insignia\comm_patch.paa";
 	};
 	class QS_RD_end_5 {
-		title = "Invalid Profile Name";
-		description = "Your profile name has been rejected by this server. Please use a different profile name.";
+		title = "$STR_QS_Dialogs_007";
+		description = "$STR_QS_Dialogs_008";
 		picture = "media\images\insignia\comm_patch.paa";
 	};
 	class QS_RD_end_6 {
-		title = "Fighter Pilot Whitelist";
-		description = "You are not whitelisted as a Fighter Pilot.";
+		title = "$STR_QS_Dialogs_009";
+		description = "$STR_QS_Dialogs_010";
 		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
 	};
 	class QS_RD_end_7 {
-		title = "Depleted Assets";
-		description = "You have depleted your pool of aircraft (3), it will refresh after server restart!";
+		title = "$STR_QS_Dialogs_011";
+		description = "$STR_QS_Dialogs_012";
 		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
 	};
 	class QS_RD_end_8 {
-		title = "Role Disabled";
-		description = "This role is currently disabled!";
+		title = "$STR_QS_Dialogs_013";
+		description = "$STR_QS_Dialogs_014";
 		picture = "media\images\insignia\comm_patch.paa";
 	};
 	class QS_RD_end_9 {
-		title = "Insufficient Transport Score";
-		description = "You have insufficient Transport Score as a helipilot, please fly transport!";
+		title = "$STR_QS_Dialogs_015";
+		description = "$STR_QS_Dialogs_016";
 		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";
 	};
 	class QS_RD_end_10 {
-		title = "Insufficient Playtime";
-		description = "You must play on the server more prior to using the Pilot roles";
+		title = "$STR_QS_Dialogs_017";
+		description = "$STR_QS_Dialogs_018";
 		picture = "\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa";	
 	};
 };
@@ -2466,7 +2470,7 @@ class QS_RD_client_dialog_menu_main {
 		class QS_RD_client_dialog_menu_main_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1000;
-			text = "Player Menu";
+			text = "$STR_QS_Dialogs_019";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.0955624 * safezoneW;
@@ -2508,7 +2512,7 @@ class QS_RD_client_dialog_menu_main {
 			sizeEx = 0.028;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			tooltip = "FPS, Time to server restart (estimated)";
+			tooltip = "$STR_QS_Dialogs_020";
 		};
 		
 		class QS_RD_client_dialog_menu_main_button_1: QS_RD_dialog_RscButton {
@@ -2623,7 +2627,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 		class QS_RD_client_dialog_menu_view_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Visibility";
+			text = "$STR_QS_Dialogs_021";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.0955624 * safezoneW;
@@ -2652,7 +2656,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			sizeEx = 0.028;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			tooltip = "Health, Equipment load (kg), FPS";
+			tooltip = "$STR_QS_Dialogs_022";
 		};
 		class QS_RD_client_dialog_menu_view_button_1: QS_RD_dialog_RscButtonInvisible {
 			moving = 1;
@@ -2664,7 +2668,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			h = 0.0410023 * safezoneH;
 			shadow = 0;
 			onButtonClick = "['onButtonClick',0] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
-			tooltip = "Visibility on foot";
+			tooltip = "$STR_QS_Dialogs_023";
 		};
 		class QS_RD_client_dialog_menu_view_picture_2: QS_RD_dialog_RscPictureKeepAspect {
 			moving = 1;
@@ -2679,7 +2683,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 		class QS_RD_client_dialog_menu_view_text_2: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1806;
-			text = "Overall";
+			text = "$STR_QS_Dialogs_024";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.655 * safezoneH + safezoneY;
 			w = 0.05 * safezoneW;
@@ -2736,7 +2740,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			h = 0.0410023 * safezoneH;
 			shadow = 0;
 			onButtonClick = "['onButtonClick',1] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
-			tooltip = "Visibility in land vehicle or boat";
+			tooltip = "$STR_QS_Dialogs_025";
 		};
 		class QS_RD_client_dialog_menu_view_picture_3: QS_RD_dialog_RscPictureKeepAspect {
 			moving = 1;
@@ -2751,7 +2755,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 		class QS_RD_client_dialog_menu_view_text_4: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1811;
-			text = "Object";
+			text = "$STR_QS_Dialogs_026";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.705 * safezoneH + safezoneY;
 			w = 0.05 * safezoneW;
@@ -2808,7 +2812,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			h = 0.0410023 * safezoneH;
 			shadow = 0;
 			onButtonClick = "['onButtonClick',2] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
-			tooltip = "Visibility in helicopter";
+			tooltip = "$STR_QS_Dialogs_027";
 		};
 		class QS_RD_client_dialog_menu_view_picture_4: QS_RD_dialog_RscPictureKeepAspect {
 			moving = 1;
@@ -2823,7 +2827,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 		class QS_RD_client_dialog_menu_view_text_6: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1816;
-			text = "Shadow";
+			text = "$STR_QS_Dialogs_028";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.755 * safezoneH + safezoneY;
 			w = 0.05 * safezoneW;
@@ -2880,7 +2884,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			h = 0.0410023 * safezoneH;
 			shadow = 0;
 			onButtonClick = "['onButtonClick',3] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');";
-			tooltip = "Visibility in plane";
+			tooltip = "$STR_QS_Dialogs_029";
 		};
 		class QS_RD_client_dialog_menu_view_picture_5: QS_RD_dialog_RscPictureKeepAspect {
 			moving = 1;
@@ -2895,7 +2899,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 		class QS_RD_client_dialog_menu_view_text_8: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1821;
-			text = "Grass";
+			text = "$STR_QS_Dialogs_030";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.805 * safezoneH + safezoneY;
 			w = 0.05 * safezoneW;
@@ -2910,7 +2914,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 			colorFocused[] = {0,0,0,0};
 			colorShadow[] = {0,0,0,0};
 			colorBorder[] = {0,0,0,0};
-			tooltip = "Terrain resolution. Lower = more detail. Higher = less detail.";
+			tooltip = "$STR_QS_Dialogs_031";
 		};
 		class QS_RD_client_dialog_menu_view_xslider_4 : QS_RD_XSlider {
 			moving = 1;
@@ -2946,7 +2950,7 @@ class QS_RD_client_dialog_menu_viewSettings {
 		class QS_RD_client_dialog_menu_view_button_5: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1824;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -2965,28 +2969,6 @@ class QS_RD_client_dialog_menu_options {
 	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 	class controls {
-		/*/ ===== BACKUP
-		class QS_RD_client_dialog_menu_options_frame_1: QS_RD_dialog_RscFrame {
-			moving = 1;
-			idc = 1800;
-			x = 0.372583 * safezoneW + safezoneX;
-			y = 0.52 * safezoneH + safezoneY;
-			w = 0.145 * safezoneW;
-			h = 0.40 * safezoneH;
-			shadow = 0;
-			colorBackground[] = {0,0,0,0.7};
-			colorDisabled[] = {1,1,1,0.25};
-		};
-		class QS_RD_client_dialog_menu_options_box_1: QS_RD_dialog_Box {
-			moving = 1;
-			idc = 1801;
-			x = 0.372583 * safezoneW + safezoneX;
-			y = 0.52 * safezoneH + safezoneY;
-			w = 0.145 * safezoneW;
-			h = 0.40 * safezoneH;
-		};
-		/*/
-		
 		class QS_RD_client_dialog_menu_options_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
 			idc = 1800;
@@ -3033,8 +3015,8 @@ class QS_RD_client_dialog_menu_options {
 		class QS_RD_client_dialog_menu_options_text_2: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1804;
-			text = "Stamina";
-			tooltip = "ArmA 3 Stamina";
+			text = "$STR_QS_Dialogs_033";
+			tooltip = "$STR_QS_Dialogs_033";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.59 * safezoneH + safezoneY;
 			w = 0.045 * safezoneW;
@@ -3058,13 +3040,13 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.585 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle Stamina";
+			tooltip = "$STR_QS_Dialogs_034";
 			onCheckedChanged = "['StaminaCheckbox',_this # 0,_this # 1] call (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		class QS_RD_client_dialog_menu_options_text_3: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1806;
-			text = "Weapon Sway";
+			text = "$STR_QS_Dialogs_035";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.63 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3079,7 +3061,7 @@ class QS_RD_client_dialog_menu_options {
 			colorFocused[] = {0,0,0,0};
 			colorShadow[] = {0,0,0,0};
 			colorBorder[] = {0,0,0,0};
-			tooltip = "Aim Coefficient";
+			tooltip = "$STR_QS_Dialogs_036";
 		};
 		class QS_RD_client_dialog_menu_options_xslider_1 : QS_RD_XSlider {
 			moving = 1;
@@ -3090,12 +3072,12 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.655 * safezoneH + safezoneY;
 			w = 0.09 * safezoneW;
 			h = 0.0180039 * safezoneH;
-			tooltip = "0.1 - 1.1 (vanilla default 1, server default 0.1)";
+			tooltip = "$STR_QS_Dialogs_037";
 		};
 		class QS_RD_client_dialog_menu_options_text_4 : QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1808;
-			text = "1";
+			text = "";
 			tooltip = "";
 			x = 0.475 * safezoneW + safezoneX;
 			y = 0.655 * safezoneH + safezoneY;
@@ -3116,7 +3098,7 @@ class QS_RD_client_dialog_menu_options {
 		class QS_RD_client_dialog_menu_options_text_5: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1809;
-			text = "First-Person";
+			text = "$STR_QS_Dialogs_038";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.695 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3131,7 +3113,7 @@ class QS_RD_client_dialog_menu_options {
 			colorFocused[] = {0,0,0,0};
 			colorShadow[] = {0,0,0,0};
 			colorBorder[] = {0,0,0,0};
-			tooltip = "Lock to first-person. Can only change once per 20 minutes or by re-connect.";
+			tooltip = "$STR_QS_Dialogs_039";
 		};
 		class QS_RD_client_dialog_menu_options_checkbox_2 : QS_RD_RscCheckbox {
 			moving = 1;
@@ -3140,14 +3122,14 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.69 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle First-Person Lock";
+			tooltip = "$STR_QS_Dialogs_040";
 			onCheckedChanged = "['1PVCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		/*/ ===== BACKUP
 		class QS_RD_client_dialog_menu_options_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1811;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3161,7 +3143,7 @@ class QS_RD_client_dialog_menu_options {
 		class QS_RD_client_dialog_menu_options_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1811;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 1.075 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3174,7 +3156,7 @@ class QS_RD_client_dialog_menu_options {
 		class QS_RD_client_dialog_menu_options_text_6: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1812;
-			text = "Squad Radar";
+			text = "$STR_QS_Dialogs_041";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.735 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3197,14 +3179,14 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.73 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle on/off QuackTac Fireteam HUD";
+			tooltip = "$STR_QS_Dialogs_042";
 			onCheckedChanged = "['QHUDCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		class QS_RD_client_dialog_menu_options_text_7: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1814;
-			text = "Ambient Life";
-			tooltip = "Ambient Life (snakes, fish, rabbits) use some CPU calculations. Disabling will slightly raise FPS.";
+			text = "$STR_QS_Dialogs_043";
+			tooltip = "$STR_QS_Dialogs_044";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.78 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3227,14 +3209,14 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.775 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle Ambient Life (fish, snakes, rabbits)";
+			tooltip = "$STR_QS_Dialogs_045";
 			onCheckedChanged = "['AmbientCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		class QS_RD_client_dialog_menu_options_text_8: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1816;
-			text = "Dynamic Simulation";
-			tooltip = "Experimental (Use at own risk!). Reduces CPU calculations from distant and non-visible entities. Enabling may raise FPS in some situations. Not available for pilots.";
+			text = "$STR_QS_Dialogs_046";
+			tooltip = "$STR_QS_Dialogs_047";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.825 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3257,7 +3239,7 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.82 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle Dynamic Simulation";
+			tooltip = "$STR_QS_Dialogs_048";
 			onCheckedChanged = "['DynSimCheckbox',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		
@@ -3265,8 +3247,8 @@ class QS_RD_client_dialog_menu_options {
 		class QS_RD_client_dialog_menu_options_text_9: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1820;
-			text = "3D Group Hexagons";
-			tooltip = "Toggle 3D Group Hexagons";
+			text = "$STR_QS_Dialogs_049";
+			tooltip = "$STR_QS_Dialogs_050";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3293,17 +3275,15 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.865 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle 3D Group Hexagons";
+			tooltip = "$STR_QS_Dialogs_050";
 			onCheckedChanged = "['Toggle3DGroupHex',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
-		
-		
-		
+
 		class QS_RD_client_dialog_menu_options_text_10: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1821;
-			text = "Hide System Messages";
-			tooltip = "Hides unnecessary extended system messages from chat, such as multiple lines for Connecting player, modified data, BattlEye steam ticket checks, etc.";
+			text = "$STR_QS_Dialogs_051";
+			tooltip = "$STR_QS_Dialogs_052";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.915 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3330,15 +3310,15 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.91 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle Extended System Chat";
+			tooltip = "$STR_QS_Dialogs_053";
 			onCheckedChanged = "['ToggleSystemChatSpam',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 
 		class QS_RD_client_dialog_menu_options_text_11: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1822;
-			text = "Suppression Effects";
-			tooltip = "Toggles on/off Suppression Effects";
+			text = "$STR_QS_Dialogs_054";
+			tooltip = "$STR_QS_Dialogs_055";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.96 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3365,15 +3345,15 @@ class QS_RD_client_dialog_menu_options {
 			y = 0.955 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle Suppression Effects";
+			tooltip = "$STR_QS_Dialogs_055";
 			onCheckedChanged = "['ToggleSuppression',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 		
 		class QS_RD_client_dialog_menu_options_text_12: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1824;
-			text = "Hit Markers";
-			tooltip = "Toggles on/off Hit Marker audio effects";
+			text = "$STR_QS_Dialogs_056";
+			tooltip = "$STR_QS_Dialogs_057";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 1.005 * safezoneH + safezoneY;
 			w = 0.08 * safezoneW;
@@ -3400,7 +3380,7 @@ class QS_RD_client_dialog_menu_options {
 			y = 1 * safezoneH + safezoneY;
 			w = 0.02 * safezoneW;
 			h = 0.04 * safezoneH;
-			tooltip = "Toggle Hit Marker Audio";
+			tooltip = "$STR_QS_Dialogs_057";
 			onCheckedChanged = "['ToggleHitMarker',(_this # 0),(_this # 1)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuOptions');";
 		};
 	};
@@ -3434,7 +3414,7 @@ class QS_RD_client_dialog_menu_supporters {
 		class QS_RD_client_dialog_menu_supporters_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Area 51";
+			text = "$STR_QS_Dialogs_058";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.0955624 * safezoneW;
@@ -3479,12 +3459,12 @@ class QS_RD_client_dialog_menu_supporters {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			onButtonClick = "['B2',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
-			tooltip = "Shoulder patches";
+			tooltip = "$STR_QS_Dialogs_060";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_3: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1806;
-			text = "Uniform Textures";
+			text = "$STR_QS_Dialogs_061";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.67 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3493,12 +3473,12 @@ class QS_RD_client_dialog_menu_supporters {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			onButtonClick = "['B3',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
-			tooltip = "Custom uniform textures";
+			tooltip = "$STR_QS_Dialogs_061";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_4: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1807;
-			text = "Vehicle Textures";
+			text = "$STR_QS_Dialogs_062";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.715 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3507,7 +3487,7 @@ class QS_RD_client_dialog_menu_supporters {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			onButtonClick = "['B4',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
-			tooltip = "Custom vehicle textures";
+			tooltip = "$STR_QS_Dialogs_062";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_5: QS_RD_dialog_RscButton {
 			moving = 1;
@@ -3526,7 +3506,7 @@ class QS_RD_client_dialog_menu_supporters {
 		class QS_RD_client_dialog_menu_supporters_button_6: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1809;
-			text = "Change Log";
+			text = "$STR_QS_Dialogs_063";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.805 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3535,12 +3515,12 @@ class QS_RD_client_dialog_menu_supporters {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			onButtonClick = "['B6',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
-			tooltip = "Latest updates";
+			tooltip = "$STR_QS_Dialogs_064";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_7: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3581,7 +3561,7 @@ class QS_RD_client_dialog_menu_vtexture {
 		class QS_RD_client_dialog_menu_vtexture_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Vehicle";
+			text = "$STR_QS_Dialogs_065";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.139 * safezoneW;
@@ -3593,7 +3573,7 @@ class QS_RD_client_dialog_menu_vtexture {
 		class QS_RD_client_dialog_menu_vtexture_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Select";
+			text = "$STR_QS_Dialogs_066";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.815 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3606,7 +3586,7 @@ class QS_RD_client_dialog_menu_vtexture {
 		class QS_RD_client_dialog_menu_vtexture_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1811;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3657,7 +3637,7 @@ class QS_RD_client_dialog_menu_insignia {
 		class QS_RD_client_dialog_menu_insignia_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Insignia";
+			text = "$STR_QS_Dialogs_067";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.139 * safezoneW;
@@ -3669,7 +3649,7 @@ class QS_RD_client_dialog_menu_insignia {
 		class QS_RD_client_dialog_menu_insignia_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Select";
+			text = "$STR_QS_Dialogs_066";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.815 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3682,7 +3662,7 @@ class QS_RD_client_dialog_menu_insignia {
 		class QS_RD_client_dialog_menu_insignia_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1811;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3733,7 +3713,7 @@ class QS_RD_client_dialog_menu_utexture {
 		class QS_RD_client_dialog_menu_utexture_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Uniform";
+			text = "$STR_QS_Dialogs_068";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.139 * safezoneW;
@@ -3745,7 +3725,7 @@ class QS_RD_client_dialog_menu_utexture {
 		class QS_RD_client_dialog_menu_utexture_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Select";
+			text = "$STR_QS_Dialogs_066";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.815 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3758,7 +3738,7 @@ class QS_RD_client_dialog_menu_utexture {
 		class QS_RD_client_dialog_menu_utexture_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1811;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3816,7 +3796,7 @@ class QS_RD_client_dialog_menu_hub {
 		class QS_RD_client_dialog_menu_hub_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Comm-Link";
+			text = "$STR_QS_Dialogs_069";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.0955624 * safezoneW;
@@ -3916,7 +3896,7 @@ class QS_RD_client_dialog_menu_hub {
 		class QS_RD_client_dialog_menu_hub_button_6: QS_RD_RscStructuredText {
 			moving = 1;
 			idc = 1809;
-			text = "Community Donation";
+			text = "$STR_QS_Dialogs_070";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.6225 * safezoneH + safezoneY; //y = 0.63 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3934,7 +3914,7 @@ class QS_RD_client_dialog_menu_hub {
 		class QS_RD_client_dialog_menu_hub_button_7: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Back";
+			text = "$STR_QS_Dialogs_032";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3966,7 +3946,7 @@ class QS_RD_client_dialog_menu_hub {
 		class QS_RD_client_dialog_menu_hub_button_9: QS_RD_RscStructuredText {
 			moving = 1;
 			idc = 1812;
-			text = "Website";
+			text = "$STR_QS_Dialogs_071";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.64375 * safezoneH + safezoneY; //y = 0.63 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -4015,7 +3995,7 @@ class QS_RD_client_dialog_menu_context {
 		class QS_RD_client_dialog_menu_context_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Context Menu";
+			text = "$STR_QS_Dialogs_072";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.0955624 * safezoneW;
@@ -4121,7 +4101,7 @@ class QS_RD_client_dialog_menu_context {
 		class QS_RD_client_dialog_menu_context_button_7: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Close";
+			text = "$STR_QS_Dialogs_073";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.87 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -4181,7 +4161,7 @@ class QS_RD_client_dialog_menu_entry {
 		};
 		class QS_RD_client_dialog_menu_entry_button_1: QS_RD_dialog_RscButton {
 			idc = 1804;
-			text = "Continue";
+			text = "$STR_QS_Dialogs_074";
 			x = 0.65 * safezoneW + safezoneX;
 			y = 0.855 * safezoneH + safezoneY;
 			w = 0.10 * safezoneW;

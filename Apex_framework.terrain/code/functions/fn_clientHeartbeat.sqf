@@ -31,7 +31,7 @@ if (_t > 120) then {
 				profileNameSteam,
 				(getPlayerUID player),
 				1,
-				'Main game thread terminated',
+				localize 'STR_QS_Menu_117',
 				player
 			]
 		] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -39,8 +39,8 @@ if (_t > 120) then {
 			with uiNamespace do {
 				uiSleep 0.1;
 				[ 
-					'Auto-kicked (bugged client)',
-					'Robocop',
+					localize 'STR_QS_Menu_116',
+					localize 'STR_QS_Menu_109',
 					TRUE, 
 					FALSE, 
 					(findDisplay 46), 

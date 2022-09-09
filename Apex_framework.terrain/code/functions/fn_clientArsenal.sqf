@@ -32,6 +32,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) e
 	} foreach ('isclass _x' configclasses (configfile >> 'cfgfaces'));
 	(missionNamespace getVariable 'bis_fnc_arsenal_data') set [15,_data];
 };
+private _configRestrictions = getMissionConfigValue ['arsenalRestrictedItems',[]];
 private _QS_restrictedItems = [
 	'h_helmetleadero_oucamo',
 	'h_helmetleadero_ocamo',
@@ -98,7 +99,7 @@ private _QS_restrictedItems = [
 	'i_uavterminal',
 	'c_uavterminal',
 	'i_e_uavterminal'
-];
+] + _configRestrictions;
 private _QS_restrictedWeapons = [
 	'apersminedispenser_mag'
 ];

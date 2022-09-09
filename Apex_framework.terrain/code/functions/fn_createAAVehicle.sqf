@@ -63,14 +63,14 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 						_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
 						_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
 						_name = name _instigator;
-						['sideChat',[WEST,'BLU'],(format ['%1 has destroyed a(n) %2 with a(n) %3!',_name,_objDisplayName,_killerDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+						['sideChat',[WEST,'BLU'],(format ['%1 %4 %2 %5 %3!',_name,_objDisplayName,_killerDisplayName,localize 'STR_QS_Chat_045',localize 'STR_QS_Chat_046'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 					};
 				};
 			};
 			if ((missionNamespace getVariable 'QS_mission_aoType') isEqualTo 'SC') then {
-				['SC_SUB_COMPLETED',['','AA Site destroyed']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+				['SC_SUB_COMPLETED',['',localize 'STR_QS_Notif_051']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			} else {
-				['CompletedSub',['AA Site Destroyed']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+				['CompletedSub',[localize 'STR_QS_Notif_052']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			};
 		}
 	],

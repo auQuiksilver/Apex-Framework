@@ -223,6 +223,7 @@ if (_type isEqualTo 2) exitWith {
 		_unit = _x;
 		{
 			_unit forgetTarget _x;
+			_supportGroup forgetTarget _x;
 		} forEach (_unit targets [TRUE]);
 	} forEach (units _supportGroup);
 	private _time = time;
@@ -253,6 +254,7 @@ if (_type isEqualTo 2) exitWith {
 				{
 					if (_x isNotEqualTo _laserTarget) then {
 						_unit forgetTarget _x;
+						_supportGroup forgetTarget _x;
 					};
 				} forEach (_unit targets [TRUE]);
 			} forEach (units _supportGroup);
@@ -362,6 +364,7 @@ if (_type isEqualTo 3) exitWith {
 	{
 		_unit = _x;
 		{
+			_supportGroup forgetTarget _x;
 			_unit forgetTarget _x;
 		} forEach (_unit targets [TRUE]);
 	} forEach (units _supportGroup);
@@ -393,6 +396,7 @@ if (_type isEqualTo 3) exitWith {
 				_unit = _x;
 				{
 					if (_x isNotEqualTo _laserTarget) then {
+						_supportGroup forgetTarget _x;
 						_unit forgetTarget _x;
 					};
 				} forEach (_unit targets [TRUE]);

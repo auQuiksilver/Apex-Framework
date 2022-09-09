@@ -17,12 +17,11 @@ __________________________________________________/*/
 	'_cursorTarget',
 	'_cursorObject'
 ];
-
 if ((cameraOn distance _cursorObject) > 25) exitWith {
-	50 cutText ['Too far','PLAIN DOWN',0.25];
+	50 cutText [localize 'STR_QS_Text_132','PLAIN DOWN',0.25];
 };
 if (((!isNil {_cursorTarget getVariable 'QS_secured'}) && (_cursorTarget getVariable 'QS_secured')) || ((!isNil {_cursorObject getVariable 'QS_secured'}) && (_cursorObject getVariable 'QS_secured'))) exitWith {
-	50 cutText ['Already secured','PLAIN DOWN',0.75];
+	50 cutText [localize 'STR_QS_Text_133','PLAIN DOWN',0.75];
 };
 if (!isNil {_cursorTarget getVariable 'QS_secureable'}) then {
 	for '_x' from 0 to 2 step 1 do {
@@ -43,54 +42,54 @@ if (!isNil {_cursorTarget getVariable 'QS_isExplosion'}) then {
 };
 if (!isNil {_cursorTarget getVariable 'QS_object_GT_0'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Intel locations added to map','PLAIN DOWN',0.75];
-	['sideChat',[WEST,'BLU'],(format ['%1 secured the tracking device in %2 (check map)!',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_134','PLAIN DOWN',0.75];
+	['sideChat',[WEST,'BLU'],(format ['%1 %3 %2 %4!',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Chat_030',localize 'STR_QS_Chat_032'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorTarget,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
 if (!isNil {_cursorObject getVariable 'QS_object_GT_0'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Intel locations added to map','PLAIN DOWN',0.75];
-	['sideChat',[WEST,'BLU'],(format ['%1 secured the tracking device in %2 (check map)!',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_134','PLAIN DOWN',0.75];
+	['sideChat',[WEST,'BLU'],(format ['%1 %3 %2 %4!',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Chat_030',localize 'STR_QS_Chat_032'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorObject,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
 if (!isNil {_cursorTarget getVariable 'QS_object_GT_1'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Intel secured','PLAIN DOWN',0.75];
-	['systemChat',(format ['%1 secured an intel tablet in %2',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_135','PLAIN DOWN',0.75];
+	['systemChat',(format ['%1 %3 %2',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Chat_031'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorTarget,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
 if (!isNil {_cursorObject getVariable 'QS_object_GT_1'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Intel secured','PLAIN DOWN',0.75];
-	['systemChat',(format ['%1 secured an intel tablet in %2',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_135','PLAIN DOWN',0.75];
+	['systemChat',(format ['%1 %3 %2',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Chat_031'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorObject,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
 if (!isNil {_cursorTarget getVariable 'QS_sc_subObj_1'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Sub-objective secured','PLAIN DOWN',0.75];
-	['sideChat',[WEST,'BLU'],(format ['%1 secured the enemy Datalink',(groupID (group player))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
+	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_033'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[73,1] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (!isNil {_cursorObject getVariable 'QS_sc_subObj_1'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Sub-objective secured','PLAIN DOWN',0.75];
-	['sideChat',[WEST,'BLU'],(format ['%1 secured the enemy Datalink',(groupID (group player))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
+	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_033'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[73,1] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (!isNil {_cursorTarget getVariable 'QS_sc_subObj_3'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Sub-objective secured','PLAIN DOWN',0.75];
-	['sideChat',[WEST,'BLU'],(format ['%1 secured the enemy supply depot',(groupID (group player))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
+	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_034'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[73,3] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (!isNil {_cursorObject getVariable 'QS_sc_subObj_3'}) exitWith {
 	player playAction 'PutDown';
-	50 cutText ['Sub-objective secured','PLAIN DOWN',0.75];
-	['sideChat',[WEST,'BLU'],(format ['%1 secured the enemy supply depot',(groupID (group player))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
+	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_034'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[73,3] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 player playAction 'PutDown';
-['sideChat',[WEST,'BLU'],(format ['%1 secured an objective!',(groupID (group player))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-50 cutText ['Secured','PLAIN DOWN',0.75];
+['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_035'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+50 cutText [localize 'STR_QS_Text_137','PLAIN DOWN',0.75];
 missionNamespace setVariable ['QS_smSuccess',TRUE,TRUE];
 TRUE;

@@ -67,7 +67,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 			params ['_actionTarget','_actionCaller','_actionID','_actionArguments'];
 			_actionArguments params ['_cameraOn'];
 			if (!isEngineOn _cameraOn) exitWith {
-				50 cutText ['Engine must be ON to launch','PLAIN',0.5];
+				50 cutText [localize 'STR_QS_Text_085','PLAIN',0.5];
 			};
 			if (_cameraOn getVariable ['QS_carrier_launch',FALSE]) then {
 				_cameraOn setAirplaneThrottle 0;
@@ -81,12 +81,12 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 					playSound3D ['A3\Sounds_F_Jets\vehicles\air\Shared\FX_Plane_Jet_Flaps_Down.wss',objNull,FALSE,((_carrierAnimData # 0) modelToWorldWorld ((_carrierAnimData # 0) selectionPosition ((_carrierAnimData # 1) # 0))),25,1,75];
 				};
 				[83,0,_cameraOn] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-				50 cutText ['Launch Cancelled','PLAIN DOWN',0.75];
+				50 cutText [localize 'STR_QS_Text_086','PLAIN DOWN',0.75];
 			};
 			_cameraOn removeAction _actionID;
 			missionNamespace setVariable ['QS_client_action_carrierLaunchCancel',[],FALSE];
 		};
-		_launchCancelAction = _cameraOn addAction ['Cancel',_launchCancel,[_cameraOn],0,FALSE,TRUE,'','TRUE',-1,FALSE,''];
+		_launchCancelAction = _cameraOn addAction [localize 'STR_QS_Interact_065',_launchCancel,[_cameraOn],0,FALSE,TRUE,'','TRUE',-1,FALSE,''];
 		_cameraOn setUserActionText [_launchCancelAction,((_cameraOn actionParams _launchCancelAction) # 0),(format ["<t size='3'>%1</t>",((_cameraOn actionParams _launchCancelAction) # 0)])];
 		missionNamespace setVariable ['QS_client_action_carrierLaunchCancel',[_cameraOn,_launchCancelAction],FALSE];
 	};
@@ -100,7 +100,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		if (diag_tickTime > (uiNamespace getVariable ['QS_fighterPilot_lastMsg',(diag_tickTime - 1)])) then {
 			uiNamespace setVariable ['QS_fighterPilot_lastMsg',(diag_tickTime + 300)];
 			[63,[4,['CAS_1',['','Close Air Support online!']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-			['sideChat',[WEST,'AirBase'],(format ['Close Air Support (%1) is available. Pilot: %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _this) >> 'displayName')),profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText (configFile >> 'CfgVehicles' >> (typeOf _this) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		_carrierAnimData = _this getVariable ['QS_vehicle_carrierAnimData',[]];
 		if (_carrierAnimData isNotEqualTo []) then {

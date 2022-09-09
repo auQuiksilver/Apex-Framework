@@ -461,10 +461,10 @@ _QS_civKilled_EH = {
 			TRUE
 		];
 		if ((random 1) > 0.666) then {
-			_text = format ['A Civilian has been murdered by %1!',_name];
+			_text = format ['%2 %1!',_name,localize 'STR_QS_Chat_141'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		} else {
-			_text = format ['%1 has killed an Unarmed Civilian!',_name];
+			_text = format ['%1 %2!',_name,localize 'STR_QS_Chat_153'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};	
@@ -767,7 +767,7 @@ _QS_sidemission_pow addEventHandler [
 		_killer = _this # 1;
 		if (isPlayer _killer) then {
 			_name = name _killer;
-			['sideChat',[WEST,'HQ'],(format ['The POW has been killed by %1!',_name])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'HQ'],(format ['%2 %1!',_name,localize 'STR_QS_Chat_068'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	}
 ];
@@ -1085,25 +1085,18 @@ _QS_civIntelQuality_current = missionNamespace getVariable 'QS_sideMission_POW_c
 /*/============================================================== COMMUNICATE TO PLAYERS/*/
 
 _QS_fuzzyPos = [((_QS_buildingPosATL # 0) - 290) + (random 580),((_QS_buildingPosATL # 1) - 290) + (random 580),0];
+'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_040']);
 {
 	_x setMarkerPosLocal _QS_fuzzyPos;
 	_x setMarkerAlpha 1;
 } forEach ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1Rescue P.O.W.',(toString [32,32,32])]);
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		'
-			Soldier, to complete this mission your team must rescue a P.O.W. located somewhere in the marked area.
-			Our agent reports he is being tortured for intel and likely will not be in good shape if you get to him.
-			To rescue the P.O.W. and complete the mission, you must bring him to the Medevac HQ (small white building) at base, OR load him into a Medical Vehicle (Ex. HEMTT Medical) WITH a medic inside as well.
-			If he dies, the mission is failed.
-			To locate the precise position of the P.O.W., the locals may be of help.
-			Interactions with the P.O.W. and civilians will be on your Action Menu.
-		',
-		'Rescue POW',
-		'Rescue POW'
+		localize 'STR_QS_Task_103',
+		localize 'STR_QS_Task_104',
+		localize 'STR_QS_Task_104'
 	],
 	(markerPos 'QS_marker_sideMarker'),
 	'CREATED',
@@ -1113,24 +1106,10 @@ _QS_fuzzyPos = [((_QS_buildingPosATL # 0) - 290) + (random 580),((_QS_buildingPo
 	'heal',
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
-['NewSideMission',['Rescue P.O.W.']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['NewSideMission',[localize 'STR_QS_Notif_101']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 missionNamespace setVariable ['QS_sideMissionUp',TRUE,TRUE];
 missionNamespace setVariable ['QS_smSuccess',FALSE,TRUE];
 missionNamespace setVariable ['QS_sideMission_POW_active',TRUE,TRUE];
-/*/
-{
-	if (!isNull _x) then {
-		if ((_x distance2D [0,0,0]) < 250) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		};
-	};
-} count _QS_allArray;
-/*/
 _medevacBase = markerPos 'QS_marker_medevac_hq';
 
 /*/============================================================== LOOP/*/
@@ -1146,7 +1125,7 @@ for '_x' from 0 to 1 step 0 do {
 		['QS_IA_TASK_SM_0',FALSE,-1] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 		missionNamespace setVariable ['QS_sideMission_POW_active',FALSE,TRUE];
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
-		['ST_MEDEVAC',['POW Mission Failed','The POW has died!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['ST_MEDEVAC',[localize 'STR_QS_Notif_102',localize 'STR_QS_Notif_105']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		'QS_marker_sideCircle' setMarkerSize [300,300]; 
 		{
 			_x setMarkerPosLocal [-5000,-5000,0];
@@ -1163,7 +1142,17 @@ for '_x' from 0 to 1 step 0 do {
 		sleep 10;
 		_QS_missionAttempts = _QS_priorMissionStatistics_completions + (_QS_priorMissionStatistics_failures + 1);
 		_QS_missionSuccessRate = (_QS_priorMissionStatistics_completions / _QS_missionAttempts) * 100;
-		_text = parseText format ['P.O.W. Rescue Mission Statistics: <br/>Attempts: %2<br/>Successful Completions: %1<br/>Success Rate: %3 percent',_QS_priorMissionStatistics_completions,_QS_missionAttempts,(round _QS_missionSuccessRate)];
+		_text = parseText format [
+			'%4 <br/>%5 %2<br/>%6 %1<br/>%7 %3 %8',
+			_QS_priorMissionStatistics_completions,
+			_QS_missionAttempts,
+			(round _QS_missionSuccessRate),
+			localize 'STR_QS_Hints_141',
+			localize 'STR_QS_Hints_142',
+			localize 'STR_QS_Hints_143',
+			localize 'STR_QS_Hints_144',
+			localize 'STR_QS_Hints_145'
+		];
 		['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		sleep 15;
 		[0,_QS_buildingPosATL] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
@@ -1203,7 +1192,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_missionComplete) exitWith {
 		['QS_IA_TASK_SM_0',FALSE,-1] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 		missionNamespace setVariable ['QS_sideMission_POW_active',FALSE,TRUE];
-		['ST_MEDEVAC',['POW Mission Succeeded','The POW has been rescued!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		['ST_MEDEVAC',[localize 'STR_QS_Notif_103',localize 'STR_QS_Notif_106']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		'QS_marker_sideCircle' setMarkerSize [300,300]; 
 		{
 			_x setMarkerPos [-5000,-5000,0];
@@ -1260,7 +1249,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_QS_enemyDetected) exitWith {};
 		} count _QS_enemyArray;
 		if (_QS_enemyDetected) then {
-			['ST_MEDEVAC',['POW Mission Update','The enemy has detected our approach']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['ST_MEDEVAC',[localize 'STR_QS_Notif_104',localize 'STR_QS_Notif_107']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			if (alive _QS_BADGUY) then {	
 				if ((_QS_BADGUY distance _QS_POW) < 8) then {
 					_QS_dirTo = _QS_BADGUY getDir _QS_POW;
@@ -1324,7 +1313,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (!(_QS_powRescued)) then {
 					/*/ Detonate explosives Vest /*/
 					_QS_POW setDamage 1;
-					['systemChat','CSAT has killed the POW!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+					['systemChat',localize 'STR_QS_Chat_154'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				};
 			};
 		};
@@ -1358,8 +1347,8 @@ for '_x' from 0 to 1 step 0 do {
 			{
 				_x setMarkerAlpha 0;
 			} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-			['systemChat','POW contacted! Bring him back to base before he bleeds out!'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-			['ST_MEDEVAC',['POW Mission Update','Bring POW back to base before he bleeds out']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['systemChat',localize 'STR_QS_Chat_155'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['ST_MEDEVAC',[localize 'STR_QS_Notif_104',localize 'STR_QS_Notif_108']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			if ((count (attachedObjects _QS_POW)) > 0) then {
 				{
 					missionNamespace setVariable [
@@ -1377,7 +1366,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 	if ((missionNamespace getVariable 'QS_sideMission_civsKilled') > 0) then {
 		if (!(_QS_civiliansUnhappy)) then {
-			['ST_MEDEVAC',['POW Mission Update','The civilians are now unhappy!']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['ST_MEDEVAC',[localize 'STR_QS_Notif_104',localize 'STR_QS_Notif_109']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			_QS_civiliansUnhappy = TRUE;
 			{
 				_QS_civ = _x;

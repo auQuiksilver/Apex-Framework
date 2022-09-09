@@ -29,8 +29,8 @@ if (isNil {player getVariable 'QS_teeth_collected'}) then {
 _obj setVariable ['QS_collectible_tooth',FALSE,TRUE];
 player setVariable ['QS_teeth_collected',((player getVariable 'QS_teeth_collected') + [_obj]),FALSE];
 [62,[player,(getPlayerUID player),profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-['ScoreBonus',['Gold digger','10']] call (missionNamespace getVariable 'QS_fnc_showNotification');
+['ScoreBonus',[localize 'STR_QS_Notif_042','10']] call (missionNamespace getVariable 'QS_fnc_showNotification');
 player playAction 'PutDown';
 playSound 'ClickSoft';
-50 cutText ['Gold tooth collected','PLAIN DOWN'];
+50 cutText [localize 'STR_QS_Text_155','PLAIN DOWN'];
 TRUE;

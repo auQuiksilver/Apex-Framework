@@ -21,8 +21,8 @@ uiSleep 0.5;
 with uiNamespace do {
 	0 spawn {
 		[
-			"Congratulations! You have been WHITELISTED for a role for the week, for finishing Top 3 on the weekly Leaderboard in that role",
-			'Leaderboards',
+			localize 'STR_QS_Menu_147',
+			localize 'STR_QS_Menu_030',
 			TRUE, 
 			FALSE, 
 			(findDisplay 46), 
