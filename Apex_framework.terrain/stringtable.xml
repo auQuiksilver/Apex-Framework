@@ -55,6 +55,9 @@ Notes:
 		- Utility
 			
 			"STR_QS_Utility_001"
+			
+			
+		Progress Visualisation
 	
 	
 _____________________________________________________________>
@@ -3543,6 +3546,685 @@ _____________________________________________________________>
 		<Original>Developer</Original>
 	</Key>
 	
+	<!----- Menu -----ctrlSetText--ctrlSetTooltip------------------------------------------------------------------>
+
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_001">
+		<Original>FPS, Time to server restart (estimated)</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_002">
+		<Original>FPS:</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_003">
+		<Original>Restart:</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_004">
+		<Original>Score, Rating, Health, Equipment</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_005">
+		<Original>Score:</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_006">
+		<Original>Rating:</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_007">
+		<Original>Hp:</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_008">
+		<Original>Load:</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_009">
+		<Original>Player Menu</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_010">
+		<Original>Abort</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_011">
+		<Original>Exit</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_012">
+		<Original>Abort to Lobby</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_013">
+		<Original>Leave Server</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_014">
+		<Original>Dev Terminal</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_015">
+		<Original>Execute</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_016">
+		<Original>SERVER EXEC</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_017">
+		<Original>'Remotely execute expression on Server'</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_018">
+		<Original>GLOBAL EXEC</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_019">
+		<Original>Remotely execute expression on Server and all Clients</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_020">
+		<Original>LOCAL EXEC</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_021">
+		<Original>Execute expression on your machine only</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_022">
+		<Original>FUNCTIONS</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_023">
+		<Original>Functions Viewer</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_024">
+		<Original>CONFIG</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_025">
+		<Original>Config Viewer</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_026">
+		<Original>Remote Execution Safety --- Check to enable Remote Execution</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_027">
+		<Original>Comm-Link</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_028">
+		<Original>Radio Management</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_029">
+		<Original>Group Management</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_030">
+		<Original>Leaderboards</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_031">
+		<Original>Type</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_032">
+		<Original>Select</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_033">
+		<Original>Refresh</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_034">
+		<Original>Back</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_035">
+		<Original>Rank</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_036">
+		<Original>Player</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_037">
+		<Original>Score</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_038">
+		<Original>Insignia</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_039">
+		<Original>Unsynced</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_040">
+		<Original>Synced</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_041">
+		<Original>Role</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_042">
+		<Original>Rating</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_043">
+		<Original>Area 51</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_044">
+		<Original>Community Hub/Radio Control</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_045">
+		<Original>Visibility</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_046">
+		<Original>View distance</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_047">
+		<Original>Close</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_048">
+		<Original>Options</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_049">
+		<Original>Stamina forced ON in server configuration, sorry</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_050">
+		<Original>Third Person View disabled by server</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_051">
+		<Original>Simulation Manager not available for pilots, uav operators and commanders</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_052">
+		<Original>Hit Markers forced OFF in server configuration, sorry</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_053">
+		<Original>Channels</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_054">
+		<Original>Status</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_055">
+		<Original>Subscribe</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_056">
+		<Original>Side channel</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_057">
+		<Original>Active</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_058">
+		<Original>Inactive</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_059">
+		<Original>Active - Encrypted</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_060">
+		<Original>Inactive - Encrypted</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_061">
+		<Original>Aircraft</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_062">
+		<Original>Pilots and UAV operator</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_063">
+		<Original>Primary AO</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_064">
+		<Original>Main AO channel</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_065">
+		<Original>Secondary AO</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_066">
+		<Original>Side Mission channel</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_067">
+		<Original>PLT Alpha "Jungleers"</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_068">
+		<Original>1st Platoon</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_069">
+		<Original>PLT Bravo "Buckeyes"</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_070">
+		<Original>2nd Platoon</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_071">
+		<Original>PLT Charlie "Fighting Third"</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_072">
+		<Original>3rd Platoon</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_073">
+		<Original>General</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_074">
+		<Original>NSFW</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_075">
+		<Original>Unused channel</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_076">
+		<Original>N/A</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_077">
+		<Original>Role Selection</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_078">
+		<Original>Factions</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_079">
+		<Original>Roles</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_080">
+		<Original>Role Description</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_081">
+		<Original>Player List</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_082">
+		<Original>Close role selection menu</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_083">
+		<Original>Reset</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_084">
+		<Original>Restore profile-saved loadout to server default</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_085">
+		<Original>Arsenal</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_086">
+		<Original>Virtual Arsenal</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_087">
+		<Original>Group</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_088">
+		<Original>Undefined</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_089">
+		<Original>Button 6</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_090">
+		<Original>Select Role</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_091">
+		<Original>Attempt to join selected role</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_092">
+		<Original>Press</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_093">
+		<Original>to hide</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_094">
+		<Original>to show mission status</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_095">
+		<Original>APS</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_096">
+		<Original>Respawn at Base</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_097">
+		<Original>Respawn at the main base</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_098">
+		<Original>Respawn at FOB</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_099">
+		<Original>tickets remaining</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_100">
+		<Original>Request Medevac</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_101">
+		<Original>Disables Revive/Respawn and creates a Medevac mission for others to attempt</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_102">
+		<Original>Field Manual</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_103">
+		<Original>Disables Revive/Respawn and creates a Medevac mission for others to attempt.</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_104">
+		<Original>Medevac unavailable at this time.</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_105">
+		<Original>Rope Length</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_106">
+		<Original>Cargo Attached</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_107">
+		<Original>Rope Length:</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_108">
+		<Original>Auto-kicked for disallowed profile name</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_109">
+		<Original>Robocop</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_110">
+		<Original>Auto-kicked for reserved profile name</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_111">
+		<Original>Go to aircraft carrier</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_112">
+		<Original>Aircraft Carrier</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_113">
+		<Original>Go</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_114">
+		<Original>Cancel</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_115">
+		<Original>Auto-kicked for AFK timeout</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_116">
+		<Original>Auto-kicked (imperfect connection)</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_117">
+		<Original>Main game thread terminated</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_118">
+		<Original>Ejection</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_119">
+		<Original>Eject warning</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_120">
+		<Original>Eject</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_121">
+		<Original>Are you sure you want to respawn this</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_122">
+		<Original>Warning</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_123">
+		<Original>Respawn vehicle</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_124">
+		<Original>Destroy</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_125">
+		<Original>Clean base. Executing this function too often will increase network de-sync.</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_126">
+		<Original>Base cleanup</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_127">
+		<Original>Execute</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_128">
+		<Original>Executing this function too often will increase network de-sync.</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_129">
+		<Original>cleanup</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_130">
+		<Original>Medevac Mission Reminder (Please read)</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_131">
+		<Original>OK</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_132">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_133">
+		<Original>Selecting OK will disable your ability to respawn or abort for 10 minutes</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_134">
+		<Original>Medics will be unable to revive you.</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_135">
+		<Original>To be revived, other people must bring you to a location equipped with Medevac services before you bleed out.</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_136">
+		<Original>Go to Destroyer ship</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_136">
+		<Original>Destroyer</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_137">
+		<Original>Suspend side missions</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_138">
+		<Original>Side missions</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_139">
+		<Original>Suspend</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_140">
+		<Original>Resume</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_141">
+		<Original>Resume side missions</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_142">
+		<Original>Primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_143">
+		<Original>Suspend primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_144">
+		<Original>Resume primary missions</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_145">
+		<Original>Cycle</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_146">
+		<Original>Cycle primary mission</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_147">
+		<Original>Congratulations! You have been WHITELISTED for a role for the week, for finishing Top 3 on the weekly Leaderboard in that role</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_148">
+		<Original>Briefing</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_149">
+		<Original>Seize</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_150">
+		<Original>from opposing forces.</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_151">
+		<Original>Rules</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_152">
+		<Original>Team</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_153">
+		<Original>Discord</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_154">
+		<Original>Key Bindings</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_155">
+		<Original>[Home]</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_156">
+		<Original>[End]</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_157">
+		<Original>Earplugs</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_158">
+		<Original>Weapon Holster</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_159">
+		<Original>Reload</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_160">
+		<Original>Magazine Repack</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_161">
+		<Original>Jump (while running)</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_162">
+		<Original>Group Management</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_163">
+		<Original>Tasks</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="STR_QS_Menu_000">
+		<Original>TEXT</Original>
+	</Key>
+	
+	
+	
+	
+	
 	<!----- Role ------------------------------------------------------------------------->
 
 	<Key ID="STR_QS_Role_000">
@@ -3583,6 +4265,51 @@ _____________________________________________________________>
 	</Key>
 	<Key ID="STR_QS_Role_012">
 		<Original>Loadout already applied</Original>
+	</Key>
+	<Key ID="STR_QS_Role_013">
+		<Original>Rifleman</Original>
+	</Key>
+	<Key ID="STR_QS_Role_014">
+		<Original>Autorifleman</Original>
+	</Key>
+	<Key ID="STR_QS_Role_015">
+		<Original>Machine Gunner</Original>
+	</Key>
+	<Key ID="STR_QS_Role_016">
+		<Original>Rifleman (LAT)</Original>
+	</Key>
+	<Key ID="STR_QS_Role_017">
+		<Original>Rifleman (HAT)</Original>
+	</Key>
+	<Key ID="STR_QS_Role_018">
+		<Original>Engineer</Original>
+	</Key>
+	<Key ID="STR_QS_Role_019">
+		<Original>Medic</Original>
+	</Key>
+	<Key ID="STR_QS_Role_020">
+		<Original>Sniper</Original>
+	</Key>
+	<Key ID="STR_QS_Role_021">
+		<Original>Crewman</Original>
+	</Key>
+	<Key ID="STR_QS_Role_022">
+		<Original>JTAC</Original>
+	</Key>
+	<Key ID="STR_QS_Role_023">
+		<Original>Mortar Gunner</Original>
+	</Key>
+	<Key ID="STR_QS_Role_024">
+		<Original>UAV Operator</Original>
+	</Key>
+	<Key ID="STR_QS_Role_025">
+		<Original>Transport Pilot</Original>
+	</Key>
+	<Key ID="STR_QS_Role_026">
+		<Original>Fighter Pilot</Original>
+	</Key>
+	<Key ID="STR_QS_Role_027">
+		<Original>Commander</Original>
 	</Key>
 	
 	<!----- Utility text ------------------------------------------------------------------------->
@@ -3625,5 +4352,233 @@ _____________________________________________________________>
 	</Key>
 	<Key ID="STR_QS_Utility_012">
 		<Original>Annex</Original>
+	</Key>
+	
+	<!----- Dialogs ------------------------------------------------------------------------->
+	
+	<Key ID="$STR_QS_Dialogs_000">
+		<Original>TEXT</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_001">
+		<Original>Imperfect Connection</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_002">
+		<Original>Your connection was imperfect, please re-connect. This measure reduces the prevalence of bugs and glitches caused by de-sync/packet loss during initialization. Thank you for your patience.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_003">
+		<Original>Blacklisted</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_004">
+		<Original>You have been temporarily blacklisted from this role, please re-assign.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_005">
+		<Original>Reserved Profile Name</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_006">
+		<Original>Your profile name is reserved for a staff member or supporter on this server, please use a different profile name!</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_007">
+		<Original>Invalid Profile Name</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_008">
+		<Original>Your profile name has been rejected by this server. Please use a different profile name.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_009">
+		<Original>Fighter Pilot Whitelist</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_010">
+		<Original>You are not whitelisted as a Fighter Pilot.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_011">
+		<Original>Depleted Assets</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_012">
+		<Original>You have depleted your pool of aircraft (3), it will refresh after server restart!</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_013">
+		<Original>Role Disabled</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_014">
+		<Original>This role is currently disabled!</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_015">
+		<Original>Insufficient Transport Score</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_016">
+		<Original>You have insufficient Transport Score as a helipilot, please fly transport!</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_017">
+		<Original>Insufficient Playtime</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_018">
+		<Original>You must play on the server more prior to using the Pilot roles</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_019">
+		<Original>Player Menu</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_020">
+		<Original>FPS, Time to server restart (estimated)</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_021">
+		<Original>Visibility</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_022">
+		<Original>Health, Equipment load (kg), FPS</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_023">
+		<Original>Visibility on foot</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_024">
+		<Original>Overall</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_025">
+		<Original>Visibility in land vehicle or boat</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_026">
+		<Original>Object</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_027">
+		<Original>Visibility in helicopter</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_028">
+		<Original>Shadow</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_029">
+		<Original>Visibility in plane</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_030">
+		<Original>Grass</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_031">
+		<Original>Terrain resolution. Lower = more detail. Higher = less detail.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_032">
+		<Original>Back</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_033">
+		<Original>Stamina</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_034">
+		<Original>Toggle Stamina</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_035">
+		<Original>Weapon Sway</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_036">
+		<Original>Aim Coefficient</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_037">
+		<Original>0.1 - 1.1 (vanilla default 1, server default 0.1)</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_038">
+		<Original>First-Person</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_039">
+		<Original>Lock to first-person. Can only change once per 20 minutes or by re-connect.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_040">
+		<Original>Toggle First-Person Lock</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_041">
+		<Original>Squad Radar</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_042">
+		<Original>Toggle Squad Radar</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_043">
+		<Original>Ambient Life</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_044">
+		<Original>Ambient Life (snakes, fish, rabbits) use some CPU calculations. Disabling will slightly raise FPS.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_045">
+		<Original>Toggle Ambient Life (fish, snakes, rabbits)</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_046">
+		<Original>Dynamic Simulation</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_047">
+		<Original>Experimental (Use at own risk!). Reduces CPU calculations from distant and non-visible entities. Enabling may raise FPS in some situations. Not available for pilots.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_048">
+		<Original>Toggle Dynamic Simulation</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_049">
+		<Original>3D Group Hexagons</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_050">
+		<Original>Toggle 3D Group Hexagons</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_051">
+		<Original>Hide System Messages</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_052">
+		<Original>Hides unnecessary extended system messages from chat, such as multiple lines for Connecting player, modified data, BattlEye steam ticket checks, etc.</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_053">
+		<Original>Toggle Extended System Chat</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_054">
+		<Original>Suppression Effects</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_055">
+		<Original>Toggles Suppression Effects</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_056">
+		<Original>Hit Markers</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_057">
+		<Original>Toggle Hit Marker audio effects</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_058">
+		<Original>Area 51</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_059">
+		<Original>Insignia</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_060">
+		<Original>Shoulder Patches</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_061">
+		<Original>Uniform Skins</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_062">
+		<Original>Vehicle Skins</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_063">
+		<Original>Change Log</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_064">
+		<Original>Latest Updates</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_065">
+		<Original>Vehicle</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_066">
+		<Original>Select</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_067">
+		<Original>Insignia</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_068">
+		<Original>Uniform</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_069">
+		<Original>Comm-Link</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_070">
+		<Original>Community Donation</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_071">
+		<Original>Website</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_072">
+		<Original>Context Menu</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_073">
+		<Original>Close</Original>
+	</Key>
+	<Key ID="$STR_QS_Dialogs_074">
+		<Original>Continue</Original>
 	</Key>
 </Project>
