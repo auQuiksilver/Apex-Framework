@@ -427,6 +427,9 @@ _QS_garbageCollector_enabled = TRUE;
 _QS_garbageCollector = [];
 _QS_deleteThis = FALSE;
 _QS_attemptRecycle = FALSE;
+
+private _managedArtySmokes = [];
+
 _missionObject = objNull;
 _missionObjectType = '';
 private _missionObjectsTicker = 0;

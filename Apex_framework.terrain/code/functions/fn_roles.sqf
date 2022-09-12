@@ -133,8 +133,8 @@ if (_type isEqualTo 'UPDATE_UI') exitWith {
 		{
 			_unit setVariable _x;
 		} forEach [
-			['QS_unit_role_icon',(['GET_ROLE_ICONMAP',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles')),FALSE],
-			['QS_unit_role_displayName',(['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles')),FALSE],
+			['QS_unit_role_icon',(['GET_ROLE_ICONMAP',(_unit getVariable ['QS_unit_role','rifleman']),_unit,TRUE] call (missionNamespace getVariable 'QS_fnc_roles')),FALSE],
+			['QS_unit_role_displayName',(['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman']),_unit,TRUE] call (missionNamespace getVariable 'QS_fnc_roles')),FALSE],
 			['QS_unit_role_netUpdate',FALSE,FALSE]
 		];
 	};
@@ -143,7 +143,8 @@ if (_type isEqualTo 'GET_ROLE_DISPLAYNAME') exitWith {
 	params [
 		'',
 		['_role',''],
-		['_unit',objNull]
+		['_unit',objNull],
+		['_update',FALSE]
 	];
 	private _return = 'Rifleman';
 	if (_role isEqualTo '') then {
@@ -154,6 +155,11 @@ if (_type isEqualTo 'GET_ROLE_DISPLAYNAME') exitWith {
 	_table_index = (missionNamespace getVariable 'QS_roles_UI_info') findIf {((_x # 0) isEqualTo _role)};
 	if (_table_index isNotEqualTo -1) then {
 		_return = ((missionNamespace getVariable 'QS_roles_UI_info') # _table_index) # 1;
+		if (!isNull _unit) then {
+			if (_update || {((_unit getVariable ['QS_unit_role_displayName',-1]) isEqualTo -1)}) then {
+				_unit setVariable ['QS_unit_role_displayName',_return,FALSE];
+			};
+		};
 	};
 	_return;
 };
@@ -176,7 +182,7 @@ if (_type isEqualTo 'GET_ROLE_DISPLAYNAME2') exitWith {
 	private _exit = FALSE;
 	private _roles_side = [];
 	if (['_WL',_role,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-		_return = '[Whitelisted] ' + _return;
+		_return = (format ['[%1] ',localize 'STR_QS_Role_028']) + _return;
 	};
 	_return;
 };
@@ -202,7 +208,8 @@ if (_type isEqualTo 'GET_ROLE_ICONMAP') exitWith {
 	params [
 		'',
 		['_role',''],
-		['_unit',objNull]
+		['_unit',objNull],
+		['_update',FALSE]
 	];
 	private _return = 'a3\ui_f\data\map\vehicleicons\iconMan_ca.paa';
 	if (_role isEqualTo '') then {
@@ -213,6 +220,11 @@ if (_type isEqualTo 'GET_ROLE_ICONMAP') exitWith {
 	_table_index = (missionNamespace getVariable 'QS_roles_UI_info') findIf {((_x # 0) isEqualTo _role)};
 	if (_table_index isNotEqualTo -1) then {
 		_return = ((missionNamespace getVariable 'QS_roles_UI_info') # _table_index) # 3;
+		if (!isNull _unit) then {
+			if (_update || {((_unit getVariable ['QS_unit_role_icon',-1]) isEqualTo -1)}) then {
+				_unit setVariable ['QS_unit_role_icon',_return,FALSE];
+			};
+		};
 	};
 	_return;
 };

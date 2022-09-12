@@ -125,7 +125,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_positionData = selectRandom _positionsData;
 			_positionData params ['_pos','_dir'];
 			_dir = _dir + 180;
-			_markerData = ['QS_marker_carrier_1',[-1500,-1500,0],'b_naval','Icon','','ColorWEST',[0.25,0.25],0.5,[-1500,-1500,0],0,'Aircraft Carrier'];
+			_markerData = ['QS_marker_carrier_1',[-1500,-1500,0],'b_naval','Icon','','ColorWEST',[0.25,0.25],0.5,[-1500,-1500,0],0,localize 'STR_QS_Marker_069'];
 			if ('QS_marker_carrier_1' in allMapMarkers) then {
 				_marker = 'QS_marker_carrier_1';
 				_pos = markerPos _marker;
@@ -133,7 +133,7 @@ if (_type isEqualTo 'INIT') exitWith {
 				_dir = _dir + 180;
 			} else {
 				_marker = createMarker ['QS_marker_carrier_1',_pos];
-				_marker setMarkerPos _pos;
+				_marker setMarkerPosLocal _pos;
 				_marker setMarkerDir _dir;
 			};
 			_marker setMarkerTypeLocal (_markerData # 2);
@@ -141,6 +141,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_marker setMarkerColorLocal (_markerData # 5);
 			_marker setMarkerSizeLocal (_markerData # 6);
 			_marker setMarkerAlphaLocal (_markerData # 7);
+			_marker setMarkerShadowLocal TRUE;
 			_marker setMarkerText (format ['%1%2',(toString [32,32,32]),(_markerData # 10)]);
 			_carrier = createVehicle ['Land_Carrier_01_base_F',_pos,[],0,'CAN_COLLIDE'];
 			_carrier setPosWorld _pos;

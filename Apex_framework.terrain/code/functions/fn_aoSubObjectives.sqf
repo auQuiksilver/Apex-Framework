@@ -100,6 +100,7 @@ if (_type isEqualTo 1) exitWith {
 		private _position = [0,0,0];
 		
 		private _usedSettlementPosition = FALSE;
+		missionNamespace setVariable ['QS_radiotower_useFence',TRUE,FALSE];
 		private _dir = 0;
 		private _building = objNull;
 		if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
@@ -118,6 +119,7 @@ if (_type isEqualTo 1) exitWith {
 							) exitWith {};
 						};
 						_usedSettlementPosition = TRUE;
+						missionNamespace setVariable ['QS_radiotower_useFence',FALSE,FALSE];
 						_dir = getDir _building;
 						_building allowDamage FALSE;
 						_building hideObjectGlobal TRUE;

@@ -260,13 +260,17 @@ if (!isStreamFriendlyUIEnabled) then {
 		) then {
 			{
 				if ((_player isEqualTo (leader (group _player))) && (_x in (groupSelectedUnits _player))) then {
-					private _teamID = 0;
-					if (!isNil {assignedTeam _x}) then {
-						_teamID = (['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _x)) max 0;
-					};
+					private _teamID = (['','MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _x)) max 1;
 					drawIcon3D [
 						'a3\ui_f\data\igui\cfg\cursors\select_ca.paa',
-						([([0,125,255,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))]),[1,0,0,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],[0,1,0.5,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],[0,0.5,1,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],[1,1,0,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))]] # _teamID),
+						([
+							([0,125,255,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))]),
+							([0,125,255,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))]),
+							[1,0,0,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],
+							[0,1,0.5,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],
+							[0,0.5,1,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))],
+							[1,1,0,([1,0.75] select ((getPlayerChannel _x) isEqualTo -1))]
+						] # _teamID),
 						(if (isNull (objectParent _x)) then {(_x modelToWorldVisual (_x selectionPosition 'Spine3'))} else {((objectParent _x) modelToWorldVisual [0,0,0])}),
 						0.7,
 						0.7,

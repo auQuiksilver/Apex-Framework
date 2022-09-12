@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	9/09/2022 A3 2.10 by Community
+	13/09/2022 A3 2.10 by Community
 	
 Description:
 
@@ -525,7 +525,7 @@ _____________________________________________________________>
 			<Original>No</Original>
 		</Key>
 		<Key ID="STR_QS_Text_037">
-			<Original>Go (gGroup command)</Original>
+			<Original>Go (Group command)</Original>
 		</Key>
 		<Key ID="STR_QS_Text_038">
 			<Original>Advance (Group command)</Original>
@@ -3119,6 +3119,75 @@ _____________________________________________________________>
 		<Key ID="STR_QS_Marker_047">
 			<Original>Capture</Original>
 		</Key>
+		<Key ID="STR_QS_Marker_048">
+			<Original>Mortars</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_049">
+			<Original>Base</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_050">
+			<Original>Arty</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_051">
+			<Original>CAS</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_052">
+			<Original>Crate Area</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_053">
+			<Original>Heli</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_054">
+			<Original>Vehicle</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_055">
+			<Original>Dock</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_056">
+			<Original>Rewards</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_057">
+			<Original>Gitmo</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_058">
+			<Original>Medevac HQ</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_059">
+			<Original>TOC</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_060">
+			<Original>ATC</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_061">
+			<Original>Heli Service</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_062">
+			<Original>Vehicle Service</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_063">
+			<Original>Plane Service</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_064">
+			<Original>Air Service</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_065">
+			<Original>Active Zeus - []</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_066">
+			<Original>FOB</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_067">
+			<Original>Inventory</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_068">
+			<Original>Boat</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_069">
+			<Original>Aircraft Carrier</Original>
+		</Key>
+		<Key ID="STR_QS_Marker_070">
+			<Original>Destroyer</Original>
+		</Key>
 	</Container>
 	
 	<Container name="QS_xml_diary">
@@ -4063,6 +4132,73 @@ _____________________________________________________________>
 		<Key ID="STR_QS_Menu_173">
 			<Original>Servicing</Original>
 		</Key>
+		
+		<Key ID="STR_QS_Menu_174">
+			<Original>Transporters</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_175">
+			<Original>Transport Pilots</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_176">
+			<Original>Transport Score</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_177">
+			<Original>Revivalists</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_178">
+			<Original>Medics</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_179">
+			<Original>Revive Score</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_180">
+			<Original>Scalpers</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_181">
+			<Original>Commander beret collectors</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_182">
+			<Original>Score</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_183">
+			<Original>Gold Diggers</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_184">
+			<Original>Gold Tooth collectors</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_185">
+			<Original>Tower Rangers</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_186">
+			<Original>Radio tower destroyers</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_187">
+			<Original>Towers Destroyed</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_188">
+			<Original>Gitmo</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_189">
+			<Original>Enemy Capture</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_190">
+			<Original>Enemies Captured</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_191">
+			<Original>Hot Shots</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_192">
+			<Original>Weapon Accuracy</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_193">
+			<Original>Accuracy (Hits / Shots Fired)</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_194">
+			<Original>Vasily Zaytsev Memorial</Original>
+		</Key>
+		<Key ID="STR_QS_Menu_195">
+			<Original>Sniper Accuracy</Original>
+		</Key>
 	</Container>
 
 	<Container name="QS_xml_roles">
@@ -4151,6 +4287,12 @@ _____________________________________________________________>
 		<Key ID="STR_QS_Role_027">
 			<Original>Commander</Original>
 		</Key>
+		<Key ID="STR_QS_Role_028">
+			<Original>Whitelisted</Original>
+		</Key>
+		<Key ID="STR_QS_Role_029">
+			<Original>Change player role</Original>
+		</Key>
 	</Container>
 
 	<Container name="QS_xml_utilityText">
@@ -4193,8 +4335,49 @@ _____________________________________________________________>
 		<Key ID="STR_QS_Utility_012">
 			<Original>Annex</Original>
 		</Key>
+		<Key ID="STR_QS_Utility_013">
+			<Original>Trenchfoot</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_014">
+			<Original>Forlorn Hope</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_015">
+			<Original>Nakamoto</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_016">
+			<Original>Alamo</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_017">
+			<Original>Lonestar</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_018">
+			<Original>Kokoda</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_019">
+			<Original>Singapore</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_020">
+			<Original>Fiji</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_021">
+			<Original>Guadalcanal</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_022">
+			<Original>Dragon</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_023">
+			<Original>Rabbit</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_024">
+			<Original>Oslo</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_025">
+			<Original>Paris</Original>
+		</Key>
+		<Key ID="STR_QS_Utility_026">
+			<Original>Kyiv</Original>
+		</Key>
 	</Container>
-
 	<Container name="QS_xml_dialogs">
 		<Key ID="STR_QS_Dialogs_000">
 			<Original>TEXT</Original>

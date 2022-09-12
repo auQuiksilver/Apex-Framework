@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	17/07/2022 A3 2.10 by Quiksilver
+	13/09/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -15,15 +15,15 @@ __________________________________________________________*/
 
 params ['_type','_display'];
 private _list = [
-	[0,'<Empty>',''],
-	[1,'Transporters','Transport Pilots'],
-	[2,'Revivalists','Medics'],
-	[3,'Scalpers','Commander beret collectors'],
-	[4,'Gold Diggers','Gold Tooth collectors'],
-	[5,'Tower Rangers','Radio tower destroyers'],
-	[6,'Gitmo','Enemy capture'],
-	[7,'Hot Shots','Weapon accuracy'],
-	[8,'Vasily Zaytsev Memorial','Sniper accuracy']
+	[0,'<Empty>','',localize 'STR_QS_Menu_042'],
+	[1,localize 'STR_QS_Menu_174',localize 'STR_QS_Menu_175',localize 'STR_QS_Menu_176'],
+	[2,localize 'STR_QS_Menu_177',localize 'STR_QS_Menu_178',localize 'STR_QS_Menu_179'],
+	[3,localize 'STR_QS_Menu_180',localize 'STR_QS_Menu_181',localize 'STR_QS_Menu_182'],
+	[4,localize 'STR_QS_Menu_183',localize 'STR_QS_Menu_184',localize 'STR_QS_Menu_182'],
+	[5,localize 'STR_QS_Menu_185',localize 'STR_QS_Menu_186',localize 'STR_QS_Menu_187'],
+	[6,localize 'STR_QS_Menu_188',localize 'STR_QS_Menu_189',localize 'STR_QS_Menu_190'],
+	[7,localize 'STR_QS_Menu_191',localize 'STR_QS_Menu_192',localize 'STR_QS_Menu_193'],
+	[8,localize 'STR_QS_Menu_194',localize 'STR_QS_Menu_195',localize 'STR_QS_Menu_193']
 ];
 if (_type isEqualTo 'onLoad') exitWith {
 	disableSerialization;
@@ -36,7 +36,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	};
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	(_display displayCtrl 1802) ctrlSetText (localize 'STR_QS_Menu_030');
-	(_display displayCtrl 1802) ctrlSetToolTip 'v1.0';
+	(_display displayCtrl 1802) ctrlSetToolTip '';
 	(_display displayCtrl 1803) ctrlSetText 'a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa';
 	(_display displayCtrl 1804) ctrlSetText (localize 'STR_QS_Menu_031');
 	(_display displayCtrl 1806) ctrlSetText (localize 'STR_QS_Menu_032');
@@ -44,7 +44,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	(_display displayCtrl 1807) ctrlSetText (localize 'STR_QS_Menu_034');
 	(_display displayCtrl 1809) ctrlSetText (localize 'STR_QS_Menu_035');
 	(_display displayCtrl 1810) ctrlSetText (localize 'STR_QS_Menu_036');
-	(_display displayCtrl 1811) ctrlSetText (localize 'STR_QS_Menu_037');
+	(_display displayCtrl 1811) ctrlSetText (localize 'STR_QS_Menu_037');		// Score
 	(_display displayCtrl 1812) ctrlSetText (localize 'STR_QS_Menu_038');
 	(_display displayCtrl 1813) ctrlSetText (localize 'STR_QS_Menu_039');
 	private _displayName = '';
@@ -89,6 +89,7 @@ if (_type isEqualTo 'B1') exitWith {
 		private _leaderboardID = (_list # _index) # 0;
 		lnbClear 1808;
 		if (_leaderboardID in [0]) then {
+			(_display displayCtrl 1802) ctrlSetText (localize 'STR_QS_Menu_030');
 			(_display displayCtrl 1809) ctrlSetText (localize 'STR_QS_Menu_036');
 			(_display displayCtrl 1810) ctrlSetText (localize 'STR_QS_Menu_041');
 			(_display displayCtrl 1811) ctrlSetText (localize 'STR_QS_Menu_042');
@@ -113,9 +114,10 @@ if (_type isEqualTo 'B1') exitWith {
 				} forEach allPlayers;
 			};
 		} else {
+			(_display displayCtrl 1802) ctrlSetText ((localize 'STR_QS_Menu_030') + ' - ' + ((_list # _index) # 1));
 			(_display displayCtrl 1809) ctrlSetText (localize 'STR_QS_Menu_035');
 			(_display displayCtrl 1810) ctrlSetText (localize 'STR_QS_Menu_036');
-			(_display displayCtrl 1811) ctrlSetText (localize 'STR_QS_Menu_037');
+			(_display displayCtrl 1811) ctrlSetText ((_list # _index) # 3);
 			(_display displayCtrl 1812) ctrlSetText (localize 'STR_QS_Menu_038');
 			// Debug leaderboards
 			private _tempLBHash = + QS_leaderboards4;

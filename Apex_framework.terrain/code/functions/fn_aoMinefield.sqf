@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	13/08/2016 A3 1.62 by Quiksilver
+	12/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -44,25 +44,27 @@ for '_x' from 0 to (round (29 + (random 19))) step 1 do {
 		0 = _objectsArray pushBack _mine;
 	};
 };
-_dir = 180;
-private ['_configClass','_model'];
-_configClass = configFile >> 'CfgVehicles' >> 'Land_Razorwire_F';
-_model = getText (_configClass >> 'model');
-if ((_model select [0,1]) isEqualTo '\') then {
-	_model = _model select [1];
-};
-if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
-	_model = _model + '.p3d';
-};
-for '_c' from 0 to _barriers step 1 do {
-	_pos = _centralPos getPos [_distance,_dir];
-	_pos set [2,0];
-	_pos set [2,(getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset'))];
-	_pos = ATLToASL _pos;
-	_sign = createSimpleObject [_model,_pos];
-    _sign setDir _dir;
-	_sign setVectorUp (surfaceNormal _pos);
-    _dir = _dir + _angle;
-	0 = _objectsArray pushBack _sign;
+if (missionNamespace getVariable ['QS_radiotower_useFence',FALSE]) then {
+	_dir = 180;
+	private ['_configClass','_model'];
+	_configClass = configFile >> 'CfgVehicles' >> 'Land_Razorwire_F';
+	_model = getText (_configClass >> 'model');
+	if ((_model select [0,1]) isEqualTo '\') then {
+		_model = _model select [1];
+	};
+	if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
+		_model = _model + '.p3d';
+	};
+	for '_c' from 0 to _barriers step 1 do {
+		_pos = _centralPos getPos [_distance,_dir];
+		_pos set [2,0];
+		_pos set [2,(getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset'))];
+		_pos = ATLToASL _pos;
+		_sign = createSimpleObject [_model,_pos];
+		_sign setDir _dir;
+		_sign setVectorUp (surfaceNormal _pos);
+		_dir = _dir + _angle;
+		0 = _objectsArray pushBack _sign;
+	};
 };
 _objectsArray;

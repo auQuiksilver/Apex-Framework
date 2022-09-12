@@ -1702,7 +1702,8 @@ _QS_module_highCommand_delay = 5;
 _QS_module_highCommand_checkDelay = _QS_uiTime + _QS_module_highCommand_delay;
 _QS_module_highCommand_waypoints = [];
 /*/===== Roles module/*/
-private _QS_module_roleAssignment = (getMissionConfigValue ['skipLobby',1]) isEqualTo 1;
+private _QS_module_roleAssignment = TRUE;				//(getMissionConfigValue ['skipLobby',1]) isEqualTo 1;
+private _QS_module_roleAssignment_updateDelay = -1;
 private _QS_display1Opened = FALSE;
 private _QS_display2Opened = FALSE;
 private _display1_drawID = 0;
@@ -5687,7 +5688,7 @@ for 'x' from 0 to 1 step 0 do {
 				_QS_buttonCtrl ctrlSetText (['',localize 'STR_QS_Role_001'] select _roleSelectionSystem);
 				if (_roleSelectionSystem) then {
 					_QS_buttonCtrl buttonSetAction _QS_buttonAction2;
-					_QS_buttonCtrl ctrlSetTooltip 'Change player role';
+					_QS_buttonCtrl ctrlSetTooltip (localize 'STR_QS_Role_029');
 					_QS_buttonCtrl ctrlSetBackgroundColor [1,0.5,0.5,1];
 					_QS_buttonCtrl ctrlCommit 0;
 				};
@@ -6059,19 +6060,23 @@ for 'x' from 0 to 1 step 0 do {
 		};
 	};
 	if (_QS_module_roleAssignment) then {
-		{
-			if (_x getVariable ['QS_unit_role_netUpdate',_false]) then {
-				['UPDATE_UI',_x] call _fn_roles;
-			};
-		} count _allPlayers;
+		
+		if (_QS_uiTime > _QS_module_roleAssignment_updateDelay) then {
+			{
+				if (_x getVariable ['QS_unit_role_netUpdate',_false]) then {
+					['UPDATE_UI',_x] call _fn_roles;
+				};
+			} forEach _allPlayers;
+			_QS_module_roleAssignment_updateDelay = _QS_uiTime + (random [5,10,15]);
+		};
 		if (_QS_side isNotEqualTo (_QS_player getVariable ['QS_unit_side',_west])) then {
 			_QS_side = _QS_player getVariable ['QS_unit_side',_west];
 			_enemysides = _QS_side call _fn_enemySides;
 			setPlayerRespawnTime ([15,5] select (_QS_side isEqualTo _west));
 		};
 		if (_playerRole isNotEqualTo (_QS_player getVariable ['QS_unit_role','rifleman'])) then {
+			['UPDATE_UI',_QS_player] call _fn_roles;
 			_playerRole = _QS_player getVariable ['QS_unit_role','rifleman'];
-			_roleDisplayName = ['GET_ROLE_DISPLAYNAME',_playerRole] call _fn_roles;
 			_roleDisplayNameL = toLower _roleDisplayName;
 			if (_QS_player getUnitTrait 'QS_trait_pilot') then {
 				_iAmPilot = _true;

@@ -771,7 +771,8 @@ _recyclerUnitTypes = [
 	['QS_AI_laserTargets',[],TRUE],
 	['QS_AI_cmdr_recentSuppPositions',[],FALSE],
 	['QS_zeus_captureMan',objNull,TRUE],
-	['QS_cas_JetsDLCEnabled',TRUE,FALSE]
+	['QS_cas_JetsDLCEnabled',TRUE,FALSE],
+	['QS_radiotower_useFence',TRUE,FALSE]
 ];
 call (compileScript ['@Apex_cfg\roles.sqf']);
 ['INIT_SYSTEM'] call (missionNamespace getVariable 'QS_fnc_roles');

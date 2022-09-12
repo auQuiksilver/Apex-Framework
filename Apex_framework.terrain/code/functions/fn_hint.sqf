@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	10/06/2018 A3 1.82 by Quiksilver
+	13/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -49,14 +49,14 @@ if ((_adv) && (_text isEqualType '')) then {
 	private _keyString = if (_helpArray isNotEqualTo []) then {
 		format ["[<t color = '%1'>%2</t>]",_keyColor,_helpArray # 0];
 	} else {
-		format ["[<t color = '#FF0000'>%1</t>]",(toUpperANSI (localize 'STR_A3_Hints_unmapped'))];
+		format ["[<t color = '#FF0000'>%1</t>]",(toUpper (localize 'STR_A3_Hints_unmapped'))];
 	};
 	_partString = format [(localize 'STR_A3_Hints_recall'),_keyString];
 	_endPartString = format ["%4<br/><br/><t align='left' size='%2' color='%3'>%1</t>",_partString,_textSizeSmall,_shadowColor,_invChar02];
 	private _advHint = '';
 	if (_advTitle isNotEqualTo '') then {
 		if (_advTitle isEqualType '') then {
-			_advHint = format ["<t size = '1.25' align='left' font='RobotoCondensedBold'>%1</t><br/><br/>",(toUpperANSI _advTitle)];
+			_advHint = format ["<t size = '1.25' align='left' font='RobotoCondensedBold'>%1</t><br/><br/>",(toUpper _advTitle)];
 		};
 	};
 	_advHint = _advHint + _text;

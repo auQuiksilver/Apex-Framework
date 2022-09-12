@@ -279,15 +279,11 @@ _QS_fnc_iconColor = {
 	if (_exit) exitWith {_c;};
 	if (_useTeamColor) then {
 		if (isNull (objectParent _u)) then {
-			private _teamID = 0;
-			if (!isNil {assignedTeam _u}) then {
-				_teamID = (['MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _u)) max 0;
-			};
 			if (_s isEqualTo EAST) then {_c = _QS_ST_X # 9;};
 			if (_s isEqualTo WEST) then {_c = _QS_ST_X # 10;};
 			if (_s isEqualTo RESISTANCE) then {_c = _QS_ST_X # 11;};
 			if (_s isEqualTo CIVILIAN) then {_c = _QS_ST_X # 12;};
-			_c = [_c,[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] # _teamID;
+			_c = [_c,_c,[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] # ((['','MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _u)) max 1);
 			_c set [3,_a];
 			if (_ms > 0.80) then {
 				if (_ds isEqualTo 1) then {
@@ -310,7 +306,7 @@ _QS_fnc_iconType = {
 	private _i = '';
 	if ((_u isKindOf 'CAManBase') && {(isPlayer (effectiveCommander _u))}) then {
 		if ((_u getVariable ['QS_unit_role_icon',-1]) isEqualTo -1) then {
-			_i = ['GET_ROLE_ICONMAP',(_u getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable ['QS_fnc_roles',{'a3\ui_f\data\map\vehicleicons\iconMan_ca.paa'}]);
+			_i = ['GET_ROLE_ICONMAP',(_u getVariable ['QS_unit_role','rifleman']),_u] call (missionNamespace getVariable 'QS_fnc_roles');
 		} else {
 			_i = _u getVariable ['QS_unit_role_icon','a3\ui_f\data\map\vehicleicons\iconMan_ca.paa'];
 		};
