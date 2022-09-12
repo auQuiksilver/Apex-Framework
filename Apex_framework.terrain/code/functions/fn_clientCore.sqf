@@ -6077,6 +6077,7 @@ for 'x' from 0 to 1 step 0 do {
 		if (_playerRole isNotEqualTo (_QS_player getVariable ['QS_unit_role','rifleman'])) then {
 			['UPDATE_UI',_QS_player] call _fn_roles;
 			_playerRole = _QS_player getVariable ['QS_unit_role','rifleman'];
+			_roleDisplayName = _QS_player getVariable ['QS_unit_role_displayName','Rifleman'];
 			_roleDisplayNameL = toLower _roleDisplayName;
 			if (_QS_player getUnitTrait 'QS_trait_pilot') then {
 				_iAmPilot = _true;
