@@ -168,7 +168,7 @@ if (_type isEqualTo 'B1') exitWith {
 				};
 			};
 			if (_isAccuracyLB) then {
-				_leaderboardData = _leaderboardData select { ((_x # 3) # 1) >= 100 };
+				_leaderboardData = _leaderboardData select { ((_x # 3) # 1) >= 100 };		// Require minimum of 100 shots fired before adding to leaderboard
 			};
 			_leaderboardData sort FALSE;
 			// Debug leaderboards

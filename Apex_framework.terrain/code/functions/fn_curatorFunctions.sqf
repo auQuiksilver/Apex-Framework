@@ -64,9 +64,127 @@ if (_key isEqualTo 61) exitWith {
 	};
 };
 if (_key isEqualTo 62) exitWith {
-	playSound ['ClickSoft',FALSE];
-	systemChat 'AI offload to Server/Headless Client - not implemented yet';
-
+	if (diag_tickTime > (missionNamespace getVariable ['QS_curator_AIOffloadCooldown',-1])) then {
+		missionNamespace setVariable ['QS_curator_AIOffloadCooldown',diag_tickTime + 5,FALSE];
+		playSound ['ClickSoft',FALSE];
+		private _selected = curatorSelected # 0;
+		private _groups = [];
+		if (_selected isNotEqualTo []) then {
+			{
+				if (
+					(_x isKindOf 'Man') &&
+					(!isPlayer _x) &&
+					(alive _x) &&
+					(!isNull (group _x))
+				) then {
+					_groups pushBackUnique (group _x);
+				};
+			} forEach _selected;
+			if (_groups isNotEqualTo []) then {
+				_groups = _groups select {
+					_grp = _x;
+					((local _grp) && (((units _grp) findIf {(isPlayer _x)}) isEqualTo -1))
+				};
+				if (_groups isNotEqualTo []) then {
+					QS_data_AISkills = [
+						'general',
+						'courage',
+						'aimingAccuracy',
+						'aimingShake',
+						'aimingSpeed',
+						'commanding',
+						'endurance',
+						'spotDistance',
+						'spotTime',
+						'reloadSpeed'
+					];
+					QS_data_AIFeatures = [
+						//'ALL',
+						'AIMINGERROR',
+						'ANIM',
+						'AUTOCOMBAT',
+						'AUTOTARGET',
+						'CHECKVISIBLE',
+						'COVER',
+						'FSM',
+						'LIGHTS',
+						'MINEDETECTION',
+						'MOVE',
+						'NVG',
+						'PATH',
+						'RADIOPROTOCOL',
+						'SUPPRESSION',
+						'TARGET',
+						'TEAMSWITCH',
+						'WEAPONAIM'
+					];
+					private _grp = grpNull;
+					private _grpData = [];
+					private _unitData = [];
+					private _unitsData = [];
+					private _unit = objNull;
+					private _unitSkills = [];
+					private _unitAIFeatures = [];
+					{
+						_grp = _x;
+						_grpData = [
+							(['CARELESS','SAFE','AWARE','COMBAT','STEALTH','ERROR'] find (behaviour (leader _grp))),
+							['BLUE','GREEN','WHITE','YELLOW','RED'] find (combatMode _grp),
+							[0,1] select (attackEnabled _grp)
+						];
+						_unitData = [];
+						_unitsData = [];
+						_unit = objNull;
+						_unitSkills = [];
+						_unitAIFeatures = [];
+						{
+							_unit = _x;
+							_unitData = [];
+							_unitSkills = [];
+							_unitAIFeatures = [];
+							_unitData pushBack _unit;
+							_unitData pushBack (skill _unit);
+							{
+								_unitSkills pushBack (_unit skillFinal _x);
+							} forEach QS_data_AISkills;
+							_unitData pushBack _unitSkills;
+							{
+								_unitAIFeatures pushBack ([0,1] select (_unit checkAIFeature _x));
+							} forEach QS_data_AIFeatures;
+							_unitData pushBack _unitAIFeatures;
+							_unitData pushBack (['Down','Up','Middle','Auto'] find (unitPos _unit));
+							_unitData pushBack (getAnimSpeedCoef _unit);
+							_unitData pushBack ([0,1] select (isStaminaEnabled _unit));
+							_unitsData pushBack _unitData;
+						} forEach (units _grp);
+						_grpData pushBack _unitsData;
+						{
+							_grp setVariable [_x,_grp getVariable _x,2];
+						} forEach (allVariables _grp);
+						_grp setVariable ['QS_AI_GRP_ZEUS_data',_grpData,2];
+						if (((_grp getEventHandlerInfo ['Local',0]) # 2) isEqualTo 0) then {
+							_grp addEventHandler [
+								'Local',
+								{
+									params ['_grp','_isLocal'];
+									_grp removeEventHandler [_thisEvent,_thisEventHandler];
+									systemChat format ['Zeus AI Offload - %1 offloaded to server: %2',(groupId _grp),!_isLocal]
+								}
+							];
+						};
+					} forEach _groups;
+					// this is pretty basic but whatever
+					systemChat 'Zeus AI Offload - attempting ...';
+					_groups spawn {
+						sleep 2;		// allow time for variable propagation
+						[18,_this,profileName] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+					};
+				};
+			};
+		};
+	} else {
+		systemChat 'Zeus AI Offload - cooldown (5 seconds)';
+	};
 };
 if (_key isEqualTo 82) exitWith {
 	playSound ['ClickSoft',FALSE];
@@ -76,17 +194,17 @@ if (_key isEqualTo 79) exitWith {
 	//comment 'Garrison selected units into buildings';
 	playSound ['ClickSoft',FALSE];
 	private ['_selectedUnits','_countUnits','_radius'];
-	_selectedUnits = [];
+	private _selectedUnits = [];
 	if ((curatorSelected # 0) isEqualTo []) then {breakTo 'main';};
 	{
-		if (_x isKindOf 'Man') then {
-			if (!isPlayer _x) then {
-				if (alive _x) then {
-					0 = _selectedUnits pushBack _x;
-				};
-			};
+		if (
+			(_x isKindOf 'Man') &&
+			(!isPlayer _x) &&
+			(alive _x)
+		) then {
+			_selectedUnits pushBack _x;
 		};
-	} count (curatorSelected # 0);
+	} forEach (curatorSelected # 0);
 	if (_selectedUnits isEqualTo []) then {breakTo 'main';};
 	_countUnits = count _selectedUnits;
 	_radius = 50;

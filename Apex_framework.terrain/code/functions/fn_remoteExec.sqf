@@ -357,9 +357,79 @@ if (_case < 20) exitWith {
 			};
 		};
 	};
-	/*/ Server comm menu component/*/
+	/*/ Zeus AI offload /*/
 	if (_case isEqualTo 18) exitWith {
-		['',(_this # 1)] call (missionNamespace getVariable 'QS_fnc_serverCommMenu');
+		params ['',['_groups',[]],'_zeus'];
+		diag_log format ['***** DEBUG ***** Zeus ( %1 ) attempting offload of %2 groups',_zeus,(count _groups)];
+		if (_groups isNotEqualTo []) then {
+			_groupEventLocalServer = {
+				params ['_grp','_isLocal'];
+				_grp removeEventHandler [_thisEvent,_thisEventHandler];
+				if (_isLocal) then {
+					_grp setVariable ['QS_AI_GRP_SETUP',FALSE,FALSE];
+					_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+					private _data = [];
+					private _unit = objNull;
+					private _unitData = [];
+					private _unitSkills = [];
+					private _unitAI = [];
+					{
+						_data = _x;
+						if (_forEachIndex isEqualTo 0) then {
+							_grp setBehaviour (['CARELESS','SAFE','AWARE','COMBAT','STEALTH','AWARE'] # _data);
+						};
+						if (_forEachIndex isEqualTo 1) then {
+							_grp setCombatMode (['BLUE','GREEN','WHITE','YELLOW','RED'] # _data);
+						};
+						if (_forEachIndex isEqualTo 2) then {
+							_grp enableAttack (_data isEqualTo 1);
+						};
+						if (_forEachIndex isEqualTo 3) then {
+							{
+								_unitData = _x;
+								_unitData params ['_unit','_unitSkill','_unitSkills','_unitAI','_unitPos','_unitAnimCoef','_unitStamina'];
+								if (alive _unit) then {
+									if ((side _grp) in [EAST,RESISTANCE]) then {
+										_unit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
+									};
+									_unit setSkill _unitSkill;
+									{
+										_unit setSkill [QS_data_AISkills # _forEachIndex,_x];
+									} forEach _unitSkills;
+									{
+										_unit enableAIFeature [QS_data_AIFeatures # _forEachIndex,_x isEqualTo 1];
+									} forEach _unitAI;
+									if (_unitPos isNotEqualTo -1) then {
+										_unit setUnitPos (['Down','Up','Middle','Auto'] # _unitPos);
+									};
+									_unit setAnimSpeedCoef _unitAnimCoef;
+									_unit enableStamina (_unitStamina isEqualTo 1);
+									_unit enableFatigue (_unitStamina isEqualTo 1);
+								};
+							} forEach _data;
+						};
+					} forEach (_grp getVariable ['QS_AI_GRP_ZEUS_data',[]]);
+					_grp allowFleeing 0;
+					_grp spawn {
+						sleep 3;
+						{
+							if (alive _x) then {
+								_x setUnitLoadout (getUnitLoadout _x);
+							};
+						} forEach (units _this);
+					};
+				};
+			};
+			{
+				_x addEventHandler ['Local',_groupEventLocalServer];
+			} forEach _groups;
+			_groups spawn {
+				{
+					sleep 1;
+					diag_log format ['***** DEBUG ***** Offload of Zeus group %1 attempted. Result: %2',(groupId _x),_x setGroupOwner 2];
+				} forEach _this;
+			};
+		};
 	};
 	/*/Command Recruit/*/
 	if (_case isEqualTo 19) exitWith {
