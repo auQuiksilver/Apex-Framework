@@ -360,7 +360,7 @@ if (_case < 20) exitWith {
 	/*/ Zeus AI offload /*/
 	if (_case isEqualTo 18) exitWith {
 		params ['',['_groups',[]],'_zeus'];
-		diag_log format ['***** DEBUG ***** Zeus ( %1 ) attempting offload of %2 groups',_zeus,(count _groups)];
+		diag_log format ['***** DEBUG ***** Zeus ( %1 ) attempting offload of %2 groups',_zeus,(count _groups)];	// TO DO: Localization
 		if (_groups isNotEqualTo []) then {
 			_groupEventLocalServer = {
 				params ['_grp','_isLocal'];
@@ -426,7 +426,7 @@ if (_case < 20) exitWith {
 			_groups spawn {
 				{
 					sleep 1;
-					diag_log format ['***** DEBUG ***** Offload of Zeus group %1 attempted. Result: %2',(groupId _x),_x setGroupOwner 2];
+					diag_log format ['***** DEBUG ***** Offload of Zeus group %1 attempted. Result: %2',(groupId _x),_x setGroupOwner 2];		// TO DO: Localization
 				} forEach _this;
 			};
 		};
