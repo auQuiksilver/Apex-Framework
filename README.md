@@ -1,4 +1,4 @@
-Apex Framework 1.3.0 28/08/2022 A3 2.10
+Apex Framework 1.3.2 14/09/2022 A3 2.10
 by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
@@ -18,7 +18,7 @@ Apex Framework step-by-step setup guide:
 Video Setup Guide - https://www.youtube.com/watch?v=FCj2qyThCH0
 _______________
 
-0. Download the "Apex_framework_130_allFiles.zip" file.    (please note some mission files need to be downloaded separately due to 100MB github file size limit).
+0. Download the "Apex_framework_132_allFiles.zip" file.    (please note some mission files need to be downloaded separately due to 100MB github file size limit).
 
 _______________
 1. Place mission PBO files in your servers MPMissions folder.
@@ -30,13 +30,13 @@ _______________
 2b. Run it as a -servermod in your arma launch options.
 
 _______________
-3a. Place @Apex_cfg folder in your servers ArmA 3 directory. Reference: https://i.imgur.com/ijdXgg6.png
+3a. Place @Apex_cfg folder in your servers A3 directory.Reference: https://i.imgur.com/ijdXgg6.png
 
 3b. Do NOT run @Apex_cfg as a -mod or -servermod, leave it alone!
 
 3c. Enable -filePatching for your server (important!)   Reference: https://community.bistudio.com/wiki/Arma_3_Startup_Parameters
 _______________
-4. Copy the difficulty options from   server.Arma3Profile file into your servers .arma3profile file.  Reference:   https://i.imgur.com/X71jy3z.png
+4. Copy the difficulty options from server.Arma3Profile file into your servers .arma3profile file. Reference:   https://i.imgur.com/X71jy3z.png
 Ensure the difficulties are set correctly. Reference:   https://i.imgur.com/9NXqPnI.png
 
 
@@ -49,13 +49,13 @@ class Missions {
 
   class apex_framework {
 
-    template="Apex_framework_130.Altis";
+    template="Apex_framework_132.Altis";
 
-    //template="Apex_framework_130.Tanoa";
+    //template="Apex_framework_132.Tanoa";
 
-    //template="Apex_framework_130.Malden";
+    //template="Apex_framework_132.Malden";
     
-    //template="Apex_framework_130.Enoch";
+    //template="Apex_framework_132.Enoch";
 
     difficulty="Custom";
 
@@ -65,7 +65,7 @@ class Missions {
 
 ```
 forcedDifficulty = "Custom";
-missionWhitelist[] = {"Apex_framework_130.Altis","Apex_framework_130.Tanoa","Apex_framework_130.Malden","Apex_framework_130.Enoch"};
+missionWhitelist[] = {"Apex_framework_132.Altis","Apex_framework_132.Tanoa","Apex_framework_132.Malden","Apex_framework_132.Enoch"};
 ```
 
 --------------------------
@@ -76,7 +76,7 @@ missionWhitelist[] = {"Apex_framework_130.Altis","Apex_framework_130.Tanoa","Ape
 _______________
 6. In your "server.cfg" file, ensure you have a serverCommandPassword set. Example:
 
-```serverCommandPassword = "ShVQArtpGdc5aDQq";```
+```serverCommandPassword = "abc123";```
 
 Make note of the password you have (or created), you will need it now. Copy it to your clipboard.
 _______________
@@ -87,7 +87,7 @@ _______________
 7c. Locate this:
 
 
-```_serverCommandPassword = "'ShVQArtpGdc5aDQq'";```
+```_serverCommandPassword = "'abc123'";```
 
 
 7d. Ignoring the " and ' quotations (do not touch them), copy your serverCommandPassword into that line as shown. See #7 to compare.
