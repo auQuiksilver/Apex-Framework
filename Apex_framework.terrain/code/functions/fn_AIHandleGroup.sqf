@@ -741,7 +741,7 @@ if (
 							_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 							_smokeShell setPosATL [((getPosWorld _smokeShell) # 0),((getPosWorld _smokeShell) # 1),50];
 							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 60)];
-							missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') + [_firePosition,50,(serverTime + 45)]),QS_system_AI_owners];
+							missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') + [[_firePosition,50,(serverTime + 45)]]),QS_system_AI_owners];
 							[0,_grpLeader,_firePosition,((magazines (_currentConfig # 2)) # 0),(round (2 + (random 6)))] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 						};
 					};
