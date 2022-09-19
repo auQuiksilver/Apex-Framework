@@ -42,7 +42,7 @@ if (_result) then {
 	player playAction 'PutDown';
 	playSound 'ClickSoft';
 	50 cutText [localize 'STR_QS_Text_126','PLAIN DOWN',0.5];
-	if (((crew _t) findIf {(alive _x)}) isNotEqualTo -1) then {
+	if (((crew _t) findIf {(alive _x)}) isEqualTo -1) then {
 		if ((_t distance2D (markerPos 'QS_marker_base_marker')) >= 1000) then {
 			_text = format ['%1 %4 %2 %5 %3',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),(mapGridPosition (getPosWorld player)),localize 'STR_QS_Chat_093',localize 'STR_QS_Hints_060'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
