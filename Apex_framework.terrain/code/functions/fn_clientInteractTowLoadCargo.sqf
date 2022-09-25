@@ -72,7 +72,7 @@ if ((_parent canVehicleCargo _child) isNotEqualTo [TRUE,TRUE]) exitWith {
 	_outcome = _parent canVehicleCargo _child;
 	//[Possible to load cargo inside vehicle, possible to load cargo into empty vehicle]
 	if (!(_outcome # 1)) then {
-		50 cutText [(format ['%1 %3 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _child) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf _parent) >> 'displayName')),localize 'STR_QS_Text_156']),'PLAIN',0.5];
+		50 cutText [(format [localize 'STR_QS_Text_156',(getText (configFile >> 'CfgVehicles' >> (typeOf _child) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf _parent) >> 'displayName'))]),'PLAIN',0.5];
 	} else {
 		50 cutText [localize 'STR_QS_Text_157','PLAIN',0.5];
 	};

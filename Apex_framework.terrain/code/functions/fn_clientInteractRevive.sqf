@@ -22,7 +22,7 @@ if (
 	{(!isNull (objectParent player))}
 ) exitWith {};
 if (_t getVariable ['QS_revive_disable',FALSE]) exitWith {
-	50 cutText [(format ['%1 %2',(name _t),localize 'STR_QS_Text_129']),'PLAIN',0.5];
+	50 cutText [(format [localize 'STR_QS_Text_129',(name _t)]),'PLAIN',0.5];
 };
 if (_t getVariable ['QS_unit_needsStabilise',FALSE]) exitWith {
 	50 cutText [localize 'STR_QS_Text_088','PLAIN',0.3];
@@ -51,7 +51,7 @@ if (
 	50 cutText [localize 'STR_QS_Text_130','PLAIN DOWN'];
 };
 if (isPlayer _t) then {
-	private _text = format ['%2 %1',profileName,localize 'STR_QS_Text_262'];
+	private _text = format [localize 'STR_QS_Text_262',profileName];
 	[63,[5,[_text,'PLAIN',0.5]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 };
 private _time = diag_tickTime + 5.5;
@@ -226,7 +226,7 @@ if (!(player getVariable ['QS_client_animCancel',FALSE])) then {
 							};
 						};
 						if (isPlayer _t) then {
-							_text = format ['%2 %1',profileName,localize 'STR_QS_Text_263'];
+							_text = format [localize 'STR_QS_Text_263',profileName];
 							[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 						};
 						if (isNil {player getVariable 'QS_revive_lastPatient'}) then {

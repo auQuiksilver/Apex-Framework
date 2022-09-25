@@ -117,7 +117,7 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 	if (!(_QS_c)) then {
 		_QS_c = TRUE;
 		if (isPlayer _QS_actionTarget) then {
-			[63,[5,[(format ['%2 %1',profileName,localize 'STR_QS_Text_260']),'PLAIN DOWN',0.5]]] remoteExec ['QS_fnc_remoteExec',_QS_actionTarget,FALSE];
+			[63,[5,[(format [localize 'STR_QS_Text_260',profileName]),'PLAIN DOWN',0.5]]] remoteExec ['QS_fnc_remoteExec',_QS_actionTarget,FALSE];
 		};
 		player setVariable ['QS_treat_entryAnim',(animationState player),FALSE];
 		player setVariable ['QS_treat_target',_QS_actionTarget,FALSE];
@@ -183,7 +183,7 @@ if (_QS_actionName isEqualTo 'RepairVehicle') exitWith {
 				if (isPlayer _QS_actionTarget) then {
 					if (alive _QS_actionTarget) then {
 						if (_QS_actionTarget isNotEqualTo (vehicle player)) then {
-							[63,[5,[(format ['%2 %1',profileName,localize 'STR_QS_Text_261']),'PLAIN DOWN',0.5]]] remoteExec ['QS_fnc_remoteExec',(effectiveCommander _QS_actionTarget),FALSE];
+							[63,[5,[(format [localize 'STR_QS_Text_261',profileName]),'PLAIN DOWN',0.5]]] remoteExec ['QS_fnc_remoteExec',(effectiveCommander _QS_actionTarget),FALSE];
 						};
 					};
 				};

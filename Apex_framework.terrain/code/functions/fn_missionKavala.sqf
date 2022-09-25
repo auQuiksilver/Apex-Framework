@@ -1044,9 +1044,9 @@ for '_x' from 0 to 1 step 0 do {
 							if (isPlayer _instigator) then {
 								private _text = '';
 								if ((random 1) > 0.666) then {
-									_text = format ['%2 %1!',(name _instigator),localize 'STR_QS_Chat_141'];
+									_text = format [localize 'STR_QS_Chat_141',(name _instigator)];
 								} else {
-									_text = format ['%2 %1',(name _instigator),localize 'STR_QS_Chat_142'];
+									_text = format [localize 'STR_QS_Chat_142',(name _instigator),l];
 								};
 								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};

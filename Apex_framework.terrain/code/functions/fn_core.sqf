@@ -2459,7 +2459,7 @@ for '_x' from 0 to 1 step 0 do {
 												};
 												if (!(_supportMessagePopped)) then {
 													_supportMessagePopped = _true;
-													['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+													['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 												};
 											};
 										};
@@ -2491,7 +2491,7 @@ for '_x' from 0 to 1 step 0 do {
 											};
 											if (!(_supportMessagePopped)) then {
 												_supportMessagePopped = _true;
-												['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+												['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 											};
 										};
 									};
@@ -2567,7 +2567,7 @@ for '_x' from 0 to 1 step 0 do {
 												};
 												if (!(_supportMessagePopped)) then {
 													_supportMessagePopped = _true;
-													['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+													['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 												};
 											};
 										};
@@ -2598,7 +2598,7 @@ for '_x' from 0 to 1 step 0 do {
 											};
 											if (!(_supportMessagePopped)) then {
 												_supportMessagePopped = _true;
-												0 = ['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+												0 = ['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 											};
 										};
 									};
@@ -2624,7 +2624,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										if (!(_supportMessagePopped)) then {
 											_supportMessagePopped = _true;
-											0 = ['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+											0 = ['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										};
 									};
 								};
@@ -2653,7 +2653,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										if (!(_supportMessagePopped)) then {
 											_supportMessagePopped = _true;
-											['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+											['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										};
 									};
 								};

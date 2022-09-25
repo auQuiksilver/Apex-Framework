@@ -41,7 +41,7 @@ if ((count (ropes _vehicle)) isEqualTo _count) then {
 						_text = format ['%3 %2 %1',localize 'STR_QS_Text_203',(actionKeysNames ['HeliRopeAction',1]),localize 'STR_QS_Text_202'];
 						50 cutText [_text,'PLAIN DOWN',1];
 					} else {
-						_text = format ['%2 %1',_displayName,localize 'STR_QS_Text_201'];
+						_text = format [localize 'STR_QS_Text_201',_displayName];
 						50 cutText [_text,'PLAIN DOWN',0.5];					
 					};
 				};

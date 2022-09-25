@@ -53,7 +53,7 @@ _exit = FALSE;
 			} else {
 				0 = [90,_unit,1] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 			};
-			50 cutText [(format ['%1 %2',(name _unit),localize 'STR_QS_Text_164']),'PLAIN DOWN',0.3];
+			50 cutText [(format [localize 'STR_QS_Text_164',(name _unit)]),'PLAIN DOWN',0.3];
 			_unit setVariable ['QS_RD_loaded',FALSE,TRUE];
 			waitUntil {
 				(isNull (objectParent _unit))
@@ -80,7 +80,7 @@ _exit = FALSE;
 		};
 	};
 	if (_exit) exitWith {
-		50 cutText [(format ['%1 %2',(name _unit),localize 'STR_QS_Text_164']),'PLAIN DOWN',0.5];
+		50 cutText [(format [localize 'STR_QS_Text_164',(name _unit)]),'PLAIN DOWN',0.5];
 	};
 } count ((crew _t) + (attachedObjects _t));
 TRUE;

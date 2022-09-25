@@ -47,7 +47,7 @@ if (_t isKindOf 'CAManBase') then {
 			[7.2,_unit,'ainjpfalmstpsnonwnondf_carried_dead',player,'acinpercmstpsnonwnondnon'] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 			player forceWalk TRUE;
 			_unit attachTo [player,[0.1,-0.1,-1.2],'leftshoulder'];
-			50 cutText [(format ['%2 %1',(name _unit),localize 'STR_QS_Text_089']),'PLAIN DOWN',0.3];
+			50 cutText [(format [localize 'STR_QS_Text_089',(name _unit)]),'PLAIN DOWN',0.3];
 		};
 		_onFailed = {
 			FALSE
@@ -112,7 +112,7 @@ if (_t isKindOf 'CAManBase') then {
 							['setDir',_entity,90] remoteExec ['QS_fnc_remoteExecCmd',[_entity,player],FALSE];
 						};
 					};
-					50 cutText [(format ['%2 %1',(_entity getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName')),localize 'STR_QS_Text_091'])]),'PLAIN DOWN',0.3];
+					50 cutText [(format [localize 'STR_QS_Text_091',(_entity getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName'))])]),'PLAIN DOWN',0.3];
 					[_entity] spawn {
 						scriptName 'QS Interact Carry Monitor';
 						params ['_entity'];

@@ -86,7 +86,7 @@ private _hasUnloaded = FALSE;
 						['setVelocity',_entity,[0,0,-1]] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
 					};
 				};
-				50 cutText [(format ['%2 %1',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))]),localize 'STR_QS_Text_091']),'PLAIN DOWN',0.3];
+				50 cutText [(format [localize 'STR_QS_Text_091'],(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))])),'PLAIN DOWN',0.3];
 			} else {
 				_position = (position player) findEmptyPosition [0,10,(typeOf _cargo)];
 				if (_position isNotEqualTo []) then {
@@ -121,7 +121,7 @@ private _hasUnloaded = FALSE;
 							drawIcon3D ['a3\ui_f\data\map\VehicleIcons\iconcrate_ca.paa',[1,1,1,1],(getPosVisual _object),0,0,0,'Cargo',1,0.1,'RobotoCondensed','right',TRUE];
 						}
 					];
-					50 cutText [(format ['%2 %1',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))]),localize 'STR_QS_Text_165']),'PLAIN DOWN',0.3];
+					50 cutText [(format [localize 'STR_QS_Text_165',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))])]),'PLAIN DOWN',0.3];
 				} else {
 					50 cutText [localize 'STR_QS_Text_166','PLAIN DOWN',0.3];
 				};
