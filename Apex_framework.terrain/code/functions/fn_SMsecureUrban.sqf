@@ -884,7 +884,7 @@ for '_x' from 0 to 1 step 0 do {
 			['QS_IA_TASK_SM_0',TRUE,_QS_enemyDetected_endTime] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 			_QS_bombTimer_started = TRUE;
 			_QS_urbanTimerBroadcast_delay = time + 25;
-			_QS_text = format ['%2 %1',[((round(_QS_enemyDetected_endTime - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString'),localize 'STR_QS_Chat_156'];
+			_QS_text = format [localize 'STR_QS_Chat_156',[((round(_QS_enemyDetected_endTime - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')];
 			['systemChat',_QS_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};

@@ -6,16 +6,14 @@ Author:
 	
 Last modified: 
 
-	29/08/2022 A3 2.10 by Quiksilver
+	28/08/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-_missionProductVersion = getMissionConfigValue ['missionProductVersion',''];
-_missionProductStatus = getMissionConfigValue ['missionProductStatus',''];
-missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',_missionProductVersion,_missionProductStatus]),TRUE];
+missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',getMissionConfigValue ['missionProductVersion',''],getMissionConfigValue ['missionProductStatus','']]),TRUE];
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
 	'_aoSize','_flagTextureFriendly','_flagTextureEast','_flagTextureWest','_flagTextureResistance','_flagTextureCivilian',
@@ -212,6 +210,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 };
 enableDynamicSimulationSystem TRUE;
 enableEnvironment [FALSE,FALSE];
+enableEngineArtillery TRUE;
 disableRemoteSensors TRUE;
 calculatePlayerVisibilityByFriendly FALSE;
 useAISteeringComponent FALSE;
@@ -1148,13 +1147,15 @@ missionNamespace setVariable [
 } forEach [
 	['BuildingChanged',{call (missionNamespace getVariable 'QS_fnc_eventBuildingChanged')}],
 	['Ended',{call (missionNamespace getVariable 'QS_fnc_eventMissionEnded')}],
-	//['EntityCreated',(missionNamespace getVariable 'QS_fnc_eventEntityCreated')],							// Mainly used for debug/diagnostics
+	//['EntityCreated',(missionNamespace getVariable 'QS_fnc_eventEntityCreated')],							// Used for debug/diagnostics
 	['EntityKilled',{call (missionNamespace getVariable 'QS_fnc_eventEntityKilled')}],
 	['EntityRespawned',{call (missionNamespace getVariable 'QS_fnc_eventEntityRespawned')}],
+	//['GroupCreated',{call (missionNamespace getVariable 'QS_fnc_eventGroupCreated')}],					// Not used
+	//['GroupDeleted',{call (missionNamespace getVariable 'QS_fnc_eventGroupDeleted')}],					// Not used
 	['HandleDisconnect',{call (missionNamespace getVariable 'QS_fnc_eventHandleDisconnect')}],
 	['PlayerConnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerConnected')}],
-	['PlayerDisconnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerDisconnected')}],
-	['BuildingChanged',{call (missionNamespace getVariable 'QS_fnc_eventBuildingChanged')}]
+	['PlayerDisconnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerDisconnected')}]
+	//['ProjectileCreated',{call (missionNamespace getVariable 'QS_fnc_eventProjectileCreated')}],			// Used for debug/diagnostics
 ];
 
 /*/===== watchlist of troublemaker UIDs, harvested from RPT files. Reports against these players in the future are given 2x weighting by Robocop./*/

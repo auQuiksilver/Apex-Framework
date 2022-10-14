@@ -13,10 +13,7 @@ Description:
 	Base Lights toggle
 _____________________________________________*/
 
-private _simulated = TRUE;
-if (!(missionNamespace getVariable 'QS_base_lamps')) then {
-	_simulated = FALSE;
-};
+private _simulated = missionNamespace getVariable ['QS_base_lamps',FALSE];
 {
 	_x switchLight (['off','on'] select _simulated);
 	if (isDedicated) then {
@@ -26,9 +23,10 @@ if (!(missionNamespace getVariable 'QS_base_lamps')) then {
 	};
 } forEach (allMissionObjects 'Lamps_base_F');
 if (!isDedicated) then {
-	if (!(missionNamespace getVariable 'QS_base_lamps')) then {
-		_object = missionNamespace getVariable 'QS_torch';
-		if (!isNil {_object getVariable 'effects'}) then {
+	if (!(missionNamespace getVariable ['QS_base_lamps',FALSE])) then {
+		// Turn extended effects OFF
+		_object = missionNamespace getVariable ['QS_torch',objNull];
+		if ((_object getVariable ['effects',[]]) isNotEqualTo []) then {
 			{
 				if ((typeOf _x) isEqualTo '#lightpoint') then {
 					_x setLightBrightness 1;
@@ -39,8 +37,9 @@ if (!isDedicated) then {
 			} forEach (_object getVariable ['effects',[]]);
 		};
 	} else {
-		_object = missionNamespace getVariable 'QS_torch';
-		if (!isNil {_object getVariable 'effects'}) then {
+		// Turn extended effects ON
+		_object = missionNamespace getVariable ['QS_torch',objNull];
+		if ((_object getVariable ['effects',[]]) isNotEqualTo []) then {
 			{
 				if ((typeOf _x) isEqualTo '#lightpoint') then {
 					_x setLightBrightness 2.5;

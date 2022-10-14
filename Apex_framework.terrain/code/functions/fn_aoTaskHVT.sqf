@@ -193,7 +193,7 @@ if (_state isEqualTo 1) then {
 				_agent addEventHandler [
 					'Hit',
 					{
-						(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
+						(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 						(_this # 0) enableAIFeature ['PATH',TRUE];
 						(_this # 0) setUnitPos 'MIDDLE';
 					}
@@ -205,7 +205,7 @@ if (_state isEqualTo 1) then {
 						if (!isNull _killed) then {
 							if (!isNull _killer) then {
 								if (isPlayer _killer) then {
-									_text = format ['%2 %1!',(name _killer),localize 'STR_QS_Chat_021'];
+									_text = format [localize 'STR_QS_Chat_021',(name _killer)];
 									['sideChat',[WEST,'HQ'],_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 								};
 							};
@@ -258,7 +258,7 @@ if (_state isEqualTo 1) then {
 						_enemyUnit addEventHandler [
 							'Hit',
 							{
-								(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
+								(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 								(_this # 0) enableAIFeature ['PATH',TRUE];
 								(_this # 0) setUnitPos 'MIDDLE';
 							}

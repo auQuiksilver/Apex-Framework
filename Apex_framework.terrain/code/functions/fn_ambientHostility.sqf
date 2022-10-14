@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/08/2022 A3 2.10 by Quiksilver
+	21/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -84,7 +84,11 @@ if (_type isEqualTo 0) exitWith {
 		'I_C_Soldier_Para_1_F',1,
 		'I_C_Soldier_Para_5_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4)
 	];
-	_vehicleTypes = [([5,6] select (_knowsAbout >= 2))] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool');
+	if ((missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'GRID') then {
+		_vehicleTypes = [4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool');
+	} else {
+		_vehicleTypes = [([5,6] select (_knowsAbout >= 2))] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool');
+	};
 	// find position
 	private _targetPosition = _targetVehicle getRelPos [500,0];
 	if (_isVehicle) then {
@@ -105,7 +109,7 @@ if (_type isEqualTo 0) exitWith {
 			(((_spawnPosition distance2D _targetPosition) > _minDist) && ((_spawnPosition distance2D _targetPosition) < _maxDist)) &&
 			{((_players inAreaArray [_spawnPosition,300,300,0,FALSE]) isEqualTo [])} &&
 			{(!([_spawnPosition,_targetPosition,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))} &&
-			{((_blacklistedPositions findIf {((_targetPosition distance2D (_x # 0)) < (_x # 1))}) isEqualTo -1)} &&
+			{((_blacklistedPositions inAreaArray [_targetPosition,_x # 1,_x # 1,0,FALSE]) isEqualTo [])} &&
 			{(([(AGLToASL _spawnPosition),_checkVisibleDistance,_playersOnGround,[WEST,CIVILIAN,SIDEFRIENDLY],0,0] call (missionNamespace getVariable 'QS_fnc_isPosVisible')) <= 0.1)}
 		) exitWith {_positionFound = TRUE;};
 	};

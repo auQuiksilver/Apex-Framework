@@ -474,7 +474,7 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 						{
 							params ['_v','','',''];
 							_v enableSimulationGlobal TRUE;
-							_v removeEventHandler ['GetIn',_thisEventHandler];
+							_v removeEventHandler [_thisEvent,_thisEventHandler];
 						}
 					];
 					_this enableSimulationGlobal FALSE;
@@ -501,7 +501,7 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 						{
 							params ['_v','','',''];
 							_v enableSimulationGlobal TRUE;
-							_v removeEventHandler ['GetIn',_thisEventHandler];
+							_v removeEventHandler [_thisEvent,_thisEventHandler];
 						}
 					];
 					_this enableSimulationGlobal FALSE;
@@ -526,7 +526,7 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 						{
 							params ['_v','','',''];
 							_v enableSimulationGlobal TRUE;
-							_v removeEventHandler ['GetIn',_thisEventHandler];
+							_v removeEventHandler [_thisEvent,_thisEventHandler];
 						}
 					];
 					_this enableSimulationGlobal FALSE;

@@ -1,5 +1,5 @@
 /*/
-File: fn_AIXSuppressiveFire.sqf
+File: fn_AIDoSuppressiveFire.sqf
 Author:
 
 	Quiksilver

@@ -10,9 +10,10 @@ Last Modified:
 
 Description:
 
+	Adjust players robocop value
 __________________________________________________________*/
 
 _t = _this # 0;
 [42,[_t,0,player]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-_text = format ['%1 %3 %2',(name _t),profileName,localize 'STR_QS_Chat_086'];
+_text = format [localize 'STR_QS_Chat_086',(name _t),profileName];
 ['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];

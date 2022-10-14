@@ -78,7 +78,7 @@ if (_state isEqualTo 1) then {
 					params ['_killed','_killer','_instigator'];
 					if (!isNull _instigator) then {
 						if (isPlayer _instigator) then {
-							['sideChat',[WEST,'HQ'],(format ['%2 %1!',(name _instigator),localize 'STR_QS_Chat_020'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+							['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_020',(name _instigator)])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
 					};
 				}

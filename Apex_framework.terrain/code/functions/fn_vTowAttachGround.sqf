@@ -58,12 +58,12 @@ private _checkIntersections = FALSE;
 private _isHauling = FALSE;
 if ((_attachPoint isEqualTo _defaultAttachPoint) || {((count _attachPointReturn) > 2)}) then {
 	_vehicle setVariable ['QS_vehicle_hauling',[FALSE,_towedVehicle],TRUE];
-	50 cutText [format ['%2 %1',_displayName,localize 'STR_QS_Text_255'],'PLAIN DOWN',0.5];
+	50 cutText [format [localize 'STR_QS_Text_255',_displayName],'PLAIN DOWN',0.5];
 	_checkIntersections = TRUE;
 } else {
 	_isHauling = TRUE;
 	_vehicle setVariable ['QS_vehicle_hauling',[TRUE,_towedVehicle],TRUE];
-	50 cutText [format ['%2 %1',_displayName,localize 'STR_QS_Text_256'],'PLAIN DOWN',0.5];
+	50 cutText [format [localize 'STR_QS_Text_256',_displayName],'PLAIN DOWN',0.5];
 };
 if (_towedVehicle isKindOf 'StaticWeapon') then {
 	_towedVehicle enableWeaponDisassembly FALSE;
@@ -79,7 +79,7 @@ if (_isHauling && (_towedVehicle isKindOf 'StaticWeapon') && (!(_towedVehicle is
 		25
 	];
 	[86,_towedVehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-	50 cutText [format ['%2 %1',_displayName,localize 'STR_QS_Text_257'],'PLAIN DOWN',0.5];
+	50 cutText [format [localize 'STR_QS_Text_257',_displayName],'PLAIN DOWN',0.5];
 };
 if (_isUAV) then {
 	_vehicle setVariable [

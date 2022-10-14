@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	28/01/2018 A3 1.80 by Quiksilver
+	16/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -21,12 +21,15 @@ if (_anim in ['acinpknlmstpsraswrfldnon','acinpknlmstpsnonwpstdnon','acinpknlmst
 			scriptName 'QS Anim Handler - Dragging';
 			private _startTime = diag_tickTime + 300;
 			for '_x' from 0 to 1 step 0 do {
-				if (diag_tickTime > _startTime) exitWith {};
-				if (!alive player) exitWith {};
-				if (!isNull (objectParent player)) exitWith {};
-				if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {};
-				if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1) exitWith {
-					player playActionNow 'released';
+				if (
+					(diag_tickTime > _startTime) ||
+					{(!((lifeState player) in ['HEALTHY','INJURED']))} ||
+					{(!isNull (objectParent player))} ||
+					{(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1)}
+				) exitWith {
+					if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1) then {
+						player playActionNow 'released';
+					};
 				};
 				uiSleep 1;
 			};

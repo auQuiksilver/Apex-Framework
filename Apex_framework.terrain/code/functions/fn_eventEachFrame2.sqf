@@ -14,7 +14,7 @@ Description:
 __________________________________________________/*/
 
 if ((missionNamespace getVariable ['QS_projectile_manager',[]]) isEqualTo []) then {
-	removeMissionEventHandler ['EachFrame',_thisEventHandler];
+	removeMissionEventHandler [_thisEvent,_thisEventHandler];
 	missionNamespace setVariable ['QS_projectile_manager_PFH',-1,FALSE];
 } else {
 	{

@@ -15,10 +15,13 @@ _______________________________________________________/*/
 
 params ['_unit','_weapon','_muzzle','','_ammo','_magazine','_projectile','_vehicle'];
 if (
-	(captive _unit) ||
-	{(!isDamageAllowed _unit)} ||
-	{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
-	{(isObjectHidden _unit)}
+	(!(unitIsUav cameraOn)) &&
+	(
+		(captive _unit) ||
+		{(!isDamageAllowed _unit)} ||
+		{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
+		{(isObjectHidden _unit)}
+	)
 ) exitWith {
 	deleteVehicle _projectile;
 };

@@ -121,7 +121,7 @@ for '_x' from 0 to 1 step 0 do {
 				{
 					_x setDamage [1,TRUE];
 				} forEach (getAllOwnedMines _unit);
-				_unit removeEventHandler ['Hit',_thisEventHandler];
+				_unit removeEventHandler [_thisEvent,_thisEventHandler];
 			}
 		];
 	};

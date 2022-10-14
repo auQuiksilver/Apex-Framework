@@ -79,7 +79,7 @@ private [
 	'_module_fob_logistics_vehicleRespawnEnabled','_module_fob_logistics_repairServices','_module_fob_logistics_ammoServices','_vdelay','_delay','_QS_timeAccelerationManager_checkDelay','_QS_timeAccelerationManager_delay',
 	'_QS_currentTimeMultiplier','_allHitPointsDamage','_allHitPointsDamage_0','_allHitPointsDamage_2','_module_fob_isFobActive','_fobVehicleID','_module_fob_vData',
 	'_module_fob_vData_v','_module_fob_data','_module_fob_logistics_complete','_module_fob_location','_module_fob_logistics_assetTypes','_module_fob_logistics_radius',
-	'_module_fob_nearEntities','_QS_action_names','_module_fob_respawn_ticketsAdded','_QS_module_fob_sideShownHUD_radarON','_QS_module_fob_sideShownHUD_radarOFF','_module_fob_assault_delay',
+	'_module_fob_nearEntities','_module_fob_respawn_ticketsAdded','_QS_module_fob_sideShownHUD_radarON','_QS_module_fob_sideShownHUD_radarOFF','_module_fob_assault_delay',
 	'_module_fob_assault_checkDelay','_module_fob_underAssault','_module_fob_assault_enemyArray','_module_fob_assault_enemyThreshold','_module_fob_assault_playerThreshold',
 	'_module_fob_assault_timer','_module_fob_assault_groupComposition','_module_fob_assault_group','_module_fob_assault_duration','_resumeScript',
 	'_QS_module_AI_cleanupCheckArray','_QS_module_AI_cleanup','_cleanupCheck','_module_fob_logistics_reinforceServices','_QS_module_airdefense_2',
@@ -673,11 +673,12 @@ _QS_timeAcceleration_inProgress = 0;
 _QS_darkAccelerated = TRUE;
 _QS_lightAccelerated = TRUE;
 _QS_dawnDuskTimeDeccelerated = TRUE;
-_QS_darkAccelerationFactor = 12;
-_QS_noonAccelerationFactor = 1.5;
-_QS_dawnDuskDeccelerationFactor = 0.35;
+(missionNamespace getVariable ['QS_missionConfig_timeMultiplier',[12,1.5,0.35]]) params [
+	'_QS_darkAccelerationFactor',
+	'_QS_noonAccelerationFactor',
+	'_QS_dawnDuskDeccelerationFactor'
+];
 _QS_timeAccelerationControl = 1;
-_QS_action_names = worldName;
 _QS_currentTimeMultiplier = timeMultiplier;
 _QS_timeAccelerationManager_delay = 15;
 _QS_timeAccelerationManager_checkDelay = _timeNow + _QS_timeAccelerationManager_delay;
@@ -687,7 +688,6 @@ if (_QS_worldName isEqualTo 'Tanoa') then {
 	_QS_module_time_duskAcc = 1;
 	_QS_module_time_dawnOffset = 0.1;
 };
-
 _QS_baseLights = TRUE;
 missionNamespace setVariable ['QS_lamps',(missionNamespace getVariable 'QS_lamps'),TRUE];
 if (_QS_baseLights) then {
@@ -1822,7 +1822,7 @@ for '_x' from 0 to 1 step 0 do {
 						if (!alive (missionNamespace getVariable 'QS_csatCommander')) then {
 							if ((markerColor 'QS_marker_hqMarker') isEqualTo 'ColorWEST') then {
 								if ((((units _west) inAreaArray [(missionNamespace getVariable 'QS_HQpos'),100,100,0,_false,-1])) isEqualTo []) then {
-									if ((count (((units _east) + (units _resistance)) inAreaArray [(missionNamespace getVariable 'QS_HQpos'),50,50,0,_false,-1])) > 1) then {
+									if ((count (((units _east) + (units _resistance)) inAreaArray [(missionNamespace getVariable 'QS_HQpos'),50,50,0,_false,-1])) isNotEqualTo []) then {
 										['sideChat',[_west,'BLU'],localize 'STR_QS_Chat_039'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										[(missionNamespace getVariable 'QS_AO_HQ_flag'),_east,'',_false,objNull,1] call _fn_setFlag;
 										{
@@ -2459,7 +2459,7 @@ for '_x' from 0 to 1 step 0 do {
 												};
 												if (!(_supportMessagePopped)) then {
 													_supportMessagePopped = _true;
-													['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+													['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 												};
 											};
 										};
@@ -2491,7 +2491,7 @@ for '_x' from 0 to 1 step 0 do {
 											};
 											if (!(_supportMessagePopped)) then {
 												_supportMessagePopped = _true;
-												['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+												['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];												
 											};
 										};
 									};
@@ -2530,8 +2530,8 @@ for '_x' from 0 to 1 step 0 do {
 										_module_fob_logistics_fuelServices = _true;
 										missionNamespace setVariable ['QS_module_fob_services_repair',_module_fob_logistics_repairServices,_true];
 										missionNamespace setVariable ['QS_module_fob_services_fuel',_module_fob_logistics_fuelServices,_true];
-										'QS_marker_veh_fieldservice_04' setMarkerPos (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 3);
-										'QS_marker_veh_fieldservice_01' setMarkerPos (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 4);
+										'QS_marker_veh_fieldservice_04' setMarkerPosLocal (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 3);
+										'QS_marker_veh_fieldservice_01' setMarkerPosLocal (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 4);
 										'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
 										'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
 										(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal FALSE;
@@ -2567,7 +2567,7 @@ for '_x' from 0 to 1 step 0 do {
 												};
 												if (!(_supportMessagePopped)) then {
 													_supportMessagePopped = _true;
-													['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+													['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 												};
 											};
 										};
@@ -2598,7 +2598,7 @@ for '_x' from 0 to 1 step 0 do {
 											};
 											if (!(_supportMessagePopped)) then {
 												_supportMessagePopped = _true;
-												0 = ['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+												0 = ['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 											};
 										};
 									};
@@ -2624,7 +2624,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										if (!(_supportMessagePopped)) then {
 											_supportMessagePopped = _true;
-											0 = ['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+											0 = ['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										};
 									};
 								};
@@ -2653,7 +2653,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										if (!(_supportMessagePopped)) then {
 											_supportMessagePopped = _true;
-											['sideChat',[_west,'BLU'],(format ['%1 %3 %2',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName')),localize 'STR_QS_Chat_043'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+											['sideChat',[_west,'BLU'],(format [localize 'STR_QS_Chat_043',((_x getVariable 'QS_transporter') # 0),(getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 										};
 									};
 								};
@@ -3095,7 +3095,7 @@ for '_x' from 0 to 1 step 0 do {
 															'GetIn',
 															{
 																params ['_v'];
-																_v removeEventHandler ['GetIn',_thisEventHandler];
+																_v removeEventHandler [_thisEvent,_thisEventHandler];
 																_v enableSimulationGlobal TRUE;
 																_v allowDamage TRUE;
 															}
@@ -3157,7 +3157,7 @@ for '_x' from 0 to 1 step 0 do {
 																	'GetIn',
 																	{
 																		params ['_v'];
-																		_v removeEventHandler ['GetIn',_thisEventHandler];
+																		_v removeEventHandler [_thisEvent,_thisEventHandler];
 																		_v enableSimulationGlobal TRUE;
 																		_v allowDamage TRUE;
 																	}
@@ -4672,7 +4672,6 @@ for '_x' from 0 to 1 step 0 do {
 				{
 					if (_x isEqualType []) then {
 						_x params ['_type','_puid','_pname','_val'];
-						// Debug leaderboards
 						_lbVal = QS_leaderboards2 getOrDefault [_puid,-1];
 						_lbIndex = _lbHeaders find _type;
 						if (_lbVal isEqualTo -1) then {
@@ -4732,19 +4731,14 @@ for '_x' from 0 to 1 step 0 do {
 							};
 							QS_leaderboards3 set [_puid,_lbVal];
 						};
-						// Debug leaderboards
 						(missionNamespace getVariable 'QS_leaderboards_session_queue') set [_forEachIndex,_false];
 					};
 				} forEach (missionNamespace getVariable 'QS_leaderboards_session_queue');
 				QS_leaderboards_session_queue = QS_leaderboards_session_queue select {(_x isEqualType [])};
-			};		
-			//if (_timeNow > _QS_leaderboards_publishCheckDelay) then {
-				//missionNamespace setVariable ['QS_leaderboards3',(missionNamespace getVariable 'QS_leaderboards3'),_true];		// Debug leaderboards - testing on-demand sync, this bit is commented out for now, potentially permanently
-				//_QS_leaderboards_publishCheckDelay = _timeNow + _QS_leaderboards_publishDelay;
-			//};
+			};
 			if (_timeNow > _QS_leaderboards_saveCheckDelay) then {
 				if (!(_QS_module_restart_isRestarting)) then {
-					missionProfileNamespace setVariable ['QS_leaderboards2',(missionNamespace getVariable 'QS_leaderboards2')];		// Debug leaderboards
+					missionProfileNamespace setVariable ['QS_leaderboards2',(missionNamespace getVariable 'QS_leaderboards2')];
 				};
 				_QS_leaderboards_saveCheckDelay = _timeNow + _QS_leaderboards_saveDelay;
 			};

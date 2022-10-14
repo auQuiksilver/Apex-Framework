@@ -13,7 +13,7 @@
 */
 
 params ['_posGrid'];
-_cfgGrid = configfile >> 'CfgWorlds' >> worldname >> 'Grid';
+_cfgGrid = configfile >> 'CfgWorlds' >> worldName >> 'Grid';
 _offsetX = getnumber (_cfgGrid >> 'offsetX');
 _offsetY = getnumber (_cfgGrid >> 'offsetY');
 private _zoomMax = 1e99;

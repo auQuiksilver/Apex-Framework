@@ -276,6 +276,7 @@ if (_type2 isEqualType 0) exitWith {
 						'MapSingleClick',
 						{
 							params ['_selectedUnits','_pos','_alt','_shift'];
+							removeMissionEventHandler [_thisEvent,_thisEventHandler];
 							player setPos _pos;
 							if (surfaceIsWater _pos) then {};
 							openMap FALSE;

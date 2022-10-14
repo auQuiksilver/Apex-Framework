@@ -191,7 +191,7 @@ if (_buildingPositions isNotEqualTo []) then {
 				'Hit',
 				{
 					params ['_unit'];
-					_unit removeEventHandler ['Hit',_thisEventHandler];
+					_unit removeEventHandler [_thisEvent,_thisEventHandler];
 					if (!isNull (_unit findNearestEnemy _unit)) then {
 						if (((_unit findNearestEnemy _unit) distance2D _unit) < 50) then {
 							_unit enableAIFeature ['PATH',TRUE];
@@ -532,7 +532,7 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 					'Hit',
 					{
 						params ['_unit'];
-						_unit removeEventHandler ['Hit',_thisEventHandler];
+						_unit removeEventHandler [_thisEvent,_thisEventHandler];
 						if (!isNull (_unit findNearestEnemy _unit)) then {
 							if (((_unit findNearestEnemy _unit) distance2D _unit) < 50) then {
 								_unit enableAIFeature ['PATH',TRUE];
@@ -551,7 +551,7 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 					'Hit',
 					{
 						params ['_unit'];
-						_unit removeEventHandler ['Hit',_thisEventHandler];
+						_unit removeEventHandler [_thisEvent,_thisEventHandler];
 						if (alive (_unit findNearestEnemy _unit)) then {
 							if (((_unit findNearestEnemy _unit) distance2D _unit) < 100) then {
 								_unit enableAIFeature ['PATH',TRUE];

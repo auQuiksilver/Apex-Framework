@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	6/07/2018 A3 1.82 by Quiksilver
+	25/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -49,7 +49,6 @@ if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo -1) exitWith {miss
 if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo -2) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 if ((_allPlayersCount > 60) && ((missionNamespace getVariable 'QS_defendCount') > 3) && ((missionNamespace getVariable 'QS_forceDefend') isEqualTo 0)) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 diag_log 'Defend AO 0.5';
-
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -98,6 +97,8 @@ _moveToPos = [0,0,0];
 _validRoadSurfaces = ['#gdtreddirt','#gdtasphalt','#gdtsoil','#gdtconcrete'];
 _grp2 = grpNull;
 _updateMoveDelay = time + 30;
+_hqFlag = missionNamespace getVariable ['QS_AO_HQ_flag',objNull];
+[_hqFlag,WEST,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
 if (_QS_worldName isEqualTo 'Tanoa') then {
 	_fn_blacklist = {
 		private _c = TRUE;
@@ -451,7 +452,7 @@ if (_hqBuildingPositions isNotEqualTo []) then {
 	_hqBuildingPositions = _hqBuildingPositions apply {[(_x # 0),(_x # 1),((_x # 2) + 1)]};
 };
 _sectorControlTicker = 0;
-_sectorControlThreshold = 6;
+_sectorControlThreshold = 7;
 _enemyInHQCount = 0;
 _playersInHQCount = 0;
 _defendMessage = selectRandom _defendMessages;
@@ -482,7 +483,7 @@ if (isNil {missionProfileNamespace getVariable 'QS_defend_stat_2'}) then {
 		saveMissionProfileNamespace;
 	};
 };
-_currentStats = [_allPlayersCount,([(missionNamespace getVariable 'QS_HQpos'),300,[WEST],allPlayers,1] call (missionNamespace getVariable 'QS_fnc_serverDetector')),0,0,_exitSuccess];
+_currentStats = [_allPlayersCount,(count (allPlayers inAreaArray [(missionNamespace getVariable 'QS_hqPos'),300,300,0,FALSE])),0,0,_exitSuccess];
 private _unitGroup = grpNull;
 private _groupLeader = objNull;
 missionNamespace setVariable ['QS_defend_blockTimeout',FALSE,FALSE]; //missionNamespace setVariable ['QS_defend_blockTimeout',((random 1) > 0.95),FALSE];
@@ -502,6 +503,7 @@ _fn_spawnGroup = missionNamespace getVariable 'QS_fnc_spawnGroup';
 _fn_downgradeVehicleWeapons = missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons';
 _fn_unitSetup = missionNamespace getVariable 'QS_fnc_unitSetup';
 _fn_taskSetProgress = missionNamespace getVariable 'QS_fnc_taskSetProgress';
+_fn_setFlag = missionNamespace getVariable 'QS_fnc_setFlag';
 diag_log 'Defend AO 1';
 for '_x' from 0 to 1 step 0 do {
 	_timeNow = time;
@@ -652,7 +654,7 @@ for '_x' from 0 to 1 step 0 do {
 					_x addEventHandler [
 						'Hit',
 						{
-							(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
+							(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 							(_this # 0) enableAIFeature ['TARGET',TRUE];
 							(_this # 0) enableAIFeature ['AUTOTARGET',TRUE];
 						}
@@ -859,7 +861,7 @@ for '_x' from 0 to 1 step 0 do {
 							'HandleDamage',
 							{
 								params ['_vehicle','_selection','_damage','_source','_ammo','',''];
-								if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {_vehicle removeEventHandler ['HandleDamage',_thisEventHandler];};
+								if (((crew _vehicle) findIf {(alive _x)}) isEqualTo -1) then {_vehicle removeEventHandler [_thisEvent,_thisEventHandler];};
 								if (_selection isNotEqualTo '?') then {
 									_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
 									if (!isNull _source) then {
@@ -1496,12 +1498,14 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 			};
+			[_hqFlag,WEST,'',FALSE,objNull,(0 max (1 - (_sectorControlTicker / _sectorControlThreshold)) min 1)] call _fn_setFlag;
 			[_taskID,TRUE,(0 max (1 - (_sectorControlTicker / _sectorControlThreshold)) min 1)] call _fn_taskSetProgress;
 			_checkHeldDelay = time + 15;
 		};
 	};
 	
 	if (_exitSuccess) exitWith {
+		[_hqFlag,WEST,'',FALSE,objNull,1] call _fn_setFlag;
 		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_017'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		['DEFEND_SUCCESS',[localize 'STR_QS_Notif_003',localize 'STR_QS_Notif_005']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['QS_IA_TASK_DEFENDHQ','SUCCEEDED',FALSE] call (missionNamespace getVariable 'BIS_fnc_taskSetState');
@@ -1514,6 +1518,7 @@ for '_x' from 0 to 1 step 0 do {
 		];
 	};
 	if (_exitFail) exitWith {
+		[_hqFlag,EAST,'',FALSE,objNull,1] call _fn_setFlag;
 		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_018'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		['DEFEND_FAIL',[localize 'STR_QS_Notif_003',localize 'STR_QS_Notif_006']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['QS_IA_TASK_DEFENDHQ','FAILED',FALSE] call (missionNamespace getVariable 'BIS_fnc_taskSetState');

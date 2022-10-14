@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:  	
 
-	9/10/2018 A3 1.84 by Quiksilver  
+	16/09/2022 A3 2.10 by Quiksilver  
 	
 Description:  	
 
@@ -15,19 +15,20 @@ __________________________________________________________/*/
 
 params ['','_key','_shift','_ctrl','_alt'];
 private _c = FALSE; 
-player setVariable ['QS_client_afkTimeout',time,FALSE]; 
-if (_key isEqualTo 5) then {
-	if (commandingMenu isEqualTo '') then {
-		if (isNull (objectParent player)) then {
-			if (isNull (attachedTo player)) then {
-				if (!captive player) then {
-					if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
-						call (missionNamespace getVariable 'QS_fnc_clientHolster');
-					};
-				};
-			};
-		};
-		_c = TRUE;
+player setVariable ['QS_client_afkTimeout',time,FALSE];
+
+if (
+	(_key isEqualTo 5) &&
+	(commandingMenu isEqualTo '')
+) then {
+	_c = TRUE;
+	if (
+		(isNull (objectParent player)) &&
+		(isNull (attachedTo player)) &&
+		(!captive player) &&
+		(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)
+	) then {
+		call (missionNamespace getVariable 'QS_fnc_clientHolster');
 	};
 };
 if (_key isEqualTo 199) then {
@@ -38,29 +39,26 @@ if (_key isEqualTo 199) then {
 	};
 };
 if (_key in [197,207]) then {
-	[] call (missionNamespace getVariable 'QS_fnc_clientEarplugs');
+	call (missionNamespace getVariable 'QS_fnc_clientEarplugs');
 };
-if (_key in (actionKeys 'GetOver')) then {
-	if (isNull (objectParent player)) then {
-		if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
-			if (_shift) then {
-				_c = TRUE;
-				_this call (missionNamespace getVariable 'QS_fnc_clientJump');
-			};
-		} else {
-			_c = TRUE;
-		};
+
+if (
+	(_key in (actionKeys 'GetOver')) &&
+	(isNull (objectParent player))
+) then {
+	_c = TRUE;
+	if (_shift && (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)) then {
+		_this call (missionNamespace getVariable 'QS_fnc_clientJump');
 	};
 };
-if (_key in ((actionKeys 'Throw') + (actionKeys 'Put'))) then {
-	if (isNull (objectParent player)) then {
-		if (!(unitIsUav cameraOn)) then {
-			if ((cameraOn distance (markerPos 'QS_marker_base_marker')) < 300) then {
-				50 cutText [localize 'STR_QS_Text_013','PLAIN DOWN'];
-				_c = TRUE;
-			};
-		};
-	};
+if (
+	(isNull (objectParent player)) &&
+	(_key in ((actionKeys 'Throw') + (actionKeys 'Put'))) &&
+	(!(unitIsUav cameraOn)) &&
+	((cameraOn distance (markerPos 'QS_marker_base_marker')) < 300)
+) then {
+	_c = TRUE;
+	50 cutText [localize 'STR_QS_Text_013','PLAIN DOWN'];
 };
 if (_key in (actionKeys 'PushToTalk')) then {
 	if (currentChannel isNotEqualTo 5) then {
@@ -74,21 +72,19 @@ if (_key in (actionKeys 'PushToTalk')) then {
 					};
 				};
 			} else {
-				if (currentChannel isEqualTo 7) then {
-					if (!(player getUnitTrait 'QS_trait_fighterPilot')) then {
-						if (!(player getUnitTrait 'QS_trait_pilot')) then {
-							if (!(player getUnitTrait 'uavhacker')) then {
-								if (!(player getUnitTrait 'QS_trait_HQ')) then {
-									if (!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist')))) then {
-										setCurrentChannel 5;
-										50 cutText [localize 'STR_QS_Text_035','PLAIN DOWN'];
-										_c = TRUE;
-									};
-								};
-							};
-						};
-					};
-				};
+			
+				if (
+					(currentChannel isEqualTo 7) &&
+					{(!(player getUnitTrait 'QS_trait_fighterPilot'))} &&
+					{(!(player getUnitTrait 'QS_trait_pilot'))} &&
+					{(!(player getUnitTrait 'uavhacker'))} &&
+					{(!(player getUnitTrait 'QS_trait_HQ'))} &&
+					{(!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))}
+				) then {
+					setCurrentChannel 5;
+					50 cutText [localize 'STR_QS_Text_035','PLAIN DOWN'];
+					_c = TRUE;
+				};	
 			};
 		} else {
 			setCurrentChannel 5;
@@ -112,156 +108,144 @@ if (_key in ((actionKeys 'PersonView') + (actionKeys 'TacticalView') + (actionKe
 				_c = TRUE;
 			};
 		};
-		if ((side cameraOn) in [EAST,RESISTANCE]) then {
-			if (!(cameraView in ['INTERNAL','GUNNER'])) then {
-				if ((lifeState player) isNotEqualTo 'INCAPACITATED') then {
-					if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID','NONE']) then {
-						50 cutText [localize 'STR_QS_Text_024','PLAIN DOWN',0.5];
-						player switchCamera 'INTERNAL';
-						_c = TRUE;
-					};
-				};
-			};
+		if (
+			((side cameraOn) in [EAST,RESISTANCE]) &&
+			(!(cameraView in ['INTERNAL','GUNNER'])) &&
+			((lifeState player) isNotEqualTo 'INCAPACITATED') &&
+			((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID','NONE'])
+		) then {
+			50 cutText [localize 'STR_QS_Text_024','PLAIN DOWN',0.5];
+			player switchCamera 'INTERNAL';
+			_c = TRUE;
 		};
 	};
 };
 if (_c) exitWith {_c};
 if (_key in (actionKeys 'AutoHover')) then {
 	_v = vehicle player;
-	if (_v isKindOf 'Helicopter') then {
-		if (!(isAutoHoverOn _v)) then {
-			if (((count (crew _v))) > 1) then {
-				if (diag_tickTime > (player getVariable ['QS_client_lastAutoHoverMsg',-1])) then {
-					player setVariable ['QS_client_lastAutoHoverMsg',(diag_tickTime + 5),FALSE];
-					_arrayToSend = (crew _v) select {((_x isNotEqualTo player) && (alive _x) && (isPlayer _x))};
-					if (_arrayToSend isNotEqualTo []) then {
-						[63,[5,[(format ['%2 ( %1 ) %3',profileName,localize 'STR_QS_Text_258',localize 'STR_QS_Text_259']),'PLAIN DOWN',0.3]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
-					};
-				};
-			};
+	if (
+		(_v isKindOf 'Helicopter') &&
+		{(!(isAutoHoverOn _v))} &&
+		{(((count (crew _v))) > 1)} &&
+		{(diag_tickTime > (player getVariable ['QS_client_lastAutoHoverMsg',-1]))}
+	) then {
+		_arrayToSend = (crew _v) select {((_x isNotEqualTo player) && (alive _x) && (isPlayer _x))};
+		if (_arrayToSend isNotEqualTo []) then {
+			player setVariable ['QS_client_lastAutoHoverMsg',(diag_tickTime + 5),FALSE];
+			[63,[5,[(format ['%2 ( %1 ) %3',profileName,localize 'STR_QS_Text_258',localize 'STR_QS_Text_259']),'PLAIN DOWN',0.3]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
 		};
 	};
 };
-if (_key isEqualTo 60) then {
-	if (_shift) then {
-		if (alive player) then {
-			if ((lifeState player) isNotEqualTo 'INCAPACITATED') then {
-				['KeyDown'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
-				_c = TRUE;
-			};
-		};
-	};
+if (
+	_shift &&
+	{(_key isEqualTo 60)} &&
+	{((lifeState player) in ['HEALTHY','INJURED'])}
+) then {
+	['KeyDown'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
+	_c = TRUE;
 };
-if (_key isEqualTo 61) then {
-	if (_shift) then {
-		if (alive player) then {
-			if ((lifeState player) isNotEqualTo 'INCAPACITATED') then {
-				['Curator'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
-				_c = TRUE;
-			};
-		};
-	};
+if (
+	_shift &&
+	{(_key isEqualTo 61)} &&
+	{((lifeState player) in ['HEALTHY','INJURED'])}
+) then {
+	['Curator'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
+	_c = TRUE;
 };
-if (_key in (actionKeys 'ReloadMagazine')) then {
-	if (_ctrl) then {
-		if ((isNull (objectParent player)) || {(player isNotEqualTo (driver (vehicle player)))}) then {
-			if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
-				if (cameraOn isEqualTo player) then {
-					_c = TRUE;
-					player spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
-				} else {
-					if (alive cameraOn) then {
-						if (cameraOn isKindOf 'CAManBase') then {
-							if (local cameraOn) then {
-								_c = TRUE;
-								cameraOn spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
-							};
-						};
-					};
-				};
-			};
+if (
+	_ctrl &&
+	{(_key in (actionKeys 'ReloadMagazine'))} &&
+	{((isNull (objectParent player)) || {(player isNotEqualTo (driver (vehicle player)))})} &&
+	{(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)}
+) then {
+	if (cameraOn isEqualTo player) then {
+		_c = TRUE;
+		player spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
+	} else {
+		if (
+			(alive cameraOn) &&
+			(cameraOn isKindOf 'CAManBase') &&
+			(local cameraOn)
+		) then {
+			_c = TRUE;
+			cameraOn spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
 		};
 	};
 };
 if (_key in (actionKeys 'VehLockTargets')) then {};
 if (_key in (actionKeys 'Zeus')) then {}; 
-if (_ctrl) then {
-	if (_key in [0x4C,0x4B,0x47,0x48,0x49,0x4D,0x51]) then {
-		if (isNull (objectParent player)) then {
-			if ((stance player) in ['STAND','CROUCH']) then {
-				if (!(captive player)) then {
-					if ((lifeState player) in ['HEALTHY','INJURED']) then {
-						if (time > (player getVariable ['QS_client_lastGesture',time])) then {
-							player setVariable ['QS_client_lastGesture',(time + 3),FALSE];
-							private _order = '';
-							if (_key isEqualTo 0x4C) exitWith {
-								player playActionNow (selectRandom ['gestureNo']);
-								50 cutText [localize 'STR_QS_Text_036','PLAIN DOWN',0.5];
-							};
-							if (_key isEqualTo 0x4B) exitWith {
-								player playActionNow (selectRandom ['gestureGo']);
-								_order = localize 'STR_QS_Text_037';
-								50 cutText [_order,'PLAIN DOWN',0.5];
-							};
-							if (_key isEqualTo 0x47) exitWith {
-								player playActionNow (selectRandom ['gesturePoint','gestureAdvance']);
-								_order = localize 'STR_QS_Text_038';
-								50 cutText [_order,'PLAIN DOWN',0.5];
-							};
-							if (_key isEqualTo 0x48) exitWith {
-								player playActionNow (selectRandom ['gestureNod']);
-							};
-							if (_key isEqualTo 0x49) exitWith {
-								player playActionNow (selectRandom ['gestureFreeze']);
-								_order = localize 'STR_QS_Text_039';
-								50 cutText [_order,'PLAIN DOWN',0.5];
-							};
-							if (_key isEqualTo 0x4D) exitWith {
-								player playActionNow (selectRandom ['gestureHi']);
-							};
-							if (_key isEqualTo 0x51) exitWith {
-								player playActionNow (selectRandom ['gestureCeaseFire']);
-								_order = localize 'STR_QS_Text_040';
-								50 cutText [_order,'PLAIN DOWN',0.5];
-							};
-							if (
-								(_order isNotEqualTo '') &&
-								{(isNull (objectParent player))} &&
-								{(player isEqualTo (leader (group player)))} &&
-								{((count ((units (group player)) inAreaArray [50,50,0,FALSE])) > 1)}
-							) then {
-								_arrayToSend = ((units (group player)) inAreaArray [50,50,0,FALSE]) select {(_x isNotEqualTo player) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x)};
-								if (_arrayToSend isNotEqualTo []) then {
-									[63,[5,[(format ['%1: %2',profileName,_order]),'PLAIN DOWN',0.333]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
-								};
-							};
-						};
-						_c = TRUE;
-					};
-				};
-			};
+if (
+	_ctrl &&
+	{(_key in [0x4C,0x4B,0x47,0x48,0x49,0x4D,0x51])} &&
+	{(isNull (objectParent player))} &&
+	{((stance player) in ['STAND','CROUCH'])} &&
+	{(!(captive player))} &&
+	{((lifeState player) in ['HEALTHY','INJURED'])} &&
+	{(time > (player getVariable ['QS_client_lastGesture',time]))}
+) then {
+	_c = TRUE;
+	player setVariable ['QS_client_lastGesture',(time + 3),FALSE];
+	private _order = '';
+	if (_key isEqualTo 0x4C) exitWith {
+		player playActionNow (selectRandom ['gestureNo']);
+		50 cutText [localize 'STR_QS_Text_036','PLAIN DOWN',0.5];
+	};
+	if (_key isEqualTo 0x4B) exitWith {
+		player playActionNow (selectRandom ['gestureGo']);
+		_order = localize 'STR_QS_Text_037';
+		50 cutText [_order,'PLAIN DOWN',0.5];
+	};
+	if (_key isEqualTo 0x47) exitWith {
+		player playActionNow (selectRandom ['gesturePoint','gestureAdvance']);
+		_order = localize 'STR_QS_Text_038';
+		50 cutText [_order,'PLAIN DOWN',0.5];
+	};
+	if (_key isEqualTo 0x48) exitWith {
+		player playActionNow (selectRandom ['gestureNod']);
+	};
+	if (_key isEqualTo 0x49) exitWith {
+		player playActionNow (selectRandom ['gestureFreeze']);
+		_order = localize 'STR_QS_Text_039';
+		50 cutText [_order,'PLAIN DOWN',0.5];
+	};
+	if (_key isEqualTo 0x4D) exitWith {
+		player playActionNow (selectRandom ['gestureHi']);
+	};
+	if (_key isEqualTo 0x51) exitWith {
+		player playActionNow (selectRandom ['gestureCeaseFire']);
+		_order = localize 'STR_QS_Text_040';
+		50 cutText [_order,'PLAIN DOWN',0.5];
+	};
+	if (
+		(_order isNotEqualTo '') &&
+		{(isNull (objectParent player))} &&
+		{(player isEqualTo (leader (group player)))} &&
+		{((count ((units (group player)) inAreaArray [50,50,0,FALSE])) > 1)}
+	) then {
+		_arrayToSend = ((units (group player)) inAreaArray [50,50,0,FALSE]) select {(_x isNotEqualTo player) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x)};
+		if (_arrayToSend isNotEqualTo []) then {
+			[63,[5,[(format ['%1: %2',profileName,_order]),'PLAIN DOWN',0.333]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
 		};
 	};
 };
 if (_key in (actionKeys 'TacticalPing')) then {};
-if (_key isEqualTo 15) then {
-	if ((vehicle player) isKindOf 'Helicopter') then {
-		if (player isEqualTo (effectiveCommander (vehicle player))) then {
-			if (isNil {player getVariable 'QS_pilot_rappellSafety'}) then {
-				player setVariable ['QS_pilot_rappellSafety',TRUE,FALSE];
-				if (isNil {(vehicle player) getVariable 'QS_rappellSafety'}) then {
-					(vehicle player) setVariable ['QS_rappellSafety',TRUE,TRUE];
-					50 cutText [localize 'STR_QS_Text_041','PLAIN DOWN',1];
-				} else {
-					(vehicle player) setVariable ['QS_rappellSafety',nil,TRUE];
-					50 cutText [localize 'STR_QS_Text_042','PLAIN DOWN',1];
-				};
-				0 spawn {
-					uiSleep 4.5;
-					player setVariable ['QS_pilot_rappellSafety',nil,FALSE];
-				};
-			};
-		};
+if (
+	(_key isEqualTo 15) &&
+	{((vehicle player) isKindOf 'Helicopter')} &&
+	{(player isEqualTo (currentPilot (vehicle player)))} &&
+	{(isNil {player getVariable 'QS_pilot_rappellSafety'})}
+) then {
+	player setVariable ['QS_pilot_rappellSafety',TRUE,FALSE];
+	if (isNil {(vehicle player) getVariable 'QS_rappellSafety'}) then {
+		(vehicle player) setVariable ['QS_rappellSafety',TRUE,TRUE];
+		50 cutText [localize 'STR_QS_Text_041','PLAIN DOWN',1];
+	} else {
+		(vehicle player) setVariable ['QS_rappellSafety',nil,TRUE];
+		50 cutText [localize 'STR_QS_Text_042','PLAIN DOWN',1];
+	};
+	0 spawn {
+		uiSleep 4.5;
+		player setVariable ['QS_pilot_rappellSafety',nil,FALSE];
 	};
 };
 if (((_key isEqualTo 201) && ((actionKeys 'User18') isEqualTo [])) || {((_key in (actionKeys 'HeliRopeAction')) && _ctrl)} || {(_key in (actionKeys 'User18'))}) then {
@@ -447,16 +431,15 @@ if (_key in (actionKeys 'deployWeaponAuto')) then {
 		_c = TRUE;
 	};
 };
-if (_key in (actionKeys 'HeliManualFire')) then {
-	if (!isNull (objectParent player)) then {
-		if (local (objectParent player)) then {
-			if (isManualFire (objectParent player)) then {
-				if (((objectParent player) distance2D (markerPos 'QS_marker_base_marker')) < 500) then {
-					_c = TRUE;
-				};
-			};
-		};
-	};
+if (
+	(_key in (actionKeys 'HeliManualFire')) &&
+	{(!isNull (objectParent player))} &&
+	{(local (objectParent player))} &&
+	{(isManualFire (objectParent player))} &&
+	{(((objectParent player) distance2D (markerPos 'QS_marker_base_marker')) < 500)}
+) then {
+	50 cutText [localize 'STR_QS_Text_075','PLAIN DOWN',0.5];
+	_c = TRUE;
 };
 if (_key isEqualTo 219) then {
 	uiNamespace setVariable ['QS_client_menu_interaction',TRUE];

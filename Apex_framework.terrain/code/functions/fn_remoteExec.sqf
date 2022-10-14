@@ -646,7 +646,7 @@ if (_case < 30) exitWith {
 						private ['_center','_vehicle','_position','_posToSet'];
 						if (_isLocal) then {
 							[26,_towedVehicle,TRUE] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-							_towedVehicle removeEventHandler ['Local',_thisEventHandler];
+							_towedVehicle removeEventHandler [_thisEvent,_thisEventHandler];
 						};
 						if (!isNull (attachedTo _towedVehicle)) then {
 							_vehicle = attachedTo _towedVehicle;

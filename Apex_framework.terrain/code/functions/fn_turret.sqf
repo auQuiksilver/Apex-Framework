@@ -1,5 +1,5 @@
 /*
-@filename: fn_uh80Turret.sqf
+File: fn_turret.sqf
 Author:
 
 	Quiksilver

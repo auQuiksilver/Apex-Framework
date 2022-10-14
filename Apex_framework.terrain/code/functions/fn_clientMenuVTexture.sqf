@@ -112,7 +112,7 @@ if (_type isEqualTo 'Select') then {
 								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,localize 'STR_QS_Hints_086',[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 							};
 						} else {
-							_text = format ['%3 %1 %4 %2.',(getText (configFile >> 'CfgVehicles' >> (typeOf ((player getVariable 'QS_ClientVTexture') # 0)) >> 'displayName')),(mapGridPosition (getPosWorld ((player getVariable 'QS_ClientVTexture') # 0))),localize 'STR_QS_Hints_087',localize 'STR_QS_Hints_060'];
+							_text = format ['%3 %1 %4 %2.',(getText (configFile >> 'CfgVehicles' >> (typeOf ((player getVariable 'QS_ClientVTexture') # 0)) >> 'displayName')),(mapGridPosition ((player getVariable 'QS_ClientVTexture') # 0)),localize 'STR_QS_Hints_087',localize 'STR_QS_Hints_060'];
 							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 						};
 					} else {

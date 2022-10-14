@@ -36,7 +36,7 @@ if (
 	{(!isNull (objectParent _cameraOn))}
 ) exitWith {};
 if (isPlayer _t) then {
-	private _text = format ['%2 %1',profileName,localize 'STR_QS_Text_262'];
+	private _text = format [localize 'STR_QS_Text_262',profileName];
 	[63,[5,[_text,'PLAIN',0.5]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 };
 _time = diag_tickTime + 5.5;
@@ -190,7 +190,7 @@ if (!(_cameraOn getVariable ['QS_client_animCancel',FALSE])) then {
 							_t allowDamage TRUE;
 						};
 						if (isPlayer _t) then {
-							_text = format ['%2 %1',profileName,localize 'STR_QS_Text_263'];
+							_text = format [localize 'STR_QS_Text_263',profileName];
 							[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 						};
 					} else {

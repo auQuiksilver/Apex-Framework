@@ -379,7 +379,7 @@ if (_type isEqualTo 1) then {
 																			{
 																				(_this # 0) enableAIFeature ['TARGET',TRUE];
 																				(_this # 0) enableAIFeature ['SUPPRESSION',TRUE];
-																				(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
+																				(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 																			}
 																		];
 																		_unit setVariable ['QS_AI_JOB_PROVIDER',_entity,FALSE];

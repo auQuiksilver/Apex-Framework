@@ -461,7 +461,7 @@ _QS_civKilled_EH = {
 			TRUE
 		];
 		if ((random 1) > 0.666) then {
-			_text = format ['%2 %1!',_name,localize 'STR_QS_Chat_141'];
+			_text = format [localize 'STR_QS_Chat_141',_name];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		} else {
 			_text = format ['%1 %2!',_name,localize 'STR_QS_Chat_153'];

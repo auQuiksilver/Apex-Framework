@@ -323,7 +323,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 	_casJet addEventHandler [
 		'GetIn',
 		{
-			(_this # 0) removeEventHandler ['GetIn',_thisEventHandler];
+			(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 			if (!simulationEnabled (_this # 0)) then {
 				(_this # 0) enableSimulationGlobal TRUE;
 			};

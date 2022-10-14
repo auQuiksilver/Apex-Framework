@@ -192,7 +192,7 @@ _damageEvent = {
 	params ['_unit','_selectionName','_damage','','','','_instigator',''];
 	if ((_damage > 0.89) && (_selectionName in ['','head','body'])) then {
 		_unit allowDamage FALSE;
-		_unit removeEventHandler ['HandleDamage',_thisEventHandler];
+		_unit removeEventHandler [_thisEvent,_thisEventHandler];
 		_unit setCaptive TRUE;
 		_unit setUnconscious TRUE;
 		_unit setBleedingRemaining 600;
@@ -214,7 +214,7 @@ _objUnit addEventHandler ['HandleDamage',_damageEvent];
 _objUnit addEventHandler [
 	'FiredMan',
 	{
-		(_this # 0) removeEventHandler ['FiredMan',_thisEventHandler];
+		(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 		(_this # 0) enableAIFeature ['PATH',TRUE];
 		(_this # 0) allowFleeing 1;
 		(_this # 0) setSkill ['courage',0];

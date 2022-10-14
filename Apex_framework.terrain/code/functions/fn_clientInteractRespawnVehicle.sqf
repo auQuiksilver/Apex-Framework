@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/09/2022 A3 2.10 by Quiksilver
+	16/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -42,24 +42,21 @@ if (_result) then {
 	player playAction 'PutDown';
 	playSound 'ClickSoft';
 	50 cutText [localize 'STR_QS_Text_126','PLAIN DOWN',0.5];
-	if (((crew _t) findIf {(alive _x)}) isNotEqualTo -1) then {
+	if (((crew _t) findIf {(alive _x)}) isEqualTo -1) then {
 		if ((_t distance2D (markerPos 'QS_marker_base_marker')) >= 1000) then {
-			_text = format ['%1 %4 %2 %5 %3',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),(mapGridPosition (getPosWorld player)),localize 'STR_QS_Chat_093',localize 'STR_QS_Hints_060'];
+			//_text = format ['%1 %4 %2 %5 %3',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),(mapGridPosition player),localize 'STR_QS_Chat_093',localize 'STR_QS_Hints_060'];
+			_text = format [localize 'STR_QS_Chat_093',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),(mapGridPosition player)];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
-		if (!isNil {player getVariable 'QS_client_createdBoat'}) then {
-			if (!isNull (player getVariable 'QS_client_createdBoat')) then {
-				if (alive (player getVariable 'QS_client_createdBoat')) then {
-					if (_t isEqualTo (player getVariable 'QS_client_createdBoat')) then {
-						if ((backpack player) isNotEqualTo '') then {
-							if (player canAddItemToBackpack ['ToolKit',1]) then {
-								player addItemToBackpack 'ToolKit';
-								50 cutText [(format ['%1 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),localize 'STR_QS_Text_127']),'PLAIN DOWN'];
-							};
-						};
-					};
-				};
-			};
+		if (
+			(alive (player getVariable ['QS_client_createdBoat',objNull])) &&
+			{(_t isEqualTo (player getVariable ['QS_client_createdBoat',objNull]))} &&
+			{((backpack player) isNotEqualTo '')} &&
+			{(player canAddItemToBackpack ['ToolKit',1])}
+		) then {
+			player addItemToBackpack 'ToolKit';
+			50 cutText [(format [localize 'STR_QS_Text_127',(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName'))]),'PLAIN DOWN'];
+			//50 cutText [(format ['%1 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),localize 'STR_QS_Text_127']),'PLAIN DOWN'];
 		};
 		if ((_t distance (markerPos 'QS_marker_base_marker')) > 1000) then {
 			[46,[player,2]] remoteExec ['QS_fnc_remoteExec',2,FALSE];

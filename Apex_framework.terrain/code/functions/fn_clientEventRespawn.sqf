@@ -279,7 +279,7 @@ if ((player getVariable 'QS_revive_respawnType') in ['BASE','']) then {
 			uiSleep 0.1;
 			player setPos _this;
 			player setDir (player getDir (missionNamespace getVariable 'QS_module_fob_HQ'));
-			50 cutText [format ['%2 %1',(missionNamespace getVariable 'QS_module_fob_displayName'),localize 'STR_QS_Text_048'],'PLAIN DOWN'];
+			50 cutText [format [localize 'STR_QS_Text_048',(missionNamespace getVariable 'QS_module_fob_displayName')],'PLAIN DOWN'];			
 		};
 		player setVariable ['QS_client_inFOBArea',TRUE,FALSE];
 		missionNamespace setVariable ['QS_module_fob_client_timeLastRespawn',(time + 180),FALSE];

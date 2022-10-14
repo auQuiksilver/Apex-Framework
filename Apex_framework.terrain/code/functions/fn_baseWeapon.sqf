@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	15/04/2018 A3 1.82 by Quiksilver
+	21/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -22,10 +22,9 @@ _base = getText (_cfg >> 'baseWeapon');
 if (isClass (configfile >> 'CfgWeapons' >> _base)) exitWith {
 	_base
 };
-private _return = _class;
 {
 	if ((getArray (_x >> 'linkedItems')) isEqualTo []) exitWith {
-		_return = configName _x;
+		_class = configName _x;
 	};
 } forEach (_cfg call (missionNamespace getVariable 'BIS_fnc_returnParents'));
-_return;
+_class;

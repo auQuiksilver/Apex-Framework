@@ -13,4 +13,4 @@ Description:
 	Return server command password
 ____________________________________________________________________________*/
 
-('ShVQArtpGdc5aDQq')
+('abc123')

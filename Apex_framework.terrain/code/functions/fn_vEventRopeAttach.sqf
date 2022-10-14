@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/05/2016 A3 1.58 by Quiksilver
+	19/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -20,15 +20,17 @@ Parameter(s):
 ___________________________________________________*/
 
 params ['_vehicle','_rope','_attachedObject'];
-_count = count (getArray (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'slingLoadCargoMemoryPoints'));
-if ((count (ropes _vehicle)) isEqualTo _count) then {
-	if (!isNull (driver _vehicle)) then {
-		if (alive (driver _vehicle)) then {
-			if (isPlayer (driver _vehicle)) then {
-				_attachedObject setVariable ['QS_transporter',[(name (driver _vehicle)),(driver _vehicle),(getPlayerUID (driver _vehicle))],FALSE];
-				_text = format ['Sling Loading a(n) %1',(getText (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'displayName'))];
-				['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
-			};
-		};
-	};
+private _count = _attachedObject getVariable ['QS_ropes_slingLoadCargoMemoryPoints',-1];
+if (_count isEqualTo -1) then {
+	_count = count (getArray (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'slingLoadCargoMemoryPoints'));
+	_attachedObject setVariable ['QS_ropes_slingLoadCargoMemoryPoints',_count,FALSE];
+};
+if (
+	((count (ropes _vehicle)) isEqualTo _count) &&
+	{(alive (driver _vehicle))} &&
+	{(isPlayer (driver _vehicle))}
+) then {
+	_attachedObject setVariable ['QS_transporter',[(name (driver _vehicle)),(driver _vehicle),(getPlayerUID (driver _vehicle))],FALSE];
+	_text = format ['%2 %1',(getText (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'displayName')),localize 'STR_QS_Text_201'];
+	['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
 };

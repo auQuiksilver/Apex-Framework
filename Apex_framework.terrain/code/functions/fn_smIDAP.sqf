@@ -156,7 +156,7 @@ if (_type isEqualTo 1) exitWith {
 				_unit addEventHandler [
 					'Hit',
 					{
-						(_this # 0) removeEventHandler ['Hit',_thisEventHandler];
+						(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 						(_this # 0) enableAIFeature ['PATH',TRUE];
 					}
 				];

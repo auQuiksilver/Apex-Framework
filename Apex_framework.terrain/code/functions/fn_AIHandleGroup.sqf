@@ -89,7 +89,9 @@ if (!alive _grpAttackTarget) then {
 		};
 	};
 };
-_grp setVariable ['QS_AI_GRP_attackTarget',_grpAttackTarget,FALSE];
+if ((_grp getVariable ['QS_AI_GRP_attackTarget',_grpAttackTarget]) isNotEqualTo _grpAttackTarget) then {
+	_grp setVariable ['QS_AI_GRP_attackTarget',_grpAttackTarget,FALSE];
+};
 _grpLeaderPosition = getPosATL _grpLeader;
 _grpObjectParent = objectParent _grpLeader;
 _grpMorale = morale _grpLeader;
@@ -111,25 +113,25 @@ _currentTask params ['_currentTask_type','_currentTask_position','_currentTask_t
 private _grpNearTargets = [];
 if (_grp getVariable ['QS_AI_GRP_canNearTargets',TRUE]) then {
 	if (_uiTime > (_grp getVariable ['QS_AI_GRP_lastNearTargets',-1])) then {
-		if (alive _grpLeader) then {
-			if (_grpLeaderLifestate in ['HEALTHY','INJURED']) then {
-				if (_fps > 12) then {
-					if (isNull _grpObjectParent) then {
-						_grpNearTargets = [7,EAST,_grp,_grpLeader,_grpObjectParent,300] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-					} else {
-						if (((_grpObjectParent isKindOf 'LandVehicle') && (!(_grpObjectParent isKindOf 'StaticWeapon'))) || {(_grpObjectParent isKindOf 'Ship')}) then {
-							_grpNearTargets = [8,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-						} else {
-							if (_grpObjectParent isKindOf 'Air') then {
-								_grpNearTargets = [9,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-							};
-						};
-					};
-					if ((random 1) > 0.666) then {
-						_targets = _grpLeader targets [TRUE,600];
-						_grp setVariable ['QS_AI_GRP_nearTargets',[_targets,(count _targets)],FALSE];
+		if (
+			(alive _grpLeader) &&
+			{(_grpLeaderLifestate in ['HEALTHY','INJURED'])} &&
+			{(_fps > 12)}
+		) then {
+			if (isNull _grpObjectParent) then {
+				_grpNearTargets = [7,EAST,_grp,_grpLeader,_grpObjectParent,300] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+			} else {
+				if (((_grpObjectParent isKindOf 'LandVehicle') && (!(_grpObjectParent isKindOf 'StaticWeapon'))) || {(_grpObjectParent isKindOf 'Ship')}) then {
+					_grpNearTargets = [8,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
+				} else {
+					if (_grpObjectParent isKindOf 'Air') then {
+						_grpNearTargets = [9,EAST,_grp,_grpLeader,_grpObjectParent] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
 					};
 				};
+			};
+			if ((random 1) > 0.666) then {
+				_targets = _grpLeader targets [TRUE,600];
+				_grp setVariable ['QS_AI_GRP_nearTargets',[_targets,(count _targets)],FALSE];
 			};
 		};
 		_grp setVariable ['QS_AI_GRP_lastNearTargets',(_uiTime + (60 + (random 60))),FALSE];
@@ -175,17 +177,18 @@ if (isNull _grpObjectParent) then {
 		_grp setVariable ['QS_AI_GRP_lastEnvSoundCtrl',(_uiTime + (30 + (random 30))),FALSE];
 		_grp setVariable ['QS_AI_GRP_allEnvSoundControllers',(getAllEnvSoundControllers _grpLeaderPosition),FALSE];
 	};
-	if (_uiTime > (_grp getVariable ['QS_AI_GRP_EH_ED_cooldown',-1])) then {
-		if (((_grp getEventHandlerInfo ['EnemyDetected',0]) # 2) isEqualTo 0) then {
-			_grp addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventEnemyDetected')}];
-		};
+	if (
+		(_uiTime > (_grp getVariable ['QS_AI_GRP_EH_ED_cooldown',-1])) &&
+		{(((_grp getEventHandlerInfo ['EnemyDetected',0]) # 2) isEqualTo 0)}
+	) then {
+		_grp addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventEnemyDetected')}];
 	};
-	if (_grpPath) then {
-		if (_uiTime > (_grp getVariable ['QS_AI_GRP_EH_CMC_cooldown',-1])) then {
-			if (((_grp getEventHandlerInfo ['CombatModeChanged',0]) # 2) isEqualTo 0) then {
-				_grp addEventHandler ['CombatModeChanged',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventCombatModeChanged')}];
-			};
-		};
+	if (
+		_grpPath &&
+		{(_uiTime > (_grp getVariable ['QS_AI_GRP_EH_CMC_cooldown',-1]))} &&
+		{(((_grp getEventHandlerInfo ['CombatModeChanged',0]) # 2) isEqualTo 0)}
+	) then {
+		_grp addEventHandler ['CombatModeChanged',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventCombatModeChanged')}];
 	};
 	_envSoundControllers = _grp getVariable ['QS_AI_GRP_allEnvSoundControllers',[]];
 	if (_envSoundControllers isNotEqualTo []) then {
@@ -350,7 +353,6 @@ if (
 			};
 		};
 	};
-
 	if (_currentConfig_major isEqualTo 'SC') then {
 		if (_currentTask_type isEqualTo 'ATTACK') then {
 			private _position = _grpLeaderPosition;
@@ -590,28 +592,7 @@ if (
 				};
 			};
 		};
-		if (_currentConfig_minor isEqualTo 'BLDG_GARRISON') then {
-			if (_currentTask_type isEqualTo 'BLDG_GARRISON') then {
-
-			};
-		};
 	};
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	if (_currentConfig_major isEqualTo 'AO') then {
 		if (_currentConfig_minor isEqualTo 'AIR_PATROL_HELI') then {
 			if (_currentTask_type isEqualTo 'PATROL_AIR') then {
@@ -741,7 +722,7 @@ if (
 							_smokeShell setVehiclePosition [(getPosWorld _smokeShell),[],0,'NONE'];
 							_smokeShell setPosATL [((getPosWorld _smokeShell) # 0),((getPosWorld _smokeShell) # 1),50];
 							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smokeShell,'DELAYED_FORCED',(time + 60)];
-							missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') + [_firePosition,50,(serverTime + 45)]),QS_system_AI_owners];
+							missionNamespace setVariable ['QS_AI_fireMissions',((missionNamespace getVariable 'QS_AI_fireMissions') + [[_firePosition,50,(serverTime + 45)]]),QS_system_AI_owners];
 							[0,_grpLeader,_firePosition,((magazines (_currentConfig # 2)) # 0),(round (2 + (random 6)))] spawn (missionNamespace getVariable 'QS_fnc_AIFireMission');
 						};
 					};

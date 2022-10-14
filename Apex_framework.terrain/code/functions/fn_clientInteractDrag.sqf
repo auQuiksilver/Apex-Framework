@@ -40,7 +40,7 @@ if (_t isKindOf 'CAManBase') exitWith {
 	};
 	_t attachTo [player,[0,1.1,0.092]];
 	[6,_t,180,'AinjPpneMrunSnonWnonDb_grab'] remoteExec ['QS_fnc_remoteExec',0,FALSE];
-	50 cutText [(format ['%2 %1',(name _t),localize 'STR_QS_Text_105']),'PLAIN DOWN',0.3];
+	50 cutText [(format [localize 'STR_QS_Text_105',(name _t)]),'PLAIN DOWN',0.3];
 	player playActionNow 'grabDrag';
 };
 if (!local _t) then {
@@ -51,7 +51,7 @@ _pos set [2,((_pos # 2) + 0.2)];
 _t setPosATL _pos;
 [_t,player,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
 player playActionNow 'grabDrag';
-_text = format ['%2 %1',(_t getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName'))]),localize 'STR_QS_Text_105'];
+_text = format [localize 'STR_QS_Text_105',(_t getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName'))])];
 50 cutText [_text,'PLAIN DOWN',0.75];
 if ((uiNamespace getVariable ['QS_dragStuckMsg',-1]) isEqualTo -1) then {
 	uiNamespace setVariable ['QS_dragStuckMsg',0];

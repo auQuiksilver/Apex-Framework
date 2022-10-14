@@ -247,7 +247,7 @@ if ((random 1) > 0) then {
 	_enemyVehicle addEventHandler [
 		'GetIn',
 		{
-			(_this # 0) removeEventHandler ['GetIn',_thisEventHandler];
+			(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 			(missionNamespace getVariable 'QS_garbageCollector') pushBack [(_this # 0),'DELAYED_DISCREET',300];
 		}
 	];
@@ -292,7 +292,7 @@ for '_x' from 0 to (2 + (round (random 2))) step 1 do {
 			'FiredMan',
 			{
 				missionNamespace setVariable ['QS_sm_enemy_reinforce',TRUE,FALSE];
-				(_this # 0) removeEventHandler ['FiredMan',_thisEventHandler];
+				(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 				{
 					_x removeEventHandler ['FiredMan',(_x getVariable ['QS_unit_customEvent_fired',-1])];
 				} forEach ((_this # 0) getVariable ['QS_unit_assocUnits',[]]);

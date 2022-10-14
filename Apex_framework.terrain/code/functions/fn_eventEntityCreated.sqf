@@ -11,6 +11,11 @@ Last modified:
 Description:
 
 	Entity Created mission event
+	
+Notes:
+
+	This system can be used for adding modded units, and diagnostics
+	We do not use it in regular play as it executes frequently and uses considerable CPU time for marginal gain
 __________________________________________________*/
 
 params ['_entity'];

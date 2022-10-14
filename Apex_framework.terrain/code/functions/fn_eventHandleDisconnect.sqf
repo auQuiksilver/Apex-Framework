@@ -118,7 +118,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 									_vehicle deleteVehicleCrew _oldController;
 								};
 								// move new controller to pilot seat
-								_vehicle removeEventHandler ['ControlsShifted',_thisEventHandler];
+								_vehicle removeEventHandler [_thisEvent,_thisEventHandler];
 							}
 						];
 						{
@@ -168,7 +168,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 												//comment "deleteVehicle (driver _vehicle);";
 											};
 										};
-										_vehicle removeEventHandler ['LandedTouchDown',_thisEventHandler];
+										_vehicle removeEventHandler [_thisEvent,_thisEventHandler];
 									}
 								];
 								_vehicle addEventHandler [
@@ -181,7 +181,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 												_vehicle deleteVehicleCrew (driver _vehicle);
 											};
 										};
-										_vehicle removeEventHandler ['LandedStopped',_thisEventHandler];
+										_vehicle removeEventHandler [_thisEvent,_thisEventHandler];
 									}
 								];
 							};

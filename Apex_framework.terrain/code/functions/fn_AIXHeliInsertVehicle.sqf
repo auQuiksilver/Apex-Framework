@@ -143,7 +143,7 @@ _heli addEventHandler [
 			if (alive (driver _vehicle)) then {
 				_attachedObject enableRopeAttach FALSE;
 				_attachedObject enableVehicleCargo FALSE;
-				_vehicle removeEventHandler ['RopeBreak',_thisEventHandler];
+				_vehicle removeEventHandler [_thisEvent,_thisEventHandler];
 				deleteWaypoint [_heliGroup,(currentWaypoint _heliGroup)];
 				_wp = _heliGroup addWaypoint [(_vehicle getVariable ['QS_heli_mapEdgePosition',[0,0,100]]),0];
 				_wp setWaypointType 'MOVE';

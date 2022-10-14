@@ -161,7 +161,7 @@ if ((_truckPos distance2D _spawnPos) < 30) then {
 		_this addEventHandler [
 			'HandleDamage',
 			{
-				(_this # 0) removeEventHandler ['HandleDamage',_thisEventHandler];
+				(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 				(_this # 0) enableSimulationGlobal TRUE;
 				(_this # 0) setVariable ['QS_dynSim_ignore',FALSE,FALSE];
 				(_this # 0) enableDynamicSimulation TRUE;

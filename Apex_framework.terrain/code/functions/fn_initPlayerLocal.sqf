@@ -426,7 +426,7 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 			params ['_mapIsOpened','_mapIsForced'];
 			((findDisplay 12) displayCtrl 51) ctrlMapAnimAdd [0.25,0.75,player];
 			ctrlMapAnimCommit ((findDisplay 12) displayCtrl 51);
-			removeMissionEventHandler ['Map',_thisEventHandler];
+			removeMissionEventHandler [_thisEvent,_thisEventHandler];
 			0 spawn {
 				uiSleep 1;
 				ctrlMapAnimClear ((findDisplay 12) displayCtrl 51);

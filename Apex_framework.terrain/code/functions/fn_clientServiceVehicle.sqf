@@ -6,19 +6,24 @@ Author:
 	
 Last modified:
 
-	26/04/2022 A3 2.08 by Quiksilver
+	23/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Client vehicle service
 __________________________________________________/*/
 
-private ['_v','_t','_c','_rt','_nearestServiceSite','_fuel'];
-_t = cursorTarget;
-_v = vehicle player;
-if (_t getVariable 'under_service') exitWith {50 cutText [localize 'STR_QS_Text_191','PLAIN DOWN',0.5];};
-if (_v getVariable 'under_service') exitWith {50 cutText [localize 'STR_QS_Text_191','PLAIN DOWN',0.5];};
-if (missionNamespace getVariable 'QS_repairing_vehicle') exitWith {50 cutText [localize 'STR_QS_Text_191','PLAIN DOWN',0.5];};
+private _t = cursorTarget;
+private _v = vehicle player;
+private _rt = 1;
+private _fuel = 1;
+if (
+	(_t getVariable ['under_service',FALSE]) ||
+	{(_v getVariable ['under_service',FALSE])}
+) exitWith {
+	50 cutText [localize 'STR_QS_Text_191','PLAIN DOWN',0.5];
+};
+if (missionNamespace getVariable ['QS_repairing_vehicle',FALSE]) exitWith {50 cutText [localize 'STR_QS_Text_191','PLAIN DOWN',0.5];};
 private _isUAV = unitIsUav cameraOn;
 if (_isUAV) then {
 	_v = cameraOn;

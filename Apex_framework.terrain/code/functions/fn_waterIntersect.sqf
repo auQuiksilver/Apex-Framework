@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	14/04/2017 A3 1.68 by Quiksilver
+	19/09/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -14,20 +14,14 @@ Description:
 ____________________________________________________________________________*/
 
 params ['_position1','_position2','_increment'];
-_distance2D = _position1 distance2D _position2;
-_direction = _position1 getDir _position2;
 private _position = [0,0,0];
 private _incrementDistance = 0;
 private _return = FALSE;
-scopeName 'main';
-for '_x' from 0 to ((_distance2D / _increment) - 1) step 1 do {
-	_position = _position1 getPos [_incrementDistance,_direction];
+for '_x' from 0 to (( (_position1 distance2D _position2) / _increment) - 1) step 1 do {
+	_position = _position1 getPos [_incrementDistance,(_position1 getDir _position2)];
 	_incrementDistance = _incrementDistance + _increment;
-	if (surfaceIsWater _position) then {
-		if (!(_return)) then {
-			_return = TRUE;
-			breakTo 'main';
-		};
+	if (surfaceIsWater _position) exitWith {
+		_return = TRUE;
 	};
 };
 _return;

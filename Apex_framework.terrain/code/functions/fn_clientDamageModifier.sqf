@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	25/04/2022 A3 2.08 by Quiksilver
+	16/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -42,12 +42,12 @@ if (isNull (objectParent _unit)) then {
 			};
 		};
 	} else {
-		if (!isNull _instigator) then {
-			if (isPlayer _instigator) then {
-				if ((side (group _instigator)) in [(_unit getVariable ['QS_unit_side',WEST]),sideEnemy]) then {
-					_return = 0.05;
-				};
-			};
+		if (
+			(!isNull _instigator) &&
+			{(isPlayer _instigator)} &&
+			{((side (group _instigator)) in [(_unit getVariable ['QS_unit_side',WEST]),sideEnemy])}
+		) then {
+			_return = 0.05;
 		};
 	};
 } else {
@@ -56,18 +56,14 @@ if (isNull (objectParent _unit)) then {
 			if ((call (missionNamespace getVariable ['QS_missionConfig_reducedDamage',{1}])) isEqualTo 1) then {
 				_return = 0.333;
 			};
-			if (_unit isEqualTo (driver (objectParent _unit))) then {
-				if (_instigator isEqualType objNull) then {
-					if (!isNull _instigator) then {
-						if (isPlayer _instigator) then {
-							if (!(_unit in [_source,_instigator])) then {
-								if ((side (group _instigator)) in [(_unit getVariable ['QS_unit_side',WEST]),sideEnemy]) then {
-									_return = 0;
-								};
-							};
-						};
-					};
-				};
+			if (
+				(_unit isEqualTo (driver (objectParent _unit))) &&
+				{(!isNull _instigator)} &&
+				{(isPlayer _instigator)} &&
+				{(!(_unit in [_source,_instigator]))} &&
+				{((side (group _instigator)) in [(_unit getVariable ['QS_unit_side',WEST]),sideEnemy])}
+			) then {
+				_return = 0;
 			};
 		};
 	} else {

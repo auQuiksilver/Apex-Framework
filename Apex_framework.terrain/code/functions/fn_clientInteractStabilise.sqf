@@ -25,7 +25,7 @@ _event = player addEventHandler [
 	{
 		params ['_unit','_anim'];
 		if (diag_tickTime > (missionNamespace getVariable ['QS_client_stabilise_timeout',-1])) then {
-			player removeEventHandler ['AnimDone',_thisEventHandler];
+			player removeEventHandler [_thisEvent,_thisEventHandler];
 			missionNamespace setVariable ['QS_client_stabilise_timeout',nil,FALSE];
 			missionNamespace setVariable ['QS_client_stabilise_entity',objNull,FALSE];
 		};
@@ -33,7 +33,7 @@ _event = player addEventHandler [
 			(['medicdummyend',_anim,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || 
 			((['medicother',_anim,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) && (!(['medicotherin',_anim,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))))
 		) then {
-			player removeEventHandler ['AnimDone',_thisEventHandler];
+			player removeEventHandler [_thisEvent,_thisEventHandler];
 			if (alive player) then {
 				if ((lifeState player) in ['HEALTHY','INJURED']) then {
 					_entity = missionNamespace getVariable ['QS_client_stabilise_entity',objNull];

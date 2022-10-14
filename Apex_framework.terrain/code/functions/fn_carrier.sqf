@@ -341,7 +341,7 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 			_this addEventHandler [
 				'GetIn',
 				{
-					(_this # 0) removeEventHandler ['GetIn',_thisEventHandler];
+					(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 					(_this # 0) enableSimulationGlobal TRUE;
 				}
 			];

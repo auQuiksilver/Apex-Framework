@@ -20,7 +20,7 @@ if (worldName in ['Tanoa','Lingor3']) then {
 if (worldName in ['Enoch']) then {
 	_environment = 'temperate';
 };
-rscmissionstatus_buttonclick = compileFinal 'TRUE';
+missionNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal 'TRUE'];
 uiNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal 'TRUE'];
 bis_fnc_missiontaskslocal = compileFinal 'TRUE';
 bis_fnc_missionconversationslocal = compileFinal 'TRUE';

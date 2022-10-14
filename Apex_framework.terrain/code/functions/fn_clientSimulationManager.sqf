@@ -6,20 +6,14 @@ Author:
 	
 Last Modified:
 
-	4/01/2019 A3 1.88 by Quiksilver
+	10/10/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Client Simulation Manager
 ________________________________________________/*/
 
-if (
-	(player getUnitTrait 'uavhacker') ||
-	{(player getUnitTrait 'QS_trait_fighterPilot')} ||
-	{(player getUnitTrait 'QS_trait_pilot')} ||
-	{(player getUnitTrait 'QS_trait_CAS')} ||
-	{(player getUnitTrait 'QS_trait_HQ')}
-) exitWith {
+if ((['uavhacker','QS_trait_fighterPilot','QS_trait_pilot','QS_trait_CAS','QS_trait_HQ'] findIf { player getUnitTrait _x }) isNotEqualTo -1) exitWith {
 	missionNamespace setVariable ['QS_client_dynSim',FALSE,FALSE];
 };
 scriptName 'QS Simulation Manager';
@@ -41,6 +35,7 @@ _false = FALSE;
 private _tickTime = diag_tickTime;
 private _positionCamera = getPosWorld player;
 private _objectParent = objectParent player;
+private _cameraOn = cameraOn;
 private _runMoveDist = 25;
 private _cameraView = cameraView;
 private _entity = objNull;
@@ -70,7 +65,6 @@ private _runDelay = 15;
 private _runCheckDelay = _tickTime + _runDelay;
 private _maxAltASL = 300;
 private _isActive = _false;
-private _posPlayerATL = getPosATL player;
 private _entity_distance = -1;
 _eventKilled = {
 	params ['_entity','','',''];
@@ -187,10 +181,11 @@ for '_i' from 0 to 1 step 0 do {
 						};
 						_entity setVariable ['QS_sim_entityCoolDown',(_tickTime + _coolDownDelay),_false];
 						_entity enableSimulation _true;
-						if (_disable_hideEntity) then {
-							if (isObjectHidden _entity) then {
-								_entity hideObject _false;
-							};
+						if (
+							_disable_hideEntity &&
+							(isObjectHidden _entity)
+						) then {
+							_entity hideObject _false;
 						};
 					};
 				};
@@ -205,107 +200,109 @@ for '_i' from 0 to 1 step 0 do {
 				if (player getVariable ['QS_client_playerViewChanged',_false]) then {
 					player setVariable ['QS_client_playerViewChanged',_false,_false];
 				};
-				_positionCamera = positionCameraToWorld [0,0,0];
+				_positionCamera = positionCameraToWorld [0,10,0];
 				_entities = (entities _entitiesParams) + (allMissionObjects 'WeaponHolder');
-				_posPlayerATL = _positionCamera;
-				_posPlayerATL set [2,((_posPlayerATL # 2) + 10)];
+				_posPlayerATL = _positionCamera vectorAdd [0,0,10];
 				{
 					_entity = _x;
 					if (!isNull _entity) then {
-						if (!isPlayer _entity) then {
-							if (local _entity) then {
-								if (!(simulationEnabled _entity)) then {
-									_entity enableSimulation _true;
-									if (_disable_hideEntity) then {
-										if (isObjectHidden _entity) then {
-											_entity hideObject _false;
-										};
-									};
+						if (local _entity) then {
+							if (!(simulationEnabled _entity)) then {
+								_entity enableSimulation _true;
+							};
+							if (
+								_disable_hideEntity &&
+								(isObjectHidden _entity)
+							) then {
+								_entity hideObject _false;
+							};
+						} else {
+							if ((_entity getVariable ['QS_sim_entityCoolDown',0]) isNotEqualTo 0) then {
+								if (!(_entity getVariable ['QS_dynSim_ignore',_false])) then {
+									_entity setVariable ['QS_sim_entityCoolDown',-1,_false];
 								};
-							} else {
-								if ((_entity getVariable ['QS_sim_entityCoolDown',0]) isNotEqualTo 0) then {
-									if (!(_entity getVariable ['QS_dynSim_ignore',_false])) then {
-										_entity setVariable ['QS_sim_entityCoolDown',-1,_false];
-									};
-								};
-								_isMoving = (vectorMagnitude (velocity _entity)) > _velocityThreshold;
-								_isChild = ((!isNull (isVehicleCargo _entity)) || {(!isNull (ropeAttachedTo _entity))});
-								if (_isChild) then {
-									_entityObjectParent = ([(isVehicleCargo _entity),(ropeAttachedTo _entity)] select {(!isNull _x)}) # 0;
-								};
-								if (
-									(_isMoving) || 
+							};
+							_isMoving = (vectorMagnitude (velocity _entity)) > _velocityThreshold;
+							_isChild = ((!isNull (isVehicleCargo _entity)) || {(!isNull (ropeAttachedTo _entity))} || {(attachedTo _entity)});
+							if (_isChild) then {
+								//_entityObjectParent = ([(isVehicleCargo _entity),(ropeAttachedTo _entity),attachedTo _entity] select {(!isNull _x)}) # 0;
+							};
+							if (
+								(_isMoving) || 
+								(
+									(!(_isMoving)) && 
 									(
-										(!(_isMoving)) && 
-										(
-											((_entity getVariable ['QS_sim_entityCoolDown',0]) isNotEqualTo 0) && 
-											{(_tickTime > (_entity getVariable ['QS_sim_entityCoolDown',_tickTime]))}
-										)
-									) || 
-									(_isChild)
-								) then {
-									if ((_entity isKindOf 'WeaponHolder') || {(_entity isKindOf 'Reammobox_F')}) then {
-										if (_isMoving) then {
-											_disable_distance = _disable_distance_prop * _disable_coef_moving;
-										} else {
-											_disable_distance = _disable_distance_prop;
-										};
+										((_entity getVariable ['QS_sim_entityCoolDown',0]) isNotEqualTo 0) && 
+										{(_tickTime > (_entity getVariable ['QS_sim_entityCoolDown',_tickTime]))}
+									)
+								) || 
+								(_isChild)
+							) then {
+								if ((_entity isKindOf 'WeaponHolder') || {(_entity isKindOf 'Reammobox_F')}) then {
+									if (_isMoving) then {
+										_disable_distance = _disable_distance_prop * _disable_coef_moving;
 									} else {
-										_disable_distance = [_disable_distance_vehicle,_disable_distance_vehicleEmpty] select (((crew _entity) findIf {(alive _x)}) isEqualTo -1);
-										if (_isMoving) then {
-											_disable_distance = _disable_distance * _disable_coef_moving;
+										_disable_distance = _disable_distance_prop;
+									};
+								} else {
+									_disable_distance = [_disable_distance_vehicle,_disable_distance_vehicleEmpty] select (((crew _entity) findIf {(alive _x)}) isEqualTo -1);
+									if (_isMoving) then {
+										_disable_distance = _disable_distance * _disable_coef_moving;
+									};
+									if (terrainIntersect [_positionCamera,(_entity modelToWorld [0,10,0])]) then {
+										_disable_distance = _disable_distance * _disable_coef_terrainIntersect;
+									};
+								};
+								_entity_distance = _positionCamera distance2D (_entity getVariable ['QS_sim_pos',getPosATL _entity]);
+								if (
+									(_entity_distance > _disable_distance) && 
+									(!(_isChild))
+								) then {
+									if (
+										(simulationEnabled _entity) &&
+										{(((crew _entity) findIf {(alive _x)}) isEqualTo -1)} &&
+										{(!(_entity getVariable ['QS_dynSim_ignore',_false]))}
+									) then {
+										if ((_entity getVariable ['QS_sim_EHs',[]]) isEqualTo []) then {
+											_entityEHs = [];
+											{
+												_entityEHs pushBack [(_x # 0),(_entity addEventHandler _x)];
+											} forEach [
+												['Killed',_eventKilled],
+												['Local',_eventLocal],
+												['Explosion',_eventExplosion],
+												['GetIn',_eventGetIn],
+												['Dammaged',_eventDammaged]
+											];
+											_entity setVariable ['QS_sim_EHs',_entityEHs,_false];
 										};
-										if (terrainIntersect [_posPlayerATL,(_entity modelToWorld [0,10,0])]) then {
-											_disable_distance = _disable_distance * _disable_coef_terrainIntersect;
+										_entity setVariable ['QS_sim_entityCoolDown',(_tickTime + _coolDownDelay),_false];
+										if (isNull (ropeAttachedTo _entity)) then {
+											_entity enableSimulation _false;
+											if (
+												(_disable_hideEntity) &&
+												{(_entity_distance > _distance_hideEntity)} &&
+												{(!(isObjectHidden _entity))}
+											) then {
+												_entity hideObject _true;
+											};
 										};
 									};
-									_entity_distance = _positionCamera distance2D _entity;
-									if ((_entity_distance > _disable_distance) && (!(_isChild))) then {
-										if (simulationEnabled _entity) then {
-											if (((crew _entity) findIf {(alive _x)}) isEqualTo -1) then {
-												if (!(_entity getVariable ['QS_dynSim_ignore',_false])) then {
-													if ((_entity getVariable ['QS_sim_EHs',[]]) isEqualTo []) then {
-														_entityEHs = [];
-														{
-															_entityEHs pushBack [(_x # 0),(_entity addEventHandler _x)];
-														} forEach [
-															['Killed',_eventKilled],
-															['Local',_eventLocal],
-															['Explosion',_eventExplosion],
-															['GetIn',_eventGetIn],
-															['Dammaged',_eventDammaged]
-														];
-														_entity setVariable ['QS_sim_EHs',_entityEHs,_false];
-													};
-													_entity setVariable ['QS_sim_entityCoolDown',(_tickTime + _coolDownDelay),_false];
-													if (isNull (ropeAttachedTo _entity)) then {
-														_entity enableSimulation _false;
-														if (_disable_hideEntity) then {
-															if (_entity_distance > _distance_hideEntity) then {
-																if (!(isObjectHidden _entity)) then {
-																	_entity hideObject _true;
-																};
-															};
-														};
-													};
-												};
-											};
+								} else {
+									if ((!(simulationEnabled _entity)) || {(isObjectHidden _entity)})then {
+										if ((_entity getVariable ['QS_sim_EHs',[]]) isNotEqualTo []) then {
+											{
+												_entity removeEventHandler _x;
+											} forEach (_entity getVariable ['QS_sim_EHs',[]]);
+											_entity setVariable ['QS_sim_EHs',[],_false];
 										};
-									} else {
-										if ((!(simulationEnabled _entity)) || {(isObjectHidden _entity)})then {
-											if ((_entity getVariable ['QS_sim_EHs',[]]) isNotEqualTo []) then {
-												{
-													_entity removeEventHandler _x;
-												} forEach (_entity getVariable ['QS_sim_EHs',[]]);
-												_entity setVariable ['QS_sim_EHs',[],_false];
-											};
-											_entity setVariable ['QS_sim_entityCoolDown',(_tickTime + _coolDownDelay),_false];
-											_entity enableSimulation _true;
-											if (_disable_hideEntity) then {
-												if (isObjectHidden _entity) then {
-													_entity hideObject _false;
-												};
-											};
+										_entity setVariable ['QS_sim_entityCoolDown',(_tickTime + _coolDownDelay),_false];
+										_entity enableSimulation _true;
+										if (
+											_disable_hideEntity &&
+											(isObjectHidden _entity)
+										) then {
+											_entity hideObject _false;
 										};
 									};
 								};

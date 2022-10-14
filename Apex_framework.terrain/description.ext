@@ -13,8 +13,8 @@ Description:
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.3.2";
-missionProductStatus = "Stable";											// "Stable" // "Dev"
+missionProductVersion = "1.3.3";
+missionProductStatus = "Dev";											// "Stable" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -544,10 +544,13 @@ class CfgFunctions {
 			class eventEntityCreated {file = "code\functions\fn_eventEntityCreated.sqf";};
 			class eventEntityKilled {file = "code\functions\fn_eventEntityKilled.sqf";};
 			class eventEntityRespawned {file = "code\functions\fn_eventEntityRespawned.sqf";};
+			class eventGroupCreated {file = "code\functions\fn_eventGroupCreated.sqf";};
+			class eventGroupDeleted {file = "code\functions\fn_eventGroupDeleted.sqf";};
 			class eventHandleDisconnect {file = "code\functions\fn_eventHandleDisconnect.sqf";};
 			class eventMissionEnded {file = "code\functions\fn_eventMissionEnded.sqf";};
 			class eventOnPlayerConnected {file = "code\functions\fn_eventOnPlayerConnected.sqf";};
 			class eventOnPlayerDisconnected {file = "code\functions\fn_eventOnPlayerDisconnected.sqf";};
+			class eventProjectileCreated {file = "code\functions\fn_eventProjectileCreated.sqf";};
 			class eventRTKilled {file = "code\functions\fn_eventRTKilled.sqf";};
 			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class feedback {file = "code\functions\fn_feedback.sqf";};

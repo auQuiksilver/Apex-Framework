@@ -32,7 +32,7 @@ closeDialog 2;
 				['QS_respawn_disable',(diag_tickTime + 600),FALSE]
 			];
 			50 cutText [localize 'STR_QS_Text_188','PLAIN DOWN',0.5];
-			['systemChat',(format ['%1 %3 %2',profileName,(mapGridPosition player),localize 'STR_QS_Chat_103'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['systemChat',(format [localize 'STR_QS_Chat_103',profileName,(mapGridPosition player)])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			[77,'MEDEVAC',[player,profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		} else {
 			50 cutText [localize 'STR_QS_Text_189','PLAIN DOWN',0.5];

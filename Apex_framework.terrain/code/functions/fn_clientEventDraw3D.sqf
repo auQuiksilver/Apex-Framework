@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	26/08/2022 A3 2.10 by Quiksilver
+	16/09/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -319,60 +319,59 @@ if (!isStreamFriendlyUIEnabled) then {
 		if (freeLook) then {
 			{
 				_unit = _x;
-				if ((side (group _unit)) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
-					if (!(_unit getVariable ['QS_hidden',FALSE])) then {
-						if (_unit isNotEqualTo _player) then {
-							if (((vectorMagnitude (velocity _unit)) * 3.6) <= 24) then {
-								_icon = '';
-								if (_unit in [cursorObject,cursorTarget]) then {
-									if (isPlayer _unit) then {
-										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
-											_unitType = _unit getVariable ['QS_ST_customDN',''];
-										} else {
-											if ((_unit getVariable ['QS_unit_role_displayName',-1]) isEqualTo -1) then {
-												_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
-											} else {
-												_unitType = _unit getVariable ['QS_unit_role_displayName','Rifleman'];
-											};
-										};
-									} else {
-										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
-											_unitType = _unit getVariable ['QS_ST_customDN',''];
-										} else {
-											_unitType = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_unitType]),''];
-											if (_unitType isEqualTo '') then {
-												_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
-												missionNamespace setVariable [(format ['QS_ST_iconType#%1',_unitType]),_unitType,FALSE];
-											};
-										};
-									};
-									_unitName = (name _unit) + (format [' (%1)',_unitType]);
+				if (
+					((side (group _unit)) isEqualTo (player getVariable ['QS_unit_side',WEST])) &&
+					(_unit isNotEqualTo _player) &&
+					(!(_unit getVariable ['QS_hidden',FALSE])) &&
+					(((vectorMagnitude (velocity _unit)) * 3.6) <= 24)
+				) then {
+					_icon = '';
+					if (_unit in [cursorObject,cursorTarget]) then {
+						if (isPlayer _unit) then {
+							if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+								_unitType = _unit getVariable ['QS_ST_customDN',''];
+							} else {
+								if ((_unit getVariable ['QS_unit_role_displayName',-1]) isEqualTo -1) then {
+									_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
 								} else {
-									_unitName = (name _unit);
+									_unitType = _unit getVariable ['QS_unit_role_displayName','Rifleman'];
 								};
-								if (_player getUnitTrait 'medic') then {
-									_unitName = format ['%1 (%2)',_unitName,(lifeState _unit)];
-								};
-								_distance = _cameraOn distance2D _unit;
-								_alpha = 1 - (((_distance / 31)) % 1);
-								if (_alpha > 0) then {
-									drawIcon3D [
-										_icon,
-										[0.75,0.75,0.75,_alpha],
-										(_unit modelToWorldVisual ((_unit selectionPosition 'head') vectorAdd [0,0,0.5])),
-										1,
-										1,
-										0,
-										_unitName,
-										2,
-										0.025,
-										_font,
-										'right',
-										FALSE
-									];
+							};
+						} else {
+							if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+								_unitType = _unit getVariable ['QS_ST_customDN',''];
+							} else {
+								_unitType = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_unitType]),''];
+								if (_unitType isEqualTo '') then {
+									_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
+									missionNamespace setVariable [(format ['QS_ST_iconType#%1',_unitType]),_unitType,FALSE];
 								};
 							};
 						};
+						_unitName = (name _unit) + (format [' (%1)',_unitType]);
+					} else {
+						_unitName = (name _unit);
+					};
+					if (_player getUnitTrait 'medic') then {
+						_unitName = format ['%1 (%2)',_unitName,(lifeState _unit)];
+					};
+					_distance = _cameraOn distance2D _unit;
+					_alpha = 1 - (((_distance / 31)) % 1);
+					if (_alpha > 0) then {
+						drawIcon3D [
+							_icon,
+							[0.75,0.75,0.75,_alpha],
+							(_unit modelToWorldVisual ((_unit selectionPosition 'head') vectorAdd [0,0,0.5])),
+							1,
+							1,
+							0,
+							_unitName,
+							2,
+							0.025,
+							_font,
+							'right',
+							FALSE
+						];
 					};
 				};
 			} count ((getPosATL _cameraOn) nearEntities ['CAManBase',30]);
@@ -385,61 +384,59 @@ if (!isStreamFriendlyUIEnabled) then {
 					_unit = cursorObject;
 				};
 			};
-			if (!isNull _unit) then {
-				if ((_unit isKindOf 'CAManBase') || {((effectiveCommander _unit) isKindOf 'CAManBase')}) then {
-					if ((side (group _unit)) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
-						if (_unit isNotEqualTo _player) then {
-							if (!(_unit getVariable ['QS_hidden',FALSE])) then {
-								_icon = '';
-								if ((_cameraOn distance2D _unit) >= 30) then {
-									if ((_cameraOn distance2D _unit) >= 300) then {
-										_unitName = '(Friendly)';
-									} else {
-										if (isPlayer _unit) then {
-											_unitName = (name _unit) + ' (Friendly)';
-										} else {
-											_unitName = '[AI] (Friendly)';
-										};
-									};
-								} else {
-									if (isPlayer _unit) then {
-										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
-											_unitType = _unit getVariable ['QS_ST_customDN',''];
-										} else {
-											_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
-										};								
-										_unitName = (name _unit) + (format [' (%1)',_unitType]);
-									} else {
-										if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
-											_unitType = _unit getVariable ['QS_ST_customDN',''];
-										} else {
-											_unitType = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_unitType]),''];
-											if (_unitType isEqualTo '') then {
-												_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
-												missionNamespace setVariable [(format ['QS_ST_iconType#%1',_unitType]),_unitType,FALSE];
-											};
-										};
-										_unitName = '[AI]' + (format [' (%1)',_unitType]);
-									};
-								};
-								drawIcon3D [
-									_icon,
-									[0,125,255,1],
-									(_unit modelToWorldVisual ((_unit selectionPosition (['pilot','head'] select (_unit isKindOf 'CAManBase'))) vectorAdd [0,0,0.5])),
-									1,
-									1,
-									0,
-									_unitName,
-									2,
-									0.03,
-									_font,
-									'right',
-									FALSE
-								];
-							};
+			if (
+				(!isNull _unit) &&
+				(_unit isNotEqualTo _player) &&
+				((_unit isKindOf 'CAManBase') || {((effectiveCommander _unit) isKindOf 'CAManBase')}) &&
+				((side (group _unit)) isEqualTo (player getVariable ['QS_unit_side',WEST])) &&
+				(!(_unit getVariable ['QS_hidden',FALSE]))
+			) then {
+				_icon = '';
+				if ((_cameraOn distance2D _unit) >= 30) then {
+					if ((_cameraOn distance2D _unit) >= 300) then {
+						_unitName = '(Friendly)';
+					} else {
+						if (isPlayer _unit) then {
+							_unitName = (name _unit) + ' (Friendly)';
+						} else {
+							_unitName = '[AI] (Friendly)';
 						};
 					};
+				} else {
+					if (isPlayer _unit) then {
+						if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+							_unitType = _unit getVariable ['QS_ST_customDN',''];
+						} else {
+							_unitType = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
+						};								
+						_unitName = (name _unit) + (format [' (%1)',_unitType]);
+					} else {
+						if (!isNil {_unit getVariable 'QS_ST_customDN'}) then {
+							_unitType = _unit getVariable ['QS_ST_customDN',''];
+						} else {
+							_unitType = missionNamespace getVariable [(format ['QS_ST_iconType#%1',_unitType]),''];
+							if (_unitType isEqualTo '') then {
+								_unitType = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
+								missionNamespace setVariable [(format ['QS_ST_iconType#%1',_unitType]),_unitType,FALSE];
+							};
+						};
+						_unitName = '[AI]' + (format [' (%1)',_unitType]);
+					};
 				};
+				drawIcon3D [
+					_icon,
+					[0,125,255,1],
+					(_unit modelToWorldVisual ((_unit selectionPosition (['pilot','head'] select (_unit isKindOf 'CAManBase'))) vectorAdd [0,0,0.5])),
+					1,
+					1,
+					0,
+					_unitName,
+					2,
+					0.03,
+					_font,
+					'right',
+					FALSE
+				];
 			};
 		};
 	};
@@ -453,22 +450,22 @@ if ((missionNamespace getVariable ['QS_draw3D_projectiles',[]]) isNotEqualTo [])
 	_array = missionNamespace getVariable ['QS_draw3D_projectiles',[]];
 	_deg = ((ceil _time) - _time) * 720;
 	{
-		if (_x isEqualType objNull) then {
-			if (!isNull _x) then {
-				if ((_cameraOn distance2D _x) < 999) then {
-					_scale = 1 - ((((_cameraOn distance2D _x) / 1000)) % 1);
-					if (_scale > 0) then {
-						drawIcon3D [
-							'a3\ui_f\data\igui\cfg\cursors\explosive_ca.paa',
-							[1,0,0,_scale],
-							(getPosVisual _x),
-							_scale,
-							_scale,
-							_deg
-						];
-					};
-				};
-			};
+		if (
+			(_x isEqualType objNull) &&
+			{(!isNull _x)} &&
+			{((_cameraOn distance2D x) < 999)}
+		) then {
+			_scale = 1 - ((((_cameraOn distance2D _x) / 1000)) % 1);
+			if (_scale > 0) then {
+				drawIcon3D [
+					'a3\ui_f\data\igui\cfg\cursors\explosive_ca.paa',
+					[1,0,0,_scale],
+					(getPosVisual _x),
+					_scale,
+					_scale,
+					_deg
+				];
+			};		
 		};
 	} count _array;
 };

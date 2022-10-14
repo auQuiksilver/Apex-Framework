@@ -11,13 +11,7 @@ Last Modified:
 Description:
 
 	AI Network Owners
-if (isNil {missionNamespace getVariable 'QS_HC_Active'}) then {
-	missionNamespace setVariable ['QS_HC_Active',FALSE,FALSE];
-};
-if (isNil {missionNamespace getVariable 'QS_headlessClients'}) then {
-	missionNamespace setVariable ['QS_headlessClients',[],FALSE];
-};
-_____________________________________________________________________/*/
+____________________________________________/*/
 
 private _AIOwners = [2];
 if (missionNamespace getVariable ['QS_HC_Active',FALSE]) then {

@@ -19,7 +19,7 @@ if (_dmg > 10) then {
 };
 if ((_entity getVariable ['QS_entity_sumDmg',0]) >= (_entity getVariable ['QS_entity_reqDmg',1500])) then {
 	params ['','','','','','','_instigator',''];
-	_entity removeEventHandler ['HandleDamage',_thisEventHandler];
+	_entity removeEventHandler [_thisEvent,_thisEventHandler];
 	private _position = position _entity;
 	_position set [2,0];
 	_surfaceNormal = surfaceNormal _position;

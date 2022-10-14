@@ -46,7 +46,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isNot
 			private _turret = objNull;
 			{
 				_turret = _x;
-				['setOwner',_turret,clientOwner] remoteExec ['QS_fnc_remoteExecCmd',2,FALSE];
+				//['setOwner',_turret,clientOwner] remoteExec ['QS_fnc_remoteExecCmd',2,FALSE];		// setOwner is not the correct tool for this job. not deleting line incase there was a reason we did this before
 				['setGroupOwner',(group (gunner _turret)),clientOwner] remoteExec ['QS_fnc_remoteExecCmd',2,FALSE];
 				_turret addEventHandler [
 					'Fired',

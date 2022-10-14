@@ -84,7 +84,7 @@ _onCompleted = {
 		['QS_RD_loadable',TRUE,TRUE],
 		['QS_surrender_captor',[profileName,(getPlayerUID player)],TRUE]
 	];
-	_text = format ['%1 %3 %2',profileName,(mapGridPosition player),localize 'STR_QS_Chat_094'];
+	_text = format [localize 'STR_QS_Chat_094',profileName,(mapGridPosition player)];
 	['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	50 cutText [localize 'STR_QS_Text_154','PLAIN DOWN',0.75];
 };

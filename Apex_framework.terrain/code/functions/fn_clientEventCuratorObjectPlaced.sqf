@@ -47,7 +47,7 @@ if (_object isKindOf 'Man') exitWith {
 					_killer = _this # 1;
 					if (!isNull _killer) then {
 						if (isPlayer _killer) then {
-							_text = format ['%2 %1!',(name _killer),localize 'STR_QS_Chat_028'];
+							_text = format [localize 'STR_QS_Chat_028',(name _killer)];
 							['sideChat',[WEST,'HQ'],_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
 					};

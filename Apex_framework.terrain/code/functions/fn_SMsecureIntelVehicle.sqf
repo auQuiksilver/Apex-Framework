@@ -134,7 +134,7 @@ for '_x' from 0 to 2 step 1 do {
 	'FiredNear',
 	{
 		params ['_unit','_firer','_distance','_weapon','_muzzle','_mode','_ammo'];
-		_unit removeEventHandler ['FiredNear',_thisEventHandler];
+		_unit removeEventHandler [_thisEvent,_thisEventHandler];
 		missionNamespace setVariable ['QS_sm_enemyDetected',TRUE,FALSE];
 	}
 ];
