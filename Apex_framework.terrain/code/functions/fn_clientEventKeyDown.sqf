@@ -72,7 +72,6 @@ if (_key in (actionKeys 'PushToTalk')) then {
 					};
 				};
 			} else {
-			
 				if (
 					(currentChannel isEqualTo 7) &&
 					{(!(player getUnitTrait 'QS_trait_fighterPilot'))} &&

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/03/2018 A3 1.82 by Quiksilver
+	15/10/2022 A3 2.10 by Quiksilver
 	
 Description:
 	
@@ -229,28 +229,21 @@ _validBuildingTypes = [
 ];
 //comment 'Find position';
 private _idapScenePosition = [0,0,0];
-private _accepted = FALSE;
 private _allPlayers = allPlayers;
 _basePosition = markerPos 'QS_marker_base_marker';
-_baseRadius = [1000,500] select (worldName isEqualTo 'Tanoa');
+_baseRadius = [1500,750] select (worldName isEqualTo 'Tanoa');
 _fobPosition = markerPos 'QS_marker_module_fob';
-_fobRadius = 150;
-for '_x' from 0 to 1 step 0 do {
+_fobRadius = 300;
+for '_x' from 0 to 299 step 1 do {
 	_idapScenePosition = ['WORLD',-1,-1,'LAND',[10,-1,0.2,20,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if ((([(_idapScenePosition # 0),(_idapScenePosition # 1)] nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
-		if ((([(_idapScenePosition # 0),(_idapScenePosition # 1)] nearRoads 100) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isNotEqualTo []) then {
-			if ((_allPlayers inAreaArray [_idapScenePosition,300,300,0,FALSE]) isEqualTo []) then {
-				if (!([_idapScenePosition,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-					if ((_idapScenePosition distance2D _basePosition) > _baseRadius) then {
-						if ((_idapScenePosition distance2D _fobPosition) > _fobRadius) then {
-							_accepted = TRUE;
-						};
-					};
-				};
-			};
-		};
-	};
-	if (_accepted) exitWith {};
+	if (
+		((([(_idapScenePosition # 0),(_idapScenePosition # 1)] nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) &&
+		{((([(_idapScenePosition # 0),(_idapScenePosition # 1)] nearRoads 100) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isNotEqualTo [])} &&
+		{((_allPlayers inAreaArray [_idapScenePosition,300,300,0,FALSE]) isEqualTo [])} &&
+		{(!([_idapScenePosition,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))} &&
+		{((_idapScenePosition distance2D _basePosition) > _baseRadius)} &&
+		{((_idapScenePosition distance2D _fobPosition) > _fobRadius)}
+	) exitWith {};
 };
 //comment 'Spawn IDAP scene';
 //comment 'To do: 3 different scenes';

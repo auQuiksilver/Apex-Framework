@@ -1064,6 +1064,7 @@ private _uniformFix_list = [];
 _QS_module_dynSim = (missionNamespace getVariable ['QS_missionConfig_dynSim',1]) isEqualTo 1;
 _QS_module_dynSim_delay = 30;
 _QS_module_dynSim_checkDelay = _timeNow + _QS_module_dynSim_delay;
+private _QS_module_dynSim_checkDelay_2 = -1;
 {
 	(_x # 0) setDynamicSimulationDistance (_x # 1);
 } forEach [
@@ -4955,6 +4956,24 @@ for '_x' from 0 to 1 step 0 do {
 		};
 	};
 	
+	
+	if (_timeNow > _QS_module_dynSim_checkDelay_2) then {
+		_QS_module_dynSim_checkDelay_2 = _timeNow + 5;
+		{
+			if (
+				(_x isKindOf 'LandVehicle') ||
+				{(_x isKindOf 'StaticWeapon')} ||
+				{(_x isKindOf 'Reammobox_F')} ||
+				{(_x isKindOf 'Ship')}
+			) then {
+				if ((_x distance2D (_x getVariable ['QS_sim_pos',[-5000,-5000,0]])) > 100) then {
+					_x setVariable ['QS_sim_pos',getPosATL _x,_true];
+				};
+			};
+			sleep 0.01;
+		} forEach vehicles;
+	};
+
 	/*/===== Dynamic Tasks/*/
 	
 	if (_QS_module_emergentTasks) then {

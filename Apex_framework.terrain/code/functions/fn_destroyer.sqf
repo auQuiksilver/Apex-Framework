@@ -186,6 +186,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_prop allowDamage FALSE;
 			if ((toLowerANSI (_x # 0)) in ['land_destroyer_01_boat_rack_01_f']) then {
 				[_prop,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+				_prop enableSimulationGlobal TRUE;
 			};
 			if ((_x # 3) isNotEqualTo {}) then {
 				_prop call (_x # 3);

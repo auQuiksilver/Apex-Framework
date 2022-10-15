@@ -4803,7 +4803,7 @@ for 'x' from 0 to 1 step 0 do {
 					};
 				};
 				/*/AIRCRAFT/*/
-				if ((!(_QS_player getUnitTrait 'QS_trait_pilot')) && (!(_QS_player getUnitTrait 'uavhacker')) && (!(_QS_player getUnitTrait 'QS_trait_HQ')) && (!(_QS_player getUnitTrait 'QS_trait_fighterPilot')) && (!(_QS_player getUnitTrait 'QS_trait_CAS')) && (!(_QS_player getUnitTrait 'QS_trait_JTAC'))) then {
+				if ((['QS_trait_pilot','uavhacker','QS_trait_HQ','QS_trait_fighterPilot','QS_trait_CAS','QS_trait_JTAC'] findIf { _QS_player getUnitTrait _x }) isEqualTo -1) then {
 					if ([_atcMarkerPos,_tocMarkerPos] call _QS_module_radioChannelManager_checkState) then {
 						if (!(_QS_module_radioChannelManager_aircraftChannel in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 							[1,_QS_module_radioChannelManager_aircraftChannel] call _fn_clientRadio;
@@ -4817,21 +4817,20 @@ for 'x' from 0 to 1 step 0 do {
 				_QS_module_radioChannelManager_checkDelay = _timeNow + _QS_module_radioChannelManager_delay;
 			};
 		};
-		if ((getPlayerChannel _QS_player) in [0,1]) then {
-			if (!_QS_isAdmin) then {
-				setCurrentChannel 5;
-			};
+		if (
+			((getPlayerChannel _QS_player) in [0,1]) &&
+			{(!_QS_isAdmin)}
+		) then {
+			setCurrentChannel 5;
 		};
-		if (currentChannel isEqualTo 6) then {
-			if (!isNull (findDisplay 55)) then {
-				if (!_QS_isAdmin) then {
-					50 cutText [localize 'STR_QS_Text_032','PLAIN DOWN'];
-					setCurrentChannel 5;
-				};
-			};
+		if (
+			(currentChannel isEqualTo 6) &&
+			{(!isNull (findDisplay 55))} &&
+			{(!_QS_isAdmin)}
+		) then {
+			50 cutText [localize 'STR_QS_Text_032','PLAIN DOWN'];
+			setCurrentChannel 5;
 		};
-		
-		
 		if (
 			(isNull (uiNamespace getVariable ['QS_client_dialog_menu_roles',displayNull])) &&
 			{(currentChannel isEqualTo 7)} &&
@@ -4850,10 +4849,11 @@ for 'x' from 0 to 1 step 0 do {
 			50 cutText [localize 'STR_QS_Text_003','PLAIN DOWN'];
 			setCurrentChannel 5;
 		};
-		if (_QS_player getVariable ['QS_client_radioDisabled',_false]) then {
-			if ('ItemRadio' in (assignedItems _QS_player)) then {
-				_QS_player unassignItem 'ItemRadio'; 
-			};
+		if (
+			(_QS_player getVariable ['QS_client_radioDisabled',_false]) &&
+			{('ItemRadio' in (assignedItems _QS_player))}
+		) then {
+			_QS_player unassignItem 'ItemRadio'; 
 		};
 	};
 	
@@ -4861,7 +4861,6 @@ for 'x' from 0 to 1 step 0 do {
 
 	if (_QS_module_swayManager) then {
 		if (_QS_uiTime > _QS_module_swayManager_checkDelay) then {
-			// 1 - Get current sway
 			_QS_module_swayManager_managed = _false;
 			_QS_customAimCoef = getCustomAimCoef _QS_player;
 			_QS_recoilCoef = unitRecoilCoefficient _QS_player;

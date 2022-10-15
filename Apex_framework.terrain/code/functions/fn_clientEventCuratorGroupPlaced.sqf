@@ -26,7 +26,7 @@ _group addEventHandler [
 	{
 		params ['_group','_waypointIndex'];
 		if ((waypointPosition [_group,_waypointIndex + 1]) isNotEqualTo [0,0,0]) then {
-			_group setFormDir (waypointPosition [_group,_waypointIndex + 1]);
+			_group setFormDir ((leader _group) getDir (waypointPosition [_group,_waypointIndex + 1]));
 		};
 	}
 ];

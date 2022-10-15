@@ -2,17 +2,14 @@ Official Change Log
 
 1.3.3 - In Development
 
+- [TWEAKED] Clientside Dynamic Simulation system improvements.
+- [TWEAKED] Parameter option for Time Acceleration.
 - [TWEAKED] Dynamic Weapon Sway module re-factor.
 - [TWEAKED] (Classic) Defend mission HQ flag should behave correctly.
 - [TWEAKED] Some code cleanup in various files.
 - [FIXED] BuildingChanged event was executing twice.
 - [FIXED] Some language translation bugs.
-
-	To Do:
-
-		- Parameter option for Time Acceleration handling.
-		- IDAP mission can spawn near main base
-		- Client Simulation Manager, improve with variable-based vehicle position tracking.
+- [FIXED] IDAP side mission should not spawn so close to base.
 
 1.3.2 (14/09/2022 A3 2.10)
 

@@ -574,7 +574,7 @@ if ((uniform player) isNotEqualTo '') then {
 };
 0 spawn (missionNamespace getVariable 'QS_fnc_clientDiary');
 0 spawn (missionNamespace getVariable 'QS_fnc_icons');
-[] call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
+call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
 enableDynamicSimulationSystem FALSE;
 disableRemoteSensors TRUE;
 calculatePlayerVisibilityByFriendly FALSE;
@@ -602,7 +602,7 @@ if (missionProfileNamespace getVariable ['QS_options_dynSim',FALSE]) then {
 		FALSE
 	];
 };
-0 fadeSpeech 1;	/*/for notifications/*/
+0 fadeSpeech 1;
 enableSentences FALSE;
 showSubtitles FALSE;
 enableSaving [FALSE,FALSE];

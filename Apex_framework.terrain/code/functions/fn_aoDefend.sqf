@@ -538,7 +538,7 @@ for '_x' from 0 to 1 step 0 do {
 					clearWeaponCargoGlobal _uav;
 					clearItemCargoGlobal _uav;
 					clearBackpackCargoGlobal _uav;
-					_uav setVariable ['QS_uav_protected',TRUE,(!isServer)];
+					_uav setVariable ['QS_uav_protected',TRUE,FALSE];
 					['setFeatureType',_uav,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_uav];
 					0 = _uavArray pushBack _uav;
 					0 = _allArray pushBack _uav;
@@ -986,7 +986,7 @@ for '_x' from 0 to 1 step 0 do {
 					_vParaType = selectRandom _vParaTypes;
 					_vParaV = createVehicle [_vParaType,[0,0,(100 + (random 1000))],[],0,'NONE'];
 					0 = _allArray pushBack _vParaV;
-					_vParaV setVariable ['QS_uav_protected',TRUE,(!isServer)];
+					_vParaV setVariable ['QS_uav_protected',TRUE,FALSE];
 					_vParaV setPos _spawnPos;
 					_vParaV enableRopeAttach FALSE;
 					_vParaV enableVehicleCargo FALSE;
