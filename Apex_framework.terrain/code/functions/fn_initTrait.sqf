@@ -55,6 +55,7 @@ if (_trait isEqualTo 'QS_trait_pilot') then {
 	};
 };
 if (_trait isEqualTo 'QS_trait_JTAC') then {
+	player setVehicleReportRemoteTargets _traitValue;
 	if (_traitValue) then {
 		if (!(2 in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 			[1,2] call (missionNamespace getVariable 'QS_fnc_clientRadio');

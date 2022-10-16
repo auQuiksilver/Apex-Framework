@@ -46,6 +46,7 @@ if (isForcedWalk player) then {
 	['NextAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUINextAction');"],
 	['PrevAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIPrevAction');"]
 ];
+player setVehicleReportRemoteTargets (player getUnitTrait 'QS_trait_JTAC');
 disableRemoteSensors TRUE;
 if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 1) then {
 	player enableStamina TRUE;

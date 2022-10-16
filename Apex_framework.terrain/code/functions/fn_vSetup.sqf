@@ -597,7 +597,10 @@ if (!(_isSimpleObject)) then {
 			];
 		};
 	};
-	_u setVehicleReportRemoteTargets ((_u isKindOf 'i_lt_01_scout_f') || (_t2 in ['b_radar_system_01_f','o_radar_system_02_f']));
+	if (!(_u isKindOf 'Air')) then {
+		_u setVehicleReportRemoteTargets TRUE;
+	};
+	//_u setVehicleReportRemoteTargets ((_u isKindOf 'i_lt_01_scout_f') || (_t2 in ['b_radar_system_01_f','o_radar_system_02_f']));
 	if (_u isKindOf 'Air') then {
 		_u setVehicleReceiveRemoteTargets TRUE;
 		_u setVehicleReportOwnPosition TRUE;
