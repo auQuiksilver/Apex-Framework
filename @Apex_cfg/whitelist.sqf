@@ -19,7 +19,6 @@ Comment:
 	For staff IDs, ensure ID is in only one list. For instance, either moderator, admin or developer, but not all of them together.
 	
 	They DO all have to be in the 'ALL' list though.
-	
 __________________________________________________________________________/*/
 
 _type = param [0,''];

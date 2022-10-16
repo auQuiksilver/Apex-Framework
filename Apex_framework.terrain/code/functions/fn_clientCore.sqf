@@ -1050,9 +1050,6 @@ _QS_recoilCoef = unitRecoilCoefficient player;
 private _QS_module_swayManager_managed = FALSE;
 _QS_recommendedAimCoef = ((_QS_player getVariable ['QS_stamina',[0,1]]) # 1);
 _QS_recommendedRecoil = 1;
-
-
-
 /*/===== Task Manager module/*/
 _QS_module_taskManager = TRUE;
 _QS_module_taskManager_delay = 15;
@@ -1670,6 +1667,20 @@ _QS_module_commMenu_checkDelay = _QS_uiTime + _QS_module_commMenu_delay;
 _QS_module_playerInArea = TRUE;
 _QS_module_playerInArea_delay = 10;
 _QS_module_playerInArea_checkDelay = _QS_uiTime + _QS_module_playerInArea_delay;
+// This fixes an Arma bug related to spawning of Destroyer ship boat racks.
+// "BIS_fnc_BoatRack01InitAdjustZOffsets" gets stuck in an infinite waitUntil loop.
+if ((allMissionObjects 'land_destroyer_01_boat_rack_01_f') isNotEqualTo []) then {
+	0 spawn {
+		sleep 1;
+		private _simDisabled = (allMissionObjects 'land_destroyer_01_boat_rack_01_f') select {!simulationEnabled _x};
+		{
+			_x enableSimulation TRUE;
+			sleep 3;	// enough time for animations to complete
+			_x enableSimulation FALSE;
+		} forEach _simDisabled;
+		_simDisabled = nil;
+	};
+};
 /*/===== Managed Hints/*/
 _hintsQueue = [];
 _hintDelay = 1;

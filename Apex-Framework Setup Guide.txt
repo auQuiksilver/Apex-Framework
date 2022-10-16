@@ -1,4 +1,4 @@
-Apex Framework 1.3.2 (14/09/2022) by Quiksilver ( armacombatgroup@gmail.com )
+Apex Framework 1.3.3 (17/10/2022) by Quiksilver ( armacombatgroup@gmail.com )
 
 Support
 
@@ -13,7 +13,7 @@ Apex Framework step-by-step setup guide:
 Setup time: 60 minutes.
 Server must be a Dedicated server. Not configured for local client hosting.
 Server must be running Windows x64, or Linux.
-Download the "Apex_framework_132_allFiles.zip" file.
+Download the "Apex_framework_133_allFiles.zip" file.
 Place mission PBO files in your servers MPMissions folder.
 2a. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
@@ -33,13 +33,13 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_132.Altis";
+template="Apex_framework_133.Altis";
 
-//template="Apex_framework_132.Tanoa";
+//template="Apex_framework_133.Tanoa";
 
-//template="Apex_framework_132.Malden";
+//template="Apex_framework_133.Malden";
 
-//template="Apex_framework_132.Enoch";
+//template="Apex_framework_133.Enoch";
 
 difficulty="Custom";
 
@@ -49,7 +49,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_132.Altis","Apex_framework_132.Tanoa","Apex_framework_132.Malden","Apex_framework_132.Enoch"};
+missionWhitelist[] = {"Apex_framework_133.Altis","Apex_framework_133.Tanoa","Apex_framework_133.Malden","Apex_framework_133.Enoch"};
 
 6b. Ensure that: forcedDifficulty = "Custom";
 

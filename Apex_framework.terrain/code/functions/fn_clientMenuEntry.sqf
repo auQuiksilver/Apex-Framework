@@ -28,7 +28,7 @@ if (_type isEqualTo 'onLoad') then {
 		<br/><t size="1">%12 - %13<br/>%14 - %15
 		<br/>[4] - %16<br/>[L.Ctrl]+[%17] - %18<br/>[V] - %19
 		<br/>[U] - %20<br/>[J]x2 - %21</t>',
-		worldName,
+		(missionNamespace getVariable ['QS_terrain_worldName',worldName]),
 		(missionNamespace getVariable ['QS_missionConfig_commTS','']),
 		(missionNamespace getVariable ['QS_missionConfig_splash_serverRules','']),
 		(missionNamespace getVariable ['QS_missionConfig_splash_adminNames','']),

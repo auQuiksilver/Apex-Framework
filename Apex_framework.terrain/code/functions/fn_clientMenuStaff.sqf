@@ -312,14 +312,14 @@ if (_type2 isEqualType 0) exitWith {
 		};
 	};
 	if (_type2 isEqualTo 15) then {
-		_result = [localize 'STR_QS_Menu_128',(format ['%1 %2',worldName,localize 'STR_QS_Menu_129']),localize 'STR_QS_Menu_127',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');	
+		_result = [localize 'STR_QS_Menu_128',(format ['%1 %2',(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Menu_129']),localize 'STR_QS_Menu_127',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');	
 		if (_result) then {	
 			playSound 'ClickSoft';
 			[54] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,localize 'STR_QS_Hints_069',[],(serverTime + 6)];
-			_hintText = format ['%1 %2',worldName,localize 'STR_QS_Hints_071'];
+			_hintText = format ['%1 %2',(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Hints_071'];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,_hintText,[],(serverTime + 20)];
-			_text = format ['%1 %3 %2 %4',profileName,worldName,localize 'STR_QS_Hints_072',localize 'STR_QS_Hints_073'];
+			_text = format ['%1 %3 %2 %4',profileName,(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Hints_072',localize 'STR_QS_Hints_073'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};

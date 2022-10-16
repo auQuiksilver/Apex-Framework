@@ -1,6 +1,6 @@
-* If you are trying to add things in editor to the default base, you need to add the below line to the init field to prevent them being deleted on mission start:
+* If you are trying to add things in editor to the default base, you need to add the below line to the object init field to prevent them being deleted on mission start:
 
-this setvariable ["QS_missionObject_protected",true];
+	this setvariable ["QS_missionObject_protected",true];
 
 1. Check out the map in the editor when using the custom base mission.SQM files. There are map markers that should not be deleted, as they are used within the framework for various functionality.
 

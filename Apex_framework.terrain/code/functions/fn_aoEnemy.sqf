@@ -129,6 +129,7 @@ private _nearForestPosition = [0,0,0];
 private _forestPositionIndex = -1;
 private _patrolGroup = grpNull;
 private _bestPlaces = [];
+_registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
 for '_x' from 0 to (_grpCount - 1) step 1 do {
 	if ((random 1) > 0.5) then {
 		_bestPlaces = [];
@@ -172,7 +173,7 @@ for '_x' from 0 to (_grpCount - 1) step 1 do {
 diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning static weapons *****';
 diag_log '****************************************************';
-
+_registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
 private _usedSettlementPosition = FALSE;
 private _dir = 0;
 private _building = objNull;
@@ -201,7 +202,7 @@ if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
 	};
 };
 if (!_usedSettlementPosition) then {
-	for '_x' from 0 to 49 step 1 do {
+	for '_x' from 0 to 99 step 1 do {
 		_randomPos = ['RADIUS',_centerPos,(_aoSize * 0.85),'LAND',[5,0,0.3,5,0,FALSE,objNull],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 		if (
 			((_registeredPositions inAreaArray [_randomPos,100,100,0,FALSE]) isEqualTo []) && 
@@ -353,7 +354,7 @@ _towerGrp setCombatMode 'RED';
 _towerGrp setBehaviourStrong 'COMBAT';
 _towerGrp setCombatBehaviour 'COMBAT';
 _towerGrp enableAttack TRUE;
-
+_registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
 /*/=============================================================== INFANTRY OVERWATCH/*/
 
 diag_log '****************************************************';

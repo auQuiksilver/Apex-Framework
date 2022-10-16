@@ -42,7 +42,7 @@ __________________________________________________________/*/
 if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'GRID') then {
 	_description = format [
 		'%2<br/><br/>%3 %1.<br/><br/>%4<br/><br/>%5 %1.',
-		worldName,
+		(missionNamespace getVariable ['QS_terrain_worldName',worldName]),
 		localize 'STR_QS_Diary_014',
 		localize 'STR_QS_Diary_015',
 		localize 'STR_QS_Diary_016',
@@ -51,7 +51,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'GRI
 	player createDiaryRecord [
 		'Diary',
 		[
-			(format ['%1 %2',worldName,localize 'STR_QS_Diary_013']),
+			(format ['%1 %2',(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Diary_013']),
 			_description
 		]
 	];
@@ -128,7 +128,7 @@ player createDiaryRecord [
 	'QS_diary_fobs',
 	[
 		localize 'STR_QS_Diary_049',
-		(format ['%2 %1.<br/><br/>%3',worldName,localize 'STR_QS_Diary_050',localize 'STR_QS_Diary_051'])
+		(format ['%2 %1.<br/><br/>%3',(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Diary_050',localize 'STR_QS_Diary_051'])
 	]
 ];
 

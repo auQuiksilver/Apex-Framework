@@ -37,8 +37,6 @@ _false = FALSE;
 	['QS_client_dynSim_hideEntity',_true,_false],
 	['QS_client_dynSim_hideEntity_dist',[1500,1000] select (worldName in ['Tanoa','Stratis']),_false]
 ];
-//private _managedEntities = [];
-QS_managedEntities = [];
 private _tickTime = diag_tickTime;
 private _positionCamera = getPosWorld player;
 private _objectParent = objectParent player;
@@ -80,9 +78,6 @@ _eventKilled = {
 		(!simulationEnabled _entity) ||
 		(isObjectHidden _entity)
 	) then {
-		if (_entity in QS_managedEntities) then {
-			QS_managedEntities deleteAt (QS_managedEntities find _entity);
-		};
 		_entity setVariable ['QS_sim_entityManaged',FALSE,FALSE];
 		_entity enableSimulation TRUE;
 		if (missionNamespace getVariable ['QS_client_dynSim_hideEntity',FALSE]) then {
@@ -105,9 +100,6 @@ _eventLocal = {
 			(!simulationEnabled _entity) ||
 			(isObjectHidden _entity)
 		) then {
-			if (_entity in QS_managedEntities) then {
-				QS_managedEntities deleteAt (QS_managedEntities find _entity);
-			};
 			_entity setVariable ['QS_sim_entityManaged',FALSE,FALSE];
 			_entity enableSimulation TRUE;
 			if (missionNamespace getVariable ['QS_client_dynSim_hideEntity',FALSE]) then {
@@ -130,9 +122,6 @@ _eventExplosion = {
 		(!simulationEnabled _entity) ||
 		(isObjectHidden _entity)
 	) then {
-		if (_entity in QS_managedEntities) then {
-			QS_managedEntities deleteAt (QS_managedEntities find _entity);
-		};
 		_entity setVariable ['QS_sim_entityManaged',FALSE,FALSE];
 		_entity enableSimulation TRUE;
 		if (missionNamespace getVariable ['QS_client_dynSim_hideEntity',FALSE]) then {
@@ -154,9 +143,6 @@ _eventGetIn = {
 		(!simulationEnabled _entity) ||
 		(isObjectHidden _entity)
 	) then {
-		if (_entity in QS_managedEntities) then {
-			QS_managedEntities deleteAt (QS_managedEntities find _entity);
-		};
 		_entity setVariable ['QS_sim_entityManaged',FALSE,FALSE];
 		_entity enableSimulation TRUE;
 		if (missionNamespace getVariable ['QS_client_dynSim_hideEntity',FALSE]) then {
@@ -178,9 +164,6 @@ _eventDammaged = {
 		(!simulationEnabled _entity) ||
 		(isObjectHidden _entity)
 	) then {
-		if (_entity in QS_managedEntities) then {
-			QS_managedEntities deleteAt (QS_managedEntities find _entity);
-		};
 		_entity setVariable ['QS_sim_entityManaged',FALSE,FALSE];
 		_entity enableSimulation TRUE;
 		if (missionNamespace getVariable ['QS_client_dynSim_hideEntity',FALSE]) then {
@@ -249,9 +232,6 @@ for '_i' from 0 to 1 step 0 do {
 						if (local _entity) then {
 							if (!(simulationEnabled _entity)) then {
 								_entity setVariable ['QS_sim_entityManaged',_false,_false];
-								if (_entity in QS_managedEntities) then {
-									QS_managedEntities deleteAt (QS_managedEntities find _entity);
-								};
 								_entity enableSimulation _true;
 							};
 							if (
@@ -313,7 +293,6 @@ for '_i' from 0 to 1 step 0 do {
 										_entity setVariable ['QS_sim_EHs',_entityEHs,_false];
 									};
 									_entity setVariable ['QS_sim_entityManaged',_true,_false];
-									QS_managedEntities pushBackUnique _entity;
 									_entity enableSimulation _false;
 									if (
 										(_disable_hideEntity) &&
@@ -335,9 +314,6 @@ for '_i' from 0 to 1 step 0 do {
 										_entity setVariable ['QS_sim_EHs',[],_false];
 									};
 									_entity setVariable ['QS_sim_entityManaged',_false,_false];
-									if (_entity in QS_managedEntities) then {
-										QS_managedEntities deleteAt (QS_managedEntities find _entity);
-									};
 									_entity enableSimulation _true;
 									if (
 										_disable_hideEntity &&
@@ -379,9 +355,6 @@ for '_i' from 0 to 1 step 0 do {
 					_entity setVariable ['QS_sim_EHs',[],_false];
 				};
 				_entity setVariable ['QS_sim_entityManaged',_false,_false];
-				if (_entity in QS_managedEntities) then {
-					QS_managedEntities deleteAt (QS_managedEntities find _entity);
-				};
 				_entity enableSimulation _true;
 				if (_disable_hideEntity) then {
 					if (isObjectHidden _entity) then {
@@ -413,9 +386,6 @@ for '_i' from 0 to 1 step 0 do {
 					_entity setVariable ['QS_sim_EHs',[],_false];
 				};
 				_entity setVariable ['QS_sim_entityManaged',_false,_false];
-				if (_entity in QS_managedEntities) then {
-					QS_managedEntities deleteAt (QS_managedEntities find _entity);
-				};
 				_entity enableSimulation _true;
 				if (_disable_hideEntity) then {
 					if (isObjectHidden _entity) then {

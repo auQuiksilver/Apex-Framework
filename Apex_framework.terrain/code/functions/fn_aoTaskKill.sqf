@@ -110,7 +110,7 @@ if ((random 1) > 0.333) then {
 	_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 };
 _taskPosition = _testPosition getPos [(50 + (random 100)),(random 360)];
-_description = format ['Kill sniper.<br/><br/>IDAP aid workers operating in this part of %1 are being harassed and fired at by a sniper. Move in and neutralize the threat.<br/><br/>This task will expire in 20 minutes.<br/><br/>This task is not accurately marked.',_worldName];
+_description = format ['Kill sniper.<br/><br/>IDAP aid workers operating in this part of %1 are being harassed and fired at by a sniper. Move in and neutralize the threat.<br/><br/>This task will expire in 20 minutes.<br/><br/>This task is not accurately marked.',(missionNamespace getVariable ['QS_terrain_worldName',_worldName])];
 _taskType = 'kill';
 _taskID = format ['QS_DYNTASK_%1_%2',_taskType,(round (random 10000))];
 _taskTimeout = diag_tickTime + 1200;

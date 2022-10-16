@@ -24,7 +24,7 @@ ____________________________________________________________________________/*/
 
 params ['_type'];
 if (_type isEqualTo 'RESET') exitWith {
-	diag_log format ['***** GRID RESETTING - %1 *****',worldName];
+	diag_log format ['***** GRID RESETTING - %1 *****',(missionNamespace getVariable ['QS_terrain_worldName',worldName])];
 	missionProfileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
 	saveMissionProfileNamespace;
 };

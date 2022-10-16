@@ -6,13 +6,14 @@ Author:
 	
 Last Modified:
 
-	6/08/2022 A3 2.10 by Quiksilver
+	17/10/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Common pre-init
 _______________________________________________/*/
 
+missionNamespace setVariable ['QS_terrain_worldName',(getText (configFile >> 'CfgWorlds' >> worldName >> 'description')),FALSE];
 private _environment = 'mediterranean';
 if (worldName in ['Tanoa','Lingor3']) then {
 	_environment = 'tropic';

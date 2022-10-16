@@ -78,18 +78,23 @@ _playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (
 _ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
 _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
-_hitMarker_audio = 0;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
+_hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
 _craters = 24;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
-_groupLocking = 0;										// Group Lock-ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create.
+_groupLocking = 1;										// Group Lock-ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create. Note: Admins can join any group regardless of Locked state.
 _groupWaypoint = 1;										// Group Map Waypoint. 0 - Disabled. 1 - Enabled (default).		Can players see their group leaders [Shift+Click] dot on the map.
 _enemyUrbanSpawning = 1;								// (BETA) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
 
 //===================================================== SYSTEM
 
 _role_selection_menu_button = 0;						// Role Selection Menu Button. 	Enables a button in the Escape Menu to access the Role Selection Menu.	0 - Disabled. 1 - Enabled. Default - 0.		Use this option to allow any player to change their role from any map location. If this value is 0, the only way to access the menu after login is via Arsenal crates user action. Recommend 0 for standard gamemodes to avoid exploitation.
-_restart_hours = [0,10,16];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_restart_hours = [0,10,21];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
 _restart_dynamic = 1;									// Dynamic Server Restarts. 0 - Disabled. 1 - Enabled. If enabled, Server will wait for mission conditions to be met before restarting. This option is currently only used for Defend missions.
 _dynamic_simulation = 1;								// Dynamic Simulation. 	0 - Disabled. 1 - Enabled. 	Raises FPS and performance slightly. Server freezes entities which are far away from all players.    Info: https://community.bistudio.com/wiki/Arma_3_Dynamic_Simulation
+_timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-time.
+	12,													// Night/dark time acceleration multiplier. Default - 12.
+	1.5,												// Noon/mid-day time acceleration multiplier. Default - 1.5.
+	0.35												// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
+];
 
 //===================================================== HEADLESS CLIENT
 
@@ -121,13 +126,13 @@ _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Defaul
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
 _aircraft_carrier_enabled = 0;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
-_aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. -2  Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
+_aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
 _aircraft_carrier_respawning = 0;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
 // Destroyer
 _destroyer_enabled = 0;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
 _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
-_destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
+_destroyer_artillery = 0;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
 _destroyer_flag = 'a3\data_f\flags\flag_us_co.paa';			// Texture applied to Destroyer flag. Default:  'a3\data_f\flags\flag_us_co.paa'
 _destroyer_name = 'a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa';		// Name presented on stern of ship. Comes with 7 defaults, just change ..._tag_01_co... to _tag_02_co... etc, from 01 to 07, 00 is blank. You can also set as a custom texture/name/logo.
 _destroyer_numbers = [4,2,0];								// Numbers shown on the ship hull.
@@ -215,6 +220,7 @@ if (
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_restartDynamic',_restart_dynamic,FALSE],
 	['QS_missionConfig_dynSim',_dynamic_simulation,FALSE],
+	['QS_missionConfig_timeMultiplier',_timeMultiplier,FALSE],
 	['QS_missionConfig_hcMaxLoad',[_hc_maxLoad_1,_hc_maxLoad_2,_hc_maxLoad_3,_hc_maxLoad_4],TRUE],
 	['QS_missionConfig_hcMaxAgents',[_hc_maxAgents_1,_hc_maxAgents_2,_hc_maxAgents_3,_hc_maxAgents_4],TRUE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],

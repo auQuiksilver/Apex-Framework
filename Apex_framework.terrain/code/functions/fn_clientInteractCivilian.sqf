@@ -79,7 +79,7 @@ if (_QS_responseNeutrality isEqualTo -1) then {
 		if ((random 1) > 0.5) then {
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,10,-1,localize 'STR_QS_Hints_029',[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 		} else {
-			_text = format ['%1 %3 %2.',name _t,worldName,localize 'STR_QS_Hints_030'];
+			_text = format ['%1 %3 %2.',name _t,(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Hints_030'];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,7.5,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 		};
 	} else {

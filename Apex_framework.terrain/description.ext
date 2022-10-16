@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	14/09/2022 A3 2.10 by Quiksilver
+	17/10/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,7 +14,7 @@ Description:
 ____________________________________________/*/
 
 missionProductVersion = "1.3.3";
-missionProductStatus = "Dev";											// "Stable" // "Dev"
+missionProductStatus = "Stable";											// "Stable" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -59,15 +59,15 @@ allowProfileGlasses = 0;								// When set to 0 will stop glasses set in player
 overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom handling.
 unsafeCVL=1;											// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
 
-ReviveMode = 0;						// Apex Framework Notes: Keep this as 0.																	//0: disabled, 1: enabled, 2: controlled by player attributes
-ReviveUnconsciousStateMode = 0;		// Apex Framework Notes: Not used																			//0: basic, 1: advanced, 2: realistic
-ReviveRequiredTrait = 1;			// Apex Framework Notes: If set as 0, any role can revive													//0: none, 1: medic trait is required
-ReviveRequiredItems = 2;			// Apex Framework Notes: If set as 0, no items required. If 1, medikit. If 2, medikit + first aid kit.	 	//0: none, 1: medkit, 2: medkit or first aid kit
-ReviveRequiredItemsFakConsumed = 1;	// Apex Framework Notes: If set as 0, First Aid Kit not used on revive. If 1, First Aid Kit consumed.		//0: first aid kit is not consumed upon revive, 1: first aid kit is consumed
-ReviveDelay = 6;					// Apex Framework Notes: Not used (we link to animation speed instead)										//time needed to revive someone (in secs)
-ReviveMedicSpeedMultiplier = 2;		// Apex Framework Notes: Not used																			//speed multiplier for revive performed by medic
-ReviveForceRespawnDelay = 3;		// Apex Framework Notes: Not used																			//time needed to perform force respawn (in secs)
-ReviveBleedOutDelay = 600;			// Apex Framework Notes: General bleedout time. default: 600 seconds (10 minutes)							//unconscious state duration (in secs)
+ReviveMode = 0;											// Apex Framework Notes: Keep this as 0.																	//0: disabled, 1: enabled, 2: controlled by player attributes
+ReviveUnconsciousStateMode = 0;							// Apex Framework Notes: Not used																			//0: basic, 1: advanced, 2: realistic
+ReviveRequiredTrait = 1;								// Apex Framework Notes: If set as 0, any role can revive													//0: none, 1: medic trait is required
+ReviveRequiredItems = 2;								// Apex Framework Notes: If set as 0, no items required. If 1, medikit. If 2, medikit + first aid kit.	 	//0: none, 1: medkit, 2: medkit or first aid kit
+ReviveRequiredItemsFakConsumed = 1;						// Apex Framework Notes: If set as 0, First Aid Kit not used on revive. If 1, First Aid Kit consumed.		//0: first aid kit is not consumed upon revive, 1: first aid kit is consumed
+ReviveDelay = 6;										// Apex Framework Notes: Not used (we link to animation speed instead)										//time needed to revive someone (in secs)
+ReviveMedicSpeedMultiplier = 2;							// Apex Framework Notes: Not used																			//speed multiplier for revive performed by medic
+ReviveForceRespawnDelay = 3;							// Apex Framework Notes: Not used																			//time needed to perform force respawn (in secs)
+ReviveBleedOutDelay = 600;								// Apex Framework Notes: General bleedout time. default: 600 seconds (10 minutes)							//unconscious state duration (in secs)
 
 respawn = 3;											/*/ 0 = none. 1 = bird. 2 = instant where died. 3 = base or respawn_west marker. 4 = respawn with team, or bird. 5 = into AI or bird./*/
 respawnDelay = 5;										/*/ Delay prior to respawn/*/

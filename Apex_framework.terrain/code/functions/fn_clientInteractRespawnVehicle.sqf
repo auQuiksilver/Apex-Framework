@@ -60,7 +60,7 @@ if (_result) then {
 		};
 		if ((_t distance (markerPos 'QS_marker_base_marker')) > 1000) then {
 			[46,[player,2]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			['ScoreBonus',[(format ['%2 %1',worldName,localize 'STR_QS_Notif_041']),'2']] call (missionNamespace getVariable 'QS_fnc_showNotification');	
+			['ScoreBonus',[(format ['%2 %1',(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Notif_041']),'2']] call (missionNamespace getVariable 'QS_fnc_showNotification');	
 		};
 		[17,_t] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
