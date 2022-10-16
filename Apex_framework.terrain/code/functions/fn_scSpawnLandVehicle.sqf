@@ -135,7 +135,7 @@ _vehicle setPos _randomRoadPosition;
 _grp addVehicle _vehicle;
 [_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 [(units _grp),(selectRandom [1,2])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-_vehicle setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+_vehicle setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 _vehicle enableDynamicSimulation FALSE;
 _vehicle limitSpeed (random [30,35,45]);
 _grp addVehicle _vehicle;

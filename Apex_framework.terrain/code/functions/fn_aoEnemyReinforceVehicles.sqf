@@ -80,7 +80,7 @@ if (_roadRoadValid isEqualTo [0,0,0]) then {
 private _reinforceGroup = createGroup [EAST,TRUE];
 _vType = selectRandomWeighted ([0] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
 _v = createVehicle [_vType,_roadRoadValid,[],0,'NONE'];
-_v setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+_v setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 _v allowCrewInImmobile [TRUE,TRUE];
 _v setUnloadInCombat [TRUE,FALSE];
 _v enableRopeAttach FALSE;

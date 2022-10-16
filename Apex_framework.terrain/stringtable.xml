@@ -698,7 +698,7 @@ _____________________________________________________________-->
             <Chinese>航點同步的冷卻（5秒）</Chinese>
         </Key>
         <Key ID="STR_QS_Text_012">
-            <Original>GPS Offline</Original>
+            <Original>GPS Signal Lost</Original>
             <Chinesesimp>GPS离线</Chinesesimp>
             <Chinese>GPS離線</Chinese>
         </Key>
@@ -1977,6 +1977,24 @@ _____________________________________________________________-->
             <Chinesesimp>分钟</Chinesesimp>
             <Chinese>分鐘</Chinese>
         </Key>
+        <Key ID="STR_QS_Text_268">
+            <Original>Nearest medic is %1 (%2m)</Original>
+        </Key>
+        <Key ID="STR_QS_Text_269">
+            <Original>No medics within %1m</Original>
+        </Key>
+        <Key ID="STR_QS_Text_270">
+            <Original>Bleeding out</Original>
+        </Key>
+        <Key ID="STR_QS_Text_271">
+            <Original>to respawn</Original>
+        </Key>
+        <Key ID="STR_QS_Text_272">
+            <Original>INCAPACITATED</Original>
+        </Key>
+        <Key ID="STR_QS_Text_273">
+            <Original>AUTO</Original>
+        </Key>		
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -7192,6 +7210,11 @@ _____________________________________________________________-->
             <Original>Kyiv</Original>
             <Chinesesimp>基辅</Chinesesimp>
             <Chinese>基輔</Chinese>
+        </Key>
+        <Key ID="STR_QS_Utility_027">
+            <Original>Dynamic Simulation shutting down</Original>
+            <Chinesesimp>Dynamic Simulation shutting down</Chinesesimp>
+            <Chinese>Dynamic Simulation shutting down</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_dialogs">

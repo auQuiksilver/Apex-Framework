@@ -37,7 +37,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 	_map = param [0];
 	_grp = group _player;
 	_000 = positionCameraToWorld [0,0,0];
-	_001 = _000 vectorAdd [0,1,0]; //positionCameraToWorld [0,0,1];
+	_001 = positionCameraToWorld [0,0,1];
 	_viewVector = ((_001 # 0) - (_000 # 0)) atan2 ((_001 # 1) - (_000 # 1));
 	_viewVector2 = -_viewVector;
 	_lc2 = [68,65];
@@ -45,7 +45,10 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 	if ((toLowerANSI (ctrlText ((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1002))) isNotEqualTo 'media\images\icons\squadback.paa') then {
 		((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1002) ctrlSetText 'media\images\icons\squadback.paa';
 	};
-	if ('ItemCompass' in (assignedItems _player)) then {
+	if (
+		('ItemCompass' in (assignedItems _player)) &&
+		(!(missionNamespace getVariable ['QS_module_gpsJammer_inArea',FALSE]))
+	) then {
 		if ((toLowerANSI (ctrlText ((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1003))) isNotEqualTo 'media\images\icons\squadradarcompassbackgroundtexture_ca.paa') then {
 			((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1003) ctrlSetText 'media\images\icons\SquadRadarCompassBackgroundTexture_ca.paa';
 		};

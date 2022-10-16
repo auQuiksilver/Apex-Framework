@@ -25,7 +25,7 @@ _player = player;
 if ((!((lifeState _player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 49))} || {(!isNull curatorCamera)}) exitWith {};
 _cameraOn = cameraOn;
 if ('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
-	if ([0,_cameraOn] call (missionNamespace getVariable 'QS_fnc_gpsJammer')) then {
+	if (missionNamespace getVariable ['QS_module_gpsJammer_inArea',FALSE]) then {
 		50 cutText [localize 'STR_QS_Text_012','PLAIN DOWN',0.5];
 		openGPS FALSE;
 		openGPS FALSE;

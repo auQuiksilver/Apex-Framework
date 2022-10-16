@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/09/2022 A3 2.10 by Quiksilver
+	15/10/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -106,7 +106,7 @@ private [
 	'_isAltis','_isTanoa','_QS_carrierEnabled','_array','_QS_action_camonetArmor','_QS_action_camonetArmor_textA','_QS_action_camonetArmor_textB','_QS_action_camonetArmor_array',
 	'_QS_interaction_camonetArmor','_QS_action_camonetArmor_anims','_QS_action_camonetArmor_vAnims','_animationSources','_animationSource','_QS_module_highCommand','_QS_module_highCommand_delay',
 	'_QS_module_highCommand_checkDelay','_QS_module_highCommand_waypoints','_civSide','_QS_module_gpsJammer','_QS_module_gpsJammer_delay','_QS_module_gpsJammer_checkDelay','_QS_module_gpsJammer_signalDelay',
-	'_QS_module_gpsJammer_signalCheck','_QS_module_gpsJammer_ctrlPlayer','_QS_module_gpsJammer_inArea','_isNearRepairDepot','_isNearRepairDepot2','_uavNearRepairDepot','_viewDistance_target','_objectViewDistance_target',
+	'_QS_module_gpsJammer_signalCheck','_QS_module_gpsJammer_ctrlPlayer','_isNearRepairDepot','_isNearRepairDepot2','_uavNearRepairDepot','_viewDistance_target','_objectViewDistance_target',
 	'_shadowDistance_target','_terrainGrid_target','_deltaVD_script','_fadeView','_arsenalType','_noObjectParent','_parsedText','_QS_module_opsec_hints','_ahHintText','_ahHintList',
 	'_QS_destroyerEnabled','_lifeState','_QS_action_RSS','_QS_action_RSS_text','_QS_action_RSS_array','_QS_interaction_RSS','_QS_module_swayManager_managed'
 ];
@@ -186,7 +186,7 @@ if (_QS_isAdmin) then {
 };
 missionNamespace setVariable ['QS_client_heartbeat',_timeNow,FALSE];
 
-//===== UI FEEDBACK
+//===== UI FEEDBACK (screen effects on taking damage, fire damage, drowning, fatigue, etc)
 
 0 spawn (missionNamespace getVariable 'QS_fnc_feedback');
 
@@ -1108,12 +1108,12 @@ _QS_module_clientAI_checkDelay = _QS_uiTime + _QS_module_clientAI_delay;
 
 /*/===== GPS Jammer helper/*/
 _QS_module_gpsJammer = TRUE;
-_QS_module_gpsJammer_delay = 3;
+_QS_module_gpsJammer_delay = 1;
 _QS_module_gpsJammer_checkDelay = _QS_uiTime + _QS_module_gpsJammer_delay;
 _QS_module_gpsJammer_signalDelay = 10;
 _QS_module_gpsJammer_signalCheck = _QS_uiTime + _QS_module_gpsJammer_signalDelay;
 _QS_module_gpsJammer_ctrlPlayer = (findDisplay 12) displayCtrl 1202;
-_QS_module_gpsJammer_inArea = FALSE;
+QS_module_gpsJammer_inArea = FALSE;
 /*/===== Operational Security Module - will detect some low-hanging fruit. To date it has caught around 60 cheaters./*/
 if (!((uiNamespace getVariable ['BIS_shownChat',TRUE]) isEqualType TRUE)) exitWith {
 	[
@@ -2951,6 +2951,7 @@ for 'x' from 0 to 1 step 0 do {
 				{(!isNull _cursorObject)} &&
 				{(_cursorObjectDistance < 2.2)} &&
 				{((stance _QS_player) isEqualTo 'STAND')} &&
+				{(((vectorMagnitude (velocity _QS_player)) * 3.6) < 0.1)} &&
 				{(((typeOf _cursorObject) in _QS_action_sit_chairTypes) || {(((getModelInfo _cursorObject) # 0) in _QS_action_sit_chairModels)})} &&
 				{(isNull (attachedTo _cursorObject))} &&
 				{((attachedObjects _cursorObject) isEqualTo [])}
@@ -5911,8 +5912,8 @@ for 'x' from 0 to 1 step 0 do {
 	};
 	if (_QS_module_gpsJammer) then {
 		if (_QS_uiTime > _QS_module_gpsJammer_checkDelay) then {
-			_QS_module_gpsJammer_inArea = [0,_QS_player] call _fn_gpsJammer;
-			if (_QS_module_gpsJammer_inArea) then {
+			missionNamespace setVariable ['QS_module_gpsJammer_inArea',([0,_QS_player] call _fn_gpsJammer),_false];
+			if (missionNamespace getVariable ['QS_module_gpsJammer_inArea',_false]) then {
 				if (_QS_uiTime > _QS_module_gpsJammer_signalCheck) then {
 					[3,_QS_player,_true] call _fn_gpsJammer;
 					_QS_module_gpsJammer_signalCheck = _QS_uiTime + _QS_module_gpsJammer_signalDelay;

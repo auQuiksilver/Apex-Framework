@@ -2,14 +2,21 @@ Official Change Log
 
 1.3.3 - In Development
 
-- [TWEAKED] Clientside Dynamic Simulation system improvements.
-- [TWEAKED] Parameter option for Time Acceleration.
+- [TWEAKED] Enemy Anti-Air Battery for improved targeting.
+- [TWEAKED] Dynamic Simulation system re-factor.
 - [TWEAKED] Dynamic Weapon Sway module re-factor.
+- [TWEAKED] Parameter option for Time Acceleration.
 - [TWEAKED] (Classic) Defend mission HQ flag should behave correctly.
 - [TWEAKED] Some code cleanup in various files.
+- [TWEAKED] Squad Radar compass lines will disappear when player is in GPS Jammer area.
 - [FIXED] BuildingChanged event was executing twice.
 - [FIXED] Some language translation bugs.
 - [FIXED] IDAP side mission should not spawn so close to base.
+- [FIXED] Incapacitation Respawn Menu showed obsolete player class display name.
+
+	Notes:
+	
+		- Stringtable.xml initial implementation is complete (Language Translations are a work in progress and a Community effort).
 
 1.3.2 (14/09/2022 A3 2.10)
 

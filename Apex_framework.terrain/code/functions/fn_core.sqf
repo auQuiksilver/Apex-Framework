@@ -1064,6 +1064,7 @@ private _uniformFix_list = [];
 _QS_module_dynSim = (missionNamespace getVariable ['QS_missionConfig_dynSim',1]) isEqualTo 1;
 _QS_module_dynSim_delay = 30;
 _QS_module_dynSim_checkDelay = _timeNow + _QS_module_dynSim_delay;
+private _check5 = 0;
 private _QS_module_dynSim_checkDelay_2 = -1;
 {
 	(_x # 0) setDynamicSimulationDistance (_x # 1);
@@ -4887,20 +4888,20 @@ for '_x' from 0 to 1 step 0 do {
 					if (_x isEqualType objNull) then {
 						if (alive _x) then {
 							if (local _x) then {
-								if (!(unitIsUAV _x)) then {
-									if (!(dynamicSimulationEnabled _x)) then {
-										if (((_x distance2D [0,0,0]) > 1000) && ((_x distance2D _baseMarker) > 750)) then {
-											if ((!((vehicle _x) isKindOf 'Air')) && (!(_x isKindOf 'Air'))) then {
-												if ((typeOf _x) isNotEqualTo 'test_EmptyObjectForFireBig') then {
-													if (!(_x getVariable ['QS_dynSim_ignore',_false])) then {
-														_x enableDynamicSimulation _true;
-													};
-												};
-											} else {
-												if (dynamicSimulationEnabled _x) then {
-													_x enableDynamicSimulation _false;
-												};
+								if (
+									(!(unitIsUAV _x)) &&
+									{(!(dynamicSimulationEnabled _x))} &&
+									{(((_x distance2D [0,0,0]) > 1000) && ((_x distance2D _baseMarker) > 750))}
+								) then {
+									if ((!((vehicle _x) isKindOf 'Air')) && (!(_x isKindOf 'Air'))) then {
+										if ((typeOf _x) isNotEqualTo 'test_EmptyObjectForFireBig') then {
+											if (!(_x getVariable ['QS_dynSim_ignore',_false])) then {
+												_x enableDynamicSimulation _true;
 											};
+										};
+									} else {
+										if (dynamicSimulationEnabled _x) then {
+											_x enableDynamicSimulation _false;
 										};
 									};
 								};
@@ -4916,18 +4917,19 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 					} else {
-						if (_x isEqualType grpNull) then {
-							if (local _x) then {
-								if (!(dynamicSimulationEnabled _x)) then {
-									if (!((vehicle (leader _x)) isKindOf 'Air')) then {
-										if (!(_x getVariable ['QS_dynSim_ignore',_false])) then {
-											_x enableDynamicSimulation _true;
-										};
-									};
-								};
-								if (!(isGroupDeletedWhenEmpty _x)) then {
-									_x deleteGroupWhenEmpty _true;
-								};
+						if (
+							(_x isEqualType grpNull) &&
+							{(local _x)}
+						) then {
+							if (
+								(!(dynamicSimulationEnabled _x)) &&
+								{(!((vehicle (leader _x)) isKindOf 'Air'))} &&
+								{(!(_x getVariable ['QS_dynSim_ignore',_false]))}
+							) then {
+								_x enableDynamicSimulation _true;
+							};
+							if (!(isGroupDeletedWhenEmpty _x)) then {
+								_x deleteGroupWhenEmpty _true;
 							};
 						};
 					};
@@ -4955,10 +4957,9 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
-	
-	
 	if (_timeNow > _QS_module_dynSim_checkDelay_2) then {
 		_QS_module_dynSim_checkDelay_2 = _timeNow + 5;
+		_check5 = 0;
 		{
 			if (
 				(_x isKindOf 'LandVehicle') ||
@@ -4967,9 +4968,12 @@ for '_x' from 0 to 1 step 0 do {
 				{(_x isKindOf 'Ship')}
 			) then {
 				if ((_x distance2D (_x getVariable ['QS_sim_pos',[-5000,-5000,0]])) > 100) then {
+					_check5 = _check5 + 1;
 					_x setVariable ['QS_sim_pos',getPosATL _x,_true];
+					sleep 0.1;
 				};
 			};
+			if (_check5 >= 5) exitWith {};
 			sleep 0.01;
 		} forEach vehicles;
 	};

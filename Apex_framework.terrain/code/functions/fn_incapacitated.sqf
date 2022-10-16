@@ -217,13 +217,13 @@ private _QS_buttonCtrl = controlNull;
 private _buttonRespawnFOB = controlNull;
 private _QS_buttonMedevac = controlNull;
 private _QS_buttonAction = '';
-private _playerClassDName = getText (configFile >> 'CfgVehicles' >> (typeOf _unit) >> 'displayName');
+private _playerClassDName = ['GET_ROLE_DISPLAYNAME',(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
 _QS_ctrlCreateArray = ['RscStructuredText',12345];
 _display = findDisplay 46;
 private _ctrlIncapacitated = _display ctrlCreate _QS_ctrlCreateArray;
 _ctrlIncapacitated ctrlSetPosition [((0.0075 * safezoneW) + safezoneX),((0.01 * safezoneH) + safezoneY),1,1];
 private _string1 = actionKeysNames ['InGamePause',1];
-private _text1 = parseText format ['<t size="1.5" align="left">INCAPACITATED<t/><br/><t size="1" align="left">Press [%1] to respawn<br/>Bleeding out (%2)<br/>%3</t>',(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString')),([] call (missionNamespace getVariable 'QS_fnc_clientMFindHealer'))];
+private _text1 = parseText format ['<t size="1.5" align="left">%7<t/><br/><t size="1" align="left">%5 [%1] %6<br/>%4 (%2)<br/>%3</t>',(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString')),(call (missionNamespace getVariable 'QS_fnc_clientMFindHealer')),localize 'STR_QS_Text_270',localize 'STR_QS_Menu_092',localize 'STR_QS_Text_271',localize 'STR_QS_Text_272'];
 _ctrlIncapacitated ctrlSetStructuredText _text1;
 _ctrlIncapacitated ctrlCommit 0;
 if (isNil 'bis_revive_ppColor') then {

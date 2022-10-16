@@ -46,16 +46,16 @@ if (
 	(_key in (actionKeys 'GetOver')) &&
 	(isNull (objectParent player))
 ) then {
-	_c = TRUE;
 	if (_shift && (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)) then {
+		_c = TRUE;
 		_this call (missionNamespace getVariable 'QS_fnc_clientJump');
 	};
 };
 if (
 	(isNull (objectParent player)) &&
-	(_key in ((actionKeys 'Throw') + (actionKeys 'Put'))) &&
-	(!(unitIsUav cameraOn)) &&
-	((cameraOn distance (markerPos 'QS_marker_base_marker')) < 300)
+	{(_key in ((actionKeys 'Throw') + (actionKeys 'Put')))} &&
+	{(!(unitIsUav cameraOn))} &&
+	{((cameraOn distance (markerPos 'QS_marker_base_marker')) < 300)}
 ) then {
 	_c = TRUE;
 	50 cutText [localize 'STR_QS_Text_013','PLAIN DOWN'];
@@ -74,10 +74,7 @@ if (_key in (actionKeys 'PushToTalk')) then {
 			} else {
 				if (
 					(currentChannel isEqualTo 7) &&
-					{(!(player getUnitTrait 'QS_trait_fighterPilot'))} &&
-					{(!(player getUnitTrait 'QS_trait_pilot'))} &&
-					{(!(player getUnitTrait 'uavhacker'))} &&
-					{(!(player getUnitTrait 'QS_trait_HQ'))} &&
+					{((['uavhacker','QS_trait_fighterPilot','QS_trait_pilot','QS_trait_CAS','QS_trait_HQ'] findIf { player getUnitTrait _x }) isEqualTo -1)} &&
 					{(!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))}
 				) then {
 					setCurrentChannel 5;
@@ -109,9 +106,9 @@ if (_key in ((actionKeys 'PersonView') + (actionKeys 'TacticalView') + (actionKe
 		};
 		if (
 			((side cameraOn) in [EAST,RESISTANCE]) &&
-			(!(cameraView in ['INTERNAL','GUNNER'])) &&
-			((lifeState player) isNotEqualTo 'INCAPACITATED') &&
-			((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID','NONE'])
+			{(!(cameraView in ['INTERNAL','GUNNER']))} &&
+			{((lifeState player) isNotEqualTo 'INCAPACITATED')} &&
+			{((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID','NONE'])}
 		) then {
 			50 cutText [localize 'STR_QS_Text_024','PLAIN DOWN',0.5];
 			player switchCamera 'INTERNAL';
@@ -163,8 +160,8 @@ if (
 	} else {
 		if (
 			(alive cameraOn) &&
-			(cameraOn isKindOf 'CAManBase') &&
-			(local cameraOn)
+			{(cameraOn isKindOf 'CAManBase')} &&
+			{(local cameraOn)}
 		) then {
 			_c = TRUE;
 			cameraOn spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
@@ -247,7 +244,11 @@ if (
 		player setVariable ['QS_pilot_rappellSafety',nil,FALSE];
 	};
 };
-if (((_key isEqualTo 201) && ((actionKeys 'User18') isEqualTo [])) || {((_key in (actionKeys 'HeliRopeAction')) && _ctrl)} || {(_key in (actionKeys 'User18'))}) then {
+if (
+	((_key isEqualTo 201) && ((actionKeys 'User18') isEqualTo [])) || 
+	{((_key in (actionKeys 'HeliRopeAction')) && _ctrl)} || 
+	{(_key in (actionKeys 'User18'))}
+) then {
 	_vehicle = cameraOn;
 	if (_vehicle isKindOf 'Helicopter') then {
 		if (local _vehicle) then {
@@ -277,7 +278,11 @@ if (((_key isEqualTo 201) && ((actionKeys 'User18') isEqualTo [])) || {((_key in
 		};
 	};
 };
-if (((_key isEqualTo 209) && ((actionKeys 'User17') isEqualTo [])) || {((_key in (actionKeys 'HeliRopeAction')) && _alt)} || {(_key in (actionKeys 'User17'))}) then {
+if (
+	((_key isEqualTo 209) && ((actionKeys 'User17') isEqualTo [])) || 
+	{((_key in (actionKeys 'HeliRopeAction')) && _alt)} || 
+	{(_key in (actionKeys 'User17'))}
+) then {
 	_vehicle = cameraOn;
 	if (_vehicle isKindOf 'Helicopter') then {
 		if (local _vehicle) then {

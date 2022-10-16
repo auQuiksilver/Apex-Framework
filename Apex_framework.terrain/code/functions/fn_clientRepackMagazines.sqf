@@ -43,12 +43,7 @@ if (isNull (objectParent _unit)) then {
 	_unit playActionNow 'Medic';
 };
 private _magazineTypes = [];
-private _data1 = [];
-{
-	if ((_x # 3) in [-1,1,2]) then {
-		_data1 pushBack _x;
-	};
-} forEach (magazinesAmmoFull _unit);
+private _data1 = (magazinesAmmoFull _unit) select {((_x # 3) in [-1,1,2])};
 private _data2 = [];
 if (_data1 isEqualTo []) exitWith {_unit setVariable ['QS_unit_repackingMagazines',nil,FALSE];};
 private _i = 0;
