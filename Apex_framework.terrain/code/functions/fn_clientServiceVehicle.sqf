@@ -186,7 +186,7 @@ if ((_baseService) || (_isDepot)) then {
 				if (diag_tickTime > (uiNamespace getVariable ['QS_fighterPilot_lastMsg',(diag_tickTime - 1)])) then {
 					uiNamespace setVariable ['QS_fighterPilot_lastMsg',(diag_tickTime + 300)];
 					[63,[4,['CAS_1',['','Close Air Support online!']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-					['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText (configFile >> 'CfgVehicles' >> (typeOf _this) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+					['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				};
 			};
 		};
