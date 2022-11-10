@@ -121,9 +121,9 @@ if ((_baseService) || (_isDepot)) then {
 		};
 		missionNamespace setVariable ['QS_repairing_vehicle',FALSE,FALSE];
 		_v allowDamage TRUE;
-		_v setFuelCargo 1;
-		_v setRepairCargo 1;
-		_v setAmmoCargo 1;
+		_v setFuelCargo 0;
+		_v setRepairCargo 0;
+		_v setAmmoCargo 0;
 		if (_v isKindOf 'LandVehicle') then {
 			[_v] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
 		};

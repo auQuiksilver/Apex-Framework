@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	26/08/2022 A3 2.10 by Quiksilver
+	27/10/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -80,9 +80,11 @@ _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. De
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
 _hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
 _craters = 24;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
-_groupLocking = 1;										// Group Lock-ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create. Note: Admins can join any group regardless of Locked state.
+_groupLocking = 1;										// Group Lock Ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create. Admins can join any group regardless of Lock state.
 _groupWaypoint = 1;										// Group Map Waypoint. 0 - Disabled. 1 - Enabled (default).		Can players see their group leaders [Shift+Click] dot on the map.
-_enemyUrbanSpawning = 1;								// (BETA) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
+_enemyUrbanSpawning = 1;								// (Classic Mode) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
+_tracers = 1;											// Tracer bullets. 0 - Vanilla handling. 1 - At night and low-pop times, AI get tracer bullets. 2 - AI get tracers at all times. Default - 1.
+_zeusModePlayerRespawn = 0;								// (Zeus Mode) Dynamic Player Respawn. Applies ONLY when _main_mission_type = 'ZEUS';. 0 - Players respawn at base. 1 - Players respawn at a Flag Pole that Zeus can move around. 
 
 //===================================================== SYSTEM
 
@@ -91,10 +93,12 @@ _restart_hours = [0,10,21];								// Hours (24hr clock) which server will resta
 _restart_dynamic = 1;									// Dynamic Server Restarts. 0 - Disabled. 1 - Enabled. If enabled, Server will wait for mission conditions to be met before restarting. This option is currently only used for Defend missions.
 _dynamic_simulation = 1;								// Dynamic Simulation. 	0 - Disabled. 1 - Enabled. 	Raises FPS and performance slightly. Server freezes entities which are far away from all players.    Info: https://community.bistudio.com/wiki/Arma_3_Dynamic_Simulation
 _timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-time.
-	12,													// Night/dark time acceleration multiplier. Default - 12.
-	1.5,												// Noon/mid-day time acceleration multiplier. Default - 1.5.
-	0.35												// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
+	12,					// Night/dark time acceleration multiplier. Default - 12.
+	1.5,				// Noon/mid-day time acceleration multiplier. Default - 1.5.
+	0.35				// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
 ];
+_zeusModePlayerRespawn = 0;								// (Zeus Mode) Dynamic Player Respawn. Applies ONLY when _main_mission_type = 'ZEUS';. 0 - Players respawn at base. 1 - Players respawn at a Flag Pole that Zeus can move around. 
+_zeusCanOffloadAI = 1;									// Zeus ability to offload AI to Server.	0 - Disabled. 1 - Enabled. Default - 1.	 Allows Zeus to improve performance of Zeus missions by moving AI control to server. Unbuffered, there is no limit and server can be overloaded, so use responsibly.
 
 //===================================================== HEADLESS CLIENT
 
@@ -114,29 +118,30 @@ _hc_maxAgents_4 = 5;									// Quantity of AI agents (Civilians & Animals) to d
 // 		'CLASSIC' 			Classic I&A. 					Recommended: 24-48+ players.			Example: 	_main_mission_type = 'CLASSIC';
 // 		'SC' 				Sector Control.		 			Recommended: 36-64+ players.			Example: 	_main_mission_type = 'SC';
 // 		'GRID'				Insurgency Campaign (Beta). 	Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (9/12/2017)
-// 		'NONE'				Primary missions disabled.												Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
+// 		'ZEUS'				Zeus Mode																Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
 //====================================================//	
 
 _main_mission_type = 'CLASSIC';
 
 //===================================================== SIDE MISSIONS
 
-_sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions.
+_sideMissions = 0;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions. Automatically disabled when _main_mission_type = 'NONE';
 
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
 _aircraft_carrier_enabled = 0;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
-_aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
+_aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. -2  Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
 _aircraft_carrier_respawning = 0;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
 // Destroyer
 _destroyer_enabled = 0;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
 _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
-_destroyer_artillery = 0;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
+_destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
 _destroyer_flag = 'a3\data_f\flags\flag_us_co.paa';			// Texture applied to Destroyer flag. Default:  'a3\data_f\flags\flag_us_co.paa'
 _destroyer_name = 'a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa';		// Name presented on stern of ship. Comes with 7 defaults, just change ..._tag_01_co... to _tag_02_co... etc, from 01 to 07, 00 is blank. You can also set as a custom texture/name/logo.
 _destroyer_numbers = [4,2,0];								// Numbers shown on the ship hull.
 _destroyer_hangar = 0;										// Hangar Door initial state. 0 - Hangar doors start closed. 1 - Hangar doors start opened.
+
 //===================================================== TEXTURES
 
 _community_logo = '';
@@ -191,6 +196,12 @@ if (
 ) then {
 	private _destroyer_respawning = 0;
 };
+if (!(worldName in ['Altis','Tanoa','Malden','Enoch'])) then {
+	private _anticheat = 0;
+};
+if (_main_mission_type isEqualTo 'NONE') then {
+	private _sideMissions = 0;
+};
 {
 	missionNamespace setVariable _x;
 	diag_log str ([_x # 0,_x # 1]);
@@ -216,11 +227,14 @@ if (
 	['QS_missionConfig_groupLocking',_groupLocking > 0,TRUE],
 	['QS_missionConfig_groupWaypoint',_groupWaypoint > 0,TRUE],
 	['QS_missionConfig_aoUrbanSpawning',_enemyUrbanSpawning,FALSE],
+	['QS_missionConfig_tracers',_tracers,TRUE],
+	['QS_missionConfig_zeusRespawnFlag',_zeusModePlayerRespawn > 0,TRUE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_restartDynamic',_restart_dynamic,FALSE],
 	['QS_missionConfig_dynSim',_dynamic_simulation,FALSE],
 	['QS_missionConfig_timeMultiplier',_timeMultiplier,FALSE],
+	['QS_missionConfig_zeusOffload',_zeusCanOffloadAI > 0,TRUE],
 	['QS_missionConfig_hcMaxLoad',[_hc_maxLoad_1,_hc_maxLoad_2,_hc_maxLoad_3,_hc_maxLoad_4],TRUE],
 	['QS_missionConfig_hcMaxAgents',[_hc_maxAgents_1,_hc_maxAgents_2,_hc_maxAgents_3,_hc_maxAgents_4],TRUE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],

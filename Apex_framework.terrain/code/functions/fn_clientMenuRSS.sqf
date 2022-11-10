@@ -614,7 +614,7 @@ waitUntil {
 			_QS_ctrl_13 ctrlSetStructuredText (['GET_ROLE_DESCRIPTION',_selectedRole] call _fn_roles);
 			_QS_ctrl_13 ctrlSetPosition [0,0,((ctrlPosition _QS_ctrl_13) # 2),((ctrlTextHeight _QS_ctrl_13) max (((ctrlPosition _QS_ctrl_1) # 3) * 0.701))];
 		} else {
-			_QS_ctrl_13 ctrlSetStructuredText (parseText 'No info available');
+			_QS_ctrl_13 ctrlSetStructuredText (parseText (localize 'STR_QS_Role_030'));
 			_QS_ctrl_13 ctrlSetPosition [0,0,((ctrlPosition _QS_ctrl_13) # 2),((ctrlTextHeight _QS_ctrl_13) max (((ctrlPosition _QS_ctrl_1) # 3) * 0.701))];
 		};
 	};

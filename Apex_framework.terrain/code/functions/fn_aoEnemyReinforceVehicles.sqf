@@ -22,6 +22,7 @@ private _minDist = 1200;
 private _maxDist = 3000;
 private _fn_blacklist = {TRUE};
 private _nearRoads = [];
+_baseMarker = markerPos 'QS_marker_base_marker';
 if (_worldName isEqualTo 'Tanoa') then {
 	_minDist = 1200;
 	_maxDist = 2400;
@@ -55,6 +56,7 @@ for '_x' from 0 to 499 step 1 do {
 	if (
 		((_allPlayers inAreaArray [_spawnPosDefault,250,250,0,FALSE]) isEqualTo []) &&
 		{(_spawnPosDefault call _fn_blacklist)} &&
+		((_spawnPosDefault distance2D _baseMarker) > 500) &&
 		{(!([_spawnPosDefault,_pos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))}
 	) then {
 		_nearRoads = ((_spawnPosDefault select [0,2]) nearRoads 250) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))};
@@ -78,7 +80,11 @@ if (_roadRoadValid isEqualTo [0,0,0]) then {
 /*/================================================ SELECT + SPAWN UNITS/*/
 
 private _reinforceGroup = createGroup [EAST,TRUE];
-_vType = selectRandomWeighted ([0] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
+private _motorPool = 0;
+if (worldName isEqualTo 'Stratis') then {
+	_motorPool = 8;
+};
+_vType = selectRandomWeighted ([_motorPool] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
 _v = createVehicle [_vType,_roadRoadValid,[],0,'NONE'];
 _v setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 _v allowCrewInImmobile [TRUE,TRUE];
@@ -151,7 +157,6 @@ _slingableTypes = [
 	'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f',
 	'o_lsv_02_at_f','o_g_offroad_01_at_f','i_c_offroad_02_at_f','i_c_offroad_02_lmg_f','i_g_offroad_01_at_f','o_t_lsv_02_at_f'
 ];
-
 if (
 	((toLowerANSI _vType) in _slingableTypes) &&
 	{(diag_fps > 15)} &&

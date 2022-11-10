@@ -83,7 +83,7 @@ if (_type isEqualTo 1) exitWith {
 		_objectiveCode = {
 			params ['_aoPos','_aoRadius','_detector','_threshold'];
 			private _return = 0;
-			if ((count ((units EAST) inAreaArray [_aoPos,_aoRadius,_aoRadius,0,FALSE,-1])) < _threshold) then {
+			if ((count ( (units EAST) inAreaArray [_aoPos,_aoRadius,_aoRadius,0,FALSE,-1])) < _threshold) then {
 				_return = 1;
 			};
 			_return;
@@ -106,7 +106,7 @@ if (_type isEqualTo 1) exitWith {
 		if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
 			if ((random 1) > 0.666) then {
 				if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 1) then {
-					_buildingTypes = (call (missionNamespace getVariable 'QS_data_smallBuildingTypes')) select {(sizeOf _x) >= 10};
+					_buildingTypes = missionNamespace getVariable ['QS_data_smallBuildingTypes_10',[]];
 					_buildingList = (nearestObjects [_pos,_buildingTypes,_aoSize * 0.75,TRUE]) select {!isObjectHidden _x};
 					if (_buildingList isNotEqualTo []) then {
 						_position = [0,0,0];
@@ -129,8 +129,8 @@ if (_type isEqualTo 1) exitWith {
 			};
 		};
 		if (!_usedSettlementPosition) then {
-			for '_x' from 0 to 9 step 1 do {
-				_position = ['RADIUS',_pos,(_aoSize * 0.75),'LAND',[1,0,0.5,4,0,FALSE,objNull],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+			for '_x' from 0 to 29 step 1 do {
+				_position = ['RADIUS',_pos,(_aoSize * 0.75),'LAND',[1,-1,0.5,4,0,FALSE,objNull],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 				if (
 					((_position distance2D _baseMarker) > 500) && 
 					{((_position distance2D _hqPos) > 200)} && 
@@ -184,14 +184,16 @@ if (_type isEqualTo 1) exitWith {
 		_aoSize = missionNamespace getVariable ['QS_aoSize',500];
 		_baseMarker = markerPos 'QS_marker_base_marker';
 		_hqPos = missionNamespace getVariable ['QS_HQpos',[0,0,0]];
+		_radiusCoef = [0.75,0.9] select (worldName in ['Stratis','Tanoa']);
 		private _position = [0,0,0];
-		for '_x' from 0 to 9 step 1 do {
-			_position = ['RADIUS',_pos,(_aoSize * 0.666),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+		for '_x' from 0 to 49 step 1 do {
+			_position = ['RADIUS',_pos,(_aoSize * _radiusCoef),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if (
 				((_position distance2D _baseMarker) > 500) && 
 				{((_position distance2D _hqPos) > 200)} && 
-				{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,100,100,0,FALSE]) isEqualTo [])} &&
+				{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,65,65,0,FALSE]) isEqualTo [])} &&
 				{((((_position select [0,2]) nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} && 
+				{(!(surfaceIsWater _position))} &&
 				{(!([_position,50,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))}
 			) exitWith {};
 		};

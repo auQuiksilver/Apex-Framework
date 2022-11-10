@@ -103,7 +103,7 @@ private _QS_module_agentBehaviors_checkDelay = _QS_uiTime + _QS_module_agentBeha
 private _QS_module_agentBehaviors_localAgents = [];
 private _QS_module_agentBehaviors_agent = objNull;
 //comment 'Virtual sectors logic';
-private _QS_module_virtualSectors = _isDedicated && (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'SC';
+private _QS_module_virtualSectors = _isDedicated && (missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isEqualTo 'SC';
 private _QS_module_virtualSectors_delay = 15;	/*/this value influences difficulty substantially/*/
 private _QS_module_virtualSectors_checkDelay = _QS_uiTime + _QS_module_virtualSectors_delay;
 private _QS_module_virtualSectors_data = missionNamespace getVariable ['QS_virtualSectors_data',[]];
@@ -255,7 +255,7 @@ private _QS_module_virtualSectors_attackerDelay = 30;
 private _QS_module_virtualSectors_attackerCheckDelay = _QS_uiTime + _QS_module_virtualSectors_attackerDelay;
 
 //comment 'Classic AO logic';
-private _QS_module_classic = _isDedicated && (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'CLASSIC';
+private _QS_module_classic = _isDedicated && (missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isEqualTo 'CLASSIC';
 private _QS_module_classic_delay = 10;
 private _QS_module_classic_checkDelay = _QS_uiTime + _QS_module_classic_delay;
 private _QS_module_classic_spawnedGrp = [];
@@ -321,7 +321,7 @@ private _QS_module_classic_efb_checkDelay = _QS_uiTime + _QS_module_classic_efb_
 private _QS_module_classic_efb_group = grpNull;
 private _QS_module_classic_efb_threshold = 25;
 //comment 'grid ao';
-private _QS_module_grid = (missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) isEqualTo 'GRID';
+private _QS_module_grid = (missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isEqualTo 'GRID';
 private _QS_module_grid_delay = 10;
 private _QS_module_grid_checkDelay = _QS_uiTime + _QS_module_grid_delay;
 private _QS_module_grid_aoPos = [0,0,0];
@@ -381,7 +381,7 @@ private _QS_module_civilian_houseCoef = 2;
 private _QS_module_civilian_houseCount = 0;
 //comment 'Manage ambient hostility';
 
-private _QS_module_ambientHostility = _isDedicated && ((missionNamespace getVariable ['QS_missionConfig_aoType','NONE']) in ['CLASSIC','SC']);
+private _QS_module_ambientHostility = _isDedicated && ((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) in ['CLASSIC','SC','GRID']);
 private _QS_module_ambientHostility_delay = 30;
 private _QS_module_ambientHostility_checkDelay = _QS_uiTime + _QS_module_ambientHostility_delay;
 private _QS_module_ambientHostility_cooldown = -1;
@@ -440,10 +440,6 @@ private _QS_module_supportProvision_checkDelay = _QS_uiTime + _QS_module_support
 private _QS_module_scripts = _true && _isDedicated;
 private _QS_module_scripts_delay = 15;
 private _QS_module_scripts_checkDelay = _QS_uiTime + _QS_module_scripts_delay;
-private _QS_module_tracers = _true;
-private _QS_module_tracers_delay = 600;
-private _QS_module_tracers_checkDelay = _QS_uiTime + _QS_module_tracers_delay;
-private _QS_module_tracers_checkOverride = _false;
 
 //===== Get list of MG weapons for AI system
 private _cfgWeapons = ("(isclass _x) && ((getnumber (_x >> 'scope')) isEqualTo 2) && ((getText (_x >> 'cursor')) isEqualTo 'mg') && (((getnumber (_x >> 'type')) < 5) || ((getnumber (_x >> 'type')) isEqualTo 4096))") configClasses (configFile >> 'cfgWeapons');
@@ -661,7 +657,6 @@ _fn_enemyCAS = missionNamespace getVariable 'QS_fnc_enemyCAS';
 _fn_gridEnemy = missionNamespace getVariable 'QS_fnc_gridEnemy';
 _fn_gridSpawnPatrol = missionNamespace getVariable 'QS_fnc_gridSpawnPatrol';
 _fn_gridSpawnAttack = missionNamespace getVariable 'QS_fnc_gridSpawnAttack';
-_fn_serverTracers = missionNamespace getVariable 'QS_fnc_serverTracers';
 _fn_findRandomPos = missionNamespace getVariable 'QS_fnc_findRandomPos';
 _fn_spawnAmbientCivilians = missionNamespace getVariable 'QS_fnc_spawnAmbientCivilians';
 _fn_aoAnimals = missionNamespace getVariable 'QS_fnc_aoAnimals';
@@ -928,7 +923,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_unitBehaviors_unit = _x;
 				if (_QS_module_unitBehaviors_unit getVariable ['QS_AI_UNIT_enabled',_false]) then {
 					if (((random 1) > 0.333) || {(_QS_module_unitBehaviors_unit isEqualTo (leader (group _QS_module_unitBehaviors_unit)))}) then {
-						_scriptEvalUnit = [_QS_module_unitBehaviors_unit,_QS_serverTime,_QS_diag_fps] spawn _fn_AIHandleUnit;
+						_scriptEvalUnit = [_QS_module_unitBehaviors_unit,_QS_serverTime,_QS_diag_fps,_QS_allPlayersCount] spawn _fn_AIHandleUnit;
 						waitUntil {scriptDone _scriptEvalUnit};
 					};
 				};
@@ -1178,7 +1173,10 @@ for '_x' from 0 to 1 step 0 do {
 								if (_QS_allPlayersCount > 30) then {_QS_module_viperTeam_qty = _QS_module_viperTeam_qty_2;};
 								if (_QS_allPlayersCount > 40) then {_QS_module_viperTeam_qty = _QS_module_viperTeam_qty_2;};
 								if (_QS_allPlayersCount > 50) then {_QS_module_viperTeam_qty = _QS_module_viperTeam_qty_3;};
-								if ((count _QS_module_viperTeam_array) < ((round (_QS_module_viperTeam_qty / 2)) max 0)) then {
+								if (
+									(_QS_allPlayersCount > 10) &&
+									{((count _QS_module_viperTeam_array) < ((round (_QS_module_viperTeam_qty / 2)) max 0))}
+								) then {
 									_array = ['SC',(count _QS_module_viperTeam_array),_QS_module_viperTeam_qty,_QS_module_viperTeam_grp] call _fn_spawnViperTeam;
 									{
 										_QS_module_viperTeam_grp = group _x;
@@ -1584,7 +1582,10 @@ for '_x' from 0 to 1 step 0 do {
 									if (_QS_allPlayersCount > 30) then {_QS_module_viperTeam_qty = _QS_module_viperTeam_qty_2;};
 									if (_QS_allPlayersCount > 40) then {_QS_module_viperTeam_qty = _QS_module_viperTeam_qty_2;};
 									if (_QS_allPlayersCount > 50) then {_QS_module_viperTeam_qty = _QS_module_viperTeam_qty_3;};
-									if ((count _QS_module_viperTeam_array) < ((round (_QS_module_viperTeam_qty / 2)) max 0)) then {
+									if (
+										(_QS_allPlayersCount > 10) &&
+										{((count _QS_module_viperTeam_array) < ((round (_QS_module_viperTeam_qty / 2)) max 0))}
+									) then {
 										if (!(_QS_module_classic_efb)) then {
 											_array = ['CLASSIC',(count _QS_module_viperTeam_array),_QS_module_viperTeam_qty,_QS_module_viperTeam_grp] call _fn_spawnViperTeam;
 											{
@@ -2253,7 +2254,8 @@ for '_x' from 0 to 1 step 0 do {
 				['QS_AI_insertHeli_helis',((missionNamespace getVariable 'QS_AI_insertHeli_helis') select {(!alive _x)}),QS_system_AI_owners],
 				['QS_AI_vehicles',((missionNamespace getVariable 'QS_AI_vehicles') select {(alive _x)}),QS_system_AI_owners],
 				['QS_AI_targetsIntel',((missionNamespace getVariable 'QS_AI_targetsIntel') select {((alive (_x # 0)) && (_QS_serverTime < ((_x # 1) + 300)))}),QS_system_AI_owners],
-				['QS_AI_laserTargets',((missionNamespace getVariable 'QS_AI_laserTargets') select {(!isNull _x)}),QS_system_AI_owners]
+				['QS_AI_laserTargets',((missionNamespace getVariable 'QS_AI_laserTargets') select {(!isNull _x)}),QS_system_AI_owners],
+				['QS_AI_smokeTargets',((missionNamespace getVariable 'QS_AI_smokeTargets') select {(!isNull _x)}),QS_system_AI_owners]
 			];
 			if ((missionNamespace getVariable 'QS_AI_supportProviders_MTR') isNotEqualTo []) then {
 				missionNamespace setVariable ['QS_AI_supportProviders_MTR',((missionNamespace getVariable 'QS_AI_supportProviders_MTR') select {((alive _x) && ((vehicle _x) isKindOf 'StaticWeapon'))}),QS_system_AI_owners];
@@ -2309,17 +2311,6 @@ for '_x' from 0 to 1 step 0 do {
 			if (_QS_diag_fps > 10) then {
 				[11,_east,_true] spawn _fn_aiGetKnownEnemies;
 				uiSleep 0.1;
-			};
-			if (_QS_module_tracers) then {
-				if ((_QS_uiTime > _QS_module_tracers_checkDelay) || {(_QS_module_tracers_checkOverride)}) then {
-					if (_QS_module_tracers_checkOverride) then {
-						_QS_module_tracers_checkOverride = _false;
-					};
-					if ((sunOrMoon isNotEqualTo 1) || {(_QS_allPlayersCount < 20)}) then {
-						[_QS_module_unitBehaviors_localUnits] spawn _fn_serverTracers;
-					};
-					_QS_module_tracers_checkDelay = _QS_uiTime + _QS_module_tracers_delay;
-				};
 			};
 			_QS_module_scripts_checkDelay = _QS_uiTime + _QS_module_scripts_delay;
 		};

@@ -55,9 +55,9 @@ if (_spawnUnits) then {
 		'o_soldier_f',1,
 		'o_soldier_ar_f',3,
 		'o_soldier_gl_f',2,
-		'o_soldier_lite_f',2,
-		'o_sharpshooter_f',1,
-		'o_soldier_m_f',1,
+		'o_soldier_lite_f',1,
+		'o_sharpshooter_f',2,
+		'o_soldier_m_f',2,
 		'o_soldier_lat_f',1,
 		'o_medic_f',1
 	];

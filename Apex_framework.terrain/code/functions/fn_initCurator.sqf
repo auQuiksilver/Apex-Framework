@@ -206,7 +206,7 @@ if (_type isEqualTo 1) then {
 						params ['_actionTarget','','_actionID',''];
 						private ['_result'];
 						
-						if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isNotEqualTo 'NONE') then {
+						if ((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isNotEqualTo 'ZEUS') then {
 							if (!(missionNamespace getVariable ['QS_customAO_GT_active',FALSE])) then {
 								if (!(missionNamespace getVariable 'QS_aoSuspended')) then {
 									_result = [localize 'STR_QS_Menu_143',localize 'STR_QS_Menu_142',localize 'STR_QS_Menu_139',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
@@ -250,7 +250,7 @@ if (_type isEqualTo 1) then {
 					{
 						params ['_actionTarget','','_actionID',''];
 						private ['_result'];
-						if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isNotEqualTo 'NONE') then {
+						if ((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isNotEqualTo 'ZEUS') then {
 							if (!(missionNamespace getVariable ['QS_customAO_GT_active',FALSE])) then {
 								if (diag_tickTime < (player getVariable ['QS_client_aoCycleCooldown',-1])) exitWith {
 									50 cutText [(format ['%2 %1',(round((player getVariable ['QS_client_aoCycleCooldown',-1]) - diag_tickTime)),localize 'STR_QS_Text_220']),'PLAIN',0.5];
@@ -290,6 +290,7 @@ if (_type isEqualTo 1) then {
 		calculatePlayerVisibilityByFriendly TRUE;
 		player enableAIFeature ['ALL',TRUE];
 		disableRemoteSensors FALSE;
+		missionNamespace setVariable ['QS_hashmap_tracers',(createHashMapFromArray (call QS_data_tracers)),FALSE];
 		
 		//===== Zeus script to handle some stuff
 		
@@ -538,7 +539,7 @@ if (_type isEqualTo 1) then {
 						if (
 							(alive _x) &&
 							{(!(isPlayer _x))} &&
-							{(!(_x isEqualTo (currentPilot _cameraOn)))}
+							{(_x isNotEqualTo (currentPilot _cameraOn))}
 						) then {
 							moveOut _x;
 						};

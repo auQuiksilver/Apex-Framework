@@ -1,6 +1,6 @@
 Creating HQ compositions for classic AO:
 
-1. Create an SQF file in "code\config\hqCompositions\mediterranean\...".
+1. Create an SQF file in "code\config\hqCompositions\arid\...".
 2. Create an SQF file in "code\config\hqCompositions\tropic\...".
 
 3. Open the file "code\functions\fn_serverObjectsGrabber.sqf"

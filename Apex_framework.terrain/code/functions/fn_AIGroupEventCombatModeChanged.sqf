@@ -25,11 +25,13 @@ if (_newMode isEqualTo 'COMBAT') then {
 			(alive _x) &&
 			{(
 				(_x getVariable ['QS_AI_UNIT_isMG',FALSE]) || 
-				{(_x getVariable ['QS_AI_UNIT_isGL',FALSE])}
+				{(_x getVariable ['QS_AI_UNIT_isGL',FALSE])} ||
+				{((random 1) > 0.95)}
 			)}
 		) then {
-			_x removeAllEventHandlers 'FiredMan';
-			_x addEventHandler ['FiredMan',{call (missionNamespace getVariable 'QS_fnc_AIXSuppressiveFire')}];
+			if (((_x getEventHandlerInfo ['FiredMan',0]) # 2) isEqualTo 0) then {
+				_x addEventHandler ['FiredMan',{call (missionNamespace getVariable 'QS_fnc_AIXSuppressiveFire')}];
+			};
 		};
 	} forEach (units _grp);
 };

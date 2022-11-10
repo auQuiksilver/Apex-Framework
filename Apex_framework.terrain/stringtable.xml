@@ -635,6 +635,9 @@ _____________________________________________________________-->
             <Chinesesimp>捡起拖拽绳</Chinesesimp>
             <Chinese>撿起拖曳繩</Chinese>
         </Key>
+        <Key ID="STR_QS_Interact_116">
+            <Original>Rearm</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -1994,7 +1997,43 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Text_273">
             <Original>AUTO</Original>
-        </Key>		
+        </Key>
+        <Key ID="STR_QS_Text_274">
+            <Original>Zeus AI Offload - Disabled in server parameters</Original>
+        </Key>
+       <Key ID="STR_QS_Text_275">
+            <Original>Zeus AI Offload - cooldown (5 seconds)</Original>
+        </Key>
+       <Key ID="STR_QS_Text_276">
+            <Original>Zeus AI Offload - attempting...</Original>
+        </Key>
+       <Key ID="STR_QS_Text_277">
+            <Original>Zeus AI Offload - %1 offloaded to server: %2</Original>
+        </Key>
+       <Key ID="STR_QS_Text_278">
+            <Original>Repaired</Original>
+        </Key>
+       <Key ID="STR_QS_Text_279">
+            <Original>Repairing (%1 / %2)</Original>
+        </Key>
+       <Key ID="STR_QS_Text_280">
+            <Original>Refueled</Original>
+        </Key>
+       <Key ID="STR_QS_Text_281">
+            <Original>Refueling</Original>
+        </Key>
+       <Key ID="STR_QS_Text_282">
+            <Original>Rearmed</Original>
+        </Key>
+       <Key ID="STR_QS_Text_283">
+            <Original>Rearming (%1 / %2) %3</Original>
+        </Key>
+       <Key ID="STR_QS_Text_284">
+            <Original>Smoke Launcher</Original>
+        </Key>
+       <Key ID="STR_QS_Text_285">
+            <Original>Engine off</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -2724,6 +2763,9 @@ _____________________________________________________________-->
             <Original>percent</Original>
             <Chinesesimp>百分之</Chinesesimp>
             <Chinese>百分之</Chinese>
+        </Key>
+        <Key ID="STR_QS_Hints_146">
+            <Original>To add ammunition, select your uniform/vest/backpack on the left panel and add ammunition on the right panel.</Original>
         </Key>
     </Container>
     <Container name="QS_xml_chatMessages">
@@ -5248,6 +5290,9 @@ _____________________________________________________________-->
             <Chinesesimp>驱逐舰</Chinesesimp>
             <Chinese>驅逐艦</Chinese>
         </Key>
+        <Key ID="STR_QS_Marker_071">
+            <Original>Patrol Base</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_diary">
         <Key ID="STR_QS_Diary_001">
@@ -7073,6 +7118,9 @@ _____________________________________________________________-->
             <Original>Change player role</Original>
             <Chinesesimp>改变玩家角色</Chinesesimp>
             <Chinese>改變玩家角色</Chinese>
+        </Key>
+        <Key ID="STR_QS_Role_030">
+            <Original>No info available</Original>
         </Key>
     </Container>
     <Container name="QS_xml_utilityText">

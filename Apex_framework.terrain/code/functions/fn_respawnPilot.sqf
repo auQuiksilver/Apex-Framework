@@ -6,17 +6,25 @@ Author:
 	
 Last modified: 
 
-	17/08/2018 A3 1.84 by Quiksilver
+	23/10/2022 A3 2.10 by Quiksilver
 
 Description: 
 
 	Separate pilot respawn and UAV operator
 	Also handles naval respawning
+	
+	Probably should be renamed to "QS_fnc_respawnPosition" instead of "respawnPilot"
 __________________________________________________/*/
 
 _worldName = worldName;
+if (['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_destroyer')) exitWith {
+	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_destroyer');
+};
+if (['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_carrier')) exitWith {
+	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
+};
 if (player getUnitTrait 'QS_trait_fighterPilot') exitWith {
-	if (!((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqualTo 0)) then {
+	if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0) then {
 		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
 	} else {
 		if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
@@ -36,9 +44,15 @@ if (player getUnitTrait 'QS_trait_fighterPilot') exitWith {
 				player setDir 68.4751;
 				player setPosWorld [4306.76,10501.5,68.1707];
 			};
+			if (_worldName isEqualTo 'Stratis') exitWith {
+				player setDir 341;
+				player setPosWorld [1910.55,5938.28,5.50144];
+			};
 		} else {
-			player setDir (random 360);
-			player setPosATL [((markerPos 'QS_marker_respawn_jetpilot') # 0),((markerPos 'QS_marker_respawn_jetpilot') # 1), 0];	/*/ Edit the 0 here to change elevation /*/
+			if ((missionNamespace getVariable ['QS_mission_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) then {
+				player setDir (random 360);
+				player setPos (markerPos ['QS_marker_respawn_jetpilot',TRUE]);		// position AGL. https://community.bistudio.com/wiki/markerPos . see alternative syntax
+			};
 		};
 	};
 };
@@ -48,6 +62,10 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqual
 if ((missionNamespace getVariable ['QS_missionConfig_destroyerRespawn',0]) isEqualTo 1) exitWith {
 	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_destroyer');
 };
+if (
+	(missionNamespace getVariable ['QS_missionConfig_zeusRespawnFlag',FALSE]) &&
+	((missionNamespace getVariable ['QS_mission_aoType','CLASSIC']) in ['NONE','ZEUS'])
+) exitWith {};
 if (player getUnitTrait 'QS_trait_pilot') then {
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2) then {
 		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
@@ -69,9 +87,13 @@ if (player getUnitTrait 'QS_trait_pilot') then {
 				player setDir (random 360);
 				player setPosWorld [3864.66,10137,67.7403];
 			};
+			if (_worldName isEqualTo 'Stratis') exitWith {
+				player setDir (random 360);
+				player setPosWorld [1947.32,5820.64,5.50144];
+			};
 		} else {
 			player setDir (random 360);
-			player setPosATL [((markerPos 'QS_marker_respawn_helipilot') # 0),((markerPos 'QS_marker_respawn_helipilot') # 1), 0];	/*/ Edit the 0 here to change elevation /*/
+			player setPos (markerPos ['QS_marker_respawn_helipilot',TRUE]);		// position AGL. https://community.bistudio.com/wiki/markerPos . see alternative syntax
 		};
 	};
 };
@@ -96,9 +118,13 @@ if (player getUnitTrait 'uavhacker') then {
 				player setDir 258.922;
 				player setPosWorld [4110.76,10286.7,77.2023];
 			};
+			if (_worldName isEqualTo 'Stratis') exitWith {
+				player setDir 294.613;
+				player setPosWorld [1906.07,5713.91,18.4492];
+			};
 		} else {
 			player setDir (random 360);
-			player setPosATL [((markerPos 'QS_marker_respawn_uavoperator') # 0),((markerPos 'QS_marker_respawn_uavoperator') # 1), 0];	/*/ Edit the 0 here to change elevation /*/
+			player setPos (markerPos ['QS_marker_respawn_uavoperator',TRUE]);	// position AGL. https://community.bistudio.com/wiki/markerPos . see alternative syntax
 		};
 	};
 };

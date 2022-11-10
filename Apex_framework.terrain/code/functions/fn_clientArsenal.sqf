@@ -6,14 +6,17 @@ Author:
 
 Last Modified:
 
-	6/05/2018 A3 1.82 by Quiksilver
+	4/11/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Setup Client Arsenal
 ____________________________________________________/*/
 
-player setVariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]],FALSE];
+params [
+	['_unit',player]
+];
+_unit setVariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]],FALSE];
 if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) exitWith {
 	// Populate faces list
 	private _data = [];
@@ -195,7 +198,7 @@ private _QS_restrictedBackpacks = [
 	'i_ugv_02_demining_backpack_f',
 	'o_ugv_02_demining_backpack_f'
 ];
-if ((player getVariable ['QS_unit_side',WEST]) in [EAST,RESISTANCE]) then {
+if ((_unit getVariable ['QS_unit_side',WEST]) in [EAST,RESISTANCE]) then {
 	_QS_restrictedItems = _QS_restrictedItems -	[
 		'','u_i_c_soldier_bandit_4_f','u_i_c_soldier_bandit_1_f','u_i_c_soldier_bandit_2_f','u_i_c_soldier_bandit_5_f','u_i_c_soldier_bandit_3_f','u_o_t_soldier_f',
 		'u_o_combatuniform_ocamo','u_o_combatuniform_oucamo','u_o_fullghillie_ard','u_o_t_fullghillie_tna_f','u_o_fullghillie_lsh','u_o_fullghillie_sard','u_o_t_sniper_f',
@@ -297,9 +300,9 @@ if ((_isBlacklisted) || {((missionNamespace getVariable ['QS_missionConfig_Arsen
 		_QS_restrictedBackpacks = [];
 	};
 	_cfgBackpacks = _cfgBackpacks select {(!((toLowerANSI _x) in _QS_restrictedBackpacks))};
-	player setVariable ['bis_addVirtualWeaponCargo_cargo',[_cfgItems,_cfgWeapons,_cfgMagazines,_cfgBackpacks],FALSE];	
+	_unit setVariable ['bis_addVirtualWeaponCargo_cargo',[_cfgItems,_cfgWeapons,_cfgMagazines,_cfgBackpacks],FALSE];	
 };
-_data = [(player getVariable ['QS_unit_side',WEST]),(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_data_arsenal');
+_data = [(_unit getVariable ['QS_unit_side',WEST]),(_unit getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_data_arsenal');
 private _weapons = [];
 (_data # ([1,0] select _isBlacklisted)) params ['_itemsData','_magazines','_backpacks','_weapons'];
 if (_backpacks isNotEqualTo []) then {
@@ -329,7 +332,7 @@ if (_goggles isNotEqualTo []) then {
 	_items = _items + _x;
 } forEach _itemsData;
 if (_isBlacklisted) exitWith {
-	_cargo = player getvariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]]];
+	_cargo = _unit getvariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]]];
 	_cargo params ['_cargoItems','_cargoWeapons','_cargoMagazines','_cargoBackpacks'];
 	private _class = '';
 	private _foundIndex = -1;
@@ -367,11 +370,11 @@ if (_isBlacklisted) exitWith {
 			};
 		} forEach _backpacks;
 	};
-	player setVariable ['bis_addVirtualWeaponCargo_cargo',[_cargoItems,_cargoWeapons,_cargoMagazines,_cargoBackpacks],FALSE];	
+	_unit setVariable ['bis_addVirtualWeaponCargo_cargo',[_cargoItems,_cargoWeapons,_cargoMagazines,_cargoBackpacks],FALSE];
 };
 {
 	if ((_x # 1) isNotEqualTo []) then {
-		[player,(_x # 1),FALSE,FALSE] call (missionNamespace getVariable (_x # 0));
+		[_unit,(_x # 1),FALSE,FALSE] call (missionNamespace getVariable (_x # 0));
 	};
 } forEach [
 	[(format ['BIS_fnc_%1VirtualItemCargo',(['add','remove'] select _isBlacklisted)]),(_items select {(!( (toLowerANSI _x) in _QS_restrictedItems))})],

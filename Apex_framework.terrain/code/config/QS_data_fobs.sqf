@@ -1755,8 +1755,5 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 	};
 	_return;
 };
-if (_worldName isEqualTo 'Stratis') exitWith {_return = [];_return;};
-if (_worldName isEqualTo 'Chernarus') exitWith {_return = [];_return;};
-if (_worldName isEqualTo 'Sahrani') exitWith {_return = [];_return;};
-if (_worldName isEqualTo 'Takistan') exitWith {_return = [];_return;};
+if (_worldName isEqualTo 'Stratis') exitWith {[]};
 []

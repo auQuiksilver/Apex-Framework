@@ -41,7 +41,7 @@ if (_type isEqualTo 1) exitWith {
 		_jammer allowDamage FALSE;
 		_jammer spawn {uiSleep 3;_this allowDamage TRUE;};
 		_jammer setDir (random 360);
-		_jammer setVehiclePosition [_spawnPosition,[],0,'NONE'];
+		_jammer setVehiclePosition [_spawnPosition,[],30,'NONE'];
 		clearWeaponCargoGlobal _jammer;
 		clearMagazineCargoGlobal _jammer;
 		clearItemCargoGlobal _jammer;

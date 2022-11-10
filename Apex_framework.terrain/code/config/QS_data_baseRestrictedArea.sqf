@@ -18,7 +18,7 @@ Notes:
 	- Only one Vehicle Restricted area is allowed, unlike Speed Limited areas where you can have several.
 __________________________________________________________________________/*/
 
-private _return = [ [[0,0,1],[1,0,1],[1,1,1],[0,1,1]] ];	// Do not edit this line
+private _return = [[0,0,1],[1,0,1],[1,1,1],[0,1,1]];	// Do not edit this line
 
 // EDIT BELOW
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isNotEqualTo 0) exitWith {
@@ -59,6 +59,16 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isNotEqualT
 			[4126.5,10229.4,0],
 			[4106.57,10249.8,0]
 		];
+	};
+	if (worldName isEqualTo 'Stratis') then {
+		// CUSTOM Vehicle Restricted area for STRATIS
+		_return = [
+			[1901.28,5731.89,0.00143099],
+			[1899.66,5725.67,0.00145817],
+			[1925.47,5718.36,0.00145531],
+			[1934.88,5753.19,0.00144339],
+			[1908.82,5760.27,0.00143909]
+		];	
 	};
 	_return;
 };
@@ -113,6 +123,15 @@ if (worldName isEqualTo 'Enoch') exitWith {
 		[4071.29,10173.2,0],
 		[4126.5,10229.4,0],
 		[4106.57,10249.8,0]
+	]
+};
+if (worldName isEqualTo 'Stratis') then {
+	[
+		[1901.28,5731.89,0.00143099],
+		[1899.66,5725.67,0.00145817],
+		[1925.47,5718.36,0.00145531],
+		[1934.88,5753.19,0.00144339],
+		[1908.82,5760.27,0.00143909]
 	]
 };
 [[0,0,0],[1,0,0],[1,1,0],[0,1,0]]						// Do not edit this line

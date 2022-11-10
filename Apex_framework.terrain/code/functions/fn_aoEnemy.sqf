@@ -17,7 +17,7 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** fn_aoEnemy START *****';
 diag_log '****************************************************';
 params ['_pos','_isHCEnabled','_aoData'];
-private _terrainData = missionNamespace getVariable ['QS_classic_terrainData',[ [],[],[],[],[],[],[],[],[],[] ] ];
+private _terrainData = missionNamespace getVariable ['QS_classic_terrainData',[ [],[],[],[],[],[],[],[],[],[],[],[] ] ];
 private _enemiesArray = [];
 private _playerCount = count allPlayers;
 private _randomPos = missionNamespace getVariable 'QS_aoPos';
@@ -42,24 +42,53 @@ private _infTypes = [
 	'OIA_InfTeam_LAT',2,
 	'OIA_ARTeam',2
 ];
+if (worldName isEqualTo 'Stratis') then {
+	_infTypes = [
+		'OIA_InfSquad',5,
+		'OIA_InfAssault',1,
+		'OIA_InfTeam_AA',1,
+		'OI_reconPatrol',0.5,
+		//'OIA_ReconSquad',0.5,
+		'OIA_InfTeam_LAT',0.25,
+		'OIA_ARTeam',4
+	];
+};
 private _infUrbanType = '';
 private _infUrbanTypes = [
 	'OIA_ARTeam',2,
 	'OIA_InfTeam_AT',1,
 	'OIA_InfTeam_LAT',1
 ];
+if (worldName isEqualTo 'Stratis') then {
+	_infUrbanTypes = [
+		'OIA_ARTeam',2,
+		//'OIA_InfTeam_AT',1,
+		'OIA_InfTeam_LAT',1
+	];
+};
 private _officerType = ['O_officer_F','O_T_Officer_F'] select (worldName in ['Tanoa','Enoch']);
 private _engineerType = ['O_engineer_F','O_T_Engineer_F'] select (worldName in ['Tanoa','Enoch']);
 private _basePos = markerPos 'QS_marker_base_marker';
 private _aoSize = missionNamespace getVariable ['QS_aoSize',750];
+if (worldName isEqualTo 'Stratis') then {
+	_aoSize = 350 * 1.3;
+};
 private _QS_HQpos = missionNamespace getVariable 'QS_HQpos';
+if (worldName isEqualTo 'Stratis') then {
+	_QS_HQpos = missionNamespace getVariable 'QS_aoPos';
+	(missionNamespace getVariable ['QS_registeredPositions',[]]) pushBack _QS_HQpos;
+};
 private _centerPos = _pos;
 private _centerRadius = _aoSize;
+private _radialPositions_outer = _terrainData # 10;
+private _radialPositions_outer2 = _radialPositions_outer;
+private _radialPositions_inner = _terrainData # 11;
+private _radialPositions_inner2 = _radialPositions_inner;
 private _roadPositionsValid = (((_centerPos select [0,2]) nearRoads _centerRadius) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) apply {(getPosATL _x)};
 private _allowVehicles = (count (_terrainData # 1)) > 40;
 private _registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
 private _buildingPositionsInArea = _terrainData # 6;
-private _manyBuildingPositions = (count _buildingPositionsInArea) > 100;
+private _manyBuildingPositions = (count _buildingPositionsInArea) > 65;		// 100
 if (_allowVehicles) then {
 	_roadPositionsValid = _roadPositionsValid call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
@@ -72,7 +101,7 @@ if (_playerCount > 0) then {
 	diag_log '****************************************************';
 	diag_log '***** AO ENEMY ***** Spawning Fortified AA *****';
 	diag_log '****************************************************';
-	private _aaCount = 2;
+	private _aaCount = [1,2] select (_playerCount > 10);
 	for '_x' from 1 to _aaCount step 1 do {
 		_aaArray = [_centerPos] call (missionNamespace getVariable 'QS_fnc_aoFortifiedAA');
 		if (_aaArray isNotEqualTo []) then {
@@ -101,7 +130,7 @@ if (worldName isEqualTo 'Altis') then {
 	if (_playerCount > 40) then {_grpCount = [15,13] select _allowVehicles;};
 	if (_playerCount > 50) then {_grpCount = [15,13] select _allowVehicles;};
 };
-if (worldName in ['Tanoa','Lingor3']) then {
+if (worldName in ['Tanoa']) then {
 	if (_playerCount > 10) then {_grpCount = [10,8] select _allowVehicles;};
 	if (_playerCount > 20) then {_grpCount = [10,8] select _allowVehicles;};
 	if (_playerCount > 30) then {_grpCount = [13,11] select _allowVehicles;};
@@ -114,6 +143,13 @@ if (worldName isEqualTo 'Malden') then {
 	if (_playerCount > 30) then {_grpCount = [13,11] select _allowVehicles;};
 	if (_playerCount > 40) then {_grpCount = [13,11] select _allowVehicles;};
 	if (_playerCount > 50) then {_grpCount = [13,11] select _allowVehicles;};
+};
+if (worldName isEqualTo 'Stratis') then {
+	if (_playerCount > 10) then {_grpCount = [7,6] select _allowVehicles;};
+	if (_playerCount > 20) then {_grpCount = [7,6] select _allowVehicles;};
+	if (_playerCount > 30) then {_grpCount = [9,8] select _allowVehicles;};
+	if (_playerCount > 40) then {_grpCount = [10,9] select _allowVehicles;};
+	if (_playerCount > 50) then {_grpCount = [10,9] select _allowVehicles;};
 };
 _placeTypes = [
 	'(1 + houses)',2,
@@ -137,223 +173,251 @@ for '_x' from 0 to (_grpCount - 1) step 1 do {
 		_bestPlaces = [_centerPos,_aoSize,(selectRandomWeighted _placeTypes),15,3];
 	};
 	_randomPos = ['RADIUS',_centerPos,([_aoSize,_aoSize * 0.85] select ((random 1) > 0.5)),'LAND',[1.5,-1,0.5,3,0,FALSE,objNull],TRUE,_bestPlaces,[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	_patrolGroup = [_randomPos,(random 360),EAST,(selectRandomWeighted _infTypes),FALSE,grpNull,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-	[_patrolGroup,_randomPos,200,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');		//125
-	[(units _patrolGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	{
-		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
-		_x setVehiclePosition [(getPosWorld _x), [], 0, 'CAN_COLLIDE'];
-		_enemiesArray pushBack _x;
-	} forEach (units _patrolGroup);
-	_patrolRoute = (_patrolGroup getVariable 'QS_AI_GRP_TASK') # 1;
-	if (_registeredPositions isNotEqualTo []) then {
-		_patrolRoute pushBack ((selectRandom _registeredPositions) getPos [(30 + (random 30)),random 360]);
+	if ((_randomPos distance2D _centerPos) < (_aoSize * 1.5)) then {
+		_patrolGroup = [_randomPos,(random 360),EAST,(selectRandomWeighted _infTypes),FALSE,grpNull,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
+		[_patrolGroup,_randomPos,200,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');		//125
+		[(units _patrolGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+		{
+			[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
+			_x setVehiclePosition [(getPosWorld _x), [], 0, 'CAN_COLLIDE'];
+			_enemiesArray pushBack _x;
+		} forEach (units _patrolGroup);
+		_patrolRoute = (_patrolGroup getVariable 'QS_AI_GRP_TASK') # 1;
+		if (_registeredPositions isNotEqualTo []) then {
+			_patrolRoute pushBack ((selectRandom _registeredPositions) getPos [(30 + (random 30)),random 360]);
+		};
+		if (_manyBuildingPositions) then {
+			_patrolRoute pushBack (selectRandom _buildingPositionsInArea);
+		};
+		_nearForestPositions = _forestPositions inAreaArray [_randomPos,_aoSize,_aoSize,0,FALSE];
+		if (_nearForestPositions isNotEqualTo []) then {
+			_nearForestPositions = _nearForestPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+			for '_iii' from 0 to 1 step 1 do {
+				_nearForestPosition = selectRandom _nearForestPositions;
+				/*/
+				_forestPositionIndex = _forestPositions find _nearForestPosition;
+				_forestPositions set [_forestPositionIndex,FALSE];
+				_forestPositions deleteAt _forestPositionIndex;
+				/*/
+				_patrolRoute pushBack _nearForestPosition;
+			};
+			_patrolRoute = _patrolRoute call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+			_patrolGroup setVariable ['QS_AI_GRP_TASK',[((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 0),_patrolRoute,((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 2),((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 3)],QS_system_AI_owners];
+		};
+		if ((random 1) > 0.75) then {
+			//if (!(_usedRadialPatrol)) then {
+				//_usedRadialPatrol = TRUE;
+				if (_radialPositions_outer2 isNotEqualTo []) then {
+					_patrolGroup setVariable ['QS_AI_GRP_TASK',[((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 0),_radialPositions_outer2,((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 2),((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 3)],QS_system_AI_owners];		
+					reverse _radialPositions_outer2;
+				};
+			//};
+		} else {
+			if ((count _radialPositions_outer2) > 2) then {
+				_patrolRoute pushBack (selectRandom _radialPositions_outer2);
+				_patrolRoute = _patrolRoute call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
+			};
+		};
+		_patrolGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
+		_patrolGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _patrolGroup))],QS_system_AI_owners];
+		_patrolGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+		_patrolGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+	} else {
+		diag_log format ['***** AO ENEMY * INFANTRY PATROL INVALID POSITION * %1 *****',_randomPos];
 	};
-	if (_manyBuildingPositions) then {
-		_patrolRoute pushBack (selectRandom _buildingPositionsInArea);
-	};
-	_nearForestPositions = _forestPositions inAreaArray [_randomPos,_aoSize,_aoSize,0,FALSE];
-	if (_nearForestPositions isNotEqualTo []) then {
-		_nearForestPosition = selectRandom _nearForestPositions;
-		_forestPositionIndex = _forestPositions find _nearForestPosition;
-		_forestPositions set [_forestPositionIndex,FALSE];
-		_forestPositions deleteAt _forestPositionIndex;
-		_patrolRoute pushBack _nearForestPosition;
-		_patrolRoute = _patrolRoute call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-		_patrolGroup setVariable ['QS_AI_GRP_TASK',[((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 0),_patrolRoute,((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 2),((_patrolGroup getVariable 'QS_AI_GRP_TASK') # 3)],QS_system_AI_owners];
-	};
-	_patrolGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
-	_patrolGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _patrolGroup))],QS_system_AI_owners];
-	_patrolGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
-	_patrolGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 };
 
 /*/=============================================================== STATIC WEAPONS/*/
-
-diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning static weapons *****';
-diag_log '****************************************************';
-_registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
-private _usedSettlementPosition = FALSE;
-private _dir = 0;
-private _building = objNull;
-if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
-	if ((random 1) > 0.5) then {
-		if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 2) then {
-			_buildingTypes = (call (missionNamespace getVariable 'QS_data_smallBuildingTypes')) select {(sizeOf _x) >= 10};
-			_buildingList = (nearestObjects [_centerPos,_buildingTypes,_aoSize * 0.75,TRUE]) select {!isObjectHidden _x};
-			if (_buildingList isNotEqualTo []) then {
-				_randomPos = [0,0,0];
-				for '_i' from 0 to 9 step 1 do {
-					_building = selectRandom _buildingList;
-					_randomPos = getPosATL _building;
-					if (
-						((_randomPos distance2D _QS_HQpos) > 100) && 
-						((_registeredPositions inAreaArray [_randomPos,50,50,0,FALSE]) isEqualTo [])
-					) exitWith {};
-				};
-				_usedSettlementPosition = TRUE;
-				_dir = getDir _building;
-				_building allowDamage FALSE;
-				_building hideObjectGlobal TRUE;
-				(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _building;
-			};
-		};
-	};
+private _staticChance = 0;
+if (worldName in ['Stratis']) then {
+	_staticChance = 0.666;
 };
-if (!_usedSettlementPosition) then {
-	for '_x' from 0 to 99 step 1 do {
-		_randomPos = ['RADIUS',_centerPos,(_aoSize * 0.85),'LAND',[5,0,0.3,5,0,FALSE,objNull],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		if (
-			((_registeredPositions inAreaArray [_randomPos,100,100,0,FALSE]) isEqualTo []) && 
-			((((_randomPos select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])
-		) exitWith {};
-	};
-};
-_list = [
-	["Land_Mil_WallBig_4m_F",[-0.354004,-0.0078125,11.045],0,270.632],
-	["Land_Mil_WallBig_4m_F",[-0.0952148,0.0634766,11.082],0,0],
-	["O_HMG_02_high_F",[-2.18506,-2.04688,10.4124],0,234.27],
-	["O_HMG_02_high_F",[-1.84229,2.15332,10.4124],0,309.028],
-	["O_HMG_02_high_F",[2.16064,1.62402,10.4124],0,42.212],
-	["O_HMG_02_high_F",[1.96973,-2.24854,10.4124],0,139.225]
-];
-_tower = createVehicle ['CargoPlaftorm_01_green_F',[0,0,0]];
-if (_usedSettlementPosition) then {
-	_tower setPos _randomPos;
-	//_tower setDir _dir;
-} else {
-	_tower setPosASL _randomPos;
-	//_tower setDir (random 360);
-};
-missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_randomPos]),FALSE];
-_tower addEventHandler [
-	'Deleted',
-	{
-		params ['_tower'];
-		{
-			deleteVehicle _x;
-		} forEach (_tower getVariable ['QS_entity_assocEntities',[]]);
-	}
-];
-_tower addEventHandler [
-	'Killed',
-	{
-		params ['_tower'];
-		{
-			deleteVehicle _x;
-		} forEach (_tower getVariable ['QS_entity_assocEntities',[]]);
-	}
-];
-_tower setVectorUp [0,0,1];
-sleep 0.5;
-_enemiesArray pushBack _tower;
-private _object = objNull;
-private _offset = 5;
-private _attachPos = [0,0,0];
-_tower setVariable ['QS_entity_assocEntities',[],FALSE];
-_towerGrp = createGroup [EAST,TRUE];
-{
-	_object = createVehicle [_x # 0,[0,0,0]];
-	_object allowDamage FALSE;
-	_attachPos = _x # 1;
-	_attachPos set [2,(_attachPos # 2) - _offset];
-	_object attachTo [_tower,_attachPos];
-	_object setDir ((getDir _tower) + (_x # 3));
-	_object spawn {sleep 1; detach _this;};
-	_tower setVariable ['QS_entity_assocEntities',((_tower getVariable ['QS_entity_assocEntities',[]]) + [_object]),FALSE];
-	_enemiesArray pushBack _object;
-	if (_object isKindOf 'StaticWeapon') then {
-		if (_playerCount < 30) then {
-			[_object] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
-		} else {
-			if ((random 1) > 0.666) then {
-				[_object] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
-			};
-		};
-		_grp = createVehicleCrew _object;
-		(units _grp) joinSilent _towerGrp;
-		(gunner _object) setVariable ['QS_AI_UNIT_isMG',TRUE,QS_system_AI_owners];
-		(gunner _object) setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
-		(gunner _object) addEventHandler [
-			'Hit',
-			{
-				params ['_unit','_source','_damage','_instigator'];
-				if (!isNull _source) then {
-					_unit reveal [_source,4];
-					(group _unit) reveal [_source,4];
-				};
-				if (!isNull _instigator) then {
-					_unit reveal [_instigator,4];
-					(group _unit) reveal [_instigator,4];
-				};
-			}
-		];
-		(gunner _object) addEventHandler [
-			'Killed',
-			{
-				_killed = _this # 0;
-				if (!isNull _killed) then {
-					if (!isNull (_killed getVariable 'QS_staticGunnerVehicle')) then {
-						(_killed getVariable 'QS_staticGunnerVehicle') setDamage 1;
+if ((random 1) > _staticChance) then {
+	diag_log '****************************************************';
+	diag_log '***** AO ENEMY ***** Spawning static weapons *****';
+	diag_log '****************************************************';
+	_registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
+	private _usedSettlementPosition = FALSE;
+	private _dir = 0;
+	private _building = objNull;
+	if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
+		if ((random 1) > 0.5) then {
+			if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 2) then {
+				_buildingTypes = missionNamespace getVariable ['QS_data_smallBuildingTypes_10',[]];
+				_buildingList = (nearestObjects [_centerPos,_buildingTypes,_aoSize * 0.75,TRUE]) select {!isObjectHidden _x};
+				if (_buildingList isNotEqualTo []) then {
+					_randomPos = [0,0,0];
+					for '_i' from 0 to 9 step 1 do {
+						_building = selectRandom _buildingList;
+						_randomPos = getPosATL _building;
+						if (
+							((_randomPos distance2D _QS_HQpos) > 100) && 
+							((_registeredPositions inAreaArray [_randomPos,50,50,0,FALSE]) isEqualTo [])
+						) exitWith {};
 					};
+					_usedSettlementPosition = TRUE;
+					_dir = getDir _building;
+					_building allowDamage FALSE;
+					_building hideObjectGlobal TRUE;
+					(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _building;
 				};
-			}
-		];
-		_object addEventHandler [
-			'GetOut',
-			{
-				(_this # 2) setDamage 1;
-				(_this # 0) setDamage 1;
-			}
-		];
-		_object addEventHandler [
-			'Deleted',
-			{
-				params ['_object'];
-			}
-		];
-		_object lock 3;
-		if (
-			((random 1) > 0.333) ||
-			{(_playerCount < 20)}
-		) then {
-			_object removeWeaponTurret ['HMG_M2_Mounted',[0]];
-			{
-				_object addWeaponTurret _x;
-			} forEach [
-				['M134_minigun',[0]]
-			];
-			{
-				_object addMagazineTurret _x;
-			} forEach [
-				['5000Rnd_762x51_Yellow_Belt',[0]],
-				['5000Rnd_762x51_Yellow_Belt',[0]],
-				['5000Rnd_762x51_Yellow_Belt',[0]],
-				['5000Rnd_762x51_Yellow_Belt',[0]]
-			];
+			};
 		};
-		_enemiesArray pushBack (gunner _object);
-		(gunner _object) setVariable ['QS_staticGunnerVehicle',_object,FALSE];
-		(gunner _object) enableAIFeature ['PATH',FALSE];
-		(gunner _object) enableAIFeature ['COVER',FALSE];
-		
-		if (worldName in ['Tanoa','Enoch']) then {
-			(gunner _object) setUnitLoadout 'o_t_soldier_f';
-		};
-		_object enableDynamicSimulation TRUE;
-		(gunner _object) enableDynamicSimulation TRUE;
-	} else {
-		_object enableSimulationGlobal FALSE;
 	};
-} forEach _list;
-[(units _towerGrp),3] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-_towerGrp setGroupIdGlobal ['HMG Tower'];
-_towerGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
-_towerGrp setCombatMode 'RED';
-_towerGrp setBehaviourStrong 'COMBAT';
-_towerGrp setCombatBehaviour 'COMBAT';
-_towerGrp enableAttack TRUE;
+	if (!_usedSettlementPosition) then {
+		for '_x' from 0 to 99 step 1 do {
+			_randomPos = ['RADIUS',_centerPos,(_aoSize * 0.85),'LAND',[5,0,0.3,5,0,FALSE,objNull],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+			if (
+				((_registeredPositions inAreaArray [_randomPos,100,100,0,FALSE]) isEqualTo []) && 
+				((((_randomPos select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])
+			) exitWith {};
+		};
+	};
+	_list = [
+		["Land_Mil_WallBig_4m_F",[-0.354004,-0.0078125,11.045],0,270.632],
+		["Land_Mil_WallBig_4m_F",[-0.0952148,0.0634766,11.082],0,0],
+		["O_HMG_02_high_F",[-2.18506,-2.04688,10.4124],0,234.27],
+		["O_HMG_02_high_F",[-1.84229,2.15332,10.4124],0,309.028],
+		["O_HMG_02_high_F",[2.16064,1.62402,10.4124],0,42.212],
+		["O_HMG_02_high_F",[1.96973,-2.24854,10.4124],0,139.225]
+	];
+	_tower = createVehicle ['CargoPlaftorm_01_green_F',[0,0,0]];
+	if (_usedSettlementPosition) then {
+		_tower setPos _randomPos;
+		//_tower setDir _dir;
+	} else {
+		_tower setPosASL _randomPos;
+		//_tower setDir (random 360);
+	};
+	missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_randomPos]),FALSE];
+	_tower addEventHandler [
+		'Deleted',
+		{
+			params ['_tower'];
+			{
+				deleteVehicle _x;
+			} forEach (_tower getVariable ['QS_entity_assocEntities',[]]);
+		}
+	];
+	_tower addEventHandler [
+		'Killed',
+		{
+			params ['_tower'];
+			{
+				deleteVehicle _x;
+			} forEach (_tower getVariable ['QS_entity_assocEntities',[]]);
+		}
+	];
+	_tower setVectorUp [0,0,1];
+	sleep 0.5;
+	_enemiesArray pushBack _tower;
+	private _object = objNull;
+	private _offset = 5;
+	private _attachPos = [0,0,0];
+	_tower setVariable ['QS_entity_assocEntities',[],FALSE];
+	_towerGrp = createGroup [EAST,TRUE];
+	{
+		_object = createVehicle [_x # 0,[0,0,0]];
+		_object allowDamage FALSE;
+		_attachPos = _x # 1;
+		_attachPos set [2,(_attachPos # 2) - _offset];
+		_object attachTo [_tower,_attachPos];
+		_object setDir ((getDir _tower) + (_x # 3));
+		_object spawn {sleep 1; detach _this;};
+		_tower setVariable ['QS_entity_assocEntities',((_tower getVariable ['QS_entity_assocEntities',[]]) + [_object]),FALSE];
+		_enemiesArray pushBack _object;
+		if (_object isKindOf 'StaticWeapon') then {
+			if (_playerCount < 30) then {
+				[_object] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+			} else {
+				if ((random 1) > 0.666) then {
+					[_object] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
+				};
+			};
+			_grp = createVehicleCrew _object;
+			(units _grp) joinSilent _towerGrp;
+			(gunner _object) setVariable ['QS_AI_UNIT_isMG',TRUE,QS_system_AI_owners];
+			(gunner _object) setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
+			(gunner _object) addEventHandler [
+				'Hit',
+				{
+					params ['_unit','_source','_damage','_instigator'];
+					if (!isNull _source) then {
+						_unit reveal [_source,4];
+						(group _unit) reveal [_source,4];
+					};
+					if (!isNull _instigator) then {
+						_unit reveal [_instigator,4];
+						(group _unit) reveal [_instigator,4];
+					};
+				}
+			];
+			(gunner _object) addEventHandler [
+				'Killed',
+				{
+					_killed = _this # 0;
+					if (!isNull _killed) then {
+						if (!isNull (_killed getVariable 'QS_staticGunnerVehicle')) then {
+							(_killed getVariable 'QS_staticGunnerVehicle') setDamage 1;
+						};
+					};
+				}
+			];
+			_object addEventHandler [
+				'GetOut',
+				{
+					(_this # 2) setDamage 1;
+					(_this # 0) setDamage 1;
+				}
+			];
+			_object addEventHandler [
+				'Deleted',
+				{
+					params ['_object'];
+				}
+			];
+			_object lock 3;
+			if (
+				((random 1) > 0.333) ||
+				{(_playerCount < 20)}
+			) then {
+				_object removeWeaponTurret ['HMG_M2_Mounted',[0]];
+				{
+					_object addWeaponTurret _x;
+				} forEach [
+					['M134_minigun',[0]]
+				];
+				{
+					_object addMagazineTurret _x;
+				} forEach [
+					['5000Rnd_762x51_Yellow_Belt',[0]],
+					['5000Rnd_762x51_Yellow_Belt',[0]],
+					['5000Rnd_762x51_Yellow_Belt',[0]],
+					['5000Rnd_762x51_Yellow_Belt',[0]]
+				];
+			};
+			_enemiesArray pushBack (gunner _object);
+			(gunner _object) setVariable ['QS_staticGunnerVehicle',_object,FALSE];
+			(gunner _object) enableAIFeature ['PATH',FALSE];
+			(gunner _object) enableAIFeature ['COVER',FALSE];
+			
+			if (worldName in ['Tanoa','Enoch']) then {
+				(gunner _object) setUnitLoadout 'o_t_soldier_f';
+			};
+			_object enableDynamicSimulation TRUE;
+			(gunner _object) enableDynamicSimulation TRUE;
+		} else {
+			_object enableSimulationGlobal FALSE;
+		};
+	} forEach _list;
+	[(units _towerGrp),3] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+	_towerGrp setGroupIdGlobal ['HMG Tower'];
+	_towerGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+	_towerGrp setCombatMode 'RED';
+	_towerGrp setBehaviourStrong 'COMBAT';
+	_towerGrp setCombatBehaviour 'COMBAT';
+	_towerGrp enableAttack TRUE;
+};
 _registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
 /*/=============================================================== INFANTRY OVERWATCH/*/
 
@@ -369,18 +433,19 @@ if (_playerCount > 15) then {
 	};
 };
 private _overwatchGroup = grpNull;
+private _towerPos3 = ATLToASL (getPosATL (missionNamespace getVariable 'QS_radioTower'));
+private _centerPosASL = ATLToASL _centerPos;
+private _hqPosASL = ATLToASL _QS_HQpos;
+private _watchPos = selectRandom [_centerPosASL,_hqPosASL,_towerPos3];
 for '_x' from 0 to _grpCount step 1 do {
-	private _watchPos = selectRandom [(ATLToASL _centerPos),(ATLToASL _QS_HQpos),(ATLToASL (getPosATL (missionNamespace getVariable 'QS_radioTower')))];
-	
+	_watchPos = selectRandom [_centerPosASL,_hqPosASL,_towerPos3];
 	for '_z' from 0 to 49 step 1 do {
 		_randomPos = [_watchPos,(_aoSize * 0.8),25,10,[[objNull,'VIEW'],(0.1 max (random 1))]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
 		if (
 			(!([_randomPos,50,6] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))
 		) exitWith {};
+		_watchPos = selectRandom [_centerPosASL,_hqPosASL,_towerPos3];
 	};
-	
-	
-	
 	_infUrbanType = selectRandomWeighted _infUrbanTypes;
 	_overwatchGroup = [_randomPos,(random 360),EAST,_infUrbanType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 	[(units _overwatchGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
@@ -399,6 +464,20 @@ for '_x' from 0 to _grpCount step 1 do {
 		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 		0 = _enemiesArray pushBack _x;
 	} count (units _overwatchGroup);
+	if ((_randomPos distance2D _watchPos) < 25) then {
+		if ((random 1) > 0.5) then {
+			if (_radialPositions_inner2 isNotEqualTo []) then {
+				_overwatchGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPositions_inner2,-1,-1],QS_system_AI_owners];
+				_overwatchGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+				reverse _radialPositions_inner2;
+			};
+		} else {
+			if (_radialPositions_outer isNotEqualTo []) then {
+				_overwatchGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPositions_outer,-1,-1],QS_system_AI_owners];
+				_overwatchGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
+			};
+		};
+	};
 	_overwatchGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 	_overwatchGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _overwatchGroup))],QS_system_AI_owners];
 	_overwatchGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
@@ -427,8 +506,14 @@ if (_playerCount > 40) then {
 if (_playerCount > 50) then {
 	_vehCount = [4,5] select _allowVehicles;
 };
+private _motorPool = [0,7] select _allowVehicles;
+if (worldName in ['Stratis']) then {
+	_vehCount = _vehCount min 3;
+	_motorPool = 8;
+};
 private _AOveh = objNull;
 private _AOvehGroup = grpNull;
+
 for '_x' from 0 to (_vehCount - 1) step 1 do {
 	_AOvehGroup = createGroup [EAST,TRUE];
 	if (_allowVehicles) then {
@@ -436,7 +521,7 @@ for '_x' from 0 to (_vehCount - 1) step 1 do {
 	} else {
 		_randomPos = [_centerPos,0,_aoSize,2.5,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 	};
-	_AOveh = createVehicle [(selectRandomWeighted ([([0,7] select _allowVehicles)] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),[(_randomPos # 0),(_randomPos # 1),0.25],[],0,'NONE'];
+	_AOveh = createVehicle [(selectRandomWeighted ([_motorPool] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),(_randomPos vectorAdd [0,0,0.25]),[],0,'NONE'];
 	_AOveh allowDamage FALSE;
 	_AOveh limitSpeed (random [30,40,50]);
 	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _AOveh;
@@ -547,7 +632,11 @@ for '_x' from 0 to ([1,2] select (_playerCount > 30)) step 1 do {
 
 /*/=============================================================== AO MORTAR PIT/*/
 
-if ((random 1) > 0.5) then {
+private _mortarChance = (random 1) > 0.5;
+if (worldName isEqualTo 'Stratis') then {
+	_mortarChance = _mortarChance && (_playerCount > 15);
+};
+if (_mortarChance) then {
 	diag_log '****************************************************';
 	diag_log '***** AO ENEMY ***** Spawning Mortar Pit *****';
 	diag_log '****************************************************';
@@ -564,7 +653,6 @@ if ((random 1) > 0.5) then {
 diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning Enemies in buildings *';
 diag_log '****************************************************';
-
 private _AOgarrisonGroup = grpNull;
 private _toGarrison = [];
 private _indArray = [
@@ -652,7 +740,8 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning HQ Guards *****';
 diag_log '****************************************************';
 
-_randomPos = ['RADIUS',_QS_HQpos,50,'LAND',[],FALSE,[],[0,40,'O_soldier_F'],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+//_randomPos = ['RADIUS',_QS_HQpos,150,'LAND',[],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+_randomPos = [_QS_HQpos,0,150,1,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 _infUrbanType = selectRandomWeighted _infUrbanTypes;
 private _hqGroup1 = [_randomPos,(random 360),EAST,_infUrbanType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 [_hqGroup1,_QS_HQpos,70,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
@@ -667,7 +756,8 @@ _hqGroup1 setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	0 = _enemiesArray pushBack _x;
 } forEach (units _hqGroup1);
 _infUrbanType = selectRandomWeighted _infUrbanTypes;
-_randomPos = ['RADIUS',_QS_HQpos,50,'LAND',[],FALSE,[],[0,40,'O_soldier_F'],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+//_randomPos = ['RADIUS',_QS_HQpos,150,'LAND',[],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
+_randomPos = [_QS_HQpos,0,150,1,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 private _hqGroup2 = [_randomPos,(random 360),EAST,_infUrbanType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 [_hqGroup2,_QS_HQpos,70,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
 [(units _hqGroup2),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
@@ -721,7 +811,8 @@ _commander setUnitLoadout (selectRandom _loadouts);
 	['AUTOCOMBAT',FALSE],
 	['PATH',FALSE],
 	['AIMINGERROR',FALSE],
-	['SUPPRESSION',FALSE]
+	['SUPPRESSION',FALSE],
+	['MINEDETECTION',FALSE]
 ];
 {
 	_commander addEventHandler _x;

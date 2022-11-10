@@ -44,7 +44,7 @@ if (_type isEqualTo 'FOOT') then {
 		};
 	} forEach _buildings;
 	if (_arrayBuildingPositions isNotEqualTo []) then {
-		_arrayBuildingPositions = _arrayBuildingPositions apply {[(_x # 0),(_x # 1),((_x # 2) + 1)]};
+		_arrayBuildingPositions = _arrayBuildingPositions apply {(_x vectorAdd [0,0,0.1])};
 	};
 	if (_arrayBuildingPositions isNotEqualTo []) then {
 		if (((count _arrayBuildingPositions) > 20) || (_forced)) then {

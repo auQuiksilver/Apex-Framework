@@ -285,7 +285,7 @@ _flagTextureFriendly = (missionNamespace getVariable ['QS_missionConfig_textures
 _teamspeak = '-teamspeak address-    Password:   -teamspeak password-';
 _website = '-website-';
 private _sectorAreaObjects = [];
-if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'SC') then {
+if ((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isEqualTo 'SC') then {
 	_sectorAreaObjects = [
 		[
 			[
@@ -382,7 +382,7 @@ _recyclerUnitTypes = [
 	['QS_RSS_enabled',TRUE,TRUE],
 	['QS_RSS_client_canSideSwitch',((missionNamespace getVariable ['QS_missionConfig_playableOPFOR',0]) isNotEqualTo 0),TRUE],
 	['QS_missionConfig_restartHours',(missionNamespace getVariable ['QS_missionConfig_restartHours',[0,6,12,18]]),FALSE],
-	['QS_mission_aoType',(missionProfileNamespace getVariable ['QS_mission_aoType','CLASSIC']),TRUE],
+	['QS_mission_aoType',(missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']),TRUE],
 	['QS_system_realTimeStart',systemTime,TRUE],
 	['QS_carrierObject',objNull,TRUE],
 	['QS_AI_dynSkill_coef',0,TRUE],
@@ -402,6 +402,7 @@ _recyclerUnitTypes = [
 	['QS_analytics_entities_respawned',0,FALSE],
 	['QS_analytics_entities_killed',0,FALSE],
 	['QS_analytics_entities_recycled',0,FALSE],
+	/*/
 	['QS_aar_A_killed_bad',0,TRUE],
 	['QS_aar_A_killed_good',0,TRUE],
 	['QS_aar_A_killed_civ',0,TRUE],
@@ -412,6 +413,7 @@ _recyclerUnitTypes = [
 	['QS_aar_B_killed_civ',0,TRUE],
 	['QS_aar_B_killed_bldg',0,TRUE],
 	['QS_aar_B_time_dur',0,TRUE],
+	/*/
 	['QS_armedAirEnabled',TRUE,TRUE],
 	['QS_var_debug',FALSE,FALSE],
 	['QS_serverKey','abc123',TRUE],
@@ -643,7 +645,7 @@ _recyclerUnitTypes = [
 	['QS_dynTask_medevac_inProgress',FALSE,TRUE],
 	['QS_dynTask_medevac_array',[],FALSE],
 	['QS_primaryObjective_civilians',[],FALSE],
-	['QS_recycler_units',((missionNamespace getVariable 'QS_missionConfig_aoType') in ['CLASSIC','SC']),FALSE],
+	['QS_recycler_units',((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) in ['CLASSIC','SC']),FALSE],
 	['QS_recycler_unitTypes',_recyclerUnitTypes,FALSE],
 	['QS_recycler_unitCount',8,FALSE],
 	['QS_recycler_nullGrp',grpNull,FALSE],
@@ -771,11 +773,28 @@ _recyclerUnitTypes = [
 	['QS_AI_cmdr_recentSuppPositions',[],FALSE],
 	['QS_zeus_captureMan',objNull,TRUE],
 	['QS_cas_JetsDLCEnabled',TRUE,FALSE],
-	['QS_radiotower_useFence',TRUE,FALSE]
+	['QS_radiotower_useFence',TRUE,FALSE],
+	['QS_AI_smokeTargets',[],TRUE],
+	['QS_module_objectScale',[],TRUE],
+	['QS_AI_forceTracers',FALSE,TRUE],
+	['QS_hashmap_tracers',createHashMapFromArray (call QS_data_tracers),FALSE],
+	['QS_hashmap_rockets',createHashMapFromArray (call QS_data_rockets),FALSE]
 ];
-call (compileScript ['@Apex_cfg\roles.sqf']);
+// Load terrain-specific Roles if file is found
+if (fileExists (format ['@Apex_cfg\%1\roles.sqf',worldName])) then {
+	diag_log '***** DEBUG ***** COMPILING TERRAIN SPECIFIC ROLES DATA';
+	call (compileScript [(format ['@Apex_cfg\%1\roles.sqf',worldName])]);
+} else {
+	call (compileScript ['@Apex_cfg\roles.sqf']);
+};
 ['INIT_SYSTEM'] call (missionNamespace getVariable 'QS_fnc_roles');
-missionNamespace setVariable ['QS_data_arsenal',(compileScript ['@Apex_cfg\arsenal.sqf',TRUE]),TRUE];
+// Load terrain-specific Arsenal if file is found
+if (fileExists (format ['@Apex_cfg\%1\arsenal.sqf',worldName])) then {
+	diag_log '***** DEBUG ***** COMPILING TERRAIN SPECIFIC ARSENAL DATA';
+	missionNamespace setVariable ['QS_data_arsenal',(compileScript [(format ['@Apex_cfg\%1\arsenal.sqf',worldName]),TRUE]),TRUE];
+} else {
+	missionNamespace setVariable ['QS_data_arsenal',(compileScript ['@Apex_cfg\arsenal.sqf',TRUE]),TRUE];
+};
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	{
 		missionNamespace setVariable _x;
@@ -787,6 +806,11 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 _markerData = call (compileScript ['code\config\QS_data_markers.sqf']);
 _markers = [];
 _allMapMarkers = allMapMarkers;
+if (worldName isEqualTo 'Stratis') then {
+	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+		_markerData pushBack ['QS_marker_stratisPatrolBase',[4094.31,4596.4,0.00143433],'b_hq','Icon','','ColorWEST',[0.5,0.5],0.75,[4094.31,4596.4,0.00143433],0,localize 'STR_QS_Marker_071'];
+	};
+};
 {
 	if (!((_x # 0) in _allMapMarkers)) then {
 		createMarker [(_x # 0),(_x # 1)];
@@ -859,6 +883,218 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 				'_args',
 				'_code'
 			];
+			if (_clientOnly isEqualTo 0) then {
+				if (_simpleObject isNotEqualTo 0) then {
+					_entity = createSimpleObject [([_type,_model] select (_simpleObject isEqualTo 2)),[-500,-500,0]];
+					_entity setVectorDirAndUp _vectorDirAndUp;
+					_entity setPosWorld _pos;
+				} else {
+					_entity = createVehicle [_type,[-500,-500,0],[],0,'CAN_COLLIDE'];
+					if (_simulationEnabled isEqualTo 1) then {
+						if (!(simulationEnabled _entity)) then {
+							_entity enableSimulationGlobal TRUE;
+						};
+					} else {
+						if (simulationEnabled _entity) then {
+							_entity enableSimulationGlobal FALSE;
+						};
+					};
+					if (_damageAllowed isEqualTo 1) then {
+						if (!(isDamageAllowed _entity)) then {
+							_entity allowDamage TRUE;
+						};
+					} else {
+						if (isDamageAllowed _entity) then {
+							_entity allowDamage FALSE;
+						};
+					};
+					_entity setPosWorld _pos;
+					_entity setVectorDirAndUp _vectorDirAndUp;
+				};
+				if (!isNull _entity) then {
+					[_entity] call _code;
+				};
+			};
+		} forEach _composition;
+	};
+};
+
+/*/===== World config/*/
+
+if (_worldName in ['Altis','Tanoa','Malden','Enoch','Stratis']) then {
+	private _subPos = [0,0,0];
+	private _sub = objNull;
+	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+		private _spawnSub = FALSE;
+		private _dir = random 360;
+		if (_worldName isEqualTo 'Altis') then {
+			_subPos = [15197.437,15219.423,(0 - (random 2))];
+			_spawnSub = TRUE;
+		};
+		if (_worldName isEqualTo 'Tanoa') then {
+			_subPos = [7025.683,6660.926,(0 - (random 2))];
+			_spawnSub = TRUE;
+		};
+		if (_worldName isEqualTo 'Malden') then {
+			_subPos = [8851.859,9930.916,(0 - (random 2))];
+			_spawnSub = TRUE;
+		};
+		if (_worldName isEqualTo 'Stratis') then {
+			_subPos = [1965.819,5248.986,(0 - (random 2))];
+			_dir = 13.8;
+			_spawnSub = TRUE;
+		};
+		if (_spawnSub) then {
+			_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
+			_sub setDir _dir;
+			missionNamespace setVariable ['QS_setFeatureType',((missionNamespace getVariable 'QS_setFeatureType') + [[_sub,2]]),TRUE];
+		};
+	} else {
+		if ('QS_marker_subPosition' in allMapMarkers) then {
+			if (surfaceIsWater (markerPos 'QS_marker_subPosition')) then {
+				_subPos = (markerPos ['QS_marker_subPosition',TRUE]) vectorAdd [0,0,(0 - (random 2))];
+				_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
+				_sub setDir (markerDir 'QS_marker_subPosition');
+				missionNamespace setVariable ['QS_setFeatureType',((missionNamespace getVariable 'QS_setFeatureType') + [[_sub,2]]),TRUE];
+			};
+			deleteMarker 'QS_marker_subPosition';
+		};
+	};
+};
+if ((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isEqualTo 'GRID') then {
+	{
+		_x hideObjectGlobal TRUE;
+	} forEach (nearestTerrainObjects [[worldSize/2, worldSize/2],['Land_ConcreteWell_01_F','Land_SewerCover_04_F','Land_ConcreteWell_02_F','Land_StoneWell_01_F'],worldSize,FALSE,TRUE]);
+};
+if (!((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) in ['ZEUS'])) then {
+	// Hide terrain radio towers
+	{
+		_x hideObjectGlobal TRUE;
+		_x allowDamage FALSE;
+	} forEach (nearestTerrainObjects [[worldSize / 2,worldSize / 2,0],['TRANSMITTER'],worldSize / 2]) select {( (toLowerANSI (typeOf _x)) in ['land_ttowerbig_1_f','land_ttowerbig_2_f'])};
+};
+if (_worldName isEqualTo 'Malden') then {
+	{
+		((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
+	} forEach [
+		[[4779.35,5697.9,0.0012207],'Land_Bunker_01_HQ_F']
+	];
+};
+if (_worldName isEqualTo 'Stratis') then {
+	// Set all the terrain military structures to indestructible
+	0 spawn {
+		_QS_milBuildings = (nearestTerrainObjects [[worldsize / 2,worldsize / 2,0], ['HOUSE'],worldsize,false]) select {
+			((((getModelInfo _x) # 0) select [0,7]) in ['cargo_h','cargo_p'])
+		};
+		_QS_milBuildings = _QS_milBuildings select {
+			(!((getPosWorld _x) inPolygon [
+				[2619.61,5814.57,0.00137115],
+				[2269.47,5989.51,0.00155592],
+				[1882.34,6273.29,0.00182962],
+				[1442.13,5642.64,-1.96785],
+				[1485.09,4866.48,0.0010221],
+				[2107.92,4833.72,0.00100517],
+				[2603.8,5447.23,0.001297]
+			]))
+		};
+		private _obj = objNull;
+		private _pos = [0,0,0];
+		private _type = '';
+		private _vectorDirAndUp = [];
+		{
+			_obj = _x;
+			_type = typeOf _obj;
+			_pos = getPosWorld _obj;
+			_vectorDirAndUp = [vectorDir _x,vectorUp _x];
+			_x allowDamage FALSE;
+			_x hideObjectGlobal TRUE;
+			sleep 1;
+			_obj = createVehicle [_type,[0,0,0]];
+			_obj setVectorDirAndUp _vectorDirAndUp;
+			_obj setPosWorld _pos;
+			_obj allowDamage FALSE;
+		} forEach _QS_milBuildings;
+		([4357.12,3893.8,-0.00238037] nearestObject 'Land_Radar_F') hideObjectGlobal (!isObjectHidden ([4357.12,3893.8,-0.00238037] nearestObject 'Land_Radar_F'));
+		_obj = createVehicle ['Land_Radar_F',[4357.12,3893.8,-0.00238037]];
+		_obj setVectorDirAndUp [[-0.00336486,0.999995,5.69151e-006],[0.00169146,0,0.999999]];
+		_obj setPosWorld [4358.67,3893.71,247.989];
+		_obj allowDamage FALSE;
+		//['setFeatureType',_obj,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_obj];
+		missionNamespace setVariable ['QS_setFeatureType',((missionNamespace getVariable 'QS_setFeatureType') + [[_obj,2]]),TRUE];
+		
+		([2715.07,951.489,-0.0169754] nearestObject 'Land_LightHouse_F') hideObjectGlobal (!isObjectHidden ([4357.12,3893.8,-0.00238037] nearestObject 'Land_LightHouse_F'));
+		_obj = createVehicle ['Land_LightHouse_F',[2715.07,951.489,-0.0169754]];
+		_obj setVectorDirAndUp [[0.612695,0.79032,-0.000299167],[0.000488281,0,1]];
+		_obj setPosWorld [2717.05,954.05,94.4399];
+		_obj allowDamage FALSE;
+		//['setFeatureType',_obj,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_obj];
+		missionNamespace setVariable ['QS_setFeatureType',((missionNamespace getVariable 'QS_setFeatureType') + [[_obj,2]]),TRUE];
+		
+		([6602.79,5192.66,-0.0202332] nearestObject 'Land_LightHouse_F') hideObjectGlobal (!isObjectHidden ([6602.79,5192.66,-0.0202332] nearestObject 'Land_LightHouse_F'));
+		_obj = createVehicle ['Land_LightHouse_F',[6602.79,5192.66,-0.0202332]];
+		_obj setVectorDirAndUp [[-0.986766,-0.162154,0.000963638],[0.000976563,0,1]];
+		_obj setPosWorld [6599.59,5192.14,92.6175];
+		_obj allowDamage FALSE;
+		//['setFeatureType',_obj,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_obj];
+		missionNamespace setVariable ['QS_setFeatureType',((missionNamespace getVariable 'QS_setFeatureType') + [[_obj,2]]),TRUE];
+		// Agia Marina HQ area
+		{
+			((_x # 1) nearestObject (_x # 0)) allowDamage FALSE;
+			((_x # 1) nearestObject (_x # 0)) hideObjectGlobal TRUE;
+			sleep 0.1;
+			_obj = createVehicle [_x # 0,[0,0,0]];
+			_obj allowDamage FALSE;
+			_obj setPosWorld (_x # 2);
+			_obj setVectorDirAndUp (_x # 3);
+		} forEach [
+			["Land_i_Shop_02_V1_F",[3042.54,6001.38,-0.0874577],[3041.74,6000.7,6.45441],[[0.0354329,-0.999372,-2.99668e-005],[0.000845734,0,1]]],
+			["Land_i_Shop_01_V1_F",[3012.05,6012.8,-5.29289e-005],[3011.97,6015.21,6.41605],[[0.0700597,-0.997543,-6.84177e-005],[0.000976563,0,1]]],
+			["Land_i_Shop_02_V1_F",[3003.53,6012.46,-0.0335679],[3002.83,6013.24,6.49596],[[-0.997961,-0.0638289,0.000487278],[0.000488273,0,1]]],
+			["Land_i_Shop_01_V1_F",[2993.72,6011.59,0.0152993],[2993.65,6014.01,6.4314],[[0.0598389,-0.998208,-5.84364e-005],[0.000976562,0,1]]],
+			["Land_i_House_Small_03_V1_F",[2971.06,6006.67,0.373476],[2971.07,6006.6,4.03916],[[0.482564,0.875862,-0.000999683],[0.0020716,0,1]]],
+			["Land_i_Shop_01_V1_F",[3043.14,5991.52,-0.0422173],[3040.72,5991.52,6.37388],[[0.999439,0.0334988,-0.000345073],[0.000345267,0,1]]],
+			["Land_i_House_Small_03_V1_F",[3039.68,6016.45,0.375698],[3039.64,6016.51,4.07278],[[0.0592463,-0.998244,-9.14812e-005],[0.00154408,0,1]]]
+		];
+		// Girna HQ area
+		{
+			((_x # 1) nearestObject (_x # 0)) allowDamage FALSE;
+			((_x # 1) nearestObject (_x # 0)) hideObjectGlobal TRUE;
+			sleep 0.1;
+			_obj = createVehicle [_x # 4,[0,0,0]];
+			_obj allowDamage FALSE;
+			_obj setPosWorld (_x # 2);
+			_obj setVectorDirAndUp (_x # 3);
+		} forEach [
+			["Land_Slum_House01_F",[2068.21,2724.03,0.302671],[2067.56,2724.67,6.90831],[[0.760586,-0.649237,-0.000643254],[0.000845734,0,1]],"Land_Slum_House01_F"],
+			["Land_i_Stone_Shed_V1_F",[2043.74,2736.84,0.376987],[2044.14,2738.07,3.83615],[[-0.629329,-0.777139,0.000614579],[0.000976562,0,1]],"Land_i_Stone_Shed_V1_F"],
+			["Land_Slum_House03_F",[2034.97,2713.54,-0.000620365],[2033.61,2713.42,4.74787],[[0.677418,0.735598,-0.00046778],[0.000690534,0,1]],"Land_Slum_House03_F"],
+			["Land_i_Stone_Shed_V1_F",[2078.04,2748.53,0.711457],[2077.36,2747.5,6.73855],[[0.748614,0.663006,-0.00057796],[0.00077204,0,1]],"Land_i_Stone_Shed_V1_F"],
+			["Land_i_Stone_Shed_V1_F",[2069.09,2704.37,0.382221],[2069.71,2705.47,7.84375],[[-0.785812,-0.618467,0.000939863],[0.00119604,0,1]],"Land_i_Stone_Shed_V1_F"],
+			["Land_i_Stone_HouseBig_V1_F",[2084.5,2728.95,0.473867],[2084.66,2731.07,9.78233],[[0.659995,-0.75127,0],[0,0,1]],"Land_i_Stone_House_Big_01_b_clay_F"],
+			["Land_i_Stone_HouseSmall_V1_F",[2042.27,2723.73,-0.827677],[2043.3,2722.7,4.69056],[[-0.711185,0.703005,0.000245549],[0.000345267,0,1]],"Land_i_Stone_HouseSmall_V1_F"],
+			["Land_i_Stone_HouseBig_V1_F",[2040.26,2706.41,0.847298],[2040.02,2704.55,7.40889],[[-0.725972,0.687724,0],[0,0,1]],"Land_i_Stone_House_Big_01_b_clay_F"]
+		];
+	};
+	// Generate some more terrain buildings
+	0 spawn {
+		_composition = call (compileScript ['code\config\QS_data_terrainStratis.sqf']);
+		private _array = [];
+		private _entity = objNull;
+		{
+			_entity = objNull;
+			_array = _x;
+			_array params [
+				'_type',
+				'_model',
+				'_pos',
+				'_vectorDirAndUp',
+				'_damageAllowed',
+				'_simulationEnabled',
+				'_simpleObject',
+				'_clientOnly',
+				'_args',
+				'_code'
+			];
 			if (_simpleObject isNotEqualTo 0) then {
 				_entity = createSimpleObject [([_type,_model] select (_simpleObject isEqualTo 2)),[-500,-500,0]];
 				_entity setVectorDirAndUp _vectorDirAndUp;
@@ -887,83 +1123,16 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 				_entity setVectorDirAndUp _vectorDirAndUp;
 			};
 			if (!isNull _entity) then {
-				[_entity] call _code;
+				//[_entity] call _code;
 			};
 		} forEach _composition;
 	};
 };
-
-/*/===== World config/*/
-
-if (_worldName in ['Altis','Tanoa','Malden','Enoch']) then {
-	private _subPos = [0,0,0];
-	private _spawnSub = FALSE;
-	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
-		if (_worldName isEqualTo 'Altis') then {
-			_subPos = [15197.437,15219.423,(0 - (random 2))];
-			_spawnSub = TRUE;
-		};
-		if (_worldName isEqualTo 'Tanoa') then {
-			_subPos = [7025.683,6660.926,(0 - (random 2))];
-			_spawnSub = TRUE;
-		};
-		if (_worldName isEqualTo 'Malden') then {
-			_subPos = [8851.859,9930.916,(0 - (random 2))];
-			_spawnSub = TRUE;
-		};
-		if (_spawnSub) then {
-			_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
-			_sub setDir (random 360);
-			['setFeatureType',_sub,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_sub];
-		};
-	} else {
-		if ('QS_marker_subPosition' in allMapMarkers) then {
-			if (surfaceIsWater (markerPos 'QS_marker_subPosition')) then {
-				_subPos = [((markerPos 'QS_marker_subPosition') # 0),((markerPos 'QS_marker_subPosition') # 1),(0 - (random 2))];
-				_sub = createSimpleObject ['A3\Boat_F_EPC\Submarine_01\Submarine_01_F.p3d',_subPos];
-				_sub setDir (markerDir 'QS_marker_subPosition');
-				['setFeatureType',_sub,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_sub];
-			};
-			deleteMarker 'QS_marker_subPosition';
-		};
-	};
-};
-if ((missionNamespace getVariable ['QS_missionConfig_aoType','']) isEqualTo 'GRID') then {
-	{
-		_x hideObjectGlobal TRUE;
-	} forEach (nearestTerrainObjects [[worldSize/2, worldSize/2],['Land_ConcreteWell_01_F','Land_SewerCover_04_F','Land_ConcreteWell_02_F','Land_StoneWell_01_F'],worldSize,FALSE,TRUE]);
-};
-
-if (!((missionNamespace getVariable ['QS_missionConfig_aoType','']) in ['NONE','ZEUS'])) then {
-	// Hide terrain radio towers
-	{
-		_x hideObjectGlobal TRUE;
-		_x allowDamage FALSE;
-	} forEach (nearestTerrainObjects [[worldSize / 2,worldSize / 2,0],['TRANSMITTER'],worldSize / 2]) select {( (toLowerANSI (typeOf _x)) in ['land_ttowerbig_1_f','land_ttowerbig_2_f'])};
-};
-
-
-
-
-
-if (_worldName isEqualTo 'Malden') then {
-	{
-		((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
-	} forEach [
-		[[4779.35,5697.9,0.0012207],'Land_Bunker_01_HQ_F']
-	];
-};
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+	missionNamespace setVariable ['QS_baseProtection_polygons',(call (compileScript ['code\config\QS_data_speedLimitAreas.sqf'])),TRUE];
+	missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
 	if (_worldName isEqualTo 'Altis') then {
-		missionNamespace setVariable [
-			'QS_baseProtection_polygons',
-			[
-				[[14576.5,16637.2,1],[14623,16593.1,1],[14800.4,16765,1],[14859.1,16719.5,1],[14904.8,16756.4,1],[14786.7,16873,1],[14731.4,16813.3,1],[14742,16803.9,1]]
-			],
-			TRUE
-		];
 		missionNamespace setVariable ['QS_prisonPos',[14687.747,16808.996,0],TRUE];
-		missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
 		{
 			((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
 		} forEach [
@@ -1003,16 +1172,6 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	};
 	if (_worldName isEqualTo 'Tanoa') then {
 		missionNamespace setVariable ['QS_prisonPos',[6924.40,7370.55,0],TRUE];
-		missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
-		missionNamespace setVariable [
-			'QS_baseProtection_polygons',
-			[
-				[[6955.91,7320.77,1],[6998.99,7330.48,1],[6974.06,7456.62,1],[6933.65,7449.47,1]],
-				[[7039,7296.95,1],[7053.38,7220.18,1],[7088.85,7174.77,1],[7165.03,7175.23,1],[7128.51,7311.59,1]],
-				[[7059.01,7523.01,1],[7073.57,7565.42,1],[6994.1,7600.87,1],[6971.92,7553.27,1]]
-			],
-			TRUE
-		];
 		{
 			_x hideObjectGlobal TRUE;
 			_x enableSimulationGlobal FALSE;
@@ -1020,15 +1179,6 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	};
 	if (_worldName isEqualTo 'Malden') then {
 		missionNamespace setVariable ['QS_prisonPos',[8106.4,10049.15,0],TRUE];
-		missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
-		missionNamespace setVariable [
-			'QS_baseProtection_polygons',
-			[
-				[[8098.5,10237.6,1],[7987.92,10238.1,1],[7987.61,10022.9,1],[8097.11,10023.5,1]],
-				[[8017.61,10385.9,1],[8012.09,10246.4,1],[8115.71,10244.8,1],[8118.9,10382.4,1]]
-			],
-			TRUE
-		];
 		{
 			((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
 		} forEach [
@@ -1043,14 +1193,24 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	};
 	if (_worldName isEqualTo 'Enoch') then {
 		missionNamespace setVariable ['QS_prisonPos',[4104.49,10211.3,0],TRUE];
-		missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
-		missionNamespace setVariable [
-			'QS_baseProtection_polygons',
-			[
-				[[4070.12,10310.7,0],[3942.69,10181.2,0],[3976.86,10147.4,0],[4105.77,10273.6,0]],
-				[[3810.13,10133.7,0],[3832.01,10091.3,0],[3926.57,10177.1,0],[3890.72,10213.8,0]]
-			],
-			TRUE
+	};
+	if (_worldName isEqualTo 'Stratis') then {
+		missionNamespace setVariable ['QS_prisonPos',[1913.8,5777.7,0.00142908],TRUE];
+		// Hide some key buildings in the base area
+		{
+			((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
+		} forEach [
+			[[1886.33,5728.47,0.00142622],'Land_HelipadSquare_F'],
+			[[1894.68,5758.35,0.00143862],'Land_HelipadSquare_F'],
+			[[1913.16,5820.46,9.53674e-007],'Land_TentHangar_V1_F'],
+			[[1923.68,5863.94,2.95639e-005],'Land_TentHangar_V1_F'],
+			[[1913.94,5955.27,0.000219345],'Land_TentHangar_V1_F'],
+			[[1924.84,5850.23,2.62847],''],												//land_cargo20_military_green_f
+			[[1916.95,5805.76,2.62856],''],												//land_cargo20_military_green_f
+			[[1942.73,5872.22,2.62848],''],
+			[[1958.54,5707.32,0.100458],'Land_MilOffices_V1_F'],
+			[[1910.51,5713.64,0.00755119],'Land_Airport_Tower_F'],
+			[[1906.17,5639.7,0.000470161],'Land_TentHangar_V1_F']
 		];
 	};
 } else {
@@ -1280,3 +1440,6 @@ missionNamespace setVariable ['QS_mission_init',TRUE,TRUE];
 	'************************* Server Config Complete ****************************',
 	'*****************************************************************************'	
 ];
+if (fileExists '@Apex_cfg\custom.sqf') then {
+	call (compileScript ['@Apex_cfg\custom.sqf']);
+};

@@ -6,7 +6,7 @@ Author:
 
 Last modified: 
 
-	11/08/2022 A3 2.10 by Quiksilver
+	27/10/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -42,13 +42,20 @@ if (_type isEqualTo 'BRIEF') then {
 		_x setMarkerColorLocal 'ColorOPFOR';
 		_x setMarkerAlpha 0.8;
 	} forEach [
-		'QS_marker_hqCircle',
-		'QS_marker_hqMarker',
 		'QS_marker_aoCircle',
 		'QS_marker_aoMarker',
 		'QS_marker_radioCircle',
 		'QS_marker_radioMarker'
 	];
+	if (!(worldName in ['Stratis'])) then {
+		{
+			_x setMarkerColorLocal 'ColorOPFOR';
+			_x setMarkerAlpha 0.8;	
+		} forEach [
+			'QS_marker_hqCircle',
+			'QS_marker_hqMarker'
+		];
+	};
 	if ((missionNamespace getVariable 'QS_ao_aaMarkers') isNotEqualTo []) then {
 		{
 			_x setMarkerColorLocal 'ColorOPFOR';
@@ -130,7 +137,7 @@ if (_type isEqualTo 'DEBRIEF') then {
 	['QS_IA_TASK_AO_0'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 	_targetCompleteText = parseText format [
 		"<t align='center' size='2.2'>%3</t><br/><t size='1.5' align='center' color='#FFCF11'>%1</t><br/>____________________<br/><t align='left'>%4 %1, %5!<br/><br/>%6 %2</t>",
-		(_ao # 0),
+		(_ao # 1),
 		(missionNamespace getVariable 'QS_enemiesCaptured_AO'),
 		localize 'STR_QS_Task_006',
 		localize 'STR_QS_Task_007',
@@ -147,13 +154,15 @@ if (_type isEqualTo 'DEBRIEF') then {
 		'QS_marker_radioMarker'
 	];
 	'QS_marker_aoMarker' setMarkerText (format ['%1',(toString [32,32,32])]);
-	{
-		_x setMarkerAlphaLocal 0;
-		_x setMarkerColor 'ColorOPFOR';
-	} forEach [
-		'QS_marker_hqMarker',
-		'QS_marker_hqCircle'
-	];
+	if (!(worldName in ['Stratis'])) then {
+		{
+			_x setMarkerAlphaLocal 0;
+			_x setMarkerColor 'ColorOPFOR';
+		} forEach [
+			'QS_marker_hqMarker',
+			'QS_marker_hqCircle'
+		];
+	};
 	if ((missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') isNotEqualTo []) then {
 		{
 			_x setMarkerAlpha 0;
@@ -169,5 +178,5 @@ if (_type isEqualTo 'DEBRIEF') then {
 			_x setMarkerAlpha 0;
 		} forEach (missionNamespace getVariable 'QS_virtualSectors_sub_3_markers');
 	};
-	['CompletedMain',[(_ao # 0)]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+	['CompletedMain',[(_ao # 1)]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };

@@ -27,8 +27,9 @@ _array = [];
 copyToClipboard str _array;
 ____________________________________________________________________________*/
 
-_aoName = toLowerANSI (_this # 0);
+_aoName = toLower (_this # 0);
 private _entities = [];
+private _minefieldChance = 0.5;
 if (worldName isEqualTo 'Altis') then {
 	if (_aoName isEqualTo 'oreokastro') then {
 		/*/ Scaffolding to get ontop of castle/*/
@@ -39,21 +40,21 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[5308.09,21834.7,0],1,50,20,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[5594.29,21042.9,0],1,50,20,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'research facility') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'research_facility') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[20353.3,18773,0],1,40,30,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -61,7 +62,7 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'rodopoli') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[18293.7,16566.2,0],1,50,20,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -69,7 +70,7 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'alikampos') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[10764.1,15007.7,0],1,30,15,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -81,7 +82,7 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'neochori') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[12441.3,15199.6,0],1,50,15,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -92,8 +93,8 @@ if (worldName isEqualTo 'Altis') then {
 			} forEach _entities;
 		};	
 	};
-	if (_aoName isEqualTo 'agios dionysios') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'agios_dionysios') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[9560.13,15741,0],1,50,20,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -101,14 +102,14 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'orino') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[10811,17558.3,0],1,50,20,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'frini woodlands') then {
+	if (_aoName isEqualTo 'frini_woodlands') then {
 		private _composition = [
 			["Land_Barn_01_brown_F","a3\structures_f_argo\industrial\agriculture\barn_01_brown_f.p3d",[13889.5,21985.2,80.095],[[0.35138,-0.936233,0],[0,0,1]],0,0,2,[],{
 				(_this # 0) animateSource ['Door_1_sound_source',1];
@@ -140,7 +141,7 @@ if (worldName isEqualTo 'Altis') then {
 		} forEach _composition;
 	};
 	if (_aoName isEqualTo 'lakka') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[12808,16632.1,0],1,50,25,['APERSBoundingMine',0.3,'APERSMine',0.3,'ATMine',0.3],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -148,13 +149,13 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'anthrakia') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[17077.5,16346.5,0],1,50,20,['APERSBoundingMine',0.3,'APERSMine',0.3,'ATMine',0.3],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[16519.7,16536.1,0],1,50,20,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.5],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -162,13 +163,13 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'koroni') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[10815.3,17560,0],1,50,15,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[10815.3,17560,0],1,50,25,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -176,7 +177,7 @@ if (worldName isEqualTo 'Altis') then {
 		};	
 	};
 	if (_aoName isEqualTo 'factory') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[6906.87,15911.8,0],1,50,10,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.5],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -196,7 +197,7 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'syrta') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[7853.57,18009.5,0],1,50,20,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -217,7 +218,7 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[5976.48,20410.9,0],1,30,25,['APERSBoundingMine',0,'APERSMine',1,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -225,20 +226,20 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'kore') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[8156.98,16169.5,0],1,50,15,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[7867.61,16660.2,0],1,50,15,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'fotia turbines') then {
+	if (_aoName isEqualTo 'fotia_turbines') then {
 		private _composition = [
 			["Land_i_Stone_House_Big_01_b_clay_F","a3\structures_f_argo\civilian\stone_house_big_01\i_stone_house_big_01_b_clay_f.p3d",[4163.37,19490.8,312.268],[[-0.613796,-0.789465,0],[0,0,1]],0,0,2,[],{}],
 			["Land_Shed_08_brown_F","a3\structures_f_argo\industrial\agriculture\shed_08_brown_f.p3d",[4180.88,19466.8,311.907],[[0.586601,-0.809876,0],[0,0,1]],0,0,2,[],{}],
@@ -250,7 +251,7 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[4167.48,19465.6,0],1,35,25,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -258,20 +259,20 @@ if (worldName isEqualTo 'Altis') then {
 		};	
 	};
 	if (_aoName isEqualTo 'molos') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[26437.3,22576,0],1,50,25,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[26271,23172.4,0],1,35,15,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};	
 	};
-	if (_aoName isEqualTo 'nidasos woodlands') then {
+	if (_aoName isEqualTo 'nidasos_woodlands') then {
 		private _composition = [
 			["Land_HBarrier_5_F","a3\structures_f\mil\fortification\hbarrier_5_f.p3d",[23980.9,22347,97.1982],[[0.490032,-0.837551,0.241612],[-0.170787,0.179553,0.96881]],0,0,2,[],{}],
 			["Land_HBarrier_5_F","a3\structures_f\mil\fortification\hbarrier_5_f.p3d",[23977,22343.6,97.2246],[[0.779252,-0.545083,0.309277],[-0.24436,0.19017,0.950854]],0,0,2,[],{}],
@@ -312,7 +313,7 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[23988.6,22331.8,0],1,15,25,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -338,19 +339,19 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[20029.1,14790.6,0],1,20,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0.333],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[19975.8,14770.5,0],1,35,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0.333],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[19939.8,14764.3,0],1,35,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0.333],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -358,28 +359,28 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'paros') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[20710.8,17192.4,0],1,30,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'gatolia solar farm') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'gatolia_solar_farm') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[26578.7,21765.9,0],1,40,25,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[26294.2,21722.4,0],1,30,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'sofia powerplant') then {
+	if (_aoName isEqualTo 'sofia_powerplant') then {
 		private _composition = [
 			["Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[25398.3,20346.6,21.8939],[[0.567438,-0.823416,0],[0,0,1]],0,0,2,[],{}],
 			["Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[25398.5,20348.7,21.8939],[[-0.806896,-0.590694,0],[0,0,1]],0,0,2,[],{}],
@@ -398,21 +399,21 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[25437.3,19307.9,0],1,35,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[26294.2,21722.4,0],1,20,20,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'delfinaki outpost') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'delfinaki_outpost') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[22347.3,20782.8,0],1,20,20,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -420,7 +421,7 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'feres') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[22377.8,8194.26,0],1,20,20,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -428,13 +429,13 @@ if (worldName isEqualTo 'Altis') then {
 		};	
 	};
 	if (_aoName isEqualTo 'chalkeia') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[19669.1,11527.8,0],1,30,15,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[20072.2,11982.5,0],1,30,15,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -442,14 +443,14 @@ if (worldName isEqualTo 'Altis') then {
 		};	
 	};
 	if (_aoName isEqualTo 'charkia') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[17587.8,15351.6,0],1,15,10,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'didymos turbines') then {
+	if (_aoName isEqualTo 'didymos_turbines') then {
 		private _composition = [
 			["Land_Cargo_Tower_V3_derelict_F","a3\structures_f_argo\military\containerbases\cargo_tower_v3_derelict_f.p3d",[18698.1,10221.3,215.242],[[0.0380395,-0.999276,0],[0,0,1]],0,0,2,[],{
 				(_this # 0) setVariable ['QS_cleanup_protected',TRUE,FALSE];
@@ -465,19 +466,19 @@ if (worldName isEqualTo 'Altis') then {
 		} forEach _entities;
 	};
 	if (_aoName isEqualTo 'dorida') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[19322.3,12775.2,0],1,25,10,['APERSBoundingMine',0.5,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[18879.4,13990.7,0],1,25,10,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0.333],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[18796.5,13908.1,0],1,25,10,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0.333],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -505,13 +506,13 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[17037.8,10779.1,0],1,15,10,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[16552.7,10866.7,0],1,15,10,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -519,35 +520,35 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'panagia') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[20566.7,9412.42,0],1,50,25,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'skopos castle') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'skopos_castle') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[10397.7,8753.36,0],1,25,10,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[10987.5,7677.47,0],1,25,10,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'zaros power station') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'zaros_power_station') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[8304.95,10085,0],1,50,25,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[9185.25,11447.5,0],1,35,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -555,7 +556,7 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'zaros') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[9212.33,11473.4,0],1,50,25,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -585,20 +586,20 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[11659.7,7581.22,0],1,30,15,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[11090.2,7323.96,0],1,30,15,['APERSBoundingMine',0,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};		
 	};
-	if (_aoName isEqualTo 'the stadium') then {
+	if (_aoName isEqualTo 'the_stadium') then {
 		private _composition = [
 			["Land_i_Stone_House_Big_01_b_clay_F","a3\structures_f_argo\civilian\stone_house_big_01\i_stone_house_big_01_b_clay_f.p3d",[5227.72,15132.4,106.847],[[0.999781,0.0209175,0],[0,0,1]],0,0,2,[],{}]
 		];
@@ -606,14 +607,14 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[5751.89,14376.6,0],1,50,20,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'vikos outpost') then {
+	if (_aoName isEqualTo 'vikos_outpost') then {
 		private _composition = [
 			["Land_Castle_01_tower_ruins_F","a3\structures_f\dominants\castle\castle_01_tower_ruins_f.p3d",[11221.3,8684.63,186.034],[[-0.0836444,-0.996496,0],[0,0,1]],0,0,2,[],{
 				(_this # 0) setVariable ['QS_cleanup_protected',TRUE,FALSE];
@@ -623,13 +624,13 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[12396.8,9302.64,0],1,50,20,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[11207.7,8723.29,0],1,50,20,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -652,29 +653,29 @@ if (worldName isEqualTo 'Altis') then {
 		{
 			(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 		} forEach _composition;
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[4551.58,11422.9,0],1,25,20,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'south kavala') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'south_kavala') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[4548.91,12300.7,0],1,50,20,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
 	};
-	if (_aoName isEqualTo 'north kavala') then {
-		if ((random 1) > 0) then {
+	if (_aoName isEqualTo 'north_kavala') then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[4516.16,13470.5,0],1,30,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[4595.79,14386,0],1,15,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -682,13 +683,13 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'topolia') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[7895.87,14621.7,0],1,20,20,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
 			} forEach _entities;
 		};
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[7018.47,15008.9,0],1,20,15,['APERSBoundingMine',0.333,'APERSMine',0.333,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -696,7 +697,7 @@ if (worldName isEqualTo 'Altis') then {
 		};
 	};
 	if (_aoName isEqualTo 'therisa') then {
-		if ((random 1) > 0) then {
+		if ((random 1) > _minefieldChance) then {
 			_entities = [[10341.7,12851.4,0],1,20,15,['APERSBoundingMine',0.25,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
 			{
 				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
@@ -712,5 +713,242 @@ if (worldName isEqualTo 'Malden') then {
 };
 if (worldName isEqualTo 'Enoch') then {
 
+};
+if (worldName isEqualTo 'Stratis') then {
+	if (_aoName isEqualTo 'xiros_coastline') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[4445.92,6563.23,0],1,25,15,['APERSBoundingMine',0.125,'APERSMine',0.5,'ATMine',0.125],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[4506.43,6604.23,0],1,25,15,['APERSBoundingMine',0.125,'APERSMine',0.5,'ATMine',0.125],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[3980.5,6348.28,0],1,35,15,['APERSBoundingMine',0.125,'APERSMine',0.5,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'camp_rogain') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[4838.37,6340.96,0],1,25,15,['APERSBoundingMine',0,'APERSMine',1,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > 0.25) then {
+			_entities = [[4566.73,5824.52,0],1,45,30,['APERSBoundingMine',0.25,'APERSMine',1,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[4962.16,5415.82,0],1,25,15,['APERSBoundingMine',0,'APERSMine',1,'ATMine',0],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'agia_marina') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2495.99,5695.56,0],1,25,15,['APERSBoundingMine',0.25,'APERSMine',1,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2514,5860.24,0],1,25,15,['APERSBoundingMine',0,'APERSMine',0.2,'ATMine',1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2582.58,5841.34,0],1,25,15,['APERSBoundingMine',0,'APERSMine',0.2,'ATMine',1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2534.07,5794.75,0],1,25,15,['APERSBoundingMine',0,'APERSMine',0.2,'ATMine',1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'lz_baldy') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[4118.12,5734.61,0],1,25,15,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'kamino_firing_range') then {
+		_minefieldChance = 0.75;
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[6054,5622.39,0],1,25,15,['APERSBoundingMine',0.25,'APERSMine',1,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[5455.51,5268.73,0],1,25,15,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[5596.44,5142.61,0],1,25,15,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[5724.67,5037.89,0],1,25,15,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[5346.65,5573.01,0],1,25,15,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'kamino_valley') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[5368.63,5203.39,0],1,25,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.5],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[5385.27,4981.21,0],1,35,15,['APERSBoundingMine',0.25,'APERSMine',0.25,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'air_station_mike26') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[4467.59,4477.56,0],1,25,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[4059.88,3521.41,0],1,35,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[3829.82,4672.42,0],1,50,20,['APERSBoundingMine',0,'APERSMine',0,'ATMine',1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'camp_tempest') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2133.95,4281.5,0],1,25,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2063.34,4305.88,0],1,35,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2323.68,3843.41,0],1,35,20,['APERSBoundingMine',0,'APERSMine',1,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'camp_maxwell') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[3671.36,3120.98,0],1,25,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[3652.48,3736.93,0],1,35,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[3931.14,3540.32,0],1,50,20,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.5],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'girna') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2133.23,3279.44,0],1,25,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2064.51,3273.85,0],1,35,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2629.84,2995.34,0],1,50,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'lz_connor') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[3198.11,2736.7,0],1,25,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.5],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2891.15,2525.12,0],1,35,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[3406.46,2421.78,0],1,35,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.25],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
+	if (_aoName isEqualTo 'spartan_coastline') then {
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2624.12,1607.04,0],1,25,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+		if ((random 1) > _minefieldChance) then {
+			_entities = [[2660.73,1636.79,0],1,35,15,['APERSBoundingMine',0.1,'APERSMine',0.5,'ATMine',0.1],false,false] call (missionNamespace getVariable 'QS_fnc_createMinefield');
+			{
+				(missionNamespace getVariable 'QS_entities_ao_customEntities') pushBack _x;
+			} forEach _entities;
+		};
+	};
 };
 _entities;

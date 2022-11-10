@@ -13,8 +13,14 @@ Description:
 	Arsenal
 _____________________________________________________________/*/
 
-if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) exitWith {
+params ['_target','_caller','_actionId','_unit'];
+if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) then {
+	if (_unit isNotEqualTo player) then {
+		[_unit] call (missionNamespace getVariable 'QS_fnc_clientArsenal');
+	};
+	missionNamespace setVariable ['BIS_fnc_arsenal_target',_unit,FALSE];
 	['Open',TRUE] call (missionNamespace getVariable 'BIS_fnc_arsenal');
+} else {
+	['Open',[nil,_unit,_unit]] call (missionNamespace getVariable 'BIS_fnc_arsenal');
 };
-['Open',[nil,player,player]] call (missionNamespace getVariable 'BIS_fnc_arsenal');
 TRUE;

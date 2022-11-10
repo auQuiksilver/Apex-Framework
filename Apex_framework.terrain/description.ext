@@ -6,14 +6,14 @@ Author:
 
 Last modified:
 
-	17/10/2022 A3 2.10 by Quiksilver
+	6/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.3.3";
+missionProductVersion = "1.3.4";
 missionProductStatus = "Stable";											// "Stable" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
@@ -74,186 +74,7 @@ respawnDelay = 5;										/*/ Delay prior to respawn/*/
 respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard when killed./*/
 respawnOnStart = 0;
 
-/*/ REMOVE THE BELOW SECTIONS IF YOU ARE HAVING TROUBLE ADDING MODS. NOTE: THIS WILL SEVERELY WEAKEN ANTICHEAT SECURITY /*/
-
-class CfgDisabledCommands {
-    class CREATEUNIT
-    {
-        class SYNTAX1
-        {
-            targets[] = {0,0,0};
-            args[] = {{"STRING"},{"ARRAY"}};
-        };
-
-        class SYNTAX2
-        {
-            targets[] = {1,1,1};
-            args[] = {{"GROUP"},{"ARRAY"}};
-        };
-    };
-	
-	
-	/*/ Zeus map markers.    RE-ENABLE THIS SECTION TO STRENGTHEN ANTICHEAT SECURITY. DISABLED FOR ZEUS MARKER FUNCTIONALITY.
-    class SETMARKERTEXT
-    {
-        class SYNTAX1
-        {
-            targets[] = {1,0,0};
-            args[] = {{"STRING"},{"STRING"}};
-        };
-    };
-	/*/
-
-
-    class ADDMPEVENTHANDLER
-    {
-        class SYNTAX1
-        {
-            targets[] = {1,0,0};
-            args[] = {{"OBJECT"},{"ARRAY"}};
-        };
-    };
-	
-	
-	/*/
-    class SETWAYPOINTSTATEMENTS
-    {
-        class SYNTAX1
-        {
-            targets[] = {1,0,1};
-            args[] = {{"ARRAY"},{"ARRAY"}};
-        };
-    };
-	/*/
-	
-	
-    class PUBLICVARIABLE
-    {
-        class SYNTAX1
-        {
-            targets[] = {1,0,1};
-            args[] = {{},{"STRING"}};
-        };
-    };
-    class ONMAPSINGLECLICK
-    {
-        class SYNTAX1
-        {
-            targets[] = {0,0,0};
-            args[] = {{"ANY"},{"STRING","CODE"}};
-        };
-
-        class SYNTAX2
-        {
-            targets[] = {0,0,0};
-            args[] = {{},{"STRING","CODE"}};
-        };
-    };
-    class ALLVARIABLES
-    {
-        class SYNTAX1
-        {
-            targets[] = {1,1,1};
-            args[] = {{},{"CONTROL"}};
-        };
-
-        class SYNTAX2
-        {
-            targets[] = {1,1,1};
-            args[] = {{},{"TEAM_MEMBER"}};
-        };
-
-        class SYNTAX3
-        {
-            targets[] = {0,0,0};
-            args[] = {{},{"NAMESPACE"}};
-        };
-
-        class SYNTAX4
-        {
-            targets[] = {1,1,1};
-            args[] = {{},{"OBJECT"}};
-        };
-
-        class SYNTAX5
-        {
-            targets[] = {1,1,1};
-            args[] = {{},{"GROUP"}};
-        };
-
-        class SYNTAX6
-        {
-            targets[] = {1,1,1};
-            args[] = {{},{"TASK"}};
-        };
-
-        class SYNTAX7
-        {
-            targets[] = {1,1,1};
-            args[] = {{},{"LOCATION"}};
-        };
-    };
-    class HINT
-    {
-        class SYNTAX1
-        {
-            targets[] = {0,0,0};
-            args[] = {{},{"STRING","TEXT"}};
-        };
-    };
-    class HINTSILENT
-    {
-        class SYNTAX1
-        {
-            targets[] = {0,0,0};
-            args[] = {{},{"STRING","TEXT"}};
-        };
-    };
-    class ONEACHFRAME
-    {
-        class SYNTAX1
-        {
-            targets[] = {0,0,0};
-            args[] = {{},{"STRING","CODE"}};
-        };
-    };
-
-};
-class CfgRemoteExec {
-	class Commands {
-		mode = 1;
-		class lock {};			// zeus
-		class setFuel {};		// zeus
-	};
-	class Functions {
-		mode = 1;
-		jip = 0;
-		allowedTargets = 0;
-		class BIS_fnc_callScriptedEventHandler {};
-		class BIS_fnc_curatorRespawn {};
-		class BIS_fnc_deleteTask {jip = 1;}; 
-		class BIS_fnc_dynamicGroups {};
-		class BIS_fnc_effectKilled {};
-		class BIS_fnc_effectKilledSecondaries {};
-		class BIS_fnc_effectKilledAirDestruction {};
-		class BIS_fnc_effectKilledAirDestructionStage2 {};
-		class BIS_fnc_error {};
-		class BIS_fnc_initIntelObject {jip = 1;};
-		class BIS_fnc_objectVar {};
-		class BIS_fnc_playSound {allowedTargets = 1;};
-		class BIS_fnc_sayMessage {allowedTargets = 1;};
-		class BIS_fnc_setCustomSoundController {};
-		class BIS_fnc_setIdentity {};
-		class BIS_fnc_setTask {jip = 1;};
-		class BIS_fnc_setTaskLocal {jip = 1;};
-		class BIS_fnc_sharedObjectives {};
-		class BIS_fnc_showNotification {allowedTargets = 1;};
-		class QS_fnc_remoteExec {allowedTargets = 0;};
-		class QS_fnc_remoteExecCmd {allowedTargets = 0;};
-	};
-};
-
-/*/ REMOVE THE ABOVE SECTIONS IF YOU ARE HAVING TROUBLE ADDING MODS. NOTE: THIS WILL SEVERELY WEAKEN ANTICHEAT SECURITY /*/
+#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
 
 debriefing = 1;
 class CfgFunctions {
@@ -276,6 +97,8 @@ class CfgFunctions {
 			class AIHandleUnit {file = "code\functions\fn_AIHandleUnit.sqf";};
 			class AIOwners {file = "code\functions\fn_AIOwners.sqf";};
 			class airbaseDefense {file = "code\functions\fn_airbaseDefense.sqf";};
+			class AISetRockets {file = "code\functions\fn_AISetRockets.sqf";};
+			class AISetTracers {file = "code\functions\fn_AISetTracers.sqf";};
 			class AIXCivPanic {file = "code\functions\fn_AIXCivPanic.sqf";};
 			class AIXDelayedInstruction {file = "code\functions\fn_AIXDelayedInstruction.sqf";};
 			class AIXDismountDisabled {file = "code\functions\fn_AIXDismountDisabled.sqf";};
@@ -486,6 +309,7 @@ class CfgFunctions {
 			class clientRadio {file = "code\functions\fn_clientRadio.sqf";};
 			class clientRepackMagazines {file = "code\functions\fn_clientRepackMagazines.sqf";};
 			class clientRequestMedevac {file = "code\functions\fn_clientRequestMedevac.sqf";};
+			class clientRespawnPosition {file = "code\functions\fn_clientRespawnPosition.sqf";};
 			class clientServiceVehicle {file = "code\functions\fn_clientServiceVehicle.sqf";};
 			class clientSetUnitInsignia {file = "code\functions\fn_clientSetUnitInsignia.sqf";};
 			class clientSimulationManager {file = "code\functions\fn_clientSimulationManager.sqf";};
@@ -508,6 +332,7 @@ class CfgFunctions {
 			class clientVehicleEventRopeBreak {file = "code\functions\fn_clientVehicleEventRopeBreak.sqf";};
 			class clientVehicleEventTurnIn {file = "code\functions\fn_clientVehicleEventTurnIn.sqf";};
 			class clientVehicleEventTurnOut {file = "code\functions\fn_clientVehicleEventTurnOut.sqf";};
+			class clientVehicleService {file = "code\functions\fn_clientVehicleService.sqf";};
 			class clientViewOptions {file = "code\functions\fn_clientViewOptions.sqf";};
 			class clientWeatherSync {file = "code\functions\fn_clientWeatherSync.sqf";};
 			class commonMultiplyMatrix {file = "code\functions\fn_commonMultiplyMatrix.sqf";};
@@ -586,7 +411,9 @@ class CfgFunctions {
 			class getKnownEnemies {file = "code\functions\fn_getKnownEnemies.sqf";};
 			class getNearbyIncapacitated {file = "code\functions\fn_getNearbyIncapacitated.sqf";};
 			class getNearestBuilding {file = "code\functions\fn_getNearestBuilding.sqf";};
+			class getRadialPositions {file = "code\functions\fn_getRadialPositions.sqf";};
 			class getSolarHorizon {file = "code\functions\fn_getSolarHorizon.sqf";};
+			class getVehicleGunEnd {file = "code\functions\fn_getVehicleGunEnd.sqf";};
 			class getVehicleStealth {file = "code\functions\fn_getVehicleStealth.sqf";};
 			class getWeekday {file = "code\functions\fn_getWeekday.sqf";};
 			class gpsJammer {file = "code\functions\fn_gpsJammer.sqf";};
@@ -617,12 +444,15 @@ class CfgFunctions {
 			class inString {file = "code\functions\fn_inString.sqf";};
 			class isBoundingBoxIntersected {file = "code\functions\fn_isBoundingBoxIntersected.sqf";};
 			class isNearFieldHospital {file = "code\functions\fn_isNearFieldHospital.sqf";};
+			class isNearServiceCargo {file = "code\functions\fn_isNearServiceCargo.sqf";};
 			class isNearRepairDepot {file = "code\functions\fn_isNearRepairDepot.sqf";};
 			class isPosVisible {file = "code\functions\fn_isPosVisible.sqf";};
+			class isUnderRock {file = "code\functions\fn_isUnderRock.sqf";};
 			class isValidCargoV {file = "code\functions\fn_isValidCargoV.sqf";};
 			class leaderboardAddToWhitelist {file = "code\functions\fn_leaderboardAddToWhitelist.sqf";};
 			class leaderboardNotifyWhitelist {file = "code\functions\fn_leaderboardNotifyWhitelist.sqf";};
 			class listRemoteTargets {file = "code\functions\fn_listRemoteTargets.sqf";};
+			class localObjects {file = "code\functions\fn_localObjects.sqf";};
 			class logEvent {file = "code\functions\fn_logEvent.sqf";};
 			class mapGetNearestWaypoint {file = "code\functions\fn_mapGetNearestWaypoint.sqf";};
 			class missionGeorgetown {file = "code\functions\fn_missionGeorgetown.sqf";};
@@ -670,7 +500,6 @@ class CfgFunctions {
 			class serverObjectsMapper {file = "code\functions\fn_serverObjectsMapper.sqf";};
 			class serverObjectsRecycler {file = "code\functions\fn_serverObjectsRecycler.sqf";};
 			class serverSetAISkill {file = "code\functions\fn_serverSetAISkill.sqf";};
-			class serverTracers {file = "code\functions\fn_serverTracers.sqf";};
 			class serverUnitConfigure {file = "code\functions\fn_serverUnitConfigure.sqf";};
 			class setCollectible {file = "code\functions\fn_setCollectible.sqf";};
 			class setCruiseControl {file = "code\functions\fn_setCruiseControl.sqf";};

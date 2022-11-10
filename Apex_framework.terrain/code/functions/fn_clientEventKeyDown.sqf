@@ -108,7 +108,7 @@ if (_key in ((actionKeys 'PersonView') + (actionKeys 'TacticalView') + (actionKe
 			((side cameraOn) in [EAST,RESISTANCE]) &&
 			{(!(cameraView in ['INTERNAL','GUNNER']))} &&
 			{((lifeState player) isNotEqualTo 'INCAPACITATED')} &&
-			{((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID','NONE'])}
+			{((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID','ZEUS'])}
 		) then {
 			50 cutText [localize 'STR_QS_Text_024','PLAIN DOWN',0.5];
 			player switchCamera 'INTERNAL';

@@ -36,7 +36,7 @@ ____________________________________________________________________________/*/
 			0 spawn {
 				for '_x' from 0 to 4 step 1 do {
 					if (isNull (uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull])) exitWith {};
-					['showMessage',[(uiNamespace getVariable 'BIS_fnc_arsenal_display'),"To add ammunition, select your uniform/vest/backpack on the left panel and add ammunition on the right panel."]] call (missionNamespace getVariable 'BIS_fnc_arsenal');
+					['showMessage',[(uiNamespace getVariable 'BIS_fnc_arsenal_display'),localize 'STR_QS_Hints_146']] call (missionNamespace getVariable 'BIS_fnc_arsenal');
 					uiSleep 5;
 				};
 			};
@@ -56,7 +56,9 @@ ____________________________________________________________________________/*/
 			0.5 * safezoneW,
 			0.1 * safezoneH
 		];
-		_ctrl_roleDisplayName ctrlSetStructuredText (parseText (format ['<t size="3">%1</t>',(['GET_ROLE_DISPLAYNAME',(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles'))]));
+		if (player isEqualTo (missionNamespace getVariable ['BIS_fnc_arsenal_target',player])) then {
+			_ctrl_roleDisplayName ctrlSetStructuredText (parseText (format ['<t size="3">%1</t>',(['GET_ROLE_DISPLAYNAME',(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles'))]));
+		};
 		_ctrl_roleDisplayName ctrlCommit 0;
 		_QS_module_opsec = (call (missionNamespace getVariable ['QS_missionConfig_AH',{1}])) isEqualTo 1;
 		_maxControls = 205;

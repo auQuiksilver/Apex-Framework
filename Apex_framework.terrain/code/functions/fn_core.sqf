@@ -83,7 +83,7 @@ private [
 	'_module_fob_assault_checkDelay','_module_fob_underAssault','_module_fob_assault_enemyArray','_module_fob_assault_enemyThreshold','_module_fob_assault_playerThreshold',
 	'_module_fob_assault_timer','_module_fob_assault_groupComposition','_module_fob_assault_group','_module_fob_assault_duration','_resumeScript',
 	'_QS_module_AI_cleanupCheckArray','_QS_module_AI_cleanup','_cleanupCheck','_module_fob_logistics_reinforceServices','_QS_module_airdefense_2',
-	'_QS_interaction_worldName','_module_fob_allUnits','_QS_module_cas_respawn','_QS_module_cas_respawn_threshold','_QS_module_cas_respawn_checkDelay','_QS_module_recruitableAI_data',
+	'_module_fob_allUnits','_QS_module_cas_respawn','_QS_module_cas_respawn_threshold','_QS_module_cas_respawn_checkDelay','_QS_module_recruitableAI_data',
 	'_QS_rainCheckInterval','_QS_module_time_duskAcc','_QS_rainHoursMax','_QS_nextRainArray','_QS_heliDroneRespawnDelay','_QS_heliDroneRespawnCheckDelay',
 	'_QS_aiAssignedTarget','_QS_vRespawnDist_base','_QS_vRespawnDist_field','_QS_module_aoSmallTasks','_QS_module_aoSmallTasks_delay','_QS_module_aoSmallTasks_checkDelay',
 	'_QS_module_aoSmallTasks_timeout','_QS_module_aoSmallTasks_list','_QS_module_aoSmallTasks_current','_QS_module_aoSmallTasks_data','_QS_module_aoSmallTasks_isActive',
@@ -136,7 +136,35 @@ enableSentences FALSE;
 /*/============================ PRIMARY AO*/
 
 missionNamespace setVariable ['QS_mission_aoType',(missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']),TRUE];
-_aoType = missionNamespace getVariable ['QS_mission_aoType','CLASSIC'];
+_aoType = missionNamespace getVariable ['QS_mission_aoType',(missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC'])];
+if (
+	(_aoType in ['CLASSIC']) &&
+	(!(_QS_worldName in ['Altis','Tanoa','Malden','Enoch','Stratis']))			// These terrains are configured for Classic
+) then {
+	diag_log '***** GAME MODE ***** CLASSIC mode not configured for this terrain *****';
+	_aoType = 'NONE';
+	missionNamespace setVariable ['QS_mission_aoType',_aoType,TRUE];
+	missionNamespace setVariable ['QS_missionConfig_aoType',_aoType,TRUE];
+};
+if (
+	(_aoType in ['SC']) &&
+	(!(_QS_worldName in ['Altis','Tanoa','Malden','Enoch']))			// These terrains are configured for Sector Control
+) then {
+	diag_log '***** GAME MODE ***** SECTOR CONTROL mode not configured for this terrain *****';
+	_aoType = 'NONE';
+	missionNamespace setVariable ['QS_mission_aoType',_aoType,TRUE];
+	missionNamespace setVariable ['QS_missionConfig_aoType',_aoType,TRUE];
+};
+if (
+	(_aoType in ['GRID']) &&
+	(!(_QS_worldName in ['Altis','Tanoa','Malden','Enoch']))			// These terrains are configured for Insurgency Mode
+) then {
+	diag_log '***** GAME MODE ***** INSURGENCY mode not configured for this terrain *****';
+	_aoType = 'NONE';
+	missionNamespace setVariable ['QS_mission_aoType',_aoType,TRUE];
+	missionNamespace setVariable ['QS_missionConfig_aoType',_aoType,TRUE];
+};
+diag_log format ['***** CURRENT GAMEMODE: %1 *****',_aoType];
 if (_aoType isEqualTo 'SC') then {
 	['INIT',0.5] call (missionNamespace getVariable 'QS_fnc_sc');
 };
@@ -159,7 +187,7 @@ _mainMissionActive = FALSE;
 _mainMissionRefreshAt = 1;
 _mainMissionRadius = 750;
 _mainMissionRegionIndex = -1;
-_regionMasterList = [] call (compileScript ['code\config\QS_data_ao.sqf']);
+_regionMasterList = call (compileScript ['code\config\QS_data_ao.sqf']);
 _defendAOActive = FALSE;
 _isDefendLocal = TRUE;
 _aoGraceTime = time;
@@ -220,7 +248,8 @@ _QS_module_aoSmallTasks_isActive = FALSE;
 
 /*/============================ FOBS*/
 
-_module_fob_enabled = _QS_worldName in ['Altis','Tanoa','Malden','Enoch'];
+//_module_fob_enabled = _QS_worldName in ['Altis','Tanoa','Malden','Enoch'];
+_module_fob_enabled = ((call (missionNamespace getVariable 'QS_data_fobs')) isNotEqualTo []) && (_aoType isNotEqualTo 'ZEUS');
 _module_fob_delay = 5;
 _module_fob_checkDelay = _timeNow + _module_fob_delay;
 _module_fob_activeRegion = -1;
@@ -352,7 +381,7 @@ _timeCASdelayFixed = 720;
 _timeCASdelayRandom = 600;
 _timeNextCAS = time + (_timeCASdelayFixed + (random _timeCASdelayRandom));
 
-_HVT_targeting_system = TRUE;
+_HVT_targeting_system = TRUE && (!(worldName in ['Stratis']));
 _HVT_checkDelay = time + 90;
 _QS_v = objNull;
 private _HVT_currentTargets = [];
@@ -368,7 +397,7 @@ _QS_heliDroneRespawnCheckDelay = _timeNow + _QS_heliDroneRespawnDelay;
 
 /*/===== Vehicle Respawn/Management System/*/
 
-_vehData = [] call (missionNamespace getVariable 'QS_data_vehicles');
+_vehData = call (missionNamespace getVariable 'QS_data_vehicles');
 {
 	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 		(missionNamespace getVariable 'QS_v_Monitor') pushBack _x;
@@ -429,6 +458,12 @@ _QS_deleteThis = FALSE;
 _QS_attemptRecycle = FALSE;
 _missionObject = objNull;
 _missionObjectType = '';
+private _protectedRuinTypes = [					
+	'land_cargo_tower_v1_ruins_f',
+	'land_cargo_tower_v3_ruins_f',
+	'land_cargo_tower_v2_ruins_f',
+	'land_radar_ruins_f'
+];
 private _missionObjectsTicker = 0;
 _deleteNow = [];
 _jetJunk = [
@@ -622,14 +657,14 @@ _QS_lightningsUpdate_checkDelay_timer = 300;
 _QS_lightningsUpdate_checkDelay = _timeNow + _QS_lightningsUpdate_checkDelay_timer;
 _QS_lightningsEnabled = FALSE;
 
-if (_QS_worldName isEqualTo 'Altis') then {
-	if ((random 1) >= 0.25) then {
+if (_QS_worldName in ['Altis','Stratis']) then {
+	if ((random 1) >= 0.666) then {
 		_QS_canEnableLightnings = TRUE;
 	} else {
 		_QS_canEnableLightnings = FALSE;
 	};
 } else {
-	if ((random 1) >= 0.1) then {
+	if ((random 1) >= 0.666) then {
 		_QS_canEnableLightnings = TRUE;
 	} else {
 		_QS_canEnableLightnings = FALSE;
@@ -714,31 +749,6 @@ _QS_module_airDefense_checkDelay = _timeNow + _QS_module_airDefense_delay;
 _airDefenseArray = [[],0,0];
 _airDefensePos = markerPos 'QS_marker_airbaseDefense';
 _airDefenseOnline = FALSE;
-/*/_QS_interaction_worldName = [(toString [65,108,116,105,115])];/*/
-_QS_interaction_worldName = ['Altis','Tanoa'];
-
-/*/===== Enemy CAS*/
-
-_QS_module_enemyCAS = TRUE;
-_QS_module_enemyCAS_delay = 30;
-_QS_module_enemyCAS_checkDelay = _timeNow + _QS_module_enemyCAS_delay;
-_QS_module_enemyCAS_spawnDelayDefault = 900;
-_QS_module_enemyCAS_spawnDelay = _QS_module_enemyCAS_spawnDelayDefault;
-_QS_module_enemyCAS_checkSpawnDelay = _timeNow + _QS_module_enemyCAS_spawnDelayDefault;
-_QS_enemyCasArray = [];
-_enemyCasLimitHigh = 2;
-_enemyCasLimitLow = 1;
-_enemyCasLimit = 0;
-_enemyQS_casJet = objNull;
-
-_QS_fnc_reveal = {
-	_grp = _this # 0;
-	_toReveal = _this # 1;	
-	{
-		_grp reveal [_x,(2 + (random 2))];
-	} count _toReveal;
-	true;
-};
 
 private _minefieldSpawned = FALSE;
 
@@ -805,84 +815,32 @@ _QS_module_recruitableAI = TRUE && ((missionNamespace getVariable ['QS_missionCo
 if (_QS_module_recruitableAI) then {
 	_QS_module_recruitableAI_delay = 15;
 	_QS_module_recruitableAI_checkDelay = time + _QS_module_recruitableAI_delay;
-	_QS_module_recruitableAI_data = [];
 	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
-		if (_QS_worldName isEqualTo 'Altis') then {
-			_QS_module_recruitableAI_data = [
-				[objNull,60,false,{},"B_Sharpshooter_F",[14682.6,16818.3,0.00143814],305.396,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_medic_F",[14680.8,16816.4,0.00143814],323.169,false,0,-1,FALSE],
-				[objNull,60,false,{},"B_HeavyGunner_F",[14683.6,16820.3,0.00143814],261.772,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_medic_F",[14679,16814.8,0.00143814],323.169,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_engineer_F",[14677,16813.4,0.00143814],0,false,0,-1,FALSE],
-				[objNull,60,false,{},"B_engineer_F",[14674.9,16812.2,0.00143814],0,false,0,-1,TRUE],
-				[objNull,300,false,{},"B_helicrew_F",[14748.2,16850.6,0.00141335],242.182,false,0,-1,FALSE],
-				[objNull,300,false,{},"B_helicrew_F",[14745.9,16852.8,-4.57764e-005],186.769,false,0,-1,TRUE]
-			];
-		};
-		if (_QS_worldName isEqualTo 'Tanoa') then {
-			_QS_module_recruitableAI_data = [
-				[objNull,60,false,{},"B_T_Medic_F",[6905.22,7444.03,0.00143886],74.0643,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_CTRG_Soldier_AR_tna_F",[6904.49,7450.24,0.00143886],68.9876,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_CTRG_Soldier_AR_tna_F",[6904.2,7451.43,0.00143886],70.1967,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_T_Medic_F",[6905.09,7445.69,0.00143909],72.3628,false,0,-1,FALSE],
-				[objNull,60,false,{},"B_T_Engineer_F",[6905.01,7447.33,0.00143886],71.7933,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_T_Engineer_F",[6904.72,7448.91,0.00143886],74.1894,false,0,-1,FALSE],
-				[objNull,300,false,{},"B_T_Helicrew_F",[7092.58,7292.76,0.00143886],157.963,false,0,-1,TRUE],
-				[objNull,300,false,{},"B_T_Helicrew_F",[7094.25,7293.22,0.00143886],158.254,false,0,-1,FALSE]
-			];
-		};
-		if (_QS_worldName isEqualTo 'Malden') then {
-			_QS_module_recruitableAI_data = [
-				[objNull,60,false,{},"B_medic_F",[8155.89,10151.8,0.00144005],186.367,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_medic_F",[8157.71,10151.8,0.00144005],178.207,false,0,-1,FALSE],
-				[objNull,60,false,{},"B_engineer_F",[8148.38,10151.7,0.00161362],151.663,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_engineer_F",[8150.08,10151.7,0.00162315],169.781,false,0,-1,FALSE],
-				[objNull,60,false,{},"B_HeavyGunner_F",[8152.2,10151.8,0.00143814],167.187,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_Sharpshooter_F",[8154.08,10151.8,0.00143623],174.89,false,0,-1,TRUE],
-				[objNull,300,false,{},"B_helicrew_F",[8063.47,10293.7,0.00100136],79.7211,false,0,-1,TRUE],
-				[objNull,300,false,{},"B_helicrew_F",[8063.57,10295.8,0.000993729],84.3278,false,0,-1,FALSE]
-			];
-		};
-		if (_QS_worldName isEqualTo 'Enoch') then {
-			_QS_module_recruitableAI_data = [
-				[objNull,60,false,{},"B_W_Soldier_AR_F",[4054.99,10201,0.00144196],315.519,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_W_Soldier_AR_F",[4053.83,10200.1,0.00144196],320.469,false,0,-1,FALSE],
-				[objNull,60,false,{},"B_W_soldier_M_F",[4052.44,10198.6,0.00144958],316.122,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_W_soldier_M_F",[4051.46,10197.6,0.00144196],316.122,false,0,-1,FALSE],
-				[objNull,60,false,{},"B_W_Medic_F",[4056.53,10202.9,0.00144196],314.673,false,0,-1,TRUE],
-				[objNull,60,false,{},"B_W_Medic_F",[4057.55,10204.1,0.00144196],314.615,false,0,-1,TRUE],
-				[objNull,300,false,{},"B_W_Engineer_F",[4050.13,10196.2,0.00144196],312.056,false,0,-1,TRUE],
-				[objNull,300,false,{},"B_W_Engineer_F",[4049.33,10195.2,0.00144196],312.056,false,0,-1,FALSE]
-			];
-		};
+		_QS_module_recruitableAI_data = call (compileScript ['code\config\QS_data_recruitableAI.sqf']);
+		//_QS_module_recruitableAI_data = call (missionNamespace getVariable 'QS_data_recruitableAI');
 	} else {
 		_QS_module_recruitableAI_data = missionNamespace getVariable ['QS_register_rAI',[]];
 	};
-	missionNamespace setVariable ['QS_RD_recruitableAI_1',_QS_module_recruitableAI_data,FALSE];
-	_QS_module_recruitableAI_array = missionNamespace getVariable 'QS_RD_recruitableAI_1';
+	_QS_module_recruitableAI_array = _QS_module_recruitableAI_data;
 	_QS_module_recruitableAI_side = WEST;
+	_QS_module_recruitableAI_unitTypes = [	
+		'B_soldier_AR_F','B_Soldier_GL_F','B_soldier_M_F','B_Sharpshooter_F','B_G_Sharpshooter_F'
+	];
 	if (_QS_worldName isEqualTo 'Tanoa') then {
 		_QS_module_recruitableAI_unitTypes = [	
 			'B_CTRG_Soldier_AR_tna_F','B_CTRG_Soldier_LAT_tna_F','B_CTRG_Soldier_M_tna_F'
-		] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-	} else {
-		if (_QS_worldName isEqualTo 'Enoch') then {
-			_QS_module_recruitableAI_unitTypes = [	
-				'B_W_Soldier_AR_F',
-				'B_W_Medic_F',
-				'B_W_Engineer_F',
-				'B_W_soldier_M_F',
-				'B_W_Soldier_LAT2_F'
-			] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');		
-		} else {
-			_QS_module_recruitableAI_unitTypes = [	
-				'B_Soldier_A_F','B_soldier_AR_F','B_Soldier_GL_F','B_soldier_M_F',
-				'B_Soldier_lite_F','B_Sharpshooter_F','B_soldier_AAR_F','B_G_Sharpshooter_F',
-				'B_G_soldier_LAT_F','B_G_Soldier_AR_F'
-			] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-		};
+		];
 	};
-	missionNamespace setVariable ['QS_RD_recruitableAI_1',nil,FALSE];
+	if (_QS_worldName isEqualTo 'Enoch') then {
+		_QS_module_recruitableAI_unitTypes = [	
+			'B_W_Soldier_AR_F',
+			'B_W_Medic_F',
+			'B_W_Engineer_F',
+			'B_W_soldier_M_F',
+			'B_W_Soldier_LAT2_F'
+		];
+	};
+	_QS_module_recruitableAI_unitTypes = _QS_module_recruitableAI_unitTypes call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 
 /*/============================= MESSAGING SYSTEM*/
@@ -1086,6 +1044,48 @@ _QS_module_emergentTasks_add = [];
 _QS_module_emergentTask_maxType = 3;
 _QS_module_emergentTask_countType = 0;
 _QS_module_emergentTasks_medevac = TRUE;
+/*/===== Zeus Respawn Module/*/
+private _QS_module_zeusRespawn = _aoType in ['ZEUS'];
+private _QS_module_zeusRespawn_delay = 1;
+private _QS_module_zeusRespawn_checkDelay = -1;
+private _QS_module_zeusRespawn_data = [];
+private _QS_module_zeusRespawn_updateElement = FALSE;
+private _QS_module_zeusRespawn_element = [];
+private _QS_module_zeusRespawn_side = sideUnknown;
+private _QS_module_zeusRespawn_object = objNull;
+private _QS_module_zeusRespawn_marker = '';
+private _QS_module_zeusRespawn_pos = [0,0,0];
+private _QS_module_zeusRespawn_objectType = 'FlagPole_F';
+private _QS_module_zeusRespawn_flagTexture = '';
+private _QS_module_zeusRespawn_flagTextures = [
+	'a3\Data_f\cfgFactionClasses_OPF_ca.paa',		// EAST
+	'a3\Data_f\cfgFactionClasses_BLU_ca.paa',		// WEST
+	'a3\Data_f\cfgFactionClasses_IND_ca.paa',		// RESISTANCE
+	'a3\Data_f\cfgFactionClasses_CIV_ca.paa'		// CIVILIAN
+];
+if (_QS_module_zeusRespawn) then {
+	if ((missionNamespace getVariable ['QS_roles_data',[]]) isNotEqualTo []) then {
+		{
+			if (_x isNotEqualTo []) then {
+				if (_forEachIndex isEqualTo 0) then {
+					_QS_module_zeusRespawn_data pushBack [EAST,'respawn_east',markerPos ['respawn_east',TRUE],objNull,_QS_module_zeusRespawn_objectType,_QS_module_zeusRespawn_flagTextures # _forEachIndex];
+				};
+				if (_forEachIndex isEqualTo 1) then {
+					_QS_module_zeusRespawn_data pushBack [WEST,'respawn_west',markerPos ['respawn_west',TRUE],objNull,_QS_module_zeusRespawn_objectType,_QS_module_zeusRespawn_flagTextures # _forEachIndex];
+				};
+				if (_forEachIndex isEqualTo 2) then {
+					_QS_module_zeusRespawn_data pushBack [RESISTANCE,'respawn_guerrila',markerPos ['respawn_guerrila',TRUE],objNull,_QS_module_zeusRespawn_objectType,_QS_module_zeusRespawn_flagTextures # _forEachIndex];
+				};
+				if (_forEachIndex isEqualTo 3) then {
+					_QS_module_zeusRespawn_data pushBack [CIVILIAN,'respawn_civilian',markerPos ['respawn_civilian',TRUE],objNull,_QS_module_zeusRespawn_objectType,_QS_module_zeusRespawn_flagTextures # _forEachIndex];
+				};
+			};
+		} forEach QS_roles_data;
+	} else {
+		_QS_module_zeusRespawn = FALSE;
+	};
+};
+
 /*/===== Restart scheduler/*/
 _QS_module_restart = ((missionNamespace getVariable ['QS_missionConfig_restartHours',[]]) isNotEqualTo []);
 _QS_module_restart_isRestarting = FALSE;
@@ -1211,6 +1211,7 @@ _fn_aoMinefield = missionNamespace getVariable 'QS_fnc_aoMinefield';
 _fn_createMinefield = missionNamespace getVariable 'QS_fnc_createMinefield';
 _fn_gpsJammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
 _fn_fobAssets = missionNamespace getVariable 'QS_fnc_fobAssets';
+_fn_aoSubObjectives = missionNamespace getVariable 'QS_fnc_aoSubObjectives';
 
 _fpsMarkerText = localize 'STR_QS_Marker_005';
 _zeusMarkerText = localize 'STR_QS_Marker_006';
@@ -1323,8 +1324,8 @@ for '_x' from 0 to 1 step 0 do {
 							_defendAOActive = _false;		
 							_QS_ao_EFB = _false;
 							_aoGraceTime = _timeNow + 60;
-							_aoName = _ao # 0;
-							_QS_AOpos = _ao # 1;
+							_aoName = _ao # 1;
+							_QS_AOpos = _ao # 2;
 							missionNamespace setVariable ['QS_AOpos',_QS_AOpos,_true];
 							if ((missionNamespace getVariable 'QS_aoHQ') isEqualType []) then {
 								if ((missionNamespace getVariable 'QS_aoHQ') isNotEqualTo []) then {
@@ -1556,7 +1557,7 @@ for '_x' from 0 to 1 step 0 do {
 						_avgPlayerCountCheckDelay = _timeNow + 60;
 					};
 					if (
-						([0] call (missionNamespace getVariable 'QS_fnc_aoSubObjectives')) || 
+						([0] call _fn_aoSubObjectives) || 
 						{(missionNamespace getVariable 'QS_aoCycleVar')}
 					) then {
 						diag_log 'Main AO deactivating';
@@ -1809,7 +1810,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 						missionNamespace setVariable ['QS_ao_createDelayedMinefield',_false,_false];
 						['DEBRIEF',_ao,_QS_AOpos] call _fn_aoBriefing;
-						if ((_ao # 7) isNotEqualTo 0) then {
+						if ((_ao # 8) isNotEqualTo 0) then {
 							_defendAO = _true;
 							_defendAOActive = _true;
 							_isDefendLocal = _true;
@@ -2536,7 +2537,7 @@ for '_x' from 0 to 1 step 0 do {
 										'QS_marker_veh_fieldservice_01' setMarkerPosLocal (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 4);
 										'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
 										'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
-										(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal FALSE;
+										(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal _false;
 										0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_049']] remoteExec ['QS_fnc_showNotification',-2,_false];
 									};
 								};
@@ -2557,7 +2558,7 @@ for '_x' from 0 to 1 step 0 do {
 										if (!(_module_fob_logistics_ammoServices)) then {
 											_module_fob_logistics_ammoServices = _true;
 											missionNamespace setVariable ['QS_module_fob_services_ammo',_module_fob_logistics_ammoServices,_true];
-											(missionNamespace getVariable 'QS_module_fob_supplycrate') hideObjectGlobal FALSE;
+											(missionNamespace getVariable 'QS_module_fob_supplycrate') hideObjectGlobal _false;
 											'QS_marker_veh_fieldservice_04' setMarkerPos (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 3);
 											'QS_marker_veh_fieldservice_01' setMarkerPos (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 4);
 											'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
@@ -2578,7 +2579,7 @@ for '_x' from 0 to 1 step 0 do {
 							} else {
 								if ((isNull (attachedTo _x)) && (isNull (ropeAttachedTo _x))) then {
 									if (isNil {_x getVariable 'QS_vehicle_isSuppliedFOB'}) then {
-										(missionNamespace getVariable 'QS_module_fob_supplycrate') hideObjectGlobal FALSE;
+										(missionNamespace getVariable 'QS_module_fob_supplycrate') hideObjectGlobal _false;
 										if ((['box',(typeOf _x),_false] call _fn_inString) || {(['mover',(typeOf _x),_false] call _fn_inString)}) exitWith {
 											if ((getMass _x) > 5000) then {
 												if ((isNull (attachedTo _x)) && (isNull (ropeAttachedTo _x))) then {
@@ -2618,7 +2619,7 @@ for '_x' from 0 to 1 step 0 do {
 											missionNamespace setVariable ['QS_module_fob_services_ammo',_true,_true];
 										};
 									};
-									(missionNamespace getVariable 'QS_module_fob_supplycrate') hideObjectGlobal FALSE;
+									(missionNamespace getVariable 'QS_module_fob_supplycrate') hideObjectGlobal _false;
 									_x setVariable ['QS_vehicle_isSuppliedFOB',_true,_true];
 									if (!isNil {_x getVariable 'QS_transporter'}) then {
 										if (alive ((_x getVariable 'QS_transporter') # 1)) then {
@@ -2647,7 +2648,7 @@ for '_x' from 0 to 1 step 0 do {
 									'QS_marker_veh_fieldservice_01' setMarkerPos (([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 4);
 									'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
 									'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
-									(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal FALSE;
+									(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal _false;
 									0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_049']] remoteExec ['QS_fnc_showNotification',-2,_false];
 									if (!isNil {_x getVariable 'QS_transporter'}) then {
 										if (alive ((_x getVariable 'QS_transporter') # 1)) then {
@@ -3070,7 +3071,7 @@ for '_x' from 0 to 1 step 0 do {
 												} else {
 													_v setVectorUp (surfaceNormal _vpos);
 													if (_v isKindOf 'truck_01_base_f') then {
-														_v setPosASL (AGLToASL [_vpos # 0,_vpos # 1,((_vpos # 2) + 0.7)]);
+														_v setPosASL (AGLToASL (_vpos vectorAdd [0,0,0.7]));
 													} else {
 														_v setPosASL (AGLToASL _vpos);
 													};
@@ -3080,7 +3081,7 @@ for '_x' from 0 to 1 step 0 do {
 												_v setDir _dir;
 												if (_isCarrierVehicle isEqualTo 0) then {
 													_v setVectorUp (surfaceNormal _vpos);
-													_v setPos [(_vpos # 0),(_vpos # 1),((_vpos # 2)+0.1)];
+													_v setPos (_vPos vectorAdd [0,0,0.1]);
 												} else {
 													if (_isCarrierVehicle isEqualTo 1) then {
 														_v setPosWorld _vpos;
@@ -3127,12 +3128,12 @@ for '_x' from 0 to 1 step 0 do {
 														} else {
 															_v setVectorUp (surfaceNormal _vpos);
 															if (_v isKindOf 'truck_01_base_f') then {
-																_v setPosASL (AGLToASL [_vpos # 0,_vpos # 1,((_vpos # 2) + 0.7)]);
+																_v setPosASL (AGLToASL (_vpos vectorAdd [0,0,0.7]));
 															} else {
 																_v setPosASL (AGLToASL _vpos);
 															};
 														};
-														_v enableSimulationGlobal TRUE;
+														_v enableSimulationGlobal _true;
 														_v spawn {
 															sleep 1;
 															_this enableSimulationGlobal FALSE;
@@ -3142,7 +3143,7 @@ for '_x' from 0 to 1 step 0 do {
 														_v setDir _dir;
 														if (_isCarrierVehicle isEqualTo 0) then {
 															_v setVectorUp (surfaceNormal _vpos);
-															_v setPos [(_vpos # 0),(_vpos # 1),((_vpos # 2)+0.1)];
+															_v setPos (_vpos vectorAdd [0,0,0.1]);
 														} else {
 															if (_isCarrierVehicle isEqualTo 1) then {
 																_v setPosWorld _vpos;
@@ -3638,13 +3639,18 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				} else {
 					if (!(_missionObject getVariable ['QS_cleanup_protected',_false])) then {
-						if ((_missionObject distance2D [-1000,-1000,0]) > 10) then {
-							if ((_allPlayers inAreaArray [(getPosATL _missionObject),500,500,0,_false]) isEqualTo []) then {
-								_missionObject setPosWorld [-1000,-1000,0];
-								_missionObject hideObjectGlobal TRUE;
-								_missionObject enableSimulationGlobal FALSE;
-								_missionObject setVariable ['QS_cleanup_protected',_true,_false];
+						if (!((toLowerANSI (typeOf _missionObject)) in _protectedRuinTypes)) then {
+							if ((_missionObject distance2D [-1000,-1000,0]) > 10) then {
+								if ((_allPlayers inAreaArray [(getPosATL _missionObject),500,500,0,_false]) isEqualTo []) then {
+									_missionObject setPosWorld [-1000,-1000,0];
+									_missionObject hideObjectGlobal _true;
+									_missionObject enableSimulationGlobal _false;
+									_missionObject setVariable ['QS_cleanup_protected',_true,_false];
+								};
 							};
+						} else {
+							_missionObject setVariable ['QS_cleanup_protected',_true,_false];
+							_missionObject enableSimulationGlobal _false;
 						};
 					};
 				};
@@ -3780,29 +3786,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			_QS_checkUAVsTime = _timeNow + _QS_checkUAVsTime_delay;
 		};
-
-		if (_QS_revealLoudPlayers) then {
-			if (_timeNow > _QS_revealLoudPlayers_delay) then {
-				_knownPlayers = [];
-				{
-					if (_x getVariable ['QS_FiredInAO',_false]) then {
-						0 = _knownPlayers pushBack _x;
-					};
-				} count _allPlayers;
-				if (_knownPlayers isNotEqualTo []) then {
-					{
-						if ((side _x) in _enemySides) then {
-							_grp = _x;
-							_grpLeader = leader _grp;
-							if ((_grpLeader distance2D _QS_AOpos) < 1200) then {
-								[_grp,_knownPlayers] call _QS_fnc_reveal;
-							};
-						};
-					} count allGroups;
-				};
-				_QS_revealLoudPlayers_delay = time + _QS_revealLoudPlayers_timer;
-			};
-		};	
 		_QS_cleanup_checkDelay = time + _QS_cleanup_delay;
 	};
 
@@ -4382,7 +4365,7 @@ for '_x' from 0 to 1 step 0 do {
 						'_popThreshold'
 					];
 					_exit = _false;
-					if ((isNull _unit) || {(!alive _unit)}) then {
+					if (!alive _unit) then {
 						if (!(_isRespawning)) then {
 							_isRespawning = _true;
 							_canRespawnAfter = time + _delay;
@@ -4477,19 +4460,17 @@ for '_x' from 0 to 1 step 0 do {
 								};
 							};
 						};
-						if (!isNull (getAttackTarget _unit)) then {
-							_QS_aiAssignedTarget = getAttackTarget _unit;
-							if (alive _QS_aiAssignedTarget) then {
-								if (_QS_aiAssignedTarget isKindOf 'Man') then {
-									if (isPlayer _QS_aiAssignedTarget) then {
-										_unit setDamage 1;
-									};
-								} else {
-									if ((_QS_aiAssignedTarget isKindOf 'LandVehicle') || {(_QS_aiAssignedTarget isKindOf 'Air')} || {(_QS_aiAssignedTarget isKindOf 'Ship')}) then {
-										if (!isNull (effectiveCommander _QS_aiAssignedTarget)) then {
-											if (isPlayer (effectiveCommander _QS_aiAssignedTarget)) then {
-												_unit setDamage 1;
-											};
+						_QS_aiAssignedTarget = getAttackTarget _unit;
+						if (alive _QS_aiAssignedTarget) then {
+							if (_QS_aiAssignedTarget isKindOf 'Man') then {
+								if (isPlayer _QS_aiAssignedTarget) then {
+									_unit setDamage 1;
+								};
+							} else {
+								if ((_QS_aiAssignedTarget isKindOf 'LandVehicle') || {(_QS_aiAssignedTarget isKindOf 'Air')} || {(_QS_aiAssignedTarget isKindOf 'Ship')}) then {
+									if (!isNull (effectiveCommander _QS_aiAssignedTarget)) then {
+										if (isPlayer (effectiveCommander _QS_aiAssignedTarget)) then {
+											_unit setDamage 1;
 										};
 									};
 								};
@@ -4524,7 +4505,6 @@ for '_x' from 0 to 1 step 0 do {
 					};
 					sleep 0.01;
 				} forEach _QS_module_recruitableAI_array;
-				missionNamespace setVariable ['QS_module_recAI_array',_QS_module_recruitableAI_array,_true];
 			};
 			_QS_module_recruitableAI_checkDelay = _timeNow + _QS_module_recruitableAI_delay;
 		};
@@ -4534,7 +4514,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_timeNow > _QS_message_delay) then {
 			_QS_messages = missionNamespace getVariable ['QS_chat_messages',[]];
 			_QS_messageCount = count _QS_messages;
-			if (_QS_messageCount > 0) then {
+			if (_QS_messages isNotEqualTo []) then {
 				if (_QS_messageCount > 1) then {
 					_QS_messageCurrent = _QS_messages # _QS_messageCurrentIndex;
 					_QS_messageCurrentIndex = _QS_messageCurrentIndex + 1;
@@ -4753,7 +4733,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_accuracyAllPlayers isNotEqualTo []) then {
 				_accuracyAllPlayers = _accuracyAllPlayers select { (((_x # 0) isEqualTo 0) && (alive (_x # 1))) };
 				if (_accuracyAllPlayers isNotEqualTo []) then {
-					_accuracyAllPlayers sort TRUE;
+					_accuracyAllPlayers sort _true;
 					_accuracyPlayer = (_accuracyAllPlayers # 0) # 1;
 					_accuracyAllPlayers deleteAt 0;
 					missionNamespace setVariable ['QS_client_sendAccuracy',_true,owner _accuracyPlayer];
@@ -5076,6 +5056,45 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			};
 			_QS_module_emergentTasks_checkDelay = _timeNow + _QS_module_emergentTasks_delay;
+		};
+	};
+	
+	/*/ Movable Respawn point for Zeus mode/*/
+
+	if (
+		_QS_module_zeusRespawn ||
+		(missionNamespace getVariable ['QS_module_zeusRespawn',FALSE])
+	) then {
+		if (_timeNow > _QS_module_zeusRespawn_checkDelay) then {
+			_QS_module_zeusRespawn_checkDelay = _timeNow + _QS_module_zeusRespawn_delay;
+			{
+				_QS_module_zeusRespawn_updateElement = _false;
+				_QS_module_zeusRespawn_element = _x;
+				_QS_module_zeusRespawn_element params [
+					'_QS_module_zeusRespawn_side',
+					'_QS_module_zeusRespawn_marker',
+					'_QS_module_zeusRespawn_pos',
+					'_QS_module_zeusRespawn_object',
+					'_QS_module_zeusRespawn_objectType',
+					'_QS_module_zeusRespawn_flagTexture'
+				];
+				if (!alive _QS_module_zeusRespawn_object) then {
+					_QS_module_zeusRespawn_object = createVehicle [_QS_module_zeusRespawn_objectType,[0,0,0]];
+					_QS_module_zeusRespawn_object setPosWorld _QS_module_zeusRespawn_pos;
+					_QS_module_zeusRespawn_object setFlagTexture _QS_module_zeusRespawn_flagTexture;
+					_QS_module_zeusRespawn_object setVariable ['QS_zeus',_true,_false];
+					_QS_module_zeusRespawn_element set [3,_QS_module_zeusRespawn_object];
+					_QS_module_zeusRespawn_updateElement = _true;
+				};
+				if ((_QS_module_zeusRespawn_pos vectorDistance (getPosWorld _QS_module_zeusRespawn_object)) > 1) then {
+					_QS_module_zeusRespawn_marker setMarkerPos _QS_module_zeusRespawn_object;
+					_QS_module_zeusRespawn_element set [2,(getPosWorld _QS_module_zeusRespawn_object)];
+					_QS_module_zeusRespawn_updateElement = _true;
+				};
+				if (_QS_module_zeusRespawn_updateElement) then {
+					_QS_module_zeusRespawn_data set [_forEachIndex,_QS_module_zeusRespawn_element];
+				};
+			} forEach _QS_module_zeusRespawn_data;
 		};
 	};
 

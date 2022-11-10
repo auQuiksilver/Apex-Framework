@@ -30,10 +30,13 @@ private _unitsEast = units EAST;
 private _QS_array = [];
 private _aoPos = _pos;
 private _hqPos = missionNamespace getVariable 'QS_HQpos';
+if (worldName isEqualTo 'Stratis') then {
+	_hqPos = missionNamespace getVariable 'QS_aoPos';
+};
 private _minDist = 300;
 private _maxDist = 800;
 private _fn_blacklist = {TRUE};
-private _spawnPosDefault = [worldSize,worldSize,0];
+private _spawnPosDefault = [worldSize - 1000,worldSize,0];
 private _reinforceGroup = grpNull;
 private _infTypes = [];
 private _buildingPositions = [];
@@ -145,7 +148,7 @@ if (
 
 _worldName = worldName;
 private _base = markerPos 'QS_marker_base_marker';
-for '_x' from 0 to 1 step 999 do {
+for '_x' from 0 to 999 step 1 do {
 	_spawnPosDefault = [_pos,_minDist,_maxDist,2,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 	if (
 		(_spawnPosDefault isNotEqualTo []) &&
@@ -183,6 +186,16 @@ if (!(_heliInsert)) then {
 			'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 		]
 	] select (_worldName isEqualTo 'Altis');
+	if (_worldName isEqualTo 'Stratis') then {
+		_infTypes = [
+			'OIA_InfSquad',5,
+			'OIA_InfAssault',2,
+			'OIA_InfTeam_AA',(0.5 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 2),
+			'OI_reconPatrol',0.5,
+			//'OIA_InfTeam_LAT',(0.25 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 1),
+			'OIA_ARTeam',4
+		];
+	};
 	_reinforceGroup = [_spawnPosDefault,(random 360),EAST,(selectRandomWeighted _infTypes),FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 };
 _reinforceGroup setSpeedMode 'FULL';
@@ -215,15 +228,15 @@ if ((random 1) > 0.75) then {
 	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
 	_reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 } else {
-	private _radialIncrement = 45;
+	private _radialIncrement = 120;								// 45
 	private _radialStart = round (random 360);
-	_radialOffset = 100 * (0.75 + (random 0.4));
+	_radialOffset = 150 * (0.75 + (random 0.4));				// 100
 	private _radialPatrolPositions = [];
 	private _patrolPosition = _hqPos getPos [_radialOffset,_radialStart];
 	if (!surfaceIsWater _patrolPosition) then {
 		_radialPatrolPositions pushBack _patrolPosition;
 	};
-	for '_x' from 0 to 6 step 1 do {
+	for '_x' from 0 to 2 step 1 do {							// 0 to 6
 		_radialStart = _radialStart + _radialIncrement;
 		_patrolPosition = _hqPos getPos [_radialOffset,_radialStart];
 		if (!surfaceIsWater _patrolPosition) then {
@@ -238,10 +251,32 @@ if ((random 1) > 0.75) then {
 			_reinforceGroup setFormDir (_spawnPosDefault getDir (_radialPatrolPositions # 0));
 		};
 	};
+	// Forest positions
+	_forestPositions = (missionNamespace getVariable 'QS_classic_terrainData') # 8;
+	if (_forestPositions isNotEqualTo []) then {
+		_radialPatrolPositions pushBack (selectRandom _forestPositions);
+	};
+	// Urban positions
+	_nearHousesInArea = (missionNamespace getVariable 'QS_classic_terrainData') # 4;
+	if ((count _nearHousesInArea) >= 5) then {
+		_radialPatrolPositions pushBack ((getPosATL (selectRandom _nearHousesInArea)) vectorAdd [0,0,1]);
+	};
+	private _aoRadialPositions = (missionNamespace getVariable 'QS_classic_terrainData') # 11;
+	if ((random 1) > 0.5) then {
+		if ((random 1) > 0.5) then {
+			reverse _aoRadialPositions;
+		};
+		_reinforceGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_aoRadialPositions,serverTime,-1],FALSE];
+		_reinforceGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
+	} else {
+		if ((random 1) > 0.5) then {
+			reverse _radialPatrolPositions;
+		};
+		_reinforceGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,serverTime,-1],FALSE];
+		_reinforceGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
+	};
 	_reinforceGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[],FALSE];
-	_reinforceGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,serverTime,-1],FALSE];
-	_reinforceGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP',TRUE,FALSE];
 	_reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 };

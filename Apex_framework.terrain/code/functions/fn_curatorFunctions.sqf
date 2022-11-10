@@ -64,7 +64,10 @@ if (_key isEqualTo 61) exitWith {
 	};
 };
 if (_key isEqualTo 62) exitWith {
-	if (diag_tickTime > (missionNamespace getVariable ['QS_curator_AIOffloadCooldown',-1])) then {
+	if (
+		(missionNamespace getVariable ['QS_missionConfig_zeusOffload',FALSE]) &&
+		(diag_tickTime > (missionNamespace getVariable ['QS_curator_AIOffloadCooldown',-1]))
+	) then {
 		missionNamespace setVariable ['QS_curator_AIOffloadCooldown',diag_tickTime + 5,FALSE];
 		playSound ['ClickSoft',FALSE];
 		private _selected = curatorSelected # 0;
@@ -168,13 +171,13 @@ if (_key isEqualTo 62) exitWith {
 								{
 									params ['_grp','_isLocal'];
 									_grp removeEventHandler [_thisEvent,_thisEventHandler];
-									systemChat format ['Zeus AI Offload - %1 offloaded to server: %2',(groupId _grp),!_isLocal]
+									systemChat format [localize 'STR_QS_Text_277',(groupId _grp),!_isLocal]
 								}
 							];
 						};
 					} forEach _groups;
 					// this is pretty basic but whatever
-					systemChat 'Zeus AI Offload - attempting ...';
+					systemChat (localize 'STR_QS_Text_276');
 					_groups spawn {
 						sleep 2;		// allow time for variable propagation
 						[18,_this,profileName] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -183,7 +186,11 @@ if (_key isEqualTo 62) exitWith {
 			};
 		};
 	} else {
-		systemChat 'Zeus AI Offload - cooldown (5 seconds)';
+		if (!(missionNamespace getVariable ['QS_missionConfig_zeusOffload',FALSE])) then {
+			systemChat (localize 'STR_QS_Text_274');
+		} else {
+			systemChat (localize 'STR_QS_Text_275');
+		};
 	};
 };
 if (_key isEqualTo 82) exitWith {

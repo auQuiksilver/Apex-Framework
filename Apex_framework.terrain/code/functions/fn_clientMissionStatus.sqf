@@ -1538,8 +1538,9 @@ for '_x' from 0 to 1 step 0 do {
 	if (
 		(!isNull _objectParent) &&
 		{(_objectParent isKindOf 'LandVehicle')} &&
-		{((assignedVehicleRole player) isNotEqualTo []) && {(((assignedVehicleRole player) # 0) in ['driver','Turret'])}} &&
+		{((_objectParent unitTurret player) isNotEqualTo [])} &&
 		{(!isTurnedOut player)} &&
+		{(!visibleMap)} &&
 		{['APS_VEHICLE',_objectParent] call _fn_vehicleAPSParams}
 	) then {
 		if (!(ctrlShown _ctrl_aps_1_ctrl)) then {

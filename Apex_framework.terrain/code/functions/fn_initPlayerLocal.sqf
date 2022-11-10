@@ -23,6 +23,8 @@ if (!isMissionProfileNamespaceLoaded) then {
 };
 missionNamespace setVariable ['QS_init_doorCloser',TRUE,FALSE];
 uiNamespace setVariable ['BIS_fnc_advHint_hintHandlers',TRUE];
+['BASE'] call (missionNamespace getVariable 'QS_fnc_localObjects');
+sleep 1;
 private ['_validated','_playerClass','_reviveSetup','_roleDescription','_exit','_qs_1pv','_position','_qs_stamina','_stamina','_aimcoef','_spawnPos','_QS_radioChannels','_QS_radioChannels_profile'];
 _exit = FALSE;
 _uid = getPlayerUID player;
@@ -81,14 +83,16 @@ if (isNil {missionProfileNamespace getVariable 'QS_stamina'}) then {
 		player enableStamina FALSE;
 	};
 	player setCustomAimCoef 0.1;
-	player setVariable ['QS_stamina',[(isStaminaEnabled player),(getCustomAimCoef player)],FALSE];
+	player setVariable ['QS_stamina',[(isStaminaEnabled player),0.1],FALSE];
 	missionProfileNamespace setVariable ['QS_stamina',FALSE];
 	saveMissionProfileNamespace;
 } else {
-	_qs_stamina = missionProfileNamespace getVariable 'QS_stamina';
+	_qs_stamina = missionProfileNamespace getVariable ['QS_stamina',[TRUE,0.1]];
 	if (_qs_stamina isEqualType []) then {
-		_stamina = (missionProfileNamespace getVariable 'QS_stamina') # 0;
-		_aimcoef = (missionProfileNamespace getVariable 'QS_stamina') # 1;
+		_qs_stamina params ['_stamina','_aimcoef'];
+		if (!(_aimcoef isEqualType 0)) then {
+			_aimcoef = 0.1;
+		};
 		if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 0) then {
 			if (_stamina isEqualType TRUE) then {
 				player enableStamina _stamina;
@@ -96,18 +100,17 @@ if (isNil {missionProfileNamespace getVariable 'QS_stamina'}) then {
 				player enableStamina FALSE;
 			};
 		};
-		if (_aimcoef isEqualType 0) then {
-			player setCustomAimCoef _aimcoef;
-		} else {
-			player setCustomAimCoef 0.1;
+		if (!(_aimcoef isEqualType 0)) then {
+			_aimcoef = 0.1;
 		};
-		player setVariable ['QS_stamina',[(isStaminaEnabled player),(getCustomAimCoef player)],FALSE];
+		player setCustomAimCoef _aimcoef;
+		player setVariable ['QS_stamina',[(isStaminaEnabled player),_aimcoef],FALSE];
 	} else {
 		if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 0) then {
 			player enableStamina FALSE;
 		};
 		player setCustomAimCoef 0.1;
-		player setVariable ['QS_stamina',[(isStaminaEnabled player),(getCustomAimCoef player)],FALSE];
+		player setVariable ['QS_stamina',[(isStaminaEnabled player),0.1],FALSE];
 	};
 };
 
@@ -116,7 +119,9 @@ if (isNil {missionProfileNamespace getVariable 'QS_stamina'}) then {
 if ((allMissionObjects 'EmptyDetector') isNotEqualTo []) then {
 	{
 		if (local _x) then {
-			deleteVehicle _x;
+			if (!(_x getVariable ['QS_missionObject_protected',FALSE])) then {
+				deleteVehicle _x;
+			};
 		};
 	} forEach (allMissionObjects 'EmptyDetector');
 };
@@ -485,7 +490,7 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['MusicStop',{}]
 ];
 // Preload Arsenal
-call (missionNamespace getVariable 'QS_fnc_clientArsenal');
+[player] call (missionNamespace getVariable 'QS_fnc_clientArsenal');
 {
 	if (simulationEnabled _x) then {
 		if ((player knowsAbout _x) < 3) then {
@@ -654,6 +659,11 @@ if (_squadParams isNotEqualTo []) then {
 			if (_exit3) exitWith {};
 		};
 	} forEach allPlayers;
+};
+if (worldName isEqualTo 'Stratis') then {
+	private _terrainLocation = nearestLocation [[3764.32,7944.11,0.0131321],'nameLocal'];
+	private _editableLocation = createLocation [_terrainLocation];
+	_editableLocation setText 'Rarek Island';
 };
 [29,(missionNamespace getVariable 'QS_module_fob_side')] call (missionNamespace getVariable 'QS_fnc_remoteExec');
 [] call (missionNamespace getVariable 'QS_fnc_clientBaseLights');

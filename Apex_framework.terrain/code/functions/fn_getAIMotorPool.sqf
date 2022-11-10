@@ -1516,4 +1516,25 @@ if (_case isEqualTo 7) exitWith {
 	};
 	_return;
 };
+if (_case isEqualTo 8) exitWith {
+	[
+		'o_mbt_04_command_f',0,
+		'o_mbt_04_cannon_f',0,
+		'o_mbt_02_cannon_f',0,
+		'i_mbt_03_cannon_f',0,
+		'o_apc_tracked_02_aa_f',0,
+		'o_apc_tracked_02_cannon_f',1,
+		'i_lt_01_aa_f',1,
+		'i_lt_01_at_f',1,
+		'i_lt_01_cannon_f',1,
+		'i_apc_wheeled_03_cannon_f',1,
+		'o_apc_wheeled_02_rcws_v2_f',1,
+		'o_mrap_02_gmg_f',1,
+		'o_mrap_02_hmg_f',1,
+		'i_mrap_03_gmg_f',1,
+		'i_mrap_03_hmg_f',1,
+		'o_lsv_02_at_f',1,
+		'o_lsv_02_armed_f',1
+	]
+};
 _return;

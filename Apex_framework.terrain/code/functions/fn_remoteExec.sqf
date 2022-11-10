@@ -1774,6 +1774,16 @@ if (_case < 90) exitWith {
 			};
 		};
 	};
+	if (_case isEqualTo 88.1) then {
+		params ['',['_vehicle',objNull]];
+		if (!isNull _vehicle) then {
+			if (local _vehicle) then {
+				if ((getAmmoCargo _vehicle) > 0) then {
+					_vehicle setAmmoCargo 0;
+				};
+			};
+		};
+	};
 	if (_case isEqualTo 89) then {
 		params ['','_command','_profileName','_hcSelected'];
 		[0,_command,_profileName,_hcSelected] call (missionNamespace getVariable 'QS_fnc_hCommMenu');
@@ -1805,7 +1815,9 @@ if (_case < 100) exitWith {
 			sleep 3;
 			{
 				if (local _x) then {
-					deleteVehicle _x;
+					if (!(_x getVariable ['QS_missionObject_protected',FALSE])) then {
+						deleteVehicle _x;
+					};
 				};
 			} forEach (allMissionObjects 'EmptyDetector');
 		};

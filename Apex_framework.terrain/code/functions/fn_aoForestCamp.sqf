@@ -26,9 +26,14 @@ for '_x' from 0 to 99 step 1 do {
 		((_position distance2D _baseMarker) > 500) &&
 		{((_position distance2D _hqPos) > 150)} &&
 		{(([_position,20] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 10)} &&
+		{(!(surfaceIsWater _position))} &&
 		{((((_position select [0,2]) nearRoads 50) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} &&
 		{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,50,50,0,FALSE]) isEqualTo [])}
 	) exitWith {};
+};
+if (surfaceIsWater _position) exitWith {
+	missionNamespace setVariable ['QS_enemyJungleCamp_array',[],FALSE];
+	[]
 };
 private _return = [_position,(random 360),([] call (missionNamespace getVariable 'QS_data_forestCamp'))] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];

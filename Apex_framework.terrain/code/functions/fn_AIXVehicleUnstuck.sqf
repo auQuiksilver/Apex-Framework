@@ -26,6 +26,30 @@ if (
 if (_type isEqualTo '') then {
 	_type = ['LAND','SHIP'] select (_vehicle isKindOf 'Ship');
 };
+if (_type isEqualTo 'MAN') exitWith {
+	// Check stuck under rock
+	if (
+		(_vehicle checkAIFeature 'PATH') &&
+		([_vehicle] call (missionNamespace getVariable 'QS_fnc_isUnderRock'))
+	) then {
+		_vehicle setVehiclePosition [position _vehicle,[],25,'NONE'];
+	};
+	// Check swimming
+	if (
+		((toLowerANSI (pose _vehicle)) in ['swimming','surfaceswimming']) &&
+		{(!((toLowerANSI (vest _vehicle)) in ['v_rebreatherb','v_rebreatherir','v_rebreatheria']))}
+	) then {
+		if (_vehicle getVariable ['QS_AI_unstuck_swimming',FALSE]) then {
+			_vehicle setDamage [1,FALSE];
+		} else {
+			_vehicle setVariable ['QS_AI_unstuck_swimming',TRUE,FALSE];
+		};
+	} else {
+		if (_vehicle getVariable ['QS_AI_unstuck_swimming',FALSE]) then {
+			_vehicle setVariable ['QS_AI_unstuck_swimming',FALSE,FALSE];
+		};
+	};
+};
 if (_type isEqualTo 'LAND') exitWith {
 	if (((vectorUp _vehicle) # 2) < 0.1) then {
 		if (_vehicle isKindOf 'LandVehicle') then {

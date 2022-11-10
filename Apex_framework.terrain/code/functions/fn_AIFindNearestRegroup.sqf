@@ -24,35 +24,35 @@ private _testGroup = grpNull;
 private _testGroupConfig = [];
 private _groupFound = FALSE;
 {
-	if ((side _x) isEqualTo _side) then {
-		if (_x getVariable ['QS_AI_GRP',FALSE]) then {
-			if (_grp isNotEqualTo _x) then {
-				if (((units _x) findIf {(alive _x)}) isNotEqualTo -1) then {
-					if (((leader _x) distance2D _unit) < _radius) then {
-						_testGroup = _x;
-						_testGroupConfig = _testGroup getVariable ['QS_AI_GRP_CONFIG',['','',-1,objNull]];
-						_testGroupTask = _testGroup getVariable ['QS_AI_GRP_TASK',['',[0,0,0],-1]];
-						if (
-							(!isNil {_testGroupConfig # 0}) &&
-							(!isNil {_testGroupConfig # 1}) &&
-							(!isNil {_testGroupConfig # 2}) &&
-							(!isNil {_testGroupTask # 0}) &&
-							(!isNil {_testGroupTask # 1}) &&
-							(!isNil {_testGroupTask # 2})
-						) then {
-							if ((_testGroupConfig isNotEqualTo []) && (_testGroupTask isNotEqualTo [])) then {
-								if (((_testGroupConfig # 0) isEqualTo (_groupConfig # 0)) && ((_testGroupConfig # 1) isEqualTo (_groupConfig # 1)) && ((_testGroupTask # 0) isEqualTo (_groupTask # 0))) then {
-									_groupFound = TRUE;
-								} else {
-									if (((_testGroupConfig # 0) isEqualTo (_groupConfig # 0)) && ((_testGroupConfig # 1) isEqualTo (_groupConfig # 1))) then {
-										_suitableGroups pushBack _testGroup;
-									} else {
-										if ((_testGroupConfig # 0) isEqualTo (_groupConfig # 0)) then {
-											_suitableGroups pushBack _testGroup;
-										};
-									};
-								};
-							};
+
+
+	if (
+		((side _x) isEqualTo _side) &&
+		{(_x getVariable ['QS_AI_GRP',FALSE])} &&
+		{(_grp isNotEqualTo _x)} &&
+		{(((units _x) findIf {(alive _x)}) isNotEqualTo -1)} &&
+		{(((leader _x) distance2D _unit) < _radius)}
+	) then {
+		_testGroup = _x;
+		_testGroupConfig = _testGroup getVariable ['QS_AI_GRP_CONFIG',['','',-1,objNull]];
+		_testGroupTask = _testGroup getVariable ['QS_AI_GRP_TASK',['',[0,0,0],-1]];
+		if (
+			(!isNil {_testGroupConfig # 0}) &&
+			(!isNil {_testGroupConfig # 1}) &&
+			(!isNil {_testGroupConfig # 2}) &&
+			(!isNil {_testGroupTask # 0}) &&
+			(!isNil {_testGroupTask # 1}) &&
+			(!isNil {_testGroupTask # 2})
+		) then {
+			if ((_testGroupConfig isNotEqualTo []) && (_testGroupTask isNotEqualTo [])) then {
+				if (((_testGroupConfig # 0) isEqualTo (_groupConfig # 0)) && ((_testGroupConfig # 1) isEqualTo (_groupConfig # 1)) && ((_testGroupTask # 0) isEqualTo (_groupTask # 0))) then {
+					_groupFound = TRUE;
+				} else {
+					if (((_testGroupConfig # 0) isEqualTo (_groupConfig # 0)) && ((_testGroupConfig # 1) isEqualTo (_groupConfig # 1))) then {
+						_suitableGroups pushBack _testGroup;
+					} else {
+						if ((_testGroupConfig # 0) isEqualTo (_groupConfig # 0)) then {
+							_suitableGroups pushBack _testGroup;
 						};
 					};
 				};

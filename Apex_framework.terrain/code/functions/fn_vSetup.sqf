@@ -327,6 +327,15 @@ if (_t2 in ['o_sam_system_04_f','o_radar_system_02_f']) then {
 	} forEach (getArray (configFile >> 'CfgVehicles' >> _t2 >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
 };
 if (!(_isSimpleObject)) then {
+	if ((getAmmoCargo _u) > 0) then {
+		_u setAmmoCargo 0;
+	};
+	if ((getFuelCargo _u) > 0) then {
+		_u setFuelCargo 0;
+	};
+	if ((getRepairCargo _u) > 0) then {
+		_u setRepairCargo 0;
+	};
 	_u lock 0;
 	_u setVariable ['QS_ropeAttached',FALSE,TRUE];
 	if (_t2 in _startLocked) then {
@@ -524,15 +533,6 @@ if (!(_isSimpleObject)) then {
 		_stretcher1 attachTo [_u,[0,-0.75,-0.7]];
 		_stretcher2 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
 		_stretcher2 attachTo [_u,[0.85,-0.75,-0.7]];
-	};
-	if (_t2 in _fuelCargo) then {
-		_u setFuelCargo 1;
-	};
-	if (_t2 in _ammoCargo) then {
-		_u setAmmoCargo 1;
-	};
-	if (_t2 in _repairCargo) then {
-		_u setRepairCargo 1;
 	};
 	if (_u isKindOf 'Helicopter') then {
 		if (

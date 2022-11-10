@@ -16,27 +16,36 @@ ____________________________________________/*/
 params ['_type'];
 private _return = [];
 private _unitTypes = [
-	"o_soldieru_a_f","o_soldieru_aar_f","o_soldieru_ar_f","o_soldieru_medic_f","o_engineer_u_f","o_soldieru_exp_f","o_soldieru_gl_f",
-	"o_urban_heavygunner_f","o_soldieru_m_f","o_soldieru_at_f","o_soldieru_f","o_soldieru_lat_f","o_urban_sharpshooter_f",
-	"o_soldieru_sl_f","o_soldieru_tl_f","o_g_engineer_f","o_g_medic_f","o_g_soldier_a_f","o_g_soldier_ar_f","o_g_soldier_exp_f","o_g_soldier_f","o_g_soldier_f",
-	"o_g_soldier_gl_f","o_g_soldier_lat_f","o_g_soldier_lite_f","o_g_soldier_m_f","o_g_soldier_sl_f","o_g_soldier_tl_f",
-	"o_g_sharpshooter_f","o_g_soldier_ar_f"
+	'o_soldieru_a_f','o_soldieru_aar_f','o_soldieru_ar_f','o_soldieru_medic_f','o_engineer_u_f','o_soldieru_exp_f','o_soldieru_gl_f',
+	'o_urban_heavygunner_f','o_soldieru_m_f','o_soldieru_at_f','o_soldieru_f','o_soldieru_lat_f','o_urban_sharpshooter_f',
+	'o_soldieru_sl_f','o_soldieru_tl_f','o_g_engineer_f','o_g_medic_f','o_g_soldier_a_f','o_g_soldier_ar_f','o_g_soldier_exp_f','o_g_soldier_f','o_g_soldier_f',
+	'o_g_soldier_gl_f','o_g_soldier_lat_f','o_g_soldier_lite_f','o_g_soldier_m_f','o_g_soldier_sl_f','o_g_soldier_tl_f',
+	'o_g_sharpshooter_f','o_g_soldier_ar_f'
 ];
+_worldName = worldName;
 if (_type isEqualTo 'INIT') exitWith {
 	private _pos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
 	private _aoSize = missionNamespace getVariable ['QS_aoSize',500];
+	private _sizeMultiplier = 0.9;
+	private _buildingCount = 8;
+	private _safeDist = 50;
+	if (_worldName in ['Stratis']) then {
+		_sizeMultiplier = 1.1;
+		_buildingCount = 5;
+		_safeDist = 30;
+	};
 	private _hqPos = missionNamespace getVariable ['QS_hqPos',_pos];
 	private _registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
-	private _buildingData = (nearestObjects [_pos,['House'],_aoSize * 0.75,TRUE]) select {
+	private _buildingData = (nearestObjects [_pos,(missionNamespace getVariable ['QS_data_smallBuildingTypes_12',[]]),_aoSize * _sizeMultiplier,TRUE]) select {
 		(alive _x) &&
-		{((count (_x buildingPos -1)) > 4)} && 
+		{((count (_x buildingPos -1)) >= 4)} && 
 		{(!isObjectHidden _x)} &&
-		{((_registeredPositions inAreaArray [getPosATL _x,50,50,0,FALSE]) isEqualTo [])} &&
-		{((_x distance2D _hqPos) > 50)}
+		{((_registeredPositions inAreaArray [getPosATL _x,_safeDist,_safeDist,0,FALSE]) isEqualTo [])} &&
+		{((_x distance2D _hqPos) > _safeDist)}
 	};
-	if ((count _buildingData) >= 8) then {
+	if ((count _buildingData) >= _buildingCount) then {
 		_buildingData = _buildingData call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-		_buildingData = _buildingData select [0,8]; 													//comment 'We need to ensure we arent using all buildings in small towns';
+		_buildingData = _buildingData select [0,_buildingCount]; 													//comment 'We need to ensure we arent using all buildings in small towns';
 		_buildingData = _buildingData apply { [_x,objNull,_x buildingPos -1] };							//_buildingData = _buildingData apply { [_x,objNull,([_x,_x buildingPos -1] call (missionNamespace getVariable 'QS_fnc_customBuildingPositions'))] };
 		private _bldgPos = [];
 		{
@@ -64,7 +73,6 @@ if (_type isEqualTo 'INIT') exitWith {
 			_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_unit enableAIFeature ['PATH',FALSE];
 			_unit enableAIFeature ['MINEDETECTION',FALSE];
-			_unit enableAIFeature ['PATH',FALSE];
 			_unit setPos _buildingPos;
 			_unit setUnitPos 'MIDDLE';
 			_nodes pushBack _unit;
@@ -146,6 +154,20 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 				'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 			]
 		] select (_worldName isEqualTo 'Altis');
+		if (_worldName isEqualTo 'Stratis') then {
+			_infTypes = [
+				'OIA_InfSquad',2,
+				'OIA_InfTeam',2,
+				'OI_reconPatrol',1,
+				'OIA_InfAssault',2,
+				'OG_InfSquad',1,
+				'OG_InfAssaultTeam',1,
+				'OIA_ARTeam',2,
+				//'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
+				'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)//,
+				//'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
+			];
+		};
 		_groupComposition = ([EAST,selectRandomWeighted _infTypes] call (missionNamespace getVariable 'QS_fnc_returnGroupComposition')) apply { _x # 0 };
 		_maxGrpSize = (count _groupComposition) - 1;
 		private _newUnit = objNull;
@@ -154,7 +176,7 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 		private _i = 0;
 		for '_i' from 0 to (((count _buildingPositions) - 1) min _maxGrpSize) step 1 do {
 			_buildingPosition = _buildingPositions deleteAt 0;
-			_newUnit = _newGrp createUnit [_groupComposition # _i,[worldSize,worldSize,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
+			_newUnit = _newGrp createUnit [_groupComposition # _i,[worldSize,worldSize - 250,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
 			_newUnit enableAIFeature ['PATH',FALSE];
 			_newUnit setVariable ['QS_AI_UNIT_delayedInstructions',[(_serverTime + (5 + (random 60))),1],QS_system_AI_owners];
 			_newUnit hideObjectGlobal TRUE;
@@ -170,6 +192,12 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 		_newPatrolRoute = _newPatrolRoute select [0,3];
 		_newPatrolRoute pushBack ((selectRandom (missionNamespace getVariable ['QS_registeredPositions',[]])) getPos [30 + (random 30),random 360]);
 		_newPatrolRoute pushBack ((missionNamespace getVariable 'QS_hqPos') getPos [random 50, random 360]);
+		
+		// Urban positions
+		_nearHousesInArea = (missionNamespace getVariable 'QS_classic_terrainData') # 4;
+		if ((count _nearHousesInArea) >= 5) then {
+			_newPatrolRoute pushBack ((getPosATL (selectRandom _nearHousesInArea)) vectorAdd [0,0,1]);
+		};		
 		_newPatrolRoute = _newPatrolRoute call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		[(units _newGrp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 		_newGrp setVariable ['QS_AI_GRP_TASK',['PATROL',_newPatrolRoute,_serverTime,-1],QS_system_AI_owners];
@@ -243,7 +271,17 @@ if (_type isEqualTo 'HQ') exitWith {
 					'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
 					'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 				]
-			] select (worldName in ['Altis','Malden']);
+			] select (_worldName in ['Altis','Malden']);
+			if (_worldName isEqualTo 'Stratis') then {
+				_infTypes = [
+					(['OIA_InfSquad','OIA_GuardSquad2'] select _isGarrisonLow),([2,4] select _isGarrisonLow),
+					'OIA_InfSquad',2,
+					'OIA_ARTeam',2,
+					//'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
+					'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)//,
+					//'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
+				];
+			};
 			_groupComposition = ([EAST,selectRandomWeighted _infTypes] call (missionNamespace getVariable 'QS_fnc_returnGroupComposition')) apply { _x # 0 };
 			_maxGrpSize = (count _groupComposition) - 1;
 			private _newUnit = objNull;
@@ -253,7 +291,7 @@ if (_type isEqualTo 'HQ') exitWith {
 			private _buildingPosition = [0,0,0];
 			for '_i' from 0 to (((count _buildingPositions) - 1) min _maxGrpSize) step 1 do {
 				_buildingPosition = _buildingPositions deleteAt 0;
-				_newUnit = _newGrp createUnit [_groupComposition # _i,[worldSize,worldSize,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
+				_newUnit = _newGrp createUnit [_groupComposition # _i,[worldSize,worldSize - 500,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
 				_newUnit enableAIFeature ['PATH',FALSE];
 				_newUnit setVariable ['QS_AI_UNIT_delayedInstructions',[(_serverTime + (5 + (random 60))),1],QS_system_AI_owners];
 				_newUnit hideObjectGlobal TRUE;

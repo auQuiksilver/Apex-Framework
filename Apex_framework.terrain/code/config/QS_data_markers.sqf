@@ -224,4 +224,50 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['%1',_teamspeakText])]
 	]
 };
+if (_worldName isEqualTo 'Stratis') exitWith {
+	_markerStoragePos = [-5000,-5000,0];
+	[
+		['respawn',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[3776.7,7929.36,0.00162983],0,''],
+		['respawn_east',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[3776.7,7929.36,0.00162983],0,''],
+		['respawn_west',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[3776.7,7929.36,0.00162983],0,''],
+		['respawn_guerrila',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[3776.7,7929.36,0.00162983],0,''],
+		['respawn_civilian',[0,worldSize,1.5],'Empty','Icon','','ColorWEST',[0.5,0.5],0,[3776.7,7929.36,0.00162983],0,''],
+		['QS_marker_aoMarker',_markerStoragePos,'o_unknown','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
+		['QS_marker_aoCircle',_markerStoragePos,'Empty','Ellipse','FDiagonal','ColorOPFOR',[800,800],0,_markerStoragePos,0,''],
+		['QS_marker_sideMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,''],
+		['QS_marker_sideCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[300,300],0,_markerStoragePos,0,''],
+		['QS_marker_radioMarker',_markerStoragePos,'loc_Transmitter','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_026'],
+		['QS_marker_radioCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[300,300],0,_markerStoragePos,0,''],
+		['QS_marker_hqMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_003'],
+		['QS_marker_hqCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[150,150],0,_markerStoragePos,0,''],
+		['QS_marker_mortMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_048'],
+		['QS_marker_mortCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[300,300],0,_markerStoragePos,0,'   '],
+		['QS_marker_base_marker',[1920.86,5735.69,0.00143671],'respawn_unknown','Icon','','ColorWEST',[0.5,0.5],0.5,[1920.86,5735.69,0.00143671],0,localize 'STR_QS_Marker_049'],
+		['QS_marker_airbaseDefense',[1748.08,5641.38,0.00143909],'b_antiair','Icon','','ColorWEST',[0.5,0.5],0,[1748.08,5641.38,0.00143909],0,''],
+		['QS_marker_airbaseArtillery',[1763.03,5688.52,0.00143909],'b_art','Icon','','ColorWEST',[0.5,0.5],0.75,[1763.03,5688.52,0.00143909],0,localize 'STR_QS_Marker_050'],
+		['QS_marker_casJet_spawn',[1914.07,5955.74,0.00145292],'respawn_plane','Icon','','ColorWEST',[0.5,0.5],0.75,[1914.07,5955.74,0.00145292],0,localize 'STR_QS_Marker_051'],
+		['QS_marker_crate_area',[1778.59,5720.53,0.00143909],'b_support','Icon','','ColorWEST',[0.5,0.5],0.75,[1778.59,5720.53,0.00143909],0,localize 'STR_QS_Marker_052'],
+		['QS_marker_heli_spawn',[1918.96,5841.35,0.00143862],'respawn_air','Icon','','ColorWEST',[0.5,0.5],0.75,[1918.96,5841.35,0.00143862],0,localize 'STR_QS_Marker_053'],
+		['QS_marker_veh_spawn',[1959.28,5707.54,0.00145245],'respawn_armor','Icon','','ColorWEST',[0.5,0.5],0.75,[1959.28,5707.54,0.00145245],0,localize 'STR_QS_Marker_054'],
+		['QS_marker_boats_1',[2138.21,5860.11,0.00142789],'respawn_naval','Icon','','ColorWEST',[0.5,0.5],0.75,[2138.21,5860.11,0.00142789],0,localize 'STR_QS_Marker_068'],
+		['QS_marker_side_rewards',[2001.18,5794.52,0.00141954],'b_unknown','Icon','','ColorWEST',[0.5,0.5],0.75,[2001.18,5794.52,0.00141954],0,localize 'STR_QS_Marker_056'],
+		['QS_marker_gitmo',[1913.53,5777.61,0.00145149],'b_unknown','Icon','','ColorWEST',[0.5,0.5],0.75,[1913.53,5777.61,0.00145149],0,localize 'STR_QS_Marker_057'],
+		['QS_marker_medevac_hq',[1894.87,5774.2,0.00144434],'b_med','Icon','','ColorWEST',[0.5,0.5],0.75,[1894.87,5774.2,0.00144434],0,localize 'STR_QS_Marker_058'],
+		['QS_marker_base_toc',[1908.33,5713.68,0.00143909],'b_hq','Icon','','ColorWEST',[0.5,0.5],0.75,[1908.33,5713.68,0.00143909],0,''],
+		['QS_marker_base_atc',[1908.33,5713.68,0.00143909],'b_support','Icon','','ColorWEST',[0.5,0.5],0.75,[1908.33,5713.68,0.00143909],0,localize 'STR_QS_Marker_060'],
+		['QS_marker_veh_baseservice_01',[2016.87,5681.44,0.00144815],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[2016.87,5681.44,0.00144815],0,localize 'STR_QS_Marker_062'],		// land
+		['QS_marker_veh_baseservice_02',[1848.57,5568.37,0.00143862],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[1848.57,5568.37,0.00143862],0,localize 'STR_QS_Marker_061'],		// heli
+		['QS_marker_veh_baseservice_03',[1859.14,5970.61,0.00143909],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[1859.14,5970.61,0.00143909],0,localize 'STR_QS_Marker_063'],			// air
+		['QS_marker_ferry_1',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[6528.54,4909.65,0.00143933],0,localize 'STR_QS_Marker_068'],
+		['QS_marker_ferry_2',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[4283.72,2636.7,0.00143838],0,localize 'STR_QS_Marker_068'],
+		['QS_marker_ferry_3',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[2755.24,6083,0],0,localize 'STR_QS_Marker_068'],
+		['QS_marker_ferry_4',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[1932.48,2696.94,0],0,localize 'STR_QS_Marker_068'],
+		['QS_marker_Almyra_blacklist_area',_markerStoragePos,'Empty','Icon','','ColorWEST',[0.25,0.25],0,_markerStoragePos,0,''],
+		['QS_marker_fpsMarker',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),worldSize,0],0,''],
+		['QS_marker_curators',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),(worldSize - 500),0],0,localize 'STR_QS_Marker_065'],
+		['QS_marker_module_fob',_markerStoragePos,'b_hq','Icon','','ColorWEST',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_066'],
+		['QS_marker_veh_inventoryService_01',[2025.44,5680.42,0.00146008],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[2025.44,5680.42,0.00146008],0,localize 'STR_QS_Marker_067'],
+		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['%1',_teamspeakText])]
+	]
+};
 []

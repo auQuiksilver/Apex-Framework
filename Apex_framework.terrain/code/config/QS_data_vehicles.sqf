@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/07/2019 A3 1.94 by Quiksilver
+	26/10/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -32,6 +32,33 @@ Editing Notes:
 		true,					// --- [CAN EDIT] is a dynamic "Activate" vehicle (performance saving)
 		0						// --- [CAN EDIT] is spawned on an aircraft carrier deck
 	]
+	
+How to derive in 3DEN Editor:
+	
+	private _array = [];
+	{
+		if (
+			(_x isKindOf 'AllVehicles') || 
+			(_x isKindOf 'Reammobox_F')
+		) then {
+			_array pushBack [objNull,30,FALSE,{},typeOf _x,position _x,getDir _x,false,0,-1,50,500,-1,4,true,0];
+		};
+	} forEach (all3DENEntities # 0);
+	copyToClipboard str _array;
+	
+	OR
+	
+	private _array = [];
+	{
+		if (
+			(_x isKindOf 'AllVehicles') || 
+			(_x isKindOf 'Reammobox_F')
+		) then {
+			_array pushBack [objNull,30,FALSE,{},typeOf _x,position _x,getDir _x,false,0,-1,50,500,-1,4,true,0];
+		};
+	} forEach (get3DENSelected 'object');
+	copyToClipboard str _array;
+	
 __________________________________________________________________________/*/
 
 _worldName = worldName;
@@ -310,16 +337,96 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 		[objNull,30,false,{},"B_Slingload_01_Fuel_F",[3988.01,10268.5,0.000411987],201.806,false,0,-1,50,500,-1,4,false,0],
 		[objNull,30,false,{},"Land_Pod_Heli_Transport_04_medevac_F",[4004.1,10270.7,-0.078949],84.6543,false,0,-1,50,500,-1,4,false,0],
 		[objNull,30,false,{},"Land_Pod_Heli_Transport_04_covered_F",[3990.94,10285.4,-0.0748062],87.3602,false,0,-1,50,500,-1,4,false,0],
-		[objNull,30,false,{},"Land_Pod_Heli_Transport_04_covered_F",[3997.51,10277.6,-0.0749207],87.3253,false,0,-1,50,500,-1,4,false,0],
+		[objNull,30,false,{},"Land_Pod_Heli_Transport_04_bench_black_F",[3997.51,10277.6,-0.0749207],87.3253,false,0,-1,50,500,-1,4,false,0],
 		[objNull,30,false,{},"Box_NATO_AmmoVeh_F",[4003.91,10262.2,-0.000297546],139.52,false,0,-1,50,500,-1,4,false,0],
 		[objNull,30,false,{},"C_T_supplyCrate_F",[3965.15,10256.2,0.000137329],135.543,false,0,-1,50,500,-1,-1,false,0],
 		[objNull,30,false,{},"Box_NATO_Ammo_F",[4317.78,10454,0],223.947,false,0,-1,50,500,-1,-1,false,0],
 		[objNull,30,false,{},"Box_NATO_Ammo_F",[4318.91,10455.1,0],223.947,false,0,-1,50,500,-1,-1,false,0],
 		[objNull,30,false,{},"Box_B_UAV_06_medical_F",[4320.01,10456.3,0],135.72,false,0,-1,50,500,-1,-1,false,0],
 		[objNull,30,false,{},"Box_B_UAV_06_medical_F",[4320.98,10457.1,0],135.72,false,0,-1,50,500,-1,-1,false,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[734.012,7631.77,-0.743812],322.692,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[4170.48,8830.4,-0.787694],233.285,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[4174.83,8824.71,-0.743812],233.285,false,0,-1,50,500,-1,4,true,0],
-		[objNull,30,false,{},"C_Boat_Transport_02_F",[9515.68,11716,-0.743813],171.333,false,0,-1,50,500,-1,4,true,0]
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[734.012,7631.77,0],322.692,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[4170.48,8830.4,0],233.285,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[4174.83,8824.71,0],233.285,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[9515.68,11716,0],171.333,false,0,-1,50,500,-1,4,true,0]
 	]
 };
+if (_worldName isEqualTo 'Stratis') exitWith {
+	[
+		[objNull,30,false,{},"B_Heli_Light_01_F",[1926.15,5807.46,0],317.793,false,0,-1,50,500,-1,8,false,0],
+		[objNull,180,false,{},"B_Heli_Transport_03_F",[1916.08,5866.06,0],321.669,false,0,-1,50,500,-1,8,false,0],
+		[objNull,30,false,{},"B_Heli_Light_01_F",[1905.9,5831.57,0],321.453,false,0,-1,50,500,-1,8,false,0],
+		[objNull,30,false,{},"B_Heli_Light_01_F",[1934.29,5841.14,0],318.746,false,0,-1,50,500,-1,8,false,0],
+		[objNull,30,false,{},"B_MRAP_01_F",[1928.06,5702.15,0.149358],103.861,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_MRAP_01_F",[1929.66,5707.71,0.149282],103.859,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_MRAP_01_F",[1931.18,5713.59,0.149284],103.859,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_LSV_01_unarmed_F",[1951.2,5734.19,0.0994258],143.298,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_LSV_01_unarmed_F",[1949.5,5728.16,0.0993924],143.298,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Quadbike_01_F",[1934.53,5741.89,0.200704],103.036,false,0,-1,50,500,-1,3,true,0],
+		[objNull,30,false,{},"B_Quadbike_01_F",[1935.29,5745.1,0.200709],103.036,false,0,-1,50,500,-1,3,true,0],
+		[objNull,30,false,{},"B_Truck_01_covered_F",[1895.96,5716.81,0.115022],195.127,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Truck_01_medical_F",[1963.04,5669.62,0.125649],53.0421,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Truck_01_fuel_F",[1977.32,5666.56,0.132053],58.4678,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Truck_01_Repair_F",[1991.58,5662.78,0.121795],51.7776,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Quadbike_01_F",[1974,5690.11,0.201418],195.079,false,0,-1,50,500,-1,3,true,0],
+		[objNull,30,false,{},"B_Quadbike_01_F",[1977.17,5689.23,0.201498],195.078,false,0,-1,50,500,-1,3,true,0],
+		[objNull,30,false,{},"B_Quadbike_01_F",[1931.96,5730.28,0.200722],103.036,false,0,-1,50,500,-1,3,true,0],
+		[objNull,30,false,{},"B_Quadbike_01_F",[1932.72,5733.49,0.200737],103.037,false,0,-1,50,500,-1,3,true,0],
+		[objNull,30,false,{},"B_GEN_Offroad_01_gen_F",[1944.27,5737.55,0.0628219],237.399,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_E_Van_02_medevac_F",[1942.83,5754.95,0.176865],193.475,false,0,-1,50,500,-1,4,true,0],
+		[objNull,180,false,{},"B_APC_Wheeled_01_cannon_F",[1960.58,5741.9,0.112127],195.433,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Boat_Armed_01_minigun_F",[2197.58,5858.68,0],34.2425,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Boat_Armed_01_minigun_F",[2208.63,5856.65,0],36.158,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_SDV_01_F",[2163.71,5920.72,0],100.311,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Truck_01_mover_F",[1948.77,5674.03,0.126884],51.5014,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_LSV_01_unarmed_F",[1947.95,5722.35,0.0994325],143.298,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_Truck_01_flatbed_F",[2006.51,5659.19,0.1],53.9738,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_C_Offroad_02_LMG_F",[1941.98,5724.53,0.100029],241.022,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Civil_01_police_F",[2161.39,5915.65,0],102.06,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Scooter_Transport_01_F",[2165.28,5862.52,0.25],36.0156,false,0,-1,50,500,-1,2,true,0],
+		[objNull,30,false,{},"C_Scooter_Transport_01_F",[2169.91,5860.92,0.25],36.0156,false,0,-1,50,500,-1,2,true,0],
+		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[2152.93,5878.44,0],71.4877,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[2151.06,5870.83,0],73.6976,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_LT_01_cannon_F",[1974.08,5715.77,0.101769],194.966,false,0,-1,50,500,-1,4,true,0],
+		//[objNull,300,false,{},selectRandom ["I_LT_01_cannon_F","I_APC_tracked_03_cannon_F"],[1991.21,5729.63,0.104992],196.271,false,0,-1,50,500,-1,4,true,0],
+		//[objNull,180,false,{},"I_LT_01_cannon_F",[1990.84,5730.44,0.101769],197.505,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[1961.68,5322.96,0],191.604,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"I_C_Boat_Transport_02_F",[1952.62,5325.07,0],193.814,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"B_G_Van_01_transport_F",[1945.55,5744.89,0.136583],232.547,false,0,-1,50,500,-1,4,true,0],
+		[objNull,(600 + (random 600)),false,{},"I_Heli_light_03_dynamicLoadout_F",[1911.51,5899.7,0],243.371,false,0,-1,50,500,-1,4,false,0],
+		[objNull,30,false,{},"B_G_Offroad_01_repair_F",[1942.31,5730.49,0.0629215],236.484,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"Land_Pod_Heli_Transport_04_covered_F",[1758.18,5712.55,-0.0749998],12.8788,false,0,-1,50,500,-1,4,false,0],
+		[objNull,30,false,{},"Land_Pod_Heli_Transport_04_medevac_F",[1781.18,5705.77,-0.0749998],15.4318,false,0,-1,50,500,-1,4,false,0],
+		[objNull,30,false,{},"Land_Pod_Heli_Transport_04_bench_black_F",[1770.52,5708.98,-0.0749998],12.8788,false,0,-1,50,500,-1,4,false,0],
+		[objNull,30,false,{},"B_APC_Tracked_01_CRV_F",[1761.59,5677.31,0.105],105.732,false,0,-1,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[6528.03,4902.16,0],149.883,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[6535.34,4906.85,0],149.883,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[4279.28,2629.37,0],176.406,false,0,-2,50,500,-1,4,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[4290.08,2631.03,0],173.124,false,0,-2,50,500,-1,4,true,0],
+		//[objNull,30,false,{},"B_supplyCrate_F",[1902.86,5729.36,5.72205e-005],104.439,false,0,-1,50,500,-1,1,true,0],
+		//[objNull,30,false,{},"B_supplyCrate_F",[1907.96,5749.19,0],104.438,false,0,-1,50,500,-1,1,true,0],
+		//[objNull,30,false,{},"B_supplyCrate_F",[1918.76,5725.76,9.53674e-007],14.1069,false,0,-1,50,500,-1,1,true,0],
+		//[objNull,30,false,{},"B_supplyCrate_F",[1930.01,5724.11,2.28882e-005],104.438,false,0,-1,50,500,-1,1,true,0],
+		//[objNull,30,false,{},"B_supplyCrate_F",[2018.26,5686.39,0],195.716,false,0,-1,50,500,-1,1,true,0],
+		//[objNull,30,false,{},"B_supplyCrate_F",[1941.32,5822.22,0],104.438,false,0,-1,50,500,-1,1,true,0],
+		[objNull,30,false,{},"B_Slingload_01_Fuel_F",[1763.99,5735.35,0],196.439,false,0,-1,50,500,-1,4,false,0],
+		[objNull,30,false,{},"B_CargoNet_01_ammo_F",[1776.13,5730.92,0],0,false,0,-1,50,500,-1,3,false,0],
+		[objNull,30,false,{},"B_CargoNet_01_ammo_F",[1782.99,5728.93,0],0,false,0,-1,50,500,-1,3,false,0],
+		[objNull,30,false,{},"Box_NATO_Ammo_F",[2024.79,5685.68,7.15256e-006],105.431,false,0,-1,50,500,-1,0.5,false,0],
+		[objNull,30,false,{},"Box_NATO_Ammo_F",[2024.33,5683.69,8.10623e-006],105.43,false,0,-1,50,500,-1,0.5,false,0],
+		[objNull,30,false,{},"Box_NATO_Ammo_F",[2023.83,5681.76,-1.90735e-006],105.431,false,0,-1,50,500,-1,0.5,false,0],
+		[objNull,30,false,{},"Box_B_UAV_06_medical_F",[2027.54,5685.04,1.90735e-006],201.166,false,0,-1,50,500,-1,0.5,false,0],
+		[objNull,30,false,{},"Box_B_UAV_06_medical_F",[2029.09,5684.59,4.76837e-006],195.18,false,0,-1,50,500,-1,0.5,false,0],
+		[objNull,30,false,{},"Box_B_UAV_06_medical_F",[2030.63,5684.18,5.24521e-006],192.828,false,0,-1,50,500,-1,0.5,false,0],
+		[objNull,300,false,{},"B_G_Offroad_01_F",[4082.29,4599.88,0.0937653],146.65,false,0,-1,50,300,-1,2.5,true,0],
+		[objNull,300,false,{},"B_G_Offroad_01_F",[4079.84,4594.39,0.112122],142.072,false,0,-1,50,300,-1,2.5,true,0],
+		[objNull,120,false,{},"B_Quadbike_01_F",[4095.49,4586.11,0.222168],273.644,false,0,-1,50,250,-1,2,true,0],
+		[objNull,120,false,{},"B_Quadbike_01_F",[4095.41,4583.01,0.231598],272.664,false,0,-1,50,250,-1,2,true,0],
+		[objNull,300,false,{},"I_C_Offroad_02_LMG_F",[4084.32,4605.25,0.092041],147.511,false,0,-1,50,300,-1,2.5,true,0],
+		[objNull,30,false,{},"O_SDV_01_F",[4165.86,7312.12,0],281.644,false,0,-1,50,500,-2,2,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[2755.24,6083,0],223.254,false,0,-2,50,500,-1,3,true,0],
+		[objNull,30,false,{},"C_Boat_Transport_02_F",[1932.48,2696.94,0],230.061,false,0,-2,50,500,-1,3,true,0],
+		[objNull,30,false,{},"C_Scooter_Transport_01_F",[2685.18,501.192,0.25],256.393,false,0,-2,50,500,-1,1,true,0],
+		[objNull,30,false,{},"C_Scooter_Transport_01_F",[2686.05,504.326,0.25],289.205,false,0,-2,50,500,-1,1,true,0]
+	]
+};
+[]

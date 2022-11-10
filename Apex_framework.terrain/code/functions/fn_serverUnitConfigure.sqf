@@ -6,15 +6,14 @@ Author:
 	
 Last Modified:
 	
-	22/07/2019 A3 1.94 by Quiksilver
+	3/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Recruitable Unit Config
 ________________________________________________*/
 
-private ['_unit','_unitType','_grp'];
-_unit = _this # 0;
+params ['_unit'];
 _unitType = typeOf _unit;
 _grp = group _unit;
 _grp setBehaviour 'CARELESS';
@@ -22,17 +21,17 @@ _grp setBehaviour 'CARELESS';
 _unit enableStamina FALSE;
 _unit addEventHandler ['HandleScore',{FALSE}];
 _grp setVariable ['QS_HComm_grp',FALSE,TRUE];
-_unit setVariable ['QS_RD_interactable',TRUE,TRUE];
-_unit setVariable ['QS_RD_recruitable',TRUE,TRUE];
-_unit setVariable ['QS_RD_recruited',FALSE,TRUE];
-_unit setVariable ['QS_RD_dismissable',TRUE,TRUE];
+{
+	_unit setVariable _x;
+} forEach [
+	['QS_RD_spawnPos',getPosASL _unit,TRUE],
+	['QS_RD_interactable',TRUE,TRUE],
+	['QS_RD_recruitable',TRUE,TRUE],
+	['QS_RD_recruited',FALSE,TRUE],
+	['QS_RD_dismissable',TRUE,TRUE]
+];
 _unit addPrimaryWeaponItem (selectRandom ['optic_erco_blk_f','optic_dms']);
-if (_unit getUnitTrait 'medic') then {
-	
-};
-if (_unit getUnitTrait 'engineer') then {
-
-};
+[_unit,_grp] call (missionNamespace getVariable 'QS_fnc_AISetTracers');
 {
 	_unit enableAIFeature [_x,FALSE];
 } forEach [
@@ -50,11 +49,7 @@ _unit addEventHandler [
 	{
 		params ['_killed','_killer'];
 		if ((_killed distance2D (markerPos 'QS_marker_base_marker')) < 500) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
+			missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 			deleteVehicle _killed;
 		};
 	}

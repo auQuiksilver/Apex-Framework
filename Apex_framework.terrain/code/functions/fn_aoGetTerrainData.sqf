@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	21/08/2022 A3 2.10 by Quiksilver
+	5/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -140,7 +140,10 @@ if (_type isEqualTo 1) exitWith {
 	private _randomPos = [0,0,0];
 	for '_x' from 0 to 29 step 1 do {
 		_randomPos = ['RADIUS',_position,_radius,'LAND',[1,0,-1,-1,0,FALSE,objNull],TRUE,[_position,_radius,'(1 + forest) * (1 - houses)',15,3],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		if ((_randomPos distance2D _position) < (_radius * 1.2)) then {
+		if (
+			((_randomPos distance2D _position) < (_radius * 1.2)) &&
+			(!surfaceIsWater _randomPos)
+		) then {
 			_forestPositions pushBack _randomPos;
 		};
 	};
@@ -165,6 +168,11 @@ if (_type isEqualTo 1) exitWith {
 	} forEach _buildings;
 	_hqBuildingPositions = _hqBuildingPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 	missionNamespace setVariable ['QS_ao_hqBuildingPositions',_hqBuildingPositions,FALSE];
+	//params ['_type','_position','_radius','_aoData'];
+	private _radialPositions1 = [_position,_radius * 0.9,6,random 360] call (missionNamespace getVariable 'QS_fnc_getRadialPositions');
+	_radialPositions1 = _radialPositions1 select {(!surfaceIsWater _x)};
+	private _radialPositions2 = [_position,_radius * 0.5,6,random 360] call (missionNamespace getVariable 'QS_fnc_getRadialPositions');
+	_radialPositions2 = _radialPositions2 select {(!surfaceIsWater _x)};
 	_return = [
 		_roadSegments,
 		_roadSegmentsInArea,
@@ -175,7 +183,9 @@ if (_type isEqualTo 1) exitWith {
 		_buildingPositionsInArea,
 		_buildingPositionsInAreaNearGround,
 		_forestPositions,
-		_hqBuildingPositions
+		_hqBuildingPositions,
+		_radialPositions1,
+		_radialPositions2
 	];
 	missionNamespace setVariable ['QS_classic_terrainData',_return,FALSE];
 	_return;
@@ -235,7 +245,10 @@ if (_type isEqualTo 2) exitWith {
 	private _randomPos = [0,0,0];
 	for '_x' from 0 to 29 step 1 do {
 		_randomPos = ['RADIUS',_position,_radius,'LAND',[1,0,-1,-1,0,FALSE,objNull],TRUE,[_position,_radius,'(1 + forest) * (1 - houses)',15,3],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		if ((_randomPos distance2D _position) < (_radius * 1.2)) then {
+		if (
+			((_randomPos distance2D _position) < (_radius * 1.2)) &&
+			(!surfaceIsWater _randomPos)
+		) then {
 			_forestPositions pushBack _randomPos;
 		};
 	};
@@ -312,7 +325,10 @@ if (_type isEqualTo 3) exitWith {
 	private _randomPos = [0,0,0];
 	for '_x' from 0 to 29 step 1 do {
 		_randomPos = ['RADIUS',_position,_radius,'LAND',[1,0,-1,-1,0,FALSE,objNull],TRUE,[_position,_radius,'(1 + forest) * (1 - houses)',15,3],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		if ((_randomPos distance2D _position) < (_radius * 1.2)) then {
+		if (
+			((_randomPos distance2D _position) < (_radius * 1.2)) &&
+			(!surfaceIsWater _randomPos)
+		) then {
 			_forestPositions pushBack _randomPos;
 		};
 	};

@@ -71,7 +71,7 @@ if (_type isEqualTo 1) exitWith {
 		if ((random 1) > 0.5) then {
 			if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
 				if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 1) then {
-					_buildingTypes = (call (missionNamespace getVariable 'QS_data_smallBuildingTypes')) select {(sizeOf _x) >= 15};
+					_buildingTypes = missionNamespace getVariable ['QS_data_smallBuildingTypes_12',[]];
 					_buildingList = (nearestObjects [_centerPos,_buildingTypes,_centerRadius,TRUE]) select {!isObjectHidden _x};
 					if (_buildingList isNotEqualTo []) then {
 						_position = [0,0,0];

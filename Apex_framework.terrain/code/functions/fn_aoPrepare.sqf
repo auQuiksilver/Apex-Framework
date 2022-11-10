@@ -6,7 +6,7 @@ Author:
 
 Last modified: 
 
-	12/06/2022 A3 2.10 by Quiksilver
+	10/11/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -14,13 +14,13 @@ Description:
 ______________________________________________/*/
 
 params ['_ao'];
-_QS_AOpos = _ao # 1;
+_QS_AOpos = _ao # 2;
 private _aoArray = [];
 
 /*/======================================================================= SET CURRENT AO/*/
 
 missionNamespace setVariable ['QS_classic_AOData',_ao,TRUE];
-missionNamespace setVariable ['QS_aoDisplayName',(_ao # 0),TRUE];
+missionNamespace setVariable ['QS_aoDisplayName',(_ao # 1),TRUE];
 
 /*/======================================================================= SET CURRENT AO SIZE/*/
 
@@ -45,6 +45,9 @@ if (_playerCount > 50) then {
 if (_playerCount > 60) then {
 	_aoSize = [650,700] select _bigTerrain;
 };
+if (worldName isEqualTo 'Stratis') then {
+	_aoSize = 350;
+};
 missionNamespace setVariable ['QS_aoSize',_aoSize,TRUE];
 'QS_marker_aoCircle' setMarkerSizeLocal [_aoSize,_aoSize];
 
@@ -54,12 +57,19 @@ diag_log '****************************************************';
 
 /*/===== GET URBAN STATE/*/
 
+private _requiredBuildings = 8;
+if (worldName in ['Tanoa']) then {
+	_requiredBuildings = 8;
+};
+if (worldName in ['Stratis']) then {
+	_requiredBuildings = 6;
+};
 private _result = (count (nearestObjects [
 	_QS_AOpos,
-	((call (missionNamespace getVariable 'QS_data_smallBuildingTypes')) select {(sizeOf _x) >= 15}),
-	_aoSize * 0.75,
+	(missionNamespace getVariable ['QS_data_smallBuildingTypes_12',[]]),
+	_aoSize * 0.9,
 	TRUE
-])) > 10;
+])) >= _requiredBuildings;
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -72,13 +82,21 @@ private _result = (count (nearestObjects [
 
 /*/======================================================================= HEADQUARTERS/*/
 
-[_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoHQ');
+if (!(worldName in ['Stratis'])) then {
+	[_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoHQ');
+} else {
+	_flag = createVehicle ['FlagPole_F',_QS_AOpos];
+	QS_aoHQ = [_flag];
+	_flag setDir (random 360);
+	[_flag,EAST,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
+	missionNamespace setVariable ['QS_AO_HQ_flag',_flag,FALSE];
+	missionNamespace setVariable ['QS_hqPos',_QS_AOpos,FALSE];
+};
 
 /*/======================================================================= CUSTOMIZATIONS/*/
 
 diag_log str (_ao # 0);
 _result = [(_ao # 0)] call (missionNamespace getVariable 'QS_fnc_aoCustomize');
-/*/if (_result isEqualType scriptNull) exitWith {};/*/
 
 diag_log '****************************************************';
 diag_log '***** AO PREPARE ******* 4 *************************';
@@ -113,7 +131,9 @@ if (_nearestLocations isNotEqualTo []) then {
 		];
 	};
 	//comment 'Random vehicles';
-	call (missionNamespace getVariable 'QS_fnc_aoRandomVehicles');
+	if (!(worldName in ['Stratis'])) then {
+		call (missionNamespace getVariable 'QS_fnc_aoRandomVehicles');
+	};
 };
 
 /*/======================================================================= ANIMAL SITE/*/
@@ -150,8 +170,10 @@ if ((random 1) > 0.666) then {
 /*/======================================================================= OTHER SUBS/*/
 
 //comment 'Create other objectives';
-_subObj = (selectRandomWeighted [[1,'INTEL'],0.5,[1,'GEAR'],0.5]) call (missionNamespace getVariable 'QS_fnc_scSubObjective');
-(missionNamespace getVariable 'QS_classic_subObjectives') pushBack _subObj;
+if (!(worldName in ['Stratis'])) then {
+	_subObj = (selectRandomWeighted [[1,'INTEL'],0.5,[1,'GEAR'],0.5]) call (missionNamespace getVariable 'QS_fnc_scSubObjective');
+	(missionNamespace getVariable 'QS_classic_subObjectives') pushBack _subObj;
+};
 
 /*/======================================================================= FIRES/*/
 
@@ -173,7 +195,7 @@ diag_log '****************************************************';
 diag_log '***** AO PREPARE ******* 8 *************************';
 diag_log '****************************************************';
 
-['BRIEF',(_ao # 0),_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoBriefing');
+['BRIEF',(_ao # 1),_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoBriefing');
 
 /*/======================================================================= TRIGGER INIT/*/
 

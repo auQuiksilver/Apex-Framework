@@ -6,28 +6,28 @@ Author:
 	
 Last modified:
 
-	16/08/2018 A3 1.84 by Quiksilver
+	27/10/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	-
 __________________________________________________/*/
 
-private ['_type','_pos','_dir','_v','_va','_dn','_ammo'];
-_type = _this # 0;
-_ammo = [
+private ['_pos','_dir','_v','_dn'];
+private _type = _this # 0;
+private _ammo = [
 	[0.3,0.50],
 	[0.60,0.50],
 	[0.90,0.75]
 ];
-_va = [
+private _va = [
 	['B_MBT_01_arty_F','B_MBT_01_mlrs_F'],
 	['B_T_MBT_01_arty_F','B_T_MBT_01_mlrs_F']
 ] select (worldName in ['Tanoa','Enoch']);
 if (_type isEqualTo 0) exitWith {
 	if ((!isNil {missionNamespace getVariable 'QS_arty'}) && (!isNull (missionNamespace getVariable 'QS_arty'))) exitWith {};
 	if ((missionNamespace getVariable ['QS_missionConfig_arty',0]) isNotEqualTo 0) then {
-		_pos = markerPos 'QS_marker_airbaseArtillery';
+		_pos = markerPos ['QS_marker_airbaseArtillery',TRUE];
 		if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 			if (worldName isEqualTo 'Altis') then {
 				_dir = 134;
@@ -40,6 +40,9 @@ if (_type isEqualTo 0) exitWith {
 			};
 			if (worldName isEqualTo 'Enoch') then {
 				_dir = 313.506;
+			};
+			if (worldName isEqualTo 'Stratis') then {
+				_dir = 107;
 			};
 		} else {
 			_dir = markerDir 'QS_marker_airbaseArtillery';

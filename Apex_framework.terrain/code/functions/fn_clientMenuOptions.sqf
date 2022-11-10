@@ -86,7 +86,7 @@ if (_type isEqualTo 'StaminaCheckbox') then {
 	if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 0) then {
 		player enableStamina _state;
 	};
-	player setVariable ['QS_stamina',[(isStaminaEnabled player),(getCustomAimCoef player)],FALSE];
+	player setVariable ['QS_stamina',[_state,((player getVariable ['QS_stamina',[_state,0.1]]) # 1)],FALSE];
 };
 if (_type isEqualTo 'AimCoefSlider') then {
 	_value = _this # 2;

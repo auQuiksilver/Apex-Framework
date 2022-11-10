@@ -253,8 +253,12 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 			_pos = [4321.49,10505,0.3];
 			_dir = 314.899;		
 		};
+		if (worldName isEqualTo 'Stratis') then {
+			_pos = [1913.38,5955.01,0.1];
+			_dir = 237.56;
+		};
 	} else {
-		_pos = markerPos 'QS_marker_casJet_spawn';
+		_pos = markerPos ['QS_marker_casJet_spawn',TRUE];
 		_dir = markerDir 'QS_marker_casJet_spawn';
 	};
 	[_pos,15,20,50] call (missionNamespace getVariable 'QS_fnc_clearPosition');
@@ -267,11 +271,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 [_pos,_dir,_newCasType,_isCarrier] spawn {
 	params ['_pos','_dir','_newCasType','_isCarrier'];
 	uiSleep 0.01;
-	missionNamespace setVariable [
-		'QS_casJet',
-		(createVehicle [_newCasType,[-500,-500,100],[],0,'CAN_COLLIDE']),
-		TRUE
-	];
+	missionNamespace setVariable ['QS_casJet',(createVehicle [_newCasType,[-500,-500,100],[],0,'CAN_COLLIDE']),TRUE];
 	private _casJet = missionNamespace getVariable 'QS_casJet';
 	_casJet setDir _dir;
 	if (_isCarrier) then {

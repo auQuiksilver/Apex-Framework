@@ -1,0 +1,62 @@
+difficulty="CustomDifficulty";
+class DifficultyPresets
+{
+	class CustomDifficulty
+	{
+		class Options
+		{
+			autoReport=0;
+			cameraShake=1;
+			commands=2;
+			deathMessages=0;
+			detectedMines=0;
+			enemyTags=0;
+			friendlyTags=0;
+			groupIndicators=0;
+			mapContent=0;
+			mapContentEnemy=0;
+			mapContentFriendly=0;
+			mapContentMines=0;
+			mapContentPing=1;
+			multipleSaves=0;
+			reducedDamage=0;
+			scoreTable=1;
+			squadRadar=2;
+			staminaBar=2;
+			stanceIndicator=2;
+			tacticalPing=3;
+			thirdPersonView=1;
+			visionAid=0;
+			vonID=1;
+			waypoints=0;
+			weaponCrosshair=2;
+			weaponInfo=2;
+		};
+		description="Custom difficulty set by developer.";
+		displayName="Custom";
+		optionDescription="Custom difficulty set by the player.";
+		optionPicture="\A3\Ui_f\data\Logos\arma3_white_ca.paa";
+		aiLevelPreset=2;
+		levelAI="AILevelLow";
+	};
+	class CustomAILevel
+	{
+		skillAI=1;
+		precisionAI=0.13000001;
+	};
+};
+singleVoice=0;
+maxSamplesPlayed=96;
+battleyeLicense=1;
+sceneComplexity=1000000;
+shadowZDistance=0;
+viewDistance=1600;
+preferredObjectViewDistance=900;
+pipViewDistance=500;
+terrainGrid=30;
+volumeCD=10;
+volumeFX=10;
+volumeSpeech=10;
+volumeVoN=10;
+vonRecThreshold=0.029999999;
+volumeMapDucking=1;

@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	23/08/2022 A3 2.10 by Quiksilver
+	7/11/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -62,6 +62,7 @@ if (isDedicated) then {
 		_wreck = objNull;
 		_fireObj = objNull;
 		_dir = random 360;
+		private _usedPositions = [[-5000,-5000,0]];
 		private _spawned = 0;
 		for '_x' from 0 to 99 step 1 do {
 			_position = _pos getPos [(missionNamespace getVariable 'QS_aoSize') * 0.75,_dir];
@@ -69,11 +70,13 @@ if (isDedicated) then {
 			if (
 				(!([_randomPos,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) &&
 				{((_randomPos distance2D (missionNamespace getVariable 'QS_aoPos')) < 1500)} &&
-				{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_randomPos,100,100,0,FALSE]) isEqualTo [])}
+				{(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_randomPos,100,100,0,FALSE]) isEqualTo [])} &&
+				{((_usedPositions inAreaArray [_randomPos,100,100,0,FALSE]) isEqualTo [])}
 			) then {
 				_spawned = _spawned + 1;
 				_wreckType = selectRandomWeighted _wreckTypes;
 				_randomPos set [2,0];
+				_usedPositions pushBack _randomPos;
 				_randomPos = AGLToASL _randomPos;
 				_configClass = configFile >> 'CfgVehicles' >> _wreckType;
 				_model = getText (_configClass >> 'model');

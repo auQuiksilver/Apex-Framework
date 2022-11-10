@@ -41,14 +41,14 @@ TODO:
 	'TRAIL','TREE','SMALL TREE','BUSH','MAIN ROAD','TRACK','FOREST',
 ________________________________________________________________________________________________________/*/
 
-params ['_pos','_minDist','_maxDist','_objDist','_waterMode','_maxGradient','_shoreMode'];
+params ['_pos','_minDist','_maxDist','_objDist','_waterMode','_maxGradient','_shoreMode',['_maxGradientRadius',1]];
 scopeName 'main';
 _shoreMode = _shoreMode isNotEqualTo 0;
 if (_pos isEqualTo []) then {
 	_pos = missionNamespace getVariable ['QS_safePositionAnchor',-1];
 	if (_pos isEqualTo -1) then {
 		_pos = getArray (configFile >> 'CfgWorlds' >> worldName >> 'safePositionAnchor');
-		missionNamespace setVariable ['QS_safePositionAnchor',(if (worldName isEqualTo 'Tanoa') then [{[2086.95,7805.91,0]},{_pos}]),TRUE];
+		missionNamespace setVariable ['QS_safePositionAnchor',(if (worldName isEqualTo 'Tanoa') then [{[2086.95,7805.91,0]},{_pos}]),FALSE];
 	};
 };
 if (_pos isEqualTo []) exitWith {diag_log 'Log: [findSafePos] No center position was passed!';[]};
@@ -56,7 +56,7 @@ if (_maxDist isEqualTo -1) then {
 	_maxDist = missionNamespace getVariable ['QS_safePositionRadius',-1];
 	if (_maxDist isEqualTo -1) then {
 		_maxDist = getNumber (configFile >> 'CfgWorlds' >> worldName >> 'safePositionRadius');
-		missionNamespace setVariable ['QS_safePositionRadius',_maxDist,TRUE];
+		missionNamespace setVariable ['QS_safePositionRadius',_maxDist,FALSE];
 	};
 };
 private _distDiff = _maxDist - _minDist;
@@ -67,8 +67,10 @@ private _newY = 0;
 private _newX = 0;
 _true = TRUE;
 _false = FALSE;
+_objNull = objNull;
 _pos params ['_posX','_posY','_posZ'];
 _isTropics = worldName in ['Tanoa','Lingor3','Enoch'];
+_worldArea = missionNamespace getVariable 'QS_terrain_worldArea';
 _bto = [
 	'building','house','forest border', 
 	'forest triangle','forest square','church','chapel', 
@@ -80,16 +82,16 @@ _bto = [
 ];
 for '_x' from 0 to 999 step 1 do {
 	_testPos = _pos getPos [_minDist + (_distDiff * (sqrt (random 1))),(random 360)];
-	if (_testPos inArea (missionNamespace getVariable 'QS_terrain_worldArea')) then {
+	if (_testPos inArea _worldArea) then {
 		if (_isTropics) then {
-			if ((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 2),_waterMode,_shoreMode,objNull]) isNotEqualTo []) then {
+			if ((_testPos isFlatEmpty [_objDist,-1,_maxGradient,_maxGradientRadius,_waterMode,_shoreMode,_objNull]) isNotEqualTo []) then {
 				if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
 					_newPos = _testPos;
 					breakTo 'main';
 				};
 			};
 		} else {
-			if ((_testPos isFlatEmpty [-1,-1,_maxGradient,(_objDist max 3),_waterMode,_shoreMode,objNull]) isNotEqualTo []) then {
+			if ((_testPos isFlatEmpty [_objDist,-1,_maxGradient,_maxGradientRadius,_waterMode,_shoreMode,_objNull]) isNotEqualTo []) then {
 				if ((nearestTerrainObjects [_testPos,_bto,_objDist,_false,_true]) isEqualTo []) then {
 					_newPos = _testPos;
 					breakTo 'main';
@@ -106,7 +108,7 @@ if (_newPos isEqualTo []) then {
 			_newPos = missionNamespace getVariable ['QS_positionStart',-1];
 			if (_newPos isEqualTo -1) then {
 				_newPos = getArray (configFile >> 'CfgWorlds' >> worldName >> 'Armory' >> 'positionStart');
-				missionNamespace setVariable ['QS_positionStart',_newPos,TRUE];
+				missionNamespace setVariable ['QS_positionStart',_newPos,FALSE];
 			};
 		};
 	} else {
@@ -116,7 +118,7 @@ if (_newPos isEqualTo []) then {
 			_newPos = missionNamespace getVariable ['QS_positionStartWater',-1];
 			if (_newPos isEqualTo -1) then {
 				_newPos = getArray (configFile >> 'CfgWorlds' >> worldName >> 'Armory' >> 'positionStartWater');
-				missionNamespace setVariable ['QS_positionStartWater',_newPos,TRUE];
+				missionNamespace setVariable ['QS_positionStartWater',_newPos,FALSE];
 			};
 		};
 	};
@@ -125,7 +127,7 @@ if (_newPos isEqualTo []) then {
 	_newPos = missionNamespace getVariable ['QS_centerPosition',-1];
 	if (_newPos isEqualTo -1) then {
 		_newPos = getArray (configFile >> 'CfgWorlds' >> worldName >> 'centerPosition');
-		missionNamespace setVariable ['QS_centerPosition',_newPos,TRUE];
+		missionNamespace setVariable ['QS_centerPosition',_newPos,FALSE];
 	};
 };
 _newPos set [2,0];

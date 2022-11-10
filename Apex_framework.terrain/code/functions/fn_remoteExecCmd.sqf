@@ -58,6 +58,12 @@ if (_type isEqualTo 'lockTurret') exitWith {
 if (_type isEqualTo 'setAmmoCargo') exitWith {
 	_1 setAmmoCargo _2;
 };
+if (_type isEqualTo 'setRepairCargo') exitWith {
+	_1 setRepairCargo _2;
+};
+if (_type isEqualTo 'setFuelCargo') exitWith {
+	_1 setFuelCargo _2;
+};
 if (_type isEqualTo 'setDir') exitWith {
 	_1 setDir _2;
 };

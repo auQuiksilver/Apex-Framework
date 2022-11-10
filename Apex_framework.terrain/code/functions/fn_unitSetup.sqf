@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	4/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -31,7 +31,8 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		'i_diver_f','i_diver_exp_f','i_diver_tl_f',
 		'o_r_soldier_ar_f','o_r_medic_f','o_r_soldier_exp_f','o_r_soldier_gl_f','o_r_jtac_f','o_r_soldier_m_f','o_r_soldier_lat_f','o_r_soldier_tl_f',
 		'o_r_recon_ar_f','o_r_recon_exp_f','o_r_recon_gl_f','o_r_recon_jtac_f','o_r_recon_m_f','o_r_recon_medic_f','o_r_recon_lat_f','o_r_recon_tl_f',
-		'o_heavygunner_f','o_urban_heavygunner_f'
+		'o_heavygunner_f','o_urban_heavygunner_f','o_r_patrol_soldier_a_f','o_r_patrol_soldier_ar2_f','o_r_patrol_soldier_ar_f',
+		'o_r_patrol_soldier_medic','o_r_patrol_soldier_engineer_f','o_r_patrol_soldier_gl_f','o_r_patrol_soldier_m2_f','o_r_patrol_soldier_lat_f','o_r_patrol_soldier_m_f','o_r_patrol_soldier_tl_f'
 	];
 	// Add radio backpack
 	if (_unitType in [
@@ -389,7 +390,8 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		'o_recon_exp_f','o_recon_jtac_f','o_recon_m_f','o_recon_medic_f','o_pathfinder_f','o_recon_f','o_recon_lat_f','o_recon_tl_f',
 		'o_t_recon_exp_f','o_t_recon_jtac_f','o_t_recon_m_f','o_t_recon_medic_f','o_t_recon_f','o_t_recon_lat_f','o_t_recon_tl_f'
 	]) then {
-		_unit setUnitTrait ['audibleCoef',0.5];
+		_unit setUnitTrait ['audibleCoef',0.333];
+		_unit setUnitTrait ['camouflageCoef ',0.333];
 		_unit addHeadgear 'h_helmetspeco_blk';
 	};
 	if (_unitType in [
@@ -406,9 +408,44 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 		'o_v_soldier_ghex_f',
 		'o_v_soldier_medic_ghex_f',
 		'o_v_soldier_lat_ghex_f',
-		'o_v_soldier_tl_ghex_f'
+		'o_v_soldier_tl_ghex_f',
+		'o_r_soldier_ar_f',
+		'o_r_medic_f',
+		'o_r_soldier_exp_f',
+		'o_r_soldier_gl_f',
+		'o_r_jtac_f',
+		'o_r_soldier_m_f',
+		'o_r_soldier_lat_f',
+		'o_r_soldier_tl_f',
+		'o_r_patrol_soldier_a_f',
+		'o_r_patrol_soldier_ar2_f',
+		'o_r_patrol_soldier_ar_f',
+		'o_r_patrol_soldier_medic',
+		'o_r_patrol_soldier_engineer_f',
+		'o_r_patrol_soldier_gl_f',
+		'o_r_patrol_soldier_m2_f',
+		'o_r_patrol_soldier_lat_f',
+		'o_r_patrol_soldier_m_f',
+		'o_r_patrol_soldier_tl_f',
+		'o_r_recon_ar_f',
+		'o_r_recon_exp_f',
+		'o_r_recon_gl_f',
+		'o_r_recon_jtac_f',
+		'o_r_recon_m_f',
+		'o_r_recon_medic_f',
+		'o_r_recon_lat_f',
+		'o_r_recon_tl_f'
 	]) then {
-		_unit setUnitTrait ['audibleCoef',0.5];
+		_unit setUnitTrait ['audibleCoef',0];
+		_unit setUnitTrait ['camouflageCoef ',0];
+		if (_unitType in [
+			'o_r_soldier_ar_f',
+			'o_r_patrol_soldier_ar2_f',
+			'o_r_patrol_soldier_ar_f',
+			'o_r_recon_ar_f'
+		]) then {
+			_unit setUnitLoadout [['lmg_mk200_black_f','muzzle_snds_65_ti_blk_f','acc_pointer_ir','optic_dms_weathered_f',['200rnd_65x39_cased_box',200],[],'bipod_02_f_lush'],[],['hgun_rook40_f','','','',['16rnd_9x21_mag',16],[],''],['u_o_r_gorka_01_camo_f',[['firstaidkit',1],['16rnd_9x21_mag',2,16]]],['v_smershvest_01_f',[['firstaidkit',2],['handgrenade',2,1],['smokeshell',1,1],['smokeshellred',1,1],['200rnd_65x39_cased_box',2,200]]],['b_fieldpack_taiga_f',[['200rnd_65x39_cased_box',3,200],['minigrenade',2,1],['handgrenade',2,1],['smokeshell',2,1]]],'h_helmetaggressor_cover_taiga_f','g_balaclava_oli',[],['itemmap','','itemradio','itemcompass','itemwatch','o_nvgoggles_grn_f']];
+		};
 	};
 } else {
 	if ((side _unit) in [WEST]) then {

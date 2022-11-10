@@ -17,9 +17,9 @@ private ['_defensePos','_airdefenseGroup','_defender','_nearAir','_duration','_c
 _nearAir = _this # 0;
 _duration = time + 300;	// online for x seconds
 _cooldown = time + 900;	// unavailable for x seconds
-_defensePos = markerPos 'QS_marker_airbaseDefense';
+_defensePos = markerPos ['QS_marker_airbaseDefense',TRUE];
 [_defensePos,15,30,75] call (missionNamespace getVariable 'QS_fnc_clearPosition');
-_defenderType = 'b_aaa_system_01_f';
+_defenderType = 'b_aaa_system_01_f';	// This one is the best mix of effectiveness and spectacle.
 /*/
 _defenderType = selectRandomWeighted [
 	'b_aaa_system_01_f',0.333,	//0.5
@@ -61,6 +61,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	if (_worldName isEqualTo 'Tanoa') then {_defender setDir 77.8;};
 	if (_worldName isEqualTo 'Malden') then {_defender setDir 269.576;};
 	if (_worldName isEqualTo 'Enoch') then {_defender setDir 313.878;};
+	if (_worldName isEqualTo 'Stratis') then {_defender setDir 107;};
 } else {
 	_defender setDir (markerDir 'QS_marker_airbaseDefense');
 };
@@ -78,7 +79,7 @@ _gunner allowDamage FALSE;
 _gunner setSkill ['aimingAccuracy',0.075];
 _airdefenseGroup setFormDir 135;
 _relPos = markerPos 'QS_marker_aoMarker';
-_gunner doWatch [(_relPos # 0),(_relPos # 1),((_relPos # 2) + 2000)];
+_gunner doWatch (_relPos vectorAdd [0,0,2000]);
 _airdefenseGroup setBehaviour 'AWARE';
 _airdefenseGroup setCombatMode 'RED';
 [[_defender],{player disableUAVConnectability [(_this # 0),TRUE];}] remoteExec ['call',-2,_defender];

@@ -793,7 +793,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 	} forEach _traitsData;
 	_role spawn {
 		uiSleep 0.1;
-		call (missionNamespace getVariable 'QS_fnc_clientArsenal');
+		[player] call (missionNamespace getVariable 'QS_fnc_clientArsenal');
 		uiSleep 0.1;
 		missionNamespace setVariable ['QS_client_arsenalData',([(player getVariable ['QS_unit_side',WEST]),_this] call (missionNamespace getVariable 'QS_data_arsenal')),FALSE];
 	};

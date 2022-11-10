@@ -167,6 +167,6 @@ if ((['mbt_04_base_f'] findIf {(_vehicle isKindOf _x)}) isNotEqualTo -1) then {
 } forEach [
 	['QS_aps_params',_list,TRUE],
 	['QS_aps_ammo',(_list # 2),TRUE],
-	['QS_aps_reloadDelay',-1,TRUE]
+	['QS_aps_reloadDelay',serverTime + 14,TRUE]
 ];
 _list;

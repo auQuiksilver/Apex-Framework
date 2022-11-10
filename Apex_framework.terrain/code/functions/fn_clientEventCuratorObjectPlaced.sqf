@@ -19,13 +19,25 @@ _typeL = toLowerANSI _type;
 if ((missionNamespace getVariable ['QS_server_fps',100]) < 15) then {
 	50 cutText [format ["%2 %1",missionNamespace getVariable ['QS_server_fps',100],localize 'STR_QS_Text_006'],'PLAIN DOWN',0.25,TRUE,TRUE];
 };
+if ((getAmmoCargo _object) > 0) then {
+	_object setAmmoCargo 0;
+};
+if ((getFuelCargo _object) > 0) then {
+	_object setFuelCargo 0;
+};
+if ((getRepairCargo _object) > 0) then {
+	_object setRepairCargo 0;
+};
+if (_object isKindOf 'FlagCarrier') then {
+	_object setVariable ['QS_zeus',TRUE,TRUE];
+};
 if (_object isKindOf 'Man') exitWith {
 	_side = side (group _object);
 	if ((_side getFriend WEST) < 0.6) then {
 		[_object] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 	};
 	//_object enableAIFeature ['AUTOCOMBAT',FALSE];
-	_object enableAIFeature ['COVER',FALSE];
+	//_object enableAIFeature ['COVER',FALSE];
 	(group _object) setSpeedMode 'FULL';
 	if (_side isEqualTo CIVILIAN) then {
 		if (_typeL in [
@@ -92,6 +104,7 @@ if (_object isKindOf 'Man') exitWith {
 		];
 	} else {
 		if (_side in [EAST,WEST,RESISTANCE]) then {
+			[_object,group _object] call (missionNamespace getVariable 'QS_fnc_AISetTracers');
 			if (_side in [EAST,RESISTANCE]) then {
 				_object call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			};
@@ -133,7 +146,6 @@ if (_object isKindOf 'Man') exitWith {
 				_object enableFatigue FALSE;
 				_object setAnimSpeedCoef 1.1;
 			};
-			[[_object]] spawn (missionNamespace getVariable 'QS_fnc_serverTracers');
 			if (['recon',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 				if ((side _object) isEqualTo EAST) then {
 					_object addHeadgear 'H_HelmetSpecO_blk';
