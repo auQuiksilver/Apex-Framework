@@ -13,7 +13,7 @@ Description:
 	Arsenal
 _____________________________________________________________/*/
 
-params ['_target','_caller','_actionId','_unit'];
+params ['','','','_unit'];
 if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) then {
 	if (_unit isNotEqualTo player) then {
 		[_unit] call (missionNamespace getVariable 'QS_fnc_clientArsenal');

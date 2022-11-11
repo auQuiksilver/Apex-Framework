@@ -362,7 +362,7 @@ _QS_buttonAction = "
 			closeDialog 2;
 			(!dialog)
 		};
-		call (missionNamespace getVariable 'QS_fnc_clientInteractArsenal');
+		[nil,nil,nil,player] call (missionNamespace getVariable 'QS_fnc_clientInteractArsenal');
 	};
 ";
 _QS_ctrl_19 buttonSetAction _QS_buttonAction;
