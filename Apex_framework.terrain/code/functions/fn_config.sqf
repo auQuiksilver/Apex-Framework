@@ -1199,6 +1199,8 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		// Hide some key buildings in the base area
 		{
 			((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
+			((_x # 0) nearestObject (_x # 1)) enableSimulationGlobal FALSE;
+			((_x # 0) nearestObject (_x # 1)) allowDamage FALSE;
 		} forEach [
 			[[1886.33,5728.47,0.00142622],'Land_HelipadSquare_F'],
 			[[1894.68,5758.35,0.00143862],'Land_HelipadSquare_F'],
