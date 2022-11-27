@@ -89,23 +89,21 @@ if (!isNull _source) then {
 		};
 	};
 };
-if (!isNull _instigator) then {
-	if (alive _instigator) then {
-		if (isPlayer _instigator) then {
-			if ((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 500) then {
-				if (_vehicle isKindOf 'Air') then {
-					if (((vehicle _instigator) distance2D (markerPos 'QS_marker_base_marker')) > 500) then {
-						if (_damage > 0.25) then {
-							[player,_instigator,0.1,_instigator] call (missionNamespace getVariable 'QS_fnc_clientEventHit');
-							_instigator setDamage [1,FALSE];
-						};
-					};
-					if ((vehicle _instigator) isKindOf 'LandVehicle') then {
-						_scale = 0;
-					};
-				};
-			};
+
+if (
+	(alive _instigator) &&
+	{(isPlayer _instigator)} &&
+	{((_vehicle distance2D (markerPos 'QS_marker_base_marker')) < 500)} &&
+	{(_vehicle isKindOf 'Air')}
+) then {
+	if (((vehicle _instigator) distance2D (markerPos 'QS_marker_base_marker')) > 500) then {
+		if (_damage > 0.25) then {
+			[player,_instigator,0.1,_instigator] call (missionNamespace getVariable 'QS_fnc_clientEventHit');
+			_instigator setDamage [1,FALSE];
 		};
+	};
+	if ((vehicle _instigator) isKindOf 'LandVehicle') then {
+		_scale = 0;
 	};
 };
 if (
@@ -128,14 +126,14 @@ if (_aircraft_crit) then {
 					params ['_vehicle'];
 					uiSleep 0.333;
 					{
-						_vehicle setHit [_x # 0,_x # 1];
+						_vehicle setHit [_x # 0,_x # 1,TRUE,_instigator];
 					} forEach QS_aircraft_critHit_array;
 					QS_aircraft_critHit_array = [];
 				};
 			} else {
 				QS_aircraft_critHit_array pushBack [_selectionName,0.89];
 			};
-			_vehicle setHit [(['hitfuel','fuel_hit'] select (_vehicle isKindOf 'Helicopter')),_damage];
+			_vehicle setHit [(['hitfuel','fuel_hit'] select (_vehicle isKindOf 'Helicopter')),_damage,TRUE,_instigator];
 			_damage = 0.89;
 		};
 	};

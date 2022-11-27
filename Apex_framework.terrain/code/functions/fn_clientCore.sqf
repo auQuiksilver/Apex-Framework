@@ -493,9 +493,13 @@ _QS_interaction_fob_respawn = FALSE;
 /*/===== Crate Customization/*/
 _QS_action_crate_customize = nil;
 _QS_action_crate_customize_text = localize 'STR_QS_Interact_033';
-_QS_action_crate_array = [_QS_action_crate_customize_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractCustomizeInventory')},[],25,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+_QS_action_crate_array = [_QS_action_crate_customize_text,{['init',(_this # 3)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout')},[],25,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_customizeCrate = FALSE;
 _nearInvSite = FALSE;
+private _QS_interaction_saveInventory = FALSE;
+private _QS_action_saveInventory = nil;
+private _QS_action_saveInventory_text = localize 'STR_QS_Interact_117';
+private _QS_action_saveInventory_array = [_QS_action_saveInventory_text,{['init'] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout')},[],25,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 /*/===== Push Vehicle/*/
 _QS_action_pushVehicle = nil;
 _QS_action_pushVehicle_text = localize 'STR_QS_Interact_034';
@@ -553,19 +557,7 @@ _QS_action_huronContainer = nil;
 _QS_action_huronContainer_text = localize 'STR_QS_Interact_040';
 _QS_action_huronContainer_array = [_QS_action_huronContainer_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractMedStation')},nil,48,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_huronContainer = FALSE;
-_QS_action_medevac_models = [
-	'a3\supplies_f_heli\slingload\slingload_01_medevac_f.p3d',
-	'a3\props_f_orange\humanitarian\camps\firstaidkit_01_closed_f.p3d',
-	'a3\props_f_orange\humanitarian\camps\firstaidkit_01_open_f.p3d',
-	'a3\air_f_heli\heli_transport_04\pod_heli_transport_04_medevac_f.p3d',
-	'a3\soft_f_orange\van_02\van_02_medevac_f.p3d',
-	'a3\air_f_heli\heli_transport_04\heli_transport_04_medevac_f.p3d',
-	'a3\soft_f_gamma\truck_02\truck_02_medevac_f.p3d',
-	'a3\soft_f_epc\truck_03\truck_03_medevac_f.p3d',
-	'a3\soft_f_gamma\truck_01\truck_01_medevac_f.p3d',
-	'a3\air_f_orange\uav_06\box_uav_06_f.p3d',
-	'a3\props_f_enoch\military\camps\portablecabinet_01_medical_f.p3d'
-];
+_QS_action_medevac_models = call (compileScript ['code\config\QS_data_medevacAssets.sqf']);
 /*/===== Sensor Target/*/
 _QS_action_sensorTarget = nil;
 private _sensorTarget_text_1 = localize 'STR_QS_Interact_041';
@@ -581,7 +573,7 @@ _QS_interaction_attachExp = FALSE;
 /*/===== Cruise control/*/
 private _QS_interaction_cc = FALSE;
 private _QS_action_cc = nil;
-private _QS_action_cc_array = [localize 'STR_QS_Interact_043',{_this spawn (missionNamespace getVariable 'QS_fnc_setCruiseControl')},[],-50,FALSE,FALSE,'','TRUE',-1,FALSE,''];
+private _QS_action_cc_array = [localize 'STR_QS_Interact_043',{[cameraOn] call (missionNamespace getVariable 'QS_fnc_setCruiseControl')},[],-50,FALSE,FALSE,'','TRUE',-1,FALSE,''];
 /*/===== UGV/*/
 _QS_action_ugv_types = [
 	'b_ugv_01_f',
@@ -648,15 +640,15 @@ _QS_interaction_camonetArmor = FALSE;
 _QS_action_camonetArmor_anims = ['showcamonethull','showcamonetcannon','showcamonetcannon1','showcamonetturret','showcamonetplates1','showcamonetplates2'];
 _QS_action_camonetArmor_vAnims = [];
 /*/===== Armor Slat/*/
-_QS_action_slatArmor = nil;
-_QS_action_slatArmor_textA = localize 'STR_QS_Interact_051';
-_QS_action_slatArmor_textB = localize 'STR_QS_Interact_052';
-_QS_action_slatArmor_array = [_QS_action_slatArmor_textA,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractSlatArmor')},[objNull,0],9,FALSE,TRUE,'','TRUE',-1,FALSE,''];
-_QS_interaction_slatArmor = FALSE;
-_QS_action_slatArmor_anims = ['showslathull','showslatturret'];
-_QS_action_slatArmor_vAnims = [];
-_animationSources = [];
-_animationSource = configNull;
+private _QS_action_slatArmor = nil;
+private _QS_action_slatArmor_textA = localize 'STR_QS_Interact_051';
+private _QS_action_slatArmor_textB = localize 'STR_QS_Interact_052';
+private _QS_action_slatArmor_array = [_QS_action_slatArmor_textA,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractSlatArmor')},[objNull,0],9,FALSE,TRUE,'','TRUE',-1,FALSE,''];
+private _QS_interaction_slatArmor = FALSE;
+private _QS_action_slatArmor_anims = ['showslathull','showslatturret'];
+private _QS_action_slatArmor_vAnims = [];
+private _animationSources = [];
+private _animationSource = configNull;
 /*/===== Advanced Rappelling/*/
 _QS_rappelling = TRUE;
 if (_QS_rappelling) then {
@@ -2862,28 +2854,31 @@ for 'x' from 0 to 1 step 0 do {
 				};
 			};
 			
-			/*/===== Customize Crates/*/
-			
+			/*/===== Edit/Save Inventory/*/
+
 			if (
 				(_noObjectParent) &&
 				{(_cursorObjectDistance < 3)} &&
 				{(simulationEnabled _cursorObject)} &&
 				{(alive _cursorObject)} &&
-				{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Reammobox_F')})} &&
-				{(!(_cursorObject getVariable ['QS_inventory_disabled',_false]))}
+				{((maxLoad _cursorObject) > 0)} &&
+				//{((_cursorObject isKindOf 'LandVehicle') || {(_cursorObject isKindOf 'Air')} || {(_cursorObject isKindOf 'Ship')} || {(_cursorObject isKindOf 'Reammobox_F')})} &&
+				{(!(_cursorObject getVariable ['QS_inventory_disabled',_false]))} &&
+				{(!(lockedInventory _cursorObject))}
 			) then {
 				_nearInvSite = _false;
 				{
-					if ((_x isEqualTo 'QS_marker_veh_inventoryService_01') && ((_cursorObject distance2D (markerPos _x)) < 5)) exitWith {
+					if ((_x isEqualTo 'QS_marker_veh_inventoryService_01') && ((_cursorObject distance2D (markerPos _x)) < 15)) exitWith {
 						_nearInvSite = _true;
 					};
-					if ((_x isEqualTo 'QS_marker_crate_area') && ((_cursorObject distance2D (markerPos _x)) < 50)) exitWith {
+					if ((_x isEqualTo 'QS_marker_crate_area') && ((_cursorObject distance2D (markerPos _x)) < 75)) exitWith {
 						_nearInvSite = _true;
 					};
 				} count (missionNamespace getVariable 'QS_veh_inventory_mkrs');
 				if (_nearInvSite) then {
 					if (!(_QS_interaction_customizeCrate)) then {
 						_QS_interaction_customizeCrate = _true;
+						_QS_action_crate_array set [2,_cursorObject];
 						_QS_action_crate_customize = player addAction _QS_action_crate_array;
 						player setUserActionText [_QS_action_crate_customize,((player actionParams _QS_action_crate_customize) # 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_crate_customize) # 0)])];
 					};
@@ -2891,12 +2886,24 @@ for 'x' from 0 to 1 step 0 do {
 					if (_QS_interaction_customizeCrate) then {
 						_QS_interaction_customizeCrate = _false;
 						player removeAction _QS_action_crate_customize;
+						_QS_action_crate_array set [2,_objNull];
+					};
+					if (_QS_interaction_saveInventory) then {
+						_QS_interaction_saveInventory = _false;
+						player removeAction _QS_action_saveInventory;
+						_QS_action_saveInventory_array set [2,_objNull];
 					};
 				};
 			} else {
 				if (_QS_interaction_customizeCrate) then {
 					_QS_interaction_customizeCrate = _false;
 					player removeAction _QS_action_crate_customize;
+					_QS_action_crate_array set [2,_objNull];
+				};
+				if (_QS_interaction_saveInventory) then {
+					_QS_interaction_saveInventory = _false;
+					player removeAction _QS_action_saveInventory;
+					_QS_action_saveInventory_array set [2,_objNull];
 				};
 			};
 			
@@ -3265,21 +3272,21 @@ for 'x' from 0 to 1 step 0 do {
 					_QS_interaction_destroyerHeli = _true;
 					_QS_action_destroyerHeli_array set [
 						0,
-						[_QS_action_destroyerHeli_textRetract,_QS_action_destroyerHeli_textLaunch] select (!isNull ((missionNamespace getVariable ['QS_destroyerObject',objNull]) getVariable ['QS_destroyer_hangarHeli',objNull]))
+						[_QS_action_destroyerHeli_textRetract,_QS_action_destroyerHeli_textLaunch] select (!isNull ((missionNamespace getVariable ['QS_destroyerObject',_objNull]) getVariable ['QS_destroyer_hangarHeli',_objNull]))
 					];
 					_QS_action_destroyerHeli = (missionNamespace getVariable 'QS_destroyer_hangarInterior') addAction _QS_action_destroyerHeli_array;
 					(missionNamespace getVariable 'QS_destroyer_hangarInterior') setUserActionText [_QS_action_destroyerHeli,(((missionNamespace getVariable 'QS_destroyer_hangarInterior') actionParams _QS_action_destroyerHeli) # 0),(format ["<t size='3'>%1</t>",(((missionNamespace getVariable 'QS_destroyer_hangarInterior') actionParams _QS_action_destroyerHeli) # 0)])];
 				} else {
 					(missionNamespace getVariable 'QS_destroyer_hangarInterior') setUserActionText [
 						_QS_action_destroyerHeli,
-						[_QS_action_destroyerHeli_textRetract,_QS_action_destroyerHeli_textLaunch] select (!isNull ((missionNamespace getVariable ['QS_destroyerObject',objNull]) getVariable ['QS_destroyer_hangarHeli',objNull])),
+						[_QS_action_destroyerHeli_textRetract,_QS_action_destroyerHeli_textLaunch] select (!isNull ((missionNamespace getVariable ['QS_destroyerObject',_objNull]) getVariable ['QS_destroyer_hangarHeli',_objNull])),
 						(format ["<t size='3'>%1</t>",(((missionNamespace getVariable 'QS_destroyer_hangarInterior') actionParams _QS_action_destroyerHeli) # 0)])
 					];
 				};
 			} else {
 				if (_QS_interaction_destroyerHeli) then {
 					_QS_interaction_destroyerHeli = _false;
-					(missionNamespace getVariable ['QS_destroyer_hangarInterior',objNull]) removeAction _QS_action_destroyerHeli;
+					(missionNamespace getVariable ['QS_destroyer_hangarInterior',_objNull]) removeAction _QS_action_destroyerHeli;
 				};
 			};
 
@@ -3633,7 +3640,7 @@ for 'x' from 0 to 1 step 0 do {
 				{(!(missionNamespace getVariable ['QS_repairing_vehicle',_false]))} &&
 				{(((vectorMagnitude (velocity _QS_v2)) * 3.6) < 2)}
 			) then {
-				_isNearRepairDepot2 = (([_QS_v2] call _fn_isNearRepairDepot) || {([_cursorObject] call _fn_isNearRepairDepot)});
+				_isNearRepairDepot2 = (([_QS_v2] call _fn_isNearRepairDepot) || {(([_cursorObject] call _fn_isNearRepairDepot) && (_cursorObjectDistance < 15))});
 				_nearSite3 = _false;
 				{
 					if ((_QS_v2 distance2D (markerPos _x)) < 12) exitWith {
@@ -3677,7 +3684,7 @@ for 'x' from 0 to 1 step 0 do {
 									_QS_action_slatArmor = player addAction _QS_action_slatArmor_array;
 									player setUserActionText [_QS_action_slatArmor,((player actionParams _QS_action_slatArmor) # 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_slatArmor) # 0)])];
 								} else {
-									if ((_QS_action_slatArmor_vAnims findIf {((_QS_v2 animationSourcePhase _x) isEqualTo 1)}) isEqualTo -1) then {
+									if ((_QS_action_slatArmor_vAnims findIf {((_QS_v2 animationSourcePhase _x) isEqualTo 1)}) isNotEqualTo -1) then {
 										if ((_QS_action_slatArmor_array # 0) isEqualTo _QS_action_slatArmor_textA) then {
 											_QS_interaction_slatArmor = _false;
 											player removeAction _QS_action_slatArmor;
@@ -4094,11 +4101,7 @@ for 'x' from 0 to 1 step 0 do {
 													_roleImg = _QS_crewIndicator_imgGunner;
 												} else {
 													if (_role isEqualTo 'turret') then {
-														if (_personTurret) then {
-															_roleImg = _QS_crewIndicator_imgCargo;
-														} else {
-															_roleImg = _QS_crewIndicator_imgGunner;
-														};
+														_roleImg = [_QS_crewIndicator_imgCargo,_QS_crewIndicator_imgGunner] select _personTurret;
 													} else {
 														if (_role isEqualTo 'cargo') then {
 															_roleImg = _QS_crewIndicator_imgCargo;
@@ -4680,8 +4683,6 @@ for 'x' from 0 to 1 step 0 do {
 	if (_QS_module_animState) then {
 		if (_timeNow > _QS_module_animState_checkDelay) then {
 			_QS_animState = toLowerANSI (animationState _QS_player);
-			
-			
 			if (
 				(_QS_animState in ['ainjpfalmstpsnonwnondf_carried_dead','ainjpfalmstpsnonwrfldnon_carried_still','ainjpfalmstpsnonwnondnon_carried_up']) &&
 				{(!(_QS_player getVariable 'QS_RD_interacting'))} &&
@@ -5972,7 +5973,7 @@ for 'x' from 0 to 1 step 0 do {
 						['_QS_module_objectScale_scale',1]
 					];
 					if (
-						(!isNull _QS_module_objectScale_obj) &&
+						(alive _QS_module_objectScale_obj) &&
 						{((getObjectScale _QS_module_objectScale_obj) isNotEqualTo _QS_module_objectScale_scale)}
 					) then {
 						_QS_module_objectScale_obj setObjectScale _QS_module_objectScale_scale;

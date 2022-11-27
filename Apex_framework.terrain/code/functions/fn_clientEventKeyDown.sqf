@@ -14,9 +14,9 @@ Description:
 __________________________________________________________/*/  
 
 params ['','_key','_shift','_ctrl','_alt'];
-private _c = FALSE; 
+private _c = FALSE;
+_cameraOn = cameraOn;
 player setVariable ['QS_client_afkTimeout',time,FALSE];
-
 if (
 	(_key isEqualTo 5) &&
 	(commandingMenu isEqualTo '')
@@ -41,15 +41,12 @@ if (_key isEqualTo 199) then {
 if (_key in [197,207]) then {
 	call (missionNamespace getVariable 'QS_fnc_clientEarplugs');
 };
-
 if (
 	(_key in (actionKeys 'GetOver')) &&
-	(isNull (objectParent player))
+	_shift
 ) then {
-	if (_shift && (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)) then {
-		_c = TRUE;
-		_this call (missionNamespace getVariable 'QS_fnc_clientJump');
-	};
+	_c = TRUE;
+	_this call (missionNamespace getVariable 'QS_fnc_clientJump');
 };
 if (
 	(isNull (objectParent player)) &&

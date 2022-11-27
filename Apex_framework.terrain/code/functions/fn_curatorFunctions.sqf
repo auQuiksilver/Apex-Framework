@@ -201,25 +201,39 @@ if (_key isEqualTo 79) exitWith {
 	//comment 'Garrison selected units into buildings';
 	playSound ['ClickSoft',FALSE];
 	private ['_selectedUnits','_countUnits','_radius'];
-	private _selectedUnits = [];
+	private _toGarrison = [];
+	private _toUngarrison = [];
 	if ((curatorSelected # 0) isEqualTo []) then {breakTo 'main';};
 	{
 		if (
 			(_x isKindOf 'Man') &&
+			(local _x) &&
 			(!isPlayer _x) &&
-			(alive _x)
+			((lifeState _x) in ['HEALTHY','INJURED'])
 		) then {
-			_selectedUnits pushBack _x;
+			if (_x checkAIFeature 'PATH') then {
+				_toGarrison pushBack _x;
+			} else {
+				_toUngarrison pushBack _x;
+			};
 		};
 	} forEach (curatorSelected # 0);
-	if (_selectedUnits isEqualTo []) then {breakTo 'main';};
-	_countUnits = count _selectedUnits;
+	if ((_toGarrison isEqualTo []) && (_toUngarrison isEqualTo [])) then {breakTo 'main';};
+	_countUnits = count _toGarrison;
 	_radius = 50;
 	if (_countUnits > 8) then {_radius = 100;};
 	if (_countUnits > 16) then {_radius = 200;};
 	if (_countUnits > 24) then {_radius = 300;};
-	[(getPosATL (_selectedUnits # 0)),_radius,_selectedUnits,['House','Building']] spawn (missionNamespace getVariable 'QS_fnc_garrisonUnits');
+	if (_toGarrison isNotEqualTo []) then {
+		[(getPosATL (_toGarrison # 0)),_radius,_toGarrison,['House','Building']] spawn (missionNamespace getVariable 'QS_fnc_garrisonUnits');
+	};
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_107',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
+	if (_toUngarrison isNotEqualTo []) then {
+		{
+			_x enableAIFeature ['PATH',TRUE];
+			_x setVariable ['QS_unitGarrisoned',FALSE,FALSE];
+		} forEach _toUngarrison;
+	};
 };
 if (_key isEqualTo 80) exitWith {
 	//comment 'Group patrol';
@@ -325,6 +339,7 @@ if (_key isEqualTo 76) exitWith {
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_106',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 };
 if (_key isEqualTo 77) exitWith {
+	// Suppressive Fire
 	playSound ['ClickSoft',FALSE];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_116',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 	private _selectedUnits = [];
@@ -356,6 +371,7 @@ if (_key isEqualTo 77) exitWith {
 	private _inHouse = [FALSE,objNull];
 	if (_localUnits isNotEqualTo []) then {
 		if ((count _localUnits) > 24) then { _localUnits = _localUnits select [0,24]; };
+		private _result = FALSE;
 		{
 			_unit = _x;
 			if (!(_unit getUnitTrait 'medic')) then {
@@ -365,7 +381,22 @@ if (_key isEqualTo 77) exitWith {
 					if (_inHouse # 0) then {
 						_target = _inHouse # 1;
 					};
-					[_unit,_target,selectRandomWeighted [1,0.5,2,0.5],TRUE,TRUE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+					_result = [_unit,_target,selectRandomWeighted [1,0.5,2,0.5],TRUE,TRUE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+					if (!(_result)) then {
+						if (
+							(!isNull (objectParent _unit)) ||
+							(!weaponLowered _unit)
+						) then {
+							[_unit,_target,0] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+						};
+					};
+				} else {
+					if (
+						(!isNull (objectParent _unit)) ||
+						(!weaponLowered _unit)
+					) then {
+						[_unit,_target,0] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+					};
 				};
 			};
 		} forEach _localUnits;

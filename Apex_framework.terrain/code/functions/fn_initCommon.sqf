@@ -94,5 +94,6 @@ private _code = {};
 	['QS_data_siteDatalink1','code\config\QS_data_siteDatalink1.sqf'],
 	['QS_data_tracers','code\config\QS_data_tracers.sqf'],
 	['QS_data_rockets','code\config\QS_data_rocketTypes.sqf'],
+	['QS_data_restrictedGear','code\config\QS_data_restrictedGear.sqf'],
 	['BIS_HC_path_menu','code\functions\fn_menuHCPath.sqf']
 ];

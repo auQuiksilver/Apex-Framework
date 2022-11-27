@@ -6,12 +6,12 @@ Author:
 
 Last Modified:
 
-	20/04/2019 A3 1.90 by Quiksilver
+	25/11/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Event Arsenal Opened
-____________________________________________________________________________/*/
+_______________________________________________/*/
 
 0 spawn {
 	disableSerialization;
@@ -21,6 +21,7 @@ ____________________________________________________________________________/*/
 		((diag_tickTime > _t) || {(!isNull (uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull]))})
 	};
 	if (!isNull (uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull])) then {
+		_unit = missionNamespace getVariable ['BIS_fnc_arsenal_target',player];
 		_display = uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull];
 		_display displayRemoveAllEventHandlers 'KeyDown';
 		(_display displayCtrl 44148) ctrlEnable FALSE;
@@ -41,7 +42,7 @@ ____________________________________________________________________________/*/
 				};
 			};
 		};
-		_face = face player;
+		_face = face _unit;
 		private _chatDisabled = FALSE;
 		if (!(isStreamFriendlyUIEnabled)) then {
 			if (shownChat) then {
@@ -56,7 +57,7 @@ ____________________________________________________________________________/*/
 			0.5 * safezoneW,
 			0.1 * safezoneH
 		];
-		if (player isEqualTo (missionNamespace getVariable ['BIS_fnc_arsenal_target',player])) then {
+		if (player isEqualTo _unit) then {
 			_ctrl_roleDisplayName ctrlSetStructuredText (parseText (format ['<t size="3">%1</t>',(['GET_ROLE_DISPLAYNAME',(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles'))]));
 		};
 		_ctrl_roleDisplayName ctrlCommit 0;
@@ -88,8 +89,8 @@ ____________________________________________________________________________/*/
 			uiSleep 0.01;
 		};
 		if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) then {
-			if ((face player) isNotEqualTo _face) then {
-				['setFace',player,(face player)] remoteExec ['QS_fnc_remoteExecCmd',-2,player];
+			if ((face _unit) isNotEqualTo _face) then {
+				['setFace',_unit,(face _unit)] remoteExec ['QS_fnc_remoteExecCmd',-2,_unit];
 			};
 		};
 		if (_chatDisabled) then {

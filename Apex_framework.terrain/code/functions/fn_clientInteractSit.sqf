@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/04/2018 A3 1.82 by Quiksilver
+	27/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -57,20 +57,20 @@ if (_type isEqualTo 0) then {
 };
 if (_type isEqualTo 1) then {
 	_object = cursorObject;
-	if ((player distance2D _object) > 2.5) exitWith {};
-	if ((!((toLowerANSI (typeOf _object)) in _chairTypes)) && {(!((toLowerANSI ((getModelInfo _object) # 0)) in _chairModels))}) exitWith {};
-	if ((attachedObjects _object) isNotEqualTo []) exitWith {};
-	if (!isNull (attachedTo _object)) exitWith {};
-	if ((stance player) isNotEqualTo 'STAND') exitWith {};
-	private _chairTaken = FALSE;
-	if ((((getPosATL _object) nearEntities ['Man',0.75]) select {(_x isNotEqualTo player)}) isNotEqualTo []) then {
-			_chairTaken = TRUE;
-	};
-	if (_chairTaken) exitWith {
+	
+	if (
+		((player distance2D _object) > 2.5) ||
+		{((!((toLowerANSI (typeOf _object)) in _chairTypes)) && {(!((toLowerANSI ((getModelInfo _object) # 0)) in _chairModels))})} ||
+		{((attachedObjects _object) isNotEqualTo [])} ||
+		{(!isNull (attachedTo _object))} ||
+		{((stance player) isNotEqualTo 'STAND')}
+	) exitWith {};
+	if ((((getPosATL _object) nearEntities ['Man',0.75]) select {(_x isNotEqualTo player)}) isNotEqualTo []) exitWith {
 		50 cutText [localize 'STR_QS_Text_145','PLAIN DOWN'];
 	};
-	if ((toLowerANSI (animationState player)) in _sittingAnimations) exitWith {50 cutText [localize 'STR_QS_Text_146','PLAIN DOWN'];};
-	
+	if ((toLowerANSI (animationState player)) in _sittingAnimations) exitWith {
+		50 cutText [localize 'STR_QS_Text_146','PLAIN DOWN'];
+	};
 	if (local _object) then {
 		_object setVectorUp [0,0,1];
 	} else {
@@ -81,11 +81,7 @@ if (_type isEqualTo 1) then {
 		[39,_object,FALSE,profileName,(getPlayerUID player)] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 	};
 	player setVariable ['QS_seated_oldAnimState',(animationState player),FALSE];
-	if (isMultiplayer) then {
-		['switchMove',player,_sittingAnimation] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
-	} else {
-		player switchMove _sittingAnimation;
-	};
+	['switchMove',player,_sittingAnimation] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 	private _attachY = -0.1;
 	if (((toLowerANSI (typeOf _object)) in ['land_armchair_01_f']) || {((toLowerANSI ((getModelInfo _object) # 0)) in ['armchair_01_f.p3d'])}) then {
 		_attachY = 0;

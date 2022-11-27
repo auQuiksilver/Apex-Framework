@@ -31,11 +31,14 @@ if (isNull (objectParent _unit)) then {
 						if ((random 1) > ([0.5,0.25] select (((((_unit getVariable 'QS_client_soundControllers') # 1) # 8) # 1) isEqualTo 1))) then {
 							_randomSelection = selectRandomWeighted [8,0.5,9,0.25,10,0.25];
 							_hitValue = (_unit getHitIndex _randomSelection) max ((_unit getHitIndex _randomSelection) + _damage);
-							_unit setHitIndex [_randomSelection,_hitValue,TRUE];
+							_unit setHitIndex [_randomSelection,_hitValue,TRUE,_source];		// To Do: add _instigator in A3 2.12
 							_return = 0.05;
 						};
 					};
 					if (_source getVariable ['QS_AI_ignoreDamageReduction',FALSE]) then {
+						_return = 1;
+					};
+					if (_unit getVariable ['QS_unit_ignoreDamageReduction',FALSE]) then {
 						_return = 1;
 					};
 				};

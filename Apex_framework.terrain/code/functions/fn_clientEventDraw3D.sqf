@@ -22,6 +22,34 @@ if (_time >= (uiNamespace getVariable ['QS_dynamicGroups_update',0])) then {
 	uiNamespace setVariable ['QS_dynamicGroups_update',(_time + ([0.5,2] select (isNull _display)))];
 };
 _player = player;
+_goggles = toLowerANSI (goggles _player);
+if (_goggles in ['g_blindfold_01_black_f','g_blindfold_01_white_f']) then {
+	if (!(missionNamespace getVariable ['QS_facewear_effect_1',FALSE])) then {
+		missionNamespace setVariable ['QS_facewear_effect_1',TRUE];
+		(['QS_facewear_effect1'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutRsc ['RscBlindfold','PLAIN'];
+	};
+} else {
+	if (missionNamespace getVariable ['QS_facewear_effect_1',FALSE]) then {
+		missionNamespace setVariable ['QS_facewear_effect_1',FALSE];
+		(['QS_facewear_effect1'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutText ['','PLAIN'];
+	};
+};
+if (_goggles in ['g_airpurifyingrespirator_01_f','g_airpurifyingrespirator_02_sand_f','g_airpurifyingrespirator_02_olive_f','g_airpurifyingrespirator_02_black_f','g_regulatormask_f']) then {
+	if (!(missionNamespace getVariable ['QS_facewear_effect_2',FALSE])) then {
+		_effect = (['RscCBRN_APR','RscCBRN_Regulator'] select (_goggles isEqualTo 'g_regulatormask_f'));
+		missionNamespace setVariable ['QS_facewear_effect_2',TRUE];
+		(['QS_facewear_effect2'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutRsc [(['RscCBRN_APR','RscCBRN_Regulator'] select (_goggles isEqualTo 'g_regulatormask_f')),'PLAIN'];
+		(['QS_facewear_effect22'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutRsc [(['RscCBRN_APR','RscCBRN_Regulator'] select (_goggles isEqualTo 'g_regulatormask_f')),'PLAIN'];
+		(['QS_facewear_effect222'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutRsc [(['RscCBRN_APR','RscCBRN_Regulator'] select (_goggles isEqualTo 'g_regulatormask_f')),'PLAIN'];
+	};
+} else {
+	if (missionNamespace getVariable ['QS_facewear_effect_2',FALSE]) then {
+		missionNamespace setVariable ['QS_facewear_effect_2',FALSE];
+		(['QS_facewear_effect2'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutText ['','PLAIN'];
+		(['QS_facewear_effect22'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutText ['','PLAIN'];
+		(['QS_facewear_effect222'] call (missionNamespace getVariable 'BIS_fnc_rscLayer')) cutText ['','PLAIN'];
+	};
+};
 if ((!((lifeState _player) in ['HEALTHY','INJURED'])) || {(!isNull (findDisplay 49))} || {(!isNull curatorCamera)}) exitWith {};
 _cameraOn = cameraOn;
 if ('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {

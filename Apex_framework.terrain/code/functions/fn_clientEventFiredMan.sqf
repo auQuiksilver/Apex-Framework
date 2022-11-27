@@ -147,44 +147,22 @@ if (_weapon isEqualTo 'Throw') then {
 		};
 		if (_weapon isEqualTo 'SmokeLauncher') then {
 			if (
-				((random 1) > (damage _vehicle)) && 
-				((random 1) > 0.05)
+				((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) ||
+				(
+					((random 1) > (damage _vehicle)) && 
+					((random 1) > 0.05)
+				)
 			) then {
 				if ((missionNamespace getVariable ['QS_vehicle_incomingMissiles',[]]) isNotEqualTo []) then {
 					private _incomingMissiles = (missionNamespace getVariable ['QS_vehicle_incomingMissiles',[]]) select { (['SMOKE_BLINDSPOT',_vehicle,_x # 0] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams')) };
 					if (_incomingMissiles isNotEqualTo []) then {
 						_incomingMissilesObjects = _incomingMissiles apply { _x # 0 };
 						_incomingMissilesSenders = _incomingMissiles apply { _x # 1 };
-						if (((_vehicle nearEntities 40) select {((getAmmoCargo _x) > 0)}) isEqualTo []) then {
+						if (((_vehicle nearEntities 40) select {((alive _x) && ((getAmmoCargo _x) isNotEqualTo -1))}) isEqualTo []) then {
 							['setMissileTarget',_incomingMissilesObjects,objNull] remoteExecCall ['QS_fnc_remoteExecCmd',_incomingMissilesSenders,FALSE];
 						};
 					};
 				};
-				/*/ //Not sure if we need this bit
-				if (
-					((attachedObjects _vehicle) isNotEqualTo []) &&
-					((getAmmoCargo _vehicle) <= 0) &&
-					(((_vehicle nearEntities 40) select {((getAmmoCargo _x) > 0)}) isEqualTo [])
-				) then {
-					private _laserTarget = objNull;
-					{
-						if (_x isKindOf 'LaserTarget') exitWith {
-							_laserTarget = _x;
-							detach _laserTarget;
-							[_vehicle,_laserTarget] spawn {
-								params ['_vehicle','_laserTarget'];
-								sleep 60;
-								if (
-									(!isNull _laserTarget) && 
-									{(alive _vehicle)}
-								) then {
-									_laserTarget attachTo [_vehicle,_vehicle worldToModel (_vehicle getRelPos [(40 * (sqrt (random 1))),(random 360)])];
-								};
-							};
-						}
-					} forEach (attachedObjects _vehicle);
-				};
-				/*/
 			};
 		};
 		if ((_unit getVariable ['QS_tto',0]) > 0) then {

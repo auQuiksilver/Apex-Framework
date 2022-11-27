@@ -79,12 +79,12 @@ _ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled.
 _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
 _hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
+_effectKnockdown = 1;									// Knock-Down effect.	0 - Disabled. 1 - Enabled (Default).	Player can be knocked down by nearby explosions.
 _craters = 24;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
 _groupLocking = 1;										// Group Lock Ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create. Admins can join any group regardless of Lock state.
 _groupWaypoint = 1;										// Group Map Waypoint. 0 - Disabled. 1 - Enabled (default).		Can players see their group leaders [Shift+Click] dot on the map.
 _enemyUrbanSpawning = 1;								// (Classic Mode) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
 _tracers = 1;											// Tracer bullets. 0 - Vanilla handling. 1 - At night and low-pop times, AI get tracer bullets. 2 - AI get tracers at all times. Default - 1.
-_zeusModePlayerRespawn = 0;								// (Zeus Mode) Dynamic Player Respawn. Applies ONLY when _main_mission_type = 'ZEUS';. 0 - Players respawn at base. 1 - Players respawn at a Flag Pole that Zeus can move around. 
 
 //===================================================== SYSTEM
 
@@ -97,7 +97,7 @@ _timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-ti
 	1.5,				// Noon/mid-day time acceleration multiplier. Default - 1.5.
 	0.35				// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
 ];
-_zeusModePlayerRespawn = 0;								// (Zeus Mode) Dynamic Player Respawn. Applies ONLY when _main_mission_type = 'ZEUS';. 0 - Players respawn at base. 1 - Players respawn at a Flag Pole that Zeus can move around. 
+_zeusModePlayerRespawn = 1;								// (Zeus Mode) Dynamic Player Respawn. Applies ONLY when _main_mission_type = 'ZEUS';. 0 - Players respawn at base. 1 - Players respawn at a Flag Pole that Zeus can move around. 
 _zeusCanOffloadAI = 1;									// Zeus ability to offload AI to Server.	0 - Disabled. 1 - Enabled. Default - 1.	 Allows Zeus to improve performance of Zeus missions by moving AI control to server. Unbuffered, there is no limit and server can be overloaded, so use responsibly.
 
 //===================================================== HEADLESS CLIENT
@@ -106,7 +106,6 @@ _hc_maxLoad_1 = 80;										// Quantity of AI units to distribute to the Headle
 _hc_maxLoad_2 = 60;										// Quantity of AI units to distribute to each Headless Client when 2 headless clients are connected.
 _hc_maxLoad_3 = 40;										// Quantity of AI units to distribute to each Headless Client when 3 headless clients are connected.
 _hc_maxLoad_4 = 25;										// Quantity of AI units to distribute to each Headless Client when 4 or more headless clients are connected.
-
 _hc_maxAgents_1 = 20;									// Quantity of AI agents (Civilians & Animals) to distribute to the Headless Client when only 1 headless client is connected.
 _hc_maxAgents_2 = 15;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 2 headless clients are connected.
 _hc_maxAgents_3 = 10;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 3 headless clients are connected.
@@ -118,7 +117,7 @@ _hc_maxAgents_4 = 5;									// Quantity of AI agents (Civilians & Animals) to d
 // 		'CLASSIC' 			Classic I&A. 					Recommended: 24-48+ players.			Example: 	_main_mission_type = 'CLASSIC';
 // 		'SC' 				Sector Control.		 			Recommended: 36-64+ players.			Example: 	_main_mission_type = 'SC';
 // 		'GRID'				Insurgency Campaign (Beta). 	Recommended: 4-24+ players.				Example: 	_main_mission_type = 'GRID';				//---- This mission type is in Beta currently (9/12/2017)
-// 		'ZEUS'				Zeus Mode																Example: 	_main_mission_type = 'NONE';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
+// 		'ZEUS'				Zeus Mode																Example: 	_main_mission_type = 'ZEUS';				//---- Use this when you want to create Zeus missions and use the framework mechanics without the scripted missions.
 //====================================================//	
 
 _main_mission_type = 'CLASSIC';
@@ -155,7 +154,7 @@ _infostand_2 = ['media\images\billboards\billboard6.jpg','media\images\billboard
 //===================================================== SECURITY
 
 _serverCommandPassword = "'abc123'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
-_anticheat = 1;											// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
+_anticheat = 0;											// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
 
 //===================================================== MONETIZATION
 
@@ -199,7 +198,7 @@ if (
 if (!(worldName in ['Altis','Tanoa','Malden','Enoch'])) then {
 	private _anticheat = 0;
 };
-if (_main_mission_type isEqualTo 'NONE') then {
+if (_main_mission_type isEqualTo 'ZEUS') then {
 	private _sideMissions = 0;
 };
 {
@@ -223,6 +222,7 @@ if (_main_mission_type isEqualTo 'NONE') then {
 	['QS_missionConfig_AmbAnim',_ambient_animals,FALSE],
 	['QS_missionConfig_APS',_vehicle_active_protection,TRUE],
 	['QS_missionConfig_hitMarker',_hitMarker_audio,TRUE],
+	['QS_missionConfig_knockdown',_effectKnockdown > 0,TRUE],
 	['QS_missionConfig_craterEffects',_craters,TRUE],
 	['QS_missionConfig_groupLocking',_groupLocking > 0,TRUE],
 	['QS_missionConfig_groupWaypoint',_groupWaypoint > 0,TRUE],

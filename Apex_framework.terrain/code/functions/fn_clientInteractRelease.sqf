@@ -145,9 +145,12 @@ if ((attachedObjects player) isNotEqualTo []) then {
 							_object setVectorUp [0,0,1];
 						};
 						uiSleep 0.1;
-						
+						// Testing this
+						['awake',_object,TRUE] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+						// Testing this
+
 						/*/ credit: commy2 (ace3) for the below fix /*/
-						
+						/*/
 						private _isDamageAllowed = isDamageAllowed _object;
 						private _hitPointsDamages = getAllHitPointsDamage _object;
 						if (_hitPointsDamages isEqualTo []) then {
@@ -165,6 +168,8 @@ if ((attachedObjects player) isNotEqualTo []) then {
 						if (!(_isDamageAllowed)) then {
 							_object allowDamage FALSE;
 						};
+						/*/
+						
 						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 					} else {
 						50 cutText [localize 'STR_QS_Text_120','PLAIN DOWN',0.5];

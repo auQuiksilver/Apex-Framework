@@ -1,5 +1,17 @@
 Official Change Log
-	
+
+1.3.5 (26/11/2022 A3 2.10)
+
+
+[ADDED] Inventory Edit/Save/Load (for crates and vehicles).
+[TWEAKED] Zeus remote-controlled units can now Jump and Holster Weapon.
+[TWEAKED] Zeus can now (numpad 1) ungarrison previously garrisoned AI (allow them to walk again).
+[TWEAKED] Zeus AI Suppressive Fire (numpad 6) to attempt Suppressive Fire even with no specific target.
+[TWEAKED] Explosion effects.
+[TWEAKED] Blindfold & CBRN mask effects.
+[TWEAKED] Increased radius for inventory editing areas.
+[FIXED] Players could not mount slat armor at service points.
+
 1.3.4 (10/11/2022 A3 2.10)
 
 [ADDED] Stratis (Zeus and Classic modes).

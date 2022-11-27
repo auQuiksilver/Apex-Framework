@@ -36,6 +36,17 @@ if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) e
 	(missionNamespace getVariable 'bis_fnc_arsenal_data') set [15,_data];
 };
 private _configRestrictions = getMissionConfigValue ['arsenalRestrictedItems',[]];
+
+/*/ To Do: Implement this instead of the below lists
+(call (missionNamespace getVariable 'QS_data_restrictedGear')) params [
+	['_restrictedWeapons',[]],
+	['_restrictedMagazines',[]],
+	['_restrictedItems',[]],
+	['_restrictedBackpacks',[]]
+];
+/*/
+
+
 private _QS_restrictedItems = [
 	'h_helmetleadero_oucamo',
 	'h_helmetleadero_ocamo',

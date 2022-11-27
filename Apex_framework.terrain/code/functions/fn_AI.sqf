@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	31/05/2022 A3 2.10 by Quiksilver
+	17/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,6 @@ Notes:
 	For headless client,
 	support providers need to remain on server
 	fire support scripts var needs to be public
-	
 __________________________________________________/*/
 
 scriptName 'QS AI';
@@ -38,11 +37,12 @@ private _QS_serverTime = serverTime;
 private _QS_dayTime = dayTime;
 _worldName = worldName;
 _worldSize = worldSize;
+private _smallTerrains = ['Tanoa','Stratis'];
 _true = TRUE;
 _false = FALSE;
 _endl = endl;
 _isTropical = _worldName in ['Tanoa','Lingor3'];
-private _QS_unitCap = [140,120] select (_worldName isEqualTo 'Tanoa');
+private _QS_unitCap = [140,120] select (_worldName in _smallTerrains);
 private _array = [];
 private _QS_unit = objNull;
 private _QS_grp = grpNull;
@@ -239,14 +239,14 @@ if (_QS_allPlayersCount >= 50) then {
 	_QS_module_virtualSectors_patrolsBoat_thresh = 0;
 	_QS_module_virtualSectors_patrolsSniper_thresh = 1;
 };
-private _QS_module_virtualSectors_patrolsHeli_delay = [360,480] select (worldName in ['Tanoa','Stratis']);		// 360
+private _QS_module_virtualSectors_patrolsHeli_delay = [360,480] select (worldName in _smallTerrains);		// 360
 private _QS_module_virtualSectors_patrolsHeli_checkDelay = _QS_uiTime + _QS_module_virtualSectors_patrolsHeli_delay;
 private _QS_module_virtualSectors_heliEnabled = _true;
 private _QS_module_virtualSectors_patrolsVeh_delay = 300;
 private _QS_module_virtualSectors_patrolsVeh_checkDelay = _QS_uiTime + _QS_module_virtualSectors_patrolsVeh_delay;
 private _QS_module_virtualSectors_vehiclesEnabled = _true;
 private _QS_module_virtualSectors_uavEnabled = _true;
-private _QS_module_virtualSectors_uav_delay = [120,240] select (worldName in ['Tanoa','Stratis']);			// 30
+private _QS_module_virtualSectors_uav_delay = [120,240] select (worldName in _smallTerrains);			// 30
 private _QS_module_virtualSectors_uav_checkDelay = _QS_uiTime + _QS_module_virtualSectors_uav_delay;
 private _QS_module_virtualSectors_uavs = [];
 private _QS_module_virtualSectors_defenderDelay = 30;
@@ -272,12 +272,12 @@ private _QS_module_classic_terrainData = [];
 
 //comment 'classic ao uavs';
 private _QS_module_classic_uavEnabled = _true;
-private _QS_module_classic_uav_delay = [120,240] select (worldName in ['Tanoa','Stratis']);
+private _QS_module_classic_uav_delay = [300,480] select (worldName in _smallTerrains);
 private _QS_module_classic_uav_checkDelay = _QS_uiTime + _QS_module_classic_uav_delay;
 private _QS_module_classic_uavs = [];
 //comment 'classic ao helis';
 private _QS_module_classic_heliEnabled = _true;
-private _QS_module_classic_patrolsHeli_delay = [240,360] select (worldName in ['Tanoa','Stratis']);		//60;		// Enemy Heli respawn delay (down below in the code an extra (random 120) is applied)
+private _QS_module_classic_patrolsHeli_delay = [300,480] select (worldName in _smallTerrains);		//60;		// Enemy Heli respawn delay (down below in the code an extra (random 120) is applied)
 private _QS_module_classic_patrolsHeli_checkDelay = _QS_uiTime + _QS_module_classic_patrolsHeli_delay;
 private _QS_module_classic_patrolsHeli = [];
 //comment 'classic ao reinforcements';

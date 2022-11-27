@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	10/11/2022 A3 2.10 by Quiksilver
+	17/11/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -69,6 +69,24 @@ if ('repair' in _types) then {
 				if (_repairingPerformed) then {
 					_vehicle setDamage [0,FALSE];
 					50 cutText [localize 'STR_QS_Text_278','PLAIN DOWN',0.333];
+				};
+			};
+		} else {
+			if ((damage _vehicle) > 0) then {
+				private _damage = damage _vehicle;
+				if (!(_repairingPerformed)) then {
+					_repairingPerformed = TRUE;
+				};
+				for '_i' from 0 to 999 step 1 do {
+					if ([_vehicle] call _cancel) exitWith {_cancelled = TRUE;};
+					if (diag_tickTime > _msgDelay) then {
+						50 cutText [localize 'STR_QS_Text_286','PLAIN DOWN',0.333];
+						_msgDelay = diag_tickTime + 1;
+					};
+					_damage = (_damage - _repairPerCycle) max 0;
+					_vehicle setDamage [_damage,FALSE];
+					if (_damage <= 0) exitWith {};
+					sleep _repairInterval;
 				};
 			};
 		};

@@ -638,6 +638,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_116">
             <Original>Rearm</Original>
         </Key>
+        <Key ID="STR_QS_Interact_117">
+            <Original>Save Inventory</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -2033,6 +2036,33 @@ _____________________________________________________________-->
         </Key>
        <Key ID="STR_QS_Text_285">
             <Original>Engine off</Original>
+        </Key>
+       <Key ID="STR_QS_Text_286">
+            <Original>Repairing</Original>
+        </Key>
+       <Key ID="STR_QS_Text_287">
+            <Original>Character limit (%1)</Original>
+        </Key>
+       <Key ID="STR_QS_Text_288">
+            <Original>Menu button cooldown (1 second)</Original>
+        </Key>
+       <Key ID="STR_QS_Text_289">
+            <Original>Save limit reached</Original>
+        </Key>
+       <Key ID="STR_QS_Text_290">
+            <Original>Saved %1</Original>
+        </Key>
+       <Key ID="STR_QS_Text_291">
+            <Original>Inventory overloaded: %1 / %2</Original>
+        </Key>
+       <Key ID="STR_QS_Text_292">
+            <Original>Cannot be empty text</Original>
+        </Key>
+       <Key ID="STR_QS_Text_293">
+            <Original>Loaded %1</Original>
+        </Key>
+       <Key ID="STR_QS_Text_294">
+            <Original>Inventory would be overloaded</Original>
         </Key>
     </Container>
     <Container name="QS_xml_hints">
@@ -3578,6 +3608,9 @@ _____________________________________________________________-->
             <Original>destroyed an enemy tunnel entrance</Original>
             <Chinesesimp>摧毁了一个敌人的隧道入口</Chinesesimp>
             <Chinese>摧毀了一個敵人的隧道入口</Chinese>
+        </Key>
+        <Key ID="STR_QS_Chat_164">
+            <Original>Restricted item removed ( %1 )</Original>
         </Key>
     </Container>
     <Container name="QS_xml_notifications">
@@ -7645,6 +7678,27 @@ _____________________________________________________________-->
             <Original>Trophy</Original>
             <Chinesesimp>GL5</Chinesesimp>
             <Chinese>GL5</Chinese>
+        </Key>
+        <Key ID="STR_QS_Dialogs_076">
+            <Original>Loadout</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_077">
+            <Original>Inventory</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_078">
+            <Original>Save</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_079">
+            <Original>Load</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_080">
+            <Original>Delete</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_081">
+            <Original>Saved Inventory %1</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_082">
+            <Original>Save (%1 / %2)</Original>
         </Key>
     </Container>
 </Project>

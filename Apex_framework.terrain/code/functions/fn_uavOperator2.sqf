@@ -132,6 +132,15 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 			[objNull,(['b_uav_02_dynamicloadout_f',(selectRandomWeighted ['b_uav_02_dynamicloadout_f',0.5,'b_uav_05_f',0.5])] select _isOwnedJets),[100,100,500],0,[],{},TRUE,_uavRespawnDelay]
 		];
 	};
+	if (_worldName isEqualTo 'Stratis') then {
+		_uavLoiterPosition = [_worldSize,((_worldSize / 2) + (250 - (random 500))),(500 + (random 500))];
+		_uavData = [
+			[objNull,'b_ugv_01_rcws_f',(AGLToASL [1910.58,5636.2,0]),196.07,[],{},TRUE,-1],
+			[objNull,'b_ugv_01_f',(AGLToASL [1901.76,5638.54,0]),192.739,[],{},TRUE,-1],
+			[objNull,'b_t_uav_03_dynamicloadout_f',(AGLToASL [8108.06,10183.9,0]),267.806,[],{},TRUE,_uavRespawnDelay],
+			[objNull,(['b_uav_02_dynamicloadout_f',(selectRandomWeighted ['b_uav_02_dynamicloadout_f',0.5,'b_uav_05_f',0.5])] select _isOwnedJets),[100,100,500],0,[],{},TRUE,_uavRespawnDelay]
+		];
+	};	
 };
 if (((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isNotEqualTo 0) && {(_uavData isEqualTo [])}) exitWith {};
 if (_carrierEnabled) then {

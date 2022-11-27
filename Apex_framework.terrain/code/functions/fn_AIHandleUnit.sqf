@@ -389,7 +389,7 @@ if (_fps > 10) then {
 		(!_isSuppressing) &&
 		{(isNull _objectParent)} &&
 		{((random 1) > 0.666)} &&
-		{((_unit getVariable ['QS_AI_UNIT_isMG',FALSE]) || (_unit getVariable ['QS_AI_UNIT_isGL',FALSE]))} &&
+		{((_unit getVariable ['QS_AI_UNIT_isMG',FALSE]) || (_unit getVariable ['QS_AI_UNIT_isGL',FALSE]) || (((_unit getVariable ['QS_AI_UNIT_rv',[-1,-1,-1]]) # 0) > 0.85))} &&
 		{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1]))} &&
 		{(_unitBehaviour in ['AWARE','COMBAT'])}
 	) then {
@@ -438,7 +438,7 @@ if (_fps > 10) then {
 		{(!(_isSuppressing))} &&
 		{(!((_objectParent unitTurret _unit) in [[],[-1]]))} &&
 		{((['Air','StaticMortar','O_APC_Tracked_02_AA_F','O_T_APC_Tracked_02_AA_ghex_F'] findIf { _objectParent isKindOf _x }) isEqualTo -1)} &&
-		{(!( (toLowerANSI (currentMuzzle _unit)) in ['','fakehorn','laserdesignator_vehicle'] ))} &&
+		{(!((toLowerANSI (currentMuzzle _unit)) in ['','fakehorn','laserdesignator_vehicle']))} &&
 		{(!(_unit getVariable ['QS_AI_disableSuppFire',FALSE]))}
 	) then {
 		if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1])) then {
@@ -504,14 +504,14 @@ if (_fps > 10) then {
 												(getPosASL _x) vectorAdd [0,0,1]
 											]
 										),
-										_x
+										_x,
+										getPosASL _x
 									]
 								};
-								_smokeTargets = _smokeTargets select {(_x # 0) > 0};
+								_smokeTargets = _smokeTargets select {((_x # 0) > 0) && ((_x # 2) isNotEqualTo [0,0,0])};
 								if (_smokeTargets isNotEqualTo []) then {
 									_smokeTargets sort FALSE;
-									_attackTarget = (getPosASL (_smokeTargets # 1)) vectorAdd [-5 + (random 10),-5 + (random 10),2 + (random 2)];
-									//(format ["DEBUG - Attempting Direct Fire Support - %1",groupID _grp]) remoteExec ['systemChat',-2];						// DEBUG
+									_attackTarget = (_smokeTargets # 2) vectorAdd [-5 + (random 10),-5 + (random 10),2 + (random 2)];
 									_isSuppressing = [_unit,_attackTarget,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 								};
 							};
@@ -534,7 +534,7 @@ if (_fps > 10) then {
 		(!(_isSuppressing)) &&
 		{((random 1) > 0.666)} &&
 		{(_unitBehaviour isNotEqualTo 'STEALTH')} &&
-		{((_unit getVariable ['QS_AI_UNIT_isMG',FALSE]) || (_unit getVariable ['QS_AI_UNIT_isGL',FALSE]))} &&
+		{((_unit getVariable ['QS_AI_UNIT_isMG',FALSE]) || (_unit getVariable ['QS_AI_UNIT_isGL',FALSE]) || (((_unit getVariable ['QS_AI_UNIT_rv',[-1,-1,-1]]) # 0) > 0.85))} &&
 		{(((_unit getEventHandlerInfo ['FiredMan',0]) # 2) isEqualTo 0)} &&
 		{(_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSuppressiveFire',-1]))}
 	) then {

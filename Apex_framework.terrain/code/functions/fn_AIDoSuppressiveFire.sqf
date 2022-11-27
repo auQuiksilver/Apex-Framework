@@ -6,11 +6,13 @@ Author:
 	
 Last modified:
 
-	24/10/2022 A3 2.10 by Quiksilver
+	23/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Do Suppressive Fire
+	
+	[_unit,objNull,3] call QS_fnc_AIDoSuppressiveFire;
 __________________________________________________/*/
 
 params [
@@ -25,6 +27,29 @@ params [
 _objectParent = objectParent _unit;
 _unitOnFoot = isNull _objectParent;
 _targetIsObject = _target isEqualType objNull;
+if (_type isEqualTo 0) exitWith {
+	params ['','','',['_muzzle',currentMuzzle _unit]];
+	_unit removeAllEventHandlers 'FiredMan';
+	_unit addEventHandler [
+		'FiredMan',
+		{
+			params ['_unit','_weapon','','','','','_projectile'];
+			_unit removeEventHandler [_thisEvent,_thisEventHandler];
+			_projectile addEventHandler [
+				'HitPart',
+				{
+					params ['_projectile','','_shooter','_pos'];
+					_projectile removeEventHandler [_thisEvent,_thisEventHandler];
+					if ((_pos distance2D _shooter) > 50) then {
+						_shooter doSuppressiveFire (_pos vectorAdd [0,0,1]);
+					};
+				}
+			];
+		}
+	];
+	[_unit,_muzzle] call (missionNamespace getVariable 'QS_fnc_fire');					// To Do: cache config info so it doesn't need to do costly "getArray" config scans.
+	TRUE;
+};
 private _eyePos = if (_unitOnFoot) then {
 	(eyePos _unit)
 } else {

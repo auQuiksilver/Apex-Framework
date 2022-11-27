@@ -73,7 +73,6 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 		private _posLeader = [0,0,0];
 		private _pos = [0,0,0];
 		private _icon = '';
-		private _teamID = 0;
 		private _colorTeam = [0,0,0,0];
 		{
 			_unit = _x;
@@ -107,8 +106,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 						};
 					};
 				};
-				_teamID = (['','MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _unit)) max 1;
-				_colorTeam = [[1,1,1,1],[1,1,1,1],[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] # _teamID;
+				_colorTeam = [[1,1,1,1],[1,1,1,1],[1,0,0,1],[0,1,0.5,1],[0,0.5,1,1],[1,1,0,1]] # ((['','MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _unit)) max 1);
 				if (
 					(isNull (objectParent _unit)) &&
 					{(_unit isNotEqualTo _grpLeader)} &&

@@ -104,7 +104,6 @@ if (_object isKindOf 'Man') exitWith {
 		];
 	} else {
 		if (_side in [EAST,WEST,RESISTANCE]) then {
-			[_object,group _object] call (missionNamespace getVariable 'QS_fnc_AISetTracers');
 			if (_side in [EAST,RESISTANCE]) then {
 				_object call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			};
@@ -139,6 +138,7 @@ if (_object isKindOf 'Man') exitWith {
 					]);
 				};
 			};
+			[_object,group _object] call (missionNamespace getVariable 'QS_fnc_AISetTracers');
 			[[_object],1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 			_QS_unit_side = side _object;
 			if (['recon',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {

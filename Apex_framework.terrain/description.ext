@@ -6,14 +6,14 @@ Author:
 
 Last modified:
 
-	6/11/2022 A3 2.10 by Quiksilver
+	25/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.3.4";
+missionProductVersion = "1.3.5";
 missionProductStatus = "Stable";											// "Stable" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
@@ -293,6 +293,7 @@ class CfgFunctions {
 			class clientMenuHub {file = "code\functions\fn_clientMenuHub.sqf";};
 			class clientMenuInsignia {file = "code\functions\fn_clientMenuInsignia.sqf";};
 			class clientMenuLeaderboard {file = "code\functions\fn_clientMenuLeaderboard.sqf";};
+			class clientMenuLoadout {file = "code\functions\fn_clientMenuLoadout.sqf";};
 			class clientMenuMain {file = "code\functions\fn_clientMenuMain.sqf";};
 			class clientMenuOptions {file = "code\functions\fn_clientMenuOptions.sqf";};
 			class clientMenuRadio {file = "code\functions\fn_clientMenuRadio.sqf";};
@@ -394,6 +395,7 @@ class CfgFunctions {
 			class findOverwatchPos {file = "code\functions\fn_findOverwatchPos.sqf";};
 			class findRandomPos {file = "code\functions\fn_findRandomPos.sqf";};
 			class findSafePos {file = "code\functions\fn_findSafePos.sqf";};
+			class fire {file = "code\functions\fn_fire.sqf";};
 			class fobAssets {file = "code\functions\fn_fobAssets.sqf";};
 			class fobEnable {file = "code\functions\fn_fobEnable.sqf";};
 			class fobEnemyAssault {file = "code\functions\fn_fobEnemyAssault.sqf";};
@@ -466,6 +468,7 @@ class CfgFunctions {
 			class patrolNearbyBuilding {file = "code\functions\fn_patrolNearbyBuilding.sqf";};
 			class pulsate {file = "code\functions\fn_pulsate.sqf";};
 			class Q51 {file = "code\functions\fn_Q51.sqf";};
+			class ragdoll {file = "code\functions\fn_ragdoll.sqf";};
 			class rcAIRevive {file = "code\functions\fn_rcAIRevive.sqf";};
 			class registerUnit {file = "code\functions\fn_registerUnit.sqf";};
 			class registerVehicle {file = "code\functions\fn_registerVehicle.sqf";};
@@ -5029,6 +5032,408 @@ class QS_RD_client_dialog_menu_radio {
 		};
 	};
 };
+
+class QS_RD_client_dialog_menu_inventory1 {
+	idd = 19000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+	class controls {
+		class QS_RD_client_dialog_menu_inventory1_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			//x = 0.372583 * safezoneW + safezoneX;
+			x = 0.672583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.47 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_inventory1_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			//x = 0.372583 * safezoneW + safezoneX;
+			x = 0.672583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.47 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_inventory1_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "$STR_QS_Dialogs_076";
+			//x = 0.374500 * safezoneW + safezoneX;
+			x = 0.674500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_inventory1_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1812;
+			text = "Save";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.78 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Save',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_inventory1_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "$STR_QS_Dialogs_066";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.825 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Load',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_inventory1_button_3: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "$STR_QS_Dialogs_032";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Delete',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_inventory1_button_4: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1815;
+			text = "Edit";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.915 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Edit',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.14 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+		class QS_RD_client_dialog_menu_inventory1_box_2: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1814;
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.735 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_inventory1_edit_1: QS_RD_dialog_RscEdit {
+			idc = 1813;
+			moving = 1;
+			//access = 0;
+			autocomplete = "";
+			text = "";
+			canModify = 1;
+			colorBackground[] = {0,0,0,0};
+			colorDisabled[] = {1,1,1,0.25};
+			colorSelection[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",1};
+			colorText[] = {0.95,0.95,0.95,1};
+			deletable = 0;
+			fade = 0;
+			size = 0.3;
+			sizeEx = "0.8 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			style = 16;
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.735 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+		};
+
+		class QS_RD_client_dialog_menu_inventory1_frame_2: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1817;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.965 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.015 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_inventory1_progress_1: RscProgress {
+			moving = 1;
+			idc = 1816;
+			text = "My ammobox (800/1000)";
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.965 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.015 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 2;
+			texture = "#(argb,8,8,3)color(1,1,1,0.5)";
+			colorText[] = {1,1,1,1};
+			colorFrame[] = {0,0,0,0};
+			//colorBar[] = {1,1,1,0.5};
+		};
+		class QS_RD_client_dialog_menu_inventory1_text_2: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1818;
+			text = "";
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.967 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.011 * safezoneH;
+			sizeEx = 0.025;
+			size = 0.025;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+	};
+};
+
+class QS_RD_client_dialog_menu_hangar {
+	idd = 20000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHangar');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuHangar');";
+	class controls {
+		class QS_RD_client_dialog_menu_hangar_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			//x = 0.372583 * safezoneW + safezoneX;
+			x = 0.672583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.47 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_hangar_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			//x = 0.372583 * safezoneW + safezoneX;
+			x = 0.672583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.47 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_hangar_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Hangar";
+			//x = 0.374500 * safezoneW + safezoneX;
+			x = 0.674500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_hangar_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1812;
+			text = "Save";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.78 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Save',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_hangar_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "$STR_QS_Dialogs_066";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.825 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Load',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_hangar_button_3: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "$STR_QS_Dialogs_032";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Delete',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_hangar_button_4: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1815;
+			text = "Edit";
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.915 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Edit',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.14 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+		class QS_RD_client_dialog_menu_hangar_box_2: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1814;
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.735 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_hangar_edit_1: QS_RD_dialog_RscEdit {
+			idc = 1813;
+			moving = 1;
+			//access = 0;
+			autocomplete = "";
+			text = "";
+			canModify = 1;
+			colorBackground[] = {0,0,0,0};
+			colorDisabled[] = {1,1,1,0.25};
+			colorSelection[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",1};
+			colorText[] = {0.95,0.95,0.95,1};
+			deletable = 0;
+			fade = 0;
+			size = 0.3;
+			sizeEx = "0.8 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+			style = 16;
+			//x = 0.38 * safezoneW + safezoneX;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.735 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+		};
+
+		class QS_RD_client_dialog_menu_hangar_frame_2: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1817;
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.965 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.015 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_hangar_progress_1: RscProgress {
+			moving = 1;
+			idc = 1816;
+			text = "My ammobox (800/1000)";
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.965 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.015 * safezoneH;
+			sizeEx = 0.03;
+			shadow = 2;
+			texture = "#(argb,8,8,3)color(1,1,1,0.5)";
+			colorText[] = {1,1,1,1};
+			colorFrame[] = {0,0,0,0};
+			//colorBar[] = {1,1,1,0.5};
+		};
+		class QS_RD_client_dialog_menu_hangar_text_2: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1818;
+			text = "";
+			x = 0.68 * safezoneW + safezoneX;
+			y = 0.967 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.011 * safezoneH;
+			sizeEx = 0.025;
+			size = 0.025;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0};
+		};
+	};
+};
+
+/*/
+class RscProgress
+{
+	deletable = 0;
+	fade = 0;
+	//access = 0;
+	type = CT_PROGRESS;
+	style = ST_HORIZONTAL;
+	colorFrame[] = {0,0,0,0};
+	colorBar[] =
+	{
+		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"
+	};
+	x = 0.344;
+	y = 0.619;
+	w = 0.313726;
+	h = 0.0261438;
+	shadow = 2;
+	texture = "#(argb,8,8,3)color(1,1,1,1)";
+};
+/*/
+
+
+
+
+
+
+
+
+
 class RscTitles {
 	class QS_RD_dialog_crewIndicator {
 		idd = 6000;

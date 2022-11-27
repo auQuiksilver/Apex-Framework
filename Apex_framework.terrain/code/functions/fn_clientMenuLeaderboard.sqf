@@ -119,7 +119,6 @@ if (_type isEqualTo 'B1') exitWith {
 			(_display displayCtrl 1810) ctrlSetText (localize 'STR_QS_Menu_036');
 			(_display displayCtrl 1811) ctrlSetText ((_list # _index) # 3);
 			(_display displayCtrl 1812) ctrlSetText (localize 'STR_QS_Menu_038');
-			// Debug leaderboards
 			private _tempLBHash = + QS_leaderboards4;
 			if (QS_leaderboards3 isNotEqualTo []) then {
 				private _key = '';
@@ -154,24 +153,23 @@ if (_type isEqualTo 'B1') exitWith {
 			_leaderboardData = _leaderboardData apply {
 				if (_isAccuracyLB) then {
 					[
-						(parseNumber (((((_x # 1) # _leaderboardID) # 0) / (((_x # 1) # _leaderboardID) # 1)) toFixed 3)),				// LB value
-						(_x # 0),																		                                // UID
-						(_x # 1) # 0,																									// Name
+						(parseNumber (((((_x # 1) # _leaderboardID) # 0) / (((_x # 1) # _leaderboardID) # 1)) toFixed 3)),
+						(_x # 0),
+						(_x # 1) # 0,
 						[(((_x # 1) # _leaderboardID) # 0),(((_x # 1) # _leaderboardID) # 1)]
 					]
 				} else {
 					[
-						(_x # 1) # _leaderboardID,				// LB value
-						(_x # 0),								// UID
-						(_x # 1) # 0							// Name
+						(_x # 1) # _leaderboardID,
+						(_x # 0),
+						(_x # 1) # 0
 					]
 				};
 			};
 			if (_isAccuracyLB) then {
-				_leaderboardData = _leaderboardData select { ((_x # 3) # 1) >= 100 };		// Require minimum of 100 shots fired before adding to leaderboard
+				_leaderboardData = _leaderboardData select { ((_x # 3) # 1) >= 100 };
 			};
 			_leaderboardData sort FALSE;
-			// Debug leaderboards
 			if (_leaderboardData isNotEqualTo []) then {
 				lnbSetColumnsPos [1808,[(1 * (safezoneW * 0.03)),(4 * (safezoneW * 0.03)),(7 * (safezoneW * 0.03)),(10 * (safezoneW * 0.03))]];
 				_myUID = getPlayerUID player;

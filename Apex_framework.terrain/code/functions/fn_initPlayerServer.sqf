@@ -39,7 +39,7 @@ _val = QS_robocop getOrDefault [_uid,0,TRUE];
 if (_val > 5) exitWith {
 	FALSE remoteExecCall ['disableUserInput',_cid,FALSE];
 	uiSleep 0.1;
-	([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',_cid]);
+	(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',_cid]);
 };
 //===== Supporter Level
 private _sLevel = 0;

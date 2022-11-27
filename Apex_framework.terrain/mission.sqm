@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=334;
+		nextID=348;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6940.2524,12.600668,7356.1729};
-		dir[]={0.79615152,-0.24725443,0.55230182};
-		up[]={0.20316359,0.96894646,0.14093746};
-		aside[]={0.57000035,1.7669663e-007,-0.82166314};
+		pos[]={6945.2202,11.04066,7355.2085};
+		dir[]={0.72505784,-0.24736954,0.64276636};
+		up[]={0.18511306,0.96891707,0.16410349};
+		aside[]={0.66337913,1.1773955e-007,-0.748312};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_134";
+sourceName="Apex_framework_135";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -1185,7 +1185,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={7615.2939,3.5881519,14922.531};
+						position[]={7615.689,3.5890169,14922.207};
 						angles[]={0,2.5232923,0};
 					};
 					side="West";
@@ -1198,7 +1198,6 @@ class Mission
 					};
 					id=161;
 					type="B_T_Soldier_F";
-					atlOffset=-7.1525574e-007;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -1235,7 +1234,6 @@ class Mission
 			{
 			};
 			id=160;
-			atlOffset=-7.1525574e-007;
 		};
 		class Item38
 		{

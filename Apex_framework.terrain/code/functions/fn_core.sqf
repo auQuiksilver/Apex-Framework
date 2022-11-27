@@ -4887,11 +4887,17 @@ for '_x' from 0 to 1 step 0 do {
 								};
 							} else {
 								if ((isPlayer _x) || {(unitIsUAV _x)}) then {
-									if (!(canTriggerDynamicSimulation _x)) then {
-										_x triggerDynamicSimulation _true;
-									};
-									if (dynamicSimulationEnabled _x) then {
-										_x enableDynamicSimulation _false;
+									if (!(_x isKindOf 'HeadlessClient_F')) then {
+										if (!(canTriggerDynamicSimulation _x)) then {
+											_x triggerDynamicSimulation _true;
+										};
+										if (dynamicSimulationEnabled _x) then {
+											_x enableDynamicSimulation _false;
+										};
+									} else {
+										if (canTriggerDynamicSimulation _x) then {
+											_x triggerDynamicSimulation _false;
+										};
 									};
 								};
 							};

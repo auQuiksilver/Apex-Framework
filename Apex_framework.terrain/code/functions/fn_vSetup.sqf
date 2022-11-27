@@ -414,7 +414,7 @@ if (!(_isSimpleObject)) then {
 		'i_supplycrate_f','o_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','b_supplycrate_f',
 		'b_cargonet_01_ammo_f','i_cargonet_01_ammo_f','o_cargonet_01_ammo_f','i_e_cargonet_01_ammo_f'
 	]) then {
-		[_u,1,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
+		//[_u,1,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 	};
 	if (_t2 in _towVs) then {
 		_u setVariable ['QS_tow_veh',1,TRUE];
@@ -727,9 +727,6 @@ if (!(_isSimpleObject)) then {
 	_u addEventHandler ['Local',{}];
 	if (_u isKindOf 'LandVehicle') then {
 		//_u setPlateNumber 'abc123';
-		if ((!(['medical',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) && (!(['medevac',_t2,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))) then {
-			[_u,1,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
-		};
 		_u setConvoySeparation 50;
 		_u forceFollowRoad TRUE;
 	};

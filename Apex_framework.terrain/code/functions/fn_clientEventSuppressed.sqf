@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/07/2022 A3 2.10 by Quiksilver
+	27/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,18 +14,26 @@ Description:
 ___________________________________________________________________*/
 
 params ['_unit','_distance','','_instigator','','','_ammoConfig'];
-_screenPos = worldToScreen (getPosATL _instigator);
+_screenPos = worldToScreen (ASLToAGL (getPosASL _instigator));
 if (
 	(isNull _instigator) ||
 	{(!((_screenPos isEqualTo []) || {(((_screenPos # 0) > 1.5) || ((_screenPos # 0) < -0.5))} ||{(((_screenPos # 1) > 1.5) || ((_screenPos # 1) < -0.5))}))} ||
 	{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
 	{((!isNull (objectParent _unit)) && (!isTurnedOut _unit))} ||
-	{(_distance > getNumber (_ammoConfig >> 'suppressionRadiusBulletClose'))} ||
 	{!isNull curatorCamera} ||
 	{(((UAVControl (getConnectedUav _unit)) # 1) isNotEqualTo '')} ||
 	{(!(missionNamespace getVariable ['QS_HUD_toggleSuppression',TRUE]))}
 ) exitWith {};
-private _factor = ((1 /_distance) * (getNumber (_ammoConfig >> 'caliber'))) min 1;
+private _ammoData = QS_client_hashmap_ammoConfig getOrDefault [_ammoConfig,[]];
+if (_ammoData isEqualTo []) then {
+	_ammoData = [getNumber (_ammoConfig >> 'suppressionRadiusBulletClose'),getNumber (_ammoConfig >> 'caliber')];
+	QS_client_hashmap_ammoConfig set [
+		_ammoConfig,
+		_ammoData
+	];
+};
+if (_distance > (_ammoData # 0)) exitWith {};
+private _factor = ((1 /_distance) * (_ammoData # 1)) min 1;
 _factor = (_factor / 2) + (random (_factor / 2));
 _timeDiff = 1 - ((30 min ( (missionNamespace getVariable ['QS_suppressed_effectFired',0]) - diag_tickTime) max 0) / 30);
 _factor = (_factor * _timeDiff) max 0.05;

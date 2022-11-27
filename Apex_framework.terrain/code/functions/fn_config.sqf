@@ -367,6 +367,7 @@ _recyclerUnitTypes = [
 } forEach [
 	['QS_roles_handler',[]]
 ];
+private _weaponsList = configFile >> 'CfgWeapons';
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -778,8 +779,12 @@ _recyclerUnitTypes = [
 	['QS_module_objectScale',[],TRUE],
 	['QS_AI_forceTracers',FALSE,TRUE],
 	['QS_hashmap_tracers',createHashMapFromArray (call QS_data_tracers),FALSE],
-	['QS_hashmap_rockets',createHashMapFromArray (call QS_data_rockets),FALSE]
+	['QS_hashmap_rockets',createHashMapFromArray (call QS_data_rockets),FALSE],
+	['QS_session_weaponsList',((missionProfileNamespace getVariable ['QS_profile_weaponsList',[]]) select {(isClass (_weaponsList >> _x))})],
+	['QS_session_magazineList',[]],
+	['QS_session_weaponMagazines',createHashMap]
 ];
+_weaponsList = nil;
 // Load terrain-specific Roles if file is found
 if (fileExists (format ['@Apex_cfg\%1\roles.sqf',worldName])) then {
 	diag_log '***** DEBUG ***** COMPILING TERRAIN SPECIFIC ROLES DATA';

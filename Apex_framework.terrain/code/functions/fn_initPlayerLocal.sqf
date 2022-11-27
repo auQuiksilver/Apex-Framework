@@ -163,6 +163,7 @@ if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 
 /*/====================== MISSION NAMESPACE VARS/*/
 
+private _weaponsList = configFile >> 'CfgWeapons';
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -314,8 +315,17 @@ if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 	['QS_aircraft_critHit_array',[],FALSE],
 	['QS_enabledWaypoints',(difficultyOption 'waypoints'),FALSE],
 	['QS_managed_flares',[],FALSE],
-	['QS_client_sendAccuracy',FALSE,FALSE]
+	['QS_client_sendAccuracy',FALSE,FALSE],
+	['QS_client_loadoutTarget',objNull,FALSE],
+	['QS_hashmap_tracers',createHashMapFromArray (call QS_data_tracers),FALSE],
+	['QS_hashmap_rockets',createHashMapFromArray (call QS_data_rockets),FALSE],
+	['QS_session_weaponsList',((missionProfileNamespace getVariable ['QS_profile_weaponsList',[]]) select {(isClass (_weaponsList >> _x))})],
+	['QS_session_magazineList',[]],
+	['QS_session_weaponMagazines',createHashMap],
+	['QS_client_hashmap_ammoConfig',createHashMap],
+	['QS_client_ragdoll_script',scriptNull]
 ];
+_weaponsList = nil;
 if ((missionProfileNamespace getVariable ['QS_IA_joinToken',0]) < 10) then {
 	if ((missionNamespace getVariable ['QS_arsenals',[]]) isNotEqualTo []) then {
 		{

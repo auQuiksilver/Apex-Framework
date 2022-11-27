@@ -40,28 +40,6 @@ if (_case < 10) exitWith {
 			};
 		};
 	};
-	/*/===== HC/*/
-	if (_case isEqualTo 0.5) then {
-		/*/[0.5,'AO_INIT'] remoteExec ['QS_fnc_remoteExec',-999];/*/
-		_instruction = _this # 1;
-		if (_instruction isEqualTo 'AO_INIT') then {
-		
-		};
-		if (_instruction isEqualTo 'AO_EXIT') then {
-		
-		};
-		if (_instruction isEqualTo 'SM_INIT') then {
-		
-		};
-		if (_instruction isEqualTo 'SM_EXIT') then {
-		
-		};
-	};
-	/*/===== Task Update/*/
-	if (_case isEqualTo 0.6) then {
-		params ['',''];
-	
-	};
 	/*/pow/*/
 	if (_case isEqualTo 1) then {
 		private _POW = _this # 1;
@@ -720,6 +698,7 @@ if (_case < 40) exitWith {
 		private _target = objNull;
 		private _inHouse = [FALSE,objNull];
 		if (_units isNotEqualTo []) then {
+			private _result = FALSE;
 			{
 				_unit = _x;
 				_target = [_unit,1000,TRUE] call (missionNamespace getVariable 'QS_fnc_AIGetAttackTarget');
@@ -728,7 +707,22 @@ if (_case < 40) exitWith {
 					if (_inHouse # 0) then {
 						_target = _inHouse # 1;
 					};
-					[_unit,_target,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+					_result = [_unit,_target,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+					if (!(_result)) then {
+						if (
+							(!isNull (objectParent _unit)) ||
+							(!weaponLowered _unit)
+						) then {
+							[_unit,_target,0] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+						};
+					};
+				} else {
+					if (
+						(!isNull (objectParent _unit)) ||
+						(!weaponLowered _unit)
+					) then {
+						[_unit,_target,0] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
+					};
 				};
 			} forEach _units;
 		};
@@ -2175,5 +2169,9 @@ if (_case < 110) exitWith {
 				};
 			};
 		};
+	};
+	if (_case isEqualTo 104) then {
+		params ['','_args'];
+		_args call (missionNamespace getVariable 'QS_fnc_fire');
 	};
 };

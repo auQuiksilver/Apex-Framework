@@ -198,3 +198,16 @@ if (_type isEqualTo 'setMissileTargetPos') exitWith {
 if (_type isEqualTo 'triggerAmmo') exitWith {
 	triggerAmmo _1;
 };
+if (_type isEqualTo 'awake') exitWith {
+	_1 awake _2;
+};
+if (_type isEqualTo 'action') exitWith {
+	if (_rxID <= 2) then {
+		_1 action _2;
+	};
+};
+if (_type isEqualTo 'forceWeaponFire') exitWith {
+	if (_rxID <= 2) then {
+		_1 forceWeaponFire _2;
+	};
+};
