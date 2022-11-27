@@ -1,4 +1,4 @@
-Apex Framework 1.3.4 10/11/2022 A3 2.10
+Apex Framework 1.3.5 27/11/2022 A3 2.10
 by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
@@ -18,7 +18,7 @@ Apex Framework step-by-step setup guide:
 Video Setup Guide - https://www.youtube.com/watch?v=FCj2qyThCH0
 _______________
 
-0. Download the "Apex_framework_134_allFiles.zip" file.    (please note some mission files need to be downloaded separately due to 100MB github file size limit).
+0. Download the "Apex_framework_135_allFiles.zip" file.    (please note some mission files need to be downloaded separately due to 100MB github file size limit).
 
 _______________
 1. Place mission PBO files in your servers MPMissions folder.
@@ -49,15 +49,15 @@ class Missions {
 
   class apex_framework {
 
-    template="Apex_framework_134.Altis";
+    template="Apex_framework_135.Altis";
 
-    //template="Apex_framework_134.Tanoa";
+    //template="Apex_framework_135.Tanoa";
 
-    //template="Apex_framework_134.Malden";
+    //template="Apex_framework_135.Malden";
     
-    //template="Apex_framework_134.Enoch";
+    //template="Apex_framework_135.Enoch";
 	
-	//template="Apex_framework_134.Stratis";
+	//template="Apex_framework_135.Stratis";
 
     difficulty="Custom";
 
@@ -67,7 +67,7 @@ class Missions {
 
 ```
 forcedDifficulty = "Custom";
-missionWhitelist[] = {"Apex_framework_134.Altis","Apex_framework_134.Tanoa","Apex_framework_134.Malden","Apex_framework_134.Enoch","Apex_framework_134.Stratis"};
+missionWhitelist[] = {"Apex_framework_135.Altis","Apex_framework_135.Tanoa","Apex_framework_135.Malden","Apex_framework_135.Enoch","Apex_framework_135.Stratis"};
 ```
 
 --------------------------
