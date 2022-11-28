@@ -69,6 +69,7 @@ if (missionNamespace getVariable ['QS_missionConfig_knockdown',TRUE]) then {
 		{(isNull (objectParent _unit))} &&
 		{(isNull (attachedTo _unit))} &&
 		{(!surfaceIsWater (getPosASL _unit))} &&
+		{(_strength > 0.5)} &&
 		{(_visibilityCOM > 0.1)} &&
 		{(diag_tickTime > (_unit getVariable ['QS_feedback_lastExpRagdoll',-1]))} &&
 		{(isNull (missionNamespace getVariable ['QS_script_incapacitated',scriptNull]))} &&
