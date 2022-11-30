@@ -23,7 +23,9 @@ if (!isMissionProfileNamespaceLoaded) then {
 };
 missionNamespace setVariable ['QS_init_doorCloser',TRUE,FALSE];
 uiNamespace setVariable ['BIS_fnc_advHint_hintHandlers',TRUE];
-['BASE'] call (missionNamespace getVariable 'QS_fnc_localObjects');
+if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+	['BASE'] call (missionNamespace getVariable 'QS_fnc_localObjects');
+};
 sleep 1;
 private ['_validated','_playerClass','_reviveSetup','_roleDescription','_exit','_qs_1pv','_position','_qs_stamina','_stamina','_aimcoef','_spawnPos','_QS_radioChannels','_QS_radioChannels_profile'];
 _exit = FALSE;
