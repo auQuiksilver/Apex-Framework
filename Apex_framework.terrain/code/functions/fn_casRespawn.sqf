@@ -174,25 +174,6 @@ if (_missionConfig_CAS isEqualTo 3) then {
 		'I_Plane_Fighter_04_F',([0,1] select _jetsDLC),
 		'i_c_plane_civil_01_f',0
 	];
-	
-	if (QS_leaderboards3 isNotEqualTo []) then {
-		private _key = '';
-		private _val = -1;
-		private _val2 = -1;
-		private _element1 = 0;
-		private _element2 = 0;
-		{
-			_key = _x;
-			_val = _y;
-			_val2 = QS_leaderboards3 getOrDefault [_key,-1,FALSE];
-			if (_val2 isNotEqualTo -1) then {
-				_element1 = _val # _leaderboardID;
-				_element2 = _val2 # _leaderboardID;
-				_val set [_leaderboardID,_element1 + _element2];
-				QS_leaderboards2 set [_key,_val];
-			};
-		} forEach QS_leaderboards2;
-	};
 	private _pilotLeaderboards = QS_leaderboards2 toArray FALSE;
 	_pilotLeaderboards = _pilotLeaderboards apply {
 		[
