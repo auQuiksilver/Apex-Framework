@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	29/08/2022 A3 2.10 by Quiksilver
+	5/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -24,7 +24,7 @@ private _leaderboardDataPilot = _leaderboardData apply {
 };
 _leaderboardDataPilot sort FALSE;
 _leaderboardDataPilot = _leaderboardDataPilot select {(_x # 0) > 0};
-_leaderboardDataPilot select [0,_topX];
+_leaderboardDataPilot = _leaderboardDataPilot select [0,_topX];
 private _allArray = [];
 private _array = [];
 if (_leaderboardDataPilot isNotEqualTo []) then {
@@ -44,7 +44,7 @@ private _leaderboardDataMedic = _leaderboardData apply {
 };
 _leaderboardDataMedic sort FALSE;
 _leaderboardDataMedic = _leaderboardDataMedic select {(_x # 0) > 0};
-_leaderboardDataMedic select [0,_topX];
+_leaderboardDataMedic = _leaderboardDataMedic select [0,_topX];
 _array = [];
 if (_leaderboardDataMedic isNotEqualTo []) then {
 	{
@@ -66,7 +66,7 @@ private _leaderboardDataSniper = _leaderboardData apply {
 };
 _leaderboardDataSniper sort FALSE;
 _leaderboardDataSniper = _leaderboardDataSniper select {(_x # 3) >= 50};		// Require >= 50 shots to qualify
-_leaderboardDataSniper select [0,_topX];
+_leaderboardDataSniper = _leaderboardDataSniper select [0,_topX];
 _array = [];
 if (_leaderboardDataSniper isNotEqualTo []) then {
 	{
