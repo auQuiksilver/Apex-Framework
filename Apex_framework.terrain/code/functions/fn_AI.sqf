@@ -300,17 +300,17 @@ private _QS_module_classic_infReinforce_array = [];
 //comment 'classic ao veh reinforcements';
 private _QS_module_classic_vehReinforce = _true;
 private _QS_module_classic_vehReinforce_enabled = _true;
-private _QS_module_classic_vehReinforce_delay = 30;
+private _QS_module_classic_vehReinforce_delay = 300;
 private _QS_module_classic_vehReinforce_checkDelay = _QS_uiTime + _QS_module_classic_vehReinforce_delay;
 private _QS_module_classic_vehReinforce_playerThreshold = 15;
 private _QS_module_classic_vehReinforce_cap = 0;
 private _QS_module_classic_vehReinforce_cap_0 = 1;
-private _QS_module_classic_vehReinforce_cap_1 = 2;
-private _QS_module_classic_vehReinforce_cap_2 = 2;
-private _QS_module_classic_vehReinforce_cap_3 = 3;
-private _QS_module_classic_vehReinforce_cap_4 = 3;
+private _QS_module_classic_vehReinforce_cap_1 = 1;
+private _QS_module_classic_vehReinforce_cap_2 = 1;
+private _QS_module_classic_vehReinforce_cap_3 = 1;
+private _QS_module_classic_vehReinforce_cap_4 = 2;
 private _QS_module_classic_vehReinforce_spawned = 0;
-private _QS_module_classic_vehReinforce_limit = 3;
+private _QS_module_classic_vehReinforce_limit = 2;
 private _QS_module_classic_vehReinforce_limitReal = 0;
 private _QS_module_classic_vehReinforce_AIThreshold = 75;
 private _QS_module_classic_vehReinforce_array = [];
@@ -1515,7 +1515,7 @@ for '_x' from 0 to 1 step 0 do {
 								if (_QS_allPlayersCount > 50) then {_QS_module_classic_vehReinforce_cap = _QS_module_classic_vehReinforce_cap_4;};
 								if (_QS_module_classic_vehReinforce_spawned < _QS_module_classic_vehReinforce_cap) then {
 									if (_QS_allPlayersCount < _QS_module_classic_vehReinforce_playerThreshold) then {
-										_QS_module_classic_vehReinforce_limitReal = (_QS_module_classic_vehReinforce_limit / 2);
+										_QS_module_classic_vehReinforce_limitReal = ceil (_QS_module_classic_vehReinforce_limit / 2);
 									} else {
 										_QS_module_classic_vehReinforce_limitReal = _QS_module_classic_vehReinforce_limit;
 									};
@@ -1533,7 +1533,7 @@ for '_x' from 0 to 1 step 0 do {
 									};
 								};
 							};
-							_QS_module_classic_vehReinforce_checkDelay = _QS_uiTime + (random [20,30,40]);
+							_QS_module_classic_vehReinforce_checkDelay = _QS_uiTime + _QS_module_classic_vehReinforce_delay;
 						};
 					};
 				};

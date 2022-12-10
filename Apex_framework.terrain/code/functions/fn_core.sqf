@@ -5089,6 +5089,9 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_module_zeusRespawn_object setPosWorld _QS_module_zeusRespawn_pos;
 					_QS_module_zeusRespawn_object setFlagTexture _QS_module_zeusRespawn_flagTexture;
 					_QS_module_zeusRespawn_object setVariable ['QS_zeus',_true,_false];
+					if (missionNamespace getVariable ['QS_missionConfig_zeusRespawnArsenal',_false]) then {
+						_QS_module_zeusRespawn_object setVariable ['QS_arsenal_object',_true,_true];
+					};
 					_QS_module_zeusRespawn_element set [3,_QS_module_zeusRespawn_object];
 					_QS_module_zeusRespawn_updateElement = _true;
 				};

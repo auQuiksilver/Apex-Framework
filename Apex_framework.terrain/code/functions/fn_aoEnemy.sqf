@@ -492,23 +492,23 @@ diag_log '****************************************************';
 
 private _vehCount = [1,2] select _allowVehicles;
 if (_playerCount > 10) then {
-	_vehCount = [2,3] select _allowVehicles;
+	_vehCount = [1,2] select _allowVehicles;
 };
 if (_playerCount > 20) then {
-	_vehCount = [2,3] select _allowVehicles;
+	_vehCount = [1,2] select _allowVehicles;
 };
 if (_playerCount > 30) then {
-	_vehCount = [3,4] select _allowVehicles;
+	_vehCount = [2,3] select _allowVehicles;
 };
 if (_playerCount > 40) then {
-	_vehCount = [4,5] select _allowVehicles;
+	_vehCount = [2,3] select _allowVehicles;
 };	
 if (_playerCount > 50) then {
-	_vehCount = [4,5] select _allowVehicles;
+	_vehCount = [3,4] select _allowVehicles;
 };
 private _motorPool = [0,7] select _allowVehicles;
 if (worldName in ['Stratis']) then {
-	_vehCount = _vehCount min 3;
+	_vehCount = _vehCount min 2;
 	_motorPool = 8;
 };
 private _AOveh = objNull;
@@ -565,9 +565,9 @@ for '_x' from 0 to (_vehCount - 1) step 1 do {
 	[_AOvehGroup,_randomPos,_aoSize,_roadPositionsValid,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 	_AOveh lock 3;
 	if (_AOveh isKindOf 'mbt_04_base_f') then {
-		[(units _AOvehGroup),3] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	} else {
 		[(units _AOvehGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+	} else {
+		[(units _AOvehGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	};
 	{
 		_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
@@ -579,6 +579,7 @@ for '_x' from 0 to (_vehCount - 1) step 1 do {
 	_AOvehGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 	_AOvehGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _AOvehGroup)),_AOveh],QS_system_AI_owners];
 	_AOvehGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
+	if (_playerCount < 15) exitWith {};
 };
 
 /*/===== Spawning Support vehicle/*/
