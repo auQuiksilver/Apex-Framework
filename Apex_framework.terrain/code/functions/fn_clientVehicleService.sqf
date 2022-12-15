@@ -297,6 +297,11 @@ if ('reammo' in _types) then {
 			if (_cancelled) exitWith {};
 		} forEach (getAllPylonsInfo _vehicle);
 	};
+	if (local _vehicle) then {
+		if (_vehicle isKindOf 'LandVehicle') then {
+			[_vehicle] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
+		};
+	};
 	if (!(_cancelled)) then {
 		private _rearmedChildren = [];
 		if ((attachedObjects _vehicle) isNotEqualTo []) then {
