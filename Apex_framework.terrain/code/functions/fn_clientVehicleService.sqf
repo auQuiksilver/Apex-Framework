@@ -204,6 +204,7 @@ if ('refuel' in _types) then {
 if (_cancelled) exitWith {50 cutText [localize 'STR_QS_Text_128','PLAIN DOWN',0.333];};
 if ('reammo' in _types) then {
 	private _rearmInterval = 0.1;
+	private _rearmPerCycleDefault = 1;
 	private _rearmPerCycle = 1;
 	private _rearmPerformed = FALSE;
 	private _cached = [];
@@ -237,6 +238,11 @@ if ('reammo' in _types) then {
 						50 cutText [format [localize 'STR_QS_Text_283',_count,_fullCount,_displayName],'PLAIN DOWN',0.333];
 						_msgDelay = diag_tickTime + 1;
 					};
+					if (_fullCount > 100) then {
+						_rearmPerCycle = ceil (_fullCount / 100);
+					} else {
+						_rearmPerCycle = _rearmPerCycleDefault;
+					};
 					for '_ii' from _count to 9999 step 1 do {
 						sleep _rearmInterval;
 						if ([_vehicle] call _cancel) exitWith {_cancelled = TRUE;};
@@ -257,7 +263,7 @@ if ('reammo' in _types) then {
 		if (_cancelled) exitWith {};
 	} forEach (magazinesAllTurrets [_vehicle,TRUE]);
 	if ((getAllPylonsInfo _vehicle) isNotEqualTo []) then {
-		_rearmInterval = 1;
+		_rearmInterval = 0.1;
 		{
 			_x params ['_pIndex','_pName','_turret','_magazineClass','_count'];
 			if (_vehicle turretLocal _turret) then {
@@ -268,6 +274,11 @@ if ('reammo' in _types) then {
 						if (diag_tickTime > _msgDelay) then {
 							50 cutText [format [localize 'STR_QS_Text_283',_count,_fullCount,_displayName],'PLAIN DOWN',0.333];
 							_msgDelay = diag_tickTime + 1;
+						};
+						if (_fullCount > 100) then {
+							_rearmPerCycle = ceil (_fullCount / 100);
+						} else {
+							_rearmPerCycle = _rearmPerCycleDefault;
 						};
 						for '_ii' from _count to 9999 step 1 do {
 							sleep _rearmInterval;
