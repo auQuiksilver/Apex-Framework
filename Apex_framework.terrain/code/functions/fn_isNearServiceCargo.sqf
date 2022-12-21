@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	4/10/2022 A3 2.10 by Quiksilver
+	21/12/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -21,12 +21,16 @@ if (
 ) exitWith {
 	_return;
 };
+_radius = _radius max (sizeOf (typeOf _cameraOn));
 private _list = _cameraOn nearEntities _radius;
+_attachedObjects = attachedObjects _cameraOn;
 if (_list isNotEqualTo []) then {
 	{
 		if (
 			(alive _x) &&
-			{((_cameraOn distance2D _x) < _radius)}
+			{((_cameraOn distance2D _x) < _radius)} &&
+			{(_x isNotEqualTo _cameraOn)} &&
+			{(!(_x in _attachedObjects))}
 		) then {
 			if ((getAmmoCargo _x) > -1) then {
 				_return pushBackUnique 'reammo';
@@ -110,7 +114,8 @@ if (_list isNotEqualTo []) then {
 		if (
 			((_cameraOn distance2D _x) < _radius) &&
 			{(!isNull _x)} &&
-			{(isSimpleObject _x)}
+			{(isSimpleObject _x)} &&
+			{(!(_x in _attachedObjects))}
 		) then {
 			if ((toLowerANSI ((getModelInfo _x) # 1)) in _reammoModels) then {
 				_return pushBackUnique 'reammo';
