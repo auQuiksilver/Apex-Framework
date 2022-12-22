@@ -18,14 +18,14 @@ __________________________________________________/*/
 
 _worldName = worldName;
 if (['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_destroyer')) exitWith {
-	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_destroyer');
+	['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_destroyer');
 };
 if (['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_carrier')) exitWith {
-	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
+	['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_carrier');
 };
 if (player getUnitTrait 'QS_trait_fighterPilot') exitWith {
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0) then {
-		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
+		['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_carrier');
 	} else {
 		if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 			if (_worldName isEqualTo 'Altis') exitWith {
@@ -57,10 +57,10 @@ if (player getUnitTrait 'QS_trait_fighterPilot') exitWith {
 	};
 };
 if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2) exitWith {
-	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
+	['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_carrier');
 };
 if ((missionNamespace getVariable ['QS_missionConfig_destroyerRespawn',0]) isEqualTo 1) exitWith {
-	['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_destroyer');
+	['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_destroyer');
 };
 if (
 	(missionNamespace getVariable ['QS_missionConfig_zeusRespawnFlag',FALSE]) &&
@@ -68,7 +68,7 @@ if (
 ) exitWith {};
 if (player getUnitTrait 'QS_trait_pilot') then {
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2) then {
-		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
+		['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_carrier');
 	} else {
 		if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 			if (_worldName isEqualTo 'Altis') exitWith {
@@ -99,7 +99,7 @@ if (player getUnitTrait 'QS_trait_pilot') then {
 };
 if (player getUnitTrait 'uavhacker') then {
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierRespawn',0]) isEqualTo 2) then {
-		['RESPAWN_PLAYER'] call (missionNamespace getVariable 'QS_fnc_carrier');
+		['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_carrier');
 	} else {
 		if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 			if (_worldName isEqualTo 'Altis') then {
