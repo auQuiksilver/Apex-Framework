@@ -17,6 +17,20 @@ params ['_unit','_position','_vehicle','_turretPath'];
 if (!simulationEnabled _vehicle) then {
 	_vehicle enableSimulation TRUE;
 };
+// Address VTOL throttle issue: https://feedback.bistudio.com/T169494#2391359
+if (
+	(_vehicle isKindOf 'VTOL_Base_F') &&
+	(_position isEqualTo 'driver')
+) then {
+	_vehicle spawn {
+		private _vehicle = _this;
+		for '_i' from 0 to 1 step 0 do {
+			if ((vehicle player) isNotEqualTo _vehicle) exitWith {};
+			doStop player;
+			sleep 10;
+		};
+	};
+};
 player setVariable ['QS_RD_crewIndicator_show',TRUE,FALSE];
 if (_vehicle isKindOf 'Air') then {
 	if ((getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'transportSoldier')) isNotEqualTo 0) then {
