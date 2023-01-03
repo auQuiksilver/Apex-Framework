@@ -425,11 +425,11 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning infantry overwatch *****';
 diag_log '****************************************************';
 
-_grpCount = 3;
+_grpCount = 1;
 if (_playerCount > 15) then {
-	_grpCount = 4;
+	_grpCount = 2;
 	if (_playerCount > 30) then {
-		_grpCount = 5;
+		_grpCount = 3;
 	};
 };
 private _overwatchGroup = grpNull;
@@ -437,7 +437,7 @@ private _towerPos3 = ATLToASL (getPosATL (missionNamespace getVariable 'QS_radio
 private _centerPosASL = ATLToASL _centerPos;
 private _hqPosASL = ATLToASL _QS_HQpos;
 private _watchPos = selectRandom [_centerPosASL,_hqPosASL,_towerPos3];
-for '_x' from 0 to _grpCount step 1 do {
+for '_x' from 0 to (_grpCount - 1) step 1 do {
 	_watchPos = selectRandom [_centerPosASL,_hqPosASL,_towerPos3];
 	for '_z' from 0 to 49 step 1 do {
 		_randomPos = [_watchPos,(_aoSize * 0.8),25,10,[[objNull,'VIEW'],(0.1 max (random 1))]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
@@ -490,7 +490,7 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning Armored Vehicles *****';
 diag_log '****************************************************';
 
-private _vehCount = [1,2] select _allowVehicles;
+private _vehCount = [1,1] select _allowVehicles;
 if (_playerCount > 10) then {
 	_vehCount = [1,2] select _allowVehicles;
 };
@@ -504,7 +504,7 @@ if (_playerCount > 40) then {
 	_vehCount = [2,3] select _allowVehicles;
 };	
 if (_playerCount > 50) then {
-	_vehCount = [3,4] select _allowVehicles;
+	_vehCount = [2,3] select _allowVehicles;
 };
 private _motorPool = [0,7] select _allowVehicles;
 if (worldName in ['Stratis']) then {
