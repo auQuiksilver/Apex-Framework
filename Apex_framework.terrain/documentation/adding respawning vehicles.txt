@@ -1,4 +1,4 @@
-1. In the editor, create a vehicle at the position and orientation you would like it to spawn, in water or on land. Note: Not suitable for aircraft carrier or elevated spawning.
+1. In the editor, create a vehicle at the position and orientation you would like it to spawn, in water or on land.
 
 2. Add the below to the init field:
 
@@ -10,21 +10,24 @@
 	50,
 	500,
 	-1,
-	true
+	true,
+	5,
+	0
 ] call QS_fnc_registerVehicle;
-
 
 3. Now again, with explanations for what it all means.
 
 0 = [
-	this,		//----- Dont edit this, this is the vehicle entity used by the framework for reference.
-	30,		//----- Respawn delay. How long after its destroyed will it take to respawn? Measured in seconds.
-	false,		//----- TRUE/FALSE. Is the vehicle type randomized? Some vehicles can pull a vehicle type from a random pool.
-	{},		//----- Custom init code executed on only this respawning vehicle. There is generic init code executed on all respawning vehicles as well.
-	50,		//----- Abandonment despawn radius when within 1km of base. (keeps the base tidy).
-	500,		//----- Abandonment despawn radius when further than 1km from base.
-	-1,		//----- Number > 0. Respawn tickets. How many times will this vehicle respawn? Afterwards it is removed from the vehicle manager.
-	true		//----- TRUE/FALSE. Does this vehicle spawn as a "simple object" which can be activated by players? Simple objects improve mission performance. Don't use on helicopters.
+	this,						//----- Dont edit this, this is the vehicle entity used by the framework for reference.
+	30,							//----- Respawn delay. How long after its destroyed will it take to respawn? Measured in seconds.
+	false,						//----- TRUE/FALSE. Is the vehicle type randomized? Some vehicles can pull a vehicle type from a random pool.
+	{},							//----- Custom init code executed on only this respawning vehicle. There is generic init code executed on all respawning vehicles as well.
+	50,							//----- Abandonment despawn radius when within 1km of base. (keeps the base tidy).
+	500,						//----- Abandonment despawn radius when further than 1km from base.
+	-1,							//----- Number > 0. Respawn tickets. How many times will this vehicle respawn? Afterwards it is removed from the vehicle manager.
+	true,						//----- TRUE/FALSE. Does this vehicle spawn as a "simple object" which can be activated by players? Simple objects improve mission performance. Don't use on helicopters.
+	4,							//----- Safe Position radius. The vehicle will not spawn if there is another entity within this radius from the respawn position.
+	0							//----- Precision Spawning Mode. Set to 1 to spawn on elevated platforms and ship decks. Ignores ground slope.
 ] call QS_fnc_registerVehicle;
 
 4. You can use this system to spawn ammo crates, Huron containers, etc. for use with the FOBs system and player-generated logistics.

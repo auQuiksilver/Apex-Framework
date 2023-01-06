@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/01/2018 A3 1.80 by Quiksilver
+	6/01/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -43,6 +43,19 @@ Notes:
 		-1,
 		true
 	] call QS_fnc_registerVehicle;
+	
+	0 = [
+		this,
+		30,
+		false,
+		{},
+		50,
+		500,
+		-1,
+		true,
+		-1,			// Safe Position Radius check (-1 to ignore)
+		1			// 0 - Ground position, 1 - Elevated position (including ship decks)
+	] call QS_fnc_registerVehicle;
 _____________________________________________________________________/*/
 
 if (!isDedicated) exitWith {0};
@@ -51,7 +64,6 @@ _this spawn {
 		uiSleep (0.1 + (random 0.1));
 		((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isNotEqualTo -1)
 	};
-	if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) exitWith {};
 	params [
 		['_vehicle',objNull],
 		['_respawnDelay',30],
@@ -60,17 +72,23 @@ _this spawn {
 		['_abandonmentDistanceBase',50],
 		['_abandonmentDistanceField',500],
 		['_respawnTickets',-1],
-		['_isDynamicVehicle',TRUE]
+		['_isDynamicVehicle',TRUE],
+		['_safeRespawnRadius',4],
+		['_isCarrierVehicle',0]
 	];
+	if (
+		((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) &&
+		{(!(_vehicle getVariable ['QS_missionObject_protected',FALSE]))}
+	) exitWith {};
 	private _vehicleType = typeOf _vehicle;
-	private _spawnPosition = position _vehicle;	/*/ Ideally we'd use ASL but a lot of internal changes would have to be made and tested+verified .../*/
-	_spawnPosition set [2,([0.1,0] select (surfaceIsWater _spawnPosition))];
+	private _spawnPosition = (position _vehicle) vectorAdd [0,0,([0.1,0] select (surfaceIsWater _spawnPosition))];	/*/ Ideally we'd use ASL but a lot of internal changes would have to be made and tested+verified .../*/
 	private _spawnDirection = getDir _vehicle;
 	private _isRespawning = FALSE;
 	private _canRespawnAfter = 0;
 	private _vehicleFobID = -1;
-	private _safeRespawnRadius = 4;
-	private _isCarrierVehicle = 0;
+	if (_isCarrierVehicle > 0) then {
+		_spawnPosition = getPosWorld _vehicle;
+	};
 	if (unitIsUav _vehicle) exitWith {
 		if (isNil {missionNamespace getVariable 'QS_uav_Monitor'}) then {
 			missionNamespace setVariable ['QS_uav_Monitor',[],TRUE];
