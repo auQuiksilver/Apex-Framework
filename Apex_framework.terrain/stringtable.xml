@@ -271,7 +271,7 @@ _____________________________________________________________-->
             <Chinese>安裝炸藥</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_043">
-            <Original>Set Cruise Control</Original>
+            <Original>Cruise Control</Original>
             <Chinesesimp>设置当前速度定速巡航</Chinesesimp>
             <Chinese>設定目前速度定速巡航</Chinese>
         </Key>
@@ -641,6 +641,36 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_117">
             <Original>Save Inventory</Original>
         </Key>
+        <Key ID="STR_QS_Interact_118">
+            <Original>Cut</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_119">
+            <Original>Assemble Mortar (Lite)</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_120">
+            <Original>Get In</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_121">
+            <Original>Cruise Control (Convoy)</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_122">
+            <Original>Mount</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_123">
+            <Original>Pull</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_124">
+            <Original>Winch</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_125">
+            <Original>Hook</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_126">
+            <Original>Unhook</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_127">
+            <Original>Cut</Original>
+        </Key>		
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -2064,6 +2094,156 @@ _____________________________________________________________-->
        <Key ID="STR_QS_Text_294">
             <Original>Inventory would be overloaded</Original>
         </Key>
+       <Key ID="STR_QS_Text_295">
+            <Original>Setting Loadout</Original>
+        </Key>
+       <Key ID="STR_QS_Text_296">
+            <Original>Loadout Set</Original>
+        </Key>
+       <Key ID="STR_QS_Text_297">
+            <Original>Front</Original>
+        </Key>
+       <Key ID="STR_QS_Text_298">
+            <Original>Front Right</Original>
+        </Key>
+       <Key ID="STR_QS_Text_299">
+            <Original>Right</Original>
+        </Key>
+       <Key ID="STR_QS_Text_300">
+            <Original>Rear Right</Original>
+        </Key>
+       <Key ID="STR_QS_Text_301">
+            <Original>Rear</Original>
+        </Key>
+       <Key ID="STR_QS_Text_302">
+            <Original>Rear Left</Original>
+        </Key>
+       <Key ID="STR_QS_Text_303">
+            <Original>Left</Original>
+        </Key>
+       <Key ID="STR_QS_Text_304">
+            <Original>Front Left</Original>
+        </Key>
+        <Key ID="STR_QS_Text_305">
+            <Original>Zeus AI Onload - Disabled in server parameters</Original>
+        </Key>
+       <Key ID="STR_QS_Text_306">
+            <Original>Zeus AI Onload - cooldown (5 seconds)</Original>
+        </Key>
+       <Key ID="STR_QS_Text_307">
+            <Original>Zeus AI Onload - attempting...</Original>
+        </Key>
+       <Key ID="STR_QS_Text_308">
+            <Original>Zeus AI Onload - %1 onloaded to Zeus: %2</Original>
+		</Key>
+       <Key ID="STR_QS_Text_309">
+            <Original>Hangar unavailable for this vehicle type</Original>
+		</Key>	
+       <Key ID="STR_QS_Text_310">
+            <Original>USS Liberty (Destroyer)</Original>
+		</Key>
+       <Key ID="STR_QS_Text_311">
+            <Original>USS Freedom (Aircraft Carrier)</Original>
+		</Key>
+       <Key ID="STR_QS_Text_312">
+            <Original>No Toolkit</Original>
+		</Key>
+       <Key ID="STR_QS_Text_313">
+            <Original>Ropes Cut</Original>
+		</Key>
+       <Key ID="STR_QS_Text_314">
+            <Original>Already assembled a(n) Mortar (Lite)</Original>
+		</Key>
+       <Key ID="STR_QS_Text_315">
+            <Original>Hangar unavailable on this vehicle</Original>
+		</Key>
+       <Key ID="STR_QS_Text_316">
+            <Original>Unable</Original>
+		</Key>
+       <Key ID="STR_QS_Text_317">
+            <Original>%1 stowed for transport</Original>
+		</Key>
+       <Key ID="STR_QS_Text_318">
+            <Original>Target Altitude - %1 m</Original>
+		</Key>
+       <Key ID="STR_QS_Text_319">
+            <Original>Ramp disabled by pilot</Original>
+		</Key>
+       <Key ID="STR_QS_Text_320">
+            <Original>Pulling</Original>
+		</Key>
+       <Key ID="STR_QS_Text_321">
+            <Original>Brakes</Original>
+		</Key>
+       <Key ID="STR_QS_Text_322">
+            <Original>ON</Original>
+		</Key>
+       <Key ID="STR_QS_Text_323">
+            <Original>OFF</Original>
+		</Key>
+       <Key ID="STR_QS_Text_324">
+            <Original>Convoy Mode</Original>
+		</Key>
+       <Key ID="STR_QS_Text_325">
+            <Original>Convoy Separation</Original>
+		</Key>
+       <Key ID="STR_QS_Text_326">
+            <Original>Driver Optional</Original>
+		</Key>
+       <Key ID="STR_QS_Text_327">
+            <Original>Max Length</Original>
+		</Key>
+       <Key ID="STR_QS_Text_328">
+            <Original>Slot available</Original>
+		</Key>
+       <Key ID="STR_QS_Text_329">
+            <Original>Unloaded</Original>
+		</Key>
+       <Key ID="STR_QS_Text_330">
+            <Original>EMPTY</Original>
+		</Key>
+       <Key ID="STR_QS_Text_331">
+            <Original>Cannot hook an active vehicle</Original>
+		</Key>
+       <Key ID="STR_QS_Text_332">
+            <Original>Some men just want to watch the world burn</Original>
+		</Key>
+       <Key ID="STR_QS_Text_333">
+            <Original>Surface too damaged</Original>
+		</Key>
+       <Key ID="STR_QS_Text_334">
+            <Original>You must take network ownership of this vehicle before using the winch</Original>
+		</Key>
+       <Key ID="STR_QS_Text_335">
+            <Original>Failed</Original>
+		</Key>
+       <Key ID="STR_QS_Text_336">
+            <Original>Convoy Mode with %1 (%2). Convoy top speed: %3 km/h</Original>
+		</Key>
+       <Key ID="STR_QS_Text_337">
+            <Original>Convoy Mode already active</Original>
+		</Key>
+       <Key ID="STR_QS_Text_338">
+            <Original>%1 (%2) has entered Convoy Mode. Convoy top speed: %3 km/h</Original>
+		</Key>
+       <Key ID="STR_QS_Text_339">
+            <Original>Exiting Convoy Mode (Overspeed)</Original>
+		</Key>
+       <Key ID="STR_QS_Text_340">
+            <Original>Exiting Convoy Mode</Original>
+		</Key>
+       <Key ID="STR_QS_Text_341">
+            <Original>Convoy Separation: %1 m</Original>
+		</Key>
+       <Key ID="STR_QS_Text_342">
+            <Original>Convoy Mode active</Original>
+		</Key>
+       <Key ID="STR_QS_Text_343">
+            <Original>Tow Mode</Original>
+		</Key>
+       <Key ID="STR_QS_Text_344">
+            <Original>Rope Cut</Original>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -2796,6 +2976,69 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Hints_146">
             <Original>To add ammunition, select your uniform/vest/backpack on the left panel and add ammunition on the right panel.</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_147">
+            <Original>Altitude Up</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_148">
+            <Original>Altitude Down</Original>
+        </Key>		
+        <Key ID="STR_QS_Hints_149">
+            <Original>Modifier</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_150">
+            <Original>UAV Controls</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_151">
+            <Original>Tow Controls</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_152">
+            <Original>Brakes Toggle</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_153">
+            <Original>Force Move (Unstuck towed vehicle)</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_154">
+            <Original>Rope Length</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_155">
+            <Original>Max Safe Speed</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_156">
+            <Original>kg</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_157">
+            <Original>km/h</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_158">
+            <Original>Difference</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_159">
+            <Original>Difference Limit</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_160">
+            <Original>Speed Threshold</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_161">
+            <Original>Weak Link</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_162">
+            <Original>Cruise Controls</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_163">
+            <Original>Speed</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_164">
+            <Original>Convoy Separation</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_165">
+            <Original>Cancel (Handbrake)</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_166">
+            <Original>Winch (Remote Control)</Original>
+        </Key>
+        <Key ID="STR_QS_Hints_167">
+            <Original>Stand near either end of the rope and use [page up] + [page down] to operate the winch</Original>
         </Key>
     </Container>
     <Container name="QS_xml_chatMessages">
@@ -3612,6 +3855,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Chat_164">
             <Original>Restricted item removed ( %1 )</Original>
         </Key>
+        <Key ID="STR_QS_Chat_165">
+            <Original>Fire Support available:</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_notifications">
         <Key ID="STR_QS_Notif_001">
@@ -4368,6 +4614,15 @@ _____________________________________________________________-->
             <Original>Forward Operating Base</Original>
             <Chinesesimp>前线行动基地(FOB)</Chinesesimp>
             <Chinese>前線行動基地(FOB)</Chinese>
+        </Key>
+        <Key ID="STR_QS_Notif_152">
+            <Original>Fire Support</Original>
+        </Key>
+        <Key ID="STR_QS_Notif_153">
+            <Original>Close Air Support online</Original>
+        </Key>
+        <Key ID="STR_QS_Notif_154">
+            <Original>Fire Support online</Original>
         </Key>
     </Container>
     <Container name="QS_xml_tasks">
@@ -7000,6 +7255,9 @@ _____________________________________________________________-->
             <Chinesesimp>狙击手的准确性</Chinesesimp>
             <Chinese>狙擊手的準確性</Chinese>
         </Key>
+        <Key ID="STR_QS_Menu_196">
+            <Original>Backpack lock</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_roles">
         <Key ID="STR_QS_Role_000">
@@ -7296,6 +7554,9 @@ _____________________________________________________________-->
             <Original>Dynamic Simulation shutting down</Original>
             <Chinesesimp>Dynamic Simulation shutting down</Chinesesimp>
             <Chinese>Dynamic Simulation shutting down</Chinese>
+        </Key>
+        <Key ID="STR_QS_Utility_028">
+            <Original>Unarmed</Original>
         </Key>
     </Container>
     <Container name="QS_xml_dialogs">
@@ -7699,6 +7960,9 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Dialogs_082">
             <Original>Save (%1 / %2)</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_083">
+            <Original>Hangar</Original>
         </Key>
     </Container>
 </Project>
