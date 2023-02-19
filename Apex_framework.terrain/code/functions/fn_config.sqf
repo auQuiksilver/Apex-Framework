@@ -1133,6 +1133,14 @@ if (_worldName isEqualTo 'Stratis') then {
 		} forEach _composition;
 	};
 };
+if (_worldName isEqualTo 'Altis') then {
+	{
+		if ((getPosWorld _x) inPolygon [[5443.56,17947,0],[5387.14,17940.1,0],[5383.96,17933.4,0],[5368.8,17932.5,0],[5343.63,17919,0],[5355.7,17878.1,0],[5364.41,17850.4,0],[5379.65,17850.7,0],[5395.13,17870.1,0],[5434.97,17871.2,0],[5438.15,17916.3,0],[5445.73,17929.3,0]]) then {
+			_x hideObjectGlobal TRUE;
+			_x enableSimulationGlobal FALSE;
+		};
+	} forEach (nearestTerrainObjects [[5398.63,17897.7,0.00141144],[],100,FALSE,TRUE]);
+};
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	missionNamespace setVariable ['QS_baseProtection_polygons',(call (compileScript ['code\config\QS_data_speedLimitAreas.sqf'])),TRUE];
 	missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
@@ -1155,12 +1163,6 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 			_x hideObjectGlobal TRUE; 
 			_x enableSimulationGlobal FALSE;
 		} forEach (nearestTerrainObjects [[14521.2,16778.4,0.0017128],[],5,FALSE,TRUE]);
-		{
-			if ((getPosWorld _x) inPolygon [[5443.56,17947,0],[5387.14,17940.1,0],[5383.96,17933.4,0],[5368.8,17932.5,0],[5343.63,17919,0],[5355.7,17878.1,0],[5364.41,17850.4,0],[5379.65,17850.7,0],[5395.13,17870.1,0],[5434.97,17871.2,0],[5438.15,17916.3,0],[5445.73,17929.3,0]]) then {
-				_x hideObjectGlobal TRUE;
-				_x enableSimulationGlobal FALSE;
-			};
-		} forEach (nearestTerrainObjects [[5398.63,17897.7,0.00141144],[],100,FALSE,TRUE]);
 		0 spawn {
 			private ['_obj','_pos'];
 			_simpleObjects = call (compileScript ['code\config\QS_data_simpleobjects.sqf']);
