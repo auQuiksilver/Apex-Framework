@@ -483,7 +483,7 @@ _____________________________________________________________-->
 		<Key ID="STR_QS_Interact_071">
             <Original>Cancel turret actions</Original>
             <Chinesesimp>取消炮塔保险菜单</Chinesesimp>
-            <Chinese>取消炮塔保险菜单</Chinese>
+            <Chinese>取消炮塔保險選單</Chinese>
             <Spanish>Cancelar acciones de torreta</Spanish>
         </Key>
         <Key ID="STR_QS_Interact_072">
@@ -693,7 +693,7 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_106">
             <Original>Safe Zone</Original>
             <Chinesesimp>基地内禁止使用武器</Chinesesimp>
-            <Chinese>基地内禁止使用武器</Chinese>
+            <Chinese>基地內禁止使用武器</Chinese>
             <Spanish>Zona Segura</Spanish>
         </Key>
         <Key ID="STR_QS_Interact_107">
@@ -705,19 +705,19 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_108">
             <Original>Retract Cargo Ropes</Original>
             <Chinesesimp>收回货物绳索</Chinesesimp>
-            <Chinese>收回货物绳索</Chinese>
+            <Chinese>收回貨物繩索</Chinese>
             <Spanish>Recoger Cuerdas de Carga</Spanish>
         </Key>
         <Key ID="STR_QS_Interact_109">
             <Original>Extend Cargo Ropes</Original>
             <Chinesesimp>延长货物绳索</Chinesesimp>
-            <Chinese>延长货物绳索</Chinese>
+            <Chinese>延長貨物繩索</Chinese>
             <Spanish>Extender Cuerdas de Carga</Spanish>
         </Key>
         <Key ID="STR_QS_Interact_110">
             <Original>Shorten Cargo Ropes</Original>
             <Chinesesimp>缩短货物绳索</Chinesesimp>
-            <Chinese>缩短货物绳索</Chinese>
+            <Chinese>縮短貨物繩索</Chinese>
             <Spanish>Acortar Cuerdas de Carga</Spanish>
         </Key>
         <Key ID="STR_QS_Interact_111">
@@ -2290,7 +2290,7 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Text_241">
             <Original>Cruise Control -</Original>
-            <Chinesesimp>Control de crucero -</Chinesesimp>
+            <Chinesesimp>巡航控制系统 -</Chinesesimp>
             <Chinese>巡航控制系統 -</Chinese>
             <Spanish>Control de crucero -</Spanish>
         </Key>
@@ -2943,63 +2943,63 @@ _____________________________________________________________-->
             <Spanish>Bloquear asiento del conductor</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_391">
-            <Original>Desbloquear asiento del conductor</Original>
+            <Original>Unlock driver seat</Original>
             <Spanish>Desbloquear asiento del conductor</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_392">
-            <Original>Asiento del conductor ocupado</Original>
+            <Original>Driver seat occupied</Original>
             <Spanish>Asiento del conductor ocupado</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_393">
-            <Original>Asiento del conductor desbloqueado</Original>
+            <Original>Driver seat unlocked</Original>
             <Spanish>Asiento del conductor desbloqueado</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_394">
-            <Original>Asiento del conductor bloqueado</Original>
+            <Original>Driver seat locked</Original>
             <Spanish>Asiento del conductor bloqueado</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_395">
-            <Original>Bloquear logística</Original>
+            <Original>Lock logistics</Original>
             <Spanish>Bloquear logística</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_396">
-            <Original>Desbloquear logística</Original>
+            <Original>Unlock logistics</Original>
             <Spanish>Desbloquear logística</Spanish>
 		</Key>	
         <Key ID="STR_QS_Text_397">
-            <Original>Logística desbloqueada</Original>
+            <Original>Logistics unlocked</Original>
             <Spanish>Logística desbloqueada</Spanish>
 		</Key>	
         <Key ID="STR_QS_Text_398">
-            <Original>Logística bloqueada</Original>
+            <Original>Logistics locked</Original>
             <Spanish>Logística bloqueada</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_399">
-            <Original>Error al eliminar - jugadores demasiado cerca (30m) para desmontar</Original>
+            <Original>Delete failed - players too close (30m) for disassembly</Original>
             <Spanish>Error al eliminar - jugadores demasiado cerca (30m) para desmontar</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_400">
-            <Original>Error al eliminar - jugadores demasiado cerca (100m) para eliminación del mapa</Original>
+            <Original>Delete failed - players too close (100m) for map removal</Original>
             <Spanish>Error al eliminar - jugadores demasiado cerca (100m) para eliminación del mapa</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_401">
-            <Original>%1 eliminó tu %2 en la cuadrícula %3</Original>
+            <Original>%1 deleted your %2 at grid %3</Original>
             <Spanish>%1 eliminó tu %2 en la cuadrícula %3</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_402">
-            <Original>No se puede mover esto con jugadores cercanos</Original>
+            <Original>Cannot move this with players nearby</Original>
             <Spanish>No se puede mover esto con jugadores cercanos</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_403">
-            <Original>No se puede construir en esta área</Original>
+            <Original>Cannot build in this area</Original>
             <Spanish>No se puede construir en esta área</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_404">
-            <Original>Ya tienes un vehículo bloqueado (%1)</Original>
+            <Original>Already have a locked vehicle ( %1 )</Original>
             <Spanish>Ya tienes un vehículo bloqueado (%1)</Spanish>
 		</Key>
         <Key ID="STR_QS_Text_405">
-            <Original>Ya tienes un cargamento bloqueado (%1)</Original>
+            <Original>Already have a locked cargo ( %1 )</Original>
             <Spanish>Ya tienes un cargamento bloqueado (%1)</Spanish>
 		</Key>
     </Container>
@@ -3370,31 +3370,31 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Hints_061">
             <Original>[Shift]+[F2] to Exit spectator mode</Original>
             <Chinesesimp>[Shift]+[F2]退出观察者视角</Chinesesimp>
-            <Chinese>[Shift]+[F2]退出观察者视角</Chinese>
+            <Chinese>[Shift]+[F2]退出觀察者視角</Chinese>
             <Spanish>[Mayús]+[F2] para salir del modo espectador</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_062">
             <Original>Invincibility on</Original>
             <Chinesesimp>无敌状态开启</Chinesesimp>
-            <Chinese>无敌状态开启</Chinese>
+            <Chinese>無敵狀態開啟</Chinese>
             <Spanish>Invencibilidad activada</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_063">
             <Original>Invincibility off</Original>
             <Chinesesimp>无敌状态关闭</Chinesesimp>
-            <Chinese>无敌状态关闭</Chinese>
+            <Chinese>無敵狀態關閉</Chinese>
             <Spanish>Invencibilidad desactivada</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_064">
             <Original>Repair failed (No valid target selected)</Original>
             <Chinesesimp>修复失败（未选择有效目标）</Chinesesimp>
-            <Chinese>修复失败（未选择有效目标）</Chinese>
+            <Chinese>修復失敗（未選擇有效目標）</Chinese>
             <Spanish>Reparación fallida (No se seleccionó un objetivo válido)</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_065">
             <Original>Invalid target</Original>
             <Chinesesimp>无效目标</Chinesesimp>
-            <Chinese>无效目标</Chinese>
+            <Chinese>無效目標</Chinese>
             <Spanish>Objetivo inválido</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_066">
@@ -3428,39 +3428,39 @@ _____________________________________________________________-->
             <Spanish>Base limpiada. Ejecutar esta función con demasiada frecuencia aumentará la desincronización de la red.</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_071">
-            <Original>Limpiado. Ejecutar esta función demasiado a menudo aumentará la desincronización de la red.</Original>
+            <Original>cleaned. Executing this function too often will increase network de-sync.</Original>
             <Chinesesimp>已清理。 过于频繁执行该命令会导致网络同步下降。</Chinesesimp>
             <Chinese>已清理。 過於頻繁執行該指令會導致網路同步下降。</Chinese>
             <Spanish>Limpiado. Ejecutar esta función demasiado a menudo aumentará la desincronización de la red.</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_072">
-            <Original>(staff) ha ejecutado</Original>
+            <Original>(staff) has executed</Original>
             <Chinesesimp>(工作人员)已执行</Chinesesimp>
             <Chinese>(工作人員)已執行</Chinese>
             <Spanish>(personal) ha ejecutado</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_073">
-            <Original>Limpieza</Original>
+            <Original>cleanup</Original>
             <Chinesesimp>清理</Chinesesimp>
             <Chinese>清理</Chinese>
             <Spanish>Limpieza</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_074">
-            <Original>Conjunto de Textura de Uniforme:</Original>
+            <Original>Uniform Texture Set:</Original>
             <Chinesesimp>制服皮肤已设置为：</Chinesesimp>
             <Chinese>制服外觀已設定為：</Chinese>
             <Spanish>Conjunto de Textura de Uniforme:</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_075">
-            <Original>Debe estar en la base para cambiar el aspecto de su uniforme.</Original>
+            <Original>You must be at base to re-skin your uniform</Original>
             <Chinesesimp>你必须在基地才能重新换上你的制服</Chinesesimp>
             <Chinese>你必須在基地才能重新換上你的制服</Chinese>
             <Spanish>Debe estar en la base para cambiar el aspecto de su uniforme.</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_076">
             <Original>Uniform Texture Reset</Original>
-            <Chinesesimp>重置制服皮肤</Chinesesimp>
-            <Chinese>重置制服外觀</Chinese>
+            <Chinesesimp>制服皮肤已设置为：</Chinesesimp>
+            <Chinese>制服外觀已設定為：</Chinese>
             <Spanish>Restablecer textura del uniforme</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_077">
@@ -3608,29 +3608,34 @@ _____________________________________________________________-->
             <Spanish>El administrador de simulación está en pausa</Spanish>
         </Key>
         <Key ID = "STR_QS_Hints_101">
-            <Original>Simulación del administrador reanudado</Original>
+            <Original>Simulation Manager resumed</Original>
             <Chinesesimp>模拟管理器恢复</Chinesesimp>
             <Chinese>模擬管理器復原</Chinese>
+            <Spanish>El administrador de simulación se reanudó</Spanish>
         </Key>
         <Key ID = "STR_QS_Hints_102">
-            <Original>Simulación dinámica</Original>
+            <Original>Dynamic Simulation</Original>
             <Chinesesimp>动态模拟</Chinesesimp>
             <Chinese>動態模擬</Chinese>
+            <Spanish>Simulación dinámica</Spanish>
         </Key>
         <Key ID = "STR_QS_Hints_103">
-            <Original>Por favor, espere un corto tiempo (10s) entre intentos de sincronización</Original>
+            <Original>Please wait a short time (10s) between sync attempts</Original>
             <Chinesesimp>请稍等一会儿 (10s) 再尝试同步</Chinesesimp>
             <Chinese>請稍等一會 (10s) 再嘗試同步</Chinese>
+            <Spanish>Por favor, espere un corto tiempo (10s) entre intentos de sincronización</Spanish>
         </Key>
         <Key ID = "STR_QS_Hints_104">
-            <Original>Curador</Original>
+            <Original>Curator</Original>
             <Chinesesimp>宙斯</Chinesesimp>
             <Chinese>宙斯</Chinese>
+            <Spanish>Curador</Spanish>
         </Key>
         <Key ID = "STR_QS_Hints_105">
-            <Original>Actualizando entidades de Zeus</Original>
+            <Original>Updating zeus entities</Original>
             <Chinesesimp>更新宙斯实体</Chinesesimp>
              <Chinese>更新宙斯實體</Chinese>
+            <Spanish>Actualizando entidades de Zeus</Spanish>
         </Key>
         <Key ID="STR_QS_Hints_106">
             <Original>No function</Original>
@@ -4261,26 +4266,31 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Chat_041">
             <Original>FOB Respawn Tickets added:</Original>
             <Chinesesimp>FOB 复活票数增加：</Chinesesimp>
+	    <Chinese>FOB 復活票數增加：</Chinese>
             <Spanish>Se han agregado tickets de reaparición del FOB:</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_042">
             <Original>total tickets:</Original>
             <Chinesesimp>总复活票数：</Chinesesimp>
+	    <Chinese>總復活票數：</Chinese>
             <Spanish>Total de tickets de reaparición:</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_043">
             <Original>%1 supported the FOB with a(n) %2</Original>
             <Chinesesimp>%1 用 %2 为FOB提供了补给</Chinesesimp>
+	    <Chinese>%1 用 %2 為FOB提供了補給</Chinese>
             <Spanish>%1 ha proporcionado apoyo al FOB con un(a) %2</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_044">
             <Original>Base air defense available</Original>
             <Chinesesimp>基地防空系统已激活!</Chinesesimp>
+	    <Chinese>基地防空系統已啟用!</Chinese>
             <Spanish>Defensa antiaérea de la base disponible</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_045">
             <Original>has destroyed a(n)</Original>
             <Chinesesimp>摧毁了一个</Chinesesimp>
+	    <Chinese>摧毀了一個</Chinese>
             <Spanish>ha destruido un(a)</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_046">
@@ -4491,20 +4501,20 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Chat_081">
             <Original>Robocop has banned</Original>
-            <Chinesesimp>Robocop已经封禁了</Chinesesimp>
-            <Chinese>Robocop已經封禁了</Chinese>
+            <Chinesesimp>Robocop已ban此玩家:</Chinesesimp>
+            <Chinese>Robocop已ban此玩家:</Chinese>
             <Spanish>Robocop ha baneado a</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_082">
             <Original>Robocop has kicked</Original>
-            <Chinesesimp>Robocop已经踢出了</Chinesesimp>
-            <Chinese>Robocop已經踢出了</Chinese>
+            <Chinesesimp>Robocop已踢出此玩家:</Chinesesimp>
+            <Chinese>Robocop已踢出此玩家:</Chinese>
             <Spanish>Robocop ha expulsado a</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_083">
             <Original>from the server</Original>
-            <Chinesesimp>从服务器</Chinesesimp>
-            <Chinese>从伺服器</Chinese>
+            <Chinesesimp>从服务器中</Chinesesimp>
+            <Chinese>從伺服器中</Chinese>
             <Spanish>del servidor</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_084">
@@ -4550,31 +4560,31 @@ _____________________________________________________________-->
 			<Spanish>No eres un piloto</Spanish>
 		</Key>
         <Key ID="STR_QS_Chat_091">
-            <Original>ha hackeado un(a)</Original>
+            <Original>has hacked a(n)</Original>
             <Chinesesimp>通过骇入夺取了一个</Chinesesimp>
             <Chinese>透過駭入奪取了一個</Chinese>
             <Spanish>ha hackeado un(a)</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_092">
-            <Original>ha puesto a un prisionero en la cárcel</Original>
+            <Original>has put a prisoner into prison</Original>
             <Chinesesimp>将一名战俘关押在了监狱。</Chinesesimp>
             <Chinese>將一名戰俘關押在了監獄。</Chinese>
             <Spanish>ha puesto a un prisionero en la cárcel</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_093">
-            <Original>%1 ha hecho reaparecer un(a) %2 en la cuadrícula %3</Original>
+            <Original>%1 has respawned a(n) %2 at grid %3</Original>
             <Chinesesimp>%1 在坐标 %3 将一个 %2 重生了</Chinesesimp>
             <Chinese>%1 在坐標 %3 將一個 %2 重生了</Chinese>
             <Spanish>%1 ha hecho reaparecer un(a) %2 en la cuadrícula %3</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_094">
-            <Original>%1 ha capturado una unidad en la cuadrícula %2</Original>
+            <Original>%1 has captured a unit at grid %2</Original>
             <Chinesesimp>%1 在 %2 位置俘虏了一名敌军</Chinesesimp>
             <Chinese>%1 在 %2 位置俘虜了一名敵軍</Chinese>
             <Spanish>%1 ha capturado una unidad en la cuadrícula %2</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_095">
-            <Original>%1 ha autodestruido un(a) %2 en la cuadrícula %3</Original>
+            <Original>%1 self-destructed a(n) %2 at grid %3</Original>
             <Chinesesimp>%1 在坐标 %3 启动自毁程序销毁了一个 %2</Chinesesimp>
             <Chinese>%1 在坐標 %3 啟動自毀程式銷毀了一個 %2</Chinese>
             <Spanish>%1 ha autodestruido un(a) %2 en la cuadrícula %3</Spanish>
@@ -4822,26 +4832,31 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Chat_136">
             <Original>Suspect is null object (action failed)</Original>
             <Chinesesimp>疑似为空对象（行动失败）</Chinesesimp>
+	    <Chinese>疑似為空物件（行動失敗）</Chinese>
             <Spanish>Sospechoso es objeto nulo (acción fallida)</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_137">
             <Original>ROBOCOP believes</Original>
             <Chinesesimp>ROBOCOP认为</Chinesesimp>
+	    <Chinese>ROBOCOP認為</Chinese>
             <Spanish>ROBOCOP cree</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_138">
             <Original>has hacked the server</Original>
             <Chinesesimp>已经入侵了服务器</Chinesesimp>
+	    <Chinese>已經入侵了伺服器</Chinese>
             <Spanish>ha hackeado el servidor</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_139">
             <Original>Detected:</Original>
             <Chinesesimp>检测到:</Chinesesimp>
+	    <Chinese>檢測到:</Chinese>
             <Spanish>Detectado:</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_140">
             <Original>completed its task at grid</Original>
             <Chinesesimp>完成任务于网格:</Chinesesimp>
+	    <Chinese>完成任務於網格:</Chinese>
             <Spanish>completó su tarea en la cuadrícula</Spanish>
         </Key>
         <Key ID="STR_QS_Chat_141">
@@ -5144,8 +5159,8 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Notif_026">
             <Original>Aid worker task succeeded</Original>
-            <Chinesesimp>援助工人任务成功。</Chinesesimp>
-            <Chinese>援助工人任務成功。</Chinese>
+            <Chinesesimp>援助工人任务失败。</Chinesesimp>
+            <Chinese>援助工人任務失敗。</Chinese>
             <Spanish>Tarea de trabajador humanitario completada</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_027">
@@ -5204,8 +5219,8 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Notif_036">
             <Original>Medevac failed (soldier bled out)</Original>
-            <Chinesesimp>医疗撤离失败！伤员失血过多阵亡！</Chinesesimp>
-            <Chinese>醫療撤離失敗！傷員失血過多陣亡！</Chinese>
+            <Chinesesimp>医疗撤离失败！, 伤员失血过多阵亡！</Chinesesimp>
+            <Chinese>醫療撤離失敗！, 傷員失血過多陣亡！</Chinese>
             <Spanish>Evacuación médica fallida (soldado desangrado)</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_037">
@@ -5595,26 +5610,31 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Notif_101">
             <Original>Rescue POW</Original>
             <Chinesesimp>营救 P.O.W.</Chinesesimp>
+	    <Chinese>營救 P.O.W.</Chinese>
             <Spanish>Rescate de prisioneros de guerra (POW)</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_102">
             <Original>POW Mission Failed</Original>
             <Chinesesimp>营救战俘任务失败</Chinesesimp>
+	    <Chinese>營救戰俘任務失敗</Chinese>
             <Spanish>Falló la misión de rescate de prisioneros de guerra (POW)</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_103">
             <Original>POW Mission Completed</Original>
             <Chinesesimp>营救任务成功</Chinesesimp>
+	    <Chinese>營救任務成功</Chinese>
             <Spanish>Completada la misión de rescate de prisioneros de guerra (POW)</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_104">
             <Original>POW Mission Updated</Original>
             <Chinesesimp>营救任务更新</Chinesesimp>
+	    <Chinese>營救任務更新</Chinese>
             <Spanish>Misión de rescate de prisioneros de guerra (POW) actualizada</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_105">
             <Original>The POW has died</Original>
             <Chinesesimp>P.O.W 已死亡！</Chinesesimp>
+	    <Chinese>P.O.W 已死亡！</Chinese>
             <Spanish>El prisionero de guerra (POW) ha muerto</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_106">
@@ -5648,31 +5668,31 @@ _____________________________________________________________-->
             <Spanish>Asegura el helicóptero enemigo</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_111">
-            <Original>Asegurar Inteligencia</Original>
+            <Original>Secure Intel</Original>
             <Chinesesimp>获取情报</Chinesesimp>
             <Chinese>獲取情報</Chinese>
             <Spanish>Asegurar Inteligencia</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_112">
-            <Original>Asegurar Radar</Original>
+            <Original>Secure Radar</Original>
             <Chinesesimp>获取敌军雷达数据</Chinesesimp>
             <Chinese>獲取敵軍雷達資料</Chinese>
             <Spanish>Asegurar Radar</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_113">
-            <Original>Asegurar Depósitos de Armas</Original>
+            <Original>Secure Weapons Caches</Original>
             <Chinesesimp>获取武器箱</Chinesesimp>
             <Chinese>獲取武器箱</Chinese>
             <Spanish>Asegurar Depósitos de Armas</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_114">
-            <Original>El enemigo ha detectado nuestra aproximación</Original>
+            <Original>The enemy has detected our approach</Original>
             <Chinesesimp>敌人发现我们正在靠近</Chinesesimp>
             <Chinese>敵人發現我們正在靠近</Chinese>
             <Spanish>El enemigo ha detectado nuestra aproximación</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_115">
-            <Original>Inteligencia asegurada</Original>
+            <Original>intel secured</Original>
             <Chinesesimp>个设备箱已夺取</Chinesesimp>
             <Chinese>個裝置箱已奪取</Chinese>
             <Spanish>Inteligencia asegurada</Spanish>
@@ -5927,8 +5947,8 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Task_003">
             <Original>Destroy the radio tower. Destroying the radio tower will degrade enemy communications and prevent them from calling in air support. This objective is not accurately marked. The radio tower is somewhere within the surrounding circle.</Original>
-            <Chinesesimp>摧毁无线电塔。 摧毁无线电塔会打击敌军通讯系统并切断他们的空中支援。 我们没有目标的准确位置。 无线电塔在标记区域的某一位置。</Chinesesimp>
-            <Chinese>摧毀無線電塔。 摧毀無線電塔會打擊敵軍通訊系統並切斷他們的空中支援。 我們沒有目標的準確位置。 無線電塔在標記區域的某一位置。</Chinese>
+            <Chinesesimp>摧毁无线电塔。 摧毁无线电塔会打击敌军通讯系统并切断他们的空中支援。 我们没有目标的准确位置。 无线电塔在标记区域的某一位置.</Chinesesimp>
+            <Chinese>摧毀無線電塔。 摧毀無線電塔會打擊敵軍通訊系統並切斷他們的空中支援。 我們沒有目標的準確位置。 無線電塔在標記區域的某一位置.</Chinese>
             <Spanish>Destruye la torre de radio. Destruir la torre de radio degradará las comunicaciones del enemigo y evitará que pidan apoyo aéreo. Este objetivo no está marcado con precisión. La torre de radio está en algún lugar dentro del círculo circundante.</Spanish>
         </Key>
         <Key ID="STR_QS_Task_004">
@@ -6169,7 +6189,7 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Task_043">
             <Original>Locate the CSAT armored vehicle in Georgetown, it will have a tracker we can utilize to locate a number of stolen tablets.</Original>
             <Chinesesimp>找到在Georgetown的CSAT载具，回收上面的信号追踪器，之后在城中寻找被Syndikat窃取散落的情报平板电脑。</Chinesesimp>
-            <Chinese>找到在Georgetown的CSAT裝甲車，回收上面的信號追蹤器，之後在城中尋找被Syndikat竊取散落的情報平板電腦。</Chinese>
+            <Chinese>找到在Georgetown的CSAT載具，回收上面的訊號追蹤器，之後在城中尋找被Syndikat竊取散落的情報平板電腦。</Chinese>
             <Spanish>Localiza el vehículo blindado de CSAT en Georgetown, tendrá un rastreador que podemos utilizar para encontrar una serie de tabletas robadas.</Spanish>
         </Key>
         <Key ID="STR_QS_Task_044">
@@ -6187,7 +6207,7 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Task_046">
             <Original>Move through the city and secure</Original>
             <Chinesesimp>在城市中穿梭并收集 </Chinesesimp>
-            <Chinese>穿越城市并收集情报。</Chinese>
+            <Chinese>在城市中穿梭並收集 </Chinese>
             <Spanish>Atraviesa la ciudad y asegura</Spanish>
         </Key>
         <Key ID="STR_QS_Task_047">
@@ -6247,13 +6267,13 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Task_056">
             <Original>The enemy datalink allows the enemy to more easily communicate and share information on our troop movements, strength and force disposition. With this data they can adapt and better counter our attacks.</Original>
             <Chinesesimp>敌军的数据链增强了敌军通讯能力，让敌军更方便地共享我们的行动、兵力和部队位置。有了这些情报，敌军能更好地抵御我们的进攻并发起反击。</Chinesesimp>
-            <Chinese>La red de datos enemiga permite a los enemigos comunicarse y compartir información sobre nuestros movimientos de tropas, fuerza y disposición de fuerzas con mayor facilidad. Con estos datos, pueden adaptarse y contraatacar mejor nuestros ataques.</Chinese>
+            <Chinese>敵軍的資料鏈增強了敵軍通訊能力，讓敵軍更方便地共享我們的行動、兵力和部隊位置。有了這些情報，敵軍能更好地抵禦我們的進攻並發起反擊。</Chinese>
             <Spanish>La red de datos del enemigo permite una comunicación y compartición de información más fácil acerca de nuestros movimientos de tropas, fuerza y disposición de fuerzas. Con estos datos, ellos pueden adaptarse y contraatacar mejor nuestros ataques.</Spanish>
         </Key>
         <Key ID="STR_QS_Task_057">
             <Original>This datalink also allows them to call in UAV recon support. Securing the datalink will deny the enemy these benefits.</Original>
             <Chinesesimp>数据中心还允许敌军呼叫UAV侦查，夺取这个目标可以让敌军失去这些优势。</Chinesesimp>
-            <Chinese>Esta red de datos también les permite solicitar apoyo de reconocimiento UAV. Asegurar la red de datos negará al enemigo estos beneficios.</Chinese>
+            <Chinese>資料中心還允許敵軍呼叫UAV偵查，奪取這個目標可以讓敵軍失去這些優勢。</Chinese>
             <Spanish>Esta red de datos también les permite llamar apoyo de reconocimiento UAV. Asegurar la red de datos negará al enemigo estos beneficios.</Spanish>
         </Key>
         <Key ID="STR_QS_Task_058">
@@ -6451,7 +6471,7 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Task_090">
             <Original>A local IDAP supply depot has come under attack by insurgents. A nearby civilian reported that one aid worker appeared to be still alive. Your job is to get over there and recover him. Some of the insurgents have already left the scene, taking critical medical supplies with them. You may have to track them down to recover the medical supplies.</Original>
             <Chinesesimp>一个IDAP补给站被叛军攻击，平民报告说有一名IDAP工作人员似乎还活着。我们的任务是赶到那里找到并想办法救治伤员，叛军已经离开补给站，并且带走了重要的医疗物资。我们需要追查他们的行踪以成功找回被抢走的医疗物资。</Chinesesimp>
-            <Chinese>一個IDAP補給站被叛軍攻擊，附近的平民報告說有一名IDAP工作人員還活著。你的任務是前往該地點並找到他，救治他的傷勢。一些叛軍已經離開現場，並帶走了重要的醫療物資，你可能需要跟踪他們以找回被搶走的醫療物資。</Chinese>
+            <Chinese>一個IDAP補給站被叛軍攻擊，平民報告說有一名IDAP工作人員似乎還活著。我們的任務是趕到那裡找到並想辦法救治傷員，叛軍已經離開補給站，並且帶走了重要的醫療物資。我們需要追查他們的行蹤以成功找回被搶走的醫療物資。</Chinese>
         </Key>
         <Key ID="STR_QS_Task_091">
 			<Original>Examine bodies at the scene for clues as to the location of the insurgents.</Original>
@@ -7267,19 +7287,19 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Diary_036">
             <Original>A number of custom radio channels are available for use in-game.</Original>
             <Chinesesimp>在游戏中可以使用一些自定义的无线电频道。</Chinesesimp>
-            <Chinese>在游戏中可以使用一些自定义的无线电频道。</Chinese>
+            <Chinese>在遊戲中可以使用一些自訂的無線電頻道。</Chinese>
             <Spanish>Hay varios canales de radio personalizados disponibles para usar en el juego.</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_037">
             <Original>To access: Press [Home] &gt;&gt; [Comm-Link] &gt;&gt; [Radio Management]</Original>
             <Chinesesimp>要访问。按[home]&gt;&gt;[通讯菜单]&gt;&gt;[无线电管理]。</Chinesesimp>
-            <Chinese>要访问。按[Home] &gt;&gt; [Comm-Link] &gt;&gt; [Radio Management]</Chinese>
+            <Chinese>在遊戲中可以使用一些自訂的無線電頻道。</Chinese>
             <Spanish>Para acceder: Presione [Inicio] &gt;&gt; [Comm-Link] &gt;&gt; [Gestión de Radio].</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_038">
             <Original>A Radio inventory item is required to transmit voice communications.</Original>
             <Chinesesimp>发送语音通信需要一个无线电库存物品。</Chinesesimp>
-            <Chinese>发送语音通信需要一个无线电库存物品。</Chinese>
+            <Chinese>發送語音通信需要一個無線電庫存物品。</Chinese>
             <Spanish>Se requiere un ítem de inventario de Radio para transmitir comunicaciones de voz.</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_039">
@@ -7519,19 +7539,19 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Diary_078">
             <Original>Gitmo</Original>
             <Chinesesimp>关塔那摩</Chinesesimp>
-            <Chinese>关塔那摩</Chinese>
+            <Chinese>關塔那摩</Chinese>
             <Spanish>Guantánamo</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_079">
             <Original>Earn points by imprisoning enemies in "Gitmo".</Original>
             <Chinesesimp>通过在 "监狱 "中监禁敌人来获得积分。</Chinesesimp>
-            <Chinese>通过在 "监狱 "中监禁敌人来获得积分。</Chinese>
+            <Chinese>透過在 "監獄 "中監禁敵人來獲得積分。</Chinese>
             <Spanish>Gana puntos encarcelando enemigos en "Gitmo".</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_080">
             <Original>Multipliers: n/a</Original>
             <Chinesesimp>倍数: n/a</Chinesesimp>
-            <Chinese>倍数: n/a</Chinese>
+            <Chinese>倍數: n/a</Chinese>
             <Spanish>Multiplicadores: n/a</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_081">
@@ -7951,7 +7971,7 @@ _____________________________________________________________-->
             <Spanish>Abortar</Spanish>
         </Key>
         <Key ID="STR_QS_Menu_011">
-            <Original>Salir</Original>
+            <Original>Exit</Original>
             <Chinesesimp>离开</Chinesesimp>
             <Chinese>離開</Chinese>
             <Spanish>Salir</Spanish>
@@ -8770,8 +8790,9 @@ _____________________________________________________________-->
 
 <Key ID="STR_QS_Menu_147">
             <Original>Congratulations! You have been WHITELISTED for a role for the week, for finishing Top 3 on the weekly Leaderboard in that role</Original>
-            <Chinesesimp>¡Felicitaciones! Has sido AGREGADO A LA LISTA BLANCA para un rol por una semana, por terminar en los tres primeros lugares de la tabla de clasificación semanal en ese rol.</Chinesesimp>
-            <Chinese>恭喜！您已被列入一個角色的一周白名單，因為您在該角色的每週排行榜上排名前三。</Chinese>
+            <Spanish>¡Felicitaciones! Has sido AGREGADO A LA LISTA BLANCA para un rol por una semana, por terminar en los tres primeros lugares de la tabla de clasificación semanal en ese rol.</Spanish>
+	    <Chinesesimp>祝贺你! 你被列为本周的白名单，因为你在该角色的每周排行榜上获得了前三名。</Chinesesimp>
+            <Chinesesimp>祝贺你! 你被列为本周的白名单，因为你在该角色的每周排行榜上获得了前三名。</Chinesesimp>
         </Key>
         <Key ID="STR_QS_Menu_148">
             <Original>Briefing</Original>
