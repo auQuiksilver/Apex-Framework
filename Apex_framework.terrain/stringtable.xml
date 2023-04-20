@@ -6089,8 +6089,7 @@ _____________________________________________________________-->
             <Chinese>這個任務必須執行的精準又迅速。 如果HVT發現我們接近，他會試圖摧毀情報。 此外，情報裝置具有生物識別模組，HVT死亡後情報裝置會在短時間內自毀。</Chinese>
             <Spanish>Esta misión debe ser ejecutada con cuidado y velocidad. Si detecta nuestra presencia en el área, intentará destruir la información. Además, el dispositivo de información que tiene funciona con autorización biométrica. Si su corazón se detiene, se autodestruirá después de un corto tiempo.</Spanish>
         </Key>
-               </Key>
-		<Key ID="STR_QS_Task_027">
+	<Key ID="STR_QS_Task_027">
             <Original>Satellite data appears to show he has a security detail with him.</Original>
             <Chinesesimp>卫星情报显示HVT有安保力量保护。</Chinesesimp>
             <Chinese>衛星情報顯示HVT有安保力量保護。</Chinese>
@@ -6426,7 +6425,7 @@ _____________________________________________________________-->
             <Chinese>奪取研究資料！ 敵軍正在進行武器試驗研究，我們發現了他們其中一個研究地點的大概位置，立即出發奪取他們的研究資料！ 目標地點在作戰區域內某個位置。</Chinese>
             <Spanish>¡Apoderarse de los datos de investigación! El enemigo está llevando a cabo investigaciones de prueba de armas, y ha dejado una de sus estaciones de investigación poco protegida. ¡Ve allí y descarga la información! Este objetivo no está marcado con precisión.</Spanish>
         </Key>
-		<Key ID="STR_QS_Task_083">
+	<Key ID="STR_QS_Task_083">
             <Original>Seize Research Data</Original>
             <Chinesesimp>夺取研究数据</Chinesesimp>
             <Chinese>奪取研究資料</Chinese>
@@ -6472,6 +6471,7 @@ _____________________________________________________________-->
             <Original>A local IDAP supply depot has come under attack by insurgents. A nearby civilian reported that one aid worker appeared to be still alive. Your job is to get over there and recover him. Some of the insurgents have already left the scene, taking critical medical supplies with them. You may have to track them down to recover the medical supplies.</Original>
             <Chinesesimp>一个IDAP补给站被叛军攻击，平民报告说有一名IDAP工作人员似乎还活着。我们的任务是赶到那里找到并想办法救治伤员，叛军已经离开补给站，并且带走了重要的医疗物资。我们需要追查他们的行踪以成功找回被抢走的医疗物资。</Chinesesimp>
             <Chinese>一個IDAP補給站被叛軍攻擊，平民報告說有一名IDAP工作人員似乎還活著。我們的任務是趕到那裡找到並想辦法救治傷員，叛軍已經離開補給站，並且帶走了重要的醫療物資。我們需要追查他們的行蹤以成功找回被搶走的醫療物資。</Chinese>
+	    <Spanish>Un depósito local de suministros de IDAP ha sido atacado por insurgentes. Un civil cercano informó que un trabajador humanitario parecía estar todavía con vida. Tu trabajo es ir allí y recuperarlo. Algunos de los insurgentes ya han abandonado el lugar, llevándose suministros médicos críticos con ellos. Puede que tengas que rastrearlos para recuperar los suministros médicos.</Spanish>
         </Key>
         <Key ID="STR_QS_Task_091">
 			<Original>Examine bodies at the scene for clues as to the location of the insurgents.</Original>
