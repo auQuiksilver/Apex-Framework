@@ -14,6 +14,20 @@ Description:
 __________________________________________________*/
 
 params ['_module','_group'];
+_leader = leader _group;
+if (
+	(isNull (objectParent _leader)) &&
+	{(uiNamespace getVariable ['QS_uiaction_alt',FALSE])} &&
+	{(!isNull curatorCamera)}
+) then {
+	_leader setDir (curatorCamera getDirVisual _leader);
+	_group setFormDir (curatorCamera getDirVisual _leader);
+	{
+		if (_x isNotEqualTo _leader) then {
+			_x setPosASL (AGLToASL (formationPosition _x));
+		};
+	} forEach (units _group);
+};
 {
 	_x enableAIFeature ['AUTOCOMBAT',FALSE];
 	//_x enableAIFeature ['COVER',FALSE];

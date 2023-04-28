@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/04/2018 A3 1.90 by Quiksilver
+	9/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,18 @@ _______________________________________________/*/
 
 params [['_unitsArray',[]],['_skillLevel',1]];
 if ((_unitsArray isEqualTo []) || (!(_skillLevel in [0,1,2,3,4]))) exitWith {};
-private ['_aimingAccuracyDefault','_aimingAccuracy','_aimingShake','_aimingSpeed','_commanding','_courage','_endurance','_general','_reloadSpeed','_spotDistance','_spotTime','_fleeing','_unit'];
+private _aimingAccuracyDefault = 	[0.15,0.17] select ((count allPlayers) > 20);
+private _aimingAccuracy = 			[_aimingAccuracyDefault,0.14] select ((random 1) > 0.5);
+private _aimingShake = 				random [0.55,0.6,0.65];
+private _aimingSpeed = 				random [0.4,0.45,0.5];
+private _commanding = 				1;
+private _courage = 					1;
+private _endurance = 				1;
+private _general = 					1;
+private _reloadSpeed = 				random [0.5,0.55,0.6];
+private _spotDistance = 			random [0.55,0.6,0.65];
+private _spotTime = 				random [0.55,0.6,0.65];
+private _fleeing = 					0;
 if (worldName isEqualTo 'Tanoa') then {
 	_aimingAccuracyDefault = [0.1,0.13] select ((count allPlayers) > 20);
 	// no skill
@@ -161,12 +172,16 @@ if (worldName isEqualTo 'Tanoa') then {
 		_fleeing = 			0;
 	};
 };
+private _unit = objNull;
+private _skills = [];
 {
 	_unit = _x;
 	_unit setSkill 0.5;
 	_unit allowFleeing _fleeing;
+	_skills = [];
 	{
 		_unit setSkill _x;
+		_skills pushBack _x;
 	} forEach [
 		['aimingAccuracy',_aimingAccuracy],
 		['aimingShake',_aimingShake],
@@ -179,4 +194,5 @@ if (worldName isEqualTo 'Tanoa') then {
 		['spotDistance',_spotDistance],
 		['spotTime',_spotTime]
 	];
+	_unit setVariable ['QS_AI_unit_skill',_skills,FALSE];
 } forEach _unitsArray;

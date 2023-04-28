@@ -81,14 +81,14 @@ _trawlerPos = [_flatPos,200,300,10,2,1,0] call (missionNamespace getVariable 'QS
 _assault_boatPos = [_flatPos,15,25,10,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 
 /*/--------- ENEMY HMG _boat (SEEMS RIGHT SINCE ITS BY THE COAST)/*/
-_boatType = ['O_boat_Armed_01_hmg_F','O_T_Boat_Armed_01_hmg_F'] select (worldName isEqualTo 'Tanoa');
-_boat = createVehicle [_boatType,_boatPos,[],0,'NONE'];
+_boatType = 'O_boat_Armed_01_hmg_F';
+_boat = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _boatType,_boatType],_boatPos,[],0,'NONE'];
 _boat setDir (random 360);
 _smuggleGroup = createGroup [EAST,TRUE];
-_diverType = ['O_diver_F','O_T_Diver_F'] select (worldName isEqualTo 'Tanoa');
+_diverType = 'O_diver_F';
 
 for '_x' from 0 to 4 step 1 do {
-	_smuggleGroup createUnit [_diverType,_boatPos,[],0,'NONE'];
+	_smuggleGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _diverType,_diverType],_boatPos,[],0,'NONE'];
 };
 _smuggleGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 {
@@ -112,7 +112,7 @@ _trawler = createVehicle ['C_boat_Civil_04_F',_trawlerPos,[],0,'NONE'];
 _trawler setDir (random 360);
 _trawler allowDamage FALSE;
 
-_assault_boat = createVehicle ['O_boat_Transport_01_F',_assault_boatPos,[],0,'NONE'];
+_assault_boat = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI 'o_boat_transport_01_f','o_boat_transport_01_f'],_assault_boatPos,[],0,'NONE'];
 _assault_boat setDir (random 360);
 _assault_boat allowDamage FALSE;
 {_x lock 3;} count [_boat,_assault_boat];

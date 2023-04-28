@@ -18,6 +18,7 @@ private _return = [];
 private _grp = grpNull;
 private _unit = objNull;
 private _spawnPosition = [0,0,0];
+private _vType = '';
 private _grpTypes = [
 	'OG_InfTeam',
 	'OG_InfTeam_AT',
@@ -45,7 +46,8 @@ if (_type isEqualTo 0) exitWith {
 		};
 		if ((random 1) > 0) then {
 			_spawnPosition = ['RADIUS',_position,150,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-			_v = createVehicle [(selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),_spawnPosition,[],0,'NONE'];
+			_vType = selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
+			_v = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vType,_vType],_spawnPosition,[],0,'NONE'];
 			_v lock 3;
 			_return pushBack _v;
 			_v addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
@@ -143,8 +145,10 @@ if (_type isEqualTo 1) exitWith {
 		_houseGrp = createGroup [EAST,TRUE];
 		private _houseBuildingPosition = [0,0,0];
 		private _houseBuildingPositionIndex = -1;
+		private _type = '';
 		for '_x' from 0 to ((round ((count _houseBuildingPositions) - 1)) min _maxCount) step 1 do {
-			_unit = _houseGrp createUnit [(selectRandom _unitTypesAll),_housePosition,[],15,'NONE'];
+			_type = selectRandom _unitTypesAll;
+			_unit = _houseGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_housePosition,[],15,'NONE'];
 			_houseBuildingPosition = selectRandom _houseBuildingPositions;
 			_houseBuildingPositionIndex = _houseBuildingPositions find _houseBuildingPosition;
 			_houseBuildingPositions set [_houseBuildingPositionIndex,FALSE];

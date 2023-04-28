@@ -13,7 +13,7 @@ Description:
 	OPFOR respawn
 ________________________________________/*/
 
-params [['_unit',player],'_pos'];
+params [['_unit',player],['_pos',markerPos 'respawn_east']];
 if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) then {
 	private _positionFound = FALSE;
 	if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) isEqualTo 'CLASSIC') then {

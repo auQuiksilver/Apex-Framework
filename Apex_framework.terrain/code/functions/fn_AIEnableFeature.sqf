@@ -45,6 +45,9 @@ params [
 	['_ai',[]],
 	['_onOff',TRUE]
 ];
+if (_type isEqualTo 4) exitWith {
+	_units enableAIFeature [_ai,_onOff];
+};
 if (_type isEqualTo 0) exitWith {
 	private _unit = objNull;
 	if (_units isEqualType []) then {
@@ -161,7 +164,4 @@ if (_type isEqualTo 3) exitWith {
 	{
 		_unit enableAIFeature [_x # 0,_x # 1];
 	} forEach _units;
-};
-if (_type isEqualTo 4) exitWith {
-	_units enableAIFeature [_ai,_onOff];
 };

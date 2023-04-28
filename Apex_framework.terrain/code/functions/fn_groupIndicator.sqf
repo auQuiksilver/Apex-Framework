@@ -1,13 +1,12 @@
 /*/
 File: fn_groupIndicator.sqf
-Script Name: QuackTac Fireteam HUD
 Author:
 
 	Quiksilver
 	
 Last modified:
 
-	12/01/2019 A3 1.88 by Quiksilver
+	23/01/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -15,14 +14,15 @@ Description:
 __________________________________________________/*/
 
 if ((_this # 0) isEqualType controlNull) exitWith {
-	_player = player;
+	_player = QS_player;
 	if (
 		(!isNull (objectParent _player)) ||
+		{(!isGameFocused)} ||
 		{(visibleCompass)} ||
 		{(visibleMap)} ||
 		{(!alive _player)} ||
 		{(captive _player)} ||
-		{(((uavControl (getConnectedUav _player)) # 1) isNotEqualTo '')} ||
+		{(!isNull (getConnectedUAVUnit _player))} ||
 		{(cameraOn isNotEqualTo (vehicle _player))} ||
 		{((count (units _player)) < 2)} ||
 		{(!isNull curatorCamera)}
@@ -46,7 +46,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 		((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1002) ctrlSetText 'media\images\icons\squadback.paa';
 	};
 	if (
-		('ItemCompass' in (assignedItems _player)) &&
+		((QS_client_assignedItems_lower findAny QS_core_classNames_itemCompasses) isNotEqualTo -1) &&
 		(!(missionNamespace getVariable ['QS_module_gpsJammer_inArea',FALSE]))
 	) then {
 		if ((toLowerANSI (ctrlText ((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1003))) isNotEqualTo 'media\images\icons\squadradarcompassbackgroundtexture_ca.paa') then {
@@ -63,8 +63,8 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 			((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1003) ctrlSetAngle [0,0.5,0.5];
 		};
 	};
-	_groupedUnits = missionNamespace getVariable ['QS_client_groupIndicator_units',[]];
-	if (_groupedUnits isNotEqualTo []) then {
+	_areaUnits = missionNamespace getVariable ['QS_client_groupIndicator_units',[]];
+	if (_areaUnits isNotEqualTo []) then {
 		private _unit = objNull;
 		private _unitVehicle = objNull;
 		private _unitType = '';
@@ -76,13 +76,13 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 		private _colorTeam = [0,0,0,0];
 		{
 			_unit = _x;
-			if (alive _unit) then {
-				_unitVehicle = vehicle _unit;
+			_unitVehicle = vehicle _unit;
+			_pos = _lc2 getPos [
+				((_player distance2D _unitVehicle) / 15),
+				((_player getDirVisual _unitVehicle) - _viewVector)
+			];
+			if (_unit in (units _grp)) then {
 				_grpLeader = leader _grp;
-				_pos = _lc2 getPos [
-					((_player distance2D _unitVehicle) / 15),
-					((_player getDir _unitVehicle) - _viewVector)
-				];
 				if (_unit isEqualTo _player) then {
 					if (_player isEqualTo _grpLeader) then {
 						if ((groupSelectedUnits _player) isNotEqualTo []) then {
@@ -93,7 +93,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 								_selectedUnit = _x;
 								_distToSelectedUnit = _player distance2D _selectedUnit;
 								if ((_distToSelectedUnit < 46) && (_distToSelectedUnit > 2)) then {
-									_posSelectedUnit = _lc2 getPos [(_distToSelectedUnit / 15),((_player getDir _selectedUnit) - _viewVector)];
+									_posSelectedUnit = _lc2 getPos [(_distToSelectedUnit / 15),((_player getDirVisual _selectedUnit) - _viewVector)];
 									0 = _toDrawLines pushBack [_pos,_posSelectedUnit,[0,1,1,0.5]];
 								};
 							} count (groupSelectedUnits _player);
@@ -101,7 +101,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 					} else {
 						_distToLeader = _player distance2D _grpLeader;
 						if ((_distToLeader < 46) && (_distToLeader > 2)) then {
-							_posLeader = _lc2 getPos [(_distToLeader / 15),((_player getDir _grpLeader) - _viewVector)];
+							_posLeader = _lc2 getPos [(_distToLeader / 15),((_player getDirVisual _grpLeader) - _viewVector)];
 							0 = _toDrawLines pushBack [_pos,_posLeader,[0,1,1,0.5]];
 						};
 					};
@@ -117,9 +117,14 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 				if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 					_colorTeam = [1,(([0.41,(0.41 * ((((_unit getVariable ['QS_revive_downtime',serverTime]) + 600) - serverTime) / 600))] select (isPlayer _unit)) max 0),0,1];
 				};
+				if (!((lifeState _unit) in ['HEALTHY','INJURED','INCAPACITATED'])) then {
+					_colorTeam set [3,0.25];
+				};
 				if ((isPlayer _unit) && ((getPlayerChannel _unit) isNotEqualTo -1)) then {
+					_unit setRandomLip TRUE;
 					_icon = 'a3\ui_f\data\igui\rscingameui\rscdisplayvoicechat\microphone_ca.paa';
 				} else {
+					_unit setRandomLip FALSE;
 					_unitType = typeOf _unitVehicle;
 					if ((isPlayer _unit) && {(_unitType isKindOf 'CAManBase')}) then {
 						_icon = _unit getVariable ['QS_unit_role_icon',-1];
@@ -127,21 +132,22 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 							_icon = ['GET_ROLE_ICONMAP',(_unit getVariable ['QS_unit_role','rifleman']),_unit] call (missionNamespace getVariable 'QS_fnc_roles');
 						};
 					} else {
-						_icon = missionNamespace getVariable [format ['QS_ST_iconType#%1',_unitType],''];
-						if (_icon isEqualTo '') then {
-							_icon = getText (configFile >> 'CfgVehicles' >> _unitType >> 'icon');
-							missionNamespace setVariable [format ['QS_ST_iconType#%1',_unitType],_icon,FALSE];
-						};
+						_icon = QS_hashmap_configfile getOrDefaultCall [
+							format ['cfgvehicles_%1_icon',toLowerANSI _unitType],
+							{getText ((configOf _unitVehicle) >> 'icon')},
+							TRUE
+						];
 					};
 				};
-				if (
-					(alive _unit) &&
-					{(_unit isEqualTo (effectiveCommander _unitVehicle))}
-				) then {
-					_map drawIcon [_icon,_colorTeam,_pos,15,15,((getDirVisual _unit) - _viewVector),'',1,0,'RobotoCondensed','right'];
+				if (_unit isEqualTo (effectiveCommander _unitVehicle)) then {
+					_map drawIcon [_icon,_colorTeam,_pos,15,15,((getDirVisual _unit) - _viewVector)];
+				};
+			} else {
+				if ((_player distance2D _unit) < 46) then {
+					_map drawIcon ['a3\ui_f\data\igui\RscCustomInfo\Sensors\Targets\EnemyMan_ca.paa',[1,1,1,([0.25,1] select ((lifeState _unit) in ['HEALTHY','INJURED','INCAPACITATED']))],_pos,10,10,0];
 				};
 			};
-		} count _groupedUnits;
+		} count _areaUnits;
 	};
 	if (_toDrawLines isNotEqualTo []) then {
 		{
@@ -149,7 +155,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 		} count _toDrawLines;
 	};
 };
-if ((_this # 0) isEqualTo 'Init') then {
+if ((_this # 0) isEqualTo 'Init') exitWith {
 	disableSerialization;
 	if (!isNil {player getVariable 'QS_HUD_3'}) exitWith {};
 	16000 cutRsc ['QS_RD_dialog_hud','PLAIN'];
@@ -173,15 +179,22 @@ if ((_this # 0) isEqualTo 'Init') then {
 	player setVariable ['QS_HUD_3',(_map ctrlAddEventHandler ['Draw',{call (missionNamespace getVariable 'QS_fnc_groupIndicator')}]),FALSE];
 	_map ctrlMapAnimAdd [0,0.00074 / (_sizeUI * _sizeCoef),[68,65]];
 	ctrlMapAnimCommit _map;
-	((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1002) ctrlSetPosition (ctrlPosition((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1001));
+	private _radarPos = ctrlPosition ((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1001);
+	if ((profileNamespace getVariable ['QS_hud_radar_pos',[]]) isNotEqualTo []) then {
+		_radarPos = profileNamespace getVariable ['QS_hud_radar_pos',[]];
+	};
+	((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1002) ctrlSetPosition _radarPos;
 	((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1002) ctrlCommit 0;
-	((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1003) ctrlSetPosition (ctrlPosition((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1001));
+	((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1003) ctrlSetPosition _radarPos;
 	((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1003) ctrlCommit 0;
 };
-if ((_this # 0) isEqualTo 'Exit') then {
+if ((_this # 0) isEqualTo 'Exit') exitWith {
 	disableSerialization;
 	_map = (uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1001;
 	_map ctrlRemoveEventHandler ['Draw',(player getVariable 'QS_HUD_3')];
 	player setVariable ['QS_HUD_3',nil,FALSE];
 	16000 cutText ['','PLAIN'];
+};
+if ((_this # 0) isEqualTo 'Update_Pos') exitWith {
+	// WIP
 };

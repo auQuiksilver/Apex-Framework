@@ -138,9 +138,9 @@ if (_type isEqualTo 1) then {
 	if (_command isEqualTo 'SPEED_FULL') then {_group setSpeedMode 'FULL';};
 
 	if (_command isEqualTo 'COMBAT_STEALTH') then {_group setBehaviourStrong 'STEALTH';};
-	if (_command isEqualTo 'COMBAT_DANGER') then {_group setBehaviour 'COMBAT';};
+	if (_command isEqualTo 'COMBAT_DANGER') then {_group setBehaviourStrong 'COMBAT';};
 	if (_command isEqualTo 'COMBAT_AWARE') then {_group setBehaviourStrong 'AWARE';};
-	if (_command isEqualTo 'COMBAT_SAFE') then {_group setBehaviour 'SAFE';};
+	if (_command isEqualTo 'COMBAT_SAFE') then {_group setBehaviourStrong 'SAFE';};
 
 	if (_command isEqualTo 'COLUMN') then {_group setFormation 'COLUMN';};
 	if (_command isEqualTo 'STAG COLUMN') then {_group setFormation 'STAG COLUMN';};

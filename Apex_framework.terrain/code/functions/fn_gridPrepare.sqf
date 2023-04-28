@@ -67,6 +67,9 @@ if (sunOrMoon isNotEqualTo 1) then {
 		[1,_this,400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 	};
 };
+
+'respawn_east' setMarkerPos _aoPos;
+
 //comment 'Civ vehicles';
 if (!isNil {_terrainData # 1}) then {
 	if ((count (_terrainData # 1)) > 15) then {

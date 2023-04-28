@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	19/08/2022 A3 2.10 by Quiksilver
+	30/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -16,26 +16,17 @@ ______________________________________________________/*/
 if (!isNil {missionNamespace getVariable 'QS_init_doorCloser'}) exitWith {
 	hint parseText 'Uho! It appears something has gone wrong. Please report this error code to staff:<br/><br/>191<br/><br/>Thank you for your assistance.';
 };
-diag_log format ['***** Mission Profile Namespace Loaded - %1 *****',isMissionProfileNamespaceLoaded];
+missionNamespace setVariable ['QS_player',player,FALSE];
 if (!isMissionProfileNamespaceLoaded) then {
     saveMissionProfileNamespace;
-	diag_log format ['***** Mission Profile Namespace Loaded - %1 *****',isMissionProfileNamespaceLoaded];
 };
 missionNamespace setVariable ['QS_init_doorCloser',TRUE,FALSE];
 uiNamespace setVariable ['BIS_fnc_advHint_hintHandlers',TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
-	['BASE'] call (missionNamespace getVariable 'QS_fnc_localObjects');
+	['BASE'] spawn (missionNamespace getVariable 'QS_fnc_localObjects');
 };
-sleep 1;
-private ['_validated','_playerClass','_reviveSetup','_roleDescription','_exit','_qs_1pv','_position','_qs_stamina','_stamina','_aimcoef','_spawnPos','_QS_radioChannels','_QS_radioChannels_profile'];
-_exit = FALSE;
-_uid = getPlayerUID player;
-_roleDescription = roleDescription player;
-_playerClass = typeOf player;
-_validated = [_uid] call (missionNamespace getVariable 'QS_fnc_atNameCheck');
-if (!(_validated)) exitWith {};
-_fn_inString = missionNamespace getVariable 'QS_fnc_inString';
-if (_uid in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
+if (!([getPlayerUID player] call (missionNamespace getVariable 'QS_fnc_atNameCheck'))) exitWith {};
+if ((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	_code = compileFinal "
 		params ['','','','_array'];
 		_array params ['_object','_action'];
@@ -89,7 +80,7 @@ if (isNil {missionProfileNamespace getVariable 'QS_stamina'}) then {
 	missionProfileNamespace setVariable ['QS_stamina',FALSE];
 	saveMissionProfileNamespace;
 } else {
-	_qs_stamina = missionProfileNamespace getVariable ['QS_stamina',[TRUE,0.1]];
+	private _qs_stamina = missionProfileNamespace getVariable ['QS_stamina',[TRUE,0.1]];
 	if (_qs_stamina isEqualType []) then {
 		_qs_stamina params ['_stamina','_aimcoef'];
 		if (!(_aimcoef isEqualType 0)) then {
@@ -132,7 +123,7 @@ if (isNil {missionProfileNamespace getVariable 'QS_1PV'}) then {
 	missionProfileNamespace setVariable ['QS_1PV',FALSE];
 	saveMissionProfileNamespace;
 } else {
-	_qs_1pv = missionProfileNamespace getVariable 'QS_1PV';
+	private _qs_1pv = missionProfileNamespace getVariable 'QS_1PV';
 	if (_qs_1pv isEqualType TRUE) then {
 		player setVariable ['QS_1PV',[(missionProfileNamespace getVariable 'QS_1PV'),time],FALSE];
 	};
@@ -158,7 +149,6 @@ if (!isNil {missionProfileNamespace getVariable 'QS_QTHUD'}) then {
 		missionNamespace setVariable ['QS_atClientMisc',nil,FALSE];
 	};
 };
-
 if (!isNil {missionNamespace getVariable 'RscMissionStatus_draw3D'}) then {
 	removeMissionEventHandler ['Draw3D',(missionNamespace getVariable ['RscMissionStatus_draw3D',-1])];
 };
@@ -171,6 +161,8 @@ private _weaponsList = configFile >> 'CfgWeapons';
 } forEach [
 	['BIS_fnc_showNotification_queue',[],FALSE],
 	['RscMissionStatus_draw3D',-9,FALSE],
+	['QS_hashmap_configfile',createHashMap,FALSE],
+	['QS_hashmap_simpleObjectInfo',createHashMap,FALSE],
 	['QS_dynSim_script',scriptNull,FALSE],
 	['QS_medSys',FALSE,FALSE],
 	['QS_client_deltaVD',scriptNull,FALSE],
@@ -321,11 +313,19 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_client_loadoutTarget',objNull,FALSE],
 	['QS_hashmap_tracers',createHashMapFromArray (call QS_data_tracers),FALSE],
 	['QS_hashmap_rockets',createHashMapFromArray (call QS_data_rockets),FALSE],
-	['QS_session_weaponsList',((missionProfileNamespace getVariable ['QS_profile_weaponsList',[]]) select {(isClass (_weaponsList >> _x))})],
-	['QS_session_magazineList',[]],
-	['QS_session_weaponMagazines',createHashMap],
-	['QS_client_hashmap_ammoConfig',createHashMap],
-	['QS_client_ragdoll_script',scriptNull]
+	['QS_session_weaponsList',((missionProfileNamespace getVariable ['QS_profile_weaponsList',[]]) select {(isClass (_weaponsList >> _x))}),FALSE],
+	['QS_session_magazineList',[],FALSE],
+	['QS_session_weaponMagazines',createHashMap,FALSE],
+	['QS_client_hashmap_ammoConfig',createHashMap,FALSE],
+	['QS_client_ragdoll_script',scriptNull,FALSE],
+	['QS_client_dynamicActionText',[],FALSE],
+	['QS_simpleWinch_actionAttach',-1,FALSE],
+	['QS_simpleWinch_actionRelease',-1,FALSE],
+	['QS_simpleWinch_actionUnhook',-1,FALSE],
+	['QS_pullrelease_action',-1,FALSE],
+	['QS_ui_3DCursorTargets',[],FALSE],
+	['QS_hashmap_boundingBoxes',createHashMap,FALSE],
+	['QS_cas_JetsDLCEnabled',(601670 in (getDLCs 1)),FALSE]
 ];
 _weaponsList = nil;
 if ((missionProfileNamespace getVariable ['QS_IA_joinToken',0]) < 10) then {
@@ -334,7 +334,7 @@ if ((missionProfileNamespace getVariable ['QS_IA_joinToken',0]) < 10) then {
 			(missionNamespace getVariable 'QS_client_baseIcons') pushBack [
 				'a3\ui_f\data\igui\cfg\simpleTasks\types\rearm_ca.paa',
 				[1,1,1,1],
-				[((position _x) # 0),((position _x) # 1),(((position _x) # 2) - 1)],
+				((position _x) vectorAdd [0,0,-1]),
 				0.75,
 				0.75,
 				0
@@ -342,53 +342,59 @@ if ((missionProfileNamespace getVariable ['QS_IA_joinToken',0]) < 10) then {
 		} forEach (missionNamespace getVariable ['QS_arsenals',[]]);
 	};
 };
-if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0) then {
+if ((call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0) then {
 	missionNamespace setVariable ['BIS_dg_fia',nil,FALSE];
 };
+/*/====================== LOCAL VARS/*/
+
+{
+	localNamespace setVariable _x;
+} forEach [
+	['QS_client_lockedDrivers',[]],
+	['QS_client_lockedLogistics',[]]
+];
 
 /*/====================== UI VARS/*/
 {
 	uiNamespace setVariable _x;
 } forEach [
+	['QS_client_progressVisualization_active',FALSE],
 	['RscMissionStatus_display',displayNull],
 	['BIS_fnc_advHint_hintHandlers',TRUE],
 	['RscEGSpectator_availableInsignias',((configFile >> 'CfgUnitInsignia') call (missionNamespace getVariable 'BIS_fnc_getCfgSubClasses'))],
 	['QS_ui_timeLastRadioIn',diag_tickTime],
 	['QS_ui_timeLastRadioOut',diag_tickTime],
 	['QS_ui_mousePosition',getMousePosition],
-	['QS_client_menu_interaction',FALSE]
+	['QS_client_menu_interaction',FALSE],
+	['QS_client_playerViewChanged',TRUE],
+	['QS_client_uiLastAction',diag_tickTime],
+	['QS_client_afkTimeout',diag_tickTime],
+	['QS_eval_frameInterval_30',0]
 ];
-
-/*/====================== PLAYER OBJECT VARS/*/
+/*/====================== PLAYER OBJECT =====/*/
 {
 	player setVariable _x;
 } forEach [
 	['BIS_noCoreConversations',TRUE,FALSE],
 	['QS_soundVolume',soundVolume,FALSE],
 	['QS_combatDeafness',time,FALSE],
-	['QS_seated',FALSE,FALSE],
 	['QS_repackingMagazines',time,FALSE],
 	['QS_animDone',FALSE,FALSE],
 	['QS_revive_respawnType','',FALSE],
-	['QS_RD_earplugs',FALSE,FALSE],
-	['QS_RD_soundVolume',soundVolume,FALSE],
 	['QS_earsCollected_session',0,FALSE],
 	['QS_revive_killedVehiclePosition',[],FALSE],
-	['QS_backpack_data',[(backpack player),(backpackItems player),(backpackMagazines player)],FALSE],
-	['QS_backpack_lockState',FALSE,TRUE],
-	['QS_backpack_lockTime',(time + 1),FALSE],
+	['QS_module_fob_client_respawnEnabled',TRUE,TRUE],
+	['QS_lockedInventory',(missionProfileNamespace getVariable ['QS_lockedInventory',FALSE]),TRUE],
+	['QS_respawn_disable',-1,FALSE],
 	['QS_client_vehicleEventHandlers',[],FALSE],
-	['QS_client_afkTimeout',time,FALSE],
 	['QS_client_hqLastSmoke',time,FALSE],
 	['QS_client_assembledWeapons',[],FALSE],
 	['QS_client_createdBoat',objNull,FALSE],
 	['QS_client_lastGesture',time,FALSE],
 	['QS_client_sectorScanLastRequest',time,FALSE],
 	['QS_client_hc_waypoint',[],FALSE],
-	['QS_client_uiLastAction',diag_tickTime,FALSE],
 	['QS_client_soundControllers',[(getAllSoundControllers (vehicle player)),(getAllEnvSoundControllers (getPosWorld player))],FALSE],
 	['QS_client_lastMedevacRequest',diag_tickTime,FALSE],
-	['QS_respawn_disable',-1,FALSE],
 	['QS_client_medevacRequested',FALSE,FALSE],
 	['QS_client_inBaseArea',FALSE,FALSE],
 	['QS_client_inFOBArea',FALSE,FALSE],
@@ -397,27 +403,13 @@ if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 
 	['QS_client_revivedAtHospital',-1,FALSE],
 	['QS_client_animCancel',FALSE,FALSE],
 	['QS_client_currentAnim',(animationState player),FALSE],
-	['QS_client_playerViewChanged',TRUE,FALSE],
-	['QS_module_fob_client_respawnEnabled',TRUE,TRUE],
 	['QS_client_shots',0,FALSE],
 	['QS_client_hits',0,FALSE],
 	['QS_client_shots_sniper',0,FALSE],
-	['QS_client_hits_sniper',0,FALSE]
+	['QS_client_hits_sniper',0,FALSE],
+	['QS_client_lastCombatDamageTime',-1,FALSE],
+	['QS_unit_side',WEST,TRUE]
 ];
-/*/===== Remove BI Event Handlers/*/
-
-/*/	This removes some unnecessary BIS stuff, but also breaks some mods
-{
-	player removeAllEventHandlers _x;
-} forEach [
-	'PostReset',
-	'SoundPlayed',
-	'HandleDamage',
-	'Explosion',
-	'Respawn'
-];
-/*/
-
 // Remove BIS Zeus stuff
 if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	player removeMPEventHandler ['MPRespawn',(player getVariable 'BIS_fnc_addCuratorPlayer_handler')];
@@ -434,8 +426,9 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	addMissionEventHandler _x;
 } forEach [
 	['Draw3D',{call (missionNamespace getVariable 'QS_fnc_clientEventDraw3D')}],
-	['MapSingleClick',{call (missionNamespace getVariable 'QS_fnc_clientEventMapSingleClick')}],
 	['Map',{call (missionNamespace getVariable 'QS_fnc_clientEventMap')}],
+	['MapSingleClick',{call (missionNamespace getVariable 'QS_fnc_clientEventMapSingleClick')}],
+	['MarkerUpdated',{call (missionNamespace getVariable 'QS_fnc_clientEventMarkerUpdated')}],
 	['PlayerViewChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventPlayerViewChanged')}],
 	[
 		'Map',
@@ -450,14 +443,15 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 			};
 		}
 	],
-	['HandleChatMessage',{call (missionNamespace getVariable 'QS_fnc_clientEventHandleChatMessage')}]
+	['HandleChatMessage',{call (missionNamespace getVariable 'QS_fnc_clientEventHandleChatMessage')}],
+	['Service',{call (missionNamespace getVariable 'QS_fnc_eventService')}]
 ];
 {
 	inGameUISetEventHandler _x;
 } forEach [
-	['Action',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIAction');"],
-	['NextAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUINextAction');"],
-	['PrevAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIPrevAction');"]
+	['Action',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIAction');"]//,
+	//['NextAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUINextAction');"],
+	//['PrevAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIPrevAction');"]
 ];
 {
 	player addEventHandler _x;
@@ -469,6 +463,7 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['WeaponAssembled',{call (missionNamespace getVariable 'QS_fnc_clientEventWeaponAssembled')}],
 	['WeaponDisassembled',{call (missionNamespace getVariable 'QS_fnc_clientEventWeaponDisassembled')}],
 	['Hit',{call (missionNamespace getVariable 'QS_fnc_clientEventHit')}],
+	['HitPart',{call (missionNamespace getVariable 'QS_fnc_clientEventHitPart')}],
 	['HandleDamage',{call (missionNamespace getVariable 'QS_fnc_clientEventHandleDamage')}],
 	['FiredNear',{call (missionNamespace getVariable 'QS_fnc_clientEventFiredNear')}],
 	//['GestureChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventGestureChanged')}],					// These execute frequently when player is moving, only use if you have a reason. Test out in editor
@@ -493,7 +488,8 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['TaskSetAsCurrent',{call (missionNamespace getVariable 'QS_fnc_clientEventTaskSetAsCurrent')}],
 	['PostReset',{call (missionNamespace getVariable 'QS_fnc_clientEventPostReset')}],
 	['OpticsModeChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventOpticsModeChanged')}],
-	['OpticsSwitch',{call (missionNamespace getVariable 'QS_fnc_clientEventOpticsSwitch')}]
+	['OpticsSwitch',{call (missionNamespace getVariable 'QS_fnc_clientEventOpticsSwitch')}],
+	['VisionModeChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventVisionModeChanged')}]
 ];
 {
 	addMusicEventHandler _x;
@@ -501,60 +497,61 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['MusicStart',{}],
 	['MusicStop',{}]
 ];
+'init' call (missionNamespace getVariable 'QS_fnc_clientEventUserAction');
+// Release-related actions
+QS_ui_releaseActions = [
+	(toLower (localize 'STR_QS_Interact_010')),		// 'release',
+	(toLower (localize 'STR_QS_Interact_004')),		// 'load',
+	(toLower (localize 'STR_QS_Interact_037')),		// 'load cargo',
+	(toLower (localize 'STR_QS_Interact_108')),		// 'retract cargo ropes',
+	(toLower (localize 'STR_QS_Interact_109')),		// 'extend cargo ropes',
+	(toLower (localize 'STR_QS_Interact_110')),		// 'shorten cargo ropes',
+	(toLower (localize 'STR_QS_Interact_111')),		// 'release cargo',
+	(toLower (localize 'STR_QS_Interact_112')),		// 'deploy cargo ropes',
+	(toLower (localize 'STR_QS_Interact_113')),		// 'attach to cargo ropes',
+	(toLower (localize 'STR_QS_Interact_114')),		// 'drop cargo ropes',
+	(toLower (localize 'STR_QS_Interact_115'))		// 'pickup cargo ropes'
+];
+
+// Init Deployment system
+['INIT_PLAYER'] call QS_fnc_deployment;
+
+// Init wreck materials
+['INIT'] call (missionNamespace getVariable 'QS_fnc_wreckSetMaterials');
+
 // Preload Arsenal
 [player] call (missionNamespace getVariable 'QS_fnc_clientArsenal');
-{
-	if (simulationEnabled _x) then {
-		if ((player knowsAbout _x) < 3) then {
-			player reveal [_x,3];
-		};
-	};
-} count ((getPosATL player) nearObjects ['All',30]);
-if (!isNil {missionNamespace getVariable 'QS_arsenals'}) then {
-	if ((missionNamespace getVariable 'QS_arsenals') isEqualType []) then {
-		if ((count (missionNamespace getVariable 'QS_arsenals')) > 0) then {
-			{
-				if ((player knowsAbout _x) < 3) then {
-					player reveal [_x,3];
-				};
-			} count (missionNamespace getVariable 'QS_arsenals');
-		};
-	};
-};
 0 spawn {
 	uiSleep 1;
 	if ((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-		//comment 'Insignia';
-		if (!isNil {missionProfileNamespace getVariable 'QS_ClientUnitInsignia2'}) then {
-			if ((missionProfileNamespace getVariable 'QS_ClientUnitInsignia2') isEqualType '') then {
-				if ((missionProfileNamespace getVariable 'QS_ClientUnitInsignia2') isNotEqualTo '') then {
-					player setVariable ['QS_ClientUnitInsignia2',(missionProfileNamespace getVariable 'QS_ClientUnitInsignia2'),FALSE];
-					[(missionProfileNamespace getVariable 'QS_ClientUnitInsignia2')] call (missionNamespace getVariable 'QS_fnc_clientSetUnitInsignia');
-				};
-			};
+		// Insignia
+		if (
+			(!isNil {missionProfileNamespace getVariable 'QS_ClientUnitInsignia2'}) &&
+			{((missionProfileNamespace getVariable 'QS_ClientUnitInsignia2') isEqualType '')} &&
+			{((missionProfileNamespace getVariable 'QS_ClientUnitInsignia2') isNotEqualTo '')}
+		) then {
+			player setVariable ['QS_ClientUnitInsignia2',(missionProfileNamespace getVariable 'QS_ClientUnitInsignia2'),FALSE];
+			[(missionProfileNamespace getVariable 'QS_ClientUnitInsignia2')] call (missionNamespace getVariable 'QS_fnc_clientSetUnitInsignia');
 		};
-		//comment 'Uniform';
-		if (!isNil {missionProfileNamespace getVariable 'QS_ClientUTexture2'}) then {
-			if ((missionProfileNamespace getVariable 'QS_ClientUTexture2') isEqualType '') then {
-				if ((missionProfileNamespace getVariable 'QS_ClientUTexture2') isNotEqualTo '') then {
-					if (!isNil {missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2'}) then {
-						if ((missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2') isEqualType []) then {
-							if ((missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2') isNotEqualTo []) then {
-								if ((uniform player) in (missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2')) then {
-									player setObjectTextureGlobal [0,(missionProfileNamespace getVariable 'QS_ClientUTexture2')];
-									player setVariable ['QS_ClientUTexture2',(missionProfileNamespace getVariable 'QS_ClientUTexture2'),FALSE];
-									player setVariable ['QS_ClientUTexture2_Uniforms2',(missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2'),FALSE];
-									if ((vest player) isNotEqualTo '') then {
-									
-									};
-									if ((backpack player) isNotEqualTo '') then {
-									
-									};
-								};
-							};
-						};
-					};
-				};
+		// Uniform
+		
+		if (
+			(!isNil {missionProfileNamespace getVariable 'QS_ClientUTexture2'}) &&
+			{((missionProfileNamespace getVariable 'QS_ClientUTexture2') isEqualType '')} &&
+			{((missionProfileNamespace getVariable 'QS_ClientUTexture2') isNotEqualTo '')} &&
+			{(!isNil {missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2'})} &&
+			{((missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2') isEqualType [])} &&
+			{((missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2') isNotEqualTo [])} &&
+			{((uniform player) in (missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2'))}
+		) then {
+			player setObjectTextureGlobal [0,(missionProfileNamespace getVariable 'QS_ClientUTexture2')];
+			player setVariable ['QS_ClientUTexture2',(missionProfileNamespace getVariable 'QS_ClientUTexture2'),FALSE];
+			player setVariable ['QS_ClientUTexture2_Uniforms2',(missionProfileNamespace getVariable 'QS_ClientUTexture2_Uniforms2'),FALSE];
+			if ((vest player) isNotEqualTo '') then {
+			
+			};
+			if ((backpack player) isNotEqualTo '') then {
+			
 			};
 		};
 	};
@@ -565,7 +562,7 @@ if ((backpack player) isNotEqualTo '') then {
 	if ((loadBackpack player) > _maxLoadBackpack) then {
 		while {((loadBackpack player) > _maxLoadBackpack)} do {
 			_itemToRemove = selectRandom ((backpackItems player) + (backpackMagazines player));
-			if (!(_itemToRemove in ['ToolKit','Medikit'])) then {
+			if (!((toLowerANSI _itemToRemove) in (QS_core_classNames_itemToolKits + QS_core_classNames_itemMedikits))) then {
 				player removeItemFromBackpack _itemToRemove;
 			};
 		};
@@ -588,6 +585,9 @@ if ((uniform player) isNotEqualTo '') then {
 			player removeItemFromUniform _itemToRemove;
 		};
 	};	
+};
+if (missionNamespace getVariable ['QS_missionConfig_weaponLasers',TRUE]) then {
+	['INIT'] call QS_fnc_simpleLasers;
 };
 0 spawn (missionNamespace getVariable 'QS_fnc_clientDiary');
 0 spawn (missionNamespace getVariable 'QS_fnc_icons');
@@ -624,8 +624,15 @@ enableSentences FALSE;
 showSubtitles FALSE;
 enableSaving [FALSE,FALSE];
 enableTeamSwitch FALSE;
+enableWeaponDisassembly TRUE;
 player disableConversation TRUE;
-player setUnitFreefallHeight 50;
+player setUnitFreefallHeight 65;
+if (
+	(!(missionNamespace getVariable ['QS_missionConfig_weatherDynamic',TRUE])) &&
+	{((missionNamespace getVariable ['QS_missionConfig_weatherForced',0]) >= 4)}
+) then {
+	setRain ((missionNamespace getVariable ['QS_missionConfig_weatherForced',0]) call (missionNamespace getVariable 'QS_data_rainParams'));
+};
 if ((rank player) isNotEqualTo 'PRIVATE') then {
 	player setRank 'PRIVATE';
 };
@@ -634,17 +641,23 @@ if ((toLowerANSI (speaker player)) isNotEqualTo 'novoice') then {
 };
 player addRating (0 - (rating player));
 {
-	player enableAIFeature [_x,FALSE];
+	player enableAIFeature _x;
 } count [
-	'TEAMSWITCH',
-	'FSM',
-	'AIMINGERROR',
-	'COVER',
-	'AUTOCOMBAT'
+	['TEAMSWITCH',FALSE],
+	['FSM',FALSE],
+	['AIMINGERROR',FALSE],
+	['COVER',FALSE],
+	['AUTOCOMBAT',FALSE],
+	['MOVE',TRUE]
 ];
-player enableAIFeature ['MOVE',TRUE];
 if (isNil {(group player) getVariable 'BIS_dg_reg'}) then {
-	_allGroups = allGroups select {(((side _x) isEqualTo (player getVariable ['QS_unit_side',WEST])) && (isPlayer (leader _x)) && (!isNil {_x getVariable 'BIS_dg_reg'}) && (!(_x getVariable ['BIS_dg_pri',FALSE])))};
+	_allGroups = (groups ((side _x) isEqualTo (player getVariable ['QS_unit_side',WEST]))) select {
+		(
+			(isPlayer (leader _x)) && 
+			{(!isNil {_x getVariable 'BIS_dg_reg'})} && 
+			{(!(_x getVariable ['BIS_dg_pri',FALSE]))}
+		)
+	};
 	if (_allGroups isNotEqualTo []) then {
 		private _allGroupsSorted = [];
 		{
@@ -672,23 +685,144 @@ if (_squadParams isNotEqualTo []) then {
 		};
 	} forEach allPlayers;
 };
-if (worldName isEqualTo 'Stratis') then {
+_worldName = worldName;
+if (_worldName isEqualTo 'Stratis') then {
 	private _terrainLocation = nearestLocation [[3764.32,7944.11,0.0131321],'nameLocal'];
 	private _editableLocation = createLocation [_terrainLocation];
-	_editableLocation setText 'Rarek Island';
+	_editableLocation setText 'Quiksilver Island';
 };
 [29,(missionNamespace getVariable 'QS_module_fob_side')] call (missionNamespace getVariable 'QS_fnc_remoteExec');
-[] call (missionNamespace getVariable 'QS_fnc_clientBaseLights');
+call (missionNamespace getVariable 'QS_fnc_clientBaseLights');
 [1] call (missionNamespace getVariable 'QS_fnc_aoFires');
-if (!isNil {missionNamespace getVariable 'QS_setFeatureType'}) then {
-	if ((missionNamespace getVariable 'QS_setFeatureType') isEqualType []) then {
-		if ((missionNamespace getVariable 'QS_setFeatureType') isNotEqualTo []) then {
-			{
-				(_x # 0) setFeatureType (_x # 1);
-			} forEach (missionNamespace getVariable 'QS_setFeatureType');
+if ((missionNamespace getVariable ['QS_setFeatureType',[]]) isNotEqualTo []) then {
+	{
+		(_x # 0) setFeatureType (_x # 1);
+	} forEach (missionNamespace getVariable 'QS_setFeatureType');
+};
+private _cosmeticsEnabled = call (missionNamespace getVariable 'QS_missionConfig_cosmetics');
+private _canLoadFaceProfile = FALSE;
+if (_cosmeticsEnabled > 0) then {
+	if (_cosmeticsEnabled isEqualTo 1) then {
+		if (
+			((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) ||
+			((call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0)
+		) then {
+			_canLoadFaceProfile = TRUE;
 		};
+	} else {
+		_canLoadFaceProfile = TRUE;
 	};
 };
+if (_canLoadFaceProfile) then {
+	private _availableFaces = ['cfgfaces_1'] call QS_data_listOther;
+	_availableFaces = _availableFaces apply { toLowerANSI (_x # 1) };
+	_profileFace = missionProfileNamespace getVariable ['QS_unit_face','default'];
+	if ((toLowerANSI _profileFace) in _availableFaces) then {
+		player setVariable ['QS_unit_face',_profileFace,TRUE];
+		player setFace _profileFace;
+	};
+};
+{
+	if ((_x getVariable ['QS_unit_face','']) isNotEqualTo '') then {
+		if (_x isNotEqualTo player) then {
+			_x setFace (_x getVariable ['QS_unit_face','']);
+		};
+	};
+} forEach allPlayers;
+
+/*/================= Hidden Terrain Objects - We do this incase of desync/*/
+private _obj = objNull;
+if (_worldName isEqualTo 'Altis') then {
+	{
+		if ((getPosWorld _x) inPolygon [[5443.56,17947,0],[5387.14,17940.1,0],[5383.96,17933.4,0],[5368.8,17932.5,0],[5343.63,17919,0],[5355.7,17878.1,0],[5364.41,17850.4,0],[5379.65,17850.7,0],[5395.13,17870.1,0],[5434.97,17871.2,0],[5438.15,17916.3,0],[5445.73,17929.3,0]]) then {
+			if (!isObjectHidden _x) then {
+				_x hideObject TRUE;
+				_x enableSimulation FALSE;
+			};
+		};
+	} forEach (nearestTerrainObjects [[5398.63,17897.7,0.00141144],[],100,FALSE,TRUE]);
+};
+if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+	if (_worldName isEqualTo 'Altis') then {
+		{
+			_obj = (_x # 0) nearestObject (_x # 1);
+			if (!isObjectHidden _obj) then {
+				_obj hideObject TRUE;
+				_obj enableSimulation FALSE;
+			};
+		} forEach [
+			[[14529.1,16713.4,-0.095396],'Land_Airport_Tower_F'],
+			[[14616.3,16714.1,3.8147e-006],'Land_LampAirport_off_F'],
+			[[14677.8,16777,3.8147e-006],'Land_LampAirport_off_F'],
+			[[14723.3,16821.3,3.8147e-006],'Land_LampAirport_F'],
+			[[14572.2,16668.5,3.8147e-006],'Land_LampAirport_F']
+		];
+		{	
+			if (!isObjectHidden _x) then {
+				_x hideObject TRUE; 
+				_x enableSimulation FALSE;
+			};
+		} forEach (nearestTerrainObjects [[16899.4,9935.51,0.00149155],['BUSH'],5,FALSE,TRUE]);	
+		{
+			if (!isObjectHidden _x) then {
+				_x hideObject TRUE; 
+				_x enableSimulation FALSE;
+			};
+		} forEach (nearestTerrainObjects [[14521.2,16778.4,0.0017128],[],5,FALSE,TRUE]);
+	};
+	if (_worldName isEqualTo 'Tanoa') then {
+		{
+			if (!isObjectHidden _x) then {
+				_x hideObject TRUE;
+				_x enableSimulation FALSE;
+			};
+		} forEach (nearestTerrainObjects [[4009.65,11793.7,0.00143814],['TREE'],10,FALSE,TRUE]);
+	};
+	if (_worldName isEqualTo 'Malden') then {
+		{	
+			_obj = (_x # 0) nearestObject (_x # 1);
+			if (!isObjectHidden _obj) then {
+				_obj hideObject TRUE;
+				_obj enableSimulation FALSE;
+			};
+		} forEach [
+			[[8066.87,10196.4,0.0199451],'Land_HelipadSquare_F'],
+			[[8020.53,10196.8,0.0200291],'Land_HelipadSquare_F'],
+			[[8068.54,9995.96,-0.320858],'Land_Hangar_F'],
+			[[8091.6,9672.57,0.0110703],'Land_HelipadRescue_F'],
+			[[8013.59,9688.03,0.0123863],'Land_HelipadCivil_F'],
+			[[8100.73,10111.4,-0.000911713],'Land_LampAirport_F'],
+			[[8093.89,10235.7,-0.00857162],'Land_LampAirport_F']
+		];
+	};
+	if (_worldName isEqualTo 'Enoch') then {
+		
+	};
+	if (_worldName isEqualTo 'Stratis') then {
+		// Hide some key buildings in the base area
+		{
+			_obj = (_x # 0) nearestObject (_x # 1);
+			if (!isObjectHidden _obj) then {
+				_obj hideObject TRUE;
+				_obj enableSimulation FALSE;
+				_obj allowDamage FALSE
+			};
+		} forEach [
+			[[1886.33,5728.47,0.00142622],'Land_HelipadSquare_F'],
+			[[1894.68,5758.35,0.00143862],'Land_HelipadSquare_F'],
+			[[1913.16,5820.46,9.53674e-007],'Land_TentHangar_V1_F'],
+			[[1923.68,5863.94,2.95639e-005],'Land_TentHangar_V1_F'],
+			[[1913.94,5955.27,0.000219345],'Land_TentHangar_V1_F'],
+			[[1924.84,5850.23,2.62847],''],												//land_cargo20_military_green_f
+			[[1916.95,5805.76,2.62856],''],												//land_cargo20_military_green_f
+			[[1942.73,5872.22,2.62848],''],
+			[[1958.54,5707.32,0.100458],'Land_MilOffices_V1_F'],
+			[[1910.51,5713.64,0.00755119],'Land_Airport_Tower_F'],
+			[[1906.17,5639.7,0.000470161],'Land_TentHangar_V1_F']
+		];
+	};
+};
+
 
 /*/================= Radio Channels/*/
 
@@ -717,7 +851,7 @@ if (isNil {missionProfileNamespace getVariable 'QS_client_radioChannels_profile'
 	missionProfileNamespace setVariable ['QS_client_radioChannels_profile',[FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE]];
 	saveMissionProfileNamespace;
 } else {
-	_QS_radioChannels_profile = missionProfileNamespace getVariable ['QS_client_radioChannels_profile',[FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE]];
+	private _QS_radioChannels_profile = missionProfileNamespace getVariable ['QS_client_radioChannels_profile',[FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE]];
 	if ((count _QS_radioChannels_profile) isEqualTo 10) then {
 		if ((_QS_radioChannels_profile # 2) isEqualType TRUE) then {
 			if (_QS_radioChannels_profile # 2) then {
@@ -765,52 +899,26 @@ if (isNil {missionProfileNamespace getVariable 'QS_client_radioChannels_profile'
 		};
 	};
 };
-if (isNil {uiNamespace getVariable 'QS_hasJoinedSession'}) then {
-	uiNamespace setVariable ['QS_hasJoinedSession',TRUE];
-	if ((random 1) > 0.333) then {
-		_track = selectRandomWeighted [
-			'Intro',0.1,
-			'Intro2',0.1,
-			'Intro3',0.1,
-			'Intro4',0.1,
-			'Intro5',0.1,
-			'Intro6',0.1
-		];
-		if (isClass (missionConfigFile >> 'CfgSounds' >> _track)) then {
-			playSound [_track,FALSE];
-		};
-	} else {
-		1 fadeMusic 0.333;
-		_musicClasses = [
-			['EventTrack01_F_Jets',0.1],			// Track + probability weighting
-			['LeadTrack01_F_Jets',0.1],
-			['LeadTrack02_F_Jets',0.1],
-			['AmbientTrack02_F_Exp',0.1],
-			['AmbientTrack02a_F_Exp',0.1],
-			['AmbientTrack02b_F_Exp',0.1],
-			['AmbientTrack02c_F_Exp',0.1],
-			['AmbientTrack02d_F_Exp',0.1],
-			['AmbientTrack01_F_Orange',0.1],
-			['AmbientTrack02_F_Orange',0.1],
-			['LeadTrack01_F_Orange',0.1],
-			['LeadTrack01_F_Malden',0.1],
-			['AmbientTrack04a_F_Tacops',0.1],
-			['AmbientTrack04b_F_Tacops',0.1],
-			['LeadTrack01_F_Tank',0.1],
-			['LeadTrack02_F_Tank',0.1],
-			['LeadTrack03_F_Tank',0.1],
-			['LeadTrack04_F_Tank',0.1],
-			['LeadTrack05_F_Tank',0.1],
-			['LeadTrack06_F_Tank',0.1]
-		];
-		private _music = [];
-		{
-			if (isClass (configFile >> 'CfgMusic' >> (_x # 0))) then {
-				_music pushBack (_x # 0);
-				_music pushBack (_x # 1);
+if (missionNamespace getVariable ['QS_missionConfig_introMusic',TRUE]) then {
+	if (isNil {uiNamespace getVariable 'QS_hasJoinedSession'}) then {
+		uiNamespace setVariable ['QS_hasJoinedSession',TRUE];
+		if ((random 1) > 0.333) then {
+			_track = selectRandomWeighted (['intro_music_custom'] call QS_data_listOther);
+			if (isClass (missionConfigFile >> 'CfgSounds' >> _track)) then {
+				playSound [_track,FALSE];
 			};
-		} forEach _musicClasses;
-		playMusic [(selectRandomWeighted _music),0];
+		} else {
+			1 fadeMusic 0.333;
+			_musicClasses = ['intro_music_1'] call QS_data_listOther;
+			private _music = [];
+			{
+				if (isClass (configFile >> 'CfgMusic' >> (_x # 0))) then {
+					_music pushBack (_x # 0);
+					_music pushBack (_x # 1);
+				};
+			} forEach _musicClasses;
+			playMusic [(selectRandomWeighted _music),0];
+		};
 	};
 };
 0 spawn (missionNamespace getVariable 'QS_fnc_clientCore');

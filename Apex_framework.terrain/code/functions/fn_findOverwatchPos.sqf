@@ -42,7 +42,7 @@ params [
 	['_minObjDist',2]
 ];
 scopeName 'main';
-_targetPos set [2,((_targetPos # 2) + 1)];
+_targetPos = _targetPos vectorAdd [0,0,1];
 private _minheight = _minheight + (getTerrainHeightASL _targetPos);
 private _selectedPositions = [];
 private _result = [];
@@ -115,8 +115,7 @@ if (_selectedPositions isNotEqualTo []) then {
 	};
 } else {
 	for '_x' from 0 to 299 step 1 do {
-		_checkPos = [_targetPos,_minrange,_maxrange,_minObjDist,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-		_checkPos set [2,((_checkPos # 2) + 0.5)];
+		_checkPos = ([_targetPos,_minrange,_maxrange,_minObjDist,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos')) vectorAdd [0,0,0.5];
 		_terrainBlocked = terrainIntersect [_targetPos,_checkPos];
 		if (!(_terrainBlocked)) then {
 			if (_isCheckVisibility) then {

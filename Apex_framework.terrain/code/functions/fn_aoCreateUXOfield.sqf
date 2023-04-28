@@ -19,20 +19,7 @@ params [
 	['_quantity',10],
 	[
 		'_mineTypesWeighted',
-		[
-			'BombCluster_03_UXO1_F',0.1,
-			'BombCluster_02_UXO1_F',0.1,
-			'BombCluster_01_UXO1_F',0.1,
-			'BombCluster_03_UXO4_F',0.1,
-			'BombCluster_02_UXO4_F',0.1,
-			'BombCluster_01_UXO4_F',0.1,
-			'BombCluster_03_UXO2_F',0.3,
-			'BombCluster_02_UXO2_F',0.3,
-			'BombCluster_01_UXO2_F',0.3,
-			'BombCluster_03_UXO3_F',0.1,
-			'BombCluster_02_UXO3_F',0.1,
-			'BombCluster_01_UXO3_F',0.1
-		]
+		(['uxo_field_types_1'] call QS_data_listOther)
 	]
 ];
 _return = [];
@@ -49,20 +36,7 @@ if (surfaceIsWater _aoPos) then {
 };
 if ((_spawnPos distance2D _aoPos) < (_aoSize * 1.1)) then {
 	if (_mineTypesWeighted isEqualTo []) then {
-		_mineTypesWeighted = [
-			'BombCluster_03_UXO1_F',0.1,
-			'BombCluster_02_UXO1_F',0.1,
-			'BombCluster_01_UXO1_F',0.1,
-			'BombCluster_03_UXO4_F',0.1,
-			'BombCluster_02_UXO4_F',0.1,
-			'BombCluster_01_UXO4_F',0.1,
-			'BombCluster_03_UXO2_F',0.3,
-			'BombCluster_02_UXO2_F',0.3,
-			'BombCluster_01_UXO2_F',0.3,
-			'BombCluster_03_UXO3_F',0.1,
-			'BombCluster_02_UXO3_F',0.1,
-			'BombCluster_01_UXO3_F',0.1
-		];
+		_mineTypesWeighted = ['uxo_field_types_1'] call QS_data_listOther;
 	};
 	private _mine = objNull;
 	for '_x' from 0 to (_quantity - 1) step 1 do {

@@ -57,6 +57,7 @@ if (_worldName isEqualTo 'Altis') exitWith {
 		['QS_marker_fpsMarker',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),worldSize,0],0,''],
 		['QS_marker_curators',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),(worldSize - 500),0],0,localize 'STR_QS_Marker_065'],
 		['QS_marker_module_fob',[0,0,0],'b_hq','Icon','','ColorWEST',[0.5,0.5],0,[0,0,0],0,localize 'STR_QS_Marker_066'],
+		['QS_marker_wreck_service_01',[14551.2,16630.6,0.00143814],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[14551.2,16630.6,0.00143814],0,localize 'STR_QS_Marker_072'],
 		['QS_marker_veh_inventoryService_01',[14517.5,16776,0.00150681],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[14517.5,16776,0.00150681],0,localize 'STR_QS_Marker_067'],
 		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['%1',_teamspeakText])],
 		['QS_marker_ferry_1',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[12521.2,12780.3,0],0,localize 'STR_QS_Marker_068'],
@@ -115,6 +116,7 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 		['QS_marker_fpsMarker',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),worldSize,0],0,''],
 		['QS_marker_curators',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),(worldSize - 500),0],0,localize 'STR_QS_Marker_065'],
 		['QS_marker_module_fob',_markerStoragePos,'b_hq','Icon','','ColorWEST',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_066'],
+		['QS_marker_wreck_service_01',[7037.27,7502.78,0.00143886],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[7037.27,7502.78,0.00143886],0,localize 'STR_QS_Marker_072'],
 		['QS_marker_veh_inventoryService_01',[6802.23,7397.13,0.00143886],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[6802.23,7397.13,0.00143886],0,localize 'STR_QS_Marker_067'],
 		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['%1',_teamspeakText])],
 		['QS_marker_ferry_1',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[4959.74,11316.6,-0.626744],0,localize 'STR_QS_Marker_068'],
@@ -167,6 +169,7 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		['QS_marker_fpsMarker',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),worldSize,0],0,''],
 		['QS_marker_curators',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),(worldSize - 500),0],0,localize 'STR_QS_Marker_065'],
 		['QS_marker_module_fob',_markerStoragePos,'b_hq','Icon','','ColorWEST',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_066'],
+		['QS_marker_wreck_service_01',[8104.57,9999.11,0.0015564],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[8104.57,9999.11,0.0015564],0,localize 'STR_QS_Marker_072'],
 		['QS_marker_veh_inventoryService_01',[8259.2,10156.5,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[8259.2,10156.5,0],0,localize 'STR_QS_Marker_067'],
 		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['%1',_teamspeakText])],
 		['QS_marker_ferry_1',_markerStoragePos,'c_ship','Icon','','ColorCIVILIAN',[0.25,0.25],0.5,[927.554,11824.1,0],0,localize 'STR_QS_Marker_068'],
@@ -220,6 +223,7 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 		['QS_marker_fpsMarker',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),worldSize,0],0,''],
 		['QS_marker_curators',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),(worldSize - 500),0],0,localize 'STR_QS_Marker_065'],
 		['QS_marker_module_fob',_markerStoragePos,'b_hq','Icon','','ColorWEST',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_066'],
+		['QS_marker_wreck_service_01',[4105.33,10296.8,0.00144196],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[4105.33,10296.8,0.00144196],0,localize 'STR_QS_Marker_072'],
 		['QS_marker_veh_inventoryService_01',[4326.31,10455.4,0],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[4326.31,10455.4,0],0,localize 'STR_QS_Marker_067'],
 		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['%1',_teamspeakText])]
 	]
@@ -266,6 +270,7 @@ if (_worldName isEqualTo 'Stratis') exitWith {
 		['QS_marker_fpsMarker',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),worldSize,0],0,''],
 		['QS_marker_curators',[0,0,0],'mil_dot','Icon','','ColorWhite',[1,1],0,[(worldSize + 1000),(worldSize - 500),0],0,localize 'STR_QS_Marker_065'],
 		['QS_marker_module_fob',_markerStoragePos,'b_hq','Icon','','ColorWEST',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_066'],
+		['QS_marker_wreck_service_01',[2082.63,5608.06,0.00143862],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[2082.63,5608.06,0.00143862],0,localize 'STR_QS_Marker_072'],
 		['QS_marker_veh_inventoryService_01',[2025.44,5680.42,0.00146008],'b_maint','Icon','','ColorWEST',[0.5,0.5],0.75,[2025.44,5680.42,0.00146008],0,localize 'STR_QS_Marker_067'],
 		['QS_marker_teamspeak',[(worldSize / 2),(worldSize / 2),0],'mil_dot','Icon','','ColorYELLOW',[0.75,0.75],0.75,[(worldSize / 2),(worldSize / 2),0],0,(format ['%1',_teamspeakText])]
 	]

@@ -6,20 +6,20 @@ Author:
 	
 Last Modified:
 
-	25/04/2022 A3 2.08 by Quiksilver
+	14/04/2023 A3 2.12 by Quiksilver
 
 Description:
 
-	Prepare FOB
+	Prepare FOB	
 ___________________________________________________/*/
 
 params ['_type','_2'];
 if (_type isEqualTo 0) then {
-	//comment 'Deconstruct';
+	//comment 'Deconstruct';	
 	{
 		missionNamespace setVariable _x;
 	} forEach [
-		['QS_module_fob_respawnTickets',(round (((missionNamespace getVariable ['QS_module_fob_respawnTickets',0]) / 2) max 0)),TRUE],
+		['QS_module_fob_respawnTickets',(round (((QS_module_fob_flag getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE],
 		['QS_module_fob_services_fuel',FALSE,TRUE],
 		['QS_module_fob_services_repair',FALSE,TRUE],
 		['QS_module_fob_services_ammo',FALSE,TRUE],

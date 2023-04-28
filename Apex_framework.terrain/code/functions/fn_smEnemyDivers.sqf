@@ -52,7 +52,7 @@ for '_x' from 0 to (_AboatsCount - 1) step 1 do {
 	_AboatType = selectRandom _AboatTypes;
 	_relPos = _pos getPos [(random 300),(random 360)];
 	_relPos set [2,0];
-	_boat = createVehicle [_AboatType,_relPos,[],0,'NONE'];
+	_boat = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _AboatType,_AboatType],_relPos,[],0,'NONE'];
 	_boat lock 2;
 	0 = _enemiesArray pushBack _boat;
 	_boat setDir (random 360);
@@ -65,9 +65,9 @@ for '_x' from 0 to (_AboatsCount - 1) step 1 do {
 		_grpUnit addGoggles 'G_O_Diving';
 		[_grpUnit,'arifle_SDAR_F',3] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 		_grpUnit selectWeapon (primaryWeapon _grpUnit);
-		0 = _enemiesArray pushBack _grpUnit;
+		_enemiesArray pushBack _grpUnit;
 		{
-			if (_x in ['HandGrenade','MiniGrenade']) then {
+			if ((toLowerANSI _x) in QS_core_classNames_grenades) then {
 				_grpUnit removeMagazine _x;
 			};
 		} forEach (magazines _grpUnit);
@@ -87,19 +87,16 @@ for '_x' from 0 to 2 step 1 do {
 	_patrolRoute pushBack [_relPos # 0,_relPos # 1,0];
 };
 _unit = (units _grp) # 0;
-
 _patrolRoute pushBack [((getPos _unit) # 0),((getPos _unit) # 1),0];
 _grp setVariable ['QS_AI_GRP_TASK',['PATROL',_patrolRoute,serverTime,-1],QS_system_AI_owners];
 _grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
 _grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','DIVER',(count (units _grp))],QS_system_AI_owners];
 _grp setVariable ['QS_AI_GRP_DATA',[],QS_system_AI_owners];
 _grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
-
-
 _boatType = selectRandom _boatTypes;
-_boat = createVehicle [_boatType,[_pos # 0,_pos # 1,0],[],0,'NONE'];
+_boat = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _boatType,_boatType],[_pos # 0,_pos # 1,0],[],0,'NONE'];
 _boat lock 2;
-0 = _enemiesArray pushBack _boat;
+_enemiesArray pushBack _boat;
 _boat setDir (random 360);
 _grp = createVehicleCrew _boat;
 {
@@ -111,7 +108,7 @@ _grp = createVehicleCrew _boat;
 	_grpUnit selectWeapon (primaryWeapon _grpUnit);
 	0 = _enemiesArray pushBack _grpUnit;
 	{
-		if (_x in ['HandGrenade','MiniGrenade']) then {
+		if ((toLowerANSI _x) in QS_core_classNames_grenades) then {
 			_grpUnit removeMagazine _x;
 		};
 	} forEach (magazines _grpUnit);
@@ -140,7 +137,7 @@ while {!_foundPos} do {
 	uiSleep 0.01;
 };
 _subType = selectRandom _subTypes;
-_sub = createVehicle [_subType,_relPos,[],0,'NONE'];
+_sub = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _subType,_subType],_relPos,[],0,'NONE'];
 _sub lock 3;
 _sub allowCrewInImmobile [TRUE,TRUE];
 0 = _enemiesArray pushBack _sub;
@@ -150,7 +147,7 @@ _sub swimInDepth -2.5;
 	_grpUnit = _x;
 	_grpUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	{
-		if (_x in ['HandGrenade','MiniGrenade']) then {
+		if ((toLowerANSI _x) in QS_core_classNames_grenades) then {
 			_grpUnit removeMagazine _x;
 		};
 	} forEach (magazines _grpUnit);
@@ -184,7 +181,7 @@ for '_x' from 0 to (14 + (round (random 4))) step 1 do {
 		_grpUnit setVariable ['QS_AI_UNIT_aimingAccuracy',(_grpUnit skillFinal 'aimingAccuracy'),QS_system_AI_owners];
 		_grpUnit setVariable ['QS_AI_UNIT_swimDepth',_swimDepth,QS_system_AI_owners];
 		{
-			if (_x in ['HandGrenade','MiniGrenade']) then {
+			if ((toLowerANSI _x) in QS_core_classNames_grenades) then {
 				_grpUnit removeMagazine _x;
 			};
 		} forEach (magazines _grpUnit);

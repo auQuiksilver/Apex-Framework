@@ -6,19 +6,15 @@ Author:
 	
 Last modified:
 
-	26/10/2016 A3 1.64 by Quiksilver
+	17/03/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	-
 __________________________________________________*/
 
-if (
-	isDedicated ||
-	(time < 60)
-) exitWith {};
-_array = _this # 3;
-_array params [
+if (isDedicated ||(time < 60)) exitWith {};
+(_this # 3) params [
 	'_type',
 	'_uid',
 	'_causedBy',
@@ -26,7 +22,8 @@ _array params [
 	'_nameCausedBy'
 ];
 private _val = 1;
-if (((_playerPos distance (markerPos 'QS_marker_base_marker')) < 1000) || ((_playerPos distance (markerPos 'QS_marker_module_fob')) < 50)) then {
+([player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+if (_inSafezone && _safezoneActive) then {
 	_val = 1.5;
 };
 if (((_playerPos distance (markerPos 'QS_marker_aoMarker')) < 1000) || {((_playerPos distance (markerPos 'QS_marker_sideMarker')) < 1000)} || {((_playerPos distance (markerPos 'QS_marker_priorityMarker')) < 1000)} || {((_playerPos distance (markerPos 'QS_marker_aoMarker_2')) < 1000)} || {((_playerPos distance (markerPos 'QS_marker_hqMarker')) < 1000)}) then {

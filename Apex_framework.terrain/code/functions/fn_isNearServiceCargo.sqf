@@ -6,127 +6,156 @@ Author:
 
 Last Modified:
 
-	21/12/2022 A3 2.10 by Quiksilver
+	26/03/2023 A3 2.12 by Quiksilver
 
 Description:
 
 	Is near service vehicle
+	
+Notes:
+
+	Reammo
+	Repair
+	Refuel
+	Recover
 __________________________________________/*/
 
-params ['_cameraOn',['_radius',15]];
+params ['_vehicle',['_radius',15]];
 private _return = [];
 if (
-	(_cameraOn isEqualType objNull) && 
-	{(isNull _cameraOn)}
+	(_vehicle isEqualType objNull) && 
+	{(isNull _vehicle)}
 ) exitWith {
 	_return;
 };
-_radius = _radius max (sizeOf (typeOf _cameraOn));
-private _list = _cameraOn nearEntities _radius;
-_attachedObjects = attachedObjects _cameraOn;
+_radius = _radius max (sizeOf (typeOf _vehicle));
+private _list = (_vehicle nearEntities _radius) - [_vehicle];
+private _attachedObjects = attachedObjects _vehicle;
+private _ropeAttached = ropeAttachedObjects _vehicle;
+private _entityOmniModels = ['repair_depot_models_1'] call QS_data_listVehicles;
+private _entityOmniKinds = ['services_recover_1'] call QS_data_listVehicles;
+private _entType = '';
 if (_list isNotEqualTo []) then {
 	{
 		if (
 			(alive _x) &&
-			{((_cameraOn distance2D _x) < _radius)} &&
-			{(_x isNotEqualTo _cameraOn)} &&
-			{(!(_x in _attachedObjects))}
+			{(!isObjectHidden _x)} &&
+			{((_vehicle distance2D _x) < _radius)} &&
+			{(!(_x in _attachedObjects))} &&
+			{(!(_x in _ropeAttached))} &&
+			{(!(_x getVariable ['QS_logistics_wreck',FALSE]))} &&
+			{(!(_x getVariable ['QS_service_disabled',FALSE]))}			// For things like enemy service vehicles
 		) then {
-			if ((getAmmoCargo _x) > -1) then {
-				_return pushBackUnique 'reammo';
+			_entType = typeOf _x;
+			if (
+				((getAmmoCargo _x) > -1) ||
+				{
+					((_x getVariable ['QS_vehicle_reammocargo',-1]) > 0)
+				}
+			) then {
+				_return pushBackUnique [_x,'reammo'];
 				if ((getAmmoCargo _x) > 0) then {
-					_x setAmmoCargo 0;
 					['setAmmoCargo',_x,0] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
 				};
 			};
-			if ((getRepairCargo _x) > -1) then {
-				_return pushBackUnique 'repair';
+			if (
+				((getRepairCargo _x) > -1) ||
+				{
+					((_x getVariable ['QS_vehicle_repaircargo',-1]) > 0)
+				}
+			) then {
+				_return pushBackUnique [_x,'repair'];
 				if ((getRepairCargo _x) > 0) then {
-					_x setRepairCargo 0;
 					['setRepairCargo',_x,0] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
 				};
 			};
-			if ((getFuelCargo _x) > -1) then {
-				_return pushBackUnique 'refuel';
+			if (
+				((getFuelCargo _x) > -1) ||
+				{
+					((_x getVariable ['QS_vehicle_refuelcargo',-1]) > 0)
+				}
+			) then {
+				_return pushBackUnique [_x,'refuel'];
 				if ((getFuelCargo _x) > 0) then {
-					_x setFuelCargo 0;
 					['setFuelCargo',_x,0] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
 				};
 			};
+			if ((_x getVariable ['QS_vehicle_recovercargo',-1]) > 0) then {
+				_return pushBackUnique [_x,'recover'];
+			};
+			if (
+				((toLowerANSI ((getModelInfo _x) # 1)) in _entityOmniModels) ||
+				((_entityOmniKinds findIf { _entType isKindOf _x }) isNotEqualTo -1)
+			) then {
+				_return pushBackUnique [_x,'reammo'];
+				_return pushBackUnique [_x,'refuel'];
+				_return pushBackUnique [_x,'repair'];
+				_return pushBackUnique [_x,'recover'];
+			};
 		};
 	} forEach _list;
 };
-_list = nearestObjects [_cameraOn,[],_radius,TRUE];
+_list = nearestObjects [_vehicle,[],_radius,TRUE];
 if (_list isNotEqualTo []) then {
-	_omniModels = [
-		'a3\armor_f_beta\apc_tracked_01\apc_tracked_01_crv_f.p3d',
-		'a3\armor_f_beta\apc_tracked_01\apc_tracked_01_crv_f.p3d'
-	];
-	_reammoModels = [
-		'a3\soft_f_gamma\truck_01\truck_01_ammo_f.p3d',
-		'a3\soft_f_gamma\truck_01\truck_01_ammo_f.p3d',
-		'a3\soft_f_epc\truck_03\truck_03_box_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\air_f_heli\heli_transport_04\heli_transport_04_ammo_f.p3d',
-		'a3\soft_f_epc\truck_03\truck_03_box_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\air_f_heli\heli_transport_04\pod_heli_transport_04_ammo_f.p3d',
-		'a3\supplies_f_heli\slingload\slingload_01_ammo_f.p3d',
-		'a3\weapons_f\ammoboxes\ammoveh_f.p3d'
-	] + _omniModels;
-	_repairModels = [
-		'a3\soft_f_bootcamp\offroad_01\offroad_01_repair_ig_f.p3d',
-		'a3\soft_f_gamma\truck_01\truck_01_box_f.p3d',
-		'a3\soft_f_gamma\truck_01\truck_01_box_f.p3d',
-		'a3\soft_f_epc\truck_03\truck_03_repair_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\air_f_heli\heli_transport_04\heli_transport_04_repair_f.p3d',
-		'a3\soft_f_epc\truck_03\truck_03_repair_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\soft_f_bootcamp\offroad_01\offroad_01_repair_ig_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\soft_f_bootcamp\offroad_01\offroad_01_repair_ig_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_box_f.p3d',
-		'a3\air_f_heli\heli_transport_04\pod_heli_transport_04_repair_f.p3d',
-		'a3\supplies_f_heli\slingload\slingload_01_repair_f.p3d'
-	] + _omniModels;
-	_refuelModels = [
-		'a3\soft_f_gamma\van_01\van_01_fuel_f.p3d',
-		'a3\soft_f_gamma\truck_01\truck_01_fuel_f.p3d',
-		'a3\soft_f_gamma\truck_01\truck_01_fuel_f.p3d',
-		'a3\soft_f_epc\truck_03\truck_03_fuel_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_fuel_f.p3d',
-		'a3\air_f_heli\heli_transport_04\heli_transport_04_fuel_f.p3d',
-		'a3\soft_f_epc\truck_03\truck_03_fuel_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_fuel_f.p3d',
-		'a3\soft_f_gamma\van_01\van_01_fuel_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_fuel_f.p3d',
-		'a3\soft_f_gamma\van_01\van_01_fuel_f.p3d',
-		'a3\soft_f_gamma\truck_02\truck_02_fuel_f.p3d',
-		'a3\air_f_heli\heli_transport_04\pod_heli_transport_04_fuel_f.p3d',
-		'a3\supplies_f_heli\slingload\slingload_01_fuel_f.p3d',
-		'a3\supplies_f_heli\fuel\flexibletank_01_f.p3d',
-		'a3\supplies_f_heli\fuel\flexibletank_01_f.p3d'
-	] + _omniModels;
+	_omniModels = ['services_all_1'] call QS_data_listVehicles;
+	_reammoModels = (['services_reammo_1'] call QS_data_listVehicles) + _omniModels;
+	_repairModels = (['services_repair_1'] call QS_data_listVehicles) + _omniModels;
+	_refuelModels = (['services_refuel_1'] call QS_data_listVehicles) + _omniModels;
+	_recoverModels = [];
 	{
 		if (
-			((_cameraOn distance2D _x) < _radius) &&
-			{(!isNull _x)} &&
+			(!isNull _x) &&
 			{(isSimpleObject _x)} &&
-			{(!(_x in _attachedObjects))}
+			{(!isObjectHidden _x)} &&
+			{((_vehicle distance2D _x) < _radius)} &&
+			{(!(_x in _attachedObjects))} &&
+			{(!(_x in _ropeAttached))} &&
+			{(!(_x getVariable ['QS_service_disabled',FALSE]))}
 		) then {
 			if ((toLowerANSI ((getModelInfo _x) # 1)) in _reammoModels) then {
-				_return pushBackUnique 'reammo';
+				_return pushBackUnique [_x,'reammo'];
 			};
 			if ((toLowerANSI ((getModelInfo _x) # 1)) in _repairModels) then {
-				_return pushBackUnique 'repair';
+				_return pushBackUnique [_x,'repair'];
 			};
 			if ((toLowerANSI ((getModelInfo _x) # 1)) in _refuelModels) then {
-				_return pushBackUnique 'refuel';
+				_return pushBackUnique [_x,'refuel'];
+			};
+			if ((toLowerANSI ((getModelInfo _x) # 1)) in _recoverModels) then {
+				_return pushBackUnique [_x,'recover'];
 			};
 		};
 	} forEach _list;
 };
+_list = nearestTerrainObjects [_vehicle,[],_radius,FALSE,TRUE];
+if (_list isNotEqualTo []) then {
+	{
+		if (
+			(!isNull _x) &&
+			{((getFuelCargo _x) > 0)} &&
+			{((_vehicle distance2D _x) < _radius)} &&
+			{((allowedService _x) isEqualTo 0)}
+		) then {
+			_return pushBackUnique [_x,'refuel'];
+		};
+	} forEach _list;
+};
+// Support for old/obsolete service markers
+_markerData = [
+	[['QS_marker_veh_baseservice_01','QS_marker_veh_fieldservice_01','QS_marker_veh_fieldservice_02','QS_marker_veh_fieldservice_03'],['LandVehicle']],
+	[['QS_marker_veh_baseservice_02','QS_marker_veh_fieldservice_04'],['Helicopter']],
+	[['QS_marker_veh_baseservice_03','QS_marker_veh_fieldservice_04'],['Plane']],
+	[['QS_marker_boats_1','QS_marker_boats_2'],['Ship']]
+];
+{
+	_x params ['_markers','_kinds'];
+	if (
+		((_kinds findIf { _vehicle isKindOf _x }) isNotEqualTo -1) &&
+		{((_markers findIf { ((_vehicle distance2D (markerPos _x)) < _radius) }) isNotEqualTo -1)}
+	) then {
+		_return pushBackUnique [objNull,'reammo'];
+		_return pushBackUnique [objNull,'repair'];
+		_return pushBackUnique [objNull,'refuel'];
+	};
+} forEach _markerData;
 _return;

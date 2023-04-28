@@ -19,12 +19,7 @@ private [
 ];
 _puid = _this # 0;
 _validated = TRUE;
-_blacklistedString = [
-	'Fuck','Shit','Cunt','Bitch','Nigger','Prick','Fag','Phag',
-	'Penis','Vagina','Asshole','Gay','Lesbian','Cvnt',
-	'Sh1t','Shlt','G4y','Fvck','H4ck','N1gger','Nlgger','pussy','pvssy','puzzy','pvzzy',
-	'rape','r4pe','r4p3','rapist','r4pist','r4p1st','Server','Admin'
-];
+_blacklistedString = ['profilename_blacklisted_text_1'] call QS_data_listOther;
 {
 	if ([_x,profileName,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) exitWith {
 		if (userInputDisabled) then {

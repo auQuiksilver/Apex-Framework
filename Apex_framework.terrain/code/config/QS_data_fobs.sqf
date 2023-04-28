@@ -11,6 +11,20 @@ Last modified:
 Description:
 
 	FOB Data
+	
+Note on FOB construction:
+
+	If using this method, FOB requires a flag
+	
+		["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[11847.2,22330.3,20.3864],[[0,1,0],[0,0,1]],0,1,0,[],{
+			missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+		}],
+		
+	And it needs to have this in the init box:
+	
+		missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+		
+	This is required for the FOB deployment/respawn
 ___________________________________________________/*/
 
 params ['_type'];
@@ -24,6 +38,13 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[11847.2,22330.3,20.3864],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_tan_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d",[11854.2,22299.6,19.4647],[[0.000170507,0.999986,-0.00525156],[-0.0293479,0.0052543,0.999556]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -146,14 +167,14 @@ if (_worldName isEqualTo 'Altis') exitWith {
 				["Land_Bunker_01_blocks_3_F","a3\structures_f_argo\military\bunkers\bunker_01_blocks_3_f.p3d",[11858.9,22365,17.0342],[[0.999989,0.00474828,0],[0,0,1]],0,0,2,[],{}]
 			],
 			[
-				["B_G_Offroad_01_F",[11805.6,22293.5,-0.0551891],91.3296],
-				["B_G_Offroad_01_armed_F",[11805.2,22301.7,-0.0624695],92.2692],
-				["B_MRAP_01_F",[11829.8,22271,0.00987434],1.36946],
-				["B_MRAP_01_F",[11837.8,22271,-0.00250244],1.42604],
-				["B_MRAP_01_F",[11846.1,22270.5,-0.00465584],1.39603],
-				["B_Truck_01_transport_F",[11831.9,22317.1,0.0405598],181.002],
-				["B_Quadbike_01_F",[11844,22324.5,-0.00384903],270.283],
-				["B_Quadbike_01_F",[11844.3,22328.4,-0.00305176],270.272]
+				["B_G_Offroad_01_F",[11805.6,22293.5,-0.0551891],91.3296,{}],
+				["B_G_Offroad_01_armed_F",[11805.2,22301.7,-0.0624695],92.2692,{}],
+				["B_MRAP_01_F",[11829.8,22271,0.00987434],1.36946,{}],
+				["B_MRAP_01_F",[11837.8,22271,-0.00250244],1.42604,{}],
+				["B_MRAP_01_F",[11846.1,22270.5,-0.00465584],1.39603,{}],
+				["B_Truck_01_transport_F",[11831.9,22317.1,0.0405598],181.002,{}],
+				["B_Quadbike_01_F",[11844,22324.5,-0.00384903],270.283,{}],
+				["B_Quadbike_01_F",[11844.3,22328.4,-0.00305176],270.272,{}]
 			],
 			[11828.1,22359.7,0.00135517],
 			[11850.5,22299.9,0.00137329],
@@ -167,6 +188,13 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[5371.82,17898.3,80.5007],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_tan_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d",[5424.26,17941,79.9204],[[-0.999322,-0.0368147,-9.58852e-005],[0.00225045,-0.0636868,0.997967]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -275,13 +303,13 @@ if (_worldName isEqualTo 'Altis') exitWith {
 				["Land_Wreck_LT_01_F","a3\props_f_tank\military\wrecks\wreck_lt_01_f.p3d",[5466.01,17918.8,76.0715],[[0,0.995297,0.0968754],[0.02266,-0.0968506,0.995041]],0,0,2,[],{}]
 			],
 			[
-				["B_Quadbike_01_F",[5379.93,17896.4,-0.000259399],40.4165],
-				["B_Quadbike_01_F",[5376.69,17899.2,-0.00130463],40.331],
-				["B_MRAP_01_F",[5390.32,17929.1,0.0323334],172.728],
-				["B_MRAP_01_F",[5373.58,17927.1,0.00133514],177.623],
-				["B_MRAP_01_F",[5382.14,17928.2,0.0809021],177.544],
-				["B_G_Offroad_01_F",[5429.07,17893.5,-0.0491638],280.279],
-				["B_G_Offroad_01_armed_F",[5430.26,17901.2,-0.0496674],278.539]
+				["B_Quadbike_01_F",[5379.93,17896.4,-0.000259399],40.4165,{}],
+				["B_Quadbike_01_F",[5376.69,17899.2,-0.00130463],40.331,{}],
+				["B_MRAP_01_F",[5390.32,17929.1,0.0323334],172.728,{}],
+				["B_MRAP_01_F",[5373.58,17927.1,0.00133514],177.623,{}],
+				["B_MRAP_01_F",[5382.14,17928.2,0.0809021],177.544,{}],
+				["B_G_Offroad_01_F",[5429.07,17893.5,-0.0491638],280.279,{}],
+				["B_G_Offroad_01_armed_F",[5430.26,17901.2,-0.0496674],278.539,{}]
 			],
 			[5403.48,17896.2,0.00151825],		/*helipad*/
 			[5424.13,17937.4,0.00135803],		/* service bay*/
@@ -295,6 +323,13 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[22071.1,19897.1,18.6108],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_tan_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d",[22034.6,19945.4,16.218],[[-0.946385,-0.322806,-0.0123203],[-0.0528278,0.117027,0.991723]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -426,6 +461,13 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[16903.7,9972.6,20.3337],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_tan_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d",[16871.2,9971.07,18.4273],[[0.296781,-0.954945,0.000774404],[-0.0107547,-0.0025315,0.999939]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -564,6 +606,13 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[7363.89,11439,17.8208],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_tan_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d",[7347.94,11443.9,14.9372],[[0.0611946,0.998125,-0.00118032],[-0.015698,0.00214483,0.999874]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -707,6 +756,13 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[11076.8,11517.8,354.436],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[11129.2,11485.5,352.852],[[0.0869649,0.996084,-0.0159507],[0.000190131,0.0159948,0.999872]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -850,6 +906,13 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[11655.3,4399.4,157.046],[[0.76876,0.639538,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[11668.3,4358.01,154.396],[[0.992776,-0.0667286,-0.0997173],[0.10212,0.0336162,0.994204]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -962,6 +1025,13 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[4922.85,5113.25,16.482],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[4853.61,5117.14,16.0682],[[-0.651753,-0.758254,0.0164323],[0.040114,-0.0128278,0.999113]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -1074,6 +1144,13 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[3966.5,11806.9,28.3032],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[3965.69,11831.3,26.1683],[[-0.721859,-0.688597,0.0689461],[0.0133362,0.0857672,0.996226]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -1191,6 +1268,13 @@ if (_worldName isEqualTo 'Malden') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[5969.09,9645.21,173.479],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_tan_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d",[5994.33,9651.12,171.739],[[0.725795,0.685284,-0.0600691],[-0.012609,0.100559,0.994851]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -1289,7 +1373,14 @@ if (_worldName isEqualTo 'Malden') exitWith {
 			[3831.45,4721.96],
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[3822.66,4721.68,75.022],[[0,1,0],[0,0,1]],0,1,0,[],{
-					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_tan_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d",[3841.72,4739.93,71.8833],[[-0.561216,0.827345,0.0231908],[0.092639,0.0349475,0.995086]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -1396,6 +1487,13 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[5552.26,9361.63,16.5221],[[0.249529,0.968367,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[5583.27,9389.43,15.1911],[[0.201699,0.979448,0.000311439],[-0.00154408,0,0.999999]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -1519,6 +1617,13 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[2993,5079.81,216.644],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[3013.93,5066.66,217.312],[[-0.698303,0.711497,-0.0783901],[-0.0987119,0.0127478,0.995034]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];
@@ -1639,6 +1744,13 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 			[
 				["FlagPole_F","a3\structures_f\mil\flags\mast_f.p3d",[11648.6,7975.99,35.902],[[0,1,0],[0,0,1]],0,1,0,[],{
 					missionNamespace setVariable ['QS_module_fob_flag',(_this # 0),TRUE];
+					(_this # 0) addEventHandler [
+						'Deleted',
+						{
+							params ['_entity'];
+							missionNamespace setVariable ['QS_module_fob_respawnTickets',(round (((_entity getVariable ['QS_deploy_tickets',0]) / 2) max 0)),FALSE];
+						}
+					];
 				}],
 				["Land_RepairDepot_01_green_F","a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d",[11635.9,8037.9,32.9917],[[-0.995977,0.05916,-0.06731],[-0.067049,0.00638931,0.997729]],0,0,2,[],{
 					missionNamespace setVariable ['QS_module_fob_repairDepot',(_this # 0),FALSE];

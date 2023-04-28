@@ -1,5 +1,5 @@
 /*
-File: fn_eventGroupDeleted.sqf
+File: fn_eventGroupCreated.sqf
 Author:
 
 	Quiksilver
@@ -10,7 +10,7 @@ Last modified:
 	
 Description:
 
-	Group Deleted event
+	Group Created event
 __________________________________________________*/
 
 params ['_group'];

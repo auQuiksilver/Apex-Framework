@@ -64,12 +64,7 @@ if (worldName in ['Tanoa']) then {
 if (worldName in ['Stratis']) then {
 	_requiredBuildings = 6;
 };
-private _result = (count (nearestObjects [
-	_QS_AOpos,
-	(missionNamespace getVariable ['QS_data_smallBuildingTypes_12',[]]),
-	_aoSize * 0.9,
-	TRUE
-])) >= _requiredBuildings;
+private _result = (count ((nearestObjects [_QS_AOpos,['House'],_aoSize * 0.9,TRUE]) select {((!isObjectHidden _x) && ((sizeOf (typeOf _x)) > 10))})) >= _requiredBuildings;
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -92,6 +87,7 @@ if (!(worldName in ['Stratis'])) then {
 	missionNamespace setVariable ['QS_AO_HQ_flag',_flag,FALSE];
 	missionNamespace setVariable ['QS_hqPos',_QS_AOpos,FALSE];
 };
+'respawn_east' setMarkerPos _QS_AOpos;
 
 /*/======================================================================= CUSTOMIZATIONS/*/
 

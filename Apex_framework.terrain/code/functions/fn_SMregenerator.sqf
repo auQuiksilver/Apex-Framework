@@ -134,6 +134,7 @@ _tankTypes = [
 	'I_LT_01_AT_F',0.3,
 	'I_LT_01_cannon_F',0.4
 ];
+private _tankType = '';
 private _tank = objNull;
 private _tankCount = 1;
 if (_playerCount > 10) then {_unitCount = 16;_groupSize = 4;_tankCount = 1;} else {_unitCount = 12;_groupSize = 4;_tankCount = 1;};
@@ -148,7 +149,8 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 	_grpSpawnPos = ['RADIUS',_spawnPosition,400,'LAND',[5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	if ((_grpSpawnPos distance2D _spawnPosition) < 500) then {
 		_grp = createGroup [EAST,TRUE];
-		_tank = createVehicle [(selectRandomWeighted _tankTypes),_grpSpawnPos,[],0,'NONE'];
+		_tankType = selectRandomWeighted _tankTypes;
+		_tank = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _tankType,_tankType],_grpSpawnPos,[],0,'NONE'];
 		_tank setDir (random 360);
 		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
 		_tank allowCrewInImmobile [TRUE,TRUE];
@@ -170,7 +172,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		_all pushBack _tank;
 		{
 			_x setUnitTrait ['engineer',TRUE,FALSE];
-			_x setUnitLoadout (getUnitLoadout (['O_engineer_F','O_T_Engineer_F'] select (worldName in ['Tanoa','Lingor3'])));
+			_x setUnitLoadout (QS_core_units_map getOrDefault [toLowerANSI 'O_engineer_F','O_engineer_F']);
 			_all pushBack _x;
 		} forEach (crew _tank);
 		_tanks pushBack _tank;
@@ -180,7 +182,7 @@ private _tent = objNull;
 if ((random 1) > 0.5) then {
 	_grpSpawnPos = ['RADIUS',_spawnPosition,600,'LAND',[5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	if ((_grpSpawnPos distance2D _spawnPosition) < 600) then {
-		_tank = createVehicle ['I_LT_01_scout_F',_grpSpawnPos,[],0,'NONE'];
+		_tank = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI 'I_LT_01_scout_F','I_LT_01_scout_F'],_grpSpawnPos,[],0,'NONE'];
 		_tank setDir (random 360);
 		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
 		_tank allowCrewInImmobile [TRUE,TRUE];
@@ -277,8 +279,10 @@ for '_x' from 0 to 1 step 0 do {
 			if (_posFound) then {
 				_grp = createGroup [EAST,TRUE];
 				_grp setFormDir (_spawnPosition getDir _grpSpawnPos);
+				private _type = '';
 				for '_x' from 0 to (_groupSize - 1) step 1 do {
-					_unit = _grp createUnit [(selectRandomWeighted _unitTypes),_grpSpawnPos,[],5,'FORM'];
+					_type = selectRandomWeighted _unitTypes;
+					_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_grpSpawnPos,[],5,'FORM'];
 					_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
 					_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 					[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');

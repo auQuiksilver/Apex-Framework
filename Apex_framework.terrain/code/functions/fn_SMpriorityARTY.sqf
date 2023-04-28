@@ -52,6 +52,7 @@ _tankTypes = [
 	'I_LT_01_AT_F',0.4,
 	'I_LT_01_cannon_F',0.2
 ];
+private _tankType = '';
 private _tank = objNull;
 private _tankCount = 1;
 if (_playerCount > 10) then {_tankCount = 1;} else {_tankCount = 1;};
@@ -66,7 +67,8 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 	_grpSpawnPos = ['RADIUS',_flatPos,300,'LAND',[5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	if ((_grpSpawnPos distance2D _flatPos) < 500) then {
 		//_grp = createGroup [EAST,TRUE];
-		_tank = createVehicle [(selectRandomWeighted _tankTypes),_grpSpawnPos,[],0,'NONE'];
+		_tankType = selectRandomWeighted _tankTypes;
+		_tank = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _tankType,_tankType],_grpSpawnPos,[],0,'NONE'];
 		_tank setDir (random 360);
 		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
 		_tank allowCrewInImmobile [TRUE,TRUE];
@@ -86,7 +88,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 		_enemiesArray pushBack _tank;
 		{
 			_x setUnitTrait ['engineer',TRUE,FALSE];
-			_x setUnitLoadout (getUnitLoadout (['O_engineer_F','O_T_Engineer_F'] select (worldName in ['Tanoa','Lingor3'])));
+			_x setUnitLoadout (QS_core_units_map getOrDefault [toLowerANSI 'O_engineer_F','O_engineer_F']);
 			_enemiesArray pushBack _x;
 		} forEach (crew _tank);
 		_tanks pushBack _tank;

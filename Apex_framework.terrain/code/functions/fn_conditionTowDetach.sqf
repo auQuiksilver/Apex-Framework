@@ -1,27 +1,22 @@
 /*
-@filename: fn_conditionSlingAttach.sqf
+File: fn_conditionTowDetach.sqf
 Author: 
 
 	Quiksilver
 	
 Last modified:
 
-	23/07/2014 ArmA 1.24 by Quiksilver
+	30/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Condition for add-Action
-__________________________________________________________________*/
+____________________________________________*/
 
 _v = _this # 0;
-private _c = FALSE;
-if (_v isKindOf 'LandVehicle') then {
-	if (((vectorMagnitude (velocity _v)) * 3.6) < 1) then {
-		if ((_v getVariable ['QS_tow_veh',-1]) > 0) then {
-			if (_v getVariable ['QS_ropeAttached',FALSE]) then {
-				_c = TRUE;
-			};
-		};
-	};
-};
-_c;
+(
+	(_v isKindOf 'LandVehicle') &&
+	{((_v getVariable ['QS_tow_veh',-1]) > 0)} &&
+	{((  (attachedObjects _v) findIf { _x getVariable ['QS_attached',FALSE] }) isNotEqualTo -1)} &&
+	{(((vectorMagnitude (velocity _v)) * 3.6) < 1)}
+)

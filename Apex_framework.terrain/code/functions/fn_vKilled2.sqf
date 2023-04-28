@@ -19,8 +19,8 @@ if (!isNull _killer) then {
 			_killerName = if ((alive _instigator) && {(isPlayer _instigator)}) then {(name _instigator)} else {(name (effectiveCommander _killer))};
 			_killerType = typeOf (vehicle _killer);
 			_killedType = typeOf _killed;
-			_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
-			_killedDisplayName = getText (configFile >> 'CfgVehicles' >> _killedType >> 'displayName');
+			_killerDisplayName = getText ((configOf (vehicle _killer)) >> 'displayName');
+			_killedDisplayName = getText ((configOf _killed) >> 'displayName');
 			if (isServer) then {
 				[[WEST,'BLU'],(format ['%1 %4 %2 %5 %3!',_killerName,_killedDisplayName,_killerDisplayName,localize 'STR_QS_Chat_045',localize 'STR_QS_Chat_046'])] remoteExec ['sideChat',-2,FALSE];
 			} else {

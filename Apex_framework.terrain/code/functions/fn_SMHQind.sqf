@@ -85,8 +85,8 @@ for '_x' from 0 to 2 step 1 do {
 	_object setVariable ['QS_secureable',TRUE,TRUE];
 	_object setVariable ['QS_isExplosion',TRUE,TRUE];
 };
-_truck1 = createVehicle ['I_Truck_02_ammo_F',_flatPos1,[],0,'NONE'];
-_truck2 = createVehicle ['I_Truck_02_ammo_F',_flatPos2,[],0,'NONE'];
+_truck1 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI 'I_Truck_02_ammo_F','I_Truck_02_ammo_F'],_flatPos1,[],0,'NONE'];
+_truck2 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI 'I_Truck_02_ammo_F','I_Truck_02_ammo_F'],_flatPos2,[],0,'NONE'];
 {_x setDir (random 360);_x lock 3;} forEach [_truck1,_truck2];
 
 /*/-------------------- SPAWN FORCE PROTECTION/*/

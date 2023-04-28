@@ -46,7 +46,7 @@ if (_type isEqualTo 'MOVE') exitWith {
 	// Not capable of moving without more development, for instance respawning vehicles would not follow
 };
 if (
-	(_type isEqualTo 'INIT') && 
+	(_type isEqualTo 'INIT') &&
 	{(worldName in ['Altis','Stratis','Tanoa','Malden','stozec'])}
 ) exitWith {
 	if (isDedicated) then {
@@ -206,6 +206,10 @@ if (
 			['land_destroyer_01_boat_rack_01_f',[11.5142,14.25,6.8],180,{}],
 			['land_destroyer_01_boat_rack_01_f',[-11.5142,14.25,6.8],180,{}]
 		];
+
+		// Add low-sec safezone to ship
+		[3] call QS_fnc_zonePreset;
+		['PRESET',1] call QS_fnc_deployment;
 	};
 };
 if (_type isEqualTo 'PROPS') exitWith {
@@ -465,61 +469,18 @@ if (_type isEqualTo 'HOSPITAL') then {
 };
 if (_type isEqualTo 'VEHICLES') exitWith {
 	private _list = [];
+	_heliType = 'b_heli_transport_01_f';
+	_boatType = 'b_boat_armed_01_minigun_f';
+	
 	if ((missionNamespace getVariable ['QS_missionConfig_destroyerVehicles',0]) > 0) then {
 		_list = [
 			// Boat 1
-			[objNull,30,false,{
-				_this spawn {
-					sleep 0.1;
-					_this setVelocity [0,0,0];
-					_boatRacks = nearestObjects [_this,['land_destroyer_01_boat_rack_01_f'],25,TRUE];
-					if (_boatRacks isNotEqualTo []) then {
-						_boatRack = _boatRacks # 0;
-						if ((getVehicleCargo _boatRack) isEqualTo []) then {
-							_this setDir (getDir _boatRack);
-							_boatRack setVehicleCargo _this;
-						};
-					};
-					sleep 1;
-					_this addEventHandler [
-						'GetIn',
-						{
-							params ['_v','','',''];
-							_v enableSimulationGlobal TRUE;
-							_v removeEventHandler [_thisEvent,_thisEventHandler];
-						}
-					];
-					_this enableSimulationGlobal FALSE;
-				};
-			},
-			(['b_boat_armed_01_minigun_f','b_t_boat_armed_01_minigun_f'] select (worldName in ['Tanoa','Lingor3'])),
+			[objNull,30,false,{call QS_fnc_destroyerVehicleInit},
+			_boatType,
 			((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [30,12.7339,6.47747]),((getDir (missionNamespace getVariable 'QS_destroyerObject')) - -126.998),false,0,-1,250,250,-1,5,FALSE,1],
 			// Boat 2
-			[objNull,30,false,{
-				_this spawn {
-					sleep 0.1;
-					_this setVelocity [0,0,0];
-					_boatRacks = nearestObjects [_this,['land_destroyer_01_boat_rack_01_f'],25,TRUE];
-					if (_boatRacks isNotEqualTo []) then {
-						_boatRack = _boatRacks # 0;
-						if ((getVehicleCargo _boatRack) isEqualTo []) then {
-							_this setDir (getDir _boatRack);
-							_boatRack setVehicleCargo _this;
-						};
-					};
-					sleep 1;
-					_this addEventHandler [
-						'GetIn',
-						{
-							params ['_v','','',''];
-							_v enableSimulationGlobal TRUE;
-							_v removeEventHandler [_thisEvent,_thisEventHandler];
-						}
-					];
-					_this enableSimulationGlobal FALSE;
-				};
-			},
-			(['b_boat_armed_01_minigun_f','b_t_boat_armed_01_minigun_f'] select (worldName in ['Tanoa','Lingor3'])),
+			[objNull,30,false,{call QS_fnc_destroyerVehicleInit},
+			_boatType,
 			((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [-30,12.752,6.98745]),((getDir (missionNamespace getVariable 'QS_destroyerObject')) - -126.998),false,0,-1,250,250,-1,5,FALSE,1]		
 		];
 	};
@@ -528,75 +489,41 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 			_list pushBack _x;
 		} forEach [
 			// Heli 1
-			[objNull,30,false,{
-				(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_destroyer_hangarHeli',_this,TRUE];		// TODO: Set to FALSE on build release if not needed true
-				_this setVelocity [0,0,0];
-				_this spawn {
-					sleep 2;
-					_this addEventHandler [
-						'GetIn',
-						{
-							params ['_v','','',''];
-							_v enableSimulationGlobal TRUE;
-							_v removeEventHandler [_thisEvent,_thisEventHandler];
-						}
-					];
-					_this enableSimulationGlobal FALSE;
-					_this lock 2;
-				};
-			},
-			'b_heli_transport_01_f',
-			((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0.074707,42.9854,10.9379]),((getDir (missionNamespace getVariable 'QS_destroyerObject')) - -180),false,0,-1,250,250,-1,5,FALSE,1]
+			[
+				objNull,30,false,{call QS_fnc_destroyerVehicleInit},
+				_heliType,
+				((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0.074707,42.9854,10.9379]),((getDir (missionNamespace getVariable 'QS_destroyerObject')) - -180),false,0,-1,250,250,-1,5,FALSE,1,{((nearestObjects [QS_destroyerObject modelToWorldWorld [0.074707,42.9854,8.81596],['Air'],15,TRUE]) isEqualTo [])}
+			]
 		];
 	};
 	if (_list isNotEqualTo []) then {
 		{
-			(missionNamespace getVariable 'QS_v_Monitor') pushBack _x;
+			(serverNamespace getVariable 'QS_v_Monitor') pushBack _x;
 		} forEach _list;
 	};
 };
 if (_type isEqualTo 'RESPAWN_PLAYER') exitWith {
+	params ['',['_entity',QS_player]];
 	if (!isDedicated) then {
 		if (hasInterface) then {
-			private _inArea = ['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_destroyer');
+			private _inArea = ['INPOLYGON_FOOT',_entity] call (missionNamespace getVariable 'QS_fnc_destroyer');
 			if (
 				(!_inArea) ||
-				(_inArea && (((getPosASL player) # 2) < 3))
+				(_inArea && ((toLowerANSI (pose _entity)) in ['swimming','surfaceswimming']))
 			) then {
-				_base = markerPos 'QS_marker_base_marker';
-				if ((player distance2D _base) > 1000) then {
-					_positions = [
-						[1.6084,14.7378,7.26747],[1.61328,11.1191,7.26953],[-0.90918,13.2896,7.27783],[-1.10303,16.2041,7.27946],[-0.109375,18.124,7.27023],[1.21338,18.9902,7.26167],[1.10254,16.9429,7.27243]
-					] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
-					_position = selectRandom _positions;
-					_position spawn {
-						preloadCamera _this;
-						uiSleep 0.5;
-						player setPosWorld _this;
-						uiSleep 5;
-						if (surfaceIsWater (getPosASL player)) then {
-							if (((getPosASL player) # 2) < 3) then {
-								player setPosWorld _this;
-							};
-						};
-					};
-				} else {
-					_result = [localize 'STR_QS_Menu_136',localize 'STR_QS_Menu_164',localize 'STR_QS_Menu_113',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
-					if (_result) then {
-						_positions = [
-							[1.6084,14.7378,7.26747],[1.61328,11.1191,7.26953],[-0.90918,13.2896,7.27783],[-1.10303,16.2041,7.27946],[-0.109375,18.124,7.27023],[1.21338,18.9902,7.26167],[1.10254,16.9429,7.27243]
-						] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
-						_position = selectRandom _positions;
-						_position spawn {
-							preloadCamera _this;
-							uiSleep 0.5;
-							player setPosWorld _this;
-							uiSleep 5;
-							if (surfaceIsWater (getPosASL player)) then {
-								if (((getPosASL player) # 2) < 3) then {
-									player setPosWorld _this;
-								};
-							};
+				_positions = [
+					[1.6084,14.7378,7.26747],[1.61328,11.1191,7.26953],[-0.90918,13.2896,7.27783],[-1.10303,16.2041,7.27946],[-0.109375,18.124,7.27023],[1.21338,18.9902,7.26167],[1.10254,16.9429,7.27243]
+				] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
+				_position = selectRandom _positions;
+				[_position,_entity] spawn {
+					params ['_position','_entity'];
+					preloadCamera _position;
+					uiSleep 0.5;
+					_entity setPosWorld _position;
+					uiSleep 5;
+					if (surfaceIsWater (getPosASL _entity)) then {
+						if (((getPosASL _entity) # 2) < 3) then {
+							_entity setPosWorld _position;
 						};
 					};
 				};

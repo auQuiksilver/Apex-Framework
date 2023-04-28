@@ -13,6 +13,10 @@ Description:
 	AI vehicle animation sources & appearance
 ______________________________________________/*/
 
+if (
+	((missionNamespace getVariable ['QS_system_activeDLC','']) isNotEqualTo '') ||
+	((missionNamespace getVariable ['QS_missionConfig_dlcVehicles','']) isNotEqualTo '')
+) exitWith {};
 params [['_case',0],['_vehicle',objNull],['_side',EAST],['_chance',0.5]];
 _type = toLowerANSI (typeOf _vehicle);
 _cheetah = ['b_apc_tracked_01_aa_f','b_t_apc_tracked_01_aa_f'];
@@ -35,6 +39,8 @@ _reserved_1 = [''];
 _reserved_2 = [''];
 _reserved_3 = [''];
 scopeName 'main';
+_vehicle enableRopeAttach FALSE;
+_vehicle enableVehicleCargo FALSE;
 if (_case isEqualTo 0) then {
 	if (
 		(_vehicle isKindOf 'Helicopter') ||
@@ -182,7 +188,7 @@ if (_case isEqualTo 0) then {
 		if (_type in ['o_t_apc_wheeled_02_rcws_v2_ghex_f']) then {
 			{ 
 				_vehicle setObjectTextureGlobal [_forEachIndex,_x]; 
-			} forEach (getArray (configFile >> 'CfgVehicles' >> _type >> 'TextureSources' >> 'GreenHex' >> 'textures'));
+			} forEach (getArray ((configOf _vehicle) >> 'TextureSources' >> 'GreenHex' >> 'textures'));
 		};
 		breakTo 'main';
 	};
@@ -365,7 +371,7 @@ if (_case isEqualTo 0) then {
 		_vehicle animateSource ['HideBackpacks',(selectRandom [0,1]),1];
 		{ 
 			_vehicle setObjectTextureGlobal [_forEachIndex,_x]; 
-		} forEach (getArray (configFile >> 'CfgVehicles' >> _type >> 'TextureSources' >> (format ['Guerilla_%1',(selectRandom ['01','02','03','04','05','06','07','08','09','10','11','12'])]) >> 'textures'));
+		} forEach (getArray ((configOf _vehicle) >> 'TextureSources' >> (format ['Guerilla_%1',(selectRandom ['01','02','03','04','05','06','07','08','09','10','11','12'])]) >> 'textures'));
 		breakTo 'main';
 	};
 	if (_type in _offroad2) then {
@@ -383,7 +389,7 @@ if (_case isEqualTo 0) then {
 		if (_type in ['o_sam_system_04_f','o_radar_system_02_f']) then {
 			{
 				_vehicle setObjectTextureGlobal [_forEachIndex,_x];
-			} forEach (getArray (configFile >> 'CfgVehicles' >> _type >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
+			} forEach (getArray ((configOf _vehicle) >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
 		};
 	};
 };

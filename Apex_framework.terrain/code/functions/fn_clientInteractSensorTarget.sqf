@@ -75,7 +75,12 @@ _onCompleted = {
 			player setVariable ['QS_client_jtac_sensorTarget',_cursorObject,FALSE];
 			50 cutText [localize 'STR_QS_Text_144','PLAIN DOWN',0.3];
 			playSound 'beep_target';
-			['sideChat',[WEST,'BLU'],(format ['%1 %4 %2 %5 %3 %6',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _cursorObject) >> 'displayName')),(mapGridPosition _cursorObject),localize 'STR_QS_Chat_036',localize 'STR_QS_Hints_060',localize 'STR_QS_Chat_037'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			_displayName = QS_hashmap_configfile getOrDefaultCall [
+				format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _cursorObject)],
+				{getText ((configOf _cursorObject) >> 'displayName')},
+				TRUE
+			];
+			['sideChat',[WEST,'BLU'],(format ['%1 %4 %2 %5 %3 %6',profileName,_displayName,(mapGridPosition _cursorObject),localize 'STR_QS_Chat_036',localize 'STR_QS_Hints_060',localize 'STR_QS_Chat_037'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			[77,'FIRE_SUPPORT',[_cursorObject,profileName],FALSE] remoteExec ['QS_fnc_remoteExec',2];
 		} else {
 			50 cutText [localize 'STR_QS_Text_142','PLAIN DOWN',0.3];

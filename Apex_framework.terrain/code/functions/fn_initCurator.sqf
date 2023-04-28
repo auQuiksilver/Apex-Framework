@@ -92,29 +92,7 @@ if (_type isEqualTo 0) then {
 			};
 		}
 	];
-	_module removeCuratorAddons [
-		'a3_modules_f_curator_respawn',
-		'a3_modules_f_curator_multiplayer',
-		'a3_modules_f_kart',
-		'a3_modules_f_mark_firingdrills',
-		'a3_modules_f_curator_intel',
-		'a3_modules_f_curator_environment',
-		'a3_modules_f_curator_effects',
-		'a3_characters_f_bootcamp',
-		'a3_structures_f_bootcamp_vr_blocks',
-		'a3_structures_f_bootcamp_vr_coverobjects',
-		'a3_structures_f_bootcamp_vr_helpers',
-		'a3_structures_f_exp_a_vr_blocks',
-		'a3_structures_f_exp_a_vr_helpers',
-		'a3_structures_f_mark_vr_helpers',
-		'a3_structures_f_mark_vr_shapes',
-		'a3_structures_f_mark_vr_targets',
-		'a3_structures_f_heli_vr_helpers',
-		'a3_modules_f_curator_lightning',
-		'a3_data_f_curator_respawn',
-		'curatoronly_modules_f_curator_environment',
-		'curatoronly_modules_f_curator_lightning'
-	];
+	_module removeCuratorAddons QS_core_classNames_zeusDisabledAddons_lower;
 	diag_log format ['***** CURATOR ***** Module created for %1 ( %2 ) *****',(name _client),_puid];
 };
 if (_type isEqualTo 1) then {
@@ -141,7 +119,7 @@ if (_type isEqualTo 1) then {
 			['curatorFeedbackMessage',{call (missionNamespace getVariable 'BIS_fnc_showCuratorFeedbackMessage');}],
 			/*/['curatorPinged',{call (missionNamespace getVariable 'BIS_fnc_curatorPinged');}],/*/
 			['curatorObjectPlaced',{call (missionNamespace getVariable 'BIS_fnc_curatorObjectPlaced');}],
-			['curatorObjectEdited',{call (missionNamespace getVariable 'BIS_fnc_curatorObjectEdited');}],
+			['curatorObjectEdited',{call (missionNamespace getVariable 'BIS_fnc_curatorObjectEdited'); call (missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectEdited')}],
 			['curatorWaypointPlaced',{call (missionNamespace getVariable 'BIS_fnc_curatorWaypointPlaced');}],
 			['curatorObjectDoubleClicked',{(_this # 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
 			['curatorGroupDoubleClicked',{(_this # 1) call (missionNamespace getVariable 'BIS_fnc_showCuratorAttributes');}],
@@ -522,30 +500,6 @@ if (_type isEqualTo 1) then {
 					};
 				};
 			} forEach allUnits;
-			if ((inputAction 'User14') > 0) then {
-				_cameraOn = cameraOn;
-				if (
-					(alive _cameraOn) &&
-					{(local _cameraOn)} &&
-					{(!unitIsUAV _cameraOn)} &&
-					{(
-						(_cameraOn isKindOf 'Plane') ||
-						(_cameraOn isKindOf 'Helicopter') ||
-						(_cameraOn isKindOf 'LandVehicle') ||
-						(_cameraOn isKindOf 'Ship')
-					)}
-				) then {
-					{
-						if (
-							(alive _x) &&
-							{(!(isPlayer _x))} &&
-							{(_x isNotEqualTo (currentPilot _cameraOn))}
-						) then {
-							moveOut _x;
-						};
-					} forEach (crew _cameraOn);
-				};
-			};
 		};
 	};
 };

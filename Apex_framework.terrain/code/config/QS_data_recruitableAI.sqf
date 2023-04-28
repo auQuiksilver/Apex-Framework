@@ -27,14 +27,14 @@ if (worldName isEqualTo 'Altis') exitWith {
 };
 if (worldName isEqualTo 'Tanoa') exitWith {
 	[
-		[objNull,60,false,{},"B_T_Medic_F",[6905.22,7444.03,0.00143886],74.0643,false,0,-1,TRUE],
-		[objNull,60,false,{},"B_CTRG_Soldier_AR_tna_F",[6904.49,7450.24,0.00143886],68.9876,false,0,-1,TRUE],
-		[objNull,60,false,{},"B_CTRG_Soldier_AR_tna_F",[6904.2,7451.43,0.00143886],70.1967,false,0,-1,TRUE],
-		[objNull,60,false,{},"B_T_Medic_F",[6905.09,7445.69,0.00143909],72.3628,false,0,-1,FALSE],
-		[objNull,60,false,{},"B_T_Engineer_F",[6905.01,7447.33,0.00143886],71.7933,false,0,-1,TRUE],
-		[objNull,60,false,{},"B_T_Engineer_F",[6904.72,7448.91,0.00143886],74.1894,false,0,-1,FALSE],
-		[objNull,300,false,{},"B_T_Helicrew_F",[7092.58,7292.76,0.00143886],157.963,false,0,-1,TRUE],
-		[objNull,300,false,{},"B_T_Helicrew_F",[7094.25,7293.22,0.00143886],158.254,false,0,-1,FALSE]
+		[objNull,60,false,{},"B_medic_F",[6905.22,7444.03,0.00143886],74.0643,false,0,-1,TRUE],
+		[objNull,60,false,{},"B_Soldier_AR_F",[6904.49,7450.24,0.00143886],68.9876,false,0,-1,TRUE],
+		[objNull,60,false,{},"B_Soldier_AR_F",[6904.2,7451.43,0.00143886],70.1967,false,0,-1,TRUE],
+		[objNull,60,false,{},"B_medic_F",[6905.09,7445.69,0.00143909],72.3628,false,0,-1,FALSE],
+		[objNull,60,false,{},"B_engineer_F",[6905.01,7447.33,0.00143886],71.7933,false,0,-1,TRUE],
+		[objNull,60,false,{},"B_engineer_F",[6904.72,7448.91,0.00143886],74.1894,false,0,-1,FALSE],
+		[objNull,300,false,{},"B_helicrew_F",[7092.58,7292.76,0.00143886],157.963,false,0,-1,TRUE],
+		[objNull,300,false,{},"B_helicrew_F",[7094.25,7293.22,0.00143886],158.254,false,0,-1,FALSE]
 	]
 };
 if (worldName isEqualTo 'Malden') exitWith {
@@ -51,14 +51,14 @@ if (worldName isEqualTo 'Malden') exitWith {
 };
 if (worldName isEqualTo 'Enoch') exitWith {
 	[
-		[objNull,60,false,{},"B_W_Soldier_AR_F",[4054.99,10201,0.00144196],315.519,false,0,-1,TRUE],
-		[objNull,60,false,{},"B_W_Soldier_AR_F",[4053.83,10200.1,0.00144196],320.469,false,0,-1,FALSE],
-		[objNull,60,false,{},"B_W_soldier_M_F",[4052.44,10198.6,0.00144958],316.122,false,0,-1,TRUE],
-		[objNull,60,false,{},"B_W_soldier_M_F",[4051.46,10197.6,0.00144196],316.122,false,0,-1,FALSE],
-		[objNull,60,false,{},"B_W_Medic_F",[4056.53,10202.9,0.00144196],314.673,false,0,-1,TRUE],
-		[objNull,60,false,{},"B_W_Medic_F",[4057.55,10204.1,0.00144196],314.615,false,0,-1,TRUE],
-		[objNull,300,false,{},"B_W_Engineer_F",[4050.13,10196.2,0.00144196],312.056,false,0,-1,TRUE],
-		[objNull,300,false,{},"B_W_Engineer_F",[4049.33,10195.2,0.00144196],312.056,false,0,-1,FALSE]
+		[objNull,60,false,{},"B_Soldier_AR_F",[4054.99,10201,0.00144196],315.519,false,0,-1,TRUE],
+		[objNull,60,false,{},"B_Soldier_AR_F",[4053.83,10200.1,0.00144196],320.469,false,0,-1,FALSE],
+		[objNull,60,false,{},"B_soldier_M_F",[4052.44,10198.6,0.00144958],316.122,false,0,-1,TRUE],
+		[objNull,60,false,{},"B_soldier_M_F",[4051.46,10197.6,0.00144196],316.122,false,0,-1,FALSE],
+		[objNull,60,false,{},"B_Medic_F",[4056.53,10202.9,0.00144196],314.673,false,0,-1,TRUE],
+		[objNull,60,false,{},"B_Medic_F",[4057.55,10204.1,0.00144196],314.615,false,0,-1,TRUE],
+		[objNull,300,false,{},"B_Engineer_F",[4050.13,10196.2,0.00144196],312.056,false,0,-1,TRUE],
+		[objNull,300,false,{},"B_Engineer_F",[4049.33,10195.2,0.00144196],312.056,false,0,-1,FALSE]
 	]
 };
 if (worldName isEqualTo 'Stratis') exitWith {

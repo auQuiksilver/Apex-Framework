@@ -15,7 +15,7 @@ ___________________________________________________________________*/
 
 params ['_unit','_healer','_healerIsMedic'];
 if (!isPlayer _healer) then {
-	[_unit,_healer,_healerIsMedic] spawn {
+	_this spawn {
 		params ['_unit','_healer','_healerIsMedic'];
 		if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 			_healer doWatch _unit;

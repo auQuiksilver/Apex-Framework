@@ -40,37 +40,7 @@ _terrainData params [
 	'_buildingPositionsInPolygon',
 	'_buildingPositionsInPolygonNearGround'
 ];
-private _unitTypes = [
-	'O_G_Soldier_A_F',1,
-	'O_G_Soldier_AR_F',3,
-	'O_G_medic_F',1,
-	'O_G_engineer_F',1,
-	'O_G_Soldier_exp_F',1,
-	'O_G_Soldier_GL_F',1,
-	'O_G_Soldier_M_F',1,
-	'O_G_Soldier_F',1,
-	'O_G_Soldier_LAT_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
-	'O_G_Soldier_LAT2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
-	'O_G_Soldier_lite_F',1,
-	'O_G_Sharpshooter_F',3,
-	'O_G_Soldier_TL_F',1,
-	'I_C_Soldier_Bandit_7_F',1,
-	'I_C_Soldier_Bandit_3_F',3,
-	'I_C_Soldier_Bandit_2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
-	'I_C_Soldier_Bandit_5_F',2,
-	'I_C_Soldier_Bandit_6_F',2,
-	'I_C_Soldier_Bandit_1_F',2,
-	'I_C_Soldier_Bandit_8_F',2,
-	'I_C_Soldier_Bandit_4_F',2,
-	'I_C_Soldier_Para_7_F',1,
-	'I_C_Soldier_Para_2_F',1,
-	'I_C_Soldier_Para_3_F',1,
-	'I_C_Soldier_Para_4_F',3,
-	'I_C_Soldier_Para_6_F',1,
-	'I_C_Soldier_Para_8_F',1,
-	'I_C_Soldier_Para_1_F',1,
-	'I_C_Soldier_Para_5_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4)
-];
+private _unitTypes = ['grid_units_3'] call QS_data_listUnits;
 _worldName = worldName;
 _worldSize = worldSize;
 private _basePosition = markerPos 'QS_marker_base_marker';
@@ -124,7 +94,7 @@ if (_type isEqualTo 0) exitWith {
 		_enemyGrp = createGroup [EAST,TRUE];
 		for '_j' from 0 to (_teamSize - 1) step 1 do {
 			_enemyUnitType = selectRandomWeighted _unitTypes;
-			_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPosition,[],25,'NONE'];
+			_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],_spawnPosition,[],25,'NONE'];
 			if (_isDedicated) then {
 				[_enemyUnit,'amovppnemstpsraswrfldnon'] remoteExecCall ['switchMove',-2,FALSE];
 			} else {
@@ -197,7 +167,7 @@ if (_type isEqualTo 1) exitWith {
 		_enemyGrp = createGroup [EAST,TRUE];
 		for '_j' from 0 to (_teamSize - 1) step 1 do {
 			_enemyUnitType = selectRandomWeighted _unitTypes;
-			_enemyUnit = _enemyGrp createUnit [_enemyUnitType,(_patrolRoute # 0),[],25,'NONE'];
+			_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],(_patrolRoute # 0),[],25,'NONE'];
 			_enemyUnit setVehiclePosition [(getPosASL _enemyUnit),[],10,'NONE'];
 			{
 				_enemyUnit enableAIFeature [_x,FALSE];

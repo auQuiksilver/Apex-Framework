@@ -130,7 +130,7 @@ if (_grp getVariable ['QS_AI_GRP_canNearTargets',TRUE]) then {
 				};
 			};
 			if ((random 1) > 0.666) then {
-				_targets = _grpLeader targets [TRUE,600];
+				_targets = _grp targets [TRUE,600];
 				_grp setVariable ['QS_AI_GRP_nearTargets',[_targets,(count _targets)],FALSE];
 			};
 		};
@@ -429,8 +429,7 @@ if (
 							_buildingPositions = (_location getVariable ['QS_virtualSectors_terrainData',[ [],[],[],[],[] ]]) # 3;
 							if (!isNil '_buildingPositions') then {
 								if (_buildingPositions isNotEqualTo []) then {
-									_movePos = selectRandom _buildingPositions;
-									_movePos set [2,((_movePos # 2) + 1)];
+									_movePos = (selectRandom _buildingPositions) vectorAdd [0,0,1];
 									doStop (units _grp);
 									if (canSuspend) then {sleep 0.1;};
 									(units _grp) doMove _movePos;
@@ -928,7 +927,7 @@ if (
 				};
 				if (_defaultMove) then {
 					[7,EAST,_grp,_grpLeader,_grpObjectParent,400] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies');
-					_targets = _grpLeader targets [TRUE,400];
+					_targets = _grp targets [TRUE,400];
 					if (_targets isEqualTo []) then {
 						if ( ((_grp getVariable ['QS_AI_GRP_DATA',[[0,0,0]]]) # 0) isNotEqualTo [0,0,0] ) then {
 							_movePos = (_grp getVariable ['QS_AI_GRP_DATA',[[0,0,0]]]) # 0;
@@ -1067,8 +1066,7 @@ if (
 						private _enemyPos = [0,0,0];
 						{
 							_grpUnit = _x;
-							_unitMovePos = _currentTask_position;
-							_unitMovePos set [2,((_unitMovePos # 2) + 1.5)];
+							_unitMovePos = _currentTask_position vectorAdd [0,0,1.5];
 							if ((random 1) > 0.5) then {
 								_nearestEnemy = _grpUnit findNearestEnemy _grpUnit;
 								if (alive _nearestEnemy) then {

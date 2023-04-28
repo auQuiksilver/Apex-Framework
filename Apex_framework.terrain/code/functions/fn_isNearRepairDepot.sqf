@@ -44,11 +44,7 @@ if (_list isNotEqualTo []) then {
 			((_cameraOn distance2D _x) < _radius) &&
 			{(!isNull _x)} &&
 			{(isSimpleObject _x)} &&
-			{((toLowerANSI ((getModelInfo _x) # 1)) in [
-				'a3\structures_f_tank\military\repairdepot\repairdepot_01_civ_f.p3d',
-				'a3\structures_f_tank\military\repairdepot\repairdepot_01_green_f.p3d',
-				'a3\structures_f_tank\military\repairdepot\repairdepot_01_tan_f.p3d'
-			])} &&
+			{((toLowerANSI ((getModelInfo _x) # 1)) in (['repair_depot_models_1'] call QS_data_listVehicles))} &&
 			{(!(_x getVariable ['QS_repairdepot_disable',FALSE]))}
 		) exitWith {
 			_return = TRUE;

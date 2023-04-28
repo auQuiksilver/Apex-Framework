@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	19/12/2016 A3 1.66 by Quiksilver
+	21/02/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -48,26 +48,13 @@ _vehicle setObjectTextureGlobal [1,"a3\Air_F_Gamma\Plane_Fighter_03\Data\Plane_F
 _vehicle setVehicleReceiveRemoteTargets TRUE;
 _vehicle setVehicleReportRemoteTargets TRUE;
 _vehicle setVehicleReportOwnPosition FALSE;
-if (isDedicated) then {
-	_vehicle addEventHandler [
-		'HandleDamage',
-		{
-			if (!(local (_this # 0))) exitWith {};
-			params ['_vehicle','_selection','_damage','_source','_ammo','_hitPartIndex','_instigator'];
-			if (_selection isNotEqualTo '?') then {
-				_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
-				if (!isNull _source) then {
-					_scale = 0.25;
-					_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
-					_damage = ((_damage - _oldDamage) * _scale) + _oldDamage;
-				} else {
-					if (_ammo isEqualTo '') then {
-						_scale = 0.25;
-						_damage = ((_damage - _oldDamage) * _scale) + _oldDamage;
-					};
-				};
-			};
-			_damage;
-		}
-	];
-};
+_vehicle addEventHandler [
+	'HandleDamage',
+	{
+		if (!(local (_this # 0))) exitWith {};
+		params ['_vehicle','_selection','_damage'];
+		_oldDamage = if (_selection isEqualTo '') then [{(damage _vehicle)},{(_vehicle getHit _selection)}];
+		_damage = ((_damage - _oldDamage) * 0.1) + _oldDamage;
+		_damage;
+	}
+];

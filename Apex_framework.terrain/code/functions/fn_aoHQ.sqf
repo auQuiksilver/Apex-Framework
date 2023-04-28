@@ -39,6 +39,8 @@ diag_log format ['***** QS * Used HQ Composition Index: %1 *****',_hqArray find 
 {_x allowDamage FALSE;} count (missionNamespace getVariable 'QS_aoHQ');
 private _boxArray = [(missionNamespace getVariable 'QS_HQpos')] call (missionNamespace getVariable 'QS_fnc_aoHQCache');
 [(missionNamespace getVariable 'QS_AO_HQ_flag'),EAST,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
+['REMOVE','ENEMY_HQ_0'] call QS_fnc_zoneManager;
+['ADD',['ENEMY_HQ_0',TRUE,'NO_BUILD','RAD',2,[(missionNamespace getVariable ['QS_hqPos',[0,0,0]]),40],{},{},{TRUE},{},[WEST]]] call QS_fnc_zoneManager;
 {
 	(missionNamespace getVariable 'QS_aoHQ') pushBack _x;
 } forEach _boxArray;

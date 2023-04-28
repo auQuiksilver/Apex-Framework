@@ -12,7 +12,6 @@ Description:
 	
 	-
 __________________________________________________________________________/*/
-
 _cursorIntersections = lineIntersectsSurfaces [
 	(AGLToASL (positionCameraToWorld [0,0,0])), 
 	(AGLToASL (positionCameraToWorld [0,0,(if (cameraView isEqualTo 'INTERNAL') then [{2.1},{4.55}])])), 
@@ -34,8 +33,11 @@ if (_cursorIntersections isNotEqualTo []) then {
 	if ((simulationEnabled _objectParent) || {(_canAttachExp)}) then {
 		if ((_objectParent isKindOf 'AllVehicles') || {(_canAttachExp)}) then {
 			if (((side _objectParent) in [EAST,RESISTANCE]) || {(_canAttachExp)}) then {
-				player removeMagazine 'DemoCharge_Remote_Mag';
-				_mine = createVehicle ['democharge_remote_ammo',(position player),[],0,'NONE'];
+				_magazineIndex = ((magazines player) apply {toLowerANSI _x}) findAny QS_core_classNames_demoCharges;
+				if (_magazineIndex isNotEqualTo -1) then {
+					player removeMagazine ((magazines player) # _magazineIndex);
+				};
+				_mine = createVehicle [QS_core_classNames_demoChargeAmmo,((position player) vectorAdd [0,0.25,0.5]),[],0,'NONE'];
 				_mine setVectorUp _surfaceNormal;
 				_mine setPosASL _intersectPosASL;
 				[_mine,_objectParent,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');

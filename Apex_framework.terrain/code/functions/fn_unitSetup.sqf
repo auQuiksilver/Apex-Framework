@@ -6,13 +6,20 @@ Author:
 
 Last Modified:
 
-	4/11/2022 A3 2.10 by Quiksilver
+	30/03/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	Setup unit
 ______________________________________________________/*/
 
+if (
+	(!(missionNamespace getVariable ['QS_missionConfig_enemyRandGear',TRUE])) ||
+	{((missionNamespace getVariable ['QS_system_activeDLC','']) isNotEqualTo '')} ||
+	{((missionNamespace getVariable ['QS_missionConfig_dlcUnits','']) isNotEqualTo '')}
+) exitWith {
+	_this
+};
 _unit = _this;
 _unitType = toLowerANSI (typeOf _unit);
 private _weapons = [];
@@ -329,8 +336,8 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 				'optic_arco_ak_lush_f','optic_erco_blk_f','optic_erco_khk_f','optic_erco_snd_f','optic_mrco','optic_hamr','optic_hamr_khk_f'
 			]);
 			for '_x' from 0 to 1 step 1 do {
-				_unit addMagazine 'MiniGrenade';
-				_unit addMagazine 'HandGrenade';
+				_unit addMagazine QS_core_classNames_miniGrenade;
+				_unit addMagazine QS_core_classNames_handGrenade;
 			};
 		};
 	};
@@ -444,7 +451,7 @@ if ((side _unit) in [EAST,RESISTANCE]) then {
 			'o_r_patrol_soldier_ar_f',
 			'o_r_recon_ar_f'
 		]) then {
-			_unit setUnitLoadout [['lmg_mk200_black_f','muzzle_snds_65_ti_blk_f','acc_pointer_ir','optic_dms_weathered_f',['200rnd_65x39_cased_box',200],[],'bipod_02_f_lush'],[],['hgun_rook40_f','','','',['16rnd_9x21_mag',16],[],''],['u_o_r_gorka_01_camo_f',[['firstaidkit',1],['16rnd_9x21_mag',2,16]]],['v_smershvest_01_f',[['firstaidkit',2],['handgrenade',2,1],['smokeshell',1,1],['smokeshellred',1,1],['200rnd_65x39_cased_box',2,200]]],['b_fieldpack_taiga_f',[['200rnd_65x39_cased_box',3,200],['minigrenade',2,1],['handgrenade',2,1],['smokeshell',2,1]]],'h_helmetaggressor_cover_taiga_f','g_balaclava_oli',[],['itemmap','','itemradio','itemcompass','itemwatch','o_nvgoggles_grn_f']];
+			_unit setUnitLoadout [['lmg_mk200_black_f','muzzle_snds_65_ti_blk_f','acc_pointer_ir','optic_dms_weathered_f',['200rnd_65x39_cased_box',200],[],'bipod_02_f_lush'],[],['hgun_rook40_f','','','',['16rnd_9x21_mag',16],[],''],['u_o_r_gorka_01_camo_f',[[QS_core_classNames_itemFirstAidKit,1],['16rnd_9x21_mag',2,16]]],['v_smershvest_01_f',[[QS_core_classNames_itemFirstAidKit,2],['handgrenade',2,1],['smokeshell',1,1],['smokeshellred',1,1],['200rnd_65x39_cased_box',2,200]]],['b_fieldpack_taiga_f',[['200rnd_65x39_cased_box',3,200],['minigrenade',2,1],['handgrenade',2,1],['smokeshell',2,1]]],'h_helmetaggressor_cover_taiga_f','g_balaclava_oli',[],[QS_core_classNames_itemMap,'',QS_core_classNames_itemRadio,QS_core_classNames_itemCompass,QS_core_classNames_itemWatch,'o_nvgoggles_grn_f']];
 		};
 	};
 } else {
@@ -508,41 +515,16 @@ if (!(_unitType in [
 	'o_soldier_sl_f','o_recon_jtac_f','o_recon_tl_f','o_v_soldier_jtac_hex_f','o_v_soldier_tl_hex_f','o_t_soldier_sl_f','o_t_recon_jtac_f','o_t_recon_tl_f','o_v_soldier_jtac_ghex_f',
 	'o_v_soldier_tl_ghex_f','o_r_jtac_f','o_r_soldier_tl_f','o_r_recon_jtac_f','o_r_recon_tl_f','i_soldier_sl_f','o_soldieru_sl_f'
 ])) then {
-	if (_unit hasWeapon 'Binocular') then {
-		if (_unit isNotEqualTo (leader (group _unit))) then {
-			_unit removeWeapon 'Binocular';
-		};
+	if (
+		((binocular _unit) isNotEqualTo '') &&
+		(_unit isNotEqualTo (leader (group _unit)))
+	) then {
+		_unit removeWeapon (binocular _unit);
 	};
 };
-private _toRemove = [];
-private _container = [];
 {
-	if (!isNil '_x') then {
-		_container = _x;
-		if (!isNil '_container') then {
-			if (_container isNotEqualTo []) then {
-				{
-					if ((toLowerANSI _x) in [
-						'chemlight_blue','chemlight_green','chemlight_red','chemlight_yellow'
-					]) then {
-						_toRemove pushBack _x;
-					};
-				} forEach _container;
-			};
-		};
-	};
-} forEach [
-	(uniformItems _unit),
-	(vestItems _unit),
-	(backpackItems _unit),
-	(items _unit)
-];
-if (_toRemove isNotEqualTo []) then {
-	{
-		
-		_unit removeItem _x;
-	} forEach _toRemove;
-};
+	_unit removeMagazines _x;
+} forEach ['chemlight_blue','chemlight_green','chemlight_red','chemlight_yellow'];
 _unit enableAIFeature ['AUTOCOMBAT',TRUE];
 _unit enableFatigue FALSE;
 _unit enableStamina FALSE;
@@ -552,8 +534,7 @@ if (!(missionNamespace getVariable ['QS_defendActive',FALSE])) then {
 };
 if ((!isDedicated) && hasInterface ) exitWith {_unit};
 _unit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
-if (!((vehicle _unit) isKindOf 'Man')) then {
-	_unit setSpeaker 'NoVoice';
+if (!isNull (objectParent _unit)) then {
 	_unit enableAIFeature ['RADIOPROTOCOL',FALSE];
 };
 _unit;

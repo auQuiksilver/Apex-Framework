@@ -16,7 +16,7 @@ ____________________________________________________________________________/*/
 scriptName 'QS SC Spawn Enemy';
 params ['_QS_module_virtualSectors_vehiclesEnabled'];
 private [
-	'_centerPos','_staticTypes','_grpCount','_airTypes','_engineerType','_infUrbanTypes','_aaTypes','_mrapTypes','_playerThreshold','_vehTypes','_isArmedAirEnabled','_mortGunnerType',
+	'_centerPos','_staticTypes','_grpCount','_airTypes','_engineerType','_infUrbanTypes','_aaTypes','_mrapTypes','_playerThreshold','_isArmedAirEnabled','_mortGunnerType',
 	'_pilotType','_jtacType','_officerType','_infantryGroupType','_randomPos','_radialIncrement','_radialOffset','_radialStart','_radialPatrolPositions',
 	'_patrolPosition','_grp','_entityArray','_side','_maxRadialPatrolInfantry','_spawnedRadialPatrolInfantry','_roadsValid','_allowVehicles','_spawnedPatrolVehicles',
 	'_maxPatrolVehicles','_roadsValidCopy','_roadsValidPositions','_maxSniperTeams','_spawnedSniperTeams','_positionASL','_position','_allowedGarrison','_areaHouses',
@@ -103,182 +103,24 @@ _grp = grpNull;
 _side = EAST;
 _infantryGroupType = '';
 _infantryGroupTypes = [
-	'OIA_InfSentry',1,
 	'OIA_InfSquad',3,
 	'OIA_InfTeam',4,
-	'OIA_InfTeam_LAT',3,
+	'OIA_InfTeam_LAT',1,
 	'OIA_InfAssault',2,
 	'OIA_InfTeam_AA',2,
-	'OIA_InfTeam_AT',2,
+	'OIA_InfTeam_AT',1,
 	'OIA_ARTeam',2,
-	'OIA_InfTeam_HAT',2
+	'OIA_InfTeam_HAT',1
 ];
-if (_worldName in ['Tanoa','Enoch']) then {
-	_staticTypes = ['O_HMG_01_high_F'];
-	_airTypes = ['i_e_heli_light_03_dynamicloadout_f','O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F'];
-	_engineerType = 'O_T_Engineer_F';
-	_aaTypes = ['O_T_APC_Tracked_02_AA_ghex_F'];
-	_mrapTypes = ['O_T_MRAP_02_gmg_ghex_F','O_T_MRAP_02_hmg_ghex_F','O_T_LSV_02_armed_F'];
-	if (_playerCount >= _playerThreshold) then {
-		if (_isArmedAirEnabled) then {
-			_vehTypes = [
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'B_APC_Tracked_01_rcws_F',
-				'O_T_MBT_02_cannon_ghex_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_MBT_03_cannon_F',
-				'O_T_MRAP_02_gmg_ghex_F',
-				'O_T_MRAP_02_hmg_ghex_F',
-				'O_T_LSV_02_armed_F',
-				'O_T_MRAP_02_gmg_ghex_F',
-				'O_T_MRAP_02_hmg_ghex_F',
-				'O_T_LSV_02_armed_F'
-			];
-		} else {
-			_vehTypes = [
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'B_APC_Tracked_01_rcws_F',
-				'O_T_MBT_02_cannon_ghex_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_MBT_03_cannon_F',
-				'O_T_MRAP_02_gmg_ghex_F',
-				'O_T_MRAP_02_hmg_ghex_F',
-				'O_T_LSV_02_armed_F',
-				'O_T_MRAP_02_gmg_ghex_F',
-				'O_T_MRAP_02_hmg_ghex_F',
-				'O_T_LSV_02_armed_F'
-			];		
-		};
-	} else {
-		if (_isArmedAirEnabled) then {
-			_vehTypes = [
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_MRAP_03_hmg_F'
-			];
-		} else {
-			_vehTypes = [
-				'O_T_APC_Tracked_02_cannon_ghex_F',
-				'O_T_APC_Wheeled_02_rcws_v2_ghex_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_MRAP_03_hmg_F'
-			];
-		};
-	};
-	_mortGunnerType = 'O_T_Support_Mort_F';
-	_pilotType = 'O_T_Helipilot_F';
-	_jtacType = 'O_T_Recon_JTAC_F';
-	_officerType = 'O_T_Officer_F';
-} else {
-	_staticTypes = ['O_HMG_01_high_F'];
-	_airTypes = ['i_heli_light_03_dynamicloadout_f','O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F'];
-	_engineerType = 'O_engineer_F';
-	_aaTypes = ['O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','B_APC_Tracked_01_AA_F','O_APC_Tracked_02_AA_F'];
-	_mrapTypes = ['O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F'];
-	if (_playerCount >= _playerThreshold) then {
-		if (_isArmedAirEnabled) then {
-			_vehTypes = [
-				'O_MBT_02_cannon_F',
-				'O_APC_Tracked_02_cannon_F',
-				'O_APC_Wheeled_02_rcws_v2_F',
-				'O_APC_Tracked_02_cannon_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'I_MBT_03_cannon_F',
-				'B_APC_Tracked_01_rcws_F',
-				'O_MBT_02_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F'
-			];
-		} else {
-			_vehTypes = [
-				'O_MBT_02_cannon_F',
-				'O_APC_Tracked_02_cannon_F',
-				'O_APC_Wheeled_02_rcws_v2_F',
-				'O_APC_Tracked_02_cannon_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'O_APC_Wheeled_02_rcws_v2_F',
-				'O_APC_Tracked_02_cannon_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'I_MBT_03_cannon_F',
-				'B_APC_Tracked_01_rcws_F',
-				'O_MBT_02_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F'
-			];	
-		};
-	} else {
-		if (_isArmedAirEnabled) then {
-			_vehTypes = [
-				'O_MBT_02_cannon_F',
-				'O_APC_Tracked_02_cannon_F',
-				'O_APC_Wheeled_02_rcws_v2_F',
-				'O_APC_Tracked_02_cannon_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'I_MBT_03_cannon_F',
-				'B_APC_Tracked_01_rcws_F',
-				'O_MBT_02_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F'
-			];
-		} else {
-			_vehTypes = [
-				'O_MBT_02_cannon_F',
-				'O_APC_Tracked_02_cannon_F',
-				'O_APC_Wheeled_02_rcws_v2_F',
-				'O_APC_Tracked_02_cannon_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'O_APC_Wheeled_02_rcws_v2_F',
-				'O_APC_Tracked_02_cannon_F',
-				'I_APC_Wheeled_03_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'I_MBT_03_cannon_F',
-				'B_APC_Tracked_01_rcws_F',
-				'O_MBT_02_cannon_F',
-				'I_APC_tracked_03_cannon_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F',
-				'O_MRAP_02_gmg_F',
-				'O_MRAP_02_hmg_F',
-				'O_LSV_02_armed_F'
-			];
-		};
-	};
-	_mortGunnerType = 'O_support_MG_F';
-	_pilotType = 'O_Helipilot_F';
-	_jtacType = 'O_recon_JTAC_F';
-	_officerType = 'O_officer_F';
-};
+_staticTypes = ['O_HMG_02_high_F'];
+_airTypes = ['i_heli_light_03_dynamicloadout_f','O_Heli_Light_02_dynamicLoadout_F','O_Heli_Light_02_v2_F','O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F'];
+_engineerType = 'O_engineer_F';
+_aaTypes = ['O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','B_APC_Tracked_01_AA_F','O_APC_Tracked_02_AA_F'];
+_mrapTypes = ['O_MRAP_02_gmg_F','O_MRAP_02_hmg_F','O_LSV_02_armed_F'];
+_mortGunnerType = 'O_support_MG_F';
+_pilotType = 'O_Helipilot_F';
+_jtacType = 'O_recon_JTAC_F';
+_officerType = 'O_officer_F';
 
 diag_log '****************************************************';
 diag_log '***** SC ENEMY ***** Spawning Helicopter ***********';
@@ -299,7 +141,7 @@ if (_playerCount > 20) then {
 	];
 };
 _airType = selectRandom _airTypes;
-_air = createVehicle [_airType,[(_randomPos # 0),(_randomPos # 1),1000],[],0,'NONE'];
+_air = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _airType,_airType],[(_randomPos # 0),(_randomPos # 1),1000],[],0,'NONE'];
 _air engineOn TRUE;
 _air addEventHandler [
 	'GetOut',
@@ -316,27 +158,27 @@ _air setPos [(_randomPos # 0),(_randomPos # 1),300];
 _air enableRopeAttach FALSE;
 _air setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _grp addVehicle _air;
-_unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
+_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _pilotType,_pilotType],_randomPos,[],0,'NONE'];
 _unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _unit assignAsDriver _air;
 _unit moveInDriver _air;
 missionNamespace setVariable ['QS_AI_supportProviders_CASHELI',((missionNamespace getVariable 'QS_AI_supportProviders_CASHELI') + [effectiveCommander _air]),QS_system_AI_owners];
 missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') + [effectiveCommander _air]),QS_system_AI_owners];
 if (!((typeOf _air) in ['O_Heli_Light_02_v2_F','O_Heli_Light_02_dynamicLoadout_F'])) then {
-	_unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _pilotType,_pilotType],_randomPos,[],0,'NONE'];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsTurret [_air,[0]];
 	_unit moveInTurret [_air,[0]];
 };
 _air setVehiclePosition [(getPosWorld _air),[],0,'FLY'];
 if ((toLowerANSI _airType) in ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f']) then {
-	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName in ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI 'o_soldier_ar_f','o_soldier_ar_f'],[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
 	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit addPrimaryWeaponItem 'optic_lrps';
 	_unit moveInCargo [_air,0];
 	_entityArray pushBack _unit;
-	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName in ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI 'o_soldier_ar_f','o_soldier_ar_f'],[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
 	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit addPrimaryWeaponItem 'optic_lrps';
@@ -468,7 +310,7 @@ for '_x' from 0 to 1 step 0 do {
 			_roadsValidCopy deleteAt (_roadsValidCopy find _randomRoad);
 		};
 		_vehicleType = selectRandomWeighted ([1] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
-		_vehicle = createVehicle [_vehicleType,[(_randomRoadPosition # 0),(_randomRoadPosition # 1),((_randomRoadPosition # 2) + 5)],[],0,'NONE'];
+		_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],(_randomRoadPosition vectorAdd [0,0,5]),[],0,'NONE'];
 		_spawnedPatrolVehicles = _spawnedPatrolVehicles + 1;
 		_arrayVehicles pushBack _vehicle;
 		_entityArray pushBack _vehicle;
@@ -497,15 +339,15 @@ for '_x' from 0 to 1 step 0 do {
 		[_vehicle] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 		if ((toLowerANSI _vehicleType) in ['b_apc_tracked_01_rcws_f','b_t_apc_tracked_01_rcws_f']) then {
 			_grp = createGroup [_side,TRUE];
-			_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+			_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _engineerType,_engineerType],_randomRoadPosition,[],0,'NONE'];
 			_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_unit assignAsDriver _vehicle;
 			_unit moveInDriver _vehicle;
-			_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+			_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _engineerType,_engineerType],_randomRoadPosition,[],0,'NONE'];
 			_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_unit assignAsGunner _vehicle;
 			_unit moveInGunner _vehicle;
-			_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+			_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _engineerType,_engineerType],_randomRoadPosition,[],0,'NONE'];
 			_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_unit assignAsCommander _vehicle;
 			_unit moveInCommander _vehicle;
@@ -621,9 +463,12 @@ if (_allowedGarrison) then {
 	};
 	_grp = createGroup [RESISTANCE,TRUE];
 	_areaBuildingPositionIndex = 0;
+	private _type = '';
+	private _staticType = '';
 	for '_x' from 0 to 1 step 0 do {
 		if (_spawnedBuildingInfantry >= _maxBuildingInfantry) exitWith {};
-		_unit = _grp createUnit [(selectRandom _indUnitTypes),[0,0,0],[],0,'NONE'];
+		_type = selectRandom _indUnitTypes;
+		_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],[0,0,0],[],0,'NONE'];
 		{
 			_unit enableAIFeature [_x,FALSE];
 		} forEach ['PATH','AUTOCOMBAT','COVER','SUPPRESSION'];
@@ -637,7 +482,8 @@ if (_allowedGarrison) then {
 			if ((_areaBuildingPositions # _areaBuildingPositionIndex) in _staticWeaponPositions) then {
 				if (_spawnedStaticWeapons < _maxStaticWeapons) then {
 					_spawnedStaticWeapons = _spawnedStaticWeapons + 1;
-					_vehicle = createVehicle [(selectRandom _staticTypes),[0,0,0],[],0,'NONE'];
+					_staticType = selectRandom _staticTypes;
+					_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _staticType,_staticType],[0,0,0],[],0,'NONE'];
 					_vehicle setVectorUp [0,0,1];
 					_vehicle setPos (_areaBuildingPositions # _areaBuildingPositionIndex);
 					_entityArray pushBack _vehicle;
@@ -718,8 +564,7 @@ for '_x' from 0 to 1 step 0 do {
 	_spawnedSniperTeams = _spawnedSniperTeams + 1;
 	_position = selectRandom (missionNamespace getVariable 'QS_virtualSectors_positions');
 	_position = _position getPos [(random 5),(random 360)];
-	_positionASL = AGLToASL _position;
-	_positionASL set [2,((_positionASL # 2) + 1)];
+	_positionASL = (AGLToASL _position) vectorAdd [0,0,1];
 	for '_x' from 0 to 9 step 1 do {
 		_randomPos = [_position,500,25,7.5,[[objNull,'VIEW',objNull],0.75]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
 		if ((([_randomPos # 0,_randomPos # 1] nearRoads 20) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) exitWith {};

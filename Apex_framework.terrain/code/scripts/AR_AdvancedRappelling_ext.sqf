@@ -8,16 +8,17 @@ AR_Has_Addon_Sounds_Installed = compileFinal " 	private [""_config"",""_configMi
 AR_Rappel_All_Cargo = compileFinal " 	params [""_vehicle"",[""_rappelHeight"",25],[""_positionASL"",[]]]; 	if(isPlayer (driver _vehicle)) exitWith {}; 	if(local _vehicle) then { 		_this spawn { 			params [""_vehicle"",[""_rappelHeight"",25],[""_positionASL"",[]]]; 	 			_heliGroup = group driver _vehicle; 			_vehicle setVariable [""AR_Units_Rappelling"",true];  			_heliGroupOriginalBehaviour = behaviour (leader _heliGroup); 			_heliGroupOriginalCombatMode = combatMode (leader _heliGroup); 			_heliGroupOriginalFormation = formation _heliGroup;  			if (_positionASL isEqualTo []) then { 				_positionASL = AGLtoASL [(getPos _vehicle) # 0, (getPos _vehicle) # 1, 0]; 			}; 			_positionASL = _positionASL vectorAdd [0, 0, _rappelHeight]; 			 			_gameLogicLeader = _heliGroup createUnit [""LOGIC"", ASLToAGL _positionASL, [], 0, """"]; 			_heliGroup selectLeader _gameLogicLeader;  			_heliGroup setBehaviour ""Careless""; 			_heliGroup setCombatMode ""Blue""; 			_heliGroup setFormation ""File""; 			 			waitUntil { (vectorMagnitude (velocity _vehicle)) < 10 && _vehicle distance2d _gameLogicLeader < 50  }; 			 			[_vehicle, _positionASL] spawn { 				params [""_vehicle"",""_positionASL""]; 				 				while { _vehicle getVariable [""AR_Units_Rappelling"",false] && alive _vehicle } do {  					_velocityMagatude = 5; 					_distanceToPosition = ((getPosASL _vehicle) distance _positionASL); 					if( _distanceToPosition <= 10 ) then { 						_velocityMagatude = (_distanceToPosition / 10) * _velocityMagatude; 					}; 					 					_currentVelocity = velocity _vehicle; 					_currentVelocity = _currentVelocity vectorAdd (( (getPosASL _vehicle) vectorFromTo _positionASL ) vectorMultiply _velocityMagatude); 					_currentVelocity = (vectorNormalized _currentVelocity) vectorMultiply ( (vectorMagnitude _currentVelocity) min _velocityMagatude ); 					_vehicle setVelocity _currentVelocity; 					 					sleep 0.05; 				}; 			};  			_rappelUnits = []; 			_rappelledGroups = []; 			{ 				if( group _x != _heliGroup && alive _x ) then { 					_rappelUnits pushBack _x; 					_rappelledGroups = _rappelledGroups + [group _x]; 				}; 			} forEach crew _vehicle; 	 			_unitsOutsideVehicle = []; 			while { count _unitsOutsideVehicle != count _rappelUnits } do { 	 				_distanceToPosition = ((getPosASL _vehicle) distance _positionASL); 				if(_distanceToPosition < 3) then { 					{ 						[_x, _vehicle] call AR_Rappel_From_Heli;					 						sleep 1; 					} forEach (_rappelUnits-_unitsOutsideVehicle); 					{ 						if!(_x in _vehicle) then { 							_unitsOutsideVehicle pushBack _x; 						}; 					} forEach (_rappelUnits-_unitsOutsideVehicle); 				}; 				sleep 2; 			}; 			 			_unitsRappelling = true; 			while { _unitsRappelling } do { 				_unitsRappelling = false; 				{ 					if( _x getVariable [""AR_Is_Rappelling"",false] ) then { 						_unitsRappelling = true; 					}; 				} forEach _rappelUnits; 				sleep 3; 			}; 			 			deleteVehicle _gameLogicLeader; 			 			_heliGroup setBehaviour _heliGroupOriginalBehaviour; 			_heliGroup setCombatMode _heliGroupOriginalCombatMode; 			_heliGroup setFormation _heliGroupOriginalFormation;  			_vehicle setVariable [""AR_Units_Rappelling"",nil]; 	 		}; 	} else { 		[_this,""AR_Rappel_All_Cargo"",_vehicle] call AR_RemoteExec; 	}; "; 
 AR_Get_Heli_Rappel_Points = compileFinal " 	params [""_vehicle""]; 	 	 	private [""_preDefinedRappelPoints"",""_className"",""_rappelPoints"",""_preDefinedRappelPointsConverted""]; 	_preDefinedRappelPoints = []; 	{ 		_className = _x # 0; 		_rappelPoints = _x # 1; 		if( _vehicle isKindOf _className ) then { 			_preDefinedRappelPoints = _rappelPoints; 		}; 	} forEach (AP_RAPPEL_POINTS + (missionNamespace getVariable [""AP_CUSTOM_RAPPEL_POINTS"",[]])); 	if(count _preDefinedRappelPoints > 0) exitWith { 		_preDefinedRappelPointsConverted = []; 		{ 			if (_x isEqualType '') then { 				_modelPosition = _vehicle selectionPosition _x; 				if( [0,0,0] distance _modelPosition > 0 ) then { 					_preDefinedRappelPointsConverted pushBack _modelPosition; 				}; 			} else { 				_preDefinedRappelPointsConverted pushBack _x; 			}; 		} forEach _preDefinedRappelPoints; 		_preDefinedRappelPointsConverted; 	};  	private [ 		""_rappelPointsArray"",""_cornerPoints"",""_frontLeftPoint"",""_frontRightPoint"",""_rearLeftPoint"",""_rearRightPoint"",""_rearLeftPointFinal"", 		""_rearRightPointFinal"",""_frontLeftPointFinal"",""_frontRightPointFinal"",""_middleLeftPointFinal"",""_middleRightPointFinal"",""_vehicleUnitVectorUp"", 		""_rappelPoints"",""_modelPoint"",""_modelPointASL"",""_surfaceIntersectStartASL"",""_surfaceIntersectEndASL"",""_surfaces"",""_intersectionASL"",""_intersectionObject"", 		""_la"",""_lb"",""_n"",""_p0"",""_l"",""_d"",""_validRappelPoints"" 	]; 	 	_rappelPointsArray = []; 	_cornerPoints = [_vehicle] call AR_Get_Corner_Points; 	 	_frontLeftPoint = (((_cornerPoints # 2) vectorDiff (_cornerPoints # 3)) vectorMultiply 0.2) vectorAdd (_cornerPoints # 3); 	_frontRightPoint = (((_cornerPoints # 2) vectorDiff (_cornerPoints # 3)) vectorMultiply 0.8) vectorAdd (_cornerPoints # 3); 	_rearLeftPoint = (((_cornerPoints # 0) vectorDiff (_cornerPoints # 1)) vectorMultiply 0.2) vectorAdd (_cornerPoints # 1); 	_rearRightPoint = (((_cornerPoints # 0) vectorDiff (_cornerPoints # 1)) vectorMultiply 0.8) vectorAdd (_cornerPoints # 1); 	 	_rearLeftPointFinal = ((_frontLeftPoint vectorDiff _rearLeftPoint) vectorMultiply 0.2) vectorAdd _rearLeftPoint; 	_rearRightPointFinal = ((_frontRightPoint vectorDiff _rearRightPoint) vectorMultiply 0.2) vectorAdd _rearRightPoint; 	_frontLeftPointFinal = ((_rearLeftPoint vectorDiff _frontLeftPoint) vectorMultiply 0.2) vectorAdd _frontLeftPoint; 	_frontRightPointFinal = ((_rearRightPoint vectorDiff _frontRightPoint) vectorMultiply 0.2) vectorAdd _frontRightPoint; 	_middleLeftPointFinal = ((_frontLeftPointFinal vectorDiff _rearLeftPointFinal) vectorMultiply 0.5) vectorAdd _rearLeftPointFinal; 	_middleRightPointFinal = ((_frontRightPointFinal vectorDiff _rearRightPointFinal) vectorMultiply 0.5) vectorAdd _rearRightPointFinal;  	_vehicleUnitVectorUp = vectorNormalized (vectorUp _vehicle); 	 	_rappelPointHeightOffset = 0; 	{ 		if(_vehicle isKindOf (_x # 0)) then { 			_rappelPointHeightOffset = (_x # 1); 		}; 	} forEach AR_RAPPEL_POINT_CLASS_HEIGHT_OFFSET; 	 	_rappelPoints = []; 	{ 		_modelPoint = _x; 		_modelPointASL = _vehicle modelToWorldVisualWorld _modelPoint; 		_surfaceIntersectStartASL = _modelPointASL vectorAdd ( _vehicleUnitVectorUp vectorMultiply -5 ); 		_surfaceIntersectEndASL = _modelPointASL vectorAdd ( _vehicleUnitVectorUp vectorMultiply 5 );  		_la = ASLToAGL _surfaceIntersectStartASL; 		_lb = ASLToAGL _surfaceIntersectEndASL; 		 		if(_la # 2 < 0 && _lb # 2 > 0) then { 			_n = [0,0,1]; 			_p0 = [0,0,0.1]; 			_l = (_la vectorFromTo _lb); 			if((_l vectorDotProduct _n) != 0) then { 				_d = ( ( _p0 vectorAdd ( _la vectorMultiply -1 ) ) vectorDotProduct _n ) / (_l vectorDotProduct _n); 				_surfaceIntersectStartASL = AGLToASL ((_l vectorMultiply _d) vectorAdd _la); 			}; 		}; 		 		_surfaces = lineIntersectsSurfaces [_surfaceIntersectStartASL, _surfaceIntersectEndASL, objNull, objNull, true, 100]; 		_intersectionASL = []; 		{ 			_intersectionObject = _x # 2; 			if (_intersectionObject isEqualTo _vehicle) exitWith { 				_intersectionASL = _x # 0; 			}; 		} forEach _surfaces; 		if (_intersectionASL isNotEqualTo []) then { 			_intersectionASL = _intersectionASL vectorAdd (( _surfaceIntersectStartASL vectorFromTo _surfaceIntersectEndASL ) vectorMultiply (_rappelPointHeightOffset select (count _rappelPoints))); 			_rappelPoints pushBack (_vehicle worldToModelVisual (ASLToAGL _intersectionASL)); 		} else { 			_rappelPoints pushBack []; 		}; 	} forEach [_middleLeftPointFinal, _middleRightPointFinal, _frontLeftPointFinal, _frontRightPointFinal, _rearLeftPointFinal, _rearRightPointFinal];  	_validRappelPoints = []; 	{ 		if(count _x > 0 && count _validRappelPoints < missionNamespace getVariable [""AR_MAX_RAPPEL_POINTS_OVERRIDE"",6]) then { 			_validRappelPoints pushBack _x; 		}; 	} forEach _rappelPoints; 	 	_validRappelPoints; ";  
 AR_Rappel_From_Heli = compileFinal " 	params [""_player"",""_heli""]; 	if (isServer) then { 	 		if!(_player in _heli) exitWith {}; 		if(_player getVariable [""AR_Is_Rappelling"", false]) exitWith {};  		_rappelPoints = [_heli] call AR_Get_Heli_Rappel_Points; 		_rappelPointIndex = 0; 		{ 			_rappellingPlayer = _heli getVariable [""AR_Rappelling_Player_"" + str _rappelPointIndex,objNull]; 			if(isNull _rappellingPlayer) exitWith {}; 			_rappelPointIndex = _rappelPointIndex + 1; 		} forEach _rappelPoints;  		if ((count _rappelPoints) isEqualTo _rappelPointIndex) exitWith { 			if(isPlayer _player) then { 				[[""All rappel anchors in use. Please try again."", false],""AR_Hint"",_player] call AR_RemoteExec; 			}; 		}; 		 		_heli setVariable [""AR_Rappelling_Player_"" + str _rappelPointIndex,_player];  		_player setVariable [""AR_Is_Rappelling"",true,true];  		[_player,_heli,_rappelPoints # _rappelPointIndex] spawn AR_Client_Rappel_From_Heli;  		[_player, _heli, _rappelPointIndex] spawn { 			params [""_player"",""_heli"", ""_rappelPointIndex""]; 			for '_x' from 0 to 1 step 0 do { 				if(!alive _player) exitWith {}; 				if!(_player getVariable [""AR_Is_Rappelling"", false]) exitWith {}; 				sleep 2; 			}; 			_heli setVariable [""AR_Rappelling_Player_"" + str _rappelPointIndex, nil]; 		};  	} else { 		[_this,""AR_Rappel_From_Heli"",true] call AR_RemoteExecServer; 	}; ";  
-AR_Client_Rappel_From_Heli = compileFinal " 	
+AR_Client_Rappel_From_Heli = compileFinal "    	
 	params [""_player"",""_heli"",""_rappelPoint""];	 	
 	if (local _player) then { 		
 		[_player] orderGetIn false; 		
 		moveOut _player; 		
 		waitUntil { vehicle _player isEqualTo _player}; 		
-		_playerStartPosition = _heli modelToWorldVisualWorld _rappelPoint; 		
-		_playerStartPosition set [2,(_playerStartPosition # 2) - 1]; 		
-		_playerStartPosition set [1,(_playerStartPosition # 1) - ((((random 100)-50))/25)]; 		
-		_playerStartPosition set [0,(_playerStartPosition # 0) - ((((random 100)-50))/25)]; 		
+		_playerStartPosition = (_heli modelToWorldVisualWorld _rappelPoint) vectorAdd [
+			-((((random 100)-50))/25),
+			-((((random 100)-50))/25),
+			-1
+		];	
 		_player setPosWorld _playerStartPosition;  		
 		_anchor = createVehicle ['Land_Can_V2_F',[(random 10),(random 10),(10 + (random 10))],[],0,'NONE'];
 		_anchor allowDamage false;
@@ -33,18 +34,21 @@ AR_Client_Rappel_From_Heli = compileFinal "
 		_rappelDevice = createVehicle [_deviceType,[(random 10),(random 10),(10 + (random 10))],[],0,'NONE'];
 		_rappelDevice allowDamage false;
 		_rappelDevice hideObject TRUE;
+		_rappelDevice hideObject TRUE;
+		_rappelDevice hideObject TRUE;
 		for '_x' from 0 to 1 step 1 do {
 			[[_rappelDevice],'AR_Hide_Object_Global',TRUE] call AR_RemoteExecServer;
 		};
 		_rappelDevice disableCollisionWith _heli;
 		_heli disableCollisionWith _rappelDevice;
-		if (!local _heli) then {
-			[65,_rappelDevice,_heli,FALSE] remoteExecCall ['QS_fnc_remoteExec',_heli,FALSE];
-		};
 		if (canSuspend) then {
 			uiSleep 0.01;
 		};
-		_rappelDevice setPosWorld [((getPosWorld player) # 0),((getPosWorld player) # 1),(((getPosWorld player) # 2) - 1)];
+		[65,_rappelDevice,_heli,FALSE,101] remoteExecCall ['QS_fnc_remoteExec',0,FALSE];
+		if (canSuspend) then {
+			uiSleep 0.01;
+		};
+		_rappelDevice setPosWorld ((getPosWorld player) vectorAdd [0,0,-1]);
 		_bottomRopeLength = 60;
 		_topRopeLength = 3;
 		_topRope = ropeCreate [_rappelDevice, [0,0.15,0], _anchor, [0, 0, 0], _topRopeLength];
@@ -130,7 +134,7 @@ AR_Client_Rappel_From_Heli = compileFinal "
 			};
 			_rappelDevice setPosWorld (_lastPosition vectorAdd ((_newPosition vectorDiff _lastPosition) vectorMultiply 6));
 			_rappelDevice setVectorDir (vectorDir _player);
-			_player setPosWorld [_newPosition # 0, _newPosition # 1, (_newPosition # 2)-0.6];
+			_player setPosWorld (_newPosition vectorAdd [0,0,-0.6]);
 			_player setVelocity [0,0,0];
 			if(_player getVariable [""AR_DECEND_PRESSED"",false]) then {
 				_decendSpeedMetersPerSecond = 3.5;
@@ -174,10 +178,10 @@ AR_Client_Rappel_From_Heli = compileFinal "
 				_player setDir _dir;
 			};
 			_lastPosition = _newPosition;
-			if ((getPos _player) # 2 < 1 || !alive _player || vehicle _player != _player || _bottomRopeLength <= 1 || _player getVariable [""AR_Detach_Rope"",false] ) exitWith {};
+			if ( (((getPos _player) # 2) < 1) || (!((lifeState _player) in ['HEALTHY','INJURED'])) || ((vehicle _player) isNotEqualTo _player) || (_bottomRopeLength <= 1) || (_player getVariable [""AR_Detach_Rope"",false]) ) exitWith {};
 			uiSleep 0.01;
 		};
-		if(_bottomRopeLength > 1 && alive _player && vehicle _player isEqualTo _player) then {
+		if ((_bottomRopeLength > 1) && ((lifeState _player) in ['HEALTHY','INJURED']) && ((vehicle _player) isEqualTo _player)) then {
 			_playerStartASLIntersect = getPosASL _player;
 			_playerEndASLIntersect = [_playerStartASLIntersect # 0, _playerStartASLIntersect # 1, (_playerStartASLIntersect # 2) - 5];
 			_surfaces = lineIntersectsSurfaces [_playerStartASLIntersect, _playerEndASLIntersect, _player, objNull, true, 10];
@@ -239,23 +243,20 @@ AR_Rappel_From_Heli_Action_Check = compileFinal "
 			} else {
 				_vehPos = getPosATL _vehicle;
 			};
-			if (isNil {_vehicle getVariable 'QS_rappellSafety'}) then {
-				if (((_vehPos # 2) > 5) && ((lineIntersectsSurfaces [(_vehicle modelToWorldWorld [0,0,-1]),(_vehicle modelToWorldWorld [0,0,-6]),_vehicle,objNull,TRUE,-1,'GEOM','GEOM',TRUE]) isEqualTo [])) then {
-					if ((_vehPos # 2) < 55) then {
-						if (((vectorMagnitude (velocity _vehicle)) * 3.6) < 35) then {
-							if (((velocity _vehicle) # 2) >= -2.5) then {
-								if (((assignedVehicleRole _player) # 0) in ['cargo','Turret']) then {
-									if ((count (assignedVehicleRole _player)) > 1) then {
-										if (!((((assignedVehicleRole _player) # 0) isEqualTo 'Turret') && ((((assignedVehicleRole _player) # 1) # 0) < 1))) then {
-											_c = TRUE;
-										};
-									} else {
-										_c = TRUE;
-									};
-								};
-							};
-						};
+			if (
+				(!(_vehicle getVariable ['QS_rappellSafety',FALSE])) &&
+				{((_vehPos # 2) < 55)} &&
+				{((_vehPos # 2) > 5)} &&
+				{((lineIntersectsSurfaces [(_vehicle modelToWorldWorld [0,0,-1]),(_vehicle modelToWorldWorld [0,0,-6]),_vehicle,objNull,TRUE,-1,'GEOM','ROADWAY',TRUE]) isEqualTo [])} &&
+				{(((vectorMagnitude (velocity _vehicle)) * 3.6) < 35)} &&
+				{((toLower ((assignedVehicleRole _player) # 0)) in ['cargo','turret'])}
+			) then {
+				if ((count (assignedVehicleRole _player)) > 1) then {
+					if (!((((assignedVehicleRole _player) # 0) isEqualTo 'Turret') && ((((assignedVehicleRole _player) # 1) # 0) < 1))) then {
+						_c = TRUE;
 					};
+				} else {
+					_c = TRUE;
 				};
 			};
 		};

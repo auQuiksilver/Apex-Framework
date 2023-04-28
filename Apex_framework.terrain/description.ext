@@ -6,15 +6,15 @@ Author:
 
 Last modified:
 
-	25/11/2022 A3 2.10 by Quiksilver
+	28/04/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.3.5";
-missionProductStatus = "Stable";											// "Stable" // "Dev"
+missionProductVersion = "1.5.0";
+missionProductStatus = "Beta";											// "Stable" // "Beta" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -153,7 +153,14 @@ class CfgFunctions {
 			class atServer {file = "code\functions\fn_atServer.sqf";};
 			class baseBackpack {file = "code\functions\fn_baseBackpack.sqf";};
 			class baseWeapon {file = "code\functions\fn_baseWeapon.sqf";};
+			class bobcatClearance {file = "code\functions\fn_bobcatClearance.sqf";};
 			class boxTransferCargo {file = "code\functions\fn_boxTransferCargo.sqf";};
+			class canFlattenTerrain {file = "code\functions\fn_canFlattenTerrain.sqf";};
+			class canRecover {file = "code\functions\fn_canRecover.sqf";};
+			class canRespawnAtFOB {file = "code\functions\fn_canRespawnAtFOB.sqf";};
+			class canResupplyTickets {file = "code\functions\fn_canResupplyTickets.sqf";};
+			class canVehicleCargo {file = "code\functions\fn_canVehicleCargo.sqf";};
+			class canWreck {file = "code\functions\fn_canWreck.sqf";};
 			class carrier {file = "code\functions\fn_carrier.sqf";};
 			class casRespawn {file = "code\functions\fn_casRespawn.sqf";};
 			class clearPosition {file = "code\functions\fn_clearPosition.sqf";};
@@ -176,22 +183,29 @@ class CfgFunctions {
 			class clientEventCuratorKeyDown {file = "code\functions\fn_clientEventCuratorKeyDown.sqf";};
 			class clientEventCuratorMarkerPlaced {file = "code\functions\fn_clientEventCuratorMarkerPlaced.sqf";};
 			class clientEventCuratorObjectDeleted {file = "code\functions\fn_clientEventCuratorObjectDeleted.sqf";};
+			class clientEventCuratorObjectEdited {file = "code\functions\fn_clientEventCuratorObjectEdited.sqf";};
 			class clientEventCuratorObjectPlaced {file = "code\functions\fn_clientEventCuratorObjectPlaced.sqf";};
 			class clientEventCuratorObjectRegistered {file = "code\functions\fn_clientEventCuratorObjectRegistered.sqf";};
 			class clientEventCuratorWaypointEdited {file = "code\functions\fn_clientEventCuratorWaypointEdited.sqf";};
 			class clientEventCuratorWaypointPlaced {file = "code\functions\fn_clientEventCuratorWaypointPlaced.sqf";};
+			class clientEventDefaultAction {file = "code\functions\fn_clientEventDefaultAction.sqf";};
 			class clientEventDraw3D {file = "code\functions\fn_clientEventDraw3D.sqf";};
+			class clientEventDraw3D2 {file = "code\functions\fn_clientEventDraw3D2.sqf";};
 			class clientEventEachFrame {file = "code\functions\fn_clientEventEachFrame.sqf";};
+			class clientEventEachFrame2 {file = "code\functions\fn_clientEventEachFrame2.sqf";};
 			class clientEventExplosion {file = "code\functions\fn_clientEventExplosion.sqf";};
 			class clientEventFired {file = "code\functions\fn_clientEventFired.sqf";};
 			class clientEventFiredMan {file = "code\functions\fn_clientEventFiredMan.sqf";};
 			class clientEventFiredNear {file = "code\functions\fn_clientEventFiredNear.sqf";};
+			class clientEventFiredPrevent {file = "code\functions\fn_clientEventFiredPrevent.sqf";};
 			class clientEventGestureChanged {file = "code\functions\fn_clientEventGestureChanged.sqf";};
 			class clientEventGestureDone {file = "code\functions\fn_clientEventGestureDone.sqf";};
 			class clientEventGetIn {file = "code\functions\fn_clientEventGetIn.sqf";};
 			class clientEventGetInMan {file = "code\functions\fn_clientEventGetInMan.sqf";};
 			class clientEventGetOut {file = "code\functions\fn_clientEventGetOut.sqf";};
 			class clientEventGetOutMan {file = "code\functions\fn_clientEventGetOutMan.sqf";};
+			class clientEventGunElevDown {file = "code\functions\fn_clientEventGunElevDown.sqf";};
+			class clientEventGunElevUp {file = "code\functions\fn_clientEventGunElevUp.sqf";};
 			class clientEventHandleChatMessage {file = "code\functions\fn_clientEventHandleChatMessage.sqf";};
 			class clientEventHandleDamage {file = "code\functions\fn_clientEventHandleDamage.sqf";};
 			class clientEventHandleHeal {file = "code\functions\fn_clientEventHandleHeal.sqf";};
@@ -201,10 +215,13 @@ class CfgFunctions {
 			class clientEventInventoryClosed {file = "code\functions\fn_clientEventInventoryClosed.sqf";};
 			class clientEventInventoryOpened {file = "code\functions\fn_clientEventInventoryOpened.sqf";};
 			class clientEventKeyDown {file = "code\functions\fn_clientEventKeyDown.sqf";};
+			class clientEventKeyDown2 {file = "code\functions\fn_clientEventKeyDown2.sqf";};
+			class clientEventKeyDown3 {file = "code\functions\fn_clientEventKeyDown3.sqf";};
 			class clientEventKeyUp {file = "code\functions\fn_clientEventKeyUp.sqf";};
 			class clientEventKilled {file = "code\functions\fn_clientEventKilled.sqf";};
 			class clientEventMap {file = "code\functions\fn_clientEventMap.sqf";};
 			class clientEventMapSingleClick {file = "code\functions\fn_clientEventMapSingleClick.sqf";};
+			class clientEventMarkerUpdated {file = "code\functions\fn_clientEventMarkerUpdated.sqf";};
 			class clientEventOnFlare {file = "code\functions\fn_clientEventOnFlare.sqf";};
 			class clientEventOnGameInterrupt {file = "code\functions\fn_clientEventOnGameInterrupt.sqf";};
 			class clientEventOnMiniMap {file = "code\functions\fn_clientEventOnMiniMap.sqf";};
@@ -221,6 +238,10 @@ class CfgFunctions {
 			class clientEventSuppressed {file = "code\functions\fn_clientEventSuppressed.sqf";};
 			class clientEventTake {file = "code\functions\fn_clientEventTake.sqf";};
 			class clientEventTaskSetAsCurrent {file = "code\functions\fn_clientEventTaskSetAsCurrent.sqf";};
+			class clientEventTurretElevDown {file = "code\functions\fn_clientEventTurretElevDown.sqf";};
+			class clientEventTurretElevUp {file = "code\functions\fn_clientEventTurretElevUp.sqf";};
+			class clientEventUserAction {file = "code\functions\fn_clientEventUserAction.sqf";};
+			class clientEventVehicleTurbo {file = "code\functions\fn_clientEventVehicleTurbo.sqf";};
 			class clientEventVisionModeChanged {file = "code\functions\fn_clientEventVisionModeChanged.sqf";};
 			class clientEventWeaponAssembled {file = "code\functions\fn_clientEventWeaponAssembled.sqf";};
 			class clientEventWeaponDisassembled {file = "code\functions\fn_clientEventWeaponDisassembled.sqf";};
@@ -237,11 +258,15 @@ class CfgFunctions {
 			class clientInteractArsenal {file = "code\functions\fn_clientInteractArsenal.sqf";};
 			class clientInteractBeret {file = "code\functions\fn_clientInteractBeret.sqf";};
 			class clientInteractCamoNet {file = "code\functions\fn_clientInteractCamoNet.sqf";};
+			class clientInteractCargoManifest {file = "code\functions\fn_clientInteractCargoManifest.sqf";};
 			class clientInteractCarrierLaunch {file = "code\functions\fn_clientInteractCarrierLaunch.sqf";};
 			class clientInteractCarry {file = "code\functions\fn_clientInteractCarry.sqf";};
 			class clientInteractCivilian {file = "code\functions\fn_clientInteractCivilian.sqf";};
 			class clientInteractCreateBoat {file = "code\functions\fn_clientInteractCreateBoat.sqf";};
 			class clientInteractCustomizeInventory {file = "code\functions\fn_clientInteractCustomizeInventory.sqf";};
+			class clientInteractCutParachute {file = "code\functions\fn_clientInteractCutParachute.sqf";};
+			class clientInteractDeploy {file = "code\functions\fn_clientInteractDeploy.sqf";};
+			class clientInteractDeployAsset {file = "code\functions\fn_clientInteractDeployAsset.sqf";};
 			class clientInteractDestroyerHeliLaunch {file = "code\functions\fn_clientInteractDestroyerHeliLaunch.sqf";};
 			class clientInteractDismiss {file = "code\functions\fn_clientInteractDismiss.sqf";};
 			class clientInteractDoor {file = "code\functions\fn_clientInteractDoor.sqf";};
@@ -250,15 +275,23 @@ class CfgFunctions {
 			class clientInteractExamine {file = "code\functions\fn_clientInteractExamine.sqf";};
 			class clientInteractFOBTerminal {file = "code\functions\fn_clientInteractFOBTerminal.sqf";};
 			class clientInteractFollow {file = "code\functions\fn_clientInteractFollow.sqf";};
+			class clientInteractForceDismount {file = "code\functions\fn_clientInteractForceDismount.sqf";};
+			class clientInteractGetIn {file = "code\functions\fn_clientInteractGetIn.sqf";};
+			class clientInteractHangar {file = "code\functions\fn_clientInteractHangar.sqf";};
 			class clientInteractJoinGroup {file = "code\functions\fn_clientInteractJoinGroup.sqf";};
+			class clientInteractLaserToggle {file = "code\functions\fn_clientInteractLaserToggle.sqf";};
+			class clientInteractLift {file = "code\functions\fn_clientInteractLift.sqf";};
 			class clientInteractLiveFeed {file = "code\functions\fn_clientInteractLiveFeed.sqf";};
 			class clientInteractLoad {file = "code\functions\fn_clientInteractLoad.sqf";};
 			class clientInteractLoadCargo {file = "code\functions\fn_clientInteractLoadCargo.sqf";};
 			class clientInteractMedStation {file = "code\functions\fn_clientInteractMedStation.sqf";};
+			class clientInteractMH9Stealth {file = "code\functions\fn_clientInteractMH9Stealth.sqf";};
+			class clientInteractMortarLite {file = "code\functions\fn_clientInteractMortarLite.sqf";};
 			class clientInteractOpenParachute {file = "code\functions\fn_clientInteractOpenParachute.sqf";};
 			class clientInteractPush {file = "code\functions\fn_clientInteractPush.sqf";};
 			class clientInteractRappel {file = "code\functions\fn_clientInteractRappel.sqf";};
 			class clientInteractRecoverBoat {file = "code\functions\fn_clientInteractRecoverBoat.sqf";};
+			class clientInteractRecoverWreck {file = "code\functions\fn_clientInteractRecoverWreck.sqf";};
 			class clientInteractRecruit {file = "code\functions\fn_clientInteractRecruit.sqf";};
 			class clientInteractRelease {file = "code\functions\fn_clientInteractRelease.sqf";};
 			class clientInteractRescue {file = "code\functions\fn_clientInteractRescue.sqf";};
@@ -274,6 +307,7 @@ class CfgFunctions {
 			class clientInteractTooth {file = "code\functions\fn_clientInteractTooth.sqf";};
 			class clientInteractTowLoadCargo {file = "code\functions\fn_clientInteractTowLoadCargo.sqf";};
 			class clientInteractTurretControl {file = "code\functions\fn_clientInteractTurretControl.sqf";};
+			class clientInteractTurretToggle {file = "code\functions\fn_clientInteractTurretToggle.sqf";};
 			class clientInteractUAVSelfDestruct {file = "code\functions\fn_clientInteractUAVSelfDestruct.sqf";};
 			class clientInteractUGV {file = "code\functions\fn_clientInteractUGV.sqf";};
 			class clientInteractUnderwaterDemo {file = "code\functions\fn_clientInteractUnderwaterDemo.sqf";};
@@ -282,24 +316,32 @@ class CfgFunctions {
 			class clientInteractUnloadCargo {file = "code\functions\fn_clientInteractUnloadCargo.sqf";};
 			class clientInteractUtilityOffroad {file = "code\functions\fn_clientInteractUtilityOffroad.sqf";};
 			class clientInteractVehicleDoors {file = "code\functions\fn_clientInteractVehicleDoors.sqf";};
+			class clientInteractVehicleHealth {file = "code\functions\fn_clientInteractVehicleHealth.sqf";};
 			class clientInteractWeaponSafety {file = "code\functions\fn_clientInteractWeaponSafety.sqf";};
 			class clientJump {file = "code\functions\fn_clientJump.sqf";};
 			class clientMemArrays {file = "code\functions\fn_clientMemArrays.sqf";};
 			class clientMenu {file = "code\functions\fn_clientMenu.sqf";};
 			class clientMenu2 {file = "code\functions\fn_clientMenu2.sqf";};
+			class clientMenuActionContext {file = "code\functions\fn_clientMenuActionContext.sqf";};
 			class clientMenuConsole {file = "code\functions\fn_clientMenuConsole.sqf";};
 			class clientMenuContext {file = "code\functions\fn_clientMenuContext.sqf";};
+			class clientMenuDeployment {file = "code\functions\fn_clientMenuDeployment.sqf";};
 			class clientMenuEntry {file = "code\functions\fn_clientMenuEntry.sqf";};
+			class clientMenuFace {file = "code\functions\fn_clientMenuFace.sqf";};
+			class clientMenuHangar {file = "code\functions\fn_clientMenuHangar.sqf";};
 			class clientMenuHub {file = "code\functions\fn_clientMenuHub.sqf";};
 			class clientMenuInsignia {file = "code\functions\fn_clientMenuInsignia.sqf";};
+			class clientMenuLasers {file = "code\functions\fn_clientMenuLasers.sqf";};
 			class clientMenuLeaderboard {file = "code\functions\fn_clientMenuLeaderboard.sqf";};
 			class clientMenuLoadout {file = "code\functions\fn_clientMenuLoadout.sqf";};
 			class clientMenuMain {file = "code\functions\fn_clientMenuMain.sqf";};
 			class clientMenuOptions {file = "code\functions\fn_clientMenuOptions.sqf";};
+			class clientMenuPlayerBuild {file = "code\functions\fn_clientMenuPlayerBuild.sqf";};
 			class clientMenuRadio {file = "code\functions\fn_clientMenuRadio.sqf";};
 			class clientMenuRSS {file = "code\functions\fn_clientMenuRSS.sqf";};
 			class clientMenuStaff {file = "code\functions\fn_clientMenuStaff.sqf";};
 			class clientMenuSupporters {file = "code\functions\fn_clientMenuSupporters.sqf";};
+			class clientMenuUnloadCargo {file = "code\functions\fn_clientMenuUnloadCargo.sqf";};
 			class clientMenuUTexture {file = "code\functions\fn_clientMenuUTexture.sqf";};
 			class clientMenuVTexture {file = "code\functions\fn_clientMenuVTexture.sqf";};
 			class clientMFindHealer {file = "code\functions\fn_clientMFindHealer.sqf";};
@@ -337,6 +379,7 @@ class CfgFunctions {
 			class clientViewOptions {file = "code\functions\fn_clientViewOptions.sqf";};
 			class clientWeatherSync {file = "code\functions\fn_clientWeatherSync.sqf";};
 			class commonMultiplyMatrix {file = "code\functions\fn_commonMultiplyMatrix.sqf";};
+			class conditionLaserSelect {file = "code\functions\fn_conditionLaserSelect.sqf";};
 			class conditionTowAttach {file = "code\functions\fn_conditionTowAttach.sqf";};
 			class conditionTowDetach {file = "code\functions\fn_conditionTowDetach.sqf";};
 			class conditionTowLoadCargo {file = "code\functions\fn_conditionTowLoadCargo.sqf";};
@@ -344,19 +387,28 @@ class CfgFunctions {
 			class conditionTurretActionLockR {file = "code\functions\fn_conditionTurretActionLockR.sqf";};
 			class conditionTurretActionUnlockL {file = "code\functions\fn_conditionTurretActionUnlockL.sqf";};
 			class conditionTurretActionUnlockR {file = "code\functions\fn_conditionTurretActionUnlockR.sqf";};
+			class conditionTurretToggle {file = "code\functions\fn_conditionTurretToggle.sqf";};
 			class config {file = "code\functions\fn_config.sqf";};
 			class core {file = "code\functions\fn_core.sqf";};
 			class craterEffect {file = "code\functions\fn_craterEffect.sqf";};
 			class createAAVehicle {file = "code\functions\fn_createAAVehicle.sqf";};
+			class createBushHog {file = "code\functions\fn_createBushHog.sqf";};
 			class createEntityComposition {file = "code\functions\fn_createEntityComposition.sqf";};
 			class createMinefield {file = "code\functions\fn_createMinefield.sqf";};
+			class createUGVTrailer {file = "code\functions\fn_createUGVTrailer.sqf";};
 			class createWell {file = "code\functions\fn_createWell.sqf";};
 			class curatorFunctions {file = "code\functions\fn_curatorFunctions.sqf";};
 			class curatorSync {file = "code\functions\fn_curatorSync.sqf";};
 			class customBuildingPositions {file = "code\functions\fn_customBuildingPositions.sqf";};
 			class customInventory {file = "code\functions\fn_customInventory.sqf";};
 			class deltaVD {file = "code\functions\fn_deltaVD.sqf";};
+			class deployAssault {file = "code\functions\fn_deployAssault.sqf";};
+			class deployAsset {file = "code\functions\fn_deployAsset.sqf";};
+			class deployAssetPreset {file = "code\functions\fn_deployAssetPreset.sqf";};
+			class deployment {file = "code\functions\fn_deployment.sqf";};
+			class deploymentDraw {file = "code\functions\fn_deploymentDraw.sqf";};
 			class destroyer {file = "code\functions\fn_destroyer.sqf";};
+			class destroyerVehicleInit {file = "code\functions\fn_destroyerVehicleInit.sqf";};
 			class downgradeVehicleWeapons {file = "code\functions\fn_downgradeVehicleWeapons.sqf";};
 			class dynamicTasks {file = "code\functions\fn_dynamicTasks.sqf";};
 			class easterEggs {file = "code\functions\fn_easterEggs.sqf";};
@@ -364,7 +416,9 @@ class CfgFunctions {
 			class enemyDetected {file = "code\functions\fn_enemyDetected.sqf";};
 			class enemySides {file = "code\functions\fn_enemySides.sqf";};
 			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
-			class eventBuildingChanged {file = "code\functions\fn_eventBuildingChanged.sqf";}; 
+			class eventBuildingChanged {file = "code\functions\fn_eventBuildingChanged.sqf";};
+			class eventCargoLoaded {file = "code\functions\fn_eventCargoLoaded.sqf";}; 
+			class eventCargoUnloaded {file = "code\functions\fn_eventCargoUnloaded.sqf";}; 
 			class eventEachFrame {file = "code\functions\fn_eventEachFrame.sqf";};
 			class eventEachFrame2 {file = "code\functions\fn_eventEachFrame2.sqf";};
 			class eventEntityCreated {file = "code\functions\fn_eventEntityCreated.sqf";};
@@ -378,6 +432,7 @@ class CfgFunctions {
 			class eventOnPlayerDisconnected {file = "code\functions\fn_eventOnPlayerDisconnected.sqf";};
 			class eventProjectileCreated {file = "code\functions\fn_eventProjectileCreated.sqf";};
 			class eventRTKilled {file = "code\functions\fn_eventRTKilled.sqf";};
+			class eventService {file = "code\functions\fn_eventService.sqf";};
 			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class feedback {file = "code\functions\fn_feedback.sqf";};
 			class feedbackBloodEffect {file = "code\functions\fn_feedbackBloodEffect.sqf";};
@@ -403,21 +458,32 @@ class CfgFunctions {
 			class garrisonUnits {file = "code\functions\fn_garrisonUnits.sqf";};
 			class gearRestrictions {file = "code\functions\fn_gearRestrictions.sqf";};
 			class geomPolygonCentroid {file = "code\functions\fn_geomPolygonCentroid.sqf";};
+			class getActiveDLC {file = "code\functions\fn_getActiveDLC.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
+			class getDeploymentPosition {file = "code\functions\fn_getDeploymentPosition.sqf";};
 			class getDoor {file = "code\functions\fn_getDoor.sqf";};
 			class getDoorAnimations {file = "code\functions\fn_getDoorAnimations.sqf";};
+			class getFrontModelPos {file = "code\functions\fn_getFrontModelPos.sqf";};
+			class getFrontObject {file = "code\functions\fn_getFrontObject.sqf";};
 			class getKnownEnemies {file = "code\functions\fn_getKnownEnemies.sqf";};
+			class getLaserColors {file = "code\functions\fn_getLaserColors.sqf";};
 			class getNearbyIncapacitated {file = "code\functions\fn_getNearbyIncapacitated.sqf";};
 			class getNearestBuilding {file = "code\functions\fn_getNearestBuilding.sqf";};
+			class getObjectVolume {file = "code\functions\fn_getObjectVolume.sqf";};
+			class getPilotLeaderboardCoef {file = "code\functions\fn_getPilotLeaderboardCoef.sqf";};
+			class getPlayerBuildBudget {file = "code\functions\fn_getPlayerBuildBudget.sqf";};
+			class getPlayerHangar {file = "code\functions\fn_getPlayerHangar.sqf";};
 			class getRadialPositions {file = "code\functions\fn_getRadialPositions.sqf";};
+			class getRopeAttachPos {file = "code\functions\fn_getRopeAttachPos.sqf";};
 			class getSolarHorizon {file = "code\functions\fn_getSolarHorizon.sqf";};
 			class getVehicleGunEnd {file = "code\functions\fn_getVehicleGunEnd.sqf";};
 			class getVehicleStealth {file = "code\functions\fn_getVehicleStealth.sqf";};
 			class getWeekday {file = "code\functions\fn_getWeekday.sqf";};
+			class getWreckType {file = "code\functions\fn_getWreckType.sqf";};
 			class gpsJammer {file = "code\functions\fn_gpsJammer.sqf";};
 			class grid {file = "code\functions\fn_grid.sqf";};
 			class gridBrief {file = "code\functions\fn_gridBrief.sqf";};
@@ -434,6 +500,8 @@ class CfgFunctions {
 			class highCommand {file = "code\functions\fn_highCommand.sqf";};
 			class hint {file = "code\functions\fn_hint.sqf";};
 			class icons {file = "code\functions\fn_icons.sqf";};
+			class iconsLite {file = "code\functions\fn_iconsLite.sqf";};
+			class inAnyZone {file = "code\functions\fn_inAnyZone.sqf";};
 			class incapacitated {file = "code\functions\fn_incapacitated.sqf";};
 			class inHouse {file = "code\functions\fn_inHouse.sqf";};
 			class init {file = "code\functions\fn_init.sqf";preInit = 1;};
@@ -444,41 +512,58 @@ class CfgFunctions {
 			class initPlayerServer {file = "code\functions\fn_initPlayerServer.sqf";};
 			class initTrait {file = "code\functions\fn_initTrait.sqf";};
 			class inString {file = "code\functions\fn_inString.sqf";};
+			class inZone {file = "code\functions\fn_inZone.sqf";};
 			class isBoundingBoxIntersected {file = "code\functions\fn_isBoundingBoxIntersected.sqf";};
+			class isBusyAttached {file = "code\functions\fn_isBusyAttached.sqf";};
 			class isNearFieldHospital {file = "code\functions\fn_isNearFieldHospital.sqf";};
 			class isNearServiceCargo {file = "code\functions\fn_isNearServiceCargo.sqf";};
 			class isNearRepairDepot {file = "code\functions\fn_isNearRepairDepot.sqf";};
 			class isPosVisible {file = "code\functions\fn_isPosVisible.sqf";};
+			class isTurretInAttached {file = "code\functions\fn_isTurretInAttached.sqf";};
 			class isUnderRock {file = "code\functions\fn_isUnderRock.sqf";};
 			class isValidCargoV {file = "code\functions\fn_isValidCargoV.sqf";};
+			class isWreckable {file = "code\functions\fn_isWreckable.sqf";};
 			class leaderboardAddToWhitelist {file = "code\functions\fn_leaderboardAddToWhitelist.sqf";};
 			class leaderboardNotifyWhitelist {file = "code\functions\fn_leaderboardNotifyWhitelist.sqf";};
+			class limitSpeed {file = "code\functions\fn_limitSpeed.sqf";};
 			class listRemoteTargets {file = "code\functions\fn_listRemoteTargets.sqf";};
 			class localObjects {file = "code\functions\fn_localObjects.sqf";};
+			class lockBackpack {file = "code\functions\fn_lockBackpack.sqf";};
 			class logEvent {file = "code\functions\fn_logEvent.sqf";};
+			class logisticsMovementDisallowed {file = "code\functions\fn_logisticsMovementDisallowed.sqf";};
+			class logisticsPlatformSnap {file = "code\functions\fn_logisticsPlatformSnap.sqf";};
 			class mapGetNearestWaypoint {file = "code\functions\fn_mapGetNearestWaypoint.sqf";};
 			class missionGeorgetown {file = "code\functions\fn_missionGeorgetown.sqf";};
 			class missionKavala {file = "code\functions\fn_missionKavala.sqf";};
 			class monthDays {file = "code\functions\fn_monthDays.sqf";};
 			class moveInCargoMedical {file = "code\functions\fn_moveInCargoMedical.sqf";};
 			class msgToStaff {file = "code\functions\fn_msgToStaff.sqf";};
+			class nearbyTickets {file = "code\functions\fn_nearbyTickets.sqf";};
 			class nearestRoad {file = "code\functions\fn_nearestRoad.sqf";};
+			class nearestZone {file = "code\functions\fn_nearestZone.sqf";};
 			class p2pMessage {file = "code\functions\fn_p2pMessage.sqf";};
 			class paraDrop {file = "code\functions\fn_paraDrop.sqf";};
 			class patrolNearbyBuilding {file = "code\functions\fn_patrolNearbyBuilding.sqf";};
+			class placementModeCancel {file = "code\functions\fn_placementModeCancel.sqf";};
+			class prepareBoundingBox {file = "code\functions\fn_prepareBoundingBox.sqf";};
+			class prepareClassAddons {file = "code\functions\fn_prepareClassAddons.sqf";};
+			class propCustomCode {file = "code\functions\fn_propCustomCode.sqf";};
 			class pulsate {file = "code\functions\fn_pulsate.sqf";};
 			class Q51 {file = "code\functions\fn_Q51.sqf";};
 			class ragdoll {file = "code\functions\fn_ragdoll.sqf";};
 			class rcAIRevive {file = "code\functions\fn_rcAIRevive.sqf";};
+			class recoverWreckClient {file = "code\functions\fn_recoverWreckClient.sqf";};
+			class recoverWreckServer {file = "code\functions\fn_recoverWreckServer.sqf";};
 			class registerUnit {file = "code\functions\fn_registerUnit.sqf";};
 			class registerVehicle {file = "code\functions\fn_registerVehicle.sqf";};
+			class remoteControl {file = "code\functions\fn_remoteControl.sqf";};
 			class remoteExec {file = "code\functions\fn_remoteExec.sqf";};
 			class remoteExecCmd {file = "code\functions\fn_remoteExecCmd.sqf";};
 			class removeWeapon {file = "code\functions\fn_removeWeapon.sqf";};
 			class replaceWithVehicle {file = "code\functions\fn_replaceWithVehicle.sqf";};
+			class replenishServices {file = "code\functions\fn_replenishServices.sqf";};
 			class respawnOPFOR {file = "code\functions\fn_respawnOPFOR.sqf";};
 			class respawnPilot {file = "code\functions\fn_respawnPilot.sqf";};
-			class returnGroupComposition {file = "code\functions\fn_returnGroupComposition.sqf";};
 			class roles {file = "code\functions\fn_roles.sqf";};
 			class sc {file = "code\functions\fn_sc.sqf";};
 			class scBrief {file = "code\functions\fn_scBrief.sqf";};
@@ -508,14 +593,15 @@ class CfgFunctions {
 			class setCruiseControl {file = "code\functions\fn_setCruiseControl.sqf";};
 			class setFlag {file = "code\functions\fn_setFlag.sqf";};
 			class setSimpleObject {file = "code\functions\fn_setSimpleObject.sqf";};
+			class setVehicleCargo {file = "code\functions\fn_setVehicleCargo.sqf";};
+			class setWrecked {file = "code\functions\fn_setWrecked.sqf";};
 			class showNotification {file = "code\functions\fn_showNotification.sqf";};
 			class showNotification_process {file = "code\functions\fn_showNotification_process.sqf";};
 			class sideID {file = "code\functions\fn_sideID.sqf";};
 			class signalStrength {file = "code\functions\fn_signalStrength.sqf";};
-			class simpleObjectAdjust {file = "code\functions\fn_simpleObjectAdjust.sqf";};
-			class simpleObjectCreate {file = "code\functions\fn_simpleObjectCreate.sqf";};
-			class simpleObjectData {file = "code\functions\fn_simpleObjectData.sqf";};
-			class simpleObjectReplaceWith {file = "code\functions\fn_simpleObjectReplaceWith.sqf";};
+			class simpleLasers {file = "code\functions\fn_simpleLasers.sqf";};
+			class simplePull {file = "code\functions\fn_simplePull.sqf";};
+			class simpleWinch {file = "code\functions\fn_simpleWinch.sqf";};
 			class slingData {file = "code\functions\fn_slingData.sqf";};
 			class slingRope {file = "code\functions\fn_slingRope.sqf";};
 			class smDebrief {file = "code\functions\fn_smDebrief.sqf";};
@@ -544,10 +630,18 @@ class CfgFunctions {
 			class turretActionCancel {file = "code\functions\fn_turretActionCancel.sqf";};
 			class turretActions {file = "code\functions\fn_turretActions.sqf";};
 			class turretReset {file = "code\functions\fn_turretReset.sqf";};
+			class turretsAttached {file = "code\functions\fn_turretsAttached.sqf";};
 			class uavOperator {file = "code\functions\fn_uavOperator2.sqf";};
 			class unitSetup {file = "code\functions\fn_unitSetup.sqf";};
+			class unloadCargoPlacementMode {file = "code\functions\fn_unloadCargoPlacementMode.sqf";};
+			class updateCenterOfMass {file = "code\functions\fn_updateCenterOfMass.sqf";};
+			class updateLaserInfo {file = "code\functions\fn_updateLaserInfo.sqf";};
+			class updateLaserPos {file = "code\functions\fn_updateLaserPos.sqf";};
+			class updateMass {file = "code\functions\fn_updateMass.sqf";};
 			class utilityLights {file = "code\functions\fn_utilityLights.sqf";};
+			class vehicleAddSmokeEffect {file = "code\functions\fn_vehicleAddSmokeEffect.sqf";};
 			class vehicleAPSParams {file = "code\functions\fn_vehicleAPSParams.sqf";};
+			class vehicleGetPassiveStealth {file = "code\functions\fn_vehicleGetPassiveStealth.sqf";};
 			class vehicleLoadouts {file = "code\functions\fn_vehicleLoadouts.sqf";};
 			class vEventControlsShifted {file = "code\functions\fn_vEventControlsShifted.sqf";};
 			class vEventRopeAttach {file = "code\functions\fn_vEventRopeAttach.sqf";};
@@ -558,16 +652,22 @@ class CfgFunctions {
 			class vRandom {file = "code\functions\fn_vRandom.sqf";};
 			class vSetup {file = "code\functions\fn_vSetup.sqf";};
 			class vSetup2 {file = "code\functions\fn_vSetup2.sqf";};
+			class vSetupContainer {file = "code\functions\fn_vSetupContainer.sqf";};
 			class vTow {file = "code\functions\fn_vTow.sqf";};
 			class vTowable {file = "code\functions\fn_vTowable.sqf";};
 			class vTowAttachGround {file = "code\functions\fn_vTowAttachGround.sqf";};
 			class vTowRelease {file = "code\functions\fn_vTowRelease.sqf";};
-			class vUntowable {file = "code\functions\fn_vUntowable.sqf";};
+			class virtualVehicleCargo {file = "code\functions\fn_virtualVehicleCargo.sqf";};
 			class waterInRadius {file = "code\functions\fn_waterInRadius.sqf";};
 			class waterIntersect {file = "code\functions\fn_waterIntersect.sqf";};
 			class weatherConfig {file = "code\functions\fn_weatherConfig.sqf";};
+			class weatherPreset {file = "code\functions\fn_weatherPreset.sqf";};
 			class wellHandleDamage {file = "code\functions\fn_wellHandleDamage.sqf";};
 			class windCalculation {file = "code\functions\fn_windCalculation.sqf";};
+			class wingsuit {file = "code\functions\fn_wingsuit.sqf";};
+			class wreckHandleDamage {file = "code\functions\fn_wreckHandleDamage.sqf";};
+			class wreckHandleLocal {file = "code\functions\fn_wreckHandleLocal.sqf";};
+			class wreckSetMaterials {file = "code\functions\fn_wreckSetMaterials.sqf";};
 			class SMEscortVehicle {file = "code\functions\fn_SMescortVehicle.sqf";};
 			class SMHQcoast {file = "code\functions\fn_SMHQcoast.sqf";};
 			class SMHQfia {file = "code\functions\fn_SMHQfia.sqf";};
@@ -585,6 +685,8 @@ class CfgFunctions {
 			class SMidapRecover {file = "code\functions\fn_SMidapRecover.sqf";};
 			class SMregenerator {file = "code\functions\fn_SMregenerator.sqf";};
 			class zeusMission {file = "code\functions\fn_zeusMission.sqf";};
+			class zoneManager {file = "code\functions\fn_zoneManager.sqf";};
+			class zonePreset {file = "code\functions\fn_zonePreset.sqf";};
 		};
 	};
 };
@@ -783,6 +885,16 @@ class CfgSounds {
 		sound[] = {"media\audio\mockingjay.ogg",1.0,1};
 		titles[] = {};
 	};
+	class QS_cbrn_1 {
+		name = "CBRN_1";
+		sound[] = {"media\audio\cbrn.ogg",1.0,1};
+		titles[] = {};		
+	};
+	class QS_cbrn_2 {
+		name = "CBRN_2";
+		sound[] = {"media\audio\cbrn2.wss",1.0,1};
+		titles[] = {};		
+	};
 };
 class CfgSFX
 {
@@ -823,16 +935,6 @@ class CfgVehicles
 	{
 		sound = "PlowUp";
 	};
-	/*/
-	class QS_deviceAssembled
-	{
-		sound = "QS_DeviceAssembled_SFX";
-	};
-	class QS_deviceDisassembled
-	{
-		sound = "QS_DeviceDisassembled_SFX";
-	};
-	/*/
 };
 class CfgUnitInsignia {
 	class A3CG {
@@ -3272,7 +3374,7 @@ class QS_RD_client_dialog_menu_supporters {
 		class QS_RD_client_dialog_menu_supporters_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1804;
-			text = "- - -";
+			text = "$STR_QS_Dialogs_101";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.58 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3281,11 +3383,12 @@ class QS_RD_client_dialog_menu_supporters {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			onButtonClick = "['B1',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
+			tooltip = "$STR_QS_Dialogs_101";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1805;
-			text = "Insignia";
+			text = "$STR_QS_Dialogs_059";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.625 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3327,7 +3430,7 @@ class QS_RD_client_dialog_menu_supporters {
 		class QS_RD_client_dialog_menu_supporters_button_5: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1808;
-			text = "- - -";
+			text = "$STR_QS_Dialogs_102";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.76 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -3336,7 +3439,7 @@ class QS_RD_client_dialog_menu_supporters {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			onButtonClick = "['B5',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuSupporters');";
-			tooltip = "";
+			tooltip = "$STR_QS_Dialogs_102";
 		};
 		class QS_RD_client_dialog_menu_supporters_button_6: QS_RD_dialog_RscButton {
 			moving = 1;
@@ -3595,7 +3698,158 @@ class QS_RD_client_dialog_menu_utexture {
 		};
 	};
 };
-
+class QS_RD_client_dialog_menu_lasers {
+	idd = 24000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLasers');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuLasers');";
+	class controls {
+		class QS_RD_client_dialog_menu_lasers_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_lasers_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_lasers_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "$STR_QS_Dialogs_102";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_lasers_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "$STR_QS_Dialogs_066";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Select',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLasers');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_lasers_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "$STR_QS_Dialogs_032";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLasers');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.22 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+	};
+};
+class QS_RD_client_dialog_menu_face {
+	idd = 25000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuFace');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuFace');";
+	class controls {
+		class QS_RD_client_dialog_menu_face_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_face_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_face_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "$STR_QS_Dialogs_101";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_face_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "$STR_QS_Dialogs_066";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Select',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuFace');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_face_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "$STR_QS_Dialogs_032";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Back',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuFace');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.22 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+	};
+};
 /*/ 
 The below dialog contains EULA License-relevant code, please be aware prior to editing. 
 Essentially, dont tamper with lines related to developer patreon link (idc = 1811)
@@ -5216,7 +5470,6 @@ class QS_RD_client_dialog_menu_inventory1 {
 		};
 	};
 };
-
 class QS_RD_client_dialog_menu_hangar {
 	idd = 20000;
 	movingEnable = 1;
@@ -5248,7 +5501,7 @@ class QS_RD_client_dialog_menu_hangar {
 		class QS_RD_client_dialog_menu_hangar_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Hangar";
+			text = "$STR_QS_Dialogs_083";
 			//x = 0.374500 * safezoneW + safezoneX;
 			x = 0.674500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
@@ -5258,64 +5511,32 @@ class QS_RD_client_dialog_menu_hangar {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
-		class QS_RD_client_dialog_menu_hangar_button_1: QS_RD_dialog_RscButton {
+		class listboxA : QS_RD_dialog_RscListBox {
 			moving = 1;
 			idc = 1812;
-			text = "Save";
 			//x = 0.38 * safezoneW + safezoneX;
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.78 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
-			h = 0.0340016 * safezoneH;
+			h = 0.16 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Save',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
-			shadow = 0;
-			colorText[] = {1,1,1,1};
+			colorBackground[] = {0,0,0,0.5};
 		};
-		class QS_RD_client_dialog_menu_hangar_button_2: QS_RD_dialog_RscButton {
-			moving = 1;
-			idc = 1810;
-			text = "$STR_QS_Dialogs_066";
-			//x = 0.38 * safezoneW + safezoneX;
-			x = 0.68 * safezoneW + safezoneX;
-			y = 0.825 * safezoneH + safezoneY;
-			w = 0.13 * safezoneW;
-			h = 0.0340016 * safezoneH;
-			sizeEx = 0.03;
-			onButtonClick = "['Load',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
-			shadow = 0;
-			colorText[] = {1,1,1,1};
-		};
-		class QS_RD_client_dialog_menu_hangar_button_3: QS_RD_dialog_RscButton {
-			moving = 1;
-			idc = 1811;
-			text = "$STR_QS_Dialogs_032";
-			//x = 0.38 * safezoneW + safezoneX;
-			x = 0.68 * safezoneW + safezoneX;
-			y = 0.87 * safezoneH + safezoneY;
-			w = 0.13 * safezoneW;
-			h = 0.0340016 * safezoneH;
-			sizeEx = 0.03;
-			onButtonClick = "['Delete',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
-			shadow = 0;
-			colorText[] = {1,1,1,1};
-		};
-		class QS_RD_client_dialog_menu_hangar_button_4: QS_RD_dialog_RscButton {
+		class QS_RD_client_dialog_menu_hangar_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1815;
-			text = "Edit";
+			text = "$STR_QS_Menu_032";
 			//x = 0.38 * safezoneW + safezoneX;
 			x = 0.68 * safezoneW + safezoneX;
-			y = 0.915 * safezoneH + safezoneY;
+			y = 0.945 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 			sizeEx = 0.03;
-			onButtonClick = "['Edit',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuLoadout');";
+			onButtonClick = "['Select',(_this # 0)] call (missionNamespace getVariable 'QS_fnc_clientMenuHangar');";
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 		};
-
-		class listboxA : QS_RD_dialog_RscListBox {
+		class listboxB : QS_RD_dialog_RscListBox {
 			moving = 1;
 			idc = 1804;
 			//x = 0.38 * safezoneW + safezoneX;
@@ -5335,105 +5556,300 @@ class QS_RD_client_dialog_menu_hangar {
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
 		};
-		class QS_RD_client_dialog_menu_hangar_edit_1: QS_RD_dialog_RscEdit {
-			idc = 1813;
+		class QS_RD_client_dialog_menu_hangar_text_3: QS_RD_dialog_RscText {
 			moving = 1;
-			//access = 0;
-			autocomplete = "";
-			text = "";
-			canModify = 1;
-			colorBackground[] = {0,0,0,0};
-			colorDisabled[] = {1,1,1,0.25};
-			colorSelection[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.08])",1};
-			colorText[] = {0.95,0.95,0.95,1};
-			deletable = 0;
-			fade = 0;
-			size = 0.3;
-			sizeEx = "0.8 * 			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-			style = 16;
-			//x = 0.38 * safezoneW + safezoneX;
+			idc = 1813;
+			text = "$STR_QS_Dialogs_076";
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.735 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
 			h = 0.0340016 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
 		};
-
-		class QS_RD_client_dialog_menu_hangar_frame_2: QS_RD_dialog_RscFrame {
+	};
+};
+class QS_RD_client_dialog_menu_unloadCargo {
+	idd = 21000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUnloadCargo');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUnloadCargo');";
+	class controls {
+		class QS_RD_client_dialog_menu_unloadCargo_frame_1: QS_RD_dialog_RscFrame {
 			moving = 1;
-			idc = 1817;
-			x = 0.68 * safezoneW + safezoneX;
-			y = 0.965 * safezoneH + safezoneY;
-			w = 0.13 * safezoneW;
-			h = 0.015 * safezoneH;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
 			shadow = 0;
 			colorBackground[] = {0,0,0,0.7};
 			colorDisabled[] = {1,1,1,0.25};
 		};
-		class QS_RD_client_dialog_menu_hangar_progress_1: RscProgress {
+		class QS_RD_client_dialog_menu_unloadCargo_box_1: QS_RD_dialog_Box {
 			moving = 1;
-			idc = 1816;
-			text = "My ammobox (800/1000)";
-			x = 0.68 * safezoneW + safezoneX;
-			y = 0.965 * safezoneH + safezoneY;
-			w = 0.13 * safezoneW;
-			h = 0.015 * safezoneH;
-			sizeEx = 0.03;
-			shadow = 2;
-			texture = "#(argb,8,8,3)color(1,1,1,0.5)";
-			colorText[] = {1,1,1,1};
-			colorFrame[] = {0,0,0,0};
-			//colorBar[] = {1,1,1,0.5};
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
 		};
-		class QS_RD_client_dialog_menu_hangar_text_2: QS_RD_dialog_RscText {
+		class QS_RD_client_dialog_menu_unloadCargo_text_1: QS_RD_dialog_RscText {
 			moving = 1;
-			idc = 1818;
-			text = "";
-			x = 0.68 * safezoneW + safezoneX;
-			y = 0.967 * safezoneH + safezoneY;
-			w = 0.13 * safezoneW;
-			h = 0.011 * safezoneH;
-			sizeEx = 0.025;
-			size = 0.025;
+			idc = 1802;
+			text = "$STR_QS_Dialogs_084";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
 			shadow = 0;
 			colorText[] = {1,1,1,1};
-			colorBackground[] = {0,0,0,0};
+		};
+		class QS_RD_client_dialog_menu_unloadCargo_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "$STR_QS_Interact_002";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Unload_1',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUnloadCargo');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_unloadCargo_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "$STR_QS_Interact_005";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Unload_2',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuUnloadCargo');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.22 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+		class Objects {
+			class Model_Visual {
+				idc = 1820;
+				onLoad = "";
+				type = 81;
+				model = "";
+				scale = "(1 * 0.675 * (SafeZoneW Min SafeZoneH))";
+				direction[] = {0,-1,0};
+				up[] = {0,0,-1}; 
+				inBack = 1;
+				x = 0.677 * safezoneW + safezoneX;
+				y = 0.78 * safezoneH + safezoneY;
+				z = 0.35;
+				xBack = 0.677 * safezoneW + safezoneX;
+				yBack = 0.78 * safezoneH + safezoneY;
+				zBack = 0.35;
+				enableZoom = 0;
+				zoomDuration = 0.001;
+			};
 		};
 	};
 };
 
-/*/
-class RscProgress
-{
-	deletable = 0;
-	fade = 0;
-	//access = 0;
-	type = CT_PROGRESS;
-	style = ST_HORIZONTAL;
-	colorFrame[] = {0,0,0,0};
-	colorBar[] =
-	{
-		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.13])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.54])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.21])",
-		"(profilenamespace getvariable ['GUI_BCG_RGB_A',0.8])"
+class QS_RD_client_dialog_menu_playerBuild {
+	idd = 22000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuPlayerBuild');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuPlayerBuild');";
+	class controls {
+		class QS_RD_client_dialog_menu_playerBuild_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_playerBuild_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.40 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_playerBuild_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "Build";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_playerBuild_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "Build";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Button_1',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuPlayerBuild');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_playerBuild_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "Exit";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Button_2',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuPlayerBuild');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.22 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+		class Objects {
+			class Model_Visual {
+				idc = 1820;
+				onLoad = "";
+				type = 81;
+				model = "";
+				scale = "(1 * 0.675 * (SafeZoneW Min SafeZoneH))";
+				direction[] = {0,-1,0};
+				up[] = {0,0,-1}; 
+				inBack = 1;
+				x = 0.677 * safezoneW + safezoneX;
+				y = 0.78 * safezoneH + safezoneY;
+				z = 0.35;
+				xBack = 0.677 * safezoneW + safezoneX;
+				yBack = 0.78 * safezoneH + safezoneY;
+				zBack = 0.35;
+				enableZoom = 0;
+				zoomDuration = 0.001;
+			};
+		};
 	};
-	x = 0.344;
-	y = 0.619;
-	w = 0.313726;
-	h = 0.0261438;
-	shadow = 2;
-	texture = "#(argb,8,8,3)color(1,1,1,1)";
 };
-/*/
-
-
-
-
-
-
-
-
-
+class QS_RD_client_dialog_menu_deployment {
+	idd = 23000;
+	movingEnable = 1;
+	enableSimulation = 1;
+	onLoad = "['onLoad',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuDeployment');";
+	onUnload = "['onUnload',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuDeployment');";
+	class controls {
+		class QS_RD_client_dialog_menu_deployment_frame_1: QS_RD_dialog_RscFrame {
+			moving = 1;
+			idc = 1800;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.455 * safezoneH;
+			shadow = 0;
+			colorBackground[] = {0,0,0,0.7};
+			colorDisabled[] = {1,1,1,0.25};
+		};
+		class QS_RD_client_dialog_menu_deployment_box_1: QS_RD_dialog_Box {
+			moving = 1;
+			idc = 1801;
+			x = 0.372583 * safezoneW + safezoneX;
+			y = 0.52 * safezoneH + safezoneY;
+			w = 0.145 * safezoneW;
+			h = 0.455 * safezoneH;
+		};
+		class QS_RD_client_dialog_menu_deployment_text_1: QS_RD_dialog_RscText {
+			moving = 1;
+			idc = 1802;
+			text = "$STR_QS_Menu_198";
+			x = 0.374500 * safezoneW + safezoneX;
+			y = 0.525 * safezoneH + safezoneY;
+			w = 0.139 * safezoneW;
+			h = 0.044 * safezoneH;
+			sizeEx = 0.04;
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_deployment_button_1: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1810;
+			text = "$STR_QS_Menu_199";
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.815 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Button_1',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuDeployment');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class QS_RD_client_dialog_menu_deployment_button_2: QS_RD_dialog_RscButton {
+			moving = 1;
+			idc = 1811;
+			text = "Exit";
+			x = 0.38 * safezoneW + safezoneX;
+			//y = 0.87 * safezoneH + safezoneY;
+			y = 0.925 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.0340016 * safezoneH;
+			sizeEx = 0.03;
+			onButtonClick = "['Button_2',(_this # 0)] spawn (missionNamespace getVariable 'QS_fnc_clientMenuDeployment');";
+			shadow = 0;
+			colorText[] = {1,1,1,1};
+		};
+		class listboxA : QS_RD_dialog_RscListBox {
+			moving = 1;
+			idc = 1804;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.58 * safezoneH + safezoneY;
+			w = 0.13 * safezoneW;
+			h = 0.165 * safezoneH;
+			sizeEx = 0.03;
+			colorBackground[] = {0,0,0,0.5};
+		};
+		class QS_RD_client_dialog_menu_deployment_checkbox_1 : QS_RD_RscCheckbox {
+			moving = 1;
+			idc = 1805;
+			x = 0.38 * safezoneW + safezoneX;
+			y = 0.87 * safezoneH + safezoneY;
+			w = 0.02 * safezoneW;
+			h = 0.04 * safezoneH;
+			tooltip = "$STR_QS_Menu_201";
+			onCheckedChanged = "['HomeCheckbox',_this # 0,_this # 1] spawn (missionNamespace getVariable 'QS_fnc_clientMenuDeployment');";
+		};
+	};
+};
 class RscTitles {
 	class QS_RD_dialog_crewIndicator {
 		idd = 6000;

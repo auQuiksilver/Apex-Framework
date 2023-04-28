@@ -547,11 +547,16 @@ if (isNull _objectParent) then {
 		_unit setVariable ['QS_AI_UNIT_nextSelfRearm',(_uiTime + (random [240,300,360])),FALSE];
 		if ((primaryWeapon _unit) isNotEqualTo '') then {
 			if ((_unit ammo (primaryWeapon _unit)) isEqualTo 0) then {
-					private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLowerANSI ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
+					private _baseWeapon = toLowerANSI ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'));
+					private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo _baseWeapon)};
 					private _cfgMagazines = [];
 					if (_magIndex isEqualTo -1) then {
-						_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLowerANSI _x};
-						(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLowerANSI ([(primaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
+						_cfgMagazines = QS_hashmap_configfile getOrDefaultCall [
+							format ['cfgweapons_%1_magazines',_baseWeapon],
+							{(getArray (configFile >> 'CfgWeapons' >> _baseWeapon >> 'magazines')) apply {toLowerANSI _x}},
+							TRUE
+						];
+						(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [_baseWeapon,_cfgMagazines];
 					} else {
 						_cfgMagazines = ((missionNamespace getVariable 'QS_AI_weaponMagazines') # _magIndex) # 1;
 					};
@@ -571,11 +576,16 @@ if (isNull _objectParent) then {
 		};
 		if ((secondaryWeapon _unit) isNotEqualTo '') then {
 			if ((_unit ammo (secondaryWeapon _unit)) isEqualTo 0) then {
-				private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo (toLowerANSI ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))))};
+				private _baseWeapon = toLowerANSI ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'));
+				private _magIndex = (missionNamespace getVariable 'QS_AI_weaponMagazines') findIf {((_x # 0) isEqualTo _baseWeapon)};
 				private _cfgMagazines = [];
 				if (_magIndex isEqualTo -1) then {
-					_cfgMagazines = (getArray (configFile >> 'CfgWeapons' >> ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon')) >> 'magazines')) apply {toLowerANSI _x};
-					(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [(toLowerANSI ([(secondaryWeapon _unit)] call (missionNamespace getVariable 'QS_fnc_baseWeapon'))),_cfgMagazines];
+					_cfgMagazines = QS_hashmap_configfile getOrDefaultCall [
+						format ['cfgweapons_%1_magazines',_baseWeapon],
+						{(getArray (configFile >> 'CfgWeapons' >> _baseWeapon >> 'magazines')) apply {toLowerANSI _x}},
+						TRUE
+					];
+					(missionNamespace getVariable 'QS_AI_weaponMagazines') pushBack [_baseWeapon,_cfgMagazines];
 				} else {
 					_cfgMagazines = ((missionNamespace getVariable 'QS_AI_weaponMagazines') # _magIndex) # 1;
 				};
@@ -642,7 +652,7 @@ if (_isLeader) then {
 		};
 	};
 	if ((combatMode _grp) in ['YELLOW','RED']) then {
-		if ('ItemRadio' in (assignedItems _unit)) then {
+		if ((((assignedItems _unit) apply {toLowerANSI _x}) findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
 			if (_uiTime > (_unit getVariable 'QS_AI_UNIT_lastSupportRequest')) then {
 				_unit setVariable ['QS_AI_UNIT_lastSupportRequest',(serverTime + (120 + (random 120))),FALSE];
 				private _target = _attackTarget;

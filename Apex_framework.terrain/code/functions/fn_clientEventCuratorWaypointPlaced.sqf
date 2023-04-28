@@ -31,6 +31,9 @@ if (_wpIndex in [0,1]) then {
 [_group,_wpIndex] setWaypointPosition [AGLToASL (waypointPosition [_group,_wpIndex]),-1];
 _group setFormDir ((leader _group) getDir (waypointPosition [_group,_wpIndex]));
 _group setBehaviour 'AWARE';
+{
+	_x enableAIFeature ['AUTOCOMBAT',FALSE];
+} forEach (units _group);
 if (!local _group) then {
 	if (diag_tickTime > (_module getVariable ['QS_curator_lastWPSyncTime',-1])) then {
 		_module setVariable ['QS_curator_lastWPSyncTime',diag_tickTime + 5];

@@ -39,7 +39,7 @@ private _QS_ctrlCreateArray = [];
 	['QS_client_vs_msgEnteredCaptureArea',FALSE,FALSE]
 ];
 _fn_sectorHint = {
-	_playerPos = getPosATL player;
+	_playerPos = getPosATL QS_player;
 	if ((_playerPos # 2) > 10) exitWith {};
 	params ['_radiusCapture','_radiusControl'];
 	_position = [0,_playerPos] call (missionNamespace getVariable 'QS_fnc_scGetNearestSector');
@@ -849,6 +849,20 @@ _client_uiCtrl_earplugs ctrlSetTextColor [0.8,0.8,0.8,1];
 _client_uiCtrl_earplugs ctrlCommit 0;
 _client_uiCtrl_earplugs = nil;
 
+private _client_uiCtrl_cc = (findDisplay 46) ctrlCreate ['RscPictureKeepAspect',12391];
+uiNamespace setVariable ['QS_client_uiCtrl_cc',_client_uiCtrl_cc];
+_client_uiCtrl_cc ctrlShow FALSE;
+_client_uiCtrl_cc ctrlSetText 'media\images\icons\cc61.paa';
+_client_uiCtrl_cc ctrlSetPosition [
+	(profileNamespace getVariable 'igui_grid_vehicle_x') + 0.3, 
+	(profileNamespace getVariable 'igui_grid_vehicle_y') + 0.135, 
+	0.04, 
+	0.04
+];
+_client_uiCtrl_cc ctrlSetTextColor [0.8,0.8,0.8,1];
+_client_uiCtrl_cc ctrlCommit 0;
+_client_uiCtrl_cc = nil;
+
 private _ctrl_aps_1_type = (localize 'STR_QS_Menu_095');
 private _ctrl_aps_count = 0;
 private _ctrl_aps_textSize = 0.8;
@@ -921,9 +935,9 @@ _productVersionCtrl ctrlShow FALSE;
 
 for '_x' from 0 to 1 step 0 do {
 	_isStreamFriendly = isStreamFriendlyUIEnabled;
-	_currentTask = currentTask player;
+	_currentTask = currentTask QS_player;
 	_currentTaskStr = str _currentTask;
-	_objectParent = objectParent player;
+	_objectParent = objectParent QS_player;
 	if ((missionNamespace getVariable ['QS_mission_aoType','']) isEqualTo 'SC') then {
 		uiSleep 0.05;
 		_virtualSectorsData = missionNamespace getVariable ['QS_virtualSectors_data_public',[]];
@@ -1538,8 +1552,8 @@ for '_x' from 0 to 1 step 0 do {
 	if (
 		(!isNull _objectParent) &&
 		{(_objectParent isKindOf 'LandVehicle')} &&
-		{((_objectParent unitTurret player) isNotEqualTo [])} &&
-		{(!isTurnedOut player)} &&
+		{((_objectParent unitTurret QS_player) isNotEqualTo [])} &&
+		{(!isTurnedOut QS_player)} &&
 		{(!visibleMap)} &&
 		{['APS_VEHICLE',_objectParent] call _fn_vehicleAPSParams}
 	) then {
@@ -1558,7 +1572,7 @@ for '_x' from 0 to 1 step 0 do {
 			_ctrl_aps_2_ctrl ctrlShow _false;
 		};
 	};	
-	if (_side isNotEqualTo (player getVariable ['QS_unit_side',_west])) then {
-		_side = player getVariable ['QS_unit_side',_west];
+	if (_side isNotEqualTo (QS_player getVariable ['QS_unit_side',_west])) then {
+		_side = QS_player getVariable ['QS_unit_side',_west];
 	};
 };

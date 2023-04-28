@@ -23,7 +23,7 @@ player addAction [
 		
 		_str = format ['QS_marker_%1',(round (diag_tickTime))];
 		_mkr = createMarker [_str,_position];
-		_mkr setMarkerShape 'ICON';
+		_mkr setMarkerShapeLocal 'ICON';
 		_mkr setMarkerType 'mil_dot';
 		QS_markers pushBack _mkr;
 	}

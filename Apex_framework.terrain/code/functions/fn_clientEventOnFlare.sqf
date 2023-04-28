@@ -13,18 +13,22 @@ Description:
 	Event On Flare
 ________________________________________________________________*/
 
-if (isDedicated || {!hasInterface}) exitWith {};
 params ['_color','_unit','_projectile'];
+if (isDedicated || {!hasInterface}) exitWith {
+	QS_managed_flares pushBack [_flare,diag_tickTime + 45];
+	QS_managed_flares pushBack [_projectile,diag_tickTime + 45];
+};
 if (
 	(isNull _projectile) ||
 	{(((cameraOn distance2D _projectile) >= 5000) && (isNull curatorCamera))}
 ) exitWith {};
 _flare = '#lightpoint' createVehicleLocal (getPosWorld _projectile);
-QS_managed_flares pushBack [_flare,diag_tickTime + 60];
+QS_managed_flares pushBack [_flare,diag_tickTime + 45];
+QS_managed_flares pushBack [_projectile,diag_tickTime + 45];
 _flare attachTo [_projectile,[0,0,0]];
 _flare setLightColor _color;
 _flare setLightAmbient _color;
-_flare setLightIntensity ([50000,100000] select (_color isEqualTo [0.5,0.5,0.5]));
+_flare setLightIntensity ([50000,75000] select (_color isEqualTo [0.5,0.5,0.5]));
 _flare setLightFlareSize 10;
 _flare setLightFlareMaxDistance 300;
 _flare setLightDayLight TRUE;
@@ -46,6 +50,7 @@ if ((typeOf _projectile) in ['F_Signal_Green','F_Signal_Red']) then {
 	_flare setLightFlareMaxDistance 150;
 };
 _flare setLightUseFlare TRUE;
+_projectile setVariable ['QS_flare',_flare,FALSE];
 _projectile addEventHandler [
 	'Deleted', 
 	{
@@ -54,6 +59,9 @@ _projectile addEventHandler [
 			{
 				deleteVehicle _x;
 			} forEach (attachedObjects _projectile);
+		};
+		if (!isNull (_projectile getVariable ['QS_flare',objNull])) then {
+			deleteVehicle (_projectile getVariable ['QS_flare',objNull]);
 		};
 	}
 ];

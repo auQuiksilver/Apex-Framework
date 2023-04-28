@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/10/2014 ArmA 1.32
+	30/12/2022 A3 2.10
 	
 Description:
 
@@ -15,11 +15,8 @@ Description:
 	Trialing turretLocal
 _______________________________________________*/
 
-private ["_v","_turret","_lock"];
 missionNamespace setVariable ['QS_turretControl',FALSE,FALSE];
-_v = _this # 0;
-_turret = _this # 1;
-_lock = _this # 2;
+params ['_v','_turret','_lock'];
 {
 	player removeAction _x;
 } count QS_turretActions;

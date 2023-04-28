@@ -79,7 +79,8 @@ missionNamespace setVariable [
 ];
 _safePosATL = [(_safePos # 0),(_safePos # 1),(getTerrainHeightASL _safePos)];
 _uavTypes = ['O_T_UAV_04_CAS_F','O_UAV_02_F','O_T_UAV_04_CAS_F'];
-_uav = createVehicle [(selectRandom _uavTypes),[0,0,0],[],0,'NONE'];
+private _uavType = selectRandom _uavTypes;
+_uav = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _uavType,_uavType],[0,0,0],[],0,'NONE'];
 _uav setVariable ['QS_uav_protected',TRUE,TRUE];
 _uav setVariable ['QS_hidden',TRUE,TRUE];
 _uav setDamage 0.75;
@@ -93,7 +94,6 @@ _uav setPosASL _safePos;
 for '_x' from 0 to 2 step 1 do {
 	_uav setVariable ['QS_secureable',TRUE,TRUE];
 };
-_enemiesArray = [_safePos] call (missionNamespace getVariable 'QS_fnc_smEnemyDivers');
 _uavOnGround = FALSE;
 //_timeEnd = time + 1800;
 _timeEnd = serverTime + 1800;
@@ -131,6 +131,9 @@ _fuzzyPos = [((_safePos # 0) - 300) + (random 600),((_safePos # 1) - 300) + (ran
 ['QS_IA_TASK_SM_0',TRUE,_timeEnd] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 ['NewSideMission',[localize 'STR_QS_Notif_111']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 
+
+
+_enemiesArray = [_safePos] call (missionNamespace getVariable 'QS_fnc_smEnemyDivers');
 private _patrolRoute = [];
 
 for '_x' from 0 to 1 step 0 do {
@@ -196,13 +199,13 @@ for '_x' from 0 to 1 step 0 do {
 			_grp = createGroup [EAST,TRUE];
 			for '_x' from 0 to 1 step 1 do {
 				_diverType = selectRandom _diverTypes;
-				_unit = _grp createUnit [_diverType,(getPosWorld _uav),[],0,'NONE'];
+				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _diverType,_diverType],(getPosWorld _uav),[],0,'NONE'];
 				0 = _enemiesArray pushBack _unit;
 				_unit swimInDepth (getTerrainHeightASL _safePos);
 				_unit enableStamina FALSE;
 				_unit setVariable ['QS_hidden',TRUE,TRUE];
 				{
-					if (_x in ['HandGrenade','MiniGrenade']) then {
+					if ((toLowerANSI _x) in QS_core_classNames_grenades) then {
 						_unit removeMagazine _x;
 					};
 				} forEach (magazines _unit);
@@ -227,13 +230,13 @@ for '_x' from 0 to 1 step 0 do {
 			_grp = createGroup [EAST,TRUE];
 			for '_x' from 0 to 1 step 1 do {
 				_diverType = selectRandom _diverTypes;
-				_unit = _grp createUnit [_diverType,_checkPos,[],0,'FORM'];
+				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _diverType,_diverType],_checkPos,[],0,'FORM'];
 				_unit enableStamina FALSE;
 				_unit setVariable ['QS_hidden',TRUE,TRUE];
-				0 = _enemiesArray pushBack _unit;
+				_enemiesArray pushBack _unit;
 				_unit swimInDepth (getTerrainHeightASL _safePos);
 				{
-					if (_x in ['HandGrenade','MiniGrenade']) then {
+					if ((toLowerANSI _x) in QS_core_classNames_grenades) then {
 						_unit removeMagazine _x;
 					};
 				} forEach (magazines _unit);

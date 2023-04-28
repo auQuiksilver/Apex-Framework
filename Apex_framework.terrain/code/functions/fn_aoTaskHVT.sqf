@@ -47,119 +47,11 @@ if (_state isEqualTo 1) then {
 		[0,_worldSize,0]
 	]) then {
 		private ['_enemyArray','_buildingCandidate','_enemyUnit','_buildingList','_buildingPosition','_buildingPosition_2','_buildingPositionSafe'];
-		_unitTypes = [
-			'C_man_p_fugitive_F','C_man_p_shorts_1_F','C_man_p_fugitive_F_afro','C_man_p_shorts_1_F_afro',
-			'C_man_p_fugitive_F_asia','C_man_p_shorts_1_F_asia','C_man_p_fugitive_F_euro','C_man_p_shorts_1_F_euro'
-		];
+		_unitTypes = ['ao_hvt_units_1'] call QS_data_listUnits;
 		_unitType = selectRandom _unitTypes;
 		_building = objNull;
 		_buildingCandidate = objNull;
-		private _houseTypes = [
-			'Land_i_House_Small_03_V1_F',
-			'Land_u_House_Big_02_V1_F',
-			'Land_i_House_Big_02_V3_F',
-			'Land_i_House_Big_02_V1_F',
-			'Land_i_House_Big_02_V2_F',
-			'Land_u_House_Big_01_V1_F',
-			'Land_i_House_Big_01_V3_F',
-			'Land_i_House_Big_01_V1_F',
-			'Land_i_House_Big_01_V2_F',
-			'Land_u_Shop_02_V1_F',
-			'Land_i_Shop_02_V3_F',
-			'Land_i_Shop_02_V1_F',
-			'Land_i_Shop_02_V2_F',
-			'Land_u_Shop_01_V1_F',
-			'Land_i_Shop_01_V3_F',
-			'Land_i_Shop_01_V1_F',
-			'Land_i_Shop_01_V2_F',
-			'Land_u_House_Small_01_V1_F',
-			'Land_u_House_Small_02_V1_F',
-			'Land_i_House_Small_02_V3_F',
-			'Land_i_House_Small_02_V1_F',
-			'Land_i_House_Small_02_V2_F',
-			'Land_i_House_Small_01_V3_F',
-			'Land_i_House_Small_01_V1_F',
-			'Land_i_House_Small_01_V2_F',
-			'Land_i_Stone_HouseBig_V3_F',
-			'Land_i_Stone_HouseBig_V1_F',
-			'Land_i_Stone_HouseBig_V2_F',
-			'Land_i_Stone_HouseSmall_V3_F',
-			'Land_i_Stone_HouseSmall_V1_F',
-			'Land_i_Stone_Shed_V2_F',
-			'Land_i_Stone_Shed_V1_F',
-			'Land_i_Stone_Shed_V3_F',
-			'Land_i_Stone_HouseSmall_V2_F',
-			'Land_i_House_Big_02_b_blue_F',
-			'Land_i_House_Big_02_b_pink_F',
-			'Land_i_House_Big_02_b_whiteblue_F',
-			'Land_i_House_Big_02_b_white_F',
-			'Land_i_House_Big_02_b_brown_F',
-			'Land_i_House_Big_02_b_yellow_F',
-			'Land_i_House_Big_01_b_blue_F',
-			'Land_i_House_Big_01_b_pink_F',
-			'Land_i_House_Big_01_b_whiteblue_F',
-			'Land_i_House_Big_01_b_white_F',
-			'Land_i_House_Big_01_b_brown_F',
-			'Land_i_House_Big_01_b_yellow_F',
-			'Land_i_Shop_02_b_blue_F',
-			'Land_i_Shop_02_b_pink_F',
-			'Land_i_Shop_02_b_whiteblue_F',
-			'Land_i_Shop_02_b_white_F',
-			'Land_i_Shop_02_b_brown_F',
-			'Land_i_Shop_02_b_yellow_F',
-			'Land_Barn_01_brown_F',
-			'Land_Barn_01_grey_F',
-			'Land_i_House_Small_01_b_blue_F',
-			'Land_i_House_Small_01_b_pink_F',
-			'Land_i_House_Small_02_b_blue_F',
-			'Land_i_House_Small_02_b_pink_F',
-			'Land_i_House_Small_02_b_whiteblue_F',
-			'Land_i_House_Small_02_b_white_F',
-			'Land_i_House_Small_02_b_brown_F',
-			'Land_i_House_Small_02_b_yellow_F',
-			'Land_i_House_Small_02_c_blue_F',
-			'Land_i_House_Small_02_c_pink_F',
-			'Land_i_House_Small_02_c_whiteblue_F',
-			'Land_i_House_Small_02_c_white_F',
-			'Land_i_House_Small_02_c_brown_F',
-			'Land_i_House_Small_02_c_yellow_F',
-			'Land_i_House_Small_01_b_whiteblue_F',
-			'Land_i_House_Small_01_b_white_F',
-			'Land_i_House_Small_01_b_brown_F',
-			'Land_i_House_Small_01_b_yellow_F',
-			'Land_i_Stone_House_Big_01_b_clay_F',
-			'Land_i_Stone_Shed_01_b_clay_F',
-			'Land_i_Stone_Shed_01_b_raw_F',
-			'Land_i_Stone_Shed_01_b_white_F',
-			'Land_i_Stone_Shed_01_c_clay_F',
-			'Land_i_Stone_Shed_01_c_raw_F',
-			'Land_i_Stone_Shed_01_c_white_F',
-			'Land_House_Big_04_F',
-			'Land_House_Small_04_F',
-			'Land_House_Small_05_F',
-			'Land_Addon_04_F',
-			'Land_House_Big_03_F',
-			'Land_House_Small_02_F',
-			'Land_House_Big_02_F',
-			'Land_House_Small_03_F',
-			'Land_House_Small_06_F',
-			'Land_House_Big_01_F',
-			'Land_Slum_02_F',
-			'Land_Slum_01_F',
-			'Land_GarageShelter_01_F',
-			'Land_House_Small_01_F',
-			'Land_Slum_03_F',
-			'Land_Temple_Native_01_F',
-			'Land_House_Native_02_F',
-			'Land_House_Native_01_F',
-			"Land_GH_House_1_F",
-			"Land_GH_House_2_F",
-			"Land_GH_MainBuilding_entry_F",
-			"Land_GH_MainBuilding_right_F",
-			"Land_GH_MainBuilding_left_F",
-			"Land_GH_Gazebo_F",
-			"Land_WIP_F"
-		];
+		private _houseTypes = ['ao_hvt_housetypes_1'] call QS_data_listVehicles;
 		_buildingList = nearestObjects [_aoPos,_houseTypes,((missionNamespace getVariable 'QS_aoSize') * 1.1),TRUE];
 		if (_buildingList isEqualTo []) then {
 			_buildingList = _aoPos nearObjects ['House',((missionNamespace getVariable 'QS_aoSize') * 1.1)];
@@ -180,8 +72,10 @@ if (_state isEqualTo 1) then {
 				_building allowDamage FALSE;
 				_buildingPositions = _building buildingPos -1;
 				/*/_agent = createAgent [_unitType,[0,0,0],[],0,'NONE'];/*/
-				_agent = (createGroup [CIVILIAN,TRUE]) createUnit [_unitType,[0,0,0],[],0,'NONE'];
-				_agent setUnitLoadout [[[],[],[],["U_Marshal",[]],[],[],"H_Beret_blk","G_Shades_Black",[],["ItemMap","","","ItemCompass","ItemWatch",""]],FALSE];
+				_agent = (createGroup [CIVILIAN,TRUE]) createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[0,0,0],[],0,'NONE'];
+				if ((call (missionNamespace getVariable 'QS_fnc_getActiveDLC')) isEqualTo '') then {
+					_agent setUnitLoadout [[[],[],[],["U_Marshal",[]],[],[],"H_Beret_blk","G_Shades_Black",[],[QS_core_classNames_itemMap,"","",QS_core_classNames_itemCompass,QS_core_classNames_itemWatch,""]],FALSE];
+				};
 				_agent setDir (random 360);
 				_buildingPosition = selectRandom _buildingPositions;
 				_agent setPos _buildingPosition;
@@ -240,16 +134,14 @@ if (_state isEqualTo 1) then {
 				] call (missionNamespace getVariable 'BIS_fnc_setTask');
 				//comment 'Force protection';
 				_enemyArray = [];
-				_enemyTypes = [
-					"I_C_Soldier_Bandit_7_F","I_C_Soldier_Bandit_3_F","I_C_Soldier_Bandit_2_F","I_C_Soldier_Bandit_5_F","I_C_Soldier_Bandit_6_F","I_C_Soldier_Bandit_1_F",
-					"I_C_Soldier_Bandit_8_F","I_C_Soldier_Bandit_4_F","I_C_Soldier_Para_7_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_6_F",
-					"I_C_Soldier_base_unarmed_F","I_C_Soldier_Para_8_F","I_C_Soldier_Para_1_F","I_C_Soldier_Para_5_F"
-				];
+				_enemyTypes = ['ao_hvt_guards_1'] call QS_data_listUnits;
 				_enemyCount = round (2 + (random 3));
 				_enemyGroup = createGroup [RESISTANCE,TRUE];
 				_enemyUnit = objNull;
+				private _enemyType = '';
 				for '_x' from 0 to _enemyCount step 1 do {
-					_enemyUnit = _enemyGroup createUnit [(selectRandom _enemyTypes),[0,0,0],[],0,'NONE'];
+					_enemyType = selectRandom _enemyTypes;
+					_enemyUnit = _enemyGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyType,_enemyType],[0,0,0],[],0,'NONE'];
 					_enemyUnit = _enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 					_enemyUnit setPos (selectRandom _buildingPositions);
 					_enemyUnit setUnitPos (selectRandom ['UP','MIDDLE']);

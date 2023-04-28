@@ -11,27 +11,6 @@ Last modified:
 Description: 
 
 	Respawn CAS
-	
-List of jets:
-
-	'b_plane_cas_01_f',
-	'b_plane_cas_01_dynamicloadout_f',
-	'b_plane_cas_01_cluster_f',
-	'b_plane_fighter_01_f',
-	'b_plane_fighter_01_stealth_f',
-	'b_plane_fighter_01_cluster_f',
-	'o_plane_cas_02_f',
-	'o_plane_cas_02_dynamicloadout_f',
-	'o_plane_cas_02_cluster_f',
-	'o_plane_fighter_02_f',
-	'o_plane_fighter_02_stealth_f',
-	'o_plane_fighter_02_cluster_f',
-	'i_plane_fighter_03_aa_f',
-	'i_plane_fighter_03_cas_f',
-	'i_plane_fighter_03_dynamicloadout_f',
-	'i_plane_fighter_03_cluster_f',
-	'i_plane_fighter_04_f',
-	'i_plane_fighter_04_cluster_f'
 ___________________________________________________________________________/*/
 
 if (!(alive (missionNamespace getVariable 'QS_fighterPilot'))) exitWith {};
@@ -175,6 +154,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 		'i_c_plane_civil_01_f',0
 	];
 	private _pilotLeaderboards = QS_leaderboards2 toArray FALSE;
+	_pilotLeaderboards append (QS_leaderboards3 toArray FALSE);
 	_pilotLeaderboards = _pilotLeaderboards apply {
 		[
 			(_x # 1) # 1,			// getting transport pilot list
@@ -252,7 +232,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 [_pos,_dir,_newCasType,_isCarrier] spawn {
 	params ['_pos','_dir','_newCasType','_isCarrier'];
 	uiSleep 0.01;
-	missionNamespace setVariable ['QS_casJet',(createVehicle [_newCasType,[-500,-500,100],[],0,'CAN_COLLIDE']),TRUE];
+	missionNamespace setVariable ['QS_casJet',(createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _newCasType,_newCasType],[-500,-500,100],[],0,'CAN_COLLIDE']),TRUE];
 	private _casJet = missionNamespace getVariable 'QS_casJet';
 	_casJet setDir _dir;
 	if (_isCarrier) then {
@@ -265,7 +245,8 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 	};
 	_casJet setVariable ['QS_casJet_ownerUID',(getPlayerUID (missionNamespace getVariable 'QS_fighterPilot')),FALSE];
 	_casJet disableTIEquipment TRUE;
-	_casJet setVariable ['QS_ropeAttached',FALSE,TRUE];
+	_casJet flyInHeight 500;
+	_casJet flyInHeightASL [500,500,500];
 	_casJet lock 0;
 	_casJet setVehicleReportRemoteTargets FALSE;
 	_casJet setVehicleReceiveRemoteTargets (!(missionNamespace getVariable ['QS_virtualSectors_sub_1_active',FALSE]));
@@ -277,7 +258,8 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 			params ['_jet'];
 			_text = [localize 'STR_QS_Chat_026',localize 'STR_QS_Chat_027'] select (((getPosATL _jet) # 2) > 20);
 			[[WEST,'AirBase'],_text] remoteExec ['sideChat',-2,FALSE];
-			if ((_jet distance2D (markerPos 'QS_marker_base_marker')) < 600) then {
+			([_jet,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+			if (_inSafezone && _safezoneActive) then {
 				missionNamespace setVariable ['QS_casJet_destroyedAtBase',TRUE,FALSE];
 				missionNamespace setVariable ['QS_casJet_destroyedAtBase_type',(typeOf _jet),FALSE];
 			} else {
@@ -296,11 +278,9 @@ if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isEqual
 			params ['_entity'];
 		}
 	];
-	/*/QS_v_Monitor pushBack [_casJet,30,FALSE,{},_newCasType,_pos,_dir,false,0,-1,50,500,0,6,FALSE,0];/*/
 	_casJet allowDamage FALSE;
 	_casJet enableRopeAttach FALSE;
 	_casJet enableVehicleCargo FALSE;
-	_casJet setVariable ['QS_ropeAttached',FALSE,TRUE];
 	_casJet addEventHandler [
 		'GetIn',
 		{

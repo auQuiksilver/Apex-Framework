@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	18/08/2022 A3 2.10 by Quiksilver
+	24/02/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -19,6 +19,15 @@ params ['_changedFrom','_changedTo','_isRuin'];
 if (_isRuin) then {
 	if (_changedTo isKindOf 'Land_TTowerBig_2_ruins_F') then {
 		(missionNamespace getVariable 'QS_garbageCollector') pushBack [_changedTo,'NOW_DISCREET',(time + 120)];
+	};
+	if (QS_list_playerBuildables isNotEqualTo []) then {
+		(0 boundingBoxReal _changedTo) params ['','','_radius'];
+		_near = QS_list_playerBuildables inAreaArray [getPosATL _changedTo,_radius,_radius,0,FALSE];
+		if (_near isNotEqualTo []) then {
+			{
+				deleteVehicle _x;
+			} forEach _near;
+		};
 	};
 };
 if (_changedFrom isEqualTo (missionNamespace getVariable ['QS_sidemission_building',objNull])) then {

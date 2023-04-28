@@ -11,6 +11,10 @@ Last modified:
 Description:
 
 	Rocket types
+	
+	On the left is the "anti-tank" variant, on the right is the "high explosive" variant
+	
+	At low server pop and on 'easy' mode, we want to remove the Anti-Tank and add the High Explosive
 ______________________________________________/*/
 
 [

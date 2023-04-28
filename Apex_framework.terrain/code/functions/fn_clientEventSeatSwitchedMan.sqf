@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	21/11/2018 A3 1.86 by Quiksilver
+	18/02/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -25,4 +25,11 @@ if (_v isKindOf 'Heli_Transport_04_base_F') then {
 };
 if (player getUnitTrait 'QS_trait_pilot') then {
 	player setVariable ['QS_pilot_vehicleInfo',[_v,(assignedVehicleRole player)],TRUE];
+};
+if (
+	(((assignedVehicleRole _u1) # 0) in ['driver']) &&
+	{(!(_v in (assignedVehicles (group QS_player))))} &&
+	{((assignedGroup _v) isNotEqualTo (group QS_player))}
+) then {
+	['addVehicle',group QS_player,_v] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 };

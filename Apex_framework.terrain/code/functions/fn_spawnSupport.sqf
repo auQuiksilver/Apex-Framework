@@ -19,25 +19,21 @@ private _vehicle = objNull;
 private _unit = objNull;
 private _grp = grpNull;
 private _position = [0,0,0];
+private _vehicleType = '';
 if (_type isEqualTo 'REPAIR') then {
 	_data params ['_roads'];
 	if (_mobile) then {
 		_vTypes = [
-			[
-				'o_truck_03_repair_f',0.666,
-				'o_truck_03_repair_f',0.666//'b_apc_tracked_01_crv_f',0.333
-			],
-			[
-				'o_t_truck_03_repair_ghex_f',0.666,
-				'o_t_truck_03_repair_ghex_f',0.666//'b_t_apc_tracked_01_crv_f',0.333
-			]
-		] select (worldName in ['Tanoa','Lingor3','Enoch']);
+			'o_truck_03_repair_f',0.666,
+			'o_truck_03_repair_f',0.666
+		];
 		_roads = _roads call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		_roadIndex = _roads findIf {(((_x select [0,2]) nearEntities ['AllVehicles',8]) isEqualTo [])};
 		if (_roadIndex isEqualTo -1) exitWith {};
 		_grp = createGroup [EAST,TRUE];
 		_roadPosition = _roads # _roadIndex;
-		_vehicle = createVehicle [(selectRandomWeighted _vTypes),_roadPosition,[],0,'NONE'];
+		_vehicleType = selectRandomWeighted _vTypes;
+		_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],_roadPosition,[],0,'NONE'];
 		_vehicle setDir (random 360);
 		_vehicle lock 3;
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
@@ -56,6 +52,7 @@ if (_type isEqualTo 'REPAIR') then {
 		[0,_vehicle,EAST] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 		_vehicle addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 		_vehicle addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
+		_vehicle setVariable ['QS_service_disabled',TRUE,TRUE];
 		createVehicleCrew _vehicle;
 		(crew _vehicle) joinSilent _grp;
 		[_grp,(getPosATL _vehicle),-1,_roads,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
@@ -73,21 +70,19 @@ if (_type isEqualTo 'REPAIR') then {
 			'land_repairdepot_01_tan_f'
 		] select (worldName in ['Tanoa','Lingor3','Enoch']);
 		// spawn beside road segment
-		
-		
 	};
 };
 if (_type isEqualTo 'MEDICAL') then {
 	_data params ['_roads'];
 	// spawn near HQ
 	if (_mobile) then {
-		_vTypes = ['o_truck_03_medical_f','o_t_truck_03_medical_ghex_f'] select (worldName in ['Tanoa','Lingor3','Enoch']);
+		_vTypes = selectRandom ['o_truck_03_medical_f'];
 		_roads = _roads call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 		_roadIndex = _roads findIf {(((_x select [0,2]) nearEntities ['AllVehicles',8]) isEqualTo [])};
 		if (_roadIndex isEqualTo -1) exitWith {};
 		_grp = createGroup [EAST,TRUE];
 		_roadPosition = _roads # _roadIndex;
-		_vehicle = createVehicle [_vTypes,_roadPosition,[],0,'NONE'];
+		_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vTypes,_vTypes],_roadPosition,[],0,'NONE'];
 		_vehicle setDir (random 360);
 		_vehicle lock 3;
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;

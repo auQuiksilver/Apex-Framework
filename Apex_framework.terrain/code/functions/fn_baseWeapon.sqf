@@ -11,6 +11,10 @@ Last Modified:
 Description:
 
 	Return base weapon (i.e., weapon without any attachments)
+
+Notes:
+
+	To Do: Optimise this
 ________________________________________________/*/
 
 params [['_class','',['']]];

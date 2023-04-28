@@ -74,16 +74,21 @@ if ((_this # 0) isEqualType '') exitWith {
 	_return;
 };
 params ['_vehicle'];
-_designation = ['Афганит',localize 'STR_QS_Dialogs_075'] select ((getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'side')) in [1,2]);
+_sideNumber = QS_hashmap_configfile getOrDefaultCall [
+	format ['cfgvehicles_%1_sidenumber',toLowerANSI (typeOf _vehicle)],
+	{getNumber ((configOf _vehicle) >> 'side')},
+	TRUE
+];
+_designation = ['Афганит',localize 'STR_QS_Dialogs_075'] select (_sideNumber in [1,2]);
 private _list = [
-	FALSE,												// QS_aps_enabled		- Is the system enabled for these vehicle types
+	(_vehicle isKindOf 'Tank'),							// QS_aps_enabled		- Is the system enabled for these vehicle types
 	(_vehicle selectionPosition 'commander_gun'),		// QS_aps_sensorPos		- Where on the vehicle is the projectile sensor
-	-1,													// QS_aps_maxAmmo		- How much ammo in the magazine
+	2,													// QS_aps_maxAmmo		- How much ammo in the magazine
 	30,													// QS_aps_reloadTime	- Reload time
 	50,													// QS_aps_minRange		- Minimum effective range
 	-0.4,												// QS_aps_maxAngle		- Max angle the projectile can be detected at.
-	20,													// QS_aps_interceptRange	- Intercept range for the projectile
-	1,													// QS_aps_randomChance		- Chance that the system works (0-1)
+	25,													// QS_aps_interceptRange	- Intercept range for the projectile
+	0.9,												// QS_aps_randomChance		- Chance that the system works (0-1)
 	FALSE,												// QS_aps_disableBlindspot	- Is the APS blind spot disabled.
 	_designation
 ];

@@ -85,7 +85,7 @@ if (_roadRoadValid isEqualTo [0,0,0]) then {
 };
 _randomRoadPosition = _roadRoadValid;
 _vehicleType = selectRandomWeighted ([1] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
-_vehicle = createVehicle [_vehicleType,[(_randomRoadPosition # 0),(_randomRoadPosition # 1),((_randomRoadPosition # 2) + 5)],[],0,'NONE'];
+_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],(_randomRoadPosition vectorAdd [0,0,5]),[],0,'NONE'];
 _arrayVehicles pushBack _vehicle;
 _vehicle lock 3;
 (missionNamespace getVariable 'QS_AI_vehicles') pushBack _vehicle;
@@ -110,17 +110,17 @@ clearWeaponCargoGlobal _vehicle;
 clearItemCargoGlobal _vehicle;
 clearBackpackCargoGlobal _vehicle;
 if ((toLowerANSI _vehicleType) in ['b_apc_tracked_01_rcws_f','b_t_apc_tracked_01_rcws_f']) then {
-	_engineerType = ['O_engineer_F','O_T_Engineer_F'] select (worldName in ['Tanoa','Lingor3']);
+	_engineerType = 'O_engineer_F';
 	_grp = createGroup [EAST,TRUE];
-	_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _engineerType,_engineerType],_randomRoadPosition,[],0,'NONE'];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsDriver _vehicle;
 	_unit moveInDriver _vehicle;
-	_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _engineerType,_engineerType],_randomRoadPosition,[],0,'NONE'];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsGunner _vehicle;
 	_unit moveInGunner _vehicle;
-	_unit = _grp createUnit [_engineerType,_randomRoadPosition,[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _engineerType,_engineerType],_randomRoadPosition,[],0,'NONE'];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsCommander _vehicle;
 	_unit moveInCommander _vehicle;
@@ -179,12 +179,7 @@ if (_vehicleRoadPatrolPositions isNotEqualTo []) then {
 	_grp setFormDir (_randomRoadPosition getDir (_vehicleRoadPatrolPositions # 0));
 	_grp move (_vehicleRoadPatrolPositions # 0);
 };
-if ((toLowerANSI _vehicleType) in [
-	'o_mrap_02_f','o_mrap_02_gmg_f','o_mrap_02_hmg_f','o_lsv_02_armed_f','o_lsv_02_unarmed_f','o_t_mrap_02_ghex_f','o_t_mrap_02_gmg_ghex_f','o_t_mrap_02_hmg_ghex_f','o_t_lsv_02_armed_f','o_t_lsv_02_unarmed_f',
-	'i_mrap_03_f','i_mrap_03_gmg_f','i_mrap_03_hmg_f','o_g_offroad_01_armed_f','o_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_Offroad_01_f',
-	'i_truck_02_transport_f','i_truck_02_covered_f','o_truck_02_transport_f','o_truck_02_covered_f',
-	'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f'
-]) then {
+if ((toLowerANSI _vehicleType) in (['classic_reinforcevslingable_1'] call QS_data_listVehicles)) then {
 	if (diag_fps > 15) then {
 		if ((count allPlayers) > 0) then {
 			if ((random 1) > 0.5) then {
@@ -195,17 +190,8 @@ if ((toLowerANSI _vehicleType) in [
 								if (([4,EAST,_centerPos,2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) isEqualTo 0) then {
 									if (([3,EAST,_centerPos,2000] call (missionNamespace getVariable 'QS_fnc_AIGetKnownEnemies')) isEqualTo 0) then {
 										private _insertHeliType = '';
-										if ((toLowerANSI _vehicleType) in [
-											'o_mrap_02_f','o_mrap_02_gmg_f','o_mrap_02_hmg_f','o_lsv_02_armed_f','o_lsv_02_unarmed_f','o_t_mrap_02_ghex_f','o_t_mrap_02_gmg_ghex_f','o_t_mrap_02_hmg_ghex_f','o_t_lsv_02_armed_f','o_t_lsv_02_unarmed_f',
-											'i_mrap_03_f','i_mrap_03_gmg_f','i_mrap_03_hmg_f','i_truck_02_transport_f','i_truck_02_covered_f','o_truck_02_transport_f','o_truck_02_covered_f',
-											'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f'
-										]) then {
-											_insertHeliType = ['O_Heli_Transport_04_F','O_Heli_Transport_04_black_F'] select (_worldName isEqualTo 'Tanoa');
-										};
-										if ((toLowerANSI _vehicleType) in [
-											'o_g_offroad_01_armed_f','o_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_Offroad_01_f'
-										]) then {
-											_insertHeliType = ['O_Heli_Light_02_unarmed_F','O_Heli_Light_02_unarmed_F'] select (_worldName isEqualTo 'Tanoa');
+										if ((toLowerANSI _vehicleType) in (['classic_reinforcevslingable_1'] call QS_data_listVehicles)) then {
+											_insertHeliType = ['classic_reinforcevslinger_1'] call QS_data_listVehicles;
 										};
 										if (_insertHeliType isNotEqualTo '') then {
 											missionNamespace setVariable ['QS_AI_insertHeli_spawnedAO',((missionNamespace getVariable 'QS_AI_insertHeli_spawnedAO') + 1),FALSE];

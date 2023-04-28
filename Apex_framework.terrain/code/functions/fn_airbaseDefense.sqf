@@ -6,11 +6,13 @@ Author:
 	
 Last Modified:
 
-	20/11/2017 A3 1.76 by Quiksilver
+	1/01/2023 A3 1.76 by Quiksilver
 
 Description:
 
 	Air Defense
+	
+	
 ___________________________________________________/*/
 
 private ['_defensePos','_airdefenseGroup','_defender','_nearAir','_duration','_cooldown','_relPos','_defenderType','_gunner'];
@@ -19,16 +21,8 @@ _duration = time + 300;	// online for x seconds
 _cooldown = time + 900;	// unavailable for x seconds
 _defensePos = markerPos ['QS_marker_airbaseDefense',TRUE];
 [_defensePos,15,30,75] call (missionNamespace getVariable 'QS_fnc_clearPosition');
-_defenderType = 'b_aaa_system_01_f';	// This one is the best mix of effectiveness and spectacle.
-/*/
-_defenderType = selectRandomWeighted [
-	'b_aaa_system_01_f',0.333,	//0.5
-	'b_sam_system_01_f',0.333,	//0.25
-	'b_sam_system_02_f',0.333,	//0.25
-	'b_sam_system_03_f',0.0		// kind of sucks at base defense
-];
-/*/
-_defender = createVehicle [_defenderType,[-500,-500,50],[],0,'NONE'];
+_defenderType = selectRandom (['base_aa_1'] call QS_data_listVehicles);	// This one is the best mix of effectiveness and spectacle.
+_defender = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _defenderType,_defenderType],[-500,-500,50],[],0,'NONE'];
 _defender allowDamage FALSE;
 _defender allowCrewInImmobile [TRUE,TRUE];
 _defender enableVehicleCargo FALSE;
@@ -36,7 +30,7 @@ _defender enableRopeAttach FALSE;
 _worldName = worldName;
 { 
 	_defender setObjectTextureGlobal [_forEachIndex,_x]; 
-} forEach (getArray (configFile >> 'CfgVehicles' >> _defenderType >> 'TextureSources' >> (['Sand','Green'] select (_worldName in ['Tanoa','Lingor3'])) >> 'textures'));
+} forEach (getArray ((configOf _defender) >> 'TextureSources' >> (['Sand','Green'] select (_worldName in ['Tanoa','Enoch'])) >> 'textures'));
 _defender setVehicleRadar 2;
 if (unitIsUav _defender) then {
 	_defender setVariable ['QS_uav_protected',TRUE,FALSE];

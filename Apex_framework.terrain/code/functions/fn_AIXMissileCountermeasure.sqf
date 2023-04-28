@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	2/09/2022 A3 2.10 by Quiksilver
+	14/1/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -19,8 +19,8 @@ if (alive (effectiveCommander _vehicle)) then {
 		(_vehicle isKindOf 'Air') &&
 		{(!isNull _projectile)} &&
 		{(isNull (objectParent _instigator))} &&
-		{((_vehicle distance _shooter) > 500)} &&
-		{(!((vehicle _shooter) isKindOf 'Man'))} &&
+		{((_vehicle distance _shooter) > 1000)} &&
+		{((!((vehicle _shooter) isKindOf 'Man')) && (!((vehicle _shooter) isKindOf 'Static')))} &&
 		{((random 1) > ([0.75,0.5] select ((count allPlayers) > 15)))}
 	) then {
 		(group (effectiveCommander _vehicle)) reveal [_shooter,4];

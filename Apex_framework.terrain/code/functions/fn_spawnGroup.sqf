@@ -35,17 +35,23 @@ if (_type isEqualType []) then {
 if (_useRecycler) then {
 	_useRecycler = isDedicated;
 };
-_groupComposition = [_side,_type] call (missionNamespace getVariable 'QS_fnc_returnGroupComposition');
+_groupComposition = QS_core_groups_map getOrDefault [toLowerANSI _type,[]];
+if (_groupComposition isEqualTo []) exitWith {
+	diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_type]);
+	grpNull;
+};
 if (isNull _grp) then {
 	_grp = createGroup [_side,_deleteWhenEmpty];
 	_grp setFormation 'WEDGE';
 	_grp setFormDir _dir;
 };
+private _unitType = '';
 for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
+	_unitType = (_groupComposition # _i) # 0;
 	if (_useRecycler) then {
-		_unit = [2,2,((_groupComposition # _i) # 0)] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
+		_unit = [2,2,QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType]] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 		if (isNull _unit) then {
-			_unit = _grp createUnit [((_groupComposition # _i) # 0),[-1015,-1015,0],[],15,'NONE'];
+			_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[-1015,-1015,0],[],15,'NONE'];
 		} else {
 			// wake up unit
 			missionNamespace setVariable ['QS_analytics_entities_recycled',((missionNamespace getVariable ['QS_analytics_entities_recycled',0]) + 1),FALSE];
@@ -65,7 +71,7 @@ for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 			};
 		};
 	} else {
-		_unit = _grp createUnit [((_groupComposition # _i) # 0),[-1015,-1015,0],[],15,'NONE'];
+		_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[-1015,-1015,0],[],15,'NONE'];
 	};
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	if ((rank _unit) isNotEqualTo ((_groupComposition # _i) # 1)) then {

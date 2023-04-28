@@ -25,7 +25,7 @@ if (
 	(([_unit,'GEOM',objNull] checkVisibility [(eyePos _unit),(eyePos _unit) vectorAdd [0,5,0]]) isNotEqualTo 1) ||
 	{(([_unit,(getPosWorld _unit)] call (missionNamespace getVariable 'QS_fnc_inHouse')) # 0)}
 ) exitWith {};
-_fragType = if (_type isEqualTo 'SMOKE') then {['smokeshell','smokeshellmuzzle']} else {if ((_distance isEqualTo -1) || {(_distance > 40)}) then {['minigrenade','minigrenademuzzle']} else {['handgrenade','handgrenademuzzle']};};
+_fragType = if (_type isEqualTo 'SMOKE') then {['smokeshell','smokeshellmuzzle']} else {if ((_distance isEqualTo -1) || {(_distance > 40)}) then {[QS_core_classNames_miniGrenade,'minigrenademuzzle']} else {[QS_core_classNames_handGrenade,'handgrenademuzzle']};};
 _unit setWeaponReloadingTime [_unit,(_fragType # 1),0];
 for '_x' from 0 to 2 step 1 do {
 	_unit addMagazine (_fragType # 0);

@@ -34,7 +34,7 @@ if (_type isEqualTo 1) exitWith {
 		_respawnEnabled = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_039',localize 'STR_QS_Hints_037'];
 	};
 	_text = _text + _respawnEnabled;
-	_text = _text + (format ['<t size="1" align="left">%2</t><t size="1" align="right">%1</t><br/>',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Hints_040']);
+	_text = _text + (format ['<t size="1" align="left">%2</t><t size="1" align="right">%1</t><br/>',QS_module_fob_flag getVariable ['QS_deploy_tickets',0],localize 'STR_QS_Hints_040']);
 	if (missionNamespace getVariable 'QS_module_fob_vehicleRespawnEnabled') then {
 		_vehicleRespawnEnabled = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_041',localize 'STR_QS_Hints_036'];
 	} else {

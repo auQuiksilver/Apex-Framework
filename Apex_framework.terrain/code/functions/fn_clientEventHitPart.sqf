@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	6/02/2015 A3 1.54 by Quiksilver
+	27/02/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -26,3 +26,5 @@ direct: Boolean - true if object was directly hit, false if it was hit by indire
 ___________________________________________________________________*/
 
 //params ['_target','_shooter','_bullet','_position','_velocity','_selection','_ammo','_direction','_radius','_surface','_direct'];
+
+//systemchat str _this;

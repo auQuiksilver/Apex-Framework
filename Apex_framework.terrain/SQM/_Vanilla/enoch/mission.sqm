@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=206;
+		nextID=207;
 	};
 	class Camera
 	{
-		pos[]={4081.301,75.101059,10242.691};
+		pos[]={4083.4131,76.747711,10241.957};
 		dir[]={-0.91026467,-0.26550871,0.31768444};
 		up[]={-0.25068054,0.96410847,0.08748807};
 		aside[]={0.32951111,7.4505806e-009,0.94415176};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_134";
+sourceName="Apex_framework_136";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -129,7 +129,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=116;
+		items=117;
 		class Item0
 		{
 			dataType="Object";
@@ -5896,6 +5896,19 @@ class Mission
 			isPlayable=1;
 			id=205;
 			type="HeadlessClient_F";
+		};
+		class Item116
+		{
+			dataType="Marker";
+			position[]={4101.1431,68.466858,10353.996};
+			name="QS_marker_wreck_service_01";
+			text="   Wreck Recovery";
+			type="b_maint";
+			colorName="ColorWEST";
+			alpha=0.49576423;
+			a=0.5;
+			b=0.5;
+			id=206;
 		};
 	};
 };

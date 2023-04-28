@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/10/2014 ArmA 1.32
+	30/12/2022 A3 2.10
 	
 Description:
 
@@ -15,11 +15,7 @@ Description:
 	Trialing turretLocal
 _______________________________________________*/
 
-private ["_array","_v","_turret","_lock"];
-_array = _this # 3;
-_v = _array # 0;
-_turret = _array # 1;
-_lock = _array # 2;
+(_this # 3) params ['_v','_turret','_lock'];
 {
 	player removeAction _x;
 } count QS_turretActions;

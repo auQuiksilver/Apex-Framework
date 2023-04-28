@@ -74,20 +74,24 @@ _this spawn {
 		['_respawnTickets',-1],
 		['_isDynamicVehicle',TRUE],
 		['_safeRespawnRadius',4],
-		['_isCarrierVehicle',0]
+		['_isCarrierVehicle',0],
+		['_vehicleSpawnCondition',{TRUE}],
+		['_wreckInfo',[]],
+		['_wreckChance',0],
+		['_wreckCondition',{TRUE}]
 	];
 	if (
 		((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) &&
 		{(!(_vehicle getVariable ['QS_missionObject_protected',FALSE]))}
 	) exitWith {};
 	private _vehicleType = typeOf _vehicle;
-	private _spawnPosition = (position _vehicle) vectorAdd [0,0,([0.1,0] select (surfaceIsWater _spawnPosition))];	/*/ Ideally we'd use ASL but a lot of internal changes would have to be made and tested+verified .../*/
+	private _spawnPosition = (ASLToAGL (getPosASL _vehicle)) vectorAdd [0,0,([0.1,0] select (surfaceIsWater _spawnPosition))];	/*/ Ideally we'd use ASL but a lot of internal changes would have to be made and tested+verified .../*/
 	private _spawnDirection = getDir _vehicle;
 	private _isRespawning = FALSE;
 	private _canRespawnAfter = 0;
 	private _vehicleFobID = -1;
 	if (_isCarrierVehicle > 0) then {
-		_spawnPosition = getPosWorld _vehicle;
+		_spawnPosition = getPosASL _vehicle;		// getPosWorld
 	};
 	if (unitIsUav _vehicle) exitWith {
 		if (isNil {missionNamespace getVariable 'QS_uav_Monitor'}) then {
@@ -106,10 +110,10 @@ _this spawn {
 		missionNamespace setVariable ['QS_uav_Monitor',(missionNamespace getVariable ['QS_uav_Monitor',[]]),TRUE];
 		deleteVehicle _vehicle;
 	};
-	if (isNil {missionNamespace getVariable 'QS_v_Monitor'}) then {
-		missionNamespace setVariable ['QS_v_Monitor',[],FALSE];
+	if (isNil {serverNamespace getVariable 'QS_v_Monitor'}) then {
+		serverNamespace setVariable ['QS_v_Monitor',[]];
 	};
-	(missionNamespace getVariable 'QS_v_Monitor') pushBack [
+	(serverNamespace getVariable 'QS_v_Monitor') pushBack [
 		_vehicle,
 		_respawnDelay,
 		_randomize,
@@ -125,7 +129,14 @@ _this spawn {
 		_respawnTickets,
 		_safeRespawnRadius,
 		_isDynamicVehicle,
-		_isCarrierVehicle
+		_isCarrierVehicle,
+		_vehicleSpawnCondition,
+		FALSE,						// is wreck
+		FALSE,						// is deployed
+		[],							// dynamic state data
+		_wreckInfo,					// wreck info
+		_wreckChance,				// wreck chance
+		_wreckCondition				// wreck condition
 	];
 	deleteVehicle _vehicle;
 };

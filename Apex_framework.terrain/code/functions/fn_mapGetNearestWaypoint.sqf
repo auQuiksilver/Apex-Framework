@@ -21,21 +21,18 @@ private _nearestWaypoint = [grpNull,-1];
 private _dist = 999999;
 private _max = _dist;
 _radius = (10 max (200 * _mScale));
-_playerSide = player getVariable ['QS_unit_side',WEST];
 {
 	if (!isNull _x) then {
-		if ((side _x) isEqualTo _playerSide) then {
-			_grp = _x;
-			if ((waypoints _grp) isNotEqualTo []) then {
-				{
-					if (((waypointPosition [_grp,_forEachIndex]) distance2D _mousePosition) <= _radius) then {
-						_waypointsInRadius pushBack _x;
-					};
-				} forEach (waypoints _grp);
-			};
+		_grp = _x;
+		if ((waypoints _grp) isNotEqualTo []) then {
+			{
+				if (((waypointPosition [_grp,_forEachIndex]) distance2D _mousePosition) <= _radius) then {
+					_waypointsInRadius pushBack _x;
+				};
+			} forEach (waypoints _grp);
 		};
 	};
-} forEach allGroups;
+} forEach (groups (player getVariable ['QS_unit_side',WEST]));
 if (_waypointsInRadius isNotEqualTo []) then {
 	{
 		_dist = (waypointPosition _x) distance2D _mousePosition;

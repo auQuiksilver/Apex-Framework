@@ -86,11 +86,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [1,2,3]) then {
 								_charge_2 setDamage [1,TRUE];
 							};
 							if ((random 1) < _aps_randomChance) then {
-								if (local _projectile) then {
-									triggerAmmo _projectile;
-								} else {
-									deleteVehicle _projectile;
-								};
+								deleteVehicle _projectile;
 							};
 							_objectParent setVariable ['QS_aps_ammo',(((_objectParent getVariable ['QS_aps_ammo',0]) - 1) max 0),TRUE];
 							_objectParent setVariable ['QS_aps_reloadDelay',(serverTime + _aps_reloadTime),TRUE];

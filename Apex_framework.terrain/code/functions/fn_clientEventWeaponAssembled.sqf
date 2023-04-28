@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	4/06/2022 A3 2.10 by Quiksilver
+	29/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,7 +14,7 @@ Description:
 ___________________________________________________/*/
 
 params ['_player','_weapon'];
-[_player,_weapon] spawn {
+_this spawn {
 	params ['_player','_weapon'];
 	_t = diag_tickTime + 2;
 	waitUntil {
@@ -25,7 +25,6 @@ params ['_player','_weapon'];
 		if (alive _weapon) then {
 			if ((_weapon isKindOf 'StaticWeapon') || {(_weapon isKindOf 'StaticMortar')}) then {
 				_weapon setVariable ['QS_RD_draggable',TRUE,TRUE];
-				_weapon setVariable ['QS_ropeAttached',FALSE,TRUE];
 				_weapon enableVehicleCargo TRUE;
 				if (_weapon isKindOf 'StaticWeapon') then {
 					_weapon disableTIEquipment TRUE;
@@ -54,17 +53,85 @@ params ['_player','_weapon'];
 						} forEach _array;
 					};
 				};
+				if (_weapon isKindOf 'AA_01_base_F') then {
+					for '_i' from 0 to 5 step 1 do {
+						_weapon addMagazineTurret ['1Rnd_GAA_missiles',[0]];
+					};
+				};
+				if (_weapon isKindOf 'AT_01_base_F') then {
+					for '_i' from 0 to 5 step 1 do {
+						_weapon addMagazineTurret ['1Rnd_GAT_missiles',[0]];
+					};
+				};
 			} else {
 				if (unitIsUAV _weapon) then {
 					if ((['medical',(typeOf _weapon),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['medevac',(typeOf _weapon),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
 						_weapon setVariable ['QS_medicalVehicle_reviveTickets',0,TRUE];
 					};
+					_weapon setVariable ['QS_RD_recruitable',TRUE,TRUE];
+					_weapon setVariable ['QS_logistics',TRUE,TRUE];
 					_weapon setVehicleReportRemoteTargets TRUE;
 					_weapon setVehicleReceiveRemoteTargets FALSE;
+					_weapon enableAIFeature ['LIGHTS',FALSE];
+					_ugvCargoDisable = {
+						params ['_parentVehicle','_cargoVehicle'];
+						_displayName = QS_hashmap_configfile getOrDefaultCall [
+							format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _cargoVehicle)],
+							{getText ((configOf _cargoVehicle) >> 'displayName')},
+							TRUE
+						];
+						[_cargoVehicle,_displayName] spawn {
+							params ['_cargoVehicle','_displayName'];
+							waitUntil {
+								(cameraOn isNotEqualTo _cargoVehicle)
+							};
+							deleteVehicleCrew _cargoVehicle;
+							_cargoVehicle engineOn FALSE;
+							50 cutText [format [localize 'STR_QS_Text_317',_displayName],'PLAIN DOWN',0.75];
+						};
+					};
+					_ugvCargoEnable = {
+						params ['_parentVehicle','_cargoVehicle'];
+						createVehicleCrew _cargoVehicle;
+					};
+					_weapon addEventHandler ['CargoLoaded',_ugvCargoDisable];
+					_weapon addEventHandler ['CargoUnloaded',_ugvCargoEnable];
+					if (_weapon isKindOf 'Air') then {
+						_weapon flyInHeight 5;
+						_weapon flyInHeightASL [5,5,5];					
+						_customUpText = [
+							actionKeysNames ['User18',1] trim ['"',0],
+							localize 'STR_QS_Text_367'
+						] select ((actionKeysNamesArray 'User18') isEqualTo []);
+						_customDownText = [
+							actionKeysNames ['User17',1] trim ['"',0],
+							localize 'STR_QS_Text_366'
+						] select ((actionKeysNamesArray 'User17') isEqualTo []);
+						_text = format [
+							'<t align="left">%4</t><t align="right">[%1] [%7]</t><br/><br/><t align="left">%5</t><t align="right">[%2] [%8]</t><br/><br/><t align="left">%6</t><t align="right">[%3]</t>',
+							(actionKeysNames 'gunElevUp') trim ['"',0],
+							(actionKeysNames 'gunElevDown') trim ['"',0],
+							(actionKeysNames 'vehicleTurbo') trim ['"',0],
+							(localize 'STR_QS_Hints_147'),
+							(localize 'STR_QS_Hints_148'),
+							(localize 'STR_QS_Hints_149'),
+							_customUpText,
+							_customDownText
+						];
+						[_text,TRUE,TRUE,localize 'STR_QS_Hints_150',TRUE] call QS_fnc_hint;
+					};
 					_weapon spawn {
 						uiSleep 1;
 						if ((crew _this) isNotEqualTo []) then {
+							if (player isEqualTo (leader (group player))) then {
+								(crew _this) joinSilent (group player);
+								(crew _this) doFollow player;
+							};
 							(group (driver _this)) setVariable ['QS_HComm_grp',FALSE,TRUE];
+							{
+								_x setName ['AI','AI','AI'];
+								_x setVariable ['QS_RD_recruitable',TRUE,TRUE];
+							} forEach (crew _this);
 						};
 					};
 					player setVariable ['QS_client_assembledWeapons',((player getVariable 'QS_client_assembledWeapons') + [_weapon]),FALSE];
@@ -72,4 +139,5 @@ params ['_player','_weapon'];
 			};
 		};
 	};
+	[player,_weapon,FALSE,TRUE] call QS_fnc_unloadCargoPlacementMode;
 };

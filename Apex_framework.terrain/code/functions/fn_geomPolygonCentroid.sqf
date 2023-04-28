@@ -11,7 +11,7 @@ Last Modified:
 Description:
 
 	Get Polygon Centroid
-____________________________________________________________________________/*/
+_____________________________________________/*/
 
 _count = count _this;
 private _vectors = _this # 0;

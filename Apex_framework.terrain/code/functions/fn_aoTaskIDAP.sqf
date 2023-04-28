@@ -62,7 +62,8 @@ _dirToOffset = if ((random 1) > 0.5) then {(_dirToConnectedRoad + (20 + (random 
 _vehicleTypes = [
 	'C_IDAP_Van_02_vehicle_F'
 ];
-_vehicle = createVehicle [(selectRandom _vehicleTypes),[-1000,-1000,100],[],0,'NONE'];
+private _vehicleType = selectRandom _vehicleTypes;
+_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],[-1000,-1000,100],[],0,'NONE'];
 uiSleep 0.1;
 _vehicle setDamage [0.8,TRUE];
 _vehicle setDir _dirToOffset;
@@ -110,10 +111,12 @@ if (isTouchingGround _vehicle) then {
 	_oilSpill = 'A3\Structures_F_Kart\Civ\SportsGrounds\Oil_spill.p3d';
 	private _box = objNull;
 	private _boxes = [];
+	private _boxType = '';
 	for '_x' from 0 to 1 step 1 do {
-		_box = createVehicle [(selectRandom _boxTypes),[-100,-100,50],[],50,'NONE'];
+		_boxType = selectRandom _boxTypes;
+		_box = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _boxType,_boxType],[-100,-100,50],[],50,'NONE'];
 		_box allowDamage FALSE;
-		_box setVariable ['QS_cargoObject',TRUE,TRUE];
+		_box setVariable ['QS_logistics',TRUE,TRUE];
 		_vehicle setVehicleCargo _box;
 		_boxes pushBack _box;
 		_missionEntities pushback _box;
@@ -179,17 +182,7 @@ if (isTouchingGround _vehicle) then {
 private _recoverUnit = FALSE;
 if ((random 1) > 0.666) then {
 	_recoverUnit = TRUE;
-	_unitTypes = [
-		'C_IDAP_Man_AidWorker_01_F',
-		'C_IDAP_Man_AidWorker_07_F',
-		'C_IDAP_Man_AidWorker_08_F',
-		'C_IDAP_Man_AidWorker_09_F',
-		'C_IDAP_Man_AidWorker_02_F',
-		'C_IDAP_Man_AidWorker_05_F',
-		'C_IDAP_Man_AidWorker_06_F',
-		'C_IDAP_Man_AidWorker_04_F',
-		'C_IDAP_Man_AidWorker_03_F'
-	];
+	_unitTypes = ['ao_idap_units_1'] call QS_data_listUnits;
 	_unit = createAgent [(selectRandom _unitTypes),_roadSegmentPosition,[],5,'NONE'];
 	_unit allowDamage FALSE;
 	_unit enableAIFeature ['ALL',FALSE];
@@ -233,14 +226,11 @@ if ((random 1) > 0.666) then {
 	};
 };
 private _enemyArray = [];
+private _vehicleType = '';
 if ((random 1) > 0) then {
-	_enemyVehicleTypesWeighted = [
-		'O_G_Offroad_01_F',0.3,
-		'O_G_Van_01_transport_F',0.1,
-		'I_C_Van_01_transport_F',0.1,
-		'I_C_Offroad_02_unarmed_F',0.3
-	];
-	_enemyVehicle = createVehicle [(selectRandomWeighted _enemyVehicleTypesWeighted),[-1000,-1000,150],[],50,'NONE'];
+	_enemyVehicleTypesWeighted = ['ao_idap_enemyvehicles_1'] call QS_data_listVehicles;
+	_vehicleType = selectRandomWeighted _enemyVehicleTypesWeighted;
+	_enemyVehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],[-1000,-1000,150],[],50,'NONE'];
 	_enemyVehicle setDir (random 360);
 	_enemyVehicle setVehiclePosition [(AGLToASL _connectedRoadPos),[],0,'NONE'];
 	_enemyVehicle setFuel (random [0.1,0.4,0.8]);
@@ -271,15 +261,13 @@ if ((random 1) > 0) then {
 	_entities pushBack _enemyVehicle;
 };
 _enemyArray = [];
-_enemyTypes = [
-	"I_C_Soldier_Bandit_7_F","I_C_Soldier_Bandit_3_F","I_C_Soldier_Bandit_2_F","I_C_Soldier_Bandit_5_F","I_C_Soldier_Bandit_6_F",
-	"I_C_Soldier_Bandit_1_F","I_C_Soldier_Bandit_8_F","I_C_Soldier_Bandit_4_F","I_C_Soldier_Para_7_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F",
-	"I_C_Soldier_Para_4_F","I_C_Soldier_Para_6_F","I_C_Soldier_Para_8_F","I_C_Soldier_Para_1_F","I_C_Soldier_Para_5_F"
-];
+_enemyTypes = ['ao_idap_enemies_1'] call QS_data_listUnits;
 private _enemyUnit = objNull;
 _enemyGrp = createGroup [EAST,TRUE];
+private _enemyType = '';
 for '_x' from 0 to (2 + (round (random 2))) step 1 do {
-	_enemyUnit = _enemyGrp createUnit [(selectRandom _enemyTypes),_connectedRoadPos,[],5,'NONE'];
+	_enemyType = selectRandom _enemyTypes;
+	_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyType,_enemyType],_connectedRoadPos,[],5,'NONE'];
 	_enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_enemyArray pushBack _enemyUnit;
 	_entities pushBack _enemyUnit;

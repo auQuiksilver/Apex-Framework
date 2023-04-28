@@ -32,8 +32,8 @@ if (_type isEqualTo 'GRID_MARKERS') exitWith {
 		(_centroid # 2)
 	];
 	_requiredCount = (15 + (round (_playersCount / 2))) min ((count _gridMarkers) - 3);
-	'QS_marker_grid_capState' setMarkerColor 'ColorOPFOR';
-	'QS_marker_grid_capState' setMarkerPos _centroidOffset;
+	'QS_marker_grid_capState' setMarkerColorLocal 'ColorOPFOR';
+	'QS_marker_grid_capState' setMarkerPosLocal _centroidOffset;
 	'QS_marker_grid_capState' setMarkerText (format ['%1 %3 0 / %2',(toString [32,32,32]),_requiredCount,localize 'STR_QS_Marker_014']);
 	_objectiveCode = {
 		params ['_gridMarkers','_gridMarkersCount','_duration'];
@@ -170,8 +170,8 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 		((_centroid # 1) - 300),
 		(_centroid # 2)
 	];
-	'QS_marker_grid_rspState' setMarkerColor 'ColorOPFOR';
-	'QS_marker_grid_rspState' setMarkerPos _centroidOffset;
+	'QS_marker_grid_rspState' setMarkerColorLocal 'ColorOPFOR';
+	'QS_marker_grid_rspState' setMarkerPosLocal _centroidOffset;
 	'QS_marker_grid_rspState' setMarkerText (format ['%1 %3 0 / %2',(toString [32,32,32]),(missionNamespace getVariable 'QS_grid_AIRspTotal'),localize 'STR_QS_Marker_015']);
 	if (_entities isNotEqualTo []) then {
 		_objectiveIsRequired = 1;
@@ -290,7 +290,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 			_leaderBuilding = selectRandom _potentialBuildings;
 			_buildingPositions = _leaderBuilding buildingPos -1;
 			_buildingPosition = selectRandom _buildingPositions;
-			_igLeader = (createGroup [EAST,TRUE]) createUnit [(['I_G_Soldier_SL_F','I_C_Soldier_Para_2_F'] select (worldName isEqualTo 'Tanoa')),[-50,-50,0],[],0,'CAN_COLLIDE'];
+			_igLeader = (createGroup [EAST,TRUE]) createUnit [QS_core_units_map getOrDefault [toLowerANSI 'i_g_soldier_sl_f','i_g_soldier_sl_f'],[-50,-50,0],[],0,'CAN_COLLIDE'];
 			_igLeader allowDamage FALSE;
 			_igLeader enableDynamicSimulation FALSE;
 			_igLeader setVariable ['QS_dynSim_ignore',TRUE,TRUE];
@@ -743,7 +743,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 						_buildingPositionASL = AGLToASL _buildingPosition;
 						_intersections = lineIntersectsSurfaces [
 							_buildingPositionASL,
-							[(_buildingPositionASL # 0),(_buildingPositionASL # 1),((_buildingPositionASL # 2) + 50)],
+							_buildingPositionASL vectorAdd [0,0,50],
 							objNull,
 							objNull,
 							TRUE,
@@ -755,7 +755,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 						if (_intersections isEqualTo []) then {
 							_intersections = lineIntersectsSurfaces [
 								_buildingPositionASL,
-								[(_buildingPositionASL # 0),(_buildingPositionASL # 1),((_buildingPositionASL # 2) - 50)],
+								_buildingPositionASL vectorAdd [0,0,-50],
 								objNull,
 								objNull,
 								TRUE,
@@ -775,7 +775,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 						};
 						
 						//comment 'Create entities';
-						_buildingPositionASL set [2,((_buildingPositionASL # 2) + 0.15)];  /*/0.3 - can be too high off ground in some cases due to poorly configured vanilla building positions/*/
+						_buildingPositionASL = _buildingPositionASL vectorAdd [0,0,0.15];
 						_table = createSimpleObject ['a3\structures_f\civ\camping\campingtable_small_f.p3d',_buildingPositionASL];
 						_table setDir (random 360);
 						_table setVectorUp [0,0,1];

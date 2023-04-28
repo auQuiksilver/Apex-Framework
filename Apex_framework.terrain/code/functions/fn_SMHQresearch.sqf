@@ -31,7 +31,7 @@ _c4Messages = [
 ];
 _c4Message = selectRandom _c4Messages;
 if (worldName isEqualTo 'Tanoa') then {
-	_vehTypes = ["I_C_Van_01_transport_F","I_C_Offroad_02_unarmed_F","O_T_MRAP_02_ghex_F","O_T_LSV_02_unarmed_F","I_MRAP_03_F"];
+	_vehTypes = ["I_C_Van_01_transport_F","I_C_Offroad_02_unarmed_F","O_MRAP_02_F","O_LSV_02_unarmed_F","I_MRAP_03_F"];
 } else {
 	_vehTypes = [
 		"O_MRAP_02_F","O_Truck_03_covered_F","O_Truck_03_transport_F",
@@ -68,7 +68,7 @@ _vehPos = [_flatPos,15,30,10,0,0.5,0] call (missionNamespace getVariable 'QS_fnc
 QS_sideObj = createVehicle ['Land_Research_HQ_F',[_flatPos # 0,_flatPos # 1,0],[],0,'NONE'];
 QS_sideObj setPosWorld [((getPosWorld QS_sideObj) # 0), ((getPosWorld QS_sideObj) # 1), ((getPosWorld QS_sideObj) # 2)];
 QS_sideObj setVectorUp [0,0,1];
-_veh = createVehicle [_vehType,_vehPos,[],0,'NONE'];
+_veh = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehType,_vehType],_vehPos,[],0,'NONE'];
 _veh lock 3;
 
 /*/---------- SPAWN (okay, tp) TABLE, AND LAPTOP ON IT./*/

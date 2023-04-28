@@ -36,8 +36,8 @@ if (_type isEqualTo 1) exitWith {
 	};
 	private _jammer = objNull;
 	if (((missionNamespace getVariable ['QS_mission_gpsJammers',[]]) findIf {((_x # 0) isEqualTo _id)}) isEqualTo -1) then {
-		_jammerType = ['O_Truck_03_repair_F','O_T_Truck_03_repair_ghex_F'] select (worldName in ['Tanoa','Enoch']);
-		_jammer = createVehicle [_jammerType,[-500,-500,0],[],30,'NONE'];
+		_jammerType = 'O_Truck_03_repair_F';
+		_jammer = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _jammerType,_jammerType],[-500,-500,0],[],30,'NONE'];
 		_jammer allowDamage FALSE;
 		_jammer spawn {uiSleep 3;_this allowDamage TRUE;};
 		_jammer setDir (random 360);
@@ -46,7 +46,7 @@ if (_type isEqualTo 1) exitWith {
 		clearMagazineCargoGlobal _jammer;
 		clearItemCargoGlobal _jammer;
 		clearBackpackCargoGlobal _jammer;
-		_jammer lockInventory TRUE;
+		[_jammer,TRUE] remoteExec ['lockInventory',0,FALSE];
 		_jammer enableVehicleCargo FALSE;
 		_jammer enableRopeAttach FALSE;
 		_jammer setRepairCargo 0;
@@ -61,7 +61,8 @@ if (_type isEqualTo 1) exitWith {
 			['QS_curator_disableEditability',TRUE,FALSE],
 			['QS_client_canAttachExp',TRUE,TRUE],
 			['QS_dynSim_ignore',TRUE,TRUE],
-			['QS_cleanup_protected',TRUE,TRUE]
+			['QS_cleanup_protected',TRUE,TRUE],
+			['QS_inventory_disabled',TRUE,TRUE]
 		];
 		_jammer enableSimulation TRUE;
 		private _assocObjects = [];
@@ -139,6 +140,15 @@ if (_type isEqualTo 1) exitWith {
 					_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
 					_damage = _oldDamage + (_damage - _oldDamage) * 0.25;
 					_damage;
+				}
+			],
+			[
+				'IncomingMissile',
+				{
+					params ['_vehicle','_ammo','_shooter','_instigator','_projectile'];
+					if (!isNull _instigator) then {
+						['setMissileTarget',_projectile,objNull] remoteExec ['QS_fnc_remoteExecCmd',_instigator,FALSE];
+					};
 				}
 			]
 		];

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	25/08/2022 A3 2.10 by Quiksilver
+	23/02/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -22,7 +22,7 @@ __________________________________________________/*/
 params ['_vehicle'];
 private _c = FALSE;
 if (_vehicle isKindOf 'Man') exitWith {_c};
-if (
+(
 	(
 		(
 			((_vehicle animationSourcePhase 'showcamonethull') isEqualTo 1) && 
@@ -31,15 +31,12 @@ if (
 		(!isEngineOn _vehicle)
 	) &&
 	{(((getPosATL _vehicle) getEnvSoundController 'shooting') > 0.9)} &&
-	{((getAmmoCargo _vehicle) <= 0)} &&
 	{(!isVehicleRadarOn _vehicle)} &&
+	{(!isLightOn _vehicle)} &&
 	{(!isOnRoad _vehicle)} &&
 	{(!((toLowerANSI (surfaceType (getPosWorld _vehicle))) in ['#gdtasphalt']))} &&
 	{(
 		(((getPosATL _vehicle) getEnvSoundController 'houses') isEqualTo 0) || 
 		{(((getPosATL _vehicle) getEnvSoundController 'forest') isEqualTo 1)}
 	)}
-) then {
-	_c = TRUE;
-};
-_c;
+)

@@ -99,8 +99,13 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		uiSleep 5;
 		if (diag_tickTime > (uiNamespace getVariable ['QS_fighterPilot_lastMsg',(diag_tickTime - 1)])) then {
 			uiNamespace setVariable ['QS_fighterPilot_lastMsg',(diag_tickTime + 300)];
-			[63,[4,['CAS_1',['','Close Air Support online!']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-			['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText (configFile >> 'CfgVehicles' >> (typeOf _this) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			[63,[4,['CAS_1',['',localize 'STR_QS_Notif_153']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
+			_dn = QS_hashmap_configfile getOrDefaultCall [
+				format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _this)],
+				{getText ((configOf _this) >> 'displayName')},
+				TRUE
+			];
+			['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',_dn,profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		_carrierAnimData = _this getVariable ['QS_vehicle_carrierAnimData',[]];
 		if (_carrierAnimData isNotEqualTo []) then {

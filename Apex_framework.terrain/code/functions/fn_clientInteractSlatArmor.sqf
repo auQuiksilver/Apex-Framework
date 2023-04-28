@@ -25,11 +25,11 @@ if ((damage _vehicle) isNotEqualTo 0) exitWith {
 	50 cutText [localize 'STR_QS_Text_149','PLAIN DOWN',0.5];
 };
 private _exitCamo = FALSE;
-_camonetArmor_anims = ['showcamonethull','showcamonetcannon','showcamonetcannon1','showcamonetturret','showcamonetplates1','showcamonetplates2'];
+_camonetArmor_anims = ['camonet_anims_1'] call QS_data_listOther;
 private _camonetArmor_vAnims = _vehicle getVariable ['QS_vehicle_camonetAnims',[]];
 if (_camonetArmor_vAnims isEqualTo []) then {
 	private _array = [];
-	private _camonetAnimationSources = configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationSources';
+	private _camonetAnimationSources = (configOf _vehicle) >> 'animationSources';
 	private _animationSource = configNull;
 	private _i = 0;
 	for '_i' from 0 to ((count _camonetAnimationSources) - 1) step 1 do {
@@ -46,7 +46,7 @@ if (_camonetArmor_vAnims isEqualTo []) then {
 				};
 			};
 		};
-	} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationList'));
+	} forEach (getArray ((configOf _vehicle) >> 'animationList'));
 	_vehicle setVariable ['QS_vehicle_camonetAnims',_array,FALSE];
 	_camonetArmor_vAnims = _array;
 };
@@ -77,11 +77,11 @@ _onCompleted = {
 	params ['_actionTarget','_actionCaller','_actionID','_actionArguments'];
 	_actionArguments params ['_vehicle','_newPhase','_animationSources'];
 	private _exitCamo = FALSE;
-	_camonetArmor_anims = ['showcamonethull','showcamonetcannon','showcamonetcannon1','showcamonetturret','showcamonetplates1','showcamonetplates2'];
+	_camonetArmor_anims = ['camonet_anims_1'] call QS_data_listOther;
 	private _camonetArmor_vAnims = _vehicle getVariable ['QS_vehicle_camonetAnims',[]];
 	if (_camonetArmor_vAnims isEqualTo []) then {
 		private _array = [];
-		private _camonetAnimationSources = configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationSources';
+		private _camonetAnimationSources = (configOf _vehicle) >> 'animationSources';
 		private _animationSource = configNull;
 		private _i = 0;
 		for '_i' from 0 to ((count _camonetAnimationSources) - 1) step 1 do {
@@ -98,7 +98,7 @@ _onCompleted = {
 					};
 				};
 			};
-		} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationList'));
+		} forEach (getArray ((configOf _vehicle) >> 'animationList'));
 		_vehicle setVariable ['QS_vehicle_camonetAnims',_array,FALSE];
 		_camonetArmor_vAnims = _array;
 	};

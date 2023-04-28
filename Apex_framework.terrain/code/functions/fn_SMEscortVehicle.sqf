@@ -124,7 +124,7 @@ if (_worldName isEqualTo 'Enoch') then {
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 _vehicleType = selectRandom _vehicleTypes;
-_vehicle = createVehicle [_vehicleType,_startPosition,[],0,'NONE'];
+_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],_startPosition,[],0,'NONE'];
 _enabled_IED = FALSE;
 _enabled_mech = FALSE;
 _enabled_RPG = FALSE;
@@ -280,7 +280,7 @@ _QS_manage_convoy_checkDelay = _timeNow + _QS_manage_convoy_delay;
 _QS_manage_convoy_radius = 500;
 _QS_manage_convoy_vehicles = [];
 _QS_manage_convoy_armor = [];
-_QS_manage_convoy_armorTypes = ["b_apc_tracked_01_aa_f","b_apc_wheeled_01_cannon_f","b_apc_tracked_01_crv_f","b_apc_tracked_01_rcws_f","b_mbt_01_arty_f","b_mbt_01_mlrs_f","b_mbt_01_cannon_f","b_mbt_01_tusk_f","b_t_apc_tracked_01_aa_f","b_t_apc_wheeled_01_cannon_f","b_t_apc_tracked_01_crv_f","b_t_apc_tracked_01_rcws_f","b_t_mbt_01_arty_f","b_t_mbt_01_mlrs_f","b_t_mbt_01_cannon_f","b_t_mbt_01_tusk_f","o_apc_tracked_02_aa_f","o_apc_tracked_02_cannon_f","o_apc_wheeled_02_rcws_v2_f","o_mbt_02_arty_f","o_mbt_02_cannon_f","o_t_apc_tracked_02_aa_ghex_f","o_t_apc_tracked_02_cannon_ghex_f","o_t_apc_wheeled_02_rcws_ghex_f","o_t_apc_wheeled_02_rcws_v2_ghex_f","o_t_mbt_02_arty_ghex_f","o_t_mbt_02_cannon_ghex_f","i_apc_wheeled_03_cannon_f","i_apc_tracked_03_cannon_f","i_mbt_03_cannon_f"];
+_QS_manage_convoy_armorTypes = ['armored_vehicles_1'] call QS_data_listVehicles;
 _QS_manage_convoy_vehicleClass = 'armored';
 _QS_manage_convoy_var = 'QS_truckmission_armortoken';
 _armoredVehicle = objNull;
@@ -338,6 +338,7 @@ _suppressTarget = createVehicle [_suppressTarget_type,[0,0,0],[],0,'NONE'];
 _suppressTarget attachTo [_vehicle,[0,(random 2),(random 1)]];
 _vehicle setVariable [_suppressTarget_var,_suppressTarget,FALSE];
 _suppressTargets pushBack _suppressTarget;
+private _technicalType = '';
 //comment 'Communicate to players';
 [
 	'QS_IA_TASK_SM_ESCORT',
@@ -634,7 +635,8 @@ for '_x' from 0 to 1 step 0 do {
 						_vehSpawnPos = selectRandom _nearRoadsPositions;
 					};
 				};
-				_veh = createVehicle [(selectRandomWeighted _technicalTypes),_vehSpawnPos,[],0,'NONE'];
+				_technicalType = selectRandomWeighted _technicalTypes;
+				_veh = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _technicalType,_technicalType],_vehSpawnPos,[],0,'NONE'];
 				_veh lock 3;
 				_veh setUnloadInCombat [FALSE,FALSE];
 				_veh allowCrewInImmobile [TRUE,TRUE];
@@ -795,7 +797,12 @@ for '_x' from 0 to 1 step 0 do {
 				{
 					_convoyVehicle = _x;
 					_convoyVehicleType = toLowerANSI (typeOf _convoyVehicle);
-					if ((_convoyVehicleType in _QS_manage_convoy_armorTypes) || {(_convoyVehicle isKindOf 'Tank')} || {(_convoyVehicle isKindOf 'Wheeled_APC_F')} || {(_QS_manage_convoy_vehicleClass isEqualTo (toLowerANSI (getText (configFile >> 'CfgVehicles' >> _convoyVehicleType >> 'vehicleClass'))))})  then {
+					if (
+						(_convoyVehicleType in _QS_manage_convoy_armorTypes) || 
+						{(_convoyVehicle isKindOf 'Tank')} || 
+						{(_convoyVehicle isKindOf 'Wheeled_APC_F')} || 
+						{(_QS_manage_convoy_vehicleClass isEqualTo (toLowerANSI (getText ((configOf _convoyVehicle) >> 'vehicleClass'))))}
+					)  then {
 						if (alive _convoyVehicle) then {
 							if (canMove _convoyVehicle) then {
 								0 = _QS_manage_convoy_armor pushBack _convoyVehicle;

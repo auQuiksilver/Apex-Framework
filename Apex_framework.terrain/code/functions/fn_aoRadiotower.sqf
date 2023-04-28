@@ -6,12 +6,12 @@ Author:
 
 Last Modified:
 
-	12/05/2016 A3 1.58 by Quiksilver
+	29/12/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	Spawn AO Radio tower
-____________________________________________________________________________/*/
+__________________________________________________/*/
 
 params ['_pos'];
 _baseMarker = markerPos 'QS_marker_base_marker';
@@ -27,14 +27,12 @@ for '_x' from 0 to 9 step 1 do {
 };
 _position set [2,0];
 _roughPos = [((_position # 0) - 140) + (random 280),((_position # 1) - 140) + (random 280),0];
-private _type = 'Land_TTowerBig_2_F';
-if ((random 1) > 0.95) then {
-	_type = 'Land_TTowerBig_2_F';
-};
-missionNamespace setVariable ['QS_radioTower',(createVehicle [_type,_position,[],0,'NONE']),FALSE];
-(missionNamespace getVariable 'QS_radioTower') setVectorUp [0,0,1];
-(missionNamespace getVariable 'QS_radioTower') allowDamage FALSE;
-(missionNamespace getVariable 'QS_radioTower') addEventHandler ['Killed',{call (missionNamespace getVariable 'QS_fnc_eventRTKilled');}];
+private _type = selectRandom (['ao_radiotower_types_1'] call QS_data_listVehicles);
+_radiotower = createVehicle [_type,_position,[],0,'NONE'];
+_radiotower setVectorUp [0,0,1];
+_radiotower allowDamage FALSE;
+_radiotower addEventHandler ['Killed',{call (missionNamespace getVariable 'QS_fnc_eventRTKilled');}];
+missionNamespace setVariable ['QS_radioTower',_radiotower,FALSE];
 missionNamespace setVariable ['QS_radioTower_pos',_position,FALSE];
 missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
 {

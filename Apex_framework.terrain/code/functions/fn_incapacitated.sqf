@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/10/2018 A3 1.84 by Quiksilver
+	1/03/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -24,38 +24,32 @@ if (
 	((lifeState _unit) isEqualTo 'INCAPACITATED') ||
 	{(!alive _unit)}
 ) exitWith {};
+_unit setVariable ['QS_client_downedPosition',getPosASL _unit,FALSE];
 private _objectParent = objectParent _unit;
 if (!isNull _objectParent) then {
 	if (
-		(_objectParent isKindOf 'StaticWeapon') ||
-		{(_objectParent isKindOf 'Quadbike_01_base_F')} ||
-		{(_objectParent isKindOf 'Kart_01_Base_F')} ||
-		{((_objectParent isKindOf 'LSV_01_base_F') && (_unit isEqualTo (gunner _objectParent)))} ||
-		{((_objectParent isKindOf 'LSV_02_base_F') && (_unit isEqualTo (gunner _objectParent)))} ||
-		{((_objectParent isKindOf 'Offroad_01_base_F') && (_unit isEqualTo (gunner _objectParent)))} ||
-		{((_objectParent isKindOf 'Offroad_02_base_F') && (_unit isEqualTo (gunner _objectParent)))}
+		((['StaticWeapon','Quadbike_01_base_F','Kart_01_Base_F'] findIf { _objectParent isKindOf _x }) isNotEqualTo -1) ||
+		{((['LSV_01_base_F','LSV_02_base_F','Offroad_01_base_F','Offroad_02_base_F'] findIf { (_objectParent isKindOf _x) && (_unit isEqualTo (gunner _objectParent)) }) isNotEqualTo -1)}
 	) then {
-		moveOut _unit;
+		_unit moveOut _objectParent;
 		unassignVehicle _unit;
 	} else {
 		if (!alive _objectParent) then {
-			moveOut _unit;
+			_unit moveOut _objectParent;
 			unassignVehicle _unit;
-			waitUntil {(isNull (objectParent _unit))};
+			_t = diag_tickTime + 3;
+			waitUntil {((isNull (objectParent _unit)) || (diag_tickTime > _t))};
 			uiSleep 0.01;
 			private _vel = velocity _objectParent;
 			_unit setDir (random 360);
-			_unit setVelocity [
-				(_vel # 0) + ((sin (_objectParent getDir _unit)) * (3 + random 12)),
-				(_vel # 1) + ((cos (_objectParent getDir _unit)) * (3 + random 12)),
-				(((_vel # 2) + 1) + (random 10))
-			];
+			_unit setVelocity (_vel vectorAdd [
+				((sin (_objectParent getDir _unit)) * (3 + random 12)),
+				((cos (_objectParent getDir _unit)) * (3 + random 12)),
+				1 + (random 10)
+			]);
 			uiSleep 0.25;
 		} else {
 			_unit setVariable ['QS_RD_loaded',TRUE,TRUE];
-			if (!(_objectParent getVariable ['QS_RD_activeCargo',FALSE])) then {
-				_objectParent setVariable ['QS_RD_activeCargo',TRUE,TRUE];
-			};
 		};
 	};
 };
@@ -82,14 +76,18 @@ if ((attachedObjects _unit) isNotEqualTo []) then {
 	{
 		if (!isNull _x) then {
 			detach _x;
-			if (_x isKindOf 'CAManBase') then {
-				if (alive _x) then {
-					if ((lifeState _x) isEqualTo 'INCAPACITATED') then {
-						if (['carr',(animationState _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-							['switchMove',_x,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
-						};
-					};
-				};
+			if (
+				(_x isKindOf 'CAManBase') &&
+				{(alive _x)} &&
+				{((lifeState _x) isEqualTo 'INCAPACITATED')} &&
+				{(['carr',(animationState _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}
+			) then {
+				['switchMove',_x,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+			};
+			if (local _x) then {
+				_x awake TRUE;
+			} else {
+				['awake',_x,TRUE] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 			};
 		};
 	} forEach (attachedObjects _unit);
@@ -146,6 +144,11 @@ _sounds = [
 _soundDelayFixed = 5;
 _soundDelayRandom = 20;
 _soundDelay = _tickTimeNow + _soundDelayFixed + (random _soundDelayRandom);
+_pulsingFreq = QS_hashmap_configfile getOrDefaultCall [
+	'cfgfirstaid_pulsationsoundinterval',
+	{getNumber (configfile >> 'cfgfirstaid' >> 'pulsationSoundInterval')},
+	TRUE
+];
 _sound = '';
 _medevacBase = markerPos 'QS_marker_medevac_hq';
 private _medevacRequested = FALSE;
@@ -155,7 +158,10 @@ if (!isNull _instigator) then {
 	if (_instigator isEqualTo _unit) then {
 		_incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
 	} else {
-		if ((_instigator getUnitTrait 'QS_trait_sniper') || ((toLowerANSI (typeOf _instigator)) in ['o_sniper_f','o_ghillie_ard_f','o_ghillie_lsh_f','o_ghillie_sard_f','o_t_sniper_f','o_t_ghillie_tna_f'])) then {
+		if (
+			(_instigator getUnitTrait 'QS_trait_sniper') || 
+			((toLowerANSI (typeOf _instigator)) in (['enemy_sniper_types_1'] call QS_data_listUnits))
+		) then {
 			_nameKiller = name _instigator;
 			private _sniperText = selectRandom [
 				localize 'STR_QS_Chat_116',
@@ -251,6 +257,7 @@ private _initialAnimSet = FALSE;
 private _initialAnimDelay = _tickTimeNow + 8;
 private _chatShown = shownChat;
 private _ambulanceDelay = _tickTimeNow + 5;
+private _transportSoldier = 0;
 _QS_productVersion = productVersion;
 _QS_missionVersion = missionNamespace getVariable ['QS_system_devBuild_text',''];
 _roleSelectionSystem = missionNamespace getVariable ['QS_RSS_enabled',TRUE];
@@ -281,23 +288,19 @@ for '_x' from 0 to 1 step 0 do {
 	if (!(_initialAnimSet)) then {
 		if (_tickTimeNow > _initialAnimDelay) then {
 			_initialAnimSet = TRUE;
-			if (isTouchingGround _vehicle) then {
-				if (isNull _attachedTo) then {
-					if (isNull _objectParent) then {
-						['switchMove',_unit,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-						_unit switchMove 'acts_InjuredLyingRifle02';
-					};
-				};
+			if (
+				(isTouchingGround _vehicle) &&
+				{(isNull _attachedTo)} &&
+				{(isNull _objectParent)}
+			) then {
+				['switchMove',_unit,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				_unit switchMove 'acts_InjuredLyingRifle02';
 			};
 		};
 	};
 	if ((_unit getVariable ['QS_revive_respawnType','']) isNotEqualTo '') then {
 		if ((_unit getVariable 'QS_revive_respawnType') isEqualTo 'FOB') then {
-			missionNamespace setVariable [
-				'QS_module_fob_respawnTickets',
-				((missionNamespace getVariable 'QS_module_fob_respawnTickets') - 1),
-				TRUE
-			];
+			// Removed
 		};
 		_forceRespawned = TRUE;
 	};
@@ -308,31 +311,21 @@ for '_x' from 0 to 1 step 0 do {
 		['systemChat',(format ['%1 %2',_profileName,localize 'STR_QS_Chat_127'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		_forceRespawned = TRUE;
 	} else {
-		if (!isNull _objectParent) then {
-			if (alive _objectParent) then {
-				if ((_objectParent isKindOf 'LandVehicle') || {(_objectParent isKindOf 'Air')} || {(_objectParent isKindOf 'Ship')}) then {
-					if (!isNull (effectiveCommander _objectParent)) then {
-						if (alive (effectiveCommander _objectParent)) then {
-							if ((_medicalTimer - _tickTimeNow) < 30) then {
-								_medicalTimer = _medicalTimer + 60;
-							};
-						};
-					};
-				};
-			};
+		if (
+			(alive _objectParent) &&
+			{((_objectParent isKindOf 'LandVehicle') || {(_objectParent isKindOf 'Air')} || {(_objectParent isKindOf 'Ship')})} &&
+			{(alive (effectiveCommander _objectParent))} &&
+			{((_medicalTimer - _tickTimeNow) < 30)}
+		) then {
+			_medicalTimer = _medicalTimer + 60;
 		};
-		if (!isNull _attachedTo) then {
-			if (alive _attachedTo) then {
-				if ((_attachedTo isKindOf 'LandVehicle') || {(_attachedTo isKindOf 'Air')} || {(_attachedTo isKindOf 'Ship')}) then {
-					if (!isNull (effectiveCommander _attachedTo)) then {
-						if (alive (effectiveCommander _attachedTo)) then {
-							if ((_medicalTimer - _tickTimeNow) < 30) then {
-								_medicalTimer = _medicalTimer + 60;
-							};
-						};
-					};
-				};
-			};
+		if (
+			(alive _attachedTo) &&
+			{((_attachedTo isKindOf 'LandVehicle') || {(_attachedTo isKindOf 'Air')} || {(_attachedTo isKindOf 'Ship')})} &&
+			{(alive (effectiveCommander _attachedTo))} &&
+			{((_medicalTimer - _tickTimeNow) < 30)}
+		) then {
+			_medicalTimer = _medicalTimer + 60;
 		};
 	};
 	if (_tickTimeNow > _ambulanceDelay) then {
@@ -344,30 +337,29 @@ for '_x' from 0 to 1 step 0 do {
 	if (_forceRespawned) exitWith {
 		forceRespawn _unit;
 	};
-	if (_tickTimeNow > _ambulanceDelay) then {
-		if (((_unit distance2D _medevacBase) < 4) || {([0,_unit] call _fn_isNearFieldHospital)}) then {
-			if (isNull _objectParent) then {
-				if (isNull _attachedTo) then {
-					if (_lifeState isEqualTo 'INCAPACITATED') then {
-						if ([0,_unit] call _fn_isNearFieldHospital) then {
-							if (_tickTimeNow > (_unit getVariable ['QS_client_revivedAtHospital',-1])) then {
-								50 cutText [localize 'STR_QS_Text_211','PLAIN DOWN',0.5];
-								_unit setVariable ['QS_client_revivedAtHospital',(_tickTimeNow + 900),FALSE];
-								_unit setUnconscious FALSE;
-								if (captive _unit) then {
-									_unit setCaptive FALSE;
-								};
-							};
-						} else {
-							_unit setUnconscious FALSE;
-							if (captive _unit) then {
-								_unit setCaptive FALSE;
-							};
-							[34,['ST_MEDEVAC',['Medevac Complete',(format ['%1 medevac<br/>successfully completed!',profileName])]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-						};
-					};
+	
+	if (
+		(_tickTimeNow > _ambulanceDelay) &&
+		{(((_unit distance2D _medevacBase) < 4) || {([0,_unit] call _fn_isNearFieldHospital)})} &&
+		{(isNull _objectParent)} &&
+		{(isNull _attachedTo)} &&
+		{(_lifeState isEqualTo 'INCAPACITATED')}
+	) then {
+		if ([0,_unit] call _fn_isNearFieldHospital) then {
+			if (_tickTimeNow > (_unit getVariable ['QS_client_revivedAtHospital',-1])) then {
+				50 cutText [localize 'STR_QS_Text_211','PLAIN DOWN',0.5];
+				_unit setVariable ['QS_client_revivedAtHospital',(_tickTimeNow + 900),FALSE];
+				_unit setUnconscious FALSE;
+				if (captive _unit) then {
+					_unit setCaptive FALSE;
 				};
 			};
+		} else {
+			_unit setUnconscious FALSE;
+			if (captive _unit) then {
+				_unit setCaptive FALSE;
+			};
+			[34,['ST_MEDEVAC',['Medevac Complete',(format ['%1 medevac<br/>successfully completed!',profileName])]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
 		};
 	};
 	if (_tickTimeNow > _ambulanceDelay) then {
@@ -387,9 +379,14 @@ for '_x' from 0 to 1 step 0 do {
 								if (_unit getVariable ['QS_RD_loaded',FALSE]) then {
 									_unit setVariable ['QS_RD_loaded',FALSE,TRUE];
 								};
-								_remainingTickets = (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'transportSoldier')) - 1;
+								_transportSoldier = QS_hashmap_configfile getOrDefaultCall [
+									format ['cfgvehicles_%1_transportsoldier',toLowerANSI (typeOf _vehicle)],
+									{getNumber ((configOf _vehicle) >> 'transportSoldier')},
+									TRUE
+								];
+								_remainingTickets = _transportSoldier - 1;
 								_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-								_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
+								_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
 								['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							} else {
 								if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') isEqualType 0) then {
@@ -406,7 +403,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										_remainingTickets = (_vehicle getVariable 'QS_medicalVehicle_reviveTickets') - 1;
 										_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-										_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
+										_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
 										['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
 								};
@@ -421,7 +418,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((vectorMagnitude (velocity _medicalBox)) < 1) then {
 								if ((!(unitIsUav _medicalBox)) || {((unitIsUav _medicalBox) && (isUavConnected _medicalBox))}) then {
 									deleteVehicle _medicalBox;
-									_text = format ['%1 %3 %2',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _medicalBox) >> 'displayName'))]),localize 'STR_QS_Chat_129'];
+									_text = format ['%1 %3 %2',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText ((configOf _medicalBox) >> 'displayName'))]),localize 'STR_QS_Chat_129'];
 									['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									_revivedAtVehicle = TRUE;
 									if (_lifeState isEqualTo 'INCAPACITATED') then {
@@ -435,6 +432,34 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 	};
+	
+	
+	if (
+		(!(_unit getVariable ['QS_revive_disable',FALSE])) &&
+		{(_actOfGod)} &&
+		{(_tickTimeNow > _actOfGod_delay)}
+	) then {
+		_actOfGod = FALSE;
+		if (player getVariable ['QS_animDone',TRUE]) then {
+			if ((isNull _attachedTo) && (isNull _objectParent)) then {
+				_deadVehicles = allDead - allDeadMen;
+				if (
+					((_deadVehicles inAreaArray [(getPosATL _unit),5,5,0,FALSE]) isEqualTo []) &&
+					{(!(((getPosASL _unit) # 2) < -1))} &&
+					{((_unit targets [TRUE,30]) isEqualTo [])}
+				) then {
+					_text = localize 'STR_QS_Text_212';
+					50 cutText [_text,'PLAIN DOWN',0.5];
+					if (_lifeState isEqualTo 'INCAPACITATED') then {
+						_unit setUnconscious FALSE;
+					};
+				};
+			};
+		};
+	};
+	
+	
+	
 	if (!(_unit getVariable ['QS_revive_disable',FALSE])) then {
 		if (_actOfGod) then {
 			if (_tickTimeNow > _actOfGod_delay) then {
@@ -508,9 +533,10 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_buttonCtrl = _buttonRespawnFOB;
 			_QS_buttonAction = "player setVariable ['QS_revive_respawnType','FOB',FALSE];";
 			_QS_buttonCtrl buttonSetAction _QS_buttonAction;
-			_buttonRespawnFOB ctrlSetText (format ['%2 (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Menu_098']);
-			_buttonRespawnFOB ctrlSetTooltip (format ['%3 %1 (%2 %4).',(missionNamespace getVariable ['QS_module_fob_displayName','']),(missionNamespace getVariable ['QS_module_fob_respawnTickets',0]),localize 'STR_QS_Menu_098',localize 'STR_QS_Menu_099']);
+			//_buttonRespawnFOB ctrlSetText (format ['%2 (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Menu_098']);
+			//_buttonRespawnFOB ctrlSetTooltip (format ['%3 %1 (%2 %4).',(missionNamespace getVariable ['QS_module_fob_displayName','']),(missionNamespace getVariable ['QS_module_fob_respawnTickets',0]),localize 'STR_QS_Menu_098',localize 'STR_QS_Menu_099']);
 			_buttonRespawnFOB ctrlEnable FALSE;
+			/*/
 			if (player getVariable ['QS_module_fob_client_respawnEnabled',TRUE]) then {
 				if (missionNamespace getVariable 'QS_module_fob_respawnEnabled') then {
 					if ((missionNamespace getVariable 'QS_module_fob_respawnTickets') > 0) then {
@@ -533,6 +559,7 @@ for '_x' from 0 to 1 step 0 do {
 				(_d49 displayCtrl 1010) ctrlEnable FALSE;
 			};
 			(_d49 displayCtrl 1010) ctrlCommit 0;
+			/*/
 			//comment 'Configure / Request Medevac option';
 			_QS_buttonMedevac = (_d49 displayCtrl 101);
 			_QS_buttonMedevac ctrlEnable FALSE;
@@ -564,6 +591,7 @@ for '_x' from 0 to 1 step 0 do {
 			_49Opened = FALSE;
 		} else {
 			//comment 'Manage button availability';
+			/*/
 			if (player getVariable ['QS_module_fob_client_respawnEnabled',TRUE]) then {
 				if (missionNamespace getVariable 'QS_module_fob_respawnEnabled') then {
 					if ((missionNamespace getVariable 'QS_module_fob_respawnTickets') > 0) then {
@@ -587,6 +615,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			(_d49 displayCtrl 1010) ctrlSetText (format ['%2 (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Menu_098']);
 			(_d49 displayCtrl 1010) ctrlCommit 0;
+			/*/
 			(_d49 displayCtrl 1005) ctrlSetText (format ['%1 - A3 %2',_QS_missionVersion,(format ['%1.%2',(_QS_productVersion # 2),(_QS_productVersion # 3)])]);
 			(_d49 displayCtrl 1005) ctrlCommit 0;
 			//_QS_buttonMedevac ctrlEnable ((!(missionNamespace getVariable ['QS_dynTask_medevac_inProgress',TRUE])) && (_tickTimeNow > (_unit getVariable ['QS_client_lastMedevacRequest',-1])) && ((lifeState _unit) isEqualTo 'INCAPACITATED') && (isNull (objectParent _unit)) && (isNull (attachedTo _unit)));
@@ -636,6 +665,9 @@ uiSleep 0.1;
 {
 	_x ppEffectEnable FALSE;
 } forEach [bis_revive_ppColor, bis_revive_ppVig, bis_revive_ppBlur];
+if (!isGameFocused) then {
+	playSoundUI ['beep_target',0.25,1,FALSE];
+};
 _unit setDamage [0,TRUE];
 _unit allowDamage TRUE;
 if (captive _unit) then {

@@ -6,48 +6,57 @@ Author:
 	
 Last Modified:
 
-	11/10/2017 A3 1.76 by Quiksilver
+	24/02/2023 A3 2.10 by Quiksilver
 	
 Description:
 
 	-
+	
+Notes:
+
+	This function should be obsoleted but it still works,
+	so we dont want to do anything about it yet
 _____________________________________________________________/*/
 
 private _t = cursorTarget;
-if ((!(_t isKindOf 'LandVehicle')) && (!(_t isKindOf 'Air')) && (!(_t isKindOf 'Ship'))) exitWith {};
-_dn = getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName');
-_attachedObjects = attachedObjects player;
+private _result = FALSE;
+if ((['LandVehicle','Ship','Air'] findIf { _t isKindOf _x }) isEqualTo -1) exitWith {_result};
+_dn = QS_hashmap_configfile getOrDefaultCall [
+	format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _t)],
+	{getText ((configOf _t) >> 'displayName')},
+	TRUE
+];
+_attachedObjects = (attachedObjects player) select {!isObjectHidden _x};
 private _isViV = FALSE;
 private _obj = objNull;
 private _capacity = [];
 if (_attachedObjects isNotEqualTo []) then {
 	{
 		_obj = _x;
-		if (_obj isKindOf 'Man') then {
+		if (_obj isKindOf 'CAManBase') then {
 			if (_obj getVariable 'QS_RD_carried') then {
-				for '_x' from 0 to 2 step 1 do {
-					_obj setVariable ['QS_RD_carried',FALSE,TRUE];
-				};
+				_obj setVariable ['QS_RD_carried',FALSE,TRUE];
 			};
 			detach _obj;
-			for '_x' from 0 to 2 step 1 do {
-				player setVariable ['QS_RD_interacting',FALSE,TRUE];
-				_obj setVariable ['QS_RD_interacting',FALSE,TRUE];
-			};
+			player setVariable ['QS_RD_interacting',FALSE,TRUE];
+			_obj setVariable ['QS_RD_interacting',FALSE,TRUE];
 		} else {
 			_isViV = [_t,_obj] call (missionNamespace getVariable 'QS_fnc_isValidCargoV');
-			if (([1,_obj,_t] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) || (_isViV)) then {
-				for '_x' from 0 to 1 step 1 do {
-					_obj setVariable ['QS_cargoObject',TRUE,TRUE];
-				};
-				player playAction 'released';
+			if (
+				(([1,_obj,_t] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) || (_isViV)) &&
+				(!lockedInventory _t)
+			) then {
+				missionNamespace setVariable ['QS_targetBoundingBox_placementModeCancel',TRUE,FALSE];
+				_obj setVariable ['QS_logistics',TRUE,TRUE];
+				player playActionNow 'released';
 				detach _obj;
 				if (_isViV) then {
 					_t setVehicleCargo _obj;
 				} else {
-					0 = [71,_obj,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+					[71,_obj,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 					_obj attachTo [_t,[0,0,-100]];
 				};
+				_result = TRUE;
 				playSound3D [
 					'A3\Sounds_F\sfx\ui\vehicles\vehicle_rearm.wss',
 					_t,
@@ -57,11 +66,16 @@ if (_attachedObjects isNotEqualTo []) then {
 					1,
 					15
 				];
-				if (isClass (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'VehicleTransport' >> 'Carrier')) then {
+				_dn1 = QS_hashmap_configfile getOrDefaultCall [
+					format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _obj)],
+					{getText ((configOf _obj) >> 'displayName')},
+					TRUE
+				];
+				if (isClass ((configOf _t) >> 'VehicleTransport' >> 'Carrier')) then {
 					50 cutText [
 						(format [
 							'%1 %3 %2',
-							(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),
+							(_obj getVariable ['QS_ST_customDN',_dn1]),
 							_dn,
 							localize 'STR_QS_Text_114'
 						]),
@@ -73,7 +87,7 @@ if (_attachedObjects isNotEqualTo []) then {
 					50 cutText [
 						(format [
 							'%1 %5 %2 - %6 %3 / %4',
-							(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),
+							(_obj getVariable ['QS_ST_customDN',_dn1]),
 							_dn,
 							(_capacity # 0),
 							(_capacity # 1),
@@ -81,7 +95,7 @@ if (_attachedObjects isNotEqualTo []) then {
 							localize 'STR_QS_Text_115'
 						]),
 						'PLAIN DOWN',
-						([0.4,0.8] select ((_capacity # 0) isEqualTo (_capacity # 1))),
+						([0.333,0.666] select ((_capacity # 0) isEqualTo (_capacity # 1))),
 						FALSE,
 						TRUE
 					];
@@ -90,15 +104,12 @@ if (_attachedObjects isNotEqualTo []) then {
 		};
 	} forEach _attachedObjects;
 };
-if (_obj isKindOf 'Man') then {
+if (_obj isKindOf 'CAManBase') then {
 	if ((unitIsUav _t) && (([_t,1] call (missionNamespace getVariable 'QS_fnc_clientInteractUGV')) > 0)) then {
 		if ([_t,2,_obj] call (missionNamespace getVariable 'QS_fnc_clientInteractUGV')) then {
-			for '_x' from 0 to 1 step 1 do {
-				if (!isPlayer _obj) then {
-					_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
-					_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
-				};
-				_t setVariable ['QS_RD_activeCargo',TRUE,TRUE];
+			if (!isPlayer _obj) then {
+				_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
+				_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
 			};
 			['switchMove',_obj,(['AinjPpneMstpSnonWnonDnon','acts_InjuredLyingRifle02'] select (isPlayer _obj))] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 			player playAction 'released';
@@ -107,12 +118,11 @@ if (_obj isKindOf 'Man') then {
 			50 cutText [localize 'STR_QS_Text_116','PLAIN DOWN',0.3];
 		};
 	} else {
-		for '_x' from 0 to 1 step 1 do {
-			if (!isPlayer _obj) then {
-				_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
+		if (!isPlayer _obj) then {
+			_obj setVariable ['QS_RD_escorted',FALSE,TRUE];
+			if (!((lifeState _obj) isEqualTo 'INCAPACITATED')) then {
 				_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
 			};
-			_t setVariable ['QS_RD_activeCargo',TRUE,TRUE];
 		};
 		detach _obj;
 		if (local _obj) then {
@@ -127,4 +137,4 @@ if (_obj isKindOf 'Man') then {
 if (isForcedWalk player) then {
 	player forceWalk FALSE;
 };
-TRUE;
+_result;

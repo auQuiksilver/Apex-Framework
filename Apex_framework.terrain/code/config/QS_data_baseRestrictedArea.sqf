@@ -15,6 +15,7 @@ Description:
 Notes:
 
 	- Must be a polygon ( https://community.bistudio.com/wiki/inPolygon )
+	
 	- Only one Vehicle Restricted area is allowed, unlike Speed Limited areas where you can have several.
 __________________________________________________________________________/*/
 

@@ -25,7 +25,7 @@ if (
 	{(!((animationState _unit) in ['aovrpercmrunsraswrfldf']))} &&
 	{((currentWeapon _unit) isNotEqualTo '')} &&
 	{(diag_tickTime > (_unit getVariable ['QS_jumpCooldown',0]))} &&
-	{(((attachedObjects _cameraOn) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)}
+	{(!(_cameraOn call QS_fnc_isBusyAttached))}
 ) then {
 	_r = TRUE;
 	_unit setVariable ['QS_jumpCooldown',(diag_tickTime + 0.5),FALSE];

@@ -25,9 +25,9 @@ if (_anim in ['acinpknlmstpsraswrfldnon','acinpknlmstpsnonwpstdnon','acinpknlmst
 					(diag_tickTime > _startTime) ||
 					{(!((lifeState player) in ['HEALTHY','INJURED']))} ||
 					{(!isNull (objectParent player))} ||
-					{(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1)}
+					{(!(player call QS_fnc_isBusyAttached))}
 				) exitWith {
-					if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1) then {
+					if (!(player call QS_fnc_isBusyAttached)) then {
 						player playActionNow 'released';
 					};
 				};
@@ -85,7 +85,7 @@ if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmst
 				if (!isNull (objectParent player)) exitWith {_putDown = TRUE;};
 				if (!alive _carried) exitWith {_putDown = TRUE;};
 				if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {};
-				if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'sign_sphere10cm_f')))}) isEqualTo -1) exitWith {
+				if (!(player call QS_fnc_isBusyAttached)) exitWith {
 					player playActionNow 'released';
 				};
 				if (((attachedObjects player) findIf {((_x isKindOf 'Man') && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) isNotEqualTo -1) exitWith {

@@ -22,11 +22,7 @@ _centerPos = missionNamespace getVariable 'QS_AOpos';
 _centerRadius = missionNamespace getVariable 'QS_aoSize';
 _worldName = worldName;
 _worldSize = worldSize;
-if (_worldName isEqualTo 'Tanoa') then {
-	_pilotType = "O_T_Helipilot_F";
-} else {
-	_pilotType = "O_Helipilot_F";
-};
+_pilotType = "O_Helipilot_F";
 _side = EAST;
 _arrayHelicopters = [];
 _grp = createGroup [_side,TRUE];
@@ -80,7 +76,7 @@ if (_playerCount > 20) then {
 		];
 	};
 };
-_air = createVehicle [_airType,(_randomPos vectorAdd [0,0,1000]),[],0,'FLY'];
+_air = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _airType,_airType],(_randomPos vectorAdd [0,0,1000]),[],0,'FLY'];
 [_air,(selectRandomWeighted [2,0.5,3,0.5]),[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 _air engineOn TRUE;
 _air addEventHandler ['GetOut',{(_this # 2) setDamage 1;}];
@@ -94,26 +90,26 @@ clearBackpackCargoGlobal _air;
 _air setPos (_randomPos vectorAdd [0,0,300]);
 _air enableRopeAttach FALSE;
 ['setFeatureType',_air,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_air];
-_unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
+_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _pilotType,_pilotType],_randomPos,[],0,'NONE'];
 _unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _unit assignAsDriver _air;
 _unit moveInDriver _air;
 removeAllWeapons _unit;
 if (!((toLowerANSI _airType) in ['o_heli_light_02_v2_f','o_heli_light_02_dynamicloadout_f'])) then {
-	_unit = _grp createUnit [_pilotType,_randomPos,[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _pilotType,_pilotType],_randomPos,[],0,'NONE'];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_unit assignAsTurret [_air,[0]];
 	_unit moveInTurret [_air,[0]];
 };
 _air setVehiclePosition [(getPosWorld _air),[],0,'FLY'];
 if ((toLowerANSI _airType) in ['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f']) then {
-	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName in ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI 'o_soldier_ar_f','o_soldier_ar_f'],[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
 	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit addPrimaryWeaponItem 'optic_lrps';
 	_unit moveInCargo [_air,0];
 	_unit selectWeapon (primaryWeapon _unit);
-	_unit = _grp createUnit [(['O_Soldier_AR_F','O_T_Soldier_AR_F'] select (_worldName in ['Tanoa','Enoch'])),[0,0,0],[],0,'NONE'];
+	_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI 'o_soldier_ar_f','o_soldier_ar_f'],[0,0,0],[],0,'NONE'];
 	_unit addBackpack 'B_AssaultPack_blk';
 	[_unit,'MMG_01_hex_ARCO_LP_F',4] call (missionNamespace getVariable 'QS_fnc_addWeapon');
 	_unit addPrimaryWeaponItem 'optic_lrps';

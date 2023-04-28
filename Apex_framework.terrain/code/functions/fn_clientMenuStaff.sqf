@@ -17,6 +17,8 @@ private [
 	'_type','_uid','_moderators','_admins','_developers','_allUIDs','_moderatorsActions','_adminsActions',
 	'_developersActions','_validActions','_text','_pilots','_cursorTarget','_type2','_staffID'
 ];
+if (!(cameraOn in [player,vehicle player])) exitWith {};
+if (!((lifeState player) in ['HEALTHY','INJURED'])) exitWith {};
 _type = _this # 0;
 _type2 = _type;
 _uid = getPlayerUID player;
@@ -132,7 +134,7 @@ if (_type2 isEqualType 0) exitWith {
 			};
 			if (isNull _cursorTarget) exitWith {};
 			[17,_cursorTarget] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			_text = format ['%1 %4 %2 %5 %3',profileName,(getText (configFile >> 'CfgVehicles' >> (typeOf _cursorTarget) >> 'displayName')),(mapGridPosition player),localize 'STR_QS_Hints_059',localize 'STR_QS_Hints_060'];
+			_text = format ['%1 %4 %2 %5 %3',profileName,(getText ((configOf _cursorTarget) >> 'displayName')),(mapGridPosition player),localize 'STR_QS_Hints_059',localize 'STR_QS_Hints_060'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
@@ -201,7 +203,7 @@ if (_type2 isEqualType 0) exitWith {
 			_cursorTarget setPosWorld [(_posTarget # 0),(_posTarget # 1),((_posTarget # 2) + 0.3)];
 			_cursorTarget setVectorUp (surfaceNormal (getPosWorld _cursorTarget));
 		};
-		_type2 = getText (configFile >> 'CfgVehicles' >> (typeOf _cursorTarget) >> 'displayName');
+		_type2 = getText ((configOf _cursorTarget) >> 'displayName');
 		_text = format ['%1 %2',_type2,localize 'STR_QS_Text_061'];
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
 		_text = format ['%1 %4 %2 %5 %3',profileName,_type2,(mapGridPosition player),localize 'STR_QS_Hints_066',localize 'STR_QS_Hints_060'];
@@ -262,8 +264,9 @@ if (_type2 isEqualType 0) exitWith {
 	};
 	if (_type2 isEqualTo 13) then {
 		playSound 'ClickSoft';
-		if (!('ItemMap' in (assignedItems player))) then {
-			player linkItem 'ItemMap';	
+		
+		if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemMaps) isEqualTo -1) then {
+			player linkItem QS_core_classNames_itemMap;	
 		};
 		openMap TRUE;
 		0 spawn {
@@ -301,6 +304,8 @@ if (_type2 isEqualType 0) exitWith {
 		};
 	};
 	if (_type2 isEqualTo 14) then {
+		systemChat (localize 'STR_QS_Chat_168');
+		/*/ Disabled
 		_result = [localize 'STR_QS_Menu_125',localize 'STR_QS_Menu_126',localize 'STR_QS_Menu_127',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
 		if (_result) then {	
 			playSound 'ClickSoft';
@@ -310,8 +315,11 @@ if (_type2 isEqualType 0) exitWith {
 			_text = format ['%1 %2',profileName,localize 'STR_QS_Chat_102'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
+		/*/
 	};
 	if (_type2 isEqualTo 15) then {
+		systemChat (localize 'STR_QS_Chat_168');
+		/*/ Disabled
 		_result = [localize 'STR_QS_Menu_128',(format ['%1 %2',(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Menu_129']),localize 'STR_QS_Menu_127',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');	
 		if (_result) then {	
 			playSound 'ClickSoft';
@@ -322,6 +330,7 @@ if (_type2 isEqualType 0) exitWith {
 			_text = format ['%1 %3 %2 %4',profileName,(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Hints_072',localize 'STR_QS_Hints_073'];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
+		/*/
 	};
 	if (_type2 isEqualTo 16) then {
 		playSound 'ClickSoft';

@@ -6,23 +6,30 @@ Author:
 	
 Last Modified:
 
-	13/10/2018 A3 1.84 by Quiksilver
+	29/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Towing
+	
+	Kind of obsolete but also maybe still useful to some
 _______________________________________________________/*/
 
 params ['_vehicle','_towedVehicle','_isUAV'];
-_ropeLength = ((((boundingBoxReal _vehicle) # 1) # 1) / 1.5) + 1 + (((boundingBoxReal _towedVehicle) # 1) # 1);
-_vehicle setVariable ['QS_ropeAttached',TRUE,TRUE];
-_towedVehicle setVariable ['QS_ropeAttached',TRUE,TRUE];
-_displayName = getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName');
+private _ropeLength2 = 1;
+_ropeLength = ((((0 boundingBoxReal _vehicle) # 1) # 1) / 1.5) + 1 + (((0 boundingBoxReal _towedVehicle) # 1) # 1);
+_displayName = QS_hashmap_configfile getOrDefaultCall [
+	format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _towedVehicle)],
+	{getText ((configOf _towedVehicle) >> 'displayName')},
+	TRUE
+];
 _vehicle enableRopeAttach FALSE;
 _vehicle enableVehicleCargo FALSE;
 _towedVehicle enableRopeAttach FALSE;
 _towedVehicle enableVehicleCargo FALSE;
 _towedVehicle setVariable ['QS_transporter',[profileName,player,(getPlayerUID player)],TRUE];
+_towedVehicle setVariable ['QS_logistics',TRUE,TRUE];
+_towedVehicle setVariable ['QS_attached',TRUE,TRUE];
 _QS_action_ugv_stretcherModel = 'a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d';
 if (_isUAV) then {
 	if (((attachedObjects _vehicle) findIf {(((toLowerANSI ((getModelInfo _x) # 1)) isEqualTo _QS_action_ugv_stretcherModel) && (!(isObjectHidden _x)))}) isNotEqualTo -1) then {
@@ -44,19 +51,46 @@ if (!(_towedVehicle isKindOf 'StaticWeapon')) then {
 	};
 };
 private _defaultAttachPoint = [[0,-_ropeLength,0.75],0];
+
+_newRopeLength = 2;
+_minVehicleHeight = 0.5;
+_minHeight = 1;
+// Tower ref pos
+private _boundingBoxReal = 0 boundingBoxReal _vehicle;
+private _vehiclePos = getPos _vehicle;
+private _vehicleRearDir = ((getDir _vehicle) + 180) mod 360;
+private _vehicleHalfLength = (_boundingBoxReal # 1) # 1;
+_findPos1 = _vehiclePos vectorAdd [
+	1 * _vehicleHalfLength * sin _vehicleRearDir,
+	1 * _vehicleHalfLength * cos _vehicleRearDir,
+	_minVehicleHeight
+];
+_refPosVehicle = _vehicle worldToModel _findPos1;
+_boundingBoxReal = 0 boundingBoxReal _towedVehicle;
+_vehiclePos = getPos _towedVehicle;
+_vehicleRearDir = ((getDir _towedVehicle)) mod 360;
+_vehicleHalfLength2 = (_boundingBoxReal # 1) # 1;
+_towedHeight = ((_boundingBoxReal # 1) # 2) - ((_boundingBoxReal # 0) # 2);
+_findPos2 = _vehiclePos vectorAdd [
+	1 * _vehicleHalfLength2 * sin _vehicleRearDir,
+	1 * _vehicleHalfLength2 * cos _vehicleRearDir,
+	0
+];
+_zAdjust = if ((_findPos2 # 2) < _minHeight) then {-(_findPos2 # 2) + _minHeight} else {0};
+private _defaultAttachPoint = [(_refPosVehicle vectorAdd [0,-_vehicleHalfLength2 - _newRopeLength,(_towedHeight / 2) + _zAdjust]),0];
 private _attachPointReturn = [TRUE,_vehicle,_towedVehicle,_defaultAttachPoint] call (missionNamespace getVariable 'QS_fnc_getCustomAttachPoint');
-private _attachPoint = _attachPointReturn select [0,2];
-_towedVehicle attachTo [_vehicle,(_attachPoint # 0)];
-if ((_attachPoint # 1) isNotEqualTo 0) then {
+private _attachPoint = _attachPointReturn # 0;
+_towedVehicle attachTo [_vehicle,_attachPoint];
+if ((_attachPointReturn # 1) isNotEqualTo 0) then {
 	if (local _towedVehicle) then {
-		_towedVehicle setDir (_attachPoint # 1);
+		_towedVehicle setDir (_attachPointReturn # 1);
 	} else {
-		['setDir',_towedVehicle,(_attachPoint # 1)] remoteExec ['QS_fnc_remoteExecCmd',_towedVehicle,FALSE];
+		['setDir',_towedVehicle,(_attachPointReturn # 1)] remoteExec ['QS_fnc_remoteExecCmd',_towedVehicle,FALSE];
 	};
 };
 private _checkIntersections = FALSE;
 private _isHauling = FALSE;
-if ((_attachPoint isEqualTo _defaultAttachPoint) || {((count _attachPointReturn) > 2)}) then {
+if (_attachPoint isEqualTo _defaultAttachPoint) then {
 	_vehicle setVariable ['QS_vehicle_hauling',[FALSE,_towedVehicle],TRUE];
 	50 cutText [format [localize 'STR_QS_Text_255',_displayName],'PLAIN DOWN',0.5];
 	_checkIntersections = TRUE;
@@ -128,18 +162,18 @@ waitUntil {
 	uiSleep 0.075;
 	(
 		((!(_isUAV)) && (!((lifeState player) in ['HEALTHY','INJURED']))) ||
-		((!(_isUAV)) && (!alive player)) ||
-		((!(_isUAV)) && (player isNotEqualTo (driver _vehicle))) ||
-		(!(_towedVehicle in (attachedObjects _vehicle))) ||
-		(!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) ||
-		(!(_vehicle getVariable 'QS_ropeAttached')) || 
-		(!alive _vehicle) || 
-		(!alive _towedVehicle) ||
-		(!canMove _vehicle) ||
-		((_checkIntersections) && ([_vehicle,_towedVehicle] call _isIntersectingSurfaces)) ||
-		(((vectorUp _vehicle) # 2) < 0)
+		{((!(_isUAV)) && (!alive player))} ||
+		{((!(_isUAV)) && (player isNotEqualTo (driver _vehicle)))} ||
+		{(!(_towedVehicle in (attachedObjects _vehicle)))} ||
+		{(!isNil {_towedVehicle getVariable 'QS_loadCargoIn'})} ||
+		{(!alive _vehicle)} || 
+		{(!alive _towedVehicle)} ||
+		{(!canMove _vehicle)} ||
+		{(((vectorUp _vehicle) # 2) < 0)} ||
+		{((_checkIntersections) && ([_vehicle,_towedVehicle] call _isIntersectingSurfaces))}
 	)
 };
+_towedVehicle setVariable ['QS_attached',FALSE,TRUE];
 _vehicle setVariable ['QS_vehicle_hauling',[],TRUE];
 _vehicle allowDamage FALSE;
 [26,_towedVehicle,TRUE] remoteExec ['QS_fnc_remoteExec',0,FALSE];
@@ -165,8 +199,6 @@ if (_isUAV) then {
 	player removeAction (_vehicle getVariable 'QS_action_towRelease2');
 	player removeAction (_vehicle getVariable 'QS_action_towLoadCargo2');
 };
-_vehicle setVariable ['QS_ropeAttached',FALSE,TRUE];
-_towedVehicle setVariable ['QS_ropeAttached',FALSE,TRUE];
 _vehicle enableRopeAttach TRUE;
 _vehicle enableVehicleCargo TRUE;
 _towedVehicle enableRopeAttach TRUE;
@@ -174,9 +206,16 @@ _towedVehicle enableVehicleCargo TRUE;
 if (_towedVehicle isKindOf 'StaticWeapon') then {
 	_towedVehicle enableWeaponDisassembly FALSE;
 };
-_detachPos = [FALSE,_vehicle,_towedVehicle,[0,((-_ropeLength) - 1),0.75]] call (missionNamespace getVariable 'QS_fnc_getCustomAttachPoint');
+private _detachPos = [FALSE,_vehicle,_towedVehicle,_defaultAttachPoint] call (missionNamespace getVariable 'QS_fnc_getCustomAttachPoint');
+if ((_detachPos # 0) isEqualType []) then {
+	_detachPos = _detachPos # 0;
+};
+_towedVehicle allowDamage FALSE;
+_towedVehicle spawn {
+	sleep 2;
+	_this allowDamage TRUE;
+};
 if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
-	_towedVehicle allowDamage FALSE;
 	_posIsClear = TRUE;
 	_line01 = lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [2,0,0])),(AGLToASL (_vehicle modelToWorld [2,-17,0])),_vehicle,_towedVehicle,TRUE,1,'GEOM'];
 	_line02 = lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [-2,0,0])),(AGLToASL (_vehicle modelToWorld [-2,-17,0])),_vehicle,_towedVehicle,TRUE,1,'GEOM'];
@@ -194,7 +233,7 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 			if ((lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [0,0,0])),(AGLToASL _position),_vehicle,_towedVehicle,TRUE,1,'GEOM']) isEqualTo []) exitWith {};
 		};
 		_position set [2,(_center # 2)];
-		private _posToSet = [(_position # 0),(_position # 1),((_position # 2)+0.35)];
+		private _posToSet = _position vectorAdd [0,0,0.35];
 		_towedVehicle setPosWorld _posToSet;
 		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this # 0) allowDamage TRUE;(_this # 0) setVectorUp (surfaceNormal (_this # 1));};
 		if (!isNull (attachedTo _towedVehicle)) then {
@@ -203,7 +242,7 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 		};
 		_towedVehicle setPosWorld _posToSet;
 	} else {
-		private _posToSet = [((getPosWorld _towedVehicle) # 0),((getPosWorld _towedVehicle) # 1),(((getPosWorld _towedVehicle) # 2)+0.35)];
+		private _posToSet = (getPosWorld _towedVehicle) vectorAdd [0,0,0.35];
 		_towedVehicle setPosWorld _posToSet;
 		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this # 0) allowDamage TRUE;(_this # 0) setVectorUp (surfaceNormal (_this # 1));};
 		if (!isNull (attachedTo _towedVehicle)) then {
@@ -218,32 +257,44 @@ if (local _towedVehicle) then {
 } else {
 	['lock',_towedVehicle,0] remoteExec ['QS_fnc_remoteExecCmd',_towedVehicle,FALSE];
 };
+if (
+	(isNull (attachedTo _towedVehicle)) &&
+	((_towedVehicle distance2D (markerPos 'QS_marker_crate_area')) < 500) &&
+	(!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'})
+) then {
+	_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
+	systemChat format ['%1 %2',(getText ((configOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
+};
 if (isNull (attachedTo _towedVehicle)) then {
 	if ((_towedVehicle distance2D (markerPos 'QS_marker_crate_area')) < 500) then {
 		if (!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'}) then {
 			_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
-			systemChat format ['%1 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
+			systemChat format ['%1 %2',(getText ((configOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
 		};
 	};
 };
 if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
 	detach _towedVehicle;
 	private _text = '';
+	_dn2 = QS_hashmap_configfile getOrDefaultCall [
+		format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf (_towedVehicle getVariable 'QS_loadCargoIn'))],
+		{getText ((configOf (_towedVehicle getVariable 'QS_loadCargoIn')) >> 'displayName')},
+		TRUE
+	];
 	if ((_towedVehicle getVariable 'QS_loadCargoIn') setVehicleCargo _towedVehicle) then {
-		_text = format ['%1 %3 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _towedVehicle) >> 'displayName')),(getText (configFile >> 'CfgVehicles' >> (typeOf (_towedVehicle getVariable 'QS_loadCargoIn')) >> 'displayName')),localize 'STR_QS_Text_114'];
+		_text = format ['%1 %3 %2',_displayName,_dn2,localize 'STR_QS_Text_114'];
 	} else {
 		_text = localize 'STR_QS_Text_116';
 	};
 	_towedVehicle setVariable ['QS_loadCargoIn',nil,FALSE];
 	50 cutText [_text,'PLAIN DOWN',0.5];
-	uiSleep 0.5;
+	uiSleep 1;
 	_vehicle allowDamage TRUE;
 };
-_towedVehicle allowDamage FALSE;
-uiSleep 0.05;
 _towedVehicle setPosASL (_vehicle modelToWorldWorld _detachPos);
 if (!isNull (attachedTo _towedVehicle)) then {
-	_towedVehicle attachTo [_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle worldToModelVisual (position _towedVehicle)) # 2)]];
+	_towedVehicle attachTo [_vehicle,_detachPos];
+	uiSleep 0.1;
 	detach _towedVehicle;
 };
 _towedVehicle setPosASL (_vehicle modelToWorldWorld _detachPos);
@@ -251,6 +302,6 @@ if (((getPosATL _towedVehicle) # 2) < 5) then {
 	_towedVehicle setVectorUp (surfaceNormal (getPosWorld _towedVehicle));
 };
 50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.25];
-uiSleep 0.5;
+uiSleep 1;
 _towedVehicle allowDamage TRUE;
 _vehicle allowDamage TRUE;

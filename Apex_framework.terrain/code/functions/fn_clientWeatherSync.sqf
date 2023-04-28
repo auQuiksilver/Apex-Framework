@@ -6,7 +6,7 @@ Author:
 	
 Last Modified: 
 
-	23/05/2018 A3 1.82 by Quiksilver
+	26/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -25,7 +25,8 @@ _QS_array params [
 	['_QS_fog',[FALSE,0,0]],
 	['_QS_waves',[FALSE,0,0]],
 	['_QS_lightnings',[FALSE,0,0]],
-	['_QS_rainbow',[FALSE,0,0]]
+	['_QS_rainbow',[FALSE,0,0]],
+	['_QS_humidity',[FALSE,0]]
 ];
 if (_QS_wind # 0) then {
 	setWind (_QS_wind # 1);
@@ -46,7 +47,14 @@ if (_QS_overcast # 0) then {
 	(_QS_overcast # 1) setOvercast (_QS_overcast # 2);
 };
 if (_QS_rain # 0) then {
-	(_QS_rain # 1) setRain (_QS_rain # 2);
+	if (
+		(!(missionNamespace getVariable ['QS_missionConfig_weatherDynamic',TRUE])) &&
+		{((missionNamespace getVariable ['QS_missionConfig_weatherForced',0]) >= 4)}
+	) then {
+		setRain ((missionNamespace getVariable ['QS_missionConfig_weatherForced',4]) call (missionNamespace getVariable 'QS_data_rainParams'));
+	} else {
+		(_QS_rain # 1) setRain (_QS_rain # 2);
+	};
 };
 if (_QS_fog # 0) then {
 	(_QS_fog # 1) setFog (_QS_fog # 2);
@@ -59,4 +67,7 @@ if (_QS_lightnings # 0) then {
 };
 if (_QS_rainbow # 0) then {
 	(_QS_rainbow # 1) setRainbow (_QS_rainbow # 2);
+};
+if (_QS_humidity # 0) then {
+	setHumidity (_QS_humidity # 1);
 };

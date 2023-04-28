@@ -19,16 +19,11 @@ ______________________________________________________/*/
 
 params [['_unit',objNull],['_weapon',''],['_magazineCount',0],['_magazineClass',0],['_tracers',FALSE],['_return',FALSE]];
 _weapon = toLowerANSI _weapon;
-private _weaponExists = _weapon in (missionNamespace getVariable ['QS_session_weaponsList',[]]);
+private _weaponExists = (QS_hashmap_configfile getOrDefault [format ['cfgweapons_%1_isclass',_weapon],'']) isNotEqualTo '';
 if (!(_weaponExists)) then {
 	_weaponExists = isClass (configFile >> 'CfgWeapons' >> _weapon);
 	if (_weaponExists) then {
-		(missionNamespace getVariable ['QS_session_weaponsList',[]]) pushBackUnique _weapon;
-		if (!((toLowerANSI _weapon) in (missionProfileNamespace getVariable ['QS_profile_weaponsList',[]]))) then {
-			missionProfileNamespace setVariable ['QS_profile_weaponsList',((missionProfileNamespace getVariable ['QS_profile_weaponsList',[]]) + [_weapon])];
-			saveMissionProfileNamespace;
-			diag_log format ['**** DEBUG ***** Adding weapon to profile - %1 *****',_weapon];
-		};
+		QS_hashmap_configfile set [format ['cfgweapons_%1_isclass',_weapon],_weapon];
 	};
 };
 if (!(_weaponExists)) exitWith {diag_log format ['***** Weapon does not exist - %1 *****',_weapon];};
@@ -58,6 +53,9 @@ if (_magazineCount > 0) then {
 			};
 		} else {
 			if (isClass (configFile >> 'CfgMagazines' >> _magazineClass)) then {
+			
+				
+			
 				(missionNamespace getVariable ['QS_session_magazineList',[]]) pushBackUnique (toLowerANSI _magazineClass);
 				for '_i' from 1 to _magazineCount step 1 do {
 					_unit addMagazine _magazineClass;

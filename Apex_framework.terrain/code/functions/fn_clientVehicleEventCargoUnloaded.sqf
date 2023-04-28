@@ -14,3 +14,4 @@ Description:
 _______________________________________________________/*/
 
 params ['_parentVehicle','_cargoVehicle'];
+[_parentVehicle,TRUE,TRUE] call QS_fnc_updateCenterOfMass;

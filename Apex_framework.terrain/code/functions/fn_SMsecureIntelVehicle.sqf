@@ -21,18 +21,10 @@ private [
 	'_objUnit2','_objUnit3','_obj1','_obj2','_obj3','_intelObj','_enemiesArray','_randomDir','_poi','_flatPos','_flatPos1',
 	'_flatPos2','_flatPos3','_position','_accepted','_fuzzyPos','_briefing','_escapeWP','_crewUnitType'
 ];
-
-if (worldName isEqualTo 'Tanoa') then {
-	_objVehTypes = ["I_C_Van_01_transport_F","I_C_Offroad_02_unarmed_F","O_T_MRAP_02_ghex_F","O_T_LSV_02_unarmed_F","I_MRAP_03_F"];
-	_altVehTypes = ["O_T_MRAP_02_ghex_F"];
-	_objUnitTypes = ["O_T_Officer_F","I_officer_F"];
-	_crewUnitType = 'O_T_crew_F';
-} else {
-	_objVehTypes = ["O_MRAP_02_F","I_MRAP_03_F","O_MRAP_02_F","C_Offroad_01_F","C_SUV_01_F","C_Van_01_transport_F"];
-	_altVehTypes = ["O_MRAP_02_F"];
-	_objUnitTypes = ["O_officer_F","I_officer_F"];
-	_crewUnitType = 'O_crew_F';
-};
+_objVehTypes = ["O_MRAP_02_F","I_MRAP_03_F","O_MRAP_02_F","C_Offroad_01_F","C_SUV_01_F","C_Van_01_transport_F"];
+_altVehTypes = ["O_MRAP_02_F"];
+_objUnitTypes = ["O_officer_F","I_officer_F"];
+_crewUnitType = 'O_crew_F';
 _chaseTime = 0;
 _chaseTimer = 1200;
 
@@ -72,42 +64,45 @@ _flatPos3 = _flatPos getPos [15,(random 360)];
 /*/--------- OBJ 1/*/
 		
 _objVehType = selectRandom _objVehTypes;
-_obj1 = createVehicle [_objVehType,_flatPos1,[],0,'NONE'];
+_obj1 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _objVehType,_objVehType],_flatPos1,[],0,'NONE'];
 _obj1 setDir (random 360);
 _obj1 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj1 enableRopeAttach FALSE;
 _obj1 enableVehicleCargo FALSE;
 _obj1 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _aGroup = createGroup [EAST,TRUE];
-_objUnit1 = _aGroup createUnit [(selectRandom _objUnitTypes),_flatPos1,[],0,'NONE'];
+private _type = selectRandom _objUnitTypes;
+_objUnit1 = _aGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_flatPos1,[],0,'NONE'];
 _objUnit1 assignAsDriver _obj1;
 _objUnit1 moveInDriver _obj1;
 	
 /*/--------- OBJ 2 /*/
 		
 _objVehType = selectRandom _objVehTypes;
-_obj2 = createVehicle [_objVehType,_flatPos2,[],0,'NONE'];
+_obj2 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _objVehType,_objVehType],_flatPos2,[],0,'NONE'];
 _obj2 setDir (random 360);
 _obj2 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj2 enableRopeAttach FALSE;
 _obj2 enableVehicleCargo FALSE;
 _obj2 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _bGroup = createGroup [EAST,TRUE];
-_objUnit2 = _bGroup createUnit [(selectRandom _objUnitTypes),_flatPos1,[],0,'NONE'];
+_type = selectRandom _objUnitTypes;
+_objUnit2 = _bGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_flatPos1,[],0,'NONE'];
 _objUnit2 assignAsDriver _obj2;
 _objUnit2 moveInDriver _obj2;
 	
 /*/-------- OBJ 3/*/
 		
 _objVehType = selectRandom _objVehTypes;
-_obj3 = createVehicle [_objVehType,_flatPos3,[],0,'NONE'];
+_obj3 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _objVehType,_objVehType],_flatPos3,[],0,'NONE'];
 _obj3 setDir (random 360);
 _obj3 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj3 enableRopeAttach FALSE;
 _obj3 enableVehicleCargo FALSE;
 _obj3 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _cGroup = createGroup [EAST,TRUE];
-_objUnit3 = _cGroup createUnit [(selectRandom _objUnitTypes),_flatPos2,[],0,'NONE'];
+_type = selectRandom _objUnitTypes;
+_objUnit3 = _cGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_flatPos2,[],0,'NONE'];
 _objUnit3 assignAsDriver _obj3;
 _objUnit3 moveInDriver _obj3;
 {_x lock 3;} forEach [_obj1,_obj2,_obj3];
@@ -148,8 +143,8 @@ _intelObj addEventHandler [
 		_objType = typeOf _object;
 		if (isPlayer _killer) then {
 			_killerType = typeOf (vehicle _killer);
-			_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
-			_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
+			_killerDisplayName = getText ((configOf (vehicle _killer)) >> 'displayName');
+			_objDisplayName = getText ((configOf _object) >> 'displayName');
 			_name = name _killer;
 			['sideChat',[WEST,'BLU'],(format ['%1 %3 ( %2 )',_name,_objDisplayName,localize 'STR_QS_Chat_077'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};

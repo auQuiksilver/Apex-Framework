@@ -34,7 +34,7 @@ if (_type in ['o_uav_01_f']) then {
 	};
 	_position set [2,(1500 + (random 1500))];
 };
-_vehicle = createVehicle [_type,_position,[],0,'FLY'];
+_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _type,_type],_position,[],0,'FLY'];
 if (!isNull _vehicle) then {
 	_vehicle enableVehicleSensor ['manSensorComponent',TRUE];
 	_vehicle setVariable ['QS_uav_protected',TRUE,FALSE];
@@ -92,9 +92,12 @@ if (!isNull _vehicle) then {
 			'Fired',
 			{
 				params ['','','','','_ammo','','_projectile',''];
-				if ((toLowerANSI _ammo) in [
-					'bomb_03_f','bomb_04_f','bo_gbu12_lgb','bo_gbu12_lgb_mi10','bo_air_lgb','bo_air_lgb_hidden','bo_mk82','bo_mk82_mi08'
-				]) then {
+				_simulation = QS_hashmap_configfile getOrDefaultCall [
+					format ['cfgammo_%1_simulation',toLowerANSI _ammo],
+					{toLowerANSI (getText (configFile >> 'CfgAmmo' >> _ammo >> 'simulation'))},
+					TRUE
+				];
+				if (_simulation isEqualTo 'shotmissile') then {
 					missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
 					missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),TRUE];
 				};

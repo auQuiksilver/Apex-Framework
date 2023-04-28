@@ -24,11 +24,8 @@ private _testGroup = grpNull;
 private _testGroupConfig = [];
 private _groupFound = FALSE;
 {
-
-
 	if (
-		((side _x) isEqualTo _side) &&
-		{(_x getVariable ['QS_AI_GRP',FALSE])} &&
+		(_x getVariable ['QS_AI_GRP',FALSE]) &&
 		{(_grp isNotEqualTo _x)} &&
 		{(((units _x) findIf {(alive _x)}) isNotEqualTo -1)} &&
 		{(((leader _x) distance2D _unit) < _radius)}
@@ -60,7 +57,7 @@ private _groupFound = FALSE;
 		};
 	};
 	if (_groupFound) exitWith {};
-} forEach allGroups;
+} forEach (groups _side);
 if (_groupFound) exitWith {
 	[_unit] joinSilent _testGroup;
 	TRUE;

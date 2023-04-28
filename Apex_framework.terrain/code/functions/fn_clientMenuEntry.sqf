@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/08/2022 A3 2.10 by Quiksilver
+	28/04/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -25,6 +25,7 @@ if (_type isEqualTo 'onLoad') then {
 		<br/><t size="1">%6 %1 %7</t><br/><br/><t underline="true">%8</t><t size="1"><br/>%3</t><br/>
 		<br/><t underline="true">%9</t><br/><t size="1">%4</t><br/><br/><t underline="true">%10</t>
 		<br/><t size="1">%2</t><br/><br/><t underline="true">%11</t>
+		<br/><t size="1">%22 - %23 - %24<br/><br/>
 		<br/><t size="1">%12 - %13<br/>%14 - %15
 		<br/>[4] - %16<br/>[L.Ctrl]+[%17] - %18<br/>[V] - %19
 		<br/>[U] - %20<br/>[J]x2 - %21</t>',
@@ -48,7 +49,10 @@ if (_type isEqualTo 'onLoad') then {
 		localize 'STR_QS_Menu_160',
 		localize 'STR_QS_Menu_161',
 		localize 'STR_QS_Menu_162',
-		localize 'STR_QS_Menu_163'
+		localize 'STR_QS_Menu_163',
+		localize 'STR_QS_Diary_150',
+		localize 'STR_QS_Diary_152',
+		actionKeysNames ['User20',1] trim ['"',0]
 	];
 	_ctrlSText1 ctrlSetStructuredText _text;
 };

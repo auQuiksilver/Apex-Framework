@@ -185,6 +185,9 @@ if (
 		if ((allAirports # 1) isNotEqualTo []) then {
 			((allAirports # 1) # 0) setAirportSide WEST;
 		};
+		// Safezone
+		[2] call QS_fnc_zonePreset;
+		['PRESET',2] call QS_fnc_deployment;
 	};
 };
 if (_type isEqualTo 'PROPS') exitWith {
@@ -347,7 +350,7 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 				}
 			];
 		},
-		(['B_Truck_01_mover_F','B_T_Truck_01_mover_F'] select (worldName in ['Tanoa','Lingor3'])),
+		'B_Truck_01_mover_F',
 		((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld [-38.0713,100.011,25.3474]),((getDir (missionNamespace getVariable 'QS_carrierObject')) - -179.807),false,0,-1,250,250,-1,5,FALSE,1]
 	];
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierVehicles',0]) in [1,2]) then {
@@ -397,56 +400,34 @@ if (_type isEqualTo 'VEHICLES') exitWith {
 	};
 	if (_list isNotEqualTo []) then {
 		{
-			(missionNamespace getVariable 'QS_v_Monitor') pushBack _x;
+			(serverNamespace getVariable 'QS_v_Monitor') pushBack _x;
 		} forEach _list;
 	};
 };
 if (_type isEqualTo 'RESPAWN_PLAYER') exitWith {
+	params ['',['_entity',QS_player]];
 	if (!isDedicated) then {
 		if (hasInterface) then {
-			private _inArea = ['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_carrier');
+			private _inArea = ['INPOLYGON_FOOT',_entity] call (missionNamespace getVariable 'QS_fnc_carrier');
 			if (
 				(!_inArea) ||
-				(_inArea && (((getPosASL player) # 2) < 3))
+				(_inArea && ((toLowerANSI (pose _entity)) in ['swimming','surfaceswimming']))
 			) then {
-				_base = markerPos 'QS_marker_base_marker';
-				if ((player distance2D _base) > 1000) then {
-					_positions = [
-						[-26.5791,113.625,23.6446],[-29.3418,114.208,23.6797],[-31.8965,113.567,23.3593],[-31.9878,111.41,23.7361],[-30.1235,109.859,23.7606],
-						[-28.0728,109.664,23.623],[-25.6973,110.073,23.5785],[-25.8208,112.113,23.5784],[-27.6646,112.978,23.6444],[-29.8735,112.596,23.5414],
-						[-29.6924,111.376,23.7495],[-28.022,111.307,23.6492]
-					] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
-					_position = selectRandom _positions;
-					_position spawn {
-						preloadCamera _this;
-						uiSleep 0.5;
-						player setPosWorld _this;
-						uiSleep 5;
-						if (surfaceIsWater (getPosASL player)) then {
-							if (((getPosASL player) # 2) < 3) then {
-								player setPosWorld _this;
-							};
-						};
-					};
-				} else {
-					_result = [localize 'STR_QS_Menu_111',localize 'STR_QS_Menu_112',localize 'STR_QS_Menu_113',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
-					if (_result) then {
-						_positions = [
-							[-26.5791,113.625,23.6446],[-29.3418,114.208,23.6797],[-31.8965,113.567,23.3593],[-31.9878,111.41,23.7361],[-30.1235,109.859,23.7606],
-							[-28.0728,109.664,23.623],[-25.6973,110.073,23.5785],[-25.8208,112.113,23.5784],[-27.6646,112.978,23.6444],[-29.8735,112.596,23.5414],
-							[-29.6924,111.376,23.7495],[-28.022,111.307,23.6492]
-						] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
-						_position = selectRandom _positions;
-						_position spawn {
-							preloadCamera _this;
-							uiSleep 0.5;
-							player setPosWorld _this;
-							uiSleep 5;
-							if (surfaceIsWater (getPosASL player)) then {
-								if (((getPosASL player) # 2) < 3) then {
-									player setPosWorld _this;
-								};
-							};
+				_positions = [
+					[-26.5791,113.625,23.6446],[-29.3418,114.208,23.6797],[-31.8965,113.567,23.3593],[-31.9878,111.41,23.7361],[-30.1235,109.859,23.7606],
+					[-28.0728,109.664,23.623],[-25.6973,110.073,23.5785],[-25.8208,112.113,23.5784],[-27.6646,112.978,23.6444],[-29.8735,112.596,23.5414],
+					[-29.6924,111.376,23.7495],[-28.022,111.307,23.6492]
+				] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
+				_position = selectRandom _positions;
+				[_position,_entity] spawn {
+					params ['_position','_entity'];
+					preloadCamera _position;
+					uiSleep 0.5;
+					_entity setPosWorld _position;
+					uiSleep 5;
+					if (surfaceIsWater (getPosASL _entity)) then {
+						if (((getPosASL _entity) # 2) < 3) then {
+							_entity setPosWorld _position;
 						};
 					};
 				};

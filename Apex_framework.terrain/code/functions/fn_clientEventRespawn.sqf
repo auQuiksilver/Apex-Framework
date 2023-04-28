@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/06/2019 A3 1.94 by Quiksilver
+	28/03/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -14,6 +14,14 @@ Description:
 _______________________________________________/*/
 
 params [['_newUnit',player],['_oldUnit',objNull]];
+QS_player = missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',_newUnit];
+simulWeatherSync;
+if (captive player) then {
+	player setCaptive FALSE;
+};
+if (isForcedWalk player) then {
+	player forceWalk FALSE;
+};
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -21,12 +29,11 @@ params [['_newUnit',player],['_oldUnit',objNull]];
 	['BIS_oldDMG',0,FALSE],
 	['BIS_deltaDMG',0,FALSE]
 ];
-if (captive player) then {
-	player setCaptive FALSE;
-};
-if (isForcedWalk player) then {
-	player forceWalk FALSE;
-};
+{
+	uiNamespace setVariable _x;
+} forEach [
+	['QS_client_playerViewChanged',TRUE]
+];
 {
 	player setVariable _x;
 } forEach [
@@ -35,16 +42,15 @@ if (isForcedWalk player) then {
 	['QS_event_handleHeal',nil,TRUE],
 	['QS_revive_disable',FALSE,(player getVariable ['QS_revive_disable',FALSE])],
 	['QS_respawn_disable',-1,FALSE],
-	['QS_client_medevacRequested',FALSE,FALSE],
-	['QS_client_playerViewChanged',TRUE,FALSE]
+	['QS_client_medevacRequested',FALSE,FALSE]
 ];
 50 cutText ['','BLACK IN',1];
 {
 	inGameUISetEventHandler _x;
 } forEach [
-	['Action',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIAction');"],
-	['NextAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUINextAction');"],
-	['PrevAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIPrevAction');"]
+	['Action',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIAction');"]//,
+	//['NextAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUINextAction');"],
+	//['PrevAction',"_this call (missionNamespace getVariable 'QS_fnc_clientInGameUIPrevAction');"]
 ];
 player setVehicleReportRemoteTargets (player getUnitTrait 'QS_trait_JTAC');
 disableRemoteSensors TRUE;
@@ -55,6 +61,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_stamina',0]) isEqualTo 1) t
 };
 player setCustomAimCoef ((player getVariable 'QS_stamina') # 1);
 player disableConversation TRUE;
+player enableAIFeature ['RADIOPROTOCOL',FALSE];
 showSubtitles FALSE;
 enableRadio TRUE;
 {
@@ -85,6 +92,30 @@ if (player getUnitTrait 'uavhacker') then {
 		};
 	};
 };
+private _cosmeticsEnabled = call (missionNamespace getVariable 'QS_missionConfig_cosmetics');
+private _canLoadFaceProfile = FALSE;
+if (_cosmeticsEnabled > 0) then {
+	if (_cosmeticsEnabled isEqualTo 1) then {
+		if (
+			((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) ||
+			((call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0)
+		) then {
+			_canLoadFaceProfile = TRUE;
+		};
+	} else {
+		_canLoadFaceProfile = TRUE;
+	};
+};
+if (_canLoadFaceProfile) then {
+	private _availableFaces = ['cfgfaces_1'] call QS_data_listOther;
+	_availableFaces = _availableFaces apply { toLowerANSI (_x # 1) };
+	_profileFace = missionProfileNamespace getVariable ['QS_unit_face','default'];
+	if ((toLowerANSI _profileFace) in _availableFaces) then {
+		if ((toLowerANSI (face player)) isNotEqualTo (toLowerANSI _profileFace)) then {
+			['setFace',player,_profileFace] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		};
+	};
+};
 if ((toLowerANSI (speaker player)) isNotEqualTo 'novoice') then {
 	player setSpeaker 'NoVoice';
 };
@@ -100,7 +131,7 @@ if (!((getPlayerUID player) in (['CURATOR'] call (missionNamespace getVariable '
 		'AUTOCOMBAT'
 	];
 };
-player setUnitFreefallHeight 50;
+player setUnitFreefallHeight 65;
 player enableAIFeature ['MOVE',TRUE];
 if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) in [0,1]) then {
 	enableEngineArtillery FALSE;
@@ -134,26 +165,27 @@ if ((missionNamespace getVariable 'QS_client_action_carrierLaunchCancel') isNotE
 	};
 	missionNamespace setVariable ['QS_client_action_carrierLaunchCancel',[],FALSE];
 };
-if (([] call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0) then {
+if ((call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0) then {
 	0 spawn {
 		uiSleep 1;
-		if ((player getVariable 'QS_ClientUTexture2') isNotEqualTo '') then {
-			if ((player getVariable 'QS_ClientUTexture2_Uniforms2') isNotEqualTo []) then {
-				if ((uniform player) in (player getVariable 'QS_ClientUTexture2_Uniforms2')) then {
-					player setObjectTextureGlobal [0,(player getVariable 'QS_ClientUTexture2')];
-					if ((vest player) isNotEqualTo '') then {
-					
-					};
-					if ((backpack player) isNotEqualTo '') then {
-					
-					};
-				};
+		if (
+			((player getVariable 'QS_ClientUTexture2') isNotEqualTo '') &&
+			((player getVariable 'QS_ClientUTexture2_Uniforms2') isNotEqualTo []) &&
+			((uniform player) in (player getVariable 'QS_ClientUTexture2_Uniforms2'))
+		) then {
+			player setObjectTextureGlobal [0,(player getVariable 'QS_ClientUTexture2')];
+			if ((vest player) isNotEqualTo '') then {
+			
+			};
+			if ((backpack player) isNotEqualTo '') then {
+			
 			};
 		};
 	};
 };
 if (!isNull _oldUnit) then {
-	if (((_oldUnit distance2D (markerPos 'QS_marker_base_marker')) < 1000) || {((_oldUnit distance2D (markerPos 'QS_marker_carrier_1')) < 1000)}) then {
+	([_oldUnit,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+	if (_inSafezone && _safezoneActive) then {
 		deleteVehicle _oldUnit;
 	} else {
 		if ((getMissionConfigValue ['corpseManagerMode',0]) isNotEqualTo 0) then {
@@ -167,7 +199,7 @@ if ((backpack player) isNotEqualTo '') then {
 	if ((loadBackpack player) > _maxLoadBackpack) then {
 		while {((loadBackpack player) > _maxLoadBackpack)} do {
 			_itemToRemove = selectRandom ((backpackItems player) + (backpackMagazines player));
-			if (!(_itemToRemove in ['ToolKit','Medikit'])) then {
+			if (!((toLowerANSI _itemToRemove) in (QS_core_classNames_itemToolKits + QS_core_classNames_itemMedikits))) then {
 				player removeItemFromBackpack _itemToRemove;
 			};
 		};
@@ -191,13 +223,25 @@ if ((uniform player) isNotEqualTo '') then {
 		};
 	};
 };
-// Set player position
-[1,_newUnit] call (missionNamespace getVariable 'QS_fnc_clientRespawnPosition');
-if (player getUnitTrait 'QS_trait_fighterPilot') then {
-	0 spawn {uiSleep 1;createDialog 'QS_client_dialog_menu_roles';};
+private _deploymentData = ['GET_HOME_DATA'] call QS_fnc_deployment;
+if (_deploymentData isEqualTo []) then {
+	_deploymentData = ['GET_DEFAULT_DATA'] call QS_fnc_deployment;
 };
-{
-	player setVariable _x;
-} forEach [
-	['QS_revive_respawnType','',FALSE]
-];
+['SELECT',_deploymentData] call QS_fnc_deployment;
+['SET_SAVED_LOADOUT',(player getVariable ['QS_unit_role','rifleman'])] call (missionNamespace getVariable 'QS_fnc_roles');
+[2,-1] spawn (missionNamespace getVariable 'QS_fnc_clientRadio');
+[29,(missionNamespace getVariable 'QS_module_fob_side')] call (missionNamespace getVariable 'QS_fnc_remoteExec');
+if (
+	(missionNamespace getVariable ['QS_missionConfig_deployment',TRUE]) &&
+	{(missionNamespace getVariable ['QS_missionConfig_respawnDeploy',FALSE])}
+) then {
+	0 spawn {
+		localNamespace setVariable ['QS_deploymentMenu_forceDeploy',TRUE];
+		sleep 3;
+		localNamespace setVariable ['QS_deploymentMenu_forceDeploy',FALSE];
+	};
+	['RESPAWN'] call QS_fnc_clientInteractDeploy;
+};
+if ((player getVariable ['QS_unit_side',WEST]) isNotEqualTo WEST) then {
+	[1,player] call QS_fnc_clientRespawnPosition;
+};
