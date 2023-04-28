@@ -3159,9 +3159,7 @@ _____________________________________________________________-->
             <Original>Recovering</Original>
             <Spanish>Recuperando</Spanish>
 		</Key>
-	Sure, here is the updated version with the Spanish translations in <Spanish> tags:
-
-<Key ID="STR_QS_Text_425">
+		<Key ID="STR_QS_Text_425">
             <Original>Recovery interrupted</Original>
             <Spanish>Recuperación interrumpida</Spanish>
 		</Key>
@@ -3302,175 +3300,232 @@ _____________________________________________________________-->
             <Spanish>No se detectó ningún objeto bajo el cursor</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_406">
-            <Original>No deployments available</Original>
+			<Original>No deployments available</Original>
+			<Spanish>No hay despliegues disponibles</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_407">
-            <Original>Lifting %1</Original>
+		<Key ID="STR_QS_Text_407">
+			<Original>Lifting %1</Original>
+			<Spanish>Izando %1</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_408">
-            <Original>Selected deployment unavailable</Original>
+		<Key ID="STR_QS_Text_408">
+			<Original>Selected deployment unavailable</Original>
+			<Spanish>El despliegue seleccionado no está disponible</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_409">
-            <Original>Deployed</Original>
+		<Key ID="STR_QS_Text_409">
+			<Original>Deployed</Original>
+			<Spanish>Desplegado</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_410">
-            <Original>Packed</Original>
+		<Key ID="STR_QS_Text_410">
+			<Original>Packed</Original>
+			<Spanish>Empaquetado</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_411">
-            <Original>Pack up failed</Original>
+		<Key ID="STR_QS_Text_411">
+			<Original>Pack up failed</Original>
+			<Spanish>Fallo al empaquetar</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_412">
-            <Original>Deploy failed</Original>
+		<Key ID="STR_QS_Text_412">
+			<Original>Deploy failed</Original>
+			<Spanish>Fallo al desplegar</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_413">
-            <Original>%1 packed up by %2</Original>
+		<Key ID="STR_QS_Text_413">
+			<Original>%1 packed up by %2</Original>
+			<Spanish>%1 empaquetado por %2</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_414">
-            <Original>%1 deployed by %2</Original>
+		<Key ID="STR_QS_Text_414">
+			<Original>%1 deployed by %2</Original>
+			<Spanish>%1 desplegado por %2</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_415">
-            <Original>Wreck (%1)</Original>
+		<Key ID="STR_QS_Text_415">
+			<Original>Wreck (%1)</Original>
+			<Spanish>Destrozo (%1)</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_416">
-            <Original>Autopilot unavailable</Original>
+			<Original>Autopilot unavailable</Original>
+			<Spanish>Autopiloto no disponible</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_417">
-            <Original>Autohover unavailable</Original>
+		<Key ID="STR_QS_Text_417">
+			<Original>Autohover unavailable</Original>
+			<Spanish>Autohover no disponible</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_418">
-            <Original>Service started</Original>
+		<Key ID="STR_QS_Text_418">
+			<Original>Service started</Original>
+			<Spanish>Servicio iniciado</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_419">
-            <Original>Home deployment set</Original>
+		<Key ID="STR_QS_Text_419">
+			<Original>Home deployment set</Original>
+			<Spanish>Establecido despliegue de inicio</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_420">
-            <Original>Home deployment reset</Original>
+		<Key ID="STR_QS_Text_420">
+			<Original>Home deployment reset</Original>
+			<Spanish>Reiniciado despliegue de inicio</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_421">
-            <Original>Alt Mode OFF</Original>
+		<Key ID="STR_QS_Text_421">
+			<Original>Alt Mode OFF</Original>
+			<Spanish>Modo Alt APAGADO</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_422">
-            <Original>Alt Mode ON</Original>
+		<Key ID="STR_QS_Text_422">
+			<Original>Alt Mode ON</Original>
+			<Spanish>Modo Alt ENCENDIDO</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_423">
-            <Original>Service Completed</Original>
+		<Key ID="STR_QS_Text_423">
+			<Original>Service Completed</Original>
+			<Spanish>Servicio completado</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_424">
-            <Original>Recovering</Original>
+		<Key ID="STR_QS_Text_424">
+			<Original>Recovering</Original>
+			<Spanish>Recuperando</Spanish>
 		</Key>
-       <Key ID="STR_QS_Text_425">
-            <Original>Recovery interrupted</Original>
+		<Key ID="STR_QS_Text_425">
+			<Original>Recovery interrupted</Original>
+			<Spanish>Recuperación interrumpida</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_426">
             <Original>USS Liberty (Destroyer)</Original>
+            <Spanish>USS Liberty (Destructor)</Spanish>
 		</Key>		
        <Key ID="STR_QS_Text_427">
             <Original>USS Freedom (Aircraft Carrier)</Original>
+            <Spanish>USS Freedom (Portaaviones)</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_428">
             <Original>Wrecked</Original>
+            <Spanish>Destruido</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_429">
             <Original>Non-functional</Original>
+            <Spanish>No funcional</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_430">
             <Original>Cannot pack up when other players are within %1 m</Original>
+            <Spanish>No se puede recoger cuando hay otros jugadores dentro de %1 m</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_431">
             <Original>On cooldown</Original>
+            <Spanish>En espera</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_432">
             <Original>Too close to water</Original>
+            <Spanish>Demasiado cerca del agua</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_433">
             <Original>Enemies within 100m</Original>
+            <Spanish>Enemigos dentro de 100m</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_434">
             <Original>The enemy destroyed a deployed asset</Original>
+            <Spanish>El enemigo destruyó un activo desplegado</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_435">
             <Original>Turn on laser</Original>
+            <Spanish>Encender láser</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_436">
             <Original>Turn off laser</Original>
+            <Spanish>Apagar láser</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_437">
             <Original>Laser low power</Original>
+            <Spanish>Láser con poca potencia</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_438">
             <Original>Laser high power</Original>
+            <Spanish>Láser con mucha potencia</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_439">
             <Original>Laser IR</Original>
+            <Spanish>Láser IR</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_440">
             <Original>Laser battery required</Original>
+            <Spanish>Se requiere batería para el láser</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_441">
             <Original>Emitter required (Weaponlight or IR pointer)</Original>
+            <Spanish>Se requiere emisor (luz de arma o puntero IR)</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_442">
             <Original>Laser color set</Original>
+            <Spanish>Configuración de color del láser</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_443">
             <Original>Profile set</Original>
+            <Spanish>Configuración de perfil</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_444">
             <Original>Load disallowed</Original>
+            <Spanish>Carga no permitida</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_445">
             <Original>Cargo Trailer</Original>
+            <Spanish>Remolque de carga</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_446">
             <Original>Color selection disabled</Original>
+            <Spanish>Selección de color desactivada</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_447">
             <Original>Mobile Respawn</Original>
+            <Spanish>Respawn móvil</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_448">
             <Original>Platform Module</Original>
+            <Spanish>Módulo de plataforma</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_449">
             <Original>Patrol Base</Original>
+            <Spanish>Base de patrulla</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_450">
             <Original>Combat Outpost</Original>
+            <Spanish>Puesto de combate</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_451">
             <Original>Forward Operating Base</Original>
+            <Spanish>Base de operaciones avanzada</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_452">
             <Original>Must be Deployed to unload cargo</Original>
+            <Spanish>Debe estar desplegado para descargar carga</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_453">
             <Original>Pilots cannot perform this action</Original>
+            <Spanish>Los pilotos no pueden realizar esta acción</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_454">
             <Original>Enemy nearby - Arsenal unavailable</Original>
+            <Spanish>Enemigo cerca - Arsenal no disponible</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_455">
             <Original>Terrain Leveler</Original>
+            <Spanish>Nivelador de terreno</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_456">
             <Original>Only engineers can use this system</Original>
+            <Spanish>Sólo los ingenieros pueden usar este sistema</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_457">
             <Original>Over budget</Original>
+            <Spanish>Excedido el presupuesto</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_458">
             <Original>Total cap exceeded</Original>
+            <Spanish>Excedido el límite total</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_459">
             <Original>No detected object under cursor</Original>
+            <Spanish>No se ha detectado ningún objeto bajo el cursor</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_460">
             <Original>Light Switch</Original>
+            <Spanish>Interruptor de luz</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_461">
             <Original>Only Riflemen and Engineers can Quick-Build</Original>
+            <Spanish>Sólo los fusileros e ingenieros pueden construir rápidamente</Spanish>
 		</Key>
        <Key ID="STR_QS_Text_462">
             <Original>AMV-7 Bush Hog</Original>
+            <Spanish>Cerdito AMV-7 Bush</Spanish>
 		</Key>
     </Container>
     <Container name="QS_xml_hints">
@@ -6502,15 +6557,20 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Notif_155">
             <Original>Deployments</Original>
+            <Spanish>Despliegues</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_156">
             <Original>Deployment Under Attack</Original>
+            <Spanish>Despliegue bajo ataque</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_157">
             <Original>Enemy Retreating</Original>
+            <Spanish>Enemigo retrocediendo</Spanish>
         </Key>
         <Key ID="STR_QS_Notif_158">
             <Original>Deployment overrun</Original>
+            <Spanish>Despliegue superado</Spanish>
+        </Key>
         </Key>
     </Container>
     <Container name="QS_xml_tasks">
@@ -7667,6 +7727,7 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Marker_072">
             <Original>Wreck Recovery</Original>
+            <Spanish>Recuperación de Naufragios</Spanish>
         </Key>
     </Container>
     <Container name="QS_xml_diary">
@@ -8458,77 +8519,97 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Diary_133">
             <Original>Good hunting!</Original>
+            <Spanish>¡Buena caza!</Spanish>
             <Chinesesimp>祝你好运！</Chinesesimp>
             <Chinese>祝你好運！</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_134">
             <Original>TS3 Server</Original>
+            <Spanish>Servidor TS3</Spanish>
             <Chinesesimp>TS3 服务器</Chinesesimp>
             <Chinese>TS3 伺服器</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_135">
             <Original>Address:</Original>
+            <Spanish>Dirección IP:</Spanish>
             <Chinesesimp>IP地址：</Chinesesimp>
             <Chinese>IP位址：</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_136">
             <Original>Visitors and guests welcome!</Original>
+            <Spanish>¡Bienvenidos visitantes e invitados!</Spanish>
             <Chinesesimp>欢迎访客和客人</Chinesesimp>
             <Chinese>歡迎訪客和客人</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_137">
             <Original>Community Editors</Original>
+            <Spanish>Editores de la comunidad</Spanish>
             <Chinesesimp>社区编辑</Chinesesimp>
             <Chinese>社群編輯</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_138">
             <Original>Your Name Here</Original>
+            <Spanish>Tu nombre aquí</Spanish>
             <Chinesesimp>你的名字在这里</Chinesesimp>
             <Chinese>你的名字在這裡</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_139">
             <Original>Developer</Original>
+            <Spanish>Desarrollador</Spanish>
             <Chinesesimp>开发人员</Chinesesimp>
             <Chinese>開發人員</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_140">
             <Original>Custom</Original>
+            <Spanish>Personalizado</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_141">
             <Original>Weapon Laser</Original>
+            <Spanish>Láser de Arma</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_142">
             <Original>Weapon Holster</Original>
+            <Spanish>Portaarmas</Spanish>
         </Key>	
         <Key ID="STR_QS_Diary_143">
             <Original>Earplugs</Original>
+            <Spanish>Tapones para los Oídos</Spanish>
         </Key>	
         <Key ID="STR_QS_Diary_144">
             <Original>Player Menu</Original>
+            <Spanish>Menú del Jugador</Spanish>
         </Key>	
         <Key ID="STR_QS_Diary_145">
             <Original>Admin Menu + Zeus Sync</Original>
+            <Spanish>Menú de Administrador + Sincronización de Zeus</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_146">
             <Original>Aircraft Collision Lights</Original>
+            <Spanish>Luces de Colisión de Aeronaves</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_147">
             <Original>Force AI Dismount</Original>
+            <Spanish>Forzar Descenso de la IA</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_148">
             <Original>Ropes Longer</Original>
+            <Spanish>Cuerdas más largas</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_149">
             <Original>Ropes Shorter</Original>
+            <Spanish>Cuerdas más cortas</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_150">
             <Original>Extended Context Menu</Original>
+            <Spanish>Menú de Contexto Extendido</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_151">
             <Original>N/A</Original>
+            <Spanish>N/D</Spanish>
         </Key>
         <Key ID="STR_QS_Diary_152">
             <Original>[Windows Key]</Original>
+            <Spanish>[Tecla de Windows]</Spanish>
         </Key>
     </Container>
     <Container name="QS_xml_menus">
@@ -10233,9 +10314,7 @@ _____________________________________________________________-->
             <Chinese>不能選擇角色</Chinese>
             <Spanish>Rol deshabilitado</Spanish>
         </Key>
-        Added Spanish translations:
-
-<Key ID="STR_QS_Dialogs_014">
+		<Key ID="STR_QS_Dialogs_014">
             <Original>This role is currently disabled!</Original>
             <Chinesesimp>服务器当前不允许选择该角色。</Chinesesimp>
             <Chinese>伺服器目前不允許選擇該角色。</Chinese>
