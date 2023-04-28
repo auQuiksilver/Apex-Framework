@@ -1,0 +1,22 @@
+Custom:
+
+User1 - 
+User2 - 
+User3 -
+User4 -
+User5 -
+User6 -
+User7 - Weapon Laser
+User8 - Holster
+User9 - Earplugs
+User10 - Player Menu
+User11 - Admin Menu / Zeus Sync
+User12 -
+User13 -
+User14 - Aircraft Collision Lights
+User15 - Force (Dis)mount AI
+User16 - 
+User17 - Ropes Lengthen
+User18 - Ropes Shorten
+User19 -
+User20 - Extended Context Menu

@@ -127,5 +127,6 @@ ___________________________________________/*/
 	localize 'STR_QS_Interact_043',			// Set Cruise Control
 	localize 'STR_QS_Interact_094',			// Take controls
 	localize 'STR_QS_Interact_044',			// Open Parachute
-	localize 'STR_QS_Interact_028'			// Take beret
+	localize 'STR_QS_Interact_028',			// Take beret
+	localize 'STR_QS_Interact_118'			// Cut Loose
 ]

@@ -22,8 +22,8 @@ if (!isNull _killer) then {
 	if (isPlayer _killer) then {
 		if ((vehicle _killer) isNotEqualTo _killed) then {
 			if ((_killed distance (markerPos 'QS_marker_base_marker')) < 600) then {
-				_vTypeName = getText (configFile >> 'CfgVehicles' >> (typeOf _killed) >> 'displayName');
-				_kTypeName = getText (configFile >> 'CfgVehicles' >> (typeOf _killer) >> 'displayName');
+				_vTypeName = getText ((configOf _killed) >> 'displayName');
+				_kTypeName = getText ((configOf _killer) >> 'displayName');
 				_isGunner = FALSE;
 				if ((_vKiller distance _killed) > 15) then {
 					_isGunner = TRUE;

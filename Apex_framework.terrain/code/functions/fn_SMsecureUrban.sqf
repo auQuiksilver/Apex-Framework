@@ -430,48 +430,31 @@ _QS_approvedBuildingTypes = [
 	'Land_Shed_14_F',
 	'Land_Shed_10_F'
 ];
-if (worldName isEqualTo 'Tanoa') then {
-	_QS_urbanEnemyUnits = [
-		"I_C_Soldier_Bandit_7_F","I_C_Soldier_Bandit_3_F","I_C_Soldier_Bandit_2_F","I_C_Soldier_Bandit_5_F","I_C_Soldier_Bandit_6_F",
-		"I_C_Soldier_Bandit_1_F","I_C_Soldier_Bandit_8_F","I_C_Soldier_Bandit_4_F","I_C_Soldier_Para_7_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F",
-		"I_C_Soldier_Para_4_F","I_C_Soldier_Para_6_F","I_C_Soldier_Para_8_F","I_C_Soldier_Para_1_F","I_C_Soldier_Para_5_F",'O_T_Soldier_AA_F','O_T_Soldier_AT_F'
-	];
-	_QS_civilianTypes = [
-		"C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan",
-		"C_Man_casual_6_F_tanoan","C_man_sport_1_F_tanoan"
-	];
-	_QS_civVehicleArrayRsc = [
-		"C_Truck_02_covered_F","I_Truck_02_transport_F","C_Offroad_01_F",
-		"C_Offroad_01_repair_F","C_Quadbike_01_F","C_Truck_02_box_F","C_Truck_02_fuel_F","C_Truck_02_transport_F",
-		"C_Offroad_01_F","C_Offroad_01_F","C_SUV_01_F","C_SUV_01_F","C_SUV_01_F","C_Offroad_02_unarmed_F","C_Offroad_02_unarmed_F","C_Offroad_02_unarmed_F","C_Offroad_02_unarmed_F"
-	];
-} else {
-	_QS_urbanEnemyUnits = [
-		'O_soldierU_A_F','O_soldierU_AAR_F','O_soldierU_AR_F','O_soldierU_medic_F','O_engineer_U_F','O_soldierU_exp_F','O_SoldierU_GL_F',
-		'O_Urban_HeavyGunner_F','O_soldierU_M_F','O_soldierU_AA_F','O_soldierU_AT_F','O_soldierU_F','O_soldierU_LAT_F','O_Urban_Sharpshooter_F',
-		'O_SoldierU_SL_F','O_soldierU_TL_F'
-	];
-	_QS_civilianTypes = [
-		"C_man_p_beggar_F","C_man_1","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F",
-		"C_man_polo_6_F","C_man_shorts_1_F","C_man_1_1_F","C_man_1_2_F","C_man_1_3_F","C_man_p_fugitive_F","C_man_p_shorts_1_F",
-		"C_man_hunter_1_F","C_man_w_worker_F","C_man_shorts_2_F","C_man_shorts_3_F","C_man_shorts_4_F","C_man_p_beggar_F_afro",
-		"C_man_polo_1_F_afro","C_man_polo_2_F_afro","C_man_polo_3_F_afro","C_man_polo_4_F_afro","C_man_polo_5_F_afro",
-		"C_man_polo_6_F_afro","C_man_shorts_1_F_afro","C_man_p_shorts_1_F_afro","C_man_shorts_2_F_afro","C_man_shorts_3_F_afro",
-		"C_man_shorts_4_F_afro","C_man_p_beggar_F","C_man_1","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F",
-		"C_man_polo_5_F","C_man_polo_6_F","C_man_shorts_1_F","C_man_1_1_F","C_man_1_2_F","C_man_1_3_F","C_man_p_shorts_1_F",
-		"C_man_hunter_1_F","C_man_p_beggar_F_asia","C_man_polo_1_F_asia","C_man_polo_2_F_asia","C_man_polo_3_F_asia",
-		"C_man_polo_4_F_asia","C_man_polo_5_F_asia","C_man_polo_6_F_asia","C_man_shorts_1_F_asia","C_man_p_shorts_1_F_asia",
-		"C_man_shorts_2_F_asia","C_man_shorts_3_F_asia","C_man_shorts_4_F_asia","C_man_p_beggar_F_euro","C_man_polo_1_F_euro",
-		"C_man_polo_2_F_euro","C_man_polo_3_F_euro","C_man_polo_4_F_euro","C_man_polo_5_F_euro","C_man_polo_6_F_euro",
-		"C_man_shorts_1_F_euro","C_man_p_shorts_1_F_euro","C_man_shorts_2_F_euro","C_man_shorts_3_F_euro","C_man_shorts_4_F_euro"
-	];
-	_QS_civVehicleArrayRsc = [
-		"C_Truck_02_covered_F","I_Truck_02_transport_F","C_Offroad_01_F",
-		"C_Offroad_01_repair_F","C_Quadbike_01_F","C_Truck_02_box_F","C_Truck_02_fuel_F","C_Truck_02_transport_F",
-		"C_Offroad_01_F","C_Offroad_01_F","C_SUV_01_F","C_SUV_01_F","C_SUV_01_F"
-	];
-};
-
+_QS_urbanEnemyUnits = [
+	'O_soldierU_A_F','O_soldierU_AAR_F','O_soldierU_AR_F','O_soldierU_medic_F','O_engineer_U_F','O_soldierU_exp_F','O_SoldierU_GL_F',
+	'O_Urban_HeavyGunner_F','O_soldierU_M_F','O_soldierU_AA_F','O_soldierU_AT_F','O_soldierU_F','O_soldierU_LAT_F','O_Urban_Sharpshooter_F',
+	'O_SoldierU_SL_F','O_soldierU_TL_F'
+];
+_QS_civilianTypes = [
+	"C_man_p_beggar_F","C_man_1","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F",
+	"C_man_polo_6_F","C_man_shorts_1_F","C_man_1_1_F","C_man_1_2_F","C_man_1_3_F","C_man_p_fugitive_F","C_man_p_shorts_1_F",
+	"C_man_hunter_1_F","C_man_w_worker_F","C_man_shorts_2_F","C_man_shorts_3_F","C_man_shorts_4_F","C_man_p_beggar_F_afro",
+	"C_man_polo_1_F_afro","C_man_polo_2_F_afro","C_man_polo_3_F_afro","C_man_polo_4_F_afro","C_man_polo_5_F_afro",
+	"C_man_polo_6_F_afro","C_man_shorts_1_F_afro","C_man_p_shorts_1_F_afro","C_man_shorts_2_F_afro","C_man_shorts_3_F_afro",
+	"C_man_shorts_4_F_afro","C_man_p_beggar_F","C_man_1","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F",
+	"C_man_polo_5_F","C_man_polo_6_F","C_man_shorts_1_F","C_man_1_1_F","C_man_1_2_F","C_man_1_3_F","C_man_p_shorts_1_F",
+	"C_man_hunter_1_F","C_man_p_beggar_F_asia","C_man_polo_1_F_asia","C_man_polo_2_F_asia","C_man_polo_3_F_asia",
+	"C_man_polo_4_F_asia","C_man_polo_5_F_asia","C_man_polo_6_F_asia","C_man_shorts_1_F_asia","C_man_p_shorts_1_F_asia",
+	"C_man_shorts_2_F_asia","C_man_shorts_3_F_asia","C_man_shorts_4_F_asia","C_man_p_beggar_F_euro","C_man_polo_1_F_euro",
+	"C_man_polo_2_F_euro","C_man_polo_3_F_euro","C_man_polo_4_F_euro","C_man_polo_5_F_euro","C_man_polo_6_F_euro",
+	"C_man_shorts_1_F_euro","C_man_p_shorts_1_F_euro","C_man_shorts_2_F_euro","C_man_shorts_3_F_euro","C_man_shorts_4_F_euro"
+];
+_QS_civVehicleArrayRsc = [
+	"C_Truck_02_covered_F","I_Truck_02_transport_F","C_Offroad_01_F",
+	"C_Offroad_01_repair_F","C_Quadbike_01_F","C_Truck_02_box_F","C_Truck_02_fuel_F","C_Truck_02_transport_F",
+	"C_Offroad_01_F","C_Offroad_01_F","C_SUV_01_F","C_SUV_01_F","C_SUV_01_F"
+];
+_QS_civilianTypes = missionNamespace getVariable ['QS_core_civilians_list',['C_man_1']];
 _QS_locationsUrban = _QS_locationsUrban call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 _QS_locationsUrban = _QS_locationsUrban call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 
@@ -530,7 +513,7 @@ _index = 1;
 		_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		for '_x' from 0 to (_QS_inBuildingCount - 1) step 1 do {
 			_QS_unitType = selectRandom _QS_urbanEnemyUnits;
-			_QS_unit = _QS_eastGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
+			_QS_unit = _QS_eastGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_unitType,_QS_unitType],[0,0,0],[],0,'NONE'];
 			_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_QS_spawnPos = selectRandom _QS_buildingPositions1;
 			_QS_unit setPos _QS_spawnPos;
@@ -575,7 +558,7 @@ _index = 1;
 		_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		for '_x' from 0 to (_QS_inBuildingCount - 1) step 1 do {
 			_QS_unitType = selectRandom _QS_urbanEnemyUnits;
-			_QS_unit = _QS_eastGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
+			_QS_unit = _QS_eastGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_unitType,_QS_unitType],[0,0,0],[],0,'NONE'];
 			_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_QS_spawnPos = selectRandom _QS_buildingPositions2;
 			_QS_unit setPos _QS_spawnPos;
@@ -620,7 +603,7 @@ _index = 1;
 		_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		for '_x' from 0 to (_QS_inBuildingCount - 1) step 1 do {
 			_QS_unitType = selectRandom _QS_urbanEnemyUnits;
-			_QS_unit = _QS_eastGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
+			_QS_unit = _QS_eastGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_unitType,_QS_unitType],[0,0,0],[],0,'NONE'];
 			_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_QS_spawnPos = selectRandom _QS_buildingPositions3;
 			_QS_unit setPos _QS_spawnPos;
@@ -653,7 +636,7 @@ _QS_garrisonGrp = createGroup [EAST,TRUE];
 _QS_garrisonGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 for '_x' from 0 to (_QS_garrisonCount - 1) do {
 	_QS_unitType = selectRandom _QS_urbanEnemyUnits;
-	_QS_unit = _QS_garrisonGrp createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
+	_QS_unit = _QS_garrisonGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_unitType,_QS_unitType],[0,0,0],[],0,'NONE'];
 	_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_QS_unit enableStamina FALSE;
 	_QS_buildingPos = selectRandom _QS_allBuildingPositions;
@@ -677,7 +660,7 @@ for '_x' from 0 to (_QS_patrolCount - 1) step 1 do {
 	_QS_patrolGroup = createGroup [EAST,TRUE];
 	for '_x' from 0 to 1 step 1 do {
 		_QS_unitType = selectRandom _QS_urbanEnemyUnits;
-		_QS_unit = _QS_patrolGroup createUnit [_QS_unitType,[0,0,0],[],0,'NONE'];
+		_QS_unit = _QS_patrolGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_unitType,_QS_unitType],[0,0,0],[],0,'NONE'];
 		_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		_QS_unit enableStamina FALSE;
 		_QS_unit setPos _wp1Pos;
@@ -1008,7 +991,7 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_eastGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			for '_x' from 0 to 3 step 1 do {
 				_QS_unitType = selectRandom _QS_urbanEnemyUnits;
-				_QS_unit = _QS_eastGrp createUnit [_QS_unitType,_QS_spawnPos,[],0,'FORM'];
+				_QS_unit = _QS_eastGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_unitType,_QS_unitType],_QS_spawnPos,[],0,'FORM'];
 				_QS_unit = _QS_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				0 = _QS_allArray pushBack _QS_unit;
 				0 = _QS_enemyArray pushBack _QS_unit;		

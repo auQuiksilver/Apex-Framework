@@ -21,7 +21,7 @@ if (_case isEqualTo 1) then {
 		_taskAuthor = _params # 1;
 		_taskAuthorClass = _params # 2;
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
-		private _description = format ['Destroy a(n) %1.',(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName'))];
+		private _description = format ['Destroy a(n) %1.',(getText ((configOf _entity) >> 'displayName'))];
 		if (_isRx) then {
 			_description = format ['%1 Task created by %2 ( %3 ).',_description,_taskAuthor,_taskAuthorClass];
 		};
@@ -287,7 +287,7 @@ if (_case isEqualTo 1) then {
 		_taskAuthorName = _params # 1;
 		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
 		_timeout = diag_tickTime + 900;
-		private _description = format ['%1 has requested CAS/Artillery on a(n) %2. This task will expire in 15 minutes.',_taskAuthorName,(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName'))];
+		private _description = format ['%1 has requested CAS/Artillery on a(n) %2. This task will expire in 15 minutes.',_taskAuthorName,(getText ((configOf _entity) >> 'displayName'))];
 		_array = [
 			_taskID,
 			'ADD',

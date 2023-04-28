@@ -14,3 +14,7 @@ Description:
 _______________________________________________________/*/
 
 params ['_parentVehicle','_cargoVehicle'];
+if ((ropes _cargoVehicle) isNotEqualTo []) then {
+	['ropeDestroy',ropes _cargoVehicle] remoteExecCall ['QS_fnc_remoteExecCmd',_cargoVehicle,FALSE];
+};
+[_parentVehicle,TRUE,TRUE] call QS_fnc_updateCenterOfMass;

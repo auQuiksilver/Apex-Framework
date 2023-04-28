@@ -21,11 +21,7 @@ private [
 
 _infTeams = ["OG_InfSentry","OG_InfSquad","OG_InfSquad_Weapons","OG_InfTeam","OG_InfTeam_AT","OG_ReconSentry","OG_SniperTeam_M"];
 _vehTypes = ["O_G_Offroad_01_armed_F"];
-if (worldName isEqualTo 'Tanoa') then {
-	_aaType = 'O_T_APC_Tracked_02_AA_ghex_F';
-} else {
-	_aaType = 'O_APC_Tracked_02_AA_F';
-};
+_aaType = 'O_APC_Tracked_02_AA_F';
 _enemiesArray = [];
 _x = 0;
 _pos = getPosATL (_this # 0);
@@ -72,7 +68,7 @@ for '_x' from 0 to 2 do {
 	
 for '_x' from 0 to 2 do {
 	_randomPos = ['RADIUS',_pos,300,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	_SMveh = createVehicle ['O_G_Offroad_01_armed_F',_randomPos,[],0,'NONE'];
+	_SMveh = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI 'O_G_Offroad_01_armed_F','O_G_Offroad_01_armed_F'],_randomPos,[],0,'NONE'];
 	_SMveh lock 3;
 	_SMveh allowCrewInImmobile [TRUE,TRUE];
 	_SMveh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
@@ -99,7 +95,7 @@ for '_x' from 0 to 2 do {
 if ((count allPlayers) > 25) then {
 	for '_x' from 0 to 1 do {
 		_randomPos = ['RADIUS',_pos,300,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		_SMaa = createVehicle [_aaType,_randomPos,[],0,'NONE'];
+		_SMaa = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _aaType,_aaType],_randomPos,[],0,'NONE'];
 		_SMaa allowCrewInImmobile [TRUE,TRUE];
 		_SMaa addEventHandler ['GetOut',(missionNamespace getVariable 'QS_fnc_AIXDismountDisabled')];
 		_SMaa addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
@@ -140,7 +136,7 @@ if (worldName isEqualTo 'Tanoa') then {
 _garrisonGrp = createGroup [EAST,TRUE];
 for '_x' from 0 to 7 step 1 do {
 	_unitType = selectRandom _unitTypes;
-	_unit = _garrisonGrp createUnit [_unitType,_pos,[],0,'FORM'];
+	_unit = _garrisonGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_pos,[],0,'FORM'];
 	0 = _enemiesArray pushBack _unit;
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');

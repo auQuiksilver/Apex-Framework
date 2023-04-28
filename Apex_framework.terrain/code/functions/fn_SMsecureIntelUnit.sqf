@@ -23,17 +23,10 @@ private [
 	"_position","_accepted","_fuzzyPos","_briefing","_escapeWP","_meetingPos",'_crewUnitType'
 ];
 
-if (worldName isEqualTo 'Tanoa') then {
-	_objVehTypes = ["I_C_Van_01_transport_F","I_C_Offroad_02_unarmed_F","O_T_MRAP_02_ghex_F","O_T_LSV_02_unarmed_F","I_MRAP_03_F"];
-	_altVehTypes = ["O_T_MRAP_02_ghex_F"];
-	_objUnitTypes = ["O_T_Officer_F","I_officer_F"];
-	_crewUnitType = 'O_T_crew_F';
-} else {
-	_objVehTypes = ["O_MRAP_02_F","I_MRAP_03_F","O_MRAP_02_F","C_Offroad_01_F","C_SUV_01_F","C_Van_01_transport_F"];
-	_altVehTypes = ["O_MRAP_02_F"];
-	_objUnitTypes = ["O_officer_F","I_officer_F"];
-	_crewUnitType = 'O_crew_F';
-};
+_objVehTypes = ["O_MRAP_02_F","I_MRAP_03_F","O_MRAP_02_F","C_Offroad_01_F","C_SUV_01_F","C_Van_01_transport_F"];
+_altVehTypes = ["O_MRAP_02_F"];
+_objUnitTypes = ["O_officer_F","I_officer_F"];
+_crewUnitType = 'O_crew_F';
 
 _chaseTime = 0;
 _chaseTimer = 1200;
@@ -79,15 +72,15 @@ _cGroup = createGroup [EAST,TRUE];
 /*/--------- INTEL OBJ/*/
 
 _objVehType = selectRandom _objVehTypes;
-_obj1 = createVehicle [_objVehType,_flatPos1,[],0,'NONE'];
+_obj1 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _objVehType,_objVehType],_flatPos1,[],0,'NONE'];
 _obj1 setDir (random 360);
 _obj1 enableRopeAttach FALSE;
 _obj1 enableVehicleCargo FALSE;
 _obj1 setVectorUp (surfaceNormal (getPosWorld _obj1));
 _obj1 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _objUnitType = selectRandom _objUnitTypes;
-_intelObj = _aGroup createUnit [_objUnitType,_flatPos1,[],0,'NONE'];
-_intelDriver = _aGroup createUnit [_crewUnitType,_flatPos1,[],0,'NONE'];
+_intelObj = _aGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _objUnitType,_objUnitType],_flatPos1,[],0,'NONE'];
+_intelDriver = _aGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _crewUnitType,_crewUnitType],_flatPos1,[],0,'NONE'];
 _intelDriver = _intelDriver call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _intelObj assignAsCargo _obj1;
 
@@ -103,8 +96,8 @@ _intelObj addEventHandler [
 		if (QS_sideMissionUp) then {
 			if (isPlayer _killer) then {
 				_killerType = typeOf (vehicle _killer);
-				_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
-				_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
+				_killerDisplayName = getText ((configOf (vehicle _killer)) >> 'displayName');
+				_objDisplayName = getText ((configOf _object) >> 'displayName');
 				_name = name _killer;
 				['sideChat',[WEST,'BLU'],format ['%1 %2',_name,localize 'STR_QS_Chat_070']] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			};
@@ -116,15 +109,15 @@ _intelObj setAnimSpeedCoef 0.8;
 /*/--------- OBJ 2 /*/
 
 _objVehType = selectRandom _objVehTypes;
-_obj2 = createVehicle [_objVehType,_flatPos2,[],0,'NONE'];
+_obj2 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _objVehType,_objVehType],_flatPos2,[],0,'NONE'];
 _obj2 setDir (random 360);
 _obj2 enableRopeAttach FALSE;
 _obj2 enableVehicleCargo FALSE;
 _obj2 setVectorUp (surfaceNormal (getPosWorld _obj2));
 _obj2 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _objUnitType = selectRandom _objUnitTypes;
-_decoy1 = _bGroup createUnit [_objUnitType,_flatPos1,[],0,'NONE'];
-_decoyDriver1 = _bGroup createUnit [_crewUnitType,_flatPos1,[],0,'NONE'];
+_decoy1 = _bGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _objUnitType,_objUnitType],_flatPos1,[],0,'NONE'];
+_decoyDriver1 = _bGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _crewUnitType,_crewUnitType],_flatPos1,[],0,'NONE'];
 _decoyDriver1 = _decoyDriver1 call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _decoy1 assignAsCargo _obj2;
 _decoyDriver1 assignAsDriver _obj2;
@@ -133,15 +126,15 @@ _decoyDriver1 moveInDriver _obj2;
 /*/-------- OBJ 3/*/
 
 _altVehType = selectRandom _altVehTypes;
-_obj3 = createVehicle [_altVehType,_flatPos3,[],0,'NONE'];
+_obj3 = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _altVehType,_altVehType],_flatPos3,[],0,'NONE'];
 _obj3 setDir (random 360);
 _obj3 enableRopeAttach FALSE;
 _obj3 enableVehicleCargo FALSE;
 _obj3 setVectorUp (surfaceNormal (getPosWorld _obj3));
 _obj3 setVariable ['QS_reportTarget_disable',TRUE,TRUE];
 _objUnitType = selectRandom _objUnitTypes;
-_decoy2 = _cGroup createUnit [_objUnitType,_flatPos1,[],0,'NONE'];
-_decoyDriver2 = _cGroup createUnit [_crewUnitType,_flatPos1,[],0,'NONE'];
+_decoy2 = _cGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _objUnitType,_objUnitType],_flatPos1,[],0,'NONE'];
+_decoyDriver2 = _cGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _crewUnitType,_crewUnitType],_flatPos1,[],0,'NONE'];
 _decoyDriver2 = _decoyDriver2 call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _decoy2 assignAsCargo _obj3;
 _decoyDriver2 assignAsDriver _obj3;

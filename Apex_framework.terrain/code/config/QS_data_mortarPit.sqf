@@ -56,6 +56,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 					};
 				}
 			];
+			_mortar addEventHandler [
+				'GetOut',
+				{
+					_mortar = _this # 0;
+					_mortar setDamage [1,FALSE];
+				}
+			];
 			(gunner _mortar) addEventHandler [
 				'Killed',
 				{
@@ -150,6 +157,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 					};
 				}
 			];
+			_mortar addEventHandler [
+				'GetOut',
+				{
+					_mortar = _this # 0;
+					_mortar setDamage [1,FALSE];
+				}
+			];
 			(gunner _mortar) addEventHandler [
 				'Killed',
 				{
@@ -236,6 +250,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 					if (!isNull (gunner _mortar)) then {
 						(gunner _mortar) setDamage 1;
 					};
+				}
+			];
+			_mortar addEventHandler [
+				'GetOut',
+				{
+					_mortar = _this # 0;
+					_mortar setDamage [1,FALSE];
 				}
 			];
 			(gunner _mortar) addEventHandler [
@@ -364,6 +385,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				};
 			}
 		];
+		_mortar addEventHandler [
+			'GetOut',
+			{
+				_mortar = _this # 0;
+				_mortar setDamage [1,FALSE];
+			}
+		];
 		(gunner _mortar) addEventHandler [
 			'Killed',
 			{
@@ -451,6 +479,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				};
 			}
 		];
+		_mortar addEventHandler [
+			'GetOut',
+			{
+				_mortar = _this # 0;
+				_mortar setDamage [1,FALSE];
+			}
+		];
 		(gunner _mortar) addEventHandler [
 			'Killed',
 			{
@@ -536,6 +571,13 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 				if (!isNull (gunner _mortar)) then {
 					(gunner _mortar) setDamage 1;
 				};
+			}
+		];
+		_mortar addEventHandler [
+			'GetOut',
+			{
+				_mortar = _this # 0;
+				_mortar setDamage [1,FALSE];
 			}
 		];
 		(gunner _mortar) addEventHandler [

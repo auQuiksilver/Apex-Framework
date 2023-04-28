@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	6/10/2018 A3 1.84 by Quiksilver
+	29/11/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -39,26 +39,7 @@ if (_type isEqualTo 0) exitWith {
 		private _analyze = _true;
 		private _threat_armor = [];
 		private _threat_air = [];
-		private _allJetTypes = [
-			'b_plane_cas_01_f',
-			'b_plane_cas_01_dynamicloadout_f',
-			'b_plane_cas_01_cluster_f',
-			'b_plane_fighter_01_f',
-			'b_plane_fighter_01_stealth_f',
-			'b_plane_fighter_01_cluster_f',
-			'o_plane_cas_02_f',
-			'o_plane_cas_02_dynamicloadout_f',
-			'o_plane_cas_02_cluster_f',
-			'o_plane_fighter_02_f',
-			'o_plane_fighter_02_stealth_f',
-			'o_plane_fighter_02_cluster_f',
-			'i_plane_fighter_03_aa_f',
-			'i_plane_fighter_03_cas_f',
-			'i_plane_fighter_03_dynamicloadout_f',
-			'i_plane_fighter_03_cluster_f',
-			'i_plane_fighter_04_f',
-			'i_plane_fighter_04_cluster_f'
-		];
+		private _allJetTypes = ['cas_plane'] call QS_data_listVehicles;
 		_basePosition = markerPos 'QS_marker_base_marker';
 		_baseRadius = 1000;
 		for '_x' from 0 to 1 step 0 do {
@@ -89,29 +70,28 @@ if (_type isEqualTo 0) exitWith {
 										'_positionError',
 										'_targetPosition'
 									];
-									if (_knownByGroup) then {
-										if ((_targetPosition distance2D _basePosition) > _baseRadius) then {
-											if ((_positionError <= 50) || {(_knownVehicle isKindOf 'Air')}) then {		// <= 10
-												if (_targetPosition isNotEqualTo [0,0,0]) then {
-													_targetIndexMem = (missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') findIf {((_x # 2) isEqualTo _knownVehicle)};
-													if (_targetIndexMem isEqualTo -1) then {
-														if ((_knownVehicle isKindOf 'Tank') || {(_knownVehicle isKindOf 'Wheeled_APC_F')}) then {
-															_threat_armor pushBackUnique _knownVehicle;
-														} else {
-															if ((toLowerANSI (typeOf _knownVehicle)) in _allJetTypes) then {
-																_threat_air pushBackUnique _knownVehicle;
-															};
-														};
-														(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') pushBack [_knownUnit,_targetPosition,_knownVehicle,(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit),(_east knowsAbout _knownVehicle)];
-													} else {
-														_targetElement = ((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') # _targetIndexMem);
-														_positionErrorMem = _targetElement # 3;
-														if ((_positionError < _positionErrorMem) || {((_time - _timeLastSeen) > 60)}) then {
-															_targetElement = [_knownUnit,_targetPosition,_knownVehicle,(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit),(_east knowsAbout _knownVehicle)];
-															(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') set [_targetIndexMem,_targetElement];
-														};
-													};
+									if (
+										(_knownByGroup) &&
+										{((_targetPosition distance2D _basePosition) > _baseRadius)} &&
+										{((_positionError <= 50) || {(_knownVehicle isKindOf 'Air')})} &&
+										{(_targetPosition isNotEqualTo [0,0,0])}
+									) then {
+										_targetIndexMem = (missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') findIf {((_x # 2) isEqualTo _knownVehicle)};
+										if (_targetIndexMem isEqualTo -1) then {
+											if ((_knownVehicle isKindOf 'Tank') || {(_knownVehicle isKindOf 'Wheeled_APC_F')}) then {
+												_threat_armor pushBackUnique _knownVehicle;
+											} else {
+												if ((toLowerANSI (typeOf _knownVehicle)) in _allJetTypes) then {
+													_threat_air pushBackUnique _knownVehicle;
 												};
+											};
+											(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') pushBack [_knownUnit,_targetPosition,_knownVehicle,(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit),(_east knowsAbout _knownVehicle)];
+										} else {
+											_targetElement = ((missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') # _targetIndexMem);
+											_positionErrorMem = _targetElement # 3;
+											if ((_positionError < _positionErrorMem) || {((_time - _timeLastSeen) > 60)}) then {
+												_targetElement = [_knownUnit,_targetPosition,_knownVehicle,(parseNumber (_positionError toFixed 3)),_unit,(parseNumber ((_time - _timeLastSeen) toFixed 3)),(rating _knownUnit),(_east knowsAbout _knownVehicle)];
+												(missionNamespace getVariable 'QS_AI_targetsKnowledge_EAST') set [_targetIndexMem,_targetElement];
 											};
 										};
 									};
@@ -191,26 +171,30 @@ if (_type isEqualTo 3) exitWith {
 	private _vehicle = objNull;
 	private _val = -1;
 	private _vehicles = [];
+	private _vehicleClass = '';
 	{
 		_vehicle = _x # 2;
-		if (alive _vehicle) then {
-			if (!(_vehicle isKindOf 'Man')) then {
-				if (((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1) then {
-					if ((_vehicle distance2D _position) < _radius) then {
-						if (!(_vehicle in _vehicles)) then {
-							_val = _vehicle getVariable ['QS_vehicle_armored',-1];
-							if (_val isEqualType -1) then {
-								_val = (toLowerANSI (getText (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'vehicleClass'))) in ['armored'];
-								_vehicle setVariable ['QS_vehicle_armored',_val,QS_system_AI_owners];
-							};
-							if (_val isEqualType FALSE) then {
-								if (_val) then {
-									_return = _return + 1;
-									_vehicles pushBack _vehicle;
-								};
-							};
-						};
-					};
+		if (
+			(alive _vehicle) &&
+			{(!(_vehicle isKindOf 'Man'))} &&
+			{(((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1)} &&
+			{((_vehicle distance2D _position) < _radius)} &&
+			{(!(_vehicle in _vehicles))}
+		) then {
+			_val = _vehicle getVariable ['QS_vehicle_armored',-1];
+			if (_val isEqualType -1) then {
+				_vehicleClass = QS_hashmap_configfile getOrDefaultCall [
+					format ['cfgvehicles_%1_vehicleclass',toLowerANSI (typeOf _vehicle)],
+					{(toLowerANSI (getText ((configOf _vehicle) >> 'vehicleClass')))},
+					TRUE
+				];
+				_val = _vehicleClass in ['armored'];
+				_vehicle setVariable ['QS_vehicle_armored',_val,QS_system_AI_owners];
+			};
+			if (_val isEqualType FALSE) then {
+				if (_val) then {
+					_return = _return + 1;
+					_vehicles pushBack _vehicle;
 				};
 			};
 		};
@@ -223,24 +207,29 @@ if (_type isEqualTo 4) exitWith {
 	private _vehicle = objNull;
 	private _val = -1;
 	private _vehicles = [];
+	private _supportTypes = [];
 	{
 		_vehicle = _x # 2;
-		if (alive _vehicle) then {
-			if (_vehicle isKindOf 'Plane') then {
-				if (alive (effectiveCommander _vehicle)) then {
-					if (!(_vehicle in _vehicles)) then {
-						_val = _vehicle getVariable ['QS_vehicle_isCAS',-1];
-						if (_val isEqualType -1) then {
-							_val = 'CAS_Bombing' in (getArray (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'availableForSupportTypes'));
-							_vehicle setVariable ['QS_vehicle_isCAS',_val,QS_system_AI_owners];
-						};
-						if (_val isEqualType FALSE) then {
-							if (_val) then {
-								_return = _return + 1;
-								_vehicles pushBack _vehicle;
-							};
-						};
-					};
+		if (
+			(alive _vehicle) &&
+			{(_vehicle isKindOf 'Plane')} &&
+			{(alive (effectiveCommander _vehicle))} &&
+			{(!(_vehicle in _vehicles))}
+		) then {
+			_val = _vehicle getVariable ['QS_vehicle_isCAS',-1];
+			if (_val isEqualType -1) then {
+				_supportTypes = QS_hashmap_configfile getOrDefaultCall [
+					format ['cfgvehicles_%1_availableforsupporttypes',toLowerANSI (typeOf _vehicle)],
+					{(getArray ((configOf _vehicle) >> 'availableForSupportTypes')) apply {toLowerANSI _x}},
+					TRUE
+				];
+				_val = 'cas_bombing' in _supportTypes;
+				_vehicle setVariable ['QS_vehicle_isCAS',_val,QS_system_AI_owners];
+			};
+			if (_val isEqualType FALSE) then {
+				if (_val) then {
+					_return = _return + 1;
+					_vehicles pushBack _vehicle;
 				};
 			};
 		};
@@ -276,18 +265,15 @@ if (_type isEqualTo 6) exitWith {
 		_targetsKnowledge = missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]];
 		{
 			_vehicle = _x # 2;
-			if (alive _vehicle) then {
-				if (isTouchingGround _vehicle) then {
-					if (_vehicle isKindOf 'AllVehicles') then {
-						if (!(_vehicle isKindOf 'CAManBase')) then {
-							if ((_vehicle distance2D _position) < _radius) then {
-								if (((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1) then {
-									_vehicles pushBackUnique _vehicle;
-								};
-							};
-						};
-					};
-				};
+			if (
+				(alive _vehicle) &&
+				{(isTouchingGround _vehicle)} &&
+				{(_vehicle isKindOf 'AllVehicles')} &&
+				{(!(_vehicle isKindOf 'CAManBase'))} &&
+				{((_vehicle distance2D _position) < _radius)} &&
+				{(((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1)}
+			) then {
+				_vehicles pushBackUnique _vehicle;
 			};
 		} forEach _targetsKnowledge;
 	};
@@ -367,35 +353,34 @@ if (_type isEqualTo 9) exitWith {
 			if ((random 1) > 0.25) then {
 				_targetEntity = _x # 0;
 				_targetVehicle = _x # 2;
-				if (alive _targetVehicle) then {
-					if (((crew _targetVehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1) then {
-						if ((_targetVehicle isKindOf 'LandVehicle') || {(_targetVehicle isKindOf 'Air')}) then {
-							if (alive _targetEntity) then {
-								if ((_targetEntity distance2D _grpLeader) < 1000) then {
-									if ((_grp knowsAbout _targetEntity) < 1) then {
-										_return pushBack _targetEntity;
-										_grp reveal [_targetEntity,(random [2,3,4])];
-									};
-									if ((_grp knowsAbout _targetVehicle) < 1) then {
-										_return pushBackUnique _targetVehicle;
-										_grp reveal [_targetVehicle,(random [2,3,4])];
-									};
-								};
-							};
-						};
+				
+				if (
+					(alive _targetVehicle) &&
+					{(((crew _targetVehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1)} &&
+					{((_targetVehicle isKindOf 'LandVehicle') || {(_targetVehicle isKindOf 'Air')})} &&
+					{(alive _targetEntity)} &&
+					{((_targetEntity distance2D _grpLeader) < 1000)}
+				) then {
+					if ((_grp knowsAbout _targetEntity) < 1) then {
+						_return pushBack _targetEntity;
+						_grp reveal [_targetEntity,(random [2,3,4])];
+					};
+					if ((_grp knowsAbout _targetVehicle) < 1) then {
+						_return pushBackUnique _targetVehicle;
+						_grp reveal [_targetVehicle,(random [2,3,4])];
 					};
 				};
 			};
 		} forEach _targetsKnowledge;
 		{
 			_targetVehicle = objectParent _x;
-			if (!isTouchingGround _targetVehicle) then {
-				if (_targetVehicle isKindOf 'Plane') then {
-					if ((EAST knowsAbout _targetVehicle) > 3.5) then {
-						_return pushBack _targetVehicle;
-						_grp reveal [_targetVehicle,(EAST knowsAbout _targetVehicle)];
-					};
-				};
+			if (
+				(!isTouchingGround _targetVehicle) &&
+				{(_targetVehicle isKindOf 'Plane')} &&
+				{((EAST knowsAbout _targetVehicle) > 3.5)}
+			) then {
+				_return pushBack _targetVehicle;
+				_grp reveal [_targetVehicle,(EAST knowsAbout _targetVehicle)];
 			};
 		} forEach allPlayers;
 	};
@@ -408,14 +393,13 @@ if (_type isEqualTo 10) exitWith {
 	_targetsKnowledge = missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]];
 	{
 		_vehicle = _x # 2;
-		if (alive _vehicle) then {
-			if (alive (effectiveCommander _vehicle)) then {
-				if (((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1) then {
-					if ((_vehicle isKindOf 'Tank') || {(_vehicle isKindOf 'Wheeled_APC_F')}) then {
-						_return pushBack _vehicle;
-					};
-				};
-			};
+		if (
+			(alive _vehicle) &&
+			{(alive (effectiveCommander _vehicle))} &&
+			{(((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1)} &&
+			{((_vehicle isKindOf 'Tank') || {(_vehicle isKindOf 'Wheeled_APC_F')})}
+		) then {
+			_return pushBack _vehicle;
 		};
 	} forEach _targetsKnowledge;
 	_return;
@@ -468,10 +452,7 @@ if (_type isEqualTo 11) exitWith {
 			private _QS_script = scriptNull;
 			private _validGroups = [];
 			{
-				if (
-					(local _x) &&
-					{((side _x) in [EAST,RESISTANCE])}
-				) then {
+				if (local _x) then {
 					_grp = _x;
 					_leader = leader _grp;
 					// Validate groups
@@ -489,7 +470,7 @@ if (_type isEqualTo 11) exitWith {
 						_validGroups pushBack _grp;
 					};
 				};
-			} forEach allGroups;
+			} forEach ((groups EAST) + (groups RESISTANCE));
 			if (_validGroups isNotEqualTo []) then {
 				_grp = grpNull;
 				private _dist = 999999;
@@ -527,16 +508,14 @@ if (_type isEqualTo 12) exitWith {
 		_targetsKnowledge = missionNamespace getVariable ['QS_AI_targetsKnowledge_EAST',[]];
 		{
 			_vehicle = _x # 2;
-			if (alive _vehicle) then {
-				if (isTouchingGround _vehicle) then {
-					if (_vehicle isKindOf 'AllVehicles') then {
-						if ((_vehicle distance2D _targetPos) < _targetRad) then {
-							if (((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1) then {
-								_targets pushBackUnique _vehicle;
-							};
-						};
-					};
-				};
+			if (
+				(alive _vehicle) &&
+				{(isTouchingGround _vehicle)} &&
+				{(_vehicle isKindOf 'AllVehicles')} &&
+				{((_vehicle distance2D _targetPos) < _targetRad)} &&
+				{(((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1)}
+			) then {
+				_targets pushBackUnique _vehicle;
 			};
 		} forEach _targetsKnowledge;
 	};
@@ -588,7 +567,11 @@ if (_type isEqualTo 13) exitWith {
 						_cost = [_tank_f,(_tank_f / 3)] select (_vehicle call _fn_isStealthy);
 					};
 					if (_cost isEqualTo -1) then {
-						_cost = getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'cost');
+						_cost = QS_hashmap_configfile getOrDefaultCall [
+							format ['cfgvehicles_%1_cost',toLowerANSI (typeOf _vehicle)],
+							{getNumber ((configOf _vehicle) >> 'cost')},
+							TRUE
+						];
 					};
 					_cost = _cost / 1000;
 					_index = _data findIf {((_x # 1) isEqualTo _mapGridPos)};

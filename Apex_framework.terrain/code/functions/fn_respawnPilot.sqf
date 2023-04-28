@@ -17,6 +17,12 @@ Description:
 __________________________________________________/*/
 
 _worldName = worldName;
+/*/
+if (
+	(missionNamespace getVariable ['QS_missionConfig_zeusRespawnFlag',FALSE]) &&
+	{((['QS_trait_fighterPilot','QS_trait_pilot'] findIf { (player getUnitTrait _x) }) isEqualTo -1)}
+) exitWith {};
+/*/
 if (['INPOLYGON_FOOT',player] call (missionNamespace getVariable 'QS_fnc_destroyer')) exitWith {
 	['RESPAWN_PLAYER'] spawn (missionNamespace getVariable 'QS_fnc_destroyer');
 };
@@ -34,7 +40,7 @@ if (player getUnitTrait 'QS_trait_fighterPilot') exitWith {
 			};
 			if (_worldName isEqualTo 'Tanoa') exitWith {
 				player setDir (72 + (5 - (random 10)));
-				player setPosWorld [(6830 + (2 - (random 4))),(7261 + (2 - (random 4))),2.69];
+				player setPosWorld [6830,7261,2.69];
 			};
 			if (_worldName isEqualTo 'Malden') exitWith {
 				player setDir 100.961;
@@ -109,6 +115,7 @@ if (player getUnitTrait 'uavhacker') then {
 			if (_worldName isEqualTo 'Tanoa') exitWith {
 				player setDir 76.499;
 				player setPosWorld [6899.05,7423.78,15.7328];
+
 			};
 			if (_worldName isEqualTo 'Malden') exitWith {
 				player setDir 252.468;

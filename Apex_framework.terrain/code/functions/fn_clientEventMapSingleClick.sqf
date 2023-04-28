@@ -23,7 +23,7 @@ if (missionNamespace getVariable ['QS_customAO_GT_active',FALSE]) then {
 			if ((_pos distance2D (markerPos 'QS_marker_GT_TP')) < 100) then {
 				if ((player distance2D (markerPos 'QS_marker_aoMarker')) > 1000) then {
 					if (isNull (objectParent player)) then {
-						if (((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1) then {
+						if (!(player call QS_fnc_isBusyAttached)) then {
 							if (((lifeState player) in ['HEALTHY','INJURED']) && (!captive player)) then {
 								setViewDistance 500;
 								setObjectViewDistance 500;

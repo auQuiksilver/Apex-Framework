@@ -22,15 +22,23 @@ if (worldName in ['Enoch','stozec','gm_weferlingen_summer','gm_weferlingen_winte
 	_environment = 'temperate';
 };
 uiNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal 'TRUE'];
-missionNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal 'TRUE'];
-missionNamespace setVariable ['bis_fnc_missiontaskslocal',compileFinal 'TRUE'];
-missionNamespace setVariable ['bis_fnc_missionconversationslocal',compileFinal 'TRUE'];
-private _code = {};
+{
+	missionNamespace setVariable [_x,compileFinal 'TRUE',FALSE];
+} forEach [
+	'rscmissionstatus_buttonclick',
+	'bis_fnc_missiontaskslocal',
+	'bis_fnc_missionconversationslocal'
+];
 {
 	missionNamespace setVariable [_x # 0,(compileScript [_x # 1,TRUE]),FALSE];
 } forEach [
 	['QS_data_actions','code\config\QS_data_actions.sqf'],
 	['QS_data_patches','code\config\QS_data_patches.sqf'],
+	['QS_data_classNames','code\config\QS_data_classNames.sqf'],
+	['QS_data_tableUnits','code\config\QS_data_tableUnits.sqf'],
+	['QS_data_tableVehicles','code\config\QS_data_tableVehicles.sqf'],
+	['QS_data_groupCompositions','code\config\QS_data_groupCompositions.sqf'],
+	['QS_data_tableCivilians','code\config\QS_data_tableCivilians.sqf'],
 	['QS_data_notifications','code\config\QS_data_notifications.sqf'], 
 	['QS_Insignia','code\config\QS_insigniaTextures.sqf'], 
 	['QS_UTextures','code\config\QS_uniformTextures.sqf'], 
@@ -92,8 +100,43 @@ private _code = {};
 	['QS_data_smallBuildingTypes','code\config\QS_data_smallBuildingTypes.sqf'],
 	['QS_data_siteHP1','code\config\QS_data_siteHP1.sqf'],
 	['QS_data_siteDatalink1','code\config\QS_data_siteDatalink1.sqf'],
+	['QS_data_rainParams','code\config\QS_data_rainParams.sqf'],
 	['QS_data_tracers','code\config\QS_data_tracers.sqf'],
 	['QS_data_rockets','code\config\QS_data_rocketTypes.sqf'],
 	['QS_data_restrictedGear','code\config\QS_data_restrictedGear.sqf'],
+	['QS_data_planeLoadouts','code\config\QS_data_planeLoadouts.sqf'],
+	['QS_data_listItems','code\config\QS_data_listItems.sqf'],
+	['QS_data_listUnits','code\config\QS_data_listUnits.sqf'],
+	['QS_data_listVehicles','code\config\QS_data_listVehicles.sqf'],
+	['QS_data_listOther','code\config\QS_data_listOther.sqf'],
+	['QS_data_pullPoints','code\config\QS_data_pullPoints.sqf'],
+	['QS_data_winchPoints','code\config\QS_data_winchPoints.sqf'],
+	['QS_data_wreckTypes','code\config\QS_data_wreckTypes.sqf'],
+	['QS_data_attachParams','code\config\QS_data_attachParams.sqf'],
+	['QS_data_animationParams','code\config\QS_data_animationParams.sqf'],
+	['QS_data_lasers','code\config\QS_data_lasers.sqf'],
+	['QS_data_virtualCargoPresets','code\config\QS_data_virtualCargoPresets.sqf'],
 	['BIS_HC_path_menu','code\functions\fn_menuHCPath.sqf']
 ];
+QS_hashmap_pullPoints = createHashMapFromArray (call QS_data_pullPoints);
+QS_hashmap_winchAttachPoints = createHashMapFromArray (call QS_data_winchPoints);
+QS_hashmap_animationParams = createHashMapFromArray (call QS_data_animationParams);
+QS_hashmap_wreckTypes = createHashMapFromArray (call QS_data_wreckTypes);
+QS_hashmap_lasers = createHashMapFromArray ([0] call QS_data_lasers);
+QS_hashmap_lasersCustomOffsets = createHashMapFromArray ([1] call QS_data_lasers);
+
+// Get active DLC
+private _activeDLC = call (missionNamespace getVariable 'QS_fnc_getActiveDLC');
+// Get DLC-context classnames
+call (missionNamespace getVariable 'QS_data_classNames');
+// Create DLC-context hashmaps
+QS_core_units_map = createHashMapFromArray (call QS_data_tableUnits);
+QS_core_vehicles_map = createHashMapFromArray (call QS_data_tableVehicles);
+QS_core_groups_map = createHashMapFromArray (call QS_data_groupCompositions);
+QS_core_civilians_list = call QS_data_tableCivilians;
+QS_data_playerBuildables = call (compileScript ['code\config\QS_data_playerBuildables.sqf',TRUE]);
+QS_hashmap_classLists = createHashMap;
+if (_activeDLC isEqualTo '') then {
+	_activeDLC = 'NONE';
+};
+diag_log format ['***** Active DLC ***** %1 *****',_activeDLC];

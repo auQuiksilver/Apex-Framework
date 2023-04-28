@@ -85,7 +85,7 @@ if (worldName isEqualTo 'Stratis') then {
 	_motorPool = 8;
 };
 _vType = selectRandomWeighted ([_motorPool] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
-_v = createVehicle [_vType,_roadRoadValid,[],0,'NONE'];
+_v = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vType,_vType],_roadRoadValid,[],0,'NONE'];
 _v setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 _v allowCrewInImmobile [TRUE,TRUE];
 _v setUnloadInCombat [TRUE,FALSE];
@@ -99,7 +99,7 @@ clearMagazineCargoGlobal _v;
 clearWeaponCargoGlobal _v;
 clearItemCargoGlobal _v;
 clearBackpackCargoGlobal _v;
-_v lock 3;
+_v lock 2;
 private _vCrewGroup = createVehicleCrew _v;
 if (!((side _vCrewGroup) in [EAST,RESISTANCE])) then {
 	_vCrewGroup = createGroup [EAST,TRUE];
@@ -115,12 +115,20 @@ _QS_array pushBack _v;
 	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 	_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
-	0 = _QS_array pushBack _x;
+	_QS_array pushBack _x;
 } forEach (crew _v);
 [(units _vCrewGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 (gunner _v) setSkill ['aimingAccuracy',0.08];
 (gunner _v) doWatch (missionNamespace getVariable 'QS_HQpos');
-if (!isNull (commander _v)) then {
+if ((random 1) > 0.5) then {
+	if (
+		(alive (commander _v)) &&
+		(alive (gunner _v))
+	) then {
+		_v deleteVehicleCrew (commander _v);		// commander guns are quite strong, reduce their frequency
+	};
+};
+if (alive (commander _v)) then {
 	(commander _v) doWatch (missionNamespace getVariable 'QS_HQpos');
 };
 (driver _v) doMove ((missionNamespace getVariable 'QS_HQpos') getPos [50 + (random 50),random 360]);
@@ -149,14 +157,16 @@ _vCrewGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 	_x enableAIFeature ['COVER',FALSE];
 } forEach (units _vCrewGroup);
 _vCrewGroup enableAttack TRUE;
-_slingableTypes = [
-	'o_mrap_02_f','o_mrap_02_gmg_f','o_mrap_02_hmg_f','o_lsv_02_armed_f','o_lsv_02_unarmed_f','o_t_mrap_02_ghex_f','o_t_mrap_02_gmg_ghex_f',
-	'o_t_mrap_02_hmg_ghex_f','o_t_lsv_02_armed_f','o_t_lsv_02_unarmed_f',
-	'i_mrap_03_f','i_mrap_03_gmg_f','i_mrap_03_hmg_f','o_g_offroad_01_armed_f','o_g_offroad_01_f','i_g_offroad_01_armed_f','i_g_offroad_01_f',
-	'i_truck_02_transport_f','i_truck_02_covered_f','o_truck_02_transport_f','o_truck_02_covered_f',
-	'o_ugv_01_f','o_ugv_01_rcws_f','o_t_ugv_01_rcws_ghex_f','o_t_ugv_01_ghex_f','i_ugv_01_f','i_ugv_01_rcws_f',
-	'o_lsv_02_at_f','o_g_offroad_01_at_f','i_c_offroad_02_at_f','i_c_offroad_02_lmg_f','i_g_offroad_01_at_f','o_t_lsv_02_at_f'
-];
+_insertHeliTypes = (['classic_reinforcevslinger_2'] call QS_data_listVehicles) call QS_fnc_arrayShuffle;
+private _insertHeliType = ['classic_reinforcevslinger_1'] call QS_data_listVehicles;
+_slingableTypes = ['classic_reinforcevslingable_1'] call QS_data_listVehicles;
+
+if ((random 1) > 0.5) then {
+	private _insertIndex = _insertHeliTypes findIf { _x canSlingLoad _vType };
+	if (_insertIndex isNotEqualTo -1) then {
+		_insertHeliType = _insertHeliTypes # _insertIndex;
+	};
+};
 if (
 	((toLowerANSI _vType) in _slingableTypes) &&
 	{(diag_fps > 15)} &&
@@ -173,7 +183,6 @@ if (
 	missionNamespace setVariable ['QS_AI_insertHeli_lastEvent',diag_tickTime,FALSE];
 	_v enableRopeAttach TRUE;
 	_v enableVehicleCargo TRUE;
-	private _insertHeliType = ['O_Heli_Transport_04_F','O_Heli_Transport_04_black_F'] select (_worldName in ['Tanoa','Enoch']);
 	[
 		_pos,
 		_v,

@@ -20,7 +20,7 @@ _armor_anims = ['showslathull','showslatturret'];
 private _armor_vAnims = _vehicle getVariable ['QS_vehicle_slatarmorAnims',[]];
 if (_armor_vAnims isEqualTo []) then {
 	private _array = [];
-	private _armorAnimationSources = configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationSources';
+	private _armorAnimationSources = (configOf _vehicle) >> 'animationSources';
 	private _animationSource = configNull;
 	private _i = 0;
 	for '_i' from 0 to ((count _armorAnimationSources) - 1) step 1 do {
@@ -37,7 +37,7 @@ if (_armor_vAnims isEqualTo []) then {
 				};
 			};
 		};
-	} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationList'));
+	} forEach (getArray ((configOf _vehicle) >> 'animationList'));
 	_vehicle setVariable ['QS_vehicle_slatarmorAnims',_array,FALSE];
 	_armor_vAnims = _array;
 };
@@ -71,7 +71,7 @@ _onCompleted = {
 	private _armor_vAnims = _vehicle getVariable ['QS_vehicle_slatarmorAnims',[]];
 	if (_armor_vAnims isEqualTo []) then {
 		private _array = [];
-		private _armorAnimationSources = configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationSources';
+		private _armorAnimationSources = (configOf _vehicle) >> 'animationSources';
 		private _animationSource = configNull;
 		private _i = 0;
 		for '_i' from 0 to ((count _armorAnimationSources) - 1) step 1 do {
@@ -88,7 +88,7 @@ _onCompleted = {
 					};
 				};
 			};
-		} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'animationList'));
+		} forEach (getArray ((configOf _vehicle) >> 'animationList'));
 		_vehicle setVariable ['QS_vehicle_slatarmorAnims',_array,FALSE];
 		_armor_vAnims = _array;
 	};

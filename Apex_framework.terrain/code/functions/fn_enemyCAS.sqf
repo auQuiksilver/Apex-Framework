@@ -11,61 +11,22 @@ Last modified:
 Description:
 
 	Spawn an enemy CAS jet with some routines
-	
-List of jets:
-
-	'b_plane_cas_01_f',
-	'b_plane_cas_01_dynamicloadout_f',
-	'b_plane_cas_01_cluster_f',
-	'b_plane_fighter_01_f',
-	'b_plane_fighter_01_stealth_f',
-	'b_plane_fighter_01_cluster_f',
-	'o_plane_cas_02_f',
-	'o_plane_cas_02_dynamicloadout_f',
-	'o_plane_cas_02_cluster_f',
-	'o_plane_fighter_02_f',
-	'o_plane_fighter_02_stealth_f',
-	'o_plane_fighter_02_cluster_f',
-	'i_plane_fighter_03_aa_f',
-	'i_plane_fighter_03_cas_f',
-	'i_plane_fighter_03_dynamicloadout_f',
-	'i_plane_fighter_03_cluster_f',
-	'i_plane_fighter_04_f',
-	'i_plane_fighter_04_cluster_f'
 ______________________________________________________*/
 
-_allJetTypes = [
-	'b_plane_cas_01_f',
-	'b_plane_cas_01_dynamicloadout_f',
-	'b_plane_cas_01_cluster_f',
-	'b_plane_fighter_01_f',
-	'b_plane_fighter_01_stealth_f',
-	'b_plane_fighter_01_cluster_f',
-	'o_plane_cas_02_f',
-	'o_plane_cas_02_dynamicloadout_f',
-	'o_plane_cas_02_cluster_f',
-	'o_plane_fighter_02_f',
-	'o_plane_fighter_02_stealth_f',
-	'o_plane_fighter_02_cluster_f',
-	'i_plane_fighter_03_aa_f',
-	'i_plane_fighter_03_cas_f',
-	'i_plane_fighter_03_dynamicloadout_f',
-	'i_plane_fighter_03_cluster_f',
-	'i_plane_fighter_04_f',
-	'i_plane_fighter_04_cluster_f'
-];
-_playerJetCount = count (allPlayers select {((toLowerANSI (typeOf (vehicle _x))) in _allJetTypes)});
+_playerJetCount = count (allPlayers select {((toLowerANSI (typeOf (vehicle _x))) in QS_core_classNames_planeTypesCAS_lower)});
 if (((count allPlayers) < 10) && (_playerJetCount isEqualTo 0)) exitWith {};
-_jetSelect = selectRandomWeighted [
+private _jetSelect = selectRandomWeighted [
 	'O_Plane_CAS_02_dynamicLoadout_F',0.3,
 	'O_Plane_Fighter_02_F',([0,0.1] select (_playerJetCount > 0)),
 	'O_Plane_Fighter_02_Stealth_F',([0,0.1] select (_playerJetCount > 1)),
 	'I_Plane_Fighter_03_AA_F',0.1,
 	'I_Plane_Fighter_03_dynamicLoadout_F',0.3,
 	'I_Plane_Fighter_04_F',([0.3,0.5] select (_playerJetCount > 0)),
-	'c_plane_civil_01_racing_f',0.1,
 	'I_Plane_Fighter_03_Cluster_F',0.1
 ];
+if ((call (missionNamespace getVariable 'QS_fnc_getActiveDLC')) isNotEqualTo '') then {
+	_jetSelect = selectRandom QS_core_classNames_planeTypesEnemy_lower;
+};
 _spawnPos = [(random worldSize),(random worldSize),1000];
 _QS_AOpos = missionNamespace getVariable 'QS_AOpos';
 private _new = FALSE;
@@ -74,10 +35,10 @@ if (isNull (missionNamespace getVariable 'QS_enemyCasGroup')) then {
 	missionNamespace setVariable ['QS_enemyCasGroup',(createGroup [EAST,TRUE]),FALSE];
 };
 _grp = missionNamespace getVariable 'QS_enemyCasGroup';
-_jetPilot = (missionNamespace getVariable 'QS_enemyCasGroup') createUnit ['o_fighter_pilot_f',[-100,-100,0],[],0,'NONE'];
+_jetPilot = (missionNamespace getVariable 'QS_enemyCasGroup') createUnit [QS_core_units_map getOrDefault [toLowerANSI 'o_fighter_pilot_f','o_fighter_pilot_f'],[-100,-100,0],[],0,'NONE'];
 _jetPilot setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 _jetPilot enableDynamicSimulation FALSE;
-_jetActual = createVehicle [_jetSelect,_spawnPos,[],0,'FLY'];
+_jetActual = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _jetSelect,_jetSelect],_spawnPos,[],0,'FLY'];
 _jetActual engineOn TRUE;
 _jetActual setAirplaneThrottle 1;
 _jetActual allowCrewInImmobile [TRUE,TRUE];
@@ -116,7 +77,7 @@ if ((random 1) > 0.333) then {
 if (_jetActual isKindOf 'I_Plane_Fighter_03_Cluster_F') then {
 	{ 
 		_jetActual setObjectTextureGlobal [_forEachIndex,_x]; 
-	} forEach (getArray (configFile >> 'CfgVehicles' >> _jetSelect >> 'TextureSources' >> 'Hex' >> 'textures'));
+	} forEach (getArray ((configOf _jetActual) >> 'TextureSources' >> 'Hex' >> 'textures'));
 };
 if ((toLowerANSI(typeOf _jetActual)) in ['c_plane_civil_01_racing_f']) then {
 	[_jetActual] call (missionNamespace getVariable 'QS_fnc_Q51');
@@ -196,7 +157,7 @@ _jetPilot setVariable ['BIS_noCoreConversations',TRUE,FALSE];
 _jetActual setVariable ['QS_enemyCAS_position',(getPosWorld _jetActual),FALSE];
 _jetActual setVariable ['QS_enemyCAS_nextRearmTime',(serverTime + 300),FALSE];
 _jetActual setVariable ['QS_enemyQS_casJetPilot',_jetPilot,FALSE];
-_jetActual setVariable ['QS_enemyQS_casJetMaxSpeed',(getNumber (configFile >> 'CfgVehicles' >> (typeOf _jetActual) >> 'maxSpeed')),FALSE];
+_jetActual setVariable ['QS_enemy_casJetMaxSpeed',(getNumber ((configOf _jetActual) >> 'maxSpeed')),FALSE];
 _grp setGroupIdGlobal ['Combat Air Patrol'];
 _grp addEventHandler ['EnemyDetected',{call (missionNamespace getVariable 'QS_fnc_AIGroupEventEnemyDetected2')}];
 _grp setVariable ['QS_AI_GRP',TRUE,FALSE];
@@ -218,7 +179,7 @@ if (!((toLowerANSI _jetSelect) in ['o_plane_fighter_02_stealth_f'])) then {
 	};
 } else {
 	if ((random 1) > 0.8) then {
-		_jetActual forceSpeed (_jetActual getVariable ['QS_enemyQS_casJetMaxSpeed',1000]);
+		_jetActual forceSpeed (_jetActual getVariable ['QS_enemy_casJetMaxSpeed',1000]);
 	};
 };
 (missionNamespace getVariable 'QS_enemyCasArray2') pushBack _jetActual;

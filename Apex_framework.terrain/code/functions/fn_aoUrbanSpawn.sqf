@@ -15,13 +15,7 @@ ____________________________________________/*/
 
 params ['_type'];
 private _return = [];
-private _unitTypes = [
-	'o_soldieru_a_f','o_soldieru_aar_f','o_soldieru_ar_f','o_soldieru_medic_f','o_engineer_u_f','o_soldieru_exp_f','o_soldieru_gl_f',
-	'o_urban_heavygunner_f','o_soldieru_m_f','o_soldieru_at_f','o_soldieru_f','o_soldieru_lat_f','o_urban_sharpshooter_f',
-	'o_soldieru_sl_f','o_soldieru_tl_f','o_g_engineer_f','o_g_medic_f','o_g_soldier_a_f','o_g_soldier_ar_f','o_g_soldier_exp_f','o_g_soldier_f','o_g_soldier_f',
-	'o_g_soldier_gl_f','o_g_soldier_lat_f','o_g_soldier_lite_f','o_g_soldier_m_f','o_g_soldier_sl_f','o_g_soldier_tl_f',
-	'o_g_sharpshooter_f','o_g_soldier_ar_f'
-];
+private _unitTypes = ['urbanspawn_units_1'] call QS_data_listUnits;
 _worldName = worldName;
 if (_type isEqualTo 'INIT') exitWith {
 	private _pos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
@@ -36,8 +30,9 @@ if (_type isEqualTo 'INIT') exitWith {
 	};
 	private _hqPos = missionNamespace getVariable ['QS_hqPos',_pos];
 	private _registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
-	private _buildingData = (nearestObjects [_pos,(missionNamespace getVariable ['QS_data_smallBuildingTypes_12',[]]),_aoSize * _sizeMultiplier,TRUE]) select {
+	private _buildingData = (nearestObjects [_pos,['House'],_aoSize * _sizeMultiplier,TRUE]) select {
 		(alive _x) &&
+		{((sizeOf (typeOf _x)) > 10)} &&
 		{((count (_x buildingPos -1)) >= 4)} && 
 		{(!isObjectHidden _x)} &&
 		{((_registeredPositions inAreaArray [getPosATL _x,_safeDist,_safeDist,0,FALSE]) isEqualTo [])} &&
@@ -61,15 +56,13 @@ if (_type isEqualTo 'INIT') exitWith {
 		private _buildingPositions = [];
 		private _buildingPos = [0,0,0];
 		private _nodes = [];
-		_nodeUnitTypes = [
-			"i_c_soldier_para_1_f","i_c_soldier_para_2_f","i_c_soldier_para_3_f",
-			"i_c_soldier_para_4_f","i_c_soldier_para_5_f","i_c_soldier_para_6_f",
-			"i_c_soldier_para_7_f","i_c_soldier_para_8_f"
-		];
+		_nodeUnitTypes = ['urbanspawn_nodes_1'] call QS_data_listUnits;
+		private _unitType = '';
 		{
 			_buildingPositions = (_x # 0) buildingPos -1;
 			_buildingPos = selectRandom _buildingPositions;
-			_unit = _grp createUnit [selectRandom _nodeUnitTypes,_buildingPos,[],0,'CAN_COLLIDE'];
+			_unitType = selectRandom _nodeUnitTypes;
+			_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_buildingPos,[],0,'CAN_COLLIDE'];
 			_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_unit enableAIFeature ['PATH',FALSE];
 			_unit enableAIFeature ['MINEDETECTION',FALSE];
@@ -128,55 +121,26 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 	private _urbanUnits = [];
 	if (_buildingPositions isNotEqualTo []) then {
 		_buildingPositions = _buildingPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-		private _infTypes = [
-			[
-				'OIA_InfSquad',2,
-				'OIA_InfTeam',2,
-				'OI_reconPatrol',1,
-				'OIA_InfAssault',2,
-				'OG_InfSquad',1,
-				'OG_InfAssaultTeam',1,
-				'OIA_ARTeam',2,
-				'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-				'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-				'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-			],
-			[
-				'OIA_InfSquad',2,
-				'OIA_InfTeam',2,
-				'OI_reconPatrol',1,
-				'OIA_InfAssault',2,
-				'OG_InfSquad',1,
-				'OG_InfAssaultTeam',1,
-				'OIA_ARTeam',2,
-				'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-				'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-				'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-			]
-		] select (_worldName isEqualTo 'Altis');
+		private _infTypes = ['urbanspawn_groups_1'] call QS_data_listUnits;
 		if (_worldName isEqualTo 'Stratis') then {
-			_infTypes = [
-				'OIA_InfSquad',2,
-				'OIA_InfTeam',2,
-				'OI_reconPatrol',1,
-				'OIA_InfAssault',2,
-				'OG_InfSquad',1,
-				'OG_InfAssaultTeam',1,
-				'OIA_ARTeam',2,
-				//'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-				'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)//,
-				//'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-			];
+			_infTypes = ['urbanspawn_groups_stratis_1'] call QS_data_listUnits;
 		};
-		_groupComposition = ([EAST,selectRandomWeighted _infTypes] call (missionNamespace getVariable 'QS_fnc_returnGroupComposition')) apply { _x # 0 };
+		private _infGroupType = selectRandomWeighted _infTypes;
+		_groupComposition = QS_core_groups_map getOrDefault [_infGroupType,[]];
+		if (_groupComposition isEqualTo []) exitWith {
+			diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_infGroupType]);
+		};
+		_groupComposition = _groupComposition apply {_x # 0};
 		_maxGrpSize = (count _groupComposition) - 1;
 		private _newUnit = objNull;
 		private _newGrp = createGroup [EAST,TRUE];
 		_serverTime = serverTime;
 		private _i = 0;
+		private _unitType = '';
 		for '_i' from 0 to (((count _buildingPositions) - 1) min _maxGrpSize) step 1 do {
 			_buildingPosition = _buildingPositions deleteAt 0;
-			_newUnit = _newGrp createUnit [_groupComposition # _i,[worldSize,worldSize - 250,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
+			_unitType = _groupComposition # _i;
+			_newUnit = _newGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[worldSize,worldSize - 250,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
 			_newUnit enableAIFeature ['PATH',FALSE];
 			_newUnit setVariable ['QS_AI_UNIT_delayedInstructions',[(_serverTime + (5 + (random 60))),1],QS_system_AI_owners];
 			_newUnit hideObjectGlobal TRUE;
@@ -254,46 +218,28 @@ if (_type isEqualTo 'HQ') exitWith {
 			_garrisonThreshold = 6;			// If number of enemies near HQ is <= 6, next group will become HQ guards. if > 6, next group will be regular AO infantry
 			private _isGarrisonLow = (count ( (units EAST) inAreaArray [(missionNamespace getVariable 'QS_hqPos'),50,50,0,FALSE])) <= _garrisonThreshold;
 			_buildingPositions = _buildingPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-			private _infTypes = [
-				[
-					(['OIA_InfSquad','OIA_GuardSquad2'] select _isGarrisonLow),([2,4] select _isGarrisonLow),
-					'OIA_InfSquad',2,
-					'OIA_ARTeam',2,
-					'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-					'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-					'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-				],
-				[
-					(['OIA_InfSquad','OIA_GuardSquad2'] select _isGarrisonLow),([2,4] select _isGarrisonLow),
-					'OIA_InfSquad',2,
-					'OIA_ARTeam',2,
-					'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-					'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-					'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-				]
-			] select (_worldName in ['Altis','Malden']);
-			if (_worldName isEqualTo 'Stratis') then {
-				_infTypes = [
-					(['OIA_InfSquad','OIA_GuardSquad2'] select _isGarrisonLow),([2,4] select _isGarrisonLow),
-					'OIA_InfSquad',2,
-					'OIA_ARTeam',2,
-					//'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-					'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)//,
-					//'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-				];
+			private _infTypes = ['urbanspawn_groups_2'] call QS_data_listUnits;
+			private _infGroupType = selectRandomWeighted _infTypes;
+			_groupComposition = QS_core_groups_map getOrDefault [_infGroupType,[]];
+			if (_groupComposition isEqualTo []) exitWith {
+				diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_infGroupType]);
 			};
-			_groupComposition = ([EAST,selectRandomWeighted _infTypes] call (missionNamespace getVariable 'QS_fnc_returnGroupComposition')) apply { _x # 0 };
+			_groupComposition = _groupComposition apply {_x # 0};
 			_maxGrpSize = (count _groupComposition) - 1;
 			private _newUnit = objNull;
 			private _newGrp = createGroup [EAST,TRUE];
+			private _unitType = '';
 			_serverTime = serverTime;
 			private _i = 0;
 			private _buildingPosition = [0,0,0];
 			for '_i' from 0 to (((count _buildingPositions) - 1) min _maxGrpSize) step 1 do {
 				_buildingPosition = _buildingPositions deleteAt 0;
-				_newUnit = _newGrp createUnit [_groupComposition # _i,[worldSize,worldSize - 500,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
+				_unitType = _groupComposition # _i;
+				_newUnit = _newGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[worldSize,worldSize - 500,0],[],0,'CAN_COLLIDE'];	//comment 'SET TO PRONE OFFSITE';
 				_newUnit enableAIFeature ['PATH',FALSE];
-				_newUnit setVariable ['QS_AI_UNIT_delayedInstructions',[(_serverTime + (5 + (random 60))),1],QS_system_AI_owners];
+				if (!(_isGarrisonLow)) then {
+					_newUnit setVariable ['QS_AI_UNIT_delayedInstructions',[(_serverTime + (5 + (random 60))),1],QS_system_AI_owners];
+				};
 				_newUnit hideObjectGlobal TRUE;
 				//comment 'SET TO PRONE OFFSITE';
 				_hqUnits pushBack _newUnit;

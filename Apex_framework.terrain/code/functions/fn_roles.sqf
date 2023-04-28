@@ -351,6 +351,10 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 					_allowRequest = FALSE;
 				};
 			};
+			if ((player getVariable ['QS_tto',0]) >= 3) then {
+				_allowRequest = FALSE;
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,'Too much reported friendly fire',[],-1,TRUE,'ROBOCOP',FALSE];
+			};
 		};
 		if (!(_isCAS)) then {
 			// Whitelisting
@@ -359,15 +363,19 @@ if (_type isEqualTo 'REQUEST_ROLE') exitWith {
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,10,-1,format ['%1<br/><br/>(%2)',localize 'STR_QS_Role_009',localize 'STR_QS_Role_010'],[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 			};
 		};
+		
+		if (_role in ['engineer','engineer_wl']) then {
+			if ((getPlayerUID player) in (missionNamespace getVariable ['QS_blacklist_logistics',[]])) then {
+				_allowRequest = FALSE;
+				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Text_388',[],-1,TRUE,'ROBOCOP',FALSE];
+			};
+		};
+		
 		if (_allowRequest) then {
 			[15,_uid,_side,_role,_unit,_clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		};
 	};
 };
-
-//['HANDLE',['HANDLE_REQUEST_ROLE','',(_casPilot getVariable ['QS_unit_side',WEST]),'rifleman',_casPilot]] call (missionNamespace getVariable 'QS_fnc_roles');
-
-
 if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 	params [
 		'',
@@ -376,7 +384,6 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 		['_role','rifleman'],
 		['_unit',objNull]
 	];
-	//diag_log (format ['Role requested: %1',_this]);
 	if (_uid isEqualTo '') then {
 		_uid = getPlayerUID _unit;
 	};
@@ -444,16 +451,15 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 	['PROPAGATE'] call (missionNamespace getVariable 'QS_fnc_roles');
 	missionNamespace setVariable ['QS_RSS_refreshUI',TRUE,-2];
 	if ((side (group _unit)) isNotEqualTo _side) then {
-		if ((count (allGroups select {((side _x) isEqualTo _side)})) >= 100) then {
+		if ((count (groups _side)) >= 100) then {
 			{
-				if (local _x) then {
-					if ((side _x) isEqualTo _side) then {
-						if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
-							deleteGroup _x;
-						};
-					};
+				if (
+					(local _x) &&
+					{(((units _x) findIf {(alive _x)}) isEqualTo -1)}
+				) then {
+					deleteGroup _x;
 				};
-			} forEach allGroups;
+			} forEach (groups _side);
 		};
 		[_unit] joinSilent (createGroup [_side,TRUE]);
 		if (_side isNotEqualTo (_unit getVariable ['QS_unit_side',WEST])) then {
@@ -474,7 +480,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 };
 if (_type isEqualTo 'INIT_ROLE') exitWith {
 	params ['','_role'];
-	playSoundUI ['AddItemOK',1,0.75,FALSE];
+	playSoundUI ['OMLightSwitch',0.5,1.5,FALSE];
 	player setVariable ['QS_unit_role',_role,FALSE];
 	private _medic = (getMissionConfigValue ['ReviveRequiredTrait',1]) isEqualTo 0;
 	private _traitsData = [
@@ -485,6 +491,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 		[['audibleCoef',1,FALSE]],
 		[['camouflageCoef',1,FALSE]],
 		[['loadCoef',1,FALSE]],
+		[['QS_trait_rifleman',TRUE,TRUE]],
 		[['QS_trait_leader',FALSE,TRUE]],
 		[['QS_trait_pilot',FALSE,TRUE]],
 		[['QS_trait_AT',FALSE,TRUE]],
@@ -528,6 +535,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',2,FALSE]],
 			[['camouflageCoef',2,FALSE]],
 			[['loadCoef',1.25,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -550,6 +558,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',TRUE,TRUE]],
@@ -572,6 +581,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -594,6 +604,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -616,6 +627,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',0.5,FALSE]],
 			[['camouflageCoef',0.5,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -638,6 +650,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',0.75,FALSE]],
 			[['camouflageCoef',0.75,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -660,6 +673,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -682,6 +696,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -704,6 +719,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',TRUE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -726,6 +742,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -748,6 +765,7 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 			[['audibleCoef',1,FALSE]],
 			[['camouflageCoef',1,FALSE]],
 			[['loadCoef',1,FALSE]],
+			[['QS_trait_rifleman',FALSE,TRUE]],
 			[['QS_trait_leader',FALSE,TRUE]],
 			[['QS_trait_pilot',FALSE,TRUE]],
 			[['QS_trait_AT',FALSE,TRUE]],
@@ -798,7 +816,6 @@ if (_type isEqualTo 'INIT_ROLE') exitWith {
 		missionNamespace setVariable ['QS_client_arsenalData',([(player getVariable ['QS_unit_side',WEST]),_this] call (missionNamespace getVariable 'QS_data_arsenal')),FALSE];
 	};
 	['SET_SAVED_LOADOUT',_role] call (missionNamespace getVariable 'QS_fnc_roles');
-	call (missionNamespace getVariable 'QS_fnc_respawnPilot');
 	uiNamespace setVariable ['QS_client_respawnCooldown',diag_tickTime + 30];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,(format ['%2 %1',(['GET_ROLE_DISPLAYNAME',_role] call (missionNamespace getVariable 'QS_fnc_roles')),localize 'STR_QS_Role_011']),[],-1,TRUE,localize 'STR_QS_Role_001',FALSE];
 };

@@ -36,9 +36,7 @@ if (!isNil {_cursorObject getVariable 'QS_secureable'}) then {
 	};
 };
 if (!isNil {_cursorTarget getVariable 'QS_isExplosion'}) then {
-	_soundPath = [(str missionConfigFile),0,-15] call (missionNamespace getVariable 'BIS_fnc_trimString');
-	_soundToPlay = _soundPath + 'media\audio\activate_mine.wss';
-	playSound3D [_soundToPlay,player,FALSE,(getPosASL _cursorTarget),5,1,75];
+	playSound3D [getMissionPath 'media\audio\activate_mine.wss',player,FALSE,(getPosASL _cursorTarget),5,1,75];
 };
 if (!isNil {_cursorTarget getVariable 'QS_object_GT_0'}) exitWith {
 	player playAction 'PutDown';

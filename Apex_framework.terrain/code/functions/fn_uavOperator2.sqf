@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	7/07/2022 A3 2.10 by Quiksilver
+	15/1/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -28,11 +28,11 @@ for '_x' from 0 to 1 step 0 do {
 };
 if (!(player getUnitTrait 'uavhacker')) exitWith {};
 private _casEnabled = (((missionNamespace getVariable ['QS_missionConfig_CAS',2]) in [2]) || (((missionNamespace getVariable ['QS_missionConfig_CAS',2]) in [1,3]) && ((getPlayerUID player) in (['CAS'] call (missionNamespace getVariable 'QS_fnc_whitelist')))));
-_QS_module_safezone_pos = markerPos 'QS_marker_base_marker';
 _isOwnedApex = 395180 in (getDLCs 1);
 _isOwnedJets = 601670 in (getDLCs 1);
 _worldName = worldName;
 _worldSize = worldSize;
+private _displayName = '';
 createCenter WEST;
 private _carrierEnabled = ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0);
 private _uavData = missionNamespace getVariable ['QS_uav_Monitor',[]];
@@ -158,7 +158,7 @@ if (_carrierEnabled) then {
 			'_uavIsRespawning',
 			'_uavCanRespawnAfter'
 		];
-		if (_uavType isKindOf ['uav_03_base_f',(configFile >> 'CfgVehicles')]) then {
+		if (_uavType isKindOf 'uav_03_base_f') then {
 			_heliDroneCount = _heliDroneCount + 1;
 			if (_heliDroneCount > 1) then {
 				_uavData set [_forEachIndex,0];
@@ -229,6 +229,29 @@ private _ugvRespawnDelay = 30;
 private _ugvRespawnFOB = FALSE;
 private _operatorAtFOB = FALSE;
 _uavRespawnDelay = 300;
+_ugvCargoDisable = {
+	params ['_parentVehicle','_cargoVehicle'];
+	_displayName = QS_hashmap_configfile getOrDefaultCall [
+		format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _cargoVehicle)],
+		{getText ((configOf _cargoVehicle) >> 'displayName')},
+		TRUE
+	];
+	[_cargoVehicle,_displayName] spawn {
+		params ['_cargoVehicle','_displayName'];
+		waitUntil {
+			(cameraOn isNotEqualTo _cargoVehicle)
+		};
+		deleteVehicleCrew _cargoVehicle;
+		_cargoVehicle engineOn FALSE;
+		50 cutText [format [localize 'STR_QS_Text_317',_displayName],'PLAIN DOWN',0.75];
+	};
+};
+_ugvCargoEnable = {
+	params ['_parentVehicle','_cargoVehicle'];
+	createVehicleCrew _cargoVehicle;
+};
+private _ugvInCargo = FALSE;
+
 _uavInitCodeGeneric = {
 	params ['_uavEntity'];
 	_grp = createVehicleCrew _uavEntity;
@@ -238,11 +261,16 @@ _uavInitCodeGeneric = {
 	} forEach (units _grp);
 	_uavEntity setPilotLight FALSE;
 	_uavEntity setCollisionLight FALSE;
+	_uavEntity enableAIFeature ['LIGHTS',FALSE];
 	if (_uavEntity isKindOf 'Plane') then {
 		params ['','_loiterPos'];
-		_text = format ['%1 %3 %2',(getText (configFile >> 'CfgVehicles' >> (typeOf _uavEntity) >> 'displayName')),(mapGridPosition _uavEntity),localize 'STR_QS_Hints_131'];
+		_displayName = QS_hashmap_configfile getOrDefaultCall [
+			format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _uavEntity)],
+			{getText ((configOf _uavEntity) >> 'displayName')},
+			TRUE
+		];
+		_text = format ['%1 %3 %2',_displayName,(mapGridPosition _uavEntity),localize 'STR_QS_Hints_131'];
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7,-1,_text,[],-1];
-		_uavEntity setVariable ['QS_ropeAttached',FALSE,TRUE];
 		_uavEntity enableRopeAttach TRUE;
 		_uavEntity enableVehicleCargo TRUE;
 		[57,_uavEntity] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -308,6 +336,10 @@ _uavInitCodeGeneric = {
 			}
 		];
 	};
+	if (_uavEntity isKindOf 'ugv_01_base_f') then {
+		_uavEntity addEventHandler ['CargoLoaded',_ugvCargoDisable];
+		_uavEntity addEventHandler ['CargoUnloaded',_ugvCargoEnable];
+	};
 	if ((_uavEntity isKindOf 'ugv_01_base_f') && (!(_uavEntity isKindOf 'ugv_01_rcws_base_f'))) then {
 		_uavEntity addBackpackCargoGlobal ['b_uav_06_medical_backpack_f',2];
 		_uavEntity enableVehicleCargo TRUE;
@@ -317,7 +349,6 @@ _uavInitCodeGeneric = {
 			_x addRating (0 - (rating _x));
 		} forEach (crew _uavEntity);
 		_uavEntity addEventHandler ['HandleDamage',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandleDamage')}];
-		_uavEntity setVariable ['QS_ropeAttached',FALSE,TRUE];
 		_uavEntity setVariable ['QS_tow_veh',2,TRUE];
 		_uavEntity addEventHandler [
 			'Deleted',
@@ -354,7 +385,6 @@ _uavInitCodeGeneric = {
 	};
 	if (_uavEntity isKindOf 'ugv_01_rcws_base_f') then {
 		_uavEntity addBackpackCargoGlobal ['b_uav_01_backpack_f',2];
-		_uavEntity setVariable ['QS_ropeAttached',FALSE,TRUE];
 		_uavEntity enableVehicleCargo TRUE;	
 		_uavEntity enableRopeAttach TRUE;
 		_uavEntity addEventHandler ['Fired',
@@ -398,6 +428,9 @@ private _safePos = [0,0,0];
 private _inNavalArtillery = FALSE;
 private _artilleryEngineEnabled = FALSE;
 private _artilleryEngineRestricted = missionNamespace getVariable ['QS_missionConfig_artyEngine',0] in [0,1];
+_fn_inZone = missionNamespace getVariable 'QS_fnc_inZone';
+_true = TRUE;
+_false = FALSE;
 for '_i' from 0 to 1 step 0 do {
 	uiSleep 1.5;
 	_uiTime = diag_tickTime;
@@ -405,23 +438,23 @@ for '_i' from 0 to 1 step 0 do {
 		_inNavalArtillery = ((cameraOn isKindOf 'B_Ship_Gun_01_F') || {(cameraOn isKindOf 'B_Ship_MRLS_01_F')});
 		if (_inNavalArtillery) then {
 			if (!_artilleryEngineEnabled) then {
-				_artilleryEngineEnabled = TRUE;
+				_artilleryEngineEnabled = _true;
 				enableEngineArtillery _artilleryEngineEnabled;
 			};
 		} else {
 			if (_artilleryEngineEnabled) then {
-				_artilleryEngineEnabled = FALSE;
+				_artilleryEngineEnabled = _false;
 				enableEngineArtillery _artilleryEngineEnabled;
 			};
 		};
 	};
 	if ((player distance2D (markerPos 'QS_marker_module_fob')) < 300) then {
 		if (!(_ugvRespawnFOB)) then {
-			_ugvRespawnFOB = TRUE;
+			_ugvRespawnFOB = _true;
 		};
 	} else {
 		if (_ugvRespawnFOB) then {
-			_ugvRespawnFOB = FALSE;
+			_ugvRespawnFOB = _false;
 		};
 	};
 	{
@@ -439,10 +472,10 @@ for '_i' from 0 to 1 step 0 do {
 			if (!(_uavIsRespawning)) then {
 				_uavCanRespawnAfter = _uiTime + ([_ugvRespawnDelay,_uavRespawnDelay] select (_uavType isKindOf ['Air',_cfgVehicles]));
 				if ((_uavType isKindOf ['uav_02_base_f',_cfgVehicles]) || {(_uavType isKindOf ['uav_03_base_f',_cfgVehicles])} || {(_uavType isKindOf ['uav_04_base_f',_cfgVehicles])} || {(_uavType isKindOf ['uav_05_base_f',_cfgVehicles])}) then {
-					_uavIsRespawning = missionNamespace getVariable ['QS_uavCanSpawn',FALSE];
+					_uavIsRespawning = missionNamespace getVariable ['QS_uavCanSpawn',_false];
 					uiNamespace setVariable ['QS_uavRespawnDelay',_uavCanRespawnAfter];
 				} else {
-					_uavIsRespawning = TRUE;
+					_uavIsRespawning = _true;
 				};
 				_uavData set [_forEachIndex,[_uavEntity,_uavType,_uavSpawnPosition,_uavSpawnDirection,_uavSpawnVectors,_uavInitCode,_uavIsRespawning,_uavCanRespawnAfter]];
 			} else {
@@ -459,20 +492,22 @@ for '_i' from 0 to 1 step 0 do {
 						};
 						if (_uavType isKindOf ['Plane',_cfgVehicles]) then {
 							// UCav + Greyhawk
-							_uavEntity = createVehicle [_uavType,_uavLoiterPosition,[],50,'FLY'];
+							_uavEntity = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _uavType,_uavType],_uavLoiterPosition,[],50,'FLY'];
 						} else {
 							if ((_ugvRespawnFOB) && (_uavType isKindOf ['ugv_01_base_f',_cfgVehicles]) && ((missionNamespace getVariable ['QS_module_fob_side',sideUnknown]) isEqualTo (player getVariable ['QS_unit_side',WEST]))) then {
 								_safePos = [(markerPos 'QS_marker_module_fob'),0,70,5,0,5,0] call _fn_findSafePos;
-								_uavEntity = createVehicle [_uavType,_safePos,[],0,'NONE'];
+								_uavEntity = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _uavType,_uavType],_safePos,[],0,'NONE'];
 								_uavEntity setDir (random 360);
+								_uavEntity enableAIFeature ['LIGHTS',FALSE];
 								_uavEntity setVehiclePosition [_safePos,[],0,'NONE'];
 							} else {
-								_uavEntity = createVehicle [_uavType,(ASLToAGL _uavSpawnPosition),[],0,'NONE'];
+								_uavEntity = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _uavType,_uavType],(ASLToAGL _uavSpawnPosition),[],0,'NONE'];
 								if (_uavSpawnVectors isEqualTo []) then {
 									_uavEntity setDir _uavSpawnDirection;
 								} else {
 									_uavEntity setVectorDirAndUp _uavSpawnVectors;
 								};
+								_uavEntity enableAIFeature ['LIGHTS',FALSE];
 								_uavEntity setPosASL _uavSpawnPosition;
 							};
 						};
@@ -480,7 +515,7 @@ for '_i' from 0 to 1 step 0 do {
 						if (_uavInitCode isNotEqualTo {}) then {
 							_uavEntity call _uavInitCode;
 						};
-						_uavData set [_forEachIndex,[_uavEntity,_uavType,_uavSpawnPosition,_uavSpawnDirection,_uavSpawnVectors,_uavInitCode,FALSE,_uavCanRespawnAfter]];
+						_uavData set [_forEachIndex,[_uavEntity,_uavType,_uavSpawnPosition,_uavSpawnDirection,_uavSpawnVectors,_uavInitCode,_false,_uavCanRespawnAfter]];
 					};
 				};
 			};
@@ -497,43 +532,79 @@ for '_i' from 0 to 1 step 0 do {
 			};
 			// UAV is still alive, handle various situations
 			if (((getPosASL _uavEntity) # 2) < -1.5) then {
-				_uavEntity setDamage [1,FALSE];
+				_uavEntity setDamage [1,_false];
+			};
+			if (_uavEntity isKindOf 'ugv_01_base_f') then {
+				if (
+					(!isNull (ropeAttachedTo _uavEntity)) ||
+					{(!isNull (isVehicleCargo _uavEntity))} ||
+					{(!isNull (attachedTo _uavEntity))}
+				) then {
+					if (!(_uavEntity getVariable ['QS_uav_travelMode',_false])) then {
+						if (cameraOn isNotEqualTo _uavEntity) then {
+							_uavEntity setVariable ['QS_uav_travelMode',_true];
+							if (alive (driver _uavEntity)) then {
+								deleteVehicleCrew _uavEntity;
+								_displayName = QS_hashmap_configfile getOrDefaultCall [
+									format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _uavEntity)],
+									{getText ((configOf _uavEntity) >> 'displayName')},
+									TRUE
+								];
+								50 cutText [format [localize 'STR_QS_Text_317',_displayName],'PLAIN DOWN',0.75];
+							};
+						};
+					};
+				} else {
+					if (_uavEntity getVariable ['QS_uav_travelMode',_false]) then {
+						_uavEntity setVariable ['QS_uav_travelMode',_false];
+						_grp = createVehicleCrew _uavEntity;
+						{
+							_x setVariable ['QS_RD_recruitable',TRUE,TRUE];
+						} forEach (units _grp);
+					};
+				};
 			};
 		};
 	} forEach _uavData;
 	{
 		if (local _x) then {
 			_uavEntity = _x;
-			_uavEntity enableAIFeature ['TEAMSWITCH',TRUE];
+			if (!(_uavEntity checkAIFeature 'TEAMSWITCH')) then {
+				_uavEntity enableAIFeature ['TEAMSWITCH',_true];
+			};
 			if ((!isNull (attachedTo _uavEntity)) || {(!isNull (isVehicleCargo _uavEntity))} || {(!isNull (ropeAttachedTo _uavEntity))}) then {
-				if (!(_uavEntity getVariable ['QS_uav_disabledAI',FALSE])) then {
-					_uavEntity setVariable ['QS_uav_disabledAI',TRUE,FALSE];
-					_uavEntity enableAIFeature ['ALL',FALSE];
+				if (!(_uavEntity getVariable ['QS_uav_disabledAI',_false])) then {
+					_uavEntity setVariable ['QS_uav_disabledAI',_true,_false];
+					_uavEntity enableAIFeature ['ALL',_false];
 					{
-						_x enableAIFeature ['ALL',FALSE];
+						_x enableAIFeature ['ALL',_false];
 					} forEach (crew _uavEntity);
 				};
 			} else {
-				if (_uavEntity getVariable ['QS_uav_disabledAI',FALSE]) then {
-					_uavEntity setVariable ['QS_uav_disabledAI',FALSE,FALSE];
-					_uavEntity enableAIFeature ['ALL',TRUE];
+				if (_uavEntity getVariable ['QS_uav_disabledAI',_false]) then {
+					_uavEntity setVariable ['QS_uav_disabledAI',_false,_false];
+					_uavEntity enableAIFeature ['ALL',_true];
 					{
-						_x enableAIFeature ['ALL',TRUE];
+						_x enableAIFeature ['ALL',_true];
 					} forEach (crew _uavEntity);
 				};
 			};
 			if (isLaserOn _uavEntity) then {
 				if (!isNull (laserTarget _uavEntity)) then {
-					if (((laserTarget _uavEntity) distance2D _QS_module_safezone_pos) < 500) then {
+					([laserTarget _uavEntity,'SAFE'] call _fn_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+					if (_inSafezone && _safezoneActive && (_safezoneLevel > 1)) then {
 						deleteVehicle (laserTarget _uavEntity);
 					};
 				};
 			};
 			if (alive (driver _uavEntity)) then {
 				if (((side (group (driver _uavEntity))) isEqualTo sideEnemy) || {(((side (group (driver _uavEntity))) getFriend WEST) < 0.6)}) then {
-					[17,_x] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+					[17,_x] remoteExec ['QS_fnc_remoteExec',2,_false];
 				};
 			};
+			{
+				_x setName ['AI','AI','AI'];
+			} forEach (crew _uavEntity);
 		};
 		uiSleep 0.1;
 	} count allUnitsUav;
@@ -541,7 +612,7 @@ for '_i' from 0 to 1 step 0 do {
 		{
 			if (local _x) then {
 				_uavEntity = _x;
-				if (!(_uavEntity getVariable ['QS_uav_protected',FALSE])) then {
+				if (!(_uavEntity getVariable ['QS_uav_protected',_false])) then {
 					if ((crew _uavEntity) isNotEqualTo []) then {
 						_grp = group (effectiveCommander _uavEntity);
 						deleteVehicleCrew _uavEntity;

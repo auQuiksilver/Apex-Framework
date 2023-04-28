@@ -73,7 +73,7 @@ if (_type isEqualTo 'Select') then {
 					} else {
 						{
 							_v setObjectTextureGlobal [_forEachIndex,_x];
-						} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'hiddenSelectionsTextures'));
+						} forEach (getArray ((configOf _v) >> 'hiddenSelectionsTextures'));
 					};
 					_v setVariable ['QS_ClientVTexture_owner',nil,TRUE];
 				};
@@ -86,7 +86,8 @@ if (_type isEqualTo 'Select') then {
 					if (player isEqualTo (effectiveCommander _v)) then {
 						if ((isNull ((player getVariable 'QS_ClientVTexture') # 0)) || {(_v isEqualTo ((player getVariable 'QS_ClientVTexture') # 0))} || {(!alive ((player getVariable 'QS_ClientVTexture') # 0))}) then {
 							_nearSite = FALSE;
-							if ((player distance (markerPos 'QS_marker_base_marker')) < 500) then {
+							([QS_player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+							if (_inSafezone) then {
 								_nearSite = TRUE;
 							};
 							/*/
@@ -112,7 +113,7 @@ if (_type isEqualTo 'Select') then {
 								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,localize 'STR_QS_Hints_086',[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 							};
 						} else {
-							_text = format ['%3 %1 %4 %2.',(getText (configFile >> 'CfgVehicles' >> (typeOf ((player getVariable 'QS_ClientVTexture') # 0)) >> 'displayName')),(mapGridPosition ((player getVariable 'QS_ClientVTexture') # 0)),localize 'STR_QS_Hints_087',localize 'STR_QS_Hints_060'];
+							_text = format ['%3 %1 %4 %2.',(getText ((configOf ((player getVariable 'QS_ClientVTexture') # 0)) >> 'displayName')),(mapGridPosition ((player getVariable 'QS_ClientVTexture') # 0)),localize 'STR_QS_Hints_087',localize 'STR_QS_Hints_060'];
 							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 						};
 					} else {

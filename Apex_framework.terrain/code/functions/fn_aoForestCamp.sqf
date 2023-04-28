@@ -42,12 +42,12 @@ missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVar
 		_x setPosATL [((getPosATL _x) # 0),((getPosATL _x) # 1),0];
 	};
 } count _return;
-private _sentryTypes = ['HAF_InfSentry',1,'IG_SniperTeam_M',1];
+private _sentryTypes = ['forest_camp_1'] call QS_data_listUnits;
 if (worldName isEqualTo 'Tanoa') then {
-	_sentryTypes = ['IG_InfSentry',1,'IG_ReconSentry',1];
+	_sentryTypes = ['forest_camp_2'] call QS_data_listUnits;
 };
 if (worldName isEqualTo 'Enoch') then {
-	_sentryTypes = ['I_E_InfSentry',1,'I_L_CriminalSentry',1];
+	_sentryTypes = ['forest_camp_3'] call QS_data_listUnits;
 };
 private _patrolGroup = [_position,(random 360),RESISTANCE,selectRandomWeighted _sentryTypes,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 [(units _patrolGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');

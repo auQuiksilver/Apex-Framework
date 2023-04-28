@@ -15,7 +15,7 @@ Created:
 	
 Last Modified: 
 
-	21/04/2018 A3 2.08 by Quiksilver
+	18/02/2023 A3 2.12 by Quiksilver
 	
 Installation: 
 
@@ -30,10 +30,6 @@ Installation:
 	Follow instructions posted in the below link
 		
 		http://forums.bistudio.com/showthread.php?184108-Soldier-Tracker-(-Map-and-GPS-Icons-)
-		
-Notes:
-
-	missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit', player]
 _________________________________________________________________/*/
 
 if (isDedicated || !hasInterface) exitWith {};
@@ -201,7 +197,7 @@ _QS_ST_GRPrequireGPSItem = FALSE;								// BOOL. TRUE to require player have GP
 //============================= CONFIGURE BONUS FEATURES ===========================//
 //==================================================================================//
 
-_QS_ST_showEmptyVehicles = FALSE;								// BOOL. TRUE to mark certain unoccupied vehicles on the map. The vehicle must be assigned this variable:    <vehicle> setVariable ['QS_ST_drawEmptyVehicle',TRUE,TRUE];    Default FALSE.   Only works if  _QS_ST_map_enableUnitIcons = TRUE;
+_QS_ST_showEmptyVehicles = 2;									// NUMBER. 0 - Disabled. 1 - All empty flagged vehicles. 2 - Player-grouped vehicles only. If setting == 1, the vehicle must be assigned this variable:    <vehicle> setVariable ['QS_ST_drawEmptyVehicle',TRUE,TRUE];    Default 0.   Only works if  _QS_ST_map_enableUnitIcons = TRUE;
 _QS_ST_iconColor_empty = [0.7,0.6,0,0.5];						// ARRAY (NUMBERS). Color of unoccupied vehicles, in RGBA. Default = [0.7,0.6,0,0.5];
 _QS_ST_iconSize_empty = 20;										// NUMBER. Icon size of unoccupied vehicles, if shown.
 _QS_ST_showKnownEnemies = TRUE && ((missionNamespace getVariable ['QS_missionConfig_mapContentEnemy',1]) isEqualTo 1);		// BOOL. TRUE to mark known enemies on the map. Default - FALSE.
@@ -230,23 +226,24 @@ _QS_fnc_iconColor = {
 	private _exit = FALSE;
 	private _c = _QS_ST_X # 13;
 	private _a = 0;
-	if (!(_v isKindOf 'Man')) then {
-		if (_v getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
-			if ((crew _v) isEqualTo []) then {
-				_exit = TRUE;
-				_c = _QS_ST_X # 78;
-				_c set [3,0.65];
-				if (_ms > 0.80) then {
-					if (_ds isEqualTo 1) then {
-						_c set [3,0];
-					};
-				};
-			};
+	if (
+		(!(_v isKindOf 'Man')) &&
+		{((crew _v) isEqualTo [])} &&
+		{(_v getVariable ['QS_ST_drawEmptyVehicle',FALSE])}
+	) then {
+		_exit = TRUE;
+		_c = _QS_ST_X # 78;
+		_c set [3,0.65];
+		if (
+			(_ds isEqualTo 1) &&
+			{(_ms > 0.80)}
+		) then {
+			_c set [3,0];
 		};
 	};
 	if (_exit) exitWith {_c;};
 	private _useTeamColor = FALSE;
-	if ((group _u) isEqualTo (group player)) then {
+	if ((group _u) isEqualTo (group QS_player)) then {
 		_useTeamColor = TRUE;
 		_a = 0.85;
 	} else {
@@ -311,11 +308,11 @@ _QS_fnc_iconType = {
 			_i = _u getVariable ['QS_unit_role_icon','a3\ui_f\data\map\vehicleicons\iconMan_ca.paa'];
 		};
 	} else {
-		_i = missionNamespace getVariable [format ['QS_ST_iconType#%1',_vt],''];
-		if (_i isEqualTo '') then {
-			_i = getText (configFile >> 'CfgVehicles' >> _vt >> 'icon');
-			missionNamespace setVariable [format ['QS_ST_iconType#%1',_vt],_i,FALSE];
-		};
+		_i = QS_hashmap_configfile getOrDefaultCall [
+			format ['cfgvehicles_%1_icon',toLowerANSI _vt],
+			{getText ((configOf _u) >> 'icon')},
+			TRUE
+		];
 	};
 	_i;
 };
@@ -337,7 +334,7 @@ _QS_fnc_iconPosDir = {
 	private _posDir = [[0,0,0],0];
 	if (_ds isEqualTo 1) then {
 		if (_dl > 0) then {
-			if (diag_tickTime > (missionNamespace getVariable 'QS_ST_iconUpdatePulseTimer')) then {
+			if (diag_tickTime > (missionNamespace getVariable ['QS_ST_iconUpdatePulseTimer',0])) then {
 				_posDir = [getPosWorldVisual _v,getDirVisual _v];
 				_v setVariable ['QS_ST_lastPulsePos',_posDir,FALSE];
 			} else {
@@ -365,7 +362,11 @@ _QS_fnc_iconText = {
 	_showAINames = _QS_ST_X # 71;
 	private _t = '';
 	private _n = 0;
-	private _vt = missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],''];
+	private _vt = QS_hashmap_configfile getOrDefaultCall [
+		format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _v)],
+		{getText ((configOf _v) >> 'displayName')},
+		TRUE
+	];
 	if ((_vt isEqualTo '') || {((_v isKindOf 'CAManBase') && (isPlayer _v))})  then {
 		if ((_v isKindOf 'CAManBase') && (isPlayer _v)) then {
 			if ((_v getVariable ['QS_unit_role_displayName',-1]) isEqualTo -1) then {
@@ -373,9 +374,6 @@ _QS_fnc_iconText = {
 			} else {
 				_vt = _v getVariable ['QS_unit_role_displayName','Rifleman'];
 			};
-		} else {
-			_vt = getText (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'displayName');
-			missionNamespace setVariable [format ['QS_ST_iconVehicleDN#%1',(typeOf _v)],_vt];
 		};
 	};
 	if ((_v getVariable ['QS_ST_customDN','']) isNotEqualTo '') then {
@@ -391,7 +389,7 @@ _QS_fnc_iconText = {
 		};
 	};
 	_isAdmin = ((_QS_ST_X # 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
-	if (((_v distance2D player) < (_QS_ST_X # 68)) || {(_isAdmin)}) then {
+	if (((_v distance2D QS_player) < (_QS_ST_X # 68)) || {(_isAdmin)}) then {
 		if ((_ms < 0.75) || {(_isAdmin)}) then {
 			if ((_ms > 0.25) || {(_isAdmin)}) then {
 				if (_showMOS) then {
@@ -653,7 +651,7 @@ _QS_fnc_iconUnits = {
 	private _as = [];
 	private _au = [];
 	_isAdmin = ((_QS_ST_X # 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
-	if ((player getVariable ['QS_unit_side',WEST]) isNotEqualTo CIVILIAN) then {
+	if ((QS_player getVariable ['QS_unit_side',WEST]) isNotEqualTo CIVILIAN) then {
 		if (!(_QS_ST_X # 74)) then {
 			_si = [EAST,WEST,RESISTANCE];
 		};
@@ -669,29 +667,34 @@ _QS_fnc_iconUnits = {
 	};
 	if (((_di isEqualTo 1) && ((_QS_ST_X # 65))) && {(!(_QS_ST_X # 75))}) then {
 		_exit = TRUE;
-		_au = units (group player);
-		if ((_QS_ST_X # 80)) then {
-			{
-				if (!(_x in _au)) then {
-					if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
-						if ((crew _x) isEqualTo []) then {
-							0 = _au pushBack _x;
+		_au = units (group QS_player);
+		if ((_QS_ST_X # 80) isNotEqualTo 0) then {
+			if ((_QS_ST_X # 80) isEqualTo 1) then {
+				{
+					if ((crew _x) isEqualTo []) then {
+						if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
+							0 = _au pushBackUnique _x;
 						};
 					};
-				};
-			} count vehicles;
+				} count vehicles;
+			} else {
+				{
+					if ((crew _x) isEqualTo []) then {
+						0 = _au pushBackUnique _x;
+					};
+				} count (assignedVehicles (group QS_player));
+			};
 		};
 		_au;
 	};
 	if ((_di isEqualTo 2) && ((_QS_ST_X # 29))) then {
 		_exit = TRUE;
-		_au = units (group player);
+		_au = units (group QS_player);
 		_au;
 	};
 	if (_exit) exitWith {_au;};
 	if ((_QS_ST_X # 62)) then {
-		_as pushBack (player getVariable ['QS_unit_side',WEST]);
-		//_as pushBack (_si # (_QS_ST_X # 3));
+		_as pushBack (QS_player getVariable ['QS_unit_side',WEST]);
 	} else {
 		if (isMultiplayer) then {
 			if (_isAdmin) then {
@@ -699,35 +702,20 @@ _QS_fnc_iconUnits = {
 					_as pushBack _x;
 				} forEach _si;
 			} else {
-				//if ((_QS_ST_X # 8)) then {
-					_as pushBack (player getVariable ['QS_unit_side',WEST]);
-					//_as pushBack (_si # (_QS_ST_X # 3));
-					{
-						if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
-							_as pushBackUnique _x;
-						};
-					} forEach _si;
-				//} else {
-				//	_as pushBack (_si # (player getVariable ['QS_unit_side',WEST]));
-				//	{
-				//		0 = _as pushBack (_si # _x);
-				//	} count (_QS_ST_X # 57);
-				//};
-			};
-		} else {
-			//if ((_QS_ST_X # 8)) then {
-				_as pushBack (player getVariable ['QS_unit_side',WEST]);
+				_as pushBack (QS_player getVariable ['QS_unit_side',WEST]);
 				{
-					if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
-						_as pushBack _x;
+					if (((QS_player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+						_as pushBackUnique _x;
 					};
 				} forEach _si;
-			//} else {
-			//	_as pushBack (_si # (_QS_ST_X # 3));
-			//	{
-			//		0 = _as pushBack (_si # _x);
-			//	} count (_QS_ST_X # 57);
-			//};
+			};
+		} else {
+			_as pushBack (QS_player getVariable ['QS_unit_side',WEST]);
+			{
+				if (((QS_player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+					_as pushBack _x;
+				};
+			} forEach _si;
 		};		
 	};
 	if (!(_QS_ST_X # 63)) then {
@@ -741,10 +729,9 @@ _QS_fnc_iconUnits = {
 			} else {
 				{
 					if (((side (group _x)) in _as) || {((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) then {
-					//if (((side (group _x)) in _as) || {(captive _x)}) then {
 						if (isPlayer _x) then {
 							if (_di isEqualTo 2) then {
-								if ((_x distance2D player) < (_QS_ST_X # 27)) then {
+								if ((_x distance2D QS_player) < (_QS_ST_X # 27)) then {
 									if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 										0 = _au pushBack _x;
 									};
@@ -761,10 +748,9 @@ _QS_fnc_iconUnits = {
 		} else {
 			{
 				if (((side (group _x)) in _as) || {((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) then {
-				//if (((side (group _x)) in _as) || {(captive _x)}) then {
 					if (isPlayer _x) then {
 						if (_di isEqualTo 2) then {
-							if ((_x distance2D player) < (_QS_ST_X # 27)) then {
+							if ((_x distance2D QS_player) < (_QS_ST_X # 27)) then {
 								if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 									if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
 										0 = _au pushBack _x;
@@ -785,9 +771,8 @@ _QS_fnc_iconUnits = {
 	} else {
 		{
 			if (((side (group _x)) in _as) || {((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) then {
-			//if (((side (group _x)) in _as) || {(captive _x)}) then {
 				if (_di isEqualTo 2) then {
-					if ((_x distance2D player) < (_QS_ST_X # 27)) then {
+					if ((_x distance2D QS_player) < (_QS_ST_X # 27)) then {
 						if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
 							if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
 								0 = _au pushBack _x;
@@ -811,34 +796,46 @@ _QS_fnc_iconUnits = {
 				0 = _auv pushBack _x;
 			};
 		} count _au;
-		if ((_QS_ST_X # 80)) then {
-			{
-				if (!(_x in _auv)) then {
-					if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
-						if ((crew _x) isEqualTo []) then {
-							0 = _auv pushBack _x;
+		if ((_QS_ST_X # 80) isNotEqualTo 0) then {
+			if ((_QS_ST_X # 80) isEqualTo 1) then {
+				{
+					if ((crew _x) isEqualTo []) then {
+						if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
+							0 = _auv pushBackUnique _x;
 						};
 					};
-				};
-			} count vehicles;
+				} count vehicles;
+			} else {
+				{
+					if ((crew _x) isEqualTo []) then {
+						0 = _auv pushBackUnique _x;
+					};
+				} count (assignedVehicles (group QS_player));
+			};
 		};
-		if ((_QS_ST_X # 65)) then {
+		if (_QS_ST_X # 65) then {
 			{
 				0 = _auv pushBack _x;
-			} count (units (group player));
+			} count (units (group QS_player));
 		};
 		_auv;
 	};
-	if ((_di isEqualTo 1) && (_QS_ST_X # 80)) exitWith {
-		{
-			if (!(_x in _au)) then {
-				if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
-					if ((crew _x) isEqualTo []) then {
-						0 = _au pushBack _x;
+	if ((_di isEqualTo 1) && {((_QS_ST_X # 80) isNotEqualTo 0)}) exitWith {
+		if ((_QS_ST_X # 80) isEqualTo 1) then {
+			{
+				if ((crew _x) isEqualTo []) then {
+					if (_x getVariable ['QS_ST_drawEmptyVehicle',FALSE]) then {
+						0 = _au pushBackUnique _x;
 					};
 				};
-			};
-		} count vehicles;
+			} count vehicles;
+		} else {
+			{
+				if ((crew _x) isEqualTo []) then {
+					0 = _au pushBackUnique _x;
+				};
+			} count (assignedVehicles (group QS_player));
+		};
 		_au;
 	};
 	_au;
@@ -846,14 +843,13 @@ _QS_fnc_iconUnits = {
 _QS_fnc_onMapSingleClick = {
 	params ['_units','_position','_alt','_shift'];
 	if ((!(_alt)) && (!(_shift))) then {
-		if (player getVariable 'QS_ST_mapSingleClick') then {
-			player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
-			if (alive (player getVariable ['QS_ST_map_vehicleShowCrew',objNull])) then {
-				(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+		if (QS_player getVariable ['QS_ST_mapSingleClick',FALSE]) then {
+			QS_player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+			if (alive (QS_player getVariable ['QS_ST_map_vehicleShowCrew',objNull])) then {
+				(QS_player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
 			};
 		};
-		//comment "player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];";
-		player setVariable ['QS_ST_mapSingleClick',TRUE,FALSE];
+		QS_player setVariable ['QS_ST_mapSingleClick',TRUE,FALSE];
 		private _vehicle = objNull;
 		_vehicles = (nearestObjects [_position,['Air','LandVehicle','Ship'],250,TRUE]) select {(alive _x)};
 		if ((count _vehicles) > 0) then {
@@ -873,21 +869,21 @@ _QS_fnc_onMapSingleClick = {
 		if (
 			(alive _vehicle) &&
 			{((count (crew _vehicle)) > 1)} &&
-			{((side (effectiveCommander _vehicle)) isEqualTo (player getVariable ['QS_unit_side',WEST]))} &&
-			{(_vehicle isNotEqualTo (player getVariable ['QS_ST_map_vehicleShowCrew',objNull]))}
+			{((side (effectiveCommander _vehicle)) isEqualTo (QS_player getVariable ['QS_unit_side',WEST]))} &&
+			{(_vehicle isNotEqualTo (QS_player getVariable ['QS_ST_map_vehicleShowCrew',objNull]))}
 		) then {
-			player setVariable ['QS_ST_map_vehicleShowCrew',_vehicle,FALSE];
+			QS_player setVariable ['QS_ST_map_vehicleShowCrew',_vehicle,FALSE];
 			_vehicle setVariable ['QS_ST_mapClickShowCrew',TRUE,FALSE];
 		} else {
-			(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
-			player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
-			player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+			(QS_player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+			QS_player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
+			QS_player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
 		};
 	};
 	if (_shift) then {
-		if (player isEqualTo (leader (group player))) then {
+		if (QS_player isEqualTo (leader (group QS_player))) then {
 			private _nearUnit = objNull;
-			_nearUnits = (nearestObjects [_position,['CAManBase'],250,TRUE]) select {((alive _x) && ((group _x) isEqualTo (group player)) && (isNull (objectParent _x)))};
+			_nearUnits = (nearestObjects [_position,['CAManBase'],250,TRUE]) select {((alive _x) && ((group _x) isEqualTo (group QS_player)) && (isNull (objectParent _x)))};
 			if (_nearUnits isNotEqualTo []) then {
 				if ((count _nearUnits) > 1) then {
 					private _dist = 999999;
@@ -902,7 +898,7 @@ _QS_fnc_onMapSingleClick = {
 				};
 			};
 			if (alive _nearUnit) then {
-				player groupSelectUnit [_nearUnit,(!(_nearUnit in _units))];
+				QS_player groupSelectUnit [_nearUnit,(!(_nearUnit in _units))];
 			};
 		};
 	};
@@ -911,14 +907,15 @@ _QS_fnc_mapVehicleShowCrew = {};
 _QS_fnc_iconDrawMap = {
 	params ['_m'];
 	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
-	if ((_QS_ST_X # 83) && (!('ItemGPS' in (assignedItems player)))) exitWith {};
+	if ((_QS_ST_X # 83) && ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1)) exitWith {};
+	_player = missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',player];
 	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
 	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
 	if (diag_tickTime > (missionNamespace getVariable 'QS_ST_updateDraw_map')) then {
 		missionNamespace setVariable ['QS_ST_updateDraw_map',(diag_tickTime + 5),FALSE];
 		missionNamespace setVariable ['QS_ST_drawArray_map',([1,_QS_ST_X] call (_QS_ST_X # 46)),FALSE];
 		if (_QS_ST_X # 35) then {
-			missionNamespace setVariable ['QS_ST_drawArrayEnemy_map',([([0,1] select (player getUnitTrait 'QS_trait_HQ')),_QS_ST_X,(_QS_ST_X # 43),_fn_jammer,_gpsJammers] call (missionNamespace getVariable 'QS_fnc_getKnownEnemies')),FALSE];
+			missionNamespace setVariable ['QS_ST_drawArrayEnemy_map',([([0,1] select (QS_player getUnitTrait 'QS_trait_HQ')),_QS_ST_X,(_QS_ST_X # 43),_fn_jammer,_gpsJammers] call (missionNamespace getVariable 'QS_fnc_getKnownEnemies')),FALSE];
 		};
 	};
 	_sh = _QS_ST_X # 17;
@@ -936,7 +933,6 @@ _QS_fnc_iconDrawMap = {
 			_m drawIcon _x;
 		} count (missionNamespace getVariable ['QS_ST_drawArrayEnemy_map',[]]);
 	};
-	_player = player;
 	_ms = ctrlMapScale _m;
 	private _ve = objNull;
 	private _po = [[0,0,0],0];
@@ -954,7 +950,7 @@ _QS_fnc_iconDrawMap = {
 						) then {
 							_po = [_ve,1,_de] call _fn_po;
 							_is = [_ve,1,_QS_ST_X] call _fn_is;
-							if (_ve isEqualTo (vehicle _player)) then {
+							if (_ve isEqualTo (vehicle QS_player)) then {
 								_m drawIcon ['a3\ui_f\data\igui\cfg\islandmap\iconplayer_ca.paa',[1,0,0,0.666],(_po # 0),24,24,(_po # 1),'',0,0.03,_tf,_to];
 							};
 							_m drawIcon [
@@ -976,7 +972,7 @@ _QS_fnc_iconDrawMap = {
 			};
 		} count (missionNamespace getVariable ['QS_ST_drawArray_map',[]]);
 	};
-	_grp = group _player;
+	_grp = group QS_player;
 	_grpLeader = leader _grp;
 	if (_grp getVariable ['QS_HComm_grp',FALSE]) then {
 		if ((waypoints _grp) isNotEqualTo []) then {
@@ -1031,8 +1027,8 @@ _QS_fnc_iconDrawMap = {
 			'A3\3DEN\Data\CfgWaypoints\Move_ca.paa',
 			[1,1,1,0.6],
 			_grpWPPos,
-			([24,1] select (_player isEqualTo _grpLeader)),
-			([24,1] select (_player isEqualTo _grpLeader)),
+			([24,1] select (QS_player isEqualTo _grpLeader)),
+			([24,1] select (QS_player isEqualTo _grpLeader)),
 			0,
 			groupId _grp,
 			2,
@@ -1042,19 +1038,19 @@ _QS_fnc_iconDrawMap = {
 		];
 	};
 	if (!_inJammerArea) then {
-		if (_player isEqualTo _grpLeader) then {
-			if ((groupSelectedUnits _player) isNotEqualTo []) then {
+		if (QS_player isEqualTo _grpLeader) then {
+			if ((groupSelectedUnits QS_player) isNotEqualTo []) then {
 				{
-					_m drawLine [(getPosWorldVisual _player),(getPosWorldVisual (vehicle _x)),[0,1,1,0.5]];
-				} count (groupSelectedUnits _player);
+					_m drawLine [(getPosWorldVisual QS_player),(getPosWorldVisual (vehicle _x)),[0,1,1,0.5]];
+				} count (groupSelectedUnits QS_player);
 			};
 		} else {
-			if (isNull (objectParent _player)) then {
-				if (isNull (objectParent _grpLeader)) then {
-					if ((_grpLeader distance2D _player) < (_QS_ST_X # 27)) then {
-						_m drawLine [(getPosWorldVisual _player),(getPosWorldVisual _grpLeader),[0,1,1,0.5]];
-					};
-				};
+			if (
+				(isNull (objectParent QS_player)) &&
+				{(isNull (objectParent _grpLeader))} &&
+				{((_grpLeader distance2D QS_player) < (_QS_ST_X # 27))}
+			) then {
+				_m drawLine [(getPosWorldVisual QS_player),(getPosWorldVisual _grpLeader),[0,1,1,0.5]];
 			};
 		};
 	};
@@ -1134,7 +1130,7 @@ _QS_fnc_iconDrawGPS = {
 	if (
 		(!('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) ||
 		{(visibleMap)} ||
-		{((_QS_ST_X # 84) && (!('ItemGPS' in (assignedItems player))))}
+		{((_QS_ST_X # 84) && ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1))}
 	) exitWith {};
 	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
 	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
@@ -1188,19 +1184,19 @@ _QS_fnc_iconDrawGPS = {
 		} count (missionNamespace getVariable ['QS_ST_drawArray_gps',[]]);
 	};
 	if (!_inJammerArea) then {
-		if (player isEqualTo (leader (group player))) then {
-			if ((groupSelectedUnits player) isNotEqualTo []) then {
+		if (QS_player isEqualTo (leader (group QS_player))) then {
+			if ((groupSelectedUnits QS_player) isNotEqualTo []) then {
 				{
-					_m drawLine [(getPosWorldVisual player),(getPosWorldVisual (vehicle _x)),[0,1,1,0.5]];
-				} count (groupSelectedUnits player);
+					_m drawLine [(getPosWorldVisual QS_player),(getPosWorldVisual (vehicle _x)),[0,1,1,0.5]];
+				} count (groupSelectedUnits QS_player);
 			};
 		} else {
-			if (isNull (objectParent player)) then {
-				if (isNull (objectParent (leader (group player)))) then {
-					if (((leader (group player)) distance2D player) < (_QS_ST_X # 27)) then {
-						_m drawLine [(getPosWorldVisual player),(getPosWorldVisual (leader (group player))),[0,1,1,0.5]];
-					};
-				};
+			if (
+				(isNull (objectParent QS_player)) &&
+				{(isNull (objectParent (leader (group QS_player))))} &&
+				{(((leader (group QS_player)) distance2D QS_player) < (_QS_ST_X # 27))}
+			) then {
+				_m drawLine [(getPosWorldVisual QS_player),(getPosWorldVisual (leader (group QS_player))),[0,1,1,0.5]];
 			};
 		};
 	};
@@ -1233,7 +1229,7 @@ _QS_fnc_groupIconType = {
 	_grpVehicle_type = typeOf _grpVehicle;
 	_vehicleClass = _grpVehicle getVariable ['QS_ST_groupVehicleClass',''];
 	if (_vehicleClass isEqualTo '') then {
-		_vehicleClass = getText (configFile >> 'CfgVehicles' >> _grpVehicle_type >> 'vehicleClass');
+		_vehicleClass = getText ((configOf _grpVehicle) >> 'vehicleClass');
 		_grpVehicle setVariable ['QS_ST_groupVehicleClass',_vehicleClass];
 	};
 	private _iconType = _grpVehicle getVariable ['QS_ST_groupVehicleIconType',''];
@@ -1450,7 +1446,7 @@ _QS_fnc_onGroupIconClick = {
 	scriptName 'QS_ST_onGroupIconClick';
 	params ['_is3D','_group','_wpID','_button','_posx','_posy','_shift','_ctrl','_alt'];
 	if (!isNull (objectParent (leader _group))) exitWith {};
-	if ((side _group) isNotEqualTo (player getVariable ['QS_unit_side',WEST])) exitWith {
+	if ((side _group) isNotEqualTo (QS_player getVariable ['QS_unit_side',WEST])) exitWith {
 		[QS_ST_STR_text2] call (missionNamespace getVariable 'QS_fnc_hint');
 		0 spawn {uiSleep 3;[''] call (missionNamespace getVariable 'QS_fnc_hint');};
 	};
@@ -1499,7 +1495,11 @@ _QS_fnc_onGroupIconClick = {
 				_unitMOS = _x getVariable ['QS_unit_role_displayName','Rifleman'];
 			};		
 		} else {
-			_unitMOS = getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'displayName');
+			_unitMOS = QS_hashmap_configfile getOrDefaultCall [
+				format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _x)],
+				{getText ((configOf _x) >> 'displayName')},
+				TRUE
+			];
 		};
 		_unitName = name _x;
 		if (!isPlayer _x) then {
@@ -1533,7 +1533,7 @@ _QS_fnc_onGroupIconClick = {
 	])] call (missionNamespace getVariable 'QS_fnc_hint');
 };
 _QS_fnc_onGroupIconOverEnter = {
-	if ((side (_this # 1)) isNotEqualTo (player getVariable ['QS_unit_side',WEST])) exitWith {};
+	if ((side (_this # 1)) isNotEqualTo (QS_player getVariable ['QS_unit_side',WEST])) exitWith {};
 };
 _QS_fnc_onGroupIconOverLeave = {
 	hintSilent '';
@@ -1688,7 +1688,7 @@ waitUntil {
 };
 _QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
 if (_QS_ST_X # 0) then {
-	((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X # 49)])];
+	((findDisplay 12) displayCtrl 51) ctrlAddEventHandler ['Draw',(format ['call %1',(_QS_ST_X # 49)])];
 	if (_QS_ST_X # 82) then {
 		/*/
 		[_QS_ST_X] spawn {
@@ -1736,10 +1736,10 @@ if (_QS_ST_X # 0) then {
 				{
 					params ['_mapIsOpened','_mapIsForced'];
 					if (!(_mapIsOpened)) then {
-						if (alive (player getVariable ['QS_ST_map_vehicleShowCrew',objNull])) then {
-							player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
-							(player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
-							player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
+						if (alive (QS_player getVariable ['QS_ST_map_vehicleShowCrew',objNull])) then {
+							QS_player setVariable ['QS_ST_mapSingleClick',FALSE,FALSE];
+							(QS_player getVariable ['QS_ST_map_vehicleShowCrew',objNull]) setVariable ['QS_ST_mapClickShowCrew',FALSE,FALSE];
+							QS_player setVariable ['QS_ST_map_vehicleShowCrew',objNull,FALSE];
 						};
 					};
 				}
@@ -1750,7 +1750,7 @@ if (_QS_ST_X # 0) then {
 
 if (_QS_ST_X # 1) then {
 	[_QS_ST_X] spawn {
-		scriptName 'Soldier Tracker (GPS Icons) by Quiksilver - Waiting for GPS display';
+		scriptName 'Soldier Tracker (GPS Icons) - Waiting for GPS display';
 		params ['_QS_ST_X'];
 		disableSerialization;
 		private _gps = controlNull;
@@ -1761,7 +1761,7 @@ if (_QS_ST_X # 1) then {
 					if (!isNull (_x displayCtrl 101)) exitWith {
 						_gps = (_x displayCtrl 101);
 						_gps ctrlRemoveAllEventHandlers 'Draw';
-						_gps ctrlAddEventHandler ['Draw',(format ['_this call %1',(_QS_ST_X # 50)])];
+						_gps ctrlAddEventHandler ['Draw',(format ['call %1',(_QS_ST_X # 50)])];
 						_exit = TRUE;
 					};
 				};
@@ -1784,7 +1784,7 @@ if (_QS_ST_X # 2) then {
 		];
 	};
 	_grpscript = [_QS_ST_X] spawn {
-		scriptName 'Soldier Tracker (Group Icons) by Quiksilver';
+		scriptName 'Soldier Tracker (Group Icons)';
 		params ['_QS_ST_X'];
 		_showMapUnitIcons = _QS_ST_X # 0;
 		_dynamicDiplomacy = TRUE;
@@ -1817,51 +1817,56 @@ if (_QS_ST_X # 2) then {
 			0 = _as pushBack (_sides # _x);
 		} count _showFriendlySides;
 		for '_x' from 0 to 1 step 0 do {
-			if (_dynamicDiplomacy) then {
-				if (diag_tickTime > _checkDiplomacy) then {
-					_as = [];
-					{
-						if (((player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
-							_as pushBack _x;
-						};
-					} forEach _sides;
-					_checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
-				};
+			if (
+				_dynamicDiplomacy &&
+				{(diag_tickTime > _checkDiplomacy)}
+			) then {
+				_as = [];
+				{
+					if (((QS_player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+						_as pushBack _x;
+					};
+				} forEach _sides;
+				_checkDiplomacy = diag_tickTime + _checkDiplomacy_delay;
 			};
 			if (diag_tickTime > _groupUpdateDelay) then {
 				{
-					if ((_showOwnGroup) || {((!(_showOwnGroup)) && (_x isNotEqualTo (group player)))} || {(!(_showMapUnitIcons))}) then {
+					if ((_showOwnGroup) || {((!(_showOwnGroup)) && (_x isNotEqualTo (group QS_player)))} || {(!(_showMapUnitIcons))}) then {
 						_grp = _x;
 						if (((units _grp) findIf {(alive _x)}) isNotEqualTo -1) then {
 							if ((side _grp) in _as) then {
 								_grpLeader = leader _grp;
 								if (_showAIGroups) then {
 									if (isNil {_grp getVariable 'QS_ST_Group'}) then {
-										if (!isNull _grp) then {
-											if (!isNull _grpLeader) then {
-												[_grp,0,_QS_ST_X] call _configGroupIcon;
-											};
+										if (
+											(!isNull _grp) &&
+											{(!isNull _grpLeader)}
+										) then {
+											[_grp,0,_QS_ST_X] call _configGroupIcon;
 										};
 									} else {
-										if (!isNull _grp) then {
-											if (!isNull _grpLeader) then {
-												[_grp,1,_QS_ST_X] call _configGroupIcon;
-											};
+										if (
+											(!isNull _grp) &&
+											{(!isNull _grpLeader)}
+										) then {
+											[_grp,1,_QS_ST_X] call _configGroupIcon;
 										};
 									};
 								} else {
 									if (isPlayer _grpLeader) then {
 										if (isNil {_grp getVariable 'QS_ST_Group'}) then {
-											if (!isNull _grp) then {
-												if (!isNull _grpLeader) then {
-													[_grp,0,_QS_ST_X] call _configGroupIcon;
-												};
+											if (
+												(!isNull _grp) &&
+												{(!isNull _grpLeader)}
+											) then {
+												[_grp,0,_QS_ST_X] call _configGroupIcon;
 											};
 										} else {
-											if (!isNull _grp) then {
-												if (!isNull _grpLeader) then {
-													[_grp,1,_QS_ST_X] call _configGroupIcon;
-												};
+											if (
+												(!isNull _grp) &&
+												{(!isNull _grpLeader)}
+											) then {
+												[_grp,1,_QS_ST_X] call _configGroupIcon;
 											};
 										};
 									};
@@ -1884,13 +1889,14 @@ if (_QS_ST_X # 2) then {
 				};
 				_groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
 			};
-			if (_gpsRequired) then {
-				if (!('ItemGPS' in (assignedItems player))) then {
-					setGroupIconsVisible [FALSE,FALSE];
-					waitUntil {
-						uiSleep 0.25;
-						('ItemGPS' in (assignedItems player))
-					};
+			if (
+				_gpsRequired &&
+				{((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1)}
+			) then {
+				setGroupIconsVisible [FALSE,FALSE];
+				waitUntil {
+					uiSleep 0.25;
+					((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1)
 				};
 			};
 			if ((!(visibleMap)) && (isNull ((findDisplay 160) displayCtrl 51)) && (isNull ((findDisplay -1) displayCtrl 500))) then {

@@ -46,16 +46,10 @@ _worldName = worldName;
 _worldSize = worldSize + 2000;
 if (_unitTypes isEqualTo []) then {
 	if (_side isEqualTo EAST) then {
-		_unitTypes = [
-			['o_soldier_f'],
-			['o_t_soldier_f']
-		] select (_worldName isEqualTo 'Tanoa');
+		_unitTypes = ['o_soldier_f'];
 	};
 	if (_side isEqualTo WEST) then {
-		_unitTypes = [
-			['b_soldier_f'],
-			['b_t_soldier_f']
-		] select (_worldName isEqualTo 'Tanoa');
+		_unitTypes = ['b_soldier_f'];
 	};
 	if (_side isEqualTo RESISTANCE) then {
 		_unitTypes = ['i_soldier_f'];
@@ -90,25 +84,21 @@ private _HLZ = [0,0,0];
 _helipadType = 'Land_HelipadEmpty_F';
 for '_x' from 0 to 99 step 1 do {
 	_HLZ = [_position,0,300,17,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
-	if ((nearestObjects [_HLZ,[_helipadType],75,TRUE]) isEqualTo []) then {
-		if ((nearestTerrainObjects [_HLZ,['TREE','SMALL TREE'],15,FALSE,TRUE]) isEqualTo []) then {
-			if ((allPlayers findIf {((_x distance2D _HLZ) < 50)}) isEqualTo -1) then {
-				if ((_HLZ distance2D _position) < 300) then {
-					_foundHLZ = TRUE;
-				};
-			};
-		};
-	};
-	if (_foundHLZ) exitWith {};
+	if (
+		((nearestObjects [_HLZ,[_helipadType],75,TRUE]) isEqualTo []) &&
+		{((nearestTerrainObjects [_HLZ,['TREE','SMALL TREE'],15,FALSE,TRUE]) isEqualTo [])} &&
+		{((allPlayers findIf {((_x distance2D _HLZ) < 50)}) isEqualTo -1)} &&
+		{((_HLZ distance2D _position) < 300)}
+	) exitWith {_foundHLZ = TRUE;};
 };
 if (!(_foundHLZ)) exitWith {};
 _HLZ set [2,0];
 private _array = [];
-_heli = createVehicle [_heliType,_mapEdgePosition,[],500,'FLY'];
+_heli = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _heliType,_heliType],_mapEdgePosition,[],500,'FLY'];
 _heli setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _heli enableDynamicSimulation FALSE;
 _heliGroup = createGroup [EAST,TRUE];
-_heliPilot = _heliGroup createUnit ['O_helipilot_F',(getPosWorld _heli),[],0,'NONE'];
+_heliPilot = _heliGroup createUnit [(QS_core_units_map getOrDefault ['o_helipilot_f','o_helipilot_f']),(getPosWorld _heli),[],0,'NONE'];
 _heliGroup addVehicle _heli;
 _heliPilot assignAsDriver _heli;
 _heliPilot moveInDriver _heli;
@@ -125,7 +115,7 @@ clearWeaponCargoGlobal _heli;
 clearMagazineCargoGlobal _heli;
 clearItemCargoGlobal _heli;
 clearBackpackCargoGlobal _heli;
-_heli lockInventory TRUE;
+[_heli,TRUE] remoteExec ['lockInventory',0,FALSE];
 [_heli,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 _heli engineOn TRUE;
 _heli addEventHandler [
@@ -248,7 +238,7 @@ if (_useSupport) then {
 	if ((count allPlayers) > 10) then {
 		_supportSpawnPosition = _heli getRelPos [100,90];
 		_supportSpawnPosition set [2,50];
-		_supportHeli = createVehicle [_supportType,_supportSpawnPosition,[],0,'FLY'];
+		_supportHeli = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _supportType,_supportType],_supportSpawnPosition,[],0,'FLY'];
 		_supportHeli setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 		_supportHeli enableDynamicSimulation FALSE;
 		_supportGroup = createVehicleCrew _supportHeli;
@@ -274,7 +264,7 @@ if (_useSupport) then {
 		clearMagazineCargoGlobal _supportHeli;
 		clearItemCargoGlobal _supportHeli;
 		clearBackpackCargoGlobal _supportHeli;
-		_supportHeli lockInventory TRUE;
+		[_supportHeli,TRUE] remoteExec ['lockInventory',0,FALSE];
 		['setFeatureType',_supportHeli,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_supportHeli];
 		//[_supportHeli,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_wp = _supportGroup addWaypoint [_HLZ,0];

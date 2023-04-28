@@ -6,12 +6,17 @@ Author:
 	
 Last Modified:
 
-	14/03/2017 A3 1.66
+	30/03/2023 A3 2.12
 	
 Description:
 
 	Weapon Safety interaction
 _____________________________________________________________*/
 
-50 cutText [localize 'STR_QS_Text_167','PLAIN',0.2];
+if (
+	(!weaponLowered QS_player) ||
+	{((currentMuzzle QS_player) isNotEqualTo '')}
+) then {
+	50 cutText [localize 'STR_QS_Interact_106','PLAIN',0.2];
+};
 TRUE;

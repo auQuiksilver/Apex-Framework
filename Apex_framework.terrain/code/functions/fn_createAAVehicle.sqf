@@ -60,8 +60,8 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 				if (isPlayer _instigator) then {
 					if ((vehicle _instigator) isKindOf 'Air') then {
 						_killerType = typeOf (vehicle _instigator);
-						_killerDisplayName = getText (configFile >> 'CfgVehicles' >> _killerType >> 'displayName');
-						_objDisplayName = getText (configFile >> 'CfgVehicles' >> _objType >> 'displayName');
+						_killerDisplayName = getText ((configOf (vehicle _instigator)) >> 'displayName');
+						_objDisplayName = getText ((configOf _killed) >> 'displayName');
 						_name = name _instigator;
 						['sideChat',[WEST,'BLU'],(format ['%1 %4 %2 %5 %3!',_name,_objDisplayName,_killerDisplayName,localize 'STR_QS_Chat_045',localize 'STR_QS_Chat_046'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 					};
@@ -133,15 +133,6 @@ private _grp = createGroup [EAST,TRUE];
 } forEach (units _grp);
 _grp setVariable ['QS_AI_disableSuppFire',TRUE,FALSE];
 _grp addVehicle _vehicle;
-/*/
-_grp addEventHandler [
-	"EnemyDetected", 
-	{
-		params ["_group", "_newTarget"];
-		(format ["Enemy Detected - %1",_this]) remoteExec ['systemChat',-2];
-	}
-];
-/*/
 _grp enableAttack FALSE;
 [(units _grp),4] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _vehicle setVariable ['QS_vehicleCrew',[(gunner _vehicle),(commander _vehicle)],FALSE];

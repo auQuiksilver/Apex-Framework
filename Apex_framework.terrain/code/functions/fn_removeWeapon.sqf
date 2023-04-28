@@ -10,7 +10,7 @@ Last Modified:
 	
 Description:
 
-	-
+	To Do: Optimise
 ______________________________________________________/*/
 
 params ['_unit','_weapon'];

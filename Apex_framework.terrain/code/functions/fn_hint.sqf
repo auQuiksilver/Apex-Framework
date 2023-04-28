@@ -78,12 +78,12 @@ _control ctrlSetPosition _ctrlPosition;
 _control ctrlCommit 0;
 if (_useSound isEqualType '') then {
 	if (_useSound isNotEqualTo '') then {
-		playSound _useSound;
+		playSoundUI [_useSound];
 	};
 } else {
 	if (_useSound isEqualType FALSE) then {
 		if (_useSound) then {
-			playSound 'hint';
+			playSoundUI ['hint'];
 		};
 	};
 };

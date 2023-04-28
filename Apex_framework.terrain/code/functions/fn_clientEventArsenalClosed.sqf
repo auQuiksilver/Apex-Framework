@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	21/11/2018 A3 1.86 by Quiksilver
+	24/12/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -42,7 +42,7 @@ if ((backpack player) isNotEqualTo '') then {
 	if ((loadBackpack player) > _maxLoadBackpack) then {
 		while {((loadBackpack player) > _maxLoadBackpack)} do {
 			_itemToRemove = selectRandom ((backpackItems player) + (backpackMagazines player));
-			if (!(_itemToRemove in ['ToolKit','Medikit'])) then {
+			if (!((toLowerANSI _itemToRemove) in (QS_core_classNames_itemToolKits + QS_core_classNames_itemMedikits))) then {
 				player removeItemFromBackpack _itemToRemove;
 			};
 			if (canSuspend) then {
@@ -74,6 +74,30 @@ if ((uniform player) isNotEqualTo '') then {
 			};
 		};
 	};	
+};
+private _cosmeticsEnabled = call (missionNamespace getVariable 'QS_missionConfig_cosmetics');
+private _canLoadFaceProfile = FALSE;
+if (_cosmeticsEnabled > 0) then {
+	if (_cosmeticsEnabled isEqualTo 1) then {
+		if (
+			((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) ||
+			((call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0)
+		) then {
+			_canLoadFaceProfile = TRUE;
+		};
+	} else {
+		_canLoadFaceProfile = TRUE;
+	};
+};
+if (_canLoadFaceProfile) then {
+	private _availableFaces = ['cfgfaces_1'] call QS_data_listOther;
+	_availableFaces = _availableFaces apply { toLowerANSI (_x # 1) };
+	_profileFace = missionProfileNamespace getVariable ['QS_unit_face','default'];
+	if ((toLowerANSI _profileFace) in _availableFaces) then {
+		if ((toLowerANSI (face player)) isNotEqualTo (toLowerANSI _profileFace)) then {
+			['setFace',player,_profileFace] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		};
+	};
 };
 _QS_playerRole = player getVariable ['QS_unit_role','rifleman'];
 _QS_loadout = getUnitLoadout player;

@@ -72,7 +72,7 @@ if (_type isEqualTo 'B1') exitWith {
 		if (diag_tickTime > (missionNamespace getVariable ['QS_LB_netSync_cooldown',-1])) then {
 			missionNamespace setVariable ['QS_LB_netSync',FALSE,FALSE];
 			missionNamespace setVariable ['QS_LB_netSync_cooldown',diag_tickTime + 30,FALSE];
-			[101,''] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+			[101,''] remoteExec ['QS_fnc_remoteExec',2,FALSE];		// To Do: Figure out why we arent using getPlayerUID player here. If I add it, will something else break?
 		};
 		_timeout = diag_tickTime + 5;
 		waitUntil {
@@ -153,7 +153,7 @@ if (_type isEqualTo 'B1') exitWith {
 			_leaderboardData = _leaderboardData apply {
 				if (_isAccuracyLB) then {
 					[
-						(parseNumber (((((_x # 1) # _leaderboardID) # 0) / (((_x # 1) # _leaderboardID) # 1)) toFixed 3)),
+						(parseNumber (((((_x # 1) # _leaderboardID) # 0) / ((((_x # 1) # _leaderboardID) # 1) max 1)) toFixed 3)),
 						(_x # 0),
 						(_x # 1) # 0,
 						[(((_x # 1) # _leaderboardID) # 0),(((_x # 1) # _leaderboardID) # 1)]

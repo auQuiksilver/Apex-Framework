@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/01/20167 A3 1.66 by Quiksilver
+	20/01/2017 A3 1.66 by Quiksilver
 	
 Description:
 
@@ -19,8 +19,8 @@ ___________________________________________________________________*/
 
 params ['_unit','_container','_item'];
 if (player getVariable ['QS_client_radioDisabled',FALSE]) then {
-	if ('ItemRadio' in (assignedItems player)) then {
-		player unassignItem 'ItemRadio';
+	if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
+		player unassignItem (QS_client_assignedItems_lower # (QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios));
 	};
 };
 if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {

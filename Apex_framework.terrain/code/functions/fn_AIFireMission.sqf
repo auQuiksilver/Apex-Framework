@@ -270,9 +270,12 @@ if (_type isEqualTo 2) exitWith {
 					'Fired',
 					{
 						params ['','','','','_ammo','','_projectile',''];
-						if ((toLowerANSI _ammo) in [
-							'bomb_03_f','bomb_04_f','bo_gbu12_lgb','bo_gbu12_lgb_mi10','bo_air_lgb','bo_air_lgb_hidden','bo_mk82','bo_mk82_mi08'
-						]) then {
+						private _simulation = QS_hashmap_configfile getOrDefaultCall [
+							format ['cfgammo_%1_simulation',toLowerANSI _ammo],
+							{toLowerANSI (getText (configFile >> 'CfgAmmo' >> _ammo >> 'simulation'))},
+							TRUE
+						];
+						if ((toLowerANSI _simulation) isEqualTo 'shotmissile') then {
 							missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
 							missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),TRUE];
 						};

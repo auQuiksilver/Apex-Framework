@@ -6,35 +6,28 @@ Author:
 
 Last Modified:
 
-	29/11/2017 A3 1.78 by Quiksilver
+	28/12/2022 A3 2.10 by Quiksilver
 
 Description:
 
 	AO Mortar Site
-____________________________________________________________________________/*/
+___________________________________________________/*/
 
 _aoPos = missionNamespace getVariable 'QS_aoPos';
 _aoSize = missionNamespace getVariable 'QS_aoSize';
 private _multiplier = 0.75;
 private _spawnPos = [0,0,0];
 private _allPlayers = allPlayers;
-private _positionFound = FALSE;
 for '_x' from 0 to 19 step 1 do {
 	_spawnPos = ['RADIUS',_aoPos,(_aoSize * _multiplier),'LAND',[8,0,0.1,5,0,FALSE,objNull],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if (((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_spawnPos,100,100,0,FALSE]) isEqualTo []) then {
-		if ((((_spawnPos select [0,2]) nearRoads 15) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
-			if (!((toLowerANSI(surfaceType _spawnPos)) in ['#gdtasphalt'])) then {
-				if (!([_spawnPos,20,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-					if ((_allPlayers inAreaArray [_spawnPos,300,300,0,FALSE]) isEqualTo []) then {
-						if (([_spawnPos,6] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 5) then {
-							_positionFound = TRUE;
-						};
-					};
-				};
-			};
-		};
-	};
-	if (_positionFound) exitWith {};
+	if (
+		(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_spawnPos,100,100,0,FALSE]) isEqualTo []) &&
+		{((((_spawnPos select [0,2]) nearRoads 15) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} &&
+		{(!((toLowerANSI(surfaceType _spawnPos)) in ['#gdtasphalt']))} &&
+		{(!([_spawnPos,20,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))} &&
+		{((_allPlayers inAreaArray [_spawnPos,300,300,0,FALSE]) isEqualTo [])} &&
+		{(([_spawnPos,6] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 5)}
+	) exitWith {};
 	_multiplier = _multiplier + 0.1;
 };
 if (((_spawnPos distance2D _aoPos) > (_aoSize * 3)) || {(_spawnPos isEqualTo [])}) exitWith {[]};
@@ -141,15 +134,12 @@ _patrolGrp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _
 _patrolGrp setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
 _patrolGrp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 _truckPos = [_spawnPos,10,25,5,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
+private _truckType = '';
 if ((_truckPos distance2D _spawnPos) < 30) then {
 	_truckPos set [2,0];
-	_truckTypes = [
-		'O_G_Offroad_01_F',
-		'O_G_Van_01_transport_F',
-		'I_C_Van_01_transport_F',
-		'C_Truck_02_transport_F'
-	];
-	_truck = createVehicle [(selectRandom _truckTypes),[-500,-500,50],[],25,'NONE'];
+	_truckTypes = ['mortarsite_trucktypes_1'] call QS_data_listVehicles;
+	_truckType = selectRandom _truckTypes;
+	_truck = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _truckType,_truckType],[-500,-500,50],[],25,'NONE'];
 	_truck setDir (random 360);
 	_truck setVectorUp (surfaceNormal _truckPos);
 	_truck setVehiclePosition [(AGLToASL _truckPos),[],0,'NONE'];

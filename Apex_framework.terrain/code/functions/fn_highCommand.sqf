@@ -106,59 +106,57 @@ QS_hc_mapTest_1 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		_nearestWaypoint = [(_m ctrlMapScreenToWorld getMousePosition),_mScale] call (missionNamespace getVariable 'QS_fnc_mapGetNearestWaypoint');
 		{
 			if (!isNull _x) then {
-				if ((side _x) isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
-					_grp = _x;
-					if (((units _grp) findIf {(alive _x)}) isNotEqualTo -1) then {
-						_grpLeader = leader _grp;
-						if ((waypoints _grp) isNotEqualTo []) then {
-							_grpWaypoints = waypoints _grp;
-							for '_i' from 0 to ((count _grpWaypoints) - 1) step 1 do {
-								_mouseOver = [_grp,_i] isEqualTo _nearestWaypoint;
-								_alpha = [
-									([0.6,1] select (_grp in _hcSelected)),
-									1
-								] select _mouseOver;
-								if (_i isEqualTo 0) then {
-									_m drawLine [
-										(getPosASLVisual _grpLeader),
-										(waypointPosition [_grp,_i]),
-										[0,0,0,_alpha]
-									];
-								} else {
-									_m drawLine [
-										(waypointPosition [_grp,_i]),
-										(waypointPosition [_grp,(_i - 1)]),
-										[0,0,0,_alpha]
-									];
-								};
-								_wpType = waypointType [_grp,_i];
-								if (_wpType isEqualTo 'SAD') then {
-									_wpType = 'SeekAndDestroy';
-								};
-								if (_wpType isEqualTo 'TR UNLOAD') then {
-									_wpType = 'TransportUnload';
-								};
-								_wpIcon = getText (configFile >> 'cfgWaypoints' >> 'Default' >> _wpType >> 'icon');
-								_wpTypeName = getText (configFile >> 'cfgWaypoints' >> 'Default' >> _wpType >> 'displayName');
-								_m drawIcon [
-									_wpIcon,
-									([[0,0,0,_alpha],[1,1,1,1]] select _mouseOver),
+				_grp = _x;
+				if (((units _grp) findIf {(alive _x)}) isNotEqualTo -1) then {
+					_grpLeader = leader _grp;
+					if ((waypoints _grp) isNotEqualTo []) then {
+						_grpWaypoints = waypoints _grp;
+						for '_i' from 0 to ((count _grpWaypoints) - 1) step 1 do {
+							_mouseOver = [_grp,_i] isEqualTo _nearestWaypoint;
+							_alpha = [
+								([0.6,1] select (_grp in _hcSelected)),
+								1
+							] select _mouseOver;
+							if (_i isEqualTo 0) then {
+								_m drawLine [
+									(getPosASLVisual _grpLeader),
 									(waypointPosition [_grp,_i]),
-									26,
-									26,
-									0,
-									(format ['%1%2 %3',(['',((groupId _grp) + ' - ')] select _mouseOver),(['',((str _i) + ':')] select ((count _grpWaypoints) > 1)),_wpTypeName]),
-									0,
-									([0.04,0.07] select _mouseOver),
-									'RobotoCondensed',
-									'left'
+									[0,0,0,_alpha]
+								];
+							} else {
+								_m drawLine [
+									(waypointPosition [_grp,_i]),
+									(waypointPosition [_grp,(_i - 1)]),
+									[0,0,0,_alpha]
 								];
 							};
+							_wpType = waypointType [_grp,_i];
+							if (_wpType isEqualTo 'SAD') then {
+								_wpType = 'SeekAndDestroy';
+							};
+							if (_wpType isEqualTo 'TR UNLOAD') then {
+								_wpType = 'TransportUnload';
+							};
+							_wpIcon = getText (configFile >> 'cfgWaypoints' >> 'Default' >> _wpType >> 'icon');
+							_wpTypeName = getText (configFile >> 'cfgWaypoints' >> 'Default' >> _wpType >> 'displayName');
+							_m drawIcon [
+								_wpIcon,
+								([[0,0,0,_alpha],[1,1,1,1]] select _mouseOver),
+								(waypointPosition [_grp,_i]),
+								26,
+								26,
+								0,
+								(format ['%1%2 %3',(['',((groupId _grp) + ' - ')] select _mouseOver),(['',((str _i) + ':')] select ((count _grpWaypoints) > 1)),_wpTypeName]),
+								0,
+								([0.04,0.07] select _mouseOver),
+								'RobotoCondensed',
+								'left'
+							];
 						};
 					};
 				};
 			};
-		} forEach allGroups;
+		} forEach (groups (player getVariable ['QS_unit_side',WEST]));
 		if (_hcSelected isNotEqualTo []) then {
 			{
 				_grp = _x;
@@ -328,11 +326,11 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 				_groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
 			};
 			if (_gpsRequired) then {
-				if (!('ItemGPS' in (assignedItems player))) then {
+				if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1) then {
 					setGroupIconsVisible [FALSE,FALSE];
 					waitUntil {
 						uiSleep 0.25;
-						('ItemGPS' in (assignedItems player))
+						((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1)
 					};
 				};
 			};

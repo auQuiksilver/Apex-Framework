@@ -17,43 +17,23 @@ params ['_type'];
 private _typeL = toLowerANSI _type;
 _isTropical = worldName in ['Tanoa','Lingor3'];
 //----- MBTs
-_mbts = [
-	[
-		'i_mbt_03_cannon_f',0.2,
-		'b_mbt_01_cannon_f',0.5,
-		'b_mbt_01_tusk_f',0.3,
-		'o_mbt_02_cannon_f',0.1,
-		'o_mbt_04_cannon_f',0.05,
-		'o_mbt_04_command_f',0.0		//--- Maybe reserve this one for side mission reward
-	],
-	[
-		'i_mbt_03_cannon_f',0.2,
-		'b_t_mbt_01_cannon_f',0.5,
-		'b_t_mbt_01_tusk_f',0.3,
-		'o_t_mbt_02_cannon_ghex_f',0.1,
-		'o_t_mbt_04_cannon_f',0.05,
-		'o_t_mbt_04_command_f',0.0		//--- Maybe reserve this one for side mission reward
-	]
-] select _isTropical;
+_mbts =	[
+	'i_mbt_03_cannon_f',0.2,
+	'b_mbt_01_cannon_f',0.5,
+	'b_mbt_01_tusk_f',0.3,
+	'o_mbt_02_cannon_f',0.1,
+	'o_mbt_04_cannon_f',0.05,
+	'o_mbt_04_command_f',0.0		//--- Maybe reserve this one for side mission reward
+];
 //----- APCs
 _apcs = [
-	[
-		'b_apc_wheeled_01_cannon_f',0.1,
-		'b_apc_wheeled_03_cannon_f',0.1,
-		'b_apc_tracked_01_rcws_f',0.1,
-		'o_apc_wheeled_02_rcws_v2_f',0.1,
-		'b_afv_wheeled_01_cannon_f',0.5,
-		'b_afv_wheeled_01_up_cannon_f',0.5
-	],
-	[
-		'b_t_apc_wheeled_01_cannon_f',0.1,
-		'b_apc_wheeled_03_cannon_f',0.1,
-		'b_t_apc_tracked_01_rcws_f',0.1,
-		'o_t_apc_wheeled_02_rcws_v2_ghex_f',0.1,
-		'b_t_afv_wheeled_01_cannon_f',0.5,
-		'b_t_afv_wheeled_01_up_cannon_f',0.5
-	]
-] select _isTropical;
+	'b_apc_wheeled_01_cannon_f',0.1,
+	'b_apc_wheeled_03_cannon_f',0.1,
+	'b_apc_tracked_01_rcws_f',0.1,
+	'o_apc_wheeled_02_rcws_v2_f',0.1,
+	'b_afv_wheeled_01_cannon_f',0.5,
+	'b_afv_wheeled_01_up_cannon_f',0.5
+];
 //----- Nyx
 _nyx = [
 	'i_lt_01_aa_f',0.2,
@@ -115,51 +95,23 @@ _jeeps_civ = [
 ];
 //----- Prowler Armed
 _lsv_west_armed = [
-	[
-		'b_t_lsv_01_armed_black_f',0.1,
-		'b_t_lsv_01_armed_sand_f',0.1,
-		'b_lsv_01_at_f',0.1
-	],
-	[
-		'b_t_lsv_01_armed_black_f',0.1,
-		'b_t_lsv_01_armed_ctrg_f',0.1,
-		'b_t_lsv_01_armed_f',0.1,
-		'b_t_lsv_01_armed_olive_f',0.1,
-		'b_t_lsv_01_at_f',0.1
-	]
-] select _isTropical;
+	'b_t_lsv_01_armed_black_f',0.1,
+	'b_t_lsv_01_armed_sand_f',0.1,
+	'b_lsv_01_at_f',0.1
+];
 //----- Prowler Unarmed
 _lsv_west_unarmed = [
-	[
-		'b_t_lsv_01_unarmed_black_f',0.1,
-		'b_t_lsv_01_unarmed_sand_f',0.1
-	],
-	[
-		'b_t_lsv_01_unarmed_black_f',0.1,
-		'b_t_lsv_01_unarmed_ctrg_f',0.1,
-		'b_t_lsv_01_unarmed_f',0.1,
-		'b_t_lsv_01_unarmed_olive_f',0.1
-	]
-] select _isTropical;
+	'b_t_lsv_01_unarmed_black_f',0.1,
+	'b_t_lsv_01_unarmed_sand_f',0.1
+];
 //----- Qilin Armed
 _lsv_east_armed = [
-	[
-		'o_lsv_02_armed_black_f',0.1,
-		'o_lsv_02_at_f',0.1
-	],
-	[
-		'o_t_lsv_02_armed_black_f',0.1,
-		'o_t_lsv_02_at_f',0.1
-	]
-] select _isTropical;
+	'o_lsv_02_armed_black_f',0.1,
+	'o_lsv_02_at_f',0.1
+];
 //----- Qilin Unarmed
 _lsv_east_unarmed = [
-	[
-		'o_lsv_02_unarmed_black_f',0.1
-	],
-	[	
-		'o_t_lsv_02_unarmed_black_f',0.1
-	]
+	'o_lsv_02_unarmed_black_f',0.1
 ];
 if (_typeL in _apcs) exitWith {
 	_type = selectRandomWeighted _apcs;_type;

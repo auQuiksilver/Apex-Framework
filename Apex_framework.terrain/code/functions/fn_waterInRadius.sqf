@@ -13,7 +13,7 @@ Description:
 	Simple check for water in radius
 ____________________________________________________________________________*/
 
-params ['_position','_radius','_increment'];
+params ['_position','_radius',['_increment',4]];
 if (_increment < 4) then {_increment = 4;};
 private _return = FALSE;
 private _dir = 0;

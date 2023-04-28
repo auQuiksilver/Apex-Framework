@@ -251,6 +251,70 @@ player createDiaryRecord [
 player createDiaryRecord [
 	'QS_diary_hotkeys',
 	[
+		localize 'STR_QS_Diary_140',
+		(format [
+		'
+			<br/>1 - [%21] - %1
+			<br/>2 - [%22] - %2
+			<br/>3 - [%23] - %3
+			<br/>4 - [%24] - %4
+			<br/>5 - [%25] - %5
+			<br/>6 - [%26] - %6
+			<br/>7 - [%27] - %7
+			<br/>8 - [%28] - %8
+			<br/>9 - [%29] - %9
+			<br/>10 - [%30] - %10
+			<br/>11 - [%31] - %11
+			<br/>12 - [%32] - %12
+			<br/>13 - [%33] - %13
+			<br/>14 - [%34] - %14
+			<br/>15 - [%35] - %15
+			<br/>16 - [%36] - %16
+			<br/>17 - [%37] - %17
+			<br/>18 - [%38] - %18
+			<br/>19 - [%39] - %19
+			<br/>20 - [%40] - %20
+			',
+			localize 'STR_QS_Diary_151',localize 'STR_QS_Diary_151',localize 'STR_QS_Diary_151',localize 'STR_QS_Diary_151',localize 'STR_QS_Diary_151',localize 'STR_QS_Diary_151',
+			localize 'STR_QS_Diary_141',
+			localize 'STR_QS_Diary_142',
+			localize 'STR_QS_Diary_143',
+			localize 'STR_QS_Diary_144',
+			localize 'STR_QS_Diary_145',
+			localize 'STR_QS_Diary_151',localize 'STR_QS_Diary_151',
+			localize 'STR_QS_Diary_146',
+			localize 'STR_QS_Diary_147',
+			localize 'STR_QS_Diary_151',
+			localize 'STR_QS_Diary_148',
+			localize 'STR_QS_Diary_149',
+			localize 'STR_QS_Diary_151',
+			localize 'STR_QS_Diary_150',
+			actionKeysNames ["User1",1] trim ['"',0],
+			actionKeysNames ["User2",1] trim ['"',0],
+			actionKeysNames ["User3",1] trim ['"',0],
+			actionKeysNames ["User4",1] trim ['"',0],
+			actionKeysNames ["User5",1] trim ['"',0],
+			actionKeysNames ["User6",1] trim ['"',0],
+			actionKeysNames ["User7",1] trim ['"',0],
+			actionKeysNames ["User8",1] trim ['"',0],
+			actionKeysNames ["User9",1] trim ['"',0],
+			actionKeysNames ["User10",1] trim ['"',0],
+			actionKeysNames ["User11",1] trim ['"',0],
+			actionKeysNames ["User12",1] trim ['"',0],
+			actionKeysNames ["User13",1] trim ['"',0],
+			actionKeysNames ["User14",1] trim ['"',0],
+			actionKeysNames ["User15",1] trim ['"',0],
+			actionKeysNames ["User16",1] trim ['"',0],
+			actionKeysNames ["User17",1] trim ['"',0],
+			actionKeysNames ["User18",1] trim ['"',0],
+			actionKeysNames ["User19",1] trim ['"',0],
+			actionKeysNames ["User20",1] trim ['"',0]
+		])
+	]
+];
+player createDiaryRecord [
+	'QS_diary_hotkeys',
+	[
 		localize 'STR_QS_Diary_103',
 		(format ['
 		<br/>%7 - [Home]
@@ -298,35 +362,35 @@ if ((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc
 			',localize 'STR_QS_Diary_117',localize 'STR_QS_Diary_118']
 		]
 	];
-	if ((getPlayerUID player) in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-		player createDiaryRecord [
-			'QS_diary_hotkeys',
-			[
-				localize 'STR_QS_Diary_119',
-				format ['
-				<br/>%1 - [Shift]+[F3]
-				<br/>%2 - [Numpad 1]
-				<br/>%3 - [Numpad 2]
-				<br/>%4 - [Numpad 3]
-				<br/>%5 - [Numpad 4]
-				<br/>%6 - [Numpad 6]
-				<br/>%7 - [Numpad 7]
-				<br/>%8 - [Numpad 8]
-				<br/>%9 - [Numpad 9]
-				',
-				localize 'STR_QS_Diary_120',
-				localize 'STR_QS_Diary_121',
-				localize 'STR_QS_Diary_122',
-				localize 'STR_QS_Diary_123',
-				localize 'STR_QS_Diary_124',
-				localize 'STR_QS_Diary_125',
-				localize 'STR_QS_Diary_126',
-				localize 'STR_QS_Diary_127',
-				localize 'STR_QS_Diary_128'
-				]
+};
+if ((getPlayerUID player) in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
+	player createDiaryRecord [
+		'QS_diary_hotkeys',
+		[
+			localize 'STR_QS_Diary_119',
+			format ['
+			<br/>%1 - [Shift]+[F3]
+			<br/>%2 - [Numpad 1]
+			<br/>%3 - [Numpad 2]
+			<br/>%4 - [Numpad 3]
+			<br/>%5 - [Numpad 4]
+			<br/>%6 - [Numpad 6]
+			<br/>%7 - [Numpad 7]
+			<br/>%8 - [Numpad 8]
+			<br/>%9 - [Numpad 9]
+			',
+			localize 'STR_QS_Diary_120',
+			localize 'STR_QS_Diary_121',
+			localize 'STR_QS_Diary_122',
+			localize 'STR_QS_Diary_123',
+			localize 'STR_QS_Diary_124',
+			localize 'STR_QS_Diary_125',
+			localize 'STR_QS_Diary_126',
+			localize 'STR_QS_Diary_127',
+			localize 'STR_QS_Diary_128'
 			]
-		];
-	};
+		]
+	];
 };
 
 /*/ Enable or change this if you like

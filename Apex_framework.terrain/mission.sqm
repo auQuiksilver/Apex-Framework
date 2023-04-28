@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=348;
+		nextID=367;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6945.2202,11.04066,7355.2085};
-		dir[]={0.72505784,-0.24736954,0.64276636};
-		up[]={0.18511306,0.96891707,0.16410349};
-		aside[]={0.66337913,1.1773955e-007,-0.748312};
+		pos[]={6943.9238,10.06126,7355.3643};
+		dir[]={0.78592187,-0.24073234,0.56976128};
+		up[]={0.19495502,0.97046191,0.1413366};
+		aside[]={0.58698994,-8.3760096e-007,-0.80970305};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_135";
+sourceName="Apex_framework_150";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -33,13 +33,14 @@ addons[]=
 	"A3_Air_F_Heli_Light_01",
 	"A3_Characters_F_Exp",
 	"A3_Props_F_Exp_Military_Camps",
-	"A3_Characters_F"
+	"A3_Characters_F",
+	"A3_Modules_F_Curator_Curator"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=8;
+		items=9;
 		class Item0
 		{
 			className="A3_Props_F_Enoch";
@@ -93,6 +94,13 @@ class AddonsMetaData
 		{
 			className="A3_Characters_F";
 			name="Arma 3 Alpha - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item8
+		{
+			className="A3_Modules_F_Curator";
+			name="Arma 3 Zeus Update - Scripted Modules";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -162,7 +170,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=116;
+		items=118;
 		class Item0
 		{
 			dataType="Object";
@@ -683,7 +691,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={6964.5571,2.6614389,7358.6538};
+						position[]={6964.9067,2.6614389,7358.3325};
 						angles[]={0,5.6082315,0};
 					};
 					side="West";
@@ -5936,6 +5944,86 @@ class Mission
 			isPlayable=1;
 			id=333;
 			type="HeadlessClient_F";
+		};
+		class Item116
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={6973.7798,3.5076761,7269.4639};
+			};
+			id=358;
+			type="ModuleCurator_F";
+			atlOffset=0.84767604;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ModuleCurator_F_Owner";
+					expression="_this setVariable ['Owner',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="#adminLogged";
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="ModuleCurator_F_Forced";
+					expression="_this setVariable ['Forced',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=0;
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="ModuleCurator_F_Name";
+					expression="_this setVariable ['Name',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="ModuleCurator_F_Addons";
+					expression="_this setVariable ['Addons',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=2;
+						};
+					};
+				};
+				nAttributes=4;
+			};
+		};
+		class Item117
+		{
+			dataType="Marker";
+			position[]={7064.5,2.6600001,7484.25};
+			name="QS_marker_wreck_service_01";
+			text="   Wreck Recovery";
+			type="b_maint";
+			colorName="ColorWEST";
+			alpha=0.49576423;
+			a=0.5;
+			b=0.5;
+			id=366;
 		};
 	};
 };

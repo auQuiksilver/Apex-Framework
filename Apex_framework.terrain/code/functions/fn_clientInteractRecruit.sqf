@@ -16,17 +16,23 @@ ____________________________________________________/*/
 private _exit = FALSE;
 private _t = cursorTarget;
 if ((!isNull (objectParent _t)) || {(isPlayer _t)} || {(!alive _t)}) exitWith {};
+if (!(_t isKindOf 'Man')) exitWith {
+	((crew _t) select {!isPlayer _x}) joinSilent (group player);
+	50 cutText [localize 'STR_QS_Text_119','PLAIN DOWN',0.5];
+	(group player) setBehaviourStrong 'AWARE';
+	player playActionNow 'gestureHi';
+};
 private _text = '';
 if (['heli',(typeOf _t),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 	if ((!(player getUnitTrait 'QS_trait_pilot')) && (!(player getUnitTrait 'QS_trait_fighterPilot'))) then {
 		_exit = TRUE;
-		_text = format ['%3 %1 ( %2 )',(name _t),(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),localize 'STR_QS_Hints_051'];
+		_text = format ['%3 %1 ( %2 )',(name _t),(getText ((configOf _t) >> 'displayName')),localize 'STR_QS_Hints_051'];
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
 	};
 } else {
 	if ((player getUnitTrait 'QS_trait_pilot') || (player getUnitTrait 'QS_trait_fighterPilot')) then {
 		_exit = TRUE;
-		_text = format ['%3 %1 ( %2 )',(name _t),(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),localize 'STR_QS_Hints_052'];
+		_text = format ['%3 %1 ( %2 )',(name _t),(getText ((configOf _t) >> 'displayName')),localize 'STR_QS_Hints_052'];
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
 	};	
 };
@@ -36,7 +42,7 @@ if (player getUnitTrait 'QS_trait_HQ') exitWith {
 if (_exit) exitWith {};
 player playActionNow 'gestureHi';
 [_t] joinSilent (group player);
-_text = format ['%3 %1 ( %2 )',(name _t),(getText (configFile >> 'CfgVehicles' >> (typeOf _t) >> 'displayName')),localize 'STR_QS_Text_119'];
+_text = format ['%3 %1 ( %2 )',(name _t),(getText ((configOf _t) >> 'displayName')),localize 'STR_QS_Text_119'];
 50 cutText [_text,'PLAIN DOWN',0.5];
 _t enableStamina FALSE;
 _t setAnimSpeedCoef 1.1;
@@ -52,6 +58,7 @@ _t setAnimSpeedCoef 1.1;
 	'MOVE',
 	'CHECKVISIBLE'
 ];
+_t setName ['AI','AI','AI'];
 _t enableAIFeature ['AUTOCOMBAT',FALSE];
 _t enableAIFeature ['COVER',FALSE];
 {
@@ -66,9 +73,16 @@ _t enableAIFeature ['COVER',FALSE];
 (group _t) setBehaviourStrong 'AWARE';
 (group player) setBehaviourStrong 'AWARE';
 (group _t) setSpeedMode 'FULL';
-for '_x' from 0 to 1 step 1 do {
-	_t setVariable ['QS_unit_isRecruited',TRUE,TRUE];
-};
+_t setVariable ['QS_unit_isRecruited',TRUE,TRUE];
+_t addEventHandler [
+	'HandleDamage',
+	{
+		params ['_unit','','_damage','_source','','_hitPartIndex','_instigator',''];
+		_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _unit)} else {(_unit getHitIndex _hitPartIndex)};
+		_damage = _oldDamage + (_damage - _oldDamage) * 0.333;
+		_damage;
+	}
+];
 _t addEventHandler [
 	'FiredMan',
 	{

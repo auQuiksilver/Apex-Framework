@@ -57,7 +57,8 @@ if (_type isEqualTo 'Select') then {
 		};
 		if (_supporterAccess <= _supporterLevel) then {
 			if ((uniform player) in _validUniforms) then {
-				if ((player distance (markerPos 'QS_marker_base_marker')) < 500) then {
+				([QS_player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+				if (_inSafezone) then {
 					player setObjectTextureGlobal [0,_texture];
 					player setVariable ['QS_ClientUTexture2',_texture,FALSE];
 					player setVariable ['QS_ClientUTexture2_Uniforms2',_validUniforms,FALSE];

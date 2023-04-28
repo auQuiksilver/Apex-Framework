@@ -27,13 +27,11 @@ if (!isNull (group _object)) then {
 		};
 	};
 };
-
 if (_object getUnitTrait 'QS_trait_fighterPilot') then {
 	if (missionNamespace getVariable ['QS_CAS_jetAllowance_gameover',FALSE]) then {
 		missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',FALSE,FALSE];
 	};
 };
-
 if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 	_vehicleInfo = _object getVariable 'QS_pilot_vehicleInfo';
 	_vehicle = _vehicleInfo # 0;
@@ -48,7 +46,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						sleep 0.5;
 						params ['_vehicle','_name'];
 						private _grp = createGroup [WEST,TRUE];
-						private _unit = _grp createUnit [(if (_vehicle isKindOf 'Helicopter') then [{'B_helipilot_F'},{'B_pilot_F'}]),[6946,7450,0],[],0,'NONE'];
+						private _unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI 'b_pilot_f','b_pilot_f'],[6946,7450,0],[],0,'NONE'];
 						_unit setUnitTrait ['QS_trait_pilot',TRUE,TRUE];
 						removeAllWeapons _unit;
 						removeAllItems _unit;
@@ -79,9 +77,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 						_vehicle setDamage 0;
 						if (_vehicle isKindOf 'Helicopter') then {
 							_vehicle flyInHeight 50;
-							for '_x' from 0 to 1 step 1 do {
-								_vehicle setVariable ['QS_rappellSafety',nil,TRUE];
-							};
+							_vehicle setVariable ['QS_rappellSafety',FALSE,TRUE];
 						};
 						if (local _vehicle) then {
 							_vehicle setFuel 1;
@@ -144,7 +140,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							_wp setWaypointCombatMode 'BLUE';
 							_wp setWaypointPosition [_posToGo,0];
 							_wp setWaypointStatements ['TRUE','if (local this) then {(vehicle this) land "get out";if (!isNull ((vehicle this) getVariable ["QS_heli_landingPad",objNull])) then {(vehicle this) landAt ((vehicle this) getVariable "QS_heli_landingPad");} else {};};'];
-							_vehicle forceSpeed (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'maxSpeed'));
+							_vehicle forceSpeed (getNumber ((configOf _vehicle) >> 'maxSpeed'));
 							private _helipad = 'Land_HelipadEmpty_F' createVehicleLocal _posToGo;
 							_vehicle setVariable ['QS_heli_landingPad',_helipad,FALSE];
 							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_helipad,'DELAYED_FORCED',(time + 600)];
@@ -158,7 +154,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 								_wp setWaypointSpeed 'FULL';
 								_wp setWaypointCombatMode 'BLUE';
 								_wp setWaypointPosition [_posToGo,0];
-								_vehicle forceSpeed (getNumber (configFile >> 'CfgVehicles' >> (typeOf _vehicle) >> 'maxSpeed'));
+								_vehicle forceSpeed (getNumber ((configOf _vehicle) >> 'maxSpeed'));
 								_vehicle addEventHandler [
 									'LandedTouchDown',
 									{
@@ -231,9 +227,14 @@ if (!isNil {_object getVariable 'QS_ClientVTexture'}) then {
 				_v setObjectTextureGlobal [0,'\A3\soft_f_beta\mrap_03\data\mrap_03_ext_co.paa'];
 				_v setObjectTextureGlobal [1,'\A3\data_f\vehicles\turret_co.paa'];
 			} else {
+				_hiddenSelectionsTextures = QS_hashmap_configfile getOrDefaultCall [
+					format ['cfgvehicles_%1_hiddenselectionstextures',toLowerANSI (typeOf _v)],
+					{getArray ((configOf _v) >> 'hiddenSelectionsTextures')},
+					TRUE
+				];
 				{
 					_v setObjectTextureGlobal [_forEachIndex,_x];
-				} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'hiddenSelectionsTextures'));
+				} forEach _hiddenSelectionsTextures;
 			};
 			_v setVariable ['QS_ClientVTexture_owner',nil,TRUE];
 		};
@@ -291,13 +292,10 @@ if ((_object isEqualTo (missionNamespace getVariable 'QS_fighterPilot')) || {(_o
 	if (missionNamespace getVariable ['QS_casJet_destroyedAtBase',FALSE]) then {
 		missionNamespace setVariable ['QS_casJet_destroyedAtBase',FALSE,FALSE];
 	};
-	if (!isNull (missionNamespace getVariable 'QS_casJet')) then {
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
-		deleteVehicle (missionNamespace getVariable 'QS_casJet');
+	if (alive (missionNamespace getVariable 'QS_casJet')) then {
+		if ((crew QS_casJet) isEqualTo []) then {
+			deleteVehicle (missionNamespace getVariable 'QS_casJet');
+		};
 	};
 };
 if ((getAllOwnedMines _object) isNotEqualTo []) then {

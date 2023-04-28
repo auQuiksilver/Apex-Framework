@@ -52,37 +52,7 @@ if (_type isEqualTo 0) exitWith {
 	) then {
 		_knowsAbout = 1;
 	};
-	_unitTypes = [
-		'O_G_Soldier_A_F',1,
-		'O_G_Soldier_AR_F',3,
-		'O_G_medic_F',1,
-		'O_G_engineer_F',1,
-		'O_G_Soldier_exp_F',1,
-		'O_G_Soldier_GL_F',1,
-		'O_G_Soldier_M_F',1,
-		'O_G_Soldier_F',1,
-		'O_G_Soldier_LAT_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
-		'O_G_Soldier_LAT2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
-		'O_G_Soldier_lite_F',1,
-		'O_G_Sharpshooter_F',3,
-		'O_G_Soldier_TL_F',1,
-		'I_C_Soldier_Bandit_7_F',1,
-		'I_C_Soldier_Bandit_3_F',3,
-		'I_C_Soldier_Bandit_2_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4),
-		'I_C_Soldier_Bandit_5_F',2,
-		'I_C_Soldier_Bandit_6_F',2,
-		'I_C_Soldier_Bandit_1_F',2,
-		'I_C_Soldier_Bandit_8_F',2,
-		'I_C_Soldier_Bandit_4_F',2,
-		'I_C_Soldier_Para_7_F',1,
-		'I_C_Soldier_Para_2_F',1,
-		'I_C_Soldier_Para_3_F',1,
-		'I_C_Soldier_Para_4_F',3,
-		'I_C_Soldier_Para_6_F',1,
-		'I_C_Soldier_Para_8_F',1,
-		'I_C_Soldier_Para_1_F',1,
-		'I_C_Soldier_Para_5_F',(2 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 4)
-	];
+	_unitTypes = ['ambient_hostility_1'] call QS_data_listUnits;
 	private _vehicleTypes = [([5,6] select (_knowsAbout >= 2))] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool');
 	if ((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isEqualTo 'GRID') then {
 		_vehicleTypes = [4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool');
@@ -113,13 +83,15 @@ if (_type isEqualTo 0) exitWith {
 	};
 	if (!(_positionFound)) exitWith {_return};
 	private _vehicle = objNull;
+	private _vehicleType = '';
 	private _unit = objNull;
 	private _unitType = '';
 	private _grp = grpNull;
 	_spawnPosition set [2,0];
 	if (_isVehicle) then {
 		for '_x' from 0 to 1 step 1 do {
-			_vehicle = createVehicle [(selectRandomWeighted _vehicleTypes),_spawnPosition,[],50,'NONE'];
+			_vehicleType = selectRandomWeighted _vehicleTypes;
+			_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],_spawnPosition,[],50,'NONE'];
 			_vehicle setDir (random 360);
 			_vehicle setVehiclePosition [(AGLToASL _spawnPosition),[],0,'NONE'];
 			_grp = createVehicleCrew _vehicle;
@@ -179,7 +151,7 @@ if (_type isEqualTo 0) exitWith {
 			_grp = createGroup [EAST,TRUE];
 			for '_x' from 0 to (_grpSize - 1) step 1 do {
 				_unitType = selectRandomWeighted _unitTypes;
-				_unit = _grp createUnit [_unitType,_spawnPosition,[],15,'NONE'];
+				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_spawnPosition,[],15,'NONE'];
 				_unit setDir (random 360);
 				_unit setVehiclePosition [(getPosWorld _unit),[],10,'NONE'];
 				_unit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];

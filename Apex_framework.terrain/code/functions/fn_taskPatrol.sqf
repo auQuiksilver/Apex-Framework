@@ -66,7 +66,7 @@ for '_x' from 0 to (2 + (selectRandom [1,2])) step 1 do {
 	};
 	_prevPos = _newPos;
 	if (_QS_new) then {
-		_newPos set [2,((_newPos # 2) + 1)];
+		_newPos = _newPos vectorAdd [0,0,1];
 		_patrolRoute pushBack _newPos;
 	} else {
 		if ((random 1) > 0.2) then {
@@ -81,7 +81,7 @@ for '_x' from 0 to (2 + (selectRandom [1,2])) step 1 do {
 		if (surfaceIsWater _newPos) then {
 		
 		} else {
-			_newPos set [2,((_newPos # 2) + 1)];
+			_newPos = _newPos vectorAdd [0,0,1];
 		};
 		[
 			_grp,
@@ -112,7 +112,7 @@ if (_QS_new) then {
 	if (surfaceIsWater _pos) then {
 
 	} else {
-		_pos set [2,((_pos # 2) + 1.5)];
+		_pos = _pos vectorAdd [0,0,1.5];
 	};
 	[
 		_grp,

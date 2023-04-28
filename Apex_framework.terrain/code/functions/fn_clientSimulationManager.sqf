@@ -181,7 +181,7 @@ for '_i' from 0 to 1 step 0 do {
 			{(!(isNull curatorCamera))}
 		) then {
 			_isActive = _false;
-			_entities = (entities _entitiesParams) + (allMissionObjects 'GroundWeaponHolder');
+			_entities = (entities _entitiesParams) + ('WeaponHolderSimulated' allObjects 1);
 			{
 				_entity = _x;
 				if (
@@ -209,13 +209,13 @@ for '_i' from 0 to 1 step 0 do {
 			if (
 				(_tickTime > _runCheckDelay) || 
 				{(((positionCameraToWorld _cameraOffset) distance2D _positionCamera) > _runMoveDist)} || 
-				{(player getVariable ['QS_client_playerViewChanged',_false])}
+				{(uiNamespace getVariable ['QS_client_playerViewChanged',_false])}
 			) then {
-				if (player getVariable ['QS_client_playerViewChanged',_false]) then {
-					player setVariable ['QS_client_playerViewChanged',_false,_false];
+				if (uiNamespace getVariable ['QS_client_playerViewChanged',_false]) then {
+					uiNamespace setVariable ['QS_client_playerViewChanged',_false];
 				};
-				_positionCamera = positionCameraToWorld [0,10,0];
-				_entities = (entities _entitiesParams) + (allMissionObjects 'GroundWeaponHolder');
+				_positionCamera = positionCameraToWorld _cameraOffset;
+				_entities = (entities _entitiesParams) + ('WeaponHolderSimulated' allObjects 1);
 				{
 					_entity = _x;
 					if (!isNull _entity) then {
@@ -331,7 +331,7 @@ for '_i' from 0 to 1 step 0 do {
 		};
 	};
 	if ((['uavhacker','QS_trait_fighterPilot','QS_trait_pilot','QS_trait_CAS','QS_trait_HQ'] findIf { player getUnitTrait _x }) isNotEqualTo -1) then {
-		_entities = (entities _entitiesParams) + (allMissionObjects 'GroundWeaponHolder');
+		_entities = (entities _entitiesParams) + ('WeaponHolderSimulated' allObjects 1);
 		{
 			_entity = _x;
 			if (
@@ -361,8 +361,7 @@ for '_i' from 0 to 1 step 0 do {
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_101',[],-1,TRUE,localize 'STR_QS_Hints_102',FALSE];
 	};
 	if (!(missionNamespace getVariable ['QS_options_dynSim',_false])) exitWith {
-		//systemChat (localize 'STR_QS_Utility_027');
-		_entities = (entities _entitiesParams) + (allMissionObjects 'GroundWeaponHolder');
+		_entities = (entities _entitiesParams) + ('WeaponHolderSimulated' allObjects 1);
 		{
 			_entity = _x;
 			if (

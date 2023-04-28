@@ -63,29 +63,16 @@ if (_type isEqualTo 0) exitWith {
 	
 	];
 	_unitsData = [
-		[
-			['o_soldier_ar_f',2],
-			['o_medic_f',1],
-			['o_engineer_f',1],
-			['o_soldier_exp_f',1],
-			['o_soldier_gl_f',1],
-			['o_soldier_m_f',1],
-			['o_soldier_f',1],
-			['o_soldier_sl_f',1],
-			['o_soldier_tl_f',1]
-		],
-		[
-			['o_t_soldier_ar_f',2],
-			['o_t_medic_f',1],
-			['o_t_engineer_f',1],
-			['o_t_soldier_exp_f',1],
-			['o_t_soldier_gl_f',1],
-			['o_t_soldier_m_f',1],
-			['o_t_soldier_f',1],
-			['o_t_soldier_tl_f',1],
-			['o_t_soldier_sl_f',1]
-		]
-	] select (worldName in ['Tanoa','Lingor3']);
+		['o_soldier_ar_f',2],
+		['o_medic_f',1],
+		['o_engineer_f',1],
+		['o_soldier_exp_f',1],
+		['o_soldier_gl_f',1],
+		['o_soldier_m_f',1],
+		['o_soldier_f',1],
+		['o_soldier_sl_f',1],
+		['o_soldier_tl_f',1]
+	];
 	private _object = objNull;
 	private _type = '';
 	private _configClass = configNull;
@@ -130,7 +117,7 @@ if (_type isEqualTo 0) exitWith {
 				_type = _x # 0;
 				_quantity = _x # 1;
 				for '_x' from 0 to (_quantity - 1) step 1 do {
-					_unit = _nullGrp createUnit [_type,[-1100,-1100,0],[],0,'CAN_COLLIDE'];
+					_unit = _nullGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],[-1100,-1100,0],[],0,'CAN_COLLIDE'];
 					_unit allowDamage FALSE;
 					_unit enableDynamicSimulation FALSE;
 					_unit hideObjectGlobal TRUE;

@@ -18,7 +18,7 @@ _true = TRUE;
 _false = FALSE;
 BIS_fnc_feedback_allowPP = TRUE;
 BIS_fnc_feedback_allowDeathScreen = FALSE;
-BIS_ppType = "";
+BIS_ppType = '';
 BIS_ppDestroyed = false;
 BIS_fakeDamage = 0.1;
 BIS_add = true;
@@ -28,11 +28,12 @@ BIS_fnc_feedback_damagePP = FALSE;
 BIS_respawnInProgress = false;
 BIS_fnc_feedback_testHelper = 0;
 BIS_EnginePPReset = false;
-["HealthPP_blood"] call bis_fnc_rscLayer;
-["HealthPP_dirt"] call bis_fnc_rscLayer;
-["HealthPP_fire"] call bis_fnc_rscLayer;
-["HealthPP_black"] call bis_fnc_rscLayer;
-BIS_pulsingFreq = getNumber (configfile >> "cfgfirstaid" >> "pulsationSoundInterval");
+['HealthPP_blood'] call bis_fnc_rscLayer;
+['HealthPP_dirt'] call bis_fnc_rscLayer;
+['HealthPP_fire'] call bis_fnc_rscLayer;
+['HealthPP_black'] call bis_fnc_rscLayer;
+BIS_pulsingFreq = getNumber (configFile >> 'cfgFirstAid' >> 'pulsationSoundInterval');
+QS_hashmap_configfile set ['cfgfirstaid_pulsationsoundinterval',BIS_pulsingFreq];
 BIS_helper = 0.5;
 BIS_applyPP1 = true;
 BIS_applyPP2 = true;
@@ -123,7 +124,7 @@ for '_z' from 0 to 1 step 0 do {
 		{(abs((damage _QS_player) - BIS_oldDMG) > 0.0001)} &&
 		{BIS_applyPP3} &&
 		{BIS_fnc_feedback_allowPP} &&
-		{(((uavControl (getConnectedUav _QS_player)) # 1) isEqualTo '')}
+		{(isNull (getConnectedUAVUnit _QS_player))}
 	) then {
 		BIS_applyPP3 = _false;
 		call _fn_feedbackDamageChanged;
@@ -150,9 +151,9 @@ for '_z' from 0 to 1 step 0 do {
 		{(abs((getOxygenRemaining _QS_player) - BIS_oldOxygen) > 0.0001)} &&
 		{BIS_applyPP5} && 
 		{BIS_fnc_feedback_allowPP} && 
-		{(((UAVControl (getConnectedUav _QS_player)) # 1) isEqualTo '')}
+		{(isNull (getConnectedUAVUnit _QS_player))}
 	) then {
-		BIS_oldOxygen = getOxygenRemaining player;
+		BIS_oldOxygen = getOxygenRemaining _QS_player;
 		BIS_applyPP5 = _false;
 		0 spawn _fn_feedbackSuffocating;
 	};
@@ -162,7 +163,7 @@ for '_z' from 0 to 1 step 0 do {
 	if (
 		!BIS_fnc_feedback_fatiguePP && 
 		{((getFatigue _QS_player) > 0.5)} &&
-		{(((UAVControl (getConnectedUav _QS_player)) # 1) isEqualTo '')}
+		{(isNull (getConnectedUAVUnit _QS_player))}
 	) then {
 		BIS_fnc_feedback_fatiguePP = _true;
 		0 spawn _fn_feedbackFatigue;

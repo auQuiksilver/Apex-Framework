@@ -6,37 +6,48 @@ Author:
 
 Last Modified:
 
-	6/06/2022 A3 2.10 by Quiksilver
+	29/01/2023 A3 2.12 by Quiksilver
 
 Description:
 
-	-
+	Move helicopter in/out of USS Liberty hangar
 ______________________________________________________*/
 
 if (isDedicated) exitWith {
-	params [''];
+	params ['_clientOwner'];
 	if (missionNamespace getVariable ['QS_destroyer_heliLaunch',FALSE]) exitWith {};
 	missionNamespace setVariable ['QS_destroyer_heliLaunch',TRUE,TRUE];
 	private _launch = FALSE;
+	private _obstructed = FALSE;
+	private _obstructions = [];
+	QS_destroyerHeli_worldPos1 = QS_destroyerObject modelToWorldWorld [0.267822,78.0225,8.81596];
+	QS_destroyerHeli_worldPos2 = QS_destroyerObject modelToWorldWorld [0.074707,42.9854,8.81596];
+	_helipadPos = QS_destroyerObject modelToWorldWorld [0.267822,78.0273,8.81878];
 	if (isNull (QS_destroyerObject getVariable ['QS_destroyer_hangarHeli',objNull])) then {
 		private _list = [];
-		_helipadPos = QS_destroyerObject modelToWorldWorld [0.267822,78.0273,8.81878];
-		_list = ((ASLToAGL _helipadPos) nearEntities [
-			[
-				'Heli_Transport_01_base_F',
-				'Heli_Light_01_base_F',
-				'Heli_Attack_01_base_F',
-				'Heli_light_03_base_F',
-				'Heli_Light_02_base_F'
-			],
-			10
-		]) select {alive _x && simulationEnabled _x};
+		_list = (nearestObjects [ASLToAGL _helipadPos,['Helicopter'],15,TRUE]) select {alive _x && simulationEnabled _x};
 		if (_list isEqualTo []) exitWith {};
+		_list = _list apply { [_x distance2D _helipadPos,_x] };
+		_list sort TRUE;
+		_list = _list apply {_x # 1};
 		QS_destroyer_heli = _list # 0;
 		QS_destroyer_heli allowDamage FALSE;
+		_obstructions = (nearestObjects [ASLToAGL QS_destroyerHeli_worldPos2,['Helicopter'],20,TRUE]) - [QS_destroyer_heli];
+		_obstructed = _obstructions isNotEqualTo [];
 	} else {
 		_launch = TRUE;
 		QS_destroyer_heli = QS_destroyerObject getVariable ['QS_destroyer_hangarHeli',objNull];
+		_obstructions = (nearestObjects [ASLToAGL _helipadPos,['Helicopter'],20,TRUE]) - [QS_destroyer_heli];
+		_obstructed = _obstructions isNotEqualTo [];		
+	};
+	if (_obstructed) exitWith {
+		missionNamespace setVariable ['QS_destroyer_heliLaunch',FALSE,TRUE];
+		[[_obstructions],{
+			params ['_obstructions'];
+			_obstructions = _obstructions apply {(getText ((configOf _x) >> 'displayName'))};
+			_obstruction = _obstructions # 0;
+			50 cutText [format ['%1 - %2',localize 'STR_QS_Text_102',_obstruction],'PLAIN',0.333];
+		}] remoteExec ['call',_clientOwner];
 	};
 	if (!alive QS_destroyer_heli) exitWith {
 		missionNamespace setVariable ['QS_destroyer_heliLaunch',FALSE,TRUE];
@@ -62,7 +73,7 @@ if (isDedicated) exitWith {
 		(!unitIsUAV QS_destroyer_heli) && ((crew QS_destroyer_heli) isNotEqualTo [])
 	) then {
 		{
-			moveOut _x;
+			_x moveOut QS_destroyer_heli;
 		} forEach (crew QS_destroyer_heli);
 	};
 	QS_destroyer_heli allowDamage FALSE;
@@ -86,8 +97,7 @@ if (isDedicated) exitWith {
 	if (isLightOn [QS_destroyer_heli, [0]]) then {
 		(allUnits # 0) action ['SearchlightOff', QS_destroyer_heli];
 	};
-	QS_destroyerHeli_worldPos1 = QS_destroyerObject modelToWorldWorld [0.267822,78.0225,8.81596];
-	QS_destroyerHeli_worldPos2 = QS_destroyerObject modelToWorldWorld [0.074707,42.9854,8.81596];	
+	QS_destroyer_heli enableDynamicSimulation FALSE;
 	if (_launch) then {
 		QS_destroyer_heliLaunch_startPos = QS_destroyerHeli_worldPos2;
 		QS_destroyer_heliLaunch_endPos = QS_destroyerHeli_worldPos1;	
@@ -116,6 +126,12 @@ if (isDedicated) exitWith {
 			if ((QS_destroyer_hangarDoorPart animationPhase 'Door_Hangar_1_1_open') isNotEqualTo 1) then {
 				[QS_destroyer_hangarDoorPart,1,TRUE] spawn (missionNamespace getVariable 'BIS_fnc_destroyer01AnimateHangarDoors');
 			};
+			if (dynamicSimulationEnabled QS_destroyer_heli) then {
+				QS_destroyer_heli enableDynamicSimulation FALSE;
+			};
+			if (!simulationEnabled QS_destroyer_heli) then {
+				QS_destroyer_heli enableSimulation TRUE;
+			};
 			if (
 				(_interval >= 0.99) ||
 				{(!alive QS_destroyer_heli)} ||
@@ -124,11 +140,16 @@ if (isDedicated) exitWith {
 				if (QS_destroyer_heliLaunch_startPos isEqualTo QS_destroyerHeli_worldPos2) then {
 					QS_destroyerObject setVariable ['QS_destroyer_hangarHeli',objNull,TRUE];
 					QS_destroyer_heli allowDamage TRUE;
-					QS_destroyer_heli lock 0;
+					['lock',QS_destroyer_heli,0] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 				} else {
 					QS_destroyerObject setVariable ['QS_destroyer_hangarHeli',QS_destroyer_heli,TRUE];
 					QS_destroyer_heli allowDamage FALSE;
-					QS_destroyer_heli lock 2;
+					['lock',QS_destroyer_heli,2] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+					if (!unitIsUav QS_destroyer_heli) then {
+						{
+							_x moveOut QS_destroyer_heli;
+						} forEach (crew QS_destroyer_heli);
+					};
 					[QS_destroyer_heli,16] spawn {
 						params ['_vehicle','_rt'];
 						_array = ['repair'];
@@ -156,6 +177,7 @@ if (isDedicated) exitWith {
 						_vehicle setVehicleAmmo 1;
 					};
 				};
+				QS_destroyer_heli enableDynamicSimulation TRUE;
 				missionNamespace setVariable ['QS_destroyer_heliLaunch',FALSE,TRUE];
 				removeMissionEventHandler [_thisEvent,_thisEventHandler];
 			};
@@ -177,19 +199,16 @@ private _enabled = !isNull (QS_destroyerObject getVariable ['QS_destroyer_hangar
 if (!_enabled) then {
 	private _list = [];
 	_helipadPos = QS_destroyerObject modelToWorldWorld [0.267822,78.0273,8.81878];
+	_list = nearestObjects [ASLToAGL _helipadPos,['Air'],15,TRUE];
+	/*/
 	_list = ((ASLToAGL _helipadPos) nearEntities [
-		[
-			'Heli_Transport_01_base_F',
-			'Heli_Light_01_base_F',
-			'Heli_Attack_01_base_F',
-			'Heli_light_03_base_F',
-			'Heli_Light_02_base_F'
-		],
+		(['destroyer_helilaunch_1'] call QS_data_listVehicles),
 		10
 	]) select {alive _x && simulationEnabled _x};
+	/*/
 	_enabled = _list isNotEqualTo [];
 };
 if (_enabled) exitWith {
-	[97] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+	[97,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 50 cutText [localize 'STR_QS_Text_103','PLAIN DOWN',0.5];

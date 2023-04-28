@@ -18,6 +18,7 @@ Notes:
 	We do not use it in regular play as it executes frequently and uses considerable CPU time for marginal gain
 __________________________________________________*/
 
+/*/
 QS_hashmap_createdTypes = createHashMap;
 removeAllMissionEventHandlers 'EntityCreated';
 addMissionEventHandler [
@@ -65,7 +66,7 @@ if (_value isEqualTo []) then {
 	QS_hashmap_createdTypes set [_modelInfo,_value];
 	systemchat str _value;
 };
-
+/*/
 
 
 

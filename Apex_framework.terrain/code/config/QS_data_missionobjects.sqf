@@ -545,7 +545,7 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 		["Land_HelipadSquare_F","a3\structures_f\mil\helipads\helipadsquare_f.p3d",[6982.85,7346.93,2.66],[[-0.985542,-0.169429,0],[0,0,1]],0,0,0,0,[],{}],
 		["Land_HelipadSquare_F","a3\structures_f\mil\helipads\helipadsquare_f.p3d",[6974.68,7393.39,2.66],[[-0.985542,-0.169429,0],[0,0,1]],0,0,0,0,[],{}],
 		["Land_HelipadSquare_F","a3\structures_f\mil\helipads\helipadsquare_f.p3d",[6966.91,7438.04,2.66],[[-0.985542,-0.169429,0],[0,0,1]],0,0,0,0,[],{}],
-		["Land_HelipadRescue_F","a3\structures_f\mil\helipads\helipadrescue_f.p3d",[6929.38,7474.43,2.66],[[-0.170124,0.985423,0],[0,0,1]],0,0,0,0,[],{}],
+		["Land_HelipadRescue_F","a3\structures_f\mil\helipads\helipadrescue_f.p3d",[6933.38,7455.43,2.66],[[-0.170124,0.985423,0],[0,0,1]],0,0,0,0,[],{}],
 		["Land_PaperBox_closed_F","a3\structures_f_epa\mil\scrapyard\paperbox_closed_f.p3d",[6913.06,7411.86,3.3032],[[0.984418,0.175845,0],[0,0,1]],0,0,2,1,[],{}],
 		["Land_PaperBox_closed_F","a3\structures_f_epa\mil\scrapyard\paperbox_closed_f.p3d",[6912.65,7413.64,3.3032],[[0.857539,-0.514418,0],[0,0,1]],0,0,2,1,[],{}],
 		["Land_PaperBox_closed_F","a3\structures_f_epa\mil\scrapyard\paperbox_closed_f.p3d",[6915.78,7395.64,3.3032],[[-0.194283,0.980945,0],[0,0,1]],0,0,2,1,[],{}],

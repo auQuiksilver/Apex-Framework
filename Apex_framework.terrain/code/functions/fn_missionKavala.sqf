@@ -86,11 +86,10 @@ for '_x' from 0 to 99 step 1 do {
 	_parkingSpace = selectRandom _QS_parkingSpaces_vExclusionZone;
 	_type = selectRandom _QS_types;
 	if (!(_skip)) then {
-		_parkingPosition = _parkingSpace # 0;
 		_verticalOffsetWorld = getNumber (configFile >> 'CfgVehicles' >> _type >> 'SimpleObject' >> 'verticalOffsetWorld');
-		_parkingPosition set [2,((_parkingPosition # 2) + _verticalOffsetWorld)];
+		_parkingPosition = (_parkingSpace # 0) vectorAdd [0,0,_verticalOffsetWorld];
 		if (['hatchback',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-			_parkingPosition set [2,((_parkingPosition # 2) - 0.2)];
+			_parkingPosition = _parkingPosition vectorAdd [0,0,-0.2];
 		};
 		_vehicle = createSimpleObject [_type,_parkingPosition];
 		_vehicle setPosWorld _parkingPosition;
@@ -161,10 +160,7 @@ private _grp = grpNull;
 private _grpLeader = objNull;
 private _unit = objNull;
 private _side = RESISTANCE;
-private _types = [
-	"I_C_Soldier_Para_1_F","I_C_Soldier_Para_2_F","I_C_Soldier_Para_3_F","I_C_Soldier_Para_4_F","I_C_Soldier_Para_5_F","I_C_Soldier_Para_6_F",
-	"I_C_Soldier_Para_7_F","I_C_Soldier_Para_8_F"
-];
+private _types = ['georgetown_units_1'] call QS_data_listUnits;
 private _type = 'O_soldierU_F';
 private _launcherType = 'launch_O_Titan_F';
 private _backpackType = 'B_Carryall_ocamo';
@@ -233,7 +229,7 @@ _houseGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 _houseGrp enableAttack FALSE;
 for '_x' from 0 to _enemiesInBuildings step 1 do {
 	_type = selectRandom _types;
-	_unit = _houseGrp createUnit [_type,_nullPos,[],0,'NONE'];
+	_unit = _houseGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_nullPos,[],0,'NONE'];
 	_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 	{
 		_unit enableAIFeature [_x,FALSE];
@@ -272,17 +268,17 @@ comment 'Spawn static weapons on buildings';
 private _staticWeaponPositions = QS_buildingPositions_inner select {
 	(((_x # 2) > 5) && (([objNull,'GEOM',objNull] checkVisibility [(AGLToASL _x),[((AGLToASL _x) # 0),((AGLToASL _x) # 1),(((AGLToASL _x) # 2) + 50)]]) isEqualTo 1))
 };
-private _staticsEnabled = TRUE;
+private _staticsEnabled = (count allPlayers) > 15;
 private _staticWeaponsCount = 4 - 1;
 private _staticWeaponMinThreshold = 2 - 1;
-private _staticType = 'O_HMG_01_high_F';
+private _staticType = 'O_HMG_02_high_F';
 private _staticPosition = [0,0,0];
 private _staticWeapons = [];
 if (_staticsEnabled) then {
 	for '_x' from 0 to _staticWeaponsCount step 1 do {
 		_staticPosition = selectRandom _staticWeaponPositions;
 		_staticWeaponPositions deleteAt (_staticWeaponPositions find _staticPosition);
-		_vehicle = createVehicle [_staticType,_nullPos,[],0,'NONE'];
+		_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _staticType,_staticType],_nullPos,[],0,'NONE'];
 		_vehicle setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 		_vehicle setVectorUp [0,0,1];
 		_vehicle setPos _staticPosition;
@@ -307,7 +303,7 @@ if (_staticsEnabled) then {
 			}
 		];
 		_type = selectRandom _types;
-		_unit = _houseGrp createUnit [_type,_nullPos,[],0,'NONE'];
+		_unit = _houseGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_nullPos,[],0,'NONE'];
 		_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 		_unit assignAsGunner _vehicle;
 		_unit moveInGunner _vehicle;
@@ -319,26 +315,7 @@ if (_staticsEnabled) then {
 };
 comment 'Spawn civilians';
 private _civilians = [];
-private _civilianTypes = [
-	"C_man_p_beggar_F","C_man_1","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F","C_man_polo_5_F",
-	"C_man_polo_6_F","C_man_shorts_1_F","C_man_1_1_F","C_man_1_2_F","C_man_1_3_F","C_man_p_fugitive_F","C_man_p_shorts_1_F",
-	"C_man_hunter_1_F","C_man_w_worker_F","C_man_shorts_2_F","C_man_shorts_3_F","C_man_shorts_4_F","C_man_p_beggar_F_afro",
-	"C_man_polo_1_F_afro","C_man_polo_2_F_afro","C_man_polo_3_F_afro","C_man_polo_4_F_afro","C_man_polo_5_F_afro",
-	"C_man_polo_6_F_afro","C_man_shorts_1_F_afro","C_man_p_shorts_1_F_afro","C_man_shorts_2_F_afro","C_man_shorts_3_F_afro",
-	"C_man_shorts_4_F_afro","C_man_p_beggar_F","C_man_1","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F","C_man_polo_4_F",
-	"C_man_polo_5_F","C_man_polo_6_F","C_man_shorts_1_F","C_man_1_1_F","C_man_1_2_F","C_man_1_3_F","C_man_p_shorts_1_F",
-	"C_man_hunter_1_F","C_man_p_beggar_F_asia","C_man_polo_1_F_asia","C_man_polo_2_F_asia","C_man_polo_3_F_asia",
-	"C_man_polo_4_F_asia","C_man_polo_5_F_asia","C_man_polo_6_F_asia","C_man_shorts_1_F_asia","C_man_p_shorts_1_F_asia",
-	"C_man_shorts_2_F_asia","C_man_shorts_3_F_asia","C_man_shorts_4_F_asia","C_man_p_beggar_F_euro","C_man_polo_1_F_euro",
-	"C_man_polo_2_F_euro","C_man_polo_3_F_euro","C_man_polo_4_F_euro","C_man_polo_5_F_euro","C_man_polo_6_F_euro",
-	"C_man_shorts_1_F_euro","C_man_p_shorts_1_F_euro","C_man_shorts_2_F_euro","C_man_shorts_3_F_euro","C_man_shorts_4_F_euro"
-];
-if (worldName isEqualTo 'Tanoa') then {
-	_civilianTypes = [
-		"C_Man_casual_1_F_tanoan","C_Man_casual_2_F_tanoan","C_Man_casual_3_F_tanoan","C_Man_casual_4_F_tanoan","C_Man_casual_5_F_tanoan",
-		"C_Man_casual_6_F_tanoan","C_man_sport_1_F_tanoan"
-	];
-};
+private _civilianTypes = ['georgetown_civilians_1'] call QS_data_listUnits;
 private _civilianType = '';
 private _civilian = objNull;
 private _civilianWaypoints = [];
@@ -415,10 +392,7 @@ if (!isNil 'minEnemiesPatrolThreshold_override') then {
 };
 
 comment 'Spawn convoy for mission stuff';
-_opforTruckTypes = [
-	["O_Truck_03_repair_F","O_Truck_03_repair_F"],
-	["O_T_Truck_03_repair_ghex_F","O_T_Truck_03_repair_ghex_F"]
-] select (worldName isEqualTo 'Tanoa');
+_opforTruckTypes = ['arid_truck_types_1'] call QS_data_listVehicles;
 private _truck = objNull;
 private _truckType = '';
 private _truckRoadAt = objNull;
@@ -444,6 +418,9 @@ comment 'Spawn crate and initial object     "Land_WoodenCrate_01_F"   Land_Table
 private _missionObjects = [];
 private _tabletMarkers = [];
 private _triggerObjective = FALSE;
+
+private _intelTypes = ['Land_Tablet_02_F'];
+
 _tablet = createVehicle ['Land_Tablet_02_F',[0,0,0],[],0,'NONE'];
 _tablet allowDamage FALSE;
 _tablet enableDynamicSimulation FALSE;
@@ -519,30 +496,7 @@ for '_x' from 0 to (_intelObjectCount - 1) step 1 do {
 };
 
 _suppliesPositions = [[3475.74,12920.8,0],[3449.16,12964.7,0],[3563.04,12946.5,0],[3461.64,13027.5,0],[3384.74,13140.8,0],[3467.94,13147,0],[3511.81,13108,0],[3616.13,13234.1,0],[3492.31,13310.9,0],[3585.74,13181.2,0],[3403.6,13213,0],[3566.29,13054.3,0]];
-_suppliesTypes = [
-	[
-		'Box_IND_Ammo_F',
-		'Box_East_Ammo_F',
-		'Box_East_Wps_F',
-		'Box_IND_Wps_F',
-		'Box_CSAT_Equip_F',
-		'Box_AAF_Equip_F',
-		'Box_East_Grenades_F',
-		'Box_East_WpsSpecial_F',
-		'Box_IND_WpsSpecial_F',
-		'Box_IND_Support_F'
-	],
-	[
-		"Box_T_East_Ammo_F",
-		"Box_Syndicate_Ammo_F",
-		"Box_T_East_Wps_F",
-		"Box_T_NATO_Wps_F",
-		"Box_Syndicate_Wps_F",
-		"Box_IED_Exp_F",
-		"Box_Syndicate_WpsLaunch_F",
-		"Box_GEN_Equip_F"
-	]
-] select (worldName isEqualTo 'Tanoa');
+_suppliesTypes = ['arid_supplies_types_1'] call QS_data_listVehicles;
 private _supplyMarkers = [];
 private _supplyMarker = '';
 private _supplyCrates = [];
@@ -571,7 +525,7 @@ for '_x' from 0 to 2 step 1 do {
 	for '_x' from 0 to 2 step 1 do {
 		_supplyType = selectRandom _suppliesTypes;
 		_positionToSpawn = _supplyPosition getPos [(0.5 + (random 1)),_radial];
-		_supplyCrate = createVehicle [_supplyType,[0,0,0],[],0,'NONE'];
+		_supplyCrate = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _supplyType,_supplyType],[0,0,0],[],0,'NONE'];
 		_supplyCrate allowDamage FALSE;
 		_supplyCrate setDir (random 360);
 		_supplyCrate setVehiclePosition [_positionToSpawn,[],0,'CAN_COLLIDE'];
@@ -579,7 +533,7 @@ for '_x' from 0 to 2 step 1 do {
 		[_supplyCrate,0,nil] call (missionNamespace getVariable 'QS_fnc_customInventory');
 		_supplyCrate setVariable ['QS_RD_draggable',TRUE,TRUE];
 		_supplyCrates pushBack _supplyCrate;
-		_supplyCrate addItemCargo ['FirstAidKit',10];
+		_supplyCrate addItemCargoGlobal [QS_core_classNames_itemFirstAidKit,10];
 		comment 'To Do: Randomize crate contents';
 		_radial = _radial + 120;
 	};
@@ -591,9 +545,7 @@ private _aaPatrolCenter = [
 private _aaPatrolRadius = 100;
 private _aaPatrols = TRUE;
 private _aaGrp = grpNull;
-private _aaUnitTypes = [
-	['O_Soldier_AA_F'],['O_T_soldier_AA_F']
-] select (worldName isEqualTo 'Tanoa');
+private _aaUnitTypes = ['georgetown_aa_types'] call QS_data_listUnits;
 private _aaPatrolThresh = 2;
 private _aaUnits = [];
 private _aaDelay = 60;
@@ -605,10 +557,7 @@ private _sniperPatrolCenter = [
 private _sniperPatrolRadius = 100;
 private _sniperPatrols = TRUE;
 private _sniperGrp = grpNull;
-private _sniperUnitTypes = [
-	['O_Sharpshooter_F','O_recon_F','O_recon_M_F','O_recon_LAT_F'],
-	['O_G_Sharpshooter_F','O_T_Recon_F','O_T_Recon_M_F','O_T_Recon_LAT_F']
-] select (worldName isEqualTo 'Tanoa');
+private _sniperUnitTypes = ['georgetown_sniper_types'] call QS_data_listUnits;
 private _sniperPatrolThresh = 2;
 private _sniperUnits = [];
 private _sniperDelay = 60;
@@ -620,7 +569,7 @@ private _atPatrolCenter = [
 private _atPatrolRadius = 100;
 private _atPatrols = TRUE;
 private _atGrp = grpNull;
-private _atUnitTypes = [['O_Soldier_LAT_F'],['O_T_Soldier_LAT_F']] select (worldName isEqualTo 'Tanoa');
+private _atUnitTypes = ['georgetown_at_types'] call QS_data_listUnits;
 private _atPatrolThresh = 2;
 private _atUnits = [];
 private _atDelay = 60;
@@ -659,7 +608,7 @@ comment 'Mission task location';
 		localize 'STR_QS_Task_045',
 		localize 'STR_QS_Task_045'
 	],
-	[5762,10367,0],
+	[3478,13106.3,0],
 	'CREATED',
 	5,
 	FALSE,
@@ -755,7 +704,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				_staticPosition = selectRandom _staticWeaponPositions;
 				_staticWeaponPositions deleteAt (_staticWeaponPositions find _staticPosition);
-				_vehicle = createVehicle [_staticType,_nullPos,[],0,'NONE'];
+				_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _staticType,_staticType],_nullPos,[],0,'NONE'];
 				_vehicle setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_vehicle setVectorUp [0,0,1];
 				_vehicle setPos _staticPosition;
@@ -785,7 +734,7 @@ for '_x' from 0 to 1 step 0 do {
 					}
 				];
 				_type = selectRandom _types;
-				_unit = _houseGrp createUnit [_type,_nullPos,[],0,'NONE'];
+				_unit = _houseGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_nullPos,[],0,'NONE'];
 				_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_unit assignAsGunner _vehicle;
 				_unit moveInGunner _vehicle;
@@ -804,7 +753,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			for '_x' from 0 to 9 step 1 do {
 				_type = selectRandom _types;
-				_unit = _houseGrp createUnit [_type,_nullPos,[],0,'NONE'];
+				_unit = _houseGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_nullPos,[],0,'NONE'];
 				{
 					_unit enableAIFeature [_x,FALSE];
 				} forEach ['COVER','AUTOCOMBAT','PATH'];
@@ -854,7 +803,7 @@ for '_x' from 0 to 1 step 0 do {
 			_unitsToAvoid = units WEST;
 			for '_x' from 0 to 9 step 1 do {
 				_type = selectRandom _types;
-				_unit = _grp createUnit [_type,_nullPos,[],0,'NONE'];
+				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],_nullPos,[],0,'NONE'];
 				_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_patrolEnemies pushBack _unit;
 				_enemies pushBack _unit;
@@ -1092,7 +1041,8 @@ for '_x' from 0 to 1 step 0 do {
 			if (({(alive _x)} count _aaUnits) < _aaPatrolThresh) then {
 				if (({(alive _x)} count _aaUnits) >= _aaPatrolThresh) exitWith {};
 				_spawnPos = _aaPatrolCenter getPos [(random _aaPatrolRadius),(random 360)];
-				_unit = _aaGrp createUnit [(selectRandom _aaUnitTypes),[0,0,0],[],0,'NONE'];
+				_type = selectRandom _aaUnitTypes;
+				_unit = _aaGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],[0,0,0],[],0,'NONE'];
 				_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_unit setPos _spawnPos;
 				_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
@@ -1117,7 +1067,8 @@ for '_x' from 0 to 1 step 0 do {
 			if (({(alive _x)} count _sniperUnits) < _aaPatrolThresh) then {
 				if (({(alive _x)} count _sniperUnits) >= _aaPatrolThresh) exitWith {};
 				_spawnPos = _sniperPatrolCenter getPos [(random _sniperPatrolRadius),(random 360)];
-				_unit = _sniperGrp createUnit [(selectRandom _sniperUnitTypes),[0,0,0],[],0,'NONE'];
+				_type = selectRandom _sniperUnitTypes;
+				_unit = _sniperGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],[0,0,0],[],0,'NONE'];
 				_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_unit setPos _spawnPos;
 				_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
@@ -1142,7 +1093,8 @@ for '_x' from 0 to 1 step 0 do {
 			if (({(alive _x)} count _atUnits) < _atPatrolThresh) then {
 				if (({(alive _x)} count _atUnits) >= _atPatrolThresh) exitWith {};
 				_spawnPos = _atPatrolCenter getPos [(random _atPatrolRadius),(random 360)];
-				_unit = _atGrp createUnit [(selectRandom _atUnitTypes),[0,0,0],[],0,'NONE'];
+				_type = selectRandom _atUnitTypes;
+				_unit = _atGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _type,_type],[0,0,0],[],0,'NONE'];
 				_unit setVariable ['QS_curator_disableEditability',TRUE,FALSE];
 				_unit setPos _spawnPos;
 				_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
@@ -1198,7 +1150,7 @@ for '_x' from 0 to 1 step 0 do {
 					localize 'STR_QS_Task_049',
 					localize 'STR_QS_Task_049'
 				],
-				[5762,10367,0],
+				[3478,13106.3,0],
 				'CREATED',
 				5,
 				FALSE,

@@ -6,32 +6,38 @@ Author:
 	
 Last modified:
 	
-	13/09/2017 A3 1.76 by Quiksilver
+	24/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Engineer creates a boat and consumes a toolkit
 _______________________________________________________/*/
 
-if (!isNull (objectParent player)) exitWith {};
-if (!('ToolKit' in (items player))) exitWith {};
-private _exit = FALSE;
-if (!isNil {player getVariable 'QS_client_createdBoat'}) then {
-	if (!isNull (player getVariable 'QS_client_createdBoat')) then {
-		if (alive (player getVariable 'QS_client_createdBoat')) then {
-			_exit = TRUE;
-		};
-	};
+_items = (items player) apply {toLowerANSI _x};
+if (
+	(!isNull (objectParent player)) ||
+	{(((_items apply {toLowerANSI _x}) findAny QS_core_classNames_itemToolKits) isEqualTo -1)}
+) exitWith {
+	50 cutText [localize 'STR_QS_Text_312','PLAIN DOWN',0.5];		// To Do: Localize
 };
-if (_exit) exitWith {
+if (
+	(!isNil {player getVariable 'QS_client_createdBoat'}) &&
+	{(!isNull (player getVariable 'QS_client_createdBoat'))} &&
+	{(alive (player getVariable 'QS_client_createdBoat'))}
+) exitWith {
 	50 cutText [(format ['%2 %1',(mapGridPosition (player getVariable 'QS_client_createdBoat')),localize 'STR_QS_Text_095']),'PLAIN DOWN'];
 };
-player removeItem 'ToolKit';
-private _boatType = ['B_Lifeboat','B_T_Lifeboat'] select (worldName isEqualTo 'Tanoa');
-if ((!underwater player) && (((eyePos player) # 2) > 0.25)) then {
-	_boatType = ['B_Boat_Transport_01_F','B_T_Boat_Transport_01_F'] select (worldName isEqualTo 'Tanoa');
-};
+private _itemIndex = _items findAny QS_core_classNames_itemToolKits;
+private _itemType = _items # _itemIndex;
+player removeItem _itemType;
+player setVariable ['QS_client_createdBoat_itemType',_itemType,FALSE];
+private _boatType = ['B_Lifeboat','B_Boat_Transport_01_F'] select ((!underwater player) && (((eyePos player) # 2) > 0.25));
 private _position = player modelToWorld [0,15,0];
 _position set [2,1];
 [37,profileName,[_boatType,_position,[],0,'NONE'],(getDir player),_position,clientOwner,player] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-50 cutText [(format ['%1 %2',(getText (configFile >> 'CfgVehicles' >> _boatType >> 'displayName')),localize 'STR_QS_Text_096']),'PLAIN DOWN',0.75];
+_dn = QS_hashmap_configfile getOrDefaultCall [
+	format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _boatType)],
+	{getText ((configOf _boatType) >> 'displayName')},
+	TRUE
+];
+50 cutText [(format ['%1 %2',_dn,localize 'STR_QS_Text_096']),'PLAIN DOWN',0.75];

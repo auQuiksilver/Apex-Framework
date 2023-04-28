@@ -64,11 +64,14 @@ if ((([(_sectorPosition # 0),(_sectorPosition # 1)] nearObjects ['House',(_radiu
 	private _spawnPosition = [0,0,0];
 	private _buildingType = '';
 	private _building = objNull;
-	private _buildingPool = [
-		'land_i_stone_housesmall_v2_f','land_i_stone_shed_v1_f','land_i_stone_shed_v2_f','land_i_stone_housesmall_v1_f',
-		'land_d_stone_housebig_v1_f','land_i_stone_housebig_v1_f','land_i_stone_housebig_v2_f','land_slum_house02_f','land_d_house_small_01_v1_f','land_u_house_small_01_v1_f',
-		'land_shed_08_grey_f','land_bunker_01_hq_f','land_shed_08_grey_f','land_bunker_01_hq_f'
-	];
+	private _buildingPool = [];
+	if (worldName in ['Altis','Stratis','Malden']) then {
+		_buildingPool = [
+			'land_i_stone_housesmall_v2_f','land_i_stone_shed_v1_f','land_i_stone_shed_v2_f','land_i_stone_housesmall_v1_f',
+			'land_d_stone_housebig_v1_f','land_i_stone_housebig_v1_f','land_i_stone_housebig_v2_f','land_slum_house02_f','land_d_house_small_01_v1_f','land_u_house_small_01_v1_f',
+			'land_shed_08_grey_f','land_bunker_01_hq_f','land_shed_08_grey_f','land_bunker_01_hq_f'
+		];
+	};
 	if (worldName in ['Tanoa']) then {
 		_buildingPool = [
 			'land_shed_08_grey_f','land_bunker_01_hq_f','Land_Slum_03_F','Land_Slum_01_F','Land_Slum_02_F','Land_House_Small_03_F','Land_House_Native_01_F','Land_House_Native_02_F',
@@ -78,7 +81,11 @@ if ((([(_sectorPosition # 0),(_sectorPosition # 1)] nearObjects ['House',(_radiu
 	if (worldName in ['Enoch']) then {
 		_buildingPool = [
 			'land_bunker_01_hq_f','land_shed_14_f','land_shed_13_f','land_camp_house_01_brown_f','land_houseruin_small_01_f','land_houseruin_small_04_f','land_barn_02_f'
-		];	
+		];
+	};
+	if (_buildingPool isEqualTo []) then {
+		_buildingPool = (nearestObjects [_sectorPosition,['House'],_radius,TRUE]) select {(((count (_x buildingPos -1)) > 3) && (!isObjectHidden _x) && ((sizeOf (typeOf _x)) < 35))};
+		_buildingPool = _buildingPool apply {typeOf _x};
 	};
 	private _breakOut = FALSE;
 	for '_x' from 0 to 2 step 1 do {

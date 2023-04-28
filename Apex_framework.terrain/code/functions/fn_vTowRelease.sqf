@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/03/2016 A3 1.56 by Quiksilver
+	1/02/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -14,16 +14,15 @@ Description:
 _____________________________________________________________/*/
 
 params ['_vehicle'];
-_towedVehicle = objNull;
+private _towedVehicle = objNull;
 _attachedObjects = attachedObjects _vehicle;
 {
-	if (_x getVariable ['QS_ropeAttached',FALSE]) exitWith {
+	if (_x getVariable ['QS_attached',FALSE]) exitWith {
 		_towedVehicle = _x;
 	};
 } count _attachedObjects;
 if (isNull _towedVehicle) exitWith {
 	player removeAction (missionNamespace getVariable 'QS_action_towRelease');
-	_vehicle setVariable ['QS_ropeAttached',FALSE,TRUE];
 };
 if (_towedVehicle call (missionNamespace getVariable 'QS_fnc_isBoundingBoxIntersected')) exitWith {
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_140',[],-1];
@@ -40,5 +39,5 @@ _line03 = lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [0,0,0])),(AG
 if (_line03 isNotEqualTo []) exitWith {
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_140',[],-1];
 };
+detach _towedVehicle;
 player removeAction (missionNamespace getVariable 'QS_action_towRelease');
-_vehicle setVariable ['QS_ropeAttached',FALSE,TRUE];

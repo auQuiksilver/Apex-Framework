@@ -42,63 +42,9 @@ private _spawnPosition = [0,0,0];
 private _gridEnemy = [];
 private _allPlayers = allPlayers;
 private _playersCount = count _allPlayers;
-private _unitTypes = [
-	'O_G_Soldier_A_F',0.2,
-	'O_G_Soldier_AR_F',0.4,
-	'O_G_medic_F',0.2,
-	'O_G_engineer_F',0.2,
-	'O_G_Soldier_exp_F',0.2,
-	'O_G_Soldier_GL_F',0.2,
-	'O_G_Soldier_M_F',0.2,
-	'O_G_Soldier_F',0.2,
-	'O_G_Soldier_LAT_F',0.2,
-	'O_G_Soldier_lite_F',0.2,
-	'O_G_Sharpshooter_F',0.2,
-	'O_G_Soldier_TL_F',0.2,
-	'I_C_Soldier_Bandit_7_F',0.2,
-	'I_C_Soldier_Bandit_3_F',0.4,
-	'I_C_Soldier_Bandit_2_F',0.2,
-	'I_C_Soldier_Bandit_5_F',0.2,
-	'I_C_Soldier_Bandit_6_F',0.2,
-	'I_C_Soldier_Bandit_1_F',0.2,
-	'I_C_Soldier_Bandit_8_F',0.2,
-	'I_C_Soldier_Bandit_4_F',0.2,
-	'I_C_Soldier_Para_7_F',0.1,
-	'I_C_Soldier_Para_2_F',0.1,
-	'I_C_Soldier_Para_3_F',0.1,
-	'I_C_Soldier_Para_4_F',0.3,
-	'I_C_Soldier_Para_6_F',0.1,
-	'I_C_Soldier_Para_8_F',0.1,
-	'I_C_Soldier_Para_1_F',0.1,
-	'I_C_Soldier_Para_5_F',0.1
-];
-private _vehicleTypes = [
-	'O_G_Van_01_transport_F',
-	'I_C_Van_01_transport_F',
-	'I_C_Offroad_02_unarmed_F',
-	'O_G_Offroad_01_F'
-];
-private _vehicleTypesArmed = [];
-if (_worldName isEqualTo 'Tanoa') then {
-	_vehicleTypesArmed = [
-		'O_G_Offroad_01_armed_F',0.3,
-		'O_T_LSV_02_armed_F',0.2,
-		'I_C_Van_01_transport_F',0.1,
-		'O_G_Offroad_01_AT_F',0.2,
-		'I_C_Offroad_02_AT_F',0.2,
-		'I_C_Offroad_02_LMG_F',0.2
-	];
-} else {
-	_vehicleTypesArmed = [
-		'O_G_Offroad_01_armed_F',0.3,
-		'O_LSV_02_armed_F',0.2,
-		'O_G_Van_01_transport_F',0.1,
-		'O_G_Offroad_01_AT_F',0.2,
-		'I_C_Offroad_02_AT_F',0.2,
-		'I_C_Offroad_02_LMG_F',0.2
-	];
-};
-
+private _unitTypes = ['grid_units_1'] call QS_data_listUnits;
+private _vehicleTypes = ['grid_vehicles_1'] call QS_data_listVehicles;
+private _vehicleTypesArmed = ['grid_vehicles_2'] call QS_data_listVehicles;
 private _enemiesInBuildingsCount = 16;
 private _interBuildingCount = 14;
 private _areaPatrolCount = 12;
@@ -178,7 +124,7 @@ if (_buildingPositions isNotEqualTo []) then {
 		_buildingPositionIndex = _buildingPositions find _buildingPosition;
 		_buildingPositions set [_buildingPositionIndex,FALSE];
 		_buildingPositions deleteAt _buildingPositionIndex;
-		_enemyUnit = _enemyGrp createUnit [_enemyUnitType,[-300,-300,50],[],50,'NONE'];
+		_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],[-300,-300,50],[],50,'NONE'];
 		{
 			_enemyUnit enableAIFeature [_x,FALSE];
 		} forEach ['PATH','COVER','AUTOCOMBAT'];
@@ -260,7 +206,7 @@ if (_interBuildingPatrols > 0) then {
 			_enemyGrp = createGroup [EAST,TRUE];
 			for '_j' from 0 to (_enemyTeamSize - 1) step 1 do {
 				_enemyUnitType = selectRandomWeighted _unitTypes;
-				_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPosition,[],25,'NONE'];
+				_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],_spawnPosition,[],25,'NONE'];
 				_enemyUnit setVehiclePosition [(getPosWorld _enemyUnit),[],10,'NONE'];
 				{
 					_enemyUnit enableAIFeature [_x,FALSE];
@@ -360,7 +306,8 @@ private _roadSegment = objNull;
 private _vehicle = objNull;
 private _spawnDirection = 0;
 private _static = objNull;
-private _staticTypes = ['o_hmg_01_high_f','o_gmg_01_high_f'];
+private _staticTypes = ['grid_statics_1'] call QS_data_listVehicles;
+private _vehicleType = '';
 _positionsMinRadius = 100;
 if (_armedVehicleCount > 0) then {
 	if ((count _roadSegmentsInPolygon) > 25) then {
@@ -404,7 +351,8 @@ if (_armedVehicleCount > 0) then {
 				if (!isNull (roadAt _spawnPos)) then {
 					_spawnDirection = _spawnPos getDir ((roadsConnectedTo (roadAt _spawnPos)) # 0);
 				};
-				_vehicle = createVehicle [(selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),[_spawnPos # 0,_spawnPos # 1,((_spawnPos # 2) + 5)],[],0,'NONE'];
+				_vehicleType = selectRandomWeighted ([4] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
+				_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],(_spawnPos vectorAdd [0,0,5]),[],0,'NONE'];
 				if (_spawnDirection isNotEqualTo 0) then {
 					_vehicle setDir _spawnDirection;
 				};
@@ -425,7 +373,7 @@ if (_armedVehicleCount > 0) then {
 				_armedVehiclePatrolEnemies pushBack _vehicle;
 				for '_j' from 0 to (((count (fullCrew [_vehicle,'',TRUE])) - 1) min 3) step 1 do {
 					_enemyUnitType = selectRandomWeighted _unitTypes;
-					_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPos,[],25,'NONE'];
+					_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],_spawnPos,[],25,'NONE'];
 					{
 						_enemyUnit enableAIFeature [_x,FALSE];
 					} forEach ['COVER','AUTOCOMBAT'];
@@ -464,8 +412,9 @@ if (_armedVehicleCount > 0) then {
 							} forEach (attachedObjects _entity);
 						}
 					];
-					_static = createVehicle [(selectRandom _staticTypes),[-200,-200,50],[],25,'NONE'];
-					_static lock 3;
+					_vehicleType = selectRandom _staticTypes;
+					_static = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],[-200,-200,50],[],25,'NONE'];
+					_static lock 2;
 					_static allowCrewInImmobile [TRUE,TRUE];
 					_static enableVehicleCargo FALSE;
 					_static setVariable ['QS_curator_disableEditability',TRUE,QS_system_AI_owners];
@@ -475,7 +424,7 @@ if (_armedVehicleCount > 0) then {
 					};
 					_static attachTo [_vehicle,[0,-2,1]];
 					_enemyUnitType = selectRandomWeighted _unitTypes;
-					_enemyUnit = _enemyGrp createUnit [_enemyUnitType,_spawnPos,[],25,'NONE'];
+					_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],_spawnPos,[],25,'NONE'];
 					{
 						_enemyUnit enableAIFeature [_x,FALSE];
 					} forEach ['COVER','AUTOCOMBAT'];
@@ -523,7 +472,7 @@ if (alive (missionNamespace getVariable ['QS_grid_IGleader',objNull])) then {
 			_hqBuildingPositions set [_hqBuildingPositionIndex,FALSE];
 			_hqBuildingPositions deleteAt _hqBuildingPositionIndex;
 			_enemyUnitType = selectRandomWeighted _unitTypes;
-			_enemyUnit = _enemyGrp createUnit [_enemyUnitType,[-300,-300,50],[],25,'NONE'];
+			_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],[-300,-300,50],[],25,'NONE'];
 			{
 				_enemyUnit enableAIFeature [_x,FALSE];
 			} forEach ['COVER','AUTOCOMBAT','PATH'];

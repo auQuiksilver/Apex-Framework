@@ -72,23 +72,39 @@ if (_key isEqualTo 62) exitWith {
 		playSound ['ClickSoft',FALSE];
 		private _selected = curatorSelected # 0;
 		private _groups = [];
+		private _groupsOffload = [];
+		private _groupsOnload = [];
+		private _count = 0;
+		private _unitsCount = 0;
+		private _groupUnits = [];
+		private _playerUID = getPlayerUID player;
 		if (_selected isNotEqualTo []) then {
 			{
 				if (
 					(_x isKindOf 'Man') &&
-					(!isPlayer _x) &&
-					(alive _x) &&
-					(!isNull (group _x))
+					{(alive _x)} &&
+					{(!isPlayer _x)} &&
+					{(!isNull (group _x))}
 				) then {
-					_groups pushBackUnique (group _x);
+					if (local (group _x)) then {
+						_groupsOffload pushBackUnique (group _x);
+					} else {
+						_groupUnits = units (group _x);
+						_unitsCount = count _groupUnits;
+						_count = { (_x getVariable [format ['QS_zeus_%1',_playerUID],FALSE]) } count _groupUnits;
+						// Only allow "Onload" of groups where all units were originally spawned by this Zeus
+						if (_count isEqualTo _unitsCount) then {
+							_groupsOnload pushBackUnique (group _x);
+						};
+					};
 				};
 			} forEach _selected;
-			if (_groups isNotEqualTo []) then {
-				_groups = _groups select {
+			if (_groupsOffload isNotEqualTo []) then {
+				_groupsOffload = _groupsOffload select {
 					_grp = _x;
 					((local _grp) && (((units _grp) findIf {(isPlayer _x)}) isEqualTo -1))
 				};
-				if (_groups isNotEqualTo []) then {
+				if (_groupsOffload isNotEqualTo []) then {
 					QS_data_AISkills = [
 						'general',
 						'courage',
@@ -171,16 +187,88 @@ if (_key isEqualTo 62) exitWith {
 								{
 									params ['_grp','_isLocal'];
 									_grp removeEventHandler [_thisEvent,_thisEventHandler];
-									systemChat format [localize 'STR_QS_Text_277',(groupId _grp),!_isLocal]
+									systemChat (format [localize 'STR_QS_Text_277',(groupId _grp),!_isLocal]);
 								}
 							];
 						};
-					} forEach _groups;
+					} forEach _groupsOffload;
 					// this is pretty basic but whatever
 					systemChat (localize 'STR_QS_Text_276');
-					_groups spawn {
+					_groupsOffload spawn {
 						sleep 2;		// allow time for variable propagation
-						[18,_this,profileName] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+						[18,_this,profileName,TRUE,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+					};
+				};
+			} else {
+				if (_groupsOnload isNotEqualTo []) then {
+					systemChat (localize 'STR_QS_Text_307');
+					{
+						_x addEventHandler [
+							'Local',
+							{
+								params ['_grp','_isLocal'];
+								_grp removeEventHandler [_thisEvent,_thisEventHandler];
+								systemChat (format [localize 'STR_QS_Text_308',(groupId _grp),_isLocal]);
+								if (_isLocal) then {
+									_grp setVariable ['QS_AI_GRP_SETUP',FALSE,FALSE];
+									_grp setVariable ['QS_AI_GRP_HC',[-1,-1],TRUE];
+									private _data = [];
+									private _unit = objNull;
+									private _unitData = [];
+									private _unitSkills = [];
+									private _unitAI = [];
+									{
+										_data = _x;
+										if (_forEachIndex isEqualTo 0) then {
+											_grp setBehaviour (['CARELESS','SAFE','AWARE','COMBAT','STEALTH','AWARE'] # _data);
+										};
+										if (_forEachIndex isEqualTo 1) then {
+											_grp setCombatMode (['BLUE','GREEN','WHITE','YELLOW','RED'] # _data);
+										};
+										if (_forEachIndex isEqualTo 2) then {
+											_grp enableAttack (_data isEqualTo 1);
+										};
+										if (_forEachIndex isEqualTo 3) then {
+											{
+												_unitData = _x;
+												_unitData params ['_unit','_unitSkill','_unitSkills','_unitAI','_unitPos','_unitAnimCoef','_unitStamina'];
+												if (alive _unit) then {
+													if ((side _grp) in [EAST,RESISTANCE]) then {
+														_unit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
+													};
+													_unit setSkill _unitSkill;
+													{
+														_unit setSkill [QS_data_AISkills # _forEachIndex,_x];
+													} forEach _unitSkills;
+													{
+														_unit enableAIFeature [QS_data_AIFeatures # _forEachIndex,_x isEqualTo 1];
+													} forEach _unitAI;
+													if (_unitPos isNotEqualTo -1) then {
+														_unit setUnitPos (['Down','Up','Middle','Auto'] # _unitPos);
+													};
+													_unit setAnimSpeedCoef _unitAnimCoef;
+													_unit enableStamina (_unitStamina isEqualTo 1);
+													_unit enableFatigue (_unitStamina isEqualTo 1);
+												};
+											} forEach _data;
+										};
+									} forEach (_grp getVariable ['QS_AI_GRP_ZEUS_data',[]]);
+									_grp allowFleeing 0;
+									_grp spawn {
+										sleep 3;
+										{
+											if (alive _x) then {
+												_x setUnitLoadout (getUnitLoadout _x);
+											};
+										} forEach (units _this);
+									};
+								};
+							}
+						];
+					} forEach _groupsOnLoad;
+					_groupsOnLoad spawn {
+						sleep 2;		// allow time for variable propagation
+						[18,_this,profileName,FALSE,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 					};
 				};
 			};
@@ -408,30 +496,34 @@ if (_key isEqualTo 77) exitWith {
 };
 if (_key isEqualTo 71) exitWith {
 	private _selectedUnits = [];
+	private _healedUnits = [];
 	if ((curatorSelected # 0) isEqualTo []) then {breakTo 'main';};
 	{
-		if (_x isKindOf 'Man') then {
-			if (isNull (objectParent _x)) then {
-				if (alive _x) then {
-					if (isNull (attachedTo _x)) then {
-						if ((lifeState _x) isEqualTo 'INCAPACITATED') then {
-							0 = _selectedUnits pushBack _x;
-						};
-					};
-				};
+		if (
+			(_x isKindOf 'Man') &&
+			{(alive _x)} &&
+			{(isNull (attachedTo _x))}
+		) then {
+			if ((lifeState _x) isEqualTo 'INCAPACITATED') then {
+				_selectedUnits pushBack _x;
+			} else {
+				_healedUnits pushBack _x;
 			};
 		};
-	} count (curatorSelected # 0);
+	} forEach (curatorSelected # 0);
+	if (_healedUnits isNotEqualTo []) then {
+		(_healedUnits # 0) setDamage [0,FALSE];
+	};
 	if (_selectedUnits isEqualTo []) then {breakTo 'main';};
 	private _unit = _selectedUnits # 0;
-	if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
-		if (local _unit) then {
-			_unit setUnconscious FALSE;
-			_unit setCaptive FALSE;
-		} else {
-			[68,_unit,FALSE,FALSE] remoteExec ['QS_fnc_remoteExec',_unit,FALSE];
-		};
+	if (local _unit) then {
+		_unit setUnconscious FALSE;
+		_unit setCaptive FALSE;
+	} else {
+		[68,_unit,FALSE,FALSE] remoteExec ['QS_fnc_remoteExec',_unit,FALSE];
 	};
+	
+	
 	/*/
 	missionNamespace setVariable [
 		'QS_curator_revivePoints',

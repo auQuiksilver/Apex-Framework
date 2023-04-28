@@ -32,7 +32,7 @@ params ['_module','_input'];
 				} forEach [
 					'maxPitch 89',
 					'minPitch -89',
-					'ceilingHeight 10000'
+					'ceilingHeight 12000'
 				];
 			};
 		} else {
@@ -41,7 +41,7 @@ params ['_module','_input'];
 			};
 		};
 		if (isNull (findDisplay 312)) exitWith {
-			player setVariable ['QS_client_playerViewChanged',TRUE,FALSE];
+			uiNamespace setVariable ['QS_client_playerViewChanged',TRUE];
 			uiNamespace setVariable ['RscMissionStatus_display',(findDisplay 46)];
 		};
 		uiSleep 0.1;

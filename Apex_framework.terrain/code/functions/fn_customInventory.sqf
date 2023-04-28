@@ -15,6 +15,9 @@ _____________________________________________________________/*/
 
 params ['_entity','_type','_preset'];
 if (!isNil {_entity getVariable 'QS_vehicle_customInventory'}) exitWith {};
+
+
+
 _entity setVariable ['QS_vehicle_customInventory',TRUE,FALSE];
 _whitelistedBackpacks = [];
 _allItems = [
@@ -565,13 +568,13 @@ if (_type isEqualTo 1) then {
 		{
 			_entity addItemCargoGlobal _x;
 		} forEach [
-			['FirstAidKit',(round (10 + (random 5)))],
+			[QS_core_classNames_itemFirstAidKit,(round (10 + (random 5)))],
 			['SmokeShell',(round (5 + (random 5)))],
 			['SmokeShellBlue',(round (2 + (random 2)))],
 			[(['NVGoggles','NVGoggles_tna_F'] select (worldName isEqualTo 'Tanoa')),2],
-			['Medikit',1],
-			['Toolkit',1],
-			['ItemRadio',2]
+			[QS_core_classNames_itemMedikit,1],
+			[QS_core_classNames_itemToolKit,1],
+			[QS_core_classNames_itemRadio,2]
 		];
 		//comment 'Magazines';
 		for '_x' from 0 to (_maxMagazines - 1) step 1 do {

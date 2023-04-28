@@ -26,7 +26,7 @@ if (!isNull _prop) then {
 				FALSE
 			];
 			deleteVehicle _prop;
-			_v = createVehicle [_type,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
+			_v = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _type,_type],[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
 			_v setVectorDirAndUp _vectorDirAndUp;
 			_v setPosATL _position;
 			_v setVariable ['QS_vehicle_delayedDelete',(diag_tickTime + 600),FALSE];
@@ -49,11 +49,11 @@ if (!isNull _prop) then {
 			(missionNamespace getVariable 'QS_garbageCollector') pushBack [_v,'DELAYED_DISCREET',300];
 		} else {
 			//comment 'Insert spawned thread here to ensure it cant be exploited or spammed';
-			_i = (missionNamespace getVariable 'QS_v_Monitor') findIf {
+			_i = (serverNamespace getVariable 'QS_v_Monitor') findIf {
 				((!(_x isEqualType TRUE)) && {((_x # 0) isEqualTo _prop)})
 			};
 			if (_i isNotEqualTo -1) then {
-				_array = (missionNamespace getVariable 'QS_v_Monitor') # _i;
+				_array = (serverNamespace getVariable 'QS_v_Monitor') # _i;
 				_array params [
 					'_v',
 					'_vdelay',
@@ -70,28 +70,39 @@ if (!isNull _prop) then {
 					'_vRespawnTickets',
 					'_nearEntitiesCheck',
 					'_isDynamicVehicle',
-					'_isCarrierVehicle'
+					'_isCarrierVehicle',
+					['_vehicleSpawnCondition',{TRUE}],
+					['_isWreck',FALSE],
+					['_isDeployed',FALSE],
+					['_stateInfo',[]],
+					['_wreckInfo',[]],
+					['_wreckChance',0],
+					['_wreckCond',{TRUE}]
 				];
 				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _prop;
-				_v = createVehicle [_t,[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
-				_v setDir _dir;
+				_v = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _t,_t],[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
+				if (_dir isEqualType 0) then {
+					_v setDir _dir;
+				} else {
+					if (_dir isEqualType []) then {
+						_v setVectorDirAndUp _dir;
+					};
+				};
 				if (_isCarrierVehicle isEqualTo 0) then {
 					_v setVectorUp (surfaceNormal _vpos);
-					_v setPos [(_vpos # 0),(_vpos # 1),((_vpos # 2)+0.1)];
+					_v setPosASL ((AGLToASL _vpos) vectorAdd [0,0,0.1]);
 				} else {
 					if (_isCarrierVehicle isEqualTo 1) then {
-						_v setPosWorld _vpos;
+						_v setPosASL _vpos;
 					};
 				};
 				if ((str _configCode) isNotEqualTo '{}') then {
 					_v call _configCode;
 				};
+				_v setVariable ['QS_wreck_chance',(random 1) < _wreckChance,TRUE];
 				[_v] call (missionNamespace getVariable 'QS_fnc_vSetup');
-				if (_isCarrierVehicle isEqualTo 0) then {
-					_v setPos [(_vpos # 0),(_vpos # 1),((_vpos # 2)+0.1)];
-				};
-				(missionNamespace getVariable 'QS_v_Monitor') set [_i,[_v,_vdelay,_randomize,_configCode,_t,_vpos,_dir,FALSE,0,_fobVehicleID,_QS_vRespawnDist_base,_QS_vRespawnDist_field,_vRespawnTickets,_nearEntitiesCheck,_isDynamicVehicle,_isCarrierVehicle]];
+				(serverNamespace getVariable 'QS_v_Monitor') set [_i,[_v,_vdelay,_randomize,_configCode,_t,_vpos,_dir,FALSE,0,_fobVehicleID,_QS_vRespawnDist_base,_QS_vRespawnDist_field,_vRespawnTickets,_nearEntitiesCheck,_isDynamicVehicle,_isCarrierVehicle,_vehicleSpawnCondition,FALSE,FALSE,_stateInfo,_wreckInfo,_wreckChance,_wreckCond]];
 			};
 		};
 	};

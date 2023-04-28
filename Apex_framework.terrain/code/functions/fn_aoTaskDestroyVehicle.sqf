@@ -54,20 +54,15 @@ if (_state isEqualTo 1) then {
 		{
 			if (isNull _vehicle) then {
 				_testVehicle = _x;
-				if (!isNull _testVehicle) then {
-					if ((_testVehicle distance _aoPos) <= _aoSize) then {
-						if ((!(_testVehicle isKindOf 'StaticWeapon')) && (!(_testVehicle isKindOf 'Air'))) then {
-							if (alive _testVehicle) then {
-								if (canMove _testVehicle) then {
-									if (((crew _testVehicle) findIf {(alive _x)}) isNotEqualTo -1) then {
-										if ((side (effectiveCommander _testVehicle)) in [EAST,RESISTANCE]) then {
-											_vehicle = _x;
-										};
-									};
-								};
-							};
-						};
-					};
+				if (
+					(alive _testVehicle) &&
+					((_testVehicle distance _aoPos) <= _aoSize) &&
+					((!(_testVehicle isKindOf 'StaticWeapon')) && (!(_testVehicle isKindOf 'Air'))) &&
+					(canMove _testVehicle) &&
+					(((crew _testVehicle) findIf {(alive _x)}) isNotEqualTo -1) &&
+					((side (group (effectiveCommander _testVehicle))) in [EAST,RESISTANCE])
+				) then {
+					_vehicle = _x;
 				};
 			};
 		} count vehicles;

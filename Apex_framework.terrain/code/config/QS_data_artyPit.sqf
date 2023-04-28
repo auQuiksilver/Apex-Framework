@@ -39,7 +39,7 @@ __________________________________________________________________________/*/
 	["Land_HBarrier_01_wall_6_green_F",[-4.65039,-14.1714,0],178.418,[],false,false,true,{}], 
 	["Land_HBarrier_01_wall_6_green_F",[-14.3359,-5.28174,0],265.262,[],false,false,true,{}], 
 	["Land_HBarrier_01_wall_6_green_F",[-11.6533,-12.0586,0],234.447,[],false,false,true,{}], 
-	[(["O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F"] select (worldName in ['Tanoa','Lingor3','Enoch'])),[4.01807,-1.67236,-0.0691381],353.719,[],true,true,false,{
+	["O_MBT_02_arty_F",[4.01807,-1.67236,-0.0691381],353.719,[],true,true,false,{
 		_arty = _this # 0;
 		(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _arty;
 		_arty setVariable ['QS_hidden',TRUE,TRUE];
@@ -116,7 +116,7 @@ __________________________________________________________________________/*/
 		} forEach (crew _arty);
 		_arty;
 	}], 
-	[(["O_MBT_02_arty_F","O_T_MBT_02_arty_ghex_F"] select (worldName in ['Tanoa','Lingor3','Enoch'])),[-6.7666,-2.89453,-0.0691385],353.719,[],true,true,false,{
+	["O_MBT_02_arty_F",[-6.7666,-2.89453,-0.0691385],353.719,[],true,true,false,{
 		_arty = _this # 0;
 		(missionNamespace getVariable 'QS_sideMission_enemyArray') pushBack _arty;
 		_arty setVariable ['QS_hidden',TRUE,TRUE];

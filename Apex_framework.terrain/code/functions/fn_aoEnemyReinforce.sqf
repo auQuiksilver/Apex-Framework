@@ -67,13 +67,13 @@ private _validData = [];
 if (
 	((missionNamespace getVariable ['QS_missionConfig_aoUrbanSpawning',1]) isEqualTo 1) &&
 	{(missionNamespace getVariable ['QS_ao_urbanSpawn',FALSE])} &&
-	{((random 1) > 0.666)} &&
+	{((random 1) > 0.5)} &&
 	{
 		_validData = ((missionNamespace getVariable 'QS_ao_urbanSpawn_data') select {
 			(alive (_x # 0)) && 
 			{(alive (_x # 1))} &&
 			{((_allPlayers inAreaArray [(getPosATL (_x # 0)),75,75,0,FALSE]) isEqualTo [])} &&
-			{((count (_unitsEast inAreaArray [(getPosATL (_x # 0)),25,25,0,FALSE])) <= 8)}
+			{((count (_unitsEast inAreaArray [(getPosATL (_x # 0)),25,25,0,FALSE])) <= 12)}
 		});
 		(_validData isNotEqualTo [])
 	}
@@ -131,11 +131,11 @@ if (
 	[
 		_hqPos,
 		EAST,
-		(['O_Heli_Transport_04_covered_F','O_Heli_Transport_04_covered_black_F'] select (_worldName isEqualTo 'Tanoa')),
+		['classic_reinforcehelitransport_1'] call QS_data_listVehicles,
 		0.75,
 		[],
 		(((random 1) > 0.85) && ((count _allPlayers) > 10)),
-		(['O_Heli_Attack_02_dynamicLoadout_F','O_Heli_Attack_02_dynamicLoadout_black_F'] select (_worldName isEqualTo 'Tanoa')),
+		['classic_reinforceheliescort_1'] call QS_data_listVehicles,
 		[],
 		FALSE
 	] spawn (missionNamespace getVariable 'QS_fnc_AIXHeliInsert');
@@ -160,41 +160,9 @@ for '_x' from 0 to 999 step 1 do {
 };
 
 if (!(_heliInsert)) then {
-	_infTypes = [
-		[
-			'OIA_InfSquad',2,
-			'OIA_InfTeam',2,
-			'OI_reconPatrol',1,
-			'OIA_InfAssault',2,
-			'OG_InfSquad',1,
-			'OG_InfAssaultTeam',1,
-			'OIA_ARTeam',2,
-			'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-			'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-			'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-		],
-		[
-			'OIA_InfSquad',2,
-			'OIA_InfTeam',2,
-			'OI_reconPatrol',1,
-			'OIA_InfAssault',2,
-			'OG_InfSquad',1,
-			'OG_InfAssaultTeam',1,
-			'OIA_ARTeam',2,
-			'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-			'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-			'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
-		]
-	] select (_worldName isEqualTo 'Altis');
+	_infTypes = ['classic_reinforcearray_1'] call QS_data_listUnits;
 	if (_worldName isEqualTo 'Stratis') then {
-		_infTypes = [
-			'OIA_InfSquad',5,
-			'OIA_InfAssault',2,
-			'OIA_InfTeam_AA',(0.5 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 2),
-			'OI_reconPatrol',0.5,
-			//'OIA_InfTeam_LAT',(0.25 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 1),
-			'OIA_ARTeam',4
-		];
+		_infTypes = ['classic_reinforcearray_stratis'] call QS_data_listUnits;
 	};
 	_reinforceGroup = [_spawnPosDefault,(random 360),EAST,(selectRandomWeighted _infTypes),FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 };

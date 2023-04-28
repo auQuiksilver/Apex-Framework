@@ -15,8 +15,8 @@ ___________________________________________________________________*/
 
 params ['_unit','_inventory'];
 if (player getVariable ['QS_client_radioDisabled',FALSE]) then {
-	if ('ItemRadio' in (assignedItems player)) then {
-		player unassignItem 'ItemRadio';
+	if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
+		player unassignItem (QS_client_assignedItems_lower # (QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios));
 	};
 };
 if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {

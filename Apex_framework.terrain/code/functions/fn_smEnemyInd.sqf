@@ -25,13 +25,7 @@ _x = 0;
 _pos = getPosATL QS_sideObj;
 _infTeams = ["HAF_InfTeam","HAF_InfTeam_AA","HAF_InfTeam_AT","HAF_InfSentry","HAF_InfSquad"];
 _vehTypes = ["I_APC_Wheeled_03_cannon_F","I_APC_tracked_03_cannon_F","I_MBT_03_cannon_F","I_MRAP_03_gmg_F","I_MRAP_03_hmg_F"];
-
-if (worldName isEqualTo 'Tanoa') then {
-	_aaType = 'O_T_APC_Tracked_02_AA_ghex_F';
-} else {
-	_aaType = 'O_APC_Tracked_02_AA_F';
-};
-
+_aaType = 'O_APC_Tracked_02_AA_F';
 
 /*/---------- INFANTRY/*/
 
@@ -74,10 +68,10 @@ for "_x" from 0 to 1 do {
 _SMvehPatrol = createGroup [RESISTANCE,TRUE];
 _randomPos = ['RADIUS',_pos,300,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 _vehType = selectRandom _vehTypes;
-_SMveh = createVehicle [_vehType,_randomPos,[],0,'NONE'];
-_u1 = _SMvehPatrol createUnit ['I_engineer_F',_randomPos,[],0,'NONE'];
-_u2 = _SMvehPatrol createUnit ['I_engineer_F',_randomPos,[],0,'NONE'];
-_u3 = _SMvehPatrol createUnit ['I_engineer_F',_randomPos,[],0,'NONE'];
+_SMveh = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehType,_vehType],_randomPos,[],0,'NONE'];
+_u1 = _SMvehPatrol createUnit [QS_core_units_map getOrDefault [toLowerANSI 'i_engineer_f','i_engineer_f'],_randomPos,[],0,'NONE'];
+_u2 = _SMvehPatrol createUnit [QS_core_units_map getOrDefault [toLowerANSI 'i_engineer_f','i_engineer_f'],_randomPos,[],0,'NONE'];
+_u3 = _SMvehPatrol createUnit [QS_core_units_map getOrDefault [toLowerANSI 'i_engineer_f','i_engineer_f'],_randomPos,[],0,'NONE'];
 _u1 = _u1 call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _u2 = _u2 call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _u3 = _u3 call (missionNamespace getVariable 'QS_fnc_unitSetup');
@@ -114,7 +108,7 @@ _enemiesArray pushBack _SMveh;
 if ((count allPlayers) > 25) then {
 	for '_x' from 0 to 1 step 1 do {
 		_randomPos = ['RADIUS',_pos,300,'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-		_SMaa = createVehicle [_aaType,_randomPos,[],0,'NONE'];
+		_SMaa = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _aaType,_aaType],_randomPos,[],0,'NONE'];
 		_grp = createVehicleCrew _SMaa;
 		(missionNamespace getVariable 'QS_AI_vehicles') pushBack _SMaa;
 		_SMaa lock 3;
@@ -148,7 +142,7 @@ _unitTypes = [
 _garrisonGrp = createGroup [RESISTANCE,TRUE];
 for '_x' from 0 to 7 step 1 do {
 	_unitType = selectRandom _unitTypes;
-	_unit = _garrisonGrp createUnit [_unitType,_pos,[],0,'FORM'];
+	_unit = _garrisonGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_pos,[],0,'FORM'];
 	0 = _enemiesArray pushBack _unit;
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	[_unit] call (missionNamespace getVariable 'QS_fnc_setCollectible');

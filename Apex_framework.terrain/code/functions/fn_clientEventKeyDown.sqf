@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:  	
 
-	16/09/2022 A3 2.10 by Quiksilver  
+	18/02/2023 A3 2.12 by Quiksilver
 	
 Description:  	
 
@@ -16,63 +16,68 @@ __________________________________________________________/*/
 params ['','_key','_shift','_ctrl','_alt'];
 private _c = FALSE;
 _cameraOn = cameraOn;
-player setVariable ['QS_client_afkTimeout',time,FALSE];
-if (
-	(_key isEqualTo 5) &&
-	(commandingMenu isEqualTo '')
-) then {
-	_c = TRUE;
-	if (
-		(isNull (objectParent player)) &&
-		(isNull (attachedTo player)) &&
-		(!captive player) &&
-		(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)
-	) then {
-		call (missionNamespace getVariable 'QS_fnc_clientHolster');
-	};
+_player = QS_player;
+uiNamespace setVariable ['QS_client_afkTimeout',diag_tickTime];
+uiNamespace setVariable ['QS_uiaction_ctrl',_ctrl];
+// Holster Weapon
+if (((actionKeys 'User8') isEqualTo []) && {(_key isEqualTo 5) && {(commandingMenu isEqualTo '')}}) then {
+	[_player] call (missionNamespace getVariable 'QS_fnc_clientHolster');
 };
-if (_key isEqualTo 199) then {
+// Earplugs
+if (((actionKeys 'User9') isEqualTo []) && {_key in [197,207]}) then {
+	call (missionNamespace getVariable 'QS_fnc_clientEarplugs');
+};
+// Player Menu
+if (((actionKeys 'User10') isEqualTo []) && {(_key isEqualTo 199)}) then {
 	if (isNull (findDisplay 2000)) then {
 		[0] call (missionNamespace getVariable 'QS_fnc_clientMenu');
 	} else {
 		[-1] call (missionNamespace getVariable 'QS_fnc_clientMenu');
 	};
 };
-if (_key in [197,207]) then {
-	call (missionNamespace getVariable 'QS_fnc_clientEarplugs');
-};
 if (
 	(_key in (actionKeys 'GetOver')) &&
-	_shift
-) then {
-	_c = TRUE;
-	_this call (missionNamespace getVariable 'QS_fnc_clientJump');
+	{(isNull (objectParent _player))}
+) exitWith {
+	if (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]) then {
+		_c = TRUE;
+		_this call (missionNamespace getVariable 'QS_fnc_clientJump');
+	} else {
+		uiNamespace setVariable ['QS_ui_getincargo_activate',TRUE];
+		call (missionNamespace getVariable 'QS_fnc_clientInteractGetIn');
+	};
+};
+if (((actionKeys 'User20') isEqualTo []) && {(_key isEqualTo 219)}) then {
+	['IN'] call QS_fnc_clientMenuActionContext;
 };
 if (
-	(isNull (objectParent player)) &&
+	(isNull (objectParent _player)) &&
 	{(_key in ((actionKeys 'Throw') + (actionKeys 'Put')))} &&
-	{(!(unitIsUav cameraOn))} &&
-	{((cameraOn distance (markerPos 'QS_marker_base_marker')) < 300)}
+	{(!(unitIsUav _cameraOn))}
 ) then {
-	_c = TRUE;
-	50 cutText [localize 'STR_QS_Text_013','PLAIN DOWN'];
+	([_player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+	_c = _inSafezone && _safezoneActive && (_safezoneLevel > 1);
+	if (_c) then {
+		50 cutText [localize 'STR_QS_Text_013','PLAIN DOWN'];
+	};
 };
 if (_key in (actionKeys 'PushToTalk')) then {
 	if (currentChannel isNotEqualTo 5) then {
-		if ('ItemRadio' in (assignedItems player)) then {
+		if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
 			if (currentChannel in [0,1,6]) then {
-				if (!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist')))) then {
-					if (!(player getUnitTrait 'QS_trait_HQ')) then {
-						setCurrentChannel 5;
-						50 cutText [localize 'STR_QS_Text_032','PLAIN DOWN'];
-						_c = TRUE;
-					};
+				if (
+					(!(_player getUnitTrait 'QS_trait_HQ')) &&
+					{(!((getPlayerUID _player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))}
+				) then {
+					setCurrentChannel 5;
+					50 cutText [localize 'STR_QS_Text_032','PLAIN DOWN'];
+					_c = TRUE;
 				};
 			} else {
 				if (
 					(currentChannel isEqualTo 7) &&
-					{((['uavhacker','QS_trait_fighterPilot','QS_trait_pilot','QS_trait_CAS','QS_trait_HQ'] findIf { player getUnitTrait _x }) isEqualTo -1)} &&
-					{(!((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))}
+					{((['uavhacker','QS_trait_fighterPilot','QS_trait_pilot','QS_trait_CAS','QS_trait_HQ'] findIf { _player getUnitTrait _x }) isEqualTo -1)} &&
+					{(!((getPlayerUID _player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))))}
 				) then {
 					setCurrentChannel 5;
 					50 cutText [localize 'STR_QS_Text_035','PLAIN DOWN'];
@@ -87,82 +92,82 @@ if (_key in (actionKeys 'PushToTalk')) then {
 	};
 };
 if (_key in (actionKeys 'PushToTalkSide')) then {
-	if (!(player getUnitTrait 'QS_trait_HQ')) then {
+	if (!(_player getUnitTrait 'QS_trait_HQ')) then {
 		_c = TRUE;
 	};
 };
-if (_key in ((actionKeys 'PersonView') + (actionKeys 'TacticalView') + (actionKeys 'ForceCommandingMode'))) then {
-	if ((player getVariable 'QS_1PV') # 0) then {
+if (_key in 
+	(
+		(actionKeys 'PersonView') + 
+		(actionKeys 'TacticalView') + 
+		(actionKeys 'ForceCommandingMode')
+	)
+) then {
+	if ((_player getVariable 'QS_1PV') # 0) then {
 		_c = TRUE;
 	};
-	if (!isNull cameraOn) then {
-		if ((side cameraOn) isEqualTo sideEnemy) then {
-			if (cameraView isEqualTo 'INTERNAL') then {
-				_c = TRUE;
-			};
+	if (!isNull _cameraOn) then {
+		if (
+			((side _cameraOn) isEqualTo sideEnemy) &&
+			{(cameraView isEqualTo 'INTERNAL')}
+		) then {
+			_c = TRUE;
 		};
 		if (
-			((side cameraOn) in [EAST,RESISTANCE]) &&
+			((side _cameraOn) in [EAST,RESISTANCE]) &&
 			{(!(cameraView in ['INTERNAL','GUNNER']))} &&
-			{((lifeState player) isNotEqualTo 'INCAPACITATED')} &&
+			{((lifeState _player) isNotEqualTo 'INCAPACITATED')} &&
 			{((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID','ZEUS'])}
 		) then {
 			50 cutText [localize 'STR_QS_Text_024','PLAIN DOWN',0.5];
-			player switchCamera 'INTERNAL';
+			_player switchCamera 'INTERNAL';
 			_c = TRUE;
 		};
+	};
+	if (
+		(missionNamespace getVariable ['QS_missionConfig_plane1PV',FALSE]) &&
+		{(_cameraOn isKindOf 'Plane')} &&
+		{(QS_player isEqualTo (currentPilot _cameraOn))}
+	) then {
+		if (cameraView isNotEqualTo 'INTERNAL') then {
+			QS_player switchCamera 'INTERNAL';
+		};
+		_c = TRUE;
 	};
 };
 if (_c) exitWith {_c};
 if (_key in (actionKeys 'AutoHover')) then {
-	_v = vehicle player;
 	if (
-		(_v isKindOf 'Helicopter') &&
-		{(!(isAutoHoverOn _v))} &&
-		{(((count (crew _v))) > 1)} &&
-		{(diag_tickTime > (player getVariable ['QS_client_lastAutoHoverMsg',-1]))}
+		(cameraOn isKindOf 'Air') &&
+		{(!(missionNamespace getVariable ['QS_missionConfig_autohover',TRUE]))}
 	) then {
-		_arrayToSend = (crew _v) select {((_x isNotEqualTo player) && (alive _x) && (isPlayer _x))};
-		if (_arrayToSend isNotEqualTo []) then {
-			player setVariable ['QS_client_lastAutoHoverMsg',(diag_tickTime + 5),FALSE];
-			[63,[5,[(format ['%2 ( %1 ) %3',profileName,localize 'STR_QS_Text_258',localize 'STR_QS_Text_259']),'PLAIN DOWN',0.3]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
+		cameraOn spawn {
+			sleep 0.1;
+			action ['autohovercancel',_this];
 		};
+		_c = TRUE;
 	};
 };
+// Admin menu
 if (
-	_shift &&
-	{(_key isEqualTo 60)} &&
-	{((lifeState player) in ['HEALTHY','INJURED'])}
+	((actionKeys 'User11') isEqualTo []) &&
+	{(
+		_shift &&
+		{(_key isEqualTo 60)} &&
+		{((lifeState _player) in ['HEALTHY','INJURED'])}
+	)}
 ) then {
-	['KeyDown'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
+	[['KeyDown','Curator'] select (!isNull curatorCamera)] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
 	_c = TRUE;
 };
 if (
-	_shift &&
-	{(_key isEqualTo 61)} &&
-	{((lifeState player) in ['HEALTHY','INJURED'])}
-) then {
-	['Curator'] call (missionNamespace getVariable 'QS_fnc_clientMenuStaff');
-	_c = TRUE;
-};
-if (
-	_ctrl &&
+	(_ctrl || _alt) &&
 	{(_key in (actionKeys 'ReloadMagazine'))} &&
-	{((isNull (objectParent player)) || {(player isNotEqualTo (driver (vehicle player)))})} &&
-	{(((attachedObjects player) findIf {((!isNull _x) && (!(_x isKindOf 'Sign_Sphere10cm_F')))}) isEqualTo -1)}
+	{((isNull (objectParent _player)) || {(_player isNotEqualTo (driver (vehicle _player)))})} &&
+	{(!(_player call QS_fnc_isBusyAttached))}
 ) then {
-	if (cameraOn isEqualTo player) then {
-		_c = TRUE;
-		player spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
-	} else {
-		if (
-			(alive cameraOn) &&
-			{(cameraOn isKindOf 'CAManBase')} &&
-			{(local cameraOn)}
-		) then {
-			_c = TRUE;
-			cameraOn spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
-		};
+	if (_cameraOn in [QS_player,objectParent QS_player]) then {
+		QS_player spawn (missionNamespace getVariable 'QS_fnc_clientRepackMagazines');
 	};
 };
 if (_key in (actionKeys 'VehLockTargets')) then {};
@@ -170,85 +175,87 @@ if (_key in (actionKeys 'Zeus')) then {};
 if (
 	_ctrl &&
 	{(_key in [0x4C,0x4B,0x47,0x48,0x49,0x4D,0x51])} &&
-	{(isNull (objectParent player))} &&
-	{((stance player) in ['STAND','CROUCH'])} &&
-	{(!(captive player))} &&
-	{((lifeState player) in ['HEALTHY','INJURED'])} &&
-	{(time > (player getVariable ['QS_client_lastGesture',time]))}
-) then {
+	{(isNull (objectParent _cameraOn))} &&
+	{((stance _cameraOn) in ['STAND','CROUCH'])} &&
+	{(!(captive _cameraOn))} &&
+	{((lifeState _cameraOn) in ['HEALTHY','INJURED'])} &&
+	{(time > (_cameraOn getVariable ['QS_client_lastGesture',-1]))}
+) exitWith {
 	_c = TRUE;
-	player setVariable ['QS_client_lastGesture',(time + 3),FALSE];
+	_cameraOn setVariable ['QS_client_lastGesture',(time + 3),FALSE];
 	private _order = '';
 	if (_key isEqualTo 0x4C) exitWith {
-		player playActionNow (selectRandom ['gestureNo']);
+		_cameraOn playActionNow (selectRandom ['gestureNo']);
 		50 cutText [localize 'STR_QS_Text_036','PLAIN DOWN',0.5];
 	};
 	if (_key isEqualTo 0x4B) exitWith {
-		player playActionNow (selectRandom ['gestureGo']);
+		_cameraOn playActionNow (selectRandom ['gestureGo']);
 		_order = localize 'STR_QS_Text_037';
 		50 cutText [_order,'PLAIN DOWN',0.5];
 	};
 	if (_key isEqualTo 0x47) exitWith {
-		player playActionNow (selectRandom ['gesturePoint','gestureAdvance']);
+		_cameraOn playActionNow (selectRandom ['gesturePoint','gestureAdvance']);
 		_order = localize 'STR_QS_Text_038';
 		50 cutText [_order,'PLAIN DOWN',0.5];
 	};
 	if (_key isEqualTo 0x48) exitWith {
-		player playActionNow (selectRandom ['gestureNod']);
+		_cameraOn playActionNow (selectRandom ['gestureNod']);
 	};
 	if (_key isEqualTo 0x49) exitWith {
-		player playActionNow (selectRandom ['gestureFreeze']);
+		_cameraOn playActionNow (selectRandom ['gestureFreeze']);
 		_order = localize 'STR_QS_Text_039';
 		50 cutText [_order,'PLAIN DOWN',0.5];
 	};
 	if (_key isEqualTo 0x4D) exitWith {
-		player playActionNow (selectRandom ['gestureHi']);
+		_cameraOn playActionNow (selectRandom ['gestureHi']);
 	};
 	if (_key isEqualTo 0x51) exitWith {
-		player playActionNow (selectRandom ['gestureCeaseFire']);
+		_cameraOn playActionNow (selectRandom ['gestureCeaseFire']);
 		_order = localize 'STR_QS_Text_040';
 		50 cutText [_order,'PLAIN DOWN',0.5];
 	};
 	if (
 		(_order isNotEqualTo '') &&
-		{(isNull (objectParent player))} &&
-		{(player isEqualTo (leader (group player)))} &&
-		{((count ((units (group player)) inAreaArray [50,50,0,FALSE])) > 1)}
+		{(isPlayer _cameraOn)} &&
+		{(isNull (objectParent _cameraOn))} &&
+		{(_cameraOn isEqualTo (leader (group _cameraOn)))} &&
+		{((count ((units (group _cameraOn)) inAreaArray [50,50,0,FALSE])) > 1)}
 	) then {
-		_arrayToSend = ((units (group player)) inAreaArray [50,50,0,FALSE]) select {(_x isNotEqualTo player) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x)};
+		_arrayToSend = ((units (group _cameraOn)) inAreaArray [50,50,0,FALSE]) select {(_x isNotEqualTo _cameraOn) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x)};
 		if (_arrayToSend isNotEqualTo []) then {
 			[63,[5,[(format ['%1: %2',profileName,_order]),'PLAIN DOWN',0.333]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
 		};
 	};
+	_c;
 };
 if (_key in (actionKeys 'TacticalPing')) then {};
 if (
-	(_key isEqualTo 15) &&
-	{((vehicle player) isKindOf 'Helicopter')} &&
-	{(player isEqualTo (currentPilot (vehicle player)))} &&
-	{(isNil {player getVariable 'QS_pilot_rappellSafety'})}
+	((actionKeys 'uavViewToggle') isEqualTo []) &&
+	{(_key isEqualTo 15)} &&
+	{(local _cameraOn)} &&
+	{(_cameraOn isKindOf 'Helicopter')} &&
+	{(_player isEqualTo (currentPilot _cameraOn))} &&
+	{(diag_tickTime > (uiNamespace getVariable ['QS_pilot_lastRappellSafetyToggle',-1]))}
 ) then {
-	player setVariable ['QS_pilot_rappellSafety',TRUE,FALSE];
-	if (isNil {(vehicle player) getVariable 'QS_rappellSafety'}) then {
-		(vehicle player) setVariable ['QS_rappellSafety',TRUE,TRUE];
+	uiNamespace setVariable ['QS_pilot_lastRappellSafetyToggle',diag_tickTime + 3];
+	if (!(_cameraOn getVariable ['QS_rappellSafety',FALSE])) then {
+		_cameraOn setVariable ['QS_rappellSafety',TRUE,TRUE];
 		50 cutText [localize 'STR_QS_Text_041','PLAIN DOWN',1];
 	} else {
-		(vehicle player) setVariable ['QS_rappellSafety',nil,TRUE];
+		_cameraOn setVariable ['QS_rappellSafety',FALSE,TRUE];
 		50 cutText [localize 'STR_QS_Text_042','PLAIN DOWN',1];
-	};
-	0 spawn {
-		uiSleep 4.5;
-		player setVariable ['QS_pilot_rappellSafety',nil,FALSE];
 	};
 };
 if (
-	((_key isEqualTo 201) && ((actionKeys 'User18') isEqualTo [])) || 
-	{((_key in (actionKeys 'HeliRopeAction')) && _ctrl)} || 
-	{(_key in (actionKeys 'User18'))}
+	(_key in (actionKeys 'gunElevUp')) ||
+	{(_key in (actionKeys 'User18'))} ||
+	{((_key in (actionKeys 'HeliRopeAction')) && _ctrl)}
 ) then {
-	_vehicle = cameraOn;
-	if (_vehicle isKindOf 'Helicopter') then {
-		if (local _vehicle) then {
+	if (
+		(local _cameraOn) ||
+		{((_cameraOn isKindOf 'heli_transport_04_base_f') && (_player isEqualTo (_cameraOn turretUnit [1])))}
+	) then {
+		if (!isNull (getSlingLoad _cameraOn)) then {
 			if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
 				if ('EmptyDisplay' in (infoPanel 'left')) then {
 					setInfoPanel ['left','SlingLoadDisplay'];
@@ -260,8 +267,7 @@ if (
 					};
 				};
 			};
-			private _heliplayer = if (isNull (missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])) then {player} else {(missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])};
-			if ((_heliplayer isEqualTo (driver _vehicle)) || {((_vehicle isKindOf 'heli_transport_04_base_f') && (_heliplayer isEqualTo (_vehicle turretUnit [1])))}) then {
+			if ((_player isEqualTo (driver _cameraOn)) || {((_cameraOn isKindOf 'heli_transport_04_base_f') && (_player isEqualTo (_cameraOn turretUnit [1])))}) then {
 				if (diag_tickTime > (player getVariable ['QS_sling_keyDownDelay',-1])) then {
 					player setVariable ['QS_sling_keyDownDelay',(diag_tickTime + 0.5),FALSE];
 					_c = TRUE;
@@ -271,18 +277,118 @@ if (
 				_c = TRUE;
 			};
 		} else {
-			_c = TRUE;
+			if ((ropeAttachedObjects _cameraOn) isNotEqualTo []) then {
+				_c = TRUE;
+				['MODE22',_cameraOn,TRUE] call QS_fnc_simplePull;
+			} else {
+				if (!isNull (ropeAttachedTo _cameraOn)) then {
+					['MODE17',_cameraOn,TRUE] call QS_fnc_simpleWinch;
+					_c = TRUE;
+				};
+			};
+			if (!_c) then {
+				_winch_helper = missionNamespace getVariable ['QS_winch_globalHelperObject',objNull];
+				if (isNull _winch_helper) then {
+					_winch_helper = missionNamespace getVariable ['QS_winch_activeVehicle',objNull];
+				};
+				if (
+					(!isNull _winch_helper) &&
+					{((ropes _winch_helper) isNotEqualTo [])}
+				) then {
+					(ropeEndPosition ((ropes _winch_helper) # 0)) params [
+						['_startPos',[0,0,0]],
+						['_endPos',[0,0,0]]
+					];
+					if (
+						((_cameraOn distance _startPos) < 5) ||
+						((_cameraOn distance _endPos) < 5)
+					) then {
+						_ropeDistance = _startPos distance _endPos;
+						_child = (ropeAttachedObjects _winch_helper) # 0;
+						_ropeLength = ropeLength ((ropes _winch_helper) # 0);
+						if (
+							((vectorMagnitude (velocity _child)) < 0.1) &&
+							{(_ropeDistance > (_ropeLength * 1.5))}
+						) then {
+							if (local _child) then {
+								if (!brakesDisabled _child) then {
+									_child disableBrakes TRUE;
+								};
+								_child setVelocityModelSpace [0,1,0];
+							} else {
+								if (diag_tickTime > (uiNamespace getVariable ['QS_winch_lastRXTime',-1])) then {
+									uiNamespace setVariable ['QS_winch_lastRXTime',diag_tickTime + 3];
+									if (!brakesDisabled _child) then {
+										['disableBrakes',_child,TRUE] remoteExec ['QS_fnc_remoteExecCmd',_child,FALSE];
+									};
+									['setVelocityModelSpace',_child,[0,1,0]] remoteExec ['QS_fnc_remoteExecCmd',_child,FALSE];
+								};
+							};
+						};
+						['MODE17',_winch_helper,TRUE] call QS_fnc_simpleWinch;
+						_c = TRUE;
+					};
+				};
+				if (!_c) then {
+					_nearRopeSegments = (_cameraOn nearObjects 5) select {_x isKindOf 'RopeSegment'};
+					if (_nearRopeSegments isNotEqualTo []) then {
+						_nearRopeSegments = _nearRopeSegments apply { [_cameraOn distance _x,_x] };
+						_nearRopeSegments sort TRUE;
+						_nearRopeSegment = (_nearRopeSegments # 0) # 1;
+						_nearRope = objectParent _nearRopeSegment;
+						_ropeRelation = _nearRope getVariable ['QS_rope_relation',[]];
+						if (_ropeRelation isNotEqualTo []) then {
+							_c = TRUE;
+							_ropeRelation params ['_parent','_child1','_type3'];
+							(ropeEndPosition _nearRope) params [
+								['_startPos',[0,0,0]],
+								['_endPos',[0,0,0]]
+							];
+							_ropeDistance = _startPos distance _endPos;
+							_ropeLength = ropeLength _nearRope;
+							if (
+								(((_cameraOn distance _startPos) < 5) || ((_cameraOn distance _endPos) < 5)) &&
+								{((vectorMagnitude (velocity _child1)) < 0.1)} &&
+								{(_ropeDistance > (_ropeLength * 1.2))}
+							) then {
+								if (local _child1) then {
+									if (!brakesDisabled _child1) then {
+										_child1 disableBrakes TRUE;
+									};
+									_child1 setVelocityModelSpace [0,1,0];
+								} else {
+									if (diag_tickTime > (uiNamespace getVariable ['QS_winch_lastRXTime',-1])) then {
+										uiNamespace setVariable ['QS_winch_lastRXTime',diag_tickTime + 3];
+										if (!brakesDisabled _child1) then {
+											['disableBrakes',_child1,TRUE] remoteExec ['QS_fnc_remoteExecCmd',_child1,FALSE];
+										};
+										['setVelocityModelSpace',_child1,[0,1,0]] remoteExec ['QS_fnc_remoteExecCmd',_child1,FALSE];
+									};
+								};
+							};
+							if (_type3 isEqualTo 'PULL') then {
+								['MODE22',_parent,TRUE] call QS_fnc_simplePull;
+							};
+							if (_type3 isEqualTo 'WINCH') then {
+								['MODE17',_parent,TRUE] call QS_fnc_simpleWinch;
+							};
+						};
+					};
+				};
+			};
 		};
 	};
 };
 if (
-	((_key isEqualTo 209) && ((actionKeys 'User17') isEqualTo [])) || 
-	{((_key in (actionKeys 'HeliRopeAction')) && _alt)} || 
-	{(_key in (actionKeys 'User17'))}
+	(_key in (actionKeys 'gunElevDown')) ||
+	{(_key in (actionKeys 'User17'))} ||
+	{((_key in (actionKeys 'HeliRopeAction')) && _alt)}
 ) then {
-	_vehicle = cameraOn;
-	if (_vehicle isKindOf 'Helicopter') then {
-		if (local _vehicle) then {
+	if (
+		(local _cameraOn) ||
+		{((_cameraOn isKindOf 'heli_transport_04_base_f') && (_player isEqualTo (_cameraOn turretUnit [1])))}
+	) then {
+		if (!isNull (getSlingLoad _cameraOn)) then {
 			if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
 				if ('EmptyDisplay' in (infoPanel 'left')) then {
 					setInfoPanel ['left','SlingLoadDisplay'];
@@ -294,8 +400,10 @@ if (
 					};
 				};
 			};
-			private _heliplayer = if (isNull (missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])) then {player} else {(missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])};
-			if ((_heliplayer isEqualTo (driver _vehicle)) || {((_vehicle isKindOf 'heli_transport_04_base_f') && (_heliplayer isEqualTo (_vehicle turretUnit [1])))}) then {
+			if (
+				(_player isEqualTo (driver _cameraOn)) || 
+				{((_cameraOn isKindOf 'heli_transport_04_base_f') && (_player isEqualTo (_cameraOn turretUnit [1])))}
+			) then {
 				if (diag_tickTime > (player getVariable ['QS_sling_keyDownDelay',-1])) then {
 					player setVariable ['QS_sling_keyDownDelay',(diag_tickTime + 0.5),FALSE];
 					_c = TRUE;
@@ -305,16 +413,114 @@ if (
 				_c = TRUE;
 			};
 		} else {
-			_c = TRUE;
+			if ((ropeAttachedObjects _cameraOn) isNotEqualTo []) then {
+				_c = TRUE;
+				['MODE22',_cameraOn,FALSE] call QS_fnc_simplePull;
+			} else {
+				if (!isNull (ropeAttachedTo _cameraOn)) then {
+					['MODE17',_cameraOn,FALSE] call QS_fnc_simpleWinch;
+					_c = TRUE;
+				};
+			};
+			if (!_c) then {
+				_winch_helper = missionNamespace getVariable ['QS_winch_globalHelperObject',objNull];
+				if (isNull _winch_helper) then {
+					_winch_helper = missionNamespace getVariable ['QS_winch_activeVehicle',objNull];
+				};
+				if (
+					(!isNull _winch_helper) &&
+					{((ropes _winch_helper) isNotEqualTo [])}
+				) then {
+					(ropeEndPosition ((ropes _winch_helper) # 0)) params [
+						['_startPos',[0,0,0]],
+						['_endPos',[0,0,0]]
+					];
+					if (
+						((_cameraOn distance _startPos) < 5) ||
+						((_cameraOn distance _endPos) < 5)
+					) then {
+						_ropeDistance = _startPos distance _endPos;
+						_child = (ropeAttachedObjects _winch_helper) # 0;
+						_ropeLength = ropeLength ((ropes _winch_helper) # 0);
+						if (
+							((vectorMagnitude (velocity _child)) < 0.1) &&
+							{(_ropeDistance < (_ropeLength / 1.5))}
+						) then {
+							if (local _child) then {
+								if (!brakesDisabled _child) then {
+									_child disableBrakes TRUE;
+								};
+							} else {
+								if (diag_tickTime > (uiNamespace getVariable ['QS_winch_lastRXTime',-1])) then {
+									uiNamespace setVariable ['QS_winch_lastRXTime',diag_tickTime + 3];
+									if (!brakesDisabled _child) then {
+										['disableBrakes',_child,TRUE] remoteExec ['QS_fnc_remoteExecCmd',_child,FALSE];
+									};
+								};
+							};
+						};
+						['MODE17',_winch_helper,FALSE] call QS_fnc_simpleWinch;
+						_c = TRUE;
+					};
+				};
+				if (!_c) then {
+					_nearRopeSegments = (_cameraOn nearObjects 3) select {_x isKindOf 'RopeSegment'};
+					if (_nearRopeSegments isNotEqualTo []) then {
+						_nearRopeSegments = _nearRopeSegments apply { [_cameraOn distance _x,_x] };
+						_nearRopeSegments sort TRUE;
+						_nearRopeSegment = (_nearRopeSegments # 0) # 1;
+						_nearRope = objectParent _nearRopeSegment;
+						_ropeRelation = _nearRope getVariable ['QS_rope_relation',[]];
+						if (_ropeRelation isNotEqualTo []) then {
+							_c = TRUE;
+							_ropeRelation params ['_parent','_child1','_type'];
+							(ropeEndPosition _nearRope) params [
+								['_startPos',[0,0,0]],
+								['_endPos',[0,0,0]]
+							];
+							_ropeDistance = _startPos distance _endPos;
+							_ropeLength = ropeLength _nearRope;
+							if (
+								(((_cameraOn distance _startPos) < 3) || ((_cameraOn distance _endPos) < 3)) &&
+								{((vectorMagnitude (velocity _child1)) < 0.1)} &&
+								{(_ropeDistance > (_ropeLength * 1.1))}
+							) then {
+								if (local _child1) then {
+									if (!brakesDisabled _child1) then {
+										_child1 disableBrakes TRUE;
+									};
+									_child1 setVelocityModelSpace [0,1,0];
+								} else {
+									if (diag_tickTime > (uiNamespace getVariable ['QS_winch_lastRXTime',-1])) then {
+										uiNamespace setVariable ['QS_winch_lastRXTime',diag_tickTime + 3];
+										if (!brakesDisabled _child1) then {
+											['disableBrakes',_child1,TRUE] remoteExec ['QS_fnc_remoteExecCmd',_child1,FALSE];
+										};
+										['setVelocityModelSpace',_child1,[0,1,0]] remoteExec ['QS_fnc_remoteExecCmd',_child1,FALSE];
+									};
+								};
+							};
+							if (_type isEqualTo 'PULL') then {
+								['MODE22',_parent,FALSE] call QS_fnc_simplePull;
+							};
+							if (_type isEqualTo 'WINCH') then {
+								['MODE17',_parent,FALSE] call QS_fnc_simpleWinch;
+							};
+						};
+					};
+				};
+			};
 		};
 	};
 };
 if (_key in (actionKeys 'HeliRopeAction')) then {
 	if ((!(_alt)) && (!(_ctrl))) then {
 		if (!(_c)) then {
-			_vehicle = cameraOn;
-			if (_vehicle isKindOf 'Helicopter') then {
-				if (local _vehicle) then {
+			if (_cameraOn isKindOf 'Helicopter') then {
+				if (
+					(local _cameraOn) ||
+					{((_cameraOn isKindOf 'heli_transport_04_base_f') && (_player isEqualTo (_cameraOn turretUnit [1])))}
+				) then {
 					if (!('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) then {
 						if ('EmptyDisplay' in (infoPanel 'left')) then {
 							setInfoPanel ['left','SlingLoadDisplay'];
@@ -326,17 +532,19 @@ if (_key in (actionKeys 'HeliRopeAction')) then {
 							};
 						};
 					};
-					private _heliplayer = if (isNull (missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])) then {player} else {(missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',objNull])};
-					if ((_heliplayer isEqualTo (driver _vehicle)) || {((_vehicle isKindOf 'heli_transport_04_base_f') && (_heliplayer isEqualTo (_vehicle turretUnit [1])))}) then {
+					if (
+						(_player isEqualTo (driver _cameraOn)) || 
+						{((_cameraOn isKindOf 'heli_transport_04_base_f') && (_player isEqualTo (_cameraOn turretUnit [1])))}
+					) then {
 						if (diag_tickTime > (player getVariable ['QS_sling_keyDownDelay',-1])) then {
 							player setVariable ['QS_sling_keyDownDelay',(diag_tickTime + 0.5),FALSE];
-							if ((!isNull (getSlingLoad _vehicle)) || {(!isNull (_vehicle getVariable ['QS_sling_attached',objNull]))}) then {
-								if ((!isNull (getSlingLoad _vehicle)) && {((getSlingLoad _vehicle) in (attachedObjects _vehicle))}) then {
+							if ((!isNull (getSlingLoad _cameraOn)) || {(!isNull (_cameraOn getVariable ['QS_sling_attached',objNull]))}) then {
+								if ((!isNull (getSlingLoad _cameraOn)) && {((getSlingLoad _cameraOn) in (attachedObjects _cameraOn))}) then {
 									_c = TRUE;
 									['DOWN'] call (missionNamespace getVariable 'QS_fnc_slingRope');
 								};
 								if (!(_c)) then {
-									if ((!isNull (_vehicle getVariable ['QS_sling_attached',objNull])) && {((_vehicle getVariable ['QS_sling_attached',objNull]) in (attachedObjects _vehicle))}) then {
+									if ((!isNull (_cameraOn getVariable ['QS_sling_attached',objNull])) && {((_cameraOn getVariable ['QS_sling_attached',objNull]) in (attachedObjects _cameraOn))}) then {
 										_c = TRUE;
 										['DOWN'] call (missionNamespace getVariable 'QS_fnc_slingRope');
 									};
@@ -357,20 +565,18 @@ if (_key in (actionKeys 'HeliRopeAction')) then {
 		_c = TRUE;
 	};
 };
-if (_key isEqualTo 25) then {
-	if (_shift) then {
-		_DLCsOwned = getDLCs 1;
-		if ((304400 in _DLCsOwned) || {((288520 in _DLCsOwned) && (304380 in _DLCsOwned) && (332350 in _DLCsOwned))}) then {
-			if (scriptDone QS_script_closeDLCs) then {
-				QS_script_closeDLCs = 0 spawn {
-					_t = time + 1;
-					waitUntil {
-						(time > _t) ||
-						(!isNull (findDisplay 174))
-					};
-					if (!isNull (findDisplay 174)) then {
-						(findDisplay 174) closeDisplay 2;
-					};
+if (_key in (actionKeys 'openDlcScreen')) then {
+	_DLCsOwned = getDLCs 1;
+	if ((304400 in _DLCsOwned) || {((288520 in _DLCsOwned) && (304380 in _DLCsOwned) && (332350 in _DLCsOwned))}) then {
+		if (scriptDone QS_script_closeDLCs) then {
+			QS_script_closeDLCs = 0 spawn {
+				_t = time + 1;
+				waitUntil {
+					(time > _t) ||
+					(!isNull (findDisplay 174))
+				};
+				if (!isNull (findDisplay 174)) then {
+					(findDisplay 174) closeDisplay 2;
 				};
 			};
 		};
@@ -386,27 +592,28 @@ if (_key isEqualTo 0x39) then {
 		_c = _val call (missionNamespace getVariable 'QS_fnc_clientInteractDoor');
 	};
 };
-if (_key in (actionKeys 'NavigateMenu')) then {
-	if (commandingMenu isEqualTo '') then {
-		if (missionNamespace getVariable ['QS_missionStatus_shown',FALSE]) then {
-			missionNamespace setVariable ['QS_missionStatus_shown',FALSE,FALSE];
-		} else {
-			missionNamespace setVariable ['QS_missionStatus_shown',TRUE,FALSE];
-		};
-		_c = TRUE;
+if (
+	(_key in (actionKeys 'NavigateMenu')) &&
+	{(commandingMenu isEqualTo '')}
+) then {
+	if (missionNamespace getVariable ['QS_missionStatus_shown',FALSE]) then {
+		missionNamespace setVariable ['QS_missionStatus_shown',FALSE,FALSE];
+	} else {
+		missionNamespace setVariable ['QS_missionStatus_shown',TRUE,FALSE];
 	};
+	_c = TRUE;
 };
-if (_key in (actionKeys 'TeamSwitch')) then {
-	if (!(_shift)) then {
-		if (!(_ctrl)) then {
-			if (isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
-				uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',time];
-				uiNamespace setVariable ['BIS_dynamicGroups_ignoreInterfaceOpening',nil];
-			};
-			['UpdateKeyDown'] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
-			_c = TRUE;
-		};
+if (
+	(_key in (actionKeys 'TeamSwitch')) &&
+	{(!(_shift))} &&
+	{(!(_ctrl))}
+) then {
+	if (isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
+		uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',time];
+		uiNamespace setVariable ['BIS_dynamicGroups_ignoreInterfaceOpening',nil];
 	};
+	['UpdateKeyDown'] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
+	_c = TRUE;
 };
 if (_key in (actionKeys 'help')) then {
 	if ((!(_shift)) && (!(_ctrl)) && (!(_alt))) then {
@@ -427,23 +634,22 @@ if (_key in (actionKeys 'help')) then {
 		_c = TRUE;
 	};
 };
-if (_key in (actionKeys 'deployWeaponAuto')) then {
-	if (!((lifeState player) in ['HEALTHY','INJURED'])) then {
-		_c = TRUE;
-	};
+if (
+	(_key in (actionKeys 'deployWeaponAuto')) &&
+	(!((lifeState _player) in ['HEALTHY','INJURED']))
+) then {
+	_c = TRUE;
 };
 if (
 	(_key in (actionKeys 'HeliManualFire')) &&
-	{(!isNull (objectParent player))} &&
-	{(local (objectParent player))} &&
-	{(isManualFire (objectParent player))} &&
-	{(((objectParent player) distance2D (markerPos 'QS_marker_base_marker')) < 500)}
+	{(!isNull (objectParent _player))} &&
+	{(local (objectParent _player))} &&
+	{(isManualFire (objectParent _player))}
 ) then {
-	50 cutText [localize 'STR_QS_Text_075','PLAIN DOWN',0.5];
-	_c = TRUE;
-};
-if (_key isEqualTo 219) then {
-	uiNamespace setVariable ['QS_client_menu_interaction',TRUE];
-	//systemChat 'Interaction key down';
+	([_player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+	_c = _inSafezone && _safezoneActive && (_safezoneLevel > 1);
+	if (_c) then {
+		50 cutText [localize 'STR_QS_Text_075','PLAIN DOWN',0.5];
+	};
 };
 _c;

@@ -44,11 +44,7 @@ if (_state isEqualTo 1) then {
 			_position = ['RADIUS',_aoPos,((missionNamespace getVariable 'QS_aoSize') * 0.75),'LAND',[2,0,0.5,3,0,FALSE,objNull],TRUE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			if ((([(_position # 0),(_position # 1)] nearRoads 15) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) exitWith {};
 		};
-		if (worldName isEqualTo 'Tanoa') then {
-			_unitType = selectRandom ['B_T_Recon_TL_F','B_T_Recon_M_F','B_T_Recon_Medic_F','B_T_Recon_LAT_F','B_T_Recon_JTAC_F','B_T_Recon_Exp_F'];
-		} else {
-			_unitType = selectRandom ['B_recon_TL_F','B_recon_M_F','B_recon_medic_F','B_recon_F','B_recon_LAT_F','B_recon_JTAC_F','B_recon_exp_F','B_Recon_Sharpshooter_F'];
-		};
+		_unitType = selectRandom (['ao_taskmedevac_units_1'] call QS_data_listUnits);
 		_unit = createAgent [_unitType,_position,[],0,'NONE'];
 		_unit setDir (random 360);
 		_unit setSkill 0;
@@ -96,7 +92,7 @@ if (_state isEqualTo 1) then {
 		for '_x' from 0 to 1 step 1 do {
 			_unit switchMove 'AinjPpneMstpSnonWnonDnon';
 			{
-				_unit setVariable _x;
+				_unit setVariable _x;					// To Do: Optimise this
 			} forEach [
 				['QS_RD_interacting',FALSE,TRUE],
 				['QS_RD_isIncapacitated',TRUE,TRUE],

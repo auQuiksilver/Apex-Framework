@@ -63,7 +63,41 @@ if ((missionNamespace getVariable ['QS_missionConfig_CAS',2]) isEqualTo 3) then 
 		_client setVariable ['QS_client_casAllowance',_aircraftPool,[2,_cid]];
 	};
 };
+private _builtList = QS_hashmap_playerBuildables getOrDefault [_uid,[],TRUE];
+if (_builtList isNotEqualTo []) then {
+	_builtList = _builtList select {!isNull _x};
+	{
+		if (!isNull _x) then {
+			_x setOwner _cid;
+		};
+	} forEach _builtList;	
+	[_builtList,_cid] spawn {
+		params ['_builtList','_cid'];
+		private _timeout = 0;
+		{
+			if (!isNull _x) then {
+				_timeout = diag_tickTime + 3;
+				waitUntil {
+					((_x setOwner _cid) || (diag_tickTime > _timeout))
+				};
+			};
+		} forEach _builtList;
+	};
+	QS_hashmap_playerBuildables set [_uid,_builtList];
+};
 _loginVal = 998;
+// Dynamic Groups
+_grp = group _client;
+{
+	_grp setVariable _x;
+} forEach [
+	['BIS_dg_reg',TRUE,TRUE],
+	['BIS_dg_cre',_client,TRUE],
+	['BIS_dg_pri',FALSE,TRUE],
+	['BIS_dg_var',format ['%1_%2_%3',groupId _grp,_uid,time],TRUE]
+];
+_grp setGroupIdGlobal [groupId _grp];
+// Dynamic Groups
 _client setVariable ['QS_5551212',_loginVal,FALSE];
 _client setVariable ['QS_ClientSupporterLevel',_sLevel,FALSE];
 private _notifyWhitelist = _uid in (missionProfileNamespace getVariable ['QS_whitelists_toInform',[]]);

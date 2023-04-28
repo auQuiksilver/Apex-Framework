@@ -15,12 +15,12 @@ _____________________________________________________________________/*/
 
 params [['_type',0],['_freq',1]];
 if (_type isEqualTo 0) exitWith {
-	0.5 * (1.0 + sin(2 * PI * _freq * time));
+	0.5 * (1 + sin (2 * PI * _freq * time));
 };
 if (_type isEqualTo 1) exitWith {
-	0.5 * (1.0 + sin(2 * PI * _freq * diag_tickTime));
+	0.5 * (1 + sin (2 * PI * _freq * diag_tickTime));
 };
 if (_type isEqualTo 2) exitWith {
-	0.5 * (1.0 + sin(2 * PI * _freq * serverTime));
+	0.5 * (1 + sin (2 * PI * _freq * serverTime));
 };
 0;

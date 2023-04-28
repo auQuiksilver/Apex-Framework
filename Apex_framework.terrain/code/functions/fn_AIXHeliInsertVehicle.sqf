@@ -81,7 +81,7 @@ for '_x' from 0 to 99 step 1 do {
 };
 if (!(_foundSpawnPosition)) exitWith {};
 _spawnPosition set [2,0];
-_heli = createVehicle [_heliType,_spawnPosition,[],500,'FLY'];
+_heli = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _heliType,_heliType],_spawnPosition,[],500,'FLY'];
 _heli setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _heli enableDynamicSimulation FALSE;
 _heliGroup = createVehicleCrew _heli;
@@ -99,6 +99,12 @@ _heli setVariable ['QS_heli_spawnPosition',_spawnPosition,FALSE];
 _heli setVariable ['QS_heli_centerPosition',_position,FALSE];
 _heli setVelocity [0,0,1];
 _vehicle setVelocity [0,0,1];
+_vehicle enableDynamicSimulation FALSE;
+_vehicle setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+{
+	(group _x) enableDynamicSimulation FALSE;
+	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+} forEach (crew _vehicle);
 if (_canSuspend) then {
 	sleep 3;
 };

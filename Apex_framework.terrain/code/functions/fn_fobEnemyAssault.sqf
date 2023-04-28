@@ -42,12 +42,7 @@ while {!_foundSpawnPos} do {
 
 /*/================================================ SELECT + SPAWN UNITS/*/
 
-_infTypes = [
-	'OG_ReconSentry',2,
-	'OG_InfAssaultTeam',2,
-	'OG_SniperTeam_M',2,
-	'OG_InfTeam',2
-];
+_infTypes = ['fob_assault_1'] call QS_data_listUnits;
 _infType = selectRandomWeighted _infTypes;
 _reinforceGroup = [_spawnPosDefault,(random 360),EAST,_infType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 _reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];

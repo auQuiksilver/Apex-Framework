@@ -11,6 +11,10 @@ Last Modified:
 Description:
 
 	Return class of given backpack without a bakened-in equipment (an empty backpack).
+	
+Notes:
+
+	To Do: Optimise this
 ________________________________________________/*/
 
 params [

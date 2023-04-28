@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	27/04/2022 A3 2.08 by Quiksilver
+	30/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -86,13 +86,21 @@ private _isClose = (_posUnit distance2D _posInstigator) < 15;
 private _role = _instigator getVariable ['QS_unit_role_displayName',localize 'STR_QS_Role_000'];
 private _vehicleType = typeOf _vehicleCausedBy;
 private _vehicleRoleText = '';
-private _vehicleCausedByType = missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],''];
-if (_vehicleCausedByType isEqualTo '') then {
-	_vehicleCausedByType = getText (configFile >> 'CfgVehicles' >> _vehicleType >> 'displayName');
-};
+private _currentWeapon = currentWeapon _vehicleCausedBy;
+private _weaponName = '';
+_vehicleCausedByType = QS_hashmap_configfile getOrDefaultCall [
+	format ['cfgvehicles_%1_displayname',toLowerANSI _vehicleType],
+	{getText ((configOf _vehicleCausedBy) >> 'displayName')},
+	TRUE
+];
 _text = format ['%3 %1 [%2]',_name1,_role,localize 'STR_QS_Hints_008'];
 if (_vehicleCausedBy isKindOf 'Man') then {
-	_text = _text + (format [' %2 %1',(getText (configFile >> 'CfgWeapons' >> (currentWeapon _vehicleCausedBy) >> 'displayName')),localize 'STR_QS_Hints_009']);
+	_weaponName = QS_hashmap_configfile getOrDefaultCall [
+		format ['cfgweapons_%1_displayname',toLowerANSI _currentWeapon],
+		{getText (configFile >> 'CfgWeapons' >> _currentWeapon >> 'displayName')},
+		TRUE
+	];
+	_text = _text + (format [' %2 %1',_weaponName,localize 'STR_QS_Hints_009']);
 };
 if (_isObjectParent) then {
 	if (_objectParent isKindOf 'Air') then {
@@ -127,12 +135,7 @@ if (_isAircraft && _isPilot && _isClose) then {
 		localize 'STR_QS_Hints_011'
 	];
 	_list = nearestObjects [_posUnit,[],50,TRUE];
-	_exclusions = [
-		'land_runway_edgelight_blue_f','land_flush_light_green_f','land_flush_light_red_f','land_flush_light_yellow_f','runway_edgelight_blue_F',
-		'flush_light_green_f','flush_light_red_f','flush_light_yellow_f','land_tenthangar_v1_f','tenthangar_v1_f','land_helipadsquare_f',
-		'land_helipadcivil_f','land_helipadrescue_f','land_helipadcircle_f','land_helipadempty_f','helipadsquare_f','helipadcivil_f','helipadrescue_f',
-		'helipadcircle_f','helipadempty_f'
-	];
+	_exclusions = ['airfield_objects_1'] call QS_data_listOther;
 	{
 		if (
 			((toLowerANSI (typeOf _x)) in _exclusions) || 
@@ -199,8 +202,10 @@ if (!_reportEnabled) exitWith {
 		} count (missionNamespace getVariable 'QS_sub_actions');
 		missionNamespace setVariable ['QS_sub_actions',[],FALSE];
 	};
+	private _actionText = format ['(%1) %2',localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_063'];
+	QS_client_dynamicActionText pushBackUnique _actionText;
 	QS_sub_actions01 = player addAction [
-		format ['(%1) %2',localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_063'],
+		_actionText,
 		(missionNamespace getVariable 'QS_fnc_atReport'),
 		[2,'',objNull,[0,0,0],''],
 		95,
@@ -209,6 +214,8 @@ if (!_reportEnabled) exitWith {
 	];
 	player setUserActionText [QS_sub_actions01,((player actionParams QS_sub_actions01) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_sub_actions01) # 0)])];
 	QS_sub_actions pushBack QS_sub_actions01;
+	_actionText = format ['(%2) %3 %1',_name1,localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_064'];
+	QS_client_dynamicActionText pushBackUnique _actionText;
 	QS_sub_actions02 = player addAction [
 		format ['(%2) %3 %1',_name1,localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_064'],
 		(missionNamespace getVariable 'QS_fnc_atReport'),
@@ -222,7 +229,7 @@ if (!_reportEnabled) exitWith {
 	0 spawn {
 		private _ti = diag_tickTime + 30;
 		private _tr = 0;
-		_image = "media\images\general\robocop.jpg";
+		_image = 'media\images\general\robocop.jpg';
 		while {((missionNamespace getVariable 'QS_sub_actions') isNotEqualTo [])} do {
 			_tr = _ti - diag_tickTime;
 			[

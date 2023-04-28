@@ -80,7 +80,7 @@ if (_type isEqualTo 'DELETE') exitWith {
 if (_type isEqualTo 'VEHICLES_ADD') exitWith {
 	_vehicles_data = ([_fobID] call (missionNamespace getVariable 'QS_data_fobs')) # 2;
 	{
-		(missionNamespace getVariable 'QS_v_Monitor') pushBack [objNull,30,FALSE,{},(_x # 0),(_x # 1),(_x # 2),FALSE,0,9,150,500,-1,-1,TRUE,0];
+		(serverNamespace getVariable 'QS_v_Monitor') pushBack [objNull,30,FALSE,{},(_x # 0),(_x # 1),(_x # 2),FALSE,0,9,150,500,-1,-1,TRUE,0,{TRUE},FALSE,FALSE,[],[],0,{TRUE}];
 	} forEach _vehicles_data;
 };
 if (_type isEqualTo 'VEHICLES_REMOVE') exitWith {
@@ -105,10 +105,10 @@ if (_type isEqualTo 'VEHICLES_REMOVE') exitWith {
 				} else {
 					(missionNamespace getVariable 'QS_garbageCollector') pushBack [_entity,'NOW_DISCREET',0];
 				};
-				(missionNamespace getVariable 'QS_v_Monitor') set [_forEachIndex,TRUE];
+				(serverNamespace getVariable 'QS_v_Monitor') set [_forEachIndex,TRUE];
 			};
 		};
-	} forEach (missionNamespace getVariable 'QS_v_Monitor');
-	missionNamespace setVariable ['QS_v_Monitor',((missionNamespace getVariable 'QS_v_Monitor') select {(_x isEqualType [])}),FALSE];
+	} forEach (serverNamespace getVariable 'QS_v_Monitor');
+	serverNamespace setVariable ['QS_v_Monitor',((serverNamespace getVariable 'QS_v_Monitor') select {(_x isEqualType [])})];
 	TRUE;
 };

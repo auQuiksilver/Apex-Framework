@@ -134,7 +134,7 @@ if (_allPlayersCount > 50) then {_uavMaxSpawned = 1;};
 _uavArray = [];
 _uavCheckDelay = time + 5;
 _uavSpawnDelay = time + 5;
-_uavTypes = ['O_UAV_02_dynamicLoadout_F','I_UAV_02_dynamicLoadout_F','O_T_UAV_04_CAS_F'];
+_uavTypes = ['defend_uavtypes_1'] call QS_data_listVehicles;
 _uavType = '';
 _uav = objNull;
 _uavFlyInHeight = 600 + (random 1400);
@@ -170,23 +170,9 @@ if (worldName isEqualTo 'Stratis') then {
 	_infantrySpawnDistanceRandom = 500;
 	_infantrySpawnDistanceFromPlayer = 250;
 };
-_infTypes = [
-	'OIA_InfTeam_AA',0.25,
-	'OIA_InfTeam_AT',0.084,
-	'OIA_InfSquad',0.25,
-	'OIA_InfSquad_Weapons',0.2,
-	'OIA_InfAssault',0.25,
-	'OIA_InfSquad_L',0.333
-];
+_infTypes = ['defend_grptypes_1'] call QS_data_listUnits;
 if (worldName isEqualTo 'Stratis') then {
-	_infTypes = [
-		'OIA_InfTeam_AA',0.25,
-		'OIA_InfTeam_LAT',0.084,
-		'OIA_InfSquad',1,
-		'OIA_InfSquad_Weapons',0.2,
-		'OIA_InfAssault',1,
-		'OIA_InfSquad_L',0
-	];
+	_infTypes = ['defend_grptypes_2'] call QS_data_listUnits;
 };
 _infType = '';
 _QS_armor = TRUE;
@@ -224,30 +210,10 @@ _groundTransportSpawned = 0;
 _groundTransportArray = [];
 _groundTransportCheckDelay = time + 5;
 _groundTransportSpawnDelay = time + 5;
-if (worldName isEqualTo 'Tanoa') then {
-	_groundTransportTypes = [
-		'O_T_Truck_03_transport_ghex_F','O_T_Truck_03_covered_ghex_F','O_T_Truck_03_transport_ghex_F','O_T_Truck_03_covered_ghex_F',
-		'O_T_MRAP_02_ghex_F','O_LSV_02_unarmed_ghex_F','O_LSV_02_unarmed_ghex_F'
-	];
-} else {
-	_groundTransportTypes = [
-		'O_Truck_03_transport_F','O_Truck_03_covered_F','O_Truck_02_transport_F','O_Truck_02_covered_F','I_Truck_02_transport_F','I_Truck_02_covered_F',
-		'O_MRAP_02_F','O_LSV_02_unarmed_F'
-	];
-};
+_groundTransportTypes = ['defend_transporttypes_1'] call QS_data_listVehicles;
 _groundTransportType = '';
 _v = objNull;
-if (worldName isEqualTo 'Tanoa') then {
-	_unitTypes = [
-		'O_T_Soldier_SL_F','O_T_Soldier_F','O_T_Soldier_LAT_F','O_T_Soldier_M_F','O_T_Soldier_AR_F',
-		'O_T_Soldier_A_F','O_T_medic_F'
-	];
-} else {
-	_unitTypes = [
-		'O_Soldier_SL_F','O_Soldier_F','O_Soldier_LAT_F','O_Soldier_M_F','O_Soldier_AR_F',
-		'O_Soldier_A_F','O_medic_F'
-	];
-};
+_unitTypes = ['defend_unittypes_1'] call QS_data_listUnits;
 _unitType = '';
 _foundSpawnPos = FALSE;
 _spawnPos = [0,0,0];
@@ -260,11 +226,7 @@ if (_allPlayersCount > 20) then {_jetsToSpawn = 1;};
 if (_allPlayersCount > 30) then {_jetsToSpawn = selectRandom [1,1,2];};
 if (_allPlayersCount > 40) then {_jetsToSpawn = 2;};
 if (_allPlayersCount > 50) then {_jetsToSpawn = 2;};
-_jetType = selectRandomWeighted [
-	'i_plane_fighter_03_dynamicloadout_f',0.5,
-	'i_plane_fighter_04_f',0.4,
-	'o_plane_fighter_02_f',0.1
-];
+_jetType = selectRandomWeighted (['defend_jettypes_1'] call QS_data_listVehicles);
 _jetArray = [];
 _jetInitialDelay = time + (30 + (random 60));
 _jet = objNull;
@@ -278,20 +240,12 @@ if (_allPlayersCount > 40) then {_helicoptersToSpawn = 2;};
 if (_allPlayersCount > 50) then {_helicoptersToSpawn = 2;};
 if (_allPlayersCount > 20) then {
 	if (worldName in ['Tanoa','Enoch','Stratis']) then {
-		_helicopterTypes = [
-			'o_heli_light_02_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f','o_heli_light_02_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f'
-		];
+		_helicopterTypes = ['defend_helitypes_1'] call QS_data_listVehicles;
 	} else {
-		_helicopterTypes = [
-			'o_heli_light_02_dynamicloadout_f','i_heli_light_03_dynamicloadout_f',
-			'o_heli_light_02_dynamicloadout_f','i_heli_light_03_dynamicloadout_f',
-			'O_Heli_Attack_02_dynamicLoadout_black_F','O_Heli_Attack_02_dynamicLoadout_F','O_VTOL_02_infantry_dynamicLoadout_F'
-		];	
+		_helicopterTypes = ['defend_helitypes_2'] call QS_data_listVehicles;
 	};
 } else {
-	_helicopterTypes = [
-		'o_heli_light_02_dynamicloadout_f',(['i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f'] select (worldName in ['Tanoa','Enoch']))
-	];
+	_helicopterTypes = ['defend_helitypes_3'] call QS_data_listVehicles;
 };
 _helicopterType = '';
 _helicopterArray = [];
@@ -321,11 +275,7 @@ if (_allPlayersCount > 20) then {_paratroopersToSpawn = 6;};
 if (_allPlayersCount > 30) then {_paratroopersToSpawn = 8;};
 if (_allPlayersCount > 40) then {_paratroopersToSpawn = 10;};
 if (_allPlayersCount > 50) then {_paratroopersToSpawn = 10;};
-if (worldName isEqualTo 'Tanoa') then {
-	_paratrooperTypes = ['O_T_soldier_PG_F','O_T_soldier_PG_F'];
-} else {
-	_paratrooperTypes = ['O_soldier_PG_F','O_soldier_PG_F'];
-};
+_paratrooperTypes = ['defend_paratypes_1'] call QS_data_listUnits;
 _paratrooperType = '';
 _paratrooperArray = [];
 _paratrooperInitialDelay = time + 240 + (random 240);
@@ -335,19 +285,7 @@ _vPara = FALSE;
 if ((random 1) > 0.666) then {
 	_vPara = TRUE;
 };
-if (worldName isEqualTo 'Tanoa') then {
-	_vParaTypes = [
-		'O_T_MRAP_02_hmg_ghex_F','O_T_MRAP_02_gmg_ghex_F','O_T_LSV_02_armed_F','O_T_LSV_02_armed_F',
-		'I_MRAP_03_gmg_F','I_MRAP_03_hmg_F','Land_Pod_Heli_Transport_04_covered_F','Land_Pod_Heli_Transport_04_bench_F','Land_Pod_Heli_Transport_04_bench_F',
-		'Land_Pod_Heli_Transport_04_covered_F'
-	];
-} else {
-	_vParaTypes = [
-		'O_MRAP_02_hmg_F','O_MRAP_02_gmg_F','O_G_Offroad_01_armed_F','O_G_Offroad_01_armed_F',
-		'I_MRAP_03_gmg_F','I_MRAP_03_hmg_F','Land_Pod_Heli_Transport_04_covered_F','Land_Pod_Heli_Transport_04_bench_F','Land_Pod_Heli_Transport_04_bench_F',
-		'Land_Pod_Heli_Transport_04_covered_F'
-	];
-};
+_vParaTypes = ['defend_paravtypes_1'] call QS_data_listVehicles;
 _vParaType = '';
 _vParaV = objNull;
 _vParaInitialDelay = _paratrooper2InitialDelay + 10 + (random 20);
@@ -368,19 +306,7 @@ if ((random 1) > 0.333) then {
 };
 _QS_flyByDelay = _jetInitialDelay - 15;
 _QS_flyByHeight = 25 + (random 100);
-if (worldName isEqualTo 'Tanoa') then {
-	_QS_flyByType = selectRandomWeighted [
-		'O_T_VTOL_02_infantry_dynamicLoadout_F',0.333,
-		'O_Plane_CAS_02_dynamicLoadout_F',0.333,
-		'o_plane_fighter_02_f',0.333
-	];
-} else {
-	_QS_flyByType = selectRandomWeighted [
-		'O_T_VTOL_02_infantry_dynamicLoadout_F',0.333,
-		'O_Plane_CAS_02_dynamicLoadout_F',0.333,
-		'o_plane_fighter_02_f',0.333
-	];
-};
+_QS_flyByType = selectRandomWeighted (['defend_flybytypes_1'] call QS_data_listVehicles);
 _QS_flyBySpeed = 'FULL';
 _QS_flyByAltitude = 50 + (random 150);
 if ((random 1) > 0.666) then {
@@ -498,7 +424,7 @@ for '_x' from 0 to 1 step 0 do {
 						if (_foundSpawnPos) exitWith {};
 					};
 					_uavType = selectRandom _uavTypes;
-					_uav = createVehicle [_uavType,_spawnPos,[],0,'FLY'];
+					_uav = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _uavType,_uavType],_spawnPos,[],0,'FLY'];
 					_grp = createVehicleCrew _uav;
 					if (_allPlayersCount >= 15) then {
 						[_uav,1,[]] call _fn_vehicleLoadouts;
@@ -696,7 +622,8 @@ for '_x' from 0 to 1 step 0 do {
 					};
 					if (_foundSpawnPos) exitWith {};
 				};
-				_av = createVehicle [(selectRandomWeighted ([_motorPool] call _fn_getAIMotorPool)),_spawnPos,[],0,'NONE'];
+				_armorType = selectRandomWeighted ([_motorPool] call _fn_getAIMotorPool);
+				_av = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _armorType,_armorType],_spawnPos,[],0,'NONE'];
 				_av setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 				_av enableDynamicSimulation FALSE;
 				0 = _armorArray pushBack _av;
@@ -764,6 +691,10 @@ for '_x' from 0 to 1 step 0 do {
 			_armorCheckDelay = time + 15;
 		};
 	};
+	
+	
+	//QS_core_vehicles_map getOrDefault [toLowerANSI _armorType,_armorType]
+	
 	if (_timeNow > _groundTransportInitialSpawnDelay) then {
 		if (_timeNow > _groundTransportCheckDelay) then {
 			if (_timeNow > _groundTransportSpawnDelay) then {
@@ -774,32 +705,30 @@ for '_x' from 0 to 1 step 0 do {
 						_nearRoads = [];
 						for '_x' from 0 to 49 step 1 do {
 							_spawnPos = [_centerPos,600,1000,10,0,0.5,0] call _fn_findSafePos;
-							if (_spawnPos isNotEqualTo []) then {
-								if ((_allPlayers inAreaArray [_spawnPos,400,400,0,FALSE]) isEqualTo []) then {
-									if ((_spawnPos distance2D _centerPos) < 1201) then {
-										if (_spawnPos call _fn_blacklist) then {
-											if (!([_spawnPos,_centerPos,25] call _fn_waterIntersect)) then {
-												_nearRoads = ((_spawnPos select [0,2]) nearRoads 150) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))};
-												if (_nearRoads isNotEqualTo []) then {
-													{
-														if ((toLowerANSI (surfaceType (getPosATL _x))) in _validRoadSurfaces) then {
-															0 = _roadsValid pushBack (getPosATL _x);
-														};
-													} count _nearRoads;
-													if (_roadsValid isNotEqualTo []) then {
-														_foundSpawnPos = TRUE;
-														_spawnPos = selectRandom _roadsValid;
-													};
-												};
-											};
+							if (
+								(_spawnPos isNotEqualTo []) &&
+								{((_allPlayers inAreaArray [_spawnPos,400,400,0,FALSE]) isEqualTo [])} &&
+								{((_spawnPos distance2D _centerPos) < 1201)} &&
+								{(_spawnPos call _fn_blacklist)} &&
+								{(!([_spawnPos,_centerPos,25] call _fn_waterIntersect))}
+							) then {
+								_nearRoads = ((_spawnPos select [0,2]) nearRoads 150) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))};
+								if (_nearRoads isNotEqualTo []) then {
+									{
+										if ((toLowerANSI (surfaceType (getPosATL _x))) in _validRoadSurfaces) then {
+											0 = _roadsValid pushBack (getPosATL _x);
 										};
+									} count _nearRoads;
+									if (_roadsValid isNotEqualTo []) then {
+										_foundSpawnPos = TRUE;
+										_spawnPos = selectRandom _roadsValid;
 									};
 								};
 							};
 							if (_foundSpawnPos) exitWith {};
 						};
 						_groundTransportType = selectRandom _groundTransportTypes;
-						_v = createVehicle [_groundTransportType,_spawnPos,[],0,'NONE'];
+						_v = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _groundTransportType,_groundTransportType],_spawnPos,[],0,'NONE'];
 						_v setVariable ['QS_dynSim_ignore',TRUE,FALSE];
 						_v enableDynamicSimulation FALSE;
 						0 = _groundTransportArray pushBack _v;
@@ -870,7 +799,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 						for '_x' from 0 to (round(((_v emptyPositions 'Cargo') - 1) / _divisor)) step 1 do {
 							_unitType = selectRandom _unitTypes;
-							_unit = _grp2 createUnit [_unitType,[0,0,0],[],0,'NONE'];
+							_unit = _grp2 createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[0,0,0],[],0,'NONE'];
 							sleep 0.1;
 							_unit = _unit call _fn_unitSetup;
 							_unit moveInAny _v;
@@ -949,8 +878,8 @@ for '_x' from 0 to 1 step 0 do {
 					};
 					_spawnPos set [2,(800 + (random 400))];
 					_vParaType = selectRandom _vParaTypes;
-					_vParaV = createVehicle [_vParaType,[0,0,(100 + (random 1000))],[],0,'NONE'];
-					0 = _allArray pushBack _vParaV;
+					_vParaV = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vParaType,_vParaType],[0,0,(100 + (random 1000))],[],0,'NONE'];
+					_allArray pushBack _vParaV;
 					_vParaV setVariable ['QS_uav_protected',TRUE,FALSE];
 					_vParaV setPos _spawnPos;
 					_vParaV enableRopeAttach FALSE;
@@ -975,7 +904,7 @@ for '_x' from 0 to 1 step 0 do {
 						_grp3 = createGroup [_side,TRUE];
 						for '_x' from 0 to ((_vParaV emptyPositions 'CARGO') - 1) step 1 do {
 							_unitType = selectRandom _unitTypes;
-							_unit = _grp3 createUnit [_unitType,[0,0,0],[],0,'NONE'];
+							_unit = _grp3 createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[0,0,0],[],0,'NONE'];
 							_unit = _unit call _fn_unitSetup;
 							_unit assignAsCargo _vParaV;
 							_unit moveInCargo _vParaV;
@@ -1028,7 +957,7 @@ for '_x' from 0 to 1 step 0 do {
 									} else {
 										_moveToPos = selectRandom _hqBuildingPositions;
 									};
-									_moveToPos set [2,((_moveToPos # 2) + 1)];
+									_moveToPos = _moveToPos vectorAdd [0,0,1];
 									if (_unit isEqualTo _groupLeader) then {
 										if ((missionNamespace getVariable ['QS_debug_test',1]) isEqualTo 1) then {
 											_unit commandMove _moveToPos;
@@ -1172,8 +1101,8 @@ for '_x' from 0 to 1 step 0 do {
 					_spawnPos = _centerPos getPos [(4000 + (random 2000)),(random 360)];
 					if ((_allPlayers inAreaArray [_spawnPos,1000,1000,0,FALSE]) isEqualTo []) exitWith {};
 				};
-				_jet = createVehicle [_jetType,_spawnPos,[],0,'FLY'];
-				0 = _jetArray pushBack _jet;
+				_jet = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _jetType,_jetType],_spawnPos,[],0,'FLY'];
+				_jetArray pushBack _jet;
 				_jet engineOn TRUE;
 				_jet allowCrewInImmobile [TRUE,TRUE];
 				_jet lock 2;
@@ -1210,11 +1139,11 @@ for '_x' from 0 to 1 step 0 do {
 					if ((_allPlayers inAreaArray [_spawnPos,1000,1000,0,FALSE]) isEqualTo []) exitWith {};
 				};
 				_helicopterType = selectRandom _helicopterTypes;
-				_helicopter = createVehicle [_helicopterType,_spawnPos,[],0,'FLY'];
+				_helicopter = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _helicopterType,_helicopterType],_spawnPos,[],0,'FLY'];
 				[_helicopter,2,[]] call _fn_vehicleLoadouts;
 				['setFeatureType',_helicopter,2] remoteExec ['QS_fnc_remoteExecCmd',-2,_helicopter];
-				0 = _allArray pushBack _helicopter;
-				0 = _helicopterArray pushBack _helicopter;
+				_allArray pushBack _helicopter;
+				_helicopterArray pushBack _helicopter;
 				_grp = createVehicleCrew _helicopter;
 				_direction = _spawnPos getDir _centerPos;
 				_helicopter setDir _direction;
@@ -1262,7 +1191,7 @@ for '_x' from 0 to 1 step 0 do {
 														_heliParaGrp move _centerPos;
 													};
 													_paratrooperType = selectRandom _paratrooperTypes;
-													_parajumper = _heliParaGrp createUnit [_paratrooperType,[0,0,0],[],0,'NONE'];
+													_parajumper = _heliParaGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _paratrooperType,_paratrooperType],[0,0,0],[],0,'NONE'];
 													0 = _allArray pushBack _parajumper;
 													_parajumper = _parajumper call _fn_unitSetup;
 													if ((random 1) > 0.5) then {
@@ -1309,12 +1238,12 @@ for '_x' from 0 to 1 step 0 do {
 				_spawnPos = _centerPos getPos [(250 + (random 150)),(random 360)];
 				_spawnPos set [2,(60 + (random 150))];
 				_paratrooperType = selectRandom _paratrooperTypes;
-				_paratrooper = _grp createUnit [_paratrooperType,[0,0,0],[],0,'NONE'];
+				_paratrooper = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _paratrooperType,_paratrooperType],[0,0,0],[],0,'NONE'];
 				_paratrooper = _paratrooper call _fn_unitSetup;
 				0 = _allArray pushBack _paratrooper;
 				0 = _paratrooperArray pushBack _paratrooper;
-				if ((backpack _paratrooper) isNotEqualTo 'B_Parachute') then {
-					_paratrooper addBackpack 'B_Parachute';
+				if ((backpack _paratrooper) isNotEqualTo QS_core_classNames_parachute) then {
+					_paratrooper addBackpack QS_core_classNames_parachute;
 				};
 				//_paratrooper enableAIFeature ['AUTOCOMBAT',FALSE];
 				_paratrooper enableAIFeature ['COVER',FALSE];
@@ -1337,14 +1266,14 @@ for '_x' from 0 to 1 step 0 do {
 					_spawnPos = _centerPos getPos [(250 + (random 150)),(random 360)];
 					_spawnPos set [2,(60 + (random 150))];
 					_paratrooperType = selectRandom _paratrooperTypes;
-					_paratrooper = _grp createUnit [_paratrooperType,[0,0,0],[],0,'NONE'];
+					_paratrooper = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _paratrooperType,_paratrooperType],[0,0,0],[],0,'NONE'];
 					_paratrooper = _paratrooper call _fn_unitSetup;
 					//_paratrooper enableAIFeature ['AUTOCOMBAT',FALSE];
 					_paratrooper enableAIFeature ['COVER',FALSE];
 					0 = _allArray pushBack _paratrooper;
 					0 = _paratrooperArray pushBack _paratrooper;
-					if ((backpack _paratrooper) isNotEqualTo 'B_Parachute') then {
-						_paratrooper addBackpack 'B_Parachute';
+					if ((backpack _paratrooper) isNotEqualTo QS_core_classNames_parachute) then {
+						_paratrooper addBackpack QS_core_classNames_parachute;
 					};
 					_paratrooper setPos _spawnPos;
 				};
@@ -1539,8 +1468,10 @@ sleep 7 + (random 7);
 	deleteVehicle _x;
 } forEach (allMines inAreaArray [_centerPos,300,300,0,FALSE]);
 {
-	if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
-		deleteGroup _x;
+	if (local _x) then {
+		if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
+			deleteGroup _x;
+		};
 	};
 	sleep 0.001;
 } count allGroups;

@@ -24,10 +24,11 @@ if (!alive _attackTarget) then {
 	_attackTarget = assignedTarget _unit;
 	if (!alive _attackTarget) then {
 		_attackTarget = _unit findNearestEnemy _unit;
-		if (alive _attackTarget) then {
-			if !((_unit distance2D _attackTarget) <= _radius) then {
-				_attackTarget = objNull;
-			};
+		if (
+			(alive _attackTarget) &&
+			{(!((_unit distance2D _attackTarget) <= _radius))}
+		) then {
+			_attackTarget = objNull;
 		};
 		if (!alive _attackTarget) then {
 			private _testTargets = _unit targets [TRUE,_radius];

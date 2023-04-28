@@ -31,11 +31,7 @@ private _mine = objNull;
 private _position = [0,0,0];
 private _radius = _outerRadius - _innerRadius;
 if (_types isEqualTo []) then {
-	_types = [
-		'APERSBoundingMine',0.333,
-		'APERSMine',0.5,
-		'ATMine',0.167
-	];
+	_types = ['minefield_types_2'] call QS_data_listOther;
 };
 while {((count _mines) < _quantity)} do {
 	_position = _centerPos getPos [(_innerRadius + (random _outerRadius)),(random 360)];
@@ -54,29 +50,33 @@ while {((count _mines) < _quantity)} do {
 if (_isMarked) then {
 	private _sign = objNull;
 	private _dir = random 360;
-	private _configClass = configFile >> 'CfgVehicles' >> (selectRandom _barrierTypes);
-	private _model = getText (_configClass >> 'model');
-	if ((_model select [0,1]) isEqualTo '\') then {
-		_model = _model select [1];
-	};
-	if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
-		_model = _model + '.p3d';
-	};
+	private _info = [];
 	private _pos = [0,0,0];
+	private _configClass = '';
+	private _randomType = '';
 	for '_x' from 0 to 7 step 1 do {
 		_pos = _centerPos getPos [(_outerRadius + 5),_dir];
-		_configClass = configFile >> 'CfgVehicles' >> (selectRandom _barrierTypes);
-		_model = getText (_configClass >> 'model');
-		if ((_model select [0,1]) isEqualTo '\') then {
-			_model = _model select [1];
+		_randomType = selectRandom _barrierTypes;
+		_info = QS_hashmap_simpleObjectInfo getOrDefault [_randomType,[]];
+		if (_info isEqualTo []) then {
+			_configClass = configFile >> 'CfgVehicles' >> _randomType;
+			_model = getText (_configClass >> 'model');
+			if ((_model select [0,1]) isEqualTo '\') then {
+				_model = _model select [1];
+			};
+			if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
+				_model = _model + '.p3d';
+			};
+			_info = [
+				_model,
+				(getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset')),
+				(toLowerANSI (getText (_configClass >> 'vehicleClass')))
+			];
+			QS_hashmap_simpleObjectInfo set [_randomType,_info];
 		};
-		if ((_model select [((count _model) - 4),4]) isNotEqualTo '.p3d') then {
-			_model = _model + '.p3d';
-		};
-		_pos set [2,0];
-		_pos set [2,(getNumber (_configClass >> 'SimpleObject' >> 'verticalOffset'))];
+		_pos set [2,_info # 1];
 		_pos = ATLToASL _pos;
-		_sign = createSimpleObject [_model,_pos];
+		_sign = createSimpleObject [_info # 0,_pos];
 		_sign setDir ((_centerPos getDir _pos) - 180);
 		if ((random 1) > 0.666) then {
 			_sign setVectorUp (surfaceNormal _pos);

@@ -38,111 +38,7 @@ private _allPlayers = allPlayers;
 private _nearObjectsRadius = 300;
 private _distanceFixed = 1000;
 private _distanceRandom = 1400;
-private _houseTypes = [
-	'Land_i_House_Small_03_V1_F',
-	'Land_u_House_Big_02_V1_F',
-	'Land_i_House_Big_02_V3_F',
-	'Land_i_House_Big_02_V1_F',
-	'Land_i_House_Big_02_V2_F',
-	'Land_u_House_Big_01_V1_F',
-	'Land_i_House_Big_01_V3_F',
-	'Land_i_House_Big_01_V1_F',
-	'Land_i_House_Big_01_V2_F',
-	'Land_u_Shop_02_V1_F',
-	'Land_i_Shop_02_V3_F',
-	'Land_i_Shop_02_V1_F',
-	'Land_i_Shop_02_V2_F',
-	'Land_u_Shop_01_V1_F',
-	'Land_i_Shop_01_V3_F',
-	'Land_i_Shop_01_V1_F',
-	'Land_i_Shop_01_V2_F',
-	'Land_u_House_Small_01_V1_F',
-	'Land_u_House_Small_02_V1_F',
-	'Land_i_House_Small_02_V3_F',
-	'Land_i_House_Small_02_V1_F',
-	'Land_i_House_Small_02_V2_F',
-	'Land_i_House_Small_01_V3_F',
-	'Land_i_House_Small_01_V1_F',
-	'Land_i_House_Small_01_V2_F',
-	'Land_i_Stone_HouseBig_V3_F',
-	'Land_i_Stone_HouseBig_V1_F',
-	'Land_i_Stone_HouseBig_V2_F',
-	'Land_i_Stone_HouseSmall_V3_F',
-	'Land_i_Stone_HouseSmall_V1_F',
-	'Land_i_Stone_Shed_V2_F',
-	'Land_i_Stone_Shed_V1_F',
-	'Land_i_Stone_Shed_V3_F',
-	'Land_i_Stone_HouseSmall_V2_F',
-	'Land_i_House_Big_02_b_blue_F',
-	'Land_i_House_Big_02_b_pink_F',
-	'Land_i_House_Big_02_b_whiteblue_F',
-	'Land_i_House_Big_02_b_white_F',
-	'Land_i_House_Big_02_b_brown_F',
-	'Land_i_House_Big_02_b_yellow_F',
-	'Land_i_House_Big_01_b_blue_F',
-	'Land_i_House_Big_01_b_pink_F',
-	'Land_i_House_Big_01_b_whiteblue_F',
-	'Land_i_House_Big_01_b_white_F',
-	'Land_i_House_Big_01_b_brown_F',
-	'Land_i_House_Big_01_b_yellow_F',
-	'Land_i_Shop_02_b_blue_F',
-	'Land_i_Shop_02_b_pink_F',
-	'Land_i_Shop_02_b_whiteblue_F',
-	'Land_i_Shop_02_b_white_F',
-	'Land_i_Shop_02_b_brown_F',
-	'Land_i_Shop_02_b_yellow_F',
-	'Land_Barn_01_brown_F',
-	'Land_Barn_01_grey_F',
-	'Land_i_House_Small_01_b_blue_F',
-	'Land_i_House_Small_01_b_pink_F',
-	'Land_i_House_Small_02_b_blue_F',
-	'Land_i_House_Small_02_b_pink_F',
-	'Land_i_House_Small_02_b_whiteblue_F',
-	'Land_i_House_Small_02_b_white_F',
-	'Land_i_House_Small_02_b_brown_F',
-	'Land_i_House_Small_02_b_yellow_F',
-	'Land_i_House_Small_02_c_blue_F',
-	'Land_i_House_Small_02_c_pink_F',
-	'Land_i_House_Small_02_c_whiteblue_F',
-	'Land_i_House_Small_02_c_white_F',
-	'Land_i_House_Small_02_c_brown_F',
-	'Land_i_House_Small_02_c_yellow_F',
-	'Land_i_House_Small_01_b_whiteblue_F',
-	'Land_i_House_Small_01_b_white_F',
-	'Land_i_House_Small_01_b_brown_F',
-	'Land_i_House_Small_01_b_yellow_F',
-	'Land_i_Stone_House_Big_01_b_clay_F',
-	'Land_i_Stone_Shed_01_b_clay_F',
-	'Land_i_Stone_Shed_01_b_raw_F',
-	'Land_i_Stone_Shed_01_b_white_F',
-	'Land_i_Stone_Shed_01_c_clay_F',
-	'Land_i_Stone_Shed_01_c_raw_F',
-	'Land_i_Stone_Shed_01_c_white_F',
-	'Land_House_Big_04_F',
-	'Land_House_Small_04_F',
-	'Land_House_Small_05_F',
-	'Land_Addon_04_F',
-	'Land_House_Big_03_F',
-	'Land_House_Small_02_F',
-	'Land_House_Big_02_F',
-	'Land_House_Small_03_F',
-	'Land_House_Small_06_F',
-	'Land_House_Big_01_F',
-	'Land_Slum_02_F',
-	'Land_Slum_01_F',
-	'Land_GarageShelter_01_F',
-	'Land_House_Small_01_F',
-	'Land_Slum_03_F',
-	'Land_Temple_Native_01_F',
-	'Land_House_Native_02_F',
-	'Land_House_Native_01_F',
-	"Land_GH_House_1_F",
-	"Land_GH_House_2_F",
-	"Land_GH_MainBuilding_entry_F",
-	"Land_GH_MainBuilding_right_F",
-	"Land_GH_MainBuilding_left_F",
-	"Land_GH_Gazebo_F"
-];
+private _houseTypes = ['ao_hvt_housetypes_1'] call QS_data_listVehicles;
 for '_x' from 0 to 1 step 0 do {
 	_testPos = _centerPos getPos [(_distanceFixed + (random _distanceRandom)),_incrementDir];
 	_incrementDir = _incrementDir + _increment;
@@ -165,12 +61,10 @@ _nearBuilding allowDamage FALSE;
 private _buildingPositions = _nearBuilding buildingPos -1;
 _buildingPosition = selectRandom _buildingPositions;
 _buildingPositions = _buildingPositions apply { [(_x # 0),(_x # 1),((_x # 2) + 1)] };
-private _unitTypes = [
-	['O_G_Soldier_SL_F'],
-	['I_C_Soldier_Para_1_F']
-] select (worldName isEqualTo 'Tanoa');
+private _unitTypes = ['O_G_Soldier_SL_F'];
 private _grp = createGroup [EAST,TRUE];
-private _objUnit = _grp createUnit [(selectRandom _unitTypes),_buildingPosition,[],0,'NONE'];
+private _unitType = selectRandom _unitTypes;
+private _objUnit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_buildingPosition,[],0,'NONE'];
 _objUnit allowDamage FALSE;
 [_objUnit] joinSilent _grp;
 _objUnit setPos _buildingPosition;
@@ -183,8 +77,8 @@ _objUnit enableAIFeature ['PATH',FALSE];
 _objUnit forceAddUniform 'U_C_ConstructionCoverall_Blue_F';
 _objUnit addVest 'V_Safety_yellow_F';
 _objUnit addBackpack 'B_LegStrapBag_black_repair_F';
-_objUnit linkItem 'ItemRadio';
-_objUnit linkItem 'ItemWatch';
+_objUnit linkItem QS_core_classNames_itemRadio;
+_objUnit linkItem QS_core_classNames_itemWatch;
 _objUnit setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 _grp setBehaviour 'CARELESS';
 _objUnit enableDynamicSimulation FALSE;
@@ -280,7 +174,8 @@ if ((random 1) > 0) then {
 	private _sentryUnit = objNull;
 	_count = (round (1 + (random 2)));
 	for '_x' from 0 to _count step 1 do {
-		_sentryUnit = _sentryGrp createUnit [(selectRandom _unitTypes),_nearBuildingPosition,[],30,'NONE'];
+		_unitType = selectRandom _unitTypes;
+		_sentryUnit = _sentryGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_nearBuildingPosition,[],30,'NONE'];
 		_entities pushBack _sentryUnit;
 		_sentryUnit setSkill 0.5;
 		_sentryUnit setSkill ['spotDistance',0.2];

@@ -26,6 +26,15 @@ Types:
 		- AA launch
 		- AT launch
 		- Viper / Recon
+		
+19:07:22 "****************************************************"
+19:07:23 "***** SC SUB OBJ ***** CREATE *****"
+19:07:23 Error in expression <bjects [_centerPos,['House'],_centerPos * 0.9,TRUE]) select {((!isObjectHidden _>
+19:07:23   Error position: <* 0.9,TRUE]) select {((!isObjectHidden _>
+19:07:23   Error *: Type Array, expected Number,Not a Number
+19:07:23 File mpmissions\__cur_mp.Tanoa\code\functions\fn_scSubObjective.sqf..., line 75
+19:20:39 BEServer: registering a new player #1556180685
+19:20:49 "***** onPlayerConnected ***** [1.55618e+009,""76561198084065754"",""Quiksilver"",true,5
 ____________________________________________________________________________/*/
 
 params ['_type','_subType','_data'];
@@ -64,7 +73,6 @@ if (_type isEqualTo 1) exitWith {
 	private _totalAttempts = 0;
 
 	if (_subType isEqualTo 'INTEL') then {
-
 		private _usedSettlementPosition = FALSE;
 		private _building = objNull;
 		private _dir = 0;
@@ -72,7 +80,7 @@ if (_type isEqualTo 1) exitWith {
 			if (missionNamespace getVariable ['QS_ao_terrainIsSettlement',FALSE]) then {
 				if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 1) then {
 					_buildingTypes = missionNamespace getVariable ['QS_data_smallBuildingTypes_12',[]];
-					_buildingList = (nearestObjects [_centerPos,_buildingTypes,_centerRadius,TRUE]) select {!isObjectHidden _x};
+					_buildingList = (nearestObjects [_centerPos,['House'],QS_aoSize * 0.9,TRUE]) select {((!isObjectHidden _x) && ((sizeOf (typeOf _x)) >= 12))};
 					if (_buildingList isNotEqualTo []) then {
 						_position = [0,0,0];
 						for '_i' from 0 to 9 step 1 do {
@@ -212,7 +220,7 @@ if (_type isEqualTo 1) exitWith {
 			private _grp = [_position,(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 			[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 			{
-				_x setUnitLoadout (['o_soldier_uav_f','o_t_soldier_uav_f'] select (worldName in ['Tanoa','Enoch']));
+				_x setUnitLoadout (QS_core_units_map getOrDefault [toLowerANSI 'o_soldier_uav_f','o_soldier_uav_f']);
 				_x allowDamage FALSE;
 				_x setUnitPosWeak (selectRandom ['UP','MIDDLE','UP']);
 				_x setVariable ['QS_hidden',TRUE,TRUE];

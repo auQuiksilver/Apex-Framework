@@ -54,32 +54,17 @@ for '_x' from 0 to 1 step 0 do {
 		[0,50],
 		TRUE
 	] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
-	if ((_position distance2D _basePosition) > _baseRadius) then {
-		if ((_position distance2D _fobPosition) > _fobRadius) then {
-			if ((getTerrainHeightASL _position) > 1) then {
-				if (([_position,16] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 7) then {
-					if (([_position,16] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -7) then {
-						if ((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo []) then {
-							if (!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius'))) then {
-								if ((nearestObjects [_position,_objectsExclusion,12,FALSE]) isEqualTo []) then {
-									if ((nearestTerrainObjects [
-										_position,
-										_terrainObjectsExclusion,
-										10,
-										FALSE,
-										TRUE
-									]) isEqualTo []) then {
-										_positionFound = TRUE;
-									};
-								};
-							};
-						};
-					};
-				};
-			};
-		};
-	};
-	if (_positionFound) exitWith {};
+	if (
+		((_position distance2D _basePosition) > _baseRadius) &&
+		{((_position distance2D _fobPosition) > _fobRadius)} &&
+		{((getTerrainHeightASL _position) > 1)} &&
+		{(([_position,16] call (missionNamespace getVariable 'QS_fnc_areaGradient')) < 7)} &&
+		{(([_position,16] call (missionNamespace getVariable 'QS_fnc_areaGradient')) > -7)} &&
+		{((((_position select [0,2]) nearRoads 25) select {((_x isEqualType objNull) && ((roadsConnectedTo _x) isNotEqualTo []))}) isEqualTo [])} &&
+		{(!([_position,30,8] call (missionNamespace getVariable 'QS_fnc_waterInRadius')))} &&
+		{((nearestObjects [_position,_objectsExclusion,12,FALSE]) isEqualTo [])} &&
+		{((nearestTerrainObjects [_position,_terrainObjectsExclusion,10,FALSE,TRUE]) isEqualTo [])}
+	) exitWith {};
 	if (_attempts > _maxAttempts) exitWith {};
 };
 [_position,_placeType];

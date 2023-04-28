@@ -6,15 +6,14 @@ Author:
 	
 Last Modified:
 
-	8/09/2016 A3 1.62 by Quiksilver
+	4/02/2023 A3 2.12 by Quiksilver
 
 Description:
 
 	Enable FOB
 ___________________________________________________*/
 
-_side = _this # 0;
-_activatorName = _this # 1;
+params ['_side','_activatorName'];
 private _color = 'ColorUnknown';
 if (_side isEqualTo EAST) then {
 	_color = 'ColorOPFOR';
@@ -39,6 +38,10 @@ if (_side isEqualTo sideUnknown) then {
 	'QS_marker_veh_fieldservice_04',
 	'QS_marker_veh_fieldservice_01'
 ];
+_flag = missionNamespace getVariable ['QS_module_fob_flag',objNull];
+_tickets = round (((missionNamespace getVariable ['QS_module_fob_respawnTickets',0]) / 2) max 0);
+_flag setVariable ['QS_module_fob_flag',_tickets,TRUE];
+['PRESET',6,FALSE,[_side]] call QS_fnc_deployment;
 [
 	[],
 	{
@@ -49,8 +52,7 @@ if (_side isEqualTo sideUnknown) then {
 		};
 	}
 ] remoteExec ['call',-2,FALSE];
-[(missionNamespace getVariable 'QS_module_fob_flag'),_side,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
-/*/'QS_marker_module_fob' setMarkerColor 'ColorINDEPENDENT';/*/
+[_flag,_side,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
 ['sideChat',[WEST,'HQ'],(format ['%3 %1 %4 %2!',(missionNamespace getVariable 'QS_module_fob_displayName'),_activatorName,localize 'STR_QS_Chat_047',localize 'STR_QS_Chat_048'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 ['FOB_UPDATE',['',localize 'STR_QS_Notif_055']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 0 spawn {
@@ -66,5 +68,4 @@ if (_side isEqualTo sideUnknown) then {
 	sleep 3;
 	['FOB_UPDATE',['',localize 'STR_QS_Notif_056']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };
-/*/taskfailed for other sides?/*/
 missionNamespace setVariable ['QS_module_fob_side',_side,TRUE];

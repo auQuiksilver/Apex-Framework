@@ -29,45 +29,18 @@ private _unit = objNull;
 private _unit1 = objNull;
 private _unit2 = objNull;
 private _unit3 = objNull;
+private _skill = 1;
 private _dirToCenter = 0;
-private _infTypes = [
-	'OIA_InfSquad',4,
-	'OIA_InfTeam',2,
-	'OIA_InfAssault',2,
-	'OIA_InfTeam_AA',3,
-	'OIA_InfTeam_AT',0.5,
-	'OIA_InfTeam_HAT',1,
-	'OI_reconPatrol',1,
-	'OIA_ReconSquad',1,
-	'OIA_InfTeam_LAT',2,
-	'OIA_ARTeam',2
-];
+private _infTypes = ['classic_enemyinftypes_1'] call QS_data_listUnits;
 if (worldName isEqualTo 'Stratis') then {
-	_infTypes = [
-		'OIA_InfSquad',5,
-		'OIA_InfAssault',1,
-		'OIA_InfTeam_AA',1,
-		'OI_reconPatrol',0.5,
-		//'OIA_ReconSquad',0.5,
-		'OIA_InfTeam_LAT',0.25,
-		'OIA_ARTeam',4
-	];
+	_infTypes = ['classic_enemyinftypes_stratis_1'] call QS_data_listUnits;
 };
 private _infUrbanType = '';
-private _infUrbanTypes = [
-	'OIA_ARTeam',2,
-	'OIA_InfTeam_AT',1,
-	'OIA_InfTeam_LAT',1
-];
+private _infUrbanTypes = ['classic_enemygarrisontypes_1'] call QS_data_listUnits;
 if (worldName isEqualTo 'Stratis') then {
-	_infUrbanTypes = [
-		'OIA_ARTeam',2,
-		//'OIA_InfTeam_AT',1,
-		'OIA_InfTeam_LAT',1
-	];
+	_infUrbanTypes = ['classic_enemygarrisontypes_stratis_1'] call QS_data_listUnits;
 };
-private _officerType = ['O_officer_F','O_T_Officer_F'] select (worldName in ['Tanoa','Enoch']);
-private _engineerType = ['O_engineer_F','O_T_Engineer_F'] select (worldName in ['Tanoa','Enoch']);
+private _officerType = ['classic_enemyofficertype_1'] call QS_data_listUnits;
 private _basePos = markerPos 'QS_marker_base_marker';
 private _aoSize = missionNamespace getVariable ['QS_aoSize',750];
 if (worldName isEqualTo 'Stratis') then {
@@ -117,39 +90,39 @@ if (_playerCount > 0) then {
 diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning infantry patrols *****';
 diag_log '****************************************************';
-private _grpCount = 8;
-if (_playerCount > 10) then {_grpCount = [12,10] select _allowVehicles;};
-if (_playerCount > 20) then {_grpCount = [12,10] select _allowVehicles;};
-if (_playerCount > 30) then {_grpCount = [15,13] select _allowVehicles;};
-if (_playerCount > 40) then {_grpCount = [15,13] select _allowVehicles;};
-if (_playerCount > 50) then {_grpCount = [15,13] select _allowVehicles;};
+private _grpCount = 5;
+if (_playerCount > 10) then {_grpCount = [8,6] select _allowVehicles;};
+if (_playerCount > 20) then {_grpCount = [9,7] select _allowVehicles;};
+if (_playerCount > 30) then {_grpCount = [10,8] select _allowVehicles;};
+if (_playerCount > 40) then {_grpCount = [11,8] select _allowVehicles;};
+if (_playerCount > 50) then {_grpCount = [12,9] select _allowVehicles;};
 if (worldName isEqualTo 'Altis') then {
-	if (_playerCount > 10) then {_grpCount = [12,10] select _allowVehicles;};
-	if (_playerCount > 20) then {_grpCount = [12,10] select _allowVehicles;};
-	if (_playerCount > 30) then {_grpCount = [15,13] select _allowVehicles;};
-	if (_playerCount > 40) then {_grpCount = [15,13] select _allowVehicles;};
-	if (_playerCount > 50) then {_grpCount = [15,13] select _allowVehicles;};
+	if (_playerCount > 10) then {_grpCount = [8,6] select _allowVehicles;};
+	if (_playerCount > 20) then {_grpCount = [9,7] select _allowVehicles;};
+	if (_playerCount > 30) then {_grpCount = [10,8] select _allowVehicles;};
+	if (_playerCount > 40) then {_grpCount = [11,9] select _allowVehicles;};
+	if (_playerCount > 50) then {_grpCount = [12,10] select _allowVehicles;};
 };
 if (worldName in ['Tanoa']) then {
-	if (_playerCount > 10) then {_grpCount = [10,8] select _allowVehicles;};
-	if (_playerCount > 20) then {_grpCount = [10,8] select _allowVehicles;};
-	if (_playerCount > 30) then {_grpCount = [13,11] select _allowVehicles;};
-	if (_playerCount > 40) then {_grpCount = [13,11] select _allowVehicles;};
-	if (_playerCount > 50) then {_grpCount = [13,11] select _allowVehicles;};
+	if (_playerCount > 10) then {_grpCount = [8,6] select _allowVehicles;};
+	if (_playerCount > 20) then {_grpCount = [9,7] select _allowVehicles;};
+	if (_playerCount > 30) then {_grpCount = [10,8] select _allowVehicles;};
+	if (_playerCount > 40) then {_grpCount = [11,9] select _allowVehicles;};
+	if (_playerCount > 50) then {_grpCount = [12,10] select _allowVehicles;};
 };
 if (worldName isEqualTo 'Malden') then {
-	if (_playerCount > 10) then {_grpCount = [10,8] select _allowVehicles;};
-	if (_playerCount > 20) then {_grpCount = [10,8] select _allowVehicles;};
-	if (_playerCount > 30) then {_grpCount = [13,11] select _allowVehicles;};
-	if (_playerCount > 40) then {_grpCount = [13,11] select _allowVehicles;};
-	if (_playerCount > 50) then {_grpCount = [13,11] select _allowVehicles;};
+	if (_playerCount > 10) then {_grpCount = [7,5] select _allowVehicles;};
+	if (_playerCount > 20) then {_grpCount = [8,5] select _allowVehicles;};
+	if (_playerCount > 30) then {_grpCount = [8,6] select _allowVehicles;};
+	if (_playerCount > 40) then {_grpCount = [8,7] select _allowVehicles;};
+	if (_playerCount > 50) then {_grpCount = [9,8] select _allowVehicles;};
 };
 if (worldName isEqualTo 'Stratis') then {
-	if (_playerCount > 10) then {_grpCount = [7,6] select _allowVehicles;};
-	if (_playerCount > 20) then {_grpCount = [7,6] select _allowVehicles;};
-	if (_playerCount > 30) then {_grpCount = [9,8] select _allowVehicles;};
-	if (_playerCount > 40) then {_grpCount = [10,9] select _allowVehicles;};
-	if (_playerCount > 50) then {_grpCount = [10,9] select _allowVehicles;};
+	if (_playerCount > 10) then {_grpCount = [6,5] select _allowVehicles;};
+	if (_playerCount > 20) then {_grpCount = [6,5] select _allowVehicles;};
+	if (_playerCount > 30) then {_grpCount = [7,6] select _allowVehicles;};
+	if (_playerCount > 40) then {_grpCount = [9,8] select _allowVehicles;};
+	if (_playerCount > 50) then {_grpCount = [9,8] select _allowVehicles;};
 };
 _placeTypes = [
 	'(1 + houses)',2,
@@ -244,7 +217,7 @@ if ((random 1) > _staticChance) then {
 		if ((random 1) > 0.5) then {
 			if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 2) then {
 				_buildingTypes = missionNamespace getVariable ['QS_data_smallBuildingTypes_10',[]];
-				_buildingList = (nearestObjects [_centerPos,_buildingTypes,_aoSize * 0.75,TRUE]) select {!isObjectHidden _x};
+				_buildingList = (nearestObjects [_centerPos,['House'],_aoSize * 0.9,TRUE]) select {((!isObjectHidden _x) && ((sizeOf (typeOf _x)) >= 10))};
 				if (_buildingList isNotEqualTo []) then {
 					_randomPos = [0,0,0];
 					for '_i' from 0 to 9 step 1 do {
@@ -253,13 +226,14 @@ if ((random 1) > _staticChance) then {
 						if (
 							((_randomPos distance2D _QS_HQpos) > 100) && 
 							((_registeredPositions inAreaArray [_randomPos,50,50,0,FALSE]) isEqualTo [])
-						) exitWith {};
+						) exitWith {
+							_usedSettlementPosition = TRUE;
+							_dir = getDir _building;
+							_building allowDamage FALSE;
+							_building hideObjectGlobal TRUE;
+							(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _building;
+						};
 					};
-					_usedSettlementPosition = TRUE;
-					_dir = getDir _building;
-					_building allowDamage FALSE;
-					_building hideObjectGlobal TRUE;
-					(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _building;
 				};
 			};
 		};
@@ -317,7 +291,7 @@ if ((random 1) > _staticChance) then {
 	_tower setVariable ['QS_entity_assocEntities',[],FALSE];
 	_towerGrp = createGroup [EAST,TRUE];
 	{
-		_object = createVehicle [_x # 0,[0,0,0]];
+		_object = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI (_x # 0),(_x # 0)],[0,0,0]];
 		_object allowDamage FALSE;
 		_attachPos = _x # 1;
 		_attachPos set [2,(_attachPos # 2) - _offset];
@@ -402,7 +376,9 @@ if ((random 1) > _staticChance) then {
 			(gunner _object) enableAIFeature ['COVER',FALSE];
 			
 			if (worldName in ['Tanoa','Enoch']) then {
-				(gunner _object) setUnitLoadout 'o_t_soldier_f';
+				if ((call (missionNamespace getVariable 'QS_fnc_getActiveDLC')) isEqualTo '') then {
+					(gunner _object) setUnitLoadout 'o_t_soldier_f';
+				};
 			};
 			_object enableDynamicSimulation TRUE;
 			(gunner _object) enableDynamicSimulation TRUE;
@@ -425,11 +401,11 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning infantry overwatch *****';
 diag_log '****************************************************';
 
-_grpCount = 1;
+_grpCount = 3;
 if (_playerCount > 15) then {
-	_grpCount = 2;
+	_grpCount = 4;
 	if (_playerCount > 30) then {
-		_grpCount = 3;
+		_grpCount = 5;
 	};
 };
 private _overwatchGroup = grpNull;
@@ -437,7 +413,7 @@ private _towerPos3 = ATLToASL (getPosATL (missionNamespace getVariable 'QS_radio
 private _centerPosASL = ATLToASL _centerPos;
 private _hqPosASL = ATLToASL _QS_HQpos;
 private _watchPos = selectRandom [_centerPosASL,_hqPosASL,_towerPos3];
-for '_x' from 0 to (_grpCount - 1) step 1 do {
+for '_x' from 0 to _grpCount step 1 do {
 	_watchPos = selectRandom [_centerPosASL,_hqPosASL,_towerPos3];
 	for '_z' from 0 to 49 step 1 do {
 		_randomPos = [_watchPos,(_aoSize * 0.8),25,10,[[objNull,'VIEW'],(0.1 max (random 1))]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
@@ -513,7 +489,7 @@ if (worldName in ['Stratis']) then {
 };
 private _AOveh = objNull;
 private _AOvehGroup = grpNull;
-
+private _AOvehType = '';
 for '_x' from 0 to (_vehCount - 1) step 1 do {
 	_AOvehGroup = createGroup [EAST,TRUE];
 	if (_allowVehicles) then {
@@ -521,7 +497,8 @@ for '_x' from 0 to (_vehCount - 1) step 1 do {
 	} else {
 		_randomPos = [_centerPos,0,_aoSize,2.5,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 	};
-	_AOveh = createVehicle [(selectRandomWeighted ([_motorPool] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'))),(_randomPos vectorAdd [0,0,0.25]),[],0,'NONE'];
+	_AOvehType = selectRandomWeighted ([_motorPool] call (missionNamespace getVariable 'QS_fnc_getAIMotorPool'));
+	_AOveh = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _AOvehType,_AOvehType],(_randomPos vectorAdd [0,0,0.25]),[],0,'NONE'];
 	_AOveh allowDamage FALSE;
 	_AOveh limitSpeed (random [30,40,50]);
 	(missionNamespace getVariable 'QS_AI_vehicles') pushBack _AOveh;
@@ -537,7 +514,7 @@ for '_x' from 0 to (_vehCount - 1) step 1 do {
 	if (random 1 >= 0.25) then {_AOveh allowCrewInImmobile [TRUE,TRUE];};
 	/*/_AOveh forceFollowRoad TRUE;/*/
 	_AOveh setConvoySeparation 50;
-	[_AOveh] spawn {sleep 5; (_this # 0) allowDamage TRUE;};
+	[_AOveh] spawn {sleep 2.5; (_this # 0) allowDamage TRUE;};
 	_AOveh setVectorUp (surfaceNormal _randomPos);
 	if (_playerCount < 30) then {
 		[_AOveh] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
@@ -547,39 +524,41 @@ for '_x' from 0 to (_vehCount - 1) step 1 do {
 		};
 	};
 	_AOveh addEventHandler ['Killed',(missionNamespace getVariable 'QS_fnc_vKilled2')];
-	_unit1 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
-	_unit1 = _unit1 call (missionNamespace getVariable 'QS_fnc_unitSetup');
-	_unit1 assignAsDriver _AOveh;
-	_unit1 moveInDriver _AOveh;
-	_unit2 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
-	_unit2 = _unit2 call (missionNamespace getVariable 'QS_fnc_unitSetup');
-	_unit2 assignAsGunner _AOveh;
-	_unit2 moveInGunner _AOveh;
-	if ((_AOveh emptyPositions 'commander') isEqualTo 1) then {
-		_unit3 = _AOvehGroup createUnit [_engineerType,_randomPos,[],0,'NONE'];
-		_unit3 = _unit3 call (missionNamespace getVariable 'QS_fnc_unitSetup');
-		_unit3 assignAsCommander _AOveh;
-		_unit3 moveInCommander _AOveh;
-	};
+	(units (createVehicleCrew _AOveh)) joinSilent _AOvehGroup;
 	_AOvehGroup addVehicle _AOveh;
 	[_AOvehGroup,_randomPos,_aoSize,_roadPositionsValid,TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrolVehicle');
 	_AOveh lock 3;
+	_skill = 1;
 	if (_AOveh isKindOf 'mbt_04_base_f') then {
-		[(units _AOvehGroup),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+		_skill = 3;
 	} else {
-		[(units _AOvehGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+		if (_playerCount < 20) then {
+			_skill = 1;
+		} else {
+			_skill = 2;
+		};
 	};
+	[(units _AOvehGroup),_skill] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+	
+	if ((random 1) > 0.5) then {
+		if (
+			(alive (commander _AOveh)) &&
+			(alive (gunner _AOveh))
+		) then {
+			_AOveh deleteVehicleCrew (commander _AOveh);
+		};
+	};
+	
 	{
 		_x setVariable ['BIS_noCoreConversations',TRUE,FALSE];
 		0 = _enemiesArray pushBack _x;
 	} count (units _AOvehGroup);
 	_unit2 setSkill ['aimingAccuracy',0.1];
 	_AOvehGroup allowFleeing 0;
-	0 = _enemiesArray pushBack _AOveh;
+	_enemiesArray pushBack _AOveh;
 	_AOvehGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
 	_AOvehGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','VEHICLE',(count (units _AOvehGroup)),_AOveh],QS_system_AI_owners];
 	_AOvehGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
-	if (_playerCount < 15) exitWith {};
 };
 
 /*/===== Spawning Support vehicle/*/
@@ -656,24 +635,16 @@ diag_log '***** AO ENEMY ***** Spawning Enemies in buildings *';
 diag_log '****************************************************';
 private _AOgarrisonGroup = grpNull;
 private _toGarrison = [];
-private _indArray = [
-	"o_soldieru_a_f","o_soldieru_aar_f","o_soldieru_ar_f","o_soldieru_medic_f","o_engineer_u_f","o_soldieru_exp_f","o_soldieru_gl_f",
-	"o_urban_heavygunner_f","o_soldieru_m_f","o_soldieru_at_f","o_soldieru_f","o_soldieru_lat_f","o_urban_sharpshooter_f",
-	"o_soldieru_sl_f","o_soldieru_tl_f","o_g_engineer_f","o_g_medic_f","o_g_soldier_a_f","o_g_soldier_ar_f","o_g_soldier_exp_f","o_g_soldier_f","o_g_soldier_f",
-	"o_g_soldier_gl_f","o_g_soldier_lat_f","o_g_soldier_lite_f","o_g_soldier_m_f","o_g_soldier_sl_f","o_g_soldier_tl_f",
-	"o_g_sharpshooter_f","o_g_soldier_ar_f"
-];
+private _indArray = ['classic_garrisonindarray_1'] call QS_data_listUnits;
+private _randomUnit = '';
 if ((count (_terrainData # 4)) > 6) then {
 	if (worldName in ['Tanoa','Enoch']) then {
-		_indArray = [
-			"i_c_soldier_para_1_f","i_c_soldier_para_2_f","i_c_soldier_para_3_f","i_c_soldier_para_4_f","i_c_soldier_para_5_f","i_c_soldier_para_6_f",
-			"i_c_soldier_para_7_f","i_c_soldier_para_8_f"
-		];	
+		_indArray = ['classic_garrisonindarray_2'] call QS_data_listUnits;
 	};
 	_AOgarrisonGroup = createGroup [RESISTANCE,TRUE];
 	for '_x' from 0 to ([29,14] select (missionNamespace getVariable ['QS_ao_urbanSpawn',FALSE])) step 1 do {
 		_randomUnit = selectRandom _indArray;
-		_unit = _AOgarrisonGroup createUnit [_randomUnit,_centerPos,[],100,'NONE'];
+		_unit = _AOgarrisonGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _randomUnit,_randomUnit],_centerPos,[],100,'NONE'];
 		_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		_enemiesArray pushBack _unit;
 		_toGarrison pushBack _unit;
@@ -683,7 +654,7 @@ if ((count (_terrainData # 4)) > 6) then {
 };
 _QS_HQpos set [2,0];
 private _resistanceGrp = createGroup [RESISTANCE,TRUE];
-_unit = _resistanceGrp createUnit ['I_C_Soldier_Para_1_F',_QS_HQpos,[],10,'NONE'];
+_unit = _resistanceGrp createUnit [QS_core_units_map getOrDefault ['i_c_soldier_para_1_f','i_c_soldier_para_1_f'],_QS_HQpos,[],10,'NONE'];
 _unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 _enemiesArray pushBack _unit;
 _toGarrison pushBack _unit;
@@ -694,22 +665,12 @@ if (_toGarrison isNotEqualTo []) then {
 _resistanceGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 
 /*/=============================================================== ENEMIES IN HQ BUILDINGS/*/
-if (worldName in ['Tanoa','Enoch']) then {
-	_indArray = [
-		'o_soldieru_ar_f','o_soldieru_medic_f','o_engineer_u_f','o_soldieru_exp_f','o_soldieru_gl_f',
-		'o_urban_heavygunner_f','o_soldieru_m_f','o_soldieru_aa_f','o_soldieru_at_f','o_soldieru_lat_f','o_urban_sharpshooter_f'
-	];
-} else {
-	_indArray = [
-		'o_soldieru_ar_f','o_soldieru_medic_f','o_engineer_u_f','o_soldieru_exp_f','o_soldieru_gl_f',
-		'o_urban_heavygunner_f','o_soldieru_m_f','o_soldieru_aa_f','o_soldieru_at_f','o_soldieru_lat_f','o_urban_sharpshooter_f'
-	];
-};
+_indArray = ['classic_garrisonindarray_3'] call QS_data_listUnits;
 private _AOgarrisonGroup2 = createGroup [RESISTANCE,TRUE];
 _toGarrison = [];
 for '_x' from 0 to 8 step 1 do {
 	_randomUnit = selectRandom _indArray;
-	_unit = _AOgarrisonGroup2 createUnit [_randomUnit,_QS_HQpos,[],0,'NONE'];
+	_unit = _AOgarrisonGroup2 createUnit [QS_core_units_map getOrDefault [toLowerANSI _randomUnit,_randomUnit],_QS_HQpos,[],0,'NONE'];
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_enemiesArray pushBack _unit;
 	_toGarrison pushBack _unit;
@@ -741,7 +702,6 @@ diag_log '****************************************************';
 diag_log '***** AO ENEMY ***** Spawning HQ Guards *****';
 diag_log '****************************************************';
 
-//_randomPos = ['RADIUS',_QS_HQpos,150,'LAND',[],FALSE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 _randomPos = [_QS_HQpos,0,150,1,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 _infUrbanType = selectRandomWeighted _infUrbanTypes;
 private _hqGroup1 = [_randomPos,(random 360),EAST,_infUrbanType,FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
@@ -774,7 +734,7 @@ private _commandGrp = createGroup [EAST,TRUE];
 _commandGrp setGroupIdGlobal ['Command'];
 _commandGrp setVariable ['QS_dynSim_ignore',TRUE,QS_system_AI_owners];
 _commandGrp enableDynamicSimulation FALSE;
-private _commander = _commandGrp createUnit [_officerType,_QS_HQpos,[],0,'NONE'];
+private _commander = _commandGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _officerType,_officerType],_QS_HQpos,[],0,'NONE'];
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -787,24 +747,26 @@ _commander allowDamage FALSE;
 _commander enableStamina FALSE;
 _commander enableFatigue FALSE;
 _commander setVariable ['QS_dynSim_ignore',TRUE,QS_system_AI_owners];
-private _headgear = ['H_Beret_blk','H_Beret_CSAT_01_F'] select ((random 1) > 0.9);
-private _loadouts = [
-	[
-		[["sgun_HunterShotgun_01_sawedoff_F","","","",["2Rnd_12Gauge_Pellets",2],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["2Rnd_12Gauge_Pellets",4,2]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["2Rnd_12Gauge_Slug",5,2],["2Rnd_12Gauge_Pellets",5,2]]],["B_RadioBag_01_hex_F",[["2Rnd_12Gauge_Pellets",7,2],["2Rnd_12Gauge_Slug",5,2]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["arifle_AKS_F","","","",["30Rnd_545x39_Mag_F",30],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_545x39_Mag_Tracer_F",3,30]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["30Rnd_545x39_Mag_Tracer_F",9,30]]],["B_RadioBag_01_hex_F",[["30Rnd_545x39_Mag_Tracer_F",8,30],["SmokeShellRed",3,1]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["SMG_03C_TR_black","muzzle_snds_570","","optic_Nightstalker",["50Rnd_570x28_SMG_03",50],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["50Rnd_570x28_SMG_03",2,50]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["50Rnd_570x28_SMG_03",5,50]]],["B_RadioBag_01_hex_F",[["SmokeShellRed",3,1],["50Rnd_570x28_SMG_03",5,50]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["SMG_05_F","muzzle_snds_L","","optic_Nightstalker",["30Rnd_9x21_Mag_SMG_02",30],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",3,30]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",7,30]]],["B_RadioBag_01_hex_F",[["SmokeShellRed",3,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",6,30]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["MMG_01_hex_F","muzzle_snds_93mmg_tan","","optic_Nightstalker",["150Rnd_93x64_Mag",150],[],"bipod_02_F_hex"],[],["hgun_Pistol_heavy_02_Yorris_F","","","optic_Yorris",["6Rnd_45ACP_Cylinder",6],[],""],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["SmokeShellRed",3,1]]],["V_LegStrapBag_coyote_F",[["SmokeShell",1,1],["SmokeShellRed",1,1],["150Rnd_93x64_Mag",1,150]]],["B_RadioBag_01_hex_F",[["150Rnd_93x64_Mag",1,150],["SmokeShell",1,1],["SmokeShellRed",1,1]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
-	],
-	[
-		[["sgun_HunterShotgun_01_sawedoff_F","","","",["2Rnd_12Gauge_Pellets",2],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["2Rnd_12Gauge_Pellets",4,2]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["2Rnd_12Gauge_Slug",5,2],["2Rnd_12Gauge_Pellets",5,2]]],["B_RadioBag_01_ghex_F",[["2Rnd_12Gauge_Pellets",7,2],["2Rnd_12Gauge_Slug",5,2]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["arifle_AKS_F","","","",["30Rnd_545x39_Mag_F",30],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_545x39_Mag_Tracer_F",3,30]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["30Rnd_545x39_Mag_Tracer_F",9,30]]],["B_RadioBag_01_ghex_F",[["30Rnd_545x39_Mag_Tracer_F",8,30],["SmokeShellRed",3,1]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["SMG_03C_TR_black","muzzle_snds_570","","optic_Nightstalker",["50Rnd_570x28_SMG_03",50],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["50Rnd_570x28_SMG_03",2,50]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["50Rnd_570x28_SMG_03",5,50]]],["B_RadioBag_01_ghex_F",[["SmokeShellRed",3,1],["50Rnd_570x28_SMG_03",5,50]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["SMG_05_F","muzzle_snds_L","","optic_Nightstalker",["30Rnd_9x21_Mag_SMG_02",30],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",3,30]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",7,30]]],["B_RadioBag_01_ghex_F",[["SmokeShellRed",3,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",6,30]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[["MMG_01_tan_F","muzzle_snds_93mmg","","optic_Nightstalker",["150Rnd_93x64_Mag",150],[],"bipod_02_F_blk"],[],["hgun_Pistol_heavy_02_Yorris_F","","","optic_Yorris",["6Rnd_45ACP_Cylinder",6],[],""],["U_O_T_Officer_F",[["FirstAidKit",1],["SmokeShellRed",3,1]]],["V_LegStrapBag_coyote_F",[["SmokeShell",1,1],["SmokeShellRed",1,1],["150Rnd_93x64_Mag",1,150]]],["B_RadioBag_01_ghex_F",[["SmokeShell",1,1],["SmokeShellRed",1,1],["150Rnd_93x64_Mag",1,150]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
-	]
-] select (worldName in ['Tanoa','Enoch']);
-_commander setUnitLoadout (selectRandom _loadouts);
+if ((call (missionNamespace getVariable 'QS_fnc_getActiveDLC')) isEqualTo '') then {
+	private _headgear = ['H_Beret_blk','H_Beret_CSAT_01_F'] select ((random 1) > 0.9);
+	private _loadouts = [
+		[
+			[["sgun_HunterShotgun_01_sawedoff_F","","","",["2Rnd_12Gauge_Pellets",2],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["2Rnd_12Gauge_Pellets",4,2]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["2Rnd_12Gauge_Slug",5,2],["2Rnd_12Gauge_Pellets",5,2]]],["B_RadioBag_01_hex_F",[["2Rnd_12Gauge_Pellets",7,2],["2Rnd_12Gauge_Slug",5,2]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["arifle_AKS_F","","","",["30Rnd_545x39_Mag_F",30],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_545x39_Mag_Tracer_F",3,30]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["30Rnd_545x39_Mag_Tracer_F",9,30]]],["B_RadioBag_01_hex_F",[["30Rnd_545x39_Mag_Tracer_F",8,30],["SmokeShellRed",3,1]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["SMG_03C_TR_black","muzzle_snds_570","","optic_Nightstalker",["50Rnd_570x28_SMG_03",50],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["50Rnd_570x28_SMG_03",2,50]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["50Rnd_570x28_SMG_03",5,50]]],["B_RadioBag_01_hex_F",[["SmokeShellRed",3,1],["50Rnd_570x28_SMG_03",5,50]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["SMG_05_F","muzzle_snds_L","","optic_Nightstalker",["30Rnd_9x21_Mag_SMG_02",30],[],""],[],[],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",3,30]]],["V_LegStrapBag_coyote_F",[["FirstAidKit",1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",7,30]]],["B_RadioBag_01_hex_F",[["SmokeShellRed",3,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",6,30]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["MMG_01_hex_F","muzzle_snds_93mmg_tan","","optic_Nightstalker",["150Rnd_93x64_Mag",150],[],"bipod_02_F_hex"],[],["hgun_Pistol_heavy_02_Yorris_F","","","optic_Yorris",["6Rnd_45ACP_Cylinder",6],[],""],["U_O_OfficerUniform_ocamo",[["FirstAidKit",1],["SmokeShellRed",3,1]]],["V_LegStrapBag_coyote_F",[["SmokeShell",1,1],["SmokeShellRed",1,1],["150Rnd_93x64_Mag",1,150]]],["B_RadioBag_01_hex_F",[["150Rnd_93x64_Mag",1,150],["SmokeShell",1,1],["SmokeShellRed",1,1]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+		],
+		[
+			[["sgun_HunterShotgun_01_sawedoff_F","","","",["2Rnd_12Gauge_Pellets",2],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["2Rnd_12Gauge_Pellets",4,2]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["2Rnd_12Gauge_Slug",5,2],["2Rnd_12Gauge_Pellets",5,2]]],["B_RadioBag_01_ghex_F",[["2Rnd_12Gauge_Pellets",7,2],["2Rnd_12Gauge_Slug",5,2]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["arifle_AKS_F","","","",["30Rnd_545x39_Mag_F",30],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_545x39_Mag_Tracer_F",3,30]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["30Rnd_545x39_Mag_Tracer_F",9,30]]],["B_RadioBag_01_ghex_F",[["30Rnd_545x39_Mag_Tracer_F",8,30],["SmokeShellRed",3,1]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["SMG_03C_TR_black","muzzle_snds_570","","optic_Nightstalker",["50Rnd_570x28_SMG_03",50],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["50Rnd_570x28_SMG_03",2,50]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["50Rnd_570x28_SMG_03",5,50]]],["B_RadioBag_01_ghex_F",[["SmokeShellRed",3,1],["50Rnd_570x28_SMG_03",5,50]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["SMG_05_F","muzzle_snds_L","","optic_Nightstalker",["30Rnd_9x21_Mag_SMG_02",30],[],""],[],[],["U_O_T_Officer_F",[["FirstAidKit",1],["Chemlight_red",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",3,30]]],["V_LegStrapBag_black_F",[["FirstAidKit",1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",7,30]]],["B_RadioBag_01_ghex_F",[["SmokeShellRed",3,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Yellow",6,30]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
+			[["MMG_01_tan_F","muzzle_snds_93mmg","","optic_Nightstalker",["150Rnd_93x64_Mag",150],[],"bipod_02_F_blk"],[],["hgun_Pistol_heavy_02_Yorris_F","","","optic_Yorris",["6Rnd_45ACP_Cylinder",6],[],""],["U_O_T_Officer_F",[["FirstAidKit",1],["SmokeShellRed",3,1]]],["V_LegStrapBag_coyote_F",[["SmokeShell",1,1],["SmokeShellRed",1,1],["150Rnd_93x64_Mag",1,150]]],["B_RadioBag_01_ghex_F",[["SmokeShell",1,1],["SmokeShellRed",1,1],["150Rnd_93x64_Mag",1,150]]],_headgear,"G_Aviator",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+		]
+	] select (worldName in ['Tanoa','Enoch']);
+	_commander setUnitLoadout (selectRandom _loadouts);
+};
 {
 	_commander enableAIFeature _x;
 } forEach [

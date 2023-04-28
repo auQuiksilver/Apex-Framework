@@ -16,6 +16,7 @@ _______________________________________________/*/
 0 spawn {
 	disableSerialization;
 	_t = diag_tickTime + 3;
+	QS_player setVariable ['QS_toggle_visibleLaser',FALSE,TRUE];
 	waitUntil {
 		uiSleep 0.1;
 		((diag_tickTime > _t) || {(!isNull (uiNamespace getVariable ['BIS_fnc_arsenal_display',displayNull]))})

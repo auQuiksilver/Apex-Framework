@@ -22,7 +22,7 @@ ___________________________________________________*/
 params ['_vehicle','_rope','_attachedObject'];
 private _count = _attachedObject getVariable ['QS_ropes_slingLoadCargoMemoryPoints',-1];
 if (_count isEqualTo -1) then {
-	_count = count (getArray (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'slingLoadCargoMemoryPoints'));
+	_count = count (getArray ((configOf _attachedObject) >> 'slingLoadCargoMemoryPoints'));
 	_attachedObject setVariable ['QS_ropes_slingLoadCargoMemoryPoints',_count,FALSE];
 };
 if (
@@ -31,6 +31,6 @@ if (
 	{(isPlayer (driver _vehicle))}
 ) then {
 	_attachedObject setVariable ['QS_transporter',[(name (driver _vehicle)),(driver _vehicle),(getPlayerUID (driver _vehicle))],FALSE];
-	_text = format ['%2 %1',(getText (configFile >> 'CfgVehicles' >> (typeOf _attachedObject) >> 'displayName')),localize 'STR_QS_Text_201'];
+	_text = format ['%2 %1',(getText ((configOf _attachedObject) >> 'displayName')),localize 'STR_QS_Text_201'];
 	['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
 };

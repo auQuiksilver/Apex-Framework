@@ -96,9 +96,7 @@ if (_type isEqualTo 1) exitWith {
 		_aoSize = missionNamespace getVariable ['QS_aoSize',500];
 		_baseMarker = markerPos 'QS_marker_base_marker';
 		_hqPos = missionNamespace getVariable ['QS_HQpos',[0,0,0]];
-		
 		private _position = [0,0,0];
-		
 		private _usedSettlementPosition = FALSE;
 		missionNamespace setVariable ['QS_radiotower_useFence',TRUE,FALSE];
 		private _dir = 0;
@@ -107,7 +105,7 @@ if (_type isEqualTo 1) exitWith {
 			if ((random 1) > 0.666) then {
 				if ((missionNamespace getVariable ['QS_ao_objsUsedTerrainBldgs',0]) <= 1) then {
 					_buildingTypes = missionNamespace getVariable ['QS_data_smallBuildingTypes_10',[]];
-					_buildingList = (nearestObjects [_pos,_buildingTypes,_aoSize * 0.75,TRUE]) select {!isObjectHidden _x};
+					_buildingList = (nearestObjects [_pos,['House'],_aoSize * 0.9,TRUE]) select {((!isObjectHidden _x) && ((sizeOf (typeOf _x)) >= 10))};
 					if (_buildingList isNotEqualTo []) then {
 						_position = [0,0,0];
 						for '_i' from 0 to 9 step 1 do {
@@ -116,14 +114,15 @@ if (_type isEqualTo 1) exitWith {
 							if (
 								((_position distance2D _hqPos) > 100) && 
 								(((missionNamespace getVariable 'QS_registeredPositions') inAreaArray [_position,25,25,0,FALSE]) isEqualTo [])
-							) exitWith {};
+							) exitWith {
+								_usedSettlementPosition = TRUE;
+								missionNamespace setVariable ['QS_radiotower_useFence',FALSE,FALSE];
+								_dir = getDir _building;
+								_building allowDamage FALSE;
+								_building hideObjectGlobal TRUE;
+								(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _building;
+							};
 						};
-						_usedSettlementPosition = TRUE;
-						missionNamespace setVariable ['QS_radiotower_useFence',FALSE,FALSE];
-						_dir = getDir _building;
-						_building allowDamage FALSE;
-						_building hideObjectGlobal TRUE;
-						(missionNamespace getVariable 'QS_virtualSectors_hiddenTerrainObjects') pushBack _building;
 					};
 				};
 			};
@@ -143,10 +142,13 @@ if (_type isEqualTo 1) exitWith {
 		_roughPos = [((_position # 0) - 140) + (random 280),((_position # 1) - 140) + (random 280),0];
 		_towerType = 'Land_TTowerBig_2_F';
 		_radioTower = createVehicle [_towerType,_position,[],0,['NONE','CAN_COLLIDE'] select _usedSettlementPosition];
-		missionNamespace setVariable ['QS_radioTower',_radioTower,FALSE];
+		if (_usedSettlementPosition) then {
+			_radioTower setPosATL _position;
+		};
 		_radioTower setVectorUp [0,0,1];
 		_radioTower allowDamage FALSE;
 		_radioTower addEventHandler ['Killed',{call (missionNamespace getVariable 'QS_fnc_eventRTKilled');}];
+		missionNamespace setVariable ['QS_radioTower',_radioTower,FALSE];
 		missionNamespace setVariable ['QS_radioTower_pos',_position,FALSE];
 		missionNamespace setVariable ['QS_registeredPositions',((missionNamespace getVariable 'QS_registeredPositions') + [_position]),FALSE];
 		{

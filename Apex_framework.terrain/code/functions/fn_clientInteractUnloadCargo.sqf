@@ -6,126 +6,98 @@ Author:
 	
 Last Modified:
 
-	25/10/2017 A3 1.76 by Quiksilver
+	30/01/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	-
-_____________________________________________________________*/
+___________________________________________*/
 
-_vehicle = cursorObject;
-if ((!(_vehicle isKindof 'LandVehicle')) && (!(_vehicle isKindOf 'Ship')) && (!(_vehicle isKindOf 'Air'))) exitWith {};
-if (!alive _vehicle) exitWith {};
-if ((attachedObjects _vehicle) isEqualTo []) exitWith {};
-if (((attachedObjects _vehicle) findIf {(!isNil {_x getVariable 'QS_cargoObject'})}) isEqualTo -1) exitWith {};
-private _cargo = objNull;
-private _position = [];
+getCursorObjectParams params ['_cursorObject1','_cursorSelections','_cursorDistance'];
+params [['_object',_cursorObject1],['_menuSelected',0]];
+if (isNull _object) exitWith {systemchat (localize 'STR_QS_Text_459');};
+if ((getPlayerUID player) in QS_blacklist_logistics) exitWith {
+	50 cutText [localize 'STR_QS_Text_388','PLAIN',0.3];
+};
+_simulation = QS_hashmap_configfile getOrDefaultCall [
+	format ['cfgvehicles_%1_simulation',toLowerANSI (typeOf _object)],
+	{toLowerANSI (getText ((configOf _object) >> 'simulation'))},
+	TRUE
+];
+_hasCargo = (
+	(
+		((getVehicleCargo _object) isNotEqualTo []) ||
+		{(((attachedObjects _object) select {
+			(_x getVariable ['QS_logistics',FALSE])
+		}) isNotEqualTo [])} ||
+		{((_object getVariable ['QS_virtualCargo',[]]) isNotEqualTo [])}
+	) && 
+	{(_menuSelected isEqualTo 0)}
+);
+if (_hasCargo && {((lockedInventory _object) || {(_object getVariable ['QS_lockedInventory',FALSE])})}) exitWith {
+	50 cutText [localize 'STR_QS_Text_379','PLAIN',0.333];
+};
+if (
+	(_object getVariable ['QS_logistics_unloadReqDep',FALSE]) &&
+	{(!(_object getVariable ['QS_logistics_deployed',FALSE]))} &&
+	{(isNull (attachedTo _object))} &&
+	{(isNull (isVehicleCargo _object))}
+) exitWith {
+	50 cutText [localize 'STR_QS_Text_452','PLAIN DOWN',0.333];
+};
+if (_hasCargo) exitWith {
+	createDialog 'QS_RD_client_dialog_menu_unloadCargo';
+};
+private _isCargo = (
+	(_menuSelected isNotEqualTo 0) ||
+	{(!isNull (isVehicleCargo _object))} ||
+	{([0,_object,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))} ||
+	{(((toLowerANSI _simulation) in ['house','thingx','tankx','helicopterrtd']) && (_object getVariable ['QS_logistics',FALSE]))}
+);
+if (!_isCargo) exitWith {50 cutText [localize 'STR_QS_Text_374','PLAIN DOWN',0.333];};
+_displayName = QS_hashmap_configfile getOrDefaultCall [
+	format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _object)],
+	{(getText ((configOf _object) >> 'displayName'))},
+	TRUE
+];
+if ([_object,1] call QS_fnc_logisticsMovementDisallowed) exitWith {
+	50 cutText [localize 'STR_QS_Text_386','PLAIN',0.3];
+};
 private _hasUnloaded = FALSE;
-{
-	if (!(_hasUnloaded)) then {
-		_cargo = _x;
-		if ((!isNil {_cargo getVariable 'QS_cargoObject'}) || {((!isNull (isVehicleCargo _cargo)) && ([0,_cargo,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')))}) then {
-			if (([0,_cargo,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) && ((stance player) isEqualTo 'STAND') && ([4,_cargo,player] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) then {
-				_hasUnloaded = TRUE;
-				player forceWalk TRUE;
-				if ((currentWeapon player) isNotEqualTo '') then {
-					player setVariable ['QS_RD_holsteredWeapon',(currentWeapon player),FALSE];
-					player action ['SwitchWeapon',player,player,100];
-				};
-				detach _cargo;
-				if (isObjectHidden _cargo) then {
-					[71,_cargo,FALSE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-				};
-				_cargo attachTo [player,[0,0.5,1.1]];
-				if ((toLowerANSI (typeOf _cargo)) in [
-					"land_plasticcase_01_medium_gray_f",
-					"land_plasticcase_01_medium_idap_f",
-					"land_plasticcase_01_small_gray_f",
-					"land_plasticcase_01_small_idap_f",
-					"land_plasticcase_01_medium_f",
-					"land_plasticcase_01_small_f",
-					"land_metalcase_01_medium_f",
-					"land_metalcase_01_small_f"
-				]) then {
-					if (local _cargo) then {
-						_cargo setDir 90;
-					} else {
-						['setDir',_cargo,90] remoteExec ['QS_fnc_remoteExecCmd',_cargo,FALSE];
-					};
-				};
-				[_cargo] spawn {
-					scriptName 'QS Interact Carry Monitor';
-					params ['_entity'];
-					private _exit = FALSE;
-					for '_x' from 0 to 1 step 0 do {
-						if (!(_entity in (attachedObjects player))) exitWith {};
-						if ((stance player) isNotEqualTo 'STAND') then {_exit = TRUE;};
-						if ((currentWeapon player) isNotEqualTo '') then {_exit = TRUE;};
-						if (!((lifeState player) in ['HEALTHY','INJURED'])) then {_exit = TRUE;};
-						if (_exit) exitWith {
-							50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
-							detach _entity;
-							player forceWalk FALSE;
-							if (_entity call (missionNamespace getVariable 'QS_fnc_isBoundingBoxIntersected')) then {
-								_position = (position player) findEmptyPosition [0,10,(typeOf _entity)];
-								if (_position isNotEqualTo []) then {
-									_entity setVectorUp (surfaceNormal _position);
-									_entity setPos _position; /*/maybe setvehicleposition?/*/
-									_entity allowDamage FALSE;
-									50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
-								};
-							};
-						};
-						uiSleep 0.1;
-					};
-					player forceWalk FALSE;
-					uiSleep 0.1;
-					if (local _entity) then {
-						_entity setVelocity [0,0,-1];
-					} else {
-						['setVelocity',_entity,[0,0,-1]] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
-					};
-				};
-				50 cutText [(format [localize 'STR_QS_Text_091',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))])]),'PLAIN DOWN',0.3];
-			} else {
-				_position = (position player) findEmptyPosition [0,10,(typeOf _cargo)];
-				if (_position isNotEqualTo []) then {
-					_hasUnloaded = TRUE;
-					playSound 'Click';
-					if (isObjectHidden _cargo) then {
-						[71,_cargo,FALSE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-					};
-					detach _cargo;				
-					_cargo setVectorUp (surfaceNormal _position);
-					_cargo setPos _position; //comment 'maybe setvehicleposition?';
-					_cargo allowDamage FALSE;
-					player setVariable ['QS_tempDrawObject',[_cargo,(diag_tickTime + 15)],FALSE];
-					addMissionEventHandler [
-						'Draw3D',
-						{
-							_object = (player getVariable 'QS_tempDrawObject') # 0;
-							_endTime = (player getVariable 'QS_tempDrawObject') # 1;
-							if (!alive _object) exitWith {
-								removeMissionEventHandler [_thisEvent,_thisEventHandler];
-							};
-							_position = position _object;
-							_screenPosition = worldToScreen _position;
-							if (_screenPosition isNotEqualTo []) then {
-								if (((_screenPosition # 0) < 1) && ((_screenPosition # 0) > 0) && ((_screenPosition # 1) < 1) && ((_screenPosition # 1) > 0)) then {
-									removeMissionEventHandler [_thisEvent,_thisEventHandler];
-								};
-							};
-							if (diag_tickTime > _endTime) exitWith {
-								removeMissionEventHandler [_thisEvent,_thisEventHandler];
-							};
-							drawIcon3D ['a3\ui_f\data\map\VehicleIcons\iconcrate_ca.paa',[1,1,1,1],(getPosVisual _object),0,0,0,'Cargo',1,0.1,'RobotoCondensed','right',TRUE];
-						}
-					];
-					50 cutText [(format [localize 'STR_QS_Text_165',(_cargo getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _cargo) >> 'displayName'))])]),'PLAIN DOWN',0.3];
-				} else {
-					50 cutText [localize 'STR_QS_Text_166','PLAIN DOWN',0.3];
-				};
+if (
+	([0,_object,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) && 
+	{((stance player) isEqualTo 'STAND')} && 
+	{([4,_object,player] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))} &&
+	{(isNull (missionNamespace getVariable ['QS_logistics_localTarget',objNull]))}
+) then {
+	_hasUnloaded = TRUE;
+	[QS_player,_object,FALSE,TRUE] call QS_fnc_unloadCargoPlacementMode;
+} else {
+	if (!isNull (isVehicleCargo _object)) then {
+		['setVehicleCargo',objNull,_object] remoteExec ['QS_fnc_remoteExecCmd',[_object,(isVehicleCargo _object)],FALSE];
+		_hasUnloaded = TRUE;
+		playSound 'Click';
+		if (isObjectHidden _object) then {
+			[71,_object,FALSE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+		};
+	} else {
+		_position = (position player) findEmptyPosition [0,10,(typeOf _object)];
+		if (_position isNotEqualTo []) then {
+			_hasUnloaded = TRUE;
+			playSound 'Click';
+			if (isObjectHidden _object) then {
+				[71,_object,FALSE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			};
+			detach _object;				
+			_object setVectorUp (surfaceNormal _position);
+			_object setPos _position;
+			_object allowDamage FALSE;
+			50 cutText [(format [localize 'STR_QS_Text_165',(_object getVariable ['QS_ST_customDN',_displayName])]),'PLAIN DOWN',0.3];
+		} else {
+			50 cutText [localize 'STR_QS_Text_166','PLAIN DOWN',0.3];
 		};
 	};
-} count (attachedObjects _vehicle);
+};
+if (!_hasUnloaded) exitWith {
+	50 cutText [localize 'STR_QS_Text_372','PLAIN DOWN',0.333];
+};

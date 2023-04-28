@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	31/01/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -16,23 +16,24 @@ _________________________________________________/*/
 params ['_type','_vehicle'];
 if (_type isEqualTo 0) then {
 	//comment 'Remove Events';
-	if (!isNil {_vehicle getVariable 'QS_client_vehicleEventHandlers'}) then {
-		if ((_vehicle getVariable 'QS_client_vehicleEventHandlers') isNotEqualTo []) then {
-			{
-				_vehicle removeEventHandler _x;
-			} forEach (_vehicle getVariable 'QS_client_vehicleEventHandlers');
-		};
-		_vehicle setVariable ['QS_client_vehicleEventHandlers',nil,FALSE];
+	if ((_vehicle getVariable ['QS_client_vehicleEventHandlers',[]]) isNotEqualTo []) then {
+		{
+			_vehicle removeEventHandler _x;
+		} forEach (_vehicle getVariable 'QS_client_vehicleEventHandlers');
+		_vehicle setVariable ['QS_client_vehicleEventHandlers',[],FALSE];
 	};
 };
 if (_type isEqualTo 1) then {
 	//comment 'Add Events';
-	if (isNil {_vehicle getVariable 'QS_client_vehicleEventHandlers'}) then {
+	if (!(_vehicle getVariable ['QS_client_vehicleEventsManaged',FALSE])) then {
+		_vehicle setVariable ['QS_client_vehicleEventsManaged',TRUE,FALSE];
+		_vehicle addEventHandler ['Local',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventLocal')}];
+	};
+	if ((_vehicle getVariable ['QS_client_vehicleEventHandlers',[]]) isEqualTo []) then {
 		private _vehicleEventHandlers = [];
 		{
 			_vehicleEventHandlers pushBack [(_x # 0),(_vehicle addEventHandler _x)];
 		} forEach [
-			['Local',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventLocal')}],
 			['Killed',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventKilled')}],
 			['Hit',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHit')}],
 			['HandleDamage',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventHandleDamage')}],
@@ -62,11 +63,5 @@ if (_type isEqualTo 1) then {
 			};
 		};
 		_vehicle setVariable ['QS_client_vehicleEventHandlers',_vehicleEventHandlers,FALSE];
-	};
-};
-if (_type isEqualTo 2) then {
-	if (isNil {_vehicle getVariable 'QS_client_vehicleManaged'}) then {
-		_vehicle setVariable ['QS_client_vehicleManaged',TRUE,FALSE];
-		_vehicle addEventHandler ['Local',{call (missionNamespace getVariable 'QS_fnc_clientVehicleEventLocal')}];
 	};
 };

@@ -62,7 +62,7 @@ _randomDir = (random 360);
 _hangar = createVehicle ['Land_TentHangar_V1_F',[_flatPos # 0,_flatPos # 1,0],[],0,'NONE'];
 _hangar setPosWorld [((getPosWorld _hangar) # 0), ((getPosWorld _hangar) # 1), (((getPosWorld _hangar) # 2) - 0.75)];
 _hangar setDir _randomDir;
-QS_sideObj = createVehicle [_chopperType,[0,0,10],[],0,'CAN_COLLIDE'];
+QS_sideObj = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _chopperType,_chopperType],[0,0,10],[],0,'CAN_COLLIDE'];
 QS_sideObj setDir _randomDir;
 QS_sideObj setPos [_flatPos # 0,_flatPos # 1,0];
 QS_sideObj lock 3;

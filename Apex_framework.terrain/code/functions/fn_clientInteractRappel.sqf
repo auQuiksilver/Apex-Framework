@@ -15,34 +15,30 @@ _____________________________________________________________*/
 
 _type = _this # 3;
 if (_type isEqualTo 1) then {
-	[player,(vehicle player)] call (missionNamespace getVariable 'AR_Rappel_From_Heli_Action');
+	[QS_player,(vehicle QS_player)] call (missionNamespace getVariable 'AR_Rappel_From_Heli_Action');
 } else {
 	if (_type isEqualTo 2) then {
 		0 spawn {
 			{
 				if (!isPlayer _x) then {
-					if ((vehicle _x) isEqualTo (vehicle player)) then {
+					if ((vehicle _x) isEqualTo (vehicle QS_player)) then {
 						sleep 1;
 						[_x,(vehicle _x)] call (missionNamespace getVariable 'AR_Rappel_From_Heli_Action');
 					};
 				};
-			} forEach (units (group player));
+			} forEach (units (group QS_player));
 		};
 	} else {
 		if (_type isEqualTo 3) then {
-			[player] call (missionNamespace getVariable 'AR_Rappel_Detach_Action');
+			[QS_player] call (missionNamespace getVariable 'AR_Rappel_Detach_Action');
 		} else {
 			if (_type isEqualTo 4) then {
-				_vehicle = vehicle player;
-				if (isNil {_vehicle getVariable 'QS_rappellSafety'}) then {
-					for '_x' from 0 to 1 step 1 do {
-						_vehicle setVariable ['QS_rappellSafety',TRUE,TRUE];
-					};
+				_vehicle = vehicle QS_player;
+				if (!(_vehicle getVariable ['QS_rappellSafety',FALSE])) then {
+					_vehicle setVariable ['QS_rappellSafety',TRUE,TRUE];
 					50 cutText [localize 'STR_QS_Text_041','PLAIN DOWN',1];
 				} else {
-					for '_x' from 0 to 1 step 1 do {
-						_vehicle setVariable ['QS_rappellSafety',nil,TRUE];
-					};
+					_vehicle setVariable ['QS_rappellSafety',FALSE,TRUE];
 					50 cutText [localize 'STR_QS_Text_042','PLAIN DOWN',1];
 				};
 			};

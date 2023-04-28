@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=334;
+		nextID=335;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={1854.0225,13.855939,5736.1709};
-		dir[]={0.87849003,-0.34635234,0.32924739};
-		up[]={0.32434469,0.93809342,0.12156008};
-		aside[]={0.35097057,-5.2887481e-007,-0.93644911};
+		pos[]={1848.8474,18.282272,5734.3291};
+		dir[]={0.88370776,-0.39491445,0.25142479};
+		up[]={0.37985969,0.9187066,0.10807405};
+		aside[]={0.27366859,-5.4482371e-007,-0.96188611};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_134";
+sourceName="Apex_framework_136";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -154,7 +154,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=116;
+		items=117;
 		class Item0
 		{
 			dataType="Object";
@@ -5968,6 +5968,19 @@ class Mission
 			id=333;
 			type="HeadlessClient_F";
 			atlOffset=0.90198898;
+		};
+		class Item116
+		{
+			dataType="Marker";
+			position[]={1772.853,5.5,5877.2432};
+			name="QS_marker_wreck_service_01";
+			text="   Wreck Recovery";
+			type="b_maint";
+			colorName="ColorWEST";
+			alpha=0.49576423;
+			a=0.5;
+			b=0.5;
+			id=334;
 		};
 	};
 };

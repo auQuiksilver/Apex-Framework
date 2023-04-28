@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	15/08/2018 A3 1.82 by Quiksilver
+	19/04/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -31,7 +31,7 @@ if (_child isEqualType objNull) then {
 };
 _parent = toLowerANSI _parent;
 _child = toLowerANSI _child;
-if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
+if (_parent isKindOf 'b_truck_01_mover_f') exitWith {
 	if (_child in ['b_slingload_01_repair_f','b_slingload_01_medevac_f','b_slingload_01_fuel_f','b_slingload_01_ammo_f','b_slingload_01_cargo_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-3.2,1],0];
@@ -239,11 +239,9 @@ if (_parent in ['b_truck_01_mover_f','b_t_truck_01_mover_f']) then {
 			_attachPoint = [0.0126953,-9.56494,-1.5];
 		};	
 	};
+	_attachPoint
 };
-if (_parent in [
-	'c_offroad_01_f','c_offroad_01_repair_f','o_g_offroad_01_f','b_g_offroad_01_f','i_g_offroad_01_f','o_g_offroad_01_repair_f','i_g_offroad_01_repair_f','b_g_offroad_01_repair_f',
-	'b_gen_offroad_01_gen_f','c_idap_offroad_01_f'
-]) then {
+if (_parent isKindOf 'Offroad_01_base_F') exitWith {
 	if (_child in ['b_supplycrate_f','o_supplycrate_f','i_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','c_idap_supplycrate_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0,-2.1,0.25],90];
@@ -288,10 +286,11 @@ if (_parent in [
 			_attachPoint = [-0.0263672,-8.23633,-1.67117];
 		};	
 	};
+	_attachPoint
 };
 if (_parent in [
 	'b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f'
-]) then {
+]) exitWith {
 	if (_child in [
 		'land_destroyer_01_boat_rack_01_f'
 	]) then {
@@ -299,19 +298,26 @@ if (_parent in [
 			_attachPoint = [[-0.00488281,-10.1553,-2.60176],0,0];
 		} else {
 			_attachPoint = [-0.00488281,-10.1553,-2.2];
-		};	
+		};
 	};
+	_attachPoint
 };
-if (_parent in [
-	'b_ugv_01_f',
-	'b_t_ugv_01_olive_f',
-	'o_ugv_01_f',
-	'o_t_ugv_01_ghex_f',
-	'i_ugv_01_f',
-	'c_idap_ugv_01_f',
-	'i_e_ugv_01_f',
-	'i_e_ugv_01_rcws_f'
-]) then {
+
+if (_parent isKindOf 'UGV_01_base_F') exitWith {
+	if (_child isKindOf 'Slingload_01_Base_F') then {
+		if (_detachAttach) then {
+			_attachPoint = [[0.43,0,0.65],0];
+		} else {
+			_attachPoint = [0.43,-5.5,0.65];
+		};
+	};
+	if (_child isKindOf 'Cargo10_base_F') then {
+		if (_detachAttach) then {
+			_attachPoint = [[0.43,-0.5,0.65],90];
+		} else {
+			_attachPoint = [0.43,-4,0.65];
+		};
+	};
 	if (_child in ['b_supplycrate_f','o_supplycrate_f','i_supplycrate_f','c_t_supplycrate_f','c_supplycrate_f','ig_supplycrate_f','c_idap_supplycrate_f']) then {
 		if (_detachAttach) then {
 			_attachPoint = [[0.43,-0.54,0.2],0];
@@ -385,11 +391,9 @@ if (_parent in [
 			_attachPoint = [0.43,-5.9,-2];
 		};	
 	};
+	_attachPoint
 };
-if (_parent in [
-	'b_g_van_01_transport_f','o_g_van_01_transport_f','i_g_van_01_transport_f','i_c_van_01_transport_f','i_c_van_01_transport_brown_f',
-	'i_c_van_01_transport_olive_f','c_van_01_transport_f','c_van_01_transport_red_f','c_van_01_transport_white_f'
-]) then {
+if (_parent isKindOf 'van_01_transport_base_F') exitWith {
 	if (_child in [
 		'b_hmg_01_high_f','b_gmg_01_high_f','o_hmg_01_high_f','o_gmg_01_high_f','i_hmg_01_high_f','i_gmg_01_high_f','i_e_gmg_01_high_f',
 		'b_g_hmg_02_high_f','o_g_hmg_02_high_f','i_hmg_02_high_f','i_g_hmg_02_high_f','i_e_hmg_02_high_f','i_c_hmg_02_high_f'
@@ -414,5 +418,6 @@ if (_parent in [
 			_attachPoint = [0.0551758,-6.72046,-1.93928];
 		};
 	};
+	_attachPoint
 };
 _attachPoint;

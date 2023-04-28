@@ -268,7 +268,7 @@ _backpacksAll = [
 	'b_mortar_01_weapon_grn_f','b_radiobag_01_f',
 	'b_assaultpack_eaf_f','b_assaultpack_wdl_f','b_carryall_eaf_f','b_carryall_green_f','b_carryall_taiga_f','b_carryall_wdl_f','b_fieldpack_green_f','b_fieldpack_taiga_f','b_combinationunitrespirator_01_f',
 	'b_radiobag_01_black_f','b_radiobag_01_digi_f','b_radiobag_01_eaf_f','b_radiobag_01_ghex_f','b_radiobag_01_hex_f','b_radiobag_01_mtp_f','b_radiobag_01_tropic_f','b_radiobag_01_oucamo_f','b_radiobag_01_wdl_f',
-	'b_scba_01_f'
+	'b_scba_01_f','b_carryall_blk'
 ];
 // Regular sized backpacks (all backpacks except for the big ones)
 _backpacksBasic = [
@@ -284,14 +284,14 @@ _backpacksBasic = [
 	'b_mortar_01_weapon_grn_f',
 	'b_assaultpack_eaf_f','b_assaultpack_wdl_f','b_fieldpack_green_f','b_fieldpack_taiga_f','b_combinationunitrespirator_01_f',
 	'b_scba_01_f','b_w_static_designator_01_weapon_f',
-	//'b_g_hmg_02_high_weapon_f','b_g_hmg_02_support_f','b_g_hmg_02_support_high_f','b_g_hmg_02_weapon_f'	// these are not arsenal compatible yet (Arma 2.00)
+	'b_g_hmg_02_high_weapon_f','b_g_hmg_02_support_f','b_g_hmg_02_support_high_f','b_g_hmg_02_weapon_f',
 	'i_c_hmg_02_support_f','i_c_hmg_02_weapon_f','i_c_hmg_02_high_weapon_f','i_c_hmg_02_support_high_f'
 ];
 // Large backpacks
 _backpacksLarge = [
 	'b_bergen_dgtl_f','b_bergen_hex_f','b_bergen_mcamo_f','b_bergen_tna_f',
 	'b_carryall_cbr','b_carryall_ghex_f','b_carryall_ocamo','b_carryall_khk','b_carryall_mcamo','b_carryall_oli','b_carryall_oucamo',
-	'b_carryall_eaf_f','b_carryall_green_f','b_carryall_taiga_f','b_carryall_wdl_f'
+	'b_carryall_eaf_f','b_carryall_green_f','b_carryall_taiga_f','b_carryall_wdl_f','b_carryall_blk'
 ];
 // NATO backpacks which can be assembled into static turrets (tripods + weapon)
 _backpacksStatic = [
@@ -301,7 +301,7 @@ _backpacksStatic = [
 	'b_static_designator_01_weapon_f','b_w_static_designator_01_weapon_f',
 	'b_aa_01_weapon_f','b_at_01_weapon_f',
 	'b_mortar_01_weapon_grn_f',
-	//'b_g_hmg_02_high_weapon_f','b_g_hmg_02_support_f','b_g_hmg_02_support_high_f','b_g_hmg_02_weapon_f'	// these are not arsenal compatible yet (Arma 2.00)
+	'b_g_hmg_02_high_weapon_f','b_g_hmg_02_support_f','b_g_hmg_02_support_high_f','b_g_hmg_02_weapon_f',
 	'i_c_hmg_02_support_f','i_c_hmg_02_weapon_f','i_c_hmg_02_high_weapon_f','i_c_hmg_02_support_high_f'
 ];
 // UAV backpacks

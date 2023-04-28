@@ -6,27 +6,18 @@ Author:
 	
 Last modified:
 
-	26/05/2015 ArmA 3 1.44 by Quiksilver
+	30/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
 	Is vehicle lockable
 __________________________________________________*/
 
-private ['_c'];
-
-_c = FALSE;
 _t = cursorTarget;
-
-if ((vehicle player) isKindOf 'Man') then {
-	if ((player distance _t) < 15) then {
-		if (!isNil {_t getVariable 'QS_vehicle_lockable'}) then {
-			if (_t getVariable 'QS_vehicle_lockable') then {
-				if ((count (crew _t)) isEqualTo 0) then {
-					_c = TRUE;
-				};
-			};
-		};
-	};
-};
-_c;
+(
+	(isNull (objectParent player)) &&
+	{((player distance _t) < 15)} &&
+	{(_t getVariable ['QS_vehicle_lockable',FALSE])} &&
+	{((crew _t) isEqualTo [])} &&
+	{((locked _t) isEqualTo 0)}
+)

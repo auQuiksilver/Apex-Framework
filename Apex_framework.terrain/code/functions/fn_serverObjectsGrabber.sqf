@@ -14,7 +14,7 @@ _QS_fnc_serverObjectsGrabber = {
 	{
 		_allDynamic = allMissionObjects 'All';
 		if (_x in _allDynamic) then {
-			_sim = getText (configFile >> 'CfgVehicles' >> (typeOf _x) >> 'simulation');
+			_sim = getText ((configOf _x) >> 'simulation');
 			if (_sim in ['soldier']) then {
 				_objs set [_forEachIndex, -1];
 			};

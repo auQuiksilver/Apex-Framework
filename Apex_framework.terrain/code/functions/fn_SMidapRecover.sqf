@@ -603,6 +603,7 @@ private _spawnPos = [0,0,0];
 private _truckTypes = [];
 private _truck = objNull;
 private _suppliesFound = FALSE;
+private _truckType = '';
 
 missionNamespace setVariable ['QS_sidemission_buildingDestroyed',FALSE,FALSE];
 
@@ -705,7 +706,8 @@ for '_x' from 0 to 1 step 0 do {
 					'i_c_van_01_transport_f',
 					'c_truck_02_transport_f'
 				];
-				_truck = createVehicle [(selectRandom _truckTypes),[-500,-500,50],[],25,'NONE'];
+				_truckType = selectRandom _truckTypes;
+				_truck = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _truckType,_truckType],[-500,-500,50],[],25,'NONE'];
 				_truck setDir (random 360);
 				_truck setVectorUp (surfaceNormal _truckPos);
 				_truck setVehiclePosition [(AGLToASL _truckPos),[],0,'NONE'];

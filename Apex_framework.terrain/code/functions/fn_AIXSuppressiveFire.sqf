@@ -35,7 +35,6 @@ if ((random 1) > 0.5) exitWith {
 			} else {
 				_shooter doSuppressiveFire _pos;
 			};
-			//(format ['DEBUG - Attempting suppressive fire - %1',groupID (group _shooter)]) remoteExec ['systemChat',-2];								// DEBUG
 		}
 	];
 	_unit setVariable ['QS_AI_UNIT_lastSuppressiveFire',(serverTime + (random [20,40,60])),FALSE];

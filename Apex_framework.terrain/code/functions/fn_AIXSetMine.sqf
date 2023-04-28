@@ -30,8 +30,8 @@ params [
 private _magazineDetail = '';
 if (_addMagazine) then {
 	if (['explosive charge',_mineType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-		if (((magazines _unit) findIf {((toLowerANSI _x) isEqualTo 'democharge_remote_mag')}) isEqualTo -1) then {
-			_unit addMagazine 'DemoCharge_Remote_Mag';
+		if ((((magazines _unit) apply {toLowerANSI _x}) findAny QS_core_classNames_demoCharges) isEqualTo -1) then {
+			_unit addMagazine QS_core_classNames_demoCharge;
 		};
 	};
 	if (['satchel',_mineType,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {

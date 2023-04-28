@@ -51,46 +51,12 @@ _v removeAllEventHandlers 'GetOut';
 private _spawnUnits = alive _v && ((((getPosATL _v) # 2) < 10) || (isTouchingGround _v));
 _side = EAST;
 if (_spawnUnits) then {
-	private _unitTypes = [
-		'o_soldier_f',1,
-		'o_soldier_ar_f',3,
-		'o_soldier_gl_f',2,
-		'o_soldier_lite_f',1,
-		'o_sharpshooter_f',2,
-		'o_soldier_m_f',2,
-		'o_soldier_lat_f',1,
-		'o_medic_f',1
-	];
-	if (_side isEqualTo EAST) then {
-		_unitTypes = [
-			[
-				'o_soldier_f',1,
-				'o_soldier_ar_f',3,
-				'o_soldier_gl_f',3,
-				'o_soldier_lite_f',1,
-				'o_sharpshooter_f',1,
-				'o_soldier_m_f',2,
-				'o_soldier_lat_f',3,
-				'o_medic_f',1
-			],
-			[
-				'o_t_soldier_ar_f',2,
-				'o_t_soldier_gl_f',2,
-				'o_t_soldier_m_f',1,
-				'o_t_soldier_f',2,
-				'o_t_soldier_lat_f',1,
-				'o_t_medic_f',1
-			]
-		] select (worldName in ['Tanoa','Enoch']);
-	};
+	private _unitTypes = ['o_heli_insert_1'] call QS_data_listUnits;
 	if (_side isEqualTo WEST) then {
-		_unitTypes = [
-			['b_soldier_f',1],
-			['b_t_soldier_f',1]
-		] select (worldName in ['Tanoa','Enoch']);
+		_unitTypes = ['b_heli_insert_1'] call QS_data_listUnits;
 	};
 	if (_side isEqualTo RESISTANCE) then {
-		_unitTypes = ['i_soldier_f',1];
+		_unitTypes = ['i_heli_insert_1'] call QS_data_listUnits;
 	};
 	private _unit = objNull;
 	private _units = [];
@@ -98,7 +64,7 @@ if (_spawnUnits) then {
 	_emptyPositions = _v emptyPositions 'Cargo';
 	for '_x' from 0 to ((round (_emptyPositions * (selectRandom [0.35,0.5,0.75]))) - 1) step 1 do {
 		_unitType = selectRandomWeighted _unitTypes;
-		_unit = _infantryGroup createUnit [_unitType,[-100,-100,0],[],0,'NONE'];
+		_unit = _infantryGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[-100,-100,0],[],0,'NONE'];
 		_unit setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 		_infantryGroup setBehaviour 'COMBAT';
 		_infantryGroup setCombatMode 'RED';
@@ -163,6 +129,7 @@ if (_spawnUnits) then {
 			};
 		} forEach _units;
 		_units doFollow (leader _group);
+		[(units _group),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	};
 };
 _helipad = _v getVariable ['QS_assignedHelipad',objNull];

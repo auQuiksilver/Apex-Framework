@@ -6,11 +6,17 @@ Author:
 	
 Last modified:
 
-	23/09/2022 A3 2.10 by Quiksilver
+	29/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 
-	Client vehicle service
+	Client vehicle service (Service Pads)
+	
+Note:
+
+	This function is obsolete and scheduled for removal in a future update.
+	
+	It is retained for backward compatibility and optional re-enabling.
 __________________________________________________/*/
 
 private _t = cursorTarget;
@@ -109,15 +115,33 @@ if ((_baseService) || (_isDepot)) then {
 	_onCompleted = {
 		params ['_v'];
 		50 cutText [localize 'STR_QS_Text_195','PLAIN DOWN',0.5];
-		_v setDamage [0,FALSE];
-		if (local _v) then {
-			_v setFuel 1;
-		} else {
-			['setFuel',_v,1] remoteExec ['QS_fnc_remoteExecCmd',_v,FALSE];
+		// Repair
+		if (
+			(!(_v getVariable ['QS_services_repair_disabled',FALSE])) &&
+			{(!(missionNamespace getVariable ['QS_services_repair_disabled',FALSE]))}
+		) then {
+			_v setDamage [0,FALSE];
 		};
-		_v setVehicleAmmo 1;
-		if ((count (crew _v)) > 1) then {
-			['setVehicleAmmo',_v,1] remoteExec ['QS_fnc_remoteExecCmd',(crew _v),FALSE];
+		// Refuel
+		if (
+			(!(_v getVariable ['QS_services_refuel_disabled',FALSE])) &&
+			{(!(missionNamespace getVariable ['QS_services_refuel_disabled',FALSE]))}
+		) then {
+			if (local _v) then {
+				_v setFuel 1;
+			} else {
+				['setFuel',_v,1] remoteExec ['QS_fnc_remoteExecCmd',_v,FALSE];
+			};
+		};
+		// Reammo
+		if (
+			(!(_v getVariable ['QS_services_reammo_disabled',FALSE])) &&
+			{(!(missionNamespace getVariable ['QS_services_reammo_disabled',FALSE]))}
+		) then {
+			_v setVehicleAmmo 1;
+			if ((count (crew _v)) > 1) then {
+				['setVehicleAmmo',_v,1] remoteExec ['QS_fnc_remoteExecCmd',(crew _v),FALSE];
+			};
 		};
 		missionNamespace setVariable ['QS_repairing_vehicle',FALSE,FALSE];
 		_v allowDamage TRUE;
@@ -128,13 +152,13 @@ if ((_baseService) || (_isDepot)) then {
 			[_v] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
 		};
 		if ((['medical',(typeOf _v),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) || {(['medevac',(typeOf _v),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}) then {
-			_v setVariable ['QS_medicalVehicle_reviveTickets',(getNumber (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'transportSoldier')),TRUE];
+			_v setVariable ['QS_medicalVehicle_reviveTickets',(getNumber ((configOf _v) >> 'transportSoldier')),TRUE];
 		};
 		if (_v isKindOf 'Air') then {
-			_cargoSeats = getNumber (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'transportSoldier');
+			_cargoSeats = getNumber ((configOf _v) >> 'transportSoldier');
 			if (_cargoSeats > 0) then {
 				_backpackCargo = backpackCargo _v;
-				_paraType = 'B_Parachute';
+				_paraType = QS_core_classNames_parachute;
 				private _backpackCount = 0;
 				{
 					if (_x isEqualTo _paraType) then {
@@ -155,38 +179,54 @@ if ((_baseService) || (_isDepot)) then {
 				if (alive _static) then {
 					if ((_static isKindOf 'StaticWeapon') || (unitIsUAV _static)) then {
 						if (local _static) then {
-							_static setVehicleAmmo 1;
-							if ((fuel _static) isNotEqualTo 1) then {
-								_static setFuel 1;
+							if (
+								(!(_static getVariable ['QS_services_reammo_disabled',FALSE])) &&
+								{(!(missionNamespace getVariable ['QS_services_reammo_disabled',FALSE]))}
+							) then {
+								_static setVehicleAmmo 1;
+							};
+							if (
+								(!(_static getVariable ['QS_services_refuel_disabled',FALSE])) &&
+								{(!(missionNamespace getVariable ['QS_services_refuel_disabled',FALSE]))}
+							) then {
+								if ((fuel _static) isNotEqualTo 1) then {
+									_static setFuel 1;
+								};
 							};
 						} else {
-							['setVehicleAmmo',_static,1] remoteExec ['QS_fnc_remoteExecCmd',_static,FALSE];
-							if ((fuel _static) isNotEqualTo 1) then {
-								['setFuel',_static,1] remoteExec ['QS_fnc_remoteExecCmd',_static,FALSE];
+							if (
+								(!(_static getVariable ['QS_services_reammo_disabled',FALSE])) &&
+								{(!(missionNamespace getVariable ['QS_services_reammo_disabled',FALSE]))}
+							) then {
+								['setVehicleAmmo',_static,1] remoteExec ['QS_fnc_remoteExecCmd',_static,FALSE];
+							};
+							if (
+								(!(_static getVariable ['QS_services_refuel_disabled',FALSE])) &&
+								{(!(missionNamespace getVariable ['QS_services_refuel_disabled',FALSE]))}
+							) then {
+								if ((fuel _static) isNotEqualTo 1) then {
+									['setFuel',_static,1] remoteExec ['QS_fnc_remoteExecCmd',_static,FALSE];
+								};
 							};
 						};
-						if ((damage _static) isNotEqualTo 0) then {
-							_static setDamage [0,FALSE];
+						if (
+							(!(_static getVariable ['QS_services_repair_disabled',FALSE])) &&
+							{(!(missionNamespace getVariable ['QS_services_repair_disabled',FALSE]))}
+						) then {
+							if ((damage _static) isNotEqualTo 0) then {
+								_static setDamage [0,FALSE];
+							};
 						};
 					};
 				};
 			} forEach (attachedObjects _v);
 		};
 		if (player getUnitTrait 'QS_trait_fighterPilot') then {
-			if ((toLowerANSI (typeOf _v)) in [
-				'b_plane_cas_01_dynamicloadout_f',
-				'b_plane_fighter_01_f',
-				'b_plane_fighter_01_stealth_f',
-				'o_plane_cas_02_dynamicloadout_f',
-				'o_plane_fighter_02_f',
-				'o_plane_fighter_02_stealth_f',
-				'i_plane_fighter_03_dynamicloadout_f',
-				'i_plane_fighter_04_f'
-			]) then {
+			if (_v isKindOf 'Plane') then {
 				if (diag_tickTime > (uiNamespace getVariable ['QS_fighterPilot_lastMsg',(diag_tickTime - 1)])) then {
 					uiNamespace setVariable ['QS_fighterPilot_lastMsg',(diag_tickTime + 300)];
-					[63,[4,['CAS_1',['','Close Air Support online!']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-					['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText (configFile >> 'CfgVehicles' >> (typeOf _v) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+					[63,[4,['CAS_1',['',localize 'STR_QS_Notif_153']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
+					['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText ((configOf _v) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				};
 			};
 		};
@@ -308,24 +348,39 @@ if (_fieldService) then {
 			50 cutText [localize 'STR_QS_Text_195','PLAIN DOWN',0.5];
 			player playActionNow 'stop';
 			if ((missionNamespace getVariable 'QS_module_fob_services_repair') || {(_isCarrier)}) then {
-				_t setDamage [0,FALSE];
+				if (
+					(!(_t getVariable ['QS_services_repair_disabled',FALSE])) &&
+					{(!(missionNamespace getVariable ['QS_services_repair_disabled',FALSE]))}
+				) then {
+					_t setDamage [0,FALSE];
+				};
 			};
 			if (_t isKindOf 'LandVehicle') then {
 				[_t] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
 			};
-			if (local _t) then {
-				_t setFuel ([_fuel,1] select ((missionNamespace getVariable 'QS_module_fob_services_fuel') || {(_isCarrier)}));
-			} else {
-				['setFuel',([_fuel,1] select ((missionNamespace getVariable 'QS_module_fob_services_fuel') || {(_isCarrier)})),1] remoteExec ['QS_fnc_remoteExecCmd',_t,FALSE];
+			if (
+				(!(_t getVariable ['QS_services_refuel_disabled',FALSE])) &&
+				{(!(missionNamespace getVariable ['QS_services_refuel_disabled',FALSE]))}
+			) then {
+				if (local _t) then {
+					_t setFuel ([_fuel,1] select ((missionNamespace getVariable 'QS_module_fob_services_fuel') || {(_isCarrier)}));
+				} else {
+					['setFuel',([_fuel,1] select ((missionNamespace getVariable 'QS_module_fob_services_fuel') || {(_isCarrier)})),1] remoteExec ['QS_fnc_remoteExecCmd',_t,FALSE];
+				};
 			};
 			if ((missionNamespace getVariable 'QS_module_fob_services_ammo') || {(_isCarrier)}) then {
-				if ((count (crew _t)) > 0) then {
-					['setVehicleAmmo',_t,1] remoteExec ['QS_fnc_remoteExecCmd',(crew _t),FALSE];
-				} else {
-					if (local _t) then {
-						_t setVehicleAmmo 1;
+				if (
+					(!(_t getVariable ['QS_services_reammo_disabled',FALSE])) &&
+					{(!(missionNamespace getVariable ['QS_services_reammo_disabled',FALSE]))}
+				) then {
+					if ((count (crew _t)) > 0) then {
+						['setVehicleAmmo',_t,1] remoteExec ['QS_fnc_remoteExecCmd',(crew _t),FALSE];
 					} else {
-						['setVehicleAmmo',_t,1] remoteExec ['QS_fnc_remoteExecCmd',_t,FALSE];
+						if (local _t) then {
+							_t setVehicleAmmo 1;
+						} else {
+							['setVehicleAmmo',_t,1] remoteExec ['QS_fnc_remoteExecCmd',_t,FALSE];
+						};
 					};
 				};
 			};
@@ -337,15 +392,35 @@ if (_fieldService) then {
 						if (alive _static) then {
 							if ((_static isKindOf 'StaticWeapon') || (unitIsUAV _static)) then {
 								if ((missionNamespace getVariable 'QS_module_fob_services_repair') || {(_isCarrier)}) then {
-									if ((damage _static) isNotEqualTo 0) then {
-										_static setDamage [0,FALSE];
+									if (
+										(!(_static getVariable ['QS_services_repair_disabled',FALSE])) &&
+										{(!(missionNamespace getVariable ['QS_services_repair_disabled',FALSE]))}
+									) then {
+										if ((damage _static) isNotEqualTo 0) then {
+											_static setDamage [0,FALSE];
+										};
 									};
 								};
 								if ((missionNamespace getVariable 'QS_module_fob_services_ammo') || {(_isCarrier)}) then {
-									if (local _static) then {
-										_static setVehicleAmmo 1;
-									} else {
-										0 = ['setVehicleAmmo',_static,1] remoteExec ['QS_fnc_remoteExecCmd',_static,FALSE];
+									if (
+										(!(_static getVariable ['QS_services_reammo_disabled',FALSE])) &&
+										{(!(missionNamespace getVariable ['QS_services_reammo_disabled',FALSE]))}
+									) then {
+										if (local _static) then {
+											_static setVehicleAmmo 1;
+										} else {
+											0 = ['setVehicleAmmo',_static,1] remoteExec ['QS_fnc_remoteExecCmd',_static,FALSE];
+										};
+									};
+								};
+								if ((missionNamespace getVariable 'QS_module_fob_services_fuel') || {(_isCarrier)}) then {
+									if (
+										(!(_static getVariable ['QS_services_refuel_disabled',FALSE])) &&
+										{(!(missionNamespace getVariable ['QS_services_refuel_disabled',FALSE]))}
+									) then {
+										if ((fuel _static) isNotEqualTo 1) then {
+											['setFuel',_static,1] remoteExec ['QS_fnc_remoteExecCmd',_static,FALSE];
+										};
 									};
 								};
 							};

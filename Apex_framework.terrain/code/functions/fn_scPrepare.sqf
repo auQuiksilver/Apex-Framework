@@ -129,9 +129,6 @@ comment 'Mortar markers';
 comment 'Create AO AA Sites';
 private _aaArray = [];
 private _aaTypes = ['O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','O_APC_Tracked_02_AA_F','B_APC_Tracked_01_AA_F','O_APC_Tracked_02_AA_F'];
-if (_worldName isEqualTo 'Tanoa') then {
-	_aaTypes = ['O_T_APC_Tracked_02_AA_ghex_F','O_T_APC_Tracked_02_AA_ghex_F'];
-};
 private _aaCount = 1;
 if (((count allPlayers) > 20) || {((random 1) > 0.75)}) then {
 	_aaCount = 1;
@@ -193,6 +190,9 @@ if ((missionNamespace getVariable ['QS_missionConfig_AmbAnim',1]) isNotEqualTo 0
 		] call (missionNamespace getVariable 'QS_fnc_aoAnimals');
 	};
 };
+
+'respawn_east' setMarkerPos (missionNamespace getVariable 'QS_AOpos');
+
 comment 'UXOs';
 if ((random 1) > 0.5) then {
 	missionNamespace setVariable [

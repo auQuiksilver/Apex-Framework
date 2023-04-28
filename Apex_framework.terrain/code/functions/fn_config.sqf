@@ -6,7 +6,7 @@ Author:
 	
 Last modified: 
 
-	28/08/2022 A3 2.10 by Quiksilver
+	9/12/2022 A3 2.10 by Quiksilver
 
 Description:
 
@@ -328,44 +328,22 @@ _medicalGarbageData = [
 for '_x' from 0 to 11 step 1 do {
 	_medicalGarbage pushBack (createSimpleObject [(selectRandomWeighted _medicalGarbageData),[-1000,-1000,0]]);
 };
-private _globalLightpoints = [];
-/*/
-for '_x' from 0 to 9 step 1 do {
-	_globalLightpoints pushBack (createVehicle ['#lightpoint',[-1000,-1000,0],[],0,'NONE']);
-};
-{
-	_x enableDynamicSimulation TRUE;
-	_x setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-} forEach _globalLightpoints;
-/*/
 _recyclerUnitTypes = [
-	[
-		'o_soldier_ar_f',
-		'o_medic_f',
-		'o_engineer_f',
-		'o_soldier_exp_f',
-		'o_soldier_gl_f',
-		'o_soldier_m_f',
-		'o_soldier_f',
-		'o_soldier_sl_f',
-		'o_soldier_tl_f'
-	],
-	[
-		'o_t_soldier_ar_f',
-		'o_t_medic_f',
-		'o_t_engineer_f',
-		'o_t_soldier_exp_f',
-		'o_t_soldier_gl_f',
-		'o_t_soldier_m_f',
-		'o_t_soldier_f',
-		'o_t_soldier_tl_f',
-		'o_t_soldier_sl_f'
-	]
-] select (worldName in ['Tanoa','Lingor3','Enoch']);
+	'o_soldier_ar_f',
+	'o_medic_f',
+	'o_engineer_f',
+	'o_soldier_exp_f',
+	'o_soldier_gl_f',
+	'o_soldier_m_f',
+	'o_soldier_f',
+	'o_soldier_sl_f',
+	'o_soldier_tl_f'
+];
 {
 	uiNamespace setVariable _x;
 } forEach [
-	['QS_roles_handler',[]]
+	['QS_roles_handler',[]],
+	['QS_virtualCargo_handler',[]]
 ];
 private _weaponsList = configFile >> 'CfgWeapons';
 {
@@ -377,6 +355,7 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['BIS_dynamicGroups_allowInterface',TRUE,TRUE],
 	['RscSpectator_allowedGroups',[],TRUE],
 	['RscSpectator_allowFreeCam',FALSE,TRUE],
+	['QS_hashmap_configfile',createHashMap,FALSE],
 	['QS_headlessClients',[],FALSE],
 	['QS_HC_Active',FALSE,FALSE],
 	['QS_terrain_worldArea',[[(worldSize / 2),(worldSize / 2),0],(worldSize / 2),(worldSize / 2),0,TRUE,-1],TRUE],
@@ -403,18 +382,6 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_analytics_entities_respawned',0,FALSE],
 	['QS_analytics_entities_killed',0,FALSE],
 	['QS_analytics_entities_recycled',0,FALSE],
-	/*/
-	['QS_aar_A_killed_bad',0,TRUE],
-	['QS_aar_A_killed_good',0,TRUE],
-	['QS_aar_A_killed_civ',0,TRUE],
-	['QS_aar_A_killed_bldg',0,TRUE],
-	['QS_aar_A_time_dur',0,TRUE],
-	['QS_aar_B_killed_bad',0,TRUE],
-	['QS_aar_B_killed_good',0,TRUE],
-	['QS_aar_B_killed_civ',0,TRUE],
-	['QS_aar_B_killed_bldg',0,TRUE],
-	['QS_aar_B_time_dur',0,TRUE],
-	/*/
 	['QS_armedAirEnabled',TRUE,TRUE],
 	['QS_var_debug',FALSE,FALSE],
 	['QS_serverKey','abc123',TRUE],
@@ -488,7 +455,6 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_heartAttacks',0,TRUE],
 	['QS_mainao_firstRun',TRUE,FALSE],
 	['QS_commanderAlive',FALSE,FALSE],
-	['QS_HVT_totalList',[],FALSE],
 	['QS_module_recAI_array',[],TRUE],
 	['QS_lamps',[],FALSE],
 	['QS_garbageCollector',[],FALSE],
@@ -523,7 +489,6 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_module_fob_displayName','',TRUE],
 	['QS_module_fob_vehicleRespawnEnabled',FALSE,TRUE],
 	['QS_module_fob_respawnEnabled',FALSE,TRUE],
-	['QS_module_fob_respawnTickets',0,TRUE],
 	['QS_module_fob_services_fuel',FALSE,TRUE],
 	['QS_module_fob_services_repair',FALSE,TRUE],
 	['QS_module_fob_services_ammo',FALSE,TRUE],
@@ -737,7 +702,6 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_carrier_casLaptop',objNull,TRUE],
 	['QS_prisoners',[],TRUE],
 	['QS_vehicle_register',[],FALSE],
-	['QS_flare_lightpoints',_globalLightpoints,TRUE],
 	['QS_AI_vehicles',[],FALSE],
 	['QS_genericAO_terrainData',[],FALSE],
 	['QS_ao_createDelayedMinefield',FALSE,FALSE],
@@ -777,12 +741,29 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_radiotower_useFence',TRUE,FALSE],
 	['QS_AI_smokeTargets',[],TRUE],
 	['QS_module_objectScale',[],TRUE],
+	['QS_system_updateObjectScale',FALSE,TRUE],
 	['QS_AI_forceTracers',FALSE,TRUE],
 	['QS_hashmap_tracers',createHashMapFromArray (call QS_data_tracers),FALSE],
 	['QS_hashmap_rockets',createHashMapFromArray (call QS_data_rockets),FALSE],
 	['QS_session_weaponsList',((missionProfileNamespace getVariable ['QS_profile_weaponsList',[]]) select {(isClass (_weaponsList >> _x))})],
 	['QS_session_magazineList',[]],
-	['QS_session_weaponMagazines',createHashMap]
+	['QS_session_weaponMagazines',createHashMap],
+	['QS_hashmap_simpleObjectInfo',createHashMap],
+	['QS_towing_maxTrain_1',-1,TRUE],
+	['QS_towing_maxTrain_2',-1,TRUE],
+	['QS_system_virtualCargo',[],TRUE],
+	['QS_system_builtObjects',[],FALSE],
+	['QS_system_maxBuiltObjects',[],FALSE],
+	['QS_system_safezones',[],TRUE],
+	['QS_hashmap_playerBuildables',createHashMap,FALSE],
+	['QS_list_playerBuildables',[],TRUE],
+	['QS_blacklist_logistics',[],TRUE],
+	['QS_system_zones',[],TRUE],
+	['QS_system_zonesLocal',[],TRUE],
+	['QS_logistics_deployedAssets',[],FALSE],
+	['QS_logistics_wrecktype','land_cargo10_orange_f',FALSE],
+	['QS_mobile_increment1',0,FALSE],
+	['QS_system_terrainMod',[],FALSE]
 ];
 _weaponsList = nil;
 // Load terrain-specific Roles if file is found
@@ -793,6 +774,9 @@ if (fileExists (format ['@Apex_cfg\%1\roles.sqf',worldName])) then {
 	call (compileScript ['@Apex_cfg\roles.sqf']);
 };
 ['INIT_SYSTEM'] call (missionNamespace getVariable 'QS_fnc_roles');
+['INIT'] call (missionNamespace getVariable 'QS_fnc_deployment');
+['INIT'] call (missionNamespace getVariable 'QS_fnc_zoneManager');
+['INIT'] call (missionNamespace getVariable 'QS_fnc_wreckSetMaterials');
 // Load terrain-specific Arsenal if file is found
 if (fileExists (format ['@Apex_cfg\%1\arsenal.sqf',worldName])) then {
 	diag_log '***** DEBUG ***** COMPILING TERRAIN SPECIFIC ARSENAL DATA';
@@ -804,9 +788,9 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	{
 		missionNamespace setVariable _x;
 	} forEach [
-		['QS_cas_laptop',objNull,TRUE],
-		['QS_v_Monitor',[],FALSE]
+		['QS_cas_laptop',objNull,TRUE]
 	];
+	serverNamespace setVariable ['QS_v_Monitor',[]];
 };
 _markerData = call (compileScript ['code\config\QS_data_markers.sqf']);
 _markers = [];
@@ -831,8 +815,8 @@ if (worldName isEqualTo 'Stratis') then {
 		(_x # 0) setMarkerDirLocal (_x # 9);
 		(_x # 0) setMarkerText (format ['%1%2',(toString [32,32,32]),(_x # 10)]);
 	};
-	0 = _markers pushBack (_x # 0);
-} count _markerData;
+	_markers pushBack (_x # 0);
+} forEach _markerData;
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 1) then {
 	private _markerText = '';
 	{
@@ -866,7 +850,31 @@ _markers = nil;
 ['Initialize',[FALSE,50,FALSE,'']] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
 call (missionNamespace getVariable 'AR_Advanced_Rappelling_Install');
 
+/*/===== Safe Zones/*/
+
+if (
+	((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isNotEqualTo 'ZEUS') ||
+	(!(missionNamespace getVariable ['QS_missionConfig_zeusRespawnFlag',FALSE]))
+) then {
+	[0] call QS_fnc_zonePreset;
+	['PRESET',0,TRUE] call QS_fnc_deployment;	// Main base
+	['PRESET',3] call QS_fnc_deployment;	// Pilot spawn
+	['PRESET',4] call QS_fnc_deployment;	// UAV pilot spawn
+	['PRESET',5] call QS_fnc_deployment;	// Jet pilot spawn
+};
+
 /*/===== Build base/*/
+
+// Wreck Recovery marker handling
+private _obj = objNull;
+{
+	if (['_wreck_',_x] call QS_fnc_inString) then {
+		['ADD',[_x,TRUE,'WRECK_RECOVER','RAD',1,[_x,25],{TRUE},{TRUE},{TRUE},{TRUE},[EAST,WEST,RESISTANCE,CIVILIAN]]] call QS_fnc_zoneManager;
+		_obj = createSimpleObject ['Land_JumpTarget_F',markerPos [_x,TRUE]];
+		_obj setPosASL ((getPosASL _obj) vectorAdd [0,0,(getTerrainHeightASL (getPosASL _obj)) + 0.1]);
+		_obj setDir (markerDir _x);
+	};
+} forEach allMapMarkers;
 
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	0 spawn {
@@ -1142,9 +1150,29 @@ if (_worldName isEqualTo 'Altis') then {
 	} forEach (nearestTerrainObjects [[5398.63,17897.7,0.00141144],[],100,FALSE,TRUE]);
 };
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+	private _newMarker = '';
+	{
+		deleteMarker _x;
+		_newMarker = createMarker [_x,[0,0,0]];
+		_newMarker setMarkerShapeLocal 'Icon';
+		_newMarker setMarkerTypeLocal 'mil_dot';
+		_newMarker setMarkerAlpha 0;
+	} forEach [
+		'QS_marker_respawn_uavoperator',
+		'QS_marker_respawn_jetpilot',
+		'QS_marker_respawn_helipilot'
+	];
 	missionNamespace setVariable ['QS_baseProtection_polygons',(call (compileScript ['code\config\QS_data_speedLimitAreas.sqf'])),TRUE];
 	missionNamespace setVariable ['QS_prisonPopulation',0,TRUE];
 	if (_worldName isEqualTo 'Altis') then {
+	
+		'QS_marker_respawn_uavoperator' setMarkerPos [14624.7,16721.2,30.8307];
+		'QS_marker_respawn_uavoperator' setMarkerDir 110;
+		'QS_marker_respawn_jetpilot' setMarkerPos [14461.8,16265.6,18.6627];
+		'QS_marker_respawn_jetpilot' setMarkerDir 314;
+		'QS_marker_respawn_helipilot' setMarkerPos [14752.6,16856.8,18.001];
+		'QS_marker_respawn_helipilot' setMarkerDir 130;
+	
 		missionNamespace setVariable ['QS_prisonPos',[14687.747,16808.996,0],TRUE];
 		{
 			((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
@@ -1178,6 +1206,16 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		};
 	};
 	if (_worldName isEqualTo 'Tanoa') then {
+	
+		diag_log 'Setting marker Pos';
+	
+		'QS_marker_respawn_uavoperator' setMarkerPos [6899.05,7423.78,15.7328];
+		'QS_marker_respawn_uavoperator' setMarkerDir 76;
+		'QS_marker_respawn_jetpilot' setMarkerPos [6830,7261,2.69];
+		'QS_marker_respawn_jetpilot' setMarkerDir 72;
+		'QS_marker_respawn_helipilot' setMarkerPos [7089.77,7300,2.66144];
+		'QS_marker_respawn_helipilot' setMarkerDir 0;
+	
 		missionNamespace setVariable ['QS_prisonPos',[6924.40,7370.55,0],TRUE];
 		{
 			_x hideObjectGlobal TRUE;
@@ -1185,6 +1223,14 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		} forEach (nearestTerrainObjects [[4009.65,11793.7,0.00143814],['TREE'],10,FALSE,TRUE]);
 	};
 	if (_worldName isEqualTo 'Malden') then {
+	
+		'QS_marker_respawn_uavoperator' setMarkerPos [8106.64,10104.3,42.5627];
+		'QS_marker_respawn_uavoperator' setMarkerDir 252.468;
+		'QS_marker_respawn_jetpilot' setMarkerPos [8055.05,10014.9,30.0609];
+		'QS_marker_respawn_jetpilot' setMarkerDir 100;
+		'QS_marker_respawn_helipilot' setMarkerPos [8057.48,10291,29.8258];
+		'QS_marker_respawn_helipilot' setMarkerDir 0;
+	
 		missionNamespace setVariable ['QS_prisonPos',[8106.4,10049.15,0],TRUE];
 		{
 			((_x # 0) nearestObject (_x # 1)) hideObjectGlobal (!isObjectHidden ((_x # 0) nearestObject (_x # 1)));
@@ -1199,9 +1245,25 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		];
 	};
 	if (_worldName isEqualTo 'Enoch') then {
+	
+		'QS_marker_respawn_uavoperator' setMarkerPos [4110.76,10286.7,77.2023];
+		'QS_marker_respawn_uavoperator' setMarkerDir 258.922;
+		'QS_marker_respawn_jetpilot' setMarkerPos [4306.76,10501.5,68.1707];
+		'QS_marker_respawn_jetpilot' setMarkerDir 68.4751;
+		'QS_marker_respawn_helipilot' setMarkerPos [3864.66,10137,67.7403];
+		'QS_marker_respawn_helipilot' setMarkerDir 0;
+	
 		missionNamespace setVariable ['QS_prisonPos',[4104.49,10211.3,0],TRUE];
 	};
 	if (_worldName isEqualTo 'Stratis') then {
+	
+		'QS_marker_respawn_uavoperator' setMarkerPos [1906.07,5713.91,18.4492];
+		'QS_marker_respawn_uavoperator' setMarkerDir 294.613;
+		'QS_marker_respawn_jetpilot' setMarkerPos [1910.55,5938.28,5.50144];
+		'QS_marker_respawn_jetpilot' setMarkerDir 341;
+		'QS_marker_respawn_helipilot' setMarkerPos [1947.32,5820.64,5.50144];
+		'QS_marker_respawn_helipilot' setMarkerDir 0;
+	
 		missionNamespace setVariable ['QS_prisonPos',[1913.8,5777.7,0.00142908],TRUE];
 		// Hide some key buildings in the base area
 		{
@@ -1382,61 +1444,71 @@ if ((allMissionObjects 'ModuleCurator_F') isNotEqualTo []) then {
 /*/===== DATE CONFIG /*/
 
 diag_log format ['***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 1 - SETTING DATE *****',time];
-if (isNil {missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
-	_QS_PARAMS_DATE = [-1,-1,-1,-1,-1];
-	if (((_QS_PARAMS_DATE) # 0) isNotEqualTo -1) then {_year = ((_QS_PARAMS_DATE) # 0);} else {_year = selectRandom [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040];};
-	if (((_QS_PARAMS_DATE) # 1) isNotEqualTo -1) then {_month = ((_QS_PARAMS_DATE) # 1);} else {_month = round (random 12);};
-	if (((_QS_PARAMS_DATE) # 2) isNotEqualTo -1) then {_day = ((_QS_PARAMS_DATE) # 2);} else {_days = [_year,_month] call (missionNamespace getVariable 'QS_fnc_monthDays');_day = ceil (random _days);};
-	if (((_QS_PARAMS_DATE) # 3) isNotEqualTo -1) then {_hour = ((_QS_PARAMS_DATE) # 3);} else {_hour = round (random 23);};
-	if (((_QS_PARAMS_DATE) # 4) isNotEqualTo -1) then {_minute = ((_QS_PARAMS_DATE) # 4);} else {_minute = round (random 60);};
-	setDate [_year,_month,_day,_hour,_minute];
+if ((missionNamespace getVariable ['QS_missionConfig_startDate',[]]) isNotEqualTo []) then {
+	setDate (missionNamespace getVariable ['QS_missionConfig_startDate',[]]);
 } else {
-	if (!isNil {missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
-		_QS_date = missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName]);
-		setDate _QS_date;
-		missionProfileNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),_QS_date]; 
-		saveMissionProfileNamespace;
+	if (isNil {missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
+		_QS_PARAMS_DATE = [-1,-1,-1,-1,-1];
+		if (((_QS_PARAMS_DATE) # 0) isNotEqualTo -1) then {_year = ((_QS_PARAMS_DATE) # 0);} else {_year = selectRandom [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040];};
+		if (((_QS_PARAMS_DATE) # 1) isNotEqualTo -1) then {_month = ((_QS_PARAMS_DATE) # 1);} else {_month = round (random 12);};
+		if (((_QS_PARAMS_DATE) # 2) isNotEqualTo -1) then {_day = ((_QS_PARAMS_DATE) # 2);} else {_days = [_year,_month] call (missionNamespace getVariable 'QS_fnc_monthDays');_day = ceil (random _days);};
+		if (((_QS_PARAMS_DATE) # 3) isNotEqualTo -1) then {_hour = ((_QS_PARAMS_DATE) # 3);} else {_hour = round (random 23);};
+		if (((_QS_PARAMS_DATE) # 4) isNotEqualTo -1) then {_minute = ((_QS_PARAMS_DATE) # 4);} else {_minute = round (random 60);};
+		setDate [_year,_month,_day,_hour,_minute];
+	} else {
+		if (!isNil {missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
+			_QS_date = missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName]);
+			setDate _QS_date;
+			missionProfileNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),_QS_date]; 
+			saveMissionProfileNamespace;
+		};
 	};
+	missionNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),date,TRUE];
 };
-missionNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),date,TRUE];
 
 /*/==== Weather Config/*/
 
-if (isNil {missionProfileNamespace getVariable (format ['QS_QRF_weatherCurrent_%1',worldName])}) then {
-	setWind [0,0,FALSE];
-	0 setOvercast 0;
-	0 setFog [0,0,0];
-	0 setRain 0;
-	0 setLightnings 0;
-	0 setWindDir 0;
-	0 setWindStr 0;
-	0 setWindForce 0;
-	0 setGusts 0;
-	0 setRainbow 0;
-	0 setWaves 0;
+if (missionNamespace getVariable ['QS_missionConfig_weatherDynamic',TRUE]) then {
+	if (isNil {missionProfileNamespace getVariable (format ['QS_QRF_weatherCurrent_%1',worldName])}) then {
+		setWind [0,0,FALSE];
+		0 setOvercast 0;
+		0 setFog [0,0,0];
+		0 setRain 0;
+		0 setLightnings 0;
+		0 setWindDir 0;
+		0 setWindStr 0;
+		0 setWindForce 0;
+		0 setGusts 0;
+		0 setRainbow 0;
+		0 setWaves 0;
+		setHumidity 0;
+	} else {
+		_QS_currentWeatherData = missionProfileNamespace getVariable [
+			(format ['QS_QRF_weatherCurrent_%1',worldName]),
+			[
+				[0,0,TRUE],
+				0,
+				0,
+				[0,0,0],
+				0,
+				0,
+				0,
+				0,
+				0
+			]
+		];
+		setWind [((_QS_currentWeatherData # 0) # 0),((_QS_currentWeatherData # 0) # 1),TRUE];
+		0 setOvercast (_QS_currentWeatherData # 3);
+		0 setRain (_QS_currentWeatherData # 4);
+		0 setFog (_QS_currentWeatherData # 5);
+		0 setGusts (_QS_currentWeatherData # 6);
+		0 setLightnings (_QS_currentWeatherData # 7);
+		0 setWaves (_QS_currentWeatherData # 8);
+		0 setRainbow (_QS_currentWeatherData # 9);
+		diag_log format ['***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 2.5 - SETTING WEATHER FROM PROFILE *****',time];
+	};
 } else {
-	_QS_currentWeatherData = missionProfileNamespace getVariable [
-		(format ['QS_QRF_weatherCurrent_%1',worldName]),
-		[
-			[0,0,TRUE],
-			0,
-			0,
-			[0,0,0],
-			0,
-			0,
-			0,
-			0
-		]
-	];
-	setWind [((_QS_currentWeatherData # 0) # 0),((_QS_currentWeatherData # 0) # 1),TRUE];
-	0 setOvercast (_QS_currentWeatherData # 3);
-	0 setRain (_QS_currentWeatherData # 4);
-	0 setFog (_QS_currentWeatherData # 5);
-	0 setGusts (_QS_currentWeatherData # 6);
-	0 setLightnings (_QS_currentWeatherData # 7);
-	0 setWaves (_QS_currentWeatherData # 8);
-	0 setRainbow (_QS_currentWeatherData # 9);
-	diag_log format ['***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 2.5 - SETTING WEATHER FROM PROFILE *****',time];
+	[(missionNamespace getVariable ['QS_missionConfig_weatherForced',0])] call (missionNamespace getVariable 'QS_fnc_weatherPreset');
 };
 forceWeatherChange;
 0 spawn (missionNamespace getVariable 'QS_fnc_core');

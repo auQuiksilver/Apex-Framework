@@ -72,36 +72,32 @@ if (_trait isEqualTo 'QS_trait_fighterPilot') then {
 		if (!(2 in (missionNamespace getVariable 'QS_client_radioChannels'))) then {
 			[1,2] call (missionNamespace getVariable 'QS_fnc_clientRadio');
 		};
-		if (!isNil {missionNamespace getVariable 'QS_cas_laptop'}) then {
-			_casLaptop = missionNamespace getVariable ['QS_cas_laptop',objNull];
-			if (_casLaptop isEqualType objNull) then {
-				if (!isNull _casLaptop) then {
-					player setVariable ['QS_cas_lastRequestTime',diag_tickTime,FALSE];
-					_QS_casLaptop_action = _casLaptop addAction [
-						localize 'STR_QS_Interact_091',
-						{
-							if (diag_tickTime > (player getVariable ['QS_cas_lastRequestTime',(diag_tickTime - 1)])) then {
-								[74,player] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-								player setVariable ['QS_cas_lastRequestTime',(diag_tickTime + 10),FALSE];
-								player playAction 'PutDown';
-								50 cutText [localize 'STR_QS_Text_224','PLAIN DOWN',0.25];
-							} else {
-								50 cutText [localize 'STR_QS_Text_225','PLAIN DOWN',0.25];
-							};
-						},
-						[],
-						90,
-						TRUE,
-						TRUE,
-						'',
-						'(isNull (objectParent player))',
-						5,
-						FALSE,
-						''
-					];
-					_casLaptop setUserActionText [_QS_casLaptop_action,localize 'STR_QS_Interact_091',(format ["<t size='3'>%1</t>",localize 'STR_QS_Interact_091'])];
-				};
-			};
+		_casLaptop = missionNamespace getVariable ['QS_cas_laptop',objNull];
+		if (!isNull _casLaptop) then {
+			player setVariable ['QS_cas_lastRequestTime',diag_tickTime,FALSE];
+			_QS_casLaptop_action = _casLaptop addAction [
+				localize 'STR_QS_Interact_091',
+				{
+					if (diag_tickTime > (player getVariable ['QS_cas_lastRequestTime',(diag_tickTime - 1)])) then {
+						[74,player] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+						player setVariable ['QS_cas_lastRequestTime',(diag_tickTime + 10),FALSE];
+						player playAction 'PutDown';
+						50 cutText [localize 'STR_QS_Text_224','PLAIN DOWN',0.25];
+					} else {
+						50 cutText [localize 'STR_QS_Text_225','PLAIN DOWN',0.25];
+					};
+				},
+				[],
+				90,
+				TRUE,
+				TRUE,
+				'',
+				'(isNull (objectParent player))',
+				5,
+				FALSE,
+				''
+			];
+			_casLaptop setUserActionText [_QS_casLaptop_action,localize 'STR_QS_Interact_091',(format ["<t size='3'>%1</t>",localize 'STR_QS_Interact_091'])];
 		};
 		_carrierLaptop = missionNamespace getVariable ['QS_carrier_casLaptop',objNull];
 		if (!isNull _carrierLaptop) then {

@@ -1,7 +1,64 @@
 Official Change Log
 
-1.3.5 (26/11/2022 A3 2.10)
+1.5.0 (28/04/2023 A3 2.12)
 
+[ADDED] Extended Context action menu (Windows key).
+[ADDED] Towing
+[ADDED] Pylon Loadout Editor
+[ADDED] Quick Build System (Sandbags, etc)
+[ADDED] Deployable bases, vehicles, logistics & weapons systems.
+[ADDED] Wreck Recovery.
+[ADDED] Weapon lasers (beta).
+[ADDED] Bobcat/Tractor/Quadbike configured with forklift capabilities.
+[ADDED] Emergency Parachute for flying/falling vehicles.
+[ADDED] Mortar Gunner role can assemble a "Lite" disposable Mortar with 1 backpack.
+[ADDED] Increased glide distance when parajumping.
+[ADDED] Aircraft can now roll backward when on ground or carrier deck (use "moveback" key, usually [S])
+[ADDED] Alternate UI mode for progress visualization system.
+[ADDED] Altitude controls for UAVs (page up/down) including landing mode.
+[ADDED] Stealth Mode for MH-9 Hummingbird (passive countermeasure mode).
+[ADDED] Vehicle Locking (driver seat and inventory).
+[ADDED] Extra weather parameters.
+[ADDED] Laser color customization menu.
+[ADDED] Face customization menu.
+[TWEAKED] Jets have extra gun ammo and extra flares.
+[TWEAKED] Overhauled safezone system.
+[TWEAKED] New vehicle service now rearms large magazines much faster.
+[TWEAKED] Players can eject from steerable parachutes with their Eject key binding.
+[TWEAKED] Base Artillery no longer locks/ejects the Gunner after shells depleted.
+[TWEAKED] Static Weapons can now be carried and Loaded into vehicles, similar to ammo crates.
+[TWEAKED] Static Titan Launchers (AT/AA) have increased ammo.
+[TWEAKED] Vehicles with camo-net on have a chance to passively defeat missile lock.
+[TWEAKED] Stealth aircraft have a chance to passively defeat missile lock.
+[TWEAKED] Vehicles with slat armor on have improved survivability.
+[TWEAKED] Car siren turns off when vehicle owner exits vehicle.
+[TWEAKED] Old Towing system (now only handles Mounting).
+[TWEAKED] Prowler LSV can now fire both AT and AA Titan missiles, and their default magazine capacity has been increased.
+[TWEAKED] UGV Stomper now gets "packed for transport" when being slingloaded or transported in cargo to mitigate game desync issues.
+[TWEAKED] Pilot can disable passengers opening/closing Ramp with [Tab] key (Same as fastrope toggle).
+[TWEAKED] Force AI to dismount/mount vehicle (Custom User Action 15).
+[TWEAKED] Vehicle collisions now more survivable (Car/Tank/Boat).
+[TWEAKED] Cargo load/unload interaction for increased flexibility.
+[TWEAKED] Earplugs system.
+[TWEAKED] How game detects nighttime (for scripted lighting).
+[TWEAKED] Player can adjust adaptive distance for convoy cruise control driving and AI convoy separation.
+[TWEAKED] UAV/UGV headlights and collision lights can now be turned on/off manually by operator.
+[TWEAKED] Player 3D cursor tags and icons.
+[TWEAKED] Destroyer hangar bay would launch/retract helicopters into predictable collisions.
+[TWEAKED] Hatches can only be opened/closed from inside the building.
+[TWEAKED] Zeus-spawned units can be recruited by players of the same faction.
+[TWEAKED] Zeus can turn on/off vehicle lights & sirens, and selectable street lamps ( Headlights keybind when object selected ).
+[TWEAKED] General script optimisations.
+[FIXED] Some issues with FOB resupply detection.
+[FIXED] Flares ignited from sub-munitions were not despawning.
+[FIXED] VTOL throttle bug. (workaround, not fix as its an arma issue).
+[FIXED] Sit-down interaction would fail if player was not looking at correct part of chair object (arma bug).
+[FIXED] Duplication bug in Magazine Repack affecting underbarrel magazines.
+[FIXED] Respawn Vehicle action was available on ammo crates and other non-respawnable vehicles.
+[FIXED] Player could not use action menu if Zeus attached a task to them.
+[FIXED] Players could service their own vehicle from occupied enemy support vehicles.
+
+1.3.5 (26/11/2022 A3 2.10)
 
 [ADDED] Inventory Edit/Save/Load (for crates and vehicles).
 [TWEAKED] Zeus remote-controlled units can now Jump and Holster Weapon.

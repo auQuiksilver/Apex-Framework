@@ -790,6 +790,24 @@ if (_case isEqualType '') then {
 			/*/title string/*/ 				localize 'STR_QS_Notif_150'
 		];
 	};
+	if (_case isEqualTo 'FIRESUPPORT_1') then {
+		_return = [
+			/*/color array/*/ 				[(profileNamespace getVariable ['IGUI_TEXT_RGB_R',0]),(profileNamespace getVariable ['IGUI_TEXT_RGB_G',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_B',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_A',0.8])],
+			/*/colorIconPicture array/*/	[(profileNamespace getVariable ['IGUI_TEXT_RGB_R',0]),(profileNamespace getVariable ['IGUI_TEXT_RGB_G',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_B',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_A',0.8])],
+			/*/colorIconText array/*/ 		[(profileNamespace getVariable ['IGUI_TEXT_RGB_R',0]),(profileNamespace getVariable ['IGUI_TEXT_RGB_G',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_B',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_A',0.8])],
+			/*/description string/*/ 		'%2',
+			/*/difficulties array/*/ 		[],
+			/*/duration number/*/ 			5,
+			/*/iconPicture string/*/ 		'\A3\Ui_f\data\GUI\Cfg\UnitInsignia\111thID_ca.paa',
+			/*/iconText string/*/ 			'',
+			/*/iconSize number/*/			1,
+			/*/priority number/*/ 			10,
+			/*/sound string/*/ 				'QS_audio_notification_2',
+			/*/soundClose string/*/ 		'QS_audio_notification_2Close',
+			/*/soundRadio string/*/ 		'',
+			/*/title string/*/ 				localize 'STR_QS_Notif_152'
+		];
+	};
 	if (_case isEqualTo 'FOB_INIT') then {
 		_return = [
 			/*/color array/*/ 				[(profileNamespace getVariable ['IGUI_TEXT_RGB_R',0]),(profileNamespace getVariable ['IGUI_TEXT_RGB_G',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_B',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_A',0.8])],

@@ -13,10 +13,9 @@ Description:
 	Curator KeyDown Event
 __________________________________________________*/
 
-_key = _this # 1;
-_shift = _this # 2;
+params ['','_key','_shift','_ctrl','_alt'];
 private _c = FALSE;
-player setVariable ['QS_client_afkTimeout',time,FALSE];
+uiNamespace setVariable ['QS_client_afkTimeout',diag_tickTime];
 if ((lifeState player) in ['HEALTHY','INJURED']) then {
 	if (_shift) then {
 		// F3

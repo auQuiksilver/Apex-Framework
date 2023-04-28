@@ -19,31 +19,21 @@ params [
 	['_pylon',0]
 ];
 if (_type isEqualTo 0) exitWith {
-	_airToGroundMissiles = [
-		'pylonmissile_1rnd_lg_scalpel',
-		'pylonmissile_missile_agm_02_x1',
-		'pylonmissile_missile_agm_02_x2',
-		'pylonmissile_missile_agm_kh25_int_x1',
-		'pylonmissile_missile_agm_kh25_x1',
-		'pylonrack_12rnd_pg_missiles',
-		'pylonrack_1rnd_lg_scalpel',
-		'pylonrack_1rnd_missile_agm_01_f',
-		'pylonrack_1rnd_missile_agm_02_f',
-		'pylonrack_3rnd_lg_scalpel',
-		'pylonrack_3rnd_missile_agm_02_f',
-		'pylonrack_4rnd_lg_scalpel',
-		'pylonrack_missile_agm_02_x1',
-		'pylonrack_missile_agm_02_x2',
-		'pylonmissile_1rnd_mk82_f'
-	];
+	_airToGroundMissiles = ['air_to_ground_missiles_1'] call QS_data_listItems;
 	private _compatiblePylonMagazines = _vehicle getCompatiblePylonMagazines _pylon;
 	private _pylonMagazines = [];
 	private _isHeli = _vehicle isKindOf 'Helicopter';
+	private _ammoText = '';
 	{
 		_pylonMagazines = _x;
 		_pylonMagazines = _pylonMagazines select {((!((toLowerANSI _x) in _airToGroundMissiles)) && (!(['cluster',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))))};
 		if (_isHeli) then {
-			_pylonMagazines = _pylonMagazines select {(!(['aa',(getText (configFile >> 'CfgMagazines' >> _x >> 'ammo')),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))};
+			_ammoText = QS_hashmap_configfile getOrDefaultCall [
+				format ['cfgmagazines_%1_ammo',toLowerANSI _x],
+				{getText (configFile >> 'CfgMagazines' >> _x >> 'ammo')},
+				TRUE
+			];
+			_pylonMagazines = _pylonMagazines select {(!(['aa',_ammoText,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))};
 		};
 		_compatiblePylonMagazines set [_forEachIndex,_pylonMagazines];
 	} forEach _compatiblePylonMagazines;

@@ -15,7 +15,7 @@ ______________________________________________/*/
 
 scriptName 'QS - SM - AA';
 private _spawnPosition = [0,0,0];
-private _aaTypes = ['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f','o_t_apc_tracked_02_aa_ghex_f'];
+private _aaTypes = ['o_apc_tracked_02_aa_f'];
 private _aaHulls = [];
 private _aaTurrets = [];
 private _aaTurretObjects = [];
@@ -94,8 +94,8 @@ private _compositionData = [
 		["Land_HBarrierWall_corner_F",[11.0156,14.7471,0],0,[],FALSE,FALSE,TRUE,{}]
 	],
 	[
-		["O_T_APC_Tracked_02_AA_ghex_F",[-0.0292969,-6.354,0.0168018],178.855,[],TRUE,TRUE,FALSE,{(_this # 0)}],
-		["O_T_APC_Tracked_02_AA_ghex_F",[-0.321777,8.54443,0.0163908],359.998,[],TRUE,TRUE,FALSE,{(_this # 0)}],
+		["O_APC_Tracked_02_AA_F",[-0.0292969,-6.354,0.0168018],178.855,[],TRUE,TRUE,FALSE,{(_this # 0)}],
+		["O_APC_Tracked_02_AA_F",[-0.321777,8.54443,0.0163908],359.998,[],TRUE,TRUE,FALSE,{(_this # 0)}],
 		["Land_HBarrier_01_big_4_green_F",[-0.081543,1.03174,0],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[-0.195801,1.05566,1.74458],0,[],FALSE,FALSE,TRUE,{}], 
 		["Land_HBarrier_01_line_5_green_F",[5.23779,0.97168,1.69463],90,[],FALSE,FALSE,TRUE,{}], 
@@ -145,7 +145,7 @@ _compositionData = nil;
 		if ((toLowerANSI (typeOf _aaHull)) in ['o_sam_system_04_f','o_radar_system_02_f']) then {
 			{
 				_aaHull setObjectTextureGlobal [_forEachIndex,_x];
-			} forEach (getArray (configFile >> 'CfgVehicles' >> (typeOf _aaHull) >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
+			} forEach (getArray ((configOf _aaHull) >> 'TextureSources' >> (['AridHex','JungleHex'] select (worldName in ['Tanoa','Lingor3'])) >> 'textures'));
 		};
 		_aaHull setVehicleRadar 1;
 		_aaHull setVehicleReceiveRemoteTargets TRUE;

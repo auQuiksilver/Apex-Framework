@@ -20,7 +20,9 @@ if (!isNull _newEntity) then {
 	if (isPlayer _newEntity) then {
 		missionNamespace setVariable ['QS_playerRespawnCountServer',((missionNamespace getVariable 'QS_playerRespawnCountServer') + 1),FALSE];
 		if (_newEntity getUnitTrait 'QS_trait_fighterPilot') then {
-			missionNamespace setVariable ['QS_fighterPilot',_newEntity,TRUE];
+			if (_oldEntity isEqualTo QS_fighterPilot) then {
+				missionNamespace setVariable ['QS_fighterPilot',_newEntity,TRUE];
+			};
 		};
 		if (allCurators isNotEqualTo []) then {
 			{

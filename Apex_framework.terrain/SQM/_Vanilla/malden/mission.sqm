@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=306;
+		nextID=307;
 	};
 	class Camera
 	{
@@ -19,7 +19,7 @@ class EditorData
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_130";
+sourceName="Apex_framework_136";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -141,7 +141,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=116;
+		items=117;
 		class Item0
 		{
 			dataType="Object";
@@ -829,7 +829,7 @@ class Mission
 			text="Destroyer ship position";
 			type="Empty";
 			alpha=0.5;
-			angle=151.12645;
+			angle=151.12643;
 			id=138;
 			atlOffset=26.347755;
 		};
@@ -5830,6 +5830,19 @@ class Mission
 			isPlayable=1;
 			id=305;
 			type="HeadlessClient_F";
+		};
+		class Item116
+		{
+			dataType="Marker";
+			position[]={8034.791,29.572554,10224.516};
+			name="QS_marker_wreck_service_01";
+			text="   Wreck Recovery";
+			type="b_maint";
+			colorName="ColorWEST";
+			alpha=0.49576423;
+			a=0.5;
+			b=0.5;
+			id=306;
 		};
 	};
 };

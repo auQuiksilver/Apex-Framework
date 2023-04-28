@@ -11,10 +11,14 @@ Last Modified:
 Description:
 
 	Loadout Save/Load
+	
+To Do:
+
+	- Test change to save count
 _____________________________________*/
 
-params ['_fuckyouarma'];
-if (_fuckyouarma isEqualTo 'init') exitWith {
+params ['_mode3'];
+if (_mode3 isEqualTo 'init') exitWith {
 	params ['',['_cursorObject',objNull]];
 	if (alive _cursorObject) then {
 		missionNamespace setVariable ['QS_client_loadoutTarget',_cursorObject,FALSE];
@@ -26,7 +30,7 @@ private _saveLimit = 10;
 if ((getPlayerUID player) in (['S3'] call (missionNamespace getVariable ['QS_fnc_whitelist',{[]}]))) then {
 	_saveLimit = 20;
 };
-if (_fuckyouarma isEqualTo 'onLoad') exitWith {
+if (_mode3 isEqualTo 'onLoad') exitWith {
 	disableSerialization;
 	private _saveLimit = 10;
 	if ((getPlayerUID player) in (['S3'] call (missionNamespace getVariable ['QS_fnc_whitelist',{[]}]))) then {
@@ -46,7 +50,11 @@ if (_fuckyouarma isEqualTo 'onLoad') exitWith {
 	private _object = missionNamespace getVariable ['QS_client_loadoutTarget',objNull];
 	_maxLoad = maxLoad _object;
 	_objectPosition = getPosWorld _object;
-	_objectDisplayName = getText (configFile >> 'CfgVehicles' >> (typeOf _object) >> 'displayName');
+	_objectDisplayName = QS_hashmap_configfile getOrDefaultCall [
+		format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _object)],
+		{getText ((configOf _object) >> 'displayName')},
+		TRUE
+	];
 	_cancel = {
 		params ['_object','_objectPosition'];
 		(
@@ -121,7 +129,10 @@ if (_fuckyouarma isEqualTo 'onLoad') exitWith {
 		if ((progressPosition ((_display # 0) displayCtrl 1816)) isNotEqualTo ((load _object) min 1)) then {
 			((_display # 0) displayCtrl 1816) progressSetPosition ((load _object) min 1);
 		};
-		if (_selectedIndex > -1) then {
+		if (
+			(_selectedIndex > -1) && 
+			{(_selectedIndex < _saveCount)}
+		) then {
 			_selectedName = (_data # _selectedIndex) # 1;
 			if (!(ctrlEnabled ((_display # 0) displayCtrl 1810))) then {
 				((_display # 0) displayCtrl 1810) ctrlEnable TRUE;
@@ -179,14 +190,14 @@ if (_fuckyouarma isEqualTo 'onLoad') exitWith {
 	uiNamespace setVariable ['QS_client_menuLoadout_selectedIndex',-1];
 	uiNamespace setVariable ['QS_client_menuLoadout_display',displayNull];
 };
-if (_fuckyouarma isEqualTo 'onUnload') exitWith {
+if (_mode3 isEqualTo 'onUnload') exitWith {
 
 };
 if ((uiNamespace getVariable ['QS_client_menuLoadout_cooldown',-1]) > diag_tickTime) exitWith {
 	50 cutText [localize 'STR_QS_Text_288','PLAIN DOWN',0.333];
 };
 uiNamespace setVariable ['QS_client_menuLoadout_cooldown',diag_tickTime + _buttonCooldown];
-if (_fuckyouarma isEqualTo 'Save') exitWith {
+if (_mode3 isEqualTo 'Save') exitWith {
 	params ['','_ctrl'];
 	_display = uiNamespace getVariable ['QS_client_menuLoadout_display',[displayNull]];
 	private _savedText = ctrlText ((_display # 0) displayCtrl 1813);
@@ -223,6 +234,10 @@ if (_fuckyouarma isEqualTo 'Save') exitWith {
 			};
 			if (_success) then {
 				50 cutText [(format [localize 'STR_QS_Text_290',_savedText]),'PLAIN DOWN',0.333];
+				if ((['LandVehicle','Air','Ship','StaticWeapon'] findIf { _object isKindOf _x }) isEqualTo -1) then {
+					_object setVariable ['QS_ST_customDN',_savedText,TRUE];
+					_object setVariable ['QS_ST_showDisplayName',TRUE,TRUE];
+				};
 				_data sort FALSE;
 				missionProfileNamespace setVariable ['QS_client_inventories',_data];
 				saveMissionProfileNamespace;
@@ -235,7 +250,7 @@ if (_fuckyouarma isEqualTo 'Save') exitWith {
 		50 cutText [localize 'STR_QS_Text_292','PLAIN DOWN',0.333];
 	};
 };
-if (_fuckyouarma isEqualTo 'Load') exitWith {
+if (_mode3 isEqualTo 'Load') exitWith {
 	params ['','_ctrl'];
 	_display = uiNamespace getVariable ['QS_client_menuLoadout_display',[displayNull]];
 	private _data = missionProfileNamespace getVariable ['QS_client_inventories',[]];
@@ -244,6 +259,10 @@ if (_fuckyouarma isEqualTo 'Load') exitWith {
 		_savedData = _data # _selectedIndex;
 		_savedData params ['_load','_name','_maxLoad','_cargo'];
 		_object = missionNamespace getVariable ['QS_client_loadoutTarget',objNull];
+		if ((['LandVehicle','Air','Ship','StaticWeapon'] findIf { _object isKindOf _x }) isEqualTo -1) then {
+			_object setVariable ['QS_ST_customDN',_name,TRUE];
+			_object setVariable ['QS_ST_showDisplayName',TRUE,TRUE];
+		};
 		_maxLoad = maxLoad _object;
 		if (_load <= _maxLoad) then {
 			clearWeaponCargoGlobal _object;
@@ -310,7 +329,7 @@ if (_fuckyouarma isEqualTo 'Load') exitWith {
 		};
 	};
 };
-if (_fuckyouarma isEqualTo 'Delete') exitWith {
+if (_mode3 isEqualTo 'Delete') exitWith {
 	params ['','_ctrl'];
 	_display = uiNamespace getVariable ['QS_client_menuLoadout_display',[displayNull]];
 	private _data = missionProfileNamespace getVariable ['QS_client_inventories',[]];
@@ -326,7 +345,7 @@ if (_fuckyouarma isEqualTo 'Delete') exitWith {
 		uiNamespace setVariable ['QS_client_menuLoadout_deleted',TRUE];
 	};
 };
-if (_fuckyouarma isEqualTo 'Edit') exitWith {
+if (_mode3 isEqualTo 'Edit') exitWith {
 	0 spawn {
 		waitUntil {
 			closeDialog 2;
@@ -335,7 +354,7 @@ if (_fuckyouarma isEqualTo 'Edit') exitWith {
 		call (missionNamespace getVariable 'QS_fnc_clientInteractCustomizeInventory');
 	};
 };
-if (_fuckyouarma isEqualTo 'Confirm') exitWith {
+if (_mode3 isEqualTo 'Confirm') exitWith {
 	_entity = missionNamespace getVariable ['QS_client_loadoutTarget',objNull];
 	if (alive _entity) then {
 		_classes = (uiNamespace getVariable ['RscAttributeInventory_cargo',[[],[]]]) # 0;
@@ -360,9 +379,13 @@ if (_fuckyouarma isEqualTo 'Confirm') exitWith {
 				if (_x > 0) then {
 					_class = _classes # _foreachindex;
 					_value = abs _x;
-					switch true do {
+					switch TRUE do {
 						case (getnumber (configfile >> 'cfgweapons' >> _class >> 'type') in [4096,131072]): {
-							_mass = getNumber (configFile >> 'CfgWeapons' >> _class >> 'ItemInfo' >> 'mass');
+							_mass = QS_hashmap_configfile getOrDefaultCall [
+								format ['cfgweapons_%1_iteminfo_mass',toLowerANSI _class],
+								{getNumber (configFile >> 'CfgWeapons' >> _class >> 'ItemInfo' >> 'mass')},
+								TRUE
+							];
 							if ((_speculativeLoad + _mass) <= _maxLoad) then {
 								for '_z' from 1 to _value step 1 do {
 									_a = _a + 1;
@@ -376,7 +399,11 @@ if (_fuckyouarma isEqualTo 'Confirm') exitWith {
 							};
 						};
 						case (isclass (configfile >> 'cfgmagazines' >> _class)): {
-							_mass = getNumber (configFile >> 'CfgMagazines' >> _class >> 'mass');
+							_mass = QS_hashmap_configfile getOrDefaultCall [
+								format ['cfgmagazines_%1_mass',toLowerANSI _class],
+								{getNumber (configFile >> 'CfgMagazines' >> _class >> 'mass')},
+								TRUE
+							];
 							if ((_speculativeLoad + _mass) <= _maxLoad) then {
 								for '_z' from 1 to _value step 1 do {
 									_a = _a + 1;
@@ -390,7 +417,11 @@ if (_fuckyouarma isEqualTo 'Confirm') exitWith {
 							};
 						};
 						case (isclass (configfile >> 'cfgweapons' >> _class)): {
-							_mass = getNumber (configFile >> 'cfgweapons' >> _class >> 'WeaponSlotsInfo' >> 'mass');
+							_mass = QS_hashmap_configfile getOrDefaultCall [
+								format ['cfgweapons_%1_weaponslotsinfo_mass',toLowerANSI _class],
+								{getNumber (configFile >> 'cfgweapons' >> _class >> 'WeaponSlotsInfo' >> 'mass')},
+								TRUE
+							];
 							if ((_speculativeLoad + _mass) <= _maxLoad) then {
 								for '_z' from 1 to _value step 1 do {
 									_a = _a + 1;
@@ -404,7 +435,11 @@ if (_fuckyouarma isEqualTo 'Confirm') exitWith {
 							};
 						};
 						case (isclass (configfile >> 'cfgvehicles' >> _class)): {
-							_mass = getNumber (configFile >> 'CfgVehicles' >> _class >> 'mass');
+							_mass = QS_hashmap_configfile getOrDefaultCall [
+								format ['cfgvehicles_%1_mass',toLowerANSI _class],
+								{getNumber (configFile >> 'CfgVehicles' >> _class >> 'mass')},
+								TRUE
+							];
 							if ((_speculativeLoad + _mass) <= _maxLoad) then {
 								for '_z' from 1 to _value step 1 do {
 									_a = _a + 1;

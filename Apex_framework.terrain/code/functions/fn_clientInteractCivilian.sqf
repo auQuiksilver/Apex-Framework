@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	13/06/2018 ArmA 3 1.82
+	30/12/2022 A3 2.10
 	
 Description:
 
@@ -14,19 +14,12 @@ Description:
 ________________________________________________/*/
 
 _t = cursorTarget;
-private _c = FALSE;
-if (isNull (objectParent _t)) then {
-	if ((side _t) isEqualTo CIVILIAN) then {
-		if (alive _t) then {
-			if (!isNil {_t getVariable 'QS_civilian_interactable'}) then {
-				if (_t getVariable 'QS_civilian_interactable') then {
-					_c = TRUE;
-				};
-			};
-		};
-	};
-};
-if (!(_c)) exitWith {false;};
+if (
+	(!alive _t) ||
+	{(!isNull (objectParent _t))} ||
+	{((side _t) isNotEqualTo CIVILIAN)} ||
+	{(!(_t getVariable ['QS_civilian_interactable',FALSE]))}
+) exitWith {};
 private _text = '';
 _QS_interacted = _t getVariable 'QS_civilian_interacted';
 if (_QS_interacted) exitWith {

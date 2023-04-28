@@ -6,24 +6,27 @@ Author:
 	
 Last Modified:
 
-	13/06/2018 A3 1.82
+	23/03/2023 A3 2.12
 	
 Description:
 
 	Push Vehicle
-_____________________________________________________________*/
+_____________________________________________*/
 
 _t = cursorTarget;
 private _canPush = TRUE;
-if (!alive player) exitWith {};
-if (!isNull (objectParent player)) exitWith {};
-if (!alive _t) exitWith {};
+if (
+	(!alive QS_player) ||
+	{(!isNull (objectParent QS_player))} ||
+	{(!alive _t)} ||
+	{((crew _t) isNotEqualTo [])}
+) exitWith {};
 if ((crew _t) isNotEqualTo []) exitWith {
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_049',[],-1];
 };
 if ((getMass _t) > 5000) then {
 	if (!(surfaceIsWater (getPosWorld _t))) then {
-		_nearbyUnits = (getPosATL _t) nearEntities ['Man',10];
+		_nearbyUnits = (getPosATL _t) nearEntities ['CAManBase',10];
 		if ((count _nearbyUnits) < 2) then {
 			_canPush = FALSE;
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,localize 'STR_QS_Hints_050',[],-1,TRUE,'Too weak',TRUE];
@@ -32,15 +35,16 @@ if ((getMass _t) > 5000) then {
 };
 if (!(_canPush)) exitWith {};
 _vel = velocity _t;
-_dir = (getPosWorld player) getDir (player modelToWorld [0,1,0]);
+_dir = (getPosWorld QS_player) getDir (QS_player modelToWorld [0,1,0]);
 _pushVector = [((_vel # 0) + ((sin _dir) * 4)),((_vel # 1) + ((cos _dir) * 4)),((_vel # 2) + 1.25)];
-if ((!underwater player) && (((eyePos player) # 2) > 0)) then {
-	player playAction 'PutDown';
+
+if (!((toLowerANSI (pose QS_player)) in ['swimming','surfaceswimming'])) then {
+	QS_player playAction 'PutDown';
 };
-player allowDamage FALSE;
+QS_player allowDamage FALSE;
 0 spawn {
 	uiSleep 3;
-	player allowDamage TRUE;
+	QS_player allowDamage TRUE;
 };
 if (local _t) then {
 	_t setVelocity _pushVector;

@@ -195,9 +195,7 @@ if (_type isEqualTo 'AI_TRIGGER') exitWith {
 if (_type isEqualTo 'INIT') exitWith {
 	//comment 'Get persistent data';
 	// Note: This part takes way too long and needs to be optimized at some point.
-	
 	diag_log format ['Grid initializing START - %1',diag_tickTime];
-	
 	private _grid_data_persistent = missionProfileNamespace getVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
 	if (_grid_data_persistent isEqualTo []) then {
 		_grid_data_persistent = call (compileScript ['code\config\QS_data_grid.sqf']); 
@@ -256,8 +254,8 @@ if (_type isEqualTo 'INIT') exitWith {
 						_mkr setMarkerShapeLocal 'Rectangle';
 						_mkr setMarkerBrushLocal 'SolidBorder';
 						_mkr setMarkerSizeLocal [(_res*0.5),(_res*0.5)];
-						_mkr setMarkerColorLocal (_markerColors select (_markerInfo # 1));
-						_mkr setMarkerAlphaLocal (_markerAlphas select (_markerInfo # 1));
+						_mkr setMarkerColorLocal (_markerColors # (_markerInfo # 1));
+						_mkr setMarkerAlphaLocal (_markerAlphas # (_markerInfo # 1));
 						_mkr setMarkerPos _pi;
 						_markers pushBack _mkr;
 					};
@@ -272,12 +270,12 @@ if (_type isEqualTo 'INIT') exitWith {
 						_markerInfo = [_pe,_tempData] call _inPolygons;
 						if (_markerInfo # 0) then {
 							_mkr = createMarker [_str,_creationPos];
-							_mkr setMarkerText (toString [32,32,32]);
-							_mkr setMarkerShape 'Rectangle';
-							_mkr setMarkerBrush 'SolidBorder';
-							_mkr setMarkerSize [_res*0.5,_res*0.5];
-							_mkr setMarkerColor (_markerColors select (_markerInfo # 1));
-							_mkr setMarkerAlpha (_markerAlphas select (_markerInfo # 1));
+							_mkr setMarkerTextLocal (toString [32,32,32]);
+							_mkr setMarkerShapeLocal 'Rectangle';
+							_mkr setMarkerBrushLocal 'SolidBorder';
+							_mkr setMarkerSizeLocal [_res*0.5,_res*0.5];
+							_mkr setMarkerColorLocal (_markerColors # (_markerInfo # 1));
+							_mkr setMarkerAlphaLocal (_markerAlphas # (_markerInfo # 1));
 							_mkr setMarkerPos _pe;
 							_markers pushBack _mkr;
 						};
@@ -360,16 +358,16 @@ if (_type isEqualTo 'INIT') exitWith {
 	];
 	{
 		createMarker [(_x # 0),(_x # 1)];
-		(_x # 0) setMarkerType (_x # 2);
-		(_x # 0) setMarkerShape (_x # 3);
+		(_x # 0) setMarkerTypeLocal (_x # 2);
+		(_x # 0) setMarkerShapeLocal (_x # 3);
 		if ((_x # 3) isNotEqualTo 'Icon') then {
-			(_x # 0) setMarkerBrush (_x # 4);
+			(_x # 0) setMarkerBrushLocal (_x # 4);
 		};
-		(_x # 0) setMarkerColor (_x # 5);
-		(_x # 0) setMarkerSize (_x # 6);
-		(_x # 0) setMarkerAlpha (_x # 7);
-		(_x # 0) setMarkerPos (_x # 8);
-		(_x # 0) setMarkerDir (_x # 9);
+		(_x # 0) setMarkerColorLocal (_x # 5);
+		(_x # 0) setMarkerSizeLocal (_x # 6);
+		(_x # 0) setMarkerAlphaLocal (_x # 7);
+		(_x # 0) setMarkerPosLocal (_x # 8);
+		(_x # 0) setMarkerDirLocal (_x # 9);
 		(_x # 0) setMarkerText (format ['%1%2',(toString [32,32,32]),(_x # 10)]);
 		_markers pushBack (_x # 0);
 	} forEach _missionMarkerData;
