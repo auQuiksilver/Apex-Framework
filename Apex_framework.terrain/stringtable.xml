@@ -814,31 +814,73 @@ _____________________________________________________________-->
             <Original>Unhook</Original>
             <Spanish>Desenganchar</Spanish>
             <Chinese>解开钩子</Chinese>
-			<Chinesesimp>解开钩子</Chinesesimp>
+	    <Chinesesimp>解开钩子</Chinesesimp>
         </Key>
         <Key ID="STR_QS_Interact_127">
             <Original>Cut</Original>
             <Spanish>Cortar</Spanish>
             <Chinese>割</Chinese>
-			<Chinesesimp>割</Chinesesimp>
+	    <Chinesesimp>割</Chinesesimp>
         </Key>
         <Key ID="STR_QS_Interact_128">
             <Original>Stealth</Original>
             <Spanish>Furtividad</Spanish>
             <Chinese>隐形</Chinese>
-			<Chinesesimp>隐形</Chinesesimp>
+	    <Chinesesimp>隐形</Chinesesimp>
         </Key>
         <Key ID="STR_QS_Interact_129">
             <Original>Build</Original>
             <Spanish>Construir</Spanish>
             <Chinese>建立</Chinese>
-			<Chinesesimp>建立</Chinesesimp>
+	    <Chinesesimp>建立</Chinesesimp>
         </Key>
         <Key ID="STR_QS_Interact_130">
             <Original>Disassemble</Original>
             <Spanish>Desmontar</Spanish>
             <Chinese>拆卸</Chinese>
-			<Chinesesimp>拆卸</Chinesesimp>
+	    <Chinesesimp>拆卸</Chinesesimp>
+        </Key>
+	<Key ID="STR_QS_Interact_131">
+            <Original>Lift</Original>
+            <Spanish>Levantar</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_132">
+            <Original>Recover</Original>
+            <Spanish>Recuperar</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_133">
+            <Original>Deploy</Original>
+            <Spanish>Desplegar</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_134">
+            <Original>Pack</Original>
+            <Spanish>Empacar</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_135">
+            <Original>Vehicle Health</Original>
+            <Spanish>Salud del vehículo</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_136">
+            <Original>Cargo Manifest</Original>
+            <Spanish>Manifiesto de carga</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_137">
+            <Original>Player Menu</Original>
+            <Chinesesimp>玩家菜单</Chinesesimp>
+            <Chinese>玩家選單</Chinese>
+            <Spanish>Menú del jugador</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_138">
+            <Original>Turret On</Original>
+            <Spanish>Torre encendida</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_139">
+            <Original>Turret Off</Original>
+            <Spanish>Torre apagada</Spanish>
+        </Key>
+        <Key ID="STR_QS_Interact_140">
+            <Original>Add Tickets</Original>
+            <Spanish>Añadir entradas</Spanish>
         </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
@@ -1419,35 +1461,35 @@ _____________________________________________________________-->
             <Spanish>Ya tienes un bote activo. Por favor, resucita o destrúyelo antes de crear otro. Cuadrícula:</Spanish>
         </Key>
         <Key ID="STR_QS_Text_096">
-			<Original>inflated (toolkit removed)</Original>
-			<Chinesesimp>给船只充气（消耗一个工具包）</Chinesesimp>
-			<Chinese>給船只充氣（消耗一個工具包）</Chinese>
-			<Spanish>inflado (herramientas eliminadas)</Spanish>
-		</Key>
-		<Key ID="STR_QS_Text_097">
-			<Original>Please wait</Original>
-			<Chinesesimp>请稍等</Chinesesimp>
-			<Chinese>請稍等</Chinese>
-			<Spanish>Por favor espera</Spanish>
-		</Key>
-		<Key ID="STR_QS_Text_098">
-			<Original>Initialisation complete, select tab</Original>
-			<Chinesesimp>初始化完成，选择标签</Chinesesimp>
-			<Chinese>初始化完成，選擇標籤</Chinese>
-			<Spanish>Inicialización completa, seleccione la pestaña</Spanish>
-		</Key>
-		<Key ID="STR_QS_Text_099">
-			<Original>Crate overfilled, removing excess backpacks</Original>
-			<Chinesesimp>库存过满，移除多余的背包</Chinesesimp>
-			<Chinese>庫存過滿，移除多餘的背包</Chinese>
-			<Spanish>Caja sobrecargada, eliminando mochilas sobrantes</Spanish>
-		</Key>
-		<Key ID="STR_QS_Text_100">
-			<Original>Crate overfilled, removing excess magazines</Original>
-			<Chinesesimp>库存过满，移除多余的弹匣</Chinesesimp>
-			<Chinese>庫存過滿，移除多餘的彈匣</Chinese>
-			<Spanish>Caja sobrecargada, eliminando cargadores sobrantes</Spanish>
-		</Key>
+		<Original>inflated (toolkit removed)</Original>
+		<Chinesesimp>给船只充气（消耗一个工具包）</Chinesesimp>
+		<Chinese>給船只充氣（消耗一個工具包）</Chinese>
+		<Spanish>inflado (herramientas eliminadas)</Spanish>
+	</Key>
+	<Key ID="STR_QS_Text_097">
+		<Original>Please wait</Original>
+		<Chinesesimp>请稍等</Chinesesimp>
+		<Chinese>請稍等</Chinese>
+		<Spanish>Por favor espera</Spanish>
+	</Key>
+	<Key ID="STR_QS_Text_098">
+		<Original>Initialisation complete, select tab</Original>
+		<Chinesesimp>初始化完成，选择标签</Chinesesimp>
+		<Chinese>初始化完成，選擇標籤</Chinese>
+		<Spanish>Inicialización completa, seleccione la pestaña</Spanish>
+	</Key>
+	<Key ID="STR_QS_Text_099">
+		<Original>Crate overfilled, removing excess backpacks</Original>
+		<Chinesesimp>库存过满，移除多余的背包</Chinesesimp>
+		<Chinese>庫存過滿，移除多餘的背包</Chinese>
+		<Spanish>Caja sobrecargada, eliminando mochilas sobrantes</Spanish>
+	</Key>
+	<Key ID="STR_QS_Text_100">
+		<Original>Crate overfilled, removing excess magazines</Original>
+		<Chinesesimp>库存过满，移除多余的弹匣</Chinesesimp>
+		<Chinese>庫存過滿，移除多餘的彈匣</Chinese>
+		<Spanish>Caja sobrecargada, eliminando cargadores sobrantes</Spanish>
+	</Key>
         <Key ID="STR_QS_Text_101">
             <Original>Crate overfilled, removing excess weapons</Original>
             <Chinesesimp>库存过满，移除多余的武器</Chinesesimp>
@@ -3002,6 +3044,228 @@ _____________________________________________________________-->
             <Original>Already have a locked cargo ( %1 )</Original>
             <Spanish>Ya tienes un cargamento bloqueado (%1)</Spanish>
 		</Key>
+	<Key ID="STR_QS_Text_405">
+            <Original>Already have a locked cargo ( %1 )</Original>
+            <Spanish>Ya tienes una carga bloqueada (%1)</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_406">
+            <Original>No deployments available</Original>
+            <Spanish>No hay despliegues disponibles</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_407">
+            <Original>Lifting %1</Original>
+            <Spanish>Levantando %1</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_408">
+            <Original>Selected deployment unavailable</Original>
+            <Spanish>El despliegue seleccionado no está disponible</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_409">
+            <Original>Deployed</Original>
+            <Spanish>Desplegado</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_410">
+            <Original>Packed</Original>
+            <Spanish>Empaquetado</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_411">
+            <Original>Pack up failed</Original>
+            <Spanish>Fallo al empaquetar</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_412">
+            <Original>Deploy failed</Original>
+            <Spanish>Fallo al desplegar</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_413">
+            <Original>%1 packed up by %2</Original>
+            <Spanish>%1 empaquetado por %2</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_414">
+            <Original>%1 deployed by %2</Original>
+            <Spanish>%1 desplegado por %2</Spanish>
+		</Key>
+	<Key ID="STR_QS_Text_415">
+            <Original>Wreck (%1)</Original>
+            <Spanish>Restos (%1)</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_416">
+            <Original>Autopilot unavailable</Original>
+            <Spanish>Autopiloto no disponible</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_417">
+            <Original>Autohover unavailable</Original>
+            <Spanish>Autohover no disponible</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_418">
+            <Original>Service started</Original>
+            <Spanish>Servicio iniciado</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_419">
+            <Original>Home deployment set</Original>
+            <Spanish>Despliegue de inicio configurado</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_420">
+            <Original>Home deployment reset</Original>
+            <Spanish>Despliegue de inicio restablecido</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_421">
+            <Original>Alt Mode OFF</Original>
+            <Spanish>Modo Alt APAGADO</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_422">
+            <Original>Alt Mode ON</Original>
+            <Spanish>Modo Alt ENCENDIDO</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_423">
+            <Original>Service Completed</Original>
+            <Spanish>Servicio Completado</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_424">
+            <Original>Recovering</Original>
+            <Spanish>Recuperando</Spanish>
+		</Key>
+	Sure, here is the updated version with the Spanish translations in <Spanish> tags:
+
+<Key ID="STR_QS_Text_425">
+            <Original>Recovery interrupted</Original>
+            <Spanish>Recuperación interrumpida</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_426">
+            <Original>USS Liberty (Destroyer)</Original>
+            <Spanish>USS Liberty (Destructora)</Spanish>
+		</Key>		
+       <Key ID="STR_QS_Text_427">
+            <Original>USS Freedom (Aircraft Carrier)</Original>
+            <Spanish>USS Freedom (Portaviones)</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_428">
+            <Original>Wrecked</Original>
+            <Spanish>Destruido</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_429">
+            <Original>Non-functional</Original>
+            <Spanish>No funcional</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_430">
+            <Original>Cannot pack up when other players are within %1 m</Original>
+            <Spanish>No se puede recoger cuando hay otros jugadores a menos de %1 m</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_431">
+            <Original>On cooldown</Original>
+            <Spanish>En enfriamiento</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_432">
+            <Original>Too close to water</Original>
+            <Spanish>Demasiado cerca del agua</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_433">
+            <Original>Enemies within 100m</Original>
+            <Spanish>Enemigos a menos de 100m</Spanish>
+		</Key>
+	<Key ID="STR_QS_Text_434">
+            <Original>The enemy destroyed a deployed asset</Original>
+            <Spanish>El enemigo destruyó un activo desplegado</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_435">
+            <Original>Turn on laser</Original>
+            <Spanish>Encender el láser</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_436">
+            <Original>Turn off laser</Original>
+            <Spanish>Apagar el láser</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_437">
+            <Original>Laser low power</Original>
+            <Spanish>Bajo poder del láser</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_438">
+            <Original>Laser high power</Original>
+            <Spanish>Alto poder del láser</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_439">
+            <Original>Laser IR</Original>
+            <Spanish>Láser IR</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_440">
+            <Original>Laser battery required</Original>
+            <Spanish>Se requiere batería láser</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_441">
+            <Original>Emitter required (Weaponlight or IR pointer)</Original>
+            <Spanish>Se requiere emisor (luz de arma o puntero IR)</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_442">
+            <Original>Laser color set</Original>
+            <Spanish>Conjunto de color de láser</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_443">
+            <Original>Profile set</Original>
+            <Spanish>Conjunto de perfil</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_444">
+            <Original>Load disallowed</Original>
+            <Spanish>Carga no permitida</Spanish>
+		</Key>
+	<Key ID="STR_QS_Text_445">
+            <Original>Cargo Trailer</Original>
+            <Spanish>Remolque de carga</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_446">
+            <Original>Color selection disabled</Original>
+            <Spanish>Selección de color deshabilitada</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_447">
+            <Original>Mobile Respawn</Original>
+            <Spanish>Respawn móvil</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_448">
+            <Original>Platform Module</Original>
+            <Spanish>Módulo de plataforma</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_449">
+            <Original>Patrol Base</Original>
+            <Spanish>Base de patrulla</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_450">
+            <Original>Combat Outpost</Original>
+            <Spanish>Avanzada de combate</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_451">
+            <Original>Forward Operating Base</Original>
+            <Spanish>Base de operaciones avanzada</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_452">
+            <Original>Must be Deployed to unload cargo</Original>
+            <Spanish>Debe ser desplegado para descargar la carga</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_453">
+            <Original>Pilots cannot perform this action</Original>
+            <Spanish>Los pilotos no pueden realizar esta acción</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_454">
+            <Original>Enemy nearby - Arsenal unavailable</Original>
+            <Spanish>Enemigo cercano - Arsenal no disponible</Spanish>
+		</Key>
+	<Key ID="STR_QS_Text_455">
+            <Original>Terrain Leveler</Original>
+            <Spanish>Nivelador de terreno</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_456">
+            <Original>Only engineers can use this system</Original>
+            <Spanish>Solo los ingenieros pueden usar este sistema</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_457">
+            <Original>Over budget</Original>
+            <Spanish>Presupuesto excedido</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_458">
+            <Original>Total cap exceeded</Original>
+            <Spanish>Límite total excedido</Spanish>
+		</Key>
+       <Key ID="STR_QS_Text_459">
+            <Original>No detected object under cursor</Original>
+            <Spanish>No se detectó ningún objeto bajo el cursor</Spanish>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -4021,6 +4285,34 @@ _____________________________________________________________-->
             <Original>Placement Mode</Original>
             <Spanish>Modo de colocación</Spanish>
         </Key>
+	<Key ID="STR_QS_Hints_182">
+            <Original>Cargo</Original>
+            <Spanish>Carga</Spanish>
+        </Key>
+        <Key ID="STR_QS_Hints_183">
+            <Original>Load</Original>
+            <Spanish>Cargar</Spanish>
+        </Key>
+        <Key ID="STR_QS_Hints_184">
+            <Original>Cargo Manifest</Original>
+            <Spanish>Manifiesto de carga</Spanish>
+        </Key>
+        <Key ID="STR_QS_Hints_185">
+            <Original>No cargo</Original>
+            <Spanish>Sin carga</Spanish>
+        </Key>
+        <Key ID="STR_QS_Hints_186">
+            <Original>Cargo Locked</Original>
+            <Spanish>Carga bloqueada</Spanish>
+        </Key>
+        <Key ID="STR_QS_Hints_187">
+            <Original>Cargo Unlocked</Original>
+            <Spanish>Carga desbloqueada</Spanish>
+        </Key>
+        <Key ID="STR_QS_Hints_188">
+            <Original>Services replenished</Original>
+            <Spanish>Servicios reabastecidos</Spanish>
+        </Key>
     </Container>
     <Container name="QS_xml_chatMessages">
         <Key ID="STR_QS_Chat_001">
@@ -5005,6 +5297,23 @@ _____________________________________________________________-->
             <Original>Fire Support available:</Original>
             <Spanish>Apoyo de fuego disponible:</Spanish>
         </Key>
+	<Key ID="STR_QS_Chat_166">
+	    <Original>%1 resupplied a(n) %2 with a(n) %3 at grid %4</Original>
+	    <spanish>%1 reabasteció un(a) %2 con un(a) %3 en la cuadrícula %4</spanish>
+	</Key>
+	<Key ID="STR_QS_Chat_167">
+	    <Original>Cannot build this here (proximity to safezone or no-build zone)</Original>
+	    <spanish>No se puede construir aquí (cerca de la zona segura o de no construcción)</spanish>
+	</Key>
+	<Key ID="STR_QS_Chat_168">
+	    <Original>Disabled</Original>
+	    <spanish>Desactivado</spanish>
+	</Key>
+	<Key ID="STR_QS_Chat_169">
+	    <Original>Remote Control failed</Original>
+	    <spanish>Fallo del control remoto</spanish>
+	</Key>
+
     </Container>
     <Container name="QS_xml_notifications">
         <Key ID="STR_QS_Notif_001">
@@ -6474,23 +6783,23 @@ _____________________________________________________________-->
 	    <Spanish>Un depósito local de suministros de IDAP ha sido atacado por insurgentes. Un civil cercano informó que un trabajador humanitario parecía estar todavía con vida. Tu trabajo es ir allí y recuperarlo. Algunos de los insurgentes ya han abandonado el lugar, llevándose suministros médicos críticos con ellos. Puede que tengas que rastrearlos para recuperar los suministros médicos.</Spanish>
         </Key>
         <Key ID="STR_QS_Task_091">
-			<Original>Examine bodies at the scene for clues as to the location of the insurgents.</Original>
-			<Chinesesimp>在现场检查尸体，寻找叛军的线索。</Chinesesimp>
-			<Chinese>在現場檢查屍體，尋找叛軍的線索。</Chinese>
-			<Spanish>Examinar los cuerpos en la escena en busca de pistas sobre la ubicación de los insurgentes.</Spanish>
-		</Key>
-		<Key ID="STR_QS_Task_092">
-			<Original>This objective is not accurately marked.</Original>
-			<Chinesesimp>这个目标没有准确的标记</Chinesesimp>
-			<Chinese>這個目標沒有準確的標記</Chinese>
-			<Spanish>Este objetivo no está marcado con precisión.</Spanish>
-		</Key>
-		<Key ID="STR_QS_Task_093">
-			<Original>The humanitarian worker has been stabilised, get him back to a field hospital to complete our mission!</Original>
-			<Chinesesimp>IDPA工作人员已经得到紧急治疗，情况暂时稳定， 立即将伤员带回到基地医疗站！</Chinesesimp>
-			<Chinese>IDPA工作人員已經得到緊急治療，情況暫時穩定， 立即將傷員帶回到基地醫療站！</Chinese>
-			<Spanish>¡El trabajador humanitario ha sido estabilizado, llévalo de vuelta a un hospital de campaña para completar nuestra misión!</Spanish>
-		</Key>
+		<Original>Examine bodies at the scene for clues as to the location of the insurgents.</Original>
+		<Chinesesimp>在现场检查尸体，寻找叛军的线索。</Chinesesimp>
+		<Chinese>在現場檢查屍體，尋找叛軍的線索。</Chinese>
+		<Spanish>Examinar los cuerpos en la escena en busca de pistas sobre la ubicación de los insurgentes.</Spanish>
+	</Key>
+	<Key ID="STR_QS_Task_092">
+		<Original>This objective is not accurately marked.</Original>
+		<Chinesesimp>这个目标没有准确的标记</Chinesesimp>
+		<Chinese>這個目標沒有準確的標記</Chinese>
+		<Spanish>Este objetivo no está marcado con precisión.</Spanish>
+	</Key>
+	<Key ID="STR_QS_Task_093">
+		<Original>The humanitarian worker has been stabilised, get him back to a field hospital to complete our mission!</Original>
+		<Chinesesimp>IDPA工作人员已经得到紧急治疗，情况暂时稳定， 立即将伤员带回到基地医疗站！</Chinesesimp>
+		<Chinese>IDPA工作人員已經得到緊急治療，情況暫時穩定， 立即將傷員帶回到基地醫療站！</Chinese>
+		<Spanish>¡El trabajador humanitario ha sido estabilizado, llévalo de vuelta a un hospital de campaña para completar nuestra misión!</Spanish>
+	</Key>
         <Key ID="STR_QS_Task_094">
             <Original>The enemy has set up an Anti-Air Battery near our base. This is a priority target, soldiers! It has extremely long range! Get over there and take it out at all cost. While it is active, it is not advised to use air transport. This objective is not accurately marked. While it is re-arming (30 seconds), it will not be able to lock on at long range. Bringing heavy explosives is advised.</Original>
             <Chinesesimp>敌方在我方基地附近建立了一个大型防空阵地。该阵地为最优先目标！ 防空阵地射程很远，对我方所有空中单位都造成了严重威胁，立即前往其所在区域不惜一切代价摧毁阵地。 防空阵地装填完毕后会一直处于攻击状态，建议暂时停止空中运输。 在重新装填(30秒)时，敌军防空设备无法攻击。 建议携带炸药将其摧毁。</Chinesesimp>
@@ -6547,23 +6856,23 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Task_103">
             <Original>
-				Soldier, to complete this mission your team must rescue a P.O.W. located somewhere in the marked area.
-				Our agent reports he is being tortured for intel and likely will not be in good shape if you get to him.
-				To rescue the P.O.W. and complete the mission, you must bring him to the Medevac HQ (small white building) at base, OR load him into a Medical Vehicle (Ex. HEMTT Medical) WITH a medic inside as well.
-				If he dies, the mission is failed.
-				To locate the precise position of the P.O.W., the locals may be of help.
-				Interactions with the P.O.W. and civilians will be on your Action Menu.
-			</Original>
-            <Chinesesimp>我们的一名被俘士兵现在位于标记区域内的某个地方，情报人员报告说目标正在遭受敌军的严刑拷打，如果你找到目标，目标的状况可能不是很好。拯救P.O.W. 并完成任务，你必须将我军被俘人员带到基地的医疗站，或将目标装入医疗载具（例如HEMTT医疗卡车），并有医护兵进行治疗。如果目标死亡，那么任务失败。为了找到P.O.W.的准确位置，可以通过滚轮菜单询问当地平民。</Chinesesimp>
-            <Chinese>我們的一名被俘士兵現在位於標記區域內的某個地方，情報人員報告說目標正在遭受敵軍的嚴刑拷打，如果你找到目標，目標的狀況可能不是很好。拯救P.O.W. 並完成任務，你必須將我軍被俘人員帶到基地的醫療站，或將目標裝入醫療載具（例如HEMTT醫療卡車），並有醫護兵進行治療。如果目標死亡，那麼任務失敗。為了找到P.O.W.的準確位置，可以透過滾輪選單詢問當地平民。</Chinese>
-			<Spanish>Soldado, para completar esta misión, tu equipo debe rescatar a un prisionero de guerra ubicado en alguna parte del área marcada.
-				Nuestro agente informa que está siendo torturado para obtener información y es probable que no esté en buenas condiciones cuando lo encuentres.
-				Para rescatar al prisionero de guerra y completar la misión, debes llevarlo a la base del centro de evacuación médica (pequeño edificio blanco) O cargarlo en un vehículo médico (por ejemplo, un HEMTT médico) con un médico adentro también.
-				Si muere, la misión fracasará.
-				Para localizar la posición precisa del prisionero de guerra, los lugareños pueden ayudar.
-				Las interacciones con el prisionero de guerra y los civiles estarán en tu menú de acción.
-			</Spanish>
-		</Key>
+			Soldier, to complete this mission your team must rescue a P.O.W. located somewhere in the marked area.
+			Our agent reports he is being tortured for intel and likely will not be in good shape if you get to him.
+			To rescue the P.O.W. and complete the mission, you must bring him to the Medevac HQ (small white building) at base, OR load him into a Medical Vehicle (Ex. HEMTT Medical) WITH a medic inside as well.
+			If he dies, the mission is failed.
+			To locate the precise position of the P.O.W., the locals may be of help.
+			Interactions with the P.O.W. and civilians will be on your Action Menu.
+		</Original>
+    <Chinesesimp>我们的一名被俘士兵现在位于标记区域内的某个地方，情报人员报告说目标正在遭受敌军的严刑拷打，如果你找到目标，目标的状况可能不是很好。拯救P.O.W. 并完成任务，你必须将我军被俘人员带到基地的医疗站，或将目标装入医疗载具（例如HEMTT医疗卡车），并有医护兵进行治疗。如果目标死亡，那么任务失败。为了找到P.O.W.的准确位置，可以通过滚轮菜单询问当地平民。</Chinesesimp>
+    <Chinese>我們的一名被俘士兵現在位於標記區域內的某個地方，情報人員報告說目標正在遭受敵軍的嚴刑拷打，如果你找到目標，目標的狀況可能不是很好。拯救P.O.W. 並完成任務，你必須將我軍被俘人員帶到基地的醫療站，或將目標裝入醫療載具（例如HEMTT醫療卡車），並有醫護兵進行治療。如果目標死亡，那麼任務失敗。為了找到P.O.W.的準確位置，可以透過滾輪選單詢問當地平民。</Chinese>
+		<Spanish>Soldado, para completar esta misión, tu equipo debe rescatar a un prisionero de guerra ubicado en alguna parte del área marcada.
+			Nuestro agente informa que está siendo torturado para obtener información y es probable que no esté en buenas condiciones cuando lo encuentres.
+			Para rescatar al prisionero de guerra y completar la misión, debes llevarlo a la base del centro de evacuación médica (pequeño edificio blanco) O cargarlo en un vehículo médico (por ejemplo, un HEMTT médico) con un médico adentro también.
+			Si muere, la misión fracasará.
+			Para localizar la posición precisa del prisionero de guerra, los lugareños pueden ayudar.
+			Las interacciones con el prisionero de guerra y los civiles estarán en tu menú de acción.
+		</Spanish>
+	</Key>
         <Key ID="STR_QS_Task_104">
             <Original>Rescue POW</Original>
             <Chinesesimp>营救 P.O.W</Chinesesimp>
@@ -6717,35 +7026,35 @@ _____________________________________________________________-->
             <Spanish>Túneles destruidos: 0 / 0</Spanish>
         </Key>
         <Key ID="STR_QS_Marker_011">
-			<Original>No Civilian Casualties</Original>
-			<Chinesesimp>无平民伤亡</Chinesesimp>
-			<Chinese>無平民傷亡</Chinese>
-			<Spanish>Sin bajas civiles</Spanish>
-		</Key>
-		<Key ID="STR_QS_Marker_012">
-			<Original>UXO Field</Original>
-			<Chinesesimp>未爆弹雷区</Chinesesimp>
-			<Chinese>未爆彈雷區</Chinese>
-			<Spanish>Campo de UXO</Spanish>
-		</Key>
-		<Key ID="STR_QS_Marker_013">
-			<Original>Mortar</Original>
-			<Chinesesimp>迫击炮</Chinesesimp>
-			<Chinese>迫擊炮</Chinese>
-			<Spanish>Mortero</Spanish>
-		</Key>
-		<Key ID="STR_QS_Marker_014">
-			<Original>Grid Squares Converted:</Original>
-			<Chinesesimp>网格占领进度:</Chinesesimp>
-			<Chinese>網格占領進度:</Chinese>
-			<Spanish>Cuadros de rejilla convertidos:</Spanish>
-		</Key>
-		<Key ID="STR_QS_Marker_015">
-			<Original>Tunnels Destroyed:</Original>
-			<Chinesesimp>地道摧毁进度:</Chinesesimp>
-			<Chinese>地道摧毀進度:</Chinese>
-			<Spanish>Túneles destruidos:</Spanish>
-		</Key>
+		<Original>No Civilian Casualties</Original>
+		<Chinesesimp>无平民伤亡</Chinesesimp>
+		<Chinese>無平民傷亡</Chinese>
+		<Spanish>Sin bajas civiles</Spanish>
+	</Key>
+	<Key ID="STR_QS_Marker_012">
+		<Original>UXO Field</Original>
+		<Chinesesimp>未爆弹雷区</Chinesesimp>
+		<Chinese>未爆彈雷區</Chinese>
+		<Spanish>Campo de UXO</Spanish>
+	</Key>
+	<Key ID="STR_QS_Marker_013">
+		<Original>Mortar</Original>
+		<Chinesesimp>迫击炮</Chinesesimp>
+		<Chinese>迫擊炮</Chinese>
+		<Spanish>Mortero</Spanish>
+	</Key>
+	<Key ID="STR_QS_Marker_014">
+		<Original>Grid Squares Converted:</Original>
+		<Chinesesimp>网格占领进度:</Chinesesimp>
+		<Chinese>網格占領進度:</Chinese>
+		<Spanish>Cuadros de rejilla convertidos:</Spanish>
+	</Key>
+	<Key ID="STR_QS_Marker_015">
+		<Original>Tunnels Destroyed:</Original>
+		<Chinesesimp>地道摧毁进度:</Chinesesimp>
+		<Chinese>地道摧毀進度:</Chinese>
+		<Spanish>Túneles destruidos:</Spanish>
+	</Key>
         <Key ID="STR_QS_Marker_016">
             <Original>Cleared</Original>
             <Chinesesimp>已清理</Chinesesimp>
@@ -8872,9 +9181,7 @@ _____________________________________________________________-->
             <Chinese>整理彈匣</Chinese>
             <Spanish>Reempaquetar cargador</Spanish>
         </Key>
-        Added Spanish translations:
-
-<Key ID="STR_QS_Menu_161">
+	<Key ID="STR_QS_Menu_161">
             <Original>Jump (while running)</Original>
             <Chinesesimp>跳跃 (奔跑中使用)</Chinesesimp>
             <Chinese>跳躍 (奔跑中使用)</Chinese>
@@ -9092,6 +9399,66 @@ _____________________________________________________________-->
             <Original>Global build limit exceeded (%1)</Original>
             <Spanish>Se ha superado el límite global de construcción (%1)</Spanish>
         </Key>
+	<Key ID="STR_QS_Menu_198">
+		<Original>Deployment</Original>
+		<Spanish>Despliegue</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_199">
+		<Original>Deploy</Original>
+		<Spanish>Desplegar</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_200">
+		<Original>Budget: %1 / %2</Original>
+		<Spanish>Presupuesto: %1 / %2</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_201">
+		<Original>Home</Original>
+		<Spanish>Inicio</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_202">
+		<Original>Main Base</Original>
+		<Spanish>Base principal</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_203">
+		<Original>Pilots</Original>
+		<Spanish>Pilotos</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_204">
+		<Original>Fighter Pilots</Original>
+		<Spanish>Pilotos de combate</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_205">
+		<Original>UAV Operators</Original>
+		<Spanish>Operadores de UAV</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_206">
+		<Original>Naval Command</Original>
+		<Spanish>Comando naval</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_207">
+	    <Original>Respawn (OPFOR)</Original>
+	    <Spanish>Reaparición (OPFOR)</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_208">
+	    <Original>Respawn (BLUFOR)</Original>
+	    <Spanish>Reaparición (BLUFOR)</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_209">
+	    <Original>Respawn (INDEPENDENT)</Original>
+	    <Spanish>Reaparición (INDEPENDIENTE)</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_210">
+	    <Original>Respawn (CIVILIAN)</Original>
+	    <Spanish>Reaparición (CIVIL)</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_211">
+	    <Original>Mobile Deployment</Original>
+	    <Spanish>Despliegue móvil</Spanish>
+	</Key>
+	<Key ID="STR_QS_Menu_212">
+	    <Original>  ( %1 Tickets )</Original>
+	    <Spanish> ( %1 Boletos )</Spanish>
+	</Key>
     </Container>
     <Container name="QS_xml_roles">
         <Key ID="STR_QS_Role_000">
@@ -9280,9 +9647,7 @@ _____________________________________________________________-->
         </Key>
     </Container>
     <Container name="QS_xml_utilityText">
-        Here are the translations in Spanish:
-
-<Key ID="STR_QS_Utility_000">
+	<Key ID="STR_QS_Utility_000">
             <Original>Server Restart</Original>
             <Chinesesimp>服务器重启</Chinesesimp>
             <Chinese>伺服器重啟</Chinese>
@@ -10022,5 +10387,51 @@ _____________________________________________________________-->
             <Original>Close Air Support (Anti-Tank)</Original>
             <Spanish>Apoyo Aéreo Cercano (Antitanque)</Spanish>
         </Key>
+	<Key ID="STR_QS_Dialogs_101">
+	    <Original>Face Paint</Original>
+	    <Spanish>Pintura facial</Spanish>
+	</Key>
+	<Key ID="STR_QS_Dialogs_102">
+	    <Original>Laser Color</Original>
+	    <Spanish>Color del láser</Spanish>
+	</Key>
+	<Key ID="STR_QS_Dialogs_103">
+	    <Original>RED</Original>
+	    <Spanish>ROJO</Spanish>
+	</Key>
+	<Key ID="STR_QS_Dialogs_104">
+	    <Original>GREEN</Original>
+	    <Spanish>VERDE</Spanish>
+	</Key>
+	<Key ID="STR_QS_Dialogs_105">
+	    <Original>BLUE</Original>
+	    <Spanish>AZUL</Spanish>
+	</Key>
+	<Key ID="STR_QS_Dialogs_106">
+	    <Original>GOLD</Original>
+	    <Spanish>ORO</Spanish>
+	</Key>	
+	<Key ID="STR_QS_Dialogs_107">
+	    <Original>PINK</Original>
+	    <Spanish>ROSADO</Spanish>
+	</Key>	
+	<Key ID="STR_QS_Dialogs_108">
+	    <Original>BABY BLUE</Original>
+	    <Spanish>AZUL BEBÉ</Spanish>
+	</Key>	
+	<Key ID="STR_QS_Dialogs_109">
+	    <Original>MACE WINDU</Original>
+	    <Spanish>MACE WINDU</Spanish>
+	</Key>
+	<Key ID="STR_QS_Dialogs_110">
+	    <Original>Server disabled</Original>
+	    <Spanish>Servidor desactivado</Spanish>
+	</Key>
+	<Key ID="STR_QS_Dialogs_111">
+	    <Original>Disabled in server parameters</Original>
+	    <Spanish>Desactivado en los parámetros del servidor</Spanish>
+	</Key>
+
+
     </Container>
 </Project>
