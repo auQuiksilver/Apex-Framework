@@ -5313,7 +5313,22 @@ _____________________________________________________________-->
 	    <Original>Remote Control failed</Original>
 	    <spanish>Fallo del control remoto</spanish>
 	</Key>
-
+	<Key ID="STR_QS_Chat_170">
+            <Original>Proximity condition: Roads/Houses/Aircraft - 30 meters</Original>
+            <Spanish>Condición de proximidad: Carreteras/Casas/Aeronaves - 30 metros</Spanish>
+        </Key>
+        <Key ID="STR_QS_Chat_171">
+            <Original>Blocked by enemy commander</Original>
+            <Spanish>Bloqueado por comandante enemigo</Spanish>
+        </Key>
+        <Key ID="STR_QS_Chat_172">
+            <Original>A deployment is under attack!</Original>
+            <Spanish>¡Un despliegue está siendo atacado!</Spanish>
+        </Key>
+        <Key ID="STR_QS_Chat_173">
+            <Original>Cannot do this with enemy nearby (300m)</Original>
+            <Spanish>No se puede hacer esto con el enemigo cerca (300m)</Spanish>
+        </Key>
     </Container>
     <Container name="QS_xml_notifications">
         <Key ID="STR_QS_Notif_001">
