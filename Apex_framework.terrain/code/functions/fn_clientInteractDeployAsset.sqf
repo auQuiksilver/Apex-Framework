@@ -83,7 +83,12 @@ if (_mode isEqualTo 1) exitWith {
 		{(!(_cursorObject getVariable ['QS_logistics_deployable',FALSE]))} ||
 		{(_cursorObject getVariable ['QS_logistics_deployed',FALSE])} ||
 		{(_cursorObject getVariable ['QS_logistics_blocked',FALSE])} ||
-		{([_cursorObject,55,8] call QS_fnc_waterInRadius)} ||
+		{
+			(
+				([_cursorObject,55,8] call QS_fnc_waterInRadius) &&
+				(!(_cursorObject getVariable ['QS_logistics_deployNearWater',FALSE]))
+			)
+		} ||
 		{(_inSafezone && _safezoneActive && (_safezoneLevel > 1))} ||
 		{(serverTime < _cooldown)} ||
 		{((_list inAreaArray [getPos _cursorObject,_deploySafeRadius,_deploySafeRadius,0,FALSE,-1]) isNotEqualTo [])} ||
@@ -102,7 +107,10 @@ if (_mode isEqualTo 1) exitWith {
 		if (serverTime < _cooldown) then {
 			systemchat format ['%1  %2',(localize 'STR_QS_Text_431'),round (_cooldown - serverTime)];
 		};
-		if ([_cursorObject,55,8] call QS_fnc_waterInRadius) then {
+		if (
+			([_cursorObject,55,8] call QS_fnc_waterInRadius) &&
+			(!(_cursorObject getVariable ['QS_logistics_deployNearWater',FALSE]))
+		) then {
 			systemchat (localize 'STR_QS_Text_432');
 		};
 		if (
