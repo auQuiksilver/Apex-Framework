@@ -4897,9 +4897,7 @@ _____________________________________________________________-->
             <Chinese>GPS干擾器已被摧毀！</Chinese>
             <Spanish>Interferidor GPS destruido</Spanish>
         </Key>
-        Added Spanish translations:
-
-<Key ID="STR_QS_Chat_051">
+	<Key ID="STR_QS_Chat_051">
             <Original>Revive Tickets Remaining</Original>
             <Chinesesimp>剩余治疗次数</Chinesesimp>
             <Chinese>剩餘治療次數</Chinese>
