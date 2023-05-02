@@ -292,7 +292,7 @@ _____________________________________________________________-->
             <Original>Unlock</Original>
             <Chinesesimp>激活载具</Chinesesimp>
             <Chinese>啟用載具</Chinese>
-            <Spanish>Activar vehículo</Spanish>
+            <Spanish>Desbloquear</Spanish>
         </Key>
         <Key ID="STR_QS_Interact_040">
             <Original>Treat (Medical Station)</Original>
@@ -1403,7 +1403,7 @@ _____________________________________________________________-->
             <Original>Unlocking</Original>
             <Chinesesimp>正在激活</Chinesesimp>
             <Chinese>正在啟用</Chinese>
-            <Spanish>Activando</Spanish>
+            <Spanish>Desbloqueo</Spanish>
         </Key>
         <Key ID="STR_QS_Text_081">
             <Original>Beret collected</Original>
