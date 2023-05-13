@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -687,12 +687,12 @@ if (!isStreamFriendlyUIEnabled) then {
 					if ((_unit isKindOf 'CAManBase') || {((effectiveCommander _unit) isKindOf 'CAManBase')}) then {
 						if ((_cameraOn distance2D _unit) >= 30) then {
 							if ((_cameraOn distance2D _unit) >= 300) then {
-								_unitName = format ['(%1)',localize 'STR_QS_Utility_029'];
+								_unitName = localize 'STR_QS_Utility_029';
 							} else {
 								if (isPlayer _unit) then {
-									_unitName = (name _unit) + (format [' (%1)',localize 'STR_QS_Utility_029']);
+									_unitName = (name _unit) + (localize 'STR_QS_Utility_029');
 								} else {
-									_unitName = format ['[%2] (%1)',localize 'STR_QS_Utility_029',localize 'STR_QS_Utility_030'];
+									_unitName = localize 'STR_QS_Utility_030';
 								};
 							};
 						} else {

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/08/2016 ArmA 3 1.62 by Quiksilver
+	01/05/2023 ArmA 3 1.62 by Quiksilver
 
 Description:
 
@@ -51,10 +51,10 @@ if (_type isEqualTo 'Select') then {
 			player setVariable ['QS_ClientUnitInsignia2',_texture,FALSE];
 			missionProfileNamespace setVariable ['QS_ClientUnitInsignia2',_texture];
 			saveMissionProfileNamespace;
-			_text = format ['%2 %1',_displayName,localize 'STR_QS_Hints_053'];
+			_text = format [localize 'STR_QS_Hints_053',_displayName];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],(serverTime + 10)];
 		} else {
-			_text = parseText format ['%3 %1<br/>%4 %2<br/>%5',_supporterAccess,_supporterLevel,localize 'STR_QS_Hints_054',localize 'STR_QS_Hints_055',localize 'STR_QS_Hints_056'];
+			_text = parseText format [localize 'STR_QS_Hints_054',_supporterAccess,_supporterLevel];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],(serverTime + 10)];
 		};
 	};

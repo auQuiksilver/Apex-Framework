@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/07/2019 A3 1.94 by Quiksilver
+	01/05/2023 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -320,7 +320,7 @@ _marker0 setMarkerShapeLocal 'Icon';
 _marker0 setMarkerTypeLocal 'mil_dot';
 _marker0 setMarkerColorLocal 'ColorGreen';
 _marker0 setMarkerAlphaLocal 1;
-_marker0 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_028']);
+_marker0 setMarkerTextLocal (format [localize 'STR_QS_Marker_028',(toString [32,32,32])]);
 _marker0 setMarkerPos _destination;
 _distanceInFront_fixed = 250;
 _distanceInFront_random = 500;
@@ -344,13 +344,7 @@ private _technicalType = '';
 	'QS_IA_TASK_SM_ESCORT',
 	TRUE,
 	[
-		(format [
-			'%2 %1 (%3). %4',
-			_nearestVillage,
-			localize 'STR_QS_Task_071',
-			localize 'STR_QS_Task_072',
-			localize 'STR_QS_Task_073'
-		]),
+		(format [localize 'STR_QS_Task_071',_nearestVillage]),
 		localize 'STR_QS_Task_070',
 		localize 'STR_QS_Task_070'
 	],
@@ -363,7 +357,7 @@ private _technicalType = '';
 	TRUE
 ] call (missionNamespace getVariable 'BIS_fnc_setTask');
 ['NewSideMission',[localize 'STR_QS_Notif_078']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-'QS_marker_sideMarker' setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_029']);
+'QS_marker_sideMarker' setMarkerText (format [localize 'STR_QS_Marker_029',(toString [32,32,32])]);
 waitUntil {
 	sleep 3;
 	(!alive _vehicle) ||
@@ -897,13 +891,13 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (!alive _vehicle) exitWith {
 		//comment 'Mission fail';
-		['SM_TRUCK',[localize 'STR_QS_Notif_081',format ['%1<br/>%2',localize 'STR_QS_Notif_080',localize 'STR_QS_Notif_079']]] remoteExec [_fuctionNotification,-2,FALSE];
+		['SM_TRUCK',[localize 'STR_QS_Notif_081',localize 'STR_QS_Notif_080']] remoteExec [_fuctionNotification,-2,FALSE];
 		sleep 5;
 		[0,_destination] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 	};
 	if ((_vehicle distance2D _destination) < 50) exitWith {
 		//comment 'Mission success';
-		['SM_TRUCK',[localize 'STR_QS_Notif_081',format ['%1<br/>%2',localize 'STR_QS_Notif_082',localize 'STR_QS_Notif_083']]] remoteExec [_fuctionNotification,-2,FALSE];
+		['SM_TRUCK',[localize 'STR_QS_Notif_081',localize 'STR_QS_Notif_082']] remoteExec [_fuctionNotification,-2,FALSE];
 		sleep 5;
 		[1,_destination] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
 	};

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	16/07/2019 A3 1.94 by Quiksilver
+	01/05/2023 A3 1.94 by Quiksilver
 
 Description:
 
@@ -593,9 +593,9 @@ _QS_ctrl10 ctrlSetPosition [
 ];
 _QS_ctrl10 ctrlSetScale _QS_ctrl10_scale;
 if (ctrlShown _QS_ctrl0) then {
-	_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_093'];
+	_QS_ctrl_text10 = format [localize 'STR_QS_Menu_093',_keyText];
 } else {
-	_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_094'];
+	_QS_ctrl_text10 = format [localize 'STR_QS_Menu_094',_keyText];
 };
 _QS_ctrl10 ctrlSetFont _QS_ctrl10_font;
 _QS_ctrl10 ctrlSetText _QS_ctrl_text10;
@@ -1327,9 +1327,9 @@ for '_x' from 0 to 1 step 0 do {
 			_keyText = _key select [1,((count _key) - 2)];
 		};
 		if (ctrlShown _QS_ctrl0) then {
-			_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_093'];
+			_QS_ctrl_text10 = format [localize 'STR_QS_Menu_093',_keyText];
 		} else {
-			_QS_ctrl_text10 = format ['%2 [%1] %3',_keyText,localize 'STR_QS_Menu_092',localize 'STR_QS_Menu_094'];
+			_QS_ctrl_text10 = format [localize 'STR_QS_Menu_094',_keyText];
 		};
 		_QS_ctrl01 ctrlSetTextColor _QS_ctrl01_backgroundColor;
 		{

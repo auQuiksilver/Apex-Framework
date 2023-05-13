@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	7/9/2018 A3 1.84 by Quiksilver
+	01/05/2023 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -146,7 +146,7 @@ _intelObj addEventHandler [
 			_killerDisplayName = getText ((configOf (vehicle _killer)) >> 'displayName');
 			_objDisplayName = getText ((configOf _object) >> 'displayName');
 			_name = name _killer;
-			['sideChat',[WEST,'BLU'],(format ['%1 %3 ( %2 )',_name,_objDisplayName,localize 'STR_QS_Chat_077'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'BLU'],(format [localize 'STR_QS_Chat_077',_name,_objDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	}
 ];
@@ -155,7 +155,7 @@ _intelObj addEventHandler [
 	{
 		params ['_container','_unit'];
 		if (isPlayer _unit) then {
-			['sideChat',[WEST,'BLU'],(format ['%1 %2',(name _unit),localize 'STR_QS_Chat_035'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'BLU'],(format [localize 'STR_QS_Chat_035',(name _unit)])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			missionNamespace setVariable ['QS_smSuccess',TRUE,FALSE];
 			_container setVariable ['QS_secureable',FALSE,TRUE];
 		};
@@ -169,7 +169,7 @@ _enemiesArray = [_flatPos1] call (missionNamespace getVariable 'QS_fnc_smEnemyEa
 /*/-------------------------------------------------------------------------- BRIEFING/*/
 
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_044']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_044',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;

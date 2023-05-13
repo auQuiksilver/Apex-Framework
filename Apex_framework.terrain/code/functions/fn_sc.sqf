@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	28/05/2017 A3 1.70 by Quiksilver
+	01/05/2023 A3 1.70 by Quiksilver
 
 Description:
 
@@ -127,7 +127,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 									'SC_UPDATE_BAD',
 									[
 										(_taskData # 1),
-										(format ['%2 %1!',(_taskData # 2),localize 'STR_QS_Notif_073'])
+										(format [localize 'STR_QS_Notif_073',(_taskData # 2)])
 									]
 								] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 								{
@@ -151,7 +151,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 									'SC_UPDATE_GOOD',
 									[
 										(_taskData # 1),
-										(format ['%2 %1!',(_taskData # 2),localize 'STR_QS_Notif_074'])
+										(format [localize 'STR_QS_Notif_074',(_taskData # 2)])
 									]
 								] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 								{

@@ -13,9 +13,9 @@ Created:
 
 	8/08/2014
 	
-Last Modified: 
+Last Modified:
 
-	18/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Installation: 
 
@@ -621,16 +621,16 @@ _QS_fnc_iconText = {
 				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
-							_t = format ['[%2] [%1]',_vt,localize 'STR_QS_Text_273'];
+							_t = format [localize 'STR_QS_Text_273',_vt];
 						} else {
-							_t = format ['[%1]',localize 'STR_QS_Text_273'];
+							_t = localize 'STR_QS_Text_273';
 						};
 					} else {
 						if (_ms < 0.006) then {
 							if (_showMOS) then {
-								_t = format ['[%2] [%1]',_vt,localize 'STR_QS_Text_273'];
+								_t = format [localize 'STR_QS_Text_273',_vt];
 							} else {
-								_t = format ['[%1]',localize 'STR_QS_Text_273'];
+								_t = localize 'STR_QS_Text_273';
 							};
 						} else {
 							_t = '';

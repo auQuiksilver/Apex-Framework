@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	25/06/2016 A3 1.62 by Quiksilver
+	01/05/2023 A3 1.62 by Quiksilver
 	
 Description:
 
@@ -742,7 +742,7 @@ _QS_enemyDetected = FALSE;
 _QS_checkEnemyDelay = time + 10;
 _QS_bombTimer_started = FALSE;
 missionNamespace setVariable ['QS_mission_urban_objectsSecured',0,FALSE];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_046']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_046',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _QS_locationCenterPos;
 	_x setMarkerAlpha 1;
@@ -881,7 +881,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_object1 setPos [-5000,-5000,0];
 					(_markers # 0) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
-					['ST_URBAN',[localize 'STR_QS_Notif_091',(format ['%1 / 3 %2',(missionNamespace getVariable 'QS_mission_urban_objectsSecured'),localize 'STR_QS_Notif_115'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['ST_URBAN',[localize 'STR_QS_Notif_091',(format [localize 'STR_QS_Notif_115',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
 			};
 		};
@@ -895,7 +895,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_object2 setPos [-5000,-5000,0];
 					(_markers # 1) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
-					['ST_URBAN',[localize 'STR_QS_Notif_091',(format ['%1 / 3 %2',(missionNamespace getVariable 'QS_mission_urban_objectsSecured'),localize 'STR_QS_Notif_115'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['ST_URBAN',[localize 'STR_QS_Notif_091',(format [localize 'STR_QS_Notif_115',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
 			};
 		};
@@ -909,7 +909,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_object3 setPos [-5000,-5000,0];
 					(_markers # 2) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
-					['ST_URBAN',[localize 'STR_QS_Notif_091',(format ['%1 / 3 %2',(missionNamespace getVariable 'QS_mission_urban_objectsSecured'),localize 'STR_QS_Notif_115'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['ST_URBAN',[localize 'STR_QS_Notif_091',(format [localize 'STR_QS_Notif_115',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
 			};
 		};

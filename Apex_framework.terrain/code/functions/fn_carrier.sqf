@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/04/2022 A3 2.08 by Quiksilver
+	01/05/2023 A3 2.08 by Quiksilver
 
 Description:
 
@@ -306,7 +306,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 		];
 		_turretGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_turrets',_turrets,FALSE];
-		'QS_marker_carrier_1' setMarkerText (format ['%1 (%2)',(markerText 'QS_marker_carrier_1'),localize 'STR_QS_Marker_004']);
+		'QS_marker_carrier_1' setMarkerText (format [localize 'STR_QS_Marker_004',(markerText 'QS_marker_carrier_1')]);
 	};
 };
 if (_type isEqualTo 'DEFENSE_SERVICE') exitWith {

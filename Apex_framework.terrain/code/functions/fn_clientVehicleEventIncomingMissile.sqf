@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/01/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -88,28 +88,28 @@ if (
 private _relDir = _vehicle getRelDir _shooter;
 private _relDirText = '';
 if ((_relDir > 337.5) || {(_relDir <= 22.5)}) then {
-	_relDirText = format ['( %1 )',localize 'STR_QS_Text_297'];
+	_relDirText = localize 'STR_QS_Text_297';
 } else {
 	if ((_relDir > 22.5) && (_relDir <= 67.5)) then {
-		_relDirText = format ['( %1 )',localize 'STR_QS_Text_298'];
+		_relDirText = localize 'STR_QS_Text_298';
 	} else {
 		if ((_relDir > 67.5) && (_relDir <= 112.5)) then {
-			_relDirText = format ['( %1 )',localize 'STR_QS_Text_299'];
+			_relDirText = localize 'STR_QS_Text_299';
 		} else {
 			if ((_relDir > 112.5) && (_relDir <= 157.5)) then {
-				_relDirText = format ['( %1 )',localize 'STR_QS_Text_300'];
+				_relDirText = localize 'STR_QS_Text_300';
 			} else {
 				if ((_relDir > 157.5) && (_relDir <= 202.5)) then {
-					_relDirText = format ['( %1 )',localize 'STR_QS_Text_301'];
+					_relDirText = localize 'STR_QS_Text_301';
 				} else {
 					if ((_relDir > 202.5) && (_relDir <= 247.5)) then {
-						_relDirText = format ['( %1 )',localize 'STR_QS_Text_302'];
+						_relDirText = localize 'STR_QS_Text_302';
 					} else {
 						if ((_relDir > 247.5) && (_relDir <= 292.5)) then {
-							_relDirText = format ['( %1 )',localize 'STR_QS_Text_303'];
+							_relDirText = localize 'STR_QS_Text_303';
 						} else {
 							if ((_relDir > 292.5) && (_relDir <= 337.5)) then {
-								_relDirText = format ['( %1 )',localize 'STR_QS_Text_304'];
+								_relDirText = localize 'STR_QS_Text_304';
 							};
 						};
 					};
@@ -168,7 +168,7 @@ if (_shooter isKindOf 'Man') then {
 		QS_hashmap_configfile set [format ['cfgammo_%1_displayname',_ammo],_missileDisplayName];
 	};
 };
-_text = format ['%1 %2 %3<br/><br/>%4',localize 'STR_QS_Text_200',(round (_vehicle getDir _shooter)),_relDirText,_missileDisplayName];
+_text = format [localize 'STR_QS_Text_200',(round (_vehicle getDir _shooter)),_relDirText,_missileDisplayName];
 if (_passiveResult isNotEqualTo '') then {
 	_text = _text + (format ['<br/><br/>%1',_passiveResult]);
 };

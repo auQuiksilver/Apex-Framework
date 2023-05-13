@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -663,8 +663,8 @@ _QS_destroyerEnabled = missionNamespace getVariable ['QS_missionConfig_destroyer
 /*/===== Destroyer hangar/*/
 private _QS_interaction_destroyerHeli = FALSE;
 private _QS_action_destroyerHeli = nil;
-private _QS_action_destroyerHeli_textLaunch = localize 'STR_QS_Interact_047';
-private _QS_action_destroyerHeli_textRetract = localize 'STR_QS_Interact_048';
+private _QS_action_destroyerHeli_textLaunch = localize 'STR_QS_Interact_142';
+private _QS_action_destroyerHeli_textRetract = localize 'STR_QS_Interact_143';
 private _QS_action_destroyerHeli_array = [
 	[_QS_action_destroyerHeli_textRetract,_QS_action_destroyerHeli_textLaunch] select (!isNull ((missionNamespace getVariable ['QS_destroyerObject',objNull]) getVariable ['QS_destroyer_hangarHeli',objNull])),
 	{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractDestroyerHeliLaunch')},nil,100,TRUE,TRUE,'','TRUE',1.5,FALSE,'','pos_door_hangar_1_trigger'
@@ -729,7 +729,7 @@ if (_QS_module_liveFeed) then {
 	'qs_rd_lfe' setPiPEffect [0];
 	_QS_liveFeed_camera_offset = [-0.18,0.08,0.05];
 	_QS_liveFeed_vehicle_current = objNull;
-	_QS_liveFeed_text = 'Helmet Cam (Live Feed):';
+	_QS_liveFeed_text = localize 'STR_QS_Text_464';
 	player setVariable ['QS_RD_client_liveFeed',FALSE,FALSE];
 	_QS_liveFeed_action_1 = _QS_liveFeed_display addAction [
 		localize 'STR_QS_Interact_095',
@@ -1763,9 +1763,9 @@ for 'x' from 0 to 1 step 0 do {
 					_QS_fpsCheckDelay = _timeNow + _QS_fpsDelay;
 				};
 				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetToolTip (localize 'STR_QS_Menu_001');
-				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetText format ['%3 %1 | %4 %2h',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString),localize 'STR_QS_Menu_002',localize 'STR_QS_Menu_003'];
+				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetText format [localize 'STR_QS_Menu_002',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString)];
 				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlSetToolTip (localize 'STR_QS_Menu_004');
-				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlSetText format ['%5 %1 | %6 %2 | %7 %3 | %8 %4/100',(score _QS_player),(rating _QS_player),_QS_clientHp,_QS_clientMass,localize 'STR_QS_Menu_005',localize 'STR_QS_Menu_006',localize 'STR_QS_Menu_007',localize 'STR_QS_Menu_008'];
+				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlSetText format [localize 'STR_QS_Menu_005',(score _QS_player),(rating _QS_player),_QS_clientHp,_QS_clientMass];
 				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlCommit 0;
 				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlCommit 0;
 			};
@@ -1780,7 +1780,7 @@ for 'x' from 0 to 1 step 0 do {
 				_viewMenuOpen = _false;
 			} else {
 				((findDisplay _viewMenuIDD) displayCtrl 1001) ctrlSetToolTip (localize 'STR_QS_Menu_001');
-				((findDisplay _viewMenuIDD) displayCtrl 1001) ctrlSetText format ['%3 %1 | %4 %2h',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString),localize 'STR_QS_Menu_002',localize 'STR_QS_Menu_003'];
+				((findDisplay _viewMenuIDD) displayCtrl 1001) ctrlSetText format [localize 'STR_QS_Menu_002',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString)];
 			};
 		};
 	};
@@ -3379,13 +3379,13 @@ for 'x' from 0 to 1 step 0 do {
 			) then {
 				if (!(_QS_interaction_attachExp)) then {
 					_QS_interaction_attachExp = _true;
-					_QS_userActionText = format ['%1 (%2 %3)',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player)),localize 'STR_QS_Utility_001'];
+					_QS_userActionText = format [localize 'STR_QS_Utility_001',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player))];
 					QS_client_dynamicActionText pushBackUnique _QS_userActionText;
 					_QS_action_attachExp_array set [0,_QS_userActionText];
 					_QS_action_attachExp = player addAction _QS_action_attachExp_array;
 					player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
 				} else {
-					_QS_userActionText = format ['%1 (%2 %3)',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player)),localize 'STR_QS_Utility_001'];
+					_QS_userActionText = format [localize 'STR_QS_Utility_001',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player))];
 					player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
 				};
 			} else {
@@ -5212,7 +5212,7 @@ for 'x' from 0 to 1 step 0 do {
 							_QS_inGeorgetown = _true;
 							_QS_georgetown_priorVD = viewDistance;
 							_QS_georgetown_priorOVD = getObjectViewDistance # 0;
-							50 cutText [(format ['%2 (%1) ...',(['Kavala','Georgetown'] select (_QS_worldName isEqualTo 'Tanoa')),localize 'STR_QS_Text_033']),'PLAIN DOWN',0.25];
+							50 cutText [(format [localize 'STR_QS_Text_033',(['Kavala','Georgetown'] select (_QS_worldName isEqualTo 'Tanoa'))]),'PLAIN DOWN',0.25];
 							[_QS_georgetown_priorVD,_QS_georgetown_priorOVD,_QS_georgetown_VD,_QS_georgetown_OVD] spawn {
 								params ['_QS_georgetown_priorVD','_QS_georgetown_priorOVD','_QS_georgetown_VD','_QS_georgetown_OVD'];
 								if (_QS_georgetown_priorVD > _QS_georgetown_VD) then {
@@ -5253,7 +5253,7 @@ for 'x' from 0 to 1 step 0 do {
 					};
 					if ((!(_QS_posWorldPlayer inPolygon _QS_georgetown_polygon)) || {(!isNull _objectParent)} || {((_posATLPlayer # 2) >= 50)}) then {
 						_QS_inGeorgetown = FALSE;
-						50 cutText [(format ['%2 (%1) ...',(['Kavala','Georgetown'] select (_QS_worldName isEqualTo 'Tanoa')),localize 'STR_QS_Text_034']),'PLAIN DOWN',0.25];
+						50 cutText [(format [localize 'STR_QS_Text_034',(['Kavala','Georgetown'] select (_QS_worldName isEqualTo 'Tanoa'))]),'PLAIN DOWN',0.25];
 						[_QS_georgetown_priorVD,_QS_georgetown_priorOVD] spawn {
 							params ['_QS_georgetown_priorVD','_QS_georgetown_priorOVD'];
 							if (viewDistance < _QS_georgetown_priorVD) then {
@@ -5284,7 +5284,7 @@ for 'x' from 0 to 1 step 0 do {
 			} else {
 				if (_QS_inGeorgetown) then {
 					_QS_inGeorgetown = _false;
-					50 cutText [(format ['%2 (%1) ...',(['Kavala','Georgetown'] select (_QS_worldName isEqualTo 'Tanoa')),localize 'STR_QS_Text_034']),'PLAIN DOWN',0.25];
+					50 cutText [(format [localize 'STR_QS_Text_034',(['Kavala','Georgetown'] select (_QS_worldName isEqualTo 'Tanoa'))]),'PLAIN DOWN',0.25];
 					[_QS_georgetown_priorVD,_QS_georgetown_priorOVD] spawn {
 						params ['_QS_georgetown_priorVD','_QS_georgetown_priorOVD'];
 						if (viewDistance < _QS_georgetown_priorVD) then {
@@ -5755,7 +5755,7 @@ for 'x' from 0 to 1 step 0 do {
 					if (!isNull _QS_buttonCtrl) then {
 						_QS_buttonCtrl ctrlSetText (localize 'STR_QS_Menu_009');
 						_QS_buttonCtrl buttonSetAction _QS_buttonAction;
-						_QS_buttonCtrl ctrlSetTooltip (format ['%1 %2 %3 %4',localize 'STR_QS_Utility_011','&',localize 'STR_QS_Utility_012',localize 'STR_QS_Menu_009']);
+						_QS_buttonCtrl ctrlSetTooltip (localize 'STR_QS_Utility_012');
 						_QS_buttonCtrl ctrlSetBackgroundColor [1,0.5,0.5,1];
 						_QS_buttonCtrl ctrlCommit 0;
 					};

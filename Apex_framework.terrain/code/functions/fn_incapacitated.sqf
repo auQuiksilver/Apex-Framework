@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	1/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -61,7 +61,7 @@ if (
 ) exitWith {
 	_unit setDamage [1,TRUE];
 	if (isPlayer _unit) then {
-		['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_113'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['systemChat',(format [localize 'STR_QS_Chat_113',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 };
 if ((secondaryWeapon _unit) isNotEqualTo '') then {
@@ -118,7 +118,7 @@ if (isForcedWalk _unit) then {
 };
 if (!isPlayer _unit) exitWith {};
 if ((lifeState _unit) isNotEqualTo 'INCAPACITATED') exitWith {
-	['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_114'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+	['systemChat',(format [localize 'STR_QS_Chat_114',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	_unit setDamage [1,TRUE];
 };
 showHUD [FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE];
@@ -153,40 +153,36 @@ _sound = '';
 _medevacBase = markerPos 'QS_marker_medevac_hq';
 private _medevacRequested = FALSE;
 private _revivedAtVehicle = FALSE;
-private _incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
+private _incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
 if (!isNull _instigator) then {
 	if (_instigator isEqualTo _unit) then {
-		_incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
+		_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
 	} else {
 		if (
 			(_instigator getUnitTrait 'QS_trait_sniper') || 
 			((toLowerANSI (typeOf _instigator)) in (['enemy_sniper_types_1'] call QS_data_listUnits))
 		) then {
 			_nameKiller = name _instigator;
-			private _sniperText = selectRandom [
+			private _sniperText = [
 				localize 'STR_QS_Chat_116',
 				localize 'STR_QS_Chat_117',
 				localize 'STR_QS_Chat_118',
 				localize 'STR_QS_Chat_119'
 			];
-			_incapacitatedText = format [
-				'%1 %2',
-				_profileName,
-				(format ['%1 ( %2 )',_sniperText,_nameKiller])
-			];
+			_incapacitatedText = format [selectRandom _sniperText,_profileName,_nameKiller];
 		} else {
 			if (isPlayer _instigator) then {
 				if ((getPlayerUID _instigator) in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-					_incapacitatedText = format ['%1 %2.',_profileName,localize 'STR_QS_Chat_115'];
+					_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
 				} else {
 					if ((side _instigator) in [EAST,RESISTANCE]) then {
-						_incapacitatedText = format ['%1 %3 %2',_profileName,(name _instigator),localize 'STR_QS_Chat_120'];
+						_incapacitatedText = format [localize 'STR_QS_Chat_120',_profileName,(name _instigator)];
 					} else {
-						_incapacitatedText = format ['%1 %3 %2 (%4)',_profileName,(name _instigator),localize 'STR_QS_Chat_120',localize 'STR_QS_Chat_121'];
+						_incapacitatedText = format [localize 'STR_QS_Chat_121',_profileName,(name _instigator)];
 					};
 				};
 			} else {
-				_incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
+				_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
 			};
 		};
 		if (_instigator isEqualTo (missionNamespace getVariable ['QS_csatCommander',objNull])) then {
@@ -201,7 +197,7 @@ if (!isNull _instigator) then {
 		};
 	};
 } else {
-	_incapacitatedText = format ['%1 %2',_profileName,localize 'STR_QS_Chat_115'];
+	_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
 };
 ['systemChat',_incapacitatedText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 private _textReviveTickets = '';
@@ -229,7 +225,7 @@ _display = findDisplay 46;
 private _ctrlIncapacitated = _display ctrlCreate _QS_ctrlCreateArray;
 _ctrlIncapacitated ctrlSetPosition [((0.0075 * safezoneW) + safezoneX),((0.01 * safezoneH) + safezoneY),1,1];
 private _string1 = actionKeysNames ['InGamePause',1];
-private _text1 = parseText format ['<t size="1.5" align="left">%7<t/><br/><t size="1" align="left">%5 [%1] %6<br/>%4 (%2)<br/>%3</t>',(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString')),(call (missionNamespace getVariable 'QS_fnc_clientMFindHealer')),localize 'STR_QS_Text_270',localize 'STR_QS_Menu_092',localize 'STR_QS_Text_271',localize 'STR_QS_Text_272'];
+private _text1 = parseText format [(localize 'STR_QS_Text_270'),(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString')),([] call (missionNamespace getVariable 'QS_fnc_clientMFindHealer'))];
 _ctrlIncapacitated ctrlSetStructuredText _text1;
 _ctrlIncapacitated ctrlCommit 0;
 if (isNil 'bis_revive_ppColor') then {
@@ -275,7 +271,7 @@ for '_x' from 0 to 1 step 0 do {
 	_objectParent = objectParent _unit;
 	_attachedTo = attachedTo _unit;
 	_string1 = actionKeysNames ['InGamePause',1];
-	_text1 = parseText format ['<t size="1.5" align="left">INCAPACITATED<t/><br/><t size="1" align="left">Press [%1] to respawn<br/>Bleeding out (%2)<br/>%3</t>',(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call _fn_secondsToString),(call _fn_findHealer)];
+	_text1 = parseText format [(localize 'STR_QS_Text_270'),(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call _fn_secondsToString),(call _fn_findHealer)];
 	_ctrlIncapacitated ctrlSetStructuredText ([_text1,(parseText '')] select visibleMap);
 	if (_tickTimeNow > _soundDelay) then {
 		if (isNull _objectParent) then {
@@ -308,7 +304,7 @@ for '_x' from 0 to 1 step 0 do {
 		_exit = TRUE;
 	};
 	if (_tickTimeNow >= _medicalTimer) then {
-		['systemChat',(format ['%1 %2',_profileName,localize 'STR_QS_Chat_127'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['systemChat',(format [localize 'STR_QS_Chat_127',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		_forceRespawned = TRUE;
 	} else {
 		if (
@@ -330,7 +326,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_tickTimeNow > _ambulanceDelay) then {
 		if (((getPosASL _unit) # 2) < -1.5) then {
-			['systemChat',(format ['%1 %2',_profileName,localize 'STR_QS_Chat_128'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['systemChat',(format [localize 'STR_QS_Chat_128',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			_forceRespawned = TRUE;
 		};
 	};
@@ -386,7 +382,7 @@ for '_x' from 0 to 1 step 0 do {
 								];
 								_remainingTickets = _transportSoldier - 1;
 								_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-								_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
+								_textReviveTickets = format [localize 'STR_QS_Chat_051',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
 								['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							} else {
 								if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') isEqualType 0) then {
@@ -403,7 +399,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										_remainingTickets = (_vehicle getVariable 'QS_medicalVehicle_reviveTickets') - 1;
 										_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-										_textReviveTickets = format ['%1 ( %2 ) - %4 - %3',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets,localize 'STR_QS_Chat_051'];
+										_textReviveTickets = format [localize 'STR_QS_Chat_051',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
 										['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
 								};
@@ -418,7 +414,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((vectorMagnitude (velocity _medicalBox)) < 1) then {
 								if ((!(unitIsUav _medicalBox)) || {((unitIsUav _medicalBox) && (isUavConnected _medicalBox))}) then {
 									deleteVehicle _medicalBox;
-									_text = format ['%1 %3 %2',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText ((configOf _medicalBox) >> 'displayName'))]),localize 'STR_QS_Chat_129'];
+									_text = format [localize 'STR_QS_Chat_129',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText ((configOf _medicalBox) >> 'displayName'))])];
 									['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									_revivedAtVehicle = TRUE;
 									if (_lifeState isEqualTo 'INCAPACITATED') then {
@@ -515,7 +511,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_buttonCtrl = _d49 displayCtrl _x;
 				if (!isNull _QS_buttonCtrl) then {
 					_QS_buttonCtrl ctrlSetText (localize 'STR_QS_Menu_009');
-					_QS_buttonCtrl ctrlSetTooltip (format ['%1 %2 %3 %4',localize 'STR_QS_Utility_011','&',localize 'STR_QS_Utility_012',localize 'STR_QS_Menu_009']);
+					_QS_buttonCtrl ctrlSetTooltip (localize 'STR_QS_Utility_012');
 					_QS_buttonAction = "[] call QS_fnc_clientMenu2";
 					_QS_buttonCtrl buttonSetAction _QS_buttonAction;
 					_QS_buttonCtrl ctrlCommit 0;
@@ -533,8 +529,8 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_buttonCtrl = _buttonRespawnFOB;
 			_QS_buttonAction = "player setVariable ['QS_revive_respawnType','FOB',FALSE];";
 			_QS_buttonCtrl buttonSetAction _QS_buttonAction;
-			//_buttonRespawnFOB ctrlSetText (format ['%2 (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Menu_098']);
-			//_buttonRespawnFOB ctrlSetTooltip (format ['%3 %1 (%2 %4).',(missionNamespace getVariable ['QS_module_fob_displayName','']),(missionNamespace getVariable ['QS_module_fob_respawnTickets',0]),localize 'STR_QS_Menu_098',localize 'STR_QS_Menu_099']);
+			//_buttonRespawnFOB ctrlSetText (format [localize 'STR_QS_Menu_098',(missionNamespace getVariable 'QS_module_fob_respawnTickets')]);
+			//_buttonRespawnFOB ctrlSetTooltip (format [localize 'STR_QS_Menu_099',(missionNamespace getVariable ['QS_module_fob_displayName','']),(missionNamespace getVariable ['QS_module_fob_respawnTickets',0])]);
 			_buttonRespawnFOB ctrlEnable FALSE;
 			/*/
 			if (player getVariable ['QS_module_fob_client_respawnEnabled',TRUE]) then {
@@ -613,7 +609,7 @@ for '_x' from 0 to 1 step 0 do {
 			} else {
 				(_d49 displayCtrl 1010) ctrlEnable FALSE;
 			};
-			(_d49 displayCtrl 1010) ctrlSetText (format ['%2 (%1)',(missionNamespace getVariable 'QS_module_fob_respawnTickets'),localize 'STR_QS_Menu_098']);
+			(_d49 displayCtrl 1010) ctrlSetText (format [localize 'STR_QS_Menu_098',(missionNamespace getVariable 'QS_module_fob_respawnTickets')]);
 			(_d49 displayCtrl 1010) ctrlCommit 0;
 			/*/
 			(_d49 displayCtrl 1005) ctrlSetText (format ['%1 - A3 %2',_QS_missionVersion,(format ['%1.%2',(_QS_productVersion # 2),(_QS_productVersion # 3)])]);

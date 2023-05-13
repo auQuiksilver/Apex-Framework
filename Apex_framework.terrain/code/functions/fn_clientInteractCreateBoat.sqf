@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 	
-	24/12/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -25,7 +25,7 @@ if (
 	{(!isNull (player getVariable 'QS_client_createdBoat'))} &&
 	{(alive (player getVariable 'QS_client_createdBoat'))}
 ) exitWith {
-	50 cutText [(format ['%2 %1',(mapGridPosition (player getVariable 'QS_client_createdBoat')),localize 'STR_QS_Text_095']),'PLAIN DOWN'];
+	50 cutText [(format [localize 'STR_QS_Text_095',(mapGridPosition (player getVariable 'QS_client_createdBoat'))]),'PLAIN DOWN'];
 };
 private _itemIndex = _items findAny QS_core_classNames_itemToolKits;
 private _itemType = _items # _itemIndex;
@@ -40,4 +40,4 @@ _dn = QS_hashmap_configfile getOrDefaultCall [
 	{getText ((configOf _boatType) >> 'displayName')},
 	TRUE
 ];
-50 cutText [(format ['%1 %2',_dn,localize 'STR_QS_Text_096']),'PLAIN DOWN',0.75];
+50 cutText [(format [localize 'STR_QS_Text_096',_dn]),'PLAIN DOWN',0.75];

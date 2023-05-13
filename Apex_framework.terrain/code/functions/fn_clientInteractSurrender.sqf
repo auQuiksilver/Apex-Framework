@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/02/2017 A3 1.80 by Quiksilver
+	01/05/2023 A3 1.80 by Quiksilver
 
 Description:
 
@@ -65,7 +65,7 @@ _onCompleted = {
 		[58,[profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 	if (_entity isEqualTo (missionNamespace getVariable 'QS_arrest_target')) then {
-		['sideChat',[WEST,'HQ'],(format ['%1 %2',profileName,localize 'STR_QS_Chat_038'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_038',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		for '_x' from 0 to 1 step 1 do {
 			missionNamespace setVariable ['QS_aoSmallTask_Arrested',TRUE,TRUE];
 		};

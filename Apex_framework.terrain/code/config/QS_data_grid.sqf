@@ -21,7 +21,7 @@ player addAction [
 		copyToClipboard str QS_array;
 		cutText [(format ['Registered %1',diag_tickTime]),'PLAIN',0.25];
 		
-		_str = format ['QS_marker_%1',(round (diag_tickTime))];
+		_str = (format ['QS_marker_%1',(round (diag_tickTime))]);
 		_mkr = createMarker [_str,_position];
 		_mkr setMarkerShapeLocal 'ICON';
 		_mkr setMarkerType 'mil_dot';

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/01/2023 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -165,7 +165,7 @@ if (
 					_entity setCruiseControl [0,FALSE];
 					QS_cc_convoyActive = FALSE;
 					if (_speed > _maxSpeed) then {
-						50 cutText [localize 'STR_QS_Text_339','PLAIN DOWN',0.5];
+						50 cutText [format [localize 'STR_QS_Text_339',_speed,_maxSpeed],'PLAIN DOWN',0.5];
 					} else {
 						50 cutText [localize 'STR_QS_Text_340','PLAIN DOWN',0.5];
 					};
@@ -216,7 +216,7 @@ if (
 	};
 	if (!(missionNamespace getVariable ['QS_cc_convoyActive',FALSE])) then {
 		_entity setCruiseControl [(_speed min (_maxSpeed + 1)),TRUE];
-		50 cutText [(format ['%2 %1 %3',round _speed,localize 'STR_QS_Text_241',localize 'STR_QS_Text_242']),'PLAIN DOWN',0.5];
+		50 cutText [(format [localize 'STR_QS_Text_241',round _speed]),'PLAIN DOWN',0.5];
 	} else {
 		50 cutText [localize 'STR_QS_Text_342','PLAIN DOWN',0.5];
 	};

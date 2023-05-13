@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	15/05/2017 A3 1.70 by Quiksilver
+	01/05/2023 A3 1.70 by Quiksilver
 	
 Description:
 
@@ -147,7 +147,7 @@ if (_case isEqualType '') then {
 			/*/color array/*/ 				[1,0.81,0.06,1],
 			/*/colorIconPicture array/*/	[1,0.81,0.06,1],
 			/*/colorIconText array/*/ 		[(profileNamespace getVariable ['IGUI_TEXT_RGB_R',0]),(profileNamespace getVariable ['IGUI_TEXT_RGB_G',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_B',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_A',0.8])],
-			/*/description string/*/ 		(localize 'STR_QS_Notif_123') + ' %1',
+			/*/description string/*/ 		(localize 'STR_QS_Notif_123'),
 			/*/difficulties array/*/ 		[],
 			/*/duration number/*/ 			5,
 			/*/iconPicture string/*/ 		'media\images\notificons\main_objective.paa',
@@ -165,7 +165,7 @@ if (_case isEqualType '') then {
 			/*/color array/*/ 				[1,0.81,0.06,1],
 			/*/colorIconPicture array/*/	[1,0.81,0.06,1],
 			/*/colorIconText array/*/ 		[(profileNamespace getVariable ['IGUI_TEXT_RGB_R',0]),(profileNamespace getVariable ['IGUI_TEXT_RGB_G',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_B',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_A',0.8])],
-			/*/description string/*/ 		(localize 'STR_QS_Notif_124') + ' %1',
+			/*/description string/*/ 		(localize 'STR_QS_Notif_124'),
 			/*/difficulties array/*/ 		[],
 			/*/duration number/*/ 			5,
 			/*/iconPicture string/*/ 		'media\images\notificons\main_objective_completed.paa',
@@ -201,7 +201,7 @@ if (_case isEqualType '') then {
 			/*/color array/*/ 				[1,0.81,0.06,1],
 			/*/colorIconPicture array/*/	[1,0.81,0.06,1],
 			/*/colorIconText array/*/ 		[(profileNamespace getVariable ['IGUI_TEXT_RGB_R',0]),(profileNamespace getVariable ['IGUI_TEXT_RGB_G',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_B',1]),(profileNamespace getVariable ['IGUI_TEXT_RGB_A',0.8])],
-			/*/description string/*/ 		(localize 'STR_QS_Notif_128') + ' %1',
+			/*/description string/*/ 		(localize 'STR_QS_Notif_128'),
 			/*/difficulties array/*/ 		[],
 			/*/duration number/*/ 			5,
 			/*/iconPicture string/*/ 		'media\images\notificons\main_objective_completed.paa',

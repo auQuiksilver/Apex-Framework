@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -341,7 +341,7 @@ if (
 									(_targetPosition inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)])
 								) then {
 									(missionNamespace getVariable ['QS_AI_cmdr_recentSuppPositions',[]]) pushBack [_targetPosition,serverTime + (60 + (random 300))];
-									(format ['%2 %1',mapGridPosition _targetPosition,localize 'STR_QS_Chat_078']) remoteExec ['systemChat',-2];
+									(format [localize 'STR_QS_Chat_078',mapGridPosition _targetPosition]) remoteExec ['systemChat',-2];
 									_supportGroup setVariable ['QS_AI_GRP_fireMission',[(_targetPosition getPos [random 50,random 360]),((magazines (vehicle _supportProvider)) # 0),(round (4 + (random 4))),(serverTime + 90)],QS_system_AI_owners];
 									_exit = TRUE;
 								};

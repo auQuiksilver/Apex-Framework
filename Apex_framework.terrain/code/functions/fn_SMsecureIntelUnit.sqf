@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	7/9/2018 A3 1.84 by Quiksilver
+	01/05/2023 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -99,7 +99,7 @@ _intelObj addEventHandler [
 				_killerDisplayName = getText ((configOf (vehicle _killer)) >> 'displayName');
 				_objDisplayName = getText ((configOf _object) >> 'displayName');
 				_name = name _killer;
-				['sideChat',[WEST,'BLU'],format ['%1 %2',_name,localize 'STR_QS_Chat_070']] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				['sideChat',[WEST,'BLU'],format [localize 'STR_QS_Chat_070',_name]] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			};
 		};
 	}
@@ -188,7 +188,7 @@ _enemiesArray = [_flatPos] call (missionNamespace getVariable 'QS_fnc_smEnemyEas
 /*/--------------------------------------------------------------------------- BRIEFING/*/
 
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_043']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_043',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;

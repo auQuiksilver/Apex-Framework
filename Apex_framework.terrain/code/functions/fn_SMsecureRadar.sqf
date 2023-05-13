@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/06/2016 A3 1.62 by Quiksilver
+	01/05/2023 A3 1.62 by Quiksilver
 	
 Description:
 
@@ -89,7 +89,7 @@ _enemiesArray = [(missionNamespace getVariable 'QS_sideObj')] call (missionNames
 /*/------------------- BRIEF/*/
 
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_045']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_045',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;

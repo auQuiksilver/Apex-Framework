@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	3/09/2016 A3 1.62 by Quiksilver
+	01/05/2023 A3 1.62 by Quiksilver
 	
 Description:
 
@@ -36,7 +36,7 @@ if (missionNamespace getVariable ['QS_customAO_GT_active',FALSE]) then {
 								};
 								player setVehiclePosition [(markerPos 'QS_marker_GT_TP'),[],15,'NONE'];
 								openMap FALSE;
-								50 cutText [(format ['%2 %1',(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Text_043']),'PLAIN DOWN',0.5];
+								50 cutText [(format [localize 'STR_QS_Text_043',(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))]),'PLAIN DOWN',0.5];
 							} else {
 								50 cutText [localize 'STR_QS_Text_044','PLAIN DOWN',0.5];
 							};

@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	18/08/2019 A3 1.94 by Quiksilver
+	01/05/2023 A3 1.94 by Quiksilver
 
 Description:
 
@@ -149,16 +149,7 @@ if (_letter isEqualTo 'B') then {
 if (_letter isEqualTo 'C') then {
 	_title = 'Charlie';
 };
-_description = format [
-	'%3 %1 ( %2 ).<br/><br/>%4<br/><br/>%5<br/><br/>%6<br/><br/>%7',
-	_title,
-	_letter,
-	localize 'STR_QS_Task_050',
-	localize 'STR_QS_Task_051',
-	localize 'STR_QS_Task_052',
-	localize 'STR_QS_Task_053',
-	localize 'STR_QS_Task_054'
-];
+_description = format [localize 'STR_QS_Task_050',_title,_letter];
 _taskData pushBack ([
 	(format ['QS_virtualSectors_%1_task',(count (missionNamespace getVariable 'QS_virtualSectors_data'))]),
 	TRUE,

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 	
-	3/11/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -45,7 +45,7 @@ _unit addPrimaryWeaponItem (selectRandom ['optic_erco_blk_f','optic_dms']);
 ];
 if (_unit getUnitTrait 'medic') then {
 	_unit setVariable ['QS_unit_role','medic',TRUE];
-	_unit setVariable ['QS_ST_customDN',localize 'STR_QS_Text_376',TRUE];
+	_unit setVariable ['QS_ST_customDN',localize 'STR_QS_Role_019',TRUE];
 };
 _unit setName ['AI','AI','AI'];
 _unit addRating (0 - (rating _unit));

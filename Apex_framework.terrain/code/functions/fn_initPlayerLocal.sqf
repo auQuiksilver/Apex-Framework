@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	30/11/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -41,8 +41,8 @@ if ((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc
 				player removeAction _x;
 			} count (missionNamespace getVariable 'QS_kiddieActions');
 			missionNamespace setVariable ['QS_kiddieActions',[],FALSE];
-			systemChat format ['%1 %2',(str _n),localize 'STR_QS_Chat_135'];
-			_text = format ['%1 %2',(str _n),localize 'STR_QS_Hints_124'];
+			systemChat format [localize 'STR_QS_Chat_135',(str _n)];
+			_text = format [localize 'STR_QS_Hints_124',(str _n)];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,7.5,-1,_text,[],-1];
 		} else {
 			systemChat (localize 'STR_QS_Chat_136');

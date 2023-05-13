@@ -26,7 +26,7 @@ if (!(_weaponExists)) then {
 		QS_hashmap_configfile set [format ['cfgweapons_%1_isclass',_weapon],_weapon];
 	};
 };
-if (!(_weaponExists)) exitWith {diag_log format ['***** Weapon does not exist - %1 *****',_weapon];};
+if (!(_weaponExists)) exitWith {diag_log (format ['***** Weapon does not exist - %1 *****',_weapon]);};
 if (_magazineCount > 0) then {
 	if (_magazineClass isEqualType 0) then {
 		private _magazines = (missionNamespace getVariable ['QS_session_weaponMagazines',[]]) getOrDefault [_weapon,[]];

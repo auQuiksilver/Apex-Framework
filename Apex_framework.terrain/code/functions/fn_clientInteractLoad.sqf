@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/02/2023 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -74,10 +74,9 @@ if (_attachedObjects isNotEqualTo []) then {
 				if (isClass ((configOf _t) >> 'VehicleTransport' >> 'Carrier')) then {
 					50 cutText [
 						(format [
-							'%1 %3 %2',
-							(_obj getVariable ['QS_ST_customDN',_dn1]),
-							_dn,
-							localize 'STR_QS_Text_114'
+							localize 'STR_QS_Text_114',
+							(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),
+							_dn
 						]),
 						'PLAIN DOWN',
 						0.4
@@ -86,13 +85,11 @@ if (_attachedObjects isNotEqualTo []) then {
 					_capacity = [3,_obj,_t] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams');
 					50 cutText [
 						(format [
-							'%1 %5 %2 - %6 %3 / %4',
-							(_obj getVariable ['QS_ST_customDN',_dn1]),
+							localize 'STR_QS_Text_115',
+							(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),
 							_dn,
 							(_capacity # 0),
-							(_capacity # 1),
-							localize 'STR_QS_Text_114',
-							localize 'STR_QS_Text_115'
+							(_capacity # 1)
 						]),
 						'PLAIN DOWN',
 						([0.333,0.666] select ((_capacity # 0) isEqualTo (_capacity # 1))),
@@ -113,7 +110,7 @@ if (_obj isKindOf 'CAManBase') then {
 			};
 			['switchMove',_obj,(['AinjPpneMstpSnonWnonDnon','acts_InjuredLyingRifle02'] select (isPlayer _obj))] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 			player playAction 'released';
-			50 cutText [(format ['%1 %3 %2',(name _obj),_dn,localize 'STR_QS_Text_114']),'PLAIN DOWN',0.3];
+			50 cutText [(format [localize 'STR_QS_Text_114',(name _obj),_dn]),'PLAIN DOWN',0.3];
 		} else {
 			50 cutText [localize 'STR_QS_Text_116','PLAIN DOWN',0.3];
 		};
@@ -130,7 +127,7 @@ if (_obj isKindOf 'CAManBase') then {
 		} else {
 			[3,_obj,_t] remoteExec ['QS_fnc_remoteExec',_obj,FALSE];
 		};
-		50 cutText [(format ['%1 %3 %2',(name _obj),_dn,localize 'STR_QS_Text_114']),'PLAIN DOWN',0.3];
+		50 cutText [(format [localize 'STR_QS_Text_114',(name _obj),_dn]),'PLAIN DOWN',0.3];
 	};
 	['switchMove',player,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 };

@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	28/12/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -52,7 +52,7 @@ _gunner addEventHandler [
 		(vehicle _killed) setDamage [1,TRUE];
 		if (!isNull _instigator) then {
 			if (isPlayer _instigator) then {
-				_text = format ['%1 ( %2 ) %3',(name _instigator),(groupId (group _instigator)),localize 'STR_QS_Chat_080'];
+				_text = (format [localize 'STR_QS_Chat_080',(name _instigator),(groupId (group _instigator))]);
 				_text remoteExec ['systemChat',-2,FALSE];
 			};
 		};

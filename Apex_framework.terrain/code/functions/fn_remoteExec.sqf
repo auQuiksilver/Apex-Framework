@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	1/01/2023 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -787,7 +787,7 @@ if (_case < 40) exitWith {
 		if (isDedicated) then {
 			if (_rxID isEqualTo _cid) then {
 				diag_log format ['***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****',time,_profileName];
-				['systemChat',(format ['%2 %1 %3',_profileName,localize 'STR_QS_Chat_144',localize 'STR_QS_Chat_145'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				['systemChat',(format [localize 'STR_QS_Chat_144',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1 AFK timeout',_cid]);
 			};
 		};
@@ -838,7 +838,7 @@ if (_case < 40) exitWith {
 					{getText (configFile >> 'CfgVehicles' >> (_array # 0) >> 'displayName')},
 					TRUE
 				];
-				_text = format ['%1 %4 %2 %5 %3',_clientPN,_displayName,(mapGridPosition _unit),localize 'STR_QS_Chat_146',localize 'STR_QS_Hints_060'];
+				_text = format [localize 'STR_QS_Chat_146',_clientPN,_displayName,(mapGridPosition _unit)];
 				['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				if (surfaceIsWater _position) then {
 					_vehicle setPosASL _position;
@@ -1228,7 +1228,7 @@ if (_case < 60) exitWith {
 			];
 			[(missionNamespace getVariable 'QS_AO_HQ_flag'),WEST,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
 			['QS_IA_TASK_AO_2'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-			['sideChat',[WEST,'HQ'],(format ['%2 %1!',_name,localize 'STR_QS_Chat_055'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_055',_name])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
 	/*/===== Remote Add To Remains Collector/*/
@@ -1522,7 +1522,7 @@ if (_case < 80) exitWith {
 				_marker1 setMarkerShapeLocal 'ICON';
 				_marker1 setMarkerTypeLocal 'mil_dot';
 				_marker1 setMarkerColorLocal 'ColorWEST';
-				_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_023']);
+				_marker1 setMarkerTextLocal (format [localize 'STR_QS_Marker_023',(toString [32,32,32])]);
 				_marker1 setMarkerSizeLocal [0.5,0.5];
 				_marker1 setMarkerPosLocal (missionNamespace getVariable ['QS_virtualSectors_sd_position',[-1000,-1000,0]]);
 				_marker1 setMarkerAlpha 1;
@@ -1685,7 +1685,7 @@ if (_case < 90) exitWith {
 			if (!(isObjectHidden _entity)) then {
 				_entity hideObjectGlobal TRUE;
 			};
-			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
+			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
 			_text remoteExec ['systemChat',-2];
 			if ((_entity getVariable ['QS_intel_marker',-1]) isNotEqualTo -1) then {
 				for '_x' from 0 to 1 step 1 do {
@@ -1699,7 +1699,7 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
+			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
 			_text remoteExec ['systemChat',-2];
 			[(_entity getVariable ['QS_entity_assocPos',(position _entity)]),_clientOwner] spawn (missionNamespace getVariable 'QS_fnc_aoTaskIDAP');
 		};
@@ -1709,7 +1709,7 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
+			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
 			_text remoteExec ['systemChat',-2];
 			[(_entity getVariable ['QS_entity_assocPos',(getPosATL _entity)]),_clientOwner] spawn (missionNamespace getVariable 'QS_fnc_aoTaskIG');
 		};
@@ -1806,14 +1806,14 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format ['%1 (%2) %3',_profileName,_groupID,localize 'STR_QS_Chat_147'];
+			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
 			_text remoteExec ['systemChat',-2];
 			[(getPosATL _entity)] spawn (missionNamespace getVariable 'QS_fnc_aoTaskKill');
 		};
 	};
 	if (_case isEqualTo 85) then {
-		['GRID_IDAP_UPDATE',[localize 'STR_QS_Notif_008',format ['%1<br/>%2',localize 'STR_QS_Notif_071',localize 'STR_QS_Notif_072']]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		'QS_marker_grid_civState' setMarkerTextLocal (format ['%1 %2 (%3)',(toString [32,32,32]),localize 'STR_QS_Marker_011',localize 'STR_QS_Marker_024']);
+		['GRID_IDAP_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_071']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+		'QS_marker_grid_civState' setMarkerTextLocal (format [localize 'STR_QS_Marker_024',(toString [32,32,32])]);
 		'QS_marker_grid_civState' setMarkerColor 'ColorRED';
 	};
 	if (_case isEqualTo 86) then {
@@ -2022,7 +2022,7 @@ if (_case < 100) exitWith {
 				_data params ['_vehicle','_name'];
 				if (_isPassenger) then {
 					// is passenger
-					50 cutText [(format ['%2 ( %1 ) %3',_name,localize 'STR_QS_Text_232',localize 'STR_QS_Text_233']),'PLAIN DOWN',2];
+					50 cutText [(format [localize 'STR_QS_Text_232',_name]),'PLAIN DOWN',2];
 					uiSleep 0.5 + (random 1.5);
 					if (!(QS_heli_takeover_action in (actionIDs player))) then {
 						QS_heli_takeover_action = player addAction [
@@ -2031,7 +2031,7 @@ if (_case < 100) exitWith {
 								params ['','','_actionID','_args'];
 								_args params ['_vehicle'];
 								player removeAction _actionID;
-								50 cutText ['Requesting helicopter controls','PLAIN DOWN',0.5];
+								50 cutText [localize 'STR_QS_Interact_144','PLAIN DOWN',0.5];
 								if (alive _vehicle) then {
 									if (isNull ((currentPilot _vehicle) getVariable ['BIS_fnc_moduleRemoteControl_owner',objNull])) then {
 										[96,1,player,_vehicle] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -2057,7 +2057,7 @@ if (_case < 100) exitWith {
 				} else {
 					// is pilot
 					_data params ['_vehicle','_name','_crewCount','_mapGridPosition'];
-					50 cutText [(format ['%4 ( %1 ) %5 %2 %6 %3. %7',_name,_crewCount,_mapGridPosition,localize 'STR_QS_Text_234',localize 'STR_QS_Text_235',localize 'STR_QS_Text_236',localize 'STR_QS_Text_237']),'PLAIN DOWN',2];
+					50 cutText [(format [localize 'STR_QS_Text_234',_name,_crewCount,_mapGridPosition]),'PLAIN DOWN',2];
 					uiSleep 0.5 + (random 1.5);
 					if (!(QS_heli_takeover_action in (actionIDs player))) then {
 						QS_heli_takeover_action = player addAction [
@@ -2101,7 +2101,7 @@ if (_case < 100) exitWith {
 					{getText ((configOf _vehicle) >> 'displayName')},
 					TRUE
 				];
-				['systemChat',format ['%1 %3 %2 ( %4 )',profileName,_displayName,localize 'STR_QS_Chat_148',localize 'STR_QS_Chat_149']] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				['systemChat',format [localize 'STR_QS_Chat_148',profileName,_displayName]] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				_pilot addEventHandler [
 					'Killed',
 					{
@@ -2262,7 +2262,7 @@ if (_case < 110) exitWith {
 				};
 				if (serverTime > (_target getVariable ['QS_target_cooldown',-1])) then {
 					_target setVariable ['QS_target_cooldown',serverTime + 10,FALSE];
-					systemChat (format ['%1 %3 %2',_vt,mapGridPosition _target,localize 'STR_QS_Chat_150']);
+					systemChat (format [localize 'STR_QS_Chat_150',_vt,mapGridPosition _target]);
 				};
 				if ((QS_player distance _target) <= _warningRange) then {
 					if (isNull (objectParent QS_player)) then {

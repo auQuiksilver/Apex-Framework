@@ -29,7 +29,7 @@ if (_type isEqualTo 0) exitWith {
 		_pylonMagazines = _pylonMagazines select {((!((toLowerANSI _x) in _airToGroundMissiles)) && (!(['cluster',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))))};
 		if (_isHeli) then {
 			_ammoText = QS_hashmap_configfile getOrDefaultCall [
-				format ['cfgmagazines_%1_ammo',toLowerANSI _x],
+				(format ['cfgmagazines_%1_ammo',toLowerANSI _x]),
 				{getText (configFile >> 'CfgMagazines' >> _x >> 'ammo')},
 				TRUE
 			];

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -178,7 +178,7 @@ if (_position isEqualTo 'gunner') then {
 				{getText ((configOf _vehicle) >> 'displayName')},
 				TRUE
 			];
-			['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',_dn,profileName,localize 'STR_QS_Chat_165'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'AirBase'],(format [localize 'STR_QS_Chat_165',_dn,profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
 };

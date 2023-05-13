@@ -4,9 +4,9 @@ Author:
 
 	Quiksilver
 
-Last modified: 
+Last Modified:
 
-	25/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -1326,11 +1326,7 @@ if (_QS_module_restart) then {
 				_endImage = missionNamespace getVariable ['QS_missionConfig_textures_communityFlag','a3\data_f\flags\flag_nato_co.paa'];
 			};
 			51 cutText [
-				(format [
-					"<img size='4' image='%1'/><br/><br/><t size='5'>%2</t><br/><br/>",
-					_endImage,
-					localize 'STR_QS_Utility_000'
-				]),
+				(format [localize 'STR_QS_Utility_000',_endImage]),
 				'PLAIN DOWN',
 				5,
 				TRUE,
@@ -2624,7 +2620,7 @@ for '_x' from 0 to 1 step 0 do {
 					_module_fob_logistics_fuelServices = _false;
 					_module_fob_isFobActive = _true;
 					/*/ Communicate with players /*/
-					['FOB_INIT',['',(format ['%2 %1',(([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 5),localize 'STR_QS_Notif_047'])]] remoteExec ['QS_fnc_showNotification',-2,_false];
+					['FOB_INIT',['',(format [localize 'STR_QS_Notif_047',(([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 5)])]] remoteExec ['QS_fnc_showNotification',-2,_false];
 				};
 			} else {
 				//comment 'RELEVANT FOB IS ALREADY CREATED, MANAGE IT HERE';
@@ -2655,7 +2651,7 @@ for '_x' from 0 to 1 step 0 do {
 							_module_fob_respawn_ticketsAdded = _ve getVariable ['QS_medicalVehicle_reviveTickets',(getNumber ((configOf _ve) >> 'transportSoldier'))];
 						};
 						QS_module_fob_flag setVariable ['QS_deploy_tickets',(QS_module_fob_flag getVariable ['QS_deploy_tickets',0]) + _module_fob_respawn_ticketsAdded,_true];
-						0 = ['sideChat',[_west,'HQ'],(format ['%3 %1 %4 %2',_module_fob_respawn_ticketsAdded,(QS_module_fob_flag getVariable ['QS_deploy_tickets',0]),localize 'STR_QS_Chat_041',localize 'STR_QS_Chat_042'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+						0 = ['sideChat',[_west,'HQ'],(format [localize 'STR_QS_Chat_041',_module_fob_respawn_ticketsAdded,(QS_module_fob_flag getVariable ['QS_deploy_tickets',0])])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 						if (!isNil {_ve getVariable 'QS_transporter'}) then {
 							if (alive ((_ve getVariable 'QS_transporter') # 1)) then {
 								0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_ve getVariable 'QS_transporter') # 2),((_ve getVariable 'QS_transporter') # 0),4];
@@ -3606,7 +3602,7 @@ for '_x' from 0 to 1 step 0 do {
 										_v setVariable ['QS_deploy_enemyState',((_v getVariable ['QS_deploy_enemyState',0]) - 1),_false];
 									} else {
 										// Points at 0, kill
-										(format ['%1',localize 'STR_QS_Text_434']) remoteExec ['systemChat',-2];
+										(localize 'STR_QS_Text_434') remoteExec ['systemChat',-2];
 										_v setDamage [1,_true];
 									};
 								} else {
@@ -4091,7 +4087,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (!isNil {missionNamespace getVariable 'QS_weather_simulateStorm'}) then {
 						_QS_simulateEvent_storm = _true;
 						missionNamespace setVariable ['QS_weather_simulateStorm',nil,_false];
-						(format ['"%2" - %1 %3',_QS_worldName,localize 'STR_QS_Chat_104',localize 'STR_QS_Chat_105']) remoteExec ['systemChat',-2,_false];
+						(format [localize 'STR_QS_Chat_104',_QS_worldName]) remoteExec ['systemChat',-2,_false];
 					};
 				};
 				if (_QS_simulateWind) then {
@@ -4934,7 +4930,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (missionNamespace getVariable ['QS_airbaseDefense',_false]) then {
 					_airDefenseAvailable = _false;
 					_airDefenseOnline = _true;
-					['sideChat',[_west,'AirBase'],'Air defense activated!'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+					['sideChat',[_west,'AirBase'],localize 'STR_QS_Chat_177'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 					_airDefenseArray = [(missionNamespace getVariable ['QS_enemyCasArray2',[]])] call _fn_airbaseDefense;
 				};
 			} else {
@@ -4945,7 +4941,7 @@ for '_x' from 0 to 1 step 0 do {
 							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							deleteVehicle _x;
 						} count (_airDefenseArray # 0);
-						['sideChat',[_west,'AirBase'],'Air defense offline'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+						['sideChat',[_west,'AirBase'],localize 'STR_QS_Chat_178'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 					};
 				};
 				if (_timeNow > (_airDefenseArray # 2)) then {

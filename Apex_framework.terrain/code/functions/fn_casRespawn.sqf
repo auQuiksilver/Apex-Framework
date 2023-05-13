@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	2/09/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description: 
 
@@ -84,7 +84,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	(missionNamespace getVariable 'QS_CAS_jetAllowance') set [_airIndex,[_uid,_aircraftPool]];
 	missionNamespace setVariable ['QS_CAS_jetAllowance_current',_aircraftPool,FALSE];
 	missionNamespace setVariable ['QS_casJet_destroyedAtBase',FALSE,FALSE];
-	['sideChat',[WEST,'AirBase'],(format ['%3 ( %1 / %2 ) ...',_aircraftPool,(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3]),localize 'STR_QS_Chat_025'])] remoteExec ['QS_fnc_remoteExecCmd',_pilot,FALSE];
+	['sideChat',[WEST,'AirBase'],(format [localize 'STR_QS_Chat_025',_aircraftPool,(missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])])] remoteExec ['QS_fnc_remoteExecCmd',_pilot,FALSE];
 	private ['_newCasType','_dir','_obstructions','_obstructionArray'];
 	//comment 'Now lets decide what will spawn';
 	private [

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	3/02/2016 A3 1.54 by Quiksilver
+	01/05/2023 A3 1.54 by Quiksilver
 	
 Description:
 
@@ -139,18 +139,13 @@ _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (ran
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
-'QS_marker_sideMarker' setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_030']);
+'QS_marker_sideMarker' setMarkerText (format [localize 'STR_QS_Marker_030',(toString [32,32,32])]);
 
 [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		(format [
-			'%2 %1 %3',
-			worldName,
-			localize 'STR_QS_Task_074',
-			localize 'STR_QS_Task_075'
-		]),
+		(format [localize 'STR_QS_Task_074',worldName]),
 		localize 'STR_QS_Task_076',
 		localize 'STR_QS_Task_076'
 	],
