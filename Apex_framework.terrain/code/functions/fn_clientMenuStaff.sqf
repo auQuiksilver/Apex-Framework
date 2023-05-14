@@ -134,7 +134,7 @@ if (_type2 isEqualType 0) exitWith {
 			};
 			if (isNull _cursorTarget) exitWith {};
 			[17,_cursorTarget] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			_text = format [localize 'STR_QS_Hints_059',profileName,(getText ((configOf _cursorTarget) >> 'displayName')),(mapGridPosition player)];
+			_text = (format [localize 'STR_QS_Hints_059',profileName,(getText ((configOf _cursorTarget) >> 'displayName')),(mapGridPosition player)]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
@@ -150,14 +150,14 @@ if (_type2 isEqualType 0) exitWith {
 		playSound 'ClickSoft';
 		if (isDamageAllowed player) then {
 			player allowDamage FALSE;
-			_text = format [localize 'STR_QS_Chat_096',profileName];
+			_text = (format [localize 'STR_QS_Chat_096',profileName]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			if (!isStreamFriendlyUIEnabled) then {
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_062',[],-1];
 			};
 		} else {
 			player allowDamage TRUE;
-			_text = format [localize 'STR_QS_Chat_097',profileName];
+			_text = (format [localize 'STR_QS_Chat_097',profileName]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			if (!isStreamFriendlyUIEnabled) then {
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_063',[],-1];
@@ -174,7 +174,7 @@ if (_type2 isEqualType 0) exitWith {
 				(_x getUnitTrait 'QS_trait_fighterPilot') ||
 				(_x getUnitTrait 'uavhacker')
 			) then {
-				systemChat format ['%1 - %2',(['GET_ROLE_DISPLAYNAME','',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)];
+				systemChat (format ['%1 - %2',(['GET_ROLE_DISPLAYNAME','',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)]);
 				_text = _text + (format ['<br/><br/>%1 - %2',(['GET_ROLE_DISPLAYNAME','',_x] call (missionNamespace getVariable 'QS_fnc_roles')),(name _x)]);
 			};
 		} count allPlayers;
@@ -204,9 +204,9 @@ if (_type2 isEqualType 0) exitWith {
 			_cursorTarget setVectorUp (surfaceNormal (getPosWorld _cursorTarget));
 		};
 		_type2 = getText ((configOf _cursorTarget) >> 'displayName');
-		_text = format [localize 'STR_QS_Text_061',_type2];
+		_text = (format [localize 'STR_QS_Text_061',_type2]);
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
-		_text = format [localize 'STR_QS_Hints_066',profileName,_type2,(mapGridPosition player)];
+		_text = (format [localize 'STR_QS_Hints_066',profileName,_type2,(mapGridPosition player)]);
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_type2 isEqualTo 8) then {
@@ -230,7 +230,7 @@ if (_type2 isEqualType 0) exitWith {
 		if (!(isPlayer _cursorTarget)) exitWith {};
 		playSound 'ClickSoft';
 		['playMoveNow',_cursorTarget,'AmovPercMstpSnonWnonDnon_exercisePushup'] remoteExec ['QS_fnc_remoteExecCmd',_cursorTarget,FALSE];	
-		_text = format [localize 'STR_QS_Chat_098',profileName,(name _cursorTarget)];
+		_text = (format [localize 'STR_QS_Chat_098',profileName,(name _cursorTarget)]);
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_type2 isEqualTo 10) then {
@@ -259,7 +259,7 @@ if (_type2 isEqualType 0) exitWith {
 		} else {
 			[68,_cursorTarget,FALSE,FALSE] remoteExec ['QS_fnc_remoteExec',_cursorTarget,FALSE];
 		};
-		_text = format [localize 'STR_QS_Chat_100',profileName,(name _cursorTarget),(mapGridPosition _cursorTarget)];
+		_text = (format [localize 'STR_QS_Chat_100',profileName,(name _cursorTarget),(mapGridPosition _cursorTarget)]);
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_type2 isEqualTo 13) then {
@@ -284,7 +284,7 @@ if (_type2 isEqualType 0) exitWith {
 							if (surfaceIsWater _pos) then {};
 							openMap FALSE;
 							missionNamespace setVariable ['QS_mapSelected',TRUE,FALSE];
-							_text = format [localize 'STR_QS_Chat_101',profileName,(mapGridPosition _pos)];
+							_text = (format [localize 'STR_QS_Chat_101',profileName,(mapGridPosition _pos)]);
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						}
 					]
@@ -312,7 +312,7 @@ if (_type2 isEqualType 0) exitWith {
 			[53,[profileName,(getPlayerUID player)]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,localize 'STR_QS_Hints_069',[],(serverTime + 6)];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,localize 'STR_QS_Hints_070',[],(serverTime + 20)];
-			_text = format [localize 'STR_QS_Chat_102',profileName];
+			_text = (format [localize 'STR_QS_Chat_102',profileName]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		/*/
@@ -325,9 +325,9 @@ if (_type2 isEqualType 0) exitWith {
 			playSound 'ClickSoft';
 			[54] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,localize 'STR_QS_Hints_069',[],(serverTime + 6)];
-			_hintText = format [localize 'STR_QS_Hints_071',(missionNamespace getVariable ['QS_terrain_worldName',worldName])];
+			_hintText = (format [localize 'STR_QS_Hints_071',(missionNamespace getVariable ['QS_terrain_worldName',worldName])]);
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [6,TRUE,10,-1,_hintText,[],(serverTime + 20)];
-			_text = format [localize 'STR_QS_Hints_072',profileName,(missionNamespace getVariable ['QS_terrain_worldName',worldName])];
+			_text = (format [localize 'STR_QS_Hints_072',profileName,(missionNamespace getVariable ['QS_terrain_worldName',worldName])]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		/*/

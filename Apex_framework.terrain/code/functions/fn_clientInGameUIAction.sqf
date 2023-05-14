@@ -632,7 +632,7 @@ if (_QS_actionName isEqualTo 'UAVTerminalHackConnection') exitWith {
 			{getText ((configOf _QS_actionTarget) >> 'displayName')},
 			TRUE
 		];
-		_text = format [localize 'STR_QS_Chat_091',profileName,(_QS_actionTarget getVariable ['QS_ST_customDN',_dn])];
+		_text = (format [localize 'STR_QS_Chat_091',profileName,(_QS_actionTarget getVariable ['QS_ST_customDN',_dn])]);
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		_QS_actionTarget spawn {
 			_timeout = diag_tickTime + 15;

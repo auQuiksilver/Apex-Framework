@@ -107,7 +107,7 @@ _this spawn {
 							actionKeysNames ['User17',1] trim ['"',0],
 							localize 'STR_QS_Text_366'
 						] select ((actionKeysNamesArray 'User17') isEqualTo []);
-						_text = format [
+						_text = (format [
 							'<t align="left">%4</t><t align="right">[%1] [%7]</t><br/><br/><t align="left">%5</t><t align="right">[%2] [%8]</t><br/><br/><t align="left">%6</t><t align="right">[%3]</t>',
 							(actionKeysNames 'gunElevUp') trim ['"',0],
 							(actionKeysNames 'gunElevDown') trim ['"',0],
@@ -117,7 +117,7 @@ _this spawn {
 							(localize 'STR_QS_Hints_149'),
 							_customUpText,
 							_customDownText
-						];
+						]);
 						[_text,TRUE,TRUE,localize 'STR_QS_Hints_150',TRUE] call QS_fnc_hint;
 					};
 					_weapon spawn {

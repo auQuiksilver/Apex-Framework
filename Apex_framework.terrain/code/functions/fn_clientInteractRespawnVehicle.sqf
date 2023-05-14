@@ -60,7 +60,7 @@ if (_result) then {
 	([QS_player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 	if (((crew _t) findIf {(alive _x)}) isEqualTo -1) then {
 		if (!_inSafezone) then {
-			_text = format [localize 'STR_QS_Chat_093',profileName,_displayName,(mapGridPosition player)];
+			_text = (format [localize 'STR_QS_Chat_093',profileName,_displayName,(mapGridPosition player)]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		if (

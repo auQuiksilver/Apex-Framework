@@ -104,7 +104,7 @@ if (_type isEqualTo 'Select') then {
 									} forEach _textures;
 									player setVariable ['QS_ClientVTexture',[_v,(getPlayerUID player),(getObjectTextures _v),(time + 2)],TRUE];
 									_v setVariable ['QS_ClientVTexture_owner',(getPlayerUID player),TRUE];
-									_text = format [localize 'STR_QS_Hints_083',_displayName,_author];
+									_text = (format [localize 'STR_QS_Hints_083',_displayName,_author]);
 									(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 								} else {
 									(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,localize 'STR_QS_Hints_085',[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
@@ -113,7 +113,7 @@ if (_type isEqualTo 'Select') then {
 								(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7.5,-1,localize 'STR_QS_Hints_086',[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 							};
 						} else {
-							_text = format [localize 'STR_QS_Hints_087',(getText ((configOf ((player getVariable 'QS_ClientVTexture') # 0)) >> 'displayName')),(mapGridPosition ((player getVariable 'QS_ClientVTexture') # 0))];
+							_text = (format [localize 'STR_QS_Hints_087',(getText ((configOf ((player getVariable 'QS_ClientVTexture') # 0)) >> 'displayName')),(mapGridPosition ((player getVariable 'QS_ClientVTexture') # 0))]);
 							(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 						};
 					} else {
@@ -123,7 +123,7 @@ if (_type isEqualTo 'Select') then {
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,12,-1,localize 'STR_QS_Hints_089',[],-1,TRUE,localize 'STR_QS_Hints_082',TRUE];
 				};
 			} else {
-				_text = format [localize 'STR_QS_Hints_090',_supporterAccess,_supporterLevel];
+				_text = (format [localize 'STR_QS_Hints_090',_supporterAccess,_supporterLevel]);
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,12,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_082',FALSE];
 			};
 		};

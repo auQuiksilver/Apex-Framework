@@ -16,7 +16,7 @@ __________________________________________________________/*/
 closeDialog 2;
 0 spawn {
 	uiSleep 0.05;
-	_textBody = format ['- %1<br/>- %2<br/>- %3',localize 'STR_QS_Menu_133',localize 'STR_QS_Menu_134',localize 'STR_QS_Menu_135'];
+	_textBody = localize 'STR_QS_Menu_133';
 	_textHeader = localize 'STR_QS_Menu_130';
 	_textOk = localize 'STR_QS_Menu_131';
 	_textCancel = localize 'STR_QS_Menu_114';

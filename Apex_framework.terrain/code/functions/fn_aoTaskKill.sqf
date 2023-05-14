@@ -108,9 +108,9 @@ if ((random 1) > 0.333) then {
 	_enemyGrp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 };
 _taskPosition = _testPosition getPos [(50 + (random 100)),(random 360)];
-_description = format [localize 'STR_QS_Task_123',(missionNamespace getVariable ['QS_terrain_worldName',_worldName])];
+_description = (format [localize 'STR_QS_Task_123',(missionNamespace getVariable ['QS_terrain_worldName',_worldName])]);
 _taskType = 'kill';
-_taskID = format ['QS_DYNTASK_%1_%2',_taskType,(round (random 10000))];
+_taskID = (format ['QS_DYNTASK_%1_%2',_taskType,(round (random 10000))]);
 _taskTimeout = diag_tickTime + 1200;
 _array = [
 	_taskID,

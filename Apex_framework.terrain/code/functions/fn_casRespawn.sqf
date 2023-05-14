@@ -58,7 +58,7 @@ if (_missionConfig_CAS isEqualTo 3) then {
 	if (_uid isEqualTo '') exitWith {_exit = TRUE;};
 	private _airIndex = ((missionNamespace getVariable 'QS_CAS_jetAllowance') findIf {((_x # 0) isEqualTo _uid)});
 	if (_airIndex isEqualTo -1) exitWith {_exit = TRUE;};
-	diag_log format ['***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****',(name _pilot),((missionNamespace getVariable 'QS_CAS_jetAllowance') # _airIndex)];
+	diag_log (format ['***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****',(name _pilot),((missionNamespace getVariable 'QS_CAS_jetAllowance') # _airIndex)]);
 	private _aircraftPool = ((missionNamespace getVariable 'QS_CAS_jetAllowance') # _airIndex) # 1;
 	if (_aircraftPool >= (missionNamespace getVariable ['QS_CAS_jetAllowance_value',3])) exitWith {
 		if (isPlayer _pilot) then {

@@ -72,7 +72,7 @@ if (_parent isEqualType objNull) then {
 			1,
 			15
 		];
-		_text = format [localize 'STR_QS_Text_114',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2])];
+		_text = (format [localize 'STR_QS_Text_114',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2])]);
 		[_parent,TRUE,FALSE] call QS_fnc_updateCenterOfMass;
 	} else {
 		_text = localize 'STR_QS_Text_116';
@@ -123,7 +123,7 @@ if (_parent isEqualType []) then {
 			1,
 			15
 		];
-		_text = format [localize 'STR_QS_Text_114',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2])];
+		_text = (format [localize 'STR_QS_Text_114',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2])]);
 		[_parent,TRUE,FALSE] call QS_fnc_updateCenterOfMass;
 	} else {
 		_text = localize 'STR_QS_Text_116';

@@ -593,9 +593,9 @@ _QS_ctrl10 ctrlSetPosition [
 ];
 _QS_ctrl10 ctrlSetScale _QS_ctrl10_scale;
 if (ctrlShown _QS_ctrl0) then {
-	_QS_ctrl_text10 = format [localize 'STR_QS_Menu_093',_keyText];
+	_QS_ctrl_text10 = (format [localize 'STR_QS_Menu_093',_keyText]);
 } else {
-	_QS_ctrl_text10 = format [localize 'STR_QS_Menu_094',_keyText];
+	_QS_ctrl_text10 = (format [localize 'STR_QS_Menu_094',_keyText]);
 };
 _QS_ctrl10 ctrlSetFont _QS_ctrl10_font;
 _QS_ctrl10 ctrlSetText _QS_ctrl_text10;
@@ -952,7 +952,7 @@ for '_x' from 0 to 1 step 0 do {
 					} else {
 						_QS_ctrl4 ctrlSetTextColor _QS_ctrl_color4;
 					};
-					_QS_ctrl_text1 = format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_rateAdjusted];
+					_QS_ctrl_text1 = (format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_rateAdjusted]);
 					_QS_ctrl_color1 = (_sideColors # (_sides find ((_x # 10) # 0)));
 					if (_side in (_x # 10)) then {
 						if (_QS_ctrl_text7 isNotEqualTo _QS_icon_defend) then {
@@ -1046,7 +1046,7 @@ for '_x' from 0 to 1 step 0 do {
 					} else {
 						_QS_ctrl5 ctrlSetTextColor _QS_ctrl_color5;
 					};
-					_QS_ctrl_text2 = format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_rateAdjusted];
+					_QS_ctrl_text2 = (format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_rateAdjusted]);
 					_QS_ctrl_color2 = (_sideColors # (_sides find ((_x # 10) # 0)));
 					if (_side in (_x # 10)) then {
 						if (_QS_ctrl_text8 isNotEqualTo _QS_icon_defend) then {
@@ -1140,7 +1140,7 @@ for '_x' from 0 to 1 step 0 do {
 					} else {
 						_QS_ctrl6 ctrlSetTextColor _QS_ctrl_color6;
 					};
-					_QS_ctrl_text3 = format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_rateAdjusted];
+					_QS_ctrl_text3 = (format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_rateAdjusted]);
 					_QS_ctrl_color3 = (_sideColors # (_sides find ((_x # 10) # 0)));
 					if (_side in (_x # 10)) then {
 						if (_QS_ctrl_text9 isNotEqualTo _QS_icon_defend) then {
@@ -1327,9 +1327,9 @@ for '_x' from 0 to 1 step 0 do {
 			_keyText = _key select [1,((count _key) - 2)];
 		};
 		if (ctrlShown _QS_ctrl0) then {
-			_QS_ctrl_text10 = format [localize 'STR_QS_Menu_093',_keyText];
+			_QS_ctrl_text10 = (format [localize 'STR_QS_Menu_093',_keyText]);
 		} else {
-			_QS_ctrl_text10 = format [localize 'STR_QS_Menu_094',_keyText];
+			_QS_ctrl_text10 = (format [localize 'STR_QS_Menu_094',_keyText]);
 		};
 		_QS_ctrl01 ctrlSetTextColor _QS_ctrl01_backgroundColor;
 		{
@@ -1486,7 +1486,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_currentTaskProgress) then {
 				//comment 'Show progress';
 				_currentTaskProgression = round (_currentTaskRate * 24);
-				_QS_ctrl_text23 = format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_currentTaskProgression];
+				_QS_ctrl_text23 = (format ['a3\ui_f\data\igui\cfg\HoldActions\progress2\progress_%1_ca.paa',_currentTaskProgression]);
 				if ((ctrlText _QS_ctrl23) isNotEqualTo _QS_ctrl_text23) then {
 					_QS_ctrl23 ctrlSetText _QS_ctrl_text23;
 				};

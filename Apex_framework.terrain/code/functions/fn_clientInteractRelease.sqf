@@ -109,7 +109,7 @@ if (_attachedObjects isNotEqualTo []) then {
 							} else {
 								['setDir',_unit,(random 360)] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
 							};
-							_text = format [localize 'STR_QS_Chat_092',profileName];
+							_text = (format [localize 'STR_QS_Chat_092',profileName]);
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') + [_unit]),TRUE];
 							[92,_unit,EAST,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];							

@@ -75,7 +75,7 @@ if (_type isEqualTo 'Select') then {
 						/*/
 					};
 					saveMissionProfileNamespace;
-					_text = parseText format [localize 'STR_QS_Hints_074',_displayName,_author];
+					_text = parseText (format [localize 'STR_QS_Hints_074',_displayName,_author]);
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];
 				} else {
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_075',[],-1];
@@ -94,7 +94,7 @@ if (_type isEqualTo 'Select') then {
 				};
 			};
 		} else {
-			_text = parseText format [localize 'STR_QS_Hints_078',_supporterAccess,_supporterLevel];
+			_text = parseText (format [localize 'STR_QS_Hints_078',_supporterAccess,_supporterLevel]);
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1];
 		};
 	};

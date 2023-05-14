@@ -61,7 +61,7 @@ if (
 	50 cutText [localize 'STR_QS_Text_130','PLAIN DOWN'];
 };
 if (isPlayer _t) then {
-	private _text = format [localize 'STR_QS_Text_262',profileName];
+	private _text = (format [localize 'STR_QS_Text_262',profileName]);
 	[63,[5,[_text,'PLAIN',0.5]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 };
 private _time = diag_tickTime + 5.5;
@@ -199,7 +199,7 @@ if (!(_player getVariable ['QS_client_animCancel',FALSE])) then {
 							};
 						};
 						if (isPlayer _t) then {
-							_text = format [localize 'STR_QS_Text_263',profileName];
+							_text = (format [localize 'STR_QS_Text_263',profileName]);
 							[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 						};
 						if (isNil {_player getVariable 'QS_revive_lastPatient'}) then {

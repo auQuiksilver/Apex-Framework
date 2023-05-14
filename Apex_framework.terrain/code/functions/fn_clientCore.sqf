@@ -215,7 +215,7 @@ player setVariable ['QS_RD_client_viewSettings_currentMode',0,FALSE];
 player setVariable ['QS_RD_viewSettings_update',TRUE,FALSE];
 _deltaVD_script = scriptNull;
 _fadeView = FALSE;
-_QS_viewSettings_var = format ['QS_RD_client_viewSettings_%1',_QS_worldName];
+_QS_viewSettings_var = (format ['QS_RD_client_viewSettings_%1',_QS_worldName]);
 if (isNil {missionProfileNamespace getVariable _QS_viewSettings_var}) then {
 	_revalidate = TRUE;
 } else {
@@ -1185,12 +1185,12 @@ if (_QS_module_opsec) then {
 				_onLoad = toArray (getText (configFile >> (_x # 1) >> 'onLoad'));
 				if ((_onLoad isNotEqualTo (_x # 2)) && (_onLoad isNotEqualTo '') && (_onLoad isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified Display Method OL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified Display Method OL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				_onUnload = toArray (getText (configFile >> (_x # 1) >> 'onUnload'));
 				if ((_onUnload isNotEqualTo (_x # 3)) && (_onUnload isNotEqualTo '') && (_onUnload isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified Display Method OUL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified Display Method OUL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				if (_canSuspend) then {
 					uiSleep 0.005;
@@ -1205,7 +1205,7 @@ if (_QS_module_opsec) then {
 					if (['RscUnitInfoAirRTDFullDigital',(_x # 1),FALSE] call _fn_inString) then {
 						_QS_module_opsec_detected = 1;
 					};
-					_detected = format ['Modified IGUI Method OL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified IGUI Method OL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				_onUnload = toArray (getText (configFile >> 'RscInGameUI' >> (_x # 1) >> 'onUnload'));
 				if ((_onUnload isNotEqualTo (_x # 3)) && (_onUnload isNotEqualTo '') && (_onUnload isNotEqualTo [])) then {
@@ -1213,7 +1213,7 @@ if (_QS_module_opsec) then {
 					if (['RscUnitInfoAirRTDFullDigital',(_x # 1),FALSE] call _fn_inString) then {
 						_QS_module_opsec_detected = 1;
 					};
-					_detected = format ['Modified IGUI Method OUL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified IGUI Method OUL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				if (_canSuspend) then {
 					uiSleep 0.01;
@@ -1225,12 +1225,12 @@ if (_QS_module_opsec) then {
 				_onLoad = toArray (getText (missionConfigFile >> (_x # 1) >> 'onLoad'));
 				if ((_onLoad isNotEqualTo (_x # 2)) && (_onLoad isNotEqualTo '') && (_onLoad isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified MissionDisplay Method OL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified MissionDisplay Method OL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				_onUnload = toArray (getText (missionConfigFile >> (_x # 1) >> 'onUnload'));
 				if ((_onUnload isNotEqualTo (_x # 3)) && (_onUnload isNotEqualTo '') && (_onUnload isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified MissionDisplay Method OUL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified MissionDisplay Method OUL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				if (_canSuspend) then {
 					uiSleep 0.01;
@@ -1242,12 +1242,12 @@ if (_QS_module_opsec) then {
 				_onLoad = toArray (getText (configFile >> 'RscTitles' >> (_x # 1) >> 'onLoad'));
 				if ((_onLoad isNotEqualTo (_x # 2)) && (_onLoad isNotEqualTo '') && (_onLoad isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)];
 				};
 				_onUnload = toArray (getText (configFile >> 'RscTitles' >> (_x # 1) >> 'onUnload'));
 				if ((_onUnload isNotEqualTo (_x # 3)) && (_onUnload isNotEqualTo '') && (_onUnload isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified RscTitles Method OUL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified RscTitles Method OUL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				if (_canSuspend) then {
 					uiSleep 0.01;
@@ -1259,12 +1259,12 @@ if (_QS_module_opsec) then {
 				_onLoad = toArray (getText (missionConfigFile >> 'RscTitles' >> (_x # 1) >> 'onLoad'));
 				if ((_onLoad isNotEqualTo (_x # 2)) && (_onLoad isNotEqualTo '') && (_onLoad isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				_onUnload = toArray (getText (missionConfigFile >> 'RscTitles' >> (_x # 1) >> 'onUnload'));
 				if ((_onUnload isNotEqualTo (_x # 3)) && (_onUnload isNotEqualTo '') && (_onUnload isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = format ['Modified RscTitles Method OUL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified RscTitles Method OUL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				if (_canSuspend) then {
 					uiSleep 0.01;
@@ -1382,7 +1382,7 @@ if (_QS_module_opsec) then {
 				_patchConfigName = toLowerANSI (configName _patchEntry);
 				if (!(_patchConfigName in _patchList)) then {
 					if ((!(['jsrs',_patchConfigName,FALSE] call _fn_inString)) && (!(['jpex',_patchConfigName,FALSE] call _fn_inString)) && (!(['blastcore',_patchConfigName,FALSE] call _fn_inString)) && (!(['aegis',_patchConfigName,FALSE] call _fn_inString))) then {
-						_detected = format ['Unknown Addon Patch: %1',_patchConfigName];
+						_detected = (format ['Unknown Addon Patch: %1',_patchConfigName]);
 						_QS_module_opsec_detected = 1;	// change this to 2 to force a kick instead
 					};
 				};
@@ -1419,7 +1419,7 @@ if (_QS_module_opsec) then {
 	_children = nil;
 	if ((toLowerANSI (getText (configFile >> 'CfgFunctions' >> 'init'))) isNotEqualTo 'a3\functions_f\initfunctions.sqf') then {
 		_QS_module_opsec_detected = 2;
-		_detected = format ['Modified_Functions_Init: %1',(getText (configFile >> 'CfgFunctions' >> 'init'))];
+		_detected = (format ['Modified_Functions_Init: %1',(getText (configFile >> 'CfgFunctions' >> 'init'))]);
 	};
 	_bis_fnc_diagkey = uiNamespace getVariable ['BIS_fnc_diagKey',{FALSE}];
 	if (!isNil '_bis_fnc_diagkey') then {
@@ -1763,9 +1763,9 @@ for 'x' from 0 to 1 step 0 do {
 					_QS_fpsCheckDelay = _timeNow + _QS_fpsDelay;
 				};
 				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetToolTip (localize 'STR_QS_Menu_001');
-				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetText format [localize 'STR_QS_Menu_002',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString)];
+				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlSetText (format [localize 'STR_QS_Menu_002',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString)]);
 				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlSetToolTip (localize 'STR_QS_Menu_004');
-				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlSetText format [localize 'STR_QS_Menu_005',(score _QS_player),(rating _QS_player),_QS_clientHp,_QS_clientMass];
+				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlSetText (format [localize 'STR_QS_Menu_005',(score _QS_player),(rating _QS_player),_QS_clientHp,_QS_clientMass]);
 				((findDisplay _mainMenuIDD) displayCtrl 1001) ctrlCommit 0;
 				((findDisplay _mainMenuIDD) displayCtrl 1002) ctrlCommit 0;
 			};
@@ -1780,7 +1780,7 @@ for 'x' from 0 to 1 step 0 do {
 				_viewMenuOpen = _false;
 			} else {
 				((findDisplay _viewMenuIDD) displayCtrl 1001) ctrlSetToolTip (localize 'STR_QS_Menu_001');
-				((findDisplay _viewMenuIDD) displayCtrl 1001) ctrlSetText format [localize 'STR_QS_Menu_002',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString)];
+				((findDisplay _viewMenuIDD) displayCtrl 1001) ctrlSetText (format [localize 'STR_QS_Menu_002',_QS_fpsLastPull,([(0 max (estimatedEndServerTime - _serverTime) min 36000),'HH:MM'] call _fn_secondsToString)]);
 			};
 		};
 	};
@@ -3379,13 +3379,13 @@ for 'x' from 0 to 1 step 0 do {
 			) then {
 				if (!(_QS_interaction_attachExp)) then {
 					_QS_interaction_attachExp = _true;
-					_QS_userActionText = format [localize 'STR_QS_Utility_001',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player))];
+					_QS_userActionText = (format [localize 'STR_QS_Utility_001',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player))]);
 					QS_client_dynamicActionText pushBackUnique _QS_userActionText;
 					_QS_action_attachExp_array set [0,_QS_userActionText];
 					_QS_action_attachExp = player addAction _QS_action_attachExp_array;
 					player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
 				} else {
-					_QS_userActionText = format [localize 'STR_QS_Utility_001',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player))];
+					_QS_userActionText = (format [localize 'STR_QS_Utility_001',_QS_action_attachExp_text,({((toLowerANSI _x) in QS_core_classNames_demoCharges)} count (magazines _QS_player))]);
 					player setUserActionText [_QS_action_attachExp,_QS_userActionText,(format ["<t size='3'>%1</t>",_QS_userActionText])];
 				};
 			} else {
@@ -4394,7 +4394,7 @@ for 'x' from 0 to 1 step 0 do {
 												{getText ((configOf _unit) >> 'icon')},
 												_true
 											];
-											_roleIcon = format ['a3\ui_f\data\map\vehicleicons\%1_ca.paa',_genericResult];
+											_roleIcon = (format ['a3\ui_f\data\map\vehicleicons\%1_ca.paa',_genericResult]);
 											_unit setVariable ['QS_unit_role_icon',_roleIcon,_false];
 										};
 										_roleIcon = str _roleIcon;
@@ -4425,12 +4425,12 @@ for 'x' from 0 to 1 step 0 do {
 										};
 										if (_role isNotEqualTo 'driver') then {
 											if (_turretPath isNotEqualTo []) then {
-												_text = format ["<img image=%1/><t size='0.666'>%2</t> <img size='0.75' image=%3/> <t size='0.75'>%4</t><br/>",_roleImg,(_turretPath # 0),_roleIcon,_unitName];
+												_text = (format ["<img image=%1/><t size='0.666'>%2</t> <img size='0.75' image=%3/> <t size='0.75'>%4</t><br/>",_roleImg,(_turretPath # 0),_roleIcon,_unitName]);
 											} else {
-												_text = format ["<img image=%1/> <img size='0.75' image=%2/> <t size='0.75'>%3</t> <br/>",_roleImg,_roleIcon,_unitName];
+												_text = (format ["<img image=%1/> <img size='0.75' image=%2/> <t size='0.75'>%3</t> <br/>",_roleImg,_roleIcon,_unitName]);
 											};
 										} else {
-											_text = format ["<img image=%1/> <img size='0.75' image=%2/> <t size='1'>%3</t><br/>",_roleImg,_roleIcon,_unitName];
+											_text = (format ["<img image=%1/> <img size='0.75' image=%2/> <t size='1'>%3</t><br/>",_roleImg,_roleIcon,_unitName]);
 										};
 										_crewManifest = _crewManifest + _text;
 									};
@@ -5367,7 +5367,7 @@ for 'x' from 0 to 1 step 0 do {
 						{((getAnimSpeedCoef _QS_player) > 1.1)}
 					) then {
 						_QS_module_opsec_detected = 2;
-						_detected = format ['Recoil: %1 (min 1) Sway: %2 (min 0.1) AnimSpeed: %3 (max 1.1)',(unitRecoilCoefficient _QS_player),(getCustomAimCoef _QS_player),(getAnimSpeedCoef _QS_player)];
+						_detected = (format ['Recoil: %1 (min 1) Sway: %2 (min 0.1) AnimSpeed: %3 (max 1.1)',(unitRecoilCoefficient _QS_player),(getCustomAimCoef _QS_player),(getAnimSpeedCoef _QS_player)]);
 					};
 				};
 				if (isFilePatchingEnabled) then {
@@ -5406,7 +5406,7 @@ for 'x' from 0 to 1 step 0 do {
 				if (_commandingMenu isNotEqualTo '') then {
 					if(!(_commandingMenu in _validCommMenus)) then {
 						if ((!(['#GET_IN',_commandingMenu,_false] call _fn_inString)) && {(!(['#WATCH',_commandingMenu,_false] call _fn_inString))} && {(!(['#ACTION',_commandingMenu,_false] call _fn_inString))}) then {
-							_detected = format ['CMD_Menu_Hack_%1 (Use Discretion)',_commandingMenu];
+							_detected = (format ['CMD_Menu_Hack_%1 (Use Discretion)',_commandingMenu]);
 							_QS_module_opsec_detected = 2;
 						};
 					};
@@ -5424,13 +5424,13 @@ for 'x' from 0 to 1 step 0 do {
 									if (_targetDisplay isEqualTo 'BIS_fnc_arsenal_display') then {
 										if ((count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display'))) > 205) then {
 											_QS_module_opsec_detected = 1;
-											_detected = format ['MenuHack_%1_CtrlCnt_%2',_targetName,(count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display')))];
+											_detected = (format ['MenuHack_%1_CtrlCnt_%2',_targetName,(count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display')))]);
 											_targetFlag = 1;
 											_QS_module_opsec_displays set [_forEachIndex,[_targetDisplay,_targetName,_targetFlag]];
 										};
 									} else {
 										_QS_module_opsec_detected = 2;
-										_detected = format ['MenuHack_%1',_targetName];
+										_detected = (format ['MenuHack_%1',_targetName]);
 										_targetFlag = 1;
 										_QS_module_opsec_displays set [_forEachIndex,[_targetDisplay,_targetName,_targetFlag]];
 									};
@@ -5439,7 +5439,7 @@ for 'x' from 0 to 1 step 0 do {
 								if (_targetDisplay isEqualType 0) then {
 									if (!isNull (findDisplay _targetDisplay)) then {
 										_QS_module_opsec_detected = 2;
-										_detected = format ['MenuHack_%1',_targetName];
+										_detected = (format ['MenuHack_%1',_targetName]);
 										_targetFlag = 1;
 										_QS_module_opsec_displays set [_forEachIndex,[_targetDisplay,_targetName,_targetFlag]];
 									};
@@ -5470,7 +5470,7 @@ for 'x' from 0 to 1 step 0 do {
 							if (_QS_module_opsec_displayIDDstr isEqualTo '602') then {
 								if ((count (allControls _display)) > 90) then {		/*/88/*/
 									_QS_module_opsec_detected = 2;
-									_detected = format ['MenuHack_RscDisplayInventory_Controls_%1',(count (allControls _display))];
+									_detected = (format ['MenuHack_RscDisplayInventory_Controls_%1',(count (allControls _display))]);
 								};									
 							};
 							if (_QS_module_opsec_displayIDDstr isEqualTo '163') then {
@@ -5535,7 +5535,7 @@ for 'x' from 0 to 1 step 0 do {
 									for '_i' from 0 to ((count _x) - 1) step 1 do {
 										_ctrlCfg = _x # _i;
 										if (((getText (_ctrlCfg >> 'action')) isNotEqualTo '') || {((getText (_ctrlCfg >> 'onButtonClick')) isNotEqualTo '')}) exitWith {
-											_detected = format ['Unknown Escape Menu button: %1',(getText (_ctrlCfg >> 'text'))];
+											_detected = (format ['Unknown Escape Menu button: %1',(getText (_ctrlCfg >> 'text'))]);
 											_QS_module_opsec_detected = 2;
 										};
 									};
@@ -5596,7 +5596,7 @@ for 'x' from 0 to 1 step 0 do {
 							{
 								if ([_x,_ahHintText,_false] call _fn_inString) exitWith {
 									_QS_module_opsec_detected = 1;
-									_detected = format ['Blacklisted text in hint display: %1 * %2',_x,_ahHintText];
+									_detected = (format ['Blacklisted text in hint display: %1 * %2',_x,_ahHintText]);
 									[''] call _fn_hint;
 								};
 							} forEach _ahHintList;
@@ -5630,7 +5630,7 @@ for 'x' from 0 to 1 step 0 do {
 									) then {
 										_QS_module_opsec_return = [_QS_module_opsec_memArray,_namePlayer,_profileName,_profileNameSteam,_puid] call _QS_module_opsec_memCheck_script;
 										if ((_QS_module_opsec_return # 0) isNotEqualTo 0) then {
-											_detected = format ['%1 + %2',_detected,(_QS_module_opsec_return # 1)];
+											_detected = (format ['%1 + %2',_detected,(_QS_module_opsec_return # 1)]);
 										};
 										[
 											40,
@@ -5666,7 +5666,7 @@ for 'x' from 0 to 1 step 0 do {
 					if (_QS_module_opsec_detected > 1) then {
 						_QS_module_opsec_return = [_QS_module_opsec_memArray,_namePlayer,_profileName,_profileNameSteam,_puid] call _QS_module_opsec_memCheck_script;
 						if ((_QS_module_opsec_return # 0) isNotEqualTo 0) then {
-							_detected = format ['%1 + %2',_detected,(_QS_module_opsec_return # 1)];
+							_detected = (format ['%1 + %2',_detected,(_QS_module_opsec_return # 1)]);
 						};
 					};
 					[
@@ -5714,7 +5714,7 @@ for 'x' from 0 to 1 step 0 do {
 							) then {
 								_QS_module_opsec_return = [_QS_module_opsec_memArray,_namePlayer,_profileName,_profileNameSteam,_puid] call _QS_module_opsec_memCheck_script;
 								if ((_QS_module_opsec_return # 0) isNotEqualTo 0) then {
-									_detected = format ['%1 + %2',_detected,(_QS_module_opsec_return # 1)];
+									_detected = (format ['%1 + %2',_detected,(_QS_module_opsec_return # 1)]);
 								};
 								[
 									40,
@@ -6092,7 +6092,7 @@ for 'x' from 0 to 1 step 0 do {
 					{
 						if ([_x,_ahHintText,_false] call _fn_inString) exitWith {
 							_QS_module_opsec_detected = 1;
-							_detected = format ['Blacklisted text in hint display: %1 * %2',_x,_ahHintText];
+							_detected = (format ['Blacklisted text in hint display: %1 * %2',_x,_ahHintText]);
 							[''] call _fn_hint;
 						};
 					} forEach _ahHintList;

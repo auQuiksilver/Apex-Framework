@@ -15,5 +15,5 @@ __________________________________________________________*/
 
 _t = _this # 0;
 [42,[_t,0,player]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-_text = format [localize 'STR_QS_Chat_086',(name _t),profileName];
+_text = (format [localize 'STR_QS_Chat_086',(name _t),profileName]);
 ['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];

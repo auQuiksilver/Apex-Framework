@@ -26,13 +26,13 @@ private _text = '';
 if (['heli',(typeOf _t),FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 	if ((!(player getUnitTrait 'QS_trait_pilot')) && (!(player getUnitTrait 'QS_trait_fighterPilot'))) then {
 		_exit = TRUE;
-		_text = format [localize 'STR_QS_Hints_051',(name _t),(getText ((configOf _t) >> 'displayName'))];
+		_text = (format [localize 'STR_QS_Hints_051',(name _t),(getText ((configOf _t) >> 'displayName'))]);
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
 	};
 } else {
 	if ((player getUnitTrait 'QS_trait_pilot') || (player getUnitTrait 'QS_trait_fighterPilot')) then {
 		_exit = TRUE;
-		_text = format [localize 'STR_QS_Hints_052',(name _t),(getText ((configOf _t) >> 'displayName'))];
+		_text = (format [localize 'STR_QS_Hints_052',(name _t),(getText ((configOf _t) >> 'displayName'))]);
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,_text,[],-1];
 	};	
 };
@@ -42,7 +42,7 @@ if (player getUnitTrait 'QS_trait_HQ') exitWith {
 if (_exit) exitWith {};
 player playActionNow 'gestureHi';
 [_t] joinSilent (group player);
-_text = format [localize 'STR_QS_Text_119',(name _t),(getText ((configOf _t) >> 'displayName'))];
+_text = (format [localize 'STR_QS_Text_119',(name _t),(getText ((configOf _t) >> 'displayName'))]);
 50 cutText [_text,'PLAIN DOWN',0.5];
 _t enableStamina FALSE;
 _t setAnimSpeedCoef 1.1;

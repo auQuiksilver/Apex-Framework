@@ -67,7 +67,7 @@ _dn = QS_hashmap_configfile getOrDefaultCall [
 	{getText ((configOf _t) >> 'displayName')},
 	TRUE
 ];
-_text = format [localize 'STR_QS_Text_105',(_t getVariable ['QS_ST_customDN',_dn])];
+_text = (format [localize 'STR_QS_Text_105',(_t getVariable ['QS_ST_customDN',_dn])]);
 50 cutText [_text,'PLAIN DOWN',0.75];
 if ((uiNamespace getVariable ['QS_dragStuckMsg',-1]) isEqualTo -1) then {
 	uiNamespace setVariable ['QS_dragStuckMsg',0];
