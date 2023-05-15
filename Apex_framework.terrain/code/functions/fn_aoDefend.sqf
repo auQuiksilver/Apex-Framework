@@ -66,7 +66,7 @@ _defendMessages = [
 	_x setMarkerAlphaLocal 0.75;
 	_x setMarkerPos (missionNamespace getVariable 'QS_HQpos');
 } forEach ['QS_marker_aoCircle','QS_marker_aoMarker'];
-'QS_marker_aoMarker' setMarkerText format['%1 %3 %2 %4',(toString [32,32,32]),(missionNamespace getVariable 'QS_aoDisplayName'),localize 'STR_QS_Marker_002',localize 'STR_QS_Marker_003'];
+'QS_marker_aoMarker' setMarkerText format[localize 'STR_QS_Marker_002',(toString [32,32,32]),(missionNamespace getVariable 'QS_aoDisplayName')];
 
 if (worldName in ['Stratis']) then {
 	missionNamespace setVariable ['QS_hqPos',missionNamespace getVariable 'QS_aoPos'];

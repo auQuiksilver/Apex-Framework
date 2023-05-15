@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -136,7 +136,7 @@ if (_this isEqualType '') then {
 								deleteWaypoint [group this,currentWaypoint (group this)];
 							} else {
 								if (player isEqualTo (missionNamespace getVariable "QS_hc_Commander")) then {
-									_text = format ["%1 ( %2 ) %4 %3",(groupID (group this)),profileName,(mapGridPosition this),localize "STR_QS_Chat_140"];
+									_text = format [localize "STR_QS_Chat_140",(groupID (group this)),profileName,(mapGridPosition this)];
 									systemChat _text;
 								};
 							};
@@ -148,9 +148,9 @@ if (_this isEqualType '') then {
 							[34,['hcTaskCreated',['','New orders']]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
 						};
 						_leader setVariable ['QS_HComm_ordersNotifInterval',(diag_tickTime + 15),FALSE];
-						[63,[5,[(format['%2 %1',profileName,localize 'STR_QS_Text_264']),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
+						[63,[5,[(format[localize 'STR_QS_Text_264',profileName]),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
 					} else {
-						[63,[5,[(format['%2 %1',profileName,localize 'STR_QS_Text_265']),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
+						[63,[5,[(format[localize 'STR_QS_Text_265',profileName]),'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_leader,FALSE];
 					};
 				};
 			} else {

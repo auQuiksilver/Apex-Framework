@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	28/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 	
@@ -147,7 +147,7 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 	};
 	if ((lifeState _QS_actionTarget) isEqualTo 'INCAPACITATED') then {
 		_QS_c = TRUE;
-		50 cutText [(format ['%1 %2',(name _QS_actionTarget),localize 'STR_QS_Text_056']),'PLAIN DOWN'];
+		50 cutText [(format [localize 'STR_QS_Text_056',(name _QS_actionTarget)]),'PLAIN DOWN'];
 	};
 	if (!isNil {_QS_actionTarget getVariable 'QS_noHeal'}) then {
 		_QS_c = TRUE;
@@ -257,7 +257,7 @@ if (_QS_actionName isEqualTo 'RepairVehicle') exitWith {
 						{getText ((configOf _QS_actionTarget) >> 'displayName')},
 						TRUE
 					];
-					50 cutText [(format ['%1 %2',_dn,localize 'STR_QS_Text_060']),'PLAIN DOWN',0.75];
+					50 cutText [(format [localize 'STR_QS_Text_060',_dn]),'PLAIN DOWN',0.75];
 				};
 			};
 			if ((_this # 0) isKindOf 'Helicopter') then {
@@ -436,13 +436,13 @@ if (_QS_actionName isEqualTo 'GetInTurret') exitWith {
 		(_QS_actionTarget isKindOf 'StaticMortar') &&
 		{(!(player getUnitTrait 'QS_trait_gunner'))}
 	) then {
-		private _currentMortarGunnerName = localize 'STR_QS_Text_328';
+		private _currentMortarGunnerName = localize 'STR_QS_Role_023';
 		private _currentMortarGunners = [];
 		_currentMortarGunners = allPlayers select {(_x getUnitTrait 'QS_trait_gunner')};
 		if (_currentMortarGunners isNotEqualTo []) then {
 			_currentMortarGunnerName = name (_currentMortarGunners # 0);
 		};
-		50 cutText [(format ['%2 ( %1 )',_currentMortarGunnerName,localize 'STR_QS_Text_066']),'PLAIN DOWN',0.75];
+		50 cutText [(format [localize 'STR_QS_Text_066',_currentMortarGunnerName]),'PLAIN DOWN',0.75];
 		_QS_c = TRUE;
 	};
 	if (_QS_actionTarget getVariable ['QS_logistics_wreck',FALSE]) then {
@@ -525,7 +525,7 @@ if (_QS_actionName in ['TouchOffMines','TouchOff']) exitWith {
 						};
 					} forEach _playersNearby;
 					if (_QS_c) then {
-						50 cutText [(format ['%1 %2',_count,localize 'STR_QS_Text_069']),'PLAIN DOWN',1];
+						50 cutText [(format [localize 'STR_QS_Text_069',_count]),'PLAIN DOWN',1];
 					};
 				};
 			};
@@ -632,7 +632,7 @@ if (_QS_actionName isEqualTo 'UAVTerminalHackConnection') exitWith {
 			{getText ((configOf _QS_actionTarget) >> 'displayName')},
 			TRUE
 		];
-		_text = format ['%1 %3 %2!',profileName,(_QS_actionTarget getVariable ['QS_ST_customDN',_dn]),localize 'STR_QS_Chat_091'];
+		_text = (format [localize 'STR_QS_Chat_091',profileName,(_QS_actionTarget getVariable ['QS_ST_customDN',_dn])]);
 		['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		_QS_actionTarget spawn {
 			_timeout = diag_tickTime + 15;

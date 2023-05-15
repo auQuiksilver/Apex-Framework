@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/10/2016 A3 1.64 by Quiksilver
+	01/05/2023 A3 1.64 by Quiksilver
 
 Description:
 
@@ -75,7 +75,7 @@ if (_type isEqualTo 'Select') then {
 						/*/
 					};
 					saveMissionProfileNamespace;
-					_text = parseText format ['%3 %1<br/>by %2',_displayName,_author,localize 'STR_QS_Hints_074'];
+					_text = parseText (format [localize 'STR_QS_Hints_074',_displayName,_author]);
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];
 				} else {
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_075',[],-1];
@@ -94,7 +94,7 @@ if (_type isEqualTo 'Select') then {
 				};
 			};
 		} else {
-			_text = parseText format ['%3 %1<br/>%4 %2<br/>%5',_supporterAccess,_supporterLevel,localize 'STR_QS_Hints_078',localize 'STR_QS_Hints_079',localize 'STR_QS_Hints_080'];
+			_text = parseText (format [localize 'STR_QS_Hints_078',_supporterAccess,_supporterLevel]);
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,10,-1,_text,[],-1];
 		};
 	};

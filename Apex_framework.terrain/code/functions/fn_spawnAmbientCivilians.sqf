@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/05/2019 A3 1.92 by Quiksilver
+	01/05/2023 A3 1.92 by Quiksilver
 
 Description:
 
@@ -82,8 +82,8 @@ if (_type isEqualTo 'FOOT') then {
 									if (!(missionNamespace getVariable ['QS_grid_civCasualties',FALSE])) then {
 										missionNamespace setVariable ['QS_grid_civCasualties',TRUE,TRUE];
 										if (isDedicated) then {
-											['GRID_IDAP_UPDATE',[localize 'STR_QS_Notif_008',format ['%1<br/>%2',localize 'STR_QS_Notif_071',localize 'STR_QS_Notif_072']]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-											'QS_marker_grid_civState' setMarkerTextLocal (format ['%1 %2 (%3)',(toString [32,32,32]),localize 'STR_QS_Marker_011',localize 'STR_QS_Marker_024']);
+											['GRID_IDAP_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_071']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+											'QS_marker_grid_civState' setMarkerTextLocal (format [localize 'STR_QS_Marker_024',(toString [32,32,32])]);
 											'QS_marker_grid_civState' setMarkerColor 'ColorRED';
 										} else {
 											[85] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -113,16 +113,13 @@ if (_type isEqualTo 'FOOT') then {
 						if (!isNull _instigator) then {
 							if (isPlayer _instigator) then {
 								_name = name _instigator;
-								_text = format [
-									'%1 %2 a civilian!',
-									_name,
-									(selectRandom [
+								_civiltext = [
 										localize 'STR_QS_Chat_158',
 										localize 'STR_QS_Chat_159',
 										localize 'STR_QS_Chat_160',
 										localize 'STR_QS_Chat_161'
-									])
-								];
+									];
+								_text = format [selectRandom _civiltext,_name];
 								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};
 						};

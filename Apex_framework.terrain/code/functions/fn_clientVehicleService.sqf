@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -206,7 +206,7 @@ if (
 		for '_i' from 0 to 999 step 1 do {
 			if ([_vehicle,_onFoot] call _fn_cancel) exitWith {_cancelled = TRUE;};
 			if (diag_tickTime > _msgDelay) then {
-				50 cutText [format ['%1 ( %2%3 )',localize 'STR_QS_Text_281',(ceil((fuel _vehicle) * 100)),'%'],'PLAIN DOWN',0.333];
+				50 cutText [format [localize 'STR_QS_Text_281',(ceil((fuel _vehicle) * 100))],'PLAIN DOWN',0.333];
 				_msgDelay = diag_tickTime + 1;
 			};
 			_fuel = _fuel + _refuelPerCycle;

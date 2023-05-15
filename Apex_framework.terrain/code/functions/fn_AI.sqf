@@ -847,7 +847,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_QS_time > _QS_module_hc_log_checkDelay) then {
 				diag_log (format ['HC AI Report (Server): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
 				{
-					diag_log format ['Headless Client Info: %1',getUserInfo (getPlayerID _x)];
+					diag_log (format ['Headless Client Info: %1',getUserInfo (getPlayerID _x)]);
 				} forEach (entities 'HeadlessClient_F');
 				_QS_module_hc_log_checkDelay = _QS_time + _QS_module_hc_log_delay;
 			};

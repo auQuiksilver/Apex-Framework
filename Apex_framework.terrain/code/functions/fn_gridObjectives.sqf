@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	7/12/2017 A3 1.78 by Quiksilver
+	01/05/2023 A3 1.78 by Quiksilver
 
 Description:
 
@@ -34,7 +34,7 @@ if (_type isEqualTo 'GRID_MARKERS') exitWith {
 	_requiredCount = (15 + (round (_playersCount / 2))) min ((count _gridMarkers) - 3);
 	'QS_marker_grid_capState' setMarkerColorLocal 'ColorOPFOR';
 	'QS_marker_grid_capState' setMarkerPosLocal _centroidOffset;
-	'QS_marker_grid_capState' setMarkerText (format ['%1 %3 0 / %2',(toString [32,32,32]),_requiredCount,localize 'STR_QS_Marker_014']);
+	'QS_marker_grid_capState' setMarkerText (format [localize 'STR_QS_Marker_014',(toString [32,32,32]),_requiredCount]);
 	_objectiveCode = {
 		params ['_gridMarkers','_gridMarkersCount','_duration'];
 		private _c = 0;
@@ -44,8 +44,8 @@ if (_type isEqualTo 'GRID_MARKERS') exitWith {
 			_requiredCount = round (_requiredCount / 2);
 		};
 		_currentCount = {((markerColor _x) isEqualTo 'ColorGREEN')} count _gridMarkers;
-		if ( (markerText 'QS_marker_grid_capState') isNotEqualTo (format ['%4 %3 %1 / %2',_currentCount,_requiredCount,localize 'STR_QS_Marker_014',(toString [32,32,32])])) then {
-			'QS_marker_grid_capState' setMarkerText (format ['%1 %4 %2 / %3',(toString [32,32,32]),_currentCount,_requiredCount,localize 'STR_QS_Marker_014']);
+		if ( (markerText 'QS_marker_grid_capState') isNotEqualTo (format [localize 'STR_QS_Marker_075',(toString [32,32,32]),_requiredCount,_currentCount])) then {
+			'QS_marker_grid_capState' setMarkerText (format [localize 'STR_QS_Marker_075',(toString [32,32,32]),_requiredCount,_currentCount]);
 		};
 		if (_currentCount >= _requiredCount) then {
 			_c = 1;
@@ -172,7 +172,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 	];
 	'QS_marker_grid_rspState' setMarkerColorLocal 'ColorOPFOR';
 	'QS_marker_grid_rspState' setMarkerPosLocal _centroidOffset;
-	'QS_marker_grid_rspState' setMarkerText (format ['%1 %3 0 / %2',(toString [32,32,32]),(missionNamespace getVariable 'QS_grid_AIRspTotal'),localize 'STR_QS_Marker_015']);
+	'QS_marker_grid_rspState' setMarkerText (format [localize 'STR_QS_Marker_015',(toString [32,32,32]),(missionNamespace getVariable 'QS_grid_AIRspTotal')]);
 	if (_entities isNotEqualTo []) then {
 		_objectiveIsRequired = 1;
 		_objectiveArguments = [
@@ -183,8 +183,8 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 			params ['_entities','_entitiesTotal'];
 			private _c = 0;
 			_aliveCount = {(alive _x)} count _entities;
-			if ((toLower (markerText 'QS_marker_grid_rspState')) isNotEqualTo (toLower (format ['%4 %3 %1 / %2',((_entitiesTotal - _aliveCount) max 0),(missionNamespace getVariable 'QS_grid_AIRspTotal'),localize 'STR_QS_Marker_015',(toString [32,32,32])]))) then {
-				'QS_marker_grid_rspState' setMarkerText (format ['%1 %4 %2 / %3',(toString [32,32,32]),(_entitiesTotal - _aliveCount),(missionNamespace getVariable 'QS_grid_AIRspTotal'),localize 'STR_QS_Marker_015']);
+			if ((toLower (markerText 'QS_marker_grid_rspState')) isNotEqualTo (toLower (format [localize 'STR_QS_Marker_076',(toString [32,32,32]),(missionNamespace getVariable 'QS_grid_AIRspTotal'),(_entitiesTotal - _aliveCount)]))) then {
+				'QS_marker_grid_rspState' setMarkerText (format [localize 'STR_QS_Marker_076',(toString [32,32,32]),(missionNamespace getVariable 'QS_grid_AIRspTotal'),(_entitiesTotal - _aliveCount)]);
 			};
 			if (_aliveCount isEqualTo 0) then {
 				_c = 1;
@@ -350,7 +350,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 					['GRID_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_061']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 					if (!isNull _instigator) then {
 						if (isPlayer _instigator) then {
-							_text = format ['%1 (%2) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_019'];
+							_text = format [localize 'STR_QS_Chat_176',(name _instigator),(groupID (group _instigator))];
 							_text remoteExec ['systemChat',-2,FALSE];
 						};
 					};
@@ -608,7 +608,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 				{
 					_x setMarkerColorLocal 'ColorOrange';
 					_x setMarkerPosLocal _uncertaintyPos;
-					_x setMarkerText (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_012']);
+					_x setMarkerText (format [localize 'STR_QS_Marker_074',(toString [32,32,32])]);
 				} forEach [
 					'QS_marker_grid_IDAPmkr',
 					'QS_marker_grid_IDAPcircle'
@@ -632,7 +632,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 					['GRID_IDAP_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_063']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 					{
 						_x setMarkerColorLocal 'ColorGreen';
-						_x setMarkerText (format ['%1 %2 (%3)',(toString [32,32,32]),localize 'STR_QS_Marker_012',localize 'STR_QS_Marker_016']);
+						_x setMarkerText (format [localize 'STR_QS_Marker_016',(toString [32,32,32])]);
 					} forEach [
 						'QS_marker_grid_IDAPmkr',
 						'QS_marker_grid_IDAPcircle'

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/05/2016 A3 1.58 by Quiksilver
+	01/05/2023 A3 1.58 by Quiksilver
 	
 Description:
 
@@ -30,7 +30,7 @@ if (isNull (ropeAttachedTo _attachedObject)) then {
 				if (alive (driver _vehicle)) then {
 					if (isPlayer (driver _vehicle)) then {
 						if (isServer) then {
-							_text = format ['%1 %2',(getText ((configOf _attachedObject) >> 'displayName')),localize 'STR_QS_Chat_162'];
+							_text = format [localize 'STR_QS_Chat_162',(getText ((configOf _attachedObject) >> 'displayName'))];
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
 						};
 					};

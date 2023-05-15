@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/05/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 
 Description:
 
@@ -22,7 +22,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	(_display displayCtrl 1600) ctrlSetText (localize 'STR_QS_Menu_027');
 	(_display displayCtrl 1600) ctrlSetToolTip (localize 'STR_QS_Menu_044');
 	(_display displayCtrl 1601) ctrlSetText (localize 'STR_QS_Menu_043');
-	(_display displayCtrl 1601) ctrlSetToolTip '';
+	(_display displayCtrl 1601) ctrlSetToolTip (localize 'STR_QS_Menu_213');
 	(_display displayCtrl 1601) ctrlEnable FALSE;
 	if ((call (missionNamespace getVariable 'QS_missionConfig_cosmetics')) > 0) then {
 		if ((call (missionNamespace getVariable 'QS_missionConfig_cosmetics')) isEqualTo 1) then {

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	19/09/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -31,6 +31,6 @@ if (
 	{(isPlayer (driver _vehicle))}
 ) then {
 	_attachedObject setVariable ['QS_transporter',[(name (driver _vehicle)),(driver _vehicle),(getPlayerUID (driver _vehicle))],FALSE];
-	_text = format ['%2 %1',(getText ((configOf _attachedObject) >> 'displayName')),localize 'STR_QS_Text_201'];
+	_text = format [localize 'STR_QS_Text_201',(getText ((configOf _attachedObject) >> 'displayName'))];
 	['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
 };

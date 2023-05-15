@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/12/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -93,14 +93,14 @@ _vehicleCausedByType = QS_hashmap_configfile getOrDefaultCall [
 	{getText ((configOf _vehicleCausedBy) >> 'displayName')},
 	TRUE
 ];
-_text = format ['%3 %1 [%2]',_name1,_role,localize 'STR_QS_Hints_008'];
+_text = format ([localize 'STR_QS_Hints_008',_name1,_role]);
 if (_vehicleCausedBy isKindOf 'Man') then {
 	_weaponName = QS_hashmap_configfile getOrDefaultCall [
 		format ['cfgweapons_%1_displayname',toLowerANSI _currentWeapon],
 		{getText (configFile >> 'CfgWeapons' >> _currentWeapon >> 'displayName')},
 		TRUE
 	];
-	_text = _text + (format [' %2 %1',_weaponName,localize 'STR_QS_Hints_009']);
+	_text = _text + (format [localize 'STR_QS_Hints_009',_weaponName]);
 };
 if (_isObjectParent) then {
 	if (_objectParent isKindOf 'Air') then {
@@ -116,24 +116,10 @@ if (_isObjectParent) then {
 	
 };
 if (_isUAV) then {
-	_text = format [
-		'%4 %1 [%2], %5 %3.',
-		_name1,
-		_role,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
-		localize 'STR_QS_Hints_008',
-		localize 'STR_QS_Hints_010'
-	];
+	_text = (format [localize 'STR_QS_Hints_010',_name1,_role,missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004']]);
 };
 if (_isAircraft && _isPilot && _isClose) then {
-	_text = format [
-		'%4 %1 [%2], %5 %3.',
-		_name1,
-		_role,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
-		localize 'STR_QS_Hints_008',
-		localize 'STR_QS_Hints_011'
-	];
+	_text = (format [localize 'STR_QS_Hints_011',_name1,_role,missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004']]);
 	_list = nearestObjects [_posUnit,[],50,TRUE];
 	_exclusions = ['airfield_objects_1'] call QS_data_listOther;
 	{
@@ -158,15 +144,7 @@ if (_isVehicle && _isPilot && _isClose) then {
 			_role = _instigator getVariable ['QS_unit_role_displayName',localize 'STR_QS_Role_000'];
 		};
 	};
-	_text = format [
-		'%5 %1 [%2], %3 %6 %4.',
-		_name1,
-		_role,
-		_vehicleRoleText,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
-		localize 'STR_QS_Hints_008',
-		localize 'STR_QS_Hints_012'
-	];
+	_text = (format [localize 'STR_QS_Hints_012',_name1,_role,_vehicleRoleText,missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004']]);
 	if (!isNull _nearestRoad) then {
 		if (((getRoadInfo _nearestRoad) # 0) in ['ROAD','MAIN ROAD','TRACK']) then {
 			_reportEnabled = FALSE;
@@ -174,14 +152,7 @@ if (_isVehicle && _isPilot && _isClose) then {
 	};
 };
 if (_isStatic) then {
-	_text = format [
-		'%4 %1 [%2], %5 %3.',
-		_name1,
-		_role,
-		missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004'],
-		localize 'STR_QS_Hints_008',
-		localize 'STR_QS_Hints_013'
-	];
+	_text = (format [localize 'STR_QS_Hints_013',_name1,_role,missionNamespace getVariable [format ['QS_ST_iconVehicleDN#%1',_vehicleType],localize 'STR_QS_Utility_004']]);
 };
 (missionNamespace getVariable 'QS_managed_hints') pushBack [1,TRUE,10,-1,_text,[],(serverTime + 15),TRUE,localize 'STR_QS_Utility_002',TRUE];
 if (!_reportEnabled) exitWith {
@@ -202,7 +173,7 @@ if (!_reportEnabled) exitWith {
 		} count (missionNamespace getVariable 'QS_sub_actions');
 		missionNamespace setVariable ['QS_sub_actions',[],FALSE];
 	};
-	private _actionText = format ['(%1) %2',localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_063'];
+	private _actionText = (format [localize 'STR_QS_Interact_063',_name1]);
 	QS_client_dynamicActionText pushBackUnique _actionText;
 	QS_sub_actions01 = player addAction [
 		_actionText,
@@ -214,10 +185,10 @@ if (!_reportEnabled) exitWith {
 	];
 	player setUserActionText [QS_sub_actions01,((player actionParams QS_sub_actions01) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_sub_actions01) # 0)])];
 	QS_sub_actions pushBack QS_sub_actions01;
-	_actionText = format ['(%2) %3 %1',_name1,localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_064'];
+	_actionText = (format [localize 'STR_QS_Interact_064',_name1]);
 	QS_client_dynamicActionText pushBackUnique _actionText;
 	QS_sub_actions02 = player addAction [
-		format ['(%2) %3 %1',_name1,localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_064'],
+		(format [localize 'STR_QS_Interact_064',_name1]),
 		(missionNamespace getVariable 'QS_fnc_atReport'),
 		[1,_uid1,_causedBy,_posUnit,_name1],
 		94,
@@ -232,16 +203,7 @@ if (!_reportEnabled) exitWith {
 		_image = 'media\images\general\robocop.jpg';
 		while {((missionNamespace getVariable 'QS_sub_actions') isNotEqualTo [])} do {
 			_tr = _ti - diag_tickTime;
-			[
-				(format [
-					'<t size="1.1">%3<t/><br/><img size="7" image="%2"/><br/><br/>%4 %1 %5.',
-					(round _tr),
-					_image,
-					localize 'STR_QS_Utility_002',
-					localize 'STR_QS_Hints_014',
-					localize 'STR_QS_Utility_003'
-				])
-			] call (missionNamespace getVariable 'QS_fnc_hint');
+			[(format [localize 'STR_QS_Hints_014',(round _tr),_image])] call (missionNamespace getVariable 'QS_fnc_hint');
 			uiSleep 0.5;
 			if ((missionNamespace getVariable 'QS_sub_actions') isEqualTo []) exitWith {};
 			if (diag_tickTime >= _ti) exitWith {[''] call (missionNamespace getVariable 'QS_fnc_hint');};

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -19,7 +19,7 @@ if (_type isEqualTo 'CAPTURE_MAN') exitWith {
 		params ['','_unit','_isMission'];
 		// SERVER - step 3
 		if (_isMission) then {
-			_text = format ['%2 %1',localize 'STR_QS_Marker_047',(toString [32,32,32])];
+			_text = format [localize 'STR_QS_Marker_047',(toString [32,32,32])];
 			private _radius = 150;
 			_radiusVehicle = 500;
 			_radiusFoot = 250;

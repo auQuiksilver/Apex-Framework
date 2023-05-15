@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	7/06/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -216,7 +216,7 @@ if ((random 1) > 0.5) then {
 };
 _fuzzyPos = [((_spawnPosition # 0) - 500) + (random 1000),((_spawnPosition # 1) - 500) + (random 1000),0];
 'QS_marker_sideCircle' setMarkerSizeLocal [500,500];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_039']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_039',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
@@ -225,11 +225,7 @@ _task = [
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		(format [
-			'%1<br/><br/>Send a team to destroy it!',
-			localize 'STR_QS_Task_100',
-			localize 'STR_QS_Task_101'
-		]),
+		localize 'STR_QS_Task_100',
 		localize 'STR_QS_Task_102',
 		localize 'STR_QS_Task_102'
 	],

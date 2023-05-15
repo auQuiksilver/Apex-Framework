@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/12/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -98,7 +98,7 @@ if (_type isEqualTo 1) exitWith {
 				TRUE
 			];
 			// Server-wide Rearm message
-			['sideChat',[WEST,'HQ'],(format ['%1 %2',_dn,localize 'STR_QS_Chat_024'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_024',_dn])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			// M4 Scorcher
 			if (_arty isKindOf 'B_MBT_01_arty_F') then {
 				['setVehicleAmmo',_arty,1] remoteExec ['QS_fnc_remoteExecCmd',_arty,FALSE];

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	19/08/2022 A3 2.10 by Quiksilver
+	01/0/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -58,7 +58,7 @@ if (_weapon isEqualTo 'Throw') then {
 									TRUE
 								];
 								deleteVehicle _projectile;
-								50 cutText [(format ['%1 %2',_displayName,localize 'STR_QS_Text_014']),'PLAIN DOWN',0.5];
+								50 cutText [(format [localize 'STR_QS_Text_014',_displayName]),'PLAIN DOWN',0.5];
 							};
 						};
 					} count _playersNearby;

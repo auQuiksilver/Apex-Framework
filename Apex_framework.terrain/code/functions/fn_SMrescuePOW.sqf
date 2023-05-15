@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	3/02/2018 A3 1.80 by Quiksilver
+	01/05/2023 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -457,7 +457,7 @@ _QS_civKilled_EH = {
 			_text = format [localize 'STR_QS_Chat_141',_name];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		} else {
-			_text = format ['%1 %2!',_name,localize 'STR_QS_Chat_153'];
+			_text = format [localize 'STR_QS_Chat_153',_name];
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};	
@@ -752,7 +752,7 @@ _QS_sidemission_pow addEventHandler [
 		_killer = _this # 1;
 		if (isPlayer _killer) then {
 			_name = name _killer;
-			['sideChat',[WEST,'HQ'],(format ['%2 %1!',_name,localize 'STR_QS_Chat_068'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_068',_name])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	}
 ];
@@ -1070,7 +1070,7 @@ _QS_civIntelQuality_current = missionNamespace getVariable 'QS_sideMission_POW_c
 /*/============================================================== COMMUNICATE TO PLAYERS/*/
 
 _QS_fuzzyPos = [((_QS_buildingPosATL # 0) - 290) + (random 580),((_QS_buildingPosATL # 1) - 290) + (random 580),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_040']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_040',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _QS_fuzzyPos;
 	_x setMarkerAlpha 1;
@@ -1127,17 +1127,7 @@ for '_x' from 0 to 1 step 0 do {
 		sleep 10;
 		_QS_missionAttempts = _QS_priorMissionStatistics_completions + (_QS_priorMissionStatistics_failures + 1);
 		_QS_missionSuccessRate = (_QS_priorMissionStatistics_completions / _QS_missionAttempts) * 100;
-		_text = parseText format [
-			'%4 <br/>%5 %2<br/>%6 %1<br/>%7 %3 %8',
-			_QS_priorMissionStatistics_completions,
-			_QS_missionAttempts,
-			(round _QS_missionSuccessRate),
-			localize 'STR_QS_Hints_141',
-			localize 'STR_QS_Hints_142',
-			localize 'STR_QS_Hints_143',
-			localize 'STR_QS_Hints_144',
-			localize 'STR_QS_Hints_145'
-		];
+		_text = parseText format [localize 'STR_QS_Hints_141',_QS_priorMissionStatistics_completions,_QS_missionAttempts,(round _QS_missionSuccessRate)];
 		['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		sleep 15;
 		[0,_QS_buildingPosATL] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');

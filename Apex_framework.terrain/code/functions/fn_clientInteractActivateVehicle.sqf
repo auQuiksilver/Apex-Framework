@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/04/2022 A3 2.08 by Quiksilver
+	01/05/2023 A3 2.08 by Quiksilver
 	
 Description:
 	
@@ -57,7 +57,7 @@ _dn = QS_hashmap_configfile getOrDefaultCall [
 	{getText ((configOf _cursorObject) >> 'displayName')},
 	TRUE
 ];
-50 cutText [(format ['%2 %1',_dn,localize 'STR_QS_Text_080']),'PLAIN DOWN',0.25];
+50 cutText [(format [localize 'STR_QS_Text_080',_dn]),'PLAIN DOWN',0.25];
 if (
 	(!isSimpleObject _cursorObject) && 
 	(_cursorObject getVariable ['QS_vehicle_activateLocked',TRUE])

@@ -24,7 +24,7 @@ if (_type isEqualTo 0) then {
 		if (currentChannel > 5) then {
 			setCurrentChannel 5;
 		};
-		diag_log format ['***** RADIO ***** Removed from channel %1',_channel];
+		diag_log (format ['***** RADIO ***** Removed from channel %1',_channel]);
 		missionNamespace setVariable [
 			'QS_client_radioChannels',
 			((missionNamespace getVariable 'QS_client_radioChannels') - [_channel]),
@@ -37,7 +37,7 @@ if (_type isEqualTo 0) then {
 			if (_channel isNotEqualTo 1) then {
 				_channel radioChannelAdd [player];
 			};
-			diag_log format ['***** RADIO ***** Added to channel %1',_channel];
+			diag_log (format ['***** RADIO ***** Added to channel %1',_channel]);
 			missionNamespace setVariable [
 				'QS_client_radioChannels',
 				((missionNamespace getVariable 'QS_client_radioChannels') + [_channel]),

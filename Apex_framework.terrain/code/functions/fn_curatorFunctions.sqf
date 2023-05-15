@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	1/09/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -531,17 +531,17 @@ if (_key isEqualTo 71) exitWith {
 		TRUE
 	];
 	/*/
-	//systemChat format ['%2 %1',(missionNamespace getVariable 'QS_curator_revivePoints'),localize 'STR_QS_Chat_106'];
+	//systemChat format [localize 'STR_QS_Chat_106',(missionNamespace getVariable 'QS_curator_revivePoints')];
 	_module = getAssignedCuratorLogic player;
 	/*/[28,_module,((curatorPoints _module) - 0.05)] remoteExec ['QS_fnc_remoteExec',2,FALSE];/*/
 	private _text = '';
 	if ((random 1) > 0.333) then {
-		_text = format ['%1 %2!',((name _unit) + ([' [AI]',''] select (isPlayer _unit))),localize 'STR_QS_Hints_117'];
+		_text = format [localize 'STR_QS_Hints_117',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
 	} else {
 		if ((random 1) > 0.5) then {
-			_text = format ['%2 %1!',((name _unit) + ([' [AI]',''] select (isPlayer _unit))),localize 'STR_QS_Hints_118'];
+			_text = format [localize 'STR_QS_Hints_118',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
 		} else {
-			_text = format ['%1 %2',((name _unit) + ([' [AI]',''] select (isPlayer _unit))),localize 'STR_QS_Hints_119'];
+			_text = format [localize 'STR_QS_Hints_119',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
 		};
 	};
 	if (_text isNotEqualTo '') then {

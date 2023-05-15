@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	19/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -198,7 +198,7 @@ if (_this isEqualTo 'init') exitWith {
 				_arrayToSend = (crew _v) select {((_x isNotEqualTo QS_player) && (alive _x) && (isPlayer _x))};
 				if (_arrayToSend isNotEqualTo []) then {
 					uiNamespace setVariable ['QS_client_lastAutoHoverMsg',(diag_tickTime + 5),FALSE];
-					[63,[5,[(format ['%2 ( %1 ) %3',profileName,localize 'STR_QS_Text_258',localize 'STR_QS_Text_259']),'PLAIN DOWN',0.3]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
+					[63,[5,[(format [localize 'STR_QS_Text_258',profileName]),'PLAIN DOWN',0.3]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
 				};
 			};
 		}],
@@ -297,14 +297,14 @@ if (_this isEqualTo 'init') exitWith {
 				if (isNull (getSlingLoad _cameraOn)) then {
 					uiNamespace setVariable ['QS_pulling_brakesToggle',(!(uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]))];
 					_result = uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE];
-					50 cutText [format ['%1 %2',localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
+					50 cutText [format [localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
 					['MODE1',_cameraOn,_result] call QS_fnc_simplePull;
 				};
 			} else {
 				if (!isNull (ropeAttachedTo _cameraOn)) then {
 					uiNamespace setVariable ['QS_pulling_brakesToggle',(!(uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]))];
 					_result = uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE];
-					50 cutText [format ['%1 %2',localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
+					50 cutText [format [localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
 					['MODE0',_cameraOn,_result] call QS_fnc_simpleWinch;
 				};
 			};

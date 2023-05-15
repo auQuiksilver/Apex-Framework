@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -42,10 +42,10 @@ if (_mode isEqualTo 0) exitWith {
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_411','PLAIN DOWN',0.333];
 		if ((_list inAreaArray [getPos _cursorObject,_packSafeRadius,_packSafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
-			systemchat format [localize 'STR_QS_Text_430',_packSafeRadius];
+			systemchat (format [localize 'STR_QS_Text_430',_packSafeRadius]);
 		};
 		if (serverTime < _cooldown) then {
-			systemchat format ['%1  %2',(localize 'STR_QS_Text_431'),round (_cooldown - serverTime)];
+			systemchat (format [localize 'STR_QS_Text_431',round (_cooldown - serverTime)]);
 		};
 		if (_cursorObject getVariable ['QS_logistics_blocked',FALSE]) then {
 			systemChat (localize 'STR_QS_Chat_171');
@@ -102,10 +102,10 @@ if (_mode isEqualTo 1) exitWith {
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_412','PLAIN DOWN',0.333];
 		if ((_list inAreaArray [getPos _cursorObject,_deploySafeRadius,_deploySafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
-			systemchat format [localize 'STR_QS_Text_430',_deploySafeRadius];
+			systemchat (format [localize 'STR_QS_Text_430',_deploySafeRadius]);
 		};
 		if (serverTime < _cooldown) then {
-			systemchat format ['%1  %2',(localize 'STR_QS_Text_431'),round (_cooldown - serverTime)];
+			systemchat (format [localize 'STR_QS_Text_431',round (_cooldown - serverTime)]);
 		};
 		if (
 			([_cursorObject,55,8] call QS_fnc_waterInRadius) &&
@@ -117,7 +117,7 @@ if (_mode isEqualTo 1) exitWith {
 			((_cursorObject getVariable ['QS_deploy_type','']) isEqualTo 'FORT') &&
 			((_deployRestrictedZoneData # 1) < _deployRestrictedZoneDistance)
 		) then {
-			systemChat format ['%1 - (%2/%3)',localize 'STR_QS_Chat_167',round (_deployRestrictedZoneData # 1),_deployRestrictedZoneDistance];
+			systemChat (format [localize 'STR_QS_Chat_167',round (_deployRestrictedZoneData # 1),_deployRestrictedZoneDistance]);
 		};
 		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [getPos _cursorObject,300,300,0,FALSE,-1]) isNotEqualTo []) then {
 			systemChat (localize 'STR_QS_Chat_173');

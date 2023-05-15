@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	4/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -22,9 +22,9 @@ if (!isNull _killer) then {
 			_killerDisplayName = getText ((configOf (vehicle _killer)) >> 'displayName');
 			_killedDisplayName = getText ((configOf _killed) >> 'displayName');
 			if (isServer) then {
-				[[WEST,'BLU'],(format ['%1 %4 %2 %5 %3!',_killerName,_killedDisplayName,_killerDisplayName,localize 'STR_QS_Chat_045',localize 'STR_QS_Chat_046'])] remoteExec ['sideChat',-2,FALSE];
+				[[WEST,'BLU'],(format [localize 'STR_QS_Chat_045',_killerName,_killedDisplayName,_killerDisplayName])] remoteExec ['sideChat',-2,FALSE];
 			} else {
-				['sideChat',[WEST,'BLU'],(format ['%1 %4 %2 %5 %3!',_killerName,_killedDisplayName,_killerDisplayName,localize 'STR_QS_Chat_045',localize 'STR_QS_Chat_046'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				['sideChat',[WEST,'BLU'],(format [localize 'STR_QS_Chat_045',_killerName,_killedDisplayName,_killerDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			};
 		};
 	};

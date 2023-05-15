@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	2/06/2019 A3 1.94 by Quiksilver
+	01/05/2023 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -209,7 +209,7 @@ _compositionData = nil;
 				};
 				if (!isNull _instigator) then {
 					if (isPlayer _instigator) then {
-						_text = format ['%1 ( %2 ) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_066'];
+						_text = format [localize 'STR_QS_Chat_066',(name _instigator),(groupID (group _instigator))];
 						[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
 					} else {
 						[[WEST,'BLU'],localize 'STR_QS_Chat_067'] remoteExec ['sideChat',-2,FALSE];
@@ -236,7 +236,7 @@ _compositionData = nil;
 	};
 } forEach ([(_composition # 0)] call (missionNamespace getVariable 'QS_fnc_smEnemyEast'));
 _fuzzyPos = [((_spawnPosition # 0) - 300) + (random 600),((_spawnPosition # 1) - 300) + (random 600),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_037']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_037',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	11/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -720,7 +720,7 @@ if (_mode isEqualTo 'MODE17') exitWith {
 			((findDisplay 46) displayCtrl 31082) ctrlShow TRUE;
 		};
 		((findDisplay 46) displayCtrl 31081) progressSetPosition (_ropeLength / _max);
-		((findDisplay 46) displayCtrl 31082) ctrlSetText (format ['%2 %1 m',(round _ropeLength),localize 'STR_QS_Menu_107']);
+		((findDisplay 46) displayCtrl 31082) ctrlSetText (format [localize 'STR_QS_Menu_107',(round _ropeLength)]);
 		((findDisplay 46) displayCtrl 31080) ctrlCommit 0;
 		((findDisplay 46) displayCtrl 31081) ctrlCommit 0;
 		((findDisplay 46) displayCtrl 31082) ctrlCommit 0;

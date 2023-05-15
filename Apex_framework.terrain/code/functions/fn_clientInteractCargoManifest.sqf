@@ -33,9 +33,9 @@ private _displayName = QS_hashmap_configfile getOrDefaultCall [
 	{getText ((configOf _vehicle) >> 'displayName')},
 	TRUE
 ];
-private _text = format ['<t align="center" size="1.1">%1</t><br/><br/>',(_vehicle getVariable ['QS_ST_customDN',_displayName])];
-_text = _text + format ['<t align="center" size="0.75">%1</t><br/><br/>',[localize 'STR_QS_Hints_187',localize 'STR_QS_Hints_186'] select (lockedInventory _vehicle)];
-_text = _text + format ['<t align="left">%1</t><t align="right">%2</t><br/>',localize 'STR_QS_Hints_182',localize 'STR_QS_Hints_183'];
+private _text = (format ['<t align="center" size="1.1">%1</t><br/><br/>',(_vehicle getVariable ['QS_ST_customDN',_displayName])]);
+_text = _text + (format ['<t align="center" size="0.75">%1</t><br/><br/>',[localize 'STR_QS_Hints_187',localize 'STR_QS_Hints_186'] select (lockedInventory _vehicle)]);
+_text = _text + (format ['<t align="left">%1</t><t align="right">%2</t><br/>',localize 'STR_QS_Hints_182',localize 'STR_QS_Hints_183']);
 _text = _text + '<t align="left">_</t><t align="right">_</t><br/>';
 {
 	_obj = _x;

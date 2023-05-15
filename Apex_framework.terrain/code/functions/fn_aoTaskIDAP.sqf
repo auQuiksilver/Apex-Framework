@@ -316,15 +316,7 @@ private _qrfGroup = grpNull;
 missionNamespace setVariable ['QS_sm_enemy_reinforce',FALSE,FALSE];
 
 private _taskID = 'QS_GRID_TASK_IDAP_1';
-private _taskDescription = format [
-	'<br/>- %1<br/>- %2<br/>- %3<br/>- %4<br/><br/>%5<br/><br/>%6',
-	localize 'STR_QS_Task_017',
-	localize 'STR_QS_Task_018',
-	localize 'STR_QS_Task_019',
-	localize 'STR_QS_Task_020',
-	localize 'STR_QS_Task_021',
-	localize 'STR_QS_Task_022'
-];
+private _taskDescription = localize 'STR_QS_Task_017';
 [
 	_taskID,
 	TRUE,

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/01/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -174,7 +174,7 @@ if (isPlayer _killed) then {
 			{(isPlayer _killer)} &&
 			{(!((vehicle _killer) isKindOf 'Air'))}
 		) then {
-			_text = format ['%3 ( %1 ) %4 %2!',(name _killed),(name _killer),localize 'STR_QS_Chat_108',localize 'STR_QS_Chat_109'];
+			_text = format [localize 'STR_QS_Chat_108',(name _killed),(name _killer)];
 			_text remoteExec ['systemChat',-2,FALSE];
 		};
 	} else {

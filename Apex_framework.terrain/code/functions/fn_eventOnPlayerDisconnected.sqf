@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	25/04/2016 A3 1.56 by Quiksilver
+	01/05/2023 A3 1.56 by Quiksilver
 	
 Description:
 
@@ -35,7 +35,7 @@ if (((_this # 1) select [0,2]) isEqualTo 'HC') then {
 		};
 	};
 	if (allPlayers isNotEqualTo []) then {
-		(format ['%1',localize 'STR_QS_Chat_111']) remoteExec ['systemChat',-2,FALSE];
+		(localize 'STR_QS_Chat_111') remoteExec ['systemChat',-2,FALSE];
 	};
 	diag_log (format ['Headless Client %1 ( %2 ) disconnected',(_this # 4),(_this # 1)]);
 };

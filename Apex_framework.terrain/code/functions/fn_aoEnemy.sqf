@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -65,7 +65,7 @@ private _manyBuildingPositions = (count _buildingPositionsInArea) > 65;		// 100
 if (_allowVehicles) then {
 	_roadPositionsValid = _roadPositionsValid call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
-diag_log format ['***** AO ENEMY * NEAR ROADS COUNT: %1 *****',(count _roadPositionsValid)];
+diag_log (format ['***** AO ENEMY * NEAR ROADS COUNT: %1 *****',(count _roadPositionsValid)]);
 
 /*/=============================================================== AA VEHICLE/*/
 
@@ -196,7 +196,7 @@ for '_x' from 0 to (_grpCount - 1) step 1 do {
 		_patrolGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
 		_patrolGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	} else {
-		diag_log format ['***** AO ENEMY * INFANTRY PATROL INVALID POSITION * %1 *****',_randomPos];
+		diag_log (format ['***** AO ENEMY * INFANTRY PATROL INVALID POSITION * %1 *****',_randomPos]);
 	};
 };
 
@@ -805,7 +805,7 @@ if ((call (missionNamespace getVariable 'QS_fnc_getActiveDLC')) isEqualTo '') th
 			if (!isNull _killer) then {
 				if (isPlayer _killer) then {
 					_name = name _killer;
-					_text = format ['%1 %2',_name,localize 'STR_QS_Chat_019'];
+					_text = (format [localize 'STR_QS_Chat_019',_name]);
 					['sideChat',[WEST,'HQ'],_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				};
 			};

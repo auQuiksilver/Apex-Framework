@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	16/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -39,10 +39,10 @@ if (
 			_vehicle setVariable ['QS_cc_convoySeparation',-1,TRUE];
 		};
 		QS_cc_convoySeparation = QS_cc_convoyMaxSeparation;
-		50 cutText [format ['%1 - %2',localize 'STR_QS_Text_325',localize 'STR_QS_Text_326'],'PLAIN DOWN',0.5];
+		50 cutText [localize 'STR_QS_Text_326','PLAIN DOWN',0.5];
 	} else {
 		_vehicle setVariable ['QS_cc_convoySeparation',QS_cc_convoySeparation,TRUE];
-		50 cutText [format ['%1 - %2 m',localize 'STR_QS_Text_325',QS_cc_convoySeparation],'PLAIN DOWN',0.5];
+		50 cutText [format [localize 'STR_QS_Text_325',QS_cc_convoySeparation],'PLAIN DOWN',0.5];
 	};
 	_vehicle setVariable ['QS_cc_convoySeparation',QS_cc_convoySeparation,TRUE];
 	_vehicleOwner = effectiveCommander _vehicle;
