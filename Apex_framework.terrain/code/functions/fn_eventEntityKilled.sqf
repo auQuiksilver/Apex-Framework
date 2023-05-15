@@ -174,7 +174,7 @@ if (isPlayer _killed) then {
 			{(isPlayer _killer)} &&
 			{(!((vehicle _killer) isKindOf 'Air'))}
 		) then {
-			_text = format [localize 'STR_QS_Chat_108',(name _killed),(name _killer)];
+			_text = (format [localize 'STR_QS_Chat_108',(name _killed),(name _killer)]);
 			_text remoteExec ['systemChat',-2,FALSE];
 		};
 	} else {

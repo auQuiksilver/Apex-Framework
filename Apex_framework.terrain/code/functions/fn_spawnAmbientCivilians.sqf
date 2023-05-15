@@ -119,7 +119,7 @@ if (_type isEqualTo 'FOOT') then {
 										localize 'STR_QS_Chat_160',
 										localize 'STR_QS_Chat_161'
 									];
-								_text = format [selectRandom _civiltext,_name];
+								_text = (format [selectRandom _civiltext,_name]);
 								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};
 						};

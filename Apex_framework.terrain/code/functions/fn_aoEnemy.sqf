@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	01/05/2023 A3 2.10 by Quiksilver
+	22/08/2022 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,7 +14,7 @@ Description:
 ______________________________________________/*/
 
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** fn_aoEnemy START *****';
+diag_log localize 'STR_QS_DiagLogs_012';
 diag_log '****************************************************';
 params ['_pos','_isHCEnabled','_aoData'];
 private _terrainData = missionNamespace getVariable ['QS_classic_terrainData',[ [],[],[],[],[],[],[],[],[],[],[],[] ] ];
@@ -65,14 +65,14 @@ private _manyBuildingPositions = (count _buildingPositionsInArea) > 65;		// 100
 if (_allowVehicles) then {
 	_roadPositionsValid = _roadPositionsValid call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
-diag_log (format ['***** AO ENEMY * NEAR ROADS COUNT: %1 *****',(count _roadPositionsValid)]);
+diag_log (format [localize 'STR_QS_DiagLogs_013',(count _roadPositionsValid)]);
 
 /*/=============================================================== AA VEHICLE/*/
 
 private _aaArray = [];
 if (_playerCount > 0) then {
 	diag_log '****************************************************';
-	diag_log '***** AO ENEMY ***** Spawning Fortified AA *****';
+	diag_log localize 'STR_QS_DiagLogs_014';
 	diag_log '****************************************************';
 	private _aaCount = [1,2] select (_playerCount > 10);
 	for '_x' from 1 to _aaCount step 1 do {
@@ -88,7 +88,7 @@ if (_playerCount > 0) then {
 /*/=============================================================== INFANTRY PATROLS RANDOM/*/
 	
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning infantry patrols *****';
+diag_log localize 'STR_QS_DiagLogs_015';
 diag_log '****************************************************';
 private _grpCount = 5;
 if (_playerCount > 10) then {_grpCount = [8,6] select _allowVehicles;};
@@ -196,7 +196,7 @@ for '_x' from 0 to (_grpCount - 1) step 1 do {
 		_patrolGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
 		_patrolGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	} else {
-		diag_log (format ['***** AO ENEMY * INFANTRY PATROL INVALID POSITION * %1 *****',_randomPos]);
+		diag_log (format [localize 'STR_QS_DiagLogs_016',_randomPos]);
 	};
 };
 
@@ -207,7 +207,7 @@ if (worldName in ['Stratis']) then {
 };
 if ((random 1) > _staticChance) then {
 	diag_log '****************************************************';
-	diag_log '***** AO ENEMY ***** Spawning static weapons *****';
+	diag_log localize 'STR_QS_DiagLogs_017';
 	diag_log '****************************************************';
 	_registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]];
 	private _usedSettlementPosition = FALSE;
@@ -398,7 +398,7 @@ _registeredPositions = missionNamespace getVariable ['QS_registeredPositions',[]
 /*/=============================================================== INFANTRY OVERWATCH/*/
 
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning infantry overwatch *****';
+diag_log localize 'STR_QS_DiagLogs_018';
 diag_log '****************************************************';
 
 _grpCount = 3;
@@ -463,7 +463,7 @@ for '_x' from 0 to _grpCount step 1 do {
 /*/=============================================================== GROUND VEHICLE RANDOM/*/
 
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning Armored Vehicles *****';
+diag_log localize 'STR_QS_DiagLogs_019';
 diag_log '****************************************************';
 
 private _vehCount = [1,1] select _allowVehicles;
@@ -584,30 +584,34 @@ if (_allowVehicles) then {
 
 /*/=============================================================== SNIPERS/*/
 
-diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning Snipers *****';
-diag_log '****************************************************';
-private _sniperGroup = grpNull;
-private _towerPos = getPosATL (missionNamespace getVariable 'QS_radioTower');
-for '_x' from 0 to ([1,2] select (_playerCount > 30)) step 1 do {
-	private _watchPos = selectRandom [(ATLToASL _towerPos),(AGLToASL _QS_HQpos)];
-	_randomPos = [_watchPos,(_aoSize * 1.25),(_aoSize * 0.5),10,[[objNull,'VIEW'],0.75]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
-	_sniperGroup = [_randomPos,(random 360),EAST,'OI_SniperTeam_2',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-	_sniperGroup setCombatMode 'RED';
-	_sniperGroup setBehaviourStrong 'STEALTH';
-	[(units _sniperGroup),(selectRandom [3,4])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	_sniperGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
-	_dirToCenter = _randomPos getDir _watchPos;
-	_sniperGroup setFormDir _dirToCenter;
-	{
-		_x setUnitPos (['MIDDLE','DOWN'] select (_playerCount > 10));
-	} forEach (units _sniperGroup);
-	{
-		_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
-		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
-		_x doWatch (ASLToAGL _watchPos); 
-		0 = _enemiesArray pushBack _x;
-	} count (units _sniperGroup);
+if (
+	(_playerCount > 10) ||
+	{((_playerCount <= 10) && ((random 1) > 0.8))}
+) then {
+	diag_log '****************************************************';
+	diag_log localize 'STR_QS_DiagLogs_020';
+	diag_log '****************************************************';
+	private _sniperGroup = grpNull;
+	private _towerPos = getPosATL (missionNamespace getVariable 'QS_radioTower');
+	for '_x' from 0 to ([1,2] select (_playerCount > 30)) step 1 do {
+		private _watchPos = selectRandom [(ATLToASL _towerPos),(AGLToASL _QS_HQpos)];
+		_randomPos = [_watchPos,(_aoSize * 1.25),(_aoSize * 0.5),10,[[objNull,'VIEW'],0.75]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
+		_sniperGroup = [_randomPos,(random 360),EAST,'OI_SniperTeam_2',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
+		_sniperGroup setCombatMode 'RED';
+		_sniperGroup setBehaviourStrong 'STEALTH';
+		[(units _sniperGroup),(selectRandom [3,4])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+		_sniperGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+		_dirToCenter = _randomPos getDir _watchPos;
+		_sniperGroup setFormDir _dirToCenter;
+		{
+			_x setUnitPos (['MIDDLE','DOWN'] select (_playerCount > 10));
+		} forEach (units _sniperGroup);
+		{
+			_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
+			_x doWatch (ASLToAGL _watchPos); 
+			0 = _enemiesArray pushBack _x;
+		} count (units _sniperGroup);
+	};
 };
 
 /*/=============================================================== AO MORTAR PIT/*/
@@ -618,7 +622,7 @@ if (worldName isEqualTo 'Stratis') then {
 };
 if (_mortarChance) then {
 	diag_log '****************************************************';
-	diag_log '***** AO ENEMY ***** Spawning Mortar Pit *****';
+	diag_log localize 'STR_QS_DiagLogs_021';
 	diag_log '****************************************************';
 	private _mortarPit = [_centerPos] call (missionNamespace getVariable 'QS_fnc_aoMortarPit');
 	if (_mortarPit isNotEqualTo []) then {
@@ -631,7 +635,7 @@ if (_mortarChance) then {
 /*/=============================================================== ENEMIES IN BUILDINGS/*/
 
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning Enemies in buildings *';
+diag_log localize 'STR_QS_DiagLogs_022';
 diag_log '****************************************************';
 private _AOgarrisonGroup = grpNull;
 private _toGarrison = [];
@@ -685,7 +689,7 @@ _AOgarrisonGroup2 setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 /*/=============================================================== BOAT PATROL/*/
 
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning Boat Patrol *****';
+diag_log localize 'STR_QS_DiagLogs_023';
 diag_log '****************************************************';
 if (((missionNamespace getVariable ['QS_classic_AOData',[]]) # 4) isEqualTo 1) then {
 	private _boatArray = [(missionNamespace getVariable 'QS_AOpos')] call (missionNamespace getVariable 'QS_fnc_aoBoatPatrol');
@@ -699,7 +703,7 @@ if (((missionNamespace getVariable ['QS_classic_AOData',[]]) # 4) isEqualTo 1) t
 /*/=============================================================== HQ GUARDS/*/
 
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning HQ Guards *****';
+diag_log localize 'STR_QS_DiagLogs_024';
 diag_log '****************************************************';
 
 _randomPos = [_QS_HQpos,0,150,1,0,0.4,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
@@ -846,5 +850,5 @@ _commandGrp setFormDir (random 360);
 	(missionNamespace getVariable 'QS_classic_AI_enemy_0') pushBack _x;
 } forEach _enemiesArray;
 diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** fn_aoEnemy END ****************';
+diag_log localize 'STR_QS_DiagLogs_025';
 diag_log '****************************************************';

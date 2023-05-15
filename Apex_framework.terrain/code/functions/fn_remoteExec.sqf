@@ -367,7 +367,7 @@ if (_case < 20) exitWith {
 		params ['',['_groups',[]],'_zeus','_offload',['_clientOwner',0]];
 		if (_offload) then {
 			// Offloading Group from Zeus to Server
-			diag_log format ['***** DEBUG ***** Zeus ( %1 ) attempting offload of %2 groups',_zeus,(count _groups)];	// TO DO: Localization
+			diag_log (format [localize 'STR_QS_DiagLogs_141',_zeus,(count _groups)]);	// TO DO: Localization
 			if (_groups isNotEqualTo []) then {
 				_groupEventLocalServer = {
 					params ['_grp','_isLocal'];
@@ -432,14 +432,14 @@ if (_case < 20) exitWith {
 				} forEach _groups;
 				{
 					sleep 1;
-					diag_log format ['***** DEBUG ***** OFFLOAD of Zeus group %1 attempted. Result: %2',(groupId _x),_x setGroupOwner 2];			// TO DO: Localization
+					diag_log (format [localize 'STR_QS_DiagLogs_142',(groupId _x),_x setGroupOwner 2]);			// TO DO: Localization
 				} forEach _groups;
 			};
 		} else {
 			// Offloading group from Server/HC to Zeus
 			{
 				sleep 1;
-				diag_log format ['***** DEBUG ***** ONLOAD of Zeus group %1 attempted. Result: %2',(groupId _x),_x setGroupOwner _clientOwner];		// TO DO: Localization
+				diag_log (format [localize 'STR_QS_DiagLogs_143',(groupId _x),_x setGroupOwner _clientOwner]);		// TO DO: Localization
 			} forEach _groups;
 		};
 	};
@@ -592,7 +592,7 @@ if (_case < 30) exitWith {
 				'_targetLocality'
 			];
 			_this2 set [2,(str (count _string))];
-			diag_log format ['***** DEV CONSOLE ***** %1 *****',_this2];
+			diag_log (format [localize 'STR_QS_DiagLogs_144',_this2]);
 			if (
 				(_isRx) &&
 				{(!isNil '_executor')} &&
@@ -607,10 +607,10 @@ if (_case < 30) exitWith {
 				{(_executorOwner isEqualTo _rxID)} &&
 				{(_targetLocality isEqualType 0)}
 			) then {
-				diag_log format ['***** DEV CONSOLE ***** Compiling String ***** %1',_string];
+				diag_log (format [localize 'STR_QS_DiagLogs_145',_string]);
 				_code = compile _string;
 				if (_code isEqualType {}) then {
-					diag_log format ['***** DEV CONSOLE ***** Code %1 executed by %2 ( %3 * %4)',_targetLocality,_executorProfileName,_executorUID,_executorProfileNameSteam];
+					diag_log (format [localize 'STR_QS_DiagLogs_146',_targetLocality,_executorProfileName,_executorUID,_executorProfileNameSteam]);
 					if (_targetLocality isEqualTo 2) then {
 						_args call _code;
 					} else {
@@ -786,7 +786,7 @@ if (_case < 40) exitWith {
 		params ['','_cid','_profileName'];
 		if (isDedicated) then {
 			if (_rxID isEqualTo _cid) then {
-				diag_log format ['***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****',time,_profileName];
+				diag_log (format [localize 'STR_QS_DiagLogs_147',time,_profileName]);
 				['systemChat',(format [localize 'STR_QS_Chat_144',_profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				([] call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1 AFK timeout',_cid]);
 			};
@@ -829,7 +829,7 @@ if (_case < 40) exitWith {
 			_this spawn {
 				scriptName 'QS Script Create Vehicle';
 				params ['','_clientPN','_array','_direction','_position','_owner','_unit'];
-				diag_log format ['***** CREATE VEHICLE ***** Server created vehicle for %1 at %2 *****',_clientPN,_position];
+				diag_log (format [localize 'STR_QS_DiagLogs_148',_clientPN,_position]);
 				_vehicle = createVehicle _array;
 				_vehicle setDir _direction;
 				_vehicle setPos _position;
@@ -838,7 +838,7 @@ if (_case < 40) exitWith {
 					{getText (configFile >> 'CfgVehicles' >> (_array # 0) >> 'displayName')},
 					TRUE
 				];
-				_text = format [localize 'STR_QS_Chat_146',_clientPN,_displayName,(mapGridPosition _unit)];
+				_text = (format [localize 'STR_QS_Chat_146',_clientPN,_displayName,(mapGridPosition _unit)]);
 				['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				if (surfaceIsWater _position) then {
 					_vehicle setPosASL _position;
@@ -884,7 +884,7 @@ if (_case < 40) exitWith {
 				{getText ((configOf _object) >> 'displayName')},
 				TRUE
 			];
-			diag_log format ['***** REMOTE EXECUTION ***** %1 ( %2 ) set simulation of %3 ( %4 ) to %5 *****',_profileName,_puid,_object,_displayName,_state];
+			diag_log (format [localize 'STR_QS_DiagLogs_149',_profileName,_puid,_object,_displayName,_state]);
 			_object enableSimulationGlobal _state;
 		};
 	};
@@ -1083,7 +1083,7 @@ if (_case < 60) exitWith {
 			if (!isNil {missionNamespace getVariable 'QS_staff_requestBaseCleanup_time'}) then {
 				if (time > (missionNamespace getVariable 'QS_staff_requestBaseCleanup_time')) then {
 					missionNamespace setVariable ['QS_staff_requestBaseCleanup_time',(time + 300),FALSE];
-					diag_log format ['%1 (%2) (staff) has initiated base cleanup',((_this # 1) # 0),((_this # 1) # 1)];
+					diag_log (format [localize 'STR_QS_DiagLogs_150',((_this # 1) # 0),((_this # 1) # 1)]);
 					0 = 0 spawn {
 						_baseMarker = markerPos 'QS_marker_base_marker';
 						{
@@ -1258,7 +1258,7 @@ if (_case < 70) exitWith {
 				FALSE
 			];
 			((_array # 2) # 0) addScore ((_array # 2) # 1);
-			diag_log format ['***** LEADERBOARD ***** %1 (%2) incarcerated a prisoner *****',_name,_puid];	
+			diag_log (format [localize 'STR_QS_DiagLogs_151',_name,_puid]);	
 		};
 	};
 
@@ -1301,11 +1301,11 @@ if (_case < 70) exitWith {
 	if (_case isEqualTo 65) then {
 		params ['','_rappelDevice','_heli','_toggle',['_randVar',0]];
 		if (_toggle) then {
-			comment 'ENABLE collisions';
+			//comment 'ENABLE collisions';
 			_rappelDevice enableCollisionWith _heli;
 			_heli enableCollisionWith _rappelDevice;
 		} else {
-			comment 'DISABLE collisions';
+			//comment 'DISABLE collisions';
 			if (_randVar isEqualTo 101) then {
 				if (isDedicated) then {
 					_rappelDevice hideObjectGlobal TRUE;		// Will this cause issues with the fast-rope simulation?
@@ -1350,7 +1350,7 @@ if (_case < 70) exitWith {
 		if (isDedicated) then {
 			_marker = _this # 1;
 			_module = _this # 2;
-			diag_log format ['***** REPORT ***** Marker added * %1 * %2 * %3 *****',_marker,_module,(name (getAssignedCuratorUnit _module))];
+			diag_log (format [localize 'STR_QS_DiagLogs_152',_marker,_module,(name (getAssignedCuratorUnit _module))]);
 			if (_module in allCurators) then {
 				if (!isNull (getAssignedCuratorUnit _module)) then {
 					missionNamespace setVariable [
@@ -1440,7 +1440,7 @@ if (_case < 80) exitWith {
 	if (_case isEqualTo 73) then {
 		_type = _this # 1;
 		if (_type isEqualTo 1) then {
-			comment 'Datalink';
+			//comment 'Datalink';
 			missionNamespace setVariable ['QS_virtualSectors_sub_1_active',FALSE,FALSE];
 			(missionNamespace getVariable 'QS_virtualSectors_sub_1_obj') hideObjectGlobal TRUE;
 			if ((missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') isNotEqualTo []) then {
@@ -1448,7 +1448,7 @@ if (_case < 80) exitWith {
 					_x setMarkerAlpha 0;
 				} forEach (missionNamespace getVariable 'QS_virtualSectors_sub_1_markers');
 			};
-			comment 'Communicate here';
+			//comment 'Communicate here';
 			['QS_virtualSectors_sub_1_task'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 			['SC_SUB_COMPLETED',['',localize 'STR_QS_Notif_069']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 			if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
@@ -1461,7 +1461,7 @@ if (_case < 80) exitWith {
 					missionNamespace setVariable ['QS_virtualSectors_scoreSides',_QS_virtualSectors_scoreSides,FALSE];
 				};
 				
-				comment 'disrupt active datalink';
+				//comment 'disrupt active datalink';
 				{
 					if ((side _x) in [EAST,RESISTANCE]) then {
 						_x setDamage [1,TRUE];
@@ -1484,10 +1484,10 @@ if (_case < 80) exitWith {
 			};
 		};
 		if (_type isEqualTo 2) then {
-			comment 'Radio tower NA, done in event handlers from composition file';
+			//comment 'Radio tower NA, done in event handlers from composition file';
 		};
 		if (_type isEqualTo 3) then {
-			comment 'Supply depot';
+			//comment 'Supply depot';
 			missionNamespace setVariable ['QS_virtualSectors_sub_3_active',FALSE,FALSE];
 			if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
 				private ['_QS_virtualSectors_scoreSides','_scoreEast','_scoreToRemove'];
@@ -1499,7 +1499,7 @@ if (_case < 80) exitWith {
 					missionNamespace setVariable ['QS_virtualSectors_scoreSides',_QS_virtualSectors_scoreSides,FALSE];
 				};
 			};
-			comment 'remove launchers from units in AO';
+			//comment 'remove launchers from units in AO';
 			private _centroid = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
 			if ((missionNamespace getVariable ['QS_mission_aoType','CLASSIC']) isEqualTo 'SC') then {
 				_centroid = missionNamespace getVariable ['QS_virtualSectors_centroid',[0,0,0]];
@@ -1533,7 +1533,7 @@ if (_case < 80) exitWith {
 					};
 				} forEach (missionNamespace getVariable 'QS_virtualSectors_sub_3_markers');
 			};		
-			comment 'Communicate here';
+			//comment 'Communicate here';
 			['QS_virtualSectors_sub_3_task'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 			['SC_SUB_COMPLETED',['',localize 'STR_QS_Notif_070']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		};
@@ -1685,7 +1685,7 @@ if (_case < 90) exitWith {
 			if (!(isObjectHidden _entity)) then {
 				_entity hideObjectGlobal TRUE;
 			};
-			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
+			_text = (format [localize 'STR_QS_Chat_147',_profileName,_groupID]);
 			_text remoteExec ['systemChat',-2];
 			if ((_entity getVariable ['QS_intel_marker',-1]) isNotEqualTo -1) then {
 				for '_x' from 0 to 1 step 1 do {
@@ -1699,7 +1699,7 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
+			_text = (format [localize 'STR_QS_Chat_147',_profileName,_groupID]);
 			_text remoteExec ['systemChat',-2];
 			[(_entity getVariable ['QS_entity_assocPos',(position _entity)]),_clientOwner] spawn (missionNamespace getVariable 'QS_fnc_aoTaskIDAP');
 		};
@@ -1709,7 +1709,7 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
+			_text = (format [localize 'STR_QS_Chat_147',_profileName,_groupID]);
 			_text remoteExec ['systemChat',-2];
 			[(_entity getVariable ['QS_entity_assocPos',(getPosATL _entity)]),_clientOwner] spawn (missionNamespace getVariable 'QS_fnc_aoTaskIG');
 		};
@@ -1806,7 +1806,7 @@ if (_case < 90) exitWith {
 		if (!(isObjectHidden _entity)) then {
 			_entity hideObjectGlobal TRUE;
 			_entity enableSimulationGlobal FALSE;
-			_text = format [localize 'STR_QS_Chat_147',_profileName,_groupID];
+			_text = (format [localize 'STR_QS_Chat_147',_profileName,_groupID]);
 			_text remoteExec ['systemChat',-2];
 			[(getPosATL _entity)] spawn (missionNamespace getVariable 'QS_fnc_aoTaskKill');
 		};
@@ -2374,7 +2374,7 @@ if (_case < 120) exitWith {
 	if (_case isEqualTo 115) then {
 		params ['','_args'];
 		if (isDedicated) then {
-			diag_log format ['Flatten terrain - %1 - %2',_rxID,_args];
+			diag_log (format [localize 'STR_QS_DiagLogs_153',_rxID,_args]);
 			_args call QS_fnc_terrainFlatten;
 		};
 	};

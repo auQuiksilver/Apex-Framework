@@ -91,7 +91,7 @@ _foundName = QS_hashmap_configfile getOrDefaultCall [
 	TRUE
 ];
 if (!(simulationEnabled _found)) exitWith {
-	_text = format [localize 'STR_QS_Hints_132',_foundName];
+	_text = (format [localize 'STR_QS_Hints_132',_foundName]);
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7,-1,_text,[],-1];
 };
 if (
@@ -114,7 +114,7 @@ if (
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,(format [localize 'STR_QS_Hints_133',_foundName]),[],-1];
 };
 if (_foundMass > _towMaxMass) exitWith {
-	_text = format [localize 'STR_QS_Hints_136',_foundName,_vName];
+	_text = (format [localize 'STR_QS_Hints_136',_foundName,_vName]);
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];
 };
 if ((toLowerANSI _ft) in _disAllowed) exitWith {50 cutText [format [localize 'STR_QS_Text_250',_foundName],'PLAIN DOWN',0.5];};
@@ -125,7 +125,7 @@ if (((crew _found) findIf {(alive _x)}) isNotEqualTo -1) then {
 };
 if (_crewInVehicle) exitWith {50 cutText [format [localize 'STR_QS_Text_252',_foundName],'PLAIN DOWN',0.5];};
 if (((vectorUp _found) # 2) < 0) exitWith {
-	_text = format [localize 'STR_QS_Hints_137',_foundName];
+	_text = (format [localize 'STR_QS_Hints_137',_foundName]);
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];
 };
 if (((toLowerANSI _ft) in ['b_sam_system_01_f','b_sam_system_02_f','b_aaa_system_01_f']) && (!((toLowerANSI _vt) in ['b_truck_01_mover_f','b_t_truck_01_mover_f']))) exitWith {

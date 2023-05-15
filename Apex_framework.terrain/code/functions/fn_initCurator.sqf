@@ -17,7 +17,7 @@ params ['_type'];
 if (_type isEqualTo 0) then {
 	if (!isDedicated) exitWith {};
 	params ['','_client','_puid','_cid'];
-	if (!isNull (getAssignedCuratorLogic _client)) exitWith {diag_log '***** CURATOR ***** Client already has curator module assigned *****';};
+	if (!isNull (getAssignedCuratorLogic _client)) exitWith {diag_log localize 'STR_QS_DiagLogs_132';};
 	_logicGrp = createGroup [sideLogic,TRUE];
 	_logicGrp setVariable ['isCuratorModuleGroup',TRUE,TRUE];
 	_module = _logicGrp createUnit ['ModuleCurator_F',[-1000,-1000,0],[],0,'NONE'];
@@ -93,7 +93,7 @@ if (_type isEqualTo 0) then {
 		}
 	];
 	_module removeCuratorAddons QS_core_classNames_zeusDisabledAddons_lower;
-	diag_log format ['***** CURATOR ***** Module created for %1 ( %2 ) *****',(name _client),_puid];
+	diag_log (format [localize 'STR_QS_DiagLogs_133',(name _client),_puid]);
 };
 if (_type isEqualTo 1) then {
 	if (isServer || !hasInterface) exitWith {};

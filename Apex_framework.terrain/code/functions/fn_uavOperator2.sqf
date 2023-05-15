@@ -269,7 +269,7 @@ _uavInitCodeGeneric = {
 			{getText ((configOf _uavEntity) >> 'displayName')},
 			TRUE
 		];
-		_text = format [localize 'STR_QS_Hints_131',_displayName,(mapGridPosition _uavEntity)];
+		_text = (format [localize 'STR_QS_Hints_131',_displayName,(mapGridPosition _uavEntity)]);
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7,-1,_text,[],-1];
 		_uavEntity enableRopeAttach TRUE;
 		_uavEntity enableVehicleCargo TRUE;

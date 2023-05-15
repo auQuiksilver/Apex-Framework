@@ -16,7 +16,7 @@ __________________________________________________________________________*/
 _type = _this # 3;
 if (_type isEqualTo 1) exitWith {
 	private ['_text','_respawnEnabled','_respawnTickets','_vehicleRespawnEnabled','_vehicleRepairService','_vehicleAmmoService','_radarServices','_vehicleFuelService','_personalRespawn'];
-	_text = (format [localize 'STR_QS_Hints_034'(missionNamespace getVariable 'QS_module_fob_displayName')]);
+	_text = (format [localize 'STR_QS_Hints_034',(missionNamespace getVariable 'QS_module_fob_displayName')]);
 	if ((missionNamespace getVariable 'QS_module_fob_side') isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
 		_radarServices = localize 'STR_QS_Hints_035';
 	} else {

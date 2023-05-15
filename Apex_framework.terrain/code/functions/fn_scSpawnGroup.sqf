@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	5/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 
 Description:
 
@@ -50,7 +50,7 @@ if (_sectorData isEqualType []) exitWith {
 		'_conversionRate',
 		'_isBeingInterrupted'
 	];
-	comment 'Find position';
+	//comment 'Find position';
 	private _position = [0,0,0];
 	private _positionFound = FALSE;
 	private _iterations = 0;
@@ -76,7 +76,7 @@ if (_sectorData isEqualType []) exitWith {
 		_aoSize = _aoSize + _aoSizeIncrement;
 		_iterations = _iterations + 1;
 	};
-	comment 'Spawn group';
+	//comment 'Spawn group';
 	_side = EAST;
 	private _infantryGroupType = '';
 	private _heliInsert = FALSE;
@@ -152,23 +152,23 @@ if (_sectorData isEqualType []) exitWith {
 		_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
 	} forEach (units _grp);
 	[(units _grp),([1,1] select (_infantryGroupType in ['OI_reconPatrol','O_T_ViperPatrol','OI_reconSentry']))] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	comment 'configure group';
+	//comment 'configure group';
 	_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 	_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 	_grp setVariable ['QS_AI_GRP_DATA',[_centerPos,_areaOrRadiusConvert,_areaOrRadiusInterrupt,_locationData],FALSE];
 	_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_centerPos,serverTime,-1],FALSE];
 	_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
-	comment 'Initial movement so they move from spawn';
+	//comment 'Initial movement so they move from spawn';
 	if (!(_heliInsert)) then {
 		_grp move [((_centerPos # 0) + (50 - (random 100))),((_centerPos # 1) + (50 - (random 100))),(_centerPos # 2)];
 	};
-	comment 'return';
+	//comment 'return';
 	_grp;
 };
 if (_sectorData isEqualType 0) exitWith {
 	if (_sectorData isEqualTo -1) then {
-		comment 'AI which move between sectors';
-		comment 'Get owned sectors';
+		//comment 'AI which move between sectors';
+		//comment 'Get owned sectors';
 		private _getOwnedSectors = [];
 		private _centerPos = [0,0,0];
 		private _radius = -1;
@@ -208,7 +208,7 @@ if (_sectorData isEqualType 0) exitWith {
 			_radius = _radius + _radiusIncrement;
 			_iterations = _iterations + 1;
 		};
-		comment 'Spawn group';
+		//comment 'Spawn group';
 		_side = EAST;
 		private _infantryGroupType = '';
 		if (missionNamespace getVariable ['QS_virtualSectors_sub_3_active',TRUE]) then {
@@ -251,13 +251,13 @@ if (_sectorData isEqualType 0) exitWith {
 			_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
 		} forEach (units _grp);
 		[(units _grp),([1,1] select (_infantryGroupType in ['OI_reconPatrol','O_T_ViperPatrol','OI_reconSentry']))] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-		comment 'configure group';
+		//comment 'configure group';
 		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
 		_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
 		_grp setVariable ['QS_AI_GRP_DATA',[],FALSE];
 		_grp setVariable ['QS_AI_GRP_TASK',['ATTACK',[0,0,0],serverTime,-1],FALSE];
 		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
-		comment 'Initial movement so they move from spawn';
+		//comment 'Initial movement so they move from spawn';
 		_grp setSpeedMode 'FULL';
 		_grp setBehaviour 'AWARE';
 		_grp setCombatMode 'YELLOW';
@@ -277,8 +277,8 @@ if (_sectorData isEqualType 0) exitWith {
 		};
 	};
 	if (_sectorData isEqualTo -2) then {
-		diag_log 'Spawning more radial patrols';
-		comment 'Infantry radial patrols';
+		diag_log localize 'STR_QS_DiagLogs_167';
+		//comment 'Infantry radial patrols';
 		_centerPos = missionNamespace getVariable 'QS_AOpos';
 		_centerRadius = missionNamespace getVariable 'QS_aoSize';
 		_worldName = worldName;
@@ -347,7 +347,7 @@ if (_sectorData isEqualType 0) exitWith {
 			_x enableAIFeature ['COVER',FALSE];
 			_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		} forEach (units _grp);
-		comment 'Radial positions';
+		//comment 'Radial positions';
 		private _radialIncrement = 45;
 		private _radialStart = round (random 360);
 		_radialOffset = _centerRadius * (0.75 + (random 0.4));
@@ -365,7 +365,7 @@ if (_sectorData isEqualType 0) exitWith {
 		};
 		if (_radialPatrolPositions isNotEqualTo []) then {
 			_radialPatrolPositions = _radialPatrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-			comment 'Initial movement';
+			//comment 'Initial movement';
 			_grp move (_radialPatrolPositions # 0);
 			_grp setFormDir (_randomPos getDir (_radialPatrolPositions # 0));
 		};
@@ -381,17 +381,17 @@ if (_sectorData isEqualType 0) exitWith {
 		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 	};
 	if (_sectorData isEqualTo -3) then {
-		comment 'Spawn infantry assault squads';
-		diag_log 'Spawning assault squad';
+		//comment 'Spawn infantry assault squads';
+		diag_log localize 'STR_QS_DiagLogs_168';
 		_centerPos = missionNamespace getVariable 'QS_AOpos';
 		_centerRadius = missionNamespace getVariable 'QS_aoSize';
 		_worldName = worldName;
 		_worldSize = worldSize;
 		_side = EAST;
 		private _grp = grpNull;
-		comment 'GET TARGETED SECTOR';
+		//comment 'GET TARGETED SECTOR';
 		_attackPosition = _this # 2;
-		comment 'CALCULATE FORCE REQUIREMENTS';
+		//comment 'CALCULATE FORCE REQUIREMENTS';
 		private _quantity = 24; comment 'Placeholder, also check player count';
 		private _position = [0,0,0];
 		private _radius = 350;
@@ -417,7 +417,7 @@ if (_sectorData isEqualType 0) exitWith {
 			_radius = _radius + _radiusIncrement;
 			_iterations = _iterations + 1;
 		};		
-		comment 'Create force';
+		//comment 'Create force';
 		private _infantryGroupType = '';
 		if (missionNamespace getVariable ['QS_virtualSectors_sub_3_active',TRUE]) then {
 			_infantryGroupType = selectRandomWeighted [
@@ -448,7 +448,7 @@ if (_sectorData isEqualType 0) exitWith {
 		};
 		_direction = _position getDir _attackPosition;
 		_assaultGrp = createGroup [EAST,TRUE];
-		comment 'Spawn units offsite';
+		//comment 'Spawn units offsite';
 		while {((count (units _assaultGrp)) < _quantity)} do {
 			_grp = [[(_worldSize + (random 1000)),(_worldSize + (random 1000)),(50 + (random 50))],_direction,_side,_infantryGroupType,FALSE,grpNull,TRUE,TRUE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 			{
@@ -468,10 +468,10 @@ if (_sectorData isEqualType 0) exitWith {
 			} forEach (units _grp);
 			(units _grp) joinSilent _assaultGrp;
 		};
-		comment 'Propagate animation to get prone';
+		//comment 'Propagate animation to get prone';
 		_assaultGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		[(units _assaultGrp),{{_x switchMove 'amovppnemstpsraswrfldnon';} forEach _this;}] remoteExec ['spawn',(_players inAreaArray [_position,1000,1000,0,FALSE]),FALSE];
-		comment 'Small delay then put units where they belong';
+		//comment 'Small delay then put units where they belong';
 		_assaultGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 		[_assaultGrp,_direction] spawn {
 			params ['_assaultGrp','_direction'];
@@ -491,6 +491,6 @@ if (_sectorData isEqualType 0) exitWith {
 		};
 		_grp = _assaultGrp;	/*/Transpose back to grp/*/
 	};
-	comment 'return';
+	//comment 'return';
 	_grp;
 };

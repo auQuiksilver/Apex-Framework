@@ -40,7 +40,7 @@ if (
 	50 cutText [localize 'STR_QS_Text_000','PLAIN DOWN',0.333];
 	TRUE
 };
-if (!((lifeState QS_player) in ['HEALTHY','INJURED'])) exitWith {
+if (!((lifeState QS_player) in ['HEALTHY','INJURED',''])) exitWith {
 	50 cutText [localize 'STR_QS_Text_025','PLAIN DOWN',0.333];
 	_QS_c = TRUE;
 	_QS_c;
@@ -326,7 +326,7 @@ if (_QS_actionName isEqualTo 'GetInPilot') exitWith {
 	if (
 		(missionNamespace getVariable ['QS_missionConfig_roleRestrictionPlane',FALSE]) &&
 		{(!(player getUnitTrait 'QS_trait_fighterPilot'))} &&
-		{(_QS_actionTaget isKindOf 'Plane')} && 
+		{(_QS_actionTarget isKindOf 'Plane')} && 
 		{(!(_QS_actionTarget isKindOf 'VTOL_Base_F'))}
 	) then {
 		_text = localize 'STR_QS_Hints_015';

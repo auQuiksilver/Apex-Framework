@@ -47,7 +47,7 @@ _base = markerPos 'QS_marker_base_marker';
 _baseBufferDist = 1000;
 _worldName = worldName;
 if (!(_worldName in ['Altis','Malden','Tanoa','Enoch'])) exitWith {
-	diag_log '***** ERROR * Truck side mission * terrain not supported (needs config) *****';
+	diag_log localize 'STR_QS_DiagLogs_174';
 };
 if (_worldName isEqualTo 'Tanoa') then {
 	_startPosition = [6817.86,7544.75,0.00139809];

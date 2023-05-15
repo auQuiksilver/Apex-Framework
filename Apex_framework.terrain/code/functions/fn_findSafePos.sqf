@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -51,7 +51,7 @@ if (_pos isEqualTo []) then {
 		missionNamespace setVariable ['QS_safePositionAnchor',(if (worldName isEqualTo 'Tanoa') then [{[2086.95,7805.91,0]},{_pos}]),FALSE];
 	};
 };
-if (_pos isEqualTo []) exitWith {diag_log 'Log: [findSafePos] No center position was passed!';[]};
+if (_pos isEqualTo []) exitWith {diag_log localize 'STR_QS_DiagLogs_114';[]};
 if (_maxDist isEqualTo -1) then {
 	_maxDist = missionNamespace getVariable ['QS_safePositionRadius',-1];
 	if (_maxDist isEqualTo -1) then {

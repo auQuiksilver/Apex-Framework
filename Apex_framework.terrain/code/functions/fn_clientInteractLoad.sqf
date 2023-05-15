@@ -72,15 +72,7 @@ if (_attachedObjects isNotEqualTo []) then {
 					TRUE
 				];
 				if (isClass ((configOf _t) >> 'VehicleTransport' >> 'Carrier')) then {
-					50 cutText [
-						(format [
-							localize 'STR_QS_Text_114',
-							(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),
-							_dn
-						]),
-						'PLAIN DOWN',
-						0.4
-					];
+					50 cutText [(format [localize 'STR_QS_Text_114',(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),_dn]),'PLAIN DOWN',0.4];
 				} else {
 					_capacity = [3,_obj,_t] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams');
 					50 cutText [

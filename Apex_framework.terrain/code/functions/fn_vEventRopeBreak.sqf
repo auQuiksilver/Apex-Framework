@@ -30,7 +30,7 @@ if (isNull (ropeAttachedTo _attachedObject)) then {
 				if (alive (driver _vehicle)) then {
 					if (isPlayer (driver _vehicle)) then {
 						if (isServer) then {
-							_text = format [localize 'STR_QS_Chat_162',(getText ((configOf _attachedObject) >> 'displayName'))];
+							_text = (format [localize 'STR_QS_Chat_162',(getText ((configOf _attachedObject) >> 'displayName'))]);
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
 						};
 					};

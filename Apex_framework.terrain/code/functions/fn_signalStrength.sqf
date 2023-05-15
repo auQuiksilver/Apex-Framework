@@ -24,11 +24,11 @@ if (_type isEqualTo 0) then {
 		if (((eyePos player) # 2) < 0) then {
 			if (( ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1) && _requireGPS) || {(!(_requireGPS))}) then {
 				if (isNull (objectParent player)) then {
-					_text = format [localize 'STR_QS_Text_243',_val];
+					_text = (format [localize 'STR_QS_Text_243',_val]);
 					50 cutText [_text,'PLAIN DOWN',0.5,TRUE,TRUE];
 				};
 			} else {
-				_text = format [localize 'STR_QS_Text_244',_val];
+				_text = (format [localize 'STR_QS_Text_244',_val]);
 				50 cutText [_text,'PLAIN DOWN',0.5,TRUE,TRUE];
 			};
 		};
@@ -45,10 +45,10 @@ if (_type isEqualTo 1) then {
 					(((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1) && _requireGPS) || 
 					{(!(_requireGPS))}
 				) then {
-					_text = format [localize 'STR_QS_Text_243',_val];
+					_text = (format [localize 'STR_QS_Text_243',_val]);
 					50 cutText [_text,'PLAIN DOWN',0.5,TRUE,TRUE];
 				} else {
-					_text = format [localize 'STR_QS_Text_244',_val];
+					_text = (format [localize 'STR_QS_Text_244',_val]);
 					50 cutText [_text,'PLAIN DOWN',0.5,TRUE,TRUE];
 				};
 			};

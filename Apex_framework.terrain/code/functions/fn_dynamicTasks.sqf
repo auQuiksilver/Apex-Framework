@@ -20,10 +20,10 @@ if (_case isEqualTo 1) then {
 		_entity = _params # 0;
 		_taskAuthor = _params # 1;
 		_taskAuthorClass = _params # 2;
-		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
-		private _description = format [localize 'STR_QS_Task_118',(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName'))];
+		_taskID = (format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))]);
+		private _description = (format [localize 'STR_QS_Task_118',(getText (configFile >> 'CfgVehicles' >> (typeOf _entity) >> 'displayName'))]);
 		if (_isRx) then {
-			_description = format [localize 'STR_QS_Task_120',_description,_taskAuthor,_taskAuthorClass];
+			_description = (format [localize 'STR_QS_Task_120',_description,_taskAuthor,_taskAuthorClass]);
 		};
 		_array = [
 			_taskID,
@@ -80,10 +80,10 @@ if (_case isEqualTo 1) then {
 	if (_type isEqualTo 'MEDEVAC') then {
 		_entity = _params # 0;
 		_entityName = _params # 1;
-		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
+		_taskID = (format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))]);
 		(missionNamespace getVariable ['QS_dynTask_medevac_array',[]]) pushBack _entity;
 		[_entityName,{50 cutText [(format [localize 'STR_QS_Text_207',_this]),'PLAIN DOWN',0.5];}] remoteExec ['call',(allPlayers select {(_x getUnitTrait 'QS_trait_pilot')}),FALSE];
-		private _description = format [localize 'STR_QS_Text_465',_entityName];
+		private _description = (format [localize 'STR_QS_Text_465',_entityName]);
 		_array = [
 			_taskID,
 			'ADD',
@@ -152,7 +152,7 @@ if (_case isEqualTo 1) then {
 	if (_type isEqualTo 'PRISONER') then {
 		_entity = _params # 0;
 		_entity setTaskMarkerOffset [0,-10,1];
-		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
+		_taskID = (format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))]);
 		private _description = localize 'STR_QS_Task_125';
 		_array = [
 			_taskID,
@@ -220,8 +220,8 @@ if (_case isEqualTo 1) then {
 	if (_type isEqualTo 'EVAC_PILOT') then {
 		_entity = _params # 0;
 		_entityName = _params # 1;
-		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
-		private _description = format [localize 'STR_QS_Task_127',_entityName];
+		_taskID = (format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))]);
+		private _description = (format [localize 'STR_QS_Task_127',_entityName]);
 		_array = [
 			_taskID,
 			'ADD',
@@ -285,9 +285,9 @@ if (_case isEqualTo 1) then {
 	if (_type isEqualTo 'FIRE_SUPPORT') then {
 		_entity = _params # 0;
 		_taskAuthorName = _params # 1;
-		_taskID = format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))];
+		_taskID = (format ['QS_DYNTASK_%1_%2',_type,(round (random 10000))]);
 		_timeout = diag_tickTime + 900;
-		private _description = format [localize 'STR_QS_Task_121',_taskAuthorName,(getText ((configOf _entity) >> 'displayName'))];
+		private _description = (format [localize 'STR_QS_Task_121',_taskAuthorName,(getText ((configOf _entity) >> 'displayName'))]);
 		_array = [
 			_taskID,
 			'ADD',

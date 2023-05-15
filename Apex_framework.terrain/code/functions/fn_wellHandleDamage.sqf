@@ -74,7 +74,7 @@ if ((_entity getVariable ['QS_entity_sumDmg',0]) >= (_entity getVariable ['QS_en
 		if (!isNull _instigator) then {
 			if (isPlayer _instigator) then {
 				_instigator addScore 1;
-				_text = format [localize 'STR_QS_Chat_163',(name _instigator),(groupID (group _instigator))];
+				_text = (format [localize 'STR_QS_Chat_163',(name _instigator),(groupID (group _instigator))]);
 				_text remoteExec ['systemChat',-2,FALSE];
 			};
 		};

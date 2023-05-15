@@ -40,7 +40,7 @@ private _conversionRate = 0;
 private _communications = [];
 missionNamespace setVariable ['QS_virtualSectors_locations',[],FALSE];
 for '_x' from 0 to (_numberOfSectors - 1) step 1 do {
-	comment 'Generate sector assets';
+	//comment 'Generate sector assets';
 	_sectorPosition = _sectorPositions # _x;
 	missionNamespace setVariable [
 		'QS_virtualSectors_regionUsedPositions',
@@ -49,10 +49,10 @@ for '_x' from 0 to (_numberOfSectors - 1) step 1 do {
 	];
 	_sectorAssets = [_sectorPosition,100] call (missionNamespace getVariable 'QS_fnc_scGenerateAssets');
 	_communications pushBack _sectorAssets;
-	comment 'Dynamic sector configure';
+	//comment 'Dynamic sector configure';
 	_increment = 5;
-	_minConversionTime = 180;	comment 'default 300';
-	_interruptMultiplier = 1;	comment 'dev default = 2';
+	_minConversionTime = 180;	//comment 'default 300';
+	_interruptMultiplier = 1;	//comment 'dev default = 2';
 	_areaOrRadiusConvert = 50;
 	_areaOrRadiusInterrupt = 100;
 	_sidesOwnedBy = [EAST,RESISTANCE];
@@ -75,7 +75,7 @@ for '_x' from 0 to (_numberOfSectors - 1) step 1 do {
 	_exitFunction = {};
 	_conversionRate = 0;
 	_isBeingInterrupted = FALSE;
-	comment 'Register sector';
+	//comment 'Register sector';
 	diag_log '***** SC INIT * 3 *****';
 	[
 		'ADD',

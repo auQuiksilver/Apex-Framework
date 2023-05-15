@@ -550,7 +550,7 @@ _makegrid = {
 	_sz = _start # 1;
 	for '_i' from 0 to round((_size # 0)/_res) do {
 		_pi = [_sx + _res * _i, _sz, 0];
-		_str = format ['QS_marker_GT_%1',([_pi # 0, _pi # 1])];
+		_str = (format ['QS_marker_GT_%1',([_pi # 0, _pi # 1])]);
 		if (_pi inPolygon QS_georgetown_vExclusion_polygon) then {
 			_mkr = createMarker [_str,_pi];
 			_mkr setMarkerTextLocal (toString [32,32,32]);
@@ -565,7 +565,7 @@ _makegrid = {
 		_pz = _pi # 1;
 		for '_e' from 1 to round((_size # 1)/_res) do {
 			_pe = [_px, _pz + _res * _e, 0];
-			_str = format ['QS_marker_GT_%1',([_pe # 0, _pe # 1])];
+			_str = (format ['QS_marker_GT_%1',([_pe # 0, _pe # 1])]);
 			if (_pe inPolygon QS_georgetown_vExclusion_polygon) then {
 				_mkr = createMarker [_str,_pe];
 				_mkr setMarkerTextLocal (toString [32,32,32]);
@@ -1189,9 +1189,9 @@ for '_x' from 0 to 1 step 0 do {
 							if (isPlayer _instigator) then {
 								private _text = '';
 								if ((random 1) > 0.666) then {
-									_text = format [localize 'STR_QS_Chat_141',(name _instigator)];
+									_text = (format [localize 'STR_QS_Chat_141',(name _instigator)]);
 								} else {
-									_text = format [localize 'STR_QS_Chat_142',(name _instigator)];
+									_text = (format [localize 'STR_QS_Chat_142',(name _instigator)]);
 								};
 								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};

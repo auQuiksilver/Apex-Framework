@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	2/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -63,5 +63,5 @@ if (_mode isEqualTo 'INIT') exitWith {
 		};
 	} forEach _cfgArray;
 	localNamespace setVariable ['QS_hashmap_wreckmats',createHashMapFromArray _array];
-	diag_log '* QS Debug * Wreck materials compiled *';
+	diag_log localize 'STR_QS_DiagLogs_192';
 };

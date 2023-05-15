@@ -13,7 +13,7 @@ Description:
 	On Player Connected
 __________________________________________________*/
 
-diag_log (format ['***** onPlayerConnected ***** %1 *****',_this]);
+diag_log (format [localize 'STR_QS_DiagLogs_109',_this]);
 if (((_this # 1) select [0,2]) isEqualTo 'HC') exitWith {
 	(missionNamespace getVariable ['QS_headlessClients',[]]) pushBackUnique (_this # 4);
 	//comment 'Init headless client';
@@ -27,5 +27,5 @@ if (((_this # 1) select [0,2]) isEqualTo 'HC') exitWith {
 		disableRemoteSensors FALSE;
 	};
 	(localize 'STR_QS_Chat_110') remoteExec ['systemChat',-2,FALSE];
-	diag_log (format ['***** SERVER ***** HC Registered ***** %1 * %2 *****',(missionNamespace getVariable 'QS_headlessClients'),(missionNamespace getVariable 'QS_HC_Active')]);
+	diag_log (format [localize 'STR_QS_DiagLogs_110',(missionNamespace getVariable 'QS_headlessClients'),(missionNamespace getVariable 'QS_HC_Active')]);
 };

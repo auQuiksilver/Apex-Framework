@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	17/10/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -139,4 +139,4 @@ QS_hashmap_classLists = createHashMap;
 if (_activeDLC isEqualTo '') then {
 	_activeDLC = 'NONE';
 };
-diag_log format ['***** Active DLC ***** %1 *****',_activeDLC];
+diag_log (format [localize 'STR_QS_DiagLogs_131',_activeDLC]);

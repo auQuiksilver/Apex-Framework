@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 	
-	18/02/2018 A3 1.80 by Quiksilver
+	15/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -24,19 +24,49 @@ if (_type isEqualTo 0) exitWith {
 	private _pylonMagazines = [];
 	private _isHeli = _vehicle isKindOf 'Helicopter';
 	private _ammoText = '';
-	{
-		_pylonMagazines = _x;
-		_pylonMagazines = _pylonMagazines select {((!((toLowerANSI _x) in _airToGroundMissiles)) && (!(['cluster',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))))};
-		if (_isHeli) then {
+	if (_pylon isNotEqualTo 0) then {
+		_compatiblePylonMagazines = _compatiblePylonMagazines select {
 			_ammoText = QS_hashmap_configfile getOrDefaultCall [
-				(format ['cfgmagazines_%1_ammo',toLowerANSI _x]),
+				format ['cfgmagazines_%1_ammo',toLowerANSI _x],
 				{getText (configFile >> 'CfgMagazines' >> _x >> 'ammo')},
 				TRUE
 			];
-			_pylonMagazines = _pylonMagazines select {(!(['aa',_ammoText,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))};
+			(
+				(!((toLowerANSI _x) in _airToGroundMissiles)) &&
+				(!(['cluster',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) &&
+				(
+					(!_isHeli) ||
+					(
+						_isHeli &&
+						(!(['aa',_ammoText,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))
+					)
+				)
+			)
 		};
-		_compatiblePylonMagazines set [_forEachIndex,_pylonMagazines];
-	} forEach _compatiblePylonMagazines;
-	_compatiblePylonMagazines;
+	} else {
+		{
+			_pylonMagazines = _x;
+			_pylonMagazines = _pylonMagazines select {
+				_ammoText = QS_hashmap_configfile getOrDefaultCall [
+					format ['cfgmagazines_%1_ammo',toLowerANSI _x],
+					{getText (configFile >> 'CfgMagazines' >> _x >> 'ammo')},
+					TRUE
+				];
+				(
+					(!((toLowerANSI _x) in _airToGroundMissiles)) &&
+					(!(['cluster',_x,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) &&
+					(
+						(!_isHeli) ||
+						(
+							_isHeli &&
+							(!(['aa',_ammoText,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')))
+						)
+					)
+				)
+			};
+			_compatiblePylonMagazines set [_forEachIndex,_pylonMagazines];
+		} forEach _compatiblePylonMagazines;
+	};
+	_compatiblePylonMagazines
 };
 []

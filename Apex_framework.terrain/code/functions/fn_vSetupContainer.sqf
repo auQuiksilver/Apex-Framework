@@ -22,7 +22,7 @@ comment 'Mobile AA';
 	['QS_logistics_dragDisabled',TRUE,TRUE]
 ];
 if (_entity isKindOf 'Land_Cargo10_blue_F') exitWith {
-	comment 'Mobile SAM';
+	//comment 'Mobile SAM';
 	_class = QS_core_vehicles_map getOrDefault ['b_sam_system_03_f','b_sam_system_03_f'];
 	{
 		_entity setVariable _x;
@@ -37,7 +37,7 @@ if (_entity isKindOf 'Land_Cargo10_blue_F') exitWith {
 	_entity setMass 2500;
 };
 if (_entity isKindOf 'Land_Cargo10_cyan_F') exitWith {
-	comment 'Mobile RADAR';
+	//comment 'Mobile RADAR';
 	_class = QS_core_vehicles_map getOrDefault ['b_radar_system_01_f','b_radar_system_01_f'];
 	{
 		_entity setVariable _x;
@@ -52,7 +52,7 @@ if (_entity isKindOf 'Land_Cargo10_cyan_F') exitWith {
 	_entity setMass 2500;
 };
 if (_entity isKindOf 'Land_Cargo10_light_blue_F') exitWith {
-	comment '';
+	//comment '';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -64,7 +64,7 @@ if (_entity isKindOf 'Land_Cargo10_light_blue_F') exitWith {
 
 comment 'Wrecks';
 if (_entity isKindOf 'Land_Cargo10_red_F') exitWith {
-	comment 'Air Wrecks';
+	//comment 'Air Wrecks';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -72,7 +72,7 @@ if (_entity isKindOf 'Land_Cargo10_red_F') exitWith {
 	];		
 };
 if (_entity isKindOf 'Land_Cargo10_brick_red_F') exitWith {
-	comment 'Tank Wrecks';
+	//comment 'Tank Wrecks';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -80,7 +80,7 @@ if (_entity isKindOf 'Land_Cargo10_brick_red_F') exitWith {
 	];		
 };
 if (_entity isKindOf 'Land_Cargo10_orange_F') exitWith {
-	comment 'Car Wrecks';
+	//comment 'Car Wrecks';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -89,7 +89,7 @@ if (_entity isKindOf 'Land_Cargo10_orange_F') exitWith {
 };
 comment 'Bases';
 if (_entity isKindOf 'Land_Cargo10_grey_F') exitWith {
-	comment 'FOB';
+	//comment 'FOB';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -105,7 +105,7 @@ if (_entity isKindOf 'Land_Cargo10_grey_F') exitWith {
 	];
 };
 if (_entity isKindOf 'Land_Cargo10_military_green_F') exitWith {
-	comment 'Base Medium or Heavy fortifications';
+	//comment 'Base Medium or Heavy fortifications';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -122,7 +122,7 @@ if (_entity isKindOf 'Land_Cargo10_military_green_F') exitWith {
 	_entity setMass 7500;
 };
 if (_entity isKindOf 'Land_Cargo10_light_green_F') exitWith {
-	comment 'Base Small or Medium/Light fortifications';
+	//comment 'Base Small or Medium/Light fortifications';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -139,7 +139,7 @@ if (_entity isKindOf 'Land_Cargo10_light_green_F') exitWith {
 	_entity setMass 4999;
 };
 if (_entity isKindOf 'Land_Cargo10_sand_F') exitWith {
-	comment 'Platform Kit';
+	//comment 'Platform Kit';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -156,7 +156,7 @@ if (_entity isKindOf 'Land_Cargo10_sand_F') exitWith {
 };
 
 if (_entity isKindOf 'Land_Cargo10_white_F') exitWith {
-	comment 'Mobile Respawn';
+	//comment 'Mobile Respawn';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -172,7 +172,7 @@ if (_entity isKindOf 'Land_Cargo10_white_F') exitWith {
 	];
 };
 if (_entity isKindOf 'Land_Cargo10_yellow_F') exitWith {
-	comment 'Terrain';
+	//comment 'Terrain';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -187,7 +187,7 @@ if (_entity isKindOf 'Land_Cargo10_yellow_F') exitWith {
 	];
 };
 if (_entity isKindOf 'land_cargo10_idap_f') exitWith {
-	comment 'Field Hospital';
+	//comment 'Field Hospital';
 	{
 		_entity setVariable _x;
 	} forEach [

@@ -33,13 +33,13 @@ if (_state isEqualTo 0) then {
 		];
 		deleteVehicle _vehicle;/*/
 	};
-	diag_log 'Destroy vehicle task deleted';
+	diag_log localize 'STR_QS_DiagLogs_036';
 	//comment 'RETURN EMPTY ARRAY';
 	_return = [];
 };
 if (_state isEqualTo 1) then {
 	//comment 'Create mission';
-	diag_log 'Destroy vehicle task created';
+	diag_log localize 'STR_QS_DiagLogs_037';
 	_aoPos = markerPos 'QS_marker_aoMarker';
 	_worldSize = worldSize;
 	if (_aoPos inPolygon [
@@ -102,7 +102,7 @@ if (_state isEqualTo 1) then {
 					_vehicle
 				]
 			];
-			diag_log 'Destroy vehicle task created';
+			diag_log localize 'STR_QS_DiagLogs_037';
 		};
 	};
 };

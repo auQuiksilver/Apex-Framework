@@ -40,7 +40,7 @@ ____________________________________________________________________________/*/
 params ['_type','_subType','_data'];
 private _return = [];
 if (_type isEqualTo 0) exitWith {
-	diag_log '***** SC SUB OBJ ***** DELETE *****';
+	diag_log localize 'STR_QS_DiagLogs_169';
 	if (_subType isEqualTo 'INTEL') then {
 	
 	};
@@ -59,7 +59,7 @@ if (_type isEqualTo 0) exitWith {
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
-	diag_log '***** SC SUB OBJ ***** CREATE *****';
+	diag_log localize 'STR_QS_DiagLogs_170';
 	_basePosition = markerPos 'QS_marker_base_marker';
 	_fobPosition = markerPos 'QS_marker_module_fob';
 	_centerPos = missionNamespace getVariable 'QS_AOpos';
@@ -583,7 +583,7 @@ if (_type isEqualTo 1) exitWith {
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
-	diag_log '***** SC SUB OBJ ***** EVALUATE *****';
+	diag_log localize 'STR_QS_DiagLogs_171';
 	_return = _this;
 	if (_subType isEqualTo 'INTEL') then {
 	

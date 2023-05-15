@@ -143,7 +143,7 @@ if (_type isEqualTo 'GET_ROLE_COUNT') exitWith {
 	};
 	if (_returnText) then {
 		if ([_role_count,_role_capacity] isNotEqualTo [0,0]) then {
-			_return = format ['( %1 / %2 )',_role_count,_role_capacity];
+			_return = (format ['( %1 / %2 )',_role_count,_role_capacity]);
 		};
 	} else {
 		_return = [_role_count,_role_capacity,_role_queue_count,_role_queue_capacity];
@@ -489,7 +489,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 		};
 		[_unit] joinSilent (createGroup [_side,TRUE]);
 		if (_side isNotEqualTo (_unit getVariable ['QS_unit_side',WEST])) then {
-			_txt = format [localize 'STR_QS_Chat_151',(name _unit),(_unit getVariable ['QS_unit_side',WEST]),_side];
+			_txt = (format [localize 'STR_QS_Chat_151',(name _unit),(_unit getVariable ['QS_unit_side',WEST]),_side]);
 			_txt remoteExec ['systemChat',-2,FALSE];
 			remoteExec ['QS_fnc_clientEventRespawn',_unit,FALSE];
 		};

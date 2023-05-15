@@ -406,7 +406,7 @@ if (
 				actionKeysNames ['User17',1] trim ['"',0],
 				localize 'STR_QS_Text_366'
 			] select ((actionKeysNamesArray 'User17') isEqualTo []);
-			_text = format ['
+			_text = (format ['
 				<t align="left">%7</t><t align="right">[%1]</t><br/><br/>
 				<t align="left">%8</t><t align="right">[%2]</t><br/><br/>
 				<t align="left">%9</t><t align="right">[%3] [%4] OR [%11] [%12]</t><br/><br/>
@@ -424,7 +424,7 @@ if (
 				localize 'STR_QS_Hints_155',
 				_customUpText,
 				_customDownText
-			];
+			]);
 			[_text,TRUE,TRUE,localize 'STR_QS_Hints_151',TRUE] call QS_fnc_hint;
 		};
 		uiNamespace setVariable ['QS_overspeed_warningShown',FALSE];
@@ -541,7 +541,7 @@ if (
 							{getText ((configOf _priorLink) >> 'displayName')},
 							TRUE
 						];
-						_text = format [
+						_text = (format [
 							'<t align="left">%1</t> <t align="right">%2 %8</t><br/>
 							<t align="left">%3</t> <t align="right">%4 %8</t><br/><br/>
 							<t align="left">%10</t> <t align="right">%5 x</t><br/>
@@ -559,7 +559,7 @@ if (
 							localize 'STR_QS_Hints_158',
 							localize 'STR_QS_Hints_159',
 							localize 'STR_QS_Hints_160'
-						];
+						]);
 						[_text,TRUE,TRUE,localize 'STR_QS_Hints_161',TRUE] call QS_fnc_hint;
 						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.5];
 						['MODE14',(ropeAttachedTo _weakLink),ropes (ropeAttachedTo _weakLink)] call QS_fnc_simplePull;

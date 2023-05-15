@@ -338,7 +338,7 @@ _makegrid = {
 	_sz = _start # 1;
 	for '_i' from 0 to round((_size # 0)/_res) do {
 		_pi = [_sx + _res * _i, _sz, 0];
-		_str = format ['QS_marker_GT_%1',([_pi # 0, _pi # 1])];
+		_str = (format ['QS_marker_GT_%1',([_pi # 0, _pi # 1])]);
 		if (_pi inPolygon QS_georgetown_vExclusion_polygon) then {
 			_mkr = createMarker [_str,_pi];
 			_mkr setMarkerTextLocal (toString [32,32,32]);
@@ -353,7 +353,7 @@ _makegrid = {
 		_pz = _pi # 1;
 		for '_e' from 1 to round((_size # 1)/_res) do {
 			_pe = [_px, _pz + _res * _e, 0];
-			_str = format ['QS_marker_GT_%1',([_pe # 0, _pe # 1])];
+			_str = (format ['QS_marker_GT_%1',([_pe # 0, _pe # 1])]);
 			if (_pe inPolygon QS_georgetown_vExclusion_polygon) then {
 				_mkr = createMarker [_str,_pe];
 				_mkr setMarkerTextLocal (toString [32,32,32]);
@@ -534,7 +534,7 @@ for '_x' from 0 to 2 step 1 do {
 		_supplyCrate setVariable ['QS_RD_draggable',TRUE,TRUE];
 		_supplyCrates pushBack _supplyCrate;
 		_supplyCrate addItemCargoGlobal [QS_core_classNames_itemFirstAidKit,10];
-		comment 'To Do: Randomize crate contents';
+		//comment 'To Do: Randomize crate contents';
 		_radial = _radial + 120;
 	};
 };
@@ -650,12 +650,12 @@ for '_x' from 0 to 1 step 0 do {
 	_timeNow = diag_tickTime;
 	_serverTime = serverTime;
 	if (_serverTime > _missionEnd) exitWith {
-		comment 'Mission failure';
+		//comment 'Mission failure';
 		['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_065']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_054'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
 	if (_missionStatus isEqualTo 'SUCCESS') exitWith {
-		comment 'Mission success';
+		//comment 'Mission success';
 		['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_066']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		['sideChat',[WEST,'HQ'],localize 'STR_QS_Chat_053'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	};
@@ -853,7 +853,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_enemies isNotEqualTo []) then {
 			{
 				if (!alive _x) then {
-					comment 'deleteVehicle _x;';
+					//comment 'deleteVehicle _x;';
 					_enemies deleteAt _forEachIndex;
 				};
 			} forEach _enemies;
@@ -979,9 +979,9 @@ for '_x' from 0 to 1 step 0 do {
 							if (isPlayer _instigator) then {
 								private _text = '';
 								if ((random 1) > 0.666) then {
-									_text = format [localize 'STR_QS_Chat_141',(name _instigator)];
+									_text = (format [localize 'STR_QS_Chat_141',(name _instigator)]);
 								} else {
-									_text = format [localize 'STR_QS_Chat_142',(name _instigator)];
+									_text = (format [localize 'STR_QS_Chat_142',(name _instigator)]);
 								};
 								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};
@@ -1018,7 +1018,7 @@ for '_x' from 0 to 1 step 0 do {
 		} forEach _civilians;
 		_civilianCheckDelay = _timeNow + _civilianDelay;
 	};
-	comment 'AA GRP';
+	//comment 'AA GRP';
 	if (_aaPatrols) then {
 		if (_timeNow > _aaCheckDelay) then {
 			if (isNull _aaGrp) then {
@@ -1044,7 +1044,7 @@ for '_x' from 0 to 1 step 0 do {
 			_aaCheckDelay = _timeNow + _aaDelay;
 		};
 	};	
-	comment 'SNIPER GRP';
+	//comment 'SNIPER GRP';
 	if (_sniperPatrols) then {
 		if (_timeNow > _sniperCheckDelay) then {
 			if (isNull _sniperGrp) then {
@@ -1070,7 +1070,7 @@ for '_x' from 0 to 1 step 0 do {
 			_sniperCheckDelay = _timeNow + _sniperDelay;
 		};
 	};
-	comment 'AT GRP';
+	//comment 'AT GRP';
 	if (_atPatrols) then {
 		if (_timeNow > _atCheckDelay) then {
 			if (isNull _atGrp) then {

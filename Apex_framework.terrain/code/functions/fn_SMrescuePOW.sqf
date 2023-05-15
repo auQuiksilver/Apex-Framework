@@ -193,7 +193,7 @@ if (worldName isEqualTo 'Enoch') then {
 	];
 };
 
-if (_QS_locationsUrban isEqualTo []) exitWith {diag_log '***** fn_rescuePOW ***** No valid locations *****';};
+if (_QS_locationsUrban isEqualTo []) exitWith {diag_log localize 'STR_QS_DiagLogs_176';};
 _QS_approvedBuildingTypes = [
 	'Land_i_House_Small_03_V1_F',
 	'Land_u_House_Big_02_V1_F',
@@ -454,10 +454,10 @@ _QS_civKilled_EH = {
 			TRUE
 		];
 		if ((random 1) > 0.666) then {
-			_text = format [localize 'STR_QS_Chat_141',_name];
+			_text = (format [localize 'STR_QS_Chat_141',_name]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		} else {
-			_text = format [localize 'STR_QS_Chat_153',_name];
+			_text = (format [localize 'STR_QS_Chat_153',_name]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};	
@@ -849,7 +849,7 @@ if ((count _QS_nearRoadsList) > 50) then {
 			_QS_group = createGroup [EAST,TRUE];
 			_QS_groupSpawnPos = selectRandom _waypointPositions;
 			for '_x' from 0 to 1 step 1 do {
-				diag_log 'QS spawning road patrol unit';
+				diag_log localize 'STR_QS_DiagLogs_177';
 				_QS_randomUnitType = selectRandom _QS_urbanEnemyUnits;
 				_QS_randomUnit = _QS_group createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_randomUnitType,_QS_randomUnitType],_QS_groupSpawnPos,[],5,'NONE'];
 				_QS_randomUnit allowDamage FALSE;
@@ -901,7 +901,7 @@ if ((count _arrayPositions) > 50) then {
 			_QS_group = createGroup [EAST,TRUE];
 			_QS_groupSpawnPos = selectRandom _waypointPositions;
 			for '_x' from 0 to 1 step 1 do {
-				diag_log 'QS spawning building patrol unit';
+				diag_log localize 'STR_QS_DiagLogs_178';
 				_QS_randomUnitType = selectRandom _QS_urbanEnemyUnits;
 				_QS_randomUnit = _QS_group createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_randomUnitType,_QS_randomUnitType],_QS_groupSpawnPos,[],5,'NONE'];
 				_QS_randomUnit allowDamage FALSE;
@@ -958,7 +958,7 @@ for '_x' from 0 to 14 step 1 do {
 			'COVER'
 		];
 	} else {
-		diag_log '***** QS ERROR ***** rescuePOW ***** _QS_buildingPositionSelected is Nil';
+		diag_log localize 'STR_QS_DiagLogs_179';
 	};
 };
 {
@@ -1127,7 +1127,7 @@ for '_x' from 0 to 1 step 0 do {
 		sleep 10;
 		_QS_missionAttempts = _QS_priorMissionStatistics_completions + (_QS_priorMissionStatistics_failures + 1);
 		_QS_missionSuccessRate = (_QS_priorMissionStatistics_completions / _QS_missionAttempts) * 100;
-		_text = parseText format [localize 'STR_QS_Hints_141',_QS_priorMissionStatistics_completions,_QS_missionAttempts,(round _QS_missionSuccessRate)];
+		_text = parseText (format [localize 'STR_QS_Hints_141',_QS_priorMissionStatistics_completions,_QS_missionAttempts,(round _QS_missionSuccessRate)]);
 		['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		sleep 15;
 		[0,_QS_buildingPosATL] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
@@ -1185,7 +1185,7 @@ for '_x' from 0 to 1 step 0 do {
 		_QS_priorMissionStatistics_completions = _QS_priorMissionStatistics_completions + 1;
 		_QS_missionAttempts = (_QS_priorMissionStatistics_completions + 1) + _QS_priorMissionStatistics_failures;
 		_QS_missionSuccessRate = (_QS_priorMissionStatistics_completions / _QS_missionAttempts) * 100;
-		_text = parseText format ['P.O.W. Rescue Mission Statistics: <br/>Attempts: %2<br/>Successful Completions: %1<br/>Success Rate: %3 percent',_QS_priorMissionStatistics_completions,_QS_missionAttempts,(round _QS_missionSuccessRate)];
+		_text = parseText (format [localize 'STR_QS_Hints_141',_QS_priorMissionStatistics_completions,_QS_missionAttempts,(round _QS_missionSuccessRate)]);
 		['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		//moveOut _QS_POW;	// https://feedback.bistudio.com/T128186
 		[90,_QS_POW,0] remoteExec ['QS_fnc_remoteExec',0,FALSE];
@@ -1455,7 +1455,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_QS_powBleedout_timer_started) then {
 			/*/
 			if (time > _QS_bleedTimerBroadcast_delay) then {
-				_QS_text = format ['P.O.W. will bleed out in: %1',[((round(_QS_powBleedout_timer - time))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')];
+				_QS_text = (format [localize'STR_QS_Hints_142',[((round(_QS_powBleedout_timer - time))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')]);
 				['systemChat',_QS_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				_QS_bleedTimerBroadcast_delay = time + 25;
 			};

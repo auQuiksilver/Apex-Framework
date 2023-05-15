@@ -1242,7 +1242,7 @@ if (_QS_module_opsec) then {
 				_onLoad = toArray (getText (configFile >> 'RscTitles' >> (_x # 1) >> 'onLoad'));
 				if ((_onLoad isNotEqualTo (_x # 2)) && (_onLoad isNotEqualTo '') && (_onLoad isNotEqualTo [])) then {
 					_QS_module_opsec_detected = 2;
-					_detected = (format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)];
+					_detected = (format ['Modified RscTitles Method OL: %1 (Memory Hack)',(_x # 1)]);
 				};
 				_onUnload = toArray (getText (configFile >> 'RscTitles' >> (_x # 1) >> 'onUnload'));
 				if ((_onUnload isNotEqualTo (_x # 3)) && (_onUnload isNotEqualTo '') && (_onUnload isNotEqualTo [])) then {
@@ -1826,7 +1826,7 @@ for 'x' from 0 to 1 step 0 do {
 								_QS_liveFeed_camera cameraEffect ['Internal','Back','qs_rd_lfe'];
 								_QS_liveFeed_camera camSetTarget (missionNamespace getVariable 'QS_RD_liveFeed_target');
 								_QS_liveFeed_display setObjectTexture [0,'#(argb,512,512,1)r2t(qs_rd_lfe,1)'];
-								'qs_rd_lfe' setPiPEffect [[0,1] select (sunOrMoon < 0.25)];
+								'qs_rd_lfe' setPiPEffect [[0,1] select (([0,0,0] getEnvSoundController 'night') isEqualTo 1)];
 								_QS_liveFeed_camera camCommit 1;
 								_screenPos = worldToScreen _displayPos;
 								if (_screenPos isNotEqualTo []) then {
@@ -4551,7 +4551,10 @@ for 'x' from 0 to 1 step 0 do {
 			} else {
 				if (_QS_isAdmin && {_groupLocking}) then {
 					{
-						if (_x getVariable [_QS_joinGroup_privateVar,_false]) then {
+						if (
+							(_x getVariable [_QS_joinGroup_privateVar,_false]) &&
+							{_x isNotEqualTo _QS_playerGroup}
+						) then {
 							_x setVariable [_QS_joinGroup_privateVar,_false,_false];
 						};
 					} forEach (groups (_QS_player getVariable ['QS_unit_side',_west]));
@@ -6214,4 +6217,4 @@ for 'x' from 0 to 1 step 0 do {
 	};
 	uiSleep 0.1;
 };
-['Uho! It appears something has gone wrong. Please report this error code to staff:<br/><br/>456<br/><br/>Thank you for your assistance.',TRUE] call _fn_hint;
+[localize 'STR_QS_Hints_190',TRUE] call _fn_hint;

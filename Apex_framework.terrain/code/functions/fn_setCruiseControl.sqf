@@ -43,7 +43,7 @@ if (
 			actionKeysNames ['User17',1] trim ['"',0],
 			localize 'STR_QS_Text_366'
 		] select ((actionKeysNamesArray 'User17') isEqualTo []);
-		_text = format [
+		_text = (format [
 			'<t align="left">%6</t><t align="right">[%2] [%3]</t><br/><br/>
 			<t align="left">%7</t> <t align="right">[%4] [%5] OR [%9] [%10]</t><br/><br/>
 			<t align="left">%8</t> <t align="right">[%1]</t>',
@@ -57,7 +57,7 @@ if (
 			localize 'STR_QS_Hints_165',
 			_customUpText,
 			_customDownText
-		];
+		]);
 		[
 			_text,
 			FALSE,
@@ -133,7 +133,7 @@ if (
 					{getText ((configOf _entity) >> 'displayName')},
 					TRUE
 				];
-				_text = format [localize 'STR_QS_Text_338',profileName,(_entity getVariable ['QS_ST_customDN',_displayName]),_convoyMaxSpeed];
+				_text = (format [localize 'STR_QS_Text_338',profileName,(_entity getVariable ['QS_ST_customDN',_displayName]),_convoyMaxSpeed]);
 				[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_cursorTarget,FALSE];
 			} else {
 				_cursorTarget limitSpeed (_convoyMaxSpeed * 0.9);

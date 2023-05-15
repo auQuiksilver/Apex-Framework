@@ -44,7 +44,7 @@ if (time > (missionNamespace getVariable 'QS_sectorScan_lastTime')) then {
 		deleteMarker _marker;
 	};
 } else {
-	comment 'Next sat scan too soon';
+	//comment 'Next sat scan too soon';
 	_timeToNext = round (ceil(((missionNamespace getVariable 'QS_sectorScan_lastTime') - time) / 60));
 	[63,[5,[(format [localize 'STR_QS_Text_266',_timeToNext]),'PLAIN']]] remoteExec ['QS_fnc_remoteExec',_clientOwner,FALSE];
 };

@@ -33,7 +33,7 @@ if (_type isEqualTo 0) exitWith {
 			{
 				playSound 'QS_SC_outro_lose';
 				if (!isStreamFriendlyUIEnabled) then {
-					_text = parseText format [localize 'STR_QS_Hints_127','\a3\Data_f_exp\Flags\flag_viper_co.paa'];
+					_text = parseText (format [localize 'STR_QS_Hints_127','\a3\Data_f_exp\Flags\flag_viper_co.paa']);
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [2,FALSE,7.5,-1,_text,[],-1];
 				};
 			}
@@ -46,7 +46,7 @@ if (_type isEqualTo 0) exitWith {
 			{
 				playSound 'QS_SC_outro_win';
 				if (!isStreamFriendlyUIEnabled) then {
-					_text = parseText format [localize 'STR_QS_Hints_129',(missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa'])];
+					_text = parseText (format [localize 'STR_QS_Hints_129',(missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa'])]);
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [2,FALSE,7.5,-1,_text,[],-1];
 				};
 			}

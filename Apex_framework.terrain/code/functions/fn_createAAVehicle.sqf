@@ -160,7 +160,7 @@ if (alive _vehicle) then {
 	_vehicleMarkers = _vehicle getVariable ['QS_vehicle_markers',[]];
 	private _markerID = '';
 	{
-		_markerID = format ['QS_marker_aoAA_%1',(count _aoAAMarkers)];
+		_markerID = (format ['QS_marker_aoAA_%1',(count _aoAAMarkers)]);
 		createMarker [_markerID,(_x # 1)];
 		_markerID setMarkerTypeLocal (_x # 2);
 		_markerID setMarkerShapeLocal (_x # 3);

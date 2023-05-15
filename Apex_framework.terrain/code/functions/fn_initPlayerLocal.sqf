@@ -14,7 +14,7 @@ Description:
 ______________________________________________________/*/
 
 if (!isNil {missionNamespace getVariable 'QS_init_doorCloser'}) exitWith {
-	hint parseText 'Uho! It appears something has gone wrong. Please report this error code to staff:<br/><br/>191<br/><br/>Thank you for your assistance.';
+	hint parseText localize 'STR_QS_Hints_190';
 };
 missionNamespace setVariable ['QS_player',player,FALSE];
 if (!isMissionProfileNamespaceLoaded) then {
@@ -41,8 +41,8 @@ if ((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc
 				player removeAction _x;
 			} count (missionNamespace getVariable 'QS_kiddieActions');
 			missionNamespace setVariable ['QS_kiddieActions',[],FALSE];
-			systemChat format [localize 'STR_QS_Chat_135',(str _n)];
-			_text = format [localize 'STR_QS_Hints_124',(str _n)];
+			systemChat (format [localize 'STR_QS_Chat_135',(str _n)]);
+			_text = (format [localize 'STR_QS_Hints_124',(str _n)]);
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,7.5,-1,_text,[],-1];
 		} else {
 			systemChat (localize 'STR_QS_Chat_136');

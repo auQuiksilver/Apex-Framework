@@ -37,7 +37,7 @@ if (
 		QS_extendedContext_cursorObject = _cursorObject;
 		QS_extendedContext_objectParent = objectParent QS_player;
 		QS_extendedContext_cursorDistance = _cursorDistance;
-		comment "VEHICLE LOCKING";
+		//comment "VEHICLE LOCKING";
 		private _lockedDrivers = localNamespace getVariable ['QS_client_lockedDrivers',[]] select { (alive _x) };
 		private _lockedCargos = localNamespace getVariable ['QS_client_lockedLogistics',[]] select { (alive _x) };
 		private _groupLocking = missionNamespace getVariable ['QS_missionConfig_vehicleGroupLock',FALSE];
@@ -61,7 +61,7 @@ if (
 				(_lockedDrivers isNotEqualTo [])
 			)
 		) then {
-			comment "DRIVER SEAT LOCKING";
+			//comment "DRIVER SEAT LOCKING";
 			if ((missionNamespace getVariable ['QS_missionConfig_seatLocking',1]) > 0) then {
 				QS_extendedContext_lockedDriver = QS_extendedContext_cursorObject;
 				if (_lockedDrivers isNotEqualTo []) then {
@@ -127,7 +127,7 @@ if (
 				(_lockedCargos isNotEqualTo [])
 			)
 		) then {
-			comment "INVENTORY/CARGO LOCKING";
+			//comment "INVENTORY/CARGO LOCKING";
 			if ((missionNamespace getVariable ['QS_missionConfig_cargoLocking',1]) > 0) then {
 				QS_extendedContext_lockedCargo = QS_extendedContext_cursorObject;
 				if (_lockedCargos isNotEqualTo []) then {
@@ -385,7 +385,7 @@ if (
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_selfDestruct];
 		};
 		
-		comment 'LITE MORTAR FOR MORTAR GUNNER';
+		//comment 'LITE MORTAR FOR MORTAR GUNNER';
 		if (
 			(isNull QS_extendedContext_objectParent) &&
 			{(QS_player getUnitTrait 'QS_trait_gunner')} &&
@@ -408,7 +408,7 @@ if (
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_mortarLite];
 		};
 
-		comment 'WEAPON LASERS';
+		//comment 'WEAPON LASERS';
 		if (
 			(missionNamespace getVariable ['QS_missionConfig_weaponLasers',TRUE]) &&
 			{(
@@ -506,7 +506,7 @@ if (
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_switchLight];
 		};
 		
-		comment 'PLAYER MENU';
+		//comment 'PLAYER MENU';
 		QS_action_playerMenu = QS_player addAction [
 			format ["<t color='#808080'>%1</t>",localize 'STR_QS_Menu_009'],
 			{

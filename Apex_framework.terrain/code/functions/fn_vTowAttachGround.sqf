@@ -263,13 +263,13 @@ if (
 	(!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'})
 ) then {
 	_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
-	systemChat format [localize 'STR_QS_Chat_162',(getText ((configOf _towedVehicle) >> 'displayName'))];
+	systemChat (format [localize 'STR_QS_Chat_162',(getText ((configOf _towedVehicle) >> 'displayName'))]);
 };
 if (isNull (attachedTo _towedVehicle)) then {
 	if ((_towedVehicle distance2D (markerPos 'QS_marker_crate_area')) < 500) then {
 		if (!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'}) then {
 			_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
-			systemChat format [localize 'STR_QS_Chat_162',(getText ((configOf _towedVehicle) >> 'displayName'))];
+			systemChat (format [localize 'STR_QS_Chat_162',(getText ((configOf _towedVehicle) >> 'displayName'))]);
 		};
 	};
 };
@@ -282,7 +282,7 @@ if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
 		TRUE
 	];
 	if ((_towedVehicle getVariable 'QS_loadCargoIn') setVehicleCargo _towedVehicle) then {
-		_text = format [localize 'STR_QS_Text_114',_displayName,_dn2];
+		_text = (format [localize 'STR_QS_Text_114',_displayName,_dn2]);
 	} else {
 		_text = localize 'STR_QS_Text_116';
 	};

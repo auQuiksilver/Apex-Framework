@@ -150,6 +150,60 @@ if (_this isEqualTo 'init') exitWith {
 			['OUT'] call QS_fnc_clientMenuActionContext;
 			uiNamespace setVariable ['QS_uiaction_context',FALSE];
 		}],
+		['timeDec','activate',{
+			if (
+				(!isNull curatorCamera) &&
+				((curatorSelected # 0) isNotEqualTo [])
+			) exitWith {
+				private _selected = curatorSelected # 0;
+				_selected = _selected select {
+					(
+						(local _x) &&
+						((_x isKindOf 'House') || (_x isKindOf 'Building'))
+					)
+				};
+				if (_selected isNotEqualTo []) then {
+					private _position = [0,0,0];
+					private _adjustment = [0.1,1] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
+					{
+						_position = getPosASL _x;
+						_position = _position vectorAdd [0,0,-_adjustment];
+						_x setPosASL _position;
+						_x awake TRUE;
+						if (_x isKindOf 'CargoPlatform_01_base_F') then {
+							[_x,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
+						};
+					} forEach _selected;
+				};
+			};
+		}],
+		['timeInc','activate',{
+			if (
+				(!isNull curatorCamera) &&
+				((curatorSelected # 0) isNotEqualTo [])
+			) exitWith {
+				private _selected = curatorSelected # 0;
+				_selected = _selected select {
+					(
+						(local _x) &&
+						((_x isKindOf 'House') || (_x isKindOf 'Building'))
+					)
+				};
+				if (_selected isNotEqualTo []) then {
+					private _position = [0,0,0];
+					private _adjustment = [0.1,1] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
+					{
+						_position = getPosASL _x;
+						_position = _position vectorAdd [0,0,_adjustment];
+						_x setPosASL _position;
+						_x awake TRUE;
+						if (_x isKindOf 'CargoPlatform_01_base_F') then {
+							[_x,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
+						};
+					} forEach _selected;
+				};
+			};
+		}],
 		['Action','activate',{uiNamespace setVariable ['QS_uiaction_action',TRUE];uiNamespace setVariable ['QS_uiaction_action_time',diag_tickTime];}],
 		['Action','deactivate',{uiNamespace setVariable ['QS_uiaction_action',FALSE];uiNamespace setVariable ['QS_uiaction_action_time',-1];}],
 		['prevAction','activate',{call QS_fnc_clientInGameUIPrevAction}],

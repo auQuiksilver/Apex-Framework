@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	25/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -59,7 +59,7 @@ if (_class isKindOf 'sign_arrow_yellow_f') then {
 		private _desiredTerrainHeight = (getTerrainHeight (getPosWorld _entity)) - 0;
 		private _positionsAndHeights = [getPosWorld _entity,_width,_width,_desiredTerrainHeight] call _fnc_flattenTerrain;
 		QS_system_terrainMod pushBack _positionsAndHeights;
-		diag_log format ['***** TERRAIN FLATTEN ***** total count: %1 ***** this adjustment: %2 *****',count QS_system_terrainMod,_positionsAndHeights # 1];
+		diag_log (format [localize 'STR_QS_DiagLogs_139',count QS_system_terrainMod,_positionsAndHeights # 1]);
 		setTerrainHeight [_positionsAndHeights # 1,TRUE];
 		_entity spawn {
 			_this hideObjectGlobal TRUE;

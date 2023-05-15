@@ -158,7 +158,7 @@ if (isNull _objectParent) then {
 		if (
 			(
 				((missionNamespace getVariable ['QS_missionConfig_tracers',1]) isEqualTo 1) &&
-				{((_playercount < 15) || (sunOrMoon isNotEqualTo 1))}
+				{((_playercount < 15) || (([0,0,0] getEnvSoundController 'night') isEqualTo 1))}
 			) ||
 			{((missionNamespace getVariable ['QS_missionConfig_tracers',1]) isEqualTo 2)}
 		) then {

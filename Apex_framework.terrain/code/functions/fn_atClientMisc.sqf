@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	13/04/2017 A3 1.68 by Quiksilver
+	01/05/2023 A3 1.68 by Quiksilver
 	
 Description:
 
@@ -16,10 +16,10 @@ __________________________________________________/*/
 _array = _this # 1;
 _array params ['_uid','_cid','_val','_jip'];
 if (isDedicated) exitWith {
-	diag_log '***** ERROR ***** QS919 SERVER *****';
+	diag_log localize 'STR_QS_DiagLogs_043';
 };
 if ((getPlayerUID player) isNotEqualTo _uid) exitWith {
-	diag_log '***** ERROR ***** QS919 CLIENT *****';
+	diag_log localize 'STR_QS_DiagLogs_044';
 };
 if (!(_jip)) exitWith {
 	player setVariable ['QS_tto',_val,TRUE];

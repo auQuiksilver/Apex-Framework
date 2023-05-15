@@ -89,7 +89,7 @@ if (
 	{(worldName in ['Altis','Stratis','Tanoa','Malden'])}
 ) exitWith {
 	if (isDedicated) then {
-		diag_log 'Spawning aircraft carrier';
+		diag_log localize 'STR_QS_DiagLogs_049';
 		private ['_marker','_positionsData','_positionData'];
 		_worldName = worldName;
 		_worldSize = worldSize;

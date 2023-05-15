@@ -1,5 +1,5 @@
 /*/
-File: fn_smDebrief2.sqf
+File: fn_smDebrief.sqf
 Author:
 
 	Quiksilver
@@ -18,9 +18,7 @@ missionNamespace setVariable ['QS_evacPosition_2',_smPos,TRUE];
 ['QS_IA_TASK_SM_0'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 if (_type isEqualTo 0) exitWith {
 	['playMusic','EventTrack02_F_Curator'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-	_failedText = parseText "<t align='center'><t size='2.2'>Side Mission</t><br/><t size='1.5' color='#b60000'>FAILED</t><br/>____________________<br/>
-		You'll have to do better than that next time!<br/><br/><br/>Focus on the main objective for now; we'll relay the bad news to HQ, with some luck we'll have another objective lined up. 
-		We'll get back to you in 15 - 30 minutes.</t>";
+	_failedText = parseText localize 'STR_QS_Hints_197';
 	['hint',_failedText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 };
 if (_type isEqualTo 1) then {
@@ -111,7 +109,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh addWeaponTurret ['CMFlareLauncher', [-1]];
 		_rewardVeh addMagazineTurret ['60Rnd_CMFlare_Chaff_Magazine', [-1]];
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'an AH-9 Pawnee (+ flares)';
+		_rewardText = localize 'STR_QS_Hints_198';
 		_rewardVeh setVariable ['QS_ST_customDN','AH-9+',TRUE];
 	};
 	if (_reward isEqualTo 1) then {
@@ -122,7 +120,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'an AH-99 Blackfoot';
+		_rewardText = localize 'STR_QS_Hints_199';
 	};
 	if (_reward isEqualTo 2) then {
 		//comment 'Mi 48 Kajman';
@@ -132,7 +130,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'an Mi-48 Kajman';
+		_rewardText = localize 'STR_QS_Hints_200';
 	};
 	if (_reward isEqualTo 3) then {
 		//comment 'PO 30 Orca - random type';
@@ -142,7 +140,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a PO-30 Orca';
+		_rewardText = localize 'STR_QS_Hints_201';
 	};
 	if (_reward isEqualTo 4) then {
 		//comment 'WY-55 Hellcat';
@@ -152,7 +150,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a WY-55 Hellcat';
+		_rewardText = localize 'STR_QS_Hints_202';
 	};
 	if (_reward isEqualTo 5) then {
 		//comment 'MH 9 with flares';
@@ -164,7 +162,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh addWeaponTurret ['CMFlareLauncher',[-1]];
 		_rewardVeh addMagazineTurret ['60Rnd_CMFlare_Chaff_Magazine',[-1]];
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'an MH-9 (+ flares)';
+		_rewardText = localize 'STR_QS_Hints_203';
 		_rewardVeh setVariable ['QS_ST_customDN','MH-9+',TRUE];
 	};
 	if (_reward isEqualTo 6) then {
@@ -175,7 +173,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'an Ifrit GMG';
+		_rewardText = localize 'STR_QS_Hints_204';
 	};
 	if (_reward isEqualTo 7) then {
 		//comment 'Strider GMG';
@@ -185,7 +183,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) Strider GMG';
+		_rewardText = localize 'STR_QS_Hints_205';
 	};
 	if (_reward isEqualTo 8) then {
 		//comment 'MBT-52 Kuma';
@@ -195,7 +193,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) MBT-52 Kuma';
+		_rewardText = localize 'STR_QS_Hints_206';
 	};
 	if (_reward isEqualTo 9) then {
 		//comment 'BTR-K Kamysh';
@@ -209,7 +207,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) BTR-K Kamysh';
+		_rewardText = localize 'STR_QS_Hints_207';
 	};
 	if (_reward isEqualTo 10) then {
 		//comment 'AFV-4 Gorgon';
@@ -219,7 +217,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) AFV-4 Gorgon';
+		_rewardText = localize 'STR_QS_Hints_208';
 	};
 	if (_reward isEqualTo 11) then {
 		//comment 'MSE-3 Marid';
@@ -233,7 +231,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) MSE-3 Marid';
+		_rewardText = localize 'STR_QS_Hints_209';
 	};
 	if (_reward isEqualTo 12) then {
 		//comment 'IFV-6a Cheetah';
@@ -243,7 +241,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) IFV-6a Cheetah';
+		_rewardText = localize 'STR_QS_Hints_210';
 	};
 	if (_reward isEqualTo 13) then {
 		//comment 'Truck with mortar and stronger wheels';
@@ -315,8 +313,8 @@ if (_type isEqualTo 1) then {
 				} count (attachedObjects _killed);
 			}
 		];
-		_rewardVeh setVariable ['QS_ST_customDN','Mortar Truck',TRUE];
-		_rewardText = 'a(n) Mortar Truck';
+		_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_211',TRUE];
+		_rewardText = localize 'STR_QS_Hints_211';
 	};
 	if (_reward isEqualTo 14) then {
 		//comment 'HEMTT with Static weapons and increased armor';
@@ -473,8 +471,8 @@ if (_type isEqualTo 1) then {
 			['Land_Pallet_vertical_F',[-1.3,3.31,-1],270]
 		];
 		_rewardVeh setMass ((getMass _rewardVeh) * 1.25);
-		_rewardText = 'a(n) HEMTT Bush Pig';
-		_rewardVeh setVariable ['QS_ST_customDN','HEMTT (Bush Pig)',TRUE];
+		_rewardText = localize 'STR_QS_Hints_212';
+		_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_212',TRUE];
 	};
 	if (_reward isEqualTo 15) then {
 		//comment 'Boat with mortar';
@@ -545,8 +543,8 @@ if (_type isEqualTo 1) then {
 				} count (_killed getVariable ['QS_attachedObjects',[]]);
 			}
 		];
-		_rewardVeh setVariable ['QS_ST_customDN','Mortar Boat',TRUE];
-		_rewardText = 'a(n) Mortar Boat';
+		_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_213',TRUE];
+		_rewardText = localize 'STR_QS_Hints_213';
 	};
 	if (_reward isEqualTo 16) then {
 		//comment 'Quadbikes (pair) with autoturret and stronger wheels';
@@ -597,9 +595,9 @@ if (_type isEqualTo 1) then {
 					} count (_killed getVariable ['QS_attachedObjects',[]]);
 				}
 			];
-			_rewardVeh setVariable ['QS_ST_customDN','Recon Quad',TRUE];
+			_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_215',TRUE];
 		};
-		_rewardText = 'Recon Quad Bikes (x2)';
+		_rewardText = localize 'STR_QS_Hints_214';
 	};
 	if (_reward isEqualTo 17) then {
 		//comment 'SUV with autoturret and stronger wheels and paint job and lower center of gravity';
@@ -637,8 +635,8 @@ if (_type isEqualTo 1) then {
 		} forEach (crew _static1);
 		{_x setSkill 1;} forEach (crew _static1);
 		_rewardVeh setVariable ['QS_attachedObjects',[_static,_static1],FALSE];
-		_rewardText = 'a(n) Recon Utility Vehicle (Armed)';
-		_rewardVeh setVariable ['QS_ST_customDN','Recon Utility Vehicle',TRUE];
+		_rewardText = localize 'STR_QS_Hints_216';
+		_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_217',TRUE];
 		_rewardVeh addEventHandler [
 			'Killed',
 			{
@@ -675,7 +673,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
-		_rewardText = 'a(n) Qilin (Armed)';
+		_rewardText = localize 'STR_QS_Hints_218';
 	};	
 	if (_reward isEqualTo 19) then {
 		//comment 'O_T_VTOL_02_infantry_grey_F';
@@ -693,7 +691,7 @@ if (_type isEqualTo 1) then {
 		];
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = "a(n) Y-32 Xi'an (Infantry Transport)";
+		_rewardText = localize 'STR_QS_Hints_219';
 	};
 	if (_reward isEqualTo 20) then {
 		//comment 'Armed VTOL NATO';
@@ -703,7 +701,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) V-44 X Blackfish (Armed)';
+		_rewardText = localize 'STR_QS_Hints_220';
 	};
 	if (_reward isEqualTo 21) then {
 		//comment 'Armed jeep';
@@ -764,8 +762,8 @@ if (_type isEqualTo 1) then {
 				};
 			}
 		];
-		_rewardText = 'a(n) MB 4WD Stalker';
-		_rewardVeh setVariable ['QS_ST_customDN','MB 4WD Stalker',TRUE];
+		_rewardText = localize 'STR_QS_Hints_221';
+		_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_222',TRUE];
 	};	
 	if (_reward isEqualTo 22) then {
 		//comment "'c_plane_civil_01_racing_f','i_c_plane_civil_01_f'";
@@ -776,8 +774,8 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_Q51');
-		_rewardText = 'a(n) Q-51 Mosquito';
-		_rewardVeh setVariable ['QS_ST_customDN','Q-51 Mosquito',TRUE];
+		_rewardText = localize 'STR_QS_Hints_223';
+		_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_223',TRUE];
 	};
 	if (_reward isEqualTo 23) then {
 		//comment 'AA truck';
@@ -875,7 +873,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) AH-9 Pawnee X';
+		_rewardText = localize 'STR_QS_Hints_224';
 		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN','AH-9 Pawnee X',TRUE];
 	};
@@ -887,7 +885,7 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) WY-55 Hellcat X';
+		_rewardText = localize 'STR_QS_Hints_225';
 		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN','WY-55 Hellcat X',TRUE];
 	};
@@ -899,15 +897,15 @@ if (_type isEqualTo 1) then {
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
-		_rewardText = 'a(n) PO-30 Orca X';
+		_rewardText = localize 'STR_QS_Hints_226';
 		[_rewardVeh,2,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
 		_rewardVeh setVariable ['QS_ST_customDN','PO-30 Orca X',TRUE];
 	};
 	if (_reward isEqualTo 27) then {
 		//comment 'Attack Helis';
 		_rewardData = selectRandom [
-			['O_Heli_Attack_02_dynamicLoadout_black_F','a(n) Mi-48 Kajman X'],
-			['B_Heli_Attack_01_dynamicLoadout_F','a(n) AH-99 Blackfoot X']
+			['O_Heli_Attack_02_dynamicLoadout_black_F','Mi-48 Kajman X'],
+			['B_Heli_Attack_01_dynamicLoadout_F','AH-99 Blackfoot X']
 		];
 		_rewardType = _rewardData # 0;
 		_rewardPosition = selectRandom _landRewardLocations;
@@ -971,8 +969,8 @@ if (_type isEqualTo 1) then {
 				} count (attachedObjects _killed);
 			}
 		];
-		_rewardVeh setVariable ['QS_ST_customDN','Shitty Technical (GMG)',TRUE];
-		_rewardText = 'a(n) Shitty Technical';
+		_rewardVeh setVariable ['QS_ST_customDN',localize 'STR_QS_Hints_228',TRUE];
+		_rewardText = localize 'STR_QS_Hints_227';
 	};
 	if (_reward isEqualTo 29) then {
 		//comment 'Nyx';
@@ -986,7 +984,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
-		_rewardText = format ['a(n) %1',(getText ((configOf _rewardVeh) >> 'displayName'))];
+		_rewardText = (format ['%1',(getText ((configOf _rewardVeh) >> 'displayName'))]);
 	};
 	if (_reward isEqualTo 30) then {
 		//comment 'Angara';
@@ -995,7 +993,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
-		_rewardText = format ['a(n) %1',(getText ((configOf _rewardVeh) >> 'displayName'))];
+		_rewardText = (format ['%1',(getText ((configOf _rewardVeh) >> 'displayName'))]);
 	};
 	if (_reward isEqualTo 31) then {
 		//comment 'Rhino';
@@ -1008,7 +1006,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
-		_rewardText = format ['a(n) %1',(getText ((configOf _rewardVeh) >> 'displayName'))];
+		_rewardText = (format ['%1',(getText ((configOf _rewardVeh) >> 'displayName'))]);
 	};
 	
 	if (_reward isEqualTo 32) then {
@@ -1017,7 +1015,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 		[_rewardVeh] call (missionNamespace getVariable 'QS_fnc_vSetup');
-		_rewardText = format ['a(n) %1',(getText ((configOf _rewardVeh) >> 'displayName'))];
+		_rewardText = (format ['%1',(getText ((configOf _rewardVeh) >> 'displayName'))]);
 	};
 	
 	if (_reward isEqualTo 33) then {
@@ -1039,7 +1037,7 @@ if (_type isEqualTo 1) then {
 		{getText ((configOf _rewardVeh) >> 'editorPreview')},
 		TRUE
 	];
-	_completeText = parseText format [localize 'STR_QS_Notif_159',_rewardText,_pic];
+	_completeText = parseText (format [localize 'STR_QS_Notif_159',_rewardText,_pic]);
 	//['hintSilent',_completeText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	['Reward',[format [localize 'STR_QS_Notif_077',_rewardText]]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };

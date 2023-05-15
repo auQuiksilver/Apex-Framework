@@ -50,7 +50,7 @@ if (
 	{(worldName in ['Altis','Stratis','Tanoa','Malden','stozec'])}
 ) exitWith {
 	if (isDedicated) then {
-		diag_log 'Spawning destroyer';
+		diag_log localize 'STR_QS_DiagLogs_105';
 		private ['_marker','_positionsData','_positionData'];
 		_worldName = worldName;
 		_worldSize = worldSize;

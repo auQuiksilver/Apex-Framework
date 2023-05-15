@@ -153,10 +153,10 @@ _sound = '';
 _medevacBase = markerPos 'QS_marker_medevac_hq';
 private _medevacRequested = FALSE;
 private _revivedAtVehicle = FALSE;
-private _incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
+private _incapacitatedText = (format [localize 'STR_QS_Chat_115',_profileName]);
 if (!isNull _instigator) then {
 	if (_instigator isEqualTo _unit) then {
-		_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
+		_incapacitatedText = (format [localize 'STR_QS_Chat_115',_profileName]);
 	} else {
 		if (
 			(_instigator getUnitTrait 'QS_trait_sniper') || 
@@ -169,20 +169,20 @@ if (!isNull _instigator) then {
 				localize 'STR_QS_Chat_118',
 				localize 'STR_QS_Chat_119'
 			];
-			_incapacitatedText = format [selectRandom _sniperText,_profileName,_nameKiller];
+			_incapacitatedText = (format [selectRandom _sniperText,_profileName,_nameKiller]);
 		} else {
 			if (isPlayer _instigator) then {
 				if ((getPlayerUID _instigator) in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-					_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
+					_incapacitatedText = (format [localize 'STR_QS_Chat_115',_profileName]);
 				} else {
 					if ((side _instigator) in [EAST,RESISTANCE]) then {
-						_incapacitatedText = format [localize 'STR_QS_Chat_120',_profileName,(name _instigator)];
+						_incapacitatedText = (format [localize 'STR_QS_Chat_120',_profileName,(name _instigator)]);
 					} else {
-						_incapacitatedText = format [localize 'STR_QS_Chat_121',_profileName,(name _instigator)];
+						_incapacitatedText = (format [localize 'STR_QS_Chat_121',_profileName,(name _instigator)]);
 					};
 				};
 			} else {
-				_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
+				_incapacitatedText = (format [localize 'STR_QS_Chat_115',_profileName]);
 			};
 		};
 		if (_instigator isEqualTo (missionNamespace getVariable ['QS_csatCommander',objNull])) then {
@@ -193,11 +193,11 @@ if (!isNull _instigator) then {
 				localize 'STR_QS_Chat_125',
 				localize 'STR_QS_Chat_126'
 			];
-			_incapacitatedText = format [selectRandom _options,_profileName];
+			_incapacitatedText = (format [selectRandom _options,_profileName]);
 		};
 	};
 } else {
-	_incapacitatedText = format [localize 'STR_QS_Chat_115',_profileName];
+	_incapacitatedText = (format [localize 'STR_QS_Chat_115',_profileName]);
 };
 ['systemChat',_incapacitatedText] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 private _textReviveTickets = '';
@@ -225,7 +225,7 @@ _display = findDisplay 46;
 private _ctrlIncapacitated = _display ctrlCreate _QS_ctrlCreateArray;
 _ctrlIncapacitated ctrlSetPosition [((0.0075 * safezoneW) + safezoneX),((0.01 * safezoneH) + safezoneY),1,1];
 private _string1 = actionKeysNames ['InGamePause',1];
-private _text1 = parseText format [(localize 'STR_QS_Text_270'),(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString')),([] call (missionNamespace getVariable 'QS_fnc_clientMFindHealer'))];
+private _text1 = parseText (format [(localize 'STR_QS_Text_270'),(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call (missionNamespace getVariable 'BIS_fnc_secondsToString')),([] call (missionNamespace getVariable 'QS_fnc_clientMFindHealer'))]);
 _ctrlIncapacitated ctrlSetStructuredText _text1;
 _ctrlIncapacitated ctrlCommit 0;
 if (isNil 'bis_revive_ppColor') then {
@@ -271,7 +271,7 @@ for '_x' from 0 to 1 step 0 do {
 	_objectParent = objectParent _unit;
 	_attachedTo = attachedTo _unit;
 	_string1 = actionKeysNames ['InGamePause',1];
-	_text1 = parseText format [(localize 'STR_QS_Text_270'),(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call _fn_secondsToString),(call _fn_findHealer)];
+	_text1 = parseText (format [(localize 'STR_QS_Text_270'),(_string1 select [1,((count _string1) - 2)]),([(_medicalTimer - _tickTimeNow),'MM:SS'] call _fn_secondsToString),(call _fn_findHealer)]);
 	_ctrlIncapacitated ctrlSetStructuredText ([_text1,(parseText '')] select visibleMap);
 	if (_tickTimeNow > _soundDelay) then {
 		if (isNull _objectParent) then {
@@ -382,7 +382,7 @@ for '_x' from 0 to 1 step 0 do {
 								];
 								_remainingTickets = _transportSoldier - 1;
 								_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-								_textReviveTickets = format [localize 'STR_QS_Chat_051',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
+								_textReviveTickets = (format [localize 'STR_QS_Chat_051',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets]);
 								['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							} else {
 								if ((_vehicle getVariable 'QS_medicalVehicle_reviveTickets') isEqualType 0) then {
@@ -399,7 +399,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 										_remainingTickets = (_vehicle getVariable 'QS_medicalVehicle_reviveTickets') - 1;
 										_vehicle setVariable ['QS_medicalVehicle_reviveTickets',_remainingTickets,TRUE];
-										_textReviveTickets = format [localize 'STR_QS_Chat_051',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets];
+										_textReviveTickets = (format [localize 'STR_QS_Chat_051',(getText ((configOf _vehicle) >> 'displayName')),(mapGridPosition _vehicle),_remainingTickets]);
 										['sideChat',[WEST,'BLU'],_textReviveTickets] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
 								};
@@ -414,7 +414,7 @@ for '_x' from 0 to 1 step 0 do {
 							if ((vectorMagnitude (velocity _medicalBox)) < 1) then {
 								if ((!(unitIsUav _medicalBox)) || {((unitIsUav _medicalBox) && (isUavConnected _medicalBox))}) then {
 									deleteVehicle _medicalBox;
-									_text = format [localize 'STR_QS_Chat_129',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText ((configOf _medicalBox) >> 'displayName'))])];
+									_text = (format [localize 'STR_QS_Chat_129',_profileName,(_medicalBox getVariable ['QS_ST_customDN',(getText ((configOf _medicalBox) >> 'displayName'))])]);
 									['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									_revivedAtVehicle = TRUE;
 									if (_lifeState isEqualTo 'INCAPACITATED') then {

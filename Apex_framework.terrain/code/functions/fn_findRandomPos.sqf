@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -139,7 +139,7 @@ if (_type isEqualTo 'WORLD') then {
 	_max = worldSize - (_inset * 2);
 	for '_x' from 0 to _attempts step _step do {
 		if (diag_tickTime > _timeout) exitWith {
-			diag_log format ['***** DEBUG ***** SAFE POS FAILURE * %1 * %2 * %3 * %4 * %5 * %6 * %7 * %8 * %9',_type,_centerPos,_radius,_whitelist,_isFlatEmpty,_blacklistEnabled,_selectBestPlaces,_findEmptyPosition,_forceFind];
+			diag_log (format [localize 'STR_QS_DiagLogs_113',_type,_centerPos,_radius,_whitelist,_isFlatEmpty,_blacklistEnabled,_selectBestPlaces,_findEmptyPosition,_forceFind]);
 			_return = getArray (configFile >> 'CfgWorlds' >> worldName >> 'safePositionAnchor');
 		};
 		_testPos = [_inset + (random _max),_inset + (random _max),0];
@@ -212,7 +212,7 @@ if (_type isEqualTo 'WORLD') then {
 	if (_type isEqualTo 'RADIUS') then {
 		for '_x' from 0 to _attempts step _step do {
 			if (diag_tickTime > _timeout) exitWith {
-				diag_log format ['***** DEBUG ***** SAFE POS FAILURE * %1 * %2 * %3 * %4 * %5 * %6 * %7 * %8 * %9',_type,_centerPos,_radius,_whitelist,_isFlatEmpty,_blacklistEnabled,_selectBestPlaces,_findEmptyPosition,_forceFind];
+				diag_log (format [localize 'STR_QS_DiagLogs_113',_type,_centerPos,_radius,_whitelist,_isFlatEmpty,_blacklistEnabled,_selectBestPlaces,_findEmptyPosition,_forceFind]);
 				_return = getArray (configFile >> 'CfgWorlds' >> worldName >> 'safePositionAnchor');
 			};
 			_testPos = _centerPos getPos [(_radius * (sqrt (random 1))),(random 360)];

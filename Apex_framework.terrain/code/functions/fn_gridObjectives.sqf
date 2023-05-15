@@ -159,7 +159,7 @@ if (_type isEqualTo 'SITE_TUNNEL') exitWith {
 				};
 			} forEach (nearestTerrainObjects [_position,[],15,FALSE,TRUE]);
 			_entities pushBack ([1,_position,nil] call (missionNamespace getVariable 'QS_fnc_createWell'));
-			diag_log format ['QS QS QS * Spawned position: %1',_position];
+			diag_log (format [localize 'STR_QS_DiagLogs_120',_position]);
 		};
 	};
 	missionNamespace setVariable ['QS_grid_enemyRespawnObjects',_entities,TRUE];
@@ -260,7 +260,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 		] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 		(missionNamespace getVariable 'QS_AI_regroupPositions') pushBack ['QS_ao_HQ',[EAST,RESISTANCE],_spawnPos];
 		(missionNamespace getVariable 'QS_registeredPositions') pushBack _spawnPos;
-		diag_log format ['QS QS QS * IG Spawned position: %1',_spawnPos];
+		diag_log (format [localize 'STR_QS_DiagLogs_121',_spawnPos]);
 		missionNamespace setVariable ['QS_grid_IGcomposition',_composition,FALSE];
 		private _leaderBuilding = objNull;
 		private _potentialBuildings = [];
@@ -350,7 +350,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 					['GRID_UPDATE',[localize 'STR_QS_Notif_008',localize 'STR_QS_Notif_061']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 					if (!isNull _instigator) then {
 						if (isPlayer _instigator) then {
-							_text = format [localize 'STR_QS_Chat_176',(name _instigator),(groupID (group _instigator))];
+							_text = (format [localize 'STR_QS_Chat_176',(name _instigator),(groupID (group _instigator))]);
 							_text remoteExec ['systemChat',-2,FALSE];
 						};
 					};
@@ -510,7 +510,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 		_checkPos set [2,0];
 		'QS_marker_grid_IDAPloc' setMarkerPos _checkPos;
 		(missionNamespace getVariable 'QS_registeredPositions') pushBack _checkPos;
-		diag_log format ['QS QS QS * IDAP Spawned position: %1',_checkPos];
+		diag_log (format [localize 'STR_QS_DiagLogs_122',_checkPos]);
 		(missionNamespace getVariable 'QS_positions_fieldHospitals') pushBack ['GRID_IG',_checkPos,15];
 		missionNamespace setVariable ['QS_positions_fieldHospitals',(missionNamespace getVariable 'QS_positions_fieldHospitals'),TRUE];
 		private _positionFound = FALSE;
@@ -591,7 +591,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 			if (_uxoPosFound) exitWith {};
 		};
 		if ((_uxoPos distance2D _aoPos) < (_aoSize * 1.25)) then {
-			diag_log (format ['UXO field created at %1',_uxoPos]);
+			diag_log (format [localize 'STR_QS_DiagLogs_123',_uxoPos]);
 			_total = 6 + (round (random 5));
 			_uxoTypeData = [
 				['BombCluster_01_UXO1_F',0.1,'BombCluster_01_UXO2_F',0.1,'BombCluster_01_UXO3_F',0.1,'BombCluster_01_UXO4_F',0.1],
@@ -651,7 +651,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 				];
 			};
 		} else {
-			diag_log 'QS uxo field failed';
+			diag_log localize 'STR_QS_DiagLogs_124';
 		};
 	};
 	_return;
@@ -737,7 +737,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 						_buildingPositionsInPolygon set [_buildingPositionIndex,FALSE];
 						_buildingPositionsInPolygon deleteAt _buildingPositionIndex;
 						
-						diag_log format ['QS intel building position: %1',_buildingPosition];
+						diag_log (format [localize 'STR_QS_DiagLogs_125',_buildingPosition]);
 						
 						//comment 'Get building';
 						_buildingPositionASL = AGLToASL _buildingPosition;

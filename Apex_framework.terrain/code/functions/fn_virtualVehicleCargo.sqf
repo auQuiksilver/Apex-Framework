@@ -41,7 +41,7 @@ if (_type isEqualTo 'SET_CLIENT') exitWith {
 		{(!alive _child)} ||
 		{(_parent isEqualTo _child)}
 	) exitWith {};
-	comment 'client request to set vehicle cargo';
+	//comment 'client request to set vehicle cargo';
 	playSound3D [
 		'A3\Sounds_F\sfx\ui\vehicles\vehicle_rearm.wss',
 		_parent,
@@ -54,7 +54,7 @@ if (_type isEqualTo 'SET_CLIENT') exitWith {
 	[24,['HANDLE',['SET_SERVER',_parent,_child,clientOwner]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (_type isEqualTo 'GET_CLIENT') exitWith {
-	comment 'client request to get vehicle cargo';
+	//comment 'client request to get vehicle cargo';
 	params ['','_parent','_childType','_placementPos','_placementAzi'];
 	_childType = toLowerANSI _childType;
 	playSound3D [
@@ -102,7 +102,7 @@ if (_type isEqualTo 'SET_SERVER') exitWith {
 	};
 	_parentData = QS_system_virtualCargo # _parentIndex;
 	_parentData params ['','_virtualCargo'];
-	comment 'validate new cargo';
+	//comment 'validate new cargo';
 	_childType = toLowerANSI (typeOf _child);
 	_simpleObject = [0,1] select (isSimpleObject _child);
 	_damageAllowed = [0,1] select (isDamageAllowed _child);
@@ -186,7 +186,7 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 	} else {
 		_virtualCargo set [_virtualCargoIndex,[[_childType,_isSimpleObject,_damageAllowed,_simulationEnabled,_boundingRadius,_damage],_count]];
 	};
-	comment 'only update if it spawned successfully';
+	//comment 'only update if it spawned successfully';
 	_parent setVariable ['QS_virtualCargo',_virtualCargo,TRUE];
 	QS_system_virtualCargo set [_parentIndex,[_parent,_virtualCargo]];
 	QS_system_builtObjects pushBack _child;

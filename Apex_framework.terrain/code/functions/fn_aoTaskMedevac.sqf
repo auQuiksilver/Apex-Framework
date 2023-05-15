@@ -23,12 +23,12 @@ if (_state isEqualTo 0) then {
 	if (!isNull _unit) then {
 		QS_garbageCollector pushBack [_unit,'NOW_FORCED',0];
 	};
-	diag_log 'Medevac task deleted';
+	diag_log localize 'STR_QS_DiagLogs_038';
 	_return = [];
 };
 if (_state isEqualTo 1) then {
 	//comment 'Create mission';
-	diag_log 'Medevac task created 0';
+	diag_log localize 'STR_QS_DiagLogs_039';
 	_aoPos = markerPos 'QS_marker_aoMarker';
 	_worldSize = worldSize;
 	if (_aoPos inPolygon [
@@ -140,7 +140,7 @@ if (_state isEqualTo 1) then {
 			]
 		];
 	};
-	diag_log 'Medevac task created 1';
+	diag_log localize 'STR_QS_DiagLogs_040';
 };
 if (_state isEqualTo 2) then {
 	//comment 'Check mission state';

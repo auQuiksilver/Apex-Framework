@@ -168,7 +168,7 @@ if (_shooter isKindOf 'Man') then {
 		QS_hashmap_configfile set [format ['cfgammo_%1_displayname',_ammo],_missileDisplayName];
 	};
 };
-_text = format [localize 'STR_QS_Text_200',(round (_vehicle getDir _shooter)),_relDirText,_missileDisplayName];
+_text = (format [localize 'STR_QS_Text_200',(round (_vehicle getDir _shooter)),_relDirText,_missileDisplayName]);
 if (_passiveResult isNotEqualTo '') then {
 	_text = _text + (format ['<br/><br/>%1',_passiveResult]);
 };

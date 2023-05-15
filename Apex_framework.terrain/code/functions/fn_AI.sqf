@@ -41,7 +41,7 @@ private _smallTerrains = ['Tanoa','Stratis'];
 _true = TRUE;
 _false = FALSE;
 _endl = endl;
-_isTropical = _worldName in ['Tanoa','Lingor3'];
+_isTropical = _worldName in ['Tanoa','Enoch'];
 private _QS_unitCap = [140,120] select (_worldName in _smallTerrains);
 private _array = [];
 private _QS_unit = objNull;
@@ -505,6 +505,7 @@ if (_isHC) then {
 	// SYNC existing group vars to HC
 	[98] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
+_groupEventHandlerTypes = ['CombatModeChanged','CommandChanged','FormationChanged','SpeedModeChanged','EnableAttackChanged','LeaderChanged','GroupIdChanged','KnowsAboutChanged','WaypointComplete','Fleeing','EnemyDetected'];
 _groupEventLocalHC = {
 	params ['_grp','_isLocal'];
 	if (_isLocal) then {
@@ -754,7 +755,7 @@ for '_x' from 0 to 1 step 0 do {
 								if (((_grp getEventHandlerInfo [_x,0]) # 2) isNotEqualTo 0) then {
 									_grp removeAllEventHandlers _x;
 								};
-							} forEach ['CombatModeChanged','CommandChanged','FormationChanged','SpeedModeChanged','EnableAttackChanged','LeaderChanged','GroupIdChanged','KnowsAboutChanged','WaypointComplete','Fleeing','EnemyDetected'];
+							} forEach _groupEventHandlerTypes;
 							_grp addEventHandler ['Local',_groupEventLocalServer];
 							if (!(_grp setGroupOwner _QS_module_hc_ID)) then {
 								//===== Ownership transfer failed, reset to beginning of process
@@ -845,9 +846,9 @@ for '_x' from 0 to 1 step 0 do {
 				} forEach _QS_headlessClients;
 			};
 			if (_QS_time > _QS_module_hc_log_checkDelay) then {
-				diag_log (format ['HC AI Report (Server): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+				diag_log (format [localize 'STR_QS_DiagLogs_002',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
 				{
-					diag_log (format ['Headless Client Info: %1',getUserInfo (getPlayerID _x)]);
+					diag_log (format [localize 'STR_QS_DiagLogs_003',getUserInfo (getPlayerID _x)]);
 				} forEach (entities 'HeadlessClient_F');
 				_QS_module_hc_log_checkDelay = _QS_time + _QS_module_hc_log_delay;
 			};
@@ -877,7 +878,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_agentBehaviors_agent addEventHandler ['Local',_agentEventLocalHC];
 				_QS_module_agentBehaviors_agent setVariable ['QS_AI_ENTITY_HC',[2,_clientOwner],[2,_clientOwner]];
 			};
-			diag_log (format ['HC AI Report (Headless Client): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+			diag_log (format [localize 'STR_QS_DiagLogs_002',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
 		};
 	};
 	if (_QS_module_dynamicSkill) then {
@@ -1009,7 +1010,7 @@ for '_x' from 0 to 1 step 0 do {
 							//comment 'Assault not active';
 							if ((_QS_module_virtualSectors_scoreSides # 1) >= _QS_module_virtualSectors_assaultScore) then {
 								_QS_module_virtualSectors_assaultActive = _true;
-								diag_log '***** QS AI - Sector Assault Active *****';
+								diag_log localize 'STR_QS_DiagLogs_004';
 								
 								//comment 'Select sector herePick random WEST-owned sector';
 								_QS_module_virtualSectors_assaultDuration = _QS_uiTime + _QS_module_virtualSectors_assaultDuration_fixed + (random _QS_module_virtualSectors_assaultDuration_variable);
@@ -1029,7 +1030,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (!(_QS_module_virtualSectors_patrolFallback)) then {
 					if ((_QS_module_virtualSectors_scoreSides # 1) >= _QS_module_virtualSectors_scoreEndClose) then {
 						_QS_module_virtualSectors_patrolFallback = _true;
-						diag_log '***** QS AI - Patrol Fall Back *****';
+						diag_log localize 'STR_QS_DiagLogs_005';
 						if (_QS_module_virtualSectors_patrolsInf isNotEqualTo []) then {
 							{
 								_QS_grp = group _x;
@@ -1397,6 +1398,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_virtualSectors_assaultActive = _false;
 				_QS_module_virtualSectors_assaultArray = [];
 				_QS_module_viperTeam_array = [];
+				missionNamespace setVariable ['QS_virtualSectors_AI_triggerDeinit',_false,_false];
 			};
 		};
 	};
@@ -1629,7 +1631,6 @@ for '_x' from 0 to 1 step 0 do {
 			};	
 			if (!(missionNamespace getVariable 'QS_classic_AI_active')) then {
 				if (missionNamespace getVariable 'QS_classic_AI_triggerDeinit') then {
-					missionNamespace setVariable ['QS_classic_AI_triggerDeinit',_false,_false];
 					missionNamespace setVariable ['QS_AI_insertHeli_spawnedAO',0,_false];
 					if (_QS_module_classic_enemy_0 isNotEqualTo []) then {
 						{
@@ -1788,6 +1789,7 @@ for '_x' from 0 to 1 step 0 do {
 						} forEach _QS_module_classic_patrolsHeli;
 						_QS_module_classic_patrolsHeli = [];
 					};
+					missionNamespace setVariable ['QS_classic_AI_triggerDeinit',_false,_false];
 				};
 			};
 			_QS_module_classic_checkDelay = diag_tickTime + _QS_module_classic_delay;
@@ -1797,8 +1799,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_module_grid) then {
 		if (_QS_uiTime > _QS_module_grid_checkDelay) then {
 			if (missionNamespace getVariable ['QS_grid_AI_triggerDeinit',_false]) then {
-				diag_log 'QS AI GRID deinit';
-				missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_false,_true];
+				diag_log localize 'STR_QS_DiagLogs_006';
 				missionNamespace setVariable ['QS_grid_AI_active',_false,_false];
 				if (_QS_module_grid_enemy isNotEqualTo []) then {
 					{
@@ -1884,9 +1885,10 @@ for '_x' from 0 to 1 step 0 do {
 					} forEach _QS_module_grid_defendUnits;
 					_QS_module_grid_defendUnits = [];
 				};
+				missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_false,_true];
 			};
 			if (missionNamespace getVariable ['QS_grid_AI_triggerInit',_false]) then {
-				diag_log 'QS AI GRID init';
+				diag_log localize 'STR_QS_DiagLogs_007';
 				missionNamespace setVariable ['QS_grid_AI_triggerInit',_false,_true];
 				_QS_module_grid_aoPos = missionNamespace getVariable 'QS_aoPos';
 				_QS_module_grid_aoSize = missionNamespace getVariable 'QS_aoSize';

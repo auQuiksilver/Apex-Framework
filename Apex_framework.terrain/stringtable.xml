@@ -79,7 +79,7 @@ _____________________________________________________________-->
 			<Original>Respawn vehicle</Original>
 			<Chinesesimp>重生载具</Chinesesimp>
 			<Chinese>重生載具</Chinese>
-			<Turkish>Aracı Yeniden Çıkar</Turkish>
+			<Turkish>Aracı Geri Gönder</Turkish>
 		</Key>
 		<Key ID="STR_QS_Interact_012">
 			<Original>Open cargo doors</Original>
@@ -373,7 +373,7 @@ _____________________________________________________________-->
 			<Original>Confirm target</Original>
 			<Chinesesimp>确认目标</Chinesesimp>
 			<Chinese>確認目標</Chinese>
-			<Turkish>Hedefi Onayla</Turkish>
+			<Turkish>Hedefi Bildir</Turkish>
 		</Key>
 		<Key ID="STR_QS_Interact_061">
 			<Original>Lower plow</Original>
@@ -394,10 +394,10 @@ _____________________________________________________________-->
 			<Turkish>ROBOCOP: &#40;%1&#41; Rapor Etme</Turkish>
 		</Key>
 		<Key ID="STR_QS_Interact_064">
-			<Original>Report</Original>
-			<Chinesesimp>报告此次违规</Chinesesimp>
-			<Chinese>報告此次違規</Chinese>
-			<Turkish>Rapor Et</Turkish>
+			<Original>ROBOCOP: &#40;%1&#41; Report</Original>
+			<Chinesesimp>ROBOCOP: &#40;%1&#41; 报告此次违规</Chinesesimp>
+			<Chinese>ROBOCOP: &#40;%1&#41; 報告此次違規</Chinese>
+			<Turkish>ROBOCOP: &#40;%1&#41; Rapor Et</Turkish>
 		</Key>
 		<Key ID="STR_QS_Interact_065">
 			<Original>Cancel</Original>
@@ -1071,7 +1071,7 @@ _____________________________________________________________-->
 			<Original>Activating air defense</Original>
 			<Chinesesimp>正在激活防空系统</Chinesesimp>
 			<Chinese>正在啟用防空系統</Chinese>
-			<Turkish>Hava Savunmayı Etkinleştir</Turkish>
+			<Turkish>Hava Savunmayı Aktif Ediliyor</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_032">
 			<Original>Use General channel for general voice communications. Press &#91;Home&#93; >> &#91;Comm-Link&#93; >> &#91;Radio Management&#93; to subscribe</Original>
@@ -1356,10 +1356,10 @@ _____________________________________________________________-->
 			<Turkish>Zırhlı Araçlar Şu Anda Kullanıma Uygun Değil &#40;Sunucu Yapılandırması&#41;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_079">
-			<Original>Too many vehicle activations &#40;3+ within 5 minutes&#41;, try again soon</Original>
+			<Original>Too many vehicle activations &#40;3&#43; within 5 minutes&#41;, try again soon</Original>
 			<Chinesesimp>激活了过多载具&#40;5分钟内超过3辆&#41;，请稍后再试</Chinesesimp>
 			<Chinese>啟用了過多載具&#40;5分鐘內超過3輛&#41;，請稍後再試</Chinese>
-			<Turkish>Çok Fazla Araç Aktivasyonu &#40;5 Dakika Içinde 3+&#41;, Sonra Tekrar Deneyin</Turkish>
+			<Turkish>Çok Fazla Araç Aktivasyonu &#40;5 Dakika Içinde 3&#43;&#41;, Sonra Tekrar Deneyin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_080">
 			<Original>Unlocking %1</Original>
@@ -1455,7 +1455,7 @@ _____________________________________________________________-->
 			<Original>You already have an active boat. Please respawn or destroy it before creating another. Grid: %1</Original>
 			<Chinesesimp>你已经激活一艘船只了，请在激活另一艘前重生或摧毁它。船只坐标： %1</Chinesesimp>
 			<Chinese>你已經啟用一艘船隻了，請在啟用另一艘前重生或摧毀它。船只坐標： %1</Chinese>
-			<Turkish>%1 Konumunda Zaten aktif bir botunuz var. Lütfen başka bir tane oluşturmadan önce onu tekrar çıkarın veya yok edin.</Turkish>
+			<Turkish>%1 Konumunda Zaten aktif bir botunuz var. Lütfen başka bir tane oluşturmadan önce onu geri gönderin veya yok edin.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_096">
 			<Original>%1 inflated &#40;toolkit removed&#41;</Original>
@@ -1641,7 +1641,7 @@ _____________________________________________________________-->
 			<Original>Respawning vehicle</Original>
 			<Chinesesimp>重生载具</Chinesesimp>
 			<Chinese>重生載具</Chinese>
-			<Turkish>Araç Yeniden Çıkarılıyor</Turkish>
+			<Turkish>Araç Geri Gönderiliyor</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_127">
 			<Original>%1 deflated &#40;toolkit added&#41;</Original>
@@ -1971,13 +1971,13 @@ _____________________________________________________________-->
 			<Original>Suppression Effects enabled</Original>
 			<Chinesesimp>启用压制效果</Chinesesimp>
 			<Chinese>啟用壓制效果</Chinese>
-			<Turkish>Bastırma Efektleri Etkin</Turkish>
+			<Turkish>Mermi Hasarı Efektleri Etkin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_182">
 			<Original>Suppression Effects disabled</Original>
 			<Chinesesimp>禁用压制效果</Chinesesimp>
 			<Chinese>禁用壓制效果</Chinese>
-			<Turkish>Bastırma Efektleri Devre Dışı</Turkish>
+			<Turkish>Mermi Hasarı Efektleri Devre Dışı</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_183">
 			<Original>Hit Marker audio enabled</Original>
@@ -2094,16 +2094,16 @@ _____________________________________________________________-->
 			<Turkish>%1 Halata Bağlanıyor</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_202">
-			<Original>Sling Loading. Use &#91;Page Up&#93; and &#91;Page Down&#93; to raise and lower the sling load. Alternate controls: &#91;Ctrl&#93; or &#91;Alt&#93; +</Original>
+			<Original>Sling Loading. Use &#91;Page Up&#93; and &#91;Page Down&#93; to raise and lower the sling load. Alternate controls: &#91;Ctrl&#93; or &#91;Alt&#93; &#43;</Original>
 			<Chinesesimp>货物已吊装。使用&#91;Page Up&#93;、&#91;Page Down&#93;来升高/降低货物</Chinesesimp>
 			<Chinese>貨物已吊裝。使用&#91;Page Up&#93;、&#91;Page Down&#93;來升高/降低貨物</Chinese>
-			<Turkish>Sling Yükleme. Sling Yükünü Yükseltmek Ve Indirmek Için &#91;Sayfa Yukarı&#93; Ve &#91;Sayfa Aşağı&#93; Kullanın. Alternatif Kontroller: &#91;Ctrl&#93; Veya &#91;Alt&#93; +</Turkish>
+			<Turkish>Sling Yükleme. Sling Yükünü Yükseltmek Ve Indirmek Için &#91;Sayfa Yukarı&#93; Ve &#91;Sayfa Aşağı&#93; Kullanın. Alternatif Kontroller: &#91;Ctrl&#93; Veya &#91;Alt&#93; &#43;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_203">
 			<Original>Custom controls: "Use Action 17" and "Use Action 18"</Original>
 			<Chinesesimp>自定义控制。"使用操作17 "和 "使用操作18"</Chinesesimp>
 			<Chinese>自訂控制。"使用操作17 "和 "使用操作18"</Chinese>
-			<Turkish>Özel Kontroller: "Eylem 17'Yi Kullan" Ve "Eylem 18'I Kullan"</Turkish>
+			<Turkish>Özel Kontroller: "Eylem 17 yi" Ve "Eylem 18 i Kullan"</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_204">
 			<Original>%1 reset for FOB resupply</Original>
@@ -2229,7 +2229,7 @@ _____________________________________________________________-->
 			<Original>Requesting plane</Original>
 			<Chinesesimp>正在请求飞机</Chinesesimp>
 			<Chinese>正在請求飛機</Chinese>
-			<Turkish>Uçak Talepl Ediliyor</Turkish>
+			<Turkish>Uçak Talep Ediliyor</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_225">
 			<Original>Too soon since last request &#40;10s cooldown&#41;</Original>
@@ -2340,16 +2340,16 @@ _____________________________________________________________-->
 			<Turkish>km/s</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_243">
-			<Original>&lt;t size="1.5">Signal Strength&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt; &#37;%1</Original>
-			<Chinesesimp>&lt;t size="1.5">信号强度&lt;&#47;t&gt;&lt;br&gt;&lt;br&#47;&gt; &#37;%1</Chinesesimp><!--Edit-->
-			<Chinese>&lt;t size="1.5">信號強度&lt;&#47;t&gt;&lt;br&gt;&lt;br&#47;&gt; &#37;%1</Chinese><!--Edit-->
-			<Turkish>&lt;t size="1.5">Sinyal Gücü&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt; &#37;%1</Turkish>
+			<Original>&lt;t size="1.5"&gt;Signal Strength&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt; &#37;%1</Original>
+			<Chinesesimp>&lt;t size="1.5"&gt;信号强度&lt;&#47;t&gt;&lt;br&gt;&lt;br&#47;&gt; &#37;%1</Chinesesimp><!--Edit-->
+			<Chinese>&lt;t size="1.5"&gt;信號強度&lt;&#47;t&gt;&lt;br&gt;&lt;br&#47;&gt; &#37;%1</Chinese><!--Edit-->
+			<Turkish>&lt;t size="1.5"&gt;Sinyal Gücü&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt; &#37;%1</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_244">
-			<Original>&lt;t size="1.5">Signal Strength&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;No GPS Receiver ...</Original>
+			<Original>&lt;t size="1.5"&gt;Signal Strength&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;No GPS Receiver ...</Original>
 			<Chinesesimp>未收到GPS信号</Chinesesimp><!--Edit-->
 			<Chinese>未收到GPS訊號</Chinese><!--Edit-->
-			<Turkish>&lt;t size="1.5">Sinyal Gücü&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt; GPS Sinyali Yok ...</Turkish>
+			<Turkish>&lt;t size="1.5"&gt;Sinyal Gücü&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt; GPS Sinyali Yok ...</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_245"><!--Cancel-->
 			<Original>percent</Original>
@@ -2439,7 +2439,7 @@ _____________________________________________________________-->
 			<Original>has turned on autohover</Original>
 			<Chinesesimp>已打开自动悬停功能！</Chinesesimp>
 			<Chinese>已打開自動懸停功能！</Chinese>
-			<Turkish>Autohover'ı Açtı</Turkish>
+			<Turkish>Otomatik Havada Kalmayı Açtı</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_260">
 			<Original>Being treated by %1</Original>
@@ -2655,13 +2655,13 @@ _____________________________________________________________-->
 			<Original>Setting Loadout</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Yükleme Ayarlanıyor</Turkish>
+			<Turkish>Yükleme Yapılıyor</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_296">
 			<Original>Loadout Set</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Yükleme Ayarlandı</Turkish>
+			<Turkish>Yükleme Yapıldı</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_297">
 			<Original>&#40; Front &#41;</Original>
@@ -3216,10 +3216,10 @@ _____________________________________________________________-->
 			<Turkish>Lojistik Yönetimi Kara Listesi</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_389">
-			<Original>Delete &#40;&#91;Ctrl&#93; + &#91;Right Mouse Button&#93;&#41;</Original>
+			<Original>Delete &#40;&#91;Ctrl&#93; &#43; &#91;Right Mouse Button&#93;&#41;</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Sil &#40;&#91;Ctrl&#93; + &#91;Sağ Fare Düğmesi&#93;&#41;</Turkish>
+			<Turkish>Sil &#40;&#91;Ctrl&#93; &#43; &#91;Sağ Fare Düğmesi&#93;&#41;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Text_390">
 			<Original>Lock driver seat</Original>
@@ -3765,8 +3765,8 @@ _____________________________________________________________-->
 		</Key>
 		<Key ID="STR_QS_Hints_014">
 			<Original>&lt;t size="1.1"&gt;ROBOCOP:&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;img size="7" image="%2"&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;In your Action Menu &#40;SCROLL MENU&#41;, you have the option to anonymously report the incident. This option is available for  %1 seconds</Original>
-			<Chinesesimp>&lt;t size="1.1">ROBOCOP:&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;img size="7" image="%2"&gt;&lt; br&gt;&lt;br&gt;在您的操作菜单“滚动菜单”中，您可以选择匿名报告事件。 此选项可用 %1 秒</Chinesesimp><!--Edit-->
-			<Chinese>&lt;t size="1.1">ROBOCOP:&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;img size="7" image="%2"&gt;&lt; br&gt;&lt;br&gt;在您的操作菜單“滾動菜單”中，您可以選擇匿名報告事件。 此選項可用 %1 秒</Chinese><!--Edit-->
+			<Chinesesimp>&lt;t size="1.1"&gt;ROBOCOP:&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;img size="7" image="%2"&gt;&lt; br&gt;&lt;br&gt;在您的操作菜单“滚动菜单”中，您可以选择匿名报告事件。 此选项可用 %1 秒</Chinesesimp><!--Edit-->
+			<Chinese>&lt;t size="1.1"&gt;ROBOCOP:&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;img size="7" image="%2"&gt;&lt; br&gt;&lt;br&gt;在您的操作菜單“滾動菜單”中，您可以選擇匿名報告事件。 此選項可用 %1 秒</Chinese><!--Edit-->
 			<Turkish>&lt;t size="1.1"&gt;ROBOCOP:&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;img size="7" image="%2"&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Eylem Menünüzde &#40;TEKERLEK MENÜSÜ&#41;, olayı isimsiz olarak bildirme seçeneğiniz vardır. Bu seçenek için  %1 saniye  kullanılabilir.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_015">
@@ -3878,82 +3878,82 @@ _____________________________________________________________-->
 			<Turkish>Bu Sivil Seve Seve Ölmeni Izleyecek</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_033">
-			<Original>Feet stuck? Tap &#91;C&#93; or double-tap &#91;C&#93;, or &#91;W&#93;+&#91;S&#93;</Original>
+			<Original>Feet stuck? Tap &#91;C&#93; or double-tap &#91;C&#93;, or &#91;W&#93;&#43;&#91;S&#93;</Original>
 			<Chinesesimp>如果无法拖动，尝试双击&#91;C&#93;</Chinesesimp>
 			<Chinese>如果無法拖動，嘗試雙擊&#91;C&#93;</Chinese>
-			<Turkish>Ayaklar Sıkışmış Mı? &#91;C&#93; Tuşuna Çift Bas &#91;C&#93; Veya &#91;W&#93;+&#91;S&#93; tuşlarına basın.</Turkish>
+			<Turkish>Ayaklar Sıkışmış Mı? &#91;C&#93; Tuşuna Çift Bas &#91;C&#93; Veya &#91;W&#93;&#43;&#91;S&#93; tuşlarına basın.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_034">
-			<Original>FOB</Original>
-			<Chinesesimp>FOB</Chinesesimp>
-			<Chinese>FOB</Chinese>
-			<Turkish>İleri Karakol</Turkish>
+			<Original>&lt;t align="left" size="2"&gt;FOB %1&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;t align="left" size="1.5"&gt;Status&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left" size="1"&gt;__________&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t align="left" size="2"&gt;FOB %1&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;t align="left" size="1.5"&gt;状态&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left" size="1"&gt;__________&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t align="left" size="2"&gt;FOB %1&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;t align="left" size="1.5"&gt;狀態&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left" size="1"&gt;__________&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t align="left" size="2"&gt;İlari Karakol %1&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;t align="left" size="1.5"&gt;Durum&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left" size="1"&gt;__________&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_035">
-			<Original>Status</Original>
-			<Chinesesimp>状态</Chinesesimp>
-			<Chinese>狀態</Chinese>
-			<Turkish>Durum</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Radar Services&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Online&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;雷达设备&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;雷達裝置&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Radar Servisi&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Aktif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_036">
-			<Original>Online</Original>
-			<Chinesesimp>上线</Chinesesimp>
-			<Chinese>上線</Chinese>
-			<Turkish>Çevrimiçi</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Radar Services&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Offline&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;雷达设备&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;离线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;雷達裝置&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;離線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Radar Servisi&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Pasif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_037">
-			<Original>Offline</Original>
-			<Chinesesimp>离线</Chinesesimp>
-			<Chinese>離線</Chinese>
-			<Turkish>Çevrimdışı</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Respawn&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Online&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 重生&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 重生&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Çıkarma&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Aktif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_038">
-			<Original>Radar Services</Original>
-			<Chinesesimp>雷达设备</Chinesesimp>
-			<Chinese>雷達裝置</Chinese>
-			<Turkish>Radar Hizmetleri</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Respawn&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Offline&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 重生&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;离线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 重生&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;離線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Çıkarma&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Pasif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_039">
-			<Original>Respawn</Original>
-			<Chinesesimp>重生功能</Chinesesimp>
-			<Chinese>重生功能</Chinese>
-			<Turkish>Yeniden Doğma</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Respawn&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Online&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;重生功能&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;重生功能&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Yeniden Doğma&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Aktif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_040">
-			<Original>Respawn Tickets</Original>
-			<Chinesesimp>重生票数</Chinesesimp>
-			<Chinese>重生票數</Chinese>
-			<Turkish>Yeniden Doğma Biletleri</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Respawn&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Offline&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;重生功能&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;离线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;重生功能&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;離線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Yeniden Doğma&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Pasif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_041">
-			<Original>Vehicle &#45; Respawn</Original>
-			<Chinesesimp>载具功能 &#45; 重生</Chinesesimp>
-			<Chinese>載具功能 &#45; 重生</Chinese>
-			<Turkish>Araç &#45; Çıkarma</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Respawn Tickets&lt;&#47;t&gt;&lt;t size="1" align="right"&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;重生票数&lt;&#47;t&gt;&lt;t size="1" align="right"&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;重生票數&lt;&#47;t&gt;&lt;t size="1" align="right"&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Yeniden Doğma Hakkı&lt;&#47;t&gt;&lt;t size="1" align="right"&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_042">
-			<Original>Vehicle &#45; Repair</Original>
-			<Chinesesimp>载具功能 &#45; 维修</Chinesesimp>
-			<Chinese>載具功能 &#45; 維修</Chinese>
-			<Turkish>Araç &#45; Onarım</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Repair&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Online&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 维修&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 維修&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Onarım&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Aktif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_043">
-			<Original>Vehicle &#45; Ammo</Original>
-			<Chinesesimp>载具功能 &#45; 弹药补给</Chinesesimp>
-			<Chinese>載具功能 &#45; 彈藥補給</Chinese>
-			<Turkish>Araç &#45; Cephane</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Repair&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Offline&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 维修&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;离线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 維修&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;離線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Onarım&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Pasif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_044">
-			<Original>Vehicle &#45; Fuel</Original>
-			<Chinesesimp>载具功能 &#45; 燃料补给</Chinesesimp>
-			<Chinese>載具功能 &#45; 燃料補給</Chinese>
-			<Turkish>Araç &#45; Yakıt</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Ammo&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Online&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 弹药补给&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 維修&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Mühimmatı&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Aktif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_045">
-			<Original>Personal Respawn Beacon</Original>
-			<Chinesesimp>个人 FOB 重生选项</Chinesesimp>
-			<Chinese>個人 FOB 重生選項</Chinese>
-			<Turkish>Kişisel Yeniden Doğma Noktası</Turkish>
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Ammo&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Offline&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 弹药补给&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;离线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 維修&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;離線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Mühimmatı&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Pasif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_046">
 			<Original>Live feed off</Original>
@@ -4015,11 +4015,11 @@ _____________________________________________________________-->
 			<Chinese>你的支援者等級:</Chinese>
 			<Turkish>Destekçi Seviyeniz:</Turkish>
 		</Key>
-		<Key ID="STR_QS_Hints_056"><!--Cancel-->
-			<Original>Insignia not set</Original>
-			<Chinesesimp>徽章未设置</Chinesesimp>
-			<Chinese>徽章未設定</Chinese>
-			<Turkish>Insignia Ayarlanmadı</Turkish>
+		<Key ID="STR_QS_Hints_056">
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Fuel&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Online&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 燃料补给&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 燃料補給&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Yakıt&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Aktif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_057">
 			<Original>Cannot delete players</Original>
@@ -4046,10 +4046,10 @@ _____________________________________________________________-->
 			<Turkish>Konum</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_061">
-			<Original>&#91;Shift&#93;+&#91;F2&#93; to Exit spectator mode</Original>
-			<Chinesesimp>&#91;Shift&#93;+&#91;F2&#93;退出观察者视角</Chinesesimp>
-			<Chinese>&#91;Shift&#93;+&#91;F2&#93;退出觀察者視角</Chinese>
-			<Turkish>&#91;Shift&#93;+&#91;F2&#93; İzleyici Modundan Çık</Turkish>
+			<Original>&#91;Shift&#93;&#43;&#91;F2&#93; to Exit spectator mode</Original>
+			<Chinesesimp>&#91;Shift&#93;&#43;&#91;F2&#93;退出观察者视角</Chinesesimp>
+			<Chinese>&#91;Shift&#93;&#43;&#91;F2&#93;退出觀察者視角</Chinese>
+			<Turkish>&#91;Shift&#93;&#43;&#91;F2&#93; İzleyici Modundan Çık</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_062">
 			<Original>Invincibility on</Original>
@@ -4117,11 +4117,11 @@ _____________________________________________________________-->
 			<Chinese>&#40;%1&#41; 工作人員已執行 %2 清理</Chinese><!--Edit-->
 			<Turkish>&#40;%1&#41; %2 temizliğini çalıştırdı</Turkish>
 		</Key>
-		<Key ID="STR_QS_Hints_073"><!--Cancel-->
-			<Original>cleanup</Original>
-			<Chinesesimp>清理</Chinesesimp>
-			<Chinese>清理</Chinese>
-			<Turkish>Temizlemek</Turkish>
+		<Key ID="STR_QS_Hints_073">
+			<Original>&lt;t size="1" align="left"&gt;Vehicle &#45; Fuel&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Offline&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;载具功能 &#45; 燃料补给&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;离线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;載具功能 &#45; 燃料補給&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;離線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Araç &#45; Yakıt&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Pasif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_074">
 			<Original>Uniform Texture Set:%1&lt;br&#47;&gt;by %2</Original>
@@ -4153,17 +4153,17 @@ _____________________________________________________________-->
 			<Chinese>所需的支持者級別：%1 &lt;br&#47;&gt;您的支持級別：%2 &lt;br&#47;&gt;未設置統一紋理。:</Chinese><!--Edit-->
 			<Turkish>Bağışçı seviyesi gerekli:%1 Bağışçı seviyeniz:%2&lt;br&#47;&gt;Üniforma Dokusu ayarlanmadı.</Turkish>
 		</Key>
-		<Key ID="STR_QS_Hints_079"><!--Cancel-->
-			<Original>Your supporter level:</Original>
-			<Chinesesimp>您的支持者级别:</Chinesesimp>
-			<Chinese>您的支援者級別:</Chinese>
-			<Turkish>Destekçi Seviyeniz:</Turkish>
+		<Key ID="STR_QS_Hints_079">
+			<Original>&lt;t size="1" align="left"&gt;Personal Respawn Beacon&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Online&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;个人 FOB 重生选项&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;個人 FOB 重生選項&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;上線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Kişisel Yeniden Doğma&lt;&#47;t&gt;&lt;t color="#008000" size="1" align="right"&gt;Aktif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
-		<Key ID="STR_QS_Hints_080"><!--Cancel-->
-			<Original>Uniform Texture not set.</Original>
-			<Chinesesimp>制服皮肤未设定</Chinesesimp>
-			<Chinese>制服外觀未設定</Chinese>
-			<Turkish>Tek Tip Doku Ayarlanmamış.</Turkish>
+		<Key ID="STR_QS_Hints_080">
+			<Original>&lt;t size="1" align="left"&gt;Personal Respawn Beacon&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Offline&lt;&#47;t&gt;&lt;br&#47;&gt;</Original>
+			<Chinesesimp>&lt;t size="1" align="left"&gt;个人 FOB 重生选项&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;离线&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinesesimp>
+			<Chinese>&lt;t size="1" align="left"&gt;個人 FOB 重生選項&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;離線&lt;&#47;t&gt;&lt;br&#47;&gt;</Chinese>
+			<Turkish>&lt;t size="1" align="left"&gt;Kişisel Yeniden Doğma&lt;&#47;t&gt;&lt;t color="#ff0000" size="1" align="right"&gt;Pasif&lt;&#47;t&gt;&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_081">
 			<Original>Vehicle texture reset, you can now texture a different vehicle. You must first reset that vehicle before texturing another!</Original>
@@ -4527,15 +4527,15 @@ _____________________________________________________________-->
 		</Key>
 		<Key ID="STR_QS_Hints_141">
 			<Original>P.O.W. Rescue Mission Statistics:&lt;br&#47;&gt;Attempts:%2&lt;br&#47;&gt;Successful Completions:%1&lt;br&#47;&gt;Success Rate:&#37;%3</Original>
-			<Chinesesimp>战俘 救援任务统计：&lt;br&#47;&gt;尝试次数：%2&lt;br&#47;&gt;成功完成次数：%1&lt;br&#47;&gt;成功率：&lt;br&#47;&gt;%3</Chinesesimp><!--Edit-->
-			<Chinese>戰俘 救援任務統計：&lt;br&#47;&gt;嘗試次數：%2&lt;br&#47;&gt;成功完成次數：%1&lt;br&#47;&gt;成功率：&lt;br&#47;&gt;%3</Chinese><!--Edit-->
+			<Chinesesimp>战俘 救援任务统计：&lt;br&#47;&gt;尝试次数：%2&lt;br&#47;&gt;成功完成次数：%1&lt;br&#47;&gt;成功率：&lt;br&#47;&gt;&#37;%3</Chinesesimp><!--Edit-->
+			<Chinese>戰俘 救援任務統計：&lt;br&#47;&gt;嘗試次數：%2&lt;br&#47;&gt;成功完成次數：%1&lt;br&#47;&gt;成功率：&lt;br&#47;&gt;&#37;%3</Chinese><!--Edit-->
 			<Turkish>Esir Kurtarma Görevi İstatistikleri:&lt;br&#47;&gt;Denemeler:%2&lt;br&#47;&gt;Başarılı Tamamlamalar:%1&lt;br&#47;&gt;Başarı Oranı:&#37;%3</Turkish>
 		</Key>
-		<Key ID="STR_QS_Hints_142"><!--Cancel-->
-			<Original>Attempts:</Original>
-			<Chinesesimp>任务尝试</Chinesesimp>
-			<Chinese>任務嘗試</Chinese>
-			<Turkish>Denemeler:</Turkish>
+		<Key ID="STR_QS_Hints_142">
+			<Original>P.O.W. will bleed out in: %1</Original>
+			<Chinesesimp>战俘 将流血于：%1</Chinesesimp>
+			<Chinese>戰俘 將流血於：%1</Chinese>
+			<Turkish>Esir Kan Kaybından Ölecek: %1</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_143"><!--Cancel-->
 			<Original>Successful Completions:</Original>
@@ -4682,10 +4682,10 @@ _____________________________________________________________-->
 			<Turkish>Vinç &#40;Uzaktan Kumanda&#41;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_167">
-			<Original>Stand near either end of the rope and use &#91;page up&#93; + &#91;page down&#93; to operate the winch</Original>
+			<Original>Stand near either end of the rope and use &#91;page up&#93; &#43; &#91;page down&#93; to operate the winch</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Halatın Her Iki Ucunda Da Durun Ve Vinç Çalıştırmak Için &#91;Page Up&#93; + &#91;Page Down&#93; Kullanın</Turkish>
+			<Turkish>Halatın Her Iki Ucunda Da Durun Ve Vinç Çalıştırmak Için &#91;Page Up&#93; &#43; &#91;Page Down&#93; Kullanın</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_168">
 			<Original>Controls</Original>
@@ -4700,10 +4700,10 @@ _____________________________________________________________-->
 			<Turkish>Teşhis</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_170">
-			<Original>Repair</Original>
-			<Chinesesimp>待编辑</Chinesesimp>
-			<Chinese>待編輯</Chinese>
-			<Turkish>Tamirat</Turkish>
+			<Original>&lt;t align="center" size="1.1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;Repair&lt;&#47;t&gt;&lt;t align="right"&gt;%1&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;Fuel&lt;&#47;t&gt;&lt;t align="right"&gt;%2&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;Ammo&lt;&#47;t&gt;&lt;t align="right"&gt;%3&#37;&lt;&#47;t&gt;'</Original>
+			<Chinesesimp>&lt;t align="center" size="1.1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;待编辑&lt;&#47;t&gt;&lt;t align="right"&gt;%1&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;待编辑&lt;&#47;t&gt;&lt;t align="right"&gt;%2&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;待编辑&lt;&#47;t&gt;&lt;t align="right"&gt;%3&#37;&lt;&#47;t&gt;'</Chinesesimp>
+			<Chinese>&lt;t align="center" size="1.1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;待編輯&lt;&#47;t&gt;&lt;t align="right"&gt;%1&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;待編輯&lt;&#47;t&gt;&lt;t align="right"&gt;%2&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;待編輯&lt;&#47;t&gt;&lt;t align="right"&gt;%3&#37;&lt;&#47;t&gt;'</Chinese>
+			<Turkish>&lt;t align="center" size="1.1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;Tamir&lt;&#47;t&gt;&lt;t align="right"&gt;%1&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;Yakıt&lt;&#47;t&gt;&lt;t align="right"&gt;%2&#37;&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t align="left"&gt;Cephane&lt;&#47;t&gt;&lt;t align="right"&gt;%3&#37;&lt;&#47;t&gt;'</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_171">
 			<Original>Fuel</Original>
@@ -4811,13 +4811,301 @@ _____________________________________________________________-->
 			<Original>Services replenished</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Servisler Yenilendi</Turkish>
+			<Turkish>Bakım Tamamalandı</Turkish>
 		</Key>
 		<Key ID="STR_QS_Hints_189">
 			<Original>Admin Tools</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
 			<Turkish>Yönetici Araçları</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_190">
+			<Original>Uho! It appears something has gone wrong. Please report this error code to staff:&lt;br&#47;&gt;&lt;br&#47;&gt;191&lt;br&#47;&gt;&lt;br&#47;&gt;Thank you for your assistance.</Original>
+			<Chinesesimp>呃！ 似乎出了什么问题。 请向工作人员报告此错误代码：&lt;br&#47;&gt;&lt;br&#47;&gt;191&lt;br&#47;&gt;&lt;br&#47;&gt; 谢谢您的帮助。</Chinesesimp><!--Edit-->
+			<Chinese>呃！ 似乎出了什麼問題。 請向工作人員報告此錯誤代碼：&lt;br&#47;&gt;&lt;br&#47;&gt;191&lt;br&#47;&gt;&lt;br&#47;&gt; 謝謝您的幫助。</Chinese><!--Edit-->
+			<Turkish>Uff! Görünüşe göre bir şeyler ters gitti. Lütfen bu hata kodunu yetkiliye bildirin:&lt;br&#47;&gt;&lt;br&#47;&gt;191&lt;br&#47;&gt;&lt;br&#47;&gt;Yardımınız için teşekkürler.</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_191">
+			<Original>Server must be Dedicated</Original>
+			<Chinesesimp>Server must be Dedicated</Chinesesimp>
+			<Chinese>Server must be Dedicated</Chinese>
+			<Turkish>Sunucu Dedicated Olmalıdır</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_192">
+			<Original>Server must be running 64-bit</Original>
+			<Chinesesimp>Server must be running 64-bit</Chinesesimp>
+			<Chinese>Server must be running 64-bit</Chinese>
+			<Turkish>Sunucu 64 bit çalışıyor olmalıdır</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_193">
+			<Original>-filePatching must be enabled in Server launch options</Original>
+			<Chinesesimp>-filePatching must be enabled in Server launch options</Chinesesimp>
+			<Chinese>-filePatching must be enabled in Server launch options</Chinese>
+			<Turkish>-filePatching, Sunucu başlatma seçeneklerinde etkinleştirilmelidir</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_194">
+			<Original>Invalid mission difficulties, view server RPT log file for more details</Original>
+			<Chinesesimp>Invalid mission difficulties, view server RPT log file for more details</Chinesesimp>
+			<Chinese>Invalid mission difficulties, view server RPT log file for more details</Chinese>
+			<Turkish>Geçersiz görev zorluk ayarı, daha fazla ayrıntı için sunucu RPT günlük dosyasını görüntüleyin</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_195">
+			<Original>Apex Framework servermod @Apex must be active</Original>
+			<Chinesesimp>Apex Framework servermod @Apex must be active</Chinesesimp>
+			<Chinese>Apex Framework servermod @Apex must be active</Chinese>
+			<Turkish>Apex Framework servermod @Apex aktif olmalıdır</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_196">
+			<Original>Apex Framework config files missing: @Apex_cfg</Original>
+			<Chinesesimp>Apex Framework config files missing: @Apex_cfg</Chinesesimp>
+			<Chinese>Apex Framework config files missing: @Apex_cfg</Chinese>
+			<Turkish>Apex Framework yapılandırma dosyaları @Apex_cfg eksik</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_197">
+			<Original>&lt;t align='center'&gt;&lt;t size='2.2'&gt;Side Mission&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size='1.5' color='#b60000'&gt;FAILED&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&#47;&gt;You'll have to do better than that next time!&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Focus on the main objective for now; we'll relay the bad news to HQ, with some luck we'll have another objective lined up. We'll get back to you in 15 - 30 minutes.&lt;&#47;t&gt;</Original>
+			<Chinesesimp>&lt;t align='center'&gt;&lt;t size='2.2'&gt;Side Mission&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size='1.5' color='#b60000'&gt;FAILED&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&#47;&gt;You'll have to do better than that next time!&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Focus on the main objective for now; we'll relay the bad news to HQ, with some luck we'll have another objective lined up. We'll get back to you in 15 - 30 minutes.&lt;&#47;t&gt;</Chinesesimp>
+			<Chinese>&lt;t align='center'&gt;&lt;t size='2.2'&gt;Side Mission&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size='1.5' color='#b60000'&gt;FAILED&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&#47;&gt;You'll have to do better than that next time!&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Focus on the main objective for now; we'll relay the bad news to HQ, with some luck we'll have another objective lined up. We'll get back to you in 15 - 30 minutes.&lt;&#47;t&gt;</Chinese>
+			<Turkish>&lt;t align='center'&gt;&lt;t size='2.2'&gt;Yan Görev&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size='1.5' color='#b60000'&gt;BAŞARISIZ&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&#47;&gt;Bir dahaki sefere bundan daha iyisini yapmalısın!&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Şimdilik ana hedefe odaklanın, kötü haberi genel merkeze ileteceğiz, biraz şansımız varsa başka bir hedefimiz olacak. 15 ila 30 dakika içinde size geri döneceğiz.&lt;&#47;t&gt;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_198">
+			<Original>an AH-9 Pawnee &#40;&#43; flares&#41;</Original>
+			<Chinesesimp>an AH-9 Pawnee &#40;&#43; flares&#41;</Chinesesimp>
+			<Chinese>an AH-9 Pawnee &#40;&#43; flares&#41;</Chinese>
+			<Turkish>AH-9 Pawnee &#40;&#43; flares&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_199">
+			<Original>an AH-99 Blackfoot</Original>
+			<Chinesesimp>an AH-99 Blackfoot</Chinesesimp>
+			<Chinese>an AH-99 Blackfoot</Chinese>
+			<Turkish>AH-99 Blackfoot</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_200">
+			<Original>an Mi-48 Kajman</Original>
+			<Chinesesimp>an Mi-48 Kajman</Chinesesimp>
+			<Chinese>an Mi-48 Kajman</Chinese>
+			<Turkish>Mi-48 Kajman</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_201">
+			<Original>a PO-30 Orca</Original>
+			<Chinesesimp>a PO-30 Orca</Chinesesimp>
+			<Chinese>a PO-30 Orca</Chinese>
+			<Turkish>PO-30 Orca</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_202">
+			<Original>a WY-55 Hellcat</Original>
+			<Chinesesimp>a WY-55 Hellcat</Chinesesimp>
+			<Chinese>a WY-55 Hellcat</Chinese>
+			<Turkish>WY-55 Hellcat</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_203">
+			<Original>an MH-9 &#40;&#43; flares&#41;</Original>
+			<Chinesesimp>an MH-9 &#40;&#43; flares&#41;</Chinesesimp>
+			<Chinese>an MH-9 &#40;&#43; flares&#41;</Chinese>
+			<Turkish>MH-9 &#40;&#43; flares&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_204">
+			<Original>an Ifrit GMG</Original>
+			<Chinesesimp>an Ifrit GMG</Chinesesimp>
+			<Chinese>an Ifrit GMG</Chinese>
+			<Turkish>Ifrit GMG</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_205">
+			<Original>a&#40;n&#41; Strider GMG</Original>
+			<Chinesesimp>a&#40;n&#41; Strider GMG</Chinesesimp>
+			<Chinese>a&#40;n&#41; Strider GMG</Chinese>
+			<Turkish>Strider GMG</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_206">
+			<Original>a&#40;n&#41; MBT-52 Kuma</Original>
+			<Chinesesimp>a&#40;n&#41; MBT-52 Kuma</Chinesesimp>
+			<Chinese>a&#40;n&#41; MBT-52 Kuma</Chinese>
+			<Turkish>MBT-52 Kuma</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_207">
+			<Original>a&#40;n&#41; BTR-K Kamysh</Original>
+			<Chinesesimp>a&#40;n&#41; BTR-K Kamysh</Chinesesimp>
+			<Chinese>a&#40;n&#41; BTR-K Kamysh</Chinese>
+			<Turkish>BTR-K Kamysh</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_208">
+			<Original>a&#40;n&#41; AFV-4 Gorgon</Original>
+			<Chinesesimp>a&#40;n&#41; AFV-4 Gorgon</Chinesesimp>
+			<Chinese>a&#40;n&#41; AFV-4 Gorgon</Chinese>
+			<Turkish>AFV-4 Gorgon</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_209">
+			<Original>a&#40;n&#41; MSE-3 Marid</Original>
+			<Chinesesimp>a&#40;n&#41; MSE-3 Marid</Chinesesimp>
+			<Chinese>a&#40;n&#41; MSE-3 Marid</Chinese>
+			<Turkish>MSE-3 Marid</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_210">
+			<Original>a&#40;n&#41; IFV-6a Cheetah</Original>
+			<Chinesesimp>a&#40;n&#41; IFV-6a Cheetah</Chinesesimp>
+			<Chinese>a&#40;n&#41; IFV-6a Cheetah</Chinese>
+			<Turkish>IFV-6a Cheetah</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_211">
+			<Original>Mortar Truck</Original>
+			<Chinesesimp>Mortar Truck</Chinesesimp>
+			<Chinese>Mortar Truck</Chinese>
+			<Turkish>Havan Kamyonu</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_212">
+			<Original>HEMTT Bush Pig</Original>
+			<Chinesesimp>HEMTT Bush Pig</Chinesesimp>
+			<Chinese>HEMTT Bush Pig</Chinese>
+			<Turkish>HEMTT Kum Torbası</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_213">
+			<Original>Mortar Boat</Original>
+			<Chinesesimp>Mortar Boat</Chinesesimp>
+			<Chinese>Mortar Boat</Chinese>
+			<Turkish>Havan Botu</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_214">
+			<Original>Recon Quad Bikes &#40;x2&#41;</Original>
+			<Chinesesimp>Recon Quad Bikes &#40;x2&#41;</Chinesesimp>
+			<Chinese>Recon Quad Bikes &#40;x2&#41;</Chinese>
+			<Turkish>Keşif ATV &#40;x2&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_215">
+			<Original>Recon Quad</Original>
+			<Chinesesimp>Recon Quad</Chinesesimp>
+			<Chinese>Recon Quad</Chinese>
+			<Turkish>Keşif ATV</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_216">
+			<Original>a&#40;n&#41; Recon Utility Vehicle &#40;Armed&#41;</Original>
+			<Chinesesimp>a&#40;n&#41; Recon Utility Vehicle &#40;Armed&#41;</Chinesesimp>
+			<Chinese>a&#40;n&#41; Recon Utility Vehicle &#40;Armed&#41;</Chinese>
+			<Turkish>Keşif Hizmet Aracı &#40;Silahlı&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_217">
+			<Original>Recon Utility Vehicle</Original>
+			<Chinesesimp>Recon Utility Vehicle</Chinesesimp>
+			<Chinese>Recon Utility Vehicle</Chinese>
+			<Turkish>Keşif Hizmet Aracı</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_218">
+			<Original>a&#40;n&#41; Qilin &#40;Armed&#41;</Original>
+			<Chinesesimp>a&#40;n&#41; Qilin &#40;Armed&#41;</Chinesesimp>
+			<Chinese>a&#40;n&#41; Qilin &#40;Armed&#41;</Chinese>
+			<Turkish>Qilin &#40;Silahli&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_219">
+			<Original>a&#40;n&#41; Y-32 Xian &#40;Infantry Transport&#41;</Original>
+			<Chinesesimp>a&#40;n&#41; Y-32 Xian &#40;Infantry Transport&#41;</Chinesesimp>
+			<Chinese>a&#40;n&#41; Y-32 Xian &#40;Infantry Transport&#41;</Chinese>
+			<Turkish>Y-32 Xian &#40;Piyade Nakli&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_220">
+			<Original>a&#40;n&#41; V-44 X Blackfish &#40;Armed&#41;</Original>
+			<Chinesesimp>a&#40;n&#41; V-44 X Blackfish &#40;Armed&#41;</Chinesesimp>
+			<Chinese>a&#40;n&#41; V-44 X Blackfish &#40;Armed&#41;</Chinese>
+			<Turkish>V-44 X Blackfish &#40;Silahlı&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_221">
+			<Original>a&#40;n&#41; MB 4WD Stalker</Original>
+			<Chinesesimp>a&#40;n&#41; MB 4WD Stalker</Chinesesimp>
+			<Chinese>a&#40;n&#41; MB 4WD Stalker</Chinese>
+			<Turkish>MB 4WD Avcı</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_222">
+			<Original>MB 4WD Stalker</Original>
+			<Chinesesimp>MB 4WD Stalker</Chinesesimp>
+			<Chinese>MB 4WD Stalker</Chinese>
+			<Turkish>MB 4WD Avcı</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_223">
+			<Original>Q-51 Mosquito</Original>
+			<Chinesesimp>Q-51 Mosquito</Chinesesimp>
+			<Chinese>Q-51 Mosquito</Chinese>
+			<Turkish>Q-51 Sivrisinek</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_224">
+			<Original>a&#40;n&#41; AH-9 Pawnee X</Original>
+			<Chinesesimp>a&#40;n&#41; AH-9 Pawnee X</Chinesesimp>
+			<Chinese>a&#40;n&#41; AH-9 Pawnee X</Chinese>
+			<Turkish>AH-9 Pawnee X</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_225">
+			<Original>a&#40;n&#41; WY-55 Hellcat X</Original>
+			<Chinesesimp>a&#40;n&#41; WY-55 Hellcat X</Chinesesimp>
+			<Chinese>a&#40;n&#41; WY-55 Hellcat X</Chinese>
+			<Turkish>WY-55 Hellcat X</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_226">
+			<Original>a&#40;n&#41; PO-30 Orca X</Original>
+			<Chinesesimp>a&#40;n&#41; PO-30 Orca X</Chinesesimp>
+			<Chinese>a&#40;n&#41; PO-30 Orca X</Chinese>
+			<Turkish>PO-30 Orca X</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_227">
+			<Original>a&#40;n&#41; Shitty Technical</Original>
+			<Chinesesimp>a&#40;n&#41; Shitty Technical</Chinesesimp>
+			<Chinese>a&#40;n&#41; Shitty Technical</Chinese>
+			<Turkish>Silahlı Minibüs</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_228">
+			<Original>Shitty Technical &#40;GMG&#41;</Original>
+			<Chinesesimp>Shitty Technical &#40;GMG&#41;</Chinesesimp>
+			<Chinese>Shitty Technical &#40;GMG&#41;</Chinese>
+			<Turkish>Silahlı Minibüs &#40;GMG&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_229">
+			<Original>CAS Rules of Engagement</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>Yakın Hava Desteği Pilot Kuralları</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_230">
+			<Original>0. CAS must be called in by ground elements &#40;infantry who are near the target&#41;.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>0. Yakın Hava Desteği, yer unsurları tarafından çağrılmalıdır &#40;hedefe yakın olan piyade&#41;.</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_231">
+			<Original>1. CAS call-ins must be typed into Side Channel with a specific position or target, no exceptions.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>1. Yakın Hava Desteği çağrıları, istisnasız, belirli bir pozisyon veya hedefle Yan Kanala yazılmalıdır..</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_232">
+			<Original>2. CAS may freely engage these targets without ground coordination: Fixed-wing Aircraft.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>2. Yakın Hava Desteği, yer unsurları yoksa bu hedefleri serbestçe angaje edebilir: Sabit kanatlı Uçak.</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_233">
+			<Original>3. Do not engage any objectives and/or enemies without being called in on that specific target &#40;See rule 1&#41;.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>3. Belirli hedefe çağrılmadan herhangi bir hedef ve/veya düşmanla çatışmayın &#40;Kural 1e bakın&#41;.</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_234">
+			<Original>4. Do not ram targets and/or objectives.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>4. Hedeflere ve/veya objelere çarpmayın.</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_235">
+			<Original>5. Do not fly near &#40;1km&#41; marked objectives unless necessary to complete a specific mission.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>5. Belirli bir görevi tamamlamak için gerekmedikçe &#40;1 km&#41; işaretli hedeflerin yakınına uçmayın.</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_236">
+			<Original>6. Must be on Teamspeak, in Pilot channel and communicable.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>6. Teamspeak te, Pilot kanalında ve iletişimde olmalıdır.</Turkish>
+		</Key>
+		<Key ID="STR_QS_Hints_237">
+			<Original>Failure to comply may result in administrative action without warning, up to and including permanent removal from CAS whitelist.</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待編輯</Chinese>
+			<Turkish>Riayet edilmemesi, Yakın Hava Desteği Pilot beyaz listesinden kalıcı olarak kaldırılmasına kadar uyarı yapılmadan idari işlem yapılmasına neden olabilir.</Turkish>
 		</Key>
 	</Container>
 	<Container name="QS_xml_chatMessages">
@@ -4840,19 +5128,19 @@ _____________________________________________________________-->
 			<Turkish>Düşman Topçu Mermileri Geliyor! Hemen Siper Arayın!</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_004">
-			<Original>The Artillery team's firing, boys! Down on the ground!</Original>
+			<Original>The Artillery teams firing, boys! Down on the ground!</Original>
 			<Chinesesimp>敌军155mm火炮阵地正在开火，散开！</Chinesesimp>
 			<Chinese>敵軍155mm火炮陣地正在開火，散開！</Chinese>
 			<Turkish>Topçu Timi Ateş Ediyor! Yere yatın!</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_005">
-			<Original>Get that damned Artillery team down, they're firing right now! Seek cover!</Original>
+			<Original>Get that damned Artillery team down, theyre firing right now! Seek cover!</Original>
 			<Chinesesimp>快去把该死的火炮阵地干掉，敌军155mm火炮来袭！</Chinesesimp>
 			<Chinese>快去把該死的火炮陣地幹掉，敵軍155mm火炮來襲！</Chinese>
 			<Turkish>Şu Baş Belası Topçu Takımını Indirin, Yine Ateş Ediyorlar! Siper Arayın!</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_006">
-			<Original>They're zeroing in! Incoming Artillery fire, heads down!</Original>
+			<Original>Theyre zeroing in! Incoming Artillery fire, heads down!</Original>
 			<Chinesesimp>敌军自行火炮瞄准我们了！快趴下</Chinesesimp>
 			<Chinese>敵軍自行火炮瞄準我們了！快趴下</Chinese>
 			<Turkish>Topçu Sıfırlma Atışı Yapıyorlar!. Başlar Aşağı!</Turkish>
@@ -5266,7 +5554,7 @@ _____________________________________________________________-->
 			<Turkish>Hedef Kaçtı &#40;Görev Başarısız Oldu&#41;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_075">
-			<Original>Intel received. Mission accomplished! We're sending the data up to HQ for analysis.</Original>
+			<Original>Intel received. Mission accomplished! Were sending the data up to HQ for analysis.</Original>
 			<Chinesesimp>情报已获取。 任务完成！ 我们正在将情报上传至指挥部进行分析。</Chinesesimp>
 			<Chinese>情報已獲取。 任務完成！ 我們正在將情報上傳至指揮部進行分析。</Chinese>
 			<Turkish>İstihbarat Alındı. Görev Tamamlandı! Verileri Analiz Için Karargaha Gönderiyoruz.</Turkish>
@@ -5371,7 +5659,7 @@ _____________________________________________________________-->
 			<Original>%1 has respawned a&#40;n&#41; %2 at grid %3</Original>
 			<Chinesesimp>%1 在坐标 %3 将一个 %2 重生了</Chinesesimp>
 			<Chinese>%1 在坐標 %3 將一個 %2 重生了</Chinese>
-			<Turkish>%1, %2 aracını yeniden çıkardı. Konum: %3</Turkish>
+			<Turkish>%1, %2 aracını geri gönderdi. Konum: %3</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_094">
 			<Original>%1 has captured a unit at grid %2</Original>
@@ -5755,7 +6043,7 @@ _____________________________________________________________-->
 			<Original>CSAT has destroyed the crates!</Original>
 			<Chinesesimp>敌方摧毁了设备箱！</Chinesesimp>
 			<Chinese>敵方摧毀了裝置箱！</Chinese>
-			<Turkish>Düşmaan Sandıkları Yok Etti!</Turkish>
+			<Turkish>Düşman Sandıkları Yok Etti!</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_158">
 			<Original>%1 killed a civilian!</Original>
@@ -5812,10 +6100,10 @@ _____________________________________________________________-->
 			<Turkish>%1 Ekledi  %2  %3 Ile Konum: %4</Turkish><!--Bakılacak-->
 		</Key>
 		<Key ID="STR_QS_Chat_167">
-			<Original>Cannot build this here &#40;proximity to safezone or no-build zone&#41; - &#40;%2/%3&#41;</Original>
+			<Original>Cannot build this here &#40;proximity to safezone or no-build zone&#41; &#45; &#40;%2/%3&#41;</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Burada Inşa Edilemez &#40;Güvenli Alana Çok Yakın Veya Inşa Edilmeyen Bölgede&#41; - &#40;%2/%3&#41;</Turkish>
+			<Turkish>Burada Inşa Edilemez &#40;Güvenli Alana Çok Yakın Veya Inşa Edilmeyen Bölgede&#41; &#45; &#40;%2/%3&#41;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_168">
 			<Original>Disabled</Original>
@@ -5875,7 +6163,7 @@ _____________________________________________________________-->
 			<Original>Air defense activated!</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Hava Savunma Aktif Ediliyor!</Turkish>
+			<Turkish>Hava Savunma Aktif!</Turkish>
 		</Key>
 		<Key ID="STR_QS_Chat_178"><!--Edit-->
 			<Original>Air defense offline</Original>
@@ -6879,8 +7167,8 @@ _____________________________________________________________-->
 		</Key>
 		<Key ID="STR_QS_Task_006">
 			<Original>&lt;t align='center' size='2.2'&gt;Target Taken&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size='1.5' align='center' color='#FFCF11'&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&#47;&gt;&lt;t align='left'&gt;Fantastic job taking %1, boys!&lt;br&#47;&gt;&lt;br&#47;&gt;Enemies imprisoned: %2&lt;&#47;t&gt;</Original>
-			<Chinesesimp>&lt;t align='center' size='2.2'>目标拍摄&lt;&#47;t&gt;&lt;br&gt;&lt;t size='1.5' align='center' color='#FFCF11 '&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&gt;&lt;t align='left'&gt;干得漂亮 %1，伙计们！&lt;br&gt; 47;&gt;&lt;br&#47;&gt;被囚禁的敌人：%2&lt;&#47;t&gt;</Chinesesimp><!--Edit-->
-			<Chinese>&lt;t align='center' size='2.2'>目標拍攝&lt;&#47;t&gt;&lt;br&gt;&lt;t size='1.5' align='center' color='#FFCF11 '&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&gt;&lt;t align='left'&gt;幹得漂亮 %1，伙計們！&lt;br&gt; 47;&gt;&lt;br&#47;&gt;被囚禁的敵人：%2&lt;&#47;t&gt;</Chinese><!--Edit-->
+			<Chinesesimp>&lt;t align='center' size='2.2';&gt;目标拍摄&lt;&#47;t&gt;&lt;br&gt;&lt;t size='1.5' align='center' color='#FFCF11 '&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&gt;&lt;t align='left'&gt;干得漂亮 %1，伙计们！&lt;br&gt; 47;&gt;&lt;br&#47;&gt;被囚禁的敌人：%2&lt;&#47;t&gt;</Chinesesimp><!--Edit-->
+			<Chinese>&lt;t align='center' size='2.2';&gt;目標拍攝&lt;&#47;t&gt;&lt;br&gt;&lt;t size='1.5' align='center' color='#FFCF11 '&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&gt;&lt;t align='left'&gt;幹得漂亮 %1，伙計們！&lt;br&gt; 47;&gt;&lt;br&#47;&gt;被囚禁的敵人：%2&lt;&#47;t&gt;</Chinese><!--Edit-->
 			<Turkish>&lt;t align='center' size='2.2'&gt;Görev Başarılı&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size='1.5' align='center' color='#FFCF11'&gt;%1&lt;&#47;t&gt;&lt;br&#47;&gt;____________________&lt;br&#47;&gt;&lt;t align='left'&gt;%1 temizleyerek harika iş çıkardınız beyler!&lt;br&#47;&gt;&lt;br&#47;&gt;Hapsedilen düşmanlar: %2&lt;&#47;t&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_007"><!--Cancel-->
@@ -6944,10 +7232,10 @@ _____________________________________________________________-->
 			<Turkish>IDAP Malzemeleri</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_017">
-			<Original>&lt;br&#47;&gt;- Investigate scene&lt;br&#47;&gt;- Recover any medical supplies&lt;br&#47;&gt;- Recover any casualties&lt;br&#47;&gt;- Bring to IDAP field hospital before timer runs out.&lt;br&#47;&gt;&lt;br&#47;&gt;An IDAP cargo truck carrying vital medical equipment failed to reach its destination. Get over there and see what you can do.&lt;br&#47;&gt;&lt;br&#47;&gt;It would be helpful to have a vehicle to help carry cargo.</Original>
-			<Chinesesimp>&lt;br&#47;&gt;- 调查现场&lt;br&#47;&gt;- 回收任何医疗用品&lt;br&#47;&gt;- 回收所有伤亡人员&lt;br&#47;&gt;- 在计时器用完之前将其带到 IDAP 野战医院。&lt;br&#47;&gt;&lt;br&#47;&gt;IDAP 货物 载有重要医疗设备的卡车未能到达目的地。 到那儿看看你能做什么。&lt;br&#47;&gt;&lt;br&#47;&gt;如果有一辆载货车会很有帮助。</Chinesesimp><!--Edit-->
-			<Chinese>&lt;br&#47;&gt;- 調查現場&lt;br&#47;&gt;- 回收任何醫療用品&lt;br&#47;&gt;- 回收所有傷亡人員&lt;br&#47;&gt;- 在計時器用完之前將其帶到 IDAP 野戰醫院。&lt;br&#47;&gt;&lt;br&#47;&gt;IDAP 貨物 載有重要醫療設備的卡車未能到達目的地。 到那兒看看你能做什麼。&lt;br&#47;&gt;&lt;br&#47;&gt;如果有一輛載貨車會很有幫助。</Chinese><!--Edit-->
-			<Turkish>&lt;br&#47;&gt;- Olayı araştırın&lt;br&#47;&gt;- Tıbbi Malzemeleri Kurtarın&lt;br&#47;&gt;- Herhangi bir yaralıyı kurtarın&lt;br&#47;&gt;- Zaman bitmeden IDAP sıhhiye çadırına getirin.&lt;br&#47;&gt;&lt;br&#47;&gt;Hayati önem taşıyan tıbbi ekipman taşıyan bir IDAP kargo kamyonu hedefine ulaşamadı. Oraya git ve ne yapabileceğine bir bak.&lt;br&#47;&gt;&lt;br&#47;&gt;Kargo taşımaya yardımcı olacak bir araca sahip olmak faydalı olacaktır.</Turkish>
+			<Original>&lt;br&#47;&gt;&#45; Investigate scene&lt;br&#47;&gt;&#45; Recover any medical supplies&lt;br&#47;&gt;&#45; Recover any casualties&lt;br&#47;&gt;&#45; Bring to IDAP field hospital before timer runs out.&lt;br&#47;&gt;&lt;br&#47;&gt;An IDAP cargo truck carrying vital medical equipment failed to reach its destination. Get over there and see what you can do.&lt;br&#47;&gt;&lt;br&#47;&gt;It would be helpful to have a vehicle to help carry cargo.</Original>
+			<Chinesesimp>&lt;br&#47;&gt;&#45; 调查现场&lt;br&#47;&gt;&#45; 回收任何医疗用品&lt;br&#47;&gt;&#45; 回收所有伤亡人员&lt;br&#47;&gt;&#45; 在计时器用完之前将其带到 IDAP 野战医院。&lt;br&#47;&gt;&lt;br&#47;&gt;IDAP 货物 载有重要医疗设备的卡车未能到达目的地。 到那儿看看你能做什么。&lt;br&#47;&gt;&lt;br&#47;&gt;如果有一辆载货车会很有帮助。</Chinesesimp><!--Edit-->
+			<Chinese>&lt;br&#47;&gt;&#45; 調查現場&lt;br&#47;&gt;&#45; 回收任何醫療用品&lt;br&#47;&gt;&#45; 回收所有傷亡人員&lt;br&#47;&gt;&#45; 在計時器用完之前將其帶到 IDAP 野戰醫院。&lt;br&#47;&gt;&lt;br&#47;&gt;IDAP 貨物 載有重要醫療設備的卡車未能到達目的地。 到那兒看看你能做什麼。&lt;br&#47;&gt;&lt;br&#47;&gt;如果有一輛載貨車會很有幫助。</Chinese><!--Edit-->
+			<Turkish>&lt;br&#47;&gt;&#45; Olayı araştırın&lt;br&#47;&gt;&#45; Tıbbi Malzemeleri Kurtarın&lt;br&#47;&gt;&#45; Herhangi bir yaralıyı kurtarın&lt;br&#47;&gt;&#45; Zaman bitmeden IDAP sıhhiye çadırına getirin.&lt;br&#47;&gt;&lt;br&#47;&gt;Hayati önem taşıyan tıbbi ekipman taşıyan bir IDAP kargo kamyonu hedefine ulaşamadı. Oraya git ve ne yapabileceğine bir bak.&lt;br&#47;&gt;&lt;br&#47;&gt;Kargo taşımaya yardımcı olacak bir araca sahip olmak faydalı olacaktır.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_018"><!--Cancel-->
 			<Original>Recover any medical supplies</Original>
@@ -6995,13 +7283,13 @@ _____________________________________________________________-->
 			<Original>Move in, neutralize him and secure the intel.</Original>
 			<Chinesesimp>突入，消灭HVT并获取情报。</Chinesesimp>
 			<Chinese>突入，消滅HVT並獲取情報。</Chinese>
-			<Turkish>İçeri Girin, Onu Nötralize Edin Ve Intel'i Güvence Altına Alın.</Turkish>
+			<Turkish>İçeri Girin, Onu Nötralize Edin Ve Inteli Güvence Altına Alın.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_026"><!--Cancel-->
 			<Original>This mission must be executed carefully and with speed. If he detects our presence in the area he will attempt to destroy the intel. Also, the intel device he has operates with biometric authorization. If his heart stops, it will self-destruct after a short time.</Original>
 			<Chinesesimp>这个任务必须执行的精准又迅速。 如果HVT发现我们接近，他会试图摧毁情报。 此外，情报装置具有生物识别模块，HVT死亡后情报装置会在短时间内自毁。</Chinesesimp>
 			<Chinese>這個任務必須執行的精準又迅速。 如果HVT發現我們接近，他會試圖摧毀情報。 此外，情報裝置具有生物識別模組，HVT死亡後情報裝置會在短時間內自毀。</Chinese>
-			<Turkish>Bu Görev Dikkatli Ve Hızla Yürütülmelidir. Bölgedeki Varlığımızı Tespit Ederse, Intel'i Yok Etmeye Çalışacaktır. Ayrıca, Biyometrik Yetkilendirme Ile Çalıştığı Intel Cihaz. Eğer Kalbi Durur, Kısa Bir Süre Sonra Kendi Kendini Yok Eder.</Turkish>
+			<Turkish>Bu Görev Dikkatli Ve Hızla Yürütülmelidir. Bölgedeki Varlığımızı Tespit Ederse, Inteli Yok Etmeye Çalışacaktır. Ayrıca, Biyometrik Yetkilendirme Ile Çalıştığı Intel Cihaz. Eğer Kalbi Durur, Kısa Bir Süre Sonra Kendi Kendini Yok Eder.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_027">
 			<Original>&lt;br&#47;&gt;&lt;br&#47;&gt;Satellite data appears to show he has a security detail with him.</Original>
@@ -7034,10 +7322,10 @@ _____________________________________________________________-->
 			<Turkish>GPS Karistirici</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_032">
-			<Original>Objectives&lt;br&#47;&gt;&lt;br&#47;&gt;- &#40;Optional&#41; No civilian casualties.&lt;br&#47;&gt;&lt;br&#47;&gt;- &#40;Required&#41; Convert required number of grid squares to green.&lt;br&#47;&gt;&lt;br&#47;&gt;- &#40;Required&#41; Destroy enemy respawn tunnel entrances.&lt;br&#47;&gt;</Original>
+			<Original>Objectives&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#40;Optional&#41; No civilian casualties.&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#40;Required&#41; Convert required number of grid squares to green.&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#40;Required&#41; Destroy enemy respawn tunnel entrances.&lt;br&#47;&gt;</Original>
 			<Chinesesimp>目標&lt;br&gt;&lt;br&gt;-“可選” 沒有平民傷亡。&lt;br&#47;&gt;&lt;br&gt;-“必需” 將所需數量的網格方塊轉換為綠色。 摧毀敵人的重生隧道入口。&lt;br&gt;</Chinesesimp><!--Edit-->
 			<Chinese>目標&lt;br&gt;&lt;br&gt;-“可選” 沒有平民傷亡。&lt;br&#47;&gt;&lt;br&gt;-“必需” 將所需數量的網格方塊轉換為綠色。 摧毀敵人的重生隧道入口。&lt;br&gt;</Chinese><!--Edit-->
-			<Turkish>Hedefler&lt;br&#47;&gt;&lt;br&#47;&gt;- &#40;Opsiyonel&#41; Sivil zayiat yok.&lt;br&#47;&gt;&lt;br&#47;&gt;- &#40;Gerekli&#41; Gerekli sayıda konum karesini yeşile dönüştürün.&lt;br&#47;&gt;&lt;br&#47;&gt;- &#40;Gerekli&#41; Düşmanın yeniden doğma tüneli girişlerini yok edin.&lt;br&#47;&gt;</Turkish>
+			<Turkish>Hedefler&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#40;Opsiyonel&#41; Sivil zayiat yok.&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#40;Gerekli&#41; Gerekli sayıda konum karesini yeşile dönüştürün.&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#40;Gerekli&#41; Düşmanın yeniden doğma tüneli girişlerini yok edin.&lt;br&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_033"><!--Cancel-->
 			<Original>&#40;Optional&#41; No civilian casualties.</Original>
@@ -7095,14 +7383,14 @@ _____________________________________________________________-->
 		</Key>
 		<Key ID="STR_QS_Task_042">
 			<Original>A CSAT armored vehicle carrying sensitive strategic intel was ambushed by a surprise Syndikat offensive in Kavala. While the intel it was transporting is classified above our clearance, recovery of it has been designated as a priority mission by CENTCOM.&lt;br&#47;&gt;&lt;br&#47;&gt;Locate the CSAT armored vehicle in Kavala, it will have a tracker we can utilize to locate a number of stolen tablets.&lt;br&#47;&gt;&lt;br&#47;&gt;The city is heavily occupied by Syndikat forces and reports advise they have significant AA capabilities. It is suggested to approach low from the south and move in on foot. Stay with your squad, and remember your urban warfare training.&lt;br&#47;&gt;&lt;br&#47;&gt;This objective is not accurately marked.&lt;br&#47;&gt;&lt;img size="3" image="%1"&#47;&gt;</Original>
-			<Chinesesimp>一辆载有敏感战略情报的 CSAT 装甲车在卡瓦拉遭到联合组织突袭的伏击。 虽然它运送的情报不在我们的权限范围内，但回收它已被中央司令部指定为优先任务。&lt;br&gt;&lt;br&gt;在卡瓦拉找到 CSAT 装甲车，它 将有一个追踪器，我们可以利用它来定位许多被盗的平板电脑。&lt;br&gt;&lt;br&gt;这座城市被 Syndikat 部队大量占领，报告称他们拥有强大的 AA 能力。 建议从南面低处靠近，步行进入。 和你的小队呆在一起，记住你的城市战训练。&lt;br&gt;&lt;br&gt;这个目标没有准确标记。&lt;br&gt;&lt;img size="3 " image="%1"&gt;</Chinesesimp><!--Edit-->
-			<Chinese>一輛載有敏感戰略情報的 CSAT 裝甲車在卡瓦拉遭到聯合組織突襲的伏擊。 雖然它所運輸的情報屬於我們的權限範圍之外，但中央司令部已將回收它指定為優先任務。&lt;br&gt;&lt;br&gt;在卡瓦拉找到 CSAT 裝甲車，它 將有一個跟踪器，我們可以利用它來定位許多被盜的平板電腦。&lt;br&gt;&lt;br&gt;這座城市被 Syndikat 部隊大量佔領，報告稱他們擁有強大的 AA 能力。 建議從南面低處靠近，步行進入。 和你的小隊呆在一起，記住你的城市戰訓練。&lt;br&gt;&lt;br&gt;這個目標沒有準確標記。&lt;br&gt;&lt;img size="3 " image="%1"&gt;</Chinese><!--Edit-->
+			<Chinesesimp>一辆载有敏感战略情报的 CSAT 装甲车在卡瓦拉遭到联合组织突袭的伏击。 虽然它运送的情报不在我们的权限范围内，但回收它已被中央司令部指定为优先任务。&lt;br&gt;&lt;br&gt;在卡瓦拉找到 CSAT 装甲车，它 将有一个追踪器，我们可以利用它来定位许多被盗的平板电脑。&lt;br&gt;&lt;br&gt;这座城市被 Syndikat 部队大量占领，报告称他们拥有强大的 AA 能力。 建议从南面低处靠近，步行进入。 和你的小队呆在一起，记住你的城市战训练。&lt;br&gt;&lt;br&gt;这个目标没有准确标记。&lt;br&gt;&lt;img size="3" image="%1"&gt;</Chinesesimp><!--Edit-->
+			<Chinese>一輛載有敏感戰略情報的 CSAT 裝甲車在卡瓦拉遭到聯合組織突襲的伏擊。 雖然它所運輸的情報屬於我們的權限範圍之外，但中央司令部已將回收它指定為優先任務。&lt;br&gt;&lt;br&gt;在卡瓦拉找到 CSAT 裝甲車，它 將有一個跟踪器，我們可以利用它來定位許多被盜的平板電腦。&lt;br&gt;&lt;br&gt;這座城市被 Syndikat 部隊大量佔領，報告稱他們擁有強大的 AA 能力。 建議從南面低處靠近，步行進入。 和你的小隊呆在一起，記住你的城市戰訓練。&lt;br&gt;&lt;br&gt;這個目標沒有準確標記。&lt;br&gt;&lt;img size="3" image="%1"&gt;</Chinese><!--Edit-->
 			<Turkish>Hassas stratejik istihbarat taşıyan bir CSAT zırhlı aracı, Kavala da sürpriz bir Syndikat saldırısı tarafından pusuya düşürüldü. Taşıdığı istihbarat bizim iznimizin üzerinde sınıflandırılmış olsa da, geri alınması KOMUTA tarafından öncelikli bir görev olarak belirlendi.&lt;br&#47;&gt;&lt;br&#47;&gt;Kavala daki CSAT zırhlı aracını bulun, çalıntı tabletlerin yerini tespit etmek için kullanabileceğimiz bir izleyiciye sahip olacak.&lt;br&#47;&gt;&lt;br&#47;&gt;Şehir, Syndikat güçleri tarafından yoğun bir şekilde işgal edildi ve raporlar, önemli Hava Savunma yeteneklerine sahip olduklarını bildiriyor. Güneyden alçaktan yaklaşmanız ve yaya olarak hareket etmeniz önerilir. Ekibinizle kalın ve şehir savaşı eğitiminizi hatırlayın.&lt;br&#47;&gt;&lt;br&#47;&gt;Bu hedef doğru bir şekilde işaretlenmemiş&lt;br&#47;&gt;&lt;img size="3" image="%1"&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_043">
 			<Original>A CSAT armored vehicle carrying sensitive strategic intel was ambushed by a surprise Syndikat offensive in Georgetown. While the intel it was transporting is classified above our clearance, recovery of it has been designated as a priority mission by CENTCOM.&lt;br&#47;&gt;&lt;br&#47;&gt;Locate the CSAT armored vehicle in Georgetown, it will have a tracker we can utilize to locate a number of stolen tablets.&lt;br&#47;&gt;&lt;br&#47;&gt;The city is heavily occupied by Syndikat forces and reports advise they have significant AA capabilities. It is suggested to approach low from the south and move in on foot. Stay with your squad, and remember your urban warfare training.&lt;br&#47;&gt;&lt;br&#47;&gt;This objective is not accurately marked.&lt;br&#47;&gt;&lt;img size="3" image="%1"&#47;&gt;</Original>
-			<Chinesesimp>载有敏感战略情报的 CSAT 装甲车在乔治敦遭到联合组织突袭的伏击。 虽然它所运输的情报属于我们的权限范围之外，但回收它已被中央司令部指定为优先任务。&lt;br&gt;&lt;br&gt;在乔治敦找到 CSAT 装甲车，它 将有一个跟踪器，我们可以利用它来定位许多被盗的平板电脑。&lt;br&gt;&lt;br&gt;这座城市被 Syndikat 部队大量占领，报告称他们拥有强大的 AA 能力。 建议从南面低处靠近，步行进入。 和你的小队呆在一起，记住你的城市战训练。&lt;br&gt;&lt;br&gt;这个目标没有准确标记。&lt;br&gt;&lt;img size="3 " image="%1"&gt;</Chinesesimp><!--Edit-->
-			<Chinese>載有敏感戰略情報的 CSAT 裝甲車在喬治敦遭到聯合組織突襲的伏擊。 雖然它所運輸的情報屬於我們的權限範圍之外，但回收它已被中央司令部指定為優先任務。&lt;br&gt;&lt;br&gt;在喬治敦找到 CSAT 裝甲車，它 將有一個跟踪器，我們可以利用它來定位許多被盜的平板電腦。&lt;br&gt;&lt;br&gt;這座城市被 Syndikat 部隊大量佔領，報告稱他們擁有強大的 AA 能力。 建議從南面低處靠近，步行進入。 和你的小隊呆在一起，記住你的城市戰訓練。&lt;br&gt;&lt;br&gt;這個目標沒有準確標記。&lt;br&gt;&lt;img size="3 " image="%1"&gt;</Chinese><!--Edit-->
+			<Chinesesimp>载有敏感战略情报的 CSAT 装甲车在乔治敦遭到联合组织突袭的伏击。 虽然它所运输的情报属于我们的权限范围之外，但回收它已被中央司令部指定为优先任务。&lt;br&gt;&lt;br&gt;在乔治敦找到 CSAT 装甲车，它 将有一个跟踪器，我们可以利用它来定位许多被盗的平板电脑。&lt;br&gt;&lt;br&gt;这座城市被 Syndikat 部队大量占领，报告称他们拥有强大的 AA 能力。 建议从南面低处靠近，步行进入。 和你的小队呆在一起，记住你的城市战训练。&lt;br&gt;&lt;br&gt;这个目标没有准确标记。&lt;br&gt;&lt;img size="3" image="%1"&gt;</Chinesesimp><!--Edit-->
+			<Chinese>載有敏感戰略情報的 CSAT 裝甲車在喬治敦遭到聯合組織突襲的伏擊。 雖然它所運輸的情報屬於我們的權限範圍之外，但回收它已被中央司令部指定為優先任務。&lt;br&gt;&lt;br&gt;在喬治敦找到 CSAT 裝甲車，它 將有一個跟踪器，我們可以利用它來定位許多被盜的平板電腦。&lt;br&gt;&lt;br&gt;這座城市被 Syndikat 部隊大量佔領，報告稱他們擁有強大的 AA 能力。 建議從南面低處靠近，步行進入。 和你的小隊呆在一起，記住你的城市戰訓練。&lt;br&gt;&lt;br&gt;這個目標沒有準確標記。&lt;br&gt;&lt;img size="3" image="%1"&gt;</Chinese><!--Edit-->
 			<Turkish>Hassas stratejik istihbarat taşıyan bir CSAT zırhlı aracı, Georgetown da sürpriz bir Syndikat saldırısı tarafından pusuya düşürüldü. Taşıdığı istihbarat bizim iznimizin üzerinde sınıflandırılmış olsa da, geri alınması KOMUTA tarafından öncelikli bir görev olarak belirlendi.&lt;br&#47;&gt;&lt;br&#47;&gt;Georgetown daki CSAT zırhlı aracını bulun, çalıntı tabletlerin yerini tespit etmek için kullanabileceğimiz bir izleyiciye sahip olacak.&lt;br&#47;&gt;&lt;br&#47;&gt;Şehir, Syndikat güçleri tarafından yoğun bir şekilde işgal edildi ve raporlar, önemli Hava Savunma yeteneklerine sahip olduklarını bildiriyor. Güneyden alçaktan yaklaşmanız ve yaya olarak hareket etmeniz önerilir. Ekibinizle kalın ve şehir savaşı eğitiminizi hatırlayın.&lt;br&#47;&gt;&lt;br&#47;&gt;Bu hedef doğru bir şekilde işaretlenmemiş&lt;br&#47;&gt;&lt;img size="3" image="%1"&#47;&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_044"><!--Cancel-->
@@ -7253,7 +7541,7 @@ _____________________________________________________________-->
 			<Original>To secure the supply depot, simply use your Scroll Menu on the Taru pod located inside the fortifications.</Original>
 			<Chinesesimp>要确保补给站的安全，只需在位于防御工事内的Taru吊舱上使用你的滚动菜单。</Chinesesimp>
 			<Chinese>要確保補給站的安全，只需在位於防禦工事內的Taru吊艙上使用你的滾動選單。</Chinese>
-			<Turkish>Tedarik Deposu'nu Güvence Altına Almak Için, Tahkimatların Içinde Bulunan Taru Pod'da Kaydırma Menünüzü Kullanmanız Yeterlidir.</Turkish>
+			<Turkish>Tedarik Deposunu Güvence Altına Almak Için, Tahkimatların Içinde Bulunan Taru Pod'da Kaydırma Menünüzü Kullanmanız Yeterlidir.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_069">
 			<Original>Supply Depot</Original>
@@ -7283,7 +7571,7 @@ _____________________________________________________________-->
 			<Original>It is strongly advised to stay on roads, and not to bring tanks or APCs, as this can disturb buried IEDs. It is suggested to keep moving even during contact, to prevent getting flanked and attacked by more heavily armed insurgents. Good luck, soldier!</Original>
 			<Chinesesimp>强烈建议始终保持在道路上行驶，不要使用装甲载具护送， 因为会触发道路上的IED。 建议在交火时尽量保持移动或者第一时间寻找掩体，防止被敌军侧翼包围。祝你好运！</Chinesesimp>
 			<Chinese>強烈建議始終保持在道路上行駛，不要使用裝甲載具護送， 因為會觸發道路上的IED。 建議在交火時盡量保持移動或者第一時間尋找掩體，防止被敵軍側翼包圍。祝你好運！</Chinese>
-			<Turkish>Yollarda Kalması Ve Tanklar Veya Apc'ler Getirmemesi Şiddetle Tavsiye Edilir, Çünkü Bu Gömülü Ied'leri Rahatsız Edebilir. Kuşlanmayı Ve Saldırıya Uğramayı Önlemek Için Temas Sırasında Bile Hareket Etmeye Devam Etmesi Önerilir.Daha Ağır Silahlı Isyancılar. İyi Şanslar, Asker!</Turkish>
+			<Turkish>Yollarda Kalması Ve Tanklar Veya Apcler Getirmemesi Şiddetle Tavsiye Edilir, Çünkü Bu Gömülü Iedleri Rahatsız Edebilir. Kuşlanmayı Ve Saldırıya Uğramayı Önlemek Için Temas Sırasında Bile Hareket Etmeye Devam Etmesi Önerilir.Daha Ağır Silahlı Isyancılar. İyi Şanslar, Asker!</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_074">
 			<Original>Secure the smuggled explosives! There are smuggled explosives somewhere on the %1 coastline in this area. Locate and secure them. Once you have secured the explosives, run away! This objective is not accurately marked.</Original>
@@ -7493,7 +7781,7 @@ _____________________________________________________________-->
 			<Original>This is a chance to secure intel on how their UAV systems operate. Get down there and secure the UAVs intel. This mission is underwater, so ensure you have a rebreather and dive goggles! This objective is not accurately marked. A GPS will help to locate the precise position. This mission is time-critical.</Original>
 			<Chinesesimp>附近水域坠毁。 这是一个获取敌军无人机系统运作数据的绝佳机会，潜入水下获取无人机的情报。 这项任务在水下进行，确保你携带了呼吸器、潜水护目镜和水下战斗步枪SDAR！ 我们不知道无人机残骸的准确位置，但GPS能够探测到UAV残骸的信号。 这项任务时间有限！</Chinesesimp>
 			<Chinese>附近水域墜毀。 這是一個獲取敵軍無人機系統運作資料的絕佳機會，潛入水下獲取無人機的情報。 這項任務在水下進行，確保你攜帶了呼吸器、潛水護目鏡和水下戰鬥步槍SDAR！ 我們不知道無人機殘骸的準確位置，但GPS能夠探測到UAV殘骸的訊號。 這項任務時間有限！</Chinese>
-			<Turkish>Bu, Inav Sistemlerinin Nasıl Çalıştığı Konusunda Intel'i Güvence Altına Alma Şansıdır. Oraya Inin Ve İha'ları Güvence Altına Alın. Bu Görev Sualtı, Bu Yüzden Bir Rebreather Ve Dalış Gözlükleri Olduğundan  Emin Olun! Bu Hedef Doğru Işaretlenmemiş. Bir GPS, Kesin Pozisyonun Bulunmasına Yardımcı Olacaktır. Bu Görev Zaman Açısından Kritiktir.</Turkish>
+			<Turkish>Bu, Inav Sistemlerinin Nasıl Çalıştığı Konusunda Inteli Güvence Altına Alma Şansıdır. Oraya Inin Ve İhaları Güvence Altına Alın. Bu Görev Sualtı, Bu Yüzden Bir Rebreather Ve Dalış Gözlükleri Olduğundan  Emin Olun! Bu Hedef Doğru Işaretlenmemiş. Bir GPS, Kesin Pozisyonun Bulunmasına Yardımcı Olacaktır. Bu Görev Zaman Açısından Kritiktir.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_109">
 			<Original>Secure Intel &#40;UAV&#41;</Original>
@@ -7601,7 +7889,7 @@ _____________________________________________________________-->
 			<Original>Prisoner Extract</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Mahkumu Kurtar</Turkish>
+			<Turkish>Mahkumu Hapset</Turkish>
 		</Key>
 		<Key ID="STR_QS_Task_127">
 			<Original>A pilot &#40; %1 &#41; has been separated from his aircraft and needs a ride back to base. When he is within 500m of base the mission will be completed.</Original>
@@ -7750,10 +8038,10 @@ _____________________________________________________________-->
 			<Turkish>%1 Kalan Süre: 00:00</Turkish>
 		</Key>
 		<Key ID="STR_QS_Marker_022">
-			<Original>%1 Teleporter &#40;&#91;Shift&#93;+&#91;Click here&#93; to teleport&#41;</Original>
-			<Chinesesimp>%1 传送器 &#40;&#91; 转移 &#93; + &#91; 点击这里 &#93; 传送 &#41;</Chinesesimp><!--Edit-->
-			<Chinese>%1 傳送器 &#40;&#91; 轉移 &#93; + &#91; 點擊這裡 &#93; 傳送 &#41;</Chinese><!--Edit-->
-			<Turkish>%1 Işınlanmak için buraya tıklayın&#40;&#91;Shift&#93;+&#91;Sıl Tık&#93;&#41;</Turkish>
+			<Original>%1 Teleporter &#40;&#91;Shift&#93;&#43;&#91;Click here&#93; to teleport&#41;</Original>
+			<Chinesesimp>%1 传送器 &#40;&#91; 转移 &#93; &#43; &#91; 点击这里 &#93; 传送 &#41;</Chinesesimp><!--Edit-->
+			<Chinese>%1 傳送器 &#40;&#91; 轉移 &#93; &#43; &#91; 點擊這裡 &#93; 傳送 &#41;</Chinese><!--Edit-->
+			<Turkish>%1 Işınlanmak için buraya tıklayın&#40;&#91;Shift&#93;&#43;&#91;Sıl Tık&#93;&#41;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Marker_023">
 			<Original>%1 Supply Depot</Original>
@@ -8187,7 +8475,7 @@ _____________________________________________________________-->
 			<Original>After the war between NATO and CSAT ended in an uneasy truce, an opportunistic insurgency sponsored by surrounding nations crushed local militias and moved in to fill the power vacuum.&lt;br&#47;&gt;&lt;br&#47;&gt;They have been destabilizing the region and threatening to pull NATO and CSAT back into open conflict on %1&lt;br&#47;&gt;&lt;br&#47;&gt;Moving around using an old wartime tunnel network, they have thus far thwarted low-cost attempts to destroy the insurgency with drone warfare.&lt;br&#47;&gt;&lt;br&#47;&gt;In a last ditch effort, NATO has deployed boots on the ground to root out the determined enemy and bring peace to %1</Original>
 			<Chinesesimp>北约和 CSAT 之间的战争以不稳定的休战结束后，由周边国家赞助的机会主义叛乱镇压了当地民兵，并开始填补权力真空。 &lt;br&gt;&lt;br&gt; 他们一直在破坏该地区的稳定，并威胁要将北约和 CSAT 拉回到 %1 的公开冲突中&lt;br&#47;&lt;br&gt;&gt; 到目前为止，他们使用旧的战时隧道网络四处走动，挫败了通过无人机战争摧毁叛乱的低成本尝试。 &lt;br&gt;&lt;br&gt; 在最后的努力中，北约已在地面上部署了靴子，以铲除顽固的敌人并为 %1 带来和平</Chinesesimp><!--Edit-->
 			<Chinese>北約和 CSAT 之間的戰爭以不穩定的休戰結束後，由周邊國家贊助的機會主義叛亂鎮壓了當地民兵，並開始填補權力真空。 &lt;br&gt;&lt;br&gt; 他們一直在破壞該地區的穩定，並威脅要將北約和 CSAT 拉回到 %1 的公開衝突中&lt;br&#47;&lt;br&gt;&gt; 到目前為止，他們使用舊的戰時隧道網絡四處走動，挫敗了通過無人機戰爭摧毀叛亂的低成本嘗試。 &lt;br&gt;&lt;br&gt; 在最後的努力中，北約已在地面上部署了靴子，以剷除頑固的敵人並為 %1 帶來和平</Chinese><!--Edit-->
-			<Turkish>NATO ile CSAT arasındaki savaşın huzursuz bir ateşkesle sona ermesinin ardından, çevredeki ülkeler tarafından desteklenen fırsatçı bir ayaklanma, yerel milisleri ezdi ve iktidar boşluğunu doldurmak için harekete geçti.&lt;br&#47;&gt;&lt;br&#47;&gt;Bölgeyi istikrarsızlaştırıyorlar ve NATO ile CSATı %1 deki açık çatışmaya geri çekme tehdidinde bulunuyorlar. &lt;br&#47;&gt;&lt;br&#47;&gt;Teknolojik savaş imkanlarını kullanarak, isyanı drone savaşıyla yok etmeye yönelik düşük maliyetli girişimleri şimdiye kadar engellediler.&lt;br&#47;&gt;&lt;br&#47;&gt;Son bir harekatla NATO, kararlı düşmanın kökünü kazımak ve %1''e barış getirmek için komandolar konuşlandırdı..</Turkish>
+			<Turkish>NATO ile CSAT arasındaki savaşın huzursuz bir ateşkesle sona ermesinin ardından, çevredeki ülkeler tarafından desteklenen fırsatçı bir ayaklanma, yerel milisleri ezdi ve iktidar boşluğunu doldurmak için harekete geçti.&lt;br&#47;&gt;&lt;br&#47;&gt;Bölgeyi istikrarsızlaştırıyorlar ve NATO ile CSATı %1 deki açık çatışmaya geri çekme tehdidinde bulunuyorlar. &lt;br&#47;&gt;&lt;br&#47;&gt;Teknolojik savaş imkanlarını kullanarak, isyanı drone savaşıyla yok etmeye yönelik düşük maliyetli girişimleri şimdiye kadar engellediler.&lt;br&#47;&gt;&lt;br&#47;&gt;Son bir harekatla NATO, kararlı düşmanın kökünü kazımak ve %1 topraklarına barış getirmek için komandolar konuşlandırdı..</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_015">
 			<Original>After the war between NATO and CSAT ended in an uneasy truce, an opportunistic uprising supported by surrounding countries crushed local militias and moved to fill the power vacuum.&lt;br&#47;&gt;&lt;br&#47;&gt;They are destabilizing the region and NATO and CSAT are in open conflict at 1%. They threaten to withdraw. &lt;br&#47;&gt;&lt;br&#47;&gt;Using the means of technological warfare, they have so far thwarted low-cost attempts to destroy the insurgency with drone warfare.&lt;br&#47;&gt;&lt;br&#47;&gt;With one last move, NATO is committed to rooting out the determined enemy and bringing peace to the 1%. He deployed commandos to bring</Original>
@@ -8403,7 +8691,7 @@ _____________________________________________________________-->
 			<Original>Some services are available from these FOBs, and they are also locations of interest to the enemy.</Original>
 			<Chinesesimp>FOB可以提供很多帮助，但也有可能遭到敌军攻击。</Chinesesimp>
 			<Chinese>FOB可以提供很多幫助，但也有可能遭到敵軍攻擊。</Chinese>
-			<Turkish>Bazı Hizmetler Bu FOB'lardan Mevcuttur Ve Aynı Zamanda Düşmanın Ilgisini Çeken Yerlerdir.</Turkish>
+			<Turkish>Bazı Hizmetler İleri Karakolda Mevcuttur Ve Aynı Zamanda Düşmanın Ilgisini Çeken Yerlerdir.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_052">
 			<Original>Radar Services</Original>
@@ -8427,7 +8715,7 @@ _____________________________________________________________-->
 			<Original>When certain types of vehicles/crates are within a radius of the FOB, they can activate certain services.</Original>
 			<Chinesesimp>当某些类型的载具/补给箱位于FOB的半径范围内时，它们可以启动某些服务。</Chinesesimp>
 			<Chinese>當某些類型的載具/補給箱位於FOB的半徑範圍內時，它們可以啟動某些服務。</Chinese>
-			<Turkish>Belirli Araç/Sandık Türleri FOB'un Yarıçapı Içinde Olduğunda, Belirli Hizmetleri Etkinleştirebilirler.</Turkish>
+			<Turkish>Belirli Araç/Sandık Türleri İleri Karakolaun Yarıçapı Içinde Olduğunda, Belirli Hizmetleri Etkinleştirebilirler.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_056">
 			<Original>Respawn</Original>
@@ -8436,10 +8724,10 @@ _____________________________________________________________-->
 			<Turkish>İleri Karakolda Doğma</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_057">
-			<Original>Respawning is available at FOBs if several conditions are met:&lt;br&#47;&gt;&lt;br&#47;&gt;- The FOB must be online and held by your faction&lt;br&#47;&gt;- You are NOT a pilot&lt;br&#47;&gt;- The FOB has more than 0 Respawn Tickets&lt;br&#47;&gt;- You have not respawned there in the past 3 minutes</Original>
-			<Chinesesimp>如果满足几个条件，则可以在 FOB 重生：&lt;br&#47;&lt;&lt;br&#47;&gt; - FOB 必须在线并由您的派系持有 &lt;br&gt; - 你不是飞行员 &lt;br&gt; - FOB 有超过 0 张 Respawn Tickets &lt;br&gt; - 你在过去 3 分钟内没有在那里重生</Chinesesimp><!--Edit-->
-			<Chinese>如果滿足幾個條件，則可以在 FOB 處重生：&lt;br&#47;&gt;&lt;br&#47;&gt; - FOB 必須在線並由您的派系持有 &lt;br&gt; - 你不是飛行員 &lt;br&gt; - FOB 有超過 0 張 Respawn Tickets &lt;br&gt; - 你在過去 3 分鐘內沒有在那裡重生</Chinese><!--Edit-->
-			<Turkish>Yeniden doğma birkaç koşul karşılanırsa İleri Karakolda mevcuttur:&lt;br&#47;&gt;&lt;br&#47;&gt;- İleri Karakol çevrimiçi olmalı ve ekibiniz tarafından tutulmalıdır&lt;br&#47;&gt;- Kişisel İleri Karakol yeniden doğmayı etkinleştirmelisiniz. Bu, İleri Karakol binası içinde bulunan İleri Karakol terminalinde yapılabilir.&lt;br&#47;&gt;- Pilot değilseniz &#40;pilotlar için araçlar ana üste&#41;&lt;br&#47;&gt;- İleri Karakolda 0 dan fazla Yeniden Doğma Bileti olmalı &#40;pilotlar üsten sağlık konteynerlerini getirerek bilet çoğaltır&#41;&lt;br&#47;&gt;- İleri Karakolda Doğma hakkını arttırmak için Tıbbi Araçlar ve Kasaları İleri Karakola getirin.&lt;br&#47;&gt;- Son 3 dakika içinde orada yeniden doğmadıysanız seçebilirsiniz.</Turkish>
+			<Original>Respawning is available at FOBs if several conditions are met:&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; The FOB must be online and held by your faction&lt;br&#47;&gt;&#45; You are NOT a pilot&lt;br&#47;&gt;&#45; The FOB has more than 0 Respawn Tickets&lt;br&#47;&gt;&#45; You have not respawned there in the past 3 minutes</Original>
+			<Chinesesimp>如果满足几个条件，则可以在 FOB 重生：&lt;br&#47;&lt;&lt;br&#47;&gt; &#45; FOB 必须在线并由您的派系持有 &lt;br&gt; &#45; 你不是飞行员 &lt;br&gt; &#45; FOB 有超过 0 张 Respawn Tickets &lt;br&gt; &#45; 你在过去 3 分钟内没有在那里重生</Chinesesimp><!--Edit-->
+			<Chinese>如果滿足幾個條件，則可以在 FOB 處重生：&lt;br&#47;&gt;&lt;br&#47;&gt; &#45; FOB 必須在線並由您的派系持有 &lt;br&gt; &#45; 你不是飛行員 &lt;br&gt; &#45; FOB 有超過 0 張 Respawn Tickets &lt;br&gt; &#45; 你在過去 3 分鐘內沒有在那裡重生</Chinese><!--Edit-->
+			<Turkish>Yeniden doğma birkaç koşul karşılanırsa İleri Karakolda mevcuttur:&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; İleri Karakol çevrimiçi olmalı ve ekibiniz tarafından tutulmalıdır&lt;br&#47;&gt;&#45; Kişisel İleri Karakol yeniden doğmayı etkinleştirmelisiniz. Bu, İleri Karakol binası içinde bulunan İleri Karakol terminalinde yapılabilir.&lt;br&#47;&gt;&#45; Pilot değilseniz &#40;pilotlar için araçlar ana üste&#41;&lt;br&#47;&gt;&#45; İleri Karakolda 0 dan fazla Yeniden Doğma Bileti olmalı &#40;pilotlar üsten sağlık konteynerlerini getirerek bilet çoğaltır&#41;&lt;br&#47;&gt;&#45; İleri Karakolda Doğma hakkını arttırmak için Tıbbi Araçlar ve Kasaları İleri Karakola getirin.&lt;br&#47;&gt;&#45; Son 3 dakika içinde orada yeniden doğmadıysanız seçebilirsiniz.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_058">
 			<Original>The FOB must be online and held by your faction</Original>
@@ -8457,7 +8745,7 @@ _____________________________________________________________-->
 			<Original>The FOB has more than 0 Respawn Tickets</Original>
 			<Chinesesimp>FOB有剩余复活票数</Chinesesimp>
 			<Chinese>FOB有剩餘復活票數</Chinese>
-			<Turkish>FOB'un 0'Dan Fazla Yeniden Doğma Bileti Var</Turkish>
+			<Turkish>İleri Karakolaun 0 Dan Fazla Yeniden Doğma Hakkı Olmalı</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_061">
 			<Original>You have not respawned there in the past 3 minutes</Original>
@@ -8472,34 +8760,34 @@ _____________________________________________________________-->
 			<Turkish>Araç Hizmetleri</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_063">
-			<Original>Several vehicle services are available at the FOBs for Aircraft and Land Vehicles:&lt;br&#47;&gt;&lt;br&#47;&gt;- &#45; Respawn &#45; Bring a HEMTT Mover or HEMTT Box truck to the FOB to activate Vehicle Respawn Services&lt;br&#47;&gt;- &#45; Repair &#45; Bring a repair truck or crate to the FOB to activate Repair Services&lt;br&#47;&gt;- &#45; Fuel &#45; Bring a fuel truck or crate to the FOB to bring Refueling Services online&lt;br&#47;&gt;- &#45; Ammo &#45; Bring an Ammo truck or crate to the FOB to bring Ammo Services online</Original>
-			<Chinesesimp>飞机和陆地车辆的 FOB 提供多种车辆服务：&lt;br&#47;&gt;&lt;br&#47;&gt;- &#45; 重生&#45; 将 HEMTT Mover 或 HEMTT 箱式卡车带到 FOB 以激活车辆重生服务 &lt;br&gt;- &#45; 修复 &#45; 将维修卡车或板条箱带到 FOB 以激活维修服务 &lt;br&#47;&gt;- &#45; 燃料 &#45; 将加油车或板条箱带到 FOB 以在线提供加油服务 &lt;br&#47;&gt;- &#45; 弹药 &#45; 将弹药卡车或板条箱带到 FOB 以在线提供弹药服务</Chinesesimp><!--Edit-->
-			<Chinese>飛機和陸地車輛的 FOB 提供多種車輛服務：&lt;br&#47;&gt;&lt;br&#47;&gt;- &#45; 重生&#45; 將 HEMTT Mover 或 HEMTT 箱式卡車帶到 FOB 以激活車輛重生服務 &lt;br&gt;- &#45; 修復 &#45; 將維修卡車或板條箱帶到 FOB 以激活維修服務 &lt;br&#47;&gt;- &#45; 燃料 &#45; 將加油車或板條箱帶到 FOB 以在線提供加油服務 &lt;br&#47;&gt;- &#45; 彈藥 &#45; 將彈藥卡車或板條箱帶到 FOB 以在線提供彈藥服務</Chinese><!--Edit-->
-			<Turkish>Heli ve Kara Taşıtları için İleri Karakol lerde çeşitli araç hizmetleri mevcuttur.:&lt;br&#47;&gt;&lt;br&#47;&gt;- Yeniden Doğma - Araç Yeniden Doğma Hizmetlerini etkinleştirmek için İleri Karakola bir HEMTT Taşıyıcı veya HEMTT Konteyner kamyonu getirin&lt;br&#47;&gt;- Onarım - Onarım Hizmetlerini etkinleştirmek için İleri Karakola bir onarım kamyonu veya onarım konteyneri getirin&lt;br&#47;&gt;- Yakıt - Yakıt İkmal Hizmetlerini çevrimiçi hale getirmek için İleri Karakola bir yakıt kamyonu veya yakıt konteyneri getirin&lt;br&#47;&gt;- Cephane - Cephane Hizmetlerini çevrimiçi hale getirmek için İleri Karakola bir Cephane kamyonu veya cephane konteyneri getirin</Turkish>
+			<Original>Several vehicle services are available at the FOBs for Aircraft and Land Vehicles:&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#45; Respawn &#45; Bring a HEMTT Mover or HEMTT Box truck to the FOB to activate Vehicle Respawn Services&lt;br&#47;&gt;&#45; &#45; Repair &#45; Bring a repair truck or crate to the FOB to activate Repair Services&lt;br&#47;&gt;&#45; &#45; Fuel &#45; Bring a fuel truck or crate to the FOB to bring Refueling Services online&lt;br&#47;&gt;&#45; &#45; Ammo &#45; Bring an Ammo truck or crate to the FOB to bring Ammo Services online</Original>
+			<Chinesesimp>飞机和陆地车辆的 FOB 提供多种车辆服务：&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#45; 重生&#45; 将 HEMTT Mover 或 HEMTT 箱式卡车带到 FOB 以激活车辆重生服务 &lt;br&gt;&#45; &#45; 修复 &#45; 将维修卡车或板条箱带到 FOB 以激活维修服务 &lt;br&#47;&gt;&#45; &#45; 燃料 &#45; 将加油车或板条箱带到 FOB 以在线提供加油服务 &lt;br&#47;&gt;&#45; &#45; 弹药 &#45; 将弹药卡车或板条箱带到 FOB 以在线提供弹药服务</Chinesesimp><!--Edit-->
+			<Chinese>飛機和陸地車輛的 FOB 提供多種車輛服務：&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; &#45; 重生&#45; 將 HEMTT Mover 或 HEMTT 箱式卡車帶到 FOB 以激活車輛重生服務 &lt;br&gt;&#45; &#45; 修復 &#45; 將維修卡車或板條箱帶到 FOB 以激活維修服務 &lt;br&#47;&gt;&#45; &#45; 燃料 &#45; 將加油車或板條箱帶到 FOB 以在線提供加油服務 &lt;br&#47;&gt;&#45; &#45; 彈藥 &#45; 將彈藥卡車或板條箱帶到 FOB 以在線提供彈藥服務</Chinese><!--Edit-->
+			<Turkish>Heli ve Kara Taşıtları için İleri Karakol lerde çeşitli araç hizmetleri mevcuttur.:&lt;br&#47;&gt;&lt;br&#47;&gt;&#45; Yeniden Doğma &#45; Araç Yeniden Doğma Hizmetlerini etkinleştirmek için İleri Karakola bir HEMTT Taşıyıcı veya HEMTT Konteyner kamyonu getirin&lt;br&#47;&gt;&#45; Onarım &#45; Onarım Hizmetlerini etkinleştirmek için İleri Karakola bir onarım kamyonu veya onarım konteyneri getirin&lt;br&#47;&gt;&#45; Yakıt &#45; Yakıt İkmal Hizmetlerini çevrimiçi hale getirmek için İleri Karakola bir yakıt kamyonu veya yakıt konteyneri getirin&lt;br&#47;&gt;&#45; Cephane &#45; Cephane Hizmetlerini çevrimiçi hale getirmek için İleri Karakola bir Cephane kamyonu veya cephane konteyneri getirin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_064">
-			<Original>- Respawn &#45; Bring a HEMTT Mover or HEMTT Box truck to the FOB to activate Vehicle Respawn Services</Original>
-			<Chinesesimp>- 重生 &#45; 将HEMTT运输卡车或HEMTT货柜卡车开到FOB。</Chinesesimp>
-			<Chinese>- 重生 &#45; 將HEMTT運輸卡車或HEMTT貨櫃卡車開到FOB。</Chinese>
-			<Turkish>- Yeniden Doğma &#45; Araç Yeniden Doğma Hizmetlerini Etkinleştirmek Için FOB'a Bir Hemtt Taşıyıcısı Veya Hemtt Kutu Kamyonu Getirin</Turkish>
+			<Original>&#45; Respawn &#45; Bring a HEMTT Mover or HEMTT Box truck to the FOB to activate Vehicle Respawn Services</Original>
+			<Chinesesimp>&#45; 重生 &#45; 将HEMTT运输卡车或HEMTT货柜卡车开到FOB。</Chinesesimp>
+			<Chinese>&#45; 重生 &#45; 將HEMTT運輸卡車或HEMTT貨櫃卡車開到FOB。</Chinese>
+			<Turkish>&#45; Yeniden Doğma &#45; Araç Yeniden Doğma Hizmetlerini Etkinleştirmek Için İleri Karakola Bir HEMTT Taşıyıcısı Veya HEMTT Kutu Kamyonu Getirin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_065">
-			<Original>- Repair &#45; Bring a repair truck or crate to the FOB to activate Repair Services</Original>
-			<Chinesesimp>- 修理 &#45; 将HEMTT维修卡车或Huron维修货柜带到FOB。</Chinesesimp>
-			<Chinese>- 修理 &#45; 將HEMTT維修卡車或Huron維修貨櫃帶到FOB。</Chinese>
-			<Turkish>- Onarım &#45; Onarım Hizmetlerini Etkinleştirmek Için FOB'a Bir Tamir Kamyonu Veya Sandık Getirin</Turkish>
+			<Original>&#45; Repair &#45; Bring a repair truck or crate to the FOB to activate Repair Services</Original>
+			<Chinesesimp>&#45; 修理 &#45; 将HEMTT维修卡车或Huron维修货柜带到FOB。</Chinesesimp>
+			<Chinese>&#45; 修理 &#45; 將HEMTT維修卡車或Huron維修貨櫃帶到FOB。</Chinese>
+			<Turkish>&#45; Onarım &#45; Onarım Hizmetlerini Etkinleştirmek Için İleri Karakola Bir Tamir Kamyonu Veya Sandık Getirin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_066">
-			<Original>- Fuel &#45; Bring a fuel truck or crate to the FOB to bring Refueling Services online</Original>
-			<Chinesesimp>- 燃料 &#45; 将HEMTT燃油补给卡车或Huron燃油货柜带到FOB。</Chinesesimp>
-			<Chinese>- 燃料 &#45; 將HEMTT燃油補給卡車或Huron燃油貨櫃帶到FOB。</Chinese>
-			<Turkish>- Yakıt &#45; Yatıştıran Hizmetleri Çevrimiçi Hale Getirmek Için FOB'a Bir Yakıt Kamyonu Veya Sandık Getirin</Turkish>
+			<Original>&#45; Fuel &#45; Bring a fuel truck or crate to the FOB to bring Refueling Services online</Original>
+			<Chinesesimp>&#45; 燃料 &#45; 将HEMTT燃油补给卡车或Huron燃油货柜带到FOB。</Chinesesimp>
+			<Chinese>&#45; 燃料 &#45; 將HEMTT燃油補給卡車或Huron燃油貨櫃帶到FOB。</Chinese>
+			<Turkish>&#45; Yakıt &#45; Yatıştıran Hizmetleri Çevrimiçi Hale Getirmek Için İleri Karakola Bir Yakıt Kamyonu Veya Sandık Getirin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_067">
-			<Original>- Ammo &#45; Bring an Ammo truck or crate to the FOB to bring Ammo Services online</Original>
-			<Chinesesimp>- 弹药 &#45; 将HEMTT弹药卡车或Huron弹药货柜带到FOB。</Chinesesimp>
-			<Chinese>- 彈藥 &#45; 將HEMTT彈藥卡車或Huron彈藥貨櫃帶到FOB。</Chinese>
-			<Turkish>- Cephane &#45; Cephane Hizmetlerini Çevrimiçi Hale Getirmek Için FOB'a Bir Cephane Kamyonu Veya Sandık Getirin</Turkish>
+			<Original>&#45; Ammo &#45; Bring an Ammo truck or crate to the FOB to bring Ammo Services online</Original>
+			<Chinesesimp>&#45; 弹药 &#45; 将HEMTT弹药卡车或Huron弹药货柜带到FOB。</Chinesesimp>
+			<Chinese>&#45; 彈藥 &#45; 將HEMTT彈藥卡車或Huron彈藥貨櫃帶到FOB。</Chinese>
+			<Turkish>&#45; Cephane &#45; Cephane Hizmetlerini Çevrimiçi Hale Getirmek Için İleri Karakola Bir Cephane Kamyonu Veya Sandık Getirin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_068">
 			<Original>Respawn Tickets</Original>
@@ -8649,7 +8937,7 @@ _____________________________________________________________-->
 			<Original>Top 3 medics of the week &#40;ending Sunday 23:59h&#41; added to whitelisted medic slot for following week.</Original>
 			<Chinesesimp>本周前3名医护人员&#40;截至周日23:59h&#41;加入到下周的白名单医护人员名额。</Chinesesimp>
 			<Chinese>本週前3名醫護人員&#40;截至週日23:59h&#41;加入到下週的白名單醫護人員名額。</Chinese>
-			<Turkish>Beyaz Liste Medic Slot'a Ertesi Hafta Için Haftanın En İyi 3 Sağlığı &#40;23: 59 Saat&#41; Eklendi.</Turkish>
+			<Turkish>Beyaz Liste Sıhhiyye Slotuna Ertesi Hafta Için Haftanın En İyi 3 Sıhhiyyesi &#40;23: 59 Saat&#41; Eklendi.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_093">
 			<Original>Transporters</Original>
@@ -8695,15 +8983,15 @@ _____________________________________________________________-->
 		</Key>
 		<Key ID="STR_QS_Diary_100">
 			<Original>&lt;t size="2"&gt;Version 1.0&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Leaderboards are reset each Monday at 00:01h.&lt;br&#47;&gt;&lt;br&#47;&gt;Please report bugs and weird shit on the forums or to Quiksilver on TS.&lt;br&#47;&gt;&lt;br&#47;&gt;To maintain performance and FPS, the leaderboards are synchronized every 5-10 minutes instead of continuously, and saved to database every 10-15 minutes. For this reason, points accumulated just prior to server restart may not be saved &#40;*sadface*&#41;. Since it is new, we are experimenting with the best and most performance-friendly methods.&lt;br&#47;&gt;&lt;br&#47;&gt;Thanks for your patience, %1!</Original>
-			<Chinesesimp>&lt;t size="2">版本 1.0&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;排行榜每周一 00:01 重置。&lt;br&#47;&gt;&lt;br&#47;&gt;请在论坛上或在 TS 上向 Quiksilver 报告错误和奇怪的东西。&lt;br&gt;&lt;br&#47;&gt;为了保持性能和 FPS， 排行榜每 5-10 分钟而不是连续同步一次，并每 10-15 分钟保存到数据库中。 因此，在服务器重新启动之前积累的点数可能不会被保存“*悲伤脸*”。 由于它是新的，我们正在试验最好和最有利于性能的方法。&lt;br&gt;&lt;br&gt;感谢您的耐心等待，%1！</Chinesesimp><!--Edit-->
-			<Chinese>&lt;t size="2">版本 1.0&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;排行榜每週一 00:01 重置。&lt;br&#47;&gt;&lt;br&#47;&gt;請在論壇或 TS 上的 Quiksilver 上報告錯誤和奇怪的東西。&lt;br&gt;&lt;br&#47;&gt;為了保持性能和 FPS， 排行榜每 5-10 分鐘而不是連續同步一次，並每 10-15 分鐘保存到數據庫中。 因此，服務器重啟前積累的點數可能無法保存“*悲傷臉*”。 由於它是新的，我們正在試驗最好和最有利於性能的方法。&lt;br&gt;&lt;br&gt;感謝您的耐心等待，%1！</Chinese><!--Edit-->
-			<Turkish>&lt;t size="2"&gt;Version 1.0&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Liderlik tabloları her Pazartesi 00:01''de sıfırlanır.&lt;br&#47;&gt;&lt;br&#47;&gt;Lütfen oyundaki hataları ve tuhaf şeyleri veya  DC/TS''de yöneticiye bildirin.&lt;br&#47;&gt;&lt;br&#47;&gt;Performansı ve FPSi korumak için, skor tabloları sürekli yerine her 5-10 dakikada bir senkronize edilir ve her 10-15 dakikada bir veritabanına kaydedilir. Bu nedenle, sunucunun yeniden başlatılmasından hemen önce biriken puanlar kaydedilmeyebilir &#40;* üzgünüz *&#41;. Yeni olduğu için en iyi ve en performans dostu yöntemleri deniyoruz..&lt;br&#47;&gt;&lt;br&#47;&gt;Sabrınız için teşekkürler, %1!</Turkish>
+			<Chinesesimp>&lt;t size="2"&gt;版本 1.0&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;排行榜每周一 00:01 重置。&lt;br&#47;&gt;&lt;br&#47;&gt;请在论坛上或在 TS 上向 Quiksilver 报告错误和奇怪的东西。&lt;br&gt;&lt;br&#47;&gt;为了保持性能和 FPS， 排行榜每 5-10 分钟而不是连续同步一次，并每 10-15 分钟保存到数据库中。 因此，在服务器重新启动之前积累的点数可能不会被保存“*悲伤脸*”。 由于它是新的，我们正在试验最好和最有利于性能的方法。&lt;br&gt;&lt;br&gt;感谢您的耐心等待，%1！</Chinesesimp><!--Edit-->
+			<Chinese>&lt;t size="2"&gt;版本 1.0&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;排行榜每週一 00:01 重置。&lt;br&#47;&gt;&lt;br&#47;&gt;請在論壇或 TS 上的 Quiksilver 上報告錯誤和奇怪的東西。&lt;br&gt;&lt;br&#47;&gt;為了保持性能和 FPS， 排行榜每 5-10 分鐘而不是連續同步一次，並每 10-15 分鐘保存到數據庫中。 因此，服務器重啟前積累的點數可能無法保存“*悲傷臉*”。 由於它是新的，我們正在試驗最好和最有利於性能的方法。&lt;br&gt;&lt;br&gt;感謝您的耐心等待，%1！</Chinese><!--Edit-->
+			<Turkish>&lt;t size="2"&gt;Version 1.0&lt;t&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;Liderlik tabloları her Pazartesi 00:01 de sıfırlanır.&lt;br&#47;&gt;&lt;br&#47;&gt;Lütfen oyundaki hataları ve tuhaf şeyleri veya  DC/TS de yöneticiye bildirin.&lt;br&#47;&gt;&lt;br&#47;&gt;Performansı ve FPSi korumak için, skor tabloları sürekli yerine her 5-10 dakikada bir senkronize edilir ve her 10-15 dakikada bir veritabanına kaydedilir. Bu nedenle, sunucunun yeniden başlatılmasından hemen önce biriken puanlar kaydedilmeyebilir &#40;* üzgünüz *&#41;. Yeni olduğu için en iyi ve en performans dostu yöntemleri deniyoruz..&lt;br&#47;&gt;&lt;br&#47;&gt;Sabrınız için teşekkürler, %1!</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_101">
 			<Original>To maintain performance and FPS, the leaderboards are not synchronized frequently, and only saved to database every 5-10 minutes. For this reason, points accumulated just prior to a server crash may not be saved &#40;*sadface*&#41;.</Original>
 			<Chinesesimp>为了保持性能和FPS，排行榜并不经常同步，只是每5-10分钟保存到数据库。由于这个原因，在服务器崩溃前积累的积分可能不会被保存&#40;*悲伤的脸*&#41;。</Chinesesimp>
 			<Chinese>為了保持性能和FPS，排行榜並不經常同步，只是每5-10分鐘儲存到資料庫。由於這個原因，在伺服器崩潰前積累的積分可能不會被儲存&#40;*悲傷的臉*&#41;。</Chinese>
-			<Turkish>Performans Ve FPS'yi Korumak Için, Skor Tabloları Sıklıkla Senkronize Edilmez Ve Sadece Her 5-10 Dakikada Bir Veritabanına Kaydedilir. Bu Nedenle, Bir Sunucu Çökmesinden Hemen Önce Biriken Noktalar Kurtarılmalı &#40;*Sadface*&#41;.</Turkish>
+			<Turkish>Performans Ve FPS i Korumak Için, Skor Tabloları Sıklıkla Senkronize Edilmez Ve Sadece Her 5-10 Dakikada Bir Veritabanına Kaydedilir. Bu Nedenle, Bir Sunucu Çökmesinden Hemen Önce Biriken Noktalar Kurtarılmalı &#40;*Sadface*&#41;.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Diary_102">
 			<Original>Thanks for your patience</Original>
@@ -9394,9 +9682,9 @@ _____________________________________________________________-->
 			<Turkish>Yapılandırma Görüntüleyici</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_026">
-			<Original>Remote Execution Safety --- Check to enable Remote Execution</Original>
-			<Chinesesimp>远程执行保险 --- 勾选以启用远程执行</Chinesesimp>
-			<Chinese>遠端執行保險 --- 勾選以啟用遠端執行</Chinese>
+			<Original>Remote Execution Safety &#45;&#45;&#45; Check to enable Remote Execution</Original>
+			<Chinesesimp>远程执行保险 &#45;&#45;&#45; 勾选以启用远程执行</Chinesesimp>
+			<Chinese>遠端執行保險 &#45;&#45;&#45; 勾選以啟用遠端執行</Chinese>
 			<Turkish>Uzaktan Yürütme Güvenliği-Uzaktan Yürütmeyi Etkinleştirmek İçin Aktif Edin</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_027">
@@ -9967,7 +10255,7 @@ _____________________________________________________________-->
 			<Original>Are you sure you want to respawn this %1</Original>
 			<Chinesesimp>你确定你要重生这个吗？ %1</Chinesesimp>
 			<Chinese>你確定你要重生這個嗎？ %1</Chinese>
-			<Turkish>%1 Aracını tekrar çıkarmak istediğine eminmisin?</Turkish>
+			<Turkish>&#40;%1&#41; Geri göndermek istediğine eminmisin?</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_122">
 			<Original>Warning</Original>
@@ -9979,7 +10267,7 @@ _____________________________________________________________-->
 			<Original>Respawn vehicle</Original>
 			<Chinesesimp>重生载具</Chinesesimp>
 			<Chinese>重生載具</Chinese>
-			<Turkish>Aracı Tekrar Çıkar</Turkish>
+			<Turkish>Geri Gönder</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_124">
 			<Original>Destroy</Original>
@@ -10036,10 +10324,10 @@ _____________________________________________________________-->
 			<Turkish>Metİn</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_133">
-			<Original>- Selecting OK will disable your ability to respawn or abort for 10 minutes&lt;br&#47;&gt;- Medics will be unable to revive you.&lt;br&#47;&gt;- To be revived, other people must bring you to a location equipped with Medevac services before you bleed out.</Original>
-			<Chinesesimp>- 选择确定将使您无法重生或中止 10 分钟&lt;br&#47;&gt;- 医务人员将无法使您复活。&lt;br&#47;&gt;- 要复活，其他人必须将您带到 在您流血之前配备医疗后送服务的地点。</Chinesesimp><!--Edit-->
-			<Chinese>- 選擇確定將使您無法重生或中止 10 分鐘&lt;br&#47;&gt;- 醫務人員將無法使您復活。&lt;br&#47;&gt;- 要復活，其他人必須將您帶到 在您流血之前配備醫療後送服務的地點。</Chinese><!--Edit-->
-			<Turkish>- Tamamı seçmek, 10 dakika boyunca yeniden doğma veya iptal etmeyi devre dışı bırakacaktır.&lt;br&#47;&gt;- Sağlık görevlileri sizi tedavi edemeyecek.&lt;br&#47;&gt;- Canlanmanız için, kan kaybından ölmeden önce başkalarının sizi sağlık hizmetleriyle donatılmış bir yere getirmesi gerekir.</Turkish>
+			<Original>&#45; Selecting OK will disable your ability to respawn or abort for 10 minutes&lt;br&#47;&gt;&#45; Medics will be unable to revive you.&lt;br&#47;&gt;&#45; To be revived, other people must bring you to a location equipped with Medevac services before you bleed out.</Original>
+			<Chinesesimp>&#45; 选择确定将使您无法重生或中止 10 分钟&lt;br&#47;&gt;&#45; 医务人员将无法使您复活。&lt;br&#47;&gt;&#45; 要复活，其他人必须将您带到 在您流血之前配备医疗后送服务的地点。</Chinesesimp><!--Edit-->
+			<Chinese>&#45; 選擇確定將使您無法重生或中止 10 分鐘&lt;br&#47;&gt;&#45; 醫務人員將無法使您復活。&lt;br&#47;&gt;&#45; 要復活，其他人必須將您帶到 在您流血之前配備醫療後送服務的地點。</Chinese><!--Edit-->
+			<Turkish>&#45; Tamamı seçmek, 10 dakika boyunca yeniden doğma veya iptal etmeyi devre dışı bırakacaktır.&lt;br&#47;&gt;&#45; Sağlık görevlileri sizi tedavi edemeyecek.&lt;br&#47;&gt;&#45; Canlanmanız için, kan kaybından ölmeden önce başkalarının sizi sağlık hizmetleriyle donatılmış bir yere getirmesi gerekir.</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_134"><!--Cancel-->
 			<Original>Medics will be unable to revive you.</Original>
@@ -10126,10 +10414,10 @@ _____________________________________________________________-->
 			<Turkish>Tebrikler! Haftalık Lider Tablosunda ilk 3e girdiniz. Bu hafta bir rol için BEYAZ Listeye alındınız</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_148">
-			<Original>&lt;t underline=&quot;true&quot;&gt;Briefing&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;Seize %1 from opposing forces.&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Rules&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Staff&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Hotkeys&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;&#91;Home&#93; &#45; Player Menu&lt;br&#47;&gt;&#91;End&#93; &#45; Earplugs&lt;br&#47;&gt;&#91;4&#93; &#45; Weapon Holster&lt;br&#47;&gt;&#91;L.Ctrl&#93;+&#91;Reload&#93; &#45; Magazine Repack&lt;br&#47;&gt;&#91;V&#93; &#45; Jump &#40;while running&#41;&lt;br&#47;&gt;&#91;U&#93; &#45; Group Management&lt;br&#47;&gt;&#91;Space&#93; &#45; Open/Close doors&lt;br&#47;&gt;&#91;J&#93;x2 &#45; Tasks&lt;&#47;t&gt;</Original>
-			<Chinesesimp>&lt;t underline="true"&gt;简报&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;从敌对势力手中夺取%1。&lt;&#47 ;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下划线=&quot;true&quot;&gt;规则&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t大小 ="1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下划线=&quot;true&gt;&lt;&#47;t&gt;&lt;br&#47;&lt;t尺寸=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下划线= &quot;true&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt; &lt;br&gt;&lt;t underline="true"&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&lt;t size=&quot;1&gt;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t 下划线=&quot;true&quot;&gt;热键&lt;&#47;t&gt;&lt;br&#47;&gt;&lt; t size="1">&#91;首页&#93; &#45; 玩家菜单&lt;br&#47;&gt;&#91;结束&#93; &#45; 耳塞&lt;br&#47;&gt;&#91;4&#93; &#45; 武器皮套&lt;br&gt;&#91;L.Ctrl&#91;Reload&#93; &#45; 杂志重新包装&lt;br&gt;&#91;V&#93; &#45; 跳“边跑边跑”&lt;br&gt;&#91;U&#93; &#45; 集团管理&lt;br&gt;&#91;Space&#93; &#45; 打开/关闭门&lt;br&#47;&gt;&#91;J&#93;x2 &#45; 任务&lt;&#47;t&gt;</Chinesesimp><!--Edit-->
-			<Chinese>&lt;t underline="true"&gt;簡報&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;從敵對勢力手中奪取%1。&lt;&#47 ;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下劃線=&quot;true&quot;&gt;規則&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t尺寸 ="1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下劃線=&quot;true&gt;&lt;&#47;t&gt;&lt;br&#47;&lt;t尺寸=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下劃線= &quot;true&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt; &lt;br&gt;&lt;t underline="true"&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&lt;t size=&quot;1&gt;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t 下劃線=&quot;true&quot;&gt;熱鍵&lt;&#47;t&gt;&lt;br&#47;&gt;&lt; t size="1">&#91;首頁&#93; &#45; 玩家菜單&lt;br&#47;&gt;&#91;結束&#93; &#45; 耳塞&lt;br&#47;&gt;&#91;4&#93; &#45; 武器皮套&lt;br&gt;&#91;L.Ctrl&#91;Reload&#93; &#45; 雜誌重新包裝&lt;br&gt;&#91;V&#93; &#45; 跳“邊跑邊跑”&lt;br&gt;&#91;U&#93; &#45; 集團管理&lt;br&gt;&#91;Space&#93; &#45; 打開/關閉門&lt;br&#47;&gt;&#91;J&#93;x2 &#45; 任務&lt;&#47;t&gt;</Chinese><!--Edit-->
-			<Turkish>&lt;t underline=&quot;true&quot;&gt;Brifing&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;Karşı kuvvetlerden %1 ele geçirin.&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Kurallar&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Yetkili&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Kısa Yol Tuşları&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;&#91;Home&#93; &#45; Oyuncu Menüsü&lt;br&#47;&gt;&#91;End&#93; &#45; Kulak Tıkacı&lt;br&#47;&gt;&#91;4&#93; &#45; Silahı Kılıfa Koy&lt;br&#47;&gt;&#91;L.Ctrl&#93;+&#91;R&#93; &#45; Şarjörleri Birleştir&lt;br&#47;&gt;&#91;V&#93; &#45; Zıpla &#40;koşarken&#41;&lt;br&#47;&gt;&#91;U&#93; &#45; Grup Yönetimi&lt;br&#47;&gt;&#91;Space&#93; &#45; Kapıyı Aç/Kapat&lt;br&#47;&gt;&#91;J&#93;x2 &#45; Görevler&lt;&#47;t&gt;</Turkish>
+			<Original>&lt;t underline=&quot;true&quot;&gt;Briefing&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;Seize %1 from opposing forces.&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Rules&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Staff&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Hotkeys&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;&#91;Home&#93; &#45; Player Menu&lt;br&#47;&gt;&#91;End&#93; &#45; Earplugs&lt;br&#47;&gt;&#91;4&#93; &#45; Weapon Holster&lt;br&#47;&gt;&#91;L.Ctrl&#93;&#43;&#91;Reload&#93; &#45; Magazine Repack&lt;br&#47;&gt;&#91;V&#93; &#45; Jump &#40;while running&#41;&lt;br&#47;&gt;&#91;U&#93; &#45; Group Management&lt;br&#47;&gt;&#91;Space&#93; &#45; Open/Close doors&lt;br&#47;&gt;&#91;J&#93;x2 &#45; Tasks&lt;&#47;t&gt;</Original>
+			<Chinesesimp>&lt;t underline="true"&gt;简报&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;从敌对势力手中夺取%1。&lt;&#47 ;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下划线=&quot;true&quot;&gt;规则&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t大小 ="1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下划线=&quot;true&gt;&lt;&#47;t&gt;&lt;br&#47;&lt;t尺寸=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下划线= &quot;true&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt; &lt;br&gt;&lt;t underline="true"&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&lt;t size=&quot;1&gt;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t 下划线=&quot;true&quot;&gt;热键&lt;&#47;t&gt;&lt;br&#47;&gt;&lt; t size="1"&gt;&#91;首页&#93; &#45; 玩家菜单&lt;br&#47;&gt;&#91;结束&#93; &#45; 耳塞&lt;br&#47;&gt;&#91;4&#93; &#45; 武器皮套&lt;br&gt;&#91;L.Ctrl&#91;Reload&#93; &#45; 杂志重新包装&lt;br&gt;&#91;V&#93; &#45; 跳“边跑边跑”&lt;br&gt;&#91;U&#93; &#45; 集团管理&lt;br&gt;&#91;Space&#93; &#45; 打开/关闭门&lt;br&#47;&gt;&#91;J&#93;x2 &#45; 任务&lt;&#47;t&gt;</Chinesesimp><!--Edit-->
+			<Chinese>&lt;t underline="true"&gt;簡報&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;從敵對勢力手中奪取%1。&lt;&#47 ;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下劃線=&quot;true&quot;&gt;規則&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t尺寸 ="1"&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下劃線=&quot;true&gt;&lt;&#47;t&gt;&lt;br&#47;&lt;t尺寸=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t下劃線= &quot;true&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt; &lt;br&gt;&lt;t underline="true"&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&lt;t size=&quot;1&gt;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t 下劃線=&quot;true&quot;&gt;熱鍵&lt;&#47;t&gt;&lt;br&#47;&gt;&lt; t size="1"&gt;&#91;首頁&#93; &#45; 玩家菜單&lt;br&#47;&gt;&#91;結束&#93; &#45; 耳塞&lt;br&#47;&gt;&#91;4&#93; &#45; 武器皮套&lt;br&gt;&#91;L.Ctrl&#91;Reload&#93; &#45; 雜誌重新包裝&lt;br&gt;&#91;V&#93; &#45; 跳“邊跑邊跑”&lt;br&gt;&#91;U&#93; &#45; 集團管理&lt;br&gt;&#91;Space&#93; &#45; 打開/關閉門&lt;br&#47;&gt;&#91;J&#93;x2 &#45; 任務&lt;&#47;t&gt;</Chinese><!--Edit-->
+			<Turkish>&lt;t underline=&quot;true&quot;&gt;Brifing&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;Karşı kuvvetlerden %1 ele geçirin.&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Kurallar&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%4&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Yetkili&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%5&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Teamspeak&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%2&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Discord&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;%3&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t underline=&quot;true&quot;&gt;Kısa Yol Tuşları&lt;&#47;t&gt;&lt;br&#47;&gt;&lt;t size=&quot;1&quot;&gt;&#91;Home&#93; &#45; Oyuncu Menüsü&lt;br&#47;&gt;&#91;End&#93; &#45; Kulak Tıkacı&lt;br&#47;&gt;&#91;4&#93; &#45; Silahı Kılıfa Koy&lt;br&#47;&gt;&#91;L.Ctrl&#93;&#43;&#91;R&#93; &#45; Şarjörleri Birleştir&lt;br&#47;&gt;&#91;V&#93; &#45; Zıpla &#40;koşarken&#41;&lt;br&#47;&gt;&#91;U&#93; &#45; Grup Yönetimi&lt;br&#47;&gt;&#91;Space&#93; &#45; Kapıyı Aç/Kapat&lt;br&#47;&gt;&#91;J&#93;x2 &#45; Görevler&lt;&#47;t&gt;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_149">
 			<Original>&#45; It is forbidden to kill a teammate&lt;br&#47;&gt;&#45; It is forbidden to harm friendly elements&lt;br&#47;&gt;&#45; Advertising is prohibited&lt;br&#47;&gt;&#45; Verbal harassment is prohibited&lt;br&#47;&gt;&#45; Pilots and UAV operator must be in Teamspeak&lt;br&#47;&gt;&#45; Staff is deemed to have accepted</Original>
@@ -10453,31 +10741,31 @@ _____________________________________________________________-->
 			<Original>Main Base</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Ana Üs</Turkish>
+			<Turkish>Karargah</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_203">
 			<Original>Pilots</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Pilotlar</Turkish>
+			<Turkish>Helikopter Hangarı</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_204">
 			<Original>Fighter Pilots</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Avcı Pilotlar</Turkish>
+			<Turkish>Uçak Hangarı</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_205">
 			<Original>UAV Operators</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>İHA Operatörleri</Turkish>
+			<Turkish>İHA Kulesi</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_206">
 			<Original>Naval Command</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Deniz Komutu</Turkish>
+			<Turkish>Deniz Üssü</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_207">
 			<Original>Respawn &#40;OPFOR&#41;</Original>
@@ -10513,7 +10801,7 @@ _____________________________________________________________-->
 			<Original>&#40; %1 Tickets &#41;</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>&#40; %1 Biletler&#41;</Turkish>
+			<Turkish>&#40; %1 Hak&#41;</Turkish>
 		</Key>
 		<Key ID="STR_QS_Menu_213">
 			<Original>Whitelisted players can choose Uniform, Vehicle, Shoulder Insignia.</Original>
@@ -11050,10 +11338,22 @@ _____________________________________________________________-->
 			<Turkish>Dost</Turkish>
 		</Key>
 		<Key ID="STR_QS_Utility_030">
-			<Original>AI (Friendly)</Original>
+			<Original>AI &#40;Friendly&#41;</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>AI (Dost)</Turkish>
+			<Turkish>AI &#40;Dost&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Utility_031">
+			<Original>&lt;img size='4' image='%1'&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t size='3';&gt;%2 Campaign completed&lt;&#47;t&gt;</Original>
+			<Chinesesimp>&lt;img size='4' image='%1'&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t size='3';&gt;%2 Campaign completed&lt;&#47;t&gt;</Chinesesimp>
+			<Chinese>&lt;img size='4' image='%1'&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t size='3';&gt;%2 Campaign completed&lt;&#47;t&gt;</Chinese>
+			<Turkish>&lt;img size='4' image='%1'&#47;&gt;&lt;br&#47;&gt;&lt;br&#47;&gt;&lt;t size='3';&gt;%2 Mücadelesi Tamamlandı&lt;&#47;t&gt;</Turkish>
+		</Key>
+		<Key ID="STR_QS_Utility_032">
+			<Original>Spawn Zone - Entity deleted</Original>
+			<Chinesesimp>Spawn Zone - Entity deleted</Chinesesimp>
+			<Chinese>Spawn Zone - Entity deleted</Chinese>
+			<Turkish>Doğma Bölgesi - Varlık silindi</Turkish>
 		</Key>
 	</Container>
 	<Container name="QS_xml_dialogs">
@@ -11385,13 +11685,13 @@ _____________________________________________________________-->
 			<Original>Suppression Effects</Original>
 			<Chinesesimp>压制效果</Chinesesimp>
 			<Chinese>壓制效果</Chinese>
-			<Turkish>Bastırma Efektleri</Turkish>
+			<Turkish>Mermi Hasarı Efektleri</Turkish>
 		</Key>
 		<Key ID="STR_QS_Dialogs_055">
 			<Original>Toggles Suppression Effects</Original>
 			<Chinesesimp>切换压制效果</Chinesesimp>
 			<Chinese>切換壓制效果</Chinese>
-			<Turkish>Bastırma Efektlerini Aç/Kapat</Turkish>
+			<Turkish>Mermi Hasarı Efektlerini Aç/Kapat</Turkish>
 		</Key>
 		<Key ID="STR_QS_Dialogs_056">
 			<Original>Hit Markers</Original>
@@ -11601,7 +11901,7 @@ _____________________________________________________________-->
 			<Original>Anti-Air</Original>
 			<Chinesesimp>待编辑</Chinesesimp>
 			<Chinese>待編輯</Chinese>
-			<Turkish>Anti-Air</Turkish>
+			<Turkish>Hava-Hava</Turkish>
 		</Key>
 		<Key ID="STR_QS_Dialogs_091">
 			<Original>CAS &#40;Bombs&#41;</Original>
@@ -11736,7 +12036,7 @@ _____________________________________________________________-->
 			<Turkish>Ayarlar</Turkish>
 		</Key>
 	</Container>
-	<Container name="QS_xml_mission">	
+	<Container name="QS_xml_Mission">	
 		<Key ID="STR_QS_hostName">
 			<Original>Invade &amp; Annex</Original>
 			<Chinesesimp>&#91;CN&#93;Invade &amp; Annex</Chinesesimp>
@@ -11773,5 +12073,1159 @@ _____________________________________________________________-->
 			<Chinese>選擇遊戲角色</Chinese>
 			<Turkish>Oyuna Gir Rol Seç</Turkish>
 		</Key>
-	</Container>	
+	</Container>
+	<Container name="QS_xml_DiagLogs">
+		<Key ID="STR_QS_DiagLogs_000">
+			<Original>Text</Original>
+			<Chinesesimp>待编辑</Chinesesimp>
+			<Chinese>待编辑</Chinese>
+			<Turkish>Metin</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_001">
+			<Original>***** Weapon does not exist - %1 *****</Original>
+			<Chinesesimp>***** Weapon does not exist - %1 *****</Chinesesimp>
+			<Chinese>***** Weapon does not exist - %1 *****</Chinese>
+			<Turkish>Silah mevcut değil - %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_002">
+			<Original>HC AI Report &#40;Server&#41;: %1 Local units: %2 * %1 Local groups: %3 * %1 Local agents: %4</Original>
+			<Chinesesimp>HC AI Report &#40;Server&#41;: %1 Local units: %2 * %1 Local groups: %3 * %1 Local agents: %4</Chinesesimp>
+			<Chinese>HC AI Report &#40;Server&#41;: %1 Local units: %2 * %1 Local groups: %3 * %1 Local agents: %4</Chinese>
+			<Turkish>HC AI Raporu &#40;Sunucu&#41;: %1 Yerel birimler: %2 * %1 Yerel gruplar: %3 * %1 Yerel aracılar: %4</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_003">
+			<Original>Headless Client Info: %1</Original>
+			<Chinesesimp>Headless Client Info: %1</Chinesesimp>
+			<Chinese>Headless Client Info: %1</Chines>
+			<Turkish>Headles İstemci Bilgisi: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_004">
+			<Original>***** QS AI - Sector Assault Active *****</Original>
+			<Chinesesimp>***** QS AI - Sector Assault Active *****</Chinesesimp>
+			<Chinese>***** QS AI - Sector Assault Active *****</Chinese>
+			<Turkish>***** QS AI - Sektör Saldırısı Aktif *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_005">
+			<Original>***** QS AI - Patrol Fall Back *****</Original>
+			<Chinesesimp>***** QS AI - Patrol Fall Back *****</Chinesesimp>
+			<Chinese>***** QS AI - Patrol Fall Back *****</Chinese>
+			<Turkish>***** QS AI - Devriye Geri Döndü *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_006">
+			<Original>QS AI GRID deinit</Original>
+			<Chinesesimp>QS AI GRID deinit</Chinesesimp>
+			<Chinese>QS AI GRID deinit</Chinese>
+			<Turkish>QS AI GRID Bitiş</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_007">
+			<Original>QS AI GRID init</Original>
+			<Chinesesimp>QS AI GRID init</Chinesesimp>
+			<Chinese>QS AI GRID init</Chinese>
+			<Turkish>QS AI GRID Başlangıç</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_008">
+			<Original>Defend AO 0</Original>
+			<Chinesesimp>Defend AO 0</Chinesesimp>
+			<Chinese>Defend AO 0</Chinese>
+			<Turkish>Savunma OA 0</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_009">
+			<Original>Defend AO 0.5</Original>
+			<Chinesesimp>Defend AO 0.5</Chinesesimp>
+			<Chinese>Defend AO 0.5</Chinese>
+			<Turkish>Savunma OA 0.5</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_010">
+			<Original>Defend AO 1</Original>
+			<Chinesesimp>Defend AO 1</Chinesesimp>
+			<Chinese>Defend AO 1</Chinese>
+			<Turkish>Savunma OA 1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_011">
+			<Original>Defend AO 2</Original>
+			<Chinesesimp>Defend AO 2</Chinesesimp>
+			<Chinese>Defend AO 2</Chinese>
+			<Turkish>Savunma OA 2</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_012">
+			<Original>***** AO ENEMY ***** fn_aoEnemy START *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** fn_aoEnemy START *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** fn_aoEnemy START *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** fn_aoEnemy BAŞLANGIÇ *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_013">
+			<Original>***** AO ENEMY * NEAR ROADS COUNT: %1 *****</Original>
+			<Chinesesimp>***** AO ENEMY * NEAR ROADS COUNT: %1 *****</Chinesesimp>
+			<Chinese>***** AO ENEMY * NEAR ROADS COUNT: %1 *****</Chinese>
+			<Turkish>***** OA DÜŞMAN * YAKIN YOL SAYISI: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_014">
+			<Original>***** AO ENEMY ***** Spawning Fortified AA *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning Fortified AA *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning Fortified AA *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Mevzilendirilmiş AA Çıkarılıyor*****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_015">
+			<Original>***** AO ENEMY ***** Spawning infantry patrols *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning infantry patrols *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning infantry patrols *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Devriye Piyadeleri Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_016">
+			<Original>***** AO ENEMY * INFANTRY PATROL INVALID POSITION * %1 *****</Original>
+			<Chinesesimp>***** AO ENEMY * INFANTRY PATROL INVALID POSITION * %1 *****</Chinesesimp>
+			<Chinese>***** AO ENEMY * INFANTRY PATROL INVALID POSITION * %1 *****</Chinese>
+			<Turkish>***** OA DÜŞMAN * DEVRİYE PİYADELERİ GEÇERSİZ KONUM * %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_017">
+			<Original>***** AO ENEMY ***** Spawning static weapons *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning static weapons *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning static weapons *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Statik Silahlar Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_018">
+			<Original>***** AO ENEMY ***** Spawning infantry overwatch *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning infantry overwatch *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning infantry overwatch *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Telsiz Kulesi Piyadeleri Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_019">
+			<Original>***** AO ENEMY ***** Spawning Armored Vehicles *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning Armored Vehicles *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning Armored Vehicles *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Zırhlı Araçlar Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_020">
+			<Original>***** AO ENEMY ***** Spawning Snipers *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning Snipers *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning Snipers *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Keskin Nişancılar Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_021">
+			<Original>***** AO ENEMY ***** Spawning Mortar Pit *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning Mortar Pit *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning Mortar Pit *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Havan Mevzisi Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_022">
+			<Original>***** AO ENEMY ***** Spawning Enemies in buildings *</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning Enemies in buildings *</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning Enemies in buildings *</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Düşman Binaları Oluşturuluyor *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_023">
+			<Original>***** AO ENEMY ***** Spawning Boat Patrol *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning Boat Patrol *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning Boat Patrol *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** Bot Devriyesi Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_024">
+			<Original>***** AO ENEMY ***** Spawning HQ Guards *****</Original>
+			<Chinesesimp>***** AO ENEMY ***** Spawning HQ Guards *****</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** Spawning HQ Guards *****</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** HQ Nöbetçileri Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_025">
+			<Original>***** AO ENEMY ***** fn_aoEnemy END ****************</Original>
+			<Chinesesimp>***** AO ENEMY ***** fn_aoEnemy END ****************</Chinesesimp>
+			<Chinese>***** AO ENEMY ***** fn_aoEnemy END ****************</Chinese>
+			<Turkish>***** OA DÜŞMAN ***** fn_aoEnemy SON ****************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_026">
+			<Original>***** FIRES ***** already active *****</Original>
+			<Chinesesimp>***** FIRES ***** already active *****</Chinesesimp>
+			<Chinese>***** FIRES ***** already active *****</Chinese>
+			<Turkish>***** YANGINLAR ***** zaten aktif *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_027">
+			<Original>***** AO COMPOSITION ***** Spawning jungle camp ****</Original>
+			<Chinesesimp>***** AO COMPOSITION ***** Spawning jungle camp ****</Chinesesimp>
+			<Chinese>***** AO COMPOSITION ***** Spawning jungle camp ****</Chinese>
+			<Turkish>***** OA KOMPOZİSYON ***** Orman Kampı Oluşturuluyor ****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_028">
+			<Original>***** DEBUG * Finding HQ position * 0 *</Original>
+			<Chinesesimp>***** DEBUG * Finding HQ position * 0 *</Chinesesimp>
+			<Chinese>***** DEBUG * Finding HQ position * 0 *</Chinese>
+			<Turkish>***** HATA AYIKLAMA * Karargah Konumunu Bulunuyor * 0 *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_029">
+			<Original>***** DEBUG * Finding HQ position * %1 *</Original>
+			<Chinesesimp>***** DEBUG * Finding HQ position * %1 *</Chinesesimp>
+			<Chinese>***** DEBUG * Finding HQ position * %1 *</Chinese>
+			<Turkish>***** HATA AYIKLAMA * Karargah Konumunu Bulunuyor * %1 *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_030">
+			<Original>***** QS * Used HQ Composition Index: %1 *****</Original>
+			<Chinesesimp>***** QS * Used HQ Composition Index: %1 *****</Chinesesimp>
+			<Chinese>***** QS * Used HQ Composition Index: %1 *****</Chinese>
+			<Turkish>***** QS * Kullanılmış HQ Kompozisyon İndeksi: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_031">
+			<Original>***** AO PREPARE ******* 1 *************************</Original>
+			<Chinesesimp>***** AO PREPARE ******* 1 *************************</Chinesesimp>
+			<Chinese>***** AO PREPARE ******* 1 *************************</Chinese>
+			<Turkish>***** OA HAZIRLAMA ******* 1 *************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_032">
+			<Original>***** AO PREPARE ******* 4 *************************</Original>
+			<Chinesesimp>***** AO PREPARE ******* 4 *************************</Chinesesimp>
+			<Chinese>***** AO PREPARE ******* 4 *************************</Chinese>
+			<Turkish>***** OA HAZIRLAMA ******* 4 *************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_033">
+			<Original>***** AO PREPARE ******* 6 *************************</Original>
+			<Chinesesimp>***** AO PREPARE ******* 6 *************************</Chinesesimp>
+			<Chinese>***** AO PREPARE ******* 6 *************************</Chinese>
+			<Turkish>***** OA HAZIRLAMA ******* 6 *************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_034">
+			<Original>***** AO PREPARE ******* 7 *************************</Original>
+			<Chinesesimp>***** AO PREPARE ******* 7 *************************</Chinesesimp>
+			<Chinese>***** AO PREPARE ******* 7 *************************</Chinese>
+			<Turkish>***** OA HAZIRLAMA ******* 7 *************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_035">
+			<Original>***** AO PREPARE ******* 8 *************************</Original>
+			<Chinesesimp>***** AO PREPARE ******* 8 *************************</Chinesesimp>
+			<Chinese>***** AO PREPARE ******* 8 *************************</Chinese>
+			<Turkish>***** OA HAZIRLAMA ******* 8 *************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_036">
+			<Original>Destroy vehicle task deleted</Original>
+			<Chinesesimp>Destroy vehicle task deleted</Chinesesimp>
+			<Chinese>Destroy vehicle task deleted</Chinese>
+			<Turkish>Aracı yok etme görevi silindi</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_037">
+			<Original>Destroy vehicle task created</Original>
+			<Chinesesimp>Destroy vehicle task created</Chinesesimp>
+			<Chinese>Destroy vehicle task created</Chinese>
+			<Turkish>Aracı yok etme görevi oluşturuldu</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_038">
+			<Original>Medevac task deleted</Original>
+			<Chinesesimp>Medevac task deleted</Chinesesimp>
+			<Chinese>Medevac task deleted</Chinese>
+			<Turkish>Medevac görevi silindi</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_039">
+			<Original>Medevac task created 0</Original>
+			<Chinesesimp>Medevac task created 0</Chinesesimp>
+			<Chinese>Medevac task created 0</Chinese>
+			<Turkish>Medevac görevi oluşturuldu 0</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_040">
+			<Original>Medevac task created 1</Original>
+			<Chinesesimp>Medevac task created 1</Chinesesimp>
+			<Chinese>Medevac task created 1</Chinese>
+			<Turkish>Medevac görevi oluşturuldu</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_041">
+			<Original>***** DEBUG ***** Group composition is null - %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** Group composition is null - %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** Group composition is null - %1 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Grup kompozisyonu boş - %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_042">
+			<Original>************************** ADMIN - %1 has been threat-adjusted to %2 - by %3 **************************</Original>
+			<Chinesesimp>************************** ADMIN - %1 has been threat-adjusted to %2 - by %3 **************************</Chinesesimp>
+			<Chinese>************************** ADMIN - %1 has been threat-adjusted to %2 - by %3 **************************</Chinese>
+			<Turkish>************************** YÖNETİCİ - %1 in tehdidi %3 tarafından %2 ye ayarlandı **************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_043">
+			<Original>***** ERROR ***** QS919 SERVER *****</Original>
+			<Chinesesimp>***** ERROR ***** QS919 SERVER *****</Chinesesimp>
+			<Chinese>***** ERROR ***** QS919 SERVER *****</Chinese>
+			<Turkish>***** HATA ***** QS919 SUNUCU *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_044">
+			<Original>***** ERROR ***** QS919 CLIENT *****</Original>
+			<Chinesesimp>***** ERROR ***** QS919 CLIENT *****</Chinesesimp>
+			<Chinese>***** ERROR ***** QS919 CLIENT *****</Chinese>
+			<Turkish>***** HATA ***** QS919 İSTEMCİ *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_045">
+			<Original>***** fn_atServer ***** UID to robocop: %1 *****</Original>
+			<Chinesesimp>***** fn_atServer ***** UID to robocop: %1 *****</Chinesesimp>
+			<Chinese>***** fn_atServer ***** UID to robocop: %1 *****</Chinese>
+			<Turkish>***** fn_atServer ***** Robocop a UID: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_046">
+			<Original>************************ ADMIN ***** %1 ***** %2 has been threat-adjusted to %3 *****</Original>
+			<Chinesesimp>************************ ADMIN ***** %1 ***** %2 has been threat-adjusted to %3 *****</Chinesesimp>
+			<Chinese>************************ ADMIN ***** %1 ***** %2 has been threat-adjusted to %3 *****</Chinese>
+			<Turkish>*********************** YÖNETİCİ ***** %1 ***** %2 nin tehdidi %3 olarak ayarlandı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_047">
+			<Original>************************ ADMIN - %1 - %2 %3 - was reported by %4 %5 - Location of Reported: %6 Location of Reporter: %7 ************************</Original>
+			<Chinesesimp>************************ ADMIN - %1 - %2 %3 - was reported by %4 %5 - Location of Reported: %6 Location of Reporter: %7 ************************</Chinesesimp>
+			<Chinese>************************ ADMIN - %1 - %2 %3 - was reported by %4 %5 - Location of Reported: %6 Location of Reporter: %7 ************************</Chinese>
+			<Turkish>************************ YÖNETİCİ - %1 - %2 %3 - %4 tarafından rapor edildi %5 - Raporlanan Yer: %6 Bildiren: %7 ***********************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_048">
+			<Original>************************ ADMIN - %1 - %2 %3 - was NOT reported by %4 %5 - Location of Not-Reported: %6 Location of Reporter: %7 ************************</Original>
+			<Chinesesimp>************************ ADMIN - %1 - %2 %3 - was NOT reported by %4 %5 - Location of Not-Reported: %6 Location of Reporter: %7 ************************</Chinesesimp>
+			<Chinese>************************ ADMIN - %1 - %2 %3 - was NOT reported by %4 %5 - Location of Not-Reported: %6 Location of Reporter: %7 ************************</Chinese>
+			<Turkish>************************ YÖNETİCİ - %1 - %2 %3 - %4 %5 tarafından rapor edilmedi - Rapor Edilmeyen Konumu: % 6 Raporlayanın Yeri: %7 ************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_049">
+			<Original>Spawning aircraft carrier</Original>
+			<Chinesesimp>Spawning aircraft carrier</Chinesesimp>
+			<Chinese>Spawning aircraft carrier</Chinese>
+			<Turkish>Uçak Gemisi Oluşturuluyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_050">
+			<Original>***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****</Original>
+			<Chinesesimp>***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****</Chinesesimp>
+			<Chinese>***** CAS RESPAWN ***** SPAWNING JET FOR %1 * %2 *****</Chinese>
+			<Turkish>***** CAS RESPAWN ***** %1 * İÇİN %2 JET OLUŞTURUYOR *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_051">
+			<Original>***** RADIO ***** Removed from channel %1</Original>
+			<Chinesesimp>***** RADIO ***** Removed from channel %1</Chinesesimp>
+			<Chinese>***** RADIO ***** Removed from channel %1</Chinese>
+			<Turkish>***** TELSİZ ***** %1 kanalı kaldırıldı</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_052">
+			<Original>***** RADIO ***** Added to channel %1</Original>
+			<Chinesesimp>***** RADIO ***** Added to channel %1</Chinesesimp>
+			<Chinese>***** RADIO ***** Added to channel %1</Chinese>
+			<Turkish>***** TELSİZ ***** %1 kanalı eklendi</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_053">
+			<Original>***** QS Mag Repack ***** Log ***** Repack failed *****</Original>
+			<Chinesesimp>***** QS Mag Repack ***** Log ***** Repack failed *****</Chinesesimp>
+			<Chinese>***** QS Mag Repack ***** Log ***** Repack failed *****</Chinese>
+			<Turkish>***** QS Mag Repack ***** Log ***** Şarjörleri birleştirme başarısız oldu *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_054">
+			<Original>************************* Server Config Starting ****************************</Original>
+			<Chinesesimp>************************* Server Config Starting ****************************</Chinesesimp>
+			<Chinese>************************* Server Config Starting ****************************</Chinese>
+			<Turkish>************************* Sunucu Yapılandırması Başlatılıyor ****************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_055">
+			<Original>***** System Time: %1 * Product Version: %2 * Mission Name: %3 * Server Name: %4 * Briefing Name: %5 * Mission Version: %6 * Mission Difficulty: %7 * Mission DLCs: %8 * Distribution Region: %9 *****</Original>
+			<Chinesesimp>***** System Time: %1 * Product Version: %2 * Mission Name: %3 * Server Name: %4 * Briefing Name: %5 * Mission Version: %6 * Mission Difficulty: %7 * Mission DLCs: %8 * Distribution Region: %9 *****</Chinesesimp>
+			<Chinese>***** System Time: %1 * Product Version: %2 * Mission Name: %3 * Server Name: %4 * Briefing Name: %5 * Mission Version: %6 * Mission Difficulty: %7 * Mission DLCs: %8 * Distribution Region: %9 *****</Chinese>
+			<Turkish>***** Sistem Süresi: %1 * Ürün Sürümü: %2 * Görev Adı: %3 * Sunucu Adı: %4 * Brifing Adı: %5 * Görev Sürümü: %6 * Görev Zorluğu: %7 * Görev DLC leri: %8 * Dağıtım Bölgesi: %9 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_056">
+			<Original>***** Difficulty Options *****%1*****autoReport: %2%1*****cameraShake: %3%1*****commands: %4%1*****deathMessages: %5%1*****detectedMines: %6%1*****enemyTags: %7%1*****friendlyTags: %8%1*****groupIndicators: %9%1*****mapContent: %10%1*****mapContentEnemy: %11%1*****mapContentFriendly: %12%1*****mapContentMines: %13%1*****mapContentPing: %14%1*****multipleSaves: %15%1*****reducedDamage: %16%1*****scoreTable: %17%1*****squadRadar: %18%1*****staminaBar: %19%1*****stanceIndicator: %20%1*****tacticalPing: %21%1*****thirdPersonView: %22%1*****visionAid: %23%1*****vonID: %24%1*****waypoints: %25%1*****weaponCrosshair: %26%1*****weaponInfo: %27%1</Original>
+			<Chinesesimp>***** Difficulty Options *****%1*****autoReport: %2%1*****cameraShake: %3%1*****commands: %4%1*****deathMessages: %5%1*****detectedMines: %6%1*****enemyTags: %7%1*****friendlyTags: %8%1*****groupIndicators: %9%1*****mapContent: %10%1*****mapContentEnemy: %11%1*****mapContentFriendly: %12%1*****mapContentMines: %13%1*****mapContentPing: %14%1*****multipleSaves: %15%1*****reducedDamage: %16%1*****scoreTable: %17%1*****squadRadar: %18%1*****staminaBar: %19%1*****stanceIndicator: %20%1*****tacticalPing: %21%1*****thirdPersonView: %22%1*****visionAid: %23%1*****vonID: %24%1*****waypoints: %25%1*****weaponCrosshair: %26%1*****weaponInfo: %27%1'</Chinesesimp>
+			<Chinese>***** Difficulty Options *****%1*****autoReport: %2%1*****cameraShake: %3%1*****commands: %4%1*****deathMessages: %5%1*****detectedMines: %6%1*****enemyTags: %7%1*****friendlyTags: %8%1*****groupIndicators: %9%1*****mapContent: %10%1*****mapContentEnemy: %11%1*****mapContentFriendly: %12%1*****mapContentMines: %13%1*****mapContentPing: %14%1*****multipleSaves: %15%1*****reducedDamage: %16%1*****scoreTable: %17%1*****squadRadar: %18%1*****staminaBar: %19%1*****stanceIndicator: %20%1*****tacticalPing: %21%1*****thirdPersonView: %22%1*****visionAid: %23%1*****vonID: %24%1*****waypoints: %25%1*****weaponCrosshair: %26%1*****weaponInfo: %27%1'</Chinese>
+			<Turkish>***** Zorluk Seçenekleri *****%1*****Otomatik Rapor: %2%1*****Kamera Sarsıntısı: %3%1*****Komutlar: %4%1* ****Ölüm Mesajları: %5%1*****Tespit Edilen Mayınlar: %6%1*****Düşman Etiketleri: %7%1*****Dost Etiketleri: %8%1*** **Grup Göstergeleri: %9%1*****Harita İçeriği: %10%1*****Harita İçeriği Düşman: %11%1*****Harita İçeriği Dostu: %12%1*** **Harita İçeriği Mayınları: %13%1*****Harita İçeriği Ping: %14%1*****Birden Fazla Kayıt: %15%1*****Düşük Hasar: %16%1*** **Puan Tablosu: %17%1*****Takım Radarı: %18%1*****Dayanıklılık Çubuğu: %19%1*****Duruş Göstergesi: %20%1***** Taktik Ping: %21%1*****Üçüncü Şahıs Görünümü: %22%1*****Vizyon Yardımı: %23%1*****Von ID: %24%1*****Ara Noktalar : %25%1*****Silah Nişangahı: %26%1*****Silah Bilgisi: %27%1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_057">
+			<Original>***** Mission Profile Namespace Loaded - %1 *****</Original>
+			<Chinesesimp>***** Mission Profile Namespace Loaded - %1 *****</Chinesesimp>
+			<Chinese>***** Mission Profile Namespace Loaded - %1 *****</Chinese>
+			<Turkish>***** Görev Profili Ad Alanı Yüklendi - %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_058">
+			<Original>***** SETUP ERROR * Server must be Dedicated *</Original>
+			<Chinesesimp>***** SETUP ERROR * Server must be Dedicated *</Chinesesimp>
+			<Chinese>***** SETUP ERROR * Server must be Dedicated *</Chinese>
+			<Turkish>***** KURULUM HATASI * Sunucu Dedicated olmalıdır *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_059">
+			<Original>***** SETUP ERROR * Server must be x64 or Linux *</Original>
+			<Chinesesimp>***** SETUP ERROR * Server must be x64 or Linux *</Chinesesimp>
+			<Chinese>***** SETUP ERROR * Server must be x64 or Linux *</Chinese>
+			<Turkish>***** KURULUM HATASI * Sunucu x64 veya Linux olmalıdır *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_060">
+			<Original>***** SETUP ERROR * File patching must be enabled *</Original>
+			<Chinesesimp>***** SETUP ERROR * File patching must be enabled *</Chinesesimp>
+			<Chinese>***** SETUP ERROR * File patching must be enabled *</Chinese>
+			<Turkish>***** KURULUM HATASI * Dosya düzeltme &#40;File patching&#41; etkinleştirilmelidir *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_061">
+			<Original>***** INVALID DIFFICULTY *****</Original>
+			<Chinesesimp>***** INVALID DIFFICULTY *****</Chinesesimp>
+			<Chinese>***** INVALID DIFFICULTY *****</Chinese>
+			<Turkish>***** GEÇERSİZ ZORLUK AYARI*****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_062">
+			<Original>* Difficulty Option %1 is %2, must be %3 *</Original>
+			<Chinesesimp>* Difficulty Option %1 is %2, must be %3 *</Chinesesimp>
+			<Chinese>* Difficulty Option %1 is %2, must be %3 *</Chinese>
+			<Turkish>* Zorluk Seçeneği %1, %2 dir, %3 olmalıdır *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_063">
+			<Original>***** DEBUG ***** COMPILING TERRAIN SPECIFIC ARSENAL DATA</Original>
+			<Chinesesimp>***** DEBUG ***** COMPILING TERRAIN SPECIFIC ARSENAL DATA</Chinesesimp>
+			<Chinese>***** DEBUG ***** COMPILING TERRAIN SPECIFIC ARSENAL DATA</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** ARAZİYE ÖZEL ARSENAL VERİLERİNİ DERLENİYOR</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_064">
+			<Original>***** DEBUG ***** COMPILING TERRAIN SPECIFIC ROLES DATA</Original>
+			<Chinesesimp>***** DEBUG ***** COMPILING TERRAIN SPECIFIC ROLES DATA</Chinesesimp>
+			<Chinese>***** DEBUG ***** COMPILING TERRAIN SPECIFIC ROLES DATA</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** ARAZİYE ÖZEL ROL VERİLERİNİ DERLENİYOR</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_065">
+			<Original>Setting marker Pos</Original>
+			<Chinesesimp>Setting marker Pos</Chinesesimp>
+			<Chinese>Setting marker Pos</Chinese>
+			<Turkish>Marker Pos Ayarlanıyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_066">
+			<Original>***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 1 - SETTING DATE *****</Original>
+			<Chinesesimp>***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 1 - SETTING DATE *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 1 - SETTING DATE *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** QS_initServer.sqf ***** %1 ***** 1 - TARİH AYARLANIYOR *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_067">
+			<Original>***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 2.5 - SETTING WEATHER FROM PROFILE *****</Original>
+			<Chinesesimp>***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 2.5 - SETTING WEATHER FROM PROFILE *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 2.5 - SETTING WEATHER FROM PROFILE *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** QS_initServer.sqf ***** %1 ***** 2.5 - PROFİLDEN HAVA DURUMU AYARLANDI *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_068">
+			<Original>************************* Server Config Complete ****************************</Original>
+			<Chinesesimp>************************* Server Config Complete ****************************</Chinesesimp>
+			<Chinese>************************* Server Config Complete ****************************</Chinese>
+			<Turkish>************************ Sunucu Yapılandırması Tamamlandı *****************************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_069">
+			<Original>***** GAME MODE ***** CLASSIC mode not configured for this terrain *****</Original>
+			<Chinesesimp>***** GAME MODE ***** CLASSIC mode not configured for this terrain *****</Chinesesimp>
+			<Chinese>***** GAME MODE ***** CLASSIC mode not configured for this terrain *****</Chinese>
+			<Turkish>***** OYUN MODU ***** &#40;CLASSIC&#41; KLASİK mod bu arazi için yapılandırılmadı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_070">
+			<Original>***** GAME MODE ***** SECTOR CONTROL mode not configured for this terrain *****</Original>
+			<Chinesesimp>***** GAME MODE ***** SECTOR CONTROL mode not configured for this terrain *****</Chinesesimp>
+			<Chinese>***** GAME MODE ***** SECTOR CONTROL mode not configured for this terrain *****</Chinese>
+			<Turkish>***** OYUN MODU ***** &#40;SECTOR CONTROL&#41; SEKTÖR KONTROL modu bu arazi için yapılandırılmadı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_071">
+			<Original>***** GAME MODE ***** INSURGENCY mode not configured for this terrain *****</Original>
+			<Chinesesimp>***** GAME MODE ***** INSURGENCY mode not configured for this terrain *****</Chinesesimp>
+			<Chinese>***** GAME MODE ***** INSURGENCY mode not configured for this terrain *****</Chinese>
+			<Turkish>***** OYUN MODU ***** &#40;INSURGENCY&#41; İSYAN modu bu arazi için yapılandırılmadı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_072">
+			<Original>***** CURRENT GAMEMODE: %1 *****</Original>
+			<Chinesesimp>***** CURRENT GAMEMODE: %1 *****</Chinesesimp>
+			<Chinese>***** CURRENT GAMEMODE: %1 *****</Chinese>
+			<Turkish>***** MEVCUT OYUN MODU: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_074">
+			<Original>***** QS ***** DEBUG ***** INIT GRID *****</Original>
+			<Chinesesimp>***** QS ***** DEBUG ***** INIT GRID *****</Chinesesimp>
+			<Chinese>***** QS ***** DEBUG ***** INIT GRID *****</Chinese>
+			<Turkish>***** QS ***** HATA AYIKLAMA ***** GRID MODU BAŞLANGIÇ *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_075">
+			<Original>***** DEBUG ***** Weather wind array: %1</Original>
+			<Chinesesimp>***** DEBUG ***** Weather wind array: %1</Chinesesimp>
+			<Chinese>***** DEBUG ***** Weather wind array: %1</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Hava durumu rüzgar ayarı: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_076">
+			<Original>***** DEBUG ***** Weather overcast array: %1</Original>
+			<Chinesesimp>***** DEBUG ***** Weather overcast array: %1</Chinesesimp>
+			<Chinese>***** DEBUG ***** Weather overcast array: %1</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Hava durumu bulut ayarı: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_077">
+			<Original>***** RESTART SCHEDULE * %1 *****</Original>
+			<Chinesesimp>***** RESTART SCHEDULE * %1 *****</Chinesesimp>
+			<Chinese>***** RESTART SCHEDULE * %1 *****</Chinese>
+			<Turkish>***** YENİDEN BAŞLATMA TAKVİMİ * %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_078">
+			<Original>Estimated Time Left: %1</Original>
+			<Chinesesimp>Estimated Time Left: %1</Chinesesimp>
+			<Chinese>Estimated Time Left: %1</Chinese>
+			<Turkish>Tahmini Kalan Süre: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_079">
+			<Original>***** Restart schedule * Restart Hour: %1 RealTimeStart: %2 *****</Original>
+			<Chinesesimp>***** Restart schedule * Restart Hour: %1 RealTimeStart: %2 *****</Chinesesimp>
+			<Chinese>***** Restart schedule * Restart Hour: %1 RealTimeStart: %2 *****</Chinese>
+			<Turkish>***** Yeniden başlatma takvimi * Yeniden Başlatma Saati: %1 &#40;RealTimeStart&#41; Gerçek Zamanlı Başlatma: %2 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_080">
+			<Original>***** Saving Profile *****</Original>
+			<Chinesesimp>***** Saving Profile *****</Chinesesimp>
+			<Chinese>***** Saving Profile *****</Chinese>
+			<Turkish>***** Profil Kaydediliyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_081">
+			<Original>***** Profile Saved *****</Original>
+			<Chinesesimp>***** Profile Saved *****</Chinesesimp>
+			<Chinese>***** Profile Saved *****</Chinese>
+			<Turkish>***** Profil Kaydedildi *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_082">
+			<Original>%1********** SERVER REPORT &#40;TOP&#41; ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1********** SERVER REPORT &#40;BOTTOM&#41; **********</Original>
+			<Chinesesimp>%1********** SERVER REPORT &#40;TOP&#41; ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1********** SERVER REPORT &#40;BOTTOM&#41; **********</Chinesesimp>
+			<Chinese>%1********** SERVER REPORT &#40;TOP&#41; ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1********** SERVER REPORT &#40;BOTTOM&#41; **********</Chinese>
+			<Turkish>%1********** SUNUCU RAPORU &#40;BAŞLANGICI&#41; ********** Sistem Zamanı: %21 * %1FPS: %2 * %1Kare: %3 * %1Kare-Zaman: %4 * %1Oyuncu sayısı: %5 * %1Aktif Komut Dosyaları: %6 * %1Aktif SQF Komut Dosyaları: %7 * %1Aktif SQS Komut Dosyaları: %8 * %1Aktif FSM Komut Dosyaları: %9 * %1Aktif Zeus: %10 * %1Aktif HC: %11 * %1Oluşturulan Varlıklar: %12 * %1Silinen Varlıklar: %13 * %1Öldürülmüş Varlıklar: %14 * %1Yeniden Doğan Varlıklar: %15 * %1Geri Dönüştürülmüş Varlıklar: %16 * %1Birim Sayısı: %17 * %1Toplam nesne sayısı: %18 * %1Varlık sayısı: %19 * %1Basit nesne sayısı: %20 *%1********** SUNUCU RAPORU &#40;SONU&#41; **********</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_083">
+			<Original>***** SC INIT * 0 *****</Original>
+			<Chinesesimp>***** SC INIT * 0 *****</Chinesesimp>
+			<Chinese>***** SC INIT * 0 *****</Chinese>
+			<Turkish>***** SC INIT * 0 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_084">
+			<Original>***** QS DEBUG ***** Region: %1 *****</Original>
+			<Chinesesimp>***** QS DEBUG ***** Region: %1 *****</Chinesesimp>
+			<Chinese>***** QS DEBUG ***** Region: %1 *****</Chinese>
+			<Turkish>***** QS HATA AYIKLAMA ***** Bölge: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_085">
+			<Original>***** QS DEBUG ***** AO: %1 *****</Original>
+			<Chinesesimp>***** QS DEBUG ***** AO: %1 *****</Chinesesimp>
+			<Chinese>***** QS DEBUG ***** AO: %1 *****</Chinese>
+			<Turkish>***** QS HATA AYIKLAMA ***** OA: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_086">
+			<Original>***** QS ***** DEBUG ***** Region ID: %1 *****</Original>
+			<Chinesesimp>***** QS ***** DEBUG ***** Region ID: %1 *****</Chinesesimp>
+			<Chinese>***** QS ***** DEBUG ***** Region ID: %1 *****</Chinese>
+			<Turkish>***** QS ***** HATA AYIKLAMA ***** Bölge ID: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_087">
+			<Original>***** QS ***** DEBUG ***** AO ID: %1 *****</Original>
+			<Chinesesimp>***** QS ***** DEBUG ***** AO ID: %1 *****</Chinesesimp>
+			<Chinese>***** QS ***** DEBUG ***** AO ID: %1 *****</Chinese>
+			<Turkish>***** QS ***** HATA AYIKLAMA ***** OA ID: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_088">
+			<Original>Main AO deactivating</Original>
+			<Chinesesimp>Main AO deactivating</Chinesesimp>
+			<Chinese>Main AO deactivating</Chinese>
+			<Turkish>Ana OA devre dışı bırakılıyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_089">
+			<Original>***** AO SAVED STATS ***** %1</Original>
+			<Chinesesimp>***** AO SAVED STATS ***** %1</Chinesesimp>
+			<Chinese>***** AO SAVED STATS ***** %1</Chinese>
+			<Turkish>***** OA KAYDEDİLEN İSTATİSTİKLER ***** %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_090">
+			<Original>***** QS ***** DEBUG * GRID COMPLETE *****</Original>
+			<Chinesesimp>***** QS ***** DEBUG * GRID COMPLETE *****</Chinesesimp>
+			<Chinese>***** QS ***** DEBUG * GRID COMPLETE *****</Chinese>
+			<Turkish>***** QS ***** HATA AYIKLAMA * GRID TAMAMLANDI *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_091">
+			<Original>CREATING SMALL TASK</Original>
+			<Chinesesimp>CREATING SMALL TASK</Chinesesimp>
+			<Chinese>CREATING SMALL TASK</Chinese>
+			<Turkish>KÜÇÜK GÖREVLER OLUŞTURULUYOR</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_092">
+			<Original>CREATING SMALL TASK FAILED</Original>
+			<Chinesesimp>CREATING SMALL TASK FAILED</Chinesesimp>
+			<Chinese>CREATING SMALL TASK FAILED</Chinese>
+			<Turkish>KÜÇÜK GÖREVLER OLUŞTURMA BAŞARISIZ</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_093">
+			<Original>DELETING SMALL TASK</Original>
+			<Chinesesimp>DELETING SMALL TASK</Chinesesimp>
+			<Chinese>DELETING SMALL TASK</Chinese>
+			<Turkish>KÜÇÜK GÖREVLER SİLİNİYOR</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_094">
+			<Original>***** FOB ***** ADD TO REMAINS COLLECTOR *****</Original>
+			<Chinesesimp>***** FOB ***** ADD TO REMAINS COLLECTOR *****</Chinesesimp>
+			<Chinese>***** FOB ***** ADD TO REMAINS COLLECTOR *****</Chinese>
+			<Turkish>***** İLERİ KARAKOL ***** HAZIRLANIYOR *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_095">
+			<Original>***** FOB ***** CREATING *****</Original>
+			<Chinesesimp>***** FOB ***** CREATING *****</Chinesesimp>
+			<Chinese>***** FOB ***** CREATING *****</Chinese>
+			<Turkish>***** İLERİ KARAKOL ***** OLUŞTURULUYOR *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_096">
+			<Original>***** Spawning custom AO *****</Original>
+			<Chinesesimp>***** Spawning custom AO *****</Chinesesimp>
+			<Chinese>***** Spawning custom AO *****</Chinese>
+			<Turkish>***** Özel OA oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_097">
+			<Original>***** Custom AO finished *****</Original>
+			<Chinesesimp>***** Custom AO finished *****</Chinesesimp>
+			<Chinese>***** Custom AO finished *****</Chinese>
+			<Turkish>***** Özel OA tamamlandı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_098">
+			<Original>***** CLEANUP ***** %1 ***** Deleting dead * overflow *****</Original>
+			<Chinesesimp>***** CLEANUP ***** %1 ***** Deleting dead * overflow *****</Chinesesimp>
+			<Chinese>***** CLEANUP ***** %1 ***** Deleting dead * overflow *****</Chinese>
+			<Turkish>***** TEMİZLEME ***** %1 ***** Fazla Ölüler siliniyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_099">
+			<Original>***** WEATHER Setting next wind ***** %1 *****</Original>
+			<Chinesesimp>***** WEATHER Setting next wind ***** %1 *****</Chinesesimp>
+			<Chinese>***** WEATHER Setting next wind ***** %1 *****</Chinese>
+			<Turkish>***** HAVA DURUMU Sonraki rüzgar ayarlanıyor ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_100">
+			<Original>***** WEATHER setting next overcast ***** %1 *****</Original>
+			<Chinesesimp>***** WEATHER setting next overcast ***** %1 *****</Chinesesimp>
+			<Chinese>***** WEATHER setting next overcast ***** %1 *****</Chinese>
+			<Turkish>***** HAVA DURUMU Sonraki bulut ayarlanıyor ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_101">
+			<Original>***** ANTI-HACK ***** Deleted invalid marker * %1 * %2 * %3 * %4 *****</Original>
+			<Chinesesimp>***** ANTI-HACK ***** Deleted invalid marker * %1 * %2 * %3 * %4 *****</Chinesesimp>
+			<Chinese>***** ANTI-HACK ***** Deleted invalid marker * %1 * %2 * %3 * %4 *****</Chinese>
+			<Turkish>***** ANTI-HACK ***** Geçersiz marker silindi * %1 * %2 * %3 * %4 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_102">
+			<Original>***** Server restarting as scheduled *****</Original>
+			<Chinesesimp>***** Server restarting as scheduled *****</Chinesesimp>
+			<Chinese>***** Server restarting as scheduled *****</Chinese>
+			<Turkish>***** Sunucu planlandığı gibi yeniden başlatılıyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_103">
+			<Original>* %1 ***** QS ***** DEBUG ***** MISSION ENGINE TERMINATED *****</Original>
+			<Chinesesimp>* %1 ***** QS ***** DEBUG ***** MISSION ENGINE TERMINATED *****</Chinesesimp>
+			<Chinese>* %1 ***** QS ***** DEBUG ***** MISSION ENGINE TERMINATED *****</Chinese>
+			<Turkish>* %1 ***** QS ***** HATA AYIKLAMA ***** GÖREV MOTORU SONLANDIRILDI *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_104">
+			<Original>***** DEBUG ***** Enemy assaulting deployment * %1 * %2 *****</Original>
+			<Chinesesimp>***** DEBUG ***** Enemy assaulting deployment * %1 * %2 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** Enemy assaulting deployment * %1 * %2 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Düşman saldırısı konuşlandırılıyor * %1 * %2 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_105">
+			<Original>Spawning destroyer</Original>
+			<Chinesesimp>Spawning destroyer</Chinesesimp>
+			<Chinese>Spawning destroyer</Chinese>
+			<Turkish>Muhrip Gemi Oluşturuluyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_106">
+			<Original>Entity Created: %1</Original>
+			<Chinesesimp>Entity Created: %1</Chinesesimp>
+			<Chinese>Entity Created: %1</Chinese>
+			<Turkish>Varlık Oluşturuldu: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_107">
+			<Original>***** PLAYER DISCONNECT: ***** %1 ***** %2 * %3 ****</Original>
+			<Chinesesimp>***** PLAYER DISCONNECT: ***** %1 ***** %2 * %3 ****</Chinesesimp>
+			<Chinese>***** PLAYER DISCONNECT: ***** %1 ***** %2 * %3 ****</Chinese>
+			<Turkish>***** OYUNCU BAĞLANTISINI KESİLDİ: ***** %1 ***** %2 * %3 ****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_108">
+			<Original>***** MISSION ENDED ***** %1 ***** %2 *****</Original>
+			<Chinesesimp>***** MISSION ENDED ***** %1 ***** %2 *****</Chinesesimp>
+			<Chinese>***** MISSION ENDED ***** %1 ***** %2 *****</Chinese>
+			<Turkish>***** GÖREV BİTTİ ***** %1 ***** %2 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_109">
+			<Original>***** onPlayerConnected ***** %1 *****</Original>
+			<Chinesesimp>***** onPlayerConnected ***** %1 *****</Chinesesimp>
+			<Chinese>***** onPlayerConnected ***** %1 *****</Chinese>
+			<Turkish>***** &#40;onPlayerConnected&#41; Oyuncu Bağlandı ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_110">
+			<Original>***** SERVER ***** HC Registered ***** %1 * %2 *****</Original>
+			<Chinesesimp>***** SERVER ***** HC Registered ***** %1 * %2 *****</Chinesesimp>
+			<Chinese>***** SERVER ***** HC Registered ***** %1 * %2 *****</Chinese>
+			<Turkish>***** SUNUCU ***** HC Kaydedildi ***** %1 * %2 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_111">
+			<Original>***** onPlayerDisconnected ***** %1 *****</Original>
+			<Chinesesimp>***** onPlayerDisconnected ***** %1 *****</Chinesesimp>
+			<Chinese>***** onPlayerDisconnected ***** %1 *****</Chinese>
+			<Turkish>***** &#40;onPlayerDisconnected&#41; Oyuncu Bağlantısı Kesildi ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_112">
+			<Original>Headless Client %1 &#40; %2 &#41; disconnected</Original>
+			<Chinesesimp>Headless Client %1 &#40; %2 &#41; disconnected</Chinesesimp>
+			<Chinese>Headless Client %1 &#40; %2 &#41; disconnected</Chinese>
+			<Turkish>Headless İstemci %1 &#40; %2 &#41; bağlantısı kesildi</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_113">
+			<Original>***** DEBUG ***** SAFE POS FAILURE * %1 * %2 * %3 * %4 * %5 * %6 * %7 * %8 * %9</Original>
+			<Chinesesimp>***** DEBUG ***** SAFE POS FAILURE * %1 * %2 * %3 * %4 * %5 * %6 * %7 * %8 * %9</Chinesesimp>
+			<Chinese>***** DEBUG ***** SAFE POS FAILURE * %1 * %2 * %3 * %4 * %5 * %6 * %7 * %8 * %9</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** GÜVENLİ POS HATASI * %1 * %2 * %3 * %4 * %5 * %6 * %7 * %8 * %9</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_114">
+			<Original>Log: [findSafePos] No center position was passed!</Original>
+			<Chinesesimp>Log: [findSafePos] No center position was passed!</Chinesesimp>
+			<Chinese>Log: [findSafePos] No center position was passed!</Chinese>
+			<Turkish>Log: [findSafePos] Güvenli pozisyon merkezi pas geçildi!</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_115">
+			<Original>***** DEBUG ***** fn_garrisonUnits ***** No building positions available *****</Original>
+			<Chinesesimp>***** DEBUG ***** fn_garrisonUnits ***** No building positions available *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** fn_garrisonUnits ***** No building positions available *****</Chinese>
+			<Turkish>***** DEBUG ***** fn_garrisonUnits ***** Kullanılabilir bina konumu yok *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_116">
+			<Original>***** GRID RESETTING - %1 *****</Original>
+			<Chinesesimp>***** GRID RESETTING - %1 *****</Chinesesimp>
+			<Chinese>***** GRID RESETTING - %1 *****</Chinese>
+			<Turkish>***** GRID SIFIRLANIYOR - %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_117">
+			<Original>***** GRID SAVING *****</Original>
+			<Chinesesimp>***** GRID SAVING *****</Chinesesimp>
+			<Chinese>***** GRID SAVING *****</Chinese>
+			<Turkish>***** GRID KAYDEDİLİYOR *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_118">
+			<Original>Grid initializing START - %1</Original>
+			<Chinesesimp>Grid initializing START - %1</Chinesesimp>
+			<Chinese>Grid initializing START - %1</Chinese>
+			<Turkish>Grid yükleniyor BAŞLANGIÇ - %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_119">
+			<Original>Grid initializing END - %1</Original>
+			<Chinesesimp>Grid initializing END - %1</Chinesesimp>
+			<Chinese>Grid initializing END - %1</Chinese>
+			<Turkish>Grid yükleniyor SON - %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_120">
+			<Original>QS QS QS * Spawned position: %1</Original>
+			<Chinesesimp>QS QS QS * Spawned position: %1</Chinesesimp>
+			<Chinese>QS QS QS * Spawned position: %1</Chinese>
+			<Turkish>QS QS QS * Oluşturulan konum: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_121">
+			<Original>QS QS QS * IG Spawned position: %1</Original>
+			<Chinesesimp>QS QS QS * IG Spawned position: %1</Chinesesimp>
+			<Chinese>QS QS QS * IG Spawned position: %1</Chinese>
+			<Turkish>QS QS QS * IG Oluşturulan konum: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_122">
+			<Original>QS QS QS * IDAP Spawned position: %1</Original>
+			<Chinesesimp>QS QS QS * IDAP Spawned position: %1</Chinesesimp>
+			<Chinese>QS QS QS * IDAP Spawned position: %1</Chinese>
+			<Turkish>QS QS QS * IDAP Oluşturulan konum: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_123">
+			<Original>UXO field created at %1</Original>
+			<Chinesesimp>UXO field created at %1</Chinesesimp>
+			<Chinese>UXO field created at %1</Chinese>
+			<Turkish>%1 de Mayın alanı oluşturuldu</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_124">
+			<Original>QS uxo field failed</Original>
+			<Chinesesimp>QS uxo field failed</Chinesesimp>
+			<Chinese>QS uxo field failed</Chinese>
+			<Turkish>QS Mayın alanı başarısız oldu</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_125">
+			<Original>QS intel building position: %1</Original>
+			<Chinesesimp>QS intel building position: %1</Chinesesimp>
+			<Chinese>QS intel building position: %1</Chinese>
+			<Turkish>QS intel oluşturma konumu: %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_126">
+			<Original>***** DEBUG ***** GRID AO PREPARING * %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** GRID AO PREPARING * %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** GRID AO PREPARING * %1 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** GRID OA HAZIRLANIYOR * %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_127">
+			<Original>Getting terrain data START %1</Original>
+			<Chinesesimp>Getting terrain data START %1</Chinesesimp>
+			<Chinese>Getting terrain data START %1</Chinese>
+			<Turkish>Arazi verileri alınıyor BAŞLANGIÇ %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_128">
+			<Original>Getting terrain data END %1</Original>
+			<Chinesesimp>Getting terrain data END %1</Chinesesimp>
+			<Chinese>Getting terrain data END %1</Chinese>
+			<Turkish>Arazi verileri alınıyor SON %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_129">
+			<Original>***** QS ***** Grid prepare complete *****</Original>
+			<Chinesesimp>***** QS ***** Grid prepare complete *****</Chinesesimp>
+			<Chinese>***** QS ***** Grid prepare complete *****</Chinese>
+			<Turkish>***** QS ***** Grid hazırlığı tamamlandı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_130">
+			<Original>Headless Client FPS: %1 * Frame-Time: %2 * Active Scripts: %3 * Active SQF Scripts: %4 *</Original>
+			<Chinesesimp>Headless Client FPS: %1 * Frame-Time: %2 * Active Scripts: %3 * Active SQF Scripts: %4 *</Chinesesimp>
+			<Chinese>Headless Client FPS: %1 * Frame-Time: %2 * Active Scripts: %3 * Active SQF Scripts: %4 *</Chinese>
+			<Turkish>Headless Client FPS: %1 * Kare Süresi: %2 * Aktif Komut Dosyaları: %3 * Aktif SQF Komut Dosyaları: %4 *</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_131">
+			<Original>***** Active DLC ***** %1 *****</Original>
+			<Chinesesimp>***** Active DLC ***** %1 *****</Chinesesimp>
+			<Chinese>***** Active DLC ***** %1 *****</Chinese>
+			<Turkish>***** Aktif DLC ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_132">
+			<Original>***** CURATOR ***** Client already has curator module assigned *****</Original>
+			<Chinesesimp>***** CURATOR ***** Client already has curator module assigned *****</Chinesesimp>
+			<Chinese>***** CURATOR ***** Client already has curator module assigned *****</Chinese>
+			<Turkish>***** KÜRATÖR ***** İstemciye zaten atanmış küratör modülü var *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_133">
+			<Original>***** CURATOR ***** Module created for %1 &#40; %2 &#41; *****</Original>
+			<Chinesesimp>***** CURATOR ***** Module created for %1 &#40; %2 &#41; *****</Chinesesimp>
+			<Chinese>***** CURATOR ***** Module created for %1 &#40; %2 &#41; *****</Chinese>
+			<Turkish>***** KÜRATÖR ***** Modülü %1 &#40; %2 &#41; için oluşturuldu *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_134">
+			<Original>***** DEBUG ***** Invalid Client Owner: %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** Invalid Client Owner: %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** Invalid Client Owner: %1 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Geçersiz İstemci Sahibi: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_135">
+			<Original>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Transport Pilot whitelist *****</Original>
+			<Chinesesimp>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Transport Pilot whitelist *****</Chinesesimp>
+			<Chinese>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Transport Pilot whitelist *****</Chinese>
+			<Turkish>***** LİDER TABLOSU ***** %1 &#40;%2&#41; Taşıyıcı Pilot beyaz listesine ekleniyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_136">
+			<Original>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Medic whitelist *****</Original>
+			<Chinesesimp>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Medic whitelist *****</Chinesesimp>
+			<Chinese>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Medic whitelist *****</Chinese>
+			<Turkish>***** LİDER TABLOSU ***** %1 &#40;%2&#41; Sıhhiyye beyaz listesine ekleniyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_137">
+			<Original>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Sniper whitelist *****</Original>
+			<Chinesesimp>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Sniper whitelist *****</Chinesesimp>
+			<Chinese>***** LEADERBOARD ***** Adding %1 &#40;%2&#41; to Sniper whitelist *****</Chinese>
+			<Turkish>***** LİDER TABLOSU ***** %1 &#40;%2&#41; Keskin Nişancı beyaz listesine ekleniyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_138">
+			<Original>***** ANTI-HACK ***** Time: %1 * Server Time: %2 * Name: %3 * Profile Name: %4 * Steam Name: %5 * UID: %6 * Detection Level: %7 * Detection: %8 * Object: %9 *****</Original>
+			<Chinesesimp>***** ANTI-HACK ***** Time: %1 * Server Time: %2 * Name: %3 * Profile Name: %4 * Steam Name: %5 * UID: %6 * Detection Level: %7 * Detection: %8 * Object: %9 *****</Chinesesimp>
+			<Chinese>***** ANTI-HACK ***** Time: %1 * Server Time: %2 * Name: %3 * Profile Name: %4 * Steam Name: %5 * UID: %6 * Detection Level: %7 * Detection: %8 * Object: %9 *****</Chinese>
+			<Turkish>***** ANTI-HACK ***** Saat: %1 * Sunucu Saati: %2 * Ad: %3 * Profil Adı: %4 * Steam Adı: %5 * UID: %6 * Algılama Düzeyi: % 7 * Algılama: %8 * Nesne: %9 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_139">
+			<Original>***** TERRAIN FLATTEN ***** total count: %1 ***** this adjustment: %2 *****</Original>
+			<Chinesesimp>***** TERRAIN FLATTEN ***** total count: %1 ***** this adjustment: %2 *****</Chinesesimp>
+			<Chinese>***** TERRAIN FLATTEN ***** total count: %1 ***** this adjustment: %2 *****</Chinese>
+			<Turkish>***** ARAZİ DÜZLEŞTİRME ***** toplam sayı: %1 ***** düzenleme: %2 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_140">
+			<Original>fn_ragdoll must be spawned, not called</Original>
+			<Chinesesimp>fn_ragdoll must be spawned, not called</Chinesesimp>
+			<Chinese>fn_ragdoll must be spawned, not called</Chinese>
+			<Turkish>fn_ragdoll Oluşturulmalı, çağrılamadı</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_141">
+			<Original>***** DEBUG ***** Zeus &#40; %1 &#41; attempting offload of %2 groups</Original>
+			<Chinesesimp>***** DEBUG ***** Zeus &#40; %1 &#41; attempting offload of %2 groups</Chinesesimp>
+			<Chinese>***** DEBUG ***** Zeus &#40; %1 &#41; attempting offload of %2 groups</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Zeus &#40; %1 &#41; %2 grubun yükünü boşaltmaya çalışıyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_142">
+			<Original>***** DEBUG ***** OFFLOAD of Zeus group %1 attempted. Result: %2</Original>
+			<Chinesesimp>***** DEBUG ***** OFFLOAD of Zeus group %1 attempted. Result: %2</Chinesesimp>
+			<Chinese>***** DEBUG ***** OFFLOAD of Zeus group %1 attempted. Result: %2</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Zeus %1 grubunun BOŞALTMA girişiminde bulunuldu. Sonuç: %2</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_143">
+			<Original>***** DEBUG ***** ONLOAD of Zeus group %1 attempted. Result: %2</Original>
+			<Chinesesimp>***** DEBUG ***** ONLOAD of Zeus group %1 attempted. Result: %2</Chinesesimp>
+			<Chinese>***** DEBUG ***** ONLOAD of Zeus group %1 attempted. Result: %2</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Zeus %1 grubunun YÜKLEME girişiminde bulunuldu. Sonuç: %2</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_144">
+			<Original>***** DEV CONSOLE ***** %1 *****</Original>
+			<Chinesesimp>***** DEV CONSOLE ***** %1 *****</Chinesesimp>
+			<Chinese>***** DEV CONSOLE ***** %1 *****</Chinese>
+			<Turkish>***** GELİŞTİRİCİ KONSOLU ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_145">
+			<Original>***** DEV CONSOLE ***** Compiling String ***** %1</Original>
+			<Chinesesimp>***** DEV CONSOLE ***** Compiling String ***** %1</Chinesesimp>
+			<Chinese>***** DEV CONSOLE ***** Compiling String ***** %1</Chinese>
+			<Turkish>***** GELİŞTİRİCİ KONSOLU ***** Dize Derleniyor ***** %1</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_146">
+			<Original>***** DEV CONSOLE ***** Code %1 executed by %2 &#40; %3 * %4&#41;</Original>
+			<Chinesesimp>***** DEV CONSOLE ***** Code %1 executed by %2 &#40; %3 * %4&#41;</Chinesesimp>
+			<Chinese>***** DEV CONSOLE ***** Code %1 executed by %2 &#40; %3 * %4&#41;</Chinese>
+			<Turkish>***** GELİŞTİRİCİ KONSOLU ***** %1 kodu %2 tarafından yürütüldü &#40; %3 * %4&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_147">
+			<Original>***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****</Original>
+			<Chinesesimp>***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****</Chinesesimp>
+			<Chinese>***** ADMIN ***** %1 ***** %2 kicked for AFK timeout *****</Chinese>
+			<Turkish>***** YÖNETİCİ ***** %1 ***** %2 Atıldı AFK zaman aşımı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_148">
+			<Original>***** CREATE VEHICLE ***** Server created vehicle for %1 at %2 *****</Original>
+			<Chinesesimp>***** CREATE VEHICLE ***** Server created vehicle for %1 at %2 *****</Chinesesimp>
+			<Chinese>***** CREATE VEHICLE ***** Server created vehicle for %1 at %2 *****</Chinese>
+			<Turkish>***** ARAÇ OLUŞTURMA ***** Sunucu %1 için aracı %2 konumunda oluşturdu *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_149">
+			<Original>***** REMOTE EXECUTION ***** %1 &#40; %2 &#41; set simulation of %3 &#40; %4 &#41; to %5 *****</Original>
+			<Chinesesimp>***** REMOTE EXECUTION ***** %1 &#40; %2 &#41; set simulation of %3 &#40; %4 &#41; to %5 *****</Chinesesimp>
+			<Chinese>***** REMOTE EXECUTION ***** %1 &#40; %2 &#41; set simulation of %3 &#40; %4 &#41; to %5 *****</Chinese>
+			<Turkish>***** UZAKTAN YÜRÜTME ***** %1 &#40; %2 &#41; %3 &#40; %4 &#41; simülasyonunu %5 olarak ayarladı *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_150">
+			<Original>'%1 &#40;%2&#41; &#40;staff&#41; has initiated base cleanup</Original>
+			<Chinesesimp>'%1 &#40;%2&#41; &#40;staff&#41; has initiated base cleanup</Chinesesimp>
+			<Chinese>'%1 &#40;%2&#41; &#40;staff&#41; has initiated base cleanup</Chinese>
+			<Turkish>'%1 &#40;%2&#41; &#40;personel&#41; karargah temizliğini başlattı</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_151">
+			<Original>***** LEADERBOARD ***** %1 &#40;%2&#41; incarcerated a prisoner *****</Original>
+			<Chinesesimp>***** LEADERBOARD ***** %1 &#40;%2&#41; incarcerated a prisoner *****</Chinesesimp>
+			<Chinese>***** LEADERBOARD ***** %1 &#40;%2&#41; incarcerated a prisoner *****</Chinese>
+			<Turkish>***** LİDER TABLOSU ***** %1 &#40;%2&#41; mahkumu tutuklama *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_152">
+			<Original>***** REPORT ***** Marker added * %1 * %2 * %3 *****</Original>
+			<Chinesesimp>***** REPORT ***** Marker added * %1 * %2 * %3 *****</Chinesesimp>
+			<Chinese>***** REPORT ***** Marker added * %1 * %2 * %3 *****</Chinese>
+			<Turkish>***** RAPOR ***** Marker eklendi * %1 * %2 * %3 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_153">
+			<Original>Flatten terrain - %1 - %2</Original>
+			<Chinesesimp>Flatten terrain - %1 - %2</Chinesesimp>
+			<Chinese>Flatten terrain - %1 - %2</Chinese>
+			<Turkish>Arazi düzleştirme - %1 - %2</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_154">
+			<Original>Remote Exec Cmd Failed with: %1 - %2 to %3 &#40;%4 %5&#41;</Original>
+			<Chinesesimp>Remote Exec Cmd Failed with: %1 - %2 to %3 &#40;%4 %5&#41;</Chinesesimp>
+			<Chinese>Remote Exec Cmd Failed with: %1 - %2 to %3 &#40;%4 %5&#41;</Chinese>
+			<Turkish>Uzak Yürütme Komutu Başarısız: %1 - %2 - %3 &#40;%4 %5&#41;</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_155">
+			<Original>***** Remote Execution of hideObjectGlobal on %1 by %2 to target %3</Original>
+			<Chinesesimp>***** Remote Execution of hideObjectGlobal on %1 by %2 to target %3</Chinesesimp>
+			<Chinese>***** Remote Execution of hideObjectGlobal on %1 by %2 to target %3</Chinese>
+			<Turkish>***** Uzaktan Yürütülme hideObjectGlobal %1 üzerinde %3 için %2 tarafından uygulandı</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_156">
+			<Original>***** SC REMOVE * 0 *****</Original>
+			<Chinesesimp>***** SC REMOVE * 0 *****</Chinesesimp>
+			<Chinese>***** SC REMOVE * 0 *****</Chinese>
+			<Turkish>***** SC KALDIRMA * 0 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_157">
+			<Original>***** SC REMOVE * 1 *****</Original>
+			<Chinesesimp>***** SC REMOVE * 1 *****</Chinesesimp>
+			<Chinese>***** SC REMOVE * 1 *****</Chinese>
+			<Turkish>***** SC KALDIRMA * 1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_158">
+			<Original>***** SC ENEMY ***** Spawning Helicopter ***********</Original>
+			<Chinesesimp>***** SC ENEMY ***** Spawning Helicopter ***********</Chinesesimp>
+			<Chinese>***** SC ENEMY ***** Spawning Helicopter ***********</Chinese>
+			<Turkish>***** SC DÜŞMAN ***** Helikopter Oluşturuluyor ***********</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_159">
+			<Original>***** SC ENEMY ***** Spawning infantry patrols *****</Original>
+			<Chinesesimp>***** SC ENEMY ***** Spawning infantry patrols *****</Chinesesimp>
+			<Chinese>***** SC ENEMY ***** Spawning infantry patrols *****</Chinese>
+			<Turkish>***** SC DÜŞMAN ***** Devriye piyadeleri Oluşturuluyor *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_160">
+			<Original>***** SC ENEMY ***** Spawning vehicle patrols ******</Original>
+			<Chinesesimp>***** SC ENEMY ***** Spawning vehicle patrols ******</Chinesesimp>
+			<Chinese>***** SC ENEMY ***** Spawning vehicle patrols ******</Chinese>
+			<Turkish>***** SC DÜŞMAN ***** Devriye araçları Oluşturuluyor ******</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_161">
+			<Original>***** SC ENEMY ***** Garrisoned Enemies ************</Original>
+			<Chinesesimp>***** SC ENEMY ***** Garrisoned Enemies ************</Chinesesimp>
+			<Chinese>***** SC ENEMY ***** Garrisoned Enemies ************</Chinese>
+			<Turkish>***** SC DÜŞMAN ***** Garnizondaki Düşmanlar ************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_162">
+			<Original>***** SC ENEMY ***** Spawning Boat Patrol **********</Original>
+			<Chinesesimp>***** SC ENEMY ***** Spawning Boat Patrol **********</Chinesesimp>
+			<Chinese>***** SC ENEMY ***** Spawning Boat Patrol **********</Chinese>
+			<Turkish>***** SC DÜŞMAN ***** Devriye botları Oluşturuluyor **********</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_163">
+			<Original>***** SC ENEMY ***** Spawning sniper groups ********</Original>
+			<Chinesesimp>***** SC ENEMY ***** Spawning sniper groups ********</Chinesesimp>
+			<Chinese>***** SC ENEMY ***** Spawning sniper groups ********</Chinese>
+			<Turkish>***** SC DÜŞMAN ***** Keskin Nişancı grupları Oluşturuluyor ********</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_164">
+			<Original>***** SC * Generating positions * 0 *****</Original>
+			<Chinesesimp>***** SC * Generating positions * 0 *****</Chinesesimp>
+			<Chinese>***** SC * Generating positions * 0 *****</Chinese>
+			<Turkish>***** SC * Pozisyonlar oluşturuluyor * 0 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_165">
+			<Original>***** SC * Generating positions * 0.5 * Reference Position: %1 *****</Original>
+			<Chinesesimp>***** SC * Generating positions * 0.5 * Reference Position: %1 *****</Chinesesimp>
+			<Chinese>***** SC * Generating positions * 0.5 * Reference Position: %1 *****</Chinese>
+			<Turkish>***** SC * Pozisyonlar oluşturuluyor * 0.5 ***** Referans Pozisyon: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_166">
+			<Original>***** SC * Generating positions * 1 *****</Original>
+			<Chinesesimp>***** SC * Generating positions * 1 *****</Chinesesimp>
+			<Chinese>***** SC * Generating positions * 1 *****</Chinese>
+			<Turkish>***** SC * Pozisyonlar oluşturuluyor * 1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_167">
+			<Original>Spawning more radial patrols</Original>
+			<Chinesesimp>Spawning more radial patrols</Chinesesimp>
+			<Chinese>Spawning more radial patrols</Chinese>
+			<Turkish>Daha fazla radyal devriye oluşturuluyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_168">
+			<Original>Spawning assault squad</Original>
+			<Chinesesimp>Spawning assault squad</Chinesesimp>
+			<Chinese>Spawning assault squad</Chinese>
+			<Turkish>Saldırı timi oluşturuluyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_169">
+			<Original>***** SC SUB OBJ ***** DELETE *****</Original>
+			<Chinesesimp>***** SC SUB OBJ ***** DELETE *****</Chinesesimp>
+			<Chinese>***** SC SUB OBJ ***** DELETE *****</Chinese>
+			<Turkish>***** SC SUB OBJ ***** SİLME *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_170">
+			<Original>***** SC SUB OBJ ***** CREATE *****</Original>
+			<Chinesesimp>***** SC SUB OBJ ***** CREATE *****</Chinesesimp>
+			<Chinese>***** SC SUB OBJ ***** CREATE *****</Chinese>
+			<Turkish>***** SC SUB OBJ ***** OLUŞTURMA *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_171">
+			<Original>***** SC SUB OBJ ***** EVALUATE *****</Original>
+			<Chinesesimp>***** SC SUB OBJ ***** EVALUATE *****</Chinesesimp>
+			<Chinese>***** SC SUB OBJ ***** EVALUATE *****</Chinese>
+			<Turkish>***** SC SUB OBJ ***** DEĞERLENDİRME *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_172">
+			<Original>***** DEBUG ***** fn_setSimpleObject ***** Object is null</Original>
+			<Chinesesimp>***** DEBUG ***** fn_setSimpleObject ***** Object is null</Chinesesimp>
+			<Chinese>***** DEBUG ***** fn_setSimpleObject ***** Object is null</Chinese>
+			<Turkish>***** HATA AYKILMALA ***** fn_setSimpleObject ***** Nesne boş</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_173">
+			<Original>***** DEBUG ***** fn_setSimpleObject ***** No model info for %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** fn_setSimpleObject ***** No model info for %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** fn_setSimpleObject ***** No model info for %1 *****</Chinese>
+			<Turkish>***** HATA AYKILMALA ***** fn_setSimpleObject ***** %1 için model bilgisi yok *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_174">
+			<Original>***** ERROR * Truck side mission * terrain not supported &#40;needs config&#41; *****</Original>
+			<Chinesesimp>***** ERROR * Truck side mission * terrain not supported &#40;needs config&#41; *****</Chinesesimp>
+			<Chinese>***** ERROR * Truck side mission * terrain not supported &#40;needs config&#41; *****</Chinese>
+			<Turkish>***** ERROR * Kamyon yan görevi * arazi desteklenmiyor &#40;yapılandırma gerekli&#41; *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_175">
+			<Original>***** Side mission IDAP RECOVER invalid terrain *****</Original>
+			<Chinesesimp>***** Side mission IDAP RECOVER invalid terrain *****</Chinesesimp>
+			<Chinese>***** Side mission IDAP RECOVER invalid terrain *****</Chinese>
+			<Turkish>***** Yan görev IDAP YARDIMI geçersiz arazi *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_176">
+			<Original>***** fn_rescuePOW ***** No valid locations *****</Original>
+			<Chinesesimp>***** fn_rescuePOW ***** No valid locations *****</Chinesesimp>
+			<Chinese>***** fn_rescuePOW ***** No valid locations *****</Chinese>
+			<Turkish>***** fn_rescuePOW ***** Geçerli konum yok *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_177">
+			<Original>QS spawning road patrol unit</Original>
+			<Chinesesimp>QS spawning road patrol unit</Chinesesimp>
+			<Chinese>QS spawning road patrol unit</Chinese>
+			<Turkish>QS Yol devriyesi birimi oluşturuluyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_178">
+			<Original>QS spawning building patrol unit</Original>
+			<Chinesesimp>QS spawning building patrol unit</Chinesesimp>
+			<Chinese>QS spawning building patrol unit</Chinese>
+			<Turkish>QS bina devriye birimi oluşturuluyor</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_179">
+			<Original>***** QS ERROR ***** rescuePOW ***** _QS_buildingPositionSelected is Nil</Original>
+			<Chinesesimp>***** QS ERROR ***** rescuePOW ***** _QS_buildingPositionSelected is Nil</Chinesesimp>
+			<Chinese>***** QS ERROR ***** rescuePOW ***** _QS_buildingPositionSelected is Nil</Chinese>
+			<Turkish>***** QS ERROR ***** rescuePOW ***** _QS_buildingPositionSelected sıfır</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_180">
+			<Original>***** fn_secureUrban ***** No valid locations *****</Original>
+			<Chinesesimp>***** fn_secureUrban ***** No valid locations *****</Chinesesimp>
+			<Chinese>***** fn_secureUrban ***** No valid locations *****</Chinese>
+			<Turkish>***** fn_secureUrban ***** Geçerli konum yok *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_181">
+			<Original>***** DEBUG ***** secureUrban.sqf ***** No building positions ***** %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** secureUrban.sqf ***** No building positions ***** %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** secureUrban.sqf ***** No building positions ***** %1 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** secureUrban.sqf ***** Bina konumu yok ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_182">
+			<Original>***** DEBUG ***** Group composition is null - %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** Group composition is null - %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** Group composition is null - %1 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** Grup kompozisyonu boş - %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_183">
+			<Original>***** DEBUG ***** fn_taskPatrol ***** pos is not a valid type *****</Original>
+			<Chinesesimp>***** DEBUG ***** fn_taskPatrol ***** pos is not a valid type *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** fn_taskPatrol ***** pos is not a valid type *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** fn_taskPatrol ***** konum geçerli bir tür değil *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_184">
+			<Original>***** DEBUG ***** fn_taskPatrol ***** pos does not have enough values *****</Original>
+			<Chinesesimp>***** DEBUG ***** fn_taskPatrol ***** pos does not have enough values *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** fn_taskPatrol ***** pos does not have enough values *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** fn_taskPatrol ***** konum yeterli değere sahip değil *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_185">
+			<Original>***** QS ERROR ***** fn_taskPatrolVehicle * Waypoint position is nil *****</Original>
+			<Chinesesimp>***** QS ERROR ***** fn_taskPatrolVehicle * Waypoint position is nil *****</Chinesesimp>
+			<Chinese>***** QS ERROR ***** fn_taskPatrolVehicle * Waypoint position is nil *****</Chinese>
+			<Turkish>***** QS ERROR ***** fn_taskPatrolVehicle * Warış noktası konumu sıfır *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_186">
+			<Original>************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************</Original>
+			<Chinesesimp>************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************</Chinesesimp>
+			<Chinese>************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************</Chinese>
+			<Turkish>************************ YÖNETİCİ - %1 -  %2, %3 tarafından yok edildi - Öldüren - %4 - %5 - Öldürdü - %6 - %7 ***********************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_187">
+			<Original>************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************</Original>
+			<Chinesesimp>************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************</Chinesesimp>
+			<Chinese>************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************</Chinese>
+			<Turkish>************************ YÖNETİCİ - %1 - %2, %3 tarafından yok edildi - Öldüren - %4 - %5 - Öldürdü - %6 - %7 ***********************</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_188">
+			<Original>***** DEBUG ***** weather config * Overcast ***** Sunshine hours: %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** weather config * Overcast ***** Sunshine hours: %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** weather config * Overcast ***** Sunshine hours: %1 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** hava durumu yapılandırması * Bulutlu ***** Güneşli saatler: %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_189">
+			<Original>***** DEBUG ***** weather config * Overcast ***** %1 ***** %2 *****</Original>
+			<Chinesesimp>***** DEBUG ***** weather config * Overcast ***** %1 ***** %2 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** weather config * Overcast ***** %1 ***** %2 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** hava durumu yapılandırması * Bulutlu ***** %1 ***** %2 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_190">
+			<Original>***** DEBUG ***** weather config ***** Next rain array: ***** %1*****</Original>
+			<Chinesesimp>***** DEBUG ***** weather config ***** Next rain array: ***** %1*****</Chinesesimp>
+			<Chinese>***** DEBUG ***** weather config ***** Next rain array: ***** %1*****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** hava durumu yapılandırması ***** Sonraki yağmur ayarı: ***** %1*****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_191">
+			<Original>***** DEBUG ***** WEATHER CONFIG ***** FOG ***** %1 *****</Original>
+			<Chinesesimp>***** DEBUG ***** WEATHER CONFIG ***** FOG ***** %1 *****</Chinesesimp>
+			<Chinese>***** DEBUG ***** WEATHER CONFIG ***** FOG ***** %1 *****</Chinese>
+			<Turkish>***** HATA AYIKLAMA ***** HAVA DURUMU YAPILANDIRMASI ***** SİS ***** %1 *****</Turkish>
+		</Key>
+		<Key ID="STR_QS_DiagLogs_192">
+			<Original>* QS Debug * Wreck materials compiled *</Original>
+			<Chinesesimp>* QS Debug * Wreck materials compiled *</Chinesesimp>
+			<Chinese>* QS Debug * Wreck materials compiled *</Chinese>
+			<Turkish>* QS Debug * Enkaz malzemeleri derlendi *</Turkish>
+		</Key>
+	</Container>
 </Project>

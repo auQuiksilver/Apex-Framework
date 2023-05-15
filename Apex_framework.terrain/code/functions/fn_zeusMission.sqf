@@ -19,7 +19,7 @@ if (_type isEqualTo 'CAPTURE_MAN') exitWith {
 		params ['','_unit','_isMission'];
 		// SERVER - step 3
 		if (_isMission) then {
-			_text = format [localize 'STR_QS_Marker_047',(toString [32,32,32])];
+			_text = (format [localize 'STR_QS_Marker_047',(toString [32,32,32])]);
 			private _radius = 150;
 			_radiusVehicle = 500;
 			_radiusFoot = 250;

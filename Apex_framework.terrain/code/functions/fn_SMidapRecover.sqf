@@ -16,7 +16,7 @@ _________________________________________________/*/
 scriptName 'Side Mission - IDAP Recover';
 _validTerrains = ['Altis','Tanoa','Malden','Enoch'];
 if (!(worldName in _validTerrains)) exitWith {
-	diag_log '***** Side mission IDAP RECOVER invalid terrain *****';
+	diag_log localize 'STR_QS_DiagLogs_175';
 };
 private _allArray = [];
 private _unitArray = [];

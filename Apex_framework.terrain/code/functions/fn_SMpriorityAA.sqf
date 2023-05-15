@@ -209,7 +209,7 @@ _compositionData = nil;
 				};
 				if (!isNull _instigator) then {
 					if (isPlayer _instigator) then {
-						_text = format [localize 'STR_QS_Chat_066',(name _instigator),(groupID (group _instigator))];
+						_text = (format [localize 'STR_QS_Chat_066',(name _instigator),(groupID (group _instigator))]);
 						[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
 					} else {
 						[[WEST,'BLU'],localize 'STR_QS_Chat_067'] remoteExec ['sideChat',-2,FALSE];

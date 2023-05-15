@@ -31,6 +31,6 @@ if (
 	{(isPlayer (driver _vehicle))}
 ) then {
 	_attachedObject setVariable ['QS_transporter',[(name (driver _vehicle)),(driver _vehicle),(getPlayerUID (driver _vehicle))],FALSE];
-	_text = format [localize 'STR_QS_Text_201',(getText ((configOf _attachedObject) >> 'displayName'))];
+	_text = (format [localize 'STR_QS_Text_201',(getText ((configOf _attachedObject) >> 'displayName'))]);
 	['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',(driver _vehicle),FALSE];
 };

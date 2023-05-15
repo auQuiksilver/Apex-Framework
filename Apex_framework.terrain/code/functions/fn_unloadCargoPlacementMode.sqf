@@ -213,7 +213,7 @@ if ((currentWeapon QS_player) isNotEqualTo '') then {
 };
 QS_player forceWalk (QS_targetBoundingBox_helper getVariable ['QS_logistics_forcedWalk',TRUE]);
 if (_showPlacementText) then {
-	_text = format [
+	_text = (format [
 		'<t align="left">%1</t><t align="right">[%2]</t><br/><br/>
 		<t align="left">%3</t> <t align="right">[%4] [%5]</t><br/><br/>
 		<t align="left">%6</t> <t align="right">[%7] [%8] OR [%9] [%10]</t><br/><br/>
@@ -240,7 +240,7 @@ if (_showPlacementText) then {
 		actionKeysNames ["turbo",1] trim ['"',0],
 		localize 'STR_QS_Menu_114',
 		actionKeysNames ["ingamePause",1] trim ['"',0]
-	];
+	]);
 	[
 		_text,
 		FALSE,

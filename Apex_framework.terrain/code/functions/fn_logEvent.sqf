@@ -15,18 +15,7 @@ ____________________________________________________________________________*/
 
 _array = _this # 1;
 diag_log '*******************************';
-diag_log format [
-	'***** ANTI-HACK ***** Time: %1 * Server Time: %2 * Name: %3 * Profile Name: %4 * Steam Name: %5 * UID: %6 * Detection Level: %7 * Detection: %8 * Object: %9 *****',
-	(_array # 0),
-	(_array # 1),
-	(_array # 2),
-	(_array # 3),
-	(_array # 4),
-	(_array # 5),
-	(_array # 6),
-	(_array # 7),
-	(_array # 8)
-];
+diag_log (format [localize 'STR_QS_DiagLogs_138',(_array # 0),(_array # 1),(_array # 2),(_array # 3),(_array # 4),(_array # 5),(_array # 6),(_array # 7),(_array # 8)]);
 diag_log '*******************************';
 
 private _eventLog = missionProfileNamespace getVariable ['QS_robocop_log_1',[]];
@@ -46,7 +35,7 @@ missionProfileNamespace setVariable ['QS_robocop_log_1',_eventLog];
 saveMissionProfileNamespace;
 _QS_UID = ['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist');
 if ((_array # 5) in _QS_UID) exitWith {};
-private _message = parseText format [localize 'STR_QS_Chat_137',(str (_array # 2)),(str (_array # 7))];
+private _message = parseText (format [localize 'STR_QS_Chat_137',(str (_array # 2)),(str (_array # 7))]);
 if ((_array # 6) > 1) then {
 	(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',(owner (_array # 8))]);
 	private _arrayToSend = [];

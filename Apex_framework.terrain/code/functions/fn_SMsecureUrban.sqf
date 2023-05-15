@@ -229,7 +229,7 @@ if (worldName isEqualTo 'Enoch') then {
 	];
 };
 
-if (_QS_locationsUrban isEqualTo []) exitWith {diag_log '***** fn_secureUrban ***** No valid locations *****';};
+if (_QS_locationsUrban isEqualTo []) exitWith {diag_log localize 'STR_QS_DiagLogs_180';};
 _QS_approvedBuildingTypes = [
 	'Land_i_House_Small_03_V1_F',
 	'Land_u_House_Big_02_V1_F',
@@ -480,7 +480,7 @@ _QS_buildingList = [];
 	};
 } count _QS_buildingList_pre;
 
-if (_QS_buildingList isEqualTo []) exitWith {diag_log format ['***** DEBUG ***** secureUrban.sqf ***** No building positions ***** %1 *****',_QS_locationCenterName];};
+if (_QS_buildingList isEqualTo []) exitWith {diag_log (format [localize 'STR_QS_DiagLogs_181',_QS_locationCenterName]);};
 
 for '_x' from 0 to 2 step 1 do {
 	_QS_building = selectRandom _QS_buildingList;
@@ -867,7 +867,7 @@ for '_x' from 0 to 1 step 0 do {
 			['QS_IA_TASK_SM_0',TRUE,_QS_enemyDetected_endTime] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 			_QS_bombTimer_started = TRUE;
 			_QS_urbanTimerBroadcast_delay = time + 25;
-			_QS_text = format [localize 'STR_QS_Chat_156',[((round(_QS_enemyDetected_endTime - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')];
+			_QS_text = (format [localize 'STR_QS_Chat_156',[((round(_QS_enemyDetected_endTime - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')]);
 			['systemChat',_QS_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
@@ -960,7 +960,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_bombTimer_started) then {
 		/*/
 		if (time > _QS_urbanTimerBroadcast_delay) then {
-			_QS_text = format ['CSAT will destroy the intel in %1',[((round(_QS_enemyDetected_endTime - time))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')];
+			_QS_text = (format [localize 'STR_QS_Chat_156',[((round(_QS_enemyDetected_endTime - time))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')]);
 			['systemChat',_QS_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			_QS_urbanTimerBroadcast_delay = time + 25;
 		};

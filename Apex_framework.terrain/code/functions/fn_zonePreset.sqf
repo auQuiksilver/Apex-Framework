@@ -15,7 +15,7 @@ _______________________________________________*/
 
 params ['_mode'];
 if (_mode isEqualTo 0) then {
-	comment 'MAIN BASE';
+	//comment 'MAIN BASE';
 	private _safezoneRadius = 500;
 	if (worldName isEqualTo 'Altis') then {_safezoneRadius = 750;};
 	if (worldName isEqualTo 'Tanoa') then {_safezoneRadius = 500;};
@@ -28,7 +28,7 @@ if (_mode isEqualTo 0) then {
 		private _newId = '';
 		if (QS_baseProtection_polygons isNotEqualTo []) then {
 			{
-				_newId = format ['BASE_SPEEDZONE_%1',_forEachIndex];
+				_newId = (format ['BASE_SPEEDZONE_%1',_forEachIndex]);
 				QS_system_zonesLocal pushBack [
 					_newId,TRUE,'SPEED','POLY',1,[_x,30],
 					{
@@ -41,7 +41,7 @@ if (_mode isEqualTo 0) then {
 			} forEach QS_baseProtection_polygons;
 		};
 		
-		comment 'Default base safe-polygon';
+		//comment 'Default base safe-polygon';
 		_centroid = QS_base_safePolygon call QS_fnc_geomPolygonCentroid;
 		_zoneEval = {
 			systemchat str systemTime;
@@ -72,7 +72,7 @@ if (_mode isEqualTo 0) then {
 									_deleteDelay = TRUE;
 								};
 							};
-							50 cutText ['Spawn Zone - Entity deleted','PLAIN DOWN',0.35];
+							50 cutText [localize 'STR_QS_Utility_032','PLAIN DOWN',0.35];
 							if (_deleteDelay) then {
 								_x spawn {sleep 1; deleteVehicle _this;};
 							} else {
@@ -92,7 +92,7 @@ if (_mode isEqualTo 0) then {
 		private _newId = '';
 		if (QS_baseProtection_polygons isNotEqualTo []) then {
 			{
-				_newId = format ['BASE_SPEEDZONE_%1',_forEachIndex];
+				_newId = (format ['BASE_SPEEDZONE_%1',_forEachIndex]);
 				_speedzoneIDs pushBack _newId;
 			} forEach QS_baseProtection_polygons;
 			{
@@ -120,7 +120,7 @@ if (_mode isEqualTo 0) then {
 	['ADD',['BASE_HIGHSEC_0',TRUE,'SAFE','RAD',2,['QS_marker_base_marker',_safezoneRadius],_szIn,_szOut,_szCondition,_szEval,[WEST]]] call QS_fnc_zoneManager;
 };
 if (_mode isEqualTo 1) then {
-	comment 'FOB';
+	//comment 'FOB';
 	private _safezoneRadius = 100;
 	_szIn = {
 		
@@ -137,7 +137,7 @@ if (_mode isEqualTo 1) then {
 	['ADD',['FOB_LOWSEC_0',TRUE,'SAFE','RAD',1,['QS_marker_module_fob',_safezoneRadius],_szIn,_szOut,_szCondition,_szEval,[WEST]]] call QS_fnc_zoneManager;
 };
 if (_mode isEqualTo 2) then {
-	comment 'CARRIER';
+	//comment 'CARRIER';
 	_szIn = {
 		
 	};
@@ -154,7 +154,7 @@ if (_mode isEqualTo 2) then {
 	['ADD',['CARRIER_0',TRUE,'SAFE','POLY',1,[_worldPolygon,100],_szIn,_szOut,_szCondition,_szEval,[WEST]]] call QS_fnc_zoneManager;
 };
 if (_mode isEqualTo 3) then {
-	comment 'DESTROYER';
+	//comment 'DESTROYER';
 	_szIn = {
 		
 	};

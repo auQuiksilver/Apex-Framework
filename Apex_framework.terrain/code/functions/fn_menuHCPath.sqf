@@ -136,7 +136,7 @@ if (_this isEqualType '') then {
 								deleteWaypoint [group this,currentWaypoint (group this)];
 							} else {
 								if (player isEqualTo (missionNamespace getVariable "QS_hc_Commander")) then {
-									_text = format [localize "STR_QS_Chat_140",(groupID (group this)),profileName,(mapGridPosition this)];
+									_text = (format [localize "STR_QS_Chat_140",(groupID (group this)),profileName,(mapGridPosition this)]);
 									systemChat _text;
 								};
 							};

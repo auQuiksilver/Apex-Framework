@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/08/2022 A3 1.76 by Quiksilver
+	01/05/2023 A3 1.76 by Quiksilver
 	
 Description:
 
@@ -34,8 +34,8 @@ if (!isNil '_grpvehicle') then {
 	_x enableFatigue FALSE;
 } count (units _grp);
 private _prevPos = _pos;
-if (!(_prevPos isEqualType [])) exitWith {diag_log '***** DEBUG ***** fn_taskPatrol ***** pos is not a valid type *****';};
-if (!((count _prevPos) >= 2)) exitWith {diag_log '***** DEBUG ***** fn_taskPatrol ***** pos does not have enough values *****';};
+if (!(_prevPos isEqualType [])) exitWith {diag_log localize 'STR_QS_DiagLogs_183';};
+if (!((count _prevPos) >= 2)) exitWith {diag_log localize 'STR_QS_DiagLogs_184';};
 private _combatModes = ['WHITE','YELLOW','RED'];
 private _behaviours = ['SAFE','AWARE','COMBAT'];
 private _grpBehaviour = 'SAFE';

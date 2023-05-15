@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	12/09/2018 A3 1.84 by Quiksilver
+	01/05/2023 A3 1.84 by Quiksilver
 
 Description:
 
@@ -24,12 +24,12 @@ ____________________________________________________________________________/*/
 
 params ['_type'];
 if (_type isEqualTo 'RESET') exitWith {
-	diag_log format ['***** GRID RESETTING - %1 *****',(missionNamespace getVariable ['QS_terrain_worldName',worldName])];
+	diag_log (format [localize 'STR_QS_DiagLogs_116',(missionNamespace getVariable ['QS_terrain_worldName',worldName])]);
 	missionProfileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
 	saveMissionProfileNamespace;
 };
 if (_type isEqualTo 'SAVE') exitWith {
-	diag_log '***** GRID SAVING *****';
+	diag_log localize 'STR_QS_DiagLogs_117';
 	missionProfileNamespace setVariable [(format ['QS_grid_data_persistent_%1',worldName]),(missionNamespace getVariable ['QS_grid_data',[]])];
 	saveMissionProfileNamespace;
 };
@@ -195,7 +195,7 @@ if (_type isEqualTo 'AI_TRIGGER') exitWith {
 if (_type isEqualTo 'INIT') exitWith {
 	//comment 'Get persistent data';
 	// Note: This part takes way too long and needs to be optimized at some point.
-	diag_log format ['Grid initializing START - %1',diag_tickTime];
+	diag_log (format [localize 'STR_QS_DiagLogs_118',diag_tickTime]);
 	private _grid_data_persistent = missionProfileNamespace getVariable [(format ['QS_grid_data_persistent_%1',worldName]),[]];
 	if (_grid_data_persistent isEqualTo []) then {
 		_grid_data_persistent = call (compileScript ['code\config\QS_data_grid.sqf']); 
@@ -244,7 +244,7 @@ if (_type isEqualTo 'INIT') exitWith {
 		_start params ['_sx','_sz'];
 		for '_i' from 0 to (round((_size # 0)/_res)) step 1 do {
 			_pi = [_sx + _res * _i, _sz, 0];
-			_str = format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pi))];/*/_str = format ['QS_grid_marker_%1',(_pi # 0),(_pi # 1)];/*/
+			_str = (format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pi))]);/*/_str = (format ['QS_grid_marker_%1',(_pi # 0),(_pi # 1)]);/*/
 			if (!(_str in allMapMarkers)) then {
 				if (!surfaceIsWater _pi) then {
 					_markerInfo = [_pi,_tempData] call _inPolygons;
@@ -264,7 +264,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_pi params ['_px','_pz'];
 			for '_e' from 1 to (round((_size # 1)/_res)) step 1 do {
 				_pe = [_px, _pz + _res * _e, 0];
-				_str = format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pe))];/*/_str = format ['QS_grid_marker_%1',(_pe # 0),(_pe # 1)];/*/
+				_str = (format ['QS_grid_marker_%1',(parseNumber (mapGridPosition _pe))]);/*/_str = (format ['QS_grid_marker_%1',(_pe # 0),(_pe # 1)]);/*/
 				if (!(_str in allMapMarkers)) then {
 					if (!surfaceIsWater _pe) then {
 						_markerInfo = [_pe,_tempData] call _inPolygons;
@@ -371,7 +371,7 @@ if (_type isEqualTo 'INIT') exitWith {
 		(_x # 0) setMarkerText (format ['%1%2',(toString [32,32,32]),(_x # 10)]);
 		_markers pushBack (_x # 0);
 	} forEach _missionMarkerData;
-	diag_log format ['Grid initializing END - %1',diag_tickTime];
+	diag_log (format [localize 'STR_QS_DiagLogs_119',diag_tickTime]);
 	missionNamespace setVariable ['QS_grid_initialized',TRUE,FALSE];
 	_grid_data_persistent;
 };

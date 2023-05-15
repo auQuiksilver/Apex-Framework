@@ -385,15 +385,7 @@ player createDiaryRecord [
 	'QS_diary_hotkeys',
 	[
 		localize 'STR_QS_Diary_103',
-		(format [
-		localize 'STR_QS_Diary_104',
-		(actionKeysNames 'TacticalPing'),
-		(actionKeysNames 'ReloadMagazine'),
-		(actionKeysNames 'Diary'),
-		(actionKeysNames 'Help'),
-		(actionKeysNames 'GetOver'),
-		(actionKeysNames 'Teamswitch')
-		])
+		(format [localize 'STR_QS_Diary_104',(actionKeysNames 'TacticalPing'),(actionKeysNames 'ReloadMagazine'),(actionKeysNames 'Diary'),(actionKeysNames 'Help'),(actionKeysNames 'GetOver'),(actionKeysNames 'Teamswitch')])
 	]
 ];
 

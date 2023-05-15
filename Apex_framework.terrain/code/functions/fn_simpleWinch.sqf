@@ -397,7 +397,7 @@ if (_mode isEqualTo 'MODE8') exitWith {
 				{
 					_cursorObject ropeDetach _x;
 				} forEach _ropes;
-				comment "['ropeDetach',_ropes] remoteExec ['QS_fnc_remoteExecCmd',(ropeAttachedTo _child),FALSE];";
+				//comment "['ropeDetach',_ropes] remoteExec ['QS_fnc_remoteExecCmd',(ropeAttachedTo _child),FALSE];";
 			};
 			_rope = (ropes (ropeAttachedTo _cursorObject)) # 0;
 			if (!isNull _rope) then {

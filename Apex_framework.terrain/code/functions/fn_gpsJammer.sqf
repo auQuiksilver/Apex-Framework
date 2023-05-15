@@ -92,7 +92,7 @@ if (_type isEqualTo 1) exitWith {
 					};
 					if (!isNull _instigator) then {
 						if (isPlayer _instigator) then {
-							_text = format [localize 'STR_QS_Chat_049',(name _instigator),(groupID (group _instigator))];
+							_text = (format [localize 'STR_QS_Chat_049',(name _instigator),(groupID (group _instigator))]);
 							[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
 						} else {
 							[[WEST,'BLU'],localize 'STR_QS_Chat_050'] remoteExec ['sideChat',-2,FALSE];

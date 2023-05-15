@@ -6,7 +6,7 @@ Author:
 
 Last modified: 
 
-	10/11/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -52,7 +52,7 @@ missionNamespace setVariable ['QS_aoSize',_aoSize,TRUE];
 'QS_marker_aoCircle' setMarkerSizeLocal [_aoSize,_aoSize];
 
 diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 1 *************************';
+diag_log localize 'STR_QS_DiagLogs_031';
 diag_log '****************************************************';
 
 /*/===== GET URBAN STATE/*/
@@ -95,7 +95,7 @@ diag_log str (_ao # 0);
 _result = [(_ao # 0)] call (missionNamespace getVariable 'QS_fnc_aoCustomize');
 
 diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 4 *************************';
+diag_log localize 'STR_QS_DiagLogs_032';
 diag_log '****************************************************';
 _subObjectiveList = [
 	[1,'ENEMYPOP'],
@@ -144,7 +144,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_AmbAnim',1]) isNotEqualTo 0
 	};
 };
 diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 6 *************************';
+diag_log localize 'STR_QS_DiagLogs_033';
 diag_log '****************************************************';
 
 /*/======================================================================= JUNGLE CAMP/*/
@@ -174,10 +174,10 @@ if (!(worldName in ['Stratis'])) then {
 /*/======================================================================= FIRES/*/
 
 diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 7 *************************';
+diag_log localize 'STR_QS_DiagLogs_034';
 diag_log '****************************************************';
 
-if (sunOrMoon isNotEqualTo 1) then {
+if (([0,0,0] getEnvSoundController 'night') isEqualTo 1) then {
 	0 spawn {
 		[0,(missionNamespace getVariable 'QS_AOpos'),400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 		sleep 3;
@@ -188,7 +188,7 @@ if (sunOrMoon isNotEqualTo 1) then {
 /*/======================================================================= BRIEFING/*/
 
 diag_log '****************************************************';
-diag_log '***** AO PREPARE ******* 8 *************************';
+diag_log localize 'STR_QS_DiagLogs_035';
 diag_log '****************************************************';
 
 ['BRIEF',(_ao # 1),_QS_AOpos] call (missionNamespace getVariable 'QS_fnc_aoBriefing');

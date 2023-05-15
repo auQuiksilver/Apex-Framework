@@ -531,17 +531,17 @@ if (_key isEqualTo 71) exitWith {
 		TRUE
 	];
 	/*/
-	//systemChat format [localize 'STR_QS_Chat_106',(missionNamespace getVariable 'QS_curator_revivePoints')];
+	//systemChat (format [localize 'STR_QS_Chat_106',(missionNamespace getVariable 'QS_curator_revivePoints')]);
 	_module = getAssignedCuratorLogic player;
 	/*/[28,_module,((curatorPoints _module) - 0.05)] remoteExec ['QS_fnc_remoteExec',2,FALSE];/*/
 	private _text = '';
 	if ((random 1) > 0.333) then {
-		_text = format [localize 'STR_QS_Hints_117',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
+		_text = (format [localize 'STR_QS_Hints_117',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))]);
 	} else {
 		if ((random 1) > 0.5) then {
-			_text = format [localize 'STR_QS_Hints_118',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
+			_text = (format [localize 'STR_QS_Hints_118',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))]);
 		} else {
-			_text = format [localize 'STR_QS_Hints_119',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))];
+			_text = (format [localize 'STR_QS_Hints_119',((name _unit) + ([' [AI]',''] select (isPlayer _unit)))]);
 		};
 	};
 	if (_text isNotEqualTo '') then {

@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	20/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 
 Description:
 
@@ -123,7 +123,7 @@ _jtacType = 'O_recon_JTAC_F';
 _officerType = 'O_officer_F';
 
 diag_log '****************************************************';
-diag_log '***** SC ENEMY ***** Spawning Helicopter ***********';
+diag_log localize 'STR_QS_DiagLogs_158';
 diag_log '****************************************************';
 
 _arrayHelicopters = [];
@@ -225,7 +225,7 @@ _grp setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 _grp move (_radialPatrolPositions # 0);
 
 diag_log '****************************************************';
-diag_log '***** SC ENEMY ***** Spawning infantry patrols *****';
+diag_log localize 'STR_QS_DiagLogs_159';
 diag_log '****************************************************';
 
 _spawnedRadialPatrolInfantry = 0;
@@ -252,7 +252,7 @@ for '_x' from 0 to 1 step 0 do {
 		0 = _arrayInfPatrols pushBack _x;
 		0 = _entityArray pushBack _x;
 	} forEach (units _grp);
-	comment 'Radial positions';
+	//comment 'Radial positions';
 	_radialStart = round (random 360);
 	_radialOffset = _centerRadius * (0.4 + (random 0.7));
 	_radialPatrolPositions = [];
@@ -269,7 +269,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_radialPatrolPositions isNotEqualTo []) then {
 		_radialPatrolPositions = _radialPatrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-		comment 'Initial movement';
+		//comment 'Initial movement';
 		_grp move (_radialPatrolPositions # 0);
 		_grp setFormDir (_randomPos getDir (_radialPatrolPositions # 0));
 	};
@@ -288,7 +288,7 @@ for '_x' from 0 to 1 step 0 do {
 _arrayVehicles = [];
 
 diag_log '****************************************************';
-diag_log '***** SC ENEMY ***** Spawning vehicle patrols ******';
+diag_log localize 'STR_QS_DiagLogs_160';
 diag_log '****************************************************';
 
 if (_playerCount >= 0) then {_maxPatrolVehicles = 1;};
@@ -429,7 +429,7 @@ if (_allowVehicles) then {
 _arrayGarrison = [];
 if (_allowedGarrison) then {
 	diag_log '****************************************************';
-	diag_log '***** SC ENEMY ***** Garrisoned Enemies ************';
+	diag_log localize 'STR_QS_DiagLogs_161';
 	diag_log '****************************************************';
 	
 	if (_playerCount >= 0) then {_maxBuildingInfantry = 8;};
@@ -531,7 +531,7 @@ if (_allowedGarrison) then {
 };
 
 diag_log '****************************************************';
-diag_log '***** SC ENEMY ***** Spawning Boat Patrol **********';
+diag_log localize 'STR_QS_DiagLogs_162';
 diag_log '****************************************************';
 
 _arrayBoat = [];
@@ -549,7 +549,7 @@ if (_boatPatrolEnabled) then {
 };
 
 diag_log '****************************************************';
-diag_log '***** SC ENEMY ***** Spawning sniper groups ********';
+diag_log localize 'STR_QS_DiagLogs_163';
 diag_log '****************************************************';
 
 if (_playerCount >= 0) then {_maxSniperTeams = 1;};

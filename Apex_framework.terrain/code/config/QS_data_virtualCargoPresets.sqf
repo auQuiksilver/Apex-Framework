@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	23/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -39,7 +39,7 @@ if (_preset isEqualTo 3) exitWith {
 
 };
 if (_preset isEqualTo 4) exitWith {
-	comment 'Patrol Base (small fort)';
+	//comment 'Patrol Base (small fort)';
 	[
 		[['land_hbarrier_big_f',1,0,0,4.83166,0],								5],
 		[['land_hbarrier_5_f',1,0,0,3.12525,0],									5],
@@ -56,7 +56,7 @@ if (_preset isEqualTo 4) exitWith {
 	]
 };
 if (_preset isEqualTo 5) exitWith {
-	comment 'Combat Outpost (medium fort)';
+	//comment 'Combat Outpost (medium fort)';
 	[
 		[['land_hbarrier_big_f',1,0,0,4.83166,0],								7],
 		[['land_hbarrier_5_f',1,0,0,3.12525,0],									7],
@@ -78,7 +78,7 @@ if (_preset isEqualTo 5) exitWith {
 	]
 };
 if (_preset isEqualTo 6) exitWith {
-	comment 'FOB (large fort)';
+	//comment 'FOB (large fort)';
 	[
 		[['land_hbarrier_big_f',1,0,0,4.83166,0],								15],
 		[['land_hbarrier_5_f',1,0,0,3.12525,0],									10],
@@ -105,7 +105,7 @@ if (_preset isEqualTo 6) exitWith {
 	]
 };
 if (_preset isEqualTo 7) exitWith {
-	comment 'platform/bridging kit';
+	//comment 'platform/bridging kit';
 	[
 		[[_platformType,0,0,1,4.83166,0],					16],
 		[['land_pierladder_f',0,0,1,4,0],					2]

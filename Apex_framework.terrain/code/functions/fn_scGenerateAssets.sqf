@@ -22,7 +22,7 @@ _objectData = [];
 _markerData = [];
 _taskData = [];
 _letters = ['A','B','C'];
-_letter = format ['%1',(_letters select (count (missionNamespace getVariable 'QS_virtualSectors_data')))];
+_letter = (format ['%1',(_letters select (count (missionNamespace getVariable 'QS_virtualSectors_data')))]);
 comment 'Flag';
 _flag = createVehicle ['FlagPole_F',[-1000,-1000,0],[],0,'NONE'];
 _flag setPos _sectorPosition;
@@ -59,7 +59,7 @@ comment 'Composition';
 _composition = call (selectRandom (missionNamespace getVariable 'QS_sc_compositions_hq'));
 _objectData = [_sectorPosition,(random 360),_composition,TRUE] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 if ((([(_sectorPosition # 0),(_sectorPosition # 1)] nearObjects ['House',(_radius * 0.5)]) select {((_x buildingPos -1) isNotEqualTo [])}) isEqualTo []) then {
-	comment 'No buildings nearby, lets spawn some and add them to objectData array';
+	//comment 'No buildings nearby, lets spawn some and add them to objectData array';
 	private _buildingSpawnPositions = [[0,0,0]];
 	private _spawnPosition = [0,0,0];
 	private _buildingType = '';
@@ -149,7 +149,7 @@ if (_letter isEqualTo 'B') then {
 if (_letter isEqualTo 'C') then {
 	_title = 'Charlie';
 };
-_description = format [localize 'STR_QS_Task_050',_title,_letter];
+_description = (format [localize 'STR_QS_Task_050',_title,_letter]);
 _taskData pushBack ([
 	(format ['QS_virtualSectors_%1_task',(count (missionNamespace getVariable 'QS_virtualSectors_data'))]),
 	TRUE,
