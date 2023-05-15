@@ -159,7 +159,7 @@ if ((random 1) > 0.5) then {
 	};
 } forEach _subObjectives;
 comment 'Illumination';
-if (sunOrMoon isNotEqualTo 1) then {
+if (([0,0,0] getEnvSoundController 'night') isEqualTo 1) then {
 	0 spawn {
 		[0,(missionNamespace getVariable 'QS_AOpos'),400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 		sleep 3;

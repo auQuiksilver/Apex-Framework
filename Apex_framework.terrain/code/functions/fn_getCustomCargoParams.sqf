@@ -51,38 +51,21 @@ if (_type isEqualTo 0) exitWith {
 if (_type isEqualTo 1) exitWith {
 	//comment 'Can load to parent';
 	private _return1 = FALSE;
-	private _capacity = _parent getVariable ['QS_vehicle_customCargoCap',0];
-	private _count = 0;
-	if (_capacity isEqualTo 0) then {
-		if ([0,_child,_parent] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) then {
-			if (_parent isKindOf 'Kart_01_Base_F') then {
-				_capacity = 0;
-			} else {
-				if (_parent isKindOf 'Quadbike_01_base_F') then {
-					_capacity = 1;
-				} else {
-					if ((getMass _parent) > 5000) then {
-						if ((getMass _parent) > 15000) then {
-							_capacity = 4;
-						} else {
-							_capacity = 3;
-						};
-					} else {
-						_capacity = 2;
-					};
-				};
-			};
-		} else {
-			_capacity = 0;
-		};
-	};
-	{
-		if ([0,_x,_parent] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) then {
-			_count = _count + 1;
-		};
-	} count (attachedObjects _parent);
-	_return1 = ((_count < _capacity) || (([_parent,_child] call QS_fnc_canVehicleCargo) isEqualTo [TRUE,TRUE]));
-	_return1;
+	private _cargoCapacity = [_parent,0] call QS_fnc_getCargoCapacity;
+	private _currentLoad = [_parent,0] call QS_fnc_getCargoVolume;
+	_cargoCapacity params ['_cargoMaxCapacity','_cargoMaxMass','_cargoMaxCoef'];
+	_currentLoad params ['_currentCargoVolume','_currentCargoMass'];
+	_newCargoVolume = [_child] call QS_fnc_getObjectVolume;
+	_newCargoMass = getMass _child;
+	if (
+		(([_parent,_child] call QS_fnc_canVehicleCargo) isNotEqualTo [TRUE,TRUE]) &&
+		(
+			((_currentCargoVolume + _newCargoVolume) > _cargoMaxCapacity) ||
+			((_currentCargoMass + _newCargoMass) > _cargoMaxMass)
+		)
+	) exitWith {FALSE};
+	if (lockedInventory _parent) exitWith {FALSE};
+	TRUE
 };
 if (_type isEqualTo 2) exitWith {
 	//comment 'Towable non-vehicle object types';
@@ -92,36 +75,11 @@ if (_type isEqualTo 2) exitWith {
 	_return1;
 };
 if (_type isEqualTo 3) exitWith {
-	//comment 'Return capacity';
-	private _return1 = FALSE;
-	private _capacity = _parent getVariable ['QS_vehicle_customCargoCap',0];
-	private _count = 0;
-	if (_capacity isEqualTo 0) then {
-		if (_parent isKindOf 'Kart_01_Base_F') then {
-			_capacity = 0;
-		} else {
-			if (_parent isKindOf 'Quadbike_01_base_F') then {
-				_capacity = 1;
-			} else {
-				if ((getMass _parent) > 5000) then {
-					if ((getMass _parent) > 15000) then {
-						_capacity = 4;
-					} else {
-						_capacity = 3;
-					};
-				} else {
-					_capacity = 2;
-				};
-			};
-		};
-	};
-	{
-		if ([0,_x,_parent] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) then {
-			_count = _count + 1;
-		};
-	} count (attachedObjects _parent);
-	_return1 = [_count,_capacity];
-	_return1;
+	private _cargoCapacity = [_parent,0] call QS_fnc_getCargoCapacity;
+	private _currentLoad = [_parent,0] call QS_fnc_getCargoVolume;
+	_cargoCapacity params ['_cargoMaxCapacity','_cargoMaxMass','_cargoMaxCoef'];
+	_currentLoad params ['_currentCargoVolume','_currentCargoMass'];
+	[_currentCargoVolume,_cargoMaxCapacity,_currentCargoMass,_cargoMaxMass]
 };
 if (_type isEqualTo 4) exitWith {
 	//comment 'carry-ability';

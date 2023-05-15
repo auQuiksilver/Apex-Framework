@@ -25,7 +25,7 @@ if (hasInterface) exitWith {};
 _true = TRUE;
 _false = FALSE;
 disableRemoteSensors _false;
-enableEnvironment [_false,_false];
+enableEnvironment [_false,_false,0];
 setViewDistance 2000;
 setObjectViewDistance 2000;
 setTerrainGrid 50;

@@ -17,4 +17,4 @@ params ['_object'];
 if (isNull _object) exitWith {0};
 (0 boundingBoxReal _object) params ['_min','_max',''];
 (_max vectorDiff _min) params ['_dimX','_dimY','_dimZ'];
-(_dimX * _dimY * _dimZ)
+(abs (_dimX * _dimY * _dimZ))

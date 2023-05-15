@@ -1826,7 +1826,7 @@ for 'x' from 0 to 1 step 0 do {
 								_QS_liveFeed_camera cameraEffect ['Internal','Back','qs_rd_lfe'];
 								_QS_liveFeed_camera camSetTarget (missionNamespace getVariable 'QS_RD_liveFeed_target');
 								_QS_liveFeed_display setObjectTexture [0,'#(argb,512,512,1)r2t(qs_rd_lfe,1)'];
-								'qs_rd_lfe' setPiPEffect [[0,1] select (sunOrMoon < 0.25)];
+								'qs_rd_lfe' setPiPEffect [[0,1] select (([0,0,0] getEnvSoundController 'night') isEqualTo 1)];
 								_QS_liveFeed_camera camCommit 1;
 								_screenPos = worldToScreen _displayPos;
 								if (_screenPos isNotEqualTo []) then {
@@ -4551,7 +4551,10 @@ for 'x' from 0 to 1 step 0 do {
 			} else {
 				if (_QS_isAdmin && {_groupLocking}) then {
 					{
-						if (_x getVariable [_QS_joinGroup_privateVar,_false]) then {
+						if (
+							(_x getVariable [_QS_joinGroup_privateVar,_false]) &&
+							{_x isNotEqualTo _QS_playerGroup}
+						) then {
 							_x setVariable [_QS_joinGroup_privateVar,_false,_false];
 						};
 					} forEach (groups (_QS_player getVariable ['QS_unit_side',_west]));

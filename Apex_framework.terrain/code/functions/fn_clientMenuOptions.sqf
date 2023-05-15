@@ -129,11 +129,11 @@ if (_type isEqualTo 'AmbientCheckbox') then {
 	_state = _this # 2;
 	if ((_this # 2) isEqualTo 1) then {
 		missionProfileNamespace setVariable ['QS_options_ambientLife',TRUE];
-		enableEnvironment [TRUE,TRUE];
+		enableEnvironment [TRUE,TRUE,getMissionConfigValue ['windyCoef',0.65]];
 		50 cutText [localize 'STR_QS_Text_173','PLAIN DOWN',0.5];
 	} else {
 		missionProfileNamespace setVariable ['QS_options_ambientLife',FALSE];
-		enableEnvironment [FALSE,TRUE];
+		enableEnvironment [FALSE,TRUE,getMissionConfigValue ['windyCoef',0.65]];
 		50 cutText [localize 'STR_QS_Text_174','PLAIN DOWN',0.5];
 	};
 	saveMissionProfileNamespace;

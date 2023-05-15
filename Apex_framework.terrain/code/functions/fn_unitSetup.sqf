@@ -505,7 +505,7 @@ if ('acc_pointer_IR' in (primaryWeaponItems _unit)) then {
 	};
 };
 if (dayTime < 16) then {
-	if (sunOrMoon isEqualTo 1) then {
+	if (([0,0,0] getEnvSoundController 'night') isEqualTo 0) then {
 		if ((hmd _unit) isNotEqualTo '') then {
 			_unit unlinkItem (hmd _unit);
 		};

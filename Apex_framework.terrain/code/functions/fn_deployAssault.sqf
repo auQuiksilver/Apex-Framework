@@ -182,7 +182,7 @@ for '_z' from 0 to 1 step 0 do {
 			_grp setFormDir (_spawnPos getDir _referencePos);
 			for '_i' from 0 to _quantityDiff step 1 do {
 				_unitType = selectRandomWeighted _unitsList;
-				_unit = _grp createUnit [_unitType,_spawnPos,[],0,'FORM'];
+				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_spawnPos,[],0,'FORM'];
 				_unit setVehiclePosition [AGLToASL _spawnPos,[],0,'NONE'];
 				_unit enableAIFeature ['COVER',FALSE];
 				_unit enableAIFeature ['SUPPRESSION',FALSE];

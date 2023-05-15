@@ -758,7 +758,7 @@ if (_QS_worldName isEqualTo 'Tanoa') then {
 _QS_baseLights = TRUE;
 missionNamespace setVariable ['QS_lamps',(missionNamespace getVariable 'QS_lamps'),TRUE];
 if (_QS_baseLights) then {
-	_QS_baseLights_state = sunOrMoon < 1;
+	_QS_baseLights_state = (([0,0,0] getEnvSoundController 'night') isEqualTo 1);
 	_QS_lamp = objNull;
 	_QS_lampHitPoints = [];
 	_QS_lampHitValue = 0.97;
@@ -1481,7 +1481,11 @@ for '_x' from 0 to 1 step 0 do {
 			if (_timeNow > _aoStartDelay) then {
 				if ((missionNamespace getVariable 'QS_mission_aoType') isEqualTo 'CLASSIC') then {
 					if (!(_defendAOActive)) then {
-						if ((!(missionNamespace getVariable 'QS_aoSuspended')) && (!(missionNamespace getVariable 'QS_customAO_active'))) then {
+						if (
+							(!(missionNamespace getVariable ['QS_classic_AI_triggerDeinit',_false])) &&
+							(!(missionNamespace getVariable ['QS_aoSuspended',_false])) && 
+							(!(missionNamespace getVariable ['QS_customAO_active',_false]))
+						) then {
 							if (_aoList isEqualTo []) then {
 								if (_mainMissionRegionListProxy isEqualTo []) then {
 									_mainMissionRegionListProxy = _regionMasterList call _fn_arrayShuffle;
@@ -1771,7 +1775,7 @@ for '_x' from 0 to 1 step 0 do {
 						_playerCountData = [0,0,0];
 						_playerCountSamples = 0;
 						_avgPlayerCount = 0;
-						_mainMissionActive = _false;						
+						_mainMissionActive = _false;
 						missionNamespace setVariable ['QS_classic_AI_triggerDeinit',_true,_false];
 						missionNamespace setVariable ['QS_classic_AI_active',_false,_false];
 						if (missionNamespace getVariable 'QS_aoCycleVar') then {
@@ -2006,7 +2010,7 @@ for '_x' from 0 to 1 step 0 do {
 							_defendAO = _true;
 							_defendAOActive = _true;
 							_isDefendLocal = _true;
-							_defendAOScript = [] spawn _fn_aoDefend;
+							_defendAOScript = 0 spawn _fn_aoDefend;
 						};
 						_aoStartDelay = time + (30 + (random 15));
 					};

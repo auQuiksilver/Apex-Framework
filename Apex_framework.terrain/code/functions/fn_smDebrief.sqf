@@ -6,7 +6,7 @@ Author:
 	
 Last modified: 
 
-	28/04/2023 A3 2.12 by Quiksilver
+	15/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -37,9 +37,7 @@ if (_type isEqualTo 1) then {
 			missionNamespace setVariable ['QS_virtualSectors_scoreSides',_QS_virtualSectors_scoreSides,FALSE];
 		};
 	};
-	
 	if (!(worldName in ['Altis','Stratis','Tanoa','Malden','Enoch'])) exitWith {};		// Not set up for DLC/mods yet
-	
 	private _isArmedAirEnabled = missionNamespace getVariable ['QS_armedAirEnabled',FALSE];
 	if ((random 1) < 0.25) exitWith {
 		['Reward',[localize 'STR_QS_Notif_076']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
@@ -255,6 +253,7 @@ if (_type isEqualTo 1) then {
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_mortar attachTo [_rewardVeh,[0,-2.5,0.1]];
+		_mortar setVariable ['QS_attached',TRUE,TRUE];
 		_mortar allowDamage FALSE;
 		_mortar setVariable ['QS_ST_customDN','',TRUE];
 		_mortar addEventHandler [
@@ -325,6 +324,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh setDir (random 360);
 		_static1 = createVehicle ['B_GMG_01_A_F',[0,0,0],[],0,'NONE'];
 		_static1 attachTo [_rewardVeh,[0.5,3.75,1.6]];
+		_static1 setVariable ['QS_attached',TRUE,TRUE];
 		_static1 enableWeaponDisassembly FALSE;
 		_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static1 setVariable ['QS_uav_protected',TRUE,FALSE];
@@ -337,6 +337,7 @@ if (_type isEqualTo 1) then {
 		} forEach (crew _static1);
 		_static2 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
 		_static2 attachTo [_rewardVeh,[0.2,-0.9,1.125]];
+		_static2 setVariable ['QS_attached',TRUE,TRUE];
 		_static2 enableWeaponDisassembly FALSE;
 		_static2 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static2 allowDamage FALSE;
@@ -363,6 +364,7 @@ if (_type isEqualTo 1) then {
 		];
 		_static3 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
 		_static3 attachTo [_rewardVeh,[0.2,-4,1.125]];
+		_static3 setVariable ['QS_attached',TRUE,TRUE];
 		_static3 enableWeaponDisassembly FALSE;
 		_static3 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static3 allowDamage FALSE;
@@ -451,6 +453,7 @@ if (_type isEqualTo 1) then {
 			};
 			_obj = createSimpleObject [_model,_position];
 			_obj attachTo [_rewardVeh,(_x # 1)];
+			_obj setVariable ['QS_attached',TRUE,TRUE];
 			_obj setDir (_x # 2);
 			_rewardVeh setVariable [
 				'QS_attachedObjects',
@@ -493,6 +496,7 @@ if (_type isEqualTo 1) then {
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_mortar attachTo [_rewardVeh,[0,0,-0.3]];
+		_mortar setVariable ['QS_attached',TRUE,TRUE];
 		_mortar allowDamage FALSE;
 		_mortar setVariable ['QS_ST_customDN','',TRUE];
 		_mortar addEventHandler [
@@ -563,6 +567,7 @@ if (_type isEqualTo 1) then {
 			_rewardVeh lockCargo TRUE;
 			private _static1 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
 			_static1 attachTo [_rewardVeh,[0.17,-0.4,1.1]];
+			_static1 setVariable ['QS_attached',TRUE,TRUE];
 			_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 			_static1 enableWeaponDisassembly FALSE;
 			_static1 disableTIEquipment TRUE; 
@@ -618,6 +623,7 @@ if (_type isEqualTo 1) then {
 		_static setVariable ['QS_uav_protected',TRUE,FALSE];
 		_static enableWeaponDisassembly FALSE;
 		_static attachTo [_rewardVeh,[-0.45,-2.5,0.5]];
+		_static setVariable ['QS_attached',TRUE,TRUE];
 		_static allowDamage FALSE;
 		createVehicleCrew _static;
 		_static setVariable ['QS_hidden',TRUE,TRUE];
@@ -626,6 +632,7 @@ if (_type isEqualTo 1) then {
 		} forEach (crew _static);
 		_static1 = createVehicle ['B_HMG_01_A_F',[0,0,0],[],0,'NONE'];
 		_static1 attachTo [_rewardVeh,[0.1,-0.8,1.45]];
+		_static1 setVariable ['QS_attached',TRUE,TRUE];
 		_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static1 setVariable ['QS_uav_protected',TRUE,FALSE];
 		_static1 enableWeaponDisassembly FALSE;
@@ -718,6 +725,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh lockCargo [2,TRUE];
 		_static1 = createVehicle [(selectRandom ['B_static_AA_F','B_static_AT_F','B_static_AT_F']),[(random 10),(random 10),(random 10)],[],0,'NONE'];
 		_static1 attachTo [_rewardVeh,[0,-0.7,0.175]];
+		_static1 setVariable ['QS_attached',TRUE,TRUE];
 		_static1 setDir 180;
 		_static1 allowDamage FALSE;
 		_static1 enableWeaponDisassembly FALSE;
@@ -815,6 +823,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh enableRopeAttach FALSE;
 		_rewardVeh enableVehicleCargo FALSE;
 		_static attachTo [_rewardVeh,_attachPoint];
+		_static setVariable ['QS_attached',TRUE,TRUE];
 		_rewardVeh addMPEventHandler [
 			'MPKilled',
 			{
@@ -930,6 +939,7 @@ if (_type isEqualTo 1) then {
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_mortar attachTo [_rewardVeh,[-0.15,-1.5,1]];
+		_mortar setVariable ['QS_attached',TRUE,TRUE];
 		_mortar allowDamage FALSE;
 		_mortar setDir 180;
 		_rewardVeh setVariable ['QS_attachedObjects',[_mortar],FALSE];
