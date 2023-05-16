@@ -10227,15 +10227,19 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Utility_031">
             <Original>Volume</Original>
+		<Spanish>volumen</Spanish>
         </Key>
         <Key ID="STR_QS_Utility_032">
             <Original>Mass</Original>
+		<spanish>Masa</Spanish>
         </Key>
         <Key ID="STR_QS_Utility_033">
             <Original>%1 had a(n) %2 deleted in base protection zone</Original>
+		<Spanish>%1 tuvo un(a) %2 eliminado en la zona de protección de la base</Spanish>
         </Key>
         <Key ID="STR_QS_Utility_034">
             <Original>Spawn Zone - Entity deleted</Original>
+		<Spanish>Zona de generación - Entidad eliminada</Spanish>
         </Key>
     </Container>
     <Container name="QS_xml_dialogs">
