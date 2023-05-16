@@ -313,6 +313,11 @@ if (_preset isEqualTo 12) then {
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
 	} else {
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			[]
+		] call QS_fnc_virtualVehicleCargo;
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -347,6 +352,11 @@ if (_preset isEqualTo 13) then {
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
 	} else {
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			[]
+		] call QS_fnc_virtualVehicleCargo;
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -381,6 +391,11 @@ if (_preset isEqualTo 14) then {
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
 	} else {
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			[]
+		] call QS_fnc_virtualVehicleCargo;
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -415,6 +430,11 @@ if (_preset isEqualTo 15) then {
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
 	} else {
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			[]
+		] call QS_fnc_virtualVehicleCargo;
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -565,6 +585,11 @@ if (_preset isEqualTo 17) then {
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
 	} else {
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			[]
+		] call QS_fnc_virtualVehicleCargo;
 		/*
 		_vehicle enableDynamicSimulation TRUE;
 		//_vehicle enableSimulationGlobal TRUE;

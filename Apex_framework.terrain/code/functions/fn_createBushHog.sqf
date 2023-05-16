@@ -102,34 +102,66 @@ private _attachedArray = [];
 	['QS_ST_showDisplayName',TRUE,TRUE],
 	['QS_disableRespawnAction',TRUE,TRUE]
 ];
-_vehicle addEventHandler [
-	'GetIn',
-	{
-		params ["_vehicle", "_role", "_unit", "_turret"];
-		if (_role isEqualTo 'cargo') then {
-			if (diag_ticktime < (_unit getVariable ['QS_moveToTurret_cooldown',-1])) exitWith {};
-			_attachedTurrets = (attachedObjects _vehicle) select { ((_x isKindOf 'StaticWeapon') && ((_x emptyPositions 'Gunner') > 0)) };
-			if (_attachedTurrets isNotEqualTo []) then {
-				_attachedTurret = selectRandom _attachedTurrets;
+{
+	_x moveOut _vehicle;
+} forEach (crew _vehicle);
+{
+	_vehicle addEventHandler _x;
+} forEach [
+	[
+		'GetIn',
+		{
+			params ["_vehicle", "_role", "_unit", "_turret"];
+			if (_role isEqualTo 'cargo') then {
+				if (diag_ticktime < (_unit getVariable ['QS_moveToTurret_cooldown',-1])) exitWith {};
+				_attachedTurrets = (attachedObjects _vehicle) select { ((_x isKindOf 'StaticWeapon') && ((_x emptyPositions 'Gunner') > 0)) };
+				if (_attachedTurrets isNotEqualTo []) then {
+					_attachedTurret = selectRandom _attachedTurrets;
+					[
+						[_vehicle,_unit,_attachedTurret],
+						{
+							params ['_vehicle','_unit','_attachedTurret'];
+							waitUntil {
+								_unit moveOut _vehicle;
+								(!(_unit in _vehicle))
+							};
+							_unit assignAsGunner _attachedTurret;
+							_unit moveInGunner _attachedTurret;
+							_attachedTurret enableWeaponDisassembly FALSE;
+							_attachedTurret allowDamage FALSE;
+							_attachedTurret removeAllEventHandlers 'IncomingMissile';
+							_attachedTurret addEventHandler [
+								'IncomingMissile',
+								{
+									params ["_target","_ammo","_vehicle","_instigator","_missile"];
+									if (!local _target) exitWith {};
+									if (isDedicated) then {
+										[_missile,objNull] remoteExec ['setMissileTarget',_vehicle];
+									};
+									_missile spawn {
+										sleep (1 + (random 1));
+										_this setDamage [1,TRUE];
+										triggerAmmo _this;
+									};
+								}
+							];
+						}
+					] remoteExec ['spawn',_unit,FALSE];
+				};
+			};
+			if (_role isEqualTo 'driver') then {
 				[
-					[_vehicle,_unit,_attachedTurret],
+					[_vehicle],
 					{
-						params ['_vehicle','_unit','_attachedTurret'];
-						waitUntil {
-							_unit moveOut _vehicle;
-							(!(_unit in _vehicle))
-						};
-						_unit assignAsGunner _attachedTurret;
-						_unit moveInGunner _attachedTurret;
-						_attachedTurret enableWeaponDisassembly FALSE;
-						_attachedTurret allowDamage FALSE;
-						_attachedTurret removeAllEventHandlers 'IncomingMissile';
-						_attachedTurret addEventHandler [
+						params ['_vehicle'];
+						QS_INCMISS_EH = _vehicle addEventHandler [
 							'IncomingMissile',
 							{
 								params ["_target","_ammo","_vehicle","_instigator","_missile"];
 								if (!local _target) exitWith {};
-								[_missile,objNull] remoteExec ['setMissileTarget',_vehicle];
+								if (isDedicated) then {
+									[_missile,objNull] remoteExec ['setMissileTarget',_vehicle];
+								};
 								_missile spawn {
 									sleep (1 + (random 1));
 									_this setDamage [1,TRUE];
@@ -137,85 +169,65 @@ _vehicle addEventHandler [
 								};
 							}
 						];
+						_vehicle addEventHandler [
+							'GetOut',
+							{
+								params ["_vehicle", "_role", "_unit", "_turret"];
+								if (_unit isEqualTo player) then {
+									_vehicle removeEventHandler [_thisEvent,_thisEventHandler];
+									_vehicle removeEventHandler ['IncomingMissile',QS_INCMISS_EH];
+								};
+							}
+						];
 					}
-				] remoteExec ['spawn',_unit,FALSE];
+				] remoteExec ['call',_unit,FALSE];
 			};
-		};
-		if (_role isEqualTo 'driver') then {
-			[
-				[_vehicle],
+		}
+	],
+	[
+		'IncomingMissile',
+		{
+			params ["_target","_ammo","_vehicle","_instigator","_missile"];
+			if (isDedicated) then {
+				[_missile,objNull] remoteExec ['setMissileTarget',_vehicle];
+			};
+		}
+	],
+	[
+		'Local',
+		{
+			params ['_vehicle'];
+			_attached = attachedObjects _vehicle;
+			if (isDedicated) then {
 				{
-					params ['_vehicle'];
-					QS_INCMISS_EH = _vehicle addEventHandler [
-						'IncomingMissile',
-						{
-							params ["_target","_ammo","_vehicle","_instigator","_missile"];
-							if (!local _target) exitWith {};
-							[_missile,objNull] remoteExec ['setMissileTarget',_vehicle];
-							_missile spawn {
-								sleep (1 + (random 1));
-								_this setDamage [1,TRUE];
-								triggerAmmo _this;
-							};
-						}
-					];
-					_vehicle addEventHandler [
-						'GetOut',
-						{
-							params ["_vehicle", "_role", "_unit", "_turret"];
-							if (_unit isEqualTo player) then {
-								_vehicle removeEventHandler [_thisEvent,_thisEventHandler];
-								_vehicle removeEventHandler ['IncomingMissile',QS_INCMISS_EH];
-							};
-						}
-					];
-				}
-			] remoteExec ['call',_unit,FALSE];
-		};
-	}
-];
-_vehicle addEventHandler [
-	'IncomingMissile',
-	{
-		params ["_target","_ammo","_vehicle","_instigator","_missile"];
-		[_missile,objNull] remoteExec ['setMissileTarget',_vehicle];
-	}
-];
-_vehicle addEventHandler [
-	'Local',
-	{
-		params ['_vehicle'];
-		_attached = attachedObjects _vehicle;
+					[_x,FALSE] remoteExec ['allowDamage',_vehicle];
+				} forEach _attached;
+			};
+		}
+	],
+	[
+		'Deleted',
 		{
-			[_x,FALSE] remoteExec ['allowDamage',_vehicle];
-		} forEach _attached;
-	}
-];
-_vehicle addEventHandler [
-	'Deleted',
-	{
-		params ['_vehicle'];
+			params ['_vehicle'];
+			{
+				detach _x;
+				deleteVehicle _x;
+			} count (attachedObjects _vehicle);
+		}
+	],
+	[
+		'Killed',
 		{
-			detach _x;
-			deleteVehicle _x;
-		} count (attachedObjects _vehicle);
-	}
-];
-_vehicle addEventHandler [
-	'Killed',
-	{
-		params ['_killed','_killer'];
-		_attachedObjects = attachedObjects _killed;
-		{
-			deleteVehicle _x;
-		} count ((_killed getVariable ['QS_attachedObjects',[]]) + _attachedObjects);
-		if ((attachedObjects _killed) isNotEqualTo []) then {
+			params ['_killed','_killer'];
+			_attachedObjects = attachedObjects _killed;
 			{
 				deleteVehicle _x;
-			} count (attachedObjects _killed);
-		};
-	}
+			} count ((_killed getVariable ['QS_attachedObjects',[]]) + _attachedObjects);
+			if ((attachedObjects _killed) isNotEqualTo []) then {
+				{
+					deleteVehicle _x;
+				} count (attachedObjects _killed);
+			};
+		}
+	]
 ];
-{
-	_x moveOut _vehicle;
-} forEach (crew _vehicle);

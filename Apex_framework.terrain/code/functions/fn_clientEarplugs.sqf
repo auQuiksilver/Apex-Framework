@@ -14,9 +14,10 @@ Description:
 __________________________________________________________/*/
 
 if (diag_tickTime < (uiNamespace getVariable ['QS_earplugs_cooldown',-1])) exitWith {};
-uiNamespace setVariable ['QS_earplugs_cooldown',diag_tickTime + 1];
+uiNamespace setVariable ['QS_earplugs_cooldown',diag_tickTime + 0.5];
 playSoundUI ['ClickSoft',1,3,FALSE];
-getAudioOptionVolumes params ['_effects','','','','','_earplugs'];
+getAudioOptionVolumes params ['_effects','','','','','_mapFactor'];
+_earplugs = _effects * _mapFactor;
 if (soundVolume isEqualTo _earplugs) then {
 	(uiNamespace getVariable ['QS_client_uiCtrl_earplugs',controlNull]) ctrlShow FALSE;
 	1 fadeSound _effects;

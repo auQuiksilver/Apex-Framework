@@ -84,21 +84,17 @@ if (_attachedObjects isNotEqualTo []) then {
 					];
 				} else {
 					_capacity = [3,_obj,_t] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams');
-					50 cutText [
-						(format [
-							'%1 %5 %2 - %6 %3 / %4',
-							(_obj getVariable ['QS_ST_customDN',_dn1]),
-							_dn,
-							(_capacity # 0),
-							(_capacity # 1),
-							localize 'STR_QS_Text_114',
-							localize 'STR_QS_Text_115'
-						]),
-						'PLAIN DOWN',
-						([0.333,0.666] select ((_capacity # 0) isEqualTo (_capacity # 1))),
-						FALSE,
-						TRUE
+					_capacity params ['_currentCargoVolume','_cargoMaxCapacity','_currentCargoMass','_cargoMaxMass'];
+					_text = format [
+						'<t align="center">%6: %1 / %2<t/><br/><t align="center">%5: %3 / %4<t/>',
+						round _currentCargoMass,
+						round _cargoMaxMass,
+						parseNumber (_currentCargoVolume toFixed 2),
+						round _cargoMaxCapacity,
+						localize 'STR_QS_Utility_031',
+						localize 'STR_QS_Utility_032'
 					];
+					50 cutText [_text,'PLAIN DOWN',0.666, TRUE, TRUE];
 				};
 			};
 		};

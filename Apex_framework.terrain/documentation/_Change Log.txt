@@ -1,5 +1,19 @@
 Official Change Log
 
+1.5.1 (Beta) (15/05/2023 A3 2.12)
+
+[ADDED] Ability for Zeus to raise/lower placed buildings/structures/fortifications with [-] and [+] keys (on selected structures).
+[TWEAKED] Improved vehicle cargo capacity handling (Work in progress)
+[TWEAKED] Improved detection of low-light conditions/nighttime
+[TWEAKED] reduced sniper chance at low pop (classic mode)
+[FIXED] *Critical* Classic Mode AO does not properly cycle, enemies at prior AO not cleaned up
+[FIXED] Vehicle cargo loading was uncontrolled (anything could be loaded into anything).
+[FIXED] Admins were not able to lock their own group
+[FIXED] Non-pilots could fly jets even when role was restricted to pilot-only in parameters.
+[FIXED] Deployable virtual cargo was available even after deployable packed up.
+[FIXED] Fixed bug in enemy jet pylon handling. May have been causing cascade failure in AI system and preventing AI cleanup after AO.
+[FIXED] Spawn vehicle-protection zone was not functioning.
+
 1.5.0 (28/04/2023 A3 2.12)
 
 [ADDED] Extended Context action menu (Windows key).

@@ -584,30 +584,34 @@ if (_allowVehicles) then {
 
 /*/=============================================================== SNIPERS/*/
 
-diag_log '****************************************************';
-diag_log '***** AO ENEMY ***** Spawning Snipers *****';
-diag_log '****************************************************';
-private _sniperGroup = grpNull;
-private _towerPos = getPosATL (missionNamespace getVariable 'QS_radioTower');
-for '_x' from 0 to ([1,2] select (_playerCount > 30)) step 1 do {
-	private _watchPos = selectRandom [(ATLToASL _towerPos),(AGLToASL _QS_HQpos)];
-	_randomPos = [_watchPos,(_aoSize * 1.25),(_aoSize * 0.5),10,[[objNull,'VIEW'],0.75]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
-	_sniperGroup = [_randomPos,(random 360),EAST,'OI_SniperTeam_2',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-	_sniperGroup setCombatMode 'RED';
-	_sniperGroup setBehaviourStrong 'STEALTH';
-	[(units _sniperGroup),(selectRandom [3,4])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-	_sniperGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
-	_dirToCenter = _randomPos getDir _watchPos;
-	_sniperGroup setFormDir _dirToCenter;
-	{
-		_x setUnitPos (['MIDDLE','DOWN'] select (_playerCount > 10));
-	} forEach (units _sniperGroup);
-	{
-		_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
-		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
-		_x doWatch (ASLToAGL _watchPos); 
-		0 = _enemiesArray pushBack _x;
-	} count (units _sniperGroup);
+if (
+	(_playerCount > 10) ||
+	{((_playerCount <= 10) && ((random 1) > 0.8))}
+) then {
+	diag_log '****************************************************';
+	diag_log '***** AO ENEMY ***** Spawning Snipers *****';
+	diag_log '****************************************************';
+	private _sniperGroup = grpNull;
+	private _towerPos = getPosATL (missionNamespace getVariable 'QS_radioTower');
+	for '_x' from 0 to ([1,2] select (_playerCount > 30)) step 1 do {
+		private _watchPos = selectRandom [(ATLToASL _towerPos),(AGLToASL _QS_HQpos)];
+		_randomPos = [_watchPos,(_aoSize * 1.25),(_aoSize * 0.5),10,[[objNull,'VIEW'],0.75]] call (missionNamespace getVariable 'QS_fnc_findOverwatchPos');
+		_sniperGroup = [_randomPos,(random 360),EAST,'OI_SniperTeam_2',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
+		_sniperGroup setCombatMode 'RED';
+		_sniperGroup setBehaviourStrong 'STEALTH';
+		[(units _sniperGroup),(selectRandom [3,4])] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
+		_sniperGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+		_dirToCenter = _randomPos getDir _watchPos;
+		_sniperGroup setFormDir _dirToCenter;
+		{
+			_x setUnitPos (['MIDDLE','DOWN'] select (_playerCount > 10));
+		} forEach (units _sniperGroup);
+		{
+			_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];
+			_x doWatch (ASLToAGL _watchPos); 
+			0 = _enemiesArray pushBack _x;
+		} count (units _sniperGroup);
+	};
 };
 
 /*/=============================================================== AO MORTAR PIT/*/

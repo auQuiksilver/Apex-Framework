@@ -10225,6 +10225,18 @@ _____________________________________________________________-->
             <Original>AI</Original>
             <Spanish>Inteligencia Artificial</Spanish>
         </Key>
+        <Key ID="STR_QS_Utility_031">
+            <Original>Volume</Original>
+        </Key>
+        <Key ID="STR_QS_Utility_032">
+            <Original>Mass</Original>
+        </Key>
+        <Key ID="STR_QS_Utility_033">
+            <Original>%1 had a(n) %2 deleted in base protection zone</Original>
+        </Key>
+        <Key ID="STR_QS_Utility_034">
+            <Original>Spawn Zone - Entity deleted</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_dialogs">
         <Key ID="STR_QS_Dialogs_000">

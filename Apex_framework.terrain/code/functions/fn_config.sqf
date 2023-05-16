@@ -209,7 +209,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 	} forEach allMapMarkers;
 };
 enableDynamicSimulationSystem TRUE;
-enableEnvironment [FALSE,FALSE];
+enableEnvironment [FALSE,FALSE,0];
 enableEngineArtillery TRUE;
 disableRemoteSensors TRUE;
 calculatePlayerVisibilityByFriendly FALSE;
@@ -763,7 +763,8 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_logistics_deployedAssets',[],FALSE],
 	['QS_logistics_wrecktype','land_cargo10_orange_f',FALSE],
 	['QS_mobile_increment1',0,FALSE],
-	['QS_system_terrainMod',[],FALSE]
+	['QS_system_terrainMod',[],FALSE],
+	['QS_global_wreckSmokes',[],FALSE]
 ];
 _weaponsList = nil;
 // Load terrain-specific Roles if file is found
@@ -1437,7 +1438,9 @@ if ((allMissionObjects 'Land_RepairDepot_01_base_F') isNotEqualTo []) then {
 };
 if ((allMissionObjects 'ModuleCurator_F') isNotEqualTo []) then {
 	{
-		deleteVehicle _x;
+		if (!(_x getVariable ['QS_missionObject_protected',FALSE])) then {
+			deleteVehicle _x;
+		};
 	} forEach (allMissionObjects 'ModuleCurator_F');
 };
 

@@ -184,7 +184,7 @@ if ((toLowerANSI _airType) in ['i_heli_light_03_dynamicloadout_f','i_e_heli_ligh
 	_unit addPrimaryWeaponItem 'optic_lrps';
 	_unit moveInCargo [_air,1];
 	_entityArray pushBack _unit;
-	if (sunOrMoon isNotEqualTo 1) then {
+	if (([0,0,0] getEnvSoundController 'night') isEqualTo 1) then {
 		(_air turretUnit [0]) action ['SearchlightOn',_air];
 	};
 };

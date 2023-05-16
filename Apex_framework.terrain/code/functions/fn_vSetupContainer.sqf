@@ -147,6 +147,7 @@ if (_entity isKindOf 'Land_Cargo10_sand_F') exitWith {
 		['QS_deploy_type','FORT',TRUE],
 		['QS_logistics_unloadDistance',25,TRUE],
 		['QS_logistics_deployParams',[10,60,500,300,500,100],TRUE],
+		['QS_logistics_deployNearWater',TRUE,TRUE],
 		['QS_deploy_preset',15,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],
 		['QS_ST_customDN',localize 'STR_QS_Text_448',TRUE],

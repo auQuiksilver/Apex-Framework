@@ -40,21 +40,18 @@ if (_mode isEqualTo 0) then {
 				];
 			} forEach QS_baseProtection_polygons;
 		};
-		
 		comment 'Default base safe-polygon';
 		_centroid = QS_base_safePolygon call QS_fnc_geomPolygonCentroid;
 		_zoneEval = {
-			systemchat str systemTime;
 			if (diag_tickTime > (localNamespace getVariable ['QS_spawnprotection_interval',-1])) then {
 				localNamespace setVariable ['QS_spawnprotection_interval',diag_tickTime + (5 + (random 5))];
-				_entities = entities [['LandVehicle','Air','Ship','StaticWeapon'],[],FALSE,FALSE];
+				_entities = entities [['LandVehicle','Air','Ship','StaticWeapon','Reammobox_F'],[],FALSE,FALSE];
 				private _deleteDelay = FALSE;
 				{
 					if (local _x) then {
 						if (
 							((getPosWorld _x) inPolygon QS_base_safePolygon) &&
-							{(((getPos _x) # 2) < 3)} &&
-							{((vectorMagnitude (velocity _x)) < 5)}
+							{(((getPos _x) # 2) < 2)}
 						) then {
 							_deleteDelay = FALSE;
 							if (unitIsUav _x) then {
@@ -72,7 +69,8 @@ if (_mode isEqualTo 0) then {
 									_deleteDelay = TRUE;
 								};
 							};
-							50 cutText ['Spawn Zone - Entity deleted','PLAIN DOWN',0.35];
+							50 cutText [localize 'STR_QS_Utility_034','PLAIN DOWN',0.35];
+							['systemChat',format [localize 'STR_QS_Utility_033',profileName,(getText ((configOf _x) >> 'displayName'))]] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							if (_deleteDelay) then {
 								_x spawn {sleep 1; deleteVehicle _this;};
 							} else {
@@ -83,7 +81,7 @@ if (_mode isEqualTo 0) then {
 				} forEach _entities;
 			};
 		};
-		['ADD_LOCAL',['SPAWNPROTECTION_0',TRUE,'SAFE','RAD',1,[_centroid,100],{},{},{TRUE},_zoneEval,[WEST]]] call QS_fnc_zoneManager;
+		['ADD_LOCAL',['SPAWNPROTECTION_0',TRUE,'V_DELETE','RAD',1,[_centroid,100],{},{},{TRUE},_zoneEval,[WEST]]] call QS_fnc_zoneManager;
 	};
 	_szOut = {
 		params ['_id','_zoneActive','_zoneType','_type','_level','_areaParams','_codeEntry','_codeExit','_codeCondition','_codeEval','_zoneSides'];

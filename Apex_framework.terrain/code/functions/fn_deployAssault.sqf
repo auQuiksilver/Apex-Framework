@@ -44,10 +44,7 @@ private _weightedDeployments = [];
 } forEach _currentDeployments;
 private _selectedDeployment = selectRandomWeighted _weightedDeployments;
 private _referencePos = position _selectedDeployment;
-
-
 diag_log (format ['***** DEBUG ***** Enemy assaulting deployment * %1 * %2 *****',typeOf _selectedDeployment,_referencePos]);
-
 if (surfaceIsWater _referencePos) exitWith {
 	localNamespace setVariable ['QS_deploy_assaultInProgress',FALSE];
 	missionNamespace setVariable ['QS_smSuspend',FALSE,TRUE];
@@ -88,6 +85,7 @@ _selectedDeployment enableSimulationGlobal FALSE;
 private _allPlayers = allPlayers;
 private _playerCount = count allPlayers;
 _endTime = diag_tickTime + (300 + (random 1800));
+private _minUnits = 4;
 private _quantity = 4;
 private _maxGrpSize = 5;
 if (_playerCount > 10) then {
@@ -117,6 +115,7 @@ private _spawnPos = [0,0,0];
 private _friendlySide = WEST;
 private _enemySide = EAST;
 private _unitType = '';
+private _enemyCount = 0;
 
 private _spawnPositionsList = [];
 private _conditionInterval = 1;
@@ -162,12 +161,13 @@ for '_z' from 0 to 1 step 0 do {
 		_playerCount = count allPlayers;
 		_enemyDelay = _time + _enemyInterval;
 		_enemyArray = _enemyArray select {alive _x};
+		_enemyCount = count _enemyArray;
 		_allEnemiesCount = count ((units EAST) + (units RESISTANCE));
 		if (
-			(_allEnemiesCount < _allEnemiesThreshold) &&
-			((count _enemyArray) < (localNamespace getVariable ['QS_deploy_assaultQuantity_override',_quantity]))
+			((_allEnemiesCount < _allEnemiesThreshold) || (_enemyCount < _minUnits)) &&
+			(_enemyCount < (localNamespace getVariable ['QS_deploy_assaultQuantity_override',_quantity]))
 		) then {
-			_quantityDiff = (localNamespace getVariable ['QS_deploy_assaultQuantity_override',_quantity]) - (count _enemyArray);
+			_quantityDiff = (localNamespace getVariable ['QS_deploy_assaultQuantity_override',_quantity]) - _enemyCount;
 			for '_ii' from 0 to 49 step 1 do {
 				_spawnPos = ([[_referencePos,250,500,5,0,0.5,0],[_referencePos,300,550,5,0,0.5,0]] select ((random 1) > 0.666)) call _fn_findSafePos;
 				if (
@@ -182,7 +182,7 @@ for '_z' from 0 to 1 step 0 do {
 			_grp setFormDir (_spawnPos getDir _referencePos);
 			for '_i' from 0 to _quantityDiff step 1 do {
 				_unitType = selectRandomWeighted _unitsList;
-				_unit = _grp createUnit [_unitType,_spawnPos,[],0,'FORM'];
+				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_spawnPos,[],0,'FORM'];
 				_unit setVehiclePosition [AGLToASL _spawnPos,[],0,'NONE'];
 				_unit enableAIFeature ['COVER',FALSE];
 				_unit enableAIFeature ['SUPPRESSION',FALSE];

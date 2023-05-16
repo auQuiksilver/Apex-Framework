@@ -177,7 +177,7 @@ diag_log '****************************************************';
 diag_log '***** AO PREPARE ******* 7 *************************';
 diag_log '****************************************************';
 
-if (sunOrMoon isNotEqualTo 1) then {
+if (([0,0,0] getEnvSoundController 'night') isEqualTo 1) then {
 	0 spawn {
 		[0,(missionNamespace getVariable 'QS_AOpos'),400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 		sleep 3;

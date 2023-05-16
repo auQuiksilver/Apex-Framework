@@ -599,16 +599,16 @@ useAISteeringComponent FALSE;
 enableEngineArtillery ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) isEqualTo 2);
 if (isNil {missionProfileNamespace getVariable 'QS_options_ambientLife'}) then {
 	missionProfileNamespace setVariable ['QS_options_ambientLife',TRUE];
-	enableEnvironment [TRUE,TRUE];
+	enableEnvironment [TRUE,TRUE,getMissionConfigValue ['windyCoef',0.65]];
 	saveMissionProfileNamespace;
 } else {
 	_ambientLife = missionProfileNamespace getVariable 'QS_options_ambientLife';
 	if (!(_ambientLife isEqualType TRUE)) then {
 		missionProfileNamespace setVariable ['QS_options_ambientLife',TRUE];
-		enableEnvironment [TRUE,TRUE];
+		enableEnvironment [TRUE,TRUE,getMissionConfigValue ['windyCoef',0.65]];
 		saveMissionProfileNamespace;
 	} else {
-		enableEnvironment [(missionProfileNamespace getVariable 'QS_options_ambientLife'),TRUE];
+		enableEnvironment [(missionProfileNamespace getVariable 'QS_options_ambientLife'),TRUE,getMissionConfigValue ['windyCoef',0.65]];
 	};
 };
 if (missionProfileNamespace getVariable ['QS_options_dynSim',FALSE]) then {

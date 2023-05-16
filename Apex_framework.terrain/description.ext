@@ -6,14 +6,14 @@ Author:
 
 Last modified:
 
-	28/04/2023 A3 2.12 by Quiksilver
+	15/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.5.0";
+missionProductVersion = "1.5.1";
 missionProductStatus = "Beta";											// "Stable" // "Beta" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
@@ -58,6 +58,9 @@ arsenalRestrictedItems[] = {};							// Used to blacklist undesired Arsenal equi
 allowProfileGlasses = 0;								// When set to 0 will stop glasses set in player profile from being added to player's gear.
 overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom handling.
 unsafeCVL=1;											// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
+debriefing = 1;
+
+windyCoef = 0.60;										// How strong is wind sound at altitude. https://community.bistudio.com/wiki/enableEnvironment
 
 ReviveMode = 0;											// Apex Framework Notes: Keep this as 0.																	//0: disabled, 1: enabled, 2: controlled by player attributes
 ReviveUnconsciousStateMode = 0;							// Apex Framework Notes: Not used																			//0: basic, 1: advanced, 2: realistic
@@ -74,9 +77,10 @@ respawnDelay = 5;										/*/ Delay prior to respawn/*/
 respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard when killed./*/
 respawnOnStart = 0;
 
+// Security - CfgRemoteExec + CfgDisabledCommands
 #include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
 
-debriefing = 1;
+// CfgFunctions
 class CfgFunctions {
 	class QS {
 		class apex_framework {
@@ -461,6 +465,11 @@ class CfgFunctions {
 			class getActiveDLC {file = "code\functions\fn_getActiveDLC.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
+			
+			class getCargoCapacity {file = "code\functions\fn_getCargoCapacity.sqf";};
+			class getCargoVolume {file = "code\functions\fn_getCargoVolume.sqf";};
+			
+			
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};

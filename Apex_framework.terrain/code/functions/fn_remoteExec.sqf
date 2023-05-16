@@ -1030,11 +1030,16 @@ if (_case < 60) exitWith {
 			private _list = QS_hashmap_playerBuildables getOrDefault [_uid,[]];
 			_list = _list select {!isNull _x};
 			private _object = objNull;
+			_holdFrame = diag_frameNo + 2;
 			if (_sim isEqualTo 1) then {
-				_object = createSimpleObject [_class,[0,0,0]];
+				_object = createSimpleObject [_class,_posi];
+				_object setVectorDirAndUp _orientation;
+				waitUntil {diag_frameNo > _holdFrame};
+				_object awake TRUE;
 			};
 			if (_sim isEqualTo 2) then {
 				_object = createVehicle [_class,[0,0,0]];
+				waitUntil {diag_frameNo > _holdFrame};
 			};
 			_object allowDamage FALSE;
 			_object setVectorDirAndUp _orientation;
@@ -1069,7 +1074,6 @@ if (_case < 60) exitWith {
 				}
 			];
 			sleep 0.5;
-			_object setOwner _clientOwner;
 			_list pushBack _object;
 			_allObjects = (missionNamespace getVariable ['QS_list_playerBuildables',[]]) select {!isNull _x};
 			_allObjects pushBack _object;

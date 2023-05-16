@@ -60,7 +60,7 @@ if (_playersCount > 3) then {
 } forEach _currentObjectives;
 missionNamespace setVariable ['QS_grid_objectivesData',_gridObjectives,FALSE];
 //comment 'Illumination';
-if (sunOrMoon isNotEqualTo 1) then {
+if (([0,0,0] getEnvSoundController 'night') isEqualTo 1) then {
 	_aoPos spawn {
 		[0,_this,400,3] call (missionNamespace getVariable 'QS_fnc_aoFires');
 		sleep 3;

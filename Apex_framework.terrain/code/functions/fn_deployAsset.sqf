@@ -116,7 +116,10 @@ if (_state isEqualTo 0) exitWith {
 if (_state isEqualTo 1) exitWith {
 	if (
 		(alive _entity) &&
-		(!([_entity,50,8] call QS_fnc_waterInRadius))
+		(
+			(!([_entity,50,8] call QS_fnc_waterInRadius)) ||
+			(_entity getVariable ['QS_logistics_deployNearWater',FALSE])
+		)
 	) then {
 		if ((_entity getVariable ['QS_deploy_handlers',[]]) isEqualTo []) then {
 			_timeout = diag_tickTime + 3;
