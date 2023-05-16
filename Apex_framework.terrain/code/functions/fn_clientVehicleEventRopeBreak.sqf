@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/1/2023 A3 2.10 by Quiksilver
+	17/5/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -16,7 +16,7 @@ if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_rope','_attachedObject'];
 if (isNull (ropeAttachedTo _attachedObject)) then {
 	if (_vehicle isKindOf 'Helicopter') then {
-		_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) - (getMass _attachedObject));
+		//_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) - (getMass _attachedObject));		// Causes game crash when used with Advanced Sling Loading mod
 	};
 	if (
 		((_attachedObject distance2D (markerPos 'QS_marker_crate_area')) < 500) &&

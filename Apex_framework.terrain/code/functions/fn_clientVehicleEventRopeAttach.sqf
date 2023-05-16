@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	29/1/2023 A3 2.12 by Quiksilver
+	17/5/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -43,7 +43,7 @@ if (
 	{(alive (driver _vehicle))} &&
 	{(player isEqualTo (driver _vehicle))}
 ) then {
-	_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) + (getMass _attachedObject));
+	//_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) + (getMass _attachedObject));					// Causes game crash when used with Advanced Sling Loading mod
 	if (!(_attachedObject getVariable ['QS_dynSim_ignore',FALSE])) then {
 		_attachedObject setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 	};
