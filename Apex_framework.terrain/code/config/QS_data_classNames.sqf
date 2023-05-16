@@ -34,6 +34,8 @@ Other Files with Many Classnames:
 	
 ______________________________________________/*/
 
+_active_Mod = missionNamespace getVariable ['QS_system_activeDLC',''];
+
 // Vanilla
 qs_core_classnames_itemtoolkit = 'toolkit';
 qs_core_classnames_itemtoolkits = ['toolkit'];
@@ -141,7 +143,9 @@ QS_core_classNames_zeusDisabledAddons_lower = [
 	'curatoronly_modules_f_curator_lightning'
 ];
 
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'WS') exitWith {
+// DLC and Mod alternatives
+
+if (_active_Mod == 'WS') exitWith {
 	qs_core_classnames_laserbatteries = ['laserbatteries'];
 	// Western Sahara
 	QS_core_classNames_planeTypesCAS_lower = [
@@ -176,7 +180,7 @@ if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'WS') ex
 		'o_sfia_heli_attack_02_dynamicloadout_lxws'
 	];
 };
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'VN') exitWith {
+if (_active_Mod == 'VN') exitWith {
 	// Prairie Fire
 	qs_core_classnames_itemtoolkit = 'toolkit';
 	qs_core_classnames_itemtoolkits = ['toolkit','vn_b_item_toolkit'];
@@ -338,7 +342,7 @@ if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'VN') ex
 		'vn_o_air_mi2_03_04'
 	];
 };
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'CSLA') exitWith {
+if (_active_Mod == 'CSLA') exitWith {
 	// CSLA
 	qs_core_classnames_itemtoolkit = 'toolkit';
 	qs_core_classnames_itemtoolkits = ['toolkit','csla_toolkit','us85_toolkit_b','csla_toolkit_komze','us85_toolkit_s'];
@@ -380,7 +384,7 @@ if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'CSLA') 
 		'csla_mi24v'
 	];	
 };
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'GM') exitWith {
+if (_active_Mod == 'GM') exitWith {
 	// Global Mobilization
 	qs_core_classnames_itemtoolkit = 'gm_repairkit_01';
 	qs_core_classnames_itemtoolkits = ['gm_repairkit_01'];
