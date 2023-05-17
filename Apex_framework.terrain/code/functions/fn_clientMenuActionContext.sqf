@@ -37,7 +37,7 @@ if (
 		QS_extendedContext_cursorObject = _cursorObject;
 		QS_extendedContext_objectParent = objectParent QS_player;
 		QS_extendedContext_cursorDistance = _cursorDistance;
-		comment "VEHICLE LOCKING";
+		//comment "VEHICLE LOCKING";
 		private _lockedDrivers = localNamespace getVariable ['QS_client_lockedDrivers',[]] select { (alive _x) };
 		private _lockedCargos = localNamespace getVariable ['QS_client_lockedLogistics',[]] select { (alive _x) };
 		private _groupLocking = missionNamespace getVariable ['QS_missionConfig_vehicleGroupLock',FALSE];
@@ -61,7 +61,7 @@ if (
 				(_lockedDrivers isNotEqualTo [])
 			)
 		) then {
-			comment "DRIVER SEAT LOCKING";
+			//comment "DRIVER SEAT LOCKING";
 			if ((missionNamespace getVariable ['QS_missionConfig_seatLocking',1]) > 0) then {
 				QS_extendedContext_lockedDriver = QS_extendedContext_cursorObject;
 				if (_lockedDrivers isNotEqualTo []) then {
@@ -84,6 +84,7 @@ if (
 							if (_index isNotEqualTo -1) then {
 								(localNamespace getVariable ['QS_client_lockedDrivers',[]]) deleteAt _index;
 							};
+							QS_player playActionNow 'PutDown';
 							['lockDriver',QS_extendedContext_lockedDriver,FALSE] remoteExec ['QS_fnc_remoteExecCmd',QS_extendedContext_lockedDriver,FALSE];
 							50 cutText [format ['%1 ( %2 )',localize 'STR_QS_Text_393',_dn2],'PLAIN',0.333];
 						} else {
@@ -96,6 +97,7 @@ if (
 							if ((count (localNamespace getVariable ['QS_client_lockedDrivers',[]])) >= 1) then {
 								50 cutText [format [localize 'STR_QS_Text_404',_dn2],'PLAIN DOWN',0.5];
 							} else {
+								QS_player playActionNow 'PutDown';
 								(localNamespace getVariable ['QS_client_lockedDrivers',[]]) pushBack QS_extendedContext_lockedDriver;
 								QS_extendedContext_lockedDriver setVariable ['QS_vehicle_locker',clientOwner,TRUE];
 								['lockDriver',QS_extendedContext_lockedDriver,TRUE] remoteExec ['QS_fnc_remoteExecCmd',QS_extendedContext_lockedDriver,FALSE];
@@ -127,7 +129,7 @@ if (
 				(_lockedCargos isNotEqualTo [])
 			)
 		) then {
-			comment "INVENTORY/CARGO LOCKING";
+			//comment "INVENTORY/CARGO LOCKING";
 			if ((missionNamespace getVariable ['QS_missionConfig_cargoLocking',1]) > 0) then {
 				QS_extendedContext_lockedCargo = QS_extendedContext_cursorObject;
 				if (_lockedCargos isNotEqualTo []) then {
@@ -147,6 +149,7 @@ if (
 							if (_index isNotEqualTo -1) then {
 								(localNamespace getVariable ['QS_client_lockedLogistics',[]]) deleteAt _index;
 							};
+							QS_player playActionNow 'PutDown';
 							QS_extendedContext_lockedCargo setVariable ['QS_lockedInventory',FALSE,TRUE];
 							[110,QS_extendedContext_lockedCargo,TRUE] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 							50 cutText [format ['%1 ( %2 )',localize 'STR_QS_Text_397',_dn2],'PLAIN',0.333];
@@ -160,6 +163,7 @@ if (
 							if ((count (localNamespace getVariable ['QS_client_lockedLogistics',[]])) >= 1) then {
 								50 cutText [format [localize 'STR_QS_Text_404',_dn2],'PLAIN DOWN',0.5];
 							} else {
+								QS_player playActionNow 'PutDown';
 								(localNamespace getVariable ['QS_client_lockedLogistics',[]]) pushBack QS_extendedContext_lockedCargo;
 								QS_extendedContext_lockedCargo setVariable ['QS_lockedInventory',TRUE,TRUE];
 								QS_extendedContext_lockedCargo setVariable ['QS_vehicle_cargolocker',clientOwner,TRUE];
@@ -207,7 +211,10 @@ if (
 							};
 						};
 					};
-				},nil,-10,FALSE,TRUE,'','(((!isNull cursorObject) && {(cursorObject in QS_list_playerBuildables)}) && ((QS_player distance cursorObject) < 3))'];
+				},nil,-10,FALSE,TRUE,'','
+					getCursorObjectParams params ["_cursorObject","_cursorSelections","_cursorDistance"];
+					(((!isNull _cursorObject) && {(_cursorObject in QS_list_playerBuildables)}) && (_cursorDistance < 5))
+				'];
 				QS_interactions_extendedContext pushBack [QS_player,QS_action_deleteBuildable];
 			};
 		};
@@ -228,11 +235,7 @@ if (
 				FALSE,
 				TRUE,
 				'',
-				'
-					getCursorObjectParams params ["_cursorObject","","_cursorDistance"];
-					QS_player setUserActionText [_actionId,[localize "STR_QS_Interact_133",localize "STR_QS_Interact_134"] select (_cursorObject getVariable ["QS_logistics_deployed",FALSE])];
-					((!isNull _cursorObject) && {(_cursorDistance < 10)})
-				'
+				'call QS_fnc_conditionDeployAsset'
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_deployAsset];
 		};
@@ -257,7 +260,10 @@ if (
 				FALSE,
 				TRUE,
 				'',
-				'(cursorObject isEqualTo QS_extendedContext_cursorObject)'
+				'
+					getCursorObjectParams params ["_cursorObject","_cursorSelections","_cursorDistance"];
+					(_cursorObject isEqualTo QS_extendedContext_cursorObject)
+				'
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_vehicleHealth];
 		};
@@ -281,10 +287,15 @@ if (
 				FALSE,
 				TRUE,
 				'',
-				'(cursorObject isEqualTo QS_extendedContext_cursorObject)'
+				'
+					getCursorObjectParams params ["_cursorObject","_cursorSelections","_cursorDistance"];
+					(_cursorObject isEqualTo QS_extendedContext_cursorObject)
+				'
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_cargoManifest];
 		};
+		
+		// AI turret toggle
 		if (
 			(
 				(alive _cursorObject) &&
@@ -313,7 +324,54 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_turretToggle];
 		};
-
+		// AI turret remote control
+		if (
+			(alive _cursorObject) &&
+			{(_cursorDistance < 5)} &&
+			{(simulationEnabled _cursorObject)} &&
+			{(unitIsUav _cursorObject)} &&
+			{(!(_cursorObject getVariable ['QS_uav_disabled',FALSE]))} &&
+			{(_cursorObject getVariable ['QS_uav_toggleEnabled',TRUE])} &&
+			{((crew _cursorObject) isNotEqualTo [])} &&
+			{(cameraOn isEqualTo player)} &&
+			{ ((!(_cursorObject isKindOf 'Air')) || ((_cursorObject isKindOf 'Air') && (player getUnitTrait 'uavhacker'))) } &&
+			{( (side (effectiveCommander _cursorObject)) isEqualTo (QS_player getVariable ['QS_unit_side',WEST]))}
+		) then {
+			QS_action_turretTakeControl = QS_player addAction [
+				localize '$STR_USERACT_UAV_TAKECONTROLS',
+				{
+					getCursorObjectParams params ['_cursorObject','_cursorSelections','_cursorDistance'];
+					if (
+						(_cursorObject isEqualTo QS_extendedContext_cursorObject) && 
+						{(_cursorDistance < 5)} &&
+						{(!isUAVConnected _cursorObject)} &&
+						{(!alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull]))}
+					) then {
+						QS_player playActionNow 'PutDown';
+						50 cutText ['Remote Controlling','PLAIN DOWN',0.333];
+						[_cursorObject,FALSE,FALSE] spawn QS_fnc_remoteControl;
+					} else {
+						if (isUAVConnected _cursorObject) then {
+							systemChat 'Active connection';
+						};
+						if (alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull])) then {
+							systemChat 'Active connection';
+						};
+					};
+				},
+				nil,
+				-25,
+				FALSE,
+				TRUE,
+				'',
+				'
+					getCursorObjectParams params ["_cursorObject","_cursorSelections","_cursorDistance"];
+					((_cursorObject isEqualTo QS_extendedContext_cursorObject) && (_cursorDistance < 5))
+				'
+			];
+			QS_interactions_extendedContext pushBack [QS_player,QS_action_turretTakeControl];
+		};
+		
 		if (
 			(alive _cursorObject) &&
 			{(local _cursorObject)} &&
@@ -385,7 +443,7 @@ if (
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_selfDestruct];
 		};
 		
-		comment 'LITE MORTAR FOR MORTAR GUNNER';
+		//comment 'LITE MORTAR FOR MORTAR GUNNER';
 		if (
 			(isNull QS_extendedContext_objectParent) &&
 			{(QS_player getUnitTrait 'QS_trait_gunner')} &&
@@ -408,7 +466,7 @@ if (
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_mortarLite];
 		};
 
-		comment 'WEAPON LASERS';
+		//comment 'WEAPON LASERS';
 		if (
 			(missionNamespace getVariable ['QS_missionConfig_weaponLasers',TRUE]) &&
 			{(
@@ -466,7 +524,7 @@ if (
 		};
 		if (
 			(isNull QS_extendedContext_objectParent) &&
-			{(QS_extendedContext_cursorDistance < 3)} &&
+			{(QS_extendedContext_cursorDistance < 4)} &&
 			{((getObjectType QS_extendedContext_cursorObject) isEqualTo 8)} &&
 			{(QS_extendedContext_cursorObject isKindOf 'Lamps_base_F')} &&
 			{(!isSimpleObject QS_extendedContext_cursorObject)}
@@ -497,16 +555,13 @@ if (
 				'',
 				'
 					getCursorObjectParams params ["_cursorObject","","_cursorDistance"];
-					(
-						(!isNull _cursorObject) &&
-						(_cursorDistance < 5)
-					)
+					((!isNull _cursorObject) && {(_cursorDistance < 5)} && {(_cursorObject isEqualTo QS_extendedContext_cursorObject)})
 				'
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_switchLight];
 		};
 		
-		comment 'PLAYER MENU';
+		//comment 'PLAYER MENU';
 		QS_action_playerMenu = QS_player addAction [
 			format ["<t color='#808080'>%1</t>",localize 'STR_QS_Menu_009'],
 			{

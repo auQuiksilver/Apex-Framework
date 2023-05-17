@@ -1,6 +1,23 @@
 Official Change Log
 
-1.5.1 (Beta) (15/05/2023 A3 2.12)
+To do:
+
+	[] Disable weapon disassembly when attached/mounted to host vehicle.
+	[] Platform snapping onto already occupied space
+	[] Fuel consumption too fast potentially?
+
+1.5.2 Dev
+
+[ADDED] Ability for all players to remote control static AI turrets.
+[FIXED] AA Battery mission not working.
+[FIXED] Terrain leveler arrow did not do anything (acceptable) and also did not delete (unacceptable).
+[FIXED] Randomly spawned usable vehicles in AO were not conforming to modded vehicles list when mod was running
+[FIXED] Incorrect message when player attempting to Deploy Asset with another player too close.
+[FIXED] Critical error with executing custom vehicle init code.
+[FIXED] AI turret crew were not getting properly deleted when AI turret gets deleted. (flaw with "deleteVehicleCrew"?)
+[FIXED] "setObjectScale" was being used incorrectly.
+
+1.5.1 (15/05/2023 A3 2.12)
 
 [ADDED] Ability for Zeus to raise/lower placed buildings/structures/fortifications with [-] and [+] keys (on selected structures).
 [TWEAKED] Improved vehicle cargo capacity handling (Work in progress)

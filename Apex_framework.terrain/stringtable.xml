@@ -2642,6 +2642,9 @@ _____________________________________________________________-->
        <Key ID="STR_QS_Text_462">
             <Original>AMV-7 Bush Hog</Original>
 		</Key>
+       <Key ID="STR_QS_Text_463">
+            <Original>Cannot deploy when other players are within %1 m</Original>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">

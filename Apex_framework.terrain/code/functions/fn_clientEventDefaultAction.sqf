@@ -55,8 +55,8 @@ if (_mode isEqualTo 'activate') exitWith {
 						[
 							52,
 							_requestedObject,
-							(uiNamespace getVariable ['QS_client_menuPlayerBuild_sim',1]),
-							(uiNamespace getVariable ['QS_targetBoundingBox_ASLPos',[0,0,0]]),
+							uiNamespace getVariable ['QS_client_menuPlayerBuild_sim',1],
+							uiNamespace getVariable ['QS_targetBoundingBox_ASLPos',[0,0,0]],
 							(uiNamespace getVariable 'QS_targetBoundingBox_vectors'),
 							clientOwner,
 							getPlayerUID player,

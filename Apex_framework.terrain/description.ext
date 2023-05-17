@@ -13,8 +13,8 @@ Description:
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.5.1";
-missionProductStatus = "Beta";											// "Stable" // "Beta" // "Dev"
+missionProductVersion = "1.5.2";
+missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -383,6 +383,7 @@ class CfgFunctions {
 			class clientViewOptions {file = "code\functions\fn_clientViewOptions.sqf";};
 			class clientWeatherSync {file = "code\functions\fn_clientWeatherSync.sqf";};
 			class commonMultiplyMatrix {file = "code\functions\fn_commonMultiplyMatrix.sqf";};
+			class conditionDeployAsset {file = "code\functions\fn_conditionDeployAsset.sqf";};
 			class conditionLaserSelect {file = "code\functions\fn_conditionLaserSelect.sqf";};
 			class conditionTowAttach {file = "code\functions\fn_conditionTowAttach.sqf";};
 			class conditionTowDetach {file = "code\functions\fn_conditionTowDetach.sqf";};

@@ -579,7 +579,8 @@ if (!isStreamFriendlyUIEnabled) then {
 						(isPlayer _unit) &&
 						{(_unit isNotEqualTo _player)} &&
 						{((_unit getVariable ['QS_unit_face','']) isNotEqualTo '')} &&
-						{((toLowerANSI (face _unit)) isNotEqualTo (toLowerANSI (_unit getVariable ['QS_unit_face',''])))}
+						{((toLowerANSI (face _unit)) isNotEqualTo (toLowerANSI (_unit getVariable ['QS_unit_face',''])))} &&
+						{!dialog}
 					) then {
 						_unit setFace (_unit getVariable ['QS_unit_face','']);
 					};

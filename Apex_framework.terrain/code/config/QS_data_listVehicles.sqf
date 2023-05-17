@@ -53,6 +53,14 @@ if (_type isEqualTo 'crv') exitWith {
 		'b_t_apc_tracked_01_crv_f'
 	]
 };
+if (_type isEqualTo 'enemy_antiair_types_1') exitWith {
+	// Enemy anti-air assets, used in Anti-Air battery
+	['o_apc_tracked_02_aa_f','o_t_apc_tracked_02_aa_ghex_f','o_sam_system_04_f']
+};
+if (_type isEqualTo 'enemy_artillery_types_1') exitWith {
+	// Enemy anti-air assets, used in Anti-Air battery
+	['o_mbt_02_arty_f','o_t_mbt_02_arty_ghex_f','i_truck_02_mrl_f']
+};
 if (_type isEqualTo 'armored_vehicles_1') exitWith {
 	[
 		"b_apc_wheeled_01_cannon_f","b_apc_tracked_01_rcws_f","b_mbt_01_cannon_f","b_mbt_01_tusk_f","b_apc_tracked_01_aa_f",
@@ -596,6 +604,13 @@ if (_type isEqualTo 'stealth_aircraft_1') exitWith {
 		'b_heli_transport_01_f',
 		'b_ctrg_heli_transport_01_sand_f',
 		'b_ctrg_heli_transport_01_tropic_f'
+	]
+};
+if (_type isEqualTo 'stealth_aircraft_2') exitWith {
+	[
+		'b_ctrg_heli_transport_01_sand_f','b_ctrg_heli_transport_01_tropic_f','b_heli_attack_01_dynamicloadout_f',
+		'b_heli_transport_01_f','b_heli_transport_01_camo_f','b_plane_fighter_01_stealth_f',
+		'b_t_uav_03_dynamicloadout_f','o_plane_fighter_02_stealth_f'
 	]
 };
 if (_type isEqualTo 'civil_aircraft_1') exitWith {

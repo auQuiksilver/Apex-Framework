@@ -119,6 +119,10 @@ _timeNow = time;
 _true = TRUE;
 _false = FALSE;
 _endl = endl;
+
+private _activeDLC = missionNamespace getVariable ['QS_system_activeDLC',''];
+private _isActiveDLC = _activeDLC isNotEqualTo '';
+
 private _allUnits = allUnits;
 _enemySides = [EAST,RESISTANCE];
 _east = EAST;
@@ -3216,6 +3220,7 @@ for '_x' from 0 to 1 step 0 do {
 											missionNamespace setVariable ['QS_vehicleRespawnCount',((missionNamespace getVariable 'QS_vehicleRespawnCount') + 1),_false];
 											if (
 												_isDynamicVehicle &&
+												!_isActiveDLC &&
 												!_isWreck
 											) then {
 												if (_isDeployed) then {
@@ -3316,7 +3321,7 @@ for '_x' from 0 to 1 step 0 do {
 										if ((_nearEntitiesCheck isEqualTo -1) || {([_vpos,_nearEntitiesCheck] call _fn_isPosSafe)}) then {
 											_spawnedType = QS_core_vehicles_map getOrDefault [toLowerANSI _t,_t];
 											missionNamespace setVariable ['QS_vehicleRespawnCount',((missionNamespace getVariable 'QS_vehicleRespawnCount') + 1),_false];
-											if (_isDynamicVehicle) then {
+											if (_isDynamicVehicle && (!_isActiveDLC)) then {
 												_v = createSimpleObject [_spawnedType,[(random -1000),(random -1000),(1000 + (random 2000))]];
 												if (_dir isEqualType 0) then {
 													_v setDir _dir;
@@ -3455,7 +3460,7 @@ for '_x' from 0 to 1 step 0 do {
 											) isEqualTo []
 										) then {
 											if (
-												(_isDynamicVehicle) || 
+												(_isDynamicVehicle && (!_isActiveDLC)) || 
 												{(_v isKindOf 'Helicopter')}
 											) then {
 												missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
@@ -3498,7 +3503,7 @@ for '_x' from 0 to 1 step 0 do {
 										{(([_posCheck,25,[_west,_civilian],_allPlayers,0] call _fn_serverDetector) isEqualTo [])}
 									) then {
 										if (
-											(_isDynamicVehicle) || 
+											(_isDynamicVehicle && (!_isActiveDLC)) || 
 											{(_v isKindOf 'Helicopter')}
 										) then {
 											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
@@ -3559,7 +3564,7 @@ for '_x' from 0 to 1 step 0 do {
 											[_v,1] remoteExec ['setFuel',_v,_false];
 										};
 										if (
-											(_isDynamicVehicle) &&
+											(_isDynamicVehicle && (!_isActiveDLC)) &&
 											{((_v isKindOf 'LandVehicle') || {(_v isKindOf 'Ship')})} &&
 											{((_v nearEntities ['CAManBase',_QS_vRespawnDist_base]) isEqualTo [])}
 										) then {

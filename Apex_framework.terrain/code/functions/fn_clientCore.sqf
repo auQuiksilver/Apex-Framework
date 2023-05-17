@@ -1053,7 +1053,9 @@ _QS_module_groupIndicator_filter = {
 			((_x getVariable ['QS_unit_face','']) isNotEqualTo '') &&
 			{((toLowerANSI (face _x)) isNotEqualTo (toLowerANSI (_x getVariable ['QS_unit_face',''])))}
 		) then {
-			_x setFace (_x getVariable ['QS_unit_face','']);
+			if (!dialog) then {
+				_x setFace (_x getVariable ['QS_unit_face','']);
+			};
 		};
 		((side (group _x)) isEqualTo (QS_player getVariable ['QS_unit_side',WEST]))
 	} else {
@@ -6136,6 +6138,7 @@ for 'x' from 0 to 1 step 0 do {
 					];
 					if (
 						(alive _QS_module_objectScale_obj) &&
+						{(local _QS_module_objectScale_obj)} &&
 						{((getObjectScale _QS_module_objectScale_obj) isNotEqualTo _QS_module_objectScale_scale)}
 					) then {
 						_QS_module_objectScale_obj setObjectScale _QS_module_objectScale_scale;

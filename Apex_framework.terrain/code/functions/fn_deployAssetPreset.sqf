@@ -177,6 +177,7 @@ if (_preset isEqualTo 6) then {
 		_oldVehicle = _vehicle;
 		_oldType = _vehicle getVariable ['QS_deploy_type0',typeOf _vehicle];
 		_oldVehicle setPosASL [0,0,0];
+		deleteVehicleCrew _oldVehicle;
 		deleteVehicle _oldVehicle;
 		_vehicle = createVehicle [_oldType,[0,0,0]];
 		_vehicle allowDamage FALSE;
@@ -266,6 +267,7 @@ if (_preset isEqualTo 7) then {
 		_oldVehicle = _vehicle;
 		_oldType = _vehicle getVariable ['QS_deploy_type0',typeOf _vehicle];
 		_oldVehicle setPosASL [0,0,0];
+		deleteVehicleCrew _oldVehicle;
 		deleteVehicle _oldVehicle;
 		_vehicle = createVehicle [_oldType,[0,0,0]];
 		_vehicle allowDamage FALSE;

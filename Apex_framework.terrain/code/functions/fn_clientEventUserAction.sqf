@@ -269,6 +269,17 @@ if (_this isEqualTo 'init') exitWith {
 					cameraOn setCollisionLight (!isCollisionLightOn cameraOn);
 				};
 			};
+			_attached = attachedObjects cameraOn;
+			if (_attached isNotEqualTo []) then {
+				{
+					if (
+						(_x isKindOf 'Lamps_base_F') &&
+						(!isSimpleObject _x)
+					) then {
+						['switchLight',_x,(['off','on'] select ((lightIsOn _x) == 'off'))] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
+					};
+				} forEach _attached;
+			};
 			if (
 				(!isNull curatorCamera) &&
 				((curatorSelected # 0) isNotEqualTo [])
