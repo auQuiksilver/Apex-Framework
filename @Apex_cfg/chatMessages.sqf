@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/12/2017 A3 1.78 by Quiksilver
+	01/05/2023 A3 1.78 by Quiksilver
 	
 Description:
 
@@ -18,23 +18,16 @@ Notes:
 	This should replace your server.cfg  motd[]= {};
 _______________________________________________________/*/
 
-diag_log '***** CHAT MESSAGES LOADED *****';
+diag_log localize 'STR_QS_DiagLogs_195';
 
 [
-	'Press [Windows] for Extended Context Menu',
-	'Chat message 1',
-	'Chat message 2',
-	'Press [End] for Earplugs',
-	'Press [Windows] for Extended Context Menu',
-	'Press [Home] for Player Menu',
-	'Press [Ctrl]+[R] to Repack Magazines',
-	'Double-tap [J] to view Tasks',
-	'Press [Windows] for Extended Context Menu',
-	'Chat message 7',
-	'Chat message 8',
-	
-	
-	
-	
-	''
+	localize 'STR_QS_ChatMessage_000',
+	localize 'STR_QS_ChatMessage_001',
+	localize 'STR_QS_ChatMessage_002',
+	localize 'STR_QS_ChatMessage_003',
+	localize 'STR_QS_ChatMessage_004',
+	localize 'STR_QS_ChatMessage_005',
+	localize 'STR_QS_ChatMessage_006',
+	localize 'STR_QS_ChatMessage_007',
+	localize 'STR_QS_ChatMessage_008'
 ]

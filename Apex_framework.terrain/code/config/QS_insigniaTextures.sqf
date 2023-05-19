@@ -21,7 +21,7 @@ Structure:
 __________________________________________________________________________/*/
 
 [
-	[0,'<Empty>','','No insignia'],
+	[0,localize 'STR_QS_Menu_083','',''],
 	[1,'CVN 83','\a3\UI_F_Jets\Data\CfgUnitInsignia\jets_patch_01.paa','B01 Studios'],
 	[1,'Combat Patrol','\a3\missions_f_patrol\data\img\CombatPatrol.paa','Bohemia Interactive'],
 	[1,'Scimitar','\a3\UI_F_TacOps\Data\CfgUnitInsignia\csat_scimitarRegiment_ca.paa','Bohemia Interactive'],

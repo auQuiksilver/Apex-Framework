@@ -271,7 +271,7 @@ if (_type isEqualTo 2) exitWith {
 					{
 						params ['','','','','_ammo','','_projectile',''];
 						private _simulation = QS_hashmap_configfile getOrDefaultCall [
-							format ['cfgammo_%1_simulation',toLowerANSI _ammo],
+							(format ['cfgammo_%1_simulation',toLowerANSI _ammo]),
 							{toLowerANSI (getText (configFile >> 'CfgAmmo' >> _ammo >> 'simulation'))},
 							TRUE
 						];

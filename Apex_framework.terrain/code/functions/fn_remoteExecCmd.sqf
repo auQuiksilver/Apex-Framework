@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -14,7 +14,7 @@ Description:
 _______________________________________________________/*/
 
 params ['_type','_1','_2'];
-if ((!isRemoteExecuted) || {isRemoteExecutedJIP}) exitWith {diag_log format ['Remote Exec Cmd Failed with: %1 - %2 to %3 (%4 %5)',_this,remoteExecutedOwner,clientOwner,isRemoteExecuted,isRemoteExecutedJIP];};
+if ((!isRemoteExecuted) || {isRemoteExecutedJIP}) exitWith {diag_log (format [localize 'STR_QS_DiagLogs_154',_this,remoteExecutedOwner,clientOwner,isRemoteExecuted,isRemoteExecutedJIP]);};
 if (_type isEqualType []) exitWith {
 	{
 		_x call (missionNamespace getVariable 'QS_fnc_remoteExecCmd');
@@ -260,7 +260,7 @@ if (_type isEqualTo 'setTowParent') exitWith {
 };
 if (_type isEqualTo 'hideObjectGlobal') exitWith {
 	if (isDedicated) then {
-		diag_log format ['***** Remote Execution of hideObjectGlobal on %1 by %2 to target %3',(typeOf _1),remoteExecutedOwner,clientOwner];
+		diag_log (format [localize 'STR_QS_DiagLogs_155',(typeOf _1),remoteExecutedOwner,clientOwner]);
 	};
 	_1 hideObjectGlobal _2;
 };

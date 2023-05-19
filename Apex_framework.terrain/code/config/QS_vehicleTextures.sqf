@@ -55,7 +55,7 @@ Data Structure:
 __________________________________________________________________________/*/
 
 [
-	[0,'Reset',[[0,'']],'',[''],''],
+	[0,localize 'STR_QS_Menu_083',[[0,'']],'',[''],''],
 	[0,'Dazzle',[[0,"a3\soft_f_exp\lsv_01\data\nato_lsv_01_dazzle_co.paa"],[1,"a3\soft_f_exp\lsv_01\data\nato_lsv_02_olive_co.paa"],[2,"a3\soft_f_exp\lsv_01\data\nato_lsv_03_olive_co.paa"],[3,"a3\soft_f_exp\lsv_01\data\nato_lsv_adds_olive_co.paa"]],'Prowler (LSV)',["B_LSV_01_armed_black_F","B_LSV_01_armed_F","B_LSV_01_armed_olive_F","B_LSV_01_armed_sand_F","B_LSV_01_unarmed_black_F","B_LSV_01_unarmed_F","B_LSV_01_unarmed_olive_F","B_LSV_01_unarmed_sand_F","B_T_LSV_01_armed_black_F","B_T_LSV_01_armed_F","B_T_LSV_01_armed_olive_F","B_T_LSV_01_armed_sand_F","B_T_LSV_01_unarmed_black_F","B_T_LSV_01_unarmed_F","B_T_LSV_01_unarmed_olive_F","B_T_LSV_01_unarmed_sand_F"],'Bohemia Interactive'],
 	[0,'Wave 2',[[0,'A3\air_f\Heli_Light_02\Data\heli_light_02_ext_civilian_co.paa']],'PO-30 Orca (Heli)',['o_heli_light_02_dynamicloadout_f','O_Heli_Light_02_F','O_Heli_Light_02_v2_F','O_Heli_Light_02_unarmed_F'],'Bohemia Interactive'],
 	[0,'Indep',[[0,'A3\air_f\Heli_Light_02\Data\heli_light_02_ext_indp_co.paa']],'PO-30 Orca (Heli)',['o_heli_light_02_dynamicloadout_f','O_Heli_Light_02_F','O_Heli_Light_02_v2_F','O_Heli_Light_02_unarmed_F'],'Bohemia Interactive'],	
@@ -189,7 +189,7 @@ __________________________________________________________________________/*/
 // Deep Storage
 /*/
 [
-	[0,'Reset',[[0,'']],'',[''],''],
+	[0,localize 'STR_QS_Menu_083',[[0,'']],'',[''],''],
 	[0,'USMC X',[[0,'media\images\vskins\v44\vtol_01_ext01_marines_co.paa'],[1,'media\images\vskins\v44\vtol_01_ext02_marines_co.paa'],[2,'media\images\vskins\v44\vtol_01_ext03_marines_co.paa'],[3,'media\images\vskins\v44\vtol_01_ext04_marines_co.paa']],'V-44 X Blackfish (VTOL)',["B_T_VTOL_01_armed_blue_F","B_T_VTOL_01_armed_F","B_T_VTOL_01_armed_olive_F","B_T_VTOL_01_infantry_blue_F","B_T_VTOL_01_infantry_F","B_T_VTOL_01_infantry_olive_F","B_T_VTOL_01_vehicle_blue_F","B_T_VTOL_01_vehicle_F","B_T_VTOL_01_vehicle_olive_F"],'Redphoenix (gamingwithredphoenix@gmail.com)'],
 	[0,'король',[[0,'media\images\vskins\to199\russia_fighter02_ext01.paa'],[1,'media\images\vskins\to199\russia_fighter02_ext02.paa']],'To-199 Neophron (Plane)',['O_Plane_CAS_02_F','O_Plane_CAS_02_dynamicLoadout_F'],'Redphoenix (gamingwithredphoenix@gmail.com)'],
 	[0,'US Navy 143',[[0,'media\images\vskins\a143\Buzzard1.paa'],[1,'media\images\vskins\a143\Buzzard0.paa']],'A-143 Buzzard (Plane)',['I_Plane_Fighter_03_AA_F','I_Plane_Fighter_03_CAS_F','I_Plane_Fighter_03_Cluster_F','I_Plane_Fighter_03_dynamicLoadout_F'],'Aleksy (cportsmouth98@gmail.com)'],

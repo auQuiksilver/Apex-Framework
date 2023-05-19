@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -132,21 +132,21 @@ if (player getUnitTrait 'QS_trait_fighterPilot') then {
 				if (isNil {uiNamespace getVariable 'QS_pilotROE_msg'}) then {
 					uiNamespace setVariable ['QS_pilotROE_msg',TRUE];
 					// This will broadcast CAS ROE to pilots on entry to CAS Jet
-					/*/
+					
 					0 spawn {
 						uiSleep 5;
-						'CAS Rules of Engagement' hintC [
-							'0. CAS must be called in by ground elements (infantry who are near the target).',
-							'1. CAS call-ins must be typed into Side Channel with a specific position or target, no exceptions.',
-							'2. CAS may freely engage these targets without ground coordination: Fixed-wing Aircraft.',
-							'3. Do not engage any objectives and/or enemies without being called in on that specific target (See rule 1).',
-							'4. Do not ram targets and/or objectives.',
-							'5. Do not fly near (1km) marked objectives unless necessary to complete a specific mission.',
-							'6. Must be on Teamspeak, in Pilot channel and communicable.',
-							'Failure to comply may result in administrative action without warning, up to and including permanent removal from CAS whitelist.'
+						(localize 'STR_QS_Hints_229') hintC [
+							(localize 'STR_QS_Hints_230'),
+							(localize 'STR_QS_Hints_231'),
+							(localize 'STR_QS_Hints_232'),
+							(localize 'STR_QS_Hints_233'),
+							(localize 'STR_QS_Hints_234'),
+							(localize 'STR_QS_Hints_235'),
+							(localize 'STR_QS_Hints_236'),
+							(localize 'STR_QS_Hints_237')
 						];
 					};
-					/*/
+					
 				};
 			};
 		};
@@ -178,7 +178,7 @@ if (_position isEqualTo 'gunner') then {
 				{getText ((configOf _vehicle) >> 'displayName')},
 				TRUE
 			];
-			['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',_dn,profileName,localize 'STR_QS_Chat_165'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'AirBase'],(format [localize 'STR_QS_Chat_165',_dn,profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
 };

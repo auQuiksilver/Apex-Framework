@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -77,7 +77,7 @@ if (
 						];
 						_dn2 = QS_extendedContext_lockedDriver getVariable ['QS_ST_customDN',_dn];
 						if (alive (driver QS_extendedContext_lockedDriver)) exitWith {
-							50 cutText [format ['%1 ( %2 )',localize 'STR_QS_Text_392',_dn2],'PLAIN DOWN',0.333];
+							50 cutText [format [localize 'STR_QS_Text_392',_dn2],'PLAIN DOWN',0.333];
 						};
 						if (lockedDriver QS_extendedContext_lockedDriver) then {
 							_index = (localNamespace getVariable ['QS_client_lockedDrivers',[]]) find QS_extendedContext_lockedDriver;
@@ -86,7 +86,7 @@ if (
 							};
 							QS_player playActionNow 'PutDown';
 							['lockDriver',QS_extendedContext_lockedDriver,FALSE] remoteExec ['QS_fnc_remoteExecCmd',QS_extendedContext_lockedDriver,FALSE];
-							50 cutText [format ['%1 ( %2 )',localize 'STR_QS_Text_393',_dn2],'PLAIN',0.333];
+							50 cutText [format [localize 'STR_QS_Text_393',_dn2],'PLAIN',0.333];
 						} else {
 							localNamespace setVariable ['QS_client_lockedDrivers',((localNamespace getVariable ['QS_client_lockedDrivers',[]]) select {
 								(
@@ -152,7 +152,7 @@ if (
 							QS_player playActionNow 'PutDown';
 							QS_extendedContext_lockedCargo setVariable ['QS_lockedInventory',FALSE,TRUE];
 							[110,QS_extendedContext_lockedCargo,TRUE] remoteExec ['QS_fnc_remoteExec',0,FALSE];
-							50 cutText [format ['%1 ( %2 )',localize 'STR_QS_Text_397',_dn2],'PLAIN',0.333];
+							50 cutText [format [localize 'STR_QS_Text_397',_dn2],'PLAIN',0.333];
 						} else {
 							localNamespace setVariable ['QS_client_lockedLogistics',((localNamespace getVariable ['QS_client_lockedLogistics',[]]) select {
 								(
@@ -168,7 +168,7 @@ if (
 								QS_extendedContext_lockedCargo setVariable ['QS_lockedInventory',TRUE,TRUE];
 								QS_extendedContext_lockedCargo setVariable ['QS_vehicle_cargolocker',clientOwner,TRUE];
 								[110,QS_extendedContext_lockedCargo,FALSE] remoteExec ['QS_fnc_remoteExec',0,FALSE];
-								50 cutText [format ['%1 ( %2 )',localize 'STR_QS_Text_398',_dn2],'PLAIN',0.333];
+								50 cutText [format [localize 'STR_QS_Text_398',_dn2],'PLAIN',0.333];
 							};
 						};
 						['OUT'] call QS_fnc_clientMenuActionContext;
@@ -294,7 +294,6 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_cargoManifest];
 		};
-		
 		// AI turret toggle
 		if (
 			(
@@ -371,7 +370,7 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_turretTakeControl];
 		};
-		
+
 		if (
 			(alive _cursorObject) &&
 			{(local _cursorObject)} &&

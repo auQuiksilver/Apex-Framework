@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	17/10/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -124,8 +124,7 @@ QS_hashmap_animationParams = createHashMapFromArray (call QS_data_animationParam
 QS_hashmap_wreckTypes = createHashMapFromArray (call QS_data_wreckTypes);
 QS_hashmap_lasers = createHashMapFromArray ([0] call QS_data_lasers);
 QS_hashmap_lasersCustomOffsets = createHashMapFromArray ([1] call QS_data_lasers);
-QS_hashmap_maxCargoCapacity = createHashMap;
-
+enableEnvironment [_false,_false,0];
 // Get active DLC
 private _activeDLC = call (missionNamespace getVariable 'QS_fnc_getActiveDLC');
 // Get DLC-context classnames
@@ -140,4 +139,4 @@ QS_hashmap_classLists = createHashMap;
 if (_activeDLC isEqualTo '') then {
 	_activeDLC = 'NONE';
 };
-diag_log format ['***** Active DLC ***** %1 *****',_activeDLC];
+diag_log (format [localize 'STR_QS_DiagLogs_131',_activeDLC]);

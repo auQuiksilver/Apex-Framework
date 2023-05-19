@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/12/2017 A3 1.80 by Quiksilver
+	01/05/2023 A3 1.80 by Quiksilver
 	
 Description:
 
@@ -507,7 +507,7 @@ private _civiliansCount = 20;
 //comment 'map markers';
 
 _pdMarker = createMarker ['QS_marker_GTPD',[0,0,0]];
-_pdMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_017']);
+_pdMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_017',(toString [32,32,32])]);
 _pdMarker setMarkerAlphaLocal 0;
 _pdMarker setMarkerPosLocal [5662.63,10650.7,0.00143886];
 _pdMarker setMarkerShapeLocal 'ICON';
@@ -517,7 +517,7 @@ _pdMarker setMarkerTypeLocal 'mil_box';
 _pdMarker setMarkerAlpha 0.5;
 
 _pharmacyMarker = createMarker ['QS_marker_GTMED',[0,0,0]];
-_pharmacyMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_018']);
+_pharmacyMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_018',(toString [32,32,32])]);
 _pharmacyMarker setMarkerAlphaLocal 0;
 _pharmacyMarker setMarkerPosLocal [5792.94,10421.4,0.00144005];
 _pharmacyMarker setMarkerShapeLocal 'ICON';
@@ -527,7 +527,7 @@ _pharmacyMarker setMarkerTypeLocal 'mil_box';
 _pharmacyMarker setMarkerAlpha 0.5;
 
 _fmMarker = createMarker ['QS_marker_GTfm',[0,0,0]];
-_fmMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_019']);
+_fmMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_019',(toString [32,32,32])]);
 _fmMarker setMarkerAlphaLocal 0;
 _fmMarker setMarkerPosLocal [5692.92,10303.8,0.00136209];
 _fmMarker setMarkerShapeLocal 'ICON';
@@ -550,7 +550,7 @@ _makegrid = {
 	_sz = _start # 1;
 	for '_i' from 0 to round((_size # 0)/_res) do {
 		_pi = [_sx + _res * _i, _sz, 0];
-		_str = format ['QS_marker_GT_%1',([_pi # 0, _pi # 1])];
+		_str = (format ['QS_marker_GT_%1',([_pi # 0, _pi # 1])]);
 		if (_pi inPolygon QS_georgetown_vExclusion_polygon) then {
 			_mkr = createMarker [_str,_pi];
 			_mkr setMarkerTextLocal (toString [32,32,32]);
@@ -565,7 +565,7 @@ _makegrid = {
 		_pz = _pi # 1;
 		for '_e' from 1 to round((_size # 1)/_res) do {
 			_pe = [_px, _pz + _res * _e, 0];
-			_str = format ['QS_marker_GT_%1',([_pe # 0, _pe # 1])];
+			_str = (format ['QS_marker_GT_%1',([_pe # 0, _pe # 1])]);
 			if (_pe inPolygon QS_georgetown_vExclusion_polygon) then {
 				_mkr = createMarker [_str,_pe];
 				_mkr setMarkerTextLocal (toString [32,32,32]);
@@ -799,21 +799,7 @@ private _hiddenTablets = [];
 	'QS_IA_TASK_GT_0',
 	TRUE,
 	[
-		(format ['
-				%2<br/><br/>
-			
-				%3<br/><br/>
-				
-				%4<br/><br/>
-				
-				This objective is not accurately marked.<br/>
-				<img size="3" image="%1"/>
-			',
-			(getText (configfile >> 'CfgVehicles' >> _truckType >> 'editorPreview')),
-			localize 'STR_QS_Task_042',
-			localize 'STR_QS_Task_043',
-			localize 'STR_QS_Task_044'
-		]),
+		(format [localize 'STR_QS_Task_043',(getText (configfile >> 'CfgVehicles' >> 'O_T_Truck_03_repair_ghex_F' >> 'editorPreview'))]),
 		localize 'STR_QS_Task_045',
 		localize 'STR_QS_Task_045'
 	],
@@ -830,7 +816,7 @@ private _hiddenTablets = [];
 //comment 'Intel collection marker location [6315.03,10640.2,0.00127029]';
 private _missionObjectiveMarkers = [];
 _intelStateMarker = createMarker ['QS_marker_GTintelState',[0,0,0]];
-_intelStateMarker setMarkerTextLocal (format ['%1 %2 0',(toString [32,32,32]),localize 'STR_QS_Marker_020']);
+_intelStateMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_020',(toString [32,32,32])]);
 _intelStateMarker setMarkerPosLocal [6315.03,10640.2,0.00127029];
 _intelStateMarker setMarkerShapeLocal 'ICON';
 _intelStateMarker setMarkerSizeLocal [0.5,0.5];
@@ -840,7 +826,7 @@ _intelStateMarker setMarkerAlpha 0;
 _missionObjectiveMarkers pushBack _intelStateMarker;
 
 _timeMarker = createMarker ['QS_marker_GTtimer',[0,0,0]];
-_timeMarker setMarkerTextLocal (format ['%1 %2 00:00',(toString [32,32,32]),localize 'STR_QS_Marker_021']);
+_timeMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_021',(toString [32,32,32])]);
 _timeMarker setMarkerPosLocal [6315.03,10340.2,0.00127029];
 _timeMarker setMarkerShapeLocal 'ICON';
 _timeMarker setMarkerSizeLocal [0.5,0.5];
@@ -853,7 +839,7 @@ private _timerText = '';
 
 ['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_064']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 _teleportMarker = createMarker ['QS_marker_GT_TP',[0,0,0]];
-_teleportMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_022']);
+_teleportMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_022',(toString [32,32,32])]);
 _teleportMarker setMarkerShapeLocal 'ICON';
 _teleportMarker setMarkerSizeLocal [0.5,0.5];
 _teleportMarker setMarkerColorLocal 'COLORYELLOW';
@@ -1203,9 +1189,9 @@ for '_x' from 0 to 1 step 0 do {
 							if (isPlayer _instigator) then {
 								private _text = '';
 								if ((random 1) > 0.666) then {
-									_text = format [localize 'STR_QS_Chat_141',(name _instigator)];
+									_text = (format [localize 'STR_QS_Chat_141',(name _instigator)]);
 								} else {
-									_text = format [localize 'STR_QS_Chat_142',(name _instigator)];
+									_text = (format [localize 'STR_QS_Chat_142',(name _instigator)]);
 								};
 								['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};
@@ -1344,19 +1330,7 @@ for '_x' from 0 to 1 step 0 do {
 				'QS_IA_TASK_GT_1',
 				TRUE,
 				[
-					(format ['
-							%3 %1 %4<br/><br/>
-							
-							%5<br/><br/>
-							
-							<img size="3" image="%2"/>
-						',
-						_captureThreshold,
-						(getText (configfile >> 'CfgVehicles' >> 'Land_Tablet_02_F' >> 'editorPreview')),
-						localize 'STR_QS_Task_046',
-						localize 'STR_QS_Task_047',
-						localize 'STR_QS_Task_048'
-					]),
+					(format [localize 'STR_QS_Task_047',_captureThreshold,(getText (configfile >> 'CfgVehicles' >> 'Land_Tablet_02_F' >> 'editorPreview'))]),
 					localize 'STR_QS_Task_049',
 					localize 'STR_QS_Task_049'
 				],
@@ -1378,12 +1352,12 @@ for '_x' from 0 to 1 step 0 do {
 				_x setMarkerAlpha 1;
 			} forEach _intelMarkers;
 			_intelStateMarker setMarkerAlpha 1;
-			['CUSTOM_GEORGETOWN',['',(format ['%2 (%1)',_captureThreshold,localize 'STR_QS_Notif_067'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+			['CUSTOM_GEORGETOWN',['',(format [localize 'STR_QS_Notif_067',_captureThreshold])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 		};
 	} else {
 		_hiddenTablets = _missionTablets select {(isObjectHidden _x)};
 		_countTablets = count _hiddenTablets;
-		_intelStateMarker setMarkerText (format ['%1 %4 %2 / %3',(toString [32,32,32]),_countTablets,_captureThreshold,localize 'STR_QS_Marker_020']);
+		_intelStateMarker setMarkerText (format [localize 'STR_QS_Marker_077',(toString [32,32,32]),_countTablets,_captureThreshold]);
 		if (_countTablets >= _captureThreshold) then {
 			_missionStatus = 'SUCCESS';
 		};
@@ -1402,7 +1376,7 @@ for '_x' from 0 to 1 step 0 do {
 			} forEach _hiddenTablets;
 		};
 	};
-	_timeMarker setMarkerText (format ['%1 %3 %2',(toString [32,32,32]),([((round(_missionEnd - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')),localize 'STR_QS_Marker_021']);
+	_timeMarker setMarkerText (format [localize 'STR_QS_Marker_078',(toString [32,32,32]),([((round(_missionEnd - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString'))]);
 	if ((count allPlayers) > 45) exitWith {
 		['CUSTOM_GEORGETOWN',['',localize 'STR_QS_Notif_068']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 	};

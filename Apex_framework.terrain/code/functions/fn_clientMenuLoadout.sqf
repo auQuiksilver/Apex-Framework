@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	25/11/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -75,7 +75,7 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 			lbSetColor [_idc,_forEachIndex, ([[0.5,0.5,0.5,0.4],[1,1,1,0.8]] select ((_x # 0) <= _maxLoad)) ];
 		} forEach _data;
 	};
-	((_display # 0) displayCtrl 1813) ctrlSetText format [localize 'STR_QS_Dialogs_081',(count _data) + 1];
+	((_display # 0) displayCtrl 1813) ctrlSetText (format [localize 'STR_QS_Dialogs_081',(count _data) + 1]);
 	uiNamespace setVariable ['QS_client_menuLoadout_selectedIndex',-1];
 	uiNamespace setVariable ['QS_client_menuLoadout_selectedText',''];
 	uiNamespace setVariable ['QS_client_menuLoadout_update',FALSE];
@@ -112,11 +112,11 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 		_selectedIndex = lbCurSel ((_display # 0) displayCtrl 1804);
 		uiNamespace setVariable ['QS_client_menuLoadout_selectedIndex',_selectedIndex];
 		
-		_saveText = format [localize 'STR_QS_Dialogs_082',_saveCount,_saveLimit];
+		_saveText = (format [localize 'STR_QS_Dialogs_082',_saveCount,_saveLimit]);
 		if ((ctrlText ((_display # 0) displayCtrl 1812)) isNotEqualTo _saveText) then {
 			((_display # 0) displayCtrl 1812) ctrlSetText _saveText;
 		};
-		_loadText = format ['%1 (%2 / %3)',_objectDisplayName,loadAbs _object,_maxLoad];
+		_loadText = (format ['%1 (%2 / %3)',_objectDisplayName,loadAbs _object,_maxLoad]);
 		if ((ctrlText ((_display # 0) displayCtrl 1818)) isNotEqualTo _loadText) then {
 			((_display # 0) displayCtrl 1818) ctrlSetText _loadText;
 		};

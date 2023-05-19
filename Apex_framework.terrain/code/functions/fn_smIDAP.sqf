@@ -26,9 +26,9 @@ private _grpTypes = [
 	'OG_InfAssaultTeam'
 ];
 if (_type isEqualTo 0) exitWith {
-	comment 'IDAP scene';
+	//comment 'IDAP scene';
 	if (_subType isEqualTo 0) then {
-		comment 'Initial';
+		//comment 'Initial';
 		for '_x' from 0 to (round (2 + (random 2))) step 1 do {
 			_spawnPosition = ['RADIUS',_position,(150 + (random 150)),'LAND',[],FALSE,[],[],TRUE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 			_grp = [_spawnPosition,(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
@@ -77,7 +77,7 @@ if (_type isEqualTo 0) exitWith {
 		};
 	};
 	if (_subType isEqualTo 1) then {
-		comment 'Refill';
+		//comment 'Refill';
 		_spawnPosition = _this # 3;
 		_grp = [_spawnPosition,(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 		[_grp,_position,(75 + (random 75)),TRUE] call (missionNamespace getVariable 'QS_fnc_taskPatrol');
@@ -102,7 +102,7 @@ if (_type isEqualTo 1) exitWith {
 	_house = _this # 3;
 	_houseBuildingPositions = _this # 4;
 	_housePosition = position _house;
-	comment 'Building + Patrol + Sentry';
+	//comment 'Building + Patrol + Sentry';
 	private _unit = objNull;
 	private _grp = grpNull;
 	_unitTypes1 = [
@@ -140,7 +140,7 @@ if (_type isEqualTo 1) exitWith {
 	];
 	_unitTypesAll = _unitTypes1 + _unitTypes2;
 	if (_subType isEqualTo 0) then {
-		comment 'Initial';
+		//comment 'Initial';
 		_maxCount = 6;
 		_houseGrp = createGroup [EAST,TRUE];
 		private _houseBuildingPosition = [0,0,0];
@@ -192,7 +192,7 @@ if (_type isEqualTo 1) exitWith {
 	};
 	if (_subType isEqualTo 1) then {
 		_spawnPosition = _this # 5;
-		comment 'Refill';
+		//comment 'Refill';
 		_grp = [_spawnPosition,(random 360),EAST,(selectRandom _grpTypes),FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
 		_grp setVariable ['QS_AI_GRP_TASK',['PATROL',_houseBuildingPositions,serverTime,-1],QS_system_AI_owners];
 		_grp setVariable ['QS_AI_GRP_PATROLINDEX',0,QS_system_AI_owners];
@@ -213,13 +213,13 @@ if (_type isEqualTo 1) exitWith {
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
-	comment 'Building + Minefield + Sentry';
+	//comment 'Building + Minefield + Sentry';
 	if (_subType isEqualTo 0) then {
-		comment 'Initial';
+		//comment 'Initial';
 	
 	};
 	if (_subType isEqualTo 1) then {
-		comment 'Refill';
+		//comment 'Refill';
 	
 	};
 	_return;

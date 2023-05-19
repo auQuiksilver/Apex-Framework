@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -44,7 +44,7 @@ private _weightedDeployments = [];
 } forEach _currentDeployments;
 private _selectedDeployment = selectRandomWeighted _weightedDeployments;
 private _referencePos = position _selectedDeployment;
-diag_log (format ['***** DEBUG ***** Enemy assaulting deployment * %1 * %2 *****',typeOf _selectedDeployment,_referencePos]);
+diag_log (format [localize 'STR_QS_DiagLogs_104',typeOf _selectedDeployment,_referencePos]);
 if (surfaceIsWater _referencePos) exitWith {
 	localNamespace setVariable ['QS_deploy_assaultInProgress',FALSE];
 	missionNamespace setVariable ['QS_smSuspend',FALSE,TRUE];

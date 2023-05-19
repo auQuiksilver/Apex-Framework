@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	11/02/2016 A3 1.54 by Quiksilver
+	01/05/2023 A3 1.54 by Quiksilver
 	
 Description:
 
@@ -102,7 +102,7 @@ _signalPulseCheckDelay = time + 20;
 _endTimeBroadcastDelay = time + 30;
 _foundPos = FALSE;
 _fuzzyPos = [((_safePos # 0) - 300) + (random 600),((_safePos # 1) - 300) + (random 600),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_042']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_042',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;
@@ -111,12 +111,7 @@ _fuzzyPos = [((_safePos # 0) - 300) + (random 600),((_safePos # 1) - 300) + (ran
 	'QS_IA_TASK_SM_0',
 	TRUE,
 	[
-		(format [
-			'%2 %1. %3',
-			worldName,
-			localize 'STR_QS_Task_107',
-			localize 'STR_QS_Task_108'
-		]),
+		(format [localize 'STR_QS_Task_107',worldName]),
 		localize 'STR_QS_Task_109',
 		localize 'STR_QS_Task_109'
 	],

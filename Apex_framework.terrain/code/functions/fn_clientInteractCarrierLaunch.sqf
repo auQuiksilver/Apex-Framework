@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 	
@@ -105,7 +105,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 				{getText ((configOf _this) >> 'displayName')},
 				TRUE
 			];
-			['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',_dn,profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'AirBase'],(format [localize 'STR_QS_Chat_029',_dn,profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		_carrierAnimData = _this getVariable ['QS_vehicle_carrierAnimData',[]];
 		if (_carrierAnimData isNotEqualTo []) then {

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -285,9 +285,9 @@ if ((missionNamespace getVariable ['QS_enabledWaypoints',2]) isEqualTo 0) then {
 		if ((worldToScreen _taskPosition) isNotEqualTo []) then {
 			_taskType = taskType _task;
 			_isLetter = (count _taskType) isEqualTo 1;
-			private _taskFilePath = format ['\a3\ui_f\data\igui\cfg\simpleTasks\types\%1_ca.paa',_taskType];
+			private _taskFilePath = (format ['\a3\ui_f\data\igui\cfg\simpleTasks\types\%1_ca.paa',_taskType]);
 			if (_isLetter) then {
-				_taskFilePath = format ['\a3\ui_f\data\igui\cfg\simpleTasks\letters\%1_ca.paa',_taskType];
+				_taskFilePath = (format ['\a3\ui_f\data\igui\cfg\simpleTasks\letters\%1_ca.paa',_taskType]);
 			};	
 			private _cwpDistance = ceil(round((positionCameraToWorld [0,0,0]) distance _taskPosition));
 			private _metric = 'm';
@@ -578,7 +578,6 @@ if (!isStreamFriendlyUIEnabled) then {
 					if (
 						(isPlayer _unit) &&
 						{(_unit isNotEqualTo _player)} &&
-						{((_unit getVariable ['QS_unit_face','']) isNotEqualTo '')} &&
 						{((toLowerANSI (face _unit)) isNotEqualTo (toLowerANSI (_unit getVariable ['QS_unit_face',''])))} &&
 						{!dialog}
 					) then {
@@ -616,7 +615,7 @@ if (!isStreamFriendlyUIEnabled) then {
 						_unitName = _unitName + (format [' (%1)',_unitType]);
 					};
 					if (_player getUnitTrait 'medic') then {
-						_unitName = format ['%1 (%2)',_unitName,(lifeState _unit)];
+						_unitName = (format ['%1 (%2)',_unitName,(lifeState _unit)]);
 					};
 					_distance = _cameraOn distance2D _unit;
 					_alpha = 1 - (((_distance / 31)) % 1);
@@ -688,12 +687,12 @@ if (!isStreamFriendlyUIEnabled) then {
 					if ((_unit isKindOf 'CAManBase') || {((effectiveCommander _unit) isKindOf 'CAManBase')}) then {
 						if ((_cameraOn distance2D _unit) >= 30) then {
 							if ((_cameraOn distance2D _unit) >= 300) then {
-								_unitName = format ['(%1)',localize 'STR_QS_Utility_029'];
+								_unitName = localize 'STR_QS_Utility_029';
 							} else {
 								if (isPlayer _unit) then {
-									_unitName = (name _unit) + (format [' (%1)',localize 'STR_QS_Utility_029']);
+									_unitName = (name _unit) + (localize 'STR_QS_Utility_029');
 								} else {
-									_unitName = format ['[%2] (%1)',localize 'STR_QS_Utility_029',localize 'STR_QS_Utility_030'];
+									_unitName = localize 'STR_QS_Utility_030';
 								};
 							};
 						} else {
@@ -737,10 +736,10 @@ if (!isStreamFriendlyUIEnabled) then {
 								_unit setVariable ['QS_ST_customDN',_unitName,FALSE];
 							};
 							if (_unit getVariable ['QS_logistics_wreck',FALSE]) then {
-								_unitName = format ['%1 (%2)',_unitName,localize 'STR_QS_Text_384'];
+								_unitName = (format ['%1 (%2)',_unitName,localize 'STR_QS_Text_384']);
 							};
 							if (_unit getVariable ['QS_logistics_deployed',FALSE]) then {
-								_unitName = format ['%1 (%2)',_unitName,localize 'STR_QS_Text_409'];
+								_unitName = (format ['%1 (%2)',_unitName,localize 'STR_QS_Text_409']);
 							};
 						};
 						if (

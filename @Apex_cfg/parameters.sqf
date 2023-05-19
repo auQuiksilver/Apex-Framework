@@ -1,4 +1,4 @@
-diag_log format ['***** %1 * Loading mission parameters *****',diag_tickTime];
+diag_log (format [localize 'STR_QS_DiagLogs_193',diag_tickTime]);
 /*/
 File: parameters.sqf
 Author:
@@ -36,8 +36,8 @@ _______________________________________________________/*/
 
 //===================================================== COMMUNITY / SERVER
 
-_teamspeak_server = 'Discord: ';					// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
-																					// These options can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
+_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';					// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
+_discord_server_adres = "'https://discord'";																						// These options can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
 _website_url = 
 [
 	"'https://goo.gl/7Xajd9'",														// Website URL of your website		Example:	"'https://goo.gl/7Xajd9'"
@@ -227,7 +227,7 @@ _monetizeCosmetics = 1;									// 0 - Disabled (None have access). 1 - Enabled 
 
 _monetizeURL = [
 	"'https://goo.gl/7Xajd9'",											// Monetization URL.
-	"Donate",															// Button text.
+	"Donate Server",															// Button text.
 	"Link 4"															// Tooltip (text shown when mouse hovering over button).
 ];
 
@@ -268,6 +268,7 @@ if ((count _startDate) > 5) then {
 	diag_log str ([_x # 0,_x # 1]);
 } forEach [
 	['QS_missionConfig_commTS',_teamspeak_server,TRUE],
+	['QS_missionConfig_commDS_Adres',_discord_server_adres,TRUE],
 	['QS_missionConfig_commDS',(compileFinal (str _discord_server)),TRUE],
 	['QS_missionConfig_commURL',(compileFinal (str _website_url)),TRUE],
 	['QS_missionConfig_commA3U',(compileFinal (str _arma_units_url)),TRUE],
@@ -380,4 +381,4 @@ if ((count _startDate) > 5) then {
 } forEach [
 	['QS_fnc_serverCommandPassword',(compileFinal _serverCommandPassword)]
 ];
-diag_log format ['***** %1 * Loaded mission parameters *****',diag_tickTime];
+diag_log (format [localize 'STR_QS_DiagLogs_194',diag_tickTime]);

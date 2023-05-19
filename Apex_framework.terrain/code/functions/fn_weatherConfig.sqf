@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/05/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -100,7 +100,7 @@ if (_QS_type isEqualTo 'OVERCAST') then {
 	if (_QS_isOvercast) then {
 		_QS_sunshineOvercastRange = (_QS_overcastRangesMonthly # _QS_month) # 2;
 		_QS_sunshineOvercastRange_lower = ((_QS_overcastRangesMonthly # _QS_month) # 2) # 0;
-		//diag_log format ['***** DEBUG ***** weather config * Overcast ***** Sunshine hours: %1 *****',_QS_dailySunshineHours];
+		//diag_log (format [localize 'STR_QS_DiagLogs_188',_QS_dailySunshineHours]);
 		if ((count (_QS_array # 0)) > 6) then {
 			if ((count (_QS_array # 0)) > 12) then {
 				for '_x' from 0 to (_QS_dailySunshineHours * 2) step 1 do {
@@ -119,7 +119,7 @@ if (_QS_type isEqualTo 'OVERCAST') then {
 			};
 		};
 	};
-	//diag_log format ['***** DEBUG ***** weather config * Overcast ***** %1 ***** %2 *****',count _QS_array,_QS_array];
+	//diag_log (format [localize 'STR_QS_DiagLogs_189',count _QS_array,_QS_array]);
 };
 
 if (_QS_type isEqualTo 'RAIN') then {
@@ -249,7 +249,7 @@ if (_QS_type isEqualTo 'RAIN') then {
 			};		
 		};
 	};
-	//diag_log format ['***** DEBUG ***** weather config ***** Next rain array: ***** %1*****',_QS_array];
+	//diag_log (format [localize 'STR_QS_DiagLogs_190',_QS_array]);
 };
 
 if (_QS_type isEqualTo 'FOG') then {
@@ -327,7 +327,7 @@ if (_QS_type isEqualTo 'FOG') then {
 		};
 		0 = _QS_array pushBack [_QS_fogChangeTime,_QS_fogValue,_QS_fogDecay,_QS_fogBase];
 	};
-	//diag_log format ['***** DEBUG ***** WEATHER CONFIG ***** FOG ***** %1 *****',_QS_array];
+	//diag_log (format [localize 'STR_QS_DiagLogs_191',_QS_array]);
 };
 
 if (_QS_type isEqualTo 'WAVES') then {

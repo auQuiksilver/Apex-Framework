@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/11/2022 A3 2.10 by Quiksilver
+	15/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -846,9 +846,9 @@ for '_x' from 0 to 1 step 0 do {
 				} forEach _QS_headlessClients;
 			};
 			if (_QS_time > _QS_module_hc_log_checkDelay) then {
-				diag_log (format ['HC AI Report (Server): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+				diag_log (format [localize 'STR_QS_DiagLogs_002',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
 				{
-					diag_log format ['Headless Client Info: %1',getUserInfo (getPlayerID _x)];
+					diag_log (format [localize 'STR_QS_DiagLogs_003',getUserInfo (getPlayerID _x)]);
 				} forEach (entities 'HeadlessClient_F');
 				_QS_module_hc_log_checkDelay = _QS_time + _QS_module_hc_log_delay;
 			};
@@ -878,7 +878,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_module_agentBehaviors_agent addEventHandler ['Local',_agentEventLocalHC];
 				_QS_module_agentBehaviors_agent setVariable ['QS_AI_ENTITY_HC',[2,_clientOwner],[2,_clientOwner]];
 			};
-			diag_log (format ['HC AI Report (Headless Client): %1Local units: %2 * %1Local groups: %3 * %1Local agents: %4',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
+			diag_log (format [localize 'STR_QS_DiagLogs_002',_endl,(count _QS_module_unitBehaviors_localUnits),(count _QS_module_groupBehaviors_localGroups),(count _QS_module_agentBehaviors_localAgents)]);
 		};
 	};
 	if (_QS_module_dynamicSkill) then {
@@ -1010,7 +1010,7 @@ for '_x' from 0 to 1 step 0 do {
 							//comment 'Assault not active';
 							if ((_QS_module_virtualSectors_scoreSides # 1) >= _QS_module_virtualSectors_assaultScore) then {
 								_QS_module_virtualSectors_assaultActive = _true;
-								diag_log '***** QS AI - Sector Assault Active *****';
+								diag_log localize 'STR_QS_DiagLogs_004';
 								
 								//comment 'Select sector herePick random WEST-owned sector';
 								_QS_module_virtualSectors_assaultDuration = _QS_uiTime + _QS_module_virtualSectors_assaultDuration_fixed + (random _QS_module_virtualSectors_assaultDuration_variable);
@@ -1030,7 +1030,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (!(_QS_module_virtualSectors_patrolFallback)) then {
 					if ((_QS_module_virtualSectors_scoreSides # 1) >= _QS_module_virtualSectors_scoreEndClose) then {
 						_QS_module_virtualSectors_patrolFallback = _true;
-						diag_log '***** QS AI - Patrol Fall Back *****';
+						diag_log localize 'STR_QS_DiagLogs_005';
 						if (_QS_module_virtualSectors_patrolsInf isNotEqualTo []) then {
 							{
 								_QS_grp = group _x;
@@ -1799,7 +1799,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_module_grid) then {
 		if (_QS_uiTime > _QS_module_grid_checkDelay) then {
 			if (missionNamespace getVariable ['QS_grid_AI_triggerDeinit',_false]) then {
-				diag_log 'QS AI GRID deinit';
+				diag_log localize 'STR_QS_DiagLogs_006';
 				missionNamespace setVariable ['QS_grid_AI_active',_false,_false];
 				if (_QS_module_grid_enemy isNotEqualTo []) then {
 					{
@@ -1888,7 +1888,7 @@ for '_x' from 0 to 1 step 0 do {
 				missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_false,_true];
 			};
 			if (missionNamespace getVariable ['QS_grid_AI_triggerInit',_false]) then {
-				diag_log 'QS AI GRID init';
+				diag_log localize 'STR_QS_DiagLogs_007';
 				missionNamespace setVariable ['QS_grid_AI_triggerInit',_false,_true];
 				_QS_module_grid_aoPos = missionNamespace getVariable 'QS_aoPos';
 				_QS_module_grid_aoSize = missionNamespace getVariable 'QS_aoSize';

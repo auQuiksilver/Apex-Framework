@@ -9,7 +9,7 @@
 		0: STRING - grid returned by mapGridPosition command
 
 	Returns:
-	ARRAY in format [[gridX:Number,gridY:Number],[gridWidth:Number,gridHeight:Number]]
+	ARRAY in (format [[gridX:Number,gridY:Number],[gridWidth:Number,gridHeight:Number]])
 */
 
 params ['_posGrid'];

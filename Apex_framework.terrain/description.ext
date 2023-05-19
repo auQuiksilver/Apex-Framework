@@ -16,11 +16,11 @@ ____________________________________________/*/
 missionProductVersion = "1.5.2";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
-onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
-onLoadMission = "";
+onLoadName = __EVAL("$STR_QS_missionName");			// Invade & Annex			/*/ Visible when loading mission/*/
+onLoadMission = $STR_QS_loadMissionText;
 loadScreen = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
 overviewPicture = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
-overviewText = "";
+overviewText = "$STR_QS_overviewText";
 overviewTextLocked = "";
 onLoadIntro = "";													/*/ Displays a message while the intro is loading./*/
 onLoadIntroTime = 0;												/*/ Time and date displayed while the intro loads. 1 visible, 0 hidden./*/
@@ -60,8 +60,7 @@ overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom ha
 unsafeCVL=1;											// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
 debriefing = 1;
 
-windyCoef = 0.60;										// How strong is wind sound at altitude. https://community.bistudio.com/wiki/enableEnvironment
-
+windyCoef = 0.60;
 ReviveMode = 0;											// Apex Framework Notes: Keep this as 0.																	//0: disabled, 1: enabled, 2: controlled by player attributes
 ReviveUnconsciousStateMode = 0;							// Apex Framework Notes: Not used																			//0: basic, 1: advanced, 2: realistic
 ReviveRequiredTrait = 1;								// Apex Framework Notes: If set as 0, any role can revive													//0: none, 1: medic trait is required
@@ -77,9 +76,8 @@ respawnDelay = 5;										/*/ Delay prior to respawn/*/
 respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard when killed./*/
 respawnOnStart = 0;
 
-// Security - CfgRemoteExec + CfgDisabledCommands
 #include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
-
+// Security - CfgRemoteExec + CfgDisabledCommands
 // CfgFunctions
 class CfgFunctions {
 	class QS {
@@ -466,11 +464,8 @@ class CfgFunctions {
 			class getActiveDLC {file = "code\functions\fn_getActiveDLC.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
-			
 			class getCargoCapacity {file = "code\functions\fn_getCargoCapacity.sqf";};
 			class getCargoVolume {file = "code\functions\fn_getCargoVolume.sqf";};
-			
-			
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
@@ -2939,7 +2934,7 @@ class QS_RD_client_dialog_menu_options {
 		class QS_RD_client_dialog_menu_options_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Options";
+			text = "$STR_QS_Dialogs_112";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.0955624 * safezoneW;

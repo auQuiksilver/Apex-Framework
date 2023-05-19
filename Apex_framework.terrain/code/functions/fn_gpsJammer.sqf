@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	7/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -92,7 +92,7 @@ if (_type isEqualTo 1) exitWith {
 					};
 					if (!isNull _instigator) then {
 						if (isPlayer _instigator) then {
-							_text = format ['%1 ( %2 ) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_049'];
+							_text = (format [localize 'STR_QS_Chat_049',(name _instigator),(groupID (group _instigator))]);
 							[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
 						} else {
 							[[WEST,'BLU'],localize 'STR_QS_Chat_050'] remoteExec ['sideChat',-2,FALSE];

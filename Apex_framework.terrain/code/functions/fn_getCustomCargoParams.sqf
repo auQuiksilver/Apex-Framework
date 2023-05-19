@@ -65,7 +65,7 @@ if (_type isEqualTo 1) exitWith {
 		)
 	) exitWith {FALSE};
 	if (lockedInventory _parent) exitWith {FALSE};
-	TRUE
+	TRUE;
 };
 if (_type isEqualTo 2) exitWith {
 	//comment 'Towable non-vehicle object types';

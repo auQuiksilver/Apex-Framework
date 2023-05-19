@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/05/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 1.94 by Quiksilver
 	
 Description:
 
@@ -209,7 +209,7 @@ _compositionData = nil;
 				};
 				if (!isNull _instigator) then {
 					if (isPlayer _instigator) then {
-						_text = format ['%1 ( %2 ) %3',(name _instigator),(groupID (group _instigator)),localize 'STR_QS_Chat_066'];
+						_text = (format [localize 'STR_QS_Chat_066',(name _instigator),(groupID (group _instigator))]);
 						[[WEST,'BLU'],_text] remoteExec ['sideChat',-2,FALSE];
 					} else {
 						[[WEST,'BLU'],localize 'STR_QS_Chat_067'] remoteExec ['sideChat',-2,FALSE];
@@ -226,7 +226,7 @@ _compositionData = nil;
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 			_enemyAssets pushBack _x;
 		} forEach (crew _aaHull);
-		if (alive (driver _aaHull)) then {
+				if (alive (driver _aaHull)) then {
 			_aaHull deleteVehicleCrew (driver _aaHull);
 		};
 		_aaTurrets pushBack [_aaHull,(gunner _aaHull),_aaGroup,(typeOf _aaHull),((weapons _aaHull) select ([0,1] select (_aaHull isKindOf 'Tank'))),0,0,0];
@@ -239,7 +239,7 @@ _compositionData = nil;
 	};
 } forEach ([(_composition # 0)] call (missionNamespace getVariable 'QS_fnc_smEnemyEast'));
 _fuzzyPos = [((_spawnPosition # 0) - 300) + (random 600),((_spawnPosition # 1) - 300) + (random 600),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_037']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_037',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;

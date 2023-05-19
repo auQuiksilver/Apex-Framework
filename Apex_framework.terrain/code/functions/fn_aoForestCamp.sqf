@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -15,7 +15,7 @@ _________________________________________________*/
 
 params ['_centerpos'];
 diag_log '****************************************************';
-diag_log '***** AO COMPOSITION ***** Spawning jungle camp ****';
+diag_log localize 'STR_QS_DiagLogs_027';
 diag_log '****************************************************';
 _hqPos = missionNamespace getVariable ['QS_HQpos',[0,0,0]];
 _baseMarker = markerPos 'QS_marker_base_marker';

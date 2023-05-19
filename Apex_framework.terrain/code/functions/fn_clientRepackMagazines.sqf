@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/01/2023 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -29,7 +29,7 @@ if (
 	{((magazinesAmmoFull _unit) isEqualTo [])} ||
 	{(_unit getVariable ['QS_unit_repackingMagazines',FALSE])}
 ) exitWith {
-	diag_log '***** QS Mag Repack ***** Log ***** Repack failed *****';
+	diag_log localize 'STR_QS_DiagLogs_053';
 };
 _vehicle = vehicle _unit;
 if ((isPlayer _unit) && (!isNull (objectParent _unit)) && (_unit in [(driver _vehicle),(gunner _vehicle),(commander _vehicle)])) exitWith {};

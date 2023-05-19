@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	28/11/2017 A3 1.78 by Quiksilver
+	01/05/2023 A3 1.78 by Quiksilver
 
 Description:
 
@@ -204,14 +204,9 @@ private _taskSucceeded = FALSE;
 private _incapacitated = FALSE;
 private _mine = objNull;
 _taskID = 'QS_GRID_TASK_IG_1';
-private _description = format [
-	'%1<br/><br/>%2<br/><br/>%3',
-	localize 'STR_QS_Task_024',
-	localize 'STR_QS_Task_025',
-	localize 'STR_QS_Task_026'
-];
+private _description = localize 'STR_QS_Task_024';
 if (_sentriesEnabled) then {
-	_description = _description + (format ['<br/><br/>%1',localize 'STR_QS_Task_027']);
+	_description = _description + localize 'STR_QS_Task_027';
 };
 [
 	_taskID,

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	15/08/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -91,7 +91,7 @@ _foundName = QS_hashmap_configfile getOrDefaultCall [
 	TRUE
 ];
 if (!(simulationEnabled _found)) exitWith {
-	_text = format ['%1 %2',_foundName,localize 'STR_QS_Hints_132'];
+	_text = (format [localize 'STR_QS_Hints_132',_foundName]);
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,7,-1,_text,[],-1];
 };
 if (
@@ -111,26 +111,26 @@ if (
 	(!isNull (isVehicleCargo _found)) ||
 	{(!isNull (ropeAttachedTo _found))}
 ) exitWith {
-	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,(format ['%2 %1',_foundName,localize 'STR_QS_Hints_133']),[],-1];
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,(format [localize 'STR_QS_Hints_133',_foundName]),[],-1];
 };
 if (_foundMass > _towMaxMass) exitWith {
-	_text = format ['%1 %3 %2',_foundName,_vName,localize 'STR_QS_Hints_136'];
+	_text = (format [localize 'STR_QS_Hints_136',_foundName,_vName]);
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];
 };
-if ((toLowerANSI _ft) in _disAllowed) exitWith {50 cutText [format ['%1 %2',_foundName,localize 'STR_QS_Text_250'],'PLAIN DOWN',0.5];};
+if ((toLowerANSI _ft) in _disAllowed) exitWith {50 cutText [format [localize 'STR_QS_Text_250',_foundName],'PLAIN DOWN',0.5];};
 if (((crew _found) findIf {(alive _x)}) isNotEqualTo -1) then {
 	if (!(unitIsUAV _found)) then {
 		_crewInVehicle = TRUE;
 	};
 };
-if (_crewInVehicle) exitWith {50 cutText [format ['%1 %2',_foundName,localize 'STR_QS_Text_252'],'PLAIN DOWN',0.5];};
+if (_crewInVehicle) exitWith {50 cutText [format [localize 'STR_QS_Text_252',_foundName],'PLAIN DOWN',0.5];};
 if (((vectorUp _found) # 2) < 0) exitWith {
-	_text = format ['%1 %2',_foundName,localize 'STR_QS_Hints_137'];
+	_text = (format [localize 'STR_QS_Hints_137',_foundName]);
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,_text,[],-1];
 };
 if (((toLowerANSI _ft) in ['b_sam_system_01_f','b_sam_system_02_f','b_aaa_system_01_f']) && (!((toLowerANSI _vt) in ['b_truck_01_mover_f','b_t_truck_01_mover_f']))) exitWith {
 	_image = "A3\EditorPreviews_F\Data\CfgVehicles\B_Truck_01_Mover_F.jpg";
-	50 cutText [(format ['%1 %3<br/><br/><img size="5" image="%2"/>',_foundName,_image,localize 'STR_QS_Text_253']),'PLAIN DOWN',0.75,FALSE,TRUE];
+	50 cutText [(format [localize 'STR_QS_Text_253',_foundName,_image]),'PLAIN DOWN',0.75,FALSE,TRUE];
 };
 if (((toLowerANSI _ft) in [
 	"b_hmg_01_high_f","b_gmg_01_high_f","o_hmg_01_high_f","o_gmg_01_high_f","i_hmg_01_high_f","i_gmg_01_high_f",
@@ -142,7 +142,7 @@ if (((toLowerANSI _ft) in [
 	"i_c_van_01_transport_olive_f","c_van_01_transport_f","c_van_01_transport_red_f","c_van_01_transport_white_f"
 ]))) exitWith {
 	_image = "A3\EditorPreviews_F\Data\CfgVehicles\B_G_Van_01_transport_F.jpg";
-	50 cutText [(format ['%1 %3(<br/><br/><img size="5" image="%2"/>',_foundName,_image,localize 'STR_QS_Text_253']),'PLAIN DOWN',0.75,FALSE,TRUE];
+	50 cutText [(format [localize 'STR_QS_Text_253',_foundName,_image]),'PLAIN DOWN',0.75,FALSE,TRUE];
 };
 if (((toLowerANSI _vt) in [
 	"b_g_van_01_transport_f","o_g_van_01_transport_f","i_g_van_01_transport_f","i_c_van_01_transport_f","i_c_van_01_transport_brown_f",

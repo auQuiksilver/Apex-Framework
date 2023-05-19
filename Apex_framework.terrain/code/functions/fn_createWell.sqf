@@ -17,7 +17,7 @@ params ['_type','_position',''];
 private _entities = [];
 private _detectors = [];
 _wellModel = 'A3\Structures_F_Exp\Industrial\Fields\ConcreteWell_01_F.p3d';
-_sewerCoverModel = format ['A3\Structures_F_Exp\Infrastructure\Roads\SewerCover_0%1_F.p3d',(selectRandom [1,2,3])];
+_sewerCoverModel = (format ['A3\Structures_F_Exp\Infrastructure\Roads\SewerCover_0%1_F.p3d',(selectRandom [1,2,3])]);
 _position set [2,0.05];
 _position = AGLToASL _position;
 _sewerCover = createSimpleObject [_sewerCoverModel,_position];

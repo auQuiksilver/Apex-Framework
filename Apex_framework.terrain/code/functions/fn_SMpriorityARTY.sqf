@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	19/09/2018 A3 1.84 by Quiksilver
+	01/05/2023 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -94,7 +94,7 @@ for '_x' from 0 to (_tankCount - 1) step 1 do {
 	};
 };
 _fuzzyPos = [((_flatPos # 0) - 300) + (random 600),((_flatPos # 1) - 300) + (random 600),0];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_038']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_038',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _fuzzyPos;
 	_x setMarkerAlpha 1;

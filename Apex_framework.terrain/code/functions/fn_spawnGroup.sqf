@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/10/2018 A3 1.84 by Quiksilver
+	01/05/2023 A3 1.84 by Quiksilver
 	
 Description:
 	
@@ -37,7 +37,7 @@ if (_useRecycler) then {
 };
 _groupComposition = QS_core_groups_map getOrDefault [toLowerANSI _type,[]];
 if (_groupComposition isEqualTo []) exitWith {
-	diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_type]);
+	diag_log (format [localize 'STR_QS_DiagLogs_182',_type]);
 	grpNull;
 };
 if (isNull _grp) then {

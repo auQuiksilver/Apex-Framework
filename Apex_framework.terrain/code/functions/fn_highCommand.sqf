@@ -146,7 +146,7 @@ QS_hc_mapTest_1 = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 								26,
 								26,
 								0,
-								(format ['%1%2 %3',(['',((groupId _grp) + ' - ')] select _mouseOver),(['',((str _i) + ':')] select ((count _grpWaypoints) > 1)),_wpTypeName]),
+								(format ['%1 %2 %3',(['',((groupId _grp) + ' - ')] select _mouseOver),(['',((str _i) + ':')] select ((count _grpWaypoints) > 1)),_wpTypeName]),
 								0,
 								([0.04,0.07] select _mouseOver),
 								'RobotoCondensed',

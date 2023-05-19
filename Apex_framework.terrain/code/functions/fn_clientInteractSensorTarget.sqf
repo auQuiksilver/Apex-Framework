@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	7/9/2018 A3 1.84 by Quiksilver
+	01/05/2023 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -80,7 +80,7 @@ _onCompleted = {
 				{getText ((configOf _cursorObject) >> 'displayName')},
 				TRUE
 			];
-			['sideChat',[WEST,'BLU'],(format ['%1 %4 %2 %5 %3 %6',profileName,_displayName,(mapGridPosition _cursorObject),localize 'STR_QS_Chat_036',localize 'STR_QS_Hints_060',localize 'STR_QS_Chat_037'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'BLU'],(format [localize 'STR_QS_Chat_036',profileName,_displayName,(mapGridPosition _cursorObject)])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			[77,'FIRE_SUPPORT',[_cursorObject,profileName],FALSE] remoteExec ['QS_fnc_remoteExec',2];
 		} else {
 			50 cutText [localize 'STR_QS_Text_142','PLAIN DOWN',0.3];

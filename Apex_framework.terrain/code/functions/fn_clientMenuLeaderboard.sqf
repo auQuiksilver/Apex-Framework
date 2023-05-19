@@ -15,7 +15,7 @@ __________________________________________________________*/
 
 params ['_type','_display'];
 private _list = [
-	[0,'<Empty>','',localize 'STR_QS_Menu_042'],
+	[0,localize 'STR_QS_Dialogs_024','',localize 'STR_QS_Menu_042'],
 	[1,localize 'STR_QS_Menu_174',localize 'STR_QS_Menu_175',localize 'STR_QS_Menu_176'],
 	[2,localize 'STR_QS_Menu_177',localize 'STR_QS_Menu_178',localize 'STR_QS_Menu_179'],
 	[3,localize 'STR_QS_Menu_180',localize 'STR_QS_Menu_181',localize 'STR_QS_Menu_182'],

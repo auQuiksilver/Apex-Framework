@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	27/05/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -25,7 +25,7 @@ addMissionEventHandler [
 	'EntityCreated',
 	{
 		params ['_entity'];
-		diag_log (format ['Entity Created: %1',_this]);
+		diag_log (format [localize 'STR_QS_DiagLogs_106',_this]);
 		_modelInfo = (getModelInfo _entity) # 1;
 		private _value = QS_hashmap_createdTypes getOrDefault [_modelInfo,[]];
 		if (_value isEqualTo []) then {
@@ -54,7 +54,7 @@ _array = _array apply { [_x # 0,_x # 3] };
 
 
 params ['_entity'];
-diag_log (format ['Entity Created: %1',_this]);
+diag_log (format [localize 'STR_QS_DiagLogs_106',_this]);
 _modelInfo = getModelInfo _entity;
 private _value = QS_hashmap_createdTypes getOrDefault [_modelInfo,[]];
 if (_value isEqualTo []) then {

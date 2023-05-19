@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/12/2022 A3 2.10
+	01/05/2023 A3 2.10
 	
 Description:
 
@@ -42,7 +42,7 @@ if (_QS_responseNeutrality isEqualTo 0) then {
 			if ((random 1) > 0.5) then {
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,7.5,-1,localize 'STR_QS_Hints_022',[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 			} else {
-				_text = format ['%1 %2',name _t,localize 'STR_QS_Hints_024'];
+				_text = (format [localize 'STR_QS_Hints_024',name _t]);
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,7.5,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 			};
 		} else {
@@ -53,7 +53,7 @@ if (_QS_responseNeutrality isEqualTo 0) then {
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,7.5,-1,localize 'STR_QS_Hints_026',[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 		} else {
 			if ((random 1) > 0.5) then {
-				_text = format ['%1 %2',(name _t),localize 'STR_QS_Hints_027'];
+				_text = (format [localize 'STR_QS_Hints_027',(name _t)]);
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,7.5,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 			} else {
 				if ((random 1) > 0.25) then {
@@ -72,12 +72,12 @@ if (_QS_responseNeutrality isEqualTo -1) then {
 		if ((random 1) > 0.5) then {
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,10,-1,localize 'STR_QS_Hints_029',[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 		} else {
-			_text = format ['%1 %3 %2.',name _t,(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Hints_030'];
+			_text = (format [localize 'STR_QS_Hints_030',name _t,worldName]);
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,7.5,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 		};
 	} else {
 		if ((random 1) > 0.5) then {
-			_text = format ['%1 %2',name _t,localize 'STR_QS_Hints_031'];
+			_text = (format [localize 'STR_QS_Hints_031',name _t]);
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [2,TRUE,7.5,-1,_text,[],-1,TRUE,localize 'STR_QS_Hints_023',TRUE];
 			_t setVariable ['QS_civilian_alertingEnemy',TRUE,TRUE];
 		} else {

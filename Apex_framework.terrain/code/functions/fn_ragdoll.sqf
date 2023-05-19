@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	27/11/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,7 @@ Description:
 __________________________________________________/*/
 
 if (!scriptDone (missionNamespace getVariable ['QS_client_ragdoll_script',scriptNull])) exitWith {};
-if !(canSuspend) exitWith {diag_log 'fn_ragdoll must be spawned, not called';};
+if !(canSuspend) exitWith {diag_log localize 'STR_QS_DiagLogs_140';};
 _attached = attachedObjects
 params [
 	['_unit',player],

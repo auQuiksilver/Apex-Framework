@@ -117,7 +117,7 @@ if (!isNull _vehicle) then {
 			_vehicle flyInHeightASL [75,75,150];
 		};
 		missionNamespace setVariable ['QS_AI_supportProviders_INTEL',((missionNamespace getVariable 'QS_AI_supportProviders_INTEL') + [effectiveCommander _vehicle]),QS_system_AI_owners];
-		comment 'Radial positions';
+		//comment 'Radial positions';
 		private _radialIncrement = 45;
 		private _radialStart = round (random 360);
 		private _radialOffset = _centerRadius * (0.4 + (random 0.7));
@@ -137,7 +137,7 @@ if (!isNull _vehicle) then {
 		};
 		if (_radialPatrolPositions isNotEqualTo []) then {
 			_radialPatrolPositions = _radialPatrolPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
-			comment 'Initial movement';
+			//comment 'Initial movement';
 			_grp move (_radialPatrolPositions # 0);
 			_grp setFormDir (_position getDir (_radialPatrolPositions # 0));
 		};

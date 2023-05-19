@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	12/07/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -52,7 +52,7 @@ if (!isNull _killer) then {
 						};
 						_killedPos = getPosWorld _killed;
 						_killerPos = getPosWorld _killer;
-						diag_log format ['************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************',time,_vTypeName,_n,_kTypeName,_killerPos,_vTypeName,_killedPos];
+						diag_log (format [localize 'STR_QS_DiagLogs_186',time,_vTypeName,_n,_kTypeName,_killerPos,_vTypeName,_killedPos]);
 					} count (crew _vKiller);
 				} else {
 					_n = name _killer;
@@ -61,7 +61,7 @@ if (!isNull _killer) then {
 					_clientVal = QS_robocop get _uid;
 					QS_robocop set [_uid,_clientVal + 1];
 					[nil,[_uid,_cid,_clientVal + 1,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
-					diag_log format ['************************ ADMIN - %1 - A %2 was destroyed by %3 - Killer - %4 - %5 - Killed - %6 - %7 ************************',time,_vTypeName,_n,_kTypeName,_killerPos,_vTypeName,_killedPos];
+					diag_log (format [localize 'STR_QS_DiagLogs_187',time,_vTypeName,_n,_kTypeName,_killerPos,_vTypeName,_killedPos]);
 				};
 			};
 		};

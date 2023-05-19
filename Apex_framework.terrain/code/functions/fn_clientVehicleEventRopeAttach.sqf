@@ -71,7 +71,7 @@ if (
 					actionKeysNames ['User17', 1] trim ['"',0],
 					localize 'STR_QS_Text_366'
 				] select ((actionKeysNamesArray 'User17') isEqualTo []);
-				_text = format [
+				_text = (format [
 					'<t align="left">%3</t><t align="right">[%1] [%5]</t><br/><br/>
 					<t align="left">%4</t> <t align="right">[%2] [%6]</t><br/><br/>',
 					actionKeysNames ['gunElevUp',1] trim ['"',0],
@@ -80,7 +80,7 @@ if (
 					localize 'STR_QS_Hints_175',
 					_customUpText,
 					_customDownText
-				];
+				]);
 				[
 					_text,
 					FALSE,

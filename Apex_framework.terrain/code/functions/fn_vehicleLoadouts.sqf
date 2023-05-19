@@ -32,7 +32,7 @@ if (_type isEqualTo 0) exitWith {
 };
 if (_type isEqualTo 1) exitWith {
 	_vehicleType = toLowerANSI (typeOf _vehicle);
-	comment '************************************************************* WEST *****';
+	//comment '************************************************************* WEST *****';
 	if (_vehicleType isEqualTo 'b_t_uav_03_dynamicloadout_f') then {
 		_vehicle call _preparePylons;
 		{
@@ -122,13 +122,13 @@ if (_type isEqualTo 1) exitWith {
 		_vehicle setVariable ['QS_vehicle_stealth',TRUE,TRUE];
 	};
 	if (_vehicleType isEqualTo 'b_heli_attack_01_dynamicloadout_f') then {
-		comment 'To Do';
+		//comment 'To Do';
 	};
 	if (_vehicleType isEqualTo 'b_heli_light_01_dynamicloadout_f') then {
-		comment 'To Do';
+		//comment 'To Do';
 	};	
 	
-	comment '************************************************************* EAST *****';
+	//comment '************************************************************* EAST *****';
 	if (_vehicleType isEqualTo 'o_uav_02_dynamicloadout_f') then {
 		_vehicle call _preparePylons;
 		{
@@ -233,7 +233,7 @@ if (_type isEqualTo 1) exitWith {
 	if (_vehicleType isEqualTo 'o_heli_light_02_dynamicloadout_f') then {
 	
 	};
-	comment '************************************************************* RESISTANCE *****';
+	//comment '************************************************************* RESISTANCE *****';
 	if (_vehicleType isEqualTo 'i_uav_02_dynamicloadout_f') then {
 		_vehicle call _preparePylons;
 		{

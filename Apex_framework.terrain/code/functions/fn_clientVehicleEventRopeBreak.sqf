@@ -32,7 +32,7 @@ if (isNull (ropeAttachedTo _attachedObject)) then {
 				_displayName = getText ((configOf _attachedObject) >> 'displayName');
 				_attachedObject setVariable ['QS_ST_customDN',_displayName,TRUE];
 			};
-			_text = format [localize 'STR_QS_Text_204',_displayName];
+			_text = (format [localize 'STR_QS_Text_204',_displayName]);
 			50 cutText [_text,'PLAIN DOWN',0.5];
 		};
 	};

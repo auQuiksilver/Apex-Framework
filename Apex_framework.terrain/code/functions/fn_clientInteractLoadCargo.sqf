@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -54,7 +54,7 @@ if (_parent isEqualType objNull) then {
 		50 cutText [localize 'STR_QS_Text_444','PLAIN',0.3];
 	};
 	if (lockedInventory _parent) exitWith {
-		50 cutText [format ['%1 %2',(_parent getVariable ['QS_ST_customDN',_displayName2]),localize 'STR_QS_Text_380'],'PLAIN DOWN',0.333];
+		50 cutText [format [localize 'STR_QS_Text_380',(_parent getVariable ['QS_ST_customDN',_displayName2])],'PLAIN DOWN',0.333];
 	};
 	private _text = '';
 	_boundingBox = QS_hashmap_boundingBoxes getOrDefaultCall [
@@ -72,7 +72,7 @@ if (_parent isEqualType objNull) then {
 			1,
 			15
 		];
-		_text = format ['%1 %3 %2',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2]),localize 'STR_QS_Text_114'];
+		_text = (format [localize 'STR_QS_Text_114',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2])]);
 		[_parent,TRUE,FALSE] call QS_fnc_updateCenterOfMass;
 	} else {
 		_text = localize 'STR_QS_Text_116';
@@ -110,7 +110,7 @@ if (_parent isEqualType []) then {
 		50 cutText [localize 'STR_QS_Text_378','PLAIN',0.3];
 	};
 	if (lockedInventory _parent) exitWith {
-		50 cutText [format ['%1 %2',(_parent getVariable ['QS_ST_customDN',_displayName2]),localize 'STR_QS_Text_380'],'PLAIN DOWN',0.333];
+		50 cutText [format [localize 'STR_QS_Text_380',(_parent getVariable ['QS_ST_customDN',_displayName2])],'PLAIN DOWN',0.333];
 	};
 	private _text = '';
 	if ([_parent,_child] call QS_fnc_setVehicleCargo) then {
@@ -123,7 +123,7 @@ if (_parent isEqualType []) then {
 			1,
 			15
 		];
-		_text = format ['%1 %3 %2',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2]),localize 'STR_QS_Text_114'];
+		_text = (format [localize 'STR_QS_Text_114',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2])]);
 		[_parent,TRUE,FALSE] call QS_fnc_updateCenterOfMass;
 	} else {
 		_text = localize 'STR_QS_Text_116';

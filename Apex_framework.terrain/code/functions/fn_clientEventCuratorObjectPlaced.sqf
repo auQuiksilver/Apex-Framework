@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -68,7 +68,7 @@ if (_object isKindOf 'Man') exitWith {
 	(group _object) setSpeedMode 'FULL';
 	if (_object getUnitTrait 'medic') then {
 		_object setVariable ['QS_unit_role','medic',TRUE];
-		_object setVariable ['QS_ST_customDN',localize 'STR_QS_Text_376',TRUE];
+		_object setVariable ['QS_ST_customDN',localize 'STR_QS_Role_019',TRUE];
 	};
 	if (_side isEqualTo CIVILIAN) then {
 		if (_typeL in (['civilians_fugitives'] call QS_data_listUnits)) then {
@@ -87,7 +87,7 @@ if (_object isKindOf 'Man') exitWith {
 					_killer = _this # 1;
 					if (!isNull _killer) then {
 						if (isPlayer _killer) then {
-							_text = format [localize 'STR_QS_Chat_028',(name _killer)];
+							_text = (format [localize 'STR_QS_Chat_028',(name _killer)]);
 							['sideChat',[WEST,'HQ'],_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
 					};
@@ -113,7 +113,7 @@ if (_object isKindOf 'Man') exitWith {
 					_killer = _this # 1;
 					if (!isNull _killer) then {
 						if (isPlayer _killer) then {
-							_text = format ['%1 %2',(name _killer),localize 'STR_QS_Chat_088'];
+							_text = (format [localize 'STR_QS_Chat_088',(name _killer)]);
 							['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
 					};
@@ -178,7 +178,7 @@ if (_object isKindOf 'Man') exitWith {
 		};
 	};
 	if (_typeL in (['vr_entities_1'] call QS_data_listUnits)) then {
-		50 cutText [(format ['%1 - %2',_displayName,localize 'STR_QS_Text_007']),'PLAIN'];
+		50 cutText [(format [localize 'STR_QS_Text_007',_displayName]),'PLAIN'];
 		[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 };

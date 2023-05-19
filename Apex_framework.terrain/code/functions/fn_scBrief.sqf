@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	17/05/2017 A3 1.70 by Quiksilver
+	01/05/2023 A3 1.70 by Quiksilver
 
 Description:
 
@@ -33,7 +33,7 @@ if (_type isEqualTo 0) exitWith {
 			{
 				playSound 'QS_SC_outro_lose';
 				if (!isStreamFriendlyUIEnabled) then {
-					_text = parseText format ["<t align='center' size='2'>%2</t><br/><br/><img size='7' image='%1'/><br/><br/>%3",'\a3\Data_f_exp\Flags\flag_viper_co.paa',localize 'STR_QS_Hints_127',localize 'STR_QS_Hints_128'];
+					_text = parseText (format [localize 'STR_QS_Hints_127','\a3\Data_f_exp\Flags\flag_viper_co.paa']);
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [2,FALSE,7.5,-1,_text,[],-1];
 				};
 			}
@@ -46,7 +46,7 @@ if (_type isEqualTo 0) exitWith {
 			{
 				playSound 'QS_SC_outro_win';
 				if (!isStreamFriendlyUIEnabled) then {
-					_text = parseText format ["<t align='center' size='2'>%2</t><br/><br/><img size='7' image='%1'/><br/><br/>%3",(missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']),localize 'STR_QS_Hints_129',localize 'STR_QS_Hints_130'];
+					_text = parseText (format [localize 'STR_QS_Hints_129',(missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa'])]);
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [2,FALSE,7.5,-1,_text,[],-1];
 				};
 			}

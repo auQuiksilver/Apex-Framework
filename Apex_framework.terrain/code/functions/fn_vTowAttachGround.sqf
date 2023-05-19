@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	29/12/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -263,13 +263,13 @@ if (
 	(!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'})
 ) then {
 	_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
-	systemChat format ['%1 %2',(getText ((configOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
+	systemChat (format [localize 'STR_QS_Chat_162',(getText ((configOf _towedVehicle) >> 'displayName'))]);
 };
 if (isNull (attachedTo _towedVehicle)) then {
 	if ((_towedVehicle distance2D (markerPos 'QS_marker_crate_area')) < 500) then {
 		if (!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'}) then {
 			_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
-			systemChat format ['%1 %2',(getText ((configOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
+			systemChat (format [localize 'STR_QS_Chat_162',(getText ((configOf _towedVehicle) >> 'displayName'))]);
 		};
 	};
 };
@@ -282,7 +282,7 @@ if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
 		TRUE
 	];
 	if ((_towedVehicle getVariable 'QS_loadCargoIn') setVehicleCargo _towedVehicle) then {
-		_text = format ['%1 %3 %2',_displayName,_dn2,localize 'STR_QS_Text_114'];
+		_text = (format [localize 'STR_QS_Text_114',_displayName,_dn2]);
 	} else {
 		_text = localize 'STR_QS_Text_116';
 	};

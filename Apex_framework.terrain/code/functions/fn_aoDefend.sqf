@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	27/10/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -37,7 +37,7 @@ private [
 	'_enemyInHQCount','_playersInHQCount','_moveToPos','_infantrySpawnDistanceFixed','_infantrySpawnDistanceRandom','_infantrySpawnDistanceFromPlayer',
 	'_fn_blacklist','_QS_worldName','_QS_worldSize','_nearRoads','_roadsValid','_validRoadSurfaces','_timeNow','_tickTimeNow','_serverTime','_taskID'
 ];
-diag_log 'Defend AO 0';
+diag_log localize 'STR_QS_DiagLogs_008';
 if (time < 300) exitWith {};
 _allPlayersCount = count allPlayers;
 if ((diag_fps < 13) && ((missionNamespace getVariable 'QS_forceDefend') isEqualTo 0)) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
@@ -48,7 +48,7 @@ if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo 1) then {missionNa
 if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo -1) exitWith {missionNamespace setVariable ['QS_forceDefend',0,TRUE];missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 if ((missionNamespace getVariable 'QS_forceDefend') isEqualTo -2) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
 if ((_allPlayersCount > 60) && ((missionNamespace getVariable 'QS_defendCount') > 3) && ((missionNamespace getVariable 'QS_forceDefend') isEqualTo 0)) exitWith {missionNamespace setVariable ['QS_defendActive',FALSE,TRUE];};
-diag_log 'Defend AO 0.5';
+diag_log localize 'STR_QS_DiagLogs_009';
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -66,7 +66,7 @@ _defendMessages = [
 	_x setMarkerAlphaLocal 0.75;
 	_x setMarkerPos (missionNamespace getVariable 'QS_HQpos');
 } forEach ['QS_marker_aoCircle','QS_marker_aoMarker'];
-'QS_marker_aoMarker' setMarkerText format['%1 %3 %2 %4',(toString [32,32,32]),(missionNamespace getVariable 'QS_aoDisplayName'),localize 'STR_QS_Marker_002',localize 'STR_QS_Marker_003'];
+'QS_marker_aoMarker' setMarkerText format[localize 'STR_QS_Marker_002',(toString [32,32,32]),(missionNamespace getVariable 'QS_aoDisplayName')];
 
 if (worldName in ['Stratis']) then {
 	missionNamespace setVariable ['QS_hqPos',missionNamespace getVariable 'QS_aoPos'];
@@ -403,7 +403,7 @@ _fn_taskSetProgress = missionNamespace getVariable 'QS_fnc_taskSetProgress';
 _fn_setFlag = missionNamespace getVariable 'QS_fnc_setFlag';
 _fn_getAIMotorPool = missionNamespace getVariable 'QS_fnc_getAIMotorPool';
 
-diag_log 'Defend AO 1';
+diag_log localize 'STR_QS_DiagLogs_010';
 for '_x' from 0 to 1 step 0 do {
 	_timeNow = time;
 	_tickTimeNow = diag_tickTime;
@@ -1482,7 +1482,7 @@ if ((count allPlayers) > 5) then {
 		};
 	};
 };
-diag_log 'Defend AO 2';
+diag_log localize 'STR_QS_DiagLogs_011';
 {
 	missionNamespace setVariable _x;
 } forEach [

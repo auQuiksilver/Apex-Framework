@@ -56,13 +56,13 @@ if (_asArray) then {
 } else {
 	switch _format do {
 		case 'HH': {_time = _hour;};
-		case 'HH:MM': {_time = format ['%1:%2', _hour, _min];};
-		case 'HH:MM:SS': {_time = format ['%1:%2:%3', _hour, _min, _sec];};
-		case 'HH:MM:SS.MS': {_time = format ['%1:%2:%3.%4', _hour, _min, _sec, _msec];};
+		case 'HH:MM': {_time = (format ['%1:%2', _hour, _min]);};
+		case 'HH:MM:SS': {_time = (format ['%1:%2:%3', _hour, _min, _sec]);};
+		case 'HH:MM:SS.MS': {_time = (format ['%1:%2:%3.%4', _hour, _min, _sec, _msec]);};
 		case 'MM': {_time = _min;};
-		case 'MM:SS': {_time = format ['%1:%2', _min, _sec];};
-		case 'MM:SS.MS': {_time = format ['%1:%2.%3', _min, _sec, _msec];};
-		case 'SS.MS': {_time = format ['%1.%2', _sec, _msec];};
+		case 'MM:SS': {_time = (format ['%1:%2', _min, _sec]);};
+		case 'MM:SS.MS': {_time = (format ['%1:%2.%3', _min, _sec, _msec]);};
+		case 'SS.MS': {_time = (format ['%1.%2', _sec, _msec]);};
 	};
 };
 _time;

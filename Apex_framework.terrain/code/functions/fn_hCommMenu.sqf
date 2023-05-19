@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -31,7 +31,7 @@ if (_type isEqualTo 1) then {
 		if ((!isDedicated) && (hasInterface)) then {
 			if (player isEqualTo (leader _group)) then {
 				playSound 'TacticalPing4';
-				50 cutText [(format ['%3 %2',_profileName,_groupID,localize 'STR_QS_Text_208']),'PLAIN DOWN',0.5,TRUE,FALSE];
+				50 cutText [(format [localize 'STR_QS_Text_208',_profileName,_groupID]),'PLAIN DOWN',0.5,TRUE,FALSE];
 			};
 		};
 	};

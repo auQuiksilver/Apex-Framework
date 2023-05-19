@@ -31,7 +31,7 @@ if (_mode isEqualTo 'onLoad') exitWith {
 	private _ticketsEnabled = FALSE;
 
 	_side = QS_player getVariable ['QS_unit_side',WEST];
-	comment 'ONLY FACTION DEPLOYMENTS';
+	//comment 'ONLY FACTION DEPLOYMENTS';
 	private _deploymentPositions = (missionNamespace getVariable ['QS_system_deployments',[]]) select {
 		_x params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 		(
@@ -39,7 +39,7 @@ if (_mode isEqualTo 'onLoad') exitWith {
 			(_x call _codeConditionAddToMenu)
 		)
 	};
-	comment 'GET NEAREST';
+	//comment 'GET NEAREST';
 	private _dist = 999999;
 	private _nearest = [0,0,0];
 	private _deploymentPos = [0,0,0];
@@ -261,7 +261,7 @@ if (_mode isEqualTo 'onUnload') exitWith {
 		(localNamespace getVariable ['QS_deploymentMenu_forceDeploy',FALSE]) &&
 		(!(localNamespace getVariable ['QS_deploymentMenu_deployed',FALSE]))
 	) then {
-		comment 'FORCE A DEPLOYMENT';
+		//comment 'FORCE A DEPLOYMENT';
 		openMap [TRUE,TRUE];
 		(findDisplay 12) createDisplay 'QS_RD_client_dialog_menu_deployment';
 	};
@@ -310,14 +310,14 @@ if (_mode isEqualTo 'HomeCheckbox') exitWith {
 	_selectedData = uiNamespace getVariable ['QS_client_menuDeployment_selectedData',[]];
 	_selectedData params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 	if (_state isEqualTo 1) then {
-		comment 'ON';
+		//comment 'ON';
 		if (_selectedData call _codeCanSetAsHome) then {
 			localNamespace setVariable ['QS_deployment_home',_deploymentId];
 			missionProfileNamespace setVariable ['QS_deployment_home',_deploymentId];
 			50 cutText [localize 'STR_QS_Text_419','PLAIN DOWN',0.333];
 		};
 	} else {
-		comment 'OFF';
+		//comment 'OFF';
 		localNamespace setVariable ['QS_deployment_home',''];
 		missionProfileNamespace setVariable ['QS_deployment_home',''];
 		50 cutText [localize 'STR_QS_Text_420','PLAIN DOWN',0.333];

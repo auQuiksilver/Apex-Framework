@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/11/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -75,7 +75,7 @@ for '_x' from 0 to 1 step 0 do {
 	/*/Report/*/
 	if (_tickTimeNow > _fpsCheckDelay) then {
 		_fps = round diag_fps;
-		diag_log format ['Headless Client FPS: %1 * Frame-Time: %2 * Active Scripts: %3 * Active SQF Scripts: %4 *',_fps,diag_deltaTime,diag_activeScripts,diag_activeSQFScripts];
+		diag_log (format [localize 'STR_QS_DiagLogs_130',_fps,diag_deltaTime,diag_activeScripts,diag_activeSQFScripts]);
 		if ((missionNamespace getVariable ['QS_mission_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) then {
 				if (canTriggerDynamicSimulation player) then {
 					player triggerDynamicSimulation _false;

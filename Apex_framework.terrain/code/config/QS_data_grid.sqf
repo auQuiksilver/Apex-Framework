@@ -21,7 +21,7 @@ player addAction [
 		copyToClipboard str QS_array;
 		cutText [(format ['Registered %1',diag_tickTime]),'PLAIN',0.25];
 		
-		_str = format ['QS_marker_%1',(round (diag_tickTime))];
+		_str = (format ['QS_marker_%1',(round (diag_tickTime))]);
 		_mkr = createMarker [_str,_position];
 		_mkr setMarkerShapeLocal 'ICON';
 		_mkr setMarkerType 'mil_dot';
@@ -38,7 +38,7 @@ player addAction [
 	'Reset',
 	{
 		QS_array = [];
-		cutText ['Reset','PLAIN DOWN',0.25];
+		cutText [localize 'STR_QS_Menu_083','PLAIN DOWN',0.25];
 		{deleteMarker _x;} forEach QS_markers;
 		QS_markers = [];
 	}
