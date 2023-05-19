@@ -240,7 +240,7 @@ if (
 		sleep 3;
 		localNamespace setVariable ['QS_deploymentMenu_forceDeploy',FALSE];
 	};
-	['RESPAWN'] call QS_fnc_clientInteractDeploy;
+	//['RESPAWN'] call QS_fnc_clientInteractDeploy;
 };
 if ((player getVariable ['QS_unit_side',WEST]) isNotEqualTo WEST) then {
 	[1,player] call QS_fnc_clientRespawnPosition;
