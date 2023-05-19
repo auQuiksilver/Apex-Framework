@@ -67,7 +67,7 @@ if (_t2 isKindOf 'MRAP_03_base_F') then {
 		];
 	};
 };
-if (_t2 isKindOf 'APC_Tracked_03_base_F') then {
+/*/if (_t2 isKindOf 'APC_Tracked_03_base_F') then {
 	if (_isSimpleObject || {(isNull (driver _u))}) then {
 		{
 			_u setObjectTextureGlobal _x;
@@ -87,7 +87,7 @@ if (_t2 isKindOf 'MBT_03_base_F') then {
 			[2,'media\images\vskins\mbt52\mbt_03_rcws_blufor_co.paa']
 		];
 	};
-};
+};/*/
 if (_t2 isKindOf 'APC_Wheeled_03_base_F') then {
 	if (_isSimpleObject || {(isNull (driver _u))}) then {
 		{
@@ -100,7 +100,7 @@ if (_t2 isKindOf 'APC_Wheeled_03_base_F') then {
 		];
 	};
 };
-if (_t2 isKindOf 'APC_Wheeled_02_base_F') then {
+/*/if (_t2 isKindOf 'APC_Wheeled_02_base_F') then {
 	if (_isSimpleObject || {(isNull (driver _u))}) then {
 		{
 			_u setObjectTextureGlobal _x;
@@ -121,7 +121,7 @@ if (_t2 isKindOf 'MBT_02_base_F') then {
 			[2,'media\images\vskins\t100\mbt_02_greengrey_co.paa']
 		];
 	};
-};
+};/*/
 if (_t2 isKindOf 'Heli_light_03_base_F') then {
 	if (_isSimpleObject || {(isNull (driver _u))}) then {
 		_defaultTextures = QS_hashmap_configfile getOrDefaultCall [

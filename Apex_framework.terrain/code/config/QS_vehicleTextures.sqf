@@ -101,7 +101,7 @@ __________________________________________________________________________/*/
 			[5,"a3\air_f_jets\plane_fighter_01\data\fighter_01_cockpit_05_co.paa"]
 		],'F/A-181 Black Wasp II (Plane)',['B_Plane_Fighter_01_F','B_Plane_Fighter_01_Stealth_F'],'Bohemia Interactive'
 	],
-	[
+	/*[
 		0,'F/A-182',
 		[
 			[0,"media\images\vskins\fa181\digitalwasp3.paa"],
@@ -111,7 +111,7 @@ __________________________________________________________________________/*/
 			[4,"a3\air_f_jets\plane_fighter_01\data\fighter_01_cockpit_02_co.paa"],
 			[5,"a3\air_f_jets\plane_fighter_01\data\fighter_01_cockpit_05_co.paa"]
 		],'F/A-181 Black Wasp II (Plane)',['B_Plane_Fighter_01_F','B_Plane_Fighter_01_Stealth_F'],'Archimedes'
-	],
+	],*/
 	[
 		0,'Van-BB',
 		[
