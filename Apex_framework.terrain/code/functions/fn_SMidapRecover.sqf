@@ -1,5 +1,5 @@
 /*/
-File: idapRecover.sqf
+File: fn_SMidapRecover.sqf
 Author:
 
 	Quiksilver

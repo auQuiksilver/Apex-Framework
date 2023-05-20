@@ -76,8 +76,8 @@ if (_worldName isEqualTo 'Tanoa') then {
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 if (_worldName isEqualTo 'Altis') then {
-	_startPosition = [14450,16763.7,0];
-	_startDir = 330;
+	_startPosition = [14666,16809,0];
+	_startDir = 45;
 	_vehicleTypes = [
 		'C_Truck_02_fuel_F','C_Truck_02_box_F','B_Truck_01_fuel_F','B_Truck_01_box_F'
 	];
