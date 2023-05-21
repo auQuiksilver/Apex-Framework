@@ -1600,7 +1600,7 @@ _____________________________________________________________-->
 				<Original>Healed</Original>
 				<Chinesesimp>已治疗</Chinesesimp>
 				<Chinese>已治療</Chinese>
-				<Turkish>İyileşti</Turkish>
+				<Turkish>Tedavi Tamamlandı</Turkish>
 			</Key>
 			<Key ID="STR_QS_Text_118">
 				<Original>Commander cannot directly recruit AI</Original>
@@ -3550,13 +3550,13 @@ _____________________________________________________________-->
 				<Original>Laser color set</Original>
 				<Chinesesimp>待编辑</Chinesesimp>
 				<Chinese>待編輯</Chinese>
-				<Turkish>Lazer Renk Ayarı</Turkish>
+				<Turkish>Lazer Rengi Ayarlandı</Turkish>
 			</Key>
 			<Key ID="STR_QS_Text_443">
 				<Original>Profile set</Original>
 				<Chinesesimp>待编辑</Chinesesimp>
 				<Chinese>待編輯</Chinese>
-				<Turkish>Profil Ayarı</Turkish>
+				<Turkish>Profil Ayarlandı</Turkish>
 			</Key>
 			<Key ID="STR_QS_Text_444">
 				<Original>Load disallowed</Original>
@@ -5204,7 +5204,7 @@ _____________________________________________________________-->
 				<Original>Hang on boys, the end is near!</Original>
 				<Chinesesimp>坚持住伙计们！胜利就在眼前了！</Chinesesimp>
 				<Chinese>堅持住伙伴們！勝利就在眼前了！</Chinese>
-				<Turkish>Dayan Beyler, Zafer Yakındır!</Turkish>
+				<Turkish>Dayannın Beyler, Zafer Yakındır!</Turkish>
 			</Key>
 			<Key ID="STR_QS_Chat_015">
 				<Original>The enemy is not giving up! Hold on as long as you can, soldiers!</Original>
@@ -5294,7 +5294,7 @@ _____________________________________________________________-->
 				<Original>Close Air Support is available:%2 &#40; %1 &#41;</Original>
 				<Chinesesimp>有近距离空中支援，飞行员:%2 &#40; %1 &#41;</Chinesesimp>
 				<Chinese>有近距離空中支援，飛行員:%2 &#40; %1 &#41;</Chinese>
-				<Turkish>Yakın Hava Desteği Aktif:%2 &#40; %1 &#41;</Turkish>
+				<Turkish>Yakın Hava Desteği &#40; %1 &#41; Aktif. Pilot :%2</Turkish>
 			</Key>
 			<Key ID="STR_QS_Chat_030">
 				<Original>%1 secured the tracking device in %2 &#40;check map&#41;</Original>
@@ -9806,7 +9806,7 @@ _____________________________________________________________-->
 				<Original>Community Hub/Radio Control</Original>
 				<Chinesesimp>社区/通讯菜单</Chinesesimp>
 				<Chinese>社群/通訊選單</Chinese>
-				<Turkish>Topluluk Hub/Telsiz Kontrolü</Turkish>
+				<Turkish>Grup Yönetimi/Telsiz Yönetimi/Linkler</Turkish>
 			</Key>
 			<Key ID="STR_QS_Menu_045">
 				<Original>Visibility</Original>
