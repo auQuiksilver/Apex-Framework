@@ -6184,6 +6184,36 @@ _____________________________________________________________-->
 				<Chinese>待編輯</Chinese>
 				<Turkish>Hava Savunma Dolum Süresinde!</Turkish>
 			</Key>
+			<Key ID="STR_QS_Chat_179"><!--Edit-->
+				<Original>Get this vehicle to its destination, soldier!</Original>
+				<Chinesesimp>待编辑</Chinesesimp>
+				<Chinese>待編輯</Chinese>
+				<Turkish>Bu aracı hedefine götür, asker!</Turkish>
+			</Key>
+			<Key ID="STR_QS_Chat_180"><!--Edit-->
+				<Original>Mission: Get this vehicle to its destination, soldier!</Original>
+				<Chinesesimp>待编辑</Chinesesimp>
+				<Chinese>待編輯</Chinese>
+				<Turkish>Görev: Bu aracı hedefine götür, asker!</Turkish>
+			</Key>
+			<Key ID="STR_QS_Chat_181"><!--Edit-->
+				<Original>%1 is no longer a wreck</Original>
+				<Chinesesimp>待编辑</Chinesesimp>
+				<Chinese>待編輯</Chinese>
+				<Turkish>%1 artık bir enkaz değil</Turkish>
+			</Key>
+			<Key ID="STR_QS_Chat_182"><!--Edit-->
+				<Original>Active connection</Original>
+				<Chinesesimp>待编辑</Chinesesimp>
+				<Chinese>待編輯</Chinese>
+				<Turkish>Aktif bağlantı</Turkish>
+			</Key>
+			<Key ID="STR_QS_Chat_183"><!--Edit-->
+				<Original>Remote Controlling</Original>
+				<Chinesesimp>待编辑</Chinesesimp>
+				<Chinese>待編輯</Chinese>
+				<Turkish>Uzaktan Kontrol</Turkish>
+			</Key>
 		</Container>
 		<Container name="QS_xml_notifications">
 			<Key ID="STR_QS_Notif_001">

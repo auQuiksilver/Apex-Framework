@@ -347,14 +347,14 @@ if (
 						{(!alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull]))}
 					) then {
 						QS_player playActionNow 'PutDown';
-						50 cutText ['Remote Controlling','PLAIN DOWN',0.333];
+						50 cutText [localize 'STR_QS_Chat_183','PLAIN DOWN',0.333];
 						[_cursorObject,FALSE,FALSE] spawn QS_fnc_remoteControl;
 					} else {
 						if (isUAVConnected _cursorObject) then {
-							systemChat 'Active connection';
+							systemChat localize 'STR_QS_Chat_182';
 						};
 						if (alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull])) then {
-							systemChat 'Active connection';
+							systemChat localize 'STR_QS_Chat_182';
 						};
 					};
 				},

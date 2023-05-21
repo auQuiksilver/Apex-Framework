@@ -285,7 +285,7 @@ if (_state isEqualTo 2) exitWith {
 			[_entity],
 			{
 				params ['_entity'];
-				//systemChat (format ['%1 is no longer a wreck',(typeOf _entity)]);
+				//systemChat (format [localize 'STR_QS_Chat_181',(typeOf _entity)]);
 				if (
 					(local _entity) &&
 					(!isDamageAllowed _entity) &&
