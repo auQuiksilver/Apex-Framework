@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	22/11/2017 A3 1.76 by Quiksilver
+	01/05/2023 A3 1.76 by Quiksilver
 
 Description:
 
@@ -16,7 +16,7 @@ ____________________________________________________________________________/*/
 params [['_aoState',1],['_aoDisplayName',''],['_aoPolygon',[]],['_aoGridMarkers',[]],['_a',[]],['_b',0],['_c',0],['_d',0],['_e',0],['_f',0],['_g',0],['_h',0],['_i',0],['_j',0],['_k',0]];
 _players = allPlayers;
 _playersCount = count _players;
-diag_log format ['***** DEBUG ***** GRID AO PREPARING * %1 *****',_this];
+diag_log (format [localize 'STR_QS_DiagLogs_126',_this]);
 missionNamespace setVariable ['QS_grid_aoCentroid',(_aoPolygon call (missionNamespace getVariable 'QS_fnc_geomPolygonCentroid')),TRUE];
 missionNamespace setVariable ['QS_aoPos',(missionNamespace getVariable ['QS_grid_aoCentroid',[0,0,0]]),TRUE];
 missionNamespace setVariable ['QS_grid_aoProps',[],FALSE];
@@ -31,9 +31,9 @@ private _centroid = missionNamespace getVariable ['QS_grid_aoCentroid',[0,0,0]];
 } forEach _aoPolygon;
 missionNamespace setVariable ['QS_aoSize',_aoSize,TRUE];
 //comment 'Get AO terrain data (roads, buildings, building count ,etc)';
-diag_log format ['Getting terrain data START %1',diag_tickTime];
+diag_log (format [localize 'STR_QS_DiagLogs_127',diag_tickTime]);
 _terrainData = [0,_aoPos,_aoSize,_this] call (missionNamespace getVariable 'QS_fnc_aoGetTerrainData');
-diag_log format ['Getting terrain data END %1',diag_tickTime];
+diag_log (format [localize 'STR_QS_DiagLogs_128',diag_tickTime]);
 private _gridObjectives = [];
 private _gridObjective = [];
 private _usedObjectives = [];
@@ -91,5 +91,5 @@ missionNamespace setVariable ['QS_grid_civCasualties',FALSE,TRUE];
 missionNamespace setVariable ['QS_grid_AI_triggerInit',TRUE,TRUE];
 missionNamespace setVariable ['QS_grid_active',TRUE,TRUE];
 missionNamespace setVariable ['QS_TEST_GRID',FALSE,FALSE];
-diag_log '***** QS ***** Grid prepare complete *****';
+diag_log localize 'STR_QS_DiagLogs_129';
 TRUE;

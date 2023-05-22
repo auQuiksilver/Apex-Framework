@@ -4,9 +4,9 @@ Author:
 
 	Quiksilver
 
-Last modified: 
+Last Modified:
 
-	25/03/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -119,10 +119,8 @@ _timeNow = time;
 _true = TRUE;
 _false = FALSE;
 _endl = endl;
-
 private _activeDLC = missionNamespace getVariable ['QS_system_activeDLC',''];
 private _isActiveDLC = _activeDLC isNotEqualTo '';
-
 private _allUnits = allUnits;
 _enemySides = [EAST,RESISTANCE];
 _east = EAST;
@@ -148,7 +146,7 @@ if (
 	(_aoType in ['CLASSIC']) &&
 	(!(_QS_worldName in ['Altis','Tanoa','Malden','Enoch','Stratis']))			// These terrains are configured for Classic
 ) then {
-	diag_log '***** GAME MODE ***** CLASSIC mode not configured for this terrain *****';
+	diag_log localize 'STR_QS_DiagLogs_069';
 	_aoType = 'NONE';
 	missionNamespace setVariable ['QS_mission_aoType',_aoType,TRUE];
 	missionNamespace setVariable ['QS_missionConfig_aoType',_aoType,TRUE];
@@ -157,7 +155,7 @@ if (
 	(_aoType in ['SC']) &&
 	(!(_QS_worldName in ['Altis','Tanoa','Malden','Enoch']))			// These terrains are configured for Sector Control
 ) then {
-	diag_log '***** GAME MODE ***** SECTOR CONTROL mode not configured for this terrain *****';
+	diag_log localize 'STR_QS_DiagLogs_070';
 	_aoType = 'NONE';
 	missionNamespace setVariable ['QS_mission_aoType',_aoType,TRUE];
 	missionNamespace setVariable ['QS_missionConfig_aoType',_aoType,TRUE];
@@ -166,12 +164,12 @@ if (
 	(_aoType in ['GRID']) &&
 	(!(_QS_worldName in ['Altis','Tanoa','Malden','Enoch']))			// These terrains are configured for Insurgency Mode
 ) then {
-	diag_log '***** GAME MODE ***** INSURGENCY mode not configured for this terrain *****';
+	diag_log localize 'STR_QS_DiagLogs_071';
 	_aoType = 'NONE';
 	missionNamespace setVariable ['QS_mission_aoType',_aoType,TRUE];
 	missionNamespace setVariable ['QS_missionConfig_aoType',_aoType,TRUE];
 };
-diag_log format ['***** CURRENT GAMEMODE: %1 *****',_aoType];
+diag_log (format [localize 'STR_QS_DiagLogs_072',_aoType]);
 if (_aoType isEqualTo 'SC') then {
 	['INIT',0.5] call (missionNamespace getVariable 'QS_fnc_sc');
 };
@@ -212,7 +210,7 @@ _QS_ao_EFB_group = grpNull;
 //comment 'Grid AO';
 private _fn_grid = missionNamespace getVariable 'QS_fnc_grid';
 if (_aoType isEqualTo 'GRID') then {
-	diag_log '***** QS ***** DEBUG ***** INIT GRID *****';
+	diag_log localize 'STR_QS_DiagLogs_074';
 	['INIT'] spawn _fn_grid;
 };
 private _QS_grid_firstRun = TRUE;
@@ -654,7 +652,7 @@ _QS_forceWeatherChange_delay = _timeNow + _QS_forceWeatherChange_delayTimer;
 if (_QS_simulateWind) then {
 	_QS_windArray = [date,_QS_worldName,'REALISM','WIND'] call (missionNamespace getVariable 'QS_fnc_weatherConfig');
 	_QS_windWorkingArray = _QS_windArray;
-	diag_log format ['***** DEBUG ***** Weather wind array: %1',_QS_windWorkingArray];
+	diag_log (format [localize 'STR_QS_DiagLogs_075',_QS_windWorkingArray]);
 	_QS_windUpdate_checkDelay_timer = 60;
 	_QS_windUpdate_checkDelay = _timeNow + _QS_windUpdate_checkDelay_timer;
 	_QS_windNextValue = _QS_windWorkingArray # 0;
@@ -664,7 +662,7 @@ _QS_refreshWind = TRUE;
 _QS_overcastUpdate = FALSE;
 _QS_overcastArray = [date,_QS_worldName,'REALISM','OVERCAST'] call (missionNamespace getVariable 'QS_fnc_weatherConfig');
 _QS_overcastWorkingArray = _QS_overcastArray # 0;
-diag_log format ['***** DEBUG ***** Weather overcast array: %1',_QS_overcastWorkingArray];
+diag_log (format [localize 'STR_QS_DiagLogs_076',_QS_overcastWorkingArray]);
 _QS_overcastUpdate_checkDelay_timer = 30;
 _QS_overcastUpdate_checkDelay = _timeNow + _QS_overcastUpdate_checkDelay_timer;
 _QS_refreshOvercast = TRUE;
@@ -1281,7 +1279,7 @@ private _QS_module_restart_isDynamic = (missionNamespace getVariable ['QS_missio
 if (_QS_module_restart) then {
 	_QS_module_restart_realTimeStart = systemTime;
 	missionNamespace setVariable ['QS_system_realTimeStart',_QS_module_restart_realTimeStart,TRUE];
-	diag_log format ['***** RESTART SCHEDULE * %1 *****',_QS_module_restart_realTimeStart];	
+	diag_log (format [localize 'STR_QS_DiagLogs_077',_QS_module_restart_realTimeStart]);	
 	_QS_module_restart_realTimeStart = (_QS_module_restart_realTimeStart select [2,3]);
 	_QS_module_restart_realTimeNow = _QS_module_restart_realTimeStart;
 	_QS_module_restart_hourCurrent = _QS_module_restart_realTimeNow # 2;
@@ -1310,7 +1308,7 @@ if (_QS_module_restart) then {
 		_estimatedTimeLeft = (_QS_module_restart_hour - (_QS_module_restart_realTimeStart # 1)) - ((_QS_module_restart_realTimeStart # 2) / 60);
 	};
 	_estimatedTimeLeft = _estimatedTimeLeft * 3600;
-	diag_log format ['Estimated Time Left: %1',_estimatedTimeLeft];
+	diag_log (format [localize 'STR_QS_DiagLogs_078',_estimatedTimeLeft]);
 	estimatedTimeLeft _estimatedTimeLeft;
 	_QS_module_restart_script = {
 		scriptName 'QS Restart Schedule';
@@ -1330,11 +1328,7 @@ if (_QS_module_restart) then {
 				_endImage = missionNamespace getVariable ['QS_missionConfig_textures_communityFlag','a3\data_f\flags\flag_nato_co.paa'];
 			};
 			51 cutText [
-				(format [
-					"<img size='4' image='%1'/><br/><br/><t size='5'>%2</t><br/><br/>",
-					_endImage,
-					localize 'STR_QS_Utility_000'
-				]),
+				(format [localize 'STR_QS_Utility_000',_endImage]),
 				'PLAIN DOWN',
 				5,
 				TRUE,
@@ -1354,7 +1348,7 @@ if (_QS_module_restart) then {
 		uiSleep 1;
 		(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand '#restartserver';
 	};
-	diag_log format ['***** Restart schedule * Restart Hour: %1 RealTimeStart: %2 *****',_QS_module_restart_hour,_QS_module_restart_realTimeStart];
+	diag_log (format [localize 'STR_QS_DiagLogs_079',_QS_module_restart_hour,_QS_module_restart_realTimeStart]);
 	if (_QS_module_restart_hour isEqualTo -1) then {
 		_QS_module_restart = FALSE;
 	};
@@ -1363,9 +1357,9 @@ if (_QS_module_restart) then {
 _fpsMarkerText = localize 'STR_QS_Marker_005';
 _zeusMarkerText = localize 'STR_QS_Marker_006';
 
-diag_log '***** Saving Profile *****';
+diag_log localize 'STR_QS_DiagLogs_080';
 saveMissionProfileNamespace;
-diag_log '***** Profile Saved *****';
+diag_log localize 'STR_QS_DiagLogs_081';
 
 //comment 'Functions preload';
 _fn_arrayShuffle = missionNamespace getVariable 'QS_fnc_arrayShuffle';
@@ -1426,8 +1420,8 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_diagTickTimeNow > _fpsCheckDelay) then {
 		_fps = round diag_fps;
 		missionNamespace setVariable ['QS_serverFPS',_fps,_false];
-		diag_log format [
-			'%1********** SERVER REPORT (TOP) ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1********** SERVER REPORT (BOTTOM) **********',
+		diag_log (format [
+			localize 'STR_QS_DiagLogs_082',
 			_endl,
 			_fps,
 			diag_frameNo,
@@ -1449,7 +1443,7 @@ for '_x' from 0 to 1 step 0 do {
 			(count (entities [[],[],_true,_false])),
 			(count (allSimpleObjects [])),
 			systemTime
-		];
+		]);
 		if (allCurators isNotEqualTo []) then {
 			missionNamespace setVariable ['QS_server_fps',_fps,allCurators apply {owner _x}];
 		};
@@ -1655,7 +1649,7 @@ for '_x' from 0 to 1 step 0 do {
 										_playerCountArray = [];
 										_scAOCount = _scAOCount - 1;
 										_mainMissionActive = _true;
-										diag_log '***** SC INIT * 0 *****';
+										diag_log localize 'STR_QS_DiagLogs_083';
 										_scAreaPolygon = _mainMissionRegion # 2;
 										_scTimeStart = diag_tickTime;
 										if (!isNil {missionNamespace getVariable 'aoHQ'}) then {
@@ -1685,13 +1679,13 @@ for '_x' from 0 to 1 step 0 do {
 											_QS_grid_firstRun = _false;
 											_grid_availableRegions = [];
 											_grid_availableRegion_id = ['REGION_GETACTIVE'] call _fn_grid;
-											diag_log format ['***** QS DEBUG ***** Region: %1 *****',_grid_availableRegion_id];
+											diag_log (format [localize 'STR_QS_DiagLogs_084',_grid_availableRegion_id]);
 											if (_grid_availableRegion_id isNotEqualTo -1) then {
 												missionNamespace setVariable ['QS_activeRegion',_grid_availableRegion_id,_false];
 											};
 											_grid_availableAOs = [];
 											_grid_availableAO_id = ['AO_GETACTIVE',_grid_availableRegion_id] call _fn_grid;
-											diag_log format ['***** QS DEBUG ***** AO: %1 *****',_grid_availableAO_id];
+											diag_log (format [localize 'STR_QS_DiagLogs_085',_grid_availableAO_id]);
 											_grid_ao_data = [];
 											_grid_ao_nearRadius = 2000;
 											_grid_region_completionThreshold = 0;
@@ -1720,7 +1714,7 @@ for '_x' from 0 to 1 step 0 do {
 															if (_endImage isEqualTo '') then {
 																_endImage = missionNamespace getVariable ['QS_missionConfig_textures_communityFlag','a3\data_f\flags\flag_nato_co.paa'];
 															};
-															51 cutText [(format ["<img size='4' image='%1'/><br/><br/><t size='3'>%2 Campaign completed</t>",_endImage,worldName]),'PLAIN',5,_true,_true];
+															51 cutText [(format [localize 'STR_QS_Utility_031',_endImage,worldName]),'PLAIN',5,_true,_true];
 														}
 													] remoteExec ['call',-2,_true];
 													uiSleep 96;
@@ -1729,13 +1723,13 @@ for '_x' from 0 to 1 step 0 do {
 												};
 											};
 										};
-										diag_log format ['***** QS ***** DEBUG ***** Region ID: %1 *****',_grid_availableRegion_id];
+										diag_log (format [localize 'STR_QS_DiagLogs_086',_grid_availableRegion_id]);
 										//comment 'Get suitable AO';
 										if (_grid_availableAO_id isEqualTo -1) then {
 											_grid_availableAO_id = ['AO_FINDNEAR_RANDOM',_grid_availableRegion_id,(missionNamespace getVariable ['QS_grid_aoCentroid',[0,0,0]]),_grid_ao_nearRadius] call _fn_grid;
 										};
 										_grid_ao_data = ['AO_SETSTATE',_grid_availableRegion_id,_grid_availableAO_id,1] call _fn_grid;
-										diag_log format ['***** QS ***** DEBUG ***** AO ID: %1 *****',_grid_availableAO_id];
+										diag_log (format [localize 'STR_QS_DiagLogs_087',_grid_availableAO_id]);
 										//comment 'Prepare AO';
 										missionNamespace setVariable ['QS_registeredPositions',[(markerPos 'QS_marker_module_fob')],_false];
 										_grid_ao_data call _fn_gridPrepare;
@@ -1760,7 +1754,7 @@ for '_x' from 0 to 1 step 0 do {
 						([0] call _fn_aoSubObjectives) || 
 						{(missionNamespace getVariable 'QS_aoCycleVar')}
 					) then {
-						diag_log 'Main AO deactivating';
+						diag_log localize 'STR_QS_DiagLogs_088';
 						_aoDuration = round (diag_tickTime - _aoStartTime);
 						_aoStats = missionProfileNamespace getVariable ['QS_statistics_classic_aoDuration',[]];
 						_aoStatsIndex = _aoStats findIf { (_x # 0) isEqualTo _aoName };
@@ -1773,7 +1767,7 @@ for '_x' from 0 to 1 step 0 do {
 							_aoPlayersAvg = round (((_aoPlayersAvg * _aoStatsSamples) + (_playerCountData # 2)) / (_aoStatsSamples + 1));
 							_aoStats set [_aoStatsIndex,[_aoName,_aoStatsSamples + 1,_aoDurationAvg,_aoPlayersAvg]];
 						};
-						diag_log format ['***** AO SAVED STATS ***** %1',(_aoStats # _aoStatsIndex)];
+						diag_log (format [localize 'STR_QS_DiagLogs_089',(_aoStats # _aoStatsIndex)]);
 						missionProfileNamespace getVariable ['QS_statistics_classic_aoDuration',_aoStats];
 						saveMissionProfileNamespace;
 						_playerCountData = [0,0,0];
@@ -2396,7 +2390,7 @@ for '_x' from 0 to 1 step 0 do {
 								};
 								_mainMissionActive = _false;
 								missionNamespace setVariable ['QS_grid_active',_false,_true];
-								diag_log '***** QS ***** DEBUG * GRID COMPLETE *****';
+								diag_log localize 'STR_QS_DiagLogs_090';
 								['AO_SETSTATE',_grid_availableRegion_id,_grid_availableAO_id,2] call _fn_grid;
 								_grid_availableAO_id = -1;
 								['SAVE'] call _fn_grid;
@@ -2575,21 +2569,21 @@ for '_x' from 0 to 1 step 0 do {
 									if (!isNil {missionNamespace getVariable 'QS_aoCycleSmallTask'}) then {
 										missionNamespace setVariable ['QS_aoCycleSmallTask',nil,_false];
 									};
-									diag_log 'CREATING SMALL TASK';
+									diag_log localize 'STR_QS_DiagLogs_091';
 									_QS_module_aoSmallTasks_isActive = _true;
 									_QS_module_aoSmallTasks_list = [1,2];
 									_QS_module_aoSmallTasks_current = selectRandom _QS_module_aoSmallTasks_list;
 									_QS_module_aoSmallTasks_data = [_QS_module_aoSmallTasks_current,1,[]] call _fn_aoSmallTask;
 									if (_QS_module_aoSmallTasks_data isEqualType 0) then {
 										_QS_module_aoSmallTasks_isActive = _false;
-										diag_log 'CREATING SMALL TASK FAILED';
+										diag_log localize 'STR_QS_DiagLogs_092';
 									};
 								};
 							};
 						};
 					} else {
 						if ((_QS_module_aoSmallTasks_data call _fn_aoSmallTask) isEqualType []) then {
-							diag_log 'DELETING SMALL TASK';
+							diag_log localize 'STR_QS_DiagLogs_093';
 							_QS_module_aoSmallTasks_isActive = _false;
 							_QS_module_aoSmallTasks_data set [1,0];
 							_QS_module_aoSmallTasks_data = _QS_module_aoSmallTasks_data call _fn_aoSmallTask;
@@ -2610,13 +2604,13 @@ for '_x' from 0 to 1 step 0 do {
 				//comment 'RELEVANT FOB NOT CREATED, CREATE IT';
 				_module_fob_activeRegion = missionNamespace getVariable 'QS_activeRegion';
 				if (_module_fob_fob isNotEqualTo []) then {
-					diag_log '***** FOB ***** ADD TO REMAINS COLLECTOR *****';
+					diag_log localize 'STR_QS_DiagLogs_094';
 					_module_fob_fob = [0,_module_fob_fob] call _fn_fobPrepare;
 					_module_fob_isFobActive = _false;
 					_trigger_delete_fobVehicles = _true;
 				};
 				if (_module_fob_activeRegion isNotEqualTo -1) then {
-					diag_log '***** FOB ***** CREATING *****';
+					diag_log localize 'STR_QS_DiagLogs_095';
 					_module_fob_fob = [1,_module_fob_activeRegion] call _fn_fobPrepare;
 					_module_fob_vData = ([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 2;
 					_module_fob_location = ([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 0;
@@ -2632,7 +2626,7 @@ for '_x' from 0 to 1 step 0 do {
 					_module_fob_logistics_fuelServices = _false;
 					_module_fob_isFobActive = _true;
 					/*/ Communicate with players /*/
-					['FOB_INIT',['',(format ['%2 %1',(([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 5),localize 'STR_QS_Notif_047'])]] remoteExec ['QS_fnc_showNotification',-2,_false];
+					['FOB_INIT',['',(format [localize 'STR_QS_Notif_047',(([_module_fob_activeRegion] call (missionNamespace getVariable 'QS_data_fobs')) # 5)])]] remoteExec ['QS_fnc_showNotification',-2,_false];
 				};
 			} else {
 				//comment 'RELEVANT FOB IS ALREADY CREATED, MANAGE IT HERE';
@@ -2663,7 +2657,7 @@ for '_x' from 0 to 1 step 0 do {
 							_module_fob_respawn_ticketsAdded = _ve getVariable ['QS_medicalVehicle_reviveTickets',(getNumber ((configOf _ve) >> 'transportSoldier'))];
 						};
 						QS_module_fob_flag setVariable ['QS_deploy_tickets',(QS_module_fob_flag getVariable ['QS_deploy_tickets',0]) + _module_fob_respawn_ticketsAdded,_true];
-						0 = ['sideChat',[_west,'HQ'],(format ['%3 %1 %4 %2',_module_fob_respawn_ticketsAdded,(QS_module_fob_flag getVariable ['QS_deploy_tickets',0]),localize 'STR_QS_Chat_041',localize 'STR_QS_Chat_042'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+						0 = ['sideChat',[_west,'HQ'],(format [localize 'STR_QS_Chat_041',_module_fob_respawn_ticketsAdded,(QS_module_fob_flag getVariable ['QS_deploy_tickets',0])])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 						if (!isNil {_ve getVariable 'QS_transporter'}) then {
 							if (alive ((_ve getVariable 'QS_transporter') # 1)) then {
 								0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_ve getVariable 'QS_transporter') # 2),((_ve getVariable 'QS_transporter') # 0),4];
@@ -2937,7 +2931,7 @@ for '_x' from 0 to 1 step 0 do {
 							};
 							_QS_module_customMission_played = _true;
 							missionNamespace setVariable ['QS_customAO_active',_true,_false];
-							diag_log '***** Spawning custom AO *****';
+							diag_log localize 'STR_QS_DiagLogs_096';
 							missionNamespace setVariable ['QS_customAO_script',(0 spawn (missionNamespace getVariable _QS_module_customMission_selected)),_false];
 						};
 					};
@@ -2945,7 +2939,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		} else {
 			if (scriptDone (missionNamespace getVariable 'QS_customAO_script')) then {
-				diag_log '***** Custom AO finished *****';
+				diag_log localize 'STR_QS_DiagLogs_097';
 				missionNamespace setVariable ['QS_customAO_active',_false,_false];
 			};
 		};
@@ -3503,7 +3497,7 @@ for '_x' from 0 to 1 step 0 do {
 										{(([_posCheck,25,[_west,_civilian],_allPlayers,0] call _fn_serverDetector) isEqualTo [])}
 									) then {
 										if (
-											(_isDynamicVehicle && (!_isActiveDLC)) || 
+											(_isDynamicVehicle && (!_isActiveDLC)) ||
 											{(_v isKindOf 'Helicopter')}
 										) then {
 											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
@@ -3615,7 +3609,7 @@ for '_x' from 0 to 1 step 0 do {
 										_v setVariable ['QS_deploy_enemyState',((_v getVariable ['QS_deploy_enemyState',0]) - 1),_false];
 									} else {
 										// Points at 0, kill
-										(format ['%1',localize 'STR_QS_Text_434']) remoteExec ['systemChat',-2];
+										(localize 'STR_QS_Text_434') remoteExec ['systemChat',-2];
 										_v setDamage [1,_true];
 									};
 								} else {
@@ -4000,7 +3994,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		} count _allGroups;
 		if ((count allDeadMen) > 75) then {
-			diag_log format ['***** CLEANUP ***** %1 ***** Deleting dead * overflow *****',time];
+			diag_log (format [localize 'STR_QS_DiagLogs_098',time]);
 			{
 				if (!(_x getVariable ['QS_dead_prop',_false])) then {
 					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
@@ -4100,7 +4094,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (!isNil {missionNamespace getVariable 'QS_weather_simulateStorm'}) then {
 						_QS_simulateEvent_storm = _true;
 						missionNamespace setVariable ['QS_weather_simulateStorm',nil,_false];
-						(format ['"%2" - %1 %3',_QS_worldName,localize 'STR_QS_Chat_104',localize 'STR_QS_Chat_105']) remoteExec ['systemChat',-2,_false];
+						(format [localize 'STR_QS_Chat_104',_QS_worldName]) remoteExec ['systemChat',-2,_false];
 					};
 				};
 				if (_QS_simulateWind) then {
@@ -4121,7 +4115,7 @@ for '_x' from 0 to 1 step 0 do {
 								_QS_windNextValue = _QS_windWorkingArray # 0;
 								setWind _QS_windNextValue;
 								_QS_windWorkingArray deleteAt 0;
-								diag_log format ['***** WEATHER Setting next wind ***** %1 *****',_QS_windNextValue];
+								diag_log (format [localize 'STR_QS_DiagLogs_099',_QS_windNextValue]);
 								_QS_dayTime_wind = round _QS_dayTime;
 							};
 						};
@@ -4158,7 +4152,7 @@ for '_x' from 0 to 1 step 0 do {
 									_QS_overcastNextValue = _QS_overcastWorkingArray # 0;
 									1800 setOvercast _QS_overcastNextValue;
 									_QS_overcastWorkingArray deleteAt 0;
-									diag_log format ['***** WEATHER setting next overcast ***** %1 *****',_QS_overcastNextValue];
+									diag_log (format [localize 'STR_QS_DiagLogs_100',_QS_overcastNextValue]);
 									_QS_dayTime_overcast = round _QS_dayTime;
 								};
 							};
@@ -4943,7 +4937,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (missionNamespace getVariable ['QS_airbaseDefense',_false]) then {
 					_airDefenseAvailable = _false;
 					_airDefenseOnline = _true;
-					['sideChat',[_west,'AirBase'],'Air defense activated!'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+					['sideChat',[_west,'AirBase'],localize 'STR_QS_Chat_177'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 					_airDefenseArray = [(missionNamespace getVariable ['QS_enemyCasArray2',[]])] call _fn_airbaseDefense;
 				};
 			} else {
@@ -4954,7 +4948,7 @@ for '_x' from 0 to 1 step 0 do {
 							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							deleteVehicle _x;
 						} count (_airDefenseArray # 0);
-						['sideChat',[_west,'AirBase'],'Air defense offline'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+						['sideChat',[_west,'AirBase'],localize 'STR_QS_Chat_178'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 					};
 				};
 				if (_timeNow > (_airDefenseArray # 2)) then {
@@ -5129,7 +5123,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 					if (_QS_module_opsec_deleteMarker) then {
 						_QS_module_opsec_deleteMarker = _false;
-						diag_log format ['***** ANTI-HACK ***** Deleted invalid marker * %1 * %2 * %3 * %4 *****',_x,(markerText _x),(markerAlpha _x),(markerPos _x)];
+						diag_log (format [localize 'STR_QS_DiagLogs_101',_x,(markerText _x),(markerAlpha _x),(markerPos _x)]);
 						deleteMarker _x;
 						_QS_allMapMarkers set [_forEachIndex,''];
 					};
@@ -5499,7 +5493,7 @@ for '_x' from 0 to 1 step 0 do {
 					(_QS_module_restart_hourCurrent isEqualTo _QS_module_restart_hour) &&
 					{((!_QS_module_restart_isDynamic) || {(_QS_module_restart_isDynamic && (missionNamespace getVariable ['QS_system_restartEnabled',_true]))})}
 				) then {
-					diag_log '***** Server restarting as scheduled *****';
+					diag_log localize 'STR_QS_DiagLogs_102';
 					_QS_module_restart_isRestarting = _true;
 					0 spawn _QS_module_restart_script;
 				};
@@ -5509,8 +5503,8 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	sleep 3;
 };
-diag_log format ['* %1 ***** QS ***** DEBUG ***** MISSION ENGINE TERMINATED *****',diag_tickTime];
+diag_log (format [localize 'STR_QS_DiagLogs_103',diag_tickTime]);
 if (!(_resumeScript)) then {
-	['hint',(parseText 'Uho! It appears something has gone wrong. Please report this error code to staff:<br/><br/>811<br/><br/>Thank you for your assistance.')] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
+	['hint',(parseText localize 'STR_QS_Hints_190')] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 };
 0 spawn _QS_module_restart_script;

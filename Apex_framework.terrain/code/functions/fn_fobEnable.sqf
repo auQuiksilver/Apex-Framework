@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -53,8 +53,8 @@ _flag setVariable ['QS_module_fob_flag',_tickets,TRUE];
 	}
 ] remoteExec ['call',-2,FALSE];
 [_flag,_side,'',FALSE,objNull,1] call (missionNamespace getVariable 'QS_fnc_setFlag');
-['sideChat',[WEST,'HQ'],(format ['%3 %1 %4 %2!',(missionNamespace getVariable 'QS_module_fob_displayName'),_activatorName,localize 'STR_QS_Chat_047',localize 'STR_QS_Chat_048'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-['FOB_UPDATE',['',localize 'STR_QS_Notif_055']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_047',(missionNamespace getVariable 'QS_module_fob_displayName'),_activatorName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+['FOB_UPDATE',['',(format [localize 'STR_QS_Notif_055',(missionNamespace getVariable 'QS_module_fob_displayName')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 0 spawn {
 	sleep 2;
 	{

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/1/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -297,7 +297,7 @@ if (_mode isEqualTo 'MODE10') exitWith {
 			{getText ((configOf _child) >> 'displayName')},
 			TRUE
 		];
-		50 cutText [format ['%1 %2',localize 'STR_QS_Text_320',_child getVariable ['QS_ST_customDN',_dn]],'PLAIN DOWN',0.5];
+		50 cutText [format [localize 'STR_QS_Text_320',_child getVariable ['QS_ST_customDN',_dn]],'PLAIN DOWN',0.5];
 	};
 	[106,_parent,_child,_return1] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	_child spawn {
@@ -406,7 +406,7 @@ if (
 				actionKeysNames ['User17',1] trim ['"',0],
 				localize 'STR_QS_Text_366'
 			] select ((actionKeysNamesArray 'User17') isEqualTo []);
-			_text = format ['
+			_text = (format ['
 				<t align="left">%7</t><t align="right">[%1]</t><br/><br/>
 				<t align="left">%8</t><t align="right">[%2]</t><br/><br/>
 				<t align="left">%9</t><t align="right">[%3] [%4] OR [%11] [%12]</t><br/><br/>
@@ -424,7 +424,7 @@ if (
 				localize 'STR_QS_Hints_155',
 				_customUpText,
 				_customDownText
-			];
+			]);
 			[_text,TRUE,TRUE,localize 'STR_QS_Hints_151',TRUE] call QS_fnc_hint;
 		};
 		uiNamespace setVariable ['QS_overspeed_warningShown',FALSE];
@@ -524,7 +524,6 @@ if (
 							['MODE14',(ropeAttachedTo _weakLink),ropes (ropeAttachedTo _weakLink),_weakLink] call QS_fnc_simplePull;
 							50 cutText [
 								format [
-									'%1 (%2)',
 									localize 'STR_QS_Text_327',
 									(_vehicle getVariable ['QS_towing_maxTrain_1',(localNamespace getVariable ['QS_maxTrain_default',2])])
 								],
@@ -542,7 +541,7 @@ if (
 							{getText ((configOf _priorLink) >> 'displayName')},
 							TRUE
 						];
-						_text = format [
+						_text = (format [
 							'<t align="left">%1</t> <t align="right">%2 %8</t><br/>
 							<t align="left">%3</t> <t align="right">%4 %8</t><br/><br/>
 							<t align="left">%10</t> <t align="right">%5 x</t><br/>
@@ -560,7 +559,7 @@ if (
 							localize 'STR_QS_Hints_158',
 							localize 'STR_QS_Hints_159',
 							localize 'STR_QS_Hints_160'
-						];
+						]);
 						[_text,TRUE,TRUE,localize 'STR_QS_Hints_161',TRUE] call QS_fnc_hint;
 						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.5];
 						['MODE14',(ropeAttachedTo _weakLink),ropes (ropeAttachedTo _weakLink)] call QS_fnc_simplePull;
@@ -799,7 +798,7 @@ if (_mode isEqualTo 'MODE22') exitWith {
 			((findDisplay 46) displayCtrl 31082) ctrlShow TRUE;
 		};
 		((findDisplay 46) displayCtrl 31081) progressSetPosition (_ropeLength / _max);
-		((findDisplay 46) displayCtrl 31082) ctrlSetText (format ['%2 %1 m',(round _ropeLength),localize 'STR_QS_Menu_107']);
+		((findDisplay 46) displayCtrl 31082) ctrlSetText (format [localize 'STR_QS_Menu_107',(round _ropeLength)]);
 		((findDisplay 46) displayCtrl 31080) ctrlCommit 0;
 		((findDisplay 46) displayCtrl 31081) ctrlCommit 0;
 		((findDisplay 46) displayCtrl 31082) ctrlCommit 0;

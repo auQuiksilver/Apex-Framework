@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	18/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -128,7 +128,7 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 		private _infGroupType = selectRandomWeighted _infTypes;
 		_groupComposition = QS_core_groups_map getOrDefault [_infGroupType,[]];
 		if (_groupComposition isEqualTo []) exitWith {
-			diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_infGroupType]);
+			diag_log (format [localize 'STR_QS_DiagLogs_041',_infGroupType]);
 		};
 		_groupComposition = _groupComposition apply {_x # 0};
 		_maxGrpSize = (count _groupComposition) - 1;
@@ -222,7 +222,7 @@ if (_type isEqualTo 'HQ') exitWith {
 			private _infGroupType = selectRandomWeighted _infTypes;
 			_groupComposition = QS_core_groups_map getOrDefault [_infGroupType,[]];
 			if (_groupComposition isEqualTo []) exitWith {
-				diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_infGroupType]);
+				diag_log (format [localize 'STR_QS_DiagLogs_041',_infGroupType]);
 			};
 			_groupComposition = _groupComposition apply {_x # 0};
 			_maxGrpSize = (count _groupComposition) - 1;

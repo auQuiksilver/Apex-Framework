@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	7/11/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -40,7 +40,7 @@ if (isDedicated) then {
 		private ['_array','_vehicle','_fire','_wreckType','_wreck','_fireObj','_randomPos','_position','_fires','_dir','_configClass','_model'];
 		_array = missionNamespace getVariable ['QS_firesStuff',[]];
 		_fires = missionNamespace getVariable ['QS_fires',[]];
-		if (_fires isNotEqualTo []) exitWith {diag_log '***** FIRES ***** already active *****';};
+		if (_fires isNotEqualTo []) exitWith {diag_log localize 'STR_QS_DiagLogs_026';};
 		_wreckTypes = ['fires_wrecktypes_1'] call QS_data_listVehicles;
 		_wreckType = '';
 		_wreck = objNull;

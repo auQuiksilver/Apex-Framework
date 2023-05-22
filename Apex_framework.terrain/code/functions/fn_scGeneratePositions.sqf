@@ -6,13 +6,13 @@ Author:
 
 Last Modified:
 
-	19/12/2017 A3 1.80 by Quiksilver
+	01/05/2023 A3 1.80 by Quiksilver
 
 Description:
 
 	Generate SC Positions
 ____________________________________________________________________________/*/
-diag_log '***** SC * Generating positions * 0 *****';
+diag_log localize 'STR_QS_DiagLogs_164';
 params ['_numberOfSectors','_module_fob_enabled','_scAreaPolygon'];
 private _playerCount = count allPlayers;
 private _aoSize = 10;
@@ -145,7 +145,7 @@ private _foundPositionType = '';
 _timeLimitToFind = diag_tickTime + 30;
 _timeLimitFailsafe = diag_tickTime + 60;
 private _processFailed = FALSE;
-diag_log format ['***** SC * Generating positions * 0.5 * Reference Position: %1 *****',_referencePosition];
+diag_log (format [localize 'STR_QS_DiagLogs_165',_referencePosition]);
 for '_x' from 0 to 1 step 0 do {
 	_attempts = _attempts + 1;
 	_foundPositionData = _referencePosition call (missionNamespace getVariable 'QS_fnc_scFindPosition');
@@ -204,5 +204,5 @@ for '_x' from 0 to 1 step 0 do {
 	_minDistBetweenSectors = _minDistBetweenSectors - 5;
 	_minDistFromUsedPositions = _minDistFromUsedPositions - 2;
 };
-diag_log '***** SC * Generating positions * 1 *****';
+diag_log localize 'STR_QS_DiagLogs_166';
 (missionNamespace getVariable 'QS_virtualSectors_positions')

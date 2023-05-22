@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	1/09/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -106,7 +106,9 @@ ___________________________________________/*/
 	localize 'STR_A3_action_useCatapult',
 	localize 'STR_QS_Interact_046',			// Initiate Launch Sequence
 	localize 'STR_QS_Interact_047',			// Launch
+	localize 'STR_QS_Interact_142',			// Launch/Piste Çıkar
 	localize 'STR_QS_Interact_048',			// Retract
+	localize 'STR_QS_Interact_143',			// Retract/Hangara Al
 	localize 'STR_QS_Interact_017',			// Stabilise
 	localize 'STR_QS_Interact_107',			// Inspect
 	localize 'STR_QS_Interact_045',			// Self destruct

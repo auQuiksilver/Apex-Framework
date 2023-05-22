@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/02/2023 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -72,28 +72,11 @@ if (_attachedObjects isNotEqualTo []) then {
 					TRUE
 				];
 				if (isClass ((configOf _t) >> 'VehicleTransport' >> 'Carrier')) then {
-					50 cutText [
-						(format [
-							'%1 %3 %2',
-							(_obj getVariable ['QS_ST_customDN',_dn1]),
-							_dn,
-							localize 'STR_QS_Text_114'
-						]),
-						'PLAIN DOWN',
-						0.4
-					];
+					50 cutText [(format [localize 'STR_QS_Text_114',(_obj getVariable ['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> (typeOf _obj) >> 'displayName'))]),_dn]),'PLAIN DOWN',0.4];
 				} else {
 					_capacity = [3,_obj,_t] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams');
 					_capacity params ['_currentCargoVolume','_cargoMaxCapacity','_currentCargoMass','_cargoMaxMass'];
-					_text = format [
-						'<t align="center">%6: %1 / %2<t/><br/><t align="center">%5: %3 / %4<t/>',
-						round _currentCargoMass,
-						round _cargoMaxMass,
-						parseNumber (_currentCargoVolume toFixed 2),
-						round _cargoMaxCapacity,
-						localize 'STR_QS_Utility_031',
-						localize 'STR_QS_Utility_032'
-					];
+					_text = (format [localize 'STR_QS_Utility_036',round _currentCargoMass,round _cargoMaxMass,parseNumber (_currentCargoVolume toFixed 2),round _cargoMaxCapacity]);
 					50 cutText [_text,'PLAIN DOWN',0.666, TRUE, TRUE];
 				};
 			};
@@ -109,7 +92,7 @@ if (_obj isKindOf 'CAManBase') then {
 			};
 			['switchMove',_obj,(['AinjPpneMstpSnonWnonDnon','acts_InjuredLyingRifle02'] select (isPlayer _obj))] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 			player playAction 'released';
-			50 cutText [(format ['%1 %3 %2',(name _obj),_dn,localize 'STR_QS_Text_114']),'PLAIN DOWN',0.3];
+			50 cutText [(format [localize 'STR_QS_Text_114',(name _obj),_dn]),'PLAIN DOWN',0.3];
 		} else {
 			50 cutText [localize 'STR_QS_Text_116','PLAIN DOWN',0.3];
 		};
@@ -126,7 +109,7 @@ if (_obj isKindOf 'CAManBase') then {
 		} else {
 			[3,_obj,_t] remoteExec ['QS_fnc_remoteExec',_obj,FALSE];
 		};
-		50 cutText [(format ['%1 %3 %2',(name _obj),_dn,localize 'STR_QS_Text_114']),'PLAIN DOWN',0.3];
+		50 cutText [(format [localize 'STR_QS_Text_114',(name _obj),_dn]),'PLAIN DOWN',0.3];
 	};
 	['switchMove',player,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 };

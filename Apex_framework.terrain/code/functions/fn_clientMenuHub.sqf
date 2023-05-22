@@ -20,7 +20,6 @@ if (_type isEqualTo 'onLoad') exitWith {
 	_title = _display displayCtrl 1802;
 	_title ctrlSetText (localize 'STR_QS_Menu_027');
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
-	
 	/*/======================= EDIT BELOW =======================/*/ 
 	_ctrlB1 = _display displayCtrl 1804;
 	_ctrlB1 ctrlSetStructuredText (parseText (format ["<a href=%1>%2</a>",((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) # 0),((call (missionNamespace getVariable ['QS_missionConfig_commURL',{}])) # 1)]));
@@ -39,26 +38,12 @@ if (_type isEqualTo 'onLoad') exitWith {
 	_ctrlB4 ctrlSetToolTip ((call (missionNamespace getVariable ['QS_missionConfig_monetizeURL',{}])) # 2);
 	_ctrlB4 ctrlEnable TRUE;	
 	/*/======================= EDIT ABOVE =======================/*/ 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	(_display displayCtrl 1806) ctrlSetText (localize 'STR_QS_Menu_028');
 	(_display displayCtrl 1806) ctrlEnable TRUE;
 	(_display displayCtrl 1807) ctrlSetText (localize 'STR_QS_Menu_029');
 	(_display displayCtrl 1807) ctrlEnable TRUE;
 	(_display displayCtrl 1808) ctrlEnable FALSE;
 	(_display displayCtrl 1810) ctrlEnable TRUE;
-
 	/*/======================= DO NOT EDIT BELOW =======================/*/
 	/*/ 
 	Please do not tamper with the below lines.

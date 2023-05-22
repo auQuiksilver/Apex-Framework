@@ -51,12 +51,12 @@ if ((_adv) && (_text isEqualType '')) then {
 	} else {
 		format ["[<t color = '#FF0000'>%1</t>]",(toUpper (localize 'STR_A3_Hints_unmapped'))];
 	};
-	_partString = format [(localize 'STR_A3_Hints_recall'),_keyString];
-	_endPartString = format ["%4<br/><br/><t align='left' size='%2' color='%3'>%1</t>",_partString,_textSizeSmall,_shadowColor,_invChar02];
+	_partString = (format [(localize 'STR_A3_Hints_recall'),_keyString]);
+	_endPartString = (format ["%4<br/><br/><t align='left' size='%2' color='%3'>%1</t>",_partString,_textSizeSmall,_shadowColor,_invChar02]);
 	private _advHint = '';
 	if (_advTitle isNotEqualTo '') then {
 		if (_advTitle isEqualType '') then {
-			_advHint = format ["<t size = '1.25' align='left' font='RobotoCondensedBold'>%1</t><br/><br/>",(toUpper _advTitle)];
+			_advHint = (format ["<t size = '1.25' align='left' font='RobotoCondensedBold'>%1</t><br/><br/>",(toUpper _advTitle)]);
 		};
 	};
 	_advHint = _advHint + _text;

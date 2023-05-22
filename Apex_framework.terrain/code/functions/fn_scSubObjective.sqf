@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	10/08/2022 A3 2.10 by Quiksilver
+	01/05/2025 A3 2.10 by Quiksilver
 
 Description:
 
@@ -40,7 +40,7 @@ ____________________________________________________________________________/*/
 params ['_type','_subType','_data'];
 private _return = [];
 if (_type isEqualTo 0) exitWith {
-	diag_log '***** SC SUB OBJ ***** DELETE *****';
+	diag_log localize 'STR_QS_DiagLogs_169';
 	if (_subType isEqualTo 'INTEL') then {
 	
 	};
@@ -59,7 +59,7 @@ if (_type isEqualTo 0) exitWith {
 	_return;
 };
 if (_type isEqualTo 1) exitWith {
-	diag_log '***** SC SUB OBJ ***** CREATE *****';
+	diag_log localize 'STR_QS_DiagLogs_170';
 	_basePosition = markerPos 'QS_marker_base_marker';
 	_fobPosition = markerPos 'QS_marker_module_fob';
 	_centerPos = missionNamespace getVariable 'QS_AOpos';
@@ -258,7 +258,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker1 setMarkerShapeLocal 'ICON';
 			_marker1 setMarkerTypeLocal 'mil_dot';
 			_marker1 setMarkerColorLocal 'ColorOPFOR';
-			_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_025']);
+			_marker1 setMarkerTextLocal (format [localize 'STR_QS_Marker_025',(toString [32,32,32])]);
 			_marker1 setMarkerSizeLocal [0.5,0.5];
 			_marker1 setMarkerPosLocal _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') pushBack _marker1;
@@ -271,12 +271,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker2 setMarkerSizeLocal [100,100];
 			_marker2 setMarkerPosLocal _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_1_markers') pushBack _marker2;
-			_description = format [
-				'%1<br/><br/>%2<br/><br/>%3',
-				localize 'STR_QS_Task_055',
-				localize 'STR_QS_Task_056',
-				localize 'STR_QS_Task_057'
-			];
+			_description = localize 'STR_QS_Task_055';
 			_title = localize 'STR_QS_Task_058';
 			_tooltip = localize 'STR_QS_Task_059';
 			_icon = 'intel';
@@ -400,7 +395,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker1 setMarkerShapeLocal 'ICON';
 			_marker1 setMarkerTypeLocal 'mil_dot';
 			_marker1 setMarkerColorLocal 'ColorOPFOR';
-			_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_026']);
+			_marker1 setMarkerTextLocal (format [localize 'STR_QS_Marker_079',(toString [32,32,32])]);
 			_marker1 setMarkerSizeLocal [0.5,0.5];
 			_marker1 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_2_markers') pushBack _marker1;
@@ -413,12 +408,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker2 setMarkerSizeLocal [100,100];
 			_marker2 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_2_markers') pushBack _marker2;
-			_description = format [
-				'%1<br/><br/>%2<br/><br/>%3',
-				localize 'STR_QS_Task_060',
-				localize 'STR_QS_Task_061',
-				localize 'STR_QS_Task_062'
-			];
+			_description = localize 'STR_QS_Task_060';
 			_title = localize 'STR_QS_Task_063';
 			_tooltip = localize 'STR_QS_Task_064';
 			_icon = 'destroy';
@@ -535,7 +525,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker1 setMarkerShapeLocal 'ICON';
 			_marker1 setMarkerTypeLocal 'mil_dot';
 			_marker1 setMarkerColorLocal 'ColorOPFOR';
-			_marker1 setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_023']);
+			_marker1 setMarkerTextLocal (format [localize 'STR_QS_Marker_023',(toString [32,32,32])]);
 			_marker1 setMarkerSizeLocal [0.5,0.5];
 			_marker1 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_3_markers') pushBack _marker1;
@@ -549,13 +539,7 @@ if (_type isEqualTo 1) exitWith {
 			_marker2 setMarkerPos _uncertaintyPos;
 			(missionNamespace getVariable 'QS_virtualSectors_sub_3_markers') pushBack _marker2;
 			missionNamespace setVariable ['QS_virtualSectors_sd_position',_position,FALSE];
-			_description = format [
-				'%1<br/><br/>%2<br/><br/>%3<br/><br/>%4',
-				localize 'STR_QS_Task_065',
-				localize 'STR_QS_Task_066',
-				localize 'STR_QS_Task_067',
-				localize 'STR_QS_Task_068'
-			];
+			_description = localize 'STR_QS_Task_065';
 			_title = localize 'STR_QS_Task_069';
 			_tooltip = localize 'STR_QS_Task_069';
 			_icon = 'rearm';
@@ -599,7 +583,7 @@ if (_type isEqualTo 1) exitWith {
 	_return;
 };
 if (_type isEqualTo 2) exitWith {
-	diag_log '***** SC SUB OBJ ***** EVALUATE *****';
+	diag_log localize 'STR_QS_DiagLogs_171';
 	_return = _this;
 	if (_subType isEqualTo 'INTEL') then {
 	

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	25/06/2016 A3 1.62 by Quiksilver
+	01/05/2023 A3 1.62 by Quiksilver
 	
 Description:
 
@@ -229,7 +229,7 @@ if (worldName isEqualTo 'Enoch') then {
 	];
 };
 
-if (_QS_locationsUrban isEqualTo []) exitWith {diag_log '***** fn_secureUrban ***** No valid locations *****';};
+if (_QS_locationsUrban isEqualTo []) exitWith {diag_log localize 'STR_QS_DiagLogs_180';};
 _QS_approvedBuildingTypes = [
 	'Land_i_House_Small_03_V1_F',
 	'Land_u_House_Big_02_V1_F',
@@ -480,7 +480,7 @@ _QS_buildingList = [];
 	};
 } count _QS_buildingList_pre;
 
-if (_QS_buildingList isEqualTo []) exitWith {diag_log format ['***** DEBUG ***** secureUrban.sqf ***** No building positions ***** %1 *****',_QS_locationCenterName];};
+if (_QS_buildingList isEqualTo []) exitWith {diag_log (format [localize 'STR_QS_DiagLogs_181',_QS_locationCenterName]);};
 
 for '_x' from 0 to 2 step 1 do {
 	_QS_building = selectRandom _QS_buildingList;
@@ -742,7 +742,7 @@ _QS_enemyDetected = FALSE;
 _QS_checkEnemyDelay = time + 10;
 _QS_bombTimer_started = FALSE;
 missionNamespace setVariable ['QS_mission_urban_objectsSecured',0,FALSE];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_046']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_046',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _QS_locationCenterPos;
 	_x setMarkerAlpha 1;
@@ -867,7 +867,7 @@ for '_x' from 0 to 1 step 0 do {
 			['QS_IA_TASK_SM_0',TRUE,_QS_enemyDetected_endTime] call (missionNamespace getVariable 'QS_fnc_taskSetTimer');
 			_QS_bombTimer_started = TRUE;
 			_QS_urbanTimerBroadcast_delay = time + 25;
-			_QS_text = format [localize 'STR_QS_Chat_156',[((round(_QS_enemyDetected_endTime - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')];
+			_QS_text = (format [localize 'STR_QS_Chat_156',[((round(_QS_enemyDetected_endTime - serverTime))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')]);
 			['systemChat',_QS_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
@@ -881,7 +881,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_object1 setPos [-5000,-5000,0];
 					(_markers # 0) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
-					['ST_URBAN',[localize 'STR_QS_Notif_091',(format ['%1 / 3 %2',(missionNamespace getVariable 'QS_mission_urban_objectsSecured'),localize 'STR_QS_Notif_115'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['ST_URBAN',[localize 'STR_QS_Notif_091',(format [localize 'STR_QS_Notif_115',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
 			};
 		};
@@ -895,7 +895,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_object2 setPos [-5000,-5000,0];
 					(_markers # 1) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
-					['ST_URBAN',[localize 'STR_QS_Notif_091',(format ['%1 / 3 %2',(missionNamespace getVariable 'QS_mission_urban_objectsSecured'),localize 'STR_QS_Notif_115'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['ST_URBAN',[localize 'STR_QS_Notif_091',(format [localize 'STR_QS_Notif_115',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
 			};
 		};
@@ -909,7 +909,7 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_object3 setPos [-5000,-5000,0];
 					(_markers # 2) setMarkerAlpha 0;
 					missionNamespace setVariable ['QS_mission_urban_objectsSecured',((missionNamespace getVariable 'QS_mission_urban_objectsSecured') + 1),FALSE];
-					['ST_URBAN',[localize 'STR_QS_Notif_091',(format ['%1 / 3 %2',(missionNamespace getVariable 'QS_mission_urban_objectsSecured'),localize 'STR_QS_Notif_115'])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+					['ST_URBAN',[localize 'STR_QS_Notif_091',(format [localize 'STR_QS_Notif_115',(missionNamespace getVariable 'QS_mission_urban_objectsSecured')])]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 				};
 			};
 		};
@@ -960,7 +960,7 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_bombTimer_started) then {
 		/*/
 		if (time > _QS_urbanTimerBroadcast_delay) then {
-			_QS_text = format ['CSAT will destroy the intel in %1',[((round(_QS_enemyDetected_endTime - time))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')];
+			_QS_text = (format [localize 'STR_QS_Chat_156',[((round(_QS_enemyDetected_endTime - time))/60)+0.01,'HH:MM'] call (missionNamespace getVariable 'BIS_fnc_timeToString')]);
 			['systemChat',_QS_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			_QS_urbanTimerBroadcast_delay = time + 25;
 		};

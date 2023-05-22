@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/12/2016 A3 1.66 by Quiksilver
+	01/05/2023 A3 1.66 by Quiksilver
 	
 Description:
 
@@ -25,10 +25,10 @@ _blacklistedString = ['profilename_blacklisted_text_1'] call QS_data_listOther;
 		if (userInputDisabled) then {
 			disableUserInput FALSE;
 		};
-		['systemChat',(format ['%2 %1 %3',profileName,localize 'STR_QS_Chat_082',localize 'STR_QS_Chat_084'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+		['systemChat',(format [localize 'STR_QS_Chat_084',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		endMission 'QS_RD_end_5';
 		[ 
-			(format ['%2 ( %1 )',_x,localize 'STR_QS_Menu_108']),
+			(format [localize 'STR_QS_Menu_108',_x]),
 			localize 'STR_QS_Menu_109',
 			TRUE, 
 			FALSE, 
@@ -55,10 +55,10 @@ _reservedClients = [
 			if (userInputDisabled) then {
 				disableUserInput FALSE;
 			};
-			['systemChat',(format ['%2 %1 %3',profileName,localize 'STR_QS_Chat_082',localize 'STR_QS_Chat_085'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['systemChat',(format [localize 'STR_QS_Chat_085',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			endMission 'QS_RD_end_5';
 			[ 
-				format ['%1 (%2)',localize 'STR_QS_Menu_110',_reservedName],
+				format [localize 'STR_QS_Menu_110',_reservedName],
 				localize 'STR_QS_Menu_109',
 				TRUE, 
 				FALSE, 

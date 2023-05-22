@@ -1,1 +1,1 @@
-//systemChat format ['fn_clientEventOnMiniMap * %1',_this];
+//systemChat (format ['fn_clientEventOnMiniMap * %1',_this]);

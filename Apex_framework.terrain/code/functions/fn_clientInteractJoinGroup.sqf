@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/04/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 
 Description:
 
@@ -21,4 +21,4 @@ if (
 ) exitWith {};
 [player] joinSilent (group _t);
 player playActionNow 'gestureHi';
-50 cutText [(format ['%1 ( %2 )',localize 'STR_QS_Text_113',(groupID (group _t))]),'PLAIN DOWN'];
+50 cutText [(format [localize 'STR_QS_Text_113',(groupID (group _t))]),'PLAIN DOWN'];

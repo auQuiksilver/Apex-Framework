@@ -1,3 +1,17 @@
+/*
+File: QS_data_radioTower_1.sqf
+Author:
+
+	Quiksilver
+	
+Last modified:
+
+	01/05/2023 A3 1.86 by Quiksilver
+	
+Description:
+
+	 Radio Tower
+__________________________________________________*/
 [
 	["Land_TTowerBig_2_F",[0,0,0],0,[],TRUE,TRUE,FALSE,{
 		_tower = _this # 0;
@@ -22,9 +36,9 @@
 					if (isPlayer _instigator) then {
 						_name = name _instigator;
 						if ((random 1) > 0.5) then {
-							['sideChat',[WEST,'HQ'],(format ['%1 (%2) %3',_name,(groupID (group _instigator)),localize 'STR_QS_Chat_008'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+							['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_008',_name,(groupID (group _instigator))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						} else {
-							['sideChat',[WEST,'HQ'],(format ['%1 (%2) %3',_name,(groupID (group _instigator)),localize 'STR_QS_Chat_009'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+							['sideChat',[WEST,'HQ'],(format [localize 'STR_QS_Chat_009',_name,(groupID (group _instigator))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 						};
 						if ((!(_instigator getUnitTrait 'uavhacker')) && (!(_instigator getUnitTrait 'QS_trait_pilot')) && (!(_instigator getUnitTrait 'QS_trait_fighterPilot'))) then {
 							(missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TOWER',(getPlayerUID _instigator),(name _instigator),1];

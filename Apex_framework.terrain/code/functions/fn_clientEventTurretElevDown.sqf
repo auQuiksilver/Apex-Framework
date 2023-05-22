@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	16/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -35,7 +35,7 @@ if (
 			50 cutText [localize 'STR_QS_Text_324','PLAIN DOWN',0.5];
 		} else {
 			_vehicle setCruiseControl [_speed,TRUE];
-			50 cutText [(format ['%2 %1 %3',_speed,localize 'STR_QS_Text_241',localize 'STR_QS_Text_242']),'PLAIN DOWN',0.5];
+			50 cutText [(format [localize 'STR_QS_Text_241',round _speed]),'PLAIN DOWN',0.5];
 		};
 	};
 };

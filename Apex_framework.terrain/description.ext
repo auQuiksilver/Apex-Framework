@@ -16,11 +16,11 @@ ____________________________________________/*/
 missionProductVersion = "1.5.2";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
-onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
-onLoadMission = "";
+onLoadName = __EVAL("$STR_QS_missionName");			// Invade & Annex			/*/ Visible when loading mission/*/
+onLoadMission = $STR_QS_loadMissionText;
 loadScreen = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
 overviewPicture = __EVAL(selectRandom ["media\images\loadScreens\loading_0.jpg","media\images\loadScreens\loading_1.paa","media\images\loadScreens\loading_2.paa","media\images\loadScreens\loading_3.paa","media\images\loadScreens\loading_4.paa","media\images\loadScreens\loading_5.paa","media\images\loadScreens\loading_6.paa","media\images\loadScreens\loading_7.paa","media\images\loadScreens\loading_8.paa","media\images\loadScreens\loading_9.paa"]);
-overviewText = "";
+overviewText = "$STR_QS_overviewText";
 overviewTextLocked = "";
 onLoadIntro = "";													/*/ Displays a message while the intro is loading./*/
 onLoadIntroTime = 0;												/*/ Time and date displayed while the intro loads. 1 visible, 0 hidden./*/
@@ -60,8 +60,7 @@ overrideFeedback = 1; 									// 0: force default handling, 1+: allow custom ha
 unsafeCVL=1;											// Setting to 0 will disable nighttime AO illumination (ambient fire).  https://community.bistudio.com/wiki/createVehicleLocal
 debriefing = 1;
 
-windyCoef = 0.60;										// How strong is wind sound at altitude. https://community.bistudio.com/wiki/enableEnvironment
-
+windyCoef = 0.60;
 ReviveMode = 0;											// Apex Framework Notes: Keep this as 0.																	//0: disabled, 1: enabled, 2: controlled by player attributes
 ReviveUnconsciousStateMode = 0;							// Apex Framework Notes: Not used																			//0: basic, 1: advanced, 2: realistic
 ReviveRequiredTrait = 1;								// Apex Framework Notes: If set as 0, any role can revive													//0: none, 1: medic trait is required
@@ -77,9 +76,8 @@ respawnDelay = 5;										/*/ Delay prior to respawn/*/
 respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard when killed./*/
 respawnOnStart = 0;
 
-// Security - CfgRemoteExec + CfgDisabledCommands
 #include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
-
+// Security - CfgRemoteExec + CfgDisabledCommands
 // CfgFunctions
 class CfgFunctions {
 	class QS {
@@ -466,11 +464,8 @@ class CfgFunctions {
 			class getActiveDLC {file = "code\functions\fn_getActiveDLC.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
-			
 			class getCargoCapacity {file = "code\functions\fn_getCargoCapacity.sqf";};
 			class getCargoVolume {file = "code\functions\fn_getCargoVolume.sqf";};
-			
-			
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
@@ -749,22 +744,22 @@ class CfgDebriefing {
 };
 class CfgLeaflets {
 	class East {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_115"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
 	class West {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_116"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
 	class Guer {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_117"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
 	class Civ {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_118"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
@@ -2447,7 +2442,7 @@ class QS_RD_client_dialog_menu_main {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			text = "";
-			tooltip = "Score, Rating, Health, Equipment";
+			tooltip = "$STR_QS_Menu_004";
 		};
 		class QS_RD_client_dialog_menu_main_text_2: QS_RD_dialog_RscText {
 			moving = 1;
@@ -2939,7 +2934,7 @@ class QS_RD_client_dialog_menu_options {
 		class QS_RD_client_dialog_menu_options_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Options";
+			text = "$STR_QS_Dialogs_112";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.0955624 * safezoneW;
@@ -4026,8 +4021,8 @@ class QS_RD_client_dialog_menu_hub {
 		class QS_RD_client_dialog_menu_hub_button_8: QS_RD_RscStructuredText {
 			moving = 1;
 			idc = 1811;
-			text = "Donate to Quiksilver";
-			tooltip = "Donate to the Apex Framework designer (Patreon)";
+			text = "$STR_QS_Dialogs_113";
+			tooltip = "$STR_QS_Dialogs_114";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.82 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -5341,7 +5336,7 @@ class QS_RD_client_dialog_menu_inventory1 {
 		class QS_RD_client_dialog_menu_inventory1_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1812;
-			text = "Save";
+			text = "$STR_QS_Dialogs_078";
 			//x = 0.38 * safezoneW + safezoneX;
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.78 * safezoneH + safezoneY;
@@ -5383,7 +5378,7 @@ class QS_RD_client_dialog_menu_inventory1 {
 		class QS_RD_client_dialog_menu_inventory1_button_4: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1815;
-			text = "Edit";
+			text = "$STR_QS_Menu_214";
 			//x = 0.38 * safezoneW + safezoneX;
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.915 * safezoneH + safezoneY;
@@ -5452,7 +5447,7 @@ class QS_RD_client_dialog_menu_inventory1 {
 		class QS_RD_client_dialog_menu_inventory1_progress_1: RscProgress {
 			moving = 1;
 			idc = 1816;
-			text = "My ammobox (800/1000)";
+			text = "$STR_QS_Menu_215";
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.965 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -5706,7 +5701,7 @@ class QS_RD_client_dialog_menu_playerBuild {
 		class QS_RD_client_dialog_menu_playerBuild_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Build";
+			text = "$STR_QS_Interact_129";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.139 * safezoneW;
@@ -5718,7 +5713,7 @@ class QS_RD_client_dialog_menu_playerBuild {
 		class QS_RD_client_dialog_menu_playerBuild_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Build";
+			text = "$STR_QS_Interact_129";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.815 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -5827,7 +5822,7 @@ class QS_RD_client_dialog_menu_deployment {
 		class QS_RD_client_dialog_menu_deployment_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1811;
-			text = "Exit";
+			text = "$STR_QS_Menu_011";
 			x = 0.38 * safezoneW + safezoneX;
 			//y = 0.87 * safezoneH + safezoneY;
 			y = 0.925 * safezoneH + safezoneY;

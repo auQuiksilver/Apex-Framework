@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/10/2018 A3 1.84 by Quiksilver
+	01/01/2023 A3 1.84 by Quiksilver
 	
 Description:
 
@@ -241,7 +241,7 @@ if (!isNil {_object getVariable 'QS_ClientVTexture'}) then {
 	};
 
 };
-diag_log (format ['***** PLAYER DISCONNECT: ***** %1 ***** %2 * %3 ****',time,_uid,_name]);
+diag_log (format [localize 'STR_QS_DiagLogs_107',time,_uid,_name]);
 if (_uid in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
 	[_object] spawn {
 		_object = _this # 0;

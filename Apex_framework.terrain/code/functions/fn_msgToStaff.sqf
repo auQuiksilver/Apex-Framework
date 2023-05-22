@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	10/09/2016 A3 1.62 by Quiksilver
+	01/05/2023 A3 1.62 by Quiksilver
 
 Description:
 
@@ -29,14 +29,14 @@ if (_type isEqualTo 1) then {
 		missionNamespace setVariable ['QS_kiddieActions',[],FALSE];
 	};
 	QS_kiddieAction2 = player addAction [
-		format ['(%2) %3 %1',(name _object),localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_092'],
+		format [localize 'STR_QS_Interact_092',(name _object)],
 		(missionNamespace getVariable 'QS_fnc_actionEjectSuspect'),
 		[_object,'KICK'],
 		99
 	];
 	player setUserActionText [QS_kiddieAction2,((player actionParams QS_kiddieAction2) # 0),(format ["<t size='3'>%1</t>",((player actionParams QS_kiddieAction2) # 0)])];
 	QS_kiddieAction3 = player addAction [
-		format ['(%1) Manual enforcement (do nothing)',localize 'STR_QS_Utility_002',localize 'STR_QS_Interact_093'],
+		format ['%1',localize 'STR_QS_Interact_093'],
 		{
 			{player removeAction _x;} count (missionNamespace getVariable 'QS_kiddieActions');
 			systemChat (localize 'STR_QS_Chat_143');

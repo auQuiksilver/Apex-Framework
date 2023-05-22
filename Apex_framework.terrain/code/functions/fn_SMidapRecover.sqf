@@ -1,12 +1,12 @@
 /*/
-File: idapRecover.sqf
+File: fn_SMidapRecover.sqf
 Author:
 
 	Quiksilver
 	
 Last Modified:
 
-	15/10/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 	
@@ -16,7 +16,7 @@ _________________________________________________/*/
 scriptName 'Side Mission - IDAP Recover';
 _validTerrains = ['Altis','Tanoa','Malden','Enoch'];
 if (!(worldName in _validTerrains)) exitWith {
-	diag_log '***** Side mission IDAP RECOVER invalid terrain *****';
+	diag_log localize 'STR_QS_DiagLogs_175';
 };
 private _allArray = [];
 private _unitArray = [];
@@ -484,7 +484,7 @@ private _uncertainPosition = [
 	((_idapScenePosition # 1) + 250 - (random 600)),
 	0
 ];
-'QS_marker_sideMarker' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_034']);
+'QS_marker_sideMarker' setMarkerTextLocal (format [localize 'STR_QS_Marker_034',(toString [32,32,32])]);
 {
 	_x setMarkerPosLocal _uncertainPosition;
 	_x setMarkerAlpha 1;
@@ -493,17 +493,7 @@ private _uncertainPosition = [
 	'QS_TASK_SM_IDAP_1',
 	TRUE,
 	[
-		(format [
-			'<br/>%1<br/>%2<br/>%3<br/>%4<br/>%5<br/><br/><br/>%6<br/><br/>%7<br/><br/>%8',
-			localize 'STR_QS_Task_085',
-			localize 'STR_QS_Task_086',
-			localize 'STR_QS_Task_087',
-			localize 'STR_QS_Task_088',
-			localize 'STR_QS_Task_089',
-			localize 'STR_QS_Task_090',
-			localize 'STR_QS_Task_091',
-			localize 'STR_QS_Task_092'
-		]),
+		localize 'STR_QS_Task_085',
 		localize 'STR_QS_Task_084',
 		localize 'STR_QS_Task_084'
 	],
@@ -625,7 +615,7 @@ private _sounds = [
 private _unitStabilised = FALSE;
 private _aidMarker = '';
 _aidMarker = createMarker [(format ['QS_marker_aid_%1',(str (random 10e3))]),[0,0,0]];
-_aidMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_035']);
+_aidMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_035',(toString [32,32,32])]);
 _aidMarker setMarkerPosLocal (getPosATL _recoverableUnit);
 _aidMarker setMarkerShapeLocal 'ICON';
 _aidMarker setMarkerSizeLocal [0.5,0.5];
@@ -686,7 +676,7 @@ for '_x' from 0 to 1 step 0 do {
 			missionNamespace setVariable ['QS_sidemission_building',_house,FALSE];
 			_housePosition = position _house;
 			_houseMarker = createMarker [(format ['QS_marker_house_%1',(str (random 10e3))]),[0,0,0]];
-			_houseMarker setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_036']);
+			_houseMarker setMarkerTextLocal (format [localize 'STR_QS_Marker_036',(toString [32,32,32])]);
 			_houseMarker setMarkerAlphaLocal 0;
 			_houseMarker setMarkerPosLocal _housePosition;
 			_houseMarker setMarkerShapeLocal 'ICON';

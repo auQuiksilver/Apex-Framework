@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/05/2018 A3 1.82 by Quiksilver
+	01/05/2023 A3 1.82 by Quiksilver
 	
 Description:
 
@@ -235,7 +235,7 @@ if ('SlingLoadDisplay' in ((infoPanel 'left') + (infoPanel 'right'))) then {
 			((findDisplay 46) displayCtrl 31082) ctrlSetText (localize 'STR_QS_Menu_106');
 		} else {
 			((findDisplay 46) displayCtrl 31081) progressSetPosition (_ropeLength / _max);
-			((findDisplay 46) displayCtrl 31082) ctrlSetText (format ['%2 %1 m',(round _ropeLength),localize 'STR_QS_Menu_107']);
+			((findDisplay 46) displayCtrl 31082) ctrlSetText (format [localize 'STR_QS_Menu_107',(round _ropeLength)]);
 		};
 		((findDisplay 46) displayCtrl 31080) ctrlCommit 0;
 		((findDisplay 46) displayCtrl 31081) ctrlCommit 0;

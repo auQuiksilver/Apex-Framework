@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/01/2019 A3 1.88 by Quiksilver
+	01/05/2023 A3 1.88 by Quiksilver
 	
 Description:
 
@@ -47,7 +47,7 @@ if (_uid in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) the
 	_sLevel = 2;
 };
 if (_cid < 3) exitWith {
-	diag_log format ['***** DEBUG ***** Invalid Client Owner: %1 *****',_cid];
+	diag_log (format [localize 'STR_QS_DiagLogs_134',_cid]);
 };
 /*/ EXTDB3 - Database - Client Registry could go here /*/
 ['HANDLE',['HANDLE_CONNECT',_this]] call (missionNamespace getVariable 'QS_fnc_roles');

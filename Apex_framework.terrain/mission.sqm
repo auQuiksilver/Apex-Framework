@@ -149,8 +149,8 @@ class Mission
 	assetType="Free";
 	class Intel
 	{
-		briefingName="Invade & Annex: Apex Edition";
-		overviewText="Relaxed, combined-arms coop with infantry focus";
+		briefingName=$STR_QS_briefingName;
+		overviewText=$STR_QS_overviewText;
 		startWeather=0.29999998;
 		startWind=0.099999994;
 		startWaves=0.099999994;
@@ -885,7 +885,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=151;
@@ -948,7 +948,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=153;
@@ -1011,7 +1011,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=155;
@@ -1074,7 +1074,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=157;
@@ -1137,7 +1137,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=159;
@@ -1200,7 +1200,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayer=1;
 						isPlayable=1;
 					};
@@ -1262,7 +1262,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=163;
@@ -1325,7 +1325,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=165;
@@ -1388,7 +1388,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=167;
@@ -1451,7 +1451,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=169;
@@ -1514,7 +1514,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=171;
@@ -1577,7 +1577,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=173;
@@ -1640,7 +1640,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=175;
@@ -1703,7 +1703,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=177;
@@ -1766,7 +1766,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=179;
@@ -1829,7 +1829,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=181;
@@ -1892,7 +1892,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=183;
@@ -1955,7 +1955,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=185;
@@ -2018,7 +2018,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=187;
@@ -2081,7 +2081,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=189;
@@ -2144,7 +2144,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=211;
@@ -2207,7 +2207,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=213;
@@ -2270,7 +2270,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=215;
@@ -2333,7 +2333,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=217;
@@ -2396,7 +2396,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=219;
@@ -2459,7 +2459,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=221;
@@ -2522,7 +2522,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=223;
@@ -2585,7 +2585,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=225;
@@ -2648,7 +2648,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=227;
@@ -2711,7 +2711,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=229;
@@ -2774,7 +2774,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=231;
@@ -2837,7 +2837,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=233;
@@ -2900,7 +2900,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=235;
@@ -2963,7 +2963,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=237;
@@ -3026,7 +3026,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=239;
@@ -3089,7 +3089,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=241;
@@ -3152,7 +3152,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=243;
@@ -3215,7 +3215,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=245;
@@ -3278,7 +3278,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=247;
@@ -3341,7 +3341,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=249;
@@ -3404,7 +3404,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=251;
@@ -3467,7 +3467,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=253;
@@ -3530,7 +3530,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=255;
@@ -3593,7 +3593,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=257;
@@ -3656,7 +3656,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=259;
@@ -3719,7 +3719,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=261;
@@ -3782,7 +3782,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=263;
@@ -3845,7 +3845,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=265;
@@ -3908,7 +3908,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=267;
@@ -3971,7 +3971,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=269;
@@ -4034,7 +4034,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=271;
@@ -4097,7 +4097,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=273;
@@ -4160,7 +4160,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=275;
@@ -4223,7 +4223,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=277;
@@ -4286,7 +4286,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=279;
@@ -4349,7 +4349,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=281;
@@ -4410,7 +4410,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=283;
@@ -4471,7 +4471,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=285;
@@ -4532,7 +4532,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=287;
@@ -4595,7 +4595,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=289;
@@ -4656,7 +4656,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=291;
@@ -4719,7 +4719,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=293;
@@ -4782,7 +4782,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=295;
@@ -4845,7 +4845,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=297;
@@ -4908,7 +4908,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=299;
@@ -4971,7 +4971,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=301;
@@ -5034,7 +5034,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=303;
@@ -5097,7 +5097,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=305;
@@ -5160,7 +5160,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=307;
@@ -5223,7 +5223,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=309;
@@ -5286,7 +5286,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=311;
@@ -5349,7 +5349,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=313;
@@ -5412,7 +5412,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=315;
@@ -5475,7 +5475,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=317;
@@ -5538,7 +5538,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=319;
@@ -5601,7 +5601,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=321;
@@ -5664,7 +5664,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=323;
@@ -5725,7 +5725,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=325;
@@ -5786,7 +5786,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=327;
@@ -5849,7 +5849,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						description="Select role ingame";
+						description="$STR_QS_GirRolSec";
 						isPlayable=1;
 					};
 					id=329;

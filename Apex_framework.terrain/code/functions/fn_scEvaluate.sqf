@@ -18,7 +18,7 @@ ____________________________________________________________________________*/
 params ['_type'];
 if (_type isEqualTo 1) exitWith {
 	private _return = TRUE;
-	comment 'If all are owned by WEST';
+	//comment 'If all are owned by WEST';
 	{
 		if ((_x # 10) isNotEqualTo [WEST]) then {
 			_return = FALSE;
@@ -28,7 +28,7 @@ if (_type isEqualTo 1) exitWith {
 };
 if (_type isEqualTo 2) exitWith {
 	private _return = -1;
-	comment 'If winning score achieved';
+	//comment 'If winning score achieved';
 	_scoreWin = missionNamespace getVariable ['QS_virtualSectors_scoreWin',300];
 	{
 		if (_x >= _scoreWin) exitWith {

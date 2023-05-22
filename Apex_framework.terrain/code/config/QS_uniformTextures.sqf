@@ -40,7 +40,7 @@ _validUniform_5 = [
 ];
 private _return = [];
 _return = [
-	[0,'<Empty>','','',[''],''],
+	[0,localize 'STR_QS_Menu_083','','',[''],''],
 	[0,'BDU','A3\characters_f\BLUFOR\Data\clothing_wdl_co.paa','NATO uniform skin',_validUniforms_1,'Bohemia Interactive','media\images\uskins\bdu\bdu.paa'],
 	[0,'Sage','A3\characters_f\BLUFOR\Data\clothing_sage_co.paa','NATO uniform skin',_validUniforms_1,'Bohemia Interactive'],
 	[0,'Bandit','A3\characters_f\common\data\coveralls_bandit_co.paa','Helipilot/Worker coveralls skin',_validUniform_2,'Bohemia Interactive'],

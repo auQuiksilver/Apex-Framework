@@ -4,9 +4,9 @@ Author:
 
 	Quiksilver
 	
-Last Modified: 
+Last Modified:
 
-	1/09/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,7 @@ params ['_type'];
 if (_type isEqualTo 0) then {
 	if (!isDedicated) exitWith {};
 	params ['','_client','_puid','_cid'];
-	if (!isNull (getAssignedCuratorLogic _client)) exitWith {diag_log '***** CURATOR ***** Client already has curator module assigned *****';};
+	if (!isNull (getAssignedCuratorLogic _client)) exitWith {diag_log localize 'STR_QS_DiagLogs_132';};
 	_logicGrp = createGroup [sideLogic,TRUE];
 	_logicGrp setVariable ['isCuratorModuleGroup',TRUE,TRUE];
 	_module = _logicGrp createUnit ['ModuleCurator_F',[-1000,-1000,0],[],0,'NONE'];
@@ -93,7 +93,7 @@ if (_type isEqualTo 0) then {
 		}
 	];
 	_module removeCuratorAddons QS_core_classNames_zeusDisabledAddons_lower;
-	diag_log format ['***** CURATOR ***** Module created for %1 ( %2 ) *****',(name _client),_puid];
+	diag_log (format [localize 'STR_QS_DiagLogs_133',(name _client),_puid]);
 };
 if (_type isEqualTo 1) then {
 	if (isServer || !hasInterface) exitWith {};
@@ -156,7 +156,7 @@ if (_type isEqualTo 1) then {
 								missionNamespace setVariable ['QS_smSuspend',TRUE,TRUE];
 								50 cutText [localize 'STR_QS_Text_214','PLAIN DOWN',0.5];
 								_actionTarget setUserActionText [_actionID,localize 'STR_QS_Interact_104',(format ["<t size='3'>%1</t>",localize 'STR_QS_Interact_104'])];
-								['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_130'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+								['systemChat',(format [localize 'STR_QS_Chat_130',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};
 						} else {
 							_result = [localize 'STR_QS_Menu_141',localize 'STR_QS_Menu_138',localize 'STR_QS_Menu_140',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
@@ -164,7 +164,7 @@ if (_type isEqualTo 1) then {
 								missionNamespace setVariable ['QS_smSuspend',FALSE,TRUE];
 								50 cutText [localize 'STR_QS_Text_215','PLAIN DOWN',0.5];
 								_actionTarget setUserActionText [_actionID,localize 'STR_QS_Interact_088',(format ["<t size='3'>%1</t>",localize 'STR_QS_Interact_088'])];
-								['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_131'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+								['systemChat',(format [localize 'STR_QS_Chat_131',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 							};
 						};
 					},
@@ -194,7 +194,7 @@ if (_type isEqualTo 1) then {
 										missionNamespace setVariable ['QS_forceDefend',-1,TRUE];
 										50 cutText [localize 'STR_QS_Text_216','PLAIN DOWN',0.5];
 										_actionTarget setUserActionText [_actionID,(localize 'STR_QS_Interact_105'),(format ["<t size='3'>%1</t>",(localize 'STR_QS_Interact_105')])];
-										['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_132'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+										['systemChat',(format [localize 'STR_QS_Chat_132',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
 								} else {
 									_result = [localize 'STR_QS_Menu_144',localize 'STR_QS_Menu_142',localize 'STR_QS_Menu_140',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
@@ -203,7 +203,7 @@ if (_type isEqualTo 1) then {
 										missionNamespace setVariable ['QS_aoCycleVar',FALSE,TRUE];
 										50 cutText [localize 'STR_QS_Text_217','PLAIN DOWN',0.5];
 										_actionTarget setUserActionText [_actionID,(localize 'STR_QS_Interact_089'),(format ["<t size='3'>%1</t>",(localize 'STR_QS_Interact_089')])];
-										['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_133'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+										['systemChat',(format [localize 'STR_QS_Chat_133',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 									};
 								};
 							} else {
@@ -231,14 +231,14 @@ if (_type isEqualTo 1) then {
 						if ((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) isNotEqualTo 'ZEUS') then {
 							if (!(missionNamespace getVariable ['QS_customAO_GT_active',FALSE])) then {
 								if (diag_tickTime < (player getVariable ['QS_client_aoCycleCooldown',-1])) exitWith {
-									50 cutText [(format ['%2 %1',(round((player getVariable ['QS_client_aoCycleCooldown',-1]) - diag_tickTime)),localize 'STR_QS_Text_220']),'PLAIN',0.5];
+									50 cutText [(format [localize 'STR_QS_Text_220',(round((player getVariable ['QS_client_aoCycleCooldown',-1]) - diag_tickTime))]),'PLAIN',0.5];
 								};
 								player setVariable ['QS_client_aoCycleCooldown',(diag_tickTime + 60),FALSE];
 								if (!(missionNamespace getVariable ['QS_aoSuspended',FALSE])) then {
 									_result = [localize 'STR_QS_Menu_146',localize 'STR_QS_Menu_142',localize 'STR_QS_Menu_145',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage');
 									if (_result) then {
 										missionNamespace setVariable ['QS_aoCycleVar',TRUE,TRUE];
-										['systemChat',(format ['%1 %2',profileName,localize 'STR_QS_Chat_134'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+										['systemChat',(format [localize 'STR_QS_Chat_134',profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 										50 cutText [localize 'STR_QS_Text_221','PLAIN DOWN',0.5];
 									} else {
 										50 cutText [localize 'STR_QS_Text_222','PLAIN DOWN',0.5];

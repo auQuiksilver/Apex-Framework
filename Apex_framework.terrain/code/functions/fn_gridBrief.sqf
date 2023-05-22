@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	9/12/2017 A3 1.78 by Quiksilver
+	01/05/2023 A3 1.78 by Quiksilver
 
 Description:
 
@@ -61,12 +61,12 @@ if (_type isEqualTo 1) exitWith {
 		((_centroid # 1) + 300),
 		(_centroid # 2)
 	];	
-	'QS_marker_grid_civState' setMarkerTextLocal (format ['%1 %2',(toString [32,32,32]),localize 'STR_QS_Marker_011']);
+	'QS_marker_grid_civState' setMarkerTextLocal (format [localize 'STR_QS_Marker_073',(toString [32,32,32])]);
 	'QS_marker_grid_civState' setMarkerColorLocal 'ColorCIVILIAN';
 	'QS_marker_grid_civState' setMarkerPosLocal _centroidOffset;
 	'QS_marker_grid_civState' setMarkerAlpha 0.75;
 	'QS_marker_grid_capState' setMarkerAlpha 0.75;
-	_text = format ['%1<br/><br/>- %2<br/>- %3<br/>- %4<br/>',localize 'STR_QS_Task_032',localize 'STR_QS_Task_033',localize 'STR_QS_Task_034',localize 'STR_QS_Task_035'];
+	_text = localize 'STR_QS_Task_032';
 	{
 		if (_x isEqualTo 'SITE_TUNNEL') then {
 			'QS_marker_grid_rspState' setMarkerAlpha 0.75;
@@ -74,17 +74,17 @@ if (_type isEqualTo 1) exitWith {
 		if (_x isEqualTo 'SITE_IG') then {
 			'QS_marker_grid_IGmkr' setMarkerAlpha 0.75;
 			'QS_marker_grid_IGcircle' setMarkerAlpha 0.75;
-			_text = _text + (format ['- %1<br/>',localize 'STR_QS_Task_036']);
-			_text = _text + (format ['- %1<br/>',localize 'STR_QS_Task_037']);
+			_text = _text + localize 'STR_QS_Task_036';
+			_text = _text + localize 'STR_QS_Task_037';
 		};
 		if (_x isEqualTo 'SITE_IDAP') then {
 			'QS_marker_grid_IDAPloc' setMarkerAlpha 0.75;
 			'QS_marker_grid_IDAPmkr' setMarkerAlpha 0.75;
 			'QS_marker_grid_IDAPcircle' setMarkerAlpha 0.75;
-			_text = _text + (format ['- %1<br/>',localize 'STR_QS_Task_038']);
+			_text = _text + localize 'STR_QS_Task_038';
 		};
 	} forEach _usedObjectives;
-	_text = _text + (format ['<br/><br/>%1<br/><br/>%2',localize 'STR_QS_Task_039',localize 'STR_QS_Task_040']);
+	_text = _text + localize 'STR_QS_Task_039';
 	[
 		'QS_TASK_GRID_0',
 		TRUE,

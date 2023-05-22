@@ -6,7 +6,7 @@ Author:
 	
 Last Modified: 
 
-	1/05/2016 A3 1.58 by Quiksilver
+	01/05/2023 A3 1.58 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,7 @@ __________________________________________________*/
 
 _oldObj = param [0,objNull];
 _alternate = param [1,FALSE];
-if (isNull _oldObj) exitWith {diag_log '***** DEBUG ***** fn_setSimpleObject ***** Object is null';_oldObj};
+if (isNull _oldObj) exitWith {diag_log localize 'STR_QS_DiagLogs_172';_oldObj};
 private _position = getPosWorld _oldObj;
 /*/
 if (_alternate) then {
@@ -24,7 +24,7 @@ if (_alternate) then {
 /*/
 _vectorDirUp = [(vectorDir _oldObj),(vectorUp _oldObj)];
 _modelInfo = getModelInfo _oldObj;
-if (_modelInfo isEqualTo []) exitWith {diag_log format ['***** DEBUG ***** fn_setSimpleObject ***** No model info for %1 *****',(typeOf _oldObj)];_oldObj};
+if (_modelInfo isEqualTo []) exitWith {diag_log (format [localize 'STR_QS_DiagLogs_173',(typeOf _oldObj)]);_oldObj};
 private _model = _modelInfo # 1;
 if (_alternate) then {
 	_model = typeOf _oldObj;

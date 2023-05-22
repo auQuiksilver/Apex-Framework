@@ -1,12 +1,12 @@
 /*/
-File: fn_createUGVTrailer.sqf
+File: fn_ahScanString.sqf
 Author:
 	
 	Quiksilver
 	
 Last Modified:
 
-	15/05/2023 A3 2.12 by Quiksilver
+	27/12/2022 A3 2.10 by Quiksilver
 	
 Description:
 

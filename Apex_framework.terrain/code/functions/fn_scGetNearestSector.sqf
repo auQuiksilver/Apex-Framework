@@ -47,7 +47,7 @@ ____________________________________________________________________________/*/
 
 params ['_type','_position'];
 if (_type isEqualTo 0) exitWith {
-	comment 'Get absolute nearest sector';
+	//comment 'Get absolute nearest sector';
 	private _var = 'QS_virtualSectors_data';
 	if (!isDedicated) then {
 		_var = 'QS_virtualSectors_data_public';
@@ -76,7 +76,7 @@ if (_type isEqualTo 0) exitWith {
 	_sectorPosition;
 };
 if (_type isEqualTo 1) exitWith {
-	comment 'Get nearest sector by side';
+	//comment 'Get nearest sector by side';
 	_side = _this # 2;
 	private _sectorsData = [];
 	private _sectorsSide = [];
@@ -110,7 +110,7 @@ if (_type isEqualTo 1) exitWith {
 	_sectorPosition;
 };
 if (_type isEqualTo 2) exitWith {
-	comment 'Get nearest LOSING sector';
+	//comment 'Get nearest LOSING sector';
 	_side = _this # 2;
 	private _sectorsData = [];
 	private _sectorsLosing = [];
@@ -146,7 +146,7 @@ if (_type isEqualTo 2) exitWith {
 	_sectorPosition;
 };
 if (_type isEqualTo 3) exitWith {
-	comment 'Get nearest TAKING sector';
+	//comment 'Get nearest TAKING sector';
 	_side = _this # 2;
 	private _sectorsData = [];
 	private _sectorsTaking = [];

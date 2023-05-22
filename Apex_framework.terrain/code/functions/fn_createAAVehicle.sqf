@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/04/2022 A3 2.08 by Quiksilver
+	01/05/2023 A3 2.08 by Quiksilver
 	
 Description:
 
@@ -63,7 +63,7 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 						_killerDisplayName = getText ((configOf (vehicle _instigator)) >> 'displayName');
 						_objDisplayName = getText ((configOf _killed) >> 'displayName');
 						_name = name _instigator;
-						['sideChat',[WEST,'BLU'],(format ['%1 %4 %2 %5 %3!',_name,_objDisplayName,_killerDisplayName,localize 'STR_QS_Chat_045',localize 'STR_QS_Chat_046'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+						['sideChat',[WEST,'BLU'],(format [localize 'STR_QS_Chat_045',_name,_objDisplayName,_killerDisplayName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 					};
 				};
 			};
@@ -160,7 +160,7 @@ if (alive _vehicle) then {
 	_vehicleMarkers = _vehicle getVariable ['QS_vehicle_markers',[]];
 	private _markerID = '';
 	{
-		_markerID = format ['QS_marker_aoAA_%1',(count _aoAAMarkers)];
+		_markerID = (format ['QS_marker_aoAA_%1',(count _aoAAMarkers)]);
 		createMarker [_markerID,(_x # 1)];
 		_markerID setMarkerTypeLocal (_x # 2);
 		_markerID setMarkerShapeLocal (_x # 3);

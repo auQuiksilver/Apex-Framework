@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/08/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -55,7 +55,7 @@ if (_nearRoadsPositions isNotEqualTo []) then {
 		if (!isNil '_waypointPosition') then {
 			_waypointPositions pushBack _waypointPosition;
 		} else {
-			diag_log '***** QS ERROR ***** fn_taskPatrolVehicle * Waypoint position is nil *****';
+			diag_log localize 'STR_QS_DiagLogs_185';
 		};
 	};
 };

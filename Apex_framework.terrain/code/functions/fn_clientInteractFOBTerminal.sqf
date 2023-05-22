@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/05/2016 A3 1.58 by Quiksilver
+	01/05/2023 A3 1.58 by Quiksilver
 	
 Description:
 	
@@ -16,54 +16,49 @@ __________________________________________________________________________*/
 _type = _this # 3;
 if (_type isEqualTo 1) exitWith {
 	private ['_text','_respawnEnabled','_respawnTickets','_vehicleRespawnEnabled','_vehicleRepairService','_vehicleAmmoService','_radarServices','_vehicleFuelService','_personalRespawn'];
-	_text = format [
-		'<t align="left" size="2">%2 %1<t/><br/><t align="left" size="1.5">%3</t><br/><t align="left" size="1">__________</t><br/>',
-		(missionNamespace getVariable 'QS_module_fob_displayName'),
-		localize 'STR_QS_Hints_034',
-		localize 'STR_QS_Hints_035'
-	];
+	_text = (format [localize 'STR_QS_Hints_034',(missionNamespace getVariable 'QS_module_fob_displayName')]);
 	if ((missionNamespace getVariable 'QS_module_fob_side') isEqualTo (player getVariable ['QS_unit_side',WEST])) then {
-		_radarServices = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_038',localize 'STR_QS_Hints_036'];
+		_radarServices = localize 'STR_QS_Hints_035';
 	} else {
-		_radarServices = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_038',localize 'STR_QS_Hints_037'];
+		_radarServices = localize 'STR_QS_Hints_036';
 	};
 	_text = _text + _radarServices;
 	if (missionNamespace getVariable 'QS_module_fob_respawnEnabled') then {
-		_respawnEnabled = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_039',localize 'STR_QS_Hints_036'];
+		_respawnEnabled = localize 'STR_QS_Hints_039';
 	} else {
-		_respawnEnabled = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_039',localize 'STR_QS_Hints_037'];
+		_respawnEnabled = localize 'STR_QS_Hints_040';
 	};
 	_text = _text + _respawnEnabled;
-	_text = _text + (format ['<t size="1" align="left">%2</t><t size="1" align="right">%1</t><br/>',QS_module_fob_flag getVariable ['QS_deploy_tickets',0],localize 'STR_QS_Hints_040']);
+	_text = _text + (format [localize 'STR_QS_Hints_041',QS_module_fob_flag getVariable ['QS_deploy_tickets',0]]);
 	if (missionNamespace getVariable 'QS_module_fob_vehicleRespawnEnabled') then {
-		_vehicleRespawnEnabled = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_041',localize 'STR_QS_Hints_036'];
+		_vehicleRespawnEnabled = localize 'STR_QS_Hints_037';
 	} else {
-		_vehicleRespawnEnabled = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_041',localize 'STR_QS_Hints_037'];
+		_vehicleRespawnEnabled = localize 'STR_QS_Hints_038';
 	};
 	_text = _text + _vehicleRespawnEnabled;
 	if (missionNamespace getVariable 'QS_module_fob_services_repair') then {
-		_vehicleRepairService = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_042',localize 'STR_QS_Hints_036'];
+		_vehicleRepairService = localize 'STR_QS_Hints_042';
 	} else {
-		_vehicleRepairService = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_042',localize 'STR_QS_Hints_037'];
+		_vehicleRepairService = localize 'STR_QS_Hints_043';
 	};
 	_text = _text + _vehicleRepairService;
 	if (missionNamespace getVariable 'QS_module_fob_services_ammo') then {
-		_vehicleAmmoService = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_043',localize 'STR_QS_Hints_036'];
+		_vehicleAmmoService = localize 'STR_QS_Hints_044';
 	} else {
-		_vehicleAmmoService = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_043',localize 'STR_QS_Hints_037'];
+		_vehicleAmmoService = localize 'STR_QS_Hints_045';
 	};
 	_text = _text + _vehicleAmmoService;
 	if (missionNamespace getVariable 'QS_module_fob_services_fuel') then {
-		_vehicleFuelService = format ['<t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_044',localize 'STR_QS_Hints_036'];
+		_vehicleFuelService = localize 'STR_QS_Hints_056';
 	} else {
-		_vehicleFuelService = format ['<t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_044',localize 'STR_QS_Hints_037'];
+		_vehicleFuelService = localize 'STR_QS_Hints_073';
 	};
 	_text = _text + _vehicleFuelService;
 	/*/
 	if (player getVariable ['QS_module_fob_client_respawnEnabled',TRUE]) then {
-		_personalRespawn = format ['<br/><t size="1" align="left">%1</t><t color="#008000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_045',localize 'STR_QS_Hints_036'];
+		_personalRespawn = localize 'STR_QS_Hints_079';
 	} else {
-		_personalRespawn = format ['<br/><t size="1" align="left">%1</t><t color="#ff0000" size="1" align="right">%2</t><br/>',localize 'STR_QS_Hints_045',localize 'STR_QS_Hints_036'];
+		_personalRespawn = localize 'STR_QS_Hints_080';
 	};
 	_text = _text + _personalRespawn;
 	/*/

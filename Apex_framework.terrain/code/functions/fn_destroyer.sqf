@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	8/07/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -50,7 +50,7 @@ if (
 	{(worldName in ['Altis','Stratis','Tanoa','Malden','stozec'])}
 ) exitWith {
 	if (isDedicated) then {
-		diag_log 'Spawning destroyer';
+		diag_log localize 'STR_QS_DiagLogs_105';
 		private ['_marker','_positionsData','_positionData'];
 		_worldName = worldName;
 		_worldSize = worldSize;
@@ -440,7 +440,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 			} forEach _turretList;
 			_turretGrp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
 			(missionNamespace getVariable 'QS_destroyerObject') setVariable ['QS_destroyer_turrets',_turrets,TRUE];
-			'QS_marker_destroyer_1' setMarkerText (format ['%1 (%2)',(markerText 'QS_marker_destroyer_1'),localize 'STR_QS_Marker_004']);
+			'QS_marker_destroyer_1' setMarkerText (format [localize 'STR_QS_Marker_004',(markerText 'QS_marker_destroyer_1')]);
 		};
 	};
 };

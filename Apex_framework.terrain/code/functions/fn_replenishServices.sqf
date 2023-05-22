@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	10/04/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -69,7 +69,7 @@ if (player getUnitTrait 'QS_trait_fighterPilot') then {
 		if (diag_tickTime > (uiNamespace getVariable ['QS_fighterPilot_lastMsg',(diag_tickTime - 1)])) then {
 			uiNamespace setVariable ['QS_fighterPilot_lastMsg',(diag_tickTime + 300)];
 			[63,[4,['CAS_1',['',localize 'STR_QS_Notif_153']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-			['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText ((configOf _vehicle) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			['sideChat',[WEST,'AirBase'],(format [localize 'STR_QS_Chat_029',(getText ((configOf _vehicle) >> 'displayName')),profileName])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 	};
 };

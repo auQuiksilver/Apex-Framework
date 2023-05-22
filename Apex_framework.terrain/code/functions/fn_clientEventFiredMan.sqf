@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	19/08/2022 A3 2.10 by Quiksilver
+	01/0/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -14,16 +14,18 @@ Description:
 _______________________________________________________/*/
 
 params ['_unit','_weapon','_muzzle','','_ammo','_magazine','_projectile','_vehicle'];
-if (
-	(!(unitIsUav cameraOn)) &&
-	(
-		(captive _unit) ||
-		{(!isDamageAllowed _unit)} ||
-		{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
-		{(isObjectHidden _unit)}
-	)
-) exitWith {
-	deleteVehicle _projectile;
+if if (!((getPlayerUID player) in (['DEVELOPER'] call (missionNamespace getVariable 'QS_fnc_whitelist')))) then {
+	if 	(
+		(!(unitIsUav cameraOn)) &&
+		(
+			(captive _unit) ||
+			{(!isDamageAllowed _unit)} ||
+			{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
+			{(isObjectHidden _unit)}
+		)
+	) exitWith {
+		deleteVehicle _projectile;
+	};
 };
 missionNamespace setVariable ['QS_suppressed_effectFired',diag_tickTime + 30,FALSE];
 if ((toLowerANSI _magazine) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg']) then {
@@ -58,7 +60,7 @@ if (_weapon isEqualTo 'Throw') then {
 									TRUE
 								];
 								deleteVehicle _projectile;
-								50 cutText [(format ['%1 %2',_displayName,localize 'STR_QS_Text_014']),'PLAIN DOWN',0.5];
+								50 cutText [(format [localize 'STR_QS_Text_014',_displayName]),'PLAIN DOWN',0.5];
 							};
 						};
 					} count _playersNearby;

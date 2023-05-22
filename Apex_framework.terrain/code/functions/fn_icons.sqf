@@ -13,9 +13,9 @@ Created:
 
 	8/08/2014
 	
-Last Modified: 
+Last Modified:
 
-	18/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Installation: 
 
@@ -206,8 +206,8 @@ _QS_ST_showKnownEnemies = TRUE && ((missionNamespace getVariable ['QS_missionCon
 //================ TEXT (for LOCALIZATION / LANGUAGE TRANSLATION) ==================//
 //==================================================================================//
 
-missionNamespace setVariable ['QS_ST_STR_text1','Click to show group details',FALSE];				/*/ STRING. Text shown when a player passes Mouse over Group leader (only if _QS_ST_groupInteractiveIcons = TRUE;)/*/
-missionNamespace setVariable ['QS_ST_STR_text2','This group is not in your faction!',FALSE];		/*/ STRING. Text shown when a player clicks on a Group Icon of other faction. (only if _QS_ST_groupInteractiveIcons = TRUE;)/*/
+missionNamespace setVariable ['QS_ST_STR_text1',localize 'STR_QS_Interact_145',FALSE];				/*/ STRING. Text shown when a player passes Mouse over Group leader (only if _QS_ST_groupInteractiveIcons = TRUE;)/*/
+missionNamespace setVariable ['QS_ST_STR_text2',localize 'STR_QS_Interact_145',FALSE];		/*/ STRING. Text shown when a player clicks on a Group Icon of other faction. (only if _QS_ST_groupInteractiveIcons = TRUE;)/*/
 
 //==============================================================================================================================//
 //=============================================================== CONFIGURATION END ============================================//
@@ -393,16 +393,16 @@ _QS_fnc_iconText = {
 		if ((_ms < 0.75) || {(_isAdmin)}) then {
 			if ((_ms > 0.25) || {(_isAdmin)}) then {
 				if (_showMOS) then {
-					_t = format ['%1 [%2]',_vn,_vt];
+					_t = (format ['%1 [%2]',_vn,_vt]);
 				} else {
-					_t = format ['%1',_vn];
+					_t = (format ['%1',_vn]);
 				};
 			} else {
 				if (_ms < 0.006) then {
 					if (_showMOS) then {
-						_t = format ['%1 [%2]',_vn,_vt];
+						_t = (format ['%1 [%2]',_vn,_vt]);
 					} else {
-						_t = format ['%1',_vn];
+						_t = (format ['%1',_vn]);
 					};
 				} else {
 					_t = '';
@@ -414,10 +414,10 @@ _QS_fnc_iconText = {
 	} else {
 		if (_ms < 0.75) then {
 			if (_ms > 0.25) then {
-				_t = format ['%1',_vn];
+				_t = (format ['%1',_vn]);
 			} else {
 				if (_ms < 0.006) then {
-					_t = format ['%1',_vn];
+					_t = (format ['%1',_vn]);
 				} else {
 					_t = '';
 				};
@@ -457,45 +457,45 @@ _QS_fnc_iconText = {
 						if (_ms < 0.75) then {
 							if (_ms > 0.25) then {
 								if (_showMOS) then {
-									_t = format ['%1 [%2] +%3',_vn,_vt,_n];
+									_t = (format ['%1 [%2] +%3',_vn,_vt,_n]);
 								} else {
-									_t = format ['%1 +%2',_vn,_n];
+									_t = (format ['%1 +%2',_vn,_n]);
 								};
 							} else {
 								if (_ms < 0.006) then {
 									if (_showMOS) then {
-										_t = format ['%1 [%2] +%3',_vn,_vt,_n];
+										_t = (format ['%1 [%2] +%3',_vn,_vt,_n]);
 									} else {
-										_t = format ['%1 +%2',_vn,_n];
+										_t = (format ['%1 +%2',_vn,_n]);
 									};
 								} else {
-									_t = format ['+%1',_n];
+									_t = (format ['+%1',_n]);
 								};
 							};
 						} else {
-							_t = format ['+%1',_n];
+							_t = (format ['+%1',_n]);
 						};
 					} else {
 						if (_ms < 0.75) then {
 							if (_ms > 0.25) then {
 								if (_showMOS) then {
-									_t = format ['[%1] %2 +%3',_vt,_vn,_n];
+									_t = (format ['[%1] %2 +%3',_vt,_vn,_n]);
 								} else {
-									_t = format ['%1 +%2',_vn,_n];
+									_t = (format ['%1 +%2',_vn,_n]);
 								};
 							} else {
 								if (_ms < 0.006) then {
 									if (_showMOS) then {
-										_t = format ['[%1] %2 +%3',_vt,_vn,_n];
+										_t = (format ['[%1] %2 +%3',_vt,_vn,_n]);
 									} else {
-										_t = format ['%1 +%2',_vn,_n];
+										_t = (format ['%1 +%2',_vn,_n]);
 									};
 								} else {
-									_t = format ['+%1',_n];
+									_t = (format ['+%1',_n]);
 								};
 							};
 						} else {
-							_t = format ['+%1',_n];
+							_t = (format ['+%1',_n]);
 						};
 					};
 				};
@@ -504,45 +504,45 @@ _QS_fnc_iconText = {
 					if (_ms < 0.75) then {
 						if (_ms > 0.25) then {
 							if (_showMOS) then {
-								_t = format ['%1 [%2] +%3',_vn,_vt,_n];
+								_t = (format ['%1 [%2] +%3',_vn,_vt,_n]);
 							} else {
-								_t = format ['%1 +%2',_vn,_n];
+								_t = (format ['%1 +%2',_vn,_n]);
 							};
 						} else {
 							if (_ms < 0.006) then {
 								if (_showMOS) then {
-									_t = format ['%1 [%2] +%3',_vn,_vt,_n];
+									_t = (format ['%1 [%2] +%3',_vn,_vt,_n]);
 								} else {
-									_t = format ['%1 +%2',_vn,_n];
+									_t = (format ['%1 +%2',_vn,_n]);
 								};
 							} else {
-								_t = format ['+%1',_n];
+								_t = (format ['+%1',_n]);
 							};
 						};
 					} else {
-						_t = format ['+%1',_n];
+						_t = (format ['+%1',_n]);
 					};
 				} else {
 					if (_ms < 0.75) then {
 						if (_ms > 0.25) then {
 							if (_showMOS) then {
-								_t = format ['[%1] %2 +%3',_vt,_vn,_n];
+								_t = (format ['[%1] %2 +%3',_vt,_vn,_n]);
 							} else {
-								_t = format ['%1 +%2',_vn,_n];
+								_t = (format ['%1 +%2',_vn,_n]);
 							};
 						} else {
 							if (_ms < 0.006) then {
 								if (_showMOS) then {
-									_t = format ['[%1] %2 +%3',_vt,_vn,_n];
+									_t = (format ['[%1] %2 +%3',_vt,_vn,_n]);
 								} else {
-									_t = format ['%1 +%2',_vn,_n];
+									_t = (format ['%1 +%2',_vn,_n]);
 								};
 							} else {
-								_t = format ['+%1',_n];
+								_t = (format ['+%1',_n]);
 							};
 						};
 					} else {
-						_t = format ['+%1',_n];
+						_t = (format ['+%1',_n]);
 					};
 				};
 			};
@@ -551,16 +551,16 @@ _QS_fnc_iconText = {
 				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
-							_t = format ['%1 [%2]',_vn,_vt];
+							_t = (format ['%1 [%2]',_vn,_vt]);
 						} else {
-							_t = format ['%1',_vn];
+							_t = (format ['%1',_vn]);
 						};
 					} else {
 						if (_ms < 0.006) then {
 							if (_showMOS) then {
-								_t = format ['%1 [%2]',_vn,_vt];
+								_t = (format ['%1 [%2]',_vn,_vt]);
 							} else {
-								_t = format ['%1',_vn];
+								_t = (format ['%1',_vn]);
 							};
 						} else {
 							_t = '';
@@ -573,16 +573,16 @@ _QS_fnc_iconText = {
 				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
-							_t = format ['[%1] %2',_vt,_vn];
+							_t = (format ['[%1] %2',_vt,_vn]);
 						} else {
-							_t = format ['%1',_vn];
+							_t = (format ['%1',_vn]);
 						};
 					} else {
 						if (_ms < 0.006) then {
 							if (_showMOS) then {
-								_t = format ['[%1] %2',_vt,_vn];
+								_t = (format ['[%1] %2',_vt,_vn]);
 							} else {
-								_t = format ['%1',_vn];
+								_t = (format ['%1',_vn]);
 							};
 						} else {
 							_t = '';
@@ -599,16 +599,16 @@ _QS_fnc_iconText = {
 				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
-							_t = format ['%1 [%2]',name _y,_vt];
+							_t = (format ['%1 [%2]',name _y,_vt]);
 						} else {
-							_t = format ['%1',name _y];
+							_t = (format ['%1',name _y]);
 						};
 					} else {
 						if (_ms < 0.006) then {
 							if (_showMOS) then {
-								_t = format ['%1 [%2]',name _y,_vt];
+								_t = (format ['%1 [%2]',name _y,_vt]);
 							} else {
-								_t = format ['%1',name _y];
+								_t = (format ['%1',name _y]);
 							};
 						} else {
 							_t = '';
@@ -621,16 +621,16 @@ _QS_fnc_iconText = {
 				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
-							_t = format ['[%2] [%1]',_vt,localize 'STR_QS_Text_273'];
+							_t = (format [localize 'STR_QS_Text_273',_vt]);
 						} else {
-							_t = format ['[%1]',localize 'STR_QS_Text_273'];
+							_t = localize 'STR_QS_Text_273';
 						};
 					} else {
 						if (_ms < 0.006) then {
 							if (_showMOS) then {
-								_t = format ['[%2] [%1]',_vt,localize 'STR_QS_Text_273'];
+								_t = (format [localize 'STR_QS_Text_273',_vt]);
 							} else {
-								_t = format ['[%1]',localize 'STR_QS_Text_273'];
+								_t = localize 'STR_QS_Text_273';
 							};
 						} else {
 							_t = '';
@@ -1510,15 +1510,15 @@ _QS_fnc_onGroupIconClick = {
 		if (_leader) then {
 			_leader = FALSE;
 			if (_showClass) then {
-				_unitNameList = _unitNameList + format ["<t align='left'><t size='1.2'><t color='%2'>%1</t></t></t>",_unitName,_color] + format ["<t align='right'><t size='0.75'><t color='%2'>[%1]</t></t></t>",_unitMOS,_color] + '<br/>';
+				_unitNameList = _unitNameList + (format ["<t align='left'><t size='1.2'><t color='%2'>%1</t></t></t>",_unitName,_color]) + (format ["<t align='right'><t size='0.75'><t color='%2'>[%1]</t></t></t>",_unitMOS,_color]) + '<br/>';
 			} else {
-				_unitNameList = _unitNameList + format ["<t align='left'><t size='1.2'><t color='%2'>%1</t></t></t>",_unitName,_color] + '<br/>';				
+				_unitNameList = _unitNameList + (format ["<t align='left'><t size='1.2'><t color='%2'>%1</t></t></t>",_unitName,_color]) + '<br/>';				
 			};
 		} else {
 			if (_showClass) then {
-				_unitNameList = _unitNameList + format ["<t align='left'><t color='%2'>%1</t></t>",_unitName,_color] + format ["<t align='right'><t size='0.75'><t color='%2'>[%1]</t></t></t>",_unitMOS,_color] + '<br/>';
+				_unitNameList = _unitNameList + (format ["<t align='left'><t color='%2'>%1</t></t>",_unitName,_color]) + (format ["<t align='right'><t size='0.75'><t color='%2'>[%1]</t></t></t>",_unitMOS,_color]) + '<br/>';
 			} else {
-				_unitNameList = _unitNameList + format ["<t align='left'><t color='%2'>%1</t></t>",_unitName,_color] + '<br/>';				
+				_unitNameList = _unitNameList + (format ["<t align='left'><t color='%2'>%1</t></t>",_unitName,_color]) + '<br/>';				
 			};
 		};
 	} count (units _group);

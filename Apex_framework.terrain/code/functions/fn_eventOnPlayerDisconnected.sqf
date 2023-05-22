@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	25/04/2016 A3 1.56 by Quiksilver
+	01/05/2023 A3 1.56 by Quiksilver
 	
 Description:
 
@@ -19,7 +19,7 @@ Description:
 	Number - owner id of the leaving client (same as _owner param)
 __________________________________________________*/
 
-diag_log format ['***** onPlayerDisconnected ***** %1 *****',_this];
+diag_log (format [localize 'STR_QS_DiagLogs_111',_this]);
 if (((_this # 1) select [0,2]) isEqualTo 'HC') then {
 	(missionNamespace getVariable 'QS_headlessClients') deleteAt ((missionNamespace getVariable 'QS_headlessClients') find (_this # 4));
 	//comment 'De-init headless client';
@@ -35,7 +35,7 @@ if (((_this # 1) select [0,2]) isEqualTo 'HC') then {
 		};
 	};
 	if (allPlayers isNotEqualTo []) then {
-		(format ['%1',localize 'STR_QS_Chat_111']) remoteExec ['systemChat',-2,FALSE];
+		(localize 'STR_QS_Chat_111') remoteExec ['systemChat',-2,FALSE];
 	};
-	diag_log (format ['Headless Client %1 ( %2 ) disconnected',(_this # 4),(_this # 1)]);
+	diag_log (format [localize 'STR_QS_DiagLogs_112',(_this # 4),(_this # 1)]);
 };

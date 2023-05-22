@@ -1,5 +1,4 @@
 Official Change Log
-
 To do:
 
 	[] Disable weapon disassembly when attached/mounted to host vehicle.

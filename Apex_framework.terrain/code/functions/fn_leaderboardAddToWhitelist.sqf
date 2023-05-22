@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/12/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -29,7 +29,7 @@ private _allArray = [];
 private _array = [];
 if (_leaderboardDataPilot isNotEqualTo []) then {
 	{
-		diag_log format ['***** LEADERBOARD ***** Adding %1 (%2) to Transport Pilot whitelist *****',(_x # 2),(_x # 1)];
+		diag_log (format [localize 'STR_QS_DiagLogs_135',(_x # 2),(_x # 1)]);
 		_array pushBack (_x # 1);
 		_allArray pushBack (_x # 1);
 	} forEach _leaderboardDataPilot;
@@ -48,7 +48,7 @@ _leaderboardDataMedic = _leaderboardDataMedic select [0,_topX];
 _array = [];
 if (_leaderboardDataMedic isNotEqualTo []) then {
 	{
-		diag_log format ['***** LEADERBOARD ***** Adding %1 (%2) to Medic whitelist *****',(_x # 2),(_x # 1)];
+		diag_log (format [localize 'STR_QS_DiagLogs_136',(_x # 2),(_x # 1)]);
 		_array pushBack (_x # 1);
 		_allArray pushBack (_x # 1);
 	} forEach _leaderboardDataMedic;
@@ -70,7 +70,7 @@ _leaderboardDataSniper = _leaderboardDataSniper select [0,_topX];
 _array = [];
 if (_leaderboardDataSniper isNotEqualTo []) then {
 	{
-		diag_log format ['***** LEADERBOARD ***** Adding %1 (%2) to Sniper whitelist *****',(_x # 2),(_x # 1)];
+		diag_log (format [localize 'STR_QS_DiagLogs_137',(_x # 2),(_x # 1)]);
 		_array pushBack (_x # 1);
 		_allArray pushBack (_x # 1);
 	} forEach _leaderboardDataSniper;

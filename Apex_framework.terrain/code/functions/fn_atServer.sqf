@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	2/07/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 	
 Description:
 
@@ -53,7 +53,7 @@ if (_type isEqualTo 1) then {
 	missionProfileNamespace setVariable ['QS_robocop_log_2',_eventLog];
 	saveMissionProfileNamespace;
 	private _clientVal = QS_robocop getOrDefault [_uid,-1];
-	diag_log format ['***** fn_atServer ***** UID to robocop: %1 *****',_uid];
+	diag_log (format [localize 'STR_QS_DiagLogs_045',_uid]);
 	if (_clientVal isEqualTo -1) then {
 		QS_robocop set [_uid,_val];	
 		[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
@@ -69,11 +69,11 @@ if (_type isEqualTo 1) then {
 			_val = _val * 2;
 		};
 		_val = _val + _clientVal;
-		diag_log format ['************************ ADMIN ***** %1 ***** %2 has been threat-adjusted to %3 *****',time,_nameCausedBy,_val];
+		diag_log (format [localize 'STR_QS_DiagLogs_046',time,_nameCausedBy,_val]);
 		QS_robocop set [_uid,_val];
 		[nil,[_uid,_cid,_val,TRUE]] remoteExec ['QS_fnc_atClientMisc',_cid,FALSE];
 	};
-	_message = format ['ROBOCOP: %1 has been reported',_nameCausedBy];
+	_message = (format ['ROBOCOP: %1 has been reported',_nameCausedBy]);
 	_QS_UID = ['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist');
 	private _arrayToSend = [];
 	{
@@ -85,8 +85,8 @@ if (_type isEqualTo 1) then {
 	if (_arrayToSend isNotEqualTo []) then {
 		[nil,[_message,objNull,0]] remoteExec ['QS_fnc_msgToStaff',_arrayToSend,FALSE];
 	};
-	diag_log format ["************************ ADMIN - %1 - %2 %3 - was reported by %4 %5 - Location of Reported: %6 Location of Reporter: %7 ************************",time,_nameCausedBy,_uid,_nameReporter,_uidReporter,_posCausedBy,_posReporter];
+	diag_log (format [localize 'STR_QS_DiagLogs_047',time,_nameCausedBy,_uid,_nameReporter,_uidReporter,_posCausedBy,_posReporter]);
 };
 if (_type isEqualTo 0) then {
-	diag_log format ["************************ ADMIN - %1 - %2 %3 - was NOT reported by %4 %5 - Location of Not-Reported: %6 Location of Reporter: %7 ************************",time,_nameCausedBy,_uid,_nameReporter,_uidReporter,_posCausedBy,_posReporter];
+	diag_log (format [localize 'STR_QS_DiagLogs_048',time,_nameCausedBy,_uid,_nameReporter,_uidReporter,_posCausedBy,_posReporter]);
 };

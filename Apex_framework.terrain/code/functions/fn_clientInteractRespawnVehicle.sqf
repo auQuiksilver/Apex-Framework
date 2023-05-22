@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/02/2023 A3 2.12 by Quiksilver
+	01/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -51,7 +51,7 @@ _displayName = QS_hashmap_configfile getOrDefaultCall [
 	TRUE
 ];
 private _itemType = QS_core_classNames_itemToolKit;
-private _result = [(format ['%2 %1',_displayName,localize 'STR_QS_Menu_121']),localize 'STR_QS_Menu_122',localize 'STR_QS_Menu_123',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage'); 
+private _result = [(format [localize 'STR_QS_Menu_121',_displayName]),localize 'STR_QS_Menu_122',localize 'STR_QS_Menu_123',localize 'STR_QS_Menu_114',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage'); 
 if (_result) then {
 	uiNamespace setVariable ['QS_RD_canRespawnVehicle',(diag_tickTime + 120)];
 	player playAction 'PutDown';
@@ -60,7 +60,7 @@ if (_result) then {
 	([QS_player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 	if (((crew _t) findIf {(alive _x)}) isEqualTo -1) then {
 		if (!_inSafezone) then {
-			_text = format [localize 'STR_QS_Chat_093',profileName,_displayName,(mapGridPosition player)];
+			_text = (format [localize 'STR_QS_Chat_093',profileName,_displayName,(mapGridPosition player)]);
 			['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		};
 		if (
@@ -77,7 +77,7 @@ if (_result) then {
 		};
 		if (!_inSafezone) then {
 			[46,[player,2]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-			['ScoreBonus',[(format ['%2 %1',(missionNamespace getVariable ['QS_terrain_worldName',worldName]),localize 'STR_QS_Notif_041']),'2']] call (missionNamespace getVariable 'QS_fnc_showNotification');	
+			['ScoreBonus',[(format [localize 'STR_QS_Notif_041',(missionNamespace getVariable ['QS_terrain_worldName',worldName])]),'2']] call (missionNamespace getVariable 'QS_fnc_showNotification');	
 		};
 		[17,_t,true] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};

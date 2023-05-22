@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	28/05/2017 A3 1.70 by Quiksilver
+	01/05/2023 A3 1.70 by Quiksilver
 
 Description:
 
@@ -127,7 +127,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 									'SC_UPDATE_BAD',
 									[
 										(_taskData # 1),
-										(format ['%2 %1!',(_taskData # 2),localize 'STR_QS_Notif_073'])
+										(format [localize 'STR_QS_Notif_073',(_taskData # 2)])
 									]
 								] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 								{
@@ -151,7 +151,7 @@ if (_type isEqualTo 'MANAGE') exitWith {
 									'SC_UPDATE_GOOD',
 									[
 										(_taskData # 1),
-										(format ['%2 %1!',(_taskData # 2),localize 'STR_QS_Notif_074'])
+										(format [localize 'STR_QS_Notif_074',(_taskData # 2)])
 									]
 								] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 								{
@@ -237,7 +237,7 @@ if (_type isEqualTo 'EXIT') exitWith {
 		terminate (missionNamespace getVariable 'QS_virtualSectors_script');
 		missionNamespace setVariable ['QS_virtualSectors_enabled',FALSE,TRUE];
 	};
-	comment 'De-initialize active sectors here';
+	//comment 'De-initialize active sectors here';
 	{
 		['REMOVE',(_x # 0)] call (missionNamespace getVariable 'QS_fnc_sc');
 	} forEach (missionNamespace getVariable 'QS_virtualSectors_data');
@@ -251,11 +251,11 @@ if (_type isEqualTo 'ADD') exitWith {
 	[_sectorData] spawn (missionNamespace getVariable 'QS_fnc_scGetSectorTerrainData');
 };
 if (_type isEqualTo 'REMOVE') exitWith {
-	diag_log '***** SC REMOVE * 0 *****';
+	diag_log localize 'STR_QS_DiagLogs_156';
 	_sectorID = _this # 1;
 	_index = (missionNamespace getVariable 'QS_virtualSectors_data') findIf {((_x # 0) isEqualTo _sectorID)};
 	if (_index isNotEqualTo -1) then {
-		diag_log '***** SC REMOVE * 1 *****';
+		diag_log localize 'STR_QS_DiagLogs_157';
 		_sectorData = (missionNamespace getVariable 'QS_virtualSectors_data') # _index;
 		_sectorData params [
 			'_sectorID',

@@ -1,12 +1,12 @@
 /*/
-File: config.sqf
+File: fn_config.sqf
 Author:
 
 	Quiksilver
 	
 Last modified: 
 
-	9/12/2022 A3 2.10 by Quiksilver
+	01/05/2023 A3 2.10 by Quiksilver
 
 Description:
 
@@ -23,12 +23,12 @@ private [
 	diag_log _x;
 } count [
 	'*****************************************************************************',
-	'************************* Server Config Starting ****************************',
+	localize 'STR_QS_DiagLogs_054',
 	'*****************************************************************************',
-	(format ['***** System Time: %1 * Product Version: %2 * Mission Name: %3 * Server Name: %4 * Briefing Name: %5 * Mission Version: %6 * Mission Difficulty: %7 * Mission DLCs: %8 * Distribution Region: %9 *****',systemTime,productVersion,missionName,serverName,briefingName,missionVersion,missionDifficulty,getMissionDLCs,distributionRegion]),
+	(format [localize 'STR_QS_DiagLogs_055',systemTime,productVersion,missionName,serverName,briefingName,missionVersion,missionDifficulty,getMissionDLCs,distributionRegion]),
 	'*****************************************************************************',
 	(format [
-		'***** Difficulty Options *****%1*****autoReport: %2%1*****cameraShake: %3%1*****commands: %4%1*****deathMessages: %5%1*****detectedMines: %6%1*****enemyTags: %7%1*****friendlyTags: %8%1*****groupIndicators: %9%1*****mapContent: %10%1*****mapContentEnemy: %11%1*****mapContentFriendly: %12%1*****mapContentMines: %13%1*****mapContentPing: %14%1*****multipleSaves: %15%1*****reducedDamage: %16%1*****scoreTable: %17%1*****squadRadar: %18%1*****staminaBar: %19%1*****stanceIndicator: %20%1*****tacticalPing: %21%1*****thirdPersonView: %22%1*****visionAid: %23%1*****vonID: %24%1*****waypoints: %25%1*****weaponCrosshair: %26%1*****weaponInfo: %27%1',
+		localize 'STR_QS_DiagLogs_056',
 		endl,
 		(difficultyOption 'autoReport'),
 		(difficultyOption 'cameraShake'),
@@ -59,19 +59,19 @@ private [
 	]),
 	'*****************************************************************************'
 ];
-diag_log format ['***** Mission Profile Namespace Loaded - %1 *****',isMissionProfileNamespaceLoaded];
+diag_log (format [localize 'STR_QS_DiagLogs_057',isMissionProfileNamespaceLoaded]);
 if (!isMissionProfileNamespaceLoaded) then {
 	saveMissionProfileNamespace;
-	diag_log format ['***** Mission Profile Namespace Loaded - %1 *****',isMissionProfileNamespaceLoaded];
+	diag_log (format [localize 'STR_QS_DiagLogs_057',isMissionProfileNamespaceLoaded]);
 };
 if (!isDedicated) exitWith {
-	diag_log '***** SETUP ERROR * Server must be Dedicated *';
+	diag_log localize 'STR_QS_DiagLogs_058';
 	[
 		[],
 		{
 			0 spawn {
 				for '_x' from 0 to 1 step 0 do {
-					['Server must be Dedicated'] call (missionNamespace getVariable 'QS_fnc_hint');
+					[localize 'STR_QS_Hints_191'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -79,13 +79,13 @@ if (!isDedicated) exitWith {
 	] remoteExec ['call',-2,TRUE];
 };
 if (((productVersion # 7) isNotEqualTo 'x64') && ((productVersion # 6) isNotEqualTo 'Linux')) exitWith {
-	diag_log '***** SETUP ERROR * Server must be x64 or Linux *';
+	diag_log localize 'STR_QS_DiagLogs_059';
 	[
 		[],
 		{
 			0 spawn {
 				for '_x' from 0 to 1 step 0 do {
-					['Server must be running 64-bit'] call (missionNamespace getVariable 'QS_fnc_hint');
+					[localize 'STR_QS_Hints_192'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -93,13 +93,13 @@ if (((productVersion # 7) isNotEqualTo 'x64') && ((productVersion # 6) isNotEqua
 	] remoteExec ['call',-2,TRUE];
 };
 if (!isFilePatchingEnabled) exitWith {
-	diag_log '***** SETUP ERROR * File patching must be enabled *';
+	diag_log localize 'STR_QS_DiagLogs_060';
 	[
 		[],
 		{
 			0 spawn {
 				for '_x' from 0 to 1 step 0 do {
-					['-filePatching must be enabled in Server launch options'] call (missionNamespace getVariable 'QS_fnc_hint');
+					[localize 'STR_QS_Hints_193'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -120,9 +120,9 @@ private _difficultyInvalid = FALSE;
 			diag_log _x;
 		} forEach [
 			'******************************',
-			'***** INVALID DIFFICULTY *****',
+			localize 'STR_QS_DiagLogs_061',
 			'******************************',
-			(format ['* Difficulty Option %1 is %2, must be %3 *',_difficultyFlag,(difficultyOption _difficultyFlag),_difficultyValue]),
+			(format [localize 'STR_QS_DiagLogs_062',_difficultyFlag,(difficultyOption _difficultyFlag),_difficultyValue]),
 			'******************************'
 		];
 	};
@@ -143,7 +143,7 @@ if (_difficultyInvalid) exitWith {
 		{
 			0 spawn {
 				for '_x' from 0 to 1 step 0 do {
-					['Invalid mission difficulties, view server RPT log file for more details'] call (missionNamespace getVariable 'QS_fnc_hint');
+					[localize 'STR_QS_Hints_194'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -168,7 +168,7 @@ if (!(_addonActive)) exitWith {
 		{
 			0 spawn {
 				for '_x' from 0 to 1 step 0 do {
-					['Apex Framework servermod @Apex must be active'] call (missionNamespace getVariable 'QS_fnc_hint');
+					[localize 'STR_QS_Hints_195'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -181,7 +181,7 @@ if (isNil {uiNamespace getVariable 'QS_fnc_serverCommandPassword'}) exitWith {
 		{
 			0 spawn {
 				for '_x' from 0 to 1 step 0 do {
-					['Apex Framework config files missing: @Apex_cfg'] call (missionNamespace getVariable 'QS_fnc_hint');
+					[localize 'STR_QS_Hints_196'] call (missionNamespace getVariable 'QS_fnc_hint');
 					uisleep 1;
 				};
 			};
@@ -769,7 +769,7 @@ private _weaponsList = configFile >> 'CfgWeapons';
 _weaponsList = nil;
 // Load terrain-specific Roles if file is found
 if (fileExists (format ['@Apex_cfg\%1\roles.sqf',worldName])) then {
-	diag_log '***** DEBUG ***** COMPILING TERRAIN SPECIFIC ROLES DATA';
+	diag_log localize 'STR_QS_DiagLogs_064';
 	call (compileScript [(format ['@Apex_cfg\%1\roles.sqf',worldName])]);
 } else {
 	call (compileScript ['@Apex_cfg\roles.sqf']);
@@ -780,7 +780,7 @@ if (fileExists (format ['@Apex_cfg\%1\roles.sqf',worldName])) then {
 ['INIT'] call (missionNamespace getVariable 'QS_fnc_wreckSetMaterials');
 // Load terrain-specific Arsenal if file is found
 if (fileExists (format ['@Apex_cfg\%1\arsenal.sqf',worldName])) then {
-	diag_log '***** DEBUG ***** COMPILING TERRAIN SPECIFIC ARSENAL DATA';
+	diag_log localize 'STR_QS_DiagLogs_063';
 	missionNamespace setVariable ['QS_data_arsenal',(compileScript [(format ['@Apex_cfg\%1\arsenal.sqf',worldName]),TRUE]),TRUE];
 } else {
 	missionNamespace setVariable ['QS_data_arsenal',(compileScript ['@Apex_cfg\arsenal.sqf',TRUE]),TRUE];
@@ -1151,6 +1151,7 @@ if (_worldName isEqualTo 'Altis') then {
 	} forEach (nearestTerrainObjects [[5398.63,17897.7,0.00141144],[],100,FALSE,TRUE]);
 };
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
+	diag_log localize 'STR_QS_DiagLogs_065';
 	private _newMarker = '';
 	{
 		deleteMarker _x;
@@ -1207,8 +1208,6 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 		};
 	};
 	if (_worldName isEqualTo 'Tanoa') then {
-	
-		diag_log 'Setting marker Pos';
 	
 		'QS_marker_respawn_uavoperator' setMarkerPos [6899.05,7423.78,15.7328];
 		'QS_marker_respawn_uavoperator' setMarkerDir 76;
@@ -1446,7 +1445,7 @@ if ((allMissionObjects 'ModuleCurator_F') isNotEqualTo []) then {
 
 /*/===== DATE CONFIG /*/
 
-diag_log format ['***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 1 - SETTING DATE *****',time];
+diag_log (format [localize 'STR_QS_DiagLogs_066',time]);
 if ((missionNamespace getVariable ['QS_missionConfig_startDate',[]]) isNotEqualTo []) then {
 	setDate (missionNamespace getVariable ['QS_missionConfig_startDate',[]]);
 } else {
@@ -1508,7 +1507,7 @@ if (missionNamespace getVariable ['QS_missionConfig_weatherDynamic',TRUE]) then 
 		0 setLightnings (_QS_currentWeatherData # 7);
 		0 setWaves (_QS_currentWeatherData # 8);
 		0 setRainbow (_QS_currentWeatherData # 9);
-		diag_log format ['***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 2.5 - SETTING WEATHER FROM PROFILE *****',time];
+		diag_log (format [localize 'STR_QS_DiagLogs_067',time]);
 	};
 } else {
 	[(missionNamespace getVariable ['QS_missionConfig_weatherForced',0])] call (missionNamespace getVariable 'QS_fnc_weatherPreset');
@@ -1521,7 +1520,7 @@ missionNamespace setVariable ['QS_mission_init',TRUE,TRUE];
 	diag_log _x;
 } count [
 	'*****************************************************************************',
-	'************************* Server Config Complete ****************************',
+	localize 'STR_QS_DiagLogs_068',
 	'*****************************************************************************'	
 ];
 if (fileExists '@Apex_cfg\custom.sqf') then {

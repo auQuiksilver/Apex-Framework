@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/05/2022 A3 2.08 by Quiksilver
+	01/05/2023 A3 2.08 by Quiksilver
 	
 Description:
 
@@ -44,7 +44,7 @@ private _building = objNull;
 		} forEach _buildingPositions;
 	};
 } forEach _buildings;
-if (_arrayPositions isEqualTo []) exitWith {diag_log '***** DEBUG ***** fn_garrisonUnits ***** No building positions available *****';};
+if (_arrayPositions isEqualTo []) exitWith {diag_log localize 'STR_QS_DiagLogs_115';};
 _arrayPositions = _arrayPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 _count = count _gUnits - 1;
 private _arrayPositions2 = [];
