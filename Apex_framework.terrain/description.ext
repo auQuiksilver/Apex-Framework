@@ -744,22 +744,22 @@ class CfgDebriefing {
 };
 class CfgLeaflets {
 	class East {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_115"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
 	class West {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_116"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
 	class Guer {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_117"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
 	class Civ {
-		text = "Text of the leaflet"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
+		text = "$STR_QS_Dialogs_118"; 										// Text shown when previewing the leaflet full-screen. Ideally should be localized, so even player who cannot read the image can get the information
 		texture = "media\images\insignia\comm_patch.paa"; 					// Leaflet texture shown when previewing the leaflet full-screen
 		model = "myLeaflet.p3d"; 											// In-flight model. Optional; When undefined, generic white leaflet is used
 	};
@@ -2442,7 +2442,7 @@ class QS_RD_client_dialog_menu_main {
 			shadow = 0;
 			colorText[] = {1,1,1,1};
 			text = "";
-			tooltip = "Score, Rating, Health, Equipment";
+			tooltip = "$STR_QS_Menu_004";
 		};
 		class QS_RD_client_dialog_menu_main_text_2: QS_RD_dialog_RscText {
 			moving = 1;
@@ -4021,8 +4021,8 @@ class QS_RD_client_dialog_menu_hub {
 		class QS_RD_client_dialog_menu_hub_button_8: QS_RD_RscStructuredText {
 			moving = 1;
 			idc = 1811;
-			text = "Donate to Quiksilver";
-			tooltip = "Donate to the Apex Framework designer (Patreon)";
+			text = "$STR_QS_Dialogs_113";
+			tooltip = "$STR_QS_Dialogs_114";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.82 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -5336,7 +5336,7 @@ class QS_RD_client_dialog_menu_inventory1 {
 		class QS_RD_client_dialog_menu_inventory1_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1812;
-			text = "Save";
+			text = "$STR_QS_Dialogs_078";
 			//x = 0.38 * safezoneW + safezoneX;
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.78 * safezoneH + safezoneY;
@@ -5378,7 +5378,7 @@ class QS_RD_client_dialog_menu_inventory1 {
 		class QS_RD_client_dialog_menu_inventory1_button_4: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1815;
-			text = "Edit";
+			text = "$STR_QS_Menu_214";
 			//x = 0.38 * safezoneW + safezoneX;
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.915 * safezoneH + safezoneY;
@@ -5447,7 +5447,7 @@ class QS_RD_client_dialog_menu_inventory1 {
 		class QS_RD_client_dialog_menu_inventory1_progress_1: RscProgress {
 			moving = 1;
 			idc = 1816;
-			text = "My ammobox (800/1000)";
+			text = "$STR_QS_Menu_215";
 			x = 0.68 * safezoneW + safezoneX;
 			y = 0.965 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -5701,7 +5701,7 @@ class QS_RD_client_dialog_menu_playerBuild {
 		class QS_RD_client_dialog_menu_playerBuild_text_1: QS_RD_dialog_RscText {
 			moving = 1;
 			idc = 1802;
-			text = "Build";
+			text = "$STR_QS_Interact_129";
 			x = 0.374500 * safezoneW + safezoneX;
 			y = 0.525 * safezoneH + safezoneY;
 			w = 0.139 * safezoneW;
@@ -5713,7 +5713,7 @@ class QS_RD_client_dialog_menu_playerBuild {
 		class QS_RD_client_dialog_menu_playerBuild_button_1: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1810;
-			text = "Build";
+			text = "$STR_QS_Interact_129";
 			x = 0.38 * safezoneW + safezoneX;
 			y = 0.815 * safezoneH + safezoneY;
 			w = 0.13 * safezoneW;
@@ -5822,7 +5822,7 @@ class QS_RD_client_dialog_menu_deployment {
 		class QS_RD_client_dialog_menu_deployment_button_2: QS_RD_dialog_RscButton {
 			moving = 1;
 			idc = 1811;
-			text = "Exit";
+			text = "$STR_QS_Menu_011";
 			x = 0.38 * safezoneW + safezoneX;
 			//y = 0.87 * safezoneH + safezoneY;
 			y = 0.925 * safezoneH + safezoneY;

@@ -10850,6 +10850,18 @@ _____________________________________________________________-->
 				<Original>Whitelisted players can choose Uniform, Vehicle, Shoulder Insignia.</Original>
 				<Turkish>Beyaz Listeye eklenmiş oyuncular Üniforma,Araç,Omuz Nişanı seçebilirler.</Turkish>
 			</Key>
+			<Key ID="STR_QS_Menu_214">
+				<Original>Edit</Original>
+				<Chinesesimp>待编辑</Chinesesimp>
+				<Chinese>待編輯</Chinese>
+				<Turkish>Düzenle</Turkish>
+			</Key>
+			<Key ID="STR_QS_Menu_215">
+				<Original>My ammobox (800/1000)</Original>
+				<Chinesesimp>待编辑</Chinesesimp>
+				<Chinese>待編輯</Chinese>
+				<Turkish>Mühimmat Kutusu (800/1000)</Turkish>
+			</Key>
 		</Container>
 		<Container name="QS_xml_roles">
 			<Key ID="STR_QS_Role_000">
@@ -12089,6 +12101,42 @@ _____________________________________________________________-->
 				<Chinesesimp>选项</Chinesesimp>
 				<Chinese>選項</Chinese>
 				<Turkish>Ayarlar</Turkish>
+			</Key>
+			<Key ID="STR_QS_Dialogs_113">
+				<Original>Donate to Quiksilver</Original>
+				<Chinesesimp>Donate to Quiksilver</Chinesesimp>
+				<Chinese>Donate to Quiksilver</Chinese>
+				<Turkish>Quiksilver e bağış</Turkish>
+			</Key>
+			<Key ID="STR_QS_Dialogs_114">
+				<Original>Donate to the Apex Framework designer &#40;Patreon&#41;</Original>
+				<Chinesesimp>Donate to the Apex Framework designer &#40;Patreon&#41;</Chinesesimp>
+				<Chinese>Donate to the Apex Framework designer &#40;Patreon&#41;</Chinese>
+				<Turkish>Apex Framework yapımcısına &#40;Patreon&#41; bağış yapın</Turkish>
+			</Key>
+			<Key ID="STR_QS_Dialogs_115">
+				<Original>Opfor</Original>
+				<Chinesesimp>Opfor</Chinesesimp>
+				<Chinese>Opfor</Chinese>
+				<Turkish>Opfor</Turkish>
+			</Key>
+			<Key ID="STR_QS_Dialogs_116">
+				<Original>Blufor</Original>
+				<Chinesesimp>Blufor</Chinesesimp>
+				<Chinese>Blufor</Chinese>
+				<Turkish>Blufor</Turkish>
+			</Key>
+			<Key ID="STR_QS_Dialogs_117">
+				<Original>Guer</Original>
+				<Chinesesimp>Guer</Chinesesimp>
+				<Chinese>Guer</Chinese>
+				<Turkish>Bağımsız</Turkish>
+			</Key>
+			<Key ID="STR_QS_Dialogs_118">
+				<Original>Civ</Original>
+				<Chinesesimp>Civ</Chinesesimp>
+				<Chinese>Civ</Chinese>
+				<Turkish>Sivil</Turkish>
 			</Key>
 		</Container>
 		<Container name="QS_xml_Mission">	
