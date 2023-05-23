@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/01/2023 A3 2.12 by Quiksilver
+	22/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -26,7 +26,8 @@ params [
 	['_rotationEnabled',TRUE],
 	['_frontPos',FALSE],
 	['_memPoint',''],
-	['_followRotation',FALSE]
+	['_followRotation',FALSE],
+	['_updateCOM',TRUE]
 ];
 private _frontVehicleLift = FALSE;
 if (dialog) then {closeDialog 2;};
@@ -110,7 +111,10 @@ if (!isNull _oldParent) then {
 	if (!isNull (attachedTo QS_targetBoundingBox_helper)) then {
 		detach QS_targetBoundingBox_helper;
 	};
-	if (!_useHelper) then {
+	if (
+		(!_useHelper) &&
+		(_updateCOM)
+	) then {
 		[_oldParent,TRUE,TRUE] call QS_fnc_updateCenterOfMass;
 	};
 };
@@ -160,7 +164,9 @@ if (
 	(!(_vehicle isKindOf 'CAManBase'))
 ) then {
 	_vehicle setVariable ['QS_logistics_child',_requestedObject,TRUE];
-	[_vehicle,TRUE,TRUE] call QS_fnc_updateCenterOfMass;
+	if (_updateCOM) then {
+		[_vehicle,TRUE,TRUE] call QS_fnc_updateCenterOfMass;
+	};
 };
 if (local QS_targetBoundingBox_helper) then {
 	QS_targetBoundingBox_helper setVectorDirAndUp _orient;

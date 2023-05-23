@@ -633,6 +633,13 @@ if (
 ) then {
 	setRain ((missionNamespace getVariable ['QS_missionConfig_weatherForced',0]) call (missionNamespace getVariable 'QS_data_rainParams'));
 };
+
+{
+	if ((flagAnimationPhase _x) isNotEqualTo -1) then {
+		_x setFlagAnimationPhase (_x getVariable ['QS_flag_animationPhase',flagAnimationPhase _x]);
+	};
+} forEach (allMissionObjects 'FlagCarrier');
+
 if ((rank player) isNotEqualTo 'PRIVATE') then {
 	player setRank 'PRIVATE';
 };

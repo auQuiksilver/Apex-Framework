@@ -18,6 +18,8 @@ if (_mapIsOpened) then {
 	_localProps = QS_list_playerBuildables select {local _x};
 	uiNamespace setVariable ['QS_map_playerBuildables',_localProps];
 	uiNamespace setVariable ['QS_map_closestBuildable',objNull];
+	_globalObjects = (8 allObjects 8) select {(_x getVariable ['QS_bb',FALSE])};
+	localNamespace setVariable ['QS_map_globalObjects',_globalObjects];
 	QS_map_drawBuildables = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		'Draw',
 		{
@@ -32,38 +34,39 @@ if (_mapIsOpened) then {
 			private _obj = objnull;
 			{	
 				_obj = _x;
-				if (!isNull _obj) then {
-					if ((['LandVehicle','Air','Ship'] findIf { _obj isKindOf _x }) isEqualTo -1) then {
-						_icon = _obj getVariable ['QS_map_icon',''];
-						if (_icon isEqualTo '') then {
-							_icon = getText ((configOf _obj) >> 'icon');
-							_obj setVariable ['QS_map_icon',_icon];
-						};
-						_text = _obj getVariable ['QS_map_name',''];
-						if (_text isEqualTo '') then {
-							_text = getText ((configOf _obj) >> 'displayName');
-							_obj setVariable ['QS_map_name',_text];
-						};
-						_color = [[0.5,0.5,0.5,1],[0.5,1,0.5,1]] select (local _obj);
-						if ((_obj distance2D _cursorPos) < 100) then {
-							_nearish pushBack _obj;
-						};
-						_map drawIcon [
-							_icon,
-							_color,
-							(getPosASLVisual _obj),
-							_iconSize,
-							_iconSize,
-							(getDirVisual _obj),
-							_text,
-							1,
-							0.03,
-							'RobotoCondensedBold',
-							'left'
-						];
+				if (
+					(!isNull _obj) &&
+					((['LandVehicle','Air','Ship'] findIf { _obj isKindOf _x }) isEqualTo -1)
+				) then {
+					_icon = _obj getVariable ['QS_map_icon',''];
+					if (_icon isEqualTo '') then {
+						_icon = getText ((configOf _obj) >> 'icon');
+						_obj setVariable ['QS_map_icon',_icon];
 					};
+					_text = _obj getVariable ['QS_map_name',''];
+					if (_text isEqualTo '') then {
+						_text = getText ((configOf _obj) >> 'displayName');
+						_obj setVariable ['QS_map_name',_text];
+					};
+					_color = [[0.5,0.5,0.5,1],[0.5,1,0.5,1]] select (local _obj);
+					if ((_obj distance2D _cursorPos) < 100) then {
+						_nearish pushBack _obj;
+					};
+					_map drawIcon [
+						_icon,
+						_color,
+						(getPosASLVisual _obj),
+						_iconSize,
+						_iconSize,
+						(getDirVisual _obj),
+						_text,
+						1,
+						0.03,
+						'RobotoCondensedBold',
+						'left'
+					];
 				};
-			} forEach QS_list_playerBuildables;
+			} forEach (QS_list_playerBuildables + (localNamespace getVariable ['QS_map_globalObjects',[]]));
 			if (_nearish isNotEqualTo []) then {
 				_nearest = [_nearish,_cursorPos] call BIS_fnc_nearestPosition;
 				uiNamespace setVariable ['QS_map_closestBuildable',_nearest];
@@ -108,7 +111,7 @@ if (_mapIsOpened) then {
 	QS_map_mouseButtonDownBuildables = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		'MouseButtonDown',
 		{
-			params ["","_button", "", "", "", "_ctrl", ""];
+			params ['','_button','','','','_ctrl',''];
 			if (
 				(_button isEqualTo 1) &&
 				_ctrl

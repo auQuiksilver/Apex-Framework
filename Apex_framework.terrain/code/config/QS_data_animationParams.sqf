@@ -22,6 +22,14 @@ Notes:
 ________________________________________/*/
 
 [
+	['flag',[4,'','',0,1,0.05,1,'BIS_Disabled_Door_1',{
+		_otherPlayers = allPlayers - [QS_player];
+		(
+			(!(_this getVariable ['QS_locked',FALSE])) && 
+			{((currentWeapon cameraOn) isEqualTo '')} &&
+			{(((_otherPlayers inAreaArray [getPos _this,5,5,0,FALSE]) select {((currentWeapon _x) isEqualTo '')}) isEqualTo [])}
+		)
+	}]],
 	['hatch_1',[1,'Hatch_1_source','Hatch_1_source',0,1,0.1,1,'BIS_Disabled_Door_1',{(([cameraOn,getPosWorld cameraOn] call QS_fnc_inHouse) # 0)}]],
 	['hatch_2',[1,'Hatch_2_source','Hatch_2_source',0,1,0.1,1,'BIS_Disabled_Door_2',{(([cameraOn,getPosWorld cameraOn] call QS_fnc_inHouse) # 0)}]],
 	['hatch_3',[1,'Hatch_3_source','Hatch_3_source',0,1,0.1,1,'BIS_Disabled_Door_3',{(([cameraOn,getPosWorld cameraOn] call QS_fnc_inHouse) # 0)}]],

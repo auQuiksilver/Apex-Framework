@@ -13,7 +13,7 @@ Description:
 	Activate Vehicle
 __________________________________________________________________________/*/
 
-_cursorObject = cursorObject;
+getCursorObjectParams params ['_cursorObject','',''];
 if (
 	(isNull _cursorObject) ||
 	(!isNil {_cursorObject getVariable 'QS_v_disableActivation'})

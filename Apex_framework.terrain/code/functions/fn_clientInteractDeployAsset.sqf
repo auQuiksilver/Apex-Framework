@@ -30,7 +30,7 @@ _deployParams params [
 ];
 private _cooldown = _cursorObject getVariable ['QS_logistics_deployCooldown',_deployCooldown];
 if (_mode isEqualTo 0) exitWith {
-	comment 'Pack up';
+	//comment 'Pack up';
 	if (
 		(!alive _cursorObject) ||
 		{(!(_cursorObject getVariable ['QS_logistics_deployable',FALSE]))} ||
@@ -68,7 +68,7 @@ if (_mode isEqualTo 0) exitWith {
 	[111,_cursorObject,_mode,profileName,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (_mode isEqualTo 1) exitWith {
-	comment 'Deploy';
+	//comment 'Deploy';
 	_deployRestrictedZoneDistance = 2000;
 	_deployRestrictedZoneData = [_cursorObject,['SAFE','NO_BUILD'],2] call QS_fnc_nearestZone;
 	([_cursorObject,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];

@@ -71,10 +71,15 @@ if (_preset isEqualTo 5) then {
 		};
 		[_vehicle] call QS_fnc_vSetup;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,_posi];
 	} else {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
-		_customDN = _vehicle getVariable ['QS_ST_customDN',''];
+		_customDN = _vehicle getVariable ['QS_ST_customDN',''];	
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_oldVehicle = _vehicle;
 		_oldType = _vehicle getVariable ['QS_deploy_type0',typeOf _vehicle];
 		_oldVehicle setPosASL [0,0,0];
@@ -314,12 +319,17 @@ if (_preset isEqualTo 12) then {
 			([6] call QS_data_virtualCargoPresets)
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,getPosASL _vehicle];
 	} else {
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			[]
 		] call QS_fnc_virtualVehicleCargo;
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -345,20 +355,24 @@ if (_preset isEqualTo 13) then {
 		} forEach [
 			['QS_logistics_immovable',TRUE,TRUE],
 			['QS_logistics',FALSE,TRUE]
-		];			
-
+		];
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			([5] call QS_data_virtualCargoPresets)
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,getPosASL _vehicle];
 	} else {
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			[]
 		] call QS_fnc_virtualVehicleCargo;
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -384,20 +398,24 @@ if (_preset isEqualTo 14) then {
 		} forEach [
 			['QS_logistics_immovable',TRUE,TRUE],
 			['QS_logistics',FALSE,TRUE]
-		];			
-
+		];
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			([4] call QS_data_virtualCargoPresets)
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,getPosASL _vehicle];
 	} else {
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			[]
 		] call QS_fnc_virtualVehicleCargo;
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;

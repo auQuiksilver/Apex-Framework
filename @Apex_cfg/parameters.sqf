@@ -102,11 +102,12 @@ _autopilot = 1;											// Can pilots use landing autopilot? 0 - Disabled. 1 -
 _planeForce1PV = 0;										// Are Plane pilots forced to use First Person View? 0 - Disabled (not forced). 1 - Enabled (forced).		
 _quickBuild = 1;										// Player role-based ability to build fortifications/sandbags/etc. 0 - Disabled. 1 - Enabled.
 _maxSandbags = 100;										// Global cap on player-deployable fortifications.
+_maxBuiltObjects = 300;									// Global cap on base-building objects (does not include player sandbags).
 _towing = 1;											// Towing mechanics. 0 - Disabled. 1 - Enabled. Most vehicles (Land and Boat) can Tow in one way or another.
 _winch = 2;												// Winch mechanics. 0 - Disabled. 1 - Configured vehicles (* See note --> ). 2 - All land vehicles.   * Some vanilla vehicles have visible winches: Hunter, Strider, Prowler LSV, Offroad, Bobcat, Zamak MLRS
 _unflipVehicles = 0;									// Vehicle Unflip interaction. 0 - Disabled. 1 - Enabled. With new Winch/Rope mechanics, Unflip should not be necessary.
 _mass = 1;												// Simulate vehicle mass changes based on weight of cargo.	 (Recommended = 0).	0 - Disabled. 1 - Enabled.
-_centerofmass = 1;										// Simulate vehicle center-of-mass based on cargo it is carrying. 	(Recommended = 1). 0 - Disabled. 1 - Vehicle-In-Vehicle Cargo only.   2. All attached objects.   Use with caution!
+_centerofmass = 1;										// Simulate vehicle center-of-mass based on cargo it is carrying. 	(Recommended = 1). 0 - Disabled. 1 - Vehicle-In-Vehicle Cargo only.   2. All cargo objects.   Use with caution!
 _role_selection_menu_button = 0;						// Role Selection Menu Button. 	Enables a button in the Escape Menu to access the Role Selection Menu.	0 - Disabled. 1 - Enabled. Default - 0.		Use this option to allow any player to change their role from any map location. If this value is 0, the only way to access the menu after login is via Arsenal crates user action. Recommend 0 for standard gamemodes to avoid exploitation.
 _deploymentMenu = 1;									// Deployment Menu. 0 - Disabled. 1 - Enabled.
 _deployMenuOnRespawn = 1;								// Deployment Menu shown on Respawn. 0 - Disabled. 1 - Enabled.
@@ -127,7 +128,7 @@ _timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-ti
 	0.35													// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
 ];
 _weatherDynamic = 1;									// Dynamic Weather System. 0 - Disabled. 1 - Enabled (Default). 	If enabled, framework will maintain persistent dynamic weather with realistic annual weather cycles for the geographic terrain location.
-_weatherForcedMode = 0;									// Forced Weather Mode. ONLY WORKS IF DYNAMIC WEATHER DISABLED. 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow (yes, SNOW). 
+_weatherForcedMode = 0;									// Forced Weather Mode. !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow (yes, SNOW). 
 
 //===================================================== ZEUS
 
@@ -135,6 +136,8 @@ _zeusModePlayerRespawn = 1;								// (Zeus Mode) Dynamic Player Respawn. Applie
 _zeusModeRespawnMarker = 1;								// (Zeus Mode) Zeus Respawn Position is visible on map. 0 - Disabled. 1 - Enabled.
 _zeusModeArsenalFlag = 1;								// (Zeus Mode) When players spawn at Zeus flag pole, Flag Pole is an Arsenal too.	0 - Disabled.  1 - Enabled.
 _zeusCanOffloadAI = 1;									// (All Modes) Zeus ability to offload AI to Server.	0 - Disabled. 1 - Enabled. Default - 1.	 Allows Zeus to improve performance of Zeus missions by moving AI control to server. Unbuffered, there is no limit and server can be overloaded, so use responsibly.
+_zeusRestrictions = 1;									// Are some modules and objects disabled in zeus?	0 - Restrictions disabled. 1 - Restrictions enabled.	Default = 1
+_zeusLightning = 1;										// Can Zeus use lightning? 0 - Disabled. 1 - Enabled. Default = 0 	Lightning is somewhat immersion breaking and there are other ways to destroy things.	Only applies if _zeusRestrictions = 1
 
 //===================================================== HEADLESS CLIENT
 
@@ -148,9 +151,13 @@ _hc_maxAgents_3 = 10;									// Quantity of AI agents (Civilians & Animals) to 
 _hc_maxAgents_4 = 5;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 4 or more headless clients are connected.
 
 //===================================================== DLC/MODs
-// Available options by default: 'WS' 'VN' 'CSLA' 'GM'
-_dlc_vehicles = '';										// Leave as '' blank to run in Auto-Detect mode. Determines which list of vehicles are spawned.
-_dlc_units = '';										// Leave as '' blank to run in Auto-Detect mode. Determines which list of infantry are spawned.
+// Available options by default for auto-detect: 
+//
+//			'WS' 'VN' 'CSLA' 'GM'
+
+_dlc_vehicles = '';										// Leave as '' blank to run in Auto-Detect mode (auto-detect works only for the DLC listed above). Determines which list of vehicles are spawned.		_dlc_vehicles = 'CSLA';	
+_dlc_units = '';										// Leave as '' blank to run in Auto-Detect mode (auto-detect works only for the DLC listed above). Determines which list of infantry are spawned.
+_zeus_reskinInfantry = 0;								// Do vanilla units spawned with zeus get re-skinned with modded clothing (according to "code\config\QS_data_tableUnits.sqf"). 0 - Disabled. 1 - Enabled.
 
 //===================================================== MAIN MISSION TYPE
 //========== DESCRIPTION===============================//
@@ -166,9 +173,14 @@ _main_mission_type = 'CLASSIC';
 
 _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions. Automatically disabled when _main_mission_type = 'NONE';
 
-//===================================================== SANDBOX MISSIONS
+//===================================================== SANDBOX COMBAT MISSIONS
 
-_deploymentMissions = 1;								// Can enemy attack fortifications constructed/deployed by players? 0 - Disabled. 1 - Enabled.
+_deploymentMissions = 1;								// Can enemy attack player-built bases? 0 - Disabled. 1 - Enabled.
+_dm_MaxConcurrent = 3;									// How many deployments can be attacked simultaneously? 1-10.	Min = 1, Max = 10. Default = 3.
+_dm_Frequency = 0.5;									// How frequent are deployment attacks? 0-1. 	0 = Very rare. 1 = Very often.		0 is about once an hour. 1 = every 60 seconds. 0.5 = ~30 minutes. 0.85 = 10 minutes.
+_dm_Intensity = 0.5;									// How intense are the attacks? 0-1. 	0 - Low intensity. 1 - High intensity.	Default = 0.5	Basically, how many enemies?
+_dm_Duration = 0.5;										// How long can the attacks go for? 0-1. 	0 - Short duration (5 mins). 1 - Long duration (60 mins). Default = 0.5
+_dm_SetupTime = 300;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300 (5 min)
 
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
@@ -241,10 +253,20 @@ _monetizeURL = [
 
 
 //================== DO NOT EDIT BELOW =================== INTERPRETING MISSION PARAMETERS
-
+systemTime params ['','_month','_day','','','',''];
 if (_arsenal isEqualTo 3) then {};
 if (_restart_hours isNotEqualTo []) then {
 	_restart_hours sort TRUE;
+};
+if (_weatherForcedMode > 0) then {
+	_weatherDynamic = 0;
+};
+if (
+	(_month isEqualTo 12) &&
+	(_day isEqualTo 25)
+) then {
+	_weatherForcedMode = 4;
+	_weatherDynamic = 0;
 };
 if (
 	(_aircraft_carrier_enabled > 0) &&
@@ -308,14 +330,12 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_plane1PV',_planeForce1PV > 0,TRUE],
 	['QS_missionConfig_quickBuild',_quickBuild,TRUE],
 	['QS_missionConfig_maxPlayerBuildables',_maxSandbags,TRUE],
+	['QS_missionConfig_maxBuild',_maxBuiltObjects,TRUE],
 	['QS_missionConfig_interactTowing',_towing > 0,TRUE],
 	['QS_missionConfig_interactWinch',_winch,TRUE],
 	['QS_missionConfig_interactUnflip',_unflipVehicles > 0,TRUE],
 	['QS_missionConfig_mass',_mass > 0,TRUE],
 	['QS_missionConfig_centerOfMass',_centerofmass,TRUE],
-	['QS_missionConfig_zeusRespawnFlag',_zeusModePlayerRespawn > 0,TRUE],
-	['QS_missionConfig_zeusRespawnMarker',_zeusModeRespawnMarker > 0,FALSE],
-	['QS_missionConfig_zeusRespawnArsenal',_zeusModeArsenalFlag > 0,TRUE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],
 	['QS_missionConfig_deployment',_deployMenu > 0,TRUE],
 	['QS_missionConfig_respawnDeploy',_deployMenuOnRespawn > 0,TRUE],
@@ -330,6 +350,11 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_timeMultiplier',_timeMultiplier,FALSE],
 	['QS_missionConfig_weatherDynamic',_weatherDynamic > 0,TRUE],
 	['QS_missionConfig_weatherForced',_weatherForcedMode,TRUE],
+	['QS_missionConfig_zeusRespawnFlag',_zeusModePlayerRespawn > 0,TRUE],
+	['QS_missionConfig_zeusRespawnMarker',_zeusModeRespawnMarker > 0,FALSE],
+	['QS_missionConfig_zeusRespawnArsenal',_zeusModeArsenalFlag > 0,TRUE],
+	['QS_missionConfig_zeusRestrictions',_zeusRestrictions > 0,TRUE],
+	['QS_missionConfig_zeusLightning',_zeusLightning > 0,TRUE],
 	['QS_missionConfig_zeusOffload',_zeusCanOffloadAI > 0,TRUE],
 	['QS_missionConfig_hcMaxLoad',[_hc_maxLoad_1,_hc_maxLoad_2,_hc_maxLoad_3,_hc_maxLoad_4],TRUE],
 	['QS_missionConfig_hcMaxAgents',[_hc_maxAgents_1,_hc_maxAgents_2,_hc_maxAgents_3,_hc_maxAgents_4],TRUE],
@@ -338,6 +363,7 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
 	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
 	['QS_missionConfig_deploymentMissions',_deploymentMissions > 0,FALSE],
+	['QS_missionConfig_deploymentMissionParams',[_dm_MaxConcurrent,_dm_Frequency,_dm_Intensity,_dm_Duration,_dm_SetupTime],FALSE],
 	['QS_missionConfig_arty',_artillery,FALSE],
 	['QS_missionConfig_artyEngine',_artilleryComputer,TRUE],
 	['QS_missionConfig_mapContentEnemy',_mapContentEnemy,TRUE],

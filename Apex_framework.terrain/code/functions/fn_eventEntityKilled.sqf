@@ -94,6 +94,9 @@ if (_killed isKindOf 'Man') then {
 	if (!isNull (_killed getVariable ['QS_effect_smoke',objNull])) then {
 		deleteVehicle (_killed getVariable ['QS_effect_smoke',objNull]);
 	};
+	if (_killed isKindOf 'StaticWeapon') then {
+		_killed setVariable ['QS_logistics_immovable',TRUE,TRUE];
+	};
 	if (
 		isDedicated &&
 		{(!(_killed getVariable ['QS_logistics_wreck',FALSE]))} &&

@@ -2,13 +2,26 @@ Official Change Log
 
 To do:
 
-	[] Disable weapon disassembly when attached/mounted to host vehicle.
+	[] * Serious Bug * Player occasionally dies instead of being revive-able.
+	[] Saw viper teams at "regenerator" side mission running away from zone (toward [0,0,0] maybe?)
 	[] Platform snapping onto already occupied space
 	[] Fuel consumption too fast potentially?
-
+	[] Mortar gunner gets "only rifleman and engineer can quick-build" message when disassembling sandbags
+	[] Radiotower can still spawn mid-air when spawned in town
+	[] SAM site/radar not usable during assault
+	[] Zeus spawned hunter had invalid text on wreck marker
+	[] player spawned underground at pilot spawn??? unsure
+	[] Vehicles when wrecked, do not re-appear as wrecks until respawn delay is satisfied. need wreck bypass for respawn delay?
+	
 1.5.2 Dev
 
+[ADDED] Parameters for sandbox combat "Deployment" attacks
 [ADDED] Ability for all players to remote control static AI turrets.
+[ADDED] Watermark for Beta and Dev versions.
+[ADDED] Extra zeus parameters (enable lightning with toggle).
+[TWEAKED] Vehicles near deployed bases (green containers) do not despawn when abandoned.
+[TWEAKED] Snow effect improved.
+[TWEAKED] Set a "max carry volume" for ability to use the "Carry" interaction. Can still unload-to-carry however.
 [FIXED] AA Battery mission not working.
 [FIXED] Terrain leveler arrow did not do anything (acceptable) and also did not delete (unacceptable).
 [FIXED] Randomly spawned usable vehicles in AO were not conforming to modded vehicles list when mod was running
@@ -16,6 +29,13 @@ To do:
 [FIXED] Critical error with executing custom vehicle init code.
 [FIXED] AI turret crew were not getting properly deleted when AI turret gets deleted. (flaw with "deleteVehicleCrew"?)
 [FIXED] "setObjectScale" was being used incorrectly.
+[FIXED] Player sandbags deployment budget was not working.
+[FIXED] Error in passive missile countermeasure system.
+[FIXED] Players were unable to properly heal other players.
+[FIXED] Artillery computer for "Lite" mortar was not working.
+[FIXED] Players were able to Disassemble attached static weapons.
+[FIXED] Helicopters would need to be "Unlocked/Activated" twice before being usable at spawn.
+[FIXED] Various script errors.
 
 1.5.1 (15/05/2023 A3 2.12)
 

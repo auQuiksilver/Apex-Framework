@@ -89,36 +89,43 @@ if (
 	(uiNamespace getVariable ['QS_uiaction_altEnabled',TRUE]) &&
 	_rotationEnabled
 ) then {
-	_surfaceIntersections = lineIntersectsSurfaces [
-		getPosASLVisual QS_targetBoundingBox_helper, 
-		(getPosASLVisual QS_targetBoundingBox_helper) vectorAdd [0,0,-25], 
-		QS_targetBoundingBox_helper, 
-		objNull, 
-		TRUE, 
-		1, 
-		'ROADWAY'
-	];
-	_vector_up = if (_surfaceIntersections isNotEqualTo []) then {
-		((_surfaceIntersections # 0) # 1)
-	} else {
-		(surfaceNormal (getPosASLVisual QS_targetBoundingBox_helper))
-	};	
-	_dir = _azi % 360/360 * 360 + (getDirVisual _cameraOn);
-	_vector_dir = vectorNormalized ([sin _dir, cos _dir, 0] vectorCrossProduct _vector_up);
-	_sin = sin (getDirVisual _cameraOn);
-	_cos = cos (getDirVisual _cameraOn);
-	QS_targetBoundingBox_helper setVectorDirAndUp [
-		[
-			_cos * (_vector_dir # 0) - _sin * (_vector_dir # 1),
-			_sin * (_vector_dir # 0) + _cos * (_vector_dir # 1),
-			_vector_dir # 2
-		],
-		[
-			_cos * (_vector_up # 0) - _sin * (_vector_up # 1),
-			_sin * (_vector_up # 0) + _cos * (_vector_up # 1),
-			_vector_up # 2
-		]
-	];
+	if (
+		(diag_tickTime > (uiNamespace getVariable ['QS_objectPlacement_surfaceInterval',-1])) ||
+		((getPosASL QS_targetBoundingBox_helper) isNotEqualTo (uiNamespace getVariable ['QS_objectPlacement_surfacePos',[0,0,0]]))
+	) then {
+		uiNamespace setVariable ['QS_objectPlacement_surfacePos',getPosASL QS_targetBoundingBox_helper];
+		uiNamespace setVariable ['QS_objectPlacement_surfaceInterval',diag_tickTime + 0.25];
+		_surfaceIntersections = lineIntersectsSurfaces [
+			getPosASLVisual QS_targetBoundingBox_helper, 
+			(getPosASLVisual QS_targetBoundingBox_helper) vectorAdd [0,0,-25], 
+			QS_targetBoundingBox_helper, 
+			objNull, 
+			TRUE, 
+			1, 
+			'ROADWAY'
+		];
+		_vector_up = if (_surfaceIntersections isNotEqualTo []) then {
+			((_surfaceIntersections # 0) # 1)
+		} else {
+			(surfaceNormal (getPosASLVisual QS_targetBoundingBox_helper))
+		};	
+		_dir = _azi % 360/360 * 360 + (getDirVisual _cameraOn);
+		_vector_dir = vectorNormalized ([sin _dir, cos _dir, 0] vectorCrossProduct _vector_up);
+		_sin = sin (getDirVisual _cameraOn);
+		_cos = cos (getDirVisual _cameraOn);
+		QS_targetBoundingBox_helper setVectorDirAndUp [
+			[
+				_cos * (_vector_dir # 0) - _sin * (_vector_dir # 1),
+				_sin * (_vector_dir # 0) + _cos * (_vector_dir # 1),
+				_vector_dir # 2
+			],
+			[
+				_cos * (_vector_up # 0) - _sin * (_vector_up # 1),
+				_sin * (_vector_up # 0) + _cos * (_vector_up # 1),
+				_vector_up # 2
+			]
+		];
+	};
 } else {
 	if (
 		_rotationEnabled &&
