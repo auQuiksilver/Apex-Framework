@@ -201,10 +201,17 @@ if (isDedicated) then {
 } else {
 	['lock',_u,0] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 };
-if (_u isKindOf 'Cargo10_base_F') then {
+if (
+	(_u isKindOf 'Cargo_base_F') ||
+	{(_u isKindOf 'Slingload_01_Base_F')} ||
+	{(_u isKindOf 'Pod_Heli_Transport_04_base_F')}
+) then {
 	if (!(_u getVariable ['QS_logistics_wreck',FALSE])) then {
-		if (!isNil 'QS_fnc_vSetupContainer') then {
-			[_u] call QS_fnc_vSetupContainer;
+		[_u] call QS_fnc_vSetupContainer;
+	};
+	if (['cargo20',_t2] call QS_fnc_inString) then {
+		if ((getMass _u) > 10000) then {
+			_u setMass 10000;
 		};
 	};
 };
@@ -297,6 +304,13 @@ if (_u isKindOf 'Offroad_01_base_F') then {
 		_u animate ['HideBumper2',0];
 	};
 	if (_u isKindOf 'Offroad_01_repair_base_F') then {
+		// Not ready yet, but we leave it in as something innocent for people to play with
+		[
+			'SET_VCARGO_SERVER',
+			_u,
+			([11] call QS_data_virtualCargoPresets)
+		] call QS_fnc_virtualVehicleCargo;
+		// 
 		_u animate ['HideServices',0];
 		_u animate ['HidePolice',1];
 	};
@@ -343,12 +357,12 @@ if (_t2 isKindOf 'MBT_03_base_F') then {
 	};
 };
 if (([
-	'B_APC_Tracked_01_CRV_F',
-	'B_Truck_01_mover_F',
-	'Offroad_01_base_F',
-	'Van_01_transport_base_F',
-	'Tractor_01_base_F',
-	'Quadbike_01_base_F'
+	'b_apc_tracked_01_crv_f',
+	'b_truck_01_mover_f',
+	'offroad_01_base_f',
+	'van_01_transport_base_f',
+	'tractor_01_base_f',
+	'quadbike_01_base_f'
 ] findIf { _t2 isKindOf _x }) isNotEqualTo -1) then {
 	if (([
 		'Offroad_01_base_F',
@@ -357,14 +371,25 @@ if (([
 		_u setVariable ['QS_tow_veh',2,TRUE];
 	} else {
 		if (([
-			'B_APC_Tracked_01_CRV_F',
+			'b_apc_tracked_01_crv_f',
 			'B_Truck_01_mover_F'
 		] findIf { _t2 isKindOf _x }) isNotEqualTo -1) then {
 			_u setVariable ['QS_tow_veh',5,TRUE];
 		};
 	};
-	if (_u isKindOf 'B_APC_Tracked_01_CRV_F') then {
+	if (_u isKindOf 'b_apc_tracked_01_crv_f') then {
+		// Not ready yet
+		/*/
+		[
+			'SET_VCARGO_SERVER',
+			_u,
+			([10] call QS_data_virtualCargoPresets)
+		] call QS_fnc_virtualVehicleCargo;
+		/*/
 		_u setVariable ['QS_vehicle_lift',41000,TRUE];
+		if (missionNamespace getVariable ['QS_missionConfig_bobcatRecovery',FALSE]) then {
+			_u setVariable ['QS_logistics_recoverEnabled',TRUE,TRUE];
+		};
 	};
 	if (_u isKindOf 'Tractor_01_base_F') then {
 		_u removeWeapon 'CarHorn';
@@ -372,11 +397,6 @@ if (([
 	};
 	if (_u isKindOf 'Quadbike_01_base_F') then {
 		_u setVariable ['QS_vehicle_lift',2000,TRUE];
-	};
-};
-if (_u isKindOf 'B_APC_Tracked_01_CRV_F') then {
-	if (missionNamespace getVariable ['QS_missionConfig_bobcatRecovery',FALSE]) then {
-		_u setVariable ['QS_logistics_recoverEnabled',TRUE,TRUE];
 	};
 };
 if (_t2 in ['flexibletank_01_sand_f','flexibletank_01_forest_f']) then {
@@ -439,9 +459,10 @@ if (_t2 isKindOf 'Van_02_base_F') then {
 	};
 };
 if (
-	(_u isKindOf 'ugv_01_base_f') && 
+	(_u isKindOf 'ugv_01_base_f') &&
 	{(!(_u isKindOf 'ugv_01_rcws_base_f'))}
 ) then {
+	// Unarmed Stomper UGV
 	_u addEventHandler [
 		'Deleted',
 		{
@@ -479,6 +500,18 @@ if (
 	_stretcher2 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
 	_stretcher2 attachTo [_u,[0.85,-0.75,-0.7]];
 	_stretcher2 setVariable ['QS_attached',TRUE,TRUE];
+	_u spawn {
+		params ['_u'];
+		sleep 1;
+		if ((crew _u) isEqualTo []) then {
+			// Uncrewed stompers become Cargo Trailers
+			if (isDedicated) then {
+				[_u] call QS_fnc_createUGVTrailer;
+			} else {
+				[118,_u] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+			};
+		};
+	};
 };
 if (_u isKindOf 'Helicopter') then {
 	if (
@@ -488,10 +521,10 @@ if (_u isKindOf 'Helicopter') then {
 		{((crew _u) isEqualTo [])}
 	) then {
 		_u spawn {
-			sleep 2;
-			_this enableSimulationGlobal FALSE;
-			_this setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
 			_this lock 2;
+			sleep 3;
+			_this setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
+			_this enableSimulationGlobal FALSE;
 		};
 	};
 	_u setVariable ['QS_heli_spawnPosition',(position _u),FALSE];

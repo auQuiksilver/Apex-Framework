@@ -16,7 +16,7 @@ if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_rope','_attachedObject'];
 if (isNull (ropeAttachedTo _attachedObject)) then {
 	if (_vehicle isKindOf 'Helicopter') then {
-		_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) - (getMass _attachedObject));
+		//_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) - (getMass _attachedObject));		// might cause game crash
 	};
 	if (
 		((_attachedObject distance2D (markerPos 'QS_marker_crate_area')) < 500) &&

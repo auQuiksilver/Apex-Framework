@@ -269,6 +269,17 @@ if (_this isEqualTo 'init') exitWith {
 					cameraOn setCollisionLight (!isCollisionLightOn cameraOn);
 				};
 			};
+			_attached = attachedObjects cameraOn;
+			if (_attached isNotEqualTo []) then {
+				{
+					if (
+						(_x isKindOf 'Lamps_base_F') &&
+						(!isSimpleObject _x)
+					) then {
+						['switchLight',_x,(['off','on'] select ((lightIsOn _x) == 'off'))] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
+					};
+				} forEach _attached;
+			};
 			if (
 				(!isNull curatorCamera) &&
 				((curatorSelected # 0) isNotEqualTo [])
@@ -337,7 +348,27 @@ if (_this isEqualTo 'init') exitWith {
 				{(isTouchingGround _vehicle)} &&
 				{(((vectorMagnitude (velocity _vehicle)) * 3.6) < 1)}
 			) then {
-				_vehicle setVelocityModelSpace [0,-3,1];
+				uiNamespace setVariable ['QS_ui_action_moveBack',TRUE];
+				[_vehicle] spawn {
+					params ['_vehicle'];
+					waitUntil {
+						if (((vectorMagnitude (velocity _vehicle)) * 3.6) < 1) then {
+							_vehicle setVelocityModelSpace [0,-2,1];
+						};
+						(
+							(!(_vehicle isKindOf 'Plane')) ||
+							{(!local _vehicle)} ||
+							{(!isNull (attachedTo _vehicle))} ||
+							{(!isTouchingGround _vehicle)} ||
+							{(!(uiNamespace getVariable ['QS_ui_action_moveBack',FALSE]))}
+						)
+					};
+				};
+			};
+		}],
+		['MoveBack','deactivate',{
+			if (uiNamespace getVariable ['QS_ui_action_moveBack',FALSE]) then {
+				uiNamespace setVariable ['QS_ui_action_moveBack',FALSE];
 			};
 		}],
 		['gunElevUp','activate',{call QS_fnc_clientEventGunElevUp}],
@@ -347,19 +378,21 @@ if (_this isEqualTo 'init') exitWith {
 		['carhandbrake','activate',{
 			_cameraOn = cameraOn;
 			if (!local _cameraOn) exitWith {};
-			if ((ropes _cameraOn) isNotEqualTo []) then {
-				if (isNull (getSlingLoad _cameraOn)) then {
-					uiNamespace setVariable ['QS_pulling_brakesToggle',(!(uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]))];
-					_result = uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE];
-					50 cutText [format ['%1 %2',localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
-					['MODE1',_cameraOn,_result] call QS_fnc_simplePull;
-				};
-			} else {
-				if (!isNull (ropeAttachedTo _cameraOn)) then {
-					uiNamespace setVariable ['QS_pulling_brakesToggle',(!(uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]))];
-					_result = uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE];
-					50 cutText [format ['%1 %2',localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
-					['MODE0',_cameraOn,_result] call QS_fnc_simpleWinch;
+			if (_cameraOn isKindOf 'LandVehicle') then {
+				if ((ropes _cameraOn) isNotEqualTo []) then {
+					if (isNull (getSlingLoad _cameraOn)) then {
+						uiNamespace setVariable ['QS_pulling_brakesToggle',(!(uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]))];
+						_result = uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE];
+						50 cutText [format ['%1 %2',localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
+						['MODE1',_cameraOn,_result] call QS_fnc_simplePull;
+					};
+				} else {
+					if (!isNull (ropeAttachedTo _cameraOn)) then {
+						uiNamespace setVariable ['QS_pulling_brakesToggle',(!(uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]))];
+						_result = uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE];
+						50 cutText [format ['%1 %2',localize 'STR_QS_Text_321',[localize 'STR_QS_Text_322',localize 'STR_QS_Text_323'] select _result],'PLAIN',0.5];
+						['MODE0',_cameraOn,_result] call QS_fnc_simpleWinch;
+					};
 				};
 			};
 		}],
@@ -367,16 +400,18 @@ if (_this isEqualTo 'init') exitWith {
 			uiNamespace setVariable ['QS_uiaction_carback',TRUE];
 			_cameraOn = cameraOn;
 			if (!local _cameraOn) exitWith {};
-			if ((ropes _cameraOn) isNotEqualTo []) then {
-				if (isNull (getSlingLoad _cameraOn)) then {
-					if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
-						['MODE2',_cameraOn] call QS_fnc_simplePull;
+			if (_cameraOn isKindOf 'LandVehicle') then {
+				if ((ropes _cameraOn) isNotEqualTo []) then {
+					if (isNull (getSlingLoad _cameraOn)) then {
+						if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
+							['MODE2',_cameraOn] call QS_fnc_simplePull;
+						};
 					};
-				};
-			} else {
-				if (!isNull (ropeAttachedTo _cameraOn)) then {
-					if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
-						['MODE1',_cameraOn] call QS_fnc_simpleWinch;
+				} else {
+					if (!isNull (ropeAttachedTo _cameraOn)) then {
+						if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
+							['MODE1',_cameraOn] call QS_fnc_simpleWinch;
+						};
 					};
 				};
 			};
@@ -385,16 +420,18 @@ if (_this isEqualTo 'init') exitWith {
 			uiNamespace setVariable ['QS_uiaction_carback',FALSE];
 			_cameraOn = cameraOn;
 			if (!local _cameraOn) exitWith {};
-			if ((ropes _cameraOn) isNotEqualTo []) then {
-				if (isNull (getSlingLoad _cameraOn)) then {
-					if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
-						['MODE3',_cameraOn] call QS_fnc_simplePull;
+			if (_cameraOn isKindOf 'LandVehicle') then {
+				if ((ropes _cameraOn) isNotEqualTo []) then {
+					if (isNull (getSlingLoad _cameraOn)) then {
+						if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
+							['MODE3',_cameraOn] call QS_fnc_simplePull;
+						};
 					};
-				};
-			} else {
-				if (!isNull (ropeAttachedTo _cameraOn)) then {
-					if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
-						['MODE2',_cameraOn] call QS_fnc_simpleWinch;
+				} else {
+					if (!isNull (ropeAttachedTo _cameraOn)) then {
+						if (uiNamespace getVariable ['QS_pulling_brakesToggle',FALSE]) then {
+							['MODE2',_cameraOn] call QS_fnc_simpleWinch;
+						};
 					};
 				};
 			};

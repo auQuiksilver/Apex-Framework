@@ -26,6 +26,7 @@ if (_nearbyObjects isNotEqualTo []) then {
 	private _pos			= getposASL _object;
 	private _snapPoint			= [];
 	private _snapPointsParent	= [];
+	private _nearestToSnap = [];
 	private _blockPos = [0,0,0];
 	private _adjustment = 0;
 	for "_i" from 1 to 4 do {

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	26/12/2022 A3 2.10 by Quiksilver
+	22/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -19,46 +19,45 @@ Notes:
 ________________________________________________________/*/
 
 params [['_mode',4]];
-
 if (_mode isEqualTo 4) exitWith {
 	// Snow - Basic
 	[
-		'a3\data_f\rainnormal_ca.paa',				// rainDropTexture
-		1,											// texDropCount
-		0.01,										// minRainDensity
-		15,											// effectRadius
-		0.1,										// windCoef
-		2,											// dropSpeed
-		0.5,										// rndSpeed
-		0.5,										// rndDir
-		0.02,										// dropWidth
-		0.02,										// dropHeight
-		[0.1, 0.1, 0.1, 1],							// dropColor
-		0.1,										// lumSunFront
-		0.1,										// lumSunBack
-		5.5,										// refractCoef
-		0.3,										// refractSaturation
-		TRUE,										// snow
-		FALSE										// dropColorStrong
+		'a3\data_f\snowflake4_ca.paa', 		// rainDropTexture			'a3\data_f\snowflake4_ca.paa'   'a3\data_f\snowflake8_ca.paa'    'a3\data_f\snowflake16_ca.paa'
+		4, 									// texDropCount
+		0.01, 								// minRainDensity
+		25, 								// effectRadius
+		0.05, 								// windCoef
+		2.5, 								// dropSpeed
+		0.5, 								// rndSpeed
+		0.5, 								// rndDir
+		0.07, 								// dropWidth
+		0.07, 								// dropHeight
+		[1,1,1,0.5], 						// dropColor
+		0.0, 								// lumSunFront
+		0.2, 								// lumSunBack
+		0.5, 								// refractCoef
+		0.5, 								// refractSaturation
+		TRUE, 								// snow
+		FALSE 								// dropColorStrong
 	]
 };
 // Default (Snow)
 [
-	'a3\data_f\rainnormal_ca.paa',				// rainDropTexture
-	1,											// texDropCount
-	0.01,										// minRainDensity
-	15,											// effectRadius
-	0.1,										// windCoef
-	2,											// dropSpeed
-	0.5,										// rndSpeed
-	0.5,										// rndDir
-	0.02,										// dropWidth
-	0.02,										// dropHeight
-	[0.1, 0.1, 0.1, 1],							// dropColor
-	0.1,										// lumSunFront
-	0.1,										// lumSunBack
-	5.5,										// refractCoef
-	0.3,										// refractSaturation
-	TRUE,										// snow
-	FALSE										// dropColorStrong
+	'a3\data_f\snowflake4_ca.paa', 		// rainDropTexture
+	4, 									// texDropCount
+	0.01, 								// minRainDensity
+	25, 								// effectRadius
+	0.05, 								// windCoef
+	2.5, 								// dropSpeed
+	0.5, 								// rndSpeed
+	0.5, 								// rndDir
+	0.07, 								// dropWidth
+	0.07, 								// dropHeight
+	[1,1,1,0.5], 						// dropColor
+	0.0, 								// lumSunFront
+	0.2, 								// lumSunBack
+	0.5, 								// refractCoef
+	0.5, 								// refractSaturation
+	TRUE, 								// snow
+	FALSE 								// dropColorStrong
 ]

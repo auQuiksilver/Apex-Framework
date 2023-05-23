@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	23/03/2023 A3 2.12 by Quiksilver
+	21/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -16,7 +16,8 @@ _____________________________________________*/
 params ['_oldBody','_newBody','_vehicleIn','_oldCameraOn','_newCameraOn','_uav'];
 if (
 	(_newCameraOn isEqualTo player) &&
-	{(_oldCameraOn isKindOf 'CAManBase')}
+	{(_oldCameraOn isKindOf 'CAManBase')} &&
+	{(_oldCameraOn isNotEqualTo player)}
 ) then {
 	if ((actionIDs _oldCameraOn) isNotEqualTo []) then {
 		// removeAllActions
@@ -25,7 +26,6 @@ if (
 		} forEach (actionIds _oldCameraOn);
 	};
 };
-
 if (
 	(_oldCameraOn isNotEqualTo _newCameraOn) &&
 	{(local _newCameraOn)} &&
@@ -35,7 +35,7 @@ if (
 	{((_newCameraOn getVariable ['QS_logistics_child',objNull]) in (attachedObjects _newCameraOn))}
 ) then {
 	[_newCameraOn,_oldCameraOn] spawn {
-		uiSleep 0.1;
+		uiSleep 0.25;
 		params ['_newCameraOn','_oldCameraOn'];
 		[
 			_newCameraOn,

@@ -39,7 +39,7 @@ if (_preset isEqualTo 3) exitWith {
 
 };
 if (_preset isEqualTo 4) exitWith {
-	comment 'Patrol Base (small fort)';
+	//comment 'Patrol Base (small fort)';
 	[
 		[['land_hbarrier_big_f',1,0,0,4.83166,0],								5],
 		[['land_hbarrier_5_f',1,0,0,3.12525,0],									5],
@@ -56,7 +56,7 @@ if (_preset isEqualTo 4) exitWith {
 	]
 };
 if (_preset isEqualTo 5) exitWith {
-	comment 'Combat Outpost (medium fort)';
+	//comment 'Combat Outpost (medium fort)';
 	[
 		[['land_hbarrier_big_f',1,0,0,4.83166,0],								7],
 		[['land_hbarrier_5_f',1,0,0,3.12525,0],									7],
@@ -78,7 +78,7 @@ if (_preset isEqualTo 5) exitWith {
 	]
 };
 if (_preset isEqualTo 6) exitWith {
-	comment 'FOB (large fort)';
+	//comment 'FOB (large fort)';
 	[
 		[['land_hbarrier_big_f',1,0,0,4.83166,0],								15],
 		[['land_hbarrier_5_f',1,0,0,3.12525,0],									10],
@@ -93,6 +93,7 @@ if (_preset isEqualTo 6) exitWith {
 		[['land_helipadcircle_f',1,0,0,7,0],									1],
 		[['land_lamphalogen_f',0,0,1,5,0],										4],
 		[['land_portablelight_02_quad_yellow_f',0,0,1,3,0],						4],
+		[['land_campingchair_v2_f',1,0,0,0.5,0],								2],
 		[[format ['land_cargo_hq_v%1_f',_cargoType],0,0,1,15,0],				1],
 		[[format ['land_cargo_patrol_v%1_f',_cargoType],0,0,1,8.13845,0],		4],
 		[[format ['land_cargo_house_v%1_f',_cargoType],0,0,1,6.5,0],			2],
@@ -105,7 +106,7 @@ if (_preset isEqualTo 6) exitWith {
 	]
 };
 if (_preset isEqualTo 7) exitWith {
-	comment 'platform/bridging kit';
+	//comment 'platform/bridging kit';
 	[
 		[[_platformType,0,0,1,4.83166,0],					16],
 		[['land_pierladder_f',0,0,1,4,0],					2]
@@ -113,19 +114,34 @@ if (_preset isEqualTo 7) exitWith {
 };
 if (_preset isEqualTo 8) exitWith {
 	[
-		[['sign_arrow_yellow_f',1,0,0,4.83166,0],					10]
+		[['sign_arrow_yellow_f',1,0,0,0.5,0],					10]
 	]
 };
 if (_preset isEqualTo 9) exitWith {
 	[
-		[['roadcone_f',0,0,1,4.83166,0],					3]
+		[['roadcone_f',0,0,1,0.5,0],					5]
 	]
 };
 if (_preset isEqualTo 10) exitWith {
 	[
-		[['roadcone_f',0,0,1,4.83166,0],						6],
-		[['roadbarrier_f',0,0,1,4.83166,0],						3],
+		[['roadcone_f',0,0,1,0.5,0],						6],
+		[['roadbarrier_f',0,0,1,0.5,0],						3],
 		[['land_portablelight_02_double_yellow_f',0,0,1,3,0],	1]
+	]
+};
+if (_preset isEqualTo 11) exitWith {
+	[
+		[['land_roadcone_01_f',0,0,1,0.5,0],					5]
+	]
+};
+if (_preset isEqualTo 12) exitWith {
+	[
+		[['box_c_idap_uav_06_medical_f',0,0,1,0.5,0],					2]
+	]
+};
+if (_preset isEqualTo 13) exitWith {
+	[
+		[['box_b_uav_06_medical_f',0,0,1,0.5,0],					2]
 	]
 };
 []

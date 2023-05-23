@@ -34,6 +34,8 @@ Other Files with Many Classnames:
 	
 ______________________________________________/*/
 
+_active_Mod = missionNamespace getVariable ['QS_system_activeDLC',''];
+
 // Vanilla
 qs_core_classnames_itemtoolkit = 'toolkit';
 qs_core_classnames_itemtoolkits = ['toolkit'];
@@ -108,40 +110,10 @@ QS_core_classNames_heliTypesCAS_lower = [
 	'o_heli_attack_02_black_f','o_heli_light_02_dynamicloadout_f','o_heli_attack_02_dynamicloadout_black_f','o_heli_attack_02_dynamicloadout_black_f',
 	'i_heli_light_03_dynamicloadout_f','i_e_heli_light_03_dynamicloadout_f','b_heli_attack_01_dynamicloadout_f','b_heli_light_01_dynamicloadout_f'
 ];
-QS_core_classNames_zeusDisabledModules_lower = [
-	'modulepostprocess_f','moduleskiptime_f','moduletimemultiplier_f','moduleweather_f',
-	'modulebootcampstage_f','modulehint_f','modulediary_f','modulecountdown_f','moduleendmission_f',
-	'modulerespawntickets_f','modulemissionname_f','modulerespawninventory_f','modulerespawnpositionwest_f',
-	'modulerespawnpositionciv_f','modulerespawnpositionguer_f','modulerespawnpositioneast_f','modulevehiclerespawnpositionwest_f',
-	'modulevehiclerespawnpositionciv_f','modulevehiclerespawnpositionguer_f','modulevehiclerespawnpositioneast_f',
-	'moduleobjectiveattackdefend_f','moduleobjectivesector_f','moduleobjectiveracecp_f','moduleobjectiveracefinish_f',
-	'moduleobjectiveracestart_f','moduleanimalsbutterflies_f'
-];
-QS_core_classNames_zeusDisabledAddons_lower = [
-	'a3_modules_f_curator_respawn',
-	'a3_modules_f_curator_multiplayer',
-	'a3_modules_f_kart',
-	'a3_modules_f_mark_firingdrills',
-	'a3_modules_f_curator_intel',
-	'a3_modules_f_curator_environment',
-	'a3_modules_f_curator_effects',
-	'a3_characters_f_bootcamp',
-	'a3_structures_f_bootcamp_vr_blocks',
-	'a3_structures_f_bootcamp_vr_coverobjects',
-	'a3_structures_f_bootcamp_vr_helpers',
-	'a3_structures_f_exp_a_vr_blocks',
-	'a3_structures_f_exp_a_vr_helpers',
-	'a3_structures_f_mark_vr_helpers',
-	'a3_structures_f_mark_vr_shapes',
-	'a3_structures_f_mark_vr_targets',
-	'a3_structures_f_heli_vr_helpers',
-	'a3_modules_f_curator_lightning',
-	'a3_data_f_curator_respawn',
-	'curatoronly_modules_f_curator_environment',
-	'curatoronly_modules_f_curator_lightning'
-];
 
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'WS') exitWith {
+// DLC and Mod alternatives
+
+if (_active_Mod == 'WS') exitWith {
 	qs_core_classnames_laserbatteries = ['laserbatteries'];
 	// Western Sahara
 	QS_core_classNames_planeTypesCAS_lower = [
@@ -176,7 +148,7 @@ if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'WS') ex
 		'o_sfia_heli_attack_02_dynamicloadout_lxws'
 	];
 };
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'VN') exitWith {
+if (_active_Mod == 'VN') exitWith {
 	// Prairie Fire
 	qs_core_classnames_itemtoolkit = 'toolkit';
 	qs_core_classnames_itemtoolkits = ['toolkit','vn_b_item_toolkit'];
@@ -338,7 +310,7 @@ if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'VN') ex
 		'vn_o_air_mi2_03_04'
 	];
 };
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'CSLA') exitWith {
+if (_active_Mod == 'CSLA') exitWith {
 	// CSLA
 	qs_core_classnames_itemtoolkit = 'toolkit';
 	qs_core_classnames_itemtoolkits = ['toolkit','csla_toolkit','us85_toolkit_b','csla_toolkit_komze','us85_toolkit_s'];
@@ -380,7 +352,7 @@ if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'CSLA') 
 		'csla_mi24v'
 	];	
 };
-if ((missionNamespace getVariable ['QS_system_activeDLC','']) isEqualTo 'GM') exitWith {
+if (_active_Mod == 'GM') exitWith {
 	// Global Mobilization
 	qs_core_classnames_itemtoolkit = 'gm_repairkit_01';
 	qs_core_classnames_itemtoolkits = ['gm_repairkit_01'];

@@ -32,12 +32,11 @@ for '_x' from 0 to 1 step 0 do {
 };
 _unitsArray = [_flatPos,(random 360),([] call (missionNamespace getVariable 'QS_data_artyPit'))] call (missionNamespace getVariable 'QS_fnc_serverObjectsMapper');
 _priorityTargets = [];
+_artyTypes2 = ['enemy_artillery_types_1'] call QS_data_listVehicles;
 {
 	
 	if (!isSimpleObject _x) then {
-		if ((toLowerANSI (typeOf _x)) in [
-			'o_mbt_02_arty_f','o_t_mbt_02_arty_ghex_f','i_truck_02_mrl_f'
-		]) then {
+		if ((toLowerANSI (typeOf _x)) in _artyTypes2) then {
 			[0,_x,EAST,1] call (missionNamespace getVariable 'QS_fnc_vSetup2');
 			_priorityTargets pushBack _x;
 		};

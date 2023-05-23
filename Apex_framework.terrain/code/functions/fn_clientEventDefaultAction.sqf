@@ -52,16 +52,27 @@ if (_mode isEqualTo 'activate') exitWith {
 					if (localNamespace getVariable ['QS_logistics_playerBuild',FALSE]) then {
 						localNamespace setVariable ['QS_logistics_playerBuild',FALSE];
 						QS_player playActionNow 'PutDown';
-						[
-							52,
+						
+						
+						_sim = uiNamespace getVariable ['QS_client_menuPlayerBuild_sim',1];
+						_posASL = uiNamespace getVariable ['QS_targetBoundingBox_ASLPos',[0,0,0]];
+						_vectors = uiNamespace getVariable 'QS_targetBoundingBox_vectors';
+						_object = [
 							_requestedObject,
-							(uiNamespace getVariable ['QS_client_menuPlayerBuild_sim',1]),
-							(uiNamespace getVariable ['QS_targetBoundingBox_ASLPos',[0,0,0]]),
-							(uiNamespace getVariable 'QS_targetBoundingBox_vectors'),
-							clientOwner,
-							getPlayerUID player,
-							([QS_player] call QS_fnc_getPlayerBuildBudget)
-						] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+							_sim,
+							_posASL,
+							_vectors,
+							[QS_player] call QS_fnc_getPlayerBuildBudget
+						] call QS_fnc_playerBuildObject;
+						if (!isNull _object) then {
+							[
+								52,
+								_object,
+								clientOwner,
+								QS_player,
+								[QS_player] call QS_fnc_getPlayerBuildBudget
+							] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+						};
 					} else {
 						// To do: Make this more robust to handle different conditions for different object types
 						if (

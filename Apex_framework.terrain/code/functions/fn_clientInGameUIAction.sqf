@@ -168,7 +168,12 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 					if (['medicdummyend',_anim,false] call (missionNamespace getVariable 'QS_fnc_inString')) then {
 						_target = _unit getVariable ['QS_treat_target',objNull];
 						if (!isNull _target) then {
-							if (((_target distance _unit) <= 2.5) && (isNull (objectParent _target)) && ((lifeState _target) in ['HEALTHY','INJURED'])) then {
+							_unit setVariable ['QS_treat_target',objNull,FALSE];
+							if (
+								((_target distance _unit) <= 2.5) && 
+								(isNull (objectParent _target)) && 
+								((lifeState _target) in ['HEALTHY','INJURED'])
+							) then {
 								_fakIndex = ((items _unit) apply {toLowerANSI _x}) findAny QS_core_classNames_itemFirstAidKits;
 								if (_fakIndex isNotEqualTo -1) then {
 									_unit removeItem ((items _unit) # _fakIndex);
@@ -176,9 +181,6 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 								};
 							};
 						};
-					};
-					if (!isNull (_unit getVariable ['QS_treat_target',objNull])) then {
-						_unit setVariable ['QS_treat_target',objNull,FALSE];
 					};
 				};
 			}
@@ -190,7 +192,7 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 			uiSleep 0.5;
 			waitUntil {
 				uiSleep 0.05;
-				((isNull (player getVariable 'QS_treat_target')) || {(!((lifeState player) in ['HEALTHY','INJURED']))} || {(diag_tickTime > _timeout)} || {((_injured distance player) > 2.5)})
+				((isNull (player getVariable ['QS_treat_target',objNull])) || {(!((lifeState player) in ['HEALTHY','INJURED']))} || {(diag_tickTime > _timeout)} || {((_injured distance player) > 2.5)})
 			};
 			if ((_injured distance player) > 2.5) then {
 				player setVariable ['QS_treat_target',objNull,FALSE];
@@ -199,7 +201,7 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 					['switchMove',player,(player getVariable ['QS_treat_entryAnim',''])] remoteExec ['QS_fnc_remoteExecCmd',_nearbyPlayers,FALSE];
 				};
 			};
-			if (!isNull (player getVariable 'QS_treat_target')) then {
+			if (!isNull (player getVariable ['QS_treat_target',objNull])) then {
 				player setVariable ['QS_treat_target',objNull,FALSE];
 			};
 			player removeEventHandler ['AnimDone',_animEvent];
@@ -576,8 +578,8 @@ if (_QS_actionName isEqualTo 'DisAssemble') exitWith {
 		player setVariable ['QS_client_assembledWeapons',_assembledWeapons,FALSE];
 	};
 	if (
-		(!isNull (attachedTo _QS_actionTarget)) &&
-		((attachedTo _QS_actionTarget) isKindOf 'Man')
+		(!isNull (attachedTo _QS_actionTarget)) //&&
+		//((attachedTo _QS_actionTarget) isKindOf 'CAManBase')
 	) then {
 		50 cutText [localize 'STR_QS_Text_070','PLAIN DOWN',0.5];
 		_QS_c = TRUE;

@@ -28,7 +28,7 @@ if (
 	systemChat (localize 'STR_QS_Chat_169');
 };
 player setVariable ['QS_client_remoteControlling',TRUE,TRUE];
-bis_fnc_moduleRemoteControl_unit = _unit;
+missionNamespace setVariable ['bis_fnc_moduleRemoteControl_unit',_unit,FALSE];
 _unit setVariable ['bis_fnc_moduleRemoteControl_owner',player,TRUE];
 _initialView = cameraView;
 player remotecontrol _unit;

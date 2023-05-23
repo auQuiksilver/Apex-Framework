@@ -17,7 +17,44 @@ private _units_table = missionNamespace getVariable ['QS_system_activeDLC_units'
 if (_units_table isEqualTo '') then {
 	_units_table = missionNamespace getVariable ['QS_system_activeDLC',''];
 };
-if (_units_table isEqualTo 'WS') exitWith {
+
+// DLCs and Mods below
+// Vanilla at the bottom
+
+if (_units_table == 'YOUR_MOD_HERE') exitWith {
+	// YOUR MOD HERE
+	// REPLACE THE CIVILIAN CLASSNAMES WITH CIVILIAN CLASSNAMES FROM YOUR MOD
+	[
+		'C_man_w_worker_F',
+		'C_Man_UtilityWorker_01_F',
+		'C_Man_Messenger_01_F',
+		'C_man_hunter_1_F',
+		'C_Man_Fisherman_01_F',
+		'C_man_polo_6_F',
+		'C_man_polo_5_F',
+		'C_man_polo_4_F',
+		'C_man_polo_3_F',
+		'C_man_polo_2_F',
+		'C_man_polo_1_F',
+		'C_Man_casual_6_F',
+		'C_Man_casual_5_F',
+		'C_Man_casual_4_F',
+		'C_Man_smart_casual_2_F',
+		'C_Man_smart_casual_1_F',
+		'C_man_1',
+		'C_man_p_beggar_F',
+		'C_Man_casual_1_F',
+		'C_Man_casual_2_F',
+		'C_Man_casual_3_F',
+		'C_Farmer_01_enoch_F'
+	] apply {
+		_x call (missionNamespace getVariable 'QS_fnc_prepareClassAddons');
+		_x
+	};	
+};
+
+
+if (_units_table == 'WS') exitWith {
 	[
 		'C_Djella_01_lxWS',
 		'C_Djella_02_lxWS',
@@ -38,7 +75,7 @@ if (_units_table isEqualTo 'WS') exitWith {
 		_x
 	};
 };
-if (_units_table isEqualTo 'VN') exitWith {
+if (_units_table == 'VN') exitWith {
 	[
 		'vn_c_men_13',
 		'vn_c_men_22',
@@ -77,7 +114,7 @@ if (_units_table isEqualTo 'VN') exitWith {
 		_x
 	};
 };
-if (_units_table isEqualTo 'CSLA') exitWith {
+if (_units_table == 'CSLA') exitWith {
 	[
 		'CSLA_CIV_Citizen',
 		'CSLA_CIV_Citizen_V2',
@@ -106,7 +143,7 @@ if (_units_table isEqualTo 'CSLA') exitWith {
 		_x
 	};
 };
-if (_units_table isEqualTo 'GM') exitWith {
+if (_units_table == 'GM') exitWith {
 	[
 		'gm_gc_civ_man_02_80_gry',
 		'gm_gc_civ_man_01_80_blk',

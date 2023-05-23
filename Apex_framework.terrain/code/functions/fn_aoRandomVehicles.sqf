@@ -29,7 +29,7 @@ for '_i' from 0 to 14 step 1 do {
 		if (((_spawnPosition select [0,2]) nearRoads 15) isEqualTo []) then {
 			_count = _count + 1;
 			_spawnPosition set [2,0];
-			_vehicle = createSimpleObject [_vehicleType,ATLToASL _spawnPosition];
+			_vehicle = createSimpleObject [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],ATLToASL _spawnPosition];
 			_vehicle setDir (random 360);
 			_vehicle setVectorUp (surfaceNormal _spawnPosition);
 			_vehicle setVariable ['QS_vehicle_prop',TRUE,TRUE];

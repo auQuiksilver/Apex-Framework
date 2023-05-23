@@ -66,6 +66,12 @@ if (_class isKindOf 'sign_arrow_yellow_f') then {
 			sleep 0.5;
 			deleteVehicle _this;
 		};
+	} else {
+		_entity spawn {
+			_this hideObjectGlobal TRUE;
+			sleep 0.5;
+			deleteVehicle _this;
+		};	
 	};
 };
 if (_class isKindOf 'Lamps_base_F') then {

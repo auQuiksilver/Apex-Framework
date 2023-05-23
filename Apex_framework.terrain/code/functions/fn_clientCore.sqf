@@ -339,10 +339,12 @@ _QS_interaction_drag = FALSE;
 _QS_action_drag = nil;
 _QS_action_drag_text = localize 'STR_QS_Interact_001';
 _QS_action_drag_array = [_QS_action_drag_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractDrag')},[],-9,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+private _maxDragVolume = 5;
 _QS_interaction_carry = FALSE;
 _QS_action_carry = nil;
 _QS_action_carry_text = localize 'STR_QS_Interact_002';
 _QS_action_carry_array = [_QS_action_carry_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractCarry')},[],-10,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+private _maxCarryVolume = 5;
 _QS_interaction_follow = FALSE;
 _QS_action_follow = nil;
 _QS_action_follow_text = localize 'STR_QS_Interact_007';
@@ -1053,7 +1055,9 @@ _QS_module_groupIndicator_filter = {
 			((_x getVariable ['QS_unit_face','']) isNotEqualTo '') &&
 			{((toLowerANSI (face _x)) isNotEqualTo (toLowerANSI (_x getVariable ['QS_unit_face',''])))}
 		) then {
-			_x setFace (_x getVariable ['QS_unit_face','']);
+			if (!dialog) then {
+				_x setFace (_x getVariable ['QS_unit_face','']);
+			};
 		};
 		((side (group _x)) isEqualTo (QS_player getVariable ['QS_unit_side',WEST]))
 	} else {
@@ -1079,8 +1083,8 @@ _QS_module_gpsJammer_checkDelay = _QS_uiTime + _QS_module_gpsJammer_delay;
 _QS_module_gpsJammer_signalDelay = 10;
 _QS_module_gpsJammer_signalCheck = _QS_uiTime + _QS_module_gpsJammer_signalDelay;
 _QS_module_gpsJammer_ctrlPlayer = (findDisplay 12) displayCtrl 1202;
-QS_module_gpsJammer_inArea = FALSE;
-/*/===== Operational Security Module - will detect some low-hanging fruit. To date it has caught around 60 cheaters./*/
+missionNamespace setVariable ['QS_module_gpsJammer_inArea',FALSE,FALSE];
+/*/===== Operational Security Module/*/
 if (!((uiNamespace getVariable ['BIS_shownChat',TRUE]) isEqualType TRUE)) exitWith {
 	[
 		40,
@@ -2213,7 +2217,7 @@ for 'x' from 0 to 1 step 0 do {
 				{(isNull (ropeAttachedTo _cursorTarget))} &&
 				{
 					(_cursorTarget isKindOf 'CAManBase') || 
-					{(([_cursorTarget] call _fn_getObjectVolume) < 3)} ||
+					{(([_cursorTarget] call _fn_getObjectVolume) < _maxDragVolume)} ||
 					{(_cursorTarget getVariable ['QS_logistics_draggable',_false])}
 				} &&
 				{(!(_cursorTarget getVariable ['QS_logistics_dragDisabled',_false]))} &&
@@ -2283,7 +2287,8 @@ for 'x' from 0 to 1 step 0 do {
 					if (
 						([0,_cursorTarget,_objNull] call _fn_getCustomCargoParams) && 
 						{([4,_cursorTarget,_QS_v2] call _fn_getCustomCargoParams)} &&
-						{(!(_cursorTarget getVariable ['QS_logistics_immovable',_false]))}
+						{(!(_cursorTarget getVariable ['QS_logistics_immovable',_false]))} &&
+						{(([_cursorTarget] call _fn_getObjectVolume) < _maxCarryVolume)}
 					) then {
 						if (!(_QS_interaction_carry)) then {
 							_QS_interaction_carry = _true;
@@ -6136,6 +6141,7 @@ for 'x' from 0 to 1 step 0 do {
 					];
 					if (
 						(alive _QS_module_objectScale_obj) &&
+						{(local _QS_module_objectScale_obj)} &&
 						{((getObjectScale _QS_module_objectScale_obj) isNotEqualTo _QS_module_objectScale_scale)}
 					) then {
 						_QS_module_objectScale_obj setObjectScale _QS_module_objectScale_scale;

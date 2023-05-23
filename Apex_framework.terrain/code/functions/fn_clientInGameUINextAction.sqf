@@ -76,9 +76,18 @@ if (
 		getCursorObjectParams params ['_cursorObject','_cursorSelection','_cursorDistance'];
 		if (
 			(!isNull _cursorObject) &&
-			{_cursorSelection isNotEqualTo []} &&
-			{_cursorDistance < 2}
+			{
+				(
+					(_cursorSelection isNotEqualTo []) ||
+					(_cursorObject isKindOf 'FlagCarrier')
+				)
+			} &&
+			{_cursorDistance < 2} &&
+			{simulationEnabled _cursorObject}
 		) then {
+			if (_cursorObject isKindOf 'FlagCarrier') then {
+				_cursorSelection = ['flag'];
+			};
 			_index = _cursorSelection findIf { ((QS_hashmap_animationParams getOrDefault [toLowerANSI _x,[]]) isNotEqualTo []) };
 			if (_index isNotEqualTo -1) then {
 				_data = QS_hashmap_animationParams getOrDefault [toLowerANSI (_cursorSelection # _index),[]];
@@ -102,6 +111,15 @@ if (
 						};
 						if (_mode isEqualTo 3) then {
 							_cursorObject animateDoor [_anim,_rangeMin max ((_cursorObject animationSourcePhase _anim) - _step) min _rangeMax];
+						};
+						if (_mode isEqualTo 4) then {
+							_phase = flagAnimationPhase _cursorObject;
+							_new = (_rangeMin max (_phase - _step) min _rangeMax);
+							_cursorObject setFlagAnimationPhase _new;
+							if ((abs (_new - _phase)) > 0.1) then {
+								_cursorObject setVariable ['QS_flag_animationPhase',flagAnimationPhase _cursorObject,TRUE];
+								['setFlagAnimationPhase',_cursorObject,_new] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+							};
 						};
 					};
 				};

@@ -6,55 +6,29 @@ Author:
 	
 Last Modified:
 
-	6/01/2023 A3 2.10 by Quiksilver
+	22/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	Vehicle Registration
 	
 Notes:
-	
-	[
-		objnull,				// --- [DO NOT EDIT] the vehicle object stored here once it spawns
-		30,						// --- [CAN EDIT] vehicle respawn delay
-		false,					// --- [CAN EDIT] randomized vehicle
-		{},						// --- [CAN EDIT] custom init code
-		'B_Quadbike_01_F',		// --- [CAN EDIT] vehicle type
-		[0,0,0],				// --- [CAN EDIT] vehicle spawn position
-		0,						// --- [CAN EDIT] vehicle spawn direction
-		false,					// --- [DO NOT EDIT] is vehicle respawning now
-		0,						// --- [DO NOT EDIT] when can vehicle respawn
-		-1,						// --- [CAN EDIT] FOB vehicle ID (-1 if not a FOB vehicle)
-		50,						// --- [CAN EDIT] vehicle abandonment distance (at base)
-		500,					// --- [CAN EDIT] vehicle abandonment distance (away from base)
-		-1,						// --- [CAN EDIT] respawn tickets
-		5,						// --- [CAN EDIT] required safe respawn radius
-		true,					// --- [CAN EDIT] is a dynamic "Activate" vehicle (performance saving)
-		0						// --- [CAN EDIT] is spawned on an aircraft carrier deck
-	]
 
 	0 = [
 		this,
-		30,
-		false,
-		{},
-		50,
-		500,
-		-1,
-		true
-	] call QS_fnc_registerVehicle;
-	
-	0 = [
-		this,
-		30,
-		false,
-		{},
-		50,
-		500,
-		-1,
-		true,
+		30,			// respawn delay
+		false,		// randomize from preset pool of similar assets
+		{},			// init code
+		50,			// at-base abandonment distance
+		500,		// away-from-base abandonment distance
+		-1,			// respawn tickets, -1 for infinite, 0 for no respawn, 1 for 1 respawn, etc.
+		true,		// dynamic vehicle (performance saving, not for helicopters tho)
 		-1,			// Safe Position Radius check (-1 to ignore)
-		1			// 0 - Ground position, 1 - Elevated position (including ship decks)
+		1,			// 0 - Ground position, 1 - Elevated position (including ship decks)
+		{TRUE},		// Respawn condition code. Can only respawn if this returns true.
+		[],
+		0,			// Wreck chance. 0 = never a wreck. 1 = always a wreck. 0.5 = 50% chance of becoming a wreck.
+		{TRUE}		// Wreck condition code. Can only become a wreck if this code returns true.
 	] call QS_fnc_registerVehicle;
 _____________________________________________________________________/*/
 
@@ -113,6 +87,7 @@ _this spawn {
 	if (isNil {serverNamespace getVariable 'QS_v_Monitor'}) then {
 		serverNamespace setVariable ['QS_v_Monitor',[]];
 	};
+	_wreckChance = [_wreckChance,0] select ((_vehicle isKindOf 'Helicopter') && ((getAllPylonsInfo _vehicle) isEqualTo []));		// Hard disable wreck-chance for unarmed Transport helicopters
 	(serverNamespace getVariable 'QS_v_Monitor') pushBack [
 		_vehicle,
 		_respawnDelay,
@@ -128,7 +103,7 @@ _this spawn {
 		_abandonmentDistanceField,
 		_respawnTickets,
 		_safeRespawnRadius,
-		_isDynamicVehicle,
+		([_isDynamicVehicle,FALSE] select (_vehicle isKindOf 'Helicopter')),
 		_isCarrierVehicle,
 		_vehicleSpawnCondition,
 		FALSE,						// is wreck

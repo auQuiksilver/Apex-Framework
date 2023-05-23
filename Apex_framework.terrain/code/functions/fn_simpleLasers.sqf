@@ -103,9 +103,10 @@ if (
 			QS_hashmap_lasers set [_weaponClass,[_muzzlePos,_weaponProxy],TRUE];
 		} forEach _weapons;
 		_delete spawn {
+			sleep 0.25;
 			{
 				deleteVehicle _x;
-			} forEach _delete;
+			} forEach _this;
 		};
 	};
 	private _availableColors = [3] call QS_data_lasers;

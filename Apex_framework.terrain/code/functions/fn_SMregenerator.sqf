@@ -105,23 +105,13 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 	]
 ];
 _unitTypes = [
-	[
-		'o_v_soldier_tl_hex_f',0.1,
-		'o_v_soldier_m_hex_f',0.3,
-		'o_v_soldier_exp_hex_f',0.3,
-		'o_v_soldier_lat_hex_f',0.4,
-		'o_v_soldier_medic_hex_f',0.2,
-		'o_v_soldier_hex_f',0.6
-	],
-	[
-		'o_v_soldier_tl_ghex_f',0.1,
-		'o_v_soldier_m_ghex_f',0.3,
-		'o_v_soldier_exp_ghex_f',0.3,
-		'o_v_soldier_lat_ghex_f',0.4,
-		'o_v_soldier_medic_ghex_f',0.2,
-		'o_v_soldier_ghex_f',0.6
-	]
-] select (worldName in ['Tanoa','Lingor3']);
+	'o_v_soldier_tl_hex_f',0.1,
+	'o_v_soldier_m_hex_f',0.3,
+	'o_v_soldier_exp_hex_f',0.3,
+	'o_v_soldier_lat_hex_f',0.4,
+	'o_v_soldier_medic_hex_f',0.2,
+	'o_v_soldier_hex_f',0.6
+];
 private _playerCount = count _allPlayers;
 private _unitCount = 12;
 private _groupSize = 4;
@@ -182,7 +172,7 @@ private _tent = objNull;
 if ((random 1) > 0.5) then {
 	_grpSpawnPos = ['RADIUS',_spawnPosition,600,'LAND',[5,0,0.5,3,0,FALSE,objNull],TRUE,[],[],FALSE] call (missionNamespace getVariable 'QS_fnc_findRandomPos');
 	if ((_grpSpawnPos distance2D _spawnPosition) < 600) then {
-		_tank = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI 'I_LT_01_scout_F','I_LT_01_scout_F'],_grpSpawnPos,[],0,'NONE'];
+		_tank = createVehicle [QS_core_vehicles_map getOrDefault ['i_lt_01_scout_f','i_lt_01_scout_f'],_grpSpawnPos,[],0,'NONE'];
 		_tank setDir (random 360);
 		_tank setVehiclePosition [(getPosASL _tank),[],0,'NONE'];
 		_tank allowCrewInImmobile [TRUE,TRUE];
@@ -333,6 +323,13 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				_grp setVariable ['QS_AI_GRP_DATA',[_spawnPosition],QS_system_AI_owners];
 				_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+				{
+					diag_log str (_grp getVariable _x);
+				} forEach [
+					'QS_AI_GRP_TASK',
+					'QS_AI_GRP_DATA',
+					'QS_AI_GRP_CONFIG'
+				];
 			};
 		};
 		_respawnCheckDelay = _time + _respawnDelay;

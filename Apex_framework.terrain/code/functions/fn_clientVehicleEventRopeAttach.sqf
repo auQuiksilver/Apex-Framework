@@ -43,7 +43,7 @@ if (
 	{(alive (driver _vehicle))} &&
 	{(player isEqualTo (driver _vehicle))}
 ) then {
-	_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) + (getMass _attachedObject));
+	//_vehicle setCustomWeightRTD (((weightRTD _vehicle) # 3) + (getMass _attachedObject));			// might cause game crash
 	if (!(_attachedObject getVariable ['QS_dynSim_ignore',FALSE])) then {
 		_attachedObject setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 	};
