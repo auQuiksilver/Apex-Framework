@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	27/12/2022 A3 2.10 by Quiksilver
+	24/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -18,6 +18,28 @@ if (_mode isEqualTo 0) exitWith {
 	(QS_hashmap_classLists getOrDefaultCall [format ['u_%1',_type],{[_type,1] call QS_data_listUnits},TRUE])
 };
 private _return = [];
+
+if (_type isEqualTo 'recruitable_1') exitWith {
+	// Pool of units to select from when "randomize" is selected
+	[
+		'b_soldier_ar_f',
+		'b_soldier_gl_f',
+		'b_soldier_m_f',
+		'b_sharpshooter_f',
+		'b_g_sharpshooter_f'
+	]
+};
+if (_type isEqualTo 'pilot_types_1') exitWith {
+	// Only these types of recruitable AI can pilot helicopters
+	[
+		'b_helicrew_f',
+		'b_helipilot_f',
+		'b_pilot_f',
+		'b_t_helicrew_f',
+		'b_t_helipilot_f',
+		'b_t_pilot_f'
+	]
+};
 if (_type isEqualTo 'o_heli_insert_1') exitWith {
 	[
 		'o_soldier_f',1,

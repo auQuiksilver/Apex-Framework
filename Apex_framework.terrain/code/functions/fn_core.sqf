@@ -57,12 +57,12 @@ private [
 	'_QS_darkAccelerationFactor','_QS_noonAccelerationFactor','_QS_dawnDuskDeccelerationFactor','_QS_timeAccelerationControl',
 	'_QS_module_recruitableAI','_QS_module_recruitableAI_checkDelay','_QS_module_recruitableAI_array','_array','_unit','_randomize','_configCode',
 	'_t','_unitPos','_unitDir','_isRespawning','_canRespawnAfter','_respawnTickets','_exit','_QS_module_recruitableAI_delay','_QS_module_recruitableAI_side',
-	'_QS_module_recruitableAI_unitTypes','_QS_messagingSystem','_QS_messages','_QS_message_interval','_QS_message_delay','_QS_messageCurrent','_QS_messageCount',
+	'_QS_module_recruitableAI_unitTypes','_QS_module_recruitableAI_pilotTypes','_QS_messagingSystem','_QS_messages','_QS_message_interval','_QS_message_delay','_QS_messageCurrent','_QS_messageCount',
 	'_QS_messageCountIndex','_QS_messageCurrentIndex','_QS_module_missionObjectives','_QS_module_missionObjectives_checkDelay','_missionObjectives','_unit',
 	'_QS_module_missionObjectives_delay','_QS_module_recruitableAI_class','_unitVehicle',
 	'_QS_fogWorkingArray','_QS_module_hc_delay','_QS_module_hc_checkDelay','_QS_module_hc_clientID','_QS_module_hc_active','_QS_module_hc_managedSides',
 	'_QS_module_hc_grp','_isDefendLocal','_QS_module_curator','_QS_module_curator_delay','_QS_module_curator_checkDelay','_arrayToAdd',
-	'_ownerInGame','_allDeadMen','_allDeadMenCount','_allDeadVehicles','_allDeadVehiclesCount','_allMines','_allMinesCount','_allGroups','_allMissionObjectsAll',
+	'_ownerInGame','_allDeadMen','_allDeadMenCount','_allDeadVehicles','_allDeadVehiclesCount','_allMines','_allMinesCount','_allMissionObjectsAll',
 	'_missionCraters','_missionWeaponHolders','_missionWeaponHolderSimulated','_missionStaticWeapons','_missionRuins','_missionBackpackUAVs','_missionEmptyDetectors',
 	'_missionCratersLimit','_weaponHoldersLimit','_missionWeaponHolderSimulatedLimit','_missionStaticWeaponsLimit','_missionRuinsLimit','_missionBackpackUAVsLimit',
 	'_missionEmptyDetectorsLimit','_count','_limit','_n','_i','_garbageCollector','_allPlayers','_airDefenseAvailable','_QS_module_airDefense',
@@ -124,6 +124,9 @@ private _activeDLC = missionNamespace getVariable ['QS_system_activeDLC',''];
 private _isActiveDLC = _activeDLC isNotEqualTo '';
 
 private _allUnits = allUnits;
+private _allUnitsUav = allUnitsUav;
+private _allGroups = allGroups;
+private _allVehicles = vehicles;
 _enemySides = [EAST,RESISTANCE];
 _east = EAST;
 _west = WEST;
@@ -399,7 +402,6 @@ private _HVT_currentTargets = [];
 private _HVT_removeFrom = FALSE;
 private _HVT_laserTarget = objNull;
 private _HVT_laserTargets = [];
-private _HVT_fn_isStealthy = missionNamespace getVariable 'QS_fnc_getVehicleStealth';
 private _HVT_targetingDelay = -1;
 private _HVT_isTargeting = FALSE;
 private _HVT_targetingThreshold = 10;
@@ -865,23 +867,8 @@ if (_QS_module_recruitableAI) then {
 	};
 	_QS_module_recruitableAI_array = _QS_module_recruitableAI_data;
 	_QS_module_recruitableAI_side = WEST;
-	_QS_module_recruitableAI_unitTypes = [	
-		'B_soldier_AR_F','B_Soldier_GL_F','B_soldier_M_F','B_Sharpshooter_F','B_G_Sharpshooter_F'
-	];
-	if (_QS_worldName isEqualTo 'Tanoa') then {
-		_QS_module_recruitableAI_unitTypes = [	
-			'B_CTRG_Soldier_AR_tna_F','B_CTRG_Soldier_LAT_tna_F','B_CTRG_Soldier_M_tna_F'
-		];
-	};
-	if (_QS_worldName isEqualTo 'Enoch') then {
-		_QS_module_recruitableAI_unitTypes = [	
-			'B_W_Soldier_AR_F',
-			'B_W_Medic_F',
-			'B_W_Engineer_F',
-			'B_W_soldier_M_F',
-			'B_W_Soldier_LAT2_F'
-		];
-	};
+	_QS_module_recruitableAI_unitTypes = ['recruitable_1'] call QS_data_listUnits;
+	_QS_module_recruitableAI_pilotTypes = ['pilot_types_1'] call QS_data_listUnits;
 	_QS_module_recruitableAI_unitTypes = _QS_module_recruitableAI_unitTypes call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 
@@ -1422,6 +1409,7 @@ _fn_getWreckType = missionNamespace getVariable 'QS_fnc_getWreckType';
 _fn_isWreckable = missionNamespace getVariable 'QS_fnc_isWreckable';
 _fn_deployAssault = missionNamespace getVariable 'QS_fnc_deployAssault';
 _fn_isNearVehicleRally = missionNamespace getVariable 'QS_fnc_isNearVehicleRally';
+_fn_getVehicleStealth = missionNamespace getVariable 'QS_fnc_getVehicleStealth';
 
 /*/============================================================================= LOOP/*/
 for '_x' from 0 to 1 step 0 do {
@@ -1431,6 +1419,9 @@ for '_x' from 0 to 1 step 0 do {
 		_miscDelay3 = _QS_diagTickTimeNow + 5;
 		_allPlayers = allPlayers - (entities 'HeadlessClient_F');
 		_allUnits = allUnits;
+		_allUnitsUav = allUnitsUav;
+		_allGroups = allGroups;
+		_allVehicles = vehicles;
 	};
 	if (_timeNow > _updateUnitsCount) then {
 		_allPlayersCount = count _allPlayers;
@@ -1932,7 +1923,7 @@ for '_x' from 0 to 1 step 0 do {
 									deleteGroup _x;
 								};
 							};
-						} count allGroups;
+						} count _allGroups;
 						{
 							if (local _x) then {
 								if ((_x distance2D _QS_AOpos) < 1200) then {
@@ -3093,7 +3084,7 @@ for '_x' from 0 to 1 step 0 do {
 							{((_east knowsAbout _QS_v) > 1)} &&
 							{((_QS_v distance2D _baseMarker) > 1000)} &&
 							{(_allPlayersCount >= _HVT_targetingThreshold)} &&
-							{(!([_QS_v] call _HVT_fn_isStealthy))}
+							{(!([_QS_v] call _fn_getVehicleStealth))}
 						) then {
 							_HVT_isTargeting = _true;
 							_HVT_targetingDelay = _timeNow + (random [480,900,1800]);
@@ -3131,7 +3122,7 @@ for '_x' from 0 to 1 step 0 do {
 							{(!isTouchingGround _QS_v)} ||
 							{(!canMove _QS_v)} ||
 							{(_allPlayersCount < _HVT_targetingThreshold)} ||
-							{([_QS_v] call _HVT_fn_isStealthy)}
+							{([_QS_v] call _fn_getVehicleStealth)}
 						) then {
 							_HVT_currentTargets deleteAt (_HVT_currentTargets find _QS_v);
 							{
@@ -3153,7 +3144,7 @@ for '_x' from 0 to 1 step 0 do {
 							{(!isTouchingGround _QS_v)} ||
 							{(!canMove _QS_v)} ||
 							{(_allPlayersCount < _HVT_targetingThreshold)} ||
-							{([_QS_v] call _HVT_fn_isStealthy)}
+							{([_QS_v] call _fn_getVehicleStealth)}
 						) then {
 							_HVT_currentTargets deleteAt (_HVT_currentTargets find _QS_v);
 							{
@@ -3165,7 +3156,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 				};
-			} forEach vehicles;
+			} forEach _allVehicles;
 			_HVT_checkDelay = _timeNow + (60 + (random 10));
 		};
 	};
@@ -3876,7 +3867,6 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			} forEach (missionNamespace getVariable 'QS_garbageCollector');
 		};
-		_allGroups = allGroups;
 		if (_missionObjectsTicker >= 5) then {
 			_missionObjectsTicker = 0;
 			_allMissionObjectsAll = allMissionObjects '';
@@ -4071,36 +4061,39 @@ for '_x' from 0 to 1 step 0 do {
 		};
 
 		if (_timeNow > _QS_checkUAVsTime) then {
-			if (allUnitsUav isNotEqualTo []) then {
+			if (_allUnitsUav isNotEqualTo []) then {
 				{
 					_uav = _x;
 					if (local _uav) then {
-						if (!(_uav getVariable ['QS_uav_protected',_false])) then {
-							if ((isNull (isVehicleCargo _uav)) && (isNull (ropeAttachedTo _uav)) && (isNull (attachedTo _uav))) then {
-								if ((attachedObjects _uav) isNotEqualTo []) then {
-									{
-										missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-										detach _x;
-										deleteVehicle _x
-									} forEach (attachedObjects _uav);
-								};
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-								deleteVehicle _uav;
+						if (
+							(_uav isKindOf 'Air') &&			// Should we include the backpack tracked vehicles in this too?
+							(!(_uav getVariable ['QS_uav_protected',_false])) &&
+							(isNull (isVehicleCargo _uav)) && 
+							(isNull (ropeAttachedTo _uav)) && 
+							(isNull (attachedTo _uav))
+						) then {
+							if ((attachedObjects _uav) isNotEqualTo []) then {
+								{
+									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+									detach _x;
+									deleteVehicle _x
+								} forEach (attachedObjects _uav);
 							};
+							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+							deleteVehicle _uav;
 						};
 					} else {
-						if (vehicleReportRemoteTargets _x) then {
-							_x setVehicleReportRemoteTargets _false;
-						};
+						// Do we still want this behaviour?
+						//if (vehicleReportRemoteTargets _x) then {
+							//_x setVehicleReportRemoteTargets _false;
+						//};
 					};
-				} count allUnitsUav;
+				} count _allUnitsUav;
 			};
 			if (!(missionNamespace getVariable 'QS_uavCanSpawn')) then {
-				//if (!alive (missionNamespace getVariable ['QS_cas_uav',_objNull])) then {
-					if (_timeNow > (missionNamespace getVariable 'QS_uavRespawnTimeout')) then {
-						missionNamespace setVariable ['QS_uavCanSpawn',_true,_true];
-					};
-				//};
+				if (_timeNow > (missionNamespace getVariable 'QS_uavRespawnTimeout')) then {
+					missionNamespace setVariable ['QS_uavCanSpawn',_true,_true];
+				};
 			};
 			if (missionNamespace getVariable 'QS_drone_heli_enabled') then {
 				if (missionNamespace getVariable 'QS_drone_heli_spawned') then {
@@ -4115,7 +4108,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			_QS_checkUAVsTime = _timeNow + _QS_checkUAVsTime_delay;
 		};
-		_QS_cleanup_checkDelay = time + _QS_cleanup_delay;
+		_QS_cleanup_checkDelay = _timeNow + _QS_cleanup_delay;
 	};
 
 	if (_QS_weatherManager) then {
@@ -4811,7 +4804,7 @@ for '_x' from 0 to 1 step 0 do {
 								};
 							};
 						};
-						if (!((typeOf _unit) in ['B_helicrew_F','B_helipilot_F','B_pilot_F','B_T_helicrew_F','B_T_helipilot_F','B_T_pilot_F'])) then {
+						if (!((toLowerANSI _t) in _QS_module_recruitableAI_pilotTypes)) then {
 							if ((vehicle _unit) isKindOf 'Helicopter') then {
 								_unitVehicle = vehicle _unit;
 								if (_unit isEqualTo (driver _unitVehicle)) then {
@@ -5322,7 +5315,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					};
 					sleep 0.003;
-				} forEach (_allUnits + allUnitsUav + vehicles + allGroups);
+				} forEach (_allUnits + _allUnitsUav + _allVehicles + _allGroups);
 			};
 			_QS_module_dynSim_checkDelay = _timeNow + _QS_module_dynSim_delay;
 		};
@@ -5333,7 +5326,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (dynamicSimulationEnabled _x) then {
 						_x enableDynamicSimulation _false;
 					};
-				} forEach (_allUnits + allUnitsUav + vehicles + allGroups);
+				} forEach (_allUnits + _allUnitsUav + _allVehicles + _allGroups);
 				enableDynamicSimulationSystem _false;
 			};
 		};

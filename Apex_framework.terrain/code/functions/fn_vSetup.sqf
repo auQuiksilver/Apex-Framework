@@ -196,11 +196,7 @@ if (_t2 in ['b_sam_system_03_f','b_radar_system_01_f']) then {
 // Simple Objects exit here
 if (_isSimpleObject) exitWith {};
 // Only actual vehicles below
-if (isDedicated) then {
-	_u lock 0;
-} else {
-	['lock',_u,0] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
-};
+_u lock 0;
 if (
 	(_u isKindOf 'Cargo_base_F') ||
 	{(_u isKindOf 'Slingload_01_Base_F')} ||
