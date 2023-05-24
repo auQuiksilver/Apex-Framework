@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	5/01/2019 A3 1.88 by Quiksilver
+	24/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -21,11 +21,13 @@ if (!(missionNamespace getVariable ['QS_mission_init',FALSE])) then {
 		(missionNamespace getVariable ['QS_mission_init',FALSE])
 	};
 };
+if (_client isKindOf 'HeadlessClient_F') exitWith {diag_log 'Headless client connecting - exiting QS_fnc_initPlayerServer.sqf';};
 _t = diag_tickTime + 15;
 waitUntil {
 	uiSleep 0.1;
 	((!isNull _client) || {(diag_tickTime > _t)})
 };
+if (isNull _client) exitWith {};
 if (allCurators isNotEqualTo []) then {
 	{
 		if (!isNull (getAssignedCuratorUnit _x)) then {
@@ -33,7 +35,6 @@ if (allCurators isNotEqualTo []) then {
 		};
 	} count allCurators;
 };
-if (isNull _client) exitWith {};
 //===== ROBOCOP
 _val = QS_robocop getOrDefault [_uid,0,TRUE];
 if (_val > 5) exitWith {
