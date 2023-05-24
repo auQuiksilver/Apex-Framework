@@ -15,7 +15,7 @@ ___________________________________________________________________/*/
 
 params ['_unit','','_damage','_source','','_hitPartIndex','_instigator','','_directHit'];
 if ((!local _unit) || {(!((lifeState _unit) in ['HEALTHY','INJURED']))} || {(!(isDamageAllowed _unit))}) exitWith {
-	((if (_hitPartIndex isEqualTo -1) then {(damage _unit)} else {(_unit getHitIndex _hitPartIndex)}) min 0.95)
+	((if (_hitPartIndex isEqualTo -1) then {(damage _unit)} else {(_unit getHitIndex _hitPartIndex)}) min 0.89)
 };
 _oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _unit)} else {(_unit getHitIndex _hitPartIndex)};
 _damage = _oldDamage + ((_damage - _oldDamage) * (_this call (missionNamespace getVariable 'QS_fnc_clientDamageModifier')));
@@ -59,14 +59,14 @@ if (isNull _instigator) then {
 	missionNamespace setVariable ['QS_revive_lastInstigator',_instigator,FALSE];
 };
 if (_hitPartIndex in [-1,2,7]) then {
-	if (_damage > 0.95) then {
+	if (_damage > 0.89) then {
 		if (scriptDone (missionNamespace getVariable 'QS_script_incapacitated')) then {
 			if (isDamageAllowed _unit) then {
 				_unit allowDamage FALSE;
 			};
 			missionNamespace setVariable ['QS_script_incapacitated',(_this spawn (missionNamespace getVariable 'QS_fnc_incapacitated')),FALSE];
 		};
-		_damage = 0.95;
+		_damage = 0.89;
 	};
 };
-(_damage min 0.95)
+(_damage min 0.89)
