@@ -4348,11 +4348,11 @@ for 'x' from 0 to 1 step 0 do {
 				{((isTouchingGround _QS_cO) || (_QS_cO isKindOf 'Ship'))} &&
 				{((((getPosASL _QS_cO) # 2) > -1) || (_QS_cO isKindOf 'Ship'))} &&
 				{(isNull curatorCamera)} &&
-				{(([_QS_cO,sizeOf (typeOf _QS_cO)] call _fn_isNearServiceCargo) isNotEqualTo [])} &&
+				{(([_QS_cO,sizeOf (typeOf _QS_cO),_true] call _fn_isNearServiceCargo) isNotEqualTo [])} &&
 				{(!(localNamespace getVariable ['QS_service_blocked',_false]))}
 			) then {
 				if (scriptDone (missionNamespace getVariable ['QS_module_services_script',_scriptNull])) then {
-					missionNamespace setVariable ['QS_module_services_script',([_QS_cO,([_QS_cO,sizeOf (typeOf _QS_cO)] call _fn_isNearServiceCargo)] spawn _fn_clientVehicleService),_false];
+					missionNamespace setVariable ['QS_module_services_script',([_QS_cO,([_QS_cO,sizeOf (typeOf _QS_cO),_true] call _fn_isNearServiceCargo)] spawn _fn_clientVehicleService),_false];
 				};
 			};
 			_QS_module_services_checkDelay = _timeNow + _QS_module_services_delay;

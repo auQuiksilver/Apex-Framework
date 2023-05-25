@@ -14,12 +14,27 @@ Description:
 _____________________________________*/
 
 params ['_entity'];
+if (isNull _entity) exitWith {};
+if (_entity getVariable ['QS_logistics_wreck',FALSE]) exitWith {FALSE};
+_entityType = toLowerANSI (typeOf _entity);
 {
 	_entity setVariable _x;
 } forEach [
 	['QS_logistics',TRUE,TRUE],
 	['QS_logistics_dragDisabled',TRUE,TRUE]
 ];
+if (
+	(_entity isKindOf 'Slingload_01_Base_F') ||
+	{(_entity isKindOf 'Pod_Heli_Transport_04_base_F')}
+) then {
+	_entity setVariable ['QS_logistics',TRUE,TRUE];
+	_entity setVariable ['QS_ST_showDisplayName',TRUE,TRUE];
+};
+if (['cargo20',_entityType] call QS_fnc_inString) then {
+	if ((getMass _u) > 10000) then {
+		_u setMass 10000;
+	};
+};
 if (_entity isKindOf 'Land_Cargo10_blue_F') exitWith {
 	//comment 'Mobile SAM';
 	_class = QS_core_vehicles_map getOrDefault ['b_sam_system_03_f','b_sam_system_03_f'];
@@ -71,7 +86,7 @@ if (_entity isKindOf 'Land_Cargo10_red_F') exitWith {
 	];		
 };
 if (_entity isKindOf 'Land_Cargo10_brick_red_F') exitWith {
-	//comment 'Tank Wrecks';
+	//comment 'Heavy Armor Wrecks';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -79,7 +94,7 @@ if (_entity isKindOf 'Land_Cargo10_brick_red_F') exitWith {
 	];		
 };
 if (_entity isKindOf 'Land_Cargo10_orange_F') exitWith {
-	//comment 'Car Wrecks';
+	//comment 'Light Armor Wrecks';
 	{
 		_entity setVariable _x;
 	} forEach [
