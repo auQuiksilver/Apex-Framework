@@ -63,9 +63,9 @@ _staffNames = 'Miller (admin), Kerry (moderator), Stavrou (moderator), Orestes (
 //===================================================== GAMEPLAY
 
 _baseLayout = 0;										// Base layout.	0 - Integrated base. 1 - Custom base.		Note: With custom base, you will have to define all the spawn points and set all the marker positions manually. Caution: Its a lot of work!
-_closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
+_closeAirSupport = 3;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
 _enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
-_jetLaser = 0;											// Jet Laser Designator. 0 - Disabled. 1 - Enabled.		Do jet pilots have the ability to self-designate targets with laser designator.
+_jetLaser = 1;											// Jet Laser Designator. 0 - Disabled. 1 - Enabled.		Do jet pilots have the ability to self-designate targets with laser designator.
 _arsenal = 1;											// Arsenal.		0 - Unrestricted (scripted). 1 - Use Whitelist (scripted). 2 - Use Blacklist (scripted). 3 - Vanilla arsenal (unscripted).	(Recommended = 1).			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured.    #3 will disable scripted gear restrictions.
 _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles with default layout.
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
@@ -75,9 +75,9 @@ _artillery = 1;											// Base artillery.	0 - Disabled. 1 - Enabled. 	If enab
 _artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1). Note: Applies to mortars as well.
 _mapContentEnemy = 1;									// Enemy Map Indicators. 	0 - Disabled. 1 - Enabled. Recommended = 1.	    Controls whether enemies known to the player are visible on the map.
 _recruitableAI = 1;										// Recruitable AI.	0 - Disabled. 1 - Enabled. 		If there are recruitable AI available (default base layout or placed by you in custom base layout), this toggles them on or off.
-_playable_opfor = 0;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (Whitelisted). 2 - Enabled (Unrestricted).	Recommended = 0.	Enable a limited number of enemy player roles for the supported mission types. Highly recommended to NOT use with the standard missions unless you know your players are comfortable with it. Designed for future Framework flexibility and development.
-_ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
-_ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
+_playable_opfor = 1;									// OPFOR player roles. 	0 - Disabled. 1 - Enabled (Whitelisted). 2 - Enabled (Unrestricted).	Recommended = 0.	Enable a limited number of enemy player roles for the supported mission types. Highly recommended to NOT use with the standard missions unless you know your players are comfortable with it. Designed for future Framework flexibility and development.
+_ambient_civilians = 0;									// Ambient Civilians.	0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS. 	Ambient civilian presence is auto-disabled when player count > 50.
+_ambient_animals = 0;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
 _hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
 _effectKnockdown = 1;									// Knock-Down effect.	0 - Disabled. 1 - Enabled (Default).	Player can be knocked down by nearby explosions.
@@ -88,25 +88,26 @@ _enemyUrbanSpawning = 1;								// (Classic Mode) Enemy urban reinforcement spaw
 _tracers = 1;											// Tracer bullets. 0 - Vanilla handling. 1 - At night and low-pop times, AI get tracer bullets. 2 - AI get tracers at all times. Default - 1.
 _enemyGearRandomization = 1;							// Randomize Enemy Gear.  0 - Disabled. 1 - Enabled.	If Enabled, enemy gear will be randomized and they will not always receive the default loadout.
 _introMusic = 1;										// Intro Music. 0 - Disabled. 1 - Enabled. Music/Audio player hears when they join server.
-_vehicleRoleRestriction_heli = 0;						// Heli restriction. 0 - Any role can use helicopter. 1 - Only pilots can use helicopter.
-_vehicleRoleRestriction_plane = 0;						// Plane restriction. 0 - Any role can use planes. 1 - Only fighter pilots can use planes.
+_vehicleRoleRestriction_heli = 1;						// Heli restriction. 0 - Any role can use helicopter. 1 - Only pilots can use helicopter.
+_vehicleRoleRestriction_plane = 1;						// Plane restriction. 0 - Any role can use planes. 1 - Only fighter pilots can use planes.
 _customPylonPresets = 1;								// Aircraft Pylon Presets. 0 - Vanilla. 1 - Custom (Default).	0 - Pilots can set vanilla pylon presets. 1 - Pilots can only set custom pylon presets. BEWARE!!! Pilot will have access to otherwise restricted loadouts: Cluster bombs, ATGM, etc.
 _attachExplosives = 1;									// Attach Explosives to vehicles. 0 - scripted vehicles only. 1 - any vehicles (non-player-occupied at moment of attach).
 _wrecks = 1;											// Can vehicles get wrecked and require recovery? 0 - Disabled. 1 - Enabled.
 _bobcatRecovery = 0;									// Can Bobcat recover wrecks?	0 - Disabled. 1 - Enabled.	Makes it a bit too easy, so we leave disabled but optional.  
 _vehicleLock = 1;										// Lock Driver Seat. 0 - Disabled. 1 - Only members of vehicle owners group can toggle the Drivers seat lock.
 _vehicleCargoLock = 1;									// Logistics Lock. 0 - Disabled. 1 - Only members of vehicle owners group can toggle the Logistics lock.	Handles: Inventory, Cargo, Sling Loading, Towing.
-_vehicleGroupLock = 0;									// Can other members of players group lock/unlock the vehicle. 0 - Disabled, locking is individual-based.  1 - Enabled, locking is group-based.
+_vehicleGroupLock = 1;									// Can other members of players group lock/unlock the vehicle. 0 - Disabled, locking is individual-based.  1 - Enabled, locking is group-based.
 _autohover = 1;											// Can pilots use autohover? 0 - Disabled. 1 - Enabled.
 _autopilot = 1;											// Can pilots use landing autopilot? 0 - Disabled. 1 - Enabled.
 _planeForce1PV = 0;										// Are Plane pilots forced to use First Person View? 0 - Disabled (not forced). 1 - Enabled (forced).		
 _quickBuild = 1;										// Player role-based ability to build fortifications/sandbags/etc. 0 - Disabled. 1 - Enabled.
 _maxSandbags = 100;										// Global cap on player-deployable fortifications.
+_maxBuiltObjects = 300;									// Global cap on base-building objects (does not include player sandbags).
 _towing = 1;											// Towing mechanics. 0 - Disabled. 1 - Enabled. Most vehicles (Land and Boat) can Tow in one way or another.
 _winch = 2;												// Winch mechanics. 0 - Disabled. 1 - Configured vehicles (* See note --> ). 2 - All land vehicles.   * Some vanilla vehicles have visible winches: Hunter, Strider, Prowler LSV, Offroad, Bobcat, Zamak MLRS
 _unflipVehicles = 0;									// Vehicle Unflip interaction. 0 - Disabled. 1 - Enabled. With new Winch/Rope mechanics, Unflip should not be necessary.
 _mass = 1;												// Simulate vehicle mass changes based on weight of cargo.	 (Recommended = 0).	0 - Disabled. 1 - Enabled.
-_centerofmass = 1;										// Simulate vehicle center-of-mass based on cargo it is carrying. 	(Recommended = 1). 0 - Disabled. 1 - Vehicle-In-Vehicle Cargo only.   2. All attached objects.   Use with caution!
+_centerofmass = 1;										// Simulate vehicle center-of-mass based on cargo it is carrying. 	(Recommended = 1). 0 - Disabled. 1 - Vehicle-In-Vehicle Cargo only.   2. All cargo objects.   Use with caution!
 _role_selection_menu_button = 0;						// Role Selection Menu Button. 	Enables a button in the Escape Menu to access the Role Selection Menu.	0 - Disabled. 1 - Enabled. Default - 0.		Use this option to allow any player to change their role from any map location. If this value is 0, the only way to access the menu after login is via Arsenal crates user action. Recommend 0 for standard gamemodes to avoid exploitation.
 _deploymentMenu = 1;									// Deployment Menu. 0 - Disabled. 1 - Enabled.
 _deployMenuOnRespawn = 1;								// Deployment Menu shown on Respawn. 0 - Disabled. 1 - Enabled.
@@ -127,7 +128,7 @@ _timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-ti
 	0.35													// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
 ];
 _weatherDynamic = 1;									// Dynamic Weather System. 0 - Disabled. 1 - Enabled (Default). 	If enabled, framework will maintain persistent dynamic weather with realistic annual weather cycles for the geographic terrain location.
-_weatherForcedMode = 0;									// Forced Weather Mode. ONLY WORKS IF DYNAMIC WEATHER DISABLED. 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow (yes, SNOW). 
+_weatherForcedMode = 0;									// Forced Weather Mode. !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow (yes, SNOW). 
 
 //===================================================== ZEUS
 
@@ -135,6 +136,8 @@ _zeusModePlayerRespawn = 1;								// (Zeus Mode) Dynamic Player Respawn. Applie
 _zeusModeRespawnMarker = 1;								// (Zeus Mode) Zeus Respawn Position is visible on map. 0 - Disabled. 1 - Enabled.
 _zeusModeArsenalFlag = 1;								// (Zeus Mode) When players spawn at Zeus flag pole, Flag Pole is an Arsenal too.	0 - Disabled.  1 - Enabled.
 _zeusCanOffloadAI = 1;									// (All Modes) Zeus ability to offload AI to Server.	0 - Disabled. 1 - Enabled. Default - 1.	 Allows Zeus to improve performance of Zeus missions by moving AI control to server. Unbuffered, there is no limit and server can be overloaded, so use responsibly.
+_zeusRestrictions = 1;									// Are some modules and objects disabled in zeus?	0 - Restrictions disabled. 1 - Restrictions enabled.	Default = 1
+_zeusLightning = 1;										// Can Zeus use lightning? 0 - Disabled. 1 - Enabled. Default = 0 	Lightning is somewhat immersion breaking and there are other ways to destroy things.	Only applies if _zeusRestrictions = 1
 
 //===================================================== HEADLESS CLIENT
 
@@ -148,9 +151,13 @@ _hc_maxAgents_3 = 10;									// Quantity of AI agents (Civilians & Animals) to 
 _hc_maxAgents_4 = 5;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 4 or more headless clients are connected.
 
 //===================================================== DLC/MODs
-// Available options by default: 'WS' 'VN' 'CSLA' 'GM'
-_dlc_vehicles = '';										// Leave as '' blank to run in Auto-Detect mode. Determines which list of vehicles are spawned.
-_dlc_units = '';										// Leave as '' blank to run in Auto-Detect mode. Determines which list of infantry are spawned.
+// Available options by default for auto-detect: 
+//
+//			'WS' 'VN' 'CSLA' 'GM'
+
+_dlc_vehicles = '';										// Leave as '' blank to run in Auto-Detect mode (auto-detect works only for the DLC listed above). Determines which list of vehicles are spawned.		_dlc_vehicles = 'CSLA';	
+_dlc_units = '';										// Leave as '' blank to run in Auto-Detect mode (auto-detect works only for the DLC listed above). Determines which list of infantry are spawned.
+_zeus_reskinInfantry = 0;								// Do vanilla units spawned with zeus get re-skinned with modded clothing (according to "code\config\QS_data_tableUnits.sqf"). 0 - Disabled. 1 - Enabled.
 
 //===================================================== MAIN MISSION TYPE
 //========== DESCRIPTION===============================//
@@ -166,23 +173,28 @@ _main_mission_type = 'CLASSIC';
 
 _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Default = 1).	Set 0 to disable default side missions. Automatically disabled when _main_mission_type = 'NONE';
 
-//===================================================== SANDBOX MISSIONS
+//===================================================== SANDBOX COMBAT MISSIONS
 
-_deploymentMissions = 1;								// Can enemy attack fortifications constructed/deployed by players? 0 - Disabled. 1 - Enabled.
+_deploymentMissions = 1;								// Can enemy attack player-built bases? 0 - Disabled. 1 - Enabled.
+_dm_MaxConcurrent = 3;									// How many deployments can be attacked simultaneously? 1-10.	Min = 1, Max = 10. Default = 3.
+_dm_Frequency = 0.5;									// How frequent are deployment attacks? 0-1. 	0 = Very rare. 1 = Very often.		0 is about once an hour. 1 = every 60 seconds. 0.5 = ~30 minutes. 0.85 = 10 minutes.
+_dm_Intensity = 0.5;									// How intense are the attacks? 0-1. 	0 - Low intensity. 1 - High intensity.	Default = 0.5	Basically, how many enemies?
+_dm_Duration = 0.5;										// How long can the attacks go for? 0-1. 	0 - Short duration (5 mins). 1 - Long duration (60 mins). Default = 0.5
+_dm_SetupTime = 300;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300 (5 min)
 
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
-_aircraft_carrier_enabled = 0;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
-_aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. -2  Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
-_aircraft_carrier_respawning = 0;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
+_aircraft_carrier_enabled = 1;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
+_aircraft_carrier_vehicles = 1;								// Vehicle Spawning.	0 - None. 1 - Basic. -2  Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
+_aircraft_carrier_respawning = 1;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
 // Destroyer
-_destroyer_enabled = 0;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
+_destroyer_enabled = 1;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
 _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
 _destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
 _destroyer_flag = 'a3\data_f\flags\flag_us_co.paa';			// Texture applied to Destroyer flag. Default:  'a3\data_f\flags\flag_us_co.paa'
 _destroyer_name = 'a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa';		// Name presented on stern of ship. Comes with 7 defaults, just change ..._tag_01_co... to _tag_02_co... etc, from 01 to 07, 00 is blank. You can also set as a custom texture/name/logo.
-_destroyer_numbers = [4,2,0];								// Numbers shown on the ship hull.
+_destroyer_numbers = [8,5,7];								// Numbers shown on the ship hull.
 _destroyer_hangar = 0;										// Hangar Door initial state. 0 - Hangar doors start closed. 1 - Hangar doors start opened.
 
 //===================================================== CONTAINERS
@@ -213,7 +225,7 @@ _infostand_2 = ['media\images\billboards\billboard6.jpg','media\images\billboard
 //===================================================== SECURITY
 
 _serverCommandPassword = "'abc123'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
-_anticheat = 0;									// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
+_anticheat = 1;									// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
 
 //===================================================== MONETIZATION
 
@@ -241,10 +253,20 @@ _monetizeURL = [
 
 
 //================== DO NOT EDIT BELOW =================== INTERPRETING MISSION PARAMETERS
-
+systemTime params ['','_month','_day','','','',''];
 if (_arsenal isEqualTo 3) then {};
 if (_restart_hours isNotEqualTo []) then {
 	_restart_hours sort TRUE;
+};
+if (_weatherForcedMode > 0) then {
+	_weatherDynamic = 0;
+};
+if (
+	(_month isEqualTo 12) &&
+	(_day isEqualTo 25)
+) then {
+	_weatherForcedMode = 4;
+	_weatherDynamic = 0;
 };
 if (
 	(_aircraft_carrier_enabled > 0) &&
@@ -309,14 +331,12 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_plane1PV',_planeForce1PV > 0,TRUE],
 	['QS_missionConfig_quickBuild',_quickBuild,TRUE],
 	['QS_missionConfig_maxPlayerBuildables',_maxSandbags,TRUE],
+	['QS_missionConfig_maxBuild',_maxBuiltObjects,TRUE],
 	['QS_missionConfig_interactTowing',_towing > 0,TRUE],
 	['QS_missionConfig_interactWinch',_winch,TRUE],
 	['QS_missionConfig_interactUnflip',_unflipVehicles > 0,TRUE],
 	['QS_missionConfig_mass',_mass > 0,TRUE],
 	['QS_missionConfig_centerOfMass',_centerofmass,TRUE],
-	['QS_missionConfig_zeusRespawnFlag',_zeusModePlayerRespawn > 0,TRUE],
-	['QS_missionConfig_zeusRespawnMarker',_zeusModeRespawnMarker > 0,FALSE],
-	['QS_missionConfig_zeusRespawnArsenal',_zeusModeArsenalFlag > 0,TRUE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],
 	['QS_missionConfig_deployment',_deployMenu > 0,TRUE],
 	['QS_missionConfig_respawnDeploy',_deployMenuOnRespawn > 0,TRUE],
@@ -331,6 +351,11 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_timeMultiplier',_timeMultiplier,FALSE],
 	['QS_missionConfig_weatherDynamic',_weatherDynamic > 0,TRUE],
 	['QS_missionConfig_weatherForced',_weatherForcedMode,TRUE],
+	['QS_missionConfig_zeusRespawnFlag',_zeusModePlayerRespawn > 0,TRUE],
+	['QS_missionConfig_zeusRespawnMarker',_zeusModeRespawnMarker > 0,FALSE],
+	['QS_missionConfig_zeusRespawnArsenal',_zeusModeArsenalFlag > 0,TRUE],
+	['QS_missionConfig_zeusRestrictions',_zeusRestrictions > 0,TRUE],
+	['QS_missionConfig_zeusLightning',_zeusLightning > 0,TRUE],
 	['QS_missionConfig_zeusOffload',_zeusCanOffloadAI > 0,TRUE],
 	['QS_missionConfig_hcMaxLoad',[_hc_maxLoad_1,_hc_maxLoad_2,_hc_maxLoad_3,_hc_maxLoad_4],TRUE],
 	['QS_missionConfig_hcMaxAgents',[_hc_maxAgents_1,_hc_maxAgents_2,_hc_maxAgents_3,_hc_maxAgents_4],TRUE],
@@ -339,6 +364,7 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
 	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
 	['QS_missionConfig_deploymentMissions',_deploymentMissions > 0,FALSE],
+	['QS_missionConfig_deploymentMissionParams',[_dm_MaxConcurrent,_dm_Frequency,_dm_Intensity,_dm_Duration,_dm_SetupTime],FALSE],
 	['QS_missionConfig_arty',_artillery,FALSE],
 	['QS_missionConfig_artyEngine',_artilleryComputer,TRUE],
 	['QS_missionConfig_mapContentEnemy',_mapContentEnemy,TRUE],

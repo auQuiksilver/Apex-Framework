@@ -13,7 +13,7 @@ Description:
 	Unit Incapacitated
 ______________________________________________/*/
 
-params ['_unit','_selectionName','_damage','_source','_projectile','_hitPartIndex','_instigator','_hitPoint'];
+params ['_unit','_selectionName','_damage','_source','_projectile','_hitPartIndex','_instigator','_hitPoint','_directHit'];
 if (isPlayer _unit) then {
 	if (dialog) then {
 		closeDialog 2;

@@ -506,7 +506,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 };
 if (_type isEqualTo 'INIT_ROLE') exitWith {
 	params ['','_role'];
-	playSoundUI ['OMLightSwitch',0.5,1.5,FALSE];
+	playSoundUI ['orange_choice_select',0.5,1.5,FALSE];
 	player setVariable ['QS_unit_role',_role,FALSE];
 	private _medic = (getMissionConfigValue ['ReviveRequiredTrait',1]) isEqualTo 0;
 	private _traitsData = [

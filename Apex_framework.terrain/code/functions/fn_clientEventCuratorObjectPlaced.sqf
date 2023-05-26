@@ -57,7 +57,7 @@ if (
 ) then {
 	_object setVariable ['QS_logistics',TRUE,TRUE];
 };
-if (_object isKindOf 'Man') exitWith {
+if (_object isKindOf 'CAManBase') exitWith {
 	_object setVariable [format ['QS_zeus_%1',getPlayerUID player],TRUE,FALSE];
 	_side = side (group _object);
 	if ((_side getFriend WEST) < 0.6) then {
@@ -181,6 +181,12 @@ if (_object isKindOf 'Man') exitWith {
 		50 cutText [(format [localize 'STR_QS_Text_007',_displayName]),'PLAIN'];
 		[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
+	if ((missionNamespace getVariable ['QS_missionConfig_dlcUnits','']) isNotEqualTo '') then {
+		_result = QS_core_units_map getOrDefault [_typeL,''];
+		if (_result isNotEqualTo '') then {
+			_object setUnitLoadout _result;
+		};
+	};
 };
 if (_typeL in (['draggable_boxes_1'] call QS_data_listVehicles)) then {
 	_object setVariable ['QS_RD_draggable',TRUE,TRUE];
@@ -192,7 +198,12 @@ if (_typeL in (['towable_objects_1'] call QS_data_listVehicles)) then {
 		[91] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 	};
 };
-
+if (_object isKindOf 'cargoplatform_01_base_f') then {
+	_object setVectorUp [0,0,1];
+};
+if (_object isKindOf 'lamps_base_f') then {
+	_object setVectorUp [0,0,1];
+};
 if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _object isKindOf _x }) isNotEqualTo -1) exitWith {
 	_object setVariable ['QS_vehicle_massdef',[getMass _object,getCenterOfMass _object],TRUE];
 	if (_typeL in ['b_t_vtol_01_vehicle_f','b_t_vtol_01_vehicle_blue_f','b_t_vtol_01_vehicle_olive_f','b_t_vtol_01_armed_blue_f','b_t_vtol_01_armed_f','b_t_vtol_01_armed_olive_f']) then {
@@ -258,7 +269,6 @@ if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _objec
 		_object setAmmoCargo 0;
 		_object setFuelCargo 0;
 	};
-	
 	if (
 		((crew _object) isEqualTo []) || 
 		{(((crew _object) findIf {((side _x) in [WEST])}) isNotEqualTo -1)}
@@ -268,7 +278,10 @@ if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _objec
 };
 if (isNull _object) exitWith {};
 if (['Module',_type,FALSE] call (missionNamespace getVariable 'QS_fnc_inString')) then {
-	if (_typeL in (['zeus_modules_blocked_1'] call QS_data_listOther)) then {
+	if (
+		(missionNamespace getVariable ['QS_missionConfig_zeusRestrictions',TRUE]) &&
+		{(_typeL in (['zeus_modules_blocked_1'] call QS_data_listOther))}
+	) then {
 		[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		closeDialog 0;
 		50 cutText [format ['%1 - %2',_displayName,localize 'STR_QS_Text_009'],'PLAIN'];

@@ -1,5 +1,5 @@
 /*/
-File: escortVehicle.sqf
+File: fn_SMEscortVehicle.sqf
 Author:
 
 	Quiksilver
@@ -76,7 +76,7 @@ if (_worldName isEqualTo 'Tanoa') then {
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 if (_worldName isEqualTo 'Altis') then {
-	_startPosition = [14666,16809,0];
+	_startPosition = [14466.46,16809.188,0];
 	_startDir = 45;
 	_vehicleTypes = [
 		'C_Truck_02_fuel_F','C_Truck_02_box_F','B_Truck_01_fuel_F','B_Truck_01_box_F'
@@ -124,7 +124,7 @@ if (_worldName isEqualTo 'Enoch') then {
 	] call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 };
 _vehicleType = selectRandom _vehicleTypes;
-_vehicle = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],_startPosition,[],0,'NONE'];
+_vehicle = createVehicle [_vehicleType,_startPosition,[],0,'NONE'];//[QS_core_vehicles_map getOrDefault [toLowerANSI _vehicleType,_vehicleType],_startPosition,[],0,'NONE'];
 _enabled_IED = FALSE;
 _enabled_mech = FALSE;
 _enabled_RPG = FALSE;
@@ -184,6 +184,7 @@ _vehicle setRepairCargo 0;
 _vehicle setFuelCargo 0;
 _vehicle setAmmoCargo 0;
 _vehicle forceFollowRoad TRUE;
+_vehicle setDir _startDir;
 _technicalTypes = [
 	'O_G_Offroad_01_armed_F',3,
 	'O_G_Offroad_01_AT_F',1,
@@ -196,7 +197,7 @@ _vehicle addEventHandler [
 		params ['_vehicle','_position','_unit','_turret'];
 		if (_position == 'driver') then {
 			if (isPlayer _unit) then {
-				['vehicleChat',_vehicle,'Get this vehicle to its destination, soldier!'] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
+				['vehicleChat',_vehicle,localize 'STR_QS_Chat_179'] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
 			};
 		};
 	}
@@ -213,12 +214,12 @@ _vehicle addEventHandler [
 		params ['_vehicle','_unit1','_unit2'];
 		if ('Driver' in (assignedVehicleRole _unit1)) then {
 			if (isPlayer _unit1) then {
-				['vehicleChat',_vehicle,'Mission: Get this vehicle to its destination, soldier!'] remoteExec ['QS_fnc_remoteExecCmd',_unit1,FALSE];
+				['vehicleChat',_vehicle,localize 'STR_QS_Chat_180'] remoteExec ['QS_fnc_remoteExecCmd',_unit1,FALSE];
 			};
 		};
 		if ('Driver' in (assignedVehicleRole _unit2)) then {
 			if (isPlayer _unit2) then {
-				['vehicleChat',_vehicle,'Mission: Get this vehicle to its destination, soldier!'] remoteExec ['QS_fnc_remoteExecCmd',_unit2,FALSE];
+				['vehicleChat',_vehicle,localize 'STR_QS_Chat_180'] remoteExec ['QS_fnc_remoteExecCmd',_unit2,FALSE];
 			};
 		};
 	}

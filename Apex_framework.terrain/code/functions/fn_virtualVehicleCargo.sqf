@@ -74,7 +74,6 @@ if (_type isEqualTo 'GET_CLIENT') exitWith {
 	};
 	[24,['HANDLE',['GET_SERVER',_parent,_childType,clientOwner,_placementPos,_placementAzi]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
-
 if (_type isEqualTo 'SET_VCARGO_SERVER') exitWith {
 	params ['','_parent','_virtualCargo'];
 	if (!alive _parent) exitWith {};
@@ -86,7 +85,10 @@ if (_type isEqualTo 'SET_VCARGO_SERVER') exitWith {
 	};
 	_parent setVariable ['QS_virtualCargo',_virtualCargo,TRUE];
 };
-
+if (_type isEqualTo 'SET_VCARGO_CLIENT') exitWith {
+	params ['','_parent','_virtualCargo'];
+	[24,[_parent,_virtualCargo]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+};
 if (_type isEqualTo 'SET_SERVER') exitWith {
 	params ['','_parent','_child','_clientOwner'];
 	if (
@@ -190,6 +192,8 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 	_parent setVariable ['QS_virtualCargo',_virtualCargo,TRUE];
 	QS_system_virtualCargo set [_parentIndex,[_parent,_virtualCargo]];
 	QS_system_builtObjects pushBack _child;
+	QS_system_builtThings pushBack _child;
+	missionNamespace setVariable ['QS_system_builtThings',QS_system_builtThings select {!isNull _x},TRUE];
 	_parentIndex2 = QS_logistics_deployedAssets findIf { (_x # 0) isEqualTo _parent };
 	if (_parentIndex2 isNotEqualTo -1) then {
 		_assets = (QS_logistics_deployedAssets # _parentIndex2) # 1;
@@ -206,7 +210,7 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 			'Deleted',
 			{
 				params ['_entity'];
-				_radius = (0 boundingBoxReal _entity) params ['','','_radius'];
+				(0 boundingBoxReal _entity) params ['','','_radius'];
 				_nearObjects = nearestObjects [_entity,[],_radius * 3,TRUE];
 				if (_nearObjects isNotEqualTo []) then {
 					[
@@ -226,7 +230,7 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 			'Killed',
 			{
 				params ['_entity'];
-				_radius = (0 boundingBoxReal _entity) params ['','','_radius'];
+				(0 boundingBoxReal _entity) params ['','','_radius'];
 				_nearObjects = nearestObjects [_entity,[],_radius * 3,TRUE];
 				if (_nearObjects isNotEqualTo []) then {
 					[
@@ -242,6 +246,12 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 				};
 			}
 		];
+	} else {
+		_child setVariable ['QS_bb',TRUE,TRUE];
+		if ((toLowerANSI _simulation) in ['thingx']) then {
+			_child setVariable ['QS_logistics',TRUE,TRUE];
+			_child setVariable ['QS_logistics_immovable',FALSE,TRUE];
+		};
 	};
 };
 if (_type isEqualTo 'READ_CLIENT') exitWith {

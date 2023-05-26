@@ -153,6 +153,9 @@ if (_state isEqualTo 0) exitWith {
 		_marker setMarkerShapeLocal 'Icon';
 		_marker setMarkerColorLocal 'ColorBrown';
 		_marker setMarkerSizeLocal [0.5,0.5];
+		if (_vehicleDisplayName isEqualTo '') then {
+			_vehicleDisplayName = getText ((configOf _entity) >> 'displayName');
+		};
 		_marker setMarkerTextLocal (format [localize 'STR_QS_Text_415',_vehicleDisplayName]);
 		_marker setMarkerAlpha 0.75;
 		_entity setVariable ['QS_wreck_marker',_marker,FALSE];

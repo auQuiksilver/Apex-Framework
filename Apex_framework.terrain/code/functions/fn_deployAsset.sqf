@@ -14,6 +14,8 @@ Description:
 __________________________________________/*/
 
 params ['_entity','_state',['_profileName','Unknown Soldier'],'_clientOwner',['_faction',sideUnknown]];
+QS_system_vehicleRallyPoints = QS_system_vehicleRallyPoints select {(alive (_x # 0))};
+missionNamespace setVariable ['QS_system_builtThings',QS_system_builtThings select {!isNull _x},TRUE];			// To do: optimize this
 if (_state isEqualTo -1) exitWith {
 	if (!isNull _entity) then {
 		_deploy_handlers = _entity getVariable ['QS_deploy_handlers',[]];
@@ -141,8 +143,7 @@ if (_state isEqualTo 1) exitWith {
 				format ['cfgvehicles_%1_displayname',(toLowerANSI (typeOf _entity))],
 				{getText ((configOf _entity) >> 'displayName')},
 				TRUE
-			];
-			
+			];	
 			// I dont like these markers very much ...
 			_displayName = _entity getVariable ['QS_ST_customDN',_displayName];
 			_marker = createMarker [str systemTime,_entity];
@@ -224,6 +225,13 @@ if (_state isEqualTo 1) exitWith {
 					}
 				]
 			];
+			(missionNamespace getVariable ['QS_missionConfig_deploymentMissionParams',[]]) params [
+				'',
+				'',
+				'',
+				'',
+				['_deploymentMissionSetupTime',60]
+			];
 			{
 				_entity setVariable _x;
 			} forEach [
@@ -237,7 +245,9 @@ if (_state isEqualTo 1) exitWith {
 				['QS_deploy_profilename',_profileName,FALSE],
 				['QS_deploy_side',_faction,TRUE],
 				['QS_deploy_enemySides',(_faction call QS_fnc_enemySides),FALSE],
-				['QS_deploy_enemyState',10,FALSE]
+				['QS_deploy_enemyState',10,FALSE],
+				['QS_deploy_systemTime',systemTime,FALSE],
+				['QS_deploy_graceTime',diag_tickTime + _deploymentMissionSetupTime,FALSE]
 			];
 			(format [localize 'STR_QS_Text_414',_displayName,_profileName]) remoteExec ['systemChat',-2];
 			if (_vIndex isNotEqualTo -1) then {

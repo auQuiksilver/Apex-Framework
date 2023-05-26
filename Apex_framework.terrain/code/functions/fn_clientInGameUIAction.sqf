@@ -578,8 +578,8 @@ if (_QS_actionName isEqualTo 'DisAssemble') exitWith {
 		player setVariable ['QS_client_assembledWeapons',_assembledWeapons,FALSE];
 	};
 	if (
-		(!isNull (attachedTo _QS_actionTarget)) &&
-		((attachedTo _QS_actionTarget) isKindOf 'Man')
+		(!isNull (attachedTo _QS_actionTarget)) //&&
+		//((attachedTo _QS_actionTarget) isKindOf 'CAManBase')
 	) then {
 		50 cutText [localize 'STR_QS_Text_070','PLAIN DOWN',0.5];
 		_QS_c = TRUE;

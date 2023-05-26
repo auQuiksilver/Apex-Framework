@@ -764,7 +764,9 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_logistics_wrecktype','land_cargo10_orange_f',FALSE],
 	['QS_mobile_increment1',0,FALSE],
 	['QS_system_terrainMod',[],FALSE],
-	['QS_global_wreckSmokes',[],FALSE]
+	['QS_global_wreckSmokes',[],FALSE],
+	['QS_system_vehicleRallyPoints',[],FALSE],
+	['QS_system_builtThings',[],TRUE]
 ];
 _weaponsList = nil;
 // Load terrain-specific Roles if file is found

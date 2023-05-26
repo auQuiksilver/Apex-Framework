@@ -19,7 +19,7 @@ private _objectSide = sideUnknown;
 private _grp = grpNull;
 if (isNull (objectParent player)) then {
 	_side = side (group player);
-	_enemySides = [player] call BIS_fnc_enemySides;
+	_enemySides = [player] call QS_fnc_enemySides;
 	_objectSide = side _cursorObject;
 	// Turn on turret
 	if ((crew _cursorObject) isEqualTo []) then {
@@ -76,7 +76,7 @@ if (isNull (objectParent player)) then {
 	} forEach _attached;
 	if (_turrets isNotEqualTo []) then {
 		_side = side (group player);
-		_enemySides = [player] call BIS_fnc_enemySides;
+		_enemySides = [player] call QS_fnc_enemySides;
 		{
 			_cursorObject = _x;
 			_objectSide = side _cursorObject;

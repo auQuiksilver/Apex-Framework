@@ -33,7 +33,7 @@ if (_class isKindOf 'StaticWeapon') then {
 if (_class isKindOf 'FlagPole_F') then {
 	_entity setFlagTexture (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
 };
-if (_class isKindOf 'sign_arrow_yellow_f') then {
+if (_class in ['sign_arrow_yellow_f']) then {
 	if ([_entity,30] call QS_fnc_canFlattenTerrain) then {
 		_width = 5;
 			_fnc_flattenTerrain = {

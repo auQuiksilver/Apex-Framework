@@ -6,19 +6,37 @@ Author:
 	
 Last Modified:
 
-	01/05/2023 A3 2.12 by Quiksilver
+	22/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	Assault a deployment
 ______________________________________________________/*/
 
-scriptName 'QS Deployment Assault';
+params [
+	['_deploymentMissionMaxConcurrent',3],
+	['_deploymentMissionFrequency',0.5],
+	['_deploymentMissionIntensity',0.5],
+	['_deploymentMissionDuration',0.5],
+	['_deploymentMissionSetupTime',60]
+];
 private _object = objNull;
 private _currentDeployments = QS_logistics_deployedAssets select {
 	_object = _x # 0;
 	((['Tank','Car'] findIf { _object isKindOf _x }) isEqualTo -1)
 };
+_uiTime = diag_tickTime;
+_currentDeployments = _currentDeployments select {
+	(
+		(!((_x # 0) getVariable ['QS_deploy_underAttack',FALSE])) &&
+		((_x # 0) getVariable ['QS_deploy_attackable',TRUE]) &&
+		(_uiTime > ((_x # 0) getVariable ['QS_deploy_graceTime',-1]))
+	)
+};
+if (
+	(allPlayers isEqualTo []) ||
+	(_currentDeployments isEqualTo [])
+) exitWith {};
 _currentDeployments = _currentDeployments apply {
 	[
 		(_x # 0) getVariable ['QS_importance',0],
@@ -26,17 +44,10 @@ _currentDeployments = _currentDeployments apply {
 		(_x # 0)
 	]
 };
-if (
-	(allPlayers isEqualTo []) ||
-	(_currentDeployments isEqualTo []) ||
-	(localNamespace getVariable ['QS_deploy_assaultInProgress',FALSE])
-) exitWith {};
 if (localNamespace getVariable ['QS_deploymentMissions_forceAttack',FALSE]) then {
 	localNamespace setVariable ['QS_deploymentMissions_forceAttack',FALSE];
 };
-localNamespace setVariable ['QS_deploy_assaultInProgress',TRUE];
-localNamespace setVariable ['QS_deploy_assaultTerminate',FALSE];
-missionNamespace setVariable ['QS_smSuspend',TRUE,TRUE];
+private _currentPrimaryMode = missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS'];
 private _weightedDeployments = [];
 {
 	_weightedDeployments pushBack (_x # 2);
@@ -45,17 +56,15 @@ private _weightedDeployments = [];
 private _selectedDeployment = selectRandomWeighted _weightedDeployments;
 private _referencePos = position _selectedDeployment;
 diag_log (format [localize 'STR_QS_DiagLogs_104',typeOf _selectedDeployment,_referencePos]);
-if (surfaceIsWater _referencePos) exitWith {
-	localNamespace setVariable ['QS_deploy_assaultInProgress',FALSE];
-	missionNamespace setVariable ['QS_smSuspend',FALSE,TRUE];
-};
+if (surfaceIsWater _referencePos) exitWith {diag_log 'Position over water, attack cancelled';};
 [
 	[WEST,'HQ'],
 	localize 'STR_QS_Chat_172'
 ] remoteExec ['sideChat',-2,FALSE];
 ['GRID_BRIEF',[localize 'STR_QS_Notif_155',localize 'STR_QS_Notif_156']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+
 private _allEnemiesCount = count ((units EAST) + (units RESISTANCE));
-private _allEnemiesThreshold = 125;
+private _allEnemiesThreshold = 150;
 private _radiusFriendly = 50;
 private _radiusEnemy = 20;
 private _enemyThreshold = 3;
@@ -76,31 +85,37 @@ if (unitIsUav _selectedDeployment) then {
 	};
 	_selectedDeployment setVariable ['QS_uav_toggleEnabled',FALSE,TRUE];
 };
-_selectedDeployment setVariable ['QS_logistics_blocked',TRUE,TRUE];
 private _isDamageAllowed = isDamageAllowed _selectedDeployment;
 private _simulationEnabled = simulationEnabled _selectedDeployment;
 [_selectedDeployment,FALSE] remoteExec ['allowDamage',0,FALSE];
 _selectedDeployment enableDynamicSimulation FALSE;
 _selectedDeployment enableSimulationGlobal FALSE;
+{
+	_selectedDeployment setVariable _x;
+} forEach [
+	['QS_logistics_blocked',TRUE,TRUE],
+	['QS_deploy_assaultTerminate',FALSE,FALSE],
+	['QS_deploy_underAttack',TRUE,FALSE]
+];
 private _allPlayers = allPlayers;
 private _playerCount = count allPlayers;
-_endTime = diag_tickTime + (300 + (random 1800));
-private _minUnits = 4;
-private _quantity = 4;
-private _maxGrpSize = 5;
+private _endTime = diag_tickTime + (linearConversion [0,1,_deploymentMissionDuration,300,3600,TRUE]) + (60 - (random 120));
+private _minUnits = round (linearConversion [0,1,_deploymentMissionIntensity,2,6,TRUE]);
+private _quantity = round (linearConversion [0,1,_deploymentMissionIntensity,2,6,TRUE]);
+private _maxGrpSize = round (linearConversion [0,1,_deploymentMissionIntensity,2,12,TRUE]);
 if (_playerCount > 10) then {
-	_quantity = 8;
+	_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,4,12,TRUE]);
 };
 if (_playerCount > 20) then {
-	_quantity = 16;
+	_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,12,20,TRUE]);
 };
 if (_playerCount > 30) then {
-	_quantity = 16;
+	_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,16,24,TRUE]);
 };
 if (_playerCount > 40) then {
-	_quantity = 24;
+	_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,25,35,TRUE]);
 };
-if ((random 1) > 0.8) then {
+if ((random 1) > 0.9) then {
 	_quantity = round (_quantity * 1.5);
 };
 private _quantityDiff = 0;
@@ -108,7 +123,10 @@ private _enemyArray = [];
 private _enemyInterval = 5;
 private _enemyDelay = -1;
 private _time = diag_tickTime;
-private _unitsList = ['ambient_hostility_1'] call QS_data_listUnits;
+
+private _enemyPool = ['deploy_assault_1','deploy_assault_2'] select ((random 1) < _deploymentMissionIntensity);
+private _unitsList = [_enemyPool] call QS_data_listUnits;
+
 private _grp = grpNull;
 private _unit = objNull;
 private _spawnPos = [0,0,0];
@@ -153,7 +171,7 @@ for '_z' from 0 to 1 step 0 do {
 			sleep 1;
 			(allPlayers isNotEqualTo [])
 		};
-		_endTime = diag_tickTime + (300 + (random 1800));
+		_endTime = diag_tickTime + (linearConversion [0,1,_deploymentMissionDuration,300,3600,TRUE]) + (60 - (random 120));
 	};
 	_time = diag_tickTime;
 	if (_time > _enemyDelay) then {
@@ -169,7 +187,7 @@ for '_z' from 0 to 1 step 0 do {
 		) then {
 			_quantityDiff = (localNamespace getVariable ['QS_deploy_assaultQuantity_override',_quantity]) - _enemyCount;
 			for '_ii' from 0 to 49 step 1 do {
-				_spawnPos = ([[_referencePos,250,500,5,0,0.5,0],[_referencePos,300,550,5,0,0.5,0]] select ((random 1) > 0.666)) call _fn_findSafePos;
+				_spawnPos = ([[_referencePos,250,500,5,0,0.5,0],[_referencePos,300,600,5,0,0.5,0]] select ((random 1) > 0.666)) call _fn_findSafePos;
 				if (
 					(_spawnPos isNotEqualTo []) &&
 					{((_allPlayers inAreaArray [_spawnPos,300,300,0,FALSE]) isEqualTo [])} &&
@@ -182,7 +200,10 @@ for '_z' from 0 to 1 step 0 do {
 			_grp setFormDir (_spawnPos getDir _referencePos);
 			for '_i' from 0 to _quantityDiff step 1 do {
 				_unitType = selectRandomWeighted _unitsList;
-				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_spawnPos,[],0,'FORM'];
+				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[-500,-500,0],[],0,'FORM'];
+				_unit enableAIFeature ['ANIM',FALSE];
+				_unit switchMove 'amovppnemstpsraswrfldnon';
+				sleep (diag_deltaTime * 3);
 				_unit setVehiclePosition [AGLToASL _spawnPos,[],0,'NONE'];
 				_unit enableAIFeature ['COVER',FALSE];
 				_unit enableAIFeature ['SUPPRESSION',FALSE];
@@ -190,8 +211,12 @@ for '_z' from 0 to 1 step 0 do {
 				_unit enableStamina FALSE;
 				_unit enableFatigue FALSE;
 				_unit call _fn_unitSetup;
+				_unit enableAIFeature ['ANIM',TRUE];
 				_enemyArray pushBack _unit;
-				if ((count (units _grp)) >= _maxGrpSize) exitWith {};
+				if (
+					(((count _enemyArray) >= _quantity) && ((count (units _grp)) > 1)) ||
+					((count (units _grp)) >= _maxGrpSize)
+				) exitWith {};
 			};
 			if ((random 1) > 0.75) then {
 				{
@@ -204,21 +229,12 @@ for '_z' from 0 to 1 step 0 do {
 			_grp setSpeedMode 'FULL';
 			_wp = _grp addWaypoint [_referencePos,10];
 			_wp setWaypointType (selectRandomWeighted ['MOVE',0.8,'SAD',0.2]);
-			[units _grp,1] call _fn_setSkill;
+			[units _grp,[1,2] select ((random 1) > 0.9)] call _fn_setSkill;
 			_grp lockWP TRUE;
 		};
 	};
 	if (_time > _conditionDelay) then {
 		_conditionDelay = _time + _conditionInterval;
-		/*/
-		if (
-			(!alive _selectedDeployment) ||
-			(
-				((count ((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_referencePos,_radiusEnemy,_radiusEnemy,0,FALSE,-1])) > _enemyThreshold) &&
-				{((count ((units WEST) inAreaArray [_referencePos,_radiusFriendly,_radiusFriendly,0,FALSE,-1])) isEqualTo 0)}
-			)
-		) then {
-		/*/
 		if (
 			(!alive _selectedDeployment) ||
 			((count ((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_referencePos,_radiusEnemy,_radiusEnemy,0,FALSE,-1])) > _enemyThreshold)
@@ -231,9 +247,10 @@ for '_z' from 0 to 1 step 0 do {
 		};
 	};
 	if (
-		_fail || 
-		_success ||
-		(localNamespace getVariable ['QS_deploy_assaultTerminate',FALSE])
+		_fail ||
+		{_success} ||
+		{(isNull _selectedDeployment)} ||
+		{(_selectedDeployment getVariable ['QS_deploy_assaultTerminate',FALSE])}
 	) exitWith {};
 	uiSleep 1;
 };
@@ -247,19 +264,23 @@ if (_success) then {
 	['GRID_BRIEF',[localize 'STR_QS_Notif_155',localize 'STR_QS_Notif_157']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };
 _enemyArray = _enemyArray select {alive _x};
-if (unitIsUav _selectedDeployment) then {
-	if ((crew _selectedDeployment) isNotEqualTo []) then {
-		{
-			[_x,FALSE] remoteExec ['setCaptive',_x];
-		} forEach (crew _selectedDeployment);
+if (!isNull _selectedDeployment) then {
+	if (unitIsUav _selectedDeployment) then {
+		if ((crew _selectedDeployment) isNotEqualTo []) then {
+			{
+				[_x,FALSE] remoteExec ['setCaptive',_x];
+			} forEach (crew _selectedDeployment);
+		};
+		_selectedDeployment setVariable ['QS_uav_toggleEnabled',TRUE,TRUE];
 	};
-	_selectedDeployment setVariable ['QS_uav_toggleEnabled',TRUE,TRUE];
+	_selectedDeployment setVariable ['QS_logistics_blocked',FALSE,TRUE];
+	[_selectedDeployment,_isDamageAllowed] remoteExec ['allowDamage',0,FALSE];
+	_selectedDeployment enableDynamicSimulation _simulationEnabled;
+	_selectedDeployment enableSimulationGlobal _simulationEnabled;
+	_selectedDeployment setVariable ['QS_deploy_underAttack',FALSE,FALSE];
 };
-_selectedDeployment setVariable ['QS_logistics_blocked',FALSE,TRUE];
-[_selectedDeployment,_isDamageAllowed] remoteExec ['allowDamage',0,FALSE];
-_selectedDeployment enableDynamicSimulation _simulationEnabled;
-_selectedDeployment enableSimulationGlobal _simulationEnabled;
-if (localNamespace getVariable ['QS_deploy_assaultTerminate',FALSE]) then {
+if (_selectedDeployment getVariable ['QS_deploy_assaultTerminate',FALSE]) then {
+	_selectedDeployment setVariable ['QS_deploy_assaultTerminate',FALSE,FALSE];
 	{deleteVehicle _x} forEach _enemyArray;
 } else {
 	_enemyArray spawn {
@@ -275,5 +296,3 @@ if (localNamespace getVariable ['QS_deploy_assaultTerminate',FALSE]) then {
 		} forEach _this;
 	};
 };
-localNamespace setVariable ['QS_deploy_assaultInProgress',FALSE];
-missionNamespace setVariable ['QS_smSuspend',FALSE,TRUE];

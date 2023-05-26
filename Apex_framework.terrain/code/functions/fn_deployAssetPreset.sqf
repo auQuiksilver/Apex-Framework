@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	15/05/2023 A3 2.12 by Quiksilver
+	25/04/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -35,7 +35,7 @@ if (_preset isEqualTo 1) then {
 	};	
 };
 if (_preset isEqualTo 5) then {
-	//comment 'Repair Depot Cargo Container - land_repairdepot_01_green_f';
+	comment 'Repair Depot Cargo Container - land_repairdepot_01_green_f';
 	if (_deploy) then {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
@@ -71,10 +71,15 @@ if (_preset isEqualTo 5) then {
 		};
 		[_vehicle] call QS_fnc_vSetup;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,_posi];
 	} else {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
-		_customDN = _vehicle getVariable ['QS_ST_customDN',''];
+		_customDN = _vehicle getVariable ['QS_ST_customDN',''];	
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_oldVehicle = _vehicle;
 		_oldType = _vehicle getVariable ['QS_deploy_type0',typeOf _vehicle];
 		_oldVehicle setPosASL [0,0,0];
@@ -102,7 +107,7 @@ if (_preset isEqualTo 5) then {
 	};
 };
 if (_preset isEqualTo 6) then {
-	//comment 'SAM 1 - B_SAM_System_03_F';
+	comment 'SAM 1 - B_SAM_System_03_F';
 	if (_deploy) then {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
@@ -202,7 +207,7 @@ if (_preset isEqualTo 6) then {
 	};
 };
 if (_preset isEqualTo 7) then {
-	//comment 'SAM Radar - B_Radar_System_01_F';
+	comment 'SAM Radar - B_Radar_System_01_F';
 	if (_deploy) then {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
@@ -293,7 +298,7 @@ if (_preset isEqualTo 7) then {
 };
 
 if (_preset isEqualTo 12) then {
-	//comment 'Fortifications - Large';
+	comment 'Fortifications - Large';
 	if (_deploy) then {
 		_vehicle allowDamage FALSE;
 		_vehicle enableVehicleCargo FALSE;
@@ -314,12 +319,17 @@ if (_preset isEqualTo 12) then {
 			([6] call QS_data_virtualCargoPresets)
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,getPosASL _vehicle];
 	} else {
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			[]
 		] call QS_fnc_virtualVehicleCargo;
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -332,7 +342,7 @@ if (_preset isEqualTo 12) then {
 	};
 };
 if (_preset isEqualTo 13) then {
-	//comment 'Fortifications - Medium';
+	comment 'Fortifications - Medium';
 	if (_deploy) then {
 		_vehicle allowDamage FALSE;
 		_vehicle enableVehicleCargo FALSE;
@@ -345,20 +355,24 @@ if (_preset isEqualTo 13) then {
 		} forEach [
 			['QS_logistics_immovable',TRUE,TRUE],
 			['QS_logistics',FALSE,TRUE]
-		];			
-
+		];
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			([5] call QS_data_virtualCargoPresets)
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,getPosASL _vehicle];
 	} else {
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			[]
 		] call QS_fnc_virtualVehicleCargo;
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -371,7 +385,7 @@ if (_preset isEqualTo 13) then {
 	};	
 };
 if (_preset isEqualTo 14) then {
-	//comment 'Fortifications - Small';
+	comment 'Fortifications - Small';
 	if (_deploy) then {
 		_vehicle allowDamage FALSE;
 		_vehicle enableVehicleCargo FALSE;
@@ -384,20 +398,24 @@ if (_preset isEqualTo 14) then {
 		} forEach [
 			['QS_logistics_immovable',TRUE,TRUE],
 			['QS_logistics',FALSE,TRUE]
-		];			
-
+		];
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			([4] call QS_data_virtualCargoPresets)
 		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+		QS_system_vehicleRallyPoints pushBackUnique [_vehicle,getPosASL _vehicle];
 	} else {
 		[
 			'SET_VCARGO_SERVER',
 			_vehicle,
 			[]
 		] call QS_fnc_virtualVehicleCargo;
+		_rallyIndex = QS_system_vehicleRallyPoints findIf { ((_x # 0) isEqualTo _vehicle) };
+		if (_rallyIndex isNotEqualTo -1) then {
+			QS_system_vehicleRallyPoints deleteAt _rallyIndex;
+		};
 		_vehicle enableDynamicSimulation TRUE;
 		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
 		_vehicle enableSimulationGlobal TRUE;
@@ -410,7 +428,7 @@ if (_preset isEqualTo 14) then {
 	};	
 };
 if (_preset isEqualTo 15) then {
-	//comment 'Platform/Bridge Kit';
+	comment 'Platform/Bridge Kit';
 	if (_deploy) then {
 		_vehicle setOwner 2;
 		_vehicle allowDamage FALSE;
@@ -450,7 +468,7 @@ if (_preset isEqualTo 15) then {
 };
 
 if (_preset isEqualTo 16) then {
-	//comment 'Mobile Respawn';
+	comment 'Mobile Respawn';
 	if (_deploy) then {
 		private _array = [];
 		_vehicle setOwner 2;
@@ -482,7 +500,7 @@ if (_preset isEqualTo 16) then {
 		};
 		
 		QS_mobile_increment1 = QS_mobile_increment1 + 1;
-		_systems_id = (format ['ID_MOBILE_%1',QS_mobile_increment1]);
+		_systems_id = format ['ID_MOBILE_%1',QS_mobile_increment1];
 		['ADD',[_systems_id,TRUE,'SAFE','RAD',1,[_vehicle,50],{},{},{TRUE},{},[EAST,WEST,RESISTANCE,CIVILIAN]]] call QS_fnc_zoneManager;
 		[
 			'ADD',

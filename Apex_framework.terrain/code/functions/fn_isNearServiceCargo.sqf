@@ -20,7 +20,7 @@ Notes:
 	Recover
 __________________________________________/*/
 
-params ['_vehicle',['_radius',15]];
+params ['_vehicle',['_radius',15],['_requireCursorTarget',FALSE]];
 private _return = [];
 if (
 	(_vehicle isEqualType objNull) && 
@@ -28,6 +28,7 @@ if (
 ) exitWith {
 	_return;
 };
+private _cursorTargets = [cursorTarget,cursorObject,getCursorObjectParams # 0] select {!isNull _x};
 _radius = _radius max (sizeOf (typeOf _vehicle));
 private _list = (_vehicle nearEntities _radius) - [_vehicle];
 private _attachedObjects = attachedObjects _vehicle;
@@ -41,6 +42,7 @@ if (_list isNotEqualTo []) then {
 			(alive _x) &&
 			{(!isObjectHidden _x)} &&
 			{((_vehicle distance2D _x) < _radius)} &&
+			{((!(_requireCursorTarget)) || (_requireCursorTarget && (_x in _cursorTargets)))} &&
 			{(!(_x in _attachedObjects))} &&
 			{(!(_x in _ropeAttached))} &&
 			{(!(_x getVariable ['QS_logistics_wreck',FALSE]))} &&
@@ -108,6 +110,7 @@ if (_list isNotEqualTo []) then {
 			{(isSimpleObject _x)} &&
 			{(!isObjectHidden _x)} &&
 			{((_vehicle distance2D _x) < _radius)} &&
+			{((!(_requireCursorTarget)) || (_requireCursorTarget && (_x in _cursorTargets)))} &&
 			{(!(_x in _attachedObjects))} &&
 			{(!(_x in _ropeAttached))} &&
 			{(!(_x getVariable ['QS_service_disabled',FALSE]))}
@@ -134,7 +137,8 @@ if (_list isNotEqualTo []) then {
 			(!isNull _x) &&
 			{((getFuelCargo _x) > 0)} &&
 			{((_vehicle distance2D _x) < _radius)} &&
-			{((allowedService _x) isEqualTo 0)}
+			{((allowedService _x) isEqualTo 0)} &&
+			{((!(_requireCursorTarget)) || (_requireCursorTarget && (_x in _cursorTargets)))}
 		) then {
 			_return pushBackUnique [_x,'refuel'];
 		};

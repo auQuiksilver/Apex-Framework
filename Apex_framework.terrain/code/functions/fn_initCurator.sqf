@@ -92,7 +92,14 @@ if (_type isEqualTo 0) then {
 			};
 		}
 	];
-	_module removeCuratorAddons QS_core_classNames_zeusDisabledAddons_lower;
+	if (missionNamespace getVariable ['QS_missionConfig_zeusRestrictions',TRUE]) then {
+		private _disabled_addons = (['zeus_addons_disabled_1'] call QS_data_listOther) apply {toLowerANSI _x};
+		if (missionNamespace getVariable ['QS_missionConfig_zeusLightning',FALSE]) then {
+			_lightningAddons = ['a3_modules_f_curator_lightning','curatoronly_modules_f_curator_lightning'];
+			_disabled_addons = _disabled_addons select {(!(_x in _lightningAddons))};
+		};
+		_module removeCuratorAddons _disabled_addons;
+	};
 	diag_log (format [localize 'STR_QS_DiagLogs_133',(name _client),_puid]);
 };
 if (_type isEqualTo 1) then {

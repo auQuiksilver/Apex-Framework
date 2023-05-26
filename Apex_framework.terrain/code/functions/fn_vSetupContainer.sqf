@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	01/05/2023 A3 2.12 by Quiksilver
+	26/04/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -14,13 +14,27 @@ Description:
 _____________________________________*/
 
 params ['_entity'];
-comment 'Mobile AA';
+if (isNull _entity) exitWith {};
+if (_entity getVariable ['QS_logistics_wreck',FALSE]) exitWith {FALSE};
+_entityType = toLowerANSI (typeOf _entity);
 {
 	_entity setVariable _x;
 } forEach [
 	['QS_logistics',TRUE,TRUE],
 	['QS_logistics_dragDisabled',TRUE,TRUE]
 ];
+if (
+	(_entity isKindOf 'Slingload_01_Base_F') ||
+	{(_entity isKindOf 'Pod_Heli_Transport_04_base_F')}
+) then {
+	_entity setVariable ['QS_logistics',TRUE,TRUE];
+	_entity setVariable ['QS_ST_showDisplayName',TRUE,TRUE];
+};
+if (['cargo20',_entityType] call QS_fnc_inString) then {
+	if ((getMass _u) > 10000) then {
+		_u setMass 10000;
+	};
+};
 if (_entity isKindOf 'Land_Cargo10_blue_F') exitWith {
 	//comment 'Mobile SAM';
 	_class = QS_core_vehicles_map getOrDefault ['b_sam_system_03_f','b_sam_system_03_f'];
@@ -52,7 +66,7 @@ if (_entity isKindOf 'Land_Cargo10_cyan_F') exitWith {
 	_entity setMass 2500;
 };
 if (_entity isKindOf 'Land_Cargo10_light_blue_F') exitWith {
-	//comment '';
+	//comment 'Nothing yet';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -62,7 +76,7 @@ if (_entity isKindOf 'Land_Cargo10_light_blue_F') exitWith {
 	];
 };
 
-comment 'Wrecks';
+//comment 'Wrecks';
 if (_entity isKindOf 'Land_Cargo10_red_F') exitWith {
 	//comment 'Air Wrecks';
 	{
@@ -72,7 +86,7 @@ if (_entity isKindOf 'Land_Cargo10_red_F') exitWith {
 	];		
 };
 if (_entity isKindOf 'Land_Cargo10_brick_red_F') exitWith {
-	//comment 'Tank Wrecks';
+	//comment 'Heavy Armor Wrecks';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -80,7 +94,7 @@ if (_entity isKindOf 'Land_Cargo10_brick_red_F') exitWith {
 	];		
 };
 if (_entity isKindOf 'Land_Cargo10_orange_F') exitWith {
-	//comment 'Car Wrecks';
+	//comment 'Light Armor Wrecks';
 	{
 		_entity setVariable _x;
 	} forEach [
@@ -194,3 +208,16 @@ if (_entity isKindOf 'land_cargo10_idap_f') exitWith {
 		['QS_deploy_preset',18,TRUE]
 	];
 };
+// Not ready yet
+/*/
+if (
+	(_entity isKindOf 'b_slingload_01_medevac_f') ||
+	(_entity isKindOf 'land_pod_heli_transport_04_medevac_f')
+) exitWith {
+	[
+		'SET_VCARGO_SERVER',
+		_entity,
+		([13] call QS_data_virtualCargoPresets)
+	] call QS_fnc_virtualVehicleCargo;
+};
+/*/

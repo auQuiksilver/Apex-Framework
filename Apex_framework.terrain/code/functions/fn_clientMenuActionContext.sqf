@@ -521,6 +521,7 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_resupplyTickets];
 		};
+		// Light switch
 		if (
 			(isNull QS_extendedContext_objectParent) &&
 			{(QS_extendedContext_cursorDistance < 4)} &&

@@ -46,7 +46,7 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	for '_x' from 0 to ((_total - _quantity) - 1) step 1 do {
 		_unitType = selectRandomWeighted _unitTypes;
 		_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],_position1,[],0,'NONE'];
-		_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
+		_unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
 		_unit setAnimSpeedCoef 1.15;
 		_unit setCustomAimCoef 0.5;

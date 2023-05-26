@@ -24,4 +24,4 @@ _dn1 = QS_hashmap_configfile getOrDefaultCall [
 	TRUE
 ];
 50 cutText [format [localize 'STR_QS_Text_407',(_target getVariable ['QS_ST_customDN',_dn1])],'PLAIN DOWN',0.333];
-[_parent,_target,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,attachedTo _target,FALSE,TRUE] call QS_fnc_unloadCargoPlacementMode;
+[_parent,_target,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,attachedTo _target,FALSE,TRUE,'',FALSE] call QS_fnc_unloadCargoPlacementMode;

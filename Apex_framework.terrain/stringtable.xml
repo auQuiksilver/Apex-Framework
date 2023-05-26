@@ -1084,7 +1084,7 @@ _____________________________________________________________-->
 				<Original>Activating air defense</Original>
 				<Chinesesimp>正在激活防空系统</Chinesesimp>
 				<Chinese>正在啟用防空系統</Chinese>
-				<Turkish>Hava Savunmayı Aktif Ediliyor</Turkish>
+				<Turkish>Hava Savunma Aktif Ediliyor</Turkish>
 			</Key>
 			<Key ID="STR_QS_Text_032">
 				<Original>Use General channel for general voice communications. Press &#91;Home&#93; >> &#91;Comm-Link&#93; >> &#91;Radio Management&#93; to subscribe</Original>
@@ -1744,7 +1744,7 @@ _____________________________________________________________-->
 				<Original>Target already confirmed</Original>
 				<Chinesesimp>目标已被标记过</Chinesesimp>
 				<Chinese>目標已被標記過</Chinese>
-				<Turkish>Hedef Zaten Onaylandı</Turkish>
+				<Turkish>Hedef Zaten İşaretlendi</Turkish>
 			</Key>
 			<Key ID="STR_QS_Text_142">
 				<Original>Target already reported</Original>
@@ -1756,7 +1756,7 @@ _____________________________________________________________-->
 				<Original>Unable to report this target</Original>
 				<Chinesesimp>无法标记此目标</Chinesesimp>
 				<Chinese>無法標記此目標</Chinese>
-				<Turkish>Bu Hedef Bildirilemiyor</Turkish>
+				<Turkish>Hedef Bildirilemiyor &#40; Kamuflaj &#41;</Turkish>
 			</Key>
 			<Key ID="STR_QS_Text_144">
 				<Original>Target reported</Original>

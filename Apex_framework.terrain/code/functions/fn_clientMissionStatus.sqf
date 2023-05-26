@@ -931,7 +931,7 @@ private _isStreamFriendly = isStreamFriendlyUIEnabled;
 private _objectParent = objNull;
 _true = TRUE;
 _false = FALSE;
-_productVersionCtrl ctrlShow FALSE;
+_productVersionCtrl ctrlShow ((getMissionConfigValue ['missionProductStatus','Stable']) isNotEqualTo 'Stable');
 
 for '_x' from 0 to 1 step 0 do {
 	_isStreamFriendly = isStreamFriendlyUIEnabled;

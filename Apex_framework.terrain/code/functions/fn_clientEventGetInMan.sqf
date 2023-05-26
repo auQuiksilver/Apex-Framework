@@ -153,7 +153,13 @@ if (player getUnitTrait 'QS_trait_fighterPilot') then {
 	};
 };
 if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) isEqualTo 1) then {
-	if (_vehicle isEqualTo (missionNamespace getVariable ['QS_arty',objNull])) then {
+	if (
+		(_vehicle isEqualTo (missionNamespace getVariable ['QS_arty',objNull])) ||
+		(
+			(_vehicle isKindOf 'StaticMortar') && 
+			(_unit getUnitTrait 'QS_trait_gunner')
+		)
+	) then {
 		enableEngineArtillery TRUE;
 	};
 };

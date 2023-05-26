@@ -277,13 +277,20 @@ if (_type isEqualTo 'lockTurret') exitWith {
 	_1 lockTurret _2;
 };
 if (_type isEqualTo 'lockCargo') exitWith {
-	if ((_2 # 0) isEqualType 0) then {
+	if (_2 isEqualType TRUE) then {
 		_1 lockCargo _2;
 	} else {
-		if ((_2 # 0) isEqualType []) then {
-			{
-				_1 lockCargo [_x,(_2 # 1)];
-			} forEach (_2 # 0);
+		if (_2 isEqualType []) then {
+			if ((_2 # 0) isEqualType []) then {
+				//_2 = [[1,2,3,4],true]
+				{
+					_1 lockCargo [_x,(_2 # 1)];
+				} forEach (_2 # 0);
+			} else {
+				if ((_2 # 0) isEqualType 0) then {
+					_1 lockCargo _2;
+				};
+			};
 		};
 	};
 };
@@ -350,4 +357,9 @@ if (_type isEqualTo 'setPlateNumber') exitWith {
 };
 if (_type isEqualto 'setFace') exitWith {
 	_1 setFace _2;
+	};
+if (_type isEqualTo 'setFlagAnimationPhase') exitWith {
+	if ((flagAnimationPhase _1) isNotEqualTo _2) then {
+		_1 setFlagAnimationPhase _2;
+	};
 };

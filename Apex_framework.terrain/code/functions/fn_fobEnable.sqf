@@ -60,6 +60,7 @@ _flag setVariable ['QS_module_fob_flag',_tickets,TRUE];
 	{
 		if (!isNull _x) then {
 			[_x,3] call (missionNamespace getVariable 'BIS_fnc_DataTerminalAnimate');
+			[_x,"green","green","green"] call BIS_fnc_DataTerminalColor;
 		};
 	} forEach [
 		(missionNamespace getVariable 'QS_module_fob_dataTerminal'),

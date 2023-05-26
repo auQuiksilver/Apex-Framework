@@ -297,7 +297,7 @@ if ((missionNamespace getVariable ['QS_enabledWaypoints',2]) isEqualTo 0) then {
 			};
 			drawIcon3D [
 				'\a3\ui_f\data\igui\cfg\simpleTasks\background1_ca.paa',
-				[0.75,0.75,0.75,0.5], 
+				[1,0.702,0.322,1],//[0.85,0.65,0,1],//[0.75,0.75,0.75,0.5], 
 				_taskPosition,
 				0.7, 
 				0.7, 
@@ -313,7 +313,7 @@ if ((missionNamespace getVariable ['QS_enabledWaypoints',2]) isEqualTo 0) then {
 			];
 			drawIcon3D [
 				_taskFilePath,
-				[0.75,0.75,0.75,0.5], 
+				[1,0.702,0.322,1],//[0.85,0.65,0,1],//[0.75,0.75,0.75,0.5], 
 				_taskPosition,
 				0.4, 
 				0.4, 

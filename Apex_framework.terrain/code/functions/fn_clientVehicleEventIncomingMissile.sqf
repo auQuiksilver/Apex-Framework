@@ -59,8 +59,8 @@ if (
 	{((_projectile distance _vehicle) > (_vehicle getVariable ['QS_vehicle_passiveStealth_minDist',100]))} &&
 	{((!alive _shooter) || ((alive _shooter) && (!(_shooter getVariable ['QS_vehicle_passiveStealth_ignore',FALSE]))))}
 ) then {
-	[_projectile,_instigator] spawn {
-		params ['_projectile','_instigator'];
+	[_projectile,_instigator,_vehicle] spawn {
+		params ['_projectile','_instigator','_vehicle'];
 		uiSleep (0.1 + (random 1.5));
 		['setMissileTarget',_projectile,objNull] remoteExec ['QS_fnc_remoteExecCmd',_instigator,FALSE];
 		['forgetTarget',(group _instigator),_vehicle] remoteExec ['QS_fnc_remoteExecCmd',_instigator,FALSE];

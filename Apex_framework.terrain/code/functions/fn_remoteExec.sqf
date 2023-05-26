@@ -1021,36 +1021,24 @@ if (_case < 60) exitWith {
 			(missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['REVIVE',_puid,_pname,_val];
 		};
 	};
-	/*/===== Spawn player-deployables/*/
+	/*/===== Register player-deployables/*/
 	if (_case isEqualTo 52) then {
 		if (isDedicated) then {
 			QS_list_playerBuildables = QS_list_playerBuildables select {!isNull _x};
 			if ((count QS_list_playerBuildables) >= QS_missionConfig_maxPlayerBuildables) exitWith {};
-			params ['','_class','_sim','_posi','_orientation','_clientOwner','_uid','_buildBudget'];
+			params ['','_object','_clientOwner','_unit','_buildBudget'];
+			_uid = getPlayerUID _unit;
 			private _list = QS_hashmap_playerBuildables getOrDefault [_uid,[]];
 			_list = _list select {!isNull _x};
-			private _object = objNull;
-			_holdFrame = diag_frameNo + 2;
-			if (_sim isEqualTo 1) then {
-				_object = createSimpleObject [_class,_posi];
-				_object setVectorDirAndUp _orientation;
-				waitUntil {diag_frameNo > _holdFrame};
-				_object awake TRUE;
-			};
-			if (_sim isEqualTo 2) then {
-				_object = createVehicle [_class,[0,0,0]];
-				waitUntil {diag_frameNo > _holdFrame};
-			};
 			_object allowDamage FALSE;
-			_object setVectorDirAndUp _orientation;
-			_object setPosASL _posi;
+			_object enableSimulationGlobal FALSE;
 			_object setVariable ['QS_builtTime',serverTime,FALSE];
 			_object setVariable ['QS_logistics',TRUE,TRUE];
 			_object addEventHandler [
 				'Local',
 				{
 					params ['_object','_isLocal'];
-					[_object,{ _this allowDamage FALSE; }] remoteExec ['call',owner _object];
+					[_object,{ _this allowDamage FALSE; }] remoteExec ['call',_object];
 					
 					if (_isLocal) then {
 						if ((allPlayers inAreaArray [getPosATL _object,50,50,0,FALSE]) isEqualTo []) then {
@@ -1073,11 +1061,11 @@ if (_case < 60) exitWith {
 					deleteVehicle _object;
 				}
 			];
-			sleep 0.5;
-			_list pushBack _object;
+			// To Do: Optimise this section
+			_list pushBackUnique _object;
 			_allObjects = (missionNamespace getVariable ['QS_list_playerBuildables',[]]) select {!isNull _x};
 			_allObjects pushBack _object;
-			missionNamespace setVariable ['QS_list_playerBuildables',_allObjects,TRUE];
+			missionNamespace setVariable ['QS_list_playerBuildables',_allObjects,TRUE];		// This is not a good method but it works for now
 			QS_hashmap_playerBuildables set [_uid,_list];
 		};
 	};
@@ -2409,6 +2397,12 @@ if (_case < 120) exitWith {
 			_marker = _receiver getVariable ['QS_deploy_marker',''];
 			_text = _receiver getVariable ['QS_deploy_markerText',''];
 			_marker setMarkerText (format ['%1 [%2]',_text,_receiver getVariable ['QS_deploy_tickets',0]]);
+		};
+	};
+	if (_case isEqualTo 118) then {
+		params ['','_vehicle'];
+		if (isDedicated) then {
+			[_vehicle] call QS_fnc_createUGVTrailer;
 		};
 	};
 };

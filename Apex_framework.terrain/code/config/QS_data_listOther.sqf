@@ -83,7 +83,8 @@ if (_type isEqualTo 'markers_base_hide_1') exitWith {
 		'QS_marker_base_atc',
 		'QS_marker_veh_inventoryService_01',
 		'QS_marker_veh_fieldservice_04',
-		'QS_marker_veh_fieldservice_01'
+		'QS_marker_veh_fieldservice_01',
+		'QS_marker_wreck_service_01'
 	]
 };
 if (_type isEqualTo 'crater_decals_1') exitWith {
@@ -135,6 +136,7 @@ if (_type isEqualTo 'profilename_blacklisted_text_1') exitWith {
 	]
 };
 if (_type isEqualTo 'zeus_modules_blocked_1') exitWith {
+		// Disabled zeus modules
 	[
 		'modulepostprocess_f','moduleskiptime_f','moduletimemultiplier_f','moduleweather_f',
 		'modulebootcampstage_f','modulehint_f','modulediary_f','modulecountdown_f','moduleendmission_f',
@@ -143,6 +145,32 @@ if (_type isEqualTo 'zeus_modules_blocked_1') exitWith {
 		'modulevehiclerespawnpositionciv_f','modulevehiclerespawnpositionguer_f','modulevehiclerespawnpositioneast_f',
 		'moduleobjectiveattackdefend_f','moduleobjectivesector_f','moduleobjectiveracecp_f','moduleobjectiveracefinish_f',
 		'moduleobjectiveracestart_f','moduleanimalsbutterflies_f'
+	]
+};
+if (_type isEqualTo 'zeus_addons_disabled_1') exitWith {
+	// Disabled zeus addons
+	[
+		'a3_modules_f_curator_respawn',
+		'a3_modules_f_curator_multiplayer',
+		'a3_modules_f_kart',
+		'a3_modules_f_mark_firingdrills',
+		'a3_modules_f_curator_intel',
+		'a3_modules_f_curator_environment',
+		'a3_modules_f_curator_effects',
+		'a3_characters_f_bootcamp',
+		'a3_structures_f_bootcamp_vr_blocks',
+		'a3_structures_f_bootcamp_vr_coverobjects',
+		'a3_structures_f_bootcamp_vr_helpers',
+		'a3_structures_f_exp_a_vr_blocks',
+		'a3_structures_f_exp_a_vr_helpers',
+		'a3_structures_f_mark_vr_helpers',
+		'a3_structures_f_mark_vr_shapes',
+		'a3_structures_f_mark_vr_targets',
+		'a3_structures_f_heli_vr_helpers',
+		'a3_modules_f_curator_lightning',
+		'a3_data_f_curator_respawn',
+		'curatoronly_modules_f_curator_environment',
+		'curatoronly_modules_f_curator_lightning'
 	]
 };
 if (_type isEqualTo 'airfield_objects_1') exitWith {
