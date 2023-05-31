@@ -347,14 +347,14 @@ if (
 						{(!alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull]))}
 					) then {
 						QS_player playActionNow 'PutDown';
-						50 cutText ['Remote Controlling','PLAIN DOWN',0.333];
+						50 cutText [localize 'STR_QS_Text_465','PLAIN DOWN',0.333];
 						[_cursorObject,FALSE,FALSE] spawn QS_fnc_remoteControl;
 					} else {
 						if (isUAVConnected _cursorObject) then {
-							systemChat 'Active connection';
+							systemChat (localize 'STR_QS_Text_466');
 						};
 						if (alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull])) then {
-							systemChat 'Active connection';
+							systemChat (localize 'STR_QS_Text_466');
 						};
 					};
 				},
@@ -560,6 +560,42 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_switchLight];
 		};
+		// Disassemble (basebuilding)
+		if (
+			(isNull QS_extendedContext_objectParent) &&
+			{(QS_extendedContext_cursorDistance < 4)} &&
+			{((getObjectType QS_extendedContext_cursorObject) isEqualTo 8)} &&
+			{(QS_extendedContext_cursorObject getVariable ['QS_logistics_virtual',FALSE])} &&
+			{((clientOwner isEqualTo (QS_extendedContext_cursorObject getVariable ['QS_logistics_owner',-2])) || (QS_extendedContext_cursorObject isKindOf 'CAManBase'))} &&
+			{((['StaticWeapon','LandVehicle','Ship','Air'] findIf { QS_extendedContext_cursorObject isKindOf _x }) isEqualTo -1)}
+		) then {
+			QS_action_disassembleVirtual = QS_player addAction [
+				localize 'STR_QS_Interact_130',
+				{
+					_cursorObject = QS_extendedContext_cursorObject;
+					_nearUnits = allPlayers - [QS_player];
+					if ((_nearUnits inAreaArray [getPosATL _cursorObject,30,30,0,FALSE]) isEqualTo []) then {
+						_virtualParent = _cursorObject getVariable ['QS_virtualCargoParent',objNull];
+						if (!alive _virtualParent) exitWith {systemChat 'parent does not exist';};
+						['DISASSEMBLE',_cursorObject] call QS_fnc_virtualVehicleCargo;
+						QS_player playActionNow 'PutDown';
+					} else {
+						50 cutText [localize 'STR_QS_Text_399','PLAIN',0.5,TRUE];
+					};
+				},
+				nil,
+				-54,
+				FALSE,
+				TRUE,
+				'',
+				'
+					getCursorObjectParams params ["_cursorObject","","_cursorDistance"];
+					((!isNull _cursorObject) && {(_cursorDistance < 5)} && {(_cursorObject isEqualTo QS_extendedContext_cursorObject)})				
+				'
+			];
+			QS_interactions_extendedContext pushBack [QS_player,QS_action_disassembleVirtual];
+		};
+
 		
 		//comment 'PLAYER MENU';
 		QS_action_playerMenu = QS_player addAction [

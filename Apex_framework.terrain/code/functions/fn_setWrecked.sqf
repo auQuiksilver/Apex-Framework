@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/03/2023 A3 2.12 by Quiksilver
+	28/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -16,7 +16,7 @@ _______________________________________________*/
 params ['_entity',['_state',0],['_manage',TRUE],['_wreckInfo',[FALSE,'','','']],['_replaceAsset',FALSE]];
 if (isNull _entity) exitWith {};
 if (_state isEqualTo 0) exitWith {
-	comment 'SET AS WRECK - NOW';
+	//comment 'SET AS WRECK - NOW';
 	_wreckInfo params [['_wreckState',TRUE],['_vehicleType',''],['_wreckType',''],['_vehicleDisplayName','']];
 	if (_vehicleDisplayName isEqualTo '') then {
 		_vehicleDisplayName = QS_hashmap_configfile getOrDefaultCall [
@@ -227,7 +227,7 @@ if (_state isEqualTo 0) exitWith {
 	_entity;
 };
 if (_state isEqualTo 1) exitWith {
-	comment 'SET AS WRECK - ON RESPAWN';
+	//comment 'SET AS WRECK - ON RESPAWN';
 	if (_manage && isDedicated) then {
 		_vIndex = (serverNamespace getVariable 'QS_v_Monitor') findIf { _entity isEqualTo (_x # 0) };
 		if (_vIndex isNotEqualTo -1) then {
@@ -256,7 +256,7 @@ if (_state isEqualTo 1) exitWith {
 	};
 };
 if (_state isEqualTo 2) exitWith {
-	comment 'NO LONGER WRECK';
+	//comment 'NO LONGER WRECK';
 	_entity setVariable ['QS_logistics_wreck',FALSE,TRUE];
 	if (_manage) then {
 		_vIndex = (serverNamespace getVariable 'QS_v_Monitor') findIf { _entity isEqualTo (_x # 0) };
@@ -314,7 +314,7 @@ if (_state isEqualTo 3) exitWith {
 	_wreckInfo2 params [['_wreckState',TRUE],['_vehicleType',''],['_wreckType',''],['_vehicleDisplayName','']];
 	_entityVectors = [vectorDir _entity,vectorUp _entity];
 	_entityPos = (getPosASL _entity) vectorAdd [0,0,1];
-	comment 'Add existing wreck to monitor temporarily (until unwrecked)';
+	//comment 'Add existing wreck to monitor temporarily (until unwrecked)';
 	(serverNamespace getVariable 'QS_v_Monitor') pushBack [
 		_entity,
 		-1,

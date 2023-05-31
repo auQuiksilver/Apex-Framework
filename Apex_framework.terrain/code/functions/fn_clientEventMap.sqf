@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/02/2023 A3 2.12 by Quiksilver
+	29/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -18,12 +18,12 @@ if (_mapIsOpened) then {
 	_localProps = QS_list_playerBuildables select {local _x};
 	uiNamespace setVariable ['QS_map_playerBuildables',_localProps];
 	uiNamespace setVariable ['QS_map_closestBuildable',objNull];
-	_globalObjects = (8 allObjects 8) select {(_x getVariable ['QS_bb',FALSE])};
+	_globalObjects = (8 allObjects 8) select {(_x getVariable ['QS_logistics_virtual',FALSE])};
 	localNamespace setVariable ['QS_map_globalObjects',_globalObjects];
 	QS_map_drawBuildables = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		'Draw',
 		{
-			params ["_map"];
+			params ['_map'];
 			if (!(missionNamespace getVariable ['QS_menu_extendedContext',FALSE])) exitWith {};
 			_cursorPos = uiNamespace getVariable ['QS_map_cursorPos',[0,0,0]];
 			private _iconSize = 20;
@@ -32,11 +32,16 @@ if (_mapIsOpened) then {
 			private _text = '';
 			private _color = [0.5,0.5,0.5,1];
 			private _obj = objnull;
-			{	
+			{
 				_obj = _x;
 				if (
 					(!isNull _obj) &&
-					((['LandVehicle','Air','Ship'] findIf { _obj isKindOf _x }) isEqualTo -1)
+					{((['LandVehicle','Air','Ship'] findIf { _obj isKindOf _x }) isEqualTo -1)} &&
+					{(isNull (attachedTo _obj))} &&
+					{(isNull (isVehicleCargo _obj))} &&
+					{(isNull (ropeAttachedTo _obj))} &&
+					{((ropes _obj) isEqualTo [])} &&
+					{((crew _obj) isEqualTo [])}
 				) then {
 					_icon = _obj getVariable ['QS_map_icon',''];
 					if (_icon isEqualTo '') then {
@@ -90,6 +95,68 @@ if (_mapIsOpened) then {
 					'right'
 				];
 			};
+			private _nearishMarkers = [];
+			private _nearestMarker = '';
+			private _markerIcon = '';
+			private _marker = '';
+			private _serverTime = serverTime;
+			private _allMarkers = allMapMarkers;
+			private _markerColor = [0,0,0,0];
+			_markerIcon = localNamespace getVariable ['QS_supportMarker_icon',''];
+			if (_markerIcon isEqualTo '') then {
+				_markerIcon = getText (configFile >> 'CfgMarkers' >> 'mil_dot' >> 'icon');
+				localNamespace setVariable ['QS_supportMarker_icon',_markerIcon];
+			};
+			{
+				if (_x isEqualType []) then {
+					_marker = _x # 0;
+					_timeout = _x # 1;
+					if (
+						(_marker in _allMarkers) &&
+						{(_serverTime > (_timeout + 60))}
+					) then {
+						_markerColor = [1,0.5,0.5,1];
+						if (((markerPos _marker) distance2D _cursorPos) < 100) then {
+							_nearishMarkers pushBack _marker;
+						};
+						_map drawIcon [
+							_markerIcon,
+							_markerColor,
+							markerPos _marker,
+							5,
+							5,
+							0,
+							'',
+							1,
+							0.03,
+							'RobotoCondensedBold',
+							'left'
+						];
+					};
+				};
+			} forEach QS_markers_fireSupport;
+			if (_nearishMarkers isNotEqualTo []) then {
+				_nearestMarker = [_nearishMarkers,_cursorPos] call BIS_fnc_nearestPosition;
+				uiNamespace setVariable ['QS_map_closestSupportMarker',_nearestMarker];
+				_markerIcon = localNamespace getVariable ['QS_map_icon',''];
+				if (_markerIcon isEqualTo '') then {
+					_markerIcon = getText (configFile >> 'CfgMarkers' >> 'mil_dot' >> 'icon');
+					localNamespace setVariable ['QS_supportMarker_icon',_markerIcon];
+				};
+				_map drawIcon [
+					_markerIcon,
+					[1,0,0,1],
+					markerPos _nearestMarker,
+					5,
+					5,
+					0,
+					localize 'STR_QS_Text_389',
+					1,
+					0.04,
+					'RobotoCondensedBold',
+					'left'
+				];
+			};
 		}
 	];
 	QS_map_mouseMovingBuildables = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
@@ -128,6 +195,13 @@ if (_mapIsOpened) then {
 						} else {
 							50 cutText [localize 'STR_QS_Text_400','PLAIN',0.5,TRUE];
 						};
+					};
+				};
+				_closestMarker = uiNamespace getVariable ['QS_map_closestSupportMarker',''];
+				if (_closestMarker in allMapMarkers) then {
+					if (((markerPos _closestMarker) distance2D (uiNamespace getVariable ['QS_map_cursorPos',[0,0,0]])) < 100) then {
+						deleteMarker _closestMarker;
+						uiNamespace setVariable ['QS_map_closestSupportMarker',''];
 					};
 				};
 			};

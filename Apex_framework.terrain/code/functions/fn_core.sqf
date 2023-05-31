@@ -3305,14 +3305,6 @@ for '_x' from 0 to 1 step 0 do {
 													};
 													_v setVariable ['QS_wreck_chance',(random 1) < _wreckChance,_true];
 													[_v,_false,(_wreckInfo # 0)] call _fn_vSetup;
-													if ((_vpos distance2D _baseMarker) < 1000) then {
-														if (_v isKindOf 'Helicopter') then {
-															_v allowDamage _false;
-															_v spawn {sleep 3; _this enableSimulationGlobal FALSE;};
-															_v setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
-															_v lock 2;
-														};
-													};
 												};
 											};
 											(serverNamespace getVariable 'QS_v_Monitor') set [_forEachIndex,[_v,_vdelay,_randomize,_configCode,_t,_vpos,_dir,_false,0,_fobVehicleID,_QS_vRespawnDist_base,_QS_vRespawnDist_field,_vRespawnTickets,_nearEntitiesCheck,_isDynamicVehicle,_isCarrierVehicle,_vehicleSpawnCondition,_isWreck,_isDeployed,_stateInfo,_wreckInfo,_wreckChance,_wreckCond]];
@@ -3380,14 +3372,6 @@ for '_x' from 0 to 1 step 0 do {
 													_v call _configCode;
 												};
 												[_v] call _fn_vSetup;
-												if ((_vpos distance2D _baseMarker) < 1000) then {
-													if (_v isKindOf 'Helicopter') then {
-														_v allowDamage _false;
-														_v spawn {sleep 3; _this enableSimulationGlobal FALSE;};
-														_v setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
-														_v lock 2;
-													};
-												};
 											};
 											(serverNamespace getVariable 'QS_v_Monitor') set [_forEachIndex,[_v,_vdelay,_randomize,_configCode,_t,_vpos,_dir,_false,0,_fobVehicleID,_QS_vRespawnDist_base,_QS_vRespawnDist_field,_vRespawnTickets,_nearEntitiesCheck,_isDynamicVehicle,_isCarrierVehicle,_vehicleSpawnCondition,_isWreck,_isDeployed,_stateInfo,_wreckInfo,_wreckChance,_wreckCond]];
 										};
@@ -3673,6 +3657,30 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') select {(!isNull _x)}),_false];
 		missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') select {(!isNull _x)}),_false];
+		
+		if (QS_markers_fireSupport_queue isNotEqualTo []) then {
+			{
+				if (_x isEqualType []) then {
+					QS_markers_fireSupport pushBack _x;
+					QS_markers_fireSupport_queue set [_forEachIndex,FALSE];
+				};
+			} forEach QS_markers_fireSupport_queue;
+		};
+		if (QS_markers_fireSupport isNotEqualTo []) then {
+			{
+				if (_x isEqualType []) then {
+					if (serverTime > ((_x # 1) + 300)) then {
+						if ((_x # 0) in allMapMarkers) then {
+							deleteMarker (_x # 0);
+						};
+						QS_markers_fireSupport set [_forEachIndex,FALSE];
+					};
+				};
+			} forEach QS_markers_fireSupport;
+			QS_markers_fireSupport = QS_markers_fireSupport select {_x isEqualType []};
+			missionNamespace setVariable ['QS_markers_fireSupport',QS_markers_fireSupport,_true];
+		};
+		
 		{
 			if ((([(getPosATL _x),500,[_west],_allPlayers,0] call _fn_serverDetector) isEqualTo []) || {(underwater _x)}) then {
 				if (!(_x getVariable ['QS_dead_prop',_false])) then {

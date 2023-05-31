@@ -541,7 +541,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false] call QS_fnc_registerVehicle;";
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {TRUE} " \n "] call QS_fnc_registerVehicle;";
 			};
 			id=121;
 			type="B_Heli_Light_01_F";
@@ -781,7 +781,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " true " \n "] call QS_fnc_registerVehicle;";
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " true, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {TRUE} " \n "] call QS_fnc_registerVehicle;";
 			};
 			id=135;
 			type="B_MRAP_01_F";

@@ -472,6 +472,7 @@ if (_inSafezone && _safezoneActive && (_safezoneLevel > 1)) then {
 					(!isSimpleObject _x) &&
 					(!isObjectHidden _x)
 				) then {
+					[_x] call QS_fnc_vSetupContainer;
 					[_x] call QS_fnc_replenishServices;
 				};
 			} forEach _attached;

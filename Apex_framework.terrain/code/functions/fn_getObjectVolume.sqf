@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/04/2023 A3 2.12 by Quiksilver
+	27/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -15,6 +15,7 @@ ___________________________________________________*/
 
 params ['_object'];
 if (isNull _object) exitWith {0};
+if ((_object getVariable ['QS_logistics_objvol',-1]) isNotEqualTo -1) exitWith {(_object getVariable ['QS_logistics_objvol',-1])};
 (0 boundingBoxReal _object) params ['_min','_max',''];
 (_max vectorDiff _min) params ['_dimX','_dimY','_dimZ'];
 (abs (_dimX * _dimY * _dimZ))

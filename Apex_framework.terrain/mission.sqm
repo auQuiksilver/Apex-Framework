@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=373;
+		nextID=390;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6935.3794,14.288928,7354.271};
-		dir[]={0.74621207,-0.40763643,0.52655101};
-		up[]={0.33307987,0.91301036,0.23503299};
-		aside[]={0.57658333,1.2835371e-006,-0.81713754};
+		pos[]={6943.6079,10.917699,7355.5498};
+		dir[]={0.77247494,-0.24942616,0.58423907};
+		up[]={0.19898692,0.96824789,0.15049969};
+		aside[]={0.60326052,-3.5716221e-007,-0.79764533};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_151";
+sourceName="Apex_framework_153";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -348,14 +348,14 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={6963.2124,4.8659458,7396.9453};
+				position[]={6963.2119,4.8659458,7396.9453};
 				angles[]={0,5.2726045,0};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
-				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " true " \n "] call QS_fnc_registerVehicle;";
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " true, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {TRUE} " \n "] call QS_fnc_registerVehicle;";
 			};
 			id=107;
 			type="B_T_MRAP_01_F";
@@ -579,7 +579,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false] call QS_fnc_registerVehicle;";
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {TRUE} " \n "] call QS_fnc_registerVehicle;";
 			};
 			id=125;
 			type="B_Heli_Light_01_F";

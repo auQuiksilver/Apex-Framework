@@ -15,7 +15,11 @@ ____________________________________________/*/
 
 params ['_entity',['_zoneType','SAFE',['',[]]],['_simpleReturn',FALSE]];
 private _return = [FALSE,0,TRUE,[]];
-private _zones = _entity getVariable ['QS_unit_zones',[]];
+private _zones = if (_entity isEqualType objNull) then {
+	(_entity getVariable ['QS_unit_zones',[]])
+} else {
+	[]
+};
 if (_zones isEqualTo []) then {
 	_zones = ['GET',_entity,QS_system_zones + QS_system_zonesLocal] call QS_fnc_zoneManager;
 };

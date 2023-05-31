@@ -35,11 +35,12 @@ if (_preset isEqualTo 1) then {
 	};	
 };
 if (_preset isEqualTo 5) then {
-	comment 'Repair Depot Cargo Container - land_repairdepot_01_green_f';
+	//comment 'Repair Depot Cargo Container - land_repairdepot_01_green_f';
 	if (_deploy) then {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
 		_customDN = _vehicle getVariable ['QS_ST_customDN',''];
+		_deployParams = _vehicle getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]];
 		_oldVehicle = _vehicle;
 		_oldType = typeOf _vehicle;
 		_oldVehicle setPosASL [0,0,0];
@@ -61,7 +62,8 @@ if (_preset isEqualTo 5) then {
 			['QS_deploy_preset',_preset,TRUE],
 			['QS_deploy_type0',_oldType,FALSE],
 			['QS_logistics',FALSE,TRUE],
-			['QS_logistics_immovable',TRUE,TRUE]
+			['QS_logistics_immovable',TRUE,TRUE],
+			['QS_logistics_deployParams',_deployParams,TRUE]
 		];
 		if (unitIsUav _vehicle) then {
 			_vehicle setVariable ['QS_uav_protected',TRUE,TRUE];
@@ -107,7 +109,7 @@ if (_preset isEqualTo 5) then {
 	};
 };
 if (_preset isEqualTo 6) then {
-	comment 'SAM 1 - B_SAM_System_03_F';
+	//comment 'SAM 1 - B_SAM_System_03_F';
 	if (_deploy) then {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
@@ -207,7 +209,7 @@ if (_preset isEqualTo 6) then {
 	};
 };
 if (_preset isEqualTo 7) then {
-	comment 'SAM Radar - B_Radar_System_01_F';
+	//comment 'SAM Radar - B_Radar_System_01_F';
 	if (_deploy) then {
 		_posi = getPosASL _vehicle;
 		_vectors = [vectorDir _vehicle,vectorUp _vehicle];
@@ -298,7 +300,7 @@ if (_preset isEqualTo 7) then {
 };
 
 if (_preset isEqualTo 12) then {
-	comment 'Fortifications - Large';
+	//comment 'Fortifications - Large';
 	if (_deploy) then {
 		_vehicle allowDamage FALSE;
 		_vehicle enableVehicleCargo FALSE;
@@ -342,7 +344,7 @@ if (_preset isEqualTo 12) then {
 	};
 };
 if (_preset isEqualTo 13) then {
-	comment 'Fortifications - Medium';
+	//comment 'Fortifications - Medium';
 	if (_deploy) then {
 		_vehicle allowDamage FALSE;
 		_vehicle enableVehicleCargo FALSE;
@@ -385,7 +387,7 @@ if (_preset isEqualTo 13) then {
 	};	
 };
 if (_preset isEqualTo 14) then {
-	comment 'Fortifications - Small';
+	//comment 'Fortifications - Small';
 	if (_deploy) then {
 		_vehicle allowDamage FALSE;
 		_vehicle enableVehicleCargo FALSE;
@@ -428,7 +430,7 @@ if (_preset isEqualTo 14) then {
 	};	
 };
 if (_preset isEqualTo 15) then {
-	comment 'Platform/Bridge Kit';
+	//comment 'Platform/Bridge Kit';
 	if (_deploy) then {
 		_vehicle setOwner 2;
 		_vehicle allowDamage FALSE;
@@ -468,7 +470,7 @@ if (_preset isEqualTo 15) then {
 };
 
 if (_preset isEqualTo 16) then {
-	comment 'Mobile Respawn';
+	////comment 'Mobile Respawn';
 	if (_deploy) then {
 		private _array = [];
 		_vehicle setOwner 2;
@@ -490,7 +492,6 @@ if (_preset isEqualTo 16) then {
 			['QS_deploy_tickets',_tickets,TRUE],
 			['QS_logistics_immovable',TRUE,TRUE]
 		];
-		
 		[_vehicle] spawn {
 			params ['_vehicle'];
 			sleep 3;
@@ -498,7 +499,6 @@ if (_preset isEqualTo 16) then {
 			_text = _vehicle getVariable ['QS_deploy_markerText',''];
 			_marker setMarkerText (format ['%1 [%2]',_text,_vehicle getVariable ['QS_deploy_tickets',0]]);
 		};
-		
 		QS_mobile_increment1 = QS_mobile_increment1 + 1;
 		_systems_id = format ['ID_MOBILE_%1',QS_mobile_increment1];
 		['ADD',[_systems_id,TRUE,'SAFE','RAD',1,[_vehicle,50],{},{},{TRUE},{},[EAST,WEST,RESISTANCE,CIVILIAN]]] call QS_fnc_zoneManager;
@@ -532,7 +532,11 @@ if (_preset isEqualTo 16) then {
 					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
 					_enemySides = QS_player call QS_fnc_enemySides;
-					(((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo [])
+					_positionClear = (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []);
+					if (!(_positionClear)) then {
+						50 cutText [localize 'STR_QS_Text_433','PLAIN DOWN',0.3,TRUE,TRUE];
+					};
+					_positionClear
 				},
 				{
 					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
@@ -551,13 +555,17 @@ if (_preset isEqualTo 16) then {
 						(_deploymentLocationData isEqualType objNull) &&
 						{((_deploymentLocationData getVariable ['QS_deploy_tickets',0]) isNotEqualTo 0)}
 					) exitWith {
-						systemchat str (_deploymentLocationData getVariable ['QS_deploy_tickets',0]);
 						(_deploymentLocationData getVariable ['QS_deploy_tickets',0])
 					};
 					0
 				}
 			]
 		] call QS_fnc_deployment;
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			([3] call QS_data_virtualCargoPresets)
+		] call QS_fnc_virtualVehicleCargo;
 		QS_logistics_deployedAssets pushBackUnique [_vehicle,_array,_systems_id];
 	} else {
 		_vehicle enableDynamicSimulation TRUE;
@@ -583,6 +591,11 @@ if (_preset isEqualTo 16) then {
 			};
 			QS_logistics_deployedAssets deleteAt _assetsIndex;
 		};
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			[]
+		] call QS_fnc_virtualVehicleCargo;
 	};
 };
 if (_preset isEqualTo 17) then {

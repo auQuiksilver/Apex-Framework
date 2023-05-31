@@ -143,6 +143,7 @@ if (_type isEqualTo 1) exitWith {
 		_towerType = 'Land_TTowerBig_2_F';
 		_radioTower = createVehicle [_towerType,_position,[],0,['NONE','CAN_COLLIDE'] select _usedSettlementPosition];
 		if (_usedSettlementPosition) then {
+			_position set [2,0];
 			_radioTower setPosATL _position;
 		};
 		_radioTower setVectorUp [0,0,1];

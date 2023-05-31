@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/04/2023 A3 2.12 by Quiksilver
+	31/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -14,14 +14,18 @@ Description:
 _____________________________________*/
 
 params ['_entity'];
-if (isNull _entity) exitWith {};
-if (_entity getVariable ['QS_logistics_wreck',FALSE]) exitWith {FALSE};
+if (
+	(!alive _entity) ||
+	{(_entity getVariable ['QS_logistics_wreck',FALSE])} ||
+	{((['Cargo_base_F','Slingload_01_Base_F','Pod_Heli_Transport_04_base_F'] findIf { _entity isKindOf _x }) isEqualTo -1)}
+) exitWith {};
 _entityType = toLowerANSI (typeOf _entity);
 {
 	_entity setVariable _x;
 } forEach [
 	['QS_logistics',TRUE,TRUE],
-	['QS_logistics_dragDisabled',TRUE,TRUE]
+	['QS_logistics_dragDisabled',TRUE,TRUE],
+	['QS_customCargoCapacity',[300000,300000,1],TRUE]
 ];
 if (
 	(_entity isKindOf 'Slingload_01_Base_F') ||
@@ -42,7 +46,7 @@ if (_entity isKindOf 'Land_Cargo10_blue_F') exitWith {
 		_entity setVariable _x;
 	} forEach [
 		['QS_importance',1,FALSE],
-		['QS_logistics_deployParams',[50,60,50,60,100,25],TRUE],
+		['QS_logistics_deployParams',[5,300,25,300,-1,30,500],TRUE],
 		['QS_deploy_preset',6,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],
 		['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> _class >> 'displayName')),TRUE],
@@ -57,7 +61,7 @@ if (_entity isKindOf 'Land_Cargo10_cyan_F') exitWith {
 		_entity setVariable _x;
 	} forEach [
 		['QS_importance',1,FALSE],
-		['QS_logistics_deployParams',[50,60,50,60,100,25],TRUE],
+		['QS_logistics_deployParams',[5,300,25,300,-1,30,500],TRUE],
 		['QS_deploy_preset',7,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],
 		['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> _class >> 'displayName')),TRUE],
@@ -70,8 +74,9 @@ if (_entity isKindOf 'Land_Cargo10_light_blue_F') exitWith {
 	{
 		_entity setVariable _x;
 	} forEach [
+		//['QS_logistics_deployable',TRUE,TRUE],
 		['QS_importance',1,FALSE],
-		['QS_logistics_deployParams',[50,60,50,60,100,25],TRUE],
+		['QS_logistics_deployParams',[5,300,25,300,-1,30,500],TRUE],
 		['QS_deploy_preset',8,TRUE]
 	];
 };
@@ -110,7 +115,7 @@ if (_entity isKindOf 'Land_Cargo10_grey_F') exitWith {
 		['QS_importance',4,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_logistics_unloadDistance',50,TRUE],
-		['QS_logistics_deployParams',[10,300,1000,300,2000,150],TRUE],
+		['QS_logistics_deployParams',[5,900,300,3600,-1,200,1200],TRUE],
 		['QS_logistics_unloadReqDep',TRUE,TRUE],
 		['QS_deploy_preset',12,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],
@@ -126,7 +131,7 @@ if (_entity isKindOf 'Land_Cargo10_military_green_F') exitWith {
 		['QS_importance',3,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_logistics_unloadDistance',25,TRUE],
-		['QS_logistics_deployParams',[10,300,500,300,1000,100],TRUE],
+		['QS_logistics_deployParams',[5,600,200,1800,-1,150,800],TRUE],
 		['QS_logistics_unloadReqDep',TRUE,TRUE],
 		['QS_deploy_preset',13,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],
@@ -143,7 +148,7 @@ if (_entity isKindOf 'Land_Cargo10_light_green_F') exitWith {
 		['QS_importance',2,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_logistics_unloadDistance',25,TRUE],
-		['QS_logistics_deployParams',[10,300,250,300,500,50],TRUE],
+		['QS_logistics_deployParams',[5,300,100,900,-1,100,400],TRUE],
 		['QS_logistics_unloadReqDep',TRUE,TRUE],
 		['QS_deploy_preset',14,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],
@@ -160,7 +165,7 @@ if (_entity isKindOf 'Land_Cargo10_sand_F') exitWith {
 		['QS_importance',1,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_logistics_unloadDistance',25,TRUE],
-		['QS_logistics_deployParams',[10,60,500,300,500,100],TRUE],
+		['QS_logistics_deployParams',[5,60,25,900,-1,100,500],TRUE],
 		['QS_logistics_deployNearWater',TRUE,TRUE],
 		['QS_deploy_preset',15,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],
@@ -177,7 +182,7 @@ if (_entity isKindOf 'Land_Cargo10_white_F') exitWith {
 		['QS_importance',3,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_respawn_object',TRUE,TRUE],
-		['QS_logistics_deployParams',[10,60,500,300,0,10],TRUE],
+		['QS_logistics_deployParams',[5,300,300,900,-1,25,1000],TRUE],
 		['QS_logistics_unloadReqDep',TRUE,TRUE],
 		['QS_deploy_preset',16,TRUE],
 		['QS_ST_customDN',localize 'STR_QS_Text_447',TRUE],
@@ -193,7 +198,7 @@ if (_entity isKindOf 'Land_Cargo10_yellow_F') exitWith {
 		['QS_importance',1,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_terrain_leveler',TRUE,TRUE],
-		['QS_logistics_deployParams',[10,60,10,300,0,50],TRUE],
+		['QS_logistics_deployParams',[5,60,25,60,-1,100,500],TRUE],
 		['QS_ST_customDN',localize 'STR_QS_Text_455',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE],

@@ -50,7 +50,7 @@ __________________________________________________________________________/*/
 				_vehicle setHit ['hit_main_turret_point',0];
 				_vehicle setHit ['hit_main_gun_point',0];
 				_oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _vehicle)} else {(_vehicle getHitIndex _hitPartIndex)};
-				_damage = _oldDamage + (_damage - _oldDamage) * 0.5;
+				_damage = _oldDamage + (_damage - _oldDamage) * 0.35;
 				_damage;
 			}
 		];

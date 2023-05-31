@@ -46,7 +46,7 @@ if (_type isEqualTo 0) exitWith {
 		_arty = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _artyType,_artyType],[0,0,1000],[],0,'NONE'];
 		_arty allowDamage FALSE;
 		_arty setDir _dir;
-		_arty setPos _pos;
+		_arty setPosASL (AGLToASL _pos);
 		missionNamespace setVariable ['QS_arty',_arty,TRUE];
 		// M4 Scorcher
 		if (_artyType isKindOf 'B_MBT_01_arty_F') then {
@@ -74,7 +74,9 @@ if (_type isEqualTo 0) exitWith {
 		clearBackpackCargoGlobal _arty;
 		_arty lockDriver TRUE;
 		_arty enableRopeAttach FALSE;
+		_arty enableVehicleCargo FALSE;
 		_arty setFuel 0;
+		_arty allowService 0;
 		_arty allowCrewInImmobile [TRUE,TRUE];
 		{
 			_arty setVariable _x;
@@ -85,6 +87,9 @@ if (_type isEqualTo 0) exitWith {
 			['QS_curator_disableEditability',TRUE,FALSE],
 			['QS_driver_disabled',TRUE,TRUE]
 		];
+		if ((missionNamespace getVariable ['QS_missionConfig_arty',0]) isEqualTo 2) then {
+			[2] call QS_fnc_artillery;
+		};
 	};
 };
 // REARM
@@ -132,4 +137,57 @@ if (_type isEqualTo 1) exitWith {
 			};
 		};
 	};
+};
+
+if (_type isEqualTo 2) exitWith {
+	_arty = missionNamespace getVariable ['QS_arty',objnull];
+	if (
+		(!alive _arty)
+	) exitWith {};
+	_arty lock 2;
+	_arty enableDynamicSimulation FALSE;
+	_arty setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+	_arty setVariable ['QS_interaction_disabled',TRUE,TRUE];
+	_arty setVariable ['QS_fireSupport',TRUE,TRUE];
+	private _crewType = QS_core_units_map getOrDefault ['b_crew_f','b_crew_f'];
+	if (_crewType isEqualTo '') then {
+		_crewType = 'b_crew_f';
+	};
+	_grp = createGroup [WEST,TRUE];
+	_crewman = _grp createUnit [_crewType,getPosASL _arty,[],0,'NONE'];
+	_crewman allowDamage FALSE;
+	_crewman assignAsGunner _arty;
+	_crewman moveInGunner _arty;
+	_crewman setVariable ['QS_fireSupport',TRUE,TRUE];
+	_crewman setVariable ['QS_curator_disableEditability',TRUE,FALSE];
+	_grp setGroupIdGlobal [localize 'STR_QS_Notif_098'];
+	_grp enableDynamicSimulation FALSE;
+	_grp setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+	_grp setVariable ['QS_fireSupport',TRUE,TRUE];
+	_grp setVariable ['QS_curator_disableEditability',TRUE,FALSE];
+	_arty setVariable ['QS_fireSupport_msgCooldown',diag_tickTime + 60,FALSE];
+	_arty addEventHandler [
+		'Fired',
+		{
+			params ['_vehicle'];
+			if (!isNull (_this # 6)) then {
+				if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells','12rnd_230mm_rockets','32rnd_155mm_mo_shells','4rnd_155mm_mo_guided','2rnd_155mm_mo_lg','magazine_shipcannon_120mm_he_shells_x32','magazine_shipcannon_120mm_he_guided_shells_x2','magazine_shipcannon_120mm_he_lg_shells_x2','magazine_missiles_cruise_01_x18']) then {
+					if ((toLowerANSI (_this # 5)) in ['8rnd_82mm_mo_shells']) then {
+						(_this # 6) addEventHandler ['Explode',{(_this + [0]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					} else {
+						(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
+					};
+				};
+			};
+			if (diag_tickTime > (_vehicle getVariable ['QS_fireSupport_msgCooldown',-1])) then {
+				_vehicle setVariable ['QS_fireSupport_msgCooldown',diag_tickTime + 60,FALSE];
+				_firingMessages = [
+					localize 'STR_QS_Chat_174',
+					localize 'STR_QS_Chat_175'
+				];
+				['sideChat',[WEST,'BLU'],(selectRandom _firingMessages)] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+			};
+			_vehicle setVehicleAmmo 1;
+		}
+	];
 };

@@ -162,4 +162,17 @@ _markerData = [
 		_return pushBackUnique [objNull,'refuel'];
 	};
 } forEach _markerData;
+// Static Ship support
+if (_cursorTargets isNotEqualTo []) then {
+	{
+		if (
+			(((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0) && {(['INPOLYGON',_x] call QS_fnc_carrier)}) || 
+			{(((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isNotEqualTo 0) && {(['INPOLYGON',_x] call QS_fnc_destroyer)})}
+		) then {
+			_return pushBackUnique [objNull,'reammo'];
+			_return pushBackUnique [objNull,'repair'];
+			_return pushBackUnique [objNull,'refuel'];
+		};
+	} forEach _cursorTargets;
+};
 _return;

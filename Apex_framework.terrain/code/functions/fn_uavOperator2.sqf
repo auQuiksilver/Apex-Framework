@@ -567,8 +567,8 @@ for '_i' from 0 to 1 step 0 do {
 		};
 	} forEach _uavData;
 	{
-		if (local _x) then {
-			_uavEntity = _x;
+		_uavEntity = _x;
+		if (local _uavEntity) then {
 			if (!(_uavEntity checkAIFeature 'TEAMSWITCH')) then {
 				_uavEntity enableAIFeature ['TEAMSWITCH',_true];
 			};
@@ -604,6 +604,15 @@ for '_i' from 0 to 1 step 0 do {
 			};
 			{
 				_x setName ['AI','AI','AI'];
+			} forEach (crew _uavEntity);
+		};
+		if (
+			(_uavEntity getVariable ['QS_hidden',FALSE]) ||
+			((typeOf _uavEntity) in ['b_ship_gun_01_f','b_ship_mrls_01_f'])
+		) then {
+			player disableUAVConnectability [_uavEntity,TRUE];
+			{
+				player disableUAVConnectability [_x,TRUE];
 			} forEach (crew _uavEntity);
 		};
 		uiSleep 0.1;

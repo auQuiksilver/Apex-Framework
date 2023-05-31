@@ -1,18 +1,17 @@
-/*
+/*/
 File: fn_virtualVehicleCargo.sqf
 Author:
-
+	
 	Quiksilver
 	
 Last Modified:
 
-	26/04/2023 A3 2.12 by Quiksilver
+	31/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
-	Handle virtualized vehicle cargo
-________________________________________________*/
-
+	Virtual Vehicle Cargo
+______________________________________________________/*/
 params ['_type'];
 if (_type isEqualTo 'HANDLE') exitWith {
 	(uiNamespace getVariable ['QS_virtualCargo_handler',[]]) pushBack (_this # 1);
@@ -41,7 +40,8 @@ if (_type isEqualTo 'SET_CLIENT') exitWith {
 		{(!alive _child)} ||
 		{(_parent isEqualTo _child)}
 	) exitWith {};
-	comment 'client request to set vehicle cargo';
+	if (diag_tickTime < (_parent getVariable ['QS_logistics_dupeCooldown',-1])) exitWith {};
+	_parent setVariable ['QS_logistics_dupeCooldown',diag_tickTime + 0.5,FALSE];
 	playSound3D [
 		'A3\Sounds_F\sfx\ui\vehicles\vehicle_rearm.wss',
 		_parent,
@@ -53,10 +53,52 @@ if (_type isEqualTo 'SET_CLIENT') exitWith {
 	];
 	[24,['HANDLE',['SET_SERVER',_parent,_child,clientOwner]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
+if (_type isEqualTo 'DISASSEMBLE') exitWith {
+	params ['','_child'];
+	if (isNull _child) exitWith {
+		systemChat 'child does not exist';
+	};
+	_parent = _child getVariable ['QS_virtualCargoParent',objNull];
+	if (isNull _parent) exitWith {
+		systemChat 'parent does not exist';
+	};
+	private _cargoCapacity = [_parent,0] call QS_fnc_getCargoCapacity;
+	private _currentLoad = [_parent,0] call QS_fnc_getCargoVolume;
+	_cargoCapacity params ['_cargoMaxCapacity','_cargoMaxMass','_cargoMaxCoef'];
+	_currentLoad params ['_currentCargoVolume','_currentCargoMass'];
+	_newCargoVolume = [_child] call QS_fnc_getObjectVolume;
+	_text = format [
+		'<t align="center">%6: %1 / %2<t/><br/><t align="center">%5: %3 / %4<t/>',
+		round _currentCargoMass,
+		round _cargoMaxMass,
+		parseNumber (_currentCargoVolume toFixed 2),
+		round _cargoMaxCapacity,
+		localize 'STR_QS_Utility_031',
+		localize 'STR_QS_Utility_032'
+	];
+	50 cutText [_text,'PLAIN DOWN',0.666, TRUE, TRUE];
+	if ((_currentCargoVolume + _newCargoVolume) > _cargoMaxCapacity) exitWith {
+		50 cutText [localize 'STR_QS_Text_464','PLAIN DOWN',0.333];
+		FALSE
+	};
+	private _result = [format ['%1 %2',localize 'STR_QS_Interact_130',getText ((configOf _child) >> 'displayName')],localize 'STR_QS_Interact_142',localize 'STR_QS_Interact_143',localize 'STR_QS_Interact_144',(findDisplay 46),FALSE,FALSE] call (missionNamespace getVariable 'BIS_fnc_guiMessage'); 
+	if (_result) then {
+		['SET_CLIENT',_parent,_child] call QS_fnc_virtualVehicleCargo;
+	};
+	TRUE;
+};
 if (_type isEqualTo 'GET_CLIENT') exitWith {
-	comment 'client request to get vehicle cargo';
 	params ['','_parent','_childType','_placementPos','_placementAzi'];
+	if (isNull _parent) exitWith {};
+	if (diag_tickTime < (_parent getVariable ['QS_logistics_dupeCooldown',-1])) exitWith {};
+	_parent setVariable ['QS_logistics_dupeCooldown',diag_tickTime + 0.5,FALSE];
 	_childType = toLowerANSI _childType;
+	if (
+		(_parent getVariable ['QS_logistics_deployed',FALSE]) &&
+		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [getPos _parent,200,200,0,FALSE,-1]) isNotEqualTo [])}
+	) exitWith {
+		systemChat (localize 'STR_QS_Chat_178');
+	};
 	playSound3D [
 		'A3\Sounds_F\sfx\ui\vehicles\vehicle_rearm.wss',
 		_parent,
@@ -72,7 +114,7 @@ if (_type isEqualTo 'GET_CLIENT') exitWith {
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_456','PLAIN DOWN',0.333];
 	};
-	[24,['HANDLE',['GET_SERVER',_parent,_childType,clientOwner,_placementPos,_placementAzi]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+	[24,['HANDLE',['GET_SERVER',_parent,_childType,clientOwner,_placementPos,_placementAzi,QS_player]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (_type isEqualTo 'SET_VCARGO_SERVER') exitWith {
 	params ['','_parent','_virtualCargo'];
@@ -87,13 +129,15 @@ if (_type isEqualTo 'SET_VCARGO_SERVER') exitWith {
 };
 if (_type isEqualTo 'SET_VCARGO_CLIENT') exitWith {
 	params ['','_parent','_virtualCargo'];
+	if (isNull _parent) exitWith {};
+	if (diag_tickTime < (_parent getVariable ['QS_logistics_dupeCooldown',-1])) exitWith {};
+	_parent setVariable ['QS_logistics_dupeCooldown',diag_tickTime + 0.5,FALSE];
 	[24,[_parent,_virtualCargo]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (_type isEqualTo 'SET_SERVER') exitWith {
-	params ['','_parent','_child','_clientOwner'];
+	params ['','_parent','_child',['_allowDead',TRUE]];
 	if (
 		(!alive _parent) ||
-		{(!alive _child)} ||
 		{(_parent isEqualTo _child)} ||
 		{(diag_tickTime < (_parent getVariable ['QS_logistics_dupeCooldown',-1]))}
 	) exitWith {};
@@ -104,7 +148,6 @@ if (_type isEqualTo 'SET_SERVER') exitWith {
 	};
 	_parentData = QS_system_virtualCargo # _parentIndex;
 	_parentData params ['','_virtualCargo'];
-	comment 'validate new cargo';
 	_childType = toLowerANSI (typeOf _child);
 	_simpleObject = [0,1] select (isSimpleObject _child);
 	_damageAllowed = [0,1] select (isDamageAllowed _child);
@@ -122,7 +165,6 @@ if (_type isEqualTo 'SET_SERVER') exitWith {
 	if (_child in QS_system_builtObjects) then {
 		QS_system_builtObjects deleteAt (QS_system_builtObjects find _child);
 	};
-	deleteVehicle _child;
 	QS_system_builtObjects = QS_system_builtObjects select {!isNull _x};
 	_parentIndex2 = QS_logistics_deployedAssets findIf { (_x # 0) isEqualTo _parent };
 	private _assetIndex = -1;
@@ -134,16 +176,28 @@ if (_type isEqualTo 'SET_SERVER') exitWith {
 			QS_logistics_deployedAssets set [_parentIndex2,[_parent,_assets,((QS_logistics_deployedAssets # _parentIndex2) # 2)]];
 		};
 	};
+	if ((attachedObjects _child) isNotEqualTo []) then {
+		{
+			_x removeAllEventHandlers 'Deleted';
+			deleteVehicle _x;
+		} forEach (attachedObjects _child);
+	};
+	_child removeAllEventHandlers 'Deleted';
 	deleteVehicle _child;
 };
 if (_type isEqualTo 'GET_SERVER') exitWith {
-	params ['','_parent','_childType','_clientOwner','_placementPos','_placementAzi'];
+	params ['','_parent','_childType','_clientOwner','_placementPos','_placementAzi','_player'];
 	_parentIndex = QS_system_virtualCargo findIf { _parent isEqualTo (_x # 0) };
 	if (
 		(_parentIndex isEqualTo -1) ||
 		{(diag_tickTime < (_parent getVariable ['QS_logistics_dupeCooldown',-1]))}
 	) exitWith {};
 	_parent setVariable ['QS_logistics_dupeCooldown',diag_tickTime + 0.5,FALSE];
+	QS_system_builtObjects = QS_system_builtObjects select {!isNull _x};
+	if ((count QS_system_builtObjects) >= (missionNamespace getVariable ['QS_missionConfig_maxBuild',300])) exitWith {
+		_text = format ['Global built objects cap exceeded ( %1 )',(missionNamespace getVariable ['QS_missionConfig_maxBuild',300])];
+		_text remoteExec ['systemChat',_player,FALSE];
+	};
 	_parentData = QS_system_virtualCargo # _parentIndex;
 	_parentData params ['','_virtualCargo'];
 	_childType = toLowerANSI _childType;
@@ -157,22 +211,27 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 		QS_system_virtualCargo set [_parentIndex,[_parent,_virtualCargo]];
 		_parent setVariable ['QS_virtualCargo',_virtualCargo,TRUE];
 	};
-	QS_system_builtObjects = QS_system_builtObjects select {!isNull _x};
-	_child = if (_isSimpleObject isEqualTo 1) then {
-		(createSimpleObject [_childType,[0,0,0],FALSE])
+	private _child = objNull;
+	if (_childType isKindOf 'CAManBase') then {
+		_child = (createGroup [(_player getVariable ['QS_unit_side',WEST]),TRUE]) createUnit [QS_core_units_map getOrDefault [toLowerANSI _childType,_childType],[0,0,0],[],0,'CAN_COLLIDE'];
 	} else {
-		(createVehicle [_childType,[0,0,0]])
+		if (_isSimpleObject isEqualTo 1) then {
+			_child = createSimpleObject [QS_core_vehicles_map getOrDefault [toLowerANSI _childType,_childType],_placementPos,FALSE];
+		} else {
+			_child = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _childType,_childType],[0,0,0]];
+		};	
 	};
-	_simulation = QS_hashmap_configfile getOrDefaultCall [
-		format ['cfgvehicles_%1_simulation',toLowerANSI (typeOf _child)],
-		{toLowerANSI (getText ((configOf _child) >> 'simulation'))},
-		TRUE
-	];
+	if (isNull _child) exitWith {
+		diag_log '***** QS DEBUG ***** VIRTUAL VEHICLE CARGO * child is null object 176';
+	};
 	_child enableSimulationGlobal (_simulationEnabled isEqualTo 1);
 	_child enableDynamicSimulation (_simulationEnabled isEqualTo 1);
+	if (_damage > 0) then {
+		_child setDamage [_damage,FALSE];
+	};
 	_child setVectorDirAndUp _placementAzi;
 	_child setPosASL _placementPos;
-	[_child,_childType] call QS_fnc_propCustomCode;
+	[_child,_childType,_parent] call QS_fnc_propCustomCode;
 	playSound3D [
 		'A3\Sounds_F\sfx\ui\vehicles\vehicle_rearm.wss',
 		_child,
@@ -188,8 +247,15 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 	} else {
 		_virtualCargo set [_virtualCargoIndex,[[_childType,_isSimpleObject,_damageAllowed,_simulationEnabled,_boundingRadius,_damage],_count]];
 	};
-	comment 'only update if it spawned successfully';
 	_parent setVariable ['QS_virtualCargo',_virtualCargo,TRUE];
+	{
+		_child setVariable _x;
+	} forEach [
+		['QS_virtualCargoParent',_parent,TRUE],
+		['QS_virtualChild_time',serverTime,TRUE],
+		['QS_logistics_virtual',TRUE,TRUE],
+		['QS_logistics_owner',_clientOwner,TRUE]
+	];
 	QS_system_virtualCargo set [_parentIndex,[_parent,_virtualCargo]];
 	QS_system_builtObjects pushBack _child;
 	QS_system_builtThings pushBack _child;
@@ -201,57 +267,6 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 		QS_logistics_deployedAssets set [_parentIndex2,[_parent,_assets,((QS_logistics_deployedAssets # _parentIndex2) # 2)]];
 	} else {
 		QS_logistics_deployedAssets pushBack [_parent,[_child],''];
-	};
-	if (_child isKindOf 'CargoPlatform_01_base_F') then {
-		[_child,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
-	};
-	if ((toLowerANSI _simulation) in ['house']) then {
-		_child addEventHandler [
-			'Deleted',
-			{
-				params ['_entity'];
-				(0 boundingBoxReal _entity) params ['','','_radius'];
-				_nearObjects = nearestObjects [_entity,[],_radius * 3,TRUE];
-				if (_nearObjects isNotEqualTo []) then {
-					[
-						_nearObjects,
-						{
-							{
-								if (local _x) then {
-									_x awake TRUE;
-								};
-							} forEach _this;
-						}
-					] remoteExec ['call',0,FALSE];
-				};
-			}
-		];
-		_child addEventHandler [
-			'Killed',
-			{
-				params ['_entity'];
-				(0 boundingBoxReal _entity) params ['','','_radius'];
-				_nearObjects = nearestObjects [_entity,[],_radius * 3,TRUE];
-				if (_nearObjects isNotEqualTo []) then {
-					[
-						_nearObjects,
-						{
-							{
-								if (local _x) then {
-									_x awake TRUE;
-								};
-							} forEach _this;
-						}
-					] remoteExec ['call',0,FALSE];
-				};
-			}
-		];
-	} else {
-		_child setVariable ['QS_bb',TRUE,TRUE];
-		if ((toLowerANSI _simulation) in ['thingx']) then {
-			_child setVariable ['QS_logistics',TRUE,TRUE];
-			_child setVariable ['QS_logistics_immovable',FALSE,TRUE];
-		};
 	};
 };
 if (_type isEqualTo 'READ_CLIENT') exitWith {

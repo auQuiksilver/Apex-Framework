@@ -182,7 +182,10 @@ if (_object isKindOf 'CAManBase') exitWith {
 		[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 	
-	if ((missionNamespace getVariable ['QS_missionConfig_dlcUnits','']) isNotEqualTo '') then {
+	if (
+		(missionNamespace getVariable ['QS_missionConfig_zeusReskinUnits',FALSE]) &&
+		{((missionNamespace getVariable ['QS_missionConfig_dlcUnits','']) isNotEqualTo '')}
+	) then {
 		_result = QS_core_units_map getOrDefault [_typeL,''];
 		if (_result isNotEqualTo '') then {
 			_object setUnitLoadout _result;

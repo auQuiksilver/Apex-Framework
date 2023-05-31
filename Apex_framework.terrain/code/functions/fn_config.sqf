@@ -766,7 +766,9 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_system_terrainMod',[],FALSE],
 	['QS_global_wreckSmokes',[],FALSE],
 	['QS_system_vehicleRallyPoints',[],FALSE],
-	['QS_system_builtThings',[],TRUE]
+	['QS_system_builtThings',[],TRUE],
+	['QS_markers_fireSupport',[],TRUE],
+	['QS_markers_fireSupport_queue',[],FALSE]
 ];
 _weaponsList = nil;
 // Load terrain-specific Roles if file is found
@@ -1518,6 +1520,9 @@ if (missionNamespace getVariable ['QS_missionConfig_weatherDynamic',TRUE]) then 
 forceWeatherChange;
 0 spawn (missionNamespace getVariable 'QS_fnc_core');
 0 spawn (missionNamespace getVariable 'QS_fnc_AI');
+if (missionNamespace getVariable ['QS_missionConfig_dlcReskin',FALSE]) then {
+	(missionNamespace getVariable ['QS_missionConfig_dlcReskinParams',[]]) spawn QS_fnc_reskinModdedUnits;
+};
 missionNamespace setVariable ['QS_mission_init',TRUE,TRUE];
 {
 	diag_log _x;

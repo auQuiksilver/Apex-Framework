@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	1/02/2023 A3 2.12 by Quiksilver
+	27/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -194,7 +194,6 @@ if (_t2 in ['b_sam_system_03_f','b_radar_system_01_f']) then {
 	} forEach _defaultTextures;
 };
 if (_isSimpleObject) exitWith {};	// Simple Objects exit here - Actual vehicles continue
-_u lock 0;
 _u allowService 0;
 _u allowCrewInImmobile [TRUE,TRUE];
 _u setUnloadInCombat [TRUE,FALSE];
@@ -415,11 +414,11 @@ if (_u isKindOf 'Ship') then {
 };
 // Aircraft
 if (_u isKindOf 'Air') then {
-	if ((getAllPylonsInfo _u) isNotEqualTo []) then {
-		if (missionNamespace getVariable ['QS_missionConfig_wrecks',TRUE]) then {
-			_u setVariable ['QS_logistics_applyWreckChance',TRUE,TRUE];
-			_u setVariable ['QS_wreck_chance',TRUE,TRUE];
-		};
+	if (
+		((getAllPylonsInfo _u) isNotEqualTo []) &&
+		(missionNamespace getVariable ['QS_missionConfig_wrecks',TRUE])
+	) then {
+		_u setVariable ['QS_logistics_applyWreckChance',TRUE,TRUE];
 	};
 	_u setVehicleReceiveRemoteTargets TRUE;
 	_u setVehicleReportOwnPosition TRUE;
@@ -469,6 +468,7 @@ if (_u isKindOf 'Air') then {
 				_u setObjectTextureGlobal [_forEachIndex,_x]; 
 			} forEach (getArray ((configOf _u) >> 'TextureSources' >> 'Blue' >> 'textures'));
 		};
+		// VTOL
 		if ((_t2 isKindOf 'VTOL_01_base_F') || {(_t2 isKindOf 'VTOL_02_base_F')}) then {
 			{
 				_u addEventHandler _x;
@@ -507,16 +507,14 @@ if (_u isKindOf 'Air') then {
 	if (_u isKindOf 'Helicopter') then {
 		if (
 			isDedicated &&
-			{(simulationEnabled _u)} &&
-			{(isTouchingGround _u)} &&
 			{((crew _u) isEqualTo [])}
 		) then {
-			_u spawn {
-				_this lock 2;
-				sleep 3;
-				_this setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
-				_this enableSimulationGlobal FALSE;
-			};
+			_u allowDamage FALSE;
+			_u setVariable ['QS_vehicle_activateLocked',TRUE,TRUE];
+			_u lock 2;
+			_u addEventHandler ['GetIn',{(_this # 0) allowDamage TRUE; (_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];}];
+			_u addEventHandler ['Local',{(_this # 0) allowDamage TRUE; (_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];}];
+			_u spawn {sleep 3; _this enableSimulationGlobal FALSE;};
 		};
 		_u setVariable ['QS_heli_spawnPosition',(position _u),FALSE];
 		if (_t2 in ['b_t_uav_03_f']) then {
@@ -746,4 +744,7 @@ if (isDedicated) then {
 			};
 		}
 	];
+};
+if ((locked _u) isNotEqualTo 2) then {
+	_u lock 0;
 };

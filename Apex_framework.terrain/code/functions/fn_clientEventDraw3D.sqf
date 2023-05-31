@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/02/2023 A3 2.12 by Quiksilver
+	27/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -489,10 +489,11 @@ if (!isStreamFriendlyUIEnabled) then {
 					(cameraOn isNotEqualTo (vehicle _x))
 				) then {
 					_alpha = [0.25 max (1 - ((((_cameraOn distance2D _x) / 1000)) % 1)),0.25] select ((_cameraOn distance2D _x) >= 1000);
-					_iconPos = if (isNull (objectParent _x)) then {
+					_objectParent = objectParent _x;
+					_iconPos = if (isNull _objectParent) then {
 						(_x modelToWorldVisual (selectionPosition [_x,'spine3',11,TRUE]))
 					} else {
-						((objectParent _x) modelToWorldVisual ((objectParent _x) worldToModelVisual (getPosVisual _x)))
+						(_objectParent modelToWorldVisual (_objectParent worldToModelVisual (_x modelToWorldVisual (selectionPosition [_x,'spine3',11,TRUE]))))
 					};
 					if ((_player isEqualTo (leader (group _player))) && (_x in (groupSelectedUnits _player))) then {
 						private _teamID = (['','MAIN','RED','GREEN','BLUE','YELLOW'] find (assignedTeam _x)) max 1;
@@ -565,7 +566,7 @@ if (!isStreamFriendlyUIEnabled) then {
 						_list pushBackUnique _x;
 					} forEach (crew _v);
 				};
-			} forEach (_player nearEntities [['CAManBase','LandVehicle','Air','Ship','StaticWeapon'],50]);
+			} forEach (_player nearEntities [['CAManBase','LandVehicle','Air','Ship','StaticWeapon'],40]);
 			{
 				_unit = _x;
 				if (
@@ -584,12 +585,12 @@ if (!isStreamFriendlyUIEnabled) then {
 					) then {
 						_unit setFace (_unit getVariable ['QS_unit_face','']);
 					};
-					_iconPos = if (isNull (objectParent _x)) then {
+					_objectParent = objectParent _x;
+					_iconPos = if (isNull _objectParent) then {
 						((_x modelToWorldVisual (selectionPosition [_x,'head',11,TRUE])) vectorAdd [0,0,0.5])
 					} else {
-						(((objectParent _x) modelToWorldVisual ((objectParent _x) worldToModelVisual (getPosVisual _x))) vectorAdd [0,0,0.5])
+						((_objectParent modelToWorldVisual (_objectParent worldToModelVisual (_x modelToWorldVisual (selectionPosition [_x,'head',11,TRUE])))) vectorAdd [0,0,0.5])
 					};
-					_icon = '';
 					_unitName = (['AI',(name _unit)] select (isPlayer _unit));
 					if (_unit in [getCursorObjectParams # 0,cursorTarget]) then {
 						if (isPlayer _unit) then {
@@ -618,11 +619,17 @@ if (!isStreamFriendlyUIEnabled) then {
 					if (_player getUnitTrait 'medic') then {
 						_unitName = format ['%1 (%2)',_unitName,(lifeState _unit)];
 					};
+					if (unitIsUav _objectParent) then {
+						_uavControl = UAVControl _objectParent;
+						if (!isNull (_uavControl # 0)) then {
+							_unitName = name (_uavControl # 0);
+						};
+					};
 					_distance = _cameraOn distance2D _unit;
 					_alpha = 1 - (((_distance / 31)) % 1);
 					if (_alpha > 0) then {
 						drawIcon3D [
-							_icon,
+							'',
 							[0.75,0.75,0.75,_alpha],
 							_iconPos,
 							1,

@@ -34,7 +34,6 @@ Notes:
 		3.5
 ______________________________________________________/*/
 
-
 params ['_vehicle',['_mode',0]];
 if (_mode isEqualTo 0) exitWith {
 	comment 'Physical';
@@ -43,9 +42,9 @@ if (_mode isEqualTo 0) exitWith {
 	private _cargoMaxCoef = 0;
 	private _result = [];
 	_coefTable = [
-		['Cargo_base_F',1],
-		['B_Slingload_01_Cargo_F',1],
-		['Land_Pod_Heli_Transport_04_box_F',1],
+		['Cargo_base_F',2],
+		['B_Slingload_01_Cargo_F',2],
+		['Land_Pod_Heli_Transport_04_box_F',2],
 		['LandVehicle',0.25],
 		['Air',0.1],
 		['Ship',0.1]
@@ -129,6 +128,12 @@ if (_mode isEqualTo 0) exitWith {
 				deleteVehicle _obj;
 			};
 		};
+	};
+	_customCargoCapacity = _vehicle getVariable ['QS_customCargoCapacity',[]];
+	if (_customCargoCapacity isNotEqualTo []) then {
+		_cargoMaxCapacity = _customCargoCapacity # 0;
+		_cargoMaxMass = _customCargoCapacity # 1;
+		_cargoMaxCoef = _customCargoCapacity # 2;
 	};
 	[_cargoMaxCapacity,_cargoMaxMass,_cargoMaxCoef]
 };

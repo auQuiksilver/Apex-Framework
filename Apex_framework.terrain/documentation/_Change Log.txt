@@ -1,5 +1,27 @@
 Official Change Log
 
+1.5.3 Stable
+
+[ADDED] Fire Support request system (spacebar with binoculars).
+[ADDED] Parameter to 'overclock' deployment attacks. Use at own risk!
+[ADDED] Parameter for AI-controlled base artillery.
+[ADDED] Defensive AI to Fortification containers (FOB/combat outpost/patrol base).
+[ADDED] Recruitable AI to Mobile Respawn container.
+[ADDED] Parameter to disable splash menu.
+[TWEAKED] Virtual cargo capacity.
+[TWEAKED] Player needs to look at service vehicle to start service, when being serviced by a service asset (rather than a marker pad).
+[TWEAKED] Players are now able to effectively use Arsenal on recruited AI.
+[TWEAKED] UAV Operator no longer able to control Naval Artillery (replaced by fire support system).
+[TWEAKED] Virtual object builder can disassemble it when no other players are nearby.
+[FIXED] Deployable safezones (low security) were not working properly, rendering player invincible.
+[FIXED] Unable to toggle on/off safe zones.
+[FIXED] Player was unable to carry static weapons.
+[FIXED] UI issue with 3D player tags.
+[FIXED] Armed aircraft were becoming wrecks too often.
+[FIXED] Player was able to remotely delete vehicle cargo.
+[FIXED] Radio tower could spawn above ground.
+[KNOWN ISSUE] Naval Artillery Mk45 Hammer may not respond to fire missions (its kinda mid).
+
 1.5.2 Dev (24/05/2023)
 
 [ADDED] Parameters for sandbox combat "Deployment" attacks
@@ -9,6 +31,7 @@ Official Change Log
 [TWEAKED] Vehicles near deployed bases (green containers) do not despawn when abandoned.
 [TWEAKED] Snow effect improved.
 [TWEAKED] Set a "max carry volume" for ability to use the "Carry" interaction. Can still unload-to-carry however.
+[TWEAKED] Player needs to look at service vehicle to start service, when being serviced by a service asset (rather than a marker pad).
 [FIXED] * CRITICAL * Players were incorrectly being killed instead of correctly being incapacitated.
 [FIXED] Headless clients were causing problems with player dynamic groups system
 [FIXED] AA Battery mission not working.

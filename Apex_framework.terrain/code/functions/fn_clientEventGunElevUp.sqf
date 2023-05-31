@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	16/02/2023 A3 2.12 by Quiksilver
+	27/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -55,13 +55,32 @@ if (
 		};
 	} forEach (units _group);
 };
+if (
+	(local _vehicle) &&
+	{(_vehicle isKindOf 'Air')} &&
+	{(player in _vehicle)} &&
+	{(isNull (getConnectedUAV player))}
+) then {
+	_max = 5000;
+	_min = 10;
+	_steps = [5,100];
+	_step = _steps select (uiNamespace getVariable ['QS_uiaction_vehicleturbo',FALSE]);
+	_altitude = (getPosASL _vehicle) # 2;
+	_flyInHeight = _vehicle getVariable ['QS_air_flyInHeight',((getPos _vehicle) # 2)];
+	_newHeight = round (_min max ((round (_flyInHeight / _step) * _step) + _step) min _max);
+	_vehicle flyInHeightASL [_newHeight,_newHeight,_newHeight];
+	_vehicle flyInHeight (_newHeight - 1);
+	_vehicle setVariable ['QS_air_flyInHeight',_newHeight];
+	50 cutText [format [localize 'STR_QS_Text_318',_newHeight],'PLAIN DOWN',0.5];
+};
 if (player getUnitTrait 'uavhacker') then {
 	_isUav = unitIsUav _vehicle;
 	if (!(unitIsUav _vehicle)) then {
 		_vehicle = getConnectedUAV player;
 	};
 	if (
-		(local _vehicle) &&
+		(alive _vehicle) &&
+		{(local _vehicle)} &&
 		{(unitIsUav _vehicle)} &&
 		{(_vehicle isKindOf 'Air')}
 	) then {

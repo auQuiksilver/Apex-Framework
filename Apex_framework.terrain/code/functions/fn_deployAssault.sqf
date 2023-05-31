@@ -18,7 +18,8 @@ params [
 	['_deploymentMissionFrequency',0.5],
 	['_deploymentMissionIntensity',0.5],
 	['_deploymentMissionDuration',0.5],
-	['_deploymentMissionSetupTime',60]
+	['_deploymentMissionSetupTime',60],
+	['_deploymentMissionOverclock',0]
 ];
 private _object = objNull;
 private _currentDeployments = QS_logistics_deployedAssets select {
@@ -77,19 +78,22 @@ waitUntil {
 		(diag_tickTime > _tOut)
 	)
 };
+private _isDamageAllowed = isDamageAllowed _selectedDeployment;
+private _simulationEnabled = simulationEnabled _selectedDeployment;
 if (unitIsUav _selectedDeployment) then {
+	/*/
 	if ((crew _selectedDeployment) isNotEqualTo []) then {
 		{
 			[_x,TRUE] remoteExec ['setCaptive',_x];
 		} forEach (crew _selectedDeployment);
 	};
-	_selectedDeployment setVariable ['QS_uav_toggleEnabled',FALSE,TRUE];
+	/*/
+	//_selectedDeployment setVariable ['QS_uav_toggleEnabled',FALSE,TRUE];
+} else {
+	[_selectedDeployment,FALSE] remoteExec ['allowDamage',0,FALSE];
+	_selectedDeployment enableDynamicSimulation FALSE;
+	_selectedDeployment enableSimulationGlobal FALSE;
 };
-private _isDamageAllowed = isDamageAllowed _selectedDeployment;
-private _simulationEnabled = simulationEnabled _selectedDeployment;
-[_selectedDeployment,FALSE] remoteExec ['allowDamage',0,FALSE];
-_selectedDeployment enableDynamicSimulation FALSE;
-_selectedDeployment enableSimulationGlobal FALSE;
 {
 	_selectedDeployment setVariable _x;
 } forEach [
@@ -139,7 +143,9 @@ private _spawnPositionsList = [];
 private _conditionInterval = 1;
 private _conditionDelay = -1;
 private _wp = nil;
-localNamespace setVariable ['QS_deploy_assaultQuantity_override',_quantity];
+if (_deploymentMissionOverclock > 0) then {
+	localNamespace setVariable ['QS_deploy_assaultQuantity_override',round _deploymentMissionOverclock];
+};
 private _success = FALSE;
 private _fail = FALSE;
 private _end = FALSE;
@@ -181,6 +187,18 @@ for '_z' from 0 to 1 step 0 do {
 		_enemyArray = _enemyArray select {alive _x};
 		_enemyCount = count _enemyArray;
 		_allEnemiesCount = count ((units EAST) + (units RESISTANCE));
+		if (_playerCount > 10) then {
+			_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,4,12,TRUE]);
+		};
+		if (_playerCount > 20) then {
+			_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,12,20,TRUE]);
+		};
+		if (_playerCount > 30) then {
+			_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,16,24,TRUE]);
+		};
+		if (_playerCount > 40) then {
+			_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,25,35,TRUE]);
+		};
 		if (
 			((_allEnemiesCount < _allEnemiesThreshold) || (_enemyCount < _minUnits)) &&
 			(_enemyCount < (localNamespace getVariable ['QS_deploy_assaultQuantity_override',_quantity]))
@@ -266,17 +284,20 @@ if (_success) then {
 _enemyArray = _enemyArray select {alive _x};
 if (!isNull _selectedDeployment) then {
 	if (unitIsUav _selectedDeployment) then {
+		/*/
 		if ((crew _selectedDeployment) isNotEqualTo []) then {
 			{
 				[_x,FALSE] remoteExec ['setCaptive',_x];
 			} forEach (crew _selectedDeployment);
 		};
 		_selectedDeployment setVariable ['QS_uav_toggleEnabled',TRUE,TRUE];
+		/*/
+	} else {
+		[_selectedDeployment,_isDamageAllowed] remoteExec ['allowDamage',0,FALSE];
+		_selectedDeployment enableDynamicSimulation _simulationEnabled;
+		_selectedDeployment enableSimulationGlobal _simulationEnabled;
 	};
 	_selectedDeployment setVariable ['QS_logistics_blocked',FALSE,TRUE];
-	[_selectedDeployment,_isDamageAllowed] remoteExec ['allowDamage',0,FALSE];
-	_selectedDeployment enableDynamicSimulation _simulationEnabled;
-	_selectedDeployment enableSimulationGlobal _simulationEnabled;
 	_selectedDeployment setVariable ['QS_deploy_underAttack',FALSE,FALSE];
 };
 if (_selectedDeployment getVariable ['QS_deploy_assaultTerminate',FALSE]) then {

@@ -38,7 +38,7 @@ if (['heli',(typeOf _t),FALSE] call (missionNamespace getVariable 'QS_fnc_inStri
 };
 if (player getUnitTrait 'QS_trait_HQ') exitWith {
 	50 cutText [localize 'STR_QS_Text_118','PLAIN',0.5];
-};																						
+};
 if (_exit) exitWith {};
 player playActionNow 'gestureHi';
 [_t] joinSilent (group player);
@@ -73,6 +73,7 @@ _t enableAIFeature ['COVER',FALSE];
 (group _t) setBehaviourStrong 'AWARE';
 (group player) setBehaviourStrong 'AWARE';
 (group _t) setSpeedMode 'FULL';
+[_t] call (missionNamespace getVariable 'QS_fnc_clientArsenal');
 _t setVariable ['QS_unit_isRecruited',TRUE,TRUE];
 _t addEventHandler [
 	'HandleDamage',
@@ -91,6 +92,27 @@ _t addEventHandler [
 			if ((isPlayer _assignedTarget) || {(isPlayer (effectiveCommander _assignedTarget))}) then {
 				deleteVehicle (_this # 6);
 			};
+		};
+	}
+];
+_t addEventHandler [
+	'Killed',
+	{
+		params ['_entity','_killer','_instigator'];
+		if (
+			(isNull _killer) ||
+			{(isPlayer _killer)} ||
+			{(isPlayer (effectiveCommander _killer))} ||
+			{(isPlayer _instigator)}
+		) then {
+			removeAllWeapons _entity;
+			removeAllAssignedItems _entity;
+			{
+				_entity removeMagazine _x;
+			} forEach (magazines _entity);
+			{
+				_entity removeItem _x;
+			} forEach (items _entity);
 		};
 	}
 ];

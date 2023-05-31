@@ -41,9 +41,17 @@ private _bbox = [];
 uiNamespace setVariable ['QS_localHelper',_useHelper];
 if (_useHelper) then {
 	if (_requestedObject isEqualType objNull) then {
-		missionNamespace setVariable ['QS_targetBoundingBox_helper',createSimpleObject [typeOf _requestedObject,[0,0,0],TRUE],FALSE];
+		if (_requestedObject isKindOf 'CAManBase') then {
+			missionNamespace setVariable ['QS_targetBoundingBox_helper',((typeOf _requestedObject) createVehicleLocal [0,0,0]),FALSE];
+		} else {
+			missionNamespace setVariable ['QS_targetBoundingBox_helper',createSimpleObject [typeOf _requestedObject,[0,0,0],TRUE],FALSE];
+		};
 	} else {
-		missionNamespace setVariable ['QS_targetBoundingBox_helper',createSimpleObject [_requestedObject,[0,0,0],TRUE],FALSE];
+		if (_requestedObject isKindOf 'CAManBase') then {
+			missionNamespace setVariable ['QS_targetBoundingBox_helper',(_requestedObject createVehicleLocal [0,0,0]),FALSE];
+		} else {
+			missionNamespace setVariable ['QS_targetBoundingBox_helper',createSimpleObject [_requestedObject,[0,0,0],TRUE],FALSE];
+		};
 	};
 	if (!isNull _oldParent) then {
 		QS_targetBoundingBox_helper disableCollisionWith _oldParent;
@@ -120,7 +128,7 @@ if (!isNull _oldParent) then {
 };
 private _buildRadius = 30;
 if (!isNull _oldParent) then {
-	_buildRadius = (_oldParent getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30]]) # 5;
+	_buildRadius = (_oldParent getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]]) # 5;
 };
 {
 	uiNamespace setVariable _x;

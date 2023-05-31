@@ -31,7 +31,7 @@ if (
 	private _laserBeamDotSize = 0.25;				// Dot size
 	private _laserBeamDiameter = 0.25;				// Beam diameter
 	
-	private _laserCapacity = 30;					// Seconds that high-powered laser can be used for, from full.
+	private _laserCapacity = 60;					// Seconds that high-powered laser can be used for, from full.
 	
 	// NOT CURRENTLY ENABLED.
 	private _laserRechargeRate = 8;					// NOT CURRENTLY ENABLED. Every N seconds the high-powered laser will recharge 1 second.

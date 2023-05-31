@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	14/05/2023 A3 2.12 by Quiksilver
+	31/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -25,6 +25,7 @@ if (_mode isEqualTo 0) exitWith {
 		_cargoMass = _cargoMass + (getMass _x);
 		_volume = _volume + ([_x] call QS_fnc_getObjectVolume);
 	} forEach _cargo;
+	_volume = _volume + ([_vehicle] call QS_fnc_getVirtualCargoVolume); // no virtual cargo mass?
 	[_volume,_cargoMass]
 };
 if (_mode isEqualTo 1) exitWith {

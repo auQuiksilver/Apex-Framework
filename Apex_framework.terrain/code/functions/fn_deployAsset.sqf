@@ -13,7 +13,7 @@ Description:
 	Manage deployed assets
 __________________________________________/*/
 
-params ['_entity','_state',['_profileName','Unknown Soldier'],'_clientOwner',['_faction',sideUnknown]];
+params ['_entity','_state',['_profileName','Unknown Soldier'],'_clientOwner',['_faction',sideUnknown],['_currentCooldown',0]];
 QS_system_vehicleRallyPoints = QS_system_vehicleRallyPoints select {(alive (_x # 0))};
 missionNamespace setVariable ['QS_system_builtThings',QS_system_builtThings select {!isNull _x},TRUE];			// To do: optimize this
 if (_state isEqualTo -1) exitWith {
@@ -34,6 +34,7 @@ if (_state isEqualTo -1) exitWith {
 			if (_assets isNotEqualTo []) then {
 				{
 					if (_x isEqualType objNull) then {
+						_x removeAllEventHandlers 'Deleted';
 						deleteVehicle _x;
 					};
 				} forEach _assets;
@@ -55,6 +56,7 @@ if (_state isEqualTo -1) exitWith {
 		};
 	};
 };
+// Pack up
 if (_state isEqualTo 0) exitWith {
 	if (!isNull _entity) then {
 		_deploy_handlers = _entity getVariable ['QS_deploy_handlers',[]];
@@ -68,7 +70,16 @@ if (_state isEqualTo 0) exitWith {
 			{
 				_entity removeEventHandler _x;
 			} forEach _deploy_handlers;
-			_deployParams = _entity getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30]];
+			private _deployParams = _entity getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]];
+			_deployParams params [
+				'_deploySafeRadius',
+				'_deployCooldown',
+				'_packSafeRadius',
+				'_packCooldown',
+				'_safeDistance',
+				'_buildRadius',
+				['_deployRestrictedZoneDistance',100]
+			];
 			_entity setVariable ['QS_deploy_handlers',[],FALSE];
 			if ((_entity getVariable ['QS_deploy_marker','']) isNotEqualTo '') then {
 				deleteMarker (_entity getVariable ['QS_deploy_marker','']);
@@ -102,7 +113,8 @@ if (_state isEqualTo 0) exitWith {
 				_entity setVariable _x;
 			} forEach [
 				['QS_logistics_deployParams',_deployParams,TRUE],
-				['QS_logistics_deployCooldown',_cooldown,TRUE],
+				['QS_logistics_deployCooldown',serverTime + _deployCooldown,TRUE],
+				['QS_logistics_packCooldown',serverTime + _packCooldown,TRUE],
 				['QS_logistics_deployable',TRUE,TRUE],
 				['QS_deploy_preset',_preset,FALSE]
 			];
@@ -115,6 +127,7 @@ if (_state isEqualTo 0) exitWith {
 		};
 	};
 };
+// Deploy
 if (_state isEqualTo 1) exitWith {
 	if (
 		(alive _entity) &&
@@ -129,7 +142,16 @@ if (_state isEqualTo 1) exitWith {
 				((_entity setOwner 2) || (diag_tickTime > _timeout))
 			};
 			_vIndex = (serverNamespace getVariable 'QS_v_Monitor') findIf { _entity isEqualTo (_x # 0) };
-			_deployParams = _entity getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30]];
+			private _deployParams = _entity getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]];
+			_deployParams params [
+				'_deploySafeRadius',
+				'_deployCooldown',
+				'_packSafeRadius',
+				'_packCooldown',
+				'_safeDistance',
+				'_buildRadius',
+				['_deployRestrictedZoneDistance',100]
+			];
 			_preset = _entity getVariable ['QS_deploy_preset',-1];
 			if (_preset isEqualTo -1) then {
 				QS_logistics_deployedAssets pushBackUnique [_entity,[],''];
@@ -145,14 +167,14 @@ if (_state isEqualTo 1) exitWith {
 				TRUE
 			];
 			// I dont like these markers very much ...
+			// To Do: Improve these markers
 			_displayName = _entity getVariable ['QS_ST_customDN',_displayName];
 			_marker = createMarker [str systemTime,_entity];
 			_marker setMarkerTypeLocal 'mil_dot';
 			_marker setMarkerShapeLocal 'Icon';
 			_marker setMarkerColorLocal 'ColorBlack';
 			_marker setMarkerSizeLocal [0.5,0.5];
-			//_marker setMarkerTextLocal (format ['%1 (%2)',_displayName,localize 'STR_QS_Text_409']);
-			_marker setMarkerTextLocal (format ['%1',_displayName]);		// This one omits the "(Deployed)" text to reduce screen clutter
+			_marker setMarkerTextLocal (format ['%1',_displayName]);
 			_marker setMarkerAlpha 0.35;
 			private _deploy_handlers = [];
 			{
@@ -237,6 +259,8 @@ if (_state isEqualTo 1) exitWith {
 			} forEach [
 				['QS_logistics_deployParams',_deployParams,TRUE],
 				['QS_logistics_deployable',TRUE,TRUE],
+				['QS_logistics_deployCooldown',serverTime + _deployCooldown,TRUE],
+				['QS_logistics_packCooldown',serverTime + _packCooldown,TRUE],
 				['QS_deploy_preset',_preset,FALSE],
 				['QS_logistics_deployed',TRUE,TRUE],
 				['QS_deploy_handlers',_deploy_handlers,FALSE],

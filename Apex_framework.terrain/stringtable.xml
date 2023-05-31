@@ -715,6 +715,15 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_141">
             <Original>Light Switch</Original>
         </Key>
+        <Key ID="STR_QS_Interact_142">
+            <Original>Virtual Cargo</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_143">
+            <Original>Yes</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_144">
+            <Original>Cancel</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -2645,6 +2654,17 @@ _____________________________________________________________-->
        <Key ID="STR_QS_Text_463">
             <Original>Cannot deploy when other players are within %1 m</Original>
 		</Key>
+       <Key ID="STR_QS_Text_464">
+            <Original>Cargo full</Original>
+		</Key>
+       <Key ID="STR_QS_Text_465">
+            <Original>Remote Controlling</Original>
+		</Key>
+       <Key ID="STR_QS_Text_466">
+            <Original>Active connection</Original>
+		</Key>		
+		
+		
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -4345,6 +4365,21 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Chat_173">
             <Original>Cannot do this with enemy nearby (300m)</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_174">
+            <Original>Friendly artillery firing</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_175">
+            <Original>Friendly artillery inbound</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_176">
+            <Original>%1 requested on grid %2</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_177">
+            <Original>%4 requested on grid %1</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_178">
+            <Original>Cannot do this with enemy nearby (200m)</Original>
         </Key>
     </Container>
     <Container name="QS_xml_notifications">
@@ -7847,6 +7882,57 @@ _____________________________________________________________-->
         </Key>
        <Key ID="STR_QS_Menu_212">
             <Original>  ( %1 Tickets )</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_213">
+            <Original>Fire Support</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_214">
+            <Original>Support Assets</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_215">
+            <Original>Datalink Targets</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_216">
+            <Original>[Fire Support]</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_217">
+            <Original>[CAS]</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_218">
+            <Original>[Artillery]</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_219">
+            <Original>[Armor]</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_220">
+            <Original>[Naval Artillery]</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_221">
+            <Original>%1 attempted to call fire support on a safezone ( %2 )</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_222">
+            <Original>Cannot call fire support in this area</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_223">
+            <Original>Fire Support called in nearby</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_224">
+            <Original>[Mortar]</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_225">
+            <Original>Cooldown %1</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_226">
+            <Original>Asset Cooldown %1</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_227">
+            <Original>[Too Far]</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_228">
+            <Original>Out of range</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_229">
+            <Original>invalid fire support request</Original>
         </Key>
     </Container>
     <Container name="QS_xml_roles">

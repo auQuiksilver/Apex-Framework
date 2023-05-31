@@ -39,7 +39,7 @@ if (_mode isEqualTo 'activate') exitWith {
 				if (
 					((!(_thingX)) && ((uiNamespace getVariable ['QS_targetBoundingBox_intersected',0]) < 2)) ||
 					{(_thingX && ((uiNamespace getVariable ['QS_targetBoundingBox_intersected',0]) isEqualTo 0))} ||
-					{_requestedObject isKindOf 'StaticWeapon'}
+					{((['StaticWeapon','CAManBase'] findIf { _requestedObject isKindOf _x }) isNotEqualTo -1)}
 				) then {
 					([QS_player,'SAFE'] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];
 					if (_inBuildRestrictedZone && _zoneActive && (_zoneLevel > 1)) exitWith {
@@ -52,8 +52,6 @@ if (_mode isEqualTo 'activate') exitWith {
 					if (localNamespace getVariable ['QS_logistics_playerBuild',FALSE]) then {
 						localNamespace setVariable ['QS_logistics_playerBuild',FALSE];
 						QS_player playActionNow 'PutDown';
-						
-						
 						_sim = uiNamespace getVariable ['QS_client_menuPlayerBuild_sim',1];
 						_posASL = uiNamespace getVariable ['QS_targetBoundingBox_ASLPos',[0,0,0]];
 						_vectors = uiNamespace getVariable 'QS_targetBoundingBox_vectors';

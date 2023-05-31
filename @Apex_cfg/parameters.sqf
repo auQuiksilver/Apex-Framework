@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	12/04/2023 A3 2.12 by Quiksilver
+	28/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -36,7 +36,7 @@ _______________________________________________________/*/
 
 //===================================================== COMMUNITY / SERVER
 
-_teamspeak_server = 'Discord: ';					// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
+_teamspeak_server = 'Discord: ';						// Teamspeak server address, for use with map marker, map tabs, ec. Customize this accordingly.		Example:	_teamspeak_server = 'ts3.address.com : 1234     - Password: N/A';
 																					// These options can be seen in your Player Menu under [Comm-Link]. Player menu default key binding is [Home], and also in the Escape menu, top button.
 _website_url = 
 [
@@ -56,9 +56,10 @@ _arma_units_url =
 	"Our ArmA Unit",																// Button text.
 	"Link 3"																		// Tooltip (text shown when mouse hovering over button).
 ];
-
 _serverRules = '- No teamkilling<br/>- No destruction of friendly assets<br/>- No advertising<br/>- No verbal abuse<br/>- Pilots and UAV operator must be on Teamspeak<br/>- Staff word is final';		// Server rules shown on splash screen text. Structured Text. Note: There are more rules listed in "code\functions\fn_clientDiary.sqf", edit that file to your liking.
 _staffNames = 'Miller (admin), Kerry (moderator), Stavrou (moderator), Orestes (mission editor)';						// This text gets shown on the splash screen when player enters the game, customize as you like.
+_splashMenu = 0;										// Does splash menu appear when first spawns? 0 - Disabed. 1 - Enabled.
+_introMusic = 1;										// Intro Music. 0 - Disabled. 1 - Enabled. Music/Audio player hears when they join server.
 
 //===================================================== GAMEPLAY
 
@@ -71,7 +72,7 @@ _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default 
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 _commander = 0;											// Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel.
-_artillery = 1;											// Base artillery.	0 - Disabled. 1 - Enabled. 	If enabled, a self-propelled artillery asset is available for use. Does not affect Mk.6 mortars access. Does not affect naval artillery.
+_artillery = 2;											// Base artillery.	0 - Disabled. 1 - Player Controlled. 2 - AI Controlled. 	If enabled, a self-propelled artillery asset is available for use. Does not affect Mk.6 mortars access. Does not affect naval artillery.
 _artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1). Note: Applies to mortars as well.
 _mapContentEnemy = 1;									// Enemy Map Indicators. 	0 - Disabled. 1 - Enabled. Recommended = 1.	    Controls whether enemies known to the player are visible on the map.
 _recruitableAI = 1;										// Recruitable AI.	0 - Disabled. 1 - Enabled. 		If there are recruitable AI available (default base layout or placed by you in custom base layout), this toggles them on or off.
@@ -87,9 +88,8 @@ _groupWaypoint = 1;										// Group Map Waypoint. 0 - Disabled. 1 - Enabled (d
 _enemyUrbanSpawning = 1;								// (Classic Mode) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
 _tracers = 1;											// Tracer bullets. 0 - Vanilla handling. 1 - At night and low-pop times, AI get tracer bullets. 2 - AI get tracers at all times. Default - 1.
 _enemyGearRandomization = 1;							// Randomize Enemy Gear.  0 - Disabled. 1 - Enabled.	If Enabled, enemy gear will be randomized and they will not always receive the default loadout.
-_introMusic = 1;										// Intro Music. 0 - Disabled. 1 - Enabled. Music/Audio player hears when they join server.
-_vehicleRoleRestriction_heli = 0;						// Heli restriction. 0 - Any role can use helicopter. 1 - Only pilots can use helicopter.
-_vehicleRoleRestriction_plane = 0;						// Plane restriction. 0 - Any role can use planes. 1 - Only fighter pilots can use planes.
+_vehicleRoleRestriction_heli = 1;						// Heli restriction. 0 - Any role can use helicopter. 1 - Only pilots can use helicopter.
+_vehicleRoleRestriction_plane = 1;						// Plane restriction. 0 - Any role can use planes. 1 - Only fighter pilots can use planes.
 _customPylonPresets = 1;								// Aircraft Pylon Presets. 0 - Vanilla. 1 - Custom (Default).	0 - Pilots can set vanilla pylon presets. 1 - Pilots can only set custom pylon presets. BEWARE!!! Pilot will have access to otherwise restricted loadouts: Cluster bombs, ATGM, etc.
 _attachExplosives = 1;									// Attach Explosives to vehicles. 0 - scripted vehicles only. 1 - any vehicles (non-player-occupied at moment of attach).
 _wrecks = 1;											// Can vehicles get wrecked and require recovery? 0 - Disabled. 1 - Enabled.
@@ -102,7 +102,7 @@ _autopilot = 1;											// Can pilots use landing autopilot? 0 - Disabled. 1 -
 _planeForce1PV = 0;										// Are Plane pilots forced to use First Person View? 0 - Disabled (not forced). 1 - Enabled (forced).		
 _quickBuild = 1;										// Player role-based ability to build fortifications/sandbags/etc. 0 - Disabled. 1 - Enabled.
 _maxSandbags = 100;										// Global cap on player-deployable fortifications.
-_maxBuiltObjects = 300;									// Global cap on base-building objects (does not include player sandbags).
+_maxBuiltObjects = 500;									// Global cap on base-building objects (does not include player sandbags).
 _towing = 1;											// Towing mechanics. 0 - Disabled. 1 - Enabled. Most vehicles (Land and Boat) can Tow in one way or another.
 _winch = 2;												// Winch mechanics. 0 - Disabled. 1 - Configured vehicles (* See note --> ). 2 - All land vehicles.   * Some vanilla vehicles have visible winches: Hunter, Strider, Prowler LSV, Offroad, Bobcat, Zamak MLRS
 _unflipVehicles = 0;									// Vehicle Unflip interaction. 0 - Disabled. 1 - Enabled. With new Winch/Rope mechanics, Unflip should not be necessary.
@@ -115,6 +115,7 @@ _deployMenuHome = 1;									// Can Players set a Home deployment in Deployment 
 _weaponLasers = 1;										// (Experimental!!!) 0 - Disabled. 1 - Enabled. 	Enable custom weapon lasers.	Note: Takes some CPU (client only. no effect on server), has a performance cost if many are using in small area. Does not affect server performance.
 _weaponLasersColorForced = [-1,-1,-1];					// Laser Color. Force color of custom weapon lasers (RGB). [-1,-1,-1] = players receive random or can set their own in profile. [1000,0,0] = Standard red. Info: https://community.bistudio.com/wiki/drawLaser
 _weaponLasersHighPower = 1;								// Laser Power. 0 - Low Power only. 1 - Low and High power (selectable).
+_fireSupport = 2;										// Fire Support Module. 0 - Disabled. 1 - Player Support only. 2 - AI and Player Support.	Players are able to call in available fire supports. If 2, players can call support from some AI.
 
 //===================================================== SYSTEM
 
@@ -128,7 +129,7 @@ _timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-ti
 	0.35													// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
 ];
 _weatherDynamic = 1;									// Dynamic Weather System. 0 - Disabled. 1 - Enabled (Default). 	If enabled, framework will maintain persistent dynamic weather with realistic annual weather cycles for the geographic terrain location.
-_weatherForcedMode = 0;									// Forced Weather Mode. !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow (yes, SNOW). 
+_weatherForcedMode = -1;								// Forced Weather Mode. !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow (yes, SNOW). 
 
 //===================================================== ZEUS
 
@@ -150,14 +151,22 @@ _hc_maxAgents_2 = 15;									// Quantity of AI agents (Civilians & Animals) to 
 _hc_maxAgents_3 = 10;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 3 headless clients are connected.
 _hc_maxAgents_4 = 5;									// Quantity of AI agents (Civilians & Animals) to distribute to each Headless Client when 4 or more headless clients are connected.
 
-//===================================================== DLC/MODs
+//===================================================== DLC/MODs Support
 // Available options by default for auto-detect: 
 //
 //			'WS' 'VN' 'CSLA' 'GM'
 
+_dlc = '';												// Leave as '' blank to run in Auto-Detect mode (auto-detect works only for the DLC listed above). Tells the framework which DLC/Mod to read.
 _dlc_vehicles = '';										// Leave as '' blank to run in Auto-Detect mode (auto-detect works only for the DLC listed above). Determines which list of vehicles are spawned.		_dlc_vehicles = 'CSLA';	
 _dlc_units = '';										// Leave as '' blank to run in Auto-Detect mode (auto-detect works only for the DLC listed above). Determines which list of infantry are spawned.
-_zeus_reskinInfantry = 0;								// Do vanilla units spawned with zeus get re-skinned with modded clothing (according to "code\config\QS_data_tableUnits.sqf"). 0 - Disabled. 1 - Enabled.
+_zeus_reskinUnits = 0;									// Do vanilla units spawned with zeus get re-skinned with modded clothing (according to "code\config\QS_data_tableUnits.sqf"). 0 - Disabled. 1 - Enabled.
+_basic_reskin = 0;										// ONLY USE FOR MODDED UNITS. 0 - Disabled. 1 - Enabled. 	Reskin vanilla AI soldiers with the gear of modded AI soldiers.
+_basic_reskin_params = [
+	['rhs_msv_rifleman'],								// Opfor modded reskin classes (randomized). Leave empty to ignore. Array of modded soldier classnames to reskin all vanilla OPFOR units with. not uniform classnames.
+	['rhsusf_usmc_marpat_wd_rifleman'],					// Blufor modded reskin classes (randomized). Leave empty to ignore. Array of modded soldier classnames to reskin all vanilla BLUFOR units with. not uniform classnames.
+	['rhs_msv_rifleman'],								// Indfor modded reskin classes (randomized). Leave empty to ignore. Array of modded soldier classnames to reskin all vanilla INDFOR units with. not uniform classnames.
+	[]													// Civilian modded reskin classes (randomized). Leave empty to ignore. Array of modded soldier classnames to reskin all vanilla CIVILIAN units with. not uniform classnames.
+];
 
 //===================================================== MAIN MISSION TYPE
 //========== DESCRIPTION===============================//
@@ -180,15 +189,16 @@ _dm_MaxConcurrent = 3;									// How many deployments can be attacked simultane
 _dm_Frequency = 0.5;									// How frequent are deployment attacks? 0-1. 	0 = Very rare. 1 = Very often.		0 is about once an hour. 1 = every 60 seconds. 0.5 = ~30 minutes. 0.85 = 10 minutes.
 _dm_Intensity = 0.5;									// How intense are the attacks? 0-1. 	0 - Low intensity. 1 - High intensity.	Default = 0.5	Basically, how many enemies?
 _dm_Duration = 0.5;										// How long can the attacks go for? 0-1. 	0 - Short duration (5 mins). 1 - Long duration (60 mins). Default = 0.5
-_dm_SetupTime = 300;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300 (5 min)
+_dm_SetupTime = 300;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300
+_dm_overclock = 0;										// !Careful! Uncapped, can kill performance. Manually set the quantity of enemy per assault. 0 - Disabled.   _dm_overclock = 50;  // 50 enemy.   _dm_overclock = 150;  // 150 enemy. etc.
 
 //===================================================== STATIC SHIPS
 // Aircraft Carrier
-_aircraft_carrier_enabled = 0;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
+_aircraft_carrier_enabled = 2;								// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _aircraft_carrier_vehicles = 2;								// Vehicle Spawning.	0 - None. 1 - Basic. -2  Full.		This will interfere with _closeAirSupport config above, if Full (2) is used.  These are vehicles which spawn as part of the aircraft carrier package.
 _aircraft_carrier_respawning = 0;							// Player Spawning.		0 - None. 1 - Jet pilots only. 2 - All players.		Mission designed for options 0 and 1 only. Advised to only use 2 if AO type == 'NONE' or on closed server.
 // Destroyer
-_destroyer_enabled = 0;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
+_destroyer_enabled = 2;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
 _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
 _destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
@@ -225,7 +235,7 @@ _infostand_2 = ['media\images\billboards\billboard6.jpg','media\images\billboard
 //===================================================== SECURITY
 
 _serverCommandPassword = "'abc123'";			// Enter a server command password like this. It MUST match servercommandpassword from your server.cfg config file. ---> serverCommandPassword = "ShVQArtpGdc5aDQq"; This is important and some mission systems will not function without it.
-_anticheat = 0;									// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
+/*/QS Note: Not currently compatible with 1.5.x /*/ _anticheat = 0;	// 0 - Disabled. 1 - Enabled. (Default 1). 		Disable if running mods or in private/secure setting.
 
 //===================================================== MONETIZATION
 
@@ -274,21 +284,23 @@ if (
 	{(_destroyer_enabled > 0)} &&
 	{(_destroyer_respawning > 0)}
 ) then {
-	private _destroyer_respawning = 0;
+	_destroyer_respawning = 0;
 };
 if (!(worldName in ['Altis','Tanoa','Malden','Enoch','Stratis'])) then {
-	private _anticheat = 0;
+	_anticheat = 0;
 };
 if (_main_mission_type isEqualTo 'ZEUS') then {
-	private _sideMissions = 0;
+	_sideMissions = 0;
 };
 if ((count _startDate) > 5) then {
 	_startDate = _startDate select [0,5];
 };
+/*/QS Note: Not currently compatible with 1.5.x /*/ _anticheat = 0;
 {
 	missionNamespace setVariable _x;
 	diag_log str ([_x # 0,_x # 1]);
 } forEach [
+	['QS_missionConfig_splash',_splashMenu > 0,TRUE],
 	['QS_missionConfig_commTS',_teamspeak_server,TRUE],
 	['QS_missionConfig_commDS',(compileFinal (str _discord_server)),TRUE],
 	['QS_missionConfig_commURL',(compileFinal (str _website_url)),TRUE],
@@ -343,6 +355,7 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_weaponLasers',_weaponLasers > 0,TRUE],
 	['QS_missionConfig_weaponLasersForced',_weaponLasersColorForced,TRUE],
 	['QS_missionConfig_weaponLasersHiPower',_weaponLasersHighPower > 0,TRUE],
+	['QS_missionConfig_fireSupport',_fireSupport,TRUE],
 	['QS_missionConfig_restartHours',_restart_hours,TRUE],
 	['QS_missionConfig_restartDynamic',_restart_dynamic,FALSE],
 	['QS_missionConfig_dynSim',_dynamic_simulation,FALSE],
@@ -360,10 +373,13 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_hcMaxAgents',[_hc_maxAgents_1,_hc_maxAgents_2,_hc_maxAgents_3,_hc_maxAgents_4],TRUE],
 	['QS_missionConfig_dlcVehicles',_dlc_vehicles,TRUE],
 	['QS_missionConfig_dlcUnits',_dlc_units,TRUE],
+	['QS_missionConfig_zeusReskinUnits',_zeus_reskinUnits > 0,TRUE],
+	['QS_missionConfig_dlcReskin',_basic_reskin > 0,FALSE],
+	['QS_missionConfig_dlcReskinParams',_basic_reskin_params,FALSE],
 	['QS_missionConfig_aoType',_main_mission_type,TRUE],
 	['QS_missionConfig_sideMissions',_sideMissions,FALSE],
 	['QS_missionConfig_deploymentMissions',_deploymentMissions > 0,FALSE],
-	['QS_missionConfig_deploymentMissionParams',[_dm_MaxConcurrent,_dm_Frequency,_dm_Intensity,_dm_Duration,_dm_SetupTime],FALSE],
+	['QS_missionConfig_deploymentMissionParams',[_dm_MaxConcurrent,_dm_Frequency,_dm_Intensity,_dm_Duration,_dm_SetupTime,_dm_overclock],FALSE],
 	['QS_missionConfig_arty',_artillery,FALSE],
 	['QS_missionConfig_artyEngine',_artilleryComputer,TRUE],
 	['QS_missionConfig_mapContentEnemy',_mapContentEnemy,TRUE],

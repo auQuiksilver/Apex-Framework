@@ -77,6 +77,5 @@ if (isNull _vehicle) exitWith {
 		};
 	};
 };
-_unitTurret = _vehicle unitTurret _unit;
-_weaponState = (weaponState [_vehicle,_unitTurret,_muzzle]) params ['','','_xFiremode'];
+_weaponState = (weaponState [_vehicle,(_vehicle unitTurret _unit),_muzzle]) params ['','','_xFiremode'];
 [_unit,_xFireMode] call _fnc_forceWeaponFire;

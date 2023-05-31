@@ -37,12 +37,22 @@ params ['_mode'];
 if (_mode isEqualTo 'EVAL') exitWith {
 	params ['','_entity'];
 	_zones = QS_system_zones + QS_system_zonesLocal;
-	_old = _entity getVariable ['QS_unit_zones',[]];
+	_old = if (_entity isEqualType objNull) then {
+		(_entity getVariable ['QS_unit_zones',[]])
+	} else {
+		[]
+	};
 	_current = ['GET',_entity,_zones] call QS_fnc_zoneManager;
-	if (_old isNotEqualTo _current) then {
+	if (
+		(_old isNotEqualTo _current) &&
+		{(_entity isEqualType objNull)}
+	) then {
 		_current = ['SET',_entity,_old,_current,_zones] call QS_fnc_zoneManager;
 	};
-	if (_current isNotEqualTo []) then {
+	if (
+		(_current isNotEqualTo []) &&
+		{(_entity isEqualType objNull)}
+	) then {
 		{
 			_entity call (_x # 9);
 		} forEach _current;
@@ -61,7 +71,8 @@ if (_mode isEqualTo 'GET') exitWith {
 				{(
 					(_currentZoneTypes isEqualTo []) ||
 					((_currentZoneTypes findIf { (((_x # 1) isEqualTo _zoneType) && ((_x # 0) >= _level)) }) isEqualTo -1)
-				)}
+				)} &&
+				{_zoneActive}
 			) &&
 			{(
 				(
@@ -77,12 +88,12 @@ if (_mode isEqualTo 'GET') exitWith {
 				)} ||
 				{(
 					(_type isEqualTo 'POLY') &&
-					{((getPosASL _entity) inPolygon (_areaParams # 0))} &&
+					{((_entity isEqualType objNull) && {((getPosASL _entity) inPolygon (_areaParams # 0))})} &&
 					{((_areaParams # 1) isEqualTo -1) || {(((getPosASL _entity) # 2) < (_areaParams # 1))}}
 				)} ||
 				{(
 					(_type isEqualTo 'CUSTOM') &&
-					{(_entity call _areaParams)}
+					{((_entity isEqualType objNull) && {(_entity call _areaParams)})}
 				)}
 			)}
 		) then {
@@ -111,7 +122,9 @@ if (_mode isEqualTo 'SET') exitWith {
 	} forEach _currentzones;
 	
 	//comment 'set current state';
-	_entity setVariable ['QS_unit_zones',_currentzones,FALSE];
+	if (_entity isEqualType objNull) then {
+		_entity setVariable ['QS_unit_zones',_currentzones,FALSE];
+	};
 	_currentzones;
 };
 // CLIENT ZONES

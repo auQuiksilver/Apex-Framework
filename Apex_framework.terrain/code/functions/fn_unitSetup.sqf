@@ -13,12 +13,14 @@ Description:
 	Setup unit
 ______________________________________________________/*/
 
+_unit = _this;
 if (
 	(!(missionNamespace getVariable ['QS_missionConfig_enemyRandGear',TRUE])) ||
 	{((missionNamespace getVariable ['QS_system_activeDLC','']) isNotEqualTo '')} ||
 	{((missionNamespace getVariable ['QS_missionConfig_dlcUnits','']) isNotEqualTo '')}
 ) exitWith {
-	_this
+	_unit setVariable ['QS_AI_UNIT_enabled',TRUE,QS_system_AI_owners];
+	_unit
 };
 _unit = _this;
 _unitType = toLowerANSI (typeOf _unit);

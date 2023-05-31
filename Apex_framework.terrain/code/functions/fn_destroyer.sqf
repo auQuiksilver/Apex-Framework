@@ -346,6 +346,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					];
 				};
 				if ((toLowerANSI (_x # 0)) in ['b_ship_mrls_01_f']) then {
+					_turret setVariable ['QS_uav_toggleEnabled',FALSE,TRUE];
 					{
 						(gunner _turret) enableAIFeature _x;
 					} forEach [
@@ -404,6 +405,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 					/*/
 				};
 				if ((toLowerANSI (_x # 0)) in ['b_ship_gun_01_f']) then {
+					_turret setVariable ['QS_uav_toggleEnabled',FALSE,TRUE];
 					{
 						(gunner _turret) enableAIFeature _x;
 					} forEach [
@@ -425,12 +427,13 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 									};
 								};
 							};
+							(_this # 0) setVehicleAmmo 1;
 						}
 					];
 					{
 						_turret removeMagazineTurret [_x,[0]];
 					} forEach [
-						'magazine_ShipCannon_120mm_HE_shells_x32',			// these are the normal shells, we remove because there are so many
+						//'magazine_ShipCannon_120mm_HE_shells_x32',			// these are the normal shells, we remove because there are so many
 						'magazine_ShipCannon_120mm_HE_cluster_shells_x2',
 						'magazine_ShipCannon_120mm_mine_shells_x6',
 						'magazine_ShipCannon_120mm_smoke_shells_x6',

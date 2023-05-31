@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/02/2023 A3 2.10 by Quiksilver
+	27/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -18,7 +18,10 @@ Notes:
 	so we dont want to do anything about it yet
 _____________________________________________________________/*/
 
-private _t = cursorTarget;
+params [
+	['_t',cursorTarget],
+	['_obj',objNull]
+];
 private _result = FALSE;
 if ((['LandVehicle','Ship','Air'] findIf { _t isKindOf _x }) isEqualTo -1) exitWith {_result};
 _dn = QS_hashmap_configfile getOrDefaultCall [
@@ -28,7 +31,6 @@ _dn = QS_hashmap_configfile getOrDefaultCall [
 ];
 _attachedObjects = (attachedObjects player) select {!isObjectHidden _x};
 private _isViV = FALSE;
-private _obj = objNull;
 private _capacity = [];
 if (_attachedObjects isNotEqualTo []) then {
 	{
@@ -47,16 +49,6 @@ if (_attachedObjects isNotEqualTo []) then {
 				(!lockedInventory _t)
 			) then {
 				missionNamespace setVariable ['QS_targetBoundingBox_placementModeCancel',TRUE,FALSE];
-				_obj setVariable ['QS_logistics',TRUE,TRUE];
-				player playActionNow 'released';
-				detach _obj;
-				if (_isViV) then {
-					_t setVehicleCargo _obj;
-				} else {
-					[71,_obj,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-					_obj attachTo [_t,[0,0,-100]];
-				};
-				_result = TRUE;
 				playSound3D [
 					'A3\Sounds_F\sfx\ui\vehicles\vehicle_rearm.wss',
 					_t,
@@ -66,6 +58,20 @@ if (_attachedObjects isNotEqualTo []) then {
 					1,
 					15
 				];
+				_obj setVariable ['QS_logistics',TRUE,TRUE];
+				player playActionNow 'released';
+				if (_obj getVariable ['QS_logistics_virtual',FALSE]) then {
+					['SET_CLIENT',_t,_obj] call QS_fnc_virtualVehicleCargo;
+				} else {
+					detach _obj;		// Is this wise?
+					if (_isViV) then {
+						_t setVehicleCargo _obj;
+					} else {
+						[71,_obj,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+						_obj attachTo [_t,[0,0,-100]];
+					};
+				};
+				_result = TRUE;
 				_dn1 = QS_hashmap_configfile getOrDefaultCall [
 					format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _obj)],
 					{getText ((configOf _obj) >> 'displayName')},

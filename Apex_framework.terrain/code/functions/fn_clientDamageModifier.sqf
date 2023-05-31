@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	17/03/2023 A3 2.12 by Quiksilver
+	31/05/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -50,12 +50,9 @@ if (isNull _objectParent) then {
 					};
 				};
 				if (
-					((_source getVariable ['QS_logistics',FALSE]) && {(!(_source isKindOf 'Man'))}) ||			// To do: Harden this (could be exploited?)
-					{((!isNull (attachedTo _source)) && {((attachedTo _source) isKindOf 'Man')})}
+					((_source getVariable ['QS_logistics',FALSE]) && {(!(_source isKindOf 'CAManBase'))}) ||			// To do: Harden this (could be exploited?)
+					{((!isNull (attachedTo _source)) && {((attachedTo _source) isKindOf 'CAManBase')})}
 				) then {
-					_return = 0;
-				};
-				if (_inSafezone && _safezoneActive) then {
 					_return = 0;
 				};
 			};

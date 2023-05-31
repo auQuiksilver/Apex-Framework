@@ -88,6 +88,10 @@ if (
 	};
 };
 if (_exit) exitWith {TRUE};
+if (_QS_actionTarget getVariable ['QS_interaction_disabled',FALSE]) exitWith {
+	50 cutText [localize 'STR_QS_Text_087','PLAIN DOWN',0.333];
+	TRUE;
+};
 ([QS_player,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 if (
 	(!isNull (isVehicleCargo _QS_actionTarget)) &&

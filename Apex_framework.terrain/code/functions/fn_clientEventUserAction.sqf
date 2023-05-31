@@ -204,8 +204,17 @@ if (_this isEqualTo 'init') exitWith {
 				};
 			};
 		}],
-		['Action','activate',{uiNamespace setVariable ['QS_uiaction_action',TRUE];uiNamespace setVariable ['QS_uiaction_action_time',diag_tickTime];}],
-		['Action','deactivate',{uiNamespace setVariable ['QS_uiaction_action',FALSE];uiNamespace setVariable ['QS_uiaction_action_time',-1];}],
+		['Action','activate',{
+			uiNamespace setVariable ['QS_uiaction_action',TRUE];
+			uiNamespace setVariable ['QS_uiaction_action_time',diag_tickTime];
+			uiNamespace setVariable ['QS_ui_action_spacebar',TRUE];
+			call QS_fnc_clientInteractFireSupport;
+		}],
+		['Action','deactivate',{
+			uiNamespace setVariable ['QS_uiaction_action',FALSE];
+			uiNamespace setVariable ['QS_uiaction_action_time',-1];
+			uiNamespace setVariable ['QS_ui_action_spacebar',FALSE];
+		}],
 		['prevAction','activate',{call QS_fnc_clientInGameUIPrevAction}],
 		['nextAction','activate',{call QS_fnc_clientInGameUINextAction}],
 		['prevAction','deactivate',{call QS_fnc_clientInGameUIPrevAction}],
