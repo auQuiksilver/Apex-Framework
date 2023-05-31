@@ -3236,6 +3236,12 @@ for '_x' from 0 to 1 step 0 do {
 											missionNamespace setVariable ['QS_vehicleRespawnCount',((missionNamespace getVariable 'QS_vehicleRespawnCount') + 1),_false];
 											if (
 												_isDynamicVehicle &&
+												(_t isKindOf 'Helicopter')
+											) then {
+												_isDynamicVehicle = _false;
+											};
+											if (
+												_isDynamicVehicle &&
 												!_isActiveDLC &&
 												!_isWreck
 											) then {
