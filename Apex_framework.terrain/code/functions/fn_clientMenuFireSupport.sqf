@@ -312,10 +312,17 @@ if (_type1 isEqualTo 'Select') exitWith {
 			[119,[_asset,_weapon,_targetPos,clientOwner]] remoteExec ['QS_fnc_remoteExec',_asset,FALSE];
 		};
 		if (_asset isKindOf 'B_Ship_MRLS_01_F') then {
-			_asset setVariable ['QS_fireSupport_cooldown',serverTime + 1800,TRUE];
-			_asset setVariable ['QS_fireSupport_requester',profileName,TRUE];
-			_asset setVariable ['QS_fireSupport_type',_supportType,TRUE];
-			[119,[_asset,_weapon,QS_player,clientOwner]] remoteExec ['QS_fnc_remoteExec',_asset,FALSE];
+			if (
+				(_weapon isEqualType objNull) &&
+				{(_weapon isKindOf 'LaserTarget')}
+			) then {
+				_asset setVariable ['QS_fireSupport_cooldown',serverTime + 1800,TRUE];
+				_asset setVariable ['QS_fireSupport_requester',profileName,TRUE];
+				_asset setVariable ['QS_fireSupport_type',_supportType,TRUE];
+				[119,[_asset,_weapon,QS_player,clientOwner]] remoteExec ['QS_fnc_remoteExec',_asset,FALSE];
+			} else {
+				50 cutText ['VLS can only lock on laser targets','PLAIN DOWN',0.5];
+			};
 		};
 	};
 };
