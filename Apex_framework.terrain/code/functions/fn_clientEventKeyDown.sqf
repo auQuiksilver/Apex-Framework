@@ -138,7 +138,7 @@ if (_key in
 if (_c) exitWith {_c};
 if (_key in (actionKeys 'AutoHover')) then {
 	if (
-		(cameraOn isKindOf 'Air') &&
+		(cameraOn isKindOf 'Helicopter') &&
 		{(!(missionNamespace getVariable ['QS_missionConfig_autohover',TRUE]))}
 	) then {
 		cameraOn spawn {
