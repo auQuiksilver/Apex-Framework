@@ -1432,7 +1432,7 @@ for '_x' from 0 to 1 step 0 do {
 	/*/===== Diagnostics report/*/
 	if (_QS_diagTickTimeNow > _fpsCheckDelay) then {
 		_fps = round diag_fps;
-		missionNamespace setVariable ['QS_serverFPS',_fps,_false];
+		missionNamespace setVariable ['QS_server_fps',_fps,_true];
 		diag_log format [
 			'%1********** SERVER REPORT (TOP) ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1********** SERVER REPORT (BOTTOM) **********',
 			_endl,
@@ -1457,9 +1457,6 @@ for '_x' from 0 to 1 step 0 do {
 			(count (allSimpleObjects [])),
 			systemTime
 		];
-		if (allCurators isNotEqualTo []) then {
-			missionNamespace setVariable ['QS_server_fps',_fps,allCurators apply {owner _x}];
-		};
 		if (_fps >= 20) then {
 			if ((markerColor 'QS_marker_fpsMarker') isNotEqualTo 'ColorGREEN') then {
 				'QS_marker_fpsMarker' setMarkerColorLocal 'ColorGREEN';
@@ -3330,6 +3327,12 @@ for '_x' from 0 to 1 step 0 do {
 										if ((_nearEntitiesCheck isEqualTo -1) || {([_vpos,_nearEntitiesCheck] call _fn_isPosSafe)}) then {
 											_spawnedType = QS_core_vehicles_map getOrDefault [toLowerANSI _t,_t];
 											missionNamespace setVariable ['QS_vehicleRespawnCount',((missionNamespace getVariable 'QS_vehicleRespawnCount') + 1),_false];
+											if (
+												_isDynamicVehicle &&
+												(_t isKindOf 'Helicopter')
+											) then {
+												_isDynamicVehicle = _false;
+											};
 											if (_isDynamicVehicle && (!_isActiveDLC)) then {
 												_v = createSimpleObject [_spawnedType,[(random -1000),(random -1000),(1000 + (random 2000))]];
 												if (_dir isEqualType 0) then {

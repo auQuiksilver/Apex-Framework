@@ -147,8 +147,17 @@ if (_type1 isEqualTo 'onLoad') exitWith {
 						};
 					};
 					if ((['b_ship_mrls_01_f','b_ship_gun_01_f'] findIf { _vehicle isKindOf _x }) isNotEqualTo -1) then {
-						_assetList pushBackUnique _vehicle;
-						_naval pushBackUnique [_vehicle,3];
+						if (
+							(_vehicle isKindOf 'b_ship_mrls_01_f') &&
+							(QS_player getUnitTrait 'QS_trait_jtac')
+						) then {
+							_assetList pushBackUnique _vehicle;
+							_naval pushBackUnique [_vehicle,3];
+						};
+						if (_vehicle isKindOf 'b_ship_gun_01_f') then {
+							_assetList pushBackUnique _vehicle;
+							_naval pushBackUnique [_vehicle,3];						
+						};
 					};
 				};
 			} forEach (units _side);
@@ -307,8 +316,11 @@ if (_type1 isEqualTo 'Select') exitWith {
 	_isAI = !isPlayer (effectiveCommander _asset);
 	[119,[_targetPos,player,profileName,_supportType,_isAI,_asset]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	_aiSupportEnabled = (missionNamespace getVariable ['QS_missionConfig_fireSupport',1]) > 1;
+	private _called = FALSE;
+	private _failed = FALSE;
 	if (_isAI && _aiSupportEnabled) then {
 		if (_isArtillery) then {
+			_called = TRUE;
 			[119,[_asset,_weapon,_targetPos,clientOwner]] remoteExec ['QS_fnc_remoteExec',_asset,FALSE];
 		};
 		if (_asset isKindOf 'B_Ship_MRLS_01_F') then {
@@ -316,13 +328,21 @@ if (_type1 isEqualTo 'Select') exitWith {
 				(_weapon isEqualType objNull) &&
 				{(_weapon isKindOf 'LaserTarget')}
 			) then {
+				_called = TRUE;
 				_asset setVariable ['QS_fireSupport_cooldown',serverTime + 1800,TRUE];
 				_asset setVariable ['QS_fireSupport_requester',profileName,TRUE];
 				_asset setVariable ['QS_fireSupport_type',_supportType,TRUE];
 				[119,[_asset,_weapon,QS_player,clientOwner]] remoteExec ['QS_fnc_remoteExec',_asset,FALSE];
 			} else {
+				_failed = TRUE;
 				50 cutText ['VLS can only lock on laser targets','PLAIN DOWN',0.5];
 			};
 		};
+	};
+	if (
+		!_called &&
+		!_failed
+	) then {
+		[119,[_targetPos,player,profileName,_supportType,_isAI,_asset]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 };

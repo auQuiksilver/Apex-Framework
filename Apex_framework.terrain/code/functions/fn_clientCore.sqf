@@ -28,7 +28,7 @@ private [
 	'_QS_module_gearManager','_QS_module_gearManager_checkDelay','_QS_module_gearManager_delay','_QS_firstRun','_playerThreshold','_QS_side',
 	'_QS_clientATManager','_QS_clientATManager_delay','_QS_tto','_QS_artyEnabled','_QS_underEnforcement','_QS_enforcement_loop',
 	'_QS_decayRate','_QS_decayDelay','_QS_fpsCheckDelay','_QS_fpsDelay','_pilotCheck',
-	'_nearSite','_nearSite2','_nearSite3','_QS_action_clearVehicleInventory','_QS_action_clearVehicleInventory_text',
+	'_nearSite','_nearSite2','_QS_action_clearVehicleInventory','_QS_action_clearVehicleInventory_text',
 	'_QS_action_clearVehicleInventory_array','_QS_interaction_clearVehicleInventory','_posInFront','_listOfFrontStuff','_mines','_obj','_objType','_profileName',
 	'_profileNameSteam','_iAmPilot','_loadedAtBase','_loadedAtMission','_newArray','_loadedInField','_QS_action_unflipVehicle','_QS_action_unflipVehicle_text',
 	'_QS_action_unflipVehicle_array','_QS_interaction_unflipVehicle','_QS_action_revive','_QS_action_revive_text','_QS_action_revive_array','_QS_interaction_revive',
@@ -103,7 +103,7 @@ private [
 	'_isAltis','_isTanoa','_QS_carrierEnabled','_array','_QS_action_camonetArmor','_QS_action_camonetArmor_textA','_QS_action_camonetArmor_textB','_QS_action_camonetArmor_array',
 	'_QS_interaction_camonetArmor','_QS_action_camonetArmor_anims','_QS_action_camonetArmor_vAnims','_animationSources','_animationSource','_QS_module_highCommand','_QS_module_highCommand_delay',
 	'_QS_module_highCommand_checkDelay','_QS_module_highCommand_waypoints','_civSide','_QS_module_gpsJammer','_QS_module_gpsJammer_delay','_QS_module_gpsJammer_checkDelay','_QS_module_gpsJammer_signalDelay',
-	'_QS_module_gpsJammer_signalCheck','_QS_module_gpsJammer_ctrlPlayer','_isNearRepairDepot','_isNearRepairDepot2','_uavNearRepairDepot','_viewDistance_target','_objectViewDistance_target',
+	'_QS_module_gpsJammer_signalCheck','_QS_module_gpsJammer_ctrlPlayer','_isNearRepairDepot','_uavNearRepairDepot','_viewDistance_target','_objectViewDistance_target',
 	'_shadowDistance_target','_terrainGrid_target','_deltaVD_script','_fadeView','_arsenalType','_noObjectParent','_parsedText','_QS_module_opsec_hints','_ahHintText','_ahHintList',
 	'_QS_destroyerEnabled','_lifeState','_QS_action_RSS','_QS_action_RSS_text','_QS_action_RSS_array','_QS_interaction_RSS','_QS_module_swayManager_managed','_player'
 ];
@@ -142,7 +142,7 @@ _profileNameSteam = profileNameSteam;
 _playerNetId = netId player;
 _QS_posWorldPlayer = getPosWorld player;
 private _terrainGrid = getTerrainGrid;
-private _QS_cameraPosition2D = (positionCameraToWorld [0,0,0]) deleteAt 1;
+private _QS_cameraPosition2D = [(positionCameraToWorld [0,0,0]) # 0,(positionCameraToWorld [0,0,0]) # 2];
 _QS_moveTime = moveTime player;
 _QS_objectTypePlayer = getObjectType player;
 _QS_modelInfoPlayer = getModelInfo player;
@@ -172,6 +172,7 @@ _QS_terminalVelocity = [10e10,10e14,10e18];
 _QS_isAdmin = _puid in (['ALL'] call (missionNamespace getVariable ['QS_fnc_whitelist',{[]}]));
 _QS_helmetCam_helperType = 'sign_sphere10cm_f';
 private _attachedObjects = attachedObjects player;
+private _nearServices = [];
 _true = TRUE;
 _false = FALSE;
 _parsedText = parseText '';
@@ -382,10 +383,8 @@ _QS_action_serviceVehicle_text = localize 'STR_QS_Interact_014';
 _QS_action_serviceVehicle_array = [_QS_action_serviceVehicle_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractServiceVehicle')},[],-1,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_serviceVehicle = FALSE;
 _isNearRepairDepot = FALSE;
-_isNearRepairDepot2 = FALSE;
 _nearSite = FALSE;
 _nearSite2 = FALSE;
-_nearSite3 = FALSE;
 /*/===== Hangar/*/
 private _QS_action_pylons = nil;
 private _QS_action_pylons_text = localize 'STR_QS_Dialogs_083';
@@ -1645,6 +1644,12 @@ private _QS_display1Opened = FALSE;
 private _QS_display2Opened = FALSE;
 private _display1_drawID = 0;
 private _weaponIsSniper = FALSE;
+
+// Logging
+private _debugLogging = TRUE;
+private _debugLogging_interval = 60;
+private _debugLogging_delay = -1;
+
 /*/===== Functions Preload/*/
 _fn_getCustomCargoParams = missionNamespace getVariable 'QS_fnc_getCustomCargoParams';
 _fn_clientInteractUGV = missionNamespace getVariable 'QS_fnc_clientInteractUGV';
@@ -2453,8 +2458,8 @@ for 'x' from 0 to 1 step 0 do {
 				{(isNull curatorCamera)} &&
 				{(
 					(([_cursorObject,sizeOf (typeOf _cursorObject)] call _fn_isNearServiceCargo) isNotEqualTo []) ||
-					{((_QS_carrierEnabled isNotEqualTo 0) && {(['INPOLYGON',_QS_cO] call _fn_carrier)})} || 
-					{((_QS_destroyerEnabled isNotEqualTo 0) && {(['INPOLYGON',_QS_cO] call _fn_destroyer)})}
+					{((_QS_carrierEnabled isNotEqualTo 0) && {(['INPOLYGON',_cursorObject] call _fn_carrier)})} || 
+					{((_QS_destroyerEnabled isNotEqualTo 0) && {(['INPOLYGON',_cursorObject] call _fn_destroyer)})}
 				)} &&
 				{(scriptDone (missionNamespace getVariable ['QS_module_services_script',_scriptNull]))} &&
 				{(!(localNamespace getVariable ['QS_service_blocked',_false]))}
@@ -3343,7 +3348,15 @@ for 'x' from 0 to 1 step 0 do {
 				{(_cursorObjectDistance <= 2)} &&
 				{(isSimpleObject _cursorObject)} &&
 				{((toLowerANSI ((getModelInfo _cursorObject) # 1)) in _QS_action_medevac_models)} &&
-				{(((damage _QS_player) > 0) || {((((getAllHitPointsDamage _QS_player) # 2) findIf {(_x isNotEqualTo 0)}) isNotEqualTo -1)})}
+				{
+					(
+						((damage _QS_player) > 0) || 
+						{
+							((getAllHitPointsDamage _QS_player) isNotEqualTo []) &&
+							{((selectMax ((getAllHitPointsDamage _QS_player) # 2)) > 0)}
+						}
+					)
+				}
 			) then {
 				if (!(_QS_interaction_huronContainer)) then {
 					_QS_interaction_huronContainer = _true;
@@ -3433,7 +3446,8 @@ for 'x' from 0 to 1 step 0 do {
 					{((_cursorObject isKindOf 'LandVehicle') || (_cursorObject isKindOf 'Ship'))} &&
 					{((_objectParent distance _cursorObject) < 250)} &&
 					{(((_objectParent getRelDir _cursorObject) >= 270) || ((_objectParent getRelDir _cursorObject) <= 90))} &&
-					{(_cursorObject isNotEqualTo _objectParent)}
+					{(_cursorObject isNotEqualTo _objectParent)} &&
+					{(alive (driver _cursorObject))}
 				) then {_ccTextConvoy} else {_ccTextDefault};
 				if (!(_QS_interaction_cc)) then {
 					_QS_interaction_cc = _true;
@@ -3636,18 +3650,24 @@ for 'x' from 0 to 1 step 0 do {
 					if (_QS_ugvSD isNotEqualTo _QS_cO) then {
 						_QS_ugvSD = _QS_cO;
 					};
-					if (local _QS_ugvSD) then {
-						if ((!(canMove _QS_ugvSD)) || {((fuel _QS_ugvSD) isEqualTo 0)} || {(!(_QS_ugvSD isKindOf 'UAV_01_base_F')) && {(!((((getAllHitPointsDamage _QS_ugvSD) # 2) findIf {(_x > 0.5)}) isEqualTo -1))}} || {(((vectorUp _QS_ugvSD) # 2) < 0.1)}) then {	
-							if (!(_QS_interaction_uavSelfDestruct)) then {
-								_QS_interaction_uavSelfDestruct = _true;
-								_QS_action_uavSelfDestruct = _QS_ugvSD addAction _QS_action_uavSelfDestruct_array;
-								_QS_ugvSD setUserActionText [_QS_action_uavSelfDestruct,((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) # 0),(format ["<t size='3'>%1</t>",((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) # 0)])];
-							};
-						} else {
-							if (_QS_interaction_uavSelfDestruct) then {
-								_QS_interaction_uavSelfDestruct = _false;
-								_QS_ugvSD removeAction _QS_action_uavSelfDestruct;
-							};
+					if (
+						(local _QS_ugvSD) &&
+						{(
+							(!(canMove _QS_ugvSD)) || 
+							{((fuel _QS_ugvSD) isEqualTo 0)} ||
+							{
+								((getAllHitPointsDamage _QS_ugvSD) isNotEqualTo []) &&
+								{((selectMax ((getAllHitPointsDamage _QS_ugvSD) # 2)) > 0.5)}
+							} || 
+							{
+								(((vectorUp _QS_ugvSD) # 2) < 0.1)
+							}
+						)}
+					) then {
+						if (!(_QS_interaction_uavSelfDestruct)) then {
+							_QS_interaction_uavSelfDestruct = _true;
+							_QS_action_uavSelfDestruct = _QS_ugvSD addAction _QS_action_uavSelfDestruct_array;
+							_QS_ugvSD setUserActionText [_QS_action_uavSelfDestruct,((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) # 0),(format ["<t size='3'>%1</t>",((_QS_ugvSD actionParams _QS_action_uavSelfDestruct) # 0)])];
 						};
 					} else {
 						if (_QS_interaction_uavSelfDestruct) then {
@@ -3839,14 +3859,16 @@ for 'x' from 0 to 1 step 0 do {
 				{(!(missionNamespace getVariable ['QS_repairing_vehicle',_false]))} &&
 				{(((vectorMagnitude (velocity _QS_v2)) * 3.6) < 2)}
 			) then {
-				_isNearRepairDepot2 = (([_QS_v2] call _fn_isNearRepairDepot) || {(([_cursorObject] call _fn_isNearRepairDepot) && (_cursorObjectDistance < 15))});
-				_nearSite3 = _false;
-				{
-					if ((_QS_v2 distance2D (markerPos _x)) < 12) exitWith {
-						_nearSite3 = _true;
-					};
-				} count (missionNamespace getVariable 'QS_veh_repair_mkrs');
-				if ((_nearSite3) || (_isNearRepairDepot2)) then {
+				if (
+					([_QS_v2,sizeOf (typeOf _QS_v2)] call _fn_isNearRepairDepot) ||
+					{
+						_nearServices = [_QS_v2,sizeOf (typeOf _QS_v2),_false] call _fn_isNearServiceCargo;
+						(
+							(_nearServices isNotEqualTo []) &&
+							({((['repair','refuel','reammo'] arrayIntersect (_nearServices apply { _x # 1 })) isEqualTo ['repair','refuel','reammo'])})
+						)
+					}
+				) then {
 					_QS_action_slatArmor_vAnims = _QS_v2 getVariable ['QS_vehicle_slatarmorAnims',-1];
 					if (_QS_action_slatArmor_vAnims isEqualTo -1) then {
 						_array = [];
@@ -3870,7 +3892,7 @@ for 'x' from 0 to 1 step 0 do {
 							) then {
 								_array pushBack (toLowerANSI _x);
 							};
-						} forEach (QS_hashmap_configfile getOrDefaultCall [format ['cfgvehicles_%1_animationlist',toLowerANSI (typeOf _QS_v2)],{getArray ((configOf _QS_v2) >> 'animationSources')},_true]);
+						} forEach (QS_hashmap_configfile getOrDefaultCall [format ['cfgvehicles_%1_animationlist',toLowerANSI (typeOf _QS_v2)],{getArray ((configOf _QS_v2) >> 'animationList')},_true]);
 						_QS_v2 setVariable ['QS_vehicle_slatarmorAnims',_array,_false];
 					} else {
 						if (_QS_action_slatArmor_vAnims isEqualType []) then {
@@ -3885,7 +3907,7 @@ for 'x' from 0 to 1 step 0 do {
 									};
 									_QS_interaction_slatArmor = _true;
 									_QS_action_slatArmor = player addAction _QS_action_slatArmor_array;
-									player setUserActionText [_QS_action_slatArmor,((player actionParams _QS_action_slatArmor) # 0),(format ["<t size='3'>%1</t>",((player actionParams _QS_action_slatArmor) # 0)])];
+									player setUserActionText [_QS_action_slatArmor,(_QS_action_slatArmor_array # 0),(format ["<t size='3'>%1</t>",(_QS_action_slatArmor_array # 0)])];
 								} else {
 									if ((_QS_action_slatArmor_vAnims findIf {((_QS_v2 animationSourcePhase _x) isEqualTo 1)}) isNotEqualTo -1) then {
 										if ((_QS_action_slatArmor_array # 0) isEqualTo _QS_action_slatArmor_textA) then {
@@ -4127,7 +4149,7 @@ for 'x' from 0 to 1 step 0 do {
 			};
 		};
 		_allPlayers = allPlayers;
-		_QS_cameraPosition2D = (positionCameraToWorld [0,0,0]) deleteAt 1;
+		_QS_cameraPosition2D = [(positionCameraToWorld [0,0,0]) # 0,(positionCameraToWorld [0,0,0]) # 2];
 		if (_QS_player getVariable ['QS_RD_interacting',_false]) then {
 			if (_QS_player getVariable ['QS_RD_carrying',_false]) then {
 				if ((_attachedObjects isEqualTo []) || {((_attachedObjects findIf {((!isNull _x) && (_x isKindOf 'CAManBase'))}) isEqualTo -1)}) then {
@@ -4844,7 +4866,7 @@ for 'x' from 0 to 1 step 0 do {
 					} else {
 						if (
 							(_QS_posWorldPlayer isNotEqualTo _QS_afkTimer_playerPos) ||
-							{((_QS_cameraPosition2D distance2D ((positionCameraToWorld [0,0,0]) deleteAt 1)) > 1)} ||
+							{((_QS_cameraPosition2D distance2D [(positionCameraToWorld [0,0,0]) # 0,(positionCameraToWorld [0,0,0]) # 2]) > 1)} ||
 							{(!isNull curatorCamera)}
 						) then {
 							uiNamespace setVariable ['QS_client_afkTimeout',diag_tickTime];
@@ -6255,6 +6277,28 @@ for 'x' from 0 to 1 step 0 do {
 				_QS_player switchCamera 'INTERNAL';
 			};
 		};
+	};
+	// Client Logging
+	if (
+		_debugLogging &&
+		{(_QS_uiTime > _debugLogging_delay)}
+	) then {
+		_debugLogging_delay = _QS_uiTime + _debugLogging_interval;
+		diag_log format [
+			'%1********** CLIENT REPORT (TOP) ********** System Time: %10 * %1Server Time: %11 * %1Server FPS: %12 * %1Client FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Active Scripts: %5 * %1Active SQF Scripts: %6 * %1Active SQS Scripts: %7 * %1Active FSM Scripts: %8 * %1Active Zeus: %9 *%1********** CLIENT REPORT (BOTTOM) **********',
+			endl,
+			diag_fps,
+			diag_frameNo,
+			diag_deltaTime,
+			diag_activeScripts,
+			(diag_activeSQFScripts select [0,6]),
+			diag_activeSQSScripts,
+			diag_activeMissionFSMs,
+			allCurators,
+			systemTime,
+			serverTime,
+			(missionNamespace getVariable ['QS_server_fps',-1])
+		];
 	};
 	uiSleep 0.1;
 };

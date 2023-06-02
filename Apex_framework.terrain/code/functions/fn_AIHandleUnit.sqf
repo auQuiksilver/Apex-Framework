@@ -490,7 +490,7 @@ if (_fps > 10) then {
 					if (!(_isSuppressing)) then {
 						private _smokeTargets = (missionNamespace getVariable ['QS_AI_smokeTargets',[]]) select {!isNull _x};
 						if (_smokeTargets isNotEqualTo []) then {
-							_smokeTargets = _smokeTargets select {((_unit distance _x) < 1000)};
+							_smokeTargets = _smokeTargets inAreaArray [getPosATL _unit,1000,1000,0,FALSE];
 							if (_smokeTargets isNotEqualTo []) then {
 								_smokeTargets = _smokeTargets apply {
 									[
@@ -511,7 +511,7 @@ if (_fps > 10) then {
 								_smokeTargets = _smokeTargets select {((_x # 0) > 0) && ((_x # 2) isNotEqualTo [0,0,0])};
 								if (_smokeTargets isNotEqualTo []) then {
 									_smokeTargets sort FALSE;
-									_attackTarget = (_smokeTargets # 2) vectorAdd [-5 + (random 10),-5 + (random 10),2 + (random 2)];
+									_attackTarget = ((_smokeTargets # 0) # 2) vectorAdd [-5 + (random 10),-5 + (random 10),2 + (random 2)];
 									_isSuppressing = [_unit,_attackTarget,selectRandomWeighted [1,0.5,2,0.5],TRUE,FALSE,FALSE,-1] call (missionNamespace getVariable 'QS_fnc_AIDoSuppressiveFire');
 								};
 							};

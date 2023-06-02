@@ -37,6 +37,7 @@ if (isForcedWalk player) then {
 {
 	player setVariable _x;
 } forEach [
+	['QS_revive_respawnType','',FALSE],
 	['QS_RD_interacting',FALSE,TRUE],
 	['QS_RD_loaded',FALSE,TRUE],
 	['QS_event_handleHeal',nil,TRUE],

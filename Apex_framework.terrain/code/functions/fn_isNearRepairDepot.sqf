@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	31/10/2022 A3 2.10 by Quiksilver
+	2/06/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -14,29 +14,28 @@ Description:
 __________________________________________/*/
 
 params ['_origin',['_radius',12]];
-private _return = FALSE;
+private _return3 = FALSE;
 if ((_origin isEqualType objNull) && {(isNull _origin)}) exitWith {
-	_return;
+	_return3;
 };
 _cameraOn = cameraOn;
-private _list = _origin nearSupplies _radius;		//===== Alt syntax appears not to work:   _origin nearSupplies ['Land_RepairDepot_01_base_F',_radius];
+private _list = _origin nearSupplies _radius;
 if (_list isNotEqualTo []) then {
 	{
 		if (
 			((_cameraOn distance2D _x) < _radius) &&
 			{(!isSimpleObject _x)} &&
 			{(_x isKindOf 'Land_RepairDepot_01_base_F')} &&
-			{(!(_x getVariable ['QS_repairdepot_disable',FALSE]))} &&
-			{((getRepairCargo _x) > 0)}
+			{(!(_x getVariable ['QS_repairdepot_disable',FALSE]))}
 		) exitWith {
 			if ((getRepairCargo _x) > 0) then {
 				[88,_x] remoteExec ['QS_fnc_remoteExec',_x,FALSE];
 			};
-			_return = TRUE;
+			_return3 = TRUE;
 		};
 	} forEach _list;
 };
-if (_return) exitWith {_return};
+if (_return3) exitWith {_return3};
 _list = nearestObjects [_origin,[],_radius,TRUE];
 if (_list isNotEqualTo []) then {
 	{
@@ -47,8 +46,8 @@ if (_list isNotEqualTo []) then {
 			{((toLowerANSI ((getModelInfo _x) # 1)) in (['repair_depot_models_1'] call QS_data_listVehicles))} &&
 			{(!(_x getVariable ['QS_repairdepot_disable',FALSE]))}
 		) exitWith {
-			_return = TRUE;
+			_return3 = TRUE;
 		};
 	} forEach _list;
 };
-_return;
+_return3;

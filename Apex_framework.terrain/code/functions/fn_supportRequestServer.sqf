@@ -66,7 +66,7 @@ if ((_this # 0) isEqualType []) then {
 					_requester = _vehicle getVariable ['QS_fireSupport_requester',''];
 					_caller = _vehicle getVariable ['QS_supportRequest_caller',objnull];
 					if (_requester isNotEqualTo '') then {
-						_text = format ['%4 called on grid %1 by %2 ( %3 )',mapGridPosition (getPosWorld _target),_requester,groupId (group _caller),(_vehicle getVariable ['QS_fireSupport_type',''])];
+						_text = format [localize 'STR_QS_Chat_179',mapGridPosition (getPosWorld _target),_requester,groupId (group _caller),(_vehicle getVariable ['QS_fireSupport_type',''])];
 						[[side (group _caller),'BLU'],_text] remoteExec ['sideChat',-2];
 					};
 					waitUntil {
@@ -93,20 +93,14 @@ if ((_this # 0) isEqualType []) then {
 		(gunner _asset) forceWeaponFire [currentMuzzle (gunner _asset),'Cruise'];
 	} else {
 		params ['','_weapon','_position','_clientOwner'];
-		if (_asset isKindOf 'b_ship_gun_01_f') then {
-			if (local _asset) then {
-				_asset setOwner _clientOwner;
-			};
-			if (local (group (gunner _asset))) then {
-				(group (gunner _asset)) setGroupOwner _clientOwner;
-			};
-		};
-		
 		if ((ASLToAGL _position) inRangeOfArtillery [[gunner _asset],((magazines _asset) # 0)]) then {
 			(gunner _asset) addEventHandler [
 				'FiredMan',
 				{
 					params ['_unit','','','','','','_projectile','_vehicle'];
+					if (_asset isKindOf 'b_ship_gun_01_f') then {
+						
+					};
 					_unit removeEventHandler [_thisEvent,_thisEventHandler];
 					missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') + [_projectile]),TRUE];
 					missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') + [_projectile]),TRUE];

@@ -13,7 +13,7 @@ Description:
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.5.3";
+missionProductVersion = "1.5.4";
 missionProductStatus = "Stable";											// "Stable" // "Beta" // "Dev"
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
@@ -5659,26 +5659,6 @@ class QS_RD_client_dialog_menu_unloadCargo {
 			h = 0.22 * safezoneH;
 			sizeEx = 0.03;
 			colorBackground[] = {0,0,0,0.5};
-		};
-		class Objects {
-			class Model_Visual {
-				idc = 1820;
-				onLoad = "";
-				type = 81;
-				model = "";
-				scale = "(1 * 0.675 * (SafeZoneW Min SafeZoneH))";
-				direction[] = {0,-1,0};
-				up[] = {0,0,-1}; 
-				inBack = 1;
-				x = 0.677 * safezoneW + safezoneX;
-				y = 0.78 * safezoneH + safezoneY;
-				z = 0.35;
-				xBack = 0.677 * safezoneW + safezoneX;
-				yBack = 0.78 * safezoneH + safezoneY;
-				zBack = 0.35;
-				enableZoom = 0;
-				zoomDuration = 0.001;
-			};
 		};
 	};
 };

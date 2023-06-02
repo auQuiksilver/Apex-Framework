@@ -375,7 +375,7 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_casJet_destroyedAtBase_type','',FALSE],
 	['QS_cas_uav',objNull,FALSE],
 	['QS_analytics_fps',[],FALSE],
-	['QS_server_fps',0,FALSE],
+	['QS_server_fps',0,TRUE],
 	['QS_analytics_playercount',[],FALSE],
 	['QS_analytics_entities_created',0,FALSE],
 	['QS_analytics_entities_deleted',0,FALSE],

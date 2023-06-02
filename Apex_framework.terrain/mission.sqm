@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=390;
+		nextID=399;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6943.6079,10.917699,7355.5498};
-		dir[]={0.77247494,-0.24942616,0.58423907};
-		up[]={0.19898692,0.96824789,0.15049969};
-		aside[]={0.60326052,-3.5716221e-007,-0.79764533};
+		pos[]={6940.3354,15.507116,7349.3101};
+		dir[]={0.76817131,-0.3066698,0.56225359};
+		up[]={0.24750435,0.95166546,0.18116018};
+		aside[]={0.59065652,1.5425321e-006,-0.80699521};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_153";
+sourceName="Apex_framework_154";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",

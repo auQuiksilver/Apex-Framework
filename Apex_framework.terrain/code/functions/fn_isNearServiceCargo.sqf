@@ -130,6 +130,7 @@ if (_list isNotEqualTo []) then {
 		};
 	} forEach _list;
 };
+// Terrain Fuel pumps
 _list = nearestTerrainObjects [_vehicle,[],_radius,FALSE,TRUE];
 if (_list isNotEqualTo []) then {
 	{

@@ -43,7 +43,7 @@ _displayName2 = QS_hashmap_configfile getOrDefaultCall [
 if (_child getVariable ['QS_logistics_immovable',FALSE]) exitWith {50 cutText [localize 'STR_QS_Text_335','PLAIN DOWN',0.25];};
 private _canLoad = [_parent,_child] call QS_fnc_canVehicleCargo;
 if (!(_canLoad # 1)) exitWith {
-	_result = [_parent,_child] call QS_fnc_clientInteractLoad;
+	_result = [nil,nil,nil,nil,_parent,_child] call QS_fnc_clientInteractLoad;
 	if (!(_result)) then {
 		50 cutText [format [localize 'STR_QS_Text_348',(_child getVariable ['QS_ST_customDN',_displayName1]),(_parent getVariable ['QS_ST_customDN',_displayName2])],'PLAIN DOWN',0.333];
 	};

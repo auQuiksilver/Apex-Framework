@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/05/2023 A3 2.12 by Quiksilver
+	2/06/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -35,8 +35,8 @@ _____________________________________________________________________/*/
 if (!isDedicated) exitWith {0};
 _this spawn {
 	waitUntil {
-		uiSleep (0.1 + (random 0.1));
-		((missionNamespace getVariable ['QS_missionConfig_baseLayout',-1]) isNotEqualTo -1)
+		uiSleep (0.2 + (random 0.2));
+		(missionNamespace getVariable ['QS_mission_init',FALSE])
 	};
 	params [
 		['_vehicle',objNull],

@@ -1,5 +1,17 @@
 Official Change Log
 
+1.5.4 Stable
+
+[FIXED] Player would die instead of becoming incapacitated.
+[FIXED] Player unable to mount cage armour to tanks/apcs.
+[FIXED] Player unable to load captives into vehicles.
+[FIXED] Script error with AFK system.
+[FIXED] Script error with Unload Cargo menu
+[FIXED] Script error with UAV self-destruct handling.
+[FIXED] Script error with enemy AI Direct Fire Support ability.
+[FIXED] Vehicle init code could execute before mission ready.
+[FIXED] Earplugs would not work properly if players volumes were set oddly.
+
 1.5.3 Stable
 
 [ADDED] Fire Support request system (spacebar with binoculars).

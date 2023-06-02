@@ -4381,6 +4381,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Chat_178">
             <Original>Cannot do this with enemy nearby (200m)</Original>
         </Key>
+        <Key ID="STR_QS_Chat_179">
+            <Original>%4 called on grid %1 by %2 ( %3 )</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_notifications">
         <Key ID="STR_QS_Notif_001">

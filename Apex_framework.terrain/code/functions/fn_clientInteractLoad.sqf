@@ -19,6 +19,10 @@ Notes:
 _____________________________________________________________/*/
 
 params [
+	['_addaction0',nil],
+	['_addaction1',nil],
+	['_addaction2',nil],
+	['_addaction3',nil],
 	['_t',cursorTarget],
 	['_obj',objNull]
 ];
