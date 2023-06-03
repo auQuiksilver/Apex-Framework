@@ -1410,6 +1410,7 @@ _fn_isWreckable = missionNamespace getVariable 'QS_fnc_isWreckable';
 _fn_deployAssault = missionNamespace getVariable 'QS_fnc_deployAssault';
 _fn_isNearVehicleRally = missionNamespace getVariable 'QS_fnc_isNearVehicleRally';
 _fn_getVehicleStealth = missionNamespace getVariable 'QS_fnc_getVehicleStealth';
+_fn_dynamicGroups = missionNamespace getVariable 'BIS_fnc_dynamicGroups';
 
 /*/============================================================================= LOOP/*/
 for '_x' from 0 to 1 step 0 do {
@@ -5232,18 +5233,21 @@ for '_x' from 0 to 1 step 0 do {
 				_mainGroup setVariable ['BIS_dg_reg',_true,_true];
 				_mainGroup setVariable ['BIS_dg_pri',_false,_true];
 				_mainGroup setVariable ['BIS_dg_var','var_76561100000000000_0',_true];
-				_mainGroup setVariable ['BIS_dg_ins','',_true];
+				_mainGroup setVariable ['BIS_dg_ins',(['LoadRandomInsignia'] call _fn_dynamicGroups),_true];
 				_mainGroup setGroupIDGlobal [_mainGroupName];
 			} else {
 				if (_mainGroup getVariable ['BIS_dg_pri',_false]) then {
 					_mainGroup setVariable ['BIS_dg_pri',_false,_true];
+				};
+				if (!(_mainGroup getVariable ['BIS_dg_reg',_false])) then {
+					_mainGroup setVariable ['BIS_dg_reg',_true,_true];
 				};
 				if (isGroupDeletedWhenEmpty _mainGroup) then {
 					_mainGroup deleteGroupWhenEmpty _false;
 				};
 				if ((groupId _mainGroup) isNotEqualTo _mainGroupName) then {
 					_mainGroup setGroupIDGlobal [_mainGroupName];
-					_mainGroup setVariable ['BIS_dg_ins','',_true];
+					_mainGroup setVariable ['BIS_dg_ins',(['LoadRandomInsignia'] call _fn_dynamicGroups),_true];
 				};
 			};
 			{

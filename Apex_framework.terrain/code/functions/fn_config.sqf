@@ -14,6 +14,7 @@ Description:
 ____________________________________________________/*/
 
 missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',getMissionConfigValue ['missionProductVersion',''],getMissionConfigValue ['missionProductStatus','']]),TRUE];
+diag_log str QS_system_devBuild_text;
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
 	'_aoSize','_flagTextureFriendly','_flagTextureEast','_flagTextureWest','_flagTextureResistance','_flagTextureCivilian',

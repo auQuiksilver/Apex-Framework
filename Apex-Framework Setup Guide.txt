@@ -1,4 +1,4 @@
-Apex Framework 1.5.4 (2/06/2023 A3 2.12) by Quiksilver
+Apex Framework 1.5.5 (4/06/2023 A3 2.12) by Quiksilver
 
 Support
 
@@ -13,7 +13,7 @@ Apex Framework step-by-step setup guide:
 Setup time: 60 minutes.
 Server must be a Dedicated server. Not configured for local client hosting.
 Server must be running Windows x64, or Linux.
-Download the "Apex_framework_154_allFiles.zip" file.
+Download the "Apex_framework_155_allFiles.zip" file.
 Place mission PBO files in your servers MPMissions folder.
 2a. Place @Apex folder in your servers ArmA3 directory. Reference: https://i.imgur.com/ijdXgg6.png
 
@@ -33,15 +33,15 @@ class Missions {
 
 class apex_framework {
 
-template="Apex_framework_154.Altis";
+template="Apex_framework_155.Altis";
 
-//template="Apex_framework_154.Tanoa";
+//template="Apex_framework_155.Tanoa";
 
-//template="Apex_framework_154.Malden";
+//template="Apex_framework_155.Malden";
 
-//template="Apex_framework_154.Enoch";
+//template="Apex_framework_155.Enoch";
 
-//template="Apex_framework_154.Stratis";
+//template="Apex_framework_155.Stratis";
 
 difficulty="Custom";
 
@@ -51,7 +51,7 @@ difficulty="Custom";
 
 forcedDifficulty = "Custom";
 
-missionWhitelist[] = {"Apex_framework_154.Altis","Apex_framework_154.Tanoa","Apex_framework_154.Malden","Apex_framework_154.Enoch","Apex_framework_154.Stratis"};
+missionWhitelist[] = {"Apex_framework_155.Altis","Apex_framework_155.Tanoa","Apex_framework_155.Malden","Apex_framework_155.Enoch","Apex_framework_155.Stratis"};
 
 6b. Ensure that: forcedDifficulty = "Custom";
 

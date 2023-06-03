@@ -15,6 +15,7 @@ __________________________________________________________*/
 
 params ['','_key','_shift','_ctrl','_alt'];
 private _c = FALSE;
+/*/
 if (!isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
 	uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',nil];
 };
@@ -33,6 +34,7 @@ if (
 	};
 	_c = TRUE;
 };
+/*/
 if (
 	(_key in (actionKeys 'GetOver')) &&
 	{(isNull (objectParent QS_player))}

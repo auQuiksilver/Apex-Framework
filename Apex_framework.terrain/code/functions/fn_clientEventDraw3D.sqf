@@ -21,6 +21,7 @@ _cameraView = cameraView;
 _thisFrame = diag_frameNo;
 if (_thisFrame > (uiNamespace getVariable ['QS_eval_frameInterval_10',-1])) then {
 	uiNamespace setVariable ['QS_eval_frameInterval_10',_thisFrame + 10];
+	/*/
 	if (_time >= (uiNamespace getVariable ['QS_dynamicGroups_update',0])) then {
 		_display = uiNamespace getVariable ['BIS_dynamicGroups_display',displayNull];
 		if (!isNull _display) then {
@@ -28,6 +29,7 @@ if (_thisFrame > (uiNamespace getVariable ['QS_eval_frameInterval_10',-1])) then
 		};
 		uiNamespace setVariable ['QS_dynamicGroups_update',(_time + ([0.5,2] select (isNull _display)))];
 	};
+	/*/
 	if (
 		(local _cameraOn) &&
 		{(alive (ropeAttachedTo _cameraOn))} &&

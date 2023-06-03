@@ -17,6 +17,13 @@ if (!isNil {missionNamespace getVariable 'QS_init_doorCloser'}) exitWith {
 	hint parseText 'Uho! It appears something has gone wrong. Please report this error code to staff:<br/><br/>191<br/><br/>Thank you for your assistance.';
 };
 missionNamespace setVariable ['QS_player',player,FALSE];
+{
+	diag_log (format _x);
+} forEach [
+	['***** INIT PLAYER *****'],
+	['***** Apex Framework Version: %1 * %2 *****',getMissionConfigValue ['missionProductVersion',-1],getMissionConfigValue ['missionProductStatus','Stable']]
+];
+
 if (!isMissionProfileNamespaceLoaded) then {
     saveMissionProfileNamespace;
 };
@@ -521,6 +528,10 @@ QS_ui_releaseActions = [
 
 // Preload Arsenal
 [player] call (missionNamespace getVariable 'QS_fnc_clientArsenal');
+
+// Preload Dynamic Groups
+["InitializePlayer",[player,true]] call BIS_fnc_dynamicGroups;
+
 0 spawn {
 	uiSleep 1;
 	if ((getPlayerUID player) in (['S3'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {

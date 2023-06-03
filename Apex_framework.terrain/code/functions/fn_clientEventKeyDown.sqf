@@ -603,6 +603,7 @@ if (
 	};
 	_c = TRUE;
 };
+/*/
 if (
 	(_key in (actionKeys 'TeamSwitch')) &&
 	{(!(_shift))} &&
@@ -615,6 +616,7 @@ if (
 	['UpdateKeyDown'] call (missionNamespace getVariable 'BIS_fnc_dynamicGroups');
 	_c = TRUE;
 };
+/*/
 if (_key in (actionKeys 'help')) then {
 	if ((!(_shift)) && (!(_ctrl)) && (!(_alt))) then {
 		if (diag_tickTime > (uiNamespace getVariable ['QS_hint_lastKeyDown',-1])) then {

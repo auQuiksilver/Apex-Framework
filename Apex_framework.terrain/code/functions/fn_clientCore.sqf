@@ -119,6 +119,7 @@ _serverTime = serverTime;
 _QS_uiTime = diag_tickTime;
 _player = missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',player];
 _QS_player = player;
+private _unit1 = objNull;
 _namePlayer = name player;
 private _puid = getPlayerUID player;
 private _actionIDs = actionIDs player;
@@ -1645,6 +1646,8 @@ private _QS_display2Opened = FALSE;
 private _display1_drawID = 0;
 private _weaponIsSniper = FALSE;
 
+private _healHandlers = [];
+
 // Logging
 private _debugLogging = TRUE;
 private _debugLogging_interval = 60;
@@ -1694,7 +1697,7 @@ _fn_canVehicleCargo = missionNamespace getVariable 'QS_fnc_canVehicleCargo';
 _fn_getObjectVolume = missionNamespace getVariable 'QS_fnc_getObjectVolume';
 
 /*/================================================================================================================= LOOP/*/
-for 'x' from 0 to 1 step 0 do {
+for '_z' from 0 to 1 step 0 do {
 	_QS_uiTime = diag_tickTime;
 	_timeNow = time;
 	_cameraView = cameraView;
@@ -4579,6 +4582,9 @@ for 'x' from 0 to 1 step 0 do {
 		};
 		if (_timeNow > _QS_clientDynamicGroups_checkDelay) then {
 			_QS_playerGroup = group _QS_player;
+			if (isNil {_QS_playerGroup getVariable 'BIS_dg_ins'}) then {
+				_QS_playerGroup setVariable ['BIS_dg_ins','',_true];
+			};
 			if (isNull (findDisplay 60490)) then {
 				if ((count _allPlayers) > 1) then {
 					if (
@@ -5041,16 +5047,21 @@ for 'x' from 0 to 1 step 0 do {
 		if (_timeNow > _QS_module_handleHeal_checkDelay) then {
 			if (((units (group _QS_player)) findIf {(!isPlayer _x)}) isNotEqualTo -1) then {
 				{
-					if (((_x getEventHandlerInfo ['HandleHeal',0]) # 2) isEqualTo 0) then {
-						uiSleep 0.001;
-						_x addEventHandler [
-							'HandleHeal',
-							{
-								if ((local (_this # 0)) || {(local (_this # 1))}) then {
-									_this spawn (missionNamespace getVariable 'QS_fnc_clientEventHandleHeal');
-								};
-							}
-						];
+					_unit1 = _x;
+					if (alive _unit1) then {
+						_healHandlers = _unit1 getEventHandlerInfo ['HandleHeal',0];
+						if (_healHandlers isNotEqualTo []) then {
+							if ((_healHandlers # 2) isEqualTo 0) then {
+								_unit1 addEventHandler [
+									'HandleHeal',
+									{
+										if ((local (_this # 0)) || {(local (_this # 1))}) then {
+											_this spawn (missionNamespace getVariable 'QS_fnc_clientEventHandleHeal');
+										};
+									}
+								];
+							};
+						};
 					};
 				} forEach _allPlayers;
 			};

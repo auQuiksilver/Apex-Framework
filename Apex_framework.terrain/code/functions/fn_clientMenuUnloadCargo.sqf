@@ -102,7 +102,7 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 	_cancel = {
 		params ['_vehicle','_vehiclePos'];
 		(
-			//!dialog ||
+			!dialog ||
 			(!alive _vehicle) ||
 			//{(!simulationEnabled _vehicle)} ||
 			{(((getPosWorld _vehicle) distance _vehiclePos) > 5)} ||

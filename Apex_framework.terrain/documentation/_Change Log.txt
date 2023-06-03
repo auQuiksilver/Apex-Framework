@@ -1,5 +1,16 @@
 Official Change Log
 
+1.5.5 Stable (4/06/2023)
+
+[DISABLED] Naval Artillery Mk45 Hammer for new Fire Support until it is fixed in future version.
+[TWEAKED] BIS Dynamic Groups initialization.
+[FIXED] Unload Cargo menu script would keep running after closing, creating a memory leak.
+[FIXED] Player was unable to mount static weapons onto suitable vehicles.
+[FIXED] Script error in UAV self destruct.
+[FIXED] Script error in AI medical handling.
+[FIXED] MG Tower could spawn floating.
+[FIXED] Script error in client core procedure.
+
 1.5.4 Stable
 
 [FIXED] Player would die instead of becoming incapacitated.

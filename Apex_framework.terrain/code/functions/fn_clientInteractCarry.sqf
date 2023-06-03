@@ -77,6 +77,14 @@ if (_t isKindOf 'CAManBase') then {
 	};
 } else {
 	//comment 'Crate carrying';
+	// Static Weapon object volume band-aid fix
+	if (
+		(_t isKindOf 'StaticWeapon') &&
+		{(([_t] call QS_fnc_getObjectVolume) > 3)} &&					// Note: ???
+		{((_t getVariable ['QS_logistics_objvol',-1]) isEqualTo -1)}
+	) then {
+		_t setVariable ['QS_logistics_objvol',3,TRUE];
+	};
 	if (
 		([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams')) &&
 		{([4,_t,(vehicle player)] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))} &&

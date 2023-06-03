@@ -20,7 +20,7 @@ getCursorObjectParams params ['_cursorObject','_cursorSelections','_cursorDistan
 params ['_mode'];
 private _list = (allPlayers - (entities 'HeadlessClient_F')) - [QS_player];
 
-private _isAdmin = (getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
+private _isAdmin = FALSE;	//(getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
 private _deployParams = _cursorObject getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]];
 _deployParams params [
 	'_deploySafeRadius',

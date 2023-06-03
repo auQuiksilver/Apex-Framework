@@ -155,8 +155,9 @@ if (_type1 isEqualTo 'onLoad') exitWith {
 							_naval pushBackUnique [_vehicle,3];
 						};
 						if (_vehicle isKindOf 'b_ship_gun_01_f') then {
-							_assetList pushBackUnique _vehicle;
-							_naval pushBackUnique [_vehicle,3];						
+							// Disabled for 1.5.5 due to instability
+							//_assetList pushBackUnique _vehicle;
+							//_naval pushBackUnique [_vehicle,3];
 						};
 					};
 				};

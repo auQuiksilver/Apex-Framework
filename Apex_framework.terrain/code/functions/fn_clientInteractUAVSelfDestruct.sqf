@@ -18,7 +18,7 @@ if (!(unitIsUAV _cameraOn)) exitWith {};
 if (((crew _cameraOn) findIf {((alive _x) && (isPlayer _x))}) isNotEqualTo -1) exitWith {
 	50 cutText [localize 'STR_QS_Text_158','PLAIN DOWN',0.333];
 };
-if (_cursorObject getVariable ['QS_logistics_blocked',FALSE]) exitWith {
+if (_cameraOn getVariable ['QS_logistics_blocked',FALSE]) exitWith {
 	50 cutText [localize 'STR_QS_Chat_171','PLAIN DOWN',0.333];
 };
 _dn = QS_hashmap_configfile getOrDefaultCall [

@@ -93,6 +93,23 @@ if ((_this # 0) isEqualType []) then {
 		(gunner _asset) forceWeaponFire [currentMuzzle (gunner _asset),'Cruise'];
 	} else {
 		params ['','_weapon','_position','_clientOwner'];
+		if (
+			(_asset isKindOf 'b_ship_gun_01_f') &&
+			(!isNull (attachedTo _asset))
+		) then {
+			detach _asset;
+			(group (effectiveCommander _asset)) setGroupOwner _clientOwner;
+			_asset setOwner _clientOwner;
+			[_asset] spawn {
+				params ['_asset'];
+				sleep 60;
+				_asset setDir ((getDir (missionNamespace getVariable 'QS_destroyerObject')) - 180);
+				_asset setPosWorld ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0,-79.1348,14.7424]);
+				_asset setVelocity [0,0,0];
+				_logic = (missionNamespace getVariable 'QS_destroyerObject') getVariable 'QS_carrier_defenseLogic';
+				[_asset,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+			};
+		};
 		if ((ASLToAGL _position) inRangeOfArtillery [[gunner _asset],((magazines _asset) # 0)]) then {
 			(gunner _asset) addEventHandler [
 				'FiredMan',
