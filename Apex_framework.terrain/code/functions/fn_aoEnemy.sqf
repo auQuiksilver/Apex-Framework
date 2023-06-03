@@ -223,7 +223,7 @@ if ((random 1) > _staticChance) then {
 					for '_i' from 0 to 9 step 1 do {
 						_building = selectRandom _buildingList;
 						_randomPos = getPosATL _building;
-						_random set [2,0];
+						_randomPos set [2,0];
 						if (
 							((_randomPos distance2D _QS_HQpos) > 100) && 
 							((_registeredPositions inAreaArray [_randomPos,50,50,0,FALSE]) isEqualTo [])
