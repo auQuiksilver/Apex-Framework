@@ -3524,6 +3524,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Hints_188">
             <Original>Services replenished</Original>
         </Key>
+        <Key ID="STR_QS_Hints_189">
+            <Original>Adjust earplugs volume: Audio Options >> Map Factor</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_chatMessages">
         <Key ID="STR_QS_Chat_001">

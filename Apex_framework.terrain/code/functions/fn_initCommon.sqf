@@ -125,7 +125,6 @@ QS_hashmap_wreckTypes = createHashMapFromArray (call QS_data_wreckTypes);
 QS_hashmap_lasers = createHashMapFromArray ([0] call QS_data_lasers);
 QS_hashmap_lasersCustomOffsets = createHashMapFromArray ([1] call QS_data_lasers);
 QS_hashmap_maxCargoCapacity = createHashMap;
-
 // Get active DLC
 private _activeDLC = call (missionNamespace getVariable 'QS_fnc_getActiveDLC');
 // Get DLC-context classnames

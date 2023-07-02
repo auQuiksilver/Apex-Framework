@@ -96,7 +96,8 @@ if (_QS_actionTarget getVariable ['QS_interaction_disabled',FALSE]) exitWith {
 if (
 	(!isNull (isVehicleCargo _QS_actionTarget)) &&
 	{((['LandVehicle','Air'] findIf { _QS_actionTarget isKindOf _x }) isNotEqualTo -1)} &&
-	{(!(_QS_actionName in ['Gear','User']))}
+	{(!(_QS_actionName in ['Gear','User']))} &&
+	{(cameraOn isNotEqualTo _QS_actionTarget)}
 ) exitWith {TRUE};
 if (
 	(!isNull (attachedTo _QS_actionTarget)) &&
@@ -704,7 +705,12 @@ if (_QS_actionName isEqualTo 'UserType') then {
 		};
 	};
 	if (_actionTextLower in [(toLower (localize "$STR_A3_HATCH_OPEN")),(toLower (localize "$STR_A3_HATCH_CLOSE"))]) then {
-		if (!(([cameraOn,getPosWorld cameraOn] call QS_fnc_inHouse) # 0)) then {
+		if (
+			(!(([cameraOn,getPosWorld cameraOn] call QS_fnc_inHouse) # 0)) &&
+			(!(_QS_actionTarget isKindOf 'Ship')) &&
+			(!(_QS_actionTarget isKindOf 'LandVehicle')) &&
+			(!(_QS_actionTarget isKindOf 'Air'))
+		) then {
 			_QS_c = TRUE;
 			50 cutText [localize 'STR_QS_Text_377','PLAIN DOWN',0.3];
 		};

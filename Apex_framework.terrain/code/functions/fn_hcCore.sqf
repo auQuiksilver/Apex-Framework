@@ -68,6 +68,7 @@ private _remoteGroups = [];
 private _exit = _false;
 private _clientOwner = clientOwner;
 private _managed_flares = [];
+QS_managed_flares = [];
 QS_garbageCollector = [];
 for '_x' from 0 to 1 step 0 do {
 	_timeNow = time;

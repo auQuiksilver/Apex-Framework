@@ -22,7 +22,7 @@ _attachedObjects = (attachedObjects QS_player) select {!isObjectHidden _x};
 if (_attachedObjects isNotEqualTo []) then {
 	{
 		if (!isNull _x) then {
-			if (_x isKindOf 'Man') then {
+			if (_x isKindOf 'CAManBase') then {
 				_unit = _x;
 				if (!alive _unit) exitWith {
 					_released = TRUE;

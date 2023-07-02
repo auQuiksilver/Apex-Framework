@@ -769,7 +769,8 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_system_vehicleRallyPoints',[],FALSE],
 	['QS_system_builtThings',[],TRUE],
 	['QS_markers_fireSupport',[],TRUE],
-	['QS_markers_fireSupport_queue',[],FALSE]
+	['QS_markers_fireSupport_queue',[],FALSE],
+	['QS_managed_flares',[],FALSE]
 ];
 _weaponsList = nil;
 // Load terrain-specific Roles if file is found

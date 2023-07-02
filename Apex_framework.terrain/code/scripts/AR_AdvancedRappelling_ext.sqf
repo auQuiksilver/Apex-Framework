@@ -236,7 +236,7 @@ AR_Rappel_From_Heli_Action_Check = compileFinal "
 	params ['_player','_vehicle']; 	
 	private _c = FALSE; 	
 	if ([_vehicle] call AR_Is_Supported_Vehicle) then {
-		if (_player isNotEqualTo (driver _vehicle)) then {
+		if (_player isNotEqualTo (currentPilot _vehicle)) then {
 			private _vehPos = getPosWorld _vehicle;
 			if (surfaceIsWater _vehPos) then {
 				_vehPos = getPosASL _vehicle;

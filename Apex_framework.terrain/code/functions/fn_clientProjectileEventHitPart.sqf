@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	18/07/2022 A3 2.10 by Quiksilver
+	28/06/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -20,8 +20,8 @@ if (
 	{((player distance _hitEntity) <= viewDistance)} &&
 	{((player distance _hitEntity) <= (getObjectViewDistance # 0))}
 ) then {
-	if (_hitEntity isKindOf 'Man') then {
-		if (((side (group _hitEntity)) in [player getVariable ['QS_unit_side',WEST],CIVILIAN,sideFriendly]) || ((side _hitEntity) in [CIVILIAN])) then {
+	if (_hitEntity isKindOf 'CAManBase') then {
+		if (((side (group _hitEntity)) in [player getVariable ['QS_unit_side',WEST],CIVILIAN]) || ((side _hitEntity) in [CIVILIAN])) then {
 			50 cutText [localize 'STR_QS_Text_185','PLAIN',0.25,TRUE,TRUE];
 		} else {
 			if ((side (group _hitEntity)) in ((player getVariable ['QS_unit_side',WEST]) call (missionNamespace getVariable 'QS_fnc_enemySides'))) then {
@@ -43,9 +43,9 @@ if (
 			};
 		};
 	} else {
-		if (_hitEntity in vehicles) then {
-			if (alive (effectiveCommander _hitEntity)) then {
-				if ((side (group (effectiveCommander _hitEntity))) in [player getVariable ['QS_unit_side',WEST],CIVILIAN,sideFriendly]) then {
+		if (alive (effectiveCommander _hitEntity)) then {
+			if (_hitEntity in vehicles) then {
+				if ((side (group (effectiveCommander _hitEntity))) in [player getVariable ['QS_unit_side',WEST],CIVILIAN]) then {
 					50 cutText [localize 'STR_QS_Text_185','PLAIN',0.25,TRUE,TRUE];
 				} else {
 					if ((side (group (effectiveCommander _hitEntity))) in ((player getVariable ['QS_unit_side',WEST]) call (missionNamespace getVariable 'QS_fnc_enemySides'))) then {

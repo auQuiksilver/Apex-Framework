@@ -399,6 +399,15 @@ if (
 			};
 			if (_cancelled) exitWith {};
 		} forEach (getAllPylonsInfo _vehicle);
+		if (QS_player getUnitTrait 'QS_trait_fighterPilot') then {
+			if (_vehicle isKindOf 'Plane') then {
+				if (diag_tickTime > (uiNamespace getVariable ['QS_fighterPilot_lastMsg',(diag_tickTime - 1)])) then {
+					uiNamespace setVariable ['QS_fighterPilot_lastMsg',(diag_tickTime + 300)];
+					[63,[4,['CAS_1',['',localize 'STR_QS_Notif_153']]]] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
+					['sideChat',[WEST,'AirBase'],(format ['%3 %2 (%1)',(getText ((configOf _vehicle) >> 'displayName')),profileName,localize 'STR_QS_Chat_029'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
+				};
+			};
+		};
 	};
 	if (local _vehicle) then {
 		if (_vehicle isKindOf 'LandVehicle') then {

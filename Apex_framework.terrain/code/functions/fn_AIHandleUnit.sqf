@@ -194,13 +194,20 @@ if (isNull _objectParent) then {
 	//================================ SELF HEAL
 	if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSelfHeal',-1])) then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfHeal',(_uiTime + (random [30,60,90])),FALSE];
-		if (((damage _unit) isNotEqualTo 0) || {((((getAllHitPointsDamage _unit) # 2) findIf {(_x isNotEqualTo 0)}) isNotEqualTo -1)}) then {
-			if (isNull _objectParent) then {
-				if ((isNull _attackTarget) || {(_unitReady)} || {(weaponLowered _unit)}) then {
-					_unit action ['HealSoldierSelf',_unit];
-					_unit setDamage [0,FALSE];
-				};
-			};
+		if (
+			(isNull _objectParent) &&
+			{(
+				(isNull _attackTarget) ||
+				{_unitReady} ||
+				{weaponLowered _unit}
+			)} &&
+			{(
+				((damage _unit) isNotEqualTo 0) ||
+				{((((getAllHitPointsDamage _unit) # 2) findIf {(_x isNotEqualTo 0)}) isNotEqualTo -1)}
+			)}
+		) then {
+			_unit action ['HealSoldierSelf',_unit];
+			_unit setDamage [0,FALSE];
 		};
 	};
 	//================================ THROWABLES
@@ -243,8 +250,8 @@ if (isNull _objectParent) then {
 			if ((random 1) > 0.75) then {
 				if (_uiTime > (_unit getVariable ['QS_AI_UNIT_LastGesture',-1])) then {
 					_unit setVariable ['QS_AI_UNIT_LastGesture',(_uiTime + (random ([[5,10,15],[20,40,60]] select (_unitMorale < 0)))),FALSE];
-					if ((count (missionNamespace getVariable 'QS_AI_unitsGestureReady')) < ([5,10] select (_fps > 15))) then {
-						if (_unit checkAIFeature 'PATH') then {
+					if (_unit checkAIFeature 'PATH') then {
+						if ((count (missionNamespace getVariable 'QS_AI_unitsGestureReady')) < ([5,10] select (_fps > 15))) then {
 							_unit setVariable ['QS_AI_UNIT_gestureEvent',TRUE,FALSE];
 							_unit addEventHandler ['Hit',{call (missionNamespace getVariable 'QS_fnc_AIXHitEvade')}];
 							(missionNamespace getVariable 'QS_AI_unitsGestureReady') pushBack _unit;
@@ -262,18 +269,17 @@ if (isNull _objectParent) then {
 								_assignedTarget = assignedTarget _unit;
 								if (alive _assignedTarget) then {
 									_assignedTargetVehicle = vehicle _assignedTarget;
-									if (_assignedTargetVehicle isKindOf 'AllVehicles') then {
-										if (!(_assignedTargetVehicle isKindOf 'CAManBase')) then {
-											if (isTouchingGround _assignedTargetVehicle) then {
-												if ((_unit distance2D _assignedTargetVehicle) < 150) then {
-													_targetFound = TRUE;
-													_QS_script = [_unit,_assignedTargetVehicle,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine');
-													_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
-													_unit setVariable ['QS_AI_UNIT_script',_QS_script,FALSE];
-													missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') + [serverTime + 300]),QS_system_AI_owners];
-												};
-											};
-										};
+									if (
+										(_assignedTargetVehicle isKindOf 'AllVehicles') &&
+										{(!(_assignedTargetVehicle isKindOf 'CAManBase'))} &&
+										{(isTouchingGround _assignedTargetVehicle)} &&
+										{((_unit distance2D _assignedTargetVehicle) < 150)}
+									) then {
+										_targetFound = TRUE;
+										_QS_script = [_unit,_assignedTargetVehicle,300,(selectRandomWeighted ['explosive charge',0.666,'satchel',0.333]),6,FALSE,TRUE] spawn (missionNamespace getVariable 'QS_fnc_AIXSetMine');
+										_unit setVariable ['QS_AI_JOB',TRUE,FALSE];
+										_unit setVariable ['QS_AI_UNIT_script',_QS_script,FALSE];
+										missionNamespace setVariable ['QS_AI_scripts_Assault',((missionNamespace getVariable 'QS_AI_scripts_Assault') + [serverTime + 300]),QS_system_AI_owners];
 									};
 								} else {
 									_unitPos = getPosATL _unit;

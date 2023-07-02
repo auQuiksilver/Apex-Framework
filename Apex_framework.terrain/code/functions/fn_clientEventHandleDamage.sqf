@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/05/2023 A3 2.12 by Quiksilver
+	28/06/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -19,6 +19,12 @@ if ((!local _unit) || {(!((lifeState _unit) in ['HEALTHY','INJURED']))} || {(!(i
 };
 _oldDamage = if (_hitPartIndex isEqualTo -1) then {(damage _unit)} else {(_unit getHitIndex _hitPartIndex)};
 _damage = _oldDamage + ((_damage - _oldDamage) * (_this call (missionNamespace getVariable 'QS_fnc_clientDamageModifier')));
+if (
+	(_damage > ((_unit getVariable ['QS_impactPoint',[0,'']]) # 0)) &&
+	(_hitPartIndex isNotEqualTo -1)
+) then {
+	_unit setVariable ['QS_impactPoint',[_damage,_this # 1],FALSE];
+};
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -46,6 +52,7 @@ if (isNull _source) then {
 	};
 	missionNamespace setVariable ['QS_revive_lastSource',_source,FALSE];
 };
+_isEnemy = FALSE;
 if (isNull _instigator) then {
 	_instigator = missionNamespace getVariable ['QS_revive_lastInstigator',objNull];
 } else {
@@ -54,6 +61,7 @@ if (isNull _instigator) then {
 		{(!isNull (group _instigator))} &&
 		{((side (group _instigator)) in _enemySides)}
 	) then {
+		_isEnemy = TRUE;
 		_unit setVariable ['QS_client_lastCombatDamageTime',diag_tickTime + 660,FALSE];
 	};
 	missionNamespace setVariable ['QS_revive_lastInstigator',_instigator,FALSE];
@@ -67,6 +75,36 @@ if (_hitPartIndex in [-1,2,7]) then {
 			missionNamespace setVariable ['QS_script_incapacitated',(_this spawn (missionNamespace getVariable 'QS_fnc_incapacitated')),FALSE];
 		};
 		_damage = 0.89;
+	};
+};
+if (
+	(_hitPartIndex isEqualTo 11) &&
+	{_isEnemy} &&
+	{(missionNamespace getVariable ['QS_debug_staggerEnabled',FALSE])}
+) then {
+	if (
+		{_directHit} &&
+		{!isNull _source} &&
+		{((missionNamespace getVariable ['QS_debug_staggerChance',0.25]) > (random 1))} &&
+		{(isDamageAllowed _unit)} &&
+		{(isNull (objectParent _unit))} &&
+		{(!((pose _unit) in ['Dead']))} &&
+		{((stance _unit) in ['STAND'])} &&				// only when standing
+		{(scriptDone (localNamespace getVariable ['QS_script_incapacitated',scriptNull]))} &&
+		{(scriptDone (localNamespace getVariable ['QS_client_ragdollScript',scriptNull]))} &&
+		{(!([_unit] call QS_fnc_isBusyAttached))}
+	) then {
+		localNamespace setVariable [
+			'QS_client_ragdollScript',
+			([
+				_unit,
+				[
+					(((getPosWorld _source) vectorFromTo (getPosWorld _unit)) vectorMultiply 500),
+					(_unit selectionPosition ((_unit getVariable ['QS_impactPoint',[0,'']]) # 1))
+				]
+			] spawn QS_fnc_ragdoll)
+		];
+		_unit setVariable ['QS_impactPoint',[0,''],FALSE];
 	};
 };
 (_damage min 0.89)

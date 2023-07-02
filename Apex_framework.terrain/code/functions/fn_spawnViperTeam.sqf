@@ -6,15 +6,16 @@ Author:
 	
 Last Modified:
 
-	23/08/2022 A3 2.10 by Quiksilver
+	2/07/2023 A3 2.12 by Quiksilver
 	
 Description:
 
 	Spawn Viper Team
-_____________________________________________________________________/*/
+_________________________________________________/*/
 
 params ['_type','_quantity','_total',['_viperGroup',grpNull]];
 _unitTypes = ['viper_types_2'] call QS_data_listUnits;
+private _lowPop = (count allPlayers) < 15;
 if (_type in ['CLASSIC','SC']) exitWith {
 	private _centerPos = missionNamespace getVariable ['QS_aoPos',[0,0,0]];
 	private _aoSize = missionNamespace getVariable ['QS_aoSize',[0,0,0]];
@@ -80,6 +81,11 @@ if (_type in ['CLASSIC','SC']) exitWith {
 				};
 			}
 		];
+		
+		if (_lowPop) then {
+			removeAllPrimaryWeaponItems _unit;
+		};
+		
 		_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
 		_unit setUnitPos 'AUTO';
 	};
@@ -87,11 +93,15 @@ if (_type in ['CLASSIC','SC']) exitWith {
 	_grp setCombatMode 'YELLOW';
 	[(units _grp),2] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 	_grp setGroupIdGlobal ['Viper Team'];
-	_grp setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
-	_grp setVariable ['QS_AI_GRP_TASK',['HUNT',_position1,serverTime,-1],QS_system_AI_owners];
-	_grp setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],QS_system_AI_owners];
-	_grp setVariable ['QS_AI_GRP_DATA',[_position1],QS_system_AI_owners];
-	_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+	{
+		_grp setVariable _x;
+	} forEach [
+		['QS_AI_GRP',TRUE,QS_system_AI_owners],
+		['QS_AI_GRP_TASK',['HUNT',_position1,serverTime,-1],QS_system_AI_owners],
+		['QS_AI_GRP_CONFIG',['GENERAL','INF_VIPER',(count (units _grp))],QS_system_AI_owners],
+		['QS_AI_GRP_DATA',[_position1],QS_system_AI_owners],
+		['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners]
+	];
 	(units _grp);
 };
 if (_type isEqualTo 'GRID') exitWith {

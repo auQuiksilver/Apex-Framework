@@ -324,7 +324,7 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_session_magazineList',[],FALSE],
 	['QS_session_weaponMagazines',createHashMap,FALSE],
 	['QS_client_hashmap_ammoConfig',createHashMap,FALSE],
-	['QS_client_ragdoll_script',scriptNull,FALSE],
+	['QS_unit_ragdoll_script',scriptNull,FALSE],
 	['QS_client_dynamicActionText',[],FALSE],
 	['QS_simpleWinch_actionAttach',-1,FALSE],
 	['QS_simpleWinch_actionRelease',-1,FALSE],
@@ -530,7 +530,7 @@ QS_ui_releaseActions = [
 [player] call (missionNamespace getVariable 'QS_fnc_clientArsenal');
 
 // Preload Dynamic Groups
-["InitializePlayer",[player,true]] call BIS_fnc_dynamicGroups;
+["InitializePlayer",[player,(missionNamespace getVariable ['QS_missionConfig_registerInitGroup',FALSE])]] call BIS_fnc_dynamicGroups;
 
 0 spawn {
 	uiSleep 1;

@@ -62,9 +62,6 @@ if (_useHelper) then {
 			QS_targetBoundingBox_helper setObjectTexture [_forEachIndex,_x];
 		} forEach _textures;
 	};
-	{
-		QS_targetBoundingBox_helper setObjectMaterial [_forEachIndex,"a3\characters_f_bootcamp\common\data\b_vr_soldier_f.rvmat"];
-	} forEach (getObjectMaterials QS_targetBoundingBox_helper);
 	uiNamespace setVariable ['QS_targetBoundingBox_target',QS_targetBoundingBox_helper];
 } else {
 	missionNamespace setVariable ['QS_targetBoundingBox_helper',_requestedObject,FALSE];

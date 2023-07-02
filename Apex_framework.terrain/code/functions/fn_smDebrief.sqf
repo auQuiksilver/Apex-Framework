@@ -11,9 +11,12 @@ Last modified:
 Description:
 
 	Operant conditioning ( https://www.youtube.com/watch?v=I_ctJqjlrHA&t=130s )
+	
+	
+	[1,[0,0,0],33] call QS_fnc_smDebrief
 ______________________________________________________________________/*/
 
-params ['_type','_smPos',['_reward',-1]];
+params [['_type',1],['_smPos',[0,0,0]],['_reward',-1]];
 missionNamespace setVariable ['QS_evacPosition_2',_smPos,TRUE];
 ['QS_IA_TASK_SM_0'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 if (_type isEqualTo 0) exitWith {
@@ -1039,7 +1042,31 @@ if (_type isEqualTo 1) then {
 	};	
 	if (!isNull _rewardVeh) then {
 		if ((attachedObjects _rewardVeh) isEqualTo []) then {
-			(serverNamespace getVariable 'QS_v_Monitor') pushBack [_rewardVeh,30,FALSE,{},_rewardType,_rewardPosition,(getDir _rewardVeh),FALSE,0,-1,50,500,0,6,FALSE,0,{TRUE},FALSE,FALSE,[],[],0,{TRUE}];
+			(serverNamespace getVariable 'QS_v_Monitor') pushBack [
+				_rewardVeh,
+				30,
+				FALSE,
+				{},
+				_rewardType,
+				_rewardPosition,
+				(getDir _rewardVeh),
+				FALSE,
+				0,
+				-1,
+				50,
+				500,
+				0,
+				6,
+				FALSE,
+				0,
+				{TRUE},
+				FALSE,
+				FALSE,
+				[],
+				[],
+				0,
+				{TRUE}
+			];
 		};
 	};
 	_newRewardArray deleteAt (_newRewardArray find _reward);

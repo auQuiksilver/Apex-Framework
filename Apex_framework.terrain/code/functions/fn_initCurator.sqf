@@ -359,9 +359,14 @@ if (_type isEqualTo 1) then {
 																		((alive (_unit getVariable ['QS_AI_JOB_PROVIDER',objNull])) && {(((_unit getVariable ['QS_AI_JOB_PROVIDER',objNull]) distance _unit) > 15)})
 																	) then {
 																		_job = TRUE;
-																		_entity enableAIFeature ['AUTOCOMBAT',FALSE];
-																		_entity enableAIFeature ['TARGET',FALSE];
-																		_entity enableAIFeature ['SUPPRESSION',FALSE];
+
+																		{
+																			_entity enableAIFeature _x;
+																		} forEach [
+																			['AUTOCOMBAT',FALSE],
+																			['TARGET',FALSE],
+																			['SUPPRESSION',FALSE]
+																		];
 																		_entity addEventHandler [
 																			'Hit',
 																			{
@@ -445,6 +450,7 @@ if (_type isEqualTo 1) then {
 													if ((lifeState _entity) isEqualTo 'INJURED') then {
 														if ((random 1) > 0.75) then {
 															_entity action ['HealSoldierSelf',_entity];
+															_entity setDamage [0,FALSE];
 														};
 													} else {
 														doStop _entity;

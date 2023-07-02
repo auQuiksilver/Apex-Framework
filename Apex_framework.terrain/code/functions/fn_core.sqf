@@ -342,7 +342,9 @@ private _deploymentMissions = missionNamespace getVariable ['QS_missionConfig_de
 	['_deploymentMissionFrequency',0.5],
 	['_deploymentMissionIntensity',0.5],
 	['_deploymentMissionDuration',0.5],
-	['_deploymentMissionSetupTime',60]
+	['_deploymentMissionSetupTime',60],
+    ['_deploymentMissionSetupTime',60],
+    ['_deploymentMissionOverclock',0]
 ];
 private _deploymentMission_intensity = _deploymentMissionIntensity;
 private _deploymentMissionInterval = linearConversion [0,1,_deploymentMissionFrequency,3600,60,TRUE];
@@ -1046,7 +1048,7 @@ private _QS_module_uniformFix_delay = 180;
 private _QS_module_uniformFix_checkDelay = _timeNow + _QS_module_uniformFix_delay;
 private _uniformFix_list = [];
 
-private _QS_module_groupFix = TRUE;
+private _QS_module_groupFix = missionNamespace getVariable ['QS_missionConfig_joinUngrouped',TRUE];
 private _QS_module_groupFix_delay = 3;
 private _QS_module_groupFix_checkdelay = _timeNow + _QS_module_groupFix_delay;
 
@@ -3006,7 +3008,9 @@ for '_x' from 0 to 1 step 0 do {
 					_deploymentMissionFrequency,
 					_deploymentMissionIntensity,
 					_deploymentMissionDuration,
-					_deploymentMissionSetupTime
+					_deploymentMissionSetupTime,
+    				_deploymentMissionSetupTime,
+    				_deploymentMissionOverclock
 				] spawn _fn_deployAssault;
 				_deploymentMissionScripts pushBack _deploymentMissionScript;
 			};

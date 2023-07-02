@@ -1,5 +1,28 @@
 Official Change Log
 
+1.5.5 Stable Patch 1
+
+[TWEAKED] Enemy viper teams do not get weapon suppressors when under 15 players.
+[FIXED] Earplugs logic.
+[FIXED] Insurgency Mode. Tunnel entrance damage detectors were visible.
+[FIXED] AI Medics get caught in a Self-Treat loop.
+[FIXED] Players could not disembark cargo-loaded vehicles, becoming stuck.
+[FIXED] CAS fire support message was not appearing.
+[FIXED] Submarine hatch could not be operated.
+[FIXED] Script error in ragdoll system
+[FIXED] Player could get "Unload Cargo" option on units when a task module was attached to the unit.
+[FIXED] Co-pilot could fastrope from heli even when piloting.
+[FIXED] Deployment assault 'overclock' parameter was not correctly enabled.
+[FIXED] New vehicle rearm was not showing "CAS available" message for pilots.
+[FIXED] Player could remove static weapons from vehicles, in some cases.
+
+	Known Issues:
+
+		[] AI fire support only working once?
+		[] Recruitable AI seen firing smoke in main base (are they being position reset instead of deleted/respawned?)
+		[] Can service vehicle from very far away in some cases, ship related?
+		...
+
 1.5.5 Stable (4/06/2023)
 
 [DISABLED] Naval Artillery Mk45 Hammer for new Fire Support until it is fixed in future version.
