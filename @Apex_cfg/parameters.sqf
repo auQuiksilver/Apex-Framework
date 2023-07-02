@@ -83,6 +83,8 @@ _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - 
 _hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
 _effectKnockdown = 1;									// Knock-Down effect.	0 - Disabled. 1 - Enabled (Default).	Player can be knocked down by nearby explosions.
 _craters = 24;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
+_groupForced = 0;										// Ungrouped players put into registered main group. 0 - Disabled. 1 - Enabled.			https://community.bistudio.com/wiki/Arma_3:_Dynamic_Groups
+_groupRegisterInit = 0;									// Register Player Group to Dynamic Groups on server join. 0 - Disabled. 1 - Enabled.		https://community.bistudio.com/wiki/Arma_3:_Dynamic_Groups
 _groupLocking = 1;										// Group Lock Ability. 0 - Disabled. 1 - Enabled (default).		Are players able to lock groups they create. Admins can join any group regardless of Lock state.
 _groupWaypoint = 1;										// Group Map Waypoint. 0 - Disabled. 1 - Enabled (default).		Can players see their group leaders [Shift+Click] dot on the map.
 _enemyUrbanSpawning = 1;								// (Classic Mode) Enemy urban reinforcement spawning. A new system for "CLASSIC" gamemode, to allow enemy to spawn in towns. We add this toggle incase there are unseen bugs.
@@ -129,7 +131,7 @@ _timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-ti
 	0.35													// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
 ];
 _weatherDynamic = 1;									// Dynamic Weather System. 0 - Disabled. 1 - Enabled (Default). 	If enabled, framework will maintain persistent dynamic weather with realistic annual weather cycles for the geographic terrain location.
-_weatherForcedMode = -1;								// Forced Weather Mode. !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow (yes, SNOW). 
+_weatherForcedMode = -1;								// Forced Weather Mode. !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow.
 
 //===================================================== ZEUS
 
@@ -189,7 +191,7 @@ _dm_MaxConcurrent = 3;									// How many deployments can be attacked simultane
 _dm_Frequency = 0.5;									// How frequent are deployment attacks? 0-1. 	0 = Very rare. 1 = Very often.		0 is about once an hour. 1 = every 60 seconds. 0.5 = ~30 minutes. 0.85 = 10 minutes.
 _dm_Intensity = 0.5;									// How intense are the attacks? 0-1. 	0 - Low intensity. 1 - High intensity.	Default = 0.5	Basically, how many enemies?
 _dm_Duration = 0.5;										// How long can the attacks go for? 0-1. 	0 - Short duration (5 mins). 1 - Long duration (60 mins). Default = 0.5
-_dm_SetupTime = 300;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300
+_dm_SetupTime = 600;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300
 _dm_overclock = 0;										// !Careful! Uncapped, can kill performance. Manually set the quantity of enemy per assault. 0 - Disabled.   _dm_overclock = 50;  // 50 enemy.   _dm_overclock = 150;  // 150 enemy. etc.
 
 //===================================================== STATIC SHIPS
@@ -201,7 +203,7 @@ _aircraft_carrier_respawning = 0;							// Player Spawning.		0 - None. 1 - Jet p
 _destroyer_enabled = 1;										// Presence.			0 - Disabled. 1 - Enabled. 2 - Enabled + Turret Defenses.    Note: Turret defenses will consume server/AI/CPU performance resources, recommended to not use.
 _destroyer_vehicles = 2;									// Vehicle Spawning.	0 - None. 1 - Basic. 2 - Full. These are vehicles which spawn as part of the destroyer package. 1 = boats only, 2 = boats + helicopter.
 _destroyer_respawning = 0;									// Player Spawning.		0 - None. 1 - All players will (re)spawn on the ship. 		Note: This option is overridden by  "_aircraft_carrier_respawning" option above. Jet pilots will also respawn on the carrier, even if both are available.
-_destroyer_artillery = 0;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
+_destroyer_artillery = 1;									// Naval Artillery.		0 - Disabled. 1 - Enabled.	Recommended = 0.	Enable the MK41 VLS Missile Artillery System & MK45 Hammer Naval Gun.
 _destroyer_flag = 'a3\data_f\flags\flag_us_co.paa';			// Texture applied to Destroyer flag. Default:  'a3\data_f\flags\flag_us_co.paa'
 _destroyer_name = 'a3\boat_f_destroyer\destroyer_01\data\destroyer_01_tag_01_co.paa';		// Name presented on stern of ship. Comes with 7 defaults, just change ..._tag_01_co... to _tag_02_co... etc, from 01 to 07, 00 is blank. You can also set as a custom texture/name/logo.
 _destroyer_numbers = [4,2,0];								// Numbers shown on the ship hull.
@@ -320,6 +322,8 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_hitMarker',_hitMarker_audio,TRUE],
 	['QS_missionConfig_knockdown',_effectKnockdown > 0,TRUE],
 	['QS_missionConfig_craterEffects',_craters,TRUE],
+	['QS_missionConfig_joinUngrouped',_groupForced > 0,TRUE],
+	['QS_missionConfig_registerInitGroup',_groupRegisterInit > 0,TRUE],
 	['QS_missionConfig_groupLocking',_groupLocking > 0,TRUE],
 	['QS_missionConfig_groupWaypoint',_groupWaypoint > 0,TRUE],
 	['QS_missionConfig_aoUrbanSpawning',_enemyUrbanSpawning,FALSE],
