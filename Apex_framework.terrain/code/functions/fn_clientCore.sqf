@@ -5499,7 +5499,7 @@ for '_z' from 0 to 1 step 0 do {
 							if (_targetDisplay isEqualType '') then {
 								if (!isNull (uiNamespace getVariable [_targetDisplay,_dNull])) then {
 									if (_targetDisplay isEqualTo 'BIS_fnc_arsenal_display') then {
-										if ((count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display'))) > 205) then {
+										if ((count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display'))) > 213) then {
 											_QS_module_opsec_detected = 1;
 											_detected = format ['MenuHack_%1_CtrlCnt_%2',_targetName,(count (allControls (uiNamespace getVariable 'BIS_fnc_arsenal_display')))];
 											_targetFlag = 1;
