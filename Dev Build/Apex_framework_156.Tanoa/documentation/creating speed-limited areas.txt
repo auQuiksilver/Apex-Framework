@@ -1,0 +1,33 @@
+Creating Speed-Limited Areas
+
+File: "code\config\QS_data_speedLimitAreas.sqf"
+
+You can create areas at base (within a few hundred meters of the "Base" marker) where player-driven vehicles will be restricted to 15km/h driving speed.
+
+This is useful for public servers where you may get trolls and griefers attempting to ram people and other vehicles, and this will make it not so fun for them.
+
+To configure these areas, you will need to gather a set of positions in format [X,Y,Z] in the editor, and configure them into the correct file.
+
+There are more instructions in the header of that file.
+
+To gather the points, I prefer to walk around in the editor and simply execute this line in Debug Console:   copyToClipboard str (position player);
+
+The points you gather must, when connected consecutively, form a polygon. So it is best to walk either clockwise or anticlockwise around and gather the points for each speed-restricted area.
+
+If you want to see how they work, load up the Default base layout (parameters), and attempt to drive around on the helipads in the default base.
+
+=======================================
+
+
+Creating Vehicle Restricted Areas
+
+File: "code\config\QS_data_baseRestrictedArea.sqf"
+
+Similarly, you can create Vehicle Restricted areas.
+
+Vehicle Restricted areas are areas in which player-controlled vehicles will be deleted if driven. This is useful for infantry spawn position where trolls & griefers may attempt to ram people as they spawn in, or helicopter pilots may think they are clever to land.
+
+These areas are configured similar to speed-limited areas.
+
+The main difference is you can only create one (1) vehicle-restricted area, while you can create several speed-limited areas.
+

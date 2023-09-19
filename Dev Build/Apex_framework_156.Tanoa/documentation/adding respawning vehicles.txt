@@ -1,0 +1,59 @@
+/*
+
+	Documentation file for adding respawnable assets in the editor
+	
+		Primarily for use with:
+			
+			vehicles
+			ammo crates
+			sling containers
+			logistics containers
+			medical crates
+
+*/
+
+1. In the editor, create a vehicle/ammo box/container/crate/etc at the position and orientation you would like it to spawn, in water or on land.
+
+2. Add the below to the init field:
+
+	0 = [
+		this,
+		30,
+		false,
+		{},
+		50,
+		500,
+		-1,
+		true,
+		4,
+		1,
+		{TRUE},
+		[],
+		0.5,
+		{TRUE}
+	] call QS_fnc_registerVehicle;
+
+3. Now again, with explanations for what it all means.
+	
+	0 = [
+		this,						//----- Dont edit this, this is the vehicle entity used by the framework for reference.
+		30,							//----- Respawn delay. How long after its destroyed will it take to respawn? Measured in seconds.
+		false,						//----- TRUE/FALSE. Is the vehicle type randomized? Some vehicles can pull a vehicle type from a random pool.
+		{},							//----- Custom init code executed on only this respawning vehicle. There is also generic init code executed on all respawning vehicles as well.
+		50,							//----- Abandonment despawn radius when within 1km of base. (keeps the base tidy).
+		500,						//----- Abandonment despawn radius when further than 1km from base.
+		-1,							//----- Respawn tickets, -1 for infinite, 0 for no respawn, 1 for 1 respawn, etc.
+		true,						//----- TRUE/FALSE. Does this vehicle spawn as a "simple object" which can be activated by players? Simple objects improve mission performance. Don't use on helicopters.
+		4,							//----- Safe Position radius. The vehicle will not spawn if there is another entity within this radius from the respawn position. -1 to ignore.
+		1,							//----- 0 - Ground position, 1 - Elevated position (including ship decks over water)
+		{TRUE},						//----- Respawn condition code. Can only respawn if this returns true.
+		[],							//----- Wreck config. No documentation for now.
+		0.5,						//----- Wreck chance. 0 = never a wreck. 1 = always a wreck. 0.5 = 50% chance of becoming a wreck.
+		{TRUE}						//----- Wreck condition code. Can only become a wreck if this code returns true.
+	] call QS_fnc_registerVehicle;
+
+4. You can use this system to spawn vehicles, ammo crates, containers, sling containers, etc. for use with the FOBs system and player-generated logistics.
+
+5. The FOBs require all the Huron crates or HEMTT trucks to fully activate them.
+
+6. UAVs and UGVs can be spawned the same way, however they will only appear once the UAV operator player has joined the role. Also spawning may change with the presence of the Aircraft Carrier, some assets may spawn there instead, regardless of where you put it in the editor. Fixed-wing aircraft drones also spawn in mid-air, and disregard the position you place them at.

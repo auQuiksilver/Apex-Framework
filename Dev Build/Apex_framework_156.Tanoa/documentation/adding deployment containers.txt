@@ -1,0 +1,131 @@
+/*
+	Deployment Containers
+
+*/
+
+https://www.youtube.com/watch?v=U4SGpkvTBTE
+
+We have added a new logistics system
+
+Currently using small shipping containers (since they can be both sling loaded and loaded onto HEMTT flatbeds without fancy scripting).
+
+In the future we intend to create a way to spawn and configure them at a base or a central hub.
+
+List of classnames:
+	
+	Land_Cargo10_brick_red_F
+	Land_Cargo10_cyan_F
+	Land_Cargo10_grey_F
+	Land_Cargo10_light_blue_F
+	Land_Cargo10_light_green_F
+	Land_Cargo10_military_green_F
+	Land_Cargo10_orange_F
+	Land_Cargo10_red_F
+	Land_Cargo10_sand_F
+	Land_Cargo10_white_F
+	Land_Cargo10_yellow_F
+	Land_Cargo10_IDAP_F
+
+Relevant files:
+
+	"code\config\QS_data_deploymentPresets.sqf"
+	"code\functions\QS_fnc_deployAssetPreset.sqf"
+
+You can spawn them just like vehicles, by adding code to their init field as such:
+
+	0 = [
+		this,
+		30,
+		false,
+		{},
+		50,
+		500,
+		-1,
+		true,
+		4,
+		1,
+		{TRUE},
+		[],
+		0,
+		{FALSE}
+	] call QS_fnc_registerVehicle;
+
+Here is a small list of what they each currently do:
+
+-----------------------------------------------------
+
+Turrets:
+
+	Blue - Land_Cargo10_blue_F
+
+		Deploys as a Mobile SAM / Patriot launcher site.
+
+	Cyan - Land_Cargo10_cyan_F
+
+		Deploys as a Mobile Radar site, meant to be used in tandem with the Mobile SAM.
+		
+-----------
+Bases:
+
+	Light Green - Land_Cargo10_light_green_F
+
+		Deploys as a small "Patrol Base".
+		
+	Military Green - Land_Cargo10_military_green_F
+
+		Deploys as a medium "Combat Outpost".
+		
+	Grey - Land_Cargo10_grey_F
+
+		Deploys as a large "Forward Operating Base".
+		
+-----------
+Mobile Respawn:
+
+	White - Land_Cargo10_white_F
+
+		Deploys as a Mobile Respawn with respawn tickets.
+		
+			- Driving a medical asset nearby and using Extended context [windows key] will produce an option to Add Tickets.
+			- Contains recruitable AI
+-----------
+Platform Module:
+
+	Sand - Land_Cargo10_sand_F
+	
+		Contains many snappable cargo platforms, can be used to create large elevated base platforms, bridges, etc.
+-----------		
+Terrain Leveler:
+			
+	Yellow - Land_Cargo10_yellow_F
+	
+		Can be used to flatten terrain to create buildable space (for helipads, bases, etc) or whatever else people can think of.
+		Has restrictions (cannot be used near roads, towns, etc).
+-----------		
+Wrecks:
+
+	These colors are reserved for the Wrecks system:
+	
+		Red - Land_Cargo10_red_F
+		
+			Aircraft wrecks
+			
+		Brick Red - Land_Cargo10_brick_red_F
+		
+			Heavy Armor wrecks
+		
+		Orange - Land_Cargo10_orange_F
+		
+			Light Armor wrecks
+		
+-----------
+Light Blue - Land_Cargo10_light_blue_F
+
+	Currently does nothing. Want to do something with it?
+
+-----------
+IDAP (White) - Land_Cargo10_IDAP_F
+
+	Intended in the future as a forward deployable Field Hospital
+	
+----------------------------------------------------------------------

@@ -1,0 +1,3 @@
+"code\functions\fn_icons.sqf"
+
+A number of in-script configuration options are available for the integrated Blue Force Tracker, located in the file above.

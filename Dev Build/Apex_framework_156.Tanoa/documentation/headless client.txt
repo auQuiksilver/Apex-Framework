@@ -1,0 +1,11 @@
+Headless Client
+
+	Full "Plug & Play" support for 4+ headless clients
+
+	Configure headless client load balancing in "@Apex_cfg\parameters.sqf" file
+
+	Zeus is able to offload AI to Server, which in turn can then offload to Headless Client seamlessly.
+
+	Zeus offload key binding = [Shift]+[F4] with a group selected
+
+

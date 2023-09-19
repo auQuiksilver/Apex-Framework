@@ -1,0 +1,101 @@
+Creating HQ compositions for classic AO:
+
+1. Create an SQF file in "code\config\hqCompositions\arid\...".
+2. Create an SQF file in "code\config\hqCompositions\tropic\...".
+
+3. Open the file "code\functions\fn_serverObjectsGrabber.sqf"
+
+4. Select all, and copy to your clipboard.
+
+5. In 3D editor, create your HQ composition.
+- Ensure all areas are accessible by AI.
+- Ensure vehicles can get in
+- Leave an empty area in the middle for crates to spawn
+- Ensure enough firing positions for 10-15+ players
+- Don't make it too big, use existing HQs as size reference
+- 2-3 entrances
+
+6. Ensure "simple object" option is NOT selected on any objects.
+
+7. Spawn in a playable unit and play the scenario.
+
+8. Stand in the middle of the composition.
+
+9. Paste the contents of the above file (#3 & #4) into debug console (press Escape or ~ to open it).
+
+10. Click Execute once the code is pasted in.
+
+11. Go to your file (#1 & #2) and paste the contents from your clipboard in.
+
+12. Go through the list of entities manually and adjust the simulation state and simple object state as necessary.
+- Example:     ["Land_LampShabby_F",[1.16016,-5.46094,0],27.0585,[],false,true,false,{}], 
+- The ,false,true,false are the important bits.
+- ["Land_LampShabby_F",[1.16016,-5.46094,0],27.0585,[],false <damage allowed> ,true <simulation enabled> ,false <is simple object>,{}], 
+- Set most fortifications to simple object (change false to true if necessary) to improve performance.
+- Set things which need to be simulated (flags, lights, houses which have doors, fires, etc) to true.
+- Generally leave damage off (false)
+
+- Example of the difference:
+
+["Land_LampShabby_F",[1.16016,-5.46094,0],27.0585,[],false,true,false,{}],     <------ This is a lamp, needs to be simulated and not a simple object (simple objects cannot be simulated).
+["Land_HBarrier_01_line_3_green_F",[16.1079,5.02344,0],79.382,[],false,false,true,{}], 	    <------ This is an H-barrier wall, no need for simulation. Set to simple object.
+
+This part is done now.
+
+13. Now create a duplicate of your composition so you will have both a Tropical and Desert variant for both Altis and Tanoa.
+
+14. Do the same steps in #7-#12.
+
+15. Now, go to "code\functions\fn_initCommon.sqf"
+
+16. Find lines that look like this:  QS_aoHQ24 = compileScript [(format ['code\config\hqCompositions\%1\QS_composition24.sqf',_environment]),TRUE];
+
+17. Create a line for your new HQ, paying special attention to the file path. Leave the %1 as it is, it represents a variable which reads _environment to select between Tropical and Mediterranean folders depending on the active map.
+
+18. So yours may look like this:
+
+MyTag_aoHQ25 = compileScript [(format ['code\config\hqCompositions\%1\MyTag_composition25.sqf',_environment]),TRUE];
+
+19. Go to "code\functions\fn_config.sqf"
+
+20. File search for QS_hqArray, around line 950.
+
+21. You will find a list like this. Notice the 'MyTag_aoHQ25' from step #18 at the bottom, we added this new HQ composition to this list. When using lists like this, always double check your commas ,,, and make sure there is no comma on the last line in the list.
+
+missionNamespace setVariable [
+	'QS_hqArray',
+	[
+		(missionNamespace getVariable 'QS_aoHQ1'),
+		(missionNamespace getVariable 'QS_aoHQ2'),
+		(missionNamespace getVariable 'QS_aoHQ3'),
+		(missionNamespace getVariable 'QS_aoHQ4'),
+		(missionNamespace getVariable 'QS_aoHQ5'),
+		(missionNamespace getVariable 'QS_aoHQ6'),
+		(missionNamespace getVariable 'QS_aoHQ7'),
+		(missionNamespace getVariable 'QS_aoHQ8'),
+		(missionNamespace getVariable 'QS_aoHQ9'),
+		(missionNamespace getVariable 'QS_aoHQ10'),
+		(missionNamespace getVariable 'QS_aoHQ11'),
+		(missionNamespace getVariable 'QS_aoHQ12'),
+		(missionNamespace getVariable 'QS_aoHQ13'),
+		(missionNamespace getVariable 'QS_aoHQ14'),
+		(missionNamespace getVariable 'QS_aoHQ15'),
+		(missionNamespace getVariable 'QS_aoHQ16'),
+		(missionNamespace getVariable 'QS_aoHQ17'),
+		(missionNamespace getVariable 'QS_aoHQ18'),
+		(missionNamespace getVariable 'QS_aoHQ19'),
+		(missionNamespace getVariable 'QS_aoHQ20'),
+		(missionNamespace getVariable 'QS_aoHQ21'),
+		(missionNamespace getVariable 'QS_aoHQ22'),
+		(missionNamespace getVariable 'QS_aoHQ23'),
+		(missionNamespace getVariable 'QS_aoHQ24'),
+		(missionNamespace getVariable 'MyTag_aoHQ25')
+	],
+	FALSE
+];
+
+22. You are done, your HQ will spawn through the framework :)
+
+23. One thing you can do if you like, is make use of existing files and just replace the composition data in the existing files, going through only steps #1-#14, since those files are already plugged in to the framework.
+
+24. Use the existing files as reference for creating your own.

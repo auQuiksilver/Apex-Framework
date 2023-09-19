@@ -1,0 +1,68 @@
+Terrain Support
+
+In the SQM folder, there are files available for use on the listed terrains. 
+Simply replace the mission.sqm file in the mission directory (after backing it up!) with the one for the desired terrain.
+
+----------------------------------
+
+Tanoa
+
+	- Supported gamemodes: Zeus, Classic, Sector Control, Insurgency
+	- Considered the 'home' of the Apex Framework
+	
+Altis
+
+	- Supported gamemodes: Zeus, Classic, Sector Control, Insurgency
+	
+Malden
+
+	- Supported gamemodes: Zeus, Classic, Sector Control, Insurgency
+
+Stratis
+
+	- Supported gamemodes: Zeus, Classic
+
+Livonia
+
+	-mod=contact
+	- Supported gamemodes: Zeus, Classic, Sector Control, Insurgency
+
+----------------------------------
+
+CDLC - Global Mobilization - Weferlingen (Summer/Winter)
+
+	-mod=GM
+	- Supported gamemodes: Zeus
+
+CDLC - Prairie Fire - Cam Lao Nam
+
+	-mod=VN
+	- Supported gamemodes: Zeus
+
+	* Note, there is a custom version available on Github with support for Insurgency mode. A fork of version 1.1.9
+
+CDLC - Prairie Fire - Khe Sanh
+
+	-mod=VN
+	- Supported gamemodes: Zeus
+
+CDLC - Prairie Fire - The Bra
+
+	-mod=VN
+	- Supported gamemodes: Zeus
+
+CDLC - CSLA Iron Curtain - Gabreta
+
+	-mod=CSLA
+	- Supported gamemodes: Zeus
+
+CDLC - Western Sahara - Sefrou-Ramal
+
+	-mod=WS
+	- Supported gamemodes: Zeus
+	
+----------------------------------
+
+If you would like more terrains supported, or a terrain supported more deeply, please get in contact on Discord.
+
+----------------------------------

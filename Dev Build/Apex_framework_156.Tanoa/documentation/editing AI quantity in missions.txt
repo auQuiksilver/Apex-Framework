@@ -1,0 +1,13 @@
+- How to edit the variables that control how many AI are spawned at missions. 
+- Total server/client FPS and performance are factors to consider when changing these numbers.
+
+CLASSIC
+
+
+SECTOR CONTROL
+
+
+INSURGENCY/GRID
+
+
+SIDE MISSIONS

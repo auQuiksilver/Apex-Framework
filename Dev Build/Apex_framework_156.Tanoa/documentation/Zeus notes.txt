@@ -1,0 +1,5 @@
+Zeus Notes
+
+- You do not need to put Zeus / GameMaster modules in the editor, the framework will generate (and clean up) modules on the fly for whitelisted Zeus operators.
+- Do not use Remote Control module on server-spawned AI. Remote-controlling will change network ownership and cut them off from the AI logic system. The result is after releasing they will do almost nothing. Only use Remote Control on units spawned with Zeus.
+- To use mods like Achilles for Zeus, you will need to both disable the anticheat (in the "@Apex_cfg\parameters.sqf" file), and set "mode=2"; in "description.ext" CfgRemoteExec {} section, for both Functions and Commands.

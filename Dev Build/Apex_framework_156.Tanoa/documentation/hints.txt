@@ -1,0 +1,24 @@
+Advanced Hints
+
+- We have disabled the "hint" and "hintSilent" script commands for security reasons.
+- There is a scripted alternative system built into the framework.
+- How to use:
+
+	_text = 'your text here';
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,15,-1,_text,[],-1,TRUE,'Hint Title',TRUE];
+
+- Explanation:
+
+	_text = 'your text here';
+	(missionNamespace getVariable 'QS_managed_hints') pushBack [
+		5,		// Hint Priority. Higher value will sort the hint to the front of the queue.
+		FALSE,		// Use Sound. Set TRUE to enable an audio component for the hint. Can also be STRING data type, where the string is the name of the sound used by "playSound" command.
+		15,		// Hint Duration. How long is the hint shown onscreen, in seconds.
+		-1,		// Hint Preset. Not used currently.
+		_text,		// Hint Text. The main body of the hint text.
+		[],		// Hint other data. Not used currently.
+		-1,		// Hint irrelevant when. If a hint is in the queue, how long until it becomes irrelevant (and should be discarded instead of shown).
+		TRUE,		// Use Advanced Hint. Set TRUE to use the Advanced hint, set FALSE to use basic hint.
+		'Hint Title',	// Advanced Hint Title. Set a simple (short) title for your Advanced Hint.
+		TRUE		// Advanced Hint Recall. Permit the player to hide/recall the Hint (assuming it is the most recent hint).
+	];

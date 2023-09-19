@@ -1,0 +1,19 @@
+Ideas for further development:
+
+1. More side missions
+
+2. Terrain deformation
+
+	- Mortar/artillery craters
+	- Fortifications
+	- Etc
+	
+3. AO sub-objectives
+
+4. Database
+
+5. Track AO stats
+
+6. Zeus: build up a large number of potential zeus operators in the community, with a goal of 24/7 coverage of Zeus on the server.
+
+7. More HQ compositions

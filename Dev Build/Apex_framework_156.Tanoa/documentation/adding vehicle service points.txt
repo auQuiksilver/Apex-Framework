@@ -1,0 +1,9 @@
+Adding Vehicle Service points
+
+	There are some map markers pre-configured to act as specialized vehicle service points, but they are limited in number.
+
+	To add more vehicle service points, simply drop down the new Tanks DLC "Repair Depot" asset, 
+
+	found under   "Props >> Supplies >> Storage >> Repair depot"  in the EDEN Editor asset browser. Once placed, toggle the "Simple Object" box.
+
+	That asset will then act as a service point capable of servicing all classes of vehicle.

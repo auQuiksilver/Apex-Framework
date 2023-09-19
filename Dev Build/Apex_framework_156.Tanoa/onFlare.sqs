@@ -1,0 +1,1 @@
+_this spawn (missionNamespace getVariable 'QS_fnc_clientEventOnFlare')

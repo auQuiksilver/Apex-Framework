@@ -1,0 +1,26 @@
+BattlEye can help make it harder for cheaters to exploit your server.
+
+At a minimum, use these files:
+
+remoteexec.txt
+createvehicle.txt
+publicvariable.txt
+
+To go a step further, use this file:
+
+scripts.txt 
+
+(note, you will have to spend time configuring this file, as well as be familiar with Regex or using a regex generator)
+
+-----
+
+Google search for where to copy the above files to.
+
+The files are available in the Github here:
+
+https://github.com/auQuiksilver/Apex-Framework/tree/master/BattlEye
+
+With a template for scripts.txt here:
+
+https://github.com/auQuiksilver/Apex-Framework/blob/master/BattlEye/obsolete/scripts.txt
+

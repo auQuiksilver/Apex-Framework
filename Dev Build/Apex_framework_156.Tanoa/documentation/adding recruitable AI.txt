@@ -1,0 +1,24 @@
+1. In the editor, create a friendly AI unit at the position and orientation you would like it to respawn on land.
+
+2. Add the below to the init field:
+
+	0 = [
+		this,
+		60,
+		false,
+		{},
+		-1,
+		FALSE
+	] call QS_fnc_registerUnit;
+
+
+3. Now again, with explanations for what it all means.
+
+	0 = [
+		this,	//----- Dont edit this, this is the entity for use by the framework.
+		60,	//----- Respawn delay (in seconds). How long after the unit dies before it respawns again?
+		false,	//----- TRUE/FALSE. Is the unit type randomized?
+		{},	//----- Custom init code executed on this respawning unit only.
+		-1,	//----- (number > 0). Respawn tickets.
+		FALSE	//----- Is this unit subject to player count restrictions? If true, this unit will not spawn once player count gets above a threshold. If false, it will always respawn.
+	] call QS_fnc_registerUnit;

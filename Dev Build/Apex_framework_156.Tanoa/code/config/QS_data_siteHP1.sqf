@@ -1,0 +1,186 @@
+/*/
+File: QS_data_siteHP1.sqf
+Author:
+
+	Quiksilver
+	
+Last modified:
+
+	26/07/2022 A3 2.10 by Quiksilver
+	
+Description:
+
+	HP1
+	
+Notes:
+
+	Land_Unfinished_Building_01_F
+___________________________________/*/
+
+
+if ((_this # 0) isEqualTo 'land_unfinished_building_01_f') exitWith {
+	[
+		[0,"Land_ClothesLine_01_full_F","a3\structures_f_exp\civilian\accessories\clothesline_01_full_f.p3d",[1.57788,0.992676,-2.29853],90.0233,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[1.10095,-2.19824,-2.29853],269.556,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-1.4436,2.08203,1.19647],0,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[1.90979,-2.17139,1.19547],360,{}],
+		[0,"Land_ClothShelter_02_F","a3\structures_f_exp\commercial\market\clothshelter_02_f.p3d",[-1.93396,-1.05859,1.19647],0,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[2.50024,1.64404,1.19647],0,{}],
+		[0,"Land_WoodenCrate_01_stack_x3_F","a3\props_f_exp\commercial\market\woodencrate_01_stack_x3_f.p3d",[-2.09436,-2.4917,1.19647],175.947,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[-3.23767,0.397949,-2.29951],0.547106,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-1.92322,-3.39404,-1.2394],179.858,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[0.779541,3.6875,1.19547],360,{}],
+		[0,"Land_Shoot_House_Wall_Long_F","a3\structures_f\training\shoot_house_wall_long_f.p3d",[1.33667,-2.74561,1.19647],269.993,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[1.09082,-3.93652,-2.48353],269.556,{}],
+		[0,"Land_ClothShelter_02_F","a3\structures_f_exp\commercial\market\clothshelter_02_f.p3d",[3.01672,-1.47168,1.19647],93.4361,{}],
+		[0,"Land_WoodenCrate_01_stack_x5_F","a3\props_f_exp\commercial\market\woodencrate_01_stack_x5_f.p3d",[-4.42944,0.410156,-2.29853],271.606,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-1.91663,-3.26953,2.02898],179.858,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[1.34668,3.6875,1.91102],90.3612,{}],
+		[0,"Land_SandbagBarricade_01_hole_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_hole_f.p3d",[3.72009,1.69238,1.19647],0.495025,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[4.9353,1.51563,-2.29853],89.7755,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[4.69666,0.411133,1.19647],90.1603,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-5.32361,-0.291016,-1.44947],269.585,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[4.93127,-1.21436,-2.29853],88.4804,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[4.68713,-1.646,1.19647],90.1603,{}],
+		[0,"Land_ClothesLine_01_short_F","a3\structures_f_exp\civilian\accessories\clothesline_01_short_f.p3d",[5.38123,-1.0625,-2.48353],91.8546,{}],
+		[0,"Land_SandbagBarricade_01_hole_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_hole_f.p3d",[2.05566,-4.7334,1.19647],177.467,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-1.84082,1.8877,4.49378],179.771,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-5.22961,-0.287598,2.00679],269.677,{}],
+		[0,"Land_ClothesLine_01_short_F","a3\structures_f_exp\civilian\accessories\clothesline_01_short_f.p3d",[2.42981,-5.28857,-2.48353],0.758243,{}],
+		[1,"Land_StoneWell_01_F","a3\structures_f_enoch\civilian\accessories\stonewell_01_f.p3d",[-3.24243,4.57227,-2.29853],0,{
+			_this setVariable ['QS_entity_examine',TRUE,TRUE];
+			_this setVariable ['QS_entity_examine_intel',6,TRUE];
+		}],
+		[1,"Land_Shoot_House_Wall_Crouch_F","a3\structures_f\training\shoot_house_wall_f.p3d",[0.129639,-0.0375977,4.4126],180.574,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[4.9209,3.53467,-2.48353],269.556,{}],
+		[1,"Land_Shoot_House_Wall_Crouch_F","a3\structures_f\training\shoot_house_wall_f.p3d",[-0.71814,0.891602,4.40332],90.3468,{}],
+		[1,"Land_Shoot_House_Wall_Crouch_F","a3\structures_f\training\shoot_house_wall_f.p3d",[1.0354,0.926758,4.41262],270.463,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[4.71069,-4.06738,-2.48353],93.1953,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[1.24561,2.61328,4.49378],90.3365,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[4.78857,-3.73389,1.19647],90.1603,{}],
+		[0,"Land_SandbagBarricade_01_hole_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_hole_f.p3d",[3.87488,-4.72119,1.19647],176.749,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-5.21008,4.6001,-1.15094],267.867,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[1.34521,4.68994,4.49378],89.8918,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-5.25378,4.64795,-1.58638],267.867,{}],
+		[0,"Land_SandbagBarricade_01_hole_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_hole_f.p3d",[-3.80505,1.89404,4.49378],178.713,{}],
+		[0,"Land_ClothesLine_01_short_F","a3\structures_f_exp\civilian\accessories\clothesline_01_short_f.p3d",[2.13171,7.00586,-2.48353],179.413,{}],
+		[0,"Land_ClothShelter_02_F","a3\structures_f_exp\commercial\market\clothshelter_02_f.p3d",[-1.77026,3.99756,4.49378],0,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-3.23486,6.43408,1.86728],0,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-3.22339,6.42822,2.49223],0,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[0.0294189,6.23047,4.49378],0.310856,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[-5.15784,2.74023,4.49378],270.048,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[-2.06775,6.22021,4.49378],358.909,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-5.22546,4.82959,4.49378],269.252,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-4.15283,6.26318,4.49378],0.310856,{}]
+	]
+};
+if ((_this # 0) isEqualTo 'land_unfinished_building_02_f') exitWith {
+	[
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[0.689209,1.06494,-2.75528],178.51,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[1.05103,-1.95215,0.844725],359,{}],
+		[0,"Land_ClothesLine_01_short_F","a3\structures_f_exp\civilian\accessories\clothesline_01_short_f.p3d",[1.01599,2.33398,-2.75528],89.1368,{}],
+		[0,"Land_cargo_addon01_V2_F","a3\structures_f\households\slum\cargo_addon01_v2_f.p3d",[0.126221,-1.21094,2.39862],269.543,{}],
+		[0,"Land_Shoot_House_Wall_F","a3\structures_f\training\shoot_house_wall_f.p3d",[1.62317,2.31738,0.974724],89.67,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[-2.85046,1.9834,-2.49328],359,{}],
+		[0,"Land_ConcreteWell_01_F","a3\structures_f_exp\industrial\fields\concretewell_01_f.p3d",[2.9187,-2.34375,-2.48843],0,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[-3.30298,-2.396,-0.205276],276.611,{}],
+		[0,"Land_cargo_addon01_V2_F","a3\structures_f\households\slum\cargo_addon01_v2_f.p3d",[3.13232,-1.21143,1.88416],91.1437,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[-3.30164,-2.41162,-0.805276],276.611,{}],
+		[3,"Land_PierLadder_F","a3\structures_f\naval\piers\pierladder_f.p3d",[-2.62891,-2.48242,2.31609],(268.821 - 180),{}],
+		[0,"Land_cargo_addon01_V1_F","a3\structures_f\households\slum\cargo_addon01_v1_f.p3d",[0.0266113,3.45947,1.98174],268.527 - 180,{}],
+		[1,"Land_SewerCover_03_F","a3\structures_f_exp\infrastructure\roads\sewercover_03_f.p3d",[2.86377,-2.36963,-2.30502],0,{
+			_this setVariable ['QS_entity_examine',TRUE,TRUE];
+			_this setVariable ['QS_entity_examine_intel',6,TRUE];
+		}],
+		[0,"Land_WoodenCrate_01_stack_x5_F","a3\props_f_exp\commercial\market\woodencrate_01_stack_x5_f.p3d",[-3.23499,-2.58887,-2.65522],270.346,{}],
+		[0,"Land_ClothesLine_01_short_F","a3\structures_f_exp\civilian\accessories\clothesline_01_short_f.p3d",[-0.924927,-4.3877,-2.62381],0,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[2.07703,4.07715,0.844725],359,{}],
+		[0,"Land_cargo_addon01_V2_F","a3\structures_f\households\slum\cargo_addon01_v2_f.p3d",[-2.22412,3.52393,1.8763],90.3354,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[1.44482,-4.20459,1.88609],84.9024,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[1.41675,-5.00049,-0.818836],88.9183,{}],
+		[0,"Land_cargo_addon01_V1_F","a3\structures_f\households\slum\cargo_addon01_v1_f.p3d",[2.97681,3.58838,1.87009],89.4064 - 180,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-4.49768,1.93115,-2.75528],178.716,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[1.37134,-5.02393,-2.75528],89.9143,{}],
+		[0,"Land_Shoot_House_Wall_F","a3\structures_f\training\shoot_house_wall_f.p3d",[-4.59326,1.14697,0.974724],0,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[3.47241,-3.67139,1.68242],0,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[-4.13,3.60205,0.844725],359,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[1.41199,-5.16846,1.33763],270.146,{}],
+		[0,"Land_cargo_addon01_V1_F","a3\structures_f\households\slum\cargo_addon01_v1_f.p3d",[4.8623,-1.24561,2.00782],270.529 - 180,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[-3.31299,-4.14648,1.9263],91.8818,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[1.28918,-4.8457,2.70396],270.297,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-3.2489,-4.9502,-0.887299],268.178,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-3.60291,0.946777,4.12856],89.873,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-1.43054,5.89063,-1.58417],0,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[-3.33533,-4.95752,-2.75528],268.283,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-1.02527,5.96631,0.974724],0,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-3.28992,-5.13721,1.28727],268.086,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[1.34705,-5.66699,2.10258],265.662,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[-0.122437,5.93408,1.96476],182.278,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[1.38159,5.95947,-2.75528],178.91,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[0.110352,-6.271,1.36741],0,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[-3.29285,-4.77588,2.63894],268.953,{}],
+		[0,"Land_cargo_addon01_V2_F","a3\structures_f\households\slum\cargo_addon01_v2_f.p3d",[4.8739,3.42041,2.39862],269.543,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[-1.97998,5.89111,1.96284],0,{}],
+		[0,"Land_Pallet_F","a3\structures_f\civ\constructions\pallet_f.p3d",[-3.04102,-3.72754,4.64872],0,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-3.60474,3.104,4.14292],89.873,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[6.34546,1.08057,-2.75528],270.346,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[-1.05847,5.979,2.59432],0,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[0.736206,-6.27734,2.11783],182.278,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[-2.0144,-6.27051,1.341],179.678,{}],
+		[0,"Land_ClothesLine_01_full_F","a3\structures_f_exp\civilian\accessories\clothesline_01_full_f.p3d",[6.64087,1.22217,-2.52822],90.7342,{}],
+		[0,"Land_WoodenCrate_01_F","a3\props_f_exp\commercial\market\woodencrate_01_f.p3d",[-4.89001,1.21484,4.34472],91.036,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-3.65833,1.03613,5.08395],89.873,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-5.81506,-3.45898,0.974724],0,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[-3.29395,-5.65283,2.04587],266.487,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[0.384644,-6.37451,2.74958],0,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[3.13916,5.90332,1.78544],0,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[1.24292,-5.38184,4.12535],267.346,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[6.28528,-2.80713,-2.75528],270.346,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-5.87122,-3.5625,1.75282],0,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[-1.85486,-6.28516,2.71202],0,{}],
+		[0,"Land_BagFence_End_F","a3\structures_f\mil\bagfence\bagfence_end_f.p3d",[-2.75049,-6.32129,2.08347],0.342476,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-3.66602,3.10645,5.01794],89.873,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-5.87805,-3.52637,2.52938],0,{}],
+		[0,"Land_ClothesLine_01_short_F","a3\structures_f_exp\civilian\accessories\clothesline_01_short_f.p3d",[3.72327,6.38818,-2.59637],0,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-3.21118,-5.30273,4.10872],268.087,{}],
+		[0,"Land_BagFence_Long_F","a3\structures_f\mil\bagfence\bagfence_long_f.p3d",[-0.0587158,-6.26025,4.07992],0,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-5.02039,2.90039,4.46952],358.642,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-3.61023,5.28125,4.14563],89.873,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-5.21863,-3.45801,4.37895],179.039,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-7.27454,-3.49023,-0.803171],358.252,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[5.44592,-3.58008,4.35483],179.971,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-2.44983,-6.25244,4.07615],180.119,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-4.99988,2.84424,5.06511],358.642,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-2.41895,5.98779,4.53479],1.00014,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-7.33154,-3.49707,-1.7782],358.252,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-5.18384,5.88281,1.77978],180.273,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[6.25867,-2.64551,4.45496],267.346,{}],
+		[0,"Land_cargo_addon02_V1_F","a3\structures_f\households\slum\cargo_addon02_v1_f.p3d",[-5.7605,-0.700684,5.3524],89.5227 - 180,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-7.38708,-3.49756,-2.75528],358.252,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[6.33704,5.18164,-2.75528],270.346,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[5.77295,5.94873,-2.75528],179.472,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-8.21106,-0.543457,1.78464],270.108,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[7.67114,-3.61865,0.814724],179.358,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[8.50085,-0.803223,0.814724],270.346,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[8.52454,1.27588,0.814724],269.945,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-8.10168,3.66895,-1.17997],269.244,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-6.10364,-3.42627,4.97123],179.479,{}],
+		[0,"Land_BagFence_Short_F","a3\structures_f\mil\bagfence\bagfence_short_f.p3d",[-8.09595,3.63965,-1.90879],269.244,{}],
+		[0,"Land_cargo_addon02_V1_F","a3\structures_f\households\slum\cargo_addon02_v1_f.p3d",[-5.81323,3.40527,5.32576],269.742 - 180,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[8.474,-2.84473,0.814724],270.346,{}],
+		[0,"Land_Wall_IndCnc_4_F","a3\structures_f\walls\wall_indcnc_4_f.p3d",[-8.22107,3.02881,1.68282],270.12,{}],
+		[0,"Land_SandbagBarricade_01_hole_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_hole_f.p3d",[6.68188,5.82715,0.7145],0,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-4.99756,5.93066,4.09882],178.93,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[8.41504,3.11133,0.814724],269.945,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-8.02405,0.341797,4.33701],89.3093,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-7.3136,-3.43359,4.36981],179.039,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-8.13867,-1.89648,4.30517],268.723,{}],
+		[0,"Land_SandbagBarricade_01_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_f.p3d",[8.172,4.84863,0.814724],68.7544,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-8.17883,2.43018,4.29952],268.723,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-8.0321,0.944824,5.14448],89.873,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-8.08472,3.13232,5.18956],89.873,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-7.10107,5.92676,4.2778],358.642,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-8.21716,4.6626,4.35013],268.723,{}],
+		[0,"Land_SandbagBarricade_01_half_F","a3\structures_f_argo\military\fortifications\sandbagbarricade_01_half_f.p3d",[-7.19812,5.81689,5.00322],359.06,{}]
+	]
+};

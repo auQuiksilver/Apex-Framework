@@ -1,0 +1,62 @@
+Zeus Key Bindings
+
+There are a number of scripts available to Zeus to aid in rapid mission creation.
+
+The key bindings are listed ingame, on the map diary tabs under "Key Bindings", when logged in as Zeus.
+
+Here is a small explanation of how to use them:
+
+------------------------------------------------------------------------------
+
+1. Sync Editable Objects - [Shift]+[F3]
+
+	- Add all AI to Zeus
+
+2. (Selected Group) Garrison in Buildings - [Numpad 1]
+
+	- Select a group of AI and press the key, they will garrison in nearby buildings.
+
+3. (Selected Group) Patrol Area - [Numpad 2]
+
+	- Select a group and press the key, the group will get nearby patrol waypoints. You can then click and drag these waypoints to more logical patrol locations.
+
+4. (Selected Group) Search Building - [Numpad 3]
+
+	-  Select a group, and press the key. The group will attempt to clear the nearest building.
+	- Alternatively, select a group and give it a MOVE waypoint, and press the key. The group will attempt to clear the nearest building to its move waypoint.
+
+5. (Selected Group) Stalk Target - [Numpad 4]
+
+	- Select a group, and give it a MOVE waypoint nearby an enemy (player). The waypoint will disappear, and the group will chase the enemy that was nearest to the waypoint.
+
+6. (Selected Group) Suppressive Fire - [Numpad 6]
+
+	- Note, only works when group is already in combat.
+	- Select a group, and press the key. The group will perform suppressive fire on existing targets.
+
+7. (Selected Unit) Revive Player - [Numpad 7]
+
+	- Select a player, and press the key. If the player was incapacitated, they should be revived.
+
+8. (All Players) View Directions - [Numpad 8]
+
+	- Press the key. You will see where all players are looking. This can help with placement of enemies during battle, so the players dont see you spawn things in.
+
+9. (Selected Unit) Set unit Unconscious - [Numpad 9]
+
+	- Does not work on players.
+	- Select an AI unit, and press the key. The unit will go unconscious. They can then be carried/dragged/revived.
+
+10. (Selected Group) Offload AI to Server (Network ownership) - [Shift] + [F4]
+
+	- For network performance reasons, its often better for AI to be controlled by server. There can be some performance degradation if Zeus has network ownership of too many AI.
+	- When making large Zeus missions (where performance will be impacted), this allows Zeus to easily give network ownership of AI to server.
+
+11. (Selected Objects) Turn lights & headlights on/off - [L]
+
+	- Select a light or vehicle, and press your "Headlights" key binding. [L] by default. 
+
+12. (Selected building) Raise/Lower structure - [-][=]
+
+	- Use your "Time acceleration (accTime)" key bindings to raise/lower selected buildings.
+	- Only works on buildings & fortifications.

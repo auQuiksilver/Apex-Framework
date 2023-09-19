@@ -1,0 +1,243 @@
+Role Selection System
+20/04/2019 A3 1.90
+
+Overview:
+
+	The traditional role selection system in ArmA 3 is quite inflexible, forcing players to leave the game in order to change roles or even view available roles. 
+	It also required editing the mission file in order to change available roles for the mission.
+	Our framework supports multiple gamemode and mission types, including blank/custom/zeus. Different role availability is required to get the best play experience for each of these options.
+	As such, we chose to replace the vanilla system with a more flexible system, allowing dynamic changing of roles between restarts, and even adding/removing roles during the mission.
+	Another bonus is that players no longer need to abort to the lobby to view and change their role/faction. 
+	This saves some server performance and wear & tear from player initialization/JIP/disconnect, as well as makes a players experience on the server more smooth.
+
+Orientation:
+
+	File(s): 
+		0. "@Apex_cfg\parameters.sqf"
+		1. "@Apex_cfg\roles.sqf"
+		2. "@Apex_cfg\arsenal.sqf"
+		3. "code\functions\fn_roles.sqf"
+		4. "code\functions\fn_initTrait.sqf"
+		5. "code\functions\fn_clientMenuRSS.sqf"
+		6. "@Apex_cfg\whitelist.sqf"
+
+	In File 0, there are several parameter options related to the role selection menu system.	
+	In File 1, is all the surface-level configuration of roles.
+	In File 2, is all the Arsenal configuration for each role.
+	In File 3, is the main body of code for the roles system.
+	In File 4, is where Traits and gameplay abilities specific to each role are added and removed when a player changes roles.
+	In File 5, is the main body of code to display the menu system.
+	In File 6, is a new section for Whitelisted OPFOR slots, if the correct parameter is used in the parameters file.
+
+	File 0:
+
+	There are currently two parameter options available.
+		Under the "Gameplay" heading there is a _playable_opfor toggle. 
+		If it is set to 0, OPFOR will not be playable. 
+		If it is set to 1, then any pre-configured OPFOR roles will become available to WHITELISTED players (check your "@Apex_cfg\whitelist.sqf" file for a new section).
+		If it is set to 2, then any player will be able to join the pre-configured OPFOR roles.
+
+		The other new parameter is under the "System" heading, as _role_selection_menu_button.
+		If it is set to 0, the Escape Menu button to access the Role Selection Menu will be Disabled.
+		If it is set to 1, the Escape Menu button to access the Role Selection Menu will be Enabled.
+		This option is useful if you are running a private/custom mission where it is okay for players to change role at any time (and any map location).
+		The only other ways for players to access the Role Menu is when they connect, and at Arsenal crates via Add Action scroll menu.
+
+	File 1:
+
+	Be careful, as the engine reads this file when server inits. If there are any script errors, the server will not boot properly. Check the last few lines of your server error log RPT file for details if, after editing this file, you experience issues.
+
+	There are a number of arrays of information in this file.
+	_______________________________________________________________
+
+	"QS_roles_UI_info" contains a list of some basic data used to present information to the player.	
+
+	The format is:
+
+		[ <role ID> , <role display name> , <role menu icon> , <role map icon> ]
+
+	Example:
+
+		['rifleman','Rifleman','a3\Ui_f\data\GUI\Cfg\RespawnRoles\assault_ca.paa','a3\ui_f\data\map\vehicleicons\iconMan_ca.paa']
+
+	_________________________________________________________________
+
+	"QS_roles_defaultLoadouts" are lists of default loadouts for each role.
+
+	The format is:
+
+		[ <role ID> , [<desert loadout>,<tropical loadout>] ]
+
+		Using the "select" command to determine which applies for the given terrain.
+
+		The data is arranged in a format supported by these two commands:
+			https://community.bistudio.com/wiki/getUnitLoadout
+			https://community.bistudio.com/wiki/setUnitLoadout
+
+	All the data is on one line, but if we expand it, it looks like this:
+
+	[
+		'rifleman',
+		(
+			[
+				[['arifle_MX_F','','','optic_Hamr',['30Rnd_65x39_caseless_mag_Tracer',30],[],''],[],['hgun_P07_F','','','',['16Rnd_9x21_Mag',16],[],''],['U_B_CombatUniform_mcam',[['FirstAidKit',2],['16Rnd_9x21_Mag',3,16]]],['V_PlateCarrier1_rgr',[['30Rnd_65x39_caseless_mag_Tracer',10,30],['SmokeShell',2,1],['HandGrenade',2,1]]],['B_AssaultPack_mcamo',[]],'H_HelmetB_light','G_Combat',['Binocular','','','',[],[],''],['ItemMap','ItemGPS','ItemRadio','ItemCompass','ItemWatch','NVGoggles']],
+				[['arifle_MX_khk_F','','','optic_Hamr_khk_F',['30Rnd_65x39_caseless_mag_Tracer',30],[],''],[],['hgun_P07_khk_F','','','',['16Rnd_9x21_Mag',16],[],''],['U_B_T_Soldier_F',[['FirstAidKit',2],['16Rnd_9x21_Mag',3,16]]],['V_PlateCarrier1_tna_F',[['SmokeShell',2,1],['HandGrenade',2,1],['30Rnd_65x39_caseless_mag_Tracer',10,30]]],['B_AssaultPack_tna_F',[]],'H_HelmetB_Light_tna_F','G_Combat_Goggles_tna_F',['Binocular','','','',[],[],''],['ItemMap','ItemGPS','ItemRadio','ItemCompass','ItemWatch','NVGoggles_tna_F']]
+			] select _tropical
+		)
+	],
+
+	Where the middle two lines are generated in the editor using debug console: 
+
+		copyToClipboard str (getUnitLoadout player);
+
+	_____________________________________________________________________
+
+	"QS_roles_data" is the core data list used to generate the ingame roles.
+
+	It is listed first by Faction, and then inside the Faction list is the list of Roles for that faction. Note the EAST,WEST text inside these lists. At the bottom of this list are two blank arrays [],[]. These are for INDEPENDENT/GREENFOR and CIVILIAN roles, of which we do not use any in the official build currently.
+
+	If you are adding roles, this is the place to first edit.
+
+	Using Engineer as example:
+
+		[
+			'engineer',
+			WEST,
+			2,
+			10,
+			6,
+			0,
+			3,
+			0,
+			{},
+			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
+			{}
+		],
+
+	The format is like this:
+
+		[
+			<role ID>,
+			<side>,
+			<minimum slots available>,
+			<maximum slots available>,
+			<per N players on the server a new role will open, up to the maximum>,
+			[NOT USED] <Number of whitelisted slots in this role>,
+			[NOT USED] <waiting list capacity>,
+			[NOT USED] <spare variable, unused>,
+			<code with bool return, determines whether players can see this role in their menu>,
+			<code with bool return, determines whether players can select this role in their menu>,
+			[NOT USED] <unused code>
+		],
+
+	____________________________________________________________________
+
+	"QS_fnc_roleDescription" is converted into Structured Text in the role selection menu "Role Description" text box.
+
+
+
+Adding a Role:
+
+Depending on the complexity of the role and the abilities you want to grant that player, you will have to make a number of edits.
+
+a. Add components of the new role to the lists in "@Apex_cfg\roles.sqf".
+b. Add a section in "@Apex_cfg\arsenal.sqf" to determine what gear the new role has access to.
+c. You may need to add a section to "code\functions\fn_roles.sqf" ( file search for 'INIT_ROLE' ) to enable initialization of the player Traits of that role.
+d. If you modify C, you will likely also need to modify "code\functions\fn_initTrait.sqf" , which is where Code related to C goes, and the specific scripted effects of certain traits.
+
+Removing a Role:
+
+It is much easier to disable or remove a role than it is to add a role.
+
+a. Locate the file "@Apex_cfg\roles.sqf".
+b. Locate the main "QS_roles_data" list.
+c. Locate the role you would like to remove.
+d. Delete that section. It may be wise to save a copy of whatever you are removing, incase you would like to restore it in the future more easily.
+e. Remember to check for commas and script errors after editing.
+
+Editing the number of slots:
+
+It is relatively easy to edit the number of slots a role has.
+
+a. Locate the file "@Apex_cfg\roles.sqf".
+b. Locate the main "QS_roles_data" list.
+c. Locate the role you would like to edit.
+d. Remember this format:
+
+		[
+			<role ID>,
+			<side>,
+			<minimum slots available>,
+			<maximum slots available>,
+			<per N players on the server a new role will open, up to the maximum>,
+			[NOT USED] <Number of whitelisted slots in this role>,
+			[NOT USED] <waiting list capacity>,
+			[NOT USED] <spare variable, unused>,
+			<code with bool return, determines whether players can see this role in their menu>,
+			<code with bool return, determines whether players can select this role in their menu>,
+			[NOT USED] <unused code>
+		],
+
+e. Focus on the Minimum and Maximum numbers, and the "per N players" number.
+f. Changing the Minimum number will provide an easy thing for you to test making changes to.
+g. Important!!! Some roles like Fighter Pilot and UAV Operator are scripted and cannot support more than 1 slot.
+
+Adding whitelisted slots to a Role:
+
+a. Locate the file "@Apex_cfg\roles.sqf".
+b. Locate the main "QS_roles_data" list.
+c. Locate the role you would like to edit.
+d. Important!!! Some roles like Fighter Pilot and UAV Operator are scripted and cannot support more than 1 slot.
+e. Remember this format:
+
+		[
+			<role ID>,
+			<side>,
+			<minimum slots available>,
+			<maximum slots available>,
+			<per N players on the server a new role will open, up to the maximum>,
+			[NOT USED] <Number of whitelisted slots in this role>,
+			[NOT USED] <waiting list capacity>,
+			[NOT USED] <spare variable, unused>,
+			<code with bool return, determines whether players can see this role in their menu>,
+			<code with bool return, determines whether players can select this role in their menu>,
+			[NOT USED] <unused code>
+		],
+
+
+f. add "_WL" to the <role ID>, like this:
+
+		[
+			'medic_WL',
+			WEST,
+			1,
+			1,
+			-1,
+			0,
+			0,
+			0,
+			{TRUE},
+			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
+			{}
+		],
+
+
+g. That role above, is a whitelisted role (medic) with 1 available slot.
+
+h. This is another whitelisted role (helicopter pilot) with 2 available slots.
+
+		[
+			'pilot_heli_WL',
+			WEST,
+			2,			// minimum 1 slot
+			2,			// maximum 2 slots
+			-1,			// per N players an extra role will open, up to the maximum
+			0,
+			0,
+			0,
+			{TRUE},
+			{(((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST) || (missionNamespace getVariable ['QS_RSS_client_canSideSwitch',FALSE]))},
+			{}
+		]
+
+

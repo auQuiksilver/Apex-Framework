@@ -1,0 +1,11 @@
+Anticheat
+
+Compatibility: A3 1.84
+
+I will try to release updates to the anticheat after each main arma patch (1.82, 1.84, 1.86, 1.88, ...) to maintain compatibility with core game data.
+
+If you are using mods or allowing mods to be used besides Blastcore and JSRS, it is advised to disable the anticheat to prevent false positives.
+
+For information on how to configure or personalize the anticheat for your server, private message Quiksilver on the BI forums or on discord.
+
+https://forums.bohemia.net/profile/801328-fn_quiksilver/

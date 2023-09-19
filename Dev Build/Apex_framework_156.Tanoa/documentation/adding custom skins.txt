@@ -1,0 +1,45 @@
+Adding custom skins
+
+______________
+Resources:
+Here is a website for finding vehicle classnames:   https://community.bistudio.com/wiki/Arma_3_CfgVehicles_WEST
+
+Uniforms can be found here:  https://community.bistudio.com/wiki/Arma_3_CfgWeapons_Equipment
+______________
+
+Its better to show you how this works rather than to explain how to do it. We will use shoulder patches (insignia) as an example.
+
+1. Look in the folder "media\images\insignia"
+
+2. You will see a number of image .paa files there.
+
+3. Look in the file "code\config\QS_insigniaTextures.sqf". In here you will see the file paths leading to those images. This is where you plug images into the framework to appear in the menu system.
+
+4. Ingame, open your Area 51 menu and navigate to the "Insignia" section (Add player UID to the "@Apex_cfg\whitelist.sqf" file first if necessary).
+
+
+Uniform skins:
+
+The same process applies also for Uniform skins and Vehicle skins.
+
+With uniform and vehicle skins, however, you must interact with classnames such as "B_MRAP_01_F" (the Hunter MRAP). With classnames, its very important that you use proper case sensitive text.
+
+For instance, "B_MRAP_01_F" is correct, while "B_Mrap_01_F" would not work. This same concept applies to uniforms. 
+
+In "code\config\QS_uniformTextures.sqf" there is some uniform type validation done at the top of the file, which is different from shoulder patches. 2D artists know more about this, but uniform skins have to be matched to the correct uniform.
+
+At the bottom of this uniforms file, there is a storage section with further examples of uniforms. Several of these skins are contained within the skins zip folder on the github, and the template for adding them will be there. You will have to know where to plug these lines in. It might not be immediately apparent but the basic steps are:
+
+1. Add a uniform texture to the "media\images\uskins\..." folder
+2. Plug it in to the list in "code\config\QS_uniformTextures.sqf"
+
+
+Vehicle skins:
+
+	See the file header (the top comments part) of "code\config\QS_vehicleTextures.sqf" for more details, but the concept is the same. Put skins files into "media\images\vskins\..." and plug it into the QS_vehicleTextures.sqf file.
+
+
+
+
+
+

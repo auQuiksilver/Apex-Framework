@@ -1,0 +1,54 @@
+Arsenal & Gear Restrictions
+
+Config options (in file "@Apex_cfg\parameters.sqf"):
+
+_arsenal = 2;						----- 0,1,2. 0 = Unrestricted Arsenal, everything available. 1 = Use whitelist. 2 = Use Blacklist.   (you cannot use both).
+_gearRestrictions = 1;					----- 0,1. 0 = Gear restrictions will not be used. 1 = Gear restrictions will be used. Example, player may be able to use items/weapons which are not available to him in the Arsenal.
+
+Relevant files:
+
+"@Apex_cfg\arsenal.sqf"      				----- Role/class based whitelists and blacklists.
+"code\functions\fn_clientArsenal.sqf"			----- Interpret the whitelist/blacklist, prepare the Arsenal menu, and apply the hardcoded blacklist.
+"code\functions\fn_gearRestrictions.sqf"		----- Apply the gear restrictions
+"code\functions\fn_clientInteractArsenal.sqf"		----- User Interaction to open the Arsenal.
+
+
+
+
+Notes:
+
+- Arsenal and Gear Restrictions are unified into one system. If an Item/Weapon/Backpack/Magazine is in the Arsenal menu, the player will be able to use it.
+
+- Whitelists and Blacklists are prepared according to the player role. A Sniper will have different lists than a Pilot, for instance.
+
+- There are two parallel systems. Whitelisting and Blacklisting. You can use either one or the other (not both). Blacklisting may be more convenient if you are using modded gear, while whitelisting is easier to maintain after the initial configuration.
+
+- Whitelisting means any items in the whitelist will be available for use by a player in that Role. All whitelisted items will appear in the Arsenal menu.
+
+- Blacklisting means any items in the blacklist will be Unavailable for use by a player in that Role. Blacklisted items will NOT appear in the Arsenal menu, but everything else in the game & loaded mods will appear.
+
+- There is also a hard-coded blacklist of items which wont appear in the Arsenal and are subject to Gear Restrictions. These include Racing uniforms, VR uniforms, CSAT uniforms, IDAP uniforms, Respawn backpacks (they cause bugs), etc.
+
+- Remember your commas, this is incorrect:    ['blah','blah',]      this is correct:    ['blah','blah']
+	
+- Check server RPT log for errors on mission startup if something is not working
+
+- The whitelist and blacklist is structured like this:
+
+--------------------------
+"@Apex_cfg\arsenal.sqf"
+// Role (example: Sniper)
+[
+	BLACKLIST - If you are using the Blacklist, this part will be used. The items listed will NOT appear in the Arsenal and will be removed from the player if detected.
+
+	WHITELIST - If you are using the Whitelist, this part will be used. The items listed WILL appear in the Arsenal, any other gear will be removed if detected.
+]
+--------------------------
+
+
+Resources:
+
+	https://community.bistudio.com/wiki/Arma_3_CfgWeapons_Weapons
+	https://community.bistudio.com/wiki/Arma_3_CfgMagazines
+	https://community.bistudio.com/wiki/Arma_3_CfgVehicles_WEST
+	https://community.bistudio.com/wiki/Arma_3_CfgWeapons_Items

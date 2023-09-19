@@ -1,0 +1,276 @@
+// v1.0
+//==================== Modding documentation/support is a work in progress ========================//
+
+
+The process of changing units and vehicles to modded alternatives
+
+Relevant Files:
+
+	"code\config\QS_data_classNames.sqf"			// Various classnames
+	"code\config\QS_data_tableVehicles.sqf"			// Vehicle lookup table
+	"code\config\QS_data_tableUnits.sqf"			// Unit lookup table
+	"code\config\QS_data_tableCivilians.sqf"		// Civilian units pool
+	"@Apex_cfg\parameters.sqf"
+
+For deeper more permanent changes:
+
+	"code\config\QS_data_listItems.sqf"
+	"code\config\QS_data_listOther.sqf"
+	"code\config\QS_data_listUnits.sqf"
+	"code\config\QS_data_listVehicles.sqf"
+	"code\config\QS_data_groupCompositions.sqf"
+
+Other Files with Many Classnames:
+
+	"code\functions\fn_customInventory.sqf"
+	"code\functions\fn_downgradeVehicleWeapons.sqf"
+	"code\functions\fn_getAIMotorPool.sqf"
+	"code\functions\fn_getCustomAttachPoint.sqf"
+	"code\functions\fn_moveInCargoMedical.sqf"
+	"code\functions\fn_scEnemy.sqf"
+	"code\functions\fn_vRandom.sqf"
+	"code\functions\fn_vSetup.sqf"
+	"code\functions\fn_vSetup2.sqf"
+	"code\functions\fn_vTow.sqf"
+
+Arsenal:
+
+	"@Apex_cfg\arsenal.sqf"
+		--> You can also set up alternate arsenals based on the terrain used, for instance a modded/DLC terrain, using the existing format.
+
+Relevant global variables (for folder search, etc)
+
+	"QS_system_activeDLC"
+
+Critical notes:
+
+		- All classnames need to be in lowercase. You can force lowercase on a keyboard by selecting text and pressing [Ctrl]+[U]
+	
+--------------------------------------------------------------------------------------------
+
+
+
+"@Apex_cfg\parameters.sqf"
+
+		In the "@Apex_cfg\parameters.sqf" folder, locate these lines:
+		
+			//===================================================== DLC/MODs
+			// Available options by default: 'WS' 'VN' 'CSLA' 'GM'		<------------- These are configured in "auto detect" mode. If just running an existing cDLC, leave the below options as blank ''.
+
+			_dlc_vehicles = '';										// Leave as '' blank to run in Auto-Detect mode. Determines which list of vehicles are spawned.
+			_dlc_units = '';										// Leave as '' blank to run in Auto-Detect mode. Determines which list of infantry are spawned.
+			
+		Change both options to your preferred mod. For instance if using RHS, you could go:
+		
+			_dlc_vehicles = 'RHS_1';										// Leave as '' blank to run in Auto-Detect mode. Determines which list of vehicles are spawned.
+			_dlc_units = 'RHS_1';											// Leave as '' blank to run in Auto-Detect mode. Determines which list of infantry are spawned.
+		
+--------------------------------------------------------------------------------------------	
+"code\config\QS_data_classNames.sqf"
+	
+		In the file "code\config\QS_data_classNames.sqf", we have lists of vanilla classnames that are used by various systems in the framework.
+		
+		create a new section below the vanilla section.
+		
+		Your new section would look like this: (note the 'RHS_1' in the top line)
+		
+				if (_active_Mod == 'RHS_1') exitWith {
+					// CSLA  (this is what is used for the CSLA DLC)
+					qs_core_classnames_itemtoolkit = 'toolkit';
+					qs_core_classnames_itemtoolkits = ['toolkit','csla_toolkit','us85_toolkit_b','csla_toolkit_komze','us85_toolkit_s'];
+					qs_core_classnames_itemfirstaidkit = 'firstaidkit';
+					qs_core_classnames_itemfirstaidkits = ['firstaidkit','us85_fak','csla_ob80'];
+					qs_core_classnames_itemmedikit = 'medikit';
+					qs_core_classnames_itemmedikits = ['medikit','us85_medikit','csla_medikit_z80'];
+					qs_core_classnames_itemcompass = 'itemcompass';
+					qs_core_classnames_itemcompasses = ['itemcompass'];
+					qs_core_classnames_itemgps = 'itemgps';
+					qs_core_classnames_itemgpss = ['itemgps'];
+					qs_core_classnames_itemterminal = 'b_uavterminal';
+					qs_core_classnames_itemterminals = ['b_uavterminal','i_uavterminal','c_uavterminal','o_uavterminal','i_e_uavterminal'];
+					qs_core_classnames_itemwatch = 'itemwatch';
+					qs_core_classnames_itemwatches = ['itemwatch','us85_watch','csla_prim_enl'];
+					qs_core_classnames_itemradio = 'itemradio';
+					qs_core_classnames_itemradios = ['itemradio','csla_r123m','csla_r129','csla_rf10','csla_rf12'];
+					qs_core_classnames_itemmap = 'itemmap';
+					qs_core_classnames_itemmaps = ['itemmap'];
+					qs_core_classnames_itemminedetector = 'minedetector';
+					qs_core_classnames_itemminedetectors = ['minedetector','csla_w3p_detector','us85_anprs8_detector'];
+					qs_core_classnames_laserbatteries = ['laserbatteries'];
+					qs_core_classnames_democharge = 'us85_satchelcharge_mag';
+					qs_core_classnames_demochargeammo = 'US85_SatchelCharge_Ammo';
+					qs_core_classnames_democharges = ['us85_satchelcharge_mag','csla_ivz'];
+					qs_core_classnames_parachute = 'b_parachute';
+					qs_core_classnames_parachutes = ['b_parachute'];
+					qs_core_classnames_steerablep = 'steerable_parachute_f';
+					qs_core_classnames_steerableps = ['steerable_parachute_f'];
+					qs_core_classnames_handgrenade = 'us85_m67';
+					qs_core_classnames_minigrenade = 'csla_f1';
+					qs_core_classnames_grenades = ['csla_f1','us85_m67','csla_rg4o','csla_rg4u','csla_urg86u','csla_urg86o'];
+					qs_core_classnames_radiobags = ['csla_bp85rf10','us85_bpprc77','csla_bpwpr129','csla_bpwprf10'];
+					QS_core_classNames_heliTypesCAS_lower = [
+						'afmc_ah1f',
+						'us85_ah1f',
+						'us85_mh60ffar',
+						'csla_mi17pylons',
+						'csla_mi24v'
+					];
+				};
+				
+		Add relevant classnames from your Mod. For instance, in vanilla a medic requires a medikit to revive, but in CSLA there are other classnames:
+		
+			qs_core_classnames_itemmedikits = ['medikit','us85_medikit','csla_medikit_z80'];
+			
+		We add the medikit classnames from the Mod to the lists.
+		
+		Keep going for all the sections you can. Find the closest item/vehicle from the Mod to match the vanilla counterpart.
+		
+		Remember to use Lowercase format!
+	
+
+--------------------------------------------------------------------------------------------	
+"code\config\QS_data_tableVehicles.sqf"
+
+		In the file "code\config\QS_data_tableVehicles.sqf", we have a table of vanilla assets and their peer/counterpart from the preferred Mod.
+		
+		The framework references vanilla assets for force composition. To make it easier to integrate modded assets, we can intervene AFTER the framework has selected the appropriate vanilla asset, but BEFORE the vanilla asset is spawned.
+		
+		So for instance, using an example from CSLA dlc,
+		
+				['b_apc_wheeled_01_cannon_f','us85_lav25'],
+				
+		That table is in format:
+		
+			['A','B']
+			
+			or
+			
+			['VANILLA ASSET','MODDED ASSET']
+		
+		If the mod is running, the framework will check for the 'A' value, in this example 'b_apc_wheeled_01_cannon_f' (an AMV-7 Marshall wheeled APC)
+		
+		There is a B value, so the framework will attempt to spawn a 'us85_lav25' (CSLA wheeled APC). This is the closest vanilla counterpart/peer from the mod.
+		
+		
+		
+		You need to create a section in that file like this:
+		
+		
+				if (_units_table == 'RHS_1') exitwith {
+					
+					...
+				
+				};
+		
+		Look at other sections in the file for how it is formatted.
+		
+		For each of the vanilla units on the left A column, you need to put its closest counterpart/peer into the B column.
+		
+		If you cant find a suitable peer/counterpart from your mod, its a good idea to fill it in with a generic asset from the mod, or else the framework will spawn a vanilla asset. Remember to use the appropriate faction.
+		
+--------------------------------------------------------------------------------------------	
+"code\config\QS_data_tableUnits.sqf"
+		
+		Same as above, this file handles Units/Soldiers and uses the same format as the vehicles.
+		
+		Here is an example from the Western Sahara DLC in the file.
+		
+				['o_soldier_a_f','o_sfia_soldier_lxws'],
+				['o_soldier_aar_f','o_sfia_soldier_lxws'],
+				['o_support_amg_f','o_sfia_soldier_lxws'],
+				['o_support_amort_f','o_sfia_soldier_lxws'],
+				['o_soldier_ahat_f','o_sfia_soldier_aat_lxws'],
+				['o_soldier_aaa_f','o_sfia_soldier_aaa_lxws'],
+				['o_soldier_aat_f','o_sfia_soldier_aat_lxws'],
+				['o_soldier_ar_f','o_sfia_soldier_ar_lxws'],
+				
+		That table is in format:
+		
+			['A','B']
+			
+			or
+			
+			['VANILLA ASSET','MODDED ASSET']
+				
+		You need to create a section,
+		
+				if (_units_table == 'RHS_1') exitwith {
+					
+					...
+				
+				};
+				
+		Using the format shown in the file for other DLCs/mods.
+		
+		Same as above, if there is no valid counterpart, use a generic "Rifleman" or something, and remember to use from the appropriate faction.
+		
+--------------------------------------------------------------------------------------------	
+"code\config\QS_data_tableCivilians.sqf"		
+	
+		Civilians are handled in a simpler manner and do not have a table.
+		
+		Instead its a simple list of civilian classnames to select from.
+		
+		You need to create a section,
+		
+			if (_units_table == 'RHS_1') exitwith {
+				[
+					'c_man_w_worker_f',
+					'c_man_utilityworker_01_f',
+					'c_man_messenger_01_f',
+					'c_man_hunter_1_f',
+					'c_man_fisherman_01_f',
+					'c_man_polo_6_f',
+					'c_man_polo_5_f',
+					'c_man_polo_4_f',
+					'c_man_polo_3_f',
+					'c_man_polo_2_f',
+					'c_man_polo_1_f',
+					'c_man_casual_6_f',
+					'c_man_casual_5_f',
+					'c_man_casual_4_f',
+					'c_man_smart_casual_2_f',
+					'c_man_smart_casual_1_f',
+					'c_man_1',
+					'c_man_p_beggar_f',
+					'c_man_casual_1_f',
+					'c_man_casual_2_f',
+					'c_man_casual_3_f',
+					'c_farmer_01_enoch_f'
+				] apply {
+					_x call (missionNamespace getVariable 'QS_fnc_prepareClassAddons');
+					_x
+				};
+			};
+			
+		And simply replace the existing list with a list of your own civilian units for the framework to spawn from.
+		
+--------------------------------------------------------------------------------------------
+
+Extended work:
+
+		If you want to make your mission file Modded-Only, you can look to make deeper changes.
+
+		Once you have the above files working nicely, you can look to start on deeper changes using the below files:
+		
+				"code\config\QS_data_listItems.sqf"
+				"code\config\QS_data_listOther.sqf"
+				"code\config\QS_data_listUnits.sqf"
+				"code\config\QS_data_listVehicles.sqf"
+				
+		In these files, I would suggest to keep a backup fresh copy (or just use the repository copies).
+		
+		The way to make changes to these files is with "Find & Replace".
+		
+		These lists of assets are used for various things in the framework. If you are running it as modded-only, 
+		you can look to replace the lists of vanilla classnames with lists of modded counterparts.
+		
+Arsenal:
+
+		There is currently no easy documentation on Modded arsenal setup.
+		
+				"@Apex_cfg\arsenal.sqf"
+				
+		You would have to create your lists of Arsenal classnames that match the categories in that file, and replace as needed.
+		
+//==================== Modding documentation/support is a work in progress ========================//

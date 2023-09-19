@@ -1,0 +1,83 @@
+/*
+Grab data:
+Mission: tempMissionSP
+World: Altis
+Anchor position: [23544.6, 18325.1]
+Area size: 100
+Using orientation of objects: no
+*/
+
+[
+	["Flag_White_F",[3.71875,-2.8125,0],0,[],false,true,false,{
+		missionNamespace setVariable ['QS_AO_HQ_flag',(_this # 0),FALSE];
+		(_this # 0);
+	}], 
+	["Land_PaperBox_closed_F",[6.39648,1.97461,0],127,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-5.38477,-4.24023,-0.0119424],245.221,[],false,true,true,{}], 
+	["Land_JunkPile_F",[-3.14258,6.92773,0],270,[],false,false,true,{}], 
+	["Land_Pallets_stack_F",[6.85938,3.83789,-4.76837e-007],359.998,[],false,false,true,{}], 
+	["Land_Pallets_stack_F",[-1.63281,8.32227,-7.15256e-007],44.0031,[],false,false,true,{}], 
+	["Land_PaperBox_closed_F",[8.26953,2.31055,0],275,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-3.66602,-7.74414,-0.0119424],245.221,[],false,true,true,{}], 
+	["Land_Cargo_HQ_V2_F",[4.99023,-8.54102,0],63.9214,[],false,true,false,{}], 
+	["Land_CratesShabby_F",[-1.84375,9.83984,0],161,[],false,false,true,{}], 
+	["Land_Tyres_F",[-4.5918,-9.83398,0.00659728],245,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-6.58398,9.38086,-0.0119424],155.064,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-3.08008,11.0762,-0.0119424],155.064,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-2.88867,-12.1074,-0.295521],245.221,[],false,true,true,{}], 
+	["Land_Mil_WallBig_4m_F",[0.494141,12.6582,-0.0119424],155.064,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-8.78516,9.37305,0],336.09,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[-1.7832,12.541,0],153.857,[],false,false,true,{}], 
+	["Land_Mil_WallBig_Corner_F",[-8.37695,9.76953,-1.40699],155.756,[],false,false,true,{}], 
+	["Land_HBarrier_1_F",[11.3809,5.44141,0],283.874,[],false,false,true,{}], 
+	["Land_GarbageBags_F",[-3.51758,-11.3203,0],158,[],false,false,true,{}], 
+	["Land_HBarrier_1_F",[12.1797,4.96094,0],334.983,[],false,false,true,{}], 
+	["Land_Cargo20_military_green_F",[-12.9473,3.68359,2.86102e-006],289.299,[],false,true,false,{}], 
+	["Land_Mil_WallBig_4m_F",[-10.0059,10.5605,-0.0119424],243.823,[],false,false,true,{}], 
+	["Land_Cargo20_military_green_F",[-14.0762,-5.03711,-0.210717],247.159,[],false,true,false,{}], 
+	["Land_Cargo20_military_green_F",[-14.2168,-5.19727,-0.0790138],248.359,[],false,true,false,{}], 
+	["Land_HBarrier_5_F",[-10.6426,13.9531,0],67.4818,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[15.6641,5.39063,0.600525],155.064,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[16.0742,4.73438,0],159.207,[],false,false,true,{}], 
+	["Land_Mil_WallBig_Corner_F",[-12.1699,11.2656,0],341.375,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[0.318359,-16.9219,0],244.792,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-15.7715,-9.19531,0.292885],62.0088,[],false,false,true,{}], 
+	["Land_ToiletBox_F",[18.0293,1.71094,7.62939e-006],68.168,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-14.1543,12.0625,-0.0119424],155.064,[],false,false,true,{}], 
+	["Land_HBarrier_1_F",[-4.18359,17.6875,0],65.4536,[],false,false,true,{}], 
+	["Land_HBarrier_1_F",[-9.95898,-15.4277,0],53.8674,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[-16.6621,-7.50391,0],244.792,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-18.0098,-5.89258,0.112427],64.5129,[],false,false,true,{}], 
+	["Land_ToiletBox_F",[18.748,0.0996094,7.15256e-006],70.3292,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-12.0586,-15.4453,0],239.395,[],false,false,true,{}], 
+	["Land_WaterTank_F",[4.56055,18.7852,-4.52995e-006],339.625,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-1.56836,19.832,0.277655],155.064,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-19.7773,-2.2207,-0.0880542],64.5129,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[5.2832,-18.6719,0],155.57,[],false,false,true,{}], 
+	["Land_Mil_WallBig_Corner_F",[18.3633,4.60938,-0.0732713],338.824,[],false,false,true,{}], 
+	["Land_HBarrier_1_F",[18.1914,7.34375,0],334.983,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[12.4863,-15.2168,0],155.57,[],false,false,true,{}], 
+	["Land_Cargo_Patrol_V2_F",[20.6016,-4.79297,0],284.878,[],false,true,false,{}], 
+	["Land_Cargo_House_V2_F",[8.64453,18.7559,0],66.8852,[],false,true,false,{}], 
+	["Land_HBarrierBig_F",[-15.709,12.3945,0],335.438,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[-0.130859,19.9785,0],335.092,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[20.4707,3.25781,-0.0575914],245.479,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[14.459,17.0313,0],156.218,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[-20.4551,0.0722656,0],244.792,[],false,false,true,{}], 
+	["Land_Cargo_Patrol_V2_F",[-20.8105,6.77539,0],114.133,[],false,true,false,{}], 
+	["Land_Mil_WallBig_4m_F",[-10.9961,-18.0703,0.13351],62.0088,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[1.77344,21.8379,0.15649],147.729,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[21.4492,1.02148,0],68.4504,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[18.6875,-11.0254,0],313.281,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[-21.1367,6.39648,0],296.506,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[-9.74219,-19.7852,0],244.792,[],false,false,true,{}], 
+	["Land_HBarrier_3_F",[-22.1973,3.68945,0],290.49,[],false,false,true,{}], 
+	["Land_HBarrier_5_F",[21.4648,-7.47266,0],283.984,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[-9.66602,-21.832,0.414345],62.0088,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[12.2539,21.7695,0],68.4504,[],false,false,true,{}], 
+	["Land_HBarrierBig_F",[7.67578,23.75,0],335.092,[],false,false,true,{}], 
+	["Land_HBarrier_1_F",[-7.54297,-24.1602,0],332.831,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[11.7676,23.2461,0.295202],245.479,[],false,false,true,{}], 
+	["Land_Mil_WallBig_4m_F",[7.71289,25.0801,0.449161],155.064,[],false,false,true,{}], 
+	["Land_Mil_WallBig_Corner_F",[10.418,23.6836,0.280898],338.824,[],false,false,true,{}]
+]

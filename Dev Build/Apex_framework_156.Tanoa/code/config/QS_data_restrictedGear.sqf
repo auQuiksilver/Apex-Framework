@@ -1,0 +1,188 @@
+/*
+File: QS_data_restrictedGear.sqf
+Author:
+
+	Quiksilver
+	
+Last modified:
+
+	18/11/2022 A3 2.10 by Quiksilver
+	
+Description:
+
+	Restricted Gear
+	
+	These are items to exclude globally, such as VR suits, etc.
+___________________________________________*/
+
+[
+	// Weapons
+	[
+		'apersminedispenser_mag'
+	],
+	
+	// Magazines
+	[
+		'apersminedispenser_mag'
+	],
+	
+	// Items
+	[
+		'h_helmetleadero_oucamo',
+		'h_helmetleadero_ocamo',
+		'h_helmetleadero_ghex_f',
+		'h_helmeto_oucamo',
+		'h_helmeto_ocamo',
+		'h_helmeto_ghex_f',
+		'h_racinghelmet_1_black_f',
+		'h_racinghelmet_1_blue_f',
+		'h_racinghelmet_2_f',
+		'h_racinghelmet_1_f',
+		'h_racinghelmet_1_green_f',
+		'h_racinghelmet_1_orange_f',
+		'h_racinghelmet_1_red_f',
+		'h_racinghelmet_3_f',
+		'h_racinghelmet_4_f',
+		'h_racinghelmet_1_white_f',
+		'h_racinghelmet_1_yellow_f',
+		'u_c_idap_man_cargo_f',
+		'u_c_idap_man_jeans_f',
+		'u_c_idap_man_casual_f',
+		'u_c_idap_man_shorts_f',
+		'u_c_idap_man_tee_f',
+		'u_c_idap_man_teeshorts_f',
+		'u_c_driver_1_black',
+		'u_c_driver_1_blue',
+		'u_c_driver_2',
+		'u_c_driver_1',
+		'u_c_driver_1_green',
+		'u_c_driver_1_orange',
+		'u_c_driver_1_red',
+		'u_c_driver_3',
+		'u_c_driver_4',
+		'u_c_driver_1_white',
+		'u_c_driver_1_yellow',
+		'u_o_t_soldier_f',
+		'u_o_combatuniform_ocamo',
+		'u_o_combatuniform_oucamo',
+		'u_o_fullghillie_ard',
+		'u_o_t_fullghillie_tna_f',
+		'u_o_fullghillie_lsh',
+		'u_o_fullghillie_sard',
+		'u_o_t_sniper_f',
+		'u_o_ghilliesuit',
+		'u_orestesbody',
+		'u_o_officer_noinsignia_hex_f',
+		'u_o_t_officer_f',
+		'u_o_officeruniform_ocamo',
+		'u_o_pilotcoveralls',
+		'u_o_specopsuniform_ocamo',
+		'u_o_v_soldier_viper_f',
+		'u_o_v_soldier_viper_hex_f',
+		'u_i_protagonist_vr',
+		'u_c_protagonist_vr',
+		'u_o_protagonist_vr',
+		'u_b_protagonist_vr',
+		'v_plain_medical_f',
+		'v_eod_idap_blue_f',
+		'apersminedispenser_mag',
+		'integrated_nvg_f',
+		'integrated_nvg_ti_0_f',
+		'integrated_nvg_ti_1_f',
+		'o_uavterminal',
+		'i_uavterminal',
+		'c_uavterminal',
+		'i_e_uavterminal'	
+	],
+	
+	// Backpacks
+	[
+		'weapon_bag_base',
+		'o_hmg_01_support_f',
+		'i_hmg_01_support_f',
+		'o_hmg_01_support_high_f',
+		'i_hmg_01_support_high_f',
+		'o_hmg_01_weapon_f',
+		'i_hmg_01_weapon_f',
+		'b_hmg_01_a_weapon_f',
+		'o_hmg_01_a_weapon_f',
+		'i_hmg_01_a_weapon_f',
+		'i_hmg_02_support_f',
+		'i_e_hmg_02_support_f',
+		//'i_c_hmg_02_support_f',		// These are allowed in Arsenal until BIS fixes the Blufor variant
+		'i_g_hmg_02_support_f',
+		'i_hmg_02_support_high_f',
+		'i_e_hmg_02_support_high_f',
+		//'i_c_hmg_02_support_high_f',
+		'i_g_hmg_02_support_high_f',
+		'i_hmg_02_weapon_f',
+		'i_e_hmg_02_weapon_f',
+		//'i_c_hmg_02_weapon_f',
+		'i_g_hmg_02_weapon_f',
+		'i_hmg_02_high_weapon_f',
+		'i_e_hmg_02_high_weapon_f',
+		//'i_c_hmg_02_high_weapon_f',
+		'i_g_hmg_02_high_weapon_f',
+		'o_gmg_01_weapon_f',
+		'i_gmg_01_weapon_f',
+		'b_gmg_01_a_weapon_f',
+		'o_gmg_01_a_weapon_f',
+		'i_gmg_01_a_weapon_f',
+		'o_hmg_01_high_weapon_f',
+		'i_hmg_01_high_weapon_f',
+		'o_gmg_01_high_weapon_f',
+		'i_gmg_01_high_weapon_f',
+		'o_mortar_01_support_f',
+		'i_mortar_01_support_f',
+		'o_mortar_01_weapon_f',
+		'i_mortar_01_weapon_f',
+		'b_o_parachute_02_f',
+		'b_i_parachute_02_f',
+		'o_aa_01_weapon_f',
+		'i_aa_01_weapon_f',
+		'o_at_01_weapon_f',
+		'i_at_01_weapon_f',
+		'o_uav_01_backpack_f',
+		'i_uav_01_backpack_f',
+		'b_respawn_tentdome_f',
+		'b_respawn_tenta_f',
+		'b_respawn_sleeping_bag_f',
+		'b_respawn_sleeping_bag_blue_f',
+		'b_respawn_sleeping_bag_brown_f',
+		'o_static_designator_02_weapon_f',
+		'b_patrol_respawn_bag_f',
+		'b_messenger_idap_f',
+		'c_idap_uav_01_backpack_f',
+		'o_uav_06_backpack_f',
+		'i_uav_06_backpack_f',
+		'c_idap_uav_06_backpack_f',
+		'c_uav_06_backpack_f',
+		'c_idap_uav_06_antimine_backpack_f',
+		'o_uav_06_medical_backpack_f',
+		'i_uav_06_medical_backpack_f',
+		'c_idap_uav_06_medical_backpack_f',
+		'c_uav_06_medical_backpack_f',
+		'i_e_mortar_01_support_f',
+		'i_e_mortar_01_weapon_f',
+		'i_e_hmg_01_support_high_f',
+		'i_e_hmg_01_support_f',
+		'i_e_gmg_01_a_weapon_f',
+		'i_e_hmg_01_a_weapon_f',
+		'i_e_hmg_01_high_weapon_f',
+		'i_e_hmg_01_weapon_f',
+		'i_e_gmg_01_high_weapon_f',
+		'i_e_gmg_01_weapon_f',
+		'i_e_ugv_02_demining_backpack_f',
+		'i_ugv_02_science_backpack_f',
+		'o_ugv_02_science_backpack_f',
+		'i_e_ugv_02_science_backpack_f',
+		'i_e_aa_01_weapon_f',
+		'i_e_at_01_weapon_f',
+		'i_e_uav_06_backpack_f',
+		'i_e_uav_06_medical_backpack_f',
+		'i_e_uav_01_backpack_f',
+		'c_idap_ugv_02_demining_backpack_f',
+		'i_ugv_02_demining_backpack_f',
+		'o_ugv_02_demining_backpack_f'	
+	]
+]
