@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/04/2022 A3 2.08 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -21,7 +21,7 @@ if (_type isEqualTo 'INPOLYGON_FOOT') exitWith {
 		if (!isNull (missionNamespace getVariable ['QS_carrierObject',objNull])) then {
 			if (isNull (objectParent _entity)) then {
 				_worldPolygon = [[-41.34,171.173,23.605],[-41.0483,-70.9946,23.5818],[45.5078,-63.2866,23.5561],[42.7202,150.547,23.5823]] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
-				if ((getPosWorld _entity) inPolygon _worldPolygon) then {
+				if (_entity inPolygon _worldPolygon) then {
 					_c = TRUE;
 				};
 			};
@@ -35,7 +35,7 @@ if (_type isEqualTo 'INPOLYGON') exitWith {
 	if ((missionNamespace getVariable ['QS_missionConfig_carrierEnabled',0]) isNotEqualTo 0) then {
 		if (!isNull (missionNamespace getVariable ['QS_carrierObject',objNull])) then {
 			_worldPolygon = [[-41.34,171.173,23.605],[-41.0483,-70.9946,23.5818],[45.5078,-63.2866,23.5561],[42.7202,150.547,23.5823]] apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
-			if ((getPosWorld _entity) inPolygon _worldPolygon) then {
+			if (_entity inPolygon _worldPolygon) then {
 				_c = TRUE;
 			};
 		};

@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	12/03/2023 A3 2.12 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -88,7 +88,7 @@ if (_mode isEqualTo 'GET') exitWith {
 				)} ||
 				{(
 					(_type isEqualTo 'POLY') &&
-					{((_entity isEqualType objNull) && {((getPosASL _entity) inPolygon (_areaParams # 0))})} &&
+					{((_entity isEqualType objNull) && {(_entity inPolygon (_areaParams # 0))})} &&
 					{((_areaParams # 1) isEqualTo -1) || {(((getPosASL _entity) # 2) < (_areaParams # 1))}}
 				)} ||
 				{(

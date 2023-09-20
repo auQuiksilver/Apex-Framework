@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/03/2023 A3 2.12 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -60,6 +60,7 @@ if (
 	_vehicle setVariable ['QS_service_eventHit',-1];
 	50 cutText [localize 'STR_QS_Text_285','PLAIN DOWN',0.333];
 };
+private _waterDamaged = waterDamaged _vehicle;
 private _attachedObjs = attachedObjects _vehicle;
 private _serviceInfo = _types select { (_x # 1) isEqualTo 'recover' };
 if (_vehicle getVariable ['QS_logistics_wreck',FALSE]) exitWith {
@@ -94,7 +95,7 @@ if (
 	private _repairPerCycle = 0.05;
 	if (local _vehicle) then {
 		(getAllHitPointsDamage _vehicle) params ['_selection','',['_damage',[]]];
-		if (_damage isNotEqualTo []) then {
+		if ((_damage isNotEqualTo []) || _waterDamaged) then {
 			private _repairingPerformed = FALSE;
 			private _hit = 0;
 			private _msgDelay = -1;
@@ -120,13 +121,13 @@ if (
 				if (_cancelled) exitWith {};
 			} forEach _damage;
 			if (!(_cancelled)) then {
-				if (_repairingPerformed) then {
+				if (_repairingPerformed || _waterDamaged) then {
 					_vehicle setDamage [0,FALSE];
 					50 cutText [localize 'STR_QS_Text_278','PLAIN DOWN',0.333];
 				};
 			};
 		} else {
-			if ((damage _vehicle) > 0) then {
+			if (((damage _vehicle) > 0) || _waterDamaged) then {
 				private _damage = damage _vehicle;
 				if (!(_repairingPerformed)) then {
 					_repairingPerformed = TRUE;
@@ -151,7 +152,7 @@ if (
 			{
 				if (
 					(alive _x) &&
-					{((damage _x) > 0)}
+					{((damage _x) > 0) || (waterDamaged _x)}
 				)then {
 					_repairedChildren pushBackUnique _x;
 					_x setDamage [0,FALSE];
@@ -162,7 +163,7 @@ if (
 			{
 				if (
 					(alive _x) &&
-					{((damage _x) > 0)} &&
+					{((damage _x) > 0) || (waterDamaged _x)} &&
 					{(!(_x in _repairedChildren))}
 				) then {
 					_x setDamage [0,FALSE];

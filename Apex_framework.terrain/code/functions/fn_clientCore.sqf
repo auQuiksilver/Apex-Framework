@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/05/2023 A3 2.12 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -2543,7 +2543,7 @@ for '_z' from 0 to 1 step 0 do {
 				{((['LandVehicle','Reammobox_F'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
 				{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLowerANSI _QS_v2Type) in ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f']) && (_cursorObjectDistance <= 15))})} &&
 				{(((vectorUp _cursorObject) # 2) < 0.3)} &&
-				{_unflipEnabled || ((['MODE23',_cursorObject] call QS_fnc_simpleWinch) # 0)}
+				{_unflipEnabled || ((['MODE23',_cursorObject] call _fn_simpleWinch) # 0)}
 			) then {
 				if (!(_QS_interaction_unflipVehicle)) then {
 					_QS_interaction_unflipVehicle = _true;
@@ -5268,7 +5268,7 @@ for '_z' from 0 to 1 step 0 do {
 		if (_QS_uiTime > _QS_tanoa_checkDelay) then {
 			if (missionNamespace getVariable ['QS_customAO_GT_active',_false]) then {
 				if (!(_QS_inGeorgetown)) then {
-					if (_QS_posWorldPlayer inPolygon _QS_georgetown_polygon) then {
+					if (_QS_player inPolygon _QS_georgetown_polygon) then {
 						if (!isNull _objectParent) then {
 							if (local _QS_v2) then {
 								if ((isNull (attachedTo _QS_v2)) && (isNull (isVehicleCargo _QS_v2))) then {
@@ -5326,7 +5326,7 @@ for '_z' from 0 to 1 step 0 do {
 					) then {
 						_QS_v2 setFuel 0;
 					};
-					if ((!(_QS_posWorldPlayer inPolygon _QS_georgetown_polygon)) || {(!isNull _objectParent)} || {((_posATLPlayer # 2) >= 50)}) then {
+					if ((!(_QS_player inPolygon _QS_georgetown_polygon)) || {(!isNull _objectParent)} || {((_posATLPlayer # 2) >= 50)}) then {
 						_QS_inGeorgetown = FALSE;
 						50 cutText [(format ['%2 (%1) ...',(['Kavala','Georgetown'] select (_QS_worldName isEqualTo 'Tanoa')),localize 'STR_QS_Text_034']),'PLAIN DOWN',0.25];
 						[_QS_georgetown_priorVD,_QS_georgetown_priorOVD] spawn {

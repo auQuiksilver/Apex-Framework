@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	17/03/2023 A3 2.12 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -50,7 +50,7 @@ if (_mode isEqualTo 0) then {
 				{
 					if (local _x) then {
 						if (
-							((getPosWorld _x) inPolygon QS_base_safePolygon) &&
+							(_x inPolygon QS_base_safePolygon) &&
 							{(((getPos _x) # 2) < 2)}
 						) then {
 							_deleteDelay = FALSE;

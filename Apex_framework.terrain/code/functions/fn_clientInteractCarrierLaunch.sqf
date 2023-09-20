@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	10/04/2018 A3 1.82 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 	
 Description:
 	
@@ -14,7 +14,6 @@ Description:
 ___________________________________________________/*/
 
 _cameraOn = cameraOn;
-_cameraOnPos = getPosWorld _cameraOn;
 private _isUAV = unitIsUav _cameraOn;
 private _launcherData = [];
 private _launcherPolygon = [];
@@ -30,7 +29,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		_launcherData = _x;
 		_launcherPolygon = _launcherData # 0;
 		_launcherPolygon = _launcherPolygon apply { ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld _x) };
-		if (_cameraOnPos inPolygon _launcherPolygon) exitWith {
+		if (_cameraOn inPolygon _launcherPolygon) exitWith {
 			if (_isUAV) then {
 				_launchPosData = _launcherData # 5;
 			} else {

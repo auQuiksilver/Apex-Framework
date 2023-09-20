@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/12/2022 A3 2.10 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -126,8 +126,7 @@ _this spawn {
 						uiSleep 1;
 						if ((crew _this) isNotEqualTo []) then {
 							if (player isEqualTo (leader (group player))) then {
-								//(crew _this) joinSilent (group player);
-								//(crew _this) doFollow player;
+
 							};
 							(group (driver _this)) setVariable ['QS_HComm_grp',FALSE,TRUE];
 							{

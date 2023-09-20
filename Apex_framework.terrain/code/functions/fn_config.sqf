@@ -6,7 +6,7 @@ Author:
 	
 Last modified: 
 
-	9/12/2022 A3 2.10 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -27,39 +27,13 @@ private [
 	'************************* Server Config Starting ****************************',
 	'*****************************************************************************',
 	(format ['***** System Time: %1 * Product Version: %2 * Mission Name: %3 * Server Name: %4 * Briefing Name: %5 * Mission Version: %6 * Mission Difficulty: %7 * Mission DLCs: %8 * Distribution Region: %9 *****',systemTime,productVersion,missionName,serverName,briefingName,missionVersion,missionDifficulty,getMissionDLCs,distributionRegion]),
-	'*****************************************************************************',
-	(format [
-		'***** Difficulty Options *****%1*****autoReport: %2%1*****cameraShake: %3%1*****commands: %4%1*****deathMessages: %5%1*****detectedMines: %6%1*****enemyTags: %7%1*****friendlyTags: %8%1*****groupIndicators: %9%1*****mapContent: %10%1*****mapContentEnemy: %11%1*****mapContentFriendly: %12%1*****mapContentMines: %13%1*****mapContentPing: %14%1*****multipleSaves: %15%1*****reducedDamage: %16%1*****scoreTable: %17%1*****squadRadar: %18%1*****staminaBar: %19%1*****stanceIndicator: %20%1*****tacticalPing: %21%1*****thirdPersonView: %22%1*****visionAid: %23%1*****vonID: %24%1*****waypoints: %25%1*****weaponCrosshair: %26%1*****weaponInfo: %27%1',
-		endl,
-		(difficultyOption 'autoReport'),
-		(difficultyOption 'cameraShake'),
-		(difficultyOption 'commands'),
-		(difficultyOption 'deathMessages'),
-		(difficultyOption 'detectedMines'),
-		(difficultyOption 'enemyTags'),
-		(difficultyOption 'friendlyTags'),
-		(difficultyOption 'groupIndicators'),
-		(difficultyOption 'mapContent'),
-		(difficultyOption 'mapContentEnemy'),
-		(difficultyOption 'mapContentFriendly'),
-		(difficultyOption 'mapContentMines'),
-		(difficultyOption 'mapContentPing'),
-		(difficultyOption 'multipleSaves'),
-		(difficultyOption 'reducedDamage'),
-		(difficultyOption 'scoreTable'),
-		(difficultyOption 'squadRadar'),
-		(difficultyOption 'staminaBar'),
-		(difficultyOption 'stanceIndicator'),
-		(difficultyOption 'tacticalPing'),
-		(difficultyOption 'thirdPersonView'),
-		(difficultyOption 'visionAid'),
-		(difficultyOption 'vonID'),
-		(difficultyOption 'waypoints'),
-		(difficultyOption 'weaponCrosshair'),
-		(difficultyOption 'weaponInfo')
-	]),
 	'*****************************************************************************'
 ];
+diag_log '***** Difficulty Options 0 *****';
+{
+	diag_log _x;
+} forEach (difficultyOption []);
+diag_log '***** Difficulty Options 1 *****';
 diag_log format ['***** Mission Profile Namespace Loaded - %1 *****',isMissionProfileNamespaceLoaded];
 if (!isMissionProfileNamespaceLoaded) then {
 	saveMissionProfileNamespace;
@@ -1021,7 +995,7 @@ if (_worldName isEqualTo 'Stratis') then {
 			((((getModelInfo _x) # 0) select [0,7]) in ['cargo_h','cargo_p'])
 		};
 		_QS_milBuildings = _QS_milBuildings select {
-			(!((getPosWorld _x) inPolygon [
+			(!(_x inPolygon [
 				[2619.61,5814.57,0.00137115],
 				[2269.47,5989.51,0.00155592],
 				[1882.34,6273.29,0.00182962],
@@ -1164,7 +1138,7 @@ if (_worldName isEqualTo 'Stratis') then {
 };
 if (_worldName isEqualTo 'Altis') then {
 	{
-		if ((getPosWorld _x) inPolygon [[5443.56,17947,0],[5387.14,17940.1,0],[5383.96,17933.4,0],[5368.8,17932.5,0],[5343.63,17919,0],[5355.7,17878.1,0],[5364.41,17850.4,0],[5379.65,17850.7,0],[5395.13,17870.1,0],[5434.97,17871.2,0],[5438.15,17916.3,0],[5445.73,17929.3,0]]) then {
+		if (_x inPolygon [[5443.56,17947,0],[5387.14,17940.1,0],[5383.96,17933.4,0],[5368.8,17932.5,0],[5343.63,17919,0],[5355.7,17878.1,0],[5364.41,17850.4,0],[5379.65,17850.7,0],[5395.13,17870.1,0],[5434.97,17871.2,0],[5438.15,17916.3,0],[5445.73,17929.3,0]]) then {
 			_x hideObjectGlobal TRUE;
 			_x enableSimulationGlobal FALSE;
 		};

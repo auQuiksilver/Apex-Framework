@@ -5,14 +5,22 @@ Known Issues:
 	[] AI fire support only working once?
 	[] Recruitable AI seen firing smoke in main base (are they being position reset instead of deleted/respawned?)
 	[] Can service vehicle from very far away in some cases, ship related?
-	...
+	[] Using Arsenal mode 3 (unrestricted vanilla) causes a critical error when using arsenal after changing roles
+	[] All units are visible on map (Dev build)
 	
 1.5.6 Dev
 
-[TWEAKED] GPS alternate mode ( Ctrl + ] ) now properly rotates player icon.
-[TWEAKED] Better handling of vehicles submerged in water (drowned).
-[TWEAKED] Bobcat mine clearance would spam notification messages.
-[FIXED] Winch system could get stuck in an unbreakable loop.
+	[TWEAKED] Ongoing general scripting optimisations (A3 2.14)
+	[TWEAKED] Tow ropes now look more like cables than ropes (will revert if unwanted).
+	[TWEAKED] "Unflip" action now accesses the vehicle Winch, when Unflip is disabled and the vehicle has a working winch (to aid unflipping).
+	[TWEAKED] GPS alternate mode ( Ctrl + ] ) now properly rotates player icon.
+	[TWEAKED] Better handling of vehicles submerged in water (drowned).
+	[TWEAKED] Bobcat mine clearance would spam notification messages.
+	[FIXED] Winch system could get stuck in an unbreakable loop.
+
+1.5.6 Stable
+
+
 
 1.5.5 Stable Patch 1
 

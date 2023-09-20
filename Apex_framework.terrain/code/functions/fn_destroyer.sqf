@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	8/07/2022 A3 2.10 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -21,7 +21,7 @@ if (_type isEqualTo 'INPOLYGON_FOOT') exitWith {
 		if (!isNull (missionNamespace getVariable ['QS_destroyerObject',objNull])) then {
 			if (isNull (objectParent _entity)) then {
 				_worldPolygon = [[13.0117,92.106,8.71204],[-13.0034,92.1133,8.74377],[-15.9448,42.8906,8.58817],[-14.6387,-16.2246,8.67601],[-9.54688,-67.8555,8.99917],[-0.864258,-110.585,13.127],[1.05225,-110.629,12.7627],[9.64355,-65.5073,12.7884],[12.6826,-37.0854,12.8368],[15.8574,6.70361,8.00518],[14.5059,69.4863,8.44093]] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
-				if ((getPosWorld _entity) inPolygon _worldPolygon) then {
+				if (_entity inPolygon _worldPolygon) then {
 					_c = TRUE;
 				};
 			};
@@ -35,7 +35,7 @@ if (_type isEqualTo 'INPOLYGON') exitWith {
 	if ((missionNamespace getVariable ['QS_missionConfig_destroyerEnabled',0]) isNotEqualTo 0) then {
 		if (!isNull (missionNamespace getVariable ['QS_destroyerObject',objNull])) then {
 			_worldPolygon = [[13.0117,92.106,8.71204],[-13.0034,92.1133,8.74377],[-15.9448,42.8906,8.58817],[-14.6387,-16.2246,8.67601],[-9.54688,-67.8555,8.99917],[-0.864258,-110.585,13.127],[1.05225,-110.629,12.7627],[9.64355,-65.5073,12.7884],[12.6826,-37.0854,12.8368],[15.8574,6.70361,8.00518],[14.5059,69.4863,8.44093]] apply { ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld _x) };
-			if ((getPosWorld _entity) inPolygon _worldPolygon) then {
+			if (_entity inPolygon _worldPolygon) then {
 				_c = TRUE;
 			};
 		};
