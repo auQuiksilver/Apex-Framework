@@ -124,7 +124,7 @@ for '_z' from 0 to 1 step 0 do {
 		{(abs((damage _QS_player) - BIS_oldDMG) > 0.0001)} &&
 		{BIS_applyPP3} &&
 		{BIS_fnc_feedback_allowPP} &&
-		{(isNull (getConnectedUAVUnit _QS_player))}
+		{!(isRemoteControlling _QS_player)}
 	) then {
 		BIS_applyPP3 = _false;
 		call _fn_feedbackDamageChanged;
@@ -151,7 +151,7 @@ for '_z' from 0 to 1 step 0 do {
 		{(abs((getOxygenRemaining _QS_player) - BIS_oldOxygen) > 0.0001)} &&
 		{BIS_applyPP5} && 
 		{BIS_fnc_feedback_allowPP} && 
-		{(isNull (getConnectedUAVUnit _QS_player))}
+		{!(isRemoteControlling _QS_player)}
 	) then {
 		BIS_oldOxygen = getOxygenRemaining _QS_player;
 		BIS_applyPP5 = _false;
@@ -163,7 +163,7 @@ for '_z' from 0 to 1 step 0 do {
 	if (
 		!BIS_fnc_feedback_fatiguePP && 
 		{((getFatigue _QS_player) > 0.5)} &&
-		{(isNull (getConnectedUAVUnit _QS_player))}
+		{!(isRemoteControlling _QS_player)}
 	) then {
 		BIS_fnc_feedback_fatiguePP = _true;
 		0 spawn _fn_feedbackFatigue;

@@ -48,7 +48,7 @@ if (!((toLowerANSI (typeOf _jetActual)) in ['c_plane_civil_01_racing_f','c_plane
 	} else {
 		_jetActual setVariable ['QS_AI_PLANE_flyInHeight',(selectRandom [1,2]),FALSE];
 	};
-	_jetActual flyInHeight (500 + (random 1000));
+	_jetActual flyInHeight [(500 + (random 1000)),TRUE];
 	_jetActual addEventHandler [
 		'Hit',
 		{
@@ -58,7 +58,7 @@ if (!((toLowerANSI (typeOf _jetActual)) in ['c_plane_civil_01_racing_f','c_plane
 					if (!isNull _causedBy) then {
 						if (_causedBy isKindOf 'Plane') then {
 							_altATL = (getPosATL _vehicle) # 2;
-							_vehicle flyInHeight (_altATL + (100 - (random 200)));
+							_vehicle flyInHeight [(_altATL + (100 - (random 200))),TRUE];
 						};
 					};
 				};

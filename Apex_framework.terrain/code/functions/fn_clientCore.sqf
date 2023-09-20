@@ -2543,7 +2543,7 @@ for '_z' from 0 to 1 step 0 do {
 				{((['LandVehicle','Reammobox_F'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
 				{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLowerANSI _QS_v2Type) in ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f']) && (_cursorObjectDistance <= 15))})} &&
 				{(((vectorUp _cursorObject) # 2) < 0.3)} &&
-				{_unflipEnabled}
+				{_unflipEnabled || ((['MODE23',_cursorObject] call QS_fnc_simpleWinch) # 0)}
 			) then {
 				if (!(_QS_interaction_unflipVehicle)) then {
 					_QS_interaction_unflipVehicle = _true;
@@ -4417,8 +4417,6 @@ for '_z' from 0 to 1 step 0 do {
 			_QS_module_services_checkDelay = _timeNow + _QS_module_services_delay;
 		};
 	};
-	
-	
 	
 	/*/========== Vehicle manifest display/*/
 	

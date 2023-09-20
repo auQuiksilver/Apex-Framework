@@ -1,5 +1,19 @@
 Official Change Log
 
+Known Issues:
+
+	[] AI fire support only working once?
+	[] Recruitable AI seen firing smoke in main base (are they being position reset instead of deleted/respawned?)
+	[] Can service vehicle from very far away in some cases, ship related?
+	...
+	
+1.5.6 Dev
+
+[TWEAKED] GPS alternate mode ( Ctrl + ] ) now properly rotates player icon.
+[TWEAKED] Better handling of vehicles submerged in water (drowned).
+[TWEAKED] Bobcat mine clearance would spam notification messages.
+[FIXED] Winch system could get stuck in an unbreakable loop.
+
 1.5.5 Stable Patch 1
 
 [TWEAKED] Enemy viper teams do not get weapon suppressors when under 15 players.
@@ -15,13 +29,6 @@ Official Change Log
 [FIXED] Deployment assault 'overclock' parameter was not correctly enabled.
 [FIXED] New vehicle rearm was not showing "CAS available" message for pilots.
 [FIXED] Player could remove static weapons from vehicles, in some cases.
-
-	Known Issues:
-
-		[] AI fire support only working once?
-		[] Recruitable AI seen firing smoke in main base (are they being position reset instead of deleted/respawned?)
-		[] Can service vehicle from very far away in some cases, ship related?
-		...
 
 1.5.5 Stable (4/06/2023)
 

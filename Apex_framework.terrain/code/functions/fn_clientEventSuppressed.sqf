@@ -21,7 +21,7 @@ if (
 	{(!((lifeState _unit) in ['HEALTHY','INJURED']))} ||
 	{((!isNull (objectParent _unit)) && (!isTurnedOut _unit))} ||
 	{!isNull curatorCamera} ||
-	{(!isNull (getConnectedUAVUnit _unit))} ||
+	{(isRemoteControlling _unit)} ||
 	{(!(missionNamespace getVariable ['QS_HUD_toggleSuppression',TRUE]))}
 ) exitWith {};
 private _ammoData = QS_client_hashmap_ammoConfig getOrDefault [_ammoConfig,[]];

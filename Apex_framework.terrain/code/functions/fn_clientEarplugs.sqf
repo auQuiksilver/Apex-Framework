@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	2/07/2023 A3 2.12 by Quiksilver
+	23/05/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -37,4 +37,3 @@ if (localNamespace getVariable ['QS_earplugs_toggle',FALSE]) then {
 	0.4 fadeSound ((_effects * _mapFactor) min (_effects * 0.25));
 };
 TRUE;
-

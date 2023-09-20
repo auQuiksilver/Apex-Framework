@@ -14,12 +14,12 @@ Description:
 _______________________________________________________________*/
 
 (
-	((typeOf (vehicle player)) in [
+	((typeOf cameraOn) in [
 		"B_Heli_Transport_01_camo_F",
 		"B_Heli_Transport_01_F",
 		"B_Heli_Transport_03_F",
 		"B_CTRG_Heli_Transport_01_sand_F",
 		"B_CTRG_Heli_Transport_01_tropic_F"
 	]) && 
-	((vehicle player) getVariable ["QS_turretR_locked",FALSE])
+	(cameraOn getVariable ["QS_turretR_locked",FALSE])
 )

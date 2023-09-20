@@ -343,9 +343,9 @@ private _deploymentMissions = missionNamespace getVariable ['QS_missionConfig_de
 	['_deploymentMissionIntensity',0.5],
 	['_deploymentMissionDuration',0.5],
 	['_deploymentMissionSetupTime',60],
-    ['_deploymentMissionSetupTime',60],
     ['_deploymentMissionOverclock',0]
 ];
+
 private _deploymentMission_intensity = _deploymentMissionIntensity;
 private _deploymentMissionInterval = linearConversion [0,1,_deploymentMissionFrequency,3600,60,TRUE];
 private _deploymentMissionDelay = -1;
@@ -1437,14 +1437,14 @@ for '_x' from 0 to 1 step 0 do {
 		_fps = round diag_fps;
 		missionNamespace setVariable ['QS_server_fps',_fps,_true];
 		diag_log format [
-			'%1********** SERVER REPORT (TOP) ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1********** SERVER REPORT (BOTTOM) **********',
+			'%1********** SERVER REPORT (TOP) ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1Script Errors: %22 * %1********** SERVER REPORT (BOTTOM) **********',
 			_endl,
 			_fps,
 			diag_frameNo,
 			diag_deltaTime,
 			_allPlayersCount,
 			diag_activeScripts,
-			(diag_activeSQFScripts select [0,6]),
+			(diag_activeSQFScripts select [0,4]),
 			diag_activeSQSScripts,
 			diag_activeMissionFSMs,
 			allCurators,
@@ -1458,14 +1458,15 @@ for '_x' from 0 to 1 step 0 do {
 			(count (allMissionObjects '')),
 			(count (entities [[],[],_true,_false])),
 			(count (allSimpleObjects [])),
-			systemTime
+			systemTime,
+			[(localNamespace getVariable ['QS_allScriptErrors',0]),(localNamespace getVariable ['QS_uniqueScriptErrors',0])]
 		];
 		if (_fps >= 20) then {
 			if ((markerColor 'QS_marker_fpsMarker') isNotEqualTo 'ColorGREEN') then {
 				'QS_marker_fpsMarker' setMarkerColorLocal 'ColorGREEN';
 			};
 			if (!sentencesEnabled) then {
-				enableSentences !sentencesEnabled;
+				enableSentences _true;
 			};
 		} else {
 			if (_fps >= 10) then {
@@ -1478,7 +1479,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 			};
 			if (sentencesEnabled) then {
-				enableSentences !sentencesEnabled;
+				enableSentences _false;
 			};
 		};
 		_baseMarker = markerPos 'QS_marker_base_marker';
@@ -3009,7 +3010,6 @@ for '_x' from 0 to 1 step 0 do {
 					_deploymentMissionIntensity,
 					_deploymentMissionDuration,
 					_deploymentMissionSetupTime,
-    				_deploymentMissionSetupTime,
     				_deploymentMissionOverclock
 				] spawn _fn_deployAssault;
 				_deploymentMissionScripts pushBack _deploymentMissionScript;
@@ -3199,7 +3199,10 @@ for '_x' from 0 to 1 step 0 do {
 						['_wreckChance',0],
 						['_wreckCond',_codeBool]
 					];
-					if (!alive _v) then {
+					if (
+							!alive _v || 
+							{(_v getVariable ['QS_v_drowned',_false])}
+					) then {
 						if (!_isRespawning) then {
 							_isRespawning = _true;
 							_canRespawnAfter = _timeNow + _vdelay;

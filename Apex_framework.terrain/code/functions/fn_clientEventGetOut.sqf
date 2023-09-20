@@ -13,7 +13,7 @@ Description:
 	-
 __________________________________________________/*/
 
-params ['_vehicle','_position','_unit',''];
+params ['_vehicle','_position','_unit','','_isEject'];
 if (_position in ['cargo','gunner','commander']) then {
 	_driver = driver _vehicle;
 	if (alive _driver) then {

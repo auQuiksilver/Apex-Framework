@@ -6,15 +6,16 @@ Author:
 
 Last modified:
 
-	2/07/2023 A3 2.12 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.5.5";
-missionProductStatus = "Stable";											// "Stable" // "Beta" // "Dev"
+missionProductVersion = "1.5.6";
+missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
+missionProductDate = "20.09.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -78,7 +79,7 @@ respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard w
 respawnOnStart = 0;
 
 // Security - CfgRemoteExec + CfgDisabledCommands
-// #include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
+//#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
 
 // CfgFunctions
 class CfgFunctions {
@@ -238,6 +239,7 @@ class CfgFunctions {
 			class clientEventRespawn {file = "code\functions\fn_clientEventRespawn.sqf";};
 			class clientEventSeatSwitched {file = "code\functions\fn_clientEventSeatSwitched.sqf";};
 			class clientEventSeatSwitchedMan {file = "code\functions\fn_clientEventSeatSwitchedMan.sqf";};
+			class clientEventSlotItemChanged {file = "code\functions\fn_clientEventSlotItemChanged.sqf";};
 			class clientEventSoundPlayed {file = "code\functions\fn_clientEventSoundPlayed.sqf";};
 			class clientEventSuppressed {file = "code\functions\fn_clientEventSuppressed.sqf";};
 			class clientEventTake {file = "code\functions\fn_clientEventTake.sqf";};
@@ -434,12 +436,16 @@ class CfgFunctions {
 			class eventGroupCreated {file = "code\functions\fn_eventGroupCreated.sqf";};
 			class eventGroupDeleted {file = "code\functions\fn_eventGroupDeleted.sqf";};
 			class eventHandleDisconnect {file = "code\functions\fn_eventHandleDisconnect.sqf";};
+			class eventMineActivated {file = "code\functions\fn_eventMineActivated.sqf";};
 			class eventMissionEnded {file = "code\functions\fn_eventMissionEnded.sqf";};
 			class eventOnPlayerConnected {file = "code\functions\fn_eventOnPlayerConnected.sqf";};
 			class eventOnPlayerDisconnected {file = "code\functions\fn_eventOnPlayerDisconnected.sqf";};
 			class eventProjectileCreated {file = "code\functions\fn_eventProjectileCreated.sqf";};
 			class eventRTKilled {file = "code\functions\fn_eventRTKilled.sqf";};
+			class eventScriptError {file = "code\functions\fn_eventScriptError.sqf";};
 			class eventService {file = "code\functions\fn_eventService.sqf";};
+			class eventUAVCrewCreated {file = "code\functions\fn_eventUAVCrewCreated.sqf";};
+			class eventVehicleDrowned {file = "code\functions\fn_eventVehicleDrowned.sqf";};
 			class explosiveVestMP {file = "code\functions\fn_explosiveVestMP.sqf";};
 			class feedback {file = "code\functions\fn_feedback.sqf";};
 			class feedbackBloodEffect {file = "code\functions\fn_feedbackBloodEffect.sqf";};

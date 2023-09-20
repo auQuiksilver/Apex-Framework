@@ -347,6 +347,7 @@ _recyclerUnitTypes = [
 	['QS_virtualCargo_handler',[]]
 ];
 private _weaponsList = configFile >> 'CfgWeapons';
+// Mission Namespace
 {
 	missionNamespace setVariable _x;
 } forEach [
@@ -772,6 +773,19 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_markers_fireSupport_queue',[],FALSE],
 	['QS_managed_flares',[],FALSE]
 ];
+// Local Namespace
+{
+	localNamespace setVariable _x;	
+} forEach [
+	['QS_uniqueScriptErrors',0]
+];
+// Server Namespace
+{
+	serverNamespace setVariable _x;	
+} forEach [
+	
+];
+///////////////////////////////////
 _weaponsList = nil;
 // Load terrain-specific Roles if file is found
 if (fileExists (format ['@Apex_cfg\%1\roles.sqf',worldName])) then {
@@ -1392,7 +1406,10 @@ missionNamespace setVariable [
 	//['GroupDeleted',{call (missionNamespace getVariable 'QS_fnc_eventGroupDeleted')}],					// Not used
 	['HandleDisconnect',{call (missionNamespace getVariable 'QS_fnc_eventHandleDisconnect')}],
 	['PlayerConnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerConnected')}],
-	['PlayerDisconnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerDisconnected')}]
+	['PlayerDisconnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerDisconnected')}],
+	['Drowned',{call (missionNamespace getVariable 'QS_fnc_eventVehicleDrowned')}],
+	['UAVCrewCreated',{call (missionNamespace getVariable 'QS_fnc_eventUAVCrewCreated')}],
+	['ScriptError',{call (missionNamespace getVariable 'QS_fnc_eventScriptError')}]
 	//['ProjectileCreated',{call (missionNamespace getVariable 'QS_fnc_eventProjectileCreated')}],			// Used for debug/diagnostics
 ];
 

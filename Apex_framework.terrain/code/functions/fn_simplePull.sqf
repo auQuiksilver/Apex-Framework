@@ -650,7 +650,7 @@ if (_mode isEqualTo 'MODE20') exitWith {
 };
 if (_mode isEqualTo 'MODE21') exitWith {
 	params ['','_parent','_child','_attachPoint_parent','_attachPoint_child',['_ropeLength',5]];
-	_rope = ropeCreate [_parent,_attachPoint_parent,_child,_attachPoint_child,3 max (_ropeLength * 1.2) min 20,['RopeEnd',[0,1,0]],['RopeEnd',[0,-1,0]]];
+	_rope = ropeCreate [_parent,_attachPoint_parent,_child,_attachPoint_child,3 max (_ropeLength * 1.2) min 20,['RopeEnd',[0,1,0]],['RopeEnd',[0,-1,0]],'Rope',1];
 	_rope setVariable ['QS_rope_relation',[_parent,_child,'PULL'],TRUE];
 	['MODE17'] call QS_fnc_simplePull;
 };

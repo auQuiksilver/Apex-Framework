@@ -129,7 +129,7 @@ if (_mode isEqualTo 'MODE3') exitWith {
 	};
 };
 if (_mode isEqualTo 'MODE4') exitWith {
-	params ['',['_rope',objNull],['_child',objNull],['_parent',objNull]];
+	params ['',['_rope',objNull],['_child',objNull],['_parent',objNull],['_bypassPosCheck',FALSE]];
 	_cameraOn = cameraOn;
 	private _new = isNull _rope;
 	getCursorObjectParams params ['_cursorObject','_cursorSelections','_cursorDistance'];
@@ -143,7 +143,7 @@ if (_mode isEqualTo 'MODE4') exitWith {
 				{(((local _cursorObject) && _new) || (!_new))} &&
 				{(_attachPointInfo # 0)} &&
 				{(_cursorDistance < 3)} &&
-				{((_cameraOn distance (_cursorObject modelToWorld (_attachPointInfo # 1))) < 3)} &&
+				{(((_cameraOn distance (_cursorObject modelToWorld (_attachPointInfo # 1))) < 3) || _bypassPosCheck)} &&
 				{(simulationEnabled _cursorObject)} &&
 				{(ropeAttachEnabled _cursorObject)} &&
 				{(isNull (attachedTo _cursorObject))} &&
@@ -164,7 +164,6 @@ if (_mode isEqualTo 'MODE4') exitWith {
 			_parent = _cursorObject;
 			missionNamespace setVariable ['QS_winch_activeVehicle',_parent,FALSE];
 			missionNamespace setVariable ['QS_winch_activePoint',_attachPointInfo # 1,FALSE];
-			
 		} else {
 			_attachPointInfo = ['MODE23',_parent] call QS_fnc_simpleWinch;
 			missionNamespace setVariable ['QS_winch_activeVehicle',_parent,FALSE];
@@ -196,7 +195,7 @@ if (_mode isEqualTo 'MODE4') exitWith {
 			QS_winch_monitor = [];
 		};
 		if (_new) then {
-			[109,['MODE25','MODE29',[_parent,(_attachPointInfo # 1),QS_winch_globalHelperObject,[0,0,0],20,['',[0, 1, 0]],['RopeEnd', [0, 1, 0]]] ]] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
+			[109,['MODE25','MODE29',[_parent,(_attachPointInfo # 1),QS_winch_globalHelperObject,[0,0,0],20,['',[0, 1, 0]],['RopeEnd', [0, 1, 0]],'Rope',-1]]] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 			_timeout = diag_tickTime + 3;
 			waitUntil {
 				(((ropes _parent) isNotEqualTo []) || (diag_tickTime > _timeout))
@@ -564,7 +563,8 @@ if (_mode isEqualTo 'MODE16') exitWith {
 	) then {
 		ropeUnwind [_rope,2,1,FALSE];
 		uiSleep (diag_deltaTime * 2);
-		waitUntil { ropeUnwound _rope };
+		_timeout = diag_tickTime + 10;
+		waitUntil { ((ropeUnwound _rope) || (diag_tickTime > _timeout)) };
 		ropeDestroy _rope;
 		[109,['MODE25','MODE32',[_rope]]] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 	};
@@ -1223,7 +1223,8 @@ if (_mode isEqualTo 'MODE25') exitWith {
 			_rope = _ropeParams # 0;
 			ropeUnwind _ropeParams;
 			uiSleep (diag_deltaTime * 2);
-			waitUntil { ropeUnwound _rope };
+			_timeout = diag_tickTime + 10;
+			waitUntil { ((ropeUnwound _rope) || (diag_tickTime > _timeout)) };
 			ropeDestroy _rope;
 		};
 	};
@@ -1239,7 +1240,7 @@ if (_mode isEqualTo 'MODE25') exitWith {
 				params ['_parent','_child','_newRope','_rope','_clientOwner','_monitor_index','_attachPoint','_ropeLength'];
 				private _timeout = diag_tickTime + 5;
 				waitUntil {
-					_newRope = ropeCreate [_child,[0,0,0],_parent,_attachPoint,_ropeLength,['RopeEnd',[0,1,0]],['',[0,1,0]]];
+					_newRope = ropeCreate [_child,[0,0,0],_parent,_attachPoint,_ropeLength,['RopeEnd',[0,1,0]],['',[0,1,0]],'Rope',-1];
 					sleep 1;
 					((!isNull _newRope) || (diag_tickTime > _timeout))
 				};
@@ -1253,7 +1254,7 @@ if (_mode isEqualTo 'MODE25') exitWith {
 			ropeDestroy _rope;
 			sleep (diag_deltaTime * 2);
 			waitUntil {
-				_newRope = ropeCreate [_child,[0,0,0],_parent,(_attachPointInfo # 1),_ropeLength,['RopeEnd',[0,1,0]],['',[0,1,0]]];
+				_newRope = ropeCreate [_child,[0,0,0],_parent,(_attachPointInfo # 1),_ropeLength,['RopeEnd',[0,1,0]],['',[0,1,0]],'Rope',-1];
 				((!isNull _newRope) || (diag_tickTime > _timeout))
 			};		
 			_newRope setVariable ['QS_rope_relation',[_child,_parent,'WINCH'],TRUE];

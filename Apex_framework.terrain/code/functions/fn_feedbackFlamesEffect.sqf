@@ -11,6 +11,8 @@ Last modified:
 Description:
 
 	-
+	
+	private _fireDamage = getBurningValue player;
 __________________________________________________*/
 
 if (!canSuspend) exitWith {};

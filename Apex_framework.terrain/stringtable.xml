@@ -2663,8 +2663,12 @@ _____________________________________________________________-->
        <Key ID="STR_QS_Text_466">
             <Original>Active connection</Original>
 		</Key>		
-		
-		
+       <Key ID="STR_QS_Text_467">
+            <Original>Unflip Failed</Original>
+		</Key>
+       <Key ID="STR_QS_Text_468">
+            <Original>Water Damaged</Original>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -5164,6 +5168,9 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Notif_158">
             <Original>Deployment overrun</Original>
+        </Key>
+        <Key ID="STR_QS_Notif_159">
+            <Original>Mine clearance</Original>
         </Key>
     </Container>
     <Container name="QS_xml_tasks">

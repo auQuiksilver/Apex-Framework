@@ -20,7 +20,7 @@ Notes:
 __________________________________________________/*/
 
 scriptName 'QS AI';
-if ((hasInterface) && (!isDedicated)) exitWith {};
+if (hasInterface && !isDedicated) exitWith {};
 private _isDedicated = isDedicated;
 private _isHC = !isDedicated && !hasInterface;
 if (_isHC) then {
@@ -2165,13 +2165,13 @@ for '_x' from 0 to 1 step 0 do {
 									};
 									_QS_module_enemyCas_plane forceSpeed ((_QS_module_enemyCas_plane getVariable ['QS_enemy_casJetMaxSpeed',1000]) * (random [0.7,0.85,1]));
 									if ((_QS_module_enemyCas_plane getVariable ['QS_AI_PLANE_flyInHeight',-1]) isEqualTo 1) then {
-										_QS_module_enemyCas_plane flyInHeight (500 + (random 1000));
+										_QS_module_enemyCas_plane flyInHeight [(500 + (random 1000)),_true];
 									};
 									if ((_QS_module_enemyCas_plane getVariable ['QS_AI_PLANE_flyInHeight',-1]) isEqualTo 2) then {
-										_QS_module_enemyCas_plane flyInHeight (500 + (random 2000));
+										_QS_module_enemyCas_plane flyInHeight [(500 + (random 2000)),_true];
 									};								
 									if ((_QS_module_enemyCas_plane getVariable ['QS_AI_PLANE_flyInHeight',-1]) isEqualTo 3) then {
-										_QS_module_enemyCas_plane flyInHeight (500 + (random 3000));
+										_QS_module_enemyCas_plane flyInHeight [(500 + (random 3000)),_true];
 									};
 								};
 							};

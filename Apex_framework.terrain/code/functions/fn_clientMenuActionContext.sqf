@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	26/04/2023 A3 2.12 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -596,7 +596,6 @@ if (
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_disassembleVirtual];
 		};
 
-		
 		//comment 'PLAYER MENU';
 		QS_action_playerMenu = QS_player addAction [
 			format ["<t color='#808080'>%1</t>",localize 'STR_QS_Menu_009'],

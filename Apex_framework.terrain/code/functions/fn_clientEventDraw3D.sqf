@@ -622,9 +622,9 @@ if (!isStreamFriendlyUIEnabled) then {
 						_unitName = format ['%1 (%2)',_unitName,(lifeState _unit)];
 					};
 					if (unitIsUav _objectParent) then {
-						_uavControl = UAVControl _objectParent;
-						if (!isNull (_uavControl # 0)) then {
-							_unitName = name (_uavControl # 0);
+						_uavControl = remoteControlled (effectiveCommander _objectParent);
+						if (!isNull _uavControl) then {
+							_unitName = name _uavControl;
 						};
 					};
 					_distance = _cameraOn distance2D _unit;

@@ -294,7 +294,13 @@ if (_type isEqualTo 1) then {
 		private _healScript = scriptNull;
 		private _oldUnitPos = '';
 		private _prioritise = [];
-		private _job = FALSE;	
+		private _job = FALSE;
+		private _serverTime = serverTime;
+		private _diag_fps = diag_fps;
+		private _allPlayersCount = count allPlayers;
+		private _scriptEvalUnit = scriptNull;
+		private _customAILogic = FALSE;
+		_fn_AIHandleUnit = missionNamespace getVariable 'QS_fnc_AIHandleUnit';
 		for '_z' from 0 to 1 step 0 do {
 			uiSleep 1;
 			_time = diag_tickTime;
@@ -302,6 +308,10 @@ if (_type isEqualTo 1) then {
 				if (!isPlayer _x) then {
 					if (local _x) then {
 						_entity = _x;
+						if (_customAILogic) then {
+							_scriptEvalUnit = [_scriptEvalUnit,_serverTime,_diag_fps,_allPlayersCount] spawn _fn_AIHandleUnit;
+							waitUntil {scriptDone _scriptEvalUnit};
+						};
 						_entitySide = side (group _entity);
 						if ((lifeState _entity) in ['HEALTHY','INJURED']) then {
 							if (_entitySide in [EAST,RESISTANCE]) then {

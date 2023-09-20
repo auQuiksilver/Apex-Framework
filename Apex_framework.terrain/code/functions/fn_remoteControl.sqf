@@ -21,8 +21,8 @@ if (
 	{(_requireLocal && (!local _unit))} ||
 	{(_conditional && (!(_unit getVariable ['QS_unit_remoteControllable',FALSE])))} ||
 	{!((side (group _unit)) in [east,west,resistance,civilian])} ||
-	{((!isnull (_unit getvariable ['bis_fnc_moduleRemoteControl_owner', objnull])) && {(_unit getvariable ['bis_fnc_moduleRemoteControl_owner', objnull]) in allPlayers})} ||
-	{(isuavconnected (vehicle _unit))} ||
+	{!isNull (remoteControlled _unit)} ||
+	{isRemoteControlling player} ||
 	{(!(_unit checkAIFeature 'TEAMSWITCH'))}
 ) exitWith {
 	systemChat (localize 'STR_QS_Chat_169');

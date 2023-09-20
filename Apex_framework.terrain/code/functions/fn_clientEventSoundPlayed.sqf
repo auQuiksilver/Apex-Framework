@@ -36,7 +36,7 @@ if (
 	(_soundID isEqualTo 2) && 
 	{((damage _unit) >= 0.1)} && 
 	{(!(missionNamespace getVariable 'BIS_fnc_feedback_damagePP'))} && 
-	{(isNull (getConnectedUAVUnit _unit))}
+	{!isRemoteControlling _unit}
 ) then {
 	0 spawn (missionNamespace getVariable 'QS_fnc_feedbackDamagePulsing');
 };

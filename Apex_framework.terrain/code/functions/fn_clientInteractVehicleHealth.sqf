@@ -44,7 +44,7 @@ if (
 	_totalFullCount = 1;
 };
 private _text = format [
-	'<t align="center" size="1.1">%5</t><br/><br/><t align="left">%6</t><t align="right">%1%4</t><br/><t align="left">%7</t><t align="right">%2%4</t><br/><t align="left">%8</t><t align="right">%3%4</t>',
+	'<t align="center" size="1.1">%5</t><br/><br/><t align="left">%6</t><t align="right">%1%4</t><br/><t align="left">%7</t><t align="right">%2%4</t><br/><t align="left">%8</t><t align="right">%3%4</t>   <br/><t align="left">%9</t><t align="right">%3%4</t>',
 	ceil((1 - _repair) * 100),
 	ceil((1 - _refuel) * 100),
 	ceil((_totalCount / _totalFullCount) * 100),
@@ -52,7 +52,9 @@ private _text = format [
 	(_vehicle getVariable ['QS_ST_customDN',_displayName]),
 	localize 'STR_QS_Hints_170',
 	localize 'STR_QS_Hints_171',
-	localize 'STR_QS_Hints_172'
+	localize 'STR_QS_Hints_172',
+	localize 'STR_QS_Text_468',
+	(['NO','YES'] select (waterDamaged _vehicle))
 ];
 _apsParams = _vehicle getVariable ['QS_aps_params',[]];
 if (

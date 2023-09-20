@@ -58,7 +58,7 @@ if (
 	(local _vehicle) &&
 	{(_vehicle isKindOf 'Air')} &&
 	{(player in _vehicle)} &&
-	{(isNull (getConnectedUAV player))}
+	{(!isRemoteControlling player)}
 ) then {
 	_max = 5000;
 	_min = 10;
@@ -159,7 +159,7 @@ if (player getUnitTrait 'uavhacker') then {
 			50 cutText [format [localize 'STR_QS_Text_318' + ' (LAND)',_newHeight],'PLAIN DOWN',0.5];
 		} else {
 			_vehicle flyInHeightASL [_newHeight,_newHeight,_newHeight];
-			_vehicle flyInHeight (_newHeight - 1);
+			_vehicle flyInHeight [(_newHeight - 1),TRUE];
 			50 cutText [format [localize 'STR_QS_Text_318',_newHeight],'PLAIN DOWN',0.5];
 		};
 	};

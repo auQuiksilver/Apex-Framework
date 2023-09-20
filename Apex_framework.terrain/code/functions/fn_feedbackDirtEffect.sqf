@@ -13,7 +13,7 @@
 	None.
 */
 if (!isGameFocused) exitWith {};
-if ((!(missionNamespace getVariable 'BIS_performingDustPP'))  && (isAbleToBreathe player) && (isNull (getConnectedUAVUnit player))) then {
+if ((!(missionNamespace getVariable 'BIS_performingDustPP'))  && (isAbleToBreathe player) && (!(isRemoteControlling player))) then {
 	missionNamespace setVariable ['BIS_performingDustPP',TRUE,FALSE];
 	missionNamespace setVariable ['BIS_damageFromExplosion',(_this # 1),FALSE];
 	0 spawn {

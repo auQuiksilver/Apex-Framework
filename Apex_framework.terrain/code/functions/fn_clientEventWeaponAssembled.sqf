@@ -22,6 +22,8 @@ _this spawn {
 		((!isNull _weapon) || {(diag_tickTime > _t)})
 	};
 	if (!isNull _weapon) then {
+		_weapon setVariable ['QS_weapon_assembler',clientOwner,TRUE];
+		_weapon setVariable ['QS_weapon_assemblyEnabled',TRUE,TRUE];
 		if (alive _weapon) then {
 			if ((_weapon isKindOf 'StaticWeapon') || {(_weapon isKindOf 'StaticMortar')}) then {
 				_weapon setVariable ['QS_RD_draggable',TRUE,TRUE];
@@ -98,7 +100,7 @@ _this spawn {
 					_weapon addEventHandler ['CargoUnloaded',_ugvCargoEnable];
 					if (_weapon isKindOf 'Air') then {
 						_weapon flyInHeight 5;
-						_weapon flyInHeightASL [5,5,5];					
+						_weapon flyInHeightASL [5,5,5];
 						_customUpText = [
 							actionKeysNames ['User18',1] trim ['"',0],
 							localize 'STR_QS_Text_367'
@@ -124,8 +126,8 @@ _this spawn {
 						uiSleep 1;
 						if ((crew _this) isNotEqualTo []) then {
 							if (player isEqualTo (leader (group player))) then {
-								(crew _this) joinSilent (group player);
-								(crew _this) doFollow player;
+								//(crew _this) joinSilent (group player);
+								//(crew _this) doFollow player;
 							};
 							(group (driver _this)) setVariable ['QS_HComm_grp',FALSE,TRUE];
 							{

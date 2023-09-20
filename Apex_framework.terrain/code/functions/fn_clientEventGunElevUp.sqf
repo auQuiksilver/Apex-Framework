@@ -59,7 +59,7 @@ if (
 	(local _vehicle) &&
 	{(_vehicle isKindOf 'Air')} &&
 	{(player in _vehicle)} &&
-	{(isNull (getConnectedUAV player))}
+	{(!isRemoteControlling player)}
 ) then {
 	_max = 5000;
 	_min = 10;
@@ -69,7 +69,7 @@ if (
 	_flyInHeight = _vehicle getVariable ['QS_air_flyInHeight',((getPos _vehicle) # 2)];
 	_newHeight = round (_min max ((round (_flyInHeight / _step) * _step) + _step) min _max);
 	_vehicle flyInHeightASL [_newHeight,_newHeight,_newHeight];
-	_vehicle flyInHeight (_newHeight - 1);
+	_vehicle flyInHeight [(_newHeight - 1),TRUE];
 	_vehicle setVariable ['QS_air_flyInHeight',_newHeight];
 	50 cutText [format [localize 'STR_QS_Text_318',_newHeight],'PLAIN DOWN',0.5];
 };
@@ -96,7 +96,7 @@ if (player getUnitTrait 'uavhacker') then {
 		_flyInHeight = _vehicle getVariable ['QS_air_flyInHeight',0];
 		_newHeight = round (_min max ((round (_flyInHeight / _step) * _step) + _step) min _max);
 		_vehicle flyInHeightASL [_newHeight,_newHeight,_newHeight];
-		_vehicle flyInHeight (_newHeight - 1);
+		_vehicle flyInHeight [(_newHeight - 1),TRUE];
 		_vehicle setVariable ['QS_air_flyInHeight',_newHeight];
 		if (
 			_isBackpackDrone &&

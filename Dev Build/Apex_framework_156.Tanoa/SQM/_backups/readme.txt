@@ -1,2 +1,0 @@
-- This _backups folder contains a second copy of the SQM files.
-- This allows you to edit/modify the SQM files to create bases/compositions while retaining a backup.

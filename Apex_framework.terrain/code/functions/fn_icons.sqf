@@ -650,8 +650,10 @@ _QS_fnc_iconUnits = {
 	private _si = [EAST,WEST,RESISTANCE,CIVILIAN];
 	private _as = [];
 	private _au = [];
+	private _drawnVehicles = [];
+	_pSide = QS_player getVariable ['QS_unit_side',WEST];
 	_isAdmin = ((_QS_ST_X # 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
-	if ((QS_player getVariable ['QS_unit_side',WEST]) isNotEqualTo CIVILIAN) then {
+	if (_pSide isNotEqualTo CIVILIAN) then {
 		if (!(_QS_ST_X # 74)) then {
 			_si = [EAST,WEST,RESISTANCE];
 		};
@@ -694,7 +696,7 @@ _QS_fnc_iconUnits = {
 	};
 	if (_exit) exitWith {_au;};
 	if ((_QS_ST_X # 62)) then {
-		_as pushBack (QS_player getVariable ['QS_unit_side',WEST]);
+		_as pushBack _pSide;
 	} else {
 		if (isMultiplayer) then {
 			if (_isAdmin) then {
@@ -702,17 +704,17 @@ _QS_fnc_iconUnits = {
 					_as pushBack _x;
 				} forEach _si;
 			} else {
-				_as pushBack (QS_player getVariable ['QS_unit_side',WEST]);
+				_as pushBack _pSide;
 				{
-					if (((QS_player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+					if ((_pSide getFriend _x) > 0.6) then {
 						_as pushBackUnique _x;
 					};
 				} forEach _si;
 			};
 		} else {
-			_as pushBack (QS_player getVariable ['QS_unit_side',WEST]);
+			_as pushBack _pSide;
 			{
-				if (((QS_player getVariable ['QS_unit_side',WEST]) getFriend _x) > 0.6) then {
+				if ((_pSide getFriend _x) > 0.6) then {
 					_as pushBack _x;
 				};
 			} forEach _si;
@@ -722,23 +724,58 @@ _QS_fnc_iconUnits = {
 		if (isMultiplayer) then {
 			if (_isAdmin) then {
 				{
-					if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
-						_au pushBack _x;
+					if (
+						(isNull (objectParent _x)) ||
+						{(_x in [effectiveCommander (vehicle _x),currentPilot (vehicle _x)])} ||
+						{(_x isEqualTo ((crew (objectParent _x)) # 0))}
+					) then {
+						if ((isNull (objectParent _x)) || {(!((objectParent _x) in _drawnVehicles))}) then {
+							_au pushBack _x;
+							if (!isNull (objectParent _x)) then {
+								_drawnVehicles pushBackUnique (objectParent _x);	
+							};
+						};
 					};
 				} forEach allUnits;
 			} else {
 				{
-					if (((side (group _x)) in _as) || {((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) then {
+					if (
+						((side (group _x)) in _as) || 
+						{((_x getVariable ['QS_unit_side',WEST]) isEqualTo _pSide)} ||
+						{((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}
+					) then {
 						if (isPlayer _x) then {
 							if (_di isEqualTo 2) then {
 								if ((_x distance2D QS_player) < (_QS_ST_X # 27)) then {
-									if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
-										0 = _au pushBack _x;
+									if (
+										(isNull (objectParent _x)) ||
+										{(_x in [effectiveCommander (vehicle _x),currentPilot (vehicle _x)])} ||
+										{(_x isEqualTo ((crew (objectParent _x)) # 0))}
+									) then {
+										if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+											if ((isNull (objectParent _x)) || {(!((objectParent _x) in _drawnVehicles))}) then {
+												0 = _au pushBack _x;
+												if (!isNull (objectParent _x)) then {
+													0 = _drawnVehicles pushBackUnique (objectParent _x);	
+												};
+											};
+										};
 									};
 								};
 							} else {
-								if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
-									0 = _au pushBack _x;
+								if (
+									(isNull (objectParent _x)) ||
+									{(_x in [effectiveCommander (vehicle _x),currentPilot (vehicle _x)])} ||
+									{(_x isEqualTo ((crew (objectParent _x)) # 0))}
+								) then {
+									if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+										if ((isNull (objectParent _x)) || {(!((objectParent _x) in _drawnVehicles))}) then {
+											0 = _au pushBack _x;
+											if (!isNull (objectParent _x)) then {
+												0 = _drawnVehicles pushBackUnique (objectParent _x);	
+											};
+										};
+									};
 								};
 							};
 						};
@@ -747,20 +784,42 @@ _QS_fnc_iconUnits = {
 			};
 		} else {
 			{
-				if (((side (group _x)) in _as) || {((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) then {
+				if (
+					((side (group _x)) in _as) ||
+					{((_x getVariable ['QS_unit_side',WEST]) isEqualTo _pSide)} ||
+					{((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}
+				) then {
 					if (isPlayer _x) then {
 						if (_di isEqualTo 2) then {
 							if ((_x distance2D QS_player) < (_QS_ST_X # 27)) then {
-								if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
+								if (
+									(isNull (objectParent _x)) ||
+									{(_x in [effectiveCommander (vehicle _x),currentPilot (vehicle _x)])} ||
+									{(_x isEqualTo ((crew (objectParent _x)) # 0))}
+								) then {
 									if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
-										0 = _au pushBack _x;
+										if ((isNull (objectParent _x)) || {(!((objectParent _x) in _drawnVehicles))}) then {
+											0 = _au pushBack _x;
+											if (!isNull (objectParent _x)) then {
+												0 = _drawnVehicles pushBackUnique (objectParent _x);	
+											};
+										};
 									};
 								};
 							};
 						} else {
-							if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
+							if (
+								(isNull (objectParent _x)) ||
+								{(_x in [effectiveCommander (vehicle _x),currentPilot (vehicle _x)])} ||
+								{(_x isEqualTo ((crew (objectParent _x)) # 0))}
+							) then {
 								if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
-									0 = _au pushBack _x;
+									if ((isNull (objectParent _x)) || {(!((objectParent _x) in _drawnVehicles))}) then {
+										0 = _au pushBack _x;
+										if (!isNull (objectParent _x)) then {
+											0 = _drawnVehicles pushBackUnique (objectParent _x);	
+										};
+									};
 								};
 							};
 						};
@@ -770,19 +829,35 @@ _QS_fnc_iconUnits = {
 		};
 	} else {
 		{
-			if (((side (group _x)) in _as) || {((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) then {
+			if (
+				((side (group _x)) in _as) ||
+				{((_x getVariable ['QS_unit_side',WEST]) isEqualTo _pSide)} ||
+				{((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}
+			) then {
 				if (_di isEqualTo 2) then {
 					if ((_x distance2D QS_player) < (_QS_ST_X # 27)) then {
-						if (_x isEqualTo ((crew (vehicle _x)) # 0)) then {
+						if (
+							(isNull (objectParent _x)) ||
+							{(_x in [effectiveCommander (vehicle _x),currentPilot (vehicle _x)])} ||
+							{(_x isEqualTo ((crew (objectParent _x)) # 0))}
+						) then {
 							if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
-								0 = _au pushBack _x;
+								if ((isNull (objectParent _x)) || {(!((objectParent _x) in _drawnVehicles))}) then {
+									0 = _au pushBack _x;
+									if (!isNull (objectParent _x)) then {
+										0 = _drawnVehicles pushBackUnique (objectParent _x);	
+									};
+								};
 							};
 						};
 					};
 				} else {
-					if (_x isEqualTo (effectiveCommander (vehicle _x))) then {
-						if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+					if (!((vehicle _x) getVariable ['QS_hidden',FALSE])) then {
+						if ((isNull (objectParent _x)) || {(!((objectParent _x) in _drawnVehicles))}) then {
 							0 = _au pushBack _x;
+							if (!isNull (objectParent _x)) then {
+								0 = _drawnVehicles pushBackUnique (objectParent _x);	
+							};
 						};
 					};
 				};
@@ -792,7 +867,7 @@ _QS_fnc_iconUnits = {
 	if ((_di isEqualTo 1) && (_QS_ST_X # 75)) exitWith {
 		_auv = [];
 		{
-			if (!((vehicle _x) isKindOf 'Man')) then {
+			if (!((vehicle _x) isKindOf 'CAManBase')) then {
 				0 = _auv pushBack _x;
 			};
 		} count _au;
@@ -1127,6 +1202,7 @@ _QS_fnc_iconDrawMap = {
 _QS_fnc_iconDrawGPS = {
 	params ['_m'];
 	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
+	_mapDir = ctrlMapDir _m;
 	if (
 		(!('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) ||
 		{(visibleMap)} ||
@@ -1170,7 +1246,7 @@ _QS_fnc_iconDrawGPS = {
 								(_po # 0),
 								_is,
 								_is,
-								(_po # 1),
+								_mapDir + (_po # 1),
 								([_ve,2,_QS_ST_X] call _fn_ite),
 								_sh,
 								_ts,

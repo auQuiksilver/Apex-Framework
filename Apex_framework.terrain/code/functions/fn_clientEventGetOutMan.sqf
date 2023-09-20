@@ -16,7 +16,7 @@ Description:
 	turret: Array - turret path
 __________________________________________________*/
 
-params ['_unit','_position','_vehicle','_turret'];
+params ['_unit','_position','_vehicle','_turret','_isEject'];
 private _isLocal = local _vehicle;
 player enableAIFeature ['CHECKVISIBLE',TRUE];
 uiNamespace setVariable ['QS_robocop_timeout',diag_tickTime + 3];

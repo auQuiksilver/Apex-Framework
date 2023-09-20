@@ -192,6 +192,7 @@ if (isNull _objectParent) then {
 		};
 	};
 	//================================ SELF HEAL
+
 	if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastSelfHeal',-1])) then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfHeal',(_uiTime + (random [30,60,90])),FALSE];
 		if (
@@ -210,7 +211,9 @@ if (isNull _objectParent) then {
 			_unit setDamage [0,FALSE];
 		};
 	};
+	
 	//================================ THROWABLES
+	
 	if (_aiPath) then {
 		if (alive _attackTarget) then {
 			if (

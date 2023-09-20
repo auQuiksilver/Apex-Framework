@@ -53,9 +53,6 @@ if (_magazineCount > 0) then {
 			};
 		} else {
 			if (isClass (configFile >> 'CfgMagazines' >> _magazineClass)) then {
-			
-				
-			
 				(missionNamespace getVariable ['QS_session_magazineList',[]]) pushBackUnique (toLowerANSI _magazineClass);
 				for '_i' from 1 to _magazineCount step 1 do {
 					_unit addMagazine _magazineClass;

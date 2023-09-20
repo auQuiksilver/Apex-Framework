@@ -17,7 +17,7 @@ params ['_groupLeader'];
 _v = vehicle _groupLeader;
 _g = group _groupLeader;
 _v land 'GET OUT';
-_v flyInHeight 0.1;
+_v flyInHeight [0.1,TRUE];
 if ((random 1) > 0.333) then {
 	[_v] spawn {
 		params ['_v'];
@@ -137,7 +137,7 @@ if (!isNull _helipad) then {
 	deleteVehicle _helipad;
 };
 _v land 'NONE';
-_v flyInHeight 50;
+_v flyInHeight [50,FALSE];
 sleep 0.5;
 _wp = _g addWaypoint [(_v getVariable ['QS_heli_spawnPosition',[0,0,50]]),0];
 _wp setWaypointType 'MOVE';

@@ -358,7 +358,8 @@ if ((call (missionNamespace getVariable 'QS_fnc_clientGetSupporterLevel')) > 0) 
 	localNamespace setVariable _x;
 } forEach [
 	['QS_client_lockedDrivers',[]],
-	['QS_client_lockedLogistics',[]]
+	['QS_client_lockedLogistics',[]],
+	['QS_uniqueScriptErrors',0]
 ];
 
 /*/====================== UI VARS/*/
@@ -451,7 +452,8 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 		}
 	],
 	['HandleChatMessage',{call (missionNamespace getVariable 'QS_fnc_clientEventHandleChatMessage')}],
-	['Service',{call (missionNamespace getVariable 'QS_fnc_eventService')}]
+	['Service',{call (missionNamespace getVariable 'QS_fnc_eventService')}],
+	['Drowned',{call (missionNamespace getVariable 'QS_fnc_eventVehicleDrowned')}]
 ];
 {
 	inGameUISetEventHandler _x;
@@ -496,7 +498,8 @@ if (!isNil {player getVariable 'BIS_fnc_addCuratorPlayer_handler'}) then {
 	['PostReset',{call (missionNamespace getVariable 'QS_fnc_clientEventPostReset')}],
 	['OpticsModeChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventOpticsModeChanged')}],
 	['OpticsSwitch',{call (missionNamespace getVariable 'QS_fnc_clientEventOpticsSwitch')}],
-	['VisionModeChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventVisionModeChanged')}]
+	['VisionModeChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventVisionModeChanged')}],
+	['SlotItemChanged',{call (missionNamespace getVariable 'QS_fnc_clientEventSlotItemChanged')}]
 ];
 {
 	addMusicEventHandler _x;

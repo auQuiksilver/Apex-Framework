@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	19/02/2023 A3 2.12
+	16/09/2023 A3 2.14
 	
 Description:
 
@@ -15,7 +15,6 @@ __________________________________________*/
 
 params ['_mode'];
 if (_mode isEqualTo 'INIT') then {
-	_cameraOn = cameraOn;
 	0 spawn {
 		sleep 0.5;
 		_cameraOn = cameraOn;
@@ -133,8 +132,11 @@ if (_mode isEqualTo 'INIT') then {
 					{
 						triggerAmmo _x;
 						_x setDamage [1,TRUE];
-						[46,[QS_player,1]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-						['ScoreBonus',['Mine clearance','1']] call QS_fnc_showNotification;
+						if (diag_tickTime > (uiNamespace getVariable ['QS_genericCooldown_5',-1])) then {
+							uiNamespace setVariable ['QS_genericCooldown_5',diag_tickTime + 5];
+							[46,[QS_player,1]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+							['ScoreBonus',[localize 'STR_QS_Notif_159','1']] call QS_fnc_showNotification;
+						};
 					} forEach _mines;
 				};
 				if (_listOfFrontStuff isNotEqualTo []) then {
@@ -152,8 +154,11 @@ if (_mode isEqualTo 'INIT') then {
 						};
 						if ((_craterDecals findIf { _obj isKindOf _x }) isNotEqualTo -1) then {
 							_QS_toDelete pushBack _obj;
-							[46,[QS_player,1]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-							['ScoreBonus',[format ['Cleaning up %1',worldName],'1']] call QS_fnc_showNotification;
+							if (diag_tickTime > (uiNamespace getVariable ['QS_genericCooldown_5',-1])) then {
+								uiNamespace setVariable ['QS_genericCooldown_5',diag_tickTime + 5];
+								[46,[QS_player,1]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+								['ScoreBonus',[format ['%2 %1',worldName,localize 'STR_QS_Notif_041'],'1']] call QS_fnc_showNotification;
+							};
 						};
 						if ((['WeaponHolder','WeaponHolderSimulated','GroundWeaponHolder'] findIf { _obj isKindOf _x }) isNotEqualTo -1) then {
 							_QS_toDelete pushBack _obj;
