@@ -68,7 +68,7 @@ if (_isServicesVan) then {
 	_attachPointR = [0.5,1.5,1.1];
 };
 _vehicle setVariable ['Utility_Offroad_Beacons',TRUE,TRUE];
-private _lightleft = '#lightpoint' createVehicleLocal (getPosWorld _vehicle);
+private _lightleft = createVehicleLocal ['#lightpoint',getPosWorld _vehicle];
 _lightleft hideObject TRUE;
 uiSleep 0.2;
 _lightleft setLightColor _lightRed; 
@@ -81,7 +81,7 @@ _lightleft setLightFlareSize 0.38;
 _lightleft setLightFlareMaxDistance 150;
 _lightleft setLightUseFlare TRUE;
 _lightleft setLightDayLight TRUE;
-private _lightright = '#lightpoint' createVehicleLocal (getPosWorld _vehicle);
+private _lightright = createVehicleLocal ['#lightpoint',getPosWorld _vehicle];
 _lightright hideObject TRUE;
 uiSleep 0.2;
 _lightright setLightColor _lightBlue; 

@@ -61,9 +61,8 @@ if (_allAttached isEqualTo []) exitWith {
 	[_totalMass,_centerOfMass]
 };
 {
-	private _relativePos = _vehicle worldToModel (ASLToAGL (getPosASL _x));
 	private _mass = getMass _x;
-	_massData pushBack [_x, _relativePos, _mass];
+	_massData pushBack [_x, _vehicle getRelPos _x, _mass];
 	_totalMass = _totalMass + _mass;
 } forEach (_allAttached arrayIntersect _allAttached);
 if (_recalcMass) then {

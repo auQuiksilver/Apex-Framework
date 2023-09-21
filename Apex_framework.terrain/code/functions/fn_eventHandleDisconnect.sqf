@@ -141,7 +141,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							_wp setWaypointPosition [_posToGo,0];
 							_wp setWaypointStatements ['TRUE','if (local this) then {(vehicle this) land "get out";if (!isNull ((vehicle this) getVariable ["QS_heli_landingPad",objNull])) then {(vehicle this) landAt ((vehicle this) getVariable "QS_heli_landingPad");} else {};};'];
 							_vehicle forceSpeed (getNumber ((configOf _vehicle) >> 'maxSpeed'));
-							private _helipad = 'Land_HelipadEmpty_F' createVehicleLocal _posToGo;
+							private _helipad = createVehicleLocal ['Land_HelipadEmpty_F',_posToGo];
 							_vehicle setVariable ['QS_heli_landingPad',_helipad,FALSE];
 							(missionNamespace getVariable 'QS_garbageCollector') pushBack [_helipad,'DELAYED_FORCED',(time + 600)];
 						} else {

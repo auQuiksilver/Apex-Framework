@@ -42,13 +42,13 @@ uiNamespace setVariable ['QS_localHelper',_useHelper];
 if (_useHelper) then {
 	if (_requestedObject isEqualType objNull) then {
 		if (_requestedObject isKindOf 'CAManBase') then {
-			missionNamespace setVariable ['QS_targetBoundingBox_helper',((typeOf _requestedObject) createVehicleLocal [0,0,0]),FALSE];
+			missionNamespace setVariable ['QS_targetBoundingBox_helper',(createVehicleLocal [typeOf _requestedObject,[0,0,0]]),FALSE];
 		} else {
 			missionNamespace setVariable ['QS_targetBoundingBox_helper',createSimpleObject [typeOf _requestedObject,[0,0,0],TRUE],FALSE];
 		};
 	} else {
 		if (_requestedObject isKindOf 'CAManBase') then {
-			missionNamespace setVariable ['QS_targetBoundingBox_helper',(_requestedObject createVehicleLocal [0,0,0]),FALSE];
+			missionNamespace setVariable ['QS_targetBoundingBox_helper',(createVehicleLocal [_requestedObject,[0,0,0]]),FALSE];
 		} else {
 			missionNamespace setVariable ['QS_targetBoundingBox_helper',createSimpleObject [_requestedObject,[0,0,0],TRUE],FALSE];
 		};

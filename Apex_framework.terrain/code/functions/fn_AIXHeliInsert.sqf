@@ -216,7 +216,7 @@ _heli setDir _direction;
 _heli setVehiclePosition [(getPosWorld _heli),[],0,'FLY'];
 (missionNamespace getVariable 'QS_AI_insertHeli_helis') pushBack _heli;
 private _spawnUnits = FALSE;
-_helipad = _helipadType createVehicleLocal _HLZ;
+_helipad = createVehicleLocal [_helipadType,_HLZ];
 _array pushBack _helipad;
 _heli setVariable ['QS_assignedHelipad',_helipad,FALSE];
 _heliGroup setSpeedMode 'NORMAL';

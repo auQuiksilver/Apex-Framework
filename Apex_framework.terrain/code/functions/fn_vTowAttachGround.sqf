@@ -237,7 +237,7 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 		_towedVehicle setPosWorld _posToSet;
 		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this # 0) allowDamage TRUE;(_this # 0) setVectorUp (surfaceNormal (_this # 1));};
 		if (!isNull (attachedTo _towedVehicle)) then {
-			_towedVehicle attachTo [_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle worldToModelVisual (position _towedVehicle)) # 2)]];
+			_towedVehicle attachTo [_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle getRelPos _towedVehicle) # 2)]];
 			detach _towedVehicle;
 		};
 		_towedVehicle setPosWorld _posToSet;
@@ -246,7 +246,7 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 		_towedVehicle setPosWorld _posToSet;
 		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this # 0) allowDamage TRUE;(_this # 0) setVectorUp (surfaceNormal (_this # 1));};
 		if (!isNull (attachedTo _towedVehicle)) then {
-			_towedVehicle attachTo [_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle worldToModelVisual (position _towedVehicle)) # 2)]];
+			_towedVehicle attachTo [_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle getRelPos _towedVehicle) # 2)]];
 			detach _towedVehicle;
 		};
 		_towedVehicle setPosWorld _posToSet;

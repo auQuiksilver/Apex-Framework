@@ -143,7 +143,7 @@ if (player getUnitTrait 'uavhacker') then {
 				_pos = cameraOn modelToWorld [0,5,0];
 				private _helipad = _vehicle getVariable ['QS_client_helperHelipad',objNull];
 				if (isNull _helipad) then {
-					_helipad = 'land_helipadempty_f' createVehicleLocal _pos;
+					_helipad = createVehicleLocal ['land_helipadempty_f',_pos];
 					_helipad addEventHandler [
 						'Deleted',
 						{

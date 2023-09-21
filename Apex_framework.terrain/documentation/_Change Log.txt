@@ -1,12 +1,14 @@
 Official Change Log
 
-Known Issues:
+To Do:
 
 	[] AI fire support only working once?
 	[] Recruitable AI seen firing smoke in main base (are they being position reset instead of deleted/respawned?)
-	[] Can service vehicle from very far away in some cases, ship related?
-	[] Using Arsenal mode 3 (unrestricted vanilla) causes a critical error when using arsenal after changing roles
+	[] Can service vehicle from very far away in some cases, ship related? Did we already fix this?
 	[] All units are visible on map (Dev build)
+	[] Louder player character sounds need to fade after a few seconds
+	[] Add player stagger. tune stagger chance, ensure player cannot be staggered too frequently.
+	[] Add AI stagger
 	
 1.5.6 Dev
 
@@ -17,10 +19,7 @@ Known Issues:
 	[TWEAKED] Better handling of vehicles submerged in water (drowned).
 	[TWEAKED] Bobcat mine clearance would spam notification messages.
 	[FIXED] Winch system could get stuck in an unbreakable loop.
-
-1.5.6 Stable
-
-
+	[FIXED] Using Arsenal Mode 3 in parameters would cause player to get stuck accessing Arsenal after changing roles.
 
 1.5.5 Stable Patch 1
 

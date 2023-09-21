@@ -252,7 +252,7 @@ if (_type isEqualTo 'soundplayed_volumes_1') exitWith {
 		2,		// Healing
 		2,		// Healing With Medikit
 		2,		// Recovered
-		2		// Breath Held
+		1		// Breath Held
 	]
 };
 if (_type isEqualTo 'faction_flagtextures_1') exitWith {

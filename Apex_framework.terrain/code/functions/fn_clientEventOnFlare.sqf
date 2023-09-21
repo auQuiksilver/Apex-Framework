@@ -22,7 +22,7 @@ if (
 	(isNull _projectile) ||
 	{(((cameraOn distance2D _projectile) >= 5000) && (isNull curatorCamera))}
 ) exitWith {};
-_flare = '#lightpoint' createVehicleLocal (getPosWorld _projectile);
+_flare = createVehicleLocal ['#lightpoint',getPosWorld _projectile];
 QS_managed_flares pushBack [_flare,diag_tickTime + 45];
 QS_managed_flares pushBack [_projectile,diag_tickTime + 45];
 _flare attachTo [_projectile,[0,0,0]];

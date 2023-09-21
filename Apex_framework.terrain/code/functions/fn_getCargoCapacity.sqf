@@ -120,7 +120,7 @@ if (_mode isEqualTo 0) exitWith {
 				_cargoMaxMass = ((_vehicle getVariable ['QS_vehicle_massdef',[getMass _vehicle]]) # 0) * _cargoMaxCoef;
 				QS_hashmap_maxCargoCapacity set [toLowerANSI (typeOf _vehicle),[_cargoMaxCapacity,_cargoMaxMass max 1000,_cargoMaxCoef]];
 			} else {
-				_obj = _vehicle createVehicleLocal [-5000,-5000,100 + (random 1000)];
+				_obj = createVehicleLocal [_vehicle,[-5000,-5000,100 + (random 1000)]];
 				_vehicleVolume = [_obj] call QS_fnc_getObjectVolume;
 				_cargoMaxCapacity = _vehicleVolume * _cargoMaxCoef;
 				_cargoMaxMass = (getMass _obj) * _cargoMaxCoef;

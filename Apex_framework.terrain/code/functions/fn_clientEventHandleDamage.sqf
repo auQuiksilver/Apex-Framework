@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	28/06/2023 A3 2.12 by Quiksilver
+	21/09/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -80,10 +80,10 @@ if (_hitPartIndex in [-1,2,7]) then {
 if (
 	(_hitPartIndex isEqualTo 11) &&
 	{_isEnemy} &&
-	{(missionNamespace getVariable ['QS_debug_staggerEnabled',FALSE])}
+	{(missionNamespace getVariable ['QS_debug_staggerEnabled',TRUE])}
 ) then {
 	if (
-		{_directHit} &&
+		_directHit &&
 		{!isNull _source} &&
 		{((missionNamespace getVariable ['QS_debug_staggerChance',0.25]) > (random 1))} &&
 		{(isDamageAllowed _unit)} &&

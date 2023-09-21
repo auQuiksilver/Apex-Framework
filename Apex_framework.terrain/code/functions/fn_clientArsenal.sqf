@@ -44,7 +44,6 @@ private _configRestrictions = getMissionConfigValue ['arsenalRestrictedItems',[]
 ];
 /*/
 
-
 private _QS_restrictedItems = [
 	'h_helmetleadero_oucamo',
 	'h_helmetleadero_ocamo',
