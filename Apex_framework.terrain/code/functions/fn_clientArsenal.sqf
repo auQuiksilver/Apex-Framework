@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	4/11/2022 A3 2.10 by Quiksilver
+	21/09/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -20,16 +20,14 @@ _unit setVariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]],FALSE];
 if ((missionNamespace getVariable ['QS_missionConfig_Arsenal',0]) isEqualTo 3) exitWith {
 	// Populate faces list
 	private _data = [];
-	private _index = -1;
 	{
-		_index = _foreachindex;
 		{
 			if (
 				((getnumber (_x >> 'disabled')) isEqualTo 0) && 
 				{((gettext (_x >> 'head')) isNotEqualTo '')} && 
 				{((configname _x) != 'Default')}
 			) then {
-				_data pushBack [_x,_index];
+				_data pushBack (configName _x);
 			};
 		} foreach ('isclass _x' configclasses _x);
 	} foreach ('isclass _x' configclasses (configfile >> 'cfgfaces'));
