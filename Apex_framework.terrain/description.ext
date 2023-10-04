@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	21/09/2023 A3 2.14 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,7 @@ ____________________________________________/*/
 
 missionProductVersion = "1.5.6";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "21.09.2023";
+missionProductDate = "04.10.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -295,6 +295,7 @@ class CfgFunctions {
 			class clientInteractMH9Stealth {file = "code\functions\fn_clientInteractMH9Stealth.sqf";};
 			class clientInteractMortarLite {file = "code\functions\fn_clientInteractMortarLite.sqf";};
 			class clientInteractOpenParachute {file = "code\functions\fn_clientInteractOpenParachute.sqf";};
+			class clientInteractPackWreck {file = "code\functions\fn_clientInteractPackWreck.sqf";};
 			class clientInteractPush {file = "code\functions\fn_clientInteractPush.sqf";};
 			class clientInteractRappel {file = "code\functions\fn_clientInteractRappel.sqf";};
 			class clientInteractRecoverBoat {file = "code\functions\fn_clientInteractRecoverBoat.sqf";};

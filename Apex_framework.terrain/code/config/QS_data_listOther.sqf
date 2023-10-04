@@ -243,7 +243,7 @@ if (_type isEqualTo 'soundplayed_volumes_1') exitWith {
 		1,		// Breath Scuba
 		1,		// Injured
 		1,		// Pulsation
-		2,		// Hit Scream
+		1,		// Hit Scream
 		2,		// Burning
 		1,		// Drowning
 		1,		// Drown

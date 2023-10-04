@@ -21,4 +21,4 @@ Notes:
 __________________________________________________/*/
 
 params ['_unit','_name','_slot','_assigned'];
-systemChat str _this;		// Debug
+//systemChat str _this;		// Debug

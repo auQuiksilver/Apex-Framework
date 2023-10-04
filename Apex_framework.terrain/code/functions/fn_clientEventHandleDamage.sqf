@@ -13,7 +13,7 @@ Description:
 	-
 ___________________________________________________________________/*/
 
-params ['_unit','','_damage','_source','','_hitPartIndex','_instigator','','_directHit'];
+params ['_unit','','_damage','_source','_projectile','_hitPartIndex','_instigator','','_directHit'];
 if ((!local _unit) || {(!((lifeState _unit) in ['HEALTHY','INJURED']))} || {(!(isDamageAllowed _unit))}) exitWith {
 	((if (_hitPartIndex isEqualTo -1) then {(damage _unit)} else {(_unit getHitIndex _hitPartIndex)}) min 0.89)
 };

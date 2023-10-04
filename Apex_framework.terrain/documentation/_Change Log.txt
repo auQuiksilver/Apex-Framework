@@ -1,17 +1,8 @@
 Official Change Log
-
-To Do:
-
-	[] AI fire support only working once?
-	[] Recruitable AI seen firing smoke in main base (are they being position reset instead of deleted/respawned?)
-	[] Can service vehicle from very far away in some cases, ship related? Did we already fix this?
-	[] All units are visible on map (Dev build)
-	[] Louder player character sounds need to fade after a few seconds
-	[] Add player stagger. tune stagger chance, ensure player cannot be staggered too frequently.
-	[] Add AI stagger
 	
-1.5.6 Dev
+1.5.6 Dev 04102023
 
+	[ADDED] Interaction to 'Pack Up' wreck into logistics container.
 	[TWEAKED] Ongoing general scripting optimisations (A3 2.14)
 	[TWEAKED] Tow ropes now look more like cables than ropes (will revert if unwanted).
 	[TWEAKED] "Unflip" action now accesses the vehicle Winch, when Unflip is disabled and the vehicle has a working winch (to aid unflipping).

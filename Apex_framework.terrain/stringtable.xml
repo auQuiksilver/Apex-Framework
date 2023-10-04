@@ -724,6 +724,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_144">
             <Original>Cancel</Original>
         </Key>
+        <Key ID="STR_QS_Interact_145">
+            <Original>Pack Up</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -2668,6 +2671,12 @@ _____________________________________________________________-->
 		</Key>
        <Key ID="STR_QS_Text_468">
             <Original>Water Damaged</Original>
+		</Key>
+       <Key ID="STR_QS_Text_469">
+            <Original>Cope Cage</Original>
+		</Key>
+        <Key ID="STR_QS_Text_470">
+            <Original>Must be an Engineer or have a Tool Kit to perform this action</Original>
 		</Key>
     </Container>
     <Container name="QS_xml_hints">

@@ -56,10 +56,7 @@ if (_mode isEqualTo 'INIT') exitWith {
 					(!(['glass',_x] call QS_fnc_inString))
 				};		
 			};
-			_array pushBack [
-				toLowerANSI _x,
-				_mats
-			];
+			_array pushBack [toLowerANSI _x,_mats];
 		};
 	} forEach _cfgArray;
 	localNamespace setVariable ['QS_hashmap_wreckmats',createHashMapFromArray _array];

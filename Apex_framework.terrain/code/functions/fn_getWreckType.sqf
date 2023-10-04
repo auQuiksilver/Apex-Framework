@@ -25,7 +25,6 @@ if (
 };
 private _return = QS_hashmap_wreckTypes getOrDefault [toLowerANSI _vehicleType,''];
 if (_return isNotEqualTo '') exitWith {_return};
-
 if (_entity isKindOf 'Air') exitWith {
 	'land_cargo10_red_f'
 };

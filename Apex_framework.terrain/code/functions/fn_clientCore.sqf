@@ -590,6 +590,11 @@ _QS_action_activateVehicle = nil;
 _QS_action_activateVehicle_text = localize 'STR_QS_Interact_039';
 _QS_action_activateVehicle_array = [_QS_action_activateVehicle_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractActivateVehicle')},nil,49,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_activateVehicle = FALSE;
+/*/===== Interact Pack Wreck/*/
+private _QS_action_packWreck = nil;
+private _QS_action_packWreck_text = localize 'STR_QS_Interact_145';
+private _QS_action_packWreck_array = [_QS_action_packWreck_text,{_this spawn QS_fnc_clientInteractPackWreck},nil,61,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+private _QS_interaction_packWreck = FALSE;
 /*/===== Huron Medical Container (Simple Object)/*/
 _QS_action_huronContainer = nil;
 _QS_action_huronContainer_text = localize 'STR_QS_Interact_040';
@@ -2740,6 +2745,27 @@ for '_z' from 0 to 1 step 0 do {
 				if (_QS_interaction_recoverWreck) then {
 					_QS_interaction_recoverWreck = _false;
 					player removeAction _QS_action_recoverWreck;
+				};
+			};
+			
+			/*/===== Interact Pack Wreck/*/
+			
+			if (
+				_noObjectParent &&
+				{(alive _cursorObject)} &&
+				{(_cursorObjectDistance < 8)} &&
+				{(_cursorObject getVariable ['QS_logistics_wreck',_false])} &&
+				{(_cursorObject getVariable ['QS_logistics_packable',_true])}
+			) then {
+				if (!(_QS_interaction_packWreck)) then {
+					_QS_interaction_packWreck = _true;
+					_QS_action_packWreck = player addAction _QS_action_packWreck_array;
+					player setUserActionText [_QS_action_packWreck,_QS_action_packWreck_text,(format ["<t size='3'>%1</t>",_QS_action_packWreck_text])];s
+				};
+			} else {
+				if (_QS_interaction_packWreck) then {
+					_QS_interaction_packWreck = _false;
+					player removeAction _QS_action_packWreck;
 				};
 			};
 
