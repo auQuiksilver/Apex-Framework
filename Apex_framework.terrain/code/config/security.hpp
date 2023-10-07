@@ -160,8 +160,8 @@ class CfgDisabledCommands {
 class CfgRemoteExec {
 	class Commands {
 		mode = 1;
-		class lock {};			// required for zeus
-		class setFuel {};		// required for zeus
+		class lock {};			    // required for zeus
+		class setFuel {};		    // required for zeus
 		class lockturret {};		// required for "Global Mobilization" DLC
 	};
 	class Functions {
@@ -177,6 +177,7 @@ class CfgRemoteExec {
 		class BIS_fnc_effectKilledAirDestruction {};
 		class BIS_fnc_effectKilledAirDestructionStage2 {};
 		class BIS_fnc_error {};
+        class BIS_fnc_fire {};
 		class BIS_fnc_initIntelObject {jip = 1;};
 		class BIS_fnc_objectVar {};
 		class BIS_fnc_playSound {allowedTargets = 1;};
