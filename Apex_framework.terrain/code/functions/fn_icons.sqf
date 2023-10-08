@@ -983,7 +983,7 @@ _QS_fnc_mapVehicleShowCrew = {};
 _QS_fnc_iconDrawMap = {
 	params ['_m'];
 	_QS_ST_X = call (missionNamespace getVariable 'QS_ST_X');
-	if ((_QS_ST_X # 83) && ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1)) exitWith {};
+	if ((_QS_ST_X # 83) && ((QS_player getSlotItemName 612) isEqualTo '')) exitWith {};
 	_player = missionNamespace getVariable ['bis_fnc_moduleRemoteControl_unit',player];
 	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
 	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
@@ -1207,7 +1207,7 @@ _QS_fnc_iconDrawGPS = {
 	if (
 		(!('MinimapDisplay' in ((infoPanel 'left') + (infoPanel 'right')))) ||
 		{(visibleMap)} ||
-		{((_QS_ST_X # 84) && ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1))}
+		{((_QS_ST_X # 84) && ((QS_player getSlotItemName 612) isEqualTo ''))}
 	) exitWith {};
 	_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
 	_fn_jammer = missionNamespace getVariable 'QS_fnc_gpsJammer';
@@ -1968,12 +1968,12 @@ if (_QS_ST_X # 2) then {
 			};
 			if (
 				_gpsRequired &&
-				{((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1)}
+				{((QS_player getSlotItemName 612) isEqualTo '')}
 			) then {
 				setGroupIconsVisible [FALSE,FALSE];
 				waitUntil {
 					uiSleep 0.25;
-					((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1)
+					((QS_player getSlotItemName 612) isNotEqualTo '')
 				};
 			};
 			if ((!(visibleMap)) && (isNull ((findDisplay 160) displayCtrl 51)) && (isNull ((findDisplay -1) displayCtrl 500))) then {
