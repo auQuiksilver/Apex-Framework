@@ -41,11 +41,11 @@ if (_mode isEqualTo 0) exitWith {
 		{(!(_cursorObject getVariable ['QS_logistics_deployed',FALSE]))} ||
 		{(_cursorObject getVariable ['QS_logistics_blocked',FALSE])} ||
 		{((!_isAdmin) && (serverTime < _cooldown))} ||
-		{((_list inAreaArray [getPos _cursorObject,_packSafeRadius,_packSafeRadius,0,FALSE,-1]) isNotEqualTo [])} ||
-		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [getPos _cursorObject,300,300,0,FALSE,-1]) isNotEqualTo [])}
+		{((_list inAreaArray [_cursorObject,_packSafeRadius,_packSafeRadius,0,FALSE,-1]) isNotEqualTo [])} ||
+		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo [])}
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_411','PLAIN DOWN',0.333];
-		if ((_list inAreaArray [getPos _cursorObject,_packSafeRadius,_packSafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
+		if ((_list inAreaArray [_cursorObject,_packSafeRadius,_packSafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
 			systemchat format [localize 'STR_QS_Text_430',_packSafeRadius];
 		};
 		if (serverTime < _cooldown) then {
@@ -54,7 +54,7 @@ if (_mode isEqualTo 0) exitWith {
 		if (_cursorObject getVariable ['QS_logistics_blocked',FALSE]) then {
 			systemChat (localize 'STR_QS_Chat_171');
 		};
-		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [getPos _cursorObject,300,300,0,FALSE,-1]) isNotEqualTo []) then {
+		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo []) then {
 			systemChat (localize 'STR_QS_Chat_173');
 		};
 	};
@@ -101,17 +101,17 @@ if (_mode isEqualTo 1) exitWith {
 		} ||
 		{(_inSafezone && _safezoneActive && (_safezoneLevel > 1))} ||
 		{((!_isAdmin) && (serverTime < _cooldown))} ||
-		{((_list inAreaArray [getPos _cursorObject,_deploySafeRadius,_deploySafeRadius,0,FALSE,-1]) isNotEqualTo [])} ||
+		{((_list inAreaArray [_cursorObject,_deploySafeRadius,_deploySafeRadius,0,FALSE,-1]) isNotEqualTo [])} ||
 		{
 			(
 				((_cursorObject getVariable ['QS_deploy_type','']) isEqualTo 'FORT') &&
 				{((_deployRestrictedZoneData # 1) < _deployRestrictedZoneDistance)}
 			)
 		} ||
-		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [getPos _cursorObject,300,300,0,FALSE,-1]) isNotEqualTo [])}
+		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo [])}
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_412','PLAIN DOWN',0.333];
-		if ((_list inAreaArray [getPos _cursorObject,_deploySafeRadius,_deploySafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
+		if ((_list inAreaArray [_cursorObject,_deploySafeRadius,_deploySafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
 			systemchat format [localize 'STR_QS_Text_463',_deploySafeRadius];
 		};
 		if (serverTime < _cooldown) then {

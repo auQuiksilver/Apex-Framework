@@ -22,7 +22,7 @@ if (_isRuin) then {
 	};
 	if (QS_list_playerBuildables isNotEqualTo []) then {
 		(0 boundingBoxReal _changedTo) params ['','','_radius'];
-		_near = QS_list_playerBuildables inAreaArray [getPosATL _changedTo,_radius,_radius,0,FALSE];
+		_near = QS_list_playerBuildables inAreaArray [_changedTo,_radius,_radius,0,FALSE];
 		if (_near isNotEqualTo []) then {
 			{
 				deleteVehicle _x;

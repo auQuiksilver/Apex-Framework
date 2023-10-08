@@ -95,7 +95,7 @@ if (_type isEqualTo 'GET_CLIENT') exitWith {
 	_childType = toLowerANSI _childType;
 	if (
 		(_parent getVariable ['QS_logistics_deployed',FALSE]) &&
-		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [getPos _parent,200,200,0,FALSE,-1]) isNotEqualTo [])}
+		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_parent,200,200,0,FALSE,-1]) isNotEqualTo [])}
 	) exitWith {
 		systemChat (localize 'STR_QS_Chat_178');
 	};

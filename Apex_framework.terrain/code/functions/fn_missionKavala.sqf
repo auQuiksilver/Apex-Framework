@@ -894,7 +894,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (alive _grpLeader) then {
 					if ((!isNil {_grp getVariable 'QS_AI_move_nextRefresh'}) || {(unitReady _grpLeader)}) then {
 						if ((_timeNow > (_grp getVariable 'QS_AI_move_nextRefresh')) || {(unitReady _grpLeader)}) then {
-							_destination = selectRandom (_intersections inAreaArray [getPosATL _grpLeader,100,100,0,FALSE]);
+							_destination = selectRandom (_intersections inAreaArray [_grpLeader,100,100,0,FALSE]);
 							_grp setFormDir ((getPosATL _grpLeader) getDir _destination);
 							{
 								_unit = _x;

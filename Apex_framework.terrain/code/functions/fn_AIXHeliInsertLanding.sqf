@@ -156,7 +156,7 @@ _g addEventHandler [
 		if (!isNull (_v getVariable 'QS_assignedHelipad')) then {
 			deleteVehicle (_v getVariable 'QS_assignedHelipad');
 		};
-		if ((allPlayers inAreaArray [getPosATL _v,500,500,0,FALSE]) isEqualTo []) then {
+		if ((allPlayers inAreaArray [_v,500,500,0,FALSE]) isEqualTo []) then {
 			deleteVehicle _v;
 		} else {
 			_v setDamage [1,TRUE];
@@ -201,7 +201,7 @@ if (!isNull (_v getVariable ['QS_heliInsert_supportHeli',objNull])) then {
 						_leader = leader _group;
 						_v = vehicle _leader;
 						deleteVehicleCrew _v;
-						if ((allPlayers inAreaArray [getPosATL _v,500,500,0,FALSE]) isEqualTo []) then {
+						if ((allPlayers inAreaArray [_v,500,500,0,FALSE]) isEqualTo []) then {
 							deleteVehicle _v;
 						} else {
 							_v setDamage [1,TRUE];

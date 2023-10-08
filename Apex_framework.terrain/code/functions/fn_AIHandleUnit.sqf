@@ -499,7 +499,7 @@ if (_fps > 10) then {
 					if (!(_isSuppressing)) then {
 						private _smokeTargets = (missionNamespace getVariable ['QS_AI_smokeTargets',[]]) select {!isNull _x};
 						if (_smokeTargets isNotEqualTo []) then {
-							_smokeTargets = _smokeTargets inAreaArray [getPosATL _unit,1000,1000,0,FALSE];
+							_smokeTargets = _smokeTargets inAreaArray [_unit,1000,1000,0,FALSE];
 							if (_smokeTargets isNotEqualTo []) then {
 								_smokeTargets = _smokeTargets apply {
 									[
@@ -661,7 +661,7 @@ if (_isLeader) then {
 		};
 	};
 	if ((combatMode _grp) in ['YELLOW','RED']) then {
-		if ((((assignedItems _unit) apply {toLowerANSI _x}) findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
+		if ((_unit getSlotItemName 611) isNotEqualTo '') then {
 			if (_uiTime > (_unit getVariable 'QS_AI_UNIT_lastSupportRequest')) then {
 				_unit setVariable ['QS_AI_UNIT_lastSupportRequest',(serverTime + (120 + (random 120))),FALSE];
 				private _target = _attackTarget;

@@ -35,7 +35,7 @@ if (
 	_dir = getDir _unit;
 	_unit setVelocity (_vel vectorAdd [((sin _dir) * _speed),((cos _dir) * _speed),(_vel # 2) + _height]);
 	_unit switchMove 'AovrPercMrunSrasWrflDf';
-	_allPlayers = (allPlayers inAreaArray [(getPosATL _unit),100,100,0,FALSE]) - [_unit];
+	_allPlayers = (allPlayers inAreaArray [_unit,100,100,0,FALSE]) - [_unit];
 	if (_allPlayers isNotEqualTo []) then {
 		if (isNil {uiNamespace getVariable 'QS_client_jumpAnimPropagation'}) then {
 			uiNamespace setVariable ['QS_client_jumpAnimPropagation',[]];

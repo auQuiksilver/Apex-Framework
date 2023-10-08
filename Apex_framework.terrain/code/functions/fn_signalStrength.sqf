@@ -22,7 +22,11 @@ if (_type isEqualTo 0) then {
 			_val = round ((1 - ((player distance2D _position) / _radius)) * 100);
 		};
 		if (((eyePos player) # 2) < 0) then {
-			if (( ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1) && _requireGPS) || {(!(_requireGPS))}) then {
+			
+			((QS_player getSlotItemName 612) isNotEqualTo '')
+			
+			
+			if ((((QS_player getSlotItemName 612) isNotEqualTo '') && _requireGPS) || {(!(_requireGPS))}) then {
 				if (isNull (objectParent player)) then {
 					_text = format ['<t size="1.5">%2</t><br/><br/> %1 %3',_val,localize 'STR_QS_Text_243',localize 'STR_QS_Text_245'];
 					50 cutText [_text,'PLAIN DOWN',0.5,TRUE,TRUE];
@@ -42,7 +46,7 @@ if (_type isEqualTo 1) then {
 			};
 			if (isNull (objectParent player)) then {
 				if (
-					(((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1) && _requireGPS) || 
+					(((QS_player getSlotItemName 612) isNotEqualTo '') && _requireGPS) || 
 					{(!(_requireGPS))}
 				) then {
 					_text = format ['<t size="1.5">%2</t><br/><br/> %1 %3',_val,localize 'STR_QS_Text_243',localize 'STR_QS_Text_245'];

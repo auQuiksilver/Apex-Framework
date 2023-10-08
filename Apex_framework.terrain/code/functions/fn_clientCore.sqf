@@ -1171,7 +1171,7 @@ if (_QS_module_opsec) then {
 					(findDisplay 24) closeDisplay 2;
 				};
 			};
-			if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isEqualTo -1) then {
+			if ((QS_player getSlotItemName 611) isEqualTo '') then {
 				if (currentChannel isNotEqualTo 5) then {
 					50 cutText [localize 'STR_QS_Text_003','PLAIN DOWN',1];
 					if (!isNull (findDisplay 24)) then {
@@ -4247,7 +4247,7 @@ for '_z' from 0 to 1 step 0 do {
 			{
 				_localProp = _x;
 				if (!isNull _localProp) then {
-					if ((_listUnits inAreaArray [getPosATL _localProp,((0 boundingBox _localProp) # 2) * 2,((0 boundingBox _localProp) # 2) * 2,0,_false]) isNotEqualTo []) then {
+					if ((_listUnits inAreaArray [_localProp,((0 boundingBox _localProp) # 2) * 2,((0 boundingBox _localProp) # 2) * 2,0,_false]) isNotEqualTo []) then {
 						// use small explosion here
 						deleteVehicle _localProp;
 					};
@@ -5175,16 +5175,16 @@ for '_z' from 0 to 1 step 0 do {
 		if (
 			(currentChannel isNotEqualTo 5) &&
 			{(!isNull (findDisplay 55))} &&
-			{((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isEqualTo -1)}
+			{((_QS_player getSlotItemName 611) isEqualTo '')}
 		) then {
 			50 cutText [localize 'STR_QS_Text_003','PLAIN DOWN'];
 			setCurrentChannel 5;
 		};
 		if (
 			(_QS_player getVariable ['QS_client_radioDisabled',_false]) &&
-			{((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isNotEqualTo -1)}
+			{((_QS_player getSlotItemName 611) isNotEqualTo '')}}
 		) then {
-			_QS_player unassignItem (QS_client_assignedItems_lower # (QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios)); 
+			_QS_player unassignItem (_QS_player getSlotItemName 611);
 		};
 	};
 	

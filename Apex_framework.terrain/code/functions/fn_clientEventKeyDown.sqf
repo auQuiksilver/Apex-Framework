@@ -63,7 +63,7 @@ if (
 };
 if (_key in (actionKeys 'PushToTalk')) then {
 	if (currentChannel isNotEqualTo 5) then {
-		if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
+		if ((_player getSlotItemName 611) isNotEqualTo '') then {
 			if (currentChannel in [0,1,6]) then {
 				if (
 					(!(_player getUnitTrait 'QS_trait_HQ')) &&
@@ -219,9 +219,9 @@ if (
 		{(isPlayer _cameraOn)} &&
 		{(isNull (objectParent _cameraOn))} &&
 		{(_cameraOn isEqualTo (leader (group _cameraOn)))} &&
-		{((count ((units (group _cameraOn)) inAreaArray [50,50,0,FALSE])) > 1)}
+		{((count ((units (group _cameraOn)) inAreaArray [_cameraOn,50,50,0,FALSE])) > 1)}
 	) then {
-		_arrayToSend = ((units (group _cameraOn)) inAreaArray [50,50,0,FALSE]) select {(_x isNotEqualTo _cameraOn) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x)};
+		_arrayToSend = ((units (group _cameraOn)) inAreaArray [_cameraOn,50,50,0,FALSE]) select {(_x isNotEqualTo _cameraOn) && ((lifeState _x) in ['HEALTHY','INJURED']) && (isPlayer _x)};
 		if (_arrayToSend isNotEqualTo []) then {
 			[63,[5,[(format ['%1: %2',profileName,_order]),'PLAIN DOWN',0.333]]] remoteExec ['QS_fnc_remoteExec',_arrayToSend,FALSE];
 		};

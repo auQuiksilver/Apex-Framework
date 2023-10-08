@@ -72,7 +72,7 @@ if (_type isEqualTo 1) exitWith {
 	player selectDiarySubject 'fobs';
 };
 if (_type isEqualTo 2) exitWith {
-	if (((((units EAST) + (units RESISTANCE)) inAreaArray [(getPosATL player),100,100,0,FALSE,-1])) isEqualTo []) then {
+	if (((((units EAST) + (units RESISTANCE)) inAreaArray [player,100,100,0,FALSE,-1])) isEqualTo []) then {
 		playSound ['AddItemOK',FALSE];
 		[50,[(player getVariable ['QS_unit_side',WEST]),profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	} else {

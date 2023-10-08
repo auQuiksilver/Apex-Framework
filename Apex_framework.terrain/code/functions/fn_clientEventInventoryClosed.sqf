@@ -14,9 +14,9 @@ Description:
 ___________________________________________________________________*/
 
 params ['_unit','_inventory'];
-if (player getVariable ['QS_client_radioDisabled',FALSE]) then {
-	if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
-		player unassignItem (QS_client_assignedItems_lower # (QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios));
+if (QS_player getVariable ['QS_client_radioDisabled',FALSE]) then {
+	if ((QS_player getSlotItemName 611) isNotEqualTo '') then {
+		QS_player unassignItem (QS_player getSlotItemName 611);
 	};
 };
 if (!(missionNamespace getVariable ['QS_client_triggerGearCheck',FALSE])) then {

@@ -187,7 +187,7 @@ if (_mapIsOpened) then {
 				if (!isNull _closestBuildable) then {
 					if ((_closestBuildable distance2D (uiNamespace getVariable ['QS_map_cursorPos',[0,0,0]])) < 100) then {
 						_nearUnits = allPlayers - [player];
-						if ((_nearUnits inAreaArray [getPosATL _closestBuildable,100,100,0,FALSE]) isEqualTo []) then {
+						if ((_nearUnits inAreaArray [_closestBuildable,100,100,0,FALSE]) isEqualTo []) then {
 							if (!local _closestBuildable) then {
 								['systemChat',format [localize 'STR_QS_Text_401',profileName,(getText ((configOf _closestBuildable) >> 'displayName')),mapGridPosition _closestBuildable]] remoteExec ['QS_fnc_remoteExecCmd',_closestBuildable,FALSE];
 							};

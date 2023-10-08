@@ -434,7 +434,7 @@ for '_x' from 0 to 1 step 0 do {
 			{
 				if (!isNull _x) then {
 					if (_x isKindOf 'Man') then {
-						if (((units WEST) inAreaArray [getPosATL _x,300,300,0,FALSE]) isEqualTo []) then {
+						if (((units WEST) inAreaArray [_x,300,300,0,FALSE]) isEqualTo []) then {
 							missionNamespace setVariable [
 								'QS_analytics_entities_deleted',
 								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
@@ -445,7 +445,7 @@ for '_x' from 0 to 1 step 0 do {
 							_x setDamage 1;
 						};
 					} else {
-						if (((units WEST) inAreaArray [getPosATL _x,300,300,0,FALSE]) isEqualTo []) then {
+						if (((units WEST) inAreaArray [_x,300,300,0,FALSE]) isEqualTo []) then {
 							missionNamespace setVariable [
 								'QS_analytics_entities_deleted',
 								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
@@ -783,7 +783,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		};
 		if ((_vehiclePos distance2D _startPosition) > 600) then {
-			if (((units WEST) inAreaArray [getPosATL _vehicle,500,500,0,FALSE,-1]) isEqualTo []) then {
+			if (((units WEST) inAreaArray [_vehicle,500,500,0,FALSE,-1]) isEqualTo []) then {
 				_vehicle setDamage [1,TRUE];
 			};
 		};

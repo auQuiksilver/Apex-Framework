@@ -264,8 +264,7 @@ if (_type2 isEqualType 0) exitWith {
 	};
 	if (_type2 isEqualTo 13) then {
 		playSound 'ClickSoft';
-		
-		if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemMaps) isEqualTo -1) then {
+		if ((QS_player getSlotItemName 608) isNotEqualTo '') then {
 			player linkItem QS_core_classNames_itemMap;	
 		};
 		openMap TRUE;

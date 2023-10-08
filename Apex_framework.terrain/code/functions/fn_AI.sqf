@@ -2053,7 +2053,7 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				if (_QS_uiTime > _QS_module_ambientHostility_duration) then {
 					{
-						if (((units _west) inAreaArray [(getPosATL _x),800,800,0,FALSE,-1]) isEqualTo []) then {
+						if (((units _west) inAreaArray [_x,800,800,0,FALSE,-1]) isEqualTo []) then {
 							if (_x isKindOf 'CAManBase') then {
 								if (!isNull (objectParent _x)) then {
 									if ((objectParent _x) isKindOf 'AllVehicles') then {

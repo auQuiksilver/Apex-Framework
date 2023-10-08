@@ -35,7 +35,7 @@ if (_type isEqualTo 'INIT') exitWith {
 		{((sizeOf (typeOf _x)) > 10)} &&
 		{((count (_x buildingPos -1)) >= 4)} && 
 		{(!isObjectHidden _x)} &&
-		{((_registeredPositions inAreaArray [getPosATL _x,_safeDist,_safeDist,0,FALSE]) isEqualTo [])} &&
+		{((_registeredPositions inAreaArray [_x,_safeDist,_safeDist,0,FALSE]) isEqualTo [])} &&
 		{((_x distance2D _hqPos) > _safeDist)}
 	};
 	if ((count _buildingData) >= _buildingCount) then {
@@ -92,7 +92,7 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 	params ['','_validData','_allPlayers'];
 	_usedData = selectRandom _validData;
 	_usedData params ['_building','_unit','_buildingPositions'];
-	_nearbyPlayers = _allPlayers inAreaArray [getPosATL _building,500,500,0,FALSE];
+	_nearbyPlayers = _allPlayers inAreaArray [_building,500,500,0,FALSE];
 	if (_nearbyPlayers isNotEqualTo []) then {
 		_isPosVisible = {
 			params ['_position','_units','_tolerance','_returnType'];

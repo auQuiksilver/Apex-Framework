@@ -444,7 +444,7 @@ for '_x' from 0 to 1 step 0 do {
 			if ((isNull _attachedTo) && (isNull _objectParent)) then {
 				_deadVehicles = allDead - allDeadMen;
 				if (
-					((_deadVehicles inAreaArray [(getPosATL _unit),5,5,0,FALSE]) isEqualTo []) &&
+					((_deadVehicles inAreaArray [_unit,5,5,0,FALSE]) isEqualTo []) &&
 					{(!(((getPosASL _unit) # 2) < -1))} &&
 					{((_unit targets [TRUE,30]) isEqualTo [])}
 				) then {
@@ -467,7 +467,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (player getVariable ['QS_animDone',TRUE]) then {
 					if ((isNull _attachedTo) && (isNull _objectParent)) then {
 						_deadVehicles = allDead - allDeadMen;
-						if ((_deadVehicles inAreaArray [(getPosATL _unit),5,5,0,FALSE]) isEqualTo []) then {
+						if ((_deadVehicles inAreaArray [_unit,5,5,0,FALSE]) isEqualTo []) then {
 							if (!(((getPosASL _unit) # 2) < -1)) then {
 								if ((_unit targets [TRUE,30]) isEqualTo []) then {
 									_text = localize 'STR_QS_Text_212';

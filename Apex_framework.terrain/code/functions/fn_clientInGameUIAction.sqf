@@ -202,7 +202,7 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 			if ((_injured distance player) > 2.5) then {
 				player setVariable ['QS_treat_target',objNull,FALSE];
 				if ((lifeState player) in ['HEALTHY','INJURED']) then {
-					_nearbyPlayers = allPlayers inAreaArray [(getPosATL player),100,100,0,FALSE,-1];
+					_nearbyPlayers = allPlayers inAreaArray [QS_player,100,100,0,FALSE,-1];
 					['switchMove',player,(player getVariable ['QS_treat_entryAnim',''])] remoteExec ['QS_fnc_remoteExecCmd',_nearbyPlayers,FALSE];
 				};
 			};
@@ -519,7 +519,7 @@ if (_QS_actionName in ['TouchOffMines','TouchOff']) exitWith {
 		if (!isNull _mine) then {
 			if (mineActive _mine) then {
 				_playerside = player getVariable ['QS_unit_side',WEST];
-				_playersNearby = (allPlayers select {((side (group _x)) isEqualTo _playerside)}) inAreaArray [getPosATL _mine,30,30,0,FALSE];
+				_playersNearby = (allPlayers select {((side (group _x)) isEqualTo _playerside)}) inAreaArray [_mine,30,30,0,FALSE];
 				if ((count _playersNearby) > 1) then {
 					{
 						if ((lifeState _x) in ['HEALTHY','INJURED']) then {

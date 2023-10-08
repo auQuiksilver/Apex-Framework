@@ -72,8 +72,8 @@ if (
 		_validData = ((missionNamespace getVariable 'QS_ao_urbanSpawn_data') select {
 			(alive (_x # 0)) && 
 			{(alive (_x # 1))} &&
-			{((_allPlayers inAreaArray [(getPosATL (_x # 0)),75,75,0,FALSE]) isEqualTo [])} &&
-			{((count (_unitsEast inAreaArray [(getPosATL (_x # 0)),25,25,0,FALSE])) <= 12)}
+			{((_allPlayers inAreaArray [(_x # 0),75,75,0,FALSE]) isEqualTo [])} &&
+			{((count (_unitsEast inAreaArray [(_x # 0),25,25,0,FALSE])) <= 12)}
 		});
 		(_validData isNotEqualTo [])
 	}

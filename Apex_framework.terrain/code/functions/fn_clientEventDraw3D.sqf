@@ -243,7 +243,7 @@ if ((missionNamespace getVariable ['QS_enabledWaypoints',2]) isEqualTo 0) then {
 		if (
 			((!(_cameraOn isKindOf 'Plane')) || {(_cameraOn isKindOf 'VTOL_01_base_F')}) &&
 			{(!(unitIsUAV _cameraOn))} &&
-			{((_cameraOn isKindOf 'CAManBase') && ((((assignedItems _cameraOn) apply {toLowerANSI _x}) findAny QS_core_classNames_itemGpss) isNotEqualTo -1)) || (!(_cameraOn isKindOf 'CAManBase'))}
+			{((_cameraOn isKindOf 'CAManBase') && ((_cameraOn getSlotItemName 612) isNotEqualTo '')) || (!(_cameraOn isKindOf 'CAManBase'))}
 		) then {
 			private _cwpCanShow = TRUE;
 			_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];
@@ -345,7 +345,7 @@ if (isNull (objectParent _player)) then {
 	if ((getPlayerChannel _player) isEqualTo 4) then {
 		setCurrentChannel 5;
 	};
-	if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemRadios) isNotEqualTo -1) then {
+	if ((_player getSlotItemName 611) isNotEqualTo '') then {
 		if (!((getPlayerChannel _player) in [-1,5,4])) then {
 			if (!(uiNamespace getVariable ['QS_UI_radio_shown',FALSE])) then {
 				uiNamespace setVariable ['QS_UI_radio_shown',TRUE];
@@ -482,7 +482,7 @@ if (!isStreamFriendlyUIEnabled) then {
 	(profileNamespace getVariable ['ApexFramework_3DGroupIconColor',(missionNamespace getVariable ['QS_missionConfig_3DIconColor',[0,125,255]])]) params ['_r','_g','_b'];
 	if (!isNull _cameraOn) then {
 		if (
-			((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1) &&
+			((_player getSlotItemName 612) isNotEqualTo '') &&
 			{(missionNamespace getVariable ['QS_HUD_show3DHex',TRUE])}
 		) then {
 			{

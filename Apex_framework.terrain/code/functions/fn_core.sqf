@@ -3639,8 +3639,8 @@ for '_x' from 0 to 1 step 0 do {
 									};
 								};
 								if (
-									((((units _east) + (units _resistance)) inAreaArray [getPos _v,30,30]) isNotEqualTo []) && 					//(((flatten (_deploymentEnemySides apply {units _x})) inAreaArray [getPos _v,30,30]) isNotEqualTo []) 		// Use this code if you do TvT stuff with OPFOR deployments. Its less efficient so we dont use it unless we need it. For now we just assume EAST/RESISTANCE are enemies
-									(((units (_v getVariable ['QS_deploy_side',sideUnknown])) inAreaArray [getPos _v,100,100]) isEqualTo [])
+									((((units _east) + (units _resistance)) inAreaArray [_v,30,30]) isNotEqualTo []) && 					//(((flatten (_deploymentEnemySides apply {units _x})) inAreaArray [_v,30,30]) isNotEqualTo []) 		// Use this code if you do TvT stuff with OPFOR deployments. Its less efficient so we dont use it unless we need it. For now we just assume EAST/RESISTANCE are enemies
+									(((units (_v getVariable ['QS_deploy_side',sideUnknown])) inAreaArray [_v,100,100]) isEqualTo [])
 								) then {
 									// Enemies in radius AND no friendlies in radius
 									if ((_v getVariable ['QS_deploy_enemyState',0]) > 0) then {
@@ -3914,7 +3914,7 @@ for '_x' from 0 to 1 step 0 do {
 			_missionObject = _x;
 			_missionObjectType = toLowerANSI (typeOf _x);
 			if (_missionObject isKindOf 'CraterLong') then {
-				if ((_allPlayers inAreaArray [(getPosATL _missionObject),500,500,0,_false]) isEqualTo []) then {
+				if ((_allPlayers inAreaArray [_missionObject,500,500,0,_false]) isEqualTo []) then {
 					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 					deleteVehicle _missionObject;
 				} else {
@@ -3934,7 +3934,7 @@ for '_x' from 0 to 1 step 0 do {
 				uiSleep 0.005;
 			};
 			if (_missionObject isKindOf 'GroundWeaponHolder') then {
-				if ((_allPlayers inAreaArray [(getPosATL _missionObject),100,100,0,_false]) isNotEqualTo []) then {
+				if ((_allPlayers inAreaArray [_missionObject,100,100,0,_false]) isNotEqualTo []) then {
 					0 = _missionGroundWeaponHolders pushBack _missionObject;
 				} else {
 					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
@@ -3943,7 +3943,7 @@ for '_x' from 0 to 1 step 0 do {
 				uiSleep 0.005;
 			};
 			if (_missionObjectType isEqualTo 'weaponholdersimulated') then {
-				if ((_allPlayers inAreaArray [(getPosATL _missionObject),100,100,0,_false]) isNotEqualTo []) then {
+				if ((_allPlayers inAreaArray [_missionObject,100,100,0,_false]) isNotEqualTo []) then {
 					0 = _missionWeaponHolderSimulated pushBack _missionObject;
 				} else {
 					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
@@ -3962,7 +3962,7 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			if (_missionObject isKindOf 'StaticWeapon') then {
 				if (isNull (attachedTo _missionObject)) then {
-					if ((_allUnits inAreaArray [(getPosATL _missionObject),250,250,0,_false]) isEqualTo []) then {
+					if ((_allUnits inAreaArray [_missionObject,250,250,0,_false]) isEqualTo []) then {
 						if (!(_missionObject getVariable ['QS_cleanup_protected',_false])) then {
 							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							deleteVehicle _missionObject;
@@ -3977,14 +3977,14 @@ for '_x' from 0 to 1 step 0 do {
 			};
 			if (_missionObject isKindOf 'Ruins') then {
 				if (_missionObject isKindOf 'Land_TTowerBig_2_ruins_F') then {
-					if ((_allPlayers inAreaArray [(getPosATL _missionObject),1000,1000,0,_false]) isEqualTo []) then {
+					if ((_allPlayers inAreaArray [_missionObject,1000,1000,0,_false]) isEqualTo []) then {
 						deleteVehicle _missionObject;
 					};
 				} else {
 					if (!(_missionObject getVariable ['QS_cleanup_protected',_false])) then {
 						if (!((toLowerANSI (typeOf _missionObject)) in _protectedRuinTypes)) then {
 							if ((_missionObject distance2D [-1000,-1000,0]) > 10) then {
-								if ((_allPlayers inAreaArray [(getPosATL _missionObject),500,500,0,_false]) isEqualTo []) then {
+								if ((_allPlayers inAreaArray [_missionObject,500,500,0,_false]) isEqualTo []) then {
 									_missionObject setPosWorld [-1000,-1000,0];
 									_missionObject hideObjectGlobal _true;
 									_missionObject enableSimulationGlobal _false;
@@ -4074,7 +4074,7 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		if (allMines isNotEqualTo []) then {
 			{
-				if ((_allUnits inAreaArray [getPosATL _x,500,500,0,_false]) isEqualTo []) then {
+				if ((_allUnits inAreaArray [_x,500,500,0,_false]) isEqualTo []) then {
 					deleteVehicle _x;
 					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 				};
@@ -4816,7 +4816,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 					} else {
 						if ((_unit distance2D _unitPos) > 1) then {
-							if ((_allPlayers inAreaArray [getPosATL _unit,500,500,0,_false]) isEqualTo []) then {
+							if ((_allPlayers inAreaArray [_unit,500,500,0,_false]) isEqualTo []) then {
 								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								if (!isNull (objectParent _unit)) then {
 									if ((objectParent _unit) isKindOf 'AllVehicles') then {

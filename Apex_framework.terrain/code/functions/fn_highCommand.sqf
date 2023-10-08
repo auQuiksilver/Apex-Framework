@@ -326,11 +326,11 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 				_groupUpdateDelay = diag_tickTime + _groupUpdateDelay_timer;
 			};
 			if (_gpsRequired) then {
-				if ((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isEqualTo -1) then {
+				if ((QS_player getSlotItemName 612) isEqualTo '') then {
 					setGroupIconsVisible [FALSE,FALSE];
 					waitUntil {
 						uiSleep 0.25;
-						((QS_client_assignedItems_lower findAny QS_core_classNames_itemGpss) isNotEqualTo -1)
+						((QS_player getSlotItemName 612) isNotEqualTo '')
 					};
 				};
 			};

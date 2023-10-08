@@ -512,9 +512,7 @@ if (_case < 30) exitWith {
 				removeBackpack _agent;
 				removeVest _agent;
 				_agent setCaptive TRUE;
-				{
-					_agent unlinkItem _x;
-				} count (assignedItems _agent);
+				removeAllAssignedItems _agent;
 				_agent switchMove 'amovpercmstpssurwnondnon';
 				[_agent,'amovpercmstpssurwnondnon'] remoteExecCall ['switchMove',0,FALSE];
 				_agent setUnitPos 'UP';
@@ -571,7 +569,7 @@ if (_case < 30) exitWith {
 							params ['_agent'];
 							player reveal [_agent,4];
 						}
-					] remoteExec ['call',(allPlayers inAreaArray [getPosATL _agent,30,30,0,FALSE]),FALSE];
+					] remoteExec ['call',(allPlayers inAreaArray [_agent,30,30,0,FALSE]),FALSE];
 				};
 			};
 		};
@@ -1040,7 +1038,7 @@ if (_case < 60) exitWith {
 					params ['_object','_isLocal'];
 					[_object,{ _this allowDamage FALSE; }] remoteExec ['call',_object];
 					if (_isLocal) then {
-						if ((allPlayers inAreaArray [getPosATL _object,50,50,0,FALSE]) isEqualTo []) then {
+						if ((allPlayers inAreaArray [_object,50,50,0,FALSE]) isEqualTo []) then {
 							deleteVehicle _object;
 						};
 					};
@@ -1638,9 +1636,7 @@ if (_case < 80) exitWith {
 		removeBackpack _agent;
 		removeVest _agent;
 		_agent setCaptive TRUE;
-		{
-			_agent unlinkItem _x;
-		} count (assignedItems _agent);
+		removeAllAssignedItems _agent;
 		{
 			_agent removeItem _x;
 		} forEach (items _agent);
@@ -1932,9 +1928,7 @@ if (_case < 100) exitWith {
 		removeBackpack _agent;
 		removeVest _agent;
 		_agent setCaptive TRUE;
-		{
-			_agent unlinkItem _x;
-		} count (assignedItems _agent);
+		removeAllAssignedItems _agent;
 		{
 			_agent removeItem _x;
 		} forEach (items _agent);
@@ -2230,7 +2224,7 @@ if (_case < 110) exitWith {
 			};
 			if (_nearestSensorAssets isNotEqualTo []) then {
 				_nearestSensorAssets = _nearestSensorAssets arrayIntersect _nearestSensorAssets;
-				if ((_nearestSensorAssets inAreaArray [getPosATL _target,_detectionRange,_detectionRange,0,FALSE]) isNotEqualTo []) then {
+				if ((_nearestSensorAssets inAreaArray [_target,_detectionRange,_detectionRange,0,FALSE]) isNotEqualTo []) then {
 					_nearestSensorAssets = _nearestSensorAssets apply { [_x distance2D _target,_x] };
 					_nearestSensorAssets sort TRUE;
 					_nearestSensorAsset = (_nearestSensorAssets # 0) # 1;

@@ -15,7 +15,7 @@ ________________________________________________________________________________
 
 _unit = player;
 private _defaultDistance = 500;
-_units = (units (side (group _unit))) inAreaArray [getPosATL _unit,_defaultDistance,_defaultDistance,0,FALSE];
+_units = (units (side (group _unit))) inAreaArray [_unit,_defaultDistance,_defaultDistance,0,FALSE];
 private _message = format [localize 'STR_QS_Text_269',_defaultDistance];
 {
 	if (

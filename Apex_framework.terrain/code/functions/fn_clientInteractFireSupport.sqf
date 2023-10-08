@@ -22,7 +22,7 @@ if (
 		{(isTurnedOut QS_player)}
 	)} &&
 	{(isNull curatorCamera)} &&
-	{((((assignedItems QS_player) apply {toLowerANSI _x}) findAny qs_core_classnames_itemradios) isNotEqualTo -1)} &&
+	{((QS_player getSlotItemName 611) isNotEqualTo '')} &&
 	{((QS_player isEqualTo (leader (group QS_player))) || ((toLowerANSI (backpack QS_player)) in qs_core_classnames_radiobags))} &&
 	{((missionNamespace getVariable ['QS_missionConfig_fireSupport',1]) > 0)}
 ) then {

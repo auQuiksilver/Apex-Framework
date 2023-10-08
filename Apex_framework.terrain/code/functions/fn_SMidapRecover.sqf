@@ -354,9 +354,7 @@ for '_x' from 0 to (4 + (round (random 3))) step 1 do {
 	];
 	_agent enableAIFeature ['ANIM',FALSE];
 	_agent enableAIFeature ['ALL',FALSE];
-	{
-		_agent unlinkItem _x;
-	} forEach (assignedItems _agent);
+	removeAllAssignedItems _agent;
 	removeAllItems _agent;
 	{
 		_agent setVariable _x;
@@ -436,6 +434,7 @@ _recoverableUnit setDamage 0.75;
 _recoverableUnit allowDamage FALSE;
 _recoverableUnit enableAIFeature ['ANIM',FALSE];
 _recoverableUnit enableAIFeature ['MOVE',FALSE];
+removeAllAssignedItems _recoverableUnit;
 {
 	_recoverableUnit unlinkItem _x;
 } forEach (assignedItems _recoverableUnit);

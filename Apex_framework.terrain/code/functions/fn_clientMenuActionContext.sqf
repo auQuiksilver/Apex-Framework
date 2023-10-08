@@ -203,7 +203,7 @@ if (
 					if (!isNull _cursorObject) then {
 						if (_cursorObject in QS_list_playerBuildables) then {
 							_nearUnits = allPlayers - [QS_player];
-							if ((_nearUnits inAreaArray [getPosATL _cursorObject,30,30,0,FALSE]) isEqualTo []) then {
+							if ((_nearUnits inAreaArray [_cursorObject,30,30,0,FALSE]) isEqualTo []) then {
 								QS_player playActionNow 'PutDown';
 								deleteVehicle _cursorObject;
 							} else {
@@ -574,7 +574,7 @@ if (
 				{
 					_cursorObject = QS_extendedContext_cursorObject;
 					_nearUnits = allPlayers - [QS_player];
-					if ((_nearUnits inAreaArray [getPosATL _cursorObject,30,30,0,FALSE]) isEqualTo []) then {
+					if ((_nearUnits inAreaArray [_cursorObject,30,30,0,FALSE]) isEqualTo []) then {
 						_virtualParent = _cursorObject getVariable ['QS_virtualCargoParent',objNull];
 						if (!alive _virtualParent) exitWith {systemChat 'parent does not exist';};
 						['DISASSEMBLE',_cursorObject] call QS_fnc_virtualVehicleCargo;

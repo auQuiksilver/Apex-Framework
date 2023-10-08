@@ -46,7 +46,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 		((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1002) ctrlSetText 'media\images\icons\squadback.paa';
 	};
 	if (
-		((QS_client_assignedItems_lower findAny QS_core_classNames_itemCompasses) isNotEqualTo -1) &&
+		((QS_player getSlotItemName 609) isNotEqualTo '') &&
 		(!(missionNamespace getVariable ['QS_module_gpsJammer_inArea',FALSE]))
 	) then {
 		if ((toLowerANSI (ctrlText ((uiNamespace getVariable 'QS_RD_client_dialog_hud') displayCtrl 1003))) isNotEqualTo 'media\images\icons\squadradarcompassbackgroundtexture_ca.paa') then {

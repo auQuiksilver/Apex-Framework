@@ -17,6 +17,7 @@ Official Change Log
 [TWEAKED] Zeus Placing objects under carrier will place them on ship deck directly above (if the carrier is directly above).
 [TWEAKED] Zeus will no longer hear strong gusty wind noise when zeus camera is at high altitude.
 [FIXED] Z-axis issue with spawning units in buildings (units spawning way above building and falling down).
+[FIXED] Script error with group commands (Ctrl + numpad gestures).
 [FIXED] Winch system could get stuck in an unbreakable script loop.
 [FIXED] Using Arsenal Mode 3 in parameters would cause player to get stuck accessing Arsenal after changing roles.
 [FIXED] T100X Futura tank now fires properly

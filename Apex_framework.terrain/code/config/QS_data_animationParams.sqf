@@ -27,7 +27,7 @@ ________________________________________/*/
 		(
 			(!(_this getVariable ['QS_locked',FALSE])) && 
 			{((currentWeapon cameraOn) isEqualTo '')} &&
-			{(((_otherPlayers inAreaArray [getPos _this,5,5,0,FALSE]) select {((currentWeapon _x) isEqualTo '')}) isEqualTo [])}
+			{(((_otherPlayers inAreaArray [_this,5,5,0,FALSE]) select {((currentWeapon _x) isEqualTo '')}) isEqualTo [])}
 		)
 	}]],
 	['hatch_1',[1,'Hatch_1_source','Hatch_1_source',0,1,0.1,1,'BIS_Disabled_Door_1',{(([cameraOn,getPosWorld cameraOn] call QS_fnc_inHouse) # 0)}]],
