@@ -22,10 +22,6 @@ if (_type isEqualTo 0) then {
 			_val = round ((1 - ((player distance2D _position) / _radius)) * 100);
 		};
 		if (((eyePos player) # 2) < 0) then {
-			
-			((QS_player getSlotItemName 612) isNotEqualTo '')
-			
-			
 			if ((((QS_player getSlotItemName 612) isNotEqualTo '') && _requireGPS) || {(!(_requireGPS))}) then {
 				if (isNull (objectParent player)) then {
 					_text = format ['<t size="1.5">%2</t><br/><br/> %1 %3',_val,localize 'STR_QS_Text_243',localize 'STR_QS_Text_245'];
