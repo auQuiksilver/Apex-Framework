@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	28/05/2023 A3 2.12 by Quiksilver
+	20/09/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -67,7 +67,7 @@ _baseLayout = 0;										// Base layout.	0 - Integrated base. 1 - Custom base.	
 _closeAirSupport = 2;									// Jets.		0 - Disabled. 1 - Whitelisted only. 2 - Enabled. 3 - Whitelisted+Linked to Pilot Transport Points.     This controls Fixed-wing Jets access. If Disabled, players will not have access to Jets and Armed UAV drones will not spawn.
 _enemyCAS = 1;											// Enemy Fixed-Wing Aircraft.	0 - Disabled. 1 - Enabled. (Default = 1). Controls whether enemy have access to fixed-wing planes.
 _jetLaser = 0;											// Jet Laser Designator. 0 - Disabled. 1 - Enabled.		Do jet pilots have the ability to self-designate targets with laser designator.
-_arsenal = 1;											// Arsenal.		0 - Unrestricted (scripted). 1 - Use Whitelist (scripted). 2 - Use Blacklist (scripted). 3 - Vanilla arsenal (unscripted).	(Recommended = 1).			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured.    #3 will disable scripted gear restrictions.
+_arsenal = 3;											// Arsenal.		0 - Unrestricted (scripted). 1 - Use Whitelist (scripted). 2 - Use Blacklist (scripted). 3 - Vanilla arsenal (unscripted).	(Recommended = 1).			Caution! Blacklist is unconfigured by default, you will have to do it. Only whitelist comes pre-configured.    #3 will disable scripted gear restrictions.
 _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default = 1). 		Controls whether players have access to respawning armored vehicles with default layout.
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
@@ -81,7 +81,7 @@ _ambient_civilians = 1;									// Ambient Civilians.	0 - Disabled. 1 - Enabled.
 _ambient_animals = 1;									// Ambient Animals.		0 - Disabled. 1 - Enabled. Default = 1.		Disable to save FPS.	Ambient animal presence is auto-disabled when player count > 50.
 _vehicle_active_protection = 3;							// Vehicle Active Protection System. 	0 - Disabled. 1 - AI only. 2 - Players only. 3 - AI and players.
 _hitMarker_audio = 1;									// Hit Marker Sound.	0 - Disabled. 1 - Enabled (Optional). Default = 1.		Plays a small audio cue when your bullet hits an enemy.
-_effectKnockdown = 1;									// Knock-Down effect.	0 - Disabled. 1 - Enabled (Default).	Player can be knocked down by nearby explosions.
+_effectKnockdown = 1;									// Knock-Down effect.	0 - Disabled. 1 - Enabled (Default).	Player can be knocked down in combat (without being incapacitated).
 _craters = 24;											// Artillery Crater Effects.	0 - Disabled. 1+ - Enabled. This number is also how many craters will be spawned at any time, oldest get deleted first.
 _groupForced = 0;										// Ungrouped players put into registered main group. 0 - Disabled. 1 - Enabled.			https://community.bistudio.com/wiki/Arma_3:_Dynamic_Groups
 _groupRegisterInit = 0;									// Register Player Group to Dynamic Groups on server join. 0 - Disabled. 1 - Enabled.		https://community.bistudio.com/wiki/Arma_3:_Dynamic_Groups

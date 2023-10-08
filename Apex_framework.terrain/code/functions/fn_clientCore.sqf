@@ -5182,7 +5182,7 @@ for '_z' from 0 to 1 step 0 do {
 		};
 		if (
 			(_QS_player getVariable ['QS_client_radioDisabled',_false]) &&
-			{((_QS_player getSlotItemName 611) isNotEqualTo '')}}
+			{((_QS_player getSlotItemName 611) isNotEqualTo '')}
 		) then {
 			_QS_player unassignItem (_QS_player getSlotItemName 611);
 		};
