@@ -318,7 +318,7 @@ if (_type isEqualTo 1) then {
 								if (!(_entity getVariable ['QS_zeus_aiSkill',FALSE])) then {
 									_entity setVariable ['QS_zeus_aiSkill',TRUE,FALSE];
 									_entity setSkill 1;
-									_entity setSkill ['aimingAccuracy',0.13];
+									_entity setSkill ['aimingAccuracy',0.11];
 								};
 							};
 							if (!(_entity getVariable ['QS_AI_JOB',FALSE])) then {

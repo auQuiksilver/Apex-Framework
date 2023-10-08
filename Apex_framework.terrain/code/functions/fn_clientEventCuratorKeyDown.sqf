@@ -29,9 +29,32 @@ if ((lifeState player) in ['HEALTHY','INJURED']) then {
 			_c = TRUE;
 		};
 	};
-	// Numpad
-	if (_key in [82,79,80,81,75,76,77,71,72,73]) then {
-		[_key] call (missionNamespace getVariable 'QS_fnc_curatorFunctions');
+	_validKeys = (
+		[82,79,80,81,75,76,77,71,72,73] +		// Numpad
+		(actionKeys 'User1') + 
+		(actionKeys 'User2') + 
+		(actionKeys 'User3') +
+		(actionKeys 'User4') + 
+		(actionKeys 'User5') +
+		(actionKeys 'User6') + 
+		(actionKeys 'User7') +
+		(actionKeys 'User8') + 
+		(actionKeys 'User9') +
+		(actionKeys 'User10') + 
+		(actionKeys 'User11') +
+		(actionKeys 'User12') + 
+		(actionKeys 'User13') +
+		(actionKeys 'User14') + 
+		(actionKeys 'User15') +
+		(actionKeys 'User16') + 
+		(actionKeys 'User17') +
+		(actionKeys 'User18') +
+		(actionKeys 'User19') + 
+		(actionKeys 'User20')
+	);
+	// Numpad and custom keys
+	if (_key in _validKeys) then {
+		[_key,_validKeys] call (missionNamespace getVariable 'QS_fnc_curatorFunctions');
 		_c = TRUE;
 	};
 };

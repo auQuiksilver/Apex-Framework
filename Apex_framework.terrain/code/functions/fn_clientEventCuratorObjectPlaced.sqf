@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/04/2023 A3 2.12 by Quiksilver
+	8/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,7 @@ params ['_module','_object'];
 _type = typeOf _object;
 _typeL = toLowerANSI _type;
 if (
-	(uiNamespace getVariable ['QS_uiaction_alt',FALSE]) &&
+	(uiNamespace getVariable ['QS_uiaction_altHold',FALSE]) &&
 	(!isNull curatorCamera)
 ) then {
 	_object setDir (curatorCamera getDirVisual _object);
@@ -56,6 +56,59 @@ if (
 	{((getMass _object) < 500)}
 ) then {
 	_object setVariable ['QS_logistics',TRUE,TRUE];
+};
+_position = getPosASL _object;
+if (!(_object isKindOf 'Ship')) then {
+	private _nearDestroyer = FALSE;
+	if (!(_object isKindOf 'CAManBase')) then {
+		if (!isNull (missionNamespace getVariable ['QS_destroyerObject',objNull])) then {
+			_destroyer = missionNamespace getVariable ['QS_destroyerObject',objNull];
+			if ((_position distance2D _destroyer) < 150) then {
+				_nearDestroyer = TRUE;
+				_safePosition = QS_destroyerObject modelToWorldWorld [0.267822,78.0225,8.81596];
+				_object setDir (_safePosition getDir _destroyer);
+				_object setPosASL _safePosition;
+				_object setDamage [0,FALSE];
+				comment "
+				[_object,_safePosition,_destroyer] spawn {
+					params ['_object','_safePosition','_destroyer'];
+					sleep 1;
+					if (!alive _object) then {
+						_type = typeOf _object;
+						deleteVehicle _object;
+						sleep 0.25;
+						_new = createVehicle [_type,[0,0,0]];
+						_new setDir (_safePosition getDir _destroyer);
+						_new setPosASL _safePosition;
+						_new setDamage [0,FALSE];
+						_module addCuratorEditableObjects [[_new],TRUE];
+						[_new] call QS_fnc_vSetup;
+					};
+				};
+				";
+			};
+		};
+	};
+	private _nearCarrier = FALSE;
+	if ((!_nearDestroyer) && (!isNull (missionNamespace getVariable ['QS_carrierObject',objNull]))) then {
+		_carrier = missionNamespace getVariable ['QS_carrierObject',objNull];
+		if ((_object distance2D _carrier) < 300) then {
+			_nearCarrier = TRUE;
+			_intersections = lineIntersectsSurfaces [
+				_position vectorAdd [0,0,1000], 
+				_position, 
+				_object, 
+				objNull, 
+				TRUE, 
+				1
+			];
+			if (_intersections isNotEqualTo []) then {
+				_safePosition = (_intersections # 0) # 0;
+				_object setVectorUp [0,0,1];
+				_object setPosASL _safePosition;
+			};
+		};
+	};
 };
 if (_object isKindOf 'CAManBase') exitWith {
 	_object setVariable [format ['QS_zeus_%1',getPlayerUID player],TRUE,FALSE];

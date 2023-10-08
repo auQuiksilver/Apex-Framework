@@ -23,6 +23,8 @@ params ['_module','_input'];
 	(findDisplay 312) displayAddEventHandler ['KeyDown',{call (missionNamespace getVariable ['QS_fnc_clientEventCuratorKeyDown',{}]);}];
 	_uid = getPlayerUID player;
 	private _camPrepared = FALSE;
+	_environmentEnabled = environmentEnabled;
+	enableEnvironment FALSE;
 	for '_x' from 0 to 1 step 0 do {
 		if (!isNull curatorCamera) then {
 			if (!_camPrepared) then {
@@ -41,6 +43,7 @@ params ['_module','_input'];
 			};
 		};
 		if (isNull (findDisplay 312)) exitWith {
+			enableEnvironment _environmentEnabled;
 			uiNamespace setVariable ['QS_client_playerViewChanged',TRUE];
 			uiNamespace setVariable ['RscMissionStatus_display',(findDisplay 46)];
 		};

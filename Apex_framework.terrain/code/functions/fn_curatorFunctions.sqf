@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	1/09/2022 A3 2.10 by Quiksilver
+	8/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -32,15 +32,18 @@ Keys:
 ______________________________________________________*/
 
 _key = _this # 0;
-_validKeys = [61,62,82,79,80,81,75,76,77,71,72,73];
+_validKeys = _this # 1;
 if (
 	(isNull (findDisplay 312)) ||
 	{(!(_key in _validKeys))} ||
 	{(diag_tickTime < (player getVariable ['QS_curator_executingFunction',-1]))}
 ) exitWith {};
+private _curatorAlt = TRUE; //uiNamespace getVariable ['QS_uiaction_altHold',FALSE];
 player setVariable ['QS_curator_executingFunction',(diag_tickTime + 2),FALSE];
 scopeName 'main';
-if (_key isEqualTo 61) exitWith {
+
+if ((_key isEqualTo 61) || (_curatorAlt && (_key in (actionKeys 'User2')))) exitWith {
+//if (_key isEqualTo 61) exitWith {
 	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
 	playSound 'Click';
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
@@ -63,7 +66,8 @@ if (_key isEqualTo 61) exitWith {
 		};
 	};
 };
-if (_key isEqualTo 62) exitWith {
+if ((_key isEqualTo 62) || (_curatorAlt && (_key in (actionKeys 'User3')))) exitWith {
+//if (_key isEqualTo 62) exitWith {
 	if (
 		(missionNamespace getVariable ['QS_missionConfig_zeusOffload',FALSE]) &&
 		(diag_tickTime > (missionNamespace getVariable ['QS_curator_AIOffloadCooldown',-1]))
@@ -81,7 +85,7 @@ if (_key isEqualTo 62) exitWith {
 		if (_selected isNotEqualTo []) then {
 			{
 				if (
-					(_x isKindOf 'Man') &&
+					(_x isKindOf 'CAManBase') &&
 					{(alive _x)} &&
 					{(!isPlayer _x)} &&
 					{(!isNull (group _x))}
@@ -281,11 +285,13 @@ if (_key isEqualTo 62) exitWith {
 		};
 	};
 };
-if (_key isEqualTo 82) exitWith {
+if ((_key isEqualTo 82) || (_curatorAlt && (_key in (actionKeys 'User4')))) exitWith {
+//if (_key isEqualTo 82) exitWith {
 	playSound ['ClickSoft',FALSE];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_106',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 };
-if (_key isEqualTo 79) exitWith {
+if ((_key isEqualTo 79) || (_curatorAlt && (_key in (actionKeys 'User5')))) exitWith {
+//if (_key isEqualTo 79) exitWith {
 	//comment 'Garrison selected units into buildings';
 	playSound ['ClickSoft',FALSE];
 	private ['_selectedUnits','_countUnits','_radius'];
@@ -294,12 +300,13 @@ if (_key isEqualTo 79) exitWith {
 	if ((curatorSelected # 0) isEqualTo []) then {breakTo 'main';};
 	{
 		if (
-			(_x isKindOf 'Man') &&
-			(local _x) &&
-			(!isPlayer _x) &&
-			((lifeState _x) in ['HEALTHY','INJURED'])
+			((_x isKindOf 'CAManBase') && (!isPlayer _x) && ((lifeState _x) in ['HEALTHY','INJURED'])) ||
+			{(([_x] call QS_fnc_getObjectVolume) < 2)}
 		) then {
-			if (_x checkAIFeature 'PATH') then {
+			if (
+				((_x isKindOf 'CAManBase') && (_x checkAIFeature 'PATH')) ||
+				{(([_x] call QS_fnc_getObjectVolume) < 2)}
+			) then {
 				_toGarrison pushBack _x;
 			} else {
 				_toUngarrison pushBack _x;
@@ -321,9 +328,14 @@ if (_key isEqualTo 79) exitWith {
 			_x enableAIFeature ['PATH',TRUE];
 			_x setVariable ['QS_unitGarrisoned',FALSE,FALSE];
 		} forEach _toUngarrison;
+		_toUngarrison = _toUngarrison select {!local _x};
+		if (_toUngarrison isNotEqualTo []) then {
+			['enableAIFeature',_toUngarrison,['PATH',TRUE]] remoteExec ['QS_fnc_remoteExecCmd',_toUngarrison # 0,FALSE];	
+		};
 	};
 };
-if (_key isEqualTo 80) exitWith {
+if ((_key isEqualTo 80) || (_curatorAlt && (_key in (actionKeys 'User6')))) exitWith {
+//if (_key isEqualTo 80) exitWith {
 	//comment 'Group patrol';
 	playSound ['ClickSoft',FALSE];
 	private ['_selectedGroups','_countGroups','_radius'];
@@ -342,7 +354,8 @@ if (_key isEqualTo 80) exitWith {
 	} forEach _selectedGroups;
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_108',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 };
-if (_key isEqualTo 81) exitWith {
+if ((_key isEqualTo 81) || (_curatorAlt && (_key in (actionKeys 'User7')))) exitWith {
+//if (_key isEqualTo 81) exitWith {
 	//comment 'Search building';
 	playSound ['ClickSoft',FALSE];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_109',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
@@ -368,7 +381,8 @@ if (_key isEqualTo 81) exitWith {
 		};
 	} count (curatorSelected # 1);
 };
-if (_key isEqualTo 75) exitWith {
+if ((_key isEqualTo 75) || (_curatorAlt && (_key in (actionKeys 'User8')))) exitWith {
+//if (_key isEqualTo 75) exitWith {
 	//comment 'Stalker squad';
 	playSound ['ClickSoft',FALSE];
 	private ['_prey','_building','_selectedGroups','_selectedGroup','_waypoint','_grp','_wpPosition','_nearestUnit','_nearestUnits'];
@@ -422,11 +436,13 @@ if (_key isEqualTo 75) exitWith {
 		};
 	} count (curatorSelected # 1);
 };
-if (_key isEqualTo 76) exitWith {
+if ((_key isEqualTo 76) || (_curatorAlt && (_key in (actionKeys 'User9')))) exitWith {
+//if (_key isEqualTo 76) exitWith {
 	playSound ['ClickSoft',FALSE];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_106',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 };
-if (_key isEqualTo 77) exitWith {
+if ((_key isEqualTo 77) || (_curatorAlt && (_key in (actionKeys 'User10')))) exitWith {
+//if (_key isEqualTo 77) exitWith {
 	// Suppressive Fire
 	playSound ['ClickSoft',FALSE];
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_116',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
@@ -437,7 +453,7 @@ if (_key isEqualTo 77) exitWith {
 	private _selected = objNull;
 	{
 		_selected = _x;
-		if (_selected isKindOf 'Man') then {
+		if (_selected isKindOf 'CAManBase') then {
 			if (!isPlayer _selected) then {
 				if (alive _selected) then {
 					_selectedUnits pushBack _x;
@@ -494,25 +510,35 @@ if (_key isEqualTo 77) exitWith {
 		[30,_remoteUnits] remoteExec ['QS_fnc_remoteExec',(_remoteUnits # 0),FALSE];
 	};
 };
-if (_key isEqualTo 71) exitWith {
+if ((_key isEqualTo 71) || (_curatorAlt && (_key in (actionKeys 'User11')))) exitWith {
+//if (_key isEqualTo 71) exitWith {
+	// Revive/Heal/Repair selected object
 	private _selectedUnits = [];
 	private _healedUnits = [];
 	if ((curatorSelected # 0) isEqualTo []) then {breakTo 'main';};
 	{
-		if (
-			(_x isKindOf 'Man') &&
-			{(alive _x)} &&
-			{(isNull (attachedTo _x))}
-		) then {
-			if ((lifeState _x) isEqualTo 'INCAPACITATED') then {
+		if (alive _x) then {
+			if (
+				(_x isKindOf 'CAManBase') &&
+				(isNull (attachedTo _x)) &&
+				((lifeState _x) isEqualTo 'INCAPACITATED')
+			) then {
 				_selectedUnits pushBack _x;
 			} else {
-				_healedUnits pushBack _x;
+				if ((getObjectType _x) isEqualTo 8) then {
+					_healedUnits pushBack _x;
+				};
 			};
 		};
 	} forEach (curatorSelected # 0);
 	if (_healedUnits isNotEqualTo []) then {
-		(_healedUnits # 0) setDamage [0,FALSE];
+		{
+			if (alive _x) then {
+				_x setDamage [0,FALSE];
+				['setFuel',_x,1] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
+			};	
+		} forEach _healedUnits;
+		systemChat (localize 'STR_QS_Text_471');
 	};
 	if (_selectedUnits isEqualTo []) then {breakTo 'main';};
 	private _unit = _selectedUnits # 0;
@@ -522,18 +548,7 @@ if (_key isEqualTo 71) exitWith {
 	} else {
 		[68,_unit,FALSE,FALSE] remoteExec ['QS_fnc_remoteExec',_unit,FALSE];
 	};
-	
-	
-	/*/
-	missionNamespace setVariable [
-		'QS_curator_revivePoints',
-		((missionNamespace getVariable 'QS_curator_revivePoints') - 1),
-		TRUE
-	];
-	/*/
-	//systemChat format ['%2 %1',(missionNamespace getVariable 'QS_curator_revivePoints'),localize 'STR_QS_Chat_106'];
 	_module = getAssignedCuratorLogic player;
-	/*/[28,_module,((curatorPoints _module) - 0.05)] remoteExec ['QS_fnc_remoteExec',2,FALSE];/*/
 	private _text = '';
 	if ((random 1) > 0.333) then {
 		_text = format ['%1 %2!',((name _unit) + ([' [AI]',''] select (isPlayer _unit))),localize 'STR_QS_Hints_117'];
@@ -549,7 +564,8 @@ if (_key isEqualTo 71) exitWith {
 	};
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_120',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 };
-if (_key isEqualTo 72) exitWith {
+if ((_key isEqualTo 72) || (_curatorAlt && (_key in (actionKeys 'User12')))) exitWith {
+//if (_key isEqualTo 72) exitWith {
 	//comment 'Toggle player view directions';
 	playSound ['ClickSoft',FALSE];
 	if (isNil {missionNamespace getVariable 'QS_curator_playerViewDirections'}) then {
@@ -560,20 +576,24 @@ if (_key isEqualTo 72) exitWith {
 				addMissionEventHandler [
 					'Draw3D',
 					{
-						{
-							private _p0 = eyePos _x;
-							_v1 = getCameraViewDirection _x;
-							private _p1 = _p0 vectorAdd (_v1 vectorMultiply (currentZeroing (vehicle _x)));
-							_p1 = ASLToAGL _p1;
-							_p0 = ASLToAGL _p0;
-							_arr = [_p0,_p1,[1,1,1,1]];
-							for '_i' from 0 to 2 step 1 do {
-								drawLine3D _arr;
-							};
-						} count allPlayers;
+						_curatorCamera = curatorCamera;
+						_radius = (getObjectViewDistance # 0) * 0.9;
+						if (!isNull _curatorCamera) then {
+							{
+								private _p0 = eyePos _x;
+								_v1 = getCameraViewDirection _x;
+								private _p1 = _p0 vectorAdd (_v1 vectorMultiply (currentZeroing (vehicle _x)));
+								_p1 = ASLToAGL _p1;
+								_p0 = ASLToAGL _p0;
+								_arr = [_p0,_p1,[1,1,1,1]];
+								for '_i' from 0 to 2 step 1 do {
+									drawLine3D _arr;
+								};
+							} count (allPlayers inAreaArray [_curatorCamera,_radius,_radius]);
+						};
 						if (isNull (findDisplay 312)) then {
 							if (!isNil {missionNamespace getVariable 'QS_curator_playerViewDirections'}) then {
-								removeMissionEventHandler ['Draw3D',(missionNamespace getVariable 'QS_curator_playerViewDirections')];
+								removeMissionEventHandler [_thisEvent,_thisEventHandler];
 								missionNamespace setVariable ['QS_curator_playerViewDirections',nil,FALSE];
 							};
 						};
@@ -588,43 +608,37 @@ if (_key isEqualTo 72) exitWith {
 		missionNamespace setVariable ['QS_curator_playerViewDirections',nil,FALSE];
 	};	
 };
-if (_key isEqualTo 73) exitWith {
+if ((_key isEqualTo 73) || (_curatorAlt && (_key in (actionKeys 'User13')))) exitWith {
+//if (_key isEqualTo 73) exitWith {
 	playSound ['ClickSoft',FALSE];
-	//comment 'Revive selected players';
+	//comment 'Set selected unit unconscious';
 	private _selectedUnits = [];
 	if ((curatorSelected # 0) isEqualTo []) then {breakTo 'main';};
 	{
-		if (_x isKindOf 'Man') then {
-			if (alive _x) then {
-				if (!(isPlayer _x)) then {
-					if (isNull (objectParent _x)) then {
-						if (isNull (attachedTo _x)) then {
-							if ((lifeState _x) in ['HEALTHY','INJURED']) then {
-								_selectedUnits pushBack _x;
-							};
-						};
-					};
-				};
-			};
+		if (
+			(alive _x) &&
+			{(_x isKindOf 'CAManBase')} &&
+			{(!isPlayer _x)} &&
+			{(isNull (objectParent _x))} &&
+			{(isNull (attachedTo _x))} &&
+			{((lifeState _x) in ['HEALTHY','INJURED'])}
+		) then {
+			_selectedUnits pushBack _x;
 		};
 	} forEach (curatorSelected # 0);
 	if (_selectedUnits isEqualTo []) then {breakTo 'main';};
 	private _unit = _selectedUnits # 0;
-	if ((lifeState _unit) in ['HEALTHY','INJURED']) then {
-		if (local _unit) then {
-			{
-				_unit setVariable _x;
-			} forEach [
-				['QS_RD_draggable',TRUE,TRUE],
-				['QS_RD_loadable',TRUE,TRUE]
-			];
-			_unit setUnconscious TRUE;
-			_unit setCaptive TRUE;
-			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,localize 'STR_QS_Hints_123',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
-		} else {
-			50 cutText [localize 'STR_QS_Text_205','PLAIN DOWN',0.333];
-		};
+	if (local _unit) then {
+		{
+			_unit setVariable _x;
+		} forEach [
+			['QS_RD_draggable',TRUE,TRUE],
+			['QS_RD_loadable',TRUE,TRUE]
+		];
+		_unit setUnconscious TRUE;
+		_unit setCaptive TRUE;
+		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,3,-1,localize 'STR_QS_Hints_123',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 	} else {
-		50 cutText [localize 'STR_QS_Text_206','PLAIN DOWN',0.333];
+		50 cutText [localize 'STR_QS_Text_205','PLAIN DOWN',0.333];
 	};
 };

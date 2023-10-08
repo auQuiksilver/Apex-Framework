@@ -6,14 +6,14 @@ Author:
 	
 Last modified: 
 
-	20/09/2023 A3 2.14 by Quiksilver
+	8/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
 	Configure Server
 ____________________________________________________/*/
 
-missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 (%2)',getMissionConfigValue ['missionProductVersion',''],getMissionConfigValue ['missionProductStatus','']]),TRUE];
+missionNamespace setVariable ['QS_system_devBuild_text',(format ['Apex Framework %1 %3 (%2)',getMissionConfigValue ['missionProductVersion',''],getMissionConfigValue ['missionProductStatus',''],getMissionConfigValue ['missionProductDate','']]),TRUE];
 diag_log str QS_system_devBuild_text;
 private [
 	'_year','_month','_day','_hour','_minute','_n','_QS_currentWeatherData','_spawnPoint_1',
@@ -167,6 +167,9 @@ if (isNil {uiNamespace getVariable 'QS_fnc_serverCommandPassword'}) exitWith {
 missionNamespace setVariable ['QS_server_isUsingDB',FALSE,FALSE];
 
 /*/ EXTDB3 - Database - Server Setup component would go here /*/
+
+// Server Event Handler
+serverNamespace setVariable ['QS_fnc_serverEventHandler',compileScript ["code\functions\fn_serverEventHandler.sqf",TRUE]];
 
 /*/ If default base is selected, remove everything /*/
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
@@ -1374,6 +1377,7 @@ missionNamespace setVariable [
 	['BuildingChanged',{call (missionNamespace getVariable 'QS_fnc_eventBuildingChanged')}],
 	['Ended',{call (missionNamespace getVariable 'QS_fnc_eventMissionEnded')}],
 	//['EntityCreated',(missionNamespace getVariable 'QS_fnc_eventEntityCreated')],							// Used for debug/diagnostics
+	//['EntityDeleted',{call (missionNamespace getVariable 'QS_fnc_eventEntityDeleted')}],					// Not available yet (2.14)
 	['EntityKilled',{call (missionNamespace getVariable 'QS_fnc_eventEntityKilled')}],
 	['EntityRespawned',{call (missionNamespace getVariable 'QS_fnc_eventEntityRespawned')}],
 	//['GroupCreated',{call (missionNamespace getVariable 'QS_fnc_eventGroupCreated')}],					// Not used

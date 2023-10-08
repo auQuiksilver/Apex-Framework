@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/04/2022 A3 2.08 by Quiksilver
+	8/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -28,7 +28,11 @@ if (missionNamespace getVariable ['QS_HUD_toggleChatSpam',TRUE]) then {
 				};
 			};
 		} else {
-			_strings = [
+			{
+				if ([_x,_text] call (missionNamespace getVariable 'QS_fnc_inString')) exitWith {
+					_return = TRUE;
+				};
+			} forEach [
 				'uses modified data',
 				'steam ticket check',
 				'query timeout',
@@ -38,11 +42,6 @@ if (missionNamespace getVariable ['QS_HUD_toggleChatSpam',TRUE]) then {
 				'files',
 				'kicked off'
 			];
-			{
-				if ([_x,_text] call (missionNamespace getVariable 'QS_fnc_inString')) exitWith {
-					_return = TRUE;
-				};
-			} forEach _strings;
 		};
 	};
 };

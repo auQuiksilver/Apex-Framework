@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	20/09/2023 A3 2.14 by Quiksilver
+	8/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,7 @@ ____________________________________________/*/
 
 missionProductVersion = "1.5.6";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "04.10.2023";
+missionProductDate = "08.10.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -79,7 +79,7 @@ respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard w
 respawnOnStart = 0;
 
 // Security - CfgRemoteExec + CfgDisabledCommands
-//#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
+#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
 
 // CfgFunctions
 class CfgFunctions {
@@ -475,10 +475,8 @@ class CfgFunctions {
 			class getActiveDLC {file = "code\functions\fn_getActiveDLC.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
-			
 			class getCargoCapacity {file = "code\functions\fn_getCargoCapacity.sqf";};
 			class getCargoVolume {file = "code\functions\fn_getCargoVolume.sqf";};
-
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
@@ -607,6 +605,7 @@ class CfgFunctions {
 			class secondsToString {file = "code\functions\fn_secondsToString.sqf";};
 			class sectorScan {file = "code\functions\fn_sectorScan.sqf";};
 			class serverDetector {file = "code\functions\fn_serverDetector.sqf";};
+			class serverEventHandler {file = "code\functions\fn_serverEventHandler.sqf";};
 			class serverObjectsMapper {file = "code\functions\fn_serverObjectsMapper.sqf";};
 			class serverObjectsRecycler {file = "code\functions\fn_serverObjectsRecycler.sqf";};
 			class serverSetAISkill {file = "code\functions\fn_serverSetAISkill.sqf";};

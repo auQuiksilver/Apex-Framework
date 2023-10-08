@@ -177,7 +177,7 @@ class CfgRemoteExec {
 		class BIS_fnc_effectKilledAirDestruction {};
 		class BIS_fnc_effectKilledAirDestructionStage2 {};
 		class BIS_fnc_error {};
-        class BIS_fnc_fire {};
+        class BIS_fnc_fire {};      // Required for T100X Futura tank
 		class BIS_fnc_initIntelObject {jip = 1;};
 		class BIS_fnc_objectVar {};
 		class BIS_fnc_playSound {allowedTargets = 1;};

@@ -52,6 +52,7 @@ if (isNull _source) then {
 	};
 	missionNamespace setVariable ['QS_revive_lastSource',_source,FALSE];
 };
+private _incap = FALSE;
 _isEnemy = FALSE;
 if (isNull _instigator) then {
 	_instigator = missionNamespace getVariable ['QS_revive_lastInstigator',objNull];
@@ -69,6 +70,7 @@ if (isNull _instigator) then {
 if (_hitPartIndex in [-1,2,7]) then {
 	if (_damage > 0.89) then {
 		if (scriptDone (missionNamespace getVariable 'QS_script_incapacitated')) then {
+			_incap = TRUE;
 			if (isDamageAllowed _unit) then {
 				_unit allowDamage FALSE;
 			};
@@ -80,7 +82,8 @@ if (_hitPartIndex in [-1,2,7]) then {
 if (
 	(_hitPartIndex isEqualTo 11) &&
 	{_isEnemy} &&
-	{(missionNamespace getVariable ['QS_debug_staggerEnabled',TRUE])}
+	{!_incap} &&
+	{(missionNamespace getVariable ['QS_debug_staggerEnabled',FALSE])}
 ) then {
 	if (
 		_directHit &&

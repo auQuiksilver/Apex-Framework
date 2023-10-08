@@ -651,6 +651,7 @@ _QS_fnc_iconUnits = {
 	private _as = [];
 	private _au = [];
 	private _drawnVehicles = [];
+	_unk = sideUnknown;
 	_pSide = QS_player getVariable ['QS_unit_side',WEST];
 	_isAdmin = ((_QS_ST_X # 86) && {((call (missionNamespace getVariable 'BIS_fnc_admin')) isEqualTo 2)});
 	if (_pSide isNotEqualTo CIVILIAN) then {
@@ -695,7 +696,7 @@ _QS_fnc_iconUnits = {
 		_au;
 	};
 	if (_exit) exitWith {_au;};
-	if ((_QS_ST_X # 62)) then {
+	if (_QS_ST_X # 62) then {
 		_as pushBack _pSide;
 	} else {
 		if (isMultiplayer) then {
@@ -741,7 +742,7 @@ _QS_fnc_iconUnits = {
 				{
 					if (
 						((side (group _x)) in _as) || 
-						{((_x getVariable ['QS_unit_side',WEST]) isEqualTo _pSide)} ||
+						{((_x getVariable ['QS_unit_side',_unk]) isEqualTo _pSide)} ||
 						{((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}
 					) then {
 						if (isPlayer _x) then {
@@ -786,7 +787,7 @@ _QS_fnc_iconUnits = {
 			{
 				if (
 					((side (group _x)) in _as) ||
-					{((_x getVariable ['QS_unit_side',WEST]) isEqualTo _pSide)} ||
+					{((_x getVariable ['QS_unit_side',_unk]) isEqualTo _pSide)} ||
 					{((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}
 				) then {
 					if (isPlayer _x) then {
@@ -831,7 +832,7 @@ _QS_fnc_iconUnits = {
 		{
 			if (
 				((side (group _x)) in _as) ||
-				{((_x getVariable ['QS_unit_side',WEST]) isEqualTo _pSide)} ||
+				{((_x getVariable ['QS_unit_side',_unk]) isEqualTo _pSide)} ||
 				{((captive _x) && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}
 			) then {
 				if (_di isEqualTo 2) then {

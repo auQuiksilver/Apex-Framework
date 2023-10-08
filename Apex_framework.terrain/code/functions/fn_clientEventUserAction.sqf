@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	19/03/2023 A3 2.12 by Quiksilver
+	8/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -88,19 +88,27 @@ if (_this isEqualTo 'init') exitWith {
 			};
 		}],
 		['lookAround','activate',{
-				if (uiNamespace getVariable ['QS_uiaction_alt',FALSE]) then {
-					uiNamespace setVariable ['QS_uiaction_alt',FALSE];
-					if (!isNull curatorCamera) then {
-						50 cutText [localize 'STR_QS_Text_421','PLAIN DOWN',0.25];
-					};
-				} else {
+				if (!(uiNamespace getVariable ['QS_uiaction_altHold',FALSE])) then {
+					uiNamespace setVariable ['QS_uiaction_altHold',TRUE];
 					if (!isNull curatorCamera) then {
 						50 cutText [localize 'STR_QS_Text_422','PLAIN DOWN',0.25];
 					};
+				};
+				if (uiNamespace getVariable ['QS_uiaction_alt',FALSE]) then {
+					uiNamespace setVariable ['QS_uiaction_alt',FALSE];
+				} else {
 					uiNamespace setVariable ['QS_uiaction_alt',TRUE];
 				};
 			}
 		],
+		['lookAround','deactivate',{
+			if (uiNamespace getVariable ['QS_uiaction_altHold',FALSE]) then {
+				uiNamespace setVariable ['QS_uiaction_altHold',FALSE];
+				if (!isNull curatorCamera) then {
+					50 cutText [localize 'STR_QS_Text_421','PLAIN DOWN',0.25];
+				};
+			};
+		}],
 		['User1','activate',{}],
 		['User2','activate',{}],
 		['User3','activate',{}],
