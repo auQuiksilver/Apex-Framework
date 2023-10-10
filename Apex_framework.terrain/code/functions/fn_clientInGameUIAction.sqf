@@ -48,7 +48,7 @@ if (!((lifeState QS_player) in ['HEALTHY','INJURED',''])) exitWith {
 if (
 	(QS_player call QS_fnc_isBusyAttached) &&
 	{(!((toLower _QS_actionText) in QS_ui_releaseActions))} && 
-	{(!(_QS_actionName in ['OpenParachute']))}
+	{(!(_QS_actionName in ['OpenParachute','BackFromUAV']))}
 ) exitWith {
 	50 cutText [localize 'STR_QS_Text_000','PLAIN DOWN',0.333];
 	TRUE
