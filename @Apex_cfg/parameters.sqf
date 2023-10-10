@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	20/09/2023 A3 2.14 by Quiksilver
+	10/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -214,6 +214,7 @@ _destroyer_hangar = 0;										// Hangar Door initial state. 0 - Hangar doors s
 // Spawn location still needs to be set manually, this section merely enables/disables them from spawning.
 // Primarily meant for Zeus Mode, but can also be used in other modes.
 
+_fobs_default = 0;						// The default FOBs that spawn around the map. 0 - Disabled. 1 - Enabled.
 _container_mobileRespawn = 1;			// White. Acts as a mobile respawn with respawn tickets.
 _container_baseSmall = 1;				// Lite Green. Small fortification "Patrol Base"
 _container_baseMedium = 1;				// Dark Green. Medium fortification "Combat Outpost"
@@ -400,6 +401,7 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_destroyerName',_destroyer_name,FALSE],
 	['QS_missionConfig_destroyerNumbers',_destroyer_numbers,FALSE],
 	['QS_missionConfig_destroyerHangar',_destroyer_hangar,FALSE],
+	['QS_missionConfig_fobsDefault',_fobs_default > 0,FALSE],
 	['QS_missionConfig_cntnrMobRespawn',_container_mobileRespawn > 0,FALSE],
 	['QS_missionConfig_cntnrFortSmall',_container_baseSmall > 0,FALSE],
 	['QS_missionConfig_cntnrFortMed',_container_baseMedium > 0,FALSE],
