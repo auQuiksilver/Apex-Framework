@@ -25,6 +25,7 @@ params ['_module','_input'];
 	private _camPrepared = FALSE;
 	_environmentEnabled = environmentEnabled;
 	enableEnvironment FALSE;
+	uiNamespace setVariable ['QS_RD_viewSettings_update',TRUE];
 	for '_x' from 0 to 1 step 0 do {
 		if (!isNull curatorCamera) then {
 			if (!_camPrepared) then {
