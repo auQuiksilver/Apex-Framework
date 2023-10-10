@@ -2681,6 +2681,12 @@ _____________________________________________________________-->
          <Key ID="STR_QS_Text_471">
             <Original>Selected Object(s) healed</Original>
 		</Key>
+         <Key ID="STR_QS_Text_472">
+            <Original>Selection %1 saved</Original>
+		</Key>
+         <Key ID="STR_QS_Text_473">
+            <Original>Selection %1 loaded</Original>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">

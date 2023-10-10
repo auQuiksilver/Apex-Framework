@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/03/2017 A3 1.82 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -45,6 +45,7 @@ params ['_module','_input'];
 		if (isNull (findDisplay 312)) exitWith {
 			enableEnvironment _environmentEnabled;
 			uiNamespace setVariable ['QS_client_playerViewChanged',TRUE];
+			uiNamespace setVariable ['QS_RD_viewSettings_update',TRUE];
 			uiNamespace setVariable ['RscMissionStatus_display',(findDisplay 46)];
 		};
 		uiSleep 0.1;

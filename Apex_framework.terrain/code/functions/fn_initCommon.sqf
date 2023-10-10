@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	17/10/2022 A3 2.10 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -21,9 +21,9 @@ if (worldName in ['Tanoa','Cam_Lao_Nam','vn_khe_sanh','vn_the_bra']) then {
 if (worldName in ['Enoch','stozec','gm_weferlingen_summer','gm_weferlingen_winter']) then {
 	_environment = 'temperate';
 };
-uiNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal 'TRUE'];
+uiNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal {TRUE}];
 {
-	missionNamespace setVariable [_x,compileFinal 'TRUE',FALSE];
+	missionNamespace setVariable [_x,compileFinal {TRUE},FALSE];
 } forEach [
 	'rscmissionstatus_buttonclick',
 	'bis_fnc_missiontaskslocal',

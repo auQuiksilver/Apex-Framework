@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	20/09/2023 A3 2.14 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -34,7 +34,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0
 };
 if (!([getPlayerUID player] call (missionNamespace getVariable 'QS_fnc_atNameCheck'))) exitWith {};
 if ((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'))) then {
-	_code = compileFinal "
+	_code = {
 		params ['','','','_array'];
 		_array params ['_object','_action'];
 		private _n = name _object;
@@ -55,8 +55,8 @@ if ((getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc
 			systemChat (localize 'STR_QS_Chat_136');
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [3,FALSE,7.5,-1,localize 'STR_QS_Hints_125',[],-1];
 		};	
-	";
-	missionNamespace setVariable ['QS_fnc_actionEjectSuspect',_code,FALSE];
+	};
+	missionNamespace setVariable ['QS_fnc_actionEjectSuspect',compileFinal _code,FALSE];
 };
 setPlayerRespawnTime 5;
 

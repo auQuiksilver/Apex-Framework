@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	8/10/2023 A3 2.14 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -58,8 +58,9 @@ if (
 	_object setVariable ['QS_logistics',TRUE,TRUE];
 };
 _position = getPosASL _object;
+private _nearDestroyer = FALSE;
+private _nearCarrier = FALSE;
 if (!(_object isKindOf 'Ship')) then {
-	private _nearDestroyer = FALSE;
 	if (!(_object isKindOf 'CAManBase')) then {
 		if (!isNull (missionNamespace getVariable ['QS_destroyerObject',objNull])) then {
 			_destroyer = missionNamespace getVariable ['QS_destroyerObject',objNull];
@@ -89,7 +90,6 @@ if (!(_object isKindOf 'Ship')) then {
 			};
 		};
 	};
-	private _nearCarrier = FALSE;
 	if ((!_nearDestroyer) && (!isNull (missionNamespace getVariable ['QS_carrierObject',objNull]))) then {
 		_carrier = missionNamespace getVariable ['QS_carrierObject',objNull];
 		if ((_object distance2D _carrier) < 300) then {
@@ -285,13 +285,26 @@ if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _objec
 		};
 	};
 	[_object,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
-	if (
-		(_object isKindOf 'Helicopter') &&
-		{(_typeL in (['armed_heli_types_1'] call QS_data_listVehicles))} &&
-		{(!(missionNamespace getVariable ['QS_armedAirEnabled',TRUE]))}
-	) then {
-		50 cutText [localize 'STR_QS_Text_008','PLAIN DOWN',1];
-		[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+	
+	if (_object isKindOf 'Helicopter') then {
+		if (
+			(_typeL in (['armed_heli_types_1'] call QS_data_listVehicles)) &&
+			{(!(missionNamespace getVariable ['QS_armedAirEnabled',TRUE]))}
+		) then {
+			50 cutText [localize 'STR_QS_Text_008','PLAIN DOWN',1];
+			[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+		};
+		if ((surfaceIsWater (getPosASL _object)) && (!(_nearDestroyer)) && (!(_nearCarrier))) then {
+			[_object] spawn {
+				params ['_object'];
+				sleep (diag_deltaTime * 3);
+				if ((crew _object) isNotEqualTo []) then {
+					_object setDir (curatorCamera getDir _object);
+					_object flyInHeight [((ASLToAGL (getPosASL curatorCamera)) # 2),FALSE];
+					_object setVehiclePosition [getPosASL _object,[],0,'FLY'];
+				};
+			};			
+		};
 	};
 	if (_object isKindOf 'Plane') then {
 		if (_typeL isEqualTo 'i_c_plane_civil_01_f') then {
@@ -320,13 +333,26 @@ if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _objec
 			50 cutText [localize 'STR_QS_Text_008','PLAIN DOWN',1];
 			[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		};
+		if (
+			(uiNamespace getVariable ['QS_uiaction_altHold',FALSE]) ||
+			((surfaceIsWater (getPosASL _object)) && (!(_nearDestroyer)) && (!(_nearCarrier)))
+		) then {
+			[_object] spawn {
+				params ['_object'];
+				sleep (diag_deltaTime * 3);
+				if ((crew _object) isNotEqualTo []) then {
+					_object setDir (curatorCamera getDir _object);
+					_object setVehiclePosition [getPosASL _object,[],0,'FLY'];
+					_object setVelocityModelSpace [0,100,1];
+				};
+			};
+		};
 	};
 	if (_object isKindOf 'Land_RepairDepot_01_base_F') then {
 		_object setRepairCargo 0;
 		_object setAmmoCargo 0;
 		_object setFuelCargo 0;
 	};
-	
 	if (
 		((crew _object) isEqualTo []) || 
 		{(((crew _object) findIf {((side _x) in [WEST])}) isNotEqualTo -1)}

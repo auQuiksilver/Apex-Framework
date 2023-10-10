@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	7/12/2017 A3 1.80 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -20,7 +20,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	uiSleep 0.01;
 	_display = findDisplay 3000;
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
-	if ((cameraOn isKindOf 'Man') || {(isNull cameraOn)}) exitWith {
+	if ((cameraOn isKindOf 'CAManBase') || {(isNull cameraOn)}) exitWith {
 		['onButtonClick',0] call (missionNamespace getVariable 'QS_fnc_clientViewOptions');
 		{
 			(_display displayCtrl (_x # 0)) ctrlSetTextColor (_x # 1);
@@ -141,7 +141,7 @@ if (_type isEqualTo 'onButtonClick') exitWith {
 	sliderSetPosition [1822,_QS_client_viewSettings_terrain];
 };
 if (_type isEqualTo 'onSliderPosChange') exitWith {
-	player setVariable ['QS_RD_viewSettings_update',TRUE,FALSE];
+	uiNamespace setVariable ['QS_RD_viewSettings_update',TRUE];
 	private _cameraOn = cameraOn;
 	_setting = player getVariable 'QS_RD_client_viewSettings_currentMode';
 	if (_mode isEqualTo 0) then {

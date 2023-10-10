@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	8/10/2023 A3 2.14 by Quiksilver
+	10/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,7 @@ ____________________________________________/*/
 
 missionProductVersion = "1.5.6";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "08.10.2023";
+missionProductDate = "10.10.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -191,6 +191,8 @@ class CfgFunctions {
 			class clientEventCuratorObjectEdited {file = "code\functions\fn_clientEventCuratorObjectEdited.sqf";};
 			class clientEventCuratorObjectPlaced {file = "code\functions\fn_clientEventCuratorObjectPlaced.sqf";};
 			class clientEventCuratorObjectRegistered {file = "code\functions\fn_clientEventCuratorObjectRegistered.sqf";};
+			class clientEventCuratorSelectionPresetLoaded {file = "code\functions\fn_clientEventCuratorSelectionPresetLoaded.sqf";};
+			class clientEventCuratorSelectionPresetSaved {file = "code\functions\fn_clientEventCuratorSelectionPresetSaved.sqf";};
 			class clientEventCuratorWaypointEdited {file = "code\functions\fn_clientEventCuratorWaypointEdited.sqf";};
 			class clientEventCuratorWaypointPlaced {file = "code\functions\fn_clientEventCuratorWaypointPlaced.sqf";};
 			class clientEventDefaultAction {file = "code\functions\fn_clientEventDefaultAction.sqf";};
@@ -668,7 +670,6 @@ class CfgFunctions {
 			class vEventControlsShifted {file = "code\functions\fn_vEventControlsShifted.sqf";};
 			class vEventRopeAttach {file = "code\functions\fn_vEventRopeAttach.sqf";};
 			class vEventRopeBreak {file = "code\functions\fn_vEventRopeBreak.sqf";};
-			class vHandleDamage {file = "code\functions\fn_vHandleDamage.sqf";};
 			class virtualVehicleCargo {file = "code\functions\fn_virtualVehicleCargo.sqf";};
 			class vKilled {file = "code\functions\fn_vKilled.sqf";};
 			class vKilled2 {file = "code\functions\fn_vKilled2.sqf";};

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	15/10/2022 A3 2.10 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 	
@@ -435,9 +435,6 @@ _recoverableUnit allowDamage FALSE;
 _recoverableUnit enableAIFeature ['ANIM',FALSE];
 _recoverableUnit enableAIFeature ['MOVE',FALSE];
 removeAllAssignedItems _recoverableUnit;
-{
-	_recoverableUnit unlinkItem _x;
-} forEach (assignedItems _recoverableUnit);
 removeAllItems _recoverableUnit;
 _recoverableUnit setUnitLoadout [
 	[],

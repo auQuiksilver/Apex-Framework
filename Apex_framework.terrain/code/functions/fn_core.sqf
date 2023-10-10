@@ -6,7 +6,7 @@ Author:
 
 Last modified: 
 
-	23/05/2023 A3 2.12 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -258,8 +258,11 @@ _QS_module_aoSmallTasks_isActive = FALSE;
 
 /*/============================ FOBS*/
 
-//_module_fob_enabled = _QS_worldName in ['Altis','Tanoa','Malden','Enoch'];
-_module_fob_enabled = ((call (missionNamespace getVariable 'QS_data_fobs')) isNotEqualTo []) && (_aoType isNotEqualTo 'ZEUS');
+_module_fob_enabled = (
+	(missionNamespace getVariable ['QS_missionConfig_fobsDefault',TRUE]) && 
+	((call (missionNamespace getVariable 'QS_data_fobs')) isNotEqualTo []) && 
+	(_aoType isNotEqualTo 'ZEUS')
+);
 _module_fob_delay = 5;
 _module_fob_checkDelay = _timeNow + _module_fob_delay;
 _module_fob_activeRegion = -1;

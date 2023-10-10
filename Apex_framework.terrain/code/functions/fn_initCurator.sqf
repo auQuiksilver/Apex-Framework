@@ -6,7 +6,7 @@ Author:
 	
 Last Modified: 
 
-	1/09/2022 A3 2.10 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -139,6 +139,8 @@ if (_type isEqualTo 1) then {
 			['curatorObjectPlaced',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectPlaced')}],
 			['curatorObjectRegistered',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectRegistered')}],
 			['curatorObjectDeleted',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorObjectDeleted')}],
+			['curatorSelectionPresetLoaded',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorSelectionPresetLoaded')}],
+			['curatorSelectionPresetSaved',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorSelectionPresetSaved')}],
 			['curatorWaypointEdited',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorWaypointEdited')}],
 			['curatorWaypointPlaced',{call (missionNamespace getVariable 'QS_fnc_clientEventCuratorWaypointPlaced')}]
 		];

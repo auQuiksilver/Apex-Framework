@@ -6,7 +6,7 @@ Author:
 	
 Last Modified: 
 
-	7/07/2018 A3 1.82 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -40,7 +40,14 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
 	playSound 'Click';
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
-	0 spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
+	0 spawn {
+		uiSleep 0.5;
+		if (commandingMenu isNotEqualTo '') then {
+			showCommandingMenu '';	
+		};
+		uiSleep 1.5;
+		player setVariable ['QS_staff_menuOpened',nil,FALSE];
+	};
 	_moderatorsActions = [
 		[localize 'STR_QS_Interact_072',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),2,81,TRUE,TRUE,'','TRUE'],
 		[localize 'STR_QS_Interact_073',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),3,80,TRUE,TRUE,'','TRUE'],

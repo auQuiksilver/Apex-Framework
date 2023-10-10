@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/12/2022 A3 2.10 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -23,7 +23,7 @@ private _vehicleCausedBy = vehicle _causedBy;
 private _vehicleUnit = vehicle _unit;
 if (
 	(isNull _causedBy) ||
-	{((!isPlayer _causedBy) && (!isPlayer _instigator) && (!(unitIsUAV _vehicleCausedBy)))} ||
+	{((!isPlayer _causedBy) && (!isPlayer _instigator) && (!(unitIsUAV _instigator)))} ||
 	{((crew _vehicleCausedBy) isEqualTo [])} ||
 	{(_unit in [_causedBy,_instigator])} ||
 	{(_vehicleUnit isEqualTo _vehicleCausedBy)} ||
@@ -51,9 +51,9 @@ if (
 ) exitWith {};
 missionNamespace setVariable ['QS_robocop_busy',TRUE,FALSE];
 uiNamespace setVariable ['QS_robocop_timeout',diag_tickTime + 3];
-private _isUAV = unitIsUAV _vehicleCausedBy;
+private _isUAV = unitIsUAV _instigator;
 if (_isUAV) then {
-	_instigator = (UAVControl _vehicleCausedBy) # 0;
+	_instigator = remoteControlled _instigator;
 } else {
 	if (isNull _instigator) then {
 		_instigator = _causedBy;
@@ -72,7 +72,7 @@ private _isAircraft = FALSE;
 private _isVehicle = FALSE;
 private _isStatic = FALSE;
 private _objectParent = objectParent _instigator;
-if (unitIsUAV _vehicleCausedBy) then {
+if (unitIsUAV _instigator) then {
 	_objectParent = _vehicleCausedBy;
 };
 private _isObjectParent = !isNull _objectParent;
@@ -94,7 +94,7 @@ _vehicleCausedByType = QS_hashmap_configfile getOrDefaultCall [
 	TRUE
 ];
 _text = format ['%3 %1 [%2]',_name1,_role,localize 'STR_QS_Hints_008'];
-if (_vehicleCausedBy isKindOf 'Man') then {
+if (_vehicleCausedBy isKindOf 'CAManBase') then {
 	_weaponName = QS_hashmap_configfile getOrDefaultCall [
 		format ['cfgweapons_%1_displayname',toLowerANSI _currentWeapon],
 		{getText (configFile >> 'CfgWeapons' >> _currentWeapon >> 'displayName')},

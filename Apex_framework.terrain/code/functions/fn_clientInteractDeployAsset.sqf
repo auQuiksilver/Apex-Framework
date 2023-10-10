@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	31/05/2023 A3 2.12 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -129,7 +129,7 @@ if (_mode isEqualTo 1) exitWith {
 		) then {
 			systemChat format ['%1 - (%2/%3)',localize 'STR_QS_Chat_167',round (_deployRestrictedZoneData # 1),_deployRestrictedZoneDistance];
 		};
-		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [getPos _cursorObject,300,300,0,FALSE,-1]) isNotEqualTo []) then {
+		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo []) then {
 			systemChat (localize 'STR_QS_Chat_173');
 		};
 	};

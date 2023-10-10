@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	28/03/2023 A3 2.12 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 	
@@ -574,20 +574,22 @@ if (_QS_actionName isEqualTo 'UseMagazine') exitWith {
 	_QS_c;
 };
 if (_QS_actionName isEqualTo 'DisAssemble') exitWith {
-	private _assembledWeapons = player getVariable ['QS_client_assembledWeapons',[]];
-	if (
-		(_assembledWeapons isNotEqualTo []) &&
-		(_QS_actionTarget in _assembledWeapons)
-	) then {
-		_assembledWeapons deleteAt (_assembledWeapons find _QS_actionTarget);
-		player setVariable ['QS_client_assembledWeapons',_assembledWeapons,FALSE];
-	};
 	if (
 		(!isNull (attachedTo _QS_actionTarget)) //&&
 		//((attachedTo _QS_actionTarget) isKindOf 'CAManBase')
 	) then {
 		50 cutText [localize 'STR_QS_Text_070','PLAIN DOWN',0.5];
 		_QS_c = TRUE;
+	};
+	if (!(_QS_c)) then {
+		private _assembledWeapons = player getVariable ['QS_client_assembledWeapons',[]];
+		if (
+			(_assembledWeapons isNotEqualTo []) &&
+			(_QS_actionTarget in _assembledWeapons)
+		) then {
+			_assembledWeapons deleteAt (_assembledWeapons find _QS_actionTarget);
+			player setVariable ['QS_client_assembledWeapons',_assembledWeapons,FALSE];
+		};
 	};
 	_QS_c;
 };

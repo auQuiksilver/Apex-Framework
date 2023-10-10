@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	20/04/2023 A3 2.12 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -48,6 +48,13 @@ if ((attachedObjects _co) isNotEqualTo []) then {
 if (!isNull (attachedTo _co)) then {
 	detach _co;
 };
+
+if (isRemoteControlling player) then {
+	objNull remoteControl (remoteControlled player);
+	player remoteControl objNull;
+};
+
+
 if (!isNull (getConnectedUAV _co)) then {
 	_co connectTerminalToUAV objNull;
 };

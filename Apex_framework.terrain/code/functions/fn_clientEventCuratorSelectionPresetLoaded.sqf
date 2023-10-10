@@ -14,3 +14,4 @@ Description:
 __________________________________________________/*/
 
 params ['_curator','_numkey'];
+50 cutText [format [localize 'STR_QS_Text_473',_numkey],'PLAIN DOWN',0.25];

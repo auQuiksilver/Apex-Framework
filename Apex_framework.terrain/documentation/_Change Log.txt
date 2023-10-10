@@ -15,7 +15,10 @@ Official Change Log
 [TWEAKED] Zeus Placing soldiers near Destroyer ship will now garrison them onto the ship.
 [TWEAKED] Zeus Placing objects near destroyer will place them onto destroyer helipad (be careful, collision enabled!)
 [TWEAKED] Zeus Placing objects under carrier will place them on ship deck directly above (if the carrier is directly above).
+[TWEAKED] Zeus Placing crewed aircraft on water will put them into flight automatically.
+[TWEAKED] Zeus Placing crewed aircraft while holding [Alt] will spawn them in flight.
 [TWEAKED] Zeus will no longer hear strong gusty wind noise when zeus camera is at high altitude.
+[TWEAKED] Zeus view distance will adjust dynamically when entering/exiting interface (syncs to "Plane" visibility setting).
 [FIXED] Z-axis issue with spawning units in buildings (units spawning way above building and falling down).
 [FIXED] Script error with group commands (Ctrl + numpad gestures).
 [FIXED] Winch system could get stuck in an unbreakable script loop.

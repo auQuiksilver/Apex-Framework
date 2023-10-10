@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/09/2023 A3 2.14 by Quiksilver
+	9/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -214,7 +214,7 @@ _QS_module_viewSettings = TRUE;
 _QS_RD_client_viewSettings_saveDelay = 600;
 _QS_RD_client_viewSettings_saveCheckDelay = time + _QS_RD_client_viewSettings_saveDelay;
 player setVariable ['QS_RD_client_viewSettings_currentMode',0,FALSE];
-player setVariable ['QS_RD_viewSettings_update',TRUE,FALSE];
+uiNamespace setVariable ['QS_RD_viewSettings_update',TRUE];
 _deltaVD_script = scriptNull;
 _fadeView = FALSE;
 _QS_viewSettings_var = format ['QS_RD_client_viewSettings_%1',_QS_worldName];
@@ -1874,9 +1874,9 @@ for '_z' from 0 to 1 step 0 do {
 	
 	if (_QS_module_viewSettings) then {
 		if (scriptDone _deltaVD_script) then {
-			if ((cameraOn isNotEqualTo _QS_cameraOn) || {(_QS_player getVariable ['QS_RD_viewSettings_update',_false])}) then {
-				if (_QS_player getVariable ['QS_RD_viewSettings_update',_false]) then {
-					_QS_player setVariable ['QS_RD_viewSettings_update',_false,_false];
+			if ((cameraOn isNotEqualTo _QS_cameraOn) || {(uiNamespace getVariable ['QS_RD_viewSettings_update',_false])}) then {
+				if (uiNamespace getVariable ['QS_RD_viewSettings_update',_false]) then {
+					uiNamespace setVariable ['QS_RD_viewSettings_update',_false];
 				};
 				_fadeView = cameraOn isNotEqualTo _QS_cameraOn;
 				_QS_cameraOn = cameraOn;
@@ -1892,8 +1892,9 @@ for '_z' from 0 to 1 step 0 do {
 					_clientViewSettings = _QS_player getVariable _QS_viewSettings_var;
 					if (!isNull _QS_cameraOn) then {
 						if (
-							(_QS_cameraOn isKindOf 'Man') &&
-							{(((getPos _QS_cameraOn) # 2) < 10)}
+							(_QS_cameraOn isKindOf 'CAManBase') &&
+							{(((getPos _QS_cameraOn) # 2) < 10)} &&
+							{isNull curatorCamera}
 						) then {
 							if (_viewDistance isNotEqualTo ((_clientViewSettings # 0) # 0)) then {
 								if (_fadeView) then {
@@ -1920,7 +1921,10 @@ for '_z' from 0 to 1 step 0 do {
 								setTerrainGrid ((_clientViewSettings # 3) # 0);
 							};
 						} else {	
-							if ((_QS_cameraOn isKindOf 'LandVehicle') || {(_QS_cameraOn isKindOf 'Ship')}) then {
+							if (
+								((_QS_cameraOn isKindOf 'LandVehicle') || {(_QS_cameraOn isKindOf 'Ship')}) &&
+								{isNull curatorCamera}
+							) then {
 								if (_viewDistance isNotEqualTo ((_clientViewSettings # 0) # 1)) then {
 									if (_fadeView) then {
 										_viewDistance_target = ((_clientViewSettings # 0) # 1);
@@ -1946,7 +1950,7 @@ for '_z' from 0 to 1 step 0 do {
 									setTerrainGrid ((_clientViewSettings # 3) # 1);
 								};
 							} else {
-								if (_QS_cameraOn isKindOf 'Helicopter') then {
+								if ((_QS_cameraOn isKindOf 'Helicopter') && {isNull curatorCamera}) then {
 									if (_viewDistance isNotEqualTo ((_clientViewSettings # 0) # 2)) then {
 										if (_fadeView) then {
 											_viewDistance_target = ((_clientViewSettings # 0) # 2);
@@ -1972,7 +1976,7 @@ for '_z' from 0 to 1 step 0 do {
 										setTerrainGrid ((_clientViewSettings # 3) # 2);
 									};
 								} else {
-									if (_QS_cameraOn isKindOf 'Plane') then {
+									if ((_QS_cameraOn isKindOf 'Plane') || {!isNull curatorCamera}) then {
 										if (_viewDistance isNotEqualTo ((_clientViewSettings # 0) # 3)) then {
 											if (_fadeView) then {
 												_viewDistance_target = ((_clientViewSettings # 0) # 3);
