@@ -37,7 +37,7 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 			_x enableAIFeature ['COVER',FALSE];
 			_x enableAIFeature ['AUTOCOMBAT',FALSE];
 		} forEach (units _grp);
-		if (((objectParent _grpLeader) isKindOf 'LandVehicle') || {((objectParent _grpLeader) isKindOf 'Ship')} || {((objectParent _grpLeader) isKindOf 'Helicopter')} || {(unitIsUav (objectParent _grpLeader))}) then {
+		if (((objectParent _grpLeader) isKindOf 'LandVehicle') || {((objectParent _grpLeader) isKindOf 'Ship')} || {((objectParent _grpLeader) isKindOf 'Helicopter')} || {(unitIsUav _grpLeader)}) then {
 			if (!(_grp getVariable ['QS_AI_GRP_canNearTargets',FALSE])) then {
 				_grp setVariable ['QS_AI_GRP_canNearTargets',TRUE,FALSE];
 			};

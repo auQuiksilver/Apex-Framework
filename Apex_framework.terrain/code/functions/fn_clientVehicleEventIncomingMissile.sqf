@@ -28,7 +28,7 @@ if (!isNull _projectile) then {
 	if ((missionNamespace getVariable ['QS_missionConfig_APS',3]) in [2,3]) then {
 		if (_vehicle isKindOf 'LandVehicle') then {
 			if (!local _shooter) then {
-				if (((vehicle _shooter) isKindOf 'Man') || {((vehicle _shooter) isKindOf 'LandVehicle')} || {((vehicle _shooter) isKindOf 'StaticWeapon')}) then {
+				if (((vehicle _shooter) isKindOf 'CAManBase') || {((vehicle _shooter) isKindOf 'LandVehicle')} || {((vehicle _shooter) isKindOf 'StaticWeapon')}) then {
 					[94,['HANDLE',['AT',_projectile,_shooter,_shooter,getPosATL (vehicle _shooter),TRUE]]] remoteExecCall ['QS_fnc_remoteExec',_shooter,FALSE];
 				};
 			} else {
@@ -123,7 +123,7 @@ private _muzzle = '';
 _ammo = toLowerANSI _ammo;
 private _ammo2 = '';
 private _missileDisplayName = '';
-if (_shooter isKindOf 'Man') then {
+if (_shooter isKindOf 'CAManBase') then {
 	_muzzle = (_shooter weaponState (currentMuzzle _shooter)) # 1;
 	_magazines = QS_hashmap_configfile getOrDefaultCall [
 		format ['cfgweapons_%1_magazines',toLowerANSI _muzzle],

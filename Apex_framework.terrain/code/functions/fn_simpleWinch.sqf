@@ -274,7 +274,7 @@ if (_mode isEqualTo 'MODE6') exitWith {
 		_targetVehicle = _winchTargetInfo # 1;
 		if (
 			(_activeVehicle isEqualTo _targetVehicle) ||
-			{((['Man','Rope','RopeSegment'] findIf { _targetVehicle isKindOf _x }) isNotEqualTo -1)}
+			{((['CAManBase','Rope','RopeSegment'] findIf { _targetVehicle isKindOf _x }) isNotEqualTo -1)}
 		) exitWith {
 			playSoundUI ['addItemFailed', 0.5, 1.5];
 			50 cutText [localize 'STR_QS_Text_332','PLAIN',1];
@@ -361,7 +361,7 @@ if (_mode isEqualTo 'MODE8') exitWith {
 	uiNamespace setVariable ['QS_rope_monitor_wait',diag_tickTime + 1];
 	private _tempParent = objNull;
 	private _tempChild = objNull;
-	if (_cameraOn isKindOf 'Man') then {
+	if (_cameraOn isKindOf 'CAManBase') then {
 		if (!isNull _helper) then {
 			_ropes = ropes (ropeAttachedTo _helper);
 			if (_ropes isNotEqualTo []) then {
@@ -496,7 +496,7 @@ if (_mode isEqualTo 'MODE11') exitWith {
 		{(_cursorDistance < 3)} &&
 		{((_cameraOn distance _ropeEnd) < 3)} &&
 		{((_relDir >= 315) || (_relDir <= 45))} &&
-		{(_cameraOn isKindOf 'Man')} &&
+		{(_cameraOn isKindOf 'CAManBase')} &&
 		{((currentWeapon _cameraOn) isEqualTo '')} &&
 		{(ropeUnwound _rope)} &&
 		{(((['MODE19',_child] call QS_fnc_simpleWinch) findAny ['WINCH']) isNotEqualTo -1)} &&
@@ -758,7 +758,7 @@ if (_mode isEqualTo 'MODE20') exitWith {
 		(!alive cameraOn) ||
 		{(!alive _vehicle)} ||
 		{(!local _vehicle)} ||
-		{(!(cameraOn isKindOf 'Man'))} ||
+		{(!(cameraOn isKindOf 'CAManBase'))} ||
 		{((cameraOn distance (_vehicle modelToWorld _winchPoint)) > ((ropeLength QS_winch_rope) * 1.2))} ||
 		{(!(ropeAttachEnabled _vehicle))} ||
 		{(!(isNull (attachedTo _vehicle)))} ||

@@ -21,7 +21,7 @@ _unit = _this;
 if (
 	(!(_unit isEqualType objNull)) ||
 	{(!(alive _unit))} ||
-	{(!(_unit isKindOf 'Man'))} ||
+	{(!(_unit isKindOf 'CAManBase'))} ||
 	{(!local _unit)} ||
 	{(underwater _unit)} ||
 	{(captive _unit)} ||

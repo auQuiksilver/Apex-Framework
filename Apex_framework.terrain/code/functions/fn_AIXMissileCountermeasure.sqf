@@ -20,7 +20,7 @@ if (alive (effectiveCommander _vehicle)) then {
 		{(!isNull _projectile)} &&
 		{(isNull (objectParent _instigator))} &&
 		{((_vehicle distance _shooter) > 1000)} &&
-		{((!((vehicle _shooter) isKindOf 'Man')) && (!((vehicle _shooter) isKindOf 'Static')))} &&
+		{((!((vehicle _shooter) isKindOf 'CAManBase')) && (!((vehicle _shooter) isKindOf 'Static')))} &&
 		{((random 1) > ([0.75,0.5] select ((count allPlayers) > 15)))}
 	) then {
 		(group (effectiveCommander _vehicle)) reveal [_shooter,4];

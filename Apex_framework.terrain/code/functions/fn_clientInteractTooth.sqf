@@ -18,7 +18,7 @@ if (
 	(isNull _obj) ||
 	(isNil {_obj getVariable 'QS_collectible_tooth'}) ||
 	(alive _obj) ||
-	(!(_obj isKindOf 'Man')) ||
+	(!(_obj isKindOf 'CAManBase')) ||
 	((!isNil {player getVariable 'QS_teeth_collected'}) && (_obj in (player getVariable 'QS_teeth_collected')))
 ) exitWith {
 

@@ -148,7 +148,7 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 		/*/Overall VD/*/
 		ctrlSetText [1808,format['%1',(round (_value - _value % 100))]];
 		if (_setting isEqualTo 0) then {
-			if (_cameraOn isKindOf 'Man') then {
+			if (_cameraOn isKindOf 'CAManBase') then {
 				setViewDistance (round (_value - _value % 100));
 			};
 			/*/ On foot/*/
@@ -240,7 +240,7 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 		/*/Object VD/*/
 		ctrlSetText [1813,format['%1',(round (_value - _value % 100))]];
 		if (_setting isEqualTo 0) then {
-			if (_cameraOn isKindOf 'Man') then {
+			if (_cameraOn isKindOf 'CAManBase') then {
 				setObjectViewDistance (round (_value - _value % 100));
 			};
 			/*/On foot/*/
@@ -332,7 +332,7 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 		/*/ Shadow Dist/*/
 		ctrlSetText [1818,format['%1',(round (_value - _value % 10))]];
 		if (_setting isEqualTo 0) then {
-			if (_cameraOn isKindOf 'Man') then {
+			if (_cameraOn isKindOf 'CAManBase') then {
 				setShadowDistance (round (_value - _value % 10));
 			};
 			/*/ On foot/*/
@@ -425,7 +425,7 @@ if (_type isEqualTo 'onSliderPosChange') exitWith {
 		ctrlSetText [1823,format['%1',round _value]];
 		if (_setting isEqualTo 0) then {
 			/*/ On foot/*/
-			if (_cameraOn isKindOf 'Man') then {
+			if (_cameraOn isKindOf 'CAManBase') then {
 				setTerrainGrid _value;
 			};
 			player setVariable [

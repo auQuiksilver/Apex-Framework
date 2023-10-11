@@ -20,7 +20,10 @@ if (
 		(_vehicle isKindOf 'LandVehicle') || 
 		{(_vehicle isKindOf 'Ship')}
 	)} &&
-	{((_vehicle unitTurret player) isEqualTo [-1])} &&
+	{
+		((_vehicle unitTurret player) isEqualTo [-1]) ||
+		(player isEqualTo (currentPilot _vehicle))
+	} &&
 	{(isNull curatorCamera)} &&
 	{(isNull (ropeAttachedTo _vehicle))} &&
 	{(isNull (isVehicleCargo _vehicle))} &&

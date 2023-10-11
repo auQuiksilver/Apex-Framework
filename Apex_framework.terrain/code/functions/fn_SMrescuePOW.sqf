@@ -1005,7 +1005,7 @@ if ((count _QS_roadArrayRsc) > 8) then {
 	};
 };
 {
-	if ((vehicle _x) isKindOf 'Man') then {
+	if ((vehicle _x) isKindOf 'CAManBase') then {
 		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 	};
 } count _QS_enemyArray;

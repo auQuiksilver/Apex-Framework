@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	14/04/2023 A3 2.12 by Quiksilver
+	11/10/2023 A3 2.12 by Quiksilver
 
 Description:
 
@@ -130,14 +130,16 @@ if (_mode isEqualTo 'onLoad') exitWith {
 			if (ctrlEnabled _ctrlSelect) then {
 				if (
 					((_propsTotalCost + (uiNamespace getVariable ['QS_client_menuPlayerBuild_cost',1])) > _buildLimit) ||
-					{((count QS_list_playerBuildables) >= QS_missionConfig_maxPlayerBuildables)}
+					{((count QS_list_playerBuildables) >= QS_missionConfig_maxPlayerBuildables)} ||
+					{(missionNamespace getVariable ['QS_targetBoundingBox_placementMode',FALSE])}
 				) then {
 					_ctrlSelect ctrlEnable FALSE;
 				};
 			} else {
 				if (
 					((_propsTotalCost + (uiNamespace getVariable ['QS_client_menuPlayerBuild_cost',1])) <= _buildLimit) &&
-					{((count QS_list_playerBuildables) < QS_missionConfig_maxPlayerBuildables)}
+					{((count QS_list_playerBuildables) < QS_missionConfig_maxPlayerBuildables)} &&
+					{(!(missionNamespace getVariable ['QS_targetBoundingBox_placementMode',FALSE]))}
 				) then {
 					_ctrlSelect ctrlEnable TRUE;
 				};

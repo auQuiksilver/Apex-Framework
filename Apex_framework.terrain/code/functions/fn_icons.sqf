@@ -227,7 +227,7 @@ _QS_fnc_iconColor = {
 	private _c = _QS_ST_X # 13;
 	private _a = 0;
 	if (
-		(!(_v isKindOf 'Man')) &&
+		(!(_v isKindOf 'CAManBase')) &&
 		{((crew _v) isEqualTo [])} &&
 		{(_v getVariable ['QS_ST_drawEmptyVehicle',FALSE])}
 	) then {
@@ -320,7 +320,7 @@ _QS_fnc_iconSize = {
 	params ['_v','','_QS_ST_X'];
 	private _i = missionNamespace getVariable [(format ['QS_ST_iconSize#%1',(typeOf _v)]),0];
 	if (_i isEqualTo 0) then {
-		if (_v isKindOf 'Man') then {_i = _QS_ST_X # 22;};
+		if (_v isKindOf 'CAManBase') then {_i = _QS_ST_X # 22;};
 		if (_v isKindOf 'LandVehicle') then {_i = _QS_ST_X # 23;};
 		if (_v isKindOf 'Air') then {_i = _QS_ST_X # 25;};
 		if (_v isKindOf 'StaticWeapon') then {_i = _QS_ST_X # 26;};
@@ -594,8 +594,8 @@ _QS_fnc_iconText = {
 			};
 		};
 		if (unitIsUAV _v) then {
-			if (isUavConnected _v) then {
-				_y = (UAVControl _v) # 0;
+			if (alive (remoteControlled (currentPilot _v))) then {
+				_y = remoteControlled (currentPilot _v);
 				if (_ms < 0.75) then {
 					if (_ms > 0.25) then {
 						if (_showMOS) then {
@@ -616,28 +616,53 @@ _QS_fnc_iconText = {
 					};
 				} else {
 					_t = '';
-				};
+				};			
 			} else {
-				if (_ms < 0.75) then {
-					if (_ms > 0.25) then {
-						if (_showMOS) then {
-							_t = format ['[%2] [%1]',_vt,localize 'STR_QS_Text_273'];
+				if (isUavConnected _v) then {
+					_y = (UAVControl _v) # 0;
+					if (_ms < 0.75) then {
+						if (_ms > 0.25) then {
+							if (_showMOS) then {
+								_t = format ['%1 [%2]',name _y,_vt];
+							} else {
+								_t = format ['%1',name _y];
+							};
 						} else {
-							_t = format ['[%1]',localize 'STR_QS_Text_273'];
+							if (_ms < 0.006) then {
+								if (_showMOS) then {
+									_t = format ['%1 [%2]',name _y,_vt];
+								} else {
+									_t = format ['%1',name _y];
+								};
+							} else {
+								_t = '';
+							};
 						};
 					} else {
-						if (_ms < 0.006) then {
+						_t = '';
+					};
+				} else {
+					if (_ms < 0.75) then {
+						if (_ms > 0.25) then {
 							if (_showMOS) then {
 								_t = format ['[%2] [%1]',_vt,localize 'STR_QS_Text_273'];
 							} else {
 								_t = format ['[%1]',localize 'STR_QS_Text_273'];
 							};
 						} else {
-							_t = '';
+							if (_ms < 0.006) then {
+								if (_showMOS) then {
+									_t = format ['[%2] [%1]',_vt,localize 'STR_QS_Text_273'];
+								} else {
+									_t = format ['[%1]',localize 'STR_QS_Text_273'];
+								};
+							} else {
+								_t = '';
+							};
 						};
+					} else {
+						_t = '';
 					};
-				} else {
-					_t = '';
 				};
 			};
 		};
@@ -1346,7 +1371,7 @@ _QS_fnc_groupIconType = {
 		if (_grpVehicle isKindOf 'Ship') then {
 			_iconType = _iconTypes # 3;
 		};
-		if (_grpVehicle isKindOf 'Man') then {
+		if (_grpVehicle isKindOf 'CAManBase') then {
 			_iconType = _iconTypes # 4;
 		};
 		_grpVehicle setVariable ['QS_ST_groupVehicleIconType',_iconType,FALSE];

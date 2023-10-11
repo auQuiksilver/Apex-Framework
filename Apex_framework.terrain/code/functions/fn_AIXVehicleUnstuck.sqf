@@ -26,7 +26,7 @@ if (
 if (_type isEqualTo '') then {
 	_type = ['LAND','SHIP'] select (_vehicle isKindOf 'Ship');
 };
-if (_type isEqualTo 'MAN') exitWith {
+if (_type isEqualTo 'CAManBase') exitWith {
 	// Check stuck under rock
 	if (
 		(_vehicle checkAIFeature 'PATH') &&

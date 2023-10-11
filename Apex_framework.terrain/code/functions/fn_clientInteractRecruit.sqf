@@ -16,7 +16,7 @@ ____________________________________________________/*/
 private _exit = FALSE;
 private _t = cursorTarget;
 if ((!isNull (objectParent _t)) || {(isPlayer _t)} || {(!alive _t)}) exitWith {};
-if (!(_t isKindOf 'Man')) exitWith {
+if (!(_t isKindOf 'CAManBase')) exitWith {
 	((crew _t) select {!isPlayer _x}) joinSilent (group player);
 	50 cutText [localize 'STR_QS_Text_119','PLAIN DOWN',0.5];
 	(group player) setBehaviourStrong 'AWARE';

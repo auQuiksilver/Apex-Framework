@@ -29,7 +29,7 @@ if (!(_cameraOn getVariable ['QS_animDoneEH',FALSE])) then {
 };
 _t = cursorTarget;
 if (
-	(!(_t isKindOf 'Man')) ||
+	(!(_t isKindOf 'CAManBase')) ||
 	{(!alive _t)} ||
 	{((lifeState _t) isNotEqualTo 'INCAPACITATED')} ||
 	{(!isNull (attachedTo _t))} ||

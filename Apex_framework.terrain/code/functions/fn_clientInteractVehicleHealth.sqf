@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/01/2023 A3 2.12 by Quiksilver
+	11/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -44,7 +44,7 @@ if (
 	_totalFullCount = 1;
 };
 private _text = format [
-	'<t align="center" size="1.1">%5</t><br/><br/><t align="left">%6</t><t align="right">%1%4</t><br/><t align="left">%7</t><t align="right">%2%4</t><br/><t align="left">%8</t><t align="right">%3%4</t>   <br/><t align="left">%9</t><t align="right">%3%4</t>',
+	'<t align="center" size="1.1">%5</t><br/><br/><t align="left">%6</t><t align="right">%1%4</t><br/><t align="left">%7</t><t align="right">%2%4</t><br/><t align="left">%8</t><t align="right">%3%4</t>   <br/><t align="left">%9</t><t align="right">%10</t>',
 	ceil((1 - _repair) * 100),
 	ceil((1 - _refuel) * 100),
 	ceil((_totalCount / _totalFullCount) * 100),

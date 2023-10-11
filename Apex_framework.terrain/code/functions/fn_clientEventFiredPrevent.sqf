@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	18/03/2023 A3 2.12 by Quiksilver
+	10/10/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -25,7 +25,16 @@ if (_mode isEqualTo 1) exitWith {
 	if (!((_unit getVariable ['QS_interaction_safezone1',-1]) in (actionIDs _unit))) then {
 		_unit setVariable [
 			'QS_interaction_safezone1',
-			(_unit addAction [localize 'STR_QS_Interact_106',{call QS_fnc_clientInteractWeaponSafety},nil,-99,FALSE,TRUE,'defaultAction','cameraOn isEqualTo _target']),
+			(_unit addAction [
+				localize 'STR_QS_Interact_106',
+				{call QS_fnc_clientInteractWeaponSafety},
+				nil,
+				-99,
+				FALSE,
+				TRUE,
+				'defaultAction',
+				'((_target isEqualTo cameraOn) || {(!(cameraOn isKindOf "CAManBase")) && (_target in cameraOn)})'		// A3 2.16 - (_target isEqualTo focusOn)
+			]),
 			FALSE
 		];
 	};

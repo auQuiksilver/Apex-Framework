@@ -30,7 +30,7 @@ if (
 			||
 			{
 				(
-					(_target isKindOf 'Man') &&
+					(_target isKindOf 'CAManBase') &&
 					{!((lifeState _target) in ['HEALTHY','INJURED'])}
 				)
 			}

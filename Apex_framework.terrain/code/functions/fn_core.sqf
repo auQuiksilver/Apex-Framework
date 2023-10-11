@@ -4843,7 +4843,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 						_QS_aiAssignedTarget = getAttackTarget _unit;
 						if (alive _QS_aiAssignedTarget) then {
-							if (_QS_aiAssignedTarget isKindOf 'Man') then {
+							if (_QS_aiAssignedTarget isKindOf 'CAManBase') then {
 								if (isPlayer _QS_aiAssignedTarget) then {
 									_unit setDamage 1;
 								};

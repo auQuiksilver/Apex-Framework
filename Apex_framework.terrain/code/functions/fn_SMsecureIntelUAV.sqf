@@ -216,7 +216,7 @@ for '_x' from 0 to 1 step 0 do {
 		};
 	};
 	if (time > _enemiesCheckDelay) then {
-		if (({((_x isKindOf 'Man') && (alive _x))} count _enemiesArray) < 10) then {
+		if (({((_x isKindOf 'CAManBase') && (alive _x))} count _enemiesArray) < 10) then {
 			_foundPos = FALSE;
 			for '_x' from 0 to 1 step 0 do {
 				_checkPos = _safePos getPos [(150 + (random 400)),(random 360)];

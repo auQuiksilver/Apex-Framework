@@ -1036,11 +1036,18 @@ if (_case < 60) exitWith {
 				'Local',
 				{
 					params ['_object','_isLocal'];
-					[_object,{ _this allowDamage FALSE; }] remoteExec ['call',_object];
 					if (_isLocal) then {
+						_this allowDamage FALSE;
 						if ((allPlayers inAreaArray [_object,50,50,0,FALSE]) isEqualTo []) then {
 							deleteVehicle _object;
 						};
+					} else {
+						[_object,{ 
+							_this allowDamage FALSE;
+							_buildables = (localNamespace getVariable ['QS_list_playerLocalBuildables',[]]) select {!isNull _x};
+							_buildables pushBackUnique _this;
+							localNamespace setVariable ['QS_list_playerLocalBuildables',_buildables];
+						}] remoteExec ['call',_object];
 					};
 				}
 			];
@@ -1363,7 +1370,7 @@ if (_case < 70) exitWith {
 			(local _unit) &&
 			{(_unit isEqualType objNull)} &&
 			{(_state isEqualType FALSE)} &&
-			{(_unit isKindOf 'Man')}
+			{(_unit isKindOf 'CAManBase')}
 		) then {
 			_unit setUnconscious _state;
 			_unit setCaptive _captiveState;

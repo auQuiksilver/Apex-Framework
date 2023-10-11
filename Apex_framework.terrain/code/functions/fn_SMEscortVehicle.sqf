@@ -433,7 +433,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (_enemyArray isNotEqualTo []) then {
 			{
 				if (!isNull _x) then {
-					if (_x isKindOf 'Man') then {
+					if (_x isKindOf 'CAManBase') then {
 						if (((units WEST) inAreaArray [_x,300,300,0,FALSE]) isEqualTo []) then {
 							missionNamespace setVariable [
 								'QS_analytics_entities_deleted',
@@ -750,7 +750,7 @@ for '_x' from 0 to 1 step 0 do {
 				_unit = _x;
 				if (!isNull _unit) then {
 					if (alive _unit) then {
-						if (_unit isKindOf 'Man') then {
+						if (_unit isKindOf 'CAManBase') then {
 							if (alive _unit) then {
 								if ((_unit knowsAbout _vehicle) < 3) then {
 									_unit reveal [_vehicle,3.1];

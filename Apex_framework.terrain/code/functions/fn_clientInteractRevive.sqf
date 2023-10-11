@@ -16,7 +16,7 @@ ________________________________________/*/
 private _t = cursorTarget;
 _player = QS_player;
 if (
-	(!(_t isKindOf 'Man')) ||
+	(!(_t isKindOf 'CAManBase')) ||
 	{(!alive _t)} ||
 	{((lifeState _t) isNotEqualTo 'INCAPACITATED')} ||
 	{(!isNull (attachedTo _t))} ||

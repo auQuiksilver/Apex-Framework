@@ -176,7 +176,7 @@ if (_type isEqualTo 3) exitWith {
 		_vehicle = _x # 2;
 		if (
 			(alive _vehicle) &&
-			{(!(_vehicle isKindOf 'Man'))} &&
+			{(!(_vehicle isKindOf 'CAManBase'))} &&
 			{(((crew _vehicle) findIf {((alive _x) && ((side (group _x)) in [WEST]))}) isNotEqualTo -1)} &&
 			{((_vehicle distance2D _position) < _radius)} &&
 			{(!(_vehicle in _vehicles))}

@@ -17,7 +17,7 @@ private ['_t'];
 _t = cursorTarget;
 if (!isNull (objectParent _t)) exitWith {};
 if (!alive _t) exitWith {};
-if (!(_t isKindOf 'Man')) exitWith {};
+if (!(_t isKindOf 'CAManBase')) exitWith {};
 if (isNil {_t getVariable 'QS_rescueable'}) exitWith {};
 player playAction 'PutDown';
 _t setVariable ['QS_rescueable',FALSE,TRUE];

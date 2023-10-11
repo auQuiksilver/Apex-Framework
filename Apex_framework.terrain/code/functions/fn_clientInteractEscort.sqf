@@ -23,7 +23,7 @@ if (
 private _exit = FALSE;
 if ((attachedObjects _obj) isNotEqualTo []) then {
 	{
-		if (_x isKindOf 'Man') then {
+		if (_x isKindOf 'CAManBase') then {
 			_exit = TRUE;
 		};
 	} count (attachedObjects _obj);

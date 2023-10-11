@@ -308,7 +308,7 @@ _cursorTarget = cursorTarget;
 _cursorObject = cursorObject;
 _QS_nearEntities_revealDelay = 5;
 _QS_nearEntities_revealCheckDelay = time + _QS_nearEntities_revealDelay;
-_QS_entityTypes = ['Man','LandVehicle','Air','Ship'];
+_QS_entityTypes = ['CAManBase','LandVehicle','Air','Ship'];
 _QS_entityRange = 5;
 _QS_objectTypes = 'All';
 _QS_objectRange = 4;
@@ -1845,7 +1845,7 @@ for '_z' from 0 to 1 step 0 do {
 						) then {
 							if (_QS_liveFeed_vehicle isNotEqualTo _QS_liveFeed_vehicle_current) then {
 								_QS_liveFeed_vehicle_current = _QS_liveFeed_vehicle;
-								_QS_liveFeed_camera attachTo [(missionNamespace getVariable 'QS_RD_liveFeed_neck'),([[2,-4,2],[0.25,-0.10,0.05]] select (_QS_liveFeed_vehicle isKindOf 'Man'))];
+								_QS_liveFeed_camera attachTo [(missionNamespace getVariable 'QS_RD_liveFeed_neck'),([[2,-4,2],[0.25,-0.10,0.05]] select (_QS_liveFeed_vehicle isKindOf 'CAManBase'))];
 								_QS_liveFeed_camera cameraEffect ['Internal','Back','qs_rd_lfe'];
 								_QS_liveFeed_camera camSetTarget (missionNamespace getVariable 'QS_RD_liveFeed_target');
 								_QS_liveFeed_display setObjectTexture [0,'#(argb,512,512,1)r2t(qs_rd_lfe,1)'];
@@ -2500,7 +2500,7 @@ for '_z' from 0 to 1 step 0 do {
 				(_hasPylons) &&
 				{(alive _QS_cO)} &&
 				{(local _QS_cO)} &&
-				{(!(_QS_cO isKindOf 'Man'))} &&
+				{(!(_QS_cO isKindOf 'CAManBase'))} &&
 				{((((toLowerANSI (typeOf _QS_cO)) in _validHangarTypes) && _customPylonPresets) || (!(_customPylonPresets)))} &&
 				{(!(missionNamespace getVariable ['QS_repairing_vehicle',_false]))} &&
 				{(!(_QS_cO getVariable ['QS_logistics_wreck',_false]))} &&
@@ -3363,7 +3363,7 @@ for '_z' from 0 to 1 step 0 do {
 				{(_cursorObjectDistance <= 3)} &&
 				{((isSimpleObject _cursorObject) || ((!simulationEnabled _cursorObject) && (_cursorObject getVariable ['QS_vehicle_activateLocked',_true])))} &&
 				{((typeOf _cursorObject) isNotEqualTo '')} &&
-				{((_cursorObject isKindOf 'AllVehicles') && (!(_cursorObject isKindOf 'Man')))} &&
+				{((_cursorObject isKindOf 'AllVehicles') && (!(_cursorObject isKindOf 'CAManBase')))} &&
 				{(!(missionNamespace getVariable ['QS_customAO_GT_active',_false])) || ((missionNamespace getVariable ['QS_customAO_GT_active',_false]) && {(((_isAltis) && ((_cursorObject distance2D [3476.77,13108.7,0]) > 500)) || {((_isTanoa) && ((_cursorObject distance2D [5762,10367,0]) > 500))})}) || ((!(_isAltis)) && (!(_isTanoa)))} &&
 				{(!(_cursorObject getVariable ['QS_v_disableProp',_false]))}
 			) then {
@@ -4192,7 +4192,7 @@ for '_z' from 0 to 1 step 0 do {
 					{
 						if (
 							(!isNull _x) &&
-							{(_x isKindOf 'Man')} &&
+							{(_x isKindOf 'CAManBase')} &&
 							{(!alive _x)}
 						) then {
 							detach _x;
@@ -4219,7 +4219,7 @@ for '_z' from 0 to 1 step 0 do {
 						{
 							if (
 								(!isNull _x) &&
-								{(_x isKindOf 'Man')} &&
+								{(_x isKindOf 'CAManBase')} &&
 								{(!alive _x)}
 							) then {
 								detach _x;
@@ -4245,16 +4245,29 @@ for '_z' from 0 to 1 step 0 do {
 				};
 			} forEach QS_managed_flares;
 		};
-		_localProps = QS_list_playerBuildables select {local _x};
+		//_localProps = QS_list_playerBuildables select {local _x};
+		localNamespace setVariable ['QS_list_playerLocalBuildables',((localNamespace getVariable ['QS_list_playerLocalBuildables',[]]) select {!isNull _x})];
+		_localProps = localNamespace getVariable ['QS_list_playerLocalBuildables',[]];
 		if (_localProps isNotEqualTo []) then {
-			_listUnits = (units EAST) + (units RESISTANCE);    // not ideal
+			//_listUnits = (units EAST) + (units RESISTANCE);    // not ideal
 			{
 				_localProp = _x;
 				if (!isNull _localProp) then {
-					if ((_listUnits inAreaArray [_localProp,((0 boundingBox _localProp) # 2) * 2,((0 boundingBox _localProp) # 2) * 2,0,_false]) isNotEqualTo []) then {
+					if (
+						(
+							(_localProp nearEntities ['CAManBase',((0 boundingBox _localProp) # 2) * 2]) select {
+								(alive _x) && {(!isNull (group _x)) && {((side (group _x)) in _enemySides)}}
+							}
+						) isNotEqualTo []
+					) then {
+						deleteVehicle _localProp;
+					};
+					/*/
+					if ((_listUnits inAreaArray [_localProp,((0 boundingBox _localProp) # 2) * 2,((0 boundingBox _localProp) # 2) * 2]) isNotEqualTo []) then {
 						// use small explosion here
 						deleteVehicle _localProp;
 					};
+					/*/
 				};
 			} forEach _localProps;
 		};

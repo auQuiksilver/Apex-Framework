@@ -1,6 +1,6 @@
 Official Change Log
 
-1.5.6 Dev 08102023
+1.5.6 Dev 11102023
 
 [ADDED] Interaction to 'Pack Up' wreck into logistics container.
 [TWEAKED] Ongoing general scripting optimisations (A3 2.14)
@@ -19,6 +19,8 @@ Official Change Log
 [TWEAKED] Zeus Placing crewed aircraft while holding [Alt] will spawn them in flight.
 [TWEAKED] Zeus will no longer hear strong gusty wind noise when zeus camera is at high altitude.
 [TWEAKED] Zeus view distance will adjust dynamically when entering/exiting interface (syncs to "Plane" visibility setting).
+[TWEAKED] Passenger in UGV Stomper can now drive the vehicle without a UAV Terminal.
+[FIXED] Player in seat of vehicle could fire when inside no-fire area.
 [FIXED] Z-axis issue with spawning units in buildings (units spawning way above building and falling down).
 [FIXED] Script error with group commands (Ctrl + numpad gestures).
 [FIXED] Winch system could get stuck in an unbreakable script loop.

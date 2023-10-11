@@ -926,7 +926,7 @@ for '_x' from 0 to 1 step 0 do {
 		if ((missionNamespace getVariable ['QS_defend_propulsion',1]) isEqualTo 1) then {
 			{
 				if (alive _x) then {
-					if ((vehicle _x) isKindOf 'Man') then {
+					if ((vehicle _x) isKindOf 'CAManBase') then {
 						_unit = _x;
 						_unitGroup = group _unit;
 						_groupLeader = leader _unitGroup;
@@ -990,7 +990,7 @@ for '_x' from 0 to 1 step 0 do {
 		if ((missionNamespace getVariable ['QS_defend_propulsion',1]) isEqualTo 2) then {
 			{
 				if (alive _x) then {
-					if ((vehicle _x) isKindOf 'Man') then {
+					if ((vehicle _x) isKindOf 'CAManBase') then {
 						_unit = _x;
 						_unitGroup = group _unit;
 						_groupLeader = leader _unitGroup;
@@ -1021,7 +1021,7 @@ for '_x' from 0 to 1 step 0 do {
 		if ((missionNamespace getVariable ['QS_defend_propulsion',1]) isEqualTo 3) then {
 			{
 				if (alive _x) then {
-					if ((vehicle _x) isKindOf 'Man') then {
+					if ((vehicle _x) isKindOf 'CAManBase') then {
 						_unit = _x;
 						doStop _unit;
 						_unit doMove [(_centerPosX + (6 - (random 12))),(_centerPosY + (6 - (random 12))),_centerPosZ];
@@ -1045,7 +1045,7 @@ for '_x' from 0 to 1 step 0 do {
 		if ((missionNamespace getVariable ['QS_defend_propulsion',1]) isEqualTo 4) then {
 			{
 				if (alive _x) then {
-					if ((vehicle _x) isKindOf 'Man') then {
+					if ((vehicle _x) isKindOf 'CAManBase') then {
 						_unit = _x;
 						if ((getSuppression _unit) < 0.5) then {
 							doStop _unit;
@@ -1309,7 +1309,7 @@ for '_x' from 0 to 1 step 0 do {
 			} count _playersInArea;
 			if (_playerVehicles isNotEqualTo []) then {
 				{
-					if (_x isKindOf 'Man') then {
+					if (_x isKindOf 'CAManBase') then {
 						if (alive _x) then {
 							_unit = _x;
 							if (!(isNull (objectParent _unit))) then {

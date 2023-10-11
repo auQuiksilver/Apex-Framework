@@ -6,7 +6,7 @@ Author:
 	
 Last Modified: 
 
-	9/10/2023 A3 2.14 by Quiksilver
+	10/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -100,8 +100,6 @@ if (_type isEqualTo 0) then {
 		};
 		_module removeCuratorAddons _disabled_addons;
 	};
-	
-	
 	diag_log format ['***** CURATOR ***** Module created for %1 ( %2 ) *****',(name _client),_puid];
 };
 if (_type isEqualTo 1) then {
@@ -305,6 +303,9 @@ if (_type isEqualTo 1) then {
 		_fn_AIHandleUnit = missionNamespace getVariable 'QS_fnc_AIHandleUnit';
 		for '_z' from 0 to 1 step 0 do {
 			uiSleep 1;
+			_allPlayersCount = count allPlayers;
+			_diag_fps = diag_fps;
+			_serverTime = serverTime;
 			_time = diag_tickTime;
 			{
 				if (!isPlayer _x) then {

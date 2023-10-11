@@ -169,7 +169,7 @@ if (isNull _objectParent) then {
 	//=============================== UNSTUCK CHECK
 	if (_uiTime > (_unit getVariable ['QS_AI_unstuckInterval',-1])) then {
 		_unit setVariable ['QS_AI_unstuckInterval',(_uiTime + (180 + (random 600))),FALSE];
-		[_unit,group _unit,'MAN'] call (missionNamespace getVariable 'QS_fnc_AIXVehicleUnstuck');
+		[_unit,group _unit,'CAManBase'] call (missionNamespace getVariable 'QS_fnc_AIXVehicleUnstuck');
 	};
 
 	//=============================== STANCE ADJUST
@@ -848,7 +848,7 @@ if (_isLeader) then {
 								_supportProvider = _x;
 								if (!isNull _supportProvider) then {
 									if (alive _supportProvider) then {
-										if (unitIsUav (vehicle _supportProvider)) then {
+										if (unitIsUav _supportProvider) then {
 											_supportGroup = group _supportProvider;
 											if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
 												_unit playActionNow 'HandSignalRadio';

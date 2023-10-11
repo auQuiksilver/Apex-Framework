@@ -920,7 +920,7 @@ for '_x' from 0 to 1 step 0 do {
 				_house allowDamage FALSE;
 			};
 			_enemyArray2 = _enemyArray2 select {(alive _x)};
-			if (({((alive _x) && (_x isKindOf 'Man'))} count _enemyArray1) < _enemyArray1_threshold) then {
+			if (({((alive _x) && (_x isKindOf 'CAManBase'))} count _enemyArray1) < _enemyArray1_threshold) then {
 				_allPlayers = allPlayers;
 				for '_x' from 0 to 9 step 1 do {
 					_spawnPosition = [_idapScenePosition,250,500,3,0,0.7,0] call _fn_findSafePos;
@@ -938,7 +938,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_sceneType isEqualTo 0) then {
 				if (_houseFound) then {
 					if ((_crate distance2D _housePosition) < 200) then {
-						if (({((alive _x) && (_x isKindOf 'Man'))} count _enemyArray2) < _enemyArray2_threshold) then {
+						if (({((alive _x) && (_x isKindOf 'CAManBase'))} count _enemyArray2) < _enemyArray2_threshold) then {
 							_allPlayers = allPlayers;
 							for '_x' from 0 to 9 step 1 do {
 								_spawnPosition = [_housePosition,250,500,3,0,0.7,0] call _fn_findSafePos;
@@ -958,7 +958,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 			} else {
-				_enemyArray2 = _enemyArray2 select {((alive _x) && (_x isKindOf 'Man'))};
+				_enemyArray2 = _enemyArray2 select {((alive _x) && (_x isKindOf 'CAManBase'))};
 				
 				if (_enemyArray2 isNotEqualTo []) then {
 				

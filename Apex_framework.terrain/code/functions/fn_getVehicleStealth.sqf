@@ -21,7 +21,7 @@ __________________________________________________/*/
 
 params ['_vehicle'];
 private _c = FALSE;
-if (_vehicle isKindOf 'Man') exitWith {_c};
+if (_vehicle isKindOf 'CAManBase') exitWith {_c};
 (
 	(
 		(

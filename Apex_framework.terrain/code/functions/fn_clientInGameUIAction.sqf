@@ -25,7 +25,7 @@ params [
 ];
 private _QS_c = FALSE;
 _attachedObjects = (attachedObjects QS_player) select {!isObjectHidden _x};
-if (((animationState player) in (['medic_animations_1'] call QS_data_listOther)) && (!((toLower _QS_actionText) in [
+if (((animationState QS_player) in (['medic_animations_1'] call QS_data_listOther)) && (!((toLower _QS_actionText) in [
 	(toLower (localize 'STR_QS_Interact_065')),		// Cancel
 	(toLower (localize 'STR_QS_Interact_010'))		// Release
 ]))) exitWith {

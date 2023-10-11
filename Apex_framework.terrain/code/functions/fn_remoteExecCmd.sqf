@@ -363,3 +363,6 @@ if (_type isEqualTo 'setFlagAnimationPhase') exitWith {
 		_1 setFlagAnimationPhase _2;
 	};
 };
+if (_type isEqualto 'setEffectiveCommander') exitWith {
+	_1 setEffectiveCommander _2;
+};

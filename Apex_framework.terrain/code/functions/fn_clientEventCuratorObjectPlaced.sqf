@@ -342,6 +342,7 @@ if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _objec
 				sleep (diag_deltaTime * 3);
 				if ((crew _object) isNotEqualTo []) then {
 					_object setDir (curatorCamera getDir _object);
+					_object flyInHeight [((ASLToAGL (getPosASL curatorCamera)) # 2),FALSE];
 					_object setVehiclePosition [getPosASL _object,[],0,'FLY'];
 					_object setVelocityModelSpace [0,100,1];
 				};
@@ -385,7 +386,7 @@ if (_object isKindOf 'House') then {
 	_object setVariable ['QS_curator_spawnedObj',TRUE,TRUE];
 };
 
-if ((['LandVehicle','Air','Ship','Reammobox_F','Man','StaticWeapon','ThingX'] findIf { _object isKindOf _x }) isEqualTo -1) then {
+if ((['LandVehicle','Air','Ship','Reammobox_F','CAManBase','StaticWeapon','ThingX'] findIf { _object isKindOf _x }) isEqualTo -1) then {
 	// Houses, props and fortifications
 	_object setVariable ['QS_curator_spawnedObj',TRUE,TRUE];
 };

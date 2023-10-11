@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	11/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -178,45 +178,45 @@ if (
 			};
 		};
 		
-		if ((missionNamespace getVariable ['QS_missionConfig_quickBuild',0]) isNotEqualTo 0) then {
-			if (
-				(isNull QS_extendedContext_objectParent) &&
-				(((vectorMagnitude (velocity QS_player)) * 3.6) < 16)
-			) then {
-				QS_action_playerBuildables = QS_player addAction [localize 'STR_QS_Interact_129',{
-						(QS_player getVariable ['QS_inzone',[]]) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
-						if (_inSafezone && _safezoneActive && (_safezoneLevel > 1)) exitWith {
-							50 cutText [localize 'STR_QS_Text_403','PLAIN DOWN',0.5];
-						};
-						([QS_player,'NO_BUILD'] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];
-						if (_inBuildRestrictedZone && _zoneActive && (_zoneLevel > 1)) exitWith {
-							50 cutText [localize 'STR_QS_Text_403','PLAIN DOWN',0.5];
-						};
-						(findDisplay 46) createDisplay 'QS_RD_client_dialog_menu_playerBuild';
-				}];
-				QS_interactions_extendedContext pushBack [QS_player,QS_action_playerBuildables];
-				QS_action_deleteBuildable = QS_player addAction [localize 'STR_QS_Interact_130',{
-					getCursorObjectParams params ['_cursorObject','_cursorSelections','_cursorDistance'];
-					if ((['QS_trait_rifleman','engineer'] findIf { QS_player getUnitTrait _x }) isEqualTo -1) then {
-						50 cutText [localize 'STR_QS_Text_461','PLAIN DOWN',0.333];
+		if (
+			((missionNamespace getVariable ['QS_missionConfig_quickBuild',0]) isNotEqualTo 0) &&
+			{(isNull QS_extendedContext_objectParent)} &&
+			{(((vectorMagnitude (velocity QS_player)) * 3.6) < 16)} &&
+			{(!(missionNamespace getVariable ['QS_targetBoundingBox_placementMode',FALSE]))}
+		) then {
+			QS_action_playerBuildables = QS_player addAction [localize 'STR_QS_Interact_129',{
+					(QS_player getVariable ['QS_inzone',[]]) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+					if (_inSafezone && _safezoneActive && (_safezoneLevel > 1)) exitWith {
+						50 cutText [localize 'STR_QS_Text_403','PLAIN DOWN',0.5];
 					};
-					if (!isNull _cursorObject) then {
-						if (_cursorObject in QS_list_playerBuildables) then {
-							_nearUnits = allPlayers - [QS_player];
-							if ((_nearUnits inAreaArray [_cursorObject,30,30,0,FALSE]) isEqualTo []) then {
-								QS_player playActionNow 'PutDown';
-								deleteVehicle _cursorObject;
-							} else {
-								50 cutText [localize 'STR_QS_Text_399','PLAIN',0.5,TRUE];
-							};
+					([QS_player,'NO_BUILD'] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];
+					if (_inBuildRestrictedZone && _zoneActive && (_zoneLevel > 1)) exitWith {
+						50 cutText [localize 'STR_QS_Text_403','PLAIN DOWN',0.5];
+					};
+					(findDisplay 46) createDisplay 'QS_RD_client_dialog_menu_playerBuild';
+			}];
+			QS_interactions_extendedContext pushBack [QS_player,QS_action_playerBuildables];
+			QS_action_deleteBuildable = QS_player addAction [localize 'STR_QS_Interact_130',{
+				getCursorObjectParams params ['_cursorObject','_cursorSelections','_cursorDistance'];
+				if ((['QS_trait_rifleman','engineer'] findIf { QS_player getUnitTrait _x }) isEqualTo -1) then {
+					50 cutText [localize 'STR_QS_Text_461','PLAIN DOWN',0.333];
+				};
+				if (!isNull _cursorObject) then {
+					if (_cursorObject in QS_list_playerBuildables) then {
+						_nearUnits = allPlayers - [QS_player];
+						if ((_nearUnits inAreaArray [_cursorObject,30,30,0,FALSE]) isEqualTo []) then {
+							QS_player playActionNow 'PutDown';
+							deleteVehicle _cursorObject;
+						} else {
+							50 cutText [localize 'STR_QS_Text_399','PLAIN',0.5,TRUE];
 						};
 					};
-				},nil,-10,FALSE,TRUE,'','
-					getCursorObjectParams params ["_cursorObject","_cursorSelections","_cursorDistance"];
-					(((!isNull _cursorObject) && {(_cursorObject in QS_list_playerBuildables)}) && (_cursorDistance < 5))
-				'];
-				QS_interactions_extendedContext pushBack [QS_player,QS_action_deleteBuildable];
-			};
+				};
+			},nil,-10,FALSE,TRUE,'','
+				getCursorObjectParams params ["_cursorObject","_cursorSelections","_cursorDistance"];
+				(((!isNull _cursorObject) && {(_cursorObject in QS_list_playerBuildables)}) && (_cursorDistance < 5))
+			'];
+			QS_interactions_extendedContext pushBack [QS_player,QS_action_deleteBuildable];
 		};
 		([QS_player,['NO_BUILD','SAFE']] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];
 		if (
@@ -332,9 +332,10 @@ if (
 			{(!(_cursorObject getVariable ['QS_uav_disabled',FALSE]))} &&
 			{(_cursorObject getVariable ['QS_uav_toggleEnabled',TRUE])} &&
 			{((crew _cursorObject) isNotEqualTo [])} &&
+			{(!isRemoteControlling QS_player)} &&
 			{(cameraOn isEqualTo player)} &&
-			{ ((!(_cursorObject isKindOf 'Air')) || ((_cursorObject isKindOf 'Air') && (player getUnitTrait 'uavhacker'))) } &&
-			{( (side (effectiveCommander _cursorObject)) isEqualTo (QS_player getVariable ['QS_unit_side',WEST]))}
+			{((!(_cursorObject isKindOf 'Air')) || ((_cursorObject isKindOf 'Air') && (QS_player getUnitTrait 'uavhacker'))) } &&
+			{((side (effectiveCommander _cursorObject)) isEqualTo (QS_player getVariable ['QS_unit_side',WEST]))}
 		) then {
 			QS_action_turretTakeControl = QS_player addAction [
 				localize '$STR_USERACT_UAV_TAKECONTROLS',
@@ -344,13 +345,17 @@ if (
 						(_cursorObject isEqualTo QS_extendedContext_cursorObject) && 
 						{(_cursorDistance < 5)} &&
 						{(!isUAVConnected _cursorObject)} &&
+						{(isNull (remoteControlled _cursorObject))} &&
 						{(!alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull]))}
 					) then {
 						QS_player playActionNow 'PutDown';
 						50 cutText [localize 'STR_QS_Text_465','PLAIN DOWN',0.333];
 						[_cursorObject,FALSE,FALSE] spawn QS_fnc_remoteControl;
 					} else {
-						if (isUAVConnected _cursorObject) then {
+						if (
+							(isUAVConnected _cursorObject) ||
+							(!isNull (remoteControlled _cursorObject))
+						) then {
 							systemChat (localize 'STR_QS_Text_466');
 						};
 						if (alive (_cursorObject getVariable ['bis_fnc_moduleRemoteControl_owner',objNull])) then {
@@ -370,7 +375,7 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_turretTakeControl];
 		};
-		
+		// UAV self destruct
 		if (
 			(alive _cursorObject) &&
 			{(local _cursorObject)} &&

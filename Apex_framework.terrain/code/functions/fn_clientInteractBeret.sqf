@@ -20,7 +20,7 @@ if (_this isEqualType objNull) then {
 if (
 	(!isNull _target) &&
 	{((player distance _target) < 3)} &&
-	{(_target isKindOf 'Man')} &&
+	{(_target isKindOf 'CAManBase')} &&
 	{((headgear _target) isNotEqualTo '')} &&
 	{(!isPlayer _target)}
 ) exitWith {

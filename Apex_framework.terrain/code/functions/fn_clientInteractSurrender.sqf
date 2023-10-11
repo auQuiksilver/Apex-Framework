@@ -15,7 +15,7 @@ __________________________________________________________/*/
 _t = cursorTarget;
 if (
 	(!alive _t) ||
-	{(!(_t isKindOf 'Man'))} ||
+	{(!(_t isKindOf 'CAManBase'))} ||
 	{(!isNull (objectParent _t))} ||
 	{(captive _t)} ||
 	{(!(_t getVariable ['QS_surrenderable',FALSE]))} ||

@@ -28,7 +28,7 @@ if (!isNull _killer) then {
 				if ((_vKiller distance _killed) > 15) then {
 					_isGunner = TRUE;
 				};
-				if (!(_vKiller isKindOf 'Man')) then {
+				if (!(_vKiller isKindOf 'CAManBase')) then {
 					{
 						if (isPlayer _x) then {
 							if (_isGunner) then {

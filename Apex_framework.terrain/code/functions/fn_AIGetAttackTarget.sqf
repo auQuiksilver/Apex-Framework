@@ -63,7 +63,7 @@ if (
 			||
 			{
 				(
-					(_attackTarget isKindOf 'Man') &&
+					(_attackTarget isKindOf 'CAManBase') &&
 					{!((lifeState _attackTarget) in ['HEALTHY','INJURED'])}
 				)
 			}

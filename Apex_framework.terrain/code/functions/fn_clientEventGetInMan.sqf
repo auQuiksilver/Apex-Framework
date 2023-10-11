@@ -235,3 +235,12 @@ if (
 ) then {
 	['addVehicle',group QS_player,_vehicle] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 };
+if (
+	(_vehicle isKindOf 'UGV_01_base_F') &&
+	{(alive (driver _vehicle))} &&
+	{(isNull (remoteControlled (driver _vehicle)))} &&
+	{((lifeState QS_player) in ['HEALTHY','INJURED'])} &&
+	{(QS_player isNotEqualTo (effectiveCommander _vehicle))}
+) then {
+	['setEffectiveCommander',_vehicle,QS_player] remoteExec ['QS_fnc_remoteExecCmd',_vehicle,FALSE];
+};

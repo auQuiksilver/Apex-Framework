@@ -69,7 +69,7 @@ if ((random 1) > 0.3) then {
 			_arr = _arr call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 			{
 				if (alive _x) then {
-					if ((_x isKindOf 'Man') || {(_x isKindOf 'LandVehicle')}) then {
+					if ((_x isKindOf 'CAManBase') || {(_x isKindOf 'LandVehicle')}) then {
 						_playerSelected = _x;
 					};
 				};

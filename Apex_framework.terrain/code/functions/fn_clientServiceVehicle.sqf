@@ -292,7 +292,7 @@ if (_fieldService) then {
 	if ((isNull (objectParent player)) && (!alive _t)) exitWith {
 		50 cutText [localize 'STR_QS_Text_196','PLAIN DOWN',0.5];
 	};
-	if (!(_v isKindOf 'Man')) exitWith {
+	if (!(_v isKindOf 'CAManBase')) exitWith {
 		50 cutText [localize 'STR_QS_Text_197','PLAIN DOWN',1];
 	};
 	/*/=========================================== QUALIFY BY VEHICLE TYPE/*/
@@ -436,7 +436,7 @@ if (_fieldService) then {
 			if (!alive player) then {_c = TRUE;};
 			if (player isNotEqualTo (vehicle player)) then {_c = TRUE;};
 			if (!alive _t) then {_c = TRUE;};
-			if (!((vehicle player) isKindOf 'Man')) then {_c = TRUE;};
+			if (!((vehicle player) isKindOf 'CAManBase')) then {_c = TRUE;};
 			if (isEngineOn _t) then {
 				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_099',[],-1];
 				_c = TRUE;

@@ -24,7 +24,7 @@ ___________________________________________*/
         if ((vehicle _x) isNotEqualTo _x) then {
             deleteVehicle (vehicle _x);
         };
-        if !(_x isKindOf 'Man') then {
+        if !(_x isKindOf 'CAManBase') then {
 			deleteVehicleCrew _x;
         };
         deleteVehicle _x;

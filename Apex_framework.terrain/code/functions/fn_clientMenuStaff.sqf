@@ -128,8 +128,8 @@ if (_type2 isEqualType 0) exitWith {
 		if (!isNull cursorTarget) then {
 			playSound 'ClickSoft';
 			_cursorTarget = cursorTarget;
-			if ((!(_cursorTarget isKindOf 'LandVehicle')) && (!(_cursorTarget isKindOf 'Air')) && (!(_cursorTarget isKindOf 'Ship')) && (!(_cursorTarget isKindOf 'StaticWeapon')) && (!(_cursorTarget isKindOf 'Man')) && (!(_cursorTarget isKindOf 'WeaponHolder'))) exitWith {hint 'Invalid target type!';};
-			if ((_cursorTarget isKindOf 'Man') && (isPlayer _cursorTarget) && (alive _cursorTarget)) exitWith {
+			if ((!(_cursorTarget isKindOf 'LandVehicle')) && (!(_cursorTarget isKindOf 'Air')) && (!(_cursorTarget isKindOf 'Ship')) && (!(_cursorTarget isKindOf 'StaticWeapon')) && (!(_cursorTarget isKindOf 'CAManBase')) && (!(_cursorTarget isKindOf 'WeaponHolder'))) exitWith {hint 'Invalid target type!';};
+			if ((_cursorTarget isKindOf 'CAManBase') && (isPlayer _cursorTarget) && (alive _cursorTarget)) exitWith {
 				if (!isStreamFriendlyUIEnabled) then {
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_057',[],-1];
 				};
@@ -219,7 +219,7 @@ if (_type2 isEqualType 0) exitWith {
 	if (_type2 isEqualTo 8) then {
 		_cursorTarget = cursorTarget;
 		if (isNull _cursorTarget) exitWith {};
-		if (!(_cursorTarget isKindOf 'Man')) exitWith {};
+		if (!(_cursorTarget isKindOf 'CAManBase')) exitWith {};
 		if (isPlayer _cursorTarget) then {
 			playSound 'ClickSoft';
 			[_cursorTarget] call (missionNamespace getVariable 'QS_fnc_clientATAdjust');
@@ -228,7 +228,7 @@ if (_type2 isEqualType 0) exitWith {
 	if (_type2 isEqualTo 9) then {
 		_cursorTarget = cursorTarget;
 		if (isNull _cursorTarget) exitWith {};
-		if (!(_cursorTarget isKindOf 'Man')) exitWith {};
+		if (!(_cursorTarget isKindOf 'CAManBase')) exitWith {};
 		if (!alive _cursorTarget) exitWith {};
 		if ((_cursorTarget distance player) > 25) exitWith {};
 		if (!isNull (objectParent _cursorTarget)) exitWith {};
@@ -250,7 +250,7 @@ if (_type2 isEqualType 0) exitWith {
 	};
 	if (_type2 isEqualTo 12) then {
 		_cursorTarget = cursorTarget;
-		if (!(_cursorTarget isKindOf 'Man')) exitWith {
+		if (!(_cursorTarget isKindOf 'CAManBase')) exitWith {
 			(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_065',[],(serverTime + 10)];
 		};
 		if (!alive _cursorTarget) exitWith {

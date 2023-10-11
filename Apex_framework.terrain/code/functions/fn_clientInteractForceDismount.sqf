@@ -56,7 +56,7 @@ if (
 		) then {
 			_cameraOn setUnloadInCombat [FALSE,FALSE];
 			_group = group (currentPilot _cameraOn);
-			_crew = (_cameraOn nearEntities ['Man',_radius]) select {
+			_crew = (_cameraOn nearEntities ['CAManBase',_radius]) select {
 				(isNull (objectParent _x)) &&
 				{(_x in (units _group))} &&
 				{((!isPlayer _x) || _allowPlayers)} &&

@@ -163,8 +163,7 @@ if (_this isEqualTo 'init') exitWith {
 				(!isNull curatorCamera) &&
 				((curatorSelected # 0) isNotEqualTo [])
 			) exitWith {
-				private _selected = curatorSelected # 0;
-				_selected = _selected select {
+				private _selected = (curatorSelected # 0) select {
 					(
 						(local _x) &&
 						((_x isKindOf 'House') || (_x isKindOf 'Building'))
@@ -182,6 +181,31 @@ if (_this isEqualTo 'init') exitWith {
 							[_x,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
 						};
 					} forEach _selected;
+				} else {
+					private _selected = (curatorSelected # 0) select {
+						(
+							(local _x) &&
+							(_x isKindOf 'Air') &&
+							(alive _x)
+						)
+					};
+					if (_selected isNotEqualTo []) then {
+						private _entity = objNull;
+                        private _currentFlyInHeight = 0;
+						private _step = [5,50] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
+						private _altitude = 0;
+						private _min = 0;
+						private _max = 12000;
+						{
+							_entity = _x;
+                            _currentFlyInHeight = _entity getVariable ['QS_air_flyInHeight',((getPos _entity) # 2)];
+							_altitude = round (_min max ((round (_currentFlyInHeight / _step) * _step) - _step) min _max);
+                            _entity flyInHeightASL [1, 1, 1];
+							_entity flyInHeight [_altitude,TRUE];
+                            _entity setVariable ['QS_air_flyInHeight',_altitude,FALSE];
+							50 cutText [format ['%1 m',_altitude],'PLAIN DOWN',0.2];
+						} forEach _selected;
+					};
 				};
 			};
 		}],
@@ -190,8 +214,7 @@ if (_this isEqualTo 'init') exitWith {
 				(!isNull curatorCamera) &&
 				((curatorSelected # 0) isNotEqualTo [])
 			) exitWith {
-				private _selected = curatorSelected # 0;
-				_selected = _selected select {
+				private _selected = (curatorSelected # 0) select {
 					(
 						(local _x) &&
 						((_x isKindOf 'House') || (_x isKindOf 'Building'))
@@ -209,6 +232,31 @@ if (_this isEqualTo 'init') exitWith {
 							[_x,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
 						};
 					} forEach _selected;
+				} else {
+					private _selected = (curatorSelected # 0) select {
+						(
+							(local _x) &&
+							(_x isKindOf 'Air') &&
+							(alive _x)
+						)
+					};
+					if (_selected isNotEqualTo []) then {
+						private _entity = objNull;
+                        private _currentFlyInHeight = 0;
+						private _step = [5,50] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
+						private _altitude = 0;
+						private _min = 0;
+						private _max = 12000;
+						{
+							_entity = _x;
+                            _currentFlyInHeight = _entity getVariable ['QS_air_flyInHeight',((getPos _entity) # 2)];
+							_altitude = round (_min max ((round (_currentFlyInHeight / _step) * _step) + _step) min _max);
+                            _entity flyInHeightASL [1, 1, 1];
+							_entity flyInHeight [_altitude,TRUE];
+                            _entity setVariable ['QS_air_flyInHeight',_altitude,FALSE];
+							50 cutText [format ['%1 m',_altitude],'PLAIN DOWN',0.2];
+						} forEach _selected;
+					};
 				};
 			};
 		}],
@@ -228,16 +276,20 @@ if (_this isEqualTo 'init') exitWith {
 		['prevAction','deactivate',{call QS_fnc_clientInGameUIPrevAction}],
 		['nextAction','deactivate',{call QS_fnc_clientInGameUINextAction}],
 		['launchCM','activate',{
-			if (cameraOn isKindOf 'Helicopter') then {
-				if (['CONDITION2',cameraOn] call QS_fnc_clientInteractMH9Stealth) then {
-					['INTERACT',cameraOn,TRUE] call QS_fnc_clientInteractMH9Stealth;
+			_cameraOn = cameraOn;
+			if (
+				(_cameraOn isKindOf 'Helicopter') &&
+				(local _cameraOn)
+			) then {
+				if (['CONDITION2',_cameraOn] call QS_fnc_clientInteractMH9Stealth) then {
+					['INTERACT',_cameraOn,TRUE] call QS_fnc_clientInteractMH9Stealth;
 				};
 			};
 		}],
 		['HeliRopeAction','activate',{
 			_cameraOn = cameraOn;
 			if (
-				(!(_cameraOn isKindOf 'Man')) &&
+				(!(_cameraOn isKindOf 'CAManBase')) &&
 				{(!(_cameraOn isKindOf 'Air'))} &&
 				{(isNull (getSlingLoad _cameraOn))}
 			) then {
@@ -274,19 +326,20 @@ if (_this isEqualTo 'init') exitWith {
 			};
 		}],
 		['headlights','activate',{
+			_cameraOn = cameraOn;
 			if (
-				(local cameraOn) &&
-				{(unitIsUav cameraOn)}
+				(local _cameraOn) &&
+				{(unitIsUav _cameraOn)}
 			) then {
-				if (cameraOn checkAIFeature 'LIGHTS') then {
-					cameraOn enableAIFeature ['LIGHTS',FALSE];
+				if (_cameraOn checkAIFeature 'LIGHTS') then {
+					_cameraOn enableAIFeature ['LIGHTS',FALSE];
 				};
-				if ((uiNamespace getVariable ['QS_uiaction_vehicleturbo',TRUE]) || (unitIsUav cameraOn)) then {
-					cameraOn setPilotLight (!isLightOn cameraOn);
-					cameraOn setCollisionLight (!isCollisionLightOn cameraOn);
+				if ((uiNamespace getVariable ['QS_uiaction_vehicleturbo',TRUE]) || (unitIsUav _cameraOn)) then {
+					_cameraOn setPilotLight (!isLightOn _cameraOn);
+					_cameraOn setCollisionLight (!isCollisionLightOn _cameraOn);
 				};
 			};
-			_attached = attachedObjects cameraOn;
+			_attached = attachedObjects _cameraOn;
 			if (_attached isNotEqualTo []) then {
 				{
 					if (
@@ -370,7 +423,7 @@ if (_this isEqualTo 'init') exitWith {
 					params ['_vehicle'];
 					waitUntil {
 						if (((vectorMagnitude (velocity _vehicle)) * 3.6) < 1) then {
-							_vehicle setVelocityModelSpace [0,-2,1];
+							_vehicle setVelocityModelSpace [0,-1,1];
 						};
 						(
 							(!(_vehicle isKindOf 'Plane')) ||

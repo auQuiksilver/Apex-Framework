@@ -55,7 +55,7 @@ _onCancelled = {
 	if (!alive player) then {_c = TRUE;};
 	if (player isNotEqualTo (vehicle player)) then {_c = TRUE;};
 	if (!alive _t) then {_c = TRUE;};
-	if (!((vehicle player) isKindOf 'Man')) then {_c = TRUE;};
+	if (!((vehicle player) isKindOf 'CAManBase')) then {_c = TRUE;};
 	if (!(_t in [cursorObject,cursorTarget])) then {_c = TRUE;};
 	if (((getPosATL player) distance2D _position) > 5) then {_c = TRUE;};
 	if (_c) then {

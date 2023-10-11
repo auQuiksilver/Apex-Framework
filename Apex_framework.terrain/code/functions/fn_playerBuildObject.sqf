@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	22/05/2023 A3 2.12 by Quiksilver
+	11/10/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -24,4 +24,5 @@ if (_sim isEqualTo 2) then {
 };
 _object allowDamage FALSE;
 _object setVectorDirAndUp _vectors;
+localNamespace setVariable ['QS_list_playerLocalBuildables',((localNamespace getVariable ['QS_list_playerLocalBuildables',[]]) select {!isNull _x}) + [_object]];
 _object;

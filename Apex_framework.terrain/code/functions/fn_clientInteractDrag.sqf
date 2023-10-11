@@ -18,7 +18,7 @@ if (
 	(!alive _t) ||
 	{(!isNull (attachedTo _t))} ||
 	{(!isNull (objectParent _t))} ||
-	{((!(_t isKindOf 'Man')) && (!([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) && (!(_t getVariable ['QS_RD_draggable',FALSE])))} ||
+	{((!(_t isKindOf 'CAManBase')) && (!([0,_t,objNull] call (missionNamespace getVariable 'QS_fnc_getCustomCargoParams'))) && (!(_t getVariable ['QS_RD_draggable',FALSE])))} ||
 	{((_t isKindOf 'StaticWeapon') && (!(unitIsUav _t)) && (((crew _t) findIf {(alive _x)}) isNotEqualTo -1))}
 ) exitWith {};
 if (_t getVariable ['QS_interaction_disabled',FALSE]) exitWith {

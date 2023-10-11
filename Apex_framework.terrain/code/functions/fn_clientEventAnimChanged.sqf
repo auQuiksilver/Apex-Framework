@@ -88,7 +88,7 @@ if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmst
 				if (!(player call QS_fnc_isBusyAttached)) exitWith {
 					player playActionNow 'released';
 				};
-				if (((attachedObjects player) findIf {((_x isKindOf 'Man') && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) isNotEqualTo -1) exitWith {
+				if (((attachedObjects player) findIf {((_x isKindOf 'CAManBase') && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) isNotEqualTo -1) exitWith {
 					{
 						detach _x;
 					} count attachedObjects player;
