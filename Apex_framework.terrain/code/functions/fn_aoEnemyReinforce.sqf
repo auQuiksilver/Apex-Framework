@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	23/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -81,7 +81,7 @@ if (
 	_urbanUnits = ['REINFORCE',_validData,_allPlayers] call (missionNamespace getVariable 'QS_fnc_aoUrbanSpawn');
 };
 if (_urbanUnits isNotEqualTo []) exitWith {
-	_QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';
+	_QS_array = missionNamespace getVariable ['QS_enemyGroundReinforceArray',[]];
 	{
 		_QS_array pushBack _x;
 	} forEach _urbanUnits;
@@ -152,13 +152,12 @@ for '_x' from 0 to 999 step 1 do {
 	_spawnPosDefault = [_pos,_minDist,_maxDist,2,0,0.5,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
 	if (
 		(_spawnPosDefault isNotEqualTo []) &&
-		((_allPlayers inAreaArray [_spawnPosDefault,300,300,0,FALSE]) isEqualTo []) &&
-		((_spawnPosDefault distance2D _base) > 1200) &&
-		(_spawnPosDefault call _fn_blacklist) &&
-		(!([_spawnPosDefault,_pos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))
+		{((_allPlayers inAreaArray [_spawnPosDefault,300,300,0,FALSE]) isEqualTo [])} &&
+		{((_spawnPosDefault distance2D _base) > 1200)} &&
+		{(_spawnPosDefault call _fn_blacklist)} &&
+		{(!([_spawnPosDefault,_pos,25] call (missionNamespace getVariable 'QS_fnc_waterIntersect')))}
 	) exitWith {};
 };
-
 if (!(_heliInsert)) then {
 	_infTypes = ['classic_reinforcearray_1'] call QS_data_listUnits;
 	if (_worldName isEqualTo 'Stratis') then {
@@ -190,11 +189,15 @@ if (_arrayPositions isNotEqualTo []) then {
 	_attackType = 'ATTACK_2';
 };
 if ((random 1) > 0.75) then {
-	_reinforceGroup setVariable ['QS_AI_GRP',TRUE,QS_system_AI_owners];
-	_reinforceGroup setVariable ['QS_AI_GRP_TASK',[_attackType,_attackPosition,serverTime,-1],QS_system_AI_owners];
-	_reinforceGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],QS_system_AI_owners];
-	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners];
-	_reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+	{
+		_reinforceGroup setVariable _x;	
+	} forEach [
+		['QS_AI_GRP',TRUE,QS_system_AI_owners],
+		['QS_AI_GRP_TASK',[_attackType,_attackPosition,serverTime,-1],QS_system_AI_owners],
+		['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],QS_system_AI_owners],
+		['QS_AI_GRP_DATA',[TRUE,serverTime],QS_system_AI_owners],
+		['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners]
+	];
 } else {
 	private _radialIncrement = 120;								// 45
 	private _radialStart = round (random 360);
@@ -243,10 +246,14 @@ if ((random 1) > 0.75) then {
 		_reinforceGroup setVariable ['QS_AI_GRP_TASK',['PATROL',_radialPatrolPositions,serverTime,-1],FALSE];
 		_reinforceGroup setVariable ['QS_AI_GRP_PATROLINDEX',0,FALSE];
 	};
-	_reinforceGroup setVariable ['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],FALSE];
-	_reinforceGroup setVariable ['QS_AI_GRP_DATA',[],FALSE];
-	_reinforceGroup setVariable ['QS_AI_GRP',TRUE,FALSE];
-	_reinforceGroup setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
+	{
+		_reinforceGroup setVariable _x;	
+	} forEach [
+		['QS_AI_GRP_CONFIG',['GENERAL','INFANTRY',(count (units _reinforceGroup))],FALSE],
+		['QS_AI_GRP_DATA',[],FALSE],
+		['QS_AI_GRP',TRUE,FALSE],
+		['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners]
+	];
 };
 [(units _reinforceGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 _QS_array = missionNamespace getVariable 'QS_enemyGroundReinforceArray';

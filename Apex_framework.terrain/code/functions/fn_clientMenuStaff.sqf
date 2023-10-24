@@ -40,6 +40,7 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
 	playSound 'Click';
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
+	showCommandingMenu '';
 	0 spawn {
 		uiSleep 0.5;
 		if (commandingMenu isNotEqualTo '') then {

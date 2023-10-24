@@ -68,7 +68,7 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 	};
 } forEach _composition;
 //_soundSource = createSoundSource ['QS_deviceAssembled',(_regenerator modelToWorld [0,0,0]),[],0];
-//_soundSource attachTo [_regenerator,[0,0,0]];
+//[1,_soundSource,[_regenerator,[0,0,0]]] call QS_fnc_eventAttach;
 {
 	_regenerator addEventHandler _x;
 } forEach [

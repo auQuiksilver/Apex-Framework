@@ -22,6 +22,6 @@ if (!isNull _instigator) then {
 	};
 };
 if (!isNull (attachedTo _killed)) then {
-	detach _killed;
+	[0,_killed] call QS_fnc_eventAttach;
 };
 TRUE;

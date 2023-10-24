@@ -59,7 +59,7 @@ if (_mode isEqualTo 0) then {
 							};
 							if ((attachedObjects _x) isNotEqualTo []) then {
 								{
-									detach _x;
+									[0,_x] call QS_fnc_eventAttach;
 									deleteVehicle _x;
 								} foreach (attachedObjects _x);
 							};

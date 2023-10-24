@@ -94,9 +94,6 @@ if (_civilian isEqualType []) then {
 		_reskinCiv = TRUE;
 	};
 };
-
-
-
 for '_z' from 0 to 1 step 0 do {
 	{
 		sleep _sleepInterval;

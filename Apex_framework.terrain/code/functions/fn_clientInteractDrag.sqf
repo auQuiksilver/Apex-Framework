@@ -47,7 +47,7 @@ if (_t isKindOf 'CAManBase') exitWith {
 		player setVariable ['QS_RD_interacting',TRUE,TRUE];
 		player setVariable ['QS_RD_dragging',TRUE,TRUE];
 	};
-	_t attachTo [player,[0,1.1,0.092]];
+	[1,_t,[player,[0,1.1,0.092]]] call QS_fnc_eventAttach;
 	[6,_t,180,'AinjPpneMrunSnonWnonDb_grab'] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 	50 cutText [(format [localize 'STR_QS_Text_105',(name _t)]),'PLAIN DOWN',0.3];
 	player playActionNow 'grabDrag';
@@ -60,7 +60,7 @@ if (!local _t) then {
 };
 _pos = (((getPosATL player) vectorAdd ((vectorDir player) vectorMultiply 1.5))) vectorAdd [0,0,0.2];
 _t setPosATL _pos;
-[_t,player,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+[_t,player,TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 player playActionNow 'grabDrag';
 _dn = QS_hashmap_configfile getOrDefaultCall [
 	format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _t)],

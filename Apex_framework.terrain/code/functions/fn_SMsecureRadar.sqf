@@ -71,12 +71,12 @@ sleep 1;
 _dummyTypes = ['Box_East_AmmoOrd_F','Box_IND_AmmoOrd_F'];
 _dummyType = selectRandom _dummyTypes;
 _researchTable = createVehicle ['Land_CampingTable_small_F',[0,0,0],[],0,'NONE'];
-_researchTable attachTo [(missionNamespace getVariable 'QS_sm_radarHouse'),[0,3,0.45]];
+[1,_researchTable,[(missionNamespace getVariable 'QS_sm_radarHouse'),[0,3,0.45]]] call QS_fnc_eventAttach;
 _objectTypes = ['Land_Laptop_03_black_F','Land_Laptop_device_F'];
 _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
 _object enableSimulationGlobal TRUE;
-_object attachTo [(missionNamespace getVariable 'QS_sm_radarHouse'),[0,3,1]];
+[1,_object,[(missionNamespace getVariable 'QS_sm_radarHouse'),[0,3,1]]] call QS_fnc_eventAttach;
 for '_x' from 0 to 2 step 1 do {
 	_object setVariable ['QS_secureable',TRUE,TRUE];
 	_object setVariable ['QS_isExplosion',TRUE,TRUE];

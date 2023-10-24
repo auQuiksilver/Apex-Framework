@@ -187,6 +187,7 @@ if (_mode isEqualTo 'MODE4') exitWith {
 		};
 		QS_winch_globalHelperObject setVariable ['QS_winch_helper',TRUE,TRUE];
 		QS_winch_globalHelperObject attachTo [player, [0,0,0.1],'lefthand',TRUE];
+		//[1,QS_winch_globalHelperObject,[player, [0,0,0.1],'lefthand',TRUE]] call QS_fnc_eventAttach;
 		player setVariable ['QS_winch_globalHelperObject',QS_winch_globalHelperObject,TRUE];
 		_parent setVariable ['QS_rope_helperObjects',((_parent getVariable ['QS_rope_helperObjects',[]]) + [QS_winch_globalHelperObject]),TRUE];
 		private _timeout = 0;
@@ -195,7 +196,7 @@ if (_mode isEqualTo 'MODE4') exitWith {
 			QS_winch_monitor = [];
 		};
 		if (_new) then {
-			[109,['MODE25','MODE29',[_parent,(_attachPointInfo # 1),QS_winch_globalHelperObject,[0,0,0],20,['',[0, 1, 0]],['RopeEnd', [0, 1, 0]],'Rope',-1]]] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
+			[109,['MODE25','MODE29',[_parent,(_attachPointInfo # 1),QS_winch_globalHelperObject,[0,0,0],20,['',[0, 1, 0]],['RopeEnd', [0, 1, 0]],'Rope']]] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 			_timeout = diag_tickTime + 3;
 			waitUntil {
 				(((ropes _parent) isNotEqualTo []) || (diag_tickTime > _timeout))
@@ -318,7 +319,7 @@ if (_mode isEqualTo 'MODE6') exitWith {
 			};
 			if (isNull QS_winch_tempObject) exitWith {50 cutText [localize 'STR_QS_Text_335','PLAIN',0.5];};
 			_newHelper = QS_winch_tempObject;
-			detach QS_winch_globalHelperObject;
+			[0,QS_winch_globalHelperObject] call QS_fnc_eventAttach;
 			_newHelper setPosWorld (getPosWorld QS_winch_globalHelperObject);
 			_newHelper setVariable ['QS_winch_pos',(getPosWorld QS_winch_localHelperObject)];
 			_newHelper setVariable ['QS_winch_surfaceObject',[_targetVehicle,(getPosWorld _targetVehicle)],TRUE];

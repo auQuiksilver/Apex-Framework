@@ -2687,6 +2687,9 @@ _____________________________________________________________-->
          <Key ID="STR_QS_Text_473">
             <Original>Selection %1 loaded</Original>
 		</Key>
+         <Key ID="STR_QS_Text_474">
+            <Original>Water damaged</Original>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">

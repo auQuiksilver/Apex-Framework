@@ -58,9 +58,9 @@ if ((_entity getVariable ['QS_entity_sumDmg',0]) >= (_entity getVariable ['QS_en
 	_crater setDir (random 360);
 	_crater setVectorUp _surfaceNormal;
 	_smoke = createVehicle ['test_emptyObjectForSmoke',(position _crater),[],0,'NONE'];
-	_smoke attachTo [_crater,[0,0,0]];
+	[1,_smoke,[_crater,[0,0,0]]] call QS_fnc_eventAttach;
 	_smoke setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-	detach _smoke;
+	[0,_smoke] call QS_fnc_eventAttach;
 	(missionNamespace getVariable 'QS_grid_aoProps') pushBack _crater;
 	(missionNamespace getVariable 'QS_grid_aoProps') pushBack _smoke;
 	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_smoke,'DELAYED_DISCREET',(time + 900)];

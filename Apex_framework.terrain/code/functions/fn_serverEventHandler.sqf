@@ -10,7 +10,7 @@ Last Modified:
 	
 Description:
 
-	Server Event handler
+	Server Event handler - Handles events from server.cfg file
 	
 Notes:
 
@@ -28,9 +28,17 @@ Notes:
 ________________________________________________*/
 
 params ['_type','_params'];
-diag_log str _this;
 if (_type isEqualTo 'regularCheck') exitWith {
 	_params params ['_userID','_testIndex'];
+	''
+};
+diag_log str _this;	// Debug
+if (_type isEqualTo 'sendChatMessage') exitWith {
+	_params params ['_userID','_message'];
+	''
+};
+if (_type isEqualTo 'doubleIdDetected') exitWith {
+	_params params ['_userID'];
 	''
 };
 if (_type isEqualTo 'onUserConnected') exitWith {
@@ -41,18 +49,17 @@ if (_type isEqualTo 'onUserDisconnected') exitWith {
 	_params params ['_userID'];
 	''
 };
-if (_type isEqualTo 'doubleIdDetected') exitWith {
-	_params params ['_userID'];
-	''
-};
 if (_type isEqualTo 'onUnsignedData') exitWith {
 	_params params ['_userID','_fileName'];
+	(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',_userID]);
 };
 if (_type isEqualTo 'onHackedData') exitWith {
 	_params params ['_userID','_fileName'];
+	(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',_userID]);
 };
 if (_type isEqualTo 'onDifferentData') exitWith {
 	_params params ['_userID','_fileName'];
+	(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand (format ['#kick %1',_userID]);
 };
 if (_type isEqualTo 'onUserKicked') exitWith {
 	_params params ['_userID','_kickTypeID','_kickReason'];

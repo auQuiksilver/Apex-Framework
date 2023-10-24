@@ -369,7 +369,7 @@ _uavInitCodeGeneric = {
 				params ['_entity'];
 				if ((attachedObjects _entity) isNotEqualTo []) then {
 					{
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 						if (!isPlayer _x) then {
 							_x setDamage [1,FALSE];
 							deleteVehicle _x;
@@ -379,9 +379,9 @@ _uavInitCodeGeneric = {
 			}
 		];
 		_stretcher1 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
-		_stretcher1 attachTo [_uavEntity,[0,-0.75,-0.7]];
+		[1,_stretcher1,[_uavEntity,[0,-0.75,-0.7]]] call QS_fnc_eventAttach;
 		_stretcher2 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
-		_stretcher2 attachTo [_uavEntity,[0.85,-0.75,-0.7]];	
+		[1,_stretcher2,[_uavEntity,[0.85,-0.75,-0.7]]] call QS_fnc_eventAttach;
 	};
 	if (_uavEntity isKindOf 'ugv_01_rcws_base_f') then {
 		_uavEntity addBackpackCargoGlobal ['b_uav_01_backpack_f',2];

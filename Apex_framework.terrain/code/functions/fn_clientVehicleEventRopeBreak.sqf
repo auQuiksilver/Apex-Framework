@@ -42,10 +42,10 @@ if (isNull (ropeAttachedTo _attachedObject)) then {
 			_slingData = [_vehicle,_slingLoad] call (missionNamespace getVariable ['QS_fnc_slingData',{}]);
 			_slingData params ['','','','_attachCoordinates','','','',''];
 			_attachCoordinates set [2,((_attachCoordinates # 2) - ([1,0.1] select (isTouchingGround _vehicle)))];
-			_slingLoad attachTo [_vehicle,_attachCoordinates];
+			[1,_slingLoad,[_vehicle,_attachCoordinates]] call QS_fnc_eventAttach;
 			_slingLoad spawn {
 				uiSleep 0.1;
-				detach _this;
+				[0,_this] call QS_fnc_eventAttach;
 			};
 		};
 	};

@@ -70,12 +70,12 @@ if ((secondaryWeapon _unit) isNotEqualTo '') then {
 	};
 };
 if (!isNull (attachedTo _unit)) then {
-	detach _unit;
+	[0,_unit] call QS_fnc_eventAttach;
 };
 if ((attachedObjects _unit) isNotEqualTo []) then {
 	{
 		if (!isNull _x) then {
-			detach _x;
+			[0,_x] call QS_fnc_eventAttach;
 			if (
 				(_x isKindOf 'CAManBase') &&
 				{(alive _x)} &&

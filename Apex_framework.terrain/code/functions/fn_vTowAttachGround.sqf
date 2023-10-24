@@ -80,7 +80,7 @@ _zAdjust = if ((_findPos2 # 2) < _minHeight) then {-(_findPos2 # 2) + _minHeight
 private _defaultAttachPoint = [(_refPosVehicle vectorAdd [0,-_vehicleHalfLength2 - _newRopeLength,(_towedHeight / 2) + _zAdjust]),0];
 private _attachPointReturn = [TRUE,_vehicle,_towedVehicle,_defaultAttachPoint] call (missionNamespace getVariable 'QS_fnc_getCustomAttachPoint');
 private _attachPoint = _attachPointReturn # 0;
-_towedVehicle attachTo [_vehicle,_attachPoint];
+[1,_towedVehicle,[_vehicle,_attachPoint]] call QS_fnc_eventAttach;
 if ((_attachPointReturn # 1) isNotEqualTo 0) then {
 	if (local _towedVehicle) then {
 		_towedVehicle setDir (_attachPointReturn # 1);
@@ -237,8 +237,8 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 		_towedVehicle setPosWorld _posToSet;
 		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this # 0) allowDamage TRUE;(_this # 0) setVectorUp (surfaceNormal (_this # 1));};
 		if (!isNull (attachedTo _towedVehicle)) then {
-			_towedVehicle attachTo [_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle getRelPos _towedVehicle) # 2)]];
-			detach _towedVehicle;
+			[1,_towedVehicle,[_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle getRelPos _towedVehicle) # 2)]]] call QS_fnc_eventAttach;
+			[0,_towedVehicle] call QS_fnc_eventAttach;
 		};
 		_towedVehicle setPosWorld _posToSet;
 	} else {
@@ -246,8 +246,8 @@ if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
 		_towedVehicle setPosWorld _posToSet;
 		[_towedVehicle,_posToSet] spawn {uiSleep 1;(_this # 0) allowDamage TRUE;(_this # 0) setVectorUp (surfaceNormal (_this # 1));};
 		if (!isNull (attachedTo _towedVehicle)) then {
-			_towedVehicle attachTo [_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle getRelPos _towedVehicle) # 2)]];
-			detach _towedVehicle;
+			[1,_towedVehicle,[_vehicle,[(_detachPos # 0),(_detachPos # 1),((_vehicle getRelPos _towedVehicle) # 2)]]] call QS_fnc_eventAttach;
+			[0,_towedVehicle] call QS_fnc_eventAttach;
 		};
 		_towedVehicle setPosWorld _posToSet;
 	};
@@ -274,7 +274,7 @@ if (isNull (attachedTo _towedVehicle)) then {
 	};
 };
 if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
-	detach _towedVehicle;
+	[0,_towedVehicle] call QS_fnc_eventAttach;
 	private _text = '';
 	_dn2 = QS_hashmap_configfile getOrDefaultCall [
 		format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf (_towedVehicle getVariable 'QS_loadCargoIn'))],
@@ -293,9 +293,9 @@ if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
 };
 _towedVehicle setPosASL (_vehicle modelToWorldWorld _detachPos);
 if (!isNull (attachedTo _towedVehicle)) then {
-	_towedVehicle attachTo [_vehicle,_detachPos];
+	[1,_towedVehicle,[_vehicle,_detachPos]] call QS_fnc_eventAttach;
 	uiSleep 0.1;
-	detach _towedVehicle;
+	[0,_towedVehicle] call QS_fnc_eventAttach;
 };
 _towedVehicle setPosASL (_vehicle modelToWorldWorld _detachPos);
 if (((getPosATL _towedVehicle) # 2) < 5) then {

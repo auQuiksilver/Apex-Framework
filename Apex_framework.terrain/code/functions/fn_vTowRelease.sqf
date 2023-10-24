@@ -39,5 +39,5 @@ _line03 = lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [0,0,0])),(AG
 if (_line03 isNotEqualTo []) exitWith {
 	(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_140',[],-1];
 };
-detach _towedVehicle;
+[0,_towedVehicle] call QS_fnc_eventAttach;
 player removeAction (missionNamespace getVariable 'QS_action_towRelease');

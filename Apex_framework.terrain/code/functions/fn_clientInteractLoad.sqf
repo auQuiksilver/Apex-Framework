@@ -43,7 +43,7 @@ if (_attachedObjects isNotEqualTo []) then {
 			if (_obj getVariable 'QS_RD_carried') then {
 				_obj setVariable ['QS_RD_carried',FALSE,TRUE];
 			};
-			detach _obj;
+			[0,_obj] call QS_fnc_eventAttach;
 			player setVariable ['QS_RD_interacting',FALSE,TRUE];
 			_obj setVariable ['QS_RD_interacting',FALSE,TRUE];
 		} else {
@@ -67,12 +67,12 @@ if (_attachedObjects isNotEqualTo []) then {
 				if (_obj getVariable ['QS_logistics_virtual',FALSE]) then {
 					['SET_CLIENT',_t,_obj] call QS_fnc_virtualVehicleCargo;
 				} else {
-					detach _obj;		// Is this wise?
+					[0,_obj] call QS_fnc_eventAttach;		// Is this wise?
 					if (_isViV) then {
 						_t setVehicleCargo _obj;
 					} else {
 						[71,_obj,TRUE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
-						_obj attachTo [_t,[0,0,-100]];
+						[1,_obj,[_t,[0,0,-100]]] call QS_fnc_eventAttach;
 					};
 				};
 				_result = TRUE;
@@ -130,7 +130,7 @@ if (_obj isKindOf 'CAManBase') then {
 				_obj setVariable ['QS_RD_loaded',TRUE,TRUE];
 			};
 		};
-		detach _obj;
+		[0,_obj] call QS_fnc_eventAttach;
 		if (local _obj) then {
 			[_obj,_t] call (missionNamespace getVariable 'QS_fnc_moveInCargoMedical');
 		} else {

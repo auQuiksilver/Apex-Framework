@@ -18,7 +18,7 @@ if (_this isEqualTo 'init') exitWith {
 	((findDisplay 12) displayCtrl 51) ctrlRemoveAllEventHandlers 'Draw';		// Remove existing
 	((findDisplay 12) displayctrl 51) ctrlAddEventHandler [						// Apply liteweight
 		'Draw',
-		'call QS_fnc_iconsLite'
+		{call QS_fnc_iconsLite}
 	];
 };
 params ['_map'];
@@ -42,6 +42,7 @@ if (diag_tickTime > (uiNamespace getVariable ['QS_mapListInterval',-1])) then {
 	};
 };
 // Icon color for players side
+_mapDir = ctrlMapDir _map;
 _color = uiNamespace getVariable ['QS_mapListSideColor',[1,1,1,0.5]];
 _drawObjects = (uiNamespace getVariable ['QS_mapDrawType',objNull]) isEqualType objNull;
 private _leader = objNull;
@@ -58,7 +59,7 @@ private _leader = objNull;
 		getPosWorldVisual _leader,
 		22,
 		22,
-		getDirVisual _leader,
+		_mapDir + (getDirVisual _leader),
 		(if (_x isEqualType objNull) then {['',(name _leader)] select (_leader isEqualTo (effectiveCommander (vehicle _leader)))} else {(groupId _x)}),
 		1,
 		0.035,

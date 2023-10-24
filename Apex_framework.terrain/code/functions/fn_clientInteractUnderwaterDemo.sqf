@@ -40,11 +40,11 @@ if (_cursorIntersections isNotEqualTo []) then {
 				_mine = createVehicle [QS_core_classNames_demoChargeAmmo,((position player) vectorAdd [0,0.25,0.5]),[],0,'NONE'];
 				_mine setVectorUp _surfaceNormal;
 				_mine setPosASL _intersectPosASL;
-				[_mine,_objectParent,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+				[_mine,_objectParent,TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 				player playAction 'putdown';
 				player addOwnedMine _mine;
 				if (_objectParent getVariable ['QS_client_canAttachDetach',FALSE]) then {
-					detach _mine;
+					[0,_mine] call QS_fnc_eventAttach;
 				};
 			};
 		};

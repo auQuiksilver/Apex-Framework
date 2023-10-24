@@ -58,7 +58,7 @@ if (
 		(_playerUpperZ > _objectLowerZ) &&
 		{(_playerUpperZ > (_maxHeight + _bufferZ + _elev))}
 	) then {
-		_object attachTo [player,[0,((selectMax _boundingLengths) / 1.9) + _bufferY,_maxHeight + _bufferZ + _elev],_memoryPoint,_followRotation];
+		[1,_object,[player,[0,((selectMax _boundingLengths) / 1.9) + _bufferY,_maxHeight + _bufferZ + _elev],_memoryPoint,_followRotation]] call QS_fnc_eventAttach;
 		_object setVariable ['QS_logistics_elev',_elev];
 		_object setDir (_object getVariable ['QS_logistics_azi',0]);
 	};

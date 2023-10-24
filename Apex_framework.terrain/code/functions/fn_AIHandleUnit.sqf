@@ -119,12 +119,13 @@ if (_isLeader) then {
 	};
 };
 _attackTarget = getAttackTarget _unit;
-if (!alive _attackTarget) then {
-	if (_fps > 15) then {
-		if ((random 1) > 0.5) then {
-			_attackTarget = [_unit,300,TRUE] call (missionNamespace getVariable 'QS_fnc_AIGetAttackTarget');
-		};
-	};
+
+if (
+	((random 1) > 0.5) &&
+	(!alive _attackTarget) &&
+	(_fps > 15)
+) then {
+	_attackTarget = [_unit,300,TRUE] call (missionNamespace getVariable 'QS_fnc_AIGetAttackTarget');
 };
 if (alive _attackTarget) then {
 	_unit setVariable ['QS_AI_UNIT_attackTarget',_attackTarget,FALSE];

@@ -327,7 +327,7 @@ if (_mode3 isEqualTo 'Unload_2') exitWith {
 		if (!isNull (isVehicleCargo _requestedObject)) then {
 			objNull setVehicleCargo _requestedObject;
 		} else {
-			detach _requestedObject;
+			[0,_requestedObject] call QS_fnc_eventAttach;
 			if (isObjectHidden _requestedObject) then {
 				[71,_requestedObject,FALSE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			};

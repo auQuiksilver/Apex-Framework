@@ -107,7 +107,7 @@ _maxSandbags = 100;										// Global cap on player-deployable fortifications.
 _maxBuiltObjects = 500;									// Global cap on base-building objects (does not include player sandbags).
 _towing = 1;											// Towing mechanics. 0 - Disabled. 1 - Enabled. Most vehicles (Land and Boat) can Tow in one way or another.
 _winch = 2;												// Winch mechanics. 0 - Disabled. 1 - Configured vehicles (* See note --> ). 2 - All land vehicles.   * Some vanilla vehicles have visible winches: Hunter, Strider, Prowler LSV, Offroad, Bobcat, Zamak MLRS
-_unflipVehicles = 0;									// Vehicle Unflip interaction. 0 - Disabled. 1 - Enabled. With new Winch/Rope mechanics, Unflip should not be necessary.
+_unflipVehicles = 1;									// Vehicle Unflip interaction. 0 - Disabled. 1 - Enabled. With new Winch/Rope mechanics, Unflip should not be necessary.
 _mass = 1;												// Simulate vehicle mass changes based on weight of cargo.	 (Recommended = 0).	0 - Disabled. 1 - Enabled.
 _centerofmass = 1;										// Simulate vehicle center-of-mass based on cargo it is carrying. 	(Recommended = 1). 0 - Disabled. 1 - Vehicle-In-Vehicle Cargo only.   2. All cargo objects.   Use with caution!
 _role_selection_menu_button = 0;						// Role Selection Menu Button. 	Enables a button in the Escape Menu to access the Role Selection Menu.	0 - Disabled. 1 - Enabled. Default - 0.		Use this option to allow any player to change their role from any map location. If this value is 0, the only way to access the menu after login is via Arsenal crates user action. Recommend 0 for standard gamemodes to avoid exploitation.
@@ -121,17 +121,18 @@ _fireSupport = 2;										// Fire Support Module. 0 - Disabled. 1 - Player Supp
 
 //===================================================== SYSTEM
 
-_restart_hours = [0,12];								// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_restart_hours = [16];									// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
 _restart_dynamic = 1;									// Dynamic Server Restarts. 0 - Disabled. 1 - Enabled. If enabled, Server will wait for mission conditions to be met before restarting. This option is currently only used for Defend missions.
 _dynamic_simulation = 1;								// Dynamic Simulation. 	0 - Disabled. 1 - Enabled. 	Raises FPS and performance slightly. Server freezes entities which are far away from all players.    Info: https://community.bistudio.com/wiki/Arma_3_Dynamic_Simulation
-_startDate = [];										// Set Start Date (Including time). [] = Disabled. [<year>,<month>,<day>,<hour>,<minute>].   //systemTime [year, month, day, hour, minute, second, millisecond]
+_startDate = [];										// Set Start Date (Including time). [] = Disabled. [<year>,<month>,<day>,<hour>,<minute>].	// [2026,10,30,14,30]	= Oct 30 2026 at 2:30pm
 _timeMultiplier = [										// Time Multiplier. Set all values to 1 for real-time.
 	12,														// Night/dark time acceleration multiplier. Default - 12.
 	1,														// Noon/mid-day time acceleration multiplier. Default - 1.
 	0.35													// Morning/Evening/Dawn/Dusk time acceleration multiplier. Default - 0.35.
 ];
 _weatherDynamic = 1;									// Dynamic Weather System. 0 - Disabled. 1 - Enabled (Default). 	If enabled, framework will maintain persistent dynamic weather with realistic annual weather cycles for the geographic terrain location.
-_weatherForcedMode = -1;								// Forced Weather Mode. !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow.
+_weatherForcedMode = -1;									// Forced Weather Mode. -1 = Disabled.  !Automatically disables Dynamic Weather!	 0 - Clear skies. 1 - Overcast/Cloudy. 2 - Rain. 3 - Storm. 4 - Snow.
+_logReportFrequency = 60;								// Server RPT log reports general information every X seconds. -1 = disabled. 60 = 1 minute, 300 = 5 minutes, etc.
 
 //===================================================== ZEUS
 
@@ -215,14 +216,14 @@ _destroyer_hangar = 0;										// Hangar Door initial state. 0 - Hangar doors s
 // Primarily meant for Zeus Mode, but can also be used in other modes.
 
 _fobs_default = 0;						// The default FOBs that spawn around the map. 0 - Disabled. 1 - Enabled.
-_container_mobileRespawn = 1;			// White. Acts as a mobile respawn with respawn tickets.
-_container_baseSmall = 1;				// Lite Green. Small fortification "Patrol Base"
-_container_baseMedium = 1;				// Dark Green. Medium fortification "Combat Outpost"
-_container_baseLarge = 1;				// Dark Grey. Large fortification. "FOB". Has integrated Arsenal.
-_container_platform = 1;				// Sand. Platform/Bridge module.
-_container_terrain = 1;					// Yellow. Terrain deformer module.
-_container_SAM = 1;						// Dark Blue.	Deployable Missile System.
-_container_radar = 1;					// Cyan. 		Deployable Radar.
+_container_mobileRespawn = 1;			// White. 			Acts as a mobile respawn with respawn tickets.
+_container_baseSmall = 1;				// Lite Green. 		Small fortification "Patrol Base"
+_container_baseMedium = 1;				// Dark Green. 		Medium fortification "Combat Outpost"
+_container_baseLarge = 1;				// Dark Grey. 		Large fortification. "FOB". Has integrated Arsenal.
+_container_platform = 1;				// Sand. 			Platform/Bridge module.
+_container_terrain = 1;					// Yellow. 			Terrain deformer module.
+_container_SAM = 1;						// Dark Blue.		Deployable Missile System.
+_container_radar = 1;					// Cyan. 			Deployable Radar.
 
 //===================================================== TEXTURES
 
@@ -271,7 +272,7 @@ if (_arsenal isEqualTo 3) then {};
 if (_restart_hours isNotEqualTo []) then {
 	_restart_hours sort TRUE;
 };
-if (_weatherForcedMode > 0) then {
+if (_weatherForcedMode > -1) then {
 	_weatherDynamic = 0;
 };
 if (
@@ -298,7 +299,7 @@ if (_main_mission_type isEqualTo 'ZEUS') then {
 if ((count _startDate) > 5) then {
 	_startDate = _startDate select [0,5];
 };
-/*/QS Note: Not currently compatible with 1.5.x /*/ _anticheat = 0;
+/*/QS Note: Not currently compatible with framework versions 1.5.x /*/ _anticheat = 0;
 {
 	missionNamespace setVariable _x;
 	diag_log str ([_x # 0,_x # 1]);
@@ -368,6 +369,7 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_timeMultiplier',_timeMultiplier,FALSE],
 	['QS_missionConfig_weatherDynamic',_weatherDynamic > 0,TRUE],
 	['QS_missionConfig_weatherForced',_weatherForcedMode,TRUE],
+	['QS_missionConfig_logFrequency',_logReportFrequency,FALSE],
 	['QS_missionConfig_zeusRespawnFlag',_zeusModePlayerRespawn > 0,TRUE],
 	['QS_missionConfig_zeusRespawnMarker',_zeusModeRespawnMarker > 0,FALSE],
 	['QS_missionConfig_zeusRespawnArsenal',_zeusModeArsenalFlag > 0,TRUE],

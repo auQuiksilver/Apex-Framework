@@ -433,7 +433,7 @@ _tabletBox allowDamage FALSE;
 _all pushBack _tabletBox;
 _tabletBox setPos (_truck modelToWorld [0,-6,-0.430527]);
 _tabletBox setDir (random 360);
-_tablet attachTo [_tabletBox,[0,0.4,0.42]];
+[1,_tablet,[_tabletBox,[0,0.4,0.42]]] call QS_fnc_eventAttach;
 _tablet setDir (random 360);
 
 for '_x' from 0 to 2 step 1 do {
@@ -476,7 +476,7 @@ for '_x' from 0 to (_intelObjectCount - 1) step 1 do {
 	_intelObject = createVehicle ['Land_Tablet_02_F',[-500,-500,50],[],15,'NONE'];
 	_intelObject enableDynamicSimulation FALSE;
 	_intelObject setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-	_intelObject attachTo [_intelCrate,[0,0,0.42]];
+	[1,_intelObject,[_intelCrate,[0,0,0.42]]] call QS_fnc_eventAttach;
 	_intelObject allowDamage FALSE;
 	for '_x' from 0 to 2 step 1 do {
 		_intelObject setVariable ['QS_object_GT_1',TRUE,TRUE];
@@ -1238,7 +1238,7 @@ waitUntil {
 } forEach _vehicles;
 {
 	if (!isNull _x) then {
-		detach _x;
+		[0,_x] call QS_fnc_eventAttach;
 		missionNamespace setVariable [
 			'QS_analytics_entities_deleted',
 			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),

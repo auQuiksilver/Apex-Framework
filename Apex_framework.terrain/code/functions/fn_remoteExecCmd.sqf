@@ -366,3 +366,6 @@ if (_type isEqualTo 'setFlagAnimationPhase') exitWith {
 if (_type isEqualto 'setEffectiveCommander') exitWith {
 	_1 setEffectiveCommander _2;
 };
+if (_type isEqualto 'addForce') exitWith {
+	_1 addForce _2;
+};

@@ -39,7 +39,7 @@ _detector addEventHandler ['HandleDamage',{call (missionNamespace getVariable 'Q
 _detector setVariable ['QS_entity_sumDmg',0,TRUE];
 _detector setVariable ['QS_entity_reqDmg',1500,TRUE];
 _detector setVariable ['QS_entity_assocObjects',[_sewerCover,_wellCover],FALSE];
-_detector attachTo [_wellCover,[0,0.9,0.5]];
+[1,_detector,[_wellCover,[0,0.9,0.5]]] call QS_fnc_eventAttach;
 _detector hideObjectGlobal TRUE;
 _detector enableSimulationGlobal FALSE;
 _entities pushBack _detector;
@@ -53,7 +53,7 @@ _detector addEventHandler ['HandleDamage',{call (missionNamespace getVariable 'Q
 _detector setVariable ['QS_entity_sumDmg',0,TRUE];
 _detector setVariable ['QS_entity_reqDmg',1500,TRUE];
 _detector setVariable ['QS_entity_assocObjects',[_sewerCover,_wellCover],FALSE];
-_detector attachTo [_wellCover,[-0.9,-0.9,0.5]];
+[1,_detector,[_wellCover,[-0.9,-0.9,0.5]]] call QS_fnc_eventAttach;
 _detector hideObjectGlobal TRUE;
 _detector enableSimulationGlobal FALSE;
 _entities pushBack _detector;
@@ -67,7 +67,7 @@ _detector addEventHandler ['HandleDamage',{call (missionNamespace getVariable 'Q
 _detector setVariable ['QS_entity_sumDmg',0,TRUE];
 _detector setVariable ['QS_entity_reqDmg',1500,TRUE];
 _detector setVariable ['QS_entity_assocObjects',[_sewerCover,_wellCover],FALSE];
-_detector attachTo [_wellCover,[0.9,-0.9,0.5]];
+[1,_detector,[_wellCover,[0.9,-0.9,0.5]]] call QS_fnc_eventAttach;
 _detector hideObjectGlobal TRUE;
 _detector enableSimulationGlobal FALSE;
 _entities pushBack _detector;

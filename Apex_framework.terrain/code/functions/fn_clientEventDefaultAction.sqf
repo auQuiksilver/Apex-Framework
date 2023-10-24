@@ -108,17 +108,17 @@ if (_mode isEqualTo 'activate') exitWith {
 						_currentFrame = diag_frameNo + 1;
 						waitUntil {diag_frameNo > _currentFrame};
 					} else {
-						_requestedObject attachTo [QS_player,uiNamespace getVariable ['QS_targetBoundingBox_attachOffset',[0,2,1]]];
+						[1,_requestedObject,[QS_player,uiNamespace getVariable ['QS_targetBoundingBox_attachOffset',[0,2,1]]]] call QS_fnc_eventAttach;
 						_requestedObject setVectorDirAndUp (uiNamespace getVariable 'QS_targetBoundingBox_vectors');
 						_currentFrame = diag_frameNo + 1;
 						waitUntil {diag_frameNo > _currentFrame};
 						if (_requestedObject in (attachedObjects _vehicle)) then {
-							detach _requestedObject;
+							[0,_requestedObject] call QS_fnc_eventAttach;
 						};
 					};
 				} else {
 					if (_requestedObject in (attachedObjects _vehicle)) then {
-						detach _requestedObject;
+						[0,_requestedObject] call QS_fnc_eventAttach;
 					};
 					_currentFrame = diag_frameNo + 1;
 					waitUntil {diag_frameNo > _currentFrame};

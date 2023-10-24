@@ -93,7 +93,7 @@ private [
 	'_missionObject','_QS_baseLights','_QS_baseLights_state','_QS_lamp','_QS_lampHitPoints','_QS_lampHitValue','_player','_base_toc','_QS_simulateEvent_override','_QS_simulateEvent_overrideDelay',
 	'_QS_simulateEvent_duration','_QS_simulateEvent_active','_QS_module_aoCivs','_QS_module_aoCivs_delay','_QS_module_aoCivs_checkDelay','_QS_module_aoCiv_civ','_vRespawnTickets',
 	'_deleteNow','_QS_module_restart','_QS_module_restart_realTimeStart','_QS_module_restart_delay','_QS_module_restart_checkDelay','_QS_module_restart_isRestarting','_QS_module_restart_hours',
-	'_QS_module_restart_hour','_QS_module_restart_script','_QS_module_restart_realTimeNow','_QS_module_restart_hourCurrent','_QS_module_restart_lastBroadcast','_nearEntitiesCheck',
+	'_QS_module_restart_hour','_QS_module_restart_realTimeNow','_QS_module_restart_hourCurrent','_QS_module_restart_lastBroadcast','_nearEntitiesCheck',
 	'_QS_corpseCollector','_QS_wreckCollector','_QS_remainsCollectorActive','_QS_module_opsec','_QS_module_opsec_delay','_QS_module_opsec_checkDelay','_QS_module_opsec_checkMarkers','_QS_module_opsec_checkVariables',
 	'_QS_module_opsec_clientHeartbeat','_QS_module_heartbeat_array','_QS_module_opsec_checkMarkers_whitelistedMarkers','_markerData','_QS_module_opsec_deleteMarker',
 	'_QS_allMapMarkers','_QS_diagTickTimeNow','_QS_system_weekday','_QS_productVersion','_allSimpleObjects','_smokeShellCount','_smokeShellLimit','_missionSmokeShells',
@@ -116,6 +116,7 @@ _aoThreshold = 10;
 _casThreshold = 12;
 _pause = 5;
 _timeNow = time;
+private _serverTime = serverTime;
 _true = TRUE;
 _false = FALSE;
 _endl = endl;
@@ -745,6 +746,15 @@ _QS_dayTime_overcast = _QS_dayTime;
 _QS_dayTime_rain = _QS_dayTime;
 _QS_dayTime_fog = _QS_dayTime;
 
+if (!(_QS_weatherDynamic)) then {
+	if (_QS_weatherForced > -1) then {
+		[_QS_weatherForced] call QS_fnc_WeatherPreset;
+		forceWeatherChange;
+	};
+};
+
+
+
 /*/=============================== TIME MANAGER*/
 
 _QS_timeManager = TRUE;
@@ -814,7 +824,10 @@ _QS_cleanup_checkDelay = time + _QS_cleanup_delay;
 _fps = diag_fps;
 _fpsCheckDelay = diag_tickTime + 10;
 
-_updateUnitsCount = time + 15;
+private _logInterval = missionNamespace getVariable ['QS_missionConfig_logFrequency',60];
+private _log = _logInterval > -1;
+private _logDelay = -1;
+
 _allPlayersCount = count allPlayers;
 _allUnitsCount = count allUnits;
 _allAICount = _allUnitsCount - _allPlayersCount;
@@ -1288,7 +1301,7 @@ if (_QS_module_restart) then {
 	_QS_module_restart_realTimeNow = _QS_module_restart_realTimeStart;
 	_QS_module_restart_hourCurrent = _QS_module_restart_realTimeNow # 2;
 	_QS_module_restart_delay = 5;
-	_QS_module_restart_checkDelay = _timeNow + _QS_module_restart_delay;
+	_QS_module_restart_checkDelay = _timeNow + 4200;	// Initial long delay so restart is not triggered for same hour
 	_QS_module_restart_lastBroadcast = -1;
 	private _QS_module_restart_hours = missionNamespace getVariable ['QS_missionConfig_restartHours',[0,12,18]];
 	private _restart_hour_test = -1;
@@ -1313,49 +1326,7 @@ if (_QS_module_restart) then {
 	};
 	_estimatedTimeLeft = _estimatedTimeLeft * 3600;
 	diag_log format ['Estimated Time Left: %1',_estimatedTimeLeft];
-	estimatedTimeLeft _estimatedTimeLeft;
-	_QS_module_restart_script = {
-		scriptName 'QS Restart Schedule';
-		//comment 'Play musical note sound here as a Tell';
-		0 spawn {
-			['playSound','QS_restart'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-		};
-		uiSleep 25;
-		_text = localize 'STR_QS_Notif_044';
-		['System',['',_text]] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-		
-		
-		// Server Restart message
-		{
-			private _endImage = missionNamespace getVariable ['QS_missionConfig_communityLogo',''];
-			if (_endImage isEqualTo '') then {
-				_endImage = missionNamespace getVariable ['QS_missionConfig_textures_communityFlag','a3\data_f\flags\flag_nato_co.paa'];
-			};
-			51 cutText [
-				(format [
-					"<img size='4' image='%1'/><br/><br/><t size='5'>%2</t><br/><br/>",
-					_endImage,
-					localize 'STR_QS_Utility_000'
-				]),
-				'PLAIN DOWN',
-				5,
-				TRUE,
-				TRUE
-			];
-		} remoteExec ['call',-2,FALSE];
-		
-		
-		missionProfileNamespace setVariable ['QS_leaderboards2',(missionNamespace getVariable 'QS_leaderboards2')];	// Debug leaderboards
-		{
-			_x setVariable ['QS_respawn_disable',-1,TRUE];
-		} forEach allPlayers;
-		uiSleep 8;
-		0 spawn {
-			saveMissionProfileNamespace;
-		};
-		uiSleep 1;
-		(call (uiNamespace getVariable 'QS_fnc_serverCommandPassword')) serverCommand '#restartserver';
-	};
+	estimatedTimeLeft (0 max _estimatedTimeLeft min 36000);
 	diag_log format ['***** Restart schedule * Restart Hour: %1 RealTimeStart: %2 *****',_QS_module_restart_hour,_QS_module_restart_realTimeStart];
 	if (_QS_module_restart_hour isEqualTo -1) then {
 		_QS_module_restart = FALSE;
@@ -1378,7 +1349,7 @@ _fn_sunriseSunsetTime = missionNamespace getVariable 'BIS_fnc_sunriseSunsetTime'
 _fn_setUnitInsignia = missionNamespace getVariable 'BIS_fnc_setUnitInsignia';
 _fn_setTask = missionNamespace getVariable 'BIS_fnc_setTask';
 _fn_taskSetState = missionNamespace getVariable 'BIS_fnc_taskSetState';
-_fn_attachToRelative = missionNamespace getVariable 'BIS_fnc_attachToRelative';
+_fn_attachToRelative = missionNamespace getVariable 'QS_fnc_attachToRelative';
 _fn_aoPrepare = missionNamespace getVariable 'QS_fnc_aoPrepare';
 _fn_artillery = missionNamespace getVariable 'QS_fnc_artillery';
 _fn_aoFires = missionNamespace getVariable 'QS_fnc_aoFires';
@@ -1416,54 +1387,58 @@ _fn_deployAssault = missionNamespace getVariable 'QS_fnc_deployAssault';
 _fn_isNearVehicleRally = missionNamespace getVariable 'QS_fnc_isNearVehicleRally';
 _fn_getVehicleStealth = missionNamespace getVariable 'QS_fnc_getVehicleStealth';
 _fn_dynamicGroups = missionNamespace getVariable 'BIS_fnc_dynamicGroups';
+_fn_eventAttach = missionNamespace getVariable 'QS_fnc_eventAttach';
 
 /*/============================================================================= LOOP/*/
 for '_x' from 0 to 1 step 0 do {
 	_timeNow = time;
 	_QS_diagTickTimeNow = diag_tickTime;
 	if (_QS_diagTickTimeNow > _miscDelay5) then {
-		_miscDelay3 = _QS_diagTickTimeNow + 5;
+		_miscDelay5 = _QS_diagTickTimeNow + 5;
+		_serverTime = serverTime;
 		_allPlayers = allPlayers - (entities 'HeadlessClient_F');
 		_allUnits = allUnits;
 		_allUnitsUav = allUnitsUav;
 		_allGroups = allGroups;
 		_allVehicles = vehicles;
-	};
-	if (_timeNow > _updateUnitsCount) then {
 		_allPlayersCount = count _allPlayers;
 		_allUnitsCount = count _allUnits;
 		_allAICount = _allUnitsCount - _allPlayersCount;
-		_updateUnitsCount = _timeNow + 30;
 	};
 	/*/===== Diagnostics report/*/
 	if (_QS_diagTickTimeNow > _fpsCheckDelay) then {
 		_fps = round diag_fps;
 		missionNamespace setVariable ['QS_server_fps',_fps,_true];
-		diag_log format [
-			'%1********** SERVER REPORT (TOP) ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1Script Errors: %22 * %1********** SERVER REPORT (BOTTOM) **********',
-			_endl,
-			_fps,
-			diag_frameNo,
-			diag_deltaTime,
-			_allPlayersCount,
-			diag_activeScripts,
-			(diag_activeSQFScripts select [0,4]),
-			diag_activeSQSScripts,
-			diag_activeMissionFSMs,
-			allCurators,
-			count (missionNamespace getVariable 'QS_headlessClients'),
-			(missionNamespace getVariable 'QS_analytics_entities_created'),
-			(missionNamespace getVariable 'QS_analytics_entities_deleted'),
-			(missionNamespace getVariable 'QS_analytics_entities_killed'),
-			(missionNamespace getVariable 'QS_analytics_entities_respawned'),
-			(missionNamespace getVariable 'QS_analytics_entities_recycled'),
-			_allAICount,
-			(count (allMissionObjects '')),
-			(count (entities [[],[],_true,_false])),
-			(count (allSimpleObjects [])),
-			systemTime,
-			[(localNamespace getVariable ['QS_allScriptErrors',0]),(localNamespace getVariable ['QS_uniqueScriptErrors',0])]
-		];
+		if (_log) then {
+			if (_QS_diagTickTimeNow > _logDelay) then {
+				_logDelay = _QS_diagTickTimeNow + _logInterval;
+				diag_log format [
+					'%1********** SERVER REPORT (TOP) ********** System Time: %21 * %1FPS: %2 * %1Frame: %3 * %1Frame-Time: %4 * %1Player count: %5 * %1Active Scripts: %6 * %1Active SQF Scripts: %7 * %1Active SQS Scripts: %8 * %1Active FSM Scripts: %9 * %1Active Zeus: %10 * %1Active HC: %11 * %1Created Entities: %12 * %1Deleted Entities: %13 * %1Killed Entities: %14 * %1Respawned Entities: %15 * %1Recycled Entities: %16 * %1Unit Count: %17 * %1Total objects count: %18 * %1Entities count: %19 * %1Simple objects count: %20 *%1Script Errors: %22 * %1********** SERVER REPORT (BOTTOM) **********',
+					_endl,
+					_fps,
+					diag_frameNo,
+					diag_deltaTime,
+					_allPlayersCount,
+					diag_activeScripts,
+					(diag_activeSQFScripts select [0,4]),
+					diag_activeSQSScripts,
+					diag_activeMissionFSMs,
+					allCurators,
+					count (missionNamespace getVariable 'QS_headlessClients'),
+					(missionNamespace getVariable 'QS_analytics_entities_created'),
+					(missionNamespace getVariable 'QS_analytics_entities_deleted'),
+					(missionNamespace getVariable 'QS_analytics_entities_killed'),
+					(missionNamespace getVariable 'QS_analytics_entities_respawned'),
+					(missionNamespace getVariable 'QS_analytics_entities_recycled'),
+					_allAICount,
+					(count (allMissionObjects '')),
+					(count (entities [[],[],_true,_false])),
+					(count (allSimpleObjects [])),
+					systemTime,
+					[(localNamespace getVariable ['QS_allScriptErrors',0]),(localNamespace getVariable ['QS_uniqueScriptErrors',0])]
+				];
+			};
+		};
 		if (_fps >= 20) then {
 			if ((markerColor 'QS_marker_fpsMarker') isNotEqualTo 'ColorGREEN') then {
 				'QS_marker_fpsMarker' setMarkerColorLocal 'ColorGREEN';
@@ -1488,7 +1463,7 @@ for '_x' from 0 to 1 step 0 do {
 		_baseMarker = markerPos 'QS_marker_base_marker';
 		'QS_marker_fpsMarker' setMarkerText (format ['%1 %3 %2',_markerCheck,_fps,_fpsMarkerText]);
 		'QS_marker_curators' setMarkerText (format ['%1 %3 %2',_markerCheck,allCurators,_zeusMarkerText]);
-		_fpsCheckDelay = _QS_diagTickTimeNow + 60;
+		_fpsCheckDelay = _QS_diagTickTimeNow + 30;
 	};
 
 	if (_mainMissions) then {
@@ -1736,7 +1711,7 @@ for '_x' from 0 to 1 step 0 do {
 													] remoteExec ['call',-2,_true];
 													uiSleep 96;
 													_QS_module_restart_isRestarting = _true;
-													0 spawn _QS_module_restart_script;
+													0 spawn QS_fnc_serverRestart;
 												};
 											};
 										};
@@ -1948,7 +1923,7 @@ for '_x' from 0 to 1 step 0 do {
 														if (_x isEqualType _objNull) then {
 															if (!isNull _x) then {
 																if (!isNull (attachedTo _x)) then {
-																	detach _x;
+																	[0,_x] call _fn_eventAttach;
 																};
 																(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 																//missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
@@ -2282,7 +2257,7 @@ for '_x' from 0 to 1 step 0 do {
 															if (_x isEqualType _objNull) then {
 																if (!isNull _x) then {
 																	if (!isNull (attachedTo _x)) then {
-																		detach _x;
+																		[0,_x] call _fn_eventAttach;
 																	};
 																	missionNamespace setVariable [
 																		'QS_analytics_entities_deleted',
@@ -3105,7 +3080,7 @@ for '_x' from 0 to 1 step 0 do {
 										params ['_target','_ammo','_vehicle','_instigator','_missile'];
 										_parent = attachedTo _target;
 										if (alive _parent) then {
-											_target attachTo [_parent,_parent worldToModel (_parent getRelPos [(40 * (sqrt (random 1))),(random 360)])];
+											[1,_target,[_parent,_parent worldToModel (_parent getRelPos [(40 * (sqrt (random 1))),(random 360)])]] call QS_fnc_eventAttach;
 										};
 										if (_ammo isKindOf 'BombCore') then {
 											[103,_target,_ammo,_vehicle,_missile] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
@@ -3132,7 +3107,7 @@ for '_x' from 0 to 1 step 0 do {
 							_HVT_currentTargets deleteAt (_HVT_currentTargets find _QS_v);
 							{
 								if (_x isKindOf 'LaserTargetE') then {
-									detach _x;
+									[0,_x] call _fn_eventAttach;
 									deleteVehicle _x;
 								};
 							} forEach (attachedObjects _QS_v);
@@ -3154,7 +3129,7 @@ for '_x' from 0 to 1 step 0 do {
 							_HVT_currentTargets deleteAt (_HVT_currentTargets find _QS_v);
 							{
 								if (_x isKindOf 'LaserTargetE') then {
-									detach _x;
+									[0,_x] call _fn_eventAttach;
 									deleteVehicle _x;
 								};
 							} forEach (attachedObjects _QS_v);
@@ -3219,7 +3194,7 @@ for '_x' from 0 to 1 step 0 do {
 									if ((attachedObjects _v) isNotEqualTo []) then {
 										{
 											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-											detach _x;
+											[0,_x] call _fn_eventAttach;
 											deleteVehicle _x;
 										} count (attachedObjects _v);
 									};
@@ -3689,7 +3664,7 @@ for '_x' from 0 to 1 step 0 do {
 		if (QS_markers_fireSupport isNotEqualTo []) then {
 			{
 				if (_x isEqualType []) then {
-					if (serverTime > ((_x # 1) + 300)) then {
+					if (_serverTime > ((_x # 1) + 300)) then {
 						if ((_x # 0) in allMapMarkers) then {
 							deleteMarker (_x # 0);
 						};
@@ -3702,7 +3677,7 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		
 		{
-			if ((([(getPosATL _x),500,[_west],_allPlayers,0] call _fn_serverDetector) isEqualTo []) || {(underwater _x)}) then {
+			if ((([_x,500,[_west],_allPlayers,0] call _fn_serverDetector) isEqualTo []) || {(underwater _x)}) then {
 				if (!(_x getVariable ['QS_dead_prop',_false])) then {
 					missionNamespace setVariable [
 						'QS_analytics_entities_deleted',
@@ -4092,29 +4067,23 @@ for '_x' from 0 to 1 step 0 do {
 			if (_allUnitsUav isNotEqualTo []) then {
 				{
 					_uav = _x;
-					if (local _uav) then {
-						if (
-							(_uav isKindOf 'Air') &&			// Should we include the backpack tracked vehicles in this too?
-							(!(_uav getVariable ['QS_uav_protected',_false])) &&
-							(isNull (isVehicleCargo _uav)) && 
-							(isNull (ropeAttachedTo _uav)) && 
-							(isNull (attachedTo _uav))
-						) then {
-							if ((attachedObjects _uav) isNotEqualTo []) then {
-								{
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-									detach _x;
-									deleteVehicle _x
-								} forEach (attachedObjects _uav);
-							};
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-							deleteVehicle _uav;
+					if (
+						(local _uav) &&
+						{(_uav isKindOf 'Air')} &&			// Should we include the backpack tracked vehicles in this too?
+						{(!(_uav getVariable ['QS_uav_protected',_false]))} &&
+						{(isNull (isVehicleCargo _uav))} && 
+						{(isNull (ropeAttachedTo _uav))} && 
+						{(isNull (attachedTo _uav))}
+					) then {
+						if ((attachedObjects _uav) isNotEqualTo []) then {
+							{
+								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+								[0,_x] call _fn_eventAttach;
+								deleteVehicle _x
+							} forEach (attachedObjects _uav);
 						};
-					} else {
-						// Do we still want this behaviour?
-						//if (vehicleReportRemoteTargets _x) then {
-							//_x setVehicleReportRemoteTargets _false;
-						//};
+						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
+						deleteVehicle _uav;
 					};
 				} count _allUnitsUav;
 			};
@@ -4153,341 +4122,347 @@ for '_x' from 0 to 1 step 0 do {
 			_QS_currentLightnings = lightnings;
 			_QS_currentWaves = waves;
 			_QS_currentRainbow = rainbow;
-			if (!(_QS_simulateEvent_override)) then {
-				if (_QS_weatherEventsEnabled) then {
-					if ((_timeNow > _QS_simulateEvent_overrideDelay) && (_QS_currentOvercast > 0.666)) then {
-						missionNamespace setVariable ['QS_weather_simulateStorm',_true,_false];
-						_QS_simulateEvent_overrideDelay = 9999999;
-					};
-					if (!isNil {missionNamespace getVariable 'QS_weather_simulateStorm'}) then {
-						_QS_simulateEvent_storm = _true;
-						missionNamespace setVariable ['QS_weather_simulateStorm',nil,_false];
-						(format ['"%2" - %1 %3',_QS_worldName,localize 'STR_QS_Chat_104',localize 'STR_QS_Chat_105']) remoteExec ['systemChat',-2,_false];
-					};
-				};
-				if (_QS_simulateWind) then {
-					if (_timeNow > _QS_windUpdate_checkDelay) then {
-						if (((_QS_date # 2) isNotEqualTo _QS_day_wind) || {(_QS_refreshWind)}) then {
-							if (_QS_refreshWind) then {
-								_QS_refreshWind = _false;
-							};
-							_QS_windArray = [_QS_date,_QS_worldName,'REALISM','WIND'] call _fn_weatherConfig;
-							_QS_windWorkingArray = _QS_windArray;
-							_QS_day_wind = _QS_date # 2;
-							_QS_dayTime_wind = round (_QS_dayTime - 1.01);
+			if (_QS_weatherDynamic) then {
+				if (!(_QS_simulateEvent_override)) then {
+					if (_QS_weatherEventsEnabled) then {
+						if ((_timeNow > _QS_simulateEvent_overrideDelay) && (_QS_currentOvercast > 0.666)) then {
+							missionNamespace setVariable ['QS_weather_simulateStorm',_true,_false];
+							_QS_simulateEvent_overrideDelay = 9999999;
 						};
-						if (_QS_dayTime > (_QS_dayTime_wind + 1)) then {
-							if (_QS_windWorkingArray isEqualTo []) then {
-								_QS_refreshWind = _true;
-							} else {
-								_QS_windNextValue = _QS_windWorkingArray # 0;
-								setWind _QS_windNextValue;
-								_QS_windWorkingArray deleteAt 0;
-								diag_log format ['***** WEATHER Setting next wind ***** %1 *****',_QS_windNextValue];
-								_QS_dayTime_wind = round _QS_dayTime;
-							};
+						if (!isNil {missionNamespace getVariable 'QS_weather_simulateStorm'}) then {
+							_QS_simulateEvent_storm = _true;
+							missionNamespace setVariable ['QS_weather_simulateStorm',nil,_false];
+							(format ['"%2" - %1 %3',_QS_worldName,localize 'STR_QS_Chat_104',localize 'STR_QS_Chat_105']) remoteExec ['systemChat',-2,_false];
 						};
-						_QS_windUpdate_checkDelay = _timeNow + _QS_windUpdate_checkDelay_timer;
 					};
-				} else {
-					if (_QS_currentWind isNotEqualTo [0,0,0]) then {
-						setWind [0,0,_true];
-					};
-				};
-				if (_QS_simulateSnow) then {
-					// Overcast when snowing
-					if (_timeNow > _QS_overcastUpdate_checkDelay) then {
-						0 setOvercast 1;
-						_QS_overcastUpdate_checkDelay = _timeNow + _QS_overcastUpdate_checkDelay_timer;
-					};
-				} else {
-					if (_QS_simulateOvercast) then {
-						if (_timeNow > _QS_overcastUpdate_checkDelay) then {
-							if (((_QS_date # 2) isNotEqualTo _QS_day_overcast) || {(_QS_refreshOvercast)}) then {
-								if (_QS_refreshOvercast) then {
-									_QS_refreshOvercast = _false;
+					if (_QS_simulateWind) then {
+						if (_timeNow > _QS_windUpdate_checkDelay) then {
+							if (((_QS_date # 2) isNotEqualTo _QS_day_wind) || {(_QS_refreshWind)}) then {
+								if (_QS_refreshWind) then {
+									_QS_refreshWind = _false;
 								};
-								_QS_overcastArray = [_QS_date,_QS_worldName,'REALISM','OVERCAST'] call _fn_weatherConfig;
-								_QS_overcastWorkingArray = _QS_overcastArray # 0;
-								_QS_simulateRain = _QS_overcastArray # 1;
-								_QS_day_overcast = _QS_date # 2;
-								_QS_dayTime_overcast = round (_QS_dayTime - 1);
+								_QS_windArray = [_QS_date,_QS_worldName,'REALISM','WIND'] call _fn_weatherConfig;
+								_QS_windWorkingArray = _QS_windArray;
+								_QS_day_wind = _QS_date # 2;
+								_QS_dayTime_wind = round (_QS_dayTime - 1.01);
 							};
-							if (_QS_dayTime > (_QS_dayTime_overcast + 1)) then {
-								if (_QS_overcastWorkingArray isEqualTo []) then {
-									_QS_refreshOvercast = _true;
+							if (_QS_dayTime > (_QS_dayTime_wind + 1)) then {
+								if (_QS_windWorkingArray isEqualTo []) then {
+									_QS_refreshWind = _true;
 								} else {
-									_QS_overcastNextValue = _QS_overcastWorkingArray # 0;
-									1800 setOvercast _QS_overcastNextValue;
-									_QS_overcastWorkingArray deleteAt 0;
-									diag_log format ['***** WEATHER setting next overcast ***** %1 *****',_QS_overcastNextValue];
-									_QS_dayTime_overcast = round _QS_dayTime;
+									_QS_windNextValue = _QS_windWorkingArray # 0;
+									setWind _QS_windNextValue;
+									_QS_windWorkingArray deleteAt 0;
+									diag_log format ['***** WEATHER Setting next wind ***** %1 *****',_QS_windNextValue];
+									_QS_dayTime_wind = round _QS_dayTime;
 								};
 							};
+							_QS_windUpdate_checkDelay = _timeNow + _QS_windUpdate_checkDelay_timer;
+						};
+					} else {
+						if (_QS_currentWind isNotEqualTo [0,0,0]) then {
+							setWind [0,0,_true];
+						};
+					};
+					if (_QS_simulateSnow) then {
+						// Overcast when snowing
+						if (_timeNow > _QS_overcastUpdate_checkDelay) then {
+							0 setOvercast 1;
 							_QS_overcastUpdate_checkDelay = _timeNow + _QS_overcastUpdate_checkDelay_timer;
 						};
 					} else {
-						if (_QS_currentOvercast isNotEqualTo 0) then {
-							10 setOvercast 0;
-						};
-					};
-				};
-				if (_QS_simulateSnow) then {
-					// Rain when snowing
-					if (_timeNow > _QS_rainUpdate_checkDelay) then {
-						0 setRain 1;
-						setHumidity 0.95;
-						_QS_rainUpdate_checkDelay = _timeNow + _QS_rainUpdate_checkDelay_timer;
-					};
-				} else {
-					if (_QS_simulateRain) then {
-						if (!(_QS_rainSimulated)) then {
-							_QS_rainSimulated = _true;
-						};
-						if (_allPlayersCount < 50) then {
-							if (_timeNow > _QS_rainUpdate_checkDelay) then {
-								if (_QS_dayTime > (_QS_dayTime_rain + _QS_rainCheckInterval)) then {
-									_QS_rainChangeTime = 300 + (round (random 900));
-									if (_QS_worldName isEqualTo 'Tanoa') then {
-										_QS_rainChangeTime = 150 + (round (random 450));
+						if (_QS_simulateOvercast) then {
+							if (_timeNow > _QS_overcastUpdate_checkDelay) then {
+								if (((_QS_date # 2) isNotEqualTo _QS_day_overcast) || {(_QS_refreshOvercast)}) then {
+									if (_QS_refreshOvercast) then {
+										_QS_refreshOvercast = _false;
 									};
-									if ((random 1) > 0.666) then {
-										_QS_nextRainArray = [_QS_date,_QS_worldName,'REALISM','RAIN',_QS_rainChangeTime,_QS_currentOvercast,_QS_currentRain,_QS_currentFog] call _fn_weatherConfig;
-									} else {
-										_QS_nextRainArray = [60,0];
-									};
-									_QS_rainChangeTime = _QS_nextRainArray # 0;
-									_QS_nextRainValue = _QS_nextRainArray # 1;
-									_QS_rainChangeTime setRain _QS_nextRainValue;
-									_QS_dayTime_rain = round (_QS_dayTime - 1);
+									_QS_overcastArray = [_QS_date,_QS_worldName,'REALISM','OVERCAST'] call _fn_weatherConfig;
+									_QS_overcastWorkingArray = _QS_overcastArray # 0;
+									_QS_simulateRain = _QS_overcastArray # 1;
+									_QS_day_overcast = _QS_date # 2;
+									_QS_dayTime_overcast = round (_QS_dayTime - 1);
 								};
-								_QS_rainUpdate_checkDelay = _timeNow + _QS_rainUpdate_checkDelay_timer;
+								if (_QS_dayTime > (_QS_dayTime_overcast + 1)) then {
+									if (_QS_overcastWorkingArray isEqualTo []) then {
+										_QS_refreshOvercast = _true;
+									} else {
+										_QS_overcastNextValue = _QS_overcastWorkingArray # 0;
+										1800 setOvercast _QS_overcastNextValue;
+										_QS_overcastWorkingArray deleteAt 0;
+										diag_log format ['***** WEATHER setting next overcast ***** %1 *****',_QS_overcastNextValue];
+										_QS_dayTime_overcast = round _QS_dayTime;
+									};
+								};
+								_QS_overcastUpdate_checkDelay = _timeNow + _QS_overcastUpdate_checkDelay_timer;
 							};
 						} else {
-							if (_QS_currentRain isNotEqualTo 0) then {
-								30 setRain 0;
-							};					
+							if (_QS_currentOvercast isNotEqualTo 0) then {
+								10 setOvercast 0;
+							};
+						};
+					};
+					if (_QS_simulateSnow) then {
+						// Rain when snowing
+						if (_timeNow > _QS_rainUpdate_checkDelay) then {
+							0 setRain 1;
+							setHumidity 0.95;
+							_QS_rainUpdate_checkDelay = _timeNow + _QS_rainUpdate_checkDelay_timer;
 						};
 					} else {
-						if (_QS_rainSimulated) then {
-							_QS_rainSimulated = _false;
-							if (_QS_currentRain isNotEqualTo 0) then {
-								30 setRain 0;
+						if (_QS_simulateRain) then {
+							if (!(_QS_rainSimulated)) then {
+								_QS_rainSimulated = _true;
 							};
-						} else {
-							if (_QS_currentRain isNotEqualTo 0) then {
-								30 setRain 0;
-							};				
-						};
-					};
-				};
-				
-				if (_QS_simulateSnow) then {
-					// Fog when snowing
-					if (_timeNow > _QS_fogUpdate_checkDelay) then {
-						0 setFog 0.1;
-						_QS_fogUpdate_checkDelay = _timeNow + _QS_fogUpdate_checkDelay_timer;
-					};
-				} else {
-					if (_QS_simulateFog) then {
-						if (_timeNow > _QS_fogUpdate_checkDelay) then {
-							if (((_QS_date # 2) isNotEqualTo _QS_day_fog) || {(_QS_refreshFog)}) then {
-								if (_QS_refreshFog) then {
-									_QS_refreshFog = _false;
-								};
-								_QS_canEnableFog = ((random 1) >= 0.85);
-								if (_QS_canEnableFog) then {
-									_QS_fogEnabled = _true;
-									_QS_fogArray = [_QS_date,_QS_worldName,'REALISM','FOG',(_QS_overcastArray # 0)] call _fn_weatherConfig;
-									_QS_fogWorkingArray = _QS_fogArray;
-								} else {
-									_QS_fogEnabled = _false;
-								};
-								_QS_day_fog = _QS_date # 2;
-								_QS_dayTime_fog = round (_QS_dayTime - 1);
-							};
-							if (_QS_fogEnabled) then {
-								if (_QS_dayTime > (_QS_dayTime_fog + 1)) then {
-									if ((count _QS_fogWorkingArray) > 0) then {
-										_QS_fogChangeTime = (_QS_fogWorkingArray # 0) # 0;
-										_QS_fogValue = (_QS_fogWorkingArray # 0) # 1;
-										_QS_fogDecay = (_QS_fogWorkingArray # 0) # 2;
-										_QS_fogBase = (_QS_fogWorkingArray # 0) # 3;
-										_QS_fogChangeTime setFog [_QS_fogValue,_QS_fogDecay,_QS_fogBase];
-										_QS_fogWorkingArray deleteAt 0;
-									} else {
-										if (_QS_currentFog isNotEqualTo [0,0,0]) then {
-											30 setFog [0,0,0];
+							if (_allPlayersCount < 50) then {
+								if (_timeNow > _QS_rainUpdate_checkDelay) then {
+									if (_QS_dayTime > (_QS_dayTime_rain + _QS_rainCheckInterval)) then {
+										_QS_rainChangeTime = 300 + (round (random 900));
+										if (_QS_worldName isEqualTo 'Tanoa') then {
+											_QS_rainChangeTime = 150 + (round (random 450));
 										};
-										_QS_fogEnabled = _false;
+										if ((random 1) > 0.666) then {
+											_QS_nextRainArray = [_QS_date,_QS_worldName,'REALISM','RAIN',_QS_rainChangeTime,_QS_currentOvercast,_QS_currentRain,_QS_currentFog] call _fn_weatherConfig;
+										} else {
+											_QS_nextRainArray = [60,0];
+										};
+										_QS_rainChangeTime = _QS_nextRainArray # 0;
+										_QS_nextRainValue = _QS_nextRainArray # 1;
+										_QS_rainChangeTime setRain _QS_nextRainValue;
+										_QS_dayTime_rain = round (_QS_dayTime - 1);
 									};
-									_QS_dayTime_fog = round _QS_dayTime;
+									_QS_rainUpdate_checkDelay = _timeNow + _QS_rainUpdate_checkDelay_timer;
 								};
 							} else {
-								if (_QS_currentFog isNotEqualTo [0,0,0]) then {
-									30 setFog [0,0,0];
-								};
+								if (_QS_currentRain isNotEqualTo 0) then {
+									30 setRain 0;
+								};					
 							};
+						} else {
+							if (_QS_rainSimulated) then {
+								_QS_rainSimulated = _false;
+								if (_QS_currentRain isNotEqualTo 0) then {
+									30 setRain 0;
+								};
+							} else {
+								if (_QS_currentRain isNotEqualTo 0) then {
+									30 setRain 0;
+								};				
+							};
+						};
+					};
+					
+					if (_QS_simulateSnow) then {
+						// Fog when snowing
+						if (_timeNow > _QS_fogUpdate_checkDelay) then {
+							0 setFog 0.1;
 							_QS_fogUpdate_checkDelay = _timeNow + _QS_fogUpdate_checkDelay_timer;
 						};
-					};
-				};
-				if (_QS_simulateWaves) then {
-					if (_timeNow > _QS_wavesUpdate_checkDelay) then {
-						_QS_nextWavesArray = [_QS_date,_QS_worldName,'REALISM','WAVES',_QS_currentWind] call _fn_weatherConfig;
-						_QS_wavesChangeTime = _QS_nextWavesArray # 0;
-						_QS_nextWavesValue = _QS_nextWavesArray # 1;
-						_QS_wavesChangeTime setWaves _QS_nextWavesValue;
-						_QS_wavesUpdate_checkDelay = _timeNow + _QS_wavesUpdate_checkDelay_timer;
-					};
-				} else {
-					if (_QS_currentWaves isNotEqualTo 0) then {
-						10 setWaves 0;
-					};
-				};
-				if (_QS_simulateLightning) then {
-					if (_timeNow > _QS_lightningsUpdate_checkDelay) then {
-						if ((_QS_date # 2) isNotEqualTo _QS_day_lightnings) then {
-							if ((random 1) >= 0.75) then {
-								_QS_canEnableLightnings = _true;
-							} else {
-								_QS_canEnableLightnings = _false;
+					} else {
+						if (_QS_simulateFog) then {
+							if (_timeNow > _QS_fogUpdate_checkDelay) then {
+								if (((_QS_date # 2) isNotEqualTo _QS_day_fog) || {(_QS_refreshFog)}) then {
+									if (_QS_refreshFog) then {
+										_QS_refreshFog = _false;
+									};
+									_QS_canEnableFog = ((random 1) >= 0.85);
+									if (_QS_canEnableFog) then {
+										_QS_fogEnabled = _true;
+										_QS_fogArray = [_QS_date,_QS_worldName,'REALISM','FOG',(_QS_overcastArray # 0)] call _fn_weatherConfig;
+										_QS_fogWorkingArray = _QS_fogArray;
+									} else {
+										_QS_fogEnabled = _false;
+									};
+									_QS_day_fog = _QS_date # 2;
+									_QS_dayTime_fog = round (_QS_dayTime - 1);
+								};
+								if (_QS_fogEnabled) then {
+									if (_QS_dayTime > (_QS_dayTime_fog + 1)) then {
+										if ((count _QS_fogWorkingArray) > 0) then {
+											_QS_fogChangeTime = (_QS_fogWorkingArray # 0) # 0;
+											_QS_fogValue = (_QS_fogWorkingArray # 0) # 1;
+											_QS_fogDecay = (_QS_fogWorkingArray # 0) # 2;
+											_QS_fogBase = (_QS_fogWorkingArray # 0) # 3;
+											_QS_fogChangeTime setFog [_QS_fogValue,_QS_fogDecay,_QS_fogBase];
+											_QS_fogWorkingArray deleteAt 0;
+										} else {
+											if (_QS_currentFog isNotEqualTo [0,0,0]) then {
+												30 setFog [0,0,0];
+											};
+											_QS_fogEnabled = _false;
+										};
+										_QS_dayTime_fog = round _QS_dayTime;
+									};
+								} else {
+									if (_QS_currentFog isNotEqualTo [0,0,0]) then {
+										30 setFog [0,0,0];
+									};
+								};
+								_QS_fogUpdate_checkDelay = _timeNow + _QS_fogUpdate_checkDelay_timer;
 							};
-							_QS_day_lightnings = _QS_date # 2;
 						};
-						if (_QS_lightningsEnabled) then {
-							_QS_nextLightningsArray = [_QS_date,_QS_worldName,'REALISM','LIGHTNINGS',_QS_currentOvercast] call _fn_weatherConfig;
-							_QS_lightningsChangeTime = _QS_nextLightningsArray # 0;
-							_QS_lightningsNextValue = _QS_nextLightningsArray # 1;
-							if (_QS_currentOvercast > 0.65) then {
-								_QS_lightningsChangeTime setLightnings _QS_lightningsNextValue;
+					};
+					if (_QS_simulateWaves) then {
+						if (_timeNow > _QS_wavesUpdate_checkDelay) then {
+							_QS_nextWavesArray = [_QS_date,_QS_worldName,'REALISM','WAVES',_QS_currentWind] call _fn_weatherConfig;
+							_QS_wavesChangeTime = _QS_nextWavesArray # 0;
+							_QS_nextWavesValue = _QS_nextWavesArray # 1;
+							_QS_wavesChangeTime setWaves _QS_nextWavesValue;
+							_QS_wavesUpdate_checkDelay = _timeNow + _QS_wavesUpdate_checkDelay_timer;
+						};
+					} else {
+						if (_QS_currentWaves isNotEqualTo 0) then {
+							10 setWaves 0;
+						};
+					};
+					if (_QS_simulateLightning) then {
+						if (_timeNow > _QS_lightningsUpdate_checkDelay) then {
+							if ((_QS_date # 2) isNotEqualTo _QS_day_lightnings) then {
+								if ((random 1) >= 0.75) then {
+									_QS_canEnableLightnings = _true;
+								} else {
+									_QS_canEnableLightnings = _false;
+								};
+								_QS_day_lightnings = _QS_date # 2;
+							};
+							if (_QS_lightningsEnabled) then {
+								_QS_nextLightningsArray = [_QS_date,_QS_worldName,'REALISM','LIGHTNINGS',_QS_currentOvercast] call _fn_weatherConfig;
+								_QS_lightningsChangeTime = _QS_nextLightningsArray # 0;
+								_QS_lightningsNextValue = _QS_nextLightningsArray # 1;
+								if (_QS_currentOvercast > 0.65) then {
+									_QS_lightningsChangeTime setLightnings _QS_lightningsNextValue;
+								} else {
+									_QS_lightningsEnabled = _false;
+									if (_QS_currentLightnings isNotEqualTo 0) then {
+										30 setLightnings 0;
+									};
+								};
 							} else {
-								_QS_lightningsEnabled = _false;
-								if (_QS_currentLightnings isNotEqualTo 0) then {
-									30 setLightnings 0;
+								if (_QS_currentOvercast > 0.65) then {
+									if (_QS_canEnableLightnings) then {
+										_QS_lightningsEnabled = _true;
+									};
 								};
 							};
-						} else {
-							if (_QS_currentOvercast > 0.65) then {
-								if (_QS_canEnableLightnings) then {
-									_QS_lightningsEnabled = _true;
+							_QS_lightningsUpdate_checkDelay = _timeNow + _QS_lightningsUpdate_checkDelay_timer;
+						};
+					};
+					if (_QS_simulateRainbow) then {
+						if (_timeNow > _QS_rainbowUpdate_checkDelay) then {
+							if (_QS_currentRain > 0) then {
+								_QS_nextRainbowArray = [_QS_date,_QS_worldName,'REALISM','RAINBOW',_QS_currentRain] call _fn_weatherConfig;
+								_QS_rainbowChangeTime = _QS_nextRainbowArray # 0;
+								_QS_rainbowNextValue = _QS_nextRainbowArray # 1;
+								_QS_rainbowChangeTime setRainbow _QS_rainbowNextValue;
+							} else {
+								if (_QS_currentRainbow isNotEqualTo 0) then {
+									60 setRainbow 0;
 								};
 							};
+							_QS_rainbowUpdate_checkDelay = _timeNow + _QS_rainbowUpdate_checkDelay_timer;
 						};
-						_QS_lightningsUpdate_checkDelay = _timeNow + _QS_lightningsUpdate_checkDelay_timer;
 					};
-				};
-				if (_QS_simulateRainbow) then {
-					if (_timeNow > _QS_rainbowUpdate_checkDelay) then {
-						if (_QS_currentRain > 0) then {
-							_QS_nextRainbowArray = [_QS_date,_QS_worldName,'REALISM','RAINBOW',_QS_currentRain] call _fn_weatherConfig;
-							_QS_rainbowChangeTime = _QS_nextRainbowArray # 0;
-							_QS_rainbowNextValue = _QS_nextRainbowArray # 1;
-							_QS_rainbowChangeTime setRainbow _QS_rainbowNextValue;
-						} else {
-							if (_QS_currentRainbow isNotEqualTo 0) then {
-								60 setRainbow 0;
-							};
+					if (_QS_simulateGusts) then {
+						if (_timeNow > _QS_gustsUpdate_checkDelay) then {
+							_QS_nextGustsArray = [_QS_date,_QS_worldName,'REALISM','GUSTS',_QS_currentWind] call _fn_weatherConfig;
+							_QS_gustsChangeTime = _QS_nextGustsArray # 0;
+							_QS_gustsNextValue = _QS_nextGustsArray # 1;
+							_QS_gustsChangeTime setGusts _QS_gustsNextValue;
+							_QS_gustsUpdate_checkDelay = _timeNow + _QS_gustsUpdate_checkDelay_timer;
 						};
-						_QS_rainbowUpdate_checkDelay = _timeNow + _QS_rainbowUpdate_checkDelay_timer;
 					};
-				};
-				if (_QS_simulateGusts) then {
-					if (_timeNow > _QS_gustsUpdate_checkDelay) then {
-						_QS_nextGustsArray = [_QS_date,_QS_worldName,'REALISM','GUSTS',_QS_currentWind] call _fn_weatherConfig;
-						_QS_gustsChangeTime = _QS_nextGustsArray # 0;
-						_QS_gustsNextValue = _QS_nextGustsArray # 1;
-						_QS_gustsChangeTime setGusts _QS_gustsNextValue;
-						_QS_gustsUpdate_checkDelay = _timeNow + _QS_gustsUpdate_checkDelay_timer;
-					};
-				};
-				if (_QS_weatherEventsEnabled) then {
-					if (_QS_simulateEvent_storm) then {
-						_QS_simulateEvent_storm = _false;
-						_QS_simulateEvent_override = _true;
-						_QS_simulateEvent_data = [
-							'STORM',							/*/TYPE/*/
-							(time + 1200),					/*/DURATION/*/
-							[0,1],							/*/OVERCAST/*/
-							[0,(random [0,0.05,0.15])],		/*/RAIN/*/
-							[0,1],							/*/WAVES/*/
-							[0,(random [0.75,0.875,1])],			/*/LIGHTNINGS/*/
-							[0,1],							/*/RAINBOW/*/
-							[0,[0,0,0]]						/*/FOG/*/
-						];
-						((_QS_simulateEvent_data # 2) # 0) setOvercast ((_QS_simulateEvent_data # 2) # 1);
-						((_QS_simulateEvent_data # 3) # 0) setRain ((_QS_simulateEvent_data # 3) # 1);
-						((_QS_simulateEvent_data # 4) # 0) setWaves ((_QS_simulateEvent_data # 4) # 1);
-						((_QS_simulateEvent_data # 5) # 0) setLightnings ((_QS_simulateEvent_data # 5) # 1);
-						((_QS_simulateEvent_data # 6) # 0) setRainbow ((_QS_simulateEvent_data # 6) # 1);
-						((_QS_simulateEvent_data # 7) # 0) setFog ((_QS_simulateEvent_data # 7) # 1);
-						forceWeatherChange;
-						/*/ WIP /*/
-					};
-					if (_QS_simulateEvent_fog) then {
-						_QS_simulateEvent_override = _true;
-						/*/ WIP /*/
-					};
-					if (_QS_simulateEvent_wind) then {
-						_QS_simulateEvent_override = _true;
-						/*/ WIP /*/
-					};
-				};
-				if (_QS_weatherSave) then {
-					if (_timeNow > _QS_weatherSave_checkDelay) then {
-						_QS_currentWeatherData = [wind,windDir,windStr,overcast,rain,fogParams,gusts,lightnings,waves,rainbow];
-						if (!(_QS_module_restart_isRestarting)) then {
-							missionProfileNamespace setVariable [(format ['QS_QRF_weatherCurrent_%1',worldName]),_QS_currentWeatherData];
-						};
-						_QS_weatherSave_checkDelay = _timeNow + _QS_weatherSave_delay;
-					};
-				};	
-			} else {
-				//comment 'Override is TRUE';
-				if (_timeNow > (_QS_simulateEvent_data # 1)) then {
-					//comment 'Terminate override';
-					_QS_simulateEvent_override = _false;
-				} else {
-					if ((_QS_simulateEvent_data # 0) isEqualTo 'STORM') then {
-						//comment 'Storm event in progress';
-						if (!(_QS_currentOvercast > 0.95)) then {
+					if (_QS_weatherEventsEnabled) then {
+						if (_QS_simulateEvent_storm) then {
+							_QS_simulateEvent_storm = _false;
+							_QS_simulateEvent_override = _true;
+							_QS_simulateEvent_data = [
+								'STORM',							/*/TYPE/*/
+								(time + 1200),					/*/DURATION/*/
+								[0,1],							/*/OVERCAST/*/
+								[0,(random [0,0.05,0.15])],		/*/RAIN/*/
+								[0,1],							/*/WAVES/*/
+								[0,(random [0.75,0.875,1])],			/*/LIGHTNINGS/*/
+								[0,1],							/*/RAINBOW/*/
+								[0,[0,0,0]]						/*/FOG/*/
+							];
 							((_QS_simulateEvent_data # 2) # 0) setOvercast ((_QS_simulateEvent_data # 2) # 1);
-						};
-						if (_QS_currentRain isNotEqualTo ((_QS_simulateEvent_data # 3) # 1)) then {
 							((_QS_simulateEvent_data # 3) # 0) setRain ((_QS_simulateEvent_data # 3) # 1);
-						};
-						if (_QS_currentWaves isNotEqualTo ((_QS_simulateEvent_data # 4) # 1)) then {
 							((_QS_simulateEvent_data # 4) # 0) setWaves ((_QS_simulateEvent_data # 4) # 1);
-						};
-						if (_QS_currentLightnings isNotEqualTo ((_QS_simulateEvent_data # 5) # 1)) then {
 							((_QS_simulateEvent_data # 5) # 0) setLightnings ((_QS_simulateEvent_data # 5) # 1);
-						};
-						if (_QS_currentRainbow isNotEqualTo ((_QS_simulateEvent_data # 6) # 1)) then {
 							((_QS_simulateEvent_data # 6) # 0) setRainbow ((_QS_simulateEvent_data # 6) # 1);
-						};
-						if (_QS_currentFog isNotEqualTo ((_QS_simulateEvent_data # 7) # 1)) then {
 							((_QS_simulateEvent_data # 7) # 0) setFog ((_QS_simulateEvent_data # 7) # 1);
-						};	
+							forceWeatherChange;
+							/*/ WIP /*/
+						};
+						if (_QS_simulateEvent_fog) then {
+							_QS_simulateEvent_override = _true;
+							/*/ WIP /*/
+						};
+						if (_QS_simulateEvent_wind) then {
+							_QS_simulateEvent_override = _true;
+							/*/ WIP /*/
+						};
+					};
+					if (_QS_weatherSave) then {
+						if (_timeNow > _QS_weatherSave_checkDelay) then {
+							_QS_currentWeatherData = [wind,windDir,windStr,overcast,rain,fogParams,gusts,lightnings,waves,rainbow];
+							if (!(_QS_module_restart_isRestarting)) then {
+								missionProfileNamespace setVariable [(format ['QS_QRF_weatherCurrent_%1',worldName]),_QS_currentWeatherData];
+							};
+							_QS_weatherSave_checkDelay = _timeNow + _QS_weatherSave_delay;
+						};
+					};	
+				} else {
+					//comment 'Override is TRUE';
+					if (_timeNow > (_QS_simulateEvent_data # 1)) then {
+						//comment 'Terminate override';
+						_QS_simulateEvent_override = _false;
+					} else {
+						if ((_QS_simulateEvent_data # 0) isEqualTo 'STORM') then {
+							//comment 'Storm event in progress';
+							if (!(_QS_currentOvercast > 0.95)) then {
+								((_QS_simulateEvent_data # 2) # 0) setOvercast ((_QS_simulateEvent_data # 2) # 1);
+							};
+							if (_QS_currentRain isNotEqualTo ((_QS_simulateEvent_data # 3) # 1)) then {
+								((_QS_simulateEvent_data # 3) # 0) setRain ((_QS_simulateEvent_data # 3) # 1);
+							};
+							if (_QS_currentWaves isNotEqualTo ((_QS_simulateEvent_data # 4) # 1)) then {
+								((_QS_simulateEvent_data # 4) # 0) setWaves ((_QS_simulateEvent_data # 4) # 1);
+							};
+							if (_QS_currentLightnings isNotEqualTo ((_QS_simulateEvent_data # 5) # 1)) then {
+								((_QS_simulateEvent_data # 5) # 0) setLightnings ((_QS_simulateEvent_data # 5) # 1);
+							};
+							if (_QS_currentRainbow isNotEqualTo ((_QS_simulateEvent_data # 6) # 1)) then {
+								((_QS_simulateEvent_data # 6) # 0) setRainbow ((_QS_simulateEvent_data # 6) # 1);
+							};
+							if (_QS_currentFog isNotEqualTo ((_QS_simulateEvent_data # 7) # 1)) then {
+								((_QS_simulateEvent_data # 7) # 0) setFog ((_QS_simulateEvent_data # 7) # 1);
+							};	
+						};
+					};
+				};
+			} else {
+				// Weather is forced and has a valid preset
+				if (_QS_weatherForced > -1) then {
+					if (_timeNow > _forcedWeatherUpdateCheckDelay) then {
+						[_QS_weatherForced] call _fn_weatherPreset;
+						_forcedWeatherUpdateCheckDelay = _timeNow + _forcedWeatherUpdateDelay;
 					};
 				};
 			};
-			if (!(_QS_weatherDynamic)) then {
-				if (_timeNow > _forcedWeatherUpdateCheckDelay) then {
-					[_QS_weatherForced] call _fn_weatherPreset;
-					sleep 0.1;
-					_forcedWeatherUpdateCheckDelay = _timeNow + _forcedWeatherUpdateDelay;
-				};
-			};
+			// Synchronize Weather
+			// Synchronize immediately with stutter
 			if (_QS_forceWeatherChange) then {
-				if (missionNamespace getVariable 'QS_forceWeatherChange') then {
+				if (missionNamespace getVariable ['QS_forceWeatherChange',_false]) then {
 					if (_timeNow > _QS_forceWeatherChange_delay) then {
 						forceWeatherChange;
 						_QS_forceWeatherChange_delay = _timeNow + _QS_forceWeatherChange_delayTimer;
 					};
 				};
 			};
+			// Synchronize over time with no stutter
 			if (_QS_weatherSyncMP) then {
-				if (missionNamespace getVariable 'QS_weatherSync') then {
+				if (missionNamespace getVariable ['QS_weatherSync',_true]) then {
 					if (_timeNow > _QS_weatherSyncMP_delay) then {
 						[
 							38,
@@ -4504,7 +4479,9 @@ for '_x' from 0 to 1 step 0 do {
 								[_true,30,lightnings],
 								[_true,30,rainbow],
 								[_true,humidity]
-							]
+							],
+							_QS_weatherDynamic,
+							_QS_weatherForced
 						] remoteExec ['QS_fnc_remoteExec',-2,_false];
 						_QS_weatherSyncMP_delay = _timeNow + _QS_weatherSyncMP_interval;
 					};
@@ -4646,7 +4623,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (!isNull _lfneck) then {
 				if (!isNull _lfpilot) then {
 					if (!isNull _lftarget) then {
-						if ((count _allPlayers) > 0) then {
+						if (_allPlayers isNotEqualTo []) then {
 							_pool = [];
 							{
 								_testPlayer = _x;
@@ -4672,12 +4649,12 @@ for '_x' from 0 to 1 step 0 do {
 									_nextPlayerVehicle = vehicle _nextPlayer;
 									missionNamespace setVariable ['QS_RD_liveFeed_vehicle',_nextPlayerVehicle,_true];
 									if (isNull (objectParent _nextPlayerVehicle)) then {
-										detach _lfneck;
-										_lfneck attachTo [_nextPlayer,[0,0,0],'neck',_true];
-										detach _lfpilot;
-										_lfpilot attachTo [_nextPlayer,[0,0,0],'pilot',_true];
-										detach _lftarget;
-										_lftarget attachTo [_lfneck,[0.5,10,1]];
+										[0,_lfneck] call _fn_eventAttach;
+										[1,_lfneck,[_nextPlayer,[0,0,0],'neck',_true]] call _fn_eventAttach;
+										[0,_lfpilot] call _fn_eventAttach;
+										[1,_lfpilot,[_nextPlayer,[0,0,0],'pilot',_true]] call _fn_eventAttach;
+										[0,_lftarget] call _fn_eventAttach;
+										[1,_lftarget,[_lfneck,[0.5,10,1]]] call _fn_eventAttach;
 									} else {
 										_memPoints = _nextPlayerVehicle getVariable ['QS_RD_liveFeed_vehicle_memPoints',[]];
 										if (_memPoints isEqualTo []) then {
@@ -4690,12 +4667,12 @@ for '_x' from 0 to 1 step 0 do {
 											_nextPlayerVehicle setVariable ['QS_RD_liveFeed_vehicle_memPoints',_memPoints,_false];
 										};
 										if (_memPoints isNotEqualTo []) then {
-											_lfpilot attachTo [_nextPlayerVehicle,[0,0,0],_memPoints];
+											[1,_lfpilot,[_nextPlayerVehicle,[0,0,0],_memPoints]] call _fn_eventAttach;
 										} else {
-											_lfpilot attachTo [_nextPlayerVehicle,[0,0,0]];
+											[1,_lfpilot,[_nextPlayerVehicle,[0,0,0]]] call _fn_eventAttach;
 										};
-										detach _lftarget;
-										_lftarget attachTo [_nextPlayerVehicle,[0,15,0]];
+										[0,_lftarget] call _fn_eventAttach;
+										[1,_lftarget,[_nextPlayerVehicle,[0,15,0]]] call _fn_eventAttach;
 									};
 								};
 							};
@@ -4798,7 +4775,7 @@ for '_x' from 0 to 1 step 0 do {
 											_unit = (createGroup [_QS_module_recruitableAI_side,_true]) createUnit [QS_core_units_map getOrDefault [toLowerANSI _t,_t],[0,0,0],[],15,'NONE'];
 											_unit setDir _unitDir;
 											(group _unit) setFormDir _unitDir;
-											_unit setPosASL (AGLToASL _unitPos);
+											_unit setPosASL _unitPos;
 											_unit enableDynamicSimulation _true;
 											[_unit,'A3CG'] call _fn_setUnitInsignia;
 											[_unit] call _configCode;
@@ -5132,7 +5109,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (!isNull _x) then {
 						if (alive _x) then {
 							if ((_x distance2D _gitmo) > 25) then {
-								if (([(getPosATL _x),200,[_west],_allPlayers,0] call _fn_serverDetector) isEqualTo []) then {
+								if (([_x,200,[_west],_allPlayers,0] call _fn_serverDetector) isEqualTo []) then {
 									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									deleteVehicle _x;
 									_QS_enemyCaptives set [_forEachIndex,_false];
@@ -5564,7 +5541,7 @@ for '_x' from 0 to 1 step 0 do {
 				) then {
 					diag_log '***** Server restarting as scheduled *****';
 					_QS_module_restart_isRestarting = _true;
-					0 spawn _QS_module_restart_script;
+					0 spawn QS_fnc_serverRestart;
 				};
 			};
 			_QS_module_restart_checkDelay = _timeNow + _QS_module_restart_delay;
@@ -5576,4 +5553,4 @@ diag_log format ['* %1 ***** QS ***** DEBUG ***** MISSION ENGINE TERMINATED ****
 if (!(_resumeScript)) then {
 	['hint',(parseText 'Uho! It appears something has gone wrong. Please report this error code to staff:<br/><br/>811<br/><br/>Thank you for your assistance.')] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 };
-0 spawn _QS_module_restart_script;
+0 spawn QS_fnc_serverRestart;

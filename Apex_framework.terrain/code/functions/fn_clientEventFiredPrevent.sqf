@@ -33,7 +33,7 @@ if (_mode isEqualTo 1) exitWith {
 				FALSE,
 				TRUE,
 				'defaultAction',
-				'((_target isEqualTo cameraOn) || {(!(cameraOn isKindOf "CAManBase")) && (_target in cameraOn)})'		// A3 2.16 - (_target isEqualTo focusOn)
+				'((_target isEqualTo cameraOn) || {(!(cameraOn isKindOf "CAManBase")) && (_target in cameraOn)})'		// A3 2.16 - replace cameraOn with focusOn
 			]),
 			FALSE
 		];

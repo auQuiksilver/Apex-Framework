@@ -656,7 +656,7 @@ for '_x' from 0 to 1 step 0 do {
 	_QS_uiTime = diag_tickTime;
 	_QS_time = time;
 	_QS_serverTime = serverTime;
-	/*/Module get general data/*/
+	/*/Get general data/*/
 	if (_QS_uiTime > _QS_updateGeneralInfoCheckDelay) then {
 		_QS_diag_fps = round diag_fps;
 		_QS_allPlayers = allPlayers;
@@ -883,7 +883,6 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_QS_module_dynamicSkill) then {
 		if (_QS_uiTime > _QS_module_dynamicSkill_checkDelay) then {
-			/*/pulled from release build/*/
 			_QS_module_dynamicSkill_checkDelay = _QS_uiTime + _QS_module_dynamicSkill_delay;
 		};
 	};

@@ -125,6 +125,8 @@ QS_hashmap_wreckTypes = createHashMapFromArray (call QS_data_wreckTypes);
 QS_hashmap_lasers = createHashMapFromArray ([0] call QS_data_lasers);
 QS_hashmap_lasersCustomOffsets = createHashMapFromArray ([1] call QS_data_lasers);
 QS_hashmap_maxCargoCapacity = createHashMap;
+QS_hashmap_classLists = createHashMap;
+QS_hashmap_unitLoadouts = createHashMapFromArray (call (compileScript ['code\config\QS_data_unitClassLoadouts.sqf']));
 
 // Get active DLC
 private _activeDLC = call (missionNamespace getVariable 'QS_fnc_getActiveDLC');
@@ -135,6 +137,7 @@ QS_core_units_map = createHashMapFromArray (call QS_data_tableUnits);
 QS_core_vehicles_map = createHashMapFromArray (call QS_data_tableVehicles);
 QS_core_groups_map = createHashMapFromArray (call QS_data_groupCompositions);
 QS_core_civilians_list = call QS_data_tableCivilians;
+QS_core_unittraits_map = createHashMap;
 QS_data_playerBuildables = call (compileScript ['code\config\QS_data_playerBuildables.sqf',TRUE]);
 QS_hashmap_classLists = createHashMap;
 if (_activeDLC isEqualTo '') then {

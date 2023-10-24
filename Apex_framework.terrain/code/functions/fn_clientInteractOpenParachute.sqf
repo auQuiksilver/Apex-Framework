@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/12/2022 A3 2.10 by Quiksilver
+	12/10/2022 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -34,11 +34,15 @@ if (isNull _objectParent) then {
 } else {
 	_position = getPosWorld _objectParent;
 	_velocity = velocity _objectParent;
-	_para = createVehicle [qs_core_classnames_vehicleparachute,_position];
+	private _chuteType = qs_core_classnames_vehicleparachute;
+	if (_objectParent isKindOf 'Tank') then {
+		_chuteType = qs_core_classnames_vehicleparachute; //_chuteType = 'SpaceshipCapsule_01_parachute_F';
+	};
+	_para = createVehicle [_chuteType,_position];
 	_para setPosWorld (_position vectorAdd [0,0,5]);
 	_para allowDamage FALSE;
 	_para setDir (getDir _objectParent);
-	_objectParent attachTo [_para,[0,0,1]];
+	[1,_objectParent,[_para,[0,0,1]]] call QS_fnc_eventAttach;
 	_para setVelocity _velocity;
 	[_para,_velocity] spawn {
 		params ['_para','_velocity'];
@@ -54,11 +58,12 @@ if (isNull _objectParent) then {
 			(
 				(((getPos _objectparent) # 2) < 10) ||
 				{(!alive _objectparent)} ||
-				{(isNull (attachedTo _objectParent))}
+				{(isNull (attachedTo _objectParent))} ||
+				{isNull _para}
 			)
 		};
 		if (!isNull (attachedTo _objectParent)) then {
-			detach _objectParent;
+			[0,_objectParent] call QS_fnc_eventAttach;
 			sleep 1;
 			deleteVehicle _para;
 		};

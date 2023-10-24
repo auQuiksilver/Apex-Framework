@@ -186,9 +186,9 @@ if (
 		_logic setVariable ['QS_cleanup_protected',TRUE,FALSE];
 		_carrier setVariable ['QS_carrier_defenseLogic',_logic,FALSE];
 		_logic setPosWorld (getPosWorld _carrier);
-		_logic attachTo [_carrier,[0,0,0]];
+		[1,_logic,[_carrier,[0,0,0]]] call QS_fnc_eventAttach;
 		_logic setDir (getDir _carrier);
-		detach _logic;
+		[0,_logic] call QS_fnc_eventAttach;
 		private _prop = objNull;
 		{
 			_prop = createVehicle [(_x # 0),[-100,-100,0],[],5,'NONE'];
@@ -196,7 +196,7 @@ if (
 			_prop setDir ((getDir _carrier) - (_x # 2));
 			_prop allowDamage FALSE;
 			if ((toLowerANSI (_x # 0)) in ['land_destroyer_01_boat_rack_01_f']) then {
-				[_prop,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+				[_prop,_logic,TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 				_prop enableSimulationGlobal TRUE;
 			};
 			if ((_x # 3) isNotEqualTo {}) then {
@@ -308,7 +308,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 				_turret setDir ((getDir (missionNamespace getVariable 'QS_destroyerObject')) - (_x # 2));
 				_turret setPosWorld ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld (_x # 1));
 				_turret setVelocity [0,0,0];
-				[_turret,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+				[_turret,_logic,TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 				_turret enableSimulation TRUE;
 				_turret setVehicleReportRemoteTargets FALSE;
 				_turret setVehicleReceiveRemoteTargets FALSE;

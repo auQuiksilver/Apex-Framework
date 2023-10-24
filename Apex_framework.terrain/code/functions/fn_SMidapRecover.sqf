@@ -373,11 +373,11 @@ for '_x' from 0 to (4 + (round (random 3))) step 1 do {
 	_blood = createVehicle [(selectRandom _bloodTypes),_idapScenePosition,[],0,'CAN_COLLIDE'];
 	_blood setDir (random 360);
 	_blood setPos _emptyPosition;
-	[_agent,_blood,FALSE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+	[_agent,_blood,FALSE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 	_agent spawn {
 		uiSleep (3 + (random 3));
 		//_this setDamage [1,TRUE];
-		detach _this;
+		[0,_this] call QS_fnc_eventAttach;
 	};
 	_allArray pushBack _blood;
 };
@@ -400,7 +400,7 @@ if (_enableDocumentTask) then {
 			_documentTask = TRUE;
 			_documentTable = selectRandom _documentTables;
 			_intelDocument = createSimpleObject ['Land_File1_F',(getPosASL _documentTable)];
-			_intelDocument attachTo [_documentTable,[(-0.3 + (random 0.6)),0.35,0.43]];
+			[1,_intelDocument,[_documentTable,[(-0.3 + (random 0.6)),0.35,0.43]]] call QS_fnc_eventAttach;
 			_intelDocument setDir (random 360);
 			_allArray pushBack _intelDocument;
 			_idapComposition pushBack _intelDocument;

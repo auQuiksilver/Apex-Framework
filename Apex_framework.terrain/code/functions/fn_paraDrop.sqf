@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/12/2015 ArmA 3 1.54 by Quiksilver
+	13/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -26,7 +26,7 @@ waitUntil {
 	(((getPosATL _v) # 2) < _openHeight)
 };
 _p = createVehicle ['O_Parachute_02_F',(getPosATL _v),[],0,'FLY'];
-_v attachTo [_p,[0,1.25,1.5]];
+[1,_v,[_p,[0,1.25,1.5]]] call QS_fnc_eventAttach;
 waitUntil {
 	sleep 0.25;
 	(isTouchingGround _v) ||
@@ -35,7 +35,7 @@ waitUntil {
 	(isNull _v) ||
 	(time > _t)
 };
-detach _v;
+[0,_v] call QS_fnc_eventAttach;
 if ((!((typeOf _v) in _ugvTypes))) then {
 	if (isNull (driver _v)) then {
 		if ((count (crew _v)) > 0) then {

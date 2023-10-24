@@ -116,8 +116,8 @@ if (isDedicated) then {
 						};
 					}
 				];
-				_fireObj attachTo [_wreck,[0,0,0]];
-				detach _fireObj;
+				[1,_fireObj,[_wreck,[0,0,0]]] call QS_fnc_eventAttach;
+				[0,_fireObj] call QS_fnc_eventAttach;
 				_fires pushBack _fireObj;
 				_array pushBack _fireObj;
 				_dir = _dir + (random [100,120,140]);		

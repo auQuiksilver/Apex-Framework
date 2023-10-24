@@ -40,7 +40,7 @@ waitUntil {
 };
 if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 	if (!isNull (attachedTo _unit)) then {
-		detach _unit;
+		[0,_unit] call QS_fnc_eventAttach;
 	};
 	_unit setUnconscious FALSE;
 	_unit switchMove 'amovppnemstpsnonwnondnon';

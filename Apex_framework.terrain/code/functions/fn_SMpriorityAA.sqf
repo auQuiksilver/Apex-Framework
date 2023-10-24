@@ -203,7 +203,7 @@ _compositionData = nil;
 				params ['_killed','_killer','_instigator',''];
 				if ((attachedObjects _killed) isNotEqualTo []) then {
 					{
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 						deleteVehicle _x;
 					} forEach (attachedObjects _killed);
 				};

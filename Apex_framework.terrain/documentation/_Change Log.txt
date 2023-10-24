@@ -1,9 +1,10 @@
 Official Change Log
-
-1.5.6 Dev 11102023
+	
+1.5.6 Dev 24102023
 
 [ADDED] Interaction to 'Pack Up' wreck into logistics container.
-[TWEAKED] Ongoing general scripting optimisations (A3 2.14)
+[ADDED] Parameter to adjust how often server prints general info reports to RPT log.
+[TWEAKED] Various ongoing general scripting optimisations (A3 2.14)
 [TWEAKED] Tow ropes now look more like cables than ropes (will revert if unwanted).
 [TWEAKED] "Unflip" action now accesses the vehicle Winch, when Unflip is disabled and the vehicle has a working winch (to aid unflipping).
 [TWEAKED] GPS alternate mode ( Ctrl + ] ) now properly rotates player icon.
@@ -20,12 +21,20 @@ Official Change Log
 [TWEAKED] Zeus will no longer hear strong gusty wind noise when zeus camera is at high altitude.
 [TWEAKED] Zeus view distance will adjust dynamically when entering/exiting interface (syncs to "Plane" visibility setting).
 [TWEAKED] Passenger in UGV Stomper can now drive the vehicle without a UAV Terminal.
+[TWEAKED] Main Battle Tank cannon recoil dampening now only works when stationary.
+[TWEAKED] Reduced mass of small cargo containers to allow HEMTT flatbed to carry two at once.
+[TWEAKED] Recruitable AI placed in editor can be spawned on elevated surfaces.
+[TWEAKED] Added AI garrison positions to cargo plaftorms.
 [FIXED] Player in seat of vehicle could fire when inside no-fire area.
 [FIXED] Z-axis issue with spawning units in buildings (units spawning way above building and falling down).
 [FIXED] Script error with group commands (Ctrl + numpad gestures).
 [FIXED] Winch system could get stuck in an unbreakable script loop.
 [FIXED] Using Arsenal Mode 3 in parameters would cause player to get stuck accessing Arsenal after changing roles.
 [FIXED] T100X Futura tank now fires properly
+[FIXED] Server would get stuck in a reboot loop if only one daily restart was set in parameters.
+[FIXED] Script Errors event was not saving unique script errors properly.
+[FIXED] Case sensitivity bug with enemy reinforcing in urban areas. Enemies should respawn in urban areas more reliably.
+[FIXED] New logistics containers were not having their mass set correctly over MP network.
 
 1.5.5 Stable Patch 1
 

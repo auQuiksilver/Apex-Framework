@@ -39,7 +39,7 @@ if (_mode isEqualTo 1) exitWith {
 			deleteVehicle (QS_global_wreckSmokes # 0);
 		};
 		_smoke = createVehicle ['test_EmptyObjectForSmoke',[0,0,0]];
-		_smoke attachTo [_vehicle,_modelPos];
+		[1,_smoke,[_vehicle,_modelPos]] call QS_fnc_eventAttach;
 		_vehicle setVariable ['QS_effect_smoke',_smoke,TRUE];
 		_event = _vehicle addEventHandler ['Deleted',{
 			params ['_entity'];

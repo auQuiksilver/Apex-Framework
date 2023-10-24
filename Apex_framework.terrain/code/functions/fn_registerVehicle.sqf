@@ -59,7 +59,7 @@ _this spawn {
 		{(!(_vehicle getVariable ['QS_missionObject_protected',FALSE]))}
 	) exitWith {};
 	private _vehicleType = typeOf _vehicle;
-	private _spawnPosition = (ASLToAGL (getPosASL _vehicle)) vectorAdd [0,0,([0.1,0] select (surfaceIsWater (getPosASL _vehicle)))];	/*/ Ideally we'd use ASL but a lot of internal changes would have to be made and tested+verified .../*/
+	private _spawnPosition = (ASLToAGL (getPosASL _vehicle)) vectorAdd [0,0,([0.1,0] select (surfaceIsWater (getPosASL _vehicle)))];
 	private _spawnDirection = getDir _vehicle;
 	private _isRespawning = FALSE;
 	private _canRespawnAfter = 0;
@@ -87,7 +87,7 @@ _this spawn {
 	if (isNil {serverNamespace getVariable 'QS_v_Monitor'}) then {
 		serverNamespace setVariable ['QS_v_Monitor',[]];
 	};
-	_wreckChance = [_wreckChance,0] select ((_vehicle isKindOf 'Helicopter') && ((getAllPylonsInfo _vehicle) isEqualTo []));		// Hard disable wreck-chance for unarmed Transport helicopters
+	_wreckChance = [_wreckChance,0] select ((_vehicle isKindOf 'Helicopter') && ((getAllPylonsInfo _vehicle) isEqualTo []));
 	(serverNamespace getVariable 'QS_v_Monitor') pushBack [
 		_vehicle,
 		_respawnDelay,

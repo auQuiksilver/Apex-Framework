@@ -6,11 +6,22 @@ Author:
 	
 Last Modified:
 
-	31/05/2023 A3 2.12 by Quiksilver
+	24/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
 	Container setup
+	
+private _deployParams = _cursorObject getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]];
+_deployParams params [
+	'_deploySafeRadius',
+	'_deployCooldown',
+	'_packSafeRadius',
+	'_packCooldown',
+	'_safeDistance',
+	'_buildRadius',
+	['_deployRestrictedZoneDistance',100]
+];
 _____________________________________*/
 
 params ['_entity'];
@@ -35,8 +46,12 @@ if (
 	_entity setVariable ['QS_ST_showDisplayName',TRUE,TRUE];
 };
 if (['cargo20',_entityType] call QS_fnc_inString) then {
-	if ((getMass _u) > 10000) then {
-		_u setMass 10000;
+	if ((getMass _entity) > 10000) then {
+		if (local _entity) then {
+			_entity setMass 10000;
+		} else {
+			['setMass',_entity,10000] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+		};
 	};
 };
 if (_entity isKindOf 'Land_Cargo10_blue_F') exitWith {
@@ -52,7 +67,11 @@ if (_entity isKindOf 'Land_Cargo10_blue_F') exitWith {
 		['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> _class >> 'displayName')),TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
-	_entity setMass 2500;
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 if (_entity isKindOf 'Land_Cargo10_cyan_F') exitWith {
 	//comment 'Mobile RADAR';
@@ -67,7 +86,11 @@ if (_entity isKindOf 'Land_Cargo10_cyan_F') exitWith {
 		['QS_ST_customDN',(getText (configFile >> 'CfgVehicles' >> _class >> 'displayName')),TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
-	_entity setMass 2500;
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 if (_entity isKindOf 'Land_Cargo10_light_blue_F') exitWith {
 	//comment 'Nothing yet';
@@ -122,6 +145,11 @@ if (_entity isKindOf 'Land_Cargo10_grey_F') exitWith {
 		['QS_ST_customDN',localize 'STR_QS_Text_451',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 if (_entity isKindOf 'Land_Cargo10_military_green_F') exitWith {
 	//comment 'Base Medium or Heavy fortifications';
@@ -138,7 +166,11 @@ if (_entity isKindOf 'Land_Cargo10_military_green_F') exitWith {
 		['QS_ST_customDN',localize 'STR_QS_Text_450',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
-	_entity setMass 7500;
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 if (_entity isKindOf 'Land_Cargo10_light_green_F') exitWith {
 	//comment 'Base Small or Medium/Light fortifications';
@@ -155,7 +187,11 @@ if (_entity isKindOf 'Land_Cargo10_light_green_F') exitWith {
 		['QS_ST_customDN',localize 'STR_QS_Text_449',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
-	_entity setMass 4999;
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 if (_entity isKindOf 'Land_Cargo10_sand_F') exitWith {
 	//comment 'Platform Kit';
@@ -172,6 +208,11 @@ if (_entity isKindOf 'Land_Cargo10_sand_F') exitWith {
 		['QS_ST_customDN',localize 'STR_QS_Text_448',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 
 if (_entity isKindOf 'Land_Cargo10_white_F') exitWith {
@@ -189,6 +230,11 @@ if (_entity isKindOf 'Land_Cargo10_white_F') exitWith {
 		['QS_ST_showDisplayName',TRUE,TRUE],
 		['QS_logistics_deployable',TRUE,TRUE]
 	];
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 if (_entity isKindOf 'Land_Cargo10_yellow_F') exitWith {
 	//comment 'Terrain';
@@ -204,6 +250,11 @@ if (_entity isKindOf 'Land_Cargo10_yellow_F') exitWith {
 		['QS_logistics_deployable',TRUE,TRUE],
 		['QS_deploy_preset',17,TRUE]
 	];
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 if (_entity isKindOf 'land_cargo10_idap_f') exitWith {
 	//comment 'Field Hospital';

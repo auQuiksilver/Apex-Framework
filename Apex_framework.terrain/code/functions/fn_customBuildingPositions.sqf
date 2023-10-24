@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/06/2019 A3 1.94 by Quiksilver
+	24/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -575,8 +575,8 @@ if ((_type in ['land_guardhouse_02_f','land_guardhouse_02_grey_f']) || {(_model 
 	_buildingPositions;	
 };
 if ((_type in ['land_barn_01_brown_f','land_barn_01_grey_f']) || {(_model in [
-	"a3\structures_f_argo\industrial\agriculture\barn_01_brown_f.p3d",
-	"a3\structures_f_argo\industrial\agriculture\barn_01_grey_f.p3d"
+	'a3\structures_f_argo\industrial\agriculture\barn_01_brown_f.p3d',
+	'a3\structures_f_argo\industrial\agriculture\barn_01_grey_f.p3d'
 ])}) exitWith {
 	//comment 'Malden barn';
 	if (isSimpleObject _building) then {
@@ -598,5 +598,23 @@ if ((_type in ['land_barn_01_brown_f','land_barn_01_grey_f']) || {(_model in [
 		0 = _buildingPositions pushBack (_building modelToWorld _x);
 	} count _array;
 	_buildingPositions;	
+};
+if ((_type isKindOf 'cargoplatform_01_base_f') || {(_model in [
+	'a3\structures_f_enoch\military\camps\cargoplatform_01_f.p3d'
+])}) exitWith {
+	_array = [
+		[-1.48682,-1.68408,3.75333],
+		[-1.59961,-0.0678711,3.75333],
+		[-1.45264,1.60986,3.75333],
+		[0.23877,1.5625,3.75333],
+		[0.289795,-1.81055,3.75333],
+		[1.78955,-1.93604,3.75333],
+		[1.69263,-0.198242,3.75333],
+		[1.67188,1.53906,3.75333]
+	];
+	{
+		0 = _buildingPositions pushBack (_building modelToWorld _x);
+	} count _array;
+	_buildingPositions;
 };
 _buildingPositions;

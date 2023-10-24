@@ -29,7 +29,7 @@ AR_Client_Rappel_From_Heli = compileFinal "
 		if (!local _heli) then {
 			[65,_anchor,_heli,FALSE] remoteExecCall ['QS_fnc_remoteExec',_heli,FALSE];
 		};
-		_anchor attachTo [_heli,_rappelPoint];
+		[1,_anchor,[_heli,_rappelPoint]] call QS_fnc_eventAttach;
 		_deviceType = 'B_UAV_01_F';
 		_rappelDevice = createVehicle [_deviceType,[(random 10),(random 10),(10 + (random 10))],[],0,'NONE'];
 		_rappelDevice allowDamage false;

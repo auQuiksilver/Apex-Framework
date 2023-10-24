@@ -158,7 +158,7 @@ if (isPlayer _killed) then {
 		if (
 			(unitIsUAV _killer) &&
 			{(!local _killer)} &&
-			{(([(getPosATL _killer),15,[WEST,CIVILIAN],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo [])}
+			{(([_killer,15,[WEST,CIVILIAN],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo [])}
 		) then {
 			deleteVehicle _killer;
 		};
@@ -183,7 +183,7 @@ if (isPlayer _killed) then {
 	} else {
 		if (_killed isKindOf 'Reammobox_F') then {
 			if (!isNull (attachedTo _killed)) then {
-				detach _killed;
+				[0,_killed] call QS_fnc_eventAttach;
 			};
 			if (!isNull (isVehicleCargo _killed)) then {
 				objNull setVehicleCargo _killed;
@@ -192,7 +192,7 @@ if (isPlayer _killed) then {
 		if (_killed isKindOf 'AllVehicles') then {
 			{
 				if (alive _x) then {
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 					_x setDamage [1,FALSE];
 					deleteVehicle _x;
 				};

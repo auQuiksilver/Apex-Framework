@@ -81,8 +81,8 @@ _objectTypes = ['Land_Laptop_03_black_F','Land_Laptop_device_F'];
 _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
 _object enableSimulationGlobal TRUE;
-_researchTable attachTo [QS_sideObj,[0,0,-2.875]];
-_object attachTo [QS_sideObj,[0,0,-2.3]];
+[1,_researchTable,[QS_sideObj,[0,0,-2.875]]] call QS_fnc_eventAttach;
+[1,_object,[QS_sideObj,[0,0,-2.3]]] call QS_fnc_eventAttach;
 for '_x' from 0 to 2 step 1 do {
 	_object setVariable ['QS_secureable',TRUE,TRUE];
 	_object setVariable ['QS_isExplosion',TRUE,TRUE];
@@ -145,7 +145,7 @@ for '_x' from 0 to 1 step 0 do {
 				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 				FALSE
 			];
-			detach _x;
+			[0,_x] call QS_fnc_eventAttach;
 			deleteVehicle _x;
 		} count [_object,_researchTable];
 		sleep 120;
@@ -179,7 +179,7 @@ for '_x' from 0 to 1 step 0 do {
 			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 			FALSE
 		];
-		detach _object;
+		[0,_object] call QS_fnc_eventAttach;
 		deleteVehicle _object;
 		uiSleep 14;											/*/ ghetto bomb timer/*/
 		'Bo_Mk82' createVehicle (getPosATL _dummy); 				/*/default "Bo_Mk82"/*/
@@ -189,7 +189,7 @@ for '_x' from 0 to 1 step 0 do {
 				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 				FALSE
 			];
-			detach _x;
+			[0,_x] call QS_fnc_eventAttach;
 			deleteVehicle _x;
 		} count [_dummy,_researchTable];
 		sleep 0.1;

@@ -51,7 +51,7 @@ if (_type isEqualTo 'UP') then {
 					} else {
 						if (_attachEnabled) then {
 							_attached = TRUE;
-							_slingLoad attachTo [_vehicle,_attachCoordinates];
+							[1,_slingLoad,[_vehicle,_attachCoordinates]] call QS_fnc_eventAttach;
 							_vehicle disableCollisionWith _slingLoad;
 							_slingLoad disableCollisionWith _vehicle;
 						};
@@ -84,14 +84,14 @@ if (_type isEqualTo 'DOWN') then {
 			} else {
 				// Check bounding box intersection here for obstructions
 				_attachCoordinates set [2,((_attachCoordinates # 2) - ([1,0.1] select (isTouchingGround _vehicle)))];
-				_slingLoad attachTo [_vehicle,_attachCoordinates];
+				[1,_slingLoad,[_vehicle,_attachCoordinates]] call QS_fnc_eventAttach;
 				[_vehicle,_slingLoad,_slingData] spawn {
 					params ['_vehicle','_slingLoad','_slingData'];
 					_slingData params ['','','_attachEnabled','_attachCoordinates','_min','_max','_speed','_speedFast'];
 					_vehicle disableCollisionWith _slingLoad;
 					_slingLoad disableCollisionWith _vehicle;
 					uiSleep 0.1;
-					detach _slingLoad;
+					[0,_slingLoad] call QS_fnc_eventAttach;
 					50 cutText [localize 'STR_QS_Text_246','PLAIN DOWN',0.3];
 					uiSleep 0.2;
 					_vehicle enableCollisionWith _slingLoad;
@@ -104,7 +104,7 @@ if (_type isEqualTo 'DOWN') then {
 					_slingLoad2 = _vehicle getVariable ['QS_sling_attached',objNull];
 					if (!isNull _slingLoad2) then {
 						if (_slingLoad2 in (attachedObjects _vehicle)) then {
-							detach _slingLoad2;
+							[0,_slingLoad2] call QS_fnc_eventAttach;
 							uiSleep 0.2;
 							_vehicle enableCollisionWith _slingLoad2;
 							_slingLoad2 enableCollisionWith _vehicle;

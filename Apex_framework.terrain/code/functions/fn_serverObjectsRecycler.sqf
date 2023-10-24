@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	5/10/2018 A3 1.84 by Quiksilver
+	23/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -137,65 +137,66 @@ if (_type isEqualTo 1) exitWith {
 	_return = FALSE;
 	_object = _this # 2;
 	// Put object into recycler
-	if (!isNull _object) then {
-		if (!(isSimpleObject _object)) then {
-			if ((_object isKindOf 'CAManBase') && (alive _object)) then {
-				if (missionNamespace getVariable ['QS_recycler_units',FALSE]) then {
-					if (local _object) then {
-						// if the unit is the right type and there is room in the recycler
-						if (({(alive _x)} count ((missionNamespace getVariable 'QS_recycler_objects') # 2)) < (missionNamespace getVariable ['QS_recycler_unitCount',10])) then {
-							if ((toLowerANSI (typeOf _object)) in (missionNamespace getVariable ['QS_recycler_unitTypes',[]])) then {
-								_return = TRUE;
-								private _grp = missionNamespace getVariable ['QS_recycler_nullGrp',grpNull];
-								if (isNull _grp) then {
-									_grp = createGroup [CIVILIAN,FALSE];
-									missionNamespace setVariable ['QS_recycler_nullGrp',_grp,FALSE];
-									_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
-									_grp enableDynamicSimulation FALSE;
-								} else {
-									if (!local _grp) then {
-										_grp setGroupOwner 2;
-									};
-								};
-								{
-									if (!isNull _object) then {
-										_object setVariable [_x,nil,FALSE];
-									};
-								} forEach (allVariables _object);
-								_object setVariable ['QS_dynSim_ignore',TRUE,FALSE];
-								_object setVariable ['QS_curator_disableEditability',TRUE,FALSE];
-								_object setPosASL (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
-								_object hideObjectGlobal TRUE;
-								_object enableSimulationGlobal FALSE;
-								_object enableDynamicSimulation FALSE;
-								_object enableAIFeature ['ALL',FALSE];
-								[_object] joinSilent _grp;
-								if ((damage _object) > 0) then {
-									_object setDamage [0,FALSE];
-								};
-								_recycledUnits = (missionNamespace getVariable 'QS_recycler_objects') # 2;
-								_recycledUnits pushBack _object;
-								(missionNamespace getVariable 'QS_recycler_objects') set [2,_recycledUnits];
-								if (allCurators isNotEqualTo []) then {
-									{
-										_x removeCuratorEditableObjects [[_object],TRUE];
-									} forEach allCurators;
-								};
-							};
-						};
-					};
-				};
-			} else {
-				if (_object in ((missionNamespace getVariable 'QS_recycler_objects') # 0)) then {
-					_return = TRUE;
-					_object setPos (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
-				};
-			};
+	if (
+		(alive _object) &&
+		{(_object isKindOf 'CAManBase')} &&
+		{(!(isSimpleObject _object))} &&
+		{(missionNamespace getVariable ['QS_recycler_units',FALSE])} &&
+		{(({(alive _x)} count ((missionNamespace getVariable 'QS_recycler_objects') # 2)) < (missionNamespace getVariable ['QS_recycler_unitCount',10]))}
+	) then {
+		_return = TRUE;
+		private _grp = missionNamespace getVariable ['QS_recycler_nullGrp',grpNull];
+		if (isNull _grp) then {
+			_grp = createGroup [CIVILIAN,FALSE];
+			missionNamespace setVariable ['QS_recycler_nullGrp',_grp,FALSE];
+			_grp setVariable ['QS_dynSim_ignore',TRUE,FALSE];
+			_grp enableDynamicSimulation FALSE;
 		} else {
-			if (_object in ((missionNamespace getVariable 'QS_recycler_objects') # 1)) then {
-				_return = TRUE;
-				_object setPos (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
+			if (!local _grp) then {
+				_grp setGroupOwner 2;
 			};
+		};
+		[_object] joinSilent _grp;
+		{
+			if (!isNull _object) then {
+				_object setVariable [_x,nil,FALSE];
+			};
+		} forEach (allVariables _object);
+		_object setVariable ['QS_dynSim_ignore',TRUE,FALSE];
+		_object setVariable ['QS_curator_disableEditability',TRUE,FALSE];
+		_object setPosASL (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
+		if (local _object) then {
+			_object hideObjectGlobal TRUE;
+			_object enableSimulationGlobal FALSE;
+			_object enableDynamicSimulation FALSE;
+			_object enableAIFeature ['ALL',FALSE];
+		} else {
+			[
+				[_object],
+				{
+					params ['_object'];
+					_object hideObjectGlobal TRUE;
+					_object enableSimulationGlobal FALSE;
+					_object enableDynamicSimulation FALSE;
+					_object enableAIFeature ['ALL',FALSE];
+				}
+			] remoteExec ['call',_object,FALSE];
+		};
+		if ((damage _object) > 0) then {
+			_object setDamage [0,FALSE];
+		};
+		_recycledUnits = (QS_recycler_objects # 2) select {!isNull _x};
+		_recycledUnits pushBack _object;
+		QS_recycler_objects set [2,_recycledUnits];
+		if (allCurators isNotEqualTo []) then {
+			{
+				_x removeCuratorEditableObjects [[_object],TRUE];
+			} forEach allCurators;
+		};
+	} else {
+		if (_object in ((missionNamespace getVariable 'QS_recycler_objects') # 0)) then {
+			_return = TRUE;
+			_object setPosASL (missionNamespace getVariable ['QS_recycler_position',[-1100,-1100,0]]);
 		};
 	};
 	if (_return) then {};
@@ -269,7 +270,7 @@ if (_type isEqualTo 2) exitWith {
 			'a3\structures_f_epa\mil\scrapyard\paperbox_closed_f.p3d',
 			'a3\structures_f_epa\mil\scrapyard\paperbox_open_full_f.p3d'
 		],
-		(missionNamespace getVariable ['QS_recycler_unitTypes',[]])
+		[]
 	];
 	if (_type2 isEqualTo 0) then {
 		// Normal objects
@@ -279,16 +280,13 @@ if (_type isEqualTo 2) exitWith {
 			_props = (missionNamespace getVariable 'QS_recycler_objects') # _type2;
 			if (_props isNotEqualTo []) then {
 				{
-					if (!isNull _x) then {
-						if ((toLowerANSI (typeOf _x)) isEqualTo _class) then {
-							if ((_x distance2D _position) < 50) then {
-								// Prop is available
-								_return = _x;
-								_exit = TRUE;
-							};
-						};
+					if (
+						(!isNull _x) &&
+						{((toLowerANSI (typeOf _x)) isEqualTo _class)} &&
+						{((_x distance2D _position) < 50)}
+					) exitWith {
+						_return = _x;
 					};
-					if (_exit) exitWith {};
 				} forEach _props;
 			};
 		};
@@ -301,39 +299,35 @@ if (_type isEqualTo 2) exitWith {
 			_props = (missionNamespace getVariable 'QS_recycler_objects') # _type2;
 			if (_props isNotEqualTo []) then {
 				{
-					if (!isNull _x) then {
-						if ((toLowerANSI ((getModelInfo _x) # 1)) isEqualTo _class) then {
-							if ((_x distance2D _position) < 50) then {
-								// Prop is available
-								_return = _x;
-								_exit = TRUE;
-							};
-						};
+					
+					if (
+						(!isNull _x) &&
+						{((toLowerANSI ((getModelInfo _x) # 1)) isEqualTo _class)} &&
+						{((_x distance2D _position) < 50)}
+					) exitWith {
+						_return = _x;
 					};
-					if (_exit) exitWith {};
 				} forEach _props;
 			};		
 		};
 	};
 	if (_type2 isEqualTo 2) then {
 		// AI
-		_validUnits = _validObjects # _type2;
-		if (_class in _validUnits) then {
-			_props = (missionNamespace getVariable 'QS_recycler_objects') # _type2;
-			if (_props isNotEqualTo []) then {
-				{
-					if (alive _x) then {
-						if ((_x distance2D _position) < 50) then {
-							if (isObjectHidden _x) then {
-								// Prop is available
-								_return = _x;
-								_exit = TRUE;
-							};
-						};
-					};
-					if (_exit) exitWith {};
-				} forEach _props;	
-			};
+		_props = (missionNamespace getVariable 'QS_recycler_objects') # _type2;
+		if (_props isNotEqualTo []) then {
+			{
+				if (
+					(alive _x) &&
+					{(_x isKindOf 'CAManBase')} &&
+					{((_x distance2D _position) < 50)} &&
+					{(isObjectHidden _x)}
+				) exitWith {
+					_recycledUnits = QS_recycler_objects # 2;
+					_recycledUnits deleteAt (_recycledUnits find _x);
+					QS_recycler_objects set [2,_recycledUnits];
+					_return = _x;
+				};
+			} forEach _props;
 		};
 	};
 	_return;

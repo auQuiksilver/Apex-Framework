@@ -25,7 +25,7 @@ if (
 _flare = createVehicleLocal ['#lightpoint',getPosWorld _projectile];
 QS_managed_flares pushBack [_flare,diag_tickTime + 45];
 QS_managed_flares pushBack [_projectile,diag_tickTime + 45];
-_flare attachTo [_projectile,[0,0,0]];
+[1,_flare,[_projectile,[0,0,0]]] call QS_fnc_eventAttach;
 _flare setLightColor _color;
 _flare setLightAmbient _color;
 _flare setLightIntensity ([50000,75000] select (_color isEqualTo [0.5,0.5,0.5]));

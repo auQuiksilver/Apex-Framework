@@ -44,7 +44,7 @@ BIS_fnc_feedback_blue = true;
 BIS_canStartBlue = true;
 BIS_oldDMG = 0;
 BIS_deltaDMG = 0;
-BIS_oldLifeState = "HEALTHY";
+BIS_oldLifeState = 'HEALTHY';
 BIS_TotDesatCC = ppEffectCreate ["ColorCorrections", 1600];
 BIS_TotDesatCC ppEffectAdjust [1,1,0,[0, 0, 0, 0],[1, 1, 1, 1],[0,0,0,0]];
 BIS_blendColorAlpha = 0.0;

@@ -34,7 +34,7 @@ _this spawn {
 	if ((missionNamespace getVariable ['QS_missionConfig_recruitableAI',1]) isEqualTo 0) exitWith {};
 	params ['_unit','_respawnDelay','_randomize','_initCode','_respawnTickets','_playerThreshold'];
 	_unitType = typeOf _unit;
-	_unitPos = position _unit;
+	_unitPos = getPosASL _unit;
 	_unitDir = getDir _unit;
 	if (isNil {missionNamespace getVariable 'QS_register_rAI'}) then {
 		missionNamespace setVariable ['QS_register_rAI',[],FALSE];

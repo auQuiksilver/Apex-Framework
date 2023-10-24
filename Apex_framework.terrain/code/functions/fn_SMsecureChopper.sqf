@@ -71,7 +71,7 @@ _house setDir (random 360);
 _house allowDamage FALSE;
 _researchTable = createVehicle ['Land_CampingTable_small_F',[0,0,0],[],0,'NONE'];
 sleep 0.3;
-_researchTable attachTo [_house,[0,3,0.45]];
+[1,_researchTable,[_house,[0,3,0.45]]] call QS_fnc_eventAttach;
 sleep 0.3;
 _dummyTypes = ['Box_East_AmmoOrd_F','Box_IND_AmmoOrd_F'];
 _dummyType = selectRandom _dummyTypes;
@@ -80,7 +80,7 @@ _objectType = selectRandom _objectTypes;
 _object = createVehicle [_objectType,[0,0,0],[],0,'NONE'];
 _object enableSimulationGlobal TRUE;
 sleep 0.1;
-_object attachTo [_house,[0,3,1]];
+[1,_object,[_house,[0,3,1]]] call QS_fnc_eventAttach;
 for '_x' from 0 to 2 step 1 do {
 	_object setVariable ['QS_secureable',TRUE,TRUE];
 	_object setVariable ['QS_isExplosion',TRUE,TRUE];

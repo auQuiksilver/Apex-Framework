@@ -323,7 +323,7 @@ if (_case < 20) exitWith {
 				if ((attachedObjects _object) isNotEqualTo []) then {
 					{
 						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 						deleteVehicle _x;
 					} count (attachedObjects _object);
 				};
@@ -343,7 +343,7 @@ if (_case < 20) exitWith {
 									FALSE
 								];
 								if (!isNull (attachedTo _x)) then {
-									detach _x;
+									[0,_x] call QS_fnc_eventAttach;
 								};
 								deleteVehicle _x;
 							} count (attachedObjects _obj);
@@ -354,7 +354,7 @@ if (_case < 20) exitWith {
 							FALSE
 						];
 						if (!isNull (attachedTo _obj)) then {
-							detach _obj;
+							[0,_obj] call QS_fnc_eventAttach;
 						};
 						deleteVehicle _obj;
 					} forEach _object;
@@ -675,7 +675,7 @@ if (_case < 30) exitWith {
 							[_towedVehicle,_posToSet] spawn {sleep 2;(_this # 0) allowDamage TRUE;(_this # 0) setVectorUp (surfaceNormal (_this # 1));};
 							_towedVehicle setPosWorld _posToSet;
 							if (!isNull (attachedTo _towedVehicle)) then {
-								detach _towedVehicle;
+								[0,_towedVehicle] call QS_fnc_eventAttach;
 							};
 							_towedVehicle setVectorUp (surfaceNormal (getPosWorld _towedVehicle));
 						};
@@ -866,11 +866,16 @@ if (_case < 40) exitWith {
 			};
 		};
 	};
+
 	/*/===== Weather Sync/*/
 	if (_case isEqualTo 38) then {
 		if (!isDedicated) then {
-			_array = _this # 1;
-			[TRUE,_array] call (missionNamespace getVariable 'QS_fnc_clientWeatherSync');
+			params ['','_array','','_weatherForced'];
+			if (_weatherForced isNotEqualTo -1) then {
+				[_weatherForced] call QS_fnc_weatherPreset;
+			} else {
+				[TRUE,_array] call (missionNamespace getVariable 'QS_fnc_clientWeatherSync');
+			};
 		};
 	};
 	/*/===== Disable Simulation/*/
@@ -956,7 +961,7 @@ if (_case < 50) exitWith {
 			if (!isNull (isVehicleCargo _requestedObject)) then {
 				objNull setVehicleCargo _requestedObject;
 			} else {
-				detach _requestedObject;
+				[0,_requestedObject] call QS_fnc_eventAttach;
 				if (isObjectHidden _requestedObject) then {
 					if (isDedicated) then {
 						_requestedObject hideObjectGlobal FALSE;

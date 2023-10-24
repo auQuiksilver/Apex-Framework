@@ -97,7 +97,7 @@ if ((_this # 0) isEqualType []) then {
 			(_asset isKindOf 'b_ship_gun_01_f') &&
 			(!isNull (attachedTo _asset))
 		) then {
-			detach _asset;
+			[0,_asset] call QS_fnc_eventAttach;
 			(group (effectiveCommander _asset)) setGroupOwner _clientOwner;
 			_asset setOwner _clientOwner;
 			[_asset] spawn {
@@ -107,7 +107,7 @@ if ((_this # 0) isEqualType []) then {
 				_asset setPosWorld ((missionNamespace getVariable 'QS_destroyerObject') modelToWorldWorld [0,-79.1348,14.7424]);
 				_asset setVelocity [0,0,0];
 				_logic = (missionNamespace getVariable 'QS_destroyerObject') getVariable 'QS_carrier_defenseLogic';
-				[_asset,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+				[_asset,_logic,TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 			};
 		};
 		if ((ASLToAGL _position) inRangeOfArtillery [[gunner _asset],((magazines _asset) # 0)]) then {

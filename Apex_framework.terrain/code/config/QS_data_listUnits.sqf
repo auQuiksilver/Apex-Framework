@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/05/2023 A3 2.12 by Quiksilver
+	24/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -18,7 +18,6 @@ if (_mode isEqualTo 0) exitWith {
 	(QS_hashmap_classLists getOrDefaultCall [format ['u_%1',_type],{[_type,1] call QS_data_listUnits},TRUE])
 };
 private _return = [];
-
 if (_type isEqualTo 'recruitable_1') exitWith {
 	// Pool of units to select from when "randomize" is selected
 	[
@@ -148,23 +147,23 @@ if (_type isEqualTo 'deploy_assault_2') exitWith {
 };
 if (_type isEqualTo 'defend_grptypes_1') exitWith {
 	[
-		'OIA_InfTeam_AA',0.25,
-		'OIA_InfTeam_AT',0.084,
-		'OIA_InfSquad',0.25,
-		'OIA_InfSquad_Weapons',0.2,
-		'OIA_InfAssault',0.25,
-		'OIA_InfSquad_L',0.333
+		'oia_infteam_aa',0.25,
+		'oia_infteam_at',0.084,
+		'oia_infsquad',0.25,
+		'oia_infsquad_weapons',0.2,
+		'oia_infassault',0.25,
+		'oia_infsquad_l',0.333
 	]
 };
 if (_type isEqualTo 'defend_grptypes_2') exitWith {
 	// STRATIS terrain
 	[
-		'OIA_InfTeam_AA',0.25,
-		'OIA_InfTeam_AT',0.084,
-		'OIA_InfSquad',0.25,
-		'OIA_InfSquad_Weapons',0.2,
-		'OIA_InfAssault',0.25,
-		'OIA_InfSquad_L',0.333
+		'oia_infteam_aa',0.25,
+		'oia_infteam_at',0.084,
+		'oia_infsquad',0.25,
+		'oia_infsquad_weapons',0.2,
+		'oia_infassault',0.25,
+		'oia_infsquad_l',0.333
 	]
 };
 if (_type isEqualTo 'defend_unittypes_1') exitWith {
@@ -179,41 +178,41 @@ if (_type isEqualTo 'defend_paratypes_1') exitWith {
 if (_type isEqualTo 'classic_enemyinftypes_1') exitWith {
 	// Main groups list to spawn for classic AO
 	[
-		'OIA_InfSquad',4,
-		'OIA_InfTeam',2,
-		'OIA_InfAssault',2,
-		'OIA_InfTeam_AA',3,
-		'OIA_InfTeam_AT',0.5,
-		'OIA_InfTeam_HAT',1,
-		'OI_reconPatrol',1,
-		'OIA_ReconSquad',1,
-		'OIA_InfTeam_LAT',2,
-		'OIA_ARTeam',2
+		'oia_infsquad',4,
+		'oia_infteam',2,
+		'oia_infassault',2,
+		'oia_infteam_aa',3,
+		'oia_infteam_at',0.5,
+		'oia_infteam_hat',1,
+		'oi_reconpatrol',1,
+		'oia_reconsquad',1,
+		'oia_infteam_lat',2,
+		'oia_arteam',2
 	]
 };
 if (_type isEqualTo 'classic_enemyinftypes_stratis_1') exitWith {
 	[
-		'OIA_InfSquad',5,
-		'OIA_InfAssault',1,
-		'OIA_InfTeam_AA',1,
-		'OI_reconPatrol',0.5,
-		'OIA_InfTeam_LAT',0.25,
-		'OIA_ARTeam',4
+		'oia_infsquad',5,
+		'oia_infassault',1,
+		'oia_infteam_aa',1,
+		'oi_reconpatrol',0.5,
+		'oia_infteam_lat',0.25,
+		'oia_arteam',4
 	]
 };
 if (_type isEqualTo 'classic_enemygarrisontypes_1') exitWith {
 	// Main ao garrisoned group types (at HQ, etc)
 	[
-		'OIA_ARTeam',2,
-		'OIA_InfTeam_AT',1,
-		'OIA_InfTeam_LAT',1
+		'oia_arteam',2,
+		'oia_infteam_at',1,
+		'oia_infteam_lat',1
 	]
 };
 if (_type isEqualTo 'classic_enemygarrisontypes_stratis_1') exitWith {
 	[
-		'OIA_ARTeam',2,
-		//'OIA_InfTeam_AT',1,
-		'OIA_InfTeam_LAT',1
+		'oia_arteam',2,
+		//'oia_infteam_at',1,
+		'oia_infteam_lat',1
 	]
 };
 if (_type isEqualTo 'classic_enemyofficertype_1') exitWith {
@@ -246,25 +245,25 @@ if (_type isEqualTo 'classic_garrisonindarray_3') exitWith {
 };
 if (_type isEqualTo 'classic_reinforcearray_1') exitWith {
 	[
-		'OIA_InfSquad',2,
-		'OIA_InfTeam',2,
-		'OI_reconPatrol',1,
-		'OIA_InfAssault',2,
-		'OG_InfSquad',1,
-		'OG_InfAssaultTeam',1,
-		'OIA_ARTeam',2,
-		'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-		'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-		'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
+		'oia_infsquad',2,
+		'oia_infteam',2,
+		'oi_reconpatrol',1,
+		'oia_infassault',2,
+		'og_infsquad',1,
+		'og_infassaultteam',1,
+		'oia_arteam',2,
+		'oia_infteam_hat',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
+		'oia_infteam_aa',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
+		'oia_infteam_at',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 	]
 };
 if (_type isEqualTo 'classic_reinforcearray_stratis') exitWith {
 	[
-		'OIA_InfSquad',5,
-		'OIA_InfAssault',2,
-		'OIA_InfTeam_AA',(0.5 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 2),
-		'OI_reconPatrol',0.5,
-		'OIA_ARTeam',4
+		'oia_infsquad',5,
+		'oia_infassault',2,
+		'oia_infteam_aa',(0.5 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 2),
+		'oi_reconpatrol',0.5,
+		'oia_arteam',4
 	]
 };
 if (_type isEqualTo 'forest_camp_1') exitWith {
@@ -336,37 +335,37 @@ if (_type isEqualTo 'urbanspawn_nodes_1') exitWith {
 };
 if (_type isEqualTo 'urbanspawn_groups_1') exitWith {
 	[
-		'OIA_InfSquad',2,
-		'OIA_InfTeam',2,
-		'OI_reconPatrol',1,
-		'OIA_InfAssault',2,
-		'OG_InfSquad',1,
-		'OG_InfAssaultTeam',1,
-		'OIA_ARTeam',2,
-		'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-		'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
-		'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
+		'oia_infsquad',2,
+		'oia_infteam',2,
+		'oi_reconpatrol',1,
+		'oia_infassault',2,
+		'og_infsquad',1,
+		'og_infassaultteam',1,
+		'oia_arteam',2,
+		'oia_infteam_hat',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
+		'oia_infteam_aa',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3),
+		'oia_infteam_at',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 	]
 };
 if (_type isEqualTo 'urbanspawn_groups_stratis_1') exitWith {
 	[
-		'OIA_InfSquad',2,
-		'OIA_InfTeam',2,
-		'OI_reconPatrol',1,
-		'OIA_InfAssault',2,
-		'OG_InfSquad',1,
-		'OG_InfAssaultTeam',1,
-		'OIA_ARTeam',2,
-		//'OIA_InfTeam_HAT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
-		'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)//,
-		//'OIA_InfTeam_AT',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
+		'oia_infsquad',2,
+		'oia_infteam',2,
+		'oi_reconpatrol',1,
+		'oia_infassault',2,
+		'og_infsquad',1,
+		'og_infassaultteam',1,
+		'oia_arteam',2,
+		//'oia_infteam_hat',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2),
+		'oia_infteam_aa',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)//,
+		//'oia_infteam_at',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_armor',0]) min 2)
 	]
 };
 if (_type isEqualTo 'urbanspawn_groups_2') exitWith {
 	[
-		'OIA_InfSquad',4,
-		'OIA_ARTeam',2,
-		'OIA_InfTeam_AA',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)
+		'oia_infsquad',4,
+		'oia_arteam',2,
+		'oia_infteam_aa',(1 max (missionNamespace getVariable ['QS_AI_targetsKnowledge_threat_air',0]) min 3)
 	]
 };
 if (_type isEqualTo 'civilians_fugitives') exitWith {
@@ -388,10 +387,10 @@ if (_type isEqualTo 'enemy_sniper_types_1') exitWith {
 };
 if (_type isEqualTo 'fob_assault_1') exitWith {
 	[
-		'OG_ReconSentry',2,
-		'OG_InfAssaultTeam',2,
-		'OG_SniperTeam_M',2,
-		'OG_InfTeam',2
+		'og_reconsentry',2,
+		'og_infassaultteam',2,
+		'og_sniperteam_m',2,
+		'og_infteam',2
 	]
 };
 if (_type isEqualTo 'hidden_enemy_types_1') exitWith {

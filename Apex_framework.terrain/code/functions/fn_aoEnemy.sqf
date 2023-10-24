@@ -296,9 +296,9 @@ if ((random 1) > _staticChance) then {
 		_object allowDamage FALSE;
 		_attachPos = _x # 1;
 		_attachPos set [2,(_attachPos # 2) - _offset];
-		_object attachTo [_tower,_attachPos];
+		[1,_object,[_tower,_attachPos]] call QS_fnc_eventAttach;
 		_object setDir ((getDir _tower) + (_x # 3));
-		_object spawn {sleep 1; detach _this;};
+		_object spawn {sleep 1; [0,_this] call QS_fnc_eventAttach;};
 		_tower setVariable ['QS_entity_assocEntities',((_tower getVariable ['QS_entity_assocEntities',[]]) + [_object]),FALSE];
 		_enemiesArray pushBack _object;
 		if (_object isKindOf 'StaticWeapon') then {

@@ -19,7 +19,7 @@ if (!(_objectParent isKindOf 'Air')) then {
 	_attached = attachedTo _objectParent;
 	if (!isNull _attached) then {
 		if ((toLowerANSI (typeOf _attached)) in qs_core_classnames_vehicleparachutes) then {
-			detach _objectParent;
+			[0,_objectParent] call QS_fnc_eventAttach;
 			_attached spawn {sleep 1;deleteVehicle _this;};
 			50 cutText [localize 'STR_QS_Text_313','PLAIN',0.333];
 		};

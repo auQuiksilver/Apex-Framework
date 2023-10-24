@@ -69,7 +69,7 @@ if (_type isEqualTo 1) exitWith {
 		private _pole = objNull;
 		{
 			_pole = createSimpleObject [(_x # 0),[-100,-100,0]];
-			_pole attachTo [_jammer,(_x # 1)];
+			[1,_pole,[_jammer,(_x # 1)]] call QS_fnc_eventAttach;
 			//_pole setDir (_x # 2);
 			_assocObjects pushBack _pole;
 		} forEach [
@@ -86,7 +86,7 @@ if (_type isEqualTo 1) exitWith {
 					params ['_killed','_killer','_instigator',''];
 					if ((attachedObjects _killed) isNotEqualTo []) then {
 						{
-							detach _x;
+							[0,_x] call QS_fnc_eventAttach;
 							deleteVehicle _x;
 						} forEach (attachedObjects _killed);
 					};
@@ -116,7 +116,7 @@ if (_type isEqualTo 1) exitWith {
 					params ['_entity'];
 					if ((attachedObjects _entity) isNotEqualTo []) then {
 						{
-							detach _x;
+							[0,_x] call QS_fnc_eventAttach;
 							deleteVehicle _x;
 						} forEach (attachedObjects _entity);
 					};

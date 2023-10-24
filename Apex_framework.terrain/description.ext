@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	11/10/2023 A3 2.14 by Quiksilver
+	24/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,7 @@ ____________________________________________/*/
 
 missionProductVersion = "1.5.6";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "11.10.2023";
+missionProductDate = "24.10.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -79,7 +79,7 @@ respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard w
 respawnOnStart = 0;
 
 // Security - CfgRemoteExec + CfgDisabledCommands
-//#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
+#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
 
 // CfgFunctions
 class CfgFunctions {
@@ -87,6 +87,7 @@ class CfgFunctions {
 		class apex_framework {
 			class addWeapon {file = "code\functions\fn_addWeapon.sqf";};
 			class ahScanString {file = "code\functions\fn_ahScanString.sqf";};
+			class attachToRelative {file = "code\functions\fn_attachToRelative.sqf";};
 			class AI {file = "code\functions\fn_AI.sqf";};
 			class AIDoSuppressiveFire {file = "code\functions\fn_AIDoSuppressiveFire.sqf";};
 			class AIEnableFeature {file = "code\functions\fn_AIEnableFeature.sqf";};
@@ -428,6 +429,7 @@ class CfgFunctions {
 			class enemyDetected {file = "code\functions\fn_enemyDetected.sqf";};
 			class enemySides {file = "code\functions\fn_enemySides.sqf";};
 			class eventAgentKilled {file = "code\functions\fn_eventAgentKilled.sqf";};
+			class eventAttach {file = "code\functions\fn_eventAttach.sqf";};
 			class eventBuildingChanged {file = "code\functions\fn_eventBuildingChanged.sqf";};
 			class eventCargoLoaded {file = "code\functions\fn_eventCargoLoaded.sqf";}; 
 			class eventCargoUnloaded {file = "code\functions\fn_eventCargoUnloaded.sqf";}; 
@@ -610,6 +612,7 @@ class CfgFunctions {
 			class serverEventHandler {file = "code\functions\fn_serverEventHandler.sqf";};
 			class serverObjectsMapper {file = "code\functions\fn_serverObjectsMapper.sqf";};
 			class serverObjectsRecycler {file = "code\functions\fn_serverObjectsRecycler.sqf";};
+			class serverRestart {file = "code\functions\fn_serverRestart.sqf";};
 			class serverSetAISkill {file = "code\functions\fn_serverSetAISkill.sqf";};
 			class serverUnitConfigure {file = "code\functions\fn_serverUnitConfigure.sqf";};
 			class setCollectible {file = "code\functions\fn_setCollectible.sqf";};

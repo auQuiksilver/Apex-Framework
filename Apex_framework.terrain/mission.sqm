@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=399;
+		nextID=400;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6937.314,11.970012,7350.3022};
-		dir[]={0.70150727,-0.29559726,0.64850146};
-		up[]={0.21706574,0.95530814,0.20066546};
-		aside[]={0.67883629,-5.8075238e-007,-0.73432237};
+		pos[]={6944.623,10.447868,7356.7705};
+		dir[]={0.75073701,-0.24337748,0.61417496};
+		up[]={0.18838108,0.96992749,0.15411535};
+		aside[]={0.63321638,-7.4366108e-007,-0.77401102};
 	};
 };
 binarizationWanted=0;
@@ -34,13 +34,14 @@ addons[]=
 	"A3_Characters_F_Exp",
 	"A3_Props_F_Exp_Military_Camps",
 	"A3_Characters_F",
-	"A3_Modules_F_Curator_Curator"
+	"A3_Modules_F_Curator_Curator",
+	"A3_Structures_F_Heli_Ind_Cargo"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=9;
+		items=10;
 		class Item0
 		{
 			className="A3_Props_F_Enoch";
@@ -104,6 +105,13 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item9
+		{
+			className="A3_Structures_F_Heli";
+			name="Arma 3 Helicopters - Buildings and Structures";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 class DynamicSimulation
@@ -114,7 +122,8 @@ class DynamicSimulation
 dlcs[]=
 {
 	"Enoch",
-	"Expansion"
+	"Expansion",
+	"Heli"
 };
 randomSeed=5000377;
 class ScenarioData
@@ -170,7 +179,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=118;
+		items=119;
 		class Item0
 		{
 			dataType="Object";
@@ -6024,6 +6033,23 @@ class Mission
 			a=0.5;
 			b=0.5;
 			id=366;
+		};
+		class Item118
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={6979.2402,4.012888,7385.103};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {FALSE} " \n "] call QS_fnc_registerVehicle;";
+			};
+			id=399;
+			type="Land_Cargo10_military_green_F";
+			atlOffset=-2.3841858e-007;
 		};
 	};
 };

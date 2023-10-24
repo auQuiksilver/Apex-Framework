@@ -114,7 +114,7 @@ if (!isNull (isVehicleCargo QS_targetBoundingBox_helper)) then {
 };
 if (!isNull _oldParent) then {
 	if (!isNull (attachedTo QS_targetBoundingBox_helper)) then {
-		detach QS_targetBoundingBox_helper;
+		[0,QS_targetBoundingBox_helper] call QS_fnc_eventAttach;
 	};
 	if (
 		(!_useHelper) &&

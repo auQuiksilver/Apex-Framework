@@ -345,10 +345,10 @@ if (_worldName isEqualTo 'Altis') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[-2,0,31]];
+			[1,_fire,[_chimney,[-2,0,31]]] call QS_fnc_eventAttach;
 			_fire spawn {
 				uiSleep 0.1;
-				detach _this;
+				[0,_this] call QS_fnc_eventAttach;
 			};
 		}],
 		["Land_HBarrier_5_F","a3\structures_f\mil\fortification\hbarrier_5_f.p3d",[14648.7,16772.5,18.6505],[[-0.723556,-0.690266,0],[0,0,1]],0,0,2,1,[],{}],
@@ -724,10 +724,10 @@ if (_worldName isEqualTo 'Tanoa') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[-2,0,31]];
+			[1,_fire,[_chimney,[-2,0,31]]] call QS_fnc_eventAttach;
 			_fire spawn {
 				uiSleep 0.1;
-				detach _this;
+				[0,_this] call QS_fnc_eventAttach;
 			};
 		}],
 		["Land_LampHalogen_F","a3\structures_f\civ\lamps\lamphalogen_f.p3d",[6792.67,7423.99,8.64218],[[-0.881599,-0.472,0],[0,0,1]],0,1,0,0,[],{(missionNamespace getVariable 'QS_lamps') pushBack (_this # 0);}],
@@ -922,10 +922,10 @@ if (_worldName isEqualTo 'Malden') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[-2,0,31]];
+			[1,_fire,[_chimney,[-2,0,31]]] call QS_fnc_eventAttach;
 			_fire spawn {
 				uiSleep 0.1;
-				detach _this;
+				[0,_this] call QS_fnc_eventAttach;
 			};
 		}],
 		["Land_WoodenShelter_01_F","a3\structures_f_exp\commercial\market\woodenshelter_01_f.p3d",[7964.41,9622.5,32.0698],[[-0.404211,0.914666,0],[0,0,1]],0,0,2,0,[],{}],
@@ -1140,10 +1140,10 @@ if (_worldName isEqualTo 'Enoch') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[1,1,20]];
+			[1,_fire,[_chimney,[1,1,20]]] call QS_fnc_eventAttach;
 			_fire spawn {
 				uiSleep 0.1;
-				detach _this;
+				[0,_this] call QS_fnc_eventAttach;
 			};
 		}],
 		["Land_HelipadCivil_F","a3\structures_f\mil\helipads\helipadcivil_f.p3d",[4070.25,10353.9,68.16],[[0.697268,-0.716811,0],[0,0,1]],0,0,2,0,[],{}],
@@ -1297,10 +1297,10 @@ if (_worldName isEqualTo 'Stratis') exitWith {
 			missionNamespace setVariable ['QS_torch',_fire,TRUE];
 			_fire enableDynamicSimulation FALSE;
 			_fire setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-			_fire attachTo [_chimney,[-2,0,31]];
+			[1,_fire,[_chimney,[-2,0,31]]] call QS_fnc_eventAttach;
 			_fire spawn {
 				uiSleep 0.1;
-				detach _this;
+				[0,_this] call QS_fnc_eventAttach;
 			};
 		}],
 		["B_supplyCrate_F","a3\weapons_f\ammoboxes\supplydrop.p3d",[1902.86,5729.36,6.49979],[[0.968415,-0.249341,0.000540859],[-0.00248975,-0.00750086,0.999969]],0,0,2,1,[],{}],

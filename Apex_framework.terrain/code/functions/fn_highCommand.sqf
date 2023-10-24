@@ -433,7 +433,7 @@ for '_x' from 0 to 1 step 0 do {
 			} else {
 				moveOut player;
 				if (!isNull (attachedTo player)) then {
-					detach player;
+					[0,player] call QS_fnc_eventAttach;
 				};
 				['switchMove',player,''] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				player setVehiclePosition [_basePos,[],0,'NONE'];

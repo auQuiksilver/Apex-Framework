@@ -255,7 +255,7 @@ if (_type isEqualTo 1) then {
 		_mortar = createVehicle ['B_G_Mortar_01_F',[0,0,0],[],0,'NONE'];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
-		_mortar attachTo [_rewardVeh,[0,-2.5,0.1]];
+		[1,_mortar,[_rewardVeh,[0,-2.5,0.1]]] call QS_fnc_eventAttach;
 		_mortar setVariable ['QS_attached',TRUE,TRUE];
 		_mortar allowDamage FALSE;
 		_mortar setVariable ['QS_ST_customDN','',TRUE];
@@ -290,7 +290,7 @@ if (_type isEqualTo 1) then {
 						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 						FALSE
 					];
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
 			}
@@ -326,7 +326,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh = createVehicle [_rewardType,_rewardPosition,[],0,'NONE'];
 		_rewardVeh setDir (random 360);
 		_static1 = createVehicle ['B_GMG_01_A_F',[0,0,0],[],0,'NONE'];
-		_static1 attachTo [_rewardVeh,[0.5,3.75,1.6]];
+		[1,_static1,[_rewardVeh,[0.5,3.75,1.6]]] call QS_fnc_eventAttach;
 		_static1 setVariable ['QS_attached',TRUE,TRUE];
 		_static1 enableWeaponDisassembly FALSE;
 		_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
@@ -339,7 +339,7 @@ if (_type isEqualTo 1) then {
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 		} forEach (crew _static1);
 		_static2 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
-		_static2 attachTo [_rewardVeh,[0.2,-0.9,1.125]];
+		[1,_static2,[_rewardVeh,[0.2,-0.9,1.125]]] call QS_fnc_eventAttach;
 		_static2 setVariable ['QS_attached',TRUE,TRUE];
 		_static2 enableWeaponDisassembly FALSE;
 		_static2 setVariable ['QS_cleanup_protected',TRUE,TRUE];
@@ -366,7 +366,7 @@ if (_type isEqualTo 1) then {
 			}
 		];
 		_static3 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
-		_static3 attachTo [_rewardVeh,[0.2,-4,1.125]];
+		[1,_static3,[_rewardVeh,[0.2,-4,1.125]]] call QS_fnc_eventAttach;
 		_static3 setVariable ['QS_attached',TRUE,TRUE];
 		_static3 enableWeaponDisassembly FALSE;
 		_static3 setVariable ['QS_cleanup_protected',TRUE,TRUE];
@@ -407,7 +407,7 @@ if (_type isEqualTo 1) then {
 						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 						FALSE
 					];
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
 			}
@@ -455,7 +455,7 @@ if (_type isEqualTo 1) then {
 				_model = _model + '.p3d';
 			};
 			_obj = createSimpleObject [_model,_position];
-			_obj attachTo [_rewardVeh,(_x # 1)];
+			[1,_obj,[_rewardVeh,(_x # 1)]] call QS_fnc_eventAttach;
 			_obj setVariable ['QS_attached',TRUE,TRUE];
 			_obj setDir (_x # 2);
 			_rewardVeh setVariable [
@@ -498,7 +498,7 @@ if (_type isEqualTo 1) then {
 		_mortar = createVehicle ['B_Mortar_01_F',[0,0,0],[],0,'NONE'];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
-		_mortar attachTo [_rewardVeh,[0,0,-0.3]];
+		[1,_mortar,[_rewardVeh,[0,0,-0.3]]] call QS_fnc_eventAttach;
 		_mortar setVariable ['QS_attached',TRUE,TRUE];
 		_mortar allowDamage FALSE;
 		_mortar setVariable ['QS_ST_customDN','',TRUE];
@@ -533,7 +533,7 @@ if (_type isEqualTo 1) then {
 						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 						FALSE
 					];
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
 			}
@@ -569,7 +569,7 @@ if (_type isEqualTo 1) then {
 			_rewardVeh setVariable ['QS_disableRespawnAction',TRUE,TRUE];
 			_rewardVeh lockCargo TRUE;
 			private _static1 = createVehicle ['B_G_HMG_02_high_F',[0,0,0],[],0,'NONE'];
-			_static1 attachTo [_rewardVeh,[0.17,-0.4,1.1]];
+			[1,_static1,[_rewardVeh,[0.17,-0.4,1.1]]] call QS_fnc_eventAttach;
 			_static1 setVariable ['QS_attached',TRUE,TRUE];
 			_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 			_static1 enableWeaponDisassembly FALSE;
@@ -586,7 +586,7 @@ if (_type isEqualTo 1) then {
 							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 							FALSE
 						];
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 						deleteVehicle _x;
 					} count (attachedObjects _vehicle);
 				}
@@ -625,7 +625,7 @@ if (_type isEqualTo 1) then {
 		_static setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static setVariable ['QS_uav_protected',TRUE,FALSE];
 		_static enableWeaponDisassembly FALSE;
-		_static attachTo [_rewardVeh,[-0.45,-2.5,0.5]];
+		[1,_static,[_rewardVeh,[-0.45,-2.5,0.5]]] call QS_fnc_eventAttach;
 		_static setVariable ['QS_attached',TRUE,TRUE];
 		_static allowDamage FALSE;
 		createVehicleCrew _static;
@@ -634,7 +634,7 @@ if (_type isEqualTo 1) then {
 			_x setVariable ['QS_hidden',TRUE,TRUE];
 		} forEach (crew _static);
 		_static1 = createVehicle ['B_HMG_01_A_F',[0,0,0],[],0,'NONE'];
-		_static1 attachTo [_rewardVeh,[0.1,-0.8,1.45]];
+		[1,_static1,[_rewardVeh,[0.1,-0.8,1.45]]] call QS_fnc_eventAttach;
 		_static1 setVariable ['QS_attached',TRUE,TRUE];
 		_static1 setVariable ['QS_cleanup_protected',TRUE,TRUE];
 		_static1 setVariable ['QS_uav_protected',TRUE,FALSE];
@@ -673,7 +673,7 @@ if (_type isEqualTo 1) then {
 						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 						FALSE
 					];
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
 			}
@@ -727,7 +727,7 @@ if (_type isEqualTo 1) then {
 		_rewardVeh lockCargo [1,TRUE];
 		_rewardVeh lockCargo [2,TRUE];
 		_static1 = createVehicle [(selectRandom ['B_static_AA_F','B_static_AT_F','B_static_AT_F']),[(random 10),(random 10),(random 10)],[],0,'NONE'];
-		_static1 attachTo [_rewardVeh,[0,-0.7,0.175]];
+		[1,_static1,[_rewardVeh,[0,-0.7,0.175]]] call QS_fnc_eventAttach;
 		_static1 setVariable ['QS_attached',TRUE,TRUE];
 		_static1 setDir 180;
 		_static1 allowDamage FALSE;
@@ -745,7 +745,7 @@ if (_type isEqualTo 1) then {
 						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 						FALSE
 					];
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
 			}
@@ -825,7 +825,7 @@ if (_type isEqualTo 1) then {
 		} forEach (getArray ((configOf _rewardVeh) >> 'TextureSources' >> (['Sand','Green'] select (worldName in ['Tanoa','Enoch'])) >> 'textures'));
 		_rewardVeh enableRopeAttach FALSE;
 		_rewardVeh enableVehicleCargo FALSE;
-		_static attachTo [_rewardVeh,_attachPoint];
+		[1,_static,[_rewardVeh,_attachPoint]] call QS_fnc_eventAttach;
 		_static setVariable ['QS_attached',TRUE,TRUE];
 		_rewardVeh addMPEventHandler [
 			'MPKilled',
@@ -836,7 +836,7 @@ if (_type isEqualTo 1) then {
 						{
 							if (unitIsUav _x) then {
 								_x setDamage [1,TRUE];
-								detach _x;
+								[0,_x] call QS_fnc_eventAttach;
 								deleteVehicle _x;
 							};
 						} forEach (attachedObjects _killed);
@@ -861,7 +861,7 @@ if (_type isEqualTo 1) then {
 				params ['_vehicle'];
 				if ((attachedObjects _vehicle) isNotEqualTo []) then {
 					{
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 						deleteVehicle _x;
 					} forEach (attachedObjects _vehicle);
 				};
@@ -941,7 +941,7 @@ if (_type isEqualTo 1) then {
 		_mortar = createVehicle ['B_GMG_01_high_F',[0,0,0],[],0,'NONE'];
 		_mortar enableWeaponDisassembly FALSE;
 		_mortar setVariable ['QS_cleanup_protected',TRUE,TRUE];
-		_mortar attachTo [_rewardVeh,[-0.15,-1.5,1]];
+		[1,_mortar,[_rewardVeh,[-0.15,-1.5,1]]] call QS_fnc_eventAttach;
 		_mortar setVariable ['QS_attached',TRUE,TRUE];
 		_mortar allowDamage FALSE;
 		_mortar setDir 180;
@@ -957,7 +957,7 @@ if (_type isEqualTo 1) then {
 						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 						FALSE
 					];
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
 			}

@@ -396,7 +396,7 @@ if (_armedVehicleCount > 0) then {
 							params ['_entity'];
 							{
 								_x setDamage [1,FALSE];
-								detach _x;
+								[0,_x] call QS_fnc_eventAttach;
 								deleteVehicle _x;
 							} forEach (attachedObjects _entity);
 						}
@@ -407,7 +407,7 @@ if (_armedVehicleCount > 0) then {
 							params ['_entity'];
 							{
 								_x setDamage [1,FALSE];
-								detach _x;
+								[0,_x] call QS_fnc_eventAttach;
 								deleteVehicle _x;
 							} forEach (attachedObjects _entity);
 						}
@@ -422,7 +422,7 @@ if (_armedVehicleCount > 0) then {
 					if ((random 1) > 0.5) then {
 						[_static] call (missionNamespace getVariable 'QS_fnc_downgradeVehicleWeapons');
 					};
-					_static attachTo [_vehicle,[0,-2,1]];
+					[1,_static,[_vehicle,[0,-2,1]]] call QS_fnc_eventAttach;
 					_enemyUnitType = selectRandomWeighted _unitTypes;
 					_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],_spawnPos,[],25,'NONE'];
 					{

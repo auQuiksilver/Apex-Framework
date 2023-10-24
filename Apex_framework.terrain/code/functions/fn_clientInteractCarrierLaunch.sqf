@@ -56,7 +56,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		_cameraOn setDir _launchDir;
 		_cameraOn setVelocity [0,0,0];
 		_cameraOn allowDamage TRUE;
-		[_cameraOn,(missionNamespace getVariable 'QS_carrierObject'),TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+		[_cameraOn,(missionNamespace getVariable 'QS_carrierObject'),TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 		if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 			_cameraOn setVariable ['QS_carrier_launch',TRUE,TRUE];
 		} else {
@@ -70,7 +70,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 			};
 			if (_cameraOn getVariable ['QS_carrier_launch',FALSE]) then {
 				_cameraOn setAirplaneThrottle 0;
-				detach _cameraOn;
+				[0,_cameraOn] call QS_fnc_eventAttach;
 				_cameraOn setPosWorld (getPosWorld _cameraOn);
 				_cameraOn setVectorUp [0,0,1];
 				_cameraOn setVariable ['QS_carrier_launch',FALSE,TRUE];
@@ -90,7 +90,7 @@ if (!(_cameraOn getVariable ['QS_carrier_launch',FALSE])) then {
 		missionNamespace setVariable ['QS_client_action_carrierLaunchCancel',[_cameraOn,_launchCancelAction],FALSE];
 	};
 } else {
-	detach _cameraOn;
+	[0,_cameraOn] call QS_fnc_eventAttach;
 	_cameraOn setAirplaneThrottle 1;
 	[_cameraOn,(getDir _cameraOn)] call (missionNamespace getVariable 'BIS_fnc_AircraftCatapultLaunch');
 	_cameraOn setVariable ['QS_carrier_launch',FALSE,TRUE];

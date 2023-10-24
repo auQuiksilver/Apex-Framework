@@ -34,7 +34,7 @@ if ((attachedObjects _co) isNotEqualTo []) then {
 			} else {
 				['awake',_x,TRUE] remoteExec ['QS_fnc_remoteExecCmd',_x,FALSE];
 			};
-			detach _x;
+			[0,_x] call QS_fnc_eventAttach;
 			if (
 				(_x isKindOf 'CAManBase') &&
 				{(alive _x)} &&
@@ -46,7 +46,7 @@ if ((attachedObjects _co) isNotEqualTo []) then {
 	} forEach (attachedObjects _co);
 };
 if (!isNull (attachedTo _co)) then {
-	detach _co;
+	[0,_co] call QS_fnc_eventAttach;
 };
 
 if (isRemoteControlling player) then {

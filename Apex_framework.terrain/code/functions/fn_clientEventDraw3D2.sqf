@@ -34,7 +34,7 @@ if (
 				params ['_child','_parent','_eventFrame'];
 				waitUntil {diag_frameNo > _eventFrame};
 				if (_child in (attachedObjects _parent)) then {
-					detach _child;
+					[0,_child] call QS_fnc_eventAttach;
 				};
 			};
 		};
@@ -60,7 +60,7 @@ _azi = uiNamespace getVariable ['QS_targetBoundingBox_azi',0];
 if ((uiNamespace getVariable ['QS_targetBoundingBox_attachOffset',_desiredOffset]) isNotEqualTo _desiredOffset) then {
 	uiNamespace setVariable ['QS_targetBoundingBox_attachOffset',_desiredOffset];
 	(uiNamespace getVariable 'QS_targetBoundingBox_attachTo') set [1,_desiredOffset];
-	QS_targetBoundingBox_helper attachTo (uiNamespace getVariable 'QS_targetBoundingBox_attachTo');
+	[1,QS_targetBoundingBox_helper,(uiNamespace getVariable 'QS_targetBoundingBox_attachTo')] call QS_fnc_eventAttach;
 };
 _intersections = lineIntersectsSurfaces [
 	(uiNamespace getVariable 'QS_targetBoundingBox_ASLPos'),

@@ -616,7 +616,7 @@ _QS_fnc_iconText = {
 					};
 				} else {
 					_t = '';
-				};			
+				};
 			} else {
 				if (isUavConnected _v) then {
 					_y = (UAVControl _v) # 0;

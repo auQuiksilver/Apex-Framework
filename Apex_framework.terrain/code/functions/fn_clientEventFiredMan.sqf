@@ -47,7 +47,7 @@ if (_weapon isEqualTo 'Throw') then {
 			0 = [_projectile] spawn {
 				params ['_projectile'];
 				uiSleep 3.666;
-				private _playersNearby = ([(getPosATL _projectile),15,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) select {(_x isNotEqualTo player)};
+				private _playersNearby = ([_projectile,15,[WEST],allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) select {(_x isNotEqualTo player)};
 				if (_playersNearby isNotEqualTo []) then {
 					{
 						if ((([objNull,'GEOM'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0) || {(([objNull,'VIEW'] checkVisibility [(getPosASL _x),(getPosASL _projectile)]) > 0)}) exitWith {
@@ -134,9 +134,9 @@ if (_weapon isEqualTo 'Throw') then {
 					) then {
 						_projectile setVectorUp _surfaceNormal;
 						_projectile setPosASL _intersectPosASL;
-						[_projectile,_objectParent,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+						[_projectile,_objectParent,TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 						if ((_objectParent getVariable ['QS_client_canAttachDetach',FALSE]) || {(!simulationEnabled _objectParent)} || {(isSimpleObject _objectParent)}) then {
-							detach _projectile;
+							[0,_projectile] call QS_fnc_eventAttach;
 						};
 					};
 				};

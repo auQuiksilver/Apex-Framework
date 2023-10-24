@@ -372,7 +372,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 							[_intel,_table] spawn {
 								params ['_intel','_table'];
 								uiSleep 0.1;
-								_intel attachTo [_table,[(random [-0.4,0,0.4]),0,0.45]];
+								[1,_intel,[_table,[(random [-0.4,0,0.4]),0,0.45]]] call QS_fnc_eventAttach;
 								_intel setDir (random 360);
 							};
 							{
@@ -555,7 +555,7 @@ if (_type isEqualTo 'SITE_IDAP') exitWith {
 						[_intel,_table] spawn {
 							params ['_intel','_table'];
 							uiSleep 0.1;
-							_intel attachTo [_table,[(random [-0.4,0,0.4]),0,0.45]];
+							[1,_intel,[_table,[(random [-0.4,0,0.4]),0,0.45]]] call QS_fnc_eventAttach;
 							_intel setDir (random 360);
 						};
 						{
@@ -785,7 +785,7 @@ if (_type isEqualTo 'INTEL') exitWith {
 						[_intel,_table] spawn {
 							params ['_intel','_table'];
 							uiSleep 0.1;
-							_intel attachTo [_table,[(random [-0.4,0,0.4]),0,0.47]];
+							[1,_intel,[_table,[(random [-0.4,0,0.4]),0,0.47]]] call QS_fnc_eventAttach;
 							_intel setDir (random 360);
 						};
 						_entities pushBack _intel;

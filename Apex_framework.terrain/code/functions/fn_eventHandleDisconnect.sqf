@@ -306,7 +306,7 @@ if ((getAllOwnedMines _object) isNotEqualTo []) then {
 };
 if ((attachedObjects _object) isNotEqualTo []) then {
 	{
-		detach _x;
+		[0,_x] call QS_fnc_eventAttach;
 	} count (attachedObjects _object);
 };
 if (!isNull _object) then {

@@ -200,7 +200,7 @@ if (_type isEqualTo 1) exitWith {
 					_model = _model + '.p3d';
 				};
 				_object = createSimpleObject [_model,_position];
-				_object attachTo [_house,_attachPoint];
+				[1,_object,[_house,_attachPoint]] call QS_fnc_eventAttach;
 				_object setDir _dir;
 				_composition pushBack _object;
 				if (_code isNotEqualTo {}) then {
@@ -209,7 +209,7 @@ if (_type isEqualTo 1) exitWith {
 			} forEach _data;
 			/*/
 			_terminal = createSimpleObject ['a3\Drones_F\Weapons_F_Gamma\Items\UAV_controller_F.p3d',_position];
-			_terminal attachTo [_house,[0.75,2.8,0.65]];
+			[1,_terminal,[_house,[0.75,2.8,0.65]]] call QS_fnc_eventAttach;
 			_composition pushBack _terminal;
 			/*/
 			_grpTypes = [
@@ -249,7 +249,7 @@ if (_type isEqualTo 1) exitWith {
 			_house spawn {
 				uiSleep 1;
 				{
-					detach _x;
+					[0,_x] call QS_fnc_eventAttach;
 				} forEach (attachedObjects _this);
 			};
 			_uncertaintyPos = [((_position # 0) + (100 - (random 200))),((_position # 1) + (100 - (random 200))),0];

@@ -33,7 +33,7 @@ player setVariable ['QS_RD_interacting',TRUE,TRUE];
 _obj setVariable ['QS_RD_storedAnim',(animationState _obj),TRUE];
 _obj setVariable ['QS_RD_interacting',TRUE,TRUE];
 _obj setVariable ['QS_RD_escorted',TRUE,TRUE];
-_obj attachTo [player,[0.1,-1.1,0]];
+[1,_obj,[player,[0.1,-1.1,0]]] call QS_fnc_eventAttach;
 {
 	_obj enableAIFeature [_x,FALSE];
 } forEach [

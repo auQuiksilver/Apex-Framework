@@ -306,17 +306,6 @@ _medicalGarbageData = [
 for '_x' from 0 to 11 step 1 do {
 	_medicalGarbage pushBack (createSimpleObject [(selectRandomWeighted _medicalGarbageData),[-1000,-1000,0]]);
 };
-_recyclerUnitTypes = [
-	'o_soldier_ar_f',
-	'o_medic_f',
-	'o_engineer_f',
-	'o_soldier_exp_f',
-	'o_soldier_gl_f',
-	'o_soldier_m_f',
-	'o_soldier_f',
-	'o_soldier_sl_f',
-	'o_soldier_tl_f'
-];
 {
 	uiNamespace setVariable _x;
 } forEach [
@@ -591,8 +580,7 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_dynTask_medevac_array',[],FALSE],
 	['QS_primaryObjective_civilians',[],FALSE],
 	['QS_recycler_units',((missionNamespace getVariable ['QS_missionConfig_aoType','ZEUS']) in ['CLASSIC','SC']),FALSE],
-	['QS_recycler_unitTypes',_recyclerUnitTypes,FALSE],
-	['QS_recycler_unitCount',8,FALSE],
+	['QS_recycler_unitCount',15,FALSE],
 	['QS_recycler_nullGrp',grpNull,FALSE],
 	['QS_recycler_objects',[[],[],[]],FALSE],
 	['QS_recycler_position',[-1100,-1100,0],FALSE],

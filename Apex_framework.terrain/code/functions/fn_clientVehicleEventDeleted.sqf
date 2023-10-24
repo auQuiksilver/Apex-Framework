@@ -17,7 +17,7 @@ params ['_vehicle'];
 if ((attachedObjects _vehicle) isNotEqualTo []) then {
 	{
 		if (!isNull _x) then {
-			detach _x;
+			[0,_x] call QS_fnc_eventAttach;
 			deleteVehicle _x;
 		};
 	} forEach (attachedObjects _vehicle);

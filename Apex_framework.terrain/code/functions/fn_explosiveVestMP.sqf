@@ -14,9 +14,9 @@ Description:
 __________________________________________________*/
 
 params ['_QS_unit','_QS_exp1','_QS_exp2','_QS_exp3'];
-_QS_exp1 attachTo [_QS_unit, [-0.1,0.1,0.15],'Pelvis'];
+[1,_QS_exp1,[_QS_unit, [-0.1,0.1,0.15],'Pelvis']] call QS_fnc_eventAttach;
 _QS_exp1 setVectorDirAndUp [[0.5,0.5,0],[-0.5,0.5,0]];
-_QS_exp2 attachTo [_QS_unit, [0,0.15,0.15],'Pelvis'];
+[1,_QS_exp2,[_QS_unit, [0,0.15,0.15],'Pelvis']] call QS_fnc_eventAttach;
 _QS_exp2 setVectorDirAndUp [[1,0,0],[0,1,0]];
-_QS_exp3 attachTo [_QS_unit, [0.1,0.1,0.15],'Pelvis'];
+[1,_QS_exp3,[_QS_unit, [0.1,0.1,0.15],'Pelvis']] call QS_fnc_eventAttach;
 _QS_exp3 setVectorDirAndUp [[0.5,-0.5,0],[0.5,0.5,0]];

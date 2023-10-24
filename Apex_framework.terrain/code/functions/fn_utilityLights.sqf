@@ -74,7 +74,7 @@ uiSleep 0.2;
 _lightleft setLightColor _lightRed; 
 _lightleft setLightBrightness 0.2;  
 _lightleft setLightAmbient _lightRed;
-_lightleft attachTo [_vehicle,_attachPointL];	/*/attachTo works better than lightAttachObject/*/
+[1,_lightleft,[_vehicle,_attachPointL]] call QS_fnc_eventAttach;
 _lightleft setLightAttenuation [0.181,0,1000,130]; 
 _lightleft setLightIntensity 10;
 _lightleft setLightFlareSize 0.38;
@@ -87,7 +87,7 @@ uiSleep 0.2;
 _lightright setLightColor _lightBlue; 
 _lightright setLightBrightness 0.2;  
 _lightright setLightAmbient _lightBlue;
-_lightright attachTo [_vehicle,_attachPointR];		/*/attachTo works better than lightAttachObject/*/
+[1,_lightright,[_vehicle,_attachPointR]] call QS_fnc_eventAttach;
 _lightright setLightAttenuation [0.181,0,1000,130]; 
 _lightright setLightIntensity 10;
 _lightright setLightFlareSize 0.38;

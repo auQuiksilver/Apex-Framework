@@ -1,5 +1,5 @@
 /*/
-File: fn_getDoor.sqf
+File: fn_setVehicleCargo.sqf
 Author:
 
 	Quiksilver
@@ -19,7 +19,7 @@ if (!_result) then {
 	private _attachPoint = [TRUE,_parent,_child,-1] call QS_fnc_getCustomAttachPoint;
 	if (_attachPoint isNotEqualTo -1) then {
 		_result = TRUE;
-		_child attachTo [_parent,_attachPoint # 0];
+		[1,_child,[_parent,_attachPoint # 0]] call QS_fnc_eventAttach;
 		if (local _child) then {
 			_child setDir (_attachPoint # 1);
 		} else {

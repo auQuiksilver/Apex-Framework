@@ -61,7 +61,7 @@ if (_state isEqualTo 1) then {
 			_allPlayers = allPlayers;
 			{
 				_buildingCandidate = _x;
-				if (([(getPosATL _buildingCandidate),75,[WEST,CIVILIAN],_allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
+				if (([_buildingCandidate,75,[WEST,CIVILIAN],_allPlayers,0] call (missionNamespace getVariable 'QS_fnc_serverDetector')) isEqualTo []) then {
 					if ((count (_buildingCandidate buildingPos -1)) > 3) then {
 						_building = _buildingCandidate;
 					};

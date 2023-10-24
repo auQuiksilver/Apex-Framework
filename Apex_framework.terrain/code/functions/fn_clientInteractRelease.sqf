@@ -26,13 +26,13 @@ if (_attachedObjects isNotEqualTo []) then {
 				_unit = _x;
 				if (!alive _unit) exitWith {
 					_released = TRUE;
-					detach _unit;
+					[0,_unit] call QS_fnc_eventAttach;
 					['switchMove',QS_player,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 				};
 				if ((animationState _unit) in ['ainjppnemrunsnonwnondb_grab','ainjppnemrunsnonwnondb_still','acts_injuredlyingrifle02','ainjppnemstpsnonwnondnon']) then {
 					50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 					_released = TRUE;
-					detach _unit;
+					[0,_unit] call QS_fnc_eventAttach;
 					QS_player playAction 'released';
 					['switchMove',_unit,(['','acts_InjuredLyingRifle02'] select ((lifeState _unit) isEqualTo 'INCAPACITATED'))] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 					['setDir',_unit,((getDir _unit) + 180)] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
@@ -50,14 +50,14 @@ if (_attachedObjects isNotEqualTo []) then {
 					]) then {
 						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 						_released = TRUE;
-						detach _unit;
+						[0,_unit] call QS_fnc_eventAttach;
 						QS_player switchMove '';
 						[8,_unit,(getDir QS_player) + 90,(['','acts_InjuredLyingRifle02'] select ((lifeState _unit) isEqualTo 'INCAPACITATED')),QS_player,'',(QS_player modelToWorldWorld [0,1,0.75])] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 						QS_player setVariable ['QS_RD_interacting',FALSE,TRUE];
 					} else {
 						50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 						_released = TRUE;
-						detach _unit;
+						[0,_unit] call QS_fnc_eventAttach;
 						if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 							['switchMove',_unit,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 							for '_x' from 0 to 1 step 1 do {
@@ -87,7 +87,7 @@ if (_attachedObjects isNotEqualTo []) then {
 				if (_unit getVariable ['QS_RD_escorted',FALSE]) then {
 					50 cutText [localize 'STR_QS_Text_092','PLAIN DOWN',0.3];
 					_released = TRUE;
-					detach _unit;
+					[0,_unit] call QS_fnc_eventAttach;
 					0 = ['switchMove',_unit,(_unit getVariable ['QS_RD_storedAnim',''])] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 					for '_x' from 0 to 1 step 1 do {
 						if (!isPlayer _unit) then {
@@ -135,7 +135,7 @@ if (_attachedObjects isNotEqualTo []) then {
 							0 spawn {uiSleep 1;QS_player allowDamage TRUE;};
 						};
 						_released = TRUE;
-						detach _object;
+						[0,_object] call QS_fnc_eventAttach;
 						_object setPosWorld _position;
 						if ((_positionATL # 2) < 1.75) then {
 							_object setVectorUp (surfaceNormal _position);
@@ -157,7 +157,7 @@ if (_attachedObjects isNotEqualTo []) then {
 						QS_player allowDamage FALSE;
 						0 spawn {uiSleep 1;QS_player allowDamage TRUE;};
 					};
-					detach _object;
+					[0,_object] call QS_fnc_eventAttach;
 					_object setPosWorld _position;
 					if ((_positionATL # 2) < 1.75) then {
 						_object setVectorUp (surfaceNormal _position);

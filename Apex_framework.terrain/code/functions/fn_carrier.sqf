@@ -75,8 +75,8 @@ if (_type isEqualTo 'MOVE') exitWith {
 				_logic = _carrier getVariable ['QS_carrier_defenseLogic',objNull];
 				if (!isNull _logic) then {
 					_logic setPosWorld (getPosWorld _carrier);
-					_logic attachTo [_carrier,[0,0,0]];
-					detach _logic;
+					[1,_logic,[_carrier,[0,0,0]]] call QS_fnc_eventAttach;
+					[0,_logic] call QS_fnc_eventAttach;
 					_logic setDir (getDir _carrier);
 				};
 			};
@@ -255,8 +255,8 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 		_logic setVariable ['QS_dynSim_ignore',TRUE,TRUE];
 		_logic setVariable ['QS_cleanup_protected',TRUE,FALSE];
 		_logic setPosWorld (getPosWorld (missionNamespace getVariable 'QS_carrierObject'));
-		_logic attachTo [(missionNamespace getVariable 'QS_carrierObject'),[0,0,0]];
-		detach _logic;
+		[1,_logic,[(missionNamespace getVariable 'QS_carrierObject'),[0,0,0]]] call QS_fnc_eventAttach;
+		[0,_logic] call QS_fnc_eventAttach;
 		_logic setDir (getDir (missionNamespace getVariable 'QS_carrierObject'));
 		(missionNamespace getVariable 'QS_carrierObject') setVariable ['QS_carrier_defenseLogic',_logic,FALSE];
 		private _turret = objNull;
@@ -271,7 +271,7 @@ if (_type isEqualTo 'DEFENSE') exitWith {
 			_turret setDir ((getDir (missionNamespace getVariable 'QS_carrierObject')) - (_x # 2));
 			_turret setPosWorld ((missionNamespace getVariable 'QS_carrierObject') modelToWorldWorld (_x # 1));
 			_turret setVelocity [0,0,0];
-			[_turret,_logic,TRUE] call (missionNamespace getVariable 'BIS_fnc_attachToRelative');
+			[_turret,_logic,TRUE] call (missionNamespace getVariable 'QS_fnc_attachToRelative');
 			_turret enableSimulation TRUE;
 			_turret setVehicleReportRemoteTargets FALSE;
 			_turret setVehicleReceiveRemoteTargets FALSE;

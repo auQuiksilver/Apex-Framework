@@ -126,7 +126,7 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 			_infTypes = ['urbanspawn_groups_stratis_1'] call QS_data_listUnits;
 		};
 		private _infGroupType = selectRandomWeighted _infTypes;
-		_groupComposition = QS_core_groups_map getOrDefault [_infGroupType,[]];
+		_groupComposition = QS_core_groups_map getOrDefault [toLowerANSI _infGroupType,[]];
 		if (_groupComposition isEqualTo []) exitWith {
 			diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_infGroupType]);
 		};
@@ -220,7 +220,7 @@ if (_type isEqualTo 'HQ') exitWith {
 			_buildingPositions = _buildingPositions call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
 			private _infTypes = ['urbanspawn_groups_2'] call QS_data_listUnits;
 			private _infGroupType = selectRandomWeighted _infTypes;
-			_groupComposition = QS_core_groups_map getOrDefault [_infGroupType,[]];
+			_groupComposition = QS_core_groups_map getOrDefault [toLowerANSI _infGroupType,[]];
 			if (_groupComposition isEqualTo []) exitWith {
 				diag_log (format ['***** DEBUG ***** Group composition is null - %1 *****',_infGroupType]);
 			};

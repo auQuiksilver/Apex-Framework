@@ -85,7 +85,7 @@ if (_state isEqualTo 1) then {
 			'Killed',
 			{
 				params ['_killed','_killer'];
-				detach _killed;
+				[0,_killed] call QS_fnc_eventAttach;
 				['sideChat',[WEST,'BLU'],localize 'STR_QS_Chat_023'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			}
 		];

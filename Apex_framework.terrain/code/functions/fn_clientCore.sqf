@@ -1702,6 +1702,7 @@ _fn_updateMass = missionNamespace getVariable 'QS_fnc_updateMass';
 _fn_canRecover = missionNamespace getVariable 'QS_fnc_canRecover';
 _fn_canVehicleCargo = missionNamespace getVariable 'QS_fnc_canVehicleCargo';
 _fn_getObjectVolume = missionNamespace getVariable 'QS_fnc_getObjectVolume';
+_fn_eventAttach = missionNamespace getVariable 'QS_fnc_eventAttach';
 
 /*/================================================================================================================= LOOP/*/
 for '_z' from 0 to 1 step 0 do {
@@ -1845,7 +1846,7 @@ for '_z' from 0 to 1 step 0 do {
 						) then {
 							if (_QS_liveFeed_vehicle isNotEqualTo _QS_liveFeed_vehicle_current) then {
 								_QS_liveFeed_vehicle_current = _QS_liveFeed_vehicle;
-								_QS_liveFeed_camera attachTo [(missionNamespace getVariable 'QS_RD_liveFeed_neck'),([[2,-4,2],[0.25,-0.10,0.05]] select (_QS_liveFeed_vehicle isKindOf 'CAManBase'))];
+								[1,_QS_liveFeed_camera,[(missionNamespace getVariable 'QS_RD_liveFeed_neck'),([[2,-4,2],[0.25,-0.10,0.05]] select (_QS_liveFeed_vehicle isKindOf 'CAManBase'))]] call _fn_eventAttach;
 								_QS_liveFeed_camera cameraEffect ['Internal','Back','qs_rd_lfe'];
 								_QS_liveFeed_camera camSetTarget (missionNamespace getVariable 'QS_RD_liveFeed_target');
 								_QS_liveFeed_display setObjectTexture [0,'#(argb,512,512,1)r2t(qs_rd_lfe,1)'];
@@ -4195,7 +4196,7 @@ for '_z' from 0 to 1 step 0 do {
 							{(_x isKindOf 'CAManBase')} &&
 							{(!alive _x)}
 						) then {
-							detach _x;
+							[0,_x] call QS_fnc_eventAttach;
 							['switchMove',_QS_player,''] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 							if (_x getVariable ['QS_RD_carried',_false]) then {
 								_QS_player setVariable ['QS_RD_carrying',_false,_true];
@@ -4222,7 +4223,7 @@ for '_z' from 0 to 1 step 0 do {
 								{(_x isKindOf 'CAManBase')} &&
 								{(!alive _x)}
 							) then {
-								detach _x;
+								[0,_x] call QS_fnc_eventAttach;
 								if (_x getVariable ['QS_RD_dragged',_false]) then {
 									_QS_player setVariable ['QS_RD_dragging',_false,_true];
 									_QS_player setVariable ['QS_RD_interacting',_false,_true];
@@ -4776,7 +4777,7 @@ for '_z' from 0 to 1 step 0 do {
 											disableUserInput TRUE;
 										};
 										moveOut player;
-										detach player;
+										[0,player] call QS_fnc_eventAttach;
 										uiSleep 1.5;
 										for '_x' from 0 to 1 step 0 do {
 											player setVelocity _QS_terminalVelocity;

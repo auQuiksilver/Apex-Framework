@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/05/2023 A3 2.12 by Quiksilver
+	24/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -34,6 +34,18 @@ if (_t2 isKindOf 'Plane_Fighter_03_base_F') then {
 	};
 };
 if (_t2 isKindOf 'MBT_04_base_F') then {
+	if (_isSimpleObject || {(isNull (driver _u))}) then {
+		_defaultTextures = QS_hashmap_configfile getOrDefaultCall [
+			format ['cfgvehicles_%1_texturedefault',_t2],
+			{(getArray ((configOf _u) >> 'TextureSources' >> 'Grey' >> 'textures'))},
+			TRUE
+		];
+		{ 
+			_u setObjectTextureGlobal [_forEachIndex,_x]; 
+		} forEach _defaultTextures;
+	};
+};
+if (_t2 isKindOf 'MBT_02_railgun_base_F') then {
 	if (_isSimpleObject || {(isNull (driver _u))}) then {
 		_defaultTextures = QS_hashmap_configfile getOrDefaultCall [
 			format ['cfgvehicles_%1_texturedefault',_t2],
@@ -346,7 +358,7 @@ if (_u isKindOf 'LandVehicle') then {
 				params ['_vehicle'];
 				if ((attachedObjects _vehicle) isNotEqualTo []) then {
 					{
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 						if (!isPlayer _x) then {
 							_x setDamage [1,FALSE];
 							deleteVehicle _x;
@@ -361,7 +373,7 @@ if (_u isKindOf 'LandVehicle') then {
 				params ['_vehicle'];
 				if ((attachedObjects _vehicle) isNotEqualTo []) then {
 					{
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 						if (!isPlayer _x) then {
 							_x setDamage [1,FALSE];
 							deleteVehicle _x;
@@ -372,10 +384,10 @@ if (_u isKindOf 'LandVehicle') then {
 		];
 		_u setVariable ['QS_tow_veh',2,TRUE];
 		_stretcher1 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
-		_stretcher1 attachTo [_u,[0,-0.75,-0.7]];
+		[1,_stretcher1,[_u,[0,-0.75,-0.7]]] call QS_fnc_eventAttach;
 		_stretcher1 setVariable ['QS_attached',TRUE,TRUE];
 		_stretcher2 = createSimpleObject ['a3\props_f_orange\humanitarian\camps\stretcher_01_f.p3d',[0,0,0]];
-		_stretcher2 attachTo [_u,[0.85,-0.75,-0.7]];
+		[1,_stretcher2,[_u,[0.85,-0.75,-0.7]]] call QS_fnc_eventAttach;
 		_stretcher2 setVariable ['QS_attached',TRUE,TRUE];
 		_u spawn {
 			params ['_u'];
@@ -691,7 +703,7 @@ _u addEventHandler [
 					((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
 					FALSE
 				];
-				detach _x;
+				[0,_x] call QS_fnc_eventAttach;
 				deleteVehicle _x;
 			} count (attachedObjects _vehicle);
 		};

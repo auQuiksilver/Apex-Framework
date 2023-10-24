@@ -20,7 +20,7 @@ _sittingAnimations = ['sitting_animations_1'] call QS_data_listOther;
 _player = QS_player;
 if (_type isEqualTo 0) then {
 	if (!isNull (attachedTo _player)) then {
-		detach (attachedTo _player);
+		[0,(attachedTo _player)] call QS_fnc_eventAttach;
 	};
 	_posInFront = _player modelToWorldWorld [0,0.5,0];
 	_player setPosWorld _posInFront;
@@ -69,7 +69,7 @@ if (_type isEqualTo 1) then {
 		_attachY = 0;
 	};
 	if (_player isEqualTo player) then {
-		_player attachTo [_object,[0,_attachY,0]];
+		[1,_player,[_object,[0,_attachY,0]]] call QS_fnc_eventAttach;
 	};
 	if (_player isEqualTo player) then {
 		player setVariable [
@@ -81,7 +81,7 @@ if (_type isEqualTo 1) then {
 		[_object] spawn {
 			params ['_object'];
 			scriptName 'Seated thread';
-			detach player;
+			[0,player] call QS_fnc_eventAttach;
 			private _sitDirectionOffset = 180;
 			if (((toLowerANSI (typeOf _object)) in ['land_armchair_01_f']) || {((toLowerANSI ((getModelInfo _object) # 0)) in ['armchair_01_f.p3d'])}) then {
 				_sitDirectionOffset = 0;

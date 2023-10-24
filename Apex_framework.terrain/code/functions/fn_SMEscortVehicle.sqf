@@ -335,7 +335,7 @@ _suppressTarget_checkDelay = time + 30;
 _suppressTarget_var = 'QS_vehicle_suppressTarget';
 _suppressTarget_type = 'SuppressTarget';
 _suppressTarget = createVehicle [_suppressTarget_type,[0,0,0],[],0,'NONE'];
-_suppressTarget attachTo [_vehicle,[0,(random 2),(random 1)]];
+[1,_suppressTarget,[_vehicle,[0,(random 2),(random 1)]]] call QS_fnc_eventAttach;
 _vehicle setVariable [_suppressTarget_var,_suppressTarget,FALSE];
 _suppressTargets pushBack _suppressTarget;
 private _technicalType = '';
@@ -812,7 +812,7 @@ for '_x' from 0 to 1 step 0 do {
 					if (isNil {_convoyVehicle getVariable _suppressTarget_var}) then {
 						if (alive _convoyVehicle) then {
 							_suppressTarget = createVehicle [_suppressTarget_type,[0,0,0],[],0,'NONE'];
-							_suppressTarget attachTo [_convoyVehicle,[0,(random 2),(random 1)]];
+							[1,_suppressTarget,[_convoyVehicle,[0,(random 2),(random 1)]]] call QS_fnc_eventAttach;
 							_convoyVehicle setVariable [_suppressTarget_var,_suppressTarget,FALSE];
 							0 = _suppressTargets pushBack _suppressTarget;
 						};	

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/02/2023 A3 2.12 by Quiksilver
+	16/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -26,7 +26,7 @@ params ['_errorText','_sourceFile','_lineNumber','_errorPos','_content','_stackT
 localNamespace setVariable ['QS_allScriptErrors',(localNamespace getVariable ['QS_allScriptErrors',0]) + 1];
 // Is error unique
 _savedErrors = profileNamespace getVariable ['QS_savedScriptErrors',[]];
-_errorData = toArray (trim (str [_errorText,_sourceFile,_lineNumber,_errorPos]));
+_errorData = str (toArray (trim (str [_errorText,_sourceFile,_lineNumber,_errorPos])));
 // If error is unique, save it
 if (!(_errorData in _savedErrors)) then {
 	if ((count _savedErrors) >= 10) then {

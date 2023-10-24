@@ -76,7 +76,7 @@ if (_mode isEqualTo 2) exitWith {
 	if (_memPoint isNotEqualTo '') then {
 		uiNamespace setVariable ['QS_targetBoundingBox_attachTo',[_parent,_offset,_memPoint,_followRotation]];
 	};
-	_child attachTo (uiNamespace getVariable ['QS_targetBoundingBox_attachTo',[_parent,_offset]]);
+	[1,_child,(uiNamespace getVariable ['QS_targetBoundingBox_attachTo',[_parent,_offset]])] call QS_fnc_eventAttach;
 	_args set [0,1];
 	_args call QS_fnc_getFrontModelPos;
 	TRUE;

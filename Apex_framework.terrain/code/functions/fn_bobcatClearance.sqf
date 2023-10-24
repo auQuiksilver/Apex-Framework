@@ -32,7 +32,7 @@ if (_mode isEqualTo 'INIT') then {
 							50 cutText [localize 'STR_QS_Text_017','PLAIN DOWN',0.25];
 							_v animateSource ['MovePlow',0,0.9];
 							_soundSource = createSoundSource ['SoundPlowUp',(_v modelToWorld (_v selectionPosition 'plow')),[],0];
-							_soundSource attachTo [_v,(_v selectionPosition 'plow')];
+							[1,_soundSource,[_v,(_v selectionPosition 'plow')]] call QS_fnc_eventAttach;
 							_timeout = diag_tickTime + 8;
 							waitUntil {
 								uiSleep 0.1;
@@ -44,7 +44,7 @@ if (_mode isEqualTo 'INIT') then {
 							50 cutText [localize 'STR_QS_Text_018','PLAIN DOWN',0.25];
 							_v animateSource ['MovePlow',1,0.9];
 							_soundSource = createSoundSource ['SoundPlowDown',(_v modelToWorld (_v selectionPosition 'plow')),[],0];
-							_soundSource attachTo [_v,(_v selectionPosition 'plow')];
+							[1,_soundSource,[_v,(_v selectionPosition 'plow')]] call QS_fnc_eventAttach;
 							_timeout = diag_tickTime + 8;
 							waitUntil {
 								uiSleep 0.1;

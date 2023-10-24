@@ -59,11 +59,11 @@ if (_type isEqualTo 2) exitWith {
 	if (alive _body) then {
 		_cargoPosition = [[0,-0.75,-0.5],[0.85,-0.75,-0.5]] select ((count ((attachedObjects _vehicle) select {((_x isKindOf 'CAManBase') && (alive _x))})) isEqualTo 1);
 		_body setVariable ['QS_RD_loaded',TRUE,TRUE];
-		detach _body;
+		[0,_body] call QS_fnc_eventAttach;
 		if (!isPlayer _body) then {
 			['enableAIFeature',_body,['ANIM',FALSE]] remoteExecCall ['QS_fnc_remoteExecCmd',_body];
 		};
-		_body attachTo [_vehicle,_cargoPosition];
+		[1,_body,[_vehicle,_cargoPosition]] call QS_fnc_eventAttach;
 		['switchMove',_body,'unconsciousrevivedefault_a'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 		_return = TRUE;
 	};
@@ -75,7 +75,7 @@ if (_type isEqualTo 3) exitWith {
 	_return = TRUE;
 	_position = _vehicle modelToWorld (_vehicle selectionPosition ['pos cargo','memory']);
 	_body setVariable ['QS_RD_loaded',FALSE,TRUE];
-	detach _body;
+	[0,_body] call QS_fnc_eventAttach;
 	_body setVehiclePosition [_position,[],0,'NONE'];
 	['switchMove',_body,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 	if (!isPlayer _body) then {

@@ -57,7 +57,7 @@ if (_t isKindOf 'CAManBase') then {
 			params ['_unit'];
 			[7.2,_unit,'ainjpfalmstpsnonwnondf_carried_dead',player,'acinpercmstpsnonwnondnon'] remoteExec ['QS_fnc_remoteExec',0,FALSE];
 			player forceWalk TRUE;
-			_unit attachTo [player,[0.1,-0.1,-1.2],'leftshoulder',TRUE];
+			[1,_unit,[player,[0.1,-0.1,-1.2],'leftshoulder',TRUE]] call QS_fnc_eventAttach;
 			50 cutText [(format [localize 'STR_QS_Text_089',(name _unit)]),'PLAIN DOWN',0.3];
 		};
 		_onFailed = {

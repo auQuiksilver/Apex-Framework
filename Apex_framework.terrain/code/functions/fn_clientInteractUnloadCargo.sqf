@@ -88,7 +88,7 @@ if (
 			if (isObjectHidden _object) then {
 				[71,_object,FALSE] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			};
-			detach _object;				
+			[0,_object] call QS_fnc_eventAttach;		
 			_object setVectorUp (surfaceNormal _position);
 			_object setPos _position;
 			_object allowDamage FALSE;

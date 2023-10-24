@@ -26,7 +26,7 @@ private _attachedArray = [];
 {
 	_obj = createVehicle [_x # 0,[0,0,0]];
 	_obj allowDamage FALSE;
-	_obj attachTo [_vehicle,_x # 1];
+	[1,_obj,[_vehicle,_x # 1]] call QS_fnc_eventAttach;
 	_obj setDir (_x # 2);
 	if (_obj isKindOf 'StaticWeapon') then {
 		_obj setVariable ['QS_curator_disableEditability',TRUE,TRUE];
@@ -210,7 +210,7 @@ private _attachedArray = [];
 		{
 			params ['_vehicle'];
 			{
-				detach _x;
+				[0,_x] call QS_fnc_eventAttach;
 				deleteVehicle _x;
 			} count (attachedObjects _vehicle);
 		}

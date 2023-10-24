@@ -20,6 +20,9 @@ if (!simulationEnabled _vehicle) then {
 if (_vehicle getVariable ['QS_logistics_wreck',FALSE]) then {
 	_unit moveOut _vehicle;
 };
+if (waterDamaged _vehicle) then {
+	50 cutText [localize 'STR_QS_Text_474','PLAIN DOWN',0.25];	
+};
 if (local _vehicle) then {
 	if (_vehicle isKindOf 'LandVehicle') then {
 		[_vehicle,TRUE,TRUE] call QS_fnc_updateCenterOfMass;

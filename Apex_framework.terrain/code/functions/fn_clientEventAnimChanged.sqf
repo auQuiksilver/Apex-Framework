@@ -51,8 +51,8 @@ if (_anim in ['ainjppnemrunsnonwnondb_still','ainjppnemrunsnonwrfldb_still','ain
 				if (!alive _attachedTo) exitWith {_unit playActionNow 'released';};
 				if (!isNull (objectParent _unit)) exitWith {};
 				if (!((lifeState _unit) in ['HEALTHY','INJURED'])) exitWith {};
-				if (!((lifeState _attachedTo) in ['HEALTHY','INJURED'])) exitWith {detach _unit;_unit playActionNow 'released';};
-				if (!isNull (objectParent _attachedTo)) exitWith {detach _unit;_unit playActionNow 'released';};
+				if (!((lifeState _attachedTo) in ['HEALTHY','INJURED'])) exitWith {[0,_unit] call QS_fnc_eventAttach;_unit playActionNow 'released';};
+				if (!isNull (objectParent _attachedTo)) exitWith {[0,_unit] call QS_fnc_eventAttach;_unit playActionNow 'released';};
 				uiSleep 1;
 			};	
 		};
@@ -90,7 +90,7 @@ if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmst
 				};
 				if (((attachedObjects player) findIf {((_x isKindOf 'CAManBase') && ((lifeState _x) isNotEqualTo 'INCAPACITATED'))}) isNotEqualTo -1) exitWith {
 					{
-						detach _x;
+						[0,_x] call QS_fnc_eventAttach;
 					} count attachedObjects player;
 					player playActionNow 'released';
 				};
@@ -128,7 +128,7 @@ if (_anim in ['ainjpfalmstpsnonwrfldnon_carried_still','ainjpfalmstpsnonwnondnon
 			};
 			if (_putDown) then {
 				if (!(_unit getVariable ['QS_RD_loaded',FALSE])) then {
-					detach _unit;
+					[0,_unit] call QS_fnc_eventAttach;
 				};
 			};
 		};
