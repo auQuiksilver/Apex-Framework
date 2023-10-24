@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/05/2023 A3 2.12 by Quiksilver
+	24/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -20,7 +20,10 @@ if (
 		(_vehicle isKindOf 'LandVehicle') || 
 		{(_vehicle isKindOf 'Ship')}
 	)} &&
-	{((_vehicle unitTurret player) isEqualTo [-1])} &&
+	{
+		((_vehicle unitTurret player) isEqualTo [-1]) ||
+		(player isEqualTo (currentPilot _vehicle))
+	} &&
 	{(isNull curatorCamera)} &&
 	{(isNull (ropeAttachedTo _vehicle))} &&
 	{(isNull (isVehicleCargo _vehicle))} &&

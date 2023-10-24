@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	16/02/2023 A3 2.12 by Quiksilver
+	24/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -17,7 +17,10 @@ _vehicle = cameraOn;
 if (
 	(local _vehicle) &&
 	{((_vehicle isKindOf 'LandVehicle') || (_vehicle isKindOf 'Ship'))} &&
-	{((_vehicle unitTurret player) isEqualTo [-1])} &&
+	{
+		((_vehicle unitTurret player) isEqualTo [-1]) ||
+		(player isEqualTo (currentPilot _vehicle))
+	} &&
 	{(isNull curatorCamera)}
 ) then {
 	(getCruiseControl _vehicle) params ['_speed','_cruiseControlActive'];
