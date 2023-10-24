@@ -15,7 +15,8 @@ __________________________________________________________*/
 
 params ['_vehicle','_weapon','_muzzle','_mode','_ammo','_magazine','_projectile','_gunner'];
 if (
-	(_weapon in ['cannon_120mm_long','cannon_125mm','cannon_railgun','cannon_125mm_advanced','cannon_120mm']) &&
+	(local _vehicle) &&
+	{(_weapon in ['cannon_120mm_long','cannon_125mm','cannon_railgun','cannon_125mm_advanced','cannon_120mm'])} &&
 	{(((vectorMagnitude (velocity _vehicle)) * 3.6) > 3)} &&
 	{(((vectorMagnitude (velocity _vehicle)) * 3.6) < 80)} &&
 	{isTouchingGround _vehicle}
