@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	29/10/2023 A3 2.14 by Quiksilver
+	30/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -89,34 +89,6 @@ if (_mode isEqualTo 1) then {
 	_dn = _cursorObject getVariable ['QS_ST_customDN',_displayName];
 	_pos = (getPosASL _cursorObject) vectorAdd [0,0,1];
 	_vectors = [vectorDir _cursorObject,vectorUp _cursorObject];
-	_vIndex = (serverNamespace getVariable 'QS_v_Monitor') findIf { _cursorObject isEqualTo (_x # 0) };
-	if (_vIndex isEqualTo -1) then {
-		(serverNamespace getVariable 'QS_v_Monitor') pushBack [
-			_cursorObject,
-			-1,
-			FALSE,
-			{},
-			typeOf _cursorObject,
-			[0,0,0],
-			0,
-			FALSE,
-			-1,
-			-1,
-			1000,
-			1000,
-			0,		
-			-1,
-			FALSE,
-			0,
-			{TRUE},
-			FALSE,
-			TRUE,
-			[_pos,_vectors],
-			[FALSE,'','',''],
-			0,
-			{FALSE}
-		];
-	};
 	_type = [_cursorObject] call QS_fnc_getContainerType;
 	_entity = createVehicle [_type,[-1000,-1000,(200 + (random 200))]];
 	_entity enableDynamicSimulation FALSE;
@@ -184,6 +156,34 @@ if (_mode isEqualTo 1) then {
 			};
 		}
 	] remoteExec ['call',0,FALSE];
+	_vIndex = (serverNamespace getVariable 'QS_v_Monitor') findIf { _cursorObject isEqualTo (_x # 0) };
+	if (_vIndex isEqualTo -1) then {
+		(serverNamespace getVariable 'QS_v_Monitor') pushBack [
+			_cursorObject,
+			-1,
+			FALSE,
+			{},
+			typeOf _cursorObject,
+			[0,0,0],
+			0,
+			FALSE,
+			-1,
+			-1,
+			1000,
+			1000,
+			0,		
+			-1,
+			FALSE,
+			0,
+			{TRUE},
+			FALSE,
+			TRUE,
+			[_pos,_vectors],
+			[FALSE,'','',''],
+			0,
+			{FALSE}
+		];
+	};
 	_marker = createMarker [str systemTime,_entity];
 	_marker setMarkerTypeLocal 'mil_dot';
 	_marker setMarkerShapeLocal 'Icon';

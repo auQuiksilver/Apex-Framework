@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	29/10/2023 A3 2.14 by Quiksilver
+	30/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,7 @@ ____________________________________________/*/
 
 missionProductVersion = "1.5.6";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "29.10.2023";
+missionProductDate = "30.10.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	28/03/2023 A3 2.12 by Quiksilver
+	30/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -51,7 +51,8 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 		if (
 			(!isNull _x) &&
 			{((typeOf _x) isNotEqualTo '')} &&
-			{!(isSimpleObject _x)}
+			{!(isSimpleObject _x)} &&
+			{(!((toLowerANSI (typeOf _x)) in ['#lightpoint']))}
 		) then {
 			_dn = QS_hashmap_configfile getOrDefaultCall [
 				format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _x)],

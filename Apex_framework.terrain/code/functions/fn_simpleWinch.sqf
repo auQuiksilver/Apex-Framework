@@ -931,11 +931,14 @@ if (_mode isEqualTo 'MODE24') exitWith {
 								};
 							};
 							if (!isNull _parent) then {
-								_newHelper setVariable ['QS_winch_surfaceObject',[_winchTargetInfo # 1,(getPosWorld (_winchTargetInfo # 1))],TRUE];
+								//_newHelper setVariable ['QS_winch_surfaceObject',[_winchTargetInfo # 1,(getPosWorld (_winchTargetInfo # 1))],TRUE];
 								_surfaceInfo = _parent getVariable ['QS_winch_surfaceObject',[]];
 								if (
 									(_surfaceInfo isNotEqualTo []) &&
-									{((getPosWorld (_surfaceInfo # 0)) isNotEqualTo (_surfaceInfo # 1))}
+									{
+										((getPosWorld (_surfaceInfo # 0)) isNotEqualTo (_surfaceInfo # 1)) ||
+										((_surfaceInfo # 1) isEqualTo [0,0,0])
+									}
 								) then {
 									_parent setDamage [1,FALSE];
 									['MODE16',_parent,_rope] spawn QS_fnc_simpleWinch;

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/01/2023 A3 2.10 by Quiksilver
+	30/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -19,7 +19,8 @@ params ['_unit'];
 	{
 		(!(
 			(_x isKindOf 'Sign_Sphere10cm_F') ||
-			(_x isKindOf 'Logic')
+			(_x isKindOf 'Logic') ||
+			((toLowerANSI (typeOf _x)) in ['#lightpoint'])
 		))
 	}
 }) isNotEqualTo -1)
