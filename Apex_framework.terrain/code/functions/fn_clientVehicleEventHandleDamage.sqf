@@ -189,7 +189,8 @@ if (
 				(
 					(
 						(_vehicle isKindOf 'Car') ||
-						(_vehicle isKindOf 'Tank')
+						(_vehicle isKindOf 'Tank') ||
+						(_vehicle isKindOF 'Wheeled_APC_F')
 					) &&
 					(!(_vehicle isKindOf 'StaticWeapon'))
 				)

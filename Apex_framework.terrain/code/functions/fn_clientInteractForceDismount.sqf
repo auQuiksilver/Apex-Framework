@@ -18,7 +18,7 @@ if (diag_tickTime < (uiNamespace getVariable ['QS_ui_genericCooldown',-1])) exit
 uiNamespace setVariable ['QS_ui_genericCooldown',diag_tickTime + 2];
 _cameraOn = cameraOn;
 params ['',['_radius',sizeOf (typeOf _cameraOn)],['_allowPlayers',FALSE]];
-private _selectedUnits = groupSelectedUnits player;
+private _selectedUnits = groupSelectedUnits QS_player;
 private _crew = [];
 if (
 	(alive _cameraOn) &&
@@ -51,7 +51,7 @@ if (
 		50 cutText [format [localize 'STR_QS_Text_382',_val],'PLAIN DOWN',0.5];
 	} else {
 		if (
-			((locked _cameraOn) in [0]) &&
+			((locked _cameraOn) in [0,1]) &&
 			{((_cameraOn emptyPositions 'cargo') > 0)}
 		) then {
 			_cameraOn setUnloadInCombat [FALSE,FALSE];

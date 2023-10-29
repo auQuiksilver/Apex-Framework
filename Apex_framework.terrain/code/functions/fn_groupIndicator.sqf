@@ -22,7 +22,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 		{(visibleMap)} ||
 		{(!alive _player)} ||
 		{(captive _player)} ||
-		{isNull (remoteControlled _player)} ||
+		{(!isNull (remoteControlled _player))} ||
 		{(cameraOn isNotEqualTo (vehicle _player))} ||
 		{((count (units _player)) < 2)} ||
 		{(!isNull curatorCamera)}

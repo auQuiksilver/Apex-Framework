@@ -107,7 +107,6 @@ _maxSandbags = 100;										// Global cap on player-deployable fortifications.
 _maxBuiltObjects = 500;									// Global cap on base-building objects (does not include player sandbags).
 _towing = 1;											// Towing mechanics. 0 - Disabled. 1 - Enabled. Most vehicles (Land and Boat) can Tow in one way or another.
 _winch = 2;												// Winch mechanics. 0 - Disabled. 1 - Configured vehicles (* See note --> ). 2 - All land vehicles.   * Some vanilla vehicles have visible winches: Hunter, Strider, Prowler LSV, Offroad, Bobcat, Zamak MLRS
-_unflipVehicles = 1;									// Vehicle Unflip interaction. 0 - Disabled. 1 - Enabled. With new Winch/Rope mechanics, Unflip should not be necessary.
 _mass = 1;												// Simulate vehicle mass changes based on weight of cargo.	 (Recommended = 0).	0 - Disabled. 1 - Enabled.
 _centerofmass = 1;										// Simulate vehicle center-of-mass based on cargo it is carrying. 	(Recommended = 1). 0 - Disabled. 1 - Vehicle-In-Vehicle Cargo only.   2. All cargo objects.   Use with caution!
 _role_selection_menu_button = 0;						// Role Selection Menu Button. 	Enables a button in the Escape Menu to access the Role Selection Menu.	0 - Disabled. 1 - Enabled. Default - 0.		Use this option to allow any player to change their role from any map location. If this value is 0, the only way to access the menu after login is via Arsenal crates user action. Recommend 0 for standard gamemodes to avoid exploitation.
@@ -351,7 +350,6 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_maxBuild',_maxBuiltObjects,TRUE],
 	['QS_missionConfig_interactTowing',_towing > 0,TRUE],
 	['QS_missionConfig_interactWinch',_winch,TRUE],
-	['QS_missionConfig_interactUnflip',_unflipVehicles > 0,TRUE],
 	['QS_missionConfig_mass',_mass > 0,TRUE],
 	['QS_missionConfig_centerOfMass',_centerofmass,TRUE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],

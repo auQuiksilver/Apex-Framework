@@ -155,6 +155,7 @@ _objNull = objNull;
 private _cameraView = cameraView;
 _scriptNull = scriptNull;
 private _genericResult = nil;
+private _isMissionCursorObject = objNull;
 _QS_nullPos = [0,0,0];
 _QS_firstRun = TRUE;
 _mainMenuIDD = 2000;
@@ -191,6 +192,7 @@ private _currentWeapon = '';
 private _weaponItems = [];
 private _emitters = ['weaponlight_emitters_1'] call QS_data_listItems;
 private _laserBatteryClasses = qs_core_classnames_laserbatteries;
+private _recoveryVehicleTypes = ['crv',0] call QS_data_listVehicles;
 
 _fn_inString = missionNamespace getVariable 'QS_fnc_inString';
 if (_QS_isAdmin) then {
@@ -401,7 +403,6 @@ _QS_action_unflipVehicle = nil;
 _QS_action_unflipVehicle_text = localize 'STR_QS_Interact_015';
 _QS_action_unflipVehicle_array = [_QS_action_unflipVehicle_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractUnflipVehicle')},[],-50,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_unflipVehicle = FALSE;
-private _unflipEnabled = missionNamespace getVariable ['QS_missionConfig_interactUnflip',TRUE];
 /*/===== Revive /*/
 _QS_action_revive = nil;
 _QS_action_revive_text = localize 'STR_QS_Interact_016';
@@ -573,7 +574,7 @@ _nearCargoVehicles = [];
 /*/===== Unload Cargo/*/
 _QS_action_unloadCargo = nil;
 _QS_action_unloadCargo_text = localize 'STR_QS_Interact_038';
-_QS_action_unloadCargo_array = [_QS_action_unloadCargo_text,{[cursorObject] call (missionNamespace getVariable 'QS_fnc_clientInteractUnloadCargo')},[],-30,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+_QS_action_unloadCargo_array = [_QS_action_unloadCargo_text,{[cursorObject] call (missionNamespace getVariable 'QS_fnc_clientInteractUnloadCargo')},[],-30,FALSE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_unloadCargo = FALSE;
 _QS_action_unloadCargo_vTypes = [];
 _QS_action_unloadCargo_cargoTypes = [];
@@ -590,10 +591,15 @@ _QS_action_activateVehicle = nil;
 _QS_action_activateVehicle_text = localize 'STR_QS_Interact_039';
 _QS_action_activateVehicle_array = [_QS_action_activateVehicle_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractActivateVehicle')},nil,49,TRUE,TRUE,'','TRUE',-1,FALSE,''];
 _QS_interaction_activateVehicle = FALSE;
+/*/===== Interact Pack Vehicle/*/
+private _QS_interaction_packV = FALSE;
+private _QS_action_packV = nil;
+private _QS_action_packV_texts = [localize 'STR_QS_Interact_145',localize 'STR_QS_Interact_146'];
+private _QS_action_packV_array = [_QS_action_packV_texts # 0,{_this spawn QS_fnc_clientInteractPackEntity},nil,-50,FALSE,TRUE,'','TRUE',-1,FALSE,''];
 /*/===== Interact Pack Wreck/*/
 private _QS_action_packWreck = nil;
 private _QS_action_packWreck_text = localize 'STR_QS_Interact_145';
-private _QS_action_packWreck_array = [_QS_action_packWreck_text,{_this spawn QS_fnc_clientInteractPackWreck},nil,61,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+private _QS_action_packWreck_array = [_QS_action_packWreck_text,{_this spawn QS_fnc_clientInteractPackWreck},nil,61,FALSE,TRUE,'','TRUE',-1,FALSE,''];
 private _QS_interaction_packWreck = FALSE;
 /*/===== Huron Medical Container (Simple Object)/*/
 _QS_action_huronContainer = nil;
@@ -2054,17 +2060,7 @@ for '_z' from 0 to 1 step 0 do {
 			if (isNull _cursorObject) then {
 				_cursorObject = cursorObject;
 			};
-			/*/
-			if (
-				(!isNull _cursorObject) &&
-				{(_cursorObjectDistance < 15)} &&
-				{((getObjectType _cursorObject) isEqualTo 8)} &&
-				{((_QS_player knowsAbout _cursorObject) < 1)}
-			) then {
-				(group _QS_player) reveal [_cursorObject,4];
-				_QS_player reveal [_cursorObject,4];
-			};
-			/*/
+			_isMissionCursorObject = if (isNull _cursorObject) then {_false} else {((getObjectType _cursorObject) isEqualTo 8)};
 			_noObjectParent = isNull _objectParent;
 			
 			/*/===== Action Escort/*/
@@ -2550,10 +2546,10 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				(alive _cursorObject) &&
-				{((['LandVehicle','Reammobox_F'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
-				{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLowerANSI _QS_v2Type) in ['b_apc_tracked_01_crv_f','b_t_apc_tracked_01_crv_f']) && (_cursorObjectDistance <= 15))})} &&
-				{(((vectorUp _cursorObject) # 2) < 0.3)} &&
-				{_unflipEnabled || ((['MODE23',_cursorObject] call _fn_simpleWinch) # 0)}
+				{_isMissionCursorObject} &&
+				{((['LandVehicle','Reammobox_F','Ship','Cargo_base_F'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
+				{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLowerANSI _QS_v2Type) in _recoveryVehicleTypes) && (_cursorObjectDistance <= 15))})} &&
+				{(((vectorUp _cursorObject) # 2) < 0.3)}
 			) then {
 				if (!(_QS_interaction_unflipVehicle)) then {
 					_QS_interaction_unflipVehicle = _true;
@@ -2571,6 +2567,7 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				(_noObjectParent) &&
+				{_isMissionCursorObject} &&
 				{(_cursorObjectDistance < 20)} &&
 				{(((((getModelInfo _cursorObject) # 1) in _QS_arsenal_model) && (!(simulationEnabled _cursorObject))) || {(_cursorTarget getVariable ['QS_arsenal_object',_false])})} &&
 				{(((vectorMagnitude (velocity _QS_player)) * 3.6) < 1)}
@@ -2592,6 +2589,7 @@ for '_z' from 0 to 1 step 0 do {
 			if (
 				(_noObjectParent) &&
 				{(alive _cursorTarget)} &&
+				{_isMissionCursorObject} &&
 				{(_cursorDistance < 6)} &&
 				{(_cursorTarget isKindOf 'CAManBase')} &&
 				{(_cursorTarget isNotEqualTo _QS_player)} &&
@@ -2619,6 +2617,7 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				(_noObjectParent) &&
+				{_isMissionCursorObject} &&
 				{(_cursorObjectDistance < 20)} &&
 				{(((((getModelInfo _cursorObject) # 1) in _QS_arsenal_model) && (!(simulationEnabled _cursorObject))) || {(_cursorObject getVariable ['QS_arsenal_object',_false])})} &&
 				{(((vectorMagnitude (velocity _QS_player)) * 3.6) < 1)}
@@ -2679,6 +2678,7 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				(!(_noObjectParent)) &&
+				{_isMissionCursorObject} &&
 				{['MODE8'] call _fn_simplePull} && 
 				{_pullingEnabled}
 			) then {
@@ -2698,7 +2698,8 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				_noObjectParent &&
-				{((currentWeapon _QS_player) isEqualTo '')} &&
+				{_isMissionCursorObject} &&
+				//{((currentWeapon _QS_player) isEqualTo '')} &&
 				{['MODE5',_QS_player] call _fn_simpleWinch} &&
 				{_winchEnabled}
 			) then {
@@ -2718,7 +2719,8 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				_noObjectParent &&
-				{((currentWeapon _QS_player) isEqualTo '')} &&
+				{_isMissionCursorObject} &&
+				//{((currentWeapon _QS_player) isEqualTo '')} &&
 				{['MODE11',_QS_player] call _fn_simplePull}
 			) then {
 				if (!(_QS_interaction_ropecut)) then {
@@ -2737,6 +2739,7 @@ for '_z' from 0 to 1 step 0 do {
 			if (
 				_noObjectParent &&
 				{(alive _cursorObject)} &&
+				{_isMissionCursorObject} &&
 				{(_cursorObjectDistance < 8)} &&
 				{(_cursorObject getVariable ['QS_logistics_wreck',_false])} &&
 				{([_cursorObject] call _fn_canRecover)}
@@ -2753,19 +2756,61 @@ for '_z' from 0 to 1 step 0 do {
 				};
 			};
 			
+			/*/===== Interact Pack Vehicle/*/
+
+			if (
+				_noObjectParent &&
+				{(alive _cursorObject)} &&
+				{_isMissionCursorObject} &&
+				{(_cursorObjectDistance < 15)} &&
+				{simulationEnabled _cursorObject} &&
+				{(isNull (attachedTo _cursorObject))} &&
+				{(isNull (ropeAttachedTo _cursorObject))} &&
+				{(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1)} &&
+				{((getVehicleCargo _cursorObject) isEqualTo [])} &&
+				{((ropes _cursorObject) isEqualTo [])} &&
+				{(
+					(
+						(_cursorObject getVariable ['QS_logistics_packable',_false]) && 
+						{(!(_cursorObject getVariable ['QS_logistics_packed',_false]))} && 
+						{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))} &&
+						{(!(_cursorObject getVariable ['QS_logistics_deployed',_false]))} &&
+						{(!(lockedInventory _cursorObject))}
+					) ||
+					{(
+						(_cursorObject getVariable ['QS_logistics_isCargoParent',_false]) &&
+						{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))} &&
+						{(!isNull (_cursorObject getVariable ['QS_logistics_cargoChild',_objNull]))}
+					)}
+				)}
+			) then {
+				if (!(_QS_interaction_packV)) then {
+					_QS_interaction_packV = _true;
+					_QS_action_packV_array set [0,(_QS_action_packV_texts select (_cursorObject getVariable ['QS_logistics_isCargoParent',_false]))];
+					_QS_action_packV = player addAction _QS_action_packV_array;
+					player setUserActionText [_QS_action_packV,_QS_action_packV_array # 0,(format ["<t size='3'>%1</t>",_QS_action_packV_array # 0])];
+				};
+			} else {
+				if (_QS_interaction_packV) then {
+					_QS_interaction_packV = _false;
+					player removeAction _QS_action_packV;
+				};
+			};
+			
 			/*/===== Interact Pack Wreck/*/
 			
 			if (
 				_noObjectParent &&
 				{(alive _cursorObject)} &&
+				{_isMissionCursorObject} &&
 				{(_cursorObjectDistance < 8)} &&
 				{(_cursorObject getVariable ['QS_logistics_wreck',_false])} &&
-				{(_cursorObject getVariable ['QS_logistics_packable',_true])}
+				{(!(_cursorObject getVariable ['QS_logistics_packable',_false]))}
 			) then {
 				if (!(_QS_interaction_packWreck)) then {
 					_QS_interaction_packWreck = _true;
 					_QS_action_packWreck = player addAction _QS_action_packWreck_array;
-					player setUserActionText [_QS_action_packWreck,_QS_action_packWreck_text,(format ["<t size='3'>%1</t>",_QS_action_packWreck_text])];s
+					player setUserActionText [_QS_action_packWreck,_QS_action_packWreck_text,(format ["<t size='3'>%1</t>",_QS_action_packWreck_text])];
 				};
 			} else {
 				if (_QS_interaction_packWreck) then {
@@ -3218,16 +3263,14 @@ for '_z' from 0 to 1 step 0 do {
 				(_noObjectParent) &&
 				{(alive _cursorObject)} &&
 				{(_cursorObjectDistance <= 4)} &&
-				{((['LandVehicle','Air','Ship'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
+				{((['LandVehicle','Air','Ship','Cargo_base_F'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
 				{((locked _cursorObject) in [-1,0,1])} &&
 				{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))} &&
 				{(!(_cursorObject getVariable ['QS_logistics_deployed',_false]))} &&
 				{(!(lockedInventory _cursorObject))} &&
+				{(!(_cursorObject getVariable ['QS_lockedInventory',_false]))} &&
 				{
-					_attachedLoadableObjects = _attachedObjects select {
-						(!(_x isKindOf 'Sign_Sphere10cm_F')) &&
-						(!(_x isKindOf 'Logic'))
-					};
+					_attachedLoadableObjects = _attachedObjects select {(!(_x isKindOf 'Sign_Sphere10cm_F')) &&(!(_x isKindOf 'Logic'))};
 					(
 						(
 							(_attachedObjects isNotEqualTo []) && 
@@ -3549,11 +3592,11 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				(!isNull _QS_v2) &&
-				(alive _QS_v2) &&
-				(
+				{(alive _QS_v2)} &&
+				{(
 					(_QS_v2TypeL in qs_core_classnames_steerableps) ||
 					{((!isNull (attachedTo _QS_v2)) && ((toLowerANSI (typeOf (attachedTo _QS_v2))) in qs_core_classnames_vehicleparachutes))}
-				)
+				)}
 			) then {
 				if (!(_QS_interaction_paracut)) then {
 					_QS_interaction_paracut = _true;

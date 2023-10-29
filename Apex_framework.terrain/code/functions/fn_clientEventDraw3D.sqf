@@ -677,7 +677,8 @@ if (!isStreamFriendlyUIEnabled) then {
 							(_cursorTarget getVariable ['QS_ST_showDisplayName',FALSE]) || 
 							{((!isNull (assignedGroup _cursorTarget)) && {((side (assignedGroup _cursorTarget)) isEqualTo (_player getVariable ['QS_unit_side',WEST]))})} || 
 							{(_cursorTarget getVariable ['QS_logistics_wreck',FALSE])} ||
-							{(_cursorTarget getVariable ['QS_logistics_deployed',FALSE])}
+							{(_cursorTarget getVariable ['QS_logistics_deployed',FALSE])} ||
+							{(_cursorTarget getVariable ['QS_logistics_isCargoParent',FALSE])}
 						)}
 					)}
 				)}
@@ -734,7 +735,8 @@ if (!isStreamFriendlyUIEnabled) then {
 						if (
 							(_unit getVariable ['QS_ST_showDisplayName',FALSE]) ||
 							{(_unit getVariable ['QS_logistics_wreck',FALSE])} ||
-							{(_unit getVariable ['QS_logistics_deployed',FALSE])}
+							{(_unit getVariable ['QS_logistics_deployed',FALSE])} ||
+							{(_unit getVariable ['QS_logistics_isCargoParent',FALSE])}
 						) then {
 							_unitName = _unit getVariable ['QS_ST_customDN',''];
 							if (_unitName isEqualTo '') then {
@@ -750,6 +752,9 @@ if (!isStreamFriendlyUIEnabled) then {
 							};
 							if (_unit getVariable ['QS_logistics_deployed',FALSE]) then {
 								_unitName = format ['%1 (%2)',_unitName,localize 'STR_QS_Text_409'];
+							};
+							if (_unit getVariable ['QS_logistics_isCargoParent',FALSE]) then {
+								_unitName = format ['%1 (%2)',_unitName,localize 'STR_QS_Text_410'];
 							};
 						};
 						if (

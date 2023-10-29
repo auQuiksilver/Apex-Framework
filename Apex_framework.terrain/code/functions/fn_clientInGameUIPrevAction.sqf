@@ -73,13 +73,13 @@ if (
 			{
 				(
 					(_cursorSelection isNotEqualTo []) ||
-					(_cursorObject isKindOf 'FlagCarrier')
+					((_cursorObject isKindOf 'FlagCarrier') || (_cursorObject isKindOf 'FlagCarrierCore'))
 				)
 			} &&
 			{_cursorDistance < 2} &&
 			{simulationEnabled _cursorObject}
 		) then {
-			if (_cursorObject isKindOf 'FlagCarrier') then {
+			if ((_cursorObject isKindOf 'FlagCarrier') || (_cursorObject isKindOf 'FlagCarrierCore')) then {
 				_cursorSelection = ['flag'];
 			};
 			_index = _cursorSelection findIf { ((QS_hashmap_animationParams getOrDefault [toLowerANSI _x,[]]) isNotEqualTo []) };
@@ -92,13 +92,15 @@ if (
 						{((_cursorObject getVariable [_lockedVar,0]) isEqualTo 0)}
 					) then {
 						_step = [_step,_step * 2] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
-						_speed = [_speed,_speed * 2] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
-						private _anim = _anim1;
+						if (_speed isEqualType 0) then {
+							_speed = [_speed,_speed * 2] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
+						};
+						private _anim = [_anim1,_anim2] select (uiNamespace getVariable ['QS_uiaction_altHold',FALSE]);
 						if (_mode isEqualTo 0) then {
-							_cursorObject animate [_anim,_rangeMin max ((_cursorObject animationPhase _anim) + _step) min _rangeMax];
+							_cursorObject animate [_anim,_rangeMin max ((_cursorObject animationPhase _anim) + _step) min _rangeMax,_speed];
 						};
 						if (_mode isEqualTo 1) then {
-							_cursorObject animateSource [_anim,_rangeMin max ((_cursorObject animationSourcePhase _anim) + _step) min _rangeMax];
+							_cursorObject animateSource [_anim,_rangeMin max ((_cursorObject animationSourcePhase _anim) + _step) min _rangeMax,_speed];
 						};
 						if (_mode isEqualTo 2) then {
 							_cursorObject animateDoor [_anim,_rangeMin max ((_cursorObject doorPhase _anim) + _step) min _rangeMax];

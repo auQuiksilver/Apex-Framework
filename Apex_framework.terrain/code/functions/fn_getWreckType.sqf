@@ -28,7 +28,7 @@ if (_return isNotEqualTo '') exitWith {_return};
 if (_entity isKindOf 'Air') exitWith {
 	'land_cargo10_red_f'
 };
-if ((_entity isKindOf 'Tank') || (_entity isKindOf 'Wheeled_APC_F')) exitWith {
+if ((_entity isKindOf 'Tank') || {(_entity isKindOf 'Wheeled_APC_F')}) exitWith {
 	'land_cargo10_brick_red_f'
 };
 if (_entity isKindOf 'Car') exitWith {

@@ -774,6 +774,9 @@ if (_mode isEqualTo 'MODE20') exitWith {
 	)
 };
 if (_mode isEqualTo 'MODE21') exitWith {
+	if ((currentWeapon QS_player) isNotEqualTo '') then {
+		action ['SwitchWeapon',QS_player,QS_player,100];
+	};
 	if (!(missionNamespace getvariable ['QS_simpleWinch_uiHelper',FALSE])) then {
 		missionNamespace setVariable ['QS_simpleWinch_uiHelper',TRUE,FALSE];
 		QS_winch_localHelperObject = createSimpleObject ['Sign_Sphere10cm_F',getPosASL player,TRUE];

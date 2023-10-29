@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	13/02/2023 A3 2.12 by Quiksilver
+	29/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -35,7 +35,7 @@ if ([_t,0] call QS_fnc_logisticsMovementDisallowed) exitWith {
 	50 cutText [localize 'STR_QS_Text_402','PLAIN',0.3];
 };
 if (_t isKindOf 'CAManBase') then {
-	if ((currentWeapon player) isNotEqualTo '') then {
+	//if ((currentWeapon player) isNotEqualTo '') then {
 		_onProgress = {
 			FALSE
 		};
@@ -72,9 +72,9 @@ if (_t isKindOf 'CAManBase') then {
 			[[_t],_onCompleted],
 			[[],{FALSE}]
 		] spawn (missionNamespace getVariable 'QS_fnc_clientProgressVisualization');
-	} else {
-		50 cutText [localize 'STR_QS_Text_090','PLAIN DOWN',0.4];
-	};
+	//} else {
+	//	50 cutText [localize 'STR_QS_Text_090','PLAIN DOWN',0.4];
+	//};
 } else {
 	//comment 'Crate carrying';
 	// Static Weapon object volume band-aid fix

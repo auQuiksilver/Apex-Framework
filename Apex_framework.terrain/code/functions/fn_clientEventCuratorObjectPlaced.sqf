@@ -252,7 +252,7 @@ if (_typeL in (['draggable_boxes_1'] call QS_data_listVehicles)) then {
 if (_typeL in (['towable_objects_1'] call QS_data_listVehicles)) then {
 	if (_typeL in ['land_destroyer_01_boat_rack_01_f']) then {
 		_object allowDamage FALSE;
-		[91] remoteExec ['QS_fnc_remoteExec',0,FALSE];
+		[91] remoteExec ['QS_fnc_remoteExec',0,FALSE];		// This is to address an arma bug
 	};
 };
 if (_object isKindOf 'cargoplatform_01_base_f') then {
@@ -261,7 +261,7 @@ if (_object isKindOf 'cargoplatform_01_base_f') then {
 if (_object isKindOf 'lamps_base_f') then {
 	_object setVectorUp [0,0,1];
 };
-if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _object isKindOf _x }) isNotEqualTo -1) exitWith {
+if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo_base_F'] findIf { _object isKindOf _x }) isNotEqualTo -1) exitWith {
 	_object setVariable ['QS_vehicle_massdef',[getMass _object,getCenterOfMass _object],TRUE];
 	if (_typeL in ['b_t_vtol_01_vehicle_f','b_t_vtol_01_vehicle_blue_f','b_t_vtol_01_vehicle_olive_f','b_t_vtol_01_armed_blue_f','b_t_vtol_01_armed_f','b_t_vtol_01_armed_olive_f']) then {
 		{ 
@@ -285,7 +285,6 @@ if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _objec
 		};
 	};
 	[_object,1,[]] call (missionNamespace getVariable 'QS_fnc_vehicleLoadouts');
-	
 	if (_object isKindOf 'Helicopter') then {
 		if (
 			(_typeL in (['armed_heli_types_1'] call QS_data_listVehicles)) &&
@@ -329,7 +328,7 @@ if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo10_base_F'] findIf { _objec
 				['60Rnd_40mm_GPR_Tracer_Red_shells',[-1]]
 			];
 		};
-		if (!(missionNamespace getVariable 'QS_armedAirEnabled')) then {
+		if (!(missionNamespace getVariable ['QS_armedAirEnabled',FALSE])) then {
 			50 cutText [localize 'STR_QS_Text_008','PLAIN DOWN',1];
 			[17,_object] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 		};

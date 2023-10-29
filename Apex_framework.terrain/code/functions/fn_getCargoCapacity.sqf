@@ -36,7 +36,7 @@ ______________________________________________________/*/
 
 params ['_vehicle',['_mode',0]];
 if (_mode isEqualTo 0) exitWith {
-	comment 'Physical';
+	//comment 'Physical';
 	private _cargoMaxCapacity = 0;
 	private _cargoMaxMass = 0;
 	private _cargoMaxCoef = 0;
@@ -138,7 +138,7 @@ if (_mode isEqualTo 0) exitWith {
 	[_cargoMaxCapacity,_cargoMaxMass,_cargoMaxCoef]
 };
 if (_mode isEqualTo 1) exitWith {
-	comment 'Virtual';
+	//comment 'Virtual';
 	[0,0,0]
 };
 

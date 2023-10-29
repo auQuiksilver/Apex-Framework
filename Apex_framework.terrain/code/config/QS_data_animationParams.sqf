@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	12/02/2023 A3 2.12 by Quiksilver
+	29/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -19,6 +19,12 @@ Notes:
 	0 - animate
 	1 - animateSource
 	2 - animateDoor
+	3 - animateDoor 2
+	4 - setFlagAnimationPhase
+	
+	QS_hashmap_animationParams = createHashMapFromArray (call QS_data_animationParams);
+	
+	_data params ['_mode','_anim1','_anim2','_rangeMin','_rangeMax','_step','_speed','_lockedVar','_condition'];
 ________________________________________/*/
 
 [
@@ -65,5 +71,24 @@ ________________________________________/*/
 	['door_19',[1,'door_19_sound_source','Door_19_noSound_source',0,1,0.1,1,'BIS_Disabled_Door_19',{(!(_this getVariable ['QS_locked',FALSE]))}]],
 	['door_20',[1,'door_20_sound_source','Door_20_noSound_source',0,1,0.1,1,'BIS_Disabled_Door_20',{(!(_this getVariable ['QS_locked',FALSE]))}]],
 	['door_21',[1,'door_21_sound_source','Door_21_noSound_source',0,1,0.1,1,'BIS_Disabled_Door_21',{(!(_this getVariable ['QS_locked',FALSE]))}]],
-	['door_22',[1,'door_22_sound_source','Door_22_noSound_source',0,1,0.1,1,'BIS_Disabled_Door_22',{(!(_this getVariable ['QS_locked',FALSE]))}]]
+	['door_22',[1,'door_22_sound_source','Door_22_noSound_source',0,1,0.1,1,'BIS_Disabled_Door_22',{(!(_this getVariable ['QS_locked',FALSE]))}]],
+	['lid',[1,'Open_Source','Open_Source',0,1,0.1,1,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},['Land_Laptop_03_base_F','Land_MultiScreenComputer_01_base_F']]],
+	['panels_base',[0,'Panels_Yaw','',0,360,10,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['panel_1',[0,'Panel_1_Pitch','',0,45,1,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['panel_2',[0,'Panel_2_Pitch','',0,45,1,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['light_1_jaw',[1,'light_1_pitch_source','light_1_jaw_source',-90,90,10,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['light_1_pitch',[1,'light_1_pitch_source','light_1_yaw_source',-90,90,10,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['light_2_pitch',[1,'light_2_pitch_source','light_2_yaw_source',-90,90,10,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['light_3_pitch',[1,'light_3_pitch_source','light_3_yaw_source',-90,90,10,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['light_4_pitch',[1,'light_4_pitch_source','light_4_yaw_source',-90,90,10,TRUE,'QS_locked',{(!(_this getVariable ['QS_locked',FALSE]))},[]]],
+	['door1',[3,'Door_LF','Door_LF',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door2',[3,'Door_LF','Door_LF',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door3',[3,'Door_RF','Door_RF',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door4',[3,'Door_RF','Door_RF',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door5',[3,'Door_LM','Door_LM',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door6',[3,'Door_LM','Door_LM',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door7',[3,'Door_RM','Door_RM',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door8',[3,'Door_RM','Door_RM',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door9',[3,'Door_rear','Door_rear',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]],
+	['door10',[3,'Door_rear','Door_rear',0,1,1,1,'QS_locked',{((locked _this) in [0,1])},['MRAP_02_base_F']]]
 ]

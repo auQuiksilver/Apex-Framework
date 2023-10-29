@@ -416,14 +416,14 @@ if (_this isEqualTo 'init') exitWith {
 				{(local _vehicle)} &&
 				{(isNull (attachedTo _vehicle))} &&
 				{(isTouchingGround _vehicle)} &&
-				{(((vectorMagnitude (velocity _vehicle)) * 3.6) < 1)}
+				{(((vectorMagnitude (velocityModelSpace _vehicle)) * 3.6) < 1.1)}
 			) then {
 				uiNamespace setVariable ['QS_ui_action_moveBack',TRUE];
 				[_vehicle] spawn {
 					params ['_vehicle'];
 					waitUntil {
-						if (((vectorMagnitude (velocity _vehicle)) * 3.6) < 1) then {
-							_vehicle setVelocityModelSpace [0,-1,1];
+						if (((vectorMagnitude (velocityModelSpace _vehicle)) * 3.6) < 1.1) then {
+							_vehicle setVelocityModelSpace [0,-1,0.1];
 						};
 						(
 							(!(_vehicle isKindOf 'Plane')) ||

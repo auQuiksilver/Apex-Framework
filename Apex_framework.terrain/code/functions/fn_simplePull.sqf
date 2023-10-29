@@ -319,6 +319,7 @@ if (_mode isEqualTo 'MODE12') exitWith {
 	_cameraOn = cameraOn;
 	_nearRopeSegments = ((_cameraOn modelToWorld (_cameraOn selectionPosition 'head')) nearObjects 2) select {_x isKindOf 'RopeSegment'};
 	if (_nearRopeSegments isNotEqualTo []) then {
+		QS_player playActionNow 'PutDown';
 		_rope = objectParent (_nearRopeSegments # 0);
 		if (ropeUnwound _rope) then {
 			['ropeDestroy',_rope] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];

@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	24/10/2023 A3 2.14 by Quiksilver
+	29/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -15,7 +15,7 @@ ____________________________________________/*/
 
 missionProductVersion = "1.5.6";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "24.10.2023";
+missionProductDate = "29.10.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -79,7 +79,7 @@ respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard w
 respawnOnStart = 0;
 
 // Security - CfgRemoteExec + CfgDisabledCommands
-#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
+//#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
 
 // CfgFunctions
 class CfgFunctions {
@@ -298,6 +298,7 @@ class CfgFunctions {
 			class clientInteractMH9Stealth {file = "code\functions\fn_clientInteractMH9Stealth.sqf";};
 			class clientInteractMortarLite {file = "code\functions\fn_clientInteractMortarLite.sqf";};
 			class clientInteractOpenParachute {file = "code\functions\fn_clientInteractOpenParachute.sqf";};
+			class clientInteractPackEntity {file = "code\functions\fn_clientInteractPackEntity.sqf";};
 			class clientInteractPackWreck {file = "code\functions\fn_clientInteractPackWreck.sqf";};
 			class clientInteractPush {file = "code\functions\fn_clientInteractPush.sqf";};
 			class clientInteractRappel {file = "code\functions\fn_clientInteractRappel.sqf";};
@@ -414,6 +415,7 @@ class CfgFunctions {
 			class curatorSync {file = "code\functions\fn_curatorSync.sqf";};
 			class customBuildingPositions {file = "code\functions\fn_customBuildingPositions.sqf";};
 			class customInventory {file = "code\functions\fn_customInventory.sqf";};
+			class customVehicles {file = "code\functions\fn_customVehicles.sqf";};
 			class deltaVD {file = "code\functions\fn_deltaVD.sqf";};
 			class deployAssault {file = "code\functions\fn_deployAssault.sqf";};
 			class deployAsset {file = "code\functions\fn_deployAsset.sqf";};
@@ -479,9 +481,11 @@ class CfgFunctions {
 			class getActiveDLC {file = "code\functions\fn_getActiveDLC.sqf";};
 			class getAHCompat {file = "code\functions\fn_getAHCompat.sqf";};
 			class getAIMotorPool {file = "code\functions\fn_getAIMotorPool.sqf";};
+			class getAllAttached {file = "code\functions\fn_getAllAttached.sqf";};
 			class getCargoCapacity {file = "code\functions\fn_getCargoCapacity.sqf";};
 			class getCargoVolume {file = "code\functions\fn_getCargoVolume.sqf";};
 			class getCompatiblePylonMags {file = "code\functions\fn_getCompatiblePylonMags.sqf";};
+			class getContainerType {file = "code\functions\fn_getContainerType.sqf";};
 			class getCustomAttachPoint {file = "code\functions\fn_getCustomAttachPoint.sqf";};
 			class getCustomCargoParams {file = "code\functions\fn_getCustomCargoParams.sqf";};
 			class getDeploymentPosition {file = "code\functions\fn_getDeploymentPosition.sqf";};
@@ -553,6 +557,7 @@ class CfgFunctions {
 			class lockBackpack {file = "code\functions\fn_lockBackpack.sqf";};
 			class logEvent {file = "code\functions\fn_logEvent.sqf";};
 			class logisticsMovementDisallowed {file = "code\functions\fn_logisticsMovementDisallowed.sqf";};
+			class logisticsPackVehicle {file = "code\functions\fn_logisticsPackVehicle.sqf";};
 			class logisticsPlatformSnap {file = "code\functions\fn_logisticsPlatformSnap.sqf";};
 			class mapGetNearestWaypoint {file = "code\functions\fn_mapGetNearestWaypoint.sqf";};
 			class missionGeorgetown {file = "code\functions\fn_missionGeorgetown.sqf";};

@@ -231,12 +231,7 @@ for '_i' from 0 to 1 step 0 do {
 								_entity hideObject _false;
 							};
 						} else {
-							if (
-								(_entity isKindOf 'LandVehicle') ||
-								{(_entity isKindOf 'StaticWeapon')} ||
-								{(_entity isKindOf 'Reammobox_F')} ||
-								{(_entity isKindOf 'Ship')}
-							) then {
+							if ((['LandVehicle','StaticWeapon','Reammobox_F','Ship'] findIf { _entity isKindOf _x }) isNotEqualTo -1) then {
 								_entityPos = _entity getVariable ['QS_sim_pos',[-5000,-5000,0]];
 								if (_entityPos isEqualTo [-5000,-5000,0]) then {
 									_entityPos = getPosATL _entity;

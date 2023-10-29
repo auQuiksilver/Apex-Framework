@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	13/10/2023 A3 2.14 by Quiksilver
+	26/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -26,31 +26,31 @@ Example:
 	Attach: [1, _child, [_parent,[0,0,0]]] call QS_fnc_eventAttach;
 ______________________________________________________/*/
 
-_mode = param [0,0];
-if (_mode isEqualTo 0) exitWith {
-	_child = param [1,objNull];
-	_parent = attachedTo _child;
-	detach _child;
-	if (!isNull _parent) then {
+_mode1 = param [0,0];
+if (_mode1 isEqualTo 0) exitWith {
+	_child1 = param [1,objNull];
+	_parent1 = attachedTo _child1;
+	detach _child1;
+	if (!isNull _parent1) then {
 		if (
-			(_parent isKindOf 'LandVehicle') ||
-			(_parent isKindOf 'Ship')
+			(_parent1 isKindOf 'LandVehicle') ||
+			(_parent1 isKindOf 'Ship')
 		) then {
-			[_parent,TRUE,TRUE] call QS_fnc_updateCenterOfMass;
+			[_parent1,TRUE,TRUE] call QS_fnc_updateCenterOfMass;
 		};
 	};
 };
-if (_mode isEqualTo 1) exitWith {
-	_child = param [1,objNull];
-	_attachParams = param [2,[]];
-	_parent = _attachParams # 0;
-	_child attachTo _attachParams;
-	if (!isNull _parent) then {
+if (_mode1 isEqualTo 1) exitWith {
+	_child1 = param [1,objNull];
+	_attachParams1 = param [2,[]];
+	_parent1 = _attachParams1 # 0;
+	_child1 attachTo _attachParams1;
+	if (!isNull _parent1) then {
 		if (
-			(_parent isKindOf 'LandVehicle') ||
-			(_parent isKindOf 'Ship')
+			(_parent1 isKindOf 'LandVehicle') ||
+			(_parent1 isKindOf 'Ship')
 		) then {
-			[_parent,TRUE,TRUE] call QS_fnc_updateCenterOfMass;
+			[_parent1,TRUE,TRUE] call QS_fnc_updateCenterOfMass;
 		};
 	};
 };

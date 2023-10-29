@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	11/09/2023 A3 2.14 by Quiksilver
+	27/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -14,14 +14,6 @@ Description:
 ___________________________________________________/*/
 
 _t = cursorObject;
-// Unflip activates the new Winch system when winch is available and unflip is disabled 
-private _unflipEnabled = missionNamespace getVariable ['QS_missionConfig_interactUnflip',TRUE];
-private _winchEnabled = (['MODE23',_t] call QS_fnc_simpleWinch) # 0;
-if ((!_unflipEnabled) && _winchEnabled) exitWith {
-	// Take winch
-	// Bypass "is player infront of vehicle with weapon holstered" check to make it noob friendly for flipped vehicles
-	['MODE4',objNull,objNull,objNull,TRUE] spawn QS_fnc_simpleWinch;
-};
 private _canUnflip = TRUE;
 _engies = (getPosATL _t) nearEntities [['CAManBase'],10];
 _v = vehicle player;

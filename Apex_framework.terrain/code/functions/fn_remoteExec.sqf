@@ -2417,11 +2417,9 @@ if (_case < 120) exitWith {
 };
 if (_case < 130) exitWith {
 	if (_case isEqualTo 120) then {
-		params ['',''];
 		if (isDedicated) then {
-		
-		
-		
+			params ['','_mode','_args'];
+			[_mode,_args] call QS_fnc_logisticsPackVehicle;
 		};
 	};
 };

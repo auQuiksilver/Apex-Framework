@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/10/2023 A3 2.14 by Quiksilver
+	26/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -46,11 +46,11 @@ if (
 	_entity setVariable ['QS_ST_showDisplayName',TRUE,TRUE];
 };
 if (['cargo20',_entityType] call QS_fnc_inString) then {
-	if ((getMass _entity) > 10000) then {
+	if ((getMass _entity) > 5000) then {
 		if (local _entity) then {
-			_entity setMass 10000;
+			_entity setMass 5000;
 		} else {
-			['setMass',_entity,10000] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+			['setMass',_entity,5000] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
 		};
 	};
 };

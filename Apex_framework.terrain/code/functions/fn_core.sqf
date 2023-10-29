@@ -106,7 +106,7 @@ private [
 	'_QS_module_emergentTasks_checkDelay','_QS_module_emergentTasks_array','_QS_module_emergentTasks_add','_QS_attemptRecycle','_model','_configClass','_QS_module_emergentTask_maxType',
 	'_QS_module_emergentTask_countType','_QS_module_emergentTasks_medevac','_arrayIndex','_grid_availableRegions','_grid_availableRegion_id','_grid_availableAOs','_grid_availableAO_id',
 	'_grid_ao_data','_grid_ao_nearRadius','_grid_region_completionThreshold','_grid_markerEvalTimeout','_estimatedTimeLeft','_true','_false','_endl','_maxPrisoners','_element',
-	'_trigger_delete_fobVehicles'
+	'_trigger_delete_fobVehicles','_cargoParent'
 ];
 _QS_productVersion = productVersion;
 _QS_worldName = worldName;
@@ -330,7 +330,8 @@ _sideMissionList = [
 	'QS_fnc_SMsecureIntelUnit',0.2,
 	'QS_fnc_SMsecureIntelVehicle',0.2,
 	'QS_fnc_SMidapRecover',0.3,
-	'QS_fnc_SMregenerator',0.3
+	'QS_fnc_SMregenerator',0.3,
+	'QS_fnc_SMsecureRadar',0.1
 ];
 _sideMissionRefreshAt = 2;
 _sideMissionListProxy = _sideMissionList;
@@ -489,6 +490,7 @@ private _wreckType = '';
 private _codeBool = {TRUE};
 private _objNull = objNull;
 private _spawnedType = '';
+private _cargoParent = objNull;
 _vRespawn_delay = 5;
 _vRespawn_checkDelay = time + _vRespawn_delay;
 _allHitPointsDamage = [];
@@ -3177,10 +3179,7 @@ for '_x' from 0 to 1 step 0 do {
 						['_wreckChance',0],
 						['_wreckCond',_codeBool]
 					];
-					if (
-							!alive _v || 
-							{(_v getVariable ['QS_v_drowned',_false])}
-					) then {
+					if (!alive _v) then {
 						if (!_isRespawning) then {
 							_isRespawning = _true;
 							_canRespawnAfter = _timeNow + _vdelay;
@@ -3399,6 +3398,7 @@ for '_x' from 0 to 1 step 0 do {
 							) &&
 							{!_isWreck} &&
 							{!_isDeployed} &&
+							{!(_v getVariable ['QS_logistics_packed',_false])} &&
 							{_vPos isNotEqualTo [0,0,0]}
 						) then {
 							if (!isNil {_v getVariable 'QS_ClientVTexture_owner'}) then {
@@ -3431,10 +3431,7 @@ for '_x' from 0 to 1 step 0 do {
 									if (surfaceIsWater _posCheck) then {
 										_posCheck = getPosASL _v;
 									};
-									if (
-										((crew _v) isEqualTo []) || 
-										{(((crew _v) findIf {(alive _x)}) isEqualTo -1)}
-									) then {
+									if (((crew _v) findIf {(alive _x)}) isEqualTo -1) then {
 										if (
 											(
 												(
@@ -3501,7 +3498,7 @@ for '_x' from 0 to 1 step 0 do {
 									if (
 										((_posCheck # 2) < -1.5) &&
 										{(!(_v isKindOf 'Ship'))} &&
-										{(((crew _v) isEqualTo []) || {(((crew _v) findIf {(alive _x)}) isEqualTo -1)})} &&
+										{(((crew _v) findIf {(alive _x)}) isEqualTo -1)} &&
 										{(([_posCheck,25,[_west,_civilian],_allPlayers,0] call _fn_serverDetector) isEqualTo [])}
 									) then {
 										if (
@@ -3545,10 +3542,7 @@ for '_x' from 0 to 1 step 0 do {
 										};
 									};
 								} else {
-									if (
-										((crew _v) isEqualTo []) ||
-										{(((crew _v) findIf {(alive _x)}) isEqualTo -1)}
-									) then {
+									if (((crew _v) findIf {(alive _x)}) isEqualTo -1) then {
 										if (
 											(_isDynamicVehicle && (!_isActiveDLC)) &&
 											{((_v isKindOf 'LandVehicle') || {(_v isKindOf 'Ship')})} &&
@@ -3595,10 +3589,11 @@ for '_x' from 0 to 1 step 0 do {
 									_v setVehiclePosition [_stateInfo # 0,[],0,'NONE'];
 									_v awake _true;
 								};
-								if ((_v getVariable ['QS_wreck_marker','']) isNotEqualTo '') then {
-									if (((markerPos [(_v getVariable ['QS_wreck_marker','']),_true]) distance2D _v) > 10) then {
-										(_v getVariable ['QS_wreck_marker','']) setMarkerPos _v;
-									};
+								if (
+									((_v getVariable ['QS_wreck_marker','']) isNotEqualTo '') &&
+									{(((markerPos [(_v getVariable ['QS_wreck_marker','']),_true]) distance2D _v) > 10)}
+								) then {
+									(_v getVariable ['QS_wreck_marker','']) setMarkerPos _v;
 								};
 							};
 							if (_isDeployed) then {
@@ -3611,14 +3606,15 @@ for '_x' from 0 to 1 step 0 do {
 									_v setPosASL (_stateInfo # 0);
 									_v awake _true;
 								};
-								if ((_v getVariable ['QS_deploy_marker','']) isNotEqualTo '') then {
-									if (((markerPos [(_v getVariable ['QS_deploy_marker','']),_true]) distance2D _v) > 10) then {
-										(_v getVariable ['QS_deploy_marker','']) setMarkerPos _v;
-									};
+								if (
+									((_v getVariable ['QS_deploy_marker','']) isNotEqualTo '') &&
+									{(((markerPos [(_v getVariable ['QS_deploy_marker','']),_true]) distance2D _v) > 10)}
+								) then {
+									(_v getVariable ['QS_deploy_marker','']) setMarkerPos _v;
 								};
 								if (
 									((((units _east) + (units _resistance)) inAreaArray [_v,30,30]) isNotEqualTo []) && 					//(((flatten (_deploymentEnemySides apply {units _x})) inAreaArray [_v,30,30]) isNotEqualTo []) 		// Use this code if you do TvT stuff with OPFOR deployments. Its less efficient so we dont use it unless we need it. For now we just assume EAST/RESISTANCE are enemies
-									(((units (_v getVariable ['QS_deploy_side',sideUnknown])) inAreaArray [_v,100,100]) isEqualTo [])
+									{(((units (_v getVariable ['QS_deploy_side',sideUnknown])) inAreaArray [_v,100,100]) isEqualTo [])}
 								) then {
 									// Enemies in radius AND no friendlies in radius
 									if ((_v getVariable ['QS_deploy_enemyState',0]) > 0) then {
@@ -3634,6 +3630,25 @@ for '_x' from 0 to 1 step 0 do {
 									if ((_v getVariable ['QS_deploy_enemyState',0]) < 10) then {
 										// Recover the points
 										_v setVariable ['QS_deploy_enemyState',((_v getVariable ['QS_deploy_enemyState',0]) + 1),_false];
+									};
+								};
+							};
+							if (_v getVariable ['QS_logistics_packed',_false]) then {
+								_cargoParent = _v getVariable ['QS_logistics_cargoParent',_objNull];
+								if (!isNull _cargoParent) then {
+									if (
+										((_cargoParent getVariable ['QS_logistics_cargoMarker','']) isNotEqualTo '') &&
+										{(((markerPos [(_cargoParent getVariable ['QS_logistics_cargoMarker','']),_true]) distance2D _cargoParent) > 10)}
+									) then {
+										(_cargoParent getVariable ['QS_logistics_cargoMarker','']) setMarkerPos _cargoParent;
+									};
+									if (!(_cargoParent inArea _worldArea)) then {
+										_cargoParent setVehiclePosition [_cargoParent getVariable ['QS_logistics_cargoPackPos',[0,0,0]],[],0,'NONE'];
+										_cargoParent awake _true;								
+									};
+									if (((getPosASL _cargoParent) # 2) < -0.5) then {
+										_cargoParent setVehiclePosition [_cargoParent getVariable ['QS_logistics_cargoPackPos',[0,0,0]],[],0,'NONE'];
+										_cargoParent awake _true;
 									};
 								};
 							};

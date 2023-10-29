@@ -280,4 +280,7 @@ if (_type isEqualTo 'cfgfaces_1') exitWith {
 	} forEach ('true' configClasses (configfile >> 'cfgfaces'));
 	_data
 };
+if (_type isEqualTo 'heavy_cannons_1') exitWith {
+	['cannon_120mm','cannon_120mm_long','cannon_125mm','cannon_125mm_advanced','cannon_railgun']
+};
 _return;

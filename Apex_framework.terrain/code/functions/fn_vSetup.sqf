@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	24/10/2023 A3 2.14 by Quiksilver
+	26/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -286,14 +286,15 @@ if (_u isKindOf 'LandVehicle') then {
 				['hideturret',1,1]
 			];
 		};
-	};
+	};	
 	if (([
 		'b_apc_tracked_01_crv_f',
 		'b_truck_01_mover_f',
 		'offroad_01_base_f',
 		'van_01_transport_base_f',
 		'tractor_01_base_f',
-		'quadbike_01_base_f'
+		'quadbike_01_base_f',
+		'ugv_01_base_f'
 	] findIf { _t2 isKindOf _x }) isNotEqualTo -1) then {
 		if (([
 			'offroad_01_base_f',
@@ -328,6 +329,12 @@ if (_u isKindOf 'LandVehicle') then {
 		};
 		if (_u isKindOf 'Quadbike_01_base_F') then {
 			_u setVariable ['QS_vehicle_lift',2000,TRUE];
+		};
+		if (
+			(_u isKindOf 'ugv_01_base_f') &&
+			{(!(_u isKindOf 'ugv_01_rcws_base_f'))}
+		) then {
+			_u setVariable ['QS_vehicle_lift',11000,TRUE];
 		};
 	};
 	if (_t2 isKindOf 'Van_02_base_F') then {
@@ -410,11 +417,6 @@ if (_u isKindOf 'Ship') then {
 		clearMagazineCargoGlobal _u;
 		clearItemCargoGlobal _u;
 		clearBackpackCargoGlobal _u;
-		_transportSoldier = QS_hashmap_configfile getOrDefaultCall [
-			format ['cfgvehicles_%1_transportsoldier',_t2],
-			{getNumber ((configOf _u) >> 'transportSoldier')},
-			TRUE
-		];
 		{
 			_u addItemCargoGlobal _x;
 		} forEach [
@@ -496,11 +498,6 @@ if (_u isKindOf 'Air') then {
 					['removeWeapon',_u,'missiles_SCALPEL'] remoteExec ['QS_fnc_remoteExecCmd',_u,FALSE];
 				};	
 			};
-			_transportSoldier = QS_hashmap_configfile getOrDefaultCall [
-				format ['cfgvehicles_%1_transportsoldier',_t2],
-				{getNumber ((configOf _u) >> 'transportSoldier')},
-				TRUE
-			];
 			_u addBackpackCargoGlobal [QS_core_classNames_parachute,_transportSoldier];
 			if (_t2 isKindOf 'VTOL_01_vehicle_base_F') then {
 				_u addEventHandler [
@@ -571,11 +568,7 @@ if (_u isKindOf 'Air') then {
 	_u setVehicleReportRemoteTargets TRUE;
 };
 // Containers/Storage
-if (
-	(_u isKindOf 'Cargo_base_F') ||
-	{(_u isKindOf 'Slingload_01_Base_F')} ||
-	{(_u isKindOf 'Pod_Heli_Transport_04_base_F')}
-) then {
+if ((['Cargo_base_F','Slingload_01_Base_F','Pod_Heli_Transport_04_base_F'] findIf { _u isKindOf _x }) isNotEqualTo -1) then {
 	[_u] call QS_fnc_vSetupContainer;
 };
 // Services
@@ -590,25 +583,23 @@ if ((getFuelCargo _u) > 0) then {
 	if (!(_u getVariable ['QS_logistics_deployable',FALSE])) then {
 		_u setVariable ['QS_logistics_deployable',TRUE,TRUE];
 	};
-	if (isDedicated) then {
-		_u addEventHandler [
-			'Killed',
-			{
-				params ['_entity'];
-				([_entity,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
-				if (_inSafezone && _safezoneActive) exitWith {};
-				if ((random 1) > 0.5) then {
-					createVehicle [
-						[
-							'HelicopterExploSmall',
-							(selectRandomWeighted ['HelicopterExploSmall',0.5,'HelicopterExploBig',1,'Bo_Mk82',0.1])
-						] select ((getMass _entity) > 5000),
-						getPos _entity
-					];
-				};
-			}
-		];
-	};
+	_u addEventHandler [
+		'Killed',
+		{
+			params ['_entity'];
+			([_entity,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+			if (_inSafezone && _safezoneActive) exitWith {};
+			if ((random 1) > 0.5) then {
+				createVehicle [
+					[
+						'HelicopterExploSmall',
+						(selectRandomWeighted ['HelicopterExploSmall',0.5,'HelicopterExploBig',1,'Bo_Mk82',0.1])
+					] select ((getMass _entity) > 5000),
+					(ASLToAGL (getPosASL _entity))
+				];
+			};
+		}
+	];
 };
 if ((getRepairCargo _u) > 0) then {
 	_u setRepairCargo 0;
@@ -616,21 +607,11 @@ if ((getRepairCargo _u) > 0) then {
 		_u setVariable ['QS_logistics_deployable',TRUE,TRUE];
 	};
 };
-_medical = QS_hashmap_configfile getOrDefaultCall [
-	format ['cfgvehicles_%1_attendant',_t2],
-	{getNumber ((configOf _u) >> 'attendant')},
-	TRUE
-];
-if (_medical isEqualTo 1) then {
+if ((QS_hashmap_configfile getOrDefaultCall [format ['cfgvehicles_%1_attendant',_t2],{getNumber ((configOf _u) >> 'attendant')},TRUE]) isEqualTo 1) then {
 	_u setVariable ['QS_services_medical',TRUE,TRUE];
 	if (!(_u getVariable ['QS_logistics_deployable',FALSE])) then {
 		_u setVariable ['QS_logistics_deployable',TRUE,TRUE];
 	};
-	_transportSoldier = QS_hashmap_configfile getOrDefaultCall [
-		format ['cfgvehicles_%1_transportsoldier',_t2],
-		{getNumber ((configOf _u) >> 'transportSoldier')},
-		TRUE
-	];
 	if (_transportSoldier > 0) then {
 		if (_transportSoldier isEqualTo 4) then {
 			_transportSoldier = 8;
@@ -685,28 +666,17 @@ if (_t2 in [
 	};
 };
 // Active protection system
-if (
-	(_u isKindOf 'LandVehicle') || 
-	{(_u isKindOf 'Air')} || 
-	{(_u isKindOf 'Ship')}
-) then {
+if ((['LandVehicle','Air','Ship'] findIf { _u isKindOf _x }) isNotEqualTo -1) then {
 	[_u] call (missionNamespace getVariable 'QS_fnc_vehicleAPSParams');
 };
 _u addEventHandler [
 	'Deleted',
 	{
 		params ['_vehicle'];
-		if ((attachedObjects _vehicle) isNotEqualTo []) then {
-			{
-				missionNamespace setVariable [
-					'QS_analytics_entities_deleted',
-					((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-					FALSE
-				];
-				[0,_x] call QS_fnc_eventAttach;
-				deleteVehicle _x;
-			} count (attachedObjects _vehicle);
-		};
+		_attachedObjs = [_vehicle] call QS_fnc_getAllAttached;
+		{
+			deleteVehicle _x;
+		} forEach _attachedObjs;
 		if (_vehicle isKindOf 'Plane') then {
 			if ((getVehicleCargo _vehicle) isNotEqualTo []) then {
 				_vehicle setVehicleCargo objNull;

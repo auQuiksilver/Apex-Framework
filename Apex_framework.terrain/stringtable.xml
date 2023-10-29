@@ -7,7 +7,7 @@ Author:
 
 Last Modified:
 
-	28/04/2023 A3 2.12 by Community
+	29/10/2023 A3 2.14 by Community
 	
 Description:
 
@@ -726,6 +726,9 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Interact_145">
             <Original>Pack Up</Original>
+        </Key>
+        <Key ID="STR_QS_Interact_146">
+            <Original>Unpack</Original>
         </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
@@ -2690,6 +2693,12 @@ _____________________________________________________________-->
          <Key ID="STR_QS_Text_474">
             <Original>Water damaged</Original>
 		</Key>
+          <Key ID="STR_QS_Text_475">
+            <Original>Not packable</Original>
+		</Key>
+          <Key ID="STR_QS_Text_476">
+            <Original>Invalid object</Original>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -4411,6 +4420,15 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Chat_179">
             <Original>%4 called on grid %1 by %2 ( %3 )</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_180">
+            <Original>%1 packed up a(n) %2 at grid %3</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_181">
+            <Original>%1 unpacked a(n) %2 at grid %3</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_182">
+            <Original>%1 packed up a wrecked %2 at grid %3</Original>
         </Key>
     </Container>
     <Container name="QS_xml_notifications">

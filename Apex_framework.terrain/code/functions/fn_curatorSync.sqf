@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	28/10/2022 A3 2.10 by Quiksilver
+	28/10/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -16,31 +16,27 @@ _______________________________________/*/
 params ['_module'];
 if (!isNull _module) then {
 	private _arrayToAdd = [];
+	private _entity = objNull;
 	{
+		_entity = _x;
 		if (
-			(_x isKindOf 'Man') || 
-			{(_x isKindOf 'WeaponHolder')} || 
-			{(_x isKindOf 'GroundWeaponHolder')} || 
-			{(_x isKindOf 'WeaponHolderSimulated')} ||
-			{(_x isKindOf 'Air')} ||
-			{(_x isKindOf 'LandVehicle')} ||
-			{(_x isKindOf 'Reammobox_F')} ||
-			{(_x isKindOf 'Ship')} ||
-			{(_x isKindOf 'StaticWeapon')} ||
-			{(_x isKindOf 'CraterLong')} || 
-			{((_x isKindOf 'FlagCarrier') && (!(_x isKindOf 'ShipFlag_US_F')) && (_x getVariable ['QS_zeus',false]))}
+			(([
+				'Man','WeaponHolder','GroundWeaponHolder','WeaponHolderSimulated','Air',
+				'LandVehicle','Reammobox_F','Ship','StaticWeapon','CraterLong','Cargo_base_F'
+			] findIf {_entity isKindOf _x}) isNotEqualTo -1) ||
+			{((_entity isKindOf 'FlagCarrier') && (!(_entity isKindOf 'ShipFlag_US_F')) && (_entity getVariable ['QS_zeus',false]))}
 		) then {
-			if (!(_x getVariable ['QS_curator_disableEditability',FALSE])) then {
-				if (!(_x getVariable ['QS_dead_prop',FALSE])) then {
-					0 = _arrayToAdd pushBackUnique _x;
+			if (!(_entity getVariable ['QS_curator_disableEditability',FALSE])) then {
+				if (!(_entity getVariable ['QS_dead_prop',FALSE])) then {
+					_arrayToAdd pushBackUnique _entity;
 				};
 			};
 		} else {
-			if (!isNil {_x getVariable 'QS_curator_spawnedObj'}) then {
-				0 = _arrayToAdd pushBackUnique _x;
+			if (!isNil {_entity getVariable 'QS_curator_spawnedObj'}) then {
+				_arrayToAdd pushBackUnique _entity;
 			};
 		};
-	} count (allMissionObjects 'All');
+	} forEach (allMissionObjects 'All');
 	{
 		_module addCuratorEditableObjects _x;
 		sleep 0.2;

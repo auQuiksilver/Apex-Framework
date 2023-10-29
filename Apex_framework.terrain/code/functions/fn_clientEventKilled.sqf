@@ -48,13 +48,10 @@ if ((attachedObjects _co) isNotEqualTo []) then {
 if (!isNull (attachedTo _co)) then {
 	[0,_co] call QS_fnc_eventAttach;
 };
-
 if (isRemoteControlling player) then {
 	objNull remoteControl (remoteControlled player);
 	player remoteControl objNull;
 };
-
-
 if (!isNull (getConnectedUAV _co)) then {
 	_co connectTerminalToUAV objNull;
 };
@@ -62,12 +59,7 @@ if (_co getUnitTrait 'uavhacker') then {
 	removeAllAssignedItems _co;
 };
 if (!isNull (objectParent _co)) then {
-	_co playActionNow 'Die';
-	if ((objectParent _co) isKindOf 'AllVehicles') then {
-		if (local (objectParent _co)) then {
-			(objectParent _co) deleteVehicleCrew _co;
-		};
-	};
+	_co moveOut (objectParent _co);
 };
 uiNamespace setVariable ['QS_client_respawnCooldown',diag_tickTime + 30];
 missionNamespace setVariable ['QS_revive_KilledInventory',(getUnitLoadout _co),FALSE];

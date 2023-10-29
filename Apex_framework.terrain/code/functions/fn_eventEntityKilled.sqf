@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	30/01/2023 A3 2.12 by Quiksilver
+	29/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -26,40 +26,13 @@ if (_killed isKindOf 'Man') then {
 			} forEach allCurators;
 		};
 	};
+	if (
+		(!isNull (objectParent _killed)) &&
+		{(!unitIsUav _killed)}
+	) then {
+		_killed moveOut (objectParent _killed);
+	};
 	if (!isNull (group _killed)) then {
-		if (!isNull (objectParent _killed)) then {
-			_objectParent = objectParent _killed;
-			if (_objectParent isKindOf 'AllVehicles') then {
-				if (local _objectParent) then {
-					if (
-						((['Car','StaticWeapon','Helicopter','Plane','ParachuteBase'] findIf { _objectParent isKindOf _x }) isNotEqualTo -1) &&
-						{(!surfaceIsWater (getPosWorld _objectParent))}
-					) then {
-						moveOut _killed;
-					} else {
-						_objectParent deleteVehicleCrew _killed;
-					};
-				} else {
-					if (isPlayer _killed) then {
-						if ((owner _killed) isNotEqualTo (owner _objectParent)) then {
-							[_objectParent,_killed] remoteExec ['deleteVehicleCrew',_objectParent,FALSE];
-						};
-					} else {
-						if (
-							(
-								(_objectParent isKindOf 'Car') || 
-								(_objectParent isKindOf 'StaticWeapon')
-							) &&
-							(!surfaceIsWater (getPosWorld _objectParent))
-						) then {
-							moveOut _killed;
-						} else {
-							_objectParent deleteVehicleCrew _killed;
-						};
-					};
-				};
-			};
-		};
 		_grp = group _killed;
 		if (
 			((side _grp) in [EAST,RESISTANCE]) &&
@@ -79,6 +52,20 @@ if (_killed isKindOf 'Man') then {
 		};
 	};
 } else {
+	if ((getFuelCargo _killed) > -1) then {
+		([_killed,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
+		if (_inSafezone && _safezoneActive) then {
+			
+		} else {
+			createVehicle [
+				[
+					'HelicopterExploSmall',
+					(selectRandomWeighted ['HelicopterExploSmall',0.5,'HelicopterExploBig',1,'Bo_Mk82',0.1])
+				] select ((getMass _killed) > 5000),
+				(ASLToAGL (getPosASL _killed))
+			];
+		};
+	};
 	if (!isNull (isVehicleCargo _killed)) then {
 		objNull setVehicleCargo _killed;
 	};

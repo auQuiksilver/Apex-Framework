@@ -355,7 +355,7 @@ if (_type isEqualTo 'setPlateNumber') exitWith {
 		_1 setPlateNumber _2;
 	};
 };
-if (_type isEqualto 'setFace') exitWith {
+if (_type isEqualTo 'setFace') exitWith {
 	_1 setFace _2;
 };
 if (_type isEqualTo 'setFlagAnimationPhase') exitWith {
@@ -363,9 +363,14 @@ if (_type isEqualTo 'setFlagAnimationPhase') exitWith {
 		_1 setFlagAnimationPhase _2;
 	};
 };
-if (_type isEqualto 'setEffectiveCommander') exitWith {
+if (_type isEqualTo 'setEffectiveCommander') exitWith {
 	_1 setEffectiveCommander _2;
 };
-if (_type isEqualto 'addForce') exitWith {
+if (_type isEqualTo 'addForce') exitWith {
+	diag_log format ['***** DEBUG ***** addForce executed: %1 (%4) %2 by %3',_1,_2,remoteExecutedOwner,typeOf _1];
 	_1 addForce _2;
+};
+if (_type isEqualTo 'addTorque') exitWith {
+	diag_log format ['***** DEBUG ***** addTorque executed: %1 (%4) %2 by %3',_1,_2,remoteExecutedOwner,typeOf _1];
+	_1 addTorque _2;
 };
