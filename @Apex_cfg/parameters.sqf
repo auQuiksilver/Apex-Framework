@@ -7,7 +7,7 @@ Author:
 	
 Last Modified:
 
-	10/10/2023 A3 2.14 by Quiksilver
+	12/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -72,7 +72,7 @@ _armor = 1;												// Armored Vehicles.	0 - Disabled. 1 - Enabled. (Default 
 _reducedDamage = 1;										// Damage Modeling.		0 - Disabled. 1 - Enabled. (Default/Recommended 1).		Controls whether players have added body armor and dynamic damage modeling to balance ArmA AI accuracy/aimbot shortcomings, especially in jungle/forest areas. Recommended: 1.
 _stamina = 0;											// Stamina.		0 - Optional. 1 - Forced On.	(Default: 0). If optional, players can toggle in menu.
 _commander = 0;											// Commander role. 0 - Disabled. 1 - Enabled. 2 - Enabled & Whitelisted. (Default = 2). Commander role has the ability to give player groups and AI groups orders and waypoints, can talk on Side Channel.
-_artillery = 2;											// Base artillery.	0 - Disabled. 1 - Player Controlled. 2 - AI Controlled. 	If enabled, a self-propelled artillery asset is available for use. Does not affect Mk.6 mortars access. Does not affect naval artillery.
+_artillery = 1;											// Base artillery.	0 - Disabled. 1 - Player Controlled. 2 - AI Controlled. 	If enabled, a self-propelled artillery asset is available for use. Does not affect Mk.6 mortars access. Does not affect naval artillery.
 _artilleryComputer = 1;									// Artillery Computer settings. 	0. Disabled. 	1 - Enabled ONLY while in scripted base artillery.		2 - Enabled. (Recommended = 1). Note: Applies to mortars as well.
 _mapContentEnemy = 1;									// Enemy Map Indicators. 	0 - Disabled. 1 - Enabled. Recommended = 1.	    Controls whether enemies known to the player are visible on the map.
 _recruitableAI = 1;										// Recruitable AI.	0 - Disabled. 1 - Enabled. 		If there are recruitable AI available (default base layout or placed by you in custom base layout), this toggles them on or off.
@@ -120,7 +120,7 @@ _fireSupport = 2;										// Fire Support Module. 0 - Disabled. 1 - Player Supp
 
 //===================================================== SYSTEM
 
-_restart_hours = [16];									// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
+_restart_hours = [12];									// Hours (24hr clock) which server will restart. If you use this, disable your servers restart scheduler.   Leave blank to disable, like this:  _restart_hours = [];    Times are local to server machine (consider time zone). Recommended - 8hr intervals for steady play. 6hr intervals for constant full server. 12-16hr intervals for smaller server populations.
 _restart_dynamic = 1;									// Dynamic Server Restarts. 0 - Disabled. 1 - Enabled. If enabled, Server will wait for mission conditions to be met before restarting. This option is currently only used for Defend missions.
 _dynamic_simulation = 1;								// Dynamic Simulation. 	0 - Disabled. 1 - Enabled. 	Raises FPS and performance slightly. Server freezes entities which are far away from all players.    Info: https://community.bistudio.com/wiki/Arma_3_Dynamic_Simulation
 _startDate = [];										// Set Start Date (Including time). [] = Disabled. [<year>,<month>,<day>,<hour>,<minute>].	// [2026,10,30,14,30]	= Oct 30 2026 at 2:30pm
@@ -187,11 +187,11 @@ _sideMissions = 1;										// Side Missions.	0 - Disabled. 1 - Enabled. (Defaul
 //===================================================== SANDBOX COMBAT MISSIONS
 
 _deploymentMissions = 1;								// Can enemy attack player-built bases? 0 - Disabled. 1 - Enabled.
-_dm_MaxConcurrent = 3;									// How many deployments can be attacked simultaneously? 1-10.	Min = 1, Max = 10. Default = 3.
-_dm_Frequency = 0.5;									// How frequent are deployment attacks? 0-1. 	0 = Very rare. 1 = Very often.		0 is about once an hour. 1 = every 60 seconds. 0.5 = ~30 minutes. 0.85 = 10 minutes.
+_dm_MaxConcurrent = 1;									// How many deployments can be attacked simultaneously? 1-10.	Min = 1, Max = 10. Default = 3.
+_dm_Frequency = 0.3;									// How frequent are deployment attacks? 0-1. 	0 = Very rare. 1 = Very often.		0 is about once an hour. 1 = every 60 seconds. 0.5 = ~30 minutes. 0.85 = 10 minutes.
 _dm_Intensity = 0.5;									// How intense are the attacks? 0-1. 	0 - Low intensity. 1 - High intensity.	Default = 0.5	Basically, how many enemies?
-_dm_Duration = 0.5;										// How long can the attacks go for? 0-1. 	0 - Short duration (5 mins). 1 - Long duration (60 mins). Default = 0.5
-_dm_SetupTime = 600;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300
+_dm_Duration = 0.25;										// How long can the attacks go for? 0-1. 	0 - Short duration (5 mins). 1 - Long duration (60 mins). Default = 0.5
+_dm_SetupTime = 1200;									// How long after deployment until enemies can attack it.	Counted in seconds. Default = 300
 _dm_overclock = 0;										// !Careful! Uncapped, can kill performance. Manually set the quantity of enemy per assault. 0 - Disabled.   _dm_overclock = 50;  // 50 enemy.   _dm_overclock = 150;  // 150 enemy. etc.
 
 //===================================================== STATIC SHIPS
@@ -214,15 +214,15 @@ _destroyer_hangar = 0;										// Hangar Door initial state. 0 - Hangar doors s
 // Spawn location still needs to be set manually, this section merely enables/disables them from spawning.
 // Primarily meant for Zeus Mode, but can also be used in other modes.
 
-_fobs_default = 0;						// The default FOBs that spawn around the map. 0 - Disabled. 1 - Enabled.
-_container_mobileRespawn = 1;			// White. 			Acts as a mobile respawn with respawn tickets.
-_container_baseSmall = 1;				// Lite Green. 		Small fortification "Patrol Base"
-_container_baseMedium = 1;				// Dark Green. 		Medium fortification "Combat Outpost"
-_container_baseLarge = 1;				// Dark Grey. 		Large fortification. "FOB". Has integrated Arsenal.
-_container_platform = 1;				// Sand. 			Platform/Bridge module.
-_container_terrain = 1;					// Yellow. 			Terrain deformer module.
-_container_SAM = 1;						// Dark Blue.		Deployable Missile System.
-_container_radar = 1;					// Cyan. 			Deployable Radar.
+_fobs_default = 1;						// The default FOBs that spawn around the map. 0 - Disabled. 1 - Enabled.
+_container_mobileRespawn = 1;			// White. Acts as a mobile respawn with respawn tickets.
+_container_baseSmall = 1;				// Lite Green. Small fortification "Patrol Base"
+_container_baseMedium = 1;				// Dark Green. Medium fortification "Combat Outpost"
+_container_baseLarge = 1;				// Dark Grey. Large fortification. "FOB". Has integrated Arsenal.
+_container_platform = 1;				// Sand. 		Platform/Bridge module.
+_container_terrain = 1;					// Yellow. 		Terrain deformer module.
+_container_SAM = 1;						// Dark Blue.	Deployable Missile System.
+_container_radar = 1;					// Cyan. 		Deployable Radar.
 
 //===================================================== TEXTURES
 
@@ -298,7 +298,7 @@ if (_main_mission_type isEqualTo 'ZEUS') then {
 if ((count _startDate) > 5) then {
 	_startDate = _startDate select [0,5];
 };
-/*/QS Note: Not currently compatible with framework versions 1.5.x /*/ _anticheat = 0;
+/*/QS Note: Not currently compatible with 1.5.x /*/ _anticheat = 0;
 {
 	missionNamespace setVariable _x;
 	diag_log str ([_x # 0,_x # 1]);
@@ -353,7 +353,7 @@ if ((count _startDate) > 5) then {
 	['QS_missionConfig_mass',_mass > 0,TRUE],
 	['QS_missionConfig_centerOfMass',_centerofmass,TRUE],
 	['QS_missionConfig_RSS_MenuButton',_role_selection_menu_button,TRUE],
-	['QS_missionConfig_deployment',_deployMenu > 0,TRUE],
+	['QS_missionConfig_deployment',_deploymentMenu > 0,TRUE],
 	['QS_missionConfig_respawnDeploy',_deployMenuOnRespawn > 0,TRUE],
 	['QS_missionConfig_deployMenuHome',_deployMenuHome > 0,TRUE],
 	['QS_missionConfig_weaponLasers',_weaponLasers > 0,TRUE],
