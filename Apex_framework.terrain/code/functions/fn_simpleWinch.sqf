@@ -931,7 +931,6 @@ if (_mode isEqualTo 'MODE24') exitWith {
 								};
 							};
 							if (!isNull _parent) then {
-								//_newHelper setVariable ['QS_winch_surfaceObject',[_winchTargetInfo # 1,(getPosWorld (_winchTargetInfo # 1))],TRUE];
 								_surfaceInfo = _parent getVariable ['QS_winch_surfaceObject',[]];
 								if (
 									(_surfaceInfo isNotEqualTo []) &&

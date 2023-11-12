@@ -54,6 +54,7 @@ if (
 					} &&
 					{(!(QS_extendedContext_cursorObject getVariable ['QS_commander_locked',FALSE]))} &&
 					{(alive QS_extendedContext_cursorObject)} &&
+					{(!(QS_extendedContext_cursorObject getVariable ['QS_logistics_wreck',FALSE]))} &&
 					{(isNull QS_extendedContext_objectParent)} &&
 					{(QS_extendedContext_cursorDistance < 3)} &&
 					{((lifeState QS_player) in ['HEALTHY','INJURED'])}
@@ -122,6 +123,7 @@ if (
 						{_groupLocking && (QS_extendedContext_cursorObject in (assignedVehicles (group QS_player)))}
 					} &&
 					{(alive QS_extendedContext_cursorObject)} &&
+					{(!(QS_extendedContext_cursorObject getVariable ['QS_logistics_wreck',FALSE]))} &&
 					{(isNull QS_extendedContext_objectParent)} &&
 					{(QS_extendedContext_cursorDistance < 3)} &&
 					{((lifeState QS_player) in ['HEALTHY','INJURED'])}
@@ -203,8 +205,9 @@ if (
 				};
 				if (!isNull _cursorObject) then {
 					if (_cursorObject in QS_list_playerBuildables) then {
+						_radius = (0 boundingBoxReal _cursorObject) # 2;
 						_nearUnits = allPlayers - [QS_player];
-						if ((_nearUnits inAreaArray [_cursorObject,30,30,0,FALSE]) isEqualTo []) then {
+						if ((_nearUnits inAreaArray [_cursorObject,_radius * 2,_radius * 2,0,FALSE]) isEqualTo []) then {
 							QS_player playActionNow 'PutDown';
 							deleteVehicle _cursorObject;
 						} else {
@@ -212,9 +215,9 @@ if (
 						};
 					};
 				};
-			},nil,-10,FALSE,TRUE,'','
+			},nil,-97,FALSE,TRUE,'','
 				getCursorObjectParams params ["_cursorObject","_cursorSelections","_cursorDistance"];
-				(((!isNull _cursorObject) && {(_cursorObject in QS_list_playerBuildables)}) && (_cursorDistance < 5))
+				(((!isNull _cursorObject) && {(_cursorObject in QS_list_playerBuildables)}) && (_cursorDistance < (((0 boundingBoxReal _cursorObject) # 2) * 2)))
 			'];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_deleteBuildable];
 		};
@@ -267,6 +270,7 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_vehicleHealth];
 		};
+		// Cargo Manifest
 		if (
 			(isNull QS_extendedContext_objectParent) &&
 			{(alive _cursorObject)} &&
@@ -275,7 +279,8 @@ if (
 			{(
 				(( { alive _x } count (crew _cursorObject)) isEqualTo 0) || 
 				{ ((side (group (effectiveCommander _cursorObject))) isEqualTo (QS_player getVariable ['QS_unit_side',WEST])) }
-			)}
+			)} &&
+			{(!(_cursorObject getVariable ['QS_logistics_wreck',FALSE]))}
 		) then {
 			QS_action_cargoManifest = QS_player addAction [
 				localize 'STR_QS_Interact_136',
@@ -579,7 +584,8 @@ if (
 				{
 					_cursorObject = QS_extendedContext_cursorObject;
 					_nearUnits = allPlayers - [QS_player];
-					if ((_nearUnits inAreaArray [_cursorObject,30,30,0,FALSE]) isEqualTo []) then {
+					_radius = (0 boundingBoxReal _cursorObject) # 2;
+					if ((_nearUnits inAreaArray [_cursorObject,_radius,_radius,0,FALSE]) isEqualTo []) then {
 						_virtualParent = _cursorObject getVariable ['QS_virtualCargoParent',objNull];
 						if (!alive _virtualParent) exitWith {systemChat 'parent does not exist';};
 						['DISASSEMBLE',_cursorObject] call QS_fnc_virtualVehicleCargo;
@@ -589,7 +595,7 @@ if (
 					};
 				},
 				nil,
-				-54,
+				-98,
 				FALSE,
 				TRUE,
 				'',

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	26/05/2023 A3 2.12 by Quiksilver
+	9/11/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -134,40 +134,40 @@ if (_preset isEqualTo 6) exitWith {
 if (_preset isEqualTo 7) exitWith {
 	//comment 'platform/bridging kit';
 	[
-		[[_platformType,0,0,1,4.83166,0],					16],
-		[['land_pierladder_f',0,0,1,4,0],					2]
+		[[_platformType,0,0,1,4.83166,0],										16],
+		[['land_pierladder_f',0,0,1,4,0],										2]
 	]
 };
 if (_preset isEqualTo 8) exitWith {
 	[
-		[['sign_arrow_yellow_f',1,0,0,0.5,0],					10]
+		[['sign_arrow_yellow_f',1,0,0,0.5,0],									10]
 	]
 };
 if (_preset isEqualTo 9) exitWith {
 	[
-		[['roadcone_f',0,0,1,0.5,0],					5]
+		[['roadcone_f',0,0,1,0.5,0],											5]
 	]
 };
 if (_preset isEqualTo 10) exitWith {
 	[
-		[['roadcone_f',0,0,1,0.5,0],						6],
-		[['roadbarrier_f',0,0,1,0.5,0],						3],
-		[['land_portablelight_02_double_yellow_f',0,0,1,3,0],	1]
+		[['roadcone_f',0,0,1,0.5,0],											6],
+		[['roadbarrier_f',0,0,1,0.5,0],											3],
+		[['land_portablelight_02_double_yellow_f',0,0,1,3,0],					1]
 	]
 };
 if (_preset isEqualTo 11) exitWith {
 	[
-		[['land_roadcone_01_f',0,0,1,0.13,0],					5]
+		[['land_roadcone_01_f',0,0,1,0.13,0],									5]
 	]
 };
 if (_preset isEqualTo 12) exitWith {
 	[
-		[['box_c_idap_uav_06_medical_f',0,0,1,0.5,0],					2]
+		[['box_c_idap_uav_06_medical_f',0,0,1,0.5,0],							2]
 	]
 };
 if (_preset isEqualTo 13) exitWith {
 	[
-		[['box_b_uav_06_medical_f',0,0,1,0.5,0],					2]
+		[['box_b_uav_06_medical_f',0,0,1,0.5,0],								2]
 	]
 };
 []

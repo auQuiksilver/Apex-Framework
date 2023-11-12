@@ -6,7 +6,7 @@ Author:
 
 Last modified:
 
-	30/10/2023 A3 2.14 by Quiksilver
+	12/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -14,8 +14,8 @@ Description:
 ____________________________________________/*/
 
 missionProductVersion = "1.5.6";
-missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "30.10.2023";
+missionProductStatus = "Stable";											// "Stable" // "Beta" // "Dev"
+missionProductDate = "12.11.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";
@@ -79,7 +79,7 @@ respawnDialog = 0;										/*/ default = 1. show respawn timer and scoreboard w
 respawnOnStart = 0;
 
 // Security - CfgRemoteExec + CfgDisabledCommands
-//#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
+#include "code\config\security.hpp"						// Delete this line if you are having issues with Mod/DLC compatibility. This file contains CfgRemoteExec + CfgDisabledCommands
 
 // CfgFunctions
 class CfgFunctions {
@@ -284,7 +284,6 @@ class CfgFunctions {
 			class clientInteractExamine {file = "code\functions\fn_clientInteractExamine.sqf";};
 			class clientInteractFireSupport {file = "code\functions\fn_clientInteractFireSupport.sqf";};
 			class clientInteractFOBTerminal {file = "code\functions\fn_clientInteractFOBTerminal.sqf";};
-			class clientInteractFollow {file = "code\functions\fn_clientInteractFollow.sqf";};
 			class clientInteractForceDismount {file = "code\functions\fn_clientInteractForceDismount.sqf";};
 			class clientInteractGetIn {file = "code\functions\fn_clientInteractGetIn.sqf";};
 			class clientInteractHangar {file = "code\functions\fn_clientInteractHangar.sqf";};

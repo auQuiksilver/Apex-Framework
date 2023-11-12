@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/10/2023 A3 2.12 by Quiksilver
+	11/11/2023 A3 2.12 by Quiksilver
 	
 Description:
 	
@@ -21,6 +21,9 @@ if (
 	{((['Air','LandVehicle','Ship','Cargo_base_F'] findIf { _cursorObject isKindOf _x }) isEqualTo -1)}
 ) exitWith {
 	50 cutText [localize 'STR_QS_Text_476','PLAIN DOWN',0.25];
+};
+if ((([_cursorObject,30] call QS_fnc_isNearServiceCargo) findIf { ((_x # 1) in ['repair','recover']) }) isEqualTo -1) exitWith {
+	50 cutText [localize 'STR_QS_Text_478','PLAIN DOWN',0.25];
 };
 if (
 	(QS_player getUnitTrait 'engineer') ||
@@ -52,7 +55,8 @@ if (
 				{(!isNull (ropeAttachedTo _cursorObject))} ||
 				{(((crew _cursorObject) findIf {(alive _x)}) isNotEqualTo -1)} ||
 				{((getVehicleCargo _cursorObject) isNotEqualTo [])} ||
-				{((ropes _cursorObject) isNotEqualTo [])}
+				{((ropes _cursorObject) isNotEqualTo [])} ||
+				{((([_cursorObject,30] call QS_fnc_isNearServiceCargo) findIf { ((_x # 1) in ['repair','recover']) }) isEqualTo -1)}
 			)
 		};
 		[localize 'STR_QS_Interact_146',_packTime,0,[[],{FALSE}],[[],_conditionCancel],[[],_onCompleted],[[],{FALSE}],FALSE,1,["\a3\ui_f\data\igui\cfg\actions\unloadVehicle_ca.paa"]] spawn QS_fnc_clientProgressVisualization;
@@ -69,7 +73,8 @@ if (
 		{(isNull (ropeAttachedTo _cursorObject))} &&
 		{(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1)} &&
 		{((getVehicleCargo _cursorObject) isEqualTo [])} &&
-		{((ropes _cursorObject) isEqualTo [])}
+		{((ropes _cursorObject) isEqualTo [])} &&
+		{((([_cursorObject,30] call QS_fnc_isNearServiceCargo) findIf { ((_x # 1) in ['repair','recover']) }) isNotEqualTo -1)}
 	) then {
 		_onCompleted = {
 			getCursorObjectParams params ['_cursorObject','_cursorSelections','_cursorDistance'];
@@ -85,7 +90,8 @@ if (
 				{(isNull (ropeAttachedTo _cursorObject))} &&
 				{(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1)} &&
 				{((getVehicleCargo _cursorObject) isEqualTo [])} &&
-				{((ropes _cursorObject) isEqualTo [])}
+				{((ropes _cursorObject) isEqualTo [])} &&
+				{((([_cursorObject,30] call QS_fnc_isNearServiceCargo) findIf { ((_x # 1) in ['repair','recover']) }) isNotEqualTo -1)}
 			) then {
 				QS_player playActionNow 'PutDown';
 				[120,1,[_cursorObject,profileName]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
@@ -106,7 +112,8 @@ if (
 				{(((crew _cursorObject) findIf {(alive _x)}) isNotEqualTo -1)} ||
 				{((getVehicleCargo _cursorObject) isNotEqualTo [])} ||
 				{((ropes _cursorObject) isNotEqualTo [])} ||
-				{(lockedInventory _cursorObject)}
+				{(lockedInventory _cursorObject)} ||
+				{((([_cursorObject,30] call QS_fnc_isNearServiceCargo) findIf { ((_x # 1) in ['repair','recover']) }) isEqualTo -1)}
 			)
 		};
 		[localize 'STR_QS_Interact_145',_packTime,0,[[],{FALSE}],[[],_conditionCancel],[[],_onCompleted],[[],{FALSE}],FALSE,1,["\a3\ui_f\data\igui\cfg\actions\loadVehicle_ca.paa"]] spawn QS_fnc_clientProgressVisualization;

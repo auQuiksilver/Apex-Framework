@@ -64,4 +64,4 @@ localNamespace setVariable ['QS_service_blocked',FALSE];
 _vehicle removeEventHandler ['Hit',(_vehicle getVariable ['QS_service_eventHit',-1])];
 _vehicle setVariable ['QS_service_eventHit',-1];
 if ([_vehicle,_onFoot] call _cancel2) then {50 cutText [localize 'STR_QS_Text_425','PLAIN DOWN',0.25];};
-[112,[_vehicle]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+[112,[_vehicle,profileName,getPlayerUID player]] remoteExec ['QS_fnc_remoteExec',2,FALSE];

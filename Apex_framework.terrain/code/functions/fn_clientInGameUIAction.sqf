@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	9/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 	
@@ -706,29 +706,18 @@ if (_QS_actionName isEqualTo 'UserType') then {
 			};
 		};
 	};
-	if (_actionTextLower in [(toLower (localize "$STR_A3_HATCH_OPEN")),(toLower (localize "$STR_A3_HATCH_CLOSE"))]) then {
-		if (
-			(!(([cameraOn,getPosWorld cameraOn] call QS_fnc_inHouse) # 0)) &&
-			(!(_QS_actionTarget isKindOf 'Ship')) &&
-			(!(_QS_actionTarget isKindOf 'LandVehicle')) &&
-			(!(_QS_actionTarget isKindOf 'Air'))
-		) then {
-			_QS_c = TRUE;
-			50 cutText [localize 'STR_QS_Text_377','PLAIN DOWN',0.3];
-		};
-	};
-	if (
-		(cameraOn isKindOf 'Air') &&
-		{(player isNotEqualTo (currentPilot cameraOn))} &&
-		{(_actionTextLower in [
-			toLower (localize "$STR_ACTION_RAMP_OPEN0"),
-			toLower (localize "$STR_ACTION_RAMP_CLOSE0")
-		])} &&
-		{(cameraOn getVariable ['QS_rappellSafety',FALSE])}
-	) then {
-		50 cutText [localize 'STR_QS_Text_319','PLAIN DOWN',0.75];
-		_QS_c = TRUE;
-	};
+};
+if (
+	(cameraOn isKindOf 'Air') &&
+	{(QS_player isNotEqualTo (currentPilot cameraOn))} &&
+	{(_actionTextLower in [
+		toLower (localize "$STR_ACTION_RAMP_OPEN0"),
+		toLower (localize "$STR_ACTION_RAMP_CLOSE0")
+	])} &&
+	{(cameraOn getVariable ['QS_rappellSafety',FALSE])}
+) exitWith {
+	50 cutText [localize 'STR_QS_Text_319','PLAIN DOWN',0.75];
+	_QS_c = TRUE;
 };
 if (
 	(_QS_actionName isEqualTo 'UnloadAllVehicles') &&

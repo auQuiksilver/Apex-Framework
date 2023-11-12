@@ -67,6 +67,12 @@ if (_state isEqualTo 0) exitWith {
 		['ON',_entity] call (missionNamespace getVariable 'QS_fnc_wreckSetMaterials');
 		[_entity,1] call (missionNamespace getVariable 'QS_fnc_vehicleAddSmokeEffect');
 	};
+	_entity setVariable ['QS_logistics_packable',FALSE,TRUE];
+	if (_entity isKindOf 'Cargo_base_F') then {		// this is not ideal but should work for now
+		// This should be a cargo container
+		_entity setVariable ['QS_logistics_isCargoParent',TRUE,TRUE];
+		_entity setVariable ['QS_logistics_disableCargo',TRUE,TRUE];
+	};
 	private _wreck_handlers = [];
 	{
 		_wreck_handlers pushBack [_x # 0,_entity addEventHandler _x];
@@ -248,6 +254,7 @@ if (_state isEqualTo 1) exitWith {
 				];
 				_wreckInfo set [3,_vehicleDisplayName];
 			};
+			_entity setVariable ['QS_logistics_isCargoParent',TRUE,TRUE];
 			_element set [17,TRUE];
 			_element set [19,[((getPosASL _entity) vectorAdd [0,0,0.1]),[vectorDir _entity,vectorUp _entity]]];
 			_element set [20,[TRUE,_vehicleType,_wreckType,_vehicleDisplayName]];

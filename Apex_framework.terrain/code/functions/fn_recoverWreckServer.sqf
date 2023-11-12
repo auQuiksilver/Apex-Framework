@@ -13,7 +13,7 @@ Description:
 	Wreck Recovery
 ____________________________________________*/
 
-params ['_entity'];
+params ['_entity','_profileName','_uid'];
 private _vIndex = (serverNamespace getVariable 'QS_v_Monitor') findIf { _entity isEqualTo (_x # 0) };
 private _element = (serverNamespace getVariable 'QS_v_Monitor') # _vIndex;
 private _replaceAsset = FALSE;
@@ -34,7 +34,8 @@ if (_vIndex isNotEqualTo -1) then {
 	_wreckState = FALSE;
 	_element set [20,[_wreckState,_vehicleType,_wreckType,_vehicleDisplayName]];
 	if (_replaceAsset) then {
-		_entityVectors = [vectorDir _entity,vectorUp _entity];
+		//_entityVectors = [vectorDir _entity,vectorUp _entity];
+		_entityVectors = [vectorDir _entity,[0,0,1]];
 		_entityPos = (getPosASL _entity) vectorAdd [0,0,1];
 		_oldEntity = _entity;
 		if (!isNull (ropeAttachedTo _oldEntity)) then {
@@ -84,7 +85,8 @@ if (_vIndex isNotEqualTo -1) then {
 		_replaceAsset = TRUE;
 	};
 	if (_replaceAsset) then {
-		_entityVectors = [vectorDir _entity,vectorUp _entity];
+		//_entityVectors = [vectorDir _entity,vectorUp _entity];
+		_entityVectors = [vectorDir _entity,[0,0,1]];
 		_entityPos = (getPosASL _entity) vectorAdd [0,0,1];
 		_oldEntity = _entity;
 		if (!isNull (ropeAttachedTo _oldEntity)) then {
@@ -143,6 +145,8 @@ if (_marker isNotEqualTo '') then {
 	deleteMarker _marker;
 };
 [_entity,0] call (missionNamespace getVariable 'QS_fnc_vehicleAddSmokeEffect');
+_text = format [localize 'STR_QS_Text_477',_vehicleDisplayName,_profileName,mapGridPosition _entity];
+['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 {
 	_entity setVariable _x;
 } forEach [

@@ -144,7 +144,7 @@ if (_class isKindOf 'Lamps_base_F') then {
 };
 if (_class isKindOf 'CAManBase') then {
 	[_entity,((_parent getVariable ['QS_deploy_tickets',-1]) isNotEqualTo -1)] call QS_fnc_serverUnitConfigure;
-	_nearbyStatics = (nearestObjects [_entity,['StaticWeapon'],4,TRUE]) select {
+	_nearbyStatics = (nearestObjects [_entity,['StaticWeapon'],3,TRUE]) select {
 		(
 			(alive _x) && 
 			{((crew _x) isEqualTo [])} &&
@@ -179,10 +179,10 @@ if (_class isKindOf 'CAManBase') then {
 			_entity removeEventHandler [_thisEvent,_thisEventHandler];
 			if (!_isLocal) then {
 				[
-					[_entity],
+					[_entity,_thisEvent],
 					{
-						params ['_entity'];
-						_entity removeEventHandler [_thisEvent,_thisEventHandler];
+						params ['_entity','_thisEvent'];
+						_entity removeEventHandler [_thisEvent,0];
 						_entity enableAIFeature ['ALL',TRUE];
 						_entity enableAIFeature ['PATH',TRUE];
 						_entity setSkill 1;
@@ -198,12 +198,10 @@ if (_class isKindOf 'CAManBase') then {
 								) then {
 									removeAllWeapons _entity;
 									removeAllAssignedItems _entity;
+									removeAllItems _entity;
 									{
 										_entity removeMagazine _x;
 									} forEach (magazines _entity);
-									{
-										_entity removeItem _x;
-									} forEach (items _entity);
 								};
 							}
 						];
@@ -227,12 +225,10 @@ if (_class isKindOf 'CAManBase') then {
 			) then {
 				removeAllWeapons _entity;
 				removeAllAssignedItems _entity;
+				removeAllItems _entity;
 				{
 					_entity removeMagazine _x;
 				} forEach (magazines _entity);
-				{
-					_entity removeItem _x;
-				} forEach (items _entity);
 			};
 		}
 	];

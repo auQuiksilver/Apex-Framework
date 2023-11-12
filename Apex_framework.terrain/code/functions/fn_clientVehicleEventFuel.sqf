@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/01/2017 A3 1.66 by Quiksilver
+	6/11/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -16,5 +16,10 @@ Description:
 	fuelState: Boolean - 0 when no fuel, 1 when the fuel tank is full
 __________________________________________________________*/
 
-if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_fuelState'];
+if (!_fuelState) then {
+	50 cutText ['No fuel','PLAIN DOWN',0.3];	
+};
+if (_fuelState) then {
+	50 cutText ['Fuel full','PLAIN DOWN',0.3];
+};

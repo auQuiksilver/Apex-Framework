@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/01/2023 A3 2.12 by Quiksilver
+	6/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -38,32 +38,54 @@ if ((['Tank','Wheeled_APC_F','Ship'] findIf { _vehicle isKindOf _x }) isNotEqual
 	(0 max (_vehicle getVariable ['QS_vehicle_passiveStealth',_stealth]) min _maxPassiveStealth)
 };
 if ((['Helicopter'] findIf { _vehicle isKindOf _x }) isNotEqualTo -1) exitWith {
-	if (((vectorMagnitude (velocity _vehicle)) * 3.6) > 100) then {
-		// Low and fast
-		if (((getPos _vehicle) # 2) < 50) then {
-			_stealth = _stealth + (linearConversion [0,50,((getPos _vehicle) # 2),0.3,0,TRUE]);
-		};
-	};
+	private _stealthAltCeiling = 50;		// altitude
+	private _stealthAltCoef = 0.15;			// alt coef
+	private _stealthVelCeiling = QS_hashmap_configfile getOrDefaultCall [
+		format ['cfgvehicles_%1_maxspeed',toLowerANSI (typeOf _vehicle)],
+		{getNumber ((configOf _vehicle) >> 'maxSpeed')},
+		TRUE
+	];
+	private _stealthVelCoef = 0.15;			// vel coef
 	// Hummingbird
 	if (_vehicle isKindOf 'Heli_Light_01_unarmed_base_F') then {
-		if (((vectorMagnitude (velocity _vehicle)) * 3.6) > 100) then {
-			_stealth = _stealth + 0.15;
-		};
+		// Bench seats (stealth mode)
 		if ((_vehicle animationSourcePhase 'BenchL_Up') isEqualTo 1) then {
 			_stealth = _stealth + 0.6;
-		};
-		if (!isNull (getSlingLoad _vehicle)) then {
-			_stealth = _stealth - 0.3;
 		};
 	};
 	// Pawnee
 	if (_vehicle isKindOf 'Heli_Light_01_armed_base_F') then {
-		if (((vectorMagnitude (velocity _vehicle)) * 3.6) > 100) then {
-			_stealth = _stealth + 0.25;
+		_stealthVelCoef = 0.25;
+	};
+	// Ghosthawk
+	if (_vehicle isKindOf 'Heli_Transport_01_base_F') then {
+		_stealthVelCeiling = 100;
+		_stealthVelCoef = 0.15;
+		_stealthAltCeiling = 100;
+		_stealthAltCoef = 0.15;
+		// Ghosthawk doors closed
+		if ((_vehicle animationPhase 'Door_L') isEqualTo 0) then {
+			_stealth = _stealth + 0.10;
 		};
-		if (!isNull (getSlingLoad _vehicle)) then {
-			_stealth = _stealth - 0.3;
+	};
+	// Blackfoot
+	if (_vehicle isKindOf 'Heli_Attack_01_base_F') then {
+		_stealthVelCeiling = 100;
+		_stealthVelCoef = 0.25;
+		_stealthAltCeiling = 100;
+		_stealthAltCoef = 0.25;
+		// Blackfoot missile bay closed
+		if ((_vehicle animationPhase 'leftholdster_dynloadout') isEqualTo 0) then {
+			_stealth = _stealth + 0.10;
 		};
+	};
+	// Low
+	_stealth = _stealth + (linearConversion [0,_stealthAltCeiling,((getPos _vehicle) # 2),_stealthAltCoef,0,TRUE]);
+	// Fast
+	_stealth = _stealth + (linearConversion [0,_stealthVelCeiling,((vectorMagnitude (velocity _vehicle)) * 3.6),0,_stealthVelCoef,TRUE]);
+	// Slingload
+	if (!isNull (getSlingLoad _vehicle)) then {
+		_stealth = _stealth - 0.3;
 	};
 	// Disqualifiers
 	if (
@@ -73,6 +95,10 @@ if ((['Helicopter'] findIf { _vehicle isKindOf _x }) isNotEqualTo -1) exitWith {
 	) then {
 		_stealth = 0;
 	};
+	(0 max (_vehicle getVariable ['QS_vehicle_passiveStealth',_stealth]) min _maxPassiveStealth)
+};
+if ((['Plane'] findIf { _vehicle isKindOf _x }) isNotEqualTo -1) exitWith {
+	// To Do
 	(0 max (_vehicle getVariable ['QS_vehicle_passiveStealth',_stealth]) min _maxPassiveStealth)
 };
 (0 max (_vehicle getVariable ['QS_vehicle_passiveStealth',_stealth]) min _maxPassiveStealth)

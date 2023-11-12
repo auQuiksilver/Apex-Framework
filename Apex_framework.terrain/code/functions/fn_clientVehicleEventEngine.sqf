@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	20/01/2017 A3 1.66 by Quiksilver
+	6/11/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -22,3 +22,12 @@ __________________________________________________________*/
 
 if (!(local (_this # 0))) exitWith {};
 params ['_vehicle','_engineState'];
+if (
+	(!_engineState) &&
+	{((['LandVehicle','Ship'] findIf { _vehicle isKindOf _x }) isNotEqualTo -1)}
+) then {
+	(getCruiseControl _vehicle) params ['_speedLimit','_cruiseControlActive'];
+	if (_speedLimit isNotEqualTo 0) then {
+		_vehicle setCruiseControl [0,FALSE];
+	};
+};

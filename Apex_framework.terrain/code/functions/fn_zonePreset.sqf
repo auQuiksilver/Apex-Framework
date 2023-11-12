@@ -6,7 +6,7 @@ Author:
 
 Last Modified:
 
-	20/09/2023 A3 2.14 by Quiksilver
+	10/11/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -15,7 +15,7 @@ _______________________________________________*/
 
 params ['_mode'];
 if (_mode isEqualTo 0) then {
-	comment 'MAIN BASE';
+	//comment 'MAIN BASE';
 	private _safezoneRadius = 500;
 	if (worldName isEqualTo 'Altis') then {_safezoneRadius = 750;};
 	if (worldName isEqualTo 'Tanoa') then {_safezoneRadius = 500;};
@@ -40,7 +40,7 @@ if (_mode isEqualTo 0) then {
 				];
 			} forEach QS_baseProtection_polygons;
 		};
-		comment 'Default base safe-polygon';
+		//comment 'Default base safe-polygon';
 		_centroid = QS_base_safePolygon call QS_fnc_geomPolygonCentroid;
 		_zoneEval = {
 			if (diag_tickTime > (localNamespace getVariable ['QS_spawnprotection_interval',-1])) then {
@@ -51,7 +51,8 @@ if (_mode isEqualTo 0) then {
 					if (local _x) then {
 						if (
 							(_x inPolygon QS_base_safePolygon) &&
-							{(((getPos _x) # 2) < 2)}
+							{(((getPos _x) # 2) < 2)} &&
+							{!isObjectHidden _x}
 						) then {
 							_deleteDelay = FALSE;
 							if (unitIsUav _x) then {
@@ -118,7 +119,7 @@ if (_mode isEqualTo 0) then {
 	['ADD',['BASE_HIGHSEC_0',TRUE,'SAFE','RAD',2,['QS_marker_base_marker',_safezoneRadius],_szIn,_szOut,_szCondition,_szEval,[WEST]]] call QS_fnc_zoneManager;
 };
 if (_mode isEqualTo 1) then {
-	comment 'FOB';
+	//comment 'FOB';
 	private _safezoneRadius = 100;
 	_szIn = {
 		
@@ -135,7 +136,7 @@ if (_mode isEqualTo 1) then {
 	['ADD',['FOB_LOWSEC_0',TRUE,'SAFE','RAD',1,['QS_marker_module_fob',_safezoneRadius],_szIn,_szOut,_szCondition,_szEval,[WEST]]] call QS_fnc_zoneManager;
 };
 if (_mode isEqualTo 2) then {
-	comment 'CARRIER';
+	//comment 'CARRIER';
 	_szIn = {
 		
 	};
@@ -152,7 +153,7 @@ if (_mode isEqualTo 2) then {
 	['ADD',['CARRIER_0',TRUE,'SAFE','POLY',1,[_worldPolygon,100],_szIn,_szOut,_szCondition,_szEval,[WEST]]] call QS_fnc_zoneManager;
 };
 if (_mode isEqualTo 3) then {
-	comment 'DESTROYER';
+	//comment 'DESTROYER';
 	_szIn = {
 		
 	};

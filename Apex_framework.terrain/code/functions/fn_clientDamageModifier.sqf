@@ -97,11 +97,14 @@ if (isNull _objectParent) then {
 				_return = 0;
 			};
 		} else {
-			if (_objectParent isKindOf 'Tank') then {
-				_return = 0.25;
+			if (
+				((_objectParent isKindOf 'Tank') || (_objectParent isKindOf 'Wheeled_APC_F')) &&
+				(!isTurnedOut _unit)
+			) then {
+				_return = 0.075;
 			};
 			if (_objectParent isKindOf 'Car') then {
-				_return = 0.333;
+				_return = 0.25;
 			};
 			if (
 				(

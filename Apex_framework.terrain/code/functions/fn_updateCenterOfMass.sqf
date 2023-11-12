@@ -12,10 +12,6 @@ Description:
 
 	https://community.bistudio.com/wiki/setCenterOfMass
 	https://community.bistudio.com/wiki/getCenterOfMass
-	
-	onEachFrame {
-		hintSilent str ([cameraOn,TRUE,TRUE] call QS_fnc_updateCenterOfMass);
-	};
 ________________________________________________*/
 
 params ['_vehicle',['_set',TRUE],['_recalcMass',TRUE],['_counterBalance',FALSE]];
@@ -42,20 +38,20 @@ if (_allAttached isEqualTo []) exitWith {
 		if (_currentCOM isNotEqualTo _centerOfMass) then {
 			if (local _vehicle) then {
 				_vehicle setCenterOfMass ((_vehicle getVariable ['QS_vehicle_massdef',[]]) # 1);
+				_vehicle awake TRUE;
 			} else {
 				['setCenterOfMass', _vehicle, ((_vehicle getVariable ['QS_vehicle_massdef',[]]) # 1)] remoteExec ['QS_fnc_remoteExecCmd',_vehicle,FALSE];
 			};
-			_vehicle awake TRUE;
 		};
 	};
 	if (_recalcMass) then {
 		if (_totalMass isNotEqualTo _currentMass) then {
 			if (local _vehicle) then {
 				_vehicle setMass _totalMass;
+				_vehicle awake TRUE;
 			} else {
 				['setMass',_vehicle,_totalMass] remoteExec ['QS_fnc_remoteExecCmd',_vehicle,FALSE];
 			};
-			_vehicle awake TRUE;
 		};
 	};
 	[_totalMass,_centerOfMass]
@@ -69,10 +65,10 @@ if (_recalcMass) then {
 	if (_totalMass isNotEqualTo _currentMass) then {
 		if (local _vehicle) then {
 			_vehicle setMass _totalMass;
+			_vehicle awake TRUE;
 		} else {
 			['setMass',_vehicle,_totalMass] remoteExec ['QS_fnc_remoteExecCmd',_vehicle,FALSE];
 		};
-		_vehicle awake TRUE;
 	};
 };
 if (_massData isEqualTo []) exitWith {[_totalMass,_centerOfMass]};
@@ -90,10 +86,10 @@ if (_set) then {
 	if (_currentCOM isNotEqualTo _newCenterOfMass) then {
 		if (local _vehicle) then {
 			_vehicle setCenterOfMass _newCenterOfMass;
+			_vehicle awake TRUE;
 		} else {
 			['setCenterOfMass', _vehicle, _newCenterOfMass] remoteExec ['QS_fnc_remoteExecCmd', _vehicle, FALSE];
 		};
-		_vehicle awake TRUE;
 	};
 };
 [_totalMass,_newCenterOfMass]

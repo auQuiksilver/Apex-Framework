@@ -7,7 +7,7 @@ Author:
 	
 Last modified:
 	
-	19/11/2017 A3 1.76 by Quiksilver
+	30/10/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -26,7 +26,6 @@ private _isPoliceBoat = _vehicleType in ['c_boat_civil_01_police_f'];
 private _isAmbulance = ((_vehicle isKindOf 'van_02_medevac_base_f') || (_vehicleType in ['c_van_02_medevac_f','c_idap_van_02_medevac_f','b_gen_van_02_vehicle_f','b_gen_van_02_transport_f','i_e_van_02_medevac_f','i_e_van_02_transport_mp_f']));
 private _isServicesVan = ((_vehicle isKindOf 'van_02_service_base_f') || (_vehicleType in ['c_van_02_service_f']));
 if ((!(_isOffroad)) && (!(_isPoliceBoat)) && (!(_isAmbulance)) && (!(_isServicesVan))) exitWith {};
-private _exit = FALSE;
 private _lightRed = [0,0,0];
 private _lightBlue = [0,0,0];
 private _attachPointL = [0,0,0];
@@ -95,19 +94,26 @@ _lightright setLightFlareMaxDistance 150;
 _lightright setLightUseFlare TRUE;
 _lightright setLightDayLight TRUE;
 private _leftRed = TRUE;
-for '_x' from 0 to 1 step 0 do {
-	if (!alive _vehicle) then {_exit = TRUE;};
-	if (!(_vehicle getVariable ['Utility_Offroad_Beacons',FALSE])) then {_exit = TRUE;};
-	if (_exit) exitWith {};
+for '_i' from 0 to 1 step 0 do {
+	if (
+		(!alive _vehicle) ||
+		{(!(_vehicle getVariable ['Utility_Offroad_Beacons',FALSE]))} ||
+		{(_vehicle getVariable ['QS_logistics_wreck',FALSE])} ||
+		{(_vehicle getVariable ['QS_logistics_packed',FALSE])}
+	) exitWith {
+		if (_vehicle getVariable ['Utility_Offroad_Beacons',FALSE]) then {
+			_vehicle setVariable ['Utility_Offroad_Beacons',FALSE,TRUE];
+		};
+	};
 	if (_leftRed) then {
 		_leftRed = FALSE;
-		_lightright setLightBrightness 1;
-		uiSleep 0.05;
+		_lightright setLightBrightness 0;
+		uiSleep 0.1;
 		_lightleft setLightBrightness 6;
 	} else {
 		_leftRed = TRUE;
-		_lightleft setLightBrightness 1;
-		uiSleep 0.05;
+		_lightleft setLightBrightness 0;
+		uiSleep 0.1;
 		_lightright setLightBrightness 6;
 	};
 	uiSleep 0.333;

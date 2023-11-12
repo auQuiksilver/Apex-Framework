@@ -225,7 +225,9 @@ _transportSoldier = QS_hashmap_configfile getOrDefaultCall [
 ];
 // Land Vehicles
 if (_u isKindOf 'LandVehicle') then {
-	_u setVariable ['QS_logistics_packable',TRUE,TRUE];
+	if (!(_u getVariable ['QS_logistics_wreck',FALSE])) then {
+		_u setVariable ['QS_logistics_packable',TRUE,TRUE];
+	};
 	_u setConvoySeparation 50;
 	_u forceFollowRoad TRUE;
 	if (_u isKindOf 'AFV_Wheeled_01_base_F') then {

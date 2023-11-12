@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	5/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -306,6 +306,7 @@ if (_revalidate) then {
 
 player setVariable ['QS_RD_interacting',FALSE,TRUE];
 uiNamespace setVariable ['QS_RD_canRespawnVehicle',-1];
+private _extendedContext = FALSE;
 _cursorTarget = cursorTarget;
 _cursorObject = cursorObject;
 _QS_nearEntities_revealDelay = 5;
@@ -2062,6 +2063,7 @@ for '_z' from 0 to 1 step 0 do {
 			};
 			_isMissionCursorObject = if (isNull _cursorObject) then {_false} else {((getObjectType _cursorObject) isEqualTo 8)};
 			_noObjectParent = isNull _objectParent;
+			_extendedContext = missionNamespace getVariable ['QS_menu_extendedContext',_false];
 			
 			/*/===== Action Escort/*/
 				
@@ -2391,7 +2393,8 @@ for '_z' from 0 to 1 step 0 do {
 			/*/===== Action Respawn Vehicle/*/
 			
 			if (
-				(_noObjectParent) &&
+				_extendedContext &&
+				{_noObjectParent} &&
 				{(alive _cursorObject)} &&
 				{(local _cursorObject)} &&
 				{(isNull (isVehicleCargo _cursorObject))} &&
@@ -2759,7 +2762,8 @@ for '_z' from 0 to 1 step 0 do {
 			/*/===== Interact Pack Vehicle/*/
 
 			if (
-				_noObjectParent &&
+				_extendedContext &&
+				{_noObjectParent} &&
 				{(alive _cursorObject)} &&
 				{_isMissionCursorObject} &&
 				{(_cursorObjectDistance < 15)} &&
@@ -2769,17 +2773,17 @@ for '_z' from 0 to 1 step 0 do {
 				{(((crew _cursorObject) findIf {(alive _x)}) isEqualTo -1)} &&
 				{((getVehicleCargo _cursorObject) isEqualTo [])} &&
 				{((ropes _cursorObject) isEqualTo [])} &&
+				{!(uiNamespace getVariable ['QS_client_progressVisualization_active',_false])} &&
+				{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))} &&
 				{(
 					(
 						(_cursorObject getVariable ['QS_logistics_packable',_false]) && 
 						{(!(_cursorObject getVariable ['QS_logistics_packed',_false]))} && 
-						{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))} &&
 						{(!(_cursorObject getVariable ['QS_logistics_deployed',_false]))} &&
 						{(!(lockedInventory _cursorObject))}
 					) ||
 					{(
 						(_cursorObject getVariable ['QS_logistics_isCargoParent',_false]) &&
-						{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))} &&
 						{(!isNull (_cursorObject getVariable ['QS_logistics_cargoChild',_objNull]))}
 					)}
 				)}
@@ -2798,14 +2802,16 @@ for '_z' from 0 to 1 step 0 do {
 			};
 			
 			/*/===== Interact Pack Wreck/*/
-			
+
 			if (
-				_noObjectParent &&
+				_extendedContext &&
+				{_noObjectParent} &&
 				{(alive _cursorObject)} &&
 				{_isMissionCursorObject} &&
 				{(_cursorObjectDistance < 8)} &&
 				{(_cursorObject getVariable ['QS_logistics_wreck',_false])} &&
-				{(!(_cursorObject getVariable ['QS_logistics_packable',_false]))}
+				{(!(_cursorObject getVariable ['QS_logistics_packable',_false]))} &&
+				{(!(_cursorObject getVariable ['QS_logistics_isCargoParent',_false]))}
 			) then {
 				if (!(_QS_interaction_packWreck)) then {
 					_QS_interaction_packWreck = _true;
@@ -3341,7 +3347,6 @@ for '_z' from 0 to 1 step 0 do {
 				{(_cursorObjectDistance <= (_cursorObject getVariable ['QS_logistics_unloadDistance',5]))} &&
 				{((isNull (attachedTo _cursorObject)) || ((!isNull (attachedTo _cursorObject)) && (!(lockedInventory (attachedTo _cursorObject)))))} &&
 				{(!(_cursorObject getVariable ['QS_lockedInventory',_false]))} &&
-				{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))} &&
 				{(!(missionNamespace getVariable ['QS_targetBoundingBox_placementMode',_false]))} &&
 				{(!(_cursorObject isKindOf 'CAManBase'))} &&
 				{(
@@ -3858,7 +3863,8 @@ for '_z' from 0 to 1 step 0 do {
 				{(canMove _cursorObject)} &&
 				{(!(isSimpleObject _cursorObject))} &&
 				{((locked _cursorObject) in [0,1])} &&
-				{(((crew _cursorObject) findIf {((side (group _x)) in _enemysides)}) isEqualTo -1)}
+				{(((crew _cursorObject) findIf {((side (group _x)) in _enemysides)}) isEqualTo -1)} &&
+				{(!(_cursorObject getVariable ['QS_logistics_wreck',_false]))}
 			) then {
 				_QS_action_camonetArmor_vAnims = _cursorObject getVariable ['QS_vehicle_camonetAnims',-1];
 				if (_QS_action_camonetArmor_vAnims isEqualTo -1) then {

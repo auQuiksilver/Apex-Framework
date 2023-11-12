@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	10/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -19,8 +19,7 @@ if ((['QS_trait_fighterPilot','QS_trait_pilot'] findIf { player getUnitTrait _x 
 getCursorObjectParams params ['_cursorObject','_cursorSelections','_cursorDistance'];
 params ['_mode'];
 private _list = (allPlayers - (entities 'HeadlessClient_F')) - [QS_player];
-
-private _isAdmin = FALSE;	//(getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
+private _isAdmin = (getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
 private _deployParams = _cursorObject getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]];
 _deployParams params [
 	'_deploySafeRadius',

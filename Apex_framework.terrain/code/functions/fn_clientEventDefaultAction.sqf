@@ -6,15 +6,11 @@ Author:
 	
 Last Modified:
 
-	26/04/2023 A3 2.12 by Quiksilver
+	12/11/2023 A3 2.14 by Quiksilver
 
 Description:
 
 	Default Action
-
-Notes:
-
-	We could implement a "Hold Action" in the future for some parts of this
 _____________________________________*/
 
 params ['_mode'];
@@ -50,29 +46,51 @@ if (_mode isEqualTo 'activate') exitWith {
 						50 cutText [localize 'STR_QS_Text_403','PLAIN DOWN',0.5];
 					};
 					if (localNamespace getVariable ['QS_logistics_playerBuild',FALSE]) then {
-						localNamespace setVariable ['QS_logistics_playerBuild',FALSE];
-						QS_player playActionNow 'PutDown';
-						_sim = uiNamespace getVariable ['QS_client_menuPlayerBuild_sim',1];
-						_posASL = uiNamespace getVariable ['QS_targetBoundingBox_ASLPos',[0,0,0]];
-						_vectors = uiNamespace getVariable 'QS_targetBoundingBox_vectors';
-						_object = [
-							_requestedObject,
-							_sim,
-							_posASL,
-							_vectors,
-							[QS_player] call QS_fnc_getPlayerBuildBudget
-						] call QS_fnc_playerBuildObject;
-						if (!isNull _object) then {
-							[
-								52,
-								_object,
-								clientOwner,
-								QS_player,
-								[QS_player] call QS_fnc_getPlayerBuildBudget
-							] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+						_conditionCancel = {
+							(
+								((stance QS_player) isNotEqualTo 'STAND') ||
+								((currentWeapon QS_player) isNotEqualTo '') ||
+								(!((lifeState QS_player) in ['HEALTHY','INJURED'])) ||
+								(!isNull (objectParent QS_player))
+							)
 						};
+						_onCompleted = {
+							params ['_requestedObject'];
+							localNamespace setVariable ['QS_logistics_playerBuild',FALSE];
+							_sim = uiNamespace getVariable ['QS_client_menuPlayerBuild_sim',1];
+							_posASL = uiNamespace getVariable ['QS_targetBoundingBox_ASLPos',[0,0,0]];
+							_vectors = uiNamespace getVariable 'QS_targetBoundingBox_vectors';
+							_object = [
+								_requestedObject,
+								_sim,
+								_posASL,
+								_vectors,
+								[QS_player] call QS_fnc_getPlayerBuildBudget
+							] call QS_fnc_playerBuildObject;
+							if (!isNull _object) then {
+								[
+									52,
+									_object,
+									clientOwner,
+									QS_player,
+									[QS_player] call QS_fnc_getPlayerBuildBudget
+								] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+							};
+							missionNamespace setVariable ['QS_targetBoundingBox_placementMode',FALSE,FALSE];
+						};
+						[
+							localize 'STR_QS_Interact_129',
+							5,
+							0,
+							[[],{FALSE}],
+							[[],_conditionCancel],
+							[[_requestedObject],_onCompleted],
+							[[],{FALSE}],
+							FALSE,
+							1,
+							["\a3\ui_f\data\igui\cfg\actions\repair_ca.paa"]
+						] spawn QS_fnc_clientProgressVisualization;
 					} else {
-						// To do: Make this more robust to handle different conditions for different object types
 						if (
 							(!(_requestedObject isKindOf 'sign_arrow_yellow_f')) ||
 							{(
@@ -86,8 +104,8 @@ if (_mode isEqualTo 'activate') exitWith {
 								systemChat (localize 'STR_QS_Chat_170');
 							};
 						};
+						missionNamespace setVariable ['QS_targetBoundingBox_placementMode',FALSE,FALSE];
 					};
-					missionNamespace setVariable ['QS_targetBoundingBox_placementMode',FALSE,FALSE];
 				};
 			};
 			_simulation = QS_hashmap_configfile getOrDefaultCall [

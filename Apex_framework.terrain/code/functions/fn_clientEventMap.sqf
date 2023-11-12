@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	11/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -20,6 +20,7 @@ if (_mapIsOpened) then {
 	uiNamespace setVariable ['QS_map_closestBuildable',objNull];
 	_globalObjects = (8 allObjects 8) select {(_x getVariable ['QS_logistics_virtual',FALSE])};
 	localNamespace setVariable ['QS_map_globalObjects',_globalObjects];
+	localNamespace setVariable ['QS_map_deleteDistance',50];
 	QS_map_drawBuildables = ((findDisplay 12) displayCtrl 51) ctrlAddEventHandler [
 		'Draw',
 		{
@@ -27,7 +28,7 @@ if (_mapIsOpened) then {
 			if (!(missionNamespace getVariable ['QS_menu_extendedContext',FALSE])) exitWith {};
 			_cursorPos = uiNamespace getVariable ['QS_map_cursorPos',[0,0,0]];
 			private _iconSize = 20;
-			private _distance = 100;
+			private _distance = localNamespace getVariable ['QS_map_deleteDistance',50];
 			private _nearish = [];
 			private _text = '';
 			private _color = [0.5,0.5,0.5,1];
@@ -187,7 +188,8 @@ if (_mapIsOpened) then {
 				if (!isNull _closestBuildable) then {
 					if ((_closestBuildable distance2D (uiNamespace getVariable ['QS_map_cursorPos',[0,0,0]])) < 100) then {
 						_nearUnits = allPlayers - [player];
-						if ((_nearUnits inAreaArray [_closestBuildable,100,100,0,FALSE]) isEqualTo []) then {
+						_radius = localNamespace getVariable ['QS_map_deleteDistance',50];
+						if ((_nearUnits inAreaArray [_closestBuildable,_radius,_radius,0,FALSE]) isEqualTo []) then {
 							if (!local _closestBuildable) then {
 								['systemChat',format [localize 'STR_QS_Text_401',profileName,(getText ((configOf _closestBuildable) >> 'displayName')),mapGridPosition _closestBuildable]] remoteExec ['QS_fnc_remoteExecCmd',_closestBuildable,FALSE];
 							};

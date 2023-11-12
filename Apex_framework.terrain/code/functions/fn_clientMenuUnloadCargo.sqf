@@ -45,27 +45,20 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 	private _dn = '';
 	private _list = [];
 	private _attachedObjects1 = (attachedObjects _vehicle) select {
-		(!isSimpleObject _x)
-	};
-	_attached = _attachedObjects1 apply {
-		if (
+		(
 			(!isNull _x) &&
 			{((typeOf _x) isNotEqualTo '')} &&
 			{!(isSimpleObject _x)} &&
 			{(!((toLowerANSI (typeOf _x)) in ['#lightpoint']))}
-		) then {
-			_dn = QS_hashmap_configfile getOrDefaultCall [
-				format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _x)],
-				{(getText ((configOf _x) >> 'displayName'))},
-				TRUE
-			];
-			[
-				_x,
-				(_x getVariable ['QS_ST_customDN',_dn]),
-				(loadAbs _x),
-				(maxLoad _x)
-			]
-		};
+		)
+	};
+	_attached = _attachedObjects1 apply {
+		[
+			_x,
+			(_x getVariable ['QS_ST_customDN',QS_hashmap_configfile getOrDefaultCall [format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _x)],{(getText ((configOf _x) >> 'displayName'))},TRUE]]),
+			(loadAbs _x),
+			(maxLoad _x)
+		]
 	};
 	private _virtualAttached = [];
 	private _virtualCargo = _vehicle getVariable ['QS_virtualCargo',[]];
@@ -104,7 +97,7 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 		params ['_vehicle','_vehiclePos'];
 		(
 			!dialog ||
-			(!alive _vehicle) ||
+			{(!alive _vehicle)} ||
 			//{(!simulationEnabled _vehicle)} ||
 			{(((getPosWorld _vehicle) distance _vehiclePos) > 5)} ||
 			{((lockedInventory _vehicle) && (isNull (objectParent (missionNamespace getvariable ['QS_player',objNull]))))} ||
@@ -159,20 +152,20 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 		) then {
 			_list = [];
 			_attachedObjects1 = (attachedObjects _vehicle) select {
-				(!isSimpleObject _x)
+				(
+					(!isNull _x) &&
+					{((typeOf _x) isNotEqualTo '')} &&
+					{!(isSimpleObject _x)} &&
+					{(!((toLowerANSI (typeOf _x)) in ['#lightpoint']))}
+				)
 			};
 			if (_inVehicle) then {
 				_attachedObjects1 = getVehicleCargo _vehicle;
 			};
 			_attached = _attachedObjects1 apply {
-				_dn = QS_hashmap_configfile getOrDefaultCall [
-					format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _x)],
-					{(getText ((configOf _x) >> 'displayName'))},
-					TRUE
-				];
 				[
 					_x,
-					(_x getVariable ['QS_ST_customDN',_dn]),
+					(_x getVariable ['QS_ST_customDN',QS_hashmap_configfile getOrDefaultCall [format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _x)],{(getText ((configOf _x) >> 'displayName'))},TRUE]]),
 					(loadAbs _x),
 					(maxLoad _x)
 				]

@@ -6,11 +6,11 @@ Author:
 
 Last Modified:
 
-	20/01/2018 A3 1.80 by Quiksilver
+	6/11/2023 A3 2.14 by Quiksilver
 
 Description:
 
-	Dynamic Tasks	
+	Dynamic Tasks
 ____________________________________________________________________________/*/
 
 params ['_case','_type','_params','_isRx'];
@@ -116,19 +116,13 @@ if (_case isEqualTo 1) then {
 					[_entity,(markerPos 'QS_marker_medevac_hq')],
 					{
 						params ['_entity','_medevacBase'];
-						private _c = FALSE;
-						if (alive _entity) then {
-							if ((lifeState _entity) isNotEqualTo 'INCAPACITATED') then {
-								if ((_entity distance2D _medevacBase) < 50) then {
-									if (isNull (objectParent _entity)) then {
-										if (isNull (attachedTo _entity)) then {
-											_c = TRUE;
-										};
-									};
-								};
-							};
-						};
-						_c;
+						(
+							(alive _entity) &&
+							((lifeState _entity) isNotEqualTo 'INCAPACITATED') &&
+							((_entity distance2D _medevacBase) < 50) &&
+							(isNull (objectParent _entity)) &&
+							(isNull (attachedTo _entity))
+						)
 					}
 				],
 				[	/*/FAILED/*/
@@ -185,31 +179,25 @@ if (_case isEqualTo 1) then {
 				[	/*/SUCCESS/*/
 					[_entity,(markerPos 'QS_marker_gitmo')],
 					{
-						params ['_entity','_prisonBase'];
-						private _c = FALSE;
-						if (alive _entity) then {
-							if ((_entity distance2D _prisonBase) < 30) then {
-								if (isNull (objectParent _entity)) then {
-									if (isNull (attachedTo _entity)) then {
-										_c = TRUE;
-									};
-								};
-							};
-						};
-						_c;
+						params ['_entity'];
+						(isNull _entity)
 					}
 				],
 				[	/*/FAILED/*/
 					[_entity],
 					{
 						params ['_entity'];
-						(!alive _entity)
+						(
+							(!isNull _entity) &&
+							(!alive _entity)
+						)
 					}
 				],
 				[	/*/CANCEL/*/
 					[_entity],
 					{
-						FALSE
+						params ['_entity'];
+						(isNull _entity)
 					}
 				]
 			],
@@ -254,13 +242,10 @@ if (_case isEqualTo 1) then {
 					[_entity,(markerPos 'QS_marker_base_marker')],
 					{
 						params ['_entity','_base'];
-						private _c = FALSE;
-						if (alive _entity) then {
-							if ((_entity distance2D _base) < 500) then {
-								_c = TRUE;
-							};
-						};
-						_c;
+						(
+							(alive _entity) &&
+							((_entity distance2D _base) < 500)
+						)
 					}
 				],
 				[	/*/FAILED/*/

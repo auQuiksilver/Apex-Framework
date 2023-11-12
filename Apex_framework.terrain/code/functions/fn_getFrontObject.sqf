@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	23/03/2023 A3 2.12 by Quiksilver
+	11/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -61,8 +61,8 @@ if (_mode isEqualTo 0) exitWith {
 				{(!((locked _test) in [2,3]))} &&
 				//{(!(lockedInventory _test))} &&
 				{(!(_test in (attachedObjects _vehicle)))} &&
-				{(isNull (ropeAttachedTo _test))} &&
-				{((attachedObjects _test) isEqualTo [])}
+				{(isNull (ropeAttachedTo _test))}// &&
+				//{((attachedObjects _test) isEqualTo [])}
 			)
 		};
 		if (_intersections isNotEqualTo []) then {

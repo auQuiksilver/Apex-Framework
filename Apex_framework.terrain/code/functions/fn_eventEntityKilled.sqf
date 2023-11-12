@@ -14,6 +14,7 @@ Description:
 __________________________________________________*/
 
 params ['_killed','_killer','_instigator','_useEffects'];
+if ((getObjectType _killed) isNotEqualTo 8) exitWith {};
 missionNamespace setVariable ['QS_analytics_entities_killed',((missionNamespace getVariable 'QS_analytics_entities_killed') + 1),FALSE];
 missionNamespace setVariable ['QS_system_entitiesKilled',((missionNamespace getVariable ['QS_system_entitiesKilled',0]) + 1),FALSE];
 if (_killed isKindOf 'Man') then {
@@ -52,7 +53,10 @@ if (_killed isKindOf 'Man') then {
 		};
 	};
 } else {
-	if ((getFuelCargo _killed) > -1) then {
+	if (
+		((getFuelCargo _killed) > -1) &&
+		((['LandVehicle','Air','Ship','Thing','ReammoBox_F'] findIf { _killed isKindOf _x }) isNotEqualTo -1)
+	) then {
 		([_killed,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 		if (_inSafezone && _safezoneActive) then {
 			

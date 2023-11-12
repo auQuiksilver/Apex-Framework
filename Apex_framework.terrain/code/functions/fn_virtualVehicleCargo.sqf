@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	9/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -51,7 +51,7 @@ if (_type isEqualTo 'SET_CLIENT') exitWith {
 		1,
 		15
 	];
-	[24,['HANDLE',['SET_SERVER',_parent,_child,clientOwner]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+	[24,['HANDLE',['SET_SERVER',_parent,_child,clientOwner,getPlayerUID player]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (_type isEqualTo 'DISASSEMBLE') exitWith {
 	params ['','_child'];
@@ -114,7 +114,7 @@ if (_type isEqualTo 'GET_CLIENT') exitWith {
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_456','PLAIN DOWN',0.333];
 	};
-	[24,['HANDLE',['GET_SERVER',_parent,_childType,clientOwner,_placementPos,_placementAzi,QS_player]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+	[24,['HANDLE',['GET_SERVER',_parent,_childType,clientOwner,_placementPos,_placementAzi,QS_player,getPlayerUID player]]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (_type isEqualTo 'SET_VCARGO_SERVER') exitWith {
 	params ['','_parent','_virtualCargo'];
@@ -135,7 +135,7 @@ if (_type isEqualTo 'SET_VCARGO_CLIENT') exitWith {
 	[24,[_parent,_virtualCargo]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
 if (_type isEqualTo 'SET_SERVER') exitWith {
-	params ['','_parent','_child',['_allowDead',TRUE]];
+	params ['','_parent','_child',['_clientOwner',2],['_uid','']];
 	if (
 		(!alive _parent) ||
 		{(_parent isEqualTo _child)} ||
@@ -186,7 +186,7 @@ if (_type isEqualTo 'SET_SERVER') exitWith {
 	deleteVehicle _child;
 };
 if (_type isEqualTo 'GET_SERVER') exitWith {
-	params ['','_parent','_childType','_clientOwner','_placementPos','_placementAzi','_player'];
+	params ['','_parent','_childType','_clientOwner','_placementPos','_placementAzi','_player',['_uid','']];
 	_parentIndex = QS_system_virtualCargo findIf { _parent isEqualTo (_x # 0) };
 	if (
 		(_parentIndex isEqualTo -1) ||
@@ -224,6 +224,7 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 	if (isNull _child) exitWith {
 		diag_log '***** QS DEBUG ***** VIRTUAL VEHICLE CARGO * child is null object 176';
 	};
+	_child allowDamage (_damageAllowed isEqualTo 1);
 	_child enableSimulationGlobal (_simulationEnabled isEqualTo 1);
 	_child enableDynamicSimulation (_simulationEnabled isEqualTo 1);
 	if (_damage > 0) then {
@@ -254,7 +255,8 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 		['QS_virtualCargoParent',_parent,TRUE],
 		['QS_virtualChild_time',serverTime,TRUE],
 		['QS_logistics_virtual',TRUE,TRUE],
-		['QS_logistics_owner',_clientOwner,TRUE]
+		['QS_logistics_owner',_clientOwner,TRUE],
+		['QS_logistics_creatorUID',_uid,TRUE]
 	];
 	QS_system_virtualCargo set [_parentIndex,[_parent,_virtualCargo]];
 	QS_system_builtObjects pushBack _child;

@@ -6,12 +6,16 @@ Author:
 	
 Last Modified:
 
-	30/10/2023 A3 2.14 by Quiksilver
+	9/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
-	// We need some deleted/killed events on the child vehicle. If it gets destroyed, the parent object should also be destroyed
-	// If the parent container gets destroyed or deleted, the child object should get destroyed
+	Pack/Unpack vehicles
+	
+Notes:
+
+	In the future do we want it to be only pack/unpack when within base areas? 
+	Could encourage players to build forward bases as an "unpack point"
 ______________________________________________________/*/
 
 params ['_mode','_args'];
@@ -20,7 +24,8 @@ if (_mode isEqualTo 0) then {
 	_args params ['_cursorObject','_profileName'];
 	_entity = ((attachedObjects _cursorObject) select {(_x getVariable ['QS_logistics_packed',FALSE])}) # 0;
 	_pos = (getPosASL _cursorObject) vectorAdd [0,0,1];
-	_vectors = [vectorDir _cursorObject,vectorUp _cursorObject];
+	//_vectors = [vectorDir _cursorObject,vectorUp _cursorObject];
+	_vectors = [vectorDir _cursorObject,[0,0,1]];
 	_displayName = QS_hashmap_configfile getOrDefaultCall [
 		format ['cfgvehicles_%1_displayname',toLowerANSI (typeOf _entity)],
 		{(getText ((configOf _entity) >> 'displayName'))},
@@ -71,8 +76,16 @@ if (_mode isEqualTo 0) then {
 		} forEach (_entity getVariable ['QS_logistics_packedHiddenObjs',[]]);
 		_entity setVariable ['QS_logistics_packedHiddenObjs',[],FALSE];
 	};
+	private _waterDamaged = waterDamaged _entity;
 	if ((_entity getVariable ['QS_logistics_packedDmg',[]]) isNotEqualTo []) then {
 		{
+			if (
+				_waterDamaged &&
+				{(_x in ['hitengine','hitengine1','hitengine2','hitengine3','hitengine4'])}
+			) then {
+				_entity setHitPointDamage [_x,0];
+				sleep (diag_deltaTime * 3);
+			};
 			_entity setHitPointDamage [_x,(_entity getVariable ['QS_logistics_packedDmg',[]]) # _forEachIndex];
 		} forEach ((getAllHitPointsDamage _entity) # 0);
 		_entity setVariable ['QS_logistics_packedDmg',[],FALSE];
@@ -88,7 +101,8 @@ if (_mode isEqualTo 1) then {
 	];
 	_dn = _cursorObject getVariable ['QS_ST_customDN',_displayName];
 	_pos = (getPosASL _cursorObject) vectorAdd [0,0,1];
-	_vectors = [vectorDir _cursorObject,vectorUp _cursorObject];
+	//_vectors = [vectorDir _cursorObject,vectorUp _cursorObject];
+	_vectors = [vectorDir _cursorObject,[0,0,1]];
 	_type = [_cursorObject] call QS_fnc_getContainerType;
 	_entity = createVehicle [_type,[-1000,-1000,(200 + (random 200))]];
 	_entity enableDynamicSimulation FALSE;
@@ -107,6 +121,7 @@ if (_mode isEqualTo 1) then {
 		['QS_dynSim_ignore',TRUE,TRUE],
 		['QS_logistics_isCargoParent',TRUE,TRUE],
 		['QS_logistics_cargoChild',_cursorObject,TRUE],
+		['QS_logistics_disableCargo',TRUE,TRUE],
 		['QS_logistics',TRUE,TRUE],
 		['QS_ST_customDN',_dn,TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
@@ -114,9 +129,19 @@ if (_mode isEqualTo 1) then {
 	_entity setMaxLoad 0;
 	_entity setVectorDirAndUp _vectors;
 	_entity setPosASL _pos;
-	_entity setMass 2500;
+	private _packedMass = 2500;
+	if (_cursorObject isKindOf 'Wheeled_APC_F') then {
+		_packedMass = 4999;
+	};
+	if (_cursorObject isKindOf 'Tank') then {
+		_packedMass = 9999;		// Do we need an exception for Nyx tankette?
+	};
+	if (_cursorObject getVariable ['QS_logistics_wreck',FALSE]) then {
+		_packedMass = 2500;		// Wrecks should be transportable by most helis
+	};
+	_entity setMass _packedMass;
 	[_entity,FALSE] remoteExec ['allowDamage',_entity,FALSE];
-	[_entity,2500] remoteExec ['setMass',_entity,FALSE];
+	[_entity,_packedMass] remoteExec ['setMass',_entity,FALSE];
 	(format [localize 'STR_QS_Chat_180',_profileName,_dn,mapGridPosition _entity]) remoteExec ['systemChat',-2];
 	if ((crew _cursorObject) isNotEqualTo []) then {
 		{
@@ -199,6 +224,9 @@ if (_mode isEqualTo 1) then {
 	];
 	//_customCargoCapacity = _vehicle getVariable ['QS_customCargoCapacity',[]];
 	sleep 1;
+	if (_cursorObject getVariable ['Utility_Offroad_Beacons',FALSE]) then {
+		_vehicle setVariable ['Utility_Offroad_Beacons',FALSE,TRUE];
+	};
 	_allAttached = ([_cursorObject] call QS_fnc_getAllAttached) select {!isObjectHidden _x};
 	{
 		_x hideObjectGlobal TRUE;

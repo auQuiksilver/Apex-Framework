@@ -1,11 +1,10 @@
 Official Change Log
 	
-1.5.6 Dev 29102023
+1.5.6 Stable (12/11/2023)
 
 [ADDED] Interaction to 'Pack Up' vehicles and wrecks into logistics cargo containers.
 [ADDED] Parameter to adjust how often server prints general info reports to RPT log.
 [TWEAKED] Various ongoing general scripting optimisations (A3 2.14)
-[TWEAKED] "Unflip" action now accesses the vehicle Winch, when Unflip is disabled and the vehicle has a working winch (to aid unflipping).
 [TWEAKED] GPS alternate mode ( Ctrl + ] ) now properly rotates player icon.
 [TWEAKED] Better handling of vehicles submerged in water (drowned).
 [TWEAKED] Bobcat mine clearance would spam notification messages.
@@ -25,6 +24,15 @@ Official Change Log
 [TWEAKED] Recruitable AI placed in editor can be spawned on elevated surfaces.
 [TWEAKED] Added AI garrison positions to cargo plaftorms.
 [TWEAKED] Unarmed UGV Stomper given Forklift abilities.
+[TWEAKED] Player can now use the "Eject" key binding when incapacitated in a vehicle.
+[TWEAKED] Vehicle passive stealth algorithm for missile passive countermeasures.
+[TWEAKED] Improved player survivability in armored vehicles.
+[TWEAKED] Turning off vehicle engine clears any active cruise control.
+[TWEAKED] Cargo could not be unloaded from wrecks.
+[TWEAKED] Damage disabled on many fortifications.
+[TWEAKED] Added build delay to sandbags setup.
+[TWEAKED] Packing up and unpacking vehicles requires Repair services nearby.
+[TWEAKED] The "Engine Toggle" key binding will now force AI driver to turn off vehicle engine (if player is commander).
 [FIXED] Player in seat of vehicle could fire when inside no-fire area.
 [FIXED] Z-axis issue with spawning units in buildings (units spawning way above building and falling down).
 [FIXED] Script error with group commands (Ctrl + numpad gestures).
@@ -36,6 +44,9 @@ Official Change Log
 [FIXED] Case sensitivity bug with enemy reinforcing in urban areas. Enemies should respawn in urban areas more reliably.
 [FIXED] New logistics containers were not having their mass set correctly over MP network.
 [FIXED] Tank commander (with AI driver) was unable to manage Cruise Control and Convoy Separation.
+[FIXED] Winch could hook onto unwanted objects (player weapons, etc) and then remain suspended in midair.
+[FIXED] Bug in Vehicle Cargo where unload menu could display non-unloadable items.
+[FIXED] "Forklift" function was non-functional on packed vehicles and wrecks.
 [REMOVED] Changes to the Unflip interaction and Unflip parameter.
 
 1.5.5 Stable Patch 1

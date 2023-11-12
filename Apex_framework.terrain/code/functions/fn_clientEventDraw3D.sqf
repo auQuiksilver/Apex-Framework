@@ -238,12 +238,21 @@ if ((missionNamespace getVariable ['QS_enabledWaypoints',2]) isEqualTo 0) then {
 	_cwp = customWaypointPosition;
 	if (
 		(_cwp isNotEqualTo []) &&
-		{((worldToScreen _cwp) isNotEqualTo [])}
+		((worldToScreen _cwp) isNotEqualTo [])
 	) then {
 		if (
-			((!(_cameraOn isKindOf 'Plane')) || {(_cameraOn isKindOf 'VTOL_01_base_F')}) &&
-			{(!(unitIsUAV _cameraOn))} &&
-			{((_cameraOn isKindOf 'CAManBase') && ((_cameraOn getSlotItemName 612) isNotEqualTo '')) || (!(_cameraOn isKindOf 'CAManBase'))}
+			(
+				(!(_cameraOn isKindOf 'Plane')) || 
+				(_cameraOn isKindOf 'VTOL_01_base_F')
+			) &&
+			(!(unitIsUAV _cameraOn)) &&
+			(
+				(
+					(_cameraOn isKindOf 'CAManBase') && 
+					((_cameraOn getSlotItemName 612) isNotEqualTo '')
+				) || 
+				(!(_cameraOn isKindOf 'CAManBase'))
+			)
 		) then {
 			private _cwpCanShow = TRUE;
 			_gpsJammers = missionNamespace getVariable ['QS_mission_gpsJammers',[]];

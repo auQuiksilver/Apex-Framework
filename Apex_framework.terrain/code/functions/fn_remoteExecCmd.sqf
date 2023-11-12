@@ -104,9 +104,11 @@ if (_type isEqualTo 'removeWeapon') exitWith {
 };
 if (_type isEqualTo 'setMass') exitWith {
 	_1 setMass _2;
+	_1 awake TRUE;
 };
 if (_type isEqualTo 'setCenterOfMass') exitWith {
 	_1 setCenterOfMass _2;
+	_1 awake TRUE;
 };
 if (_type isEqualTo 'disableAI') exitWith {
 	_1 enableAIFeature [_2,FALSE];
@@ -282,7 +284,6 @@ if (_type isEqualTo 'lockCargo') exitWith {
 	} else {
 		if (_2 isEqualType []) then {
 			if ((_2 # 0) isEqualType []) then {
-				//_2 = [[1,2,3,4],true]
 				{
 					_1 lockCargo [_x,(_2 # 1)];
 				} forEach (_2 # 0);
@@ -303,7 +304,11 @@ if (_type isEqualTo 'lockDriver') exitWith {
 if (_type isEqualTo 'switchLight') exitWith {
 	if (local _1) then {
 		if (!simulationEnabled _1) then {
-			_1 enableSimulation TRUE;
+			if (isDedicated) then {
+				_1 enableSimulationGlobal TRUE;
+			} else {
+				_1 enableSimulation TRUE;
+			};
 		};
 	};
 	_1 switchLight _2;
@@ -368,9 +373,11 @@ if (_type isEqualTo 'setEffectiveCommander') exitWith {
 };
 if (_type isEqualTo 'addForce') exitWith {
 	diag_log format ['***** DEBUG ***** addForce executed: %1 (%4) %2 by %3',_1,_2,remoteExecutedOwner,typeOf _1];
+	_1 awake TRUE;
 	_1 addForce _2;
 };
 if (_type isEqualTo 'addTorque') exitWith {
 	diag_log format ['***** DEBUG ***** addTorque executed: %1 (%4) %2 by %3',_1,_2,remoteExecutedOwner,typeOf _1];
+	_1 awake TRUE;
 	_1 addTorque _2;
 };

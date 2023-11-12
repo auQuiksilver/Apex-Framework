@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	22/05/2023 A3 2.12 by Quiksilver
+	9/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -65,9 +65,9 @@ if (surfaceIsWater _referencePos) exitWith {diag_log 'Position over water, attac
 ['GRID_BRIEF',[localize 'STR_QS_Notif_155',localize 'STR_QS_Notif_156']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 
 private _allEnemiesCount = count ((units EAST) + (units RESISTANCE));
-private _allEnemiesThreshold = 150;
+private _allEnemiesThreshold = 125;
 private _radiusFriendly = 50;
-private _radiusEnemy = 20;
+private _radiusEnemy = 15;
 private _enemyThreshold = 3;
 _displayName = _selectedDeployment getVariable ['QS_ST_customDN',''];
 private _tOut = diag_tickTime + 3;
@@ -106,7 +106,7 @@ private _playerCount = count allPlayers;
 private _endTime = diag_tickTime + (linearConversion [0,1,_deploymentMissionDuration,300,3600,TRUE]) + (60 - (random 120));
 private _minUnits = round (linearConversion [0,1,_deploymentMissionIntensity,2,6,TRUE]);
 private _quantity = round (linearConversion [0,1,_deploymentMissionIntensity,2,6,TRUE]);
-private _maxGrpSize = round (linearConversion [0,1,_deploymentMissionIntensity,2,12,TRUE]);
+private _maxGrpSize = round (linearConversion [0,1,_deploymentMissionIntensity,4,12,TRUE]);
 if (_playerCount > 10) then {
 	_quantity = round (linearConversion [0,1,_deploymentMissionIntensity,4,12,TRUE]);
 };
@@ -167,6 +167,7 @@ if (worldName isEqualTo 'Tanoa') then {
 		_c;
 	};
 };
+_basePos = markerPos 'QS_marker_base_marker';
 _fn_setSkill = missionNamespace getVariable 'QS_fnc_serverSetAISkill';
 _fn_findSafePos = missionNamespace getVariable 'QS_fnc_findSafePos';
 _fn_waterIntersect = missionNamespace getVariable 'QS_fnc_waterIntersect';
@@ -211,6 +212,7 @@ for '_z' from 0 to 1 step 0 do {
 					{((_allPlayers inAreaArray [_spawnPos,300,300,0,FALSE]) isEqualTo [])} &&
 					{((_spawnPos distance2D _referencePos) < 1001)} &&
 					{(_spawnPos call _fn_blacklist)} &&
+					{((_spawnPos distance2D _basePos) > 1000)} &&
 					{(!([_spawnPos,_referencePos,25] call _fn_waterIntersect))}
 				) exitWith {};
 			};
@@ -223,13 +225,17 @@ for '_z' from 0 to 1 step 0 do {
 				_unit switchMove 'amovppnemstpsraswrfldnon';
 				sleep (diag_deltaTime * 3);
 				_unit setVehiclePosition [AGLToASL _spawnPos,[],0,'NONE'];
-				_unit enableAIFeature ['COVER',FALSE];
-				_unit enableAIFeature ['SUPPRESSION',FALSE];
 				_unit setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
 				_unit enableStamina FALSE;
 				_unit enableFatigue FALSE;
 				_unit call _fn_unitSetup;
-				_unit enableAIFeature ['ANIM',TRUE];
+				{
+					_unit enableAIFeature _x;
+				} forEach [
+					['COVER',FALSE],
+					['SUPPRESSION',FALSE],
+					['ANIM',TRUE]
+				];
 				_enemyArray pushBack _unit;
 				if (
 					(((count _enemyArray) >= _quantity) && ((count (units _grp)) > 1)) ||
@@ -278,6 +284,10 @@ if (_fail) then {
 	deleteVehicle _selectedDeployment;
 };
 if (_success) then {
+	
+	//QS_deploy_graceTime
+	
+	
 	[[WEST,'HQ'],(format ['%1 defended!',_displayName])] remoteExec ['sideChat',-2,FALSE];
 	['GRID_BRIEF',[localize 'STR_QS_Notif_155',localize 'STR_QS_Notif_157']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
 };

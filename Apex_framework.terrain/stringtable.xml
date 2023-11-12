@@ -7,7 +7,7 @@ Author:
 
 Last Modified:
 
-	29/10/2023 A3 2.14 by Community
+	12/11/2023 A3 2.14 by Community
 	
 Description:
 
@@ -2698,6 +2698,12 @@ _____________________________________________________________-->
 		</Key>
           <Key ID="STR_QS_Text_476">
             <Original>Invalid object</Original>
+		</Key>
+        <Key ID="STR_QS_Text_477">
+            <Original>%1 recovered by %2 at grid %3</Original>
+		</Key>
+        <Key ID="STR_QS_Text_478">
+            <Original>Repair service required nearby (30m)</Original>
 		</Key>
     </Container>
     <Container name="QS_xml_hints">

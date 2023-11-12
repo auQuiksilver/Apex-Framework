@@ -30,6 +30,7 @@ if (
 				(alive _cursorObject) &&
 				{(_cursorDistance < 15)} &&
 				{(_cursorObject getVariable ['QS_logistics_wreck',FALSE])} &&
+				{(!(_cursorObject getVariable ['QS_logistics_packable',FALSE]))} &&
 				{simulationEnabled _cursorObject} &&
 				{(isNull (attachedTo _cursorObject))} &&
 				{(isNull (ropeAttachedTo _cursorObject))} &&
@@ -43,7 +44,8 @@ if (
 					{getText ((configOf _cursorObject) >> 'displayName')},
 					TRUE
 				];
-				(format [localize 'STR_QS_Chat_182',profileName,(_cursorObject getVariable ['QS_ST_customDN',_dn]),mapGridPosition _cursorObject]) remoteExec ['systemChat',-2];
+				_text = format [localize 'STR_QS_Chat_182',profileName,(_cursorObject getVariable ['QS_ST_customDN',_dn]),mapGridPosition _cursorObject];
+				['systemChat',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 				[
 					114,
 					[
@@ -61,6 +63,7 @@ if (
 			(
 				(!alive _cursorObject) ||
 				{!(_cursorObject getVariable ['QS_logistics_wreck',FALSE])} ||
+				{(_cursorObject getVariable ['QS_logistics_packable',FALSE])} ||
 				{(_cursorDistance >= 15)} ||
 				{!simulationEnabled _cursorObject} ||
 				{!(isNull (attachedTo _cursorObject))} ||

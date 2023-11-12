@@ -173,9 +173,7 @@ if (_this isEqualTo 'init') exitWith {
 					private _position = [0,0,0];
 					private _adjustment = [0.1,1] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
 					{
-						_position = getPosASL _x;
-						_position = _position vectorAdd [0,0,-_adjustment];
-						_x setPosASL _position;
+						_x setPosWorld ((getPosWorld _x) vectorAdd [0,0,-_adjustment]);
 						_x awake TRUE;
 						if (_x isKindOf 'CargoPlatform_01_base_F') then {
 							[_x,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
@@ -224,9 +222,7 @@ if (_this isEqualTo 'init') exitWith {
 					private _position = [0,0,0];
 					private _adjustment = [0.1,1] select (uiNamespace getVariable ['QS_uiaction_turbo',FALSE]);
 					{
-						_position = getPosASL _x;
-						_position = _position vectorAdd [0,0,_adjustment];
-						_x setPosASL _position;
+						_x setPosWorld ((getPosWorld _x) vectorAdd [0,0,_adjustment]);
 						_x awake TRUE;
 						if (_x isKindOf 'CargoPlatform_01_base_F') then {
 							[_x,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
@@ -360,14 +356,7 @@ if (_this isEqualTo 'init') exitWith {
 					_light = _x;
 					_actionTaken = FALSE;
 					if ((['StreetLamp','Lamps_base_F'] findIf { _light isKindOf _x }) isNotEqualTo -1) then {
-						if (local _light) then {
-							if (!simulationEnabled _light) then {
-								_light enableSimulation TRUE;
-							};
-							_light switchLight (['off','on'] select ((lightIsOn _light) == 'off'));
-						} else {
-							['switchLight',_light,(['off','on'] select ((lightIsOn _light) == 'off'))] remoteExec ['QS_fnc_remoteExecCmd',_light,FALSE];
-						};
+						['switchLight',_light,(['off','on'] select ((lightIsOn _light) == 'off'))] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 					} else {
 						if ((['LandVehicle','Air','Ship'] findIf { _light isKindOf _x }) isNotEqualTo -1) then {
 							if (!_actionTaken) then {
@@ -405,8 +394,16 @@ if (_this isEqualTo 'init') exitWith {
 			};
 		}],
 		['eject','activate',{
-			if (cameraOn isKindOf 'ParachuteBase') then {
+			_cameraOn = cameraOn;
+			if (_cameraOn isKindOf 'ParachuteBase') then {
 				QS_player moveOut cameraOn;
+			};
+			if (
+				(!isNull (objectParent QS_player)) &&
+				((lifeState QS_player) isEqualTo 'INCAPACITATED') &&
+				(isTouchingGround (objectParent QS_player))
+			) then {
+				QS_player moveOut (vehicle QS_player);
 			};
 		}],
 		['MoveBack','activate',{
@@ -522,6 +519,24 @@ if (_this isEqualTo 'init') exitWith {
 				};
 			};
 		}],
-		['tacticalPing','activate',{}]
+		['tacticalPing','activate',{}],
+		['engineToggle','activate',{
+			if (!isNull (objectParent QS_player)) then {
+				_cameraOn = cameraOn;
+				if (local _cameraOn) then {
+					_cmdr = effectiveCommander _cameraOn;
+					_driver = driver _cameraOn;
+					if (QS_player isEqualTo _cmdr) then {
+						if ((alive _driver) && (_driver isNotEqualTo QS_player) && (!isPlayer _driver)) then {
+							if (isEngineOn _cameraOn) then {
+								_driver action ['engineOff',_cameraOn];
+							} else {
+								_driver action ['engineOn',_cameraOn];
+							};
+						};
+					};
+				};
+			};
+		}]
 	];
 };
