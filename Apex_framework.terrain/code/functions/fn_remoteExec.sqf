@@ -515,7 +515,7 @@ if (_case < 30) exitWith {
 				removeAllAssignedItems _agent;
 				_agent switchMove 'amovpercmstpssurwnondnon';
 				[_agent,'amovpercmstpssurwnondnon'] remoteExecCall ['switchMove',0,FALSE];
-				_agent setUnitPos 'UP';
+				_agent setUnitPos 'Up';
 				_agent setDir _unitDir;
 				[_agent,_unitFace] remoteExec ['setFace',-2,FALSE];
 				[_agent,_name] remoteExec ['setName',-2,FALSE];
@@ -1653,7 +1653,7 @@ if (_case < 80) exitWith {
 			_agent removeItem _x;
 		} forEach (items _agent);
 		['switchMove',_agent,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
-		_agent setUnitPos 'UP';
+		_agent setUnitPos 'Up';
 		_agent setDir _unitDir;
 		_agent setFace _unitFace;
 		_agent forceAddUniform _unitUniform;
@@ -1842,8 +1842,14 @@ if (_case < 90) exitWith {
 		_vehicle = _this # 1;
 		if (local _vehicle) then {
 			_vPosition = getPosWorld _vehicle;
+			if (
+				(_vehicle isKindOf 'Ship') &&
+				(surfaceIsWater _vPosition)
+			) exitWith {
+				_vehicle setPosASL [_vPosition # 0,_vPosition # 1,2];
+				_vehicle setVectorUp [0,0,1];
+			};
 			_direction = getDir _vehicle;
-			private _success = FALSE;
 			private _safePosition = _vPosition findEmptyPosition [0,20,(typeOf _vehicle)];
 			if (_safePosition isNotEqualTo []) then {
 				_vehicle setPos [(random -1000),(random -1000),(10 + (random -1000))];
@@ -1946,7 +1952,7 @@ if (_case < 100) exitWith {
 		} forEach (items _agent);
 		_agent switchMove 'amovpercmstpsnonwnondnon';
 		[_agent,'amovpercmstpsnonwnondnon'] remoteExec ['switchMove',0,FALSE];
-		_agent setUnitPos 'UP';
+		_agent setUnitPos 'Up';
 		_agent setDir _unitDir;
 		_agent setFace _unitFace;
 		_agent forceAddUniform _unitUniform;

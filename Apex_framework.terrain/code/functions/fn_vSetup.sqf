@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	30/10/2023 A3 2.14 by Quiksilver
+	13/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -427,6 +427,9 @@ if (_u isKindOf 'Ship') then {
 			['V_RebreatherB',_transportSoldier],
 			['U_B_Wetsuit',_transportSoldier]
 		];
+	};
+	if (_u isKindOf 'Rubber_duck_base_F') then {
+		_u setVariable ['QS_vehicle_lift',21000,TRUE];
 	};
 };
 // Aircraft

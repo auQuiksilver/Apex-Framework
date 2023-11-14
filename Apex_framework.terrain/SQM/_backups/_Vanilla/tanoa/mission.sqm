@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=367;
+		nextID=401;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={6940.1606,15.357936,7355.2319};
-		dir[]={0.7944333,-0.27387059,0.5423311};
-		up[]={0.22623566,0.96163601,0.15444535};
-		aside[]={0.56385607,-6.6713255e-007,-0.82598019};
+		pos[]={6944.1563,16.926247,7355.7173};
+		dir[]={0.75010031,-0.34467179,0.5645237};
+		up[]={0.27541721,0.93870544,0.20728114};
+		aside[]={0.60136974,-6.2916661e-007,-0.79905522};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_136";
+sourceName="Apex_framework_156";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -34,13 +34,14 @@ addons[]=
 	"A3_Characters_F_Exp",
 	"A3_Props_F_Exp_Military_Camps",
 	"A3_Characters_F",
-	"A3_Modules_F_Curator_Curator"
+	"A3_Modules_F_Curator_Curator",
+	"A3_Structures_F_Heli_Ind_Cargo"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=9;
+		items=10;
 		class Item0
 		{
 			className="A3_Props_F_Enoch";
@@ -104,6 +105,13 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item9
+		{
+			className="A3_Structures_F_Heli";
+			name="Arma 3 Helicopters - Buildings and Structures";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 class DynamicSimulation
@@ -114,7 +122,8 @@ class DynamicSimulation
 dlcs[]=
 {
 	"Enoch",
-	"Expansion"
+	"Expansion",
+	"Heli"
 };
 randomSeed=5000377;
 class ScenarioData
@@ -170,7 +179,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=118;
+		items=119;
 		class Item0
 		{
 			dataType="Object";
@@ -348,7 +357,7 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={6963.2124,4.8659458,7396.9453};
+				position[]={6963.2119,4.8659458,7396.9453};
 				angles[]={0,5.2726045,0};
 			};
 			side="Empty";
@@ -6024,6 +6033,23 @@ class Mission
 			a=0.5;
 			b=0.5;
 			id=366;
+		};
+		class Item118
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={6979.2402,4.012888,7385.103};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {FALSE} " \n "] call QS_fnc_registerVehicle;";
+			};
+			id=399;
+			type="Land_Cargo10_military_green_F";
+			atlOffset=-2.3841858e-007;
 		};
 	};
 };

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	10/11/2023 A3 2.14 by Quiksilver
+	14/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -21,6 +21,7 @@ params ['_mode'];
 private _list = (allPlayers - (entities 'HeadlessClient_F')) - [QS_player];
 private _isAdmin = (getPlayerUID player) in (['ALL'] call (missionNamespace getVariable 'QS_fnc_whitelist'));
 private _deployParams = _cursorObject getVariable ['QS_logistics_deployParams',[30,30,30,30,100,30,500]];
+private _enemySafeDistance = 100;	// To Do: Bake this into params of each deployment
 _deployParams params [
 	'_deploySafeRadius',
 	'_deployCooldown',
@@ -41,7 +42,7 @@ if (_mode isEqualTo 0) exitWith {
 		{(_cursorObject getVariable ['QS_logistics_blocked',FALSE])} ||
 		{((!_isAdmin) && (serverTime < _cooldown))} ||
 		{((_list inAreaArray [_cursorObject,_packSafeRadius,_packSafeRadius,0,FALSE,-1]) isNotEqualTo [])} ||
-		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo [])}
+		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,_enemySafeDistance,_enemySafeDistance,0,FALSE,-1]) isNotEqualTo [])}
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_411','PLAIN DOWN',0.333];
 		if ((_list inAreaArray [_cursorObject,_packSafeRadius,_packSafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
@@ -53,7 +54,7 @@ if (_mode isEqualTo 0) exitWith {
 		if (_cursorObject getVariable ['QS_logistics_blocked',FALSE]) then {
 			systemChat (localize 'STR_QS_Chat_171');
 		};
-		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo []) then {
+		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,_enemySafeDistance,_enemySafeDistance,0,FALSE,-1]) isNotEqualTo []) then {
 			systemChat (localize 'STR_QS_Chat_173');
 		};
 	};
@@ -107,7 +108,7 @@ if (_mode isEqualTo 1) exitWith {
 				{((_deployRestrictedZoneData # 1) < _deployRestrictedZoneDistance)}
 			)
 		} ||
-		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo [])}
+		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,_enemySafeDistance,_enemySafeDistance,0,FALSE,-1]) isNotEqualTo [])}
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_412','PLAIN DOWN',0.333];
 		if ((_list inAreaArray [_cursorObject,_deploySafeRadius,_deploySafeRadius,0,FALSE,-1]) isNotEqualTo []) then {
@@ -128,7 +129,7 @@ if (_mode isEqualTo 1) exitWith {
 		) then {
 			systemChat format ['%1 - (%2/%3)',localize 'STR_QS_Chat_167',round (_deployRestrictedZoneData # 1),_deployRestrictedZoneDistance];
 		};
-		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,300,300,0,FALSE,-1]) isNotEqualTo []) then {
+		if (((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_cursorObject,_enemySafeDistance,_enemySafeDistance,0,FALSE,-1]) isNotEqualTo []) then {
 			systemChat (localize 'STR_QS_Chat_173');
 		};
 	};

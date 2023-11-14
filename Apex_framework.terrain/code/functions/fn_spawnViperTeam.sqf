@@ -87,7 +87,7 @@ if (_type in ['CLASSIC','SC']) exitWith {
 		};
 		
 		_unit setVehiclePosition [(getPosWorld _unit),[],0,'NONE'];
-		_unit setUnitPos 'AUTO';
+		_unit setUnitPos 'Auto';
 	};
 	_grp setBehaviour 'AWARE';
 	_grp setCombatMode 'YELLOW';

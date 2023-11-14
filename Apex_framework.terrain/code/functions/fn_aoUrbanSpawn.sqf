@@ -67,7 +67,7 @@ if (_type isEqualTo 'INIT') exitWith {
 			_unit enableAIFeature ['PATH',FALSE];
 			_unit enableAIFeature ['MINEDETECTION',FALSE];
 			_unit setPos _buildingPos;
-			_unit setUnitPos 'MIDDLE';
+			_unit setUnitPos 'Middle';
 			_nodes pushBack _unit;
 			(missionNamespace getVariable 'QS_classic_AI_enemy_0') pushBack _unit;
 			_buildingData set [_forEachIndex,[_x # 0,_unit,_x # 2]];
@@ -147,7 +147,7 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 			//comment 'SET TO PRONE OFFSITE';
 			_urbanUnits pushBack _newUnit;
 			_newUnit = _newUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-			_newUnit setUnitPos 'DOWN';
+			_newUnit setUnitPos 'Down';
 			_newUnit setPos (_buildingPosition vectorAdd [0,0,-0.5]);
 			_newUnit switchMove 'amovppnemstpsraswrfldnon';
 		};
@@ -176,7 +176,7 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 				_x hideObjectGlobal FALSE;
 				sleep 0.5;
 				_x hideObjectGlobal FALSE;	// Do it twice just incase of packet loss/desync
-				_x setUnitPos 'AUTO';
+				_x setUnitPos 'Auto';
 				_x enableAIFeature ['ANIM',TRUE];
 			} forEach _this;
 		};
@@ -244,7 +244,7 @@ if (_type isEqualTo 'HQ') exitWith {
 				//comment 'SET TO PRONE OFFSITE';
 				_hqUnits pushBack _newUnit;
 				_newUnit = _newUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
-				_newUnit setUnitPos 'DOWN';
+				_newUnit setUnitPos 'Down';
 				_newUnit setPos (_buildingPosition vectorAdd [0,0,0.25]);
 				_newUnit switchMove 'amovppnemstpsraswrfldnon';
 			};
@@ -282,7 +282,7 @@ if (_type isEqualTo 'HQ') exitWith {
 					_x hideObjectGlobal FALSE;
 					sleep 0.5;
 					_x hideObjectGlobal FALSE;	// Do it twice just incase of packet loss/desync
-					_x setUnitPos 'AUTO';
+					_x setUnitPos 'Auto';
 					_x enableAIFeature ['ANIM',TRUE];
 				} forEach _this;
 			};

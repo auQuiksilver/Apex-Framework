@@ -1,8 +1,9 @@
 Official Change Log
-	
-1.5.6 Stable (12/11/2023)
+
+1.5.6 Stable (14/11/2023)
 
 [ADDED] Interaction to 'Pack Up' vehicles and wrecks into logistics cargo containers.
+[ADDED] Interaction to set stance of guard AI (base building)
 [ADDED] Parameter to adjust how often server prints general info reports to RPT log.
 [TWEAKED] Various ongoing general scripting optimisations (A3 2.14)
 [TWEAKED] GPS alternate mode ( Ctrl + ] ) now properly rotates player icon.
@@ -33,6 +34,9 @@ Official Change Log
 [TWEAKED] Added build delay to sandbags setup.
 [TWEAKED] Packing up and unpacking vehicles requires Repair services nearby.
 [TWEAKED] The "Engine Toggle" key binding will now force AI driver to turn off vehicle engine (if player is commander).
+[TWEAKED] Boats can now be unflipped.
+[TWEAKED] Inflatable boats given "Forklift" ability to act as a ferry (for logistics containers, etc).
+[TWEAKED] Required enemy distance for packing/unpacking deployments.
 [FIXED] Player in seat of vehicle could fire when inside no-fire area.
 [FIXED] Z-axis issue with spawning units in buildings (units spawning way above building and falling down).
 [FIXED] Script error with group commands (Ctrl + numpad gestures).
@@ -47,6 +51,9 @@ Official Change Log
 [FIXED] Winch could hook onto unwanted objects (player weapons, etc) and then remain suspended in midair.
 [FIXED] Bug in Vehicle Cargo where unload menu could display non-unloadable items.
 [FIXED] "Forklift" function was non-functional on packed vehicles and wrecks.
+[FIXED] Malden default base respawn marker.
+[FIXED] Opening vehicle parachute could cause cause upward velocity in some cases.
+[FIXED] AI bug with dynamic stance adjustment (case sensitivity).
 [REMOVED] Changes to the Unflip interaction and Unflip parameter.
 
 1.5.5 Stable Patch 1

@@ -19,10 +19,6 @@ Comment:
 	For staff IDs, ensure ID is in only one list. For instance, either moderator, admin or developer, but not all of them together.
 	
 	They DO all have to be in the 'ALL' list though.
-	
-			'76561198084065754'
-			
-			profileNamespace setVariable ['QS_whitelists_toInform',['76561198084065754']];
 __________________________________________________________________________/*/
 
 _type = param [0,''];

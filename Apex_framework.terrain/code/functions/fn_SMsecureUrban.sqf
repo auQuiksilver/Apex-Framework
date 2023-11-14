@@ -522,9 +522,9 @@ _index = 1;
 			0 = _QS_enemyArray pushBack _QS_unit;
 			_QS_unit enableAIFeature ['PATH',FALSE];
 			if ((random 1) > 0.25) then {
-				_QS_unit setUnitPos 'UP';
+				_QS_unit setUnitPos 'Up';
 			} else {
-				_QS_unit setUnitPos 'MIDDLE';
+				_QS_unit setUnitPos 'Middle';
 			};
 		};
 		_safePos = [_QS_building_position,15,50,4,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
@@ -567,9 +567,9 @@ _index = 1;
 			0 = _QS_enemyArray pushBack _QS_unit;
 			_QS_unit enableAIFeature ['PATH',FALSE];
 			if ((random 1) > 0.25) then {
-				_QS_unit setUnitPos 'UP';
+				_QS_unit setUnitPos 'Up';
 			} else {
-				_QS_unit setUnitPos 'MIDDLE';
+				_QS_unit setUnitPos 'Middle';
 			};
 		};
 		_safePos = [_QS_building_position,15,50,4,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');
@@ -614,9 +614,9 @@ _index = 1;
 				_QS_unit enableAIFeature ['PATH',FALSE];
 			};
 			if ((random 1) > 0.25) then {
-				_QS_unit setUnitPos 'UP';
+				_QS_unit setUnitPos 'Up';
 			} else {
-				_QS_unit setUnitPos 'MIDDLE';
+				_QS_unit setUnitPos 'Middle';
 			};
 		};
 		_safePos = [_QS_building_position,10,40,4,0,1,0] call (missionNamespace getVariable 'QS_fnc_findSafePos');

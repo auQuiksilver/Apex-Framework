@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	29/08/2018 A3 1.84 by Quiksilver
+	13/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -145,7 +145,7 @@ if (_worldName isEqualTo 'Malden') exitWith {
 		['QS_marker_hqCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[150,150],0,_markerStoragePos,0,''],
 		['QS_marker_mortMarker',_markerStoragePos,'mil_dot','Icon','','ColorOPFOR',[0.5,0.5],0,_markerStoragePos,0,localize 'STR_QS_Marker_048'],
 		['QS_marker_mortCircle',_markerStoragePos,'Empty','Ellipse','Border','ColorOPFOR',[300,300],0,_markerStoragePos,0,'   '],
-		['QS_marker_base_marker',[8132.88,10122.6,0],'respawn_unknown','Icon','','ColorWEST',[0.5,0.5],0.5,[8132.88,10122.6,0],0,localize 'STR_QS_Marker_049'],
+		['QS_marker_base_marker',[8117,10121,0],'respawn_unknown','Icon','','ColorWEST',[0.5,0.5],0.5,[8117,10121,0],0,localize 'STR_QS_Marker_049'],
 		['QS_marker_airbaseDefense',[7957.03,10026.5,0],'b_antiair','Icon','','ColorWEST',[0.5,0.5],0,[7957.03,10026.5,0],0,''],
 		['QS_marker_airbaseArtillery',[7958.52,10180,0],'b_art','Icon','','ColorWEST',[0.5,0.5],0.75,[7958.52,10180,0],0,localize 'STR_QS_Marker_050'],
 		['QS_marker_casJet_spawn',[8069.07,9994.63,0],'respawn_plane','Icon','','ColorWEST',[0.5,0.5],0.75,[8069.07,9994.63,0],0,localize 'STR_QS_Marker_051'],

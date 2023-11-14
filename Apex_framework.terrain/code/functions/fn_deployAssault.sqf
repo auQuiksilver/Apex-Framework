@@ -317,7 +317,7 @@ if (_selectedDeployment getVariable ['QS_deploy_assaultTerminate',FALSE]) then {
 	_enemyArray spawn {
 		{
 			_x enableAIFeature ['PATH',FALSE];
-			_x setUnitPos 'DOWN';
+			_x setUnitPos 'Down';
 		} forEach _this;
 		sleep 60;
 		{

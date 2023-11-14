@@ -20,5 +20,5 @@ if (!(canMove _vehicle)) then {
 		doStop _unit;
 		_unit doMove _movePos;
 	};
-	_unit setUnitPos (selectRandom ['UP','MIDDLE']);
+	_unit setUnitPos (selectRandom ['Up','Middle']);
 };

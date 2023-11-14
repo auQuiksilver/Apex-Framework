@@ -8,18 +8,18 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=207;
+		nextID=208;
 	};
 	class Camera
 	{
-		pos[]={4083.4131,76.747711,10241.957};
-		dir[]={-0.91026467,-0.26550871,0.31768444};
-		up[]={-0.25068054,0.96410847,0.08748807};
-		aside[]={0.32951111,7.4505806e-009,0.94415176};
+		pos[]={4080.5432,76.022827,10245.13};
+		dir[]={-0.93525422,-0.26702818,0.23239812};
+		up[]={-0.2591486,0.96368736,0.064395085};
+		aside[]={0.24115446,-1.0353688e-008,0.97049284};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_136";
+sourceName="Apex_framework_156";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -29,13 +29,14 @@ addons[]=
 	"A3_Air_F_Heli_Light_01",
 	"A3_Characters_F_Enoch",
 	"A3_Props_F_Exp_Military_Camps",
-	"A3_Characters_F"
+	"A3_Characters_F",
+	"A3_Structures_F_Heli_Ind_Cargo"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=8;
+		items=9;
 		class Item0
 		{
 			className="A3_Props_F_Enoch";
@@ -92,12 +93,20 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item8
+		{
+			className="A3_Structures_F_Heli";
+			name="Arma 3 Helicopters - Buildings and Structures";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 dlcs[]=
 {
 	"Enoch",
-	"Expansion"
+	"Expansion",
+	"Heli"
 };
 randomSeed=11566239;
 class ScenarioData
@@ -129,7 +138,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=117;
+		items=118;
 		class Item0
 		{
 			dataType="Object";
@@ -5909,6 +5918,23 @@ class Mission
 			a=0.5;
 			b=0.5;
 			id=206;
+		};
+		class Item117
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={4040.7915,69.512894,10253.892};
+				angles[]={-0,5.3702259,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {FALSE} " \n "] call QS_fnc_registerVehicle;";
+			};
+			id=207;
+			type="Land_Cargo10_military_green_F";
 		};
 	};
 };

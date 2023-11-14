@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	11/11/2023 A3 2.14 by Quiksilver
+	13/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -16,6 +16,14 @@ ___________________________________________________________________*/
 params ['_mapIsOpened','_mapIsForced'];
 if (_mapIsOpened) then {
 	_localProps = QS_list_playerBuildables select {local _x};
+	if ((missionProfileNamespace getVariable ['QS_quickbuild_mapHint',0]) < 10) then {
+		if (!(_mapIsForced)) then {
+			if (_localProps isNotEqualTo []) then {
+				missionProfileNamespace setVariable ['QS_quickbuild_mapHint',(missionProfileNamespace getVariable ['QS_quickbuild_mapHint',0]) + 1];
+				50 cutText [localize 'STR_QS_Text_479','PLAIN DOWN',1,TRUE];
+			};
+		};
+	};
 	uiNamespace setVariable ['QS_map_playerBuildables',_localProps];
 	uiNamespace setVariable ['QS_map_closestBuildable',objNull];
 	_globalObjects = (8 allObjects 8) select {(_x getVariable ['QS_logistics_virtual',FALSE])};

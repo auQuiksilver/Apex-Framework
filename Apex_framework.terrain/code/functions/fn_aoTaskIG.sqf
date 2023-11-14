@@ -72,7 +72,7 @@ _entities pushBack _objUnit;
 _objUnit removeWeapon (primaryWeapon _objUnit);
 uiSleep 0.1;
 [_objUnit,(selectRandom ['hgun_Pistol_heavy_01_F','hgun_ACPC2_F','hgun_Pistol_01_F','hgun_Rook40_F','hgun_Pistol_heavy_02_F']),5] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-_objUnit setUnitPos 'UP';
+_objUnit setUnitPos 'Up';
 _objUnit enableAIFeature ['PATH',FALSE];
 _objUnit forceAddUniform 'U_C_ConstructionCoverall_Blue_F';
 _objUnit addVest 'V_Safety_yellow_F';

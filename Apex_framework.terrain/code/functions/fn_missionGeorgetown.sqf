@@ -1024,7 +1024,7 @@ for '_x' from 0 to 1 step 0 do {
 				} forEach ['COVER','AUTOCOMBAT'];
 				_unit enableStamina FALSE;
 				_unit enableFatigue FALSE;
-				_unit setUnitPos (selectRandom ['AUTO','MIDDLE']);
+				_unit setUnitPos (selectRandom ['Auto','Middle']);
 				_unit setSkill 0.15;
 				_unit allowFleeing 0;
 				if ((random 1) > 0.75) then {

@@ -523,7 +523,10 @@ if (_this isEqualTo 'init') exitWith {
 		['engineToggle','activate',{
 			if (!isNull (objectParent QS_player)) then {
 				_cameraOn = cameraOn;
-				if (local _cameraOn) then {
+				if (
+					(local _cameraOn) &&
+					(!(_cameraOn isKindOf 'Air'))
+				) then {
 					_cmdr = effectiveCommander _cameraOn;
 					_driver = driver _cameraOn;
 					if (QS_player isEqualTo _cmdr) then {

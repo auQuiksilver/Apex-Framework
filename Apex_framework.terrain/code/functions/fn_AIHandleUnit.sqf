@@ -182,13 +182,13 @@ if (isNull _objectParent) then {
 		) then {
 			if (_uiTime > (_unit getVariable ['QS_AI_UNIT_lastStanceAdjust',-1])) then {
 				_unit setVariable ['QS_AI_UNIT_lastStanceAdjust',(_uiTime + (random [15,30,45])),FALSE];
-				if (_unitPos isEqualTo 'UP') then {
-					_unit setUnitPos 'MIDDLE';
+				if (_unitPos isEqualTo 'Up') then {
+					_unit setUnitPos 'Middle';
 				};
 			};
 		} else {
-			if (_unitPos isEqualTo 'DOWN') then {
-				_unit setUnitPos 'AUTO';
+			if (_unitPos isEqualTo 'Down') then {
+				_unit setUnitPos 'Auto';
 			};
 		};
 	};

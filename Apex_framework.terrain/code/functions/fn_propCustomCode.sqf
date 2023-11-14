@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	27/05/2023 A3 2.12 by Quiksilver
+	14/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -144,7 +144,7 @@ if (_class isKindOf 'Lamps_base_F') then {
 };
 if (_class isKindOf 'CAManBase') then {
 	[_entity,((_parent getVariable ['QS_deploy_tickets',-1]) isNotEqualTo -1)] call QS_fnc_serverUnitConfigure;
-	_nearbyStatics = (nearestObjects [_entity,['StaticWeapon'],3,TRUE]) select {
+	_nearbyStatics = (nearestObjects [_entity,['StaticWeapon'],2,TRUE]) select {
 		(
 			(alive _x) && 
 			{((crew _x) isEqualTo [])} &&
@@ -169,8 +169,11 @@ if (_class isKindOf 'CAManBase') then {
 	_entity enableDynamicSimulation TRUE;
 	_entity enableAIFeature ['ALL',TRUE];
 	if (_entity isKindOf 'CAManBase') then {
+		_entity setVariable ['QS_unit_canSetStance',TRUE,TRUE];
 		_entity enableAIFeature ['PATH',FALSE];
 		(group _entity) setFormDir (getDir _entity);
+		_entity setUnitPos 'Up';
+		_entity setSkill 1;
 	};
 	_entity addEventHandler [
 		'Local',

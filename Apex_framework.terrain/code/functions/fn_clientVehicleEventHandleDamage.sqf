@@ -204,6 +204,12 @@ if (_vehicle getVariable ['QS_logistics_wreck',FALSE]) exitWith {
 			};
 		} forEach (crew _vehicle);
 	};
+	if (isEngineOn _vehicle) then {
+		_vehicle engineOn FALSE;	
+	};
+	if (isVehicleRadarOn _vehicle) then {
+		_vehicle setVehicleRadar 2;
+	};
 	if (
 		(!isNull (assignedGroup _vehicle)) &&
 		{(diag_tickTime > (_vehicle getvariable ['QS_vehicle_delayGenericRX',-1]))}

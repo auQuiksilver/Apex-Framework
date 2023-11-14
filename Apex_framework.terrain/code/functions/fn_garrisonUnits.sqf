@@ -89,7 +89,7 @@ private _unit = objNull;
 		};
 		if (_unit isKindOf 'CAManBase') then {
 			_unit setVariable ['QS_AI_UNIT_NEARESTBUILDING',([_unit] call (missionNamespace getVariable 'QS_fnc_getNearestBuilding')),FALSE];
-			_unit setUnitPos (['MIDDLE','UP'] select ((random 1) > 0.2));
+			_unit setUnitPos (['Middle','Up'] select ((random 1) > 0.2));
 			if (attackEnabled (group _unit)) then {
 				(group _unit) enableAttack FALSE;
 			};

@@ -54,7 +54,7 @@ for "_x" from 0 to 1 do {
 	{
 		_x setBehaviour 'COMBAT';
 		_x setCombatMode 'RED';
-		_x setUnitPos 'DOWN';
+		_x setUnitPos 'Down';
 		_x setVehiclePosition [(getPosWorld _x),[],0,'NONE'];
 		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');
 		0 = _enemiesArray pushBack _x;

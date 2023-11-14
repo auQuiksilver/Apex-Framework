@@ -730,6 +730,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_146">
             <Original>Unpack</Original>
         </Key>
+        <Key ID="STR_QS_Interact_147">
+            <Original>Command Stance</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -2705,6 +2708,21 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Text_478">
             <Original>Repair service required nearby (30m)</Original>
 		</Key>
+         <Key ID="STR_QS_Text_479">
+            <Original>Hold [Windows] key to see and delete placed sandbags</Original>
+		</Key>
+         <Key ID="STR_QS_Text_480">
+            <Original>Stand</Original>
+		</Key>
+         <Key ID="STR_QS_Text_481">
+            <Original>Crouch</Original>
+		</Key>
+         <Key ID="STR_QS_Text_482">
+            <Original>Prone</Original>
+		</Key>
+         <Key ID="STR_QS_Text_483">
+            <Original>Auto</Original>
+		</Key>
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -4407,7 +4425,7 @@ _____________________________________________________________-->
             <Original>A deployment is under attack!</Original>
         </Key>
         <Key ID="STR_QS_Chat_173">
-            <Original>Cannot do this with enemy nearby (300m)</Original>
+            <Original>Cannot do this with enemy nearby (100m)</Original>
         </Key>
         <Key ID="STR_QS_Chat_174">
             <Original>Friendly artillery firing</Original>

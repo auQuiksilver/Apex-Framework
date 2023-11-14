@@ -159,7 +159,7 @@ _array = [
 				params ['_entity','_taskTimeout'];
 				private _c = FALSE;
 				if ((diag_tickTime > _taskTimeout) && (alive _entity)) then {
-					_entity setUnitPos 'DOWN';
+					_entity setUnitPos 'Down';
 					_entity spawn {uiSleep 5;deleteVehicle _this;};
 					_c = TRUE;
 				};

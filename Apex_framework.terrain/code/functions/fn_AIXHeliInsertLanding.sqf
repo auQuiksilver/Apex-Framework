@@ -73,7 +73,7 @@ if (_spawnUnits) then {
 		_unit enableStamina FALSE;
 		_unit enableFatigue FALSE;
 		_unit setSkill 1;
-		_unit setUnitPos (selectRandomWeighted ['DOWN',1,'MIDDLE',0.5]);
+		_unit setUnitPos (selectRandomWeighted ['Down',1,'Middle',0.5]);
 		_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		if ((random 1) > 0.333) then {
 			_unit enableAIFeature ['PATH',FALSE];
@@ -125,7 +125,7 @@ if (_spawnUnits) then {
 		{
 			if (alive _x) then {
 				_x enableAIFeature ['PATH',TRUE];
-				_x setUnitPos 'AUTO';
+				_x setUnitPos 'Auto';
 			};
 		} forEach _units;
 		_units doFollow (leader _group);

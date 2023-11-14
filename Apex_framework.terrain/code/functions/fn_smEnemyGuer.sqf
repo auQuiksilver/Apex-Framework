@@ -53,7 +53,7 @@ for '_x' from 0 to 2 do {
 	{
 		_x setBehaviour 'COMBAT';
 		_x setCombatMode 'RED';
-		_x setUnitPos 'MIDDLE';
+		_x setUnitPos 'Middle';
 		_x commandWatch _pos;
 		0 = _enemiesArray pushBack _x;
 		[_x] call (missionNamespace getVariable 'QS_fnc_setCollectible');

@@ -606,7 +606,57 @@ if (
 			];
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_disassembleVirtual];
 		};
-
+		// Adjust AI unit stance
+		if (
+			(isNull QS_extendedContext_objectParent) &&
+			{(QS_extendedContext_cursorDistance < 5)} &&
+			{((getObjectType QS_extendedContext_cursorObject) isEqualTo 8)} &&
+			{(QS_extendedContext_cursorObject isKindOf 'CAManBase')} &&
+			{((lifeState QS_extendedContext_cursorObject) in ['HEALTHY','INJURED'])} &&
+			{(isNull (objectParent QS_extendedContext_cursorObject))} &&
+			{(QS_extendedContext_cursorObject getVariable ['QS_unit_canSetStance',FALSE])}
+		) then {
+			QS_action_cycleAIStance = QS_player addAction [
+				localize 'STR_QS_Interact_147',
+				{
+					_cursorObject = QS_extendedContext_cursorObject;
+					if (
+						(_cursorObject isKindOf 'CAManBase') &&
+						{((lifeState _cursorObject) in ['HEALTHY','INJURED'])} &&
+						{(isNull (objectParent _cursorObject))} &&
+						{(_cursorObject getVariable ['QS_unit_canSetStance',FALSE])}
+					) then {
+						_stance = stance _cursorObject;
+						if (!(_stance in ['STAND','CROUCH','PRONE'])) exitWith {};
+						if (_stance isEqualTo 'STAND') then {
+							QS_player playActionNow (selectRandom ['gestureHi']);
+							50 cutText [localize 'STR_QS_Text_481','PLAIN',0.2];
+							['setUnitPos',_cursorObject,'Middle'] remoteExec ['QS_fnc_remoteExecCmd',_cursorObject,FALSE];							
+						};
+						if (_stance isEqualTo 'CROUCH') then {
+							QS_player playActionNow (selectRandom ['gestureHi']);
+							50 cutText [localize 'STR_QS_Text_482','PLAIN',0.2];
+							['setUnitPos',_cursorObject,'Down'] remoteExec ['QS_fnc_remoteExecCmd',_cursorObject,FALSE];						
+						};
+						if (_stance isEqualTo 'PRONE') then {
+							QS_player playActionNow (selectRandom ['gestureHi']);
+							50 cutText [localize 'STR_QS_Text_480','PLAIN',0.2];
+							['setUnitPos',_cursorObject,'Up'] remoteExec ['QS_fnc_remoteExecCmd',_cursorObject,FALSE];							
+						};
+					};
+				},
+				nil,
+				-84,
+				FALSE,
+				TRUE,
+				'',
+				'
+					getCursorObjectParams params ["_cursorObject","","_cursorDistance"];
+					((!isNull _cursorObject) && {(_cursorDistance < 3)} && {(_cursorObject isEqualTo QS_extendedContext_cursorObject)})				
+				'
+			];
+			QS_interactions_extendedContext pushBack [QS_player,QS_action_cycleAIStance];
+		};
 		//comment 'PLAYER MENU';
 		QS_action_playerMenu = QS_player addAction [
 			format ["<t color='#808080'>%1</t>",localize 'STR_QS_Menu_009'],

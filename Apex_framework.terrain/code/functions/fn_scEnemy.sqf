@@ -581,7 +581,7 @@ for '_x' from 0 to 1 step 0 do {
 		_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 		_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
 		_x doWatch _position; 
-		_x setUnitPos 'DOWN';
+		_x setUnitPos 'Down';
 		_x addEventHandler [
 			'FiredMan',
 			{

@@ -8,18 +8,18 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=305;
+		nextID=306;
 	};
 	class Camera
 	{
-		pos[]={14657.234,26.454992,16725.139};
-		dir[]={0.91798949,-0.25196108,-0.30633554};
-		up[]={0.23901041,0.96773368,-0.079758644};
-		aside[]={-0.31655058,-1.0206713e-007,-0.94859189};
+		pos[]={14662.063,27.327175,16724.059};
+		dir[]={0.89440995,-0.28114909,-0.34789655};
+		up[]={0.26203367,0.95965642,-0.10192268};
+		aside[]={-0.36251977,-1.5104888e-008,-0.93199825};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_136";
+sourceName="Apex_framework_156";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -28,13 +28,14 @@ addons[]=
 	"A3_Air_F_Heli_Light_01",
 	"A3_Characters_F",
 	"A3_Soft_F_MRAP_01",
-	"A3_Props_F_Exp_Military_Camps"
+	"A3_Props_F_Exp_Military_Camps",
+	"A3_Structures_F_Heli_Ind_Cargo"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=7;
+		items=8;
 		class Item0
 		{
 			className="A3_Props_F_Enoch";
@@ -84,12 +85,20 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item7
+		{
+			className="A3_Structures_F_Heli";
+			name="Arma 3 Helicopters - Buildings and Structures";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 dlcs[]=
 {
 	"Enoch",
-	"Expansion"
+	"Expansion",
+	"Heli"
 };
 randomSeed=2038443;
 class ScenarioData
@@ -141,7 +150,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=117;
+		items=118;
 		class Item0
 		{
 			dataType="Object";
@@ -5777,6 +5786,23 @@ class Mission
 			a=0.5;
 			b=0.5;
 			id=304;
+		};
+		class Item117
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={14701.204,19.262888,16712.523};
+				angles[]={-0,5.3702259,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {FALSE} " \n "] call QS_fnc_registerVehicle;";
+			};
+			id=305;
+			type="Land_Cargo10_military_green_F";
 		};
 	};
 };

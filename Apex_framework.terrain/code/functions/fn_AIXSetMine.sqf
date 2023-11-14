@@ -65,7 +65,7 @@ if ((_startPosition distance2D _target) > 50) then {
 _isTargetObject = _target isEqualType objNull;
 private _minePosition = if (_isTargetObject) then {(getPosATL _target)} else {_target};
 _unit allowFleeing 0;
-_unit setUnitPos 'MIDDLE';
+_unit setUnitPos 'Middle';
 {
 	_unit enableAIFeature [_x,FALSE];
 } forEach [

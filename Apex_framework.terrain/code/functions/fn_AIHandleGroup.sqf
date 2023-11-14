@@ -375,9 +375,9 @@ if (
 							if (!surfaceIsWater _movePos) exitWith {};
 						};
 					};
-					if ((unitPos _grpLeader) isNotEqualTo 'AUTO') then {
+					if ((unitPos _grpLeader) isNotEqualTo 'Auto') then {
 						{
-							_x setUnitPos 'AUTO';
+							_x setUnitPos 'Auto';
 						} count (units _grp);
 					};
 					if ((speedMode _grp) isNotEqualTo 'FULL') then {
@@ -398,9 +398,9 @@ if (
 						if (!surfaceIsWater _movePos) exitWith {};
 					};
 				};
-				if ((unitPos _grpLeader) isNotEqualTo 'AUTO') then {
+				if ((unitPos _grpLeader) isNotEqualTo 'Auto') then {
 					{
-						_x setUnitPos 'AUTO';
+						_x setUnitPos 'Auto';
 					} forEach (units _grp);
 				};
 				if ((speedMode _grp) isNotEqualTo 'FULL') then {
@@ -478,18 +478,18 @@ if (
 					if (_grpSpeedMode isNotEqualTo 'NORMAL') then {
 						_grp setSpeedMode 'NORMAL';
 					};
-					if ((unitPos _grpLeader) isNotEqualTo 'MIDDLE') then {
+					if ((unitPos _grpLeader) isNotEqualTo 'Middle') then {
 						{
-							_x setUnitPos 'MIDDLE';
+							_x setUnitPos 'Middle';
 						} count (units _grp);
 					};
 				} else {
 					if (_grpSpeedMode isNotEqualTo 'FULL') then {
 						_grp setSpeedMode 'FULL';
 					};
-					if ((unitPos _grpLeader) isNotEqualTo 'AUTO') then {
+					if ((unitPos _grpLeader) isNotEqualTo 'Auto') then {
 						{
-							_x setUnitPos 'AUTO';
+							_x setUnitPos 'Auto';
 						} count (units _grp);
 					};					
 				};
@@ -943,8 +943,8 @@ if (
 								};
 								{
 									if ((_x distance2D _movePos) < 30) then {
-										if ((unitPos _x) in ['UP','AUTO']) then {
-											_x setUnitPos (selectRandomWeighted ['DOWN',0.5,'MIDDLE',0.5]);
+										if ((unitPos _x) in ['Up','Auto']) then {
+											_x setUnitPos (selectRandomWeighted ['Down',0.5,'Middle',0.5]);
 										};
 									};
 								} forEach (units _grp);
@@ -973,8 +973,8 @@ if (
 							_grp move (getPosATL _target);
 							_grp setFormDir (_grpLeader getDir _target);
 							{
-								if ((unitPos _x) in ['DOWN','MIDDLE']) then {
-									_x setUnitPos 'AUTO';
+								if ((unitPos _x) in ['Down','Middle']) then {
+									_x setUnitPos 'Auto';
 								};
 							} forEach (units _grp);
 							if (_grpBehaviour isNotEqualTo 'STEALTH') then {

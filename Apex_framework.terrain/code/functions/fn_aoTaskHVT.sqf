@@ -79,7 +79,7 @@ if (_state isEqualTo 1) then {
 				_agent setDir (random 360);
 				_buildingPosition = selectRandom _buildingPositions;
 				_agent setPos _buildingPosition;
-				_agent setUnitPos 'MIDDLE';
+				_agent setUnitPos 'Middle';
 				for '_x' from 0 to 2 step 1 do {
 					_agent setVariable ['QS_surrenderable',TRUE,TRUE];
 				};
@@ -89,7 +89,7 @@ if (_state isEqualTo 1) then {
 					{
 						(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 						(_this # 0) enableAIFeature ['PATH',TRUE];
-						(_this # 0) setUnitPos 'MIDDLE';
+						(_this # 0) setUnitPos 'Middle';
 					}
 				];
 				_agent addEventHandler [
@@ -144,7 +144,7 @@ if (_state isEqualTo 1) then {
 					_enemyUnit = _enemyGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyType,_enemyType],[0,0,0],[],0,'NONE'];
 					_enemyUnit = _enemyUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 					_enemyUnit setPos (selectRandom _buildingPositions);
-					_enemyUnit setUnitPos (selectRandom ['UP','MIDDLE']);
+					_enemyUnit setUnitPos (selectRandom ['Up','Middle']);
 					_enemyUnit enableAIFeature ['PATH',FALSE];
 					if ((random 1) > 0.5) then {
 						_enemyUnit addEventHandler [
@@ -152,7 +152,7 @@ if (_state isEqualTo 1) then {
 							{
 								(_this # 0) removeEventHandler [_thisEvent,_thisEventHandler];
 								(_this # 0) enableAIFeature ['PATH',TRUE];
-								(_this # 0) setUnitPos 'MIDDLE';
+								(_this # 0) setUnitPos 'Middle';
 							}
 						];
 					};

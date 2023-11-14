@@ -8,18 +8,18 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=307;
+		nextID=308;
 	};
 	class Camera
 	{
-		pos[]={8083.0977,36.793591,10138.594};
-		dir[]={-0.87906015,-0.26482546,-0.39642835};
-		up[]={-0.24141787,0.96429062,-0.1088723};
-		aside[]={-0.41110477,-8.0908649e-009,0.91160119};
+		pos[]={8083.04,41.436665,10138.545};
+		dir[]={-0.87278289,-0.30032295,-0.38483062};
+		up[]={-0.27480149,0.95383042,-0.12116709};
+		aside[]={-0.40345335,-3.4429831e-008,0.91501456};
 	};
 };
 binarizationWanted=0;
-sourceName="Apex_framework_136";
+sourceName="Apex_framework_156";
 addons[]=
 {
 	"A3_Props_F_Enoch_Military_Equipment",
@@ -28,13 +28,14 @@ addons[]=
 	"A3_Air_F_Heli_Light_01",
 	"A3_Characters_F",
 	"A3_Soft_F_MRAP_01",
-	"A3_Props_F_Exp_Military_Camps"
+	"A3_Props_F_Exp_Military_Camps",
+	"A3_Structures_F_Heli_Ind_Cargo"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=7;
+		items=8;
 		class Item0
 		{
 			className="A3_Props_F_Enoch";
@@ -84,12 +85,20 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item7
+		{
+			className="A3_Structures_F_Heli";
+			name="Arma 3 Helicopters - Buildings and Structures";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 dlcs[]=
 {
 	"Enoch",
-	"Expansion"
+	"Expansion",
+	"Heli"
 };
 randomSeed=3578339;
 class ScenarioData
@@ -141,7 +150,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=117;
+		items=118;
 		class Item0
 		{
 			dataType="Object";
@@ -829,7 +838,7 @@ class Mission
 			text="Destroyer ship position";
 			type="Empty";
 			alpha=0.5;
-			angle=151.12643;
+			angle=151.12642;
 			id=138;
 			atlOffset=26.347755;
 		};
@@ -5843,6 +5852,23 @@ class Mission
 			a=0.5;
 			b=0.5;
 			id=306;
+		};
+		class Item117
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={8046.8286,30.978148,10121.6};
+				angles[]={0.00077204045,1.4032946,6.2824135};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				init="0 = [ " \n " this, " \n " 30, " \n " false, " \n " {}, " \n " 50, " \n " 500, " \n " -1, " \n " false, " \n " -1, " \n " 0, " \n " {TRUE}, " \n " [], " \n " 0.3, " \n " {FALSE} " \n "] call QS_fnc_registerVehicle;";
+			};
+			id=307;
+			type="Land_Cargo10_military_green_F";
 		};
 	};
 };

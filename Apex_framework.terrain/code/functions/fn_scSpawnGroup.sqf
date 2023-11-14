@@ -463,7 +463,7 @@ if (_sectorData isEqualType 0) exitWith {
 				_x forceSpeed 24;
 				_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
-				_x setUnitPos 'DOWN'; 
+				_x setUnitPos 'Down'; 
 				_x switchMove 'amovppnemstpsraswrfldnon';
 			} forEach (units _grp);
 			(units _grp) joinSilent _assaultGrp;
@@ -477,7 +477,7 @@ if (_sectorData isEqualType 0) exitWith {
 			params ['_assaultGrp','_direction'];
 			uiSleep 2;
 			{
-				_x setUnitPos 'UP';
+				_x setUnitPos 'Up';
 				_x enableAIFeature ['ANIM',TRUE];
 				_x setVehiclePosition [_position,[],15,'NONE'];
 				uiSleep 0.01;

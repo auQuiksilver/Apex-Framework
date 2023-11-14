@@ -391,8 +391,8 @@ if (_type isEqualTo 1) then {
 																		_unit setVariable ['QS_AI_JOB_PROVIDER',_entity,FALSE];
 																		_entity setVariable ['QS_AI_JOB',TRUE,FALSE];
 																		_entity setVariable ['QS_AI_JOB_DATA',[(_time + 30),1,_time,scriptNull,'MEDIC',_unit,(getPosATL _unit)],FALSE];
-																		if ((unitPos _entity) in ['UP','AUTO']) then {
-																			_entity setUnitPos 'MIDDLE';
+																		if ((unitPos _entity) in ['Up','Auto']) then {
+																			_entity setUnitPos 'Middle';
 																		};
 																	};
 																};
@@ -444,8 +444,8 @@ if (_type isEqualTo 1) then {
 												(alive _entity) && 
 												((lifeState _entity) in ['HEALTHY','INJURED'])
 											) then {
-												if ((unitPos _entity) in ['UP','AUTO']) then {
-													_entity setUnitPos 'MIDDLE';
+												if ((unitPos _entity) in ['Up','Auto']) then {
+													_entity setUnitPos 'Middle';
 												};
 												if ((_entity distance _jobTarget) < 50) then {
 													if (!isNull (objectParent _entity)) then {

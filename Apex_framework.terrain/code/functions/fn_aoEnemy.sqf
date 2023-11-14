@@ -605,7 +605,7 @@ if (
 		_dirToCenter = _randomPos getDir _watchPos;
 		_sniperGroup setFormDir _dirToCenter;
 		{
-			_x setUnitPos (['MIDDLE','DOWN'] select (_playerCount > 10));
+			_x setUnitPos (['Middle','Down'] select (_playerCount > 10));
 		} forEach (units _sniperGroup);
 		{
 			_x setVehiclePosition [(getPosWorld _x),[],0,'CAN_COLLIDE'];

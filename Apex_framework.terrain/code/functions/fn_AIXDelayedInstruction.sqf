@@ -35,6 +35,6 @@ if (_instruction isEqualTo 1) exitWith {
 	_unit setVariable ['QS_AI_UNIT_delayedInstructions',[],QS_system_AI_owners];
 };
 if (_instruction isEqualTo 2) exitWith {
-	_unit setUnitPos 'AUTO';
+	_unit setUnitPos 'Auto';
 	_unit setVariable ['QS_AI_UNIT_delayedInstructions',[],QS_system_AI_owners];
 };

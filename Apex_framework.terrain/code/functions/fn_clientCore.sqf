@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/11/2023 A3 2.14 by Quiksilver
+	14/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -2550,7 +2550,7 @@ for '_z' from 0 to 1 step 0 do {
 			if (
 				(alive _cursorObject) &&
 				{_isMissionCursorObject} &&
-				{((['LandVehicle','Reammobox_F','Ship','Cargo_base_F'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
+				{((['LandVehicle','StaticWeapon','Reammobox_F','Ship','Cargo_base_F']findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
 				{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLowerANSI _QS_v2Type) in _recoveryVehicleTypes) && (_cursorObjectDistance <= 15))})} &&
 				{(((vectorUp _cursorObject) # 2) < 0.3)}
 			) then {

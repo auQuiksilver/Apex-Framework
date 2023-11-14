@@ -319,7 +319,7 @@ if (_type isEqualTo 'SITE_IG') exitWith {
 				'COVER'
 			];
 			_igLeader setPos _buildingPosition;
-			_igLeader setUnitPos (selectRandom ['MIDDLE','DOWN']);
+			_igLeader setUnitPos (selectRandom ['Middle','Down']);
 			if ((random 1) > 0.25) then {
 				_igLeader removeWeapon (primaryWeapon _igLeader);
 				_igLeader addEventHandler [

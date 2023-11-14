@@ -32,7 +32,7 @@ if (local _u) then {
 				};
 			} else {
 				if ((stance _u) isEqualTo 'STAND') then {
-					_u setUnitPos 'DOWN';
+					_u setUnitPos 'Down';
 				};
 			};
 		};

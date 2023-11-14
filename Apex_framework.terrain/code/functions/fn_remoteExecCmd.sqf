@@ -371,6 +371,9 @@ if (_type isEqualTo 'setFlagAnimationPhase') exitWith {
 if (_type isEqualTo 'setEffectiveCommander') exitWith {
 	_1 setEffectiveCommander _2;
 };
+if (_type isEqualTo 'setUnitPos') exitWith {
+	_1 setUnitPos _2;
+};
 if (_type isEqualTo 'addForce') exitWith {
 	diag_log format ['***** DEBUG ***** addForce executed: %1 (%4) %2 by %3',_1,_2,remoteExecutedOwner,typeOf _1];
 	_1 awake TRUE;

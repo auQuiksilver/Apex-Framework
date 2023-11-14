@@ -708,7 +708,7 @@ for '_x' from 0 to 2 step 1 do {
 	['QS_rescuedState',0,TRUE],
 	['QS_following',0,TRUE]
 ];
-_QS_sidemission_pow setUnitPos 'UP';
+_QS_sidemission_pow setUnitPos 'Up';
 _QS_sidemission_pow allowFleeing 0;
 {
 	_QS_sidemission_pow enableAIFeature [_x,FALSE];
@@ -766,7 +766,7 @@ missionNamespace setVariable [
 0 = _QS_enemyArray pushBack (missionNamespace getVariable 'QS_sideMission_BadGuy');
 (missionNamespace getVariable 'QS_sideMission_BadGuy') allowDamage FALSE;
 (missionNamespace getVariable 'QS_sideMission_BadGuy') enableAIFeature ['PATH',FALSE];
-(missionNamespace getVariable 'QS_sideMission_BadGuy') setUnitPos 'UP';
+(missionNamespace getVariable 'QS_sideMission_BadGuy') setUnitPos 'Up';
 (missionNamespace getVariable 'QS_sideMission_BadGuy') setPos _QS_badPos;
 _dirToBG = (getPosWorld _QS_sidemission_pow) getDir (getPosWorld (missionNamespace getVariable 'QS_sideMission_BadGuy'));
 _QS_sidemission_pow setDir _dirToBG;
@@ -789,7 +789,7 @@ for '_x' from 1 to _QS_inBuildingCount step 1 do {
 	_QS_randomUnit = _QS_eastGarrisonGroup createUnit [QS_core_units_map getOrDefault [toLowerANSI _QS_randomUnitType,_QS_randomUnitType],(_QS_buildingPositions # _QS_index),[],0,'NONE'];
 	_QS_randomUnit = _QS_randomUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	_QS_randomUnit allowDamage FALSE;
-	_QS_randomUnit setUnitPos 'UP';
+	_QS_randomUnit setUnitPos 'Up';
 	_QS_randomUnit enableAIFeature ['PATH',FALSE];
 	{
 		if ((toLowerANSI _x) in QS_core_classNames_grenades) then {
