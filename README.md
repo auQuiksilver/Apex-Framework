@@ -1,4 +1,4 @@
-Apex Framework 1.5.6 (Dev) 14/10/2023 A3 2.14
+Apex Framework 1.5.6 (Stable) 14/10/2023 A3 2.14
 by Quiksilver       ( armacombatgroup@gmail.com ) ( https://www.patreon.com/QS )
 
 Support
