@@ -108,7 +108,7 @@ if (_case < 10) exitWith {
 			_arr = _this # 2;
 			_validVTypes_1 = ['B_Heli_Transport_01_camo_F','B_Heli_Transport_01_F','B_Heli_Transport_03_F'];
 			_turretType = _arr # 0;
-			if ((typeOf _v) in _validVTypes_1) then {
+			if ((_validVTypes_1 findIf { _v isKindOf _x }) isNotEqualTo -1) then {
 				_validTurretTypes = ['LMG_Minigun_Transport','LMG_Minigun_Transport2'];
 				if (_turretType in _validTurretTypes) then {
 					_v addWeaponTurret _arr;
@@ -124,7 +124,7 @@ if (_case < 10) exitWith {
 			_arr = _this # 2;
 			_validVTypes_1 = ['B_Heli_Transport_01_camo_F','B_Heli_Transport_01_F','B_Heli_Transport_03_F'];
 			_turretType = _arr # 0;
-			if ((typeOf _v) in _validVTypes_1) then {
+			if ((_validVTypes_1 findIf { _v isKindOf _x }) isNotEqualTo -1) then {
 				_validTurretTypes = ['LMG_Minigun_Transport','LMG_Minigun_Transport2'];
 				if (_turretType in _validTurretTypes) then {
 					_v removeWeaponTurret _arr;
@@ -1649,9 +1649,7 @@ if (_case < 80) exitWith {
 		removeVest _agent;
 		_agent setCaptive TRUE;
 		removeAllAssignedItems _agent;
-		{
-			_agent removeItem _x;
-		} forEach (items _agent);
+		removeAllItems _agent;
 		['switchMove',_agent,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 		_agent setUnitPos 'Up';
 		_agent setDir _unitDir;
@@ -1947,9 +1945,7 @@ if (_case < 100) exitWith {
 		removeVest _agent;
 		_agent setCaptive TRUE;
 		removeAllAssignedItems _agent;
-		{
-			_agent removeItem _x;
-		} forEach (items _agent);
+		removeAllItems _agent;
 		_agent switchMove 'amovpercmstpsnonwnondnon';
 		[_agent,'amovpercmstpsnonwnondnon'] remoteExec ['switchMove',0,FALSE];
 		_agent setUnitPos 'Up';
@@ -2426,6 +2422,19 @@ if (_case < 130) exitWith {
 		if (isDedicated) then {
 			params ['','_mode','_args'];
 			[_mode,_args] call QS_fnc_logisticsPackVehicle;
+		};
+	};
+	if (_case isEqualTo 121) then {
+		if (isDedicated) then {
+			params ['','_args'];
+			setTerrainHeight _args;		// To do: add some security to this case
+		};
+	};
+	if (_case isEqualTo 122) then {
+		params ['','_position'];
+		_oldCrater = nearestObject [_position,'#crater'];
+		if (!isNull _oldCrater) then {
+			_oldCrater setPos [-500,-500,0];
 		};
 	};
 };

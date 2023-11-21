@@ -1,4 +1,13 @@
 Official Change Log
+		
+1.5.7 Dev
+
+[ADDED] Light Blue (small) cargo container is now a Parajump deployment.
+[TWEAKED] At base vehicle abandonment distance from 50m to 100m by default.
+[TWEAKED] AI will no longer assault low-importance sites (platform kit, etc).
+[FIXED] IDAP medical supplies mission, some potential states where the medical crate could become inaccessible
+[FIXED] Some logistics containers could not be deployed near water (Platform Kit, etc).
+[FIXED] Mouse hovering over friendly vehicles would not identify them as friendly on HUD.
 
 1.5.6 Stable (14/11/2023)
 

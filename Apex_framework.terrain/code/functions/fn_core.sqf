@@ -1646,20 +1646,17 @@ for '_x' from 0 to 1 step 0 do {
 										diag_log '***** SC INIT * 0 *****';
 										_scAreaPolygon = _mainMissionRegion # 2;
 										_scTimeStart = diag_tickTime;
-										if (!isNil {missionNamespace getVariable 'aoHQ'}) then {
-											if ((missionNamespace getVariable 'aoHQ') isEqualType []) then {
-												if ((missionNamespace getVariable 'aoHQ') isNotEqualTo []) then {
-													if (!isNil {missionNamespace getVariable 'QS_HQpos'}) then {
-														{
-															if (_x isEqualType _objNull) then {
-																if (!isNull _x) then {
-																	0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
-																};
-															};
-														} count (missionNamespace getVariable 'aoHQ');
+										if (
+											((missionNamespace getVariable ['aoHQ',[]]) isNotEqualTo []) &&
+											(!isNil {missionNamespace getVariable 'QS_HQpos'})
+										) then {
+											{
+												if (_x isEqualType _objNull) then {
+													if (!isNull _x) then {
+														0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 													};
 												};
-											};
+											} count (missionNamespace getVariable 'aoHQ');
 										};
 										[_module_fob_enabled,_scAreaPolygon] call _fn_scPrepare;
 									};

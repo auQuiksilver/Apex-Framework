@@ -182,29 +182,5 @@ if (alive _vehicle) then {
 	];
 	missionNamespace setVariable ['QS_ao_aaMarkers',_aoAAMarkers,FALSE];
 	_vehicle setVariable ['QS_vehicle_markers',_vehicleMarkers,FALSE];
-	
-	/*/
-	if ((random 1) > 0.5) then {
-		_grp = [(_position getPos [(random 30),(random 360)]),(random 360),EAST,'OI_support_ENG2',FALSE] call (missionNamespace getVariable 'QS_fnc_spawnGroup');
-		{
-			//if ((random 1) < 0.666) then {
-			//	[_unit,(['launch_rpg32_f','launch_rpg32_ghex_f'] select (worldName in ['Tanoa','Lingor3'])),2] call (missionNamespace getVariable 'QS_fnc_addWeapon');
-			//};
-
-			if ((missionNamespace getVariable 'QS_mission_aoType') isEqualTo 'SC') then {
-				(missionNamespace getVariable 'QS_virtualSectors_entities') pushBack _x;
-			} else {
-				(missionNamespace getVariable 'QS_classic_AI_enemy_0') pushBack _x;
-			};
-		} forEach (units _grp);
-		_grp addVehicle _vehicle;
-		[(units _grp),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
-		_grp setVariable ['QS_AI_GRP',TRUE,FALSE];
-		_grp setVariable ['QS_AI_GRP_CONFIG',['SC','INF_GENERAL',(count (units _grp))],FALSE];
-		_grp setVariable ['QS_AI_GRP_DATA',[_position,30,30,[]],FALSE];
-		_grp setVariable ['QS_AI_GRP_TASK',['DEFEND',_position,serverTime,-1],FALSE];
-		_grp setVariable ['QS_AI_GRP_HC',[0,-1],QS_system_AI_owners];
-	};
-	/*/
 };
 _vehicle;

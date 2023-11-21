@@ -11,18 +11,6 @@ Last Modified:
 Description:
 
 	AO Sub Objectives
-	
-	Urban spawning:
-
-		- Determine if AO is viable
-		- Collect viable spawn buildings
-		- Determine when spawn building no longer viable (is empty, or assigned unit killed)
-		- Spawn units
-		- Delay movement/pathing
-		- Patrol nearby objective
-
-	- Remove garrison spawning from aoEnemy if AO is 'urban suitable'. Place garrison spawning in aoSubObjective, set garrisoned units as spawn "nodes"
-	- Players need to be able to locate enemy, do we need "grid" marker overlay?
 ________________________________________________________/*/
 
 params ['_type'];

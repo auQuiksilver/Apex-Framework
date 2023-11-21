@@ -93,15 +93,25 @@ if (_entity isKindOf 'Land_Cargo10_cyan_F') exitWith {
 	};
 };
 if (_entity isKindOf 'Land_Cargo10_light_blue_F') exitWith {
-	//comment 'Nothing yet';
+	//comment 'Parajump Target';
 	{
 		_entity setVariable _x;
 	} forEach [
-		//['QS_logistics_deployable',TRUE,TRUE],
-		['QS_importance',1,FALSE],
-		['QS_logistics_deployParams',[5,300,5,300,-1,5,300],TRUE],
-		['QS_deploy_preset',8,TRUE]
+		['QS_importance',2,FALSE],
+		['QS_deploy_type','FORT',TRUE],
+		['QS_respawn_object',TRUE,TRUE],
+		['QS_logistics_deployParams',[5,300,5,900,-1,25,500],TRUE],
+		['QS_logistics_unloadReqDep',TRUE,TRUE],
+		['QS_deploy_preset',8,TRUE],
+		['QS_ST_customDN',localize 'STR_QS_Menu_230',TRUE],
+		['QS_ST_showDisplayName',TRUE,TRUE],
+		['QS_logistics_deployable',TRUE,TRUE]
 	];
+	if (local _entity) then {
+		_entity setMass 2500;
+	} else {
+		['setMass',_entity,2500] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};
 };
 
 //comment 'Wrecks';
@@ -198,7 +208,7 @@ if (_entity isKindOf 'Land_Cargo10_sand_F') exitWith {
 	{
 		_entity setVariable _x;
 	} forEach [
-		['QS_importance',1,FALSE],
+		['QS_importance',0,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_logistics_unloadDistance',25,TRUE],
 		['QS_logistics_deployParams',[5,60,5,900,-1,100,300],TRUE],
@@ -241,7 +251,7 @@ if (_entity isKindOf 'Land_Cargo10_yellow_F') exitWith {
 	{
 		_entity setVariable _x;
 	} forEach [
-		['QS_importance',1,FALSE],
+		['QS_importance',0,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_terrain_leveler',TRUE,TRUE],
 		['QS_logistics_deployParams',[5,60,5,60,-1,100,500],TRUE],

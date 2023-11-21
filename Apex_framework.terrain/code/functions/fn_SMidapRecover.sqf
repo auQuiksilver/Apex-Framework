@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	17/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 	
@@ -557,8 +557,7 @@ private _sceneType = -1;
 private _monitorScene = FALSE;
 
 private _crate = objNull;
-//comment "private _crateType = 'land_plasticcase_01_medium_idap_f';";
-private _crateType = 'box_b_uav_06_medical_f';
+private _crateType = 'box_c_idap_uav_06_medical_f';
 private _crateIcon = 'a3\ui_f\data\map\VehicleIcons\iconcrate_ca.paa';
 private _iconData = [];
 private _iconID = 'QS_sm_crateIcon';
@@ -720,10 +719,14 @@ for '_x' from 0 to 1 step 0 do {
 				_crate allowDamage FALSE;
 				_cratePosition = selectRandom _houseBuildingPositions;
 				_crate setPos _cratePosition;
-				_crate setVariable ['QS_medbox_disableRevive',TRUE,TRUE];
-				_crate setVariable ['QS_inventory_disabled',TRUE,TRUE];
-				_crate setVariable ['QS_dynSim_ignore',TRUE,TRUE];
-				_crate setVariable ['QS_ST_customDN','Medical Supplies',TRUE];
+				{
+					_crate setVariable _x;	
+				} forEach [
+					['QS_medbox_disableRevive',TRUE,TRUE],
+					['QS_inventory_disabled',TRUE,TRUE],
+					['QS_dynSim_ignore',TRUE,TRUE],
+					['QS_ST_customDN',localize 'STR_QS_Text_484',TRUE]
+				];
 				_timeoutFailsafe = serverTime + 3600;
 				_crateSpawned = TRUE;
 				_cratePositionIndex = _houseBuildingPositions find _cratePosition;
@@ -759,29 +762,50 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_monitorScene) then {
 		if (_sceneType isEqualTo 0) then {
-			if (_currentSceneChance isEqualTo 0) then {
-				if ((((units WEST) inAreaArray [_housePosition,15,15,0,FALSE,-1])) isNotEqualTo []) then {
-					if (((((units EAST) + (units RESISTANCE)) inAreaArray [_housePosition,15,15,0,FALSE,-1])) isEqualTo []) then {
-						[
-							[],
-							{
-								50 cutText [localize 'STR_QS_Text_247','PLAIN DOWN',0.75];
-							}
-						] remoteExec ['call',(allPlayers inAreaArray [_housePosition,300,300,0,FALSE]),FALSE];
-						['SM_IDAP_UPDATE',[localize 'STR_QS_Notif_091',localize 'STR_QS_Notif_093']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-						
-						_findNewLocation = TRUE;
-						_monitorScene = FALSE;
-						_houseFound = FALSE;
-						deleteMarker _houseMarker;
-					};
-				};
+			if (
+				(_currentSceneChance isEqualTo 0) &&
+				{((((units WEST) inAreaArray [_housePosition,15,15,0,FALSE,-1])) isNotEqualTo [])} &&
+				{(((((units EAST) + (units RESISTANCE)) inAreaArray [_housePosition,15,15,0,FALSE,-1])) isEqualTo [])}
+			) then {
+				[
+					[],
+					{
+						50 cutText [localize 'STR_QS_Text_247','PLAIN DOWN',0.75];
+					}
+				] remoteExec ['call',(allPlayers inAreaArray [_housePosition,300,300,0,FALSE]),FALSE];
+				['SM_IDAP_UPDATE',[localize 'STR_QS_Notif_091',localize 'STR_QS_Notif_093']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
+				_findNewLocation = TRUE;
+				_monitorScene = FALSE;
+				_houseFound = FALSE;
+				deleteMarker _houseMarker;
 			};
 			if (_currentSceneChance isEqualTo 1) then {
 				if (!alive _crate) then {
 					_taskState = 'FAILED';
 				};
 				if (alive _crate) then {
+					if (!(_crate inArea QS_terrain_worldArea)) then {
+						// crate no longer in terrain area
+						if (!isNull (attachedTo _crate)) then {
+							[0,_crate] call QS_fnc_eventAttach;	
+						};
+						// reset to initial position
+						_crate setVehiclePosition [_cratePosition,[],0,'NONE'];
+					};
+					if (isNull (attachedTo _crate)) then {
+						if (
+							(((getPosASL _crate) # 2) < -1) ||
+							(((getPosATL _crate) # 2) < -1)
+						) then {
+							// crate is detached and underwater or under terrain
+							sleep 0.25;
+							// small delay then double check attached state
+							if (isNull (attachedTo _crate)) then {
+								// reset to initial position
+								_crate setVehiclePosition [_cratePosition,[],0,'NONE'];
+							};
+						};
+					};
 					if (_crateState isEqualTo 'DETACHED') then {
 						if (!isNull (attachedTo _crate)) then {
 						
@@ -807,7 +831,7 @@ for '_x' from 0 to 1 step 0 do {
 									15,
 									15,
 									0,
-									'Medical Supplies',
+									(localize 'STR_QS_Text_484'),
 									2,
 									0.04,
 									'RobotoCondensed',
@@ -830,7 +854,7 @@ for '_x' from 0 to 1 step 0 do {
 										15,
 										15,
 										0,
-										'Medical Supplies',
+										(localize 'STR_QS_Text_484'),
 										2,
 										0.04,
 										'RobotoCondensed',

@@ -31,7 +31,8 @@ _currentDeployments = _currentDeployments select {
 	(
 		(!((_x # 0) getVariable ['QS_deploy_underAttack',FALSE])) &&
 		((_x # 0) getVariable ['QS_deploy_attackable',TRUE]) &&
-		(_uiTime > ((_x # 0) getVariable ['QS_deploy_graceTime',-1]))
+		(_uiTime > ((_x # 0) getVariable ['QS_deploy_graceTime',-1])) &&
+		(((_x # 0) getVariable ['QS_importance',0]) > 0)
 	)
 };
 if (

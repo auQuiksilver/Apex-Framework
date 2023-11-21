@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	16/09/2022 A3 2.10 by Quiksilver
+	19/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -14,12 +14,6 @@ Description:
 _______________________________________________________________*/
 
 (
-	((typeOf cameraOn) in [
-		"B_Heli_Transport_01_camo_F",
-		"B_Heli_Transport_01_F",
-		"B_Heli_Transport_03_F",
-		"B_CTRG_Heli_Transport_01_sand_F",
-		"B_CTRG_Heli_Transport_01_tropic_F"
-	]) && 
-	(!(cameraOn getVariable ["QS_turretR_locked",FALSE]))
+	(!(cameraOn getVariable ['QS_turretR_locked',FALSE])) &&
+	{(((['turret_safety_1'] call QS_data_listVehicles) findIf { cameraOn isKindOf _x }) isNotEqualTo -1)}
 )

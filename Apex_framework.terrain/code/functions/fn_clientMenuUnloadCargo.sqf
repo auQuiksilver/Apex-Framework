@@ -227,7 +227,10 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 			(cameraOn isKindOf 'CAManBase') &&
 			((uiNamespace getVariable ['QS_client_menuUnloadCargo_object',objNull]) isEqualType objNull)
 		);
-		_ctrlExit ctrlEnable ((_selectedIndex isNotEqualTo -1) && (!surfaceIsWater (getPosWorld _vehicle)));
+		_ctrlExit ctrlEnable (
+			(_selectedIndex isNotEqualTo -1) && 
+			((!surfaceIsWater (getPosWorld _vehicle)) || (_vehicle getVariable ['QS_logistics_deployNearWater',FALSE]))
+		);
 		if ([_vehicle,_vehiclePos] call _cancel) exitWith {closeDialog 2};
 	};
 	removeMissionEventHandler ['Draw3D',_EH_ID];

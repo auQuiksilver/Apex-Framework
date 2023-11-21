@@ -141,4 +141,5 @@ QS_data_playerBuildables = call (compileScript ['code\config\QS_data_playerBuild
 if (_activeDLC isEqualTo '') then {
 	_activeDLC = 'NONE';
 };
+localNamespace setVariable ['QS_emptyLoadout',(configFile >> 'EmptyLoadout')];
 diag_log format ['***** Active DLC ***** %1 *****',_activeDLC];

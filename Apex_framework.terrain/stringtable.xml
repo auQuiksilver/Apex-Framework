@@ -733,6 +733,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_147">
             <Original>Command Stance</Original>
         </Key>
+        <Key ID="STR_QS_Interact_148">
+            <Original>Go</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -2722,6 +2725,12 @@ _____________________________________________________________-->
 		</Key>
          <Key ID="STR_QS_Text_483">
             <Original>Auto</Original>
+		</Key>
+         <Key ID="STR_QS_Text_484">
+            <Original>Medical Supplies</Original>
+		</Key>
+         <Key ID="STR_QS_Text_485">
+            <Original>Parajump</Original>
 		</Key>
     </Container>
     <Container name="QS_xml_hints">
@@ -8009,6 +8018,9 @@ _____________________________________________________________-->
         </Key>
        <Key ID="STR_QS_Menu_229">
             <Original>invalid fire support request</Original>
+        </Key>
+       <Key ID="STR_QS_Menu_230">
+            <Original>Parajump</Original>
         </Key>
     </Container>
     <Container name="QS_xml_roles">

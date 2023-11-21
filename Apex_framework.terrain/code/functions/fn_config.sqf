@@ -1134,6 +1134,70 @@ if (_worldName isEqualTo 'Altis') then {
 			_x enableSimulationGlobal FALSE;
 		};
 	} forEach (nearestTerrainObjects [[5398.63,17897.7,0.00141144],[],100,FALSE,TRUE]);
+	
+	if (TRUE) then {
+		{
+			if (_x inPolygon [[10736.3,10847.8,0],[10720.9,10829,0],[11042.4,10602,0],[11053.9,10635,0]]) then {
+				_x hideObjectGlobal TRUE;
+			};
+		} forEach (nearestTerrainObjects [[10872.5,10725.4,0.00128937],[],500, FALSE, TRUE]);
+		{
+			if (!isObjectHidden _x) then {
+				_x hideObjectGlobal TRUE;
+			};
+		} forEach (nearestTerrainObjects [[10872.5,10725.4,0.00128937],[],100, FALSE, TRUE]);
+		_fn_flattenTerrain = {
+			params ['_start', '_a', '_b', '_h','_radius','_dir','_widerRadius'];
+			getTerrainInfo params ['_landGridWidth','_landGridSize','_terrainGridWidth','_terrainGridSize','_seaLevel'];
+			private _newPos = [0,0,0];
+			private _newPositions = [];
+			_gridStepX = _terrainGridWidth;
+			_gridStepY = _terrainGridWidth;
+			for '_gridStepX' from -(_a / 2) to (_a / 2) do {
+				for '_gridStepY' from -(_b / 2) to (_b / 2) do {
+					_newPos = _start vectorAdd [_gridStepX,_gridStepY,0];
+					_newPos set [2, (0 - ((getTerrainHeightASL _newPos) + 5))];
+					if (_newPos inPolygon [[10736.3,10847.8,0],[10720.9,10829,0],[11042.4,10602,0],[11053.9,10635,0]]) then {
+						_newPositions pushBack _newPos;
+					};
+				};
+			};
+			_newPositions;
+		};
+		private _radius = 500;
+		private _widerRadius = (_radius * 2) max ((getTerrainInfo # 2) * 2);
+		private _positionsAndHeights = [[10872.5,10725.4,0.00128937],_widerRadius,_widerRadius, 0,_radius,0,_widerRadius] call _fn_flattenTerrain;
+		setTerrainHeight [_positionsAndHeights, TRUE];
+		_list = [
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10986.5,10628.4,-0.168253],[[0.773929,-0.633273,0],[0,0,1]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10939.1,10661.3,6.36778],[[0.773812,-0.632231,-0.0387169],[0.0173306,-0.0399688,0.999051]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10888.9,10698.8,8.76846],[[0.773904,-0.632388,0.0340267],[-0.00801098,0.0439493,0.999002]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10832.2,10737.1,3.44848],[[0.773596,-0.626813,0.093029],[-0.0293173,0.111248,0.99336]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10777.8,10830.6,-3.60805],[[0.825527,-0.561831,0.0533905],[-0.0120076,0.0770963,0.996951]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10735.2,10804.3,-2.71294],[[0.773351,-0.631572,0.0551895],[-0.038632,0.039945,0.998455]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[11040,10675.4,-6.62856],[[0.922558,0.385858,0],[0,0,1]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10989.3,10689.1,4.49462],[[0.787577,-0.615126,-0.036653],[-0.00934902,-0.0714016,0.997404]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10945.9,10718.9,7.65103],[[-0.79806,0.597341,0.079271],[0.0572333,-0.0558168,0.996799]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10899.4,10749.5,8.08456],[[-0.799086,0.599446,-0.0461041],[-0.0266571,0.0412832,0.998792]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10856.6,10778.5,2.36122],[[-0.749536,0.589254,-0.301621],[-0.347559,0.0374768,0.936909]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10822,10806.6,2.03958],[[-0.798501,0.601987,-0.00281619],[-0.0466183,-0.0571711,0.997275]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10768.2,10785.3,1.1939],[[-0.741839,0.668993,-0.0460773],[-0.0200001,0.046609,0.998713]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10741.6,10868.2,-5.34404],[[0.283387,-0.956727,0.0660649],[-0.113088,0.03507,0.992966]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10690.1,10821.8,-4.94195],[[0.967154,-0.253752,0.014902],[0.033315,0.184661,0.982238]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[10795.9,10759,-0.406635],[[-0.873485,0.486732,-0.0107828],[0.00399714,0.0293171,0.999562]]],
+			["Land_SharpRock_wallH","a3\rocks_f\sharp\sharprock_wallh.p3d",[11017.2,10588.2,-3.83494],[[0.39979,-0.909223,-0.116111],[0.226772,-0.0246243,0.973637]]],
+			["Dirthump_3_F","a3\structures_f\training\dirthump_3_f.p3d",[10760.3,10853.1,3.6411],[[-0.80675,0.590009,-0.0323197],[-0.0293202,0.014658,0.999463]]],
+			["Dirthump_3_F","a3\structures_f\training\dirthump_3_f.p3d",[10755,10846.7,4.21449],[[-0.80675,0.590009,-0.0323197],[-0.0293202,0.014658,0.999463]]],
+			["Dirthump_3_F","a3\structures_f\training\dirthump_3_f.p3d",[10733.3,10795.7,5.87948],[[-0.996553,0.0764054,-0.0323198],[-0.0326434,-0.0029899,0.999463]]],
+			["Dirthump_3_F","a3\structures_f\training\dirthump_3_f.p3d",[10732.4,10784.9,5.01382],[[-0.996553,0.0764054,-0.0323198],[-0.0326434,-0.0029899,0.999463]]]
+		];
+		private _obj = objNull;
+		{
+			_obj = createSimpleObject [_x # 0,[0,0,0]];
+			_obj setPosWorld (_x # 2);
+			_obj setVectorDirAndUp (_x # 3);
+		} forEach _list;
+	};
 };
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
 	private _newMarker = '';

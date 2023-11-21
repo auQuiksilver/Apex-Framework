@@ -69,6 +69,7 @@ if (canSuspend) then {sleep 0.25;};
 _oldCrater = nearestObject [_position,'#crater'];
 if (!isNull _oldCrater) then {
 	_oldCrater setPos [-500,-500,0];
+	[122,_position] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
 };
 QS_entities_craterEffects pushBack [0,_list];
 _list;

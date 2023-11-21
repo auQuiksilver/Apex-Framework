@@ -299,6 +299,153 @@ if (_preset isEqualTo 7) then {
 	};
 };
 
+
+
+
+if (_preset isEqualTo 8) then {
+	//comment 'Parajump';
+	if (_deploy) then {
+		private _array = [];
+		_vehicle setOwner 2;
+		_vehicle allowDamage FALSE;
+		_vehicle enableDynamicSimulation FALSE;
+		_vehicle enableSimulationGlobal FALSE;
+		_flag = createVehicle ['Flag_White_F',[0,0,0]];
+		_flag setPosASL (getPosASL _vehicle);
+		_array pushBack _flag;
+		private _tickets = _vehicle getVariable ['QS_deploy_tickets',-1];
+		if (_tickets isEqualTo -1) then {
+			_tickets = 10;
+		};
+		{
+			_vehicle setVariable _x;
+		} forEach [
+			['QS_dynSim_ignore',TRUE,TRUE],
+			['QS_logistics',FALSE,TRUE],
+			['QS_deploy_tickets',_tickets,TRUE],
+			['QS_logistics_immovable',TRUE,TRUE]
+		];
+		[_vehicle] spawn {
+			params ['_vehicle'];
+			sleep 3;
+			_marker = _vehicle getVariable ['QS_deploy_marker',''];
+			_text = _vehicle getVariable ['QS_deploy_markerText',''];
+			_marker setMarkerText (format ['%1 [%2]',_text,_vehicle getVariable ['QS_deploy_tickets',0]]);
+		};
+		QS_mobile_increment1 = QS_mobile_increment1 + 1;
+		_systems_id = format ['ID_MOBILE_%1',QS_mobile_increment1];
+		[
+			'ADD',
+			[
+				25,
+				_systems_id,
+				{TRUE},
+				{localize 'STR_QS_Menu_230'},
+				'VEHICLE',
+				_vehicle,
+				300,
+				[],
+				[WEST],
+				{
+					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
+					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
+					_enemySides = QS_player call QS_fnc_enemySides;
+					if (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []) then {
+						private _tickets = _deploymentLocationData getVariable ['QS_deploy_tickets',0];
+						_tickets = (_tickets - 1) max 0;
+						_deploymentLocationData setVariable ['QS_deploy_tickets',_tickets,TRUE];
+						_jumpPos = _deploymentPosition vectorAdd [(-5 + (random 10)),(-5 + (random 10)),1500];
+						QS_player setPosASL _jumpPos;
+						[2,QS_player] spawn {
+							uiSleep (_this # 0);
+							if (!isTouchingGround (_this # 1)) then {
+								QS_EH_IronMan = addMissionEventHandler ['EachFrame',{call (missionNamespace getVariable 'QS_fnc_wingsuit')}];
+							};
+						};
+						[116,_deploymentLocationData,_tickets] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+					} else {
+						50 cutText [localize 'STR_QS_Text_433','PLAIN DOWN',0.3,TRUE,TRUE];
+					};
+				},
+				{
+					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
+					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
+					_enemySides = QS_player call QS_fnc_enemySides;
+					_positionClear = (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []);
+					if (!(_positionClear)) then {
+						50 cutText [localize 'STR_QS_Text_433','PLAIN DOWN',0.3,TRUE,TRUE];
+					};
+					_positionClear
+				},
+				{
+					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
+					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
+					((findDisplay 12) displayCtrl 51) ctrlMapAnimAdd [0.25,0.8,_deploymentPosition];
+					ctrlMapAnimCommit ((findDisplay 12) displayCtrl 51);
+					0 spawn {uiSleep 0.5;ctrlMapAnimClear ((findDisplay 12) displayCtrl 51);};
+				},
+				{FALSE},
+				{TRUE},
+				'',
+				{TRUE},
+				{
+					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
+					if (
+						(_deploymentLocationData isEqualType objNull) &&
+						{((_deploymentLocationData getVariable ['QS_deploy_tickets',0]) isNotEqualTo 0)}
+					) exitWith {
+						(_deploymentLocationData getVariable ['QS_deploy_tickets',0])
+					};
+					0
+				}
+			]
+		] call QS_fnc_deployment;
+		QS_logistics_deployedAssets pushBackUnique [_vehicle,_array,_systems_id];
+	} else {
+		_vehicle enableDynamicSimulation TRUE;
+		_vehicle enableSimulationGlobal TRUE;
+		{
+			_vehicle setVariable _x;
+		} forEach [
+			['QS_logistics_immovable',FALSE,TRUE],
+			['QS_logistics',TRUE,TRUE]
+		];
+		_assetsIndex = QS_logistics_deployedAssets findIf { (_x # 0) isEqualTo _vehicle };
+		if (_assetsIndex isNotEqualTo -1) then {
+			_assets = (QS_logistics_deployedAssets # _assetsIndex) # 1;
+			_systems_id = (QS_logistics_deployedAssets # _assetsIndex) # 2;
+			['REMOVE',_systems_id] call QS_fnc_deployment;
+			if (_assets isNotEqualTo []) then {
+				{
+					if (_x isEqualType objNull) then {
+						deleteVehicle _x;
+					};
+				} forEach _assets;
+			};
+			QS_logistics_deployedAssets deleteAt _assetsIndex;
+		};
+	};
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if (_preset isEqualTo 12) then {
 	//comment 'Fortifications - Large';
 	if (_deploy) then {
@@ -470,7 +617,7 @@ if (_preset isEqualTo 15) then {
 };
 
 if (_preset isEqualTo 16) then {
-	////comment 'Mobile Respawn';
+	//comment 'Mobile Respawn';
 	if (_deploy) then {
 		private _array = [];
 		_vehicle setOwner 2;

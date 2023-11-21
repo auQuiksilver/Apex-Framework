@@ -6,16 +6,16 @@ Author:
 
 Last modified:
 
-	14/11/2023 A3 2.14 by Quiksilver
+	17/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.5.6";
-missionProductStatus = "Stable";											// "Stable" // "Beta" // "Dev"
-missionProductDate = "14.11.2023";
+missionProductVersion = "1.5.7";
+missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
+missionProductDate = "17.11.2023";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
 onLoadName = __EVAL(format ["%1 %2 %3",localize "STR_QS_Utility_011","&",localize "STR_QS_Utility_012"]);			// Invade & Annex			/*/ Visible when loading mission/*/
 onLoadMission = "";

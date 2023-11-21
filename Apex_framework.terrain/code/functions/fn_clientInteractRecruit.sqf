@@ -107,12 +107,10 @@ _t addEventHandler [
 		) then {
 			removeAllWeapons _entity;
 			removeAllAssignedItems _entity;
+			removeAllItems _entity;
 			{
 				_entity removeMagazine _x;
 			} forEach (magazines _entity);
-			{
-				_entity removeItem _x;
-			} forEach (items _entity);
 		};
 	}
 ];

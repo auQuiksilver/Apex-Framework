@@ -98,7 +98,6 @@ private _info = [];
 			_newObj setVectorUp (surfaceNormal _newPos);
 		};
 	} else {
-	
 		if (_useRecycler) then {
 			_newObj = [2,0,_type] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 			if (isNull _newObj) then {

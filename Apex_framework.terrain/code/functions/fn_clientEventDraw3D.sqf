@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	20/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -21,19 +21,10 @@ _cameraView = cameraView;
 _thisFrame = diag_frameNo;
 if (_thisFrame > (uiNamespace getVariable ['QS_eval_frameInterval_10',-1])) then {
 	uiNamespace setVariable ['QS_eval_frameInterval_10',_thisFrame + 10];
-	/*/
-	if (_time >= (uiNamespace getVariable ['QS_dynamicGroups_update',0])) then {
-		_display = uiNamespace getVariable ['BIS_dynamicGroups_display',displayNull];
-		if (!isNull _display) then {
-			['Update',[FALSE]] call (uiNamespace getVariable ['RscDisplayDynamicGroups_script',{}]);
-		};
-		uiNamespace setVariable ['QS_dynamicGroups_update',(_time + ([0.5,2] select (isNull _display)))];
-	};
-	/*/
 	if (
 		(local _cameraOn) &&
 		{(alive (ropeAttachedTo _cameraOn))} &&
-		{((_cameraOn isKindOf 'Car') || (_cameraOn isKindOf 'Tank'))}
+		{(_cameraOn isKindOf 'LandVehicle')}
 	) then {
 		_parent = ropeAttachedTo _cameraOn;
 		_rope = (ropes _parent) # 0;
@@ -676,18 +667,15 @@ if (!isStreamFriendlyUIEnabled) then {
 						{(!(_cursorTarget in (attachedObjects _cameraOn)))} &&
 						{(
 							((_cursorTarget isKindOf 'CAManBase') && {((side (group _cursorTarget)) isEqualTo (_player getVariable ['QS_unit_side',WEST]))}) ||
-							(!(_cursorTarget isKindOf 'CAManBase') && {((side (assignedGroup _cursorTarget)) isEqualTo (_player getVariable ['QS_unit_side',WEST]))})
+							((!(_cursorTarget isKindOf 'CAManBase')) && {((side (assignedGroup (effectiveCommander _cursorTarget))) isEqualTo (_player getVariable ['QS_unit_side',WEST]))})
 						)} &&
 						{(!(_cursorTarget getVariable ['QS_hidden',FALSE]))}
 					) ||
 					{(
 						(!(_cursorTarget isKindOf 'CAManBase')) &&
 						{(
-							(_cursorTarget getVariable ['QS_ST_showDisplayName',FALSE]) || 
-							{((!isNull (assignedGroup _cursorTarget)) && {((side (assignedGroup _cursorTarget)) isEqualTo (_player getVariable ['QS_unit_side',WEST]))})} || 
-							{(_cursorTarget getVariable ['QS_logistics_wreck',FALSE])} ||
-							{(_cursorTarget getVariable ['QS_logistics_deployed',FALSE])} ||
-							{(_cursorTarget getVariable ['QS_logistics_isCargoParent',FALSE])}
+							(([['QS_ST_showDisplayName',FALSE],['QS_logistics_wreck',FALSE],['QS_logistics_deployed',FALSE],['QS_logistics_isCargoParent',FALSE]] findIf {(_cursorTarget getVariable _x)}) isNotEqualTo -1) ||
+							{((!isNull (assignedGroup _cursorTarget)) && {((side (assignedGroup _cursorTarget)) isEqualTo (_player getVariable ['QS_unit_side',WEST]))})}
 						)}
 					)}
 				)}
