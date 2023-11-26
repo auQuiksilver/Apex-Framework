@@ -2681,7 +2681,6 @@ for '_z' from 0 to 1 step 0 do {
 			
 			if (
 				(!(_noObjectParent)) &&
-				{_isMissionCursorObject} &&
 				{['MODE8'] call _fn_simplePull} && 
 				{_pullingEnabled}
 			) then {
