@@ -55,7 +55,12 @@ if (_killed isKindOf 'Man') then {
 } else {
 	if (
 		((getFuelCargo _killed) > -1) &&
-		((['LandVehicle','Air','Ship','Thing','ReammoBox_F'] findIf { _killed isKindOf _x }) isNotEqualTo -1)
+		{((['LandVehicle','Air','Ship','Thing','ReammoBox_F'] findIf { _killed isKindOf _x }) isNotEqualTo -1)} &&
+		{((QS_hashmap_configfile getOrDefaultCall [
+			format ['cfgvehicles_%1_transportfuel',toLowerANSI (typeOf _killed)],
+			{getNumber ((configOf _killed) >> 'transportFuel')},
+			TRUE
+		]) > 0)}
 	) then {
 		([_killed,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 		if (_inSafezone && _safezoneActive) then {

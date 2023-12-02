@@ -8,6 +8,7 @@ Official Change Log
 [FIXED] IDAP medical supplies mission, some potential states where the medical crate could become inaccessible
 [FIXED] Some logistics containers could not be deployed near water (Platform Kit, etc).
 [FIXED] Mouse hovering over friendly vehicles would not identify them as friendly on HUD.
+[FIXED] Many non-fuel objects were still triggering fuel-explosions when destroyed.
 
 1.5.6 Stable (14/11/2023)
 
