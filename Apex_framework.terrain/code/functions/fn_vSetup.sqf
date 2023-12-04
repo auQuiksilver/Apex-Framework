@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	13/11/2023 A3 2.14 by Quiksilver
+	4/12/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -224,6 +224,12 @@ _transportSoldier = QS_hashmap_configfile getOrDefaultCall [
 	TRUE
 ];
 // Land Vehicles
+if (_u isKindOf 'Reammobox_F') then {
+	_u setVariable ['QS_logistics',TRUE,TRUE];
+};
+if (_u isKindOf 'ThingX') then {
+	_u setVariable ['QS_logistics',TRUE,TRUE];
+};
 if (_u isKindOf 'LandVehicle') then {
 	if (!(_u getVariable ['QS_logistics_wreck',FALSE])) then {
 		_u setVariable ['QS_logistics_packable',TRUE,TRUE];
@@ -428,7 +434,10 @@ if (_u isKindOf 'Ship') then {
 			['U_B_Wetsuit',_transportSoldier]
 		];
 	};
-	if (_u isKindOf 'Rubber_duck_base_F') then {
+	if (
+		(_u isKindOf 'Rubber_duck_base_F') ||
+		(_u isKindOf 'Boat_Transport_02_base_F')
+	) then {
 		_u setVariable ['QS_vehicle_lift',21000,TRUE];
 	};
 };
@@ -568,6 +577,9 @@ if (_u isKindOf 'Air') then {
 		if (_t2 isKindOf 'Heli_Transport_03_base_F') then {
 			_u setVariable ['turretL_locked',FALSE,TRUE];
 			_u setVariable ['turretR_locked',FALSE,TRUE];
+		};
+		if (_t2 isKindOf 'Heli_Light_01_base_F') then {
+			_u setVariable ['QS_logistics_packable',TRUE,TRUE];
 		};
 	};
 } else {
