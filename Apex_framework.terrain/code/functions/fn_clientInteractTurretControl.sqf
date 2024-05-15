@@ -15,7 +15,7 @@ _______________________________________________*/
 
 private _v = vehicle player;
 QS_turretActions = [];
-if (isNil {_v getVariable 'QS_turretSafety'}) then {
+if (_v isNil 'QS_turretSafety') then {
 	_v setVariable ['QS_turretSafety',TRUE,TRUE];
 	_v setVariable ['QS_turretL_locked',FALSE,TRUE];
 	_v setVariable ['QS_turretR_locked',FALSE,TRUE];

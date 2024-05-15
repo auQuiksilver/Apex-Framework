@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	25/04/2023 A3 2.12 by Quiksilver
+	26/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -350,7 +350,7 @@ if (_preset isEqualTo 8) then {
 					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
 					_enemySides = QS_player call QS_fnc_enemySides;
-					if (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []) then {
+					if (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isEqualTo []) then {
 						private _tickets = _deploymentLocationData getVariable ['QS_deploy_tickets',0];
 						_tickets = (_tickets - 1) max 0;
 						_deploymentLocationData setVariable ['QS_deploy_tickets',_tickets,TRUE];
@@ -371,7 +371,7 @@ if (_preset isEqualTo 8) then {
 					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
 					_enemySides = QS_player call QS_fnc_enemySides;
-					_positionClear = (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []);
+					_positionClear = (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isEqualTo []);
 					if (!(_positionClear)) then {
 						50 cutText [localize 'STR_QS_Text_433','PLAIN DOWN',0.3,TRUE,TRUE];
 					};
@@ -416,11 +416,7 @@ if (_preset isEqualTo 8) then {
 			_systems_id = (QS_logistics_deployedAssets # _assetsIndex) # 2;
 			['REMOVE',_systems_id] call QS_fnc_deployment;
 			if (_assets isNotEqualTo []) then {
-				{
-					if (_x isEqualType objNull) then {
-						deleteVehicle _x;
-					};
-				} forEach _assets;
+				deleteVehicle _assets;
 			};
 			QS_logistics_deployedAssets deleteAt _assetsIndex;
 		};
@@ -665,7 +661,7 @@ if (_preset isEqualTo 16) then {
 					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
 					_enemySides = QS_player call QS_fnc_enemySides;
-					if (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []) then {
+					if (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isEqualTo []) then {
 						private _tickets = _deploymentLocationData getVariable ['QS_deploy_tickets',0];
 						_tickets = (_tickets - 1) max 0;
 						_deploymentLocationData setVariable ['QS_deploy_tickets',_tickets,TRUE];
@@ -679,7 +675,7 @@ if (_preset isEqualTo 16) then {
 					params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 					_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
 					_enemySides = QS_player call QS_fnc_enemySides;
-					_positionClear = (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []);
+					_positionClear = (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isEqualTo []);
 					if (!(_positionClear)) then {
 						50 cutText [localize 'STR_QS_Text_433','PLAIN DOWN',0.3,TRUE,TRUE];
 					};
@@ -730,11 +726,7 @@ if (_preset isEqualTo 16) then {
 			['REMOVE',_systems_id] call QS_fnc_zoneManager;
 			['REMOVE',_systems_id] call QS_fnc_deployment;
 			if (_assets isNotEqualTo []) then {
-				{
-					if (_x isEqualType objNull) then {
-						deleteVehicle _x;
-					};
-				} forEach _assets;
+				deleteVehicle _assets;
 			};
 			QS_logistics_deployedAssets deleteAt _assetsIndex;
 		};
@@ -793,5 +785,48 @@ if (_preset isEqualTo 17) then {
 			deleteVehicle _this;
 		};
 	};
+};
+if (_preset isEqualTo 18) then {
+	
+};
+if (_preset isEqualTo 19) then {
+	//comment 'Fortifications - Firebase';
+	if (_deploy) then {
+		_vehicle allowDamage FALSE;
+		_vehicle enableVehicleCargo FALSE;
+		_vehicle enableRopeAttach FALSE;
+		_vehicle enableDynamicSimulation FALSE;
+		_vehicle setVariable ['QS_dynSim_ignore',TRUE,TRUE];
+		_vehicle enableSimulationGlobal FALSE;
+		{
+			_vehicle setVariable _x;
+		} forEach [
+			['QS_logistics_immovable',TRUE,TRUE],
+			['QS_logistics',FALSE,TRUE]
+		];
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			([14] call QS_data_virtualCargoPresets)
+		] call QS_fnc_virtualVehicleCargo;
+		QS_logistics_deployedAssets pushBackUnique [_vehicle,[],''];
+	} else {
+		[
+			'SET_VCARGO_SERVER',
+			_vehicle,
+			[]
+		] call QS_fnc_virtualVehicleCargo;
+		_vehicle enableVehicleCargo TRUE;
+		_vehicle enableRopeAttach TRUE;
+		_vehicle enableDynamicSimulation TRUE;
+		_vehicle setVariable ['QS_dynSim_ignore',FALSE,TRUE];
+		_vehicle enableSimulationGlobal TRUE;
+		{
+			_vehicle setVariable _x;
+		} forEach [
+			['QS_logistics_immovable',FALSE,TRUE],
+			['QS_logistics',TRUE,TRUE]
+		];		
+	};	
 };
 _vehicle;

@@ -21,7 +21,11 @@ if (_type isEqualType []) exitWith {
 	} forEach _this;
 };
 if (_type isEqualTo 'switchMove') exitWith {
-	_1 switchMove _2;
+	if (_2 isEqualType []) then {
+		_1 switchMove _2;
+	} else {
+		_1 switchMove [_2];
+	};
 };
 if (_type isEqualTo 'sideChat') exitWith {
 	_1 sideChat _2;

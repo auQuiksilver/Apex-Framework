@@ -88,7 +88,7 @@ _gunner addEventHandler [
 				(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
 			};
 		};
-		if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+		if (missionNamespace isNil 'QS_enemy_mortarFireMessage') then {
 			missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 		};
 		(vehicle (_this # 0)) setVehicleAmmo 1;

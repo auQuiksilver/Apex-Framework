@@ -31,9 +31,7 @@ if ((_entity getVariable ['QS_entity_sumDmg',0]) >= (_entity getVariable ['QS_en
 			deleteVehicle _x;
 		} forEach (attachedObjects _attachedTo);
 	};
-	{
-		deleteVehicle _x;
-	} forEach ((_this # 0) getVariable ['QS_entity_assocObjects',[]]);
+	deleteVehicle ((_this # 0) getVariable ['QS_entity_assocObjects',[]]);
 	deleteVehicle (_this # 0);
 	_craterType = selectRandomWeighted ['CraterLong',0.666,'CraterLong_small',0.333];
 	_info = QS_hashmap_simpleObjectInfo getOrDefault [_craterType,[]];

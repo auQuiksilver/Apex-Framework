@@ -56,7 +56,7 @@ if (_state isEqualTo 1) then {
 		_unit setUnconscious TRUE;
 		_unit spawn {
 			uiSleep 6;
-			['switchMove',_this,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+			['switchMove',_this,['acts_InjuredLyingRifle02']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 		};
 		_unit setCaptive TRUE;
 		{
@@ -90,7 +90,7 @@ if (_state isEqualTo 1) then {
 			}
 		];
 		for '_x' from 0 to 1 step 1 do {
-			_unit switchMove 'AinjPpneMstpSnonWnonDnon';
+			_unit switchMove ['AinjPpneMstpSnonWnonDnon'];
 			{
 				_unit setVariable _x;					// To Do: Optimise this
 			} forEach [

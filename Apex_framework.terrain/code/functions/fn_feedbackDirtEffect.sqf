@@ -19,7 +19,7 @@ if ((!(missionNamespace getVariable 'BIS_performingDustPP'))  && (isAbleToBreath
 	0 spawn {
 		scriptName 'BIS dirtEffect';
 		disableSerialization;
-		if (isnil {uinamespace getvariable 'RscHealthTextures'}) then {
+		if (uiNamespace isNil 'RscHealthTextures') then {
 			uinamespace setvariable ['RscHealthTextures',displaynull];
 		};
 		if (isnull (uinamespace getvariable 'RscHealthTextures')) then {

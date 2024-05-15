@@ -11,14 +11,12 @@ Last modified:
 Description:
 
 	-
-	
-	private _fireDamage = getBurningValue player;
 __________________________________________________*/
 
 if (!canSuspend) exitWith {};
 scriptName "fn_flamesEffect_mainLoop";
 disableSerialization;
-if (isnil {uinamespace getvariable "RscHealthTextures"}) then {uinamespace setvariable ["RscHealthTextures",displaynull]};
+if (uiNamespace isNil 'RscHealthTextures') then {uinamespace setvariable ["RscHealthTextures",displaynull]};
 if (isnull (uinamespace getvariable "RscHealthTextures")) then {(["HealthPP_fire"] call bis_fnc_rscLayer) cutrsc ["RscHealthTextures","plain"]};
 private ['_ctrl','_pos'];
 for '_i' from 1 to 10 do {

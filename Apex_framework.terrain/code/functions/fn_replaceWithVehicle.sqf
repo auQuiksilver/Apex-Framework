@@ -16,15 +16,10 @@ ____________________________________________________________________________/*/
 params ['','_prop','_clientOwner','_clientObject','_clientUID'];
 if (!isNull _prop) then {
 	if (isSimpleObject _prop) then {
-		if (!isNil {_prop getVariable 'QS_vehicle_easterEgg'}) then {
+		if !(_prop isNil 'QS_vehicle_easterEgg') then {
 			_position = getPosATL _prop;
 			_vectorDirAndUp = [(vectorDir _prop),(vectorUp _prop)];
 			_type = typeOf _prop;
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
 			deleteVehicle _prop;
 			_v = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _type,_type],[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
 			_v setVectorDirAndUp _vectorDirAndUp;
@@ -79,7 +74,6 @@ if (!isNull _prop) then {
 					['_wreckChance',0],
 					['_wreckCond',{TRUE}]
 				];
-				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _prop;
 				_v = createVehicle [QS_core_vehicles_map getOrDefault [toLowerANSI _t,_t],[(random -1000),(random -1000),(1000 + (random 1000))],[],0,'NONE'];
 				if (_dir isEqualType 0) then {

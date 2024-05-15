@@ -13,4 +13,5 @@ Description:
 	Group Deleted event
 __________________________________________________*/
 
-params ['_group'];
+//params ['_group'];
+QS_analytics_groups_deleted = QS_analytics_groups_deleted + 1;

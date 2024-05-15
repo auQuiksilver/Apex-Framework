@@ -51,7 +51,7 @@ if (_type isEqualTo 'CAManBase') exitWith {
 	};
 };
 if (_type isEqualTo 'LAND') exitWith {
-	if (((vectorUp _vehicle) # 2) < 0.1) then {
+	if (_vehicle getEntityInfo 6) then {
 		if (_vehicle isKindOf 'LandVehicle') then {
 			private _toggleSimulation = FALSE;
 			if (!simulationEnabled _vehicle) then {

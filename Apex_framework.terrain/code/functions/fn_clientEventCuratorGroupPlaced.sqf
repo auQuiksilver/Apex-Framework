@@ -75,10 +75,3 @@ if (!isNull (objectParent (leader _group))) then {
 		};
 	};
 };
-{
-	if (local _x) then {
-		if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
-			deleteGroup _x;
-		};
-	};
-} count allGroups;

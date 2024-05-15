@@ -223,7 +223,7 @@ for '_z' from 0 to 1 step 0 do {
 				_unitType = selectRandomWeighted _unitsList;
 				_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[-500,-500,0],[],0,'FORM'];
 				_unit enableAIFeature ['ANIM',FALSE];
-				_unit switchMove 'amovppnemstpsraswrfldnon';
+				_unit switchMove ['amovppnemstpsraswrfldnon'];
 				sleep (diag_deltaTime * 3);
 				_unit setVehiclePosition [AGLToASL _spawnPos,[],0,'NONE'];
 				_unit setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
@@ -313,7 +313,7 @@ if (!isNull _selectedDeployment) then {
 };
 if (_selectedDeployment getVariable ['QS_deploy_assaultTerminate',FALSE]) then {
 	_selectedDeployment setVariable ['QS_deploy_assaultTerminate',FALSE,FALSE];
-	{deleteVehicle _x} forEach _enemyArray;
+	deleteVehicle _enemyArray;
 } else {
 	_enemyArray spawn {
 		{
@@ -321,10 +321,6 @@ if (_selectedDeployment getVariable ['QS_deploy_assaultTerminate',FALSE]) then {
 			_x setUnitPos 'Down';
 		} forEach _this;
 		sleep 60;
-		{
-			if (alive _x) then {
-				deleteVehicle _x;
-			};
-		} forEach _this;
+		deleteVehicle (_this select {alive _x});
 	};
 };

@@ -142,13 +142,14 @@ if (_mode isEqualTo 'INIT') then {
 				if (_listOfFrontStuff isNotEqualTo []) then {
 					_QS_toDelete = [];
 					_craterDecals = ['crater_decals_1'] call QS_data_listOther;
+					_allDead = allDead;
 					{
 						_obj = _x;
 						_objType = typeOf _obj;
 						if (
 							(!isNull _obj) &&
 							{(!alive _obj)} &&
-							{(_obj in allDead)}
+							{(_obj in _allDead)}
 						) then {
 							_QS_toDelete pushBack _obj;
 						};
@@ -171,7 +172,7 @@ if (_mode isEqualTo 'INIT') then {
 						};
 					} forEach _listOfFrontStuff;
 					if (_QS_toDelete isNotEqualTo []) then {
-						{deleteVehicle _x} forEach _QS_toDelete;
+						deleteVehicle _QS_toDelete;
 						_QS_toDelete = [];
 					};
 				};

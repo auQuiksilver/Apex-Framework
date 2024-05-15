@@ -1014,8 +1014,9 @@ if (_type isEqualTo 'eject_junk_1') exitWith {
 if (_type isEqualTo 'protected_ruin_types_1') exitWith {
 	[
 		'land_cargo_tower_v1_ruins_f',
-		'land_cargo_tower_v3_ruins_f',
 		'land_cargo_tower_v2_ruins_f',
+		'land_cargo_tower_v3_ruins_f',
+		'land_cargo_tower_v4_ruins_f',
 		'land_radar_ruins_f'
 	]
 };

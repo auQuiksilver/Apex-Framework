@@ -34,6 +34,7 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 	_ctrlSelect = _display displayCtrl 1810;
 	_ctrlExit = _display displayCtrl 1811;
 	_ctrlListbox = _display displayCtrl _lbIDC;
+	_ctrlModel = _display displayCtrl 100;
 	_vehicle = uiNamespace getVariable ['QS_menuUnloadCargo_target',cursorObject];
 	uiNamespace setVariable ['QS_menuUnloadCargo_target',nil];
 	_vehiclePos = getPosWorld _vehicle;
@@ -49,7 +50,8 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 			(!isNull _x) &&
 			{((typeOf _x) isNotEqualTo '')} &&
 			{!(isSimpleObject _x)} &&
-			{(!((toLowerANSI (typeOf _x)) in ['#lightpoint']))}
+			{(!((toLowerANSI (typeOf _x)) in ['#lightpoint']))} &&
+			{(!(_x isKindOf 'Logic'))}
 		)
 	};
 	_attached = _attachedObjects1 apply {
@@ -60,6 +62,7 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 			(maxLoad _x)
 		]
 	};
+	private _dn = '';
 	private _virtualAttached = [];
 	private _virtualCargo = _vehicle getVariable ['QS_virtualCargo',[]];
 	if (
@@ -73,6 +76,9 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 					{(getText (configFile >> 'CfgVehicles' >> ((_x # 0) # 0) >> 'displayName'))},
 					TRUE
 				];
+				if ((toLowerANSI ((_x # 0) # 0)) isEqualTo 'areamarker_01_f') then {
+					_dn = localize 'STR_QS_Text_486';		// vehicle spawn pad
+				};
 				_virtualAttached pushBack [((_x # 0) # 0),_dn,_x # 1];
 			};
 		} forEach _virtualCargo;
@@ -98,7 +104,6 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 		(
 			!dialog ||
 			{(!alive _vehicle)} ||
-			//{(!simulationEnabled _vehicle)} ||
 			{(((getPosWorld _vehicle) distance _vehiclePos) > 5)} ||
 			{((lockedInventory _vehicle) && (isNull (objectParent (missionNamespace getvariable ['QS_player',objNull]))))} ||
 			{(_vehicle getVariable ['QS_lockedInventory',FALSE])}
@@ -144,6 +149,14 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 			};
 		}
 	];
+	
+	private _menuObject = objNull;
+	private _emptyModel = "\A3\Weapons_F\empty.p3d";
+	private _objectModel = _emptyModel;
+	private _modelScale = 1;
+	_modelScaleBase = 0.075;
+	_modelVector = [[0.0301068,0.0430097,0],[-0.0024624,-0.00172368,0.0524139]];
+	
 	for '_z' from 0 to 1 step 0 do {
 		uiSleep diag_deltaTime;
 		if (
@@ -217,9 +230,29 @@ if (_mode3 isEqualTo 'onLoad') exitWith {
 			_selectedIndex = lbCurSel (_display displayCtrl _lbIDC);
 			uiNamespace setVariable ['QS_client_menuUnloadCargo_selectedIndex',_selectedIndex];
 			if (_selectedIndex isNotEqualTo -1) then {
-				uiNamespace setVariable ['QS_client_menuUnloadCargo_object',(((_attached + _virtualAttached) # _selectedIndex) # 0)];
+				_menuObject = (((_attached + _virtualAttached) # _selectedIndex) # 0);
+				uiNamespace setVariable ['QS_client_menuUnloadCargo_object',_menuObject];
+				_objectModel = _emptyModel;
+				_modelScale = 1;
+				if (_menuObject isEqualType '') then {
+					_objectModel = getText (configFile >> 'CfgVehicles' >> _menuObject >> 'model');
+					_modelScale = getNumber (configFile >> 'CfgVehicles' >> _menuObject >> 'modelScale');
+				} else {
+					if (_menuObject isEqualType objNull) then {
+						_objectModel = getText ((configOf _menuObject) >> 'model');
+						_modelScale = getNumber ((configOf _menuObject) >> 'modelScale');
+					};
+				};
+				_ctrlModel ctrlSetModel _objectModel;
+				if (_modelScale isEqualTo 0) then {_modelScale = 1;};
+				_ctrlModel ctrlsetmodelscale (_modelScaleBase * _modelScale);
+				_ctrlModel ctrlsetmodeldirandup _modelVector;
+				_ctrlModel ctrlsetposition [0.75,1,0.75];
+				_ctrlModel ctrlCommit 0;
 			} else {
 				uiNamespace setVariable ['QS_client_menuUnloadCargo_object',objNull];
+				_ctrlModel ctrlSetModel _emptyModel;
+				_ctrlModel ctrlCommit 0;
 			};
 		};
 		_ctrlSelect ctrlEnable (
@@ -241,7 +274,11 @@ if (_mode3 isEqualTo 'onUnload') exitWith {
 
 };
 if (_mode3 isEqualTo 'Unload_1') exitWith {
-	//comment 'Unload to carry';
+	comment 'Unload to carry';
+	if (diag_tickTime < (uiNamespace getVariable ['QS_genericButtonCooldown',-1])) exitWith {
+		50 cutText [localize 'STR_QS_Text_371','PLAIN DOWN',0.25];
+	};
+	uiNamespace setVariable ['QS_genericButtonCooldown',diag_tickTime + 1];
 	_vehicle = uiNamespace getVariable ['QS_client_menuUnloadCargo_target',objNull];
 	_attached = uiNamespace getVariable ['QS_client_menuUnloadCargo_objects',[]];
 	_selectedIndex = uiNamespace getVariable ['QS_client_menuUnloadCargo_selectedIndex',-1];
@@ -263,7 +300,7 @@ if (_mode3 isEqualTo 'Unload_1') exitWith {
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_403','PLAIN DOWN',0.5];
 	};
-	([QS_player,'NO_BUILD'] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];		// To Do: Optimise
+	([QS_player,'NO_BUILD'] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];
 	if (
 		(_requestedObject isEqualType '') &&
 		_inBuildRestrictedZone && 
@@ -280,7 +317,11 @@ if (_mode3 isEqualTo 'Unload_1') exitWith {
 };
 if (_mode3 isEqualTo 'Unload_2') exitWith {
 	params ['','',['_placementMode',1]];
-	//comment 'Unload to ground';
+	comment 'Unload to ground';
+	if (diag_tickTime < (uiNamespace getVariable ['QS_genericButtonCooldown',-1])) exitWith {
+		50 cutText [localize 'STR_QS_Text_371','PLAIN DOWN',0.25];
+	};
+	uiNamespace setVariable ['QS_genericButtonCooldown',diag_tickTime + 1];
 	_vehicle = uiNamespace getVariable ['QS_client_menuUnloadCargo_target',objNull];
 	_attached = uiNamespace getVariable ['QS_client_menuUnloadCargo_objects',[]];
 	_selectedIndex = uiNamespace getVariable ['QS_client_menuUnloadCargo_selectedIndex',-1];
@@ -309,7 +350,7 @@ if (_mode3 isEqualTo 'Unload_2') exitWith {
 	) exitWith {
 		50 cutText [localize 'STR_QS_Text_403','PLAIN DOWN',0.5];
 	};
-	([QS_player,'NO_BUILD'] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];		// To Do: Optimise
+	([QS_player,'NO_BUILD'] call QS_fnc_inZone) params ['_inBuildRestrictedZone','_zoneLevel','_zoneActive'];
 	if (
 		(_requestedObject isEqualType '') &&
 		_inBuildRestrictedZone && 

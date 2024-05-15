@@ -736,6 +736,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Interact_148">
             <Original>Go</Original>
         </Key>
+        <Key ID="STR_QS_Interact_149">
+            <Original>Spawn Vehicle</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
         <Key ID="STR_QS_Text_000">
@@ -2732,6 +2735,30 @@ _____________________________________________________________-->
          <Key ID="STR_QS_Text_485">
             <Original>Parajump</Original>
 		</Key>
+         <Key ID="STR_QS_Text_486">
+            <Original>Vehicle Spawn Pad</Original>
+		</Key>
+         <Key ID="STR_QS_Text_487">
+            <Original>Position obstructed by: %1</Original>
+		</Key>
+         <Key ID="STR_QS_Text_488">
+            <Original>Global vehicle cap exceeded (%1)</Original>
+		</Key>
+       <Key ID="STR_QS_Text_489">
+            <Original>Enemy nearby - Vehicle Spawner unavailable</Original>
+		</Key>
+       <Key ID="STR_QS_Text_490">
+            <Original>Firebase</Original>
+		</Key>
+       <Key ID="STR_QS_Text_491">
+            <Original>Fire Support Base</Original>
+		</Key>
+       <Key ID="STR_QS_Text_492">
+            <Original>Vehicle Spawner in use - Please try again</Original>
+		</Key>
+        <Key ID="STR_QS_Text_493">
+            <Original>Over budget ( %1 / %2 )</Original>
+		</Key>       
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
@@ -4462,6 +4489,9 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Chat_182">
             <Original>%1 packed up a wrecked %2 at grid %3</Original>
+        </Key>
+        <Key ID="STR_QS_Chat_183">
+            <Original>Removing curator selected</Original>
         </Key>
     </Container>
     <Container name="QS_xml_notifications">
@@ -8829,6 +8859,12 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Dialogs_111">
             <Original>Disabled in server parameters</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_112">
+            <Original>Vehicles</Original>
+        </Key>
+        <Key ID="STR_QS_Dialogs_113">
+            <Original>Spawn</Original>
         </Key>
     </Container>
 </Project>

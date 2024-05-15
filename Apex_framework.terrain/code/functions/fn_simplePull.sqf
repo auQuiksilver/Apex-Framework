@@ -462,7 +462,6 @@ if (
 					private _weakLink = objNull;
 					private _weakLinkMass = 0;
 					private _priorLink = objNull;
-					private _canFloat = 0;
 					_length = FALSE;
 					_flipped = FALSE;
 					_water = FALSE;
@@ -486,16 +485,10 @@ if (
 							_weakLink = _entity;
 						};
 						if (((getPosASL _entity) # 2) < -1) then {
-							_canFloat = _entity getVariable ['QS_vehicle_canFloat',-1];
-							if (_canFloat isEqualTo -1) then {
-								_canFloat = QS_hashmap_configfile getOrDefaultCall [
-									format ['cfgvehicles_%1_canfloat',toLowerANSI (typeOf _entity)],
-									{getNumber ((configOf _entity) >> 'canFloat')},
-									TRUE
-								];
-								_entity setVariable ['QS_vehicle_canFloat',_canFloat,TRUE];
-							};
-							if (_canFloat < 1) then {
+							if (
+								(!(_entity getEntityInfo 9)) &&
+								(waterDamaged _entity)
+							) then {
 								_water = TRUE;
 								_weakLink = _entity;
 							};
@@ -614,12 +607,7 @@ if (_mode isEqualTo 'MODE18') exitWith {
 			(_parentType isEqualTo 'SHIP') &&
 			{(!(_child isKindOf 'Ship'))}
 		) then {
-			_canfloat = QS_hashmap_configfile getOrDefaultCall [
-				format ['cfgvehicles_%1_canfloat',toLowerANSI (typeOf _child)],
-				{getNumber ((configOf _child) >> 'canFloat')},
-				TRUE
-			];
-			_return = _canfloat > 0;
+			_return = _child getEntityInfo 9;
 		};
 	};
 	_return;

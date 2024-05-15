@@ -12,6 +12,8 @@ Description:
 
 	Client Core
 ________________________________________________/*/
+
+privateAll;
 private [
 	'_QS_module_liveFeed_checkDelay','_QS_liveFeed_display',
 	'_QS_liveFeed_vehicle','_QS_liveFeed_vehicle_current','_QS_liveFeed_camera','_QS_nullPos','_screenPos','_QS_liveFeed_text','_QS_module_liveFeed_noSignalFile',
@@ -20,7 +22,7 @@ private [
 	'_QS_RD_client_viewSettings_object','_QS_RD_client_viewSettings_shadow','_QS_RD_client_viewSettings_grass','_QS_RD_client_viewSettings_environment',
 	'_mainMenuOpen','_QS_clientHp','_QS_clientMass','_QS_fpsLastPull','_mainMenuIDD','_QS_clientSideScore','_QS_clientScore',
 	'_QS_rating','_viewMenuOpen','_viewMenuIDD','_viewDistance','_objectViewDistance','_shadowDistance','_clientViewSettings','_QS_module_crewIndicator',
-	'_QS_module_crewIndicator_delay','_QS_module_crewIndicator_checkDelay','_QS_crewIndicatorIDD','_QS_crewIndicatorIDC','_QS_crewIndicator','_QS_crewIndicatorUI',
+	'_QS_module_crewIndicator_delay','_QS_module_crewIndicator_checkDelay','_QS_crewIndicatorIDD','_QS_crewIndicatorIDC','_QS_crewIndicator',
 	'_QS_crewIndicator_imgDriver','_QS_crewIndicator_imgGunner','_QS_crewIndicator_imgCommander','_QS_crewIndicator_imgCargo','_QS_crewIndicator_imgSize','_QS_crewIndicator_color',
 	'_QS_crewIndicator_colorHTML','_QS_crewIndicator_imgColor','_QS_crewIndicator_textColor','_QS_crewIndicator_textFont','_QS_crewIndicator_textSize','_crewManifest',
 	'_QS_crewIndicator_shown','_fullCrew','_index','_QS_module_fuelConsumption','_QS_module_fuelConsumption_checkDelay','_QS_module_fuelConsumption_factor_2',
@@ -193,6 +195,7 @@ private _weaponItems = [];
 private _emitters = ['weaponlight_emitters_1'] call QS_data_listItems;
 private _laserBatteryClasses = qs_core_classnames_laserbatteries;
 private _recoveryVehicleTypes = ['crv',0] call QS_data_listVehicles;
+private _allGroups = allGroups;
 
 _fn_inString = missionNamespace getVariable 'QS_fnc_inString';
 if (_QS_isAdmin) then {
@@ -220,7 +223,8 @@ uiNamespace setVariable ['QS_RD_viewSettings_update',TRUE];
 _deltaVD_script = scriptNull;
 _fadeView = FALSE;
 _QS_viewSettings_var = format ['QS_RD_client_viewSettings_%1',_QS_worldName];
-if (isNil {missionProfileNamespace getVariable _QS_viewSettings_var}) then {
+
+if (missionProfileNamespace isNil _QS_viewSettings_var) then {
 	_revalidate = TRUE;
 } else {
 	_QS_RD_client_viewSettings = missionProfileNamespace getVariable [_QS_viewSettings_var,[]];
@@ -437,6 +441,11 @@ private _QS_interaction_deployment = FALSE;
 private _QS_action_deployment = nil;
 private _QS_action_deploymentText = localize 'STR_QS_Menu_199';
 private _QS_action_deployment_array = [_QS_action_deploymentText,{['INTERACT'] call (missionNamespace getVariable 'QS_fnc_clientInteractDeploy')},[],88,TRUE,TRUE,'','TRUE',-1,FALSE,''];
+/*/===== Vehicle Spawner/*/
+private _QS_action_vehicleSpawner = nil;
+private _QS_action_vehicleSpawner_text = localize 'STR_QS_Interact_149';
+private _QS_action_vehicleSpawner_array = [_QS_action_vehicleSpawner_text,{_this spawn (missionNamespace getVariable 'QS_fnc_clientInteractSpawnAsset')},nil,49,FALSE,TRUE,'','TRUE',-1,FALSE,''];
+private _QS_interaction_vehicleSpawner = FALSE;
 /*/===== Utility offroad/*/
 _QS_action_utilityOffroad = nil;
 _QS_action_utilityOffroad_textOn = localize 'STR_QS_Interact_019';
@@ -797,7 +806,6 @@ if (_QS_module_crewIndicator) then {
 	_QS_crewIndicatorIDD = 6000;
 	_QS_crewIndicatorIDC = 1001;
 	_QS_crewIndicator = controlNull;
-	_QS_crewIndicatorUI = uiNamespace getVariable ['QS_RD_client_dialog_crewIndicator',nil];
 	_QS_crewIndicator_imgDriver = str '\a3\ui_f\data\IGUI\RscIngameUI\RscUnitInfo\role_driver_ca.paa';
 	_QS_crewIndicator_imgGunner = str '\a3\ui_f\data\IGUI\RscIngameUI\RscUnitInfo\role_gunner_ca.paa';
 	_QS_crewIndicator_imgCommander = str '\a3\ui_f\data\IGUI\RscIngameUI\RscUnitInfo\role_commander_ca.paa';
@@ -886,6 +894,13 @@ _QS_clientRankManager = TRUE;
 _QS_clientRankManager_delay = _timeNow + 10;
 player setRank 'PRIVATE';
 /*/============= CLIENT GROUP MANAGER/*/
+
+private _groupCleanup = TRUE;
+private _groupCleanupDelay = 60;
+private _groupCleanupCheckDelay = -1;
+
+
+
 _QS_clientDynamicGroups = TRUE;
 private _QS_groupWaypoint = missionNamespace getVariable ['QS_missionConfig_groupWaypoint',FALSE];
 _QS_clientDynamicGroups_delay = 10;
@@ -981,10 +996,10 @@ _QS_module_texture = TRUE;
 _QS_module_texture_delay = 20;
 _QS_module_texture_checkDelay = _timeNow + _QS_module_texture_delay;
 _myV = objNull;
-if (isNil {player getVariable 'QS_ClientUTexture2'}) then {
+if (player isNil 'QS_ClientUTexture2') then {
 	player setVariable ['QS_ClientUTexture2','',FALSE];
 };
-if (isNil {player getVariable 'QS_ClientUTexture2_Uniforms2'}) then {
+if (player isNil 'QS_ClientUTexture2_Uniforms2') then {
 	player setVariable ['QS_ClientUTexture2_Uniforms2',[],FALSE];
 };
 player setVariable ['QS_ClientVTexture',[_myV,_puid,'',(_timeNow + 5)],FALSE];
@@ -1511,7 +1526,7 @@ _baseMarkers = ['markers_base_hide_1'] call QS_data_listOther;
 ];
 0 spawn {
 	scriptName 'QS - Add KeyDown Event';
-	if (!isNil {missionNamespace getVariable 'QS_uiEvent_magRepack'}) then {
+	if !(missionNamespace isNil 'QS_uiEvent_magRepack') then {
 		(findDisplay 46) displayRemoveEventHandler ['KeyDown',(missionNamespace getVariable 'QS_uiEvent_magRepack')];
 	};
 	for '_x' from 0 to 1 step 0 do {
@@ -1588,7 +1603,7 @@ waitUntil {scriptDone _respawnScript};
 	50 cutText ['','BLACK IN',1,TRUE];
 	1 fadeSound _soundVolume;
 	uiSleep 0.01;
-	player switchMove '';
+	player switchMove [''];
 	if (missionNamespace getVariable ['QS_missionConfig_splash',TRUE]) then {
 		createDialog 'QS_RD_client_dialog_menu_entry';
 	};
@@ -1712,6 +1727,7 @@ _fn_getObjectVolume = missionNamespace getVariable 'QS_fnc_getObjectVolume';
 _fn_eventAttach = missionNamespace getVariable 'QS_fnc_eventAttach';
 
 /*/================================================================================================================= LOOP/*/
+
 for '_z' from 0 to 1 step 0 do {
 	_QS_uiTime = diag_tickTime;
 	_timeNow = time;
@@ -1888,7 +1904,7 @@ for '_z' from 0 to 1 step 0 do {
 				};
 				_fadeView = cameraOn isNotEqualTo _QS_cameraOn;
 				_QS_cameraOn = cameraOn;
-				if (!isNil {_QS_player getVariable _QS_viewSettings_var}) then {
+				if !(_QS_player isNil _QS_viewSettings_var) then {
 					_viewDistance = viewDistance;
 					_objectViewDistance = getObjectViewDistance # 0;
 					_shadowDistance = getShadowDistance;
@@ -2552,7 +2568,7 @@ for '_z' from 0 to 1 step 0 do {
 				{_isMissionCursorObject} &&
 				{((['LandVehicle','StaticWeapon','Reammobox_F','Ship','Cargo_base_F']findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
 				{(((_cursorObjectDistance <= 2) && (_cursorObject isEqualTo _cursorTarget)) || {(((toLowerANSI _QS_v2Type) in _recoveryVehicleTypes) && (_cursorObjectDistance <= 15))})} &&
-				{(((vectorUp _cursorObject) # 2) < 0.3)}
+				{(_cursorObject getEntityInfo 6)}
 			) then {
 				if (!(_QS_interaction_unflipVehicle)) then {
 					_QS_interaction_unflipVehicle = _true;
@@ -2648,6 +2664,26 @@ for '_z' from 0 to 1 step 0 do {
 				if (_QS_interaction_deployment) then {
 					_QS_interaction_deployment = _false;
 					player removeAction _QS_action_deployment;
+				};
+			};
+			
+			/*/===== Vehicle Spawner/*/
+			if (
+				(_noObjectParent) &&
+				{_isMissionCursorObject} &&
+				{(_cursorObjectDistance < 15)} &&
+				{(!isNull (_cursorObject getVariable ['QS_vehicleSpawnPad',_objNull]))} &&
+				{(((vectorMagnitude (velocity _cursorObject)) * 3.6) < 1)}
+			) then {
+				if (!(_QS_interaction_vehicleSpawner)) then {
+					_QS_interaction_vehicleSpawner = _true;
+					_QS_action_vehicleSpawner = player addAction _QS_action_vehicleSpawner_array;
+					player setUserActionText [_QS_action_vehicleSpawner,_QS_action_vehicleSpawner_text,(format ["<t size='3'>%1</t>",_QS_action_vehicleSpawner_text])];
+				};
+			} else {
+				if (_QS_interaction_vehicleSpawner) then {
+					_QS_interaction_vehicleSpawner = _false;
+					player removeAction _QS_action_vehicleSpawner;
 				};
 			};
 
@@ -3747,7 +3783,7 @@ for '_z' from 0 to 1 step 0 do {
 								{((selectMax ((getAllHitPointsDamage _QS_ugvSD) # 2)) > 0.5)}
 							} || 
 							{
-								(((vectorUp _QS_ugvSD) # 2) < 0.1)
+								(_QS_ugvSD getEntityInfo 6)
 							}
 						)}
 					) then {
@@ -4245,7 +4281,7 @@ for '_z' from 0 to 1 step 0 do {
 							{(!alive _x)}
 						) then {
 							[0,_x] call QS_fnc_eventAttach;
-							['switchMove',_QS_player,''] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
+							['switchMove',_QS_player,['']] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 							if (_x getVariable ['QS_RD_carried',_false]) then {
 								_QS_player setVariable ['QS_RD_carrying',_false,_true];
 								_QS_player setVariable ['QS_RD_interacting',_false,_true];
@@ -4456,7 +4492,7 @@ for '_z' from 0 to 1 step 0 do {
 	};
 	
 	/*/========== Fuel consumption module/*/
-
+	
 	if (_QS_module_fuelConsumption) then {
 		if (_timeNow > _QS_module_fuelConsumption_checkDelay) then {
 			if (
@@ -4525,78 +4561,73 @@ for '_z' from 0 to 1 step 0 do {
 					_QS_crewIndicator_shown = _true;
 					_QS_crewIndicatorIDD cutRsc ['QS_RD_dialog_crewIndicator','PLAIN'];
 				};
-				_QS_crewIndicatorUI = uiNamespace getVariable 'QS_RD_client_dialog_crewIndicator';
-				if (!isNil {_QS_crewIndicatorUI}) then {
-					_QS_crewIndicator = _QS_crewIndicatorUI displayCtrl _QS_crewIndicatorIDC;
+				if !(uiNamespace isNil 'QS_RD_client_dialog_crewIndicator') then {
+					_QS_crewIndicator = (uiNamespace getVariable 'QS_RD_client_dialog_crewIndicator') displayCtrl _QS_crewIndicatorIDC;
 					if (alive _QS_cO) then {
 						_fullCrew = fullCrew _QS_cO;
-						if (_fullCrew isNotEqualTo []) then {
-							if (({(alive (_x # 0))} count _fullCrew) > 1) then {
-								_crewManifest = '';
-								for '_y' from 0 to ((count _fullCrew) - 1) step 1 do {
-									(_fullCrew # _y) params ['_unit','_role','','_turretPath','_personTurret'];
-									_text = '';
-									_roleImg = '';
-									_roleIcon = '';
-									if (isPlayer _unit) then {
-										_roleIcon = str (_unit getVariable ['QS_unit_role_icon','\a3\ui_f\data\map\vehicleicons\iconMan_ca.paa']);
-									} else {
-										_roleIcon = _unit getVariable ['QS_unit_role_icon',''];
-										if (_roleIcon isEqualTo '') then {
-											_genericResult = QS_hashmap_configfile getOrDefaultCall [
-												format ['cfgvehicles_%1_icon',toLowerANSI (typeOf _unit)],
-												{getText ((configOf _unit) >> 'icon')},
-												_true
-											];
-											_roleIcon = format ['a3\ui_f\data\map\vehicleicons\%1_ca.paa',_genericResult];
-											_unit setVariable ['QS_unit_role_icon',_roleIcon,_false];
-										};
-										_roleIcon = str _roleIcon;
+						if (
+							(_fullCrew isNotEqualTo []) &&
+							(({(alive (_x # 0))} count _fullCrew) > 1)
+						) then {
+							_crewManifest = '';
+							for '_y' from 0 to ((count _fullCrew) - 1) step 1 do {
+								(_fullCrew # _y) params ['_unit','_role','','_turretPath','_personTurret'];
+								_text = '';
+								_roleImg = '';
+								_roleIcon = '';
+								if (isPlayer _unit) then {
+									_roleIcon = str (_unit getVariable ['QS_unit_role_icon','\a3\ui_f\data\map\vehicleicons\iconMan_ca.paa']);
+								} else {
+									_roleIcon = _unit getVariable ['QS_unit_role_icon',''];
+									if (_roleIcon isEqualTo '') then {
+										_genericResult = QS_hashmap_configfile getOrDefaultCall [
+											format ['cfgvehicles_%1_icon',toLowerANSI (typeOf _unit)],
+											{getText ((configOf _unit) >> 'icon')},
+											_true
+										];
+										_roleIcon = format ['a3\ui_f\data\map\vehicleicons\%1_ca.paa',_genericResult];
+										_unit setVariable ['QS_unit_role_icon',_roleIcon,_false];
 									};
-									_unitName = name _unit;
-									if (
-										(_unitName isNotEqualTo 'Error: No unit') &&
-										(!('UAV' in (typeOf _unit)))
-									) then {
-										if ((_role isEqualTo 'driver') || {(_unit isEqualTo (currentPilot _QS_cO))}) then {
-											_roleImg = _QS_crewIndicator_imgDriver;
+									_roleIcon = str _roleIcon;
+								};
+								_unitName = name _unit;
+								if (
+									((toLower _unitName) isNotEqualTo 'error: no unit') &&
+									(!('UAV' in (typeOf _unit)))
+								) then {
+									if ((_role isEqualTo 'driver') || {(_unit isEqualTo (currentPilot _QS_cO))}) then {
+										_roleImg = _QS_crewIndicator_imgDriver;
+									} else {
+										if (_role isEqualTo 'commander') then {
+											_roleImg = _QS_crewIndicator_imgCommander;
 										} else {
-											if (_role isEqualTo 'commander') then {
-												_roleImg = _QS_crewIndicator_imgCommander;
+											if (_role isEqualTo 'gunner') then {
+												_roleImg = _QS_crewIndicator_imgGunner;
 											} else {
-												if (_role isEqualTo 'gunner') then {
-													_roleImg = _QS_crewIndicator_imgGunner;
+												if (_role isEqualTo 'turret') then {
+													_roleImg = [_QS_crewIndicator_imgCargo,_QS_crewIndicator_imgGunner] select _personTurret;
 												} else {
-													if (_role isEqualTo 'turret') then {
-														_roleImg = [_QS_crewIndicator_imgCargo,_QS_crewIndicator_imgGunner] select _personTurret;
-													} else {
-														if (_role isEqualTo 'cargo') then {
-															_roleImg = _QS_crewIndicator_imgCargo;
-														};
+													if (_role isEqualTo 'cargo') then {
+														_roleImg = _QS_crewIndicator_imgCargo;
 													};
 												};
 											};
 										};
-										if (_role isNotEqualTo 'driver') then {
-											if (_turretPath isNotEqualTo []) then {
-												_text = format ["<img image=%1/><t size='0.666'>%2</t> <img size='0.75' image=%3/> <t size='0.75'>%4</t><br/>",_roleImg,(_turretPath # 0),_roleIcon,_unitName];
-											} else {
-												_text = format ["<img image=%1/> <img size='0.75' image=%2/> <t size='0.75'>%3</t> <br/>",_roleImg,_roleIcon,_unitName];
-											};
-										} else {
-											_text = format ["<img image=%1/> <img size='0.75' image=%2/> <t size='1'>%3</t><br/>",_roleImg,_roleIcon,_unitName];
-										};
-										_crewManifest = _crewManifest + _text;
 									};
-								};
-								_QS_crewIndicator ctrlSetTextColor _QS_crewIndicator_color;
-								_QS_crewIndicator ctrlSetStructuredText (parseText _crewManifest);
-							} else {
-								if (_QS_crewIndicator_shown) then {
-									_QS_crewIndicator_shown = _false;
-									_QS_crewIndicatorIDD cutText ['','PLAIN'];
+									if (_role isNotEqualTo 'driver') then {
+										if (_turretPath isNotEqualTo []) then {
+											_text = format ["<img image=%1/><t size='0.666'>%2</t> <img size='0.75' image=%3/> <t size='0.75'>%4</t><br/>",_roleImg,(_turretPath # 0),_roleIcon,_unitName];
+										} else {
+											_text = format ["<img image=%1/> <img size='0.75' image=%2/> <t size='0.75'>%3</t> <br/>",_roleImg,_roleIcon,_unitName];
+										};
+									} else {
+										_text = format ["<img image=%1/> <img size='0.75' image=%2/> <t size='1'>%3</t><br/>",_roleImg,_roleIcon,_unitName];
+									};
+									_crewManifest = _crewManifest + _text;
 								};
 							};
+							_QS_crewIndicator ctrlSetTextColor _QS_crewIndicator_color;
+							_QS_crewIndicator ctrlSetStructuredText (parseText _crewManifest);
 						} else {
 							if (_QS_crewIndicator_shown) then {
 								_QS_crewIndicator_shown = _false;
@@ -4661,6 +4692,54 @@ for '_z' from 0 to 1 step 0 do {
 	
 	/*/=========== CLIENT GROUP MANAGER /*/
 
+	if (_groupCleanup) then {
+		if (_timeNow > _groupCleanupCheckDelay) then {
+			_groupCleanupCheckDelay = _timeNow + _groupCleanupDelay;
+			// Handle Groups
+			_allGroups = allGroups select {(!(_x getVariable ['QS_cleanup_protected',_false]))};
+			{
+				if (local _x) then {
+					if (_x isNil 'QS_allGroups_reg') then {
+						_x setVariable ['QS_allGroups_reg',_true,_false];
+						if (!isGroupDeletedWhenEmpty _x) then {
+							_x deleteGroupWhenEmpty _true;
+						};
+					};
+					if ((units _x) isEqualTo []) then {
+						if (_x isNil 'BIS_dg_reg') then {
+							if (!isGroupDeletedWhenEmpty _x) then {
+								_x deleteGroupWhenEmpty _true;
+							};
+						} else {
+							// to do
+							// handle now-local player groups
+							if (!isGroupDeletedWhenEmpty _x) then {
+								_x deleteGroupWhenEmpty _true;
+							};
+						};
+					};
+				} else {
+					if (_x isNil 'QS_allGroups_reg') then {
+						_x setVariable ['QS_allGroups_reg',_true,_false];
+						_x addEventHandler [
+							'Local',
+							{
+								params ['_grp'];
+								if (
+									(local _grp) &&
+									{(!(_grp getVariable ['QS_cleanup_protected',FALSE]))} &&
+									{(!isGroupDeletedWhenEmpty _grp)}
+								) then {
+									_grp deleteGroupWhenEmpty TRUE;
+								};
+							}
+						];
+					};
+				};
+			} forEach _allGroups;
+		};
+	};	
+
 	if (_QS_clientDynamicGroups) then {
 		if (
 			(!_groupLocking) &&
@@ -4671,27 +4750,11 @@ for '_z' from 0 to 1 step 0 do {
 		};
 		if (_timeNow > _QS_clientDynamicGroups_checkDelay) then {
 			_QS_playerGroup = group _QS_player;
-			if (isNil {_QS_playerGroup getVariable 'BIS_dg_ins'}) then {
-				_QS_playerGroup setVariable ['BIS_dg_ins','',_true];
+			if ((_QS_playerGroup getVariable ['BIS_dg_ins','']) isEqualTo '') then {
+				_QS_playerGroup setVariable ['BIS_dg_ins',(['LoadRandomInsignia'] call BIS_fnc_dynamicGroups),_true];
 			};
 			if (isNull (findDisplay 60490)) then {
 				if ((count _allPlayers) > 1) then {
-					/*/
-					if (
-						((count (units _QS_playerGroup)) < 2) &&
-						{(!(_QS_playerGroup getVariable [_QS_joinGroup_privateVar,_false]))} &&
-						{(!_inSafezone)}
-					) then {
-						{
-							_QS_clientDynamicGroups_testGrp = group _x;
-							if (!(_QS_clientDynamicGroups_testGrp getVariable [_QS_joinGroup_privateVar,_false])) then {
-								if ((count (units _QS_clientDynamicGroups_testGrp)) > 2) exitWith {
-									[_QS_player] joinSilent _QS_clientDynamicGroups_testGrp;
-								};
-							};
-						} count _allPlayers;
-					};
-					/*/
 					if (
 						(_QS_player isEqualTo (leader _QS_playerGroup)) &&
 						{((count (units (group _QS_player))) > 1)} //&&
@@ -4722,10 +4785,11 @@ for '_z' from 0 to 1 step 0 do {
 			if (!(_isLeader)) then {
 				if (_QS_player isEqualTo (leader _QS_playerGroup)) then {
 					_isLeader = _true;
-					if (_squadName isNotEqualTo '') then {
-						if ((groupId _QS_playerGroup) isNotEqualTo _squadName) then {
-							_QS_playerGroup setGroupIdGlobal [_squadName];
-						};
+					if (
+						(_squadName isNotEqualTo '') &&
+						{((groupId _QS_playerGroup) isNotEqualTo _squadName)}
+					) then {
+						_QS_playerGroup setGroupIdGlobal [_squadName];
 					};
 				};
 			} else {
@@ -4767,7 +4831,7 @@ for '_z' from 0 to 1 step 0 do {
 					};
 				};
 			};
-			if (!isNil {_QS_player getVariable 'QS_tto'}) then {
+			if !(_QS_player isNil 'QS_tto') then {
 				_QS_tto = _QS_player getVariable ['QS_tto',0];
 				if (_QS_tto > 7) then {
 

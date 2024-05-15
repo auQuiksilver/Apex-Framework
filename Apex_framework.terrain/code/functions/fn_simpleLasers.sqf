@@ -103,9 +103,7 @@ if (
 		} forEach _weapons;
 		_delete spawn {
 			sleep 0.25;
-			{
-				deleteVehicle _x;
-			} forEach _this;
+			deleteVehicle _this;
 		};
 	};
 	private _availableColors = [3] call QS_data_lasers;

@@ -269,18 +269,14 @@ if ((random 1) > _staticChance) then {
 		'Deleted',
 		{
 			params ['_tower'];
-			{
-				deleteVehicle _x;
-			} forEach (_tower getVariable ['QS_entity_assocEntities',[]]);
+			deleteVehicle (_tower getVariable ['QS_entity_assocEntities',[]]);
 		}
 	];
 	_tower addEventHandler [
 		'Killed',
 		{
 			params ['_tower'];
-			{
-				deleteVehicle _x;
-			} forEach (_tower getVariable ['QS_entity_assocEntities',[]]);
+			deleteVehicle (_tower getVariable ['QS_entity_assocEntities',[]]);
 		}
 	];
 	_tower setVectorUp [0,0,1];

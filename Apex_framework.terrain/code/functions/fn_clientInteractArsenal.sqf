@@ -21,7 +21,7 @@ if (
 		(!(_inSafezone)) ||
 		(_inSafezone && _safezoneActive && (_safezoneLevel < 2))
 	) &&
-	(((flatten (_enemySides apply {units _x})) inAreaArray [QS_player,300,300,0,FALSE,-1]) isNotEqualTo [])
+	(((flatten (_enemySides apply {units _x})) inAreaArray [QS_player,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isNotEqualTo [])
 ) exitWith {
 	50 cutText [localize 'STR_QS_Text_454','PLAIN DOWN',0.5];
 	FALSE;

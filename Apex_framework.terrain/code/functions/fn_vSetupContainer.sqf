@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	4/11/2023 A3 2.14 by Quiksilver
+	25/11/2023 A3 2.14 by Quiksilver
 
 Description:
 
@@ -155,6 +155,7 @@ if (_entity isKindOf 'Land_Cargo10_grey_F') exitWith {
 		['QS_ST_customDN',localize 'STR_QS_Text_451',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
+	['INIT',_entity] call (missionNamespace getVariable 'QS_fnc_baseSetBudget');
 	if (local _entity) then {
 		_entity setMass 2500;
 	} else {
@@ -176,6 +177,7 @@ if (_entity isKindOf 'Land_Cargo10_military_green_F') exitWith {
 		['QS_ST_customDN',localize 'STR_QS_Text_450',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
+	['INIT',_entity] call (missionNamespace getVariable 'QS_fnc_baseSetBudget');
 	if (local _entity) then {
 		_entity setMass 2500;
 	} else {
@@ -197,6 +199,7 @@ if (_entity isKindOf 'Land_Cargo10_light_green_F') exitWith {
 		['QS_ST_customDN',localize 'STR_QS_Text_449',TRUE],
 		['QS_ST_showDisplayName',TRUE,TRUE]
 	];
+	['INIT',_entity] call (missionNamespace getVariable 'QS_fnc_baseSetBudget');
 	if (local _entity) then {
 		_entity setMass 2500;
 	} else {
@@ -230,7 +233,7 @@ if (_entity isKindOf 'Land_Cargo10_white_F') exitWith {
 	{
 		_entity setVariable _x;
 	} forEach [
-		['QS_importance',3,FALSE],
+		['QS_importance',1,FALSE],
 		['QS_deploy_type','FORT',TRUE],
 		['QS_respawn_object',TRUE,TRUE],
 		['QS_logistics_deployParams',[5,300,5,900,-1,25,500],TRUE],
@@ -273,6 +276,27 @@ if (_entity isKindOf 'land_cargo10_idap_f') exitWith {
 	} forEach [
 		['QS_deploy_preset',18,TRUE]
 	];
+};
+if (_entity isKindOf 'CargoNet_01_box_F') exitWith {
+	//comment 'Firebase';
+	{
+		_entity setVariable _x;
+	} forEach [
+		['QS_importance',1,FALSE],
+		['QS_deploy_type','FORT',TRUE],
+		['QS_logistics_unloadDistance',25,TRUE],
+		['QS_logistics_deployParams',[5,300,5,900,-1,300,300],TRUE],
+		['QS_logistics_unloadReqDep',TRUE,TRUE],
+		['QS_deploy_preset',19,TRUE],
+		['QS_logistics_deployable',TRUE,TRUE],
+		['QS_ST_customDN',localize 'STR_QS_Text_490',TRUE],
+		['QS_ST_showDisplayName',TRUE,TRUE]
+	];
+	if (local _entity) then {
+		_entity setMass 1000;
+	} else {
+		['setMass',_entity,1000] remoteExec ['QS_fnc_remoteExecCmd',_entity,FALSE];
+	};	
 };
 // Not ready yet
 /*/

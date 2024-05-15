@@ -63,7 +63,7 @@ if (
 			||
 			{
 				(
-					(_attackTarget isKindOf 'CAManBase') &&
+					(_attackTarget getEntityInfo 0) &&
 					{!((lifeState _attackTarget) in ['HEALTHY','INJURED'])}
 				)
 			}

@@ -462,7 +462,7 @@ _recoverableUnit setPos _emptyPosition;
 _recoverableUnit setUnconscious TRUE;
 _recoverableUnit spawn {
 	uiSleep 10;
-	_this switchMove 'acts_InjuredLyingRifle02';
+	_this switchMove ['acts_InjuredLyingRifle02'];
 	['switchMove',_this,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 };
 private _enemyDelay = 30;
@@ -737,9 +737,7 @@ for '_x' from 0 to 1 step 0 do {
 			//comment 'Spawn house guards';
 			//comment 'Spawn civilians?';
 			if (_houseMines isNotEqualTo []) then {
-				{
-					deleteVehicle _x;
-				} forEach _houseMines;
+				deleteVehicle _houseMines;
 				_houseMines = [];
 			};
 			if (_enemyArray2 isNotEqualTo []) then {
@@ -910,9 +908,7 @@ for '_x' from 0 to 1 step 0 do {
 								} forEach _enemyArray2;
 							};
 							if (_houseMines isNotEqualTo []) then {
-								{
-									deleteVehicle _x;
-								} forEach _houseMines;
+								deleteVehicle _houseMines;
 							};
 						};
 					};
@@ -1021,14 +1017,7 @@ for '_x' from 0 to 1 step 0 do {
 } count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 [_medevacTaskID] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 ['QS_TASK_SM_IDAP_1'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
-{
-	if (!isNull _x) then {
-		deleteVehicle _x;
-	};
-} forEach [
-	_recoverableUnit,
-	_crate
-];
+deleteVehicle [_recoverableUnit,_crate];
 private _toDelete = objNull;
 if (_allArray isNotEqualTo []) then {
 	{
@@ -1062,9 +1051,7 @@ if (_allArray isNotEqualTo []) then {
 	(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 } forEach _idapComposition;
 if (_houseMines isNotEqualTo []) then {
-	{
-		deleteVehicle _x;
-	} forEach _houseMines;
+	deleteVehicle _houseMines;
 };
 {
 	if (alive _x) then {

@@ -23,11 +23,6 @@ if (isDedicated) then {
 						_x setDamage 1;
 						deleteVehicle _x;
 					} else {
-						missionNamespace setVariable [
-							'QS_analytics_entities_deleted',
-							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-							FALSE
-						];
 						deleteVehicle _x;
 					};
 				};
@@ -95,22 +90,10 @@ if (isDedicated) then {
 					'MPKilled', 
 					{
 						_killed = _this # 0;
-						{
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								FALSE
-							];
-							deleteVehicle _x;
-						} forEach (_killed getVariable ['effects',[]]);
+						deleteVehicle (_killed getVariable ['effects',[]]);
 						if (isServer) then {
 							_killed spawn {
 								sleep 1;
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									FALSE
-								];
 								deleteVehicle _this;
 							};
 						};
@@ -143,7 +126,7 @@ if (isDedicated) then {
 				{
 					if (!isNull _x) then {
 						_fire = _x;
-						if (!isNil {_fire getVariable 'effects'}) then {
+						if !(_fire isNil 'effects') then {
 							{
 								if ((typeOf _x) isEqualTo '#lightpoint') then {
 									_x setLightBrightness 2.75;

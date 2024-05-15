@@ -287,11 +287,6 @@ if (_type isEqualTo 'REMOVE') exitWith {
 			'_conversionRate',
 			'_isBeingInterrupted'
 		];
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle (_flagData # 0);
 		private _array = [];
 		{
@@ -304,11 +299,6 @@ if (_type isEqualTo 'REMOVE') exitWith {
 			deleteLocation _x;
 		} forEach _locationData;
 		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
 			0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
 		} forEach _objectData;
 		{

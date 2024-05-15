@@ -19,16 +19,7 @@ private [
 	'_obstructions','_obstructionsArray','_obstructions2Array',
 	'_emptyPosition'
 ];
-{
-	if ((_x distance _pos) <= _rad) then {
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
-		deleteVehicle _x;
-	};
-} count allDead;
+deleteVehicle (allDead inAreaArray [_pos,_rad,_rad]);
 _obstructions = ['Air','LandVehicle','StaticWeapon','Ship'];
 _obstructionsArray = _pos nearEntities [_obstructions,_rad];
 if (_obstructionsArray isNotEqualTo []) then {

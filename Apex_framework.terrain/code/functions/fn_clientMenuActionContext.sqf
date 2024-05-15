@@ -243,8 +243,7 @@ if (
 			QS_interactions_extendedContext pushBack [QS_player,QS_action_deployAsset];
 		};
 		if (
-			(QS_player getUnitTrait 'engineer') &&
-			{(isNull QS_extendedContext_objectParent)} &&
+			(isNull QS_extendedContext_objectParent) &&
 			{(alive _cursorObject)} &&
 			{(_cursorDistance < 5)} &&
 			{(( ['LandVehicle','Air','Ship'] findIf { _cursorObject isKindOf _x }) isNotEqualTo -1)} &&
@@ -514,7 +513,7 @@ if (
 						(!isNull _dealer) &&
 						(_cursorObject getVariable ['QS_respawn_object',FALSE]) &&
 						(_cursorObject getVariable ['QS_logistics_deployed',FALSE]) &&
-						(isNil {_dealer getVariable 'QS_vehicle_isSuppliedFOB'})
+						(_dealer isNil 'QS_vehicle_isSuppliedFOB')
 					) then {
 						QS_player playActionNow 'putdown';
 						[117,_cursorObject,_dealer,profileName] remoteExec ['QS_fnc_remoteExec',2,FALSE];

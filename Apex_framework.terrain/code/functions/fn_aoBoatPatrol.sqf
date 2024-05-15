@@ -53,14 +53,7 @@ for '_i' from 0 to 1 step 1 do {
 				'Killed',
 				{
 					if ((count (crew (_this # 0))) > 0) then {
-						{
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								FALSE
-							];
-							deleteVehicle _x;
-						} count (crew (_this # 0));
+						deleteVehicle (crew (_this # 0));
 					};
 				}
 			];
@@ -93,11 +86,6 @@ for '_i' from 0 to 1 step 1 do {
 				'GetOut',
 				{
 					params ['_vehicle','_position','_unit','_turret'];
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					deleteVehicle _unit;
 				}
 			];

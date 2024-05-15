@@ -202,7 +202,7 @@ if (!(_player getVariable ['QS_client_animCancel',FALSE])) then {
 							_text = format [localize 'STR_QS_Text_263',profileName];
 							[63,[5,[_text,'PLAIN DOWN',0.75]]] remoteExec ['QS_fnc_remoteExec',_t,FALSE];
 						};
-						if (isNil {_player getVariable 'QS_revive_lastPatient'}) then {
+						if (_player isNil 'QS_revive_lastPatient') then {
 							_player setVariable ['QS_revive_lastPatient',[(getPlayerUID _t),(time + 180)],FALSE];
 							[51,[_player,(getPlayerUID _player),profileName,_val]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 						} else {

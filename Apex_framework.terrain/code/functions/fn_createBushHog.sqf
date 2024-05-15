@@ -218,16 +218,8 @@ private _attachedArray = [];
 	[
 		'Killed',
 		{
-			params ['_killed','_killer'];
-			_attachedObjects = attachedObjects _killed;
-			{
-				deleteVehicle _x;
-			} count ((_killed getVariable ['QS_attachedObjects',[]]) + _attachedObjects);
-			if ((attachedObjects _killed) isNotEqualTo []) then {
-				{
-					deleteVehicle _x;
-				} count (attachedObjects _killed);
-			};
+			params ['_killed'];
+			deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 		}
 	]
 ];

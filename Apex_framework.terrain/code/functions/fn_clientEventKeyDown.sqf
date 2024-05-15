@@ -609,7 +609,7 @@ if (
 	{(!(_shift))} &&
 	{(!(_ctrl))}
 ) then {
-	if (isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
+	if (uiNamespace isNil 'BIS_dynamicGroups_keyDownTime') then {
 		uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',time];
 		uiNamespace setVariable ['BIS_dynamicGroups_ignoreInterfaceOpening',nil];
 	};

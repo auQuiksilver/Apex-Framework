@@ -14,7 +14,7 @@ Description:
 ____________________________________________________________________________/*/
 
 params ['_taskID','_customData'];
-if (isNil {missionNamespace getVariable 'QS_mission_tasks'}) then {
+if (missionNamespace isNil 'QS_mission_tasks') then {
 	missionNamespace setVariable ['QS_mission_tasks',[],FALSE];
 };
 _taskIndex = (missionNamespace getVariable 'QS_mission_tasks') findIf {((_x # 0) isEqualTo _taskID)};

@@ -90,7 +90,7 @@ __________________________________________________________________________/*/
 						};
 					};
 				};
-				if (isNil {missionNamespace getVariable 'QS_enemy_artyFireMessage'}) then {
+				if (missionNamespace isNil 'QS_enemy_artyFireMessage') then {
 					missionNamespace setVariable ['QS_enemy_artyFireMessage',diag_tickTime,FALSE];
 				};
 				if ((missionNamespace getVariable 'QS_enemy_artyFireMessage') > (diag_tickTime - 300)) exitWith {};
@@ -164,7 +164,7 @@ __________________________________________________________________________/*/
 						};
 					};
 				};
-				if (isNil {missionNamespace getVariable 'QS_enemy_artyFireMessage'}) then {
+				if (missionNamespace isNil 'QS_enemy_artyFireMessage') then {
 					missionNamespace setVariable ['QS_enemy_artyFireMessage',diag_tickTime,FALSE];
 				};
 				if ((missionNamespace getVariable 'QS_enemy_artyFireMessage') > (diag_tickTime - 300)) exitWith {};

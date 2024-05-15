@@ -30,14 +30,14 @@ _developers = ['DEVELOPER'] call (missionNamespace getVariable 'QS_fnc_whitelist
 _allUIDs = _moderators + _admins + _developers;
 private _actionIDs = -1;
 if (!(_uid in _allUIDs)) exitWith {};
-if (!isNil {player getVariable 'QS_staff_spectating'}) then {
+if !(player isNil 'QS_staff_spectating') then {
 	closeDialog 0;
 	60492 cutText ['','PLAIN'];
 	player switchCamera 'INTERNAL';
 	player setVariable ['QS_staff_spectating',nil,FALSE];
 };
 if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
-	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
+	if (!(player isNil 'QS_staff_menuOpened')) exitWith {};
 	playSound 'Click';
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
 	showCommandingMenu '';
@@ -74,7 +74,7 @@ if ((_type2 isEqualType '') && (_type2 isEqualTo 'KeyDown')) exitWith {
 	_mediaActions = [
 		[localize 'STR_QS_Interact_086',(missionNamespace getVariable 'QS_fnc_clientMenuStaff'),16,68,TRUE,TRUE,'','TRUE']
 	];
-	if (!isNil {missionNamespace getVariable 'QS_staff_currentActions'}) then {
+	if (!(missionNamespace isNil 'QS_staff_currentActions')) then {
 		if ((count (missionNamespace getVariable 'QS_staff_currentActions')) > 0) then {
 			{
 				player removeAction _x;
@@ -129,13 +129,17 @@ if (_type2 isEqualType 0) exitWith {
 		if (!isNull cursorTarget) then {
 			playSound 'ClickSoft';
 			_cursorTarget = cursorTarget;
-			if ((!(_cursorTarget isKindOf 'LandVehicle')) && (!(_cursorTarget isKindOf 'Air')) && (!(_cursorTarget isKindOf 'Ship')) && (!(_cursorTarget isKindOf 'StaticWeapon')) && (!(_cursorTarget isKindOf 'CAManBase')) && (!(_cursorTarget isKindOf 'WeaponHolder'))) exitWith {hint 'Invalid target type!';};
+			if (([
+				'LandVehicle','Air','Ship','StaticWeapon','CAManBase','WeaponHolder','Reammobox_F','ThingX'
+			] findIf {_cursorTarget isKindOf _x}) isEqualTo -1) exitWith {
+				hint 'Invalid target type!';
+			};
 			if ((_cursorTarget isKindOf 'CAManBase') && (isPlayer _cursorTarget) && (alive _cursorTarget)) exitWith {
 				if (!isStreamFriendlyUIEnabled) then {
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_057',[],-1];
 				};
 			};
-			if (!isNil {_cursorTarget getVariable 'QS_cleanup_protected'}) exitWith {
+			if (!(_cursorTarget isNil 'QS_cleanup_protected')) exitWith {
 				if (!isStreamFriendlyUIEnabled) then {
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_058',[],-1];
 				};

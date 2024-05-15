@@ -44,7 +44,7 @@ scopeName 'main';
 
 if ((_key isEqualTo 61) || (_curatorAlt && (_key in (actionKeys 'User2')))) exitWith {
 //if (_key isEqualTo 61) exitWith {
-	if (!isNil {player getVariable 'QS_staff_menuOpened'}) exitWith {};
+	if !(player isNil 'QS_staff_menuOpened') exitWith {};
 	playSound 'Click';
 	player setVariable ['QS_staff_menuOpened',TRUE,FALSE];
 	0 spawn {uiSleep 2;player setVariable ['QS_staff_menuOpened',nil,FALSE];};
@@ -52,16 +52,20 @@ if ((_key isEqualTo 61) || (_curatorAlt && (_key in (actionKeys 'User2')))) exit
 	if ((getPlayerUID player) in _curators) then {
 		private _logic = getAssignedCuratorLogic player;
 		if (!isNull _logic) then {
-			if (!isNil {player getVariable 'QS_staff_curatorLastUpdate'}) exitWith {
+			if (diag_tickTime < (uiNamespace getVariable ['QS_staff_curatorLastUpdate',-1])) exitWith {
 				if (!isStreamFriendlyUIEnabled) then {
 					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,FALSE,5,-1,localize 'STR_QS_Hints_103',[],(serverTime + 10),TRUE,localize 'STR_QS_Hints_104',FALSE];
 				};
 			};
-			player setVariable ['QS_staff_curatorLastUpdate',TRUE,FALSE];
-			0 spawn {uiSleep 10;player setVariable ['QS_staff_curatorLastUpdate',nil,FALSE];};
-			[49,_logic] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+			uiNamespace setVariable ['QS_staff_curatorLastUpdate',diag_tickTime + 9];
+			_curatorSelected = curatorSelected # 0;
+			[49,_logic,_curatorSelected] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			if (!isStreamFriendlyUIEnabled) then {
-				(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_105',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
+				if (_curatorSelected isEqualTo []) then {
+					(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_105',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
+				} else {
+					systemChat (localize 'STR_QS_Chat_183');
+				};
 			};
 		};
 	};
@@ -275,6 +279,43 @@ if ((_key isEqualTo 62) || (_curatorAlt && (_key in (actionKeys 'User3')))) exit
 						[18,_this,profileName,FALSE,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 					};
 				};
+			};
+			if (
+				(_groupsOffload isEqualTo []) &&
+				(_groupsOnload isEqualTo [])
+			) then {
+				{
+					if (
+						(
+							(_x isKindOf 'LandVehicle') ||
+							(_x isKindOf 'Air') ||
+							(_x isKindOf 'Ship') ||
+							(_x isKindOf 'StaticWeapon')
+						) &&
+						{(alive _x)} &&
+						{!(isSimpleObject _x)} &&
+						{((crew _x) isEqualTo [])}
+					) then {
+						if (local _x) then {
+							_groupsOffload pushBackUnique _x;
+						} else {
+							_groupsOnload pushBackUnique _x;
+						};
+					};
+					if (_groupsOffload isNotEqualTo []) then {
+						_groupsOffload spawn {
+							sleep 1;		// allow time for variable propagation
+							[18.5,_this,profileName,TRUE,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+						};
+					} else {
+						if (_groupsOnload isNotEqualTo []) then {
+							_groupsOnLoad spawn {
+								sleep 1;		// allow time for variable propagation
+								[18.5,_this,profileName,FALSE,clientOwner] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+							};
+						};
+					};
+				} forEach _selected;
 			};
 		};
 	} else {
@@ -568,7 +609,7 @@ if ((_key isEqualTo 72) || (_curatorAlt && (_key in (actionKeys 'User12')))) exi
 //if (_key isEqualTo 72) exitWith {
 	//comment 'Toggle player view directions';
 	playSound ['ClickSoft',FALSE];
-	if (isNil {missionNamespace getVariable 'QS_curator_playerViewDirections'}) then {
+	if (missionNamespace isNil 'QS_curator_playerViewDirections') then {
 		(missionNamespace getVariable 'QS_managed_hints') pushBack [5,TRUE,5,-1,localize 'STR_QS_Hints_121',[],-1,TRUE,localize 'STR_QS_Hints_104',FALSE];
 		missionNamespace setVariable [
 			'QS_curator_playerViewDirections',
@@ -592,7 +633,7 @@ if ((_key isEqualTo 72) || (_curatorAlt && (_key in (actionKeys 'User12')))) exi
 							} count (allPlayers inAreaArray [_curatorCamera,_radius,_radius]);
 						};
 						if (isNull (findDisplay 312)) then {
-							if (!isNil {missionNamespace getVariable 'QS_curator_playerViewDirections'}) then {
+							if !(missionNamespace isNil 'QS_curator_playerViewDirections') then {
 								removeMissionEventHandler [_thisEvent,_thisEventHandler];
 								missionNamespace setVariable ['QS_curator_playerViewDirections',nil,FALSE];
 							};

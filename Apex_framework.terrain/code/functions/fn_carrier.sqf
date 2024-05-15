@@ -156,9 +156,7 @@ if (
 			{
 				params ['_entity'];
 				if ((_entity getVariable ['bis_carrierParts',[]]) isNotEqualTo []) then {
-					{
-						deleteVehicle _x;
-					} forEach (_entity getVariable ['bis_carrierParts',[]]);
+					deleteVehicle (_entity getVariable ['bis_carrierParts',[]]);
 				};
 				if ((_entity getVariable ['QS_carrier_turrets',[]]) isNotEqualTo []) then {
 					{
@@ -167,9 +165,7 @@ if (
 					} forEach (_entity getVariable ['QS_carrier_turrets',[]]);
 				};
 				if ((_entity getVariable ['QS_carrier_props',[]]) isNotEqualTo []) then {
-					{
-						deleteVehicle _x;
-					} forEach (_entity getVariable ['QS_carrier_props',[]]);
+					deleteVehicle (_entity getVariable ['QS_carrier_props',[]]);
 				};
 				missionNamespace setVariable ['QS_carrierObject',objNull,TRUE];
 			}

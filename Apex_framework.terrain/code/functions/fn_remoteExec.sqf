@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	25/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -56,12 +56,7 @@ if (_case < 10) exitWith {
 		if (!(_POW isEqualType objNull)) exitWith {};
 		_POW setCaptive FALSE;
 		if (local _POW) then {
-			{
-				if (isServer) then {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-				};
-				deleteVehicle _x;
-			} count (attachedObjects _POW);
+			deleteVehicle (attachedObjects _POW);
 			_POW playAction 'Default';
 			['switchMove',_POW,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 		};
@@ -322,12 +317,10 @@ if (_case < 20) exitWith {
 			if (_object isEqualType objNull) then {
 				if ((attachedObjects _object) isNotEqualTo []) then {
 					{
-						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 						[0,_x] call QS_fnc_eventAttach;
 						deleteVehicle _x;
 					} count (attachedObjects _object);
 				};
-				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _object;
 			} else {
 				if (_object isEqualType []) then {
@@ -337,22 +330,12 @@ if (_case < 20) exitWith {
 						_obj = _x;
 						if ((attachedObjects _obj) isNotEqualTo []) then {
 							{
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									FALSE
-								];
 								if (!isNull (attachedTo _x)) then {
 									[0,_x] call QS_fnc_eventAttach;
 								};
 								deleteVehicle _x;
 							} count (attachedObjects _obj);
 						};
-						missionNamespace setVariable [
-							'QS_analytics_entities_deleted',
-							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-							FALSE
-						];
 						if (!isNull (attachedTo _obj)) then {
 							[0,_obj] call QS_fnc_eventAttach;
 						};
@@ -441,6 +424,23 @@ if (_case < 20) exitWith {
 				sleep 1;
 				diag_log format ['***** DEBUG ***** ONLOAD of Zeus group %1 attempted. Result: %2',(groupId _x),_x setGroupOwner _clientOwner];		// TO DO: Localization
 			} forEach _groups;
+		};
+	};
+	if (_case isEqualTo 18.5) exitWith {
+		// Offload empty vehicles, etc
+		params ['',['_objects',[]],'_zeus','_offload',['_clientOwner',0]];
+		if (_offload) then {
+			{
+				diag_log format ['***** DEBUG ***** Zeus ( %1 ) attempting offload of a(n) %2',_zeus,(typeOf _x)];
+				_x setOwner 2;
+				sleep 0.1;
+			} forEach _objects;
+		} else {
+			{
+				diag_log format ['***** DEBUG ***** Zeus ( %1 ) attempting onload of a(n) %2',_zeus,(typeOf _x)];
+				_x setOwner _clientOwner;
+				sleep 0.1;
+			} forEach _objects;
 		};
 	};
 	/*/Command Recruit/*/
@@ -555,11 +555,6 @@ if (_case < 30) exitWith {
 				} else {
 					[55,[_agent]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 				};
-				missionNamespace setVariable [
-					'QS_analytics_entities_deleted',
-					((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-					FALSE
-				];
 				deleteVehicle _unit;
 				_agent setPosWorld _unitPos;
 				if (isDedicated) then {
@@ -1001,8 +996,8 @@ if (_case < 50) exitWith {
 	/*/===== Curator Sync/*/
 	if (_case isEqualTo 49) then {
 		if (isDedicated) then {
-			_logic = _this # 1;
-			[_logic] spawn (missionNamespace getVariable 'QS_fnc_curatorSync');
+			params ['','_logic','_curatorSelected'];
+			[_logic,_curatorSelected] spawn (missionNamespace getVariable 'QS_fnc_curatorSync');
 		};
 	};
 };
@@ -1081,20 +1076,15 @@ if (_case < 60) exitWith {
 	/*/===== Request Base Cleanup/*/
 	if (_case isEqualTo 53) then {
 		if (isDedicated) then {
-			if (!isNil {missionNamespace getVariable 'QS_staff_requestBaseCleanup_time'}) then {
+			if !(missionNamespace isNil 'QS_staff_requestBaseCleanup_time') then {
 				if (time > (missionNamespace getVariable 'QS_staff_requestBaseCleanup_time')) then {
 					missionNamespace setVariable ['QS_staff_requestBaseCleanup_time',(time + 300),FALSE];
 					diag_log format ['%1 (%2) (staff) has initiated base cleanup',((_this # 1) # 0),((_this # 1) # 1)];
 					0 = 0 spawn {
 						_baseMarker = markerPos 'QS_marker_base_marker';
 						{
-							if ((_x distance _baseMarker) < 1000) then {
+							if ((_x distance _baseMarker) < 1000) then {				// to do: in safe zone
 								if (!(_x getVariable ['QS_dead_prop',FALSE])) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										FALSE
-									];
 									deleteVehicle _x;
 									uiSleep 0.01;
 								};
@@ -1146,13 +1136,7 @@ if (_case < 60) exitWith {
 						_toDelete pushBack _x;
 					};
 				} forEach (8 allObjects 1);
-				{
-					if (!isNull _x) then {
-						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-						deleteVehicle _x;
-					};
-					uiSleep 0.025;
-				} count _toDelete;
+				deleteVehicle _toDelete;
 			};
 		};
 	};
@@ -1427,11 +1411,7 @@ if (_case < 80) exitWith {
 		_type = _this # 1;
 		_valueToAdd = _this # 2;
 		if (_type isEqualTo 0) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + _valueToAdd),
-				FALSE
-			];
+
 		};
 		if (_type isEqualTo 1) then {
 
@@ -2160,7 +2140,7 @@ if (_case < 100) exitWith {
 		{
 			if (
 				(local _x) &&
-				(!isNil {_x getVariable 'QS_AI_GRP_HC'})
+				!(_x isNil 'QS_AI_GRP_HC')
 			) then {
 				_grp = _x;
 				{
@@ -2435,6 +2415,12 @@ if (_case < 130) exitWith {
 		_oldCrater = nearestObject [_position,'#crater'];
 		if (!isNull _oldCrater) then {
 			_oldCrater setPos [-500,-500,0];
+		};
+	};
+	if (_case isEqualTo 123) then {
+		if (isDedicated) then {
+			params ['',['_parent',objNull],['_data',[]],['_pos',[0,0,0]],['_dir',0]];
+			[[_parent,_data,_pos,_dir,_rxID],'qs_fnc_serverspawnasset'] call QS_fnc_perFrameQueue;
 		};
 	};
 };

@@ -94,7 +94,7 @@ private [
 	'_QS_simulateEvent_duration','_QS_simulateEvent_active','_QS_module_aoCivs','_QS_module_aoCivs_delay','_QS_module_aoCivs_checkDelay','_QS_module_aoCiv_civ','_vRespawnTickets',
 	'_deleteNow','_QS_module_restart','_QS_module_restart_realTimeStart','_QS_module_restart_delay','_QS_module_restart_checkDelay','_QS_module_restart_isRestarting','_QS_module_restart_hours',
 	'_QS_module_restart_hour','_QS_module_restart_realTimeNow','_QS_module_restart_hourCurrent','_QS_module_restart_lastBroadcast','_nearEntitiesCheck',
-	'_QS_corpseCollector','_QS_wreckCollector','_QS_remainsCollectorActive','_QS_module_opsec','_QS_module_opsec_delay','_QS_module_opsec_checkDelay','_QS_module_opsec_checkMarkers','_QS_module_opsec_checkVariables',
+	'_QS_corpseCollector','_QS_wreckCollector','_QS_module_opsec','_QS_module_opsec_delay','_QS_module_opsec_checkDelay','_QS_module_opsec_checkMarkers','_QS_module_opsec_checkVariables',
 	'_QS_module_opsec_clientHeartbeat','_QS_module_heartbeat_array','_QS_module_opsec_checkMarkers_whitelistedMarkers','_markerData','_QS_module_opsec_deleteMarker',
 	'_QS_allMapMarkers','_QS_diagTickTimeNow','_QS_system_weekday','_QS_productVersion','_allSimpleObjects','_smokeShellCount','_smokeShellLimit','_missionSmokeShells',
 	'_QS_module_dynSim','_QS_module_dynSim_delay','_QS_module_dynSim_checkDelay','_QS_module_time_dawnOffset','_QS_simulateEvent_data','_scMainMissionRegionListProxy','_scMainMissionRadius',
@@ -518,12 +518,14 @@ _fn_isPosSafe = {
 	} count (nearestObjects [_position,[],_radius,TRUE]);
 	_return;
 };
+private _countChildEntities = 0;
 
 /*/==================== GARBAGE MANAGER */
 
-_QS_corpseCollector = getMissionConfigValue ['corpseManagerMode',0];
-_QS_wreckCollector = getMissionConfigValue ['wreckManagerMode',0];
-_QS_remainsCollectorActive = ((_QS_corpseCollector isNotEqualTo 0) || (_QS_wreckCollector isNotEqualTo 0));
+localNamespace setVariable ['QS_GC_trigger',FALSE];
+localNamespace setVariable ['QS_GC_triggerDeep',FALSE];
+_QS_corpseCollector = missionNamespace getVariable ['QS_system_BIScorpseCollector',FALSE];
+_QS_wreckCollector = missionNamespace getVariable ['QS_system_BISwreckCollector',FALSE];
 _checkPlayerCount = FALSE;
 _checkFrequencyDefault = 60;
 _checkFrequencyAccelerated = 30;
@@ -537,6 +539,7 @@ _missionObjectType = '';
 private _protectedRuinTypes = ['protected_ruin_types_1'] call QS_data_listVehicles;
 private _missionObjectsTicker = 0;
 _deleteNow = [];
+_allMines = allMines;
 _jetJunk = ['eject_junk_1'] call QS_data_listVehicles;
 _chuteTypes = ['chute_types_1'] call QS_data_listVehicles;
 _jetStuff = _jetJunk + _chuteTypes;
@@ -545,7 +548,7 @@ _allDeadMenCount = 0;
 _allDeadVehiclesCount = 0;
 _maxPrisoners = 15;
 private _managed_flares = [];
-if (_QS_worldName in ['Tanoa','Lingor3']) then {
+if (_QS_worldName in ['Tanoa']) then {
 	_deadMenLimit = 30;
 	_deadMenLimitMax = 40;
 	_deadMenDistCheck = TRUE;
@@ -618,6 +621,31 @@ if (_QS_worldName in ['Tanoa','Lingor3']) then {
 	_smokeShellCount = 0;
 	_missionSmokeShells = [];
 };
+
+private _allPlayers = units WEST;				// units WEST
+private _allDeadSorted = [];
+private _allDeadVehiclesSorted = [];
+private _deadForThreshold = 0;
+
+private _thresholdLower = 25;					// Corpses
+private _thresholdUpper = 75;					// Corpses
+private _deadDurationLower = 60;				// Corpses: Min dead-for duration before cleanup at 25 corpses
+private _deadDurationUpper = 10;				// Corpses: Min dead-for duration before cleanup at 75 corpses
+private _distanceIrrelevant = 1000;				// Corpse irrelevant distance
+private _distanceRelevant = 25;					// Corpse relevant distance
+
+private _thresholdLowerVehicle = 10;			// Vehicles
+private _thresholdUpperVehicle = 20;			// Vehicles
+private _deadDurationLowerVehicle = 90;			// Vehicles
+private _deadDurationUpperVehicle = 30;			// Vehicles
+private _distanceRelevantVehicle = 50;			// Vehicle relevant distance
+private _distanceIrrelevantVehicle = 1000;		// Vehicle irrelevant distane
+
+private _nToDelete = 0;
+private _deadCount = 0;
+private _nearPlayerCoef = 2;
+private _nearPlayerCoefVehicle = 2;
+private _toDelete = [];
 
 /*/=============================== WEATHER MANAGER*/
 
@@ -820,7 +848,7 @@ private _minefieldSpawned = FALSE;
 _QS_checkUAVsTime_delay = 10;
 _QS_checkUAVsTime = time + _QS_checkUAVsTime_delay;
 _QS_uavRespawnDelay = 600;
-_QS_cleanup_delay = 45;
+_QS_cleanup_delay = 30;
 _QS_cleanup_checkDelay = time + _QS_cleanup_delay;
 
 _fps = diag_fps;
@@ -935,19 +963,18 @@ _QS_module_leaderboard = TRUE;
 missionNamespace setVariable ['QS_leaderboards_session_queue',[],FALSE];
 _QS_module_leaderboard_delay = 20;
 _QS_module_leaderboard_checkDelay = _timeNow + _QS_module_leaderboard_delay;
-
-if (isNil {missionProfileNamespace getVariable 'QS_leaderboards_meta'}) then {
+if (missionProfileNamespace isNil 'QS_leaderboards_meta') then {
 	missionProfileNamespace setVariable ['QS_leaderboards_meta',[_QS_system_weekday,_QS_missionStart]];
 };
 (missionProfileNamespace getVariable ['QS_leaderboards_meta',[_QS_system_weekday,_QS_missionStart]]) params ['_QS_ladder_weekday',''];
 missionProfileNamespace setVariable ['QS_leaderboards_meta',[_QS_system_weekday,_QS_missionStart]];
 if ((_QS_system_weekday isNotEqualTo _QS_ladder_weekday) && {(_QS_system_weekday isEqualTo 'mon')}) then {
-	if (!isNil {missionProfileNamespace getVariable 'QS_leaderboards2'}) then {
+	if !(missionProfileNamespace isNil 'QS_leaderboards2') then {
 		(missionProfileNamespace getVariable 'QS_leaderboards2') call (missionNamespace getVariable 'QS_fnc_leaderboardAddToWhitelist');
 	};
 	missionProfileNamespace setVariable ['QS_leaderboards2',nil];
 };
-if (isNil {missionProfileNamespace getVariable 'QS_leaderboards2'}) then {
+if (missionProfileNamespace isNil 'QS_leaderboards2') then {
 	missionProfileNamespace setVariable ['QS_leaderboards2',createHashMap];
 };
 missionNamespace setVariable ['QS_leaderboards2',(missionProfileNamespace getVariable ['QS_leaderboards2',createHashMap]),FALSE];		// Debug leaderboards
@@ -964,7 +991,7 @@ _QS_leaderboards_saveDelay = 600;
 _QS_leaderboards_saveCheckDelay = _timeNow + _QS_leaderboards_saveDelay;
 _QS_leaderboards_publishDelay = 180;
 _QS_leaderboards_publishCheckDelay = _timeNow + _QS_leaderboards_publishDelay;
-if (isNil {missionProfileNamespace getVariable 'QS_whitelist_lb_helipilot'}) then {
+if (missionProfileNamespace isNil 'QS_whitelist_lb_helipilot') then {
 	missionProfileNamespace setVariable ['QS_whitelist_lb_helipilot',[]];
 } else {
 	_pilot_whitelist = [];
@@ -976,7 +1003,7 @@ if (isNil {missionProfileNamespace getVariable 'QS_whitelist_lb_helipilot'}) the
 		missionNamespace setVariable ['QS_pilot_whitelist',compileFinal str _pilot_whitelist,TRUE];
 	};
 };
-if (isNil {missionProfileNamespace getVariable 'QS_whitelist_lb_cls'}) then {
+if (missionProfileNamespace isNil 'QS_whitelist_lb_cls') then {
 	missionProfileNamespace setVariable ['QS_whitelist_lb_cls',[]];
 } else {
 	_medic_whitelist = [];
@@ -988,7 +1015,7 @@ if (isNil {missionProfileNamespace getVariable 'QS_whitelist_lb_cls'}) then {
 		missionNamespace setVariable ['QS_cls_whitelist',compileFinal str _medic_whitelist,TRUE];
 	};
 };
-if (isNil {missionProfileNamespace getVariable 'QS_whitelist_lb_sniper'}) then {
+if (missionProfileNamespace isNil 'QS_whitelist_lb_sniper') then {
 	missionProfileNamespace setVariable ['QS_whitelist_lb_sniper',[]];
 } else {
 	private _sniper_whitelist = [];
@@ -1517,7 +1544,7 @@ for '_x' from 0 to 1 step 0 do {
 							if (
 								((missionNamespace getVariable 'QS_aoHQ') isEqualType []) &&
 								{((missionNamespace getVariable 'QS_aoHQ') isNotEqualTo [])} &&
-								{(!isNil {missionNamespace getVariable 'QS_HQpos'})}
+								{!(missionNamespace isNil 'QS_hqPos')}
 							) then {
 								{
 									if (_x isEqualType _objNull) then {
@@ -1648,7 +1675,7 @@ for '_x' from 0 to 1 step 0 do {
 										_scTimeStart = diag_tickTime;
 										if (
 											((missionNamespace getVariable ['aoHQ',[]]) isNotEqualTo []) &&
-											(!isNil {missionNamespace getVariable 'QS_HQpos'})
+											(!(missionNamespace isNil 'QS_hqPos'))
 										) then {
 											{
 												if (_x isEqualType _objNull) then {
@@ -1821,21 +1848,14 @@ for '_x' from 0 to 1 step 0 do {
 							} count (missionNamespace getVariable 'QS_enemyVehicleReinforcements_crew');
 						};
 						if ((missionNamespace getVariable ['QS_aoAnimals',[]]) isNotEqualTo []) then {
-							{
-								if (!isNull _x) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-									deleteVehicle _x;
-								};
-							} count (missionNamespace getVariable 'QS_aoAnimals');
+							deleteVehicle (missionNamespace getVariable ['QS_aoAnimals',[]]);
 							missionNamespace setVariable ['QS_aoAnimals',[],_false];
 						};
 						if ((missionNamespace getVariable ['QS_ao_UXOs',[]]) isNotEqualTo []) then {
-							{
-								deleteVehicle _x;
-							} forEach (missionNamespace getVariable ['QS_ao_UXOs',[]]);
+							deleteVehicle (missionNamespace getVariable ['QS_ao_UXOs',[]]);
 							missionNamespace setVariable ['QS_ao_UXOs',[],_false];
 						};
-						if (!isNil {missionNamespace getVariable 'QS_ao_aaMarkers'}) then {
+						if !(missionNamespace isNil 'QS_ao_aaMarkers') then {
 							if ((missionNamespace getVariable 'QS_ao_aaMarkers') isEqualType []) then {
 								if ((missionNamespace getVariable 'QS_ao_aaMarkers') isNotEqualTo []) then {
 									{
@@ -1858,7 +1878,7 @@ for '_x' from 0 to 1 step 0 do {
 						if ((missionNamespace getVariable ['QS_entities_ao_customEntities',[]]) isNotEqualTo []) then {
 							{
 								if (!isNull _x) then {
-									if (_x in allMines) then {
+									if (_x in _allMines) then {
 										deleteVehicle _x;
 									} else {
 										(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
@@ -1876,40 +1896,15 @@ for '_x' from 0 to 1 step 0 do {
 							missionNamespace setVariable ['QS_entities_ao_customStructures',[],_false];
 						};
 						if ((missionNamespace getVariable ['QS_primaryObjective_civilians',[]]) isNotEqualTo []) then {
-							{
-								if (!isNull _x) then {
-									deleteVehicle _x;
-								};
-							} forEach (missionNamespace getVariable ['QS_primaryObjective_civilians',[]]);
+							deleteVehicle (missionNamespace getVariable ['QS_primaryObjective_civilians',[]]);
 							missionNamespace setVariable ['QS_primaryObjective_civilians',[],_false];
 						};
-						{
-							if ((_x distance2D _QS_AOpos) < 1500) then {
-								if (!(_x getVariable ['QS_dead_prop',_false])) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										_false
-									];
-									deleteVehicle _x;
-								};
-							};
-						} count allDeadMen;
-						{
-							if (local _x) then {
-								if ((units _x) isEqualTo []) then {
-									deleteGroup _x;
-								};
-							};
-						} count _allGroups;
-						{
-							if (local _x) then {
-								if ((_x distance2D _QS_AOpos) < 1200) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-									deleteVehicle _x;
-								};
-							};
-						} count allMines;
+						deleteVehicle (_allMines select {
+							(
+								(local _x) &&
+								((_x distance2D _QS_AOpos) < 1200)
+							)
+						});
 						if ((missionNamespace getVariable 'QS_classic_subObjectives') isNotEqualTo []) then {
 							{
 								if (_x isEqualType []) then {
@@ -1925,8 +1920,6 @@ for '_x' from 0 to 1 step 0 do {
 																	[0,_x] call _fn_eventAttach;
 																};
 																(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
-																//missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-																//deleteVehicle _x;
 															};
 														};
 													} forEach _array;
@@ -2154,7 +2147,7 @@ for '_x' from 0 to 1 step 0 do {
 								missionNamespace setVariable ['QS_virtualSectors_resultsFactors',_resultsFactors,_false];
 								missionProfileNamespace setVariable ['QS_virtualSectors_resultsFactors',_resultsFactors];
 							};
-							if (isNil {missionProfileNamespace getVariable 'QS_server_profile_scStats'}) then {
+							if (missionProfileNamespace isNil 'QS_server_profile_scStats') then {
 								missionProfileNamespace setVariable ['QS_server_profile_scStats',[]];
 							};
 							_QS_profile_scStats = missionProfileNamespace getVariable ['QS_server_profile_scStats',[]];
@@ -2231,18 +2224,7 @@ for '_x' from 0 to 1 step 0 do {
 								['REMOVE',_x] call _fn_sc;
 							} forEach _scToRemove;
 							missionNamespace setVariable ['QS_virtualSectors_locations',[],_false];
-							{
-								if (_x isEqualType _objNull) then {
-									if (!isNull _x) then {
-										missionNamespace setVariable [
-											'QS_analytics_entities_deleted',
-											((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-											_false
-										];
-										deleteVehicle _x;
-									};
-								};
-							} forEach (missionNamespace getVariable 'QS_virtualSectors_entities');
+							deleteVehicle (missionNamespace getVariable ['QS_virtualSectors_entities',[]]);
 							missionNamespace setVariable ['QS_virtualSectors_entities',[],_false];
 							if ((missionNamespace getVariable 'QS_virtualSectors_subObjectives') isNotEqualTo []) then {
 								{
@@ -2258,11 +2240,6 @@ for '_x' from 0 to 1 step 0 do {
 																	if (!isNull (attachedTo _x)) then {
 																		[0,_x] call _fn_eventAttach;
 																	};
-																	missionNamespace setVariable [
-																		'QS_analytics_entities_deleted',
-																		((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-																		_false
-																	];
 																	deleteVehicle _x;
 																};
 															};
@@ -2303,21 +2280,15 @@ for '_x' from 0 to 1 step 0 do {
 								missionNamespace setVariable ['QS_ao_civVehicles',[],_false];
 							};
 							if ((missionNamespace getVariable ['QS_primaryObjective_civilians',[]]) isNotEqualTo []) then {
-								{
-									if (!isNull _x) then {
-										deleteVehicle _x;
-									};
-								} forEach (missionNamespace getVariable ['QS_primaryObjective_civilians',[]]);
+								deleteVehicle (missionNamespace getVariable ['QS_primaryObjective_civilians',[]]);
 								missionNamespace setVariable ['QS_primaryObjective_civilians',[],_false];
 							};
-							{
-								if (local _x) then {
-									if ((_x distance2D (missionNamespace getvariable ['QS_aoPos',[0,0,0]])) < 1200) then {
-										missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-										deleteVehicle _x;
-									};
-								};
-							} count allMines;
+							deleteVehicle (_allMines select {
+								(
+									(local _x) &&
+									((_x distance2D (missionNamespace getvariable ['QS_aoPos',[0,0,0]])) < 1200)
+								)
+							});
 							if ((missionNamespace getVariable ['QS_entities_ao_customEntities',[]]) isNotEqualTo []) then {
 								{
 									if (!isNull _x) then {
@@ -2325,7 +2296,6 @@ for '_x' from 0 to 1 step 0 do {
 											(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 										} else {
 											deleteVehicle _x;
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 										};
 									};
 								} forEach (missionNamespace getVariable ['QS_entities_ao_customEntities',[]]);
@@ -2335,28 +2305,16 @@ for '_x' from 0 to 1 step 0 do {
 								{
 									if (!isNull _x) then {
 										(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
-										missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									};
 								} forEach (missionNamespace getVariable ['QS_entities_ao_customStructures',[]]);
 								missionNamespace setVariable ['QS_entities_ao_customStructures',[],_false];
 							};
 							if ((missionNamespace getVariable ['QS_aoAnimals',[]]) isNotEqualTo []) then {
-								{
-									if (!isNull _x) then {
-										missionNamespace setVariable [
-											'QS_analytics_entities_deleted',
-											((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-											_false
-										];
-										deleteVehicle _x;
-									};
-								} count (missionNamespace getVariable 'QS_aoAnimals');
+								deleteVehicle (missionNamespace getVariable ['QS_aoAnimals',[]]);
 								missionNamespace setVariable ['QS_aoAnimals',[],_false];
 							};
 							if ((missionNamespace getVariable ['QS_ao_UXOs',[]]) isNotEqualTo []) then {
-								{
-									deleteVehicle _x;
-								} forEach (missionNamespace getVariable ['QS_ao_UXOs',[]]);
+								deleteVehicle (missionNamespace getVariable ['QS_ao_UXOs',[]]);
 								missionNamespace setVariable ['QS_ao_UXOs',[],_false];
 							};
 							{
@@ -2414,9 +2372,7 @@ for '_x' from 0 to 1 step 0 do {
 									missionNamespace setVariable ['QS_grid_hiddenTerrainObjects',[],_false];
 								};
 								if ((missionNamespace getVariable ['QS_grid_enemyRespawnObjects',[]]) isNotEqualTo []) then {
-									{
-										deleteVehicle _x;
-									} forEach (missionNamespace getVariable ['QS_grid_enemyRespawnObjects',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_grid_enemyRespawnObjects',[]]);
 									missionNamespace setVariable ['QS_grid_enemyRespawnObjects',[],_true];
 								};
 								if ((missionNamespace getVariable ['QS_grid_IGcomposition',[]]) isNotEqualTo []) then {
@@ -2435,9 +2391,7 @@ for '_x' from 0 to 1 step 0 do {
 								};
 								missionNamespace setVariable ['QS_grid_intelTargets',[],_false];
 								if ((missionNamespace getVariable ['QS_grid_intelEntities',[]]) isNotEqualTo []) then {
-									{
-										deleteVehicle _x;
-									} forEach (missionNamespace getVariable ['QS_grid_intelEntities',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_grid_intelEntities',[]]);
 									missionNamespace setVariable ['QS_grid_intelEntities',[],_false];
 								};
 								if (!isNull (missionNamespace getVariable ['QS_grid_IDAPintel',_objNull])) then {
@@ -2458,37 +2412,25 @@ for '_x' from 0 to 1 step 0 do {
 									missionNamespace setVariable ['QS_grid_intelHouses',[],_false];
 								};
 								if ((missionNamespace getVariable ['QS_ao_UXOs',[]]) isNotEqualTo []) then {
-									{
-										deleteVehicle _x;
-									} forEach (missionNamespace getVariable ['QS_ao_UXOs',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_ao_UXOs',[]]);
 									missionNamespace setVariable ['QS_ao_UXOs',[],_false];
 								};
 								if ((missionNamespace getVariable ['QS_grid_IDAP_uxoField',[]]) isNotEqualTo []) then {
-									{
-										deleteVehicle _x;
-									} forEach (missionNamespace getVariable ['QS_grid_IDAP_uxoField',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_grid_IDAP_uxoField',[]]);
 									missionNamespace setVariable ['QS_grid_IDAP_uxoField',[],_false];
 								};
-								{
-									if (local _x) then {
-										if ((_x distance2D (missionNamespace getvariable ['QS_aoPos',[0,0,0]])) < 1200) then {
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-											deleteVehicle _x;
-										};
-									};
-								} count allMines;
+								deleteVehicle (_allMines select {
+									(
+										(local _x) &&
+										((_x distance2D (missionNamespace getvariable ['QS_aoPos',[0,0,0]])) < 1200)
+									)
+								});
 								if ((missionNamespace getVariable ['QS_grid_IGstaticComposition',[]]) isNotEqualTo []) then {
-									{
-										deleteVehicle _x;
-									} forEach (missionNamespace getVariable ['QS_grid_IGstaticComposition',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_grid_IGstaticComposition',[]]);
 									missionNamespace setVariable ['QS_grid_IGstaticComposition',[],_false];
 								};
 								if ((missionNamespace getVariable ['QS_primaryObjective_civilians',[]]) isNotEqualTo []) then {
-									{
-										if (!isNull _x) then {
-											deleteVehicle _x;
-										};
-									} forEach (missionNamespace getVariable ['QS_primaryObjective_civilians',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_primaryObjective_civilians',[]]);
 									missionNamespace setVariable ['QS_primaryObjective_civilians',[],_false];
 								};
 								if ((missionNamespace getVariable ['QS_ao_civVehicles',[]]) isNotEqualTo []) then {
@@ -2506,7 +2448,6 @@ for '_x' from 0 to 1 step 0 do {
 												(missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 											} else {
 												deleteVehicle _x;
-												missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											};
 										};
 									} forEach (missionNamespace getVariable ['QS_entities_ao_customEntities',[]]);
@@ -2521,16 +2462,7 @@ for '_x' from 0 to 1 step 0 do {
 									missionNamespace setVariable ['QS_entities_ao_customStructures',[],_false];
 								};
 								if ((missionNamespace getVariable ['QS_aoAnimals',[]]) isNotEqualTo []) then {
-									{
-										if (!isNull _x) then {
-											missionNamespace setVariable [
-												'QS_analytics_entities_deleted',
-												((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-												_false
-											];
-											deleteVehicle _x;
-										};
-									} count (missionNamespace getVariable 'QS_aoAnimals');
+									deleteVehicle (missionNamespace getVariable ['QS_aoAnimals',[]]);
 									missionNamespace setVariable ['QS_aoAnimals',[],_false];
 								};
 								if (!(missionNamespace getVariable ['QS_grid_AI_triggerDeinit',_false])) then {
@@ -2557,7 +2489,7 @@ for '_x' from 0 to 1 step 0 do {
 						if ((!(_defendAOActive)) || {(!isNil 'QS_aoCycleSmallTask')}) then {
 							if (!(missionNamespace getVariable 'QS_customAO_active')) then {
 								if ((_timeNow > _QS_module_aoSmallTasks_timeoutDelay) || {(!isNil 'QS_aoCycleSmallTask')}) then {
-									if (!isNil {missionNamespace getVariable 'QS_aoCycleSmallTask'}) then {
+									if !(missionNamespace isNil 'QS_aoCycleSmallTask') then {
 										missionNamespace setVariable ['QS_aoCycleSmallTask',nil,_false];
 									};
 									diag_log 'CREATING SMALL TASK';
@@ -2629,7 +2561,7 @@ for '_x' from 0 to 1 step 0 do {
 						(_ve getVariable ['QS_services_medical',_false]) &&
 						{(isNull (attachedTo _ve))} &&
 						{(isNull (ropeAttachedTo _ve))} &&
-						{(isNil {_ve getVariable 'QS_vehicle_isSuppliedFOB'})}
+						{_ve isNil 'QS_vehicle_isSuppliedFOB'}
 					) exitWith {
 						_ve setVariable ['QS_vehicle_isSuppliedFOB',_true,_true];
 						_dn1 = QS_hashmap_configfile getOrDefaultCall [
@@ -2649,7 +2581,7 @@ for '_x' from 0 to 1 step 0 do {
 						};
 						QS_module_fob_flag setVariable ['QS_deploy_tickets',(QS_module_fob_flag getVariable ['QS_deploy_tickets',0]) + _module_fob_respawn_ticketsAdded,_true];
 						0 = ['sideChat',[_west,'HQ'],(format ['%3 %1 %4 %2',_module_fob_respawn_ticketsAdded,(QS_module_fob_flag getVariable ['QS_deploy_tickets',0]),localize 'STR_QS_Chat_041',localize 'STR_QS_Chat_042'])] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
-						if (!isNil {_ve getVariable 'QS_transporter'}) then {
+						if !(_ve isNil 'QS_transporter') then {
 							if (alive ((_ve getVariable 'QS_transporter') # 1)) then {
 								0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_ve getVariable 'QS_transporter') # 2),((_ve getVariable 'QS_transporter') # 0),4];
 							};
@@ -2693,7 +2625,7 @@ for '_x' from 0 to 1 step 0 do {
 						{((getMass _ve) > 5000)} &&				// exclude light repair cars
 						{(isNull (attachedTo _ve))} &&
 						{(isNull (ropeAttachedTo _ve))} &&
-						{(isNil {_ve getVariable 'QS_vehicle_isSuppliedFOB'})}
+						{_ve isNil 'QS_vehicle_isSuppliedFOB'}
 					) exitWith {
 						_ve setVariable ['QS_vehicle_isSuppliedFOB',_true,_true];
 						_dn1 = QS_hashmap_configfile getOrDefaultCall [
@@ -2720,7 +2652,7 @@ for '_x' from 0 to 1 step 0 do {
 						{(isNull (attachedTo _ve))} &&
 						{(isNull (ropeAttachedTo _ve))} &&
 						{((getMass _ve) > 2000)} &&
-						{(isNil {_ve getVariable 'QS_vehicle_isSuppliedFOB'})}
+						{_ve isNil 'QS_vehicle_isSuppliedFOB'}
 					) exitWith {
 						_ve setVariable ['QS_vehicle_isSuppliedFOB',_true,_true];
 						_dn1 = QS_hashmap_configfile getOrDefaultCall [
@@ -2736,7 +2668,7 @@ for '_x' from 0 to 1 step 0 do {
 						'QS_marker_veh_fieldservice_04' setMarkerAlpha 0.5;
 						'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
 						0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_050']] remoteExec ['QS_fnc_showNotification',-2,_false];
-						if (!isNil {_ve getVariable 'QS_transporter'}) then {
+						if !(_ve isNil 'QS_transporter') then {
 							if (alive ((_ve getVariable 'QS_transporter') # 1)) then {
 								0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_ve getVariable 'QS_transporter') # 2),((_ve getVariable 'QS_transporter') # 0),4];
 							};
@@ -2753,7 +2685,7 @@ for '_x' from 0 to 1 step 0 do {
 						{((getAmmoCargo _ve) isEqualTo -1)} &&		// Exclude multi-service assets
 						{(isNull (attachedTo _ve))} &&
 						{(isNull (ropeAttachedTo _ve))} &&
-						{(isNil {_ve getVariable 'QS_vehicle_isSuppliedFOB'})}
+						{_ve isNil 'QS_vehicle_isSuppliedFOB'}
 					) exitWith {
 						_ve setVariable ['QS_vehicle_isSuppliedFOB',_true,_true];
 						_dn1 = QS_hashmap_configfile getOrDefaultCall [
@@ -2771,7 +2703,7 @@ for '_x' from 0 to 1 step 0 do {
 						'QS_marker_veh_fieldservice_01' setMarkerAlpha 0.5;
 						(missionNamespace getVariable 'QS_module_fob_repairDepot') hideObjectGlobal _false;
 						0 = ['FOB_UPDATE',['',localize 'STR_QS_Notif_049']] remoteExec ['QS_fnc_showNotification',-2,_false];
-						if (!isNil {_ve getVariable 'QS_transporter'}) then {
+						if !(_ve isNil 'QS_transporter') then {
 							if (alive ((_ve getVariable 'QS_transporter') # 1)) then {
 								0 = (missionNamespace getVariable 'QS_leaderboards_session_queue') pushBack ['TRANSPORT',((_ve getVariable 'QS_transporter') # 2),((_ve getVariable 'QS_transporter') # 0),4];
 							};
@@ -3027,7 +2959,6 @@ for '_x' from 0 to 1 step 0 do {
 				) then {
 					_casJetObj setDamage [1,_false];
 					deleteVehicle _casJetObj;
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 				};
 			};
 			_QS_module_cas_respawn_checkDelay = _timeNow + 15;
@@ -3174,7 +3105,9 @@ for '_x' from 0 to 1 step 0 do {
 						['_stateInfo',[]],
 						['_wreckInfo',[_false,'','','']],
 						['_wreckChance',0],
-						['_wreckCond',_codeBool]
+						['_wreckCond',_codeBool],
+						['_persistenceID',''],
+						['_childEntities',[]]
 					];
 					if (!alive _v) then {
 						if (!_isRespawning) then {
@@ -3189,12 +3122,10 @@ for '_x' from 0 to 1 step 0 do {
 								if (!isNull _v) then {
 									if ((attachedObjects _v) isNotEqualTo []) then {
 										{
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											[0,_x] call _fn_eventAttach;
 											deleteVehicle _x;
 										} count (attachedObjects _v);
 									};
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									deleteVehicle _v;
 									sleep 0.1;
 								};
@@ -3398,7 +3329,7 @@ for '_x' from 0 to 1 step 0 do {
 							{!(_v getVariable ['QS_logistics_packed',_false])} &&
 							{_vPos isNotEqualTo [0,0,0]}
 						) then {
-							if (!isNil {_v getVariable 'QS_ClientVTexture_owner'}) then {
+							if !(_v isNil 'QS_ClientVTexture_owner') then {
 								_ownerInGame = _false;
 								{
 									if ((getPlayerUID _x) isEqualTo (_v getVariable 'QS_ClientVTexture_owner')) exitWith {
@@ -3447,7 +3378,6 @@ for '_x' from 0 to 1 step 0 do {
 												//(_isDynamicVehicle && (!_isActiveDLC)) || 
 												(_v isKindOf 'Air')
 											) then {
-												missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 												deleteVehicle _v;
 											} else {
 												if (
@@ -3502,7 +3432,6 @@ for '_x' from 0 to 1 step 0 do {
 											(_isDynamicVehicle && (!_isActiveDLC)) || 
 											{(_v isKindOf 'Air')}
 										) then {
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											deleteVehicle _v;
 										} else {
 											if (
@@ -3545,7 +3474,6 @@ for '_x' from 0 to 1 step 0 do {
 											{((_v isKindOf 'LandVehicle') || {(_v isKindOf 'Ship')})} &&
 											{((_v nearEntities ['CAManBase',_QS_vRespawnDist_base]) isEqualTo [])}
 										) then {
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											deleteVehicle _v;
 										} else {
 											if (local _v) then {
@@ -3651,6 +3579,13 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 					};
+					if (_childEntities isNotEqualTo []) then {
+						_countChildEntities = count _childEntities;
+						_childEntities = _childEntities select {alive _x};
+						if ((count _childEntities) isNotEqualTo _c) then {
+							(serverNamespace getVariable 'QS_v_Monitor') set [_forEachIndex,[_v,_vdelay,_randomize,_configCode,_t,_vpos,_dir,_false,0,_fobVehicleID,_QS_vRespawnDist_base,_QS_vRespawnDist_field,_vRespawnTickets,_nearEntitiesCheck,_isDynamicVehicle,_isCarrierVehicle,_vehicleSpawnCondition,_isWreck,_isDeployed,_stateInfo,_wreckInfo,_wreckChance,_wreckCond,_persistenceID,_childEntities]];
+						};			
+					};
 				};
 				sleep 0.01;
 			} forEach (serverNamespace getVariable 'QS_v_Monitor');
@@ -3658,13 +3593,18 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		_vRespawn_checkDelay = time + _vRespawn_delay;
 	};
-	if (_timeNow > _QS_cleanup_checkDelay) then {
+	
+	// Garbage Manager
+
+	if (
+		(_QS_diagTickTimeNow > _QS_cleanup_checkDelay) ||
+		(localNamespace getVariable ['QS_GC_trigger',_false])
+	) then {
 		if ((missionNamespace getVariable ['QS_managed_hints',[]]) isNotEqualTo []) then {
 			missionNamespace setVariable ['QS_managed_hints',[],_false];
 		};
 		missionNamespace setVariable ['QS_draw2D_projectiles',((missionNamespace getVariable 'QS_draw2D_projectiles') select {(!isNull _x)}),_false];
 		missionNamespace setVariable ['QS_draw3D_projectiles',((missionNamespace getVariable 'QS_draw3D_projectiles') select {(!isNull _x)}),_false];
-		
 		if (QS_markers_fireSupport_queue isNotEqualTo []) then {
 			{
 				if (_x isEqualType []) then {
@@ -3675,175 +3615,316 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		if (QS_markers_fireSupport isNotEqualTo []) then {
 			{
-				if (_x isEqualType []) then {
-					if (_serverTime > ((_x # 1) + 300)) then {
-						if ((_x # 0) in allMapMarkers) then {
-							deleteMarker (_x # 0);
-						};
-						QS_markers_fireSupport set [_forEachIndex,FALSE];
+				if (
+					(_x isEqualType []) &&
+					{(_serverTime > ((_x # 1) + 300))}
+				) then {
+					if ((_x # 0) in allMapMarkers) then {
+						deleteMarker (_x # 0);
 					};
+					QS_markers_fireSupport set [_forEachIndex,FALSE];
 				};
 			} forEach QS_markers_fireSupport;
 			QS_markers_fireSupport = QS_markers_fireSupport select {_x isEqualType []};
 			missionNamespace setVariable ['QS_markers_fireSupport',QS_markers_fireSupport,_true];
 		};
 		
-		{
-			if ((([_x,500,[_west],_allPlayers,0] call _fn_serverDetector) isEqualTo []) || {(underwater _x)}) then {
-				if (!(_x getVariable ['QS_dead_prop',_false])) then {
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						_false
-					];
-					deleteVehicle _x;
-				};
-			};
-		} forEach allDead;
-		if (_QS_garbageCollector_enabled) then {
-			if (QS_entities_craterEffects isNotEqualTo []) then {
-				QS_entities_craterEffects = QS_entities_craterEffects select {_x isEqualType []};
-				{
-					if (_x isEqualType []) then {
-						_x params [
-							'_state',
-							'_list'
+		_allPlayers = units WEST;		// DEBUG
+		
+		// Handle dead bodies
+		
+		if (!_QS_corpseCollector) then {
+			_allDeadMen = allDeadMen select {(!(_x getVariable ['QS_dead_prop',_false]))};
+			if ((count _allDeadMen) > _thresholdLower) then {
+				deleteVehicle (_allDeadMen select {
+					(
+						((_x getEntityInfo 3) > 10) &&
+						((_allPlayers inAreaArray [_x,_distanceIrrelevant,_distanceIrrelevant]) isEqualTo [])
+					)
+				});
+				uiSleep (diag_deltaTime * 3);
+				_allDeadMen = _allDeadMen select {!isNull _x};
+				_deadCount = count _allDeadMen;
+				if ((_deadCount - _thresholdLower) > 0) then {
+					_toDelete = [];
+					_allDeadSorted = _allDeadMen apply {
+						[
+							_x getEntityInfo 3,		//Number: how long unit been dead for
+							((_allPlayers inAreaArray [_x,_distanceRelevant,_distanceRelevant]) isNotEqualTo []),	//Bool: Is a player nearby
+							_x
+						]
+					};
+					_allDeadSorted sort FALSE;
+					{
+						_x params ['_deadFor','_deadNearPlayer','_deadUnit'];
+						_deadForThreshold = linearConversion [
+							_thresholdLower,		//25
+							_thresholdUpper,		//75
+							_deadCount,				//40
+							_deadDurationLower,		//60 - stays not cleaned up longer, when there are fewer bodies
+							_deadDurationUpper,		//30 - stays not cleaned up shorter, when there are more bodies
+							_true					//clip
 						];
-						if (_state isEqualTo 1) then {
-							QS_entities_craterEffects set [_forEachIndex,_false];
-						} else {
-							if (_state isEqualTo 0) then {
-								QS_entities_craterEffects set [_forEachIndex,[1,_list]];
-								{
-									QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
-								} forEach _list;
+						_deadFor = [_deadFor,_deadFor / _nearPlayerCoef] select _deadNearPlayer;
+						if (
+							(_deadFor > _deadForThreshold) ||
+							{((_deadCount > _thresholdUpper) && (!(_deadNearPlayer)))}
+						) then {
+							_deadCount = _deadCount - 1;
+							if (isNull (objectParent _deadUnit)) then {
+								_toDelete pushBack _deadUnit;
+							} else {
+								(objectParent _deadUnit) deleteVehicleCrew _deadUnit;
 							};
 						};
+						if ((_deadCount - _thresholdLower) <= 0) exitWith {};
+					} forEach _allDeadSorted;
+					if (_toDelete isNotEqualTo []) then {
+						deleteVehicle _toDelete;	
 					};
-				} forEach (missionNamespace getVariable ['QS_entities_craterEffects',[]]);
+				};
 			};
-			_managed_flares = (missionNamespace getVariable ['QS_managed_flares',[]]) select {!isNull (_x # 0)};
-			if (_managed_flares isNotEqualTo []) then {
-				{
-					if (diag_tickTime > (_x # 1)) then { 
-						deleteVehicle (_x # 0);
+		};
+
+		// Handle destroyed wrecks
+		
+		if (!_QS_wreckCollector) then {
+			QS_vehicles_destroyed = QS_vehicles_destroyed select {
+				!(isNull _x) &&
+				{!(_x getVariable ['QS_dead_prop',_false])}
+			};
+			_allDeadVehicles = QS_vehicles_destroyed;
+			if ((count _allDeadVehicles) > _thresholdLowerVehicle) then {
+				deleteVehicle (_allDeadVehicles select {
+					(
+						(((vectorMagnitude (velocity _x)) * 3.6) < 1) &&
+						((_allPlayers inAreaArray [_x,_distanceIrrelevantVehicle,_distanceIrrelevantVehicle]) isEqualTo [])
+					)
+				});
+				uiSleep (diag_deltaTime * 3);
+				_allDeadVehicles = _allDeadVehicles select {!isNull _x};
+				_deadCount = count _allDeadVehicles;
+				if ((_deadCount - _thresholdLowerVehicle) > 0) then {
+					_toDelete = [];
+					_allDeadVehiclesSorted = _allDeadVehicles apply {
+						[
+							_x getEntityInfo 3,		//Number: how long vehicle been dead for
+							((_allPlayers inAreaArray [_x,_distanceRelevantVehicle,_distanceRelevantVehicle]) isNotEqualTo []),	//Bool: Is a player nearby
+							_x
+						]
 					};
-				} forEach _managed_flares;
-			};
-			if ((missionNamespace getVariable 'QS_garbageCollector') isNotEqualTo []) then {
-				missionNamespace setVariable ['QS_collectingGarbage',_true,_false];
-				_QS_garbageCollector = [];
-				{
-					if (_x isEqualType []) then {
-						_x params [
-							'_QS_obj',
-							'_QS_instructions',
-							'_QS_timeDelete'
+					_allDeadVehiclesSorted sort FALSE;
+					{
+						_x params ['_deadFor','_deadNearPlayer','_deadUnit'];
+						_deadForThreshold = linearConversion [
+							_thresholdLowerVehicle,			//5
+							_thresholdUpperVehicle,			//15
+							_deadCount,						// ?
+							_deadDurationLowerVehicle,		//60 - stays not cleaned up longer, when there are fewer bodies
+							_deadDurationUpperVehicle,		//30 - stays not cleaned up shorter, when there are more bodies
+							_true							//clip
 						];
-						if (_QS_obj isEqualType {}) then {
-							(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
-						} else {
-							if (_QS_obj isEqualType grpNull) then {
-								deleteGroup _QS_obj;
+						_deadFor = [_deadFor,_deadFor / _nearPlayerCoefVehicle] select _deadNearPlayer;
+						if (
+							(
+								(_deadFor > _deadForThreshold) ||
+								((_deadCount > _thresholdUpperVehicle) && (!(_deadNearPlayer)))
+							) &&
+							{((_allPlayers inAreaArray [_deadUnit,15,15]) isEqualTo [])}		// hardcode dont delete when players using it as cover
+						) then {
+							_deadCount = _deadCount - 1;
+							_toDelete pushBack _deadUnit;
+							if ((attachedObjects _deadUnit) isNotEqualTo []) then {
+								_toDelete = _toDelete + (attachedObjects _deadUnit);
+							};
+						};
+						if ((_deadCount - _thresholdLowerVehicle) <= 0) exitWith {};
+					} forEach _allDeadVehiclesSorted;				
+					if (_toDelete isNotEqualTo []) then {
+						deleteVehicle _toDelete;
+					};
+				};
+			};
+		};
+
+		// Handle Groups
+		_allGroups = allGroups select {(!(_x getVariable ['QS_cleanup_protected',_false]))};
+		{
+			if (local _x) then {
+				if (_x isNil 'QS_allGroups_reg') then {
+					_x setVariable ['QS_allGroups_reg',_true,_false];
+					if (!isGroupDeletedWhenEmpty _x) then {
+						_x deleteGroupWhenEmpty _true;
+					};
+				};
+				if ((units _x) isEqualTo []) then {
+					if (_x isNil 'BIS_dg_reg') then {
+						if (!isGroupDeletedWhenEmpty _x) then {
+							_x deleteGroupWhenEmpty _true;
+						};
+					} else {
+						// to do
+						// handle now-local player groups
+						if (!isGroupDeletedWhenEmpty _x) then {
+							_x deleteGroupWhenEmpty _true;
+						};
+					};
+				};
+			} else {
+				if (_x isNil 'QS_allGroups_reg') then {
+					_x setVariable ['QS_allGroups_reg',_true,_false];
+					_x addEventHandler [
+						'Local',
+						{
+							params ['_grp'];
+							if (
+								(local _grp) &&
+								{(!(_grp getVariable ['QS_cleanup_protected',FALSE]))} &&
+								{(!isGroupDeletedWhenEmpty _grp)}
+							) then {
+								_grp deleteGroupWhenEmpty TRUE;
+							};
+						}
+					];
+				};
+			};
+		} forEach _allGroups;
+		
+		// Handle mines
+		
+		_allMines = allMines select {(!(_x getVariable ['QS_cleanup_protected',_false]))};	// managed mines array?
+		if (_allMines isNotEqualTo []) then {
+			deleteVehicle (_allMines select {
+				((_allUnits inAreaArray [_x,500,500]) isEqualTo [])
+			});
+		};		
+
+		// Handle flares
+		
+		_managed_flares = (missionNamespace getVariable ['QS_managed_flares',[]]) select {!isNull (_x # 0)};
+		if (_managed_flares isNotEqualTo []) then {
+			{
+				if (diag_tickTime > (_x # 1)) then { 
+					deleteVehicle (_x # 0);
+				};
+			} forEach _managed_flares;
+		};
+
+		// Handle Gitmo prisoners
+		
+		if ((count (missionNamespace getVariable ['QS_prisoners',[]])) > _maxPrisoners) then {
+			deleteVehicle ((missionNamespace getVariable 'QS_prisoners') # 0);
+			missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') select {(alive _x)}),_true];
+		};
+		
+		// Handle active crater effects
+		
+		if (QS_entities_craterEffects isNotEqualTo []) then {
+			QS_entities_craterEffects = QS_entities_craterEffects select {_x isEqualType []};
+			{
+				if (_x isEqualType []) then {
+					_x params [
+						'_state',
+						'_list'
+					];
+					if (_state isEqualTo 1) then {
+						QS_entities_craterEffects set [_forEachIndex,_false];
+					} else {
+						if (_state isEqualTo 0) then {
+							QS_entities_craterEffects set [_forEachIndex,[1,_list]];
+							{
+								QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
+							} forEach _list;
+						};
+					};
+				};
+			} forEach (missionNamespace getVariable ['QS_entities_craterEffects',[]]);
+		};
+		
+		// Main garbage/overflow handler
+		
+		if ((missionNamespace getVariable 'QS_garbageCollector') isNotEqualTo []) then {
+			missionNamespace setVariable ['QS_collectingGarbage',_true,_false];
+			_QS_garbageCollector = [];
+			{
+				if (_x isEqualType []) then {
+					_x params [
+						'_QS_obj',
+						'_QS_instructions',
+						'_QS_timeDelete'
+					];
+					if (_QS_obj isEqualType {}) then {
+						(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
+					} else {
+						if (_QS_obj isEqualType _objNull) then {
+							_QS_attemptRecycle = _false;
+							if (isNull _QS_obj) then {
+								(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
 							} else {
-								if (_QS_obj isEqualType _objNull) then {
-									_QS_attemptRecycle = _false;
-									if (isNull _QS_obj) then {
-										(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
-									} else {
-										_QS_objWorldPos = getPosWorld _QS_obj;
-										if (_QS_instructions isEqualTo 'NOW_FORCED') then {
+								_QS_objWorldPos = getPosWorld _QS_obj;
+								if (_QS_instructions isEqualTo 'NOW_FORCED') then {
+									_QS_attemptRecycle = _true;
+									_QS_deleteThis = _true;
+								};
+								if (_QS_instructions isEqualTo 'NOW_DISCREET') then {
+									if ((_allPlayers inAreaArray [_QS_objWorldPos,150,150,0,_false]) isEqualTo []) then {
+										_QS_attemptRecycle = _true;
+										_QS_deleteThis = _true;
+									};
+								};
+								if (_QS_instructions isEqualTo 'DELAYED_FORCED') then {
+									if (_timeNow > _QS_timeDelete) then {
+										_QS_attemptRecycle = _true;
+										_QS_deleteThis = _true;
+									};
+								};
+								if (_QS_instructions isEqualTo 'DELAYED_DISCREET') then {
+									if (_timeNow > _QS_timeDelete) then {
+										if ((_allPlayers inAreaArray [_QS_objWorldPos,150,150,0,_false]) isEqualTo []) then {
 											_QS_attemptRecycle = _true;
 											_QS_deleteThis = _true;
 										};
-										if (_QS_instructions isEqualTo 'NOW_DISCREET') then {
-											if ((_allPlayers inAreaArray [_QS_objWorldPos,150,150,0,_false]) isEqualTo []) then {
-												_QS_attemptRecycle = _true;
-												_QS_deleteThis = _true;
-											};
-										};
-										if (_QS_instructions isEqualTo 'DELAYED_FORCED') then {
-											if (_timeNow > _QS_timeDelete) then {
-												_QS_attemptRecycle = _true;
-												_QS_deleteThis = _true;
-											};
-										};
-										if (_QS_instructions isEqualTo 'DELAYED_DISCREET') then {
-											if (_timeNow > _QS_timeDelete) then {
-												if ((_allPlayers inAreaArray [_QS_objWorldPos,150,150,0,_false]) isEqualTo []) then {
-													_QS_attemptRecycle = _true;
-													_QS_deleteThis = _true;
-												};
-											};
-										};
-										if (_QS_instructions isEqualTo 'DEAD_M') then {
-											_allDeadMenCount = count allDeadMen;
-											if (_allDeadMenCount > _deadMenLimit) then {
-												if (!(_QS_obj getVariable ['QS_dead_prop',_false])) then {
-													if (
-														(((_allPlayers inAreaArray [_QS_objWorldPos,15,15,0,_false]) isEqualTo []) || {(_timeNow > _QS_timeDelete)}) ||
-														{(_allDeadMenCount > _deadMenLimitMax)}
-													) then {
-														missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-														if (!isNull (objectParent _QS_obj)) then {
-															if ((objectParent _QS_obj) isKindOf 'AllVehicles') then {
-																(objectParent _QS_obj) deleteVehicleCrew _QS_obj;
-															} else {
-																deleteVehicle _QS_obj;
-															};
-														} else {
-															deleteVehicle _QS_obj;
-														};
-													};
-												};
-											};
-										};
-										if (_QS_instructions isEqualTo 'DEAD_V') then {
-											_allDeadVehiclesCount = count (allDead - allDeadMen);
-											if (_allDeadVehiclesCount > _deadVehiclesLimit) then {
-												if (
-													(((_allPlayers inAreaArray [_QS_objWorldPos,50,50,0,_false]) isEqualTo []) || {(_timeNow > _QS_timeDelete)}) ||
-													{(_allDeadVehiclesCount > _deadVehiclesLimitMax)}
-												) then {
-													missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-													deleteVehicle _QS_obj;
-												};
-											};											
-										};		
-										if (_QS_instructions isEqualTo 'CUSTOM') then {
-
-										};
-										if (_QS_instructions isEqualTo 'UNHIDE_DISCREET') then {
-											if ((_allPlayers inAreaArray [_QS_objWorldPos,100,100,0,_false]) isEqualTo []) then {
-												_QS_obj hideObjectGlobal _false;
-												(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
-											};
-										};
-										if (_QS_deleteThis) then {
-											if (_QS_attemptRecycle) then {
-												if ([1,0,_QS_obj] call _fn_serverObjectsRecycler) then {
-													(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
-												} else {
-													0 = _QS_garbageCollector pushBack _QS_obj;
-												};
-											} else {
-												0 = _QS_garbageCollector pushBack _QS_obj;
-											};
-											_QS_deleteThis = _false;
-										};
 									};
+								};	
+								if (_QS_instructions isEqualTo 'CUSTOM') then {
+
+								};
+								if (_QS_instructions isEqualTo 'UNHIDE_DISCREET') then {
+									if ((_allPlayers inAreaArray [_QS_objWorldPos,100,100,0,_false]) isEqualTo []) then {
+										_QS_obj hideObjectGlobal _false;
+										(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
+									};
+								};
+								if (_QS_deleteThis) then {
+									if (_QS_attemptRecycle) then {
+										if ([1,0,_QS_obj] call _fn_serverObjectsRecycler) then {
+											(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
+										} else {
+											_QS_garbageCollector pushBack _QS_obj;
+										};
+									} else {
+										_QS_garbageCollector pushBack _QS_obj;
+									};
+									_QS_deleteThis = _false;
 								};
 							};
 						};
-					} else {
-						(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
 					};
-					uiSleep 0.01;
-				} forEach (missionNamespace getVariable 'QS_garbageCollector');
-				if (_QS_garbageCollector isNotEqualTo []) then {
-					{
+				} else {
+					(missionNamespace getVariable 'QS_garbageCollector') set [_forEachIndex,_false];
+				};
+				uiSleep 0.01;
+			} forEach (missionNamespace getVariable 'QS_garbageCollector');
+			if (_QS_garbageCollector isNotEqualTo []) then {
+				{
+					if (_x isEqualType []) then {
+						_element = _x;
+						_QS_i = (missionNamespace getVariable 'QS_garbageCollector') findIf {((_x # 0) isEqualTo _element)};
+						if (_QS_i isNotEqualTo -1) then {
+							(missionNamespace getVariable 'QS_garbageCollector') set [_QS_i,_false];
+						};
+					} else {
 						if (!isNull _x) then {
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							if (_x isKindOf 'CAManBase') then {
 								if (!isNull (objectParent _x)) then {
 									if ((objectParent _x) isKindOf 'AllVehicles') then {
@@ -3858,30 +3939,13 @@ for '_x' from 0 to 1 step 0 do {
 								deleteVehicle _x;
 							};
 							uiSleep 0.007;
-						} else {
-							if (_x isEqualType []) then {
-								_element = _x;
-								_QS_i = (missionNamespace getVariable 'QS_garbageCollector') findIf {((_x # 0) isEqualTo _element)};
-								if (_QS_i isNotEqualTo -1) then {
-									(missionNamespace getVariable 'QS_garbageCollector') set [_QS_i,_false];
-								};
-							};
 						};
-					} count _QS_garbageCollector;
-				};
-				{
-					if (_x isEqualType _true) then {
-						(missionNamespace getVariable 'QS_garbageCollector') deleteAt _forEachIndex;
 					};
-				} forEach (missionNamespace getVariable 'QS_garbageCollector');
-				missionNamespace setVariable ['QS_collectingGarbage',_false,_false];
+				} count _QS_garbageCollector;
 			};
-			{
-				if (_x isEqualType _true) then {
-					(missionNamespace getVariable 'QS_garbageCollector') deleteAt _forEachIndex;
-				};
-			} forEach (missionNamespace getVariable 'QS_garbageCollector');
+			missionNamespace setVariable ['QS_collectingGarbage',_false,_false];
 		};
+		QS_garbageCollector = QS_garbageCollector select {!(_x isEqualType _true)};
 		if (_missionObjectsTicker >= 5) then {
 			_missionObjectsTicker = 0;
 			_allMissionObjectsAll = allMissionObjects '';
@@ -3904,82 +3968,81 @@ for '_x' from 0 to 1 step 0 do {
 			_missionObject = _x;
 			_missionObjectType = toLowerANSI (typeOf _x);
 			if (_missionObject isKindOf 'CraterLong') then {
-				if ((_allPlayers inAreaArray [_missionObject,500,500,0,_false]) isEqualTo []) then {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-					deleteVehicle _missionObject;
-				} else {
-					if (!(_missionObject getVariable ['QS_cleanup_protected',_false])) then {
-						0 = _missionCraters pushBack _missionObject;
+				if (!(_missionObject getVariable ['QS_cleanup_protected',_false])) then {
+					if ((_allPlayers inAreaArray [_missionObject,500,500,0,_false]) isEqualTo []) then {
+						_deleteNow pushBack _missionObject;
+					} else {
+						_missionCraters pushBack _missionObject;
 					};
 				};
 				uiSleep 0.005;
+				continue;
 			};
 			if (_missionObject isKindOf 'WeaponHolder') then {
-				if ((_missionObject distance2D _baseMarker) < 300) then {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-					deleteVehicle _missionObject;
+				if (_missionObject isKindOf 'GroundWeaponHolder') then {
+					if ((_allPlayers inAreaArray [_missionObject,100,100,0,_false]) isNotEqualTo []) then {
+						_missionGroundWeaponHolders pushBack _missionObject;
+					} else {
+						_deleteNow pushBack _missionObject;
+					};
 				} else {
-					0 = _missionWeaponHolders pushBack _missionObject;
+					if ((_missionObject distance2D _baseMarker) < 300) then {		// to do: change to "in safezone"
+						_deleteNow pushBack _missionObject;
+					} else {
+						_missionWeaponHolders pushBack _missionObject;
+					};
 				};
 				uiSleep 0.005;
-			};
-			if (_missionObject isKindOf 'GroundWeaponHolder') then {
-				if ((_allPlayers inAreaArray [_missionObject,100,100,0,_false]) isNotEqualTo []) then {
-					0 = _missionGroundWeaponHolders pushBack _missionObject;
-				} else {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-					deleteVehicle _missionObject;
-				};
-				uiSleep 0.005;
+				continue;
 			};
 			if (_missionObjectType isEqualTo 'weaponholdersimulated') then {
 				if ((_allPlayers inAreaArray [_missionObject,100,100,0,_false]) isNotEqualTo []) then {
-					0 = _missionWeaponHolderSimulated pushBack _missionObject;
+					_missionWeaponHolderSimulated pushBack _missionObject;
 				} else {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-					deleteVehicle _missionObject;
+					_deleteNow pushBack _missionObject;
 				};
 				uiSleep 0.005;
+				continue;
 			};
-			if (_missionObjectType in _jetJunk) then {
-				if (((vectorMagnitude (velocity _missionObject)) * 3.6) < 1) then {
-					if (((crew _missionObject) isEqualTo []) || {(((crew _missionObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)}) then {
-						if (((_missionObject nearEntities ['CAManBase',25]) select {((alive _x) && (isPlayer _x))}) isEqualTo []) then {
-							0 = _deleteNow pushBack _missionObject;
-						};
-					};
-				};
+			if (
+				(_missionObjectType in _jetJunk) &&
+				{(((vectorMagnitude (velocity _missionObject)) * 3.6) < 1)} &&
+				{(((crew _missionObject) isEqualTo []) || {(((crew _missionObject) findIf {((alive _x) && (isPlayer _x))}) isEqualTo -1)})} &&
+				{(((_missionObject nearEntities ['CAManBase',25]) select {((alive _x) && (isPlayer _x))}) isEqualTo [])}
+			) then {
+				_deleteNow pushBack _missionObject;
+				continue;
 			};
-			if (_missionObject isKindOf 'StaticWeapon') then {
-				if (isNull (attachedTo _missionObject)) then {
-					if ((_allUnits inAreaArray [_missionObject,250,250,0,_false]) isEqualTo []) then {
-						if (!(_missionObject getVariable ['QS_cleanup_protected',_false])) then {
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-							deleteVehicle _missionObject;
-						};
-					} else {
-						if (isNil {_missionObject getVariable 'QS_cleanup_protected'}) then {
-							0 = _missionStaticWeapons pushBack _missionObject;
-						};
-					};
+			if (
+				(_missionObject isKindOf 'StaticWeapon') &&
+				{(!(_missionObject getVariable ['QS_cleanup_protected',_false]))} &&
+				{(isNull (attachedTo _missionObject))}
+			) then {
+				if ((_allUnits inAreaArray [_missionObject,250,250,0,_false]) isEqualTo []) then {
+					_deleteNow pushBack _missionObject;
+				} else {
+					_missionStaticWeapons pushBack _missionObject;
 				};
 				uiSleep 0.005;
+				continue;
 			};
 			if (_missionObject isKindOf 'Ruins') then {
 				if (_missionObject isKindOf 'Land_TTowerBig_2_ruins_F') then {
+					// radio tower ruins
 					if ((_allPlayers inAreaArray [_missionObject,1000,1000,0,_false]) isEqualTo []) then {
-						deleteVehicle _missionObject;
+						_deleteNow pushBack _missionObject;
 					};
 				} else {
 					if (!(_missionObject getVariable ['QS_cleanup_protected',_false])) then {
-						if (!((toLowerANSI (typeOf _missionObject)) in _protectedRuinTypes)) then {
-							if ((_missionObject distance2D [-1000,-1000,0]) > 10) then {
-								if ((_allPlayers inAreaArray [_missionObject,500,500,0,_false]) isEqualTo []) then {
-									_missionObject setPosWorld [-1000,-1000,0];
-									_missionObject hideObjectGlobal _true;
-									_missionObject enableSimulationGlobal _false;
-									_missionObject setVariable ['QS_cleanup_protected',_true,_false];
-								};
+						if (!(_missionObjectType in _protectedRuinTypes)) then {
+							if (
+								((_missionObject distance2D [-1000,-1000,0]) > 10) &&
+								{((_allPlayers inAreaArray [_missionObject,500,500]) isEqualTo [])}
+							) then {
+								_missionObject setPosWorld [-1000,-1000,0];
+								_missionObject hideObjectGlobal _true;
+								_missionObject enableSimulationGlobal _false;
+								_missionObject setVariable ['QS_cleanup_protected',_true,_false];
 							};
 						} else {
 							_missionObject setVariable ['QS_cleanup_protected',_true,_false];
@@ -3988,43 +4051,32 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 				uiSleep 0.005;
+				continue;
 			};
 			if (_missionObject isKindOf 'Smokeshell') then {
-				0 = _missionSmokeShells pushBack _missionObject;
+				_missionSmokeShells pushBack _missionObject;
+				continue;
 			};
 			if (
 				(unitIsUAV _missionObject) &&
-				{((toLowerANSI (typeOf _missionObject)) in _backpackDroneTypes)} &&
+				{(_missionObjectType in _backpackDroneTypes)} &&
 				{(isNull (attachedTo _missionObject))} &&
 				{(isNull (isVehicleCargo _missionObject))}
 			) then {
-				0 = _missionBackpackUAVs pushBack _missionObject;
+				_missionBackpackUAVs pushBack _missionObject;
 			};
 		} count _allMissionObjectsAll;
 		if (_deleteNow isNotEqualTo []) then {
-			{
-				if (!isNull _x) then {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-					deleteVehicle _x;
-				};
-			} count _deleteNow;
+			deleteVehicle _deleteNow;
 			_deleteNow = [];
 		};
 		{
 			_array = _x # 0;
-			if (_array isEqualTo []) exitWith {};
-			_limit = _x # 1;
-			_count = count _array;
-			if (_count > _limit) then {
-				_n = _count - _limit;
-				_i = 0;
-				for '_x' from 0 to (_n - 1) step 1 do {
-					if (!isNull (_array # _i)) then {
-						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-						deleteVehicle (_array # _i);
-					};
-					_i = _i + 1;
-					uiSleep 0.01;
+			if (_array isNotEqualTo []) then {
+				_limit = _x # 1;
+				_count = count _array;
+				if (_count > _limit) then {
+					deleteVehicle (_array select [0,_limit - 1]);
 				};
 			};
 		} count [
@@ -4036,52 +4088,15 @@ for '_x' from 0 to 1 step 0 do {
 			[_missionBackpackUAVs,_missionBackpackUAVsLimit],
 			[_missionSmokeShells,_smokeShellLimit]
 		];
-		{
-			if (
-				(!isNull _x) &&
-				{(local _x)} &&
-				{(((units _x) findIf {(alive _x)}) isEqualTo -1)}
-			) then {
-				deleteGroup _x;
-			};
-		} count _allGroups;
-		if ((count allDeadMen) > 75) then {
-			diag_log format ['***** CLEANUP ***** %1 ***** Deleting dead * overflow *****',time];
-			{
-				if (!(_x getVariable ['QS_dead_prop',_false])) then {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-					if (!isNull (objectParent _x)) then {
-						if ((objectParent _x) isKindOf 'AllVehicles') then {
-							(objectParent _x) deleteVehicleCrew _x;
-						} else {
-							deleteVehicle _x;
-						};
-					} else {
-						deleteVehicle _x;
-					};
-				};
-			} count allDeadMen;
-		};
-		if (allMines isNotEqualTo []) then {
-			{
-				if ((_allUnits inAreaArray [_x,500,500,0,_false]) isEqualTo []) then {
-					deleteVehicle _x;
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-				};
-			} forEach allMines;
-		};
-		if ((count (missionNamespace getVariable ['QS_prisoners',[]])) > _maxPrisoners) then {
-			deleteVehicle ((missionNamespace getVariable 'QS_prisoners') # 0);
-			missionNamespace setVariable ['QS_prisoners',((missionNamespace getVariable 'QS_prisoners') select {(alive _x)}),_true];
-		};
-
-		if (_timeNow > _QS_checkUAVsTime) then {
+		
+		// Handle backpack UAVs
+		if (_QS_diagTickTimeNow > _QS_checkUAVsTime) then {
 			if (_allUnitsUav isNotEqualTo []) then {
 				{
 					_uav = _x;
 					if (
 						(local _uav) &&
-						{(_uav isKindOf 'Air')} &&			// Should we include the backpack tracked vehicles in this too?
+						{((['Air','LandVehicle'] findIf {_uav isKindOf _x}) isNotEqualTo -1)} &&
 						{(!(_uav getVariable ['QS_uav_protected',_false]))} &&
 						{(isNull (isVehicleCargo _uav))} && 
 						{(isNull (ropeAttachedTo _uav))} && 
@@ -4089,35 +4104,33 @@ for '_x' from 0 to 1 step 0 do {
 					) then {
 						if ((attachedObjects _uav) isNotEqualTo []) then {
 							{
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								[0,_x] call _fn_eventAttach;
 								deleteVehicle _x
 							} forEach (attachedObjects _uav);
 						};
-						missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 						deleteVehicle _uav;
 					};
 				} count _allUnitsUav;
 			};
 			if (!(missionNamespace getVariable 'QS_uavCanSpawn')) then {
-				if (_timeNow > (missionNamespace getVariable 'QS_uavRespawnTimeout')) then {
+				if (_QS_diagTickTimeNow > (missionNamespace getVariable 'QS_uavRespawnTimeout')) then {
 					missionNamespace setVariable ['QS_uavCanSpawn',_true,_true];
 				};
 			};
 			if (missionNamespace getVariable 'QS_drone_heli_enabled') then {
 				if (missionNamespace getVariable 'QS_drone_heli_spawned') then {
-					_QS_heliDroneRespawnCheckDelay = _timeNow + _QS_heliDroneRespawnDelay;
+					_QS_heliDroneRespawnCheckDelay = _QS_diagTickTimeNow + _QS_heliDroneRespawnDelay;
 					missionNamespace setVariable ['QS_drone_heli_enabled',_false,_true];
 					missionNamespace setVariable ['QS_drone_heli_spawned',_false,_true];
 				};
 			} else {
-				if (_timeNow > _QS_heliDroneRespawnCheckDelay) then {
+				if (_QS_diagTickTimeNow > _QS_heliDroneRespawnCheckDelay) then {
 					missionNamespace setVariable ['QS_drone_heli_enabled',_true,_true];
 				};
 			};
-			_QS_checkUAVsTime = _timeNow + _QS_checkUAVsTime_delay;
+			_QS_checkUAVsTime = _QS_diagTickTimeNow + _QS_checkUAVsTime_delay;
 		};
-		_QS_cleanup_checkDelay = _timeNow + _QS_cleanup_delay;
+		_QS_cleanup_checkDelay = _QS_diagTickTimeNow + _QS_cleanup_delay;
 	};
 
 	if (_QS_weatherManager) then {
@@ -4141,7 +4154,7 @@ for '_x' from 0 to 1 step 0 do {
 							missionNamespace setVariable ['QS_weather_simulateStorm',_true,_false];
 							_QS_simulateEvent_overrideDelay = 9999999;
 						};
-						if (!isNil {missionNamespace getVariable 'QS_weather_simulateStorm'}) then {
+						if !(missionNamespace isNil 'QS_weather_simulateStorm') then {
 							_QS_simulateEvent_storm = _true;
 							missionNamespace setVariable ['QS_weather_simulateStorm',nil,_false];
 							(format ['"%2" - %1 %3',_QS_worldName,localize 'STR_QS_Chat_104',localize 'STR_QS_Chat_105']) remoteExec ['systemChat',-2,_false];
@@ -4527,15 +4540,15 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_dayTime = dayTime;
 				_QS_currentTimeMultiplier = timeMultiplier;
 				if (_QS_timeAcceleration_inProgress > 0) then {
-					if (_QS_timeAcceleration_inProgress isEqualTo 1) then {
-						if (_QS_dayTime > (_QS_sunrise - 0.25)) then {
-							if (_QS_dayTime < _QS_solarNoon) then {
-								if (_QS_currentTimeMultiplier isNotEqualTo _QS_timeAccelerationControl) then {
-									setTimeMultiplier _QS_timeAccelerationControl;
-								};
-								_QS_timeAcceleration_inProgress = 0;
-							};
+					if (
+						(_QS_timeAcceleration_inProgress isEqualTo 1) &&
+						{(_QS_dayTime > (_QS_sunrise - 0.25))} &&
+						{(_QS_dayTime < _QS_solarNoon)}
+					) then {
+						if (_QS_currentTimeMultiplier isNotEqualTo _QS_timeAccelerationControl) then {
+							setTimeMultiplier _QS_timeAccelerationControl;
 						};
+						_QS_timeAcceleration_inProgress = 0;
 					};
 					if (_QS_timeAcceleration_inProgress isEqualTo 2) then {
 						if (_QS_dayTime > (_QS_sunset - 3)) then {
@@ -4741,75 +4754,69 @@ for '_x' from 0 to 1 step 0 do {
 							_canRespawnAfter = time + _delay;
 							_QS_module_recruitableAI_array set [_forEachIndex,[_unit,_delay,_randomize,_configCode,_t,_unitPos,_unitDir,_isRespawning,_canRespawnAfter,_respawnTickets,_popThreshold]];
 						} else {
-							if (time > _canRespawnAfter) then {
-								if (!isNull _unit) then {
-									if ((_unit distance2D _unitPos) < 500) then {
-										missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-										if (!isNull (objectParent _unit)) then {
-											if ((objectParent _unit) isKindOf 'AllVehicles') then {
-												(objectParent _unit) deleteVehicleCrew _unit;
-											} else {
-												deleteVehicle _unit;
-											};
+							if (
+								(time > _canRespawnAfter) &&
+								(!isNull _unit)
+							) then {
+								if ((_unit distance2D _unitPos) < 500) then {
+									if (!isNull (objectParent _unit)) then {
+										if ((objectParent _unit) isKindOf 'AllVehicles') then {
+											(objectParent _unit) deleteVehicleCrew _unit;
 										} else {
 											deleteVehicle _unit;
 										};
 									} else {
-										if (_QS_remainsCollectorActive) then {
-											if (!(isInRemainsCollector _unit)) then {
-												addToRemainsCollector [_unit];
-											};
-										};
+										deleteVehicle _unit;
 									};
-									if (((units (group _unit)) findIf {(alive _x)}) isEqualTo -1) then {
-										deleteGroup (group _unit);
-									};
-								};				
-							
-							};
-							if (_fps >= 12) then {
-								if (_allPlayersCount <= 45) then {
-									if ((_unitPos nearEntities ['All',0.3]) isEqualTo []) then {
-										if ((!(_popThreshold)) || {((_popThreshold) && (_allPlayersCount < 45))}) then {
-											if (_randomize) then {
-												_t = selectRandom _QS_module_recruitableAI_unitTypes;
-											};
-											if (_respawnTickets isNotEqualTo -1) then {
-												if (_respawnTickets isEqualTo 0) then {
-													_QS_module_recruitableAI_array set [_forEachIndex,_false];
-													_QS_module_recruitableAI_array deleteAt _forEachIndex;
-													_exit = _true;
-												} else {
-													_respawnTickets = _respawnTickets - 1;
-												};
-											};
-											if (_exit) exitWith {};
-											_unit = (createGroup [_QS_module_recruitableAI_side,_true]) createUnit [QS_core_units_map getOrDefault [toLowerANSI _t,_t],[0,0,0],[],15,'NONE'];
-											_unit setDir _unitDir;
-											(group _unit) setFormDir _unitDir;
-											_unit setPosASL _unitPos;
-											_unit enableDynamicSimulation _true;
-											[_unit,'A3CG'] call _fn_setUnitInsignia;
-											[_unit] call _configCode;
-											_unit setVariable ['QS_HComm_unit',_false,_true];
-											(group _unit) setVariable ['QS_HComm_grp',_false,_true];
-											if ((waypoints (group _unit)) isNotEqualTo []) then {
-												for '_x' from 0 to ((count (waypoints (group _unit))) - 1) step 1 do {
-													if ((waypoints (group _unit)) isEqualTo []) exitWith {};
-													deleteWaypoint ((waypoints (group _unit)) # 0);
-												};
-											};
-											_QS_module_recruitableAI_array set [_forEachIndex,[_unit,_delay,_randomize,_configCode,_t,_unitPos,_unitDir,_false,0,_respawnTickets,_popThreshold]];
-											[_unit] call _fn_serverUnitConfigure;
+								} else {
+									if (_QS_corpseCollector) then {
+										if (!(isInRemainsCollector _unit)) then {
+											addToRemainsCollector [_unit];
 										};
 									};
 								};
+							};
+							if (
+								(_fps >= 12) &&
+								{(_allPlayersCount <= 45)} &&
+								{((_unitPos nearEntities ['All',0.3]) isEqualTo [])} &&
+								{((!(_popThreshold)) || {((_popThreshold) && (_allPlayersCount < 45))})}
+							) then {
+								if (_randomize) then {
+									_t = selectRandom _QS_module_recruitableAI_unitTypes;
+								};
+								if (_respawnTickets isNotEqualTo -1) then {
+									if (_respawnTickets isEqualTo 0) then {
+										_QS_module_recruitableAI_array set [_forEachIndex,_false];
+										_QS_module_recruitableAI_array deleteAt _forEachIndex;
+										_exit = _true;
+									} else {
+										_respawnTickets = _respawnTickets - 1;
+									};
+								};
+								if (_exit) exitWith {};
+								_unit = (createGroup [_QS_module_recruitableAI_side,_true]) createUnit [QS_core_units_map getOrDefault [toLowerANSI _t,_t],[0,0,0],[],15,'NONE'];
+								_unit setDir _unitDir;
+								(group _unit) setFormDir _unitDir;
+								_unit setPosASL _unitPos;
+								_unit enableDynamicSimulation _true;
+								[_unit,'A3CG'] call _fn_setUnitInsignia;
+								[_unit] call _configCode;
+								_unit setVariable ['QS_HComm_unit',_false,_true];
+								(group _unit) setVariable ['QS_HComm_grp',_false,_true];
+								if ((waypoints (group _unit)) isNotEqualTo []) then {
+									for '_x' from 0 to ((count (waypoints (group _unit))) - 1) step 1 do {
+										if ((waypoints (group _unit)) isEqualTo []) exitWith {};
+										deleteWaypoint ((waypoints (group _unit)) # 0);
+									};
+								};
+								_QS_module_recruitableAI_array set [_forEachIndex,[_unit,_delay,_randomize,_configCode,_t,_unitPos,_unitDir,_false,0,_respawnTickets,_popThreshold]];
+								[_unit] call _fn_serverUnitConfigure;
 							};
 						};
 					} else {
 						if ((_unit distance2D _unitPos) > 1) then {
 							if ((_allPlayers inAreaArray [_unit,500,500,0,_false]) isEqualTo []) then {
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								if (!isNull (objectParent _unit)) then {
 									if ((objectParent _unit) isKindOf 'AllVehicles') then {
 										(objectParent _unit) deleteVehicleCrew _unit;
@@ -4847,7 +4854,6 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 						if ((rating _unit) < -1000) then {
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							if (!isNull (objectParent _unit)) then {
 								if ((objectParent _unit) isKindOf 'AllVehicles') then {
 									(objectParent _unit) deleteVehicleCrew _unit;
@@ -4858,9 +4864,8 @@ for '_x' from 0 to 1 step 0 do {
 								deleteVehicle _unit;
 							};
 						};
-						if (!isNil {_unit getVariable 'QS_unit_isRecruited'}) then {
+						if !(_unit isNil 'QS_unit_isRecruited') then {
 							if (((units (group _unit)) findIf {(isPlayer _x)}) isEqualTo -1) then {
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								if (!isNull (objectParent _unit)) then {
 									if ((objectParent _unit) isKindOf 'AllVehicles') then {
 										(objectParent _unit) deleteVehicleCrew _unit;
@@ -4903,60 +4908,58 @@ for '_x' from 0 to 1 step 0 do {
 	if (_QS_module_missionObjectives) then {
 		if (_timeNow > _QS_module_missionObjectives_checkDelay) then {
 			_missionObjectives = missionNamespace getVariable 'QS_RD_mission_objectives';
-			if (!isNil {_missionObjectives}) then {
+			if !(missionNamespace isNil 'QS_RD_mission_objectives') then {
 				if (_missionObjectives isEqualType []) then {
 					if (_missionObjectives isNotEqualTo []) then {
 						{
 							_unit = _x;
 							if (!isNull _unit) then {
 								if (alive _unit) then {
-									if (!isNil {_unit getVariable 'QS_RD_isIncapacitated'}) then {
-										if (_unit getVariable 'QS_RD_isIncapacitated') then {
-											if (!isNil {_unit getVariable 'QS_RD_dragged'}) then {
-												if ((animationState _unit) in ['ainjppnemrunsnonwnondb_grab','ainjppnemrunsnonwnondb_still']) then {
-													if (
-														(isNull (attachedTo _unit)) &&
-														((((position _unit) nearEntities ['CAManBase',5]) - [_unit]) isEqualTo [])
-													) then {
-														if (!isNil {_unit getVariable 'QS_RD_storedAnim'}) then {
-															if ((_unit getVariable 'QS_RD_storedAnim') isEqualType '') then {
-																0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
-															} else {
-																0 = ['switchMove',_unit,'AinjPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
-															};
+									if (_unit getVariable ['QS_RD_isIncapacitated',_false]) then {
+										if !(_unit isNil 'QS_RD_dragged') then {
+											if ((animationState _unit) in ['ainjppnemrunsnonwnondb_grab','ainjppnemrunsnonwnondb_still']) then {
+												if (
+													(isNull (attachedTo _unit)) &&
+													((((position _unit) nearEntities ['CAManBase',5]) - [_unit]) isEqualTo [])
+												) then {
+													if !(_unit isNil 'QS_RD_storedAnim') then {
+														if ((_unit getVariable 'QS_RD_storedAnim') isEqualType '') then {
+															0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 														} else {
 															0 = ['switchMove',_unit,'AinjPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 														};
-														_unit setVariable ['QS_RD_dragged',_false,_true];
-														_unit setVariable ['QS_RD_interacting',_false,_true];
+													} else {
+														0 = ['switchMove',_unit,'AinjPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 													};
+													_unit setVariable ['QS_RD_dragged',_false,_true];
+													_unit setVariable ['QS_RD_interacting',_false,_true];
 												};
 											};
-											if (!isNil {_unit getVariable 'QS_RD_carried'}) then {
-												if ((animationState _unit) in ['ainjpfalmstpsnonwnondnon_carried_still','ainjpfalmstpsnonwnondf_carried_dead','ainjpfalmstpsnonwrfldnon_carried_still','ainjpfalmstpsnonwnondnon_carried_up']) then {
-													if (
-														(isNull (attachedTo _unit)) &&
-														((((position _unit) nearEntities ['CAManBase',5]) - [_unit]) isEqualTo [])
-													) then {
-														if (!isNil {_unit getVariable 'QS_RD_storedAnim'}) then {
-															if ((_unit getVariable 'QS_RD_storedAnim') isEqualType '') then {
-																0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
-															} else {
-																0 = ['switchMove',_unit,'AinjPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
-															};
+										};
+										if !(_unit isNil 'QS_RD_carried') then {
+											if ((animationState _unit) in ['ainjpfalmstpsnonwnondnon_carried_still','ainjpfalmstpsnonwnondf_carried_dead','ainjpfalmstpsnonwrfldnon_carried_still','ainjpfalmstpsnonwnondnon_carried_up']) then {
+												if (
+													(isNull (attachedTo _unit)) &&
+													((((position _unit) nearEntities ['CAManBase',5]) - [_unit]) isEqualTo [])
+												) then {
+													if !(_unit isNil 'QS_RD_storedAnim') then {
+														if ((_unit getVariable 'QS_RD_storedAnim') isEqualType '') then {
+															0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 														} else {
 															0 = ['switchMove',_unit,'AinjPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 														};
-														_unit setVariable ['QS_RD_carried',_false,_true];
-														_unit setVariable ['QS_RD_interacting',_false,_true];
+													} else {
+														0 = ['switchMove',_unit,'AinjPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 													};
+													_unit setVariable ['QS_RD_carried',_false,_true];
+													_unit setVariable ['QS_RD_interacting',_false,_true];
 												};
 											};
 										};
 									};
 									if (_unit getVariable ['QS_RD_escorted',_false]) then {
 										if (isNull (attachedTo _unit)) then {
-											if (!isNil {_unit getVariable 'QS_RD_storedAnim'}) then {
+											if !(_unit isNil 'QS_RD_storedAnim') then {
 												if ((_unit getVariable 'QS_RD_storedAnim') isEqualType '') then {
 													0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,_false];
 												} else {
@@ -5001,10 +5004,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (_airDefenseOnline) then {
 					if (_timeNow > (_airDefenseArray # 1)) then {
 						_airDefenseOnline = _false;
-						{
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
-							deleteVehicle _x;
-						} count (_airDefenseArray # 0);
+						deleteVehicle (_airDefenseArray # 0);
 						['sideChat',[_west,'AirBase'],'Air defense offline'] remoteExec ['QS_fnc_remoteExecCmd',-2,_false];
 					};
 				};
@@ -5122,7 +5122,6 @@ for '_x' from 0 to 1 step 0 do {
 						if (alive _x) then {
 							if ((_x distance2D _gitmo) > 25) then {
 								if (([_x,200,[_west],_allPlayers,0] call _fn_serverDetector) isEqualTo []) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									deleteVehicle _x;
 									_QS_enemyCaptives set [_forEachIndex,_false];
 									_QS_enemyCaptives deleteAt _forEachIndex;
@@ -5140,11 +5139,7 @@ for '_x' from 0 to 1 step 0 do {
 				} forEach _QS_enemyCaptives;
 				{
 					if (!(_x in (missionNamespace getVariable 'QS_enemyCaptives'))) then {
-						missionNamespace setVariable [
-							'QS_enemyCaptives',
-							((missionNamespace getVariable 'QS_enemyCaptives') + [_x]),
-							_false
-						];
+						missionNamespace setVariable ['QS_enemyCaptives',((missionNamespace getVariable 'QS_enemyCaptives') + [_x]),_false];
 					};
 				} count _QS_enemyCaptives;
 			};
@@ -5229,10 +5224,15 @@ for '_x' from 0 to 1 step 0 do {
 			if (isNull _mainGroup) then {
 				_mainGroup = createGroup [WEST,_false];
 				_mainGroup deleteGroupWhenEmpty _false;
-				_mainGroup setVariable ['BIS_dg_reg',_true,_true];
-				_mainGroup setVariable ['BIS_dg_pri',_false,_true];
-				_mainGroup setVariable ['BIS_dg_var','var_76561100000000000_0',_true];
-				_mainGroup setVariable ['BIS_dg_ins',(['LoadRandomInsignia'] call _fn_dynamicGroups),_true];
+				{
+					_mainGroup setVariable _x;
+				} forEach [
+					['QS_cleanup_protected',_true,_true],
+					['BIS_dg_reg',_true,_true],
+					['BIS_dg_pri',_false,_true],
+					['BIS_dg_var','var_76561100000000000_0',_true],
+					['BIS_dg_ins',(['LoadRandomInsignia'] call _fn_dynamicGroups),_true]				
+				];
 				_mainGroup setGroupIDGlobal [_mainGroupName];
 			} else {
 				if (_mainGroup getVariable ['BIS_dg_pri',_false]) then {
@@ -5246,7 +5246,6 @@ for '_x' from 0 to 1 step 0 do {
 				};
 				if ((groupId _mainGroup) isNotEqualTo _mainGroupName) then {
 					_mainGroup setGroupIDGlobal [_mainGroupName];
-					_mainGroup setVariable ['BIS_dg_ins',(['LoadRandomInsignia'] call _fn_dynamicGroups),_true];
 				};
 			};
 			{
@@ -5264,7 +5263,7 @@ for '_x' from 0 to 1 step 0 do {
 	/*/===== Module Dynamic Simulation/*/
 
 	if (_QS_module_dynSim) then {
-		if (_timeNow > _QS_module_dynSim_checkDelay) then {
+		if (_QS_diagTickTimeNow > _QS_module_dynSim_checkDelay) then {
 			if (dynamicSimulationSystemEnabled) then {
 				{
 					if (_x isEqualType _objNull) then {
@@ -5323,21 +5322,17 @@ for '_x' from 0 to 1 step 0 do {
 							if (
 								(!(dynamicSimulationEnabled _x)) &&
 								{(!((vehicle (leader _x)) isKindOf 'Air'))} &&
-								{(!(_x getVariable ['QS_dynSim_ignore',_false]))}
+								{(!(_x getVariable ['QS_dynSim_ignore',_false]))} &&
+								{((side _x) in [_east,_resistance])}
 							) then {
 								_x enableDynamicSimulation _true;
-							};
-							if (!(isGroupDeletedWhenEmpty _x)) then {
-								if (_x isNotEqualTo _mainGroup) then {
-									_x deleteGroupWhenEmpty _true;
-								};
 							};
 						};
 					};
 					sleep 0.003;
 				} forEach (_allUnits + _allUnitsUav + _allVehicles + _allGroups);
 			};
-			_QS_module_dynSim_checkDelay = _timeNow + _QS_module_dynSim_delay;
+			_QS_module_dynSim_checkDelay = _QS_diagTickTimeNow + _QS_module_dynSim_delay;
 		};
 		if (!(missionNamespace getVariable 'QS_server_dynSim')) then {
 			_QS_module_dynSim = _false;
@@ -5533,7 +5528,7 @@ for '_x' from 0 to 1 step 0 do {
 	/*/===== Restart scheduler/*/
 	
 	if (_QS_module_restart) then {
-		if (_timeNow > _QS_module_restart_checkDelay) then {
+		if (_QS_diagTickTimeNow > _QS_module_restart_checkDelay) then {
 			if (!(_QS_module_restart_isRestarting)) then {
 				_QS_module_restart_realTimeNow = systemTime;
 				_QS_module_restart_hourCurrent = _QS_module_restart_realTimeNow # 3;
@@ -5542,8 +5537,8 @@ for '_x' from 0 to 1 step 0 do {
 				} else {
 					_estimatedTimeLeft = (_QS_module_restart_hour - _QS_module_restart_hourCurrent) - ((_QS_module_restart_realTimeNow # 4) / 60);
 				};
-				if (_timeNow > _QS_module_restart_lastBroadcast) then {
-					_QS_module_restart_lastBroadcast = _timeNow + 60;
+				if (_QS_diagTickTimeNow > _QS_module_restart_lastBroadcast) then {
+					_QS_module_restart_lastBroadcast = _QS_diagTickTimeNow + 60;
 					_estimatedTimeLeft = _estimatedTimeLeft * 3600;
 					estimatedTimeLeft (0 max _estimatedTimeLeft min 36000);
 				};
@@ -5556,10 +5551,10 @@ for '_x' from 0 to 1 step 0 do {
 					0 spawn QS_fnc_serverRestart;
 				};
 			};
-			_QS_module_restart_checkDelay = _timeNow + _QS_module_restart_delay;
+			_QS_module_restart_checkDelay = _QS_diagTickTimeNow + _QS_module_restart_delay;
 		};
 	};
-	sleep 3;
+	sleep 2.5;
 };
 diag_log format ['* %1 ***** QS ***** DEBUG ***** MISSION ENGINE TERMINATED *****',diag_tickTime];
 if (!(_resumeScript)) then {

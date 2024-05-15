@@ -36,7 +36,7 @@ _this spawn {
 	_unitType = typeOf _unit;
 	_unitPos = getPosASL _unit;
 	_unitDir = getDir _unit;
-	if (isNil {missionNamespace getVariable 'QS_register_rAI'}) then {
+	if (missionNamespace isNil 'QS_register_rAI') then {
 		missionNamespace setVariable ['QS_register_rAI',[],FALSE];
 	};
 	(missionNamespace getVariable 'QS_register_rAI') pushBack [

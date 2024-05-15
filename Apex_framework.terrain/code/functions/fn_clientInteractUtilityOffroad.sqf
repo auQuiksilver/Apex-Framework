@@ -12,12 +12,6 @@ Last modified:
 Description:
 
 	Police offroad
-	
-	if (isNil {_vehicle getVariable 'Utility_Offroad_Beacons'}) exitWith {
-	_vehicle setVariable ['Utility_Offroad_Beacons',TRUE,TRUE];
-	[23,_vehicle] remoteExec ['QS_fnc_remoteExec',-2,FALSE];
-};
-if (((_vehicle animationPhase 'hidePolice') isEqualTo 1) && ((_vehicle animationPhase 'hideServices') isEqualTo 1) && ((_vehicle animationSourcePhase 'beacon_front_hide') isEqualTo 1)) exitWith {};
 _______________________________________________________*/
 
 _vehicle = vehicle player;

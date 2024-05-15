@@ -24,8 +24,8 @@ _layerID = 0;
 while {((count _queue) > 0)} do {
 	_queueID = (count _queue) - 1;
 	_queuePriority = _queue # _queueID;
-	if (!(isNil {_queuePriority})) then {
-		if ((count _queuePriority) > 0) then {
+	if (!isNil '_queuePriority') then {
+		if (_queuePriority isNotEqualTo []) then {
 			_dataID = count _queuePriority - 1;
 			_data = +(_queuePriority # _dataID);
 			if (((count _data) > 0) && ((alive player) || (isMultiplayer))) then {

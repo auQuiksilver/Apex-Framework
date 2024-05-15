@@ -17,10 +17,8 @@ params ['_killed','_killer','_instigator','_useEffects'];
 if ((getObjectType _killed) isNotEqualTo 8) exitWith {};
 missionNamespace setVariable ['QS_analytics_entities_killed',((missionNamespace getVariable 'QS_analytics_entities_killed') + 1),FALSE];
 missionNamespace setVariable ['QS_system_entitiesKilled',((missionNamespace getVariable ['QS_system_entitiesKilled',0]) + 1),FALSE];
-if (_killed isKindOf 'Man') then {
-	if (!(_killed getVariable ['QS_dead_prop',FALSE])) then {
-		(missionNamespace getVariable 'QS_garbageCollector') pushBack [_killed,'DEAD_M',(time + 30)];
-	} else {
+if (_killed getEntityInfo 0) then {
+	if (_killed getVariable ['QS_dead_prop',FALSE]) then {
 		if (allCurators isNotEqualTo []) then {
 			{
 				_x removeCuratorEditableObjects [[_killed],TRUE];
@@ -81,9 +79,15 @@ if (_killed isKindOf 'Man') then {
 	if ((getVehicleCargo _killed) isNotEqualTo []) then {
 		_killed setVehicleCargo objNull;
 	};
-	if (_killed isKindOf 'AllVehicles') then {
-		(missionNamespace getVariable 'QS_garbageCollector') pushBack [_killed,'DEAD_V',(time + 60)];
-	};
+	if ((['LandVehicle','Air','Ship'] findIf {_killed isKindOf _x}) isNotEqualTo -1) then {
+		if (!(missionNamespace getVariable ['QS_system_BISwreckCollector',FALSE])) then {
+			QS_vehicles_destroyed pushBackUnique _killed;
+		};
+	} else {
+		if (_killed isKindOf 'AllVehicles') then {
+			(missionNamespace getVariable 'QS_garbageCollector') pushBack [_killed,'DELAYED_FORCED',time + 60];
+		};
+	};	
 	if ((getCustomSoundController [_killed,'CustomSoundController1']) isEqualTo 1) then {
 		[_killed,'CustomSoundController1',0] remoteExec ['setCustomSoundController',_killed,FALSE];
 	};

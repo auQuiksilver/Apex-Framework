@@ -40,7 +40,7 @@ if ((attachedObjects _co) isNotEqualTo []) then {
 				{(alive _x)} &&
 				{((lifeState _x) isEqualTo 'INCAPACITATED')}
 			) then {
-				['switchMove',_x,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+				['switchMove',_x,['acts_InjuredLyingRifle02']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 			};
 		};
 	} forEach (attachedObjects _co);

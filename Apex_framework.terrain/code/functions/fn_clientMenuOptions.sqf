@@ -42,7 +42,7 @@ if (_type isEqualTo 'onLoad') then {
 		ctrlEnable [1810,FALSE];
 		(_display displayCtrl 1810) ctrlSetToolTip (localize 'STR_QS_Menu_050');
 	};
-	(_display displayCtrl 1813) cbSetChecked (!isNil {player getVariable 'QS_HUD_3'});
+	(_display displayCtrl 1813) cbSetChecked (!(player isNil 'QS_HUD_3'));
 	(_display displayCtrl 1815) cbSetChecked (environmentEnabled # 0);
 	if ((['uavhacker','QS_trait_fighterPilot','QS_trait_pilot','QS_trait_CAS','QS_trait_HQ'] findIf { player getUnitTrait _x }) isNotEqualTo -1) then {
 		ctrlEnable [1817,FALSE];
@@ -99,7 +99,7 @@ if (_type isEqualTo '1PVCheckbox') then {
 	if ((_this # 2) isEqualTo 1) then {
 		_state = TRUE;
 		50 cutText [localize 'STR_QS_Text_171','PLAIN DOWN',0.75];
-		if (isNil {player getVariable 'QS_1stPersonLock'}) then {
+		if (player isNil 'QS_1stPersonLock') then {
 			player setVariable ['QS_1stPersonLock',TRUE,FALSE];
 			[46,[player,5]] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 			['ScoreBonus',[localize 'STR_QS_Notif_043','5']] call (missionNamespace getVariable 'QS_fnc_showNotification');

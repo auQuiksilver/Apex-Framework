@@ -66,7 +66,7 @@ if (_hitpart isNotEqualTo '') then {
 } else {
 	if (isBurning _unit) then {
 		_colorRGB = [0.3,0.0,0.0];
-		if (isNil {BIS_pp_burnDamage}) then {BIS_pp_burnDamage = [_damage,(diag_tickTime - 30)]};
+		if (missionNamespace isNil 'BIS_pp_burnDamage') then {BIS_pp_burnDamage = [_damage,(diag_tickTime - 30)]};
 		_time = diag_tickTime;
 		if ((_time - (BIS_pp_burnDamage # 1)) < 1.15) then {
 			_partDamage = _damage - (BIS_pp_burnDamage # 0);

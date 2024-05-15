@@ -129,15 +129,8 @@ for '_x' from 0 to 1 step 0 do {
 		missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];
 		
 		/*/------------------- DELETE/*/
-		
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [_object,_researchTable];			/*/ hide objective pieces/*/
+
+		deleteVehicle [_object,_researchTable];			/*/ hide objective pieces/*/
 		sleep 120;
 		{
 			if (_x isEqualType objNull) then {
@@ -155,27 +148,11 @@ for '_x' from 0 to 1 step 0 do {
 		_dummy = createVehicle [_dummyType,[0,0,0],[],0,'NONE'];
 		_dummy setPosWorld [((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 0), (((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 1) +5), (((getPosWorld (missionNamespace getVariable 'QS_sideObj')) # 2) + 0.5)];
 		sleep 0.1;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _object;
 		uiSleep 12;											/*/ghetto bomb timer/*/
 		'Bo_Mk82' createVehicle (getPosATL _dummy); 			/*/ default "Bo_Mk82","Bo_GBU12_LGB"/*/
 		(missionNamespace getVariable 'QS_sideObj') setDamage 1;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
-		deleteVehicle _dummy;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
-		deleteVehicle _researchTable;
+		deleteVehicle [_dummy,_researchTable];
 		sleep 0.1;
 	
 		/*/------------------ DE-BRIEFING/*/

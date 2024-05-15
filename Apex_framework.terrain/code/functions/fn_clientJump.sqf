@@ -34,16 +34,16 @@ if (
 	_vel = velocity _unit;
 	_dir = getDir _unit;
 	_unit setVelocity (_vel vectorAdd [((sin _dir) * _speed),((cos _dir) * _speed),(_vel # 2) + _height]);
-	_unit switchMove 'AovrPercMrunSrasWrflDf';
+	_unit switchMove ['AovrPercMrunSrasWrflDf'];
 	_allPlayers = (allPlayers inAreaArray [_unit,100,100,0,FALSE]) - [_unit];
 	if (_allPlayers isNotEqualTo []) then {
-		if (isNil {uiNamespace getVariable 'QS_client_jumpAnimPropagation'}) then {
+		if (uiNamespace isNil 'QS_client_jumpAnimPropagation') then {
 			uiNamespace setVariable ['QS_client_jumpAnimPropagation',[]];
 		};
 		uiNamespace setVariable ['QS_client_jumpAnimPropagation',((uiNamespace getVariable 'QS_client_jumpAnimPropagation') select {(_x > (diag_tickTime - 30))})];
 		if ((count (uiNamespace getVariable 'QS_client_jumpAnimPropagation')) < 3) then {
 			(uiNamespace getVariable 'QS_client_jumpAnimPropagation') pushBack diag_tickTime;
-			['switchMove',_unit,'AovrPercMrunSrasWrflDf'] remoteExec ['QS_fnc_remoteExecCmd',_allPlayers,FALSE];
+			['switchMove',_unit,['AovrPercMrunSrasWrflDf']] remoteExec ['QS_fnc_remoteExecCmd',_allPlayers,FALSE];
 		};
 	};
 };

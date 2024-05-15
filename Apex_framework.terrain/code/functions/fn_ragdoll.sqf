@@ -43,14 +43,14 @@ if ((lifeState _unit) isEqualTo 'INCAPACITATED') then {
 		[0,_unit] call QS_fnc_eventAttach;
 	};
 	_unit setUnconscious FALSE;
-	_unit switchMove 'amovppnemstpsnonwnondnon';
+	_unit switchMove ['amovppnemstpsnonwnondnon'];
 };
 if (diag_tickTime > _timeout) then {
 	if (
 		(isNull (attachedTo _unit)) &&
 		(isNull (objectParent _unit))
 	) then {
-		_unit switchMove '';
+		_unit switchMove [''];
 	};
 };
 if (!isPlayer _unit) then {

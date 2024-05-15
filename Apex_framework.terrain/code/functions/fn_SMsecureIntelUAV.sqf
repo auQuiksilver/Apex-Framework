@@ -151,11 +151,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		} count _enemiesArray;
 		if (!isNull _uav) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
 			deleteVehicle _uav;
 		};
 	};
@@ -173,11 +168,6 @@ for '_x' from 0 to 1 step 0 do {
 			};
 		} count _enemiesArray;
 		if (!isNull _uav) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
 			deleteVehicle _uav;
 		};
 	};

@@ -32,7 +32,7 @@ _______________________________________________/*/
 		(_display displayCtrl 44150) ctrlEnable FALSE;
 		(_display displayCtrl 44150) ctrlCommit 0;
 		_defaultUniform = ['U_B_CombatUniform_mcam','U_B_T_Soldier_F'] select (worldName isEqualTo 'Tanoa');
-		if (isNil {uiNamespace getVariable 'QS_arsenalAmmoPrompt'}) then {
+		if (uiNamespace isNil 'QS_arsenalAmmoPrompt') then {
 			uiNamespace setVariable ['QS_arsenalAmmoPrompt',TRUE];
 			// Thanks Fitz :)
 			0 spawn {

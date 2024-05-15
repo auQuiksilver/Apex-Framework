@@ -101,6 +101,7 @@ for '_x' from 0 to 1 step 0 do {
 	};
 	if (_cleanGroups) then {
 		if (_tickTimeNow > _cleanGroups_checkDelay) then {
+			/*/
 			{
 				if (local _x) then {
 					if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
@@ -108,6 +109,7 @@ for '_x' from 0 to 1 step 0 do {
 					};
 				};
 			} forEach allGroups;
+			/*/
 			_cleanGroups_checkDelay = _tickTimeNow + _cleanGroups_delay;
 		};
 	};

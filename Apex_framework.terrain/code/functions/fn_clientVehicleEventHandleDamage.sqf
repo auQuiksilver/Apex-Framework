@@ -11,10 +11,18 @@ Last Modified:
 Description:
 
 	Event Handle Damage
+	
+Context:
+
+	0 : TotalDamage - total damage adjusted before iteration through hitpoints
+	1 : HitPoint - some hit point processed during iteration
+	2 : LastHitPoint - the last hitpoint from iteration is processed
+	3 : HeadHit - head hit is additionally adjusted
+	4 : TotalDamageBeforeBleeding - total damage is adjusted before calculating bleeding
 ____________________________________________*/
 
 if (!(local (_this # 0))) exitWith {};
-params ['_vehicle','_selectionName','_damage','_source','_projectile','','_instigator','_hitPoint','_directHit'];
+params ['_vehicle','_selectionName','_damage','_source','_projectile','','_instigator','_hitPoint','_directHit','_context'];
 _szArray = if (diag_tickTime > (_vehicle getVariable ['QS_zones_eventHD_checkInterval',-1])) then {
 	_vehicle setVariable ['QS_zones_eventHD_checkInterval',diag_tickTime + 2,FALSE];
 	_result = [_vehicle,'SAFE'] call QS_fnc_inZone;
@@ -274,14 +282,14 @@ if (_aircraft_crit) exitWith {
 				params ['_vehicle','_source','_instigator'];
 				uiSleep 0.333;
 				{
-					_vehicle setHit [_x # 0,_x # 1,TRUE,_source,_instigator];
+					_vehicle setHit [_x # 0,_x # 1,TRUE,_source,_instigator,TRUE];
 				} forEach QS_aircraft_critHit_array;
 				QS_aircraft_critHit_array = [];
 			};
 		} else {
 			QS_aircraft_critHit_array pushBack [_selectionName,0.89];
 		};
-		_vehicle setHit [(['hitfuel','fuel_hit'] select (_vehicle isKindOf 'Helicopter')),_damage,TRUE,_source,_instigator];
+		_vehicle setHit [(['hitfuel','fuel_hit'] select (_vehicle isKindOf 'Helicopter')),_damage,TRUE,_source,_instigator,TRUE];
 		_damage = _damage min 0.86;
 	};
 	_damage;

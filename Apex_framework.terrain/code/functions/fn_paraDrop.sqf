@@ -55,11 +55,6 @@ if ((!((typeOf _v) in _ugvTypes))) then {
 	_p = _this # 0;
 	sleep 5;
 	if (!isNull _p) then {
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _p;
 	};
 };

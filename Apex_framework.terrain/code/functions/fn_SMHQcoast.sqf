@@ -193,21 +193,9 @@ for '_x' from 0 to 1 step 0 do {
 		
 		/*/-------------------- DELETE/*/
 		
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _object;
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [(missionNamespace getVariable 'QS_sideObj'),_boat,_trawler,_assault_boat];
+		deleteVehicle [(missionNamespace getVariable 'QS_sideObj'),_boat,_trawler,_assault_boat];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
@@ -229,11 +217,6 @@ for '_x' from 0 to 1 step 0 do {
 		uiSleep 14;											/*/ghetto bomb timer/*/
 		'Bo_GBU12_LGB' createVehicle (getPosATL _object); 		/*/ default "Bo_Mk82"/*/
 		uiSleep 0.1;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _object;
 	
 		/*/-------------------- DE-BRIEFING/*/
@@ -269,14 +252,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 		/*/--------------------- DELETE, DESPAWN, HIDE and RESET/*/
 
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [(missionNamespace getVariable 'QS_sideObj'),_boat,_trawler,_assault_boat];
+		deleteVehicle [(missionNamespace getVariable 'QS_sideObj'),_boat,_trawler,_assault_boat];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];

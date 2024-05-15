@@ -28,6 +28,7 @@ _arrayHelicopters = [];
 _grp = createGroup [_side,TRUE];
 _playerCount = count allPlayers;
 for '_x' from 0 to 1 step 0 do {
+	sleep diag_deltaTime;
 	_randomPos = [(random _worldSize),(random _worldSize),1000];
 	if ((allPlayers inAreaArray [_randomPos,2000,2000,0,FALSE]) isEqualTo []) exitWith {};
 };

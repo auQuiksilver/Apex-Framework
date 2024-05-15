@@ -15,7 +15,7 @@ Description:
 	['WS','VN','CSLA','GM']
 _______________________________________________/*/
 
-if (!isNil {missionNamespace getVariable 'QS_system_activeDLC'}) exitWith {
+if !(missionNamespace isNil 'QS_system_activeDLC') exitWith {
 	(missionNamespace getVariable ['QS_system_activeDLC',''])
 };
 missionNamespace setVariable ['QS_system_availableDLCs',['WS','VN','CSLA','GM'],TRUE];

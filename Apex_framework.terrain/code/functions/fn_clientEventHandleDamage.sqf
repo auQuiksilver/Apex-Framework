@@ -6,14 +6,22 @@ Author:
 	
 Last modified:
 
-	9/10/2023 A3 2.14 by Quiksilver
+	26/01/2024 A3 2.16 by Quiksilver
 	
 Description:
 
 	-
+
+Context:
+
+	0 : TotalDamage - total damage adjusted before iteration through hitpoints
+	1 : HitPoint - some hit point processed during iteration
+	2 : LastHitPoint - the last hitpoint from iteration is processed
+	3 : HeadHit - head hit is additionally adjusted
+	4 : TotalDamageBeforeBleeding - total damage is adjusted before calculating bleeding
 ___________________________________________________________________/*/
 
-params ['_unit','','_damage','_source','_projectile','_hitPartIndex','_instigator','','_directHit'];
+params ['_unit','','_damage','_source','_projectile','_hitPartIndex','_instigator','','_directHit','_context'];
 if ((!local _unit) || {(!((lifeState _unit) in ['HEALTHY','INJURED']))} || {(!(isDamageAllowed _unit))}) exitWith {
 	((if (_hitPartIndex isEqualTo -1) then {(damage _unit)} else {(_unit getHitIndex _hitPartIndex)}) min 0.89)
 };

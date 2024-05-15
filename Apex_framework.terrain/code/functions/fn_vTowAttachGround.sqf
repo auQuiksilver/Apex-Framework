@@ -165,7 +165,7 @@ waitUntil {
 		{((!(_isUAV)) && (!alive player))} ||
 		{((!(_isUAV)) && (player isNotEqualTo (driver _vehicle)))} ||
 		{(!(_towedVehicle in (attachedObjects _vehicle)))} ||
-		{(!isNil {_towedVehicle getVariable 'QS_loadCargoIn'})} ||
+		{!(_towedVehicle isNil 'QS_loadCargoIn')} ||
 		{(!alive _vehicle)} || 
 		{(!alive _towedVehicle)} ||
 		{(!canMove _vehicle)} ||
@@ -215,7 +215,7 @@ _towedVehicle spawn {
 	sleep 2;
 	_this allowDamage TRUE;
 };
-if (isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) then {
+if (_towedVehicle isNil 'QS_loadCargoIn') then {
 	_posIsClear = TRUE;
 	_line01 = lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [2,0,0])),(AGLToASL (_vehicle modelToWorld [2,-17,0])),_vehicle,_towedVehicle,TRUE,1,'GEOM'];
 	_line02 = lineIntersectsSurfaces [(AGLToASL (_vehicle modelToWorld [-2,0,0])),(AGLToASL (_vehicle modelToWorld [-2,-17,0])),_vehicle,_towedVehicle,TRUE,1,'GEOM'];
@@ -260,20 +260,20 @@ if (local _towedVehicle) then {
 if (
 	(isNull (attachedTo _towedVehicle)) &&
 	((_towedVehicle distance2D (markerPos 'QS_marker_crate_area')) < 500) &&
-	(!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'})
+	!(_towedVehicle isNil 'QS_vehicle_isSuppliedFOB')
 ) then {
 	_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
 	systemChat format ['%1 %2',(getText ((configOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
 };
 if (isNull (attachedTo _towedVehicle)) then {
 	if ((_towedVehicle distance2D (markerPos 'QS_marker_crate_area')) < 500) then {
-		if (!isNil {_towedVehicle getVariable 'QS_vehicle_isSuppliedFOB'}) then {
+		if !(_towedVehicle isNil 'QS_vehicle_isSuppliedFOB') then {
 			_towedVehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
 			systemChat format ['%1 %2',(getText ((configOf _towedVehicle) >> 'displayName')),localize 'STR_QS_Chat_162'];
 		};
 	};
 };
-if (!isNil {_towedVehicle getVariable 'QS_loadCargoIn'}) exitWith {
+if !(_towedVehicle isNil 'QS_loadCargoIn') exitWith {
 	[0,_towedVehicle] call QS_fnc_eventAttach;
 	private _text = '';
 	_dn2 = QS_hashmap_configfile getOrDefaultCall [

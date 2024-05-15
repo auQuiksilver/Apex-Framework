@@ -110,10 +110,6 @@ if (_garrisoned_nonLocal isNotEqualTo []) then {
 	['enableAIFeature',_garrisoned_nonLocal,['PATH',FALSE]] remoteExec ['QS_fnc_remoteExecCmd',(_garrisoned_nonLocal # 0),FALSE];
 };
 if (_deleteUngarrisoned) then {
-	{
-		if (!(_x getVariable ['QS_unitGarrisoned',FALSE])) then {
-			deleteVehicle _x;
-		};
-	} forEach _gUnits;
+	deleteVehicle (_gUnits select {(!(_x getVariable ['QS_unitGarrisoned',FALSE]))});
 };
 _gUnits;

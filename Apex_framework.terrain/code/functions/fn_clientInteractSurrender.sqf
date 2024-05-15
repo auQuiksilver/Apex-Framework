@@ -51,8 +51,8 @@ _onCancelled = {
 };
 _onCompleted = {
 	params ['_entity'];
-	if (isNil {_entity getVariable 'QS_surrenderable'}) exitWith {};
-	if (!isNil {_entity getVariable 'QS_missionSurrender'}) exitWith {
+	if (_entity isNil 'QS_surrenderable') exitWith {};
+	if !(_entity isNil 'QS_missionSurrender') exitWith {
 		for '_x' from 0 to 2 step 1 do {
 			_entity setVariable ['QS_surrenderable',nil,TRUE];
 		};

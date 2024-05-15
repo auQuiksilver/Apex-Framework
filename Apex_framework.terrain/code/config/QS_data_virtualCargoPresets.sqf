@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	9/11/2023 A3 2.12 by Quiksilver
+	26/11/2023 A3 2.12 by Quiksilver
 	
 Description:
 
@@ -62,6 +62,8 @@ if (_preset isEqualTo 4) exitWith {
 		[[format ['land_cargo_patrol_v%1_f',_cargoType],0,0,1,8.13845,0],		1],
 		[['camonet_blufor_open_f',1,0,0,11.1545,0],								1],
 		[[_platformType,0,0,1,4.83166,0],										1],
+		[['portableflagpole_01_f',0,0,1,4,0],									1],
+		[['areamarker_01_f',1,0,0,10,0],										1],
 		[['b_g_hmg_02_high_f',0,0,1,11.1545,0],									1],
 		[['b_soldier_f',0,1,1,7,0],												2],
 		[['b_soldier_gl_f',0,1,1,7,0],											1]
@@ -89,7 +91,8 @@ if (_preset isEqualTo 5) exitWith {
 		[[format ['land_cargo_house_v%1_f',_cargoType],0,0,1,6.5,0],			1],
 		[['camonet_blufor_open_f',1,0,0,11.1545,0],								1],
 		[[_platformType,0,0,1,4.83166,0],										3],
-		[['flagpole_f',0,0,1,4,0],												1],
+		[['portableflagpole_01_f',0,0,1,4,0],									1],
+		[['areamarker_01_f',1,0,0,10,0],										1],
 		[['b_g_hmg_02_high_f',0,0,1,11.1545,0],									2],
 		[['b_soldier_ar_f',0,1,1,7,0],											3],
 		[['b_soldier_gl_f',0,1,1,7,0],											2],
@@ -121,7 +124,8 @@ if (_preset isEqualTo 6) exitWith {
 		[[format ['land_cargo_house_v%1_f',_cargoType],0,0,1,6.5,0],			2],
 		[['camonet_blufor_open_f',1,0,0,11.1545,0],								2],
 		[[_platformType,0,0,1,4.83166,0],										6],
-		[['flagpole_f',0,0,1,4,0],												1],
+		[['portableflagpole_01_f',0,0,1,4,0],									1],
+		[['areamarker_01_f',1,0,0,10,0],										1],
 		[['b_g_hmg_02_high_f',0,0,1,11.1545,0],									3],
 		[['i_e_gmg_01_high_f',0,0,1,11.1545,0],									1],
 		[['b_supplycrate_f',1,0,0,2,0],											1],		// Arsenal
@@ -168,6 +172,26 @@ if (_preset isEqualTo 12) exitWith {
 if (_preset isEqualTo 13) exitWith {
 	[
 		[['box_b_uav_06_medical_f',0,0,1,0.5,0],								2]
+	]
+};
+if (_preset isEqualTo 14) exitWith {
+	// Fire support base
+	[
+		[['land_sandbagbarricade_01_half_f',1,0,0,2.3,0],						10],
+		[['land_bagfence_short_f',1,0,0,2.3,0],									6],
+		[['i_e_hmg_02_high_f',0,0,1,11.1545,0],									2],
+		[['i_e_hmg_02_f',0,0,1,11.1545,0],										1],
+		[['b_mortar_01_f',0,0,1,11.1545,0],										1],
+		[['b_static_aa_f',0,0,1,11.1545,0],										1],
+		[['b_static_at_f',0,0,1,11.1545,0],										1]
+	]
+};
+if (_preset isEqualTo 15) exitWith {
+	// Lite Fortifications Supplementary Kit
+	[
+		[['land_sandbagbarricade_01_half_f',1,0,0,2.3,0],						5],
+		[['land_sandbagbarricade_01_f',1,0,0,2.3,0],							5],
+		[['land_bagfence_short_f',1,0,0,2.3,0],									5]
 	]
 };
 []

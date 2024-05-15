@@ -29,7 +29,7 @@ private _usedMapIcon = '';
 	_x params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 	_menuDeploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
 	_usedMapIcon = _mapIcon;
-	_isNearbyEnemies = ((flatten (_enemysides apply {units _x})) inAreaArray [_menuDeploymentPosition,100,100]) isNotEqualTo [];
+	_isNearbyEnemies = ((flatten (_enemysides apply {units _x})) inAreaArray [_menuDeploymentPosition,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius]) isNotEqualTo [];
 	if (_forEachIndex isEqualTo _selectedIndex) then {
 		_m drawIcon [
 			[_iconSelected,_mapIcon] select (_mapIcon isNotEqualTo ''),

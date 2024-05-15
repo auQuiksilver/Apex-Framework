@@ -770,20 +770,7 @@ missionNamespace setVariable ['QS_mission_urban_active',TRUE,TRUE];
 _box1_secured = FALSE;
 _box2_secured = FALSE;
 _box3_secured = FALSE;
-
-{
-	if (!isNull _x) then {
-		if ((_x distance2D [0,0,0]) < 500) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		};
-	};
-} count _QS_allArray;
-
+deleteVehicle (_QS_allArray select {((_x distance2D [0,0,0]) < 500)});
 for '_x' from 0 to 1 step 0 do {
 
 	if (_QS_missionSuccess) exitWith {

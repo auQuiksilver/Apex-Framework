@@ -19,7 +19,7 @@ Notes:
 _______________________________________________________/*/
 
 if (isDedicated) exitWith {};
-params ['_vehicle','_type'];
+params ['_vehicle'];
 _vehicleType = toLowerANSI (typeOf _vehicle);
 private _isOffroad = ((_vehicle isKindOf 'offroad_01_repair_base_f') || ((_vehicle isKindOf 'offroad_01_base_f') && (((_vehicle animationPhase 'HideServices') isEqualTo 0) || ((_vehicle animationPhase 'HidePolice') isEqualTo 0))));
 private _isPoliceBoat = _vehicleType in ['c_boat_civil_01_police_f'];
@@ -126,9 +126,4 @@ if (
 ) then {
 	_vehicle animate ['BeaconsServicesStart',0,1];
 };
-{
-	deleteVehicle _x;
-} forEach [
-	_lightleft,
-	_lightright
-];
+deleteVehicle [_lightleft,_lightright];

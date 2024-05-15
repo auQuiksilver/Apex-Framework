@@ -38,13 +38,13 @@ _objectParent = objectParent _unit;
 if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 	_unit setVariable ['QS_AI_UNIT',TRUE,FALSE];
 	_unit setVariable ['QS_AI_UNIT_rv',[(random 1),(random 1),(random 1)],FALSE];
-	if (isNil {_unit getVariable 'QS_AI_UNIT_nextSelfRearm'}) then {
+	if (_unit isNil 'QS_AI_UNIT_nextSelfRearm') then {
 		_unit setVariable ['QS_AI_UNIT_nextSelfRearm',(_uiTime + (random [180,300,420])),FALSE];
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSelfHeal'}) then {
+	if (_unit isNil 'QS_AI_UNIT_lastSelfHeal') then {
 		_unit setVariable ['QS_AI_UNIT_lastSelfHeal',_uiTime,FALSE];
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_isMG'}) then {
+	if (_unit isNil 'QS_AI_UNIT_isMG') then {
 		if (
 			((toLowerANSI (primaryWeapon _unit)) in (missionNamespace getVariable ['QS_AI_weapons_MG',[]])) ||
 			{((!isNull _objectParent) && {(_unit isEqualTo (gunner _objectParent))})}
@@ -61,36 +61,36 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 			_unit setVariable ['QS_AI_UNIT_isMG',FALSE,FALSE];
 		};
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_isGL'}) then {
+	if (_unit isNil 'QS_AI_UNIT_isGL') then {
 		if ((toLowerANSI (primaryWeapon _unit)) in (missionNamespace getVariable ['QS_AI_weapons_GL',[]])) then {
 			_unit setVariable ['QS_AI_UNIT_isGL',TRUE,FALSE];
 		} else {
 			_unit setVariable ['QS_AI_UNIT_isGL',FALSE,FALSE];
 		};
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSmoke'}) then {
+	if (_unit isNil 'QS_AI_UNIT_lastSmoke') then {
 		_unit setVariable ['QS_AI_UNIT_lastSmoke',_uiTime,FALSE];
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastFrag'}) then {
+	if (_unit isNil 'QS_AI_UNIT_lastFrag') then {
 		_unit setVariable ['QS_AI_UNIT_lastFrag',_uiTime,FALSE];
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastStanceAdjust'}) then {
+	if (_unit isNil 'QS_AI_UNIT_lastStanceAdjust') then {
 		_unit setVariable ['QS_AI_UNIT_lastStanceAdjust',_uiTime,FALSE];
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastGesture'}) then {
+	if (_unit isNil 'QS_AI_UNIT_lastGesture') then {
 		_unit setVariable ['QS_AI_UNIT_lastGesture',(_uiTime + (random [5,30,60])),FALSE];
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_exp'}) then {
+	if (_unit isNil 'QS_AI_UNIT_exp') then {
 		if (_unit getUnitTrait 'explosiveSpecialist') then {
 			_unit setVariable ['QS_AI_UNIT_lastExpEval',(_uiTime + (random [30,60,90])),FALSE];
 		};
 	};
 	if (_unit getUnitTrait 'engineer') then {
-		if (isNil {_unit getVariable 'QS_AI_UNIT_assignedVehicle'}) then {
+		if (_unit isNil 'QS_AI_UNIT_assignedVehicle') then {
 			_unit setVariable ['QS_AI_UNIT_assignedVehicle',(assignedVehicle _unit),FALSE];
 		};
 	};
-	if (isNil {_unit getVariable 'QS_AI_unstuckInterval'}) then {
+	if (_unit isNil 'QS_AI_unstuckInterval') then {
 		_unit setVariable ['QS_AI_unstuckInterval',(_uiTime + (180 + (random 600))),FALSE];
 	};
 	if ((secondaryWeapon _unit) isNotEqualTo '') then {
@@ -103,10 +103,10 @@ if (!(_unit getVariable ['QS_AI_UNIT',FALSE])) then {
 };
 _isLeader = _unit isEqualTo (leader _grp);
 if (_isLeader) then {
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastSupportRequest'}) then {
+	if (_unit isNil 'QS_AI_UNIT_lastSupportRequest') then {
 		_unit setVariable ['QS_AI_UNIT_lastSupportRequest',-1,FALSE];
 	};
-	if (isNil {_unit getVariable 'QS_AI_UNIT_lastRegroup'}) then {
+	if (_unit isNil 'QS_AI_UNIT_lastRegroup') then {
 		_unit setVariable ['QS_AI_UNIT_lastRegroup',(_uiTime + (random [30,60,90])),FALSE];
 	};
 	if (!alive _unit) then {
@@ -353,7 +353,7 @@ if (isNull _objectParent) then {
 	if (_aiPath) then {
 		if (_unit getUnitTrait 'engineer') then {
 			if ((count (missionNamespace getVariable 'QS_AI_scripts_support')) < 2) then {
-				if (isNil {_grp getVariable 'QS_AI_engineer_vehicles'}) then {
+				if (_grp isNil 'QS_AI_engineer_vehicles') then {
 					_grp setVariable ['QS_AI_engineer_vehicles',[],FALSE];
 				};
 				_grp setVariable ['QS_AI_engineer_vehicles',((_grp getVariable 'QS_AI_engineer_vehicles') select {(alive _x)}),FALSE];
@@ -709,8 +709,8 @@ if (_isLeader) then {
 										if ((vehicle _supportProvider) isKindOf 'LandVehicle') then {
 											_supportGroup = group _supportProvider;
 											if ((_supportGroup getVariable 'QS_AI_GRP_DATA') # 0) then {
-												if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
-													if (isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
+												if (_supportGroup isNil 'QS_AI_GRP_fireMission') then {
+													if (_supportGroup isNil 'QS_AI_GRP_MTR_cooldown') then {
 														if (((_unit targetKnowledge _target) # 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)]) then {
 															_unit playActionNow 'HandSignalRadio';
 															if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
@@ -746,8 +746,8 @@ if (_isLeader) then {
 										if ((vehicle _supportProvider) isKindOf 'StaticMortar') then {
 											_supportGroup = group _supportProvider;
 											if ((_supportGroup getVariable 'QS_AI_GRP_DATA') # 0) then {
-												if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
-													if (isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
+												if (_supportGroup isNil 'QS_AI_GRP_fireMission') then {
+													if (_supportGroup isNil 'QS_AI_GRP_MTR_cooldown') then {
 														if (((_unit targetKnowledge _target) # 6) inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)]) then {
 															_unit playActionNow 'HandSignalRadio';
 															if (missionNamespace getVariable ['QS_virtualSectors_active',FALSE]) then {
@@ -784,7 +784,7 @@ if (_isLeader) then {
 										if ((vehicle _supportProvider) isKindOf 'Helicopter') then {
 											if (((vehicle _supportProvider) distance2D _target) < 3000) then {
 												_supportGroup = group _supportProvider;
-												if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
+												if (_supportGroup isNil 'QS_AI_GRP_fireMission') then {
 													_unit playActionNow 'HandSignalRadio';
 													_exit = TRUE;
 													_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(serverTime + 240)],QS_system_AI_owners];
@@ -817,7 +817,7 @@ if (_isLeader) then {
 									if (alive _supportProvider) then {
 										if ((vehicle _supportProvider) isKindOf 'Plane') then {
 											_supportGroup = group _supportProvider;
-											if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
+											if (_supportGroup isNil 'QS_AI_GRP_fireMission') then {
 												_unit playActionNow 'HandSignalRadio';
 												_exit = TRUE;
 												_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(serverTime + 180)],QS_system_AI_owners];
@@ -851,7 +851,7 @@ if (_isLeader) then {
 									if (alive _supportProvider) then {
 										if (unitIsUav _supportProvider) then {
 											_supportGroup = group _supportProvider;
-											if (isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) then {
+											if (_supportGroup isNil 'QS_AI_GRP_fireMission') then {
 												_unit playActionNow 'HandSignalRadio';
 												_exit = TRUE;
 												_supportGroup setVariable ['QS_AI_GRP_fireMission',[_target,(serverTime + 180)],QS_system_AI_owners];

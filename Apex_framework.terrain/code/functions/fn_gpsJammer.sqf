@@ -31,7 +31,7 @@ if (_type isEqualTo 0) exitWith {
 };
 if (_type isEqualTo 1) exitWith {
 	params ['','_id','_spawnPosition','_effectPosition','_radius',['_createTask',TRUE],['_drawBlackCircle',TRUE]];
-	if (isNil {missionNamespace getVariable 'QS_mission_gpsJammers'}) then {
+	if (missionNamespace isNil 'QS_mission_gpsJammers') then {
 		missionNamespace setVariable ['QS_mission_gpsJammers',[],TRUE];
 	};
 	private _jammer = objNull;
@@ -188,11 +188,7 @@ if (_type isEqualTo 2) exitWith {
 				(missionNamespace getVariable 'QS_garbageCollector') pushBack [_jammerObject,'NOW_DISCREET',0];
 			};
 			if (_assocObjects isNotEqualTo []) then {
-				{
-					if (!isNull _x) then {
-						deleteVehicle _x;
-					};
-				} forEach _assocObjects;
+				deleteVehicle _assocObjects;
 			};
 			(missionNamespace getVariable ['QS_mission_gpsJammers',[]]) set [_jammerIndex,FALSE];
 			(missionNamespace getVariable ['QS_mission_gpsJammers',[]]) deleteAt _jammerIndex;

@@ -16,19 +16,19 @@ __________________________________________________________*/
 params ['','_key','_shift','_ctrl','_alt'];
 private _c = FALSE;
 /*/
-if (!isNil {uiNamespace getVariable 'BIS_dynamicGroups_keyDownTime'}) then {
+if !(uiNamespace isNil 'BIS_dynamicGroups_keyDownTime') then {
 	uiNamespace setVariable ['BIS_dynamicGroups_keyDownTime',nil];
 };
 if (
 	(_key in (actionKeys 'TeamSwitch')) &&
 	{(!_shift)} &&
 	{(!_ctrl)} &&
-	{(isNil {uiNamespace getVariable 'BIS_dynamicGroups_ignoreInterfaceOpening'})}
+	{(uiNamespace isNil 'BIS_dynamicGroups_ignoreInterfaceOpening')}
 ) then {
 	if ((isNull (findDisplay 60490)) && {missionNamespace getVariable ['BIS_dynamicGroups_allowInterface',TRUE]}) then {
 		(call (missionNamespace getVariable 'BIS_fnc_displayMission')) createDisplay 'RscDisplayDynamicGroups';
 	} else {
-		if (isNil {uiNamespace getVariable 'BIS_dynamicGroups_hasFocus'}) then {
+		if (uiNamespace isNil 'BIS_dynamicGroups_hasFocus') then {
 			(['GetDisplay'] call (uiNamespace getVariable ['RscDisplayDynamicGroups_script',{}])) closeDisplay 2;
 		};			
 	};

@@ -149,7 +149,7 @@ if (_type isEqualTo 'REINFORCE') exitWith {
 			_newUnit = _newUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 			_newUnit setUnitPos 'Down';
 			_newUnit setPos (_buildingPosition vectorAdd [0,0,-0.5]);
-			_newUnit switchMove 'amovppnemstpsraswrfldnon';
+			_newUnit switchMove ['amovppnemstpsraswrfldnon'];
 		};
 		// This section makes a few assumptions about available patrol positions
 		private _newPatrolRoute = ((missionNamespace getVariable 'QS_ao_urbanSpawn_bldgs') apply { ((getPosATL _x) vectorAdd [0,0,1]) }) call (missionNamespace getVariable 'QS_fnc_arrayShuffle');
@@ -246,7 +246,7 @@ if (_type isEqualTo 'HQ') exitWith {
 				_newUnit = _newUnit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				_newUnit setUnitPos 'Down';
 				_newUnit setPos (_buildingPosition vectorAdd [0,0,0.25]);
-				_newUnit switchMove 'amovppnemstpsraswrfldnon';
+				_newUnit switchMove ['amovppnemstpsraswrfldnon'];
 			};
 			if (_isGarrisonLow) then {
 				// HQ guards

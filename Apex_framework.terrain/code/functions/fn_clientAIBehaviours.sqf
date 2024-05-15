@@ -204,7 +204,7 @@ for '_x' from 0 to 1 step 0 do {
 															_jobTarget setUnconscious FALSE;
 															_jobTarget setCaptive FALSE;
 															if (!isPlayer _jobTarget) then {
-																['switchMove',_jobTarget,'AmovPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+																['switchMove',_jobTarget,['AmovPpneMstpSnonWnonDnon']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 															};
 														} else {
 															[68,_jobTarget,FALSE,FALSE] remoteExec ['QS_fnc_remoteExec',_jobTarget,FALSE];

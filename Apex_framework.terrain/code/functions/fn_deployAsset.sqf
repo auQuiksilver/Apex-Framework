@@ -94,11 +94,7 @@ if (_state isEqualTo 0) exitWith {
 			if (_index isNotEqualTo -1) then {
 				_assets = (QS_logistics_deployedAssets # _index) # 1;
 				if (_assets isNotEqualTo []) then {
-					{
-						if (_x isEqualType objNull) then {
-							deleteVehicle _x;
-						};
-					} forEach _assets;
+					deleteVehicle _assets;
 					QS_system_builtObjects = QS_system_builtObjects select {!isNull _x};
 				};
 				_systems_id = (QS_logistics_deployedAssets # _index) # 2;

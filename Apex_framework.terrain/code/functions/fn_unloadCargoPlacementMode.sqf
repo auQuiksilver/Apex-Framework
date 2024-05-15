@@ -162,6 +162,12 @@ if (_frontPos) then {
 	};
 	QS_targetBoundingBox_helper attachTo (uiNamespace getVariable ['QS_targetBoundingBox_attachTo',[_vehicle,_frontModelPos]]);
 };
+
+0 spawn {
+	sleep (diag_deltaTime * 2)
+	call QS_fnc_clientInGameUIPrevAction;
+};
+
 _nearEntities = QS_targetBoundingBox_helper nearEntities 30;
 ['awake',_nearEntities,TRUE] remoteExec ['QS_fnc_remoteExecCmd',_nearEntities,FALSE];
 if (

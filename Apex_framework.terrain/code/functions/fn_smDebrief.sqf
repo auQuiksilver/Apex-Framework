@@ -285,11 +285,6 @@ if (_type isEqualTo 1) then {
 			{
 				params ['_vehicle'];
 				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
@@ -299,22 +294,7 @@ if (_type isEqualTo 1) then {
 			'Killed',
 			{
 				params ['_killed','_killer'];
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (_killed getVariable ['QS_attachedObjects',[]]);
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (attachedObjects _killed);
+				deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 			}
 		];
 		_rewardVeh setVariable ['QS_ST_customDN','Mortar Truck',TRUE];
@@ -402,11 +382,6 @@ if (_type isEqualTo 1) then {
 			{
 				params ['_vehicle'];
 				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
@@ -416,25 +391,7 @@ if (_type isEqualTo 1) then {
 			'Killed',
 			{
 				params ['_killed','_killer'];
-				_attachedObjects = attachedObjects _killed;
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count ((_killed getVariable ['QS_attachedObjects',[]]) + _attachedObjects);
-				if ((attachedObjects _killed) isNotEqualTo []) then {
-					{
-						missionNamespace setVariable [
-							'QS_analytics_entities_deleted',
-							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-							FALSE
-						];
-						deleteVehicle _x;
-					} count (attachedObjects _killed);
-				};
+				deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 			}
 		];
 		private ['_obj','_bagFenceRoundType','_bagFenceLongType'];
@@ -528,11 +485,6 @@ if (_type isEqualTo 1) then {
 			{
 				params ['_vehicle'];
 				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
@@ -542,14 +494,7 @@ if (_type isEqualTo 1) then {
 			'Killed',
 			{
 				params ['_killed','_killer'];
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (_killed getVariable ['QS_attachedObjects',[]]);
+				deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 			}
 		];
 		_rewardVeh setVariable ['QS_ST_customDN','Mortar Boat',TRUE];
@@ -581,11 +526,6 @@ if (_type isEqualTo 1) then {
 				{
 					params ['_vehicle'];
 					{
-						missionNamespace setVariable [
-							'QS_analytics_entities_deleted',
-							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-							FALSE
-						];
 						[0,_x] call QS_fnc_eventAttach;
 						deleteVehicle _x;
 					} count (attachedObjects _vehicle);
@@ -595,14 +535,7 @@ if (_type isEqualTo 1) then {
 				'Killed',
 				{
 					params ['_killed','_killer'];
-					{
-						missionNamespace setVariable [
-							'QS_analytics_entities_deleted',
-							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-							FALSE
-						];
-						deleteVehicle _x;
-					} count (_killed getVariable ['QS_attachedObjects',[]]);
+					deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 				}
 			];
 			_rewardVeh setVariable ['QS_ST_customDN','Recon Quad',TRUE];
@@ -653,14 +586,7 @@ if (_type isEqualTo 1) then {
 			'Killed',
 			{
 				params ['_killed','_killer'];
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (_killed getVariable ['QS_attachedObjects',[]]);
+				deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 			}
 		];
 		_rewardVeh addEventHandler [
@@ -668,11 +594,6 @@ if (_type isEqualTo 1) then {
 			{
 				params ['_vehicle'];
 				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
@@ -740,11 +661,6 @@ if (_type isEqualTo 1) then {
 			{
 				params ['_vehicle'];
 				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
@@ -754,25 +670,7 @@ if (_type isEqualTo 1) then {
 			'Killed',
 			{
 				params ['_killed','_killer'];
-				_attachedObjects = attachedObjects _killed;
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count ((_killed getVariable ['QS_attachedObjects',[]]) + _attachedObjects);
-				if ((attachedObjects _killed) isNotEqualTo []) then {
-					{
-						missionNamespace setVariable [
-							'QS_analytics_entities_deleted',
-							((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-							FALSE
-						];
-						deleteVehicle _x;
-					} count (attachedObjects _killed);
-				};
+				deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 			}
 		];
 		_rewardText = 'a(n) MB 4WD Stalker';
@@ -952,11 +850,6 @@ if (_type isEqualTo 1) then {
 			{
 				params ['_vehicle'];
 				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					[0,_x] call QS_fnc_eventAttach;
 					deleteVehicle _x;
 				} count (attachedObjects _vehicle);
@@ -966,22 +859,7 @@ if (_type isEqualTo 1) then {
 			'Killed',
 			{
 				params ['_killed','_killer'];
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (_killed getVariable ['QS_attachedObjects',[]]);
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (attachedObjects _killed);
+				deleteVehicle ((_killed getVariable ['QS_attachedObjects',[]]) + (attachedObjects _killed));
 			}
 		];
 		_rewardVeh setVariable ['QS_ST_customDN','Shitty Technical (GMG)',TRUE];

@@ -338,7 +338,7 @@ _QS_fnc_iconPosDir = {
 				_posDir = [getPosWorldVisual _v,getDirVisual _v];
 				_v setVariable ['QS_ST_lastPulsePos',_posDir,FALSE];
 			} else {
-				if (!isNil {_v getVariable 'QS_ST_lastPulsePos'}) then {
+				if (!(_v isNil 'QS_ST_lastPulsePos')) then {
 					_posDir = _v getVariable 'QS_ST_lastPulsePos';
 				} else {
 					_posDir = [getPosWorldVisual _v,getDirVisual _v];
@@ -430,7 +430,7 @@ _QS_fnc_iconText = {
 		_n = 0;
 		_n = (count (crew _v)) - 1;
 		if (_n > 0) then {
-			if (!isNil {_v getVariable 'QS_ST_mapClickShowCrew'}) then {
+			if (!(_v isNil 'QS_ST_mapClickShowCrew')) then {
 				if (_v getVariable 'QS_ST_mapClickShowCrew') then {
 					_t = '';
 					private _crewIndex = 0;
@@ -1939,7 +1939,7 @@ if (_QS_ST_X # 2) then {
 							if ((side _grp) in _as) then {
 								_grpLeader = leader _grp;
 								if (_showAIGroups) then {
-									if (isNil {_grp getVariable 'QS_ST_Group'}) then {
+									if (_grp isNil 'QS_ST_Group') then {
 										if (
 											(!isNull _grp) &&
 											{(!isNull _grpLeader)}
@@ -1956,7 +1956,7 @@ if (_QS_ST_X # 2) then {
 									};
 								} else {
 									if (isPlayer _grpLeader) then {
-										if (isNil {_grp getVariable 'QS_ST_Group'}) then {
+										if (_grp isNil 'QS_ST_Group') then {
 											if (
 												(!isNull _grp) &&
 												{(!isNull _grpLeader)}
@@ -1974,12 +1974,12 @@ if (_QS_ST_X # 2) then {
 									};
 								};
 							} else {
-								if (!isNil {_grp getVariable 'QS_ST_Group_Icon'}) then {
+								if (!(_grp isNil 'QS_ST_Group_Icon')) then {
 									[_grp,2,_QS_ST_X] call _configGroupIcon;
 								};
 							};
 						} else {
-							if (!isNil {_grp getVariable 'QS_ST_Group_Icon'}) then {
+							if (!(_grp isNil 'QS_ST_Group_Icon')) then {
 								[_grp,2,_QS_ST_X] call _configGroupIcon;
 							};
 						};

@@ -6,7 +6,7 @@ Author:
 	
 Last modified:
 
-	24/05/2023 A3 2.12 by Quiksilver
+	7/03/2024 A3 2.18 by Quiksilver
 	
 Description:
 
@@ -14,19 +14,31 @@ Description:
 __________________________________________________/*/
 
 scriptName 'QS InitPlayerServer';
-params ['_client','_jip','_cid','_uid','_profileName'];
+//[playerID, owner, playerUID, soldierName, displayName, steamProfileName, 
+//clientStateNumber, isHeadless, adminState, networkInfo, playerObject]
+params [
+	'_playerID',
+	'_cid',
+	'_uid',
+	'_profileName',
+	'_displayName',
+	'_profileNameSteam',
+	'_clientStateNumber',
+	'_isHeadless',
+	'_adminState',
+	'_networkInfo',
+	'_client'
+];
+
+//params ['_client','_jip','_cid','_uid','_profileName'];
 if (!(missionNamespace getVariable ['QS_mission_init',FALSE])) then {
 	waitUntil {
 		uiSleep 0.1;
 		(missionNamespace getVariable ['QS_mission_init',FALSE])
 	};
 };
-if (_client isKindOf 'HeadlessClient_F') exitWith {diag_log 'Headless client connecting - exiting QS_fnc_initPlayerServer.sqf';};
-_t = diag_tickTime + 15;
-waitUntil {
-	uiSleep 0.1;
-	((!isNull _client) || {(diag_tickTime > _t)})
-};
+if (_isHeadless) exitWith {diag_log 'Headless client connecting - exiting QS_fnc_initPlayerServer.sqf';};
+//if (_client isKindOf 'HeadlessClient_F') exitWith {diag_log 'Headless client connecting - exiting QS_fnc_initPlayerServer.sqf';};
 if (isNull _client) exitWith {};
 if (allCurators isNotEqualTo []) then {
 	{
@@ -98,7 +110,6 @@ _grp = group _client;
 	['BIS_dg_var',format ['%1_%2_%3',groupId _grp,_uid,time],TRUE]
 ];
 _grp setGroupIdGlobal [groupId _grp];
-// Dynamic Groups
 _client setVariable ['QS_5551212',_loginVal,FALSE];
 _client setVariable ['QS_ClientSupporterLevel',_sLevel,FALSE];
 private _notifyWhitelist = _uid in (missionProfileNamespace getVariable ['QS_whitelists_toInform',[]]);
@@ -106,9 +117,11 @@ if (_notifyWhitelist) then {
 	(missionProfileNamespace getVariable 'QS_whitelists_toInform') deleteAt ((missionProfileNamespace getVariable ['QS_whitelists_toInform',[]]) find _uid);
 };
 [
-	[[_uid,_cid,_val,_jip],_sLevel,_loginVal,_notifyWhitelist],
+	[[_uid,_cid,_val],_sLevel,_loginVal,_notifyWhitelist],
 	{
-		missionNamespace setVariable ['QS_atClientMisc',(_this # 0),FALSE];
+		_info = _this # 0;
+		_info pushBack didJIP;
+		missionNamespace setVariable ['QS_atClientMisc',_info,FALSE];
 		player setVariable ['QS_ClientSupporterLevel',(_this # 1),FALSE];
 		player setVariable ['QS_5551212',(_this # 2),FALSE];
 		0 spawn (missionNamespace getVariable 'QS_fnc_initPlayerLocal');

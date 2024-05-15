@@ -16,14 +16,14 @@ _______________________________________*/
 private _obj = cursorTarget;
 if (
 	(isNull _obj) ||
-	(isNil {_obj getVariable 'QS_collectible_tooth'}) ||
+	(_obj isNil 'QS_collectible_tooth') ||
 	(alive _obj) ||
 	(!(_obj isKindOf 'CAManBase')) ||
-	((!isNil {player getVariable 'QS_teeth_collected'}) && (_obj in (player getVariable 'QS_teeth_collected')))
+	((!(player isNil 'QS_teeth_collected')) && (_obj in (player getVariable 'QS_teeth_collected')))
 ) exitWith {
 
 };
-if (isNil {player getVariable 'QS_teeth_collected'}) then {
+if (player isNil 'QS_teeth_collected') then {
 	player setVariable ['QS_teeth_collected',[],FALSE];
 };
 _obj setVariable ['QS_collectible_tooth',FALSE,TRUE];

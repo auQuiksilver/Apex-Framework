@@ -19,8 +19,8 @@ _list = QS_player nearEntities [['Air','LandVehicle','Ship','Reammobox_F','Thing
 {
 	if (
 		(alive _x) &&
-		((_x getVariable ['QS_medicalVehicle_reviveTickets',-1]) isNotEqualTo -1) &&
-		(isNil {_x getVariable 'QS_vehicle_isSuppliedFOB'})
+		{((_x getVariable ['QS_medicalVehicle_reviveTickets',-1]) isNotEqualTo -1)} &&
+		{(_x isNil 'QS_vehicle_isSuppliedFOB')}
 	) exitWith {
 		_target = _x;
 	};

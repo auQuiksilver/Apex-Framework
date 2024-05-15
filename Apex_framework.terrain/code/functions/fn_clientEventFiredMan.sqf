@@ -70,7 +70,7 @@ if (_weapon isEqualTo 'Throw') then {
 					((_unit distance2D (missionNamespace getVariable 'QS_HQpos')) < 50) || 
 					(((missionNamespace getVariable ['QS_virtualSectors_positions',[[0,0,0]]]) findIf {((_unit distance2D _x) < 50)}) isNotEqualTo -1)
 				) then {
-					if (!isNil {_unit getVariable 'QS_client_hqLastSmoke'}) then {
+					if !(_unit isNil 'QS_client_hqLastSmoke') then {
 						if (time < ((_unit getVariable 'QS_client_hqLastSmoke') + 20)) then {
 							0 = [_projectile] spawn {
 								params ['_projectile'];

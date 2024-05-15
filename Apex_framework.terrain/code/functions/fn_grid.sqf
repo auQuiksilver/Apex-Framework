@@ -486,9 +486,7 @@ if (_type isEqualTo 'MANAGE') then {
 									missionNamespace setVariable ['QS_grid_AI_triggerDeinit',_true,_true];
 								};
 								if ((missionNamespace getVariable ['QS_grid_intelEntities',[]]) isNotEqualTo []) then {
-									{
-										deleteVehicle _x;
-									} forEach (missionNamespace getVariable ['QS_grid_intelEntities',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_grid_intelEntities',[]]);
 									missionNamespace setVariable ['QS_grid_intelEntities',[],_false];
 								};
 								if (!isNull (missionNamespace getVariable ['QS_grid_IGintel',objNull])) then {
@@ -508,9 +506,7 @@ if (_type isEqualTo 'MANAGE') then {
 								missionNamespace setVariable ['QS_grid_AIRspTotal',0,_false];
 								missionNamespace setVariable ['QS_grid_AIRspDestroyed',0,_false];
 								if ((missionNamespace getVariable ['QS_ao_UXOs',[]]) isNotEqualTo []) then {
-									{
-										deleteVehicle _x;
-									} forEach (missionNamespace getVariable ['QS_ao_UXOs',[]]);
+									deleteVehicle (missionNamespace getVariable ['QS_ao_UXOs',[]]);
 									missionNamespace setVariable ['QS_ao_UXOs',[],_false];
 								};
 								missionNamespace setVariable ['QS_grid_defend_script',(0 spawn (missionNamespace getVariable 'QS_fnc_gridDefend')),_false];

@@ -36,7 +36,7 @@ for '_x' from 0 to (_quantity - 1) step 1 do {
 	_animal = createAgent [_class,_position,[],15,'NONE'];
 	/*/_animal setVariable ['BIS_fnc_animalBehaviour_disable',TRUE,TRUE];/*/
 	_animal enableDynamicSimulation TRUE;
-	['switchMove',_animal,_animStart] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+	['switchMove',_animal,[_animStart]] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 	_animal setSkill 0;
 	_animal setVariable ['QS_animal_sitePosition',_position,(!isServer)];
 	_animal setDir (random 360);

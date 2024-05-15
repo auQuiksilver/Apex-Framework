@@ -14,10 +14,7 @@ Description:
 _____________________________________________________________/*/
 
 params ['_entity','_type','_preset'];
-if (!isNil {_entity getVariable 'QS_vehicle_customInventory'}) exitWith {};
-
-
-
+if !(_entity isNil 'QS_vehicle_customInventory') exitWith {};
 _entity setVariable ['QS_vehicle_customInventory',TRUE,FALSE];
 _whitelistedBackpacks = [];
 _allItems = [

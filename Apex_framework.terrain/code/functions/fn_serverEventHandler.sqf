@@ -32,7 +32,7 @@ if (_type isEqualTo 'regularCheck') exitWith {
 	_params params ['_userID','_testIndex'];
 	''
 };
-diag_log str _this;	// Debug
+//diag_log str _this;	// Debug
 if (_type isEqualTo 'sendChatMessage') exitWith {
 	_params params ['_userID','_message'];
 	''

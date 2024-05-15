@@ -15,10 +15,12 @@ _________________________________________________/*/
 
 _time = diag_tickTime;
 _player = QS_player;
+_focusOn = focusOn;
 _cameraOn = cameraOn;
 _curatorView = !isNull curatorCamera;
 _cameraView = cameraView;
 _thisFrame = diag_frameNo;
+// Eval every 10 frames
 if (_thisFrame > (uiNamespace getVariable ['QS_eval_frameInterval_10',-1])) then {
 	uiNamespace setVariable ['QS_eval_frameInterval_10',_thisFrame + 10];
 	if (
@@ -112,9 +114,13 @@ if (_thisFrame > (uiNamespace getVariable ['QS_eval_frameInterval_10',-1])) then
 		};
 	};
 };
+// Eval every 30 frames
 if (_thisFrame > (uiNamespace getVariable ['QS_eval_frameInterval_30',-1])) then {
 	uiNamespace setVariable ['QS_eval_frameInterval_30',_thisFrame + 30];
 	['EVAL',_player] call QS_fnc_zoneManager;
+};
+if (_focusOn isNotEqualTo (localNamespace getVariable ['QS_focusOn',objNull])) then {
+	[localNamespace getVariable ['QS_focusOn',objNull],_focusOn] call QS_fnc_clientEventFocusChanged;
 };
 if (missionNamespace getVariable ['QS_missionConfig_weaponLasers',TRUE]) then {
 	if (
@@ -359,7 +365,8 @@ if (isNull (objectParent _player)) then {
 					{((lifeState _player) in ['HEALTHY','INJURED'])} &&
 					{(!(['reload',gestureState _player] call QS_fnc_inString))}
 				) then {
-					_player playAction 'HandSignalRadio';
+					// blocks players ability to aim-down-sight and shoot for a few seconds
+					//_player playAction 'HandSignalRadio';
 				};
 				if ((uiNamespace getVariable ['QS_ui_timeLastRadioIn',_time]) < (_time - 3)) then {
 					uiNamespace setVariable ['QS_ui_timeLastRadioIn',_time];

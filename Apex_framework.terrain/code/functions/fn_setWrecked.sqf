@@ -49,7 +49,7 @@ if (_state isEqualTo 0) exitWith {
 		_oldEntity = _entity;
 		_vIndex = (serverNamespace getVariable 'QS_v_Monitor') findIf { _entity isEqualTo (_x # 0) };
 		{ropeDestroy _x} forEach (ropes _oldEntity);
-		{deleteVehicle _x} forEach (attachedObjects _oldEntity);
+		deleteVehicle (attachedObjects _oldEntity);
 		_wreckType = [_oldEntity,toLowerANSI (typeOf _oldEntity)] call QS_fnc_getWreckType;
 		_entity = createVehicle [_wreckType,[-500,-500,500],[],100,'CAN_COLLIDE'];
 		_entity setVectorDirAndUp _entityVectors;
@@ -167,6 +167,9 @@ if (_state isEqualTo 0) exitWith {
 		_entity setVariable ['QS_wreck_marker',_marker,FALSE];
 	};
 	if (local _entity) then {
+		if (isEngineOn _entity) then {
+			_entity engineOn FALSE;	
+		};
 		if ((_entity getVariable ['QS_wreck_damageHandler1',-1]) isEqualTo -1) then {
 			if (isDamageAllowed _entity) then {
 				_entity allowDamage FALSE;
@@ -185,6 +188,9 @@ if (_state isEqualTo 0) exitWith {
 				_grp = assignedGroup _entity; 
 				if (!isNull _grp) then {
 					_grp leaveVehicle _entity;
+				};
+				if (isEngineOn _entity) then {
+					_entity engineOn FALSE;
 				};
 				if (isDamageAllowed _entity) then {
 					_entity allowDamage FALSE;

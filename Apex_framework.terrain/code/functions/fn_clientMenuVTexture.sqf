@@ -64,7 +64,7 @@ if (_type isEqualTo 'Select') then {
 		_vehicleTypes = (_list # _index) # 4;
 		_author = (_list # _index) # 5;
 		if (_index isEqualTo 0) then {
-			if (!isNil {player getVariable 'QS_ClientVTexture'}) then {
+			if (!(player isNil 'QS_ClientVTexture')) then {
 				if (!isNull ((player getVariable 'QS_ClientVTexture') # 0)) then {
 					_v = (player getVariable 'QS_ClientVTexture') # 0;
 					if ((typeOf _v) in ['I_MRAP_03_F','I_MRAP_03_hmg_F','I_MRAP_03_gmg_F']) then {

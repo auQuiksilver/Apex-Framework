@@ -76,7 +76,7 @@ if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmst
 			if (!alive _carried) exitWith {
 				if (isForcedWalk player) then {
 					player forceWalk FALSE;
-					['switchMove',player,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+					['switchMove',player,['']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 				};
 			};
 			for '_x' from 0 to 1 step 0 do {
@@ -98,7 +98,7 @@ if (_anim in ['acinpercmstpsraswrfldnon','acinpercmstpsraswnondnon','acinpercmst
 			};
 			if (isForcedWalk player) then {
 				player forceWalk FALSE;
-				['switchMove',player,''] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+				['switchMove',player,['']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 			};
 			if (_putDown) then {
 			

@@ -25,7 +25,7 @@ systemChat str _message;
 [str _message] call (missionNamespace getVariable 'QS_fnc_hint');
 if (isNull _object) exitWith {};
 if (_type isEqualTo 1) then {
-	if (isNil {missionNamespace getVariable 'QS_kiddieActions'}) then {
+	if (missionNamespace isNil 'QS_kiddieActions') then {
 		missionNamespace setVariable ['QS_kiddieActions',[],FALSE];
 	};
 	QS_kiddieAction2 = player addAction [

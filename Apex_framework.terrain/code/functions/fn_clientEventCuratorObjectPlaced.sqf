@@ -255,14 +255,18 @@ if (_typeL in (['towable_objects_1'] call QS_data_listVehicles)) then {
 		[91] remoteExec ['QS_fnc_remoteExec',0,FALSE];		// This is to address an arma bug
 	};
 };
+if (_object isKindOf 'portableflagpole_01_f') then {
+	_object setFlagTexture (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
+	_object animateSource ['flag_source',1,TRUE];
+	['setFlagAnimationPhase',_object,1] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+};
 if (_object isKindOf 'cargoplatform_01_base_f') then {
 	_object setVectorUp [0,0,1];
 };
 if (_object isKindOf 'lamps_base_f') then {
 	_object setVectorUp [0,0,1];
 };
-if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo_base_F'] findIf { _object isKindOf _x }) isNotEqualTo -1) exitWith {
-	_object setVariable ['QS_vehicle_massdef',[getMass _object,getCenterOfMass _object],TRUE];
+if ((['LandVehicle','Air','Ship','Reammobox_F','Cargo_base_F','Slingload_01_Base_F','Pod_Heli_Transport_04_base_F'] findIf { _object isKindOf _x }) isNotEqualTo -1) exitWith {
 	if (_typeL in ['b_t_vtol_01_vehicle_f','b_t_vtol_01_vehicle_blue_f','b_t_vtol_01_vehicle_olive_f','b_t_vtol_01_armed_blue_f','b_t_vtol_01_armed_f','b_t_vtol_01_armed_olive_f']) then {
 		{ 
 			_object setObjectTextureGlobal [_forEachIndex,_x]; 

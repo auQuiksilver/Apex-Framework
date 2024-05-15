@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/10/2018 A3 1.84 by Quiksilver
+	23/01/2024 A3 2.16 by Quiksilver
 	
 Description:
 	
@@ -56,7 +56,6 @@ for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 		_unit = [2,2,QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType]] call (missionNamespace getVariable 'QS_fnc_serverObjectsRecycler');
 		if (isNull _unit) then {
 			_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[-1015,-1015,0],[],15,'NONE'];
-			QS_core_unittraits_map set [typeOf _unit,getAllUnitTraits _unit,TRUE];
 		} else {
 			// wake up unit
 			missionNamespace setVariable ['QS_analytics_entities_recycled',((missionNamespace getVariable ['QS_analytics_entities_recycled',0]) + 1),FALSE];
@@ -70,15 +69,12 @@ for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 			_unit enableSimulationGlobal TRUE;
 			_unit allowDamage TRUE;
 			_unit enableAIFeature ['ALL',TRUE];
-			_unitTraits = QS_core_unittraits_map getOrDefault [typeOf _unit,[]];
-			if (_unitTraits isNotEqualTo []) then {
-				{
-					_unit setUnitTrait _x;
-				} forEach _unitTraits;
-			};
+			{
+				_unit setUnitTrait _x;
+			} forEach (getAllUnitTraits _unitType);
 			_loadout = QS_hashmap_unitLoadouts getOrDefaultCall [
-				((_groupComposition # _i) # 0),
-				{getUnitLoadout ((_groupComposition # _i) # 0)},
+				_unitType,
+				{getUnitLoadout _unitType},
 				TRUE
 			];
 			_unit setUnitLoadout [_loadout,TRUE];
@@ -88,14 +84,13 @@ for '_i' from 0 to ((count _groupComposition) - 1) step 1 do {
 		};
 	} else {
 		_unit = _grp createUnit [QS_core_units_map getOrDefault [toLowerANSI _unitType,_unitType],[-1015,-1015,0],[],15,'NONE'];
-		QS_core_unittraits_map set [typeOf _unit,getAllUnitTraits _unit,TRUE];
 	};
 	_unit = _unit call (missionNamespace getVariable 'QS_fnc_unitSetup');
 	if ((rank _unit) isNotEqualTo ((_groupComposition # _i) # 1)) then {
 		_unit setRank ((_groupComposition # _i) # 1);
 	};
 	if (_isProne) then {
-		_unit switchMove 'amovppnemstpsraswrfldnon';
+		_unit switchMove ['amovppnemstpsraswrfldnon'];
 	};
 	if ((side (group _unit)) isNotEqualTo _side) then {
 		[_unit] joinSilent _grp;

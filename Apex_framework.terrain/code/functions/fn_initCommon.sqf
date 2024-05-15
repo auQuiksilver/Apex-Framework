@@ -116,6 +116,8 @@ uiNamespace setVariable ['rscmissionstatus_buttonclick',compileFinal {TRUE}];
 	['QS_data_animationParams','code\config\QS_data_animationParams.sqf'],
 	['QS_data_lasers','code\config\QS_data_lasers.sqf'],
 	['QS_data_virtualCargoPresets','code\config\QS_data_virtualCargoPresets.sqf'],
+	['QS_data_vehicleCostTableDefault','code\config\QS_data_vehicleCostTableDefault.sqf'],
+	['QS_data_pfh_whitelist','code\config\QS_data_pfhWhitelist.sqf'],
 	['BIS_HC_path_menu','code\functions\fn_menuHCPath.sqf']
 ];
 QS_hashmap_pullPoints = createHashMapFromArray (call QS_data_pullPoints);
@@ -125,9 +127,9 @@ QS_hashmap_wreckTypes = createHashMapFromArray (call QS_data_wreckTypes);
 QS_hashmap_lasers = createHashMapFromArray ([0] call QS_data_lasers);
 QS_hashmap_lasersCustomOffsets = createHashMapFromArray ([1] call QS_data_lasers);
 QS_hashmap_unitLoadouts = createHashMapFromArray (call (compileScript ['code\config\QS_data_unitClassLoadouts.sqf']));
+QS_hashmap_vehicleCostTable = createHashMapFromArray (call (compileScript ['code\config\QS_data_vehicleCostTable.sqf']));
 QS_hashmap_maxCargoCapacity = createHashMap;
 QS_hashmap_classLists = createHashMap;
-QS_core_unittraits_map = createHashMap;
 // Get active DLC
 private _activeDLC = call (missionNamespace getVariable 'QS_fnc_getActiveDLC');
 // Get DLC-context classnames

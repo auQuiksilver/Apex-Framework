@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	5/05/2019 A3 1.92 by Quiksilver
+	7/03/2024 A3 2.18 by Quiksilver
 	
 Description:
 
@@ -237,7 +237,19 @@ if (_type isEqualTo 'GET_ROLE_DESCRIPTION') exitWith {
 };
 if (_type isEqualTo 'HANDLE_CONNECT') exitWith {
 	params ['','_data'];
-	_data params ['_unit','_jip','_cid','_uid','_profileName'];
+	_data params [
+		'',
+		'',
+		'_uid',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'',
+		'_unit'
+	];
 	(uiNamespace getVariable ['QS_roles_handler',[]]) pushBack ['HANDLE_REQUEST_ROLE',_uid,(missionNamespace getVariable ['QS_roles_defaultSide',WEST]),(missionNamespace getVariable ['QS_roles_defaultRole','rifleman']),_unit];
 };
 if (_type isEqualTo 'HANDLE_DISCONNECT') exitWith {
@@ -452,6 +464,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 	missionNamespace setVariable ['QS_RSS_refreshUI',TRUE,-2];
 	if ((side (group _unit)) isNotEqualTo _side) then {
 		if ((count (groups _side)) >= 100) then {
+			/*/
 			{
 				if (
 					(local _x) &&
@@ -460,6 +473,7 @@ if (_type isEqualTo 'HANDLE_REQUEST_ROLE') exitWith {
 					deleteGroup _x;
 				};
 			} forEach (groups _side);
+			/*/
 		};
 		[_unit] joinSilent (createGroup [_side,TRUE]);
 		if (_side isNotEqualTo (_unit getVariable ['QS_unit_side',WEST])) then {
@@ -855,7 +869,7 @@ if (_type isEqualTo 'SET_SAVED_LOADOUT') exitWith {
 	params ['',['_role','rifleman']];
 	private _customLoadout = FALSE;
 	if ((((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']) && ((player getVariable ['QS_unit_side',WEST]) isEqualTo WEST)) || {(!((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CLASSIC','SC','GRID']))}) then {
-		if (!isNil {missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])}) then {
+		if (!(missionProfileNamespace isNil (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))]))) then {
 			if ((missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isEqualType []) then {
 				if ((missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) isNotEqualTo []) then {
 					_QS_loadoutIndex = (missionProfileNamespace getVariable (format ['QS_RSS_loadouts_%1',(['arid','tropic'] select (worldName in ['Tanoa','Enoch']))])) findIf {((_x # 0) isEqualTo _role)};

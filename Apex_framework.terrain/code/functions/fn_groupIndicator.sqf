@@ -157,7 +157,7 @@ if ((_this # 0) isEqualType controlNull) exitWith {
 };
 if ((_this # 0) isEqualTo 'Init') exitWith {
 	disableSerialization;
-	if (!isNil {player getVariable 'QS_HUD_3'}) exitWith {};
+	if !(player isNil 'QS_HUD_3') exitWith {};
 	16000 cutRsc ['QS_RD_dialog_hud','PLAIN'];
 	_map = (uiNamespace getVariable 'QS_RD_client_dialog_hud') displayctrl 1001;
 	_map ctrlMapAnimAdd [0,0.1,[-100,-100,0]];

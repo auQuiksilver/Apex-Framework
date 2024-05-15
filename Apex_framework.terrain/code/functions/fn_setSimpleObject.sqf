@@ -29,11 +29,6 @@ private _model = _modelInfo # 1;
 if (_alternate) then {
 	_model = typeOf _oldObj;
 };
-missionNamespace setVariable [
-	'QS_analytics_entities_deleted',
-	((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-	FALSE
-];
 deleteVehicle _oldObj;
 _obj = createSimpleObject [_model,_position];
 _obj setVectorDirAndUp _vectorDirUp;

@@ -32,10 +32,7 @@ if (_type isEqualTo 0) then {
 		'QS_marker_veh_fieldservice_04',
 		'QS_marker_veh_fieldservice_01'
 	];
-	{
-		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-		deleteVehicle _x;
-	} forEach [
+	deleteVehicle [
 		(missionNamespace getVariable 'QS_module_fob_dataTerminal'),
 		(missionNamespace getVariable 'QS_module_fob_supplycrate'),
 		(missionNamespace getVariable 'QS_module_fob_repairDepot')

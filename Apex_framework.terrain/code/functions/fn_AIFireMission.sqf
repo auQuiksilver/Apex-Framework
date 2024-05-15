@@ -108,7 +108,7 @@ if (_type isEqualTo 1) exitWith {
 		if (
 			(!canMove _vehicle) ||
 			{(!alive _vehicle)} ||
-			{(isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'})} ||
+			{(_supportGroup isNil 'QS_AI_GRP_fireMission')} ||
 			{(_exit)}
 		) exitWith {};
 		if (_time > _moveDelay) then {
@@ -168,15 +168,9 @@ if (_type isEqualTo 1) exitWith {
 	};
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
-		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _targetAssistant) then {
 		deleteVehicle _targetAssistant;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 	};
 	if (!isNull _supportGroup) then {
 		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
@@ -239,7 +233,7 @@ if (_type isEqualTo 2) exitWith {
 			((vehicle _supportProvider) isNotEqualTo _vehicle) ||
 			{(!canMove _vehicle)} ||
 			{(!alive _vehicle)} ||
-			{(isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'})} ||
+			{(_supportGroup isNil 'QS_AI_GRP_fireMission')} ||
 			{(_exit)} ||
 			{(serverTime > _duration)} ||
 			{(isNull _laserTarget)}
@@ -297,11 +291,6 @@ if (_type isEqualTo 2) exitWith {
 				};
 				if (!isNull _laserTarget) then {
 					deleteVehicle _laserTarget;
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 				};
 				_vehicle removeEventHandler ['Fired',_firedEvent];
 			};
@@ -312,11 +301,9 @@ if (_type isEqualTo 2) exitWith {
 	_vehicle setVariable ['QS_AI_PLANE_fireMission',FALSE,FALSE];
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
-		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _targetAssistant) then {
 		deleteVehicle _targetAssistant;
-		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _supportGroup) then {
 		_supportGroup setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
@@ -383,7 +370,7 @@ if (_type isEqualTo 3) exitWith {
 		if (
 			(!canMove _vehicle) ||
 			{(!alive _vehicle)} ||
-			{(isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'})} ||
+			{(_supportGroup isNil 'QS_AI_GRP_fireMission')} ||
 			{(_exit)} ||
 			{(serverTime > _duration)}
 		) exitWith {};
@@ -418,11 +405,9 @@ if (_type isEqualTo 3) exitWith {
 	_vehicle setVehicleAmmo 1;
 	if (!isNull _laserTarget) then {
 		deleteVehicle _laserTarget;
-		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _targetAssistant) then {
 		deleteVehicle _targetAssistant;
-		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 	};
 	if (!isNull _supportGroup) then {
 		_supportGroup enableAttack _attackEnabled;

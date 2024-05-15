@@ -16,7 +16,7 @@ __________________________________________________________________________/*/
 getCursorObjectParams params ['_cursorObject','',''];
 if (
 	(isNull _cursorObject) ||
-	(!isNil {_cursorObject getVariable 'QS_v_disableActivation'})
+	!(_cursorObject isNil 'QS_v_disableActivation')
 ) exitWith {};
 _QS_tto = player getVariable ['QS_tto',0];
 if (_QS_tto > 3) exitWith {
@@ -34,7 +34,7 @@ if (
 private _exit = FALSE;
 if (isSimpleObject _cursorObject) then {
 	private _time = diag_tickTime;
-	if (isNil {uiNamespace getVariable 'QS_vehicle_activations'}) then {
+	if (uiNamespace isNil 'QS_vehicle_activations') then {
 		uiNamespace setVariable ['QS_vehicle_activations',[]];
 	};
 	if ((uiNamespace getVariable 'QS_vehicle_activations') isNotEqualTo []) then {

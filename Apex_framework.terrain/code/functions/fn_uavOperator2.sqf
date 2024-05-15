@@ -255,6 +255,7 @@ private _ugvInCargo = FALSE;
 _uavInitCodeGeneric = {
 	params ['_uavEntity'];
 	_grp = createVehicleCrew _uavEntity;
+	_grp deleteGroupWhenEmpty TRUE;
 	_grp setVariable ['QS_HComm_grp',FALSE,TRUE];
 	{
 		_x enableAIFeature ['LIGHTS',FALSE];
@@ -483,9 +484,7 @@ for '_i' from 0 to 1 step 0 do {
 					if ([_uavSpawnPosition,4] call _fn_isPosSafe) then {
 						if (!isNull _uavEntity) then {
 							if ((attachedObjects _uavEntity) isNotEqualTo []) then {
-								{
-									deleteVehicle _x;
-								} count (attachedObjects _uavEntity);
+								deleteVehicle (attachedObjects _uavEntity);
 							};
 							deleteVehicle _uavEntity;
 							uiSleep 0.1;
@@ -558,6 +557,7 @@ for '_i' from 0 to 1 step 0 do {
 					if (_uavEntity getVariable ['QS_uav_travelMode',_false]) then {
 						_uavEntity setVariable ['QS_uav_travelMode',_false];
 						_grp = createVehicleCrew _uavEntity;
+						_grp deleteGroupWhenEmpty _true;
 						{
 							_x setVariable ['QS_RD_recruitable',TRUE,TRUE];
 						} forEach (units _grp);
@@ -623,9 +623,9 @@ for '_i' from 0 to 1 step 0 do {
 				_uavEntity = _x;
 				if (!(_uavEntity getVariable ['QS_uav_protected',_false])) then {
 					if ((crew _uavEntity) isNotEqualTo []) then {
-						_grp = group (effectiveCommander _uavEntity);
+						//_grp = group (effectiveCommander _uavEntity);
 						deleteVehicleCrew _uavEntity;
-						deleteGroup _grp;
+						//deleteGroup _grp;
 					};
 					deleteVehicle _uavEntity;
 				};

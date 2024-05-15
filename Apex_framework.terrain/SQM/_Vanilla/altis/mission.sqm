@@ -200,7 +200,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="this setVariable ['QS_arsenal_object',TRUE,FALSE];if (isNil {missionNamespace getVariable ""QS_arsenals""}) then { " \n " missionNamespace setVariable ['QS_arsenals',((missionNamespace getVariable 'QS_arsenals') + [this]),FALSE]; " \n "};";
+				init="this setVariable ['QS_arsenal_object',TRUE,FALSE];if (missionNamespace isNil ""QS_arsenals"") then { " \n " missionNamespace setVariable ['QS_arsenals',((missionNamespace getVariable 'QS_arsenals') + [this]),FALSE]; " \n "};";
 				createAsSimpleObject=1;
 				disableSimulation=1;
 			};
@@ -249,7 +249,7 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				init="this setVariable ['QS_arsenal_object',TRUE,FALSE];if (isNil {missionNamespace getVariable ""QS_arsenals""}) then { " \n " missionNamespace setVariable ['QS_arsenals',((missionNamespace getVariable 'QS_arsenals') + [this]),FALSE]; " \n "};";
+				init="this setVariable ['QS_arsenal_object',TRUE,FALSE];if (missionNamespace isNil ""QS_arsenals"") then { " \n " missionNamespace setVariable ['QS_arsenals',((missionNamespace getVariable 'QS_arsenals') + [this]),FALSE]; " \n "};";
 				createAsSimpleObject=1;
 				disableSimulation=1;
 			};

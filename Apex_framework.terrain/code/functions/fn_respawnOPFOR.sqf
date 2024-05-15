@@ -40,7 +40,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CL
 				_positionFound = TRUE;
 				_hqBuildingPositions = _hqBuildingPositions apply {[(_x # 0),(_x # 1),((_x # 2) + 0.5)]};
 				_spawnPosition = selectRandom _hqBuildingPositions;
-				_unit switchMove 'amovppnemstpsraswrfldnon';
+				_unit switchMove ['amovppnemstpsraswrfldnon'];
 				[_unit,_spawnPosition] spawn {
 					preloadCamera (_this # 1);
 					uiSleep 0.5;
@@ -50,7 +50,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CL
 		};
 	};
 	if (!(_positionFound)) then {
-		_unit switchMove 'amovppnemstpsraswrfldnon';
+		_unit switchMove ['amovppnemstpsraswrfldnon'];
 		_worldName = worldName;
 		private _fn_blacklist = {TRUE};
 		if (_worldName isEqualTo 'Tanoa') then {
@@ -91,7 +91,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_aoType','CLASSIC']) in ['CL
 			};
 			if (_foundSpawnPos) exitWith {};
 		};
-		_unit switchMove 'amovppnemstpsraswrfldnon';
+		_unit switchMove ['amovppnemstpsraswrfldnon'];
 		[_unit,_spawnPosDefault] spawn {
 			preloadCamera (_this # 1);
 			uiSleep 0.5;

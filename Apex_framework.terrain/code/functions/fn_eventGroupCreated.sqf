@@ -13,4 +13,5 @@ Description:
 	Group Created event
 __________________________________________________*/
 
-params ['_group'];
+//params ['_group'];
+QS_analytics_groups_created = QS_analytics_groups_created + 1;

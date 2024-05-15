@@ -154,7 +154,7 @@ if (_QS_actionName isEqualTo 'HealSoldier') exitWith {
 		_QS_c = TRUE;
 		50 cutText [(format ['%1 %2',(name _QS_actionTarget),localize 'STR_QS_Text_056']),'PLAIN DOWN'];
 	};
-	if (!isNil {_QS_actionTarget getVariable 'QS_noHeal'}) then {
+	if !(_QS_actionTarget isNil 'QS_noHeal') then {
 		_QS_c = TRUE;
 		50 cutText [localize 'STR_QS_Text_057','PLAIN DOWN'];
 	};
@@ -238,7 +238,7 @@ if (_QS_actionName isEqualTo 'RepairVehicle') exitWith {
 		} count (crew _QS_actionTarget);
 	};
 	if (!(_QS_c)) then {
-		if (!isNil {_QS_actionTarget getVariable 'QS_RD_noRepair'}) then {
+		if !(_QS_actionTarget isNil 'QS_RD_noRepair') then {
 			_QS_c = TRUE;
 			50 cutText [localize 'STR_QS_Text_059','PLAIN DOWN'];
 		} else {
@@ -501,8 +501,8 @@ if (_QS_actionName isEqualTo 'Assemble') then {
 	//"$STR_A3_DISASSEMBLE"
 	//"$STR_ACTION_ASSEMBLE"
 	if (!(['$STR_A3_DISASSEMBLE',_QS_actionText,FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))) then {
-		if (!isNil {player getVariable 'QS_client_assembledWeapons'}) then {
-			private _assembledWeapons = player getVariable 'QS_client_assembledWeapons';
+		if !(player isNil 'QS_client_assembledWeapons') then {
+			private _assembledWeapons = player getVariable ['QS_client_assembledWeapons',[]];
 			if (({(alive _x)} count _assembledWeapons) >= 3) then {
 				50 cutText [localize 'STR_QS_Text_068','PLAIN DOWN',1];
 				_QS_c = TRUE;

@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	14/11/2023 A3 2.14 by Quiksilver
+	25/11/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -80,13 +80,26 @@ if ((toLowerANSI _simulation) in ['house']) then {
 if (_entity isKindOf 'CargoPlatform_01_base_F') then {
 	[_entity,TRUE,TRUE] call QS_fnc_logisticsPlatformSnap;
 };
+if (_entity isKindOf 'AreaMarker_01_F') then {
+	comment 'vehicle spawner';
+	_parent setVariable ['QS_vehicleSpawnPad',_entity,TRUE];
+	QS_registered_vehicleSpawners = QS_registered_vehicleSpawners select {!isNull _x};
+	QS_registered_vehicleSpawners pushBack _entity;
+};
 if (_class isKindOf 'StaticWeapon') then {
 	_entity enableWeaponDisassembly FALSE;
 	_entity enableRopeAttach FALSE;
 	_entity enableVehicleCargo FALSE;
 };
-if (_class isKindOf 'FlagPole_F') then {
+if (
+	(_class isKindOf 'flagpole_f') ||
+	(_class isKindOf 'portableflagpole_01_f')
+) then {
 	_entity setFlagTexture (missionNamespace getVariable ['QS_missionConfig_textures_defaultFlag','a3\data_f\flags\flag_nato_co.paa']);
+	if (_class isKindOf 'portableflagpole_01_f') then {
+		_entity animateSource ['flag_source',1,TRUE];
+		[_entity,1] remoteExec ['setFlagAnimationPhase',0,FALSE];
+	};
 };
 if (_class in ['sign_arrow_yellow_f']) then {
 	if ([_entity,30] call QS_fnc_canFlattenTerrain) then {

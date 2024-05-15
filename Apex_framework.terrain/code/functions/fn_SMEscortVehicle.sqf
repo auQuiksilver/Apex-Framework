@@ -435,22 +435,12 @@ for '_x' from 0 to 1 step 0 do {
 				if (!isNull _x) then {
 					if (_x isKindOf 'CAManBase') then {
 						if (((units WEST) inAreaArray [_x,300,300,0,FALSE]) isEqualTo []) then {
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								FALSE
-							];
 							deleteVehicle _x;
 						} else {
 							_x setDamage 1;
 						};
 					} else {
 						if (((units WEST) inAreaArray [_x,300,300,0,FALSE]) isEqualTo []) then {
-							missionNamespace setVariable [
-								'QS_analytics_entities_deleted',
-								((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-								FALSE
-							];
 							deleteVehicle _x;
 						} else {
 							_x setDamage 1;
@@ -809,7 +799,7 @@ for '_x' from 0 to 1 step 0 do {
 							};
 						};
 					};
-					if (isNil {_convoyVehicle getVariable _suppressTarget_var}) then {
+					if (_convoyVehicle isNil _suppressTarget_var) then {
 						if (alive _convoyVehicle) then {
 							_suppressTarget = createVehicle [_suppressTarget_type,[0,0,0],[],0,'NONE'];
 							[1,_suppressTarget,[_convoyVehicle,[0,(random 2),(random 1)]]] call QS_fnc_eventAttach;
@@ -822,7 +812,7 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						_launch = TRUE;
 						_armoredVehicle = _x;
-						if (isNil {_armoredVehicle getVariable _QS_manage_convoy_var}) then {
+						if (_armoredVehicle isNil _QS_manage_convoy_var) then {
 							0 = _armorTokenVehicle pushBackUnique _armoredVehicle;
 							_armoredVehicle setVariable [_QS_manage_convoy_var,[0,(getPosATL _armoredVehicle),(500 + (random 500))],FALSE];
 						} else {
@@ -912,37 +902,18 @@ for '_x' from 0 to 1 step 0 do {
 //comment 'Cleanup';
 ['QS_IA_TASK_SM_ESCORT'] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 if (_suppressTargets isNotEqualTo []) then {
-	{
-		if (!isNull _x) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		};
-	} count _suppressTargets;
+	deleteVehicle _suppressTargets;
 };
 if (_enemyArray isNotEqualTo []) then {
-	{
-		if (!isNull _x) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		};
-	} count _enemyArray;
+	deleteVehicle _enemyArray;
 };
 if (_armorTokenVehicle isNotEqualTo []) then {
 	{
-		if (!isNull _x) then {
-			if (alive _x) then {
-				if (!isNil {_x getVariable _QS_manage_convoy_var}) then {
-					_x setVariable [_QS_manage_convoy_var,nil];
-				};
-			};
+		if (
+			(alive _x) &&
+			!(_x isNil _QS_manage_convoy_var)
+		) then {
+			_x setVariable [_QS_manage_convoy_var,nil];
 		};
 	} forEach _armorTokenVehicle;
 };
@@ -951,6 +922,5 @@ deleteMarker 'QS_marker_escort_1';
 if (alive _vehicle) then {
 	0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_vehicle,'NOW_DISCREET',0];
 };
-deleteMarker 'QS_marker_escort_1';
 missionNamespace setVariable ['QS_sideMission_vehicle',objNull,TRUE];
 missionNamespace setVariable ['QS_sideMissionUp',FALSE,TRUE];

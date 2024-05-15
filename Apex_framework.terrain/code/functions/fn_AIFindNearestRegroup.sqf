@@ -34,12 +34,8 @@ private _groupFound = FALSE;
 		_testGroupConfig = _testGroup getVariable ['QS_AI_GRP_CONFIG',['','',-1,objNull]];
 		_testGroupTask = _testGroup getVariable ['QS_AI_GRP_TASK',['',[0,0,0],-1]];
 		if (
-			(!isNil {_testGroupConfig # 0}) &&
-			(!isNil {_testGroupConfig # 1}) &&
-			(!isNil {_testGroupConfig # 2}) &&
-			(!isNil {_testGroupTask # 0}) &&
-			(!isNil {_testGroupTask # 1}) &&
-			(!isNil {_testGroupTask # 2})
+			((count _testGroupConfig) >= 3) &&
+			((count _testGroupTask) >= 3)
 		) then {
 			if ((_testGroupConfig isNotEqualTo []) && (_testGroupTask isNotEqualTo [])) then {
 				if (((_testGroupConfig # 0) isEqualTo (_groupConfig # 0)) && ((_testGroupConfig # 1) isEqualTo (_groupConfig # 1)) && ((_testGroupTask # 0) isEqualTo (_groupTask # 0))) then {
@@ -66,7 +62,7 @@ if (_suitableGroups isNotEqualTo []) exitWith {
 	[_unit] joinSilent (selectRandom _suitableGroups);
 	TRUE;
 };
-if (!isNil {_grp getVariable 'QS_AI_GRP_regroupPos'}) exitWith {
+if (!(_grp isNil 'QS_AI_GRP_regroupPos')) exitWith {
 	_grp setVariable ['QS_AI_GRP_regrouping',TRUE,FALSE];
 	doStop _unit;
 	_unit doMove (_grp getVariable ['QS_AI_GRP_regroupPos',[0,0,0]]);

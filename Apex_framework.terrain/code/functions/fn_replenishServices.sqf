@@ -15,7 +15,7 @@ ______________________________________________________/*/
 
 params ['_vehicle'];
 _vehicleTypeLower = toLowerANSI (typeOf _vehicle);
-if (!isNil {_vehicle getVariable ['QS_vehicle_isSuppliedFOB',nil]}) then {
+if !(_vehicle isNil 'QS_vehicle_isSuppliedFOB') then {
 	_vehicle setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
 };
 _medical = QS_hashmap_configfile getOrDefaultCall [

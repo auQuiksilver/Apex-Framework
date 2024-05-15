@@ -39,6 +39,7 @@ if (_mode isEqualTo 'onLoad') exitWith {
 	_ctrlSelect = _display displayCtrl 1810;
 	_ctrlExit = _display displayCtrl 1811;
 	_ctrlListbox = _display displayCtrl _lbIDC;
+	_ctrlModel = _display displayCtrl 100;
 	_ctrlTitle ctrlSetText (localize 'STR_QS_Dialogs_086');
 	private _data = QS_data_playerBuildables;
 	_data = _data select { (call (_x # 3)) };
@@ -102,18 +103,40 @@ if (_mode isEqualTo 'onLoad') exitWith {
 	private _selectEnabled = ctrlEnabled _ctrlSelect;
 	
 	_ctrlExit ctrlSetText (format [localize 'STR_QS_Menu_200',_propsTotalCost,_buildLimit]);
+
+	private _emptyModel = "\A3\Weapons_F\empty.p3d";
+	private _objectModel = _emptyModel;
+	private _modelScale = 1;
+	_modelScaleBase = 0.075;
+	_modelVector = [[0.0301068,0.0430097,0],[-0.0024624,-0.00172368,0.0524139]];
+	
+	private _selectedIndex = -1;
 	
 	for '_z' from 0 to 1 step 0 do {
 		if (call _cancel) exitWith {};
-		if ((uiNamespace getVariable ['QS_client_menuPlayerBuild_selectedIndex',-1]) isNotEqualTo (lbCurSel _ctrlListbox)) then {
-			{
-				uiNamespace setVariable _x;
-			} forEach [
-				['QS_client_menuPlayerBuild_selectedIndex',(lbCurSel _ctrlListbox)],
-				['QS_client_menuPlayerBuild_cost',(_data # (lbCurSel _ctrlListbox)) # 0],
-				['QS_client_menuPlayerBuild_class',(_data # (lbCurSel _ctrlListbox)) # 1],
-				['QS_client_menuPlayerBuild_sim',(_data # (lbCurSel _ctrlListbox)) # 2]
-			];
+		if (_selectedIndex isNotEqualTo (lbCurSel _ctrlListbox)) then {
+			_selectedIndex = lbCurSel _ctrlListbox;
+			if (_selectedIndex isNotEqualTo -1) then {
+				{
+					uiNamespace setVariable _x;
+				} forEach [
+					['QS_client_menuPlayerBuild_selectedIndex',_selectedIndex],
+					['QS_client_menuPlayerBuild_cost',(_data # _selectedIndex) # 0],
+					['QS_client_menuPlayerBuild_class',((_data # _selectedIndex) # 1)],
+					['QS_client_menuPlayerBuild_sim',(_data # _selectedIndex) # 2]
+				];
+				_objectModel = getText (configFile >> 'CfgVehicles' >> ((_data # _selectedIndex) # 1) >> 'model');
+				_modelScale = getNumber (configFile >> 'CfgVehicles' >> ((_data # _selectedIndex) # 1) >> 'modelScale');
+				_ctrlModel ctrlSetModel _objectModel;
+				if (_modelScale isEqualTo 0) then {_modelScale = 1;};
+				_ctrlModel ctrlsetmodelscale (_modelScaleBase * _modelScale);
+				_ctrlModel ctrlsetmodeldirandup _modelVector;
+				_ctrlModel ctrlsetposition [0.75,1,0.75];
+				_ctrlModel ctrlCommit 0;
+			} else {
+				_ctrlModel ctrlSetModel _emptyModel;
+				_ctrlModel ctrlCommit 0;
+			};
 		};
 		_propsTotalCost = 0;
 		_localProps = QS_list_playerBuildables select {local _x};
@@ -153,6 +176,10 @@ if (_mode isEqualTo 'onUnload') exitWith {
 	(findDisplay 22000) displayRemoveEventHandler ['KeyUp',QS_EH_playerBuildKeyUp];
 };
 if (_mode isEqualTo 'Button_1') exitWith {
+	if (diag_tickTime < (uiNamespace getVariable ['QS_genericButtonCooldown',-1])) exitWith {
+		50 cutText [localize 'STR_QS_Text_371','PLAIN DOWN',0.25];
+	};
+	uiNamespace setVariable ['QS_genericButtonCooldown',diag_tickTime + 1];
 	localNamespace setVariable ['QS_logistics_playerBuild',TRUE];
 	(QS_player getVariable ['QS_inzone',[]]) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 	if (_inSafezone && _safezoneActive && (_safezoneLevel > 1)) exitWith {
@@ -190,6 +217,10 @@ if (_mode isEqualTo 'Button_1') exitWith {
 	['OUT'] call QS_fnc_clientMenuActionContext;
 };
 if (_mode isEqualTo 'Button_2') exitWith {
+	if (diag_tickTime < (uiNamespace getVariable ['QS_genericButtonCooldown',-1])) exitWith {
+		50 cutText [localize 'STR_QS_Text_371','PLAIN DOWN',0.25];
+	};
+	uiNamespace setVariable ['QS_genericButtonCooldown',diag_tickTime + 1];
 	(QS_player getVariable ['QS_inzone',[]]) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 	if (_inSafezone && _safezoneActive && (_safezoneLevel > 1)) exitWith {
 		(findDisplay 22000) closeDisplay 2;

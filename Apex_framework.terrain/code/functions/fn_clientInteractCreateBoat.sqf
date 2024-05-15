@@ -21,8 +21,7 @@ if (
 	50 cutText [localize 'STR_QS_Text_312','PLAIN DOWN',0.5];		// To Do: Localize
 };
 if (
-	(!isNil {player getVariable 'QS_client_createdBoat'}) &&
-	{(!isNull (player getVariable 'QS_client_createdBoat'))} &&
+	!(player isNil 'QS_client_createdBoat') &&
 	{(alive (player getVariable 'QS_client_createdBoat'))}
 ) exitWith {
 	50 cutText [(format ['%2 %1',(mapGridPosition (player getVariable 'QS_client_createdBoat')),localize 'STR_QS_Text_095']),'PLAIN DOWN'];

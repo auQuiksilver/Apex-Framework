@@ -39,11 +39,6 @@ if ((_backpacks # 0) isNotEqualTo []) then {
 	} forEach (_backpacks # 0);
 };
 if (_deleteBoxFrom) then {
-	missionNamespace setVariable [
-		'QS_analytics_entities_deleted',
-		((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-		FALSE
-	];
 	deleteVehicle _boxFrom;
 } else {
 	clearWeaponCargoGlobal _boxFrom;

@@ -19,12 +19,12 @@ if (!(_vehicle isKindOf 'LandVehicle')) exitWith {[0,[0,0,0]]};
 _set = _set && ((missionNamespace getVariable ['QS_missionconfig_centerOfMass',0]) isNotEqualTo 0);
 private _currentMass = getMass _vehicle;
 private _currentCOM = getCenterOfMass _vehicle;
-if (isNil {_vehicle getVariable 'QS_vehicle_massdef'}) then {
-	_vehicle setVariable ['QS_vehicle_massdef',[_currentMass,getCenterOfMass _vehicle],TRUE];
+if (_vehicle isNil 'QS_vehicle_massdef') then {
+	_vehicle setVariable ['QS_vehicle_massdef',[((getModelInfo _vehicle) # 4),getCenterOfMass _vehicle],TRUE];
 };
 _recalcMass = _recalcMass && (missionNamespace getVariable ['QS_missionConfig_mass',FALSE]);
 private _centerOfMass = (_vehicle getVariable ['QS_vehicle_massdef',[]]) # 1;
-private _defaultMass = (_vehicle getVariable ['QS_vehicle_massdef',[_currentMass]]) # 0;
+private _defaultMass = (getModelInfo _vehicle) # 4;
 private _totalMass = _defaultMass;
 private _massData = [[_vehicle, ((_vehicle getVariable ['QS_vehicle_massdef',[]]) # 1), _defaultMass]];
 private _newCenterOfMass = ((_vehicle getVariable ['QS_vehicle_massdef',[]]) # 1);
@@ -33,7 +33,6 @@ if ((missionNamespace getVariable ['QS_missionconfig_centerOfMass',0]) isEqualTo
 	_allAttached = _allAttached + ((attachedObjects _vehicle) select {(!isSimpleObject _x) && (!isObjectHidden _x)});
 };
 if (_allAttached isEqualTo []) exitWith {
-	_massInfo = ((_vehicle getVariable ['QS_vehicle_massdef',[]]) # 1);
 	if (_set) then {
 		if (_currentCOM isNotEqualTo _centerOfMass) then {
 			if (local _vehicle) then {

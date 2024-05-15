@@ -32,11 +32,11 @@ if (!isNull curatorCamera) exitWith {};
 	[2] spawn (missionNamespace getVariable 'QS_fnc_clientDisableUserInput');
 	private _safetyTimeout = diag_tickTime + 10;
 	waitUntil {
-		((!isNil {uiNamespace getVariable 'RscAttributeInventory_selected'}) || (diag_tickTime > _safetyTimeout))
+		((!(uiNamespace isNil 'RscAttributeInventory_selected')) || (diag_tickTime > _safetyTimeout))
 	};
 	if (diag_tickTime > _safetyTimeout) exitWith {};
 	uiSleep 0.1;
-	if (isNil {missionNamespace getVariable ['QS_RscAttributeInventory_list',nil]}) then {
+	if (missionNamespace isNil 'QS_RscAttributeInventory_list') then {
 		private _weaponAddons = missionnamespace getvariable ['RscAttrbuteInventory_weaponAddons',[]];
 		_types = [
 			['AssaultRifle','Shotgun','Rifle','SubmachineGun'],

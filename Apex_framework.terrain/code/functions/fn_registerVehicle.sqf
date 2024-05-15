@@ -68,7 +68,7 @@ _this spawn {
 		_spawnPosition = getPosASL _vehicle;		// getPosWorld
 	};
 	if (unitIsUav _vehicle) exitWith {
-		if (isNil {missionNamespace getVariable 'QS_uav_Monitor'}) then {
+		if (missionNamespace isNil 'QS_uav_Monitor') then {
 			missionNamespace setVariable ['QS_uav_Monitor',[],TRUE];
 		};
 		(missionNamespace getVariable 'QS_uav_Monitor') pushBack [
@@ -84,7 +84,7 @@ _this spawn {
 		missionNamespace setVariable ['QS_uav_Monitor',(missionNamespace getVariable ['QS_uav_Monitor',[]]),TRUE];
 		deleteVehicle _vehicle;
 	};
-	if (isNil {serverNamespace getVariable 'QS_v_Monitor'}) then {
+	if (serverNamespace isNil 'QS_v_Monitor') then {
 		serverNamespace setVariable ['QS_v_Monitor',[]];
 	};
 	_wreckChance = [_wreckChance,0] select ((_vehicle isKindOf 'Helicopter') && ((getAllPylonsInfo _vehicle) isEqualTo []));

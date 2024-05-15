@@ -1086,9 +1086,7 @@ if (_mode isEqualTo 'MODE25') exitWith {
 							} forEach (ropes (ropeAttachedTo _vehicle));
 						};
 						if ((_vehicle getVariable ['QS_rope_helperObjects',[]]) isNotEqualTo []) then {
-							{
-								deleteVehicle _x;
-							} forEach (_vehicle getVariable ['QS_rope_helperObjects',[]]);
+							deleteVehicle (_vehicle getVariable ['QS_rope_helperObjects',[]]);
 						};
 					}
 				],

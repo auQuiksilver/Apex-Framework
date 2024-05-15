@@ -96,9 +96,9 @@ if (_type isEqualTo 0) exitWith {
 			_enemyUnitType = selectRandomWeighted _unitTypes;
 			_enemyUnit = _enemyGrp createUnit [QS_core_units_map getOrDefault [toLowerANSI _enemyUnitType,_enemyUnitType],_spawnPosition,[],25,'NONE'];
 			if (_isDedicated) then {
-				[_enemyUnit,'amovppnemstpsraswrfldnon'] remoteExecCall ['switchMove',-2,FALSE];
+				[_enemyUnit,['amovppnemstpsraswrfldnon']] remoteExecCall ['switchMove',0,FALSE];
 			} else {
-				['switchMove',_enemyUnit,'amovppnemstpsraswrfldnon'] remoteExecCall ['QS_fnc_remoteExecCmd',-2,FALSE];
+				['switchMove',_enemyUnit,['amovppnemstpsraswrfldnon']] remoteExecCall ['QS_fnc_remoteExecCmd',0,FALSE];
 			};
 			_enemyUnit setVehiclePosition [(getPosWorld _enemyUnit),[],10,'NONE'];
 			{

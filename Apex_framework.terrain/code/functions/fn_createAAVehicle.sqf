@@ -46,7 +46,7 @@ _vehicle setVehicleReportRemoteTargets TRUE;
 				} count (_killed getVariable 'QS_vehicle_markers');
 			};
 			deleteVehicleCrew _killed;
-			if (!isNil {_killed getVariable 'QS_vehicleCrew'}) then {
+			if !(_killed isNil 'QS_vehicleCrew') then {
 				{
 					if (!isNull _x) then {
 						if (alive _x) then {
@@ -112,11 +112,6 @@ clearMagazineCargoGlobal _vehicle;
 clearWeaponCargoGlobal _vehicle;
 clearItemCargoGlobal _vehicle;
 clearBackpackCargoGlobal _vehicle;
-missionNamespace setVariable [
-	'QS_analytics_entities_deleted',
-	((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-	FALSE
-];
 _vehicle deleteVehicleCrew (driver _vehicle);
 if (isNull (missionNamespace getVariable 'QS_AI_GRP_AO_AA')) then {
 	missionNamespace setVariable ['QS_AI_GRP_AO_AA',(createGroup [EAST,TRUE]),FALSE];

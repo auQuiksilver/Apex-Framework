@@ -44,7 +44,7 @@ if (_vIndex isNotEqualTo -1) then {
 			} forEach (ropes (ropeAttachedTo _oldEntity));
 		};
 		{ropeDestroy _x} forEach (ropes _oldEntity);
-		{deleteVehicle _x} forEach (attachedObjects _oldEntity);
+		deleteVehicle (attachedObjects _oldEntity);
 		if (!isNull (isVehicleCargo _oldEntity)) then {
 			objNull setVehicleCargo _oldEntity;
 		};
@@ -95,7 +95,7 @@ if (_vIndex isNotEqualTo -1) then {
 			} forEach (ropes (ropeAttachedTo _oldEntity));
 		};
 		{ropeDestroy _x} forEach (ropes _oldEntity);
-		{deleteVehicle _x} forEach (attachedObjects _oldEntity);
+		deleteVehicle (attachedObjects _oldEntity);
 		if (!isNull (isVehicleCargo _oldEntity)) then {
 			objNull setVehicleCargo _oldEntity;
 		};

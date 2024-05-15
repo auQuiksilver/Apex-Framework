@@ -26,11 +26,6 @@ if (_state isEqualTo 0) then {
 	_vehicle = _data # 0;
 	if (!isNull _vehicle) then {
 		/*/
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _vehicle;/*/
 	};
 	diag_log 'Destroy vehicle task deleted';

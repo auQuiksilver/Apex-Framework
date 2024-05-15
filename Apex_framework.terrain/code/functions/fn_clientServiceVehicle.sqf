@@ -14,9 +14,7 @@ Description:
 	
 Note:
 
-	This function is obsolete and scheduled for removal in a future update.
-	
-	It is retained for backward compatibility and optional re-enabling.
+	OBSOLETE but still functional
 __________________________________________________/*/
 
 private _t = cursorTarget;

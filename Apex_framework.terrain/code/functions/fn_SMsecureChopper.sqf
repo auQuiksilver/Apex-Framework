@@ -135,23 +135,9 @@ for '_x' from 0 to 1 step 0 do {
 		
 		/*/-------------------- DELETE/*/
 		
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [_object,_researchTable];			/*/ hide objective pieces/*/
+		deleteVehicle [_object,_researchTable];			/*/ hide objective pieces/*/
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [QS_sideObj,_house,_hangar];
+		deleteVehicle [QS_sideObj,_house,_hangar];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
@@ -168,26 +154,10 @@ for '_x' from 0 to 1 step 0 do {
 		_dummy = createVehicle [_dummyType,[0,0,0],[],0,'NONE'];
 		_dummy setPosWorld [((getPosWorld QS_sideObj) # 0), (((getPosWorld QS_sideObj) # 1) +3), (((getPosWorld QS_sideObj) # 2) + 0.5)];
 		sleep 0.1;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _object;
 		uiSleep 14;											/*/ ghetto bomb timer/*/
 		'Bo_GBU12_LGB' createVehicle (getPosATL _dummy); 		/*/ default "Bo_Mk82"/*/
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
-		deleteVehicle _dummy;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
-		deleteVehicle _researchTable;
+		deleteVehicle [_dummy,_researchTable];
 		sleep 0.1;
 	
 		/*/-------------------- DE-BRIEFING/*/
@@ -201,14 +171,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 		/*/-------------------- DELETE/*/
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [QS_sideObj,_house,_hangar];
+		deleteVehicle [QS_sideObj,_house,_hangar];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];

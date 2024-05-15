@@ -20,7 +20,7 @@ if (isNull (ropeAttachedTo _attachedObject)) then {
 	};
 	if (
 		((_attachedObject distance2D (markerPos 'QS_marker_crate_area')) < 500) &&
-		(!isNil {_attachedObject getVariable 'QS_vehicle_isSuppliedFOB'})
+		(!(_attachedObject isNil 'QS_vehicle_isSuppliedFOB'))
 	) then {
 		_attachedObject setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
 		if (

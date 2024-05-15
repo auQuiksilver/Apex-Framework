@@ -23,13 +23,13 @@ if (
 if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 	_grp setVariable ['QS_AI_GRP_SETUP',TRUE,FALSE];
 	_grp setVariable ['QS_AI_GRP_rv',[(random 1),(random 1),(random 1)],FALSE];
-	if (isNil {_grp getVariable 'QS_AI_GRP_CONFIG'}) then {
+	if (_grp isNil 'QS_AI_GRP_CONFIG') then {
 		_grp setVariable ['QS_AI_GRP_CONFIG',[-1,-1,-1],FALSE];
 	};
-	if (isNil {_grp getVariable 'QS_AI_GRP_DATA'}) then {
+	if (_grp isNil 'QS_AI_GRP_DATA') then {
 		_grp setVariable ['QS_AI_GRP_DATA',[],FALSE];
 	};
-	if (isNil {_grp getVariable 'QS_AI_GRP_TASK'}) then {
+	if (_grp isNil 'QS_AI_GRP_TASK') then {
 		_grp setVariable ['QS_AI_GRP_TASK',[-1,-1,-1,-1],FALSE];
 	};
 	if (!isNull (objectParent _grpLeader)) then {
@@ -48,7 +48,7 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 				};
 			};
 		};
-		if (isNil {_grp getVariable 'QS_AI_GRP_vUnstuck'}) then {
+		if (_grp isNil 'QS_AI_GRP_vUnstuck') then {
 			_grp setVariable ['QS_AI_GRP_vUnstuck',(_uiTime + 300),FALSE];
 		};
 	} else {
@@ -59,16 +59,16 @@ if (!(_grp getVariable ['QS_AI_GRP_SETUP',FALSE])) then {
 			} forEach (units _grp);
 		};
 	};
-	if (!isNil {_grp getVariable 'QS_AI_GRP_canNearTargets'}) then {
-		if (isNil {_grp getVariable 'QS_AI_GRP_nearTargets'}) then {
+	if !(_grp isNil 'QS_AI_GRP_canNearTargets') then {
+		if (_grp isNil 'QS_AI_GRP_nearTargets') then {
 			_grp setVariable ['QS_AI_GRP_nearTargets',[],FALSE];
 			_grp setVariable ['QS_AI_GRP_lastNearTargets',_uiTime,FALSE];
 		};
 	};
-	if (isNil {_grp getVariable 'QS_AI_GRP_evalNearbyBuilding'}) then {
+	if (_grp isNil 'QS_AI_GRP_evalNearbyBuilding') then {
 		_grp setVariable ['QS_AI_GRP_evalNearbyBuilding',(_uiTime + 60),FALSE];
 	};
-	if (isNil {_grp getVariable 'QS_AI_GRP_allEnvSoundControllers'}) then {
+	if (_grp isNil 'QS_AI_GRP_allEnvSoundControllers') then {
 		_grp setVariable ['QS_AI_GRP_allEnvSoundControllers',(getAllEnvSoundControllers (getPosATL _grpLeader)),FALSE];
 		_grp setVariable ['QS_AI_GRP_lastEnvSoundCtrl',_uiTime,FALSE];
 	};
@@ -334,14 +334,14 @@ if (
 							_supportProvider = _x;
 							if (
 								(alive _supportProvider) &&
-								((vehicle _supportProvider) isKindOf 'StaticMortar')
+								{((vehicle _supportProvider) isKindOf 'StaticMortar')}
 							) then {
 								_supportGroup = group _supportProvider;
 								if (
 									((_supportGroup getVariable 'QS_AI_GRP_DATA') # 0) &&
-									(isNil {_supportGroup getVariable 'QS_AI_GRP_fireMission'}) &&
-									(isNil {_supportGroup getVariable 'QS_AI_GRP_MTR_cooldown'}) &&
-									(_targetPosition inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)])
+									{(_supportGroup isNil 'QS_AI_GRP_fireMission')} &&
+									{(_supportGroup isNil 'QS_AI_GRP_MTR_cooldown')} &&
+									{(_targetPosition inRangeOfArtillery [[_supportProvider],((magazines (vehicle _supportProvider)) # 0)])}
 								) then {
 									(missionNamespace getVariable ['QS_AI_cmdr_recentSuppPositions',[]]) pushBack [_targetPosition,serverTime + (60 + (random 300))];
 									(format ['%2 %1',mapGridPosition _targetPosition,localize 'STR_QS_Chat_078']) remoteExec ['systemChat',-2];
@@ -428,7 +428,7 @@ if (
 					_locationData = _currentData # 3;
 					if (_locationData isNotEqualTo []) then {
 						_location = _locationData # 0;
-						if (!isNil {_location getVariable 'QS_virtualSectors_terrainData'}) then {
+						if !(_location isNil 'QS_virtualSectors_terrainData') then {
 							_buildingPositions = (_location getVariable ['QS_virtualSectors_terrainData',[ [],[],[],[],[] ]]) # 3;
 							if (!isNil '_buildingPositions') then {
 								if (_buildingPositions isNotEqualTo []) then {
@@ -557,7 +557,7 @@ if (
 		};		
 		if (_currentConfig_minor isEqualTo 'AIR_PATROL_HELI') then {
 			if (_currentTask_type isEqualTo 'PATROL_AIR') then {
-				if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
+				if !(_grp isNil 'QS_AI_GRP_fireMission') then {
 					_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 					if (_uiTime > (_fireMission # 1)) then {
 						_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
@@ -598,7 +598,7 @@ if (
 	if (_currentConfig_major isEqualTo 'AO') then {
 		if (_currentConfig_minor isEqualTo 'AIR_PATROL_HELI') then {
 			if (_currentTask_type isEqualTo 'PATROL_AIR') then {
-				if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
+				if !(_grp isNil 'QS_AI_GRP_fireMission') then {
 					_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 					if (_uiTime > (_fireMission # 1)) then {
 						_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
@@ -669,12 +669,12 @@ if (
 						};
 					};
 					if ((_grp getVariable 'QS_AI_GRP_DATA') # 0) then {
-						if (!isNil {_grp getVariable 'QS_AI_GRP_MTR_cooldown'}) then {
+						if !(_grp isNil 'QS_AI_GRP_MTR_cooldown') then {
 							if (_uiTime > (_grp getVariable 'QS_AI_GRP_MTR_cooldown')) then {
 								_grp setVariable ['QS_AI_GRP_MTR_cooldown',nil,QS_system_AI_owners];
 							};
 						} else {
-							if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
+							if !(_grp isNil 'QS_AI_GRP_fireMission') then {
 								_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 								_fireMission params ['_firePosition','_fireShells','_fireRounds'];
 								_allPlayerCount = count allPlayers;
@@ -793,7 +793,7 @@ if (
 	};
 	if (_currentConfig_major isEqualTo 'AIR_PATROL_CAS') then {
 		if (alive _grpLeader) then {
-			if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
+			if !(_grp isNil 'QS_AI_GRP_fireMission') then {
 				_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 				if (_uiTime > (_fireMission # 1)) then {
 					_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
@@ -823,7 +823,7 @@ if (
 	};
 	if (_currentConfig_major isEqualTo 'AIR_PATROL_FIGHTER') then {
 		if (alive _grpLeader) then {
-			if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
+			if !(_grp isNil 'QS_AI_GRP_fireMission') then {
 				_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 				if (_uiTime > (_fireMission # 1)) then {
 					_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
@@ -859,7 +859,7 @@ if (
 			_grpObjectParent setFuel 1;
 		};
 		if (alive _grpLeader) then {
-			if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
+			if !(_grp isNil 'QS_AI_GRP_fireMission') then {
 				_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 				if (_uiTime > (_fireMission # 1)) then {
 					_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];
@@ -1179,7 +1179,7 @@ if (
 		};
 		if (_currentConfig_minor isEqualTo 'HELI') then {
 			if (_currentTask_type isEqualTo 'PATROL_AIR') then {
-				if (!isNil {_grp getVariable 'QS_AI_GRP_fireMission'}) then {
+				if !(_grp isNil 'QS_AI_GRP_fireMission') then {
 					_fireMission = _grp getVariable 'QS_AI_GRP_fireMission';
 					if (_uiTime > (_fireMission # 1)) then {
 						_grp setVariable ['QS_AI_GRP_fireMission',nil,QS_system_AI_owners];

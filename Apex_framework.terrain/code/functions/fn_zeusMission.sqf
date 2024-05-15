@@ -89,7 +89,7 @@ if (_type isEqualTo 'CAPTURE_MAN') exitWith {
 				if ((lifeState _this) isEqualTo 'INCAPACITATED') then {
 					sleep 4;
 					_this setUnconscious FALSE;
-					_this switchMove 'AmovPpneMstpSnonWnonDnon';
+					_this switchMove ['AmovPpneMstpSnonWnonDnon'];
 				};
 				sleep 1;
 			};

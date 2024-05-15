@@ -6,7 +6,7 @@ Author:
 	
 Last modified: 
 
-	9/10/2023 A3 2.14 by Quiksilver
+	7/03/2024 A3 2.18 by Quiksilver
 
 Description:
 
@@ -150,7 +150,7 @@ if (!(_addonActive)) exitWith {
 		} 
 	] remoteExec ['call',-2,TRUE];
 };
-if (isNil {uiNamespace getVariable 'QS_fnc_serverCommandPassword'}) exitWith {
+if (uiNamespace isNil 'QS_fnc_serverCommandPassword') exitWith {
 	[
 		[],
 		{
@@ -173,19 +173,18 @@ serverNamespace setVariable ['QS_fnc_serverEventHandler',compileScript ["code\fu
 
 /*/ If default base is selected, remove everything /*/
 if ((missionNamespace getVariable ['QS_missionConfig_baseLayout',0]) isEqualTo 0) then {
-	{
-		if (!isNull _x) then {
-			if (!(_x isKindOf 'Logic')) then {
-				if (!(_x getVariable ['QS_missionObject_protected',FALSE])) then {
-					deleteVehicle _x;
-				};
-			};
-		};
-	} forEach (allMissionObjects '');
+	deleteVehicle ((allMissionObjects '') select {
+		(
+			(!isNull _x) &&
+			(!(_x isKindOf 'Logic')) &&
+			(!(_x getVariable ['QS_missionObject_protected',FALSE]))
+		)
+	});
 	{
 		deleteMarker _x;
 	} forEach allMapMarkers;
 };
+setMissionOptions (createHashMapFromArray [['IgnoreNoDamage', TRUE], ['IgnoreFakeHeadHit', TRUE]]);
 enableDynamicSimulationSystem TRUE;
 enableEnvironment [FALSE,FALSE,0];
 enableEngineArtillery TRUE;
@@ -350,6 +349,8 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_analytics_entities_respawned',0,FALSE],
 	['QS_analytics_entities_killed',0,FALSE],
 	['QS_analytics_entities_recycled',0,FALSE],
+	['QS_analytics_groups_created',0,FALSE],
+	['QS_analytics_groups_deleted',0,FALSE],
 	['QS_armedAirEnabled',TRUE,TRUE],
 	['QS_var_debug',FALSE,FALSE],
 	['QS_serverKey','abc123',TRUE],
@@ -736,13 +737,26 @@ private _weaponsList = configFile >> 'CfgWeapons';
 	['QS_system_builtThings',[],TRUE],
 	['QS_markers_fireSupport',[],TRUE],
 	['QS_markers_fireSupport_queue',[],FALSE],
-	['QS_managed_flares',[],FALSE]
+	['QS_managed_flares',[],FALSE],
+	['QS_registered_vehicleSpawners',[],FALSE],
+	['QS_managed_spawnedVehicles_maxCap',10,TRUE],
+	['QS_managed_spawnedVehicles_maxByType',[],TRUE],
+	['QS_managed_spawnedVehicles_local',[],FALSE],		// Note: persistence
+	['QS_managed_spawnedVehicles_public',(missionNamespace getVariable ['QS_managed_spawnedVehicles_local',[]]),TRUE],
+	['QS_enemyInterruptAction_radius',100,TRUE],
+	['QS_base_manager',[],FALSE],
+	['QS_base_manager_public',[],TRUE],
+	['QS_missionConfig_aoUrbanSpawning',1,FALSE],
+	['QS_vehicles_destroyed',[],FALSE],
+	['QS_system_BIScorpseCollector',((getMissionConfigValue ['corpseManagerMode',0]) > 0),TRUE],
+	['QS_system_BISwreckCollector',((getMissionConfigValue ['wreckManagerMode',0]) > 0),TRUE]
 ];
 // Local Namespace
 {
 	localNamespace setVariable _x;	
 } forEach [
-	['QS_uniqueScriptErrors',0]
+	['QS_uniqueScriptErrors',0],
+	['QS_PF_queue',[]]
 ];
 // Server Namespace
 {
@@ -1429,24 +1443,26 @@ missionNamespace setVariable [
 	['BuildingChanged',{call (missionNamespace getVariable 'QS_fnc_eventBuildingChanged')}],
 	['Ended',{call (missionNamespace getVariable 'QS_fnc_eventMissionEnded')}],
 	//['EntityCreated',(missionNamespace getVariable 'QS_fnc_eventEntityCreated')],							// Used for debug/diagnostics
-	//['EntityDeleted',{call (missionNamespace getVariable 'QS_fnc_eventEntityDeleted')}],					// Not available yet (2.14)
+	['EntityDeleted',{call (missionNamespace getVariable 'QS_fnc_eventEntityDeleted')}],
 	['EntityKilled',{call (missionNamespace getVariable 'QS_fnc_eventEntityKilled')}],
 	['EntityRespawned',{call (missionNamespace getVariable 'QS_fnc_eventEntityRespawned')}],
-	//['GroupCreated',{call (missionNamespace getVariable 'QS_fnc_eventGroupCreated')}],					// Not used
-	//['GroupDeleted',{call (missionNamespace getVariable 'QS_fnc_eventGroupDeleted')}],					// Not used
+	['GroupCreated',{call (missionNamespace getVariable 'QS_fnc_eventGroupCreated')}],					// Not used
+	['GroupDeleted',{call (missionNamespace getVariable 'QS_fnc_eventGroupDeleted')}],					// Not used
 	['HandleDisconnect',{call (missionNamespace getVariable 'QS_fnc_eventHandleDisconnect')}],
+	['MarkerDeleted',{call (missionNamespace getVariable 'QS_fnc_eventMarkerDeleted')}],
 	['PlayerConnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerConnected')}],
 	['PlayerDisconnected',{call (missionNamespace getVariable 'QS_fnc_eventOnPlayerDisconnected')}],
 	['Drowned',{call (missionNamespace getVariable 'QS_fnc_eventVehicleDrowned')}],
 	['UAVCrewCreated',{call (missionNamespace getVariable 'QS_fnc_eventUAVCrewCreated')}],
-	['ScriptError',{call (missionNamespace getVariable 'QS_fnc_eventScriptError')}]
+	['ScriptError',{call (missionNamespace getVariable 'QS_fnc_eventScriptError')}],
+	['OnUserSelectedPlayer',{call QS_fnc_eventOnUserSelectedPlayer}]
 	//['ProjectileCreated',{call (missionNamespace getVariable 'QS_fnc_eventProjectileCreated')}],			// Used for debug/diagnostics
 ];
 
 /*/===== watchlist of troublemaker UIDs, harvested from RPT files. Reports against these players in the future are given 2x weighting by Robocop./*/
 
 missionNamespace setVariable ['QS_robocop_watchlist',[],FALSE];
-if (isNil {missionProfileNamespace getVariable 'QS_robocop_watchlist'}) then {
+if (missionProfileNamespace isNil 'QS_robocop_watchlist') then {
 	missionProfileNamespace setVariable ['QS_robocop_watchlist',[]];
 	saveMissionProfileNamespace;
 };
@@ -1490,11 +1506,9 @@ if ((allMissionObjects 'Land_RepairDepot_01_base_F') isNotEqualTo []) then {
 	} forEach (allMissionObjects 'Land_RepairDepot_01_base_F');
 };
 if ((allMissionObjects 'ModuleCurator_F') isNotEqualTo []) then {
-	{
-		if (!(_x getVariable ['QS_missionObject_protected',FALSE])) then {
-			deleteVehicle _x;
-		};
-	} forEach (allMissionObjects 'ModuleCurator_F');
+	deleteVehicle ((allMissionObjects 'ModuleCurator_F') select {
+		(!(_x getVariable ['QS_missionObject_protected',FALSE]))
+	});
 };
 
 /*/===== DATE CONFIG /*/
@@ -1503,7 +1517,7 @@ diag_log format ['***** DEBUG ***** QS_initServer.sqf ***** %1 ***** 1 - SETTING
 if ((missionNamespace getVariable ['QS_missionConfig_startDate',[]]) isNotEqualTo []) then {
 	setDate (missionNamespace getVariable ['QS_missionConfig_startDate',[]]);
 } else {
-	if (isNil {missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
+	if (missionProfileNamespace isNil (format ['QS_QRF_date_%1',worldName])) then {
 		_QS_PARAMS_DATE = [-1,-1,-1,-1,-1];
 		if (((_QS_PARAMS_DATE) # 0) isNotEqualTo -1) then {_year = ((_QS_PARAMS_DATE) # 0);} else {_year = selectRandom [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040];};
 		if (((_QS_PARAMS_DATE) # 1) isNotEqualTo -1) then {_month = ((_QS_PARAMS_DATE) # 1);} else {_month = round (random 12);};
@@ -1512,12 +1526,10 @@ if ((missionNamespace getVariable ['QS_missionConfig_startDate',[]]) isNotEqualT
 		if (((_QS_PARAMS_DATE) # 4) isNotEqualTo -1) then {_minute = ((_QS_PARAMS_DATE) # 4);} else {_minute = round (random 60);};
 		setDate [_year,_month,_day,_hour,_minute];
 	} else {
-		if (!isNil {missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName])}) then {
-			_QS_date = missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName]);
-			setDate _QS_date;
-			missionProfileNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),_QS_date]; 
-			saveMissionProfileNamespace;
-		};
+		_QS_date = missionProfileNamespace getVariable (format ['QS_QRF_date_%1',worldName]);
+		setDate _QS_date;
+		missionProfileNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),_QS_date]; 
+		saveMissionProfileNamespace;
 	};
 	missionNamespace setVariable [(format ['QS_QRF_date_%1',worldName]),date,TRUE];
 };
@@ -1525,7 +1537,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_startDate',[]]) isNotEqualT
 /*/==== Weather Config/*/
 
 if (missionNamespace getVariable ['QS_missionConfig_weatherDynamic',TRUE]) then {
-	if (isNil {missionProfileNamespace getVariable (format ['QS_QRF_weatherCurrent_%1',worldName])}) then {
+	if (missionProfileNamespace isNil (format ['QS_QRF_weatherCurrent_%1',worldName])) then {
 		setWind [0,0,FALSE];
 		0 setOvercast 0;
 		0 setFog [0,0,0];

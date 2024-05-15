@@ -356,7 +356,7 @@ _defendMessage = selectRandom _defendMessages;
 ['sideChat',[WEST,'HQ'],_defendMessage] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 _QS_priorMissionStatistics = [0,0];
 private _priorDefendStats = [];
-if (!isNil {missionProfileNamespace getVariable 'QS_defendHQ_statistics'}) then {
+if !(missionProfileNamespace isNil 'QS_defendHQ_statistics') then {
 	_QS_priorMissionStatistics = missionProfileNamespace getVariable 'QS_defendHQ_statistics';
 	if ((count _QS_priorMissionStatistics) > 100) then {
 		_QS_priorMissionStatistics set [0,FALSE];
@@ -368,7 +368,7 @@ if (!isNil {missionProfileNamespace getVariable 'QS_defendHQ_statistics'}) then 
 	missionProfileNamespace setVariable ['QS_defendHQ_statistics',_QS_priorMissionStatistics];
 	saveMissionProfileNamespace;
 };
-if (isNil {missionProfileNamespace getVariable 'QS_defend_stat_2'}) then {
+if (missionProfileNamespace isNil 'QS_defend_stat_2') then {
 	missionProfileNamespace setVariable ['QS_defend_stat_2',[]];
 	saveMissionProfileNamespace;
 } else {
@@ -850,7 +850,7 @@ for '_x' from 0 to 1 step 0 do {
 				{
 					if (_x isKindOf 'LandVehicle') then {
 						if ((_x distance2D _centerPos) < 75) then {
-							if (isNil {_x getVariable 'QS_vehicle_canUnload'}) then {
+							if (_x isNil 'QS_vehicle_canUnload') then {
 								_x setVariable ['QS_vehicle_canUnload',TRUE,FALSE];
 								_x setUnloadInCombat [TRUE,TRUE];
 							};
@@ -1073,15 +1073,6 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		_updateMoveDelay = diag_tickTime + (random [5,10,15]);
 	};
-	if (_timeNow > _checkGroupDelay) then {
-		{
-			_grp = _x;
-			if (((units _grp) findIf {(alive _x)}) isEqualTo -1) then {
-				deleteGroup _grp;
-			};
-		} count allGroups;
-		_checkGroupDelay = time + 20;
-	};
 	if (_QS_flyBy) then {
 		if (_timeNow > _QS_flyByDelay) then {
 			_QS_flyBy = FALSE;
@@ -1182,7 +1173,7 @@ for '_x' from 0 to 1 step 0 do {
 						if (canMove _heli) then {
 							if (((getPosWorld _heli) # 2) > 40) then {
 								if ((_heli distance2D _centerPos) < 400) then {
-									if (!isNil {_heli getVariable 'QS_V_availableCargo'}) then {
+									if !(_heli isNil 'QS_V_availableCargo') then {
 										if ((_heli getVariable 'QS_V_availableCargo') > 0) then {
 											if (time > (_heli getVariable 'QS_V_dropInterval')) then {
 												if ((count (units EAST)) < 150) then {
@@ -1444,37 +1435,8 @@ saveMissionProfileNamespace;
 sleep 3;
 [_taskID] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 sleep 7 + (random 7);
-{
-	missionNamespace setVariable [
-		'QS_analytics_entities_deleted',
-		((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-		FALSE
-	];
-	deleteVehicle _x;
-	sleep 0.05;
-} count _allArray;
-{
-	missionNamespace setVariable [
-		'QS_analytics_entities_deleted',
-		((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-		FALSE
-	];
-	if (!(_x getVariable ['QS_dead_prop',FALSE])) then {
-		deleteVehicle _x;
-		sleep 0.01;
-	};
-} count allDeadMen;
-{
-	deleteVehicle _x;
-} forEach (allMines inAreaArray [_centerPos,300,300,0,FALSE]);
-{
-	if (local _x) then {
-		if (((units _x) findIf {(alive _x)}) isEqualTo -1) then {
-			deleteGroup _x;
-		};
-	};
-	sleep 0.001;
-} count allGroups;
+deleteVehicle _allArray;
+deleteVehicle (allMines inAreaArray [_centerPos,300,300,0,FALSE]);
 if ((count allPlayers) > 5) then {
 	if ((random 1) > 0.666) then {
 		if (isClass (missionConfigFile >> 'CfgSounds' >> 'TheEnd')) then {

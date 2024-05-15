@@ -251,9 +251,7 @@ if (_mode isEqualTo 1) then {
 			{
 				params ['_cursorObject'];
 				_attachedObjs = [_cursorObject] call QS_fnc_getAllAttached;
-				{
-					deleteVehicle _x;
-				} forEach _attachedObjs;
+				deleteVehicle _attachedObjs;
 				_cargoParent = _cursorObject getVariable ['QS_logistics_cargoParent',objNull];
 				if (!isNull _cargoParent) then {
 					if (!isNull (isVehicleCargo _cargoParent)) then {
@@ -268,9 +266,7 @@ if (_mode isEqualTo 1) then {
 			{
 				params ['_cursorObject'];
 				_attachedObjs = [_cursorObject] call QS_fnc_getAllAttached;
-				{
-					deleteVehicle _x;
-				} forEach _attachedObjs;
+				deleteVehicle _attachedObjs;
 				_cargoParent = _cursorObject getVariable ['QS_logistics_cargoParent',objNull];
 				if (!isNull _cargoParent) then {
 					if (!isNull (isVehicleCargo _cargoParent)) then {
@@ -294,9 +290,7 @@ if (_mode isEqualTo 1) then {
 					_entity = ((attachedObjects _container) select {(_x getVariable ['QS_logistics_packed',FALSE])}) # 0;
 					if (!isNil '_entity') then {
 						if (!isNull _entity) then {
-							{
-								deleteVehicle _x;
-							} forEach ([_entity] call QS_fnc_getAllAttached);
+							deleteVehicle ([_entity] call QS_fnc_getAllAttached);
 							deleteVehicle _entity;
 						};
 					};
@@ -315,9 +309,7 @@ if (_mode isEqualTo 1) then {
 					_entity = ((attachedObjects _container) select {(_x getVariable ['QS_logistics_packed',FALSE])}) # 0;
 					if (!isNil '_entity') then {
 						if (!isNull _entity) then {
-							{
-								deleteVehicle _x;
-							} forEach ([_entity] call QS_fnc_getAllAttached);
+							deleteVehicle ([_entity] call QS_fnc_getAllAttached);
 							deleteVehicle _entity;
 						};
 					};

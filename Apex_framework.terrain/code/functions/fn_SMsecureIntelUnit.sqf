@@ -242,14 +242,7 @@ for '_x' from 0 to 1 step 0 do {
 		/*/---------- DELETE/*/
 		
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [_intelObj,_decoy1,_decoy2,_intelDriver,_obj1,_obj2,_obj3,_decoyDriver1,_decoyDriver2];
+		deleteVehicle [_intelObj,_decoy1,_decoy2,_intelDriver,_obj1,_obj2,_obj3,_decoyDriver1,_decoyDriver2];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
@@ -348,14 +341,7 @@ for '_x' from 0 to 1 step 0 do {
 		/*/---------- DELETE/*/
 		
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [_intelObj,_decoy1,_decoy2,_intelDriver,_obj1,_obj2,_obj3,_decoyDriver1,_decoyDriver2];
+		deleteVehicle [_intelObj,_decoy1,_decoy2,_intelDriver,_obj1,_obj2,_obj3,_decoyDriver1,_decoyDriver2];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
@@ -388,14 +374,7 @@ for '_x' from 0 to 1 step 0 do {
 		/*/---------- DELETE/*/
 
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [_intelObj,_decoy1,_decoy2,_intelDriver,_obj1,_obj2,_obj3,_decoyDriver1,_decoyDriver2];
+		deleteVehicle [_intelObj,_decoy1,_decoy2,_intelDriver,_obj1,_obj2,_obj3,_decoyDriver1,_decoyDriver2];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];

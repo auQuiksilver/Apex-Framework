@@ -140,23 +140,11 @@ for '_x' from 0 to 1 step 0 do {
 		/*/-------------------- DELETE/*/
 		
 		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
 			[0,_x] call QS_fnc_eventAttach;
 			deleteVehicle _x;
 		} count [_object,_researchTable];
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [QS_sideObj,_veh];
+		deleteVehicle [QS_sideObj,_veh];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];
@@ -174,21 +162,11 @@ for '_x' from 0 to 1 step 0 do {
 		_dummy allowDamage FALSE;
 		_dummy setPosWorld [((getPosWorld QS_sideObj) # 0), ((getPosWorld QS_sideObj) # 1), (((getPosWorld QS_sideObj) # 2) + 2)];
 		uiSleep 0.1;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		[0,_object] call QS_fnc_eventAttach;
 		deleteVehicle _object;
 		uiSleep 14;											/*/ ghetto bomb timer/*/
 		'Bo_Mk82' createVehicle (getPosATL _dummy); 				/*/default "Bo_Mk82"/*/
 		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
 			[0,_x] call QS_fnc_eventAttach;
 			deleteVehicle _x;
 		} count [_dummy,_researchTable];
@@ -205,14 +183,7 @@ for '_x' from 0 to 1 step 0 do {
 	
 		/*/--------------------- DELETE/*/
 		sleep 120;
-		{
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		} forEach [QS_sideObj,_veh];
+		deleteVehicle [QS_sideObj,_veh];
 		{
 			if (_x isEqualType objNull) then {
 				0 = QS_garbageCollector pushBack [_x,'NOW_DISCREET',0];

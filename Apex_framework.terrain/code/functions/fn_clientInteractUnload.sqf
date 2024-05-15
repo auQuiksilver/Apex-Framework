@@ -58,10 +58,10 @@ _exit = FALSE;
 			waitUntil {
 				(isNull (objectParent _unit))
 			};
-			if (!isNil {_unit getVariable 'QS_RD_isIncapacitated'}) then {
+			if (!(_unit isNil 'QS_RD_isIncapacitated')) then {
 				if (_unit getVariable 'QS_RD_isIncapacitated') then {
 					if (local _unit) then {
-						if (!isNil {_unit getVariable 'QS_RD_storedAnim'}) then {
+						if (!(_unit isNil 'QS_RD_storedAnim')) then {
 							0 = ['switchMove',_unit,(_unit getVariable 'QS_RD_storedAnim')] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 						} else {
 							0 = ['switchMove',_unit,'AinjPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
@@ -71,7 +71,7 @@ _exit = FALSE;
 					};
 				};
 			};
-			if (!isNil {_unit getVariable 'QS_isSurrendered'}) then {
+			if (!(_unit isNil 'QS_isSurrendered')) then {
 				if (_unit getVariable 'QS_isSurrendered') then {
 					0 = ['switchMove',_unit,'amovpercmstpssurwnondnon'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 				};

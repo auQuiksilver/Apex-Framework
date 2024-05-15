@@ -1,14 +1,45 @@
 Official Change Log
+
+Dev
+	
+	- [X] switchMove array
+	- [X] focusOn (dont forget)
+	- Vehicle respawn (explore new vanilla changes)
+	- Change wreck system to only armed aircraft by default
+	- Make enemy mortars/artillery less effective at lower pop
+	- [X] Body cleanup
+	- New landAt syntax
+	- New fuel consumption
+	- [X] In body/wreck cleanup, use new "getEntityInfo" dead-time for min cleanup time
+	- review group issue (deleting groups locally?)
+	- [X] deleted event integration, replace "deleted" analytics counter with something in that event code
+	- [X] deleteVehicle array
+	- https://community.bistudio.com/wiki/getModelInfo  for placement pos and also defined mass (replace var massdef)
+	- Add a crate spawner to the Destroyer/Carrier
+	- Pass vehicle cargo getter/spawner thru the new PFH
+	- Sandbag placement progress delay needs work (cant cancel?)
+	- Need to use progress visualizer for the Lift forklift action (for boat ferries too)
+	- Base persistence
+	- Vehicle Spawner
+	- Player Respawn to bases
+	- Recruitable AI to bases?
+	- When saving data to profile, separate large data sets (like props data) into a separate variable
+	- Redo support requester
+	- https://community.bistudio.com/wiki/getCorpseWeaponholders
+	- Bullet spread for AA tanks
+
 		
 1.5.7 Dev
 
 [ADDED] Light Blue (small) cargo container is now a Parajump deployment.
+[ADDED] Picture of selected object in some "Unload"/"Build" menus.
+[TWEAKED] Corpse and Destroyed Vehicle cleanup.
 [TWEAKED] At base vehicle abandonment distance from 50m to 100m by default.
 [TWEAKED] AI will no longer assault low-importance sites (platform kit, etc).
 [FIXED] IDAP medical supplies mission, some potential states where the medical crate could become inaccessible
 [FIXED] Some logistics containers could not be deployed near water (Platform Kit, etc).
 [FIXED] Mouse hovering over friendly vehicles would not identify them as friendly on HUD.
-[FIXED] Many non-fuel objects were still triggering fuel-explosions when destroyed.
+[REMOVED] Radio animation when player uses Push-To-Talk (blocks ADS and firing for a few seconds).
 
 1.5.6 Stable (14/11/2023)
 

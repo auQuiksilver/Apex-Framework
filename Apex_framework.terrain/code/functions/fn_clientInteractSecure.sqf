@@ -20,67 +20,70 @@ __________________________________________________/*/
 if ((cameraOn distance _cursorObject) > 25) exitWith {
 	50 cutText [localize 'STR_QS_Text_132','PLAIN DOWN',0.25];
 };
-if (((!isNil {_cursorTarget getVariable 'QS_secured'}) && (_cursorTarget getVariable 'QS_secured')) || ((!isNil {_cursorObject getVariable 'QS_secured'}) && (_cursorObject getVariable 'QS_secured'))) exitWith {
+if (
+	((!(_cursorTarget isNil 'QS_secured')) && (_cursorTarget getVariable ['QS_secured',FALSE])) || 
+	((!(_cursorObject isNil 'QS_secured')) && (_cursorObject getVariable ['QS_secured',FALSE]))
+) exitWith {
 	50 cutText [localize 'STR_QS_Text_133','PLAIN DOWN',0.75];
 };
-if (!isNil {_cursorTarget getVariable 'QS_secureable'}) then {
+if !(_cursorTarget isNil 'QS_secureable') then {
 	for '_x' from 0 to 2 step 1 do {
 		_cursorTarget setVariable ['QS_secured',TRUE,TRUE];
 		_cursorTarget setVariable ['QS_secureable',FALSE,TRUE];
 	};
 };
-if (!isNil {_cursorObject getVariable 'QS_secureable'}) then {
+if !(_cursorObject isNil 'QS_secureable') then {
 	for '_x' from 0 to 2 step 1 do {
 		_cursorObject setVariable ['QS_secured',TRUE,TRUE];
 		_cursorObject setVariable ['QS_secureable',FALSE,TRUE];
 	};
 };
-if (!isNil {_cursorTarget getVariable 'QS_isExplosion'}) then {
+if !(_cursorTarget isNil 'QS_isExplosion') then {
 	playSound3D [getMissionPath 'media\audio\activate_mine.wss',player,FALSE,(getPosASL _cursorTarget),5,1,75];
 };
-if (!isNil {_cursorTarget getVariable 'QS_object_GT_0'}) exitWith {
+if !(_cursorTarget isNil 'QS_object_GT_0') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_134','PLAIN DOWN',0.75];
 	['sideChat',[WEST,'BLU'],(format [localize 'STR_QS_Chat_030',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Chat_032'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorTarget,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
-if (!isNil {_cursorObject getVariable 'QS_object_GT_0'}) exitWith {
+if !(_cursorObject isNil 'QS_object_GT_0') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_134','PLAIN DOWN',0.75];
 	['sideChat',[WEST,'BLU'],(format [localize 'STR_QS_Chat_030',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa')),localize 'STR_QS_Chat_032'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorObject,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
-if (!isNil {_cursorTarget getVariable 'QS_object_GT_1'}) exitWith {
+if !(_cursorTarget isNil 'QS_object_GT_1') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_135','PLAIN DOWN',0.75];
 	['systemChat',(format [localize 'STR_QS_Chat_031',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorTarget,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
-if (!isNil {_cursorObject getVariable 'QS_object_GT_1'}) exitWith {
+if !(_cursorObject isNil 'QS_object_GT_1') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_135','PLAIN DOWN',0.75];
 	['systemChat',(format [localize 'STR_QS_Chat_031',(groupID (group player)),(['Kavala','Georgetown'] select (worldName isEqualTo 'Tanoa'))])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[71,_cursorObject,TRUE] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 };
-if (!isNil {_cursorTarget getVariable 'QS_sc_subObj_1'}) exitWith {
+if !(_cursorTarget isNil 'QS_sc_subObj_1') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
 	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_033'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[73,1] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
-if (!isNil {_cursorObject getVariable 'QS_sc_subObj_1'}) exitWith {
+if !(_cursorObject isNil 'QS_sc_subObj_1') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
 	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_033'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[73,1] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
-if (!isNil {_cursorTarget getVariable 'QS_sc_subObj_3'}) exitWith {
+if !(_cursorTarget isNil 'QS_sc_subObj_3') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
 	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_034'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 	[73,3] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 };
-if (!isNil {_cursorObject getVariable 'QS_sc_subObj_3'}) exitWith {
+if !(_cursorObject isNil 'QS_sc_subObj_3') exitWith {
 	player playAction 'PutDown';
 	50 cutText [localize 'STR_QS_Text_136','PLAIN DOWN',0.75];
 	['sideChat',[WEST,'BLU'],(format ['%1 %2',(groupID (group player)),localize 'STR_QS_Chat_034'])] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];

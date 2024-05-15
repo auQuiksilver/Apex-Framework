@@ -81,7 +81,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
 						};
 					};
-					if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+					if (missionNamespace isNil 'QS_enemy_mortarFireMessage') then {
 						missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 					};
 					if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
@@ -182,7 +182,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
 						};
 					};
-					if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+					if (missionNamespace isNil 'QS_enemy_mortarFireMessage') then {
 						missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 					};
 					if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
@@ -277,7 +277,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 							(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
 						};
 					};
-					if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+					if (missionNamespace isNil 'QS_enemy_mortarFireMessage') then {
 						missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 					};
 					if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
@@ -410,7 +410,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 						(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
 					};
 				};
-				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+				if (missionNamespace isNil 'QS_enemy_mortarFireMessage') then {
 					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 				};
 				if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
@@ -504,7 +504,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 						(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
 					};
 				};
-				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+				if (missionNamespace isNil 'QS_enemy_mortarFireMessage') then {
 					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 				};
 				if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};
@@ -598,7 +598,7 @@ if (worldName in ['Tanoa','Lingor3']) exitWith {
 						(_this # 6) addEventHandler ['Explode',{(_this + [1]) spawn (missionNamespace getVariable 'QS_fnc_craterEffect')}];
 					};
 				};
-				if (isNil {missionNamespace getVariable 'QS_enemy_mortarFireMessage'}) then {
+				if (missionNamespace isNil 'QS_enemy_mortarFireMessage') then {
 					missionNamespace setVariable ['QS_enemy_mortarFireMessage',diag_tickTime,FALSE];
 				};
 				if ((missionNamespace getVariable 'QS_enemy_mortarFireMessage') > (diag_tickTime - 300)) exitWith {};

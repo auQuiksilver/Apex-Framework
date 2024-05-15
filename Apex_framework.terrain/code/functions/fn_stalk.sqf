@@ -35,7 +35,7 @@ if (
 	{(!alive _prey)} ||
 	{(!local _predatorGrp)} ||
 	{(((units _predatorGrp) findIf {(alive _x)}) isEqualTo -1)} ||
-	{(!isNil {_predatorGrp getVariable 'QS_AI_GRP_stalker'})}
+	{!(_predatorGrp isNil 'QS_AI_GRP_stalker')}
 ) exitWith {};
 _predatorGrp setVariable ['QS_AI_GRP_stalker',TRUE,FALSE];
 _priorBehaviour = behaviour (leader _predatorGrp);

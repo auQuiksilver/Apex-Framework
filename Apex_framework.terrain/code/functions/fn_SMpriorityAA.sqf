@@ -191,9 +191,7 @@ _compositionData = nil;
 			{
 				params ['_entity'];
 				if ((attachedObjects _entity) isNotEqualTo []) then {
-					{
-						deleteVehicle _x;
-					} forEach (attachedObjects _entity);
+					deleteVehicle (attachedObjects _entity);
 				};
 			}
 		];

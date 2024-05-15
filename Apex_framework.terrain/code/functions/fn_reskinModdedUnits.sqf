@@ -6,7 +6,7 @@ Author:
 	
 Last Modified:
 
-	29/05/2023 A3 2.12 by Quiksilver
+	18/12/2023 A3 2.14 by Quiksilver
 	
 Description:
 
@@ -101,6 +101,7 @@ for '_z' from 0 to 1 step 0 do {
 			(!(_x getvariable ['QS_reskinned',_false])) &&
 			{(!isPlayer _x)} &&
 			{(!isNull (group _x))} &&
+			{(!unitIsUAV _x)} &&
 			{(!((typeOf _x) in _excludeTypes))}
 		) then {
 			_x setvariable ['QS_reskinned',_true];

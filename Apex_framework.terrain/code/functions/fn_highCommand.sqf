@@ -277,7 +277,7 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 							if ((side _grp) in _as) then {
 								_grpLeader = leader _grp;
 								if (_showAIGroups) then {
-									if (isNil {_grp getVariable 'QS_ST_Group'}) then {
+									if (_grp isNil 'QS_ST_Group') then {
 										if (!isNull _grp) then {
 											if (!isNull _grpLeader) then {
 												[_grp,0,_QS_ST_X] call _configGroupIcon;
@@ -292,7 +292,7 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 									};
 								} else {
 									if (isPlayer _grpLeader) then {
-										if (isNil {_grp getVariable 'QS_ST_Group'}) then {
+										if (_grp isNil 'QS_ST_Group') then {
 											if (!isNull _grp) then {
 												if (!isNull _grpLeader) then {
 													[_grp,0,_QS_ST_X] call _configGroupIcon;
@@ -308,12 +308,12 @@ if (isNull (missionNamespace getVariable ['QS_script_grpIcons',scriptNull])) the
 									};
 								};
 							} else {
-								if (!isNil {_grp getVariable 'QS_ST_Group_Icon'}) then {
+								if !(_grp isNil 'QS_ST_Group_Icon') then {
 									[_grp,2,_QS_ST_X] call _configGroupIcon;
 								};
 							};
 						} else {
-							if (!isNil {_grp getVariable 'QS_ST_Group_Icon'}) then {
+							if !(_grp isNil 'QS_ST_Group_Icon') then {
 								[_grp,2,_QS_ST_X] call _configGroupIcon;
 							};
 						};
@@ -387,7 +387,7 @@ for '_x' from 0 to 1 step 0 do {
 		if ((side _grp) isEqualTo WEST) then {
 			if (!(_grp in (hcAllGroups player))) then {
 				if (((units _grp) findIf {(alive _x)}) isNotEqualTo -1) then {
-					if (isNil {_grp getVariable ['QS_HComm_grp',FALSE]}) then {
+					if (_grp isNil 'QS_HComm_grp') then {
 						_grp setVariable ['QS_HComm_grp',TRUE,TRUE];
 					};
 					player hcSetGroup [_grp,(groupID _grp),'teammain'];

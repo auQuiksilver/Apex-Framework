@@ -28,7 +28,7 @@ if (!(_entity getVariable ['QS_AI_ENTITY_setup',FALSE])) then {
 _side = side _entity;
 _type = toLowerANSI (typeOf _entity);
 _position = position _entity;
-if (_entity isKindOf 'CAManBase') exitWith {
+if (_entity getEntityInfo 0) exitWith {
 	//comment 'Humans';
 	if (
 		(isNull (objectParent _entity)) &&

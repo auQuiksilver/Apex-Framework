@@ -95,7 +95,7 @@ if (_type isEqualTo 'GET_CLIENT') exitWith {
 	_childType = toLowerANSI _childType;
 	if (
 		(_parent getVariable ['QS_logistics_deployed',FALSE]) &&
-		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_parent,200,200,0,FALSE,-1]) isNotEqualTo [])}
+		{(((flatten ([EAST,RESISTANCE] apply {units _x})) inAreaArray [_parent,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isNotEqualTo [])}
 	) exitWith {
 		systemChat (localize 'STR_QS_Chat_178');
 	};
@@ -176,6 +176,16 @@ if (_type isEqualTo 'SET_SERVER') exitWith {
 			QS_logistics_deployedAssets set [_parentIndex2,[_parent,_assets,((QS_logistics_deployedAssets # _parentIndex2) # 2)]];
 		};
 	};
+	if (['IS_MANAGED_BASE',_parent] call QS_fnc_baseHandle) then {
+		[
+			'HANDLE',
+			[
+				'PROP_REMOVE',
+				_parent,
+				_child
+			]
+		] call QS_fnc_baseHandle;
+	};
 	if ((attachedObjects _child) isNotEqualTo []) then {
 		{
 			_x removeAllEventHandlers 'Deleted';
@@ -242,6 +252,16 @@ if (_type isEqualTo 'GET_SERVER') exitWith {
 		1,
 		15
 	];
+	if (['IS_MANAGED_BASE',_parent] call QS_fnc_baseHandle) then {
+		[
+			'HANDLE',
+			[
+				'PROP_ADD',
+				_parent,
+				_child
+			]
+		] call QS_fnc_baseHandle;
+	};
 	_count = _count - 1;
 	if (_count <= 0) then {
 		_virtualCargo deleteAt _virtualCargoIndex;

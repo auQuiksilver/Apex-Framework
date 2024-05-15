@@ -862,7 +862,7 @@ for '_x' from 0 to 1 step 0 do {
 			if (_QS_module_hc_groups_s1 isNotEqualTo []) then {
 				_grp = selectRandom _QS_module_hc_groups_s1;
 				
-				if (isNil {_grp getVariable 'QS_AI_GRP_HC_data'}) exitWith {
+				if (_grp isNil 'QS_AI_GRP_HC_data') exitWith {
 					_grp setVariable ['QS_AI_GRP_HC',[0,_clientOwner],[2,_clientOwner]];
 				};
 				_grp addEventHandler ['Local',_groupEventLocalHC];
@@ -917,7 +917,7 @@ for '_x' from 0 to 1 step 0 do {
 			{
 				_QS_module_agentBehaviors_agent = _x;
 				if (_QS_module_agentBehaviors_agent getVariable ['QS_AI_ENTITY',_false]) then {
-					if (((random 1) > 0.75) || {(_QS_module_agentBehaviors_agent isKindOf 'CAManBase')}) then {
+					if (((random 1) > 0.75) || {(_QS_module_agentBehaviors_agent getEntityInfo 0)}) then {
 						_scriptEvalAgent = [_QS_module_agentBehaviors_agent,_QS_serverTime,_QS_diag_fps] spawn _fn_AIHandleAgent;
 						waitUntil {scriptDone _scriptEvalAgent};
 					};
@@ -1264,7 +1264,6 @@ for '_x' from 0 to 1 step 0 do {
 					_QS_module_virtualSectors_assignedUnitsSector = _x;
 					{
 						if (!isNull _x) then {
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							uiSleep 0.05;
 							if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
 								if (_x isKindOf 'CAManBase') then {
@@ -1290,7 +1289,6 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (_x isEqualType objNull) then {
 							if (!isNull _x) then {
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								uiSleep 0.05;
 								if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
 									if (_x isKindOf 'CAManBase') then {
@@ -1320,7 +1318,6 @@ for '_x' from 0 to 1 step 0 do {
 								{
 									if (_x isEqualType objNull) then {
 										if (!isNull _x) then {
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											uiSleep 0.05;
 											if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
 												if (_x isKindOf 'CAManBase') then {
@@ -1350,7 +1347,6 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (_x isEqualType objNull) then {
 							if (!isNull _x) then {
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								_x setDamage [1,_false];
 								uiSleep 0.1;
 								deleteVehicle _x;
@@ -1362,7 +1358,6 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (_x isEqualType objNull) then {
 							if (!isNull _x) then {
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 								uiSleep 0.1;
 								if (_x isKindOf 'CAManBase') then {
 									if (!isNull (objectParent _x)) then {
@@ -1641,7 +1636,6 @@ for '_x' from 0 to 1 step 0 do {
 										if ((_x isKindOf 'Building') || {(_x isKindOf 'House')}) then {
 											0 = (missionNamespace getVariable 'QS_garbageCollector') pushBack [_x,'NOW_DISCREET',0];
 										} else {
-											missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 											uiSleep 0.05;
 											if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
 												if (_x isKindOf 'CAManBase') then {
@@ -1669,7 +1663,6 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.05;
 									if (!([1,0,_x] call _fn_serverObjectsRecycler)) then {
 										if (_x isKindOf 'CAManBase') then {
@@ -1695,7 +1688,6 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
 									if (_x isKindOf 'CAManBase') then {
 										if (!isNull (objectParent _x)) then {
@@ -1719,7 +1711,6 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
 									if (_x isKindOf 'CAManBase') then {
 										if (!isNull (objectParent _x)) then {
@@ -1743,7 +1734,6 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
 									if (_x isKindOf 'CAManBase') then {
 										if (!isNull (objectParent _x)) then {
@@ -1768,7 +1758,6 @@ for '_x' from 0 to 1 step 0 do {
 						{
 							if (_x isEqualType objNull) then {
 								if (!isNull _x) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 									uiSleep 0.1;
 									if (_x isKindOf 'CAManBase') then {
 										if (!isNull (objectParent _x)) then {
@@ -1845,7 +1834,6 @@ for '_x' from 0 to 1 step 0 do {
 				if ((missionNamespace getVariable ['QS_aoAnimals',[]]) isNotEqualTo []) then {
 					{
 						if (!isNull _x) then {
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							if (_x isKindOf 'CAManBase') then {
 								if (!isNull (objectParent _x)) then {
 									if ((objectParent _x) isKindOf 'AllVehicles') then {
@@ -1866,7 +1854,6 @@ for '_x' from 0 to 1 step 0 do {
 				if (_QS_module_grid_defendUnits isNotEqualTo []) then {
 					{
 						if (alive _x) then {
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),_false];
 							if (_x isKindOf 'CAManBase') then {
 								if (!isNull (objectParent _x)) then {
 									if ((objectParent _x) isKindOf 'AllVehicles') then {

@@ -86,9 +86,7 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 		{
 			params ['_killed','_killer','_instigator','_usedEffects'];
 			if ((attachedObjects _killed) isNotEqualTo []) then {
-				{
-					deleteVehicle _x;
-				} forEach (attachedObjects _killed);
+				deleteVehicle (attachedObjects _killed);
 			};
 		}
 	],
@@ -97,9 +95,7 @@ _composition = [_spawnPosition,(random 360),_compositionData,FALSE] call (missio
 		{
 			params ['_entity'];
 			if ((attachedObjects _entity) isNotEqualTo []) then {
-				{
-					deleteVehicle _x;
-				} forEach (attachedObjects _entity);
+				deleteVehicle (attachedObjects _entity);
 			};			
 		}
 	]
@@ -384,7 +380,5 @@ waitUntil {
 		_x hideObjectGlobal FALSE;
 	};
 } forEach _nearestTerrainObjects;
-{
-	deleteVehicle _x;
-} forEach (_all + _composition);
+deleteVehicle (_all + _composition);
 missionNamespace setVariable ['QS_AI_regenerator',objNull,FALSE];

@@ -32,7 +32,7 @@ if (_object getUnitTrait 'QS_trait_fighterPilot') then {
 		missionNamespace setVariable ['QS_CAS_jetAllowance_gameover',FALSE,FALSE];
 	};
 };
-if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
+if !(_object isNil 'QS_pilot_vehicleInfo') then {
 	_vehicleInfo = _object getVariable 'QS_pilot_vehicleInfo';
 	_vehicle = _vehicleInfo # 0;
 	_vehicleRole = _vehicleInfo # 1;
@@ -40,7 +40,6 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 		if ((_vehicle distance (markerPos 'QS_marker_base_marker')) > 600) then {
 			if (!isTouchingGround _vehicle) then {
 				if ((_vehicleRole # 0) isEqualTo 'driver') then {
-					missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 					[_vehicle,_name] spawn {
 						scriptName 'QS Script RTB';
 						sleep 0.5;
@@ -69,7 +68,6 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							};
 							sleep 2;
 							if ((vehicle _unit) isNotEqualTo _vehicle) then {
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 								deleteVehicle _unit;
 							};
 						};
@@ -88,14 +86,12 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							'GetOutMan',
 							{
 								deleteVehicle (_this # 0);
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 							}
 						];
 						_unit addEventHandler [
 							'SeatSwitchedMan',
 							{
 								deleteVehicle (_this # 0);
-								missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 							}
 						];
 						_unit addEventHandler [
@@ -110,7 +106,6 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 							{
 								params ['_vehicle','_newController','_oldController'];
 								if (!isPlayer _oldController) then {
-									missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 									_vehicle deleteVehicleCrew _oldController;
 								};
 								// move new controller to pilot seat
@@ -173,7 +168,6 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 										params ['_vehicle','_airportID'];
 										if (!isNull (driver _vehicle)) then {
 											if (!isPlayer (driver _vehicle)) then {
-												missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 												_vehicle deleteVehicleCrew (driver _vehicle);
 											};
 										};
@@ -218,7 +212,7 @@ if (!isNil {_object getVariable 'QS_pilot_vehicleInfo'}) then {
 		};
 	};
 };
-if (!isNil {_object getVariable 'QS_ClientVTexture'}) then {
+if !(_object isNil 'QS_ClientVTexture') then {
 	private _clientVTexture = _object getVariable 'QS_ClientVTexture';
 	private _v = _clientVTexture # 0;
 	if (!isNull _v) then {
@@ -248,17 +242,12 @@ if (_uid in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))
 		_module = getAssignedCuratorLogic _object;
 		if (!isNull _module) then {
 			_grp = group _module;
-			if (!isNil {_module getVariable 'QS_curator_modules'}) then {
+			if !(_module isNil 'QS_curator_modules') then {
 				if ((_module getVariable 'QS_curator_modules') isEqualType []) then {
-					{
-						if (!isNull _x) then {
-							missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-							deleteVehicle _x;
-						};
-					} count (_module getVariable 'QS_curator_modules');
+					deleteVehicle (_module getVariable ['QS_curator_modules',[]]);
 				};
 			};
-			if (!isNil {_module getVariable 'QS_curator_markers'}) then {
+			if !(_module isNil 'QS_curator_markers') then {
 				if ((_module getVariable 'QS_curator_markers') isEqualType []) then {
 					{
 						if (_x in (_module getVariable 'QS_curator_markers')) then {
@@ -269,11 +258,6 @@ if (_uid in (['CURATOR'] call (missionNamespace getVariable 'QS_fnc_whitelist'))
 					} count allMapMarkers;
 				};
 			};
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
 			deleteVehicle _module;
 			deleteGroup _grp;
 			if (allCurators isEqualTo []) then {
@@ -299,10 +283,7 @@ if ((_object isEqualTo (missionNamespace getVariable 'QS_fighterPilot')) || {(_o
 	};
 };
 if ((getAllOwnedMines _object) isNotEqualTo []) then {
-	{
-		missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
-		deleteVehicle _x;
-	} count (getAllOwnedMines _object);
+	deleteVehicle (getAllOwnedMines _object);
 };
 if ((attachedObjects _object) isNotEqualTo []) then {
 	{
@@ -313,7 +294,6 @@ if (!isNull _object) then {
 	if (_object isEqualTo (vehicle _object)) then {
 		if (isNull (objectParent _object)) then {
 			if (isNull (attachedTo _object)) then {
-				missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 				deleteVehicle _object;
 			};
 		};

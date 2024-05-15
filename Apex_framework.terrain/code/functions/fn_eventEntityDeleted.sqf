@@ -16,3 +16,7 @@ Description:
 ______________________________________________________/*/
 
 params ['_entity'];
+QS_analytics_entities_deleted = QS_analytics_entities_deleted + 1;
+if (unitIsUav _entity) then {
+	deleteVehicleCrew _entity;
+};

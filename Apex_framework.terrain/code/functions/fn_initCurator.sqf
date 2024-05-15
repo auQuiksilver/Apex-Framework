@@ -58,21 +58,12 @@ if (_type isEqualTo 0) then {
 			params ['_object','_isLocal'];
 			if (_isLocal) then {
 				if (!isNull _object) then {
-					if (!isNil {_object getVariable 'QS_curator_modules'}) then {
+					if !(_object isNil 'QS_curator_modules') then {
 						if ((_object getVariable 'QS_curator_modules') isEqualType []) then {
-							{
-								if (!isNull _x) then {
-									missionNamespace setVariable [
-										'QS_analytics_entities_deleted',
-										((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-										FALSE
-									];
-									deleteVehicle _x;
-								};
-							} count (_object getVariable 'QS_curator_modules');
+							deleteVehicle (_object getVariable ['QS_curator_modules',[]]);
 						};
 					};
-					if (!isNil {_object getVariable 'QS_curator_markers'}) then {
+					if !(_object isNil 'QS_curator_markers') then {
 						if ((_object getVariable 'QS_curator_markers') isEqualType []) then {
 							private _allMapMarkers = allMapMarkers;
 							{
@@ -82,11 +73,6 @@ if (_type isEqualTo 0) then {
 							} count (_object getVariable 'QS_curator_markers');
 						};
 					};
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
 					deleteVehicle _object;
 				};
 			};
@@ -151,7 +137,7 @@ if (_type isEqualTo 1) then {
 		];
 		_module enableAIFeature ['ALL',FALSE];
 		private _actionID = -1;
-		if (!isNil {missionNamespace getVariable 'QS_airdefense_laptop'}) then {
+		if !(missionNamespace isNil 'QS_airdefense_laptop') then {
 			if (!isNull (missionNamespace getVariable 'QS_airdefense_laptop')) then {
 				_laptop = missionNamespace getVariable 'QS_airdefense_laptop';
 				_actionID = _laptop addAction [

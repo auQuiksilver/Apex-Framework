@@ -70,7 +70,7 @@ if (_attachedObjects isNotEqualTo []) then {
 					};
 				};
 				if ((_unit distance (markerPos 'QS_marker_medevac_hq')) < 10) then {
-					if (!isNil {_unit getVariable 'QS_aoTask_medevac_unit'}) then {
+					if !(_unit isNil 'QS_aoTask_medevac_unit') then {
 						if (_unit getVariable 'QS_aoTask_medevac_unit') then {
 							_unit spawn {
 								uiSleep 10;

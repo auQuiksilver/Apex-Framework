@@ -16,7 +16,11 @@ __________________________________________________/*/
 params ['_groupLeader'];
 _v = vehicle _groupLeader;
 _g = group _groupLeader;
-_v land 'GET OUT';
+if (!isNull (_v getVariable ['QS_assignedHelipad',objNull])) then {
+	_v landAt [(_v getVariable ['QS_assignedHelipad',objNull]),'GET OUT'];
+} else {
+	_v land 'GET OUT';
+};
 _v flyInHeight [0.1,TRUE];
 if ((random 1) > 0.333) then {
 	[_v] spawn {
@@ -116,11 +120,7 @@ if (_spawnUnits) then {
 	[_units,getPosWorld _v,_infantryGroup] spawn {
 		params ['_units','_position','_group'];
 		uiSleep 2;
-		{
-			if ((_x distance2D _position) > 100) then {
-				deleteVehicle _x;
-			};
-		} forEach _units;
+		deleteVehicle (_units select {((_x distance2D _position) > 100)});
 		uiSleep 7;
 		{
 			if (alive _x) then {

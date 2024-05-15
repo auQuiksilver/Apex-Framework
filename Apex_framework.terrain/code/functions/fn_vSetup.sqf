@@ -216,20 +216,25 @@ _mass = QS_hashmap_configfile getOrDefaultCall [
 	{getMass _u},
 	TRUE
 ];
-_u setVariable ['QS_vehicle_massdef',[_mass,getCenterOfMass _u],TRUE];
-_u setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
 _transportSoldier = QS_hashmap_configfile getOrDefaultCall [
 	format ['cfgvehicles_%1_transportsoldier',_t2],
 	{getNumber ((configOf _u) >> 'transportSoldier')},
 	TRUE
 ];
+_u setVariable ['QS_vehicle_isSuppliedFOB',nil,TRUE];
+// Small stuff
+if (
+	((crew _u) isEqualTo []) &&
+	{((_u emptyPositions '') isEqualTo 0)}
+) then {
+	if (_u isKindOf 'Reammobox_F') then {
+		_u setVariable ['QS_logistics',TRUE,TRUE];
+	};
+	if (_u isKindOf 'ThingX') then {
+		_u setVariable ['QS_logistics',TRUE,TRUE];
+	};
+};
 // Land Vehicles
-if (_u isKindOf 'Reammobox_F') then {
-	_u setVariable ['QS_logistics',TRUE,TRUE];
-};
-if (_u isKindOf 'ThingX') then {
-	_u setVariable ['QS_logistics',TRUE,TRUE];
-};
 if (_u isKindOf 'LandVehicle') then {
 	if (!(_u getVariable ['QS_logistics_wreck',FALSE])) then {
 		_u setVariable ['QS_logistics_packable',TRUE,TRUE];
@@ -692,9 +697,7 @@ _u addEventHandler [
 	{
 		params ['_vehicle'];
 		_attachedObjs = [_vehicle] call QS_fnc_getAllAttached;
-		{
-			deleteVehicle _x;
-		} forEach _attachedObjs;
+		deleteVehicle _attachedObjs;
 		if (_vehicle isKindOf 'Plane') then {
 			if ((getVehicleCargo _vehicle) isNotEqualTo []) then {
 				_vehicle setVehicleCargo objNull;

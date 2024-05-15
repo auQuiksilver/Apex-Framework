@@ -16,7 +16,7 @@ __________________________________________________*/
 if (!canSuspend) exitWith {};
 BIS_oldBleedRemaining = _this # 0;
 disableSerialization;
-if (isnil {uinamespace getvariable "RscHealthTextures"}) then {uinamespace setvariable ["RscHealthTextures",displaynull]};
+if (uiNamespace isNil 'RscHealthTextures') then {uinamespace setvariable ["RscHealthTextures",displaynull]};
 if (isnull (uinamespace getvariable "RscHealthTextures")) then {(["HealthPP_blood"] call BIS_fnc_rscLayer) cutrsc ["RscHealthTextures","plain"]};
 private _display = uinamespace getvariable "RscHealthTextures";
 private _texLower = _display displayctrl 1211;

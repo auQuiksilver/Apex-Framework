@@ -32,7 +32,7 @@ if (_type isEqualTo 'onLoad') exitWith {
 	if (diag_tickTime > (missionNamespace getVariable ['QS_LB_netSync_cooldown',-1])) then {
 		missionNamespace setVariable ['QS_LB_netSync',FALSE,FALSE];
 		missionNamespace setVariable ['QS_LB_netSync_cooldown',diag_tickTime + 30,FALSE];
-		[101,(['',getPlayerUID player] select (isNil {missionNamespace getVariable 'QS_leaderboards4'}))] remoteExec ['QS_fnc_remoteExec',2,FALSE];
+		[101,(['',getPlayerUID player] select (missionNamespace isNil 'QS_leaderboards4'))] remoteExec ['QS_fnc_remoteExec',2,FALSE];
 	};
 	setMousePosition (uiNamespace getVariable ['QS_ui_mousePosition',getMousePosition]);
 	(_display displayCtrl 1802) ctrlSetText (localize 'STR_QS_Menu_030');

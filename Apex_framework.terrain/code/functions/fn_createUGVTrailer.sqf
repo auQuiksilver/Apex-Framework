@@ -68,7 +68,37 @@ if (isDedicated) then {
 					_unit moveOut _vehicle;
 				};
 			}
-		]
+		],
+		[
+			'Deleted',
+			{
+				params ['_vehicle'];
+				if ((attachedObjects _vehicle) isNotEqualTo []) then {
+					{
+						[0,_x] call QS_fnc_eventAttach;
+						if (!isPlayer _x) then {
+							_x setDamage [1,FALSE];
+							deleteVehicle _x;
+						};
+					} forEach (attachedObjects _vehicle);
+				};
+			}
+		],
+		[
+			'Killed',
+			{
+				params ['_vehicle'];
+				if ((attachedObjects _vehicle) isNotEqualTo []) then {
+					{
+						[0,_x] call QS_fnc_eventAttach;
+						if (!isPlayer _x) then {
+							_x setDamage [1,FALSE];
+							deleteVehicle _x;
+						};
+					} forEach (attachedObjects _vehicle);
+				};
+			}
+		]	
 	];
 };
 {

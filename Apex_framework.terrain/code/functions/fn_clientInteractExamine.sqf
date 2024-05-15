@@ -16,7 +16,7 @@ _____________________________________________________________/*/
 _t = cursorObject;
 if (
 	(isNull _t) ||
-	(isNil {_t getVariable 'QS_entity_examine'}) ||
+	(_t isNil 'QS_entity_examine') ||
 	(player getVariable ['QS_client_examining',FALSE])
 ) exitWith {};
 player setVariable ['QS_client_examining',TRUE,FALSE];

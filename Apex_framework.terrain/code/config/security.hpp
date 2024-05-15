@@ -131,6 +131,7 @@ class CfgDisabledCommands {
             args[] = {{},{"LOCATION"}};
         };
     };
+    /*/
     class HINT
     {
         class SYNTAX1
@@ -147,6 +148,9 @@ class CfgDisabledCommands {
             args[] = {{},{"STRING","TEXT"}};
         };
     };
+    /*/
+    
+    /*/
     class ONEACHFRAME
     {
         class SYNTAX1
@@ -155,7 +159,7 @@ class CfgDisabledCommands {
             args[] = {{},{"STRING","CODE"}};
         };
     };
-
+    /*/
 };
 class CfgRemoteExec {
 	class Commands {

@@ -82,7 +82,7 @@ if ((attachedObjects _unit) isNotEqualTo []) then {
 				{((lifeState _x) isEqualTo 'INCAPACITATED')} &&
 				{(['carr',(animationState _x),FALSE] call (missionNamespace getVariable 'QS_fnc_inString'))}
 			) then {
-				['switchMove',_x,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+				['switchMove',_x,['acts_InjuredLyingRifle02']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 			};
 			if (local _x) then {
 				_x awake TRUE;
@@ -293,8 +293,8 @@ for '_x' from 0 to 1 step 0 do {
 				{(isNull _attachedTo)} &&
 				{(isNull _objectParent)}
 			) then {
-				['switchMove',_unit,'acts_InjuredLyingRifle02'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
-				_unit switchMove 'acts_InjuredLyingRifle02';
+				['switchMove',_unit,['acts_InjuredLyingRifle02']] remoteExec ['QS_fnc_remoteExecCmd',_unit,FALSE];
+				_unit switchMove ['acts_InjuredLyingRifle02'];
 			};
 		};
 	};
@@ -368,7 +368,7 @@ for '_x' from 0 to 1 step 0 do {
 				if (!isNull _objectParent) then {
 					if ((['medical',(typeOf _vehicle),FALSE] call _fn_inString) || {(['medevac',(typeOf _vehicle),FALSE] call _fn_inString)}) then {
 						if (_unit isNotEqualTo (driver _vehicle)) then {
-							if (isNil {_vehicle getVariable 'QS_medicalVehicle_reviveTickets'}) then {
+							if (_vehicle isNil 'QS_medicalVehicle_reviveTickets') then {
 								_revivedAtVehicle = TRUE;
 								if (_lifeState isEqualTo 'INCAPACITATED') then {
 									_unit setUnconscious FALSE;
@@ -445,7 +445,7 @@ for '_x' from 0 to 1 step 0 do {
 				_deadVehicles = allDead - allDeadMen;
 				if (
 					((_deadVehicles inAreaArray [_unit,5,5,0,FALSE]) isEqualTo []) &&
-					{(!(((getPosASL _unit) # 2) < -1))} &&
+					{(((getPosASL _unit) # 2) > -1)} &&
 					{((_unit targets [TRUE,30]) isEqualTo [])}
 				) then {
 					_text = localize 'STR_QS_Text_212';
@@ -687,6 +687,6 @@ showHUD (missionNamespace getVariable [(format ['QS_allowedHUD_%1',(player getVa
 [29,(missionNamespace getVariable 'QS_module_fob_side')] call (missionNamespace getVariable 'QS_fnc_remoteExec');
 if ((lifeState _unit) in ['HEALTHY','INJURED']) then {
 	if (isNull _objectParent) then {
-		['switchMove',_unit,'AmovPpneMstpSnonWnonDnon'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+		['switchMove',_unit,['AmovPpneMstpSnonWnonDnon']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 	};
 };

@@ -20,10 +20,7 @@ if (
 	{(!(missionNamespace getVariable ['QS_missionConfig_mass',FALSE]))}
 ) exitWith {getMass _vehicle};
 _mass = getMass _vehicle;
-if (isNil {_vehicle getVariable 'QS_vehicle_massdef'}) then {
-	_vehicle setVariable ['QS_vehicle_massdef',[_mass,getCenterOfMass _vehicle],TRUE];
-};
-_defaultMass = (_vehicle getVariable ['QS_vehicle_massdef',[_mass,[0,0,0]]]) # 0;
+_defaultMass = (getModelInfo _vehicle) # 4;
 private _allAttached = ((attachedObjects _vehicle) + (getVehicleCargo _vehicle)) select {(!isSimpleObject _x) && (!isObjectHidden _x)};
 private _filtered = _allAttached arrayIntersect _allAttached;
 private _totalMass = _defaultMass;

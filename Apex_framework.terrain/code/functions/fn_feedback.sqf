@@ -120,11 +120,11 @@ for '_z' from 0 to 1 step 0 do {
 	//----- Damage changed - blood/dirt/healing/burning
 
 	if (
-		(_QS_lifeState in ['HEALTHY','INJURED']) &&
+		(focusOn isEqualTo _QS_player) &&
+		{(_QS_lifeState in ['HEALTHY','INJURED'])} &&
 		{(abs((damage _QS_player) - BIS_oldDMG) > 0.0001)} &&
 		{BIS_applyPP3} &&
-		{BIS_fnc_feedback_allowPP} &&
-		{!(isRemoteControlling _QS_player)}
+		{BIS_fnc_feedback_allowPP}
 	) then {
 		BIS_applyPP3 = _false;
 		call _fn_feedbackDamageChanged;
@@ -146,12 +146,12 @@ for '_z' from 0 to 1 step 0 do {
 	//----- Suffocating
 	
 	if (
-		((getOxygenRemaining _QS_player) < 0.8) && 
+		(focusOn isEqualTo _QS_player) &&
+		{((getOxygenRemaining _QS_player) < 0.8)} &&
 		{(_QS_lifeState isNotEqualTo 'DEAD')} && 
 		{(abs((getOxygenRemaining _QS_player) - BIS_oldOxygen) > 0.0001)} &&
 		{BIS_applyPP5} && 
-		{BIS_fnc_feedback_allowPP} && 
-		{!(isRemoteControlling _QS_player)}
+		{BIS_fnc_feedback_allowPP}
 	) then {
 		BIS_oldOxygen = getOxygenRemaining _QS_player;
 		BIS_applyPP5 = _false;
@@ -162,8 +162,8 @@ for '_z' from 0 to 1 step 0 do {
 	
 	if (
 		!BIS_fnc_feedback_fatiguePP && 
-		{((getFatigue _QS_player) > 0.5)} &&
-		{!(isRemoteControlling _QS_player)}
+		{focusOn isEqualTo _QS_player} &&
+		{((getFatigue _QS_player) > 0.5)}
 	) then {
 		BIS_fnc_feedback_fatiguePP = _true;
 		0 spawn _fn_feedbackFatigue;
@@ -172,7 +172,8 @@ for '_z' from 0 to 1 step 0 do {
 	//----- Check Not Suffocating
 	
 	if (
-		((getOxygenRemaining _QS_player) >= 0.8) &&
+		(focusOn isEqualTo _QS_player) &&
+		{((getOxygenRemaining _QS_player) >= 0.8)} &&
 		{(BIS_oldOxygen < 0.8)} && 
 		{BIS_fnc_feedback_allowPP}
 	) then {
@@ -184,6 +185,7 @@ for '_z' from 0 to 1 step 0 do {
 	
 	if (
 		BIS_PP_burning && 
+		{focusOn isEqualTo _QS_player} &&
 		{!(isBurning _QS_player)}
 	) then {
 		if (BIS_fnc_feedback_burningTimer isNotEqualTo 0) then {

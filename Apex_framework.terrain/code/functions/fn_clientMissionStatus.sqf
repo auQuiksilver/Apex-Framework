@@ -337,7 +337,7 @@ _QS_ctrl10_font = 'RobotoCondensed';
 _QS_ctrl10 ctrlSetFont _QS_ctrl10_font;
 _QS_ctrl10 ctrlSetText _QS_ctrl_text10;
 private _QS_sectorHintShown = TRUE;
-if (isNil {missionProfileNamespace getVariable 'QS_ui_missionstatus_token'}) then {
+if (missionProfileNamespace isNil 'QS_ui_missionstatus_token') then {
 	missionProfileNamespace setVariable ['QS_ui_missionstatus_token',0];
 };
 if (!((missionProfileNamespace getVariable 'QS_ui_missionstatus_token') isEqualType 0)) then {
@@ -793,7 +793,7 @@ private _progress1 = 0;
 private _progress2 = 0;
 private _isCAS = ((player getUnitTrait 'QS_trait_fighterPilot') || (player getUnitTrait 'uavhacker'));
 if (_isCAS) then {
-	if (!isNil {missionNamespace getVariable 'QS_virtualSectors_sectorObjects'}) then {
+	if (!(missionNamespace isNil 'QS_virtualSectors_sectorObjects')) then {
 		if ((missionNamespace getVariable 'QS_virtualSectors_sectorObjects') isNotEqualTo []) then {
 			{
 				_array = _x;
@@ -1260,7 +1260,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_ctrl140
 			];
 			if (!(_isCAS)) then {
-				if (!isNil {missionNamespace getVariable 'QS_virtualSectors_data_public'}) then {
+				if (!(missionNamespace isNil 'QS_virtualSectors_data_public')) then {
 					if ((missionNamespace getVariable 'QS_virtualSectors_data_public') isNotEqualTo []) then {
 						{
 							_array = _x # 18;
@@ -1301,7 +1301,7 @@ for '_x' from 0 to 1 step 0 do {
 				_QS_ctrl140
 			];
 			if (!(_isCAS)) then {
-				if (!isNil {missionNamespace getVariable 'QS_virtualSectors_data_public'}) then {
+				if (!(missionNamespace isNil 'QS_virtualSectors_data_public')) then {
 					if ((missionNamespace getVariable 'QS_virtualSectors_data_public') isNotEqualTo []) then {
 						{
 							_array = _x # 18;

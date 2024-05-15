@@ -32,7 +32,7 @@ if ((missionNamespace getVariable ['QS_missionConfig_artyEngine',1]) isEqualTo 1
 		enableEngineArtillery FALSE;
 	};
 };
-if (!isNil {player getVariable 'QS_pilot_vehicleInfo'}) then {
+if !(player isNil 'QS_pilot_vehicleInfo') then {
 	player setVariable ['QS_pilot_vehicleInfo',nil,TRUE];
 };
 if ((toLowerANSI (typeOf _vehicle)) in ['b_t_apc_tracked_01_crv_f','b_apc_tracked_01_crv_f']) then {

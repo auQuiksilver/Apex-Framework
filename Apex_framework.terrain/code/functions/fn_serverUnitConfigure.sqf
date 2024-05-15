@@ -70,7 +70,6 @@ _unit addEventHandler [
 	{
 		params ['_killed','_killer'];
 		if ((_killed distance2D (markerPos 'QS_marker_base_marker')) < 500) then {
-			missionNamespace setVariable ['QS_analytics_entities_deleted',((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),FALSE];
 			deleteVehicle _killed;
 		};
 	}

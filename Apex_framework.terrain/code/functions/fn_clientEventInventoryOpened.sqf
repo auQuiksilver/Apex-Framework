@@ -29,8 +29,8 @@ if (
 	{(_inventory isNotEqualTo _unit)}
 ) then {
 	['Open',TRUE] call (missionNamespace getVariable 'BIS_fnc_arsenal');
-	if (isNil {player getVariable 'QS_arsenalAmmoPrompt'}) then {
-		player setVariable ['QS_arsenalAmmoPrompt',TRUE,FALSE];
+	if (uiNamespace isNil 'QS_arsenalAmmoPrompt') then {
+		uiNamespace setVariable ['QS_arsenalAmmoPrompt',TRUE];
 		50 cutText [localize 'STR_QS_Text_022','PLAIN'];
 	};
 	_c = TRUE;

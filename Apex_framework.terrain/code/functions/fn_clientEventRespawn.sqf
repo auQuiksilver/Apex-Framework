@@ -188,10 +188,6 @@ if (!isNull _oldUnit) then {
 	([_oldUnit,'SAFE'] call QS_fnc_inZone) params ['_inSafezone','_safezoneLevel','_safezoneActive'];
 	if (_inSafezone && _safezoneActive) then {
 		deleteVehicle _oldUnit;
-	} else {
-		if ((getMissionConfigValue ['corpseManagerMode',0]) isNotEqualTo 0) then {
-			addToRemainsCollector [_oldUnit];
-		};
 	};
 };
 private _itemToRemove = '';

@@ -25,9 +25,9 @@ if (_type isEqualTo 0) then {
 	_posInFront = _player modelToWorldWorld [0,0.5,0];
 	_player setPosWorld _posInFront;
 	if ((stance _player) isNotEqualTo 'STAND') then {
-		['switchMove',_player,(_player getVariable ['QS_seated_oldAnimState',''])] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+		['switchMove',_player,[(_player getVariable ['QS_seated_oldAnimState',''])]] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 	};
-	if (!isNil {_player getVariable 'QS_interact_actionStand'}) then {
+	if !(_player isNil 'QS_interact_actionStand') then {
 		_player removeAction (_player getVariable 'QS_interact_actionStand');
 		_player setVariable ['QS_interact_actionStand',nil,FALSE];
 	};
@@ -63,7 +63,7 @@ if (_type isEqualTo 1) then {
 		[39,_object,FALSE,profileName,(getPlayerUID player)] remoteExecCall ['QS_fnc_remoteExec',2,FALSE];
 	};
 	_player setVariable ['QS_seated_oldAnimState',(animationState _player),FALSE];
-	['switchMove',_player,_sittingAnimation] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+	['switchMove',_player,[_sittingAnimation]] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 	private _attachY = -0.1;
 	if (((toLowerANSI (typeOf _object)) in ['land_armchair_01_f']) || {((toLowerANSI ((getModelInfo _object) # 0)) in ['armchair_01_f.p3d'])}) then {
 		_attachY = 0;
@@ -114,11 +114,11 @@ if (_type isEqualTo 1) then {
 				if (!alive player) exitWith {player setVariable ['QS_seated_oldAnimState',nil,FALSE];};
 				uiSleep 0.05;
 			};
-			if (!isNil {player getVariable 'QS_interact_actionStand'}) then {
+			if !(player isNil 'QS_interact_actionStand') then {
 				player removeAction (player getVariable 'QS_interact_actionStand');
 				player setVariable ['QS_interact_actionStand',nil,FALSE];
 			};
-			if (!isNil {player getVariable 'QS_seated_oldAnimState'}) then {
+			if !(player isNil 'QS_seated_oldAnimState') then {
 				player setVariable ['QS_seated_oldAnimState',nil,FALSE];
 			};
 		};

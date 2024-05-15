@@ -933,11 +933,6 @@ for '_x' from 0 to 1 step 0 do {
 					{
 						if (!isNull (gunner (_this # 0))) then {
 							if (alive (gunner (_this # 0))) then {
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									FALSE
-								];
 								deleteVehicle (gunner (_this # 0));
 							};
 						};
@@ -1077,7 +1072,6 @@ for '_x' from 0 to 1 step 0 do {
 		if (_enemies isNotEqualTo []) then {
 			{
 				if (!alive _x) then {
-					//comment 'deleteVehicle _x;';
 					_enemies deleteAt _forEachIndex;
 				};
 			} forEach _enemies;
@@ -1102,15 +1096,19 @@ for '_x' from 0 to 1 step 0 do {
 			_grpLeader = leader _grp;
 			if (!isNull _grpLeader) then {
 				if (alive _grpLeader) then {
-					if ((!isNil {_grp getVariable 'QS_AI_move_nextRefresh'}) || {(unitReady _grpLeader)}) then {
+					if ((!(_grp isNil 'QS_AI_move_nextRefresh')) || {(unitReady _grpLeader)}) then {
 						if ((_timeNow > (_grp getVariable 'QS_AI_move_nextRefresh')) || {(unitReady _grpLeader)}) then {
 							_destination = selectRandom (_intersections inAreaArray [_grpLeader,100,100,0,FALSE]);
 							_grp setFormDir ((getPosATL _grpLeader) getDir _destination);
 							{
 								_unit = _x;
 								if (alive _unit) then {
-									_destination = [((_destination # 0) + (12 - (random 12))),((_destination # 1) + (12 - (random 12))),((_destination # 2) + 1)];
-									if (!isNil {_unit getVariable 'QS_AI_unit_canAttack'}) then {
+									_destination = [
+										((_destination # 0) + (12 - (random 12))),
+										((_destination # 1) + (12 - (random 12))),
+										((_destination # 2) + 1)
+									];
+									if !(_unit isNil 'QS_AI_unit_canAttack') then {
 										_nearestEnemy = _unit findNearestEnemy _unit;
 										if (!isNull _nearestEnemy) then {
 											if (alive _nearestEnemy) then {
@@ -1135,7 +1133,7 @@ for '_x' from 0 to 1 step 0 do {
 											_unit doMove _destination;
 										};
 									} else {
-										if (!isNil {_unit getVariable 'QS_AI_unit_checkBuilding'}) then {
+										if !(_unit isNil 'QS_AI_unit_checkBuilding') then {
 											if ((random 1) > 0.5) then {
 												doStop _unit;
 												_unit doMove (selectRandom (_unit getVariable 'QS_AI_enemy_bWaypoints'));
@@ -1229,7 +1227,7 @@ for '_x' from 0 to 1 step 0 do {
 				_civilian = _x;
 				if (!isNull _civilian) then {
 					if (alive _civilian) then {
-						if (!isNil {_civilian getVariable 'QS_AI_move_nextRefresh'}) then {
+						if !(_civilian isNil 'QS_AI_move_nextRefresh') then {
 							if (_timeNow > (_civilian getVariable 'QS_AI_move_nextRefresh')) then {
 								_civilian setDestination [(selectRandom _civilianWaypoints),'LEADER PLANNED',TRUE];
 								_civilian setUnitPosWeak (selectRandom ['MIDDLE','MIDDLE','UP']);
@@ -1389,10 +1387,10 @@ for '_x' from 0 to 1 step 0 do {
 		};
 		if (_hiddenTablets isNotEqualTo []) then {
 			{
-				if (!isNil {_x getVariable 'QS_object_marker'}) then {
+				if !(_x isNil 'QS_object_marker') then {
 					if ((markerAlpha (_x getVariable 'QS_object_marker')) isNotEqualTo 0) then {
 						(_x getVariable 'QS_object_marker') setMarkerAlpha 0;
-						if (!isNil {_x getVariable 'QS_object_crate'}) then {
+						if !(_x isNil 'QS_object_crate') then {
 							if (!isNull (_x getVariable 'QS_object_crate')) then {
 								(_x getVariable 'QS_object_crate') hideObjectGlobal TRUE;
 							};
@@ -1420,40 +1418,11 @@ waitUntil {
 	uiSleep 10;
 	(((count (allPlayers select {(((lifeState _x) in ['HEALTHY','INJURED']) && ((getPosWorld _x) inPolygon QS_georgetown_vExclusion_polygon))})) < (round((playersNumber WEST)/2))) || (allPlayers isEqualTo []))
 };
-{
-	if (_x isEqualType objNull) then {
-		if (!isNull _x) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		};
-	};
-	uiSleep 0.01;
-} forEach _all;
-{
-	if (_x isEqualType objNull) then {
-		if (!isNull _x) then {
-			missionNamespace setVariable [
-				'QS_analytics_entities_deleted',
-				((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-				FALSE
-			];
-			deleteVehicle _x;
-		};
-	};
-	uiSleep 0.01;
-} forEach _vehicles;
+deleteVehicle _all;
+deleteVehicle _vehicles;
 {
 	if (!isNull _x) then {
 		[0,_x] call QS_fnc_eventAttach;
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _x;
 	};
 } forEach _supplyCrates;

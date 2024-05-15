@@ -505,7 +505,7 @@ if (_this isEqualTo 'init') exitWith {
 		}],
 		['sitdown','activate',{
 			if (isNull (objectParent QS_player)) then {
-				if (isNil {QS_player getVariable ['QS_seated_oldAnimState',nil]}) then {
+				if (QS_player isNil 'QS_seated_oldAnimState') then {
 					[nil,nil,nil,1] call QS_fnc_clientInteractSit;
 				} else {
 					[nil,nil,nil,0] call QS_fnc_clientInteractSit;
@@ -514,28 +514,39 @@ if (_this isEqualTo 'init') exitWith {
 		}],
 		['getout','activate',{
 			if (isNull (objectParent QS_player)) then {
-				if (!isNil {QS_player getVariable ['QS_seated_oldAnimState',nil]}) then {
+				if !(QS_player isNil 'QS_seated_oldAnimState') then {
 					[nil,nil,nil,0] call QS_fnc_clientInteractSit;
 				};
 			};
 		}],
-		['tacticalPing','activate',{}],
+		['tacticalPing','activate',{
+			_cameraOn = cameraOn;
+			if (
+				(_cameraOn isKindOf 'CAManBase') &&
+				{(isNull (objectParent _cameraOn))} &&
+				{(isNull (attachedTo _cameraOn))} &&
+				{((lifeState _cameraOn) in ['HEALTHY','INJURED'])} &&
+				{((stance _cameraOn) in ['CROUCH','STAND'])} &&
+				{(!isWeaponDeployed _cameraOn)} &&
+				{(!visibleMap)} &&
+				{((currentWeapon _cameraOn) isEqualTo (primaryWeapon _cameraOn))}
+			) then {
+				// Blocks players ability to aim-down-sight and fire for a few seconds
+				//_cameraOn playActionNow 'gesturePoint';
+			};
+		}],
 		['engineToggle','activate',{
 			if (!isNull (objectParent QS_player)) then {
 				_cameraOn = cameraOn;
 				if (
 					(local _cameraOn) &&
-					(!(_cameraOn isKindOf 'Air'))
+					{(!(_cameraOn isKindOf 'Air'))}
 				) then {
 					_cmdr = effectiveCommander _cameraOn;
 					_driver = driver _cameraOn;
 					if (QS_player isEqualTo _cmdr) then {
 						if ((alive _driver) && (_driver isNotEqualTo QS_player) && (!isPlayer _driver)) then {
-							if (isEngineOn _cameraOn) then {
-								_driver action ['engineOff',_cameraOn];
-							} else {
-								_driver action ['engineOn',_cameraOn];
-							};
+							_driver action [(['engineOn','engineOff'] select (isEngineOn _cameraOn)),_cameraOn];
 						};
 					};
 				};

@@ -15,7 +15,6 @@ ________________________________________________________________*/
 
 params ['_color','_unit','_projectile'];
 if (isDedicated || {!hasInterface}) exitWith {
-	QS_managed_flares pushBack [_flare,diag_tickTime + 45];
 	QS_managed_flares pushBack [_projectile,diag_tickTime + 45];
 };
 if (
@@ -56,9 +55,7 @@ _projectile addEventHandler [
 	{
 		params ['_projectile'];
 		if ((attachedObjects _projectile) isNotEqualTo []) then {
-			{
-				deleteVehicle _x;
-			} forEach (attachedObjects _projectile);
+			deleteVehicle (attachedObjects _projectile);
 		};
 		if (!isNull (_projectile getVariable ['QS_flare',objNull])) then {
 			deleteVehicle (_projectile getVariable ['QS_flare',objNull]);

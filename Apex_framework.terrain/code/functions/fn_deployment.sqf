@@ -346,7 +346,7 @@ if (_mode isEqualTo 'PRESET') exitWith {
 				params (localNamespace getVariable ['QS_deployment_dataParams',[]]);
 				_deploymentPosition = [_deploymentType,_deploymentLocationData] call QS_fnc_getDeploymentPosition;
 				_enemySides = QS_player call QS_fnc_enemySides;
-				if (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo []) then {
+				if (((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isEqualTo []) then {
 					private _tickets = QS_module_fob_flag getVariable ['QS_deploy_tickets',0];
 					_tickets = (_tickets - 1) max 0;
 					QS_module_fob_flag setVariable ['QS_deploy_tickets',_tickets,TRUE];
@@ -361,7 +361,7 @@ if (_mode isEqualTo 'PRESET') exitWith {
 				_enemySides = QS_player call QS_fnc_enemySides;
 				(
 					((missionNamespace getVariable ['QS_module_fob_side',WEST]) isEqualTo (QS_player getVariable ['QS_unit_side',WEST])) &&
-					(((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,100,100,0,FALSE,-1]) isEqualTo [])
+					(((flatten (_enemySides apply {units _x})) inAreaArray [_deploymentPosition,QS_enemyInterruptAction_radius,QS_enemyInterruptAction_radius,0,FALSE,-1]) isEqualTo [])
 				)
 			},
 			{

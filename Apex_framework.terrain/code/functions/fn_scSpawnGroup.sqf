@@ -464,7 +464,7 @@ if (_sectorData isEqualType 0) exitWith {
 				_x call (missionNamespace getVariable 'QS_fnc_unitSetup');
 				_x setVariable ['QS_AI_UNIT_enabled',TRUE,FALSE];
 				_x setUnitPos 'Down'; 
-				_x switchMove 'amovppnemstpsraswrfldnon';
+				_x switchMove ['amovppnemstpsraswrfldnon'];
 			} forEach (units _grp);
 			(units _grp) joinSilent _assaultGrp;
 		};

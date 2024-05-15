@@ -52,7 +52,7 @@ if (_vehicle isKindOf 'Mortar_01_base_F') then {
 		params ['_unit','_vehicle'];
 		sleep 1;
 		if (_vehicle isEqualTo (objectParent _unit)) then {
-			['switchMove',_unit,'mortar_gunner'] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
+			['switchMove',_unit,['mortar_gunner']] remoteExec ['QS_fnc_remoteExecCmd',0,FALSE];
 		};
 	};
 };
@@ -132,7 +132,7 @@ if (player getUnitTrait 'QS_trait_fighterPilot') then {
 				} forEach _supportTypes;
 			};
 			if (_isCAS) then {
-				if (isNil {uiNamespace getVariable 'QS_pilotROE_msg'}) then {
+				if (uiNamespace isNil 'QS_pilotROE_msg') then {
 					uiNamespace setVariable ['QS_pilotROE_msg',TRUE];
 					// This will broadcast CAS ROE to pilots on entry to CAS Jet
 					/*/

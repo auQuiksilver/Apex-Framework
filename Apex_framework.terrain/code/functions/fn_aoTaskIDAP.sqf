@@ -244,17 +244,13 @@ if ((random 1) > 0) then {
 	_enemyVehicle addEventHandler [
 		'Deleted',
 		{
-			{
-				deleteVehicle _x;
-			} forEach (attachedObjects (_this # 0));
+			deleteVehicle (attachedObjects (_this # 0));
 		}
 	];
 	_enemyVehicle addEventHandler [
 		'Killed',
 		{
-			{
-				deleteVehicle _x;
-			} forEach (attachedObjects (_this # 0));
+			deleteVehicle (attachedObjects (_this # 0));
 		}
 	];
 	_enemyArray pushBack _enemyVehicle;
@@ -465,9 +461,7 @@ for '_x' from 0 to 1 step 0 do {
 };
 [_taskID] call (missionNamespace getVariable 'BIS_fnc_deleteTask');
 private _toDelete = objNull;
-{
-	deleteVehicle _x;
-} forEach _missionEntities;
+deleteVehicle _missionEntities;
 {
 	_toDelete = _x;
 	if (!isNull _toDelete) then {

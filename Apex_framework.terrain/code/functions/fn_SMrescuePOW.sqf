@@ -821,7 +821,7 @@ for '_x' from 0 to 13 step 1 do {
 	_QS_index = _QS_index + 1;
 };
 [_QS_buildingPosATL,75,(units _QS_nearHousesGroup),['House','Building']] spawn (missionNamespace getVariable 'QS_fnc_garrisonUnits');
-{_x switchMove '';} count (units _QS_nearHousesGroup);
+{_x switchMove [''];} count (units _QS_nearHousesGroup);
 [(units _QS_nearHousesGroup),1] call (missionNamespace getVariable 'QS_fnc_serverSetAISkill');
 
 _checkDist = {
@@ -1052,8 +1052,7 @@ _QS_rescueWP_updateDelay = time + 10;
 missionNamespace setVariable ['QS_sideMission_civsKilled',0,TRUE];
 
 _QS_civilianNeutrality = 0;
-
-if (!isNil {missionProfileNamespace getVariable 'QS_sideMission_rescuePOW_statistics'}) then {
+if !(missionProfileNamespace isNil 'QS_sideMission_rescuePOW_statistics') then {
 	_QS_priorMissionStatistics = missionProfileNamespace getVariable 'QS_sideMission_rescuePOW_statistics';
 } else {
 	missionProfileNamespace setVariable ['QS_sideMission_rescuePOW_statistics',_QS_priorMissionStatistics];
@@ -1199,11 +1198,6 @@ for '_x' from 0 to 1 step 0 do {
 		['hint',_text] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 		//moveOut _QS_POW;	// https://feedback.bistudio.com/T128186
 		[90,_QS_POW,0] remoteExec ['QS_fnc_remoteExec',0,FALSE];
-		missionNamespace setVariable [
-			'QS_analytics_entities_deleted',
-			((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-			FALSE
-		];
 		deleteVehicle _QS_POW;
 		missionNamespace setVariable ['QS_sideMission_POW',objNull,TRUE];
 		[1,_QS_buildingPosATL] spawn (missionNamespace getVariable 'QS_fnc_smDebrief');
@@ -1334,15 +1328,8 @@ for '_x' from 0 to 1 step 0 do {
 			} count ['QS_marker_sideMarker','QS_marker_sideCircle'];
 			['systemChat',localize 'STR_QS_Chat_155'] remoteExec ['QS_fnc_remoteExecCmd',-2,FALSE];
 			['ST_MEDEVAC',[localize 'STR_QS_Notif_104',localize 'STR_QS_Notif_108']] remoteExec ['QS_fnc_showNotification',-2,FALSE];
-			if ((count (attachedObjects _QS_POW)) > 0) then {
-				{
-					missionNamespace setVariable [
-						'QS_analytics_entities_deleted',
-						((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-						FALSE
-					];
-					deleteVehicle _x;
-				} count (attachedObjects _QS_POW);
+			if ((attachedObjects _QS_POW) isNotEqualTo []) then {
+				deleteVehicle (attachedObjects _QS_POW);
 			};
 		};
 	};
@@ -1366,27 +1353,20 @@ for '_x' from 0 to 1 step 0 do {
 	{
 		_QS_civ = _x;
 		if (alive _QS_civ) then {
-			if (!isNil {_QS_civ getVariable 'QS_civilian_interacted'}) then {
+			if !(_QS_civ isNil 'QS_civilian_interacted') then {
 				if (_QS_civ getVariable 'QS_civilian_interacted') then {
-					if (!isNil {_QS_civ getVariable 'QS_civilian_suicideBomber'}) then {
+					if !(_QS_civ isNil 'QS_civilian_suicideBomber') then {
 						if (_QS_civ getVariable 'QS_civilian_suicideBomber') then {
 							_QS_arr = [_QS_civ] call _QS_pow_explosivesVest;
 							_QS_civ setVariable ['QS_civilian_acting',TRUE,TRUE];
 							uiSleep 3;
 							'M_AT' createVehicle (position _QS_civ);
-							{
-								missionNamespace setVariable [
-									'QS_analytics_entities_deleted',
-									((missionNamespace getVariable 'QS_analytics_entities_deleted') + 1),
-									FALSE
-								];
-								deleteVehicle _x;
-							} count _QS_arr;
+							deleteVehicle _QS_arr;
 						};
 					};
-					if (!isNil {_QS_civ getVariable 'QS_civilian_alertingEnemy'}) then {
+					if !(_QS_civ isNil 'QS_civilian_alertingEnemy') then {
 						if (_QS_civ getVariable 'QS_civilian_alertingEnemy') then {
-							if (!isNil {_QS_civ getVariable 'QS_civilian_acting'}) then {
+							if !(_QS_civ isNil 'QS_civilian_acting') then {
 								if (!(_QS_civ getVariable 'QS_civilian_acting')) then {
 									_QS_civ setVariable ['QS_civilian_acting',TRUE,TRUE];
 								} else {
