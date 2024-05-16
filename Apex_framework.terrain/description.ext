@@ -13,7 +13,7 @@ Description:
 	https://community.bistudio.com/wiki/Description.ext
 ____________________________________________/*/
 
-missionProductVersion = "1.5.7";
+missionProductVersion = "1.5.8";
 missionProductStatus = "Dev";											// "Stable" // "Beta" // "Dev"
 missionProductDate = "10.03.2024";
 author = "Quiksilver";																															/*/ Visible when loading mission/*/
