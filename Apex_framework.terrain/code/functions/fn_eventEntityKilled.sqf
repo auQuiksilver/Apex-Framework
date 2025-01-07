@@ -64,6 +64,7 @@ if (_killed getEntityInfo 0) then {
 		if (_inSafezone && _safezoneActive) then {
 			
 		} else {
+			/*/
 			createVehicle [
 				[
 					'HelicopterExploSmall',
@@ -71,6 +72,7 @@ if (_killed getEntityInfo 0) then {
 				] select ((getMass _killed) > 5000),
 				(ASLToAGL (getPosASL _killed))
 			];
+			/*/
 		};
 	};
 	if (!isNull (isVehicleCargo _killed)) then {
