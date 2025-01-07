@@ -606,6 +606,7 @@ if ((getFuelCargo _u) > 0) then {
 	if (!(_u getVariable ['QS_logistics_deployable',FALSE])) then {
 		_u setVariable ['QS_logistics_deployable',TRUE,TRUE];
 	};
+	/*/
 	_u addEventHandler [
 		'Killed',
 		{
@@ -623,6 +624,7 @@ if ((getFuelCargo _u) > 0) then {
 			};
 		}
 	];
+	/*/
 };
 if ((getRepairCargo _u) > 0) then {
 	_u setRepairCargo 0;

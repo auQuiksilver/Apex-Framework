@@ -19,16 +19,22 @@ Description:
 	//clientStateNumber, isHeadless, adminState, networkInfo, playerObject]
 ______________________________________________________/*/
 
-params ['_networkId','_playerObject'];
-if (local _playerObject) then {
-	_playerObject addEventHandler [
+params ['_nID','_player','_tries'];
+if (!isNil (QS_hashmap_playerList get (_nID getUserInfo 2))) exitWith {
+	// Player already ingame
+	QS_hashmap_playerList set [(_nID getUserInfo 2),_player];
+};
+// New joining player
+QS_hashmap_playerList set [(_nID getUserInfo 2),_player,TRUE];
+if (local _player) then {
+	_player addEventHandler [
 		'Local',
 		{
 			params ['_player'];
 			_player removeEventHandler [_thisEvent,_thisEventHandler];
-			[[FALSE,(getUserInfo (getPlayerID _player))],'qs_fnc_initplayerserver'] call QS_fnc_perFrameQueue;
+			[(getUserInfo (getPlayerID _player)),'qs_fnc_initplayerserver',FALSE,'mission'] call QS_fnc_perFrameQueue;
 		}
 	];
 } else {
-	[[FALSE,(getUserInfo _networkId)],'qs_fnc_initplayerserver'] call QS_fnc_perFrameQueue;
+	[(getUserInfo _nID),'qs_fnc_initplayerserver',FALSE,'mission'] call QS_fnc_perFrameQueue;
 };

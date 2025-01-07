@@ -4065,7 +4065,7 @@ for '_x' from 0 to 1 step 0 do {
 			) then {
 				_missionBackpackUAVs pushBack _missionObject;
 			};
-		} count _allMissionObjectsAll;
+		} forEach _allMissionObjectsAll;
 		if (_deleteNow isNotEqualTo []) then {
 			deleteVehicle _deleteNow;
 			_deleteNow = [];

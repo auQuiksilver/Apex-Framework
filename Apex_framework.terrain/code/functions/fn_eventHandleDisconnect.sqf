@@ -14,6 +14,7 @@ Description:
 __________________________________________________/*/
 
 params ['_object','_cid','_uid','_name'];
+QS_hashmap_playerList deleteAt _uid;
 if ((_uid select [0,2]) isEqualTo 'HC') exitWith {};
 ['HANDLE',['HANDLE_DISCONNECT',_this]] call (missionNamespace getVariable 'QS_fnc_roles');
 if (!isNull (group _object)) then {
