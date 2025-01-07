@@ -32,9 +32,9 @@ if (local _player) then {
 		{
 			params ['_player'];
 			_player removeEventHandler [_thisEvent,_thisEventHandler];
-			[(getUserInfo (getPlayerID _player)),'qs_fnc_initplayerserver',FALSE,'mission'] call QS_fnc_perFrameQueue;
+			[(getUserInfo (getPlayerID _player)),'qs_fnc_initplayerserver'] call QS_fnc_perFrameQueue;
 		}
 	];
 } else {
-	[(getUserInfo _nID),'qs_fnc_initplayerserver',FALSE,'mission'] call QS_fnc_perFrameQueue;
+	[(getUserInfo _nID),'qs_fnc_initplayerserver'] call QS_fnc_perFrameQueue;
 };
