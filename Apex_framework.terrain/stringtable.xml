@@ -637,66 +637,108 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Interact_116">
             <Original>Rearm</Original>
+            <Chinesesimp>重整装备</Chinesesimp>
+            <Chinese>重整裝備</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_117">
             <Original>Save Inventory</Original>
+            <Chinesesimp>保存库存</Chinesesimp>
+            <Chinese>保存庫存</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_118">
             <Original>Cut</Original>
+            <Chinesesimp>切断</Chinesesimp>
+            <Chinese>切斷</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_119">
             <Original>Assemble Mortar (Lite)</Original>
+            <Chinesesimp>组装迫击炮（轻型）</Chinesesimp>
+            <Chinese>組裝迫擊砲（輕型）</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_120">
             <Original>Get In</Original>
+            <Chinesesimp>进入</Chinesesimp>
+            <Chinese>進入</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_121">
             <Original>Cruise Control (Convoy)</Original>
+            <Chinesesimp>定速巡航控制（车队）</Chinesesimp>
+            <Chinese>定速巡航控制（車隊）</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_122">
             <Original>Mount</Original>
+            <Chinesesimp>登上</Chinesesimp>
+            <Chinese>登上</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_123">
             <Original>Pull</Original>
+            <Chinesesimp>拖拽</Chinesesimp>
+            <Chinese>拖曳</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_124">
             <Original>Winch</Original>
+            <Chinesesimp>绞盘</Chinesesimp>
+            <Chinese>絞盤</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_125">
             <Original>Hook</Original>
+            <Chinesesimp>挂钩</Chinesesimp>
+            <Chinese>掛鉤</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_126">
             <Original>Unhook</Original>
+            <Chinesesimp>脱钩</Chinesesimp>
+            <Chinese>脫鉤</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_127">
             <Original>Cut</Original>
+            <Chinesesimp>切断</Chinesesimp>
+            <Chinese>切斷</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_128">
             <Original>Stealth</Original>
+            <Chinesesimp>隐形</Chinesesimp>
+            <Chinese>隱形</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_129">
             <Original>Build</Original>
+            <Chinesesimp>建造</Chinesesimp>
+            <Chinese>建造</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_130">
             <Original>Disassemble</Original>
+            <Chinesesimp>拆卸</Chinesesimp>
+            <Chinese>拆卸</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_131">
             <Original>Lift</Original>
+            <Chinesesimp>吊起</Chinesesimp>
+            <Chinese>吊起</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_132">
             <Original>Recover</Original>
+            <Chinesesimp>回收</Chinesesimp>
+            <Chinese>回收</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_133">
             <Original>Deploy</Original>
+            <Chinesesimp>部署</Chinesesimp>
+            <Chinese>部署</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_134">
             <Original>Pack</Original>
+            <Chinesesimp>装包</Chinesesimp>
+            <Chinese>裝包</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_135">
             <Original>Vehicle Health</Original>
+            <Chinesesimp>车辆健康</Chinesesimp>
+            <Chinese>車輛健康</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_136">
             <Original>Cargo Manifest</Original>
+            <Chinesesimp>库存清单</Chinesesimp>
+            <Chinese>庫存清單</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_137">
             <Original>Player Menu</Original>
@@ -705,39 +747,63 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Interact_138">
             <Original>Turret On</Original>
+            <Chinesesimp>打开炮塔</Chinesesimp>
+            <Chinese>打開砲塔</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_139">
             <Original>Turret Off</Original>
+            <Chinesesimp>关闭炮塔</Chinesesimp>
+            <Chinese>關閉砲塔</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_140">
             <Original>Add Tickets</Original>
+            <Chinesesimp>添加票据</Chinesesimp>
+            <Chinese>添加票據</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_141">
             <Original>Light Switch</Original>
+            <Chinesesimp>照明开关</Chinesesimp>
+            <Chinese>照明開關</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_142">
             <Original>Virtual Cargo</Original>
+            <Chinesesimp>虚拟库存</Chinesesimp>
+            <Chinese>虛擬庫存</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_143">
             <Original>Yes</Original>
+            <Chinesesimp>确定</Chinesesimp>
+            <Chinese>確定</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_144">
             <Original>Cancel</Original>
+            <Chinesesimp>取消</Chinesesimp>
+            <Chinese>取消</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_145">
             <Original>Pack Up</Original>
+            <Chinesesimp>收拾</Chinesesimp>
+            <Chinese>收拾</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_146">
             <Original>Unpack</Original>
+            <Chinesesimp>打开</Chinesesimp>
+            <Chinese>打開</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_147">
             <Original>Command Stance</Original>
+            <Chinesesimp>指挥姿势</Chinesesimp>
+            <Chinese>指揮姿勢</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_148">
             <Original>Go</Original>
+            <Chinesesimp>前进</Chinesesimp>
+            <Chinese>前進</Chinese>
         </Key>
         <Key ID="STR_QS_Interact_149">
             <Original>Spawn Vehicle</Original>
+            <Chinesesimp>生成车辆</Chinesesimp>
+            <Chinese>產生車輛</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_onScreenText">
@@ -2083,686 +2149,1140 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Text_268">
             <Original>Nearest medic is %1 (%2m)</Original>
+            <Chinesesimp>最近的作战救生员是 %1 (%2米)</Chinesesimp>
+            <Chinese>最近的作戰救生員是 %1 (%2米)</Chinese>
         </Key>
         <Key ID="STR_QS_Text_269">
             <Original>No medics within %1m</Original>
+            <Chinesesimp>%1米内无作战救生员</Chinesesimp>
+            <Chinese>%1米內無作戰救生員</Chinese>
         </Key>
         <Key ID="STR_QS_Text_270">
             <Original>Bleeding out</Original>
+            <Chinesesimp>失血过多</Chinesesimp>
+            <Chinese>失血過多</Chinese>
         </Key>
         <Key ID="STR_QS_Text_271">
             <Original>to respawn</Original>
+            <Chinesesimp>重生</Chinesesimp>
+            <Chinese>重生</Chinese>
         </Key>
         <Key ID="STR_QS_Text_272">
             <Original>INCAPACITATED</Original>
+            <Chinesesimp>失去作战能力</Chinesesimp>
+            <Chinese>失去作戰能力</Chinese>
         </Key>
         <Key ID="STR_QS_Text_273">
             <Original>AUTO</Original>
+            <Chinesesimp>自动</Chinesesimp>
+            <Chinese>自動</Chinese>
         </Key>
         <Key ID="STR_QS_Text_274">
             <Original>Zeus AI Offload - Disabled in server parameters</Original>
+            <Chinesesimp>Zeus AI卸载-在服务器参数中禁用</Chinesesimp>
+            <Chinese>Zeus AI卸載-在伺服器參數中禁用</Chinese>
         </Key>
        <Key ID="STR_QS_Text_275">
             <Original>Zeus AI Offload - cooldown (5 seconds)</Original>
+            <Chinesesimp>Zeus AI卸载-冷却（5秒）</Chinesesimp>
+            <Chinese>Zeus AI卸載-冷卻（5秒）</Chinese>
         </Key>
        <Key ID="STR_QS_Text_276">
             <Original>Zeus AI Offload - attempting...</Original>
+            <Chinesesimp>Zeus AI卸载-正在尝试...</Chinesesimp>
+            <Chinese>Zeus AI卸載-正在嘗試...</Chinese>
         </Key>
        <Key ID="STR_QS_Text_277">
             <Original>Zeus AI Offload - %1 offloaded to server: %2</Original>
+            <Chinesesimp>Zeus AI卸载 - %1 已卸载到服务器: %2</Chinesesimp>
+            <Chinese>Zeus AI卸載 - %1 已卸載到伺服器: %2</Chinese>
         </Key>
        <Key ID="STR_QS_Text_278">
             <Original>Repaired</Original>
+            <Chinesesimp>修理</Chinesesimp>
+            <Chinese>修理</Chinese>
         </Key>
        <Key ID="STR_QS_Text_279">
             <Original>Repairing (%1 / %2)</Original>
+            <Chinesesimp>修理中 (%1 / %2)</Chinesesimp>
+            <Chinese>修理中 (%1 / %2)</Chinese>
         </Key>
        <Key ID="STR_QS_Text_280">
             <Original>Refueled</Original>
+            <Chinesesimp>添加燃料</Chinesesimp>
+            <Chinese>添加燃料</Chinese>
         </Key>
        <Key ID="STR_QS_Text_281">
             <Original>Refueling</Original>
+            <Chinesesimp>添加燃料中</Chinesesimp>
+            <Chinese>添加燃料</Chinese>
         </Key>
        <Key ID="STR_QS_Text_282">
             <Original>Rearmed</Original>
+            <Chinesesimp>重新武装</Chinesesimp>
+            <Chinese>重新武裝</Chinese>
         </Key>
        <Key ID="STR_QS_Text_283">
             <Original>Rearming (%1 / %2) %3</Original>
+            <Chinesesimp>重新武装中 (%1 / %2) %3</Chinesesimp>
+            <Chinese>重新武装中 (%1 / %2) %3</Chinese>
         </Key>
        <Key ID="STR_QS_Text_284">
             <Original>Smoke Launcher</Original>
+            <Chinesesimp>烟幕发射器</Chinesesimp>
+            <Chinese>煙幕發射器</Chinese>
         </Key>
        <Key ID="STR_QS_Text_285">
             <Original>Engine off</Original>
+            <Chinesesimp>关闭引擎</Chinesesimp>
+            <Chinese>關閉引擎</Chinese>
         </Key>
        <Key ID="STR_QS_Text_286">
             <Original>Repairing</Original>
+            <Chinesesimp>修理中</Chinesesimp>
+            <Chinese>修理中</Chinese>
         </Key>
        <Key ID="STR_QS_Text_287">
             <Original>Character limit (%1)</Original>
+            <Chinesesimp>字符限制 (%1)</Chinesesimp>
+            <Chinese>字元限制 (%1)</Chinese>
         </Key>
        <Key ID="STR_QS_Text_288">
             <Original>Menu button cooldown (1 second)</Original>
+            <Chinesesimp>菜单按钮冷却 (1 秒)</Chinesesimp>
+            <Chinese>選單按鈕冷卻 (1 秒)</Chinese>
         </Key>
        <Key ID="STR_QS_Text_289">
             <Original>Save limit reached</Original>
+            <Chinesesimp>已达到保存限制</Chinesesimp>
+            <Chinese>已達到保存限制</Chinese>
         </Key>
        <Key ID="STR_QS_Text_290">
             <Original>Saved %1</Original>
+            <Chinesesimp>保存 %1</Chinesesimp>
+            <Chinese>保存 %1</Chinese>
         </Key>
        <Key ID="STR_QS_Text_291">
             <Original>Inventory overloaded: %1 / %2</Original>
+            <Chinesesimp>库存已装满: %1 / %2</Chinesesimp>
+            <Chinese>庫存已裝滿: %1 / %2</Chinese>
         </Key>
        <Key ID="STR_QS_Text_292">
             <Original>Cannot be empty text</Original>
+            <Chinesesimp>不能为空文本</Chinesesimp>
+            <Chinese>不能為空文本</Chinese>
         </Key>
        <Key ID="STR_QS_Text_293">
             <Original>Loaded %1</Original>
+            <Chinesesimp>已装载 %1</Chinesesimp>
+            <Chinese>已裝載 %1</Chinese>
         </Key>
        <Key ID="STR_QS_Text_294">
             <Original>Inventory would be overloaded</Original>
+            <Chinesesimp>库存将会装满</Chinesesimp>
+            <Chinese>庫存將會裝滿</Chinese>
         </Key>
        <Key ID="STR_QS_Text_295">
             <Original>Setting Loadout</Original>
+            <Chinesesimp>设置载荷</Chinesesimp>
+            <Chinese>設定載荷</Chinese>
         </Key>
        <Key ID="STR_QS_Text_296">
             <Original>Loadout Set</Original>
+            <Chinesesimp>载荷已设置</Chinesesimp>
+            <Chinese>載重已設定</Chinese>
         </Key>
        <Key ID="STR_QS_Text_297">
             <Original>Front</Original>
+            <Chinesesimp>正面</Chinesesimp>
+            <Chinese>正面</Chinese>
         </Key>
        <Key ID="STR_QS_Text_298">
             <Original>Front Right</Original>
+            <Chinesesimp>右前</Chinesesimp>
+            <Chinese>右前</Chinese>
         </Key>
        <Key ID="STR_QS_Text_299">
             <Original>Right</Original>
+            <Chinesesimp>右</Chinesesimp>
+            <Chinese>右</Chinese>
         </Key>
        <Key ID="STR_QS_Text_300">
             <Original>Rear Right</Original>
+            <Chinesesimp>右后</Chinesesimp>
+            <Chinese>右后</Chinese>
         </Key>
        <Key ID="STR_QS_Text_301">
             <Original>Rear</Original>
+            <Chinesesimp>后面</Chinesesimp>
+            <Chinese>后面</Chinese>
         </Key>
        <Key ID="STR_QS_Text_302">
             <Original>Rear Left</Original>
+            <Chinesesimp>左后</Chinesesimp>
+            <Chinese>左后</Chinese>
         </Key>
        <Key ID="STR_QS_Text_303">
             <Original>Left</Original>
+            <Chinesesimp>左</Chinesesimp>
+            <Chinese>左</Chinese>
         </Key>
        <Key ID="STR_QS_Text_304">
             <Original>Front Left</Original>
+            <Chinesesimp>左前</Chinesesimp>
+            <Chinese>左前</Chinese>
         </Key>
         <Key ID="STR_QS_Text_305">
             <Original>Zeus AI Onload - Disabled in server parameters</Original>
+            <Chinesesimp>Zeus AI 装载 - 在服务器参数中禁用</Chinesesimp>
+            <Chinese>Zeus AI 裝載 - 在伺服器參數中停用</Chinese>
         </Key>
        <Key ID="STR_QS_Text_306">
             <Original>Zeus AI Onload - cooldown (5 seconds)</Original>
+            <Chinesesimp>Zeus AI 装载 - 冷却时间（5秒）</Chinesesimp>
+            <Chinese>Zeus AI 裝載 - 冷卻時間（5秒）</Chinese>
         </Key>
        <Key ID="STR_QS_Text_307">
             <Original>Zeus AI Onload - attempting...</Original>
+            <Chinesesimp>Zeus AI 装载 - 正在尝试...</Chinesesimp>
+            <Chinese>Zeus AI 裝載 - 正在嘗試...</Chinese>
         </Key>
        <Key ID="STR_QS_Text_308">
             <Original>Zeus AI Onload - %1 onloaded to Zeus: %2</Original>
+            <Chinesesimp>Zeus AI 装载 - %1 加载到宙斯: %2</Chinesesimp>
+            <Chinese>Zeus AI 裝載 - %1 加載到宙斯: %2</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_309">
             <Original>Hangar unavailable for this vehicle type</Original>
+            <Chinesesimp>机库不适用于该车型</Chinesesimp>
+            <Chinese>機庫不適用於該車型</Chinese>
 		</Key>	
        <Key ID="STR_QS_Text_310">
             <Original>USS Liberty (Destroyer)</Original>
+            <Chinesesimp>USS Liberty (驱逐舰)</Chinesesimp>
+            <Chinese>USS Liberty (驅逐艦)</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_311">
             <Original>USS Freedom (Aircraft Carrier)</Original>
+            <Chinesesimp>USS Freedom (航空母舰)</Chinesesimp>
+            <Chinese>USS Freedom (航空母艦)</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_312">
             <Original>No Toolkit</Original>
+            <Chinesesimp>没有工具包</Chinesesimp>
+            <Chinese>没有工具包</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_313">
             <Original>Ropes Cut</Original>
+            <Chinesesimp>切断绳索</Chinesesimp>
+            <Chinese>切断绳索</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_314">
             <Original>Already assembled a(n) Mortar (Lite)</Original>
+            <Chinesesimp>已组装便携式迫击炮</Chinesesimp>
+            <Chinese>已组装便携式迫击炮</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_315">
             <Original>Hangar unavailable on this vehicle</Original>
+            <Chinesesimp>该车辆无法使用机库</Chinesesimp>
+            <Chinese>该车辆无法使用机库</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_316">
             <Original>Unable</Original>
+            <Chinesesimp>无法执行</Chinesesimp>
+            <Chinese>无法执行</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_317">
             <Original>%1 stowed for transport</Original>
+            <Chinesesimp>%1 存放以备运输</Chinesesimp>
+            <Chinese>%1 存放以备运输</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_318">
             <Original>Target Altitude - %1 m</Original>
+            <Chinesesimp>目标高度 - %1 米</Chinesesimp>
+            <Chinese>目标高度 - %1 米</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_319">
             <Original>Ramp disabled by pilot</Original>
+            <Chinesesimp>飞行员已禁用舷梯</Chinesesimp>
+            <Chinese>飞行员已禁用舷梯</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_320">
             <Original>Pulling</Original>
+            <Chinesesimp>牵引</Chinesesimp>
+            <Chinese>牵引</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_321">
             <Original>Brakes</Original>
+            <Chinesesimp>制动器</Chinesesimp>
+            <Chinese>煞車</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_322">
             <Original>ON</Original>
+            <Chinesesimp>开启</Chinesesimp>
+            <Chinese>開啟</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_323">
             <Original>OFF</Original>
+            <Chinesesimp>关闭</Chinesesimp>
+            <Chinese>關閉</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_324">
             <Original>Convoy Mode</Original>
+            <Chinesesimp>车队模式</Chinesesimp>
+            <Chinese>車隊模式</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_325">
             <Original>Convoy Separation</Original>
+            <Chinesesimp>车队分离</Chinesesimp>
+            <Chinese>車隊分離</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_326">
             <Original>Driver Optional</Original>
+            <Chinesesimp>驾驶员选择</Chinesesimp>
+            <Chinese>駕駛員選擇</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_327">
             <Original>Max Length</Original>
+            <Chinesesimp>最大长度</Chinesesimp>
+            <Chinese>最大長度</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_328">
             <Original>Slot available</Original>
+            <Chinesesimp>可用插槽</Chinesesimp>
+            <Chinese>可用插槽</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_329">
             <Original>Unloaded</Original>
+            <Chinesesimp>卸载</Chinesesimp>
+            <Chinese>卸载</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_330">
             <Original>EMPTY</Original>
+            <Chinesesimp>空的</Chinesesimp>
+            <Chinese>空的</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_331">
             <Original>Cannot hook an active vehicle</Original>
+            <Chinesesimp>无法钩住活动车辆</Chinesesimp>
+            <Chinese>無法鉤住活動車輛</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_332">
             <Original>Some men just want to watch the world burn</Original>
+            <Chinesesimp>有些人只想看着世界燃烧？</Chinesesimp>
+            <Chinese>有些人只想看著世界燃燒？</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_333">
             <Original>Surface too damaged</Original>
+            <Chinesesimp>外表损坏严重</Chinesesimp>
+            <Chinese>外表損壞嚴重</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_334">
             <Original>You must take network ownership of this vehicle before using the winch</Original>
+            <Chinesesimp>在使用绞盘之前，您必须拥有此车辆的所有权</Chinesesimp>
+            <Chinese>在使用絞盤之前，您必須擁有此車輛的所有權</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_335">
             <Original>Failed</Original>
+            <Chinesesimp>失败</Chinesesimp>
+            <Chinese>失敗</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_336">
             <Original>Convoy Mode with %1 (%2). Convoy top speed: %3 km/h</Original>
+            <Chinesesimp>车队模式 %1 (%2). 车队最高速度: %3 km/h</Chinesesimp>
+            <Chinese>車隊模式 %1 (%2). 車隊最高速度: %3 km/h</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_337">
             <Original>Convoy Mode already active</Original>
+            <Chinesesimp>车队模式已激活</Chinesesimp>
+            <Chinese>車隊模式已激活</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_338">
             <Original>%1 (%2) has entered Convoy Mode. Convoy top speed: %3 km/h</Original>
+            <Chinesesimp>%1 (%2) 已进入车队模式. 车队最高速度: %3 km/h</Chinesesimp>
+            <Chinese>%1 (%2) 已進入車隊模式. 車隊最高速度: %3 km/h</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_339">
             <Original>Exiting Convoy Mode (Overspeed)</Original>
+            <Chinesesimp>退出车队模式（超速）</Chinesesimp>
+            <Chinese>退出車隊模式（超速）</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_340">
             <Original>Exiting Convoy Mode</Original>
+            <Chinesesimp>退出车队模式</Chinesesimp>
+            <Chinese>退出車隊模式</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_341">
             <Original>Convoy Separation: %1 m</Original>
+            <Chinesesimp>车队分离: %1 m</Chinesesimp>
+            <Chinese>退出車隊模式</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_342">
             <Original>Convoy Mode active</Original>
+            <Chinesesimp>车队模式激活</Chinesesimp>
+            <Chinese>車隊模式激活</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_343">
             <Original>Tow Mode</Original>
+            <Chinesesimp>牵引模式</Chinesesimp>
+            <Chinese>牽引模式</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_344">
             <Original>Rope Cut</Original>
+            <Chinesesimp>切断绳索</Chinesesimp>
+            <Chinese>切斷繩索</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_345">
             <Original>Stealth OFF</Original>
+            <Chinesesimp>隐形模式关闭</Chinesesimp>
+            <Chinese>隱形模式關閉</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_346">
             <Original>Stealth ON</Original>
+            <Chinesesimp>隐形模式开启</Chinesesimp>
+            <Chinese>隱形模式開啟</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_347">
             <Original>Bench seat occupied</Original>
+            <Chinesesimp>座位已被占用</Chinesesimp>
+            <Chinese>座位已被佔用</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_348">
             <Original>%1 does not fit into %2</Original>
+            <Chinesesimp>%1 不适合 %2</Chinesesimp>
+            <Chinese>%1 不適合 %2</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_349">
             <Original>No cargo space in current configuration</Original>
+            <Chinesesimp>当前配置中没有库存</Chinesesimp>
+            <Chinese>目前配置中沒有庫存</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_350">
             <Original>Custom1</Original>
+            <Chinesesimp>自定义1</Chinesesimp>
+            <Chinese>自訂1</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_351">
             <Original>Custom2</Original>
+            <Chinesesimp>自定义2</Chinesesimp>
+            <Chinese>自訂2</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_352">
             <Original>Custom3</Original>
+            <Chinesesimp>自定义3</Chinesesimp>
+            <Chinese>自訂3</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_353">
             <Original>Custom4</Original>
+            <Chinesesimp>自定义4</Chinesesimp>
+            <Chinese>自訂4</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_354">
             <Original>Custom5</Original>
+            <Chinesesimp>自定义5</Chinesesimp>
+            <Chinese>自訂5</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_355">
             <Original>Custom6</Original>
+            <Chinesesimp>自定义6</Chinesesimp>
+            <Chinese>自訂6</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_356">
             <Original>Custom7</Original>
+            <Chinesesimp>自定义7</Chinesesimp>
+            <Chinese>自訂7</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_357">
             <Original>Custom8</Original>
+            <Chinesesimp>自定义8</Chinesesimp>
+            <Chinese>自訂8</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_358">
             <Original>Custom9</Original>
+            <Chinesesimp>自定义9</Chinesesimp>
+            <Chinese>自訂9</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_359">
             <Original>Custom10</Original>
+            <Chinesesimp>自定义10</Chinesesimp>
+            <Chinese>自訂10</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_360">
             <Original>Custom11</Original>
+            <Chinesesimp>自定义11</Chinesesimp>
+            <Chinese>自訂11</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_361">
             <Original>Custom12</Original>
+            <Chinesesimp>自定义12</Chinesesimp>
+            <Chinese>自訂12</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_362">
             <Original>Custom13</Original>
+            <Chinesesimp>自定义13</Chinesesimp>
+            <Chinese>自訂13</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_363">
             <Original>Custom14</Original>
+            <Chinesesimp>自定义14</Chinesesimp>
+            <Chinese>自訂14</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_364">
             <Original>Custom15</Original>
+            <Chinesesimp>自定义15</Chinesesimp>
+            <Chinese>自訂15</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_365">
             <Original>Custom16</Original>
+            <Chinesesimp>自定义16</Chinesesimp>
+            <Chinese>自訂16</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_366">
             <Original>Custom17</Original>
+            <Chinesesimp>自定义17</Chinesesimp>
+            <Chinese>自訂17</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_367">
             <Original>Custom18</Original>
+            <Chinesesimp>自定义18</Chinesesimp>
+            <Chinese>自訂18</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_368">
             <Original>Custom19</Original>
+            <Chinesesimp>自定义19</Chinesesimp>
+            <Chinese>自訂19</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_369">
             <Original>Custom20</Original>
+            <Chinesesimp>自定义20</Chinesesimp>
+            <Chinese>自訂20</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_370">
             <Original>Rope mode changed</Original>
+            <Chinesesimp>绳索模式已更改</Chinesesimp>
+            <Chinese>繩索模式已更改</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_371">
             <Original>Cooldown</Original>
+            <Chinesesimp>冷却</Chinesesimp>
+            <Chinese>冷卻</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_372">
             <Original>Unload failed</Original>
+            <Chinesesimp>卸载失败</Chinesesimp>
+            <Chinese>解除安裝失敗</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_373">
             <Original>Overspeed ( 60 km/h )</Original>
+            <Chinesesimp>超速 ( 60 km/h )</Chinesesimp>
+            <Chinese>超速 ( 60 km/h )</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_374">
             <Original>Invalid cargo</Original>
+            <Chinesesimp>无效货物</Chinesesimp>
+            <Chinese>無效貨物</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_375">
             <Original>Cannot unload over water</Original>
+            <Chinesesimp>无法在水面上卸货</Chinesesimp>
+            <Chinese>無法在水面上卸貨</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_376">
             <Original>Medic</Original>
+            <Chinesesimp>医疗</Chinesesimp>
+            <Chinese>醫療</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_377">
             <Original>Cannot use hatch from outside</Original>
+            <Chinesesimp>无法从外部使用舱门</Chinesesimp>
+            <Chinese>無法從外部使用艙門</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_378">
             <Original>Cannot move this with players nearby</Original>
+            <Chinesesimp>无法在附近有玩家的情况下移动此</Chinesesimp>
+            <Chinese>無法在附近有玩家的情況下移動此</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_379">
             <Original>Cargo locked</Original>
+            <Chinesesimp>货物已锁定</Chinesesimp>
+            <Chinese>貨物已鎖定</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_380">
             <Original>locked</Original>
+            <Chinesesimp>已锁定</Chinesesimp>
+            <Chinese>已鎖定</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_381">
             <Original>Loaded in (%1)</Original>
+            <Chinesesimp>加载于 (%1)</Chinesesimp>
+            <Chinese>加載於 (%1)</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_382">
             <Original>Dismounted (%1)</Original>
+            <Chinesesimp>卸下 (%1)</Chinesesimp>
+            <Chinese>卸下 (%1)</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_383">
             <Original>Defeated (Passive Stealth)</Original>
+            <Chinesesimp>失败（被动潜行）</Chinesesimp>
+            <Chinese>失敗（被動潛行）</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_384">
             <Original>Wreck</Original>
+            <Chinesesimp>残骸</Chinesesimp>
+            <Chinese>殘骸</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_385">
             <Original>Cruise control already active</Original>
+            <Chinesesimp>巡航控制已激活</Chinesesimp>
+            <Chinese>巡航控制已激活</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_386">
             <Original>Unload disallowed</Original>
+            <Chinesesimp>不允许卸载</Chinesesimp>
+            <Chinese>不允許卸載</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_387">
             <Original>Object placement mode</Original>
+            <Chinesesimp>对象放置模式</Chinesesimp>
+            <Chinese>物件放置模式</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_388">
             <Original>Logistics administrative blacklist</Original>
+            <Chinesesimp>后勤管理黑名单</Chinesesimp>
+            <Chinese>後勤管理黑名單</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_389">
             <Original>Delete ([Ctrl] + [Right Mouse Button])</Original>
+            <Chinesesimp>删除（Ctrl+鼠标右键）</Chinesesimp>
+            <Chinese>刪除（Ctrl+滑鼠右鍵）</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_390">
             <Original>Lock driver seat</Original>
+            <Chinesesimp>锁定驾驶员座椅</Chinesesimp>
+            <Chinese>鎖定駕駛座椅</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_391">
             <Original>Unlock driver seat</Original>
+            <Chinesesimp>解锁驾驶员座椅</Chinesesimp>
+            <Chinese>解鎖駕駛座椅</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_392">
             <Original>Driver seat occupied</Original>
+            <Chinesesimp>驾驶员座椅已被占用</Chinesesimp>
+            <Chinese>駕駛座已被佔用</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_393">
             <Original>Driver seat unlocked</Original>
+            <Chinesesimp>驾驶员座椅已解锁</Chinesesimp>
+            <Chinese>駕駛座椅已解鎖</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_394">
             <Original>Driver seat locked</Original>
+            <Chinesesimp>驾驶员座椅锁定</Chinesesimp>
+            <Chinese>駕駛座椅鎖定</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_395">
             <Original>Lock logistics</Original>
+            <Chinesesimp>锁定后勤</Chinesesimp>
+            <Chinese>鎖定後勤</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_396">
             <Original>Unlock logistics</Original>
+            <Chinesesimp>解锁后勤</Chinesesimp>
+            <Chinese>解鎖後勤</Chinese>
 		</Key>	
        <Key ID="STR_QS_Text_397">
             <Original>Logistics unlocked</Original>
+            <Chinesesimp>物流解锁</Chinesesimp>
+            <Chinese>後勤解鎖</Chinese>
 		</Key>	
        <Key ID="STR_QS_Text_398">
             <Original>Logistics locked</Original>
+            <Chinesesimp>物流锁定</Chinesesimp>
+            <Chinese>後勤鎖定</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_399">
             <Original>Delete failed - players too close (30m) for disassembly</Original>
+            <Chinesesimp>删除失败-玩家距离太近（30米），无法拆卸</Chinesesimp>
+            <Chinese>刪除失敗-玩家距離太近（30公尺），無法拆卸</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_400">
             <Original>Delete failed - players too close (100m) for map removal</Original>
+            <Chinesesimp>删除失败-玩家距离太近（100米），无法删除地图</Chinesesimp>
+            <Chinese>刪除失敗-玩家距離太近（100公尺），無法刪除地圖</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_401">
             <Original>%1 deleted your %2 at grid %3</Original>
+            <Chinesesimp>%1 删除了您的 %2 在网格处 %3</Chinesesimp>
+            <Chinese>%1 刪除了您的 %2 在網格處 %3</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_402">
             <Original>Cannot move this with players nearby</Original>
+            <Chinesesimp>无法在附近有玩家的情况下移动此</Chinesesimp>
+            <Chinese>無法在附近有玩家的情況下移動此</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_403">
             <Original>Cannot build in this area</Original>
+            <Chinesesimp>无法在此区域中生成</Chinesesimp>
+            <Chinese>無法在此區域中生成</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_404">
             <Original>Already have a locked vehicle ( %1 )</Original>
+            <Chinesesimp>已经锁定车辆 ( %1 )</Chinesesimp>
+            <Chinese>已經上鎖車輛 ( %1 )</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_405">
             <Original>Already have a locked cargo ( %1 )</Original>
+            <Chinesesimp>已经有锁定的货物 ( %1 )</Chinesesimp>
+            <Chinese>已經有鎖定的貨物 ( %1 )</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_406">
             <Original>No deployments available</Original>
+            <Chinesesimp>没有可用的部署</Chinesesimp>
+            <Chinese>沒有可用的部署</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_407">
             <Original>Lifting %1</Original>
+            <Chinesesimp>提升 %1</Chinesesimp>
+            <Chinese>提升 %1</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_408">
             <Original>Selected deployment unavailable</Original>
+            <Chinesesimp>所选部署不可用</Chinesesimp>
+            <Chinese>所選部署不可用</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_409">
             <Original>Deployed</Original>
+            <Chinesesimp>部署</Chinesesimp>
+            <Chinese>部署</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_410">
             <Original>Packed</Original>
+            <Chinesesimp>打包</Chinesesimp>
+            <Chinese>打包</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_411">
             <Original>Pack up failed</Original>
+            <Chinesesimp>打包失败</Chinesesimp>
+            <Chinese>打包失敗</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_412">
             <Original>Deploy failed</Original>
+            <Chinesesimp>部署失败</Chinesesimp>
+            <Chinese>部署失敗</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_413">
             <Original>%1 packed up by %2</Original>
+            <Chinesesimp>由 %2 打包了 %1 </Chinesesimp>
+            <Chinese>由 %2 打包了 %1 </Chinese>
 		</Key>
        <Key ID="STR_QS_Text_414">
             <Original>%1 deployed by %2</Original>
+            <Chinesesimp>由 %2 部署了 %1 </Chinesesimp>
+            <Chinese>由 %2 部署了 %1</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_415">
             <Original>Wreck (%1)</Original>
+            <Chinesesimp>残骸 (%1)</Chinesesimp>
+            <Chinese>殘骸 (%1)</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_416">
             <Original>Autopilot unavailable</Original>
+            <Chinesesimp>自动驾驶仪不可用</Chinesesimp>
+            <Chinese>自動駕駛儀不可用</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_417">
             <Original>Autohover unavailable</Original>
+            <Chinesesimp>自动悬停不可用</Chinesesimp>
+            <Chinese>自動懸停不可用</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_418">
             <Original>Service started</Original>
+            <Chinesesimp>服务已启动</Chinesesimp>
+            <Chinese>服務已啟動</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_419">
             <Original>Home deployment set</Original>
+            <Chinesesimp>主页部署设置</Chinesesimp>
+            <Chinese>主頁部署設定</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_420">
             <Original>Home deployment reset</Original>
+            <Chinesesimp>主页部署重置</Chinesesimp>
+            <Chinese>主頁部署重置</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_421">
             <Original>Alt Mode OFF</Original>
+            <Chinesesimp>辅助模式关闭</Chinesesimp>
+            <Chinese>輔助模式關閉</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_422">
             <Original>Alt Mode ON</Original>
+            <Chinesesimp>辅助模式开启</Chinesesimp>
+            <Chinese>輔助模式開啟</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_423">
             <Original>Service Completed</Original>
+            <Chinesesimp>服务已完成</Chinesesimp>
+            <Chinese>服務已完成</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_424">
             <Original>Recovering</Original>
+            <Chinesesimp>恢复中</Chinesesimp>
+            <Chinese>復原中</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_425">
             <Original>Recovery interrupted</Original>
+            <Chinesesimp>恢复中断</Chinesesimp>
+            <Chinese>恢復中斷</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_426">
             <Original>USS Liberty (Destroyer)</Original>
+            <Chinesesimp>USS Liberty (驱逐舰)</Chinesesimp>
+            <Chinese>USS Liberty (驅逐艦)</Chinese>
 		</Key>		
        <Key ID="STR_QS_Text_427">
             <Original>USS Freedom (Aircraft Carrier)</Original>
+            <Chinesesimp>USS Freedom (航空母舰)</Chinesesimp>
+            <Chinese>USS Freedom (航空母艦)</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_428">
             <Original>Wrecked</Original>
+            <Chinesesimp>毁坏的</Chinesesimp>
+            <Chinese>毀壞的</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_429">
             <Original>Non-functional</Original>
+            <Chinesesimp>非功能性的</Chinesesimp>
+            <Chinese>非功能性的</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_430">
             <Original>Cannot pack up when other players are within %1 m</Original>
+            <Chinesesimp>其他玩家在 %1 米范围内时无法打包</Chinesesimp>
+            <Chinese>其他玩家在 %1 米範圍內時無法打包</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_431">
             <Original>On cooldown</Original>
+            <Chinesesimp>冷却中</Chinesesimp>
+            <Chinese>冷卻中</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_432">
             <Original>Too close to water</Original>
+            <Chinesesimp>离水太近</Chinesesimp>
+            <Chinese>離水太近</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_433">
             <Original>Enemies within 100m</Original>
+            <Chinesesimp>100米以内有敌人</Chinesesimp>
+            <Chinese>100公尺內有敵人</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_434">
             <Original>The enemy destroyed a deployed asset</Original>
+            <Chinesesimp>敌人摧毁了一处已部署的资产</Chinesesimp>
+            <Chinese>敵人摧毀了一處已部署的資產</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_435">
             <Original>Turn on laser</Original>
+            <Chinesesimp>打开激光</Chinesesimp>
+            <Chinese>打開激光</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_436">
             <Original>Turn off laser</Original>
+            <Chinesesimp>关闭激光</Chinesesimp>
+            <Chinese>關閉激光</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_437">
             <Original>Laser low power</Original>
+            <Chinesesimp>低功率激光</Chinesesimp>
+            <Chinese>低功率激光</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_438">
             <Original>Laser high power</Original>
+            <Chinesesimp>高功率激光</Chinesesimp>
+            <Chinese>高功率激光</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_439">
             <Original>Laser IR</Original>
+            <Chinesesimp>红外激光</Chinesesimp>
+            <Chinese>紅外線激光</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_440">
             <Original>Laser battery required</Original>
+            <Chinesesimp>需要激光电池</Chinesesimp>
+            <Chinese>需要激光电池</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_441">
             <Original>Emitter required (Weaponlight or IR pointer)</Original>
+            <Chinesesimp>需要发射器（武器灯或红外激光）</Chinesesimp>
+            <Chinese>需要發射器（武器燈或紅外線激光）</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_442">
             <Original>Laser color set</Original>
+            <Chinesesimp>激光颜色设置</Chinesesimp>
+            <Chinese>激光顏色設定</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_443">
             <Original>Profile set</Original>
+            <Chinesesimp>配置文件集</Chinesesimp>
+            <Chinese>設定檔集</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_444">
             <Original>Load disallowed</Original>
+            <Chinesesimp>不允许加载</Chinesesimp>
+            <Chinese>不允許載入</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_445">
             <Original>Cargo Trailer</Original>
+            <Chinesesimp>货物拖车</Chinesesimp>
+            <Chinese>貨物拖車</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_446">
             <Original>Color selection disabled</Original>
+            <Chinesesimp>禁用颜色选择</Chinesesimp>
+            <Chinese>停用顏色選擇</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_447">
             <Original>Mobile Respawn</Original>
+            <Chinesesimp>移动重生</Chinesesimp>
+            <Chinese>移動重生</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_448">
             <Original>Platform Module</Original>
+            <Chinesesimp>平台模块</Chinesesimp>
+            <Chinese>平台模組</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_449">
             <Original>Patrol Base</Original>
+            <Chinesesimp>巡逻基地</Chinesesimp>
+            <Chinese>巡邏基地</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_450">
             <Original>Combat Outpost</Original>
+            <Chinesesimp>战斗前哨</Chinesesimp>
+            <Chinese>戰鬥前哨</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_451">
             <Original>Forward Operating Base</Original>
+            <Chinesesimp>前哨作战基地FOB</Chinesesimp>
+            <Chinese>前哨作戰基地FOB</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_452">
             <Original>Must be Deployed to unload cargo</Original>
+            <Chinesesimp>必须部署以卸载货物</Chinesesimp>
+            <Chinese>必須部署以卸載貨物</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_453">
             <Original>Pilots cannot perform this action</Original>
+            <Chinesesimp>飞行员无法执行此操作</Chinesesimp>
+            <Chinese>飛行員無法執行此操作</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_454">
             <Original>Enemy nearby - Arsenal unavailable</Original>
+            <Chinesesimp>附近有敌人-军火库不可用</Chinesesimp>
+            <Chinese>附近有敵人-軍火庫不可用</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_455">
             <Original>Terrain Leveler</Original>
+            <Chinesesimp>地形整平机</Chinesesimp>
+            <Chinese>地形整平機</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_456">
             <Original>Only engineers can use this system</Original>
+            <Chinesesimp>只有工程师才能使用这个系统</Chinesesimp>
+            <Chinese>只有工程師才能使用這個系統</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_457">
             <Original>Over budget</Original>
+            <Chinesesimp>超出预算</Chinesesimp>
+            <Chinese>超出預算</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_458">
             <Original>Total cap exceeded</Original>
+            <Chinesesimp>超出总上限</Chinesesimp>
+            <Chinese>超出總上限</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_459">
             <Original>No detected object under cursor</Original>
+            <Chinesesimp>光标下未检测到对象</Chinesesimp>
+            <Chinese>遊標下未偵測到對象</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_460">
             <Original>Light Switch</Original>
+            <Chinesesimp>照明开关</Chinesesimp>
+            <Chinese>照明開關</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_461">
             <Original>Only Riflemen and Engineers can Quick-Build</Original>
+            <Chinesesimp>只有步枪兵和工程师才能快速建造</Chinesesimp>
+            <Chinese>只有步槍兵和工程師才能快速建造</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_462">
             <Original>AMV-7 Bush Hog</Original>
+            <Chinesesimp>AMV-7 Bush Hog</Chinesesimp>
+            <Chinese>AMV-7 Bush Hog</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_463">
             <Original>Cannot deploy when other players are within %1 m</Original>
+            <Chinesesimp>其他玩家在 %1 米范围内时无法部署</Chinesesimp>
+            <Chinese>其他玩家在 %1 公尺範圍內時無法部署</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_464">
             <Original>Cargo full</Original>
+            <Chinesesimp>货物已满</Chinesesimp>
+            <Chinese>貨物已滿</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_465">
             <Original>Remote Controlling</Original>
+            <Chinesesimp>远程控制</Chinesesimp>
+            <Chinese>遠端控制</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_466">
             <Original>Active connection</Original>
+            <Chinesesimp>激活连接</Chinesesimp>
+            <Chinese>啟動連接</Chinese>
 		</Key>		
        <Key ID="STR_QS_Text_467">
             <Original>Unflip Failed</Original>
+            <Chinesesimp>翻转失败</Chinesesimp>
+            <Chinese>翻轉失敗</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_468">
             <Original>Water Damaged</Original>
+            <Chinesesimp>泡水损坏</Chinesesimp>
+            <Chinese>泡水損壞</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_469">
             <Original>Cope Cage</Original>
+            <Chinesesimp>竞争鸟笼</Chinesesimp>
+            <Chinese>競爭鳥籠</Chinese>
 		</Key>
         <Key ID="STR_QS_Text_470">
             <Original>Must be an Engineer or have a Tool Kit to perform this action</Original>
+            <Chinesesimp>必须是工程师或有工具箱才能执行此操作</Chinesesimp>
+            <Chinese>必須是工程師或有工具箱才能執行此操作</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_471">
             <Original>Selected Object(s) healed</Original>
+            <Chinesesimp>选定对象已治愈</Chinesesimp>
+            <Chinese>選定對像已治愈</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_472">
             <Original>Selection %1 saved</Original>
+            <Chinesesimp>选择 %1 已保存</Chinesesimp>
+            <Chinese>選擇 %1 已保存</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_473">
             <Original>Selection %1 loaded</Original>
+            <Chinesesimp>选择 %1 已加载</Chinesesimp>
+            <Chinese>選擇 %1 已加載</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_474">
             <Original>Water damaged</Original>
+            <Chinesesimp>泡水损坏</Chinesesimp>
+            <Chinese>泡水損壞</Chinese>
 		</Key>
           <Key ID="STR_QS_Text_475">
             <Original>Not packable</Original>
+            <Chinesesimp>不可打包</Chinesesimp>
+            <Chinese>不可打包</Chinese>
 		</Key>
           <Key ID="STR_QS_Text_476">
             <Original>Invalid object</Original>
+            <Chinesesimp>无效对象</Chinesesimp>
+            <Chinese>無效對象</Chinese>
 		</Key>
         <Key ID="STR_QS_Text_477">
             <Original>%1 recovered by %2 at grid %3</Original>
+            <Chinesesimp>%1 由 %2 在网格 %3 回收</Chinesesimp>
+            <Chinese>%1 由 %2 在網格 %3 回收</Chinese>
 		</Key>
         <Key ID="STR_QS_Text_478">
             <Original>Repair service required nearby (30m)</Original>
+            <Chinesesimp>附近需要维修服务 (30米)</Chinesesimp>
+            <Chinese>附近需要維修服務 (30米)</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_479">
             <Original>Hold [Windows] key to see and delete placed sandbags</Original>
+            <Chinesesimp>按住[Windows]键可查看和删除放置的沙袋</Chinesesimp>
+            <Chinese>按住[Windows]鍵可檢視並刪除放置的沙袋</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_480">
             <Original>Stand</Original>
+            <Chinesesimp>站立</Chinesesimp>
+            <Chinese>站立</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_481">
             <Original>Crouch</Original>
+            <Chinesesimp>下蹲</Chinesesimp>
+            <Chinese>下蹲</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_482">
             <Original>Prone</Original>
+            <Chinesesimp>俯卧</Chinesesimp>
+            <Chinese>伏地</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_483">
             <Original>Auto</Original>
+            <Chinesesimp>自动</Chinesesimp>
+            <Chinese>自動</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_484">
             <Original>Medical Supplies</Original>
+            <Chinesesimp>医疗用品</Chinesesimp>
+            <Chinese>醫療用品</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_485">
             <Original>Parajump</Original>
+            <Chinesesimp>空投</Chinesesimp>
+            <Chinese>空投</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_486">
             <Original>Vehicle Spawn Pad</Original>
+            <Chinesesimp>车辆生成台</Chinesesimp>
+            <Chinese>車輛生成台</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_487">
             <Original>Position obstructed by: %1</Original>
+            <Chinesesimp>位置受阻： %1</Chinesesimp>
+            <Chinese>位置受阻： %1</Chinese>
 		</Key>
          <Key ID="STR_QS_Text_488">
             <Original>Global vehicle cap exceeded (%1)</Original>
+            <Chinesesimp>超过全局车辆上限 (%1)</Chinesesimp>
+            <Chinese>超過全局車輛上限 (%1)</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_489">
             <Original>Enemy nearby - Vehicle Spawner unavailable</Original>
+            <Chinesesimp>附近有敌人 - 车辆生成器不可用</Chinesesimp>
+            <Chinese>附近有敵人 - 車輛生成器不可用</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_490">
             <Original>Firebase</Original>
+            <Chinesesimp>火力基地</Chinesesimp>
+            <Chinese>火力基地</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_491">
             <Original>Fire Support Base</Original>
+            <Chinesesimp>火力支援基地</Chinesesimp>
+            <Chinese>火力支援基地</Chinese>
 		</Key>
        <Key ID="STR_QS_Text_492">
             <Original>Vehicle Spawner in use - Please try again</Original>
+            <Chinesesimp>车辆生成器正在使用中 - 请重试</Chinesesimp>
+            <Chinese>車輛產生器正在使用中 - 請重試</Chinese>
 		</Key>
         <Key ID="STR_QS_Text_493">
             <Original>Over budget ( %1 / %2 )</Original>
+            <Chinesesimp>超出预算 ( %1 / %2 )</Chinesesimp>
+            <Chinese>超出預算 ( %1 / %2 )</Chinese>
 		</Key>       
     </Container>
     <Container name="QS_xml_hints">
         <Key ID="STR_QS_Hints_000">
             <Original>TEXT</Original>
+            <Chinesesimp>文本</Chinesesimp>
+            <Chinese>文字</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_001">
             <Original>No incident report filed</Original>
@@ -3491,135 +4011,223 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Hints_146">
             <Original>To add ammunition, select your uniform/vest/backpack on the left panel and add ammunition on the right panel.</Original>
+            <Chinesesimp>要添加弹药，请在左侧面板上选择你的制服/背心/背包，并在右侧面板上添加弹药。</Chinesesimp>
+            <Chinese>要添加彈藥，請在左側面板上選擇你的製服/背心/背包，並在右側面板上添加彈藥。</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_147">
             <Original>Altitude Up</Original>
+            <Chinesesimp>海拔上升</Chinesesimp>
+            <Chinese>海拔上升</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_148">
             <Original>Altitude Down</Original>
+            <Chinesesimp>海拔下降</Chinesesimp>
+            <Chinese>海拔下降</Chinese>
         </Key>		
         <Key ID="STR_QS_Hints_149">
             <Original>Modifier</Original>
+            <Chinesesimp>修改器</Chinesesimp>
+            <Chinese>MOD</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_150">
             <Original>UAV Controls</Original>
+            <Chinesesimp>无人机控制</Chinesesimp>
+            <Chinese>無人機控制</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_151">
             <Original>Tow Controls</Original>
+            <Chinesesimp>牵引控制装置</Chinesesimp>
+            <Chinese>牽引控制裝置</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_152">
             <Original>Brakes Toggle</Original>
+            <Chinesesimp>制动器切换</Chinesesimp>
+            <Chinese>煞車切換</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_153">
             <Original>Force Move (Unstuck towed vehicle)</Original>
+            <Chinesesimp>强制移动（解开牵引车）</Chinesesimp>
+            <Chinese>強制移動（解開牽引車）</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_154">
             <Original>Rope Length</Original>
+            <Chinesesimp>绳索长度</Chinesesimp>
+            <Chinese>繩子長度</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_155">
             <Original>Max Safe Speed</Original>
+            <Chinesesimp>最大安全速度</Chinesesimp>
+            <Chinese>最大安全速度</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_156">
             <Original>kg</Original>
+            <Chinesesimp>kg</Chinesesimp>
+            <Chinese>kg</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_157">
             <Original>km/h</Original>
+            <Chinesesimp>km/h</Chinesesimp>
+            <Chinese>km/h</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_158">
             <Original>Difference</Original>
+            <Chinesesimp>差异</Chinesesimp>
+            <Chinese>差異</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_159">
             <Original>Difference Limit</Original>
+            <Chinesesimp>差异限制</Chinesesimp>
+            <Chinese>差異限制</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_160">
             <Original>Speed Threshold</Original>
+            <Chinesesimp>速度阈值</Chinesesimp>
+            <Chinese>速度閾值</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_161">
             <Original>Weak Link</Original>
+            <Chinesesimp>薄弱环节</Chinesesimp>
+            <Chinese>弱點</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_162">
             <Original>Cruise Controls</Original>
+            <Chinesesimp>巡航控制</Chinesesimp>
+            <Chinese>巡航控制</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_163">
             <Original>Speed</Original>
+            <Chinesesimp>速度</Chinesesimp>
+            <Chinese>速度</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_164">
             <Original>Convoy Separation</Original>
+            <Chinesesimp>车队分离</Chinesesimp>
+            <Chinese>車隊分離</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_165">
             <Original>Cancel (Handbrake)</Original>
+            <Chinesesimp>取消（手刹）</Chinesesimp>
+            <Chinese>取消（手煞車）</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_166">
             <Original>Winch (Remote Control)</Original>
+            <Chinesesimp>绞盘（遥控）</Chinesesimp>
+            <Chinese>絞盤（遙控）</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_167">
             <Original>Stand near either end of the rope and use [page up] + [page down] to operate the winch</Original>
+            <Chinesesimp>站在绳索两端附近，使用[page up] + [page down]操作绞车</Chinesesimp>
+            <Chinese>站在繩索兩端附近，使用[page up] + [page down]操作絞車<站在繩索兩端附近，使用[page up] + [page down]操作絞車/Chinese>
         </Key>
         <Key ID="STR_QS_Hints_168">
             <Original>Controls</Original>
+            <Chinesesimp>控制</Chinesesimp>
+            <Chinese>控制</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_169">
             <Original>Diagnostics</Original>
+            <Chinesesimp>诊断</Chinesesimp>
+            <Chinese>診斷</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_170">
             <Original>Repair</Original>
+            <Chinesesimp>修理</Chinesesimp>
+            <Chinese>修理</Chinese>
         </Key>		
         <Key ID="STR_QS_Hints_171">
             <Original>Fuel</Original>
+            <Chinesesimp>燃料</Chinesesimp>
+            <Chinese>燃料</Chinese>
         </Key>			
         <Key ID="STR_QS_Hints_172">
             <Original>Ammo</Original>
+            <Chinesesimp>弹药</Chinesesimp>
+            <Chinese>彈藥</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_173">
             <Original>Sling Loading</Original>
+            <Chinesesimp>吊索装载</Chinesesimp>
+            <Chinese>吊索裝載</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_174">
             <Original>Retract Ropes</Original>
+            <Chinesesimp>收回绳索</Chinesesimp>
+            <Chinese>收回繩索</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_175">
             <Original>Extend Ropes</Original>
+            <Chinesesimp>延长绳索</Chinesesimp>
+            <Chinese>延長繩索</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_176">
             <Original>Rotation</Original>
+            <Chinesesimp>旋转</Chinesesimp>
+            <Chinese>旋轉</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_177">
             <Original>Elevation</Original>
+            <Chinesesimp>海拔</Chinesesimp>
+            <Chinese>海拔</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_178">
             <Original>Surface Align</Original>
+            <Chinesesimp>曲面对齐</Chinesesimp>
+            <Chinese>曲面對齊</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_179">
             <Original>Snap</Original>
+            <Chinesesimp>捕捉</Chinesesimp>
+            <Chinese>捕捉</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_180">
             <Original>Unavailable (beta)</Original>
+            <Chinesesimp>不可用（测试版）</Chinesesimp>
+            <Chinese>不可用（測試版）</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_181">
             <Original>Placement Mode</Original>
+            <Chinesesimp>放置模式</Chinesesimp>
+            <Chinese>放置模式</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_182">
             <Original>Cargo</Original>
+            <Chinesesimp>货物</Chinesesimp>
+            <Chinese>貨物</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_183">
             <Original>Load</Original>
+            <Chinesesimp>负载</Chinesesimp>
+            <Chinese>負載</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_184">
             <Original>Cargo Manifest</Original>
+            <Chinesesimp>货物清单</Chinesesimp>
+            <Chinese>貨物清單</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_185">
             <Original>No cargo</Original>
+            <Chinesesimp>没有货物</Chinesesimp>
+            <Chinese>沒有貨物</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_186">
             <Original>Cargo Locked</Original>
+            <Chinesesimp>货物已锁定</Chinesesimp>
+            <Chinese>貨物已鎖定</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_187">
             <Original>Cargo Unlocked</Original>
+            <Chinesesimp>货物解锁</Chinesesimp>
+            <Chinese>貨物解鎖</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_188">
             <Original>Services replenished</Original>
+            <Chinesesimp>补充服务</Chinesesimp>
+            <Chinese>補充服務</Chinese>
         </Key>
         <Key ID="STR_QS_Hints_189">
             <Original>Adjust earplugs volume: Audio Options >> Map Factor</Original>
+            <Chinesesimp>调整耳塞音量：音频选项>>地图因素</Chinesesimp>
+            <Chinese>調整耳塞音量：音訊選項>>地圖因素</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_chatMessages">
@@ -4435,63 +5043,103 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Chat_164">
             <Original>Restricted item removed ( %1 )</Original>
+            <Chinesesimp>受限物品被移除 ( %1 )</Chinesesimp>
+            <Chinese>受限物品被移除 ( %1 )</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_165">
             <Original>Fire Support available:</Original>
+            <Chinesesimp>火力支援可用:</Chinesesimp>
+            <Chinese>火力支援可用:</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_166">
             <Original>%1 resupplied a(n) %2 with a(n) %3 at grid %4</Original>
+            <Chinesesimp>%1 在网格 %4 处向 %2 重新提供了 %3</Chinesesimp>
+            <Chinese>%1 在網格 %4 處向 %2 重新提供了 %3</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_167">
             <Original>Cannot build this here (proximity to safezone or no-build zone)</Original>
+            <Chinesesimp>无法在此建造（靠近安全区或禁止建造区）</Chinesesimp>
+            <Chinese>無法在此建造（靠近安全區或禁止建造區）</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_168">
             <Original>Disabled</Original>
+            <Chinesesimp>已禁用</Chinesesimp>
+            <Chinese>已停用</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_169">
             <Original>Remote Control failed</Original>
+            <Chinesesimp>远程控制失败</Chinesesimp>
+            <Chinese>遠端控制失敗</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_170">
             <Original>Proximity condition: Roads/Houses/Aircraft - 30 meters</Original>
+            <Chinesesimp>距离条件：道路/房屋/飞机-30米</Chinesesimp>
+            <Chinese>距離條件：道路/房屋/飛機-30米</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_171">
             <Original>Blocked by enemy commander</Original>
+            <Chinesesimp>被敌方指挥官阻挡</Chinesesimp>
+            <Chinese>被敵方指揮官阻擋</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_172">
             <Original>A deployment is under attack!</Original>
+            <Chinesesimp>部署正遭受攻击！</Chinesesimp>
+            <Chinese>部署正遭受攻擊！</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_173">
             <Original>Cannot do this with enemy nearby (100m)</Original>
+            <Chinesesimp>无法在附近有敌人时进行此操作 (100m)</Chinesesimp>
+            <Chinese>無法在附近有敵人時進行此操作 (100m)</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_174">
             <Original>Friendly artillery firing</Original>
+            <Chinesesimp>友军炮击</Chinesesimp>
+            <Chinese>友軍砲擊</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_175">
             <Original>Friendly artillery inbound</Original>
+            <Chinesesimp>友军炮火来袭</Chinesesimp>
+            <Chinese>友軍炮火來襲</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_176">
             <Original>%1 requested on grid %2</Original>
+            <Chinesesimp>网格 %2 上 %1 被请求</Chinesesimp>
+            <Chinese>網格 %2 上 %1 被請求</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_177">
             <Original>%4 requested on grid %1</Original>
+            <Chinesesimp>网格 %1 上 %4 被请求</Chinesesimp>
+            <Chinese>網格 %1 上 %4 被請求</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_178">
             <Original>Cannot do this with enemy nearby (200m)</Original>
+            <Chinesesimp>不能在附近有敌人的情况下这样做 (200m)</Chinesesimp>
+            <Chinese>附近有敵人的情況不能這樣做 (200m)</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_179">
             <Original>%4 called on grid %1 by %2 ( %3 )</Original>
+            <Chinesesimp>%4 在网格 %1 上被 %2 呼叫（ %3 ）</Chinesesimp>
+            <Chinese>%4 在網格 %1 上被 %2 呼叫（ %3 ）</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_180">
             <Original>%1 packed up a(n) %2 at grid %3</Original>
+            <Chinesesimp>%1 在网格 %3 处打包了 %2</Chinesesimp>
+            <Chinese>%1 在網格 %3 處打包了 %2</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_181">
             <Original>%1 unpacked a(n) %2 at grid %3</Original>
+            <Chinesesimp>%1 在网格 %3 处卸下了 %2</Chinesesimp>
+            <Chinese>%1 在網格 %3 處移除了 %2</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_182">
             <Original>%1 packed up a wrecked %2 at grid %3</Original>
+            <Chinesesimp>%1 收拾了位于网格 %3 的损坏的 %2</Chinesesimp>
+            <Chinese>%1 收拾了位於網格 %3 的損壞的 %2</Chinese>
         </Key>
         <Key ID="STR_QS_Chat_183">
             <Original>Removing curator selected</Original>
+            <Chinesesimp>删除选定的宙斯</Chinesesimp>
+            <Chinese>刪除選取的宙斯</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_notifications">
@@ -5252,27 +5900,43 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Notif_152">
             <Original>Fire Support</Original>
+            <Chinesesimp>炮火支援</Chinesesimp>
+            <Chinese>砲火支援</Chinese>
         </Key>
         <Key ID="STR_QS_Notif_153">
             <Original>Close Air Support online</Original>
+            <Chinesesimp>近距离空中支援（CAS）在线</Chinesesimp>
+            <Chinese>近距離空中支援（CAS）在線</Chinese>
         </Key>
         <Key ID="STR_QS_Notif_154">
             <Original>Fire Support online</Original>
+            <Chinesesimp>炮火支援在线</Chinesesimp>
+            <Chinese>砲火支援在線</Chinese>
         </Key>
         <Key ID="STR_QS_Notif_155">
             <Original>Deployments</Original>
+            <Chinesesimp>部署</Chinesesimp>
+            <Chinese>部署</Chinese>
         </Key>
         <Key ID="STR_QS_Notif_156">
             <Original>Deployment Under Attack</Original>
+            <Chinesesimp>部署受到攻击</Chinesesimp>
+            <Chinese>部署受到攻擊</Chinese>
         </Key>
         <Key ID="STR_QS_Notif_157">
             <Original>Enemy Retreating</Original>
+            <Chinesesimp>敌人撤退</Chinesesimp>
+            <Chinese>敵人撤退</Chinese>
         </Key>
         <Key ID="STR_QS_Notif_158">
             <Original>Deployment overrun</Original>
+            <Chinesesimp>部署超支</Chinesesimp>
+            <Chinese>部署超支</Chinese>
         </Key>
         <Key ID="STR_QS_Notif_159">
             <Original>Mine clearance</Original>
+            <Chinesesimp>排雷</Chinesesimp>
+            <Chinese>排雷</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_tasks">
@@ -6230,9 +6894,13 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Marker_071">
             <Original>Patrol Base</Original>
+            <Chinesesimp>巡逻基地</Chinesesimp>
+            <Chinese>巡邏基地</Chinese>
         </Key>
         <Key ID="STR_QS_Marker_072">
             <Original>Wreck Recovery</Original>
+            <Chinesesimp>残骸回收</Chinesesimp>
+            <Chinese>殘骸回收</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_diary">
@@ -6928,42 +7596,68 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Diary_140">
             <Original>Custom</Original>
+            <Chinesesimp>自定义</Chinesesimp>
+            <Chinese>自訂</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_141">
             <Original>Weapon Laser</Original>
+            <Chinesesimp>武器激光</Chinesesimp>
+            <Chinese>武器激光</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_142">
             <Original>Weapon Holster</Original>
+            <Chinesesimp></Chinesesimp>
+            <Chinese>枪套</Chinese>
         </Key>	
         <Key ID="STR_QS_Diary_143">
             <Original>Earplugs</Original>
+            <Chinesesimp>耳塞</Chinesesimp>
+            <Chinese>耳塞</Chinese>
         </Key>	
         <Key ID="STR_QS_Diary_144">
             <Original>Player Menu</Original>
+            <Chinesesimp>玩家菜单</Chinesesimp>
+            <Chinese>玩家選單</Chinese>
         </Key>	
         <Key ID="STR_QS_Diary_145">
             <Original>Admin Menu + Zeus Sync</Original>
+            <Chinesesimp>管理菜单+Zeus同步</Chinesesimp>
+            <Chinese>管理菜單+Zeus同步</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_146">
             <Original>Aircraft Collision Lights</Original>
+            <Chinesesimp>飞机防撞灯</Chinesesimp>
+            <Chinese>飛機防撞燈</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_147">
             <Original>Force AI Dismount</Original>
+            <Chinesesimp>强制AI卸载</Chinesesimp>
+            <Chinese>強制AI卸載</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_148">
             <Original>Ropes Longer</Original>
+            <Chinesesimp>绳索更长</Chinesesimp>
+            <Chinese>繩索更长</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_149">
             <Original>Ropes Shorter</Original>
+            <Chinesesimp>绳索更短</Chinesesimp>
+            <Chinese>繩索更短</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_150">
             <Original>Extended Context Menu</Original>
+            <Chinesesimp>扩展上下文菜单</Chinesesimp>
+            <Chinese>擴展上下文選單</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_151">
             <Original>N/A</Original>
+            <Chinesesimp>N/A</Chinesesimp>
+            <Chinese>N/A</Chinese>
         </Key>
         <Key ID="STR_QS_Diary_152">
             <Original>[Windows Key]</Original>
+            <Chinesesimp>[Windows 键]</Chinesesimp>
+            <Chinese>[Windows Key]</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_menus">
@@ -7949,108 +8643,178 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Menu_196">
             <Original>Backpack lock</Original>
+            <Chinesesimp>背包锁定</Chinesesimp>
+            <Chinese>背包鎖定</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_197">
             <Original>Global build limit exceeded (%1)</Original>
+            <Chinesesimp>超出全局构建限制（%1）</Chinesesimp>
+            <Chinese>超出全域建置限制（%1）</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_198">
             <Original>Deployment</Original>
+            <Chinesesimp>部署</Chinesesimp>
+            <Chinese>部署</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_199">
             <Original>Deploy</Original>
+            <Chinesesimp>部署</Chinesesimp>
+            <Chinese>部署</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_200">
             <Original>Budget: %1 / %2</Original>
+            <Chinesesimp>预算: %1 / %2</Chinesesimp>
+            <Chinese>預算: %1 / %2</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_201">
             <Original>Home</Original>
+            <Chinesesimp>主页</Chinesesimp>
+            <Chinese>首頁</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_202">
             <Original>Main Base</Original>
+            <Chinesesimp>主基地</Chinesesimp>
+            <Chinese>主基地</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_203">
             <Original>Pilots</Original>
+            <Chinesesimp>飞行员</Chinesesimp>
+            <Chinese>飛行員</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_204">
             <Original>Fighter Pilots</Original>
+            <Chinesesimp>战斗机飞行员</Chinesesimp>
+            <Chinese>戰鬥機飛行員</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_205">
             <Original>UAV Operators</Original>
+            <Chinesesimp>无人机飞手</Chinesesimp>
+            <Chinese>無人機飛手</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_206">
             <Original>Naval Command</Original>
+            <Chinesesimp>海军指挥部</Chinesesimp>
+            <Chinese>海軍司令部</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_207">
             <Original>Respawn (OPFOR)</Original>
+            <Chinesesimp>重生 (华约)</Chinesesimp>
+            <Chinese>重生 (华约)</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_208">
             <Original>Respawn (BLUFOR)</Original>
+            <Chinesesimp>重生 (北约)</Chinesesimp>
+            <Chinese>重生 (北约)</Chinese>
         </Key>
         <Key ID="STR_QS_Menu_209">
             <Original>Respawn (INDEPENDENT)</Original>
+            <Chinesesimp>重生 (AAF)</Chinesesimp>
+            <Chinese>重生 (INDEPENDENT)</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_210">
             <Original>Respawn (CIVILIAN)</Original>
+            <Chinesesimp>重生 (平民)</Chinesesimp>
+            <Chinese>重生(CIVILIAN)</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_211">
             <Original>Mobile Deployment</Original>
+            <Chinesesimp>移动部署</Chinesesimp>
+            <Chinese>行動部署</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_212">
             <Original>  ( %1 Tickets )</Original>
+            <Chinesesimp> ( %1 票 )</Chinesesimp>
+            <Chinese> ( %1 票 )</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_213">
             <Original>Fire Support</Original>
+            <Chinesesimp>炮火支援</Chinesesimp>
+            <Chinese>炮火支援</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_214">
             <Original>Support Assets</Original>
+            <Chinesesimp>支援补给</Chinesesimp>
+            <Chinese>支援補給</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_215">
             <Original>Datalink Targets</Original>
+            <Chinesesimp>数据链目标</Chinesesimp>
+            <Chinese>數據鏈目標</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_216">
             <Original>[Fire Support]</Original>
+            <Chinesesimp>[炮火支援]</Chinesesimp>
+            <Chinese>[砲火支援]</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_217">
             <Original>[CAS]</Original>
+            <Chinesesimp>[CAS]</Chinesesimp>
+            <Chinese>[CAS]</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_218">
             <Original>[Artillery]</Original>
+            <Chinesesimp>[火炮]</Chinesesimp>
+            <Chinese>[火砲]</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_219">
             <Original>[Armor]</Original>
+            <Chinesesimp>[装甲]</Chinesesimp>
+            <Chinese>[裝甲]</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_220">
             <Original>[Naval Artillery]</Original>
+            <Chinesesimp>[海军火炮]</Chinesesimp>
+            <Chinese>[海軍火砲]</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_221">
             <Original>%1 attempted to call fire support on a safezone ( %2 )</Original>
+            <Chinesesimp>%1 尝试向安全区呼叫炮火支援 ( %2 )</Chinesesimp>
+            <Chinese>%1 嘗試向安全區呼叫砲火支援 ( %2 )</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_222">
             <Original>Cannot call fire support in this area</Original>
+            <Chinesesimp>无法在此区域呼叫炮火支援</Chinesesimp>
+            <Chinese>無法在此區域呼叫砲火支援</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_223">
             <Original>Fire Support called in nearby</Original>
+            <Chinesesimp>附近呼叫炮火支援</Chinesesimp>
+            <Chinese>附近呼叫砲火支援</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_224">
             <Original>[Mortar]</Original>
+            <Chinesesimp>[迫击炮]</Chinesesimp>
+            <Chinese>[迫擊砲]</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_225">
             <Original>Cooldown %1</Original>
+            <Chinesesimp>冷却 %1</Chinesesimp>
+            <Chinese>冷卻 %1</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_226">
             <Original>Asset Cooldown %1</Original>
+            <Chinesesimp>资产冷却 %1</Chinesesimp>
+            <Chinese>資產冷卻 %1</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_227">
             <Original>[Too Far]</Original>
+            <Chinesesimp>[太远了]</Chinesesimp>
+            <Chinese>[太遠了]</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_228">
             <Original>Out of range</Original>
+            <Chinesesimp>超出射程</Chinesesimp>
+            <Chinese>超出射程</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_229">
             <Original>invalid fire support request</Original>
+            <Chinesesimp>无效的火力支援请求</Chinesesimp>
+            <Chinese>無效的火力支援請求</Chinese>
         </Key>
        <Key ID="STR_QS_Menu_230">
             <Original>Parajump</Original>
+            <Chinesesimp>空投</Chinesesimp>
+            <Chinese>空投</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_roles">
@@ -8206,6 +8970,8 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Role_030">
             <Original>No info available</Original>
+            <Chinesesimp>沒有可用信息</Chinesesimp>
+            <Chinese>沒有可用信息</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_utilityText">
@@ -8276,8 +9042,8 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Utility_013">
             <Original>Trenchfoot</Original>
-            <Chinesesimp>海沟足</Chinesesimp>
-            <Chinese>海溝足</Chinese>
+            <Chinesesimp>战壕脚</Chinesesimp>
+            <Chinese>戰壕腳</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_014">
             <Original>Forlorn Hope</Original>
@@ -8286,8 +9052,8 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Utility_015">
             <Original>Nakamoto</Original>
-            <Chinesesimp>中本</Chinesesimp>
-            <Chinese>中本</Chinese>
+            <Chinesesimp>Nakamoto</Chinesesimp>
+            <Chinese>Nakamoto</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_016">
             <Original>Alamo</Original>
@@ -8346,29 +9112,43 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Utility_027">
             <Original>Dynamic Simulation shutting down</Original>
-            <Chinesesimp>Dynamic Simulation shutting down</Chinesesimp>
-            <Chinese>Dynamic Simulation shutting down</Chinese>
+            <Chinesesimp>动态模拟关闭</Chinesesimp>
+            <Chinese>動態模擬關閉</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_028">
             <Original>Unarmed</Original>
+            <Chinesesimp>未武装</Chinesesimp>
+            <Chinese>未武裝</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_029">
             <Original>Friendly</Original>
+            <Chinesesimp>友军</Chinesesimp>
+            <Chinese>友軍</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_030">
             <Original>AI</Original>
+            <Chinesesimp>AI</Chinesesimp>
+            <Chinese>AI</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_031">
             <Original>Volume</Original>
+            <Chinesesimp>体积</Chinesesimp>
+            <Chinese>體積</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_032">
             <Original>Mass</Original>
+            <Chinesesimp>质量</Chinesesimp>
+            <Chinese>品質</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_033">
             <Original>%1 had a(n) %2 deleted in base protection zone</Original>
+            <Chinesesimp>%1 在基地保护区中删除了 %2</Chinesesimp>
+            <Chinese>%1 在基地保護區中刪除了 %2</Chinese>
         </Key>
         <Key ID="STR_QS_Utility_034">
             <Original>Spawn Zone - Entity deleted</Original>
+            <Chinesesimp>生成区 - 实体已删除</Chinesesimp>
+            <Chinese>生成區 - 實體已刪除</Chinese>
         </Key>
     </Container>
     <Container name="QS_xml_dialogs">
@@ -8754,117 +9534,193 @@ _____________________________________________________________-->
         </Key>
         <Key ID="STR_QS_Dialogs_076">
             <Original>Loadout</Original>
+            <Chinesesimp>装备</Chinesesimp>
+            <Chinese>裝備</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_077">
             <Original>Inventory</Original>
+            <Chinesesimp>库存管理</Chinesesimp>
+            <Chinese>庫存管理</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_078">
             <Original>Save</Original>
+            <Chinesesimp>保存</Chinesesimp>
+            <Chinese>儲存</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_079">
             <Original>Load</Original>
+            <Chinesesimp>加载</Chinesesimp>
+            <Chinese>載入</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_080">
             <Original>Delete</Original>
+            <Chinesesimp>删除</Chinesesimp>
+            <Chinese>刪除</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_081">
             <Original>Saved Inventory %1</Original>
+            <Chinesesimp>保存库存 %1</Chinesesimp>
+            <Chinese>保存庫存 %1</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_082">
             <Original>Save (%1 / %2)</Original>
+            <Chinesesimp>保存 (%1 / %2)</Chinesesimp>
+            <Chinese>保存 (%1 / %2)</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_083">
             <Original>Hangar</Original>
+            <Chinesesimp>机库</Chinesesimp>
+            <Chinese>機庫</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_084">
             <Original>Cargo</Original>
+            <Chinesesimp>库存</Chinesesimp>
+            <Chinese>庫存</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_085">
             <Original>Exit</Original>
+            <Chinesesimp>退出</Chinesesimp>
+            <Chinese>退出</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_086">
             <Original>Quick Build</Original>
+            <Chinesesimp>快速构建</Chinesesimp>
+            <Chinese>快速建構</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_087">
             <Original>Build Limit (%1)</Original>
+            <Chinesesimp>构建限制 (%1)</Chinesesimp>
+            <Chinese>建置限制 (%1)</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_088">
             <Original>Close Air Support</Original>
+            <Chinesesimp>近距离空中支援（CAS）</Chinesesimp>
+            <Chinese>近距離空中支援（CAS）</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_089">
             <Original>AA</Original>
+            <Chinesesimp>防空</Chinesesimp>
+            <Chinese>防空</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_090">
             <Original>Anti-Air</Original>
+            <Chinesesimp>防空</Chinesesimp>
+            <Chinese>防空</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_091">
             <Original>CAS (Bombs)</Original>
+            <Chinesesimp>CAS (航弹)</Chinesesimp>
+            <Chinese>CAS (航彈)</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_092">
             <Original>CAS</Original>
+            <Chinesesimp>CAS</Chinesesimp>
+            <Chinese>CAS</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_093">
             <Original>CAP</Original>
+            <Chinesesimp>CAP</Chinesesimp>
+            <Chinese>CAP</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_094">
             <Original>Combat Air Patrol</Original>
+            <Chinesesimp>空中战斗巡逻</Chinesesimp>
+            <Chinese>空中戰鬥巡邏</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_095">
             <Original>Recon (AT)</Original>
+            <Chinesesimp>侦察（反坦克）</Chinesesimp>
+            <Chinese>偵察（反坦克）</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_096">
             <Original>Anti-Tank</Original>
+            <Chinesesimp>反坦克</Chinesesimp>
+            <Chinese>反坦克</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_097">
             <Original>Recon (AA)</Original>
+            <Chinesesimp>侦察（防空）</Chinesesimp>
+            <Chinese>偵察（防空）</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_098">
             <Original>Recon (Anti-Air)</Original>
+            <Chinesesimp>侦察（防空）</Chinesesimp>
+            <Chinese>偵察（防空）</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_099">
             <Original>CAS (AT)</Original>
+            <Chinesesimp>CAS (反装甲)</Chinesesimp>
+            <Chinese>CAS (反裝甲)</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_100">
             <Original>Close Air Support (Anti-Tank)</Original>
+            <Chinesesimp>近空支援 (反装甲)</Chinesesimp>
+            <Chinese>近空支援 (反裝甲)</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_101">
             <Original>Face Paint</Original>
+            <Chinesesimp>面部彩绘</Chinesesimp>
+            <Chinese>臉部彩繪</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_102">
             <Original>Laser Color</Original>
+            <Chinesesimp>激光颜色</Chinesesimp>
+            <Chinese>雷射顏色</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_103">
             <Original>RED</Original>
+            <Chinesesimp>红色</Chinesesimp>
+            <Chinese>紅色</Chinese>
         </Key>		
         <Key ID="STR_QS_Dialogs_104">
             <Original>GREEN</Original>
+            <Chinesesimp>绿色</Chinesesimp>
+            <Chinese>綠色</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_105">
             <Original>BLUE</Original>
+            <Chinesesimp>蓝色</Chinesesimp>
+            <Chinese>藍色</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_106">
             <Original>GOLD</Original>
+            <Chinesesimp>金色</Chinesesimp>
+            <Chinese>金色</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_107">
             <Original>PINK</Original>
+            <Chinesesimp>粉色</Chinesesimp>
+            <Chinese>粉紅色</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_108">
             <Original>BABY BLUE</Original>
+            <Chinesesimp>淡蓝色</Chinesesimp>
+            <Chinese>淡藍色</Chinese>
         </Key>	
         <Key ID="STR_QS_Dialogs_109">
             <Original>MACE WINDU</Original>
+            <Chinesesimp>紫水晶色</Chinesesimp>
+            <Chinese>紫水晶色</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_110">
             <Original>Server disabled</Original>
+            <Chinesesimp>服务器已禁用</Chinesesimp>
+            <Chinese>伺服器已停用</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_111">
             <Original>Disabled in server parameters</Original>
+            <Chinesesimp>在服务器参数中禁用</Chinesesimp>
+            <Chinese>在伺服器參數中停用</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_112">
             <Original>Vehicles</Original>
+            <Chinesesimp>车辆</Chinesesimp>
+            <Chinese>車輛</Chinese>
         </Key>
         <Key ID="STR_QS_Dialogs_113">
             <Original>Spawn</Original>
+            <Chinesesimp>生成</Chinesesimp>
+            <Chinese>產生</Chinese>
         </Key>
     </Container>
 </Project>
