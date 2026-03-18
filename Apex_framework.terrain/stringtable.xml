@@ -4493,6 +4493,9 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Chat_183">
             <Original>Removing curator selected</Original>
         </Key>
+        <Key ID="STR_QS_Chat_184">
+            <Original>%1 destroyed the enemy supply cache!</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_notifications">
         <Key ID="STR_QS_Notif_001">
@@ -5274,6 +5277,15 @@ _____________________________________________________________-->
         <Key ID="STR_QS_Notif_159">
             <Original>Mine clearance</Original>
         </Key>
+        <Key ID="STR_QS_Notif_160">
+            <Original>Supply Cache</Original>
+        </Key>
+        <Key ID="STR_QS_Notif_161">
+            <Original>Intel has located an enemy supply cache in the AO. Locate and destroy it!</Original>
+        </Key>
+        <Key ID="STR_QS_Notif_162">
+            <Original>Enemy supply cache destroyed!</Original>
+        </Key>
     </Container>
     <Container name="QS_xml_tasks">
         <Key ID="STR_QS_Task_000">
@@ -5872,6 +5884,12 @@ _____________________________________________________________-->
             <Original>Secure Caches</Original>
             <Chinesesimp>夺取设备箱</Chinesesimp>
             <Chinese>奪取裝置箱</Chinese>
+        </Key>
+        <Key ID="STR_QS_Task_118">
+            <Original>Destroy Supply Cache</Original>
+        </Key>
+        <Key ID="STR_QS_Task_119">
+            <Original>Intel has located an enemy supply cache within the AO. It is guarded by enemy soldiers. Locate and destroy it before the enemy can resupply their forces.</Original>
         </Key>
     </Container>
     <Container name="QS_xml_markerText">

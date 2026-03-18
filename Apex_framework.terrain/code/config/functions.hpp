@@ -79,6 +79,7 @@ class CfgFunctions {
 			class aoTaskIG {file = "code\functions\fn_aoTaskIG.sqf";};
 			class aoTaskKill {file = "code\functions\fn_aoTaskKill.sqf";};
 			class aoTaskMedevac {file = "code\functions\fn_aoTaskMedevac.sqf";};
+			class aoTaskSupplyCache {file = "code\functions\fn_aoTaskSupplyCache.sqf";};
 			class aoUrbanSpawn {file = "code\functions\fn_aoUrbanSpawn.sqf";};
 			class areaGradient {file = "code\functions\fn_areaGradient.sqf";};
 			class arrayShuffle {file = "code\functions\fn_arrayShuffle.sqf";};

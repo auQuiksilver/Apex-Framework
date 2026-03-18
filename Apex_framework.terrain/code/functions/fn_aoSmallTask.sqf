@@ -47,4 +47,9 @@ if (_case isEqualTo 4) then {
 	_taskFunction = 'QS_fnc_aoTaskSAM';
 	_return = _this call (missionNamespace getVariable _taskFunction);
 };
+if (_case isEqualTo 5) then {
+	//comment 'Destroy supply cache';
+	_taskFunction = 'QS_fnc_aoTaskSupplyCache';
+	_return = _this call (missionNamespace getVariable _taskFunction);
+};
 _return;

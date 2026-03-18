@@ -2494,7 +2494,7 @@ for '_x' from 0 to 1 step 0 do {
 									};
 									diag_log 'CREATING SMALL TASK';
 									_QS_module_aoSmallTasks_isActive = _true;
-									_QS_module_aoSmallTasks_list = [1,2];
+									_QS_module_aoSmallTasks_list = [1,2,5];
 									_QS_module_aoSmallTasks_current = selectRandom _QS_module_aoSmallTasks_list;
 									_QS_module_aoSmallTasks_data = [_QS_module_aoSmallTasks_current,1,[]] call _fn_aoSmallTask;
 									if (_QS_module_aoSmallTasks_data isEqualType 0) then {
